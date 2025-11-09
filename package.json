@@ -30,10 +30,20 @@
   },
   "scripts": {
     "build": "stencil build --docs",
+    "build:prod": "NODE_ENV=production stencil build --docs",
     "start": "stencil build --dev --watch --serve",
     "test": "stencil test --spec --e2e",
-    "test.watch": "stencil test --spec --e2e --watchAll",
-    "generate": "stencil generate"
+    "test:unit": "stencil test --spec",
+    "test:e2e": "stencil test --e2e",
+    "test:watch": "stencil test --spec --e2e --watchAll",
+    "test:coverage": "stencil test --spec --coverage",
+    "test:ci": "stencil test --spec --e2e --ci",
+    "verify:build": "node scripts/verify-build.js",
+    "test:build": "npm run build && npm run verify:build",
+    "generate": "stencil generate",
+    "lint": "echo 'Linting not configured yet'",
+    "format": "echo 'Formatting not configured yet'",
+    "prepublishOnly": "npm run test:build"
   },
   "dependencies": {
     "@stencil/core": "^4.29.1"

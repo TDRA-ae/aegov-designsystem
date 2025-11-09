@@ -1,14 +1,13 @@
 import { Config } from '@stencil/core';
 import { sass } from '@stencil/sass';
-import {
-  tailwind,
+import tailwindPlugin, {
   tailwindGlobal,
   tailwindHMR,
   setPluginConfigurationDefaults
 } from 'stencil-tailwind-plugin';
-import { angularOutputTarget } from '@stencil/angular-output-target';
-import { reactOutputTarget } from '@stencil/react-output-target';
-import { vueOutputTarget } from '@stencil/vue-output-target';
+// import { angularOutputTarget } from '@stencil/angular-output-target';
+// import { reactOutputTarget } from '@stencil/react-output-target';
+// import { vueOutputTarget } from '@stencil/vue-output-target';
 
 const isProd = process.env.NODE_ENV === 'production';
 
@@ -58,38 +57,37 @@ export const config: Config = {
       ]
     },
 
-    // Angular output target
-    angularOutputTarget({
-      componentCorePackage: '@aegov/design-system',
-      outputType: 'standalone',
-      directivesProxyFile: '../angular-workspace/projects/aegov-components/src/lib/stencil-generated/components.ts',
-      directivesArrayFile: '../angular-workspace/projects/aegov-components/src/lib/stencil-generated/index.ts',
-    }),
+    // Framework output targets (uncomment when wrapper projects are created)
+    // angularOutputTarget({
+    //   componentCorePackage: '@aegov/design-system',
+    //   outputType: 'standalone',
+    //   directivesProxyFile: '../angular-workspace/projects/aegov-components/src/lib/stencil-generated/components.ts',
+    //   directivesArrayFile: '../angular-workspace/projects/aegov-components/src/lib/stencil-generated/index.ts',
+    // }),
 
-    // React output target
-    reactOutputTarget({
-      componentCorePackage: '@aegov/design-system',
-      proxiesFile: '../react-library/src/components/stencil-generated/index.ts',
-    }),
+    // reactOutputTarget({
+    //   componentCorePackage: '@aegov/design-system',
+    //   outDir: '../react-library/src/components',
+    //   proxiesFile: '../react-library/src/components/stencil-generated/index.ts',
+    // }),
 
-    // Vue output target
-    vueOutputTarget({
-      componentCorePackage: '@aegov/design-system',
-      proxiesFile: '../vue-library/src/components.ts',
-    }),
+    // vueOutputTarget({
+    //   componentCorePackage: '@aegov/design-system',
+    //   proxiesFile: '../vue-library/src/components.ts',
+    // }),
   ],
 
   // Testing configuration
   testing: {
-    browserHeadless: 'new',
+    browserHeadless: true,
   },
 
   // Plugin configuration - ORDER MATTERS!
   plugins: [
-    sass(),           // 1. Sass preprocessing (if used)
-    tailwindGlobal(), // 2. Global Tailwind styles
-    tailwind(),       // 3. Component-scoped Tailwind
-    tailwindHMR()     // 4. Hot Module Reloading (dev only)
+    sass(),             // 1. Sass preprocessing (if used)
+    tailwindGlobal(),   // 2. Global Tailwind styles
+    tailwindPlugin(),   // 3. Component-scoped Tailwind
+    tailwindHMR()       // 4. Hot Module Reloading (dev only)
   ],
 
   // Dev server configuration
