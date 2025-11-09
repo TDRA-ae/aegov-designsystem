@@ -1,254 +1,425 @@
 <!DOCTYPE html>
 <html dir="ltr" lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0" />
-    <title>AEGOV Design System - Component Showcase</title>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0">
+  <title>AEGOV Design System</title>
 
-    <script type="module" src="/build/aegov-design-system.esm.js"></script>
-    <script nomodule src="/build/aegov-design-system.js"></script>
+  <script type="module" src="/build/aegov-design-system.esm.js"></script>
+  <script nomodule src="/build/aegov-design-system.js"></script>
 
-    <style>
-      * {
-        box-sizing: border-box;
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 50%, #06b6d4 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .landing-container {
+      max-width: 1200px;
+      width: 90%;
+      margin: 2rem auto;
+      padding: 0;
+    }
+
+    .hero {
+      text-align: center;
+      background: white;
+      padding: 4rem 3rem;
+      border-radius: 20px 20px 0 0;
+      box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.1);
+    }
+
+    .hero h1 {
+      font-size: 4rem;
+      margin: 0 0 1rem 0;
+      background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 50%, #06b6d4 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+
+    .hero .tagline {
+      font-size: 1.5rem;
+      color: #64748b;
+      margin: 0 0 0.5rem 0;
+      font-weight: 500;
+    }
+
+    .hero .description {
+      font-size: 1.125rem;
+      color: #94a3b8;
+      margin: 0;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .stats {
+      display: flex;
+      justify-content: center;
+      gap: 3rem;
+      margin-top: 2rem;
+      padding-top: 2rem;
+      border-top: 2px solid #e2e8f0;
+    }
+
+    .stat {
+      text-align: center;
+    }
+
+    .stat-number {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: #1e3a8a;
+      display: block;
+    }
+
+    .stat-label {
+      font-size: 0.875rem;
+      color: #64748b;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      font-weight: 600;
+    }
+
+    .components-section {
+      background: white;
+      padding: 3rem;
+      border-radius: 0 0 20px 20px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 2.5rem;
+    }
+
+    .section-header h2 {
+      font-size: 2rem;
+      color: #1e293b;
+      margin: 0 0 0.5rem 0;
+    }
+
+    .section-header p {
+      color: #64748b;
+      font-size: 1.125rem;
+      margin: 0;
+    }
+
+    .component-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 2rem;
+      margin-bottom: 2rem;
+    }
+
+    .component-card {
+      background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+      border: 2px solid #e2e8f0;
+      border-radius: 16px;
+      padding: 2rem;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
+    }
+
+    .component-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+      transform: scaleX(0);
+      transition: transform 0.3s ease;
+    }
+
+    .component-card:hover::before {
+      transform: scaleX(1);
+    }
+
+    .component-card.avatar-card::before {
+      background: linear-gradient(90deg, #4f46e5 0%, #06b6d4 100%);
+    }
+
+    .component-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+      border-color: #cbd5e1;
+    }
+
+    .component-icon {
+      width: 64px;
+      height: 64px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+    }
+
+    .avatar-card .component-icon {
+      background: linear-gradient(135deg, #4f46e5 0%, #06b6d4 100%);
+      box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+    }
+
+    .component-icon svg {
+      width: 32px;
+      height: 32px;
+      color: white;
+    }
+
+    .component-card h3 {
+      font-size: 1.5rem;
+      color: #1e293b;
+      margin: 0 0 0.75rem 0;
+      font-weight: 700;
+    }
+
+    .component-card p {
+      color: #64748b;
+      margin: 0 0 1.5rem 0;
+      line-height: 1.6;
+    }
+
+    .component-features {
+      list-style: none;
+      padding: 0;
+      margin: 0 0 1.5rem 0;
+    }
+
+    .component-features li {
+      color: #475569;
+      font-size: 0.875rem;
+      padding: 0.5rem 0;
+      padding-left: 1.5rem;
+      position: relative;
+    }
+
+    .component-features li::before {
+      content: '✓';
+      position: absolute;
+      left: 0;
+      color: #22c55e;
+      font-weight: 700;
+    }
+
+    .component-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: #3b82f6;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1rem;
+      transition: gap 0.3s ease;
+    }
+
+    .component-link:hover {
+      gap: 0.75rem;
+    }
+
+    .component-link svg {
+      width: 16px;
+      height: 16px;
+    }
+
+    .footer {
+      text-align: center;
+      margin-top: 3rem;
+      padding: 2rem;
+      color: rgba(255, 255, 255, 0.9);
+    }
+
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      margin-bottom: 1rem;
+    }
+
+    .footer-link {
+      color: rgba(255, 255, 255, 0.8);
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+
+    .footer-link:hover {
+      color: white;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 0.25rem 0.75rem;
+      border-radius: 12px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      background: #dcfce7;
+      color: #166534;
+      margin-left: 0.5rem;
+    }
+
+    @media (max-width: 768px) {
+      .hero h1 {
+        font-size: 2.5rem;
       }
 
-      body {
-        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-        margin: 0;
-        padding: 2rem;
-        background: #f8f9fa;
+      .hero .tagline {
+        font-size: 1.25rem;
       }
 
-      .container {
-        max-width: 1200px;
-        margin: 0 auto;
-        background: white;
-        padding: 2rem;
-        border-radius: 8px;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-      }
-
-      h1 {
-        color: #0ea5e9;
-        margin-bottom: 0.5rem;
-      }
-
-      .subtitle {
-        color: #64748b;
-        margin-bottom: 2rem;
-      }
-
-      .section {
-        margin-bottom: 3rem;
-      }
-
-      .section h2 {
-        color: #334155;
-        margin-bottom: 1rem;
-        padding-bottom: 0.5rem;
-        border-bottom: 2px solid #e2e8f0;
-      }
-
-      .demo-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-        gap: 1rem;
-        margin-bottom: 1.5rem;
-      }
-
-      .demo-item {
-        display: flex;
+      .stats {
         flex-direction: column;
-        gap: 0.5rem;
+        gap: 1.5rem;
       }
 
-      .demo-label {
-        font-size: 0.875rem;
-        color: #64748b;
-        font-weight: 500;
+      .component-grid {
+        grid-template-columns: 1fr;
       }
 
-      .code-block {
-        background: #f1f5f9;
-        padding: 1rem;
-        border-radius: 4px;
-        font-family: 'Courier New', monospace;
-        font-size: 0.875rem;
-        overflow-x: auto;
-        margin-top: 0.5rem;
+      .footer-links {
+        flex-direction: column;
+        gap: 1rem;
       }
+    }
+  </style>
+</head>
+<body>
+  <div class="landing-container">
+    <!-- Hero Section -->
+    <div class="hero">
+      <h1>AEGOV Design System</h1>
+      <p class="tagline">Modern Web Components Library</p>
+      <p class="description">
+        Built with StencilJS and Tailwind CSS v4 for creating beautiful, accessible, and performant user interfaces
+      </p>
 
-      .event-log {
-        background: #0f172a;
-        color: #22c55e;
-        padding: 1rem;
-        border-radius: 4px;
-        font-family: 'Courier New', monospace;
-        font-size: 0.875rem;
-        height: 150px;
-        overflow-y: auto;
-        margin-top: 1rem;
-      }
-
-      .event-log-entry {
-        margin-bottom: 0.25rem;
-      }
-    </style>
-  </head>
-
-  <body>
-    <div class="container">
-      <h1>🎨 AEGOV Design System</h1>
-      <p class="subtitle">Framework-agnostic web components with Tailwind CSS</p>
-
-      <!-- Variants Section -->
-      <div class="section">
-        <h2>Button Variants</h2>
-        <div class="demo-grid">
-          <div class="demo-item">
-            <span class="demo-label">Solid (Default)</span>
-            <aegov-button variant="solid">Solid Button</aegov-button>
-            <code class="code-block">&lt;aegov-button variant="solid"&gt;</code>
-          </div>
-
-          <div class="demo-item">
-            <span class="demo-label">Outline</span>
-            <aegov-button variant="outline">Outline Button</aegov-button>
-            <code class="code-block">&lt;aegov-button variant="outline"&gt;</code>
-          </div>
+      <div class="stats">
+        <div class="stat">
+          <span class="stat-number">2</span>
+          <span class="stat-label">Components</span>
         </div>
-      </div>
-
-      <!-- Sizes Section -->
-      <div class="section">
-        <h2>Button Sizes</h2>
-        <div class="demo-grid">
-          <div class="demo-item">
-            <span class="demo-label">Extra Small</span>
-            <aegov-button size="xs">Extra Small</aegov-button>
-            <code class="code-block">&lt;aegov-button size="xs"&gt;</code>
-          </div>
-
-          <div class="demo-item">
-            <span class="demo-label">Small</span>
-            <aegov-button size="sm">Small</aegov-button>
-            <code class="code-block">&lt;aegov-button size="sm"&gt;</code>
-          </div>
-
-          <div class="demo-item">
-            <span class="demo-label">Base (Default)</span>
-            <aegov-button size="base">Base Size</aegov-button>
-            <code class="code-block">&lt;aegov-button size="base"&gt;</code>
-          </div>
-
-          <div class="demo-item">
-            <span class="demo-label">Large</span>
-            <aegov-button size="lg">Large</aegov-button>
-            <code class="code-block">&lt;aegov-button size="lg"&gt;</code>
-          </div>
+        <div class="stat">
+          <span class="stat-number">128</span>
+          <span class="stat-label">Tests Passing</span>
         </div>
-      </div>
-
-      <!-- States Section -->
-      <div class="section">
-        <h2>Button States</h2>
-        <div class="demo-grid">
-          <div class="demo-item">
-            <span class="demo-label">Normal</span>
-            <aegov-button>Normal State</aegov-button>
-            <code class="code-block">&lt;aegov-button&gt;</code>
-          </div>
-
-          <div class="demo-item">
-            <span class="demo-label">Disabled</span>
-            <aegov-button disabled>Disabled</aegov-button>
-            <code class="code-block">&lt;aegov-button disabled&gt;</code>
-          </div>
-
-          <div class="demo-item">
-            <span class="demo-label">Loading</span>
-            <aegov-button loading>Loading...</aegov-button>
-            <code class="code-block">&lt;aegov-button loading&gt;</code>
-          </div>
-
-          <div class="demo-item">
-            <span class="demo-label">Full Width</span>
-            <aegov-button full-width>Full Width</aegov-button>
-            <code class="code-block">&lt;aegov-button full-width&gt;</code>
-          </div>
-        </div>
-      </div>
-
-      <!-- Combinations Section -->
-      <div class="section">
-        <h2>Variant & Size Combinations</h2>
-        <div class="demo-grid">
-          <div class="demo-item">
-            <span class="demo-label">Solid + Large</span>
-            <aegov-button variant="solid" size="lg">Solid Large</aegov-button>
-          </div>
-
-          <div class="demo-item">
-            <span class="demo-label">Outline + Large</span>
-            <aegov-button variant="outline" size="lg">Outline Large</aegov-button>
-          </div>
-
-          <div class="demo-item">
-            <span class="demo-label">Solid + Small</span>
-            <aegov-button variant="solid" size="sm">Solid Small</aegov-button>
-          </div>
-
-          <div class="demo-item">
-            <span class="demo-label">Outline + Small</span>
-            <aegov-button variant="outline" size="sm">Outline Small</aegov-button>
-          </div>
-        </div>
-      </div>
-
-      <!-- Interactive Demo Section -->
-      <div class="section">
-        <h2>Interactive Demo</h2>
-        <p class="demo-label">Click the buttons below to see event logging:</p>
-        <div style="display: flex; gap: 1rem; margin-bottom: 1rem;">
-          <aegov-button id="test-button-1" variant="solid">Click Me (Solid)</aegov-button>
-          <aegov-button id="test-button-2" variant="outline">Click Me (Outline)</aegov-button>
-        </div>
-
-        <div class="event-log" id="event-log">
-          <div class="event-log-entry">👋 Event log initialized. Click buttons to see events...</div>
+        <div class="stat">
+          <span class="stat-number">100%</span>
+          <span class="stat-label">Accessible</span>
         </div>
       </div>
     </div>
 
-    <script>
-      // Event logging
-      const eventLog = document.getElementById('event-log');
+    <!-- Components Section -->
+    <div class="components-section">
+      <div class="section-header">
+        <h2>Available Components</h2>
+        <p>Explore our collection of production-ready components</p>
+      </div>
 
-      function logEvent(message) {
-        const entry = document.createElement('div');
-        entry.className = 'event-log-entry';
-        const timestamp = new Date().toLocaleTimeString();
-        entry.textContent = `[${timestamp}] ${message}`;
-        eventLog.insertBefore(entry, eventLog.firstChild);
-      }
+      <div class="component-grid">
+        <!-- Button Component Card -->
+        <div class="component-card" onclick="window.location.href='pages/button-examples.html'">
+          <div class="component-icon">
+            <svg fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd"/>
+            </svg>
+          </div>
+          <h3>Button Component</h3>
+          <p>Versatile button component with multiple variants, sizes, and states for all your interaction needs.</p>
 
-      // Add event listeners to test buttons
-      const testButtons = document.querySelectorAll('#test-button-1, #test-button-2');
+          <ul class="component-features">
+            <li>4 Variants: Solid, Outline, Soft, Link</li>
+            <li>2 Appearances: Primary, Secondary</li>
+            <li>4 Sizes: XS, SM, Base, LG</li>
+            <li>Loading, Disabled, Icon states</li>
+            <li>Custom events support</li>
+          </ul>
 
-      testButtons.forEach((button, index) => {
-        button.addEventListener('aegovClick', (e) => {
-          logEvent(`✨ Button ${index + 1} clicked!`);
-        });
+          <a href="pages/button-examples.html" class="component-link">
+            View Examples
+            <svg fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd"/>
+            </svg>
+          </a>
+        </div>
 
-        button.addEventListener('aegovFocus', (e) => {
-          logEvent(`🎯 Button ${index + 1} focused`);
-        });
+        <!-- Avatar Component Card -->
+        <div class="component-card avatar-card" onclick="window.location.href='pages/avatar-examples.html'">
+          <div class="component-icon">
+            <svg fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"/>
+            </svg>
+          </div>
+          <h3>Avatar Component<span class="badge">New</span></h3>
+          <p>User profile images with customizable sizes, shapes, and status indicators for any interface.</p>
 
-        button.addEventListener('aegovBlur', (e) => {
-          logEvent(`👋 Button ${index + 1} blurred`);
-        });
-      });
-    </script>
-  </body>
+          <ul class="component-features">
+            <li>2 Variants: Square, Rounded</li>
+            <li>7 Sizes: XS to 3XL (24px - 80px)</li>
+            <li>Status Indicators: Online, Offline</li>
+            <li>Fallback content support</li>
+            <li>Fully accessible</li>
+          </ul>
+
+          <a href="pages/avatar-examples.html" class="component-link">
+            View Examples
+            <svg fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+
+      <!-- Quick Start -->
+      <div style="background: #f8fafc; padding: 2rem; border-radius: 12px; border: 2px dashed #cbd5e1; margin-top: 2rem;">
+        <h3 style="margin: 0 0 1rem 0; color: #1e293b; font-size: 1.25rem;">🚀 Quick Start</h3>
+        <p style="color: #64748b; margin: 0 0 1rem 0;">
+          Import the AEGOV Design System components into your project:
+        </p>
+        <pre style="background: #0f172a; color: #e2e8f0; padding: 1rem; border-radius: 8px; overflow-x: auto; margin: 0; font-family: 'Consolas', 'Monaco', monospace; font-size: 0.875rem;">
+&lt;script type="module" src="build/aegov-design-system.esm.js"&gt;&lt;/script&gt;
+&lt;script nomodule src="build/aegov-design-system.js"&gt;&lt;/script&gt;</pre>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+      <div class="footer-links">
+        <a href="https://stenciljs.com" target="_blank" class="footer-link">Built with StencilJS</a>
+        <a href="https://tailwindcss.com" target="_blank" class="footer-link">Styled with Tailwind CSS v4</a>
+        <a href="#" class="footer-link">Documentation</a>
+      </div>
+      <p style="margin: 0; opacity: 0.7; font-size: 0.875rem;">
+        &copy; 2025 AEGOV Design System. All rights reserved.
+      </p>
+    </div>
+  </div>
+
+  <script>
+    // Log component initialization
+    document.addEventListener('DOMContentLoaded', () => {
+      console.log('✨ AEGOV Design System loaded');
+      console.log('📦 Components: Button, Avatar');
+      console.log('🎨 Framework: StencilJS + Tailwind CSS v4');
+    });
+  </script>
+</body>
 </html>

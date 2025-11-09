@@ -5,10 +5,45 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
-import { ButtonSize, ButtonType, ButtonVariant } from "./utils/types";
-export { ButtonSize, ButtonType, ButtonVariant } from "./utils/types";
+import { AvatarSize, AvatarStatus, AvatarVariant, ButtonAppearance, ButtonSize, ButtonType, ButtonVariant } from "./utils/types";
+export { AvatarSize, AvatarStatus, AvatarVariant, ButtonAppearance, ButtonSize, ButtonType, ButtonVariant } from "./utils/types";
 export namespace Components {
+    interface AegovAvatar {
+        /**
+          * Alternative text for the image (required for accessibility)
+         */
+        "alt"?: string;
+        /**
+          * The avatar size
+          * @default 'base'
+         */
+        "size": AvatarSize;
+        /**
+          * The image source URL
+         */
+        "src"?: string;
+        /**
+          * Status indicator visibility
+          * @default false
+         */
+        "status": boolean;
+        /**
+          * Status indicator type
+          * @default 'online'
+         */
+        "statusType": AvatarStatus;
+        /**
+          * The avatar variant (shape)
+          * @default 'square'
+         */
+        "variant": AvatarVariant;
+    }
     interface AegovButton {
+        /**
+          * The button appearance (color scheme)
+          * @default 'primary'
+         */
+        "appearance": ButtonAppearance;
         /**
           * Whether the button is disabled
           * @default false
@@ -18,7 +53,12 @@ export namespace Components {
           * Whether the button should take full width
           * @default false
          */
-        "fullWidth": boolean;
+        "full": boolean;
+        /**
+          * Whether the button is only an icon
+          * @default false
+         */
+        "icon": boolean;
         /**
           * Whether the button is in a loading state
           * @default false
@@ -46,10 +86,16 @@ export interface AegovButtonCustomEvent<T> extends CustomEvent<T> {
     target: HTMLAegovButtonElement;
 }
 declare global {
+    interface HTMLAegovAvatarElement extends Components.AegovAvatar, HTMLStencilElement {
+    }
+    var HTMLAegovAvatarElement: {
+        prototype: HTMLAegovAvatarElement;
+        new (): HTMLAegovAvatarElement;
+    };
     interface HTMLAegovButtonElementEventMap {
-        "aegovClick": MouseEvent;
-        "aegovFocus": FocusEvent;
-        "aegovBlur": FocusEvent;
+        "aegovButtonClick": MouseEvent;
+        "aegovButtonFocus": FocusEvent;
+        "aegovButtonBlur": FocusEvent;
     }
     interface HTMLAegovButtonElement extends Components.AegovButton, HTMLStencilElement {
         addEventListener<K extends keyof HTMLAegovButtonElementEventMap>(type: K, listener: (this: HTMLAegovButtonElement, ev: AegovButtonCustomEvent<HTMLAegovButtonElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -66,11 +112,47 @@ declare global {
         new (): HTMLAegovButtonElement;
     };
     interface HTMLElementTagNameMap {
+        "aegov-avatar": HTMLAegovAvatarElement;
         "aegov-button": HTMLAegovButtonElement;
     }
 }
 declare namespace LocalJSX {
+    interface AegovAvatar {
+        /**
+          * Alternative text for the image (required for accessibility)
+         */
+        "alt"?: string;
+        /**
+          * The avatar size
+          * @default 'base'
+         */
+        "size"?: AvatarSize;
+        /**
+          * The image source URL
+         */
+        "src"?: string;
+        /**
+          * Status indicator visibility
+          * @default false
+         */
+        "status"?: boolean;
+        /**
+          * Status indicator type
+          * @default 'online'
+         */
+        "statusType"?: AvatarStatus;
+        /**
+          * The avatar variant (shape)
+          * @default 'square'
+         */
+        "variant"?: AvatarVariant;
+    }
     interface AegovButton {
+        /**
+          * The button appearance (color scheme)
+          * @default 'primary'
+         */
+        "appearance"?: ButtonAppearance;
         /**
           * Whether the button is disabled
           * @default false
@@ -80,7 +162,12 @@ declare namespace LocalJSX {
           * Whether the button should take full width
           * @default false
          */
-        "fullWidth"?: boolean;
+        "full"?: boolean;
+        /**
+          * Whether the button is only an icon
+          * @default false
+         */
+        "icon"?: boolean;
         /**
           * Whether the button is in a loading state
           * @default false
@@ -89,15 +176,15 @@ declare namespace LocalJSX {
         /**
           * Emitted when the button loses focus
          */
-        "onAegovBlur"?: (event: AegovButtonCustomEvent<FocusEvent>) => void;
+        "onAegovButtonBlur"?: (event: AegovButtonCustomEvent<FocusEvent>) => void;
         /**
           * Emitted when the button is clicked
          */
-        "onAegovClick"?: (event: AegovButtonCustomEvent<MouseEvent>) => void;
+        "onAegovButtonClick"?: (event: AegovButtonCustomEvent<MouseEvent>) => void;
         /**
           * Emitted when the button receives focus
          */
-        "onAegovFocus"?: (event: AegovButtonCustomEvent<FocusEvent>) => void;
+        "onAegovButtonFocus"?: (event: AegovButtonCustomEvent<FocusEvent>) => void;
         /**
           * The button size
           * @default 'base'
@@ -115,6 +202,7 @@ declare namespace LocalJSX {
         "variant"?: ButtonVariant;
     }
     interface IntrinsicElements {
+        "aegov-avatar": AegovAvatar;
         "aegov-button": AegovButton;
     }
 }
@@ -122,6 +210,7 @@ export { LocalJSX as JSX };
 declare module "@stencil/core" {
     export namespace JSX {
         interface IntrinsicElements {
+            "aegov-avatar": LocalJSX.AegovAvatar & JSXBase.HTMLAttributes<HTMLAegovAvatarElement>;
             "aegov-button": LocalJSX.AegovButton & JSXBase.HTMLAttributes<HTMLAegovButtonElement>;
         }
     }

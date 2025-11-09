@@ -53,7 +53,8 @@ export const config: Config = {
       type: 'www',
       serviceWorker: null,
       copy: [
-        { src: 'styles' }
+        { src: 'styles' },
+        { src: 'pages' }
       ]
     },
 
@@ -79,7 +80,7 @@ export const config: Config = {
 
   // Testing configuration
   testing: {
-    browserHeadless: true,
+    browserHeadless: "shell",
   },
 
   // Plugin configuration - ORDER MATTERS!
