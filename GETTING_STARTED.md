@@ -75,7 +75,7 @@ npm install @aegov/design-system
 <!DOCTYPE html>
 <html>
   <head>
-    <script type="module" src="node_modules/@aegov/design-system/dist/aegov-design-system/aegov-design-system.esm.js"></script>
+    <script type="module" src="node_modules/@aegov/design-system/dist/aegov/aegov.esm.js"></script>
   </head>
   <body>
     <aegov-button>Click Me</aegov-button>

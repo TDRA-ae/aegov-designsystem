@@ -9,7 +9,7 @@
   "types": "dist/types/index.d.ts",
   "collection": "dist/collection/collection-manifest.json",
   "collection:main": "dist/collection/index.js",
-  "unpkg": "dist/aegov-design-system/aegov-design-system.esm.js",
+  "unpkg": "dist/aegov/aegov.esm.js",
   "files": [
     "dist/",
     "loader/",

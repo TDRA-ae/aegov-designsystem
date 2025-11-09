@@ -42,7 +42,7 @@ npm start
 <!DOCTYPE html>
 <html>
   <head>
-    <script type="module" src="https://unpkg.com/@aegov/design-system/dist/aegov-design-system/aegov-design-system.esm.js"></script>
+    <script type="module" src="https://unpkg.com/@aegov/design-system/dist/aegov/aegov.esm.js"></script>
   </head>
   <body>
     <aegov-button variant="solid" size="base">

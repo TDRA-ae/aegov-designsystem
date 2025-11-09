@@ -21,7 +21,7 @@ setPluginConfigurationDefaults({
 });
 
 export const config: Config = {
-  namespace: 'aegov-design-system',
+  namespace: 'aegov',
   globalStyle: 'src/global/global.css',
 
   // Output targets for different build formats

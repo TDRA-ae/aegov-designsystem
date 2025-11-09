@@ -506,9 +506,9 @@ describe('aegov-component', () => {
 
 ```
 dist/
-├── aegov-design-system/
-│   ├── aegov-design-system.esm.js     # ES Module bundle
-│   ├── aegov-design-system.js         # UMD bundle
+├── aegov/
+│   ├── aegov.esm.js                   # ES Module bundle
+│   ├── aegov.js                       # UMD bundle
 │   └── aegov-button.entry.js          # Component entry
 ├── collection/
 │   └── components/
