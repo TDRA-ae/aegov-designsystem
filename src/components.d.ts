@@ -5,8 +5,8 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
-import { AvatarSize, AvatarStatus, AvatarVariant, ButtonAppearance, ButtonSize, ButtonType, ButtonVariant } from "./utils/types";
-export { AvatarSize, AvatarStatus, AvatarVariant, ButtonAppearance, ButtonSize, ButtonType, ButtonVariant } from "./utils/types";
+import { AvatarSize, AvatarStatus, AvatarVariant, BlockquoteVariant, ButtonAppearance, ButtonSize, ButtonType, ButtonVariant } from "./utils/types";
+export { AvatarSize, AvatarStatus, AvatarVariant, BlockquoteVariant, ButtonAppearance, ButtonSize, ButtonType, ButtonVariant } from "./utils/types";
 export namespace Components {
     interface AegovAvatar {
         /**
@@ -37,6 +37,25 @@ export namespace Components {
           * @default 'square'
          */
         "variant": AvatarVariant;
+    }
+    interface AegovBlockquote {
+        /**
+          * The author source
+         */
+        "author"?: string;
+        /**
+          * The author's title/position
+         */
+        "authorTitle"?: string;
+        /**
+          * The citation source
+         */
+        "cite"?: string;
+        /**
+          * The blockquote variant style
+          * @default 'primary'
+         */
+        "variant": BlockquoteVariant;
     }
     interface AegovButton {
         /**
@@ -92,6 +111,12 @@ declare global {
         prototype: HTMLAegovAvatarElement;
         new (): HTMLAegovAvatarElement;
     };
+    interface HTMLAegovBlockquoteElement extends Components.AegovBlockquote, HTMLStencilElement {
+    }
+    var HTMLAegovBlockquoteElement: {
+        prototype: HTMLAegovBlockquoteElement;
+        new (): HTMLAegovBlockquoteElement;
+    };
     interface HTMLAegovButtonElementEventMap {
         "aegovButtonClick": MouseEvent;
         "aegovButtonFocus": FocusEvent;
@@ -113,6 +138,7 @@ declare global {
     };
     interface HTMLElementTagNameMap {
         "aegov-avatar": HTMLAegovAvatarElement;
+        "aegov-blockquote": HTMLAegovBlockquoteElement;
         "aegov-button": HTMLAegovButtonElement;
     }
 }
@@ -146,6 +172,25 @@ declare namespace LocalJSX {
           * @default 'square'
          */
         "variant"?: AvatarVariant;
+    }
+    interface AegovBlockquote {
+        /**
+          * The author source
+         */
+        "author"?: string;
+        /**
+          * The author's title/position
+         */
+        "authorTitle"?: string;
+        /**
+          * The citation source
+         */
+        "cite"?: string;
+        /**
+          * The blockquote variant style
+          * @default 'primary'
+         */
+        "variant"?: BlockquoteVariant;
     }
     interface AegovButton {
         /**
@@ -203,6 +248,7 @@ declare namespace LocalJSX {
     }
     interface IntrinsicElements {
         "aegov-avatar": AegovAvatar;
+        "aegov-blockquote": AegovBlockquote;
         "aegov-button": AegovButton;
     }
 }
@@ -211,6 +257,7 @@ declare module "@stencil/core" {
     export namespace JSX {
         interface IntrinsicElements {
             "aegov-avatar": LocalJSX.AegovAvatar & JSXBase.HTMLAttributes<HTMLAegovAvatarElement>;
+            "aegov-blockquote": LocalJSX.AegovBlockquote & JSXBase.HTMLAttributes<HTMLAegovBlockquoteElement>;
             "aegov-button": LocalJSX.AegovButton & JSXBase.HTMLAttributes<HTMLAegovButtonElement>;
         }
     }

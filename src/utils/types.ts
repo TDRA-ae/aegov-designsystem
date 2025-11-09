@@ -40,6 +40,11 @@ export type AvatarVariant = 'square' | 'rounded';
 export type AvatarStatus = 'online' | 'offline' | 'none';
 
 /**
+ * Blockquote component variant types
+ */
+export type BlockquoteVariant = 'primary' | 'colored' | 'coloured';
+
+/**
  * Common component props
  */
 export interface BaseComponentProps {

@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0">
   <title>AEGOV Design System</title>
 
-  <script type="module" src="/build/aegov-design-system.esm.js"></script>
-  <script nomodule src="/build/aegov-design-system.js"></script>
+  <script type="module" src="/build/aegov.esm.js"></script>
+  <script nomodule src="/build/aegov.js"></script>
 
   <style>
     * {
@@ -156,6 +156,10 @@
       background: linear-gradient(90deg, #4f46e5 0%, #06b6d4 100%);
     }
 
+    .component-card.blockquote-card::before {
+      background: linear-gradient(90deg, #fbbf24 0%, #f59e0b 100%);
+    }
+
     .component-card:hover {
       transform: translateY(-8px);
       box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
@@ -177,6 +181,11 @@
     .avatar-card .component-icon {
       background: linear-gradient(135deg, #4f46e5 0%, #06b6d4 100%);
       box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+    }
+
+    .blockquote-card .component-icon {
+      background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+      box-shadow: 0 4px 12px rgba(251, 191, 36, 0.3);
     }
 
     .component-icon svg {
@@ -313,11 +322,11 @@
 
       <div class="stats">
         <div class="stat">
-          <span class="stat-number">2</span>
+          <span class="stat-number">3</span>
           <span class="stat-label">Components</span>
         </div>
         <div class="stat">
-          <span class="stat-number">128</span>
+          <span class="stat-number">181</span>
           <span class="stat-label">Tests Passing</span>
         </div>
         <div class="stat">
@@ -368,7 +377,7 @@
               <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"/>
             </svg>
           </div>
-          <h3>Avatar Component<span class="badge">New</span></h3>
+          <h3>Avatar Component</h3>
           <p>User profile images with customizable sizes, shapes, and status indicators for any interface.</p>
 
           <ul class="component-features">
@@ -386,6 +395,32 @@
             </svg>
           </a>
         </div>
+
+        <!-- Blockquote Component Card -->
+        <div class="component-card blockquote-card" onclick="window.location.href='pages/blockquote-examples.html'">
+          <div class="component-icon">
+            <svg fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M5.5 2a1.5 1.5 0 00-.144 2.993L5.5 5h9a1.5 1.5 0 00.144-2.993L14.5 2h-9zM3 7.5A1.5 1.5 0 014.5 6h11A1.5 1.5 0 0117 7.5v9a1.5 1.5 0 01-1.5 1.5h-11A1.5 1.5 0 013 16.5v-9zM6 10a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 01-1 1H7a1 1 0 01-1-1v-2zm5-1a1 1 0 00-1 1v2a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 00-1-1h-2z" clip-rule="evenodd"/>
+            </svg>
+          </div>
+          <h3>Blockquote Component<span class="badge">New</span></h3>
+          <p>Semantic blockquote component for displaying quotations with author attribution and citations.</p>
+
+          <ul class="component-features">
+            <li>2 Variants: Primary, Colored</li>
+            <li>Alternative spelling support (coloured)</li>
+            <li>Author & title attribution</li>
+            <li>Citation URL support</li>
+            <li>Fully semantic & accessible</li>
+          </ul>
+
+          <a href="pages/blockquote-examples.html" class="component-link">
+            View Examples
+            <svg fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd"/>
+            </svg>
+          </a>
+        </div>
       </div>
 
       <!-- Quick Start -->
@@ -395,8 +430,8 @@
           Import the AEGOV Design System components into your project:
         </p>
         <pre style="background: #0f172a; color: #e2e8f0; padding: 1rem; border-radius: 8px; overflow-x: auto; margin: 0; font-family: 'Consolas', 'Monaco', monospace; font-size: 0.875rem;">
-&lt;script type="module" src="build/aegov-design-system.esm.js"&gt;&lt;/script&gt;
-&lt;script nomodule src="build/aegov-design-system.js"&gt;&lt;/script&gt;</pre>
+&lt;script type="module" src="build/aegov.esm.js"&gt;&lt;/script&gt;
+&lt;script nomodule src="build/aegov.js"&gt;&lt;/script&gt;</pre>
       </div>
     </div>
 
@@ -417,7 +452,7 @@
     // Log component initialization
     document.addEventListener('DOMContentLoaded', () => {
       console.log('✨ AEGOV Design System loaded');
-      console.log('📦 Components: Button, Avatar');
+      console.log('📦 Components: Button, Avatar, Blockquote');
       console.log('🎨 Framework: StencilJS + Tailwind CSS v4');
     });
   </script>
