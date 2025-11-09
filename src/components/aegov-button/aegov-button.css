@@ -1,0 +1,59 @@
+/**
+ * AEGOV Button Component Styles
+ *
+ * This component uses scoped CSS, which means these styles will only
+ * apply to the aegov-button component and won't leak to other elements.
+ *
+ * The component primarily uses Tailwind utility classes defined in the
+ * TSX file. This CSS file is for any additional custom styles or
+ * CSS variables specific to the button component.
+ */
+
+:host {
+  display: inline-block;
+}
+
+:host([full-width]) {
+  display: block;
+}
+
+.aegov-button {
+  /* Base button reset */
+  font-family: inherit;
+  cursor: pointer;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+
+  /* Ensure smooth transitions */
+  transition: var(--aegov-button-transition, all 0.2s ease-in-out);
+}
+
+.aegov-button:focus-visible {
+  /* Enhanced focus state for accessibility */
+  outline: 2px solid var(--color-primary-500);
+  outline-offset: 2px;
+}
+
+/* Loading state animation */
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-spin {
+  animation: spin 1s linear infinite;
+}
+
+/* Active state enhancement */
+.aegov-button:active:not(:disabled) {
+  transform: scale(0.98);
+}
+
+/* Hover state enhancement */
+.aegov-button:hover:not(:disabled) {
+  transform: translateY(-1px);
+}

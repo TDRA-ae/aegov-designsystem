@@ -1,0 +1,48 @@
+# Source files
+src/
+*.ts
+*.tsx
+!*.d.ts
+
+# Development files
+.stencil/
+.vscode/
+.idea/
+*.sw[mnpcod]
+*.log
+
+# Tests
+*.spec.*
+*.e2e.*
+coverage/
+.nyc_output/
+
+# Config files
+stencil.config.ts
+tsconfig.json
+.editorconfig
+.eslintrc*
+.prettierrc*
+
+# Documentation (keep README.md)
+CLAUDE.md
+PROJECT_KNOWLEDGE_BASE.md
+docs/
+*.spec.md
+
+# Git
+.git/
+.gitignore
+.gitattributes
+
+# CI/CD
+.github/
+.gitlab-ci.yml
+.travis.yml
+
+# Misc
+node_modules/
+*.tmp
+*.lock
+.DS_Store
+Thumbs.db

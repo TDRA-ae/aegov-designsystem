@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0" />
+    <title>AEGOV Design System - Component Showcase</title>
+
+    <script type="module" src="/build/aegov-design-system.esm.js"></script>
+    <script nomodule src="/build/aegov-design-system.js"></script>
+
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        margin: 0;
+        padding: 2rem;
+        background: #f8f9fa;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        background: white;
+        padding: 2rem;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+
+      h1 {
+        color: #0ea5e9;
+        margin-bottom: 0.5rem;
+      }
+
+      .subtitle {
+        color: #64748b;
+        margin-bottom: 2rem;
+      }
+
+      .section {
+        margin-bottom: 3rem;
+      }
+
+      .section h2 {
+        color: #334155;
+        margin-bottom: 1rem;
+        padding-bottom: 0.5rem;
+        border-bottom: 2px solid #e2e8f0;
+      }
+
+      .demo-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1rem;
+        margin-bottom: 1.5rem;
+      }
+
+      .demo-item {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+      }
+
+      .demo-label {
+        font-size: 0.875rem;
+        color: #64748b;
+        font-weight: 500;
+      }
+
+      .code-block {
+        background: #f1f5f9;
+        padding: 1rem;
+        border-radius: 4px;
+        font-family: 'Courier New', monospace;
+        font-size: 0.875rem;
+        overflow-x: auto;
+        margin-top: 0.5rem;
+      }
+
+      .event-log {
+        background: #0f172a;
+        color: #22c55e;
+        padding: 1rem;
+        border-radius: 4px;
+        font-family: 'Courier New', monospace;
+        font-size: 0.875rem;
+        height: 150px;
+        overflow-y: auto;
+        margin-top: 1rem;
+      }
+
+      .event-log-entry {
+        margin-bottom: 0.25rem;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container">
+      <h1>🎨 AEGOV Design System</h1>
+      <p class="subtitle">Framework-agnostic web components with Tailwind CSS</p>
+
+      <!-- Variants Section -->
+      <div class="section">
+        <h2>Button Variants</h2>
+        <div class="demo-grid">
+          <div class="demo-item">
+            <span class="demo-label">Solid (Default)</span>
+            <aegov-button variant="solid">Solid Button</aegov-button>
+            <code class="code-block">&lt;aegov-button variant="solid"&gt;</code>
+          </div>
+
+          <div class="demo-item">
+            <span class="demo-label">Outline</span>
+            <aegov-button variant="outline">Outline Button</aegov-button>
+            <code class="code-block">&lt;aegov-button variant="outline"&gt;</code>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sizes Section -->
+      <div class="section">
+        <h2>Button Sizes</h2>
+        <div class="demo-grid">
+          <div class="demo-item">
+            <span class="demo-label">Extra Small</span>
+            <aegov-button size="xs">Extra Small</aegov-button>
+            <code class="code-block">&lt;aegov-button size="xs"&gt;</code>
+          </div>
+
+          <div class="demo-item">
+            <span class="demo-label">Small</span>
+            <aegov-button size="sm">Small</aegov-button>
+            <code class="code-block">&lt;aegov-button size="sm"&gt;</code>
+          </div>
+
+          <div class="demo-item">
+            <span class="demo-label">Base (Default)</span>
+            <aegov-button size="base">Base Size</aegov-button>
+            <code class="code-block">&lt;aegov-button size="base"&gt;</code>
+          </div>
+
+          <div class="demo-item">
+            <span class="demo-label">Large</span>
+            <aegov-button size="lg">Large</aegov-button>
+            <code class="code-block">&lt;aegov-button size="lg"&gt;</code>
+          </div>
+        </div>
+      </div>
+
+      <!-- States Section -->
+      <div class="section">
+        <h2>Button States</h2>
+        <div class="demo-grid">
+          <div class="demo-item">
+            <span class="demo-label">Normal</span>
+            <aegov-button>Normal State</aegov-button>
+            <code class="code-block">&lt;aegov-button&gt;</code>
+          </div>
+
+          <div class="demo-item">
+            <span class="demo-label">Disabled</span>
+            <aegov-button disabled>Disabled</aegov-button>
+            <code class="code-block">&lt;aegov-button disabled&gt;</code>
+          </div>
+
+          <div class="demo-item">
+            <span class="demo-label">Loading</span>
+            <aegov-button loading>Loading...</aegov-button>
+            <code class="code-block">&lt;aegov-button loading&gt;</code>
+          </div>
+
+          <div class="demo-item">
+            <span class="demo-label">Full Width</span>
+            <aegov-button full-width>Full Width</aegov-button>
+            <code class="code-block">&lt;aegov-button full-width&gt;</code>
+          </div>
+        </div>
+      </div>
+
+      <!-- Combinations Section -->
+      <div class="section">
+        <h2>Variant & Size Combinations</h2>
+        <div class="demo-grid">
+          <div class="demo-item">
+            <span class="demo-label">Solid + Large</span>
+            <aegov-button variant="solid" size="lg">Solid Large</aegov-button>
+          </div>
+
+          <div class="demo-item">
+            <span class="demo-label">Outline + Large</span>
+            <aegov-button variant="outline" size="lg">Outline Large</aegov-button>
+          </div>
+
+          <div class="demo-item">
+            <span class="demo-label">Solid + Small</span>
+            <aegov-button variant="solid" size="sm">Solid Small</aegov-button>
+          </div>
+
+          <div class="demo-item">
+            <span class="demo-label">Outline + Small</span>
+            <aegov-button variant="outline" size="sm">Outline Small</aegov-button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Interactive Demo Section -->
+      <div class="section">
+        <h2>Interactive Demo</h2>
+        <p class="demo-label">Click the buttons below to see event logging:</p>
+        <div style="display: flex; gap: 1rem; margin-bottom: 1rem;">
+          <aegov-button id="test-button-1" variant="solid">Click Me (Solid)</aegov-button>
+          <aegov-button id="test-button-2" variant="outline">Click Me (Outline)</aegov-button>
+        </div>
+
+        <div class="event-log" id="event-log">
+          <div class="event-log-entry">👋 Event log initialized. Click buttons to see events...</div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // Event logging
+      const eventLog = document.getElementById('event-log');
+
+      function logEvent(message) {
+        const entry = document.createElement('div');
+        entry.className = 'event-log-entry';
+        const timestamp = new Date().toLocaleTimeString();
+        entry.textContent = `[${timestamp}] ${message}`;
+        eventLog.insertBefore(entry, eventLog.firstChild);
+      }
+
+      // Add event listeners to test buttons
+      const testButtons = document.querySelectorAll('#test-button-1, #test-button-2');
+
+      testButtons.forEach((button, index) => {
+        button.addEventListener('aegovClick', (e) => {
+          logEvent(`✨ Button ${index + 1} clicked!`);
+        });
+
+        button.addEventListener('aegovFocus', (e) => {
+          logEvent(`🎯 Button ${index + 1} focused`);
+        });
+
+        button.addEventListener('aegovBlur', (e) => {
+          logEvent(`👋 Button ${index + 1} blurred`);
+        });
+      });
+    </script>
+  </body>
+</html>

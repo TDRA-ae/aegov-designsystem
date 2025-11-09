@@ -1,0 +1,16 @@
+/**
+ * AEGOV Design System - Global Styles
+ *
+ * These styles are applied globally across all components.
+ * Minimal global styles are defined here to avoid conflicts.
+ */
+
+* {
+  box-sizing: border-box;
+}
+
+/* CSS Custom Properties available globally for all components */
+:root {
+  /* Component defaults */
+  --aegov-button-transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
