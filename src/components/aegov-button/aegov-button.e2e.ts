@@ -42,9 +42,8 @@ describe('aegov-button E2E', () => {
       const button = await page.find('aegov-button >>> button');
       const classes = await button.getProperty('className');
 
-      expect(classes).toContain('bg-primary-600');
-      expect(classes).toContain('text-white');
-      expect(classes).toContain('border-transparent');
+      expect(classes).toContain('aegov-btn');
+      expect(classes).toContain('btn-solid');
     });
 
     it('should apply outline variant classes', async () => {
@@ -54,9 +53,8 @@ describe('aegov-button E2E', () => {
       const button = await page.find('aegov-button >>> button');
       const classes = await button.getProperty('className');
 
-      expect(classes).toContain('bg-transparent');
-      expect(classes).toContain('text-primary-700');
-      expect(classes).toContain('border-primary-600');
+      expect(classes).toContain('aegov-btn');
+      expect(classes).toContain('btn-outline');
     });
   });
 
@@ -68,9 +66,8 @@ describe('aegov-button E2E', () => {
       const button = await page.find('aegov-button >>> button');
       const classes = await button.getProperty('className');
 
-      expect(classes).toContain('text-xs');
-      expect(classes).toContain('px-2.5');
-      expect(classes).toContain('py-1.5');
+      expect(classes).toContain('aegov-btn');
+      expect(classes).toContain('btn-xs');
     });
 
     it('should apply sm size classes', async () => {
@@ -80,9 +77,8 @@ describe('aegov-button E2E', () => {
       const button = await page.find('aegov-button >>> button');
       const classes = await button.getProperty('className');
 
-      expect(classes).toContain('text-sm');
-      expect(classes).toContain('px-3');
-      expect(classes).toContain('py-2');
+      expect(classes).toContain('aegov-btn');
+      expect(classes).toContain('btn-sm');
     });
 
     it('should apply base size classes', async () => {
@@ -92,9 +88,8 @@ describe('aegov-button E2E', () => {
       const button = await page.find('aegov-button >>> button');
       const classes = await button.getProperty('className');
 
-      expect(classes).toContain('text-base');
-      expect(classes).toContain('px-4');
-      expect(classes).toContain('py-2.5');
+      expect(classes).toContain('aegov-btn');
+      expect(classes).toContain('btn-base');
     });
 
     it('should apply lg size classes', async () => {
@@ -104,9 +99,8 @@ describe('aegov-button E2E', () => {
       const button = await page.find('aegov-button >>> button');
       const classes = await button.getProperty('className');
 
-      expect(classes).toContain('text-lg');
-      expect(classes).toContain('px-6');
-      expect(classes).toContain('py-3');
+      expect(classes).toContain('aegov-btn');
+      expect(classes).toContain('btn-lg');
     });
   });
 
@@ -137,7 +131,7 @@ describe('aegov-button E2E', () => {
 
     it('should handle full width state', async () => {
       const page = await newE2EPage();
-      await page.setContent('<aegov-button full-width>Button</aegov-button>');
+      await page.setContent('<aegov-button full>Button</aegov-button>');
 
       const button = await page.find('aegov-button >>> button');
       const classes = await button.getProperty('className');
@@ -147,11 +141,11 @@ describe('aegov-button E2E', () => {
   });
 
   describe('events', () => {
-    it('should emit aegovClick on button click', async () => {
+    it('should emit aegovButtonClick on button click', async () => {
       const page = await newE2EPage();
       await page.setContent('<aegov-button>Click Me</aegov-button>');
 
-      const clickEvent = await page.spyOnEvent('aegovClick');
+      const clickEvent = await page.spyOnEvent('aegovButtonClick');
       const button = await page.find('aegov-button >>> button');
 
       await button.click();
@@ -161,11 +155,11 @@ describe('aegov-button E2E', () => {
       expect(clickEvent).toHaveReceivedEventTimes(1);
     });
 
-    it('should not emit aegovClick when disabled', async () => {
+    it('should not emit aegovButtonClick when disabled', async () => {
       const page = await newE2EPage();
       await page.setContent('<aegov-button disabled>Click Me</aegov-button>');
 
-      const clickEvent = await page.spyOnEvent('aegovClick');
+      const clickEvent = await page.spyOnEvent('aegovButtonClick');
       const button = await page.find('aegov-button >>> button');
 
       await button.click();
@@ -174,11 +168,11 @@ describe('aegov-button E2E', () => {
       expect(clickEvent).not.toHaveReceivedEvent();
     });
 
-    it('should not emit aegovClick when loading', async () => {
+    it('should not emit aegovButtonClick when loading', async () => {
       const page = await newE2EPage();
       await page.setContent('<aegov-button loading>Click Me</aegov-button>');
 
-      const clickEvent = await page.spyOnEvent('aegovClick');
+      const clickEvent = await page.spyOnEvent('aegovButtonClick');
       const button = await page.find('aegov-button >>> button');
 
       await button.click();
@@ -187,11 +181,11 @@ describe('aegov-button E2E', () => {
       expect(clickEvent).not.toHaveReceivedEvent();
     });
 
-    it('should emit aegovFocus on focus', async () => {
+    it('should emit aegovButtonFocus on focus', async () => {
       const page = await newE2EPage();
       await page.setContent('<aegov-button>Button</aegov-button>');
 
-      const focusEvent = await page.spyOnEvent('aegovFocus');
+      const focusEvent = await page.spyOnEvent('aegovButtonFocus');
       const button = await page.find('aegov-button >>> button');
 
       await button.focus();
@@ -200,14 +194,14 @@ describe('aegov-button E2E', () => {
       expect(focusEvent).toHaveReceivedEvent();
     });
 
-    it('should emit aegovBlur on blur', async () => {
+    it('should emit aegovButtonBlur on blur', async () => {
       const page = await newE2EPage();
       await page.setContent(`
         <aegov-button id="btn1">Button 1</aegov-button>
         <aegov-button id="btn2">Button 2</aegov-button>
       `);
 
-      const blurEvent = await page.spyOnEvent('aegovBlur');
+      const blurEvent = await page.spyOnEvent('aegovButtonBlur');
       const button1 = await page.find('#btn1 >>> button');
       const button2 = await page.find('#btn2 >>> button');
 
@@ -223,7 +217,7 @@ describe('aegov-button E2E', () => {
       const page = await newE2EPage();
       await page.setContent('<aegov-button>Click Me</aegov-button>');
 
-      const clickEvent = await page.spyOnEvent('aegovClick');
+      const clickEvent = await page.spyOnEvent('aegovButtonClick');
       const button = await page.find('aegov-button >>> button');
 
       await button.click();
@@ -246,13 +240,13 @@ describe('aegov-button E2E', () => {
       const button = await page.find('aegov-button >>> button');
 
       let classes = await button.getProperty('className');
-      expect(classes).toContain('bg-primary-600');
+      expect(classes).toContain('btn-solid');
 
       element.setProperty('variant', 'outline');
       await page.waitForChanges();
 
       classes = await button.getProperty('className');
-      expect(classes).toContain('bg-transparent');
+      expect(classes).toContain('btn-outline');
     });
 
     it('should update when size changes', async () => {
@@ -263,13 +257,13 @@ describe('aegov-button E2E', () => {
       const button = await page.find('aegov-button >>> button');
 
       let classes = await button.getProperty('className');
-      expect(classes).toContain('text-sm');
+      expect(classes).toContain('btn-sm');
 
       element.setProperty('size', 'lg');
       await page.waitForChanges();
 
       classes = await button.getProperty('className');
-      expect(classes).toContain('text-lg');
+      expect(classes).toContain('btn-lg');
     });
 
     it('should update when disabled changes', async () => {
@@ -324,7 +318,7 @@ describe('aegov-button E2E', () => {
       const page = await newE2EPage();
       await page.setContent('<aegov-button>Button</aegov-button>');
 
-      const clickEvent = await page.spyOnEvent('aegovClick');
+      const clickEvent = await page.spyOnEvent('aegovButtonClick');
       const button = await page.find('aegov-button >>> button');
 
       await button.focus();
@@ -338,7 +332,7 @@ describe('aegov-button E2E', () => {
       const page = await newE2EPage();
       await page.setContent('<aegov-button>Button</aegov-button>');
 
-      const clickEvent = await page.spyOnEvent('aegovClick');
+      const clickEvent = await page.spyOnEvent('aegovButtonClick');
       const button = await page.find('aegov-button >>> button');
 
       await button.focus();
@@ -388,9 +382,9 @@ describe('aegov-button E2E', () => {
       const classes2 = await button2.getProperty('className');
       const classes3 = await button3.getProperty('className');
 
-      expect(classes1).toContain('bg-primary-600');
-      expect(classes2).toContain('bg-transparent');
-      expect(classes3).toContain('text-lg');
+      expect(classes1).toContain('btn-solid');
+      expect(classes2).toContain('btn-outline');
+      expect(classes3).toContain('btn-lg');
     });
 
     it('should handle events independently', async () => {
@@ -400,7 +394,7 @@ describe('aegov-button E2E', () => {
         <aegov-button id="btn2">Button 2</aegov-button>
       `);
 
-      const clickEvent = await page.spyOnEvent('aegovClick');
+      const clickEvent = await page.spyOnEvent('aegovButtonClick');
       const button1 = await page.find('#btn1 >>> button');
       const button2 = await page.find('#btn2 >>> button');
 

@@ -1,5 +1,5 @@
 /**
- * AEGOV Button Component Styles
+ * AegovButton - Refactored Button Component for Tailwind v4 - Hybrid Approach
  *
  * This component uses scoped CSS, which means these styles will only
  * apply to the aegov-btn component and won't leak to other elements.
@@ -7,13 +7,16 @@
  * The component primarily uses Tailwind utility classes defined in the
  * TSX file. This CSS file is for any additional custom styles or
  * CSS variables specific to the button component.
+ *
+ * This file defines a complete .aegov-btn component, matching all variants
+ * from the original implementation.
  */
 
 :host {
   display: inline-block;
 }
 
-:host([full-width]) {
+:host([full]) {
   display: block;
 }
 
@@ -167,6 +170,40 @@
   &:has(svg), &:has(img) { @apply px-3; }
   &:has(svg + svg), &:has(img + img) { @apply px-2; }
   &.btn-icon { @apply w-8; }
+}
+
+/*
+  ====================================================================
+  STYLE (Secondary)
+  ====================================================================
+*/
+
+.btn-secondary {
+  --btn-bg: var(--color-secondary-800);
+  --btn-fg: var(--color-secondary-50);
+  --btn-bg-hover: var(--color-secondary-950);
+  --btn-focus-ring: var(--color-secondary-support-300);
+
+  &.btn-soft {
+    --btn-bg: var(--color-secondary-50);
+    --btn-fg: var(--color-secondary-800);
+    --btn-bg-hover: var(--color-secondary-100);
+  }
+
+  &.btn-outline {
+    --btn-bg: transparent;
+    --btn-fg: var(--color-secondary-800);
+    --btn-bg-hover: var(--color-secondary-100);
+    --btn-border-color: var(--color-secondary-800);
+    --btn-focus-ring: var(--color-secondary-support-300);
+  }
+
+  &.btn-link {
+    --btn-bg: transparent;
+    --btn-fg: var(--color-secondary-800);
+    --btn-bg-hover: var(--color-secondary-50);
+    --btn-focus-ring: var(--color-secondary-support-300);
+  }
 }
 
 /* Loading state animation */

@@ -1,5 +1,5 @@
 import { Component, Prop, Event, EventEmitter, h, Host } from '@stencil/core';
-import type { ButtonVariant, ButtonSize, ButtonType } from '../../utils/types';
+import type { ButtonVariant, ButtonSize, ButtonType, ButtonAppearance } from '../../utils/types';
 
 /**
  * @slot - Button content
@@ -30,16 +30,28 @@ export class AegovButton {
   @Prop() type: ButtonType = 'button';
 
   /**
+   * The button appearance (color scheme)
+   * @default 'primary'
+   */
+  @Prop() appearance: ButtonAppearance = 'primary';
+
+  /**
    * Whether the button is disabled
    * @default false
    */
   @Prop() disabled: boolean = false;
 
   /**
+   * Whether the button is only an icon
+   * @default false
+   */
+  @Prop() icon: boolean = false;
+
+  /**
    * Whether the button should take full width
    * @default false
    */
-  @Prop() fullWidth: boolean = false;
+  @Prop() full: boolean = false;
 
   /**
    * Whether the button is in a loading state
@@ -50,30 +62,30 @@ export class AegovButton {
   /**
    * Emitted when the button is clicked
    */
-  @Event() aegovClick: EventEmitter<MouseEvent>;
+  @Event() aegovButtonClick: EventEmitter<MouseEvent>;
 
   /**
    * Emitted when the button receives focus
    */
-  @Event() aegovFocus: EventEmitter<FocusEvent>;
+  @Event() aegovButtonFocus: EventEmitter<FocusEvent>;
 
   /**
    * Emitted when the button loses focus
    */
-  @Event() aegovBlur: EventEmitter<FocusEvent>;
+  @Event() aegovButtonBlur: EventEmitter<FocusEvent>;
 
   private handleClick = (event: MouseEvent) => {
     if (!this.disabled && !this.loading) {
-      this.aegovClick.emit(event);
+      this.aegovButtonClick.emit(event);
     }
   };
 
   private handleFocus = (event: FocusEvent) => {
-    this.aegovFocus.emit(event);
+    this.aegovButtonFocus.emit(event);
   };
 
   private handleBlur = (event: FocusEvent) => {
-    this.aegovBlur.emit(event);
+    this.aegovButtonBlur.emit(event);
   };
 
   /**
@@ -113,6 +125,11 @@ export class AegovButton {
       );
     }
 
+    // Appearance classes (color scheme)
+    if (this.appearance === 'secondary') {
+      classes.push('btn-secondary');
+    }
+
     // Disabled state
     if (this.disabled || this.loading) {
       classes.push(
@@ -121,8 +138,15 @@ export class AegovButton {
       );
     }
 
+    // Icon only button
+    if (this.icon) {
+      classes.push(
+        'btn-icon'
+      );
+    }
+
     // Full width
-    if (this.fullWidth) {
+    if (this.full) {
       classes.push('w-full');
     }
 
