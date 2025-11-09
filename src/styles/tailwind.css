@@ -17,158 +17,213 @@
    * COLOR PALETTE
    * ======================================== */
 
-  /* Primary Colors */
-  --color-primary-50: #f0f9ff;
-  --color-primary-100: #e0f2fe;
-  --color-primary-200: #bae6fd;
-  --color-primary-300: #7dd3fc;
-  --color-primary-400: #38bdf8;
-  --color-primary-500: #0ea5e9;
-  --color-primary-600: #0284c7;
-  --color-primary-700: #0369a1;
-  --color-primary-800: #075985;
-  --color-primary-900: #0c4a6e;
-  --color-primary-950: #082f49;
+  /* AEGold Color */
+  --color-aegold-50: oklch(0.975 0.013 97.4);
+  --color-aegold-100: oklch(0.940 0.039 97.4);
+  --color-aegold-200: oklch(0.879 0.071 94.2);
+  --color-aegold-300: oklch(0.802 0.104 91.1);
+  --color-aegold-400: oklch(0.734 0.121 85.9);
+  --color-aegold-500: oklch(0.660 0.114 80.7);
+  --color-aegold-600: oklch(0.570 0.097 84.4);
+  --color-aegold-700: oklch(0.501 0.084 81.0);
+  --color-aegold-800: oklch(0.428 0.069 57.1);
+  --color-aegold-900: oklch(0.387 0.058 52.0);
+  --color-aegold-950: oklch(0.264 0.043 46.9);
 
-  /* Secondary Colors */
-  --color-secondary-50: #faf5ff;
-  --color-secondary-100: #f3e8ff;
-  --color-secondary-200: #e9d5ff;
-  --color-secondary-300: #d8b4fe;
-  --color-secondary-400: #c084fc;
-  --color-secondary-500: #a855f7;
-  --color-secondary-600: #9333ea;
-  --color-secondary-700: #7e22ce;
-  --color-secondary-800: #6b21a8;
-  --color-secondary-900: #581c87;
-  --color-secondary-950: #3b0764;
+  /* AERed Color */
+  --color-aered-50: oklch(0.971 0.013 17.4);
+  --color-aered-100: oklch(0.939 0.028 20.4);
+  --color-aered-200: oklch(0.889 0.055 21.0);
+  --color-aered-300: oklch(0.815 0.095 21.7);
+  --color-aered-400: oklch(0.719 0.151 24.0);
+  --color-aered-500: oklch(0.640 0.192 26.3);
+  --color-aered-600: oklch(0.584 0.199 27.5);
+  --color-aered-700: oklch(0.504 0.181 28.0);
+  --color-aered-800: oklch(0.443 0.151 27.4);
+  --color-aered-900: oklch(0.397 0.124 26.4);
+  --color-aered-950: oklch(0.258 0.082 26.8);
 
-  /* Neutral Colors */
-  --color-neutral-50: #fafafa;
-  --color-neutral-100: #f4f4f5;
-  --color-neutral-200: #e4e4e7;
-  --color-neutral-300: #d4d4d8;
-  --color-neutral-400: #a1a1aa;
-  --color-neutral-500: #71717a;
-  --color-neutral-600: #52525b;
-  --color-neutral-700: #3f3f46;
-  --color-neutral-800: #27272a;
-  --color-neutral-900: #18181b;
-  --color-neutral-950: #09090b;
+  /* AEGreen Color */
+  --color-aegreen-50: oklch(0.978 0.011 149.9);
+  --color-aegreen-100: oklch(0.952 0.024 151.2);
+  --color-aegreen-200: oklch(0.902 0.046 150.1);
+  --color-aegreen-300: oklch(0.825 0.080 150.7);
+  --color-aegreen-400: oklch(0.722 0.112 149.8);
+  --color-aegreen-500: oklch(0.627 0.126 148.7);
+  --color-aegreen-600: oklch(0.581 0.122 148.5);
+  --color-aegreen-700: oklch(0.461 0.090 149.4);
+  --color-aegreen-800: oklch(0.397 0.067 149.9);
+  --color-aegreen-900: oklch(0.351 0.056 150.0);
+  --color-aegreen-950: oklch(0.238 0.040 151.6);
 
-  /* Semantic Colors */
-  --color-success-50: #f0fdf4;
-  --color-success-500: #22c55e;
-  --color-success-600: #16a34a;
-  --color-success-700: #15803d;
+  /* AEBlack Color */
+  --color-aeblack-50: oklch(0.976 0.000 0.0);
+  --color-aeblack-100: oklch(0.915 0.003 247.9);
+  --color-aeblack-200: oklch(0.826 0.008 260.7);
+  --color-aeblack-300: oklch(0.711 0.011 261.8);
+  --color-aeblack-400: oklch(0.592 0.014 259.8);
+  --color-aeblack-500: oklch(0.502 0.016 262.3);
+  --color-aeblack-600: oklch(0.427 0.016 266.5);
+  --color-aeblack-700: oklch(0.372 0.011 271.1);
+  --color-aeblack-800: oklch(0.264 0.006 258.4);
+  --color-aeblack-900: oklch(0.230 0.008 264.4);
+  --color-aeblack-950: oklch(0.169 0.006 271.0);
 
-  --color-warning-50: #fffbeb;
-  --color-warning-500: #f59e0b;
-  --color-warning-600: #d97706;
-  --color-warning-700: #b45309;
+  /* Neutral Color - Whitely */
+  --color-whitely-50: oklch(1.000 0.000 0.0);
+  --color-whitely-100: oklch(0.991 0.000 0.0);
+  --color-whitely-200: oklch(0.976 0.000 0.0);
+  --color-whitely-300: oklch(0.961 0.000 0.0);
+  --color-whitely-400: oklch(0.946 0.000 0.0);
+  --color-whitely-500: oklch(0.931 0.000 0.0);
 
-  --color-error-50: #fef2f2;
-  --color-error-500: #ef4444;
-  --color-error-600: #dc2626;
-  --color-error-700: #b91c1c;
+  /* Support Colors */
+  /* Camel Color */
+  --color-camel-50: oklch(0.987 0.021 95.3);
+  --color-camel-100: oklch(0.963 0.058 97.7);
+  --color-camel-200: oklch(0.923 0.113 96.6);
+  --color-camel-300: oklch(0.879 0.152 92.8);
+  --color-camel-400: oklch(0.836 0.163 86.0);
+  --color-camel-500: oklch(0.767 0.162 71.6);
+  --color-camel-600: oklch(0.665 0.154 60.2);
+  --color-camel-700: oklch(0.555 0.142 50.4);
+  --color-camel-800: oklch(0.472 0.121 47.0);
+  --color-camel-900: oklch(0.414 0.103 46.7);
+  --color-camel-950: oklch(0.279 0.072 46.6);
 
-  --color-info-50: #eff6ff;
-  --color-info-500: #3b82f6;
-  --color-info-600: #2563eb;
-  --color-info-700: #1d4ed8;
+  /* Slate Color */
+  --color-slate-50: oklch(0.984 0.003 247.9);
+  --color-slate-100: oklch(0.968 0.007 247.9);
+  --color-slate-200: oklch(0.929 0.013 255.5);
+  --color-slate-300: oklch(0.869 0.020 252.9);
+  --color-slate-400: oklch(0.711 0.035 256.8);
+  --color-slate-500: oklch(0.554 0.041 257.4);
+  --color-slate-600: oklch(0.446 0.037 257.3);
+  --color-slate-700: oklch(0.372 0.039 257.3);
+  --color-slate-800: oklch(0.279 0.037 260.0);
+  --color-slate-900: oklch(0.208 0.040 265.8);
+  --color-slate-950: oklch(0.129 0.041 264.7);
+
+  /* Fuchsia Color */
+  --color-fuchsia-50: oklch(0.977 0.017 320.1);
+  --color-fuchsia-100: oklch(0.952 0.036 318.9);
+  --color-fuchsia-200: oklch(0.903 0.073 319.6);
+  --color-fuchsia-300: oklch(0.833 0.132 321.4);
+  --color-fuchsia-400: oklch(0.748 0.207 322.2);
+  --color-fuchsia-500: oklch(0.667 0.259 322.1);
+  --color-fuchsia-600: oklch(0.591 0.257 322.9);
+  --color-fuchsia-700: oklch(0.518 0.226 323.9);
+  --color-fuchsia-800: oklch(0.452 0.192 324.6);
+  --color-fuchsia-900: oklch(0.401 0.160 325.6);
+  --color-fuchsia-950: oklch(0.293 0.131 325.7);
+
+  /* TechBlue Color */
+  --color-techblue-50: oklch(0.963 0.020 238.7);
+  --color-techblue-100: oklch(0.933 0.037 238.1);
+  --color-techblue-200: oklch(0.873 0.067 243.9);
+  --color-techblue-300: oklch(0.792 0.110 248.6);
+  --color-techblue-400: oklch(0.682 0.169 257.4);
+  --color-techblue-500: oklch(0.581 0.229 262.8);
+  --color-techblue-600: oklch(0.498 0.283 264.1);
+  --color-techblue-700: oklch(0.496 0.284 263.9);
+  --color-techblue-800: oklch(0.406 0.229 263.9);
+  --color-techblue-900: oklch(0.383 0.187 264.2);
+  --color-techblue-950: oklch(0.265 0.122 264.9);
+
+  /* SeaBlue Color */
+  --color-seablue-50: oklch(0.978 0.013 226.6);
+  --color-seablue-100: oklch(0.952 0.027 232.7);
+  --color-seablue-200: oklch(0.908 0.060 224.6);
+  --color-seablue-300: oklch(0.843 0.107 223.4);
+  --color-seablue-400: oklch(0.785 0.143 226.9);
+  --color-seablue-500: oklch(0.699 0.147 234.4);
+  --color-seablue-600: oklch(0.623 0.143 240.2);
+  --color-seablue-700: oklch(0.530 0.122 240.4);
+  --color-seablue-800: oklch(0.465 0.105 238.9);
+  --color-seablue-900: oklch(0.410 0.088 238.0);
+  --color-seablue-950: oklch(0.306 0.066 239.6);
+
+  /* Desert Color */
+  --color-desert-50: oklch(0.975 0.013 60.6);
+  --color-desert-100: oklch(0.945 0.031 64.3);
+  --color-desert-200: oklch(0.883 0.064 59.1);
+  --color-desert-300: oklch(0.804 0.107 53.9);
+  --color-desert-400: oklch(0.714 0.153 45.8);
+  --color-desert-500: oklch(0.657 0.186 40.5);
+  --color-desert-600: oklch(0.624 0.198 36.0);
+  --color-desert-700: oklch(0.521 0.172 33.7);
+  --color-desert-800: oklch(0.446 0.141 32.0);
+  --color-desert-900: oklch(0.387 0.116 31.7);
+  --color-desert-950: oklch(0.253 0.074 29.3);
+
+  /* Token colors */
+  /* Primary Color */
+  --color-primary-50: var(--color-aegold-50);
+  --color-primary-100: var(--color-aegold-100);
+  --color-primary-200: var(--color-aegold-200);
+  --color-primary-300: var(--color-aegold-300);
+  --color-primary-400: var(--color-aegold-400);
+  --color-primary-500: var(--color-aegold-500);
+  --color-primary-600: var(--color-aegold-600);
+  --color-primary-700: var(--color-aegold-700);
+  --color-primary-800: var(--color-aegold-800);
+  --color-primary-900: var(--color-aegold-900);
+  --color-primary-950: var(--color-aegold-950);
+
+  /* Secondary Color */
+  --color-secondary-50: var(--color-aeblack-50);
+  --color-secondary-100: var(--color-aeblack-100);
+  --color-secondary-200: var(--color-aeblack-200);
+  --color-secondary-300: var(--color-aeblack-300);
+  --color-secondary-400: var(--color-aeblack-400);
+  --color-secondary-500: var(--color-aeblack-500);
+  --color-secondary-600: var(--color-aeblack-600);
+  --color-secondary-700: var(--color-aeblack-700);
+  --color-secondary-800: var(--color-aeblack-800);
+  --color-secondary-900: var(--color-aeblack-900);
+  --color-secondary-950: var(--color-aeblack-950);
+
+  --color-primary-support-50: var(--color-camel-50);
+  --color-primary-support-100: var(--color-camel-100);
+  --color-primary-support-200: var(--color-camel-200);
+  --color-primary-support-300: var(--color-camel-300);
+  --color-primary-support-400: var(--color-camel-400);
+  --color-primary-support-500: var(--color-camel-500);
+  --color-primary-support-600: var(--color-camel-600);
+
+  --color-secondary-support-50: var(--color-seablue-50);
+  --color-secondary-support-100: var(--color-seablue-100);
+  --color-secondary-support-200: var(--color-seablue-200);
+  --color-secondary-support-300: var(--color-seablue-300);
+  --color-secondary-support-400: var(--color-seablue-400);
+  --color-secondary-support-500: var(--color-seablue-500);
+  --color-secondary-support-600: var(--color-seablue-600);
 
   /* ========================================
    * TYPOGRAPHY
    * ======================================== */
 
-  /* Font Families */
-  --default-font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  --font-sans: "Inter", var(--default-font-family);
-  --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
-  --font-display: "Poppins", var(--default-font-family);
+  /* Font Family and typography */
+  --font-roboto: 'Roboto', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-inter: 'Inter', ui-sans-serif, system-ui, sans-serif;
+  --font-notokufi: 'Noto Kufi Arabic', ui-sans-serif, sans-serif;
+  --font-alexandria: 'Alexandria', ui-sans-serif, system-ui, sans-serif;
 
   /* Font Sizes */
-  --font-size-xs: 0.75rem;      /* 12px */
-  --font-size-sm: 0.875rem;     /* 14px */
-  --font-size-base: 1rem;       /* 16px */
-  --font-size-lg: 1.125rem;     /* 18px */
-  --font-size-xl: 1.25rem;      /* 20px */
-  --font-size-2xl: 1.5rem;      /* 24px */
-  --font-size-3xl: 1.875rem;    /* 30px */
-  --font-size-4xl: 2.25rem;     /* 36px */
-  --font-size-5xl: 3rem;        /* 48px */
-
-  /* Font Weights */
-  --font-weight-thin: 100;
-  --font-weight-extralight: 200;
-  --font-weight-light: 300;
-  --font-weight-normal: 400;
-  --font-weight-medium: 500;
-  --font-weight-semibold: 600;
-  --font-weight-bold: 700;
-  --font-weight-extrabold: 800;
-  --font-weight-black: 900;
-
-  /* Line Heights */
-  --line-height-none: 1;
-  --line-height-tight: 1.25;
-  --line-height-snug: 1.375;
-  --line-height-normal: 1.5;
-  --line-height-relaxed: 1.625;
-  --line-height-loose: 2;
-
-  /* ========================================
-   * SPACING
-   * ======================================== */
-
-  --spacing-px: 1px;
-  --spacing-0: 0;
-  --spacing-0_5: 0.125rem;   /* 2px */
-  --spacing-1: 0.25rem;      /* 4px */
-  --spacing-1_5: 0.375rem;   /* 6px */
-  --spacing-2: 0.5rem;       /* 8px */
-  --spacing-2_5: 0.625rem;   /* 10px */
-  --spacing-3: 0.75rem;      /* 12px */
-  --spacing-3_5: 0.875rem;   /* 14px */
-  --spacing-4: 1rem;         /* 16px */
-  --spacing-5: 1.25rem;      /* 20px */
-  --spacing-6: 1.5rem;       /* 24px */
-  --spacing-7: 1.75rem;      /* 28px */
-  --spacing-8: 2rem;         /* 32px */
-  --spacing-9: 2.25rem;      /* 36px */
-  --spacing-10: 2.5rem;      /* 40px */
-  --spacing-11: 2.75rem;     /* 44px */
-  --spacing-12: 3rem;        /* 48px */
-  --spacing-14: 3.5rem;      /* 56px */
-  --spacing-16: 4rem;        /* 64px */
-  --spacing-20: 5rem;        /* 80px */
-  --spacing-24: 6rem;        /* 96px */
-
-  /* ========================================
-   * BORDER RADIUS
-   * ======================================== */
-
-  --radius-none: 0;
-  --radius-sm: 0.125rem;     /* 2px */
-  --radius-base: 0.25rem;    /* 4px */
-  --radius-md: 0.375rem;     /* 6px */
-  --radius-lg: 0.5rem;       /* 8px */
-  --radius-xl: 0.75rem;      /* 12px */
-  --radius-2xl: 1rem;        /* 16px */
-  --radius-3xl: 1.5rem;      /* 24px */
-  --radius-full: 9999px;
-
-  /* ========================================
-   * SHADOWS
-   * ======================================== */
-
-  --shadow-xs: 0 1px 2px 0 rgb(0 0 0 / 0.05);
-  --shadow-sm: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
-  --shadow-base: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-  --shadow-md: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
-  --shadow-lg: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
-  --shadow-xl: 0 25px 50px -12px rgb(0 0 0 / 0.25);
-  --shadow-2xl: 0 25px 50px -12px rgb(0 0 0 / 0.25);
+  --text-xs: 0.75rem;      /* 12px */
+  --text-sm: 0.875rem;     /* 14px */
+  --text-base: 1rem;       /* 16px */
+  --text-lg: 1.125rem;     /* 18px */
+  --text-xl: 1.25rem;      /* 20px */
+  --text-2xl: 1.5rem;      /* 24px */
+  --text-3xl: 1.875rem;    /* 30px */
+  --text-display: 4.75rem;
+  --text-h1: 3.875rem;
+  --text-h2: 3rem;
+  --text-h3: 2.5rem;
+  --text-h4: 2rem;
+  --text-h5: 1.625rem;
+  --text-h6: 1.25rem;
 
   /* ========================================
    * TRANSITIONS
@@ -178,18 +233,6 @@
   --transition-duration-base: 200ms;
   --transition-duration-slow: 300ms;
   --transition-timing-default: cubic-bezier(0.4, 0, 0.2, 1);
-
-  /* ========================================
-   * Z-INDEX SCALE
-   * ======================================== */
-
-  --z-index-dropdown: 1000;
-  --z-index-sticky: 1020;
-  --z-index-fixed: 1030;
-  --z-index-modal-backdrop: 1040;
-  --z-index-modal: 1050;
-  --z-index-popover: 1060;
-  --z-index-tooltip: 1070;
 }
 
 /* ========================================
@@ -197,12 +240,7 @@
  * ======================================== */
 
 @utility focus-ring {
-  outline: 2px solid var(--color-primary-500);
-  outline-offset: 2px;
-}
-
-@utility focus-ring-error {
-  outline: 2px solid var(--color-error-500);
+  outline: 2px solid var(--color-camel-500);
   outline-offset: 2px;
 }
 

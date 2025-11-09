@@ -9,8 +9,71 @@
   box-sizing: border-box;
 }
 
-/* CSS Custom Properties available globally for all components */
-:root {
-  /* Component defaults */
-  --aegov-button-transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+html {
+  -webkit-tap-highlight-color: transparent;
+  @apply scroll-smooth md:scroll-auto;
+}
+
+body {
+  /* Color properties are now variables */
+  color: var(--color-aeblack-800);
+
+  /* Non-color styles remain in @apply */
+  @apply font-roboto m-0 p-0 text-base antialiased;
+  -webkit-print-color-adjust: exact !important;
+  print-color-adjust: exact !important;
+}
+
+body[dir="rtl"] {
+  @apply font-notokufi;
+  p {
+    @apply leading-relaxed;
+  }
+}
+
+/* Heading font stacks */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  @apply font-inter;
+}
+[dir="rtl"] h1,
+[dir="rtl"] h2,
+[dir="rtl"] h3,
+[dir="rtl"] h4,
+[dir="rtl"] h5,
+[dir="rtl"] h6 {
+  @apply font-alexandria;
+}
+
+h1 {
+  @apply text-h1 font-extrabold;
+}
+h2 {
+  @apply text-h2 font-extrabold;
+}
+h3 {
+  @apply text-h3 font-extrabold;
+}
+h4 {
+  @apply text-h4 font-bold;
+}
+h5 {
+  @apply text-h5 font-bold;
+}
+h6 {
+  @apply text-h6 font-semibold;
+}
+
+p {
+  @apply mb-8 text-base;
+  &.text-sm {
+    @apply mb-7;
+  }
+  &.text-xs {
+    @apply mb-6;
+  }
 }
