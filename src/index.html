@@ -322,11 +322,11 @@
 
       <div class="stats">
         <div class="stat">
-          <span class="stat-number">3</span>
+          <span class="stat-number">4</span>
           <span class="stat-label">Components</span>
         </div>
         <div class="stat">
-          <span class="stat-number">181</span>
+          <span class="stat-number">280+</span>
           <span class="stat-label">Tests Passing</span>
         </div>
         <div class="stat">
@@ -403,7 +403,7 @@
               <path fill-rule="evenodd" d="M5.5 2a1.5 1.5 0 00-.144 2.993L5.5 5h9a1.5 1.5 0 00.144-2.993L14.5 2h-9zM3 7.5A1.5 1.5 0 014.5 6h11A1.5 1.5 0 0117 7.5v9a1.5 1.5 0 01-1.5 1.5h-11A1.5 1.5 0 013 16.5v-9zM6 10a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 01-1 1H7a1 1 0 01-1-1v-2zm5-1a1 1 0 00-1 1v2a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 00-1-1h-2z" clip-rule="evenodd"/>
             </svg>
           </div>
-          <h3>Blockquote Component<span class="badge">New</span></h3>
+          <h3>Blockquote Component</h3>
           <p>Semantic blockquote component for displaying quotations with author attribution and citations.</p>
 
           <ul class="component-features">
@@ -415,6 +415,32 @@
           </ul>
 
           <a href="pages/blockquote-examples.html" class="component-link">
+            View Examples
+            <svg fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd"/>
+            </svg>
+          </a>
+        </div>
+
+        <!-- Callout Component Card -->
+        <div class="component-card" onclick="window.location.href='pages/callout-examples.html'" style="border-color: #a78bfa;">
+          <div class="component-icon" style="background: linear-gradient(135deg, #8b5cf6 0%, #ec4899 100%); box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);">
+            <svg fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a.75.75 0 000 1.5h.253a.25.25 0 01.244.304l-.459 2.066A1.75 1.75 0 0010.747 15H11a.75.75 0 000-1.5h-.253a.25.25 0 01-.244-.304l.459-2.066A1.75 1.75 0 009.253 9H9z" clip-rule="evenodd"/>
+            </svg>
+          </div>
+          <h3>Callout Component<span class="badge">New</span></h3>
+          <p>Flexible notification component for displaying important messages, alerts, and information to users.</p>
+
+          <ul class="component-features">
+            <li>5 Variants: Default, Error, Warning, Success, Info</li>
+            <li>2 Appearances: Soft, Solid</li>
+            <li>Optional icons & action links</li>
+            <li>Dismissible functionality</li>
+            <li>Custom event support</li>
+          </ul>
+
+          <a href="pages/callout-examples.html" class="component-link">
             View Examples
             <svg fill="currentColor" viewBox="0 0 20 20">
               <path fill-rule="evenodd" d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd"/>
@@ -452,7 +478,7 @@
     // Log component initialization
     document.addEventListener('DOMContentLoaded', () => {
       console.log('✨ AEGOV Design System loaded');
-      console.log('📦 Components: Button, Avatar, Blockquote');
+      console.log('📦 Components: Button, Avatar, Blockquote, Callout');
       console.log('🎨 Framework: StencilJS + Tailwind CSS v4');
     });
   </script>

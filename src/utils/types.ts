@@ -45,6 +45,16 @@ export type AvatarStatus = 'online' | 'offline' | 'none';
 export type BlockquoteVariant = 'primary' | 'colored' | 'coloured';
 
 /**
+ * Callout component variant types
+ */
+export type CalloutVariant = 'default' | 'error' | 'warning' | 'success' | 'info';
+
+/**
+ * Callout component appearance types
+ */
+export type CalloutAppearance = 'solid' | 'soft';
+
+/**
  * Common component props
  */
 export interface BaseComponentProps {

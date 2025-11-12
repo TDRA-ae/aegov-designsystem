@@ -6,44 +6,22 @@
 :host {
   display: block;
 }
-
-.aegov-quote {
-    --quote-fg: var(--color-aeblack-800);
-    --quote-author-fg: var(--color-primary-700);
-    --quote-cite-fg: var(--color-primary-700);
-    --quote-bg: transparent;
-    --quote-border: transparent;
-
-    @apply relative px-10 py-6 text-base font-medium;
-
-    color: var(--quote-fg);
-    background-color: var(--quote-bg);
-    border-color: var(--quote-border);
-
-    & .quote-icon {
-      @apply absolute start-0 top-0 h-12 w-12 rtl:-scale-x-100;
-    }
-    & .quote-author {
-      color: var(--quote-author-fg);
-      @apply mb-1 text-sm font-medium;
-    }
-    & .quote-cite {
-      color: var(--quote-cite-fg);
-      @apply text-sm font-normal;
-    }
-    & .quote-footer {
-      @apply mt-10;
-    }
-
-    &:not(.quote-colored) {
-      @apply py-6 ps-14 pe-10;
-    }
-    &.quote-colored {
-      @apply border-s-[10px];
-
-      /* Redefine the color variables for the colored variant */
-      --quote-bg: var(--color-primary-50);
-      --quote-border: var(--color-primary-500);
-    }
-
+.aegov-quote { 
+  ::slotted(p),
+  & p {
+  @apply text-base; }
+}
+.quote-colored {
+  ::slotted(p),
+  ::slotted(li),
+  & p,
+  & li {
+  @apply text-primary-700; }
+}
+.aegov-quote:not(.quote-colored) {
+  ::slotted(p),
+  ::slotted(li),
+  & p,
+  & li {
+  @apply text-aeblack-800; }
 }

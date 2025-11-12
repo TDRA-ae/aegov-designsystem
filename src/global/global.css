@@ -77,3 +77,11 @@ p {
     @apply mb-6;
   }
 }
+
+button {
+  @apply relative inline-flex shrink-0 cursor-pointer select-none flex-wrap items-center justify-center whitespace-nowrap no-underline transition-all duration-200 ease-in-out rounded-lg disabled:cursor-default disabled:pointer-events-none;
+}
+
+a {
+  @apply text-primary-600 hover:text-primary-500 underline focus:outline-offset-1 focus:outline-2 focus:outline-primary-support-600;
+}

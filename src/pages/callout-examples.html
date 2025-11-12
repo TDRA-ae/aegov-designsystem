@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0" />
+  <title>Callout Component Examples - AEGOV Design System</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+  <!-- AEGOV Design System -->
+  <script type="module" src="/build/aegov.esm.js"></script>
+  <script nomodule src="/build/aegov.js"></script>
+  <link rel="stylesheet" href="/build/aegov.css" />
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 2rem;
+      background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+      min-height: 100vh;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 3rem;
+      padding: 2rem;
+      background: white;
+      border-radius: 1rem;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .header h1 {
+      margin: 0 0 0.5rem 0;
+      font-size: 2.5rem;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .header p {
+      margin: 0;
+      color: #666;
+      font-size: 1.125rem;
+    }
+
+    .section {
+      margin-bottom: 3rem;
+      padding: 2rem;
+      background: white;
+      border-radius: 1rem;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .section-title {
+      margin: 0 0 1.5rem 0;
+      font-size: 1.75rem;
+      color: #333;
+      border-bottom: 2px solid #e2e8f0;
+      padding-bottom: 0.75rem;
+    }
+
+    .subsection-title {
+      margin: 2rem 0 1rem 0;
+      font-size: 1.25rem;
+      color: #555;
+      font-weight: 600;
+    }
+
+    .example {
+      margin-bottom: 1.5rem;
+    }
+
+    .example-label {
+      font-size: 0.875rem;
+      color: #666;
+      margin-bottom: 0.5rem;
+      font-weight: 500;
+      display: block;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .code-block {
+      background: #1e293b;
+      color: #e2e8f0;
+      padding: 1rem;
+      border-radius: 0.5rem;
+      overflow-x: auto;
+      font-family: 'Courier New', monospace;
+      font-size: 0.875rem;
+      margin-top: 0.5rem;
+    }
+
+    .stats {
+      display: flex;
+      justify-content: space-around;
+      margin-top: 2rem;
+      padding-top: 2rem;
+      border-top: 2px solid #e2e8f0;
+    }
+
+    .stat {
+      text-align: center;
+    }
+
+    .stat-value {
+      font-size: 2rem;
+      font-weight: bold;
+      color: #667eea;
+    }
+
+    .stat-label {
+      color: #666;
+      font-size: 0.875rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .demo-container {
+      padding: 1.5rem;
+      background: #f8fafc;
+      border-radius: 0.5rem;
+      border: 1px solid #e2e8f0;
+    }
+
+    .back-link {
+      display: inline-block;
+      margin-bottom: 2rem;
+      padding: 0.75rem 1.5rem;
+      background: white;
+      color: #667eea;
+      text-decoration: none;
+      border-radius: 0.5rem;
+      font-weight: 500;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .back-link:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <a href="../index.html" class="back-link">← Back to Home</a>
+
+    <div class="header">
+      <h1>Callout Component</h1>
+      <p>Flexible notification component for displaying important messages, alerts, and information</p>
+      <div class="stats">
+        <div class="stat">
+          <div class="stat-value">5</div>
+          <div class="stat-label">Variants</div>
+        </div>
+        <div class="stat">
+          <div class="stat-value">2</div>
+          <div class="stat-label">Appearances</div>
+        </div>
+        <div class="stat">
+          <div class="stat-value">100%</div>
+          <div class="stat-label">Accessible</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Basic Variants -->
+    <section class="section">
+      <h2 class="section-title">Basic Variants</h2>
+      <p style="color: #666; margin-bottom: 1.5rem;">
+        The callout component supports 5 semantic variants, each with its own color scheme and meaning.
+      </p>
+
+      <div class="example">
+        <span class="example-label">Default Variant</span>
+        <aegov-callout variant="error" appearance="solid" dismissible>
+          
+          <!--<div slot="content">
+            <div class="text-lg font-bold mb-6">Unable to save your request to issue a new Emirates ID</div>
+            <p class="mb-0">We have detected various KYC details missing and hence we cannot proceed with your request to issue a new Emirates ID. The following details need to be completed before submitting this request.</p>
+          </div>-->
+
+          <div slot="content">
+            This is a sample callout content
+          </div>
+          
+          <svg slot="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"><rect width="256" height="256" fill="none"/><path d="M208,40H48A16,16,0,0,0,32,56v56c0,52.72,25.52,84.67,46.93,102.19,23.06,18.86,46,25.26,47,25.53a8,8,0,0,0,4.2,0c1-.27,23.91-6.67,47-25.53C198.48,196.67,224,164.72,224,112V56A16,16,0,0,0,208,40Zm-34.32,69.66-56,56a8,8,0,0,1-11.32,0l-24-24a8,8,0,0,1,11.32-11.32L112,148.69l50.34-50.35a8,8,0,0,1,11.32,11.32Z"/></svg>
+
+          <!--<div slot="actions">
+            <div class="flex items-center justify-start gap-4">
+              <button>Allow this time</button>
+              <button>Try again</button>
+            </div>
+          </div>-->
+
+        </aegov-callout>
+      </div>
+
+      
+    </section>
+
+  </div>
+</body>
+</html>

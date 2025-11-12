@@ -1,0 +1,23 @@
+/**
+ * AEGOV Callout Component Styles
+ *
+ * A notification component with multiple variants and appearances.
+ * Supports icons, links, and dismissible functionality.
+ */
+
+:host {
+  display: block;
+  margin-bottom:16px;
+}
+
+.aegov-callout {
+  font-family:inherit;
+}
+
+.aegov-callout .callout-icon {
+  & svg,
+  & img,
+  & ::slotted(svg) {
+    @apply size-6 shrink-0 block;
+  }
+}

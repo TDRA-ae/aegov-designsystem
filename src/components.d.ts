@@ -5,8 +5,8 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
-import { AvatarSize, AvatarStatus, AvatarVariant, BlockquoteVariant, ButtonAppearance, ButtonSize, ButtonType, ButtonVariant } from "./utils/types";
-export { AvatarSize, AvatarStatus, AvatarVariant, BlockquoteVariant, ButtonAppearance, ButtonSize, ButtonType, ButtonVariant } from "./utils/types";
+import { AvatarSize, AvatarStatus, AvatarVariant, BlockquoteVariant, ButtonAppearance, ButtonSize, ButtonType, ButtonVariant, CalloutAppearance, CalloutVariant } from "./utils/types";
+export { AvatarSize, AvatarStatus, AvatarVariant, BlockquoteVariant, ButtonAppearance, ButtonSize, ButtonType, ButtonVariant, CalloutAppearance, CalloutVariant } from "./utils/types";
 export namespace Components {
     interface AegovAvatar {
         /**
@@ -64,13 +64,18 @@ export namespace Components {
          */
         "appearance": ButtonAppearance;
         /**
+          * Whether the button should have bold text or not
+          * @default false
+         */
+        "bold": boolean;
+        /**
           * Whether the button is disabled
           * @default false
          */
         "disabled": boolean;
         /**
           * Whether the button should take full width
-          * @default false
+          * @default true
          */
         "full": boolean;
         /**
@@ -99,10 +104,36 @@ export namespace Components {
          */
         "variant": ButtonVariant;
     }
+    interface AegovCallout {
+        /**
+          * The appearance style of the callout.
+          * @default 'soft'
+         */
+        "appearance": CalloutAppearance;
+        /**
+          * Whether the callout should have a border
+          * @default false
+         */
+        "bordered": boolean;
+        /**
+          * Whether the callout can be dismissed/closed.
+          * @default false
+         */
+        "dismissible": boolean;
+        /**
+          * The variant of the callout. Determines the color scheme.
+          * @default 'default'
+         */
+        "variant": CalloutVariant;
+    }
 }
 export interface AegovButtonCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLAegovButtonElement;
+}
+export interface AegovCalloutCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLAegovCalloutElement;
 }
 declare global {
     interface HTMLAegovAvatarElement extends Components.AegovAvatar, HTMLStencilElement {
@@ -136,10 +167,28 @@ declare global {
         prototype: HTMLAegovButtonElement;
         new (): HTMLAegovButtonElement;
     };
+    interface HTMLAegovCalloutElementEventMap {
+        "aegovCalloutDismiss": void;
+    }
+    interface HTMLAegovCalloutElement extends Components.AegovCallout, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLAegovCalloutElementEventMap>(type: K, listener: (this: HTMLAegovCalloutElement, ev: AegovCalloutCustomEvent<HTMLAegovCalloutElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLAegovCalloutElementEventMap>(type: K, listener: (this: HTMLAegovCalloutElement, ev: AegovCalloutCustomEvent<HTMLAegovCalloutElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLAegovCalloutElement: {
+        prototype: HTMLAegovCalloutElement;
+        new (): HTMLAegovCalloutElement;
+    };
     interface HTMLElementTagNameMap {
         "aegov-avatar": HTMLAegovAvatarElement;
         "aegov-blockquote": HTMLAegovBlockquoteElement;
         "aegov-button": HTMLAegovButtonElement;
+        "aegov-callout": HTMLAegovCalloutElement;
     }
 }
 declare namespace LocalJSX {
@@ -199,13 +248,18 @@ declare namespace LocalJSX {
          */
         "appearance"?: ButtonAppearance;
         /**
+          * Whether the button should have bold text or not
+          * @default false
+         */
+        "bold"?: boolean;
+        /**
           * Whether the button is disabled
           * @default false
          */
         "disabled"?: boolean;
         /**
           * Whether the button should take full width
-          * @default false
+          * @default true
          */
         "full"?: boolean;
         /**
@@ -246,10 +300,37 @@ declare namespace LocalJSX {
          */
         "variant"?: ButtonVariant;
     }
+    interface AegovCallout {
+        /**
+          * The appearance style of the callout.
+          * @default 'soft'
+         */
+        "appearance"?: CalloutAppearance;
+        /**
+          * Whether the callout should have a border
+          * @default false
+         */
+        "bordered"?: boolean;
+        /**
+          * Whether the callout can be dismissed/closed.
+          * @default false
+         */
+        "dismissible"?: boolean;
+        /**
+          * Event emitted when the callout is dismissed.
+         */
+        "onAegovCalloutDismiss"?: (event: AegovCalloutCustomEvent<void>) => void;
+        /**
+          * The variant of the callout. Determines the color scheme.
+          * @default 'default'
+         */
+        "variant"?: CalloutVariant;
+    }
     interface IntrinsicElements {
         "aegov-avatar": AegovAvatar;
         "aegov-blockquote": AegovBlockquote;
         "aegov-button": AegovButton;
+        "aegov-callout": AegovCallout;
     }
 }
 export { LocalJSX as JSX };
@@ -259,6 +340,7 @@ declare module "@stencil/core" {
             "aegov-avatar": LocalJSX.AegovAvatar & JSXBase.HTMLAttributes<HTMLAegovAvatarElement>;
             "aegov-blockquote": LocalJSX.AegovBlockquote & JSXBase.HTMLAttributes<HTMLAegovBlockquoteElement>;
             "aegov-button": LocalJSX.AegovButton & JSXBase.HTMLAttributes<HTMLAegovButtonElement>;
+            "aegov-callout": LocalJSX.AegovCallout & JSXBase.HTMLAttributes<HTMLAegovCalloutElement>;
         }
     }
 }

@@ -176,6 +176,70 @@ part="button"  // For external styling
 
 ---
 
+#### 4. `<aegov-callout>`
+
+**Status:** ✅ Complete (v0.1.0)
+**Tests:** 127 passing (98 unit + 29 E2E)
+**Coverage:** 100%
+**Date Added:** November 10, 2025
+
+**API:**
+```typescript
+// Properties
+variant?: 'default' | 'error' | 'warning' | 'success' | 'info'  // default: 'default'
+appearance?: 'soft' | 'solid'  // default: 'soft'
+withIcon?: boolean  // default: false
+dismissible?: boolean  // default: false
+linkText?: string  // optional
+linkUrl?: string  // optional
+
+// Events
+aegovCalloutDismiss: void
+aegovCalloutLinkClick: MouseEvent
+
+// Slots
+default  // Main content
+```
+
+**Usage:**
+```html
+<!-- Basic callout -->
+<aegov-callout variant="info">
+  New features are now available!
+</aegov-callout>
+
+<!-- With all features -->
+<aegov-callout
+  variant="warning"
+  appearance="solid"
+  with-icon
+  link-text="View details"
+  link-url="/details"
+  dismissible>
+  Your subscription expires in 7 days.
+</aegov-callout>
+
+<!-- With rich content -->
+<aegov-callout variant="error" with-icon>
+  <strong>Error:</strong> Please fix the following:
+  <ul>
+    <li>Email is required</li>
+    <li>Password must be 8+ characters</li>
+  </ul>
+</aegov-callout>
+```
+
+**Styling:**
+- Scoped CSS encapsulation
+- 5 semantic variants with color coding
+- 2 appearance modes (soft/solid)
+- Contextual icons for each variant
+- Action links with arrow indicators
+- Dismissible with close button
+- Semantic HTML with `role="alert"`
+
+---
+
 ## Design Decisions
 
 ### 1. Scoped CSS vs Shadow DOM
@@ -594,7 +658,10 @@ dist/
 **Status:** Initial Release
 
 **Components:**
-- ✅ aegov-button (2 variants, 4 sizes)
+- ✅ aegov-button (4 variants, 2 appearances, 4 sizes)
+- ✅ aegov-avatar (2 variants, 7 sizes, status indicators)
+- ✅ aegov-blockquote (2 variants, author attribution)
+- ✅ aegov-callout (5 variants, 2 appearances, icons, links, dismissible) - Added Nov 10, 2025
 
 **Features:**
 - ✅ Complete design token system (75+ colors)
@@ -605,11 +672,15 @@ dist/
 - ✅ 100% test coverage
 - ✅ TypeScript definitions
 - ✅ Comprehensive documentation
+- ✅ Semantic HTML with ARIA support
+- ✅ Custom event system
+- ✅ Interactive example pages
 
 **Testing:**
-- 63 tests passing
+- 280+ tests passing
 - Unit + E2E coverage
 - Build verification script
+- 100% code coverage across all components
 
 ---
 

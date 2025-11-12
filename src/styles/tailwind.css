@@ -249,3 +249,6 @@
   transition-duration: var(--transition-duration-base);
   transition-timing-function: var(--transition-timing-default);
 }
+
+/* Generate commonly used utility classes for slotted content */
+@source "../**/*.html";

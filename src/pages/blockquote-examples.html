@@ -4,9 +4,13 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0">
   <title>Blockquote Component - AEGOV Design System</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
 
   <script type="module" src="/build/aegov.esm.js"></script>
   <script nomodule src="/build/aegov.js"></script>
+  <link rel="stylesheet" href="/build/aegov.css" />
 
   <style>
     * {
@@ -14,7 +18,6 @@
     }
 
     body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
       margin: 0;
       padding: 2rem;
       background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
@@ -201,11 +204,11 @@
           <p>Default blockquote with quote icon</p>
           <div style="margin-top: 1rem;">
             <aegov-blockquote>
-              The best way to predict the future is to create it.
+              The confidence of our wise leadership serves as motivation for more sincere and sustained action directed to serve our cherished homeland, which reflects a renewed incentive to continue with progress and advancement under the wise leadership of His Highness Sheikh Mohamed bin Zayed Al Nahyan, UAE President, and His Highness Sheikh Mohammed bin Rashid Al Maktoum, Vice President and Prime Minister of the UAE and Ruler of Dubai and their Highnesses, Members of the Supreme Council and Rulers of the Emirates.
             </aegov-blockquote>
           </div>
           <code class="code-block">&lt;aegov-blockquote&gt;
-  The best way to predict the future is to create it.
+  The confidence of our wise leadership serves as motivation for more sincere and sustained action directed to serve our cherished homeland, which reflects a renewed incentive to continue with progress and advancement under the wise leadership of His Highness Sheikh Mohamed bin Zayed Al Nahyan, UAE President, and His Highness Sheikh Mohammed bin Rashid Al Maktoum, Vice President and Prime Minister of the UAE and Ruler of Dubai and their Highnesses, Members of the Supreme Council and Rulers of the Emirates.
 &lt;/aegov-blockquote&gt;</code>
         </div>
 
@@ -214,11 +217,11 @@
           <p>Blockquote with colored background and left border</p>
           <div style="margin-top: 1rem;">
             <aegov-blockquote variant="colored">
-              Innovation distinguishes between a leader and a follower.
+              The confidence of our wise leadership serves as motivation for more sincere and sustained action directed to serve our cherished homeland, which reflects a renewed incentive to continue with progress and advancement under the wise leadership of His Highness Sheikh Mohamed bin Zayed Al Nahyan, UAE President, and His Highness Sheikh Mohammed bin Rashid Al Maktoum, Vice President and Prime Minister of the UAE and Ruler of Dubai and their Highnesses, Members of the Supreme Council and Rulers of the Emirates.
             </aegov-blockquote>
           </div>
           <code class="code-block">&lt;aegov-blockquote variant="colored"&gt;
-  Innovation distinguishes between a leader and a follower.
+  The confidence of our wise leadership serves as motivation for more sincere and sustained action directed to serve our cherished homeland, which reflects a renewed incentive to continue with progress and advancement under the wise leadership of His Highness Sheikh Mohamed bin Zayed Al Nahyan, UAE President, and His Highness Sheikh Mohammed bin Rashid Al Maktoum, Vice President and Prime Minister of the UAE and Ruler of Dubai and their Highnesses, Members of the Supreme Council and Rulers of the Emirates.
 &lt;/aegov-blockquote&gt;</code>
         </div>
       </div>
@@ -234,11 +237,13 @@
           <p>Blockquote with author attribution</p>
           <div style="margin-top: 1rem;">
             <aegov-blockquote author="Peter Drucker">
-              The best way to predict the future is to create it.
+              <p>The confidence of our wise leadership serves as motivation for more sincere and sustained action</p>
+              <p>This is directed to serve our cherished homeland, which reflects a renewed incentive to continue with progress and advancement under the wise leadership of His Highness Sheikh Mohamed bin Zayed Al Nahyan, UAE President, and His Highness Sheikh Mohammed bin Rashid Al Maktoum, Vice President and Prime Minister of the UAE and Ruler of Dubai and their Highnesses, Members of the Supreme Council and Rulers of the Emirates.</p>
             </aegov-blockquote>
           </div>
           <code class="code-block">&lt;aegov-blockquote author="Peter Drucker"&gt;
-  The best way to predict the future is to create it.
+              <p>The confidence of our wise leadership serves as motivation for more sincere and sustained action</p>
+              <p>This is directed to serve our cherished homeland, which reflects a renewed incentive to continue with progress and advancement under the wise leadership of His Highness Sheikh Mohamed bin Zayed Al Nahyan, UAE President, and His Highness Sheikh Mohammed bin Rashid Al Maktoum, Vice President and Prime Minister of the UAE and Ruler of Dubai and their Highnesses, Members of the Supreme Council and Rulers of the Emirates.</p>
 &lt;/aegov-blockquote&gt;</code>
         </div>
 
@@ -250,14 +255,16 @@
               variant="colored"
               author="Steve Jobs"
               author-title="Co-founder, Apple Inc.">
-              Innovation distinguishes between a leader and a follower.
+              <p>The confidence of our wise leadership serves as motivation for more sincere and sustained action</p>
+              <p>This is directed to serve our cherished homeland, which reflects a renewed incentive to continue with progress and advancement under the wise leadership of His Highness Sheikh Mohamed bin Zayed Al Nahyan, UAE President, and His Highness Sheikh Mohammed bin Rashid Al Maktoum, Vice President and Prime Minister of the UAE and Ruler of Dubai and their Highnesses, Members of the Supreme Council and Rulers of the Emirates.</p>
             </aegov-blockquote>
           </div>
           <code class="code-block">&lt;aegov-blockquote
   variant="colored"
   author="Steve Jobs"
   author-title="Co-founder, Apple Inc."&gt;
-  Innovation distinguishes between a leader and a follower.
+  <p>The confidence of our wise leadership serves as motivation for more sincere and sustained action</p>
+              <p>This is directed to serve our cherished homeland, which reflects a renewed incentive to continue with progress and advancement under the wise leadership of His Highness Sheikh Mohamed bin Zayed Al Nahyan, UAE President, and His Highness Sheikh Mohammed bin Rashid Al Maktoum, Vice President and Prime Minister of the UAE and Ruler of Dubai and their Highnesses, Members of the Supreme Council and Rulers of the Emirates.</p>
 &lt;/aegov-blockquote&gt;</code>
         </div>
       </div>

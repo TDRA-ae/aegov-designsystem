@@ -37,7 +37,8 @@ describe('aegov-button', () => {
 
       const button = page.root.querySelector('button');
       expect(button.classList.contains('aegov-btn')).toBe(true);
-      expect(button.classList.contains('btn-solid')).toBe(true);
+      expect(button.classList.contains('bg-primary-600')).toBe(true);
+      expect(button.classList.contains('text-whitely-50')).toBe(true);
     });
 
     it('should render solid variant explicitly', async () => {
@@ -48,7 +49,7 @@ describe('aegov-button', () => {
 
       const button = page.root.querySelector('button');
       expect(button.classList.contains('aegov-btn')).toBe(true);
-      expect(button.classList.contains('btn-solid')).toBe(true);
+      expect(button.classList.contains('bg-primary-600')).toBe(true);
     });
 
     it('should render outline variant', async () => {
@@ -59,7 +60,9 @@ describe('aegov-button', () => {
 
       const button = page.root.querySelector('button');
       expect(button.classList.contains('aegov-btn')).toBe(true);
-      expect(button.classList.contains('btn-outline')).toBe(true);
+      expect(button.classList.contains('bg-transparent')).toBe(true);
+      expect(button.classList.contains('text-primary-600')).toBe(true);
+      expect(button.classList.contains('border-2')).toBe(true);
     });
 
     it('should render soft variant', async () => {
@@ -70,7 +73,8 @@ describe('aegov-button', () => {
 
       const button = page.root.querySelector('button');
       expect(button.classList.contains('aegov-btn')).toBe(true);
-      expect(button.classList.contains('btn-soft')).toBe(true);
+      expect(button.classList.contains('bg-primary-50')).toBe(true);
+      expect(button.classList.contains('text-primary-700')).toBe(true);
     });
 
     it('should render link variant', async () => {
@@ -81,7 +85,8 @@ describe('aegov-button', () => {
 
       const button = page.root.querySelector('button');
       expect(button.classList.contains('aegov-btn')).toBe(true);
-      expect(button.classList.contains('btn-link')).toBe(true);
+      expect(button.classList.contains('bg-transparent')).toBe(true);
+      expect(button.classList.contains('hover:underline')).toBe(true);
     });
   });
 
@@ -140,7 +145,8 @@ describe('aegov-button', () => {
 
       const button = page.root.querySelector('button');
       expect(button.classList.contains('aegov-btn')).toBe(true);
-      expect(button.classList.contains('btn-secondary')).toBe(false);
+      expect(button.classList.contains('bg-primary-600')).toBe(true);
+      expect(button.classList.contains('text-whitely-50')).toBe(true);
     });
 
     it('should render secondary appearance', async () => {
@@ -151,7 +157,52 @@ describe('aegov-button', () => {
 
       const button = page.root.querySelector('button');
       expect(button.classList.contains('aegov-btn')).toBe(true);
-      expect(button.classList.contains('btn-secondary')).toBe(true);
+      expect(button.classList.contains('bg-secondary-800')).toBe(true);
+      expect(button.classList.contains('text-whitely-50')).toBe(true);
+    });
+
+    it('should render primary appearance with outline variant', async () => {
+      const page = await newSpecPage({
+        components: [AegovButton],
+        html: `<aegov-button variant="outline" appearance="primary">Button</aegov-button>`,
+      });
+
+      const button = page.root.querySelector('button');
+      expect(button.classList.contains('text-primary-600')).toBe(true);
+      expect(button.classList.contains('border-primary-600')).toBe(true);
+    });
+
+    it('should render secondary appearance with outline variant', async () => {
+      const page = await newSpecPage({
+        components: [AegovButton],
+        html: `<aegov-button variant="outline" appearance="secondary">Button</aegov-button>`,
+      });
+
+      const button = page.root.querySelector('button');
+      expect(button.classList.contains('text-secondary-800')).toBe(true);
+      expect(button.classList.contains('border-secondary-800')).toBe(true);
+    });
+
+    it('should render secondary appearance with soft variant', async () => {
+      const page = await newSpecPage({
+        components: [AegovButton],
+        html: `<aegov-button variant="soft" appearance="secondary">Button</aegov-button>`,
+      });
+
+      const button = page.root.querySelector('button');
+      expect(button.classList.contains('bg-secondary-50')).toBe(true);
+      expect(button.classList.contains('text-secondary-800')).toBe(true);
+    });
+
+    it('should render secondary appearance with link variant', async () => {
+      const page = await newSpecPage({
+        components: [AegovButton],
+        html: `<aegov-button variant="link" appearance="secondary">Button</aegov-button>`,
+      });
+
+      const button = page.root.querySelector('button');
+      expect(button.classList.contains('text-secondary-800')).toBe(true);
+      expect(button.classList.contains('hover:underline')).toBe(true);
     });
   });
 
@@ -270,6 +321,38 @@ describe('aegov-button', () => {
 
       const button = page.root.querySelector('button');
       expect(button.classList.contains('w-full')).toBe(true);
+    });
+  });
+
+  describe('bold state', () => {
+    it('should be bold by default', async () => {
+      const page = await newSpecPage({
+        components: [AegovButton],
+        html: `<aegov-button>Button</aegov-button>`,
+      });
+
+      const button = page.root.querySelector('button');
+      expect(button.classList.contains('font-medium')).toBe(true);
+    });
+
+    it('should not be bold when bold=false', async () => {
+      const page = await newSpecPage({
+        components: [AegovButton],
+        html: `<aegov-button bold="false">Button</aegov-button>`,
+      });
+
+      const button = page.root.querySelector('button');
+      expect(button.classList.contains('font-medium')).toBe(false);
+    });
+
+    it('should be bold when explicitly set to true', async () => {
+      const page = await newSpecPage({
+        components: [AegovButton],
+        html: `<aegov-button bold="true">Button</aegov-button>`,
+      });
+
+      const button = page.root.querySelector('button');
+      expect(button.classList.contains('font-medium')).toBe(true);
     });
   });
 
@@ -417,8 +500,9 @@ describe('aegov-button', () => {
       });
 
       const button = page.root.querySelector('button');
-      expect(button.classList.contains('btn-solid')).toBe(true);
+      expect(button.classList.contains('bg-primary-600')).toBe(true);
       expect(button.classList.contains('btn-lg')).toBe(true);
+      expect(button.classList.contains('h-13')).toBe(true);
     });
 
     it('should render outline variant with sm size', async () => {
@@ -428,8 +512,10 @@ describe('aegov-button', () => {
       });
 
       const button = page.root.querySelector('button');
-      expect(button.classList.contains('btn-outline')).toBe(true);
+      expect(button.classList.contains('bg-transparent')).toBe(true);
+      expect(button.classList.contains('border-2')).toBe(true);
       expect(button.classList.contains('btn-sm')).toBe(true);
+      expect(button.classList.contains('h-10')).toBe(true);
     });
 
     it('should render disabled loading button', async () => {
@@ -453,7 +539,8 @@ describe('aegov-button', () => {
       });
 
       const button = page.root.querySelector('button');
-      expect(button.classList.contains('btn-outline')).toBe(true);
+      expect(button.classList.contains('bg-transparent')).toBe(true);
+      expect(button.classList.contains('border-2')).toBe(true);
       expect(button.classList.contains('w-full')).toBe(true);
     });
 
@@ -464,8 +551,44 @@ describe('aegov-button', () => {
       });
 
       const button = page.root.querySelector('button');
-      expect(button.classList.contains('btn-soft')).toBe(true);
-      expect(button.classList.contains('btn-secondary')).toBe(true);
+      expect(button.classList.contains('bg-secondary-50')).toBe(true);
+      expect(button.classList.contains('text-secondary-800')).toBe(true);
+    });
+
+    it('should render icon-only button with xs size', async () => {
+      const page = await newSpecPage({
+        components: [AegovButton],
+        html: `<aegov-button icon size="xs">Button</aegov-button>`,
+      });
+
+      const button = page.root.querySelector('button');
+      expect(button.classList.contains('btn-icon')).toBe(true);
+      expect(button.classList.contains('btn-xs')).toBe(true);
+      expect(button.classList.contains('w-12')).toBe(true);
+      expect(button.classList.contains('gap-0')).toBe(true);
+      expect(button.classList.contains('px-0')).toBe(true);
+    });
+
+    it('should render button without bold text', async () => {
+      const page = await newSpecPage({
+        components: [AegovButton],
+        html: `<aegov-button bold="false" variant="outline">Button</aegov-button>`,
+      });
+
+      const button = page.root.querySelector('button');
+      expect(button.classList.contains('font-medium')).toBe(false);
+      expect(button.classList.contains('bg-transparent')).toBe(true);
+    });
+
+    it('should render full width button with bold text', async () => {
+      const page = await newSpecPage({
+        components: [AegovButton],
+        html: `<aegov-button full bold="true">Button</aegov-button>`,
+      });
+
+      const button = page.root.querySelector('button');
+      expect(button.classList.contains('w-full')).toBe(true);
+      expect(button.classList.contains('font-medium')).toBe(true);
     });
   });
 
@@ -477,13 +600,14 @@ describe('aegov-button', () => {
       });
 
       let button = page.root.querySelector('button');
-      expect(button.classList.contains('btn-solid')).toBe(true);
+      expect(button.classList.contains('bg-primary-600')).toBe(true);
 
       page.root.setAttribute('variant', 'outline');
       await page.waitForChanges();
 
       button = page.root.querySelector('button');
-      expect(button.classList.contains('btn-outline')).toBe(true);
+      expect(button.classList.contains('bg-transparent')).toBe(true);
+      expect(button.classList.contains('border-2')).toBe(true);
     });
 
     it('should update when size changes', async () => {
@@ -494,12 +618,14 @@ describe('aegov-button', () => {
 
       let button = page.root.querySelector('button');
       expect(button.classList.contains('btn-sm')).toBe(true);
+      expect(button.classList.contains('h-10')).toBe(true);
 
       page.root.setAttribute('size', 'lg');
       await page.waitForChanges();
 
       button = page.root.querySelector('button');
       expect(button.classList.contains('btn-lg')).toBe(true);
+      expect(button.classList.contains('h-13')).toBe(true);
     });
 
     it('should update when disabled changes', async () => {
@@ -516,6 +642,73 @@ describe('aegov-button', () => {
 
       button = page.root.querySelector('button');
       expect(button.hasAttribute('disabled')).toBe(true);
+    });
+
+    it('should update when appearance changes', async () => {
+      const page = await newSpecPage({
+        components: [AegovButton],
+        html: `<aegov-button appearance="primary">Button</aegov-button>`,
+      });
+
+      let button = page.root.querySelector('button');
+      expect(button.classList.contains('bg-primary-600')).toBe(true);
+
+      page.root.setAttribute('appearance', 'secondary');
+      await page.waitForChanges();
+
+      button = page.root.querySelector('button');
+      expect(button.classList.contains('bg-secondary-800')).toBe(true);
+    });
+
+    it('should update when loading changes', async () => {
+      const page = await newSpecPage({
+        components: [AegovButton],
+        html: `<aegov-button>Button</aegov-button>`,
+      });
+
+      let button = page.root.querySelector('button');
+      let spinner = button.querySelector('svg');
+      expect(spinner).toBeNull();
+
+      page.root.setAttribute('loading', 'true');
+      await page.waitForChanges();
+
+      button = page.root.querySelector('button');
+      spinner = button.querySelector('svg');
+      expect(spinner).toBeTruthy();
+      expect(button.getAttribute('aria-busy')).toBe('true');
+    });
+
+    it('should update when bold changes', async () => {
+      const page = await newSpecPage({
+        components: [AegovButton],
+        html: `<aegov-button bold="true">Button</aegov-button>`,
+      });
+
+      let button = page.root.querySelector('button');
+      expect(button.classList.contains('font-medium')).toBe(true);
+
+      page.root.setAttribute('bold', 'false');
+      await page.waitForChanges();
+
+      button = page.root.querySelector('button');
+      expect(button.classList.contains('font-medium')).toBe(false);
+    });
+
+    it('should update when full changes', async () => {
+      const page = await newSpecPage({
+        components: [AegovButton],
+        html: `<aegov-button>Button</aegov-button>`,
+      });
+
+      let button = page.root.querySelector('button');
+      expect(button.classList.contains('w-full')).toBe(false);
+
+      page.root.setAttribute('full', 'true');
+      await page.waitForChanges();
+
+      button = page.root.querySelector('button');
+      expect(button.classList.contains('w-full')).toBe(true);
     });
   });
 });
