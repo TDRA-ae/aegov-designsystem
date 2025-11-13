@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0" />
+  <title>Badge Component Examples - AEGOV Design System</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+  <script type="module" src="/build/aegov.esm.js"></script>
+  <script nomodule src="/build/aegov.js"></script>
+  <link rel="stylesheet" href="/build/aegov.css" />
+
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 3rem 2rem;
+    }
+
+    .header {
+      background: white;
+      border-radius: 1rem;
+      padding: 2rem;
+      margin-bottom: 2rem;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    }
+
+    .header h1 {
+      margin: 0 0 0.5rem 0;
+      color: #1a202c;
+      font-size: 2.5rem;
+      font-weight: 700;
+    }
+
+    .header p {
+      margin: 0;
+      color: #718096;
+      font-size: 1.125rem;
+    }
+
+    .section {
+      background: white;
+      border-radius: 1rem;
+      padding: 2rem;
+      margin-bottom: 2rem;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    }
+
+    .section h2 {
+      margin: 0 0 1.5rem 0;
+      color: #2d3748;
+      font-size: 1.875rem;
+      font-weight: 600;
+      border-bottom: 3px solid #667eea;
+      padding-bottom: 0.75rem;
+    }
+
+    .section h3 {
+      margin: 2rem 0 1rem 0;
+      color: #4a5568;
+      font-size: 1.25rem;
+      font-weight: 600;
+    }
+
+    .example-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .example-item {
+      padding: 1.5rem;
+      border: 2px solid #e2e8f0;
+      border-radius: 0.75rem;
+      background: #f7fafc;
+      transition: all 0.2s;
+    }
+
+    .example-item:hover {
+      border-color: #667eea;
+      box-shadow: 0 4px 12px rgba(102, 126, 234, 0.15);
+      transform: translateY(-2px);
+    }
+
+    .example-item-label {
+      font-size: 0.875rem;
+      color: #718096;
+      margin-bottom: 0.75rem;
+      font-weight: 500;
+    }
+
+    .badge-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      align-items: center;
+    }
+
+    .color-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .color-item {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      padding: 1rem;
+      background: #f7fafc;
+      border-radius: 0.5rem;
+      border: 1px solid #e2e8f0;
+    }
+
+    .color-name {
+      font-size: 0.875rem;
+      color: #4a5568;
+      font-weight: 500;
+      text-transform: capitalize;
+    }
+
+    .use-case-grid {
+      display: grid;
+      gap: 1.5rem;
+      margin-top: 1.5rem;
+    }
+
+    .use-case {
+      padding: 1.5rem;
+      background: #f7fafc;
+      border-radius: 0.75rem;
+      border-left: 4px solid #667eea;
+    }
+
+    .use-case-title {
+      font-size: 1.125rem;
+      font-weight: 600;
+      color: #2d3748;
+      margin-bottom: 1rem;
+    }
+
+    .use-case-content {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      align-items: center;
+    }
+
+    code {
+      background: #2d3748;
+      color: #68d391;
+      padding: 0.25rem 0.5rem;
+      border-radius: 0.25rem;
+      font-size: 0.875rem;
+      font-family: 'Courier New', monospace;
+    }
+
+    .back-link {
+      display: inline-block;
+      margin-bottom: 2rem;
+      padding: 0.75rem 1.5rem;
+      background: white;
+      color: #667eea;
+      text-decoration: none;
+      border-radius: 0.5rem;
+      font-weight: 600;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      transition: all 0.2s;
+    }
+
+    .back-link:hover {
+      background: #667eea;
+      color: white;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(102, 126, 234, 0.3);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <a href="/" class="back-link">← Back to Components</a>
+
+    <div class="header">
+      <h1>Badge Component</h1>
+      <p>Small status indicators with multiple colors, sizes, and appearances</p>
+    </div>
+
+    <!-- Sizes -->
+    <div class="section">
+      <h2>Sizes</h2>
+      <p style="color: #718096; margin-bottom: 1.5rem;">Badges come in three sizes: small, base (default), and large.</p>
+
+      <div class="example-grid">
+        <div class="example-item">
+          <div class="example-item-label">Small (sm)</div>
+          <div class="badge-row">
+            <aegov-badge size="sm">Small</aegov-badge>
+            <aegov-badge size="sm" color="primary">Primary</aegov-badge>
+            <aegov-badge size="sm" color="lime">Lime</aegov-badge>
+          </div>
+        </div>
+
+        <div class="example-item">
+          <div class="example-item-label">Base (default)</div>
+          <div class="badge-row">
+            <aegov-badge>Default</aegov-badge>
+            <aegov-badge color="secondary">Secondary</aegov-badge>
+            <aegov-badge color="aered">AEred</aegov-badge>
+          </div>
+        </div>
+
+        <div class="example-item">
+          <div class="example-item-label">Large (lg)</div>
+          <div class="badge-row">
+            <aegov-badge size="lg" color="pink">Pink</aegov-badge>
+            <aegov-badge size="lg" color="primary">Primary</aegov-badge>
+            <aegov-badge size="lg" color="purple">Purple</aegov-badge>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Appearances -->
+    <div class="section">
+      <h2>Appearances</h2>
+      <p style="color: #718096; margin-bottom: 1.5rem;">Choose between soft (subtle) or solid (bold) appearances.</p>
+
+      <div class="example-grid">
+        <div class="example-item">
+          <div class="example-item-label">Soft (default)</div>
+          <div class="badge-row">
+            <aegov-badge color="primary">Soft Primary</aegov-badge>
+            <aegov-badge color="aegreen">Soft Success</aegov-badge>
+            <aegov-badge color="aered">Soft Error</aegov-badge>
+            <aegov-badge color="camel">Soft Warning</aegov-badge>
+          </div>
+        </div>
+
+        <div class="example-item">
+          <div class="example-item-label">Solid</div>
+          <div class="badge-row">
+            <aegov-badge appearance="solid" color="primary">Solid Primary</aegov-badge>
+            <aegov-badge appearance="solid" color="aegreen">Solid Success</aegov-badge>
+            <aegov-badge appearance="solid" color="aered">Solid Error</aegov-badge>
+            <aegov-badge appearance="solid" color="camel">Solid Warning</aegov-badge>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- All Colors - Soft -->
+    <div class="section">
+      <h2>All Colors - Soft Appearance</h2>
+      <div class="color-grid">
+        <div class="color-item">
+          <div class="color-name">Default</div>
+          <aegov-badge>Default</aegov-badge>
+        </div>
+        <div class="color-item">
+          <div class="color-name">Primary</div>
+          <aegov-badge color="primary">Primary</aegov-badge>
+        </div>
+        <div class="color-item">
+          <div class="color-name">Secondary</div>
+          <aegov-badge color="secondary">Secondary</aegov-badge>
+        </div>
+        <div class="color-item">
+          <div class="color-name">AE Gold</div>
+          <aegov-badge color="aegold">AE Gold</aegov-badge>
+        </div>
+        <div class="color-item">
+          <div class="color-name">AE Red</div>
+          <aegov-badge color="aered">AE Red</aegov-badge>
+        </div>
+        <div class="color-item">
+          <div class="color-name">AE Green</div>
+          <aegov-badge color="aegreen">AE Green</aegov-badge>
+        </div>
+        <div class="color-item">
+          <div class="color-name">AE Black</div>
+          <aegov-badge color="aeblack">AE Black</aegov-badge>
+        </div>
+        <div class="color-item">
+          <div class="color-name">Tech Blue</div>
+          <aegov-badge color="techblue">Tech Blue</aegov-badge>
+        </div>
+        <div class="color-item">
+          <div class="color-name">Sea Blue</div>
+          <aegov-badge color="seablue">Sea Blue</aegov-badge>
+        </div>
+        <div class="color-item">
+          <div class="color-name">Camel</div>
+          <aegov-badge color="camel">Camel</aegov-badge>
+        </div>
+        <div class="color-item">
+          <div class="color-name">Desert</div>
+          <aegov-badge color="desert">Desert</aegov-badge>
+        </div>
+        <div class="color-item">
+          <div class="color-name">Fuchsia</div>
+          <aegov-badge color="fuchsia">Fuchsia</aegov-badge>
+        </div>
+        <div class="color-item">
+          <div class="color-name">Slate</div>
+          <aegov-badge color="slate">Slate</aegov-badge>
+        </div>
+        <div class="color-item">
+          <div class="color-name">Purple</div>
+          <aegov-badge color="purple">Purple</aegov-badge>
+        </div>
+        <div class="color-item">
+          <div class="color-name">Pink</div>
+          <aegov-badge color="pink">Pink</aegov-badge>
+        </div>
+        <div class="color-item">
+          <div class="color-name">Indigo</div>
+          <aegov-badge color="indigo">Indigo</aegov-badge>
+        </div>
+        <div class="color-item">
+          <div class="color-name">Lime</div>
+          <aegov-badge color="lime">Lime</aegov-badge>
+        </div>
+      </div>
+    </div>
+
+    <!-- All Colors - Solid -->
+    <div class="section">
+      <h2>All Colors - Solid Appearance</h2>
+      <div class="color-grid">
+        <div class="color-item">
+          <div class="color-name">Default</div>
+          <aegov-badge appearance="solid">Default</aegov-badge>
+        </div>
+        <div class="color-item">
+          <div class="color-name">Primary</div>
+          <aegov-badge appearance="solid" color="primary">Primary</aegov-badge>
+        </div>
+        <div class="color-item">
+          <div class="color-name">Secondary</div>
+          <aegov-badge appearance="solid" color="secondary">Secondary</aegov-badge>
+        </div>
+        <div class="color-item">
+          <div class="color-name">AE Gold</div>
+          <aegov-badge appearance="solid" color="aegold">AE Gold</aegov-badge>
+        </div>
+        <div class="color-item">
+          <div class="color-name">AE Red</div>
+          <aegov-badge appearance="solid" color="aered">AE Red</aegov-badge>
+        </div>
+        <div class="color-item">
+          <div class="color-name">AE Green</div>
+          <aegov-badge appearance="solid" color="aegreen">AE Green</aegov-badge>
+        </div>
+        <div class="color-item">
+          <div class="color-name">AE Black</div>
+          <aegov-badge appearance="solid" color="aeblack">AE Black</aegov-badge>
+        </div>
+        <div class="color-item">
+          <div class="color-name">Tech Blue</div>
+          <aegov-badge appearance="solid" color="techblue">Tech Blue</aegov-badge>
+        </div>
+        <div class="color-item">
+          <div class="color-name">Sea Blue</div>
+          <aegov-badge appearance="solid" color="seablue">Sea Blue</aegov-badge>
+        </div>
+        <div class="color-item">
+          <div class="color-name">Camel</div>
+          <aegov-badge appearance="solid" color="camel">Camel</aegov-badge>
+        </div>
+        <div class="color-item">
+          <div class="color-name">Desert</div>
+          <aegov-badge appearance="solid" color="desert">Desert</aegov-badge>
+        </div>
+        <div class="color-item">
+          <div class="color-name">Fuchsia</div>
+          <aegov-badge appearance="solid" color="fuchsia">Fuchsia</aegov-badge>
+        </div>
+        <div class="color-item">
+          <div class="color-name">Slate</div>
+          <aegov-badge appearance="solid" color="slate">Slate</aegov-badge>
+        </div>
+        <div class="color-item">
+          <div class="color-name">Purple</div>
+          <aegov-badge appearance="solid" color="purple">Purple</aegov-badge>
+        </div>
+        <div class="color-item">
+          <div class="color-name">Pink</div>
+          <aegov-badge appearance="solid" color="pink">Pink</aegov-badge>
+        </div>
+        <div class="color-item">
+          <div class="color-name">Indigo</div>
+          <aegov-badge appearance="solid" color="indigo">Indigo</aegov-badge>
+        </div>
+        <div class="color-item">
+          <div class="color-name">Lime</div>
+          <aegov-badge appearance="solid" color="lime">Lime</aegov-badge>
+        </div>
+      </div>
+    </div>
+
+    <!-- Real-World Use Cases -->
+    <div class="section">
+      <h2>Real-World Use Cases</h2>
+
+      <div class="use-case-grid">
+        <div class="use-case">
+          <div class="use-case-title">User Status</div>
+          <div class="use-case-content">
+            <aegov-badge color="aegreen" size="sm">Active</aegov-badge>
+            <aegov-badge color="camel" size="sm">Away</aegov-badge>
+            <aegov-badge color="aered" size="sm">Busy</aegov-badge>
+            <aegov-badge size="sm">Offline</aegov-badge>
+          </div>
+        </div>
+
+        <div class="use-case">
+          <div class="use-case-title">Order Status</div>
+          <div class="use-case-content">
+            <aegov-badge appearance="solid" color="primary">New Order</aegov-badge>
+            <aegov-badge appearance="solid" color="techblue">Processing</aegov-badge>
+            <aegov-badge appearance="solid" color="camel">Shipped</aegov-badge>
+            <aegov-badge appearance="solid" color="aegreen">Delivered</aegov-badge>
+            <aegov-badge appearance="solid" color="aered">Cancelled</aegov-badge>
+          </div>
+        </div>
+
+        <div class="use-case">
+          <div class="use-case-title">Priority Levels</div>
+          <div class="use-case-content">
+            <aegov-badge color="aered">Critical</aegov-badge>
+            <aegov-badge color="camel">High</aegov-badge>
+            <aegov-badge color="techblue">Medium</aegov-badge>
+            <aegov-badge color="slate">Low</aegov-badge>
+          </div>
+        </div>
+
+        <div class="use-case">
+          <div class="use-case-title">Notification Counts</div>
+          <div class="use-case-content">
+            <aegov-badge appearance="solid" color="aered" size="sm">99+</aegov-badge>
+            <aegov-badge appearance="solid" color="primary" size="sm">12</aegov-badge>
+            <aegov-badge appearance="solid" color="aegreen" size="sm">3</aegov-badge>
+          </div>
+        </div>
+
+        <div class="use-case">
+          <div class="use-case-title">Category Tags</div>
+          <div class="use-case-content">
+            <aegov-badge color="purple">Design</aegov-badge>
+            <aegov-badge color="techblue">Development</aegov-badge>
+            <aegov-badge color="pink">Marketing</aegov-badge>
+            <aegov-badge color="aegold">Finance</aegov-badge>
+            <aegov-badge color="aegreen">Operations</aegov-badge>
+          </div>
+        </div>
+
+        <div class="use-case">
+          <div class="use-case-title">Feature Flags</div>
+          <div class="use-case-content">
+            <aegov-badge color="lime" size="sm">New</aegov-badge>
+            <aegov-badge color="aegold" size="sm">Premium</aegov-badge>
+            <aegov-badge color="fuchsia" size="sm">Beta</aegov-badge>
+            <aegov-badge color="indigo" size="sm">Popular</aegov-badge>
+          </div>
+        </div>
+
+        <div class="use-case">
+          <div class="use-case-title">Document Status</div>
+          <div class="use-case-content">
+            <aegov-badge appearance="solid" color="camel">Draft</aegov-badge>
+            <aegov-badge appearance="solid" color="techblue">In Review</aegov-badge>
+            <aegov-badge appearance="solid" color="aegreen">Approved</aegov-badge>
+            <aegov-badge appearance="solid" color="aered">Rejected</aegov-badge>
+          </div>
+        </div>
+
+        <div class="use-case">
+          <div class="use-case-title">Account Tiers</div>
+          <div class="use-case-content">
+            <aegov-badge appearance="solid" color="slate">Free</aegov-badge>
+            <aegov-badge appearance="solid" color="seablue">Basic</aegov-badge>
+            <aegov-badge appearance="solid" color="primary">Pro</aegov-badge>
+            <aegov-badge appearance="solid" color="aegold">Enterprise</aegov-badge>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Code Examples -->
+    <div class="section">
+      <h2>Usage Examples</h2>
+
+      <h3>Basic Usage</h3>
+      <div style="background: #2d3748; color: #e2e8f0; padding: 1.5rem; border-radius: 0.5rem; margin-bottom: 2rem;">
+        <pre style="margin: 0; font-family: 'Courier New', monospace; font-size: 0.875rem;">
+&lt;!-- Default badge --&gt;
+&lt;aegov-badge&gt;Default&lt;/aegov-badge&gt;
+
+&lt;!-- With color --&gt;
+&lt;aegov-badge color="primary"&gt;Primary&lt;/aegov-badge&gt;
+
+&lt;!-- With size --&gt;
+&lt;aegov-badge size="lg"&gt;Large&lt;/aegov-badge&gt;
+
+&lt;!-- Solid appearance --&gt;
+&lt;aegov-badge appearance="solid" color="aegold"&gt;Gold&lt;/aegov-badge&gt;
+
+&lt;!-- Combined props --&gt;
+&lt;aegov-badge size="sm" appearance="solid" color="aered"&gt;Critical&lt;/aegov-badge&gt;</pre>
+      </div>
+
+      <h3>Props</h3>
+      <div style="overflow-x: auto;">
+        <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+          <thead>
+            <tr style="background: #f7fafc; border-bottom: 2px solid #e2e8f0;">
+              <th style="padding: 1rem; text-align: left; font-weight: 600;">Prop</th>
+              <th style="padding: 1rem; text-align: left; font-weight: 600;">Type</th>
+              <th style="padding: 1rem; text-align: left; font-weight: 600;">Default</th>
+              <th style="padding: 1rem; text-align: left; font-weight: 600;">Options</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-bottom: 1px solid #e2e8f0;">
+              <td style="padding: 1rem;"><code>size</code></td>
+              <td style="padding: 1rem; color: #718096;">BadgeSize</td>
+              <td style="padding: 1rem;"><code>'base'</code></td>
+              <td style="padding: 1rem; color: #718096;">'sm' | 'base' | 'lg'</td>
+            </tr>
+            <tr style="border-bottom: 1px solid #e2e8f0;">
+              <td style="padding: 1rem;"><code>appearance</code></td>
+              <td style="padding: 1rem; color: #718096;">BadgeAppearance</td>
+              <td style="padding: 1rem;"><code>'soft'</code></td>
+              <td style="padding: 1rem; color: #718096;">'soft' | 'solid'</td>
+            </tr>
+            <tr style="border-bottom: 1px solid #e2e8f0;">
+              <td style="padding: 1rem;"><code>color</code></td>
+              <td style="padding: 1rem; color: #718096;">BadgeColor</td>
+              <td style="padding: 1rem;"><code>'default'</code></td>
+              <td style="padding: 1rem; color: #718096;">default | primary | secondary | aegold | aered | aegreen | aeblack | techblue | seablue | camel | desert | fuchsia | slate | purple | pink | indigo | lime</td>
+            </tr>
+            <tr>
+              <td style="padding: 1rem;"><code>dismissible</code></td>
+              <td style="padding: 1rem; color: #718096;">boolean</td>
+              <td style="padding: 1rem;"><code>false</code></td>
+              <td style="padding: 1rem; color: #718096;">true | false (future feature)</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

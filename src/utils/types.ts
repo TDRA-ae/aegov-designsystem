@@ -55,6 +55,21 @@ export type CalloutVariant = 'default' | 'error' | 'warning' | 'success' | 'info
 export type CalloutAppearance = 'solid' | 'soft';
 
 /**
+ * Badge component size types
+ */
+export type BadgeSize = 'sm' | 'base' | 'lg';
+
+/**
+ * Badge component appearance types
+ */
+export type BadgeAppearance = 'solid' | 'soft';
+
+/**
+ * Badge component color types
+ */
+export type BadgeColor = 'default' | 'primary' | 'secondary' | 'aegold' | 'aered' | 'aegreen' | 'aeblack' | 'techblue' | 'seablue' | 'camel' | 'desert' | 'fuchsia' | 'slate' | 'purple' | 'pink' | 'indigo' | 'lime';
+
+/**
  * Common component props
  */
 export interface BaseComponentProps {

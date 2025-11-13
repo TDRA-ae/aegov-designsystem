@@ -5,8 +5,8 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
-import { AvatarSize, AvatarStatus, AvatarVariant, BlockquoteVariant, ButtonAppearance, ButtonSize, ButtonType, ButtonVariant, CalloutAppearance, CalloutVariant } from "./utils/types";
-export { AvatarSize, AvatarStatus, AvatarVariant, BlockquoteVariant, ButtonAppearance, ButtonSize, ButtonType, ButtonVariant, CalloutAppearance, CalloutVariant } from "./utils/types";
+import { AvatarSize, AvatarStatus, AvatarVariant, BadgeAppearance, BadgeColor, BadgeSize, BlockquoteVariant, ButtonAppearance, ButtonSize, ButtonType, ButtonVariant, CalloutAppearance, CalloutVariant } from "./utils/types";
+export { AvatarSize, AvatarStatus, AvatarVariant, BadgeAppearance, BadgeColor, BadgeSize, BlockquoteVariant, ButtonAppearance, ButtonSize, ButtonType, ButtonVariant, CalloutAppearance, CalloutVariant } from "./utils/types";
 export namespace Components {
     interface AegovAvatar {
         /**
@@ -37,6 +37,28 @@ export namespace Components {
           * @default 'square'
          */
         "variant": AvatarVariant;
+    }
+    interface AegovBadge {
+        /**
+          * The appearance style of the badge.
+          * @default 'soft'
+         */
+        "appearance": BadgeAppearance;
+        /**
+          * The color variant of the badge.
+          * @default 'default'
+         */
+        "color": BadgeColor;
+        /**
+          * Whether the badge can be dismissed/closed.
+          * @default false
+         */
+        "dismissible": boolean;
+        /**
+          * The badge size
+          * @default 'base'
+         */
+        "size": BadgeSize;
     }
     interface AegovBlockquote {
         /**
@@ -142,6 +164,12 @@ declare global {
         prototype: HTMLAegovAvatarElement;
         new (): HTMLAegovAvatarElement;
     };
+    interface HTMLAegovBadgeElement extends Components.AegovBadge, HTMLStencilElement {
+    }
+    var HTMLAegovBadgeElement: {
+        prototype: HTMLAegovBadgeElement;
+        new (): HTMLAegovBadgeElement;
+    };
     interface HTMLAegovBlockquoteElement extends Components.AegovBlockquote, HTMLStencilElement {
     }
     var HTMLAegovBlockquoteElement: {
@@ -186,6 +214,7 @@ declare global {
     };
     interface HTMLElementTagNameMap {
         "aegov-avatar": HTMLAegovAvatarElement;
+        "aegov-badge": HTMLAegovBadgeElement;
         "aegov-blockquote": HTMLAegovBlockquoteElement;
         "aegov-button": HTMLAegovButtonElement;
         "aegov-callout": HTMLAegovCalloutElement;
@@ -221,6 +250,28 @@ declare namespace LocalJSX {
           * @default 'square'
          */
         "variant"?: AvatarVariant;
+    }
+    interface AegovBadge {
+        /**
+          * The appearance style of the badge.
+          * @default 'soft'
+         */
+        "appearance"?: BadgeAppearance;
+        /**
+          * The color variant of the badge.
+          * @default 'default'
+         */
+        "color"?: BadgeColor;
+        /**
+          * Whether the badge can be dismissed/closed.
+          * @default false
+         */
+        "dismissible"?: boolean;
+        /**
+          * The badge size
+          * @default 'base'
+         */
+        "size"?: BadgeSize;
     }
     interface AegovBlockquote {
         /**
@@ -328,6 +379,7 @@ declare namespace LocalJSX {
     }
     interface IntrinsicElements {
         "aegov-avatar": AegovAvatar;
+        "aegov-badge": AegovBadge;
         "aegov-blockquote": AegovBlockquote;
         "aegov-button": AegovButton;
         "aegov-callout": AegovCallout;
@@ -338,6 +390,7 @@ declare module "@stencil/core" {
     export namespace JSX {
         interface IntrinsicElements {
             "aegov-avatar": LocalJSX.AegovAvatar & JSXBase.HTMLAttributes<HTMLAegovAvatarElement>;
+            "aegov-badge": LocalJSX.AegovBadge & JSXBase.HTMLAttributes<HTMLAegovBadgeElement>;
             "aegov-blockquote": LocalJSX.AegovBlockquote & JSXBase.HTMLAttributes<HTMLAegovBlockquoteElement>;
             "aegov-button": LocalJSX.AegovButton & JSXBase.HTMLAttributes<HTMLAegovButtonElement>;
             "aegov-callout": LocalJSX.AegovCallout & JSXBase.HTMLAttributes<HTMLAegovCalloutElement>;
