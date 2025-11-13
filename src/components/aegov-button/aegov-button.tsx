@@ -100,7 +100,7 @@ export class AegovButton {
    */
   private getButtonClasses(): string {
     const classes: string[] = [
-      'aegov-btn',
+      'aegov-btn',  
       'relative',
       'inline-flex',
       'shrink-0',
@@ -134,8 +134,8 @@ export class AegovButton {
         'disabled:opacity-30',
         'text-whitely-50',
         'border-1',
-        'focus:outline-offset-2',
-        'focus:outline-3'
+        'focus-visible:outline-offset-2',
+        'focus-visible:outline-2'
       );
     } else {
       classes.push(
@@ -146,15 +146,15 @@ export class AegovButton {
       classes.push(
         'bg-transparent', 
         'border-2',
-        'focus:-outline-offset-0',
-        'focus:outline-2'
+        'focus-visible:outline-offset-0',
+        'focus-visible:outline-2'
       );
     }
     if (this.variant === 'soft') {
       classes.push(
         'border-0',
-        'focus:outline-offset-0',
-        'focus:outline-3'
+        'focus-visible:outline-offset-2',
+        'focus-visible:outline-2'
       );
     }
     if (this.variant === 'link') {
@@ -162,8 +162,8 @@ export class AegovButton {
         'bg-transparent', 
         'border-0',
         'hover:underline',
-        'focus:outline-offset-0',
-        'focus:outline-3'
+        'focus-visible:outline-offset-2',
+        'focus-visible:outline-2'
       );
     }
     
@@ -173,7 +173,10 @@ export class AegovButton {
         'bg-primary-600',
         'hover:bg-primary-500',
         'border-primary-600',
-        'hover:border-primary-500'
+        'hover:border-primary-500',
+        'focus-visible:bg-primary-support-500',
+        'focus-visible:text-primary-support-950',
+        'focus-visible:border-primary-support-500',
       );
     } else if (this.appearance === 'primary' && this.variant === 'outline') {
       classes.push(
@@ -182,26 +185,35 @@ export class AegovButton {
         'hover:text-primary-700', 
         'border-primary-600', 
         'hover:border-primary-700',
-        'focus:border-primary-support-600'
+        'focus-visible:border-primary-50',
+        'focus-visible:bg-primary-support-500',
+        'focus-visible:text-primary-support-950'
       );
     } else if (this.appearance === 'primary' && this.variant === 'soft') {
       classes.push(
         'bg-primary-50', 
         'hover:bg-primary-100', 
         'text-primary-700', 
-        'hover:text-primary-800'
+        'hover:text-primary-800',
+        'focus-visible:bg-primary-support-500',
+        'focus-visible:text-primary-support-950'
       );
     } else if (this.appearance === 'primary' && this.variant === 'link') {
       classes.push(
         'text-primary-600', 
-        'hover:text-primary-700'
+        'hover:text-primary-700',
+        'focus-visible:bg-primary-support-500',
+        'focus-visible:text-primary-support-950'
       );
     } if (this.appearance === 'secondary' && this.variant === 'solid') {
       classes.push(
         'bg-secondary-800', 
         'hover:bg-secondary-700',
         'border-secondary-800',
-        'hover:border-secondary-700'
+        'hover:border-secondary-700',
+        'focus-visible:bg-secondary-support-400',
+        'focus-visible:text-secondary-support-950',
+        'focus-visible:border-secondary-support-400',
       );
     } else if (this.appearance === 'secondary' && this.variant === 'outline') {
       classes.push(
@@ -210,7 +222,9 @@ export class AegovButton {
         'hover:text-secondary-900',
         'border-secondary-800', 
         'hover:border-secondary-900',
-        'focus:border-secondary-support-600',
+        'focus-visible:border-secondary-50',
+        'focus-visible:bg-secondary-support-400',
+        'focus-visible:text-secondary-support-950'
       );
     } else if (this.appearance === 'secondary' && this.variant === 'soft') {
       classes.push(
@@ -218,11 +232,15 @@ export class AegovButton {
         'hover:bg-secondary-100', 
         'text-secondary-800', 
         'hover:text-secondary-900',
+        'focus-visible:bg-secondary-support-400',
+        'focus-visible:text-secondary-support-950'
       );
     } else if (this.appearance === 'secondary' && this.variant === 'link') {
       classes.push(
         'text-secondary-800', 
-        'hover:text-secondary-900'
+        'hover:text-secondary-900',
+        'focus-visible:bg-secondary-support-400',
+        'focus-visible:text-secondary-support-950'
       );
     }
     if (this.appearance === 'primary') {

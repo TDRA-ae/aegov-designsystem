@@ -190,6 +190,10 @@
   --color-primary-support-400: var(--color-camel-400);
   --color-primary-support-500: var(--color-camel-500);
   --color-primary-support-600: var(--color-camel-600);
+  --color-primary-support-700: var(--color-camel-700);
+  --color-primary-support-800: var(--color-camel-800);
+  --color-primary-support-900: var(--color-camel-900);
+  --color-primary-support-950: var(--color-camel-950);
 
   --color-secondary-support-50: var(--color-seablue-50);
   --color-secondary-support-100: var(--color-seablue-100);
@@ -198,6 +202,10 @@
   --color-secondary-support-400: var(--color-seablue-400);
   --color-secondary-support-500: var(--color-seablue-500);
   --color-secondary-support-600: var(--color-seablue-600);
+  --color-secondary-support-700: var(--color-seablue-700);
+  --color-secondary-support-800: var(--color-seablue-800);
+  --color-secondary-support-900: var(--color-seablue-900);
+  --color-secondary-support-950: var(--color-seablue-950);
 
   /* ========================================
    * TYPOGRAPHY

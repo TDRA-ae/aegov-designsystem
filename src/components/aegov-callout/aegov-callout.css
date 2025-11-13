@@ -21,3 +21,19 @@
     @apply size-6 shrink-0 block;
   }
 }
+
+.aegov-callout {
+  .callout-right {
+    ::slotted(a),
+    a {
+      @apply inline-flex items-center text-sm font-medium underline gap-1 p-0 leading-none focus:outline-offset-2 focus:outline-offset-2 focus:outline-primary-support-600;
+      color: inherit;
+    }
+  }
+}
+.aegov-callout .callout-content {
+  ::slotted(ul),
+  & ul {
+    @apply list-disc;
+  }
+}
