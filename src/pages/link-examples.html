@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0" />
+  <title>Link Component - AEGOV Design System</title>
+  <link rel="stylesheet" href="/styles/tailwind.css" />
+  <script type="module" src="/build/aegov.esm.js"></script>
+  <script nomodule src="/build/aegov.js"></script>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      padding: 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+      background: #f9fafb;
+    }
+    .section {
+      background: white;
+      padding: 2rem;
+      margin-bottom: 2rem;
+      border-radius: 8px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+    .section h2 {
+      margin-top: 0;
+      margin-bottom: 1.5rem;
+      color: #111827;
+      font-size: 1.5rem;
+      font-weight: 700;
+    }
+    .section h3 {
+      margin-top: 1.5rem;
+      margin-bottom: 0.75rem;
+      color: #374151;
+      font-size: 1.125rem;
+      font-weight: 600;
+    }
+    .example {
+      margin-bottom: 1.5rem;
+      padding: 1rem;
+      border: 1px solid #e5e7eb;
+      border-radius: 4px;
+      background: #fafafa;
+    }
+    .example-label {
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: #6b7280;
+      margin-bottom: 0.5rem;
+    }
+    .code {
+      background: #1f2937;
+      color: #f3f4f6;
+      padding: 0.75rem;
+      border-radius: 4px;
+      font-family: 'Courier New', monospace;
+      font-size: 0.875rem;
+      margin-top: 0.5rem;
+      overflow-x: auto;
+    }
+    .event-log {
+      background: #f3f4f6;
+      border: 1px solid #d1d5db;
+      border-radius: 4px;
+      padding: 1rem;
+      margin-top: 1rem;
+      max-height: 200px;
+      overflow-y: auto;
+      font-family: 'Courier New', monospace;
+      font-size: 0.875rem;
+    }
+    .event-log-item {
+      padding: 0.25rem 0;
+      border-bottom: 1px solid #e5e7eb;
+    }
+    .event-log-item:last-child {
+      border-bottom: none;
+    }
+    nav {
+      display: flex;
+      gap: 1rem;
+      padding: 1rem;
+      background: #f3f4f6;
+      border-radius: 4px;
+      flex-wrap: wrap;
+    }
+    .icon {
+      width: 16px;
+      height: 16px;
+      display: inline-block;
+      vertical-align: middle;
+    }
+  </style>
+</head>
+<body>
+  <h1>aegov-link Component Examples</h1>
+
+  <div class="section">
+    <h2>Basic Links</h2>
+
+    <div class="example">
+      <div class="example-label">Simple Internal Link</div>
+      <aegov-link href="/about">About Us</aegov-link>
+      <div class="code">&lt;aegov-link href="/about"&gt;About Us&lt;/aegov-link&gt;</div>
+    </div>
+
+    <div class="example">
+      <div class="example-label">Link with Title (hover to see tooltip)</div>
+      <aegov-link href="/contact" title="Get in touch with our team">Contact</aegov-link>
+      <div class="code">&lt;aegov-link href="/contact" title="Get in touch with our team"&gt;Contact&lt;/aegov-link&gt;</div>
+    </div>
+
+    <div class="example">
+      <div class="example-label">Anchor Link (page jump)</div>
+      <aegov-link href="#examples">Jump to Examples</aegov-link>
+      <div class="code">&lt;aegov-link href="#examples"&gt;Jump to Examples&lt;/aegov-link&gt;</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>External Links</h2>
+
+    <div class="example">
+      <div class="example-label">External Link (opens in new tab)</div>
+      <aegov-link href="https://example.com" target="_blank" title="Visit Example.com">
+        Visit Example.com ↗
+      </aegov-link>
+      <div class="code">&lt;aegov-link href="https://example.com" target="_blank" title="Visit Example.com"&gt;
+  Visit Example.com ↗
+&lt;/aegov-link&gt;</div>
+      <p style="font-size: 0.875rem; color: #6b7280; margin-top: 0.5rem;">
+        Note: Automatically includes rel="noopener noreferrer" for security
+      </p>
+    </div>
+
+    <div class="example">
+      <div class="example-label">External Link with Custom Rel</div>
+      <aegov-link href="https://example.com" target="_blank" rel="nofollow noopener">
+        Sponsored Link
+      </aegov-link>
+      <div class="code">&lt;aegov-link href="https://example.com" target="_blank" rel="nofollow noopener"&gt;
+  Sponsored Link
+&lt;/aegov-link&gt;</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Data Attributes</h2>
+
+    <div class="example">
+      <div class="example-label">Link with Data Attributes (inspect element to see)</div>
+      <aegov-link
+        href="/products"
+        data-category="navigation"
+        data-section="main-menu"
+        data-analytics-track="true"
+        data-testid="products-link">
+        Products
+      </aegov-link>
+      <div class="code">&lt;aegov-link
+  href="/products"
+  data-category="navigation"
+  data-section="main-menu"
+  data-analytics-track="true"
+  data-testid="products-link"&gt;
+  Products
+&lt;/aegov-link&gt;</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>ARIA Attributes for Accessibility</h2>
+
+    <div class="example">
+      <div class="example-label">Link with ARIA Label</div>
+      <aegov-link href="/help" aria-label="Get help and support documentation">
+        Help
+      </aegov-link>
+      <div class="code">&lt;aegov-link href="/help" aria-label="Get help and support documentation"&gt;
+  Help
+&lt;/aegov-link&gt;</div>
+    </div>
+
+    <div class="example">
+      <div class="example-label">Current Page Indicator (for navigation)</div>
+      <aegov-link href="/dashboard" aria-current="page">
+        Dashboard (Current)
+      </aegov-link>
+      <div class="code">&lt;aegov-link href="/dashboard" aria-current="page"&gt;
+  Dashboard (Current)
+&lt;/aegov-link&gt;</div>
+    </div>
+
+    <div class="example">
+      <div class="example-label">Link with Described By</div>
+      <aegov-link href="/settings" aria-describedby="settings-desc">
+        Settings
+      </aegov-link>
+      <span id="settings-desc" style="font-size: 0.875rem; color: #6b7280; margin-left: 0.5rem;">
+        (Configure your account preferences)
+      </span>
+      <div class="code">&lt;aegov-link href="/settings" aria-describedby="settings-desc"&gt;
+  Settings
+&lt;/aegov-link&gt;
+&lt;span id="settings-desc"&gt;(Configure your account preferences)&lt;/span&gt;</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Navigation Example</h2>
+
+    <div class="example">
+      <div class="example-label">Navigation Menu with Current Page</div>
+      <nav>
+        <aegov-link href="/" aria-current="page">Home</aegov-link>
+        <aegov-link href="/about">About</aegov-link>
+        <aegov-link href="/services">Services</aegov-link>
+        <aegov-link href="/portfolio">Portfolio</aegov-link>
+        <aegov-link href="/contact">Contact</aegov-link>
+      </nav>
+      <div class="code">&lt;nav&gt;
+  &lt;aegov-link href="/" aria-current="page"&gt;Home&lt;/aegov-link&gt;
+  &lt;aegov-link href="/about"&gt;About&lt;/aegov-link&gt;
+  &lt;aegov-link href="/services"&gt;Services&lt;/aegov-link&gt;
+  &lt;aegov-link href="/portfolio"&gt;Portfolio&lt;/aegov-link&gt;
+  &lt;aegov-link href="/contact"&gt;Contact&lt;/aegov-link&gt;
+&lt;/nav&gt;</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Links with HTML Content</h2>
+
+    <div class="example">
+      <div class="example-label">Link with Icon and Text</div>
+      <aegov-link href="/download">
+        <svg class="icon" fill="currentColor" viewBox="0 0 20 20">
+          <path fill-rule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clip-rule="evenodd" />
+        </svg>
+        Download PDF
+      </aegov-link>
+      <div class="code">&lt;aegov-link href="/download"&gt;
+  &lt;svg&gt;...&lt;/svg&gt; Download PDF
+&lt;/aegov-link&gt;</div>
+    </div>
+
+    <div class="example">
+      <div class="example-label">Link with Emphasis</div>
+      <aegov-link href="/important">
+        <strong>Important:</strong> Read this first
+      </aegov-link>
+      <div class="code">&lt;aegov-link href="/important"&gt;
+  &lt;strong&gt;Important:&lt;/strong&gt; Read this first
+&lt;/aegov-link&gt;</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Custom Click Event Handling</h2>
+
+    <div class="example">
+      <div class="example-label">Link with Click Event Logger</div>
+      <aegov-link href="/page1" id="tracked-link-1">Click me (event logged)</aegov-link>
+      <aegov-link href="/page2" id="tracked-link-2">Or click me</aegov-link>
+      <aegov-link href="/page3" id="custom-handler" style="margin-left: 1rem; display: inline-block;">
+        Custom Handler (prevents navigation)
+      </aegov-link>
+
+      <div class="event-log" id="event-log">
+        <div style="color: #6b7280; margin-bottom: 0.5rem;">Event Log (click links above):</div>
+      </div>
+
+      <div class="code">&lt;aegov-link href="/page1" id="tracked-link"&gt;Click me&lt;/aegov-link&gt;
+
+&lt;script&gt;
+  document.getElementById('tracked-link').addEventListener('aegovLinkClick', (e) => {
+    console.log('Link clicked:', e.detail.href);
+    console.log('Original event:', e.detail.event);
+  });
+&lt;/script&gt;</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Complete Example</h2>
+
+    <div class="example">
+      <div class="example-label">Link with All Features</div>
+      <aegov-link
+        href="https://docs.example.com/guide"
+        title="Read the complete documentation guide"
+        target="_blank"
+        aria-label="Documentation guide (opens in new tab)"
+        data-section="documentation"
+        data-category="help"
+        data-tracking="docs-click"
+        class="font-bold">
+        📚 Complete Documentation ↗
+      </aegov-link>
+      <div class="code">&lt;aegov-link
+  href="https://docs.example.com/guide"
+  title="Read the complete documentation guide"
+  target="_blank"
+  aria-label="Documentation guide (opens in new tab)"
+  data-section="documentation"
+  data-category="help"
+  data-tracking="docs-click"
+  class="font-bold"&gt;
+  📚 Complete Documentation ↗
+&lt;/aegov-link&gt;</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Real-World Use Cases</h2>
+
+    <h3>Breadcrumb Navigation</h3>
+    <div class="example">
+      <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <aegov-link href="/" aria-label="Home">Home</aegov-link>
+        <span>/</span>
+        <aegov-link href="/products">Products</aegov-link>
+        <span>/</span>
+        <aegov-link href="/products/laptops" aria-current="page">Laptops</aegov-link>
+      </div>
+    </div>
+
+    <h3>Footer Links</h3>
+    <div class="example">
+      <div style="display: flex; gap: 2rem; flex-wrap: wrap;">
+        <div>
+          <h4 style="margin: 0 0 0.5rem 0; font-size: 0.875rem; font-weight: 600;">Company</h4>
+          <div style="display: flex; flex-direction: column; gap: 0.25rem;">
+            <aegov-link href="/about">About Us</aegov-link>
+            <aegov-link href="/careers">Careers</aegov-link>
+            <aegov-link href="/press">Press</aegov-link>
+          </div>
+        </div>
+        <div>
+          <h4 style="margin: 0 0 0.5rem 0; font-size: 0.875rem; font-weight: 600;">Resources</h4>
+          <div style="display: flex; flex-direction: column; gap: 0.25rem;">
+            <aegov-link href="/blog">Blog</aegov-link>
+            <aegov-link href="/docs">Documentation</aegov-link>
+            <aegov-link href="/support">Support</aegov-link>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <h3>Call-to-Action Links</h3>
+    <div class="example">
+      <aegov-link
+        href="/signup"
+        class="font-bold text-lg"
+        data-cta="signup">
+        Get Started Today →
+      </aegov-link>
+    </div>
+  </div>
+
+  <script>
+    // Event logging for demonstration
+    const eventLog = document.getElementById('event-log');
+    const trackedLink1 = document.getElementById('tracked-link-1');
+    const trackedLink2 = document.getElementById('tracked-link-2');
+    const customHandler = document.getElementById('custom-handler');
+
+    function logEvent(message, color = '#059669') {
+      const logItem = document.createElement('div');
+      logItem.className = 'event-log-item';
+      logItem.style.color = color;
+      logItem.textContent = `${new Date().toLocaleTimeString()}: ${message}`;
+      eventLog.appendChild(logItem);
+      eventLog.scrollTop = eventLog.scrollHeight;
+    }
+
+    trackedLink1.addEventListener('aegovLinkClick', (e) => {
+      logEvent(`Link clicked: ${e.detail.href}`);
+    });
+
+    trackedLink2.addEventListener('aegovLinkClick', (e) => {
+      logEvent(`Another link clicked: ${e.detail.href}`, '#3b82f6');
+    });
+
+    customHandler.addEventListener('aegovLinkClick', (e) => {
+      // Prevent default navigation
+      e.preventDefault();
+      logEvent(`Custom handler prevented navigation to: ${e.detail.href}`, '#dc2626');
+
+      // You could handle custom navigation here
+      // For example: myRouter.push(e.detail.href);
+    });
+  </script>
+</body>
+</html>

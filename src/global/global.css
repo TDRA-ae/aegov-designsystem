@@ -83,5 +83,5 @@ button {
 }
 
 a {
-  @apply text-primary-600 hover:text-primary-500 underline focus:outline-offset-1 focus:outline-2 focus:outline-primary-support-600;
+  @apply -ml-1 inline-flex items-center gap-2 px-1 py-1 align-middle underline rtl:-mr-1 rtl:ml-0 text-primary-600 bg-transparent hover:text-primary-500 hover:underline focus-visible:bg-primary-support-400 focus-visible:underline focus-visible:decoration-2 focus-visible:decoration-primary-support-950 focus-visible:text-primary-support-950 focus-visible:outline-primary-support-400 focus-visible:outline focus-visible:outline-offset-0 focus-visible:rounded-md;
 }

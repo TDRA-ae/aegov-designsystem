@@ -80,6 +80,11 @@ export type TitleSize = 'base' | 'lg' | 'xl' | '2xl';
 export type TextSize = 'sm' | 'base' | 'lg';
 
 /**
+ * Link component target types
+ */
+export type LinkTarget = '_blank' | '_self' | '_parent' | '_top';
+
+/**
  * Common component props
  */
 export interface BaseComponentProps {
