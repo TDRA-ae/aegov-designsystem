@@ -149,6 +149,10 @@ export namespace Components {
         "variant": CalloutVariant;
     }
 }
+export interface AegovBadgeCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLAegovBadgeElement;
+}
 export interface AegovButtonCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLAegovButtonElement;
@@ -164,7 +168,18 @@ declare global {
         prototype: HTMLAegovAvatarElement;
         new (): HTMLAegovAvatarElement;
     };
+    interface HTMLAegovBadgeElementEventMap {
+        "aegovBadgeDismiss": void;
+    }
     interface HTMLAegovBadgeElement extends Components.AegovBadge, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLAegovBadgeElementEventMap>(type: K, listener: (this: HTMLAegovBadgeElement, ev: AegovBadgeCustomEvent<HTMLAegovBadgeElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLAegovBadgeElementEventMap>(type: K, listener: (this: HTMLAegovBadgeElement, ev: AegovBadgeCustomEvent<HTMLAegovBadgeElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
     }
     var HTMLAegovBadgeElement: {
         prototype: HTMLAegovBadgeElement;
@@ -267,6 +282,10 @@ declare namespace LocalJSX {
           * @default false
          */
         "dismissible"?: boolean;
+        /**
+          * Emitted when the dismiss button is clicked.
+         */
+        "onAegovBadgeDismiss"?: (event: AegovBadgeCustomEvent<void>) => void;
         /**
           * The badge size
           * @default 'base'

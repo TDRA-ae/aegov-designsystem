@@ -1,3 +1,23 @@
 :host {
   display: inline-block;
 }
+
+/* Dismiss button */
+.dismiss-button {
+  margin-left: 0.375rem; /* 6px spacing from content */
+  cursor: pointer;
+  color: currentColor;
+  opacity: 0.8;
+  transition: opacity 0.2s ease;
+}
+
+.dismiss-button:hover {
+  opacity: 1;
+}
+
+.dismiss-button:focus {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+  border-radius: 2px;
+  opacity: 1;
+}

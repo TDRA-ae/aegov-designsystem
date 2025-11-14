@@ -553,12 +553,234 @@
               <td style="padding: 1rem;"><code>dismissible</code></td>
               <td style="padding: 1rem; color: #718096;">boolean</td>
               <td style="padding: 1rem;"><code>false</code></td>
-              <td style="padding: 1rem; color: #718096;">true | false (future feature)</td>
+              <td style="padding: 1rem; color: #718096;">true | false</td>
             </tr>
           </tbody>
         </table>
       </div>
     </div>
+
+    <!-- Dismissible Badges -->
+    <div class="section">
+      <h2>Dismissible Badges</h2>
+      <p style="color: #718096; margin-bottom: 1.5rem;">
+        Badges can be made dismissible by adding the <code>dismissible</code> attribute.
+        This adds a close button that emits the <code>aegovBadgeDismiss</code> event when clicked.
+        <strong>Note:</strong> The badge does not automatically hide itself - you control what happens when dismissed.
+      </p>
+
+      <div class="use-case-grid">
+        <div class="use-case">
+          <div class="use-case-title">Interactive Tags (Click X to Remove)</div>
+          <div class="use-case-content" id="tag-container">
+            <aegov-badge dismissible="true" color="purple">Design</aegov-badge>
+            <aegov-badge dismissible="true" color="techblue">Development</aegov-badge>
+            <aegov-badge dismissible="true" color="pink">Marketing</aegov-badge>
+            <aegov-badge dismissible="true" color="aegold">Finance</aegov-badge>
+            <aegov-badge dismissible="true" color="aegreen">Operations</aegov-badge>
+            <aegov-badge dismissible="true" color="indigo">Strategy</aegov-badge>
+          </div>
+          <button
+            onclick="resetTags()"
+            style="margin-top: 1rem; padding: 0.5rem 1rem; background: #667eea; color: white; border: none; border-radius: 0.375rem; cursor: pointer; font-weight: 600;"
+          >
+            Reset Tags
+          </button>
+        </div>
+
+        <div class="use-case">
+          <div class="use-case-title">Active Filters (with Confirmation)</div>
+          <div class="use-case-content" id="filter-container">
+            <aegov-badge dismissible="true" appearance="solid" color="primary">Category: Electronics</aegov-badge>
+            <aegov-badge dismissible="true" appearance="solid" color="techblue">Price: $100-$500</aegov-badge>
+            <aegov-badge dismissible="true" appearance="solid" color="aegreen">In Stock</aegov-badge>
+            <aegov-badge dismissible="true" appearance="solid" color="camel">Rating: 4+</aegov-badge>
+          </div>
+          <div id="filter-count" style="margin-top: 0.75rem; color: #718096; font-size: 0.875rem;">
+            4 active filters
+          </div>
+        </div>
+
+        <div class="use-case">
+          <div class="use-case-title">Selected Items (with Animation)</div>
+          <div class="use-case-content" id="selected-container">
+            <aegov-badge dismissible="true" color="seablue" size="lg">Item #1234</aegov-badge>
+            <aegov-badge dismissible="true" color="seablue" size="lg">Item #5678</aegov-badge>
+            <aegov-badge dismissible="true" color="seablue" size="lg">Item #9012</aegov-badge>
+          </div>
+          <div id="selected-count" style="margin-top: 0.75rem; color: #718096; font-size: 0.875rem;">
+            3 items selected
+          </div>
+        </div>
+
+        <div class="use-case">
+          <div class="use-case-title">Event Log</div>
+          <div id="event-log" style="background: #2d3748; color: #68d391; padding: 1rem; border-radius: 0.5rem; font-family: 'Courier New', monospace; font-size: 0.875rem; max-height: 200px; overflow-y: auto;">
+            <div style="color: #a0aec0;">Waiting for badge dismiss events...</div>
+          </div>
+          <button
+            onclick="clearLog()"
+            style="margin-top: 0.75rem; padding: 0.5rem 1rem; background: #4a5568; color: white; border: none; border-radius: 0.375rem; cursor: pointer; font-weight: 600;"
+          >
+            Clear Log
+          </button>
+        </div>
+      </div>
+
+      <h3>Code Example</h3>
+      <div style="background: #2d3748; color: #e2e8f0; padding: 1.5rem; border-radius: 0.5rem; margin-bottom: 2rem;">
+        <pre style="margin: 0; font-family: 'Courier New', monospace; font-size: 0.875rem;">
+&lt;!-- Dismissible badge --&gt;
+&lt;aegov-badge dismissible="true" color="primary" id="myBadge"&gt;
+  Tag Name
+&lt;/aegov-badge&gt;
+
+&lt;script&gt;
+  // Listen for dismiss event
+  const badge = document.getElementById('myBadge');
+  badge.addEventListener('aegovBadgeDismiss', (event) =&gt; {
+    console.log('Badge dismissed!');
+
+    // Option 1: Remove from DOM
+    event.target.remove();
+
+    // Option 2: Hide with animation
+    event.target.style.transition = 'opacity 0.3s';
+    event.target.style.opacity = '0';
+    setTimeout(() =&gt; event.target.remove(), 300);
+
+    // Option 3: Update your app state
+    // updateFilters(event.target.textContent);
+  });
+
+  // Handle all dismissible badges at once
+  document.querySelectorAll('aegov-badge[dismissible]').forEach(badge =&gt; {
+    badge.addEventListener('aegovBadgeDismiss', handleDismiss);
+  });
+&lt;/script&gt;</pre>
+      </div>
+    </div>
   </div>
+
+  <script>
+    // Interactive Tags - Simple removal
+    const tagContainer = document.getElementById('tag-container');
+    tagContainer.querySelectorAll('aegov-badge').forEach(badge => {
+      badge.addEventListener('aegovBadgeDismiss', (event) => {
+        const badgeText = event.target.textContent.trim();
+        logEvent(`Tag removed: ${badgeText}`);
+
+        // Add fade-out animation
+        event.target.style.transition = 'opacity 0.3s, transform 0.3s';
+        event.target.style.opacity = '0';
+        event.target.style.transform = 'scale(0.8)';
+        setTimeout(() => event.target.remove(), 300);
+      });
+    });
+
+    // Active Filters - With confirmation and counter
+    const filterContainer = document.getElementById('filter-container');
+    const filterCount = document.getElementById('filter-count');
+
+    function updateFilterCount() {
+      const count = filterContainer.querySelectorAll('aegov-badge').length;
+      filterCount.textContent = `${count} active filter${count !== 1 ? 's' : ''}`;
+    }
+
+    filterContainer.querySelectorAll('aegov-badge').forEach(badge => {
+      badge.addEventListener('aegovBadgeDismiss', (event) => {
+        const badgeText = event.target.textContent.trim();
+
+        if (confirm(`Remove filter: ${badgeText}?`)) {
+          logEvent(`Filter removed: ${badgeText}`);
+          event.target.remove();
+          updateFilterCount();
+        } else {
+          logEvent(`Filter removal cancelled: ${badgeText}`);
+        }
+      });
+    });
+
+    // Selected Items - With counter and animation
+    const selectedContainer = document.getElementById('selected-container');
+    const selectedCount = document.getElementById('selected-count');
+
+    function updateSelectedCount() {
+      const count = selectedContainer.querySelectorAll('aegov-badge').length;
+      selectedCount.textContent = `${count} item${count !== 1 ? 's' : ''} selected`;
+    }
+
+    selectedContainer.querySelectorAll('aegov-badge').forEach(badge => {
+      badge.addEventListener('aegovBadgeDismiss', (event) => {
+        const badgeText = event.target.textContent.trim();
+        logEvent(`Item deselected: ${badgeText}`);
+
+        // Slide out animation
+        event.target.style.transition = 'transform 0.3s, opacity 0.3s';
+        event.target.style.transform = 'translateX(-20px)';
+        event.target.style.opacity = '0';
+        setTimeout(() => {
+          event.target.remove();
+          updateSelectedCount();
+        }, 300);
+      });
+    });
+
+    // Reset tags function
+    function resetTags() {
+      const tags = [
+        { text: 'Design', color: 'purple' },
+        { text: 'Development', color: 'techblue' },
+        { text: 'Marketing', color: 'pink' },
+        { text: 'Finance', color: 'aegold' },
+        { text: 'Operations', color: 'aegreen' },
+        { text: 'Strategy', color: 'indigo' }
+      ];
+
+      tagContainer.innerHTML = '';
+      tags.forEach(tag => {
+        const badge = document.createElement('aegov-badge');
+        badge.setAttribute('dismissible', 'true');
+        badge.setAttribute('color', tag.color);
+        badge.textContent = tag.text;
+        badge.addEventListener('aegovBadgeDismiss', (event) => {
+          const badgeText = event.target.textContent.trim();
+          logEvent(`Tag removed: ${badgeText}`);
+          event.target.style.transition = 'opacity 0.3s, transform 0.3s';
+          event.target.style.opacity = '0';
+          event.target.style.transform = 'scale(0.8)';
+          setTimeout(() => event.target.remove(), 300);
+        });
+        tagContainer.appendChild(badge);
+      });
+      logEvent('Tags reset');
+    }
+
+    // Event logging
+    const eventLog = document.getElementById('event-log');
+    let logEntries = [];
+
+    function logEvent(message) {
+      const timestamp = new Date().toLocaleTimeString();
+      logEntries.push(`[${timestamp}] ${message}`);
+
+      // Keep only last 10 entries
+      if (logEntries.length > 10) {
+        logEntries.shift();
+      }
+
+      eventLog.innerHTML = logEntries
+        .map(entry => `<div style="margin-bottom: 0.25rem;">${entry}</div>`)
+        .join('');
+
+      // Auto-scroll to bottom
+      eventLog.scrollTop = eventLog.scrollHeight;
+    }
+
+    function clearLog() {
+      logEntries = [];
+      eventLog.innerHTML = '<div style="color: #a0aec0;">Event log cleared. Waiting for badge dismiss events...</div>';
+    }
+  </script>
 </body>
 </html>

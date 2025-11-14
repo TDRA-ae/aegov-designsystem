@@ -1,4 +1,4 @@
-import { Component, Prop, h, Host } from '@stencil/core';
+import { Component, Prop, Event, EventEmitter, h, Host } from '@stencil/core';
 import type { BadgeSize, BadgeAppearance, BadgeColor } from '../../utils/types';
 
 /**
@@ -35,6 +35,19 @@ export class AegovBadge {
     @Prop() size: BadgeSize = 'base';
 
     /**
+     * Emitted when the dismiss button is clicked.
+     */
+    @Event() aegovBadgeDismiss: EventEmitter<void>;
+
+    /**
+     * Handle dismiss button click
+     */
+    private handleBadgeDismissClick = (event: MouseEvent) => {
+        event.stopPropagation();
+        this.aegovBadgeDismiss.emit();
+    };
+
+    /**
      * Get the CSS classes based on component props
      */
     private getBadgeClasses(): string {
@@ -61,42 +74,42 @@ export class AegovBadge {
         // Appearance + Color combination classes
         const appearanceColorClasses: Record<BadgeAppearance, Record<BadgeColor, string[]>> = {
             soft: {
-                default: ['bg-slate-50', 'text-slate-800'],
-                primary: ['bg-primary-50', 'text-primary-800'],
-                secondary: ['bg-secondary-50', 'text-secondary-800'],
-                aegold: ['bg-aegold-50', 'text-aegold-800'],
-                aered: ['bg-aered-50', 'text-aered-800'],
-                aegreen: ['bg-aegreen-50', 'text-aegreen-800'],
-                aeblack: ['bg-aeblack-50', 'text-aeblack-800'],
-                techblue: ['bg-techblue-50', 'text-techblue-800'],
-                seablue: ['bg-seablue-50', 'text-seablue-800'],
-                camel: ['bg-camel-50', 'text-camel-800'],
-                desert: ['bg-desert-50', 'text-desert-800'],
-                fuchsia: ['bg-fuchsia-50', 'text-fuchsia-800'],
-                slate: ['bg-slate-50', 'text-slate-800'],
-                purple: ['bg-purple-50', 'text-purple-800'],
-                pink: ['bg-pink-50', 'text-pink-800'],
-                indigo: ['bg-indigo-50', 'text-indigo-800'],
-                lime: ['bg-lime-50', 'text-lime-800'],
+                default: ['bg-slate-100', 'text-slate-800'],
+                primary: ['bg-primary-100', 'text-primary-800'],
+                secondary: ['bg-secondary-100', 'text-secondary-800'],
+                aegold: ['bg-aegold-100', 'text-aegold-800'],
+                aered: ['bg-aered-100', 'text-aered-800'],
+                aegreen: ['bg-aegreen-100', 'text-aegreen-800'],
+                aeblack: ['bg-aeblack-100', 'text-aeblack-800'],
+                techblue: ['bg-techblue-100', 'text-techblue-800'],
+                seablue: ['bg-seablue-100', 'text-seablue-800'],
+                camel: ['bg-camel-100', 'text-camel-800'],
+                desert: ['bg-desert-100', 'text-desert-800'],
+                fuchsia: ['bg-fuchsia-100', 'text-fuchsia-800'],
+                slate: ['bg-slate-100', 'text-slate-800'],
+                purple: ['bg-purple-100', 'text-purple-800'],
+                pink: ['bg-pink-100', 'text-pink-800'],
+                indigo: ['bg-indigo-100', 'text-indigo-800'],
+                lime: ['bg-lime-100', 'text-lime-800'],
             },
             solid: {
-                default: ['bg-slate-700', 'text-whitely-50'],
-                primary: ['bg-primary-700', 'text-primary-50'],
-                secondary: ['bg-secondary-700', 'text-secondary-50'],
-                aegold: ['bg-aegold-700', 'text-aegold-50'],
-                aered: ['bg-aered-700', 'text-aered-50'],
-                aegreen: ['bg-aegreen-700', 'text-aegreen-50'],
-                aeblack: ['bg-aeblack-700', 'text-aeblack-50'],
+                default: ['bg-slate-700', 'text-slate-50'],
+                primary: ['bg-primary-600', 'text-whitely-50'],
+                secondary: ['bg-secondary-600', 'text-whitely-50'],
+                aegold: ['bg-aegold-600', 'text-whitely-50'],
+                aered: ['bg-aered-600', 'text-whitely-50'],
+                aegreen: ['bg-aegreen-600', 'text-whitely-50'],
+                aeblack: ['bg-aeblack-800', 'text-aeblack-50'],
                 techblue: ['bg-techblue-700', 'text-techblue-50'],
-                seablue: ['bg-seablue-700', 'text-seablue-50'],
-                camel: ['bg-camel-700', 'text-camel-50'],
-                desert: ['bg-desert-700', 'text-desert-50'],
-                fuchsia: ['bg-fuchsia-700', 'text-fuchsia-50'],
+                seablue: ['bg-seablue-600', 'text-whitely-50'],
+                camel: ['bg-camel-600', 'text-whitely-50'],
+                desert: ['bg-desert-600', 'text-whitely-50'],
+                fuchsia: ['bg-fuchsia-600', 'text-whitely-50'],
                 slate: ['bg-slate-700', 'text-slate-50'],
-                purple: ['bg-purple-700', 'text-purple-50'],
-                pink: ['bg-pink-700', 'text-pink-50'],
-                indigo: ['bg-indigo-700', 'text-indigo-50'],
-                lime: ['bg-lime-700', 'text-lime-50'],
+                purple: ['bg-purple-600', 'text-whitely-50'],
+                pink: ['bg-pink-600', 'text-whitely-50'],
+                indigo: ['bg-indigo-600', 'text-whitely-50'],
+                lime: ['bg-lime-600', 'text-whitely-50'],
             },
         };
 
@@ -110,6 +123,24 @@ export class AegovBadge {
             <Host>
                 <span class={this.getBadgeClasses()}>
                     <slot />
+                    {this.dismissible && (
+                        <button
+                            type="button"
+                            class="dismiss-button inline-flex items-center justify-between p-0 bg-transparent border-0 h-auto w-auto shrink-0"
+                            onClick={this.handleBadgeDismissClick}
+                            aria-label="Dismiss badge"
+                        >
+                            <svg
+                                class="size-3"
+                                xmlns="http://www.w3.org/2000/svg"
+                                viewBox="0 0 20 20"
+                                fill="currentColor"
+                                aria-hidden="true"
+                            >
+                                <path d="M6.28 5.22a.75.75 0 00-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 101.06 1.06L10 11.06l3.72 3.72a.75.75 0 101.06-1.06L11.06 10l3.72-3.72a.75.75 0 00-1.06-1.06L10 8.94 6.28 5.22z" />
+                            </svg>
+                        </button>
+                    )}
                 </span>
             </Host>
         );
