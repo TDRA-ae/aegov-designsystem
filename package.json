@@ -25,6 +25,10 @@
       "import": "./loader/index.js",
       "require": "./loader/index.cjs.js"
     },
+    "./dist/components/*.js": {
+      "import": "./dist/components/*.js",
+      "types": "./dist/components/*.d.ts"
+    },
     "./tailwind.css": "./src/styles/tailwind.css",
     "./theme": "./src/styles/tailwind.css"
   },

@@ -6,7 +6,7 @@ import tailwindPlugin, {
   setPluginConfigurationDefaults
 } from 'stencil-tailwind-plugin';
 // import { angularOutputTarget } from '@stencil/angular-output-target';
-// import { reactOutputTarget } from '@stencil/react-output-target';
+import { reactOutputTarget } from '@stencil/react-output-target';
 // import { vueOutputTarget } from '@stencil/vue-output-target';
 
 const isProd = process.env.NODE_ENV === 'production';
@@ -58,7 +58,8 @@ export const config: Config = {
       ]
     },
 
-    // Framework output targets (uncomment when wrapper projects are created)
+    // Framework output targets
+    // Angular output target (uncomment when Angular wrapper project is created)
     // angularOutputTarget({
     //   componentCorePackage: '@aegov/design-system',
     //   outputType: 'standalone',
@@ -66,12 +67,14 @@ export const config: Config = {
     //   directivesArrayFile: '../angular-workspace/projects/aegov-components/src/lib/stencil-generated/index.ts',
     // }),
 
-    // reactOutputTarget({
-    //   componentCorePackage: '@aegov/design-system',
-    //   outDir: '../react-library/src/components',
-    //   proxiesFile: '../react-library/src/components/stencil-generated/index.ts',
-    // }),
+    // React output target
+    reactOutputTarget({
+      componentCorePackage: '@aegov/design-system',
+      outDir: '../aegov-dls-3-react/src/components',
+      proxiesFile: '../aegov-dls-3-react/src/components/stencil-generated/index.ts',
+    }),
 
+    // Vue output target (uncomment when Vue wrapper project is created)
     // vueOutputTarget({
     //   componentCorePackage: '@aegov/design-system',
     //   proxiesFile: '../vue-library/src/components.ts',
