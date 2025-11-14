@@ -5,8 +5,8 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
-import { AvatarSize, AvatarStatus, AvatarVariant, BadgeAppearance, BadgeColor, BadgeSize, BlockquoteVariant, ButtonAppearance, ButtonSize, ButtonType, ButtonVariant, CalloutAppearance, CalloutVariant, TextSize, TitleSize } from "./utils/types";
-export { AvatarSize, AvatarStatus, AvatarVariant, BadgeAppearance, BadgeColor, BadgeSize, BlockquoteVariant, ButtonAppearance, ButtonSize, ButtonType, ButtonVariant, CalloutAppearance, CalloutVariant, TextSize, TitleSize } from "./utils/types";
+import { AvatarSize, AvatarStatus, AvatarVariant, BadgeAppearance, BadgeColor, BadgeSize, BlockquoteVariant, ButtonAppearance, ButtonSize, ButtonType, ButtonVariant, CalloutAppearance, CalloutVariant, LinkTarget, TextSize, TitleSize } from "./utils/types";
+export { AvatarSize, AvatarStatus, AvatarVariant, BadgeAppearance, BadgeColor, BadgeSize, BlockquoteVariant, ButtonAppearance, ButtonSize, ButtonType, ButtonVariant, CalloutAppearance, CalloutVariant, LinkTarget, TextSize, TitleSize } from "./utils/types";
 export namespace Components {
     interface AegovAvatar {
         /**
@@ -148,6 +148,25 @@ export namespace Components {
          */
         "variant": CalloutVariant;
     }
+    interface AegovLink {
+        /**
+          * Additional CSS classes to apply to the link.
+         */
+        "class"?: string;
+        /**
+          * The URL that the link points to.
+          * @required
+         */
+        "href": string;
+        /**
+          * Rel attribute for the link (e.g., "noopener noreferrer" for external links).
+         */
+        "rel"?: string;
+        /**
+          * Target attribute for the link (_blank, _self, _parent, _top).
+         */
+        "target"?: LinkTarget;
+    }
     interface AegovText {
         /**
           * Additional CSS classes to apply to the text.
@@ -182,6 +201,10 @@ export interface AegovButtonCustomEvent<T> extends CustomEvent<T> {
 export interface AegovCalloutCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLAegovCalloutElement;
+}
+export interface AegovLinkCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLAegovLinkElement;
 }
 declare global {
     interface HTMLAegovAvatarElement extends Components.AegovAvatar, HTMLStencilElement {
@@ -249,6 +272,23 @@ declare global {
         prototype: HTMLAegovCalloutElement;
         new (): HTMLAegovCalloutElement;
     };
+    interface HTMLAegovLinkElementEventMap {
+        "aegovLinkClick": { href: string; event: MouseEvent };
+    }
+    interface HTMLAegovLinkElement extends Components.AegovLink, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLAegovLinkElementEventMap>(type: K, listener: (this: HTMLAegovLinkElement, ev: AegovLinkCustomEvent<HTMLAegovLinkElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLAegovLinkElementEventMap>(type: K, listener: (this: HTMLAegovLinkElement, ev: AegovLinkCustomEvent<HTMLAegovLinkElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLAegovLinkElement: {
+        prototype: HTMLAegovLinkElement;
+        new (): HTMLAegovLinkElement;
+    };
     interface HTMLAegovTextElement extends Components.AegovText, HTMLStencilElement {
     }
     var HTMLAegovTextElement: {
@@ -267,6 +307,7 @@ declare global {
         "aegov-blockquote": HTMLAegovBlockquoteElement;
         "aegov-button": HTMLAegovButtonElement;
         "aegov-callout": HTMLAegovCalloutElement;
+        "aegov-link": HTMLAegovLinkElement;
         "aegov-text": HTMLAegovTextElement;
         "aegov-title": HTMLAegovTitleElement;
     }
@@ -432,6 +473,29 @@ declare namespace LocalJSX {
          */
         "variant"?: CalloutVariant;
     }
+    interface AegovLink {
+        /**
+          * Additional CSS classes to apply to the link.
+         */
+        "class"?: string;
+        /**
+          * The URL that the link points to.
+          * @required
+         */
+        "href": string;
+        /**
+          * Emitted when the link is clicked. The event detail contains the href and can be used to implement custom navigation.
+         */
+        "onAegovLinkClick"?: (event: AegovLinkCustomEvent<{ href: string; event: MouseEvent }>) => void;
+        /**
+          * Rel attribute for the link (e.g., "noopener noreferrer" for external links).
+         */
+        "rel"?: string;
+        /**
+          * Target attribute for the link (_blank, _self, _parent, _top).
+         */
+        "target"?: LinkTarget;
+    }
     interface AegovText {
         /**
           * Additional CSS classes to apply to the text.
@@ -460,6 +524,7 @@ declare namespace LocalJSX {
         "aegov-blockquote": AegovBlockquote;
         "aegov-button": AegovButton;
         "aegov-callout": AegovCallout;
+        "aegov-link": AegovLink;
         "aegov-text": AegovText;
         "aegov-title": AegovTitle;
     }
@@ -473,6 +538,7 @@ declare module "@stencil/core" {
             "aegov-blockquote": LocalJSX.AegovBlockquote & JSXBase.HTMLAttributes<HTMLAegovBlockquoteElement>;
             "aegov-button": LocalJSX.AegovButton & JSXBase.HTMLAttributes<HTMLAegovButtonElement>;
             "aegov-callout": LocalJSX.AegovCallout & JSXBase.HTMLAttributes<HTMLAegovCalloutElement>;
+            "aegov-link": LocalJSX.AegovLink & JSXBase.HTMLAttributes<HTMLAegovLinkElement>;
             "aegov-text": LocalJSX.AegovText & JSXBase.HTMLAttributes<HTMLAegovTextElement>;
             "aegov-title": LocalJSX.AegovTitle & JSXBase.HTMLAttributes<HTMLAegovTitleElement>;
         }
