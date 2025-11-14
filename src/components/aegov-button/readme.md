@@ -1,6 +1,20 @@
 # aegov-button
 
+A versatile button component with multiple variants, sizes, and interactive states for all user actions.
 
+## Features
+
+- **4 Variants**: Solid, Outline, Soft, and Link styles
+- **2 Appearances**: Primary and Secondary color schemes
+- **4 Sizes**: XS, SM, Base, and LG
+- **Loading State**: Built-in spinner for async operations
+- **Disabled State**: Clear visual feedback for non-interactive state
+- **Full Width**: Option to span full container width
+- **Accessible**: Semantic HTML with proper ARIA attributes
+
+## Overview
+
+Buttons are the primary interactive elements in user interfaces. This component provides a comprehensive set of visual styles and states to handle all button use cases, from primary calls-to-action to subtle text links.
 
 <!-- Auto Generated Below -->
 

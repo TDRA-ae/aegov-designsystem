@@ -1,6 +1,19 @@
 # aegov-callout
 
+A flexible alert/notification component for displaying important messages, warnings, errors, and informational content.
 
+## Features
+
+- **5 Variants**: Default, Error, Warning, Success, and Info with semantic color coding
+- **2 Appearances**: Soft (subtle) and Solid (bold) styles
+- **Optional Border**: Add bordered style for additional emphasis
+- **Dismissible**: Optional close button with custom event handling
+- **Rich Content**: Supports HTML content via default slot
+- **Semantic HTML**: Uses `role="alert"` for accessibility
+
+## Overview
+
+Callouts (also known as alerts or notifications) draw attention to important information that requires user awareness or action. They use color and icons to communicate the type and urgency of the message.
 
 <!-- Auto Generated Below -->
 
