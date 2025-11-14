@@ -5,8 +5,8 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
-import { AvatarSize, AvatarStatus, AvatarVariant, BadgeAppearance, BadgeColor, BadgeSize, BlockquoteVariant, ButtonAppearance, ButtonSize, ButtonType, ButtonVariant, CalloutAppearance, CalloutVariant } from "./utils/types";
-export { AvatarSize, AvatarStatus, AvatarVariant, BadgeAppearance, BadgeColor, BadgeSize, BlockquoteVariant, ButtonAppearance, ButtonSize, ButtonType, ButtonVariant, CalloutAppearance, CalloutVariant } from "./utils/types";
+import { AvatarSize, AvatarStatus, AvatarVariant, BadgeAppearance, BadgeColor, BadgeSize, BlockquoteVariant, ButtonAppearance, ButtonSize, ButtonType, ButtonVariant, CalloutAppearance, CalloutVariant, TextSize, TitleSize } from "./utils/types";
+export { AvatarSize, AvatarStatus, AvatarVariant, BadgeAppearance, BadgeColor, BadgeSize, BlockquoteVariant, ButtonAppearance, ButtonSize, ButtonType, ButtonVariant, CalloutAppearance, CalloutVariant, TextSize, TitleSize } from "./utils/types";
 export namespace Components {
     interface AegovAvatar {
         /**
@@ -148,6 +148,28 @@ export namespace Components {
          */
         "variant": CalloutVariant;
     }
+    interface AegovText {
+        /**
+          * Additional CSS classes to apply to the text.
+         */
+        "class"?: string;
+        /**
+          * The size of the text.
+          * @default 'base'
+         */
+        "size": TextSize;
+    }
+    interface AegovTitle {
+        /**
+          * Additional CSS classes to apply to the title.
+         */
+        "class"?: string;
+        /**
+          * The size of the title text.
+          * @default 'base'
+         */
+        "size": TitleSize;
+    }
 }
 export interface AegovBadgeCustomEvent<T> extends CustomEvent<T> {
     detail: T;
@@ -227,12 +249,26 @@ declare global {
         prototype: HTMLAegovCalloutElement;
         new (): HTMLAegovCalloutElement;
     };
+    interface HTMLAegovTextElement extends Components.AegovText, HTMLStencilElement {
+    }
+    var HTMLAegovTextElement: {
+        prototype: HTMLAegovTextElement;
+        new (): HTMLAegovTextElement;
+    };
+    interface HTMLAegovTitleElement extends Components.AegovTitle, HTMLStencilElement {
+    }
+    var HTMLAegovTitleElement: {
+        prototype: HTMLAegovTitleElement;
+        new (): HTMLAegovTitleElement;
+    };
     interface HTMLElementTagNameMap {
         "aegov-avatar": HTMLAegovAvatarElement;
         "aegov-badge": HTMLAegovBadgeElement;
         "aegov-blockquote": HTMLAegovBlockquoteElement;
         "aegov-button": HTMLAegovButtonElement;
         "aegov-callout": HTMLAegovCalloutElement;
+        "aegov-text": HTMLAegovTextElement;
+        "aegov-title": HTMLAegovTitleElement;
     }
 }
 declare namespace LocalJSX {
@@ -396,12 +432,36 @@ declare namespace LocalJSX {
          */
         "variant"?: CalloutVariant;
     }
+    interface AegovText {
+        /**
+          * Additional CSS classes to apply to the text.
+         */
+        "class"?: string;
+        /**
+          * The size of the text.
+          * @default 'base'
+         */
+        "size"?: TextSize;
+    }
+    interface AegovTitle {
+        /**
+          * Additional CSS classes to apply to the title.
+         */
+        "class"?: string;
+        /**
+          * The size of the title text.
+          * @default 'base'
+         */
+        "size"?: TitleSize;
+    }
     interface IntrinsicElements {
         "aegov-avatar": AegovAvatar;
         "aegov-badge": AegovBadge;
         "aegov-blockquote": AegovBlockquote;
         "aegov-button": AegovButton;
         "aegov-callout": AegovCallout;
+        "aegov-text": AegovText;
+        "aegov-title": AegovTitle;
     }
 }
 export { LocalJSX as JSX };
@@ -413,6 +473,8 @@ declare module "@stencil/core" {
             "aegov-blockquote": LocalJSX.AegovBlockquote & JSXBase.HTMLAttributes<HTMLAegovBlockquoteElement>;
             "aegov-button": LocalJSX.AegovButton & JSXBase.HTMLAttributes<HTMLAegovButtonElement>;
             "aegov-callout": LocalJSX.AegovCallout & JSXBase.HTMLAttributes<HTMLAegovCalloutElement>;
+            "aegov-text": LocalJSX.AegovText & JSXBase.HTMLAttributes<HTMLAegovTextElement>;
+            "aegov-title": LocalJSX.AegovTitle & JSXBase.HTMLAttributes<HTMLAegovTitleElement>;
         }
     }
 }

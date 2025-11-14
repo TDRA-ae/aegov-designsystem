@@ -70,6 +70,16 @@ export type BadgeAppearance = 'solid' | 'soft';
 export type BadgeColor = 'default' | 'primary' | 'secondary' | 'aegold' | 'aered' | 'aegreen' | 'aeblack' | 'techblue' | 'seablue' | 'camel' | 'desert' | 'fuchsia' | 'slate' | 'purple' | 'pink' | 'indigo' | 'lime';
 
 /**
+ * Title component size types
+ */
+export type TitleSize = 'base' | 'lg' | 'xl' | '2xl';
+
+/**
+ * Text component size types
+ */
+export type TextSize = 'sm' | 'base' | 'lg';
+
+/**
  * Common component props
  */
 export interface BaseComponentProps {
