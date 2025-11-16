@@ -1,0 +1,11 @@
+:host {
+  display: block;
+}
+
+nav.aegov-breadcrumb {
+  @apply block;
+  &>ol.breadcrumb-list,
+  &>ul.breadcrumb-list {
+    @apply flex flex-wrap items-center gap-0 list-none m-0 p-0;
+  }
+}

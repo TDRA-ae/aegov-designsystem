@@ -85,6 +85,11 @@ export type TextSize = 'sm' | 'base' | 'lg';
 export type LinkTarget = '_blank' | '_self' | '_parent' | '_top';
 
 /**
+ * Breadcrumb component separator types
+ */
+export type BreadcrumbSeparator = 'slash' | 'chevron';
+
+/**
  * Common component props
  */
 export interface BaseComponentProps {

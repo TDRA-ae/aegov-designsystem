@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0" />
+  <title>Breadcrumbs Component Examples - AEGOV Design System</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+
+  <script type="module" src="/build/aegov.esm.js"></script>
+  <script nomodule src="/build/aegov.js"></script>
+  <link rel="stylesheet" href="/build/aegov.css" />
+  <style>
+    body {
+      padding: 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .example-section {
+      margin-bottom: 3rem;
+      padding: 2rem;
+      border: 1px solid #e2e8f0;
+      border-radius: 0.5rem;
+      background: white;
+    }
+    .example-section h2 {
+      margin-top: 0;
+      color: var(--color-aeblack-800);
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+    }
+    .example-section h3 {
+      margin-top: 1.5rem;
+      margin-bottom: 0.75rem;
+      color: var(--color-aeblack-800);
+      font-size: 1.125rem;
+      font-weight: 600;
+    }
+    .example-demo {
+      padding: 1.5rem;
+      background: #f8fafc;
+      border-radius: 0.375rem;
+      margin-bottom: 1rem;
+    }
+    .example-code {
+      background: #1e293b;
+      color: #e2e8f0;
+      padding: 1rem;
+      border-radius: 0.375rem;
+      overflow-x: auto;
+      font-family: 'Courier New', monospace;
+      font-size: 0.875rem;
+      margin-top: 0.5rem;
+    }
+    .event-log {
+      margin-top: 1rem;
+      padding: 1rem;
+      background: #f1f5f9;
+      border-radius: 0.375rem;
+      border-left: 4px solid var(--color-primary-600);
+      font-family: monospace;
+      font-size: 0.875rem;
+      max-height: 200px;
+      overflow-y: auto;
+    }
+    .event-log div {
+      margin: 0.25rem 0;
+      color: #334155;
+    }
+    .event-log .event-time {
+      color: #64748b;
+      margin-right: 0.5rem;
+    }
+  </style>
+</head>
+<body>
+  <h1 style="margin-bottom: 2rem; color: var(--color-aeblack-800);">Breadcrumbs Component Examples</h1>
+
+  <!-- Basic Example -->
+  <div class="example-section">
+    <h2>Basic Breadcrumbs</h2>
+    <p>Simple breadcrumb navigation with links and current page.</p>
+
+    <div class="example-demo">
+      <aegov-breadcrumbs>
+        <aegov-breadcrumbs-item href="/">Home</aegov-breadcrumbs-item>
+        <aegov-breadcrumbs-item href="/products">Products</aegov-breadcrumbs-item>
+        <aegov-breadcrumbs-item>Item Details</aegov-breadcrumbs-item>
+      </aegov-breadcrumbs>
+    </div>
+
+    <div class="example-code">&lt;aegov-breadcrumbs&gt;
+  &lt;aegov-breadcrumbs-item href="/"&gt;Home&lt;/aegov-breadcrumbs-item&gt;
+  &lt;aegov-breadcrumbs-item href="/products"&gt;Products&lt;/aegov-breadcrumbs-item&gt;
+  &lt;aegov-breadcrumbs-item&gt;Item Details&lt;/aegov-breadcrumbs-item&gt;
+&lt;/aegov-breadcrumbs&gt;</div>
+  </div>
+
+  <!-- Chevron Separator -->
+  <div class="example-section">
+    <h2>Chevron Separator</h2>
+    <p>Breadcrumbs with chevron separator instead of slash.</p>
+
+    <div class="example-demo">
+      <aegov-breadcrumbs separator="chevron">
+        <aegov-breadcrumbs-item href="/">Home</aegov-breadcrumbs-item>
+        <aegov-breadcrumbs-item href="/services">Services</aegov-breadcrumbs-item>
+        <aegov-breadcrumbs-item href="/services/digital">Digital Services</aegov-breadcrumbs-item>
+        <aegov-breadcrumbs-item>Smart Government</aegov-breadcrumbs-item>
+      </aegov-breadcrumbs>
+    </div>
+
+    <div class="example-code">&lt;aegov-breadcrumbs separator="chevron"&gt;
+  &lt;aegov-breadcrumbs-item href="/"&gt;Home&lt;/aegov-breadcrumbs-item&gt;
+  &lt;aegov-breadcrumbs-item href="/services"&gt;Services&lt;/aegov-breadcrumbs-item&gt;
+  &lt;aegov-breadcrumbs-item href="/services/digital"&gt;Digital Services&lt;/aegov-breadcrumbs-item&gt;
+  &lt;aegov-breadcrumbs-item&gt;Smart Government&lt;/aegov-breadcrumbs-item&gt;
+&lt;/aegov-breadcrumbs&gt;</div>
+  </div>
+
+  <!-- Text Truncation -->
+  <div class="example-section">
+    <h2>Text Truncation</h2>
+    <p>Breadcrumbs with maximum character length for long text.</p>
+
+    <h3>Without Truncation</h3>
+    <div class="example-demo">
+      <aegov-breadcrumbs>
+        <aegov-breadcrumbs-item href="/">Home</aegov-breadcrumbs-item>
+        <aegov-breadcrumbs-item href="/long">Very Long Category Name Example</aegov-breadcrumbs-item>
+        <aegov-breadcrumbs-item>Another Very Long Breadcrumb Text</aegov-breadcrumbs-item>
+      </aegov-breadcrumbs>
+    </div>
+
+    <h3>With Truncation (15 characters)</h3>
+    <div class="example-demo">
+      <aegov-breadcrumbs max-length="15">
+        <aegov-breadcrumbs-item href="/">Home</aegov-breadcrumbs-item>
+        <aegov-breadcrumbs-item href="/long">Very Long Category Name Example</aegov-breadcrumbs-item>
+        <aegov-breadcrumbs-item>Another Very Long Breadcrumb Text</aegov-breadcrumbs-item>
+      </aegov-breadcrumbs>
+    </div>
+
+    <div class="example-code">&lt;aegov-breadcrumbs max-length="15"&gt;
+  &lt;aegov-breadcrumbs-item href="/"&gt;Home&lt;/aegov-breadcrumbs-item&gt;
+  &lt;aegov-breadcrumbs-item href="/long"&gt;Very Long Category Name Example&lt;/aegov-breadcrumbs-item&gt;
+  &lt;aegov-breadcrumbs-item&gt;Another Very Long Breadcrumb Text&lt;/aegov-breadcrumbs-item&gt;
+&lt;/aegov-breadcrumbs&gt;</div>
+  </div>
+
+  <!-- Link Target -->
+  <div class="example-section">
+    <h2>Link Target</h2>
+    <p>Breadcrumbs with custom link targets (e.g., opening in new tab).</p>
+
+    <div class="example-demo">
+      <aegov-breadcrumbs>
+        <aegov-breadcrumbs-item href="/" target="_blank">
+          <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"><rect width="256" height="256" fill="none"/><path d="M152,208V160a8,8,0,0,0-8-8H112a8,8,0,0,0-8,8v48a8,8,0,0,1-8,8H48a8,8,0,0,1-8-8V115.54a8,8,0,0,1,2.62-5.92l80-75.54a8,8,0,0,1,10.77,0l80,75.54a8,8,0,0,1,2.62,5.92V208a8,8,0,0,1-8,8H160A8,8,0,0,1,152,208Z" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/></svg> Home</aegov-breadcrumbs-item>
+        <aegov-breadcrumbs-item href="/help">Help Center</aegov-breadcrumbs-item>
+        <aegov-breadcrumbs-item>FAQ</aegov-breadcrumbs-item>
+      </aegov-breadcrumbs>
+    </div>
+
+    <div class="example-code">&lt;aegov-breadcrumbs&gt;
+  &lt;aegov-breadcrumbs-item href="/" target="_blank"&gt;(svg) Home&lt;/aegov-breadcrumbs-item&gt;
+  &lt;aegov-breadcrumbs-item href="/help"&gt;Help Center&lt;/aegov-breadcrumbs-item&gt;
+  &lt;aegov-breadcrumbs-item&gt;FAQ&lt;/aegov-breadcrumbs-item&gt;
+&lt;/aegov-breadcrumbs&gt;</div>
+  </div>
+
+  <!-- Two-Level Navigation -->
+  <div class="example-section">
+    <h2>Two-Level Navigation</h2>
+    <p>Simple breadcrumb with just home and current page.</p>
+
+    <div class="example-demo">
+      <aegov-breadcrumbs separator="slash">
+        <aegov-breadcrumbs-item href="/">Home</aegov-breadcrumbs-item>
+        <aegov-breadcrumbs-item>About Us</aegov-breadcrumbs-item>
+      </aegov-breadcrumbs>
+    </div>
+
+    <div class="example-code">&lt;aegov-breadcrumbs&gt;
+  &lt;aegov-breadcrumbs-item href="/"&gt;Home&lt;/aegov-breadcrumbs-item&gt;
+  &lt;aegov-breadcrumbs-item&gt;About Us&lt;/aegov-breadcrumbs-item&gt;
+&lt;/aegov-breadcrumbs&gt;</div>
+  </div>
+
+  <!-- Deep Navigation -->
+  <div class="example-section">
+    <h2>Deep Navigation</h2>
+    <p>Breadcrumbs with multiple levels of navigation.</p>
+
+    <div class="example-demo">
+      <aegov-breadcrumbs separator="chevron">
+        <aegov-breadcrumbs-item href="/">Home</aegov-breadcrumbs-item>
+        <aegov-breadcrumbs-item href="/government">Government</aegov-breadcrumbs-item>
+        <aegov-breadcrumbs-item href="/government/services">Services</aegov-breadcrumbs-item>
+        <aegov-breadcrumbs-item href="/government/services/permits">Permits</aegov-breadcrumbs-item>
+        <aegov-breadcrumbs-item href="/government/services/permits/business">Business Permits</aegov-breadcrumbs-item>
+        <aegov-breadcrumbs-item>Application Form</aegov-breadcrumbs-item>
+      </aegov-breadcrumbs>
+    </div>
+
+    <div class="example-code">&lt;aegov-breadcrumbs separator="chevron"&gt;
+  &lt;aegov-breadcrumbs-item href="/"&gt;Home&lt;/aegov-breadcrumbs-item&gt;
+  &lt;aegov-breadcrumbs-item href="/government"&gt;Government&lt;/aegov-breadcrumbs-item&gt;
+  &lt;aegov-breadcrumbs-item href="/government/services"&gt;Services&lt;/aegov-breadcrumbs-item&gt;
+  &lt;aegov-breadcrumbs-item href="/government/services/permits"&gt;Permits&lt;/aegov-breadcrumbs-item&gt;
+  &lt;aegov-breadcrumbs-item href="/government/services/permits/business"&gt;Business Permits&lt;/aegov-breadcrumbs-item&gt;
+  &lt;aegov-breadcrumbs-item&gt;Application Form&lt;/aegov-breadcrumbs-item&gt;
+&lt;/aegov-breadcrumbs&gt;</div>
+  </div>
+
+  <!-- Event Handling -->
+  <div class="example-section">
+    <h2>Event Handling</h2>
+    <p>Listen to click events on breadcrumb items.</p>
+
+    <div class="example-demo">
+      <aegov-breadcrumbs id="event-breadcrumbs">
+        <aegov-breadcrumbs-item href="/">Home</aegov-breadcrumbs-item>
+        <aegov-breadcrumbs-item href="/products">Products</aegov-breadcrumbs-item>
+        <aegov-breadcrumbs-item href="/products/electronics">Electronics</aegov-breadcrumbs-item>
+        <aegov-breadcrumbs-item>Smartphones</aegov-breadcrumbs-item>
+      </aegov-breadcrumbs>
+
+      <div class="event-log" id="event-log">
+        <div><strong>Event Log:</strong></div>
+        <div class="event-time">Click on any breadcrumb item to see events...</div>
+      </div>
+    </div>
+
+    <div class="example-code">// JavaScript
+const breadcrumbs = document.getElementById('event-breadcrumbs');
+const items = breadcrumbs.querySelectorAll('aegov-breadcrumbs-item');
+
+items.forEach(item => {
+  item.addEventListener('aegovBreadcrumbItemClick', (event) => {
+    console.log('Breadcrumb clicked:', event.detail);
+    // Optionally prevent navigation:
+    // event.detail.event.preventDefault();
+  });
+});</div>
+  </div>
+
+  <!-- RTL Example -->
+  <div class="example-section">
+    <h2>RTL Support</h2>
+    <p>Breadcrumbs automatically flip chevron direction in RTL mode.</p>
+
+    <h3>LTR (Left to Right)</h3>
+    <div class="example-demo" dir="ltr">
+      <aegov-breadcrumbs separator="chevron">
+        <aegov-breadcrumbs-item href="/">Home</aegov-breadcrumbs-item>
+        <aegov-breadcrumbs-item href="/products">Products</aegov-breadcrumbs-item>
+        <aegov-breadcrumbs-item>Details</aegov-breadcrumbs-item>
+      </aegov-breadcrumbs>
+    </div>
+
+    <h3>RTL (Right to Left)</h3>
+    <div class="example-demo" dir="rtl">
+      <aegov-breadcrumbs separator="chevron">
+        <aegov-breadcrumbs-item href="/">الرئيسية</aegov-breadcrumbs-item>
+        <aegov-breadcrumbs-item href="/products">المنتجات</aegov-breadcrumbs-item>
+        <aegov-breadcrumbs-item>التفاصيل</aegov-breadcrumbs-item>
+      </aegov-breadcrumbs>
+    </div>
+
+    <div class="example-code">&lt;div dir="rtl"&gt;
+  &lt;aegov-breadcrumbs separator="chevron"&gt;
+    &lt;aegov-breadcrumbs-item href="/"&gt;الرئيسية&lt;/aegov-breadcrumbs-item&gt;
+    &lt;aegov-breadcrumbs-item href="/products"&gt;المنتجات&lt;/aegov-breadcrumbs-item&gt;
+    &lt;aegov-breadcrumbs-item&gt;التفاصيل&lt;/aegov-breadcrumbs-item&gt;
+  &lt;/aegov-breadcrumbs&gt;
+&lt;/div&gt;</div>
+  </div>
+
+  <script>
+    // Event handling example
+    const eventBreadcrumbs = document.getElementById('event-breadcrumbs');
+    const eventLog = document.getElementById('event-log');
+
+    if (eventBreadcrumbs) {
+      const items = eventBreadcrumbs.querySelectorAll('aegov-breadcrumbs-item');
+      items.forEach(item => {
+        item.addEventListener('aegovBreadcrumbItemClick', (event) => {
+          event.detail.event.preventDefault(); // Prevent navigation for demo
+
+          const time = new Date().toLocaleTimeString();
+          const href = event.detail.href || 'current page';
+          const logEntry = document.createElement('div');
+          logEntry.innerHTML = `<span class="event-time">${time}</span> Clicked: ${href}`;
+          eventLog.appendChild(logEntry);
+
+          // Limit log entries
+          while (eventLog.children.length > 10) {
+            eventLog.removeChild(eventLog.children[1]); // Keep the header
+          }
+        });
+      });
+    }
+  </script>
+</body>
+</html>

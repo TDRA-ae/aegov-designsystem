@@ -5,8 +5,8 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
-import { AvatarSize, AvatarStatus, AvatarVariant, BadgeAppearance, BadgeColor, BadgeSize, BlockquoteVariant, ButtonAppearance, ButtonSize, ButtonType, ButtonVariant, CalloutAppearance, CalloutVariant, LinkTarget, TextSize, TitleSize } from "./utils/types";
-export { AvatarSize, AvatarStatus, AvatarVariant, BadgeAppearance, BadgeColor, BadgeSize, BlockquoteVariant, ButtonAppearance, ButtonSize, ButtonType, ButtonVariant, CalloutAppearance, CalloutVariant, LinkTarget, TextSize, TitleSize } from "./utils/types";
+import { AvatarSize, AvatarStatus, AvatarVariant, BadgeAppearance, BadgeColor, BadgeSize, BlockquoteVariant, BreadcrumbSeparator, ButtonAppearance, ButtonSize, ButtonType, ButtonVariant, CalloutAppearance, CalloutVariant, LinkTarget, TextSize, TitleSize } from "./utils/types";
+export { AvatarSize, AvatarStatus, AvatarVariant, BadgeAppearance, BadgeColor, BadgeSize, BlockquoteVariant, BreadcrumbSeparator, ButtonAppearance, ButtonSize, ButtonType, ButtonVariant, CalloutAppearance, CalloutVariant, LinkTarget, TextSize, TitleSize } from "./utils/types";
 export namespace Components {
     interface AegovAvatar {
         /**
@@ -78,6 +78,47 @@ export namespace Components {
           * @default 'primary'
          */
         "variant": BlockquoteVariant;
+    }
+    interface AegovBreadcrumbs {
+        /**
+          * Maximum number of characters before truncating breadcrumb item text. If not set, text will not be truncated.
+         */
+        "maxLength"?: number;
+        /**
+          * The separator style to use between breadcrumb items
+          * @default 'slash'
+         */
+        "separator": BreadcrumbSeparator;
+    }
+    /**
+     * Breadcrumb item component
+     * **⚠️ IMPORTANT:** This component must be used inside `<aegov-breadcrumbs>` component.
+     * Do not use this component standalone.
+     */
+    interface AegovBreadcrumbsItem {
+        /**
+          * The URL that the breadcrumb item links to. If not provided, the item will be rendered as plain text (current page).
+         */
+        "href"?: string;
+        /**
+          * Whether this is the last/current item in the breadcrumb trail
+          * @default false
+         */
+        "isLast": boolean;
+        /**
+          * Maximum length for text before truncation
+         */
+        "maxLength"?: number;
+        /**
+          * Separator type to display after this item
+          * @default 'slash'
+         */
+        "separator": BreadcrumbSeparator;
+        /**
+          * Where to open the linked document
+          * @default '_self'
+         */
+        "target": LinkTarget;
     }
     interface AegovButton {
         /**
@@ -194,6 +235,10 @@ export interface AegovBadgeCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLAegovBadgeElement;
 }
+export interface AegovBreadcrumbsItemCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLAegovBreadcrumbsItemElement;
+}
 export interface AegovButtonCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLAegovButtonElement;
@@ -235,6 +280,34 @@ declare global {
     var HTMLAegovBlockquoteElement: {
         prototype: HTMLAegovBlockquoteElement;
         new (): HTMLAegovBlockquoteElement;
+    };
+    interface HTMLAegovBreadcrumbsElement extends Components.AegovBreadcrumbs, HTMLStencilElement {
+    }
+    var HTMLAegovBreadcrumbsElement: {
+        prototype: HTMLAegovBreadcrumbsElement;
+        new (): HTMLAegovBreadcrumbsElement;
+    };
+    interface HTMLAegovBreadcrumbsItemElementEventMap {
+        "aegovBreadcrumbItemClick": { href?: string; event: MouseEvent };
+    }
+    /**
+     * Breadcrumb item component
+     * **⚠️ IMPORTANT:** This component must be used inside `<aegov-breadcrumbs>` component.
+     * Do not use this component standalone.
+     */
+    interface HTMLAegovBreadcrumbsItemElement extends Components.AegovBreadcrumbsItem, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLAegovBreadcrumbsItemElementEventMap>(type: K, listener: (this: HTMLAegovBreadcrumbsItemElement, ev: AegovBreadcrumbsItemCustomEvent<HTMLAegovBreadcrumbsItemElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLAegovBreadcrumbsItemElementEventMap>(type: K, listener: (this: HTMLAegovBreadcrumbsItemElement, ev: AegovBreadcrumbsItemCustomEvent<HTMLAegovBreadcrumbsItemElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLAegovBreadcrumbsItemElement: {
+        prototype: HTMLAegovBreadcrumbsItemElement;
+        new (): HTMLAegovBreadcrumbsItemElement;
     };
     interface HTMLAegovButtonElementEventMap {
         "aegovButtonClick": MouseEvent;
@@ -305,6 +378,8 @@ declare global {
         "aegov-avatar": HTMLAegovAvatarElement;
         "aegov-badge": HTMLAegovBadgeElement;
         "aegov-blockquote": HTMLAegovBlockquoteElement;
+        "aegov-breadcrumbs": HTMLAegovBreadcrumbsElement;
+        "aegov-breadcrumbs-item": HTMLAegovBreadcrumbsItemElement;
         "aegov-button": HTMLAegovButtonElement;
         "aegov-callout": HTMLAegovCalloutElement;
         "aegov-link": HTMLAegovLinkElement;
@@ -387,6 +462,51 @@ declare namespace LocalJSX {
           * @default 'primary'
          */
         "variant"?: BlockquoteVariant;
+    }
+    interface AegovBreadcrumbs {
+        /**
+          * Maximum number of characters before truncating breadcrumb item text. If not set, text will not be truncated.
+         */
+        "maxLength"?: number;
+        /**
+          * The separator style to use between breadcrumb items
+          * @default 'slash'
+         */
+        "separator"?: BreadcrumbSeparator;
+    }
+    /**
+     * Breadcrumb item component
+     * **⚠️ IMPORTANT:** This component must be used inside `<aegov-breadcrumbs>` component.
+     * Do not use this component standalone.
+     */
+    interface AegovBreadcrumbsItem {
+        /**
+          * The URL that the breadcrumb item links to. If not provided, the item will be rendered as plain text (current page).
+         */
+        "href"?: string;
+        /**
+          * Whether this is the last/current item in the breadcrumb trail
+          * @default false
+         */
+        "isLast"?: boolean;
+        /**
+          * Maximum length for text before truncation
+         */
+        "maxLength"?: number;
+        /**
+          * Emitted when the breadcrumb item is clicked
+         */
+        "onAegovBreadcrumbItemClick"?: (event: AegovBreadcrumbsItemCustomEvent<{ href?: string; event: MouseEvent }>) => void;
+        /**
+          * Separator type to display after this item
+          * @default 'slash'
+         */
+        "separator"?: BreadcrumbSeparator;
+        /**
+          * Where to open the linked document
+          * @default '_self'
+         */
+        "target"?: LinkTarget;
     }
     interface AegovButton {
         /**
@@ -522,6 +642,8 @@ declare namespace LocalJSX {
         "aegov-avatar": AegovAvatar;
         "aegov-badge": AegovBadge;
         "aegov-blockquote": AegovBlockquote;
+        "aegov-breadcrumbs": AegovBreadcrumbs;
+        "aegov-breadcrumbs-item": AegovBreadcrumbsItem;
         "aegov-button": AegovButton;
         "aegov-callout": AegovCallout;
         "aegov-link": AegovLink;
@@ -536,6 +658,13 @@ declare module "@stencil/core" {
             "aegov-avatar": LocalJSX.AegovAvatar & JSXBase.HTMLAttributes<HTMLAegovAvatarElement>;
             "aegov-badge": LocalJSX.AegovBadge & JSXBase.HTMLAttributes<HTMLAegovBadgeElement>;
             "aegov-blockquote": LocalJSX.AegovBlockquote & JSXBase.HTMLAttributes<HTMLAegovBlockquoteElement>;
+            "aegov-breadcrumbs": LocalJSX.AegovBreadcrumbs & JSXBase.HTMLAttributes<HTMLAegovBreadcrumbsElement>;
+            /**
+             * Breadcrumb item component
+             * **⚠️ IMPORTANT:** This component must be used inside `<aegov-breadcrumbs>` component.
+             * Do not use this component standalone.
+             */
+            "aegov-breadcrumbs-item": LocalJSX.AegovBreadcrumbsItem & JSXBase.HTMLAttributes<HTMLAegovBreadcrumbsItemElement>;
             "aegov-button": LocalJSX.AegovButton & JSXBase.HTMLAttributes<HTMLAegovButtonElement>;
             "aegov-callout": LocalJSX.AegovCallout & JSXBase.HTMLAttributes<HTMLAegovCalloutElement>;
             "aegov-link": LocalJSX.AegovLink & JSXBase.HTMLAttributes<HTMLAegovLinkElement>;
