@@ -5,9 +5,65 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
-import { AvatarSize, AvatarStatus, AvatarVariant, BadgeAppearance, BadgeColor, BadgeSize, BlockquoteVariant, BreadcrumbSeparator, ButtonAppearance, ButtonSize, ButtonType, ButtonVariant, CalloutAppearance, CalloutVariant, LinkTarget, TextSize, TitleSize } from "./utils/types";
-export { AvatarSize, AvatarStatus, AvatarVariant, BadgeAppearance, BadgeColor, BadgeSize, BlockquoteVariant, BreadcrumbSeparator, ButtonAppearance, ButtonSize, ButtonType, ButtonVariant, CalloutAppearance, CalloutVariant, LinkTarget, TextSize, TitleSize } from "./utils/types";
+import { AccordionIcon, AvatarSize, AvatarStatus, AvatarVariant, BadgeAppearance, BadgeColor, BadgeSize, BlockquoteVariant, BreadcrumbSeparator, ButtonAppearance, ButtonSize, ButtonType, ButtonVariant, CalloutAppearance, CalloutVariant, LinkTarget, TextSize, TitleSize } from "./utils/types";
+export { AccordionIcon, AvatarSize, AvatarStatus, AvatarVariant, BadgeAppearance, BadgeColor, BadgeSize, BlockquoteVariant, BreadcrumbSeparator, ButtonAppearance, ButtonSize, ButtonType, ButtonVariant, CalloutAppearance, CalloutVariant, LinkTarget, TextSize, TitleSize } from "./utils/types";
 export namespace Components {
+    /**
+     * Accordion component for collapsible content sections
+     */
+    interface AegovAccordion {
+        /**
+          * Whether multiple accordion items can be open at the same time
+          * @default false
+         */
+        "allowMultiple": boolean;
+        /**
+          * Whether to show border around the accordion
+          * @default false
+         */
+        "bordered": boolean;
+        /**
+          * Index of the accordion item to open by default (0-based)
+         */
+        "defaultOpen"?: number;
+        /**
+          * Icon style for accordion items
+          * @default 'chevron'
+         */
+        "icon": AccordionIcon;
+    }
+    /**
+     * Accordion item component
+     * **⚠️ IMPORTANT:** This component must be used inside `<aegov-accordion>` component.
+     * Do not use this component standalone.
+     */
+    interface AegovAccordionItem {
+        /**
+          * Whether the accordion item is disabled
+          * @default false
+         */
+        "disabled": boolean;
+        /**
+          * Icon style for the accordion item
+          * @default 'chevron'
+         */
+        "icon": AccordionIcon;
+        /**
+          * Whether this is the first accordion item
+          * @default false
+         */
+        "isFirst": boolean;
+        /**
+          * Whether this is the last accordion item
+          * @default false
+         */
+        "isLast": boolean;
+        /**
+          * Whether the accordion item is open
+          * @default false
+         */
+        "open": boolean;
+    }
     interface AegovAvatar {
         /**
           * Alternative text for the image (required for accessibility)
@@ -231,6 +287,10 @@ export namespace Components {
         "size": TitleSize;
     }
 }
+export interface AegovAccordionItemCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLAegovAccordionItemElement;
+}
 export interface AegovBadgeCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLAegovBadgeElement;
@@ -252,6 +312,37 @@ export interface AegovLinkCustomEvent<T> extends CustomEvent<T> {
     target: HTMLAegovLinkElement;
 }
 declare global {
+    /**
+     * Accordion component for collapsible content sections
+     */
+    interface HTMLAegovAccordionElement extends Components.AegovAccordion, HTMLStencilElement {
+    }
+    var HTMLAegovAccordionElement: {
+        prototype: HTMLAegovAccordionElement;
+        new (): HTMLAegovAccordionElement;
+    };
+    interface HTMLAegovAccordionItemElementEventMap {
+        "aegovAccordionItemToggle": { open: boolean };
+    }
+    /**
+     * Accordion item component
+     * **⚠️ IMPORTANT:** This component must be used inside `<aegov-accordion>` component.
+     * Do not use this component standalone.
+     */
+    interface HTMLAegovAccordionItemElement extends Components.AegovAccordionItem, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLAegovAccordionItemElementEventMap>(type: K, listener: (this: HTMLAegovAccordionItemElement, ev: AegovAccordionItemCustomEvent<HTMLAegovAccordionItemElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLAegovAccordionItemElementEventMap>(type: K, listener: (this: HTMLAegovAccordionItemElement, ev: AegovAccordionItemCustomEvent<HTMLAegovAccordionItemElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLAegovAccordionItemElement: {
+        prototype: HTMLAegovAccordionItemElement;
+        new (): HTMLAegovAccordionItemElement;
+    };
     interface HTMLAegovAvatarElement extends Components.AegovAvatar, HTMLStencilElement {
     }
     var HTMLAegovAvatarElement: {
@@ -375,6 +466,8 @@ declare global {
         new (): HTMLAegovTitleElement;
     };
     interface HTMLElementTagNameMap {
+        "aegov-accordion": HTMLAegovAccordionElement;
+        "aegov-accordion-item": HTMLAegovAccordionItemElement;
         "aegov-avatar": HTMLAegovAvatarElement;
         "aegov-badge": HTMLAegovBadgeElement;
         "aegov-blockquote": HTMLAegovBlockquoteElement;
@@ -388,6 +481,66 @@ declare global {
     }
 }
 declare namespace LocalJSX {
+    /**
+     * Accordion component for collapsible content sections
+     */
+    interface AegovAccordion {
+        /**
+          * Whether multiple accordion items can be open at the same time
+          * @default false
+         */
+        "allowMultiple"?: boolean;
+        /**
+          * Whether to show border around the accordion
+          * @default false
+         */
+        "bordered"?: boolean;
+        /**
+          * Index of the accordion item to open by default (0-based)
+         */
+        "defaultOpen"?: number;
+        /**
+          * Icon style for accordion items
+          * @default 'chevron'
+         */
+        "icon"?: AccordionIcon;
+    }
+    /**
+     * Accordion item component
+     * **⚠️ IMPORTANT:** This component must be used inside `<aegov-accordion>` component.
+     * Do not use this component standalone.
+     */
+    interface AegovAccordionItem {
+        /**
+          * Whether the accordion item is disabled
+          * @default false
+         */
+        "disabled"?: boolean;
+        /**
+          * Icon style for the accordion item
+          * @default 'chevron'
+         */
+        "icon"?: AccordionIcon;
+        /**
+          * Whether this is the first accordion item
+          * @default false
+         */
+        "isFirst"?: boolean;
+        /**
+          * Whether this is the last accordion item
+          * @default false
+         */
+        "isLast"?: boolean;
+        /**
+          * Emitted when the accordion item is toggled
+         */
+        "onAegovAccordionItemToggle"?: (event: AegovAccordionItemCustomEvent<{ open: boolean }>) => void;
+        /**
+          * Whether the accordion item is open
+          * @default false
+         */
+        "open"?: boolean;
+    }
     interface AegovAvatar {
         /**
           * Alternative text for the image (required for accessibility)
@@ -639,6 +792,8 @@ declare namespace LocalJSX {
         "size"?: TitleSize;
     }
     interface IntrinsicElements {
+        "aegov-accordion": AegovAccordion;
+        "aegov-accordion-item": AegovAccordionItem;
         "aegov-avatar": AegovAvatar;
         "aegov-badge": AegovBadge;
         "aegov-blockquote": AegovBlockquote;
@@ -655,6 +810,16 @@ export { LocalJSX as JSX };
 declare module "@stencil/core" {
     export namespace JSX {
         interface IntrinsicElements {
+            /**
+             * Accordion component for collapsible content sections
+             */
+            "aegov-accordion": LocalJSX.AegovAccordion & JSXBase.HTMLAttributes<HTMLAegovAccordionElement>;
+            /**
+             * Accordion item component
+             * **⚠️ IMPORTANT:** This component must be used inside `<aegov-accordion>` component.
+             * Do not use this component standalone.
+             */
+            "aegov-accordion-item": LocalJSX.AegovAccordionItem & JSXBase.HTMLAttributes<HTMLAegovAccordionItemElement>;
             "aegov-avatar": LocalJSX.AegovAvatar & JSXBase.HTMLAttributes<HTMLAegovAvatarElement>;
             "aegov-badge": LocalJSX.AegovBadge & JSXBase.HTMLAttributes<HTMLAegovBadgeElement>;
             "aegov-blockquote": LocalJSX.AegovBlockquote & JSXBase.HTMLAttributes<HTMLAegovBlockquoteElement>;

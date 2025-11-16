@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0" />
+  <title>Accordion Component Examples - AEGOV Design System</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+
+  <script type="module" src="/build/aegov.esm.js"></script>
+  <script nomodule src="/build/aegov.js"></script>
+  <link rel="stylesheet" href="/build/aegov.css" />
+  <style>
+    body {
+      padding: 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .example-section {
+      margin-bottom: 3rem;
+      padding: 2rem;
+      border: 1px solid #e2e8f0;
+      border-radius: 0.5rem;
+      background: white;
+    }
+    .example-section h2 {
+      margin-top: 0;
+      color: var(--color-aeblack-800);
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+    }
+    .example-section h3 {
+      margin-top: 1.5rem;
+      margin-bottom: 0.75rem;
+      color: var(--color-aeblack-800);
+      font-size: 1.125rem;
+      font-weight: 600;
+    }
+    .example-demo {
+      padding: 1.5rem;
+      background: #f8fafc;
+      border-radius: 0.375rem;
+      margin-bottom: 1rem;
+    }
+    .example-code {
+      background: #1e293b;
+      color: #e2e8f0;
+      padding: 1rem;
+      border-radius: 0.375rem;
+      overflow-x: auto;
+      font-family: 'Courier New', monospace;
+      font-size: 0.875rem;
+      margin-top: 0.5rem;
+      white-space: pre;
+    }
+  </style>
+</head>
+<body>
+  <h1 style="margin-bottom: 2rem; color: var(--color-aeblack-800);">Accordion Component Examples</h1>
+
+  <!-- Basic Example -->
+  <div class="example-section">
+    <h2>Basic Accordion</h2>
+    <p>Simple accordion with collapsible FAQ items. Only one item can be open at a time (single mode).</p>
+
+    <div class="example-demo">
+      <aegov-accordion>
+        <aegov-accordion-item>
+          <span slot="accordion-item-heading">What's your refund policy?</span>
+          <span slot="accordion-item-content">If you are not satisfied with your purchase, we offer a 30-day money-back guarantee. Please contact our support team for assistance.</span>
+        </aegov-accordion-item>
+        <aegov-accordion-item>
+          <span slot="accordion-item-heading">Do you offer any discounts for bulk purchases?</span>
+          <span slot="accordion-item-content">Yes, we offer special discounts for bulk orders. Please reach out to our sales team with your requirements.</span>
+        </aegov-accordion-item>
+        <aegov-accordion-item>
+          <span slot="accordion-item-heading">How do I track my order?</span>
+          <span slot="accordion-item-content">Once your order is shipped, you will receive an email with a tracking number. Use this number to track your order on our website.</span>
+        </aegov-accordion-item>
+      </aegov-accordion>
+    </div>
+
+    <div class="example-code">&lt;aegov-accordion&gt;
+  &lt;aegov-accordion-item&gt;
+    &lt;span slot="accordion-item-heading"&gt;What's your refund policy?&lt;/span&gt;
+    &lt;span slot="accordion-item-content"&gt;If you are not satisfied...&lt;/span&gt;
+  &lt;/aegov-accordion-item&gt;
+  &lt;aegov-accordion-item&gt;
+    &lt;span slot="accordion-item-heading"&gt;Do you offer discounts?&lt;/span&gt;
+    &lt;span slot="accordion-item-content"&gt;Yes, we offer special discounts...&lt;/span&gt;
+  &lt;/aegov-accordion-item&gt;
+&lt;/aegov-accordion&gt;</div>
+  </div>
+
+  <!-- Allow Multiple -->
+  <div class="example-section">
+    <h2>Allow Multiple Open Items</h2>
+    <p>Accordion with allow-multiple attribute enabled. Multiple items can be open simultaneously.</p>
+
+    <div class="example-demo">
+      <aegov-accordion allow-multiple>
+        <aegov-accordion-item>
+          <span slot="accordion-item-heading">What payment methods do you accept?</span>
+          <span slot="accordion-item-content">We accept all major credit cards, PayPal, Apple Pay, and Google Pay.</span>
+        </aegov-accordion-item>
+        <aegov-accordion-item>
+          <span slot="accordion-item-heading">How long does shipping take?</span>
+          <span slot="accordion-item-content">Standard shipping typically takes 3-5 business days. Express shipping is available for an additional fee.</span>
+        </aegov-accordion-item>
+        <aegov-accordion-item>
+          <span slot="accordion-item-heading">Can I cancel my order?</span>
+          <span slot="accordion-item-content">Yes, you can cancel your order within 24 hours of placing it. After that, the order enters processing and cannot be cancelled.</span>
+        </aegov-accordion-item>
+      </aegov-accordion>
+    </div>
+
+    <div class="example-code">&lt;aegov-accordion allow-multiple&gt;
+  &lt;aegov-accordion-item&gt;
+    &lt;span slot="accordion-item-heading"&gt;What payment methods?&lt;/span&gt;
+    &lt;span slot="accordion-item-content"&gt;We accept all major...&lt;/span&gt;
+  &lt;/aegov-accordion-item&gt;
+  &lt;!-- More items --&gt;
+&lt;/aegov-accordion&gt;</div>
+  </div>
+
+  <!-- Plus Icon -->
+  <div class="example-section">
+    <h2>Plus Icon Variant</h2>
+    <p>Accordion with plus icon instead of chevron. The plus rotates to form an X when opened.</p>
+
+    <div class="example-demo">
+      <aegov-accordion icon="plus">
+        <aegov-accordion-item>
+          <span slot="accordion-item-heading">What is your privacy policy?</span>
+          <span slot="accordion-item-content">We take your privacy seriously. We never sell your personal information to third parties and only use your data to provide you with better service.</span>
+        </aegov-accordion-item>
+        <aegov-accordion-item>
+          <span slot="accordion-item-heading">How do I update my account?</span>
+          <span slot="accordion-item-content">You can update your account information anytime by visiting the Account Settings page in your dashboard.</span>
+        </aegov-accordion-item>
+        <aegov-accordion-item>
+          <span slot="accordion-item-heading">Do you offer customer support?</span>
+          <span slot="accordion-item-content">Yes! Our support team is available 24/7 via email, phone, or live chat to assist you with any questions.</span>
+        </aegov-accordion-item>
+      </aegov-accordion>
+    </div>
+
+    <div class="example-code">&lt;aegov-accordion icon="plus"&gt;
+  &lt;aegov-accordion-item&gt;
+    &lt;span slot="accordion-item-heading"&gt;What is your privacy policy?&lt;/span&gt;
+    &lt;span slot="accordion-item-content"&gt;We take your privacy seriously...&lt;/span&gt;
+  &lt;/aegov-accordion-item&gt;
+  &lt;!-- More items --&gt;
+&lt;/aegov-accordion&gt;</div>
+  </div>
+
+  <!-- Default Open -->
+  <div class="example-section">
+    <h2>Default Open Item</h2>
+    <p>Accordion with first item opened by default using the default-open attribute.</p>
+
+    <div class="example-demo">
+      <aegov-accordion default-open="0">
+        <aegov-accordion-item>
+          <span slot="accordion-item-heading">Product Features</span>
+          <span slot="accordion-item-content">Our product includes advanced features such as real-time analytics, automated reporting, and customizable dashboards. Experience seamless integration with your existing tools.</span>
+        </aegov-accordion-item>
+        <aegov-accordion-item>
+          <span slot="accordion-item-heading">Technical Specifications</span>
+          <span slot="accordion-item-content">Built with cutting-edge technology, our platform supports API integration, offers 99.9% uptime, and includes enterprise-grade security features.</span>
+        </aegov-accordion-item>
+        <aegov-accordion-item>
+          <span slot="accordion-item-heading">Support & Documentation</span>
+          <span slot="accordion-item-content">Comprehensive documentation, video tutorials, and 24/7 customer support are included with all our plans.</span>
+        </aegov-accordion-item>
+      </aegov-accordion>
+    </div>
+
+    <div class="example-code">&lt;aegov-accordion default-open="0"&gt;
+  &lt;!-- First item (index 0) will be open by default --&gt;
+  &lt;aegov-accordion-item&gt;...&lt;/aegov-accordion-item&gt;
+&lt;/aegov-accordion&gt;</div>
+  </div>
+
+  <!-- Bordered Accordion -->
+  <div class="example-section">
+    <h2>Bordered Accordion</h2>
+    <p>Accordion with a border around the entire component using the bordered attribute.</p>
+
+    <div class="example-demo">
+      <aegov-accordion bordered>
+        <aegov-accordion-item>
+          <span slot="accordion-item-heading">Getting Started</span>
+          <span slot="accordion-item-content">Begin your journey with our platform by following our comprehensive setup guide. We'll walk you through account creation, initial configuration, and best practices.</span>
+        </aegov-accordion-item>
+        <aegov-accordion-item>
+          <span slot="accordion-item-heading">Account Settings</span>
+          <span slot="accordion-item-content">Manage your profile, notification preferences, security settings, and billing information all in one convenient location.</span>
+        </aegov-accordion-item>
+        <aegov-accordion-item>
+          <span slot="accordion-item-heading">Advanced Features</span>
+          <span slot="accordion-item-content">Unlock the full potential of our platform with advanced features including automation, integrations, and custom workflows.</span>
+        </aegov-accordion-item>
+      </aegov-accordion>
+    </div>
+
+    <div class="example-code">&lt;aegov-accordion bordered&gt;
+  &lt;aegov-accordion-item&gt;
+    &lt;span slot="accordion-item-heading"&gt;Getting Started&lt;/span&gt;
+    &lt;span slot="accordion-item-content"&gt;Begin your journey...&lt;/span&gt;
+  &lt;/aegov-accordion-item&gt;
+  &lt;!-- More items --&gt;
+&lt;/aegov-accordion&gt;</div>
+  </div>
+
+  <!-- Disabled Item -->
+  <div class="example-section">
+    <h2>Disabled Items</h2>
+    <p>Accordion items can be disabled to prevent interaction.</p>
+
+    <div class="example-demo">
+      <aegov-accordion>
+        <aegov-accordion-item>
+          <span slot="accordion-item-heading">Available Feature</span>
+          <span slot="accordion-item-content">This feature is currently available and can be accessed.</span>
+        </aegov-accordion-item>
+        <aegov-accordion-item disabled>
+          <span slot="accordion-item-heading">Coming Soon (Disabled)</span>
+          <span slot="accordion-item-content">This feature is not yet available.</span>
+        </aegov-accordion-item>
+        <aegov-accordion-item>
+          <span slot="accordion-item-heading">Another Available Feature</span>
+          <span slot="accordion-item-content">This is another available feature with full functionality.</span>
+        </aegov-accordion-item>
+      </aegov-accordion>
+    </div>
+
+    <div class="example-code">&lt;aegov-accordion&gt;
+  &lt;aegov-accordion-item&gt;...&lt;/aegov-accordion-item&gt;
+  &lt;aegov-accordion-item disabled&gt;
+    &lt;span slot="accordion-item-heading"&gt;Coming Soon&lt;/span&gt;
+    &lt;span slot="accordion-item-content"&gt;Not yet available&lt;/span&gt;
+  &lt;/aegov-accordion-item&gt;
+&lt;/aegov-accordion&gt;</div>
+  </div>
+
+  <!-- Rich Content -->
+  <div class="example-section">
+    <h2>Rich Content</h2>
+    <p>Accordion items can contain rich HTML content including lists, links, and formatting.</p>
+
+    <div class="example-demo">
+      <aegov-accordion default-open="0">
+        <aegov-accordion-item>
+          <span slot="accordion-item-heading">System Requirements</span>
+          <div slot="accordion-item-content">
+            <p><strong>Minimum Requirements:</strong></p>
+            <ul style="margin: 0.5rem 0; padding-left: 1.5rem;">
+              <li>Operating System: Windows 10 or macOS 10.14+</li>
+              <li>RAM: 4GB minimum</li>
+              <li>Storage: 500MB available space</li>
+              <li>Internet: Broadband connection</li>
+            </ul>
+            <p style="margin-top: 1rem;"><strong>Recommended:</strong></p>
+            <ul style="margin: 0.5rem 0; padding-left: 1.5rem;">
+              <li>RAM: 8GB or more</li>
+              <li>SSD storage</li>
+              <li>High-speed internet connection</li>
+            </ul>
+          </div>
+        </aegov-accordion-item>
+        <aegov-accordion-item>
+          <span slot="accordion-item-heading">Installation Guide</span>
+          <div slot="accordion-item-content">
+            <p>Follow these steps to install:</p>
+            <ol style="margin: 0.5rem 0; padding-left: 1.5rem;">
+              <li>Download the installer from our website</li>
+              <li>Run the installation wizard</li>
+              <li>Accept the license agreement</li>
+              <li>Choose installation directory</li>
+              <li>Complete the setup process</li>
+            </ol>
+            <p style="margin-top: 1rem;">For detailed instructions, visit our <a href="#" style="color: var(--color-primary-600); text-decoration: underline;">documentation page</a>.</p>
+          </div>
+        </aegov-accordion-item>
+      </aegov-accordion>
+    </div>
+
+    <div class="example-code">&lt;aegov-accordion&gt;
+  &lt;aegov-accordion-item&gt;
+    &lt;span slot="accordion-item-heading"&gt;System Requirements&lt;/span&gt;
+    &lt;div slot="accordion-item-content"&gt;
+      &lt;p&gt;&lt;strong&gt;Minimum:&lt;/strong&gt;&lt;/p&gt;
+      &lt;ul&gt;
+        &lt;li&gt;Windows 10 or macOS 10.14+&lt;/li&gt;
+        &lt;li&gt;4GB RAM&lt;/li&gt;
+      &lt;/ul&gt;
+    &lt;/div&gt;
+  &lt;/aegov-accordion-item&gt;
+&lt;/aegov-accordion&gt;</div>
+  </div>
+
+  <!-- Nested Accordion -->
+  <div class="example-section">
+    <h2>Nested Accordion</h2>
+    <p>Accordions can be nested within accordion items to create hierarchical collapsible content structures. Perfect for organizing complex information into multiple levels.</p>
+
+    <div class="example-demo">
+      <aegov-accordion default-open="0">
+        <aegov-accordion-item>
+          <span slot="accordion-item-heading">🏢 Company Departments</span>
+          <div slot="accordion-item-content">
+            <p style="margin-top: 0; margin-bottom: 1rem; color: #64748b;">Explore our different departments and their teams:</p>
+
+            <aegov-accordion allow-multiple>
+              <aegov-accordion-item>
+                <span slot="accordion-item-heading">Engineering Department</span>
+                <div slot="accordion-item-content">
+                  <p><strong>Teams:</strong></p>
+                  <ul style="margin: 0.5rem 0; padding-left: 1.5rem;">
+                    <li>Frontend Team - React, Vue, Stencil</li>
+                    <li>Backend Team - Node.js, Python, Go</li>
+                    <li>DevOps Team - AWS, Docker, Kubernetes</li>
+                    <li>QA Team - Testing and Quality Assurance</li>
+                  </ul>
+                </div>
+              </aegov-accordion-item>
+
+              <aegov-accordion-item>
+                <span slot="accordion-item-heading">Design Department</span>
+                <div slot="accordion-item-content">
+                  <p><strong>Teams:</strong></p>
+                  <ul style="margin: 0.5rem 0; padding-left: 1.5rem;">
+                    <li>UI/UX Design Team</li>
+                    <li>Brand Design Team</li>
+                    <li>Motion Design Team</li>
+                    <li>Research Team</li>
+                  </ul>
+                </div>
+              </aegov-accordion-item>
+
+              <aegov-accordion-item>
+                <span slot="accordion-item-heading">Product Department</span>
+                <div slot="accordion-item-content">
+                  <p><strong>Teams:</strong></p>
+                  <ul style="margin: 0.5rem 0; padding-left: 1.5rem;">
+                    <li>Product Management</li>
+                    <li>Business Analysis</li>
+                    <li>Data Analytics</li>
+                  </ul>
+                </div>
+              </aegov-accordion-item>
+            </aegov-accordion>
+          </div>
+        </aegov-accordion-item>
+
+        <aegov-accordion-item>
+          <span slot="accordion-item-heading">📚 Learning Resources</span>
+          <div slot="accordion-item-content">
+            <p style="margin-top: 0; margin-bottom: 1rem; color: #64748b;">Browse our categorized learning materials:</p>
+
+            <aegov-accordion>
+              <aegov-accordion-item>
+                <span slot="accordion-item-heading">Web Development</span>
+                <div slot="accordion-item-content">
+                  <ul style="margin: 0.5rem 0; padding-left: 1.5rem;">
+                    <li>HTML & CSS Fundamentals</li>
+                    <li>JavaScript ES6+</li>
+                    <li>TypeScript Basics</li>
+                    <li>Web Components with Stencil</li>
+                  </ul>
+                </div>
+              </aegov-accordion-item>
+
+              <aegov-accordion-item>
+                <span slot="accordion-item-heading">Design Systems</span>
+                <div slot="accordion-item-content">
+                  <ul style="margin: 0.5rem 0; padding-left: 1.5rem;">
+                    <li>Design Tokens</li>
+                    <li>Component Libraries</li>
+                    <li>Accessibility Guidelines</li>
+                    <li>Style Guides</li>
+                  </ul>
+                </div>
+              </aegov-accordion-item>
+            </aegov-accordion>
+          </div>
+        </aegov-accordion-item>
+
+        <aegov-accordion-item>
+          <span slot="accordion-item-heading">⚙️ System Settings</span>
+          <div slot="accordion-item-content">
+            <p style="margin-top: 0; margin-bottom: 1rem; color: #64748b;">Configure your system preferences:</p>
+
+            <aegov-accordion allow-multiple>
+              <aegov-accordion-item>
+                <span slot="accordion-item-heading">Appearance</span>
+                <span slot="accordion-item-content">Theme: Light/Dark, Color Scheme, Font Size</span>
+              </aegov-accordion-item>
+
+              <aegov-accordion-item>
+                <span slot="accordion-item-heading">Notifications</span>
+                <span slot="accordion-item-content">Email alerts, Push notifications, SMS updates</span>
+              </aegov-accordion-item>
+
+              <aegov-accordion-item>
+                <span slot="accordion-item-heading">Privacy</span>
+                <span slot="accordion-item-content">Data sharing, Cookies, Analytics tracking</span>
+              </aegov-accordion-item>
+            </aegov-accordion>
+          </div>
+        </aegov-accordion-item>
+      </aegov-accordion>
+    </div>
+
+    <div class="example-code">&lt;aegov-accordion default-open="0"&gt;
+  &lt;aegov-accordion-item&gt;
+    &lt;span slot="accordion-item-heading"&gt;Company Departments&lt;/span&gt;
+    &lt;div slot="accordion-item-content"&gt;
+      &lt;p&gt;Explore our different departments:&lt;/p&gt;
+
+      &lt;!-- Nested accordion --&gt;
+      &lt;aegov-accordion allow-multiple&gt;
+        &lt;aegov-accordion-item&gt;
+          &lt;span slot="accordion-item-heading"&gt;Engineering&lt;/span&gt;
+          &lt;div slot="accordion-item-content"&gt;
+            &lt;ul&gt;
+              &lt;li&gt;Frontend Team&lt;/li&gt;
+              &lt;li&gt;Backend Team&lt;/li&gt;
+            &lt;/ul&gt;
+          &lt;/div&gt;
+        &lt;/aegov-accordion-item&gt;
+        &lt;aegov-accordion-item&gt;
+          &lt;span slot="accordion-item-heading"&gt;Design&lt;/span&gt;
+          &lt;span slot="accordion-item-content"&gt;Design teams...&lt;/span&gt;
+        &lt;/aegov-accordion-item&gt;
+      &lt;/aegov-accordion&gt;
+    &lt;/div&gt;
+  &lt;/aegov-accordion-item&gt;
+&lt;/aegov-accordion&gt;</div>
+  </div>
+
+  <!-- RTL Support -->
+  <div class="example-section">
+    <h2>RTL Support</h2>
+    <p>Accordion works seamlessly in RTL (Right-to-Left) layouts for Arabic and other RTL languages.</p>
+
+    <h3>LTR (Left to Right)</h3>
+    <div class="example-demo" dir="ltr">
+      <aegov-accordion>
+        <aegov-accordion-item>
+          <span slot="accordion-item-heading">General Information</span>
+          <span slot="accordion-item-content">This is general information about our services and offerings.</span>
+        </aegov-accordion-item>
+        <aegov-accordion-item>
+          <span slot="accordion-item-heading">Contact Details</span>
+          <span slot="accordion-item-content">You can reach us via email, phone, or our online chat support.</span>
+        </aegov-accordion-item>
+      </aegov-accordion>
+    </div>
+
+    <h3>RTL (Right to Left)</h3>
+    <div class="example-demo" dir="rtl">
+      <aegov-accordion>
+        <aegov-accordion-item>
+          <span slot="accordion-item-heading">معلومات عامة</span>
+          <span slot="accordion-item-content">هذه معلومات عامة حول خدماتنا وعروضنا.</span>
+        </aegov-accordion-item>
+        <aegov-accordion-item>
+          <span slot="accordion-item-heading">تفاصيل الاتصال</span>
+          <span slot="accordion-item-content">يمكنك الوصول إلينا عبر البريد الإلكتروني أو الهاتف أو دعم الدردشة عبر الإنترنت.</span>
+        </aegov-accordion-item>
+      </aegov-accordion>
+    </div>
+
+    <div class="example-code">&lt;div dir="rtl"&gt;
+  &lt;aegov-accordion&gt;
+    &lt;aegov-accordion-item&gt;
+      &lt;span slot="accordion-item-heading"&gt;معلومات عامة&lt;/span&gt;
+      &lt;span slot="accordion-item-content"&gt;هذه معلومات عامة...&lt;/span&gt;
+    &lt;/aegov-accordion-item&gt;
+  &lt;/aegov-accordion&gt;
+&lt;/div&gt;</div>
+  </div>
+
+</body>
+</html>

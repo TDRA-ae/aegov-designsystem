@@ -322,11 +322,11 @@
 
       <div class="stats">
         <div class="stat">
-          <span class="stat-number">7</span>
+          <span class="stat-number">8</span>
           <span class="stat-label">Components</span>
         </div>
         <div class="stat">
-          <span class="stat-number">480+</span>
+          <span class="stat-number">441</span>
           <span class="stat-label">Tests Passing</span>
         </div>
         <div class="stat">
@@ -526,6 +526,32 @@
           </a>
         </div>
 
+        <!-- Accordion Component Card -->
+        <div class="component-card" onclick="window.location.href='pages/accordion-examples.html'" style="border-color: #fb923c;">
+          <div class="component-icon" style="background: linear-gradient(135deg, #f97316 0%, #ea580c 100%); box-shadow: 0 4px 12px rgba(249, 115, 22, 0.3);">
+            <svg fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M3 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd"/>
+            </svg>
+          </div>
+          <h3>Accordion Component<span class="badge">New</span></h3>
+          <p>Accessible collapsible content sections with smooth animations, keyboard navigation, and RTL support.</p>
+
+          <ul class="component-features">
+            <li>Single & Multiple open modes</li>
+            <li>Default open item support</li>
+            <li>Smooth height-based animations</li>
+            <li>Keyboard accessible (Tab, Enter, Space)</li>
+            <li>Parent-child architecture with validation</li>
+          </ul>
+
+          <a href="pages/accordion-examples.html" class="component-link">
+            View Examples
+            <svg fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd"/>
+            </svg>
+          </a>
+        </div>
+
         <!-- Multi-Component Analysis Page -->
         <div class="component-card" onclick="window.location.href='pages/multi-components.html'" style="border-color: #f472b6; grid-column: 1 / -1; background: linear-gradient(135deg, #fdf2f8 0%, #fce7f3 100%);">
           <div class="component-icon" style="background: linear-gradient(135deg, #ec4899 0%, #db2777 100%); box-shadow: 0 4px 12px rgba(236, 72, 153, 0.3);">
@@ -583,7 +609,7 @@
     // Log component initialization
     document.addEventListener('DOMContentLoaded', () => {
       console.log('✨ AEGOV Design System loaded');
-      console.log('📦 Components: Button, Avatar, Blockquote, Callout, Badge');
+      console.log('📦 Components: Button, Avatar, Blockquote, Callout, Badge, Link, Breadcrumbs, Accordion');
       console.log('🎨 Framework: StencilJS + Tailwind CSS v4');
     });
   </script>

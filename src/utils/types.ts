@@ -90,6 +90,11 @@ export type LinkTarget = '_blank' | '_self' | '_parent' | '_top';
 export type BreadcrumbSeparator = 'slash' | 'chevron';
 
 /**
+ * Accordion component icon types
+ */
+export type AccordionIcon = 'chevron' | 'plus';
+
+/**
  * Common component props
  */
 export interface BaseComponentProps {

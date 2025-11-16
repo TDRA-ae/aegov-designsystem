@@ -1,0 +1,13 @@
+:host {
+  display: block;
+}
+
+.aegov-accordion {
+  @apply rounded-md overflow-hidden bg-transparent;
+  &.aegov-accordion__bordered {
+    @apply border border-aeblack-100 rounded-lg;
+    & .accordion-item__first {
+      @apply !border-t-0;
+    }
+  }
+}

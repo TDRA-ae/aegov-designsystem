@@ -1,0 +1,56 @@
+:host {
+  display: block;
+}
+
+
+.accordion-item {
+  @apply border-b border-aeblack-100;
+
+  &.accordion-item__first {
+    @apply border-t border-aeblack-100;
+  }
+  &.accordion-item__last {
+    @apply border-b-0;
+  }
+
+  &>button.accordion-item__header {
+    @apply w-full py-5 px-3 flex justify-between items-start gap-x-4 flex-nowrap text-start text-base font-semibold bg-transparent transition-all border-0 cursor-pointer hover:not-disabled:text-primary-600 focus-visible:bg-primary-support-400 focus-visible:text-primary-support-900 focus-visible:-outline-offset-3 focus-visible:outline-2 focus-visible:outline-primary-support-700 disabled:opacity-50 disabled:cursor-none;
+  }
+  & .accordion-item__heading {
+    @apply flex-1 font-semibold text-base leading-normal text-aeblack-800 flex items-center justify-start gap-2;
+  }
+  &.accordion-item--open {
+    &>button.accordion-item__header {
+      @apply text-primary-600;
+      &>.accordion-item__heading {
+        @apply text-primary-600;
+      }
+      &>.accordion-item__icon-chevron {
+        @apply text-primary-600 rotate-180;
+      }
+      &>.accordion-item__icon-plus {
+        @apply text-primary-600 rotate-45;
+      }
+    }
+  }
+  & .accordion-item__icon {
+    @apply size-6 shrink-0 text-aeblack-600 transition-all ease-in-out duration-150;
+  }
+  & .accordion-item__content {
+    @apply px-3 py-5 leading-normal text-aeblack-800;
+  }
+
+  &.accordion-item--disabled {
+    @apply opacity-60;
+  }
+
+  & .accordion-item__content-wrapper {
+    overflow: hidden;
+    transition: height 0.2s ease-in-out;
+  }
+}
+
+/* RTL Support */
+[dir="rtl"] .accordion-item__header {
+  text-align: right;
+}

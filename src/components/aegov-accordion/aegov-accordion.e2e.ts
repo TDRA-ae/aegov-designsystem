@@ -1,0 +1,481 @@
+import { newE2EPage } from '@stencil/core/testing';
+
+describe('aegov-accordion E2E', () => {
+  describe('rendering', () => {
+    it('should render', async () => {
+      const page = await newE2EPage();
+      await page.setContent(`
+        <aegov-accordion>
+          <aegov-accordion-item>
+            <span slot="accordion-item-heading">Heading</span>
+            <span slot="accordion-item-content">Content</span>
+          </aegov-accordion-item>
+        </aegov-accordion>
+      `);
+
+      const element = await page.find('aegov-accordion');
+      expect(element).toBeTruthy();
+    });
+
+    it('should render accordion items', async () => {
+      const page = await newE2EPage();
+      await page.setContent(`
+        <aegov-accordion>
+          <aegov-accordion-item>
+            <span slot="accordion-item-heading">Heading 1</span>
+            <span slot="accordion-item-content">Content 1</span>
+          </aegov-accordion-item>
+          <aegov-accordion-item>
+            <span slot="accordion-item-heading">Heading 2</span>
+            <span slot="accordion-item-content">Content 2</span>
+          </aegov-accordion-item>
+        </aegov-accordion>
+      `);
+
+      const items = await page.findAll('aegov-accordion-item');
+      expect(items.length).toBe(2);
+    });
+  });
+
+  describe('interaction', () => {
+    it('should toggle item when clicked', async () => {
+      const page = await newE2EPage();
+      await page.setContent(`
+        <aegov-accordion>
+          <aegov-accordion-item>
+            <span slot="accordion-item-heading">Heading</span>
+            <span slot="accordion-item-content">Content</span>
+          </aegov-accordion-item>
+        </aegov-accordion>
+      `);
+
+      const button = await page.find('aegov-accordion-item .accordion-item__header');
+
+      // Initially closed
+      let item = await page.find('aegov-accordion-item');
+      let isOpen = await item.getProperty('open');
+      expect(isOpen).toBe(false);
+
+      // Click to open
+      await button.click();
+      await page.waitForChanges();
+
+      item = await page.find('aegov-accordion-item');
+      isOpen = await item.getProperty('open');
+      expect(isOpen).toBe(true);
+    });
+
+    it('should close other items in single mode', async () => {
+      const page = await newE2EPage();
+      await page.setContent(`
+        <aegov-accordion>
+          <aegov-accordion-item>
+            <span slot="accordion-item-heading">Heading 1</span>
+            <span slot="accordion-item-content">Content 1</span>
+          </aegov-accordion-item>
+          <aegov-accordion-item>
+            <span slot="accordion-item-heading">Heading 2</span>
+            <span slot="accordion-item-content">Content 2</span>
+          </aegov-accordion-item>
+        </aegov-accordion>
+      `);
+
+      const items = await page.findAll('aegov-accordion-item');
+      const buttons = await page.findAll('aegov-accordion-item .accordion-item__header');
+
+      // Open first item
+      await buttons[0].click();
+      await page.waitForChanges();
+
+      let item1Open = await items[0].getProperty('open');
+      expect(item1Open).toBe(true);
+
+      // Open second item
+      await buttons[1].click();
+      await page.waitForChanges();
+
+      // First should now be closed
+      item1Open = await items[0].getProperty('open');
+      const item2Open = await items[1].getProperty('open');
+      expect(item1Open).toBe(false);
+      expect(item2Open).toBe(true);
+    });
+
+    it('should allow multiple open items when allow-multiple is true', async () => {
+      const page = await newE2EPage();
+      await page.setContent(`
+        <aegov-accordion allow-multiple>
+          <aegov-accordion-item>
+            <span slot="accordion-item-heading">Heading 1</span>
+            <span slot="accordion-item-content">Content 1</span>
+          </aegov-accordion-item>
+          <aegov-accordion-item>
+            <span slot="accordion-item-heading">Heading 2</span>
+            <span slot="accordion-item-content">Content 2</span>
+          </aegov-accordion-item>
+        </aegov-accordion>
+      `);
+
+      const items = await page.findAll('aegov-accordion-item');
+      const buttons = await page.findAll('aegov-accordion-item .accordion-item__header');
+
+      // Open first item
+      await buttons[0].click();
+      await page.waitForChanges();
+
+      // Open second item
+      await buttons[1].click();
+      await page.waitForChanges();
+
+      // Both should be open
+      const item1Open = await items[0].getProperty('open');
+      const item2Open = await items[1].getProperty('open');
+      expect(item1Open).toBe(true);
+      expect(item2Open).toBe(true);
+    });
+
+    it('should not toggle when disabled', async () => {
+      const page = await newE2EPage();
+      await page.setContent(`
+        <aegov-accordion>
+          <aegov-accordion-item disabled>
+            <span slot="accordion-item-heading">Heading</span>
+            <span slot="accordion-item-content">Content</span>
+          </aegov-accordion-item>
+        </aegov-accordion>
+      `);
+
+      const button = await page.find('aegov-accordion-item .accordion-item__header');
+      const item = await page.find('aegov-accordion-item');
+
+      // Try to click
+      await button.click();
+      await page.waitForChanges();
+
+      // Should still be closed
+      const isOpen = await item.getProperty('open');
+      expect(isOpen).toBe(false);
+    });
+  });
+
+  describe('default open', () => {
+    it('should open specified item by default', async () => {
+      const page = await newE2EPage();
+      await page.setContent(`
+        <aegov-accordion default-open="1">
+          <aegov-accordion-item>
+            <span slot="accordion-item-heading">Heading 1</span>
+            <span slot="accordion-item-content">Content 1</span>
+          </aegov-accordion-item>
+          <aegov-accordion-item>
+            <span slot="accordion-item-heading">Heading 2</span>
+            <span slot="accordion-item-content">Content 2</span>
+          </aegov-accordion-item>
+        </aegov-accordion>
+      `);
+
+      await page.waitForChanges();
+
+      const items = await page.findAll('aegov-accordion-item');
+      const item1Open = await items[0].getProperty('open');
+      const item2Open = await items[1].getProperty('open');
+
+      expect(item1Open).toBe(false);
+      expect(item2Open).toBe(true);
+    });
+  });
+
+  describe('keyboard navigation', () => {
+    it('should toggle with Enter key', async () => {
+      const page = await newE2EPage();
+      await page.setContent(`
+        <aegov-accordion>
+          <aegov-accordion-item>
+            <span slot="accordion-item-heading">Heading</span>
+            <span slot="accordion-item-content">Content</span>
+          </aegov-accordion-item>
+        </aegov-accordion>
+      `);
+
+      const button = await page.find('aegov-accordion-item .accordion-item__header');
+      await button.focus();
+      await button.press('Enter');
+      await page.waitForChanges();
+
+      const item = await page.find('aegov-accordion-item');
+      const isOpen = await item.getProperty('open');
+      expect(isOpen).toBe(true);
+    });
+
+    it('should toggle with Space key', async () => {
+      const page = await newE2EPage();
+      await page.setContent(`
+        <aegov-accordion>
+          <aegov-accordion-item>
+            <span slot="accordion-item-heading">Heading</span>
+            <span slot="accordion-item-content">Content</span>
+          </aegov-accordion-item>
+        </aegov-accordion>
+      `);
+
+      const button = await page.find('aegov-accordion-item .accordion-item__header');
+      await button.focus();
+      await button.press('Space');
+      await page.waitForChanges();
+
+      const item = await page.find('aegov-accordion-item');
+      const isOpen = await item.getProperty('open');
+      expect(isOpen).toBe(true);
+    });
+  });
+
+  describe('accessibility', () => {
+    it('should have correct aria-expanded attribute', async () => {
+      const page = await newE2EPage();
+      await page.setContent(`
+        <aegov-accordion>
+          <aegov-accordion-item>
+            <span slot="accordion-item-heading">Heading</span>
+            <span slot="accordion-item-content">Content</span>
+          </aegov-accordion-item>
+        </aegov-accordion>
+      `);
+
+      const button = await page.find('aegov-accordion-item .accordion-item__header');
+
+      // Initially false
+      let expanded = await button.getAttribute('aria-expanded');
+      expect(expanded).toBe('false');
+
+      // Click to open
+      await button.click();
+      await page.waitForChanges();
+
+      // Should be true
+      expanded = await button.getAttribute('aria-expanded');
+      expect(expanded).toBe('true');
+    });
+  });
+
+  describe('events', () => {
+    it('should emit aegovAccordionItemToggle event', async () => {
+      const page = await newE2EPage();
+      await page.setContent(`
+        <aegov-accordion>
+          <aegov-accordion-item>
+            <span slot="accordion-item-heading">Heading</span>
+            <span slot="accordion-item-content">Content</span>
+          </aegov-accordion-item>
+        </aegov-accordion>
+      `);
+
+      const item = await page.find('aegov-accordion-item');
+      const spy = await item.spyOnEvent('aegovAccordionItemToggle');
+
+      const button = await page.find('aegov-accordion-item .accordion-item__header');
+      await button.click();
+      await page.waitForChanges();
+
+      expect(spy).toHaveReceivedEvent();
+    });
+  });
+
+  describe('nested accordion', () => {
+    it('should update parent height when nested accordion item toggles', async () => {
+      const page = await newE2EPage();
+      await page.setContent(`
+        <aegov-accordion>
+          <aegov-accordion-item>
+            <span slot="accordion-item-heading">Parent Item</span>
+            <div slot="accordion-item-content">
+              <p>Some content before nested accordion</p>
+              <aegov-accordion allow-multiple>
+                <aegov-accordion-item>
+                  <span slot="accordion-item-heading">Nested Item 1</span>
+                  <div slot="accordion-item-content">
+                    <p>Nested content 1</p>
+                    <p>More nested content</p>
+                    <p>Even more nested content</p>
+                  </div>
+                </aegov-accordion-item>
+                <aegov-accordion-item>
+                  <span slot="accordion-item-heading">Nested Item 2</span>
+                  <div slot="accordion-item-content">
+                    <p>Nested content 2</p>
+                  </div>
+                </aegov-accordion-item>
+              </aegov-accordion>
+            </div>
+          </aegov-accordion-item>
+        </aegov-accordion>
+      `);
+
+      // Get all buttons
+      const buttons = await page.findAll('aegov-accordion-item .accordion-item__header');
+
+      // Open the parent item first
+      await buttons[0].click();
+      await page.waitForChanges();
+
+      // Wait for animation and height calculation
+      await new Promise(resolve => setTimeout(resolve, 350));
+
+      // Get initial height after parent is opened using evaluate
+      const { initialHeightValue, debug } = await page.evaluate(() => {
+        // Get the outermost accordion
+        const outerAccordion = document.querySelector('aegov-accordion');
+        if (!outerAccordion) {
+          return { initialHeightValue: -999, debug: { error: 'No accordion found' } };
+        }
+
+        // Get all accordion items
+        const allItems = Array.from(outerAccordion.querySelectorAll('aegov-accordion-item'));
+
+        // Debug: log parent elements of all items
+        const itemsDebug = allItems.map((item, index) => ({
+          index,
+          parentTagName: item.parentElement?.tagName,
+          parentIsAccordion: item.parentElement?.tagName === 'AEGOV-ACCORDION'
+        }));
+
+        // Get the first item (which should be the parent/outer item)
+        const parentItem = allItems[0] as any;
+
+        if (!parentItem) {
+          return { initialHeightValue: -998, debug: { error: 'No items found', itemsDebug } };
+        }
+
+        const wrapper = parentItem.querySelector('.accordion-item__content-wrapper') as HTMLElement;
+
+        return {
+          initialHeightValue: wrapper ? parseInt(window.getComputedStyle(wrapper).height) : -1,
+          debug: {
+            totalItems: allItems.length,
+            itemsDebug,
+            wrapperExists: !!wrapper,
+            wrapperStyle: wrapper ? wrapper.getAttribute('style') : 'not found',
+            parentOpen: parentItem ? parentItem.open : 'not found',
+            scrollHeight: wrapper ? wrapper.scrollHeight : -1
+          }
+        };
+      });
+
+      console.log('Initial parent height:', initialHeightValue);
+      console.log('Debug info:', JSON.stringify(debug, null, 2));
+
+      // Now open the first nested item
+      await buttons[1].click();
+      await page.waitForChanges();
+
+      // Wait a bit for height recalculation
+      await new Promise(resolve => setTimeout(resolve, 350));
+
+      // Get updated height
+      const updatedHeightValue = await page.evaluate(() => {
+        const outerAccordion = document.querySelector('aegov-accordion');
+        if (!outerAccordion) return 0;
+        const allItems = Array.from(outerAccordion.querySelectorAll('aegov-accordion-item'));
+        const parentItem = allItems[0]; // First item is the parent
+        if (!parentItem) return 0;
+        const wrapper = parentItem.querySelector('.accordion-item__content-wrapper') as HTMLElement;
+        return wrapper ? parseInt(window.getComputedStyle(wrapper).height) : 0;
+      });
+
+      console.log('Updated parent height after nested item opened:', updatedHeightValue);
+
+      // The height should have increased
+      expect(updatedHeightValue).toBeGreaterThan(initialHeightValue);
+
+      // Now open the second nested item (allow-multiple is true)
+      await buttons[2].click();
+      await page.waitForChanges();
+
+      // Wait a bit for height recalculation
+      await new Promise(resolve => setTimeout(resolve, 350));
+
+      // Get updated height again
+      const finalHeightValue = await page.evaluate(() => {
+        const outerAccordion = document.querySelector('aegov-accordion');
+        if (!outerAccordion) return 0;
+        const allItems = Array.from(outerAccordion.querySelectorAll('aegov-accordion-item'));
+        const parentItem = allItems[0]; // First item is the parent
+        if (!parentItem) return 0;
+        const wrapper = parentItem.querySelector('.accordion-item__content-wrapper') as HTMLElement;
+        return wrapper ? parseInt(window.getComputedStyle(wrapper).height) : 0;
+      });
+
+      console.log('Final parent height after second nested item opened:', finalHeightValue);
+
+      // The height should have increased even more
+      expect(finalHeightValue).toBeGreaterThan(updatedHeightValue);
+    });
+
+    it('should decrease parent height when nested accordion item closes', async () => {
+      const page = await newE2EPage();
+      await page.setContent(`
+        <aegov-accordion>
+          <aegov-accordion-item>
+            <span slot="accordion-item-heading">Parent Item</span>
+            <div slot="accordion-item-content">
+              <p>Some content</p>
+              <aegov-accordion>
+                <aegov-accordion-item>
+                  <span slot="accordion-item-heading">Nested Item</span>
+                  <div slot="accordion-item-content">
+                    <p>Nested content line 1</p>
+                    <p>Nested content line 2</p>
+                    <p>Nested content line 3</p>
+                  </div>
+                </aegov-accordion-item>
+              </aegov-accordion>
+            </div>
+          </aegov-accordion-item>
+        </aegov-accordion>
+      `);
+
+      const buttons = await page.findAll('aegov-accordion-item .accordion-item__header');
+
+      // Open parent
+      await buttons[0].click();
+      await page.waitForChanges();
+
+      // Open nested item
+      await buttons[1].click();
+      await page.waitForChanges();
+      await new Promise(resolve => setTimeout(resolve, 350));
+
+      // Get height with nested item open
+      const heightWithNestedOpenValue = await page.evaluate(() => {
+        const outerAccordion = document.querySelector('aegov-accordion');
+        if (!outerAccordion) return 0;
+        const allItems = Array.from(outerAccordion.querySelectorAll('aegov-accordion-item'));
+        const parentItem = allItems[0]; // First item is the parent
+        if (!parentItem) return 0;
+        const wrapper = parentItem.querySelector('.accordion-item__content-wrapper') as HTMLElement;
+        return wrapper ? parseInt(window.getComputedStyle(wrapper).height) : 0;
+      });
+
+      // Close nested item
+      await buttons[1].click();
+      await page.waitForChanges();
+      await new Promise(resolve => setTimeout(resolve, 350));
+
+      // Get height with nested item closed
+      const heightWithNestedClosedValue = await page.evaluate(() => {
+        const outerAccordion = document.querySelector('aegov-accordion');
+        if (!outerAccordion) return 0;
+        const allItems = Array.from(outerAccordion.querySelectorAll('aegov-accordion-item'));
+        const parentItem = allItems[0]; // First item is the parent
+        if (!parentItem) return 0;
+        const wrapper = parentItem.querySelector('.accordion-item__content-wrapper') as HTMLElement;
+        return wrapper ? parseInt(window.getComputedStyle(wrapper).height) : 0;
+      });
+
+      console.log('Height with nested open:', heightWithNestedOpenValue);
+      console.log('Height with nested closed:', heightWithNestedClosedValue);
+
+      // Height should have decreased
+      expect(heightWithNestedClosedValue).toBeLessThan(heightWithNestedOpenValue);
+    });
+  });
+});
