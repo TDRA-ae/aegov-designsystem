@@ -204,4 +204,208 @@ describe('aegov-accordion', () => {
       expect(items[1].open).toBe(true);
     });
   });
+
+  describe('icon prop', () => {
+    it('should default to chevron', async () => {
+      const page = await newSpecPage({
+        components: [AegovAccordion, AegovAccordionItem],
+        html: `
+          <aegov-accordion>
+            <aegov-accordion-item>
+              <span slot="accordion-item-heading">Heading</span>
+              <span slot="accordion-item-content">Content</span>
+            </aegov-accordion-item>
+          </aegov-accordion>
+        `,
+      });
+
+      const accordion = page.root as HTMLAegovAccordionElement;
+      expect(accordion.icon).toBe('chevron');
+    });
+
+    it('should accept plus value', async () => {
+      const page = await newSpecPage({
+        components: [AegovAccordion, AegovAccordionItem],
+        html: `
+          <aegov-accordion icon="plus">
+            <aegov-accordion-item>
+              <span slot="accordion-item-heading">Heading</span>
+              <span slot="accordion-item-content">Content</span>
+            </aegov-accordion-item>
+          </aegov-accordion>
+        `,
+      });
+
+      const accordion = page.root as HTMLAegovAccordionElement;
+      expect(accordion.icon).toBe('plus');
+    });
+
+    it('should set icon on child items', async () => {
+      const page = await newSpecPage({
+        components: [AegovAccordion, AegovAccordionItem],
+        html: `
+          <aegov-accordion icon="plus">
+            <aegov-accordion-item>
+              <span slot="accordion-item-heading">Heading 1</span>
+              <span slot="accordion-item-content">Content 1</span>
+            </aegov-accordion-item>
+            <aegov-accordion-item>
+              <span slot="accordion-item-heading">Heading 2</span>
+              <span slot="accordion-item-content">Content 2</span>
+            </aegov-accordion-item>
+          </aegov-accordion>
+        `,
+      });
+
+      await page.waitForChanges();
+
+      const items = page.root.querySelectorAll('aegov-accordion-item') as NodeListOf<HTMLAegovAccordionItemElement>;
+      expect(items[0].icon).toBe('plus');
+      expect(items[1].icon).toBe('plus');
+    });
+  });
+
+  describe('bordered prop', () => {
+    it('should default to false', async () => {
+      const page = await newSpecPage({
+        components: [AegovAccordion, AegovAccordionItem],
+        html: `
+          <aegov-accordion>
+            <aegov-accordion-item>
+              <span slot="accordion-item-heading">Heading</span>
+              <span slot="accordion-item-content">Content</span>
+            </aegov-accordion-item>
+          </aegov-accordion>
+        `,
+      });
+
+      const accordion = page.root as HTMLAegovAccordionElement;
+      expect(accordion.bordered).toBe(false);
+    });
+
+    it('should accept true value', async () => {
+      const page = await newSpecPage({
+        components: [AegovAccordion, AegovAccordionItem],
+        html: `
+          <aegov-accordion bordered="true">
+            <aegov-accordion-item>
+              <span slot="accordion-item-heading">Heading</span>
+              <span slot="accordion-item-content">Content</span>
+            </aegov-accordion-item>
+          </aegov-accordion>
+        `,
+      });
+
+      const accordion = page.root as HTMLAegovAccordionElement;
+      expect(accordion.bordered).toBe(true);
+    });
+
+    it('should apply aegov-accordion__bordered class when bordered is true', async () => {
+      const page = await newSpecPage({
+        components: [AegovAccordion, AegovAccordionItem],
+        html: `
+          <aegov-accordion bordered="true">
+            <aegov-accordion-item>
+              <span slot="accordion-item-heading">Heading</span>
+              <span slot="accordion-item-content">Content</span>
+            </aegov-accordion-item>
+          </aegov-accordion>
+        `,
+      });
+
+      await page.waitForChanges();
+
+      const accordionDiv = page.root.querySelector('.aegov-accordion');
+      expect(accordionDiv).toHaveClass('aegov-accordion__bordered');
+    });
+
+    it('should not apply aegov-accordion__bordered class when bordered is false', async () => {
+      const page = await newSpecPage({
+        components: [AegovAccordion, AegovAccordionItem],
+        html: `
+          <aegov-accordion>
+            <aegov-accordion-item>
+              <span slot="accordion-item-heading">Heading</span>
+              <span slot="accordion-item-content">Content</span>
+            </aegov-accordion-item>
+          </aegov-accordion>
+        `,
+      });
+
+      await page.waitForChanges();
+
+      const accordionDiv = page.root.querySelector('.aegov-accordion');
+      expect(accordionDiv).not.toHaveClass('aegov-accordion__bordered');
+    });
+  });
+
+  describe('first and last item classes', () => {
+    it('should set isFirst on first item', async () => {
+      const page = await newSpecPage({
+        components: [AegovAccordion, AegovAccordionItem],
+        html: `
+          <aegov-accordion>
+            <aegov-accordion-item>
+              <span slot="accordion-item-heading">Heading 1</span>
+              <span slot="accordion-item-content">Content 1</span>
+            </aegov-accordion-item>
+            <aegov-accordion-item>
+              <span slot="accordion-item-heading">Heading 2</span>
+              <span slot="accordion-item-content">Content 2</span>
+            </aegov-accordion-item>
+          </aegov-accordion>
+        `,
+      });
+
+      await page.waitForChanges();
+
+      const items = page.root.querySelectorAll('aegov-accordion-item') as NodeListOf<HTMLAegovAccordionItemElement>;
+      expect(items[0].isFirst).toBe(true);
+      expect(items[1].isFirst).toBe(false);
+    });
+
+    it('should set isLast on last item', async () => {
+      const page = await newSpecPage({
+        components: [AegovAccordion, AegovAccordionItem],
+        html: `
+          <aegov-accordion>
+            <aegov-accordion-item>
+              <span slot="accordion-item-heading">Heading 1</span>
+              <span slot="accordion-item-content">Content 1</span>
+            </aegov-accordion-item>
+            <aegov-accordion-item>
+              <span slot="accordion-item-heading">Heading 2</span>
+              <span slot="accordion-item-content">Content 2</span>
+            </aegov-accordion-item>
+          </aegov-accordion>
+        `,
+      });
+
+      await page.waitForChanges();
+
+      const items = page.root.querySelectorAll('aegov-accordion-item') as NodeListOf<HTMLAegovAccordionItemElement>;
+      expect(items[0].isLast).toBe(false);
+      expect(items[1].isLast).toBe(true);
+    });
+
+    it('should set both isFirst and isLast on single item', async () => {
+      const page = await newSpecPage({
+        components: [AegovAccordion, AegovAccordionItem],
+        html: `
+          <aegov-accordion>
+            <aegov-accordion-item>
+              <span slot="accordion-item-heading">Heading</span>
+              <span slot="accordion-item-content">Content</span>
+            </aegov-accordion-item>
+          </aegov-accordion>
+        `,
+      });
+
+      await page.waitForChanges();
+
+      const item = page.root.querySelector('aegov-accordion-item') as HTMLAegovAccordionItemElement;
+      expect(item.isFirst).toBe(true);
+      expect(item.isLast).toBe(true);
+    });
+  });
 });

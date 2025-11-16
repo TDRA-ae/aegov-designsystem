@@ -280,6 +280,202 @@ describe('aegov-accordion E2E', () => {
     });
   });
 
+  describe('icon property', () => {
+    it('should render chevron icon by default', async () => {
+      const page = await newE2EPage();
+      await page.setContent(`
+        <aegov-accordion>
+          <aegov-accordion-item>
+            <span slot="accordion-item-heading">Heading</span>
+            <span slot="accordion-item-content">Content</span>
+          </aegov-accordion-item>
+        </aegov-accordion>
+      `);
+
+      const chevronIcon = await page.find('aegov-accordion-item .accordion-item__icon-chevron');
+      const plusIcon = await page.find('aegov-accordion-item .accordion-item__icon-plus');
+
+      expect(chevronIcon).toBeTruthy();
+      expect(plusIcon).toBeFalsy();
+    });
+
+    it('should render plus icon when icon="plus"', async () => {
+      const page = await newE2EPage();
+      await page.setContent(`
+        <aegov-accordion icon="plus">
+          <aegov-accordion-item>
+            <span slot="accordion-item-heading">Heading</span>
+            <span slot="accordion-item-content">Content</span>
+          </aegov-accordion-item>
+        </aegov-accordion>
+      `);
+
+      const chevronIcon = await page.find('aegov-accordion-item .accordion-item__icon-chevron');
+      const plusIcon = await page.find('aegov-accordion-item .accordion-item__icon-plus');
+
+      expect(chevronIcon).toBeFalsy();
+      expect(plusIcon).toBeTruthy();
+    });
+
+    it('should apply correct icon to all items', async () => {
+      const page = await newE2EPage();
+      await page.setContent(`
+        <aegov-accordion icon="plus">
+          <aegov-accordion-item>
+            <span slot="accordion-item-heading">Heading 1</span>
+            <span slot="accordion-item-content">Content 1</span>
+          </aegov-accordion-item>
+          <aegov-accordion-item>
+            <span slot="accordion-item-heading">Heading 2</span>
+            <span slot="accordion-item-content">Content 2</span>
+          </aegov-accordion-item>
+          <aegov-accordion-item>
+            <span slot="accordion-item-heading">Heading 3</span>
+            <span slot="accordion-item-content">Content 3</span>
+          </aegov-accordion-item>
+        </aegov-accordion>
+      `);
+
+      const plusIcons = await page.findAll('aegov-accordion-item .accordion-item__icon-plus');
+      const chevronIcons = await page.findAll('aegov-accordion-item .accordion-item__icon-chevron');
+
+      expect(plusIcons.length).toBe(3);
+      expect(chevronIcons.length).toBe(0);
+    });
+  });
+
+  describe('bordered property', () => {
+    it('should not have bordered class by default', async () => {
+      const page = await newE2EPage();
+      await page.setContent(`
+        <aegov-accordion>
+          <aegov-accordion-item>
+            <span slot="accordion-item-heading">Heading</span>
+            <span slot="accordion-item-content">Content</span>
+          </aegov-accordion-item>
+        </aegov-accordion>
+      `);
+
+      const accordionDiv = await page.find('aegov-accordion .aegov-accordion');
+      const classes = await accordionDiv.getProperty('className');
+
+      expect(classes).not.toContain('aegov-accordion__bordered');
+    });
+
+    it('should have bordered class when bordered="true"', async () => {
+      const page = await newE2EPage();
+      await page.setContent(`
+        <aegov-accordion bordered>
+          <aegov-accordion-item>
+            <span slot="accordion-item-heading">Heading</span>
+            <span slot="accordion-item-content">Content</span>
+          </aegov-accordion-item>
+        </aegov-accordion>
+      `);
+
+      const accordionDiv = await page.find('aegov-accordion .aegov-accordion');
+      const classes = await accordionDiv.getProperty('className');
+
+      expect(classes).toContain('aegov-accordion__bordered');
+    });
+  });
+
+  describe('first and last item classes', () => {
+    it('should apply accordion-item__first class to first item', async () => {
+      const page = await newE2EPage();
+      await page.setContent(`
+        <aegov-accordion>
+          <aegov-accordion-item>
+            <span slot="accordion-item-heading">Heading 1</span>
+            <span slot="accordion-item-content">Content 1</span>
+          </aegov-accordion-item>
+          <aegov-accordion-item>
+            <span slot="accordion-item-heading">Heading 2</span>
+            <span slot="accordion-item-content">Content 2</span>
+          </aegov-accordion-item>
+        </aegov-accordion>
+      `);
+
+      await page.waitForChanges();
+
+      const firstItemDiv = await page.find('aegov-accordion-item:first-of-type .accordion-item');
+      const classes = await firstItemDiv.getProperty('className');
+
+      expect(classes).toContain('accordion-item__first');
+    });
+
+    it('should apply accordion-item__last class to last item', async () => {
+      const page = await newE2EPage();
+      await page.setContent(`
+        <aegov-accordion>
+          <aegov-accordion-item>
+            <span slot="accordion-item-heading">Heading 1</span>
+            <span slot="accordion-item-content">Content 1</span>
+          </aegov-accordion-item>
+          <aegov-accordion-item>
+            <span slot="accordion-item-heading">Heading 2</span>
+            <span slot="accordion-item-content">Content 2</span>
+          </aegov-accordion-item>
+        </aegov-accordion>
+      `);
+
+      await page.waitForChanges();
+
+      const lastItemDiv = await page.find('aegov-accordion-item:last-of-type .accordion-item');
+      const classes = await lastItemDiv.getProperty('className');
+
+      expect(classes).toContain('accordion-item__last');
+    });
+
+    it('should apply both first and last classes to single item', async () => {
+      const page = await newE2EPage();
+      await page.setContent(`
+        <aegov-accordion>
+          <aegov-accordion-item>
+            <span slot="accordion-item-heading">Heading</span>
+            <span slot="accordion-item-content">Content</span>
+          </aegov-accordion-item>
+        </aegov-accordion>
+      `);
+
+      await page.waitForChanges();
+
+      const itemDiv = await page.find('aegov-accordion-item .accordion-item');
+      const classes = await itemDiv.getProperty('className');
+
+      expect(classes).toContain('accordion-item__first');
+      expect(classes).toContain('accordion-item__last');
+    });
+
+    it('should not apply first or last classes to middle items', async () => {
+      const page = await newE2EPage();
+      await page.setContent(`
+        <aegov-accordion>
+          <aegov-accordion-item>
+            <span slot="accordion-item-heading">Heading 1</span>
+            <span slot="accordion-item-content">Content 1</span>
+          </aegov-accordion-item>
+          <aegov-accordion-item>
+            <span slot="accordion-item-heading">Heading 2</span>
+            <span slot="accordion-item-content">Content 2</span>
+          </aegov-accordion-item>
+          <aegov-accordion-item>
+            <span slot="accordion-item-heading">Heading 3</span>
+            <span slot="accordion-item-content">Content 3</span>
+          </aegov-accordion-item>
+        </aegov-accordion>
+      `);
+
+      await page.waitForChanges();
+
+      const items = await page.findAll('aegov-accordion-item .accordion-item');
+      const middleItemClasses = await items[1].getProperty('className');
+
+      expect(middleItemClasses).not.toContain('accordion-item__first');
+      expect(middleItemClasses).not.toContain('accordion-item__last');
+    });
+  });
+
   describe('nested accordion', () => {
     it('should update parent height when nested accordion item toggles', async () => {
       const page = await newE2EPage();
