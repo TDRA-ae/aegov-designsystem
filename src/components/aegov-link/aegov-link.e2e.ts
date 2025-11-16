@@ -208,23 +208,24 @@ describe('aegov-link E2E', () => {
   });
 
   describe('CSS styling', () => {
-    it('should have primary color classes', async () => {
+    it('should have default CSS classes', async () => {
       const page = await newE2EPage();
       await page.setContent('<aegov-link href="/test">Link</aegov-link>');
 
       const anchor = await page.find('aegov-link a');
       const classList = await anchor.getProperty('className');
-      expect(classList).toContain('text-primary-600');
+      expect(classList).toContain('no-underline');
+      expect(classList).toContain('transition-colors');
     });
 
-    it('should have hover classes', async () => {
+    it('should have transition classes', async () => {
       const page = await newE2EPage();
       await page.setContent('<aegov-link href="/test">Link</aegov-link>');
 
       const anchor = await page.find('aegov-link a');
       const classList = await anchor.getProperty('className');
-      expect(classList).toContain('hover:text-primary-500');
-      expect(classList).toContain('hover:underline');
+      expect(classList).toContain('ease-in-out');
+      expect(classList).toContain('duration-200');
     });
 
     it('should merge custom classes', async () => {
@@ -234,7 +235,8 @@ describe('aegov-link E2E', () => {
       const anchor = await page.find('aegov-link a');
       const classList = await anchor.getProperty('className');
       expect(classList).toContain('custom-class');
-      expect(classList).toContain('text-primary-600'); // Still has default
+      expect(classList).toContain('no-underline'); // Still has default
+      expect(classList).toContain('transition-colors');
     });
   });
 

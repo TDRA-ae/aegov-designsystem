@@ -287,13 +287,16 @@ describe('aegov-button E2E', () => {
 
     it('should emit aegovButtonBlur on blur', async () => {
       const page = await newE2EPage();
-      await page.setContent('<aegov-button>Button</aegov-button>');
+      await page.setContent('<aegov-button>Button</aegov-button><div id="other">Other</div>');
 
       const blurEvent = await page.spyOnEvent('aegovButtonBlur');
       const button = await page.find('aegov-button button');
 
       await button.focus();
-      await button.blur();
+      await page.waitForChanges();
+
+      // Click elsewhere to trigger blur
+      await page.click('#other');
       await page.waitForChanges();
 
       expect(blurEvent).toHaveReceivedEvent();

@@ -159,7 +159,7 @@ describe('aegov-badge E2E', () => {
       const page = await newE2EPage();
       await page.setContent('<aegov-badge>Badge</aegov-badge>');
 
-      const dismissButton = await page.find('aegov-badge .dismiss-button');
+      const dismissButton = await page.find('aegov-badge .badge-dismiss');
       expect(dismissButton).toBeNull();
     });
 
@@ -167,7 +167,7 @@ describe('aegov-badge E2E', () => {
       const page = await newE2EPage();
       await page.setContent('<aegov-badge dismissible>Badge</aegov-badge>');
 
-      const dismissButton = await page.find('aegov-badge .dismiss-button');
+      const dismissButton = await page.find('aegov-badge .badge-dismiss');
       expect(dismissButton).not.toBeNull();
     });
 
@@ -176,7 +176,7 @@ describe('aegov-badge E2E', () => {
       await page.setContent('<aegov-badge dismissible>Badge</aegov-badge>');
 
       const dismissSpy = await page.spyOnEvent('aegovBadgeDismiss');
-      const dismissButton = await page.find('aegov-badge .dismiss-button');
+      const dismissButton = await page.find('aegov-badge .badge-dismiss');
       await dismissButton.click();
 
       expect(dismissSpy).toHaveReceivedEvent();
@@ -186,9 +186,9 @@ describe('aegov-badge E2E', () => {
       const page = await newE2EPage();
       await page.setContent('<aegov-badge dismissible>Badge</aegov-badge>');
 
-      const dismissButton = await page.find('aegov-badge .dismiss-button');
+      const dismissButton = await page.find('aegov-badge .badge-dismiss');
       const ariaLabel = await dismissButton.getAttribute('aria-label');
-      expect(ariaLabel).toBe('Dismiss badge');
+      expect(ariaLabel).toBe('Badge dismiss button');
     });
   });
 
@@ -205,7 +205,7 @@ describe('aegov-badge E2E', () => {
       expect(classList).toContain('badge-solid');
       expect(classList).toContain('badge-primary');
 
-      const dismissButton = await page.find('aegov-badge .dismiss-button');
+      const dismissButton = await page.find('aegov-badge .badge-dismiss');
       expect(dismissButton).not.toBeNull();
     });
   });
@@ -224,7 +224,7 @@ describe('aegov-badge E2E', () => {
       const page = await newE2EPage();
       await page.setContent('<aegov-badge dismissible>Badge</aegov-badge>');
 
-      const dismissButton = await page.find('aegov-badge .dismiss-button');
+      const dismissButton = await page.find('aegov-badge .badge-dismiss');
       const svg = await dismissButton.find('svg');
       const ariaHidden = await svg.getAttribute('aria-hidden');
       expect(ariaHidden).toBe('true');

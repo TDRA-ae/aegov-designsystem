@@ -121,7 +121,7 @@ describe('aegov-badge', () => {
       const component = page.rootInstance as AegovBadge;
       expect(component.dismissible).toBe(false);
 
-      const dismissButton = page.root?.querySelector('.dismiss-button');
+      const dismissButton = page.root?.querySelector('.badge-dismiss');
       expect(dismissButton).toBeFalsy();
     });
 
@@ -133,7 +133,7 @@ describe('aegov-badge', () => {
       const component = page.rootInstance as AegovBadge;
       expect(component.dismissible).toBe(true);
 
-      const dismissButton = page.root?.querySelector('.dismiss-button');
+      const dismissButton = page.root?.querySelector('.badge-dismiss');
       expect(dismissButton).toBeTruthy();
     });
 
@@ -146,7 +146,7 @@ describe('aegov-badge', () => {
       const dismissSpy = jest.fn();
       page.root?.addEventListener('aegovBadgeDismiss', dismissSpy);
 
-      const dismissButton = page.root?.querySelector('.dismiss-button') as HTMLButtonElement;
+      const dismissButton = page.root?.querySelector('.badge-dismiss') as HTMLButtonElement;
       dismissButton?.click();
       await page.waitForChanges();
 
@@ -159,8 +159,8 @@ describe('aegov-badge', () => {
         html: `<aegov-badge dismissible>Badge</aegov-badge>`,
       });
 
-      const dismissButton = page.root?.querySelector('.dismiss-button');
-      expect(dismissButton?.getAttribute('aria-label')).toBe('Dismiss badge');
+      const dismissButton = page.root?.querySelector('.badge-dismiss');
+      expect(dismissButton?.getAttribute('aria-label')).toBe('Badge dismiss button');
     });
   });
 
@@ -211,7 +211,7 @@ describe('aegov-badge', () => {
         html: `<aegov-badge dismissible>Badge</aegov-badge>`,
       });
 
-      const dismissButton = page.root?.querySelector('.dismiss-button');
+      const dismissButton = page.root?.querySelector('.badge-dismiss');
       const svg = dismissButton?.querySelector('svg');
       expect(svg).toBeTruthy();
     });

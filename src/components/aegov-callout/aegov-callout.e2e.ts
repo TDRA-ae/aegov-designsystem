@@ -17,7 +17,7 @@ describe('aegov-callout E2E', () => {
       const page = await newE2EPage();
       await page.setContent('<aegov-callout><span slot="content">This is a test message</span></aegov-callout>');
 
-      const content = await page.find('aegov-callout .callout-content');
+      const content = await page.find('aegov-callout .callout-slot-content');
       expect(content.textContent).toContain('This is a test message');
     });
 
@@ -34,7 +34,7 @@ describe('aegov-callout E2E', () => {
       const page = await newE2EPage();
       await page.setContent('<aegov-callout><span slot="content">Message</span></aegov-callout>');
 
-      const icon = await page.find('aegov-callout .callout-icon');
+      const icon = await page.find('aegov-callout .callout-slot-icon');
       expect(icon).toBeTruthy();
     });
 
@@ -42,7 +42,7 @@ describe('aegov-callout E2E', () => {
       const page = await newE2EPage();
       await page.setContent('<aegov-callout><span slot="content">Message</span></aegov-callout>');
 
-      const svg = await page.find('aegov-callout .callout-icon svg');
+      const svg = await page.find('aegov-callout .callout-slot-icon svg');
       expect(svg).toBeTruthy();
     });
   });
@@ -64,7 +64,7 @@ describe('aegov-callout E2E', () => {
       expect(element).toBeTruthy();
 
       // Error variant should have an error icon
-      const icon = await page.find('aegov-callout .callout-icon svg');
+      const icon = await page.find('aegov-callout .callout-slot-icon svg');
       expect(icon).toBeTruthy();
     });
 

@@ -30,7 +30,7 @@ describe('aegov-callout', () => {
         html: `<aegov-callout><span slot="content">Message</span></aegov-callout>`,
       });
 
-      expect(page.root.querySelector('.callout-icon')).toBeTruthy();
+      expect(page.root.querySelector('.callout-slot-icon')).toBeTruthy();
     });
 
     it('should render content container', async () => {
@@ -39,7 +39,7 @@ describe('aegov-callout', () => {
         html: `<aegov-callout><span slot="content">Message</span></aegov-callout>`,
       });
 
-      expect(page.root.querySelector('.callout-content')).toBeTruthy();
+      expect(page.root.querySelector('.callout-slot-content')).toBeTruthy();
     });
   });
 
@@ -236,7 +236,7 @@ describe('aegov-callout', () => {
         html: `<aegov-callout><span slot="content">Message</span></aegov-callout>`,
       });
 
-      const icon = page.root.querySelector('.callout-icon svg');
+      const icon = page.root.querySelector('.callout-slot-icon svg');
       expect(icon).toBeTruthy();
     });
 
@@ -288,7 +288,7 @@ describe('aegov-callout', () => {
         html: `<aegov-callout variant="default"><span slot="content">Message</span></aegov-callout>`,
       });
 
-      const icon = page.root.querySelector('.callout-icon svg');
+      const icon = page.root.querySelector('.callout-slot-icon svg');
       expect(icon).toBeTruthy();
     });
 
@@ -298,7 +298,7 @@ describe('aegov-callout', () => {
         html: `<aegov-callout variant="error"><span slot="content">Error</span></aegov-callout>`,
       });
 
-      const icon = page.root.querySelector('.callout-icon svg');
+      const icon = page.root.querySelector('.callout-slot-icon svg');
       expect(icon).toBeTruthy();
     });
 
@@ -308,7 +308,7 @@ describe('aegov-callout', () => {
         html: `<aegov-callout variant="warning"><span slot="content">Warning</span></aegov-callout>`,
       });
 
-      const icon = page.root.querySelector('.callout-icon svg');
+      const icon = page.root.querySelector('.callout-slot-icon svg');
       expect(icon).toBeTruthy();
     });
 
@@ -318,7 +318,7 @@ describe('aegov-callout', () => {
         html: `<aegov-callout variant="success"><span slot="content">Success</span></aegov-callout>`,
       });
 
-      const icon = page.root.querySelector('.callout-icon svg');
+      const icon = page.root.querySelector('.callout-slot-icon svg');
       expect(icon).toBeTruthy();
     });
 
@@ -328,7 +328,7 @@ describe('aegov-callout', () => {
         html: `<aegov-callout variant="info"><span slot="content">Info</span></aegov-callout>`,
       });
 
-      const icon = page.root.querySelector('.callout-icon svg');
+      const icon = page.root.querySelector('.callout-slot-icon svg');
       expect(icon).toBeTruthy();
     });
   });

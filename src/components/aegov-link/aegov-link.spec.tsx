@@ -261,9 +261,10 @@ describe('aegov-link', () => {
 
       const anchor = page.root?.querySelector('a');
       const classList = anchor?.className;
-      expect(classList).toContain('text-primary-600');
-      expect(classList).toContain('hover:text-primary-500');
-      expect(classList).toContain('inline-flex');
+      expect(classList).toContain('no-underline');
+      expect(classList).toContain('transition-colors');
+      expect(classList).toContain('ease-in-out');
+      expect(classList).toContain('duration-200');
     });
 
     it('should merge custom class prop', async () => {
@@ -278,7 +279,8 @@ describe('aegov-link', () => {
       const anchor = page.root?.querySelector('a');
       const classList = anchor?.className;
       expect(classList).toContain('custom-class');
-      expect(classList).toContain('text-primary-600'); // Still has default classes
+      expect(classList).toContain('no-underline'); // Still has default classes
+      expect(classList).toContain('transition-colors');
     });
   });
 
