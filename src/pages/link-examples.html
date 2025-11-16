@@ -364,6 +364,48 @@
     </div>
   </div>
 
+  <!-- RTL Support -->
+  <div class="example-section">
+    <h2>RTL Support</h2>
+    <p>Links work seamlessly in RTL (Right-to-Left) layouts for Arabic and other RTL languages.</p>
+
+    <h3>LTR (Left to Right)</h3>
+    <div class="example-demo" dir="ltr">
+      <p>
+        Visit our <aegov-link href="/services">Services</aegov-link> page to learn more about
+        what we offer. You can also check our <aegov-link href="/contact">Contact Us</aegov-link> section.
+      </p>
+      <nav>
+        <aegov-link href="/">Home</aegov-link> |
+        <aegov-link href="/about">About</aegov-link> |
+        <aegov-link href="/help">Help Center</aegov-link>
+      </nav>
+    </div>
+
+    <h3>RTL (Right to Left)</h3>
+    <div class="example-demo" dir="rtl">
+      <p>
+        قم بزيارة صفحة <aegov-link href="/services">الخدمات</aegov-link> الخاصة بنا لمعرفة المزيد عن
+        ما نقدمه. يمكنك أيضًا الاطلاع على قسم <aegov-link href="/contact">اتصل بنا</aegov-link>.
+      </p>
+      <nav>
+        <aegov-link href="/">الرئيسية</aegov-link> |
+        <aegov-link href="/about">معلومات عنا</aegov-link> |
+        <aegov-link href="/help">مركز المساعدة</aegov-link>
+      </nav>
+    </div>
+
+    <div class="example-code">&lt;div dir="rtl"&gt;
+  &lt;p&gt;
+    قم بزيارة صفحة &lt;aegov-link href="/services"&gt;الخدمات&lt;/aegov-link&gt; الخاصة بنا.
+  &lt;/p&gt;
+  &lt;nav&gt;
+    &lt;aegov-link href="/"&gt;الرئيسية&lt;/aegov-link&gt; |
+    &lt;aegov-link href="/about"&gt;معلومات عنا&lt;/aegov-link&gt;
+  &lt;/nav&gt;
+&lt;/div&gt;</div>
+  </div>
+
   <script>
     // Event logging for demonstration
     const eventLog = document.getElementById('event-log');

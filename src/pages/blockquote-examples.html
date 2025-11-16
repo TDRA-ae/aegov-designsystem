@@ -469,6 +469,41 @@
     </div>
   </div>
 
+  <!-- RTL Support -->
+  <div class="example-section">
+    <h2>RTL Support</h2>
+    <p>Blockquotes work seamlessly in RTL (Right-to-Left) layouts for Arabic and other RTL languages.</p>
+
+    <h3>LTR (Left to Right)</h3>
+    <div class="example-demo" dir="ltr">
+      <aegov-blockquote
+        variant="primary"
+        author="Sheikh Mohammed bin Rashid Al Maktoum"
+        author-title="Vice President and Prime Minister of UAE">
+        The future belongs to those who can imagine it, design it, and execute it.
+      </aegov-blockquote>
+    </div>
+
+    <h3>RTL (Right to Left)</h3>
+    <div class="example-demo" dir="rtl">
+      <aegov-blockquote
+        variant="primary"
+        author="الشيخ محمد بن راشد آل مكتوم"
+        author-title="نائب رئيس الدولة رئيس مجلس الوزراء حاكم دبي">
+        المستقبل ملك لمن يستطيع أن يتخيله ويصممه وينفذه
+      </aegov-blockquote>
+    </div>
+
+    <div class="example-code">&lt;div dir="rtl"&gt;
+  &lt;aegov-blockquote
+    variant="primary"
+    author="الشيخ محمد بن راشد آل مكتوم"
+    author-title="نائب رئيس الدولة"&gt;
+    المستقبل ملك لمن يستطيع أن يتخيله ويصممه وينفذه
+  &lt;/aegov-blockquote&gt;
+&lt;/div&gt;</div>
+  </div>
+
   <script>
     document.addEventListener('DOMContentLoaded', () => {
       console.log('✨ Blockquote Component Examples loaded');

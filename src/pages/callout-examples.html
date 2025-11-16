@@ -891,6 +891,45 @@
 
   </div>
 
+  <!-- RTL Support -->
+  <div class="example-section">
+    <h2>RTL Support</h2>
+    <p>Callouts work seamlessly in RTL (Right-to-Left) layouts for Arabic and other RTL languages.</p>
+
+    <h3>LTR (Left to Right)</h3>
+    <div class="example-demo" dir="ltr">
+      <aegov-callout variant="info" with-icon>
+        <strong>Important Notice:</strong> System maintenance is scheduled for tonight at 10 PM.
+      </aegov-callout>
+      <br>
+      <aegov-callout variant="success" with-icon link-text="View Details" link-url="/success">
+        Your changes have been saved successfully.
+      </aegov-callout>
+    </div>
+
+    <h3>RTL (Right to Left)</h3>
+    <div class="example-demo" dir="rtl">
+      <aegov-callout variant="info" with-icon>
+        <strong>إشعار هام:</strong> صيانة النظام مجدولة الليلة في الساعة 10 مساءً.
+      </aegov-callout>
+      <br>
+      <aegov-callout variant="success" with-icon link-text="عرض التفاصيل" link-url="/success">
+        تم حفظ التغييرات بنجاح.
+      </aegov-callout>
+    </div>
+
+    <div class="example-code">&lt;div dir="rtl"&gt;
+  &lt;aegov-callout variant="info" with-icon&gt;
+    &lt;strong&gt;إشعار هام:&lt;/strong&gt; صيانة النظام مجدولة الليلة.
+  &lt;/aegov-callout&gt;
+
+  &lt;aegov-callout variant="success" with-icon
+    link-text="عرض التفاصيل" link-url="/success"&gt;
+    تم حفظ التغييرات بنجاح.
+  &lt;/aegov-callout&gt;
+&lt;/div&gt;</div>
+  </div>
+
   <script>
     // Event listener example
     document.querySelectorAll('aegov-callout').forEach(callout => {

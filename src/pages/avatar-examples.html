@@ -590,5 +590,49 @@
       </div>
     </div>
   </div>
+
+  <!-- RTL Support -->
+  <div class="example-section">
+    <h2>RTL Support</h2>
+    <p>Avatars work seamlessly in RTL (Right-to-Left) layouts for Arabic and other RTL languages.</p>
+
+    <h3>LTR (Left to Right)</h3>
+    <div class="example-demo" dir="ltr">
+      <div style="display: flex; gap: 1rem; align-items: center;">
+        <aegov-avatar size="md">
+          <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop" alt="User Avatar">
+        </aegov-avatar>
+        <div>
+          <div style="font-weight: 600;">John Doe</div>
+          <div style="font-size: 14px; color: #64748b;">Product Designer</div>
+        </div>
+      </div>
+    </div>
+
+    <h3>RTL (Right to Left)</h3>
+    <div class="example-demo" dir="rtl">
+      <div style="display: flex; gap: 1rem; align-items: center;">
+        <aegov-avatar size="md">
+          <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop" alt="صورة المستخدم">
+        </aegov-avatar>
+        <div>
+          <div style="font-weight: 600;">أحمد محمد</div>
+          <div style="font-size: 14px; color: #64748b;">مصمم منتجات</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="example-code">&lt;div dir="rtl"&gt;
+  &lt;div style="display: flex; gap: 1rem; align-items: center;"&gt;
+    &lt;aegov-avatar size="md"&gt;
+      &lt;img src="..." alt="صورة المستخدم"&gt;
+    &lt;/aegov-avatar&gt;
+    &lt;div&gt;
+      &lt;div&gt;أحمد محمد&lt;/div&gt;
+      &lt;div&gt;مصمم منتجات&lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</div>
+  </div>
 </body>
 </html>
