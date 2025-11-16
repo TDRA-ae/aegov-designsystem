@@ -7,7 +7,8 @@ import type { TitleSize } from '../../utils/types';
 @Component({
   tag: 'aegov-title',
   styleUrl: 'aegov-title.css',
-  scoped: true,
+  scoped: false,
+  shadow:false
 })
 export class AegovTitle {
   /**

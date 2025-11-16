@@ -8,7 +8,7 @@ import type { BlockquoteVariant } from '../../utils/types';
 @Component({
   tag: 'aegov-blockquote',
   styleUrl: 'aegov-blockquote.css',
-  scoped: true,
+  scoped: false,
   shadow:false
 })
 

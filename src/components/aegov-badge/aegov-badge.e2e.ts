@@ -68,8 +68,8 @@ describe('aegov-badge E2E', () => {
 
       const span = await page.find('aegov-badge span');
       const classList = await span.getProperty('className');
-      expect(classList).toContain('bg-primary-100');
-      expect(classList).toContain('text-primary-800');
+      expect(classList).toContain('badge-soft');
+      expect(classList).toContain('badge-primary');
     });
 
     it('should render solid appearance', async () => {
@@ -78,8 +78,8 @@ describe('aegov-badge E2E', () => {
 
       const span = await page.find('aegov-badge span');
       const classList = await span.getProperty('className');
-      expect(classList).toContain('bg-primary-600');
-      expect(classList).toContain('text-whitely-50');
+      expect(classList).toContain('badge-solid');
+      expect(classList).toContain('badge-primary');
     });
   });
 
@@ -113,8 +113,8 @@ describe('aegov-badge E2E', () => {
         const span = await page.find('aegov-badge span');
         const classList = await span.getProperty('className');
 
-        expect(classList).toContain(`bg-${color.bg}-100`);
-        expect(classList).toContain(`text-${color.bg}-800`);
+        expect(classList).toContain('badge-soft');
+        expect(classList).toContain(`badge-${color.name}`);
       });
     });
   });
@@ -148,8 +148,8 @@ describe('aegov-badge E2E', () => {
         const span = await page.find('aegov-badge span');
         const classList = await span.getProperty('className');
 
-        expect(classList).toContain(`bg-${color.bg}-${color.bgShade}`);
-        expect(classList).toContain(`text-${color.text}-50`);
+        expect(classList).toContain('badge-solid');
+        expect(classList).toContain(`badge-${color.name}`);
       });
     });
   });
@@ -202,8 +202,8 @@ describe('aegov-badge E2E', () => {
 
       expect(classList).toContain('text-sm');
       expect(classList).toContain('py-1.5');
-      expect(classList).toContain('bg-primary-600');
-      expect(classList).toContain('text-whitely-50');
+      expect(classList).toContain('badge-solid');
+      expect(classList).toContain('badge-primary');
 
       const dismissButton = await page.find('aegov-badge .dismiss-button');
       expect(dismissButton).not.toBeNull();

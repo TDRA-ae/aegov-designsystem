@@ -7,7 +7,7 @@ import type { LinkTarget } from '../../utils/types';
 @Component({
   tag: 'aegov-link',
   styleUrl: 'aegov-link.css',
-  scoped: true,
+  scoped: false,
 })
 export class AegovLink {
   @Element() el: HTMLElement;
@@ -84,32 +84,7 @@ export class AegovLink {
    */
   private getLinkClasses(): string {
     const classes: string[] = [
-      '-ml-1.5',
-      'inline-flex',
-      'items-center',
-      'gap-2',
-      'px-1.5',
-      'pt-1',
-      'pb-2',
-      'align-middle',
       'no-underline',
-      'rtl:-mr-1.5',
-      'rtl:ml-0',
-      'text-primary-600',
-      'bg-transparent',
-      'hover:text-primary-500',
-      'underline-offset-2',
-      'hover:underline',
-      'decoration-2',
-      'focus-visible:bg-primary-support-400',
-      'focus-visible:underline',
-      'focus-visible:decoration-4',
-      'focus-visible:decoration-primary-support-950',
-      'focus-visible:text-primary-support-950',
-      'focus-visible:outline-primary-support-400',
-      'focus-visible:outline',
-      'focus-visible:outline-offset-0',
-      'focus-visible:rounded-md',
       'ease-in-out',
       'transition-colors',
       'duration-200'

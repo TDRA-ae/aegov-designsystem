@@ -37,8 +37,8 @@ describe('aegov-button', () => {
 
       const button = page.root.querySelector('button');
       expect(button.classList.contains('aegov-btn')).toBe(true);
-      expect(button.classList.contains('bg-primary-600')).toBe(true);
-      expect(button.classList.contains('text-whitely-50')).toBe(true);
+      expect(button.classList.contains('btn-solid')).toBe(true);
+      expect(button.classList.contains('btn-primary')).toBe(true);
     });
 
     it('should render solid variant explicitly', async () => {
@@ -49,7 +49,7 @@ describe('aegov-button', () => {
 
       const button = page.root.querySelector('button');
       expect(button.classList.contains('aegov-btn')).toBe(true);
-      expect(button.classList.contains('bg-primary-600')).toBe(true);
+      expect(button.classList.contains('btn-solid')).toBe(true);
     });
 
     it('should render outline variant', async () => {
@@ -60,9 +60,8 @@ describe('aegov-button', () => {
 
       const button = page.root.querySelector('button');
       expect(button.classList.contains('aegov-btn')).toBe(true);
-      expect(button.classList.contains('bg-transparent')).toBe(true);
-      expect(button.classList.contains('text-primary-600')).toBe(true);
-      expect(button.classList.contains('border-2')).toBe(true);
+      expect(button.classList.contains('btn-outline')).toBe(true);
+      expect(button.classList.contains('btn-primary')).toBe(true);
     });
 
     it('should render soft variant', async () => {
@@ -73,8 +72,8 @@ describe('aegov-button', () => {
 
       const button = page.root.querySelector('button');
       expect(button.classList.contains('aegov-btn')).toBe(true);
-      expect(button.classList.contains('bg-primary-50')).toBe(true);
-      expect(button.classList.contains('text-primary-700')).toBe(true);
+      expect(button.classList.contains('btn-soft')).toBe(true);
+      expect(button.classList.contains('btn-primary')).toBe(true);
     });
 
     it('should render link variant', async () => {
@@ -85,8 +84,8 @@ describe('aegov-button', () => {
 
       const button = page.root.querySelector('button');
       expect(button.classList.contains('aegov-btn')).toBe(true);
-      expect(button.classList.contains('bg-transparent')).toBe(true);
-      expect(button.classList.contains('hover:underline')).toBe(true);
+      expect(button.classList.contains('btn-link')).toBe(true);
+      expect(button.classList.contains('btn-primary')).toBe(true);
     });
   });
 
@@ -145,8 +144,8 @@ describe('aegov-button', () => {
 
       const button = page.root.querySelector('button');
       expect(button.classList.contains('aegov-btn')).toBe(true);
-      expect(button.classList.contains('bg-primary-600')).toBe(true);
-      expect(button.classList.contains('text-whitely-50')).toBe(true);
+      expect(button.classList.contains('btn-primary')).toBe(true);
+      expect(button.classList.contains('btn-solid')).toBe(true);
     });
 
     it('should render secondary appearance', async () => {
@@ -157,8 +156,8 @@ describe('aegov-button', () => {
 
       const button = page.root.querySelector('button');
       expect(button.classList.contains('aegov-btn')).toBe(true);
-      expect(button.classList.contains('bg-secondary-800')).toBe(true);
-      expect(button.classList.contains('text-whitely-50')).toBe(true);
+      expect(button.classList.contains('btn-secondary')).toBe(true);
+      expect(button.classList.contains('btn-solid')).toBe(true);
     });
 
     it('should render primary appearance with outline variant', async () => {
@@ -168,8 +167,8 @@ describe('aegov-button', () => {
       });
 
       const button = page.root.querySelector('button');
-      expect(button.classList.contains('text-primary-600')).toBe(true);
-      expect(button.classList.contains('border-primary-600')).toBe(true);
+      expect(button.classList.contains('btn-primary')).toBe(true);
+      expect(button.classList.contains('btn-outline')).toBe(true);
     });
 
     it('should render secondary appearance with outline variant', async () => {
@@ -179,8 +178,8 @@ describe('aegov-button', () => {
       });
 
       const button = page.root.querySelector('button');
-      expect(button.classList.contains('text-secondary-800')).toBe(true);
-      expect(button.classList.contains('border-secondary-800')).toBe(true);
+      expect(button.classList.contains('btn-secondary')).toBe(true);
+      expect(button.classList.contains('btn-outline')).toBe(true);
     });
 
     it('should render secondary appearance with soft variant', async () => {
@@ -190,8 +189,8 @@ describe('aegov-button', () => {
       });
 
       const button = page.root.querySelector('button');
-      expect(button.classList.contains('bg-secondary-50')).toBe(true);
-      expect(button.classList.contains('text-secondary-800')).toBe(true);
+      expect(button.classList.contains('btn-soft')).toBe(true);
+      expect(button.classList.contains('btn-secondary')).toBe(true);
     });
 
     it('should render secondary appearance with link variant', async () => {
@@ -201,8 +200,8 @@ describe('aegov-button', () => {
       });
 
       const button = page.root.querySelector('button');
-      expect(button.classList.contains('text-secondary-800')).toBe(true);
-      expect(button.classList.contains('hover:underline')).toBe(true);
+      expect(button.classList.contains('btn-secondary')).toBe(true);
+      expect(button.classList.contains('btn-link')).toBe(true);
     });
   });
 
@@ -500,9 +499,9 @@ describe('aegov-button', () => {
       });
 
       const button = page.root.querySelector('button');
-      expect(button.classList.contains('bg-primary-600')).toBe(true);
+      expect(button.classList.contains('btn-solid')).toBe(true);
+      expect(button.classList.contains('btn-primary')).toBe(true);
       expect(button.classList.contains('btn-lg')).toBe(true);
-      expect(button.classList.contains('h-13')).toBe(true);
     });
 
     it('should render outline variant with sm size', async () => {
@@ -512,10 +511,9 @@ describe('aegov-button', () => {
       });
 
       const button = page.root.querySelector('button');
-      expect(button.classList.contains('bg-transparent')).toBe(true);
-      expect(button.classList.contains('border-2')).toBe(true);
+      expect(button.classList.contains('btn-outline')).toBe(true);
+      expect(button.classList.contains('btn-primary')).toBe(true);
       expect(button.classList.contains('btn-sm')).toBe(true);
-      expect(button.classList.contains('h-10')).toBe(true);
     });
 
     it('should render disabled loading button', async () => {
@@ -539,8 +537,8 @@ describe('aegov-button', () => {
       });
 
       const button = page.root.querySelector('button');
-      expect(button.classList.contains('bg-transparent')).toBe(true);
-      expect(button.classList.contains('border-2')).toBe(true);
+      expect(button.classList.contains('btn-outline')).toBe(true);
+      expect(button.classList.contains('btn-primary')).toBe(true);
       expect(button.classList.contains('w-full')).toBe(true);
     });
 
@@ -551,8 +549,8 @@ describe('aegov-button', () => {
       });
 
       const button = page.root.querySelector('button');
-      expect(button.classList.contains('bg-secondary-50')).toBe(true);
-      expect(button.classList.contains('text-secondary-800')).toBe(true);
+      expect(button.classList.contains('btn-soft')).toBe(true);
+      expect(button.classList.contains('btn-secondary')).toBe(true);
     });
 
     it('should render icon-only button with xs size', async () => {
@@ -564,9 +562,6 @@ describe('aegov-button', () => {
       const button = page.root.querySelector('button');
       expect(button.classList.contains('btn-icon')).toBe(true);
       expect(button.classList.contains('btn-xs')).toBe(true);
-      expect(button.classList.contains('w-12')).toBe(true);
-      expect(button.classList.contains('gap-0')).toBe(true);
-      expect(button.classList.contains('px-0')).toBe(true);
     });
 
     it('should render button without bold text', async () => {
@@ -577,7 +572,7 @@ describe('aegov-button', () => {
 
       const button = page.root.querySelector('button');
       expect(button.classList.contains('font-medium')).toBe(false);
-      expect(button.classList.contains('bg-transparent')).toBe(true);
+      expect(button.classList.contains('btn-outline')).toBe(true);
     });
 
     it('should render full width button with bold text', async () => {
@@ -600,14 +595,14 @@ describe('aegov-button', () => {
       });
 
       let button = page.root.querySelector('button');
-      expect(button.classList.contains('bg-primary-600')).toBe(true);
+      expect(button.classList.contains('btn-solid')).toBe(true);
 
       page.root.setAttribute('variant', 'outline');
       await page.waitForChanges();
 
       button = page.root.querySelector('button');
-      expect(button.classList.contains('bg-transparent')).toBe(true);
-      expect(button.classList.contains('border-2')).toBe(true);
+      expect(button.classList.contains('btn-outline')).toBe(true);
+      expect(button.classList.contains('btn-solid')).toBe(false);
     });
 
     it('should update when size changes', async () => {
@@ -618,14 +613,13 @@ describe('aegov-button', () => {
 
       let button = page.root.querySelector('button');
       expect(button.classList.contains('btn-sm')).toBe(true);
-      expect(button.classList.contains('h-10')).toBe(true);
 
       page.root.setAttribute('size', 'lg');
       await page.waitForChanges();
 
       button = page.root.querySelector('button');
       expect(button.classList.contains('btn-lg')).toBe(true);
-      expect(button.classList.contains('h-13')).toBe(true);
+      expect(button.classList.contains('btn-sm')).toBe(false);
     });
 
     it('should update when disabled changes', async () => {
@@ -651,13 +645,14 @@ describe('aegov-button', () => {
       });
 
       let button = page.root.querySelector('button');
-      expect(button.classList.contains('bg-primary-600')).toBe(true);
+      expect(button.classList.contains('btn-primary')).toBe(true);
 
       page.root.setAttribute('appearance', 'secondary');
       await page.waitForChanges();
 
       button = page.root.querySelector('button');
-      expect(button.classList.contains('bg-secondary-800')).toBe(true);
+      expect(button.classList.contains('btn-secondary')).toBe(true);
+      expect(button.classList.contains('btn-primary')).toBe(false);
     });
 
     it('should update when loading changes', async () => {

@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0" />
+  <title>Multi-Component Analysis - AEGOV Design System</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+
+  <script type="module" src="/build/aegov.esm.js"></script>
+  <script nomodule src="/build/aegov.js"></script>
+  <link rel="stylesheet" href="/build/aegov.css" />
+
+  <style>
+    body {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem;
+      font-family: system-ui, -apple-system, sans-serif;
+    }
+    .section {
+      margin-bottom: 3rem;
+      padding: 2rem;
+      background: #f9fafb;
+      border-radius: 8px;
+    }
+    .section h2 {
+      margin-top: 0;
+      margin-bottom: 1.5rem;
+      color: #1f2937;
+      font-size: 1.5rem;
+      font-weight: 700;
+    }
+    .demo-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+  </style>
+</head>
+<body>
+  <h1 style="margin-bottom: 2rem; color: #111827;">Multi-Component Analysis Page</h1>
+  <p style="margin-bottom: 3rem; color: #6b7280;">This page demonstrates multiple AEGOV components working together for analysis purposes.</p>
+
+  <!-- Buttons Section -->
+  <div class="section">
+    <h2>Buttons</h2>
+    <div class="demo-group">
+      <aegov-button variant="solid" appearance="primary" size="base">
+        Primary Action
+      </aegov-button>
+
+      <aegov-button variant="outline" appearance="secondary" size="base">
+        Secondary Action
+      </aegov-button>
+
+      <aegov-button variant="soft" appearance="primary" size="lg">
+        Large Soft Button
+      </aegov-button>
+    </div>
+  </div>
+
+  <!-- Links Section -->
+  <div class="section">
+    <h2>Links</h2>
+    <div class="demo-group" style="flex-direction: column; align-items: flex-start;">
+      <aegov-link href="#section1">
+        Navigate to Section 1
+      </aegov-link>
+
+      <aegov-link href="https://example.com" target="_blank">
+        External Link (opens in new tab)
+      </aegov-link>
+
+      <aegov-link href="/documentation" title="View full documentation">
+        Documentation Link with Tooltip
+      </aegov-link>
+    </div>
+  </div>
+
+  <!-- Callouts Section -->
+  <div class="section">
+    <h2>Callouts</h2>
+
+    <aegov-callout variant="success" appearance="soft" with-icon style="margin-bottom: 1rem;">
+      <div slot="content">
+      <strong>Success!</strong> Your changes have been saved successfully.
+      </div>
+    </aegov-callout>
+
+    <aegov-callout variant="warning" appearance="soft" with-icon dismissible style="margin-bottom: 1rem;">
+      <div slot="content">
+        <strong>Warning:</strong> This action cannot be undone. Please proceed with caution.
+      </div>
+    </aegov-callout>
+
+    <aegov-callout variant="error" appearance="solid" with-icon style="margin-bottom: 1rem;">
+      <div slot="content"><strong>Error:</strong> Unable to process your request. Please try again later.</div>
+    </aegov-callout>
+
+    <aegov-callout variant="info" appearance="soft" with-icon link-text="Learn More" link-url="#info">
+      <div slot="content"><strong>Did you know?</strong> You can customize the appearance of all components using Tailwind utility classes.</div>
+    </aegov-callout>
+  </div>
+
+  <!-- Titles and Text Section -->
+  <div class="section">
+    <h2>Titles and Text</h2>
+
+    <aegov-title size="2xl">
+      Main Heading Title
+    </aegov-title>
+
+    <aegov-text size="base">
+      This is a paragraph of text using the aegov-text component. It demonstrates the default size and spacing. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+    </aegov-text>
+
+    <aegov-title size="xl">
+      Subheading Title
+    </aegov-title>
+
+    <aegov-text size="lg">
+      This is a larger text paragraph that provides additional information. The text component automatically handles spacing and typography according to the design system guidelines.
+    </aegov-text>
+
+    <aegov-title size="base">
+      Small Section Title
+    </aegov-title>
+
+    <aegov-text size="sm">
+      This is smaller text that might be used for footnotes or supplementary information. It maintains readability while taking up less visual space.
+    </aegov-text>
+  </div>
+
+  <!-- Blockquote Section -->
+  <div class="section">
+    <h2>Blockquote</h2>
+
+    <aegov-blockquote
+      variant="colored"
+      author="Sheikh Zayed bin Sultan Al Nahyan"
+      author-title="Founding Father of the UAE"
+      cite="https://example.com/quotes">
+      The wealth of a nation is not in its natural resources, but in the education and capabilities of its people. A country's greatest asset is the caliber of its citizens.
+    </aegov-blockquote>
+  </div>
+
+  <!-- Combined Example Section -->
+  <div class="section">
+    <h2>Combined Example</h2>
+
+    <aegov-title size="xl">
+      Real-World Scenario
+    </aegov-title>
+
+    <aegov-text size="base">
+      This section demonstrates how multiple components work together in a typical use case, such as a form submission result page.
+    </aegov-text>
+
+    <aegov-callout variant="success" appearance="soft" with-icon style="margin-bottom: 1.5rem;">
+      <div slot="content"><strong>Form Submitted Successfully!</strong> Your application has been received and is being processed.</div>
+    </aegov-callout>
+
+    <aegov-text size="base">
+      What happens next? You will receive a confirmation email within 24 hours. For more information, please visit our
+      <aegov-link href="/help">Help Center</aegov-link>.
+    </aegov-text>
+
+    <div class="demo-group" style="margin-top: 1.5rem;">
+      <aegov-button variant="solid" appearance="primary">
+        View Application Status
+      </aegov-button>
+
+      <aegov-button variant="outline" appearance="secondary">
+        Return to Dashboard
+      </aegov-button>
+    </div>
+  </div>
+
+  <script>
+    // Event listeners for demonstration
+    const buttons = document.querySelectorAll('aegov-button');
+    buttons.forEach(button => {
+      button.addEventListener('aegovClick', (e) => {
+        console.log('Button clicked:', e.detail);
+      });
+    });
+
+    const links = document.querySelectorAll('aegov-link');
+    links.forEach(link => {
+      link.addEventListener('aegovLinkClick', (e) => {
+        console.log('Link clicked:', e.detail);
+      });
+    });
+
+    const callouts = document.querySelectorAll('aegov-callout');
+    callouts.forEach(callout => {
+      callout.addEventListener('aegovCalloutDismiss', (e) => {
+        console.log('Callout dismissed');
+        e.target.style.display = 'none';
+      });
+
+      callout.addEventListener('aegovCalloutLinkClick', (e) => {
+        console.log('Callout link clicked:', e.detail);
+      });
+    });
+  </script>
+</body>
+</html>

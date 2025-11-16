@@ -7,7 +7,8 @@ import type { TextSize } from '../../utils/types';
 @Component({
   tag: 'aegov-text',
   styleUrl: 'aegov-text.css',
-  scoped: true,
+  scoped: false,
+  shadow:false
 })
 export class AegovText {
   /**

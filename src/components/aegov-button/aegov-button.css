@@ -25,6 +25,8 @@
   font-family: inherit;
   -webkit-tap-highlight-color: transparent;
 
+  @apply relative inline-flex shrink-0 cursor-pointer select-none flex-wrap items-center justify-center whitespace-nowrap no-underline transition-all duration-200 ease-in-out focus-visible:outline-2  disabled:cursor-default disabled:pointer-events-none;
+
   ::slotted(svg),
   ::slotted(img),
   & svg,
@@ -43,8 +45,14 @@
   }
 }
 
+.btn-icon {
+  @apply w-12 gap-0 px-0;
+}
+
 .btn-lg {
   font-family: inherit;
+
+  @apply h-13 rounded-lg gap-3 px-4.5 text-lg;
 
   ::slotted(svg),
   ::slotted(img),
@@ -59,6 +67,8 @@
 
 .btn-base {
   font-family: inherit;
+
+  @apply h-12 rounded-lg gap-2 px-4 text-base;
   ::slotted(svg),
   ::slotted(img),
   & svg,
@@ -72,6 +82,9 @@
 
 .btn-sm {
   font-family: inherit;
+
+  @apply h-10 rounded-md gap-2 px-3.5 text-base;
+
   ::slotted(svg),
   ::slotted(img),
   & svg,
@@ -85,6 +98,9 @@
 
 .btn-xs {
   font-family: inherit;
+
+  @apply h-8 rounded gap-2 px-2.5 text-sm;
+
   ::slotted(svg),
   ::slotted(img),
   & svg,
@@ -94,6 +110,66 @@
   &:has(svg), &:has(img) { @apply px-2; }
   &:has(svg + svg), &:has(img + img) { @apply px-1.5; }
   &.btn-icon { @apply w-8; }
+}
+
+/*
+  ====================================================================
+  Variant
+  ====================================================================
+*/
+
+.btn-solid {
+  @apply shadow-[inset_0px_1px_--theme(--color-whitely-50/.2)] text-whitely-50 border-1 focus-visible:outline-offset-2 disabled:opacity-30;
+}
+
+.btn-outline {
+  @apply bg-transparent border-2 focus-visible:outline-offset-0 disabled:opacity-50;
+}
+
+.btn-soft {
+  @apply border-0 focus-visible:outline-offset-2 disabled:opacity-50;
+}
+
+.btn-link {
+  @apply bg-transparent border-0 hover:underline focus-visible:outline-offset-2 disabled:opacity-50;
+}
+
+/*
+  ====================================================================
+  Appearance
+  ====================================================================
+*/
+
+.btn-primary {
+  @apply outline-primary-support-600;
+  &.btn-solid {
+    @apply bg-primary-600 hover:bg-primary-500 border-primary-600 hover:border-primary-500 focus-visible:bg-primary-support-500 focus-visible:text-primary-support-950 focus-visible:border-primary-support-500;
+  }
+  &.btn-outline {
+    @apply text-primary-600 hover:bg-primary-50 hover:text-primary-700 border-primary-600 hover:border-primary-700 focus-visible:border-primary-50 focus-visible:bg-primary-support-500 focus-visible:text-primary-support-950;
+  }
+  &.btn-soft {
+    @apply bg-primary-50 hover:bg-primary-100 text-primary-700 hover:text-primary-800 focus-visible:bg-primary-support-500 focus-visible:text-primary-support-950;
+  }
+  &.btn-link {
+    @apply text-primary-600 hover:text-primary-700 focus-visible:bg-primary-support-500 focus-visible:text-primary-support-950;
+  }
+}
+
+.btn-secondary {
+  @apply outline-secondary-support-600;
+  &.btn-solid {
+    @apply bg-secondary-800 hover:bg-secondary-700 border-secondary-800 hover:border-secondary-700 focus-visible:bg-secondary-support-500 focus-visible:text-secondary-support-950 focus-visible:border-secondary-support-500;
+  }
+  &.btn-outline {
+    @apply text-secondary-800 hover:bg-secondary-50 hover:text-secondary-900 border-secondary-800 hover:border-secondary-900 focus-visible:border-secondary-50 focus-visible:bg-secondary-support-500 focus-visible:text-secondary-support-950;
+  }
+  &.btn-soft {
+    @apply bg-secondary-50 hover:bg-secondary-100 text-secondary-800 hover:text-secondary-900 focus-visible:bg-secondary-support-500 focus-visible:text-secondary-support-950;
+  }
+  &.btn-link {
+    @apply text-secondary-800 hover:text-secondary-700 focus-visible:bg-secondary-support-500 focus-visible:text-secondary-support-950;
+  }
 }
 
 /*

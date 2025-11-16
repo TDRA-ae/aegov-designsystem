@@ -7,7 +7,8 @@ import type { CalloutVariant, CalloutAppearance } from '../../utils/types';
 @Component({
   tag: 'aegov-callout',
   styleUrl: 'aegov-callout.css',
-  scoped: true,
+  scoped: false,
+  shadow:false
 })
 export class AegovCallout {
   @Element() el: HTMLElement;
@@ -122,15 +123,7 @@ export class AegovCallout {
    */
   private getCalloutClasses(): string {
     const classes: string[] = [
-      'aegov-callout',
-      '@container',
-      'px-5',
-      'py-4',
-      'flex',
-      'items-start',
-      'gap-4',
-      'rounded-md',
-      'text-base'
+      'aegov-callout'
     ];
 
     if(this.bordered) {
@@ -143,181 +136,22 @@ export class AegovCallout {
       );
     }
 
-    // Add button styles only if actions slot has content
-    if(this.hasActionsSlot) {
-      classes.push(
-        '[&_.callout-actions_button]:h-10',
-        '[&_.callout-actions_button]:px-4',
-        '[&_.callout-actions_button]:border-2',
-        '[&_.callout-actions_button]:font-bold',
-        '[&_.callout-actions_button]:rounded-md',
-        '[&_.callout-actions_button]:hover:opacity-90',
-        '[&_.callout-actions_button]:focus-visible:outline-offset-2',
-        '[&_.callout-actions_button]:focus-visible:outline-2',
-        '[&_.callout-actions_button]:focus-visible:outline-dashed'
-      );
-      if(this.appearance === 'soft') {
-        if(this.variant === 'default') {
-          classes.push(
-            '[&_.callout-actions_button]:focus-visible:outline-seablue-600',
-            '[&_.callout-actions_button.btn-solid]:border-slate-700',
-            '[&_.callout-actions_button.btn-solid]:bg-slate-700',
-            '[&_.callout-actions_button.btn-solid]:text-slate-50'
-          );
-        }
-        if(this.variant === 'error') {
-          classes.push(
-            '[&_.callout-actions_button]:focus-visible:outline-seablue-600',
-            '[&_.callout-actions_button.btn-solid]:border-aered-700',
-            '[&_.callout-actions_button.btn-solid]:bg-aered-700',
-            '[&_.callout-actions_button.btn-solid]:text-aered-50'
-          );
-        }
-        if(this.variant === 'success') {
-          classes.push(
-            '[&_.callout-actions_button]:focus-visible:outline-camel-600',
-            '[&_.callout-actions_button.btn-solid]:border-aegreen-700',
-            '[&_.callout-actions_button.btn-solid]:bg-aegreen-700',
-            '[&_.callout-actions_button.btn-solid]:text-aegreen-50'
-          );
-        }
-        if(this.variant === 'warning') {
-          classes.push(
-            '[&_.callout-actions_button]:focus-visible:outline-aered-600',
-            '[&_.callout-actions_button.btn-solid]:border-camel-700',
-            '[&_.callout-actions_button.btn-solid]:bg-camel-700',
-            '[&_.callout-actions_button.btn-solid]:text-camel-50'
-          );
-        }
-        if(this.variant === 'info') {
-          classes.push(
-            '[&_.callout-actions_button]:focus-visible:outline-slate-700',
-            '[&_.callout-actions_button.btn-solid]:border-techblue-700',
-            '[&_.callout-actions_button.btn-solid]:bg-techblue-700',
-            '[&_.callout-actions_button.btn-solid]:text-techblue-50'
-          );
-        }
-      }
-      if(this.appearance === 'solid') {
-        if(this.variant === 'default') {
-          classes.push(
-            '[&_.callout-actions_button]:focus-visible:outline-slate-50',
-            '[&_.callout-actions_button.btn-solid]:border-slate-100',
-            '[&_.callout-actions_button.btn-solid]:bg-slate-100',
-            '[&_.callout-actions_button.btn-solid]:text-slate-900'
-          );
-        }
-        if(this.variant === 'error') {
-          classes.push(
-            '[&_.callout-actions_button]:focus-visible:outline-aered-50',
-            '[&_.callout-actions_button.btn-solid]:border-aered-100',
-            '[&_.callout-actions_button.btn-solid]:bg-aered-100',
-            '[&_.callout-actions_button.btn-solid]:text-aered-900'
-          );
-        }
-        if(this.variant === 'success') {
-          classes.push(
-            '[&_.callout-actions_button]:focus-visible:outline-aegreen-50',
-            '[&_.callout-actions_button.btn-solid]:border-aegreen-100',
-            '[&_.callout-actions_button.btn-solid]:bg-aegreen-100',
-            '[&_.callout-actions_button.btn-solid]:text-aegreen-900'
-          );
-        }
-        if(this.variant === 'warning') {
-          classes.push(
-            '[&_.callout-actions_button]:focus-visible:outline-camel-50',
-            '[&_.callout-actions_button.btn-solid]:border-camel-100',
-            '[&_.callout-actions_button.btn-solid]:bg-camel-100',
-            '[&_.callout-actions_button.btn-solid]:text-camel-900'
-          );
-        }
-        if(this.variant === 'info') {
-          classes.push(
-            '[&_.callout-actions_button]:focus-visible:outline-techblue-50',
-            '[&_.callout-actions_button.btn-solid]:border-techblue-100',
-            '[&_.callout-actions_button.btn-solid]:bg-techblue-100',
-            '[&_.callout-actions_button.btn-solid]:text-techblue-900'
-          );
-        }
-      }
-    }
+    // Appearance classes
+    const appearanceClasses: Record<CalloutAppearance, string[]> = {
+        soft: ['callout-soft'],
+        solid: ['callout-solid']
+    };
+    classes.push(...appearanceClasses[this.appearance]);
 
-    if(this.appearance === 'solid') {
-      if(this.variant === 'default') {
-        classes.push(
-          'bg-slate-800',
-          'text-slate-50',
-          'border-slate-800',
-          '[&_.callout-icon_svg]:fill-slate-400'
-        );
-      } else if(this.variant === 'error') {
-        classes.push(
-          'bg-aered-700',
-          'text-aered-50',
-          'border-aered-700',
-          '[&_.callout-icon_svg]:fill-aered-300'
-        );
-      } else if(this.variant === 'success') {
-        classes.push(
-          'bg-aegreen-700',
-          'text-aegreen-50',
-          'border-aegreen-700',
-          '[&_.callout-icon_svg]:fill-aegreen-300'
-        );
-      } else if(this.variant === 'warning') {
-        classes.push(
-          'bg-camel-700',
-          'text-camel-50',
-          'border-camel-700',
-          '[&_.callout-icon_svg]:fill-camel-300'
-        );
-      } else if(this.variant === 'info') {
-        classes.push(
-          'bg-techblue-700',
-          'text-techblue-50',
-          'border-techblue-700',
-          '[&_.callout-icon_svg]:fill-techblue-300'
-        );
-      }
-    }
-    else if(this.appearance === 'soft') {
-      if(this.variant === 'default') {
-        classes.push(
-          'bg-slate-50',
-          'text-slate-800',
-          'border-slate-400',
-          '[&_.callout-icon_svg]:fill-slate-600'
-        );
-      } else if(this.variant === 'error') {
-        classes.push(
-          'bg-aered-50',
-          'text-aered-700',
-          'border-aered-800',
-          '[&_.callout-icon_svg]:fill-aered-700'
-        );
-      } else if(this.variant === 'success') {
-        classes.push(
-          'bg-aegreen-50',
-          'text-aegreen-700',
-          'border-aegreen-800',
-          '[&_.callout-icon_svg]:fill-aegreen-700'
-        );
-      } else if(this.variant === 'warning') {
-        classes.push(
-          'bg-camel-50',
-          'text-camel-700',
-          'border-camel-800',
-          '[&_.callout-icon_svg]:fill-camel-700'
-        );
-      } else if(this.variant === 'info') {
-        classes.push(
-          'bg-techblue-50',
-          'text-techblue-700',
-          'border-techblue-800',
-          '[&_.callout-icon_svg]:fill-techblue-700'
-        );
-      }
-    }
+    // Variant classes
+    const variantClasses: Record<CalloutVariant, string[]> = {
+        default: ['callout-default'],
+        error: ['callout-error'],
+        success: ['callout-success'],
+        warning: ['callout-warning'],
+        info: ['callout-info']
+    };
+    classes.push(...variantClasses[this.variant]);    
 
     return classes.join(' ');
   }
@@ -329,29 +163,28 @@ export class AegovCallout {
 
     return (
       <div data-aegov-callout class={this.getCalloutClasses()} role="alert">
-        <div class="shrink-0 callout-icon flex items-start min-w-fit">
+        <div class="callout-slot-icon">
           {this.hasIconSlot ? (
             <slot name="icon" />
           ) : (
             this.getDefaultIcon()
           )}
         </div>
-        <div class="grow text-base leading-normal callout-content">
+        <div class="callout-slot-content">
           <slot name="content" />
           {this.hasActionsSlot ? (
-            <div class="callout-actions mt-8">
+            <div class="callout-slot-actions">
               <slot name="actions" />
             </div>
           ) : (
             <slot name="actions" />
           )}
         </div>
-        <div class="shrink-0 flex items-center justify-end gap-2 callout-right">
+        <div class="callout-slot-right">
           <slot name="link" />
         {this.dismissible && (
           <button
             type="button"
-            class="w-auto h-auto border-0 p-1 cursor-pointer"
             onClick={this.handleDismiss}
             aria-label="Close callout"
           >

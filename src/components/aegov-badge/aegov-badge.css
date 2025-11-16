@@ -2,22 +2,221 @@
   display: inline-block;
 }
 
+.aegov-badge {
+  @apply inline-flex items-center font-medium whitespace-nowrap [print-color-adjust:exact] rounded-md px-2;
+  &.badge-soft {
+    &.badge-default {
+      @apply bg-slate-100 text-slate-800;
+      & .badge-dismiss {
+        @apply focus-visible:outline-slate-800;
+      }
+    }
+    &.badge-primary {
+      @apply bg-primary-100 text-primary-800;
+      & .badge-dismiss {
+        @apply focus-visible:outline-primary-800;
+      }
+    }
+    &.badge-secondary {
+      @apply bg-secondary-100 text-secondary-800;
+      & .badge-dismiss {
+        @apply focus-visible:outline-secondary-800;
+      }
+    }
+    &.badge-aegold {
+      @apply bg-aegold-100 text-aegold-800;
+      & .badge-dismiss {
+        @apply focus-visible:outline-aegold-800;
+      }
+    }
+    &.badge-aered {
+      @apply bg-aered-100 text-aered-800;
+      & .badge-dismiss {
+        @apply focus-visible:outline-aered-800;
+      }
+    }
+    &.badge-aegreen {
+      @apply bg-aegreen-100 text-aegreen-800;
+      & .badge-dismiss {
+        @apply focus-visible:outline-aegreen-800;
+      }
+    }
+    &.badge-aeblack {
+      @apply bg-aeblack-100 text-aeblack-800;
+      & .badge-dismiss {
+        @apply focus-visible:outline-aeblack-800;
+      }
+    }
+    &.badge-techblue {
+      @apply bg-techblue-100 text-techblue-800;
+      & .badge-dismiss {
+        @apply focus-visible:outline-techblue-800;
+      }
+    }
+    &.badge-seablue {
+      @apply bg-seablue-100 text-seablue-800;
+      & .badge-dismiss {
+        @apply focus-visible:outline-seablue-800;
+      }
+    }
+    &.badge-camel {
+      @apply bg-camel-100 text-camel-800;
+      & .badge-dismiss {
+        @apply focus-visible:outline-camel-800;
+      }
+    }
+    &.badge-desert {
+      @apply bg-desert-100 text-desert-800;
+      & .badge-dismiss {
+        @apply focus-visible:outline-desert-800;
+      }
+    }
+    &.badge-fuchsia {
+      @apply bg-fuchsia-100 text-fuchsia-800;
+      & .badge-dismiss {
+        @apply focus-visible:outline-fuchsia-800;
+      }
+    }
+    &.badge-slate {
+      @apply bg-slate-100 text-slate-800;
+      & .badge-dismiss {
+        @apply focus-visible:outline-slate-800;
+      }
+    }
+    &.badge-purple {
+      @apply bg-purple-100 text-purple-800;
+      & .badge-dismiss {
+        @apply focus-visible:outline-purple-800;
+      }
+    }
+    &.badge-pink {
+      @apply bg-pink-100 text-pink-800;
+      & .badge-dismiss {
+        @apply focus-visible:outline-pink-800;
+      }
+    }
+    &.badge-indigo {
+      @apply bg-indigo-100 text-indigo-800;
+      & .badge-dismiss {
+        @apply focus-visible:outline-indigo-800;
+      }
+    }
+    &.badge-lime {
+      @apply bg-lime-100 text-lime-800;
+      & .badge-dismiss {
+        @apply focus-visible:outline-lime-800;
+      }
+    }
+  }
+  &.badge-solid {
+    &.badge-default {
+      @apply bg-slate-700 text-slate-50;
+      & .badge-dismiss {
+        @apply focus-visible:outline-slate-50;
+      }
+    }
+    &.badge-primary {
+      @apply bg-primary-700 text-primary-50;
+      & .badge-dismiss {
+        @apply focus-visible:outline-primary-50;
+      }
+    }
+    &.badge-secondary {
+      @apply bg-secondary-700 text-secondary-50;
+      & .badge-dismiss {
+        @apply focus-visible:outline-secondary-50;
+      }
+    }
+    &.badge-aegold {
+      @apply bg-aegold-700 text-aegold-50;
+      & .badge-dismiss {
+        @apply focus-visible:outline-aegold-50;
+      }
+    }
+    &.badge-aered {
+      @apply bg-aered-700 text-aered-50;
+      & .badge-dismiss {
+        @apply focus-visible:outline-aered-50;
+      }
+    }
+    &.badge-aegreen {
+      @apply bg-aegreen-700 text-aegreen-50;
+      & .badge-dismiss {
+        @apply focus-visible:outline-aegreen-50;
+      }
+    }
+    &.badge-aeblack {
+      @apply bg-aeblack-800 text-aeblack-50;
+      & .badge-dismiss {
+        @apply focus-visible:outline-aeblack-50;
+      }
+    }
+    &.badge-techblue {
+      @apply bg-techblue-700 text-techblue-50;
+      & .badge-dismiss {
+        @apply focus-visible:outline-techblue-50;
+      }
+    }
+    &.badge-seablue {
+      @apply bg-seablue-600 text-seablue-50;
+      & .badge-dismiss {
+        @apply focus-visible:outline-seablue-50;
+      }
+    }
+    &.badge-camel {
+      @apply bg-camel-600 text-camel-50;
+      & .badge-dismiss {
+        @apply focus-visible:outline-camel-50;
+      }
+    }
+    &.badge-desert {
+      @apply bg-desert-500 text-desert-50;
+      & .badge-dismiss {
+        @apply focus-visible:outline-desert-50;
+      }
+    }
+    &.badge-fuchsia {
+      @apply bg-fuchsia-600 text-fuchsia-50;
+      & .badge-dismiss {
+        @apply focus-visible:outline-fuchsia-50;
+      }
+    }
+    &.badge-slate {
+      @apply bg-slate-700 text-slate-50;
+      & .badge-dismiss {
+        @apply focus-visible:outline-slate-50;
+      }
+    }
+    &.badge-purple {
+      @apply bg-purple-500 text-purple-50;
+      & .badge-dismiss {
+        @apply focus-visible:outline-purple-50;
+      }
+    }
+    &.badge-pink {
+      @apply bg-pink-500 text-pink-50;
+      & .badge-dismiss {
+        @apply focus-visible:outline-pink-50;
+      }
+    }
+    &.badge-indigo {
+      @apply bg-indigo-500 text-indigo-50;
+      & .badge-dismiss {
+        @apply focus-visible:outline-indigo-50;
+      }
+    }
+    &.badge-lime {
+      @apply bg-lime-600 text-lime-50;
+      & .badge-dismiss {
+        @apply focus-visible:outline-lime-50;
+      }
+    }
+  }
+}
+
 /* Dismiss button */
-.dismiss-button {
-  margin-left: 0.375rem; /* 6px spacing from content */
-  cursor: pointer;
-  color: currentColor;
-  opacity: 0.8;
+.badge-dismiss {
+  @apply ml-1.5 rtl:ml-0 rtl:mr-1.5 inline-flex items-center justify-between p-0 bg-transparent border-0 h-auto w-auto shrink-0 cursor-pointer opacity-80 hover:opacity-100 focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:rounded-md focus-visible:opacity-100;
+  color:inherit;
   transition: opacity 0.2s ease;
-}
-
-.dismiss-button:hover {
-  opacity: 1;
-}
-
-.dismiss-button:focus {
-  outline: 2px solid currentColor;
-  outline-offset: 2px;
-  border-radius: 2px;
-  opacity: 1;
 }

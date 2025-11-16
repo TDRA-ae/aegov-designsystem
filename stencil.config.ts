@@ -87,6 +87,9 @@ export const config: Config = {
   },
 
   // Plugin configuration - ORDER MATTERS!
+  // NOTE: With scoped CSS, each component bundle includes Tailwind base layer
+  // To minimize duplication, always include <link rel="stylesheet" href="/build/aegov.css">
+  // in your HTML before loading components
   plugins: [
     sass(),             // 1. Sass preprocessing (if used)
     tailwindGlobal(),   // 2. Global Tailwind styles

@@ -12,28 +12,337 @@
 
 .aegov-callout {
   font-family:inherit;
-}
-
-.aegov-callout .callout-icon {
-  & svg,
-  & img,
-  & ::slotted(svg) {
-    @apply size-6 shrink-0 block;
+  @apply @container px-5 py-4 flex items-start gap-4 rounded-md text-base;
+  &.callout-soft {
+    &.callout-default {
+      @apply bg-slate-100 text-slate-800 border-slate-800;
+      & .callout-slot-icon {
+        & svg {
+          @apply fill-slate-800;
+        }
+      }
+      & .callout-slot-actions {
+        & button,
+        & a {
+          @apply bg-transparent border-slate-700 text-slate-700 focus-visible:outline-slate-800;
+          &.btn-solid {
+            @apply border-slate-800 bg-slate-800 text-slate-50;
+          }
+          &.btn-outline {
+            @apply bg-transparent;
+          }
+        }
+      }
+      & .callout-slot-right {
+        ::slotted(a),
+        & a {
+          @apply focus-visible:bg-slate-800 focus-visible:text-slate-50 focus-visible:outline-slate-800 focus-visible:decoration-slate-50;
+        }
+        & button {
+          @apply focus-visible:outline-slate-800;
+        }
+      }
+    }
+    &.callout-error {
+      @apply bg-aered-100 text-aered-700 border-aered-700;
+      & .callout-slot-icon {
+        & svg {
+          @apply fill-aered-600;
+        }
+      }
+      & .callout-slot-actions {
+        & button,
+        & a {
+          @apply bg-transparent border-aered-700 text-aered-700 focus-visible:outline-aered-600;
+          &.btn-solid {
+            @apply border-aered-600 bg-aered-600 text-whitely-50;
+          }
+          &.btn-outline {
+            @apply bg-transparent;
+          }
+        }
+      }
+      & .callout-slot-right {
+        ::slotted(a),
+        & a {
+          @apply focus-visible:bg-aered-800 focus-visible:text-aered-50 focus-visible:outline-aered-800 focus-visible:decoration-aered-50;
+        }
+        & button {
+          @apply focus-visible:outline-aered-800;
+        }
+      }
+    }
+    &.callout-success {
+      @apply bg-aegreen-100 text-aegreen-700 border-aegreen-700;
+      & .callout-slot-icon {
+        & svg {
+          @apply fill-aegreen-600;
+        }
+      }
+      & .callout-slot-actions {
+        & button,
+        & a {
+          @apply bg-transparent border-aegreen-700 text-aegreen-700 focus-visible:outline-aegreen-600;
+          &.btn-solid {
+            @apply border-aegreen-600 bg-aegreen-600 text-whitely-50;
+          }
+          &.btn-outline {
+            @apply bg-transparent;
+          }
+        }
+      }
+      & .callout-slot-right {
+        ::slotted(a),
+        & a {
+          @apply focus-visible:bg-aegreen-800 focus-visible:text-aegreen-50 focus-visible:outline-aegreen-800 focus-visible:decoration-aegreen-50;
+        }
+        & button {
+          @apply focus-visible:outline-aegreen-800;
+        }
+      }
+    }
+    &.callout-warning {
+      @apply bg-camel-100 text-camel-700 border-camel-700;
+      & .callout-slot-icon {
+        & svg {
+          @apply fill-camel-600;
+        }
+      }
+      & .callout-slot-actions {
+        & button,
+        & a {
+          @apply bg-transparent border-camel-700 text-camel-700 focus-visible:outline-camel-600;
+          &.btn-solid {
+            @apply border-camel-600 bg-camel-600 text-whitely-50;
+          }
+          &.btn-outline {
+            @apply bg-transparent;
+          }
+        }
+      }
+      & .callout-slot-right {
+        ::slotted(a),
+        a {
+          @apply focus-visible:bg-camel-800 focus-visible:text-camel-50 focus-visible:outline-camel-800 focus-visible:decoration-camel-50;
+        }
+        & button {
+          @apply focus-visible:outline-camel-800;
+        }
+      }
+    }
+    &.callout-info {
+      @apply bg-techblue-100 text-techblue-700 border-techblue-700;
+      & .callout-slot-icon {
+        & svg {
+          @apply fill-techblue-600;
+        }
+      }
+      & .callout-slot-actions {
+        & button,
+        & a {
+          @apply bg-transparent border-techblue-700 text-techblue-700 focus-visible:outline-techblue-600;
+          &.btn-solid {
+            @apply border-techblue-600 bg-techblue-600 text-whitely-50;
+          }
+          &.btn-outline {
+            @apply bg-transparent;
+          }
+        }
+      }
+      & .callout-slot-right {
+        ::slotted(a),
+        & a {
+          @apply focus-visible:bg-techblue-800 focus-visible:text-techblue-50 focus-visible:outline-techblue-800 focus-visible:decoration-techblue-50;
+        }
+        & button {
+          @apply focus-visible:outline-techblue-800;
+        }
+      }
+    }
+  }
+  &.callout-solid {
+    &.callout-default {
+      @apply bg-slate-800 text-slate-50 border-slate-800;
+      & .callout-slot-icon {
+        & svg {
+          @apply fill-slate-400;
+        }
+      }
+      & .callout-slot-actions {
+        & button,
+        & a {
+          @apply bg-transparent border-slate-100 text-slate-50 focus-visible:outline-slate-50;
+          &.btn-solid {
+            @apply border-slate-100 bg-slate-100 text-slate-900;
+          }
+          &.btn-outline {
+            @apply bg-transparent;
+          }
+        }
+      }
+      & .callout-slot-right {
+        ::slotted(a),
+        & a {
+          @apply focus-visible:bg-slate-50 focus-visible:text-slate-900 focus-visible:outline-slate-50;
+        }
+        & button {
+          @apply focus-visible:outline-slate-50;
+        }
+      }
+    }
+    &.callout-error {
+      @apply bg-aered-700 text-aered-50 border-aered-700;
+      & .callout-slot-icon {
+        & svg {
+          @apply fill-aered-400;
+        }
+      }
+      & .callout-slot-actions {
+        & button,
+        & a {
+          @apply bg-transparent border-aered-100 text-aered-50 focus-visible:outline-aered-50;
+          &.btn-solid {
+            @apply border-aered-100 bg-aered-100 text-aered-900;
+          }
+          &.btn-outline {
+            @apply bg-transparent;
+          }
+        }
+      }
+      & .callout-slot-right {
+        ::slotted(a),
+        & a {
+          @apply focus-visible:bg-aered-50 focus-visible:text-aered-900 focus-visible:outline-aered-50;
+        }
+        & button {
+          @apply focus-visible:outline-aered-50;
+        }
+      }
+    }
+    &.callout-success {
+      @apply bg-aegreen-700 text-aegreen-50 border-aegreen-700;
+      & .callout-slot-icon {
+        & svg {
+          @apply fill-aegreen-400;
+        }
+      }
+      & .callout-slot-actions {
+        & button,
+        & a {
+          @apply bg-transparent border-aegreen-100 text-aegreen-50 focus-visible:outline-aegreen-50;
+          &.btn-solid {
+            @apply border-aegreen-100 bg-aegreen-100 text-aegreen-900;
+          }
+          &.btn-outline {
+            @apply bg-transparent;
+          }
+        }
+      }
+      & .callout-slot-right {
+        ::slotted(a),
+        & a {
+          @apply focus-visible:bg-aegreen-50 focus-visible:text-aegreen-900 focus-visible:outline-aegreen-50;
+        }
+        & button {
+          @apply focus-visible:outline-aegreen-50;
+        }
+      }
+    }
+    &.callout-warning {
+      @apply bg-camel-700 text-camel-50 border-camel-700;
+      & .callout-slot-icon {
+        & svg {
+          @apply fill-camel-400;
+        }
+      }
+      & .callout-slot-actions {
+        & button,
+        & a {
+          @apply bg-transparent border-camel-100 text-camel-50 focus-visible:outline-camel-50;
+          &.btn-solid {
+            @apply border-camel-100 bg-camel-100 text-camel-900;
+          }
+          &.btn-outline {
+            @apply bg-transparent;
+          }
+        }
+      }
+      & .callout-slot-right {
+        ::slotted(a),
+        & a {
+          @apply focus-visible:bg-camel-50 focus-visible:text-camel-900 focus-visible:outline-camel-50;
+        }
+        & button {
+          @apply focus-visible:outline-camel-50;
+        }
+      }
+    }
+    &.callout-info {
+      @apply bg-techblue-700 text-techblue-50 border-techblue-700;
+      & .callout-slot-icon {
+        & svg {
+          @apply fill-techblue-400;
+        }
+      }
+      & .callout-slot-actions {
+        & button,
+        & a {
+          @apply bg-transparent border-techblue-100 text-techblue-50 focus-visible:outline-techblue-50;
+          &.btn-solid {
+            @apply border-techblue-100 bg-techblue-100 text-techblue-900;
+          }
+          &.btn-outline {
+            @apply bg-transparent;
+          }
+        }
+      }
+      & .callout-slot-right {
+        ::slotted(a),
+        & a {
+          @apply focus-visible:bg-techblue-50 focus-visible:text-techblue-900 focus-visible:outline-techblue-50;
+        }
+        & button {
+          @apply focus-visible:outline-techblue-50;
+        }
+      }
+    }
+  }
+  & .callout-slot-actions {
+    @apply mt-8;
+    & button,
+    & a {
+      @apply h-10 text-base px-4 border-2 font-bold rounded-md hover:opacity-90 focus-visible:outline-offset-2 focus-visible:outline-2 focus-visible:outline-dashed;
+    }
+  }
+  & .callout-slot-icon {
+    @apply shrink-0 flex items-start min-w-fit;
+    & svg,
+    & img,
+    & ::slotted(svg) {
+      @apply size-6 shrink-0 block;
+    }
+    ::slotted(ul),
+    & ul {
+      @apply list-disc;
+    }
+  }
+  & .callout-slot-content {
+    @apply grow text-base leading-normal;
+    color:inherit;
   }
 }
 
 .aegov-callout {
-  .callout-right {
+  .callout-slot-right {
+    @apply shrink-0 flex items-center justify-end gap-2;
     ::slotted(a),
-    a {
-      @apply inline-flex items-center text-sm font-medium underline gap-1 p-0 leading-none focus:outline-offset-2 focus:outline-offset-2 focus:outline-primary-support-600;
+    & a {
+      @apply -ml-1.5 rtl:ml-0 rtl:-mr-1.5 px-1.5 inline-flex items-center text-sm font-medium underline underline-offset-2 gap-1 leading-none focus:outline-offset-2 focus:outline-offset-2 focus:outline-primary-support-600;
       color: inherit;
     }
-  }
-}
-.aegov-callout .callout-content {
-  ::slotted(ul),
-  & ul {
-    @apply list-disc;
+    & button {
+      @apply w-auto h-auto border-0 p-1 bg-transparent cursor-pointer;
+      color:inherit;
+    }
   }
 }

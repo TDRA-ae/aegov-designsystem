@@ -7,7 +7,7 @@ import type { BadgeSize, BadgeAppearance, BadgeColor } from '../../utils/types';
 @Component({
   tag: 'aegov-badge',
   styleUrl: 'aegov-badge.css',
-  scoped: true,
+  scoped: false,
 })
 export class AegovBadge {
     /**
@@ -52,14 +52,7 @@ export class AegovBadge {
      */
     private getBadgeClasses(): string {
         const classes: string[] = [
-            'inline-flex',
-            'items-center',
-            'font-medium',
-            'whitespace-nowrap',
-            'rounded-full',
-            '[print-color-adjust:exact]',
-            'rounded-md',
-            'px-2'
+            'aegov-badge'
         ];
 
         // Size classes (includes vertical padding)
@@ -71,50 +64,37 @@ export class AegovBadge {
 
         classes.push(...sizeClasses[this.size]);
 
-        // Appearance + Color combination classes
-        const appearanceColorClasses: Record<BadgeAppearance, Record<BadgeColor, string[]>> = {
-            soft: {
-                default: ['bg-slate-100', 'text-slate-800'],
-                primary: ['bg-primary-100', 'text-primary-800'],
-                secondary: ['bg-secondary-100', 'text-secondary-800'],
-                aegold: ['bg-aegold-100', 'text-aegold-800'],
-                aered: ['bg-aered-100', 'text-aered-800'],
-                aegreen: ['bg-aegreen-100', 'text-aegreen-800'],
-                aeblack: ['bg-aeblack-100', 'text-aeblack-800'],
-                techblue: ['bg-techblue-100', 'text-techblue-800'],
-                seablue: ['bg-seablue-100', 'text-seablue-800'],
-                camel: ['bg-camel-100', 'text-camel-800'],
-                desert: ['bg-desert-100', 'text-desert-800'],
-                fuchsia: ['bg-fuchsia-100', 'text-fuchsia-800'],
-                slate: ['bg-slate-100', 'text-slate-800'],
-                purple: ['bg-purple-100', 'text-purple-800'],
-                pink: ['bg-pink-100', 'text-pink-800'],
-                indigo: ['bg-indigo-100', 'text-indigo-800'],
-                lime: ['bg-lime-100', 'text-lime-800'],
-            },
-            solid: {
-                default: ['bg-slate-700', 'text-slate-50'],
-                primary: ['bg-primary-600', 'text-whitely-50'],
-                secondary: ['bg-secondary-600', 'text-whitely-50'],
-                aegold: ['bg-aegold-600', 'text-whitely-50'],
-                aered: ['bg-aered-600', 'text-whitely-50'],
-                aegreen: ['bg-aegreen-600', 'text-whitely-50'],
-                aeblack: ['bg-aeblack-800', 'text-aeblack-50'],
-                techblue: ['bg-techblue-700', 'text-techblue-50'],
-                seablue: ['bg-seablue-600', 'text-whitely-50'],
-                camel: ['bg-camel-600', 'text-whitely-50'],
-                desert: ['bg-desert-600', 'text-whitely-50'],
-                fuchsia: ['bg-fuchsia-600', 'text-whitely-50'],
-                slate: ['bg-slate-700', 'text-slate-50'],
-                purple: ['bg-purple-600', 'text-whitely-50'],
-                pink: ['bg-pink-600', 'text-whitely-50'],
-                indigo: ['bg-indigo-600', 'text-whitely-50'],
-                lime: ['bg-lime-600', 'text-whitely-50'],
-            },
+        // Appearance classes
+        const appearanceClasses: Record<BadgeAppearance, string[]> = {
+            soft: ['badge-soft'],
+            solid: ['badge-solid']
         };
 
-        classes.push(...appearanceColorClasses[this.appearance][this.color]);
+        classes.push(...appearanceClasses[this.appearance]);
 
+        // Color classes
+        const colorClasses: Record<BadgeColor, string[]> = {
+            default: ['badge-default'],
+            primary: ['badge-primary'],
+            secondary: ['badge-secondary'],
+            aegold: ['badge-aegold'],
+            aered: ['badge-aered'],
+            aegreen: ['badge-aegreen'],
+            aeblack: ['badge-aeblack'],
+            techblue: ['badge-techblue'],
+            seablue: ['badge-seablue'],
+            camel: ['badge-camel'],
+            desert: ['badge-desert'],
+            fuchsia: ['badge-fuchsia'],
+            slate: ['badge-slate'],
+            purple: ['badge-purple'],
+            pink: ['badge-pink'],
+            indigo: ['badge-indigo'],
+            lime: ['badge-lime']
+        };
+
+        classes.push(...colorClasses[this.color]);
+        
         return classes.join(' ');
     }
 
@@ -126,9 +106,9 @@ export class AegovBadge {
                     {this.dismissible && (
                         <button
                             type="button"
-                            class="dismiss-button inline-flex items-center justify-between p-0 bg-transparent border-0 h-auto w-auto shrink-0"
+                            class="badge-dismiss"
                             onClick={this.handleBadgeDismissClick}
-                            aria-label="Dismiss badge"
+                            aria-label="Badge dismiss button"
                         >
                             <svg
                                 class="size-3"

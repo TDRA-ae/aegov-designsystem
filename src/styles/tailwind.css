@@ -9,8 +9,9 @@
  * @import "@aegov/design-system/tailwind.css";
  */
 
-@import "tailwindcss";
-@plugin "@tailwindcss/forms";
+@layer theme, base, components, utilities;
+@import "tailwindcss/theme.css" layer(theme);
+@import "tailwindcss/utilities.css" layer(utilities);
 
 @theme {
   /* ========================================
@@ -280,21 +281,6 @@
   --transition-duration-base: 200ms;
   --transition-duration-slow: 300ms;
   --transition-timing-default: cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-/* ========================================
- * CUSTOM UTILITIES
- * ======================================== */
-
-@utility focus-ring {
-  outline: 2px solid var(--color-camel-500);
-  outline-offset: 2px;
-}
-
-@utility button-transition {
-  transition-property: color, background-color, border-color, opacity, box-shadow, transform;
-  transition-duration: var(--transition-duration-base);
-  transition-timing-function: var(--transition-timing-default);
 }
 
 /* Generate commonly used utility classes for slotted content */

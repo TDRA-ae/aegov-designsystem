@@ -8,7 +8,7 @@ import type { ButtonVariant, ButtonSize, ButtonType, ButtonAppearance } from '..
 @Component({
   tag: 'aegov-button',
   styleUrl: 'aegov-button.css',
-  scoped: true,
+  scoped: false,
   shadow:false
 })
 export class AegovButton {
@@ -100,158 +100,35 @@ export class AegovButton {
    */
   private getButtonClasses(): string {
     const classes: string[] = [
-      'aegov-btn',  
-      'relative',
-      'inline-flex',
-      'shrink-0',
-      'cursor-pointer',
-      'select-none',
-      'flex-wrap',
-      'items-center',
-      'justify-center',
-      'whitespace-nowrap',
-      'no-underline',
-      'transition-all',
-      'duration-200',
-      'ease-in-out',
-      'disabled:cursor-default',
-      'disabled:pointer-events-none'
+      'aegov-btn'
     ];
 
     // Size classes
     const sizeClasses: Record<ButtonSize, string[]> = {
-      xs: ['btn-xs','h-8','rounded','gap-2','px-2.5','text-sm'],
-      sm: ['btn-sm','h-10','rounded-md','gap-2','px-3.5','text-base'],
-      base: ['btn-base','h-12','rounded-lg','gap-2','px-4','text-base'],
-      lg: ['btn-lg','h-13','rounded-lg','gap-3','px-4.5','text-lg']
+      xs: ['btn-xs'],
+      sm: ['btn-sm'],
+      base: ['btn-base'],
+      lg: ['btn-lg']
     };
 
     classes.push(...sizeClasses[this.size]);
     
-    if (this.variant === 'solid') {
-      classes.push(
-        'shadow-[inset_0px_1px_--theme(--color-whitely-50/.2)]', 
-        'disabled:opacity-30',
-        'text-whitely-50',
-        'border-1',
-        'focus-visible:outline-offset-2',
-        'focus-visible:outline-2'
-      );
-    } else {
-      classes.push(
-        'disabled:opacity-50'
-      );
-    }
-    if (this.variant === 'outline') {
-      classes.push(
-        'bg-transparent', 
-        'border-2',
-        'focus-visible:outline-offset-0',
-        'focus-visible:outline-2'
-      );
-    }
-    if (this.variant === 'soft') {
-      classes.push(
-        'border-0',
-        'focus-visible:outline-offset-2',
-        'focus-visible:outline-2'
-      );
-    }
-    if (this.variant === 'link') {
-      classes.push(
-        'bg-transparent', 
-        'border-0',
-        'hover:underline',
-        'focus-visible:outline-offset-2',
-        'focus-visible:outline-2'
-      );
-    }
+    const variantClasses: Record<ButtonVariant, string[]> = {
+      solid: ['btn-solid'],
+      outline: ['btn-outline'],
+      soft: ['btn-soft'],
+      link: ['btn-link']
+    };
+
+    classes.push(...variantClasses[this.variant]);
+
+    const appearanceClasses: Record<ButtonAppearance, string[]> = {
+      primary: ['btn-primary'],
+      secondary: ['btn-secondary']
+    };
+
+    classes.push(...appearanceClasses[this.appearance]);
     
-    // Variant with appereance classes
-    if (this.appearance === 'primary' && this.variant === 'solid') {
-      classes.push(
-        'bg-primary-600',
-        'hover:bg-primary-500',
-        'border-primary-600',
-        'hover:border-primary-500',
-        'focus-visible:bg-primary-support-500',
-        'focus-visible:text-primary-support-950',
-        'focus-visible:border-primary-support-500',
-      );
-    } else if (this.appearance === 'primary' && this.variant === 'outline') {
-      classes.push(
-        'hover:bg-primary-50', 
-        'text-primary-600', 
-        'hover:text-primary-700', 
-        'border-primary-600', 
-        'hover:border-primary-700',
-        'focus-visible:border-primary-50',
-        'focus-visible:bg-primary-support-500',
-        'focus-visible:text-primary-support-950'
-      );
-    } else if (this.appearance === 'primary' && this.variant === 'soft') {
-      classes.push(
-        'bg-primary-50', 
-        'hover:bg-primary-100', 
-        'text-primary-700', 
-        'hover:text-primary-800',
-        'focus-visible:bg-primary-support-500',
-        'focus-visible:text-primary-support-950'
-      );
-    } else if (this.appearance === 'primary' && this.variant === 'link') {
-      classes.push(
-        'text-primary-600', 
-        'hover:text-primary-700',
-        'focus-visible:bg-primary-support-500',
-        'focus-visible:text-primary-support-950'
-      );
-    } if (this.appearance === 'secondary' && this.variant === 'solid') {
-      classes.push(
-        'bg-secondary-800', 
-        'hover:bg-secondary-700',
-        'border-secondary-800',
-        'hover:border-secondary-700',
-        'focus-visible:bg-secondary-support-400',
-        'focus-visible:text-secondary-support-950',
-        'focus-visible:border-secondary-support-400',
-      );
-    } else if (this.appearance === 'secondary' && this.variant === 'outline') {
-      classes.push(
-        'hover:bg-secondary-50', 
-        'text-secondary-800', 
-        'hover:text-secondary-900',
-        'border-secondary-800', 
-        'hover:border-secondary-900',
-        'focus-visible:border-secondary-50',
-        'focus-visible:bg-secondary-support-400',
-        'focus-visible:text-secondary-support-950'
-      );
-    } else if (this.appearance === 'secondary' && this.variant === 'soft') {
-      classes.push(
-        'bg-secondary-50', 
-        'hover:bg-secondary-100', 
-        'text-secondary-800', 
-        'hover:text-secondary-900',
-        'focus-visible:bg-secondary-support-400',
-        'focus-visible:text-secondary-support-950'
-      );
-    } else if (this.appearance === 'secondary' && this.variant === 'link') {
-      classes.push(
-        'text-secondary-800', 
-        'hover:text-secondary-900',
-        'focus-visible:bg-secondary-support-400',
-        'focus-visible:text-secondary-support-950'
-      );
-    }
-    if (this.appearance === 'primary') {
-      classes.push(
-        'outline-primary-support-600'
-      );
-    } else if (this.appearance === 'secondary') {
-      classes.push(
-        'outline-secondary-support-600'
-      );
-    }
 
     // Disabled state
     if (this.disabled || this.loading) {
@@ -264,7 +141,7 @@ export class AegovButton {
     // Icon only button
     if (this.icon) {
       classes.push(
-        'btn-icon w-12 gap-0 px-0'
+        'btn-icon'
       );
     }
 
