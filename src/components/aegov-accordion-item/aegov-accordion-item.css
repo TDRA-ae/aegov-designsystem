@@ -6,9 +6,6 @@
 .accordion-item {
   @apply border-b border-aeblack-100;
 
-  &.accordion-item__first {
-    @apply border-t border-aeblack-100;
-  }
   &.accordion-item__last {
     @apply border-b-0;
   }
@@ -37,7 +34,7 @@
     @apply size-6 shrink-0 text-aeblack-600 transition-all ease-in-out duration-150;
   }
   & .accordion-item__content {
-    @apply px-3 py-5 leading-normal text-aeblack-800;
+    @apply px-3 py-4 leading-normal text-aeblack-800;
   }
 
   &.accordion-item--disabled {
