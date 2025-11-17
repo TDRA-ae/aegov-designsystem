@@ -1,0 +1,325 @@
+/**
+ * AEGOV Banner Component Styles
+ *
+ * A full-width banner component for site-wide announcements and notifications.
+ * Supports multiple positioning modes (static, fixed, sticky) and layout modes (push, overlay).
+ */
+
+:host {
+  display: block;
+  width: 100%;
+}
+
+/* ============================================
+   BASE BANNER STYLES
+   ============================================ */
+
+.aegov-banner {
+  font-family: inherit;
+  width: 100%;
+  @apply transition-all duration-300 ease-in-out;
+}
+
+.banner-container {
+  @apply px-6 py-4 flex items-center gap-4;
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+/* Responsive padding for mobile */
+@media (max-width: 768px) {
+  .banner-container {
+    @apply px-4 py-3 gap-3;
+  }
+}
+
+/* ============================================
+   ICON WRAPPER
+   ============================================ */
+
+.banner-icon-wrapper {
+  @apply flex-shrink-0;
+}
+
+.banner-icon {
+  @apply size-6;
+}
+
+/* ============================================
+   CONTENT AREA
+   ============================================ */
+
+.banner-content {
+  @apply flex-1 flex flex-col gap-2;
+}
+
+.banner-title {
+  @apply font-semibold text-base;
+}
+
+.banner-text {
+  @apply text-sm;
+}
+
+.banner-actions {
+  @apply flex gap-2 mt-2;
+}
+
+/* ============================================
+   DISMISS BUTTON
+   ============================================ */
+
+.banner-dismiss {
+  @apply flex-shrink-0 p-2 rounded-md transition-colors duration-200;
+  @apply hover:bg-black/10 focus:outline-none focus:ring-2 focus:ring-offset-2;
+  min-width: 44px;
+  min-height: 44px;
+  @apply flex items-center justify-center;
+}
+
+.banner-dismiss-icon {
+  @apply size-5;
+}
+
+/* ============================================
+   POSITIONING MODES
+   ============================================ */
+
+/* Static positioning (default, takes up space in document flow) */
+.banner--static {
+  position: static;
+}
+
+/* Fixed positioning (stays in viewport, overlay mode) */
+.banner--fixed {
+  position: fixed;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+}
+
+.banner--fixed.banner--top {
+  top: 0;
+}
+
+.banner--fixed.banner--bottom {
+  bottom: 0;
+}
+
+/* Sticky positioning (scrolls then sticks) */
+.banner--sticky {
+  position: sticky;
+  z-index: 999;
+}
+
+.banner--sticky.banner--top {
+  top: 0;
+}
+
+.banner--sticky.banner--bottom {
+  bottom: 0;
+}
+
+/* ============================================
+   DISMISSING ANIMATION
+   ============================================ */
+
+.banner--dismissing.banner--top {
+  @apply opacity-0;
+  transform: translateY(-100%);
+}
+
+.banner--dismissing.banner--bottom {
+  @apply opacity-0;
+  transform: translateY(100%);
+}
+
+/* ============================================
+   APPEARANCE & VARIANT STYLES
+   ============================================ */
+
+/* SOFT APPEARANCE */
+.banner-soft {
+  /* Default variant - Slate */
+  &.banner-default {
+    @apply bg-slate-100 text-slate-800 border-l-4 border-slate-800;
+
+    .banner-icon svg {
+      @apply fill-slate-800;
+    }
+
+    .banner-dismiss {
+      @apply hover:bg-slate-200 focus:ring-slate-800;
+    }
+
+    .banner-actions ::slotted(button),
+    .banner-actions button {
+      @apply bg-transparent border-slate-700 text-slate-700;
+    }
+  }
+
+  /* Error variant - AERed */
+  &.banner-error {
+    @apply bg-aered-100 text-aered-700 border-l-4 border-aered-700;
+
+    .banner-icon svg {
+      @apply fill-aered-600;
+    }
+
+    .banner-dismiss {
+      @apply hover:bg-aered-200 focus:ring-aered-600;
+    }
+
+    .banner-actions ::slotted(button),
+    .banner-actions button {
+      @apply bg-transparent border-aered-700 text-aered-700;
+    }
+  }
+
+  /* Warning variant - Camel */
+  &.banner-warning {
+    @apply bg-camel-100 text-camel-700 border-l-4 border-camel-700;
+
+    .banner-icon svg {
+      @apply fill-camel-600;
+    }
+
+    .banner-dismiss {
+      @apply hover:bg-camel-200 focus:ring-camel-600;
+    }
+
+    .banner-actions ::slotted(button),
+    .banner-actions button {
+      @apply bg-transparent border-camel-700 text-camel-700;
+    }
+  }
+
+  /* Success variant - AEGreen */
+  &.banner-success {
+    @apply bg-aegreen-100 text-aegreen-700 border-l-4 border-aegreen-700;
+
+    .banner-icon svg {
+      @apply fill-aegreen-600;
+    }
+
+    .banner-dismiss {
+      @apply hover:bg-aegreen-200 focus:ring-aegreen-600;
+    }
+
+    .banner-actions ::slotted(button),
+    .banner-actions button {
+      @apply bg-transparent border-aegreen-700 text-aegreen-700;
+    }
+  }
+
+  /* Info variant - TechBlue */
+  &.banner-info {
+    @apply bg-techblue-100 text-techblue-700 border-l-4 border-techblue-700;
+
+    .banner-icon svg {
+      @apply fill-techblue-600;
+    }
+
+    .banner-dismiss {
+      @apply hover:bg-techblue-200 focus:ring-techblue-600;
+    }
+
+    .banner-actions ::slotted(button),
+    .banner-actions button {
+      @apply bg-transparent border-techblue-700 text-techblue-700;
+    }
+  }
+}
+
+/* SOLID APPEARANCE */
+.banner-solid {
+  /* Default variant - Slate */
+  &.banner-default {
+    @apply bg-slate-800 text-whitely-50;
+
+    .banner-icon svg {
+      @apply fill-whitely-50;
+    }
+
+    .banner-dismiss {
+      @apply hover:bg-slate-700 focus:ring-whitely-50;
+    }
+
+    .banner-actions ::slotted(button),
+    .banner-actions button {
+      @apply bg-whitely-50 border-whitely-50 text-slate-800;
+    }
+  }
+
+  /* Error variant - AERed */
+  &.banner-error {
+    @apply bg-aered-600 text-whitely-50;
+
+    .banner-icon svg {
+      @apply fill-whitely-50;
+    }
+
+    .banner-dismiss {
+      @apply hover:bg-aered-700 focus:ring-whitely-50;
+    }
+
+    .banner-actions ::slotted(button),
+    .banner-actions button {
+      @apply bg-whitely-50 border-whitely-50 text-aered-600;
+    }
+  }
+
+  /* Warning variant - Camel */
+  &.banner-warning {
+    @apply bg-camel-600 text-whitely-50;
+
+    .banner-icon svg {
+      @apply fill-whitely-50;
+    }
+
+    .banner-dismiss {
+      @apply hover:bg-camel-700 focus:ring-whitely-50;
+    }
+
+    .banner-actions ::slotted(button),
+    .banner-actions button {
+      @apply bg-whitely-50 border-whitely-50 text-camel-600;
+    }
+  }
+
+  /* Success variant - AEGreen */
+  &.banner-success {
+    @apply bg-aegreen-600 text-whitely-50;
+
+    .banner-icon svg {
+      @apply fill-whitely-50;
+    }
+
+    .banner-dismiss {
+      @apply hover:bg-aegreen-700 focus:ring-whitely-50;
+    }
+
+    .banner-actions ::slotted(button),
+    .banner-actions button {
+      @apply bg-whitely-50 border-whitely-50 text-aegreen-600;
+    }
+  }
+
+  /* Info variant - TechBlue */
+  &.banner-info {
+    @apply bg-techblue-600 text-whitely-50;
+
+    .banner-icon svg {
+      @apply fill-whitely-50;
+    }
+
+    .banner-dismiss {
+      @apply hover:bg-techblue-700 focus:ring-whitely-50;
+    }
+
+    .banner-actions ::slotted(button),
+    .banner-actions button {
+      @apply bg-whitely-50 border-whitely-50 text-techblue-600;
+    }
+  }
+}

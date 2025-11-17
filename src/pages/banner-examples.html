@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0" />
+  <title>Banner Component Examples - AEGOV Design System</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+
+  <script type="module" src="/build/aegov.esm.js"></script>
+  <script nomodule src="/build/aegov.js"></script>
+  <link rel="stylesheet" href="/build/aegov.css" />
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+      min-height: 100vh;
+    }
+
+    .page-content {
+      padding-top: 2rem;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 3rem;
+      padding: 2rem;
+      background: white;
+      border-radius: 1rem;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .header h1 {
+      margin: 0 0 0.5rem 0;
+      font-size: 2.5rem;
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .header p {
+      margin: 0;
+      color: #666;
+      font-size: 1.125rem;
+    }
+
+    .section {
+      margin-bottom: 3rem;
+      padding: 2rem;
+      background: white;
+      border-radius: 1rem;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .section-title {
+      margin: 0 0 1.5rem 0;
+      font-size: 1.75rem;
+      color: #333;
+      border-bottom: 2px solid #e2e8f0;
+      padding-bottom: 0.75rem;
+    }
+
+    .subsection-title {
+      margin: 2rem 0 1rem 0;
+      font-size: 1.25rem;
+      color: #555;
+      font-weight: 600;
+    }
+
+    .example {
+      margin-bottom: 1.5rem;
+    }
+
+    .example-label {
+      font-size: 0.875rem;
+      color: #666;
+      margin-bottom: 0.5rem;
+      font-weight: 500;
+    }
+
+    .note {
+      margin-top: 1rem;
+      padding: 1rem;
+      background: #f8fafc;
+      border-left: 4px solid #3b82f6;
+      border-radius: 0.25rem;
+    }
+
+    .note p {
+      margin: 0;
+      color: #334155;
+      font-size: 0.9rem;
+    }
+
+    .demo-area {
+      position: relative;
+      min-height: 200px;
+      background: #f8fafc;
+      border-radius: 0.5rem;
+      padding: 2rem;
+      margin-top: 1rem;
+    }
+
+    .demo-content {
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .demo-content p {
+      margin: 0 0 1rem 0;
+      line-height: 1.6;
+    }
+
+    .event-log {
+      margin-top: 2rem;
+      padding: 1rem;
+      background: #1e293b;
+      border-radius: 0.5rem;
+      color: #10b981;
+      font-family: 'Courier New', monospace;
+      font-size: 0.875rem;
+      max-height: 200px;
+      overflow-y: auto;
+    }
+
+    .event-log-title {
+      color: #94a3b8;
+      margin-bottom: 0.5rem;
+    }
+
+    .event-entry {
+      margin: 0.25rem 0;
+    }
+
+    .back-link {
+      display: inline-block;
+      margin-bottom: 2rem;
+      padding: 0.75rem 1.5rem;
+      background: white;
+      color: #667eea;
+      text-decoration: none;
+      border-radius: 0.5rem;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      transition: all 0.2s;
+    }
+
+    .back-link:hover {
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
+      transform: translateY(-1px);
+    }
+
+    /* Toggle buttons for demo */
+    .demo-controls {
+      margin-bottom: 1rem;
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    .demo-controls button {
+      padding: 0.5rem 1rem;
+      border: 1px solid #cbd5e1;
+      background: white;
+      border-radius: 0.375rem;
+      cursor: pointer;
+      font-size: 0.875rem;
+      transition: all 0.2s;
+    }
+
+    .demo-controls button:hover {
+      background: #f1f5f9;
+    }
+
+    .demo-controls button.active {
+      background: #3b82f6;
+      color: white;
+      border-color: #3b82f6;
+    }
+
+    /* Placeholder for fixed banner demo */
+    .placeholder-content {
+      height: 150vh;
+      background: linear-gradient(180deg, #fff 0%, #f1f5f9 100%);
+      padding: 2rem;
+      border-radius: 0.5rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="page-content">
+    <div class="container">
+      <a href="../index.html" class="back-link">← Back to Home</a>
+
+      <div class="header">
+        <h1>Banner Component</h1>
+        <p>Full-width announcements and notifications with flexible positioning</p>
+      </div>
+
+      <!-- Push Mode Banners (Static) -->
+      <div class="section">
+        <h2 class="section-title">1. Push Mode Banners (Static)</h2>
+        <p style="color: #666; margin-bottom: 1.5rem;">Default positioning mode - banners take up space in page flow and push content down/up.</p>
+
+        <div class="example">
+          <div class="example-label">Default Variant (Soft)</div>
+          <aegov-banner variant="default">
+            This is a general announcement banner with default styling.
+          </aegov-banner>
+        </div>
+
+        <div class="example">
+          <div class="example-label">Info Variant (Soft)</div>
+          <aegov-banner variant="info" banner-title="Information">
+            New features are now available. Check out our latest updates in the dashboard.
+          </aegov-banner>
+        </div>
+
+        <div class="example">
+          <div class="example-label">Success Variant (Soft)</div>
+          <aegov-banner variant="success" banner-title="Success">
+            Your changes have been saved successfully.
+          </aegov-banner>
+        </div>
+
+        <div class="example">
+          <div class="example-label">Warning Variant (Soft)</div>
+          <aegov-banner variant="warning" banner-title="Warning">
+            Scheduled maintenance will occur tonight from 11 PM to 2 AM EST.
+          </aegov-banner>
+        </div>
+
+        <div class="example">
+          <div class="example-label">Error Variant (Soft)</div>
+          <aegov-banner variant="error" banner-title="Error">
+            An error occurred while processing your request. Please try again later.
+          </aegov-banner>
+        </div>
+      </div>
+
+      <!-- Solid Appearance -->
+      <div class="section">
+        <h2 class="section-title">2. Solid Appearance</h2>
+        <p style="color: #666; margin-bottom: 1.5rem;">Bold, high-contrast banners for maximum visibility.</p>
+
+        <div class="example">
+          <div class="example-label">Default Variant (Solid)</div>
+          <aegov-banner variant="default" appearance="solid">
+            Important system announcement requiring immediate attention.
+          </aegov-banner>
+        </div>
+
+        <div class="example">
+          <div class="example-label">Info Variant (Solid)</div>
+          <aegov-banner variant="info" appearance="solid">
+            New policy updates are now in effect. Review the changes in your account settings.
+          </aegov-banner>
+        </div>
+
+        <div class="example">
+          <div class="example-label">Success Variant (Solid)</div>
+          <aegov-banner variant="success" appearance="solid">
+            Payment processed successfully. Confirmation email has been sent.
+          </aegov-banner>
+        </div>
+
+        <div class="example">
+          <div class="example-label">Warning Variant (Solid)</div>
+          <aegov-banner variant="warning" appearance="solid">
+            Your session will expire in 5 minutes. Please save your work.
+          </aegov-banner>
+        </div>
+
+        <div class="example">
+          <div class="example-label">Error Variant (Solid)</div>
+          <aegov-banner variant="error" appearance="solid">
+            Critical system error detected. Contact support immediately.
+          </aegov-banner>
+        </div>
+      </div>
+
+      <!-- With Action Buttons -->
+      <div class="section">
+        <h2 class="section-title">3. Banners with Action Buttons</h2>
+        <p style="color: #666; margin-bottom: 1.5rem;">Banners with interactive action buttons for user engagement.</p>
+
+        <div class="example">
+          <div class="example-label">Cookie Consent Banner</div>
+          <aegov-banner variant="default" banner-title="Cookie Consent">
+            We use cookies to improve your experience on our website. By continuing to browse, you agree to our use of cookies.
+            <div slot="actions">
+              <aegov-button size="sm" variant="outline" appearance="primary">Decline</aegov-button>
+              <aegov-button size="sm" variant="solid" appearance="primary">Accept All Cookies</aegov-button>
+            </div>
+          </aegov-banner>
+        </div>
+
+        <div class="example">
+          <div class="example-label">Update Available</div>
+          <aegov-banner variant="info" banner-title="Update Available">
+            A new version of the application is available for download.
+            <div slot="actions">
+              <aegov-button size="sm" variant="outline" appearance="primary">Later</aegov-button>
+              <aegov-button size="sm" variant="solid" appearance="primary">Update Now</aegov-button>
+            </div>
+          </aegov-banner>
+        </div>
+
+        <div class="example">
+          <div class="example-label">Subscription Expiring</div>
+          <aegov-banner variant="warning" banner-title="Subscription Expiring Soon">
+            Your subscription will expire in 7 days. Renew now to avoid service interruption.
+            <div slot="actions">
+              <aegov-button size="sm" variant="solid" appearance="primary">Renew Subscription</aegov-button>
+            </div>
+          </aegov-banner>
+        </div>
+      </div>
+
+      <!-- Non-Dismissible -->
+      <div class="section">
+        <h2 class="section-title">4. Non-Dismissible Banners</h2>
+        <p style="color: #666; margin-bottom: 1.5rem;">Persistent banners that cannot be dismissed by the user.</p>
+
+        <div class="example">
+          <div class="example-label">System Maintenance Notice</div>
+          <aegov-banner variant="warning" dismissible="false">
+            System maintenance in progress. Some features may be temporarily unavailable.
+          </aegov-banner>
+        </div>
+
+        <div class="example">
+          <div class="example-label">Demo Mode Notice</div>
+          <aegov-banner variant="info" dismissible="false">
+            You are currently in demo mode. Changes will not be saved.
+          </aegov-banner>
+        </div>
+      </div>
+
+      <!-- Sticky Position -->
+      <div class="section">
+        <h2 class="section-title">5. Sticky Positioning Demo</h2>
+        <p style="color: #666; margin-bottom: 1.5rem;">Banner scrolls with content initially, then sticks to top/bottom of viewport.</p>
+
+        <div class="demo-area" style="overflow-y: scroll; height: 400px;">
+          <aegov-banner variant="info" display="sticky" position="top" banner-title="Sticky Banner">
+            This banner will stick to the top when you scroll down.
+          </aegov-banner>
+
+          <div class="demo-content">
+            <h3>Scroll this content to see sticky behavior</h3>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+            <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+            <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
+            <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+            <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+            <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
+            <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+          </div>
+        </div>
+
+        <div class="note">
+          <p><strong>Note:</strong> Sticky positioning combines the best of both worlds - the banner scrolls naturally with content but sticks to the viewport edge when needed.</p>
+        </div>
+      </div>
+
+      <!-- Fixed Position Demo -->
+      <div class="section">
+        <h2 class="section-title">6. Fixed Position Demo (Overlay Mode)</h2>
+        <p style="color: #666; margin-bottom: 1.5rem;">Banner stays fixed at top or bottom of viewport, overlaying content. Body padding adjustment recommended.</p>
+
+        <div class="demo-controls">
+          <button id="show-fixed-top" class="active">Show Fixed Top</button>
+          <button id="show-fixed-bottom">Show Fixed Bottom</button>
+          <button id="hide-fixed">Hide Banner</button>
+        </div>
+
+        <div class="demo-area placeholder-content">
+          <p><strong>Scroll this page to see the fixed banner behavior.</strong></p>
+          <p>The banner will remain visible at the top/bottom of the viewport while you scroll.</p>
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+          <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+        </div>
+
+        <div class="note">
+          <p><strong>Implementation Note:</strong> When using fixed positioning with overlay mode, listen to the <code>aegovBannerHeightChange</code> event to adjust body padding and prevent content occlusion.</p>
+        </div>
+      </div>
+
+      <!-- Event Handling -->
+      <div class="section">
+        <h2 class="section-title">7. Event Handling Demo</h2>
+        <p style="color: #666; margin-bottom: 1.5rem;">Interactive demonstration of banner events.</p>
+
+        <div class="example">
+          <aegov-banner id="event-demo-banner" variant="success" banner-title="Event Demo">
+            Try dismissing this banner or resize the window to see events in action.
+            <div slot="actions">
+              <aegov-button size="sm" variant="solid" appearance="primary">Action Button</aegov-button>
+            </div>
+          </aegov-banner>
+        </div>
+
+        <div class="event-log">
+          <div class="event-log-title">Event Log:</div>
+          <div id="event-log-content">Waiting for events...</div>
+        </div>
+      </div>
+
+      <!-- Custom Icons -->
+      <div class="section">
+        <h2 class="section-title">8. Custom Icons</h2>
+        <p style="color: #666; margin-bottom: 1.5rem;">Banners with custom icon slots.</p>
+
+        <div class="example">
+          <div class="example-label">Shield Icon (Security Notice)</div>
+          <aegov-banner variant="info">
+            Your account security settings have been updated.
+            <svg slot="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" style="width: 24px; height: 24px;">
+              <path d="M12 2L4 5v6.09c0 5.05 3.41 9.76 8 10.91 4.59-1.15 8-5.86 8-10.91V5l-8-3zm-1 14.54l-3.54-3.54 1.41-1.41L11 13.72l5.59-5.59 1.41 1.41L11 16.54z"/>
+            </svg>
+          </aegov-banner>
+        </div>
+
+        <div class="example">
+          <div class="example-label">Bell Icon (Notification)</div>
+          <aegov-banner variant="default">
+            You have 3 new notifications.
+            <svg slot="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" style="width: 24px; height: 24px;">
+              <path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.9 2 2 2zm6-6v-5c0-3.07-1.63-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.64 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2zm-2 1H8v-6c0-2.48 1.51-4.5 4-4.5s4 2.02 4 4.5v6z"/>
+            </svg>
+          </aegov-banner>
+        </div>
+      </div>
+
+      <!-- Bottom Position -->
+      <div class="section">
+        <h2 class="section-title">9. Bottom Position</h2>
+        <p style="color: #666; margin-bottom: 1.5rem;">Banners positioned at the bottom of the page.</p>
+
+        <div class="demo-controls">
+          <button id="show-bottom-banner" class="active">Show Bottom Banner</button>
+          <button id="hide-bottom-banner">Hide Bottom Banner</button>
+        </div>
+
+        <div class="note" style="margin-top: 1rem;">
+          <p><strong>Note:</strong> Bottom banners are commonly used for cookie consent, feedback forms, or promotional messages.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Dynamic banners controlled by buttons -->
+  <aegov-banner id="fixed-banner" style="display: none;"></aegov-banner>
+  <aegov-banner id="bottom-banner" variant="default" position="bottom" display="fixed" mode="overlay" style="display: none;">
+    We use cookies to enhance your browsing experience. By continuing to use this site, you consent to our use of cookies.
+    <div slot="actions">
+      <aegov-button size="sm" variant="outline" appearance="primary">Learn More</aegov-button>
+      <aegov-button size="sm" variant="solid" appearance="primary">Accept</aegov-button>
+    </div>
+  </aegov-banner>
+
+  <script>
+    // Event logging
+    const eventLogContent = document.getElementById('event-log-content');
+    const eventDemoBanner = document.getElementById('event-demo-banner');
+    let eventCount = 0;
+
+    function logEvent(eventName, detail = null) {
+      eventCount++;
+      const timestamp = new Date().toLocaleTimeString();
+      const entry = document.createElement('div');
+      entry.className = 'event-entry';
+      entry.textContent = `[${timestamp}] ${eventCount}. ${eventName}${detail ? ': ' + JSON.stringify(detail) : ''}`;
+      eventLogContent.appendChild(entry);
+      eventLogContent.scrollTop = eventLogContent.scrollHeight;
+    }
+
+    eventDemoBanner.addEventListener('aegovBannerDismiss', () => {
+      logEvent('aegovBannerDismiss');
+    });
+
+    eventDemoBanner.addEventListener('aegovBannerHeightChange', (e) => {
+      logEvent('aegovBannerHeightChange', { height: e.detail + 'px' });
+    });
+
+    // Fixed banner controls
+    const fixedBanner = document.getElementById('fixed-banner');
+    const showFixedTopBtn = document.getElementById('show-fixed-top');
+    const showFixedBottomBtn = document.getElementById('show-fixed-bottom');
+    const hideFixedBtn = document.getElementById('hide-fixed');
+
+    function hideFixedBanner() {
+      fixedBanner.style.display = 'none';
+      showFixedTopBtn.classList.remove('active');
+      showFixedBottomBtn.classList.remove('active');
+      hideFixedBtn.classList.add('active');
+    }
+
+    showFixedTopBtn.addEventListener('click', () => {
+      // First show the banner
+      fixedBanner.style.display = 'block';
+
+      // Set attributes
+      fixedBanner.setAttribute('variant', 'info');
+      fixedBanner.setAttribute('display', 'fixed');
+      fixedBanner.setAttribute('position', 'top');
+      fixedBanner.setAttribute('mode', 'overlay');
+      fixedBanner.setAttribute('banner-title', 'Fixed Top Banner');
+
+      // Set content
+      fixedBanner.textContent = 'This banner is fixed at the top of the viewport and will stay visible while you scroll.';
+
+      // Update button states
+      showFixedTopBtn.classList.add('active');
+      showFixedBottomBtn.classList.remove('active');
+      hideFixedBtn.classList.remove('active');
+    });
+
+    showFixedBottomBtn.addEventListener('click', () => {
+      // First show the banner
+      fixedBanner.style.display = 'block';
+
+      // Set attributes
+      fixedBanner.setAttribute('variant', 'warning');
+      fixedBanner.setAttribute('display', 'fixed');
+      fixedBanner.setAttribute('position', 'bottom');
+      fixedBanner.setAttribute('mode', 'overlay');
+      fixedBanner.setAttribute('banner-title', 'Fixed Bottom Banner');
+
+      // Set content
+      fixedBanner.textContent = 'This banner is fixed at the bottom of the viewport and will stay visible while you scroll.';
+
+      // Update button states
+      showFixedTopBtn.classList.remove('active');
+      showFixedBottomBtn.classList.add('active');
+      hideFixedBtn.classList.remove('active');
+    });
+
+    hideFixedBtn.addEventListener('click', hideFixedBanner);
+
+    fixedBanner.addEventListener('aegovBannerDismiss', hideFixedBanner);
+
+    // Bottom banner controls
+    const bottomBanner = document.getElementById('bottom-banner');
+    const showBottomBannerBtn = document.getElementById('show-bottom-banner');
+    const hideBottomBannerBtn = document.getElementById('hide-bottom-banner');
+
+    showBottomBannerBtn.addEventListener('click', () => {
+      bottomBanner.style.display = 'block';
+      showBottomBannerBtn.classList.add('active');
+      hideBottomBannerBtn.classList.remove('active');
+
+      // Adjust body padding
+      bottomBanner.addEventListener('aegovBannerHeightChange', (e) => {
+        document.body.style.paddingBottom = e.detail + 'px';
+      });
+    });
+
+    hideBottomBannerBtn.addEventListener('click', () => {
+      bottomBanner.style.display = 'none';
+      document.body.style.paddingBottom = '0';
+      showBottomBannerBtn.classList.remove('active');
+      hideBottomBannerBtn.classList.add('active');
+    });
+
+    bottomBanner.addEventListener('aegovBannerDismiss', () => {
+      bottomBanner.style.display = 'none';
+      document.body.style.paddingBottom = '0';
+      showBottomBannerBtn.classList.remove('active');
+      hideBottomBannerBtn.classList.add('active');
+    });
+
+    // Initialize
+    logEvent('Page loaded');
+  </script>
+</body>
+</html>

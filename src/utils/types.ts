@@ -90,6 +90,26 @@ export type LinkTarget = '_blank' | '_self' | '_parent' | '_top';
 export type BreadcrumbSeparator = 'slash' | 'chevron';
 
 /**
+ * Banner component position types
+ */
+export type BannerPosition = 'top' | 'bottom';
+
+/**
+ * Banner component display types (CSS positioning)
+ */
+export type BannerDisplay = 'static' | 'fixed' | 'sticky';
+
+/**
+ * Banner component layout mode types
+ */
+export type BannerMode = 'push' | 'overlay';
+
+/**
+ * Banner component ARIA role types
+ */
+export type BannerRole = 'region' | 'alert' | 'status';
+
+/**
  * Accordion component icon types
  */
 export type AccordionIcon = 'chevron' | 'plus';

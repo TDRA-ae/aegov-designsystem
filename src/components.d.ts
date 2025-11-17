@@ -5,8 +5,8 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
-import { AccordionIcon, AvatarSize, AvatarStatus, AvatarVariant, BadgeAppearance, BadgeColor, BadgeSize, BlockquoteVariant, BreadcrumbSeparator, ButtonAppearance, ButtonSize, ButtonType, ButtonVariant, CalloutAppearance, CalloutVariant, LinkTarget, TextSize, TitleSize } from "./utils/types";
-export { AccordionIcon, AvatarSize, AvatarStatus, AvatarVariant, BadgeAppearance, BadgeColor, BadgeSize, BlockquoteVariant, BreadcrumbSeparator, ButtonAppearance, ButtonSize, ButtonType, ButtonVariant, CalloutAppearance, CalloutVariant, LinkTarget, TextSize, TitleSize } from "./utils/types";
+import { AccordionIcon, AvatarSize, AvatarStatus, AvatarVariant, BadgeAppearance, BadgeColor, BadgeSize, BannerDisplay, BannerMode, BannerPosition, BannerRole, BlockquoteVariant, BreadcrumbSeparator, ButtonAppearance, ButtonSize, ButtonType, ButtonVariant, CalloutAppearance, CalloutVariant, LinkTarget, TextSize, TitleSize } from "./utils/types";
+export { AccordionIcon, AvatarSize, AvatarStatus, AvatarVariant, BadgeAppearance, BadgeColor, BadgeSize, BannerDisplay, BannerMode, BannerPosition, BannerRole, BlockquoteVariant, BreadcrumbSeparator, ButtonAppearance, ButtonSize, ButtonType, ButtonVariant, CalloutAppearance, CalloutVariant, LinkTarget, TextSize, TitleSize } from "./utils/types";
 export namespace Components {
     /**
      * Accordion component for collapsible content sections
@@ -115,6 +115,51 @@ export namespace Components {
           * @default 'base'
          */
         "size": BadgeSize;
+    }
+    interface AegovBanner {
+        /**
+          * The appearance style of the banner.
+          * @default 'soft'
+         */
+        "appearance": CalloutAppearance;
+        /**
+          * ARIA role for accessibility. Auto-computed from variant if not specified.
+         */
+        "ariaRole"?: BannerRole;
+        /**
+          * Auto-focus the banner when mounted (for critical alerts only).
+          * @default false
+         */
+        "autoFocus": boolean;
+        /**
+          * Banner title for aria-labelledby attribute.
+         */
+        "bannerTitle"?: string;
+        /**
+          * Whether the banner can be dismissed/closed.
+          * @default true
+         */
+        "dismissible": boolean;
+        /**
+          * CSS positioning strategy: static (default, takes up space), fixed (stays in viewport), sticky (scrolls then sticks).
+          * @default 'static'
+         */
+        "display": BannerDisplay;
+        /**
+          * Layout mode: push (takes up space in page flow), overlay (floats over content).
+          * @default 'push'
+         */
+        "mode": BannerMode;
+        /**
+          * Vertical position of the banner (top or bottom of viewport/page).
+          * @default 'top'
+         */
+        "position": BannerPosition;
+        /**
+          * The variant of the banner. Determines the color scheme.
+          * @default 'default'
+         */
+        "variant": CalloutVariant;
     }
     interface AegovBlockquote {
         /**
@@ -295,6 +340,10 @@ export interface AegovBadgeCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLAegovBadgeElement;
 }
+export interface AegovBannerCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLAegovBannerElement;
+}
 export interface AegovBreadcrumbsItemCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLAegovBreadcrumbsItemElement;
@@ -365,6 +414,24 @@ declare global {
     var HTMLAegovBadgeElement: {
         prototype: HTMLAegovBadgeElement;
         new (): HTMLAegovBadgeElement;
+    };
+    interface HTMLAegovBannerElementEventMap {
+        "aegovBannerDismiss": void;
+        "aegovBannerHeightChange": number;
+    }
+    interface HTMLAegovBannerElement extends Components.AegovBanner, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLAegovBannerElementEventMap>(type: K, listener: (this: HTMLAegovBannerElement, ev: AegovBannerCustomEvent<HTMLAegovBannerElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLAegovBannerElementEventMap>(type: K, listener: (this: HTMLAegovBannerElement, ev: AegovBannerCustomEvent<HTMLAegovBannerElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLAegovBannerElement: {
+        prototype: HTMLAegovBannerElement;
+        new (): HTMLAegovBannerElement;
     };
     interface HTMLAegovBlockquoteElement extends Components.AegovBlockquote, HTMLStencilElement {
     }
@@ -470,6 +537,7 @@ declare global {
         "aegov-accordion-item": HTMLAegovAccordionItemElement;
         "aegov-avatar": HTMLAegovAvatarElement;
         "aegov-badge": HTMLAegovBadgeElement;
+        "aegov-banner": HTMLAegovBannerElement;
         "aegov-blockquote": HTMLAegovBlockquoteElement;
         "aegov-breadcrumbs": HTMLAegovBreadcrumbsElement;
         "aegov-breadcrumbs-item": HTMLAegovBreadcrumbsItemElement;
@@ -596,6 +664,59 @@ declare namespace LocalJSX {
           * @default 'base'
          */
         "size"?: BadgeSize;
+    }
+    interface AegovBanner {
+        /**
+          * The appearance style of the banner.
+          * @default 'soft'
+         */
+        "appearance"?: CalloutAppearance;
+        /**
+          * ARIA role for accessibility. Auto-computed from variant if not specified.
+         */
+        "ariaRole"?: BannerRole;
+        /**
+          * Auto-focus the banner when mounted (for critical alerts only).
+          * @default false
+         */
+        "autoFocus"?: boolean;
+        /**
+          * Banner title for aria-labelledby attribute.
+         */
+        "bannerTitle"?: string;
+        /**
+          * Whether the banner can be dismissed/closed.
+          * @default true
+         */
+        "dismissible"?: boolean;
+        /**
+          * CSS positioning strategy: static (default, takes up space), fixed (stays in viewport), sticky (scrolls then sticks).
+          * @default 'static'
+         */
+        "display"?: BannerDisplay;
+        /**
+          * Layout mode: push (takes up space in page flow), overlay (floats over content).
+          * @default 'push'
+         */
+        "mode"?: BannerMode;
+        /**
+          * Event emitted when the banner is dismissed.
+         */
+        "onAegovBannerDismiss"?: (event: AegovBannerCustomEvent<void>) => void;
+        /**
+          * Event emitted when banner height changes (useful for overlay mode to adjust body padding).
+         */
+        "onAegovBannerHeightChange"?: (event: AegovBannerCustomEvent<number>) => void;
+        /**
+          * Vertical position of the banner (top or bottom of viewport/page).
+          * @default 'top'
+         */
+        "position"?: BannerPosition;
+        /**
+          * The variant of the banner. Determines the color scheme.
+          * @default 'default'
+         */
+        "variant"?: CalloutVariant;
     }
     interface AegovBlockquote {
         /**
@@ -796,6 +917,7 @@ declare namespace LocalJSX {
         "aegov-accordion-item": AegovAccordionItem;
         "aegov-avatar": AegovAvatar;
         "aegov-badge": AegovBadge;
+        "aegov-banner": AegovBanner;
         "aegov-blockquote": AegovBlockquote;
         "aegov-breadcrumbs": AegovBreadcrumbs;
         "aegov-breadcrumbs-item": AegovBreadcrumbsItem;
@@ -822,6 +944,7 @@ declare module "@stencil/core" {
             "aegov-accordion-item": LocalJSX.AegovAccordionItem & JSXBase.HTMLAttributes<HTMLAegovAccordionItemElement>;
             "aegov-avatar": LocalJSX.AegovAvatar & JSXBase.HTMLAttributes<HTMLAegovAvatarElement>;
             "aegov-badge": LocalJSX.AegovBadge & JSXBase.HTMLAttributes<HTMLAegovBadgeElement>;
+            "aegov-banner": LocalJSX.AegovBanner & JSXBase.HTMLAttributes<HTMLAegovBannerElement>;
             "aegov-blockquote": LocalJSX.AegovBlockquote & JSXBase.HTMLAttributes<HTMLAegovBlockquoteElement>;
             "aegov-breadcrumbs": LocalJSX.AegovBreadcrumbs & JSXBase.HTMLAttributes<HTMLAegovBreadcrumbsElement>;
             /**

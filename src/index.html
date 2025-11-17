@@ -160,6 +160,10 @@
       background: linear-gradient(90deg, #fbbf24 0%, #f59e0b 100%);
     }
 
+    .component-card.banner-card::before {
+      background: linear-gradient(90deg, #10b981 0%, #059669 100%);
+    }
+
     .component-card:hover {
       transform: translateY(-8px);
       box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
@@ -186,6 +190,11 @@
     .blockquote-card .component-icon {
       background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
       box-shadow: 0 4px 12px rgba(251, 191, 36, 0.3);
+    }
+
+    .banner-card .component-icon {
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
     }
 
     .component-icon svg {
@@ -322,11 +331,11 @@
 
       <div class="stats">
         <div class="stat">
-          <span class="stat-number">8</span>
+          <span class="stat-number">10</span>
           <span class="stat-label">Components</span>
         </div>
         <div class="stat">
-          <span class="stat-number">441</span>
+          <span class="stat-number">550+</span>
           <span class="stat-label">Tests Passing</span>
         </div>
         <div class="stat">
@@ -552,6 +561,32 @@
           </a>
         </div>
 
+        <!-- Banner Component Card -->
+        <div class="component-card banner-card" onclick="window.location.href='pages/banner-examples.html'">
+          <div class="component-icon">
+            <svg fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/>
+            </svg>
+          </div>
+          <h3>Banner Component<span class="badge" style="background: #d1fae5; color: #065f46;">New</span></h3>
+          <p>Full-width announcement banners with flexible positioning modes (static, fixed, sticky) and layout control.</p>
+
+          <ul class="component-features">
+            <li>5 Semantic variants with 2 appearances</li>
+            <li>3 Positioning modes: Static, Fixed, Sticky</li>
+            <li>2 Layout modes: Push content, Overlay</li>
+            <li>Action buttons & dismissible support</li>
+            <li>Auto ARIA roles & height change events</li>
+          </ul>
+
+          <a href="pages/banner-examples.html" class="component-link">
+            View Examples
+            <svg fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd"/>
+            </svg>
+          </a>
+        </div>
+
         <!-- Multi-Component Analysis Page -->
         <div class="component-card" onclick="window.location.href='pages/multi-components.html'" style="border-color: #f472b6; grid-column: 1 / -1; background: linear-gradient(135deg, #fdf2f8 0%, #fce7f3 100%);">
           <div class="component-icon" style="background: linear-gradient(135deg, #ec4899 0%, #db2777 100%); box-shadow: 0 4px 12px rgba(236, 72, 153, 0.3);">
@@ -609,7 +644,7 @@
     // Log component initialization
     document.addEventListener('DOMContentLoaded', () => {
       console.log('✨ AEGOV Design System loaded');
-      console.log('📦 Components: Button, Avatar, Blockquote, Callout, Badge, Link, Breadcrumbs, Accordion');
+      console.log('📦 Components: Button, Avatar, Blockquote, Callout, Badge, Title, Text, Link, Breadcrumbs, Accordion, Banner');
       console.log('🎨 Framework: StencilJS + Tailwind CSS v4');
     });
   </script>
