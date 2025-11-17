@@ -31,9 +31,9 @@ export class AegovBanner {
   @Prop() position: BannerPosition = 'top';
 
   /**
-   * CSS positioning strategy: static (default, takes up space), fixed (stays in viewport), sticky (scrolls then sticks).
+   * CSS positioning strategy: fixed (stays in viewport), sticky (scrolls then sticks).
    */
-  @Prop() display: BannerDisplay = 'static';
+  @Prop() display: BannerDisplay = 'fixed';
 
   /**
    * Layout mode: push (takes up space in page flow), overlay (floats over content).
@@ -85,11 +85,6 @@ export class AegovBanner {
    */
   @State() hasActionsSlot: boolean = false;
 
-  /**
-   * Internal state to track if the icon slot has content.
-   */
-  @State() hasIconSlot: boolean = false;
-
   private resizeObserver: ResizeObserver | null = null;
 
   /**
@@ -100,12 +95,10 @@ export class AegovBanner {
     if (this.ariaRole) {
       return this.ariaRole;
     }
-
     // Auto-compute based on variant
     if (this.variant === 'success' || this.variant === 'error') {
       return 'alert';
     }
-
     // Default to region for general notifications
     return 'region';
   }
@@ -139,6 +132,11 @@ export class AegovBanner {
       if (this.mode === 'overlay') {
         this.aegovBannerHeightChange.emit(0);
       }
+
+      // Clear body padding for push mode
+      if (this.display === 'fixed' && this.mode === 'push') {
+        this.clearBodyPadding();
+      }
     }, 300);
   };
 
@@ -153,50 +151,40 @@ export class AegovBanner {
   };
 
   /**
+   * Set body padding CSS variable for push mode with fixed positioning
+   */
+  private setBodyPadding = () => {
+    if (this.display === 'fixed' && this.mode === 'push' && this.isVisible) {
+      // Measure the inner .aegov-banner div, not the host element
+      const bannerDiv = this.el.querySelector('.aegov-banner') as HTMLElement;
+      const height = bannerDiv ? bannerDiv.offsetHeight : this.el.offsetHeight;
+
+      // Only set padding if height is valid (> 0)
+      if (height > 0) {
+        const cssVarName = this.position === 'top' ? 'padding-top' : 'padding-bottom';
+        document.body.style.setProperty(cssVarName, `${height}px`);
+      } else {
+        // If height is still 0, try again after a short delay
+        setTimeout(() => this.setBodyPadding(), 50);
+      }
+    }
+  };
+
+  /**
+   * Clear body padding CSS variable
+   */
+  private clearBodyPadding = () => {
+    const cssVarName = this.position === 'top' ? 'padding-top' : 'padding-bottom';
+    document.body.style.removeProperty(cssVarName);
+  };
+
+  /**
    * Check if the actions slot has content
    */
   private checkActionsSlot = () => {
     const actionsElements = this.el.querySelectorAll('[slot="actions"]');
     this.hasActionsSlot = actionsElements.length > 0;
   };
-
-  /**
-   * Check if the icon slot has content
-   */
-  private checkIconSlot = () => {
-    const iconElements = this.el.querySelectorAll('[slot="icon"]');
-    this.hasIconSlot = iconElements.length > 0;
-  };
-
-  /**
-   * Get the default icon based on variant (reuse from callout)
-   */
-  private getDefaultIcon() {
-    const iconClass = "banner-icon";
-
-    switch (this.variant) {
-      case 'error':
-        return (
-          <svg class={iconClass} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"><rect width="256" height="256" fill="none"/><path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm-8,56a8,8,0,0,1,16,0v56a8,8,0,0,1-16,0Zm8,104a12,12,0,1,1,12-12A12,12,0,0,1,128,184Z"/></svg>
-        );
-      case 'warning':
-        return (
-          <svg class={iconClass} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"><rect width="256" height="256" fill="none"/><path d="M236.8,188.09,149.35,36.22h0a24.76,24.76,0,0,0-42.7,0L19.2,188.09a23.51,23.51,0,0,0,0,23.72A24.35,24.35,0,0,0,40.55,224h174.9a24.35,24.35,0,0,0,21.33-12.19A23.51,23.51,0,0,0,236.8,188.09ZM120,104a8,8,0,0,1,16,0v40a8,8,0,0,1-16,0Zm8,88a12,12,0,1,1,12-12A12,12,0,0,1,128,192Z"/></svg>
-        );
-      case 'success':
-        return (
-          <svg class={iconClass} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"><rect width="256" height="256" fill="none"/><path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm45.66,85.66-56,56a8,8,0,0,1-11.32,0l-24-24a8,8,0,0,1,11.32-11.32L112,148.69l50.34-50.35a8,8,0,0,1,11.32,11.32Z"/></svg>
-        );
-      case 'info':
-        return (
-          <svg class={iconClass} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"><rect width="256" height="256" fill="none"/><path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm-4,48a12,12,0,1,1-12,12A12,12,0,0,1,124,72Zm12,112a16,16,0,0,1-16-16V128a8,8,0,0,1,0-16,16,16,0,0,1,16,16v40a8,8,0,0,1,0,16Z"/></svg>
-        );
-      default: // 'default'
-        return (
-          <svg class={iconClass} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"><rect width="256" height="256" fill="none"/><circle cx="124" cy="84" r="16"/><circle cx="128" cy="128" r="96" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="24"/><path d="M120,124a8,8,0,0,1,8,8v36a8,8,0,0,0,8,8" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="24"/></svg>
-        );
-    }
-  }
 
   /**
    * Get the CSS classes based on component props
@@ -214,10 +202,10 @@ export class AegovBanner {
     classes.push(`banner--${this.mode}`);
 
     // Appearance
-    classes.push(`banner-${this.appearance}`);
+    classes.push(`banner--${this.appearance}`);
 
     // Variant
-    classes.push(`banner-${this.variant}`);
+    classes.push(`banner--${this.variant}`);
 
     // Dismissing state
     if (this.isDismissing) {
@@ -249,6 +237,22 @@ export class AegovBanner {
         this.resizeObserver.observe(this.el);
       }
     }
+
+    // Set body padding for push mode with fixed positioning
+    if (this.display === 'fixed' && this.mode === 'push') {
+      // Use requestAnimationFrame to ensure element is fully rendered before measuring
+      requestAnimationFrame(() => {
+        this.setBodyPadding();
+      });
+
+      // Set up ResizeObserver to track height changes
+      if (typeof ResizeObserver !== 'undefined') {
+        this.resizeObserver = new ResizeObserver(() => {
+          this.setBodyPadding();
+        });
+        this.resizeObserver.observe(this.el);
+      }
+    }
   }
 
   /**
@@ -256,7 +260,6 @@ export class AegovBanner {
    */
   componentWillRender() {
     this.checkActionsSlot();
-    this.checkIconSlot();
   }
 
   /**
@@ -267,6 +270,11 @@ export class AegovBanner {
     if (this.resizeObserver) {
       this.resizeObserver.disconnect();
       this.resizeObserver = null;
+    }
+
+    // Clear body padding when component is removed
+    if (this.display === 'fixed' && this.mode === 'push') {
+      this.clearBodyPadding();
     }
   }
 
@@ -287,30 +295,15 @@ export class AegovBanner {
         aria-labelledby={titleId}
         tabindex={this.autoFocus ? -1 : undefined}
       >
-        <div class="banner-container">
-          {/* Icon */}
-          <div class="banner-icon-wrapper">
-            {this.hasIconSlot ? (
-              <slot name="icon" />
-            ) : (
-              this.getDefaultIcon()
-            )}
-          </div>
-
-          {/* Content */}
-          <div class="banner-content">
-            {this.bannerTitle && (
-              <div id={titleId} class="banner-title">
-                {this.bannerTitle}
-              </div>
-            )}
-            <div class="banner-text">
+        <div class="banner__container">          
+           <div class="banner__content">
+            <div class={`banner__text ${this.hasActionsSlot ? 'banner__text-left' : 'banner__text-center'}`}>
               <slot />
             </div>
             {this.hasActionsSlot && (
-              <div class="banner-actions">
-                <slot name="actions" />
-              </div>
+            <div class="banner__actions">
+              <slot name="actions" />
+            </div>
             )}
           </div>
 
@@ -318,13 +311,11 @@ export class AegovBanner {
           {this.dismissible && (
             <button
               type="button"
-              class="banner-dismiss"
+              class="banner__dismiss"
               onClick={this.handleDismiss}
               aria-label="Close banner"
             >
-              <svg xmlns="http://www.w3.org/2000/svg" class="banner-dismiss-icon" width="20" height="20" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                <path d="M6.28 5.22a.75.75 0 00-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 101.06 1.06L10 11.06l3.72 3.72a.75.75 0 101.06-1.06L11.06 10l3.72-3.72a.75.75 0 00-1.06-1.06L10 8.94 6.28 5.22z" />
-              </svg>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"><rect width="256" height="256" fill="none"/><line x1="200" y1="56" x2="56" y2="200" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/><line x1="200" y1="200" x2="56" y2="56" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/></svg>
             </button>
           )}
         </div>

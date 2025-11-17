@@ -7,17 +7,17 @@
 
 ## Properties
 
-| Property      | Attribute      | Description                                                                                                          | Type                                                       | Default     |
-| ------------- | -------------- | -------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------- | ----------- |
-| `appearance`  | `appearance`   | The appearance style of the banner.                                                                                  | `"soft" \| "solid"`                                        | `'soft'`    |
-| `ariaRole`    | `aria-role`    | ARIA role for accessibility. Auto-computed from variant if not specified.                                            | `"alert" \| "region" \| "status"`                          | `undefined` |
-| `autoFocus`   | `auto-focus`   | Auto-focus the banner when mounted (for critical alerts only).                                                       | `boolean`                                                  | `false`     |
-| `bannerTitle` | `banner-title` | Banner title for aria-labelledby attribute.                                                                          | `string`                                                   | `undefined` |
-| `dismissible` | `dismissible`  | Whether the banner can be dismissed/closed.                                                                          | `boolean`                                                  | `true`      |
-| `display`     | `display`      | CSS positioning strategy: static (default, takes up space), fixed (stays in viewport), sticky (scrolls then sticks). | `"fixed" \| "static" \| "sticky"`                          | `'static'`  |
-| `mode`        | `mode`         | Layout mode: push (takes up space in page flow), overlay (floats over content).                                      | `"overlay" \| "push"`                                      | `'push'`    |
-| `position`    | `position`     | Vertical position of the banner (top or bottom of viewport/page).                                                    | `"bottom" \| "top"`                                        | `'top'`     |
-| `variant`     | `variant`      | The variant of the banner. Determines the color scheme.                                                              | `"default" \| "error" \| "info" \| "success" \| "warning"` | `'default'` |
+| Property      | Attribute      | Description                                                                        | Type                                                       | Default     |
+| ------------- | -------------- | ---------------------------------------------------------------------------------- | ---------------------------------------------------------- | ----------- |
+| `appearance`  | `appearance`   | The appearance style of the banner.                                                | `"soft" \| "solid"`                                        | `'soft'`    |
+| `ariaRole`    | `aria-role`    | ARIA role for accessibility. Auto-computed from variant if not specified.          | `"alert" \| "region" \| "status"`                          | `undefined` |
+| `autoFocus`   | `auto-focus`   | Auto-focus the banner when mounted (for critical alerts only).                     | `boolean`                                                  | `false`     |
+| `bannerTitle` | `banner-title` | Banner title for aria-labelledby attribute.                                        | `string`                                                   | `undefined` |
+| `dismissible` | `dismissible`  | Whether the banner can be dismissed/closed.                                        | `boolean`                                                  | `true`      |
+| `display`     | `display`      | CSS positioning strategy: fixed (stays in viewport), sticky (scrolls then sticks). | `"fixed" \| "sticky"`                                      | `'fixed'`   |
+| `mode`        | `mode`         | Layout mode: push (takes up space in page flow), overlay (floats over content).    | `"overlay" \| "push"`                                      | `'push'`    |
+| `position`    | `position`     | Vertical position of the banner (top or bottom of viewport/page).                  | `"bottom" \| "top"`                                        | `'top'`     |
+| `variant`     | `variant`      | The variant of the banner. Determines the color scheme.                            | `"default" \| "error" \| "info" \| "success" \| "warning"` | `'default'` |
 
 
 ## Events

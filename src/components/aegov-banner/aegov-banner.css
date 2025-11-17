@@ -7,6 +7,7 @@
 
 :host {
   display: block;
+  position:relative;
   width: 100%;
 }
 
@@ -16,109 +17,253 @@
 
 .aegov-banner {
   font-family: inherit;
-  width: 100%;
-  @apply transition-all duration-300 ease-in-out;
-}
+  @apply w-full transition-all duration-300 ease-in-out;
+  & .banner__container {
+    @apply container py-2 flex items-start justify-between gap-4 mx-auto;
 
-.banner-container {
-  @apply px-6 py-4 flex items-center gap-4;
-  max-width: 1280px;
-  margin: 0 auto;
-}
+    & .banner__content {
+      @apply grow;
 
-/* Responsive padding for mobile */
-@media (max-width: 768px) {
-  .banner-container {
-    @apply px-4 py-3 gap-3;
+      &>.banner__text {
+        @apply text-base;
+      }
+
+      &>.banner__text-center {
+        @apply text-center;
+      }
+
+      &>.banner__text-left {
+        @apply text-left;
+      }
+    }
+  }
+  & .banner__actions {
+    @apply flex gap-4 mt-6;
+  }
+  & .banner__dismiss {
+    @apply shrink-0 size-7 bg-transparent border-0 rounded-md focus-visible:outline-2 focus-visible:outline-offset-1 flex justify-center;
+    color:inherit;
+    &>svg {
+      @apply size-6;
+      color:inherit;
+    }
+  }
+
+  &.banner--soft {
+    &.banner--default {
+      @apply bg-slate-50 text-slate-800;
+      &.banner--top {
+        @apply border-b-2 border-slate-800;
+      }
+      &.banner--bottom {
+        @apply border-t-2 border-slate-800;
+      }
+      & .banner__actions {
+        & button,
+        & a,
+        ::slotted(button) {
+          @apply bg-transparent border-slate-700 text-slate-700 focus-visible:outline-slate-800;
+          &.btn-solid {
+            @apply border-slate-800 bg-slate-800 text-slate-50;
+          }
+          &.btn-outline {
+            @apply bg-transparent;
+          }
+        }
+      }
+    }
+    &.banner--error {
+      @apply bg-aered-50 text-aered-700;
+      &.banner--top {
+        @apply border-b-2 border-aered-700;
+      } 
+      &.banner--bottom {
+        @apply border-t-2 border-aered-700;
+      }
+      & .banner__actions {
+        & button,
+        & a,
+        ::slotted(button) {
+          @apply bg-transparent border-aered-700 text-aered-700 focus-visible:outline-aered-600;
+          &.btn-solid {
+            @apply border-aered-600 bg-aered-600 text-whitely-50;
+          }
+          &.btn-outline {
+            @apply bg-transparent;
+          }
+        }
+      }     
+    }
+    &.banner--success {
+      @apply bg-aegreen-50 text-aegreen-700;
+      &.banner--top {
+        @apply border-b-2 border-aegreen-700;
+      }
+      &.banner--bottom {
+        @apply border-t-2 border-aegreen-700;
+      }
+      & .banner__actions {
+        & button,
+        & a,
+        ::slotted(button) {
+          @apply bg-transparent border-aegreen-700 text-aegreen-700 focus-visible:outline-aegreen-600;
+          &.btn-solid {
+            @apply border-aegreen-600 bg-aegreen-600 text-whitely-50;
+          }
+          &.btn-outline {
+            @apply bg-transparent;
+          }
+        }
+      }
+    }
+    &.banner--warning {
+      @apply bg-camel-50 text-camel-700;
+      &.banner--top {
+        @apply border-b-2 border-camel-700;
+      }
+      &.banner--bottom {
+        @apply border-t-2 border-camel-700;
+      }
+      & .banner__actions {
+        & button,
+        & a,
+        ::slotted(button) {
+          @apply bg-transparent border-camel-700 text-camel-700 focus-visible:outline-camel-600;
+          &.btn-solid {
+            @apply border-camel-600 bg-camel-600 text-whitely-50;
+          }
+          &.btn-outline {
+            @apply bg-transparent;
+          }
+        }
+      }
+    }
+    &.banner--info {
+      @apply bg-techblue-50 text-techblue-700;
+      &.banner--top {
+        @apply border-b-2 border-techblue-700;
+      }
+      &.banner--bottom {
+        @apply border-t-2 border-techblue-700;
+      }
+      & .banner__actions {
+        & button,
+        & a,
+        ::slotted(button) {
+          @apply bg-transparent border-techblue-700 text-techblue-700 focus-visible:outline-techblue-600;
+          &.btn-solid {
+            @apply border-techblue-600 bg-techblue-600 text-whitely-50;
+          }
+          &.btn-outline {
+            @apply bg-transparent;
+          }
+        }
+      }
+    }
+  }
+
+  &.banner--solid {
+    &.banner--default {
+      @apply bg-slate-600 text-whitely-50;
+      & .banner__actions {
+        & button,
+        & a,
+        ::slotted(button) {
+          @apply bg-transparent border-slate-100 text-slate-50 focus-visible:outline-slate-50;
+          &.btn-solid {
+            @apply border-slate-100 bg-slate-100 text-slate-900;
+          }
+          &.btn-outline {
+            @apply bg-transparent;
+          }
+        }
+      }
+    }
+    &.banner--error {
+      @apply bg-aered-600 text-whitely-50;
+      & .banner__actions {
+        & button,
+        & a,
+        ::slotted(button) {
+          @apply bg-transparent border-aered-100 text-aered-50 focus-visible:outline-aered-50;
+          &.btn-solid {
+            @apply border-aered-100 bg-aered-100 text-aered-900;
+          }
+          &.btn-outline {
+            @apply bg-transparent;
+          }
+        }
+      }      
+    }
+    &.banner--success {
+      @apply bg-aegreen-600 text-whitely-50;
+      & .banner__actions {
+        & button,
+        & a,
+        ::slotted(button) {
+          @apply bg-transparent border-aegreen-100 text-aegreen-50 focus-visible:outline-aegreen-50;
+          &.btn-solid {
+            @apply border-aegreen-100 bg-aegreen-100 text-aegreen-900;
+          }
+          &.btn-outline {
+            @apply bg-transparent;
+          }
+        }
+      }
+    }
+    &.banner--warning {
+      @apply bg-camel-600 text-whitely-50;
+      & .banner__actions {
+        & button,
+        & a,
+        ::slotted(button) {
+          @apply bg-transparent border-camel-100 text-camel-50 focus-visible:outline-camel-50;
+          &.btn-solid {
+            @apply border-camel-100 bg-camel-100 text-camel-900;
+          }
+          &.btn-outline {
+            @apply bg-transparent;
+          }
+        }
+      }
+    }
+    &.banner--info {
+      @apply bg-techblue-600 text-whitely-50;
+      & .banner__actions {
+        & button,
+        & a,
+        ::slotted(button) {
+          @apply bg-transparent border-techblue-100 text-techblue-50 focus-visible:outline-techblue-50;
+          &.btn-solid {
+            @apply border-techblue-100 bg-techblue-100 text-techblue-900;
+          }
+          &.btn-outline {
+            @apply bg-transparent;
+          }
+        }
+      }
+    }
+  }
+
+  &.banner--fixed {
+    @apply fixed left-0 right-0 z-1000;
+  }
+  &.banner--sticky {
+    @apply sticky left-0 right-0 z-999;
+  }
+  &.banner--fixed.banner--top,
+  &.banner--sticky.banner--top {
+    @apply top-0;
+  }
+  &.banner--fixed.banner--bottom,
+  &.banner--sticky.banner--bottom {
+    @apply bottom-0;
+  }
+  &.banner--top {
+    @apply shadow-xl;
   }
 }
 
-/* ============================================
-   ICON WRAPPER
-   ============================================ */
-
-.banner-icon-wrapper {
-  @apply flex-shrink-0;
-}
-
-.banner-icon {
-  @apply size-6;
-}
-
-/* ============================================
-   CONTENT AREA
-   ============================================ */
-
-.banner-content {
-  @apply flex-1 flex flex-col gap-2;
-}
-
-.banner-title {
-  @apply font-semibold text-base;
-}
-
-.banner-text {
-  @apply text-sm;
-}
-
-.banner-actions {
-  @apply flex gap-2 mt-2;
-}
-
-/* ============================================
-   DISMISS BUTTON
-   ============================================ */
-
-.banner-dismiss {
-  @apply flex-shrink-0 p-2 rounded-md transition-colors duration-200;
-  @apply hover:bg-black/10 focus:outline-none focus:ring-2 focus:ring-offset-2;
-  min-width: 44px;
-  min-height: 44px;
-  @apply flex items-center justify-center;
-}
-
-.banner-dismiss-icon {
-  @apply size-5;
-}
-
-/* ============================================
-   POSITIONING MODES
-   ============================================ */
-
-/* Static positioning (default, takes up space in document flow) */
-.banner--static {
-  position: static;
-}
-
-/* Fixed positioning (stays in viewport, overlay mode) */
-.banner--fixed {
-  position: fixed;
-  left: 0;
-  right: 0;
-  z-index: 1000;
-}
-
-.banner--fixed.banner--top {
-  top: 0;
-}
-
-.banner--fixed.banner--bottom {
-  bottom: 0;
-}
-
-/* Sticky positioning (scrolls then sticks) */
-.banner--sticky {
-  position: sticky;
-  z-index: 999;
-}
-
-.banner--sticky.banner--top {
-  top: 0;
-}
-
-.banner--sticky.banner--bottom {
-  bottom: 0;
-}
 
 /* ============================================
    DISMISSING ANIMATION
@@ -132,194 +277,4 @@
 .banner--dismissing.banner--bottom {
   @apply opacity-0;
   transform: translateY(100%);
-}
-
-/* ============================================
-   APPEARANCE & VARIANT STYLES
-   ============================================ */
-
-/* SOFT APPEARANCE */
-.banner-soft {
-  /* Default variant - Slate */
-  &.banner-default {
-    @apply bg-slate-100 text-slate-800 border-l-4 border-slate-800;
-
-    .banner-icon svg {
-      @apply fill-slate-800;
-    }
-
-    .banner-dismiss {
-      @apply hover:bg-slate-200 focus:ring-slate-800;
-    }
-
-    .banner-actions ::slotted(button),
-    .banner-actions button {
-      @apply bg-transparent border-slate-700 text-slate-700;
-    }
-  }
-
-  /* Error variant - AERed */
-  &.banner-error {
-    @apply bg-aered-100 text-aered-700 border-l-4 border-aered-700;
-
-    .banner-icon svg {
-      @apply fill-aered-600;
-    }
-
-    .banner-dismiss {
-      @apply hover:bg-aered-200 focus:ring-aered-600;
-    }
-
-    .banner-actions ::slotted(button),
-    .banner-actions button {
-      @apply bg-transparent border-aered-700 text-aered-700;
-    }
-  }
-
-  /* Warning variant - Camel */
-  &.banner-warning {
-    @apply bg-camel-100 text-camel-700 border-l-4 border-camel-700;
-
-    .banner-icon svg {
-      @apply fill-camel-600;
-    }
-
-    .banner-dismiss {
-      @apply hover:bg-camel-200 focus:ring-camel-600;
-    }
-
-    .banner-actions ::slotted(button),
-    .banner-actions button {
-      @apply bg-transparent border-camel-700 text-camel-700;
-    }
-  }
-
-  /* Success variant - AEGreen */
-  &.banner-success {
-    @apply bg-aegreen-100 text-aegreen-700 border-l-4 border-aegreen-700;
-
-    .banner-icon svg {
-      @apply fill-aegreen-600;
-    }
-
-    .banner-dismiss {
-      @apply hover:bg-aegreen-200 focus:ring-aegreen-600;
-    }
-
-    .banner-actions ::slotted(button),
-    .banner-actions button {
-      @apply bg-transparent border-aegreen-700 text-aegreen-700;
-    }
-  }
-
-  /* Info variant - TechBlue */
-  &.banner-info {
-    @apply bg-techblue-100 text-techblue-700 border-l-4 border-techblue-700;
-
-    .banner-icon svg {
-      @apply fill-techblue-600;
-    }
-
-    .banner-dismiss {
-      @apply hover:bg-techblue-200 focus:ring-techblue-600;
-    }
-
-    .banner-actions ::slotted(button),
-    .banner-actions button {
-      @apply bg-transparent border-techblue-700 text-techblue-700;
-    }
-  }
-}
-
-/* SOLID APPEARANCE */
-.banner-solid {
-  /* Default variant - Slate */
-  &.banner-default {
-    @apply bg-slate-800 text-whitely-50;
-
-    .banner-icon svg {
-      @apply fill-whitely-50;
-    }
-
-    .banner-dismiss {
-      @apply hover:bg-slate-700 focus:ring-whitely-50;
-    }
-
-    .banner-actions ::slotted(button),
-    .banner-actions button {
-      @apply bg-whitely-50 border-whitely-50 text-slate-800;
-    }
-  }
-
-  /* Error variant - AERed */
-  &.banner-error {
-    @apply bg-aered-600 text-whitely-50;
-
-    .banner-icon svg {
-      @apply fill-whitely-50;
-    }
-
-    .banner-dismiss {
-      @apply hover:bg-aered-700 focus:ring-whitely-50;
-    }
-
-    .banner-actions ::slotted(button),
-    .banner-actions button {
-      @apply bg-whitely-50 border-whitely-50 text-aered-600;
-    }
-  }
-
-  /* Warning variant - Camel */
-  &.banner-warning {
-    @apply bg-camel-600 text-whitely-50;
-
-    .banner-icon svg {
-      @apply fill-whitely-50;
-    }
-
-    .banner-dismiss {
-      @apply hover:bg-camel-700 focus:ring-whitely-50;
-    }
-
-    .banner-actions ::slotted(button),
-    .banner-actions button {
-      @apply bg-whitely-50 border-whitely-50 text-camel-600;
-    }
-  }
-
-  /* Success variant - AEGreen */
-  &.banner-success {
-    @apply bg-aegreen-600 text-whitely-50;
-
-    .banner-icon svg {
-      @apply fill-whitely-50;
-    }
-
-    .banner-dismiss {
-      @apply hover:bg-aegreen-700 focus:ring-whitely-50;
-    }
-
-    .banner-actions ::slotted(button),
-    .banner-actions button {
-      @apply bg-whitely-50 border-whitely-50 text-aegreen-600;
-    }
-  }
-
-  /* Info variant - TechBlue */
-  &.banner-info {
-    @apply bg-techblue-600 text-whitely-50;
-
-    .banner-icon svg {
-      @apply fill-whitely-50;
-    }
-
-    .banner-dismiss {
-      @apply hover:bg-techblue-700 focus:ring-whitely-50;
-    }
-
-    .banner-actions ::slotted(button),
-    .banner-actions button {
-      @apply bg-whitely-50 border-whitely-50 text-techblue-600;
-    }
-  }
 }

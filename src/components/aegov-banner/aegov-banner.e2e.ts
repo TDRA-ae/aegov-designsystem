@@ -1,8 +1,12 @@
 import { newE2EPage } from '@stencil/core/testing';
 
 describe('aegov-banner E2E', () => {
+  // ============================================
+  // RENDERING TESTS
+  // ============================================
+
   describe('rendering', () => {
-    it('should render', async () => {
+    it('should render the component', async () => {
       const page = await newE2EPage();
       await page.setContent('<aegov-banner>Test message</aegov-banner>');
 
@@ -17,59 +21,53 @@ describe('aegov-banner E2E', () => {
       const page = await newE2EPage();
       await page.setContent('<aegov-banner>This is a test message</aegov-banner>');
 
-      const content = await page.find('aegov-banner .banner-text');
-      expect(content.textContent).toContain('This is a test message');
+      const element = await page.find('aegov-banner');
+      expect(element.textContent).toContain('This is a test message');
     });
 
-    it('should have role="region" by default', async () => {
+    it('should render banner container', async () => {
       const page = await newE2EPage();
       await page.setContent('<aegov-banner>Message</aegov-banner>');
 
-      const banner = await page.find('aegov-banner .aegov-banner');
-      const role = await banner.getAttribute('role');
-      expect(role).toBe('region');
+      const container = await page.find('aegov-banner .banner__container');
+      expect(container).toBeTruthy();
     });
 
-    it('should have aria-live="polite" by default', async () => {
+    it('should render banner content area', async () => {
       const page = await newE2EPage();
       await page.setContent('<aegov-banner>Message</aegov-banner>');
 
-      const banner = await page.find('aegov-banner .aegov-banner');
-      const ariaLive = await banner.getAttribute('aria-live');
-      expect(ariaLive).toBe('polite');
+      const content = await page.find('aegov-banner .banner__content');
+      expect(content).toBeTruthy();
     });
 
-    it('should render icon wrapper', async () => {
+    it('should render banner text area', async () => {
       const page = await newE2EPage();
       await page.setContent('<aegov-banner>Message</aegov-banner>');
 
-      const icon = await page.find('aegov-banner .banner-icon-wrapper');
-      expect(icon).toBeTruthy();
-    });
-
-    it('should render default icon', async () => {
-      const page = await newE2EPage();
-      await page.setContent('<aegov-banner>Message</aegov-banner>');
-
-      const svg = await page.find('aegov-banner .banner-icon');
-      expect(svg).toBeTruthy();
+      const text = await page.find('aegov-banner .banner__text');
+      expect(text).toBeTruthy();
     });
 
     it('should render dismiss button by default', async () => {
       const page = await newE2EPage();
       await page.setContent('<aegov-banner>Message</aegov-banner>');
 
-      const dismissButton = await page.find('aegov-banner .banner-dismiss');
+      const dismissButton = await page.find('aegov-banner .banner__dismiss');
       expect(dismissButton).toBeTruthy();
     });
   });
+
+  // ============================================
+  // VARIANT TESTS
+  // ============================================
 
   describe('variants', () => {
     it('should render default variant', async () => {
       const page = await newE2EPage();
       await page.setContent('<aegov-banner variant="default">Default message</aegov-banner>');
 
-      const banner = await page.find('aegov-banner .banner-default');
+      const banner = await page.find('aegov-banner .banner--default');
       expect(banner).toBeTruthy();
     });
 
@@ -77,7 +75,7 @@ describe('aegov-banner E2E', () => {
       const page = await newE2EPage();
       await page.setContent('<aegov-banner variant="error">Error message</aegov-banner>');
 
-      const banner = await page.find('aegov-banner .banner-error');
+      const banner = await page.find('aegov-banner .banner--error');
       expect(banner).toBeTruthy();
     });
 
@@ -85,7 +83,7 @@ describe('aegov-banner E2E', () => {
       const page = await newE2EPage();
       await page.setContent('<aegov-banner variant="warning">Warning message</aegov-banner>');
 
-      const banner = await page.find('aegov-banner .banner-warning');
+      const banner = await page.find('aegov-banner .banner--warning');
       expect(banner).toBeTruthy();
     });
 
@@ -93,7 +91,7 @@ describe('aegov-banner E2E', () => {
       const page = await newE2EPage();
       await page.setContent('<aegov-banner variant="success">Success message</aegov-banner>');
 
-      const banner = await page.find('aegov-banner .banner-success');
+      const banner = await page.find('aegov-banner .banner--success');
       expect(banner).toBeTruthy();
     });
 
@@ -101,8 +99,178 @@ describe('aegov-banner E2E', () => {
       const page = await newE2EPage();
       await page.setContent('<aegov-banner variant="info">Info message</aegov-banner>');
 
-      const banner = await page.find('aegov-banner .banner-info');
+      const banner = await page.find('aegov-banner .banner--info');
       expect(banner).toBeTruthy();
+    });
+  });
+
+  // ============================================
+  // APPEARANCE TESTS
+  // ============================================
+
+  describe('appearances', () => {
+    it('should render soft appearance by default', async () => {
+      const page = await newE2EPage();
+      await page.setContent('<aegov-banner>Message</aegov-banner>');
+
+      const banner = await page.find('aegov-banner .banner--soft');
+      expect(banner).toBeTruthy();
+    });
+
+    it('should render solid appearance', async () => {
+      const page = await newE2EPage();
+      await page.setContent('<aegov-banner appearance="solid">Message</aegov-banner>');
+
+      const banner = await page.find('aegov-banner .banner--solid');
+      expect(banner).toBeTruthy();
+    });
+  });
+
+  // ============================================
+  // POSITION TESTS
+  // ============================================
+
+  describe('position', () => {
+    it('should render top position by default', async () => {
+      const page = await newE2EPage();
+      await page.setContent('<aegov-banner>Message</aegov-banner>');
+
+      const banner = await page.find('aegov-banner .banner--top');
+      expect(banner).toBeTruthy();
+    });
+
+    it('should render bottom position', async () => {
+      const page = await newE2EPage();
+      await page.setContent('<aegov-banner position="bottom">Message</aegov-banner>');
+
+      const banner = await page.find('aegov-banner .banner--bottom');
+      expect(banner).toBeTruthy();
+    });
+  });
+
+  // ============================================
+  // DISPLAY MODE TESTS
+  // ============================================
+
+  describe('display mode', () => {
+    it('should render fixed display by default', async () => {
+      const page = await newE2EPage();
+      await page.setContent('<aegov-banner>Message</aegov-banner>');
+
+      const banner = await page.find('aegov-banner .banner--fixed');
+      expect(banner).toBeTruthy();
+    });
+
+    it('should render sticky display', async () => {
+      const page = await newE2EPage();
+      await page.setContent('<aegov-banner display="sticky">Message</aegov-banner>');
+
+      const banner = await page.find('aegov-banner .banner--sticky');
+      expect(banner).toBeTruthy();
+    });
+  });
+
+  // ============================================
+  // LAYOUT MODE TESTS
+  // ============================================
+
+  describe('layout mode', () => {
+    it('should render push mode by default', async () => {
+      const page = await newE2EPage();
+      await page.setContent('<aegov-banner>Message</aegov-banner>');
+
+      const banner = await page.find('aegov-banner .banner--push');
+      expect(banner).toBeTruthy();
+    });
+
+    it('should render overlay mode', async () => {
+      const page = await newE2EPage();
+      await page.setContent('<aegov-banner mode="overlay">Message</aegov-banner>');
+
+      const banner = await page.find('aegov-banner .banner--overlay');
+      expect(banner).toBeTruthy();
+    });
+  });
+
+  // ============================================
+  // DISMISSIBLE FUNCTIONALITY TESTS
+  // ============================================
+
+  describe('dismissible functionality', () => {
+    it('should render dismiss button by default', async () => {
+      const page = await newE2EPage();
+      await page.setContent('<aegov-banner>Message</aegov-banner>');
+
+      const dismissButton = await page.find('aegov-banner .banner__dismiss');
+      expect(dismissButton).toBeTruthy();
+    });
+
+    it('should not render dismiss button when dismissible=false', async () => {
+      const page = await newE2EPage();
+      await page.setContent('<aegov-banner dismissible="false">Message</aegov-banner>');
+
+      const dismissButton = await page.find('aegov-banner .banner__dismiss');
+      expect(dismissButton).toBeFalsy();
+    });
+
+    it('should emit aegovBannerDismiss event when dismiss button clicked', async () => {
+      const page = await newE2EPage();
+      await page.setContent('<aegov-banner>Message</aegov-banner>');
+
+      const element = await page.find('aegov-banner');
+      const dismissEvent = await element.spyOnEvent('aegovBannerDismiss');
+
+      const dismissButton = await page.find('aegov-banner .banner__dismiss');
+      await dismissButton.click();
+
+      // Wait for animation (300ms)
+      await new Promise(resolve => setTimeout(resolve, 350));
+      await page.waitForChanges();
+
+      expect(dismissEvent).toHaveReceivedEvent();
+    });
+
+    it('should hide banner after dismiss button clicked', async () => {
+      const page = await newE2EPage();
+      await page.setContent('<aegov-banner>Message</aegov-banner>');
+
+      const dismissButton = await page.find('aegov-banner .banner__dismiss');
+      await dismissButton.click();
+
+      // Wait for animation (300ms)
+      await new Promise(resolve => setTimeout(resolve, 350));
+      await page.waitForChanges();
+
+      const banner = await page.find('aegov-banner .aegov-banner');
+      expect(banner).toBeFalsy();
+    });
+
+    it('should apply dismissing class when dismiss button clicked', async () => {
+      const page = await newE2EPage();
+      await page.setContent('<aegov-banner>Message</aegov-banner>');
+
+      const dismissButton = await page.find('aegov-banner .banner__dismiss');
+      await dismissButton.click();
+
+      await page.waitForChanges();
+
+      const banner = await page.find('aegov-banner .banner--dismissing');
+      expect(banner).toBeTruthy();
+    });
+  });
+
+  // ============================================
+  // ACCESSIBILITY TESTS
+  // ============================================
+
+  describe('accessibility', () => {
+    it('should have role="region" by default', async () => {
+      const page = await newE2EPage();
+      await page.setContent('<aegov-banner>Message</aegov-banner>');
+
+      const banner = await page.find('aegov-banner .aegov-banner');
+      const role = await banner.getAttribute('role');
+      expect(role).toBe('region');
     });
 
     it('should have role="alert" for error variant', async () => {
@@ -123,6 +291,15 @@ describe('aegov-banner E2E', () => {
       expect(role).toBe('alert');
     });
 
+    it('should have aria-live="polite" by default', async () => {
+      const page = await newE2EPage();
+      await page.setContent('<aegov-banner>Message</aegov-banner>');
+
+      const banner = await page.find('aegov-banner .aegov-banner');
+      const ariaLive = await banner.getAttribute('aria-live');
+      expect(ariaLive).toBe('polite');
+    });
+
     it('should have aria-live="assertive" for alert role', async () => {
       const page = await newE2EPage();
       await page.setContent('<aegov-banner variant="error">Error</aegov-banner>');
@@ -131,162 +308,8 @@ describe('aegov-banner E2E', () => {
       const ariaLive = await banner.getAttribute('aria-live');
       expect(ariaLive).toBe('assertive');
     });
-  });
 
-  describe('appearances', () => {
-    it('should render soft appearance by default', async () => {
-      const page = await newE2EPage();
-      await page.setContent('<aegov-banner>Message</aegov-banner>');
-
-      const banner = await page.find('aegov-banner .banner-soft');
-      expect(banner).toBeTruthy();
-    });
-
-    it('should render solid appearance', async () => {
-      const page = await newE2EPage();
-      await page.setContent('<aegov-banner appearance="solid">Message</aegov-banner>');
-
-      const banner = await page.find('aegov-banner .banner-solid');
-      expect(banner).toBeTruthy();
-    });
-  });
-
-  describe('position', () => {
-    it('should render top position by default', async () => {
-      const page = await newE2EPage();
-      await page.setContent('<aegov-banner>Message</aegov-banner>');
-
-      const banner = await page.find('aegov-banner .banner--top');
-      expect(banner).toBeTruthy();
-    });
-
-    it('should render bottom position', async () => {
-      const page = await newE2EPage();
-      await page.setContent('<aegov-banner position="bottom">Message</aegov-banner>');
-
-      const banner = await page.find('aegov-banner .banner--bottom');
-      expect(banner).toBeTruthy();
-    });
-  });
-
-  describe('display mode', () => {
-    it('should render static display by default', async () => {
-      const page = await newE2EPage();
-      await page.setContent('<aegov-banner>Message</aegov-banner>');
-
-      const banner = await page.find('aegov-banner .banner--static');
-      expect(banner).toBeTruthy();
-    });
-
-    it('should render fixed display', async () => {
-      const page = await newE2EPage();
-      await page.setContent('<aegov-banner display="fixed">Message</aegov-banner>');
-
-      const banner = await page.find('aegov-banner .banner--fixed');
-      expect(banner).toBeTruthy();
-    });
-
-    it('should render sticky display', async () => {
-      const page = await newE2EPage();
-      await page.setContent('<aegov-banner display="sticky">Message</aegov-banner>');
-
-      const banner = await page.find('aegov-banner .banner--sticky');
-      expect(banner).toBeTruthy();
-    });
-  });
-
-  describe('layout mode', () => {
-    it('should render push mode by default', async () => {
-      const page = await newE2EPage();
-      await page.setContent('<aegov-banner>Message</aegov-banner>');
-
-      const banner = await page.find('aegov-banner .banner--push');
-      expect(banner).toBeTruthy();
-    });
-
-    it('should render overlay mode', async () => {
-      const page = await newE2EPage();
-      await page.setContent('<aegov-banner mode="overlay">Message</aegov-banner>');
-
-      const banner = await page.find('aegov-banner .banner--overlay');
-      expect(banner).toBeTruthy();
-    });
-  });
-
-  describe('dismissible functionality', () => {
-    it('should not render dismiss button when dismissible=false', async () => {
-      const page = await newE2EPage();
-      await page.setContent('<aegov-banner dismissible="false">Message</aegov-banner>');
-
-      const dismissButton = await page.find('aegov-banner .banner-dismiss');
-      expect(dismissButton).toBeFalsy();
-    });
-
-    it('should emit aegovBannerDismiss event when dismiss button clicked', async () => {
-      const page = await newE2EPage();
-      await page.setContent('<aegov-banner>Message</aegov-banner>');
-
-      const element = await page.find('aegov-banner');
-      const dismissEvent = await element.spyOnEvent('aegovBannerDismiss');
-
-      const dismissButton = await page.find('aegov-banner .banner-dismiss');
-      await dismissButton.click();
-
-      // Wait for animation (300ms)
-      await new Promise(resolve => setTimeout(resolve, 350));
-      await page.waitForChanges();
-
-      expect(dismissEvent).toHaveReceivedEvent();
-    });
-
-    it('should hide banner after dismiss button clicked', async () => {
-      const page = await newE2EPage();
-      await page.setContent('<aegov-banner>Message</aegov-banner>');
-
-      const dismissButton = await page.find('aegov-banner .banner-dismiss');
-      await dismissButton.click();
-
-      // Wait for animation (300ms)
-      await new Promise(resolve => setTimeout(resolve, 350));
-      await page.waitForChanges();
-
-      const banner = await page.find('aegov-banner .aegov-banner');
-      expect(banner).toBeFalsy();
-    });
-
-    it('should apply dismissing class when dismiss button clicked', async () => {
-      const page = await newE2EPage();
-      await page.setContent('<aegov-banner>Message</aegov-banner>');
-
-      const dismissButton = await page.find('aegov-banner .banner-dismiss');
-      await dismissButton.click();
-
-      await page.waitForChanges();
-
-      const banner = await page.find('aegov-banner .banner--dismissing');
-      expect(banner).toBeTruthy();
-    });
-  });
-
-  describe('bannerTitle prop', () => {
-    it('should not render title by default', async () => {
-      const page = await newE2EPage();
-      await page.setContent('<aegov-banner>Message</aegov-banner>');
-
-      const title = await page.find('aegov-banner .banner-title');
-      expect(title).toBeFalsy();
-    });
-
-    it('should render title when provided', async () => {
-      const page = await newE2EPage();
-      await page.setContent('<aegov-banner banner-title="Important Notice">Message</aegov-banner>');
-
-      const title = await page.find('aegov-banner .banner-title');
-      expect(title).toBeTruthy();
-      expect(title.textContent).toBe('Important Notice');
-    });
-
-    it('should have aria-labelledby when title is provided', async () => {
+    it('should have aria-labelledby when bannerTitle is provided', async () => {
       const page = await newE2EPage();
       await page.setContent('<aegov-banner banner-title="Notice">Message</aegov-banner>');
 
@@ -295,60 +318,6 @@ describe('aegov-banner E2E', () => {
       expect(labelledBy).toBe('aegov-banner-title');
     });
 
-    it('should have matching id on title element', async () => {
-      const page = await newE2EPage();
-      await page.setContent('<aegov-banner banner-title="Notice">Message</aegov-banner>');
-
-      const title = await page.find('aegov-banner .banner-title');
-      const id = await title.getAttribute('id');
-      expect(id).toBe('aegov-banner-title');
-    });
-  });
-
-  describe('slots', () => {
-    it('should render actions slot', async () => {
-      const page = await newE2EPage();
-      await page.setContent(`
-        <aegov-banner>
-          Message
-          <div slot="actions">
-            <button>Action</button>
-          </div>
-        </aegov-banner>
-      `);
-
-      const actions = await page.find('aegov-banner .banner-actions');
-      expect(actions).toBeTruthy();
-    });
-
-    it('should render custom icon slot', async () => {
-      const page = await newE2EPage();
-      await page.setContent(`
-        <aegov-banner>
-          Message
-          <svg slot="icon" class="custom-icon"></svg>
-        </aegov-banner>
-      `);
-
-      const customIcon = await page.find('aegov-banner .custom-icon');
-      expect(customIcon).toBeTruthy();
-    });
-
-    it('should not render default icon when custom icon provided', async () => {
-      const page = await newE2EPage();
-      await page.setContent(`
-        <aegov-banner>
-          Message
-          <svg slot="icon" class="custom-icon"></svg>
-        </aegov-banner>
-      `);
-
-      const defaultIcon = await page.find('aegov-banner .banner-icon');
-      expect(defaultIcon).toBeFalsy();
-    });
-  });
-
-  describe('ariaRole prop', () => {
     it('should allow custom ARIA role override', async () => {
       const page = await newE2EPage();
       await page.setContent('<aegov-banner aria-role="status">Message</aegov-banner>');
@@ -366,23 +335,104 @@ describe('aegov-banner E2E', () => {
       const role = await banner.getAttribute('role');
       expect(role).toBe('region');
     });
+
+    it('should have proper dismiss button label', async () => {
+      const page = await newE2EPage();
+      await page.setContent('<aegov-banner>Message</aegov-banner>');
+
+      const dismissButton = await page.find('aegov-banner .banner__dismiss');
+      const ariaLabel = await dismissButton.getAttribute('aria-label');
+      expect(ariaLabel).toBe('Close banner');
+    });
+
+    it('should have aria-hidden="true" on dismiss icon', async () => {
+      const page = await newE2EPage();
+      await page.setContent('<aegov-banner>Message</aegov-banner>');
+
+      const icon = await page.find('aegov-banner .banner__dismiss svg');
+      const ariaHidden = await icon.getAttribute('aria-hidden');
+      expect(ariaHidden).toBe('true');
+    });
   });
 
+  // ============================================
+  // SLOTS TESTS
+  // ============================================
+
+  describe('slots', () => {
+    it('should render actions slot when provided', async () => {
+      const page = await newE2EPage();
+      await page.setContent(`
+        <aegov-banner>
+          Message
+          <div slot="actions">
+            <button>Action</button>
+          </div>
+        </aegov-banner>
+      `);
+
+      await page.waitForChanges();
+      const actions = await page.find('aegov-banner .banner__actions');
+      expect(actions).toBeTruthy();
+    });
+
+    it('should not render actions container when no actions slot', async () => {
+      const page = await newE2EPage();
+      await page.setContent('<aegov-banner>Message</aegov-banner>');
+
+      await page.waitForChanges();
+      const actions = await page.find('aegov-banner .banner__actions');
+      expect(actions).toBeFalsy();
+    });
+
+    it('should apply center text alignment when no actions slot', async () => {
+      const page = await newE2EPage();
+      await page.setContent('<aegov-banner>Message</aegov-banner>');
+
+      await page.waitForChanges();
+      const textElement = await page.find('aegov-banner .banner__text');
+      const classes = await textElement.getAttribute('class');
+
+      expect(classes).toContain('banner__text-center');
+      expect(classes).not.toContain('banner__text-left');
+    });
+
+    it('should apply left text alignment when actions slot is present', async () => {
+      const page = await newE2EPage();
+      await page.setContent(`
+        <aegov-banner>
+          Message
+          <div slot="actions">
+            <button>Action</button>
+          </div>
+        </aegov-banner>
+      `);
+
+      await page.waitForChanges();
+      const textElement = await page.find('aegov-banner .banner__text');
+      const classes = await textElement.getAttribute('class');
+
+      expect(classes).toContain('banner__text-left');
+      expect(classes).not.toContain('banner__text-center');
+    });
+  });
+
+  // ============================================
+  // EVENTS TESTS
+  // ============================================
+
   describe('events', () => {
-    it('should have mode overlay when configured', async () => {
+    it('should emit aegovBannerHeightChange in overlay mode', async () => {
       const page = await newE2EPage();
       await page.setContent('<aegov-banner mode="overlay">Message</aegov-banner>');
 
-      const banner = await page.find('aegov-banner .banner--overlay');
-      expect(banner).toBeTruthy();
-    });
+      const element = await page.find('aegov-banner');
+      const heightEvent = await element.spyOnEvent('aegovBannerHeightChange');
 
-    it('should have mode push when configured', async () => {
-      const page = await newE2EPage();
-      await page.setContent('<aegov-banner mode="push">Message</aegov-banner>');
+      await page.waitForChanges();
 
-      const banner = await page.find('aegov-banner .banner--push');
-      expect(banner).toBeTruthy();
+      // Height event should be emitted on load
+      expect(heightEvent.events.length).toBeGreaterThan(0);
     });
 
     it('should emit height 0 when dismissed in overlay mode', async () => {
@@ -392,7 +442,7 @@ describe('aegov-banner E2E', () => {
       const element = await page.find('aegov-banner');
       const heightEvent = await element.spyOnEvent('aegovBannerHeightChange');
 
-      const dismissButton = await page.find('aegov-banner .banner-dismiss');
+      const dismissButton = await page.find('aegov-banner .banner__dismiss');
       await dismissButton.click();
 
       // Wait for dismiss animation (300ms)
@@ -404,6 +454,10 @@ describe('aegov-banner E2E', () => {
       expect(lastEvent.detail).toBe(0);
     });
   });
+
+  // ============================================
+  // CSS CLASSES COMBINATION TESTS
+  // ============================================
 
   describe('CSS classes combination', () => {
     it('should apply correct classes for fixed top overlay', async () => {
@@ -437,28 +491,64 @@ describe('aegov-banner E2E', () => {
       const banner = await page.find('aegov-banner .aegov-banner');
       const classes = await banner.getAttribute('class');
 
-      expect(classes).toContain('banner-error');
-      expect(classes).toContain('banner-solid');
+      expect(classes).toContain('banner--error');
+      expect(classes).toContain('banner--solid');
+    });
+
+    it('should apply all configuration classes together', async () => {
+      const page = await newE2EPage();
+      await page.setContent(
+        '<aegov-banner variant="success" appearance="solid" display="sticky" position="bottom" mode="overlay">Message</aegov-banner>'
+      );
+
+      const banner = await page.find('aegov-banner .aegov-banner');
+      const classes = await banner.getAttribute('class');
+
+      expect(classes).toContain('banner--success');
+      expect(classes).toContain('banner--solid');
+      expect(classes).toContain('banner--sticky');
+      expect(classes).toContain('banner--bottom');
+      expect(classes).toContain('banner--overlay');
     });
   });
 
-  describe('accessibility', () => {
-    it('should have proper dismiss button label', async () => {
+  // ============================================
+  // USER INTERACTION TESTS
+  // ============================================
+
+  describe('user interactions', () => {
+    it('should be clickable dismiss button', async () => {
       const page = await newE2EPage();
       await page.setContent('<aegov-banner>Message</aegov-banner>');
 
-      const dismissButton = await page.find('aegov-banner .banner-dismiss');
-      const ariaLabel = await dismissButton.getAttribute('aria-label');
-      expect(ariaLabel).toBe('Close banner');
+      const dismissButton = await page.find('aegov-banner .banner__dismiss');
+      await dismissButton.click();
+      await page.waitForChanges();
+
+      // Should have dismissing class immediately
+      const banner = await page.find('aegov-banner .banner--dismissing');
+      expect(banner).toBeTruthy();
     });
 
-    it('should have aria-hidden="true" on dismiss icon', async () => {
+    it('should handle multiple action buttons in slot', async () => {
       const page = await newE2EPage();
-      await page.setContent('<aegov-banner>Message</aegov-banner>');
+      await page.setContent(`
+        <aegov-banner>
+          Message
+          <div slot="actions">
+            <button id="btn1">Action 1</button>
+            <button id="btn2">Action 2</button>
+          </div>
+        </aegov-banner>
+      `);
 
-      const icon = await page.find('aegov-banner .banner-dismiss-icon');
-      const ariaHidden = await icon.getAttribute('aria-hidden');
-      expect(ariaHidden).toBe('true');
+      await page.waitForChanges();
+
+      const btn1 = await page.find('#btn1');
+      const btn2 = await page.find('#btn2');
+
+      expect(btn1).toBeTruthy();
+      expect(btn2).toBeTruthy();
     });
   });
 });

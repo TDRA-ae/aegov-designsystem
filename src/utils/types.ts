@@ -97,7 +97,7 @@ export type BannerPosition = 'top' | 'bottom';
 /**
  * Banner component display types (CSS positioning)
  */
-export type BannerDisplay = 'static' | 'fixed' | 'sticky';
+export type BannerDisplay = 'fixed' | 'sticky';
 
 /**
  * Banner component layout mode types

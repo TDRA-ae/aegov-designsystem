@@ -141,8 +141,8 @@ export namespace Components {
          */
         "dismissible": boolean;
         /**
-          * CSS positioning strategy: static (default, takes up space), fixed (stays in viewport), sticky (scrolls then sticks).
-          * @default 'static'
+          * CSS positioning strategy: fixed (stays in viewport), sticky (scrolls then sticks).
+          * @default 'fixed'
          */
         "display": BannerDisplay;
         /**
@@ -690,8 +690,8 @@ declare namespace LocalJSX {
          */
         "dismissible"?: boolean;
         /**
-          * CSS positioning strategy: static (default, takes up space), fixed (stays in viewport), sticky (scrolls then sticks).
-          * @default 'static'
+          * CSS positioning strategy: fixed (stays in viewport), sticky (scrolls then sticks).
+          * @default 'fixed'
          */
         "display"?: BannerDisplay;
         /**
