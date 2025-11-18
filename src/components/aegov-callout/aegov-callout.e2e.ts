@@ -17,7 +17,7 @@ describe('aegov-callout E2E', () => {
       const page = await newE2EPage();
       await page.setContent('<aegov-callout><span slot="content">This is a test message</span></aegov-callout>');
 
-      const content = await page.find('aegov-callout .callout-slot-content');
+      const content = await page.find('aegov-callout .callout__content');
       expect(content.textContent).toContain('This is a test message');
     });
 
@@ -34,7 +34,7 @@ describe('aegov-callout E2E', () => {
       const page = await newE2EPage();
       await page.setContent('<aegov-callout><span slot="content">Message</span></aegov-callout>');
 
-      const icon = await page.find('aegov-callout .callout-slot-icon');
+      const icon = await page.find('aegov-callout .callout__icon');
       expect(icon).toBeTruthy();
     });
 
@@ -42,7 +42,7 @@ describe('aegov-callout E2E', () => {
       const page = await newE2EPage();
       await page.setContent('<aegov-callout><span slot="content">Message</span></aegov-callout>');
 
-      const svg = await page.find('aegov-callout .callout-slot-icon svg');
+      const svg = await page.find('aegov-callout .callout__icon svg');
       expect(svg).toBeTruthy();
     });
   });
@@ -64,7 +64,7 @@ describe('aegov-callout E2E', () => {
       expect(element).toBeTruthy();
 
       // Error variant should have an error icon
-      const icon = await page.find('aegov-callout .callout-slot-icon svg');
+      const icon = await page.find('aegov-callout .callout__icon svg');
       expect(icon).toBeTruthy();
     });
 
@@ -124,7 +124,7 @@ describe('aegov-callout E2E', () => {
       const page = await newE2EPage();
       await page.setContent('<aegov-callout><span slot="content">Message</span></aegov-callout>');
 
-      const dismissButton = await page.find('aegov-callout button[aria-label="Close callout"]');
+      const dismissButton = await page.find('aegov-callout button[aria-label="Close this callout"]');
       expect(dismissButton).toBeNull();
     });
 
@@ -132,7 +132,7 @@ describe('aegov-callout E2E', () => {
       const page = await newE2EPage();
       await page.setContent('<aegov-callout dismissible><span slot="content">Message</span></aegov-callout>');
 
-      const dismissButton = await page.find('aegov-callout button[aria-label="Close callout"]');
+      const dismissButton = await page.find('aegov-callout button[aria-label="Close this callout"]');
       expect(dismissButton).toBeTruthy();
     });
 
@@ -143,7 +143,7 @@ describe('aegov-callout E2E', () => {
       let callout = await page.find('aegov-callout [data-aegov-callout]');
       expect(callout).toBeTruthy();
 
-      const dismissButton = await page.find('aegov-callout button[aria-label="Close callout"]');
+      const dismissButton = await page.find('aegov-callout button[aria-label="Close this callout"]');
       await dismissButton.click();
       await page.waitForChanges();
 
@@ -156,7 +156,7 @@ describe('aegov-callout E2E', () => {
       await page.setContent('<aegov-callout dismissible><span slot="content">Message</span></aegov-callout>');
 
       const dismissSpy = await page.spyOnEvent('aegovCalloutDismiss');
-      const dismissButton = await page.find('aegov-callout button[aria-label="Close callout"]');
+      const dismissButton = await page.find('aegov-callout button[aria-label="Close this callout"]');
       await dismissButton.click();
 
       expect(dismissSpy).toHaveReceivedEvent();
@@ -236,7 +236,7 @@ describe('aegov-callout E2E', () => {
       const callout = await page.find('aegov-callout [data-aegov-callout]');
       expect(callout).toBeTruthy();
 
-      const dismissButton = await page.find('aegov-callout button[aria-label="Close callout"]');
+      const dismissButton = await page.find('aegov-callout button[aria-label="Close this callout"]');
       expect(dismissButton).toBeTruthy();
     });
   });
@@ -255,7 +255,7 @@ describe('aegov-callout E2E', () => {
       const page = await newE2EPage();
       await page.setContent('<aegov-callout dismissible><span slot="content">Message</span></aegov-callout>');
 
-      const dismissButton = await page.find('aegov-callout button[aria-label="Close callout"]');
+      const dismissButton = await page.find('aegov-callout button[aria-label="Close this callout"]');
       const ariaLabel = await dismissButton.getAttribute('aria-label');
       expect(ariaLabel).toBe('Close callout');
     });

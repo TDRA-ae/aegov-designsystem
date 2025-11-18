@@ -23,6 +23,12 @@ export class AegovBreadcrumbs {
    */
   @Prop() maxLength?: number;
 
+  /**
+   * Whether to add schema.org microdata for structured data
+   * @default false
+   */
+  @Prop() microdata: boolean = false;
+
   componentDidLoad() {
     this.updateItems();
   }
@@ -33,6 +39,7 @@ export class AegovBreadcrumbs {
 
   @Watch('separator')
   @Watch('maxLength')
+  @Watch('microdata')
   updateItems() {
     // Query all slotted breadcrumb items
     const items = Array.from(
@@ -46,6 +53,12 @@ export class AegovBreadcrumbs {
       if (this.maxLength !== undefined) {
         item.maxLength = this.maxLength;
       }
+
+      // Pass microdata property to children
+      item.microdata = this.microdata;
+
+      // Set position for microdata (1-indexed)
+      item.position = index + 1;
 
       // Mark the last item
       item.isLast = index === items.length - 1;
@@ -75,7 +88,11 @@ export class AegovBreadcrumbs {
     return (
       <Host>
         <nav aria-label="Breadcrumb" class="aegov-breadcrumbs" {...passThroughAttributes}>
-          <ol class="breadcrumb__list">
+          <ol
+            class="breadcrumb__list"
+            itemScope={this.microdata ? true : undefined}
+            itemType={this.microdata ? "https://schema.org/BreadcrumbList" : undefined}
+          >
             <slot />
           </ol>
         </nav>

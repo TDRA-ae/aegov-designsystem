@@ -51,6 +51,18 @@ export class AegovBreadcrumbsItem {
   @Prop({ mutable: true }) separator: BreadcrumbSeparator = 'slash';
 
   /**
+   * Whether to add schema.org microdata
+   * @internal - Set automatically by parent component
+   */
+  @Prop({ mutable: true }) microdata: boolean = false;
+
+  /**
+   * Position in the breadcrumb list (1-indexed) for microdata
+   * @internal - Set automatically by parent component
+   */
+  @Prop({ mutable: true }) position: number = 1;
+
+  /**
    * Emitted when the breadcrumb item is clicked
    */
   @Event() aegovBreadcrumbItemClick: EventEmitter<{ href?: string; event: MouseEvent }>;
@@ -88,6 +100,8 @@ export class AegovBreadcrumbsItem {
   @Watch('separator')
   @Watch('isLast')
   @Watch('maxLength')
+  @Watch('microdata')
+  @Watch('position')
   handlePropChange() {
     // Force re-render when props change
   }
@@ -150,17 +164,30 @@ export class AegovBreadcrumbsItem {
     if (this.href) {
       return (
         <Host>
-          <li class="breadcrumb__item">
+          <li
+            class="breadcrumb__item"
+            itemProp={this.microdata ? "itemListElement" : undefined}
+            itemScope={this.microdata ? true : undefined}
+            itemType={this.microdata ? "https://schema.org/ListItem" : undefined}
+          >
             <a
               href={this.href}
               target={this.target}
               onClick={this.handleClick}
               class="breadcrumb-link"
+              itemProp={this.microdata ? "item" : undefined}
               {...passThroughAttributes}
             >
-              {content}
+              <span itemProp={this.microdata ? "name" : undefined}>
+                {content}
+              </span>
             </a>
+            {this.microdata && (
+              <meta itemProp="position" content={this.position.toString()} />
+            )}
+            <span>
             {this.renderSeparator()}
+            </span>
           </li>
         </Host>
       );
@@ -168,14 +195,23 @@ export class AegovBreadcrumbsItem {
 
     return (
       <Host>
-        <li class="breadcrumb__item">
+        <li
+          class="breadcrumb__item"
+          itemProp={this.microdata ? "itemListElement" : undefined}
+          itemScope={this.microdata ? true : undefined}
+          itemType={this.microdata ? "https://schema.org/ListItem" : undefined}
+        >
           <span
             class="breadcrumb-current"
             aria-current={this.isLast ? 'page' : undefined}
+            itemProp={this.microdata ? "name" : undefined}
             {...passThroughAttributes}
           >
             {content}
           </span>
+          {this.microdata && (
+            <meta itemProp="position" content={this.position.toString()} />
+          )}
           {this.renderSeparator()}
         </li>
       </Host>

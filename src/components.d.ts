@@ -186,6 +186,11 @@ export namespace Components {
          */
         "maxLength"?: number;
         /**
+          * Whether to add schema.org microdata for structured data
+          * @default false
+         */
+        "microdata": boolean;
+        /**
           * The separator style to use between breadcrumb items
           * @default 'slash'
          */
@@ -210,6 +215,16 @@ export namespace Components {
           * Maximum length for text before truncation
          */
         "maxLength"?: number;
+        /**
+          * Whether to add schema.org microdata
+          * @default false
+         */
+        "microdata": boolean;
+        /**
+          * Position in the breadcrumb list (1-indexed) for microdata
+          * @default 1
+         */
+        "position": number;
         /**
           * Separator type to display after this item
           * @default 'slash'
@@ -743,6 +758,11 @@ declare namespace LocalJSX {
          */
         "maxLength"?: number;
         /**
+          * Whether to add schema.org microdata for structured data
+          * @default false
+         */
+        "microdata"?: boolean;
+        /**
           * The separator style to use between breadcrumb items
           * @default 'slash'
          */
@@ -768,9 +788,19 @@ declare namespace LocalJSX {
          */
         "maxLength"?: number;
         /**
+          * Whether to add schema.org microdata
+          * @default false
+         */
+        "microdata"?: boolean;
+        /**
           * Emitted when the breadcrumb item is clicked
          */
         "onAegovBreadcrumbItemClick"?: (event: AegovBreadcrumbsItemCustomEvent<{ href?: string; event: MouseEvent }>) => void;
+        /**
+          * Position in the breadcrumb list (1-indexed) for microdata
+          * @default 1
+         */
+        "position"?: number;
         /**
           * Separator type to display after this item
           * @default 'slash'

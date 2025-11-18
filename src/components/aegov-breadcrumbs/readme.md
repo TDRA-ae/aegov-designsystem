@@ -10,6 +10,7 @@
 | Property    | Attribute    | Description                                                                                                  | Type                   | Default     |
 | ----------- | ------------ | ------------------------------------------------------------------------------------------------------------ | ---------------------- | ----------- |
 | `maxLength` | `max-length` | Maximum number of characters before truncating breadcrumb item text. If not set, text will not be truncated. | `number`               | `undefined` |
+| `microdata` | `microdata`  | Whether to add schema.org microdata for structured data                                                      | `boolean`              | `false`     |
 | `separator` | `separator`  | The separator style to use between breadcrumb items                                                          | `"chevron" \| "slash"` | `'slash'`   |
 
 
