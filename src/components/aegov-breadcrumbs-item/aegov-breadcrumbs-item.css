@@ -2,7 +2,7 @@
   display: contents;
 }
 
-li.breadcrumb-item {
+li.breadcrumb__item {
   @apply relative inline-flex items-center gap-1 align-middle text-sm last:font-semibold;
   & a {
     @apply relative decoration-1 hover:decoration-2 underline-offset-2 inline-flex items-center align-middle gap-1 px-1 py-0.5 m-0;
@@ -15,18 +15,18 @@ li.breadcrumb-item {
   }
 }
 
-svg.breadcrumb-separator {
+svg.breadcrumb__separator {
   @apply size-4 text-aeblack-300 shrink-0;
 }
-span.breadcrumb-separator {
+span.breadcrumb__separator {
   @apply h-4 w-auto text-aeblack-300 shrink-0 inline-block px-0.5;
 }
 
 /* RTL support - flip chevron direction */
-:host(:dir(rtl)) .breadcrumb-separator {
+:host(:dir(rtl)) .breadcrumb__separator {
   transform: scaleX(-1);
 }
 
-[dir="rtl"] .breadcrumb-separator {
+[dir="rtl"] .breadcrumb__separator {
   transform: scaleX(-1);
 }

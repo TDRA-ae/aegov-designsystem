@@ -52,11 +52,30 @@ export class AegovBreadcrumbs {
     });
   }
 
+  /**
+   * Get aria-*, data-*, and id attributes from the host element to pass through to the nav wrapper
+   */
+  private getPassThroughAttributes(): { [key: string]: string } {
+    const passThroughAttrs: { [key: string]: string } = {};
+
+    // Get all attributes from the host element
+    Array.from(this.el.attributes).forEach(attr => {
+      // Pass through aria-*, data-*, and id attributes
+      if (attr.name.startsWith('aria-') || attr.name.startsWith('data-') || attr.name === 'id') {
+        passThroughAttrs[attr.name] = attr.value;
+      }
+    });
+
+    return passThroughAttrs;
+  }
+
   render() {
+    const passThroughAttributes = this.getPassThroughAttributes();
+
     return (
       <Host>
-        <nav aria-label="Breadcrumb" class="aegov-breadcrumbs">
-          <ol class="breadcrumb-list">
+        <nav aria-label="Breadcrumb" class="aegov-breadcrumbs" {...passThroughAttributes}>
+          <ol class="breadcrumb__list">
             <slot />
           </ol>
         </nav>

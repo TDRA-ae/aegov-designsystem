@@ -178,4 +178,80 @@ describe('aegov-breadcrumbs', () => {
       expect(item.maxLength).toBe(15);
     });
   });
+
+  describe('pass-through attributes', () => {
+    it('should pass through aria-* attributes to the nav wrapper', async () => {
+      const page = await newSpecPage({
+        components: [AegovBreadcrumbs, AegovBreadcrumbsItem],
+        html: `
+          <aegov-breadcrumbs aria-describedby="breadcrumb-desc">
+            <aegov-breadcrumbs-item href="/">Home</aegov-breadcrumbs-item>
+          </aegov-breadcrumbs>
+        `,
+      });
+
+      const nav = page.root.querySelector('nav');
+      expect(nav.getAttribute('aria-describedby')).toBe('breadcrumb-desc');
+    });
+
+    it('should pass through data-* attributes to the nav wrapper', async () => {
+      const page = await newSpecPage({
+        components: [AegovBreadcrumbs, AegovBreadcrumbsItem],
+        html: `
+          <aegov-breadcrumbs data-testid="main-breadcrumb" data-tracking="nav-123">
+            <aegov-breadcrumbs-item href="/">Home</aegov-breadcrumbs-item>
+          </aegov-breadcrumbs>
+        `,
+      });
+
+      const nav = page.root.querySelector('nav');
+      expect(nav.getAttribute('data-testid')).toBe('main-breadcrumb');
+      expect(nav.getAttribute('data-tracking')).toBe('nav-123');
+    });
+
+    it('should pass through id attribute to the nav wrapper', async () => {
+      const page = await newSpecPage({
+        components: [AegovBreadcrumbs, AegovBreadcrumbsItem],
+        html: `
+          <aegov-breadcrumbs id="primary-nav">
+            <aegov-breadcrumbs-item href="/">Home</aegov-breadcrumbs-item>
+          </aegov-breadcrumbs>
+        `,
+      });
+
+      const nav = page.root.querySelector('nav');
+      expect(nav.getAttribute('id')).toBe('primary-nav');
+    });
+
+    it('should pass through multiple types of attributes simultaneously', async () => {
+      const page = await newSpecPage({
+        components: [AegovBreadcrumbs, AegovBreadcrumbsItem],
+        html: `
+          <aegov-breadcrumbs id="test-id" aria-describedby="desc-1" data-value="123">
+            <aegov-breadcrumbs-item href="/">Home</aegov-breadcrumbs-item>
+          </aegov-breadcrumbs>
+        `,
+      });
+
+      const nav = page.root.querySelector('nav');
+      expect(nav.getAttribute('id')).toBe('test-id');
+      expect(nav.getAttribute('aria-describedby')).toBe('desc-1');
+      expect(nav.getAttribute('data-value')).toBe('123');
+    });
+
+    it('should not pass through non-supported attributes', async () => {
+      const page = await newSpecPage({
+        components: [AegovBreadcrumbs, AegovBreadcrumbsItem],
+        html: `
+          <aegov-breadcrumbs title="tooltip" custom="value">
+            <aegov-breadcrumbs-item href="/">Home</aegov-breadcrumbs-item>
+          </aegov-breadcrumbs>
+        `,
+      });
+
+      const nav = page.root.querySelector('nav');
+      expect(nav.getAttribute('title')).toBeNull();
+      expect(nav.getAttribute('custom')).toBeNull();
+    });
+  });
 });

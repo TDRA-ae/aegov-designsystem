@@ -107,6 +107,23 @@ export class AegovBreadcrumbsItem {
     return text.substring(0, this.maxLength) + '…';
   }
 
+  /**
+   * Get aria-*, data-*, and id attributes from the host element to pass through to the link/span wrapper
+   */
+  private getPassThroughAttributes(): { [key: string]: string } {
+    const passThroughAttrs: { [key: string]: string } = {};
+
+    // Get all attributes from the host element
+    Array.from(this.el.attributes).forEach(attr => {
+      // Pass through aria-*, data-*, and id attributes
+      if (attr.name.startsWith('aria-') || attr.name.startsWith('data-') || attr.name === 'id') {
+        passThroughAttrs[attr.name] = attr.value;
+      }
+    });
+
+    return passThroughAttrs;
+  }
+
   private renderSeparator() {
     if (this.isLast) {
       return null;
@@ -114,13 +131,13 @@ export class AegovBreadcrumbsItem {
 
     if (this.separator === 'chevron') {
       return (
-        <svg class="breadcrumb-separator" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"><rect width="256" height="256" fill="none"/><polyline points="96 48 176 128 96 208" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/></svg>
+        <svg class="breadcrumb__separator" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"><rect width="256" height="256" fill="none"/><polyline points="96 48 176 128 96 208" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/></svg>
       );
     }
 
     // Default to slash separator
     return (
-      <span class="breadcrumb-separator">/</span>
+      <span class="breadcrumb__separator">/</span>
     );
   }
 
@@ -128,16 +145,18 @@ export class AegovBreadcrumbsItem {
     // If there are element children (SVG, icons, etc.), render the slot directly
     // Otherwise, render the truncated text
     const content = this.hasElementChildren ? <slot /> : this.truncateText(this.slotContent);
+    const passThroughAttributes = this.getPassThroughAttributes();
 
     if (this.href) {
       return (
         <Host>
-          <li class="breadcrumb-item">
+          <li class="breadcrumb__item">
             <a
               href={this.href}
               target={this.target}
               onClick={this.handleClick}
               class="breadcrumb-link"
+              {...passThroughAttributes}
             >
               {content}
             </a>
@@ -149,10 +168,11 @@ export class AegovBreadcrumbsItem {
 
     return (
       <Host>
-        <li class="breadcrumb-item">
+        <li class="breadcrumb__item">
           <span
             class="breadcrumb-current"
             aria-current={this.isLast ? 'page' : undefined}
+            {...passThroughAttributes}
           >
             {content}
           </span>

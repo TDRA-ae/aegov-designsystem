@@ -258,4 +258,96 @@ describe('aegov-breadcrumbs E2E', () => {
       expect(target).toBe('_blank');
     });
   });
+
+  describe('pass-through attributes on parent', () => {
+    it('should pass through data-* attributes to nav element', async () => {
+      const page = await newE2EPage();
+      await page.setContent(`
+        <aegov-breadcrumbs data-testid="breadcrumb-nav" data-tracking="nav-123">
+          <aegov-breadcrumbs-item href="/">Home</aegov-breadcrumbs-item>
+        </aegov-breadcrumbs>
+      `);
+
+      const nav = await page.find('aegov-breadcrumbs nav');
+      expect(await nav.getAttribute('data-testid')).toBe('breadcrumb-nav');
+      expect(await nav.getAttribute('data-tracking')).toBe('nav-123');
+    });
+
+    it('should pass through aria-* attributes to nav element', async () => {
+      const page = await newE2EPage();
+      await page.setContent(`
+        <aegov-breadcrumbs aria-describedby="breadcrumb-desc">
+          <aegov-breadcrumbs-item href="/">Home</aegov-breadcrumbs-item>
+        </aegov-breadcrumbs>
+      `);
+
+      const nav = await page.find('aegov-breadcrumbs nav');
+      expect(await nav.getAttribute('aria-describedby')).toBe('breadcrumb-desc');
+    });
+
+    it('should pass through id attribute to nav element', async () => {
+      const page = await newE2EPage();
+      await page.setContent(`
+        <aegov-breadcrumbs id="primary-breadcrumb">
+          <aegov-breadcrumbs-item href="/">Home</aegov-breadcrumbs-item>
+        </aegov-breadcrumbs>
+      `);
+
+      const nav = await page.find('aegov-breadcrumbs nav');
+      expect(await nav.getAttribute('id')).toBe('primary-breadcrumb');
+    });
+  });
+
+  describe('pass-through attributes on items', () => {
+    it('should pass through data-* attributes to link element', async () => {
+      const page = await newE2EPage();
+      await page.setContent(`
+        <aegov-breadcrumbs>
+          <aegov-breadcrumbs-item href="/" data-testid="home-link" data-tracking="item-1">Home</aegov-breadcrumbs-item>
+        </aegov-breadcrumbs>
+      `);
+
+      const link = await page.find('aegov-breadcrumbs-item a');
+      expect(await link.getAttribute('data-testid')).toBe('home-link');
+      expect(await link.getAttribute('data-tracking')).toBe('item-1');
+    });
+
+    it('should pass through aria-* attributes to link element', async () => {
+      const page = await newE2EPage();
+      await page.setContent(`
+        <aegov-breadcrumbs>
+          <aegov-breadcrumbs-item href="/" aria-label="Navigate to home">Home</aegov-breadcrumbs-item>
+        </aegov-breadcrumbs>
+      `);
+
+      const link = await page.find('aegov-breadcrumbs-item a');
+      expect(await link.getAttribute('aria-label')).toBe('Navigate to home');
+    });
+
+    it('should pass through id attribute to link element', async () => {
+      const page = await newE2EPage();
+      await page.setContent(`
+        <aegov-breadcrumbs>
+          <aegov-breadcrumbs-item href="/" id="home-breadcrumb">Home</aegov-breadcrumbs-item>
+        </aegov-breadcrumbs>
+      `);
+
+      const link = await page.find('aegov-breadcrumbs-item a');
+      expect(await link.getAttribute('id')).toBe('home-breadcrumb');
+    });
+
+    it('should pass through attributes to span element for current item', async () => {
+      const page = await newE2EPage();
+      await page.setContent(`
+        <aegov-breadcrumbs>
+          <aegov-breadcrumbs-item href="/">Home</aegov-breadcrumbs-item>
+          <aegov-breadcrumbs-item data-testid="current-page" id="current-item">Current</aegov-breadcrumbs-item>
+        </aegov-breadcrumbs>
+      `);
+
+      const span = await page.find('aegov-breadcrumbs-item:last-child span.breadcrumb-current');
+      expect(await span.getAttribute('data-testid')).toBe('current-page');
+      expect(await span.getAttribute('id')).toBe('current-item');
+    });
+  });
 });
