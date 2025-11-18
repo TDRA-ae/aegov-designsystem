@@ -30,7 +30,7 @@ describe('aegov-callout', () => {
         html: `<aegov-callout><span slot="content">Message</span></aegov-callout>`,
       });
 
-      expect(page.root.querySelector('.callout-slot-icon')).toBeTruthy();
+      expect(page.root.querySelector('.callout__icon')).toBeTruthy();
     });
 
     it('should render content container', async () => {
@@ -39,7 +39,7 @@ describe('aegov-callout', () => {
         html: `<aegov-callout><span slot="content">Message</span></aegov-callout>`,
       });
 
-      expect(page.root.querySelector('.callout-slot-content')).toBeTruthy();
+      expect(page.root.querySelector('.callout__content')).toBeTruthy();
     });
   });
 
@@ -135,7 +135,7 @@ describe('aegov-callout', () => {
         html: `<aegov-callout><span slot="content">Message</span></aegov-callout>`,
       });
 
-      const dismissButton = page.root.querySelector('button[aria-label="Close callout"]');
+      const dismissButton = page.root.querySelector('button[aria-label="Close this callout"]');
       expect(dismissButton).toBeFalsy();
     });
 
@@ -145,7 +145,7 @@ describe('aegov-callout', () => {
         html: `<aegov-callout dismissible><span slot="content">Message</span></aegov-callout>`,
       });
 
-      const dismissButton = page.root.querySelector('button[aria-label="Close callout"]');
+      const dismissButton = page.root.querySelector('button[aria-label="Close this callout"]');
       expect(dismissButton).toBeTruthy();
     });
 
@@ -156,7 +156,7 @@ describe('aegov-callout', () => {
       });
 
       const component = page.rootInstance as AegovCallout;
-      const dismissButton = page.root.querySelector('button[aria-label="Close callout"]') as HTMLButtonElement;
+      const dismissButton = page.root.querySelector('button[aria-label="Close this callout"]') as HTMLButtonElement;
 
       expect(component.isVisible).toBe(true);
       dismissButton.click();
@@ -173,7 +173,7 @@ describe('aegov-callout', () => {
       const dismissSpy = jest.fn();
       page.root.addEventListener('aegovCalloutDismiss', dismissSpy);
 
-      const dismissButton = page.root.querySelector('button[aria-label="Close callout"]') as HTMLButtonElement;
+      const dismissButton = page.root.querySelector('button[aria-label="Close this callout"]') as HTMLButtonElement;
       dismissButton.click();
       await page.waitForChanges();
 
@@ -236,7 +236,7 @@ describe('aegov-callout', () => {
         html: `<aegov-callout><span slot="content">Message</span></aegov-callout>`,
       });
 
-      const icon = page.root.querySelector('.callout-slot-icon svg');
+      const icon = page.root.querySelector('.callout__icon svg');
       expect(icon).toBeTruthy();
     });
 
@@ -288,7 +288,7 @@ describe('aegov-callout', () => {
         html: `<aegov-callout variant="default"><span slot="content">Message</span></aegov-callout>`,
       });
 
-      const icon = page.root.querySelector('.callout-slot-icon svg');
+      const icon = page.root.querySelector('.callout__icon svg');
       expect(icon).toBeTruthy();
     });
 
@@ -298,7 +298,7 @@ describe('aegov-callout', () => {
         html: `<aegov-callout variant="error"><span slot="content">Error</span></aegov-callout>`,
       });
 
-      const icon = page.root.querySelector('.callout-slot-icon svg');
+      const icon = page.root.querySelector('.callout__icon svg');
       expect(icon).toBeTruthy();
     });
 
@@ -308,7 +308,7 @@ describe('aegov-callout', () => {
         html: `<aegov-callout variant="warning"><span slot="content">Warning</span></aegov-callout>`,
       });
 
-      const icon = page.root.querySelector('.callout-slot-icon svg');
+      const icon = page.root.querySelector('.callout__icon svg');
       expect(icon).toBeTruthy();
     });
 
@@ -318,7 +318,7 @@ describe('aegov-callout', () => {
         html: `<aegov-callout variant="success"><span slot="content">Success</span></aegov-callout>`,
       });
 
-      const icon = page.root.querySelector('.callout-slot-icon svg');
+      const icon = page.root.querySelector('.callout__icon svg');
       expect(icon).toBeTruthy();
     });
 
@@ -328,8 +328,65 @@ describe('aegov-callout', () => {
         html: `<aegov-callout variant="info"><span slot="content">Info</span></aegov-callout>`,
       });
 
-      const icon = page.root.querySelector('.callout-slot-icon svg');
+      const icon = page.root.querySelector('.callout__icon svg');
       expect(icon).toBeTruthy();
+    });
+  });
+
+  describe('pass-through attributes', () => {
+    it('should pass through aria-* attributes to the callout wrapper', async () => {
+      const page = await newSpecPage({
+        components: [AegovCallout],
+        html: `<aegov-callout aria-label="Custom alert" aria-live="polite"><span slot="content">Message</span></aegov-callout>`,
+      });
+
+      const callout = page.root.querySelector('[data-aegov-callout]');
+      expect(callout.getAttribute('aria-label')).toBe('Custom alert');
+      expect(callout.getAttribute('aria-live')).toBe('polite');
+    });
+
+    it('should pass through data-* attributes to the callout wrapper', async () => {
+      const page = await newSpecPage({
+        components: [AegovCallout],
+        html: `<aegov-callout data-testid="my-callout" data-tracking="event-123"><span slot="content">Message</span></aegov-callout>`,
+      });
+
+      const callout = page.root.querySelector('[data-aegov-callout]');
+      expect(callout.getAttribute('data-testid')).toBe('my-callout');
+      expect(callout.getAttribute('data-tracking')).toBe('event-123');
+    });
+
+    it('should pass through id attribute to the callout wrapper', async () => {
+      const page = await newSpecPage({
+        components: [AegovCallout],
+        html: `<aegov-callout id="unique-callout"><span slot="content">Message</span></aegov-callout>`,
+      });
+
+      const callout = page.root.querySelector('[data-aegov-callout]');
+      expect(callout.getAttribute('id')).toBe('unique-callout');
+    });
+
+    it('should pass through multiple types of attributes simultaneously', async () => {
+      const page = await newSpecPage({
+        components: [AegovCallout],
+        html: `<aegov-callout id="test-id" aria-describedby="desc-1" data-value="123"><span slot="content">Message</span></aegov-callout>`,
+      });
+
+      const callout = page.root.querySelector('[data-aegov-callout]');
+      expect(callout.getAttribute('id')).toBe('test-id');
+      expect(callout.getAttribute('aria-describedby')).toBe('desc-1');
+      expect(callout.getAttribute('data-value')).toBe('123');
+    });
+
+    it('should not pass through non-supported attributes', async () => {
+      const page = await newSpecPage({
+        components: [AegovCallout],
+        html: `<aegov-callout title="tooltip" custom="value"><span slot="content">Message</span></aegov-callout>`,
+      });
+
+      const callout = page.root.querySelector('[data-aegov-callout]');
+      expect(callout.getAttribute('title')).toBeNull();
+      expect(callout.getAttribute('custom')).toBeNull();
     });
   });
 });

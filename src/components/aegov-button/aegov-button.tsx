@@ -1,4 +1,4 @@
-import { Component, Prop, Event, EventEmitter, h, Host } from '@stencil/core';
+import { Component, Prop, Event, EventEmitter, Element, h, Host } from '@stencil/core';
 import type { ButtonVariant, ButtonSize, ButtonType, ButtonAppearance } from '../../utils/types';
 
 /**
@@ -12,6 +12,7 @@ import type { ButtonVariant, ButtonSize, ButtonType, ButtonAppearance } from '..
   shadow:false
 })
 export class AegovButton {
+  @Element() el: HTMLElement;
   /**
    * The button variant style
    * @default 'solid'
@@ -96,6 +97,23 @@ export class AegovButton {
   };
 
   /**
+   * Get aria-* and data-* attributes from the host element to pass through to the button
+   */
+  private getPassThroughAttributes(): { [key: string]: string } {
+    const passThroughAttrs: { [key: string]: string } = {};
+
+    // Get all attributes from the host element
+    Array.from(this.el.attributes).forEach(attr => {
+      // Pass through aria-* and data-* attributes
+      if (attr.name.startsWith('aria-') || attr.name.startsWith('data-')) {
+        passThroughAttrs[attr.name] = attr.value;
+      }
+    });
+
+    return passThroughAttrs;
+  }
+
+  /**
    * Get the CSS classes based on component props
    */
   private getButtonClasses(): string {
@@ -159,6 +177,8 @@ export class AegovButton {
   }
 
   render() {
+    const passThroughAttributes = this.getPassThroughAttributes();
+
     return (
       <Host>
         <button
@@ -171,6 +191,7 @@ export class AegovButton {
           onBlur={this.handleBlur}
           aria-disabled={this.disabled || this.loading ? 'true' : 'false'}
           aria-busy={this.loading ? 'true' : 'false'}
+          {...passThroughAttributes}
         >
           {this.loading && (
             <svg class="mr-1 -ml-1 !size-5 animate-spin text-whitely-50" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>

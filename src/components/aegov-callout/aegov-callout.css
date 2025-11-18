@@ -13,27 +13,33 @@
 .aegov-callout {
   font-family:inherit;
   @apply @container px-5 py-4 flex items-start gap-4 rounded-md text-base;
-  &.callout-soft {
-    &.callout-default {
+  &.callout--soft {
+    &.callout--default {
       @apply bg-slate-100 text-slate-800 border-slate-800;
-      & .callout-slot-icon {
+      & .callout__icon {
         & svg {
           @apply fill-slate-800;
         }
       }
-      & .callout-slot-actions {
-        & button,
-        & a {
-          @apply bg-transparent border-slate-700 text-slate-700 focus-visible:outline-slate-800;
-          &.btn-solid {
-            @apply border-slate-800 bg-slate-800 text-slate-50;
-          }
-          &.btn-outline {
-            @apply bg-transparent;
-          }
+      & .callout__actions {
+        & button.aegov-btn.btn-primary.btn-solid,
+        & aegov-button button.btn-primary.btn-solid {
+          @apply bg-slate-800 border-slate-800 text-whitely-50 hover:opacity-90 focus-visible:outline-offset-3 focus-visible:outline-2 focus-visible:outline-seablue-600;
+        }
+        & button.aegov-btn.btn-primary.btn-outline,
+        & aegov-button button.btn-primary.btn-outline {
+          @apply border-slate-700 text-slate-700 hover:bg-slate-50 hover:opacity-80 focus-visible:outline-offset-3 focus-visible:outline-2 focus-visible:outline-seablue-600 focus-visible:bg-transparent;
+        }
+        & button.aegov-btn.btn-primary.btn-soft,
+        & aegov-button button.btn-primary.btn-soft {
+          @apply bg-slate-200/80 text-slate-800 hover:bg-slate-300/50 focus-visible:outline-offset-3 focus-visible:outline-2 focus-visible:outline-seablue-600;
+        }
+        & button.aegov-btn.btn-primary.btn-link,
+        & aegov-button button.btn-primary.btn-link {
+          @apply !text-slate-700 hover:!text-slate-600 focus-visible:outline-offset-0 focus-visible:outline-2 focus-visible:outline-seablue-600 focus-visible:bg-transparent;
         }
       }
-      & .callout-slot-right {
+      & .callout__right {
         ::slotted(a),
         & a {
           @apply focus-visible:bg-slate-800 focus-visible:text-slate-50 focus-visible:outline-slate-800 focus-visible:decoration-slate-50;
@@ -43,26 +49,32 @@
         }
       }
     }
-    &.callout-error {
+    &.callout--error {
       @apply bg-aered-100 text-aered-700 border-aered-700;
-      & .callout-slot-icon {
+      & .callout__icon {
         & svg {
           @apply fill-aered-600;
         }
       }
-      & .callout-slot-actions {
-        & button,
-        & a {
-          @apply bg-transparent border-aered-700 text-aered-700 focus-visible:outline-aered-600;
-          &.btn-solid {
-            @apply border-aered-600 bg-aered-600 text-whitely-50;
-          }
-          &.btn-outline {
-            @apply bg-transparent;
-          }
+      & .callout__actions {
+        & button.aegov-btn.btn-primary.btn-solid,
+        & aegov-button button.btn-primary.btn-solid {
+          @apply bg-aered-600 border-aered-600 text-whitely-50 hover:opacity-90 focus-visible:outline-offset-3 focus-visible:outline-2 focus-visible:outline-camel-600;
+        }
+        & button.aegov-btn.btn-primary.btn-outline,
+        & aegov-button button.btn-primary.btn-outline {
+          @apply border-aered-700 text-aered-700 hover:bg-aered-50 hover:opacity-80 focus-visible:outline-offset-3 focus-visible:outline-2 focus-visible:outline-camel-600 focus-visible:bg-transparent;
+        }
+        & button.aegov-btn.btn-primary.btn-soft,
+        & aegov-button button.btn-primary.btn-soft {
+          @apply bg-aered-200/80 text-aered-800 hover:bg-aered-300/50 focus-visible:outline-offset-3 focus-visible:outline-2 focus-visible:outline-camel-600;
+        }
+        & button.aegov-btn.btn-primary.btn-link,
+        & aegov-button button.btn-primary.btn-link {
+          @apply !text-aered-700 hover:!text-aered-600 focus-visible:outline-offset-0 focus-visible:outline-2 focus-visible:outline-camel-600 focus-visible:bg-transparent;
         }
       }
-      & .callout-slot-right {
+      & .callout__right {
         ::slotted(a),
         & a {
           @apply focus-visible:bg-aered-800 focus-visible:text-aered-50 focus-visible:outline-aered-800 focus-visible:decoration-aered-50;
@@ -72,26 +84,32 @@
         }
       }
     }
-    &.callout-success {
+    &.callout--success {
       @apply bg-aegreen-100 text-aegreen-700 border-aegreen-700;
-      & .callout-slot-icon {
+      & .callout__icon {
         & svg {
           @apply fill-aegreen-600;
         }
       }
-      & .callout-slot-actions {
-        & button,
-        & a {
-          @apply bg-transparent border-aegreen-700 text-aegreen-700 focus-visible:outline-aegreen-600;
-          &.btn-solid {
-            @apply border-aegreen-600 bg-aegreen-600 text-whitely-50;
-          }
-          &.btn-outline {
-            @apply bg-transparent;
-          }
+      & .callout__actions {
+        & button.aegov-btn.btn-primary.btn-solid,
+        & aegov-button button.btn-primary.btn-solid {
+          @apply bg-aegreen-600 border-aegreen-600 text-whitely-50 hover:opacity-90 focus-visible:outline-offset-3 focus-visible:outline-2 focus-visible:outline-camel-600;
+        }
+        & button.aegov-btn.btn-primary.btn-outline,
+        & aegov-button button.btn-primary.btn-outline {
+          @apply border-aegreen-700 text-aegreen-700 hover:bg-aegreen-50 hover:opacity-80 focus-visible:outline-offset-3 focus-visible:outline-2 focus-visible:outline-camel-600 focus-visible:bg-transparent;
+        }
+        & button.aegov-btn.btn-primary.btn-soft,
+        & aegov-button button.btn-primary.btn-soft {
+          @apply bg-aegreen-200/80 text-aegreen-800 hover:bg-aegreen-300/50 focus-visible:outline-offset-3 focus-visible:outline-2 focus-visible:outline-camel-600;
+        }
+        & button.aegov-btn.btn-primary.btn-link,
+        & aegov-button button.btn-primary.btn-link {
+          @apply !text-aegreen-700 hover:!text-aegreen-600 focus-visible:outline-offset-0 focus-visible:outline-2 focus-visible:outline-camel-600 focus-visible:bg-transparent;
         }
       }
-      & .callout-slot-right {
+      & .callout__right {
         ::slotted(a),
         & a {
           @apply focus-visible:bg-aegreen-800 focus-visible:text-aegreen-50 focus-visible:outline-aegreen-800 focus-visible:decoration-aegreen-50;
@@ -101,26 +119,32 @@
         }
       }
     }
-    &.callout-warning {
+    &.callout--warning {
       @apply bg-camel-100 text-camel-700 border-camel-700;
-      & .callout-slot-icon {
+      & .callout__icon {
         & svg {
           @apply fill-camel-600;
         }
       }
-      & .callout-slot-actions {
-        & button,
-        & a {
-          @apply bg-transparent border-camel-700 text-camel-700 focus-visible:outline-camel-600;
-          &.btn-solid {
-            @apply border-camel-600 bg-camel-600 text-whitely-50;
-          }
-          &.btn-outline {
-            @apply bg-transparent;
-          }
+      & .callout__actions {
+        & button.aegov-btn.btn-primary.btn-solid,
+        & aegov-button button.btn-primary.btn-solid {
+          @apply bg-camel-600 border-camel-600 text-whitely-50 hover:opacity-90 focus-visible:outline-offset-3 focus-visible:outline-2 focus-visible:outline-aered-600;
+        }
+        & button.aegov-btn.btn-primary.btn-outline,
+        & aegov-button button.btn-primary.btn-outline {
+          @apply border-camel-700 text-camel-700 hover:bg-camel-50 hover:opacity-80 focus-visible:outline-offset-3 focus-visible:outline-2 focus-visible:outline-aered-600 focus-visible:bg-transparent;
+        }
+        & button.aegov-btn.btn-primary.btn-soft,
+        & aegov-button button.btn-primary.btn-soft {
+          @apply bg-camel-200/80 text-camel-800 hover:bg-camel-300/50 focus-visible:outline-offset-3 focus-visible:outline-2 focus-visible:outline-aered-600;
+        }
+        & button.aegov-btn.btn-primary.btn-link,
+        & aegov-button button.btn-primary.btn-link {
+          @apply !text-camel-700 hover:!text-camel-600 focus-visible:outline-offset-0 focus-visible:outline-2 focus-visible:outline-aered-600 focus-visible:bg-transparent;
         }
       }
-      & .callout-slot-right {
+      & .callout__right {
         ::slotted(a),
         a {
           @apply focus-visible:bg-camel-800 focus-visible:text-camel-50 focus-visible:outline-camel-800 focus-visible:decoration-camel-50;
@@ -130,26 +154,32 @@
         }
       }
     }
-    &.callout-info {
+    &.callout--info {
       @apply bg-techblue-100 text-techblue-700 border-techblue-700;
-      & .callout-slot-icon {
+      & .callout__icon {
         & svg {
           @apply fill-techblue-600;
         }
       }
-      & .callout-slot-actions {
-        & button,
-        & a {
-          @apply bg-transparent border-techblue-700 text-techblue-700 focus-visible:outline-techblue-600;
-          &.btn-solid {
-            @apply border-techblue-600 bg-techblue-600 text-whitely-50;
-          }
-          &.btn-outline {
-            @apply bg-transparent;
-          }
+      & .callout__actions {
+        & button.aegov-btn.btn-primary.btn-solid,
+        & aegov-button button.btn-primary.btn-solid {
+          @apply bg-techblue-600 border-techblue-600 text-whitely-50 hover:opacity-90 focus-visible:outline-offset-3 focus-visible:outline-2 focus-visible:outline-seablue-400;
+        }
+        & button.aegov-btn.btn-primary.btn-outline,
+        & aegov-button button.btn-primary.btn-outline {
+          @apply border-techblue-700 text-techblue-700 hover:bg-techblue-50 hover:opacity-80 focus-visible:outline-offset-3 focus-visible:outline-2 focus-visible:outline-seablue-400 focus-visible:bg-transparent;
+        }
+        & button.aegov-btn.btn-primary.btn-soft,
+        & aegov-button button.btn-primary.btn-soft {
+          @apply bg-techblue-200/80 text-techblue-800 hover:bg-techblue-300/50 focus-visible:outline-offset-3 focus-visible:outline-2 focus-visible:outline-seablue-400;
+        }
+        & button.aegov-btn.btn-primary.btn-link,
+        & aegov-button button.btn-primary.btn-link {
+          @apply !text-techblue-700 hover:!text-techblue-600 focus-visible:outline-offset-0 focus-visible:outline-2 focus-visible:outline-seablue-400 focus-visible:bg-transparent;
         }
       }
-      & .callout-slot-right {
+      & .callout__right {
         ::slotted(a),
         & a {
           @apply focus-visible:bg-techblue-800 focus-visible:text-techblue-50 focus-visible:outline-techblue-800 focus-visible:decoration-techblue-50;
@@ -160,27 +190,30 @@
       }
     }
   }
-  &.callout-solid {
-    &.callout-default {
+  &.callout--solid {
+    &.callout--default {
       @apply bg-slate-800 text-slate-50 border-slate-800;
-      & .callout-slot-icon {
+      & .callout__icon {
         & svg {
           @apply fill-slate-400;
         }
       }
-      & .callout-slot-actions {
-        & button,
-        & a {
-          @apply bg-transparent border-slate-100 text-slate-50 focus-visible:outline-slate-50;
-          &.btn-solid {
-            @apply border-slate-100 bg-slate-100 text-slate-900;
-          }
-          &.btn-outline {
-            @apply bg-transparent;
-          }
+      & aegov-button button.btn-primary.btn-solid {
+          @apply !bg-aeblack-100 !border-aeblack-100 !text-aeblack-700 hover:!opacity-90;
         }
-      }
-      & .callout-slot-right {
+        & button.aegov-btn.btn-primary.btn-outline,
+        & aegov-button button.btn-primary.btn-outline {
+          @apply !border-aeblack-100 !text-aeblack-100 hover:!bg-aeblack-700;
+        }
+        & button.aegov-btn.btn-primary.btn-soft,
+        & aegov-button button.btn-primary.btn-soft {
+          @apply !bg-aeblack-50 !text-aeblack-700 hover:!bg-aeblack-100;
+        }
+        & button.aegov-btn.btn-primary.btn-link,
+        & aegov-button button.btn-primary.btn-link {
+          @apply !text-aeblack-100 hover:!text-aeblack-50;
+        }
+      & .callout__right {
         ::slotted(a),
         & a {
           @apply focus-visible:bg-slate-50 focus-visible:text-slate-900 focus-visible:outline-slate-50;
@@ -190,26 +223,32 @@
         }
       }
     }
-    &.callout-error {
+    &.callout--error {
       @apply bg-aered-700 text-aered-50 border-aered-700;
-      & .callout-slot-icon {
+      & .callout__icon {
         & svg {
           @apply fill-aered-400;
         }
       }
-      & .callout-slot-actions {
-        & button,
-        & a {
-          @apply bg-transparent border-aered-100 text-aered-50 focus-visible:outline-aered-50;
-          &.btn-solid {
-            @apply border-aered-100 bg-aered-100 text-aered-900;
-          }
-          &.btn-outline {
-            @apply bg-transparent;
-          }
+      & .callout__actions {
+        & button.aegov-btn.btn-primary.btn-solid,
+        & aegov-button button.btn-primary.btn-solid {
+          @apply bg-aered-100 border-aered-100 text-aered-700 hover:opacity-90 focus-visible:outline-offset-3 focus-visible:outline-2 focus-visible:outline-aered-50;
+        }
+        & button.aegov-btn.btn-primary.btn-outline,
+        & aegov-button button.btn-primary.btn-outline {
+          @apply border-aered-100 text-aered-100 hover:bg-aered-700 hover:opacity-80 focus-visible:outline-offset-3 focus-visible:outline-2 focus-visible:outline-aered-50 focus-visible:bg-transparent;
+        }
+        & button.aegov-btn.btn-primary.btn-soft,
+        & aegov-button button.btn-primary.btn-soft {
+          @apply bg-aered-400/40 text-aered-100 hover:bg-aered-500/50 focus-visible:outline-offset-3 focus-visible:outline-2 focus-visible:outline-aered-50;
+        }
+        & button.aegov-btn.btn-primary.btn-link,
+        & aegov-button button.btn-primary.btn-link {
+          @apply !text-aered-100 hover:!text-aered-50 focus-visible:outline-offset-0 focus-visible:outline-2 focus-visible:outline-aered-50 focus-visible:bg-transparent;
         }
       }
-      & .callout-slot-right {
+      & .callout__right {
         ::slotted(a),
         & a {
           @apply focus-visible:bg-aered-50 focus-visible:text-aered-900 focus-visible:outline-aered-50;
@@ -219,26 +258,32 @@
         }
       }
     }
-    &.callout-success {
+    &.callout--success {
       @apply bg-aegreen-700 text-aegreen-50 border-aegreen-700;
-      & .callout-slot-icon {
+      & .callout__icon {
         & svg {
           @apply fill-aegreen-400;
         }
       }
-      & .callout-slot-actions {
-        & button,
-        & a {
-          @apply bg-transparent border-aegreen-100 text-aegreen-50 focus-visible:outline-aegreen-50;
-          &.btn-solid {
-            @apply border-aegreen-100 bg-aegreen-100 text-aegreen-900;
-          }
-          &.btn-outline {
-            @apply bg-transparent;
-          }
+      & .callout__actions {
+        & button.aegov-btn.btn-primary.btn-solid,
+        & aegov-button button.btn-primary.btn-solid {
+          @apply bg-aegreen-100 border-aegreen-100 text-aegreen-700 hover:opacity-90 focus-visible:outline-offset-3 focus-visible:outline-2 focus-visible:outline-aegreen-50;
+        }
+        & button.aegov-btn.btn-primary.btn-outline,
+        & aegov-button button.btn-primary.btn-outline {
+          @apply border-aegreen-100 text-aegreen-100 hover:bg-aegreen-700 hover:opacity-80 focus-visible:outline-offset-3 focus-visible:outline-2 focus-visible:outline-aegreen-50 focus-visible:bg-transparent;
+        }
+        & button.aegov-btn.btn-primary.btn-soft,
+        & aegov-button button.btn-primary.btn-soft {
+          @apply bg-aegreen-400/40 text-aegreen-100 hover:bg-aegreen-500/50 focus-visible:outline-offset-3 focus-visible:outline-2 focus-visible:outline-aegreen-50;
+        }
+        & button.aegov-btn.btn-primary.btn-link,
+        & aegov-button button.btn-primary.btn-link {
+          @apply !text-aegreen-100 hover:!text-aegreen-50 focus-visible:outline-offset-0 focus-visible:outline-2 focus-visible:outline-aegreen-50 focus-visible:bg-transparent;
         }
       }
-      & .callout-slot-right {
+      & .callout__right {
         ::slotted(a),
         & a {
           @apply focus-visible:bg-aegreen-50 focus-visible:text-aegreen-900 focus-visible:outline-aegreen-50;
@@ -248,26 +293,32 @@
         }
       }
     }
-    &.callout-warning {
+    &.callout--warning {
       @apply bg-camel-700 text-camel-50 border-camel-700;
-      & .callout-slot-icon {
+      & .callout__icon {
         & svg {
           @apply fill-camel-400;
         }
       }
-      & .callout-slot-actions {
-        & button,
-        & a {
-          @apply bg-transparent border-camel-100 text-camel-50 focus-visible:outline-camel-50;
-          &.btn-solid {
-            @apply border-camel-100 bg-camel-100 text-camel-900;
-          }
-          &.btn-outline {
-            @apply bg-transparent;
-          }
+      & .callout__actions {
+        & button.aegov-btn.btn-primary.btn-solid,
+        & aegov-button button.btn-primary.btn-solid {
+          @apply bg-camel-100 border-camel-100 text-camel-700 hover:opacity-90 focus-visible:outline-offset-3 focus-visible:outline-2 focus-visible:outline-camel-50;
+        }
+        & button.aegov-btn.btn-primary.btn-outline,
+        & aegov-button button.btn-primary.btn-outline {
+          @apply border-camel-100 text-camel-100 hover:bg-camel-700 hover:opacity-80 focus-visible:outline-offset-3 focus-visible:outline-2 focus-visible:outline-camel-50 focus-visible:bg-transparent;
+        }
+        & button.aegov-btn.btn-primary.btn-soft,
+        & aegov-button button.btn-primary.btn-soft {
+          @apply bg-camel-400/40 text-camel-100 hover:bg-camel-500/50 focus-visible:outline-offset-3 focus-visible:outline-2 focus-visible:outline-camel-50;
+        }
+        & button.aegov-btn.btn-primary.btn-link,
+        & aegov-button button.btn-primary.btn-link {
+          @apply !text-camel-100 hover:!text-camel-50 focus-visible:outline-offset-0 focus-visible:outline-2 focus-visible:outline-camel-50 focus-visible:bg-transparent;
         }
       }
-      & .callout-slot-right {
+      & .callout__right {
         ::slotted(a),
         & a {
           @apply focus-visible:bg-camel-50 focus-visible:text-camel-900 focus-visible:outline-camel-50;
@@ -277,26 +328,32 @@
         }
       }
     }
-    &.callout-info {
+    &.callout--info {
       @apply bg-techblue-700 text-techblue-50 border-techblue-700;
-      & .callout-slot-icon {
+      & .callout__icon {
         & svg {
           @apply fill-techblue-400;
         }
       }
-      & .callout-slot-actions {
-        & button,
-        & a {
-          @apply bg-transparent border-techblue-100 text-techblue-50 focus-visible:outline-techblue-50;
-          &.btn-solid {
-            @apply border-techblue-100 bg-techblue-100 text-techblue-900;
-          }
-          &.btn-outline {
-            @apply bg-transparent;
-          }
+      & .callout__actions {
+        & button.aegov-btn.btn-primary.btn-solid,
+        & aegov-button button.btn-primary.btn-solid {
+          @apply bg-techblue-100 border-techblue-100 text-techblue-700 hover:opacity-90 focus-visible:outline-offset-3 focus-visible:outline-2 focus-visible:outline-techblue-50;
+        }
+        & button.aegov-btn.btn-primary.btn-outline,
+        & aegov-button button.btn-primary.btn-outline {
+          @apply border-techblue-100 text-techblue-100 hover:bg-techblue-700 hover:opacity-80 focus-visible:outline-offset-3 focus-visible:outline-2 focus-visible:outline-techblue-50 focus-visible:bg-transparent;
+        }
+        & button.aegov-btn.btn-primary.btn-soft,
+        & aegov-button button.btn-primary.btn-soft {
+          @apply bg-techblue-400/40 text-techblue-100 hover:bg-techblue-500/50 focus-visible:outline-offset-3 focus-visible:outline-2 focus-visible:outline-techblue-50;
+        }
+        & button.aegov-btn.btn-primary.btn-link,
+        & aegov-button button.btn-primary.btn-link {
+          @apply !text-techblue-100 hover:!text-techblue-50 focus-visible:outline-offset-0 focus-visible:outline-2 focus-visible:outline-techblue-50 focus-visible:bg-transparent;
         }
       }
-      & .callout-slot-right {
+      & .callout__right {
         ::slotted(a),
         & a {
           @apply focus-visible:bg-techblue-50 focus-visible:text-techblue-900 focus-visible:outline-techblue-50;
@@ -307,14 +364,31 @@
       }
     }
   }
-  & .callout-slot-actions {
-    @apply mt-8;
-    & button,
+}
+
+.aegov-callout {
+  & .callout__right {
+    @apply shrink-0 flex items-center justify-end gap-2;
+    ::slotted(a),
     & a {
-      @apply h-10 text-base px-4 border-2 font-bold rounded-md hover:opacity-90 focus-visible:outline-offset-2 focus-visible:outline-2 focus-visible:outline-dashed;
+      @apply -ml-1.5 rtl:ml-0 rtl:-mr-1.5 px-1.5 inline-flex items-center text-sm font-medium underline underline-offset-2 gap-1 leading-none focus:outline-offset-2 focus:outline-offset-2 focus:outline-primary-support-600;
+      color: inherit;
+    }
+    & button {
+      @apply w-auto h-auto border-0 p-1 bg-transparent cursor-pointer;
+      color:inherit;
     }
   }
-  & .callout-slot-icon {
+  & .callout__actions {
+    &>div {
+      @apply pt-8 flex items-center justify-start gap-4 flex-wrap whitespace-normal;
+    }
+    & button:not(.aegov-btn),
+    & a {
+      @apply h-10 text-base px-4 border-1 border-aeblack-100 bg-whitely-50 font-bold rounded-md hover:opacity-90 focus-visible:outline-offset-2 focus-visible:outline-2 focus-visible:outline-dashed;
+    }
+  }
+  & .callout__icon {
     @apply shrink-0 flex items-start min-w-fit;
     & svg,
     & img,
@@ -326,23 +400,8 @@
       @apply list-disc;
     }
   }
-  & .callout-slot-content {
+  & .callout__content {
     @apply grow text-base leading-normal;
     color:inherit;
-  }
-}
-
-.aegov-callout {
-  .callout-slot-right {
-    @apply shrink-0 flex items-center justify-end gap-2;
-    ::slotted(a),
-    & a {
-      @apply -ml-1.5 rtl:ml-0 rtl:-mr-1.5 px-1.5 inline-flex items-center text-sm font-medium underline underline-offset-2 gap-1 leading-none focus:outline-offset-2 focus:outline-offset-2 focus:outline-primary-support-600;
-      color: inherit;
-    }
-    & button {
-      @apply w-auto h-auto border-0 p-1 bg-transparent cursor-pointer;
-      color:inherit;
-    }
   }
 }

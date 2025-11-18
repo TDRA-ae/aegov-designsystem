@@ -71,7 +71,7 @@ export class AegovLink {
       const name = attr.name;
 
       // Pass through data-*, aria-*, and title attributes
-      if (name.startsWith('data-') || name.startsWith('aria-') || name === 'title') {
+      if (name.startsWith('data-') || name.startsWith('aria-') || name === 'title' || name === 'id') {
         attributes[name] = attr.value;
       }
     });

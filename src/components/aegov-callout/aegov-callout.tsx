@@ -89,23 +89,23 @@ export class AegovCallout {
     switch (this.variant) {
       case 'error':
         return (
-          <svg class={iconClass} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"><rect width="256" height="256" fill="none"/><path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm-8,56a8,8,0,0,1,16,0v56a8,8,0,0,1-16,0Zm8,104a12,12,0,1,1,12-12A12,12,0,0,1,128,184Z"/></svg>
+          <svg class={iconClass} aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"><rect width="256" height="256" fill="none"/><path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm-8,56a8,8,0,0,1,16,0v56a8,8,0,0,1-16,0Zm8,104a12,12,0,1,1,12-12A12,12,0,0,1,128,184Z"/></svg>
         );
       case 'warning':
         return (
-          <svg class={iconClass} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"><rect width="256" height="256" fill="none"/><path d="M236.8,188.09,149.35,36.22h0a24.76,24.76,0,0,0-42.7,0L19.2,188.09a23.51,23.51,0,0,0,0,23.72A24.35,24.35,0,0,0,40.55,224h174.9a24.35,24.35,0,0,0,21.33-12.19A23.51,23.51,0,0,0,236.8,188.09ZM120,104a8,8,0,0,1,16,0v40a8,8,0,0,1-16,0Zm8,88a12,12,0,1,1,12-12A12,12,0,0,1,128,192Z"/></svg>
+          <svg class={iconClass} aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"><rect width="256" height="256" fill="none"/><path d="M236.8,188.09,149.35,36.22h0a24.76,24.76,0,0,0-42.7,0L19.2,188.09a23.51,23.51,0,0,0,0,23.72A24.35,24.35,0,0,0,40.55,224h174.9a24.35,24.35,0,0,0,21.33-12.19A23.51,23.51,0,0,0,236.8,188.09ZM120,104a8,8,0,0,1,16,0v40a8,8,0,0,1-16,0Zm8,88a12,12,0,1,1,12-12A12,12,0,0,1,128,192Z"/></svg>
         );
       case 'success':
         return (
-          <svg class={iconClass} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"><rect width="256" height="256" fill="none"/><path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm45.66,85.66-56,56a8,8,0,0,1-11.32,0l-24-24a8,8,0,0,1,11.32-11.32L112,148.69l50.34-50.35a8,8,0,0,1,11.32,11.32Z"/></svg>
+          <svg class={iconClass} aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"><rect width="256" height="256" fill="none"/><path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm45.66,85.66-56,56a8,8,0,0,1-11.32,0l-24-24a8,8,0,0,1,11.32-11.32L112,148.69l50.34-50.35a8,8,0,0,1,11.32,11.32Z"/></svg>
         );
       case 'info':
         return (
-          <svg class={iconClass} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"><rect width="256" height="256" fill="none"/><path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm-4,48a12,12,0,1,1-12,12A12,12,0,0,1,124,72Zm12,112a16,16,0,0,1-16-16V128a8,8,0,0,1,0-16,16,16,0,0,1,16,16v40a8,8,0,0,1,0,16Z"/></svg>
+          <svg class={iconClass} aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"><rect width="256" height="256" fill="none"/><path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm-4,48a12,12,0,1,1-12,12A12,12,0,0,1,124,72Zm12,112a16,16,0,0,1-16-16V128a8,8,0,0,1,0-16,16,16,0,0,1,16,16v40a8,8,0,0,1,0,16Z"/></svg>
         );
       default: // 'default'
         return (
-          <svg class={iconClass} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"><rect width="256" height="256" fill="none"/><circle cx="124" cy="84" r="16"/><circle cx="128" cy="128" r="96" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="24"/><path d="M120,124a8,8,0,0,1,8,8v36a8,8,0,0,0,8,8" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="24"/></svg>
+          <svg class={iconClass} aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"><rect width="256" height="256" fill="none"/><circle cx="124" cy="84" r="16"/><circle cx="128" cy="128" r="96" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="24"/><path d="M120,124a8,8,0,0,1,8,8v36a8,8,0,0,0,8,8" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="24"/></svg>
         );
     }
   }
@@ -116,6 +116,23 @@ export class AegovCallout {
   componentWillRender() {
     this.checkActionsSlot();
     this.checkIconSlot();
+  }
+
+  /**
+   * Get aria-*, data-*, and id attributes from the host element to pass through to the callout wrapper
+   */
+  private getPassThroughAttributes(): { [key: string]: string } {
+    const passThroughAttrs: { [key: string]: string } = {};
+
+    // Get all attributes from the host element
+    Array.from(this.el.attributes).forEach(attr => {
+      // Pass through aria-*, data-*, and id attributes
+      if (attr.name.startsWith('aria-') || attr.name.startsWith('data-') || attr.name === 'id') {
+        passThroughAttrs[attr.name] = attr.value;
+      }
+    });
+
+    return passThroughAttrs;
   }
 
   /**
@@ -138,20 +155,20 @@ export class AegovCallout {
 
     // Appearance classes
     const appearanceClasses: Record<CalloutAppearance, string[]> = {
-        soft: ['callout-soft'],
-        solid: ['callout-solid']
+        soft: ['callout--soft'],
+        solid: ['callout--solid']
     };
     classes.push(...appearanceClasses[this.appearance]);
 
     // Variant classes
     const variantClasses: Record<CalloutVariant, string[]> = {
-        default: ['callout-default'],
-        error: ['callout-error'],
-        success: ['callout-success'],
-        warning: ['callout-warning'],
-        info: ['callout-info']
+        default: ['callout--default'],
+        error: ['callout--error'],
+        success: ['callout--success'],
+        warning: ['callout--warning'],
+        info: ['callout--info']
     };
-    classes.push(...variantClasses[this.variant]);    
+    classes.push(...variantClasses[this.variant]);
 
     return classes.join(' ');
   }
@@ -161,32 +178,32 @@ export class AegovCallout {
       return null;
     }
 
+    const passThroughAttributes = this.getPassThroughAttributes();
+
     return (
-      <div data-aegov-callout class={this.getCalloutClasses()} role="alert">
-        <div class="callout-slot-icon">
+      <div data-aegov-callout class={this.getCalloutClasses()} role="alert" {...passThroughAttributes}>
+        <div class="callout__icon">
           {this.hasIconSlot ? (
             <slot name="icon" />
           ) : (
             this.getDefaultIcon()
           )}
         </div>
-        <div class="callout-slot-content">
+        <div class="callout__content">
           <slot name="content" />
-          {this.hasActionsSlot ? (
-            <div class="callout-slot-actions">
+          {this.hasActionsSlot && (
+            <div class="callout__actions">
               <slot name="actions" />
             </div>
-          ) : (
-            <slot name="actions" />
           )}
         </div>
-        <div class="callout-slot-right">
+        <div class="callout__right">
           <slot name="link" />
         {this.dismissible && (
           <button
             type="button"
             onClick={this.handleDismiss}
-            aria-label="Close callout"
+            aria-label="Close this callout"
           >
             <svg xmlns="http://www.w3.org/2000/svg" class="size-4" width="20" height="20" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
               <path d="M6.28 5.22a.75.75 0 00-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 101.06 1.06L10 11.06l3.72 3.72a.75.75 0 101.06-1.06L11.06 10l3.72-3.72a.75.75 0 00-1.06-1.06L10 8.94 6.28 5.22z" />
