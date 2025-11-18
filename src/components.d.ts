@@ -5,8 +5,8 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
-import { AccordionIcon, AvatarSize, AvatarStatus, AvatarVariant, BadgeAppearance, BadgeColor, BadgeSize, BannerDisplay, BannerMode, BannerPosition, BannerRole, BlockquoteVariant, BreadcrumbSeparator, ButtonAppearance, ButtonSize, ButtonType, ButtonVariant, CalloutAppearance, CalloutVariant, LinkTarget, TextSize, TitleSize } from "./utils/types";
-export { AccordionIcon, AvatarSize, AvatarStatus, AvatarVariant, BadgeAppearance, BadgeColor, BadgeSize, BannerDisplay, BannerMode, BannerPosition, BannerRole, BlockquoteVariant, BreadcrumbSeparator, ButtonAppearance, ButtonSize, ButtonType, ButtonVariant, CalloutAppearance, CalloutVariant, LinkTarget, TextSize, TitleSize } from "./utils/types";
+import { AccordionIcon, AvatarSize, AvatarStatus, AvatarVariant, BadgeAppearance, BadgeColor, BadgeSize, BannerDisplay, BannerMode, BannerPosition, BannerRole, BlockquoteVariant, BreadcrumbSeparator, ButtonAppearance, ButtonSize, ButtonType, ButtonVariant, CalloutAppearance, CalloutVariant, LinkTarget, ModalBackdropOpacity, ModalPosition, TextSize, TitleSize } from "./utils/types";
+export { AccordionIcon, AvatarSize, AvatarStatus, AvatarVariant, BadgeAppearance, BadgeColor, BadgeSize, BannerDisplay, BannerMode, BannerPosition, BannerRole, BlockquoteVariant, BreadcrumbSeparator, ButtonAppearance, ButtonSize, ButtonType, ButtonVariant, CalloutAppearance, CalloutVariant, LinkTarget, ModalBackdropOpacity, ModalPosition, TextSize, TitleSize } from "./utils/types";
 export namespace Components {
     /**
      * Accordion component for collapsible content sections
@@ -324,6 +324,50 @@ export namespace Components {
          */
         "target"?: LinkTarget;
     }
+    interface AegovModal {
+        /**
+          * Backdrop opacity level
+          * @default 'base'
+         */
+        "backdropOpacity": ModalBackdropOpacity;
+        /**
+          * Programmatically close the modal
+         */
+        "close": () => Promise<void>;
+        /**
+          * Whether clicking the backdrop closes the modal
+          * @default true
+         */
+        "closeOnBackdropClick": boolean;
+        /**
+          * Whether pressing ESC closes the modal
+          * @default true
+         */
+        "closeOnEscape": boolean;
+        /**
+          * Whether the modal is currently open/visible
+          * @default false
+         */
+        "open": boolean;
+        /**
+          * Position of the modal on screen
+          * @default 'center'
+         */
+        "position": ModalPosition;
+        /**
+          * Whether to prevent body scroll when modal is open
+          * @default true
+         */
+        "preventBodyScroll": boolean;
+        /**
+          * Programmatically open the modal
+         */
+        "show": () => Promise<void>;
+        /**
+          * Toggle modal open/closed state
+         */
+        "toggle": () => Promise<void>;
+    }
     interface AegovText {
         /**
           * Additional CSS classes to apply to the text.
@@ -374,6 +418,10 @@ export interface AegovCalloutCustomEvent<T> extends CustomEvent<T> {
 export interface AegovLinkCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLAegovLinkElement;
+}
+export interface AegovModalCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLAegovModalElement;
 }
 declare global {
     /**
@@ -535,6 +583,27 @@ declare global {
         prototype: HTMLAegovLinkElement;
         new (): HTMLAegovLinkElement;
     };
+    interface HTMLAegovModalElementEventMap {
+        "aegovModalOpen": void;
+        "aegovModalClose": void;
+        "aegovModalBeforeClose": { preventDefault: () => void };
+        "aegovModalBackdropClick": MouseEvent;
+        "aegovModalEscapePress": KeyboardEvent;
+    }
+    interface HTMLAegovModalElement extends Components.AegovModal, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLAegovModalElementEventMap>(type: K, listener: (this: HTMLAegovModalElement, ev: AegovModalCustomEvent<HTMLAegovModalElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLAegovModalElementEventMap>(type: K, listener: (this: HTMLAegovModalElement, ev: AegovModalCustomEvent<HTMLAegovModalElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLAegovModalElement: {
+        prototype: HTMLAegovModalElement;
+        new (): HTMLAegovModalElement;
+    };
     interface HTMLAegovTextElement extends Components.AegovText, HTMLStencilElement {
     }
     var HTMLAegovTextElement: {
@@ -559,6 +628,7 @@ declare global {
         "aegov-button": HTMLAegovButtonElement;
         "aegov-callout": HTMLAegovCalloutElement;
         "aegov-link": HTMLAegovLinkElement;
+        "aegov-modal": HTMLAegovModalElement;
         "aegov-text": HTMLAegovTextElement;
         "aegov-title": HTMLAegovTitleElement;
     }
@@ -920,6 +990,58 @@ declare namespace LocalJSX {
          */
         "target"?: LinkTarget;
     }
+    interface AegovModal {
+        /**
+          * Backdrop opacity level
+          * @default 'base'
+         */
+        "backdropOpacity"?: ModalBackdropOpacity;
+        /**
+          * Whether clicking the backdrop closes the modal
+          * @default true
+         */
+        "closeOnBackdropClick"?: boolean;
+        /**
+          * Whether pressing ESC closes the modal
+          * @default true
+         */
+        "closeOnEscape"?: boolean;
+        /**
+          * Emitted when backdrop is clicked
+         */
+        "onAegovModalBackdropClick"?: (event: AegovModalCustomEvent<MouseEvent>) => void;
+        /**
+          * Emitted before modal closes (cancellable)
+         */
+        "onAegovModalBeforeClose"?: (event: AegovModalCustomEvent<{ preventDefault: () => void }>) => void;
+        /**
+          * Emitted when modal is closed
+         */
+        "onAegovModalClose"?: (event: AegovModalCustomEvent<void>) => void;
+        /**
+          * Emitted when ESC key is pressed
+         */
+        "onAegovModalEscapePress"?: (event: AegovModalCustomEvent<KeyboardEvent>) => void;
+        /**
+          * Emitted when modal is opened
+         */
+        "onAegovModalOpen"?: (event: AegovModalCustomEvent<void>) => void;
+        /**
+          * Whether the modal is currently open/visible
+          * @default false
+         */
+        "open"?: boolean;
+        /**
+          * Position of the modal on screen
+          * @default 'center'
+         */
+        "position"?: ModalPosition;
+        /**
+          * Whether to prevent body scroll when modal is open
+          * @default true
+         */
+        "preventBodyScroll"?: boolean;
+    }
     interface AegovText {
         /**
           * Additional CSS classes to apply to the text.
@@ -954,6 +1076,7 @@ declare namespace LocalJSX {
         "aegov-button": AegovButton;
         "aegov-callout": AegovCallout;
         "aegov-link": AegovLink;
+        "aegov-modal": AegovModal;
         "aegov-text": AegovText;
         "aegov-title": AegovTitle;
     }
@@ -986,6 +1109,7 @@ declare module "@stencil/core" {
             "aegov-button": LocalJSX.AegovButton & JSXBase.HTMLAttributes<HTMLAegovButtonElement>;
             "aegov-callout": LocalJSX.AegovCallout & JSXBase.HTMLAttributes<HTMLAegovCalloutElement>;
             "aegov-link": LocalJSX.AegovLink & JSXBase.HTMLAttributes<HTMLAegovLinkElement>;
+            "aegov-modal": LocalJSX.AegovModal & JSXBase.HTMLAttributes<HTMLAegovModalElement>;
             "aegov-text": LocalJSX.AegovText & JSXBase.HTMLAttributes<HTMLAegovTextElement>;
             "aegov-title": LocalJSX.AegovTitle & JSXBase.HTMLAttributes<HTMLAegovTitleElement>;
         }

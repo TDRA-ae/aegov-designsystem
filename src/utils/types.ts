@@ -115,6 +115,16 @@ export type BannerRole = 'region' | 'alert' | 'status';
 export type AccordionIcon = 'chevron' | 'plus';
 
 /**
+ * Modal component position types
+ */
+export type ModalPosition = 'center' | 'top' | 'bottom';
+
+/**
+ * Modal component backdrop opacity types
+ */
+export type ModalBackdropOpacity = 'light' | 'base' | 'dark';
+
+/**
  * Common component props
  */
 export interface BaseComponentProps {

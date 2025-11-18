@@ -1,0 +1,264 @@
+/**
+ * Modal Component Styles
+ * Shadow DOM scoped styles with animations and theming
+ */
+
+/* ============================================
+   Host Element
+   ============================================ */
+
+:host {
+  /* CSS Custom Properties for theming */
+  --modal-z-index: 50;
+  --modal-backdrop-opacity-light: 0.3;
+  --modal-backdrop-opacity-base: 0.5;
+  --modal-backdrop-opacity-dark: 0.7;
+  --modal-transition-duration: 200ms;
+  --modal-transition-timing: cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* Host display */
+  display: contents;
+}
+
+/* ============================================
+   Backdrop
+   ============================================ */
+
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background-color: rgb(0 0 0 / var(--modal-backdrop-opacity-base));
+  z-index: var(--modal-z-index);
+  transition: opacity var(--modal-transition-duration) var(--modal-transition-timing);
+}
+
+/* Backdrop opacity variants */
+.modal-backdrop--light {
+  background-color: rgb(0 0 0 / var(--modal-backdrop-opacity-light));
+}
+
+.modal-backdrop--base {
+  background-color: rgb(0 0 0 / var(--modal-backdrop-opacity-base));
+}
+
+.modal-backdrop--dark {
+  background-color: rgb(0 0 0 / var(--modal-backdrop-opacity-dark));
+}
+
+/* Backdrop animation states */
+.modal-backdrop[data-state="closed"] {
+  opacity: 0;
+}
+
+.modal-backdrop[data-state="opening"] {
+  opacity: 0;
+  animation: fadeIn var(--modal-transition-duration) var(--modal-transition-timing) forwards;
+}
+
+.modal-backdrop[data-state="open"] {
+  opacity: 1;
+}
+
+.modal-backdrop[data-state="closing"] {
+  opacity: 1;
+  animation: fadeOut var(--modal-transition-duration) var(--modal-transition-timing) forwards;
+}
+
+/* ============================================
+   Modal Container (Positioning)
+   ============================================ */
+
+.modal-container {
+  position: fixed;
+  inset: 0;
+  z-index: calc(var(--modal-z-index) + 1);
+  display: flex;
+  padding: 1rem;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+/* Position variants */
+.modal-container--center {
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-container--top {
+  align-items: flex-start;
+  justify-content: center;
+  padding-top: 2rem;
+}
+
+.modal-container--bottom {
+  align-items: flex-end;
+  justify-content: center;
+  padding-bottom: 2rem;
+}
+
+/* ============================================
+   Modal Content
+   ============================================ */
+
+.modal-content {
+  position: relative;
+  background-color: white;
+  border-radius: 0.5rem;
+  box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+  max-width: 100%;
+  width: auto;
+  max-height: calc(100vh - 2rem);
+  overflow-y: auto;
+  transition: opacity var(--modal-transition-duration) var(--modal-transition-timing),
+              transform var(--modal-transition-duration) var(--modal-transition-timing);
+}
+
+/* Content animation states */
+.modal-content[data-state="closed"] {
+  opacity: 0;
+  transform: scale(0.95);
+}
+
+.modal-content[data-state="opening"] {
+  opacity: 0;
+  transform: scale(0.95);
+  animation: fadeInScale var(--modal-transition-duration) var(--modal-transition-timing) forwards;
+}
+
+.modal-content[data-state="open"] {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.modal-content[data-state="closing"] {
+  opacity: 1;
+  transform: scale(1);
+  animation: fadeOutScale var(--modal-transition-duration) var(--modal-transition-timing) forwards;
+}
+
+/* ============================================
+   Scrollbar Styling (Optional Enhancement)
+   ============================================ */
+
+.modal-content::-webkit-scrollbar {
+  width: 8px;
+}
+
+.modal-content::-webkit-scrollbar-track {
+  background: rgb(241 245 249); /* slate-100 */
+  border-radius: 0.5rem;
+}
+
+.modal-content::-webkit-scrollbar-thumb {
+  background: rgb(203 213 225); /* slate-300 */
+  border-radius: 0.5rem;
+}
+
+.modal-content::-webkit-scrollbar-thumb:hover {
+  background: rgb(148 163 184); /* slate-400 */
+}
+
+/* ============================================
+   Keyframe Animations
+   ============================================ */
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes fadeInScale {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes fadeOutScale {
+  from {
+    opacity: 1;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+}
+
+/* ============================================
+   Responsive Design
+   ============================================ */
+
+@media (min-width: 640px) {
+  .modal-container {
+    padding: 2rem;
+  }
+
+  .modal-container--top {
+    padding-top: 4rem;
+  }
+
+  .modal-container--bottom {
+    padding-bottom: 4rem;
+  }
+}
+
+/* ============================================
+   RTL Support
+   ============================================ */
+
+:host(:dir(rtl)) .modal-content,
+:host-context([dir="rtl"]) .modal-content {
+  /* RTL-specific adjustments if needed */
+}
+
+/* ============================================
+   Accessibility - Reduced Motion
+   ============================================ */
+
+@media (prefers-reduced-motion: reduce) {
+  .modal-backdrop,
+  .modal-content {
+    transition: none;
+    animation: none !important;
+  }
+
+  .modal-backdrop[data-state="opening"],
+  .modal-backdrop[data-state="open"] {
+    opacity: 1;
+  }
+
+  .modal-backdrop[data-state="closing"],
+  .modal-backdrop[data-state="closed"] {
+    opacity: 0;
+  }
+
+  .modal-content[data-state="opening"],
+  .modal-content[data-state="open"] {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  .modal-content[data-state="closing"],
+  .modal-content[data-state="closed"] {
+    opacity: 0;
+    transform: scale(1);
+  }
+}
