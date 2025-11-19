@@ -134,7 +134,7 @@ export class AegovAccordion {
   render() {
     const classes = [
       'aegov-accordion',
-      this.bordered && 'accordion--bordered'
+      this.bordered && 'aegov-accordion__bordered'
     ].filter(Boolean).join(' ');
 
     return (
