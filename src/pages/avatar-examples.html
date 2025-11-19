@@ -4,9 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0">
   <title>Avatar Component - AEGOV Design System</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+
   <script type="module" src="/build/aegov.esm.js"></script>
   <script nomodule src="/build/aegov.js"></script>
   <link rel="stylesheet" href="/build/aegov.css" />
@@ -19,8 +17,9 @@
     body {
       margin: 0;
       padding: 2rem;
-      background: linear-gradient(135deg, #4f46e5 0%, #06b6d4 100%);
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
       min-height: 100vh;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     }
 
     .container {
@@ -42,7 +41,7 @@
     .header h1 {
       font-size: 3rem;
       margin: 0 0 0.5rem 0;
-      background: linear-gradient(135deg, #4f46e5 0%, #06b6d4 100%);
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
@@ -57,14 +56,14 @@
     .back-link {
       display: inline-block;
       margin-top: 1rem;
-      color: #4f46e5;
+      color: #667eea;
       text-decoration: none;
       font-weight: 600;
       transition: color 0.2s;
     }
 
     .back-link:hover {
-      color: #06b6d4;
+      color: #764ba2;
     }
 
     .section {
@@ -72,158 +71,224 @@
     }
 
     .section-title {
-      font-size: 1.75rem;
+      font-size: 2rem;
       color: #1e293b;
-      margin: 0 0 1.5rem 0;
+      margin: 0 0 1rem 0;
       padding-bottom: 0.75rem;
       border-bottom: 2px solid #e2e8f0;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
     }
 
-    .section-title::before {
-      content: '▸';
-      color: #4f46e5;
+    .section-description {
+      color: #64748b;
+      margin-bottom: 2rem;
+      line-height: 1.6;
     }
 
     .subsection-title {
-      font-size: 1.25rem;
+      font-size: 1.5rem;
       color: #475569;
-      margin: 2rem 0 1rem 0;
+      margin: 2.5rem 0 1.5rem 0;
       font-weight: 600;
+    }
+
+    .sizes-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      gap: 2rem;
+      margin-bottom: 2rem;
+    }
+
+    .size-item {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      align-items: center;
+      padding: 2rem 1.5rem;
+      background: #f8fafc;
+      border-radius: 12px;
+      border: 2px solid #e2e8f0;
+    }
+
+    .size-label {
+      font-weight: 600;
+      color: #334155;
+      font-size: 0.875rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .size-value {
+      font-size: 0.75rem;
+      color: #64748b;
     }
 
     .demo-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-      gap: 1.5rem;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
       margin-bottom: 2rem;
     }
 
-    .demo-item {
+    .demo-card {
+      background: #f8fafc;
+      padding: 1.5rem;
+      border-radius: 12px;
+      border: 2px solid #e2e8f0;
+    }
+
+    .demo-card h4 {
+      margin: 0 0 1rem 0;
+      color: #334155;
+      font-size: 1rem;
+    }
+
+    .demo-content {
       display: flex;
       flex-direction: column;
-      align-items: center;
       gap: 1rem;
-      padding: 1.5rem;
-      background: #f8fafc;
-      border-radius: 8px;
-      border: 1px solid #e2e8f0;
+      align-items: center;
+      min-height: 120px;
+      justify-content: center;
     }
 
-    .demo-label {
-      font-size: 0.875rem;
-      color: #64748b;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      text-align: center;
-    }
-
-    .demo-description {
-      font-size: 0.75rem;
-      color: #94a3b8;
-      text-align: center;
-      margin-top: -0.5rem;
+    .avatar-group {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
     }
 
     .code-block {
       background: #0f172a;
       color: #e2e8f0;
-      padding: 0.75rem;
-      border-radius: 6px;
-      font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
-      font-size: 0.7rem;
-      overflow-x: auto;
-      margin-top: 0.5rem;
-      border: 1px solid #1e293b;
-      width: 100%;
-    }
-
-    .avatar-row {
-      display: flex;
-      gap: 1rem;
-      flex-wrap: wrap;
-      align-items: center;
-      justify-content: center;
-      padding: 1.5rem;
-      background: #f8fafc;
+      padding: 1rem;
       border-radius: 8px;
-      border: 1px solid #e2e8f0;
+      font-family: 'Courier New', monospace;
+      font-size: 0.875rem;
+      overflow-x: auto;
+      margin-top: 1rem;
     }
 
-    .badge {
-      display: inline-block;
-      padding: 0.25rem 0.75rem;
+    .code-block code {
+      color: #22d3ee;
+    }
+
+    .rtl-demo {
+      background: #fef3c7;
+      padding: 2rem;
       border-radius: 12px;
-      font-size: 0.75rem;
-      font-weight: 600;
-      background: #dbeafe;
-      color: #1e40af;
-    }
-
-    .badge.new {
-      background: #dcfce7;
-      color: #166534;
-    }
-
-    .feature-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 1rem;
+      border: 2px solid #fbbf24;
       margin-bottom: 2rem;
     }
 
-    .feature-card {
-      background: #f8fafc;
+    .rtl-demo h3 {
+      margin-top: 0;
+      color: #92400e;
+    }
+
+    .rtl-comparison {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+    }
+
+    .rtl-box {
+      background: white;
       padding: 1.5rem;
       border-radius: 8px;
-      border: 1px solid #e2e8f0;
+      border: 1px solid #f59e0b;
     }
 
-    .feature-card h3 {
-      font-size: 1rem;
+    .rtl-box h4 {
+      margin: 0 0 1rem 0;
+      color: #92400e;
+    }
+
+    .api-section {
+      background: #f1f5f9;
+      padding: 2rem;
+      border-radius: 12px;
+      margin-top: 3rem;
+    }
+
+    .api-section h2 {
+      margin-top: 0;
       color: #1e293b;
-      margin: 0 0 0.5rem 0;
     }
 
-    .feature-card p {
-      font-size: 0.875rem;
-      color: #64748b;
-      margin: 0;
-    }
-
-    .comparison-table {
+    .api-table {
       width: 100%;
       border-collapse: collapse;
       background: white;
       border-radius: 8px;
       overflow: hidden;
-      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+      margin-bottom: 2rem;
     }
 
-    .comparison-table th {
-      background: #f1f5f9;
+    .api-table th {
+      background: #334155;
+      color: white;
       padding: 1rem;
       text-align: left;
       font-weight: 600;
-      color: #334155;
-      border-bottom: 2px solid #e2e8f0;
     }
 
-    .comparison-table td {
+    .api-table td {
       padding: 1rem;
-      border-bottom: 1px solid #f1f5f9;
-      text-align: center;
+      border-bottom: 1px solid #e2e8f0;
     }
 
-    .comparison-table tr:last-child td {
+    .api-table tr:last-child td {
       border-bottom: none;
     }
 
-    .comparison-table tr:hover {
-      background: #f8fafc;
+    .api-table code {
+      background: #e0e7ff;
+      color: #4338ca;
+      padding: 0.25rem 0.5rem;
+      border-radius: 4px;
+      font-size: 0.875rem;
+    }
+
+    .user-card {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 1rem;
+      background: white;
+      border-radius: 8px;
+      border: 1px solid #e2e8f0;
+    }
+
+    .user-info {
+      flex: 1;
+    }
+
+    .user-name {
+      font-weight: 600;
+      color: #1e293b;
+      margin: 0 0 0.25rem 0;
+    }
+
+    .user-role {
+      font-size: 0.875rem;
+      color: #64748b;
+      margin: 0;
+    }
+
+    @media (max-width: 768px) {
+      .rtl-comparison {
+        grid-template-columns: 1fr;
+      }
+
+      .header h1 {
+        font-size: 2rem;
+      }
+
+      .sizes-grid {
+        grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+      }
     }
   </style>
 </head>
@@ -231,408 +296,471 @@
   <div class="container">
     <!-- Header -->
     <div class="header">
-      <h1>Avatar Component</h1>
-      <p class="subtitle">User profile images with multiple sizes, variants, and status indicators</p>
+      <h1>👤 Avatar Component</h1>
+      <p class="subtitle">Complete showcase of all 7 sizes, 2 variants, status indicators, and image support</p>
       <a href="../index.html" class="back-link">← Back to Components</a>
     </div>
 
-    <!-- Basic Variants Section -->
+    <!-- All Avatar Sizes -->
     <div class="section">
-      <h2 class="section-title">Avatar Variants</h2>
-      <p style="color: #64748b; margin-bottom: 1.5rem;">Two shape variants: Square (with rounded corners) and Rounded (fully circular)</p>
+      <h2 class="section-title">All 7 Avatar Sizes</h2>
+      <p class="section-description">
+        From XS (24px) to 3XL (80px), all sizes shown with image and fallback content
+      </p>
 
-      <div class="demo-grid">
-        <div class="demo-item">
-          <span class="demo-label">Square (Default)</span>
-          <span class="demo-description">Rounded corners for modern look</span>
-          <aegov-avatar variant="square" alt="Square Avatar"></aegov-avatar>
-          <code class="code-block">&lt;aegov-avatar variant="square"&gt;</code>
+      <div class="subsection-title">Rounded Avatars (Default)</div>
+      <div class="sizes-grid">
+        <div class="size-item">
+          <aegov-avatar variant="rounded" size="xs" src="https://i.pravatar.cc/150?img=1"></aegov-avatar>
+          <span class="size-label">XS</span>
+          <span class="size-value">24px</span>
         </div>
 
-        <div class="demo-item">
-          <span class="demo-label">Rounded</span>
-          <span class="demo-description">Fully circular avatar</span>
-          <aegov-avatar variant="rounded" alt="Rounded Avatar"></aegov-avatar>
-          <code class="code-block">&lt;aegov-avatar variant="rounded"&gt;</code>
+        <div class="size-item">
+          <aegov-avatar variant="rounded" size="sm" src="https://i.pravatar.cc/150?img=2"></aegov-avatar>
+          <span class="size-label">SM</span>
+          <span class="size-value">32px</span>
+        </div>
+
+        <div class="size-item">
+          <aegov-avatar variant="rounded" size="base" src="https://i.pravatar.cc/150?img=3"></aegov-avatar>
+          <span class="size-label">Base</span>
+          <span class="size-value">40px</span>
+        </div>
+
+        <div class="size-item">
+          <aegov-avatar variant="rounded" size="lg" src="https://i.pravatar.cc/150?img=4"></aegov-avatar>
+          <span class="size-label">LG</span>
+          <span class="size-value">48px</span>
+        </div>
+
+        <div class="size-item">
+          <aegov-avatar variant="rounded" size="xl" src="https://i.pravatar.cc/150?img=5"></aegov-avatar>
+          <span class="size-label">XL</span>
+          <span class="size-value">56px</span>
+        </div>
+
+        <div class="size-item">
+          <aegov-avatar variant="rounded" size="2xl" src="https://i.pravatar.cc/150?img=6"></aegov-avatar>
+          <span class="size-label">2XL</span>
+          <span class="size-value">64px</span>
+        </div>
+
+        <div class="size-item">
+          <aegov-avatar variant="rounded" size="3xl" src="https://i.pravatar.cc/150?img=7"></aegov-avatar>
+          <span class="size-label">3XL</span>
+          <span class="size-value">80px</span>
+        </div>
+      </div>
+
+      <div class="subsection-title">Square Avatars</div>
+      <div class="sizes-grid">
+        <div class="size-item">
+          <aegov-avatar size="xs" variant="square" src="https://i.pravatar.cc/150?img=8"></aegov-avatar>
+          <span class="size-label">XS</span>
+          <span class="size-value">24px</span>
+        </div>
+
+        <div class="size-item">
+          <aegov-avatar size="sm" variant="square" src="https://i.pravatar.cc/150?img=9"></aegov-avatar>
+          <span class="size-label">SM</span>
+          <span class="size-value">32px</span>
+        </div>
+
+        <div class="size-item">
+          <aegov-avatar size="base" variant="square" src="https://i.pravatar.cc/150?img=10"></aegov-avatar>
+          <span class="size-label">Base</span>
+          <span class="size-value">40px</span>
+        </div>
+
+        <div class="size-item">
+          <aegov-avatar size="lg" variant="square" src="https://i.pravatar.cc/150?img=11"></aegov-avatar>
+          <span class="size-label">LG</span>
+          <span class="size-value">48px</span>
+        </div>
+
+        <div class="size-item">
+          <aegov-avatar size="xl" variant="square" src="https://i.pravatar.cc/150?img=12"></aegov-avatar>
+          <span class="size-label">XL</span>
+          <span class="size-value">56px</span>
+        </div>
+
+        <div class="size-item">
+          <aegov-avatar size="2xl" variant="square" src="https://i.pravatar.cc/150?img=13"></aegov-avatar>
+          <span class="size-label">2XL</span>
+          <span class="size-value">64px</span>
+        </div>
+
+        <div class="size-item">
+          <aegov-avatar size="3xl" variant="square" src="https://i.pravatar.cc/150?img=14"></aegov-avatar>
+          <span class="size-label">3XL</span>
+          <span class="size-value">80px</span>
         </div>
       </div>
     </div>
 
-    <!-- Sizes Section -->
-    <div class="section">
-      <h2 class="section-title">Avatar Sizes</h2>
-      <p style="color: #64748b; margin-bottom: 1.5rem;">Seven size options from 24px (XS) to 80px (3XL)</p>
-
-      <div class="subsection-title">Square Variant Sizes</div>
-      <div class="avatar-row">
-        <div style="text-align: center;">
-          <aegov-avatar size="xs" variant="square" alt="XS"></aegov-avatar>
-          <div style="font-size: 0.75rem; color: #64748b; margin-top: 0.5rem;">XS (24px)</div>
-        </div>
-        <div style="text-align: center;">
-          <aegov-avatar size="sm" variant="square" alt="SM"></aegov-avatar>
-          <div style="font-size: 0.75rem; color: #64748b; margin-top: 0.5rem;">SM (32px)</div>
-        </div>
-        <div style="text-align: center;">
-          <aegov-avatar size="base" variant="square" alt="Base"></aegov-avatar>
-          <div style="font-size: 0.75rem; color: #64748b; margin-top: 0.5rem;">Base (40px)</div>
-        </div>
-        <div style="text-align: center;">
-          <aegov-avatar size="lg" variant="square" alt="LG"></aegov-avatar>
-          <div style="font-size: 0.75rem; color: #64748b; margin-top: 0.5rem;">LG (48px)</div>
-        </div>
-        <div style="text-align: center;">
-          <aegov-avatar size="xl" variant="square" alt="XL"></aegov-avatar>
-          <div style="font-size: 0.75rem; color: #64748b; margin-top: 0.5rem;">XL (56px)</div>
-        </div>
-        <div style="text-align: center;">
-          <aegov-avatar size="2xl" variant="square" alt="2XL"></aegov-avatar>
-          <div style="font-size: 0.75rem; color: #64748b; margin-top: 0.5rem;">2XL (64px)</div>
-        </div>
-        <div style="text-align: center;">
-          <aegov-avatar size="3xl" variant="square" alt="3XL"></aegov-avatar>
-          <div style="font-size: 0.75rem; color: #64748b; margin-top: 0.5rem;">3XL (80px)</div>
-        </div>
-      </div>
-
-      <div class="subsection-title">Rounded Variant Sizes</div>
-      <div class="avatar-row">
-        <div style="text-align: center;">
-          <aegov-avatar size="xs" variant="rounded" alt="XS"></aegov-avatar>
-          <div style="font-size: 0.75rem; color: #64748b; margin-top: 0.5rem;">XS</div>
-        </div>
-        <div style="text-align: center;">
-          <aegov-avatar size="sm" variant="rounded" alt="SM"></aegov-avatar>
-          <div style="font-size: 0.75rem; color: #64748b; margin-top: 0.5rem;">SM</div>
-        </div>
-        <div style="text-align: center;">
-          <aegov-avatar size="base" variant="rounded" alt="Base"></aegov-avatar>
-          <div style="font-size: 0.75rem; color: #64748b; margin-top: 0.5rem;">Base</div>
-        </div>
-        <div style="text-align: center;">
-          <aegov-avatar size="lg" variant="rounded" alt="LG"></aegov-avatar>
-          <div style="font-size: 0.75rem; color: #64748b; margin-top: 0.5rem;">LG</div>
-        </div>
-        <div style="text-align: center;">
-          <aegov-avatar size="xl" variant="rounded" alt="XL"></aegov-avatar>
-          <div style="font-size: 0.75rem; color: #64748b; margin-top: 0.5rem;">XL</div>
-        </div>
-        <div style="text-align: center;">
-          <aegov-avatar size="2xl" variant="rounded" alt="2XL"></aegov-avatar>
-          <div style="font-size: 0.75rem; color: #64748b; margin-top: 0.5rem;">2XL</div>
-        </div>
-        <div style="text-align: center;">
-          <aegov-avatar size="3xl" variant="rounded" alt="3XL"></aegov-avatar>
-          <div style="font-size: 0.75rem; color: #64748b; margin-top: 0.5rem;">3XL</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Status Indicators Section -->
+    <!-- Status Indicators -->
     <div class="section">
       <h2 class="section-title">Status Indicators</h2>
-      <p style="color: #64748b; margin-bottom: 1.5rem;">Display online/offline status with color-coded indicators</p>
+      <p class="section-description">
+        Avatars can display online/offline status with positioning options
+      </p>
 
       <div class="demo-grid">
-        <div class="demo-item">
-          <span class="demo-label">Online Status</span>
-          <span class="demo-description">Green indicator for online users</span>
-          <aegov-avatar size="lg" status="true" status-type="online" alt="Online User"></aegov-avatar>
-          <code class="code-block">&lt;aegov-avatar status="true" status-type="online"&gt;</code>
+        <div class="demo-card">
+          <h4>Online Status</h4>
+          <div class="demo-content">
+            <aegov-avatar size="lg" status="online" src="https://i.pravatar.cc/150?img=15"></aegov-avatar>
+          </div>
+          <div class="code-block"><code>status="online"</code></div>
         </div>
 
-        <div class="demo-item">
-          <span class="demo-label">Offline Status</span>
-          <span class="demo-description">Red indicator for offline users</span>
-          <aegov-avatar size="lg" status="true" status-type="offline" alt="Offline User"></aegov-avatar>
-          <code class="code-block">&lt;aegov-avatar status="true" status-type="offline"&gt;</code>
+        <div class="demo-card">
+          <h4>Offline Status</h4>
+          <div class="demo-content">
+            <aegov-avatar size="lg" status="offline" src="https://i.pravatar.cc/150?img=16"></aegov-avatar>
+          </div>
+          <div class="code-block"><code>status="offline"</code></div>
         </div>
 
-        <div class="demo-item">
-          <span class="demo-label">No Status</span>
-          <span class="demo-description">No indicator displayed</span>
-          <aegov-avatar size="lg" status="true" status-type="none" alt="No Status"></aegov-avatar>
-          <code class="code-block">&lt;aegov-avatar status="true" status-type="none"&gt;</code>
+        <div class="demo-card">
+          <h4>Different Sizes with Status</h4>
+          <div class="demo-content">
+            <div class="avatar-group">
+              <aegov-avatar size="sm" status="online" src="https://i.pravatar.cc/150?img=17"></aegov-avatar>
+              <aegov-avatar size="base" status="online" src="https://i.pravatar.cc/150?img=18"></aegov-avatar>
+              <aegov-avatar size="lg" status="online" src="https://i.pravatar.cc/150?img=19"></aegov-avatar>
+              <aegov-avatar size="xl" status="online" src="https://i.pravatar.cc/150?img=20"></aegov-avatar>
+            </div>
+          </div>
         </div>
 
-        <div class="demo-item">
-          <span class="demo-label">Default (No Status)</span>
-          <span class="demo-description">Status disabled by default</span>
-          <aegov-avatar size="lg" alt="Default"></aegov-avatar>
-          <code class="code-block">&lt;aegov-avatar&gt;</code>
-        </div>
-      </div>
-
-      <div class="subsection-title">Status with Different Sizes</div>
-      <div class="avatar-row">
-        <div style="text-align: center;">
-          <aegov-avatar size="sm" status="true" status-type="online" alt="SM Online"></aegov-avatar>
-          <div style="font-size: 0.75rem; color: #64748b; margin-top: 0.5rem;">Small</div>
-        </div>
-        <div style="text-align: center;">
-          <aegov-avatar size="base" status="true" status-type="online" alt="Base Online"></aegov-avatar>
-          <div style="font-size: 0.75rem; color: #64748b; margin-top: 0.5rem;">Base</div>
-        </div>
-        <div style="text-align: center;">
-          <aegov-avatar size="lg" status="true" status-type="online" alt="LG Online"></aegov-avatar>
-          <div style="font-size: 0.75rem; color: #64748b; margin-top: 0.5rem;">Large</div>
-        </div>
-        <div style="text-align: center;">
-          <aegov-avatar size="xl" status="true" status-type="online" alt="XL Online"></aegov-avatar>
-          <div style="font-size: 0.75rem; color: #64748b; margin-top: 0.5rem;">XL</div>
-        </div>
-        <div style="text-align: center;">
-          <aegov-avatar size="2xl" status="true" status-type="online" alt="2XL Online"></aegov-avatar>
-          <div style="font-size: 0.75rem; color: #64748b; margin-top: 0.5rem;">2XL</div>
+        <div class="demo-card">
+          <h4>Square with Status</h4>
+          <div class="demo-content">
+            <div class="avatar-group">
+              <aegov-avatar size="base" variant="square" status="online" src="https://i.pravatar.cc/150?img=21"></aegov-avatar>
+              <aegov-avatar size="lg" variant="square" status="online" src="https://i.pravatar.cc/150?img=22"></aegov-avatar>
+              <aegov-avatar size="xl" variant="square" status="offline" src="https://i.pravatar.cc/150?img=23"></aegov-avatar>
+            </div>
+          </div>
         </div>
       </div>
     </div>
 
-    <!-- Custom Content Section -->
+    <!-- Fallback Content -->
     <div class="section">
-      <h2 class="section-title">Custom Content</h2>
-      <p style="color: #64748b; margin-bottom: 1.5rem;">Use slots for custom content like initials or icons</p>
+      <h2 class="section-title">Fallback Content</h2>
+      <p class="section-description">
+        When no image is provided, avatars display fallback content via the default slot
+      </p>
 
       <div class="demo-grid">
-        <div class="demo-item">
-          <span class="demo-label">Text Initials</span>
-          <span class="demo-description">Display user initials</span>
-          <aegov-avatar size="lg" variant="rounded">
-            <span style="font-weight: 600; font-size: 1.25rem; color: var(--color-primary-700);">JD</span>
-          </aegov-avatar>
-          <code class="code-block">&lt;aegov-avatar&gt;&lt;span&gt;JD&lt;/span&gt;&lt;/aegov-avatar&gt;</code>
+        <div class="demo-card">
+          <h4>Text Initials</h4>
+          <div class="demo-content">
+            <div class="avatar-group">
+              <aegov-avatar size="base">JD</aegov-avatar>
+              <aegov-avatar size="lg">AS</aegov-avatar>
+              <aegov-avatar size="xl">MK</aegov-avatar>
+            </div>
+          </div>
+          <div class="code-block"><code>&lt;aegov-avatar&gt;JD&lt;/aegov-avatar&gt;</code></div>
         </div>
 
-        <div class="demo-item">
-          <span class="demo-label">Default Fallback</span>
-          <span class="demo-description">Built-in user icon</span>
-          <aegov-avatar size="lg"></aegov-avatar>
-          <code class="code-block">&lt;aegov-avatar&gt;&lt;/aegov-avatar&gt;</code>
+        <div class="demo-card">
+          <h4>Icon Fallback</h4>
+          <div class="demo-content">
+            <aegov-avatar size="lg">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor" style="width: 24px; height: 24px;">
+                <path d="M230.92 212c-15.23-26.33-38.7-45.21-66.09-54.16a72 72 0 1 0-73.66 0c-27.39 8.94-50.86 27.82-66.09 54.16a8 8 0 1 0 13.85 8c18.84-32.56 52.14-52 89.07-52s70.23 19.44 89.07 52a8 8 0 1 0 13.85-8ZM72 96a56 56 0 1 1 56 56a56.06 56.06 0 0 1-56-56Z"/>
+              </svg>
+            </aegov-avatar>
+          </div>
+          <div class="code-block"><code>&lt;aegov-avatar&gt;&lt;svg&gt;...&lt;/svg&gt;&lt;/aegov-avatar&gt;</code></div>
+        </div>
+
+        <div class="demo-card">
+          <h4>Emoji Fallback</h4>
+          <div class="demo-content">
+            <div class="avatar-group">
+              <aegov-avatar size="base">👤</aegov-avatar>
+              <aegov-avatar size="lg">🙂</aegov-avatar>
+              <aegov-avatar size="xl">😊</aegov-avatar>
+            </div>
+          </div>
+          <div class="code-block"><code>&lt;aegov-avatar&gt;👤&lt;/aegov-avatar&gt;</code></div>
+        </div>
+
+        <div class="demo-card">
+          <h4>Fallback with Status</h4>
+          <div class="demo-content">
+            <div class="avatar-group">
+              <aegov-avatar size="lg" status="online">JD</aegov-avatar>
+              <aegov-avatar size="lg" status="offline">AS</aegov-avatar>
+            </div>
+          </div>
         </div>
       </div>
     </div>
 
-    <!-- Combinations Section -->
+    <!-- Practical Use Cases -->
     <div class="section">
-      <h2 class="section-title">Common Combinations</h2>
-      <p style="color: #64748b; margin-bottom: 1.5rem;">Real-world usage examples combining size, variant, and status</p>
+      <h2 class="section-title">Practical Use Cases</h2>
+      <p class="section-description">Real-world examples showing avatars in common UI patterns</p>
 
-      <div class="feature-grid">
-        <div class="feature-card">
-          <h3>User Profile Header</h3>
-          <p>Large rounded avatar with online status</p>
-          <div style="margin-top: 1rem; text-align: center;">
-            <aegov-avatar size="3xl" variant="rounded" status="true" status-type="online" alt="Profile"></aegov-avatar>
+      <div class="demo-grid">
+        <div class="demo-card">
+          <h4>User Profile Card</h4>
+          <div class="user-card">
+            <aegov-avatar size="xl" status="online" src="https://i.pravatar.cc/150?img=24"></aegov-avatar>
+            <div class="user-info">
+              <p class="user-name">Sarah Johnson</p>
+              <p class="user-role">Senior Developer</p>
+            </div>
           </div>
-          <code class="code-block" style="margin-top: 1rem;">&lt;aegov-avatar size="3xl" variant="rounded" status="true" status-type="online"&gt;</code>
         </div>
 
-        <div class="feature-card">
-          <h3>Comment Section</h3>
-          <p>Base size square avatar for comments</p>
-          <div style="margin-top: 1rem; text-align: center;">
-            <aegov-avatar size="base" variant="square" alt="Commenter"></aegov-avatar>
+        <div class="demo-card">
+          <h4>Team Member List</h4>
+          <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+            <div class="user-card">
+              <aegov-avatar variant="rounded" size="base" status="online" src="https://i.pravatar.cc/150?img=25"></aegov-avatar>
+              <div class="user-info">
+                <p class="user-name" style="font-size: 0.875rem;">Alex Kim</p>
+                <p class="user-role" style="font-size: 0.75rem;">Designer</p>
+              </div>
+            </div>
+            <div class="user-card">
+              <aegov-avatar variant="rounded" size="base" status="offline" src="https://i.pravatar.cc/150?img=26"></aegov-avatar>
+              <div class="user-info">
+                <p class="user-name" style="font-size: 0.875rem;">Maria Garcia</p>
+                <p class="user-role" style="font-size: 0.75rem;">Product Manager</p>
+              </div>
+            </div>
           </div>
-          <code class="code-block" style="margin-top: 1rem;">&lt;aegov-avatar size="base" variant="square"&gt;</code>
         </div>
 
-        <div class="feature-card">
-          <h3>Team Members List</h3>
-          <p>Small rounded avatars with status</p>
-          <div style="margin-top: 1rem; display: flex; gap: 0.5rem; justify-content: center;">
-            <aegov-avatar size="sm" variant="rounded" status="true" status-type="online" alt="Member 1"></aegov-avatar>
-            <aegov-avatar size="sm" variant="rounded" status="true" status-type="online" alt="Member 2"></aegov-avatar>
-            <aegov-avatar size="sm" variant="rounded" status="true" status-type="offline" alt="Member 3"></aegov-avatar>
+        <div class="demo-card">
+          <h4>Avatar Group</h4>
+          <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; justify-content: center;">
+            <aegov-avatar size="base" src="https://i.pravatar.cc/150?img=27"></aegov-avatar>
+            <aegov-avatar size="base" src="https://i.pravatar.cc/150?img=28"></aegov-avatar>
+            <aegov-avatar size="base" src="https://i.pravatar.cc/150?img=29"></aegov-avatar>
+            <aegov-avatar size="base" src="https://i.pravatar.cc/150?img=30"></aegov-avatar>
+            <aegov-avatar size="base">+5</aegov-avatar>
           </div>
-          <code class="code-block" style="margin-top: 1rem;">&lt;aegov-avatar size="sm" variant="rounded" status="true"&gt;</code>
         </div>
 
-        <div class="feature-card">
-          <h3>Chat Messages</h3>
-          <p>Extra small rounded for chat threads</p>
-          <div style="margin-top: 1rem; text-align: center;">
-            <aegov-avatar size="xs" variant="rounded" alt="Chat User"></aegov-avatar>
+        <div class="demo-card">
+          <h4>Company/Brand Avatars</h4>
+          <div class="avatar-group">
+            <aegov-avatar size="lg" variant="square">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor" style="width: 32px; height: 32px;">
+                <path d="M224 48H32a8 8 0 0 0-8 8v136a16 16 0 0 0 16 16h176a16 16 0 0 0 16-16V56a8 8 0 0 0-8-8Zm-96 85.15L52.57 64h150.86ZM98.71 128L40 181.81V74.19Zm11.84 10.85l12 11.05a8 8 0 0 0 10.82 0l12-11.05l58 53.15H52.57ZM157.29 128L216 74.18v107.64Z"/>
+              </svg>
+            </aegov-avatar>
+            <aegov-avatar size="lg" variant="square">Co</aegov-avatar>
           </div>
-          <code class="code-block" style="margin-top: 1rem;">&lt;aegov-avatar size="xs" variant="rounded"&gt;</code>
-        </div>
-
-        <div class="feature-card">
-          <h3>Avatar as Icon Button</h3>
-          <p>Avatar inside a link button for user menus</p>
-          <div style="margin-top: 1rem; text-align: center;">
-            <aegov-button variant="link" icon>
-              <aegov-avatar size="base" variant="rounded" status="true" status-type="online" alt="User Menu"></aegov-avatar>
-            </aegov-button>
-          </div>
-          <code class="code-block" style="margin-top: 1rem;">&lt;aegov-button variant="link" icon&gt;
-  &lt;aegov-avatar size="base" variant="rounded" status="true" status-type="online"&gt;&lt;/aegov-avatar&gt;
-&lt;/aegov-button&gt;</code>
-        </div>
-
-        <div class="feature-card">
-          <h3>Clickable Profile Avatar</h3>
-          <p>Different sizes as clickable buttons</p>
-          <div style="margin-top: 1rem; display: flex; gap: 0.75rem; justify-content: center; align-items: center;">
-            <aegov-button variant="link" icon>
-              <aegov-avatar size="sm" variant="rounded" alt="Small Profile"></aegov-avatar>
-            </aegov-button>
-            <aegov-button variant="link" icon>
-              <aegov-avatar size="base" variant="rounded" alt="Base Profile"></aegov-avatar>
-            </aegov-button>
-            <aegov-button variant="link" icon>
-              <aegov-avatar size="lg" variant="rounded" alt="Large Profile"></aegov-avatar>
-            </aegov-button>
-          </div>
-          <code class="code-block" style="margin-top: 1rem;">&lt;aegov-button variant="link" icon&gt;
-  &lt;aegov-avatar size="base" variant="rounded"&gt;&lt;/aegov-avatar&gt;
-&lt;/aegov-button&gt;</code>
         </div>
       </div>
     </div>
 
-    <!-- Size Comparison Table -->
+    <!-- RTL Support -->
     <div class="section">
-      <h2 class="section-title">Size Comparison</h2>
-      <p style="color: #64748b; margin-bottom: 1.5rem;">Visual comparison of all available sizes</p>
+      <h2 class="section-title">RTL (Right-to-Left) Support</h2>
+      <p class="section-description">Avatars work seamlessly in RTL layouts for Arabic and other RTL languages</p>
 
-      <table class="comparison-table">
+      <div class="rtl-demo">
+        <h3>LTR vs RTL Comparison</h3>
+        <div class="rtl-comparison">
+          <!-- LTR -->
+          <div class="rtl-box" dir="ltr">
+            <h4>LTR (Left to Right)</h4>
+            <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+              <div class="user-card">
+                <aegov-avatar size="lg" status="online" src="https://i.pravatar.cc/150?img=31"></aegov-avatar>
+                <div class="user-info">
+                  <p class="user-name">John Smith</p>
+                  <p class="user-role">Team Lead</p>
+                </div>
+              </div>
+
+              <div class="user-card">
+                <aegov-avatar size="lg" status="offline" src="https://i.pravatar.cc/150?img=32"></aegov-avatar>
+                <div class="user-info">
+                  <p class="user-name">Emma Wilson</p>
+                  <p class="user-role">Developer</p>
+                </div>
+              </div>
+
+              <div style="display: flex; gap: 0.75rem; padding: 1rem; background: white; border-radius: 8px;">
+                <aegov-avatar size="base" status="online" src="https://i.pravatar.cc/150?img=33"></aegov-avatar>
+                <aegov-avatar size="base" status="online" src="https://i.pravatar.cc/150?img=34"></aegov-avatar>
+                <aegov-avatar size="base" src="https://i.pravatar.cc/150?img=35"></aegov-avatar>
+                <aegov-avatar size="base">+3</aegov-avatar>
+              </div>
+            </div>
+          </div>
+
+          <!-- RTL -->
+          <div class="rtl-box" dir="rtl">
+            <h4>RTL (Right to Left - Arabic)</h4>
+            <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+              <div class="user-card">
+                <aegov-avatar size="lg" status="online" src="https://i.pravatar.cc/150?img=36"></aegov-avatar>
+                <div class="user-info">
+                  <p class="user-name">أحمد محمد</p>
+                  <p class="user-role">قائد الفريق</p>
+                </div>
+              </div>
+
+              <div class="user-card">
+                <aegov-avatar size="lg" status="offline" src="https://i.pravatar.cc/150?img=37"></aegov-avatar>
+                <div class="user-info">
+                  <p class="user-name">فاطمة علي</p>
+                  <p class="user-role">مطورة</p>
+                </div>
+              </div>
+
+              <div style="display: flex; gap: 0.75rem; padding: 1rem; background: white; border-radius: 8px;">
+                <aegov-avatar size="base" status="online" src="https://i.pravatar.cc/150?img=38"></aegov-avatar>
+                <aegov-avatar size="base" status="online" src="https://i.pravatar.cc/150?img=39"></aegov-avatar>
+                <aegov-avatar size="base" src="https://i.pravatar.cc/150?img=40"></aegov-avatar>
+                <aegov-avatar size="base">+3</aegov-avatar>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- API Documentation -->
+    <div class="api-section">
+      <h2>API Documentation</h2>
+
+      <!-- Properties -->
+      <h3 style="margin-top: 2rem; color: #1e293b;">Properties</h3>
+      <table class="api-table">
         <thead>
           <tr>
-            <th>Size</th>
-            <th>Dimensions</th>
-            <th>Square Preview</th>
-            <th>Rounded Preview</th>
-            <th>With Status</th>
+            <th>Property</th>
+            <th>Attribute</th>
+            <th>Type</th>
+            <th>Default</th>
+            <th>Description</th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <td><strong>XS</strong></td>
-            <td>24 × 24 px</td>
-            <td><aegov-avatar size="xs" variant="square" alt="XS"></aegov-avatar></td>
-            <td><aegov-avatar size="xs" variant="rounded" alt="XS"></aegov-avatar></td>
-            <td><aegov-avatar size="xs" variant="rounded" status="true" status-type="online" alt="XS"></aegov-avatar></td>
+            <td><code>size</code></td>
+            <td><code>size</code></td>
+            <td><code>'xs' | 'sm' | 'base' | 'lg' | 'xl' | '2xl' | '3xl'</code></td>
+            <td><code>'base'</code></td>
+            <td>The avatar size (xs: 24px, sm: 32px, base: 40px, lg: 48px, xl: 56px, 2xl: 64px, 3xl: 80px)</td>
           </tr>
           <tr>
-            <td><strong>SM</strong></td>
-            <td>32 × 32 px</td>
-            <td><aegov-avatar size="sm" variant="square" alt="SM"></aegov-avatar></td>
-            <td><aegov-avatar size="sm" variant="rounded" alt="SM"></aegov-avatar></td>
-            <td><aegov-avatar size="sm" variant="rounded" status="true" status-type="online" alt="SM"></aegov-avatar></td>
+            <td><code>variant</code></td>
+            <td><code>variant</code></td>
+            <td><code>'rounded' | 'square'</code></td>
+            <td><code>'rounded'</code></td>
+            <td>The avatar shape (rounded = circular, square = rounded corners)</td>
           </tr>
           <tr>
-            <td><strong>Base</strong></td>
-            <td>40 × 40 px</td>
-            <td><aegov-avatar size="base" variant="square" alt="Base"></aegov-avatar></td>
-            <td><aegov-avatar size="base" variant="rounded" alt="Base"></aegov-avatar></td>
-            <td><aegov-avatar size="base" variant="rounded" status="true" status-type="online" alt="Base"></aegov-avatar></td>
+            <td><code>src</code></td>
+            <td><code>src</code></td>
+            <td><code>string</code></td>
+            <td><code>undefined</code></td>
+            <td>Image URL for the avatar. If not provided, shows fallback slot content.</td>
           </tr>
           <tr>
-            <td><strong>LG</strong></td>
-            <td>48 × 48 px</td>
-            <td><aegov-avatar size="lg" variant="square" alt="LG"></aegov-avatar></td>
-            <td><aegov-avatar size="lg" variant="rounded" alt="LG"></aegov-avatar></td>
-            <td><aegov-avatar size="lg" variant="rounded" status="true" status-type="online" alt="LG"></aegov-avatar></td>
+            <td><code>alt</code></td>
+            <td><code>alt</code></td>
+            <td><code>string</code></td>
+            <td><code>'Avatar'</code></td>
+            <td>Alt text for the avatar image (accessibility)</td>
           </tr>
           <tr>
-            <td><strong>XL</strong></td>
-            <td>56 × 56 px</td>
-            <td><aegov-avatar size="xl" variant="square" alt="XL"></aegov-avatar></td>
-            <td><aegov-avatar size="xl" variant="rounded" alt="XL"></aegov-avatar></td>
-            <td><aegov-avatar size="xl" variant="rounded" status="true" status-type="online" alt="XL"></aegov-avatar></td>
-          </tr>
-          <tr>
-            <td><strong>2XL</strong></td>
-            <td>64 × 64 px</td>
-            <td><aegov-avatar size="2xl" variant="square" alt="2XL"></aegov-avatar></td>
-            <td><aegov-avatar size="2xl" variant="rounded" alt="2XL"></aegov-avatar></td>
-            <td><aegov-avatar size="2xl" variant="rounded" status="true" status-type="online" alt="2XL"></aegov-avatar></td>
-          </tr>
-          <tr>
-            <td><strong>3XL</strong></td>
-            <td>80 × 80 px</td>
-            <td><aegov-avatar size="3xl" variant="square" alt="3XL"></aegov-avatar></td>
-            <td><aegov-avatar size="3xl" variant="rounded" alt="3XL"></aegov-avatar></td>
-            <td><aegov-avatar size="3xl" variant="rounded" status="true" status-type="online" alt="3XL"></aegov-avatar></td>
+            <td><code>status</code></td>
+            <td><code>status</code></td>
+            <td><code>'online' | 'offline'</code></td>
+            <td><code>undefined</code></td>
+            <td>Optional status indicator (green dot for online, gray for offline)</td>
           </tr>
         </tbody>
       </table>
-    </div>
 
-    <!-- Accessibility Section -->
-    <div class="section">
-      <h2 class="section-title">Accessibility Features</h2>
+      <!-- Events -->
+      <h3 style="margin-top: 2rem; color: #1e293b;">Events</h3>
+      <p style="color: #64748b; margin-bottom: 1rem;">This component does not emit any custom events.</p>
 
-      <div class="feature-grid">
-        <div class="feature-card">
-          <h3>ARIA Labels</h3>
-          <p>All avatars include proper ARIA labels for screen readers</p>
-          <code class="code-block" style="margin-top: 0.5rem;">role="img" aria-label="User Name"</code>
-        </div>
+      <!-- Slots -->
+      <h3 style="margin-top: 2rem; color: #1e293b;">Slots</h3>
+      <table class="api-table">
+        <thead>
+          <tr>
+            <th>Slot</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>(default)</code></td>
+            <td>Fallback content shown when no <code>src</code> is provided (text initials, icons, emojis, or any HTML)</td>
+          </tr>
+        </tbody>
+      </table>
 
-        <div class="feature-card">
-          <h3>Alt Text</h3>
-          <p>Provide descriptive alt text for better accessibility</p>
-          <code class="code-block" style="margin-top: 0.5rem;">alt="John Doe, Product Manager"</code>
-        </div>
+      <!-- Usage Examples -->
+      <h3 style="margin-top: 2rem; color: #1e293b;">Usage Examples</h3>
+      <div class="code-block">
+<code>&lt;!-- Avatar with image --&gt;
+&lt;aegov-avatar src="https://i.pravatar.cc/150?img=1"&gt;&lt;/aegov-avatar&gt;
 
-        <div class="feature-card">
-          <h3>Status Labels</h3>
-          <p>Status indicators include descriptive labels</p>
-          <code class="code-block" style="margin-top: 0.5rem;">aria-label="Status: online"</code>
-        </div>
+&lt;!-- Different sizes --&gt;
+&lt;aegov-avatar size="xs" src="..."&gt;&lt;/aegov-avatar&gt;
+&lt;aegov-avatar size="sm" src="..."&gt;&lt;/aegov-avatar&gt;
+&lt;aegov-avatar size="base" src="..."&gt;&lt;/aegov-avatar&gt;
+&lt;aegov-avatar size="lg" src="..."&gt;&lt;/aegov-avatar&gt;
+&lt;aegov-avatar size="xl" src="..."&gt;&lt;/aegov-avatar&gt;
+&lt;aegov-avatar size="2xl" src="..."&gt;&lt;/aegov-avatar&gt;
+&lt;aegov-avatar size="3xl" src="..."&gt;&lt;/aegov-avatar&gt;
 
-        <div class="feature-card">
-          <h3>Keyboard Navigation</h3>
-          <p>Properly structured for keyboard navigation support</p>
-          <code class="code-block" style="margin-top: 0.5rem;">Semantic HTML structure</code>
-        </div>
-      </div>
-    </div>
-  </div>
+&lt;!-- Square variant --&gt;
+&lt;aegov-avatar variant="square" src="..."&gt;&lt;/aegov-avatar&gt;
 
-  <!-- RTL Support -->
-  <div class="example-section">
-    <h2>RTL Support</h2>
-    <p>Avatars work seamlessly in RTL (Right-to-Left) layouts for Arabic and other RTL languages.</p>
+&lt;!-- With status indicator --&gt;
+&lt;aegov-avatar status="online" src="..."&gt;&lt;/aegov-avatar&gt;
+&lt;aegov-avatar status="offline" src="..."&gt;&lt;/aegov-avatar&gt;
 
-    <h3>LTR (Left to Right)</h3>
-    <div class="example-demo" dir="ltr">
-      <div style="display: flex; gap: 1rem; align-items: center;">
-        <aegov-avatar size="md">
-          <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop" alt="User Avatar">
-        </aegov-avatar>
-        <div>
-          <div style="font-weight: 600;">John Doe</div>
-          <div style="font-size: 14px; color: #64748b;">Product Designer</div>
-        </div>
-      </div>
-    </div>
+&lt;!-- Fallback content (no image) --&gt;
+&lt;aegov-avatar&gt;JD&lt;/aegov-avatar&gt;
+&lt;aegov-avatar&gt;👤&lt;/aegov-avatar&gt;
+&lt;aegov-avatar&gt;
+  &lt;svg&gt;...&lt;/svg&gt;
+&lt;/aegov-avatar&gt;
 
-    <h3>RTL (Right to Left)</h3>
-    <div class="example-demo" dir="rtl">
-      <div style="display: flex; gap: 1rem; align-items: center;">
-        <aegov-avatar size="md">
-          <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop" alt="صورة المستخدم">
-        </aegov-avatar>
-        <div>
-          <div style="font-weight: 600;">أحمد محمد</div>
-          <div style="font-size: 14px; color: #64748b;">مصمم منتجات</div>
-        </div>
-      </div>
-    </div>
+&lt;!-- With alt text --&gt;
+&lt;aegov-avatar src="..." alt="John Doe"&gt;&lt;/aegov-avatar&gt;
 
-    <div class="example-code">&lt;div dir="rtl"&gt;
-  &lt;div style="display: flex; gap: 1rem; align-items: center;"&gt;
-    &lt;aegov-avatar size="md"&gt;
-      &lt;img src="..." alt="صورة المستخدم"&gt;
-    &lt;/aegov-avatar&gt;
-    &lt;div&gt;
-      &lt;div&gt;أحمد محمد&lt;/div&gt;
-      &lt;div&gt;مصمم منتجات&lt;/div&gt;
-    &lt;/div&gt;
+&lt;!-- User profile example --&gt;
+&lt;div class="profile"&gt;
+  &lt;aegov-avatar size="xl" status="online" src="..." alt="User Name"&gt;&lt;/aegov-avatar&gt;
+  &lt;div&gt;
+    &lt;h3&gt;John Doe&lt;/h3&gt;
+    &lt;p&gt;Senior Developer&lt;/p&gt;
   &lt;/div&gt;
-&lt;/div&gt;</div>
+&lt;/div&gt;
+
+&lt;!-- Avatar group --&gt;
+&lt;div style="display: flex; gap: 0.5rem;"&gt;
+  &lt;aegov-avatar size="base" src="..."&gt;&lt;/aegov-avatar&gt;
+  &lt;aegov-avatar size="base" src="..."&gt;&lt;/aegov-avatar&gt;
+  &lt;aegov-avatar size="base" src="..."&gt;&lt;/aegov-avatar&gt;
+  &lt;aegov-avatar size="base"&gt;+5&lt;/aegov-avatar&gt;
+&lt;/div&gt;</code>
+      </div>
+    </div>
   </div>
 </body>
 </html>

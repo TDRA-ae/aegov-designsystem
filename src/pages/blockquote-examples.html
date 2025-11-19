@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html dir="ltr" lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0">
-  <title>Blockquote Component - AEGOV Design System</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0" />
+  <title>Blockquote Component Examples - AEGOV Design System</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Alexandria:wght@100..900&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Noto+Kufi+Arabic:wght@100..900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
 
   <script type="module" src="/build/aegov.esm.js"></script>
   <script nomodule src="/build/aegov.js"></script>
@@ -14,13 +14,15 @@
 
   <style>
     * {
+      margin: 0;
+      padding: 0;
       box-sizing: border-box;
     }
 
     body {
-      margin: 0;
-      padding: 2rem;
-      background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+      font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      padding: 3rem 1.5rem;
       min-height: 100vh;
     }
 
@@ -28,8 +30,8 @@
       max-width: 1400px;
       margin: 0 auto;
       background: white;
-      padding: 3rem;
       border-radius: 16px;
+      padding: 3rem;
       box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
     }
 
@@ -37,477 +39,840 @@
       text-align: center;
       margin-bottom: 3rem;
       padding-bottom: 2rem;
-      border-bottom: 3px solid #e2e8f0;
+      border-bottom: 2px solid #f3f4f6;
     }
 
     .header h1 {
-      font-size: 3rem;
-      margin: 0 0 0.5rem 0;
-      background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+      font-size: 2.5rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
+      margin-bottom: 1rem;
     }
 
-    .header .subtitle {
-      color: #64748b;
+    .header p {
       font-size: 1.125rem;
-      margin: 0 0 1rem 0;
+      color: #6b7280;
+      max-width: 700px;
+      margin: 0 auto 1.5rem;
     }
 
-    .back-link {
-      display: inline-block;
-      margin-top: 1rem;
-      color: #f59e0b;
-      text-decoration: none;
-      font-weight: 600;
-      transition: color 0.2s;
-    }
-
-    .back-link:hover {
-      color: #fbbf24;
-    }
-
-    .section {
-      margin-bottom: 4rem;
-    }
-
-    .section-title {
-      font-size: 1.75rem;
-      color: #1e293b;
-      margin: 0 0 1.5rem 0;
-      padding-bottom: 0.75rem;
-      border-bottom: 2px solid #e2e8f0;
+    .badges {
       display: flex;
-      align-items: center;
+      flex-wrap: wrap;
       gap: 0.5rem;
-    }
-
-    .section-title::before {
-      content: '▸';
-      color: #f59e0b;
-    }
-
-    .subsection-title {
-      font-size: 1.25rem;
-      color: #475569;
-      margin: 2rem 0 1rem 0;
-      font-weight: 600;
-    }
-
-    .feature-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
-      gap: 2rem;
-      margin-bottom: 2rem;
-    }
-
-    .feature-card {
-      background: #f8fafc;
-      border-radius: 12px;
-      padding: 2rem;
-      border: 2px solid #e2e8f0;
-    }
-
-    .feature-card h3 {
-      font-size: 1.25rem;
-      color: #1e293b;
-      margin: 0 0 0.5rem 0;
-      font-weight: 700;
-    }
-
-    .feature-card p {
-      color: #64748b;
-      margin: 0 0 1rem 0;
-      font-size: 0.875rem;
-    }
-
-    .code-block {
-      background: #0f172a;
-      color: #e2e8f0;
-      padding: 0.75rem;
-      border-radius: 6px;
-      font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
-      font-size: 0.7rem;
-      overflow-x: auto;
-      margin-top: 0.5rem;
-      border: 1px solid #1e293b;
-      display: block;
-      white-space: pre;
-    }
-
-    .demo-showcase {
-      padding: 2rem;
-      background: white;
-      border-radius: 8px;
-      border: 1px solid #e2e8f0;
-      margin-bottom: 2rem;
+      justify-content: center;
+      margin-top: 1.5rem;
     }
 
     .badge {
       display: inline-block;
-      padding: 0.25rem 0.75rem;
-      border-radius: 12px;
-      font-size: 0.75rem;
+      padding: 0.5rem 1rem;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border-radius: 20px;
+      font-size: 0.875rem;
       font-weight: 600;
-      background: #fef3c7;
-      color: #92400e;
-      margin-left: 0.5rem;
     }
 
-    .props-table {
+    .section {
+      margin-bottom: 3rem;
+      padding: 2rem;
+      background: #f9fafb;
+      border-radius: 12px;
+      border: 1px solid #e5e7eb;
+    }
+
+    .section-title {
+      font-size: 1.75rem;
+      font-weight: 700;
+      color: #111827;
+      margin-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .section-number {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 2.5rem;
+      height: 2.5rem;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border-radius: 50%;
+      font-size: 1.125rem;
+      font-weight: 700;
+    }
+
+    .section-description {
+      color: #6b7280;
+      margin-bottom: 1.5rem;
+      font-size: 1rem;
+      line-height: 1.6;
+    }
+
+    .example-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .example-card {
+      background: white;
+      padding: 1.5rem;
+      border-radius: 8px;
+      border: 2px solid #e5e7eb;
+    }
+
+    .example-card h3 {
+      font-size: 1rem;
+      font-weight: 600;
+      color: #374151;
+      margin-bottom: 1rem;
+    }
+
+    .example-card p {
+      font-size: 0.875rem;
+      color: #6b7280;
+      margin-bottom: 1rem;
+      line-height: 1.5;
+    }
+
+    .code-block {
+      background: #1f2937;
+      color: #f9fafb;
+      padding: 1rem;
+      border-radius: 6px;
+      overflow-x: auto;
+      font-family: 'Courier New', monospace;
+      font-size: 0.875rem;
+      line-height: 1.5;
+      margin-top: 1rem;
+    }
+
+    .code-block code {
+      color: #f9fafb;
+    }
+
+    .api-section {
+      margin-top: 3rem;
+      padding: 2rem;
+      background: white;
+      border-radius: 12px;
+      border: 2px solid #667eea;
+    }
+
+    .api-section h2 {
+      font-size: 1.75rem;
+      font-weight: 700;
+      color: #111827;
+      margin-bottom: 1.5rem;
+      padding-bottom: 1rem;
+      border-bottom: 2px solid #e5e7eb;
+    }
+
+    .api-table {
       width: 100%;
       border-collapse: collapse;
-      margin: 1rem 0;
-      font-size: 0.875rem;
+      margin-bottom: 2rem;
     }
 
-    .props-table th,
-    .props-table td {
+    .api-table th {
+      background: #f3f4f6;
       padding: 0.75rem;
       text-align: left;
-      border-bottom: 1px solid #e2e8f0;
-    }
-
-    .props-table th {
-      background: #f8fafc;
-      color: #475569;
       font-weight: 600;
+      color: #374151;
+      border: 1px solid #e5e7eb;
     }
 
-    .props-table code {
-      background: #f1f5f9;
+    .api-table td {
+      padding: 0.75rem;
+      border: 1px solid #e5e7eb;
+      color: #1f2937;
+    }
+
+    .api-table code {
+      background: #f3f4f6;
       padding: 0.125rem 0.375rem;
+      border-radius: 3px;
+      font-size: 0.875rem;
+      color: #be185d;
+      font-family: 'Courier New', monospace;
+    }
+
+    .note-box {
+      background: #fef3c7;
+      border-left: 4px solid #f59e0b;
+      padding: 1rem 1.5rem;
       border-radius: 4px;
-      font-family: 'Consolas', 'Monaco', monospace;
-      font-size: 0.75rem;
-      color: #e11d48;
+      margin: 1.5rem 0;
+    }
+
+    .note-box strong {
+      color: #92400e;
+    }
+
+    .note-box p {
+      color: #78350f;
+      margin: 0.5rem 0 0 0;
+    }
+
+    .rtl-comparison {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      margin-top: 1.5rem;
+    }
+
+    .rtl-panel {
+      background: white;
+      padding: 1.5rem;
+      border-radius: 8px;
+      border: 2px solid #e5e7eb;
+    }
+
+    .rtl-panel h3 {
+      font-size: 1.125rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+      color: #374151;
+    }
+
+    .full-width-example {
+      background: white;
+      padding: 1.5rem;
+      border-radius: 8px;
+      border: 2px solid #e5e7eb;
+      margin-bottom: 1.5rem;
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        padding: 1.5rem;
+      }
+
+      .header h1 {
+        font-size: 2rem;
+      }
+
+      .rtl-comparison {
+        grid-template-columns: 1fr;
+      }
+
+      .example-grid {
+        grid-template-columns: 1fr;
+      }
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <!-- Header -->
-    <div class="header">
-      <h1>Blockquote Component</h1>
-      <p class="subtitle">Semantic blockquote component with multiple variants and customization options</p>
-      <a href="../index.html" class="back-link">← Back to Components</a>
+
+<div class="container">
+  <!-- Header -->
+  <div class="header">
+    <h1>💬 Blockquote Component</h1>
+    <p>A semantic blockquote component for displaying quotations with citations, author attribution, and customizable styling.</p>
+
+    <div class="badges">
+      <span class="badge">2 Variants</span>
+      <span class="badge">Quote Icon</span>
+      <span class="badge">Author Attribution</span>
+      <span class="badge">Citation Support</span>
+      <span class="badge">RTL Support</span>
+      <span class="badge">Semantic HTML</span>
     </div>
+  </div>
 
-    <!-- Basic Usage Section -->
-    <div class="section">
-      <h2 class="section-title">Basic Usage</h2>
+  <!-- Section 1: Primary Variant -->
+  <section class="section">
+    <h2 class="section-title">
+      <span class="section-number">1</span>
+      Primary Variant (Default)
+    </h2>
+    <p class="section-description">
+      The primary variant displays a decorative quote icon and uses subtle styling for elegant quotation display.
+    </p>
 
-      <div class="feature-grid">
-        <div class="feature-card">
-          <h3>Primary Variant (Default)</h3>
-          <p>Default blockquote with quote icon</p>
-          <div style="margin-top: 1rem;">
-            <aegov-blockquote>
-              The confidence of our wise leadership serves as motivation for more sincere and sustained action directed to serve our cherished homeland, which reflects a renewed incentive to continue with progress and advancement under the wise leadership of His Highness Sheikh Mohamed bin Zayed Al Nahyan, UAE President, and His Highness Sheikh Mohammed bin Rashid Al Maktoum, Vice President and Prime Minister of the UAE and Ruler of Dubai and their Highnesses, Members of the Supreme Council and Rulers of the Emirates.
-            </aegov-blockquote>
-          </div>
-          <code class="code-block">&lt;aegov-blockquote&gt;
-  The confidence of our wise leadership serves as motivation for more sincere and sustained action directed to serve our cherished homeland, which reflects a renewed incentive to continue with progress and advancement under the wise leadership of His Highness Sheikh Mohamed bin Zayed Al Nahyan, UAE President, and His Highness Sheikh Mohammed bin Rashid Al Maktoum, Vice President and Prime Minister of the UAE and Ruler of Dubai and their Highnesses, Members of the Supreme Council and Rulers of the Emirates.
-&lt;/aegov-blockquote&gt;</code>
-        </div>
+    <div class="example-grid">
+      <div class="example-card">
+        <h3>Simple Quote</h3>
+        <p>Basic blockquote without author</p>
+        <aegov-blockquote variant="primary">
+          The best way to predict the future is to invent it.
+        </aegov-blockquote>
+      </div>
 
-        <div class="feature-card">
-          <h3>Colored Variant</h3>
-          <p>Blockquote with colored background and left border</p>
-          <div style="margin-top: 1rem;">
-            <aegov-blockquote variant="colored">
-              The confidence of our wise leadership serves as motivation for more sincere and sustained action directed to serve our cherished homeland, which reflects a renewed incentive to continue with progress and advancement under the wise leadership of His Highness Sheikh Mohamed bin Zayed Al Nahyan, UAE President, and His Highness Sheikh Mohammed bin Rashid Al Maktoum, Vice President and Prime Minister of the UAE and Ruler of Dubai and their Highnesses, Members of the Supreme Council and Rulers of the Emirates.
-            </aegov-blockquote>
-          </div>
-          <code class="code-block">&lt;aegov-blockquote variant="colored"&gt;
-  The confidence of our wise leadership serves as motivation for more sincere and sustained action directed to serve our cherished homeland, which reflects a renewed incentive to continue with progress and advancement under the wise leadership of His Highness Sheikh Mohamed bin Zayed Al Nahyan, UAE President, and His Highness Sheikh Mohammed bin Rashid Al Maktoum, Vice President and Prime Minister of the UAE and Ruler of Dubai and their Highnesses, Members of the Supreme Council and Rulers of the Emirates.
-&lt;/aegov-blockquote&gt;</code>
-        </div>
+      <div class="example-card">
+        <h3>With Author</h3>
+        <p>Quote with author attribution</p>
+        <aegov-blockquote variant="primary" author="Alan Kay">
+          The best way to predict the future is to invent it.
+        </aegov-blockquote>
+      </div>
+
+      <div class="example-card">
+        <h3>With Author & Title</h3>
+        <p>Full attribution with title/position</p>
+        <aegov-blockquote
+          variant="primary"
+          author="Alan Kay"
+          author-title="Computer Scientist">
+          The best way to predict the future is to invent it.
+        </aegov-blockquote>
       </div>
     </div>
 
-    <!-- With Author Section -->
-    <div class="section">
-      <h2 class="section-title">With Author & Title</h2>
+    <div class="code-block"><code>&lt;aegov-blockquote variant="primary"&gt;
+  The best way to predict the future is to invent it.
+&lt;/aegov-blockquote&gt;
 
-      <div class="feature-grid">
-        <div class="feature-card">
-          <h3>With Author Only</h3>
-          <p>Blockquote with author attribution</p>
-          <div style="margin-top: 1rem;">
-            <aegov-blockquote author="Peter Drucker">
-              <p>The confidence of our wise leadership serves as motivation for more sincere and sustained action</p>
-              <p>This is directed to serve our cherished homeland, which reflects a renewed incentive to continue with progress and advancement under the wise leadership of His Highness Sheikh Mohamed bin Zayed Al Nahyan, UAE President, and His Highness Sheikh Mohammed bin Rashid Al Maktoum, Vice President and Prime Minister of the UAE and Ruler of Dubai and their Highnesses, Members of the Supreme Council and Rulers of the Emirates.</p>
-            </aegov-blockquote>
-          </div>
-          <code class="code-block">&lt;aegov-blockquote author="Peter Drucker"&gt;
-              <p>The confidence of our wise leadership serves as motivation for more sincere and sustained action</p>
-              <p>This is directed to serve our cherished homeland, which reflects a renewed incentive to continue with progress and advancement under the wise leadership of His Highness Sheikh Mohamed bin Zayed Al Nahyan, UAE President, and His Highness Sheikh Mohammed bin Rashid Al Maktoum, Vice President and Prime Minister of the UAE and Ruler of Dubai and their Highnesses, Members of the Supreme Council and Rulers of the Emirates.</p>
-&lt;/aegov-blockquote&gt;</code>
-        </div>
+&lt;aegov-blockquote
+  variant="primary"
+  author="Alan Kay"
+  author-title="Computer Scientist"&gt;
+  The best way to predict the future is to invent it.
+&lt;/aegov-blockquote&gt;</code></div>
+  </section>
 
-        <div class="feature-card">
-          <h3>With Author & Title</h3>
-          <p>Complete attribution with author and their title</p>
-          <div style="margin-top: 1rem;">
-            <aegov-blockquote
-              variant="colored"
-              author="Steve Jobs"
-              author-title="Co-founder, Apple Inc.">
-              <p>The confidence of our wise leadership serves as motivation for more sincere and sustained action</p>
-              <p>This is directed to serve our cherished homeland, which reflects a renewed incentive to continue with progress and advancement under the wise leadership of His Highness Sheikh Mohamed bin Zayed Al Nahyan, UAE President, and His Highness Sheikh Mohammed bin Rashid Al Maktoum, Vice President and Prime Minister of the UAE and Ruler of Dubai and their Highnesses, Members of the Supreme Council and Rulers of the Emirates.</p>
-            </aegov-blockquote>
-          </div>
-          <code class="code-block">&lt;aegov-blockquote
-  variant="colored"
-  author="Steve Jobs"
-  author-title="Co-founder, Apple Inc."&gt;
-  <p>The confidence of our wise leadership serves as motivation for more sincere and sustained action</p>
-              <p>This is directed to serve our cherished homeland, which reflects a renewed incentive to continue with progress and advancement under the wise leadership of His Highness Sheikh Mohamed bin Zayed Al Nahyan, UAE President, and His Highness Sheikh Mohammed bin Rashid Al Maktoum, Vice President and Prime Minister of the UAE and Ruler of Dubai and their Highnesses, Members of the Supreme Council and Rulers of the Emirates.</p>
-&lt;/aegov-blockquote&gt;</code>
-        </div>
+  <!-- Section 2: Colored/Coloured Variant -->
+  <section class="section">
+    <h2 class="section-title">
+      <span class="section-number">2</span>
+      Colored Variant
+    </h2>
+    <p class="section-description">
+      The colored variant features a background color and left border accent without the quote icon.
+    </p>
+
+    <div class="example-grid">
+      <div class="example-card">
+        <h3>Simple Colored Quote</h3>
+        <p>Basic colored blockquote</p>
+        <aegov-blockquote variant="colored">
+          Design is not just what it looks like and feels like. Design is how it works.
+        </aegov-blockquote>
       </div>
 
-      <div class="feature-grid">
-        <div class="feature-card">
-          <h3>With Title Only</h3>
-          <p>Blockquote with title/position only</p>
-          <div style="margin-top: 1rem;">
-            <aegov-blockquote author-title="Management Consultant">
-              The best way to predict the future is to create it.
-            </aegov-blockquote>
-          </div>
-          <code class="code-block">&lt;aegov-blockquote author-title="Management Consultant"&gt;
-  The best way to predict the future is to create it.
-&lt;/aegov-blockquote&gt;</code>
-        </div>
-
-        <div class="feature-card">
-          <h3>With Citation URL</h3>
-          <p>Blockquote with cite attribute for source URL</p>
-          <div style="margin-top: 1rem;">
-            <aegov-blockquote
-              cite="https://example.com/quote"
-              author="Albert Einstein"
-              author-title="Theoretical Physicist">
-              Imagination is more important than knowledge.
-            </aegov-blockquote>
-          </div>
-          <code class="code-block">&lt;aegov-blockquote
-  cite="https://example.com/quote"
-  author="Albert Einstein"
-  author-title="Theoretical Physicist"&gt;
-  Imagination is more important than knowledge.
-&lt;/aegov-blockquote&gt;</code>
-        </div>
-      </div>
-    </div>
-
-    <!-- Variant Comparison -->
-    <div class="section">
-      <h2 class="section-title">Variant Comparison</h2>
-
-      <div class="demo-showcase">
-        <h3 class="subsection-title">Primary vs Colored</h3>
-
-        <div style="margin-bottom: 2rem;">
-          <p style="color: #64748b; margin-bottom: 1rem;"><strong>Primary Variant:</strong> Shows quote icon, transparent background</p>
-          <aegov-blockquote
-            variant="primary"
-            author="Winston Churchill"
-            author-title="Former Prime Minister of UK">
-            Success is not final, failure is not fatal: it is the courage to continue that counts.
-          </aegov-blockquote>
-        </div>
-
-        <div>
-          <p style="color: #64748b; margin-bottom: 1rem;"><strong>Colored Variant:</strong> No icon, colored background with left border</p>
-          <aegov-blockquote
-            variant="colored"
-            author="Winston Churchill"
-            author-title="Former Prime Minister of UK">
-            Success is not final, failure is not fatal: it is the courage to continue that counts.
-          </aegov-blockquote>
-        </div>
-      </div>
-    </div>
-
-    <!-- Alternative Spelling -->
-    <div class="section">
-      <h2 class="section-title">Alternative Spelling<span class="badge">British English</span></h2>
-
-      <div class="feature-card">
-        <h3>Coloured Variant</h3>
-        <p>Supports both "colored" and "coloured" spelling</p>
-        <div style="margin-top: 1rem;">
-          <aegov-blockquote
-            variant="coloured"
-            author="Nelson Mandela"
-            author-title="Former President of South Africa">
-            Education is the most powerful weapon which you can use to change the world.
-          </aegov-blockquote>
-        </div>
-        <code class="code-block">&lt;aegov-blockquote
-  variant="coloured"
-  author="Nelson Mandela"
-  author-title="Former President of South Africa"&gt;
-  Education is the most powerful weapon...
-&lt;/aegov-blockquote&gt;</code>
-      </div>
-    </div>
-
-    <!-- Complete Example -->
-    <div class="section">
-      <h2 class="section-title">Complete Example</h2>
-
-      <div class="demo-showcase">
+      <div class="example-card">
+        <h3>With Author</h3>
+        <p>Colored quote with attribution</p>
         <aegov-blockquote
           variant="colored"
-          cite="https://www.goodreads.com/quotes"
-          author="Maya Angelou"
-          author-title="American Poet and Civil Rights Activist">
-          I've learned that people will forget what you said, people will forget what you did, but people will never forget how you made them feel.
+          author="Steve Jobs">
+          Design is not just what it looks like and feels like. Design is how it works.
+        </aegov-blockquote>
+      </div>
+
+      <div class="example-card">
+        <h3>Alternative Spelling</h3>
+        <p>Supports "coloured" spelling</p>
+        <aegov-blockquote
+          variant="coloured"
+          author="Steve Jobs"
+          author-title="Co-founder of Apple">
+          Design is not just what it looks like and feels like. Design is how it works.
+        </aegov-blockquote>
+      </div>
+    </div>
+
+    <div class="code-block"><code>&lt;aegov-blockquote variant="colored"&gt;
+  Design is not just what it looks like and feels like. Design is how it works.
+&lt;/aegov-blockquote&gt;
+
+&lt;!-- Alternative spelling --&gt;
+&lt;aegov-blockquote variant="coloured" author="Steve Jobs"&gt;
+  Design is not just what it looks like and feels like. Design is how it works.
+&lt;/aegov-blockquote&gt;</code></div>
+
+    <div class="note-box">
+      <strong>💡 Spelling Variants:</strong>
+      <p>The component supports both "colored" and "coloured" spellings for international compatibility.</p>
+    </div>
+  </section>
+
+  <!-- Section 3: Citation Attribute -->
+  <section class="section">
+    <h2 class="section-title">
+      <span class="section-number">3</span>
+      Citation Source (cite)
+    </h2>
+    <p class="section-description">
+      Use the cite attribute to specify the source URL for the quotation (semantic HTML).
+    </p>
+
+    <div class="example-grid">
+      <div class="example-card">
+        <h3>Primary with Citation</h3>
+        <p>Quote with cite URL</p>
+        <aegov-blockquote
+          variant="primary"
+          cite="https://www.brainyquote.com/quotes/albert_einstein_121993"
+          author="Albert Einstein">
+          Imagination is more important than knowledge.
+        </aegov-blockquote>
+      </div>
+
+      <div class="example-card">
+        <h3>Colored with Citation</h3>
+        <p>Colored variant with cite URL</p>
+        <aegov-blockquote
+          variant="colored"
+          cite="https://www.goodreads.com/quotes/19188"
+          author="Mahatma Gandhi">
+          Be the change that you wish to see in the world.
+        </aegov-blockquote>
+      </div>
+    </div>
+
+    <div class="code-block"><code>&lt;aegov-blockquote
+  variant="primary"
+  cite="https://www.brainyquote.com/quotes/albert_einstein_121993"
+  author="Albert Einstein"&gt;
+  Imagination is more important than knowledge.
+&lt;/aegov-blockquote&gt;</code></div>
+
+    <div class="note-box">
+      <strong>🔗 Semantic HTML:</strong>
+      <p>The cite attribute adds semantic value for search engines and accessibility tools, specifying the source of the quotation.</p>
+    </div>
+  </section>
+
+  <!-- Section 4: Long Quotations -->
+  <section class="section">
+    <h2 class="section-title">
+      <span class="section-number">4</span>
+      Long Quotations
+    </h2>
+    <p class="section-description">
+      Blockquotes handle longer text gracefully with proper line height and spacing.
+    </p>
+
+    <div class="full-width-example">
+      <h3 style="margin-bottom: 1rem; color: #374151; font-weight: 600;">Primary Variant - Long Quote</h3>
+      <aegov-blockquote
+        variant="primary"
+        author="Martin Luther King Jr."
+        author-title="Civil Rights Leader">
+        I have a dream that one day this nation will rise up and live out the true meaning of its creed: We hold these truths to be self-evident, that all men are created equal. I have a dream that one day on the red hills of Georgia, the sons of former slaves and the sons of former slave owners will be able to sit down together at the table of brotherhood.
+      </aegov-blockquote>
+    </div>
+
+    <div class="full-width-example">
+      <h3 style="margin-bottom: 1rem; color: #374151; font-weight: 600;">Colored Variant - Long Quote</h3>
+      <aegov-blockquote
+        variant="colored"
+        author="Nelson Mandela"
+        author-title="Former President of South Africa">
+        Education is the most powerful weapon which you can use to change the world. It is through education that the daughter of a peasant can become a doctor, that the son of a mineworker can become the head of the mine, that a child of farmworkers can become the president of a great nation.
+      </aegov-blockquote>
+    </div>
+
+    <div class="code-block"><code>&lt;aegov-blockquote
+  variant="primary"
+  author="Martin Luther King Jr."
+  author-title="Civil Rights Leader"&gt;
+  I have a dream that one day this nation will rise up...
+&lt;/aegov-blockquote&gt;</code></div>
+  </section>
+
+  <!-- Section 5: Rich HTML Content -->
+  <section class="section">
+    <h2 class="section-title">
+      <span class="section-number">5</span>
+      Rich HTML Content
+    </h2>
+    <p class="section-description">
+      Blockquotes support rich HTML content including paragraphs, lists, and formatting.
+    </p>
+
+    <div class="example-grid">
+      <div class="example-card">
+        <h3>Multiple Paragraphs</h3>
+        <p>Quote with multiple paragraphs</p>
+        <aegov-blockquote variant="primary" author="Winston Churchill">
+          <p>Success is not final, failure is not fatal: it is the courage to continue that counts.</p>
+          <p>If you're going through hell, keep going.</p>
+        </aegov-blockquote>
+      </div>
+
+      <div class="example-card">
+        <h3>With List</h3>
+        <p>Quote containing a list</p>
+        <aegov-blockquote variant="colored" author="Tech Manifesto">
+          <p>Key principles of good design:</p>
+          <ul style="margin: 0.5rem 0; padding-left: 1.5rem;">
+            <li>Simplicity over complexity</li>
+            <li>Function over form</li>
+            <li>User needs first</li>
+          </ul>
+        </aegov-blockquote>
+      </div>
+
+      <div class="example-card">
+        <h3>With Emphasis</h3>
+        <p>Quote with inline formatting</p>
+        <aegov-blockquote variant="primary" author="Albert Einstein">
+          <p>The important thing is not to stop <strong>questioning</strong>. Curiosity has its own reason for <em>existing</em>.</p>
+        </aegov-blockquote>
+      </div>
+    </div>
+
+    <div class="code-block"><code>&lt;aegov-blockquote variant="primary" author="Winston Churchill"&gt;
+  &lt;p&gt;Success is not final, failure is not fatal.&lt;/p&gt;
+  &lt;p&gt;If you're going through hell, keep going.&lt;/p&gt;
+&lt;/aegov-blockquote&gt;
+
+&lt;aegov-blockquote variant="colored" author="Tech Manifesto"&gt;
+  &lt;p&gt;Key principles:&lt;/p&gt;
+  &lt;ul&gt;
+    &lt;li&gt;Simplicity over complexity&lt;/li&gt;
+    &lt;li&gt;Function over form&lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/aegov-blockquote&gt;</code></div>
+  </section>
+
+  <!-- Section 6: Testimonials Use Case -->
+  <section class="section">
+    <h2 class="section-title">
+      <span class="section-number">6</span>
+      Real-World Example: Testimonials
+    </h2>
+    <p class="section-description">
+      Using blockquotes for customer testimonials or reviews.
+    </p>
+
+    <div class="example-grid">
+      <div class="example-card">
+        <h3>Customer Review</h3>
+        <aegov-blockquote
+          variant="colored"
+          author="Sarah Johnson"
+          author-title="Marketing Director, TechCorp">
+          This design system has transformed how our team builds interfaces. The components are beautiful, accessible, and incredibly easy to use. Highly recommended!
+        </aegov-blockquote>
+      </div>
+
+      <div class="example-card">
+        <h3>Product Feedback</h3>
+        <aegov-blockquote
+          variant="primary"
+          author="Michael Chen"
+          author-title="Lead Developer, StartupXYZ">
+          The RTL support and accessibility features are outstanding. We've reduced our development time by 40% since adopting this system.
+        </aegov-blockquote>
+      </div>
+
+      <div class="example-card">
+        <h3>Case Study Quote</h3>
+        <aegov-blockquote
+          variant="colored"
+          author="Dr. Amira Al-Zahra"
+          author-title="UX Research Lead">
+          Our user testing showed a 95% satisfaction rate with the new interface built using this design system. The consistency is remarkable.
+        </aegov-blockquote>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 7: Article Quotes -->
+  <section class="section">
+    <h2 class="section-title">
+      <span class="section-number">7</span>
+      Real-World Example: Article Highlights
+    </h2>
+    <p class="section-description">
+      Using blockquotes to highlight key points in articles or blog posts.
+    </p>
+
+    <div style="background: white; padding: 2rem; border-radius: 8px; border: 2px solid #e5e7eb; max-width: 800px; margin: 0 auto;">
+      <h3 style="font-size: 1.5rem; margin-bottom: 1rem; color: #111827;">The Future of Web Design</h3>
+
+      <p style="color: #4b5563; line-height: 1.7; margin-bottom: 1.5rem;">
+        Web design has evolved dramatically over the past decade. From static pages to dynamic, responsive interfaces, the journey has been remarkable. One of the most significant shifts has been the adoption of design systems.
+      </p>
+
+      <aegov-blockquote variant="colored">
+        Design systems are not just about consistency—they're about enabling teams to move faster while maintaining quality.
+      </aegov-blockquote>
+
+      <p style="color: #4b5563; line-height: 1.7; margin-top: 1.5rem; margin-bottom: 1.5rem;">
+        As we look to the future, the importance of accessibility cannot be overstated. Every user, regardless of ability, deserves a great experience.
+      </p>
+
+      <aegov-blockquote
+        variant="primary"
+        author="Tim Berners-Lee"
+        author-title="Inventor of the World Wide Web">
+        The power of the Web is in its universality. Access by everyone regardless of disability is an essential aspect.
+      </aegov-blockquote>
+
+      <p style="color: #4b5563; line-height: 1.7; margin-top: 1.5rem;">
+        This principle guides everything we do in modern web development.
+      </p>
+    </div>
+
+    <div class="code-block" style="margin-top: 1.5rem;"><code>&lt;article&gt;
+  &lt;p&gt;Web design has evolved dramatically...&lt;/p&gt;
+
+  &lt;aegov-blockquote variant="colored"&gt;
+    Design systems are not just about consistency—they're about
+    enabling teams to move faster while maintaining quality.
+  &lt;/aegov-blockquote&gt;
+
+  &lt;p&gt;As we look to the future...&lt;/p&gt;
+&lt;/article&gt;</code></div>
+  </section>
+
+  <!-- Section 8: RTL Support -->
+  <section class="section">
+    <h2 class="section-title">
+      <span class="section-number">8</span>
+      RTL Support (Right-to-Left)
+    </h2>
+    <p class="section-description">
+      Full bidirectional text support for Arabic and other RTL languages. The quote icon automatically flips in RTL mode.
+    </p>
+
+    <div class="rtl-comparison">
+      <!-- LTR -->
+      <div class="rtl-panel">
+        <h3>LTR (Left-to-Right)</h3>
+
+        <aegov-blockquote
+          variant="primary"
+          author="Albert Einstein">
+          Imagination is more important than knowledge.
         </aegov-blockquote>
 
-        <code class="code-block" style="margin-top: 1.5rem;">&lt;aegov-blockquote
-  variant="colored"
-  cite="https://www.goodreads.com/quotes"
-  author="Maya Angelou"
-  author-title="American Poet and Civil Rights Activist"&gt;
-  I've learned that people will forget what you said,
-  people will forget what you did, but people will
-  never forget how you made them feel.
-&lt;/aegov-blockquote&gt;</code>
+        <div style="margin: 1.5rem 0;"></div>
+
+        <aegov-blockquote
+          variant="colored"
+          author="Steve Jobs"
+          author-title="Co-founder of Apple">
+          Design is not just what it looks like and feels like. Design is how it works.
+        </aegov-blockquote>
+      </div>
+
+      <!-- RTL -->
+      <div class="rtl-panel" dir="rtl">
+        <h3 style="font-family: 'Noto Kufi Arabic', sans-serif;">RTL (Right-to-Left) - Arabic</h3>
+
+        <aegov-blockquote
+          variant="primary"
+          author="جلال الدين الرومي"
+          style="font-family: 'Noto Kufi Arabic', sans-serif;">
+          كن كالشمس في العطاء، وكالليل في التواضع.
+        </aegov-blockquote>
+
+        <div style="margin: 1.5rem 0;"></div>
+
+        <aegov-blockquote
+          variant="colored"
+          author="خليل جبران"
+          author-title="شاعر وكاتب لبناني"
+          style="font-family: 'Noto Kufi Arabic', sans-serif;">
+          الحياة دون حرية كجسد بلا روح، والحرية بلا فكر كروح مشوشة.
+        </aegov-blockquote>
       </div>
     </div>
 
-    <!-- Properties Documentation -->
-    <div class="section">
-      <h2 class="section-title">Component Properties</h2>
-
-      <table class="props-table">
-        <thead>
-          <tr>
-            <th>Property</th>
-            <th>Attribute</th>
-            <th>Type</th>
-            <th>Default</th>
-            <th>Description</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td><code>variant</code></td>
-            <td><code>variant</code></td>
-            <td><code>'primary' | 'colored' | 'coloured'</code></td>
-            <td><code>'primary'</code></td>
-            <td>Visual style of the blockquote</td>
-          </tr>
-          <tr>
-            <td><code>cite</code></td>
-            <td><code>cite</code></td>
-            <td><code>string</code></td>
-            <td><code>undefined</code></td>
-            <td>URL of the quote source</td>
-          </tr>
-          <tr>
-            <td><code>author</code></td>
-            <td><code>author</code></td>
-            <td><code>string</code></td>
-            <td><code>undefined</code></td>
-            <td>Name of the quote author</td>
-          </tr>
-          <tr>
-            <td><code>authorTitle</code></td>
-            <td><code>author-title</code></td>
-            <td><code>string</code></td>
-            <td><code>undefined</code></td>
-            <td>Author's title or position</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-
-    <!-- Design Tokens -->
-    <div class="section">
-      <h2 class="section-title">Design Tokens Used</h2>
-
-      <div class="feature-card">
-        <h3>Color Tokens</h3>
-        <ul style="list-style: none; padding: 0; margin: 1rem 0;">
-          <li style="padding: 0.5rem 0; border-bottom: 1px solid #e2e8f0;">
-            <code>--color-aeblack-800</code> - Quote text color
-          </li>
-          <li style="padding: 0.5rem 0; border-bottom: 1px solid #e2e8f0;">
-            <code>--color-primary-50</code> - Colored variant background
-          </li>
-          <li style="padding: 0.5rem 0; border-bottom: 1px solid #e2e8f0;">
-            <code>--color-primary-500</code> - Colored variant border
-          </li>
-          <li style="padding: 0.5rem 0;">
-            <code>--color-primary-700</code> - Author and title text color
-          </li>
-        </ul>
-      </div>
-    </div>
-
-    <!-- Accessibility -->
-    <div class="section">
-      <h2 class="section-title">Accessibility Features</h2>
-
-      <div class="feature-card">
-        <h3>Built-in Accessibility</h3>
-        <ul style="color: #475569; line-height: 1.8;">
-          <li>✓ Uses semantic <code>&lt;blockquote&gt;</code> element</li>
-          <li>✓ Proper <code>cite</code> attribute for source URLs</li>
-          <li>✓ Author attribution with semantic markup</li>
-          <li>✓ High contrast text colors (WCAG AA compliant)</li>
-          <li>✓ Proper heading hierarchy support</li>
-        </ul>
-      </div>
-    </div>
-  </div>
-
-  <!-- RTL Support -->
-  <div class="example-section">
-    <h2>RTL Support</h2>
-    <p>Blockquotes work seamlessly in RTL (Right-to-Left) layouts for Arabic and other RTL languages.</p>
-
-    <h3>LTR (Left to Right)</h3>
-    <div class="example-demo" dir="ltr">
-      <aegov-blockquote
-        variant="primary"
-        author="Sheikh Mohammed bin Rashid Al Maktoum"
-        author-title="Vice President and Prime Minister of UAE">
-        The future belongs to those who can imagine it, design it, and execute it.
-      </aegov-blockquote>
-    </div>
-
-    <h3>RTL (Right to Left)</h3>
-    <div class="example-demo" dir="rtl">
-      <aegov-blockquote
-        variant="primary"
-        author="الشيخ محمد بن راشد آل مكتوم"
-        author-title="نائب رئيس الدولة رئيس مجلس الوزراء حاكم دبي">
-        المستقبل ملك لمن يستطيع أن يتخيله ويصممه وينفذه
-      </aegov-blockquote>
-    </div>
-
-    <div class="example-code">&lt;div dir="rtl"&gt;
+    <div class="code-block"><code>&lt;!-- RTL Container --&gt;
+&lt;div dir="rtl"&gt;
   &lt;aegov-blockquote
     variant="primary"
-    author="الشيخ محمد بن راشد آل مكتوم"
-    author-title="نائب رئيس الدولة"&gt;
-    المستقبل ملك لمن يستطيع أن يتخيله ويصممه وينفذه
+    author="جلال الدين الرومي"&gt;
+    كن كالشمس في العطاء، وكالليل في التواضع.
   &lt;/aegov-blockquote&gt;
-&lt;/div&gt;</div>
+
+  &lt;aegov-blockquote
+    variant="colored"
+    author="خليل جبران"
+    author-title="شاعر وكاتب لبناني"&gt;
+    الحياة دون حرية كجسد بلا روح.
+  &lt;/aegov-blockquote&gt;
+&lt;/div&gt;</code></div>
+
+    <div class="note-box">
+      <strong>🌐 RTL Note:</strong>
+      <p>The quote icon in the primary variant automatically flips horizontally in RTL mode using CSS transform: scaleX(-1). All spacing and alignment adjusts automatically.</p>
+    </div>
+  </section>
+
+  <!-- Section 9: Accessibility Features -->
+  <section class="section">
+    <h2 class="section-title">
+      <span class="section-number">9</span>
+      Accessibility Features
+    </h2>
+    <p class="section-description">
+      Built-in accessibility support with semantic HTML and proper ARIA usage.
+    </p>
+
+    <div class="example-grid">
+      <div class="example-card">
+        <h3>Semantic HTML</h3>
+        <p>Uses native &lt;blockquote&gt; element</p>
+        <aegov-blockquote
+          variant="primary"
+          cite="https://www.w3.org/WAI/"
+          author="W3C">
+          The power of the Web is in its universality.
+        </aegov-blockquote>
+        <p style="font-size: 0.75rem; color: #6b7280; margin-top: 1rem;">✓ Semantic &lt;blockquote&gt; element<br>✓ cite attribute for source URL<br>✓ Proper heading hierarchy</p>
+      </div>
+
+      <div class="example-card">
+        <h3>Screen Reader Support</h3>
+        <p>Properly announced by assistive tech</p>
+        <aegov-blockquote
+          variant="colored"
+          author="Author Name"
+          author-title="Position/Title">
+          Quote content is read naturally by screen readers with proper context.
+        </aegov-blockquote>
+        <p style="font-size: 0.75rem; color: #6b7280; margin-top: 1rem;">✓ Author announced separately<br>✓ Title provides context<br>✓ Icon marked as decorative</p>
+      </div>
+
+      <div class="example-card">
+        <h3>Keyboard Navigation</h3>
+        <p>Fully accessible via keyboard</p>
+        <aegov-blockquote variant="primary">
+          Content within blockquotes can be navigated naturally using keyboard.
+        </aegov-blockquote>
+        <p style="font-size: 0.75rem; color: #6b7280; margin-top: 1rem;">✓ No focus traps<br>✓ Natural reading order<br>✓ Links are keyboard accessible</p>
+      </div>
+    </div>
+
+    <div class="note-box">
+      <strong>♿ Accessibility:</strong>
+      <p>The component uses semantic HTML (&lt;blockquote&gt;) and the cite attribute for proper source attribution. The decorative quote icon is purely visual and doesn't interfere with screen readers.</p>
+    </div>
+  </section>
+
+  <!-- API Documentation -->
+  <div class="api-section" id="api-section">
+    <h2>📚 API Documentation</h2>
+
+    <h3 style="font-size: 1.25rem; font-weight: 600; margin-top: 1.5rem; margin-bottom: 1rem;">Properties</h3>
+    <table class="api-table">
+      <thead>
+        <tr>
+          <th>Property</th>
+          <th>Type</th>
+          <th>Default</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>variant</code></td>
+          <td><code>BlockquoteVariant</code></td>
+          <td><code>'primary'</code></td>
+          <td>Visual style: 'primary' (with quote icon) or 'colored'/'coloured' (with background)</td>
+        </tr>
+        <tr>
+          <td><code>cite</code></td>
+          <td><code>string</code></td>
+          <td><code>undefined</code></td>
+          <td>URL of the source/citation for the quotation (semantic HTML)</td>
+        </tr>
+        <tr>
+          <td><code>author</code></td>
+          <td><code>string</code></td>
+          <td><code>undefined</code></td>
+          <td>Name of the quote author</td>
+        </tr>
+        <tr>
+          <td><code>author-title</code></td>
+          <td><code>string</code></td>
+          <td><code>undefined</code></td>
+          <td>Title, position, or description of the author</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3 style="font-size: 1.25rem; font-weight: 600; margin-top: 2rem; margin-bottom: 1rem;">Slots</h3>
+    <table class="api-table">
+      <thead>
+        <tr>
+          <th>Slot</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>default</code></td>
+          <td>The quote content (supports text, paragraphs, lists, and inline formatting)</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3 style="font-size: 1.25rem; font-weight: 600; margin-top: 2rem; margin-bottom: 1rem;">CSS Parts</h3>
+    <table class="api-table">
+      <thead>
+        <tr>
+          <th>Part</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>blockquote</code></td>
+          <td>The native &lt;blockquote&gt; element (for external styling)</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3 style="font-size: 1.25rem; font-weight: 600; margin-top: 2rem; margin-bottom: 1rem;">Usage Examples</h3>
+    <table class="api-table">
+      <thead>
+        <tr>
+          <th>Use Case</th>
+          <th>Code Example</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Basic Quote</strong></td>
+          <td><code>&lt;aegov-blockquote&gt;Quote text&lt;/aegov-blockquote&gt;</code></td>
+        </tr>
+        <tr>
+          <td><strong>With Author</strong></td>
+          <td><code>&lt;aegov-blockquote author="Name"&gt;Quote&lt;/aegov-blockquote&gt;</code></td>
+        </tr>
+        <tr>
+          <td><strong>Full Attribution</strong></td>
+          <td><code>&lt;aegov-blockquote author="Name" author-title="Title"&gt;Quote&lt;/aegov-blockquote&gt;</code></td>
+        </tr>
+        <tr>
+          <td><strong>Colored Variant</strong></td>
+          <td><code>&lt;aegov-blockquote variant="colored"&gt;Quote&lt;/aegov-blockquote&gt;</code></td>
+        </tr>
+        <tr>
+          <td><strong>With Citation</strong></td>
+          <td><code>&lt;aegov-blockquote cite="https://source.url"&gt;Quote&lt;/aegov-blockquote&gt;</code></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="note-box" style="margin-top: 2rem;">
+      <strong>📝 Important Notes:</strong>
+      <p><strong>Variants:</strong> Both "colored" and "coloured" spellings are supported for the variant property.</p>
+      <p><strong>Quote Icon:</strong> The decorative quote icon only appears in the 'primary' variant. The 'colored' variant uses a background color and left border instead.</p>
+      <p><strong>Rich Content:</strong> The default slot supports rich HTML including paragraphs, lists, and inline formatting elements.</p>
+      <p><strong>RTL Support:</strong> The quote icon automatically flips horizontally in RTL mode. All spacing and alignment adapts automatically.</p>
+      <p><strong>Semantic HTML:</strong> Uses the native &lt;blockquote&gt; element with cite attribute for proper semantic markup and SEO.</p>
+    </div>
   </div>
 
-  <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      console.log('✨ Blockquote Component Examples loaded');
-    });
-  </script>
+</div>
+
 </body>
 </html>

@@ -1,943 +1,831 @@
 <!DOCTYPE html>
-<html dir="ltr" lang="en">
+<html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0" />
-  <title>Callout Component Examples - AEGOV Design System</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
-
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Callout Component - AEGOV Design System</title>
   <script type="module" src="/build/aegov.esm.js"></script>
   <script nomodule src="/build/aegov.js"></script>
-  <link rel="stylesheet" href="/build/aegov.css" />
-
   <style>
     * {
+      margin: 0;
+      padding: 0;
       box-sizing: border-box;
     }
 
     body {
-      margin: 0;
-      padding: 2rem;
-      background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
       min-height: 100vh;
+      padding: 3rem 1.5rem;
     }
 
     .container {
-      max-width: 1200px;
+      max-width: 1400px;
       margin: 0 auto;
+      background: white;
+      border-radius: 16px;
+      padding: 3rem;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
     }
 
     .header {
       text-align: center;
       margin-bottom: 3rem;
-      padding: 2rem;
-      background: white;
-      border-radius: 1rem;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      padding-bottom: 2rem;
+      border-bottom: 2px solid #e5e7eb;
     }
 
     .header h1 {
-      margin: 0 0 0.5rem 0;
       font-size: 2.5rem;
+      font-weight: 800;
       background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
+      margin-bottom: 0.5rem;
     }
 
     .header p {
-      margin: 0;
-      color: #666;
       font-size: 1.125rem;
+      color: #6b7280;
+      margin-top: 0.5rem;
+    }
+
+    .feature-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      justify-content: center;
+      margin-top: 1.5rem;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.375rem;
+      padding: 0.375rem 0.875rem;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border-radius: 20px;
+      font-size: 0.8125rem;
+      font-weight: 600;
+      letter-spacing: 0.3px;
+    }
+
+    .badge::before {
+      content: '✓';
+      font-weight: bold;
     }
 
     .section {
       margin-bottom: 3rem;
-      padding: 2rem;
-      background: white;
-      border-radius: 1rem;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     }
 
     .section-title {
-      margin: 0 0 1.5rem 0;
       font-size: 1.75rem;
-      color: #333;
-      border-bottom: 2px solid #e2e8f0;
-      padding-bottom: 0.75rem;
+      font-weight: 700;
+      color: #1f2937;
+      margin-bottom: 1rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 3px solid #667eea;
+      display: inline-block;
     }
 
-    .subsection-title {
-      margin: 2rem 0 1rem 0;
-      font-size: 1.25rem;
-      color: #555;
-      font-weight: 600;
+    .section-description {
+      font-size: 1rem;
+      color: #6b7280;
+      margin-bottom: 1.5rem;
+      line-height: 1.6;
     }
 
-    .example {
+    .example-box {
+      background: #f9fafb;
+      border: 2px solid #e5e7eb;
+      border-radius: 12px;
+      padding: 2rem;
       margin-bottom: 1.5rem;
     }
 
-    .example-label {
-      font-size: 0.875rem;
-      color: #666;
-      margin-bottom: 0.5rem;
-      font-weight: 500;
-      display: block;
+    .example-title {
+      font-size: 1.125rem;
+      font-weight: 600;
+      color: #374151;
+      margin-bottom: 1rem;
     }
 
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 1.5rem;
-      margin-bottom: 2rem;
+    .example-content {
+      background: white;
+      border-radius: 8px;
+      padding: 1.5rem;
+      border: 1px solid #e5e7eb;
     }
 
     .code-block {
-      background: #1e293b;
-      color: #e2e8f0;
-      padding: 1rem;
-      border-radius: 0.5rem;
+      background: #1f2937;
+      color: #f9fafb;
+      padding: 1.25rem;
+      border-radius: 8px;
       overflow-x: auto;
-      font-family: 'Courier New', monospace;
+      font-family: 'Monaco', 'Menlo', 'Courier New', monospace;
       font-size: 0.875rem;
-      margin-top: 0.5rem;
+      line-height: 1.6;
+      margin-top: 1rem;
     }
 
-    .stats {
-      display: flex;
-      justify-content: space-around;
-      margin-top: 2rem;
-      padding-top: 2rem;
-      border-top: 2px solid #e2e8f0;
+    .code-block code {
+      color: inherit;
     }
 
-    .stat {
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .rtl-comparison {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      margin-top: 1.5rem;
+    }
+
+    .rtl-box {
+      background: white;
+      border: 2px solid #e5e7eb;
+      border-radius: 12px;
+      padding: 1.5rem;
+    }
+
+    .rtl-box h4 {
+      font-size: 1rem;
+      font-weight: 600;
+      color: #374151;
+      margin-bottom: 1rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 2px solid #667eea;
+    }
+
+    .api-section {
+      background: #f9fafb;
+      border-radius: 12px;
+      padding: 2rem;
+      margin-top: 3rem;
+    }
+
+    .api-section h2 {
+      font-size: 2rem;
+      font-weight: 700;
+      color: #1f2937;
+      margin-bottom: 1.5rem;
       text-align: center;
     }
 
-    .stat-value {
-      font-size: 2rem;
-      font-weight: bold;
-      color: #667eea;
+    .api-table {
+      width: 100%;
+      border-collapse: collapse;
+      background: white;
+      border-radius: 8px;
+      overflow: hidden;
+      margin-bottom: 2rem;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
     }
 
-    .stat-label {
-      color: #666;
+    .api-table th {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 1rem;
+      text-align: left;
+      font-weight: 600;
       font-size: 0.875rem;
       text-transform: uppercase;
-      letter-spacing: 0.05em;
+      letter-spacing: 0.5px;
     }
 
-    .demo-container {
-      padding: 1.5rem;
-      background: #f8fafc;
-      border-radius: 0.5rem;
-      border: 1px solid #e2e8f0;
-    }
-
-    .back-link {
-      display: inline-block;
-      margin-bottom: 2rem;
-      padding: 0.75rem 1.5rem;
-      background: white;
-      color: #667eea;
-      text-decoration: none;
-      border-radius: 0.5rem;
-      font-weight: 500;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-      transition: transform 0.2s, box-shadow 0.2s;
-    }
-
-    .back-link:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
-    }
-
-    .feature-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 1rem;
-      margin-bottom: 2rem;
-    }
-
-    .feature-card {
+    .api-table td {
       padding: 1rem;
-      background: #f8fafc;
-      border-radius: 0.5rem;
-      border-left: 4px solid #667eea;
+      border-bottom: 1px solid #e5e7eb;
+      vertical-align: top;
     }
 
-    .feature-card strong {
+    .api-table tbody tr:last-child td {
+      border-bottom: none;
+    }
+
+    .api-table tbody tr:hover {
+      background: #f9fafb;
+    }
+
+    .api-table code {
+      background: #f3f4f6;
+      padding: 0.125rem 0.375rem;
+      border-radius: 4px;
+      font-family: 'Monaco', 'Menlo', 'Courier New', monospace;
+      font-size: 0.875rem;
+      color: #be185d;
+    }
+
+    .event-log {
+      background: #1f2937;
+      color: #10b981;
+      padding: 1rem;
+      border-radius: 8px;
+      font-family: 'Monaco', 'Menlo', 'Courier New', monospace;
+      font-size: 0.875rem;
+      max-height: 200px;
+      overflow-y: auto;
+      margin-top: 1rem;
+      border: 2px solid #374151;
+    }
+
+    .event-log-entry {
+      margin-bottom: 0.25rem;
+      padding: 0.25rem;
+      border-left: 3px solid #10b981;
+      padding-left: 0.5rem;
+    }
+
+    .event-log-time {
+      color: #9ca3af;
+      margin-right: 0.5rem;
+    }
+
+    .note-box {
+      background: #fef3c7;
+      border-left: 4px solid #f59e0b;
+      padding: 1rem 1.25rem;
+      border-radius: 6px;
+      margin: 1.5rem 0;
+    }
+
+    .note-box strong {
+      color: #92400e;
       display: block;
       margin-bottom: 0.5rem;
-      color: #333;
     }
 
-    .feature-card p {
+    .note-box p {
+      color: #78350f;
       margin: 0;
-      font-size: 0.875rem;
-      color: #666;
+      line-height: 1.6;
+    }
+
+    @media (max-width: 768px) {
+      body {
+        padding: 1.5rem 1rem;
+      }
+
+      .container {
+        padding: 1.5rem;
+      }
+
+      .header h1 {
+        font-size: 2rem;
+      }
+
+      .rtl-comparison {
+        grid-template-columns: 1fr;
+      }
+
+      .grid-2 {
+        grid-template-columns: 1fr;
+      }
     }
   </style>
 </head>
 <body>
   <div class="container">
-    <a href="../index.html" class="back-link">← Back to Home</a>
-
+    <!-- Header -->
     <div class="header">
-      <h1>Callout Component</h1>
-      <p>Flexible notification component for displaying important messages, alerts, and information</p>
-      <div class="stats">
-        <div class="stat">
-          <div class="stat-value">5</div>
-          <div class="stat-label">Variants</div>
-        </div>
-        <div class="stat">
-          <div class="stat-value">2</div>
-          <div class="stat-label">Appearances</div>
-        </div>
-        <div class="stat">
-          <div class="stat-value">4</div>
-          <div class="stat-label">Slots</div>
-        </div>
-        <div class="stat">
-          <div class="stat-value">100%</div>
-          <div class="stat-label">Accessible</div>
-        </div>
+      <h1>🔔 Callout Component</h1>
+      <p>Alert and notification component with multiple variants, appearances, and interactive features</p>
+
+      <div class="feature-badges">
+        <span class="badge">5 Variants</span>
+        <span class="badge">2 Appearances</span>
+        <span class="badge">Custom Icons</span>
+        <span class="badge">Action Slots</span>
+        <span class="badge">Dismissible</span>
+        <span class="badge">Bordered Option</span>
+        <span class="badge">RTL Support</span>
+        <span class="badge">Accessibility</span>
       </div>
     </div>
 
-    <!-- Component Features -->
-    <section class="section">
-      <h2 class="section-title">Component Features</h2>
-      <div class="feature-grid">
-        <div class="feature-card">
-          <strong>5 Variants</strong>
-          <p>default, error, warning, success, info</p>
-        </div>
-        <div class="feature-card">
-          <strong>2 Appearances</strong>
-          <p>soft (light background) and solid (dark background)</p>
-        </div>
-        <div class="feature-card">
-          <strong>Default Icons</strong>
-          <p>Automatic contextual icons based on variant</p>
-        </div>
-        <div class="feature-card">
-          <strong>Custom Icons</strong>
-          <p>Override with your own icon via slot</p>
-        </div>
-        <div class="feature-card">
-          <strong>Dismissible</strong>
-          <p>Optional close button to hide the callout</p>
-        </div>
-        <div class="feature-card">
-          <strong>Bordered</strong>
-          <p>Optional border styling</p>
-        </div>
-        <div class="feature-card">
-          <strong>Actions Slot</strong>
-          <p>Add interactive buttons at the bottom</p>
-        </div>
-        <div class="feature-card">
-          <strong>Link Slot</strong>
-          <p>Add action links in the top-right</p>
-        </div>
-      </div>
-    </section>
-
-    <!-- Basic Variants with Default Icons -->
-    <section class="section">
-      <h2 class="section-title">Basic Variants (Soft Appearance)</h2>
-      <p style="color: #666; margin-bottom: 1.5rem;">
-        All variants with default icons automatically provided. No icon slot needed!
+    <!-- Section 1: All Variants (Soft Appearance) -->
+    <div class="section">
+      <h2 class="section-title">1. All Variants (Soft Appearance)</h2>
+      <p class="section-description">
+        The callout component comes in 5 semantic variants with default soft appearance.
       </p>
 
-      <div class="example">
-        <span class="example-label">Default Variant</span>
-        <aegov-callout variant="default" appearance="soft">
-          <div slot="content">
-            <aegov-title size="lg" class="mb-2">Default callout</aegov-title>
-            <aegov-text class="mb-0">This is a default callout with automatic icon. Use for general information.</aegov-text>
-          </div>
-        </aegov-callout>
-      </div>
+      <div class="example-box">
+        <div class="example-title">Default, Error, Warning, Success, Info</div>
+        <div class="example-content">
+          <aegov-callout variant="default">
+            <span slot="content"><strong>Default Callout:</strong> This is a standard informational message for general notices.</span>
+          </aegov-callout>
 
-      <div class="example">
-        <span class="example-label">Error Variant</span>
-        <aegov-callout variant="error" appearance="soft">
-          <div slot="content">
-            <aegov-title size="lg" class="mb-2">An error occured</aegov-title>
-            <aegov-text class="mb-0">Unable to process your request. Please check the form and try again.</aegov-text>
-          </div>
-        </aegov-callout>
-      </div>
+          <aegov-callout variant="error">
+            <span slot="content"><strong>Error:</strong> There was a problem processing your request. Please try again.</span>
+          </aegov-callout>
 
-      <div class="example">
-        <span class="example-label">Warning Variant</span>
-        <aegov-callout variant="warning" appearance="soft">
-          <div slot="content">
-            <aegov-title size="lg" class="mb-2">Warning!</aegov-title>
-            <aegov-text class="mb-0">Your session will expire in 5 minutes. Please save your work.</aegov-text>
-          </div>
-        </aegov-callout>
-      </div>
+          <aegov-callout variant="warning">
+            <span slot="content"><strong>Warning:</strong> Your session will expire in 5 minutes. Please save your work.</span>
+          </aegov-callout>
 
-      <div class="example">
-        <span class="example-label">Success Variant</span>
-        <aegov-callout variant="success" appearance="soft">
-          <div slot="content">
-            <aegov-title size="lg" class="mb-2">Success!</aegov-title>
-            <aegov-text class="mb-0">Your Emirates ID application has been submitted successfully.</aegov-text>
-          </div>
-        </aegov-callout>
-      </div>
+          <aegov-callout variant="success">
+            <span slot="content"><strong>Success:</strong> Your changes have been saved successfully!</span>
+          </aegov-callout>
 
-      <div class="example">
-        <span class="example-label">Info Variant</span>
-        <aegov-callout variant="info" appearance="soft">
-          <div slot="content">
-            <aegov-title size="lg" class="mb-2">Information</aegov-title>
-            <aegov-text class="mb-0">Our services will be under maintenance on Saturday from 2 AM to 6 AM.</aegov-text>
-          </div>
-        </aegov-callout>
-      </div>
-    </section>
+          <aegov-callout variant="info">
+            <span slot="content"><strong>Information:</strong> New features are available. Check out our latest updates.</span>
+          </aegov-callout>
+        </div>
+        <div class="code-block"><code>&lt;aegov-callout variant="default"&gt;
+  &lt;span slot="content"&gt;&lt;strong&gt;Default Callout:&lt;/strong&gt; This is a standard informational message.&lt;/span&gt;
+&lt;/aegov-callout&gt;
 
-    <!-- Solid Appearance -->
-    <section class="section">
-      <h2 class="section-title">Solid Appearance</h2>
-      <p style="color: #666; margin-bottom: 1.5rem;">
-        Solid appearance uses dark backgrounds with light text for higher emphasis.
+&lt;aegov-callout variant="error"&gt;
+  &lt;span slot="content"&gt;&lt;strong&gt;Error:&lt;/strong&gt; There was a problem processing your request.&lt;/span&gt;
+&lt;/aegov-callout&gt;</code></div>
+      </div>
+    </div>
+
+    <!-- Section 2: Solid Appearance -->
+    <div class="section">
+      <h2 class="section-title">2. Solid Appearance</h2>
+      <p class="section-description">
+        Use <code>appearance="solid"</code> for bold, high-contrast callouts that demand attention.
       </p>
 
-      <div class="example">
-        <span class="example-label">Default - Solid</span>
-        <aegov-callout variant="default" appearance="solid">
-          <div slot="content">
-            <div class="text-lg font-bold mb-2">Default Callout (Solid)</div>
-            <p class="mb-0">High contrast variant for important general information.</p>
-          </div>
-        </aegov-callout>
-      </div>
+      <div class="example-box">
+        <div class="example-title">Solid Variants</div>
+        <div class="example-content">
+          <aegov-callout variant="error" appearance="solid">
+            <span slot="content"><strong>Critical Error:</strong> System maintenance required immediately.</span>
+          </aegov-callout>
 
-      <div class="example">
-        <span class="example-label">Error - Solid</span>
-        <aegov-callout variant="error" appearance="solid">
-          <div slot="content">
-            <div class="text-lg font-bold mb-2">Critical Error (Solid)</div>
-            <p class="mb-0">System error detected. Please contact support immediately.</p>
-          </div>
-        </aegov-callout>
-      </div>
+          <aegov-callout variant="warning" appearance="solid">
+            <span slot="content"><strong>Important Warning:</strong> This action cannot be undone.</span>
+          </aegov-callout>
 
-      <div class="example">
-        <span class="example-label">Warning - Solid</span>
-        <aegov-callout variant="warning" appearance="solid">
-          <div slot="content">
-            <div class="text-lg font-bold mb-2">Important Warning (Solid)</div>
-            <p class="mb-0">This action cannot be undone. Please review before proceeding.</p>
-          </div>
-        </aegov-callout>
-      </div>
+          <aegov-callout variant="success" appearance="solid">
+            <span slot="content"><strong>Deployment Complete:</strong> Application is now live in production.</span>
+          </aegov-callout>
 
-      <div class="example">
-        <span class="example-label">Success - Solid</span>
-        <aegov-callout variant="success" appearance="solid">
-          <div slot="content">
-            <div class="text-lg font-bold mb-2">Payment Successful (Solid)</div>
-            <p class="mb-0">Your payment of AED 500 has been processed successfully.</p>
-          </div>
-        </aegov-callout>
+          <aegov-callout variant="info" appearance="solid">
+            <span slot="content"><strong>System Update:</strong> Scheduled maintenance tonight from 10 PM to 12 AM.</span>
+          </aegov-callout>
+        </div>
+        <div class="code-block"><code>&lt;aegov-callout variant="error" appearance="solid"&gt;
+  &lt;span slot="content"&gt;&lt;strong&gt;Critical Error:&lt;/strong&gt; System maintenance required.&lt;/span&gt;
+&lt;/aegov-callout&gt;</code></div>
       </div>
+    </div>
 
-      <div class="example">
-        <span class="example-label">Info - Solid</span>
-        <aegov-callout variant="info" appearance="solid">
-          <div slot="content">
-            <div class="text-lg font-bold mb-2">System Update (Solid)</div>
-            <p class="mb-0">A new version is available. Update now for new features.</p>
-          </div>
-        </aegov-callout>
-      </div>
-    </section>
-
-    <!-- With Borders -->
-    <section class="section">
-      <h2 class="section-title">With Borders</h2>
-      <p style="color: #666; margin-bottom: 1.5rem;">
-        Add the <code>bordered</code> prop to display callouts with borders.
+    <!-- Section 3: Bordered Callouts -->
+    <div class="section">
+      <h2 class="section-title">3. Bordered Callouts</h2>
+      <p class="section-description">
+        Add <code>bordered</code> attribute to include a border around the callout for better visual separation.
       </p>
 
-      <div class="grid">
-        <div class="example">
-          <span class="example-label">Error with Border (Soft)</span>
-          <aegov-callout variant="error" appearance="soft" bordered>
-            <div slot="content">
-              <div class="font-bold mb-1">Validation Error</div>
-              <p class="mb-0">Please fill in all required fields.</p>
+      <div class="example-box">
+        <div class="example-title">Soft with Border</div>
+        <div class="example-content">
+          <aegov-callout variant="info" bordered>
+            <span slot="content"><strong>Pro Tip:</strong> Use keyboard shortcuts to navigate faster through the interface.</span>
+          </aegov-callout>
+
+          <aegov-callout variant="success" bordered>
+            <span slot="content"><strong>Well Done:</strong> You've completed all required training modules.</span>
+          </aegov-callout>
+        </div>
+        <div class="code-block"><code>&lt;aegov-callout variant="info" bordered&gt;
+  &lt;span slot="content"&gt;&lt;strong&gt;Pro Tip:&lt;/strong&gt; Use keyboard shortcuts.&lt;/span&gt;
+&lt;/aegov-callout&gt;</code></div>
+      </div>
+    </div>
+
+    <!-- Section 4: Dismissible Callouts -->
+    <div class="section">
+      <h2 class="section-title">4. Dismissible Callouts</h2>
+      <p class="section-description">
+        Enable the <code>dismissible</code> property to allow users to close the callout. Listen to <code>aegovCalloutDismiss</code> event.
+      </p>
+
+      <div class="example-box">
+        <div class="example-title">Dismissible Examples</div>
+        <div class="example-content">
+          <aegov-callout variant="info" dismissible>
+            <span slot="content"><strong>Cookie Notice:</strong> We use cookies to improve your experience. Click the X to dismiss this notice.</span>
+          </aegov-callout>
+
+          <aegov-callout variant="warning" appearance="solid" dismissible>
+            <span slot="content"><strong>Limited Time Offer:</strong> Special pricing ends tonight at midnight.</span>
+          </aegov-callout>
+        </div>
+        <div class="code-block"><code>&lt;aegov-callout variant="info" dismissible&gt;
+  &lt;span slot="content"&gt;Cookie Notice: We use cookies to improve your experience.&lt;/span&gt;
+&lt;/aegov-callout&gt;</code></div>
+      </div>
+    </div>
+
+    <!-- Section 5: Callouts with Action Buttons -->
+    <div class="section">
+      <h2 class="section-title">5. Callouts with Action Buttons</h2>
+      <p class="section-description">
+        Use the <code>actions</code> slot to add buttons or action links to the callout.
+      </p>
+
+      <div class="example-box">
+        <div class="example-title">Call-to-Action Callouts</div>
+        <div class="example-content">
+          <aegov-callout variant="success">
+            <span slot="content"><strong>Update Available:</strong> A new version of the application is ready to install.</span>
+            <div slot="actions">
+              <aegov-button size="sm">Update Now</aegov-button>
+              <aegov-button size="sm" variant="outline">Remind Me Later</aegov-button>
+            </div>
+          </aegov-callout>
+
+          <aegov-callout variant="warning" appearance="solid">
+            <span slot="content"><strong>Unsaved Changes:</strong> You have unsaved changes that will be lost if you leave this page.</span>
+            <div slot="actions">
+              <aegov-button size="sm">Save Changes</aegov-button>
+              <aegov-button size="sm" variant="outline">Discard</aegov-button>
+            </div>
+          </aegov-callout>
+
+          <aegov-callout variant="error">
+            <span slot="content"><strong>Payment Failed:</strong> Your payment method was declined. Please update your billing information.</span>
+            <div slot="actions">
+              <aegov-button size="sm">Update Payment Method</aegov-button>
             </div>
           </aegov-callout>
         </div>
-
-        <div class="example">
-          <span class="example-label">Success with Border (Soft)</span>
-          <aegov-callout variant="success" appearance="soft" bordered>
-            <div slot="content">
-              <div class="font-bold mb-1">Form Submitted</div>
-              <p class="mb-0">We'll review your application.</p>
-            </div>
-          </aegov-callout>
-        </div>
-
-        <div class="example">
-          <span class="example-label">Warning with Border (Solid)</span>
-          <aegov-callout variant="warning" appearance="solid" bordered>
-            <div slot="content">
-              <div class="font-bold mb-1">Disk Space Low</div>
-              <p class="mb-0">Only 10% storage remaining.</p>
-            </div>
-          </aegov-callout>
-        </div>
-
-        <div class="example">
-          <span class="example-label">Info with Border (Solid)</span>
-          <aegov-callout variant="info" appearance="solid" bordered>
-            <div slot="content">
-              <div class="font-bold mb-1">New Feature</div>
-              <p class="mb-0">Try our new dashboard layout!</p>
-            </div>
-          </aegov-callout>
-        </div>
-      </div>
-    </section>
-
-    <!-- Dismissible -->
-    <section class="section">
-      <h2 class="section-title">Dismissible Callouts</h2>
-      <p style="color: #666; margin-bottom: 1.5rem;">
-        Add the <code>dismissible</code> prop to allow users to close the callout.
-      </p>
-
-      <div class="grid">
-        <div class="example">
-          <span class="example-label">Dismissible Info</span>
-          <aegov-callout variant="info" appearance="soft" dismissible>
-            <div slot="content">
-              <div class="font-bold mb-1">Cookie Notice</div>
-              <p class="mb-0">We use cookies to improve your experience.</p>
-            </div>
-          </aegov-callout>
-        </div>
-
-        <div class="example">
-          <span class="example-label">Dismissible Warning</span>
-          <aegov-callout variant="warning" appearance="soft" dismissible>
-            <div slot="content">
-              <div class="font-bold mb-1">Update Available</div>
-              <p class="mb-0">A new version is ready to install.</p>
-            </div>
-          </aegov-callout>
-        </div>
-
-        <div class="example">
-          <span class="example-label">Dismissible Success</span>
-          <aegov-callout variant="success" appearance="solid" dismissible>
-            <div slot="content">
-              <div class="font-bold mb-1">Changes Saved</div>
-              <p class="mb-0">Your preferences have been updated.</p>
-            </div>
-          </aegov-callout>
-        </div>
-
-        <div class="example">
-          <span class="example-label">Dismissible Error</span>
-          <aegov-callout variant="error" appearance="solid" dismissible>
-            <div slot="content">
-              <div class="font-bold mb-1">Connection Lost</div>
-              <p class="mb-0">Please check your internet connection.</p>
-            </div>
-          </aegov-callout>
-        </div>
-      </div>
-    </section>
-
-    <!-- Custom Icons -->
-    <section class="section">
-      <h2 class="section-title">Custom Icons</h2>
-      <p style="color: #666; margin-bottom: 1.5rem;">
-        Override the default icon by providing your own SVG in the icon slot.
-      </p>
-
-      <div class="example">
-        <span class="example-label">Custom Shield Icon (Security)</span>
-        <aegov-callout variant="success" appearance="soft">
-          <svg slot="icon" class="size-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256">
-            <rect width="256" height="256" fill="none"/>
-            <path d="M208,40H48A16,16,0,0,0,32,56v56c0,52.72,25.52,84.67,46.93,102.19,23.06,18.86,46,25.26,47,25.53a8,8,0,0,0,4.2,0c1-.27,23.91-6.67,47-25.53C198.48,196.67,224,164.72,224,112V56A16,16,0,0,0,208,40Zm-34.32,69.66-56,56a8,8,0,0,1-11.32,0l-24-24a8,8,0,0,1,11.32-11.32L112,148.69l50.34-50.35a8,8,0,0,1,11.32,11.32Z"/>
-          </svg>
-          <div slot="content">
-            <div class="text-lg font-bold mb-2">Secure Connection</div>
-            <p class="mb-0">Your connection is encrypted and secure.</p>
-          </div>
-        </aegov-callout>
-      </div>
-
-      <div class="example">
-        <span class="example-label">Custom Bell Icon (Notification)</span>
-        <aegov-callout variant="info" appearance="soft">
-          <svg slot="icon" class="size-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256">
-            <rect width="256" height="256" fill="none"/>
-            <path d="M221.8,175.94C216.25,166.38,208,139.33,208,104a80,80,0,1,0-160,0c0,35.34-8.26,62.38-13.81,71.94A16,16,0,0,0,48,200H88.81a40,40,0,0,0,78.38,0H208a16,16,0,0,0,13.8-24.06ZM128,216a24,24,0,0,1-22.62-16h45.24A24,24,0,0,1,128,216ZM48,184c7.7-13.24,16-43.92,16-80a64,64,0,1,1,128,0c0,36.05,8.28,66.73,16,80Z"/>
-          </svg>
-          <div slot="content">
-            <div class="text-lg font-bold mb-2">New Notification</div>
-            <p class="mb-0">You have 3 unread messages waiting for you.</p>
-          </div>
-        </aegov-callout>
-      </div>
-
-      <div class="example">
-        <span class="example-label">Custom Star Icon (Feature)</span>
-        <aegov-callout variant="warning" appearance="solid">
-          <svg slot="icon" class="size-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256">
-            <rect width="256" height="256" fill="none"/>
-            <path d="M234.5,114.38l-45.1,39.36,13.51,58.6a16,16,0,0,1-23.84,17.34l-51.11-31-51,31a16,16,0,0,1-23.84-17.34L66.61,153.8,21.5,114.38a16,16,0,0,1,9.11-28.06l59.46-5.15,23.21-55.36a16,16,0,0,1,29.44,0h0L166,81.17l59.44,5.15a16,16,0,0,1,9.11,28.06Z"/>
-          </svg>
-          <div slot="content">
-            <div class="text-lg font-bold mb-2">Premium Feature</div>
-            <p class="mb-0">Upgrade to unlock advanced analytics and reports.</p>
-          </div>
-        </aegov-callout>
-      </div>
-    </section>
-
-    <!-- With Link Slot -->
-    <section class="section">
-      <h2 class="section-title">With Link Slot</h2>
-      <p style="color: #666; margin-bottom: 1.5rem;">
-        Add action links in the top-right corner using the link slot.
-      </p>
-
-      <div class="example">
-        <span class="example-label">With Single Link</span>
-        <aegov-callout variant="info" appearance="soft">
-          <div slot="content">
-            Documentation Updated
-          </div>
-          <a href="#" slot="link">View Docs</a>
-        </aegov-callout>
-      </div>
-
-      <div class="example">
-        <span class="example-label">Warning with Link</span>
-        <aegov-callout variant="warning" appearance="soft">
-          <div slot="content">
-            License Expiring Soon
-          </div>
-          <a href="#" slot="link">Renew License</a>
-        </aegov-callout>
-      </div>
-
-      <div class="example">
-        <span class="example-label">Success with Link (Solid)</span>
-        <aegov-callout variant="success" appearance="solid">
-          <div slot="content">
-            <div class="text-lg font-bold mb-2">Backup Complete</div>
-            <p class="mb-0">Your data has been successfully backed up to the cloud.</p>
-          </div>
-          <a href="#" slot="link">View Backup</a>
-        </aegov-callout>
-      </div>
-    </section>
-
-    <!-- With Actions Slot -->
-    <section class="section">
-      <h2 class="section-title">With Actions Slot</h2>
-      <p style="color: #666; margin-bottom: 1.5rem;">
-        Add interactive buttons at the bottom using the actions slot. Note the automatic spacing!
-      </p>
-
-      <div class="example">
-        <span class="example-label">Error with Action Buttons</span>
-        <aegov-callout variant="error" appearance="soft">
-          <div slot="content">
-            <div class="text-lg font-bold mb-2">Unable to save your request to issue a new Emirates ID</div>
-            <p class="mb-0">We have detected various KYC details missing and hence we cannot proceed with your request to issue a new Emirates ID. The following details need to be completed before submitting this request.</p>
-          </div>
-          <div slot="actions">
-            <aegov-button variant="solid" appearance="primary">Complete KYC</aegov-button>
-            <aegov-button variant="outline" appearance="primary">Try Again</aegov-button>
-            <aegov-button variant="soft" appearance="primary">Try Again</aegov-button>
-            <aegov-button variant="link" appearance="primary">Try Again</aegov-button>
-          </div>
-        </aegov-callout>
-      </div>
-
-      <div class="example">
-        <span class="example-label">Warning with Single Action</span>
-        <aegov-callout variant="warning" appearance="soft">
-          <div slot="content">
-            <div class="text-lg font-bold mb-2">Unsaved Changes</div>
-            <p class="mb-0">You have unsaved changes that will be lost if you leave this page.</p>
-          </div>
-          <div slot="actions">
-            <aegov-button variant="solid" appearance="primary">Save changes</aegov-button>
-          </div>
-        </aegov-callout>
-      </div>
-
-      <div class="example">
-        <span class="example-label">Info with Multiple Actions (Solid)</span>
-        <aegov-callout variant="info" appearance="solid">
-          <div slot="content">
-            <div class="text-lg font-bold mb-2">App Update Available</div>
-            <p class="mb-0">Version 2.5.0 is now available with new features and bug fixes.</p>
-          </div>
-          <div slot="actions">
-            <aegov-button variant="solid" appearance="primary">Update now</aegov-button>
-            <aegov-button variant="outline" appearance="primary">View changes</aegov-button>
-            <aegov-button variant="link" appearance="primary">Remind me later</aegov-button>
-          </div>
-        </aegov-callout>
-      </div>
-
-      <div class="example">
-        <span class="example-label">Success with Actions and Link</span>
-        <aegov-callout variant="success" appearance="soft">
-          <div slot="content">
-            <div class="text-lg font-bold mb-2">Account Created Successfully</div>
-            <p class="mb-0">Welcome to AEGOV! Your account has been created and verified.</p>
-          </div>
-          <a href="#" slot="link">Account Settings</a>
-          <div slot="actions">
-            <div class="flex items-center justify-start gap-4">
-              <aegov-button variant="solid" appearance="primary">Complete profile</aegov-button>
-              <aegov-button variant="soft" appearance="primary">Skip for now</aegov-button>
-            </div>
-          </div>
-        </aegov-callout>
-      </div>
-    </section>
-
-    <!-- Combined Features -->
-    <section class="section">
-      <h2 class="section-title">Combined Features</h2>
-      <p style="color: #666; margin-bottom: 1.5rem;">
-        Examples showing multiple features combined together.
-      </p>
-
-      <div class="example">
-        <span class="example-label">All Features: Custom Icon + Border + Dismissible + Link + Actions</span>
-        <aegov-callout variant="warning" appearance="soft" bordered dismissible>
-          <svg slot="icon" class="size-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256">
-            <rect width="256" height="256" fill="none"/>
-            <path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm0,192a88,88,0,1,1,88-88A88.1,88.1,0,0,1,128,216Zm64-88a8,8,0,0,1-8,8H128a8,8,0,0,1-8-8V72a8,8,0,0,1,16,0v48h48A8,8,0,0,1,192,128Z"/>
-          </svg>
-          <div slot="content">
-            <div class="text-lg font-bold mb-2">Session Timeout Warning</div>
-            <p class="mb-0">Your session will expire in 5 minutes due to inactivity. Would you like to extend your session?</p>
-          </div>
-          <a href="#" slot="link">Help</a>
-          <div slot="actions">
-            <div class="flex items-center justify-start gap-4">
-              <aegov-button variant="solid" appearance="primary">Extend session</aegov-button>
-              <aegov-button variant="link" appearance="primary">Save & Logout</aegov-button>
-            </div>
-          </div>
-        </aegov-callout>
-      </div>
-
-      <div class="example">
-        <span class="example-label">Solid + Border + Dismissible + Actions</span>
-        <aegov-callout variant="error" appearance="solid" bordered dismissible>
-          <div slot="content">
-            <div class="text-lg font-bold mb-2">Payment Failed</div>
-            <p class="mb-0">Your payment could not be processed. Please verify your payment details and try again.</p>
-          </div>
-          <a href="#" slot="link">Contact Support</a>
-          <div slot="actions">
-            <div class="flex items-center justify-start gap-4">
-              <aegov-button variant="solid" appearance="primary">Update payment method</aegov-button>
-              <aegov-button variant="outline" appearance="primary">Update payment method</aegov-button>
-              <aegov-button variant="soft" appearance="primary">Retry again</aegov-button>
-              <aegov-button variant="link" appearance="primary">Retry again</aegov-button>
-            </div>
-          </div>
-        </aegov-callout>
-      </div>
-    </section>
-
-    <!-- Real World Examples -->
-    <section class="section">
-      <h2 class="section-title">Real World Use Cases</h2>
-
-      <h3 class="subsection-title">Form Validation</h3>
-      <div class="example">
-        <aegov-callout variant="error" appearance="soft" bordered>
-          <div slot="content">
-            <div class="text-lg font-bold mb-2">Form Validation Error</div>
-            <p class="mb-0">Please correct the following errors:</p>
-            <ul style="margin: 0.5rem 0 0 1.5rem; padding: 0;">
-              <li>Email address is required</li>
-              <li>Password must be at least 8 characters</li>
-              <li>Phone number format is invalid</li>
-            </ul>
-          </div>
-        </aegov-callout>
-      </div>
-
-      <h3 class="subsection-title">System Announcements</h3>
-      <div class="example">
-        <aegov-callout variant="info" appearance="solid" dismissible>
-          <div slot="content">
-            <div class="text-lg font-bold mb-2">Scheduled Maintenance</div>
-            <p class="mb-0">Our systems will undergo scheduled maintenance on Saturday, January 15, 2025 from 02:00 to 06:00 GST. Services may be temporarily unavailable during this time.</p>
-          </div>
-          <a href="#" slot="link">More Info</a>
-        </aegov-callout>
-      </div>
-
-      <h3 class="subsection-title">Success Confirmation</h3>
-      <div class="example">
-        <aegov-callout variant="success" appearance="soft">
-          <div slot="content">
-            <div class="text-lg font-bold mb-2">Application Submitted Successfully</div>
-            <p class="mb-0">Your application for Emirates ID renewal has been received. Reference number: <strong>AE-2025-001234</strong></p>
-          </div>
-          <div slot="actions">
-            <div class="flex items-center justify-start gap-4">
-              <aegov-button variant="solid" appearance="primary">Track application</aegov-button>
-              <aegov-button variant="outline" appearance="primary">Download receipt</aegov-button>
-            </div>
-          </div>
-        </aegov-callout>
-      </div>
-
-      <h3 class="subsection-title">Account Verification</h3>
-      <div class="example">
-        <aegov-callout variant="warning" appearance="soft" bordered>
-          <div slot="content">
-            <div class="text-lg font-bold mb-2">Verify Your Email Address</div>
-            <p class="mb-0">Please verify your email address to activate all features of your account. A verification link has been sent to your email.</p>
-          </div>
-          <a href="#" slot="link">Resend Email</a>
-          <div slot="actions">
-            <aegov-button variant="link" appearance="primary">Check email</aegov-button>
-          </div>
-        </aegov-callout>
-      </div>
-
-      <h3 class="subsection-title">Privacy Notice</h3>
-      <div class="example">
-        <aegov-callout variant="default" appearance="soft" dismissible>
-          <svg slot="icon" class="size-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256">
-            <rect width="256" height="256" fill="none"/>
-            <path d="M208,40H48A16,16,0,0,0,32,56v56c0,52.72,25.52,84.67,46.93,102.19,23.06,18.86,46,25.26,47,25.53a8,8,0,0,0,4.2,0c1-.27,23.91-6.67,47-25.53C198.48,196.67,224,164.72,224,112V56A16,16,0,0,0,208,40ZM128,176a12,12,0,1,1,12-12A12,12,0,0,1,128,176Zm8-44a8,8,0,0,1-16,0V80a8,8,0,0,1,16,0Z"/>
-          </svg>
-          <div slot="content">
-            <div class="text-lg font-bold mb-2">We Value Your Privacy</div>
-            <p class="mb-0">We use cookies to enhance your browsing experience and analyze our traffic. By continuing to use this site, you consent to our use of cookies.</p>
-          </div>
-          <a href="#" slot="link">Privacy Policy</a>
-          <div slot="actions">
-            <div class="flex items-center justify-start gap-4">
-              <aegov-button variant="solid" appearance="primary">Accept all</aegov-button>
-              <aegov-button variant="outline" appearance="primary">Customise</aegov-button>
-              <aegov-button variant="soft" appearance="primary">Customise</aegov-button>
-            </div>
-          </div>
-        </aegov-callout>
-      </div>
-    </section>
-
-    <!-- Code Examples -->
-    <section class="section">
-      <h2 class="section-title">Code Examples</h2>
-
-      <h3 class="subsection-title">Basic Usage</h3>
-      <div class="code-block">&lt;aegov-callout variant="success" appearance="soft"&gt;
-  &lt;div slot="content"&gt;
-    &lt;div class="text-lg font-bold mb-2"&gt;Success!&lt;/div&gt;
-    &lt;p&gt;Your changes have been saved.&lt;/p&gt;
-  &lt;/div&gt;
-&lt;/aegov-callout&gt;</div>
-
-      <h3 class="subsection-title">With Custom Icon</h3>
-      <div class="code-block">&lt;aegov-callout variant="info" appearance="soft"&gt;
-  &lt;svg slot="icon" class="size-6" xmlns="..."&gt;...&lt;/svg&gt;
-  &lt;div slot="content"&gt;
-    &lt;p&gt;Custom icon example&lt;/p&gt;
-  &lt;/div&gt;
-&lt;/aegov-callout&gt;</div>
-
-      <h3 class="subsection-title">With Actions</h3>
-      <div class="code-block">&lt;aegov-callout variant="warning" appearance="soft"&gt;
-  &lt;div slot="content"&gt;
-    &lt;p&gt;Unsaved changes detected.&lt;/p&gt;
-  &lt;/div&gt;
+        <div class="code-block"><code>&lt;aegov-callout variant="success"&gt;
+  &lt;span slot="content"&gt;&lt;strong&gt;Update Available:&lt;/strong&gt; A new version is ready.&lt;/span&gt;
   &lt;div slot="actions"&gt;
-    &lt;div class="flex gap-4"&gt;
-      &lt;button&gt;Save&lt;/button&gt;
-      &lt;button&gt;Discard&lt;/button&gt;
+    &lt;aegov-button size="sm"&gt;Update Now&lt;/aegov-button&gt;
+    &lt;aegov-button size="sm" variant="outline"&gt;Remind Me Later&lt;/aegov-button&gt;
+  &lt;/div&gt;
+&lt;/aegov-callout&gt;</code></div>
+      </div>
+    </div>
+
+    <!-- Section 6: Callouts with Links -->
+    <div class="section">
+      <h2 class="section-title">6. Callouts with Links</h2>
+      <p class="section-description">
+        Use the <code>link</code> slot to add a clickable link to the right side of the callout.
+      </p>
+
+      <div class="example-box">
+        <div class="example-title">Links in Callouts</div>
+        <div class="example-content">
+          <aegov-callout variant="info">
+            <span slot="content"><strong>Documentation Updated:</strong> Check out the new developer guides and API references.</span>
+            <a slot="link" href="/docs">View Docs →</a>
+          </aegov-callout>
+
+          <aegov-callout variant="default" bordered>
+            <span slot="content"><strong>Privacy Policy:</strong> We've updated our privacy policy to reflect new data regulations.</span>
+            <a slot="link" href="/privacy">Read More →</a>
+          </aegov-callout>
+        </div>
+        <div class="code-block"><code>&lt;aegov-callout variant="info"&gt;
+  &lt;span slot="content"&gt;&lt;strong&gt;Documentation Updated:&lt;/strong&gt; Check out the new guides.&lt;/span&gt;
+  &lt;a slot="link" href="/docs"&gt;View Docs →&lt;/a&gt;
+&lt;/aegov-callout&gt;</code></div>
+      </div>
+    </div>
+
+    <!-- Section 7: Custom Icons -->
+    <div class="section">
+      <h2 class="section-title">7. Custom Icons</h2>
+      <p class="section-description">
+        Replace the default icon with a custom SVG using the <code>icon</code> slot.
+      </p>
+
+      <div class="example-box">
+        <div class="example-title">Custom Icon Example</div>
+        <div class="example-content">
+          <aegov-callout variant="success">
+            <svg slot="icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
+            </svg>
+            <span slot="content"><strong>Custom Icon:</strong> This callout uses a custom layers icon instead of the default.</span>
+          </aegov-callout>
+        </div>
+        <div class="code-block"><code>&lt;aegov-callout variant="success"&gt;
+  &lt;svg slot="icon"&gt;...&lt;/svg&gt;
+  &lt;span slot="content"&gt;&lt;strong&gt;Custom Icon:&lt;/strong&gt; Custom layers icon.&lt;/span&gt;
+&lt;/aegov-callout&gt;</code></div>
+      </div>
+    </div>
+
+    <!-- Section 8: Rich HTML Content -->
+    <div class="section">
+      <h2 class="section-title">8. Rich HTML Content</h2>
+      <p class="section-description">
+        The content slot supports rich HTML including lists, bold text, and formatting.
+      </p>
+
+      <div class="example-box">
+        <div class="example-title">Formatted Content</div>
+        <div class="example-content">
+          <aegov-callout variant="info">
+            <div slot="content">
+              <strong>System Requirements:</strong>
+              <ul style="margin-top: 0.5rem; margin-left: 1.5rem;">
+                <li>Operating System: Windows 10 or macOS 10.15+</li>
+                <li>RAM: Minimum 8GB recommended</li>
+                <li>Storage: At least 500MB available space</li>
+                <li>Browser: Latest Chrome, Firefox, or Safari</li>
+              </ul>
+            </div>
+          </aegov-callout>
+
+          <aegov-callout variant="warning">
+            <div slot="content">
+              <strong>Before You Continue:</strong>
+              <p style="margin-top: 0.5rem; margin-bottom: 0.5rem;">Please ensure you have:</p>
+              <ol style="margin-left: 1.5rem;">
+                <li>Backed up all important files</li>
+                <li>Closed all other applications</li>
+                <li>Connected to a stable internet connection</li>
+              </ol>
+            </div>
+          </aegov-callout>
+        </div>
+        <div class="code-block"><code>&lt;aegov-callout variant="info"&gt;
+  &lt;div slot="content"&gt;
+    &lt;strong&gt;System Requirements:&lt;/strong&gt;
+    &lt;ul&gt;
+      &lt;li&gt;Operating System: Windows 10 or macOS 10.15+&lt;/li&gt;
+      &lt;li&gt;RAM: Minimum 8GB recommended&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/div&gt;
+&lt;/aegov-callout&gt;</code></div>
+      </div>
+    </div>
+
+    <!-- Section 9: Event Handling -->
+    <div class="section">
+      <h2 class="section-title">9. Event Handling</h2>
+      <p class="section-description">
+        Listen to the <code>aegovCalloutDismiss</code> event to perform actions when callouts are dismissed.
+      </p>
+
+      <div class="example-box">
+        <div class="example-title">Dismissible with Event Logging</div>
+        <div class="example-content">
+          <aegov-callout id="event-callout" variant="warning" dismissible>
+            <span slot="content"><strong>Try Me:</strong> Click the X button to dismiss this callout and see the event logged below.</span>
+          </aegov-callout>
+
+          <div class="event-log" id="event-log">
+            <div style="color: #9ca3af; font-style: italic;">Click the dismiss button to see events...</div>
+          </div>
+        </div>
+        <div class="code-block"><code>const callout = document.getElementById('event-callout');
+callout.addEventListener('aegovCalloutDismiss', () => {
+  console.log('Callout was dismissed!');
+  // Perform cleanup or save preference
+});</code></div>
+      </div>
+    </div>
+
+    <!-- Section 10: RTL Support (Arabic) -->
+    <div class="section">
+      <h2 class="section-title">10. RTL Support (Right-to-Left)</h2>
+      <p class="section-description">
+        Callouts automatically support RTL languages like Arabic with proper layout and icon positioning.
+      </p>
+
+      <div class="rtl-comparison">
+        <div class="rtl-box">
+          <h4>LTR (Left to Right - English)</h4>
+          <aegov-callout variant="info" dismissible>
+            <span slot="content"><strong>Important Notice:</strong> Your subscription will renew automatically next month.</span>
+            <a slot="link" href="#">Manage →</a>
+          </aegov-callout>
+
+          <aegov-callout variant="success">
+            <span slot="content"><strong>Success:</strong> Profile updated successfully!</span>
+            <div slot="actions">
+              <aegov-button size="sm">View Profile</aegov-button>
+            </div>
+          </aegov-callout>
+        </div>
+
+        <div class="rtl-box" dir="rtl">
+          <h4>RTL (Right to Left - Arabic)</h4>
+          <aegov-callout variant="info" dismissible>
+            <span slot="content"><strong>إشعار مهم:</strong> سيتم تجديد اشتراكك تلقائيًا الشهر المقبل.</span>
+            <a slot="link" href="#">إدارة ←</a>
+          </aegov-callout>
+
+          <aegov-callout variant="success">
+            <span slot="content"><strong>نجح:</strong> تم تحديث الملف الشخصي بنجاح!</span>
+            <div slot="actions">
+              <aegov-button size="sm">عرض الملف الشخصي</aegov-button>
+            </div>
+          </aegov-callout>
+        </div>
+      </div>
+
+      <div class="example-box" style="margin-top: 1.5rem;">
+        <div class="example-title">RTL with All Features</div>
+        <div class="example-content" dir="rtl">
+          <aegov-callout variant="warning" appearance="solid" dismissible bordered>
+            <span slot="content"><strong>تحذير:</strong> هذا الإجراء لا يمكن التراجع عنه. يرجى التأكيد قبل المتابعة.</span>
+            <div slot="actions">
+              <aegov-button size="sm">تأكيد</aegov-button>
+              <aegov-button size="sm" variant="outline">إلغاء</aegov-button>
+            </div>
+          </aegov-callout>
+        </div>
+        <div class="code-block"><code>&lt;div dir="rtl"&gt;
+  &lt;aegov-callout variant="warning" appearance="solid" dismissible bordered&gt;
+    &lt;span slot="content"&gt;&lt;strong&gt;تحذير:&lt;/strong&gt; هذا الإجراء لا يمكن التراجع عنه.&lt;/span&gt;
+    &lt;div slot="actions"&gt;
+      &lt;aegov-button size="sm"&gt;تأكيد&lt;/aegov-button&gt;
+      &lt;aegov-button size="sm" variant="outline"&gt;إلغاء&lt;/aegov-button&gt;
     &lt;/div&gt;
-  &lt;/div&gt;
-&lt;/aegov-callout&gt;</div>
+  &lt;/aegov-callout&gt;
+&lt;/div&gt;</code></div>
+      </div>
+    </div>
 
-      <h3 class="subsection-title">All Features Combined</h3>
-      <div class="code-block">&lt;aegov-callout
-  variant="error"
-  appearance="solid"
-  bordered
-  dismissible&gt;
-  &lt;svg slot="icon" class="size-6"&gt;...&lt;/svg&gt;
-  &lt;div slot="content"&gt;
-    &lt;div class="text-lg font-bold mb-2"&gt;Error Title&lt;/div&gt;
-    &lt;p&gt;Error description&lt;/p&gt;
-  &lt;/div&gt;
-  &lt;a href="#" slot="link"&gt;Learn More&lt;/a&gt;
+    <!-- API Documentation -->
+    <div class="api-section">
+      <h2>📚 Complete API Documentation</h2>
+
+      <h3 style="font-size: 1.5rem; font-weight: 600; color: #374151; margin: 2rem 0 1rem;">Properties</h3>
+
+      <table class="api-table">
+        <thead>
+          <tr>
+            <th style="width: 20%;">Property</th>
+            <th style="width: 15%;">Type</th>
+            <th style="width: 15%;">Default</th>
+            <th style="width: 50%;">Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>variant</code></td>
+            <td><code>'default' | 'error' | 'warning' | 'success' | 'info'</code></td>
+            <td><code>'default'</code></td>
+            <td>The semantic variant of the callout, determines the color scheme and default icon</td>
+          </tr>
+          <tr>
+            <td><code>appearance</code></td>
+            <td><code>'soft' | 'solid'</code></td>
+            <td><code>'soft'</code></td>
+            <td>The appearance style. Soft has light background, Solid has dark background with white text</td>
+          </tr>
+          <tr>
+            <td><code>dismissible</code></td>
+            <td><code>boolean</code></td>
+            <td><code>false</code></td>
+            <td>Whether the callout can be dismissed with a close button</td>
+          </tr>
+          <tr>
+            <td><code>bordered</code></td>
+            <td><code>boolean</code></td>
+            <td><code>false</code></td>
+            <td>Whether to display a border around the callout</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3 style="font-size: 1.5rem; font-weight: 600; color: #374151; margin: 2rem 0 1rem;">Events</h3>
+
+      <table class="api-table">
+        <thead>
+          <tr>
+            <th style="width: 30%;">Event Name</th>
+            <th style="width: 20%;">Detail Type</th>
+            <th style="width: 50%;">Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>aegovCalloutDismiss</code></td>
+            <td><code>void</code></td>
+            <td>Emitted when the dismiss button is clicked. The callout hides itself automatically.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3 style="font-size: 1.5rem; font-weight: 600; color: #374151; margin: 2rem 0 1rem;">Slots</h3>
+
+      <table class="api-table">
+        <thead>
+          <tr>
+            <th style="width: 20%;">Slot Name</th>
+            <th style="width: 80%;">Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>icon</code></td>
+            <td>Custom icon to display. If not provided, a default icon based on variant is shown.</td>
+          </tr>
+          <tr>
+            <td><code>content</code></td>
+            <td>Main content of the callout. Supports rich HTML including lists, bold text, and formatting.</td>
+          </tr>
+          <tr>
+            <td><code>actions</code></td>
+            <td>Action buttons displayed below the content. Wrap buttons in a div for proper spacing.</td>
+          </tr>
+          <tr>
+            <td><code>link</code></td>
+            <td>Optional link displayed on the right side of the callout (before dismiss button if present).</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3 style="font-size: 1.5rem; font-weight: 600; color: #374151; margin: 2rem 0 1rem;">Usage Examples</h3>
+
+      <div class="code-block"><code>// Basic callout
+&lt;aegov-callout variant="info"&gt;
+  &lt;span slot="content"&gt;This is an informational message.&lt;/span&gt;
+&lt;/aegov-callout&gt;
+
+// Dismissible with solid appearance
+&lt;aegov-callout variant="warning" appearance="solid" dismissible&gt;
+  &lt;span slot="content"&gt;Important warning that can be dismissed.&lt;/span&gt;
+&lt;/aegov-callout&gt;
+
+// With actions and link
+&lt;aegov-callout variant="success"&gt;
+  &lt;span slot="content"&gt;Update available!&lt;/span&gt;
   &lt;div slot="actions"&gt;
-    &lt;button&gt;Retry&lt;/button&gt;
+    &lt;aegov-button size="sm"&gt;Update Now&lt;/aegov-button&gt;
+    &lt;aegov-button size="sm" variant="outline"&gt;Later&lt;/aegov-button&gt;
   &lt;/div&gt;
-&lt;/aegov-callout&gt;</div>
-    </section>
+  &lt;a slot="link" href="/changelog"&gt;View Changes →&lt;/a&gt;
+&lt;/aegov-callout&gt;
 
-    <!-- Props Reference -->
-    <section class="section">
-      <h2 class="section-title">Props Reference</h2>
-      <table style="width: 100%; border-collapse: collapse;">
-        <thead>
-          <tr style="border-bottom: 2px solid #e2e8f0; text-align: left;">
-            <th style="padding: 0.75rem;">Prop</th>
-            <th style="padding: 0.75rem;">Type</th>
-            <th style="padding: 0.75rem;">Default</th>
-            <th style="padding: 0.75rem;">Description</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr style="border-bottom: 1px solid #e2e8f0;">
-            <td style="padding: 0.75rem;"><code>variant</code></td>
-            <td style="padding: 0.75rem;">string</td>
-            <td style="padding: 0.75rem;">'default'</td>
-            <td style="padding: 0.75rem;">'default' | 'error' | 'warning' | 'success' | 'info'</td>
-          </tr>
-          <tr style="border-bottom: 1px solid #e2e8f0;">
-            <td style="padding: 0.75rem;"><code>appearance</code></td>
-            <td style="padding: 0.75rem;">string</td>
-            <td style="padding: 0.75rem;">'soft'</td>
-            <td style="padding: 0.75rem;">'soft' | 'solid'</td>
-          </tr>
-          <tr style="border-bottom: 1px solid #e2e8f0;">
-            <td style="padding: 0.75rem;"><code>dismissible</code></td>
-            <td style="padding: 0.75rem;">boolean</td>
-            <td style="padding: 0.75rem;">false</td>
-            <td style="padding: 0.75rem;">Shows close button to dismiss callout</td>
-          </tr>
-          <tr>
-            <td style="padding: 0.75rem;"><code>bordered</code></td>
-            <td style="padding: 0.75rem;">boolean</td>
-            <td style="padding: 0.75rem;">false</td>
-            <td style="padding: 0.75rem;">Adds border around callout</td>
-          </tr>
-        </tbody>
-      </table>
+// Custom icon
+&lt;aegov-callout variant="default"&gt;
+  &lt;svg slot="icon"&gt;...custom SVG...&lt;/svg&gt;
+  &lt;span slot="content"&gt;Callout with custom icon.&lt;/span&gt;
+&lt;/aegov-callout&gt;
 
-      <h3 class="subsection-title" style="margin-top: 2rem;">Slots</h3>
-      <table style="width: 100%; border-collapse: collapse;">
-        <thead>
-          <tr style="border-bottom: 2px solid #e2e8f0; text-align: left;">
-            <th style="padding: 0.75rem;">Slot</th>
-            <th style="padding: 0.75rem;">Description</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr style="border-bottom: 1px solid #e2e8f0;">
-            <td style="padding: 0.75rem;"><code>icon</code></td>
-            <td style="padding: 0.75rem;">Custom icon (optional, defaults to variant-appropriate icon)</td>
-          </tr>
-          <tr style="border-bottom: 1px solid #e2e8f0;">
-            <td style="padding: 0.75rem;"><code>content</code></td>
-            <td style="padding: 0.75rem;">Main content of the callout</td>
-          </tr>
-          <tr style="border-bottom: 1px solid #e2e8f0;">
-            <td style="padding: 0.75rem;"><code>link</code></td>
-            <td style="padding: 0.75rem;">Action link in top-right corner</td>
-          </tr>
-          <tr>
-            <td style="padding: 0.75rem;"><code>actions</code></td>
-            <td style="padding: 0.75rem;">Action buttons at bottom (automatically spaced with mt-8)</td>
-          </tr>
-        </tbody>
-      </table>
+// Event handling (JavaScript)
+const callout = document.querySelector('aegov-callout');
+callout.addEventListener('aegovCalloutDismiss', () => {
+  console.log('User dismissed the callout');
+  localStorage.setItem('calloutDismissed', 'true');
+});</code></div>
 
-      <h3 class="subsection-title" style="margin-top: 2rem;">Events</h3>
-      <table style="width: 100%; border-collapse: collapse;">
-        <thead>
-          <tr style="border-bottom: 2px solid #e2e8f0; text-align: left;">
-            <th style="padding: 0.75rem;">Event</th>
-            <th style="padding: 0.75rem;">Description</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td style="padding: 0.75rem;"><code>aegovCalloutDismiss</code></td>
-            <td style="padding: 0.75rem;">Fired when the callout is dismissed via close button</td>
-          </tr>
-        </tbody>
-      </table>
-    </section>
-
-  </div>
-
-  <!-- RTL Support -->
-  <div class="example-section">
-    <h2>RTL Support</h2>
-    <p>Callouts work seamlessly in RTL (Right-to-Left) layouts for Arabic and other RTL languages.</p>
-
-    <h3>LTR (Left to Right)</h3>
-    <div class="example-demo" dir="ltr">
-      <aegov-callout variant="info" with-icon>
-        <strong>Important Notice:</strong> System maintenance is scheduled for tonight at 10 PM.
-      </aegov-callout>
-      <br>
-      <aegov-callout variant="success" with-icon link-text="View Details" link-url="/success">
-        Your changes have been saved successfully.
-      </aegov-callout>
+      <div class="note-box" style="margin-top: 2rem;">
+        <strong>⚠️ Important Notes:</strong>
+        <p>
+          • Dismissible callouts hide automatically when the close button is clicked<br>
+          • Each variant has a default icon (error: circle-X, warning: triangle, success: checkmark, info: info-circle, default: info-outline)<br>
+          • The actions slot buttons inherit colors from the callout variant for visual consistency<br>
+          • Callouts automatically support RTL layout with proper icon and button positioning<br>
+          • Use <code>role="alert"</code> is applied automatically for accessibility
+        </p>
+      </div>
     </div>
-
-    <h3>RTL (Right to Left)</h3>
-    <div class="example-demo" dir="rtl">
-      <aegov-callout variant="info" with-icon>
-        <strong>إشعار هام:</strong> صيانة النظام مجدولة الليلة في الساعة 10 مساءً.
-      </aegov-callout>
-      <br>
-      <aegov-callout variant="success" with-icon link-text="عرض التفاصيل" link-url="/success">
-        تم حفظ التغييرات بنجاح.
-      </aegov-callout>
-    </div>
-
-    <div class="example-code">&lt;div dir="rtl"&gt;
-  &lt;aegov-callout variant="info" with-icon&gt;
-    &lt;strong&gt;إشعار هام:&lt;/strong&gt; صيانة النظام مجدولة الليلة.
-  &lt;/aegov-callout&gt;
-
-  &lt;aegov-callout variant="success" with-icon
-    link-text="عرض التفاصيل" link-url="/success"&gt;
-    تم حفظ التغييرات بنجاح.
-  &lt;/aegov-callout&gt;
-&lt;/div&gt;</div>
   </div>
 
   <script>
-    // Event listener example
-    document.querySelectorAll('aegov-callout').forEach(callout => {
-      callout.addEventListener('aegovCalloutDismiss', (event) => {
-        console.log('Callout dismissed:', event.target);
+    // Event handling example
+    const eventLog = document.getElementById('event-log');
+    const eventCallout = document.getElementById('event-callout');
+
+    if (eventCallout) {
+      eventCallout.addEventListener('aegovCalloutDismiss', () => {
+        const timestamp = new Date().toLocaleTimeString();
+
+        const entry = document.createElement('div');
+        entry.className = 'event-log-entry';
+        entry.innerHTML = `<span class="event-log-time">[${timestamp}]</span> aegovCalloutDismiss event fired - Callout dismissed`;
+
+        // Clear placeholder text on first event
+        if (eventLog.children.length === 1 && eventLog.children[0].style.fontStyle === 'italic') {
+          eventLog.innerHTML = '';
+        }
+
+        eventLog.insertBefore(entry, eventLog.firstChild);
+
+        // Keep only last 10 events
+        while (eventLog.children.length > 10) {
+          eventLog.removeChild(eventLog.lastChild);
+        }
       });
-    });
+    }
   </script>
 </body>
 </html>

@@ -4,9 +4,6 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0">
   <title>Button Component - AEGOV Design System</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
 
   <script type="module" src="/build/aegov.esm.js"></script>
   <script nomodule src="/build/aegov.js"></script>
@@ -22,6 +19,7 @@
       padding: 2rem;
       background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
       min-height: 100vh;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     }
 
     .container {
@@ -73,148 +71,192 @@
     }
 
     .section-title {
-      font-size: 1.75rem;
+      font-size: 2rem;
       color: #1e293b;
-      margin: 0 0 1.5rem 0;
+      margin: 0 0 1rem 0;
       padding-bottom: 0.75rem;
       border-bottom: 2px solid #e2e8f0;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
     }
 
-    .section-title::before {
-      content: '▸';
-      color: #667eea;
+    .section-description {
+      color: #64748b;
+      margin-bottom: 2rem;
+      line-height: 1.6;
     }
 
     .subsection-title {
-      font-size: 1.25rem;
+      font-size: 1.5rem;
       color: #475569;
-      margin: 2rem 0 1rem 0;
+      margin: 2.5rem 0 1.5rem 0;
       font-weight: 600;
     }
 
-    .demo-grid {
+    .variants-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      grid-template-columns: repeat(4, 1fr);
       gap: 1.5rem;
       margin-bottom: 2rem;
     }
 
-    .demo-item {
+    .variant-column {
       display: flex;
       flex-direction: column;
-      gap: 0.75rem;
-      padding: 1rem;
-      background: #f8fafc;
-      border-radius: 8px;
-      border: 1px solid #e2e8f0;
+      gap: 1rem;
     }
 
-    .demo-label {
+    .variant-label {
+      font-weight: 700;
+      color: #1e293b;
+      text-align: center;
+      padding: 0.5rem;
+      background: #f1f5f9;
+      border-radius: 6px;
       font-size: 0.875rem;
-      color: #64748b;
-      font-weight: 600;
       text-transform: uppercase;
       letter-spacing: 0.5px;
     }
 
-    .demo-description {
-      font-size: 0.75rem;
-      color: #94a3b8;
-      margin-top: -0.5rem;
+    .button-wrapper {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 60px;
+    }
+
+    .demo-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+      margin-bottom: 2rem;
+    }
+
+    .demo-card {
+      background: #f8fafc;
+      padding: 1.5rem;
+      border-radius: 12px;
+      border: 2px solid #e2e8f0;
+    }
+
+    .demo-card h4 {
+      margin: 0 0 1rem 0;
+      color: #334155;
+      font-size: 1rem;
+    }
+
+    .demo-card .demo-content {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      align-items: center;
     }
 
     .code-block {
       background: #0f172a;
-      color: #efefef;
-      padding: 0.75rem;
-      border-radius: 6px;
-      font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
-      font-size: 0.75rem;
+      color: #e2e8f0;
+      padding: 1rem;
+      border-radius: 8px;
+      font-family: 'Courier New', monospace;
+      font-size: 0.875rem;
       overflow-x: auto;
-      margin-top: 0.25rem;
-      border: 1px solid #1e293b;
+      margin-top: 1rem;
     }
 
-    .matrix-table {
+    .code-block code {
+      color: #22d3ee;
+    }
+
+    .rtl-demo {
+      background: #fef3c7;
+      padding: 2rem;
+      border-radius: 12px;
+      border: 2px solid #fbbf24;
+      margin-bottom: 2rem;
+    }
+
+    .rtl-demo h3 {
+      margin-top: 0;
+      color: #92400e;
+    }
+
+    .rtl-comparison {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+    }
+
+    .rtl-box {
+      background: white;
+      padding: 1.5rem;
+      border-radius: 8px;
+      border: 1px solid #f59e0b;
+    }
+
+    .rtl-box h4 {
+      margin: 0 0 1rem 0;
+      color: #92400e;
+    }
+
+    .api-section {
+      background: #f1f5f9;
+      padding: 2rem;
+      border-radius: 12px;
+      margin-top: 3rem;
+    }
+
+    .api-section h2 {
+      margin-top: 0;
+      color: #1e293b;
+    }
+
+    .api-table {
       width: 100%;
       border-collapse: collapse;
       background: white;
       border-radius: 8px;
       overflow: hidden;
-      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+      margin-bottom: 2rem;
     }
 
-    .matrix-table th {
-      background: #f1f5f9;
+    .api-table th {
+      background: #334155;
+      color: white;
       padding: 1rem;
       text-align: left;
       font-weight: 600;
-      color: #334155;
-      border-bottom: 2px solid #e2e8f0;
     }
 
-    .matrix-table td {
+    .api-table td {
       padding: 1rem;
-      border-bottom: 1px solid #f1f5f9;
+      border-bottom: 1px solid #e2e8f0;
     }
 
-    .matrix-table tr:last-child td {
+    .api-table tr:last-child td {
       border-bottom: none;
     }
 
-    .matrix-table tr:hover {
-      background: #f8fafc;
-    }
-
-    .button-row {
-      display: flex;
-      gap: 0.75rem;
-      flex-wrap: wrap;
-      align-items: center;
-    }
-
-    .event-log {
-      background: #0f172a;
-      color: #22c55e;
-      padding: 1.5rem;
-      border-radius: 8px;
-      font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
-      font-size: 0.875rem;
-      height: 200px;
-      overflow-y: auto;
-      margin-top: 1rem;
-      border: 2px solid #1e293b;
-    }
-
-    .event-log-entry {
-      margin-bottom: 0.5rem;
-      padding: 0.25rem 0;
-    }
-
-    .event-log-entry:first-child {
-      color: #fbbf24;
-    }
-
-    .badge {
-      display: inline-block;
-      padding: 0.25rem 0.75rem;
-      border-radius: 12px;
-      font-size: 0.75rem;
-      font-weight: 600;
+    .api-table code {
       background: #e0e7ff;
       color: #4338ca;
+      padding: 0.25rem 0.5rem;
+      border-radius: 4px;
+      font-size: 0.875rem;
     }
 
-    .badge.new {
-      background: #dcfce7;
-      color: #166534;
+    @media (max-width: 1024px) {
+      .variants-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
     }
 
-    .full-width-demo {
-      width: 100%;
+    @media (max-width: 768px) {
+      .variants-grid,
+      .rtl-comparison {
+        grid-template-columns: 1fr;
+      }
+
+      .header h1 {
+        font-size: 2rem;
+      }
     }
   </style>
 </head>
@@ -222,374 +264,516 @@
   <div class="container">
     <!-- Header -->
     <div class="header">
-      <h1>Button Component</h1>
-      <p class="subtitle">Comprehensive showcase of all variants, appearances, sizes, and states</p>
+      <h1>🔘 Button Component</h1>
+      <p class="subtitle">Complete showcase of all 20 button variations, sizes, states, and features</p>
       <a href="../index.html" class="back-link">← Back to Components</a>
     </div>
 
-    <!-- Variants Section -->
+    <!-- All Variants × Appearances Matrix -->
     <div class="section">
-      <h2 class="section-title">Button Variants</h2>
-      <p style="color: #64748b; margin-bottom: 1.5rem;">Four distinct visual styles: Solid, Outline, Soft, and Link</p>
+      <h2 class="section-title">Complete Variants × Appearances Matrix</h2>
+      <p class="section-description">
+        All 20 possible combinations: 5 Appearances (Primary, Secondary, Danger, Neutral Min, Neutral Max) × 4 Variants (Solid, Outline, Soft, Link)
+      </p>
 
-      <div class="subsection-title">Primary Appearance (Default)</div>
-      <div class="demo-grid">
-        <div class="demo-item">
-          <span class="demo-label">Solid</span>
-          <span class="demo-description">Filled background with primary color</span>
-          <aegov-button variant="solid" appearance="primary">Solid Button</aegov-button>
-          <code class="code-block">&lt;aegov-button variant="solid"&gt;</code>
+      <!-- Primary Appearance -->
+      <div class="subsection-title">Primary Appearance</div>
+      <div class="variants-grid">
+        <div class="variant-column">
+          <div class="variant-label">Solid</div>
+          <div class="button-wrapper">
+            <aegov-button variant="solid" appearance="primary">Primary Solid</aegov-button>
+          </div>
         </div>
-
-        <div class="demo-item">
-          <span class="demo-label">Outline</span>
-          <span class="demo-description">Transparent background with border</span>
-          <aegov-button variant="outline" appearance="primary">Outline Button</aegov-button>
-          <code class="code-block">&lt;aegov-button variant="outline"&gt;</code>
+        <div class="variant-column">
+          <div class="variant-label">Outline</div>
+          <div class="button-wrapper">
+            <aegov-button variant="outline" appearance="primary">Primary Outline</aegov-button>
+          </div>
         </div>
-
-        <div class="demo-item">
-          <span class="demo-label">Soft</span>
-          <span class="demo-description">Subtle background color</span>
-          <aegov-button variant="soft" appearance="primary">Soft Button</aegov-button>
-          <code class="code-block">&lt;aegov-button variant="soft"&gt;</code>
+        <div class="variant-column">
+          <div class="variant-label">Soft</div>
+          <div class="button-wrapper">
+            <aegov-button variant="soft" appearance="primary">Primary Soft</aegov-button>
+          </div>
         </div>
-
-        <div class="demo-item">
-          <span class="demo-label">Link</span>
-          <span class="demo-description">Text-only link style</span>
-          <aegov-button variant="link" appearance="primary">Link Button</aegov-button>
-          <code class="code-block">&lt;aegov-button variant="link"&gt;</code>
+        <div class="variant-column">
+          <div class="variant-label">Link</div>
+          <div class="button-wrapper">
+            <aegov-button variant="link" appearance="primary">Primary Link</aegov-button>
+          </div>
         </div>
       </div>
 
+      <!-- Secondary Appearance -->
       <div class="subsection-title">Secondary Appearance</div>
-      <div class="demo-grid">
-        <div class="demo-item">
-          <span class="demo-label">Solid Secondary</span>
-          <span class="demo-description">Solid with secondary color scheme</span>
-          <aegov-button variant="solid" appearance="secondary">Solid Button</aegov-button>
-          <code class="code-block">&lt;aegov-button variant="solid" appearance="secondary"&gt;</code>
+      <div class="variants-grid">
+        <div class="variant-column">
+          <div class="variant-label">Solid</div>
+          <div class="button-wrapper">
+            <aegov-button variant="solid" appearance="secondary">Secondary Solid</aegov-button>
+          </div>
         </div>
-
-        <div class="demo-item">
-          <span class="demo-label">Outline Secondary</span>
-          <span class="demo-description">Outline with secondary color scheme</span>
-          <aegov-button variant="outline" appearance="secondary">Outline Button</aegov-button>
-          <code class="code-block">&lt;aegov-button variant="outline" appearance="secondary"&gt;</code>
+        <div class="variant-column">
+          <div class="variant-label">Outline</div>
+          <div class="button-wrapper">
+            <aegov-button variant="outline" appearance="secondary">Secondary Outline</aegov-button>
+          </div>
         </div>
-
-        <div class="demo-item">
-          <span class="demo-label">Soft Secondary</span>
-          <span class="demo-description">Soft with secondary color scheme</span>
-          <aegov-button variant="soft" appearance="secondary">Soft Button</aegov-button>
-          <code class="code-block">&lt;aegov-button variant="soft" appearance="secondary"&gt;</code>
+        <div class="variant-column">
+          <div class="variant-label">Soft</div>
+          <div class="button-wrapper">
+            <aegov-button variant="soft" appearance="secondary">Secondary Soft</aegov-button>
+          </div>
         </div>
+        <div class="variant-column">
+          <div class="variant-label">Link</div>
+          <div class="button-wrapper">
+            <aegov-button variant="link" appearance="secondary">Secondary Link</aegov-button>
+          </div>
+        </div>
+      </div>
 
-        <div class="demo-item">
-          <span class="demo-label">Link Secondary</span>
-          <span class="demo-description">Link with secondary color scheme</span>
-          <aegov-button variant="link" appearance="secondary">Link Button</aegov-button>
-          <code class="code-block">&lt;aegov-button variant="link" appearance="secondary"&gt;</code>
+      <!-- Danger Appearance -->
+      <div class="subsection-title">Danger Appearance (Destructive Actions)</div>
+      <div class="variants-grid">
+        <div class="variant-column">
+          <div class="variant-label">Solid</div>
+          <div class="button-wrapper">
+            <aegov-button variant="solid" appearance="danger">Delete Item</aegov-button>
+          </div>
+        </div>
+        <div class="variant-column">
+          <div class="variant-label">Outline</div>
+          <div class="button-wrapper">
+            <aegov-button variant="outline" appearance="danger">Remove Account</aegov-button>
+          </div>
+        </div>
+        <div class="variant-column">
+          <div class="variant-label">Soft</div>
+          <div class="button-wrapper">
+            <aegov-button variant="soft" appearance="danger">Clear Data</aegov-button>
+          </div>
+        </div>
+        <div class="variant-column">
+          <div class="variant-label">Link</div>
+          <div class="button-wrapper">
+            <aegov-button variant="link" appearance="danger">Cancel Order</aegov-button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Neutral Min Appearance -->
+      <div class="subsection-title">Neutral Min Appearance</div>
+      <div class="variants-grid">
+        <div class="variant-column">
+          <div class="variant-label">Solid</div>
+          <div class="button-wrapper">
+            <aegov-button variant="solid" appearance="neutralMin">Neutral Min Solid</aegov-button>
+          </div>
+        </div>
+        <div class="variant-column">
+          <div class="variant-label">Outline</div>
+          <div class="button-wrapper">
+            <aegov-button variant="outline" appearance="neutralMin">Neutral Min Outline</aegov-button>
+          </div>
+        </div>
+        <div class="variant-column">
+          <div class="variant-label">Soft</div>
+          <div class="button-wrapper">
+            <aegov-button variant="soft" appearance="neutralMin">Neutral Min Soft</aegov-button>
+          </div>
+        </div>
+        <div class="variant-column">
+          <div class="variant-label">Link</div>
+          <div class="button-wrapper">
+            <aegov-button variant="link" appearance="neutralMin">Neutral Min Link</aegov-button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Neutral Max Appearance -->
+      <div class="subsection-title">Neutral Max Appearance</div>
+      <div class="variants-grid">
+        <div class="variant-column">
+          <div class="variant-label">Solid</div>
+          <div class="button-wrapper">
+            <aegov-button variant="solid" appearance="neutralMax">Neutral Max Solid</aegov-button>
+          </div>
+        </div>
+        <div class="variant-column">
+          <div class="variant-label">Outline</div>
+          <div class="button-wrapper">
+            <aegov-button variant="outline" appearance="neutralMax">Neutral Max Outline</aegov-button>
+          </div>
+        </div>
+        <div class="variant-column">
+          <div class="variant-label">Soft</div>
+          <div class="button-wrapper">
+            <aegov-button variant="soft" appearance="neutralMax">Neutral Max Soft</aegov-button>
+          </div>
+        </div>
+        <div class="variant-column">
+          <div class="variant-label">Link</div>
+          <div class="button-wrapper">
+            <aegov-button variant="link" appearance="neutralMax">Neutral Max Link</aegov-button>
+          </div>
         </div>
       </div>
     </div>
 
-    <!-- Sizes Section -->
+    <!-- Button Sizes -->
     <div class="section">
       <h2 class="section-title">Button Sizes</h2>
-      <p style="color: #64748b; margin-bottom: 1.5rem;">Four size options: Extra Small, Small, Base, and Large</p>
+      <p class="section-description">Four size options: XS, SM, Base (default), and LG</p>
 
       <div class="demo-grid">
-        <div class="demo-item">
-          <span class="demo-label">Extra Small (xs)</span>
-          <span class="demo-description">Compact size for tight spaces</span>
-          <aegov-button size="xs">Extra Small</aegov-button>
-          <code class="code-block">&lt;aegov-button size="xs"&gt;</code>
+        <div class="demo-card">
+          <h4>Extra Small (xs)</h4>
+          <div class="demo-content">
+            <aegov-button size="xs" variant="solid" appearance="primary">Extra Small</aegov-button>
+          </div>
+          <div class="code-block"><code>size="xs"</code></div>
         </div>
 
-        <div class="demo-item">
-          <span class="demo-label">Small (sm)</span>
-          <span class="demo-description">Smaller than default</span>
-          <aegov-button size="sm">Small Button</aegov-button>
-          <code class="code-block">&lt;aegov-button size="sm"&gt;</code>
+        <div class="demo-card">
+          <h4>Small (sm)</h4>
+          <div class="demo-content">
+            <aegov-button size="sm" variant="solid" appearance="primary">Small Button</aegov-button>
+          </div>
+          <div class="code-block"><code>size="sm"</code></div>
         </div>
 
-        <div class="demo-item">
-          <span class="demo-label">Base (Default)</span>
-          <span class="demo-description">Standard button size</span>
-          <aegov-button size="base">Base Button</aegov-button>
-          <code class="code-block">&lt;aegov-button size="base"&gt;</code>
+        <div class="demo-card">
+          <h4>Base (default)</h4>
+          <div class="demo-content">
+            <aegov-button size="base" variant="solid" appearance="primary">Base Button</aegov-button>
+          </div>
+          <div class="code-block"><code>size="base"</code></div>
         </div>
 
-        <div class="demo-item">
-          <span class="demo-label">Large (lg)</span>
-          <span class="demo-description">Prominent call-to-action size</span>
-          <aegov-button size="lg">Large Button</aegov-button>
-          <code class="code-block">&lt;aegov-button size="lg"&gt;</code>
+        <div class="demo-card">
+          <h4>Large (lg)</h4>
+          <div class="demo-content">
+            <aegov-button size="lg" variant="solid" appearance="primary">Large Button</aegov-button>
+          </div>
+          <div class="code-block"><code>size="lg"</code></div>
         </div>
       </div>
     </div>
 
-    <!-- with Icons Section -->
-    <div class="section">
-      <h2 class="section-title">Button with icons</h2>
-      <p style="color: #64748b; margin-bottom: 1.5rem;">Variations of icons added to the button in base size</p>
-
-      <div class="demo-grid">
-        <div class="demo-item">
-          <span class="demo-label">Left icon only</span>
-          <span class="demo-description">An SVG icon added to the left only</span>
-          <aegov-button>
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"><rect width="256" height="256" fill="none"/><circle cx="128" cy="96" r="64" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/><path d="M32,216c19.37-33.47,54.55-56,96-56s76.63,22.53,96,56" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/></svg>
-            Login
-          </aegov-button>
-          <code class="code-block">&lt;aegov-button&gt;&lt;svg&gt; text&lt;/aegov-button&gt;</code>
-        </div>
-
-        <div class="demo-item">
-          <span class="demo-label">Right icon only</span>
-          <span class="demo-description">An SVG icon added to the right only</span>
-          <aegov-button>
-            Move forward
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"><rect width="256" height="256" fill="none"/><line x1="40" y1="128" x2="216" y2="128" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/><polyline points="144 56 216 128 144 200" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/></svg>
-          </aegov-button>
-          <code class="code-block">&lt;aegov-button&gt;text &lt;svg&gt;&lt;/aegov-button&gt;</code>
-        </div>
-
-        <div class="demo-item">
-          <span class="demo-label">Dual icon</span>
-          <span class="demo-description">A double sided icon</span>
-          <aegov-button>
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"><rect width="256" height="256" fill="none"/><path d="M50.69,184.92A127.52,127.52,0,0,0,64,128a63.85,63.85,0,0,1,24-50" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/><path d="M128,128a191.11,191.11,0,0,1-24,93" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/><path d="M96,128a32,32,0,0,1,64,0,223.12,223.12,0,0,1-21.28,95.41" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/><path d="M218.56,184A289.45,289.45,0,0,0,224,128a96,96,0,0,0-192,0,95.8,95.8,0,0,1-5.47,32" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/><path d="M92.81,160a158.92,158.92,0,0,1-18.12,47.84" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/><path d="M120,64.5a66,66,0,0,1,8-.49,64,64,0,0,1,64,64,259.86,259.86,0,0,1-2,32" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/><path d="M183.94,192q-2.28,8.88-5.18,17.5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/></svg>
-            Login with UAE Pass
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"><rect width="256" height="256" fill="none"/><line x1="40" y1="128" x2="216" y2="128" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/><polyline points="144 56 216 128 144 200" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/></svg>
-          </aegov-button>
-          <code class="code-block">&lt;aegov-button&gt;&lt;svg&gt; text &lt;svg&gt;&lt;/aegov-button&gt;</code>
-        </div>
-
-      </div>
-    </div>
-    <div class="section">
-      <p style="color: #64748b; margin-bottom: 1.5rem;">Variations of icons added to the button in large size</p>
-
-      <div class="demo-grid">
-        <div class="demo-item">
-          <span class="demo-label">Left icon only</span>
-          <span class="demo-description">An SVG icon added to the left only</span>
-          <aegov-button size="lg">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"><rect width="256" height="256" fill="none"/><circle cx="128" cy="96" r="64" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/><path d="M32,216c19.37-33.47,54.55-56,96-56s76.63,22.53,96,56" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/></svg>
-            Login
-          </aegov-button>
-          <code class="code-block">&lt;aegov-button size="lg"&gt;&lt;svg&gt; text&lt;/aegov-button&gt;</code>
-        </div>
-
-        <div class="demo-item">
-          <span class="demo-label">Right icon only</span>
-          <span class="demo-description">An SVG icon added to the right only</span>
-          <aegov-button size="lg">
-            Move forward
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"><rect width="256" height="256" fill="none"/><line x1="40" y1="128" x2="216" y2="128" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/><polyline points="144 56 216 128 144 200" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/></svg>
-          </aegov-button>
-          <code class="code-block">&lt;aegov-button size="lg"&gt;text &lt;svg&gt;&lt;/aegov-button&gt;</code>
-        </div>
-
-        <div class="demo-item">
-          <span class="demo-label">Dual icon</span>
-          <span class="demo-description">A double sided icon</span>
-          <aegov-button size="lg">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"><rect width="256" height="256" fill="none"/><path d="M50.69,184.92A127.52,127.52,0,0,0,64,128a63.85,63.85,0,0,1,24-50" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/><path d="M128,128a191.11,191.11,0,0,1-24,93" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/><path d="M96,128a32,32,0,0,1,64,0,223.12,223.12,0,0,1-21.28,95.41" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/><path d="M218.56,184A289.45,289.45,0,0,0,224,128a96,96,0,0,0-192,0,95.8,95.8,0,0,1-5.47,32" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/><path d="M92.81,160a158.92,158.92,0,0,1-18.12,47.84" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/><path d="M120,64.5a66,66,0,0,1,8-.49,64,64,0,0,1,64,64,259.86,259.86,0,0,1-2,32" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/><path d="M183.94,192q-2.28,8.88-5.18,17.5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/></svg>
-            Login with UAE Pass
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"><rect width="256" height="256" fill="none"/><line x1="40" y1="128" x2="216" y2="128" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/><polyline points="144 56 216 128 144 200" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/></svg>
-          </aegov-button>
-          <code class="code-block">&lt;aegov-button size="lg"&gt;&lt;svg&gt; text &lt;svg&gt;&lt;/aegov-button&gt;</code>
-        </div>
-
-      </div>
-    </div>
-    <div class="section">
-      <p style="color: #64748b; margin-bottom: 1.5rem;">Variations of icons added to the button in small size</p>
-
-      <div class="demo-grid">
-        <div class="demo-item">
-          <span class="demo-label">Left icon only</span>
-          <span class="demo-description">An SVG icon added to the left only</span>
-          <aegov-button size="sm">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"><rect width="256" height="256" fill="none"/><circle cx="128" cy="96" r="64" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/><path d="M32,216c19.37-33.47,54.55-56,96-56s76.63,22.53,96,56" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/></svg>
-            Login
-          </aegov-button>
-          <code class="code-block">&lt;aegov-button size="sm"&gt;&lt;svg&gt; text&lt;/aegov-button&gt;</code>
-        </div>
-
-        <div class="demo-item">
-          <span class="demo-label">Right icon only</span>
-          <span class="demo-description">An SVG icon added to the right only</span>
-          <aegov-button size="sm">
-            Move forward
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"><rect width="256" height="256" fill="none"/><line x1="40" y1="128" x2="216" y2="128" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/><polyline points="144 56 216 128 144 200" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/></svg>
-          </aegov-button>
-          <code class="code-block">&lt;aegov-button size="sm"&gt;text &lt;svg&gt;&lt;/aegov-button&gt;</code>
-        </div>
-
-        <div class="demo-item">
-          <span class="demo-label">Dual icon</span>
-          <span class="demo-description">A double sided icon</span>
-          <aegov-button size="sm">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"><rect width="256" height="256" fill="none"/><path d="M50.69,184.92A127.52,127.52,0,0,0,64,128a63.85,63.85,0,0,1,24-50" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/><path d="M128,128a191.11,191.11,0,0,1-24,93" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/><path d="M96,128a32,32,0,0,1,64,0,223.12,223.12,0,0,1-21.28,95.41" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/><path d="M218.56,184A289.45,289.45,0,0,0,224,128a96,96,0,0,0-192,0,95.8,95.8,0,0,1-5.47,32" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/><path d="M92.81,160a158.92,158.92,0,0,1-18.12,47.84" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/><path d="M120,64.5a66,66,0,0,1,8-.49,64,64,0,0,1,64,64,259.86,259.86,0,0,1-2,32" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/><path d="M183.94,192q-2.28,8.88-5.18,17.5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/></svg>
-            Login with UAE Pass
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"><rect width="256" height="256" fill="none"/><line x1="40" y1="128" x2="216" y2="128" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/><polyline points="144 56 216 128 144 200" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/></svg>
-          </aegov-button>
-          <code class="code-block">&lt;aegov-button size="sm"&gt;&lt;svg&gt; text &lt;svg&gt;&lt;/aegov-button&gt;</code>
-        </div>
-
-      </div>
-    </div>
-
-    <!-- States Section -->
+    <!-- Button States -->
     <div class="section">
       <h2 class="section-title">Button States</h2>
-      <p style="color: #64748b; margin-bottom: 1.5rem;">Various states including disabled, loading, icon-only, and full-width</p>
+      <p class="section-description">Various states including disabled, loading, icon-only, and full-width</p>
 
       <div class="demo-grid">
-        <div class="demo-item">
-          <span class="demo-label">Normal State</span>
-          <span class="demo-description">Default interactive state</span>
-          <aegov-button>Normal Button</aegov-button>
-          <code class="code-block">&lt;aegov-button&gt;Normal&lt;/aegov-button&gt;</code>
+        <div class="demo-card">
+          <h4>Normal State</h4>
+          <div class="demo-content">
+            <aegov-button variant="solid" appearance="primary">Normal Button</aegov-button>
+          </div>
+          <div class="code-block"><code>&lt;aegov-button&gt;</code></div>
         </div>
 
-        <div class="demo-item">
-          <span class="demo-label">Disabled</span>
-          <span class="demo-description">Non-interactive, greyed out</span>
-          <aegov-button disabled>Disabled Button</aegov-button>
-          <code class="code-block">&lt;aegov-button disabled&gt;</code>
+        <div class="demo-card">
+          <h4>Disabled State</h4>
+          <div class="demo-content">
+            <aegov-button variant="solid" appearance="primary" disabled>Disabled Button</aegov-button>
+          </div>
+          <div class="code-block"><code>disabled</code></div>
         </div>
 
-        <div class="demo-item">
-          <span class="demo-label">Loading</span>
-          <span class="demo-description">Shows spinner, prevents clicks</span>
-          <aegov-button loading>Loading...</aegov-button>
-          <code class="code-block">&lt;aegov-button loading&gt;</code>
+        <div class="demo-card">
+          <h4>Loading State</h4>
+          <div class="demo-content">
+            <aegov-button variant="solid" appearance="primary" loading>Loading...</aegov-button>
+          </div>
+          <div class="code-block"><code>loading</code></div>
         </div>
 
-        <div class="demo-item">
-          <span class="demo-label">Icon Only</span>
-          <span class="demo-description">Square button for icons</span>
-          <aegov-button icon>
-            <svg class="icon-svg" fill="currentColor" viewBox="0 0 20 20">
-              <path d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z"/>
-            </svg>
-          </aegov-button>
-          <code class="code-block">&lt;aegov-button icon&gt;&lt;svg&gt;...&lt;/svg&gt;&lt;/aegov-button&gt;</code>
+        <div class="demo-card">
+          <h4>Icon Only</h4>
+          <div class="demo-content">
+            <aegov-button variant="solid" appearance="primary" icon>
+              <svg fill="currentColor" viewBox="0 0 20 20" style="width: 20px; height: 20px;">
+                <path d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z"/>
+              </svg>
+            </aegov-button>
+          </div>
+          <div class="code-block"><code>icon</code></div>
         </div>
       </div>
 
-      <div class="demo-item full-width-demo">
-        <span class="demo-label">Full Width</span>
-        <span class="demo-description">Stretches to fill container width</span>
-        <aegov-button full>Full Width Button</aegov-button>
-        <code class="code-block">&lt;aegov-button full&gt;Full Width&lt;/aegov-button&gt;</code>
+      <div class="demo-card" style="margin-top: 2rem;">
+        <h4>Full Width Button</h4>
+        <div class="demo-content">
+          <aegov-button variant="solid" appearance="primary" full style="width: 100%;">Full Width Button</aegov-button>
+        </div>
+        <div class="code-block"><code>full</code></div>
       </div>
     </div>
 
-    <!-- Interactive Demo Section -->
+    <!-- Buttons with Icons -->
     <div class="section">
-      <h2 class="section-title">Interactive Event Demo</h2>
-      <p style="color: #64748b; margin-bottom: 1.5rem;">Click, focus, and interact with buttons below to see real-time events</p>
+      <h2 class="section-title">Buttons with Icons</h2>
+      <p class="section-description">Icons can be placed before, after, or on both sides of button text</p>
 
-      <div style="background: #f8fafc; padding: 1.5rem; border-radius: 8px; border: 1px solid #e2e8f0; margin-bottom: 1rem;">
-        <div class="button-row">
-          <aegov-button id="test-btn-1" variant="solid" appearance="primary">Primary Solid</aegov-button>
-          <aegov-button id="test-btn-2" variant="outline" appearance="primary">Primary Outline</aegov-button>
-          <aegov-button id="test-btn-3" variant="soft" appearance="secondary">Secondary Soft</aegov-button>
-          <aegov-button id="test-btn-4" variant="link" appearance="secondary">Secondary Link</aegov-button>
+      <div class="demo-grid">
+        <div class="demo-card">
+          <h4>Leading Icon</h4>
+          <div class="demo-content">
+            <aegov-button variant="solid" appearance="primary">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" style="width: 20px; height: 20px;">
+                <path fill="currentColor" d="M128 24a104 104 0 1 0 104 104A104.11 104.11 0 0 0 128 24Zm0 192a88 88 0 1 1 88-88a88.1 88.1 0 0 1-88 88Zm40-68a8 8 0 0 1-8 8h-32a8 8 0 0 1-8-8V88a8 8 0 0 1 16 0v52h24a8 8 0 0 1 8 8Z"/>
+              </svg>
+              Schedule
+            </aegov-button>
+          </div>
+        </div>
+
+        <div class="demo-card">
+          <h4>Trailing Icon</h4>
+          <div class="demo-content">
+            <aegov-button variant="solid" appearance="primary">
+              Continue
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" style="width: 20px; height: 20px;">
+                <path fill="currentColor" d="m221.66 133.66l-72 72a8 8 0 0 1-11.32-11.32L196.69 136H40a8 8 0 0 1 0-16h156.69l-58.35-58.34a8 8 0 0 1 11.32-11.32l72 72a8 8 0 0 1 0 11.32Z"/>
+              </svg>
+            </aegov-button>
+          </div>
+        </div>
+
+        <div class="demo-card">
+          <h4>Both Sides</h4>
+          <div class="demo-content">
+            <aegov-button variant="solid" appearance="primary">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" style="width: 20px; height: 20px;">
+                <path fill="currentColor" d="M224 48H32a8 8 0 0 0-8 8v136a16 16 0 0 0 16 16h176a16 16 0 0 0 16-16V56a8 8 0 0 0-8-8Zm-96 85.15L52.57 64h150.86ZM98.71 128L40 181.81V74.19Zm11.84 10.85l12 11.05a8 8 0 0 0 10.82 0l12-11.05l58 53.15H52.57ZM157.29 128L216 74.18v107.64Z"/>
+              </svg>
+              Email
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" style="width: 20px; height: 20px;">
+                <path fill="currentColor" d="M221.66 133.66l-72 72a8 8 0 0 1-11.32-11.32L196.69 136H40a8 8 0 0 1 0-16h156.69l-58.35-58.34a8 8 0 0 1 11.32-11.32l72 72a8 8 0 0 1 0 11.32Z"/>
+              </svg>
+            </aegov-button>
+          </div>
         </div>
       </div>
+    </div>
 
-      <div class="event-log" id="event-log">
-        <div class="event-log-entry">👋 Event logger initialized. Click, focus, or blur buttons to see events...</div>
+    <!-- RTL Support -->
+    <div class="section">
+      <h2 class="section-title">RTL (Right-to-Left) Support</h2>
+      <p class="section-description">Buttons work seamlessly in RTL layouts for Arabic and other RTL languages</p>
+
+      <div class="rtl-demo">
+        <h3>LTR vs RTL Comparison</h3>
+        <div class="rtl-comparison">
+          <!-- LTR -->
+          <div class="rtl-box" dir="ltr">
+            <h4>LTR (Left to Right)</h4>
+            <div style="display: flex; flex-direction: column; gap: 1rem;">
+              <aegov-button variant="solid" appearance="primary">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" style="width: 20px; height: 20px;">
+                  <path fill="currentColor" d="M224 48H32a8 8 0 0 0-8 8v136a16 16 0 0 0 16 16h176a16 16 0 0 0 16-16V56a8 8 0 0 0-8-8Zm-96 85.15L52.57 64h150.86ZM98.71 128L40 181.81V74.19Zm11.84 10.85l12 11.05a8 8 0 0 0 10.82 0l12-11.05l58 53.15H52.57ZM157.29 128L216 74.18v107.64Z"/>
+                </svg>
+                Save Changes
+              </aegov-button>
+              <aegov-button variant="outline" appearance="primary">
+                Continue
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" style="width: 20px; height: 20px;">
+                  <path fill="currentColor" d="m221.66 133.66l-72 72a8 8 0 0 1-11.32-11.32L196.69 136H40a8 8 0 0 1 0-16h156.69l-58.35-58.34a8 8 0 0 1 11.32-11.32l72 72a8 8 0 0 1 0 11.32Z"/>
+                </svg>
+              </aegov-button>
+              <aegov-button variant="soft" appearance="secondary">Cancel</aegov-button>
+            </div>
+          </div>
+
+          <!-- RTL -->
+          <div class="rtl-box" dir="rtl">
+            <h4>RTL (Right to Left - Arabic)</h4>
+            <div style="display: flex; flex-direction: column; gap: 1rem;">
+              <aegov-button variant="solid" appearance="primary">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" style="width: 20px; height: 20px;">
+                  <path fill="currentColor" d="M224 48H32a8 8 0 0 0-8 8v136a16 16 0 0 0 16 16h176a16 16 0 0 0 16-16V56a8 8 0 0 0-8-8Zm-96 85.15L52.57 64h150.86ZM98.71 128L40 181.81V74.19Zm11.84 10.85l12 11.05a8 8 0 0 0 10.82 0l12-11.05l58 53.15H52.57ZM157.29 128L216 74.18v107.64Z"/>
+                </svg>
+                حفظ التغييرات
+              </aegov-button>
+              <aegov-button variant="outline" appearance="primary">
+                متابعة
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" style="width: 20px; height: 20px;">
+                  <path fill="currentColor" d="m221.66 133.66l-72 72a8 8 0 0 1-11.32-11.32L196.69 136H40a8 8 0 0 1 0-16h156.69l-58.35-58.34a8 8 0 0 1 11.32-11.32l72 72a8 8 0 0 1 0 11.32Z"/>
+                </svg>
+              </aegov-button>
+              <aegov-button variant="soft" appearance="secondary">إلغاء</aegov-button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- API Documentation -->
+    <div class="api-section">
+      <h2>API Documentation</h2>
+
+      <!-- Properties -->
+      <h3 style="margin-top: 2rem; color: #1e293b;">Properties</h3>
+      <table class="api-table">
+        <thead>
+          <tr>
+            <th>Property</th>
+            <th>Attribute</th>
+            <th>Type</th>
+            <th>Default</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>variant</code></td>
+            <td><code>variant</code></td>
+            <td><code>'solid' | 'outline' | 'soft' | 'link'</code></td>
+            <td><code>'solid'</code></td>
+            <td>The button variant style</td>
+          </tr>
+          <tr>
+            <td><code>appearance</code></td>
+            <td><code>appearance</code></td>
+            <td><code>'primary' | 'secondary' | 'danger' | 'neutralMin' | 'neutralMax'</code></td>
+            <td><code>'primary'</code></td>
+            <td>The button appearance (color scheme)</td>
+          </tr>
+          <tr>
+            <td><code>size</code></td>
+            <td><code>size</code></td>
+            <td><code>'xs' | 'sm' | 'base' | 'lg'</code></td>
+            <td><code>'base'</code></td>
+            <td>The button size</td>
+          </tr>
+          <tr>
+            <td><code>type</code></td>
+            <td><code>type</code></td>
+            <td><code>'button' | 'submit' | 'reset'</code></td>
+            <td><code>'button'</code></td>
+            <td>The button type attribute</td>
+          </tr>
+          <tr>
+            <td><code>disabled</code></td>
+            <td><code>disabled</code></td>
+            <td><code>boolean</code></td>
+            <td><code>false</code></td>
+            <td>Whether the button is disabled</td>
+          </tr>
+          <tr>
+            <td><code>loading</code></td>
+            <td><code>loading</code></td>
+            <td><code>boolean</code></td>
+            <td><code>false</code></td>
+            <td>Whether the button is in a loading state (shows spinner)</td>
+          </tr>
+          <tr>
+            <td><code>icon</code></td>
+            <td><code>icon</code></td>
+            <td><code>boolean</code></td>
+            <td><code>false</code></td>
+            <td>Whether the button is icon-only (square shape)</td>
+          </tr>
+          <tr>
+            <td><code>full</code></td>
+            <td><code>full</code></td>
+            <td><code>boolean</code></td>
+            <td><code>false</code></td>
+            <td>Whether the button should take full width</td>
+          </tr>
+          <tr>
+            <td><code>bold</code></td>
+            <td><code>bold</code></td>
+            <td><code>boolean</code></td>
+            <td><code>true</code></td>
+            <td>Whether the button text should be bold</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- Events -->
+      <h3 style="margin-top: 2rem; color: #1e293b;">Events</h3>
+      <table class="api-table">
+        <thead>
+          <tr>
+            <th>Event</th>
+            <th>Type</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>aegovButtonClick</code></td>
+            <td><code>CustomEvent&lt;MouseEvent&gt;</code></td>
+            <td>Emitted when the button is clicked (not emitted if disabled or loading)</td>
+          </tr>
+          <tr>
+            <td><code>aegovButtonFocus</code></td>
+            <td><code>CustomEvent&lt;FocusEvent&gt;</code></td>
+            <td>Emitted when the button receives focus</td>
+          </tr>
+          <tr>
+            <td><code>aegovButtonBlur</code></td>
+            <td><code>CustomEvent&lt;FocusEvent&gt;</code></td>
+            <td>Emitted when the button loses focus</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- Slots -->
+      <h3 style="margin-top: 2rem; color: #1e293b;">Slots</h3>
+      <table class="api-table">
+        <thead>
+          <tr>
+            <th>Slot</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>(default)</code></td>
+            <td>Button content (text, icons, or any HTML)</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- Usage Examples -->
+      <h3 style="margin-top: 2rem; color: #1e293b;">Usage Examples</h3>
+      <div class="code-block">
+<code>&lt;!-- Basic button --&gt;
+&lt;aegov-button&gt;Click Me&lt;/aegov-button&gt;
+
+&lt;!-- Primary solid button (default) --&gt;
+&lt;aegov-button variant="solid" appearance="primary"&gt;Save&lt;/aegov-button&gt;
+
+&lt;!-- Danger outline button --&gt;
+&lt;aegov-button variant="outline" appearance="danger"&gt;Delete&lt;/aegov-button&gt;
+
+&lt;!-- Large loading button --&gt;
+&lt;aegov-button size="lg" loading&gt;Processing...&lt;/aegov-button&gt;
+
+&lt;!-- Button with icon --&gt;
+&lt;aegov-button variant="solid" appearance="primary"&gt;
+  &lt;svg&gt;...&lt;/svg&gt;
+  Save Changes
+&lt;/aegov-button&gt;
+
+&lt;!-- Full width button --&gt;
+&lt;aegov-button full&gt;Submit Form&lt;/aegov-button&gt;
+
+&lt;!-- Event handling --&gt;
+&lt;aegov-button id="myBtn"&gt;Click Me&lt;/aegov-button&gt;
+&lt;script&gt;
+  document.getElementById('myBtn').addEventListener('aegovButtonClick', (e) =&gt; {
+    console.log('Button clicked!', e.detail);
+  });
+&lt;/script&gt;</code>
       </div>
     </div>
   </div>
-
-  <!-- RTL Support -->
-  <div class="example-section">
-    <h2>RTL Support</h2>
-    <p>Buttons work seamlessly in RTL (Right-to-Left) layouts for Arabic and other RTL languages.</p>
-
-    <h3>LTR (Left to Right)</h3>
-    <div class="example-demo" dir="ltr">
-      <div class="button-row">
-        <aegov-button variant="solid" appearance="primary">Save Changes</aegov-button>
-        <aegov-button variant="outline" appearance="primary">Cancel</aegov-button>
-      </div>
-    </div>
-
-    <h3>RTL (Right to Left)</h3>
-    <div class="example-demo" dir="rtl">
-      <div class="button-row">
-        <aegov-button variant="solid" appearance="primary">حفظ التغييرات</aegov-button>
-        <aegov-button variant="outline" appearance="primary">إلغاء</aegov-button>
-      </div>
-    </div>
-
-    <div class="example-code">&lt;div dir="rtl"&gt;
-  &lt;aegov-button variant="solid" appearance="primary"&gt;حفظ التغييرات&lt;/aegov-button&gt;
-  &lt;aegov-button variant="outline" appearance="primary"&gt;إلغاء&lt;/aegov-button&gt;
-&lt;/div&gt;</div>
-  </div>
-
-  <script>
-    // Event logging functionality
-    const eventLog = document.getElementById('event-log');
-    let eventCount = 0;
-
-    function logEvent(message, type = 'info') {
-      eventCount++;
-      const entry = document.createElement('div');
-      entry.className = 'event-log-entry';
-      const timestamp = new Date().toLocaleTimeString();
-
-      const emoji = {
-        'click': '🖱️',
-        'focus': '🎯',
-        'blur': '👋'
-      }[type] || '📋';
-
-      entry.textContent = `${emoji} [${timestamp}] ${message}`;
-      eventLog.insertBefore(entry, eventLog.firstChild);
-
-      // Limit log entries to 50
-      if (eventLog.children.length > 50) {
-        eventLog.removeChild(eventLog.lastChild);
-      }
-    }
-
-    // Add event listeners to all test buttons
-    const testButtons = document.querySelectorAll('#test-btn-1, #test-btn-2, #test-btn-3, #test-btn-4');
-
-    testButtons.forEach((button, index) => {
-      const buttonLabel = button.textContent;
-
-      button.addEventListener('aegovButtonClick', (e) => {
-        logEvent(`"${buttonLabel}" clicked (Event ${eventCount + 1})`, 'click');
-      });
-
-      button.addEventListener('aegovButtonFocus', (e) => {
-        logEvent(`"${buttonLabel}" received focus`, 'focus');
-      });
-
-      button.addEventListener('aegovButtonBlur', (e) => {
-        logEvent(`"${buttonLabel}" lost focus`, 'blur');
-      });
-    });
-
-    // Log when page is ready
-    document.addEventListener('DOMContentLoaded', () => {
-      setTimeout(() => {
-        logEvent('✅ All button components loaded and ready');
-      }, 500);
-    });
-  </script>
 </body>
 </html>
