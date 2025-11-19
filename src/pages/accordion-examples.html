@@ -247,17 +247,14 @@
       <h4>FAQ Example</h4>
       <p>Click on any question to see the answer. Opening a new item automatically closes the previous one.</p>
       <aegov-accordion>
-        <aegov-accordion-item>
-          <span slot="accordion-item-heading">What's your refund policy?</span>
-          <span slot="accordion-item-content">If you are not satisfied with your purchase, we offer a 30-day money-back guarantee. Please contact our support team for assistance.</span>
+        <aegov-accordion-item heading="What's your refund policy?">
+          If you are not satisfied with your purchase, we offer a 30-day money-back guarantee. Please contact our support team for assistance.
         </aegov-accordion-item>
-        <aegov-accordion-item>
-          <span slot="accordion-item-heading">Do you offer discounts for bulk purchases?</span>
-          <span slot="accordion-item-content">Yes, we offer special discounts for bulk orders. Please reach out to our sales team with your requirements.</span>
+        <aegov-accordion-item heading="Do you offer discounts for bulk purchases?">
+          Yes, we offer special discounts for bulk orders. Please reach out to our sales team with your requirements.
         </aegov-accordion-item>
-        <aegov-accordion-item>
-          <span slot="accordion-item-heading">How do I track my order?</span>
-          <span slot="accordion-item-content">Once your order is shipped, you will receive an email with a tracking number. Use this number to track your order on our website.</span>
+        <aegov-accordion-item heading="How do I track my order?">
+          Once your order is shipped, you will receive an email with a tracking number. Use this number to track your order on our website.
         </aegov-accordion-item>
       </aegov-accordion>
     </div>
@@ -270,9 +267,9 @@
       <h4>Product Information</h4>
       <p>Users can compare multiple sections side-by-side by opening them together.</p>
       <aegov-accordion allow-multiple>
-        <aegov-accordion-item>
+        <aegov-accordion-item heading="F">
           <span slot="accordion-item-heading">Features</span>
-          <div slot="accordion-item-content">
+          <div>
             <ul style="margin: 0.5rem 0; padding-left: 1.5rem; color: #475569;">
               <li>Advanced analytics dashboard</li>
               <li>Real-time data synchronization</li>
@@ -281,17 +278,17 @@
             </ul>
           </div>
         </aegov-accordion-item>
-        <aegov-accordion-item>
+        <aegov-accordion-item heading="PP">
           <span slot="accordion-item-heading">Pricing Plans</span>
-          <div slot="accordion-item-content">
+          
             <p style="color: #475569;"><strong>Starter:</strong> $9/month - Perfect for individuals</p>
             <p style="color: #475569;"><strong>Professional:</strong> $29/month - For small teams</p>
             <p style="color: #475569;"><strong>Enterprise:</strong> Custom pricing - For large organizations</p>
-          </div>
+          
         </aegov-accordion-item>
-        <aegov-accordion-item>
+        <aegov-accordion-item heading="Support">
           <span slot="accordion-item-heading">Support Options</span>
-          <span slot="accordion-item-content">24/7 email support, live chat during business hours, and dedicated account manager for enterprise plans.</span>
+          24/7 email support, live chat during business hours, and dedicated account manager for enterprise plans.
         </aegov-accordion-item>
       </aegov-accordion>
     </div>
@@ -307,11 +304,11 @@
         <aegov-accordion icon="chevron">
           <aegov-accordion-item>
             <span slot="accordion-item-heading">Payment Methods</span>
-            <span slot="accordion-item-content">We accept all major credit cards, PayPal, Apple Pay, and Google Pay.</span>
+            We accept all major credit cards, PayPal, Apple Pay, and Google Pay.
           </aegov-accordion-item>
           <aegov-accordion-item>
             <span slot="accordion-item-heading">Shipping Options</span>
-            <span slot="accordion-item-content">Standard (3-5 days), Express (1-2 days), and Overnight shipping available.</span>
+            Standard (3-5 days), Express (1-2 days), and Overnight shipping available.
           </aegov-accordion-item>
         </aegov-accordion>
       </div>
@@ -322,11 +319,11 @@
         <aegov-accordion icon="plus">
           <aegov-accordion-item>
             <span slot="accordion-item-heading">Account Settings</span>
-            <span slot="accordion-item-content">Manage your profile, notifications, and privacy settings from your account dashboard.</span>
+            Manage your profile, notifications, and privacy settings from your account dashboard.
           </aegov-accordion-item>
           <aegov-accordion-item>
             <span slot="accordion-item-heading">Security Options</span>
-            <span slot="accordion-item-content">Enable two-factor authentication and manage your connected devices for enhanced security.</span>
+            Enable two-factor authentication and manage your connected devices for enhanced security.
           </aegov-accordion-item>
         </aegov-accordion>
       </div>
@@ -342,15 +339,15 @@
       <aegov-accordion default-open="0">
         <aegov-accordion-item>
           <span slot="accordion-item-heading">Step 1: Create Account</span>
-          <span slot="accordion-item-content">Sign up with your email address and create a strong password. You'll receive a verification email to activate your account.</span>
+          Sign up with your email address and create a strong password. You'll receive a verification email to activate your account.
         </aegov-accordion-item>
         <aegov-accordion-item>
           <span slot="accordion-item-heading">Step 2: Complete Profile</span>
-          <span slot="accordion-item-content">Add your personal information and preferences to personalize your experience.</span>
+          Add your personal information and preferences to personalize your experience.
         </aegov-accordion-item>
         <aegov-accordion-item>
           <span slot="accordion-item-heading">Step 3: Start Using</span>
-          <span slot="accordion-item-content">Explore the dashboard and begin using all the available features.</span>
+          Explore the dashboard and begin using all the available features.
         </aegov-accordion-item>
       </aegov-accordion>
     </div>
@@ -365,15 +362,15 @@
       <aegov-accordion bordered>
         <aegov-accordion-item>
           <span slot="accordion-item-heading">Appearance</span>
-          <span slot="accordion-item-content">Choose between light and dark themes, adjust font sizes, and customize your interface colors.</span>
+          Choose between light and dark themes, adjust font sizes, and customize your interface colors.
         </aegov-accordion-item>
         <aegov-accordion-item>
           <span slot="accordion-item-heading">Notifications</span>
-          <span slot="accordion-item-content">Control email alerts, push notifications, and SMS updates. Set your notification preferences for different types of events.</span>
+          Control email alerts, push notifications, and SMS updates. Set your notification preferences for different types of events.
         </aegov-accordion-item>
         <aegov-accordion-item>
           <span slot="accordion-item-heading">Privacy & Security</span>
-          <span slot="accordion-item-content">Manage data sharing preferences, cookie settings, and security options like two-factor authentication.</span>
+          Manage data sharing preferences, cookie settings, and security options like two-factor authentication.
         </aegov-accordion-item>
       </aegov-accordion>
     </div>
@@ -388,15 +385,15 @@
       <aegov-accordion>
         <aegov-accordion-item>
           <span slot="accordion-item-heading">✓ Basic Features (Available)</span>
-          <span slot="accordion-item-content">All basic features are included in your current plan and ready to use.</span>
+          All basic features are included in your current plan and ready to use.
         </aegov-accordion-item>
         <aegov-accordion-item disabled>
           <span slot="accordion-item-heading">🔒 Premium Features (Coming Soon)</span>
-          <span slot="accordion-item-content">This feature is not yet available in your plan.</span>
+          This feature is not yet available in your plan.
         </aegov-accordion-item>
         <aegov-accordion-item>
           <span slot="accordion-item-heading">✓ Advanced Analytics (Available)</span>
-          <span slot="accordion-item-content">Access comprehensive analytics and reporting tools for your data.</span>
+          Access comprehensive analytics and reporting tools for your data.
         </aegov-accordion-item>
       </aegov-accordion>
     </div>
@@ -411,7 +408,7 @@
       <aegov-accordion default-open="0" icon="plus">
         <aegov-accordion-item>
           <span slot="accordion-item-heading">Hardware Requirements</span>
-          <div slot="accordion-item-content">
+          <div>
             <p style="margin: 0 0 0.5rem 0; color: #475569;"><strong>Minimum:</strong></p>
             <ul style="margin: 0 0 1rem 0; padding-left: 1.5rem; color: #475569;">
               <li>CPU: Intel Core i3 or equivalent</li>
@@ -430,7 +427,7 @@
         </aegov-accordion-item>
         <aegov-accordion-item>
           <span slot="accordion-item-heading">Software Requirements</span>
-          <div slot="accordion-item-content">
+          <div>
             <p style="margin: 0 0 0.5rem 0; color: #475569;"><strong>Operating Systems:</strong></p>
             <ul style="margin: 0 0 1rem 0; padding-left: 1.5rem; color: #475569;">
               <li>Windows 10 or later</li>
@@ -459,13 +456,13 @@
       <aegov-accordion default-open="0">
         <aegov-accordion-item>
           <span slot="accordion-item-heading">🏢 Company Departments</span>
-          <div slot="accordion-item-content">
+          <div>
             <p style="margin: 0 0 1rem 0; color: #64748b;">Explore our different departments and their teams:</p>
 
             <aegov-accordion allow-multiple>
               <aegov-accordion-item>
                 <span slot="accordion-item-heading">Engineering Department</span>
-                <div slot="accordion-item-content">
+                <div>
                   <p style="margin: 0 0 0.5rem 0; color: #475569;"><strong>Teams:</strong></p>
                   <ul style="margin: 0; padding-left: 1.5rem; color: #475569;">
                     <li>Frontend Team (React, Vue, Stencil)</li>
@@ -478,7 +475,7 @@
 
               <aegov-accordion-item>
                 <span slot="accordion-item-heading">Design Department</span>
-                <div slot="accordion-item-content">
+                <div>
                   <p style="margin: 0 0 0.5rem 0; color: #475569;"><strong>Teams:</strong></p>
                   <ul style="margin: 0; padding-left: 1.5rem; color: #475569;">
                     <li>UI/UX Design Team</li>
@@ -491,7 +488,7 @@
 
               <aegov-accordion-item>
                 <span slot="accordion-item-heading">Product Department</span>
-                <div slot="accordion-item-content">
+                <div>
                   <p style="margin: 0 0 0.5rem 0; color: #475569;"><strong>Teams:</strong></p>
                   <ul style="margin: 0; padding-left: 1.5rem; color: #475569;">
                     <li>Product Management</li>
@@ -506,13 +503,13 @@
 
         <aegov-accordion-item>
           <span slot="accordion-item-heading">📚 Learning Resources</span>
-          <div slot="accordion-item-content">
+          <div>
             <p style="margin: 0 0 1rem 0; color: #64748b;">Browse our categorized learning materials:</p>
 
             <aegov-accordion icon="plus">
               <aegov-accordion-item>
                 <span slot="accordion-item-heading">Web Development</span>
-                <div slot="accordion-item-content">
+                <div>
                   <ul style="margin: 0; padding-left: 1.5rem; color: #475569;">
                     <li>HTML & CSS Fundamentals</li>
                     <li>JavaScript ES6+</li>
@@ -524,7 +521,7 @@
 
               <aegov-accordion-item>
                 <span slot="accordion-item-heading">Design Systems</span>
-                <div slot="accordion-item-content">
+                <div>
                   <ul style="margin: 0; padding-left: 1.5rem; color: #475569;">
                     <li>Design Tokens</li>
                     <li>Component Libraries</li>
@@ -550,15 +547,15 @@
           <aegov-accordion>
             <aegov-accordion-item>
               <span slot="accordion-item-heading">General Information</span>
-              <span slot="accordion-item-content">This is general information about our services and offerings.</span>
+              <span>This is general information about our services and offerings.</span>
             </aegov-accordion-item>
             <aegov-accordion-item>
               <span slot="accordion-item-heading">Contact Details</span>
-              <span slot="accordion-item-content">You can reach us via email, phone, or our online chat support.</span>
+              <span>You can reach us via email, phone, or our online chat support.</span>
             </aegov-accordion-item>
             <aegov-accordion-item>
               <span slot="accordion-item-heading">Working Hours</span>
-              <span slot="accordion-item-content">We are available Monday through Friday, 9 AM to 5 PM.</span>
+              <span>We are available Monday through Friday, 9 AM to 5 PM.</span>
             </aegov-accordion-item>
           </aegov-accordion>
         </div>
@@ -568,15 +565,15 @@
           <aegov-accordion>
             <aegov-accordion-item>
               <span slot="accordion-item-heading">معلومات عامة</span>
-              <span slot="accordion-item-content">هذه معلومات عامة حول خدماتنا وعروضنا.</span>
+              <span>هذه معلومات عامة حول خدماتنا وعروضنا.</span>
             </aegov-accordion-item>
             <aegov-accordion-item>
               <span slot="accordion-item-heading">تفاصيل الاتصال</span>
-              <span slot="accordion-item-content">يمكنك الوصول إلينا عبر البريد الإلكتروني أو الهاتف أو دعم الدردشة عبر الإنترنت.</span>
+              <span>يمكنك الوصول إلينا عبر البريد الإلكتروني أو الهاتف أو دعم الدردشة عبر الإنترنت.</span>
             </aegov-accordion-item>
             <aegov-accordion-item>
               <span slot="accordion-item-heading">ساعات العمل</span>
-              <span slot="accordion-item-content">نحن متاحون من الاثنين إلى الجمعة، من الساعة 9 صباحًا حتى 5 مساءً.</span>
+              <span>نحن متاحون من الاثنين إلى الجمعة، من الساعة 9 صباحًا حتى 5 مساءً.</span>
             </aegov-accordion-item>
           </aegov-accordion>
         </div>
@@ -697,11 +694,6 @@
             <td>aegov-accordion-item</td>
             <td>Heading content for the accordion item</td>
           </tr>
-          <tr>
-            <td><code>accordion-item-content</code></td>
-            <td>aegov-accordion-item</td>
-            <td>Content that expands/collapses</td>
-          </tr>
         </tbody>
       </table>
 
@@ -710,11 +702,11 @@
 &lt;aegov-accordion&gt;
   &lt;aegov-accordion-item&gt;
     &lt;span slot="accordion-item-heading"&gt;Question 1&lt;/span&gt;
-    &lt;span slot="accordion-item-content"&gt;Answer 1&lt;/span&gt;
+    &lt;span&gt;Answer 1&lt;/span&gt;
   &lt;/aegov-accordion-item&gt;
   &lt;aegov-accordion-item&gt;
     &lt;span slot="accordion-item-heading"&gt;Question 2&lt;/span&gt;
-    &lt;span slot="accordion-item-content"&gt;Answer 2&lt;/span&gt;
+    &lt;span&gt;Answer 2&lt;/span&gt;
   &lt;/aegov-accordion-item&gt;
 &lt;/aegov-accordion&gt;
 

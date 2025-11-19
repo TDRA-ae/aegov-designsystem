@@ -20,8 +20,16 @@ export class AegovAccordionItem {
   @Element() el: HTMLElement;
 
   @State() contentHeight: number = 0;
+  @State() hasHeadingSlot: boolean = false;
+
   private contentEl?: HTMLElement;
   private resizeObserver?: ResizeObserver;
+
+  /**
+   * Heading text for the accordion item (alternative to using the slot)
+   * Note: If both heading property and slot are provided, the slot takes precedence
+   */
+  @Prop() heading?: string;
 
   /**
    * Whether the accordion item is open
@@ -67,6 +75,10 @@ export class AegovAccordionItem {
         'Please wrap it with <aegov-accordion>...</aegov-accordion>'
       );
     }
+
+    // Check if heading slot has content
+    const headingSlot = this.el.querySelector('[slot="accordion-item-heading"]');
+    this.hasHeadingSlot = headingSlot !== null && headingSlot.textContent?.trim().length > 0;
   }
 
   componentDidLoad() {
@@ -142,7 +154,11 @@ export class AegovAccordionItem {
             type="button"
           >
             <div class="accordion-item__heading">
-              <slot name="accordion-item-heading" />
+              {this.hasHeadingSlot ? (
+                <slot name="accordion-item-heading" />
+              ) : (
+                this.heading
+              )}
             </div>
             {this.icon === 'chevron' ? (
               <svg class="accordion-item__icon accordion-item__icon-chevron" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" aria-hidden="true">
@@ -161,7 +177,7 @@ export class AegovAccordionItem {
               class="accordion-item__content"
               ref={(el) => this.contentEl = el}
             >
-              <slot name="accordion-item-content" />
+              <slot />
             </div>
           </div>
         </div>

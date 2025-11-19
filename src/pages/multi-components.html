@@ -13,6 +13,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="/build/aegov.css" />
 
   <style>
     * {
@@ -278,11 +280,10 @@
       <aegov-callout
         variant="warning"
         appearance="soft"
-        with-icon="true"
-        link-text="Renew Now"
-        link-url="/services/passport-renewal">
-        <strong>Passport Expiring Soon!</strong> Your passport will expire in 45 days.
-        Renew it online to avoid service interruptions when traveling.
+        with-icon="true">
+        <div slot="content"><strong>Passport Expiring Soon!</strong> Your passport will expire in 45 days.</div>
+        <a href="#" slot="link">Rewnew Now</a>
+
       </aegov-callout>
     </div>
 
@@ -305,21 +306,21 @@
         </div>
 
         <div class="hero-actions">
-          <aegov-button variant="solid" size="lg" appearance="primary">
+          <aegov-button variant="solid" size="base" appearance="primary">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" style="width: 24px; height: 24px;">
               <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
             </svg>
             New Application
           </aegov-button>
 
-          <aegov-button variant="outline" size="lg" appearance="primary">
+          <aegov-button variant="outline" size="base" appearance="primary">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" style="width: 24px; height: 24px;">
               <path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99" />
             </svg>
             Renew Passport
           </aegov-button>
 
-          <aegov-button variant="soft" size="lg" appearance="secondary">
+          <aegov-button variant="soft" size="base" appearance="primary">
             Track Application
           </aegov-button>
         </div>
@@ -339,7 +340,7 @@
               <h4>New Passport Application</h4>
               <p>Apply for your first passport or replace a lost/damaged one. Processing time: 5-7 business days.</p>
               <div style="margin-top: 1rem;">
-                <aegov-button size="sm" variant="solid" appearance="primary">Apply Now</aegov-button>
+                <aegov-button size="sm" variant="solid" appearance="secondary">Apply Now</aegov-button>
               </div>
             </div>
 
@@ -347,7 +348,7 @@
               <h4>Passport Renewal</h4>
               <p>Renew your existing passport before or after expiry. Express service available.</p>
               <div style="margin-top: 1rem;">
-                <aegov-button size="sm" variant="solid" appearance="primary">Renew Now</aegov-button>
+                <aegov-button size="sm" variant="solid" appearance="secondary">Renew Now</aegov-button>
               </div>
             </div>
 
@@ -355,7 +356,7 @@
               <h4>Family Book Update</h4>
               <p>Add or remove family members from your passport documentation.</p>
               <div style="margin-top: 1rem;">
-                <aegov-button size="sm" variant="outline" appearance="primary">Update</aegov-button>
+                <aegov-button size="sm" variant="solid" appearance="secondary">Update</aegov-button>
               </div>
             </div>
 
@@ -363,7 +364,7 @@
               <h4>Emergency Travel Document</h4>
               <p>Get an emergency travel document for urgent international travel needs.</p>
               <div style="margin-top: 1rem;">
-                <aegov-button size="sm" variant="outline" appearance="primary">Request</aegov-button>
+                <aegov-button size="sm" variant="solid" appearance="secondary">Request</aegov-button>
               </div>
             </div>
           </div>
@@ -375,8 +376,7 @@
 
           <aegov-accordion bordered="true">
             <aegov-accordion-item
-              header="How long does passport processing take?"
-              is-first="true">
+              heading="How long does passport processing take?">
               <aegov-text size="base">
                 Standard passport processing takes 5-7 business days from the date of application submission.
                 Express service is available for an additional fee, which reduces processing time to 2-3 business days.
@@ -384,7 +384,7 @@
               </aegov-text>
             </aegov-accordion-item>
 
-            <aegov-accordion-item header="What documents do I need to apply?">
+            <aegov-accordion-item heading="What documents do I need to apply?">
               <aegov-text size="base" class="!mb-4">
                 For a new passport application, you will need:
               </aegov-text>
@@ -400,7 +400,7 @@
               </aegov-text>
             </aegov-accordion-item>
 
-            <aegov-accordion-item header="Can I renew an expired passport?">
+            <aegov-accordion-item heading="Can I renew an expired passport?">
               <aegov-text size="base">
                 Yes, you can renew an expired passport. The process is the same as renewing a valid passport.
                 However, we recommend renewing your passport at least 6 months before expiry to avoid any
@@ -409,7 +409,7 @@
               </aegov-text>
             </aegov-accordion-item>
 
-            <aegov-accordion-item header="How can I track my application?">
+            <aegov-accordion-item heading="How can I track my application?">
               <aegov-text size="base" class="!mb-4">
                 You can track your passport application in several ways:
               </aegov-text>
@@ -425,7 +425,7 @@
             </aegov-accordion-item>
 
             <aegov-accordion-item
-              header="What are the passport fees?"
+              heading="What are the passport fees?"
               is-last="true">
               <aegov-text size="base" class="!mb-4">
                 Passport fees vary depending on the type of service:
@@ -463,9 +463,8 @@
         <!-- Important Notice -->
         <div class="card sidebar-section">
           <h3>Important Notice</h3>
-          <aegov-callout variant="error" appearance="soft" with-icon="true">
-            <strong>COVID-19 Update:</strong> Face masks are required at all service centers.
-            Book your appointment online to reduce waiting time.
+          <aegov-callout variant="error" appearance="soft">
+            <span slot="content"><strong>COVID-19 Update:</strong> Face masks are required at all service centers. Book your appointment online to reduce waiting time.</span>
           </aegov-callout>
         </div>
 
@@ -545,9 +544,9 @@
         little as 2-3 business days without visiting a service center.
       </aegov-text>
 
-      <aegov-callout variant="success" appearance="soft" with-icon="true" link-text="Get Started" link-url="/services/apply">
-        <strong>Ready to apply?</strong> Start your passport application now and join thousands of satisfied
-        customers who have used our online services.
+      <aegov-callout variant="success" appearance="soft" with-icon="true">
+        <span slot="content"><strong>Ready to apply?</strong> Start your passport application now and join thousands of satisfied customers who have used our online services.</span>
+        <a href="/services/apply" slot="link">Get Started</a>
       </aegov-callout>
     </div>
   </main>

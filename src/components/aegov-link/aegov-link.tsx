@@ -87,7 +87,8 @@ export class AegovLink {
       'no-underline',
       'ease-in-out',
       'transition-colors',
-      'duration-200'
+      'duration-200',
+      'text-primary-600'
     ];
 
     // Merge with custom classes if provided

@@ -44,6 +44,10 @@ export namespace Components {
          */
         "disabled": boolean;
         /**
+          * Heading text for the accordion item (alternative to using the slot) Note: If both heading property and slot are provided, the slot takes precedence
+         */
+        "heading"?: string;
+        /**
           * Icon style for the accordion item
           * @default 'chevron'
          */
@@ -669,6 +673,10 @@ declare namespace LocalJSX {
           * @default false
          */
         "disabled"?: boolean;
+        /**
+          * Heading text for the accordion item (alternative to using the slot) Note: If both heading property and slot are provided, the slot takes precedence
+         */
+        "heading"?: string;
         /**
           * Icon style for the accordion item
           * @default 'chevron'
