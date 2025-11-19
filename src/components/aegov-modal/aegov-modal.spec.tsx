@@ -59,13 +59,13 @@ describe('aegov-modal', () => {
     expect(page.rootInstance.open).toBe(false);
   });
 
-  it('should have default closeOnBackdropClick value of true', async () => {
+  it('should have default closeWithBackdrop value of true', async () => {
     const page = await newSpecPage({
       components: [AegovModal],
       html: `<aegov-modal><div>Content</div></aegov-modal>`,
     });
 
-    expect(page.rootInstance.closeOnBackdropClick).toBe(true);
+    expect(page.rootInstance.closeWithBackdrop).toBe(true);
   });
 
   it('should have default closeOnEscape value of true', async () => {
@@ -108,13 +108,13 @@ describe('aegov-modal', () => {
   // Props - Custom Values
   // ============================================
 
-  it('should accept custom closeOnBackdropClick prop', async () => {
+  it('should accept custom closeWithBackdrop prop', async () => {
     const page = await newSpecPage({
       components: [AegovModal],
-      html: `<aegov-modal close-on-backdrop-click="false"><div>Content</div></aegov-modal>`,
+      html: `<aegov-modal close-with-backdrop="false"><div>Content</div></aegov-modal>`,
     });
 
-    expect(page.rootInstance.closeOnBackdropClick).toBe(false);
+    expect(page.rootInstance.closeWithBackdrop).toBe(false);
   });
 
   it('should accept custom closeOnEscape prop', async () => {

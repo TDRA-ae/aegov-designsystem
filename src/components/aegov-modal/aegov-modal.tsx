@@ -27,7 +27,7 @@ export class AegovModal {
    * Whether clicking the backdrop closes the modal
    * @default true
    */
-  @Prop() closeOnBackdropClick: boolean = true;
+  @Prop() closeWithBackdrop: boolean = true;
 
   /**
    * Whether pressing ESC closes the modal
@@ -215,7 +215,7 @@ export class AegovModal {
     this.aegovModalBackdropClick.emit(event);
 
     // Only close if clicking directly on backdrop, not modal content
-    if (event.target === event.currentTarget && this.closeOnBackdropClick) {
+    if (event.target === event.currentTarget && this.closeWithBackdrop) {
       this.handleClose();
     }
   };

@@ -22,7 +22,7 @@ export type ButtonType = 'button' | 'submit' | 'reset';
 /**
  * Button component appearance types (color scheme)
  */
-export type ButtonAppearance = 'primary' | 'secondary';
+export type ButtonAppearance = 'primary' | 'secondary' | 'danger' | 'neutralMin' | 'neutralMax';
 
 /**
  * Avatar component size types

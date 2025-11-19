@@ -236,9 +236,9 @@ describe('aegov-modal E2E', () => {
     expect(['closing', 'closed']).toContain(state);
   });
 
-  it('should NOT close modal when backdrop is clicked if closeOnBackdropClick is false', async () => {
+  it('should NOT close modal when backdrop is clicked if closeWithBackdrop is false', async () => {
     const page = await newE2EPage();
-    await page.setContent(`<aegov-modal open close-on-backdrop-click="false"><div>Content</div></aegov-modal>`);
+    await page.setContent(`<aegov-modal open close-with-backdrop="false"><div>Content</div></aegov-modal>`);
 
     // Initially open
     let backdrop = await page.find('aegov-modal >>> .modal-backdrop');

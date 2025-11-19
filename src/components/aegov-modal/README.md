@@ -58,7 +58,7 @@ A fully accessible, feature-rich modal/dialog component with Shadow DOM encapsul
 ### Prevent Closing on Backdrop Click
 
 ```html
-<aegov-modal close-on-backdrop-click="false">
+<aegov-modal close-with-backdrop="false">
   <div style="padding: 2rem;">
     <h2>Important Action</h2>
     <p>This modal can only be closed using the buttons below.</p>
@@ -391,14 +391,14 @@ The following attributes are automatically passed through to the internal dialog
 
 ## Properties
 
-| Property               | Attribute                 | Description                                       | Type                            | Default    |
-| ---------------------- | ------------------------- | ------------------------------------------------- | ------------------------------- | ---------- |
-| `backdropOpacity`      | `backdrop-opacity`        | Backdrop opacity level                            | `"base" \| "dark" \| "light"`   | `'base'`   |
-| `closeOnBackdropClick` | `close-on-backdrop-click` | Whether clicking the backdrop closes the modal    | `boolean`                       | `true`     |
-| `closeOnEscape`        | `close-on-escape`         | Whether pressing ESC closes the modal             | `boolean`                       | `true`     |
-| `open`                 | `open`                    | Whether the modal is currently open/visible       | `boolean`                       | `false`    |
-| `position`             | `position`                | Position of the modal on screen                   | `"bottom" \| "center" \| "top"` | `'center'` |
-| `preventBodyScroll`    | `prevent-body-scroll`     | Whether to prevent body scroll when modal is open | `boolean`                       | `true`     |
+| Property            | Attribute             | Description                                       | Type                            | Default    |
+| ------------------- | --------------------- | ------------------------------------------------- | ------------------------------- | ---------- |
+| `backdropOpacity`   | `backdrop-opacity`    | Backdrop opacity level                            | `"base" \| "dark" \| "light"`   | `'base'`   |
+| `closeOnEscape`     | `close-on-escape`     | Whether pressing ESC closes the modal             | `boolean`                       | `true`     |
+| `closeWithBackdrop` | `close-with-backdrop` | Whether clicking the backdrop closes the modal    | `boolean`                       | `true`     |
+| `open`              | `open`                | Whether the modal is currently open/visible       | `boolean`                       | `false`    |
+| `position`          | `position`            | Position of the modal on screen                   | `"bottom" \| "center" \| "top"` | `'center'` |
+| `preventBodyScroll` | `prevent-body-scroll` | Whether to prevent body scroll when modal is open | `boolean`                       | `true`     |
 
 
 ## Events

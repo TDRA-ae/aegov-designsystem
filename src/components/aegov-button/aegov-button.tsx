@@ -142,7 +142,10 @@ export class AegovButton {
 
     const appearanceClasses: Record<ButtonAppearance, string[]> = {
       primary: ['btn-primary'],
-      secondary: ['btn-secondary']
+      secondary: ['btn-secondary'],
+      danger: ['btn-danger'],
+      neutralMin: ['btn-neutral-min'],
+      neutralMax: ['btn-neutral-max']
     };
 
     classes.push(...appearanceClasses[this.appearance]);

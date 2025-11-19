@@ -335,15 +335,15 @@ export namespace Components {
          */
         "close": () => Promise<void>;
         /**
-          * Whether clicking the backdrop closes the modal
-          * @default true
-         */
-        "closeOnBackdropClick": boolean;
-        /**
           * Whether pressing ESC closes the modal
           * @default true
          */
         "closeOnEscape": boolean;
+        /**
+          * Whether clicking the backdrop closes the modal
+          * @default true
+         */
+        "closeWithBackdrop": boolean;
         /**
           * Whether the modal is currently open/visible
           * @default false
@@ -997,15 +997,15 @@ declare namespace LocalJSX {
          */
         "backdropOpacity"?: ModalBackdropOpacity;
         /**
-          * Whether clicking the backdrop closes the modal
-          * @default true
-         */
-        "closeOnBackdropClick"?: boolean;
-        /**
           * Whether pressing ESC closes the modal
           * @default true
          */
         "closeOnEscape"?: boolean;
+        /**
+          * Whether clicking the backdrop closes the modal
+          * @default true
+         */
+        "closeWithBackdrop"?: boolean;
         /**
           * Emitted when backdrop is clicked
          */
