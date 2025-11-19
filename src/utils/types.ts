@@ -125,6 +125,21 @@ export type ModalPosition = 'center' | 'top' | 'bottom';
 export type ModalBackdropOpacity = 'light' | 'base' | 'dark';
 
 /**
+ * Tooltip component position types
+ */
+export type TooltipPosition = 'top' | 'right' | 'bottom' | 'left';
+
+/**
+ * Tooltip component alignment types
+ */
+export type TooltipAlign = 'start' | 'center' | 'end';
+
+/**
+ * Tooltip component trigger types
+ */
+export type TooltipTrigger = 'hover' | 'click';
+
+/**
  * Common component props
  */
 export interface BaseComponentProps {

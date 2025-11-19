@@ -5,8 +5,8 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
-import { AccordionIcon, AvatarSize, AvatarStatus, AvatarVariant, BadgeAppearance, BadgeColor, BadgeSize, BannerDisplay, BannerMode, BannerPosition, BannerRole, BlockquoteVariant, BreadcrumbSeparator, ButtonAppearance, ButtonSize, ButtonType, ButtonVariant, CalloutAppearance, CalloutVariant, LinkTarget, ModalBackdropOpacity, ModalPosition, TextSize, TitleSize } from "./utils/types";
-export { AccordionIcon, AvatarSize, AvatarStatus, AvatarVariant, BadgeAppearance, BadgeColor, BadgeSize, BannerDisplay, BannerMode, BannerPosition, BannerRole, BlockquoteVariant, BreadcrumbSeparator, ButtonAppearance, ButtonSize, ButtonType, ButtonVariant, CalloutAppearance, CalloutVariant, LinkTarget, ModalBackdropOpacity, ModalPosition, TextSize, TitleSize } from "./utils/types";
+import { AccordionIcon, AvatarSize, AvatarStatus, AvatarVariant, BadgeAppearance, BadgeColor, BadgeSize, BannerDisplay, BannerMode, BannerPosition, BannerRole, BlockquoteVariant, BreadcrumbSeparator, ButtonAppearance, ButtonSize, ButtonType, ButtonVariant, CalloutAppearance, CalloutVariant, LinkTarget, ModalBackdropOpacity, ModalPosition, TextSize, TitleSize, TooltipAlign, TooltipPosition, TooltipTrigger } from "./utils/types";
+export { AccordionIcon, AvatarSize, AvatarStatus, AvatarVariant, BadgeAppearance, BadgeColor, BadgeSize, BannerDisplay, BannerMode, BannerPosition, BannerRole, BlockquoteVariant, BreadcrumbSeparator, ButtonAppearance, ButtonSize, ButtonType, ButtonVariant, CalloutAppearance, CalloutVariant, LinkTarget, ModalBackdropOpacity, ModalPosition, TextSize, TitleSize, TooltipAlign, TooltipPosition, TooltipTrigger } from "./utils/types";
 export namespace Components {
     /**
      * Accordion component for collapsible content sections
@@ -394,6 +394,60 @@ export namespace Components {
          */
         "size": TitleSize;
     }
+    /**
+     * Tooltip component that displays additional information on hover or click
+     */
+    interface AegovTooltip {
+        /**
+          * Alignment of the tooltip
+          * @default 'center'
+         */
+        "align": TooltipAlign;
+        /**
+          * Tooltip content text (alternative to using slot)
+         */
+        "content"?: string;
+        /**
+          * Whether the tooltip is disabled
+          * @default false
+         */
+        "disabled": boolean;
+        /**
+          * Gap between tooltip and trigger element (in pixels)
+          * @default 8
+         */
+        "gap": number;
+        /**
+          * Delay before hiding tooltip (in milliseconds)
+          * @default 0
+         */
+        "hideDelay": number;
+        /**
+          * Whether the tooltip contains interactive content This adds ARIA attributes and prevents auto-hide on hover
+          * @default false
+         */
+        "interactive": boolean;
+        /**
+          * Additional offset for tooltip positioning (in pixels)
+          * @default 0
+         */
+        "offset": number;
+        /**
+          * Position of the tooltip relative to the trigger element
+          * @default 'top'
+         */
+        "position": TooltipPosition;
+        /**
+          * Delay before showing tooltip (in milliseconds)
+          * @default 200
+         */
+        "showDelay": number;
+        /**
+          * Trigger type for showing the tooltip
+          * @default 'hover'
+         */
+        "trigger": TooltipTrigger;
+    }
 }
 export interface AegovAccordionItemCustomEvent<T> extends CustomEvent<T> {
     detail: T;
@@ -620,6 +674,15 @@ declare global {
         prototype: HTMLAegovTitleElement;
         new (): HTMLAegovTitleElement;
     };
+    /**
+     * Tooltip component that displays additional information on hover or click
+     */
+    interface HTMLAegovTooltipElement extends Components.AegovTooltip, HTMLStencilElement {
+    }
+    var HTMLAegovTooltipElement: {
+        prototype: HTMLAegovTooltipElement;
+        new (): HTMLAegovTooltipElement;
+    };
     interface HTMLElementTagNameMap {
         "aegov-accordion": HTMLAegovAccordionElement;
         "aegov-accordion-item": HTMLAegovAccordionItemElement;
@@ -635,6 +698,7 @@ declare global {
         "aegov-modal": HTMLAegovModalElement;
         "aegov-text": HTMLAegovTextElement;
         "aegov-title": HTMLAegovTitleElement;
+        "aegov-tooltip": HTMLAegovTooltipElement;
     }
 }
 declare namespace LocalJSX {
@@ -1072,6 +1136,60 @@ declare namespace LocalJSX {
          */
         "size"?: TitleSize;
     }
+    /**
+     * Tooltip component that displays additional information on hover or click
+     */
+    interface AegovTooltip {
+        /**
+          * Alignment of the tooltip
+          * @default 'center'
+         */
+        "align"?: TooltipAlign;
+        /**
+          * Tooltip content text (alternative to using slot)
+         */
+        "content"?: string;
+        /**
+          * Whether the tooltip is disabled
+          * @default false
+         */
+        "disabled"?: boolean;
+        /**
+          * Gap between tooltip and trigger element (in pixels)
+          * @default 8
+         */
+        "gap"?: number;
+        /**
+          * Delay before hiding tooltip (in milliseconds)
+          * @default 0
+         */
+        "hideDelay"?: number;
+        /**
+          * Whether the tooltip contains interactive content This adds ARIA attributes and prevents auto-hide on hover
+          * @default false
+         */
+        "interactive"?: boolean;
+        /**
+          * Additional offset for tooltip positioning (in pixels)
+          * @default 0
+         */
+        "offset"?: number;
+        /**
+          * Position of the tooltip relative to the trigger element
+          * @default 'top'
+         */
+        "position"?: TooltipPosition;
+        /**
+          * Delay before showing tooltip (in milliseconds)
+          * @default 200
+         */
+        "showDelay"?: number;
+        /**
+          * Trigger type for showing the tooltip
+          * @default 'hover'
+         */
+        "trigger"?: TooltipTrigger;
+    }
     interface IntrinsicElements {
         "aegov-accordion": AegovAccordion;
         "aegov-accordion-item": AegovAccordionItem;
@@ -1087,6 +1205,7 @@ declare namespace LocalJSX {
         "aegov-modal": AegovModal;
         "aegov-text": AegovText;
         "aegov-title": AegovTitle;
+        "aegov-tooltip": AegovTooltip;
     }
 }
 export { LocalJSX as JSX };
@@ -1120,6 +1239,10 @@ declare module "@stencil/core" {
             "aegov-modal": LocalJSX.AegovModal & JSXBase.HTMLAttributes<HTMLAegovModalElement>;
             "aegov-text": LocalJSX.AegovText & JSXBase.HTMLAttributes<HTMLAegovTextElement>;
             "aegov-title": LocalJSX.AegovTitle & JSXBase.HTMLAttributes<HTMLAegovTitleElement>;
+            /**
+             * Tooltip component that displays additional information on hover or click
+             */
+            "aegov-tooltip": LocalJSX.AegovTooltip & JSXBase.HTMLAttributes<HTMLAegovTooltipElement>;
         }
     }
 }
