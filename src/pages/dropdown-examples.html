@@ -1,0 +1,1138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dropdown Component - AEGOV Design System</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Alexandria:wght@100..900&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Noto+Kufi+Arabic:wght@100..900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+
+  <script type="module" src="/build/aegov.esm.js"></script>
+  <script nomodule src="/build/aegov.js"></script>
+  <link rel="stylesheet" href="/build/aegov.css" />
+  
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      background: linear-gradient(135deg, #ec4899 0%, #be185d 100%);
+      min-height: 100vh;
+      padding: 3rem 1.5rem;
+    }
+
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      background: white;
+      border-radius: 16px;
+      padding: 3rem;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 3rem;
+      padding-bottom: 2rem;
+      border-bottom: 2px solid #e5e7eb;
+    }
+
+    .header h1 {
+      font-size: 2.5rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, #ec4899 0%, #be185d 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 0.5rem;
+    }
+
+    .header p {
+      font-size: 1.125rem;
+      color: #6b7280;
+      margin-top: 0.5rem;
+    }
+
+    .feature-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      justify-content: center;
+      margin-top: 1.5rem;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.375rem;
+      padding: 0.375rem 0.875rem;
+      background: linear-gradient(135deg, #ec4899 0%, #be185d 100%);
+      color: white;
+      border-radius: 20px;
+      font-size: 0.8125rem;
+      font-weight: 600;
+      letter-spacing: 0.3px;
+    }
+
+    .badge::before {
+      content: '✓';
+      font-weight: bold;
+    }
+
+    .section {
+      margin-bottom: 3rem;
+    }
+
+    .section-title {
+      font-size: 1.75rem;
+      font-weight: 700;
+      color: #1f2937;
+      margin-bottom: 1rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 3px solid #ec4899;
+      display: inline-block;
+    }
+
+    .section-description {
+      font-size: 1rem;
+      color: #6b7280;
+      margin-bottom: 1.5rem;
+      line-height: 1.6;
+    }
+
+    .example-box {
+      background: #f9fafb;
+      border: 2px solid #e5e7eb;
+      border-radius: 12px;
+      padding: 2rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .example-title {
+      font-size: 1.125rem;
+      font-weight: 600;
+      color: #374151;
+      margin-bottom: 1rem;
+    }
+
+    .example-content {
+      background: white;
+      border-radius: 8px;
+      padding: 3rem 1.5rem;
+      border: 1px solid #e5e7eb;
+      min-height: 200px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 2rem;
+    }
+
+    .code-block {
+      background: #1f2937;
+      color: #f9fafb;
+      padding: 1.25rem;
+      border-radius: 8px;
+      overflow-x: auto;
+      font-family: 'Monaco', 'Menlo', 'Courier New', monospace;
+      font-size: 0.875rem;
+      line-height: 1.6;
+      margin-top: 1rem;
+    }
+
+    .code-block code {
+      color: inherit;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .api-section {
+      background: #f9fafb;
+      border-radius: 12px;
+      padding: 2rem;
+      margin-top: 3rem;
+    }
+
+    .api-section h2 {
+      font-size: 2rem;
+      font-weight: 700;
+      color: #1f2937;
+      margin-bottom: 1.5rem;
+      text-align: center;
+    }
+
+    .api-table {
+      width: 100%;
+      border-collapse: collapse;
+      background: white;
+      border-radius: 8px;
+      overflow: hidden;
+      margin-bottom: 2rem;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    }
+
+    .api-table th {
+      background: linear-gradient(135deg, #ec4899 0%, #be185d 100%);
+      color: white;
+      padding: 1rem;
+      text-align: left;
+      font-weight: 600;
+      font-size: 0.875rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .api-table td {
+      padding: 1rem;
+      border-bottom: 1px solid #e5e7eb;
+      vertical-align: top;
+    }
+
+    .api-table tbody tr:last-child td {
+      border-bottom: none;
+    }
+
+    .api-table tbody tr:hover {
+      background: #f9fafb;
+    }
+
+    .api-table code {
+      background: #f3f4f6;
+      padding: 0.125rem 0.375rem;
+      border-radius: 4px;
+      font-family: 'Monaco', 'Menlo', 'Courier New', monospace;
+      font-size: 0.875rem;
+      color: #be185d;
+    }
+
+    .event-log {
+      background: #1f2937;
+      color: #10b981;
+      padding: 1rem;
+      border-radius: 8px;
+      font-family: 'Monaco', 'Menlo', 'Courier New', monospace;
+      font-size: 0.875rem;
+      max-height: 200px;
+      overflow-y: auto;
+      margin-top: 1rem;
+      border: 2px solid #374151;
+    }
+
+    .event-log-entry {
+      margin-bottom: 0.25rem;
+      padding: 0.25rem;
+      border-left: 3px solid #10b981;
+      padding-left: 0.5rem;
+    }
+
+    .event-log-time {
+      color: #9ca3af;
+      margin-right: 0.5rem;
+    }
+
+    .note-box {
+      background: #fef3c7;
+      border-left: 4px solid #f59e0b;
+      padding: 1rem 1.25rem;
+      border-radius: 6px;
+      margin: 1.5rem 0;
+    }
+
+    .note-box strong {
+      color: #92400e;
+      display: block;
+      margin-bottom: 0.5rem;
+    }
+
+    .note-box p {
+      color: #78350f;
+      margin: 0;
+      line-height: 1.6;
+    }
+
+    /* Dropdown menu item styling */
+    .dropdown-menu {
+      display: flex;
+      flex-direction: column;
+      min-width: 200px;
+    }
+
+    .dropdown-menu a {
+      padding: 0.75rem 1rem;
+      color: #374151;
+      text-decoration: none;
+      transition: background-color 0.2s;
+      border-radius: 4px;
+    }
+
+    .dropdown-menu a:hover {
+      background-color: #f3f4f6;
+      color: #1f2937;
+    }
+
+    .dropdown-menu hr {
+      margin: 0.5rem 0;
+      border: none;
+      border-top: 1px solid #e5e7eb;
+    }
+
+    @media (max-width: 768px) {
+      body {
+        padding: 1.5rem 1rem;
+      }
+
+      .container {
+        padding: 1.5rem;
+      }
+
+      .header h1 {
+        font-size: 2rem;
+      }
+
+      .grid-2 {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Header -->
+    <div class="header">
+      <h1>📋 Dropdown Component</h1>
+      <p>Positioned content container with flexible trigger interactions and smart positioning</p>
+
+      <div class="feature-badges">
+        <span class="badge">Click & Hover Triggers</span>
+        <span class="badge">4 Positions</span>
+        <span class="badge">3 Alignments</span>
+        <span class="badge">Auto Width</span>
+        <span class="badge">Portal Rendering</span>
+        <span class="badge">Keyboard Navigation</span>
+        <span class="badge">Focus Trap</span>
+        <span class="badge">Singleton Pattern</span>
+      </div>
+    </div>
+
+    <!-- Section 1: Basic Click Dropdown -->
+    <div class="section">
+      <h2 class="section-title">1. Basic Click Dropdown</h2>
+      <p class="section-description">
+        Default dropdown with click trigger. Click the button to open the dropdown menu.
+      </p>
+
+      <div class="example-box">
+        <div class="example-title">Simple Menu Dropdown</div>
+        <div class="example-content">
+          <aegov-dropdown>
+            <button style="padding: 10px 20px; background: #ec4899; color: white; border: none; border-radius: 4px; cursor: pointer;">
+              Open Menu
+            </button>
+            <div slot="dropdown-content">
+              <div class="text-sm">
+                <div class="space-y-1">
+                  <a href="#" class="!block text-sm">New Tab</a>
+                  <a href="#" class="!block text-sm">New Window</a>
+                  <a href="#" class="!block text-sm">New Private Window</a>
+                  <a href="#" class="!block text-sm">More Tools</a>
+                </div>
+                <hr>
+                <div class="space-y-1">
+                  <a href="#" class="!block text-sm">Show Bookmarks</a>
+                  <a href="#" class="!block text-sm">Show Full URL's</a>
+                </div>
+                <hr>
+                <a href="#" class="!block text-sm py-1 px-6">Close</a>
+              </div>
+            </div>
+          </aegov-dropdown>
+        </div>
+        <div class="code-block"><code>&lt;aegov-dropdown&gt;
+  &lt;button&gt;Open Menu&lt;/button&gt;
+  &lt;div slot="dropdown-content" class="dropdown-menu"&gt;
+    &lt;a href="#profile"&gt;Profile&lt;/a&gt;
+    &lt;a href="#settings"&gt;Settings&lt;/a&gt;
+    &lt;hr&gt;
+    &lt;a href="#logout"&gt;Logout&lt;/a&gt;
+  &lt;/div&gt;
+&lt;/aegov-dropdown&gt;</code></div>
+      </div>
+    </div>
+
+    <!-- Section 2: Hover Trigger -->
+    <div class="section">
+      <h2 class="section-title">2. Hover Trigger</h2>
+      <p class="section-description">
+        Use <code>trigger-type="hover"</code> to show the dropdown on hover. Includes configurable show and hide delays.
+      </p>
+
+      <div class="example-box">
+        <div class="example-title">Hover with Delays</div>
+        <div class="example-content">
+          <aegov-dropdown trigger-type="hover" show-delay="300" hide-delay="200">
+            <button style="padding: 10px 20px; background: #ec4899; color: white; border: none; border-radius: 4px; cursor: pointer;">
+              Hover Me
+            </button>
+            <div slot="dropdown-content" class="dropdown-menu">
+              <a href="#item1">Menu Item 1</a>
+              <a href="#item2">Menu Item 2</a>
+              <a href="#item3">Menu Item 3</a>
+            </div>
+          </aegov-dropdown>
+        </div>
+        <div class="code-block"><code>&lt;aegov-dropdown trigger-type="hover" show-delay="300" hide-delay="200"&gt;
+  &lt;button&gt;Hover Me&lt;/button&gt;
+  &lt;div slot="dropdown-content" class="dropdown-menu"&gt;
+    &lt;a href="#item1"&gt;Menu Item 1&lt;/a&gt;
+    &lt;a href="#item2"&gt;Menu Item 2&lt;/a&gt;
+    &lt;a href="#item3"&gt;Menu Item 3&lt;/a&gt;
+  &lt;/div&gt;
+&lt;/aegov-dropdown&gt;</code></div>
+      </div>
+    </div>
+
+    <!-- Section 3: Positioning Options -->
+    <div class="section">
+      <h2 class="section-title">3. Positioning Options</h2>
+      <p class="section-description">
+        The dropdown supports 4 positions: <code>top</code>, <code>right</code>, <code>bottom</code> (default), and <code>left</code>. It automatically flips if there's not enough space.
+      </p>
+
+      <div class="grid-2">
+        <div class="example-box">
+          <div class="example-title">Top Position</div>
+          <div class="example-content">
+            <aegov-dropdown position="top">
+              <button style="padding: 10px 20px; background: #ec4899; color: white; border: none; border-radius: 4px; cursor: pointer;">
+                Top
+              </button>
+              <div slot="dropdown-content" class="dropdown-menu">
+                <a href="#">Opens Above</a>
+                <a href="#">Trigger Button</a>
+              </div>
+            </aegov-dropdown>
+          </div>
+          <div class="code-block"><code>&lt;aegov-dropdown position="top"&gt;
+  &lt;button&gt;Top&lt;/button&gt;
+  &lt;div slot="dropdown-content"&gt;...&lt;/div&gt;
+&lt;/aegov-dropdown&gt;</code></div>
+        </div>
+
+        <div class="example-box">
+          <div class="example-title">Right Position</div>
+          <div class="example-content">
+            <aegov-dropdown position="right">
+              <button style="padding: 10px 20px; background: #ec4899; color: white; border: none; border-radius: 4px; cursor: pointer;">
+                Right
+              </button>
+              <div slot="dropdown-content" class="dropdown-menu">
+                <a href="#">Opens to Right</a>
+                <a href="#">of Trigger</a>
+              </div>
+            </aegov-dropdown>
+          </div>
+          <div class="code-block"><code>&lt;aegov-dropdown position="right"&gt;
+  &lt;button&gt;Right&lt;/button&gt;
+  &lt;div slot="dropdown-content"&gt;...&lt;/div&gt;
+&lt;/aegov-dropdown&gt;</code></div>
+        </div>
+
+        <div class="example-box">
+          <div class="example-title">Bottom Position (Default)</div>
+          <div class="example-content">
+            <aegov-dropdown position="bottom">
+              <button style="padding: 10px 20px; background: #ec4899; color: white; border: none; border-radius: 4px; cursor: pointer;">
+                Bottom
+              </button>
+              <div slot="dropdown-content" class="dropdown-menu">
+                <a href="#">Opens Below</a>
+                <a href="#">Trigger Button</a>
+              </div>
+            </aegov-dropdown>
+          </div>
+          <div class="code-block"><code>&lt;aegov-dropdown position="bottom"&gt;
+  &lt;button&gt;Bottom&lt;/button&gt;
+  &lt;div slot="dropdown-content"&gt;...&lt;/div&gt;
+&lt;/aegov-dropdown&gt;</code></div>
+        </div>
+
+        <div class="example-box">
+          <div class="example-title">Left Position</div>
+          <div class="example-content">
+            <aegov-dropdown position="left">
+              <button style="padding: 10px 20px; background: #ec4899; color: white; border: none; border-radius: 4px; cursor: pointer;">
+                Left
+              </button>
+              <div slot="dropdown-content" class="dropdown-menu">
+                <a href="#">Opens to Left</a>
+                <a href="#">of Trigger</a>
+              </div>
+            </aegov-dropdown>
+          </div>
+          <div class="code-block"><code>&lt;aegov-dropdown position="left"&gt;
+  &lt;button&gt;Left&lt;/button&gt;
+  &lt;div slot="dropdown-content"&gt;...&lt;/div&gt;
+&lt;/aegov-dropdown&gt;</code></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section 4: Alignment Options -->
+    <div class="section">
+      <h2 class="section-title">4. Alignment Options</h2>
+      <p class="section-description">
+        Control how the dropdown aligns relative to the trigger: <code>start</code> (default), <code>center</code>, or <code>end</code>.
+      </p>
+
+      <div class="grid-2">
+        <div class="example-box">
+          <div class="example-title">Start Alignment</div>
+          <div class="example-content">
+            <aegov-dropdown align="start">
+              <button style="padding: 10px 20px; background: #ec4899; color: white; border: none; border-radius: 4px; cursor: pointer;">
+                Start Aligned
+              </button>
+              <div slot="dropdown-content" class="dropdown-menu">
+                <a href="#">Aligned to Start</a>
+                <a href="#">of Trigger</a>
+              </div>
+            </aegov-dropdown>
+          </div>
+          <div class="code-block"><code>&lt;aegov-dropdown align="start"&gt;
+  &lt;button&gt;Start Aligned&lt;/button&gt;
+  &lt;div slot="dropdown-content"&gt;...&lt;/div&gt;
+&lt;/aegov-dropdown&gt;</code></div>
+        </div>
+
+        <div class="example-box">
+          <div class="example-title">Center Alignment</div>
+          <div class="example-content">
+            <aegov-dropdown align="center">
+              <button style="padding: 10px 20px; background: #ec4899; color: white; border: none; border-radius: 4px; cursor: pointer;">
+                Center Aligned
+              </button>
+              <div slot="dropdown-content" class="dropdown-menu">
+                <a href="#">Centered Below</a>
+                <a href="#">Trigger Button</a>
+              </div>
+            </aegov-dropdown>
+          </div>
+          <div class="code-block"><code>&lt;aegov-dropdown align="center"&gt;
+  &lt;button&gt;Center Aligned&lt;/button&gt;
+  &lt;div slot="dropdown-content"&gt;...&lt;/div&gt;
+&lt;/aegov-dropdown&gt;</code></div>
+        </div>
+
+        <div class="example-box">
+          <div class="example-title">End Alignment</div>
+          <div class="example-content">
+            <aegov-dropdown align="end">
+              <button style="padding: 10px 20px; background: #ec4899; color: white; border: none; border-radius: 4px; cursor: pointer;">
+                End Aligned
+              </button>
+              <div slot="dropdown-content" class="dropdown-menu">
+                <a href="#">Aligned to End</a>
+                <a href="#">of Trigger</a>
+              </div>
+            </aegov-dropdown>
+          </div>
+          <div class="code-block"><code>&lt;aegov-dropdown align="end"&gt;
+  &lt;button&gt;End Aligned&lt;/button&gt;
+  &lt;div slot="dropdown-content"&gt;...&lt;/div&gt;
+&lt;/aegov-dropdown&gt;</code></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section 5: Gap and Offset -->
+    <div class="section">
+      <h2 class="section-title">5. Gap and Offset Customization</h2>
+      <p class="section-description">
+        Adjust spacing with <code>gap</code> (distance from trigger) and <code>offset</code> (perpendicular adjustment).
+      </p>
+
+      <div class="grid-2">
+        <div class="example-box">
+          <div class="example-title">Large Gap</div>
+          <div class="example-content">
+            <aegov-dropdown gap="24">
+              <button style="padding: 10px 20px; background: #ec4899; color: white; border: none; border-radius: 4px; cursor: pointer;">
+                Gap: 24px
+              </button>
+              <div slot="dropdown-content" class="dropdown-menu">
+                <a href="#">Large gap</a>
+                <a href="#">from trigger</a>
+              </div>
+            </aegov-dropdown>
+          </div>
+          <div class="code-block"><code>&lt;aegov-dropdown gap="24"&gt;
+  &lt;button&gt;Gap: 24px&lt;/button&gt;
+  &lt;div slot="dropdown-content"&gt;...&lt;/div&gt;
+&lt;/aegov-dropdown&gt;</code></div>
+        </div>
+
+        <div class="example-box">
+          <div class="example-title">With Offset</div>
+          <div class="example-content">
+            <aegov-dropdown offset="20">
+              <button style="padding: 10px 20px; background: #ec4899; color: white; border: none; border-radius: 4px; cursor: pointer;">
+                Offset: 20px
+              </button>
+              <div slot="dropdown-content" class="dropdown-menu">
+                <a href="#">Shifted 20px</a>
+                <a href="#">to the right</a>
+              </div>
+            </aegov-dropdown>
+          </div>
+          <div class="code-block"><code>&lt;aegov-dropdown offset="20"&gt;
+  &lt;button&gt;Offset: 20px&lt;/button&gt;
+  &lt;div slot="dropdown-content"&gt;...&lt;/div&gt;
+&lt;/aegov-dropdown&gt;</code></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section 6: Rich Content -->
+    <div class="section">
+      <h2 class="section-title">6. Rich HTML Content</h2>
+      <p class="section-description">
+        The dropdown content slot supports any HTML - forms, images, complex layouts, and more. Width automatically adjusts to content.
+      </p>
+
+      <div class="example-box">
+        <div class="example-title">Form in Dropdown</div>
+        <div class="example-content">
+          <aegov-dropdown>
+            <button style="padding: 10px 20px; background: #ec4899; color: white; border: none; border-radius: 4px; cursor: pointer;">
+              Login Form
+            </button>
+            <div slot="dropdown-content" style="padding: 1rem; min-width: 250px;">
+              <h3 style="margin-bottom: 1rem; font-size: 1.125rem;">Sign In</h3>
+              <form style="display: flex; flex-direction: column; gap: 0.75rem;">
+                <input type="email" placeholder="Email" style="padding: 0.5rem; border: 1px solid #d1d5db; border-radius: 4px;">
+                <input type="password" placeholder="Password" style="padding: 0.5rem; border: 1px solid #d1d5db; border-radius: 4px;">
+                <button type="submit" style="padding: 0.5rem; background: #ec4899; color: white; border: none; border-radius: 4px; cursor: pointer;">
+                  Sign In
+                </button>
+              </form>
+            </div>
+          </aegov-dropdown>
+        </div>
+        <div class="code-block"><code>&lt;aegov-dropdown&gt;
+  &lt;button&gt;Login Form&lt;/button&gt;
+  &lt;div slot="dropdown-content" style="padding: 1rem;"&gt;
+    &lt;h3&gt;Sign In&lt;/h3&gt;
+    &lt;form&gt;
+      &lt;input type="email" placeholder="Email"&gt;
+      &lt;input type="password" placeholder="Password"&gt;
+      &lt;button type="submit"&gt;Sign In&lt;/button&gt;
+    &lt;/form&gt;
+  &lt;/div&gt;
+&lt;/aegov-dropdown&gt;</code></div>
+      </div>
+    </div>
+
+    <!-- Section 7: Disabled State -->
+    <div class="section">
+      <h2 class="section-title">7. Disabled State</h2>
+      <p class="section-description">
+        Use the <code>disabled</code> property to prevent the dropdown from opening.
+      </p>
+
+      <div class="example-box">
+        <div class="example-title">Disabled Dropdown</div>
+        <div class="example-content">
+          <aegov-dropdown disabled>
+            <button style="padding: 10px 20px; background: #9ca3af; color: white; border: none; border-radius: 4px; cursor: not-allowed;">
+              Disabled
+            </button>
+            <div slot="dropdown-content" class="dropdown-menu">
+              <a href="#">This won't open</a>
+            </div>
+          </aegov-dropdown>
+        </div>
+        <div class="code-block"><code>&lt;aegov-dropdown disabled&gt;
+  &lt;button&gt;Disabled&lt;/button&gt;
+  &lt;div slot="dropdown-content"&gt;...&lt;/div&gt;
+&lt;/aegov-dropdown&gt;</code></div>
+      </div>
+    </div>
+
+    <!-- Section 8: Multiple Dropdowns (Singleton Pattern) -->
+    <div class="section">
+      <h2 class="section-title">8. Multiple Dropdowns - Singleton Pattern</h2>
+      <p class="section-description">
+        When one dropdown opens, all others automatically close. This prevents overlapping dropdowns and improves UX.
+      </p>
+
+      <div class="example-box">
+        <div class="example-title">Try Opening Multiple Dropdowns</div>
+        <div class="example-content">
+          <aegov-dropdown>
+            <button style="padding: 10px 20px; background: #ec4899; color: white; border: none; border-radius: 4px; cursor: pointer;">
+              Dropdown 1
+            </button>
+            <div slot="dropdown-content" class="dropdown-menu">
+              <a href="#">First Menu</a>
+              <a href="#">Only one dropdown</a>
+              <a href="#">can be open</a>
+            </div>
+          </aegov-dropdown>
+
+          <aegov-dropdown>
+            <button style="padding: 10px 20px; background: #be185d; color: white; border: none; border-radius: 4px; cursor: pointer;">
+              Dropdown 2
+            </button>
+            <div slot="dropdown-content" class="dropdown-menu">
+              <a href="#">Second Menu</a>
+              <a href="#">Opening this</a>
+              <a href="#">closes others</a>
+            </div>
+          </aegov-dropdown>
+
+          <aegov-dropdown>
+            <button style="padding: 10px 20px; background: #9f1239; color: white; border: none; border-radius: 4px; cursor: pointer;">
+              Dropdown 3
+            </button>
+            <div slot="dropdown-content" class="dropdown-menu">
+              <a href="#">Third Menu</a>
+              <a href="#">Try it!</a>
+            </div>
+          </aegov-dropdown>
+        </div>
+        <div class="code-block"><code>&lt;!-- Only one dropdown can be open at a time --&gt;
+&lt;aegov-dropdown&gt;
+  &lt;button&gt;Dropdown 1&lt;/button&gt;
+  &lt;div slot="dropdown-content"&gt;...&lt;/div&gt;
+&lt;/aegov-dropdown&gt;
+
+&lt;aegov-dropdown&gt;
+  &lt;button&gt;Dropdown 2&lt;/button&gt;
+  &lt;div slot="dropdown-content"&gt;...&lt;/div&gt;
+&lt;/aegov-dropdown&gt;</code></div>
+      </div>
+    </div>
+
+    <!-- Section 9: Event Handling -->
+    <div class="section">
+      <h2 class="section-title">9. Event Handling</h2>
+      <p class="section-description">
+        Listen to <code>aegovDropdownOpen</code> and <code>aegovDropdownClose</code> events to track dropdown state changes.
+      </p>
+
+      <div class="example-box">
+        <div class="example-title">Event Logging</div>
+        <div class="example-content">
+          <aegov-dropdown id="event-dropdown">
+            <button style="padding: 10px 20px; background: #ec4899; color: white; border: none; border-radius: 4px; cursor: pointer;">
+              Toggle Me
+            </button>
+            <div slot="dropdown-content" class="dropdown-menu">
+              <a href="#">Events are logged</a>
+              <a href="#">when dropdown</a>
+              <a href="#">opens and closes</a>
+            </div>
+          </aegov-dropdown>
+        </div>
+
+        <div class="event-log" id="event-log">
+          <div style="color: #9ca3af; font-style: italic;">Open and close the dropdown to see events...</div>
+        </div>
+
+        <div class="code-block"><code>const dropdown = document.getElementById('event-dropdown');
+
+dropdown.addEventListener('aegovDropdownOpen', () => {
+  console.log('Dropdown opened!');
+});
+
+dropdown.addEventListener('aegovDropdownClose', () => {
+  console.log('Dropdown closed!');
+});</code></div>
+      </div>
+    </div>
+
+    <!-- Wide Content Dropdown -->
+    <div class="section">
+      <h2 class="section-title">10. Wide Content Dropdown</h2>
+      <p class="section-description">
+        Dropdown automatically adjusts width to fit content. This example shows a dropdown with wide content (minimum 400px).
+      </p>
+
+      <div class="example-box">
+        <div class="example-title">Wide Dropdown Menu</div>
+        <div class="example-content">
+          <aegov-dropdown>
+            <button style="padding: 10px 20px; background: #ec4899; color: white; border: none; border-radius: 4px; cursor: pointer;">
+              Open Wide Menu
+            </button>
+            <div slot="dropdown-content">
+              <div style="min-width: 400px; padding: 8px;">
+                <div style="padding: 12px; border-bottom: 1px solid #e5e7eb; margin-bottom: 8px;">
+                  <div style="font-weight: 600; color: #1f2937; margin-bottom: 4px;">User Profile</div>
+                  <div style="font-size: 0.875rem; color: #6b7280;">john.doe@example.com</div>
+                </div>
+                <a href="#" style="display: flex; align-items: center; gap: 12px; padding: 10px 12px; color: #374151; text-decoration: none; border-radius: 4px; transition: background 0.2s;">
+                  <span style="width: 24px; height: 24px; background: #dbeafe; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #2563eb; font-weight: 600;">👤</span>
+                  <div style="flex: 1;">
+                    <div style="font-weight: 500;">Account Settings</div>
+                    <div style="font-size: 0.75rem; color: #9ca3af;">Manage your account preferences</div>
+                  </div>
+                </a>
+                <a href="#" style="display: flex; align-items: center; gap: 12px; padding: 10px 12px; color: #374151; text-decoration: none; border-radius: 4px; transition: background 0.2s;">
+                  <span style="width: 24px; height: 24px; background: #dcfce7; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #16a34a; font-weight: 600;">⚙️</span>
+                  <div style="flex: 1;">
+                    <div style="font-weight: 500;">System Preferences</div>
+                    <div style="font-size: 0.75rem; color: #9ca3af;">Configure system settings and options</div>
+                  </div>
+                </a>
+                <a href="#" style="display: flex; align-items: center; gap: 12px; padding: 10px 12px; color: #374151; text-decoration: none; border-radius: 4px; transition: background 0.2s;">
+                  <span style="width: 24px; height: 24px; background: #fef3c7; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #d97706; font-weight: 600;">📊</span>
+                  <div style="flex: 1;">
+                    <div style="font-weight: 500;">Analytics Dashboard</div>
+                    <div style="font-size: 0.75rem; color: #9ca3af;">View detailed analytics and reports</div>
+                  </div>
+                </a>
+                <hr style="margin: 8px 0; border: none; border-top: 1px solid #e5e7eb;">
+                <a href="#" style="display: flex; align-items: center; gap: 12px; padding: 10px 12px; color: #dc2626; text-decoration: none; border-radius: 4px; transition: background 0.2s;">
+                  <span style="width: 24px; height: 24px; background: #fee2e2; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 600;">🚪</span>
+                  <div style="font-weight: 500;">Sign Out</div>
+                </a>
+              </div>
+            </div>
+          </aegov-dropdown>
+        </div>
+
+        <div class="code-block"><code>&lt;aegov-dropdown&gt;
+  &lt;button&gt;Open Wide Menu&lt;/button&gt;
+  &lt;div slot="dropdown-content"&gt;
+    &lt;div style="min-width: 400px; padding: 8px;"&gt;
+      &lt;!-- Wide content with rich formatting --&gt;
+      &lt;div&gt;User Profile Section&lt;/div&gt;
+      &lt;a href="#"&gt;Account Settings&lt;/a&gt;
+      &lt;!-- More content... --&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/aegov-dropdown&gt;</code></div>
+      </div>
+    </div>
+
+    <!-- Nested Dropdown -->
+    <div class="section">
+      <h2 class="section-title">11. Nested Dropdown (Submenu)</h2>
+      <p class="section-description">
+        Create nested dropdowns by placing a dropdown trigger inside another dropdown's content. The nested dropdown opens to the right.
+      </p>
+
+      <div class="example-box">
+        <div class="example-title">Dropdown with Submenu</div>
+        <div class="example-content">
+          <aegov-dropdown>
+            <button style="padding: 10px 20px; background: #ec4899; color: white; border: none; border-radius: 4px; cursor: pointer;">
+              Main Menu
+            </button>
+            <div slot="dropdown-content" class="dropdown-menu">
+              <a href="#">Dashboard</a>
+              <a href="#">Profile</a>
+
+              <!-- Nested Dropdown Trigger -->
+              <aegov-dropdown position="right" align="start" trigger-type="hover" show-delay="100">
+                <a href="#" style="display: flex; justify-content: space-between; align-items: center;">
+                  Settings
+                  <span style="margin-left: 8px;">›</span>
+                </a>
+                <div slot="dropdown-content" class="dropdown-menu">
+                  <a href="#">General</a>
+                  <a href="#">Security</a>
+                  <a href="#">Privacy</a>
+                  <a href="#">Notifications</a>
+                  <a href="#">Appearance</a>
+                </div>
+              </aegov-dropdown>
+
+              <!-- Another Nested Dropdown -->
+              <aegov-dropdown position="right" align="start" trigger-type="hover" show-delay="100">
+                <a href="#" style="display: flex; justify-content: space-between; align-items: center;">
+                  More Options
+                  <span style="margin-left: 8px;">›</span>
+                </a>
+                <div slot="dropdown-content" class="dropdown-menu">
+                  <a href="#">Help Center</a>
+                  <a href="#">Documentation</a>
+                  <a href="#">API Reference</a>
+                  <a href="#">Keyboard Shortcuts</a>
+                </div>
+              </aegov-dropdown>
+
+              <hr>
+              <a href="#">Logout</a>
+            </div>
+          </aegov-dropdown>
+        </div>
+
+        <div class="code-block"><code>&lt;aegov-dropdown&gt;
+  &lt;button&gt;Main Menu&lt;/button&gt;
+  &lt;div slot="dropdown-content"&gt;
+    &lt;a href="#"&gt;Dashboard&lt;/a&gt;
+
+    &lt;!-- Nested Dropdown --&gt;
+    &lt;aegov-dropdown position="right" align="start" trigger-type="hover"&gt;
+      &lt;a href="#"&gt;
+        Settings
+        &lt;span&gt;›&lt;/span&gt;
+      &lt;/a&gt;
+      &lt;div slot="dropdown-content"&gt;
+        &lt;a href="#"&gt;General&lt;/a&gt;
+        &lt;a href="#"&gt;Security&lt;/a&gt;
+        &lt;a href="#"&gt;Privacy&lt;/a&gt;
+      &lt;/div&gt;
+    &lt;/aegov-dropdown&gt;
+
+    &lt;a href="#"&gt;Logout&lt;/a&gt;
+  &lt;/div&gt;
+&lt;/aegov-dropdown&gt;</code></div>
+      </div>
+
+      <div class="important-note" style="margin-top: 2rem;">
+        <h4 style="margin-bottom: 0.75rem;">💡 Nested Dropdown Tips</h4>
+        <ul style="margin-left: 1.5rem; line-height: 1.8;">
+          <li>Use <code>position="right"</code> for nested dropdowns to open them to the side</li>
+          <li>Set <code>trigger-type="hover"</code> for better UX with nested menus</li>
+          <li>Reduce <code>show-delay</code> (e.g., 100ms) for quicker submenu response</li>
+          <li>Add visual indicators (like <code>›</code>) to show items have submenus</li>
+          <li>Nested dropdowns work great for complex navigation menus</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- API Documentation -->
+    <div class="api-section">
+      <h2>📚 Complete API Documentation</h2>
+
+      <h3 style="font-size: 1.5rem; font-weight: 600; color: #374151; margin: 2rem 0 1rem;">Properties</h3>
+
+      <table class="api-table">
+        <thead>
+          <tr>
+            <th style="width: 20%;">Property</th>
+            <th style="width: 20%;">Type</th>
+            <th style="width: 15%;">Default</th>
+            <th style="width: 45%;">Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>triggerType</code></td>
+            <td><code>'click' | 'hover'</code></td>
+            <td><code>'click'</code></td>
+            <td>How the dropdown is triggered - click or hover</td>
+          </tr>
+          <tr>
+            <td><code>position</code></td>
+            <td><code>'top' | 'right' | 'bottom' | 'left'</code></td>
+            <td><code>'bottom'</code></td>
+            <td>Position of dropdown relative to trigger. Auto-flips if not enough space.</td>
+          </tr>
+          <tr>
+            <td><code>align</code></td>
+            <td><code>'start' | 'center' | 'end'</code></td>
+            <td><code>'start'</code></td>
+            <td>Alignment of dropdown relative to trigger</td>
+          </tr>
+          <tr>
+            <td><code>gap</code></td>
+            <td><code>number</code></td>
+            <td><code>8</code></td>
+            <td>Gap between dropdown and trigger element (in pixels)</td>
+          </tr>
+          <tr>
+            <td><code>offset</code></td>
+            <td><code>number</code></td>
+            <td><code>0</code></td>
+            <td>Additional offset for dropdown positioning (in pixels)</td>
+          </tr>
+          <tr>
+            <td><code>showDelay</code></td>
+            <td><code>number</code></td>
+            <td><code>200</code></td>
+            <td>Delay before showing dropdown (in milliseconds, hover only)</td>
+          </tr>
+          <tr>
+            <td><code>hideDelay</code></td>
+            <td><code>number</code></td>
+            <td><code>0</code></td>
+            <td>Delay before hiding dropdown (in milliseconds, hover only)</td>
+          </tr>
+          <tr>
+            <td><code>disabled</code></td>
+            <td><code>boolean</code></td>
+            <td><code>false</code></td>
+            <td>Whether the dropdown is disabled</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3 style="font-size: 1.5rem; font-weight: 600; color: #374151; margin: 2rem 0 1rem;">Events</h3>
+
+      <table class="api-table">
+        <thead>
+          <tr>
+            <th style="width: 30%;">Event Name</th>
+            <th style="width: 20%;">Detail Type</th>
+            <th style="width: 50%;">Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>aegovDropdownOpen</code></td>
+            <td><code>void</code></td>
+            <td>Emitted when the dropdown opens</td>
+          </tr>
+          <tr>
+            <td><code>aegovDropdownClose</code></td>
+            <td><code>void</code></td>
+            <td>Emitted when the dropdown closes</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3 style="font-size: 1.5rem; font-weight: 600; color: #374151; margin: 2rem 0 1rem;">Slots</h3>
+
+      <table class="api-table">
+        <thead>
+          <tr>
+            <th style="width: 25%;">Slot Name</th>
+            <th style="width: 75%;">Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>(default)</code></td>
+            <td>Trigger element - button, link, or any HTML element that opens the dropdown</td>
+          </tr>
+          <tr>
+            <td><code>dropdown-content</code></td>
+            <td>Content displayed in the dropdown. Supports any HTML. Width automatically fits content with minimum 12rem.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3 style="font-size: 1.5rem; font-weight: 600; color: #374151; margin: 2rem 0 1rem;">Methods</h3>
+
+      <table class="api-table">
+        <thead>
+          <tr>
+            <th style="width: 30%;">Method</th>
+            <th style="width: 70%;">Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>closeDropdown()</code></td>
+            <td>Programmatically close the dropdown. Useful for closing dropdowns from external triggers.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3 style="font-size: 1.5rem; font-weight: 600; color: #374151; margin: 2rem 0 1rem;">Usage Examples</h3>
+
+      <div class="code-block"><code>// Basic dropdown
+&lt;aegov-dropdown&gt;
+  &lt;button&gt;Click Me&lt;/button&gt;
+  &lt;div slot="dropdown-content"&gt;
+    &lt;a href="#"&gt;Menu Item&lt;/a&gt;
+  &lt;/div&gt;
+&lt;/aegov-dropdown&gt;
+
+// Hover trigger with custom positioning
+&lt;aegov-dropdown
+  trigger-type="hover"
+  position="top"
+  align="center"
+  show-delay="300"&gt;
+  &lt;button&gt;Hover Me&lt;/button&gt;
+  &lt;div slot="dropdown-content"&gt;
+    Appears above, centered
+  &lt;/div&gt;
+&lt;/aegov-dropdown&gt;
+
+// With custom gap and offset
+&lt;aegov-dropdown gap="16" offset="20"&gt;
+  &lt;button&gt;Custom Spacing&lt;/button&gt;
+  &lt;div slot="dropdown-content"&gt;...&lt;/div&gt;
+&lt;/aegov-dropdown&gt;
+
+// Programmatic close (JavaScript)
+const dropdown = document.querySelector('aegov-dropdown');
+dropdown.closeDropdown();</code></div>
+
+      <div class="note-box" style="margin-top: 2rem;">
+        <strong>⚠️ Important Notes:</strong>
+        <p>
+          • Only one dropdown can be open at a time (singleton pattern)<br>
+          • Dropdown auto-closes when clicking inside content or outside<br>
+          • Width automatically adjusts to content (min-width: 12rem)<br>
+          • Keyboard navigation: Escape to close, Tab/Arrow keys to navigate<br>
+          • Focus trap enabled - focus stays within dropdown when open<br>
+          • Portal rendering - dropdown content renders to document.body<br>
+          • Viewport collision detection - auto-flips position if not enough space<br>
+          • Accessible with proper ARIA attributes (aria-haspopup, aria-expanded, aria-controls)
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Event handling example
+    const eventLog = document.getElementById('event-log');
+    const eventDropdown = document.getElementById('event-dropdown');
+
+    if (eventDropdown) {
+      eventDropdown.addEventListener('aegovDropdownOpen', () => {
+        const timestamp = new Date().toLocaleTimeString();
+
+        const entry = document.createElement('div');
+        entry.className = 'event-log-entry';
+        entry.innerHTML = `<span class="event-log-time">[${timestamp}]</span> aegovDropdownOpen event fired - Dropdown opened`;
+
+        // Clear placeholder text on first event
+        if (eventLog.children.length === 1 && eventLog.children[0].style.fontStyle === 'italic') {
+          eventLog.innerHTML = '';
+        }
+
+        eventLog.insertBefore(entry, eventLog.firstChild);
+
+        // Keep only last 10 events
+        while (eventLog.children.length > 10) {
+          eventLog.removeChild(eventLog.lastChild);
+        }
+      });
+
+      eventDropdown.addEventListener('aegovDropdownClose', () => {
+        const timestamp = new Date().toLocaleTimeString();
+
+        const entry = document.createElement('div');
+        entry.className = 'event-log-entry';
+        entry.innerHTML = `<span class="event-log-time">[${timestamp}]</span> aegovDropdownClose event fired - Dropdown closed`;
+
+        eventLog.insertBefore(entry, eventLog.firstChild);
+
+        // Keep only last 10 events
+        while (eventLog.children.length > 10) {
+          eventLog.removeChild(eventLog.lastChild);
+        }
+      });
+    }
+  </script>
+</body>
+</html>

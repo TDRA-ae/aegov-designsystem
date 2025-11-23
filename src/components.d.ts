@@ -5,8 +5,8 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
-import { AccordionIcon, AvatarSize, AvatarStatus, AvatarVariant, BadgeAppearance, BadgeColor, BadgeSize, BannerDisplay, BannerMode, BannerPosition, BannerRole, BlockquoteVariant, BreadcrumbSeparator, ButtonAppearance, ButtonSize, ButtonType, ButtonVariant, CalloutAppearance, CalloutVariant, LinkTarget, ModalBackdropOpacity, ModalPosition, TextSize, TitleSize, TooltipAlign, TooltipPosition, TooltipTrigger } from "./utils/types";
-export { AccordionIcon, AvatarSize, AvatarStatus, AvatarVariant, BadgeAppearance, BadgeColor, BadgeSize, BannerDisplay, BannerMode, BannerPosition, BannerRole, BlockquoteVariant, BreadcrumbSeparator, ButtonAppearance, ButtonSize, ButtonType, ButtonVariant, CalloutAppearance, CalloutVariant, LinkTarget, ModalBackdropOpacity, ModalPosition, TextSize, TitleSize, TooltipAlign, TooltipPosition, TooltipTrigger } from "./utils/types";
+import { AccordionIcon, AvatarSize, AvatarStatus, AvatarVariant, BadgeAppearance, BadgeColor, BadgeSize, BannerDisplay, BannerMode, BannerPosition, BannerRole, BlockquoteVariant, BreadcrumbSeparator, ButtonAppearance, ButtonSize, ButtonType, ButtonVariant, CalloutAppearance, CalloutVariant, DropdownAlign, DropdownPosition, DropdownTrigger, LinkTarget, ModalBackdropOpacity, ModalPosition, TextSize, TitleSize, TooltipAlign, TooltipPosition, TooltipTrigger } from "./utils/types";
+export { AccordionIcon, AvatarSize, AvatarStatus, AvatarVariant, BadgeAppearance, BadgeColor, BadgeSize, BannerDisplay, BannerMode, BannerPosition, BannerRole, BlockquoteVariant, BreadcrumbSeparator, ButtonAppearance, ButtonSize, ButtonType, ButtonVariant, CalloutAppearance, CalloutVariant, DropdownAlign, DropdownPosition, DropdownTrigger, LinkTarget, ModalBackdropOpacity, ModalPosition, TextSize, TitleSize, TooltipAlign, TooltipPosition, TooltipTrigger } from "./utils/types";
 export namespace Components {
     /**
      * Accordion component for collapsible content sections
@@ -309,6 +309,51 @@ export namespace Components {
          */
         "variant": CalloutVariant;
     }
+    /**
+     * Dropdown component that displays positioned content on trigger interaction
+     */
+    interface AegovDropdown {
+        /**
+          * Alignment of the dropdown
+          * @default 'start'
+         */
+        "align": DropdownAlign;
+        /**
+          * Whether the dropdown is disabled
+          * @default false
+         */
+        "disabled": boolean;
+        /**
+          * Gap between dropdown and trigger element (in pixels)
+          * @default 8
+         */
+        "gap": number;
+        /**
+          * Delay before hiding dropdown (in milliseconds)
+          * @default 0
+         */
+        "hideDelay": number;
+        /**
+          * Additional offset for dropdown positioning (in pixels)
+          * @default 0
+         */
+        "offset": number;
+        /**
+          * Position of the dropdown relative to the trigger element
+          * @default 'bottom'
+         */
+        "position": DropdownPosition;
+        /**
+          * Delay before showing dropdown (in milliseconds)
+          * @default 200
+         */
+        "showDelay": number;
+        /**
+          * Trigger type for showing the dropdown
+          * @default 'click'
+         */
+        "triggerType": DropdownTrigger;
+    }
     interface AegovLink {
         /**
           * Additional CSS classes to apply to the link.
@@ -468,6 +513,10 @@ export interface AegovCalloutCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLAegovCalloutElement;
 }
+export interface AegovDropdownCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLAegovDropdownElement;
+}
 export interface AegovLinkCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLAegovLinkElement;
@@ -619,6 +668,27 @@ declare global {
         prototype: HTMLAegovCalloutElement;
         new (): HTMLAegovCalloutElement;
     };
+    interface HTMLAegovDropdownElementEventMap {
+        "aegovDropdownOpen": void;
+        "aegovDropdownClose": void;
+    }
+    /**
+     * Dropdown component that displays positioned content on trigger interaction
+     */
+    interface HTMLAegovDropdownElement extends Components.AegovDropdown, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLAegovDropdownElementEventMap>(type: K, listener: (this: HTMLAegovDropdownElement, ev: AegovDropdownCustomEvent<HTMLAegovDropdownElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLAegovDropdownElementEventMap>(type: K, listener: (this: HTMLAegovDropdownElement, ev: AegovDropdownCustomEvent<HTMLAegovDropdownElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLAegovDropdownElement: {
+        prototype: HTMLAegovDropdownElement;
+        new (): HTMLAegovDropdownElement;
+    };
     interface HTMLAegovLinkElementEventMap {
         "aegovLinkClick": { href: string; event: MouseEvent };
     }
@@ -689,6 +759,7 @@ declare global {
         "aegov-breadcrumbs-item": HTMLAegovBreadcrumbsItemElement;
         "aegov-button": HTMLAegovButtonElement;
         "aegov-callout": HTMLAegovCalloutElement;
+        "aegov-dropdown": HTMLAegovDropdownElement;
         "aegov-link": HTMLAegovLinkElement;
         "aegov-modal": HTMLAegovModalElement;
         "aegov-text": HTMLAegovTextElement;
@@ -1034,6 +1105,59 @@ declare namespace LocalJSX {
          */
         "variant"?: CalloutVariant;
     }
+    /**
+     * Dropdown component that displays positioned content on trigger interaction
+     */
+    interface AegovDropdown {
+        /**
+          * Alignment of the dropdown
+          * @default 'start'
+         */
+        "align"?: DropdownAlign;
+        /**
+          * Whether the dropdown is disabled
+          * @default false
+         */
+        "disabled"?: boolean;
+        /**
+          * Gap between dropdown and trigger element (in pixels)
+          * @default 8
+         */
+        "gap"?: number;
+        /**
+          * Delay before hiding dropdown (in milliseconds)
+          * @default 0
+         */
+        "hideDelay"?: number;
+        /**
+          * Additional offset for dropdown positioning (in pixels)
+          * @default 0
+         */
+        "offset"?: number;
+        /**
+          * Emitted when dropdown closes
+         */
+        "onAegovDropdownClose"?: (event: AegovDropdownCustomEvent<void>) => void;
+        /**
+          * Emitted when dropdown opens
+         */
+        "onAegovDropdownOpen"?: (event: AegovDropdownCustomEvent<void>) => void;
+        /**
+          * Position of the dropdown relative to the trigger element
+          * @default 'bottom'
+         */
+        "position"?: DropdownPosition;
+        /**
+          * Delay before showing dropdown (in milliseconds)
+          * @default 200
+         */
+        "showDelay"?: number;
+        /**
+          * Trigger type for showing the dropdown
+          * @default 'click'
+         */
+        "triggerType"?: DropdownTrigger;
+    }
     interface AegovLink {
         /**
           * Additional CSS classes to apply to the link.
@@ -1191,6 +1315,7 @@ declare namespace LocalJSX {
         "aegov-breadcrumbs-item": AegovBreadcrumbsItem;
         "aegov-button": AegovButton;
         "aegov-callout": AegovCallout;
+        "aegov-dropdown": AegovDropdown;
         "aegov-link": AegovLink;
         "aegov-modal": AegovModal;
         "aegov-text": AegovText;
@@ -1225,6 +1350,10 @@ declare module "@stencil/core" {
             "aegov-breadcrumbs-item": LocalJSX.AegovBreadcrumbsItem & JSXBase.HTMLAttributes<HTMLAegovBreadcrumbsItemElement>;
             "aegov-button": LocalJSX.AegovButton & JSXBase.HTMLAttributes<HTMLAegovButtonElement>;
             "aegov-callout": LocalJSX.AegovCallout & JSXBase.HTMLAttributes<HTMLAegovCalloutElement>;
+            /**
+             * Dropdown component that displays positioned content on trigger interaction
+             */
+            "aegov-dropdown": LocalJSX.AegovDropdown & JSXBase.HTMLAttributes<HTMLAegovDropdownElement>;
             "aegov-link": LocalJSX.AegovLink & JSXBase.HTMLAttributes<HTMLAegovLinkElement>;
             "aegov-modal": LocalJSX.AegovModal & JSXBase.HTMLAttributes<HTMLAegovModalElement>;
             "aegov-text": LocalJSX.AegovText & JSXBase.HTMLAttributes<HTMLAegovTextElement>;

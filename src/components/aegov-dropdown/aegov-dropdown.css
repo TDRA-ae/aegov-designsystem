@@ -1,0 +1,7 @@
+:host {
+  @apply inline-block;
+}
+
+.dropdown-trigger {
+  @apply inline-block cursor-pointer;
+}

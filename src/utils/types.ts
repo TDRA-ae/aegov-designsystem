@@ -140,6 +140,21 @@ export type TooltipAlign = 'start' | 'center' | 'end';
 export type TooltipTrigger = 'hover' | 'click';
 
 /**
+ * Dropdown component trigger types
+ */
+export type DropdownTrigger = 'hover' | 'click';
+
+/**
+ * Dropdown component position types
+ */
+export type DropdownPosition = 'top' | 'right' | 'bottom' | 'left';
+
+/**
+ * Dropdown component alignment types
+ */
+export type DropdownAlign = 'start' | 'center' | 'end';
+
+/**
  * Common component props
  */
 export interface BaseComponentProps {
