@@ -22,7 +22,7 @@ describe('aegov-tooltip e2e', () => {
       `);
       const trigger = await page.find('aegov-tooltip .tooltip-trigger');
       expect(trigger).toBeTruthy();
-      expect(trigger.textContent).toBe('Click me');
+      expect(trigger.textContent.trim()).toBe('Click me');
     });
 
     it('should not display tooltip initially', async () => {
@@ -33,7 +33,9 @@ describe('aegov-tooltip e2e', () => {
         </aegov-tooltip>
       `);
       const tooltip = await page.find('aegov-tooltip .tooltip');
-      expect(tooltip).toBeNull();
+      expect(tooltip).toBeTruthy();
+      const style = await tooltip.getComputedStyle();
+      expect(style.display).toBe('none');
     });
   });
 
@@ -87,7 +89,9 @@ describe('aegov-tooltip e2e', () => {
       await page.waitForChanges();
 
       const tooltip = await page.find('aegov-tooltip .tooltip');
-      expect(tooltip).toBeNull();
+      expect(tooltip).toBeTruthy();
+      const style = await tooltip.getComputedStyle();
+      expect(style.display).toBe('none');
     });
   });
 
@@ -123,12 +127,16 @@ describe('aegov-tooltip e2e', () => {
       await page.waitForChanges();
       let tooltip = await page.find('aegov-tooltip .tooltip');
       expect(tooltip).toBeTruthy();
+      let style = await tooltip.getComputedStyle();
+      expect(style.display).toBe('block');
 
       // Second click - hide
       await trigger.click();
       await page.waitForChanges();
       tooltip = await page.find('aegov-tooltip .tooltip');
-      expect(tooltip).toBeNull();
+      expect(tooltip).toBeTruthy();
+      style = await tooltip.getComputedStyle();
+      expect(style.display).toBe('none');
     });
 
     it('should hide tooltip on outside click', async () => {
@@ -148,6 +156,8 @@ describe('aegov-tooltip e2e', () => {
 
       let tooltip = await page.find('aegov-tooltip .tooltip');
       expect(tooltip).toBeTruthy();
+      let style = await tooltip.getComputedStyle();
+      expect(style.display).toBe('block');
 
       // Click outside
       const outside = await page.find('#outside');
@@ -155,7 +165,9 @@ describe('aegov-tooltip e2e', () => {
       await page.waitForChanges();
 
       tooltip = await page.find('aegov-tooltip .tooltip');
-      expect(tooltip).toBeNull();
+      expect(tooltip).toBeTruthy();
+      style = await tooltip.getComputedStyle();
+      expect(style.display).toBe('none');
     });
   });
 
@@ -364,13 +376,17 @@ describe('aegov-tooltip e2e', () => {
 
       let tooltip = await page.find('aegov-tooltip .tooltip');
       expect(tooltip).toBeTruthy();
+      let style = await tooltip.getComputedStyle();
+      expect(style.display).toBe('block');
 
       // Press Escape
       await page.keyboard.press('Escape');
       await page.waitForChanges();
 
       tooltip = await page.find('aegov-tooltip .tooltip');
-      expect(tooltip).toBeNull();
+      expect(tooltip).toBeTruthy();
+      style = await tooltip.getComputedStyle();
+      expect(style.display).toBe('none');
     });
   });
 
@@ -406,7 +422,9 @@ describe('aegov-tooltip e2e', () => {
       await page.waitForChanges();
 
       const tooltip = await page.find('aegov-tooltip .tooltip');
-      expect(tooltip).toBeNull();
+      expect(tooltip).toBeTruthy();
+      const style = await tooltip.getComputedStyle();
+      expect(style.display).toBe('none');
     });
   });
 

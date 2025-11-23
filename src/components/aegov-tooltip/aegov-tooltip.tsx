@@ -22,6 +22,9 @@ export class AegovTooltip {
   private triggerRef?: HTMLDivElement;
   private hideTimeout?: number;
   private positionUpdateScheduled: boolean = false;
+  private positionRetryCount: number = 0;
+  private readonly MAX_POSITION_RETRIES = 10;
+  private tooltipId: string;
 
   /**
    * Tooltip content text (alternative to using slot)
@@ -86,16 +89,32 @@ export class AegovTooltip {
   private showTooltipTimeout?: number;
 
   componentWillLoad() {
+    // Generate stable tooltip ID once
+    this.tooltipId = `tooltip-${Math.random().toString(36).substr(2, 9)}`;
+
     // Check if tooltip-content slot has content
+    this.checkSlotContent();
+  }
+
+  private checkSlotContent() {
     const contentSlot = this.el.querySelector('[slot="tooltip-content"]');
-    this.hasContentSlot = contentSlot !== null && contentSlot.textContent?.trim().length > 0;
+    const hasSlot = contentSlot !== null && contentSlot.textContent?.trim().length > 0;
+    this.hasContentSlot = hasSlot;
   }
 
   @Watch('isVisible')
   handleVisibilityChange(newValue: boolean) {
     if (newValue) {
+      // Reset retry count when showing tooltip
+      this.positionRetryCount = 0;
       // Schedule position update after tooltip is rendered
       this.schedulePositionUpdate();
+    } else {
+      // Clear tooltip ref when hiding to prevent stale references
+      this.tooltipRef = undefined;
+      // Reset scheduled flag
+      this.positionUpdateScheduled = false;
+      this.positionRetryCount = 0;
     }
   }
 
@@ -123,11 +142,23 @@ export class AegovTooltip {
   private schedulePositionUpdate() {
     if (this.positionUpdateScheduled) return;
 
+    // Only schedule if tooltip is actually visible
+    if (!this.isVisible) return;
+
     this.positionUpdateScheduled = true;
     // Use double RAF to ensure tooltip is fully rendered and measured
     requestAnimationFrame(() => {
+      // Check again if tooltip is still visible before second RAF
+      if (!this.isVisible) {
+        this.positionUpdateScheduled = false;
+        return;
+      }
+
       requestAnimationFrame(() => {
-        this.updateTooltipPosition();
+        // Final check before updating position
+        if (this.isVisible && this.tooltipRef) {
+          this.updateTooltipPosition();
+        }
         this.positionUpdateScheduled = false;
       });
     });
@@ -139,10 +170,16 @@ export class AegovTooltip {
     const triggerRect = this.triggerRef.getBoundingClientRect();
     const tooltipRect = this.tooltipRef.getBoundingClientRect();
 
-    // If tooltip hasn't been measured yet (width/height = 0), skip this update
+    // If tooltip hasn't been measured yet (width/height = 0), retry with limit
     if (tooltipRect.width === 0 || tooltipRect.height === 0) {
-      // Try again in next frame
-      requestAnimationFrame(() => this.updateTooltipPosition());
+      // Prevent infinite loop by limiting retries
+      if (this.positionRetryCount < this.MAX_POSITION_RETRIES) {
+        this.positionRetryCount++;
+        requestAnimationFrame(() => this.updateTooltipPosition());
+      } else {
+        // Max retries reached - tooltip content may be empty or hidden
+        console.warn('Tooltip position update failed: Unable to measure tooltip dimensions after maximum retries');
+      }
       return;
     }
 
@@ -289,7 +326,6 @@ export class AegovTooltip {
   }
 
   render() {
-    const tooltipId = `tooltip-${Math.random().toString(36).substr(2, 9)}`;
     const hasContent = this.hasContentSlot || this.content;
 
     return (
@@ -300,21 +336,22 @@ export class AegovTooltip {
           onMouseEnter={this.handleTriggerMouseEnter}
           onMouseLeave={this.handleTriggerMouseLeave}
           onClick={this.handleTriggerClick}
-          aria-describedby={this.isVisible ? tooltipId : undefined}
+          aria-describedby={this.isVisible ? this.tooltipId : undefined}
           aria-expanded={this.trigger === 'click' ? this.isVisible.toString() : undefined}
         >
           <slot />
         </div>
 
-        {hasContent && this.isVisible && (
+        {hasContent && (
           <div
-            id={tooltipId}
+            id={this.tooltipId}
             ref={(el) => (this.tooltipRef = el)}
             class={{
               'tooltip': true,
               [`tooltip--${this.position}`]: true,
               'tooltip--interactive': this.interactive,
             }}
+            style={{ display: this.isVisible ? 'block' : 'none' }}
             role={this.interactive ? 'dialog' : 'tooltip'}
             onMouseEnter={this.handleTooltipMouseEnter}
             onMouseLeave={this.handleTooltipMouseLeave}

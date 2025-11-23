@@ -26,7 +26,9 @@ describe('aegov-tooltip', () => {
         components: [AegovTooltip],
         html: `<aegov-tooltip content="Test tooltip"><button>Trigger</button></aegov-tooltip>`,
       });
-      expect(page.root.querySelector('.tooltip')).toBeNull();
+      const tooltip = page.root.querySelector('.tooltip') as HTMLElement;
+      expect(tooltip).toBeTruthy();
+      expect(tooltip.style.display).toBe('none');
     });
 
     it('should render tooltip when visible', async () => {
