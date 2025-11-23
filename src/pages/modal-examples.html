@@ -842,11 +842,11 @@ modal.addEventListener('aegovModalBeforeClose', (event) => {
       <h3 id="confirm-title">⚠️ Confirm Delete</h3>
       <p id="confirm-desc">Are you sure you want to delete this item? This action cannot be undone.</p>
       <div class="modal-actions">
-        <aegov-button variant="outline" appearance="primary" onclick="document.getElementById('modal-confirm').close()">
-          Cancel
+        <aegov-button size="sm" variant="outline" appearance="danger" onclick="document.getElementById('modal-confirm').close()">
+          I changed my mind
         </aegov-button>
-        <aegov-button variant="solid" appearance="danger" onclick="handleDelete()">
-          Delete
+        <aegov-button size="sm" variant="solid" appearance="danger" onclick="handleDelete()">
+          Yes, Delete this
         </aegov-button>
       </div>
     </div>
