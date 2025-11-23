@@ -68,15 +68,6 @@ describe('aegov-modal', () => {
     expect(page.rootInstance.closeWithBackdrop).toBe(true);
   });
 
-  it('should have default closeOnEscape value of true', async () => {
-    const page = await newSpecPage({
-      components: [AegovModal],
-      html: `<aegov-modal><div>Content</div></aegov-modal>`,
-    });
-
-    expect(page.rootInstance.closeOnEscape).toBe(true);
-  });
-
   it('should have default preventBodyScroll value of true', async () => {
     const page = await newSpecPage({
       components: [AegovModal],
@@ -115,15 +106,6 @@ describe('aegov-modal', () => {
     });
 
     expect(page.rootInstance.closeWithBackdrop).toBe(false);
-  });
-
-  it('should accept custom closeOnEscape prop', async () => {
-    const page = await newSpecPage({
-      components: [AegovModal],
-      html: `<aegov-modal close-on-escape="false"><div>Content</div></aegov-modal>`,
-    });
-
-    expect(page.rootInstance.closeOnEscape).toBe(false);
   });
 
   it('should accept custom preventBodyScroll prop', async () => {

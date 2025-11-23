@@ -30,12 +30,6 @@ export class AegovModal {
   @Prop() closeWithBackdrop: boolean = true;
 
   /**
-   * Whether pressing ESC closes the modal
-   * @default true
-   */
-  @Prop() closeOnEscape: boolean = true;
-
-  /**
    * Whether to prevent body scroll when modal is open
    * @default true
    */
@@ -223,9 +217,8 @@ export class AegovModal {
   private handleKeyDown = (event: KeyboardEvent) => {
     if (event.key === 'Escape') {
       this.aegovModalEscapePress.emit(event);
-      if (this.closeOnEscape) {
-        this.handleClose();
-      }
+      // ESC key always closes the modal (non-configurable for accessibility)
+      this.handleClose();
     } else if (event.key === 'Tab') {
       this.handleTabKey(event);
     }

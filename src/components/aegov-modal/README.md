@@ -14,7 +14,7 @@ A fully accessible, feature-rich modal/dialog component with Shadow DOM encapsul
 - ✅ **Customizable Backdrop** - Three opacity levels (light, base, dark)
 - ✅ **Event-Driven** - Comprehensive event system for integration
 - ✅ **Responsive** - Adapts to content size or accepts custom width classes
-- ✅ **Keyboard Control** - ESC to close, Tab for focus trap
+- ✅ **Keyboard Control** - ESC always closes modal (non-configurable), Tab for focus trap
 - ✅ **Cancellable Close** - Prevent closing via beforeClose event
 
 ## Usage
@@ -61,12 +61,14 @@ A fully accessible, feature-rich modal/dialog component with Shadow DOM encapsul
 <aegov-modal close-with-backdrop="false">
   <div style="padding: 2rem;">
     <h2>Important Action</h2>
-    <p>This modal can only be closed using the buttons below.</p>
+    <p>This modal can only be closed using the buttons below or pressing ESC.</p>
     <button onclick="this.closest('aegov-modal').close()">Cancel</button>
     <button onclick="handleAction()">Confirm</button>
   </div>
 </aegov-modal>
 ```
+
+**Note:** While backdrop clicks can be disabled, the ESC key always closes the modal for accessibility compliance.
 
 ### With ARIA Labels
 
@@ -291,7 +293,7 @@ aegov-modal {
 
 The modal component follows WCAG 2.1 guidelines and includes:
 
-- **Keyboard Navigation**: Full keyboard support with Tab/Shift+Tab for focus cycling and ESC to close
+- **Keyboard Navigation**: Full keyboard support with Tab/Shift+Tab for focus cycling and **ESC always closes the modal** (non-configurable for accessibility compliance)
 - **Focus Management**: Automatic focus trap within modal, returns focus to trigger element on close
 - **ARIA Attributes**: Proper `role="dialog"`, `aria-modal="true"`, and support for `aria-label`, `aria-labelledby`, and `aria-describedby`
 - **Screen Reader Support**: Semantic HTML structure with proper labeling
@@ -303,6 +305,7 @@ The modal component follows WCAG 2.1 guidelines and includes:
 2. **Include a close mechanism**: Provide a visible close button for users who cannot use ESC key
 3. **Focus first interactive element**: The modal automatically focuses the first focusable element
 4. **Use semantic HTML**: Structure content with headings, paragraphs, and buttons for better screen reader experience
+5. **ESC key behavior**: The ESC key always closes the modal and cannot be disabled. This is intentional for accessibility compliance and follows WCAG guidelines.
 
 ## Common Patterns
 
@@ -394,7 +397,6 @@ The following attributes are automatically passed through to the internal dialog
 | Property            | Attribute             | Description                                       | Type                            | Default    |
 | ------------------- | --------------------- | ------------------------------------------------- | ------------------------------- | ---------- |
 | `backdropOpacity`   | `backdrop-opacity`    | Backdrop opacity level                            | `"base" \| "dark" \| "light"`   | `'base'`   |
-| `closeOnEscape`     | `close-on-escape`     | Whether pressing ESC closes the modal             | `boolean`                       | `true`     |
 | `closeWithBackdrop` | `close-with-backdrop` | Whether clicking the backdrop closes the modal    | `boolean`                       | `true`     |
 | `open`              | `open`                | Whether the modal is currently open/visible       | `boolean`                       | `false`    |
 | `position`          | `position`            | Position of the modal on screen                   | `"bottom" \| "center" \| "top"` | `'center'` |

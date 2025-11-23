@@ -407,12 +407,12 @@
 
     <!-- Close Behaviors -->
     <h2>4. Close Behaviors</h2>
-    <p>Control how users can close the modal with different property combinations.</p>
+    <p>Control how users can close the modal. Note: ESC key always closes the modal for accessibility compliance.</p>
 
     <div class="example-grid">
       <div class="example-card">
         <h4>Default Behavior</h4>
-        <p>Close on backdrop click and ESC key</p>
+        <p>Close on backdrop click and ESC key (both enabled)</p>
         <aegov-button variant="solid" appearance="primary" onclick="document.getElementById('modal-default-close').show()">
           Default Close
         </aegov-button>
@@ -420,25 +420,9 @@
 
       <div class="example-card">
         <h4>No Backdrop Close</h4>
-        <p>Cannot close by clicking backdrop</p>
+        <p>Backdrop disabled, but ESC key still works</p>
         <aegov-button variant="solid" appearance="primary" onclick="document.getElementById('modal-no-backdrop').show()">
           No Backdrop Close
-        </aegov-button>
-      </div>
-
-      <div class="example-card">
-        <h4>No ESC Close</h4>
-        <p>Cannot close with ESC key</p>
-        <aegov-button variant="solid" appearance="primary" onclick="document.getElementById('modal-no-esc').show()">
-          No ESC Close
-        </aegov-button>
-      </div>
-
-      <div class="example-card">
-        <h4>Button Only Close</h4>
-        <p>Can only close via buttons</p>
-        <aegov-button variant="solid" appearance="danger" onclick="document.getElementById('modal-button-only').show()">
-          Button Only Close
         </aegov-button>
       </div>
     </div>
@@ -576,18 +560,16 @@
             <td>Whether clicking the backdrop closes the modal</td>
           </tr>
           <tr>
-            <td><code>closeOnEscape</code></td>
-            <td><code>close-on-escape</code></td>
-            <td><code>boolean</code></td>
-            <td><code>true</code></td>
-            <td>Whether pressing ESC closes the modal</td>
-          </tr>
-          <tr>
             <td><code>preventBodyScroll</code></td>
             <td><code>prevent-body-scroll</code></td>
             <td><code>boolean</code></td>
             <td><code>true</code></td>
             <td>Whether to prevent body scroll when modal is open</td>
+          </tr>
+          <tr>
+            <td colspan="5" style="background: #fef3c7; color: #92400e; font-weight: 600;">
+              ℹ️ Note: The ESC key always closes the modal (non-configurable for accessibility compliance)
+            </td>
           </tr>
         </tbody>
       </table>
@@ -836,55 +818,19 @@ modal.addEventListener('aegovModalBeforeClose', (event) => {
   <aegov-modal id="modal-no-backdrop" close-with-backdrop="false" aria-labelledby="no-backdrop-title">
     <div class="modal-content">
       <h3 id="no-backdrop-title">No Backdrop Close</h3>
-      <p>This modal cannot be closed by clicking the backdrop.</p>
+      <p>This modal cannot be closed by clicking the backdrop, but ESC key always works for accessibility.</p>
       <p>You can close it by:</p>
       <ul style="margin-left: 1.5rem; color: #475569;">
         <li>Clicking the backdrop ✗</li>
-        <li>Pressing ESC key ✓</li>
+        <li>Pressing ESC key ✓ (Always enabled for accessibility)</li>
         <li>Clicking the button ✓</li>
       </ul>
+      <aegov-callout variant="info" with-icon>
+        The ESC key always closes modals to comply with WCAG accessibility guidelines.
+      </aegov-callout>
       <div class="modal-actions">
         <aegov-button variant="solid" appearance="primary" onclick="document.getElementById('modal-no-backdrop').close()">
           Close
-        </aegov-button>
-      </div>
-    </div>
-  </aegov-modal>
-
-  <aegov-modal id="modal-no-esc" close-on-escape="false" aria-labelledby="no-esc-title">
-    <div class="modal-content">
-      <h3 id="no-esc-title">No ESC Close</h3>
-      <p>This modal cannot be closed by pressing the ESC key.</p>
-      <p>You can close it by:</p>
-      <ul style="margin-left: 1.5rem; color: #475569;">
-        <li>Clicking the backdrop ✓</li>
-        <li>Pressing ESC key ✗</li>
-        <li>Clicking the button ✓</li>
-      </ul>
-      <div class="modal-actions">
-        <aegov-button variant="solid" appearance="primary" onclick="document.getElementById('modal-no-esc').close()">
-          Close
-        </aegov-button>
-      </div>
-    </div>
-  </aegov-modal>
-
-  <aegov-modal id="modal-button-only" close-with-backdrop="false" close-on-escape="false" aria-labelledby="button-only-title">
-    <div class="modal-content">
-      <h3 id="button-only-title">Button Only Close</h3>
-      <p>This modal can ONLY be closed using the button below.</p>
-      <p>Try clicking the backdrop or pressing ESC - it won't close!</p>
-      <ul style="margin-left: 1.5rem; color: #475569;">
-        <li>Clicking the backdrop ✗</li>
-        <li>Pressing ESC key ✗</li>
-        <li>Clicking the button ✓</li>
-      </ul>
-      <aegov-callout variant="warning" with-icon>
-        This pattern is useful for critical actions that require explicit user confirmation.
-      </aegov-callout>
-      <div class="modal-actions">
-        <aegov-button variant="solid" appearance="danger" onclick="document.getElementById('modal-button-only').close()">
-          Understood, Close Modal
         </aegov-button>
       </div>
     </div>

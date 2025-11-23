@@ -283,7 +283,7 @@ describe('aegov-modal E2E', () => {
   // are difficult to test reliably in Puppeteer E2E context.
   // The event emission is tested thoroughly in unit tests.
 
-  it('should close modal when ESC key is pressed (default behavior)', async () => {
+  it('should always close modal when ESC key is pressed', async () => {
     const page = await newE2EPage();
     await page.setContent(`<aegov-modal open><div>Content</div></aegov-modal>`);
 
@@ -299,23 +299,6 @@ describe('aegov-modal E2E', () => {
     const modalEl = await page.find('aegov-modal');
     const state = await modalEl.getAttribute('data-state');
     expect(['closing', 'closed']).toContain(state);
-  });
-
-  it('should NOT close modal when ESC is pressed if closeOnEscape is false', async () => {
-    const page = await newE2EPage();
-    await page.setContent(`<aegov-modal open close-on-escape="false"><div>Content</div></aegov-modal>`);
-
-    // Initially open
-    let backdrop = await page.find('aegov-modal >>> .modal-backdrop');
-    expect(backdrop).toBeTruthy();
-
-    // Press ESC
-    await page.keyboard.press('Escape');
-    await page.waitForChanges();
-
-    // Should still be open
-    backdrop = await page.find('aegov-modal >>> .modal-backdrop');
-    expect(backdrop).toBeTruthy();
   });
 
   // ============================================
