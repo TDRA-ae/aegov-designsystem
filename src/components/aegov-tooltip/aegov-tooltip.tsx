@@ -90,7 +90,7 @@ export class AegovTooltip {
 
   componentWillLoad() {
     // Generate stable tooltip ID once
-    this.tooltipId = `tooltip-${Math.random().toString(36).substr(2, 9)}`;
+    this.tooltipId = `aegov-tooltip-${Math.random().toString(36).substr(2, 9)}`;
 
     // Check if tooltip-content slot has content
     this.checkSlotContent();
