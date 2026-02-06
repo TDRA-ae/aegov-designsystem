@@ -1,0 +1,42 @@
+:host {
+  @apply block;
+}
+
+.separator {
+  @apply m-0;
+  border-style: none;
+}
+
+/* Horizontal separator (default) */
+.separator--horizontal {
+  @apply w-full border-t border-slate-300;
+}
+
+.separator--horizontal.separator--with-text {
+  @apply flex items-center gap-4 my-4;
+  border-top: none;
+}
+
+/* Vertical separator */
+.separator--vertical {
+  @apply h-full border-l border-slate-300 inline-block;
+  min-height: 1rem;
+}
+
+/* Subtle variant */
+.separator--subtle {
+  @apply border-slate-200;
+}
+
+/* Separator with text */
+.separator__line {
+  @apply flex-1 border-t border-slate-300;
+}
+
+.separator--subtle .separator__line {
+  @apply border-slate-200;
+}
+
+.separator__text {
+  @apply text-sm text-slate-500 px-2;
+}

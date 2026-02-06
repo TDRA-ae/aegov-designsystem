@@ -1,0 +1,21 @@
+:host {
+  @apply block;
+}
+
+.context-menu-item {
+  @apply w-full text-left px-3 py-2 border-none bg-transparent cursor-pointer rounded transition-colors duration-150;
+  @apply text-aeblack-800 text-sm;
+}
+
+.context-menu-item:hover:not(:disabled) {
+  @apply bg-slate-100;
+}
+
+.context-menu-item:focus {
+  @apply outline-2 outline-primary-600 outline-offset-[-2px] bg-primary-50;
+}
+
+.context-menu-item:disabled,
+.context-menu-item[aria-disabled="true"] {
+  @apply opacity-50 cursor-not-allowed pointer-events-none;
+}

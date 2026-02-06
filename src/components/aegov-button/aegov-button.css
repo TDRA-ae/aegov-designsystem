@@ -231,3 +231,108 @@
   @apply lg:h-12 lg:rounded-lg lg:px-6 lg:text-base;
   @apply 2xl:h-13 2xl:gap-3 2xl:px-7 2xl:text-lg;
 }
+
+/*
+  ====================================================================
+  GROUPED Button
+  ====================================================================
+*/
+.btn-grouped-horizontal {
+  @apply rounded-none;
+  &.btn-grouped-first-horizontal {
+    &.btn-lg {
+      @apply rounded-s-lg;
+    }
+    &.btn-base {
+      @apply rounded-s-lg;
+    }
+    &.btn-sm {
+      @apply rounded-s-md;
+    }
+    &.btn-xs {
+      @apply rounded-s-sm;
+    }
+  }
+  &.btn-grouped-last-horizontal {
+    &.btn-lg {
+      @apply rounded-e-lg;
+    }
+    &.btn-base {
+      @apply rounded-e-lg;
+    }
+    &.btn-sm {
+      @apply rounded-e-md;
+    }
+    &.btn-xs {
+      @apply rounded-e-sm;
+    }
+    &.btn-primary {
+      &.btn-solid {
+        @apply border-s-primary-700;
+      }
+      &.btn-outline {
+        @apply border-s-0;
+      }
+      &.btn-soft {
+        @apply border-s-primary-100 border-s;
+      }
+    }
+    &.btn-secondary {
+      &.btn-solid {
+        @apply border-s-secondary-700;
+      }
+      &.btn-outline {
+        @apply border-s-0;
+      }
+      &.btn-soft {
+        @apply border-s-secondary-100 border-s;
+      }
+    }
+    &.btn-danger {
+      &.btn-solid {
+        @apply border-s-aered-700;
+      }
+      &.btn-outline {
+        @apply border-s-0;
+      }
+      &.btn-soft {
+        @apply border-s-aered-100 border-s;
+      }
+    }
+  }
+  &.btn-grouped-middle-horizontal {
+    &.btn-primary {
+      &.btn-solid {
+        @apply border-s-primary-700;
+      }
+      &.btn-outline {
+        @apply border-s-0;
+      }
+      &.btn-soft {
+        @apply border-s-primary-100 border-s;
+      }
+    }
+    &.btn-secondary {
+      &.btn-solid {
+        @apply border-s-secondary-700;
+      }
+      &.btn-outline {
+        @apply border-s-0;
+      }
+      &.btn-soft {
+        @apply border-s-secondary-100 border-s;
+      }
+    }
+    &.btn-danger {
+      &.btn-solid {
+        @apply border-s-aered-700;
+      }
+      &.btn-outline {
+        @apply border-s-0;
+      }
+      &.btn-soft {
+        @apply border-s-aered-100 border-s;
+      }
+    }
+  }
+}

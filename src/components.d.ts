@@ -5,8 +5,8 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
-import { AccordionIcon, AvatarSize, AvatarStatus, AvatarVariant, BadgeAppearance, BadgeColor, BadgeSize, BannerDisplay, BannerMode, BannerPosition, BannerRole, BlockquoteVariant, BreadcrumbSeparator, ButtonAppearance, ButtonSize, ButtonType, ButtonVariant, CalloutAppearance, CalloutVariant, DropdownAlign, DropdownPosition, DropdownTrigger, LinkTarget, ModalBackdropOpacity, ModalPosition, TextSize, TitleSize, TooltipAlign, TooltipPosition, TooltipTrigger } from "./utils/types";
-export { AccordionIcon, AvatarSize, AvatarStatus, AvatarVariant, BadgeAppearance, BadgeColor, BadgeSize, BannerDisplay, BannerMode, BannerPosition, BannerRole, BlockquoteVariant, BreadcrumbSeparator, ButtonAppearance, ButtonSize, ButtonType, ButtonVariant, CalloutAppearance, CalloutVariant, DropdownAlign, DropdownPosition, DropdownTrigger, LinkTarget, ModalBackdropOpacity, ModalPosition, TextSize, TitleSize, TooltipAlign, TooltipPosition, TooltipTrigger } from "./utils/types";
+import { AccordionIcon, AvatarSize, AvatarStatus, AvatarVariant, BadgeAppearance, BadgeColor, BadgeSize, BannerDisplay, BannerMode, BannerPosition, BannerRole, BlockquoteVariant, BreadcrumbSeparator, ButtonAppearance, ButtonGroupOrientation, ButtonSize, ButtonType, ButtonVariant, CalloutAppearance, CalloutVariant, DropdownAlign, DropdownPosition, DropdownTrigger, LinkTarget, ModalBackdropOpacity, ModalPosition, TextSize, TitleSize, TooltipAlign, TooltipPosition, TooltipTrigger } from "./utils/types";
+export { AccordionIcon, AvatarSize, AvatarStatus, AvatarVariant, BadgeAppearance, BadgeColor, BadgeSize, BannerDisplay, BannerMode, BannerPosition, BannerRole, BlockquoteVariant, BreadcrumbSeparator, ButtonAppearance, ButtonGroupOrientation, ButtonSize, ButtonType, ButtonVariant, CalloutAppearance, CalloutVariant, DropdownAlign, DropdownPosition, DropdownTrigger, LinkTarget, ModalBackdropOpacity, ModalPosition, TextSize, TitleSize, TooltipAlign, TooltipPosition, TooltipTrigger } from "./utils/types";
 export namespace Components {
     /**
      * Accordion component for collapsible content sections
@@ -262,10 +262,26 @@ export namespace Components {
          */
         "full": boolean;
         /**
+          * Internal: The orientation of the button group this button belongs to
+         */
+        "groupOrientation"?: ButtonGroupOrientation;
+        /**
           * Whether the button is only an icon
           * @default false
          */
         "icon": boolean;
+        /**
+          * Internal: Whether this button is the first in a button group
+         */
+        "isFirst"?: boolean;
+        /**
+          * Internal: Whether this button is the last in a button group
+         */
+        "isLast"?: boolean;
+        /**
+          * Internal: Whether this button is a single button in a button group
+         */
+        "isSingle"?: boolean;
         /**
           * Whether the button is in a loading state
           * @default false
@@ -286,6 +302,13 @@ export namespace Components {
           * @default 'solid'
          */
         "variant": ButtonVariant;
+    }
+    interface AegovButtonGroup {
+        /**
+          * The orientation of the button group
+          * @default 'horizontal'
+         */
+        "orientation": ButtonGroupOrientation;
     }
     interface AegovCallout {
         /**
@@ -308,6 +331,49 @@ export namespace Components {
           * @default 'default'
          */
         "variant": CalloutVariant;
+    }
+    /**
+     * Context menu component that displays positioned content on right-click
+     */
+    interface AegovContextMenu {
+        /**
+          * Public method to close the context menu
+         */
+        "close": () => Promise<void>;
+        /**
+          * Close menu when an item is clicked
+          * @default true
+         */
+        "closeOnItemClick": boolean;
+        /**
+          * Whether the context menu is disabled
+          * @default false
+         */
+        "disabled": boolean;
+        /**
+          * Offset from cursor position (in pixels)
+          * @default 0
+         */
+        "offset": number;
+        /**
+          * Public method to show the context menu at specific coordinates
+         */
+        "show": (x: number, y: number) => Promise<void>;
+        /**
+          * CSS selector for target elements that trigger the context menu
+          * @required
+         */
+        "target": string;
+    }
+    /**
+     * Context menu item component (optional helper for styling)
+     */
+    interface AegovContextMenuItem {
+        /**
+          * Whether the menu item is disabled
+          * @default false
+         */
+        "disabled": boolean;
     }
     /**
      * Dropdown component that displays positioned content on trigger interaction
@@ -412,6 +478,30 @@ export namespace Components {
          */
         "toggle": () => Promise<void>;
     }
+    /**
+     * A separator component for visually dividing sections of content
+     */
+    interface AegovSeparator {
+        /**
+          * Whether the separator is purely decorative (no semantic meaning)
+          * @default true
+         */
+        "decorative": boolean;
+        /**
+          * Orientation of the separator
+          * @default 'horizontal'
+         */
+        "orientation": 'horizontal' | 'vertical';
+        /**
+          * Optional text label displayed at the center of the separator
+         */
+        "text"?: string;
+        /**
+          * Visual variant of the separator
+          * @default 'default'
+         */
+        "variant": 'default' | 'subtle';
+    }
     interface AegovText {
         /**
           * Additional CSS classes to apply to the text.
@@ -512,6 +602,14 @@ export interface AegovButtonCustomEvent<T> extends CustomEvent<T> {
 export interface AegovCalloutCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLAegovCalloutElement;
+}
+export interface AegovContextMenuCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLAegovContextMenuElement;
+}
+export interface AegovContextMenuItemCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLAegovContextMenuItemElement;
 }
 export interface AegovDropdownCustomEvent<T> extends CustomEvent<T> {
     detail: T;
@@ -651,6 +749,12 @@ declare global {
         prototype: HTMLAegovButtonElement;
         new (): HTMLAegovButtonElement;
     };
+    interface HTMLAegovButtonGroupElement extends Components.AegovButtonGroup, HTMLStencilElement {
+    }
+    var HTMLAegovButtonGroupElement: {
+        prototype: HTMLAegovButtonGroupElement;
+        new (): HTMLAegovButtonGroupElement;
+    };
     interface HTMLAegovCalloutElementEventMap {
         "aegovCalloutDismiss": void;
     }
@@ -667,6 +771,47 @@ declare global {
     var HTMLAegovCalloutElement: {
         prototype: HTMLAegovCalloutElement;
         new (): HTMLAegovCalloutElement;
+    };
+    interface HTMLAegovContextMenuElementEventMap {
+        "aegovContextMenuOpen": { x: number; y: number; targetElement: HTMLElement };
+        "aegovContextMenuClose": void;
+    }
+    /**
+     * Context menu component that displays positioned content on right-click
+     */
+    interface HTMLAegovContextMenuElement extends Components.AegovContextMenu, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLAegovContextMenuElementEventMap>(type: K, listener: (this: HTMLAegovContextMenuElement, ev: AegovContextMenuCustomEvent<HTMLAegovContextMenuElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLAegovContextMenuElementEventMap>(type: K, listener: (this: HTMLAegovContextMenuElement, ev: AegovContextMenuCustomEvent<HTMLAegovContextMenuElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLAegovContextMenuElement: {
+        prototype: HTMLAegovContextMenuElement;
+        new (): HTMLAegovContextMenuElement;
+    };
+    interface HTMLAegovContextMenuItemElementEventMap {
+        "aegovContextMenuItemClick": MouseEvent;
+    }
+    /**
+     * Context menu item component (optional helper for styling)
+     */
+    interface HTMLAegovContextMenuItemElement extends Components.AegovContextMenuItem, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLAegovContextMenuItemElementEventMap>(type: K, listener: (this: HTMLAegovContextMenuItemElement, ev: AegovContextMenuItemCustomEvent<HTMLAegovContextMenuItemElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLAegovContextMenuItemElementEventMap>(type: K, listener: (this: HTMLAegovContextMenuItemElement, ev: AegovContextMenuItemCustomEvent<HTMLAegovContextMenuItemElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLAegovContextMenuItemElement: {
+        prototype: HTMLAegovContextMenuItemElement;
+        new (): HTMLAegovContextMenuItemElement;
     };
     interface HTMLAegovDropdownElementEventMap {
         "aegovDropdownOpen": void;
@@ -727,6 +872,15 @@ declare global {
         prototype: HTMLAegovModalElement;
         new (): HTMLAegovModalElement;
     };
+    /**
+     * A separator component for visually dividing sections of content
+     */
+    interface HTMLAegovSeparatorElement extends Components.AegovSeparator, HTMLStencilElement {
+    }
+    var HTMLAegovSeparatorElement: {
+        prototype: HTMLAegovSeparatorElement;
+        new (): HTMLAegovSeparatorElement;
+    };
     interface HTMLAegovTextElement extends Components.AegovText, HTMLStencilElement {
     }
     var HTMLAegovTextElement: {
@@ -758,10 +912,14 @@ declare global {
         "aegov-breadcrumbs": HTMLAegovBreadcrumbsElement;
         "aegov-breadcrumbs-item": HTMLAegovBreadcrumbsItemElement;
         "aegov-button": HTMLAegovButtonElement;
+        "aegov-button-group": HTMLAegovButtonGroupElement;
         "aegov-callout": HTMLAegovCalloutElement;
+        "aegov-context-menu": HTMLAegovContextMenuElement;
+        "aegov-context-menu-item": HTMLAegovContextMenuItemElement;
         "aegov-dropdown": HTMLAegovDropdownElement;
         "aegov-link": HTMLAegovLinkElement;
         "aegov-modal": HTMLAegovModalElement;
+        "aegov-separator": HTMLAegovSeparatorElement;
         "aegov-text": HTMLAegovTextElement;
         "aegov-title": HTMLAegovTitleElement;
         "aegov-tooltip": HTMLAegovTooltipElement;
@@ -1042,10 +1200,26 @@ declare namespace LocalJSX {
          */
         "full"?: boolean;
         /**
+          * Internal: The orientation of the button group this button belongs to
+         */
+        "groupOrientation"?: ButtonGroupOrientation;
+        /**
           * Whether the button is only an icon
           * @default false
          */
         "icon"?: boolean;
+        /**
+          * Internal: Whether this button is the first in a button group
+         */
+        "isFirst"?: boolean;
+        /**
+          * Internal: Whether this button is the last in a button group
+         */
+        "isLast"?: boolean;
+        /**
+          * Internal: Whether this button is a single button in a button group
+         */
+        "isSingle"?: boolean;
         /**
           * Whether the button is in a loading state
           * @default false
@@ -1079,6 +1253,13 @@ declare namespace LocalJSX {
          */
         "variant"?: ButtonVariant;
     }
+    interface AegovButtonGroup {
+        /**
+          * The orientation of the button group
+          * @default 'horizontal'
+         */
+        "orientation"?: ButtonGroupOrientation;
+    }
     interface AegovCallout {
         /**
           * The appearance style of the callout.
@@ -1104,6 +1285,53 @@ declare namespace LocalJSX {
           * @default 'default'
          */
         "variant"?: CalloutVariant;
+    }
+    /**
+     * Context menu component that displays positioned content on right-click
+     */
+    interface AegovContextMenu {
+        /**
+          * Close menu when an item is clicked
+          * @default true
+         */
+        "closeOnItemClick"?: boolean;
+        /**
+          * Whether the context menu is disabled
+          * @default false
+         */
+        "disabled"?: boolean;
+        /**
+          * Offset from cursor position (in pixels)
+          * @default 0
+         */
+        "offset"?: number;
+        /**
+          * Emitted when context menu closes
+         */
+        "onAegovContextMenuClose"?: (event: AegovContextMenuCustomEvent<void>) => void;
+        /**
+          * Emitted when context menu opens
+         */
+        "onAegovContextMenuOpen"?: (event: AegovContextMenuCustomEvent<{ x: number; y: number; targetElement: HTMLElement }>) => void;
+        /**
+          * CSS selector for target elements that trigger the context menu
+          * @required
+         */
+        "target": string;
+    }
+    /**
+     * Context menu item component (optional helper for styling)
+     */
+    interface AegovContextMenuItem {
+        /**
+          * Whether the menu item is disabled
+          * @default false
+         */
+        "disabled"?: boolean;
+        /**
+          * Emitted when the menu item is clicked
+         */
+        "onAegovContextMenuItemClick"?: (event: AegovContextMenuItemCustomEvent<MouseEvent>) => void;
     }
     /**
      * Dropdown component that displays positioned content on trigger interaction
@@ -1228,6 +1456,30 @@ declare namespace LocalJSX {
          */
         "preventBodyScroll"?: boolean;
     }
+    /**
+     * A separator component for visually dividing sections of content
+     */
+    interface AegovSeparator {
+        /**
+          * Whether the separator is purely decorative (no semantic meaning)
+          * @default true
+         */
+        "decorative"?: boolean;
+        /**
+          * Orientation of the separator
+          * @default 'horizontal'
+         */
+        "orientation"?: 'horizontal' | 'vertical';
+        /**
+          * Optional text label displayed at the center of the separator
+         */
+        "text"?: string;
+        /**
+          * Visual variant of the separator
+          * @default 'default'
+         */
+        "variant"?: 'default' | 'subtle';
+    }
     interface AegovText {
         /**
           * Additional CSS classes to apply to the text.
@@ -1314,10 +1566,14 @@ declare namespace LocalJSX {
         "aegov-breadcrumbs": AegovBreadcrumbs;
         "aegov-breadcrumbs-item": AegovBreadcrumbsItem;
         "aegov-button": AegovButton;
+        "aegov-button-group": AegovButtonGroup;
         "aegov-callout": AegovCallout;
+        "aegov-context-menu": AegovContextMenu;
+        "aegov-context-menu-item": AegovContextMenuItem;
         "aegov-dropdown": AegovDropdown;
         "aegov-link": AegovLink;
         "aegov-modal": AegovModal;
+        "aegov-separator": AegovSeparator;
         "aegov-text": AegovText;
         "aegov-title": AegovTitle;
         "aegov-tooltip": AegovTooltip;
@@ -1349,13 +1605,26 @@ declare module "@stencil/core" {
              */
             "aegov-breadcrumbs-item": LocalJSX.AegovBreadcrumbsItem & JSXBase.HTMLAttributes<HTMLAegovBreadcrumbsItemElement>;
             "aegov-button": LocalJSX.AegovButton & JSXBase.HTMLAttributes<HTMLAegovButtonElement>;
+            "aegov-button-group": LocalJSX.AegovButtonGroup & JSXBase.HTMLAttributes<HTMLAegovButtonGroupElement>;
             "aegov-callout": LocalJSX.AegovCallout & JSXBase.HTMLAttributes<HTMLAegovCalloutElement>;
+            /**
+             * Context menu component that displays positioned content on right-click
+             */
+            "aegov-context-menu": LocalJSX.AegovContextMenu & JSXBase.HTMLAttributes<HTMLAegovContextMenuElement>;
+            /**
+             * Context menu item component (optional helper for styling)
+             */
+            "aegov-context-menu-item": LocalJSX.AegovContextMenuItem & JSXBase.HTMLAttributes<HTMLAegovContextMenuItemElement>;
             /**
              * Dropdown component that displays positioned content on trigger interaction
              */
             "aegov-dropdown": LocalJSX.AegovDropdown & JSXBase.HTMLAttributes<HTMLAegovDropdownElement>;
             "aegov-link": LocalJSX.AegovLink & JSXBase.HTMLAttributes<HTMLAegovLinkElement>;
             "aegov-modal": LocalJSX.AegovModal & JSXBase.HTMLAttributes<HTMLAegovModalElement>;
+            /**
+             * A separator component for visually dividing sections of content
+             */
+            "aegov-separator": LocalJSX.AegovSeparator & JSXBase.HTMLAttributes<HTMLAegovSeparatorElement>;
             "aegov-text": LocalJSX.AegovText & JSXBase.HTMLAttributes<HTMLAegovTextElement>;
             "aegov-title": LocalJSX.AegovTitle & JSXBase.HTMLAttributes<HTMLAegovTitleElement>;
             /**

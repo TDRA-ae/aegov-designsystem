@@ -1,0 +1,21 @@
+:host {
+  @apply inline-block;
+}
+
+.button-group {
+  @apply inline-flex;
+  /* Horizontal orientation (default) */
+  &.button-group--horizontal {
+    @apply flex-row;
+  }
+}
+
+/* Vertical orientation */
+.button-group--vertical {
+  @apply flex-col;
+}
+
+/*
+ * Border collapse is handled via negative margins applied to buttons
+ * This is done in aegov-button CSS based on positional flags
+ */

@@ -1,5 +1,5 @@
 import { Component, Prop, Event, EventEmitter, Element, h, Host } from '@stencil/core';
-import type { ButtonVariant, ButtonSize, ButtonType, ButtonAppearance } from '../../utils/types';
+import type { ButtonVariant, ButtonSize, ButtonType, ButtonAppearance, ButtonGroupOrientation } from '../../utils/types';
 
 /**
  * @slot - Button content
@@ -66,6 +66,30 @@ export class AegovButton {
    * @default false
    */
   @Prop() loading: boolean = false;
+
+  /**
+   * Internal: Whether this button is the first in a button group
+   * @internal
+   */
+  @Prop() isFirst?: boolean;
+
+  /**
+   * Internal: Whether this button is the last in a button group
+   * @internal
+   */
+  @Prop() isLast?: boolean;
+
+  /**
+   * Internal: Whether this button is a single button in a button group
+   * @internal
+   */
+  @Prop() isSingle?: boolean;
+
+  /**
+   * Internal: The orientation of the button group this button belongs to
+   * @internal
+   */
+  @Prop() groupOrientation?: ButtonGroupOrientation;
 
   /**
    * Emitted when the button is clicked
@@ -174,6 +198,34 @@ export class AegovButton {
     // bold management
     if (this.bold) {
       classes.push('font-medium');
+    }
+
+    // Button group styling
+    if (this.isFirst || this.isLast || this.isSingle !== undefined) {
+      // Button is in a group
+      if (this.groupOrientation === 'horizontal') {
+        classes.push('btn-grouped-horizontal');
+        if (this.isFirst && !this.isSingle) {
+          classes.push('btn-grouped-first-horizontal');
+        } else if (this.isLast && !this.isSingle) {
+          classes.push('btn-grouped-last-horizontal');
+        } else if (this.isSingle) {
+          classes.push('btn-grouped-single');
+        } else {
+          classes.push('btn-grouped-middle-horizontal');
+        }
+      } else if (this.groupOrientation === 'vertical') {
+        classes.push('btn-grouped-vertical');
+        if (this.isFirst && !this.isSingle) {
+          classes.push('btn-grouped-first-vertical');
+        } else if (this.isLast && !this.isSingle) {
+          classes.push('btn-grouped-last-vertical');
+        } else if (this.isSingle) {
+          classes.push('btn-grouped-single');
+        } else {
+          classes.push('btn-grouped-middle-vertical');
+        }
+      }
     }
 
     return classes.join(' ');

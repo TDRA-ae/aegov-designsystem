@@ -25,6 +25,11 @@ export type ButtonType = 'button' | 'submit' | 'reset';
 export type ButtonAppearance = 'primary' | 'secondary' | 'danger' | 'neutralMin' | 'neutralMax';
 
 /**
+ * Button group component orientation types
+ */
+export type ButtonGroupOrientation = 'horizontal' | 'vertical';
+
+/**
  * Avatar component size types
  */
 export type AvatarSize = 'xs' | 'sm' | 'base' | 'lg' | 'xl' | '2xl' | '3xl';
