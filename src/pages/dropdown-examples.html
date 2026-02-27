@@ -831,7 +831,9 @@ dropdown.addEventListener('aegovDropdownClose', () => {
     <div class="section">
       <h2 class="section-title">11. Nested Dropdown (Submenu)</h2>
       <p class="section-description">
-        Create nested dropdowns by placing a dropdown trigger inside another dropdown's content. The nested dropdown opens to the right.
+        Create nested dropdowns by placing an <code>aegov-dropdown</code> trigger inside another dropdown's content.
+        Each nested dropdown is rendered as a full-width block row, so the submenu always opens to the
+        <strong>right side</strong> of the parent panel without overlapping it.
       </p>
 
       <div class="example-box">
@@ -845,11 +847,11 @@ dropdown.addEventListener('aegovDropdownClose', () => {
               <a href="#">Dashboard</a>
               <a href="#">Profile</a>
 
-              <!-- Nested Dropdown Trigger -->
+              <!-- Nested Dropdown Trigger — rendered as a block row, submenu opens to the right -->
               <aegov-dropdown position="right" align="start" trigger-type="hover" show-delay="100">
                 <a href="#" style="display: flex; justify-content: space-between; align-items: center;">
                   Settings
-                  <span style="margin-left: 8px;">›</span>
+                  <span style="margin-left: 8px; font-size: 0.75rem;">›</span>
                 </a>
                 <div slot="dropdown-content" class="dropdown-menu">
                   <a href="#">General</a>
@@ -864,7 +866,7 @@ dropdown.addEventListener('aegovDropdownClose', () => {
               <aegov-dropdown position="right" align="start" trigger-type="hover" show-delay="100">
                 <a href="#" style="display: flex; justify-content: space-between; align-items: center;">
                   More Options
-                  <span style="margin-left: 8px;">›</span>
+                  <span style="margin-left: 8px; font-size: 0.75rem;">›</span>
                 </a>
                 <div slot="dropdown-content" class="dropdown-menu">
                   <a href="#">Help Center</a>
@@ -885,11 +887,10 @@ dropdown.addEventListener('aegovDropdownClose', () => {
   &lt;div slot="dropdown-content"&gt;
     &lt;a href="#"&gt;Dashboard&lt;/a&gt;
 
-    &lt;!-- Nested Dropdown --&gt;
-    &lt;aegov-dropdown position="right" align="start" trigger-type="hover"&gt;
-      &lt;a href="#"&gt;
-        Settings
-        &lt;span&gt;›&lt;/span&gt;
+    &lt;!-- Nested dropdown is automatically a full-width block row --&gt;
+    &lt;aegov-dropdown position="right" align="start" trigger-type="hover" show-delay="100"&gt;
+      &lt;a href="#" style="display: flex; justify-content: space-between; align-items: center;"&gt;
+        Settings &lt;span&gt;›&lt;/span&gt;
       &lt;/a&gt;
       &lt;div slot="dropdown-content"&gt;
         &lt;a href="#"&gt;General&lt;/a&gt;
@@ -906,11 +907,11 @@ dropdown.addEventListener('aegovDropdownClose', () => {
       <div class="important-note" style="margin-top: 2rem;">
         <h4 style="margin-bottom: 0.75rem;">💡 Nested Dropdown Tips</h4>
         <ul style="margin-left: 1.5rem; line-height: 1.8;">
-          <li>Use <code>position="right"</code> for nested dropdowns to open them to the side</li>
+          <li>Use <code>position="right"</code> so the submenu opens beside the parent panel, not on top of it</li>
+          <li>Nested <code>aegov-dropdown</code> elements inside a portal are automatically styled as <code>display: block</code> with <code>width: 100%</code>, so they behave like a full-width menu row</li>
           <li>Set <code>trigger-type="hover"</code> for better UX with nested menus</li>
           <li>Reduce <code>show-delay</code> (e.g., 100ms) for quicker submenu response</li>
-          <li>Add visual indicators (like <code>›</code>) to show items have submenus</li>
-          <li>Nested dropdowns work great for complex navigation menus</li>
+          <li>Add a visual indicator (like <code>›</code>) inside the trigger link to show the item has a submenu</li>
         </ul>
       </div>
     </div>

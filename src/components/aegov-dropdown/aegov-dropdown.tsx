@@ -567,6 +567,21 @@ export class AegovDropdown {
         cursor: not-allowed;
         pointer-events: none;
       }
+
+      /* Nested dropdown: make the host a block element so it fills the full
+         row of the parent dropdown and never overlaps the parent panel.
+         The sub-menu opens to the side (position="right") of this block row. */
+      .aegov-dropdown-portal .dropdown aegov-dropdown {
+        display: block;
+      }
+
+      /* Make the trigger div inside nested dropdowns span the full row width
+         so the clickable / hoverable area covers the entire menu item. */
+      .aegov-dropdown-portal .dropdown aegov-dropdown .dropdown-trigger {
+        display: block;
+        width: 100%;
+        box-sizing: border-box;
+      }
     `;
     this.portalElement.appendChild(styleElement);
 
