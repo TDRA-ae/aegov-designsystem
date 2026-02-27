@@ -160,6 +160,21 @@ export type DropdownPosition = 'top' | 'right' | 'bottom' | 'left';
 export type DropdownAlign = 'start' | 'center' | 'end';
 
 /**
+ * Pagination component size types
+ */
+export type PaginationSize = 'sm' | 'base' | 'lg';
+
+/**
+ * Tabs component variant types
+ */
+export type TabVariant = 'simple' | 'segmented' | 'pill';
+
+/**
+ * Tabs component size types
+ */
+export type TabSize = 'sm' | 'base' | 'lg';
+
+/**
  * Common component props
  */
 export interface BaseComponentProps {

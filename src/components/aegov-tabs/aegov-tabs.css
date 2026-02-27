@@ -1,0 +1,154 @@
+/* ============================================================
+   aegov-tabs
+   ============================================================ */
+
+:host {
+  @apply block;
+}
+
+/* ---- Container ---- */
+
+.tabs {
+  @apply flex flex-col;
+}
+
+/* ---- Tab list wrapper (handles scrollable + fades) ---- */
+
+.tabs__list-wrapper {
+  @apply flex-none;
+}
+
+.tabs__list-wrapper--scrollable {
+  @apply relative overflow-hidden;
+}
+
+.tabs__list-wrapper--scrollable .tabs__list {
+  @apply overflow-x-auto;
+  scrollbar-width: none; /* Firefox */
+}
+
+.tabs__list-wrapper--scrollable .tabs__list::-webkit-scrollbar {
+  display: none;
+}
+
+/* Fade gradient overlays for scrollable tabs */
+.tabs__list-wrapper--scrollable::before,
+.tabs__list-wrapper--scrollable::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 3rem;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0;
+  transition: opacity 200ms ease-in-out;
+}
+
+.tabs__list-wrapper--scrollable::before {
+  left: 0;
+  background: linear-gradient(to right, white 30%, transparent);
+}
+
+.tabs__list-wrapper--scrollable::after {
+  right: 0;
+  background: linear-gradient(to left, white 30%, transparent);
+}
+
+.tabs__list-wrapper--scrollable.has-start-fade::before {
+  opacity: 1;
+}
+
+.tabs__list-wrapper--scrollable.has-end-fade::after {
+  opacity: 1;
+}
+
+/* ---- Tab list ---- */
+
+.tabs__list {
+  @apply flex items-end;
+}
+
+/* ---- Panels ---- */
+
+.tabs__panels {
+  @apply flex-1;
+}
+
+/* ============================================================
+   Variant — Simple (underline)
+   ============================================================ */
+
+.tabs--simple .tabs__list {
+  @apply border-b border-neutral-200 gap-1;
+}
+
+/* ============================================================
+   Variant — Segmented (button group)
+   ============================================================ */
+
+.tabs--segmented .tabs__list-wrapper {
+  /* Allow list to be naturally sized, not full-width */
+}
+
+.tabs--segmented .tabs__list {
+  @apply bg-neutral-100 p-1 rounded-lg inline-flex items-center gap-0.5;
+}
+
+/* ============================================================
+   Variant — Pill
+   ============================================================ */
+
+.tabs--pill .tabs__list {
+  @apply items-center gap-1;
+}
+
+/* ============================================================
+   Stretch — distribute tabs evenly across full width
+   ============================================================ */
+
+.tabs--stretch .tabs__list {
+  @apply w-full;
+}
+
+.tabs--stretch aegov-tab {
+  flex: 1;
+}
+
+.tabs--stretch .tab__btn {
+  @apply w-full justify-center;
+}
+
+/* ============================================================
+   Panels spacing
+   ============================================================ */
+
+.tabs--simple .tabs__panels {
+  @apply pt-4;
+}
+
+.tabs--segmented .tabs__panels {
+  @apply pt-4;
+}
+
+.tabs--pill .tabs__panels {
+  @apply pt-4;
+}
+
+/* ============================================================
+   RTL — flip scroll fades
+   ============================================================ */
+
+:host(:dir(rtl)) .tabs__list-wrapper--scrollable::before,
+[dir='rtl'] .tabs__list-wrapper--scrollable::before {
+  left: auto;
+  right: 0;
+  background: linear-gradient(to left, white 30%, transparent);
+}
+
+:host(:dir(rtl)) .tabs__list-wrapper--scrollable::after,
+[dir='rtl'] .tabs__list-wrapper--scrollable::after {
+  right: auto;
+  left: 0;
+  background: linear-gradient(to right, white 30%, transparent);
+}

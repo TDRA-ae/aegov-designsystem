@@ -1,0 +1,140 @@
+/* ============================================================
+   aegov-tab
+   ============================================================ */
+
+:host {
+  @apply inline-flex;
+}
+
+/* ---- Base button ---- */
+
+.tab__btn {
+  @apply inline-flex items-center justify-center gap-2
+         font-medium cursor-pointer
+         transition-colors duration-150 ease-in-out
+         whitespace-nowrap select-none;
+  /* Remove native button styles */
+  background: none;
+  border: none;
+  padding: 0;
+  /* Focus ring */
+  @apply focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-600;
+}
+
+.tab__label {
+  @apply leading-none;
+}
+
+/* ============================================================
+   Variants — Simple (underline)
+   ============================================================ */
+
+.tab__btn--simple {
+  @apply text-aeblack-600 border-b-2 border-transparent;
+  @apply hover:text-primary-700 hover:border-primary-300;
+  /* Negative margin so the border sits on the tablist border */
+  margin-bottom: -2px;
+}
+
+.tab__btn--simple.tab__btn--active {
+  @apply text-primary-700 border-primary-600;
+}
+
+/* ============================================================
+   Variants — Segmented (button-group style)
+   ============================================================ */
+
+.tab__btn--segmented {
+  @apply text-aeblack-600 rounded-md;
+  @apply hover:text-aeblack-900;
+}
+
+.tab__btn--segmented.tab__btn--active {
+  @apply bg-white text-aeblack-900 shadow-sm;
+}
+
+/* ============================================================
+   Variants — Pill
+   ============================================================ */
+
+.tab__btn--pill {
+  @apply text-aeblack-600 rounded-full border border-transparent;
+  @apply hover:bg-neutral-100 hover:text-aeblack-900;
+}
+
+.tab__btn--pill.tab__btn--active {
+  @apply bg-primary-50 text-primary-700 border-primary-200;
+}
+
+/* ============================================================
+   Disabled
+   ============================================================ */
+
+.tab__btn--disabled {
+  @apply opacity-40 cursor-not-allowed;
+  pointer-events: none;
+}
+
+/* ============================================================
+   Sizes — sm
+   ============================================================ */
+
+.tab__btn--sm.tab__btn--simple {
+  @apply pb-2 pt-0.5 px-2 text-sm;
+}
+
+.tab__btn--sm.tab__btn--segmented {
+  @apply px-3 py-1 text-sm;
+}
+
+.tab__btn--sm.tab__btn--pill {
+  @apply px-3 py-1 text-sm;
+}
+
+/* ============================================================
+   Sizes — base
+   ============================================================ */
+
+.tab__btn--base.tab__btn--simple {
+  @apply pb-3 pt-1 px-3 text-base;
+}
+
+.tab__btn--base.tab__btn--segmented {
+  @apply px-4 py-1.5 text-base;
+}
+
+.tab__btn--base.tab__btn--pill {
+  @apply px-4 py-2 text-base;
+}
+
+/* ============================================================
+   Sizes — lg
+   ============================================================ */
+
+.tab__btn--lg.tab__btn--simple {
+  @apply pb-4 pt-1.5 px-4 text-lg;
+}
+
+.tab__btn--lg.tab__btn--segmented {
+  @apply px-5 py-2 text-lg;
+}
+
+.tab__btn--lg.tab__btn--pill {
+  @apply px-5 py-2.5 text-lg;
+}
+
+/* ============================================================
+   Icon sizing
+   ============================================================ */
+
+.tab__btn svg {
+  @apply w-4 h-4 shrink-0;
+}
+
+.tab__btn--lg svg {
+  @apply w-5 h-5;
+}
+
+.tab__btn--sm svg {
+  @apply w-3.5 h-3.5;
+}

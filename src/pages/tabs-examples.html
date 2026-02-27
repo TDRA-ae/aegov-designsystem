@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tabs Examples - AEGOV Design System</title>
+
+  <!-- Design System -->
+  <script type="module" src="/build/aegov.esm.js"></script>
+  <script nomodule src="/build/aegov.js"></script>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: #f1f5f9;
+      min-height: 100vh;
+      padding: 2rem 1.5rem;
+      color: #1e293b;
+    }
+
+    .page-container { max-width: 960px; margin: 0 auto; }
+
+    /* Header */
+    .page-header {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+    .page-header h1 {
+      font-size: 2rem;
+      font-weight: 700;
+      color: #0f172a;
+      margin-bottom: 0.5rem;
+    }
+    .page-header p {
+      font-size: 1rem;
+      color: #475569;
+    }
+
+    /* Example sections */
+    .example-section {
+      background: #fff;
+      border-radius: 1rem;
+      padding: 2rem;
+      margin-bottom: 2rem;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+    }
+    .example-section h2 {
+      font-size: 1.125rem;
+      font-weight: 600;
+      color: #0f172a;
+      margin-bottom: 0.375rem;
+    }
+    .example-section .description {
+      font-size: 0.875rem;
+      color: #64748b;
+      margin-bottom: 1.5rem;
+    }
+
+    /* Demo grid for side-by-side examples */
+    .demo-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+    }
+    @media (max-width: 640px) {
+      .demo-grid { grid-template-columns: 1fr; }
+    }
+
+    /* Demo card within grid */
+    .demo-card {
+      border: 1px solid #e2e8f0;
+      border-radius: 0.75rem;
+      padding: 1.25rem;
+    }
+    .demo-card h3 {
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: #94a3b8;
+      margin-bottom: 1rem;
+    }
+
+    /* Event log */
+    .event-log {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 0.5rem;
+      padding: 0.75rem 1rem;
+      font-size: 0.8125rem;
+      font-family: 'Roboto Mono', monospace;
+      color: #475569;
+      margin-top: 1rem;
+      min-height: 3rem;
+    }
+    .event-log .log-entry {
+      padding: 0.25rem 0;
+      border-bottom: 1px solid #e2e8f0;
+      color: #0f172a;
+    }
+    .event-log .log-entry:last-child { border-bottom: none; }
+
+    /* Panel content demo */
+    .panel-content {
+      padding: 0.25rem 0;
+      color: #475569;
+      font-size: 0.875rem;
+      line-height: 1.6;
+    }
+    .panel-content h4 {
+      font-weight: 600;
+      color: #0f172a;
+      margin-bottom: 0.5rem;
+    }
+
+    /* Separator */
+    .section-sep {
+      border: none;
+      border-top: 1px solid #e2e8f0;
+      margin: 1.5rem 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="page-container">
+
+    <!-- Header -->
+    <div class="page-header">
+      <h1>Tabs Component</h1>
+      <p>Organizes related content into separate panels within a single container.</p>
+    </div>
+
+    <!-- ------------------------------------------------------------------ 1. Simple Tabs -->
+    <div class="example-section">
+      <h2>Simple Tabs (Underline)</h2>
+      <p class="description">Default variant. A clean underline style tabs ideal for page-level content sections.</p>
+
+      <aegov-tabs default-active-tab="overview" variant="simple">
+        <aegov-tab slot="tabs" tab-id="overview">Overview</aegov-tab>
+        <aegov-tab slot="tabs" tab-id="features">Features</aegov-tab>
+        <aegov-tab slot="tabs" tab-id="specs">Specifications</aegov-tab>
+        <aegov-tab slot="tabs" tab-id="reviews">Reviews</aegov-tab>
+
+        <aegov-tab-panel tab-id="overview">
+          <div class="panel-content">
+            <h4>Product Overview</h4>
+            <p>This product delivers exceptional performance with a sleek design. Built for professionals who demand reliability and efficiency in their daily workflows.</p>
+          </div>
+        </aegov-tab-panel>
+        <aegov-tab-panel tab-id="features">
+          <div class="panel-content">
+            <h4>Key Features</h4>
+            <p>Advanced technology meets user-friendly interface. Includes automatic updates, cloud sync, multi-device support, and enterprise-grade security.</p>
+          </div>
+        </aegov-tab-panel>
+        <aegov-tab-panel tab-id="specs">
+          <div class="panel-content">
+            <h4>Technical Specifications</h4>
+            <p>Weight: 1.2kg — Dimensions: 30 × 20 × 1.5cm — Battery: 12hr — Connectivity: Wi-Fi 6, Bluetooth 5.2.</p>
+          </div>
+        </aegov-tab-panel>
+        <aegov-tab-panel tab-id="reviews">
+          <div class="panel-content">
+            <h4>Customer Reviews</h4>
+            <p>★★★★★ "Outstanding product! The build quality is excellent and performance exceeds expectations." — Verified Buyer</p>
+          </div>
+        </aegov-tab-panel>
+      </aegov-tabs>
+    </div>
+
+    <!-- ------------------------------------------------------------------ 2. Segmented Tabs -->
+    <div class="example-section">
+      <h2>Segmented Tabs</h2>
+      <p class="description">Button-group style tabs ideal for toggling between different views within a container.</p>
+
+      <aegov-tabs default-active-tab="monthly" variant="segmented">
+        <aegov-tab slot="tabs" tab-id="daily">Daily</aegov-tab>
+        <aegov-tab slot="tabs" tab-id="weekly">Weekly</aegov-tab>
+        <aegov-tab slot="tabs" tab-id="monthly">Monthly</aegov-tab>
+        <aegov-tab slot="tabs" tab-id="yearly">Yearly</aegov-tab>
+
+        <aegov-tab-panel tab-id="daily">
+          <div class="panel-content">
+            <h4>Daily Statistics</h4>
+            <p>Today: 1,247 visitors — 342 conversions — Revenue: AED 8,400</p>
+          </div>
+        </aegov-tab-panel>
+        <aegov-tab-panel tab-id="weekly">
+          <div class="panel-content">
+            <h4>Weekly Statistics</h4>
+            <p>This week: 8,930 visitors — 2,115 conversions — Revenue: AED 58,200</p>
+          </div>
+        </aegov-tab-panel>
+        <aegov-tab-panel tab-id="monthly">
+          <div class="panel-content">
+            <h4>Monthly Statistics</h4>
+            <p>This month: 38,450 visitors — 9,620 conversions — Revenue: AED 254,000</p>
+          </div>
+        </aegov-tab-panel>
+        <aegov-tab-panel tab-id="yearly">
+          <div class="panel-content">
+            <h4>Yearly Statistics</h4>
+            <p>This year: 421,000 visitors — 105,000 conversions — Revenue: AED 2.8M</p>
+          </div>
+        </aegov-tab-panel>
+      </aegov-tabs>
+    </div>
+
+    <!-- ------------------------------------------------------------------ 3. Pill Tabs -->
+    <div class="example-section">
+      <h2>Pill Tabs</h2>
+      <p class="description">Visually separated pill-shaped tabs for a distinct look.</p>
+
+      <aegov-tabs default-active-tab="all" variant="pill">
+        <aegov-tab slot="tabs" tab-id="all">All</aegov-tab>
+        <aegov-tab slot="tabs" tab-id="active">Active</aegov-tab>
+        <aegov-tab slot="tabs" tab-id="pending">Pending</aegov-tab>
+        <aegov-tab slot="tabs" tab-id="archived">Archived</aegov-tab>
+
+        <aegov-tab-panel tab-id="all">
+          <div class="panel-content">
+            <p>Showing all 156 records across all statuses.</p>
+          </div>
+        </aegov-tab-panel>
+        <aegov-tab-panel tab-id="active">
+          <div class="panel-content">
+            <p>Showing 89 active records currently in progress.</p>
+          </div>
+        </aegov-tab-panel>
+        <aegov-tab-panel tab-id="pending">
+          <div class="panel-content">
+            <p>Showing 34 records awaiting approval or action.</p>
+          </div>
+        </aegov-tab-panel>
+        <aegov-tab-panel tab-id="archived">
+          <div class="panel-content">
+            <p>Showing 33 archived records from previous periods.</p>
+          </div>
+        </aegov-tab-panel>
+      </aegov-tabs>
+    </div>
+
+    <!-- ------------------------------------------------------------------ 4. Icons in Tabs -->
+    <div class="example-section">
+      <h2>Tabs with Icons</h2>
+      <p class="description">Use the <code>slot="icon"</code> for leading icons and <code>slot="icon-end"</code> for trailing icons.</p>
+
+      <div class="demo-grid">
+        <div class="demo-card">
+          <h3>Simple with Leading Icons</h3>
+          <aegov-tabs default-active-tab="profile" variant="simple">
+            <aegov-tab slot="tabs" tab-id="profile">
+              <svg slot="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path fill-rule="evenodd" d="M7.5 6a4.5 4.5 0 1 1 9 0 4.5 4.5 0 0 1-9 0ZM3.751 20.105a8.25 8.25 0 0 1 16.498 0 .75.75 0 0 1-.437.695A18.683 18.683 0 0 1 12 22.5c-2.786 0-5.433-.608-7.812-1.7a.75.75 0 0 1-.437-.695Z" clip-rule="evenodd" /></svg>
+              Profile
+            </aegov-tab>
+            <aegov-tab slot="tabs" tab-id="security">
+              <svg slot="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path fill-rule="evenodd" d="M12 1.5a5.25 5.25 0 0 0-5.25 5.25v3a3 3 0 0 0-3 3v6.75a3 3 0 0 0 3 3h10.5a3 3 0 0 0 3-3v-6.75a3 3 0 0 0-3-3v-3c0-2.9-2.35-5.25-5.25-5.25Zm3.75 8.25v-3a3.75 3.75 0 1 0-7.5 0v3h7.5Z" clip-rule="evenodd" /></svg>
+              Security
+            </aegov-tab>
+            <aegov-tab slot="tabs" tab-id="notifications2">
+              <svg slot="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path fill-rule="evenodd" d="M5.25 9a6.75 6.75 0 0 1 13.5 0v.75c0 2.123.8 4.057 2.118 5.52a.75.75 0 0 1-.297 1.206c-1.544.57-3.16.99-4.831 1.243a3.75 3.75 0 1 1-7.48 0 24.585 24.585 0 0 1-4.831-1.244.75.75 0 0 1-.297-1.206A6.988 6.988 0 0 0 5.25 9.75V9Z" clip-rule="evenodd" /></svg>
+              Alerts
+            </aegov-tab>
+
+            <aegov-tab-panel tab-id="profile">
+              <div class="panel-content"><p>Manage your public profile, photo, and personal details.</p></div>
+            </aegov-tab-panel>
+            <aegov-tab-panel tab-id="security">
+              <div class="panel-content"><p>Update your password, two-factor authentication, and active sessions.</p></div>
+            </aegov-tab-panel>
+            <aegov-tab-panel tab-id="notifications2">
+              <div class="panel-content"><p>Configure email, push, and SMS notification preferences.</p></div>
+            </aegov-tab-panel>
+          </aegov-tabs>
+        </div>
+
+        <div class="demo-card">
+          <h3>Pill with Trailing Icons (Badge counts)</h3>
+          <aegov-tabs default-active-tab="inbox" variant="pill">
+            <aegov-tab slot="tabs" tab-id="inbox">
+              Inbox
+              <aegov-badge slot="icon-end" color="primary" size="sm">12</aegov-badge>
+            </aegov-tab>
+            <aegov-tab slot="tabs" tab-id="sent">Sent</aegov-tab>
+            <aegov-tab slot="tabs" tab-id="drafts">
+              Drafts
+              <aegov-badge slot="icon-end" color="default" size="sm">3</aegov-badge>
+            </aegov-tab>
+
+            <aegov-tab-panel tab-id="inbox">
+              <div class="panel-content"><p>You have 12 unread messages in your inbox.</p></div>
+            </aegov-tab-panel>
+            <aegov-tab-panel tab-id="sent">
+              <div class="panel-content"><p>Your sent messages appear here.</p></div>
+            </aegov-tab-panel>
+            <aegov-tab-panel tab-id="drafts">
+              <div class="panel-content"><p>You have 3 messages saved as drafts.</p></div>
+            </aegov-tab-panel>
+          </aegov-tabs>
+        </div>
+      </div>
+    </div>
+
+    <!-- ------------------------------------------------------------------ 5. Sizes -->
+    <div class="example-section">
+      <h2>Sizes</h2>
+      <p class="description">Tabs support three sizes: <code>sm</code>, <code>base</code> (default), and <code>lg</code>.</p>
+
+      <div class="demo-card" style="margin-bottom:1.5rem;">
+        <h3>Small (sm)</h3>
+        <aegov-tabs default-active-tab="a" variant="simple" size="sm">
+          <aegov-tab slot="tabs" tab-id="a">Dashboard</aegov-tab>
+          <aegov-tab slot="tabs" tab-id="b">Reports</aegov-tab>
+          <aegov-tab slot="tabs" tab-id="c">Settings</aegov-tab>
+          <aegov-tab-panel tab-id="a"><div class="panel-content"><p>Small tabs dashboard panel.</p></div></aegov-tab-panel>
+          <aegov-tab-panel tab-id="b"><div class="panel-content"><p>Small tabs reports panel.</p></div></aegov-tab-panel>
+          <aegov-tab-panel tab-id="c"><div class="panel-content"><p>Small tabs settings panel.</p></div></aegov-tab-panel>
+        </aegov-tabs>
+      </div>
+
+      <div class="demo-card" style="margin-bottom:1.5rem;">
+        <h3>Base (default)</h3>
+        <aegov-tabs default-active-tab="a" variant="segmented" size="base">
+          <aegov-tab slot="tabs" tab-id="a">Dashboard</aegov-tab>
+          <aegov-tab slot="tabs" tab-id="b">Reports</aegov-tab>
+          <aegov-tab slot="tabs" tab-id="c">Settings</aegov-tab>
+          <aegov-tab-panel tab-id="a"><div class="panel-content"><p>Base tabs dashboard panel.</p></div></aegov-tab-panel>
+          <aegov-tab-panel tab-id="b"><div class="panel-content"><p>Base tabs reports panel.</p></div></aegov-tab-panel>
+          <aegov-tab-panel tab-id="c"><div class="panel-content"><p>Base tabs settings panel.</p></div></aegov-tab-panel>
+        </aegov-tabs>
+      </div>
+
+      <div class="demo-card">
+        <h3>Large (lg)</h3>
+        <aegov-tabs default-active-tab="a" variant="pill" size="lg">
+          <aegov-tab slot="tabs" tab-id="a">Dashboard</aegov-tab>
+          <aegov-tab slot="tabs" tab-id="b">Reports</aegov-tab>
+          <aegov-tab slot="tabs" tab-id="c">Settings</aegov-tab>
+          <aegov-tab-panel tab-id="a"><div class="panel-content"><p>Large tabs dashboard panel.</p></div></aegov-tab-panel>
+          <aegov-tab-panel tab-id="b"><div class="panel-content"><p>Large tabs reports panel.</p></div></aegov-tab-panel>
+          <aegov-tab-panel tab-id="c"><div class="panel-content"><p>Large tabs settings panel.</p></div></aegov-tab-panel>
+        </aegov-tabs>
+      </div>
+    </div>
+
+    <!-- ------------------------------------------------------------------ 6. Disabled Tabs -->
+    <div class="example-section">
+      <h2>Disabled Tabs</h2>
+      <p class="description">Individual tabs can be disabled to prevent interaction while keeping them visible.</p>
+
+      <div class="demo-grid">
+        <div class="demo-card">
+          <h3>Simple with disabled tab</h3>
+          <aegov-tabs default-active-tab="t1" variant="simple">
+            <aegov-tab slot="tabs" tab-id="t1">Available</aegov-tab>
+            <aegov-tab slot="tabs" tab-id="t2" disabled>Unavailable</aegov-tab>
+            <aegov-tab slot="tabs" tab-id="t3">Available</aegov-tab>
+            <aegov-tab-panel tab-id="t1"><div class="panel-content"><p>This tab is accessible and has content.</p></div></aegov-tab-panel>
+            <aegov-tab-panel tab-id="t2"><div class="panel-content"><p>This panel is not accessible (tab disabled).</p></div></aegov-tab-panel>
+            <aegov-tab-panel tab-id="t3"><div class="panel-content"><p>This tab is also accessible.</p></div></aegov-tab-panel>
+          </aegov-tabs>
+        </div>
+
+        <div class="demo-card">
+          <h3>Segmented with disabled tabs</h3>
+          <aegov-tabs default-active-tab="u1" variant="segmented">
+            <aegov-tab slot="tabs" tab-id="u1">Week</aegov-tab>
+            <aegov-tab slot="tabs" tab-id="u2" disabled>Month</aegov-tab>
+            <aegov-tab slot="tabs" tab-id="u3" disabled>Quarter</aegov-tab>
+            <aegov-tab slot="tabs" tab-id="u4">Year</aegov-tab>
+            <aegov-tab-panel tab-id="u1"><div class="panel-content"><p>Weekly data available.</p></div></aegov-tab-panel>
+            <aegov-tab-panel tab-id="u2"><div class="panel-content"><p>Monthly data not available.</p></div></aegov-tab-panel>
+            <aegov-tab-panel tab-id="u3"><div class="panel-content"><p>Quarterly data not available.</p></div></aegov-tab-panel>
+            <aegov-tab-panel tab-id="u4"><div class="panel-content"><p>Yearly data available.</p></div></aegov-tab-panel>
+          </aegov-tabs>
+        </div>
+      </div>
+    </div>
+
+    <!-- ------------------------------------------------------------------ 7. Scrollable Tabs -->
+    <div class="example-section">
+      <h2>Scrollable Tabs with Faded Edge</h2>
+      <p class="description">When tabs overflow the container, enable <code>scrollable</code> to allow horizontal scrolling with a gradient fade indicating hidden content.</p>
+
+      <aegov-tabs default-active-tab="tab6" variant="simple" scrollable>
+        <aegov-tab slot="tabs" tab-id="tab1">Dashboard</aegov-tab>
+        <aegov-tab slot="tabs" tab-id="tab2">Analytics</aegov-tab>
+        <aegov-tab slot="tabs" tab-id="tab3">Orders</aegov-tab>
+        <aegov-tab slot="tabs" tab-id="tab4">Customers</aegov-tab>
+        <aegov-tab slot="tabs" tab-id="tab5">Products</aegov-tab>
+        <aegov-tab slot="tabs" tab-id="tab6">Inventory</aegov-tab>
+        <aegov-tab slot="tabs" tab-id="tab7">Shipping</aegov-tab>
+        <aegov-tab slot="tabs" tab-id="tab8">Reports</aegov-tab>
+        <aegov-tab slot="tabs" tab-id="tab9">Marketing</aegov-tab>
+        <aegov-tab slot="tabs" tab-id="tab10">Integrations</aegov-tab>
+        <aegov-tab slot="tabs" tab-id="tab11">Settings</aegov-tab>
+
+        <aegov-tab-panel tab-id="tab1"><div class="panel-content"><p>Dashboard overview panel.</p></div></aegov-tab-panel>
+        <aegov-tab-panel tab-id="tab2"><div class="panel-content"><p>Analytics and reporting panel.</p></div></aegov-tab-panel>
+        <aegov-tab-panel tab-id="tab3"><div class="panel-content"><p>Orders management panel.</p></div></aegov-tab-panel>
+        <aegov-tab-panel tab-id="tab4"><div class="panel-content"><p>Customer directory panel.</p></div></aegov-tab-panel>
+        <aegov-tab-panel tab-id="tab5"><div class="panel-content"><p>Product catalog panel.</p></div></aegov-tab-panel>
+        <aegov-tab-panel tab-id="tab6"><div class="panel-content"><p>Inventory management panel. You scrolled to the middle!</p></div></aegov-tab-panel>
+        <aegov-tab-panel tab-id="tab7"><div class="panel-content"><p>Shipping configuration panel.</p></div></aegov-tab-panel>
+        <aegov-tab-panel tab-id="tab8"><div class="panel-content"><p>Reports and exports panel.</p></div></aegov-tab-panel>
+        <aegov-tab-panel tab-id="tab9"><div class="panel-content"><p>Marketing campaigns panel.</p></div></aegov-tab-panel>
+        <aegov-tab-panel tab-id="tab10"><div class="panel-content"><p>Third-party integrations panel.</p></div></aegov-tab-panel>
+        <aegov-tab-panel tab-id="tab11"><div class="panel-content"><p>Account settings panel.</p></div></aegov-tab-panel>
+      </aegov-tabs>
+    </div>
+
+    <!-- ------------------------------------------------------------------ 8. Stretch Tabs -->
+    <div class="example-section">
+      <h2>Stretch (Even Distribution)</h2>
+      <p class="description">Add the <code>stretch</code> attribute to distribute tabs evenly and fill the full width of the container. Works with all variants.</p>
+
+      <h3 style="font-size:0.875rem;font-weight:600;color:#475569;margin:0 0 0.75rem;">Simple — stretch</h3>
+      <aegov-tabs default-active-tab="str-overview" variant="simple" stretch>
+        <aegov-tab slot="tabs" tab-id="str-overview">Overview</aegov-tab>
+        <aegov-tab slot="tabs" tab-id="str-details">Details</aegov-tab>
+        <aegov-tab slot="tabs" tab-id="str-activity">Activity</aegov-tab>
+        <aegov-tab-panel tab-id="str-overview"><div class="panel-content"><p>Overview content.</p></div></aegov-tab-panel>
+        <aegov-tab-panel tab-id="str-details"><div class="panel-content"><p>Details content.</p></div></aegov-tab-panel>
+        <aegov-tab-panel tab-id="str-activity"><div class="panel-content"><p>Activity content.</p></div></aegov-tab-panel>
+      </aegov-tabs>
+
+      <h3 style="font-size:0.875rem;font-weight:600;color:#475569;margin:1.5rem 0 0.75rem;">Segmented — stretch</h3>
+      <aegov-tabs default-active-tab="str-list" variant="segmented" stretch>
+        <aegov-tab slot="tabs" tab-id="str-list">List View</aegov-tab>
+        <aegov-tab slot="tabs" tab-id="str-grid">Grid View</aegov-tab>
+        <aegov-tab slot="tabs" tab-id="str-map">Map View</aegov-tab>
+        <aegov-tab-panel tab-id="str-list"><div class="panel-content"><p>List view content.</p></div></aegov-tab-panel>
+        <aegov-tab-panel tab-id="str-grid"><div class="panel-content"><p>Grid view content.</p></div></aegov-tab-panel>
+        <aegov-tab-panel tab-id="str-map"><div class="panel-content"><p>Map view content.</p></div></aegov-tab-panel>
+      </aegov-tabs>
+
+      <h3 style="font-size:0.875rem;font-weight:600;color:#475569;margin:1.5rem 0 0.75rem;">Pill — stretch</h3>
+      <aegov-tabs default-active-tab="str-all" variant="pill" stretch>
+        <aegov-tab slot="tabs" tab-id="str-all">All</aegov-tab>
+        <aegov-tab slot="tabs" tab-id="str-active">Active</aegov-tab>
+        <aegov-tab slot="tabs" tab-id="str-archived">Archived</aegov-tab>
+        <aegov-tab-panel tab-id="str-all"><div class="panel-content"><p>All items.</p></div></aegov-tab-panel>
+        <aegov-tab-panel tab-id="str-active"><div class="panel-content"><p>Active items only.</p></div></aegov-tab-panel>
+        <aegov-tab-panel tab-id="str-archived"><div class="panel-content"><p>Archived items only.</p></div></aegov-tab-panel>
+      </aegov-tabs>
+    </div>
+
+    <!-- ------------------------------------------------------------------ 9. Event Handling -->
+    <div class="example-section">
+      <h2>Event Handling</h2>
+      <p class="description">The <code>aegovTabChange</code> event fires with the new tab id whenever the active tab changes.</p>
+
+      <aegov-tabs id="event-demo" default-active-tab="home" variant="simple">
+        <aegov-tab slot="tabs" tab-id="home">Home</aegov-tab>
+        <aegov-tab slot="tabs" tab-id="work">Work</aegov-tab>
+        <aegov-tab slot="tabs" tab-id="personal">Personal</aegov-tab>
+        <aegov-tab slot="tabs" tab-id="archived2" disabled>Archived</aegov-tab>
+
+        <aegov-tab-panel tab-id="home"><div class="panel-content"><p>Home content panel.</p></div></aegov-tab-panel>
+        <aegov-tab-panel tab-id="work"><div class="panel-content"><p>Work content panel.</p></div></aegov-tab-panel>
+        <aegov-tab-panel tab-id="personal"><div class="panel-content"><p>Personal content panel.</p></div></aegov-tab-panel>
+        <aegov-tab-panel tab-id="archived2"><div class="panel-content"><p>Archived panel (disabled).</p></div></aegov-tab-panel>
+      </aegov-tabs>
+
+      <div class="event-log" id="event-log">
+        <em style="color:#94a3b8">Tab changes will be logged here...</em>
+      </div>
+
+      <script>
+        document.addEventListener('DOMContentLoaded', () => {
+          const tabs = document.getElementById('event-demo');
+          const log = document.getElementById('event-log');
+          let count = 0;
+          tabs.addEventListener('aegovTabChange', (e) => {
+            count++;
+            const entry = document.createElement('div');
+            entry.className = 'log-entry';
+            entry.textContent = `[${count}] aegovTabChange → detail: "${e.detail}"`;
+            if (log.querySelector('em')) log.innerHTML = '';
+            log.prepend(entry);
+          });
+        });
+      </script>
+    </div>
+
+    <!-- ------------------------------------------------------------------ 10. RTL Support -->
+    <div class="example-section">
+      <h2>RTL Support</h2>
+      <p class="description">Arrow keys reverse direction in RTL layouts. Scrollable faded edges also mirror correctly.</p>
+
+      <div class="demo-grid">
+        <div class="demo-card">
+          <h3>LTR (Left-to-Right)</h3>
+          <aegov-tabs default-active-tab="ltr1" variant="simple">
+            <aegov-tab slot="tabs" tab-id="ltr1">Home</aegov-tab>
+            <aegov-tab slot="tabs" tab-id="ltr2">About</aegov-tab>
+            <aegov-tab slot="tabs" tab-id="ltr3">Contact</aegov-tab>
+            <aegov-tab-panel tab-id="ltr1"><div class="panel-content"><p>Arrow Right → moves forward in LTR.</p></div></aegov-tab-panel>
+            <aegov-tab-panel tab-id="ltr2"><div class="panel-content"><p>About panel.</p></div></aegov-tab-panel>
+            <aegov-tab-panel tab-id="ltr3"><div class="panel-content"><p>Contact panel.</p></div></aegov-tab-panel>
+          </aegov-tabs>
+        </div>
+
+        <div class="demo-card" dir="rtl">
+          <h3>RTL (Right-to-Left)</h3>
+          <aegov-tabs default-active-tab="rtl1" variant="simple">
+            <aegov-tab slot="tabs" tab-id="rtl1">الرئيسية</aegov-tab>
+            <aegov-tab slot="tabs" tab-id="rtl2">عن الخدمة</aegov-tab>
+            <aegov-tab slot="tabs" tab-id="rtl3">اتصل بنا</aegov-tab>
+            <aegov-tab-panel tab-id="rtl1"><div class="panel-content"><p>← السهم الأيسر يتحرك للأمام في اتجاه RTL.</p></div></aegov-tab-panel>
+            <aegov-tab-panel tab-id="rtl2"><div class="panel-content"><p>لوحة عن الخدمة.</p></div></aegov-tab-panel>
+            <aegov-tab-panel tab-id="rtl3"><div class="panel-content"><p>لوحة الاتصال.</p></div></aegov-tab-panel>
+          </aegov-tabs>
+        </div>
+      </div>
+    </div>
+
+    <!-- ------------------------------------------------------------------ 11. Accessibility Notes -->
+    <div class="example-section">
+      <h2>Keyboard Navigation</h2>
+      <p class="description">Full ARIA tabs pattern implemented for screen reader and keyboard accessibility.</p>
+
+      <table style="width:100%; font-size:0.875rem; border-collapse:collapse;">
+        <thead>
+          <tr style="border-bottom:2px solid #e2e8f0; text-align:left;">
+            <th style="padding:0.5rem 1rem 0.5rem 0; color:#0f172a; font-weight:600;">Key</th>
+            <th style="padding:0.5rem 0; color:#0f172a; font-weight:600;">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr style="border-bottom:1px solid #e2e8f0;">
+            <td style="padding:0.6rem 1rem 0.6rem 0;"><kbd>Tab</kbd></td>
+            <td style="padding:0.6rem 0; color:#475569;">Move focus into the active tab, then Tab again to enter the panel</td>
+          </tr>
+          <tr style="border-bottom:1px solid #e2e8f0;">
+            <td style="padding:0.6rem 1rem 0.6rem 0;"><kbd>→</kbd> / <kbd>←</kbd></td>
+            <td style="padding:0.6rem 0; color:#475569;">Move between tabs (cycles at ends). Direction reverses in RTL</td>
+          </tr>
+          <tr style="border-bottom:1px solid #e2e8f0;">
+            <td style="padding:0.6rem 1rem 0.6rem 0;"><kbd>Home</kbd></td>
+            <td style="padding:0.6rem 0; color:#475569;">Jump to first non-disabled tab</td>
+          </tr>
+          <tr>
+            <td style="padding:0.6rem 1rem 0.6rem 0;"><kbd>End</kbd></td>
+            <td style="padding:0.6rem 0; color:#475569;">Jump to last non-disabled tab</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div><!-- /page-container -->
+</body>
+</html>

@@ -5,8 +5,8 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
-import { AccordionIcon, AvatarSize, AvatarStatus, AvatarVariant, BadgeAppearance, BadgeColor, BadgeSize, BannerDisplay, BannerMode, BannerPosition, BannerRole, BlockquoteVariant, BreadcrumbSeparator, ButtonAppearance, ButtonGroupOrientation, ButtonSize, ButtonType, ButtonVariant, CalloutAppearance, CalloutVariant, DropdownAlign, DropdownPosition, DropdownTrigger, LinkTarget, ModalBackdropOpacity, ModalPosition, TextSize, TitleSize, TooltipAlign, TooltipPosition, TooltipTrigger } from "./utils/types";
-export { AccordionIcon, AvatarSize, AvatarStatus, AvatarVariant, BadgeAppearance, BadgeColor, BadgeSize, BannerDisplay, BannerMode, BannerPosition, BannerRole, BlockquoteVariant, BreadcrumbSeparator, ButtonAppearance, ButtonGroupOrientation, ButtonSize, ButtonType, ButtonVariant, CalloutAppearance, CalloutVariant, DropdownAlign, DropdownPosition, DropdownTrigger, LinkTarget, ModalBackdropOpacity, ModalPosition, TextSize, TitleSize, TooltipAlign, TooltipPosition, TooltipTrigger } from "./utils/types";
+import { AccordionIcon, AvatarSize, AvatarStatus, AvatarVariant, BadgeAppearance, BadgeColor, BadgeSize, BannerDisplay, BannerMode, BannerPosition, BannerRole, BlockquoteVariant, BreadcrumbSeparator, ButtonAppearance, ButtonGroupOrientation, ButtonSize, ButtonType, ButtonVariant, CalloutAppearance, CalloutVariant, DropdownAlign, DropdownPosition, DropdownTrigger, LinkTarget, ModalBackdropOpacity, ModalPosition, PaginationSize, TabSize, TabVariant, TextSize, TitleSize, TooltipAlign, TooltipPosition, TooltipTrigger } from "./utils/types";
+export { AccordionIcon, AvatarSize, AvatarStatus, AvatarVariant, BadgeAppearance, BadgeColor, BadgeSize, BannerDisplay, BannerMode, BannerPosition, BannerRole, BlockquoteVariant, BreadcrumbSeparator, ButtonAppearance, ButtonGroupOrientation, ButtonSize, ButtonType, ButtonVariant, CalloutAppearance, CalloutVariant, DropdownAlign, DropdownPosition, DropdownTrigger, LinkTarget, ModalBackdropOpacity, ModalPosition, PaginationSize, TabSize, TabVariant, TextSize, TitleSize, TooltipAlign, TooltipPosition, TooltipTrigger } from "./utils/types";
 export namespace Components {
     /**
      * Accordion component for collapsible content sections
@@ -478,6 +478,63 @@ export namespace Components {
          */
         "toggle": () => Promise<void>;
     }
+    interface AegovPagination {
+        /**
+          * Number of pages always visible at each boundary (start and end of the list).
+          * @default 1
+         */
+        "boundaryCount": number;
+        /**
+          * Currently active page (1-indexed). This is a controlled prop — you must update it on every aegovPageChange event.
+          * @default 1
+         */
+        "currentPage": number;
+        /**
+          * Disables all pagination interaction.
+          * @default false
+         */
+        "disabled": boolean;
+        /**
+          * Label for the First page button (only shown when showFirstLast is true).
+          * @default 'First'
+         */
+        "firstLabel": string;
+        /**
+          * Label for the Last page button (only shown when showFirstLast is true).
+          * @default 'Last'
+         */
+        "lastLabel": string;
+        /**
+          * Label for the Next page button.
+          * @default 'Next'
+         */
+        "nextLabel": string;
+        /**
+          * Label for the Previous page button.
+          * @default 'Previous'
+         */
+        "prevLabel": string;
+        /**
+          * Show First and Last navigation buttons alongside Previous and Next.
+          * @default false
+         */
+        "showFirstLast": boolean;
+        /**
+          * Number of sibling pages shown on each side of the current page.
+          * @default 1
+         */
+        "siblingCount": number;
+        /**
+          * Size variant of the pagination.
+          * @default 'base'
+         */
+        "size": PaginationSize;
+        /**
+          * Total number of pages.
+          * @default 1
+         */
+        "totalPages": number;
+    }
     /**
      * A separator component for visually dividing sections of content
      */
@@ -501,6 +558,99 @@ export namespace Components {
           * @default 'default'
          */
         "variant": 'default' | 'subtle';
+    }
+    /**
+     * @component aegov-tab
+     * @description A single tab trigger. Must be placed inside an aegov-tabs component
+     * with slot="tabs". Pairs with a corresponding aegov-tab-panel via matching tab-id.
+     * @example <aegov-tab slot="tabs" tab-id="profile">
+     *   <svg slot="icon" ...></svg>
+     *   Profile
+     * </aegov-tab>
+     */
+    interface AegovTab {
+        /**
+          * The currently active tab id. Set automatically by the parent aegov-tabs.
+          * @default ''
+         */
+        "activeTabId": string;
+        /**
+          * Disables this tab and its associated panel.
+          * @default false
+         */
+        "disabled": boolean;
+        /**
+          * Size of the tab. Set automatically by the parent aegov-tabs.
+          * @default 'base'
+         */
+        "size": TabSize;
+        /**
+          * Unique identifier that must match the corresponding aegov-tab-panel's tab-id.
+         */
+        "tabId": string;
+        /**
+          * Visual variant of the tabs. Set automatically by the parent aegov-tabs.
+          * @default 'simple'
+         */
+        "variant": TabVariant;
+    }
+    /**
+     * @component aegov-tab-panel
+     * @description Content panel for a single tab. Managed by a parent aegov-tabs component.
+     * Shows its content when its tab-id matches the active tab, hides otherwise.
+     * @example <aegov-tab-panel tab-id="profile">
+     *   <p>Profile settings content here</p>
+     * </aegov-tab-panel>
+     */
+    interface AegovTabPanel {
+        /**
+          * Whether this panel is currently active. Set automatically by the parent aegov-tabs.
+          * @default false
+         */
+        "active": boolean;
+        /**
+          * Unique identifier that must match the corresponding aegov-tab's tab-id.
+         */
+        "tabId": string;
+    }
+    /**
+     * @component aegov-tabs
+     * @description Tab container that organizes content into panels.
+     * Manages active tab state internally (uncontrolled) and wires up tab triggers
+     * with their corresponding panels via matching tab-id attributes.
+     * @example <aegov-tabs default-active-tab="overview" variant="simple">
+     *   <aegov-tab slot="tabs" tab-id="overview">Overview</aegov-tab>
+     *   <aegov-tab slot="tabs" tab-id="details">Details</aegov-tab>
+     *   <aegov-tab-panel tab-id="overview">Overview content</aegov-tab-panel>
+     *   <aegov-tab-panel tab-id="details">Details content</aegov-tab-panel>
+     * </aegov-tabs>
+     */
+    interface AegovTabs {
+        /**
+          * The tab-id of the tab that should be active on initial render. If not provided, the first non-disabled tab is activated.
+          * @default ''
+         */
+        "defaultActiveTab": string;
+        /**
+          * Enables horizontal scrolling when tabs overflow the container. A faded gradient edge is shown to indicate scrollable content.
+          * @default false
+         */
+        "scrollable": boolean;
+        /**
+          * Size of the tabs.
+          * @default 'base'
+         */
+        "size": TabSize;
+        /**
+          * Distributes tabs evenly to fill the full width of the container. Each tab grows equally to occupy available space.
+          * @default false
+         */
+        "stretch": boolean;
+        /**
+          * Visual style variant of the tabs. - `simple`: Underline style (default) - `segmented`: Button-group style, ideal for toggling views - `pill`: Pill-shaped individual tabs
+          * @default 'simple'
+         */
+        "variant": TabVariant;
     }
     interface AegovText {
         /**
@@ -622,6 +772,18 @@ export interface AegovLinkCustomEvent<T> extends CustomEvent<T> {
 export interface AegovModalCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLAegovModalElement;
+}
+export interface AegovPaginationCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLAegovPaginationElement;
+}
+export interface AegovTabCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLAegovTabElement;
+}
+export interface AegovTabsCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLAegovTabsElement;
 }
 declare global {
     /**
@@ -872,6 +1034,23 @@ declare global {
         prototype: HTMLAegovModalElement;
         new (): HTMLAegovModalElement;
     };
+    interface HTMLAegovPaginationElementEventMap {
+        "aegovPageChange": number;
+    }
+    interface HTMLAegovPaginationElement extends Components.AegovPagination, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLAegovPaginationElementEventMap>(type: K, listener: (this: HTMLAegovPaginationElement, ev: AegovPaginationCustomEvent<HTMLAegovPaginationElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLAegovPaginationElementEventMap>(type: K, listener: (this: HTMLAegovPaginationElement, ev: AegovPaginationCustomEvent<HTMLAegovPaginationElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLAegovPaginationElement: {
+        prototype: HTMLAegovPaginationElement;
+        new (): HTMLAegovPaginationElement;
+    };
     /**
      * A separator component for visually dividing sections of content
      */
@@ -880,6 +1059,75 @@ declare global {
     var HTMLAegovSeparatorElement: {
         prototype: HTMLAegovSeparatorElement;
         new (): HTMLAegovSeparatorElement;
+    };
+    interface HTMLAegovTabElementEventMap {
+        "aegovTabSelect": string;
+    }
+    /**
+     * @component aegov-tab
+     * @description A single tab trigger. Must be placed inside an aegov-tabs component
+     * with slot="tabs". Pairs with a corresponding aegov-tab-panel via matching tab-id.
+     * @example <aegov-tab slot="tabs" tab-id="profile">
+     *   <svg slot="icon" ...></svg>
+     *   Profile
+     * </aegov-tab>
+     */
+    interface HTMLAegovTabElement extends Components.AegovTab, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLAegovTabElementEventMap>(type: K, listener: (this: HTMLAegovTabElement, ev: AegovTabCustomEvent<HTMLAegovTabElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLAegovTabElementEventMap>(type: K, listener: (this: HTMLAegovTabElement, ev: AegovTabCustomEvent<HTMLAegovTabElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLAegovTabElement: {
+        prototype: HTMLAegovTabElement;
+        new (): HTMLAegovTabElement;
+    };
+    /**
+     * @component aegov-tab-panel
+     * @description Content panel for a single tab. Managed by a parent aegov-tabs component.
+     * Shows its content when its tab-id matches the active tab, hides otherwise.
+     * @example <aegov-tab-panel tab-id="profile">
+     *   <p>Profile settings content here</p>
+     * </aegov-tab-panel>
+     */
+    interface HTMLAegovTabPanelElement extends Components.AegovTabPanel, HTMLStencilElement {
+    }
+    var HTMLAegovTabPanelElement: {
+        prototype: HTMLAegovTabPanelElement;
+        new (): HTMLAegovTabPanelElement;
+    };
+    interface HTMLAegovTabsElementEventMap {
+        "aegovTabChange": string;
+    }
+    /**
+     * @component aegov-tabs
+     * @description Tab container that organizes content into panels.
+     * Manages active tab state internally (uncontrolled) and wires up tab triggers
+     * with their corresponding panels via matching tab-id attributes.
+     * @example <aegov-tabs default-active-tab="overview" variant="simple">
+     *   <aegov-tab slot="tabs" tab-id="overview">Overview</aegov-tab>
+     *   <aegov-tab slot="tabs" tab-id="details">Details</aegov-tab>
+     *   <aegov-tab-panel tab-id="overview">Overview content</aegov-tab-panel>
+     *   <aegov-tab-panel tab-id="details">Details content</aegov-tab-panel>
+     * </aegov-tabs>
+     */
+    interface HTMLAegovTabsElement extends Components.AegovTabs, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLAegovTabsElementEventMap>(type: K, listener: (this: HTMLAegovTabsElement, ev: AegovTabsCustomEvent<HTMLAegovTabsElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLAegovTabsElementEventMap>(type: K, listener: (this: HTMLAegovTabsElement, ev: AegovTabsCustomEvent<HTMLAegovTabsElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLAegovTabsElement: {
+        prototype: HTMLAegovTabsElement;
+        new (): HTMLAegovTabsElement;
     };
     interface HTMLAegovTextElement extends Components.AegovText, HTMLStencilElement {
     }
@@ -919,7 +1167,11 @@ declare global {
         "aegov-dropdown": HTMLAegovDropdownElement;
         "aegov-link": HTMLAegovLinkElement;
         "aegov-modal": HTMLAegovModalElement;
+        "aegov-pagination": HTMLAegovPaginationElement;
         "aegov-separator": HTMLAegovSeparatorElement;
+        "aegov-tab": HTMLAegovTabElement;
+        "aegov-tab-panel": HTMLAegovTabPanelElement;
+        "aegov-tabs": HTMLAegovTabsElement;
         "aegov-text": HTMLAegovTextElement;
         "aegov-title": HTMLAegovTitleElement;
         "aegov-tooltip": HTMLAegovTooltipElement;
@@ -1456,6 +1708,67 @@ declare namespace LocalJSX {
          */
         "preventBodyScroll"?: boolean;
     }
+    interface AegovPagination {
+        /**
+          * Number of pages always visible at each boundary (start and end of the list).
+          * @default 1
+         */
+        "boundaryCount"?: number;
+        /**
+          * Currently active page (1-indexed). This is a controlled prop — you must update it on every aegovPageChange event.
+          * @default 1
+         */
+        "currentPage"?: number;
+        /**
+          * Disables all pagination interaction.
+          * @default false
+         */
+        "disabled"?: boolean;
+        /**
+          * Label for the First page button (only shown when showFirstLast is true).
+          * @default 'First'
+         */
+        "firstLabel"?: string;
+        /**
+          * Label for the Last page button (only shown when showFirstLast is true).
+          * @default 'Last'
+         */
+        "lastLabel"?: string;
+        /**
+          * Label for the Next page button.
+          * @default 'Next'
+         */
+        "nextLabel"?: string;
+        /**
+          * Emitted when a page is selected. The event detail is the new page number (1-indexed). Update currentPage in response to this event.
+         */
+        "onAegovPageChange"?: (event: AegovPaginationCustomEvent<number>) => void;
+        /**
+          * Label for the Previous page button.
+          * @default 'Previous'
+         */
+        "prevLabel"?: string;
+        /**
+          * Show First and Last navigation buttons alongside Previous and Next.
+          * @default false
+         */
+        "showFirstLast"?: boolean;
+        /**
+          * Number of sibling pages shown on each side of the current page.
+          * @default 1
+         */
+        "siblingCount"?: number;
+        /**
+          * Size variant of the pagination.
+          * @default 'base'
+         */
+        "size"?: PaginationSize;
+        /**
+          * Total number of pages.
+          * @default 1
+         */
+        "totalPages"?: number;
+    }
     /**
      * A separator component for visually dividing sections of content
      */
@@ -1479,6 +1792,109 @@ declare namespace LocalJSX {
           * @default 'default'
          */
         "variant"?: 'default' | 'subtle';
+    }
+    /**
+     * @component aegov-tab
+     * @description A single tab trigger. Must be placed inside an aegov-tabs component
+     * with slot="tabs". Pairs with a corresponding aegov-tab-panel via matching tab-id.
+     * @example <aegov-tab slot="tabs" tab-id="profile">
+     *   <svg slot="icon" ...></svg>
+     *   Profile
+     * </aegov-tab>
+     */
+    interface AegovTab {
+        /**
+          * The currently active tab id. Set automatically by the parent aegov-tabs.
+          * @default ''
+         */
+        "activeTabId"?: string;
+        /**
+          * Disables this tab and its associated panel.
+          * @default false
+         */
+        "disabled"?: boolean;
+        /**
+          * Emitted when this tab is clicked. Bubbles up to the parent aegov-tabs.
+          * @event aegovTabSelect
+         */
+        "onAegovTabSelect"?: (event: AegovTabCustomEvent<string>) => void;
+        /**
+          * Size of the tab. Set automatically by the parent aegov-tabs.
+          * @default 'base'
+         */
+        "size"?: TabSize;
+        /**
+          * Unique identifier that must match the corresponding aegov-tab-panel's tab-id.
+         */
+        "tabId": string;
+        /**
+          * Visual variant of the tabs. Set automatically by the parent aegov-tabs.
+          * @default 'simple'
+         */
+        "variant"?: TabVariant;
+    }
+    /**
+     * @component aegov-tab-panel
+     * @description Content panel for a single tab. Managed by a parent aegov-tabs component.
+     * Shows its content when its tab-id matches the active tab, hides otherwise.
+     * @example <aegov-tab-panel tab-id="profile">
+     *   <p>Profile settings content here</p>
+     * </aegov-tab-panel>
+     */
+    interface AegovTabPanel {
+        /**
+          * Whether this panel is currently active. Set automatically by the parent aegov-tabs.
+          * @default false
+         */
+        "active"?: boolean;
+        /**
+          * Unique identifier that must match the corresponding aegov-tab's tab-id.
+         */
+        "tabId": string;
+    }
+    /**
+     * @component aegov-tabs
+     * @description Tab container that organizes content into panels.
+     * Manages active tab state internally (uncontrolled) and wires up tab triggers
+     * with their corresponding panels via matching tab-id attributes.
+     * @example <aegov-tabs default-active-tab="overview" variant="simple">
+     *   <aegov-tab slot="tabs" tab-id="overview">Overview</aegov-tab>
+     *   <aegov-tab slot="tabs" tab-id="details">Details</aegov-tab>
+     *   <aegov-tab-panel tab-id="overview">Overview content</aegov-tab-panel>
+     *   <aegov-tab-panel tab-id="details">Details content</aegov-tab-panel>
+     * </aegov-tabs>
+     */
+    interface AegovTabs {
+        /**
+          * The tab-id of the tab that should be active on initial render. If not provided, the first non-disabled tab is activated.
+          * @default ''
+         */
+        "defaultActiveTab"?: string;
+        /**
+          * Emitted when the active tab changes. Event detail contains the new active tab-id string.
+          * @event aegovTabChange
+         */
+        "onAegovTabChange"?: (event: AegovTabsCustomEvent<string>) => void;
+        /**
+          * Enables horizontal scrolling when tabs overflow the container. A faded gradient edge is shown to indicate scrollable content.
+          * @default false
+         */
+        "scrollable"?: boolean;
+        /**
+          * Size of the tabs.
+          * @default 'base'
+         */
+        "size"?: TabSize;
+        /**
+          * Distributes tabs evenly to fill the full width of the container. Each tab grows equally to occupy available space.
+          * @default false
+         */
+        "stretch"?: boolean;
+        /**
+          * Visual style variant of the tabs. - `simple`: Underline style (default) - `segmented`: Button-group style, ideal for toggling views - `pill`: Pill-shaped individual tabs
+          * @default 'simple'
+         */
+        "variant"?: TabVariant;
     }
     interface AegovText {
         /**
@@ -1573,7 +1989,11 @@ declare namespace LocalJSX {
         "aegov-dropdown": AegovDropdown;
         "aegov-link": AegovLink;
         "aegov-modal": AegovModal;
+        "aegov-pagination": AegovPagination;
         "aegov-separator": AegovSeparator;
+        "aegov-tab": AegovTab;
+        "aegov-tab-panel": AegovTabPanel;
+        "aegov-tabs": AegovTabs;
         "aegov-text": AegovText;
         "aegov-title": AegovTitle;
         "aegov-tooltip": AegovTooltip;
@@ -1621,10 +2041,43 @@ declare module "@stencil/core" {
             "aegov-dropdown": LocalJSX.AegovDropdown & JSXBase.HTMLAttributes<HTMLAegovDropdownElement>;
             "aegov-link": LocalJSX.AegovLink & JSXBase.HTMLAttributes<HTMLAegovLinkElement>;
             "aegov-modal": LocalJSX.AegovModal & JSXBase.HTMLAttributes<HTMLAegovModalElement>;
+            "aegov-pagination": LocalJSX.AegovPagination & JSXBase.HTMLAttributes<HTMLAegovPaginationElement>;
             /**
              * A separator component for visually dividing sections of content
              */
             "aegov-separator": LocalJSX.AegovSeparator & JSXBase.HTMLAttributes<HTMLAegovSeparatorElement>;
+            /**
+             * @component aegov-tab
+             * @description A single tab trigger. Must be placed inside an aegov-tabs component
+             * with slot="tabs". Pairs with a corresponding aegov-tab-panel via matching tab-id.
+             * @example <aegov-tab slot="tabs" tab-id="profile">
+             *   <svg slot="icon" ...></svg>
+             *   Profile
+             * </aegov-tab>
+             */
+            "aegov-tab": LocalJSX.AegovTab & JSXBase.HTMLAttributes<HTMLAegovTabElement>;
+            /**
+             * @component aegov-tab-panel
+             * @description Content panel for a single tab. Managed by a parent aegov-tabs component.
+             * Shows its content when its tab-id matches the active tab, hides otherwise.
+             * @example <aegov-tab-panel tab-id="profile">
+             *   <p>Profile settings content here</p>
+             * </aegov-tab-panel>
+             */
+            "aegov-tab-panel": LocalJSX.AegovTabPanel & JSXBase.HTMLAttributes<HTMLAegovTabPanelElement>;
+            /**
+             * @component aegov-tabs
+             * @description Tab container that organizes content into panels.
+             * Manages active tab state internally (uncontrolled) and wires up tab triggers
+             * with their corresponding panels via matching tab-id attributes.
+             * @example <aegov-tabs default-active-tab="overview" variant="simple">
+             *   <aegov-tab slot="tabs" tab-id="overview">Overview</aegov-tab>
+             *   <aegov-tab slot="tabs" tab-id="details">Details</aegov-tab>
+             *   <aegov-tab-panel tab-id="overview">Overview content</aegov-tab-panel>
+             *   <aegov-tab-panel tab-id="details">Details content</aegov-tab-panel>
+             * </aegov-tabs>
+             */
+            "aegov-tabs": LocalJSX.AegovTabs & JSXBase.HTMLAttributes<HTMLAegovTabsElement>;
             "aegov-text": LocalJSX.AegovText & JSXBase.HTMLAttributes<HTMLAegovTextElement>;
             "aegov-title": LocalJSX.AegovTitle & JSXBase.HTMLAttributes<HTMLAegovTitleElement>;
             /**

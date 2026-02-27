@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pagination Examples - AEGOV Design System</title>
+
+  <!-- Design System -->
+  <script type="module" src="/build/aegov.esm.js"></script>
+  <script nomodule src="/build/aegov.js"></script>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: #f1f5f9;
+      min-height: 100vh;
+      padding: 2rem 1.5rem;
+      color: #1e293b;
+    }
+
+    .page-container { max-width: 960px; margin: 0 auto; }
+
+    /* Header */
+    .page-header {
+      background: white;
+      padding: 2.5rem 3rem;
+      border-radius: 16px;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+      margin-bottom: 2rem;
+      text-align: center;
+    }
+    .page-header h1 {
+      font-family: 'Inter', sans-serif;
+      font-size: 2.5rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 0.5rem;
+    }
+    .page-header p { color: #64748b; font-size: 1.1rem; }
+
+    /* Back link */
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      color: #667eea;
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 500;
+      margin-bottom: 1.5rem;
+    }
+    .back-link:hover { text-decoration: underline; }
+
+    /* Section */
+    .section {
+      background: white;
+      border-radius: 16px;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+      margin-bottom: 2rem;
+      overflow: hidden;
+    }
+    .section-header {
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      color: white;
+      padding: 1.25rem 2rem;
+    }
+    .section-header h2 { font-family: 'Inter', sans-serif; font-size: 1.25rem; font-weight: 700; margin-bottom: 0.25rem; }
+    .section-header p { font-size: 0.9rem; opacity: 0.9; margin: 0; }
+    .section-body { padding: 2rem; }
+
+    /* Example row */
+    .example { margin-bottom: 1.75rem; }
+    .example:last-child { margin-bottom: 0; }
+    .example-label {
+      font-size: 0.8rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: #94a3b8;
+      margin-bottom: 0.75rem;
+    }
+    .example-demo {
+      padding: 1.5rem;
+      background: #f8fafc;
+      border-radius: 10px;
+      border: 1px solid #e2e8f0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .example-demo.demo-start {
+      justify-content: flex-start;
+    }
+
+    /* Code block */
+    .code-block {
+      background: #1e293b;
+      color: #e2e8f0;
+      padding: 1rem 1.25rem;
+      border-radius: 8px;
+      font-family: 'Courier New', monospace;
+      font-size: 0.82rem;
+      line-height: 1.7;
+      margin-top: 0.75rem;
+      overflow-x: auto;
+    }
+    .code-block .attr { color: #93c5fd; }
+    .code-block .val  { color: #86efac; }
+    .code-block .tag  { color: #f9a8d4; }
+
+    /* Event log */
+    .event-log {
+      background: #0f172a;
+      color: #4ade80;
+      padding: 1rem 1.25rem;
+      border-radius: 8px;
+      font-family: 'Courier New', monospace;
+      font-size: 0.82rem;
+      line-height: 1.7;
+      max-height: 180px;
+      overflow-y: auto;
+      margin-top: 1rem;
+    }
+    .event-log .log-time { color: #64748b; }
+    .event-log-empty { color: #475569; font-style: italic; }
+
+    /* Info callout */
+    .info-box {
+      background: #eff6ff;
+      border: 1px solid #bfdbfe;
+      border-radius: 8px;
+      padding: 0.875rem 1rem;
+      font-size: 0.875rem;
+      color: #1e40af;
+      margin-bottom: 1.5rem;
+    }
+    .info-box strong { font-weight: 600; }
+
+    /* RTL demo */
+    .rtl-demo {
+      direction: rtl;
+      text-align: right;
+    }
+
+    /* Two-column grid for comparisons */
+    .compare-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+    @media (max-width: 640px) {
+      .compare-grid { grid-template-columns: 1fr; }
+    }
+    .compare-card {
+      padding: 1.25rem;
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 10px;
+    }
+    .compare-card h4 {
+      font-size: 0.8rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: #94a3b8;
+      margin-bottom: 1rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="page-container">
+    <a href="/" class="back-link">← Back to Component Library</a>
+
+    <div class="page-header">
+      <h1>Pagination</h1>
+      <p>Navigate through paged content with accessible, flexible pagination controls.</p>
+    </div>
+
+    <!-- ===== 1. Basic ===== -->
+    <section class="section">
+      <div class="section-header">
+        <h2>1. Basic Pagination</h2>
+        <p>Default pagination with Previous and Next buttons and smart page range.</p>
+      </div>
+      <div class="section-body">
+        <div class="info-box">
+          <strong>Controlled component:</strong> aegov-pagination does not track the current page internally.
+          Listen to <code>aegovPageChange</code> and update <code>current-page</code> yourself.
+        </div>
+
+        <div class="example">
+          <p class="example-label">Default (10 pages, page 5)</p>
+          <div class="example-demo">
+            <aegov-pagination id="basic-demo" total-pages="10" current-page="5"></aegov-pagination>
+          </div>
+          <div class="code-block">
+            &lt;<span class="tag">aegov-pagination</span>
+              <span class="attr">total-pages</span>=<span class="val">"10"</span>
+              <span class="attr">current-page</span>=<span class="val">"5"</span>
+            &gt;&lt;/<span class="tag">aegov-pagination</span>&gt;
+          </div>
+        </div>
+
+        <div class="example">
+          <p class="example-label">First page (Previous disabled)</p>
+          <div class="example-demo">
+            <aegov-pagination total-pages="10" current-page="1"></aegov-pagination>
+          </div>
+        </div>
+
+        <div class="example">
+          <p class="example-label">Last page (Next disabled)</p>
+          <div class="example-demo">
+            <aegov-pagination total-pages="10" current-page="10"></aegov-pagination>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== 2. Show First & Last ===== -->
+    <section class="section">
+      <div class="section-header">
+        <h2>2. First &amp; Last Buttons</h2>
+        <p>Add <code>show-first-last</code> to display dedicated buttons for jumping to the first and last page.</p>
+      </div>
+      <div class="section-body">
+        <div class="example">
+          <p class="example-label">With First &amp; Last (page 5 of 20)</p>
+          <div class="example-demo">
+            <aegov-pagination total-pages="20" current-page="5" show-first-last></aegov-pagination>
+          </div>
+          <div class="code-block">
+            &lt;<span class="tag">aegov-pagination</span>
+              <span class="attr">total-pages</span>=<span class="val">"20"</span>
+              <span class="attr">current-page</span>=<span class="val">"5"</span>
+              <span class="attr">show-first-last</span>
+            &gt;&lt;/<span class="tag">aegov-pagination</span>&gt;
+          </div>
+        </div>
+
+        <div class="example">
+          <p class="example-label">On first page (First button disabled)</p>
+          <div class="example-demo">
+            <aegov-pagination total-pages="20" current-page="1" show-first-last></aegov-pagination>
+          </div>
+        </div>
+
+        <div class="example">
+          <p class="example-label">On last page (Last button disabled)</p>
+          <div class="example-demo">
+            <aegov-pagination total-pages="20" current-page="20" show-first-last></aegov-pagination>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== 3. Sizes ===== -->
+    <section class="section">
+      <div class="section-header">
+        <h2>3. Sizes</h2>
+        <p>Three size variants: <code>sm</code>, <code>base</code> (default), and <code>lg</code>.</p>
+      </div>
+      <div class="section-body">
+        <div class="example">
+          <p class="example-label">Small (sm)</p>
+          <div class="example-demo">
+            <aegov-pagination total-pages="10" current-page="5" size="sm"></aegov-pagination>
+          </div>
+          <div class="code-block">
+            &lt;<span class="tag">aegov-pagination</span> ... <span class="attr">size</span>=<span class="val">"sm"</span>&gt;&lt;/<span class="tag">aegov-pagination</span>&gt;
+          </div>
+        </div>
+
+        <div class="example">
+          <p class="example-label">Base (default)</p>
+          <div class="example-demo">
+            <aegov-pagination total-pages="10" current-page="5" size="base"></aegov-pagination>
+          </div>
+          <div class="code-block">
+            &lt;<span class="tag">aegov-pagination</span> ... <span class="attr">size</span>=<span class="val">"base"</span>&gt;&lt;/<span class="tag">aegov-pagination</span>&gt;
+          </div>
+        </div>
+
+        <div class="example">
+          <p class="example-label">Large (lg)</p>
+          <div class="example-demo">
+            <aegov-pagination total-pages="10" current-page="5" size="lg"></aegov-pagination>
+          </div>
+          <div class="code-block">
+            &lt;<span class="tag">aegov-pagination</span> ... <span class="attr">size</span>=<span class="val">"lg"</span>&gt;&lt;/<span class="tag">aegov-pagination</span>&gt;
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== 4. Ellipsis Control ===== -->
+    <section class="section">
+      <div class="section-header">
+        <h2>4. Controlling Visible Pages</h2>
+        <p>Use <code>sibling-count</code> and <code>boundary-count</code> to control the range algorithm.</p>
+      </div>
+      <div class="section-body">
+        <div class="example">
+          <p class="example-label">siblingCount=1, boundaryCount=1 (defaults, page 10 of 30)</p>
+          <div class="example-demo">
+            <aegov-pagination total-pages="30" current-page="10" sibling-count="1" boundary-count="1"></aegov-pagination>
+          </div>
+        </div>
+
+        <div class="example">
+          <p class="example-label">siblingCount=2, boundaryCount=1 (more siblings, page 10 of 30)</p>
+          <div class="example-demo">
+            <aegov-pagination total-pages="30" current-page="10" sibling-count="2" boundary-count="1"></aegov-pagination>
+          </div>
+          <div class="code-block">
+            &lt;<span class="tag">aegov-pagination</span>
+              <span class="attr">total-pages</span>=<span class="val">"30"</span>
+              <span class="attr">current-page</span>=<span class="val">"10"</span>
+              <span class="attr">sibling-count</span>=<span class="val">"2"</span>
+              <span class="attr">boundary-count</span>=<span class="val">"1"</span>
+            &gt;&lt;/<span class="tag">aegov-pagination</span>&gt;
+          </div>
+        </div>
+
+        <div class="example">
+          <p class="example-label">siblingCount=1, boundaryCount=2 (more boundaries, page 15 of 30)</p>
+          <div class="example-demo">
+            <aegov-pagination total-pages="30" current-page="15" sibling-count="1" boundary-count="2"></aegov-pagination>
+          </div>
+        </div>
+
+        <div class="example">
+          <p class="example-label">Small range — no ellipsis (5 pages)</p>
+          <div class="example-demo">
+            <aegov-pagination total-pages="5" current-page="3"></aegov-pagination>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== 5. Disabled ===== -->
+    <section class="section">
+      <div class="section-header">
+        <h2>5. Disabled State</h2>
+        <p>Use the <code>disabled</code> prop to prevent all interaction (e.g., while loading data).</p>
+      </div>
+      <div class="section-body">
+        <div class="example">
+          <p class="example-label">Disabled pagination</p>
+          <div class="example-demo">
+            <aegov-pagination total-pages="10" current-page="5" disabled></aegov-pagination>
+          </div>
+          <div class="code-block">
+            &lt;<span class="tag">aegov-pagination</span>
+              <span class="attr">total-pages</span>=<span class="val">"10"</span>
+              <span class="attr">current-page</span>=<span class="val">"5"</span>
+              <span class="attr">disabled</span>
+            &gt;&lt;/<span class="tag">aegov-pagination</span>&gt;
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== 6. Custom Labels ===== -->
+    <section class="section">
+      <div class="section-header">
+        <h2>6. Custom Labels</h2>
+        <p>Customise the text on navigation buttons for different languages or branding needs.</p>
+      </div>
+      <div class="section-body">
+        <div class="example">
+          <p class="example-label">Abbreviated English labels</p>
+          <div class="example-demo">
+            <aegov-pagination
+              total-pages="10"
+              current-page="5"
+              prev-label="Prev"
+              next-label="Next"
+              show-first-last
+              first-label="First"
+              last-label="Last">
+            </aegov-pagination>
+          </div>
+          <div class="code-block">
+            &lt;<span class="tag">aegov-pagination</span>
+              <span class="attr">prev-label</span>=<span class="val">"Prev"</span>
+              <span class="attr">next-label</span>=<span class="val">"Next"</span>
+              <span class="attr">show-first-last</span>
+              <span class="attr">first-label</span>=<span class="val">"First"</span>
+              <span class="attr">last-label</span>=<span class="val">"Last"</span>
+            &gt;&lt;/<span class="tag">aegov-pagination</span>&gt;
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== 7. RTL Support ===== -->
+    <section class="section">
+      <div class="section-header">
+        <h2>7. RTL Support</h2>
+        <p>Directional icons automatically flip in right-to-left contexts.</p>
+      </div>
+      <div class="section-body">
+        <div class="compare-grid">
+          <div class="compare-card">
+            <h4>LTR (dir="ltr")</h4>
+            <div dir="ltr">
+              <aegov-pagination total-pages="10" current-page="5"></aegov-pagination>
+            </div>
+          </div>
+          <div class="compare-card">
+            <h4>RTL (dir="rtl") — Arabic</h4>
+            <div dir="rtl">
+              <aegov-pagination
+                total-pages="10"
+                current-page="5"
+                prev-label="السابق"
+                next-label="التالي">
+              </aegov-pagination>
+            </div>
+          </div>
+        </div>
+        <div class="code-block" style="margin-top:1rem;">
+          &lt;div <span class="attr">dir</span>=<span class="val">"rtl"</span>&gt;
+            &lt;<span class="tag">aegov-pagination</span>
+              <span class="attr">total-pages</span>=<span class="val">"10"</span>
+              <span class="attr">current-page</span>=<span class="val">"5"</span>
+              <span class="attr">prev-label</span>=<span class="val">"السابق"</span>
+              <span class="attr">next-label</span>=<span class="val">"التالي"</span>
+            &gt;&lt;/<span class="tag">aegov-pagination</span>&gt;
+          &lt;/div&gt;
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== 8. Interactive Demo ===== -->
+    <section class="section">
+      <div class="section-header">
+        <h2>8. Interactive Demo</h2>
+        <p>Fully controlled pagination — click a page to see the event log update.</p>
+      </div>
+      <div class="section-body">
+        <div class="example-demo" style="flex-direction:column; gap:1rem; align-items:stretch;">
+          <div style="display:flex; justify-content:center;">
+            <aegov-pagination
+              id="interactive-demo"
+              total-pages="20"
+              current-page="1"
+              show-first-last>
+            </aegov-pagination>
+          </div>
+          <div style="text-align:center; color:#64748b; font-size:0.9rem;">
+            Showing page <strong id="interactive-page-display">1</strong> of <strong>20</strong>
+          </div>
+        </div>
+
+        <div class="event-log" id="interactive-log">
+          <span class="event-log-empty">Click a page button to see events…</span>
+        </div>
+
+        <div class="code-block">
+          <span class="tag">// JavaScript — controlled pattern</span>
+          const pagination = document.querySelector('#interactive-demo');
+          let currentPage = 1;
+
+          pagination.addEventListener('aegovPageChange', (e) => {
+            currentPage = e.detail; // e.detail is the new page number
+            pagination.setAttribute('current-page', currentPage);
+            updateUI(currentPage);
+          });
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== 9. All Sizes + First/Last ===== -->
+    <section class="section">
+      <div class="section-header">
+        <h2>9. Sizes with First &amp; Last</h2>
+        <p>Combining all features across the three available sizes.</p>
+      </div>
+      <div class="section-body">
+        <div class="example">
+          <p class="example-label">Small with First &amp; Last</p>
+          <div class="example-demo">
+            <aegov-pagination total-pages="20" current-page="10" size="sm" show-first-last></aegov-pagination>
+          </div>
+        </div>
+        <div class="example">
+          <p class="example-label">Base with First &amp; Last</p>
+          <div class="example-demo">
+            <aegov-pagination total-pages="20" current-page="10" size="base" show-first-last></aegov-pagination>
+          </div>
+        </div>
+        <div class="example">
+          <p class="example-label">Large with First &amp; Last</p>
+          <div class="example-demo">
+            <aegov-pagination total-pages="20" current-page="10" size="lg" show-first-last></aegov-pagination>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== 10. Accessibility Notes ===== -->
+    <section class="section">
+      <div class="section-header">
+        <h2>10. Accessibility</h2>
+        <p>Built to WCAG 2.1 AA standards.</p>
+      </div>
+      <div class="section-body">
+        <ul style="line-height:2; color:#374151; padding-left:1.5rem;">
+          <li>Wrapped in <code>&lt;nav aria-label="Pagination"&gt;</code> as a landmark region.</li>
+          <li>Page list uses <code>&lt;ul&gt;</code> + <code>&lt;li&gt;</code> for semantic list semantics.</li>
+          <li>Active page button carries <code>aria-current="page"</code>.</li>
+          <li>All buttons have descriptive <code>aria-label</code> values (e.g. "Go to page 3", "Go to previous page").</li>
+          <li>Disabled buttons have both the native <code>disabled</code> attribute and <code>aria-disabled="true"</code>.</li>
+          <li>Ellipsis spans are marked <code>aria-hidden="true"</code> — they are decorative only.</li>
+          <li>SVG icons carry <code>aria-hidden="true"</code>; meaning comes from the button's <code>aria-label</code>.</li>
+          <li>Directional icons flip with CSS <code>transform: scaleX(-1)</code> in RTL contexts.</li>
+          <li>Keyboard-navigable: Tab through buttons, Enter / Space to activate.</li>
+        </ul>
+      </div>
+    </section>
+
+  </div><!-- /page-container -->
+
+  <script>
+    // ------------------------------------------------------------------ Interactive Demo
+    (function () {
+      const demo = document.getElementById('interactive-demo');
+      const pageDisplay = document.getElementById('interactive-page-display');
+      const log = document.getElementById('interactive-log');
+      let logEmpty = true;
+
+      function logEvent(msg) {
+        if (logEmpty) { log.innerHTML = ''; logEmpty = false; }
+        const time = new Date().toLocaleTimeString();
+        const entry = document.createElement('div');
+        entry.innerHTML = `<span class="log-time">[${time}]</span> ${msg}`;
+        log.prepend(entry);
+      }
+
+      demo.addEventListener('aegovPageChange', function (e) {
+        const newPage = e.detail;
+        // Controlled: update the attribute so the component reflects the change
+        demo.setAttribute('current-page', newPage);
+        pageDisplay.textContent = newPage;
+        logEvent(`aegovPageChange → page <strong>${newPage}</strong>`);
+      });
+    })();
+
+    // ------------------------------------------------------------------ Basic Demo (self-contained)
+    (function () {
+      const demo = document.getElementById('basic-demo');
+      if (!demo) return;
+      demo.addEventListener('aegovPageChange', function (e) {
+        demo.setAttribute('current-page', e.detail);
+      });
+    })();
+  </script>
+</body>
+</html>

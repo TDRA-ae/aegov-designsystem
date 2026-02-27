@@ -1,0 +1,147 @@
+/* ============================================================
+   aegov-pagination
+   ============================================================ */
+
+:host {
+  @apply block;
+}
+
+/* ---- Container ---- */
+
+.pagination {
+  @apply flex items-center;
+}
+
+.pagination__list {
+  @apply flex flex-wrap items-center gap-1 list-none m-0 p-0;
+}
+
+.pagination__item {
+  @apply flex items-center;
+}
+
+/* ---- Base button ---- */
+
+.pagination__btn {
+  @apply inline-flex items-center justify-center gap-1.5
+         font-medium rounded-lg border cursor-pointer
+         transition-colors duration-150 ease-in-out
+         select-none whitespace-nowrap;
+  /* focus ring */
+  @apply focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-600;
+}
+
+/* ---- Page number button ---- */
+
+.pagination__btn--page {
+  @apply bg-white text-aeblack-800 border-neutral-200;
+  @apply hover:bg-primary-50 hover:text-primary-700 hover:border-primary-200;
+}
+
+/* Active page */
+.pagination__btn--page.pagination__btn--active {
+  @apply bg-primary-600 text-white border-primary-600 cursor-default;
+  @apply hover:bg-primary-600 hover:text-white hover:border-primary-600;
+}
+
+/* ---- Nav button (Prev / Next / First / Last) ---- */
+
+.pagination__btn--nav {
+  @apply bg-white text-aeblack-700 border-neutral-200;
+  @apply hover:bg-primary-50 hover:text-primary-700 hover:border-primary-200;
+}
+
+/* ---- Disabled ---- */
+
+.pagination__btn--disabled,
+.pagination__btn[disabled] {
+  @apply opacity-40 cursor-not-allowed pointer-events-none;
+}
+
+/* ---- Ellipsis ---- */
+
+.pagination__item--ellipsis {
+  @apply px-1;
+}
+
+.pagination__ellipsis {
+  @apply text-aeblack-500 font-medium select-none;
+}
+
+/* ---- Icon ---- */
+
+.pagination__icon {
+  @apply flex items-center shrink-0;
+}
+
+.pagination__icon svg {
+  @apply w-4 h-4;
+}
+
+/* Nav label */
+.pagination__nav-label {
+  @apply leading-none;
+}
+
+/* ============================================================
+   Sizes
+   ============================================================ */
+
+/* sm */
+
+.pagination--sm .pagination__btn {
+  @apply h-8 px-2 text-xs;
+}
+
+.pagination--sm .pagination__btn--page {
+  @apply min-w-8;
+}
+
+.pagination--sm .pagination__btn--nav {
+  @apply px-2.5;
+}
+
+.pagination--sm .pagination__icon svg {
+  @apply w-3.5 h-3.5;
+}
+
+/* base */
+
+.pagination--base .pagination__btn {
+  @apply h-10 px-3 text-sm;
+}
+
+.pagination--base .pagination__btn--page {
+  @apply min-w-10;
+}
+
+.pagination--base .pagination__btn--nav {
+  @apply px-3;
+}
+
+/* lg */
+
+.pagination--lg .pagination__btn {
+  @apply h-12 px-4 text-base;
+}
+
+.pagination--lg .pagination__btn--page {
+  @apply min-w-12;
+}
+
+.pagination--lg .pagination__btn--nav {
+  @apply px-4;
+}
+
+.pagination--lg .pagination__icon svg {
+  @apply w-5 h-5;
+}
+
+/* ============================================================
+   RTL — flip all directional icons
+   ============================================================ */
+
+:host(:dir(rtl)) .pagination__icon--dir svg,
+[dir="rtl"] .pagination__icon--dir svg {
+  transform: scaleX(-1);
+}
