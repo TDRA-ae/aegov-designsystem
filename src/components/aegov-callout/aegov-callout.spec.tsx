@@ -135,7 +135,7 @@ describe('aegov-callout', () => {
         html: `<aegov-callout><span slot="content">Message</span></aegov-callout>`,
       });
 
-      const dismissButton = page.root.querySelector('button[aria-label="Close this callout"]');
+      const dismissButton = page.root.querySelector('button[aria-label="Close callout"]');
       expect(dismissButton).toBeFalsy();
     });
 
@@ -145,7 +145,7 @@ describe('aegov-callout', () => {
         html: `<aegov-callout dismissible><span slot="content">Message</span></aegov-callout>`,
       });
 
-      const dismissButton = page.root.querySelector('button[aria-label="Close this callout"]');
+      const dismissButton = page.root.querySelector('button[aria-label="Close callout"]');
       expect(dismissButton).toBeTruthy();
     });
 
@@ -156,7 +156,7 @@ describe('aegov-callout', () => {
       });
 
       const component = page.rootInstance as AegovCallout;
-      const dismissButton = page.root.querySelector('button[aria-label="Close this callout"]') as HTMLButtonElement;
+      const dismissButton = page.root.querySelector('button[aria-label="Close callout"]') as HTMLButtonElement;
 
       expect(component.isVisible).toBe(true);
       dismissButton.click();
@@ -173,7 +173,7 @@ describe('aegov-callout', () => {
       const dismissSpy = jest.fn();
       page.root.addEventListener('aegovCalloutDismiss', dismissSpy);
 
-      const dismissButton = page.root.querySelector('button[aria-label="Close this callout"]') as HTMLButtonElement;
+      const dismissButton = page.root.querySelector('button[aria-label="Close callout"]') as HTMLButtonElement;
       dismissButton.click();
       await page.waitForChanges();
 

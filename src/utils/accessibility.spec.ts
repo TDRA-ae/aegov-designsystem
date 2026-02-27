@@ -231,9 +231,9 @@ describe('Accessibility Testing Suite', () => {
         html: `<aegov-callout dismissible>Message</aegov-callout>`,
       });
 
-      const dismissButton = page.root.querySelector('button[aria-label="Close this callout"]');
+      const dismissButton = page.root.querySelector('button[aria-label="Close callout"]');
       expect(dismissButton).toBeTruthy();
-      expect(dismissButton.getAttribute('aria-label')).toBe('Close this callout');
+      expect(dismissButton.getAttribute('aria-label')).toBe('Close callout');
     });
 
     it('should hide decorative icons from screen readers', async () => {
