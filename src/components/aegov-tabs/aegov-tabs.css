@@ -136,6 +136,68 @@
 }
 
 /* ============================================================
+   Orientation — Vertical
+   ============================================================ */
+
+/* Container: side-by-side instead of stacked */
+.tabs--vertical {
+  @apply flex-row items-start;
+}
+
+/* Tab list: stacks vertically */
+.tabs--vertical .tabs__list {
+  @apply flex-col items-stretch;
+}
+
+/* Simple variant: right border separator instead of bottom */
+.tabs--vertical.tabs--simple .tabs__list {
+  @apply border-b-0 border-e border-neutral-200 gap-1;
+}
+
+/* Segmented variant: wrap in column */
+.tabs--vertical.tabs--segmented .tabs__list {
+  @apply inline-flex flex-col;
+}
+
+/* Pill variant: column stack */
+.tabs--vertical.tabs--pill .tabs__list {
+  @apply flex-col;
+}
+
+/* Panels: side padding instead of top padding */
+.tabs--vertical .tabs__panels {
+  @apply flex-1 pt-0;
+  padding-inline-start: 1rem;
+}
+
+/* Scrollable — vertical axis */
+.tabs--vertical .tabs__list-wrapper--scrollable .tabs__list {
+  overflow-x: visible;
+  @apply overflow-y-auto;
+}
+
+/* Vertical fade gradients (top/bottom instead of left/right) */
+.tabs--vertical .tabs__list-wrapper--scrollable::before {
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: auto;
+  width: auto;
+  height: 3rem;
+  background: linear-gradient(to bottom, white 30%, transparent);
+}
+
+.tabs--vertical .tabs__list-wrapper--scrollable::after {
+  bottom: 0;
+  left: 0;
+  right: 0;
+  top: auto;
+  width: auto;
+  height: 3rem;
+  background: linear-gradient(to top, white 30%, transparent);
+}
+
+/* ============================================================
    RTL — flip scroll fades
    ============================================================ */
 

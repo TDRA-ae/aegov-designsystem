@@ -7,12 +7,14 @@
 
 ## Properties
 
-| Property           | Attribute            | Description                                                                                                                                                               | Type                                | Default    |
-| ------------------ | -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------- | ---------- |
-| `defaultActiveTab` | `default-active-tab` | The tab-id of the tab that should be active on initial render. If not provided, the first non-disabled tab is activated.                                                  | `string`                            | `''`       |
-| `scrollable`       | `scrollable`         | Enables horizontal scrolling when tabs overflow the container. A faded gradient edge is shown to indicate scrollable content.                                             | `boolean`                           | `false`    |
-| `size`             | `size`               | Size of the tabs.                                                                                                                                                         | `"base" \| "lg" \| "sm"`            | `'base'`   |
-| `variant`          | `variant`            | Visual style variant of the tabs. - `simple`: Underline style (default) - `segmented`: Button-group style, ideal for toggling views - `pill`: Pill-shaped individual tabs | `"pill" \| "segmented" \| "simple"` | `'simple'` |
+| Property           | Attribute            | Description                                                                                                                                                               | Type                                | Default        |
+| ------------------ | -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------- | -------------- |
+| `defaultActiveTab` | `default-active-tab` | The tab-id of the tab that should be active on initial render. If not provided, the first non-disabled tab is activated.                                                  | `string`                            | `''`           |
+| `orientation`      | `orientation`        | Layout orientation of the tabs. - `horizontal`: Tabs appear above the panels (default) - `vertical`: Tabs appear to the side of the panels                                | `"horizontal" \| "vertical"`        | `'horizontal'` |
+| `scrollable`       | `scrollable`         | Enables horizontal scrolling when tabs overflow the container. A faded gradient edge is shown to indicate scrollable content.                                             | `boolean`                           | `false`        |
+| `size`             | `size`               | Size of the tabs.                                                                                                                                                         | `"base" \| "lg" \| "sm"`            | `'base'`       |
+| `stretch`          | `stretch`            | Distributes tabs evenly to fill the full width of the container. Each tab grows equally to occupy available space.                                                        | `boolean`                           | `false`        |
+| `variant`          | `variant`            | Visual style variant of the tabs. - `simple`: Underline style (default) - `segmented`: Button-group style, ideal for toggling views - `pill`: Pill-shaped individual tabs | `"pill" \| "segmented" \| "simple"` | `'simple'`     |
 
 
 ## Events

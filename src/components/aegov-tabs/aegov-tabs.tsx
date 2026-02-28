@@ -1,5 +1,5 @@
 import { Component, Prop, State, Event, EventEmitter, Element, Listen, Watch, h } from '@stencil/core';
-import type { TabVariant, TabSize } from '../../utils/types';
+import type { TabVariant, TabSize, TabOrientation } from '../../utils/types';
 
 /**
  * @component aegov-tabs
@@ -58,6 +58,13 @@ export class AegovTabs {
    */
   @Prop() stretch: boolean = false;
 
+  /**
+   * Layout orientation of the tabs.
+   * - `horizontal`: Tabs appear above the panels (default)
+   * - `vertical`: Tabs appear to the side of the panels
+   */
+  @Prop() orientation: TabOrientation = 'horizontal';
+
   /** Currently active tab id (internal uncontrolled state) */
   @State() activeTabId: string = '';
 
@@ -111,7 +118,10 @@ export class AegovTabs {
     if (this.scrollable && this.listEl) {
       const activeTab = this.el.querySelector(`aegov-tab[tab-id="${this.activeTabId}"]`) as HTMLElement;
       if (activeTab) {
-        activeTab.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'nearest' });
+        const scrollOpts: ScrollIntoViewOptions = this.orientation === 'vertical'
+          ? { behavior: 'smooth', block: 'nearest', inline: 'start' }
+          : { behavior: 'smooth', block: 'nearest', inline: 'nearest' };
+        activeTab.scrollIntoView(scrollOpts);
       }
     }
   }
@@ -138,6 +148,7 @@ export class AegovTabs {
       tab.activeTabId = this.activeTabId;
       tab.variant = this.variant;
       tab.size = this.size;
+      tab.orientation = this.orientation;
     });
 
     panels.forEach((panel: any) => {
@@ -154,13 +165,17 @@ export class AegovTabs {
 
   private checkScrollFade() {
     if (!this.listEl || !this.listWrapperEl) return;
-    const { scrollLeft, scrollWidth, clientWidth } = this.listEl;
-    // scrollLeft can be negative in RTL browsers
-    const absScrollLeft = Math.abs(scrollLeft);
-    const showStart = absScrollLeft > 4;
-    const showEnd = absScrollLeft < scrollWidth - clientWidth - 4;
-    this.listWrapperEl.classList.toggle('has-start-fade', showStart);
-    this.listWrapperEl.classList.toggle('has-end-fade', showEnd);
+    if (this.orientation === 'vertical') {
+      const { scrollTop, scrollHeight, clientHeight } = this.listEl;
+      this.listWrapperEl.classList.toggle('has-start-fade', scrollTop > 4);
+      this.listWrapperEl.classList.toggle('has-end-fade', scrollTop < scrollHeight - clientHeight - 4);
+    } else {
+      const { scrollLeft, scrollWidth, clientWidth } = this.listEl;
+      // scrollLeft can be negative in RTL browsers
+      const absScrollLeft = Math.abs(scrollLeft);
+      this.listWrapperEl.classList.toggle('has-start-fade', absScrollLeft > 4);
+      this.listWrapperEl.classList.toggle('has-end-fade', absScrollLeft < scrollWidth - clientWidth - 4);
+    }
   }
 
   @Listen('keydown')
@@ -180,16 +195,32 @@ export class AegovTabs {
 
     let nextIndex = -1;
 
+    const isVertical = this.orientation === 'vertical';
+
     switch (event.key) {
       case 'ArrowRight':
-        nextIndex = isRtl
-          ? (currentIndex - 1 + enabledTabs.length) % enabledTabs.length
-          : (currentIndex + 1) % enabledTabs.length;
+        if (!isVertical) {
+          nextIndex = isRtl
+            ? (currentIndex - 1 + enabledTabs.length) % enabledTabs.length
+            : (currentIndex + 1) % enabledTabs.length;
+        }
         break;
       case 'ArrowLeft':
-        nextIndex = isRtl
-          ? (currentIndex + 1) % enabledTabs.length
-          : (currentIndex - 1 + enabledTabs.length) % enabledTabs.length;
+        if (!isVertical) {
+          nextIndex = isRtl
+            ? (currentIndex + 1) % enabledTabs.length
+            : (currentIndex - 1 + enabledTabs.length) % enabledTabs.length;
+        }
+        break;
+      case 'ArrowDown':
+        if (isVertical) {
+          nextIndex = (currentIndex + 1) % enabledTabs.length;
+        }
+        break;
+      case 'ArrowUp':
+        if (isVertical) {
+          nextIndex = (currentIndex - 1 + enabledTabs.length) % enabledTabs.length;
+        }
         break;
       case 'Home':
         nextIndex = 0;
@@ -216,12 +247,17 @@ export class AegovTabs {
 
   render() {
     return (
-      <div class={`tabs tabs--${this.variant} tabs--${this.size}${this.stretch ? ' tabs--stretch' : ''}`}>
+      <div class={`tabs tabs--${this.variant} tabs--${this.size}${this.stretch ? ' tabs--stretch' : ''}${this.orientation === 'vertical' ? ' tabs--vertical' : ''}`}>
         <div
           class={`tabs__list-wrapper${this.scrollable ? ' tabs__list-wrapper--scrollable' : ''}`}
           ref={el => (this.listWrapperEl = el as HTMLElement)}
         >
-          <div role="tablist" class="tabs__list" ref={el => (this.listEl = el as HTMLElement)}>
+          <div
+            role="tablist"
+            aria-orientation={this.orientation}
+            class="tabs__list"
+            ref={el => (this.listEl = el as HTMLElement)}
+          >
             <slot name="tabs" />
           </div>
         </div>

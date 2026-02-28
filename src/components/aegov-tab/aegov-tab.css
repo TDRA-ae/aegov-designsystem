@@ -67,6 +67,30 @@
 }
 
 /* ============================================================
+   Vertical orientation — simple variant overrides
+   ============================================================ */
+
+/* Switch underline from bottom to inline-end (right in LTR, left in RTL) */
+.tab__btn--simple.tab__btn--vertical {
+  border-bottom: none;
+  border-inline-end: 2px solid transparent;
+  margin-bottom: 0;
+  margin-inline-end: -2px;
+  /* Full width so tabs fill the list column */
+  @apply w-full justify-start;
+}
+
+.tab__btn--simple.tab__btn--vertical.tab__btn--active {
+  border-inline-end-color: var(--color-primary-600, #2563eb);
+}
+
+/* Segmented and pill are layout-agnostic — they look the same vertical */
+.tab__btn--segmented.tab__btn--vertical,
+.tab__btn--pill.tab__btn--vertical {
+  @apply w-full justify-center;
+}
+
+/* ============================================================
    Disabled
    ============================================================ */
 

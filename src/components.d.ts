@@ -5,8 +5,8 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
-import { AccordionIcon, AvatarSize, AvatarStatus, AvatarVariant, BadgeAppearance, BadgeColor, BadgeSize, BannerDisplay, BannerMode, BannerPosition, BannerRole, BlockquoteVariant, BreadcrumbSeparator, ButtonAppearance, ButtonGroupOrientation, ButtonSize, ButtonType, ButtonVariant, CalloutAppearance, CalloutVariant, DropdownAlign, DropdownPosition, DropdownTrigger, LinkTarget, ModalBackdropOpacity, ModalPosition, PaginationSize, TabSize, TabVariant, TextSize, TitleSize, TooltipAlign, TooltipPosition, TooltipTrigger } from "./utils/types";
-export { AccordionIcon, AvatarSize, AvatarStatus, AvatarVariant, BadgeAppearance, BadgeColor, BadgeSize, BannerDisplay, BannerMode, BannerPosition, BannerRole, BlockquoteVariant, BreadcrumbSeparator, ButtonAppearance, ButtonGroupOrientation, ButtonSize, ButtonType, ButtonVariant, CalloutAppearance, CalloutVariant, DropdownAlign, DropdownPosition, DropdownTrigger, LinkTarget, ModalBackdropOpacity, ModalPosition, PaginationSize, TabSize, TabVariant, TextSize, TitleSize, TooltipAlign, TooltipPosition, TooltipTrigger } from "./utils/types";
+import { AccordionIcon, AvatarSize, AvatarStatus, AvatarVariant, BadgeAppearance, BadgeColor, BadgeSize, BannerDisplay, BannerMode, BannerPosition, BannerRole, BlockquoteVariant, BreadcrumbSeparator, ButtonAppearance, ButtonGroupOrientation, ButtonSize, ButtonType, ButtonVariant, CalloutAppearance, CalloutVariant, DropdownAlign, DropdownPosition, DropdownTrigger, LinkTarget, ModalBackdropOpacity, ModalPosition, PaginationSize, TabOrientation, TabSize, TabVariant, TextSize, TitleSize, TooltipAlign, TooltipPosition, TooltipTrigger } from "./utils/types";
+export { AccordionIcon, AvatarSize, AvatarStatus, AvatarVariant, BadgeAppearance, BadgeColor, BadgeSize, BannerDisplay, BannerMode, BannerPosition, BannerRole, BlockquoteVariant, BreadcrumbSeparator, ButtonAppearance, ButtonGroupOrientation, ButtonSize, ButtonType, ButtonVariant, CalloutAppearance, CalloutVariant, DropdownAlign, DropdownPosition, DropdownTrigger, LinkTarget, ModalBackdropOpacity, ModalPosition, PaginationSize, TabOrientation, TabSize, TabVariant, TextSize, TitleSize, TooltipAlign, TooltipPosition, TooltipTrigger } from "./utils/types";
 export namespace Components {
     /**
      * Accordion component for collapsible content sections
@@ -580,6 +580,11 @@ export namespace Components {
          */
         "disabled": boolean;
         /**
+          * Orientation of the tabs. Set automatically by the parent aegov-tabs.
+          * @default 'horizontal'
+         */
+        "orientation": TabOrientation;
+        /**
           * Size of the tab. Set automatically by the parent aegov-tabs.
           * @default 'base'
          */
@@ -631,6 +636,11 @@ export namespace Components {
           * @default ''
          */
         "defaultActiveTab": string;
+        /**
+          * Layout orientation of the tabs. - `horizontal`: Tabs appear above the panels (default) - `vertical`: Tabs appear to the side of the panels
+          * @default 'horizontal'
+         */
+        "orientation": TabOrientation;
         /**
           * Enables horizontal scrolling when tabs overflow the container. A faded gradient edge is shown to indicate scrollable content.
           * @default false
@@ -1819,6 +1829,11 @@ declare namespace LocalJSX {
          */
         "onAegovTabSelect"?: (event: AegovTabCustomEvent<string>) => void;
         /**
+          * Orientation of the tabs. Set automatically by the parent aegov-tabs.
+          * @default 'horizontal'
+         */
+        "orientation"?: TabOrientation;
+        /**
           * Size of the tab. Set automatically by the parent aegov-tabs.
           * @default 'base'
          */
@@ -1875,6 +1890,11 @@ declare namespace LocalJSX {
           * @event aegovTabChange
          */
         "onAegovTabChange"?: (event: AegovTabsCustomEvent<string>) => void;
+        /**
+          * Layout orientation of the tabs. - `horizontal`: Tabs appear above the panels (default) - `vertical`: Tabs appear to the side of the panels
+          * @default 'horizontal'
+         */
+        "orientation"?: TabOrientation;
         /**
           * Enables horizontal scrolling when tabs overflow the container. A faded gradient edge is shown to indicate scrollable content.
           * @default false

@@ -175,6 +175,11 @@ export type TabVariant = 'simple' | 'segmented' | 'pill';
 export type TabSize = 'sm' | 'base' | 'lg';
 
 /**
+ * Tabs component orientation types
+ */
+export type TabOrientation = 'horizontal' | 'vertical';
+
+/**
  * Common component props
  */
 export interface BaseComponentProps {

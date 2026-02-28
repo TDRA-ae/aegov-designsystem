@@ -1,5 +1,5 @@
 import { Component, Prop, State, Event, EventEmitter, Element, h } from '@stencil/core';
-import type { TabVariant, TabSize } from '../../utils/types';
+import type { TabVariant, TabSize, TabOrientation } from '../../utils/types';
 
 /**
  * @component aegov-tab
@@ -50,6 +50,11 @@ export class AegovTab {
    */
   @Prop() size: TabSize = 'base';
 
+  /**
+   * Orientation of the tabs. Set automatically by the parent aegov-tabs.
+   */
+  @Prop() orientation: TabOrientation = 'horizontal';
+
   @State() hasIconSlot: boolean = false;
   @State() hasIconEndSlot: boolean = false;
 
@@ -86,6 +91,7 @@ export class AegovTab {
           'tab__btn': true,
           [`tab__btn--${this.variant}`]: true,
           [`tab__btn--${this.size}`]: true,
+          'tab__btn--vertical': this.orientation === 'vertical',
           'tab__btn--active': isActive,
           'tab__btn--disabled': this.disabled,
         }}
