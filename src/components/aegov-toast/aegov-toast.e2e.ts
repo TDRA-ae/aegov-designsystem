@@ -400,16 +400,22 @@ describe('aegov-toast e2e', () => {
   // ACCESSIBILITY
   // ============================================
 
-  it('has role="status" and aria-live="polite"', async () => {
+  it('creates a persistent live region for screen reader announcements', async () => {
     const page = await newE2EPage();
-    await page.setContent('<aegov-toast duration="0">Hello</aegov-toast>');
+    await page.setContent('<aegov-toast duration="0">Hello from toast</aegov-toast>');
     const el = await page.find('aegov-toast');
     await el.callMethod('show');
     await page.waitForChanges();
+    await wait(100);
 
-    const toast = await page.find('aegov-toast .toast');
-    expect(await toast.getAttribute('role')).toBe('status');
-    expect(await toast.getAttribute('aria-live')).toBe('polite');
+    const liveRegion = await page.find('#aegov-toast-live-region');
+    expect(liveRegion).toBeTruthy();
+    expect(await liveRegion.getAttribute('role')).toBe('status');
+    expect(await liveRegion.getAttribute('aria-live')).toBe('polite');
+    expect(await liveRegion.getAttribute('aria-atomic')).toBe('true');
+
+    const text = await liveRegion.getProperty('textContent');
+    expect(text).toContain('Hello from toast');
   });
 
   it('dismiss button has accessible label', async () => {

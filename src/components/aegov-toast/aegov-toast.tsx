@@ -63,6 +63,38 @@ function unregisterToast(position: ToastPosition, toast: HTMLAegovToastElement):
 }
 
 /* ============================================
+   SCREEN READER LIVE REGION
+   ============================================ */
+
+let liveRegion: HTMLDivElement | null = null;
+
+function getOrCreateLiveRegion(): HTMLDivElement {
+  if (liveRegion && document.body.contains(liveRegion)) {
+    return liveRegion;
+  }
+  liveRegion = document.createElement('div');
+  liveRegion.id = 'aegov-toast-live-region';
+  liveRegion.setAttribute('role', 'status');
+  liveRegion.setAttribute('aria-live', 'polite');
+  liveRegion.setAttribute('aria-atomic', 'true');
+  // Visually hidden but accessible to screen readers
+  liveRegion.setAttribute('style',
+    'position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;'
+  );
+  document.body.appendChild(liveRegion);
+  return liveRegion;
+}
+
+function announceToast(message: string): void {
+  const region = getOrCreateLiveRegion();
+  // Clear then re-inject so screen readers detect the change
+  region.textContent = '';
+  requestAnimationFrame(() => {
+    region.textContent = message;
+  });
+}
+
+/* ============================================
    RACK MODE MANAGEMENT
    ============================================ */
 
@@ -386,6 +418,12 @@ export class AegovToast {
     this.isEntering = true;
     this.isVisible = true;
 
+    // Announce to screen readers via persistent live region
+    const message = this.el.textContent?.trim();
+    if (message) {
+      announceToast(message);
+    }
+
     requestAnimationFrame(() => {
       requestAnimationFrame(() => {
         this.isEntering = false;
@@ -559,7 +597,7 @@ export class AegovToast {
     }
 
     return (
-      <div class={this.getToastClasses()} role="status" aria-live="polite" onMouseEnter={this.handleMouseEnter} onMouseLeave={this.handleMouseLeave}>
+      <div class={this.getToastClasses()} onMouseEnter={this.handleMouseEnter} onMouseLeave={this.handleMouseLeave}>
         {this.showIcon && (
           <div class="toast__icon">
             {this.hasIconSlot ? (

@@ -28,7 +28,7 @@ describe('aegov-toast', () => {
     expect(toast).toBeTruthy();
   });
 
-  it('renders with role="status" and aria-live="polite"', async () => {
+  it('does not put role="status" on the visual toast (live region handles announcements)', async () => {
     const page = await newSpecPage({
       components: [AegovToast],
       html: `<aegov-toast duration="0">Test message</aegov-toast>`,
@@ -36,8 +36,8 @@ describe('aegov-toast', () => {
     await page.rootInstance.show();
     await page.waitForChanges();
     const toast = page.root.querySelector('.toast');
-    expect(toast.getAttribute('role')).toBe('status');
-    expect(toast.getAttribute('aria-live')).toBe('polite');
+    expect(toast.getAttribute('role')).toBeNull();
+    expect(toast.getAttribute('aria-live')).toBeNull();
   });
 
   // ============================================
