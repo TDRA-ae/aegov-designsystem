@@ -43,6 +43,23 @@ describe('aegov-accordion', () => {
       const items = page.root.querySelectorAll('aegov-accordion-item');
       expect(items.length).toBe(3);
     });
+
+    it('should render aegov-accordion class', async () => {
+      const page = await newSpecPage({
+        components: [AegovAccordion, AegovAccordionItem],
+        html: `
+          <aegov-accordion>
+            <aegov-accordion-item>
+              <span slot="accordion-item-heading">Heading</span>
+              <span slot="accordion-item-content">Content</span>
+            </aegov-accordion-item>
+          </aegov-accordion>
+        `,
+      });
+
+      const accordionDiv = page.root.querySelector('.aegov-accordion');
+      expect(accordionDiv).toBeTruthy();
+    });
   });
 
   describe('allowMultiple prop', () => {
@@ -153,18 +170,15 @@ describe('aegov-accordion', () => {
 
       const items = page.root.querySelectorAll('aegov-accordion-item') as NodeListOf<HTMLAegovAccordionItemElement>;
 
-      // Open first item
       items[0].open = true;
       await page.waitForChanges();
 
       expect(items[0].open).toBe(true);
       expect(items[1].open).toBe(false);
 
-      // Open second item
       items[1].open = true;
       await page.waitForChanges();
 
-      // In single mode, first should close (handled by parent)
       items[0].open = false;
       await page.waitForChanges();
 
@@ -195,7 +209,6 @@ describe('aegov-accordion', () => {
 
       const items = page.root.querySelectorAll('aegov-accordion-item') as NodeListOf<HTMLAegovAccordionItemElement>;
 
-      // Open both items
       items[0].open = true;
       items[1].open = true;
       await page.waitForChanges();
@@ -339,7 +352,7 @@ describe('aegov-accordion', () => {
     });
   });
 
-  describe('first and last item classes', () => {
+  describe('first and last item flags', () => {
     it('should set isFirst on first item', async () => {
       const page = await newSpecPage({
         components: [AegovAccordion, AegovAccordionItem],

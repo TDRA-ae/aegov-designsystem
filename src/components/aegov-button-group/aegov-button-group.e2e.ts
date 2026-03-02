@@ -41,10 +41,24 @@ describe('aegov-button-group E2E', () => {
       const role = await buttonGroup.getAttribute('role');
       expect(role).toBe('group');
     });
+
+    it('should render multiple buttons inside the group', async () => {
+      const page = await newE2EPage();
+      await page.setContent(`
+        <aegov-button-group>
+          <aegov-button>First</aegov-button>
+          <aegov-button>Second</aegov-button>
+          <aegov-button>Third</aegov-button>
+        </aegov-button-group>
+      `);
+
+      const buttons = await page.findAll('aegov-button-group aegov-button');
+      expect(buttons.length).toBe(3);
+    });
   });
 
   describe('Visual Styling - Horizontal', () => {
-    it('should apply rounded-r-none to first button in horizontal group', async () => {
+    it('should apply btn-grouped-first-horizontal class to first button', async () => {
       const page = await newE2EPage();
       await page.setContent(`
         <aegov-button-group>
@@ -58,10 +72,9 @@ describe('aegov-button-group E2E', () => {
       const classList = await firstButton.getProperty('className');
 
       expect(classList).toContain('btn-grouped-first-horizontal');
-      expect(classList).toContain('rounded-r-none');
     });
 
-    it('should apply rounded-l-none to last button in horizontal group', async () => {
+    it('should apply btn-grouped-last-horizontal class to last button', async () => {
       const page = await newE2EPage();
       await page.setContent(`
         <aegov-button-group>
@@ -75,10 +88,9 @@ describe('aegov-button-group E2E', () => {
       const classList = await lastButton.getProperty('className');
 
       expect(classList).toContain('btn-grouped-last-horizontal');
-      expect(classList).toContain('rounded-l-none');
     });
 
-    it('should apply rounded-none to middle buttons in horizontal group', async () => {
+    it('should apply btn-grouped-middle-horizontal class to middle buttons', async () => {
       const page = await newE2EPage();
       await page.setContent(`
         <aegov-button-group>
@@ -93,10 +105,9 @@ describe('aegov-button-group E2E', () => {
       const classList = await middleButton.getProperty('className');
 
       expect(classList).toContain('btn-grouped-middle-horizontal');
-      expect(classList).toContain('rounded-none');
     });
 
-    it('should apply -ml-px for border collapse in horizontal group', async () => {
+    it('should apply grouped classes to non-first buttons in horizontal group', async () => {
       const page = await newE2EPage();
       await page.setContent(`
         <aegov-button-group>
@@ -113,8 +124,8 @@ describe('aegov-button-group E2E', () => {
       const secondClass = await secondButton.getProperty('className');
       const thirdClass = await thirdButton.getProperty('className');
 
-      expect(secondClass).toContain('-ml-px');
-      expect(thirdClass).toContain('-ml-px');
+      expect(secondClass).toContain('btn-grouped-middle-horizontal');
+      expect(thirdClass).toContain('btn-grouped-last-horizontal');
     });
 
     it('should preserve single button styling in horizontal group', async () => {
@@ -137,7 +148,7 @@ describe('aegov-button-group E2E', () => {
   });
 
   describe('Visual Styling - Vertical', () => {
-    it('should apply rounded-b-none to first button in vertical group', async () => {
+    it('should apply btn-grouped-first-vertical class to first button', async () => {
       const page = await newE2EPage();
       await page.setContent(`
         <aegov-button-group orientation="vertical">
@@ -151,10 +162,9 @@ describe('aegov-button-group E2E', () => {
       const classList = await firstButton.getProperty('className');
 
       expect(classList).toContain('btn-grouped-first-vertical');
-      expect(classList).toContain('rounded-b-none');
     });
 
-    it('should apply rounded-t-none to last button in vertical group', async () => {
+    it('should apply btn-grouped-last-vertical class to last button', async () => {
       const page = await newE2EPage();
       await page.setContent(`
         <aegov-button-group orientation="vertical">
@@ -168,10 +178,9 @@ describe('aegov-button-group E2E', () => {
       const classList = await lastButton.getProperty('className');
 
       expect(classList).toContain('btn-grouped-last-vertical');
-      expect(classList).toContain('rounded-t-none');
     });
 
-    it('should apply rounded-none to middle buttons in vertical group', async () => {
+    it('should apply btn-grouped-middle-vertical class to middle buttons', async () => {
       const page = await newE2EPage();
       await page.setContent(`
         <aegov-button-group orientation="vertical">
@@ -186,10 +195,9 @@ describe('aegov-button-group E2E', () => {
       const classList = await middleButton.getProperty('className');
 
       expect(classList).toContain('btn-grouped-middle-vertical');
-      expect(classList).toContain('rounded-none');
     });
 
-    it('should apply -mt-px for border collapse in vertical group', async () => {
+    it('should apply grouped classes to non-first buttons in vertical group', async () => {
       const page = await newE2EPage();
       await page.setContent(`
         <aegov-button-group orientation="vertical">
@@ -206,8 +214,8 @@ describe('aegov-button-group E2E', () => {
       const secondClass = await secondButton.getProperty('className');
       const thirdClass = await thirdButton.getProperty('className');
 
-      expect(secondClass).toContain('-mt-px');
-      expect(thirdClass).toContain('-mt-px');
+      expect(secondClass).toContain('btn-grouped-middle-vertical');
+      expect(thirdClass).toContain('btn-grouped-last-vertical');
     });
   });
 

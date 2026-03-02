@@ -1,0 +1,250 @@
+import { Component, Prop, Element, State, Host, h } from '@stencil/core';
+import type { ProgressVariant, ProgressSize, ProgressOrientation, ProgressStepStatus } from '../../utils/types';
+
+@Component({
+  tag: 'aegov-progress-step',
+  styleUrl: 'aegov-progress-step.css',
+  scoped: true,
+})
+export class AegovProgressStep {
+  @Element() el: HTMLAegovProgressStepElement;
+
+  /**
+   * Step status.
+   */
+  @Prop() status: ProgressStepStatus = 'pending';
+
+  /**
+   * Optional description shown below the label.
+   */
+  @Prop() description?: string;
+
+  /**
+   * @internal Set by parent.
+   */
+  @Prop({ mutable: true }) variant: ProgressVariant = 'default';
+
+  /**
+   * @internal Set by parent.
+   */
+  @Prop({ mutable: true }) size: ProgressSize = 'base';
+
+  /**
+   * @internal Set by parent.
+   */
+  @Prop({ mutable: true }) orientation: ProgressOrientation = 'horizontal';
+
+  /**
+   * @internal 0-based index, set by parent.
+   */
+  @Prop({ mutable: true }) stepIndex: number = 0;
+
+  /**
+   * @internal Total step count, set by parent.
+   */
+  @Prop({ mutable: true }) stepCount: number = 1;
+
+  /**
+   * @internal Set by parent.
+   */
+  @Prop({ mutable: true }) isFirst: boolean = false;
+
+  /**
+   * @internal Set by parent.
+   */
+  @Prop({ mutable: true }) isLast: boolean = false;
+
+  /**
+   * @internal Whether connector before this step is solid (prev completed). Set by parent.
+   */
+  @Prop({ mutable: true }) connectorSolid: boolean = false;
+
+  @State() hasIconSlot: boolean = false;
+  @State() slotContent: string = '';
+
+  componentWillLoad() {
+    const parent = this.el.closest('aegov-progress');
+    if (!parent) {
+      throw new Error(
+        '[aegov-progress-step] This component must be used inside <aegov-progress>. ' +
+        'It cannot be used as a standalone component.'
+      );
+    }
+
+    // Capture slot content to prevent duplication
+    const childNodes = Array.from(this.el.childNodes);
+    this.hasIconSlot = this.el.querySelectorAll('[slot="icon"]').length > 0;
+
+    // Extract text content (excluding slotted elements)
+    this.slotContent = childNodes
+      .filter(node => node.nodeType === Node.TEXT_NODE)
+      .map(node => node.textContent?.trim())
+      .filter(Boolean)
+      .join(' ');
+
+    // Remove text nodes to prevent duplication
+    childNodes.forEach(node => {
+      if (node.nodeType === Node.TEXT_NODE) {
+        node.remove();
+      }
+    });
+  }
+
+  private getCheckmarkIcon() {
+    return (
+      <svg aria-hidden="true" class="step__checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256">
+        <rect width="256" height="256" fill="none"/>
+        <polyline points="40 144 96 200 224 72" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="24"/>
+      </svg>
+    );
+  }
+
+  private renderIndicator() {
+    const isCompact = this.variant === 'compact';
+    const stepNumber = this.stepIndex + 1;
+
+    if (isCompact) {
+      return (
+        <div class={`step__dot step__dot--${this.status} step__dot--${this.size}`}>
+          <span class="sr-only">
+            Step {stepNumber} of {this.stepCount}: {this.slotContent}
+            {this.status === 'completed' ? ' (completed)' : this.status === 'active' ? ' (current)' : ''}
+          </span>
+        </div>
+      );
+    }
+
+    // Default variant — numbered circles
+    return (
+      <div class={`step__indicator step__indicator--${this.status} step__indicator--${this.size}`}>
+        {this.status === 'completed' ? (
+          this.hasIconSlot ? <slot name="icon" /> : this.getCheckmarkIcon()
+        ) : (
+          this.hasIconSlot ? <slot name="icon" /> : <span class="step__number">{stepNumber}</span>
+        )}
+        <span class="sr-only">
+          Step {stepNumber} of {this.stepCount}:
+          {this.status === 'completed' ? ' (completed)' : this.status === 'active' ? ' (current)' : ''}
+        </span>
+      </div>
+    );
+  }
+
+  /**
+   * Horizontal before-connector (left side of indicator).
+   * First step gets an invisible spacer for centering alignment.
+   */
+  private renderConnectorBefore() {
+    if (this.isFirst) {
+      return <div class="step__spacer step__spacer--horizontal" aria-hidden="true" />;
+    }
+
+    const connectorClass = [
+      'step__connector',
+      'step__connector--horizontal',
+      'step__connector--before',
+      this.connectorSolid ? 'step__connector--solid' : 'step__connector--dashed',
+    ].join(' ');
+
+    return <div class={connectorClass} aria-hidden="true" />;
+  }
+
+  /**
+   * Horizontal after-connector (right side of indicator).
+   * Last step gets an invisible spacer for centering alignment.
+   */
+  private renderConnectorAfter() {
+    if (this.isLast) {
+      return <div class="step__spacer step__spacer--horizontal" aria-hidden="true" />;
+    }
+
+    const isSolid = this.status === 'completed';
+    const connectorClass = [
+      'step__connector',
+      'step__connector--horizontal',
+      'step__connector--after',
+      isSolid ? 'step__connector--solid' : 'step__connector--dashed',
+    ].join(' ');
+
+    return <div class={connectorClass} aria-hidden="true" />;
+  }
+
+  private renderLabel() {
+    const isCompact = this.variant === 'compact';
+    const hideLabel = isCompact && this.orientation === 'horizontal';
+
+    if (hideLabel) return null;
+
+    return (
+      <div class={`step__text step__text--${this.orientation}`}>
+        <span class={`step__label step__label--${this.status}`}>
+          {this.slotContent}
+        </span>
+        {this.description && (
+          <span class={`step__description step__description--${this.status}`}>
+            {this.description}
+          </span>
+        )}
+      </div>
+    );
+  }
+
+  private renderVerticalConnector() {
+    const isSolid = this.status === 'completed';
+
+    const connectorClass = [
+      'step__connector',
+      'step__connector--vertical',
+      isSolid ? 'step__connector--solid' : 'step__connector--dashed',
+    ].join(' ');
+
+    return <div class={connectorClass} aria-hidden="true" />;
+  }
+
+  render() {
+    const isHorizontal = this.orientation === 'horizontal';
+
+    const hostClasses = {
+      'host--horizontal': isHorizontal,
+      'host--vertical': !isHorizontal,
+    };
+
+    const liClasses = [
+      'step',
+      `step--${this.orientation}`,
+      `step--${this.status}`,
+    ].filter(Boolean).join(' ');
+
+    const ariaCurrent = this.status === 'active' ? 'step' : undefined;
+
+    if (isHorizontal) {
+      return (
+        <Host class={hostClasses}>
+          <li class={liClasses} aria-current={ariaCurrent}>
+            <div class="step__indicator-row">
+              {this.renderConnectorBefore()}
+              {this.renderIndicator()}
+              {this.renderConnectorAfter()}
+            </div>
+            {this.renderLabel()}
+          </li>
+        </Host>
+      );
+    }
+
+    // Vertical layout
+    return (
+      <Host class={hostClasses}>
+        <li class={liClasses} aria-current={ariaCurrent}>
+          <div class="step__vertical-row">
+            <div class="step__vertical-indicator">
+              {this.renderIndicator()}
+              {!this.isLast && this.renderVerticalConnector()}
+            </div>
+            {this.renderLabel()}
+          </div>
+        </li>
+      </Host>
+    );
+  }
+}

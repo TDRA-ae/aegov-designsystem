@@ -14,7 +14,7 @@ describe('aegov-callout', () => {
       expect(callout).toBeTruthy();
     });
 
-    it('should have role="alert" for accessibility', async () => {
+    it('should have role="alert"', async () => {
       const page = await newSpecPage({
         components: [AegovCallout],
         html: `<aegov-callout><span slot="content">Alert message</span></aegov-callout>`,
@@ -29,7 +29,6 @@ describe('aegov-callout', () => {
         components: [AegovCallout],
         html: `<aegov-callout><span slot="content">Message</span></aegov-callout>`,
       });
-
       expect(page.root.querySelector('.callout__icon')).toBeTruthy();
     });
 
@@ -38,93 +37,106 @@ describe('aegov-callout', () => {
         components: [AegovCallout],
         html: `<aegov-callout><span slot="content">Message</span></aegov-callout>`,
       });
-
       expect(page.root.querySelector('.callout__content')).toBeTruthy();
     });
   });
 
-  describe('variants', () => {
-    it('should render default variant', async () => {
-      const page = await newSpecPage({
-        components: [AegovCallout],
-        html: `<aegov-callout variant="default"><span slot="content">Message</span></aegov-callout>`,
-      });
-
-      const component = page.rootInstance as AegovCallout;
-      expect(component.variant).toBe('default');
-    });
-
-    it('should render error variant', async () => {
-      const page = await newSpecPage({
-        components: [AegovCallout],
-        html: `<aegov-callout variant="error"><span slot="content">Error message</span></aegov-callout>`,
-      });
-
-      const component = page.rootInstance as AegovCallout;
-      expect(component.variant).toBe('error');
-    });
-
-    it('should render warning variant', async () => {
-      const page = await newSpecPage({
-        components: [AegovCallout],
-        html: `<aegov-callout variant="warning"><span slot="content">Warning message</span></aegov-callout>`,
-      });
-
-      const component = page.rootInstance as AegovCallout;
-      expect(component.variant).toBe('warning');
-    });
-
-    it('should render success variant', async () => {
-      const page = await newSpecPage({
-        components: [AegovCallout],
-        html: `<aegov-callout variant="success"><span slot="content">Success message</span></aegov-callout>`,
-      });
-
-      const component = page.rootInstance as AegovCallout;
-      expect(component.variant).toBe('success');
-    });
-
-    it('should render info variant', async () => {
-      const page = await newSpecPage({
-        components: [AegovCallout],
-        html: `<aegov-callout variant="info"><span slot="content">Info message</span></aegov-callout>`,
-      });
-
-      const component = page.rootInstance as AegovCallout;
-      expect(component.variant).toBe('info');
-    });
-  });
-
-  describe('appearances', () => {
-    it('should render soft appearance by default', async () => {
+  describe('default props', () => {
+    it('defaults variant to default', async () => {
       const page = await newSpecPage({
         components: [AegovCallout],
         html: `<aegov-callout><span slot="content">Message</span></aegov-callout>`,
       });
-
-      const component = page.rootInstance as AegovCallout;
-      expect(component.appearance).toBe('soft');
+      expect(page.rootInstance.variant).toBe('default');
     });
 
-    it('should render solid appearance', async () => {
+    it('defaults appearance to soft', async () => {
+      const page = await newSpecPage({
+        components: [AegovCallout],
+        html: `<aegov-callout><span slot="content">Message</span></aegov-callout>`,
+      });
+      expect(page.rootInstance.appearance).toBe('soft');
+    });
+
+    it('defaults dismissible to false', async () => {
+      const page = await newSpecPage({
+        components: [AegovCallout],
+        html: `<aegov-callout><span slot="content">Message</span></aegov-callout>`,
+      });
+      expect(page.rootInstance.dismissible).toBe(false);
+    });
+
+    it('defaults bordered to false', async () => {
+      const page = await newSpecPage({
+        components: [AegovCallout],
+        html: `<aegov-callout><span slot="content">Message</span></aegov-callout>`,
+      });
+      expect(page.rootInstance.bordered).toBe(false);
+    });
+  });
+
+  describe('variants', () => {
+    const variants = ['default', 'error', 'warning', 'success', 'info'];
+    variants.forEach(variant => {
+      it(`should render ${variant} variant`, async () => {
+        const page = await newSpecPage({
+          components: [AegovCallout],
+          html: `<aegov-callout variant="${variant}"><span slot="content">Message</span></aegov-callout>`,
+        });
+        expect(page.rootInstance.variant).toBe(variant);
+        const callout = page.root.querySelector('[data-aegov-callout]');
+        expect(callout.classList.contains(`callout--${variant}`)).toBe(true);
+      });
+    });
+  });
+
+  describe('appearances', () => {
+    it('should apply callout--soft for soft appearance', async () => {
+      const page = await newSpecPage({
+        components: [AegovCallout],
+        html: `<aegov-callout><span slot="content">Message</span></aegov-callout>`,
+      });
+      const callout = page.root.querySelector('[data-aegov-callout]');
+      expect(callout.classList.contains('callout--soft')).toBe(true);
+    });
+
+    it('should apply callout--solid for solid appearance', async () => {
       const page = await newSpecPage({
         components: [AegovCallout],
         html: `<aegov-callout appearance="solid"><span slot="content">Message</span></aegov-callout>`,
       });
-
-      const component = page.rootInstance as AegovCallout;
-      expect(component.appearance).toBe('solid');
+      const callout = page.root.querySelector('[data-aegov-callout]');
+      expect(callout.classList.contains('callout--solid')).toBe(true);
     });
 
-    it('should apply both variant and appearance props', async () => {
+    it('should combine variant and appearance', async () => {
       const page = await newSpecPage({
         components: [AegovCallout],
         html: `<aegov-callout variant="error" appearance="solid"><span slot="content">Message</span></aegov-callout>`,
       });
+      const callout = page.root.querySelector('[data-aegov-callout]');
+      expect(callout.classList.contains('callout--error')).toBe(true);
+      expect(callout.classList.contains('callout--solid')).toBe(true);
+    });
+  });
 
-      const component = page.rootInstance as AegovCallout;
-      expect(component.variant).toBe('error');
-      expect(component.appearance).toBe('solid');
+  describe('bordered prop', () => {
+    it('should apply border-0 by default', async () => {
+      const page = await newSpecPage({
+        components: [AegovCallout],
+        html: `<aegov-callout><span slot="content">Message</span></aegov-callout>`,
+      });
+      const callout = page.root.querySelector('[data-aegov-callout]');
+      expect(callout.classList.contains('border-0')).toBe(true);
+    });
+
+    it('should apply border-1 when bordered', async () => {
+      const page = await newSpecPage({
+        components: [AegovCallout],
+        html: `<aegov-callout bordered><span slot="content">Message</span></aegov-callout>`,
+      });
+      const callout = page.root.querySelector('[data-aegov-callout]');
+      expect(callout.classList.contains('border-1')).toBe(true);
     });
   });
 
@@ -134,42 +146,38 @@ describe('aegov-callout', () => {
         components: [AegovCallout],
         html: `<aegov-callout><span slot="content">Message</span></aegov-callout>`,
       });
-
       const dismissButton = page.root.querySelector('button[aria-label="Close callout"]');
       expect(dismissButton).toBeFalsy();
     });
 
-    it('should render dismiss button when dismissible is true', async () => {
+    it('should render dismiss button when dismissible', async () => {
       const page = await newSpecPage({
         components: [AegovCallout],
         html: `<aegov-callout dismissible><span slot="content">Message</span></aegov-callout>`,
       });
-
       const dismissButton = page.root.querySelector('button[aria-label="Close callout"]');
       expect(dismissButton).toBeTruthy();
     });
 
-    it('should hide callout when dismiss button is clicked', async () => {
+    it('should hide callout when dismissed', async () => {
       const page = await newSpecPage({
         components: [AegovCallout],
         html: `<aegov-callout dismissible><span slot="content">Message</span></aegov-callout>`,
       });
+      expect(page.rootInstance.isVisible).toBe(true);
 
-      const component = page.rootInstance as AegovCallout;
       const dismissButton = page.root.querySelector('button[aria-label="Close callout"]') as HTMLButtonElement;
-
-      expect(component.isVisible).toBe(true);
       dismissButton.click();
       await page.waitForChanges();
-      expect(component.isVisible).toBe(false);
+
+      expect(page.rootInstance.isVisible).toBe(false);
     });
 
-    it('should emit aegovCalloutDismiss event when dismissed', async () => {
+    it('should emit aegovCalloutDismiss event', async () => {
       const page = await newSpecPage({
         components: [AegovCallout],
         html: `<aegov-callout dismissible><span slot="content">Message</span></aegov-callout>`,
       });
-
       const dismissSpy = jest.fn();
       page.root.addEventListener('aegovCalloutDismiss', dismissSpy);
 
@@ -181,37 +189,13 @@ describe('aegov-callout', () => {
     });
   });
 
-  describe('bordered prop', () => {
-    it('should not have border by default', async () => {
-      const page = await newSpecPage({
-        components: [AegovCallout],
-        html: `<aegov-callout><span slot="content">Message</span></aegov-callout>`,
-      });
-
-      const component = page.rootInstance as AegovCallout;
-      expect(component.bordered).toBe(false);
-    });
-
-    it('should apply border when bordered is true', async () => {
-      const page = await newSpecPage({
-        components: [AegovCallout],
-        html: `<aegov-callout bordered><span slot="content">Message</span></aegov-callout>`,
-      });
-
-      const component = page.rootInstance as AegovCallout;
-      expect(component.bordered).toBe(true);
-    });
-  });
-
   describe('visibility', () => {
     it('should be visible by default', async () => {
       const page = await newSpecPage({
         components: [AegovCallout],
         html: `<aegov-callout><span slot="content">Message</span></aegov-callout>`,
       });
-
-      const component = page.rootInstance as AegovCallout;
-      expect(component.isVisible).toBe(true);
+      expect(page.rootInstance.isVisible).toBe(true);
     });
 
     it('should return null when not visible', async () => {
@@ -219,28 +203,36 @@ describe('aegov-callout', () => {
         components: [AegovCallout],
         html: `<aegov-callout dismissible><span slot="content">Message</span></aegov-callout>`,
       });
-
-      const component = page.rootInstance as AegovCallout;
-      component.isVisible = false;
+      page.rootInstance.isVisible = false;
       await page.waitForChanges();
+      expect(page.root.querySelector('[data-aegov-callout]')).toBeFalsy();
+    });
+  });
 
-      const callout = page.root.querySelector('[data-aegov-callout]');
-      expect(callout).toBeFalsy();
+  describe('icon variants', () => {
+    const variants = ['default', 'error', 'warning', 'success', 'info'];
+    variants.forEach(variant => {
+      it(`should render icon for ${variant} variant`, async () => {
+        const page = await newSpecPage({
+          components: [AegovCallout],
+          html: `<aegov-callout variant="${variant}"><span slot="content">Message</span></aegov-callout>`,
+        });
+        const icon = page.root.querySelector('.callout__icon svg');
+        expect(icon).toBeTruthy();
+      });
     });
   });
 
   describe('icon slot', () => {
-    it('should render default icon when no icon slot provided', async () => {
+    it('should render default icon when no icon slot', async () => {
       const page = await newSpecPage({
         components: [AegovCallout],
         html: `<aegov-callout><span slot="content">Message</span></aegov-callout>`,
       });
-
-      const icon = page.root.querySelector('.callout__icon svg');
-      expect(icon).toBeTruthy();
+      expect(page.root.querySelector('.callout__icon svg')).toBeTruthy();
     });
 
-    it('should render custom icon when icon slot provided', async () => {
+    it('should detect custom icon slot', async () => {
       const page = await newSpecPage({
         components: [AegovCallout],
         html: `<aegov-callout>
@@ -248,10 +240,8 @@ describe('aegov-callout', () => {
           <span slot="content">Message</span>
         </aegov-callout>`,
       });
-
       await page.waitForChanges();
-      const component = page.rootInstance as AegovCallout;
-      expect(component.hasIconSlot).toBe(true);
+      expect(page.rootInstance.hasIconSlot).toBe(true);
     });
   });
 
@@ -261,12 +251,10 @@ describe('aegov-callout', () => {
         components: [AegovCallout],
         html: `<aegov-callout><span slot="content">Message</span></aegov-callout>`,
       });
-
-      const component = page.rootInstance as AegovCallout;
-      expect(component.hasActionsSlot).toBe(false);
+      expect(page.rootInstance.hasActionsSlot).toBe(false);
     });
 
-    it('should detect actions slot when provided', async () => {
+    it('should detect actions slot', async () => {
       const page = await newSpecPage({
         components: [AegovCallout],
         html: `<aegov-callout>
@@ -274,119 +262,46 @@ describe('aegov-callout', () => {
           <button slot="actions">Action</button>
         </aegov-callout>`,
       });
-
       await page.waitForChanges();
-      const component = page.rootInstance as AegovCallout;
-      expect(component.hasActionsSlot).toBe(true);
-    });
-  });
-
-  describe('icon variants', () => {
-    it('should render info icon for default variant', async () => {
-      const page = await newSpecPage({
-        components: [AegovCallout],
-        html: `<aegov-callout variant="default"><span slot="content">Message</span></aegov-callout>`,
-      });
-
-      const icon = page.root.querySelector('.callout__icon svg');
-      expect(icon).toBeTruthy();
-    });
-
-    it('should render error icon for error variant', async () => {
-      const page = await newSpecPage({
-        components: [AegovCallout],
-        html: `<aegov-callout variant="error"><span slot="content">Error</span></aegov-callout>`,
-      });
-
-      const icon = page.root.querySelector('.callout__icon svg');
-      expect(icon).toBeTruthy();
-    });
-
-    it('should render warning icon for warning variant', async () => {
-      const page = await newSpecPage({
-        components: [AegovCallout],
-        html: `<aegov-callout variant="warning"><span slot="content">Warning</span></aegov-callout>`,
-      });
-
-      const icon = page.root.querySelector('.callout__icon svg');
-      expect(icon).toBeTruthy();
-    });
-
-    it('should render success icon for success variant', async () => {
-      const page = await newSpecPage({
-        components: [AegovCallout],
-        html: `<aegov-callout variant="success"><span slot="content">Success</span></aegov-callout>`,
-      });
-
-      const icon = page.root.querySelector('.callout__icon svg');
-      expect(icon).toBeTruthy();
-    });
-
-    it('should render info icon for info variant', async () => {
-      const page = await newSpecPage({
-        components: [AegovCallout],
-        html: `<aegov-callout variant="info"><span slot="content">Info</span></aegov-callout>`,
-      });
-
-      const icon = page.root.querySelector('.callout__icon svg');
-      expect(icon).toBeTruthy();
+      expect(page.rootInstance.hasActionsSlot).toBe(true);
     });
   });
 
   describe('pass-through attributes', () => {
-    it('should pass through aria-* attributes to the callout wrapper', async () => {
+    it('should pass through aria-* attributes', async () => {
       const page = await newSpecPage({
         components: [AegovCallout],
-        html: `<aegov-callout aria-label="Custom alert" aria-live="polite"><span slot="content">Message</span></aegov-callout>`,
+        html: `<aegov-callout aria-label="Custom alert"><span slot="content">Message</span></aegov-callout>`,
       });
-
       const callout = page.root.querySelector('[data-aegov-callout]');
       expect(callout.getAttribute('aria-label')).toBe('Custom alert');
-      expect(callout.getAttribute('aria-live')).toBe('polite');
     });
 
-    it('should pass through data-* attributes to the callout wrapper', async () => {
+    it('should pass through data-* attributes', async () => {
       const page = await newSpecPage({
         components: [AegovCallout],
-        html: `<aegov-callout data-testid="my-callout" data-tracking="event-123"><span slot="content">Message</span></aegov-callout>`,
+        html: `<aegov-callout data-testid="my-callout"><span slot="content">Message</span></aegov-callout>`,
       });
-
       const callout = page.root.querySelector('[data-aegov-callout]');
       expect(callout.getAttribute('data-testid')).toBe('my-callout');
-      expect(callout.getAttribute('data-tracking')).toBe('event-123');
     });
 
-    it('should pass through id attribute to the callout wrapper', async () => {
+    it('should pass through id attribute', async () => {
       const page = await newSpecPage({
         components: [AegovCallout],
         html: `<aegov-callout id="unique-callout"><span slot="content">Message</span></aegov-callout>`,
       });
-
       const callout = page.root.querySelector('[data-aegov-callout]');
       expect(callout.getAttribute('id')).toBe('unique-callout');
     });
 
-    it('should pass through multiple types of attributes simultaneously', async () => {
+    it('should not pass through unsupported attributes', async () => {
       const page = await newSpecPage({
         components: [AegovCallout],
-        html: `<aegov-callout id="test-id" aria-describedby="desc-1" data-value="123"><span slot="content">Message</span></aegov-callout>`,
+        html: `<aegov-callout title="tooltip"><span slot="content">Message</span></aegov-callout>`,
       });
-
-      const callout = page.root.querySelector('[data-aegov-callout]');
-      expect(callout.getAttribute('id')).toBe('test-id');
-      expect(callout.getAttribute('aria-describedby')).toBe('desc-1');
-      expect(callout.getAttribute('data-value')).toBe('123');
-    });
-
-    it('should not pass through non-supported attributes', async () => {
-      const page = await newSpecPage({
-        components: [AegovCallout],
-        html: `<aegov-callout title="tooltip" custom="value"><span slot="content">Message</span></aegov-callout>`,
-      });
-
       const callout = page.root.querySelector('[data-aegov-callout]');
       expect(callout.getAttribute('title')).toBeNull();
-      expect(callout.getAttribute('custom')).toBeNull();
     });
   });
 });

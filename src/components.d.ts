@@ -5,8 +5,8 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
-import { AccordionIcon, AvatarSize, AvatarStatus, AvatarVariant, BadgeAppearance, BadgeColor, BadgeSize, BannerDisplay, BannerMode, BannerPosition, BannerRole, BlockquoteVariant, BreadcrumbSeparator, ButtonAppearance, ButtonGroupOrientation, ButtonSize, ButtonType, ButtonVariant, CalloutAppearance, CalloutVariant, DropdownAlign, DropdownPosition, DropdownTrigger, LinkTarget, ModalBackdropOpacity, ModalPosition, PaginationSize, TabOrientation, TabSize, TabVariant, TextSize, TitleSize, TooltipAlign, TooltipPosition, TooltipTrigger } from "./utils/types";
-export { AccordionIcon, AvatarSize, AvatarStatus, AvatarVariant, BadgeAppearance, BadgeColor, BadgeSize, BannerDisplay, BannerMode, BannerPosition, BannerRole, BlockquoteVariant, BreadcrumbSeparator, ButtonAppearance, ButtonGroupOrientation, ButtonSize, ButtonType, ButtonVariant, CalloutAppearance, CalloutVariant, DropdownAlign, DropdownPosition, DropdownTrigger, LinkTarget, ModalBackdropOpacity, ModalPosition, PaginationSize, TabOrientation, TabSize, TabVariant, TextSize, TitleSize, TooltipAlign, TooltipPosition, TooltipTrigger } from "./utils/types";
+import { AccordionIcon, AvatarSize, AvatarStatus, AvatarVariant, BadgeAppearance, BadgeColor, BadgeSize, BannerDisplay, BannerMode, BannerPosition, BannerRole, BlockquoteVariant, BreadcrumbSeparator, ButtonAppearance, ButtonGroupOrientation, ButtonSize, ButtonType, ButtonVariant, CalloutAppearance, CalloutVariant, DropdownAlign, DropdownPosition, DropdownTrigger, LinkTarget, ModalBackdropOpacity, ModalPosition, PaginationSize, PaginationVariant, ProgressOrientation, ProgressSize, ProgressStepStatus, ProgressVariant, TabOrientation, TabSize, TabVariant, TextSize, TitleSize, ToastAppearance, ToastPosition, ToastVariant, TooltipAlign, TooltipPosition, TooltipTrigger } from "./utils/types";
+export { AccordionIcon, AvatarSize, AvatarStatus, AvatarVariant, BadgeAppearance, BadgeColor, BadgeSize, BannerDisplay, BannerMode, BannerPosition, BannerRole, BlockquoteVariant, BreadcrumbSeparator, ButtonAppearance, ButtonGroupOrientation, ButtonSize, ButtonType, ButtonVariant, CalloutAppearance, CalloutVariant, DropdownAlign, DropdownPosition, DropdownTrigger, LinkTarget, ModalBackdropOpacity, ModalPosition, PaginationSize, PaginationVariant, ProgressOrientation, ProgressSize, ProgressStepStatus, ProgressVariant, TabOrientation, TabSize, TabVariant, TextSize, TitleSize, ToastAppearance, ToastPosition, ToastVariant, TooltipAlign, TooltipPosition, TooltipTrigger } from "./utils/types";
 export namespace Components {
     /**
      * Accordion component for collapsible content sections
@@ -534,6 +534,71 @@ export namespace Components {
           * @default 1
          */
         "totalPages": number;
+        /**
+          * Display variant. - 'default': shows page numbers, ellipsis, and prev/next buttons. - 'compact': shows only prev/next buttons (and first/last when showFirstLast is true).
+          * @default 'default'
+         */
+        "variant": PaginationVariant;
+    }
+    interface AegovProgress {
+        /**
+          * Layout orientation.
+          * @default 'horizontal'
+         */
+        "orientation": ProgressOrientation;
+        /**
+          * Size of step indicators.
+          * @default 'base'
+         */
+        "size": ProgressSize;
+        /**
+          * Visual variant: default (numbered circles) or compact (dots).
+          * @default 'default'
+         */
+        "variant": ProgressVariant;
+    }
+    interface AegovProgressStep {
+        /**
+          * @default false
+         */
+        "connectorSolid": boolean;
+        /**
+          * Optional description shown below the label.
+         */
+        "description"?: string;
+        /**
+          * @default false
+         */
+        "isFirst": boolean;
+        /**
+          * @default false
+         */
+        "isLast": boolean;
+        /**
+          * @default 'horizontal'
+         */
+        "orientation": ProgressOrientation;
+        /**
+          * @default 'base'
+         */
+        "size": ProgressSize;
+        /**
+          * Step status.
+          * @default 'pending'
+         */
+        "status": ProgressStepStatus;
+        /**
+          * @default 1
+         */
+        "stepCount": number;
+        /**
+          * @default 0
+         */
+        "stepIndex": number;
+        /**
+          * @default 'default'
+         */
+        "variant": ProgressVariant;
     }
     /**
      * A separator component for visually dividing sections of content
@@ -684,6 +749,56 @@ export namespace Components {
          */
         "size": TitleSize;
     }
+    interface AegovToast {
+        /**
+          * Appearance style: soft (light bg) or solid (dark bg).
+          * @default 'soft'
+         */
+        "appearance": ToastAppearance;
+        /**
+          * Close the toast with exit animation and auto-remove from DOM.
+         */
+        "close": () => Promise<void>;
+        /**
+          * Whether the toast shows a close button.
+          * @default true
+         */
+        "dismissible": boolean;
+        /**
+          * Auto-dismiss duration in milliseconds. 0 = no auto-dismiss.
+          * @default 5000
+         */
+        "duration": number;
+        /**
+          * Screen position where the toast appears.
+          * @default 'top-right'
+         */
+        "position": ToastPosition;
+        /**
+          * Show the toast notification.
+         */
+        "show": () => Promise<void>;
+        /**
+          * Whether to show the variant-specific icon.
+          * @default true
+         */
+        "showIcon": boolean;
+        /**
+          * Whether to show a countdown progress bar.
+          * @default false
+         */
+        "showProgress": boolean;
+        /**
+          * Whether multiple toasts can stack at the same position. false = replaces previous toast at the same position (cross-fade).
+          * @default true
+         */
+        "stackable": boolean;
+        /**
+          * Semantic color variant of the toast.
+          * @default 'default'
+         */
+        "variant": ToastVariant;
+    }
     /**
      * Tooltip component that displays additional information on hover or click
      */
@@ -794,6 +909,10 @@ export interface AegovTabCustomEvent<T> extends CustomEvent<T> {
 export interface AegovTabsCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLAegovTabsElement;
+}
+export interface AegovToastCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLAegovToastElement;
 }
 declare global {
     /**
@@ -1061,6 +1180,18 @@ declare global {
         prototype: HTMLAegovPaginationElement;
         new (): HTMLAegovPaginationElement;
     };
+    interface HTMLAegovProgressElement extends Components.AegovProgress, HTMLStencilElement {
+    }
+    var HTMLAegovProgressElement: {
+        prototype: HTMLAegovProgressElement;
+        new (): HTMLAegovProgressElement;
+    };
+    interface HTMLAegovProgressStepElement extends Components.AegovProgressStep, HTMLStencilElement {
+    }
+    var HTMLAegovProgressStepElement: {
+        prototype: HTMLAegovProgressStepElement;
+        new (): HTMLAegovProgressStepElement;
+    };
     /**
      * A separator component for visually dividing sections of content
      */
@@ -1151,6 +1282,25 @@ declare global {
         prototype: HTMLAegovTitleElement;
         new (): HTMLAegovTitleElement;
     };
+    interface HTMLAegovToastElementEventMap {
+        "aegovToastOpen": void;
+        "aegovToastClose": void;
+        "aegovToastDismiss": void;
+    }
+    interface HTMLAegovToastElement extends Components.AegovToast, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLAegovToastElementEventMap>(type: K, listener: (this: HTMLAegovToastElement, ev: AegovToastCustomEvent<HTMLAegovToastElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLAegovToastElementEventMap>(type: K, listener: (this: HTMLAegovToastElement, ev: AegovToastCustomEvent<HTMLAegovToastElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLAegovToastElement: {
+        prototype: HTMLAegovToastElement;
+        new (): HTMLAegovToastElement;
+    };
     /**
      * Tooltip component that displays additional information on hover or click
      */
@@ -1178,12 +1328,15 @@ declare global {
         "aegov-link": HTMLAegovLinkElement;
         "aegov-modal": HTMLAegovModalElement;
         "aegov-pagination": HTMLAegovPaginationElement;
+        "aegov-progress": HTMLAegovProgressElement;
+        "aegov-progress-step": HTMLAegovProgressStepElement;
         "aegov-separator": HTMLAegovSeparatorElement;
         "aegov-tab": HTMLAegovTabElement;
         "aegov-tab-panel": HTMLAegovTabPanelElement;
         "aegov-tabs": HTMLAegovTabsElement;
         "aegov-text": HTMLAegovTextElement;
         "aegov-title": HTMLAegovTitleElement;
+        "aegov-toast": HTMLAegovToastElement;
         "aegov-tooltip": HTMLAegovTooltipElement;
     }
 }
@@ -1778,6 +1931,71 @@ declare namespace LocalJSX {
           * @default 1
          */
         "totalPages"?: number;
+        /**
+          * Display variant. - 'default': shows page numbers, ellipsis, and prev/next buttons. - 'compact': shows only prev/next buttons (and first/last when showFirstLast is true).
+          * @default 'default'
+         */
+        "variant"?: PaginationVariant;
+    }
+    interface AegovProgress {
+        /**
+          * Layout orientation.
+          * @default 'horizontal'
+         */
+        "orientation"?: ProgressOrientation;
+        /**
+          * Size of step indicators.
+          * @default 'base'
+         */
+        "size"?: ProgressSize;
+        /**
+          * Visual variant: default (numbered circles) or compact (dots).
+          * @default 'default'
+         */
+        "variant"?: ProgressVariant;
+    }
+    interface AegovProgressStep {
+        /**
+          * @default false
+         */
+        "connectorSolid"?: boolean;
+        /**
+          * Optional description shown below the label.
+         */
+        "description"?: string;
+        /**
+          * @default false
+         */
+        "isFirst"?: boolean;
+        /**
+          * @default false
+         */
+        "isLast"?: boolean;
+        /**
+          * @default 'horizontal'
+         */
+        "orientation"?: ProgressOrientation;
+        /**
+          * @default 'base'
+         */
+        "size"?: ProgressSize;
+        /**
+          * Step status.
+          * @default 'pending'
+         */
+        "status"?: ProgressStepStatus;
+        /**
+          * @default 1
+         */
+        "stepCount"?: number;
+        /**
+          * @default 0
+         */
+        "stepIndex"?: number;
+        /**
+          * @default 'default'
+         */
+        "variant"?: ProgressVariant;
     }
     /**
      * A separator component for visually dividing sections of content
@@ -1938,6 +2156,60 @@ declare namespace LocalJSX {
          */
         "size"?: TitleSize;
     }
+    interface AegovToast {
+        /**
+          * Appearance style: soft (light bg) or solid (dark bg).
+          * @default 'soft'
+         */
+        "appearance"?: ToastAppearance;
+        /**
+          * Whether the toast shows a close button.
+          * @default true
+         */
+        "dismissible"?: boolean;
+        /**
+          * Auto-dismiss duration in milliseconds. 0 = no auto-dismiss.
+          * @default 5000
+         */
+        "duration"?: number;
+        /**
+          * Emitted after the toast close animation completes and element is removed.
+         */
+        "onAegovToastClose"?: (event: AegovToastCustomEvent<void>) => void;
+        /**
+          * Emitted when the user clicks the dismiss button.
+         */
+        "onAegovToastDismiss"?: (event: AegovToastCustomEvent<void>) => void;
+        /**
+          * Emitted after the toast becomes visible.
+         */
+        "onAegovToastOpen"?: (event: AegovToastCustomEvent<void>) => void;
+        /**
+          * Screen position where the toast appears.
+          * @default 'top-right'
+         */
+        "position"?: ToastPosition;
+        /**
+          * Whether to show the variant-specific icon.
+          * @default true
+         */
+        "showIcon"?: boolean;
+        /**
+          * Whether to show a countdown progress bar.
+          * @default false
+         */
+        "showProgress"?: boolean;
+        /**
+          * Whether multiple toasts can stack at the same position. false = replaces previous toast at the same position (cross-fade).
+          * @default true
+         */
+        "stackable"?: boolean;
+        /**
+          * Semantic color variant of the toast.
+          * @default 'default'
+         */
+        "variant"?: ToastVariant;
+    }
     /**
      * Tooltip component that displays additional information on hover or click
      */
@@ -2010,12 +2282,15 @@ declare namespace LocalJSX {
         "aegov-link": AegovLink;
         "aegov-modal": AegovModal;
         "aegov-pagination": AegovPagination;
+        "aegov-progress": AegovProgress;
+        "aegov-progress-step": AegovProgressStep;
         "aegov-separator": AegovSeparator;
         "aegov-tab": AegovTab;
         "aegov-tab-panel": AegovTabPanel;
         "aegov-tabs": AegovTabs;
         "aegov-text": AegovText;
         "aegov-title": AegovTitle;
+        "aegov-toast": AegovToast;
         "aegov-tooltip": AegovTooltip;
     }
 }
@@ -2062,6 +2337,8 @@ declare module "@stencil/core" {
             "aegov-link": LocalJSX.AegovLink & JSXBase.HTMLAttributes<HTMLAegovLinkElement>;
             "aegov-modal": LocalJSX.AegovModal & JSXBase.HTMLAttributes<HTMLAegovModalElement>;
             "aegov-pagination": LocalJSX.AegovPagination & JSXBase.HTMLAttributes<HTMLAegovPaginationElement>;
+            "aegov-progress": LocalJSX.AegovProgress & JSXBase.HTMLAttributes<HTMLAegovProgressElement>;
+            "aegov-progress-step": LocalJSX.AegovProgressStep & JSXBase.HTMLAttributes<HTMLAegovProgressStepElement>;
             /**
              * A separator component for visually dividing sections of content
              */
@@ -2100,6 +2377,7 @@ declare module "@stencil/core" {
             "aegov-tabs": LocalJSX.AegovTabs & JSXBase.HTMLAttributes<HTMLAegovTabsElement>;
             "aegov-text": LocalJSX.AegovText & JSXBase.HTMLAttributes<HTMLAegovTextElement>;
             "aegov-title": LocalJSX.AegovTitle & JSXBase.HTMLAttributes<HTMLAegovTitleElement>;
+            "aegov-toast": LocalJSX.AegovToast & JSXBase.HTMLAttributes<HTMLAegovToastElement>;
             /**
              * Tooltip component that displays additional information on hover or click
              */

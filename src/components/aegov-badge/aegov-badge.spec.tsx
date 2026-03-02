@@ -2,218 +2,216 @@ import { newSpecPage } from '@stencil/core/testing';
 import { AegovBadge } from './aegov-badge';
 
 describe('aegov-badge', () => {
+  // ------------------------------------------------------------------ rendering
   describe('rendering', () => {
-    it('should render with default props', async () => {
+    it('renders the component', async () => {
       const page = await newSpecPage({
         components: [AegovBadge],
         html: `<aegov-badge>Default</aegov-badge>`,
       });
-
       expect(page.root).toBeTruthy();
-      const component = page.rootInstance as AegovBadge;
-      expect(component.color).toBe('default');
-      expect(component.appearance).toBe('soft');
-      expect(component.size).toBe('base');
     });
 
-    it('should render with slot content', async () => {
+    it('renders a span element', async () => {
+      const page = await newSpecPage({
+        components: [AegovBadge],
+        html: `<aegov-badge>Badge</aegov-badge>`,
+      });
+      const span = page.root.querySelector('span');
+      expect(span).toBeTruthy();
+    });
+
+    it('renders slot content', async () => {
       const page = await newSpecPage({
         components: [AegovBadge],
         html: `<aegov-badge>Badge Text</aegov-badge>`,
       });
-      const span = page.root?.querySelector('span');
-      expect(span?.textContent).toContain('Badge Text');
+      const span = page.root.querySelector('span');
+      expect(span.textContent).toContain('Badge Text');
     });
 
-    it('should render with HTML content in slot', async () => {
+    it('renders HTML content in slot', async () => {
       const page = await newSpecPage({
         components: [AegovBadge],
         html: `<aegov-badge><strong>Bold</strong> Text</aegov-badge>`,
       });
-      const span = page.root?.querySelector('span');
-      expect(span?.innerHTML).toContain('<strong>Bold</strong>');
+      const span = page.root.querySelector('span');
+      expect(span.innerHTML).toContain('<strong>Bold</strong>');
     });
   });
 
+  // ------------------------------------------------------------------ default props
+  describe('default props', () => {
+    it('defaults color to default', async () => {
+      const page = await newSpecPage({
+        components: [AegovBadge],
+        html: `<aegov-badge>Badge</aegov-badge>`,
+      });
+      expect(page.rootInstance.color).toBe('default');
+    });
+
+    it('defaults appearance to soft', async () => {
+      const page = await newSpecPage({
+        components: [AegovBadge],
+        html: `<aegov-badge>Badge</aegov-badge>`,
+      });
+      expect(page.rootInstance.appearance).toBe('soft');
+    });
+
+    it('defaults size to base', async () => {
+      const page = await newSpecPage({
+        components: [AegovBadge],
+        html: `<aegov-badge>Badge</aegov-badge>`,
+      });
+      expect(page.rootInstance.size).toBe('base');
+    });
+
+    it('defaults dismissible to false', async () => {
+      const page = await newSpecPage({
+        components: [AegovBadge],
+        html: `<aegov-badge>Badge</aegov-badge>`,
+      });
+      expect(page.rootInstance.dismissible).toBe(false);
+    });
+  });
+
+  // ------------------------------------------------------------------ size prop
   describe('size prop', () => {
-    it('should render sm size', async () => {
+    it('accepts sm size', async () => {
       const page = await newSpecPage({
         components: [AegovBadge],
         html: `<aegov-badge size="sm">Small</aegov-badge>`,
       });
-      const component = page.rootInstance as AegovBadge;
-      expect(component.size).toBe('sm');
+      expect(page.rootInstance.size).toBe('sm');
+      const span = page.root.querySelector('span');
+      expect(span.className).toContain('text-xs');
     });
 
-    it('should render base size (default)', async () => {
+    it('accepts base size', async () => {
       const page = await newSpecPage({
         components: [AegovBadge],
-        html: `<aegov-badge>Base</aegov-badge>`,
+        html: `<aegov-badge size="base">Base</aegov-badge>`,
       });
-      const component = page.rootInstance as AegovBadge;
-      expect(component.size).toBe('base');
+      const span = page.root.querySelector('span');
+      expect(span.className).toContain('text-sm');
     });
 
-    it('should render lg size', async () => {
+    it('accepts lg size', async () => {
       const page = await newSpecPage({
         components: [AegovBadge],
         html: `<aegov-badge size="lg">Large</aegov-badge>`,
       });
-      const component = page.rootInstance as AegovBadge;
-      expect(component.size).toBe('lg');
+      expect(page.rootInstance.size).toBe('lg');
     });
   });
 
+  // ------------------------------------------------------------------ appearance prop
   describe('appearance prop', () => {
-    it('should render soft appearance by default', async () => {
+    it('applies badge-soft for soft appearance', async () => {
       const page = await newSpecPage({
         components: [AegovBadge],
         html: `<aegov-badge>Soft</aegov-badge>`,
       });
-      const component = page.rootInstance as AegovBadge;
-      expect(component.appearance).toBe('soft');
+      const span = page.root.querySelector('span');
+      expect(span.className).toContain('badge-soft');
     });
 
-    it('should render solid appearance', async () => {
+    it('applies badge-solid for solid appearance', async () => {
       const page = await newSpecPage({
         components: [AegovBadge],
         html: `<aegov-badge appearance="solid">Solid</aegov-badge>`,
       });
-      const component = page.rootInstance as AegovBadge;
-      expect(component.appearance).toBe('solid');
+      const span = page.root.querySelector('span');
+      expect(span.className).toContain('badge-solid');
     });
   });
 
+  // ------------------------------------------------------------------ color prop
   describe('color prop', () => {
     const colors = [
       'default', 'primary', 'secondary', 'aegold', 'aered', 'aegreen',
       'aeblack', 'techblue', 'seablue', 'camel', 'desert', 'fuchsia',
-      'slate', 'purple', 'pink', 'indigo', 'lime'
+      'slate', 'purple', 'pink', 'indigo', 'lime',
     ];
 
     colors.forEach(color => {
-      it(`should render ${color} color`, async () => {
+      it(`applies badge-${color} class for ${color} color`, async () => {
         const page = await newSpecPage({
           components: [AegovBadge],
           html: `<aegov-badge color="${color}">Badge</aegov-badge>`,
         });
-        const component = page.rootInstance as AegovBadge;
-        expect(component.color).toBe(color);
+        const span = page.root.querySelector('span');
+        expect(span.className).toContain(`badge-${color}`);
       });
-    });
-
-    it('should default to "default" color', async () => {
-      const page = await newSpecPage({
-        components: [AegovBadge],
-        html: `<aegov-badge>Badge</aegov-badge>`,
-      });
-      const component = page.rootInstance as AegovBadge;
-      expect(component.color).toBe('default');
     });
   });
 
-  describe('dismissible functionality', () => {
-    it('should not be dismissible by default', async () => {
+  // ------------------------------------------------------------------ dismissible
+  describe('dismissible', () => {
+    it('does not render dismiss button by default', async () => {
       const page = await newSpecPage({
         components: [AegovBadge],
         html: `<aegov-badge>Badge</aegov-badge>`,
       });
-      const component = page.rootInstance as AegovBadge;
-      expect(component.dismissible).toBe(false);
-
-      const dismissButton = page.root?.querySelector('.badge-dismiss');
-      expect(dismissButton).toBeFalsy();
+      const btn = page.root.querySelector('.badge-dismiss');
+      expect(btn).toBeFalsy();
     });
 
-    it('should render dismiss button when dismissible is true', async () => {
+    it('renders dismiss button when dismissible', async () => {
       const page = await newSpecPage({
         components: [AegovBadge],
         html: `<aegov-badge dismissible>Badge</aegov-badge>`,
       });
-      const component = page.rootInstance as AegovBadge;
-      expect(component.dismissible).toBe(true);
-
-      const dismissButton = page.root?.querySelector('.badge-dismiss');
-      expect(dismissButton).toBeTruthy();
+      const btn = page.root.querySelector('.badge-dismiss');
+      expect(btn).toBeTruthy();
     });
 
-    it('should emit aegovBadgeDismiss event when dismiss button is clicked', async () => {
+    it('emits aegovBadgeDismiss on dismiss click', async () => {
       const page = await newSpecPage({
         components: [AegovBadge],
         html: `<aegov-badge dismissible>Badge</aegov-badge>`,
       });
+      const spy = jest.fn();
+      page.root.addEventListener('aegovBadgeDismiss', spy);
 
-      const dismissSpy = jest.fn();
-      page.root?.addEventListener('aegovBadgeDismiss', dismissSpy);
-
-      const dismissButton = page.root?.querySelector('.badge-dismiss') as HTMLButtonElement;
-      dismissButton?.click();
+      const btn = page.root.querySelector('.badge-dismiss') as HTMLButtonElement;
+      btn.click();
       await page.waitForChanges();
 
-      expect(dismissSpy).toHaveBeenCalled();
+      expect(spy).toHaveBeenCalled();
     });
 
-    it('should have aria-label on dismiss button', async () => {
+    it('has aria-label on dismiss button', async () => {
       const page = await newSpecPage({
         components: [AegovBadge],
         html: `<aegov-badge dismissible>Badge</aegov-badge>`,
       });
-
-      const dismissButton = page.root?.querySelector('.badge-dismiss');
-      expect(dismissButton?.getAttribute('aria-label')).toBe('Badge dismiss button');
-    });
-  });
-
-  describe('combined props', () => {
-    it('should apply multiple props correctly', async () => {
-      const page = await newSpecPage({
-        components: [AegovBadge],
-        html: `<aegov-badge color="primary" appearance="solid" size="lg" dismissible>Large Primary Solid</aegov-badge>`,
-      });
-
-      const component = page.rootInstance as AegovBadge;
-      expect(component.color).toBe('primary');
-      expect(component.appearance).toBe('solid');
-      expect(component.size).toBe('lg');
-      expect(component.dismissible).toBe(true);
+      const btn = page.root.querySelector('.badge-dismiss');
+      expect(btn.getAttribute('aria-label')).toBe('Badge dismiss button');
     });
 
-    it('should render badge with all color variants and solid appearance', async () => {
-      const colors = ['primary', 'secondary', 'aegold', 'aered', 'aegreen'];
-
-      for (const color of colors) {
-        const page = await newSpecPage({
-          components: [AegovBadge],
-          html: `<aegov-badge color="${color}" appearance="solid">Badge</aegov-badge>`,
-        });
-
-        const component = page.rootInstance as AegovBadge;
-        expect(component.color).toBe(color);
-        expect(component.appearance).toBe('solid');
-      }
-    });
-  });
-
-  describe('badge structure', () => {
-    it('should render span element', async () => {
-      const page = await newSpecPage({
-        components: [AegovBadge],
-        html: `<aegov-badge>Badge</aegov-badge>`,
-      });
-
-      const span = page.root?.querySelector('span');
-      expect(span).toBeTruthy();
-    });
-
-    it('should have dismiss icon SVG when dismissible', async () => {
+    it('has SVG icon in dismiss button', async () => {
       const page = await newSpecPage({
         components: [AegovBadge],
         html: `<aegov-badge dismissible>Badge</aegov-badge>`,
       });
-
-      const dismissButton = page.root?.querySelector('.badge-dismiss');
-      const svg = dismissButton?.querySelector('svg');
+      const svg = page.root.querySelector('.badge-dismiss svg');
       expect(svg).toBeTruthy();
+      expect(svg.getAttribute('aria-hidden')).toBe('true');
+    });
+  });
+
+  // ------------------------------------------------------------------ combined props
+  describe('combined props', () => {
+    it('applies all props correctly', async () => {
+      const page = await newSpecPage({
+        components: [AegovBadge],
+        html: `<aegov-badge color="primary" appearance="solid" size="lg" dismissible>Badge</aegov-badge>`,
+      });
+      expect(page.rootInstance.color).toBe('primary');
+      expect(page.rootInstance.appearance).toBe('solid');
+      expect(page.rootInstance.size).toBe('lg');
+      expect(page.rootInstance.dismissible).toBe(true);
     });
   });
 });

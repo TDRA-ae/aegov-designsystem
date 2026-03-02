@@ -361,7 +361,6 @@ describe('aegov-dropdown', () => {
         `,
       });
 
-      // Verify dropdownId is generated
       expect(page.rootInstance.dropdownId).toBeTruthy();
       expect(page.rootInstance.dropdownId).toContain('dropdown-');
     });
@@ -437,7 +436,6 @@ describe('aegov-dropdown', () => {
         `,
       });
 
-      // Set up event spy
       const closeSpy = jest.fn();
       page.root.addEventListener('aegovDropdownClose', closeSpy);
 
@@ -445,11 +443,10 @@ describe('aegov-dropdown', () => {
       page.rootInstance.isOpen = true;
       await page.waitForChanges();
 
-      // Manually trigger close (in real usage, this happens when another dropdown opens)
+      // Close dropdown (simulates another dropdown opening)
       page.rootInstance.isOpen = false;
       await page.waitForChanges();
 
-      // Verify close event was emitted
       expect(closeSpy).toHaveBeenCalledTimes(1);
     });
 

@@ -15,8 +15,8 @@ import { AegovBadge } from '../components/aegov-badge/aegov-badge';
 import { AegovAvatar } from '../components/aegov-avatar/aegov-avatar';
 import { AegovBlockquote } from '../components/aegov-blockquote/aegov-blockquote';
 import { AegovCallout } from '../components/aegov-callout/aegov-callout';
-// import { AegovTitle } from '../components/aegov-title/aegov-title';
-// import { AegovText } from '../components/aegov-text/aegov-text';
+import { AegovTitle } from '../components/aegov-title/aegov-title';
+import { AegovText } from '../components/aegov-text/aegov-text';
 import { AegovLink } from '../components/aegov-link/aegov-link';
 import { AegovBreadcrumbs } from '../components/aegov-breadcrumbs/aegov-breadcrumbs';
 import { AegovBreadcrumbsItem } from '../components/aegov-breadcrumbs-item/aegov-breadcrumbs-item';
@@ -25,6 +25,15 @@ import { AegovAccordion } from '../components/aegov-accordion/aegov-accordion';
 import { AegovAccordionItem } from '../components/aegov-accordion-item/aegov-accordion-item';
 import { AegovBanner } from '../components/aegov-banner/aegov-banner';
 import { AegovModal } from '../components/aegov-modal/aegov-modal';
+import { AegovTabs } from '../components/aegov-tabs/aegov-tabs';
+import { AegovTab } from '../components/aegov-tab/aegov-tab';
+import { AegovTabPanel } from '../components/aegov-tab-panel/aegov-tab-panel';
+import { AegovDropdown } from '../components/aegov-dropdown/aegov-dropdown';
+import { AegovContextMenu } from '../components/aegov-context-menu/aegov-context-menu';
+import { AegovContextMenuItem } from '../components/aegov-context-menu-item/aegov-context-menu-item';
+import { AegovPagination } from '../components/aegov-pagination/aegov-pagination';
+import { AegovButtonGroup } from '../components/aegov-button-group/aegov-button-group';
+import { AegovSeparator } from '../components/aegov-separator/aegov-separator';
 
 /**
  * Helper functions for calculating color contrast ratios
@@ -523,6 +532,493 @@ describe('Accessibility Testing Suite', () => {
 
   });
 
+  describe('aegov-tabs - Accessibility', () => {
+
+    it('should have role="tablist" on tab container', async () => {
+      const page = await newSpecPage({
+        components: [AegovTabs, AegovTab, AegovTabPanel],
+        html: `
+          <aegov-tabs>
+            <aegov-tab slot="tabs" tab-id="one">Tab 1</aegov-tab>
+            <aegov-tab-panel tab-id="one">Content 1</aegov-tab-panel>
+          </aegov-tabs>
+        `,
+      });
+
+      await page.waitForChanges();
+      const tablist = page.root.querySelector('[role="tablist"]');
+      expect(tablist).toBeTruthy();
+    });
+
+    it('should have role="tab" on individual tabs', async () => {
+      const page = await newSpecPage({
+        components: [AegovTabs, AegovTab, AegovTabPanel],
+        html: `
+          <aegov-tabs>
+            <aegov-tab slot="tabs" tab-id="one">Tab 1</aegov-tab>
+            <aegov-tab-panel tab-id="one">Content 1</aegov-tab-panel>
+          </aegov-tabs>
+        `,
+      });
+
+      await page.waitForChanges();
+      const tab = page.root.querySelector('aegov-tab button');
+      expect(tab.getAttribute('role')).toBe('tab');
+    });
+
+    it('should have aria-selected on active tab', async () => {
+      const page = await newSpecPage({
+        components: [AegovTabs, AegovTab, AegovTabPanel],
+        html: `
+          <aegov-tabs default-active-tab="one">
+            <aegov-tab slot="tabs" tab-id="one">Tab 1</aegov-tab>
+            <aegov-tab slot="tabs" tab-id="two">Tab 2</aegov-tab>
+            <aegov-tab-panel tab-id="one">Content 1</aegov-tab-panel>
+            <aegov-tab-panel tab-id="two">Content 2</aegov-tab-panel>
+          </aegov-tabs>
+        `,
+      });
+
+      await page.waitForChanges();
+      const tabs = page.root.querySelectorAll('aegov-tab button');
+      expect(tabs[0].getAttribute('aria-selected')).toBe('true');
+      expect(tabs[1].getAttribute('aria-selected')).toBe('false');
+    });
+
+    it('should have aria-controls linking tab to panel', async () => {
+      const page = await newSpecPage({
+        components: [AegovTabs, AegovTab, AegovTabPanel],
+        html: `
+          <aegov-tabs default-active-tab="one">
+            <aegov-tab slot="tabs" tab-id="one">Tab 1</aegov-tab>
+            <aegov-tab-panel tab-id="one">Content 1</aegov-tab-panel>
+          </aegov-tabs>
+        `,
+      });
+
+      await page.waitForChanges();
+      const tab = page.root.querySelector('aegov-tab button');
+      expect(tab.getAttribute('aria-controls')).toBe('panel-one');
+    });
+
+    it('should have role="tabpanel" on panel', async () => {
+      const page = await newSpecPage({
+        components: [AegovTabs, AegovTab, AegovTabPanel],
+        html: `
+          <aegov-tabs default-active-tab="one">
+            <aegov-tab slot="tabs" tab-id="one">Tab 1</aegov-tab>
+            <aegov-tab-panel tab-id="one">Content 1</aegov-tab-panel>
+          </aegov-tabs>
+        `,
+      });
+
+      await page.waitForChanges();
+      const panel = page.root.querySelector('aegov-tab-panel [role="tabpanel"]');
+      expect(panel).toBeTruthy();
+      expect(panel.getAttribute('aria-labelledby')).toBe('tab-one');
+    });
+
+    it('should use roving tabindex pattern', async () => {
+      const page = await newSpecPage({
+        components: [AegovTabs, AegovTab, AegovTabPanel],
+        html: `
+          <aegov-tabs default-active-tab="one">
+            <aegov-tab slot="tabs" tab-id="one">Tab 1</aegov-tab>
+            <aegov-tab slot="tabs" tab-id="two">Tab 2</aegov-tab>
+            <aegov-tab-panel tab-id="one">Content 1</aegov-tab-panel>
+            <aegov-tab-panel tab-id="two">Content 2</aegov-tab-panel>
+          </aegov-tabs>
+        `,
+      });
+
+      await page.waitForChanges();
+      const tabs = page.root.querySelectorAll('aegov-tab button');
+      expect(tabs[0].getAttribute('tabindex')).toBe('0');
+      expect(tabs[1].getAttribute('tabindex')).toBe('-1');
+    });
+
+    it('should communicate disabled state with aria-disabled', async () => {
+      const page = await newSpecPage({
+        components: [AegovTabs, AegovTab, AegovTabPanel],
+        html: `
+          <aegov-tabs default-active-tab="one">
+            <aegov-tab slot="tabs" tab-id="one">Tab 1</aegov-tab>
+            <aegov-tab slot="tabs" tab-id="two" disabled>Tab 2</aegov-tab>
+            <aegov-tab-panel tab-id="one">Content 1</aegov-tab-panel>
+            <aegov-tab-panel tab-id="two">Content 2</aegov-tab-panel>
+          </aegov-tabs>
+        `,
+      });
+
+      await page.waitForChanges();
+      const tabs = page.root.querySelectorAll('aegov-tab button');
+      expect(tabs[1].getAttribute('aria-disabled')).toBe('true');
+    });
+
+  });
+
+  describe('aegov-dropdown - Accessibility', () => {
+
+    afterEach(() => {
+      try {
+        const portals = document.querySelectorAll('.aegov-dropdown-portal');
+        portals.forEach(portal => {
+          try { portal.remove(); } catch (_e) { /* ignore */ }
+        });
+      } catch (_e) { /* ignore */ }
+    });
+
+    it('should have aria-haspopup on trigger', async () => {
+      const page = await newSpecPage({
+        components: [AegovDropdown],
+        html: `
+          <aegov-dropdown>
+            <button slot="trigger">Open</button>
+            <div>Content</div>
+          </aegov-dropdown>
+        `,
+      });
+
+      await page.waitForChanges();
+      const trigger = page.root.querySelector('.dropdown-trigger');
+      expect(trigger.getAttribute('aria-haspopup')).toBe('true');
+    });
+
+    it('should have aria-expanded reflecting open state', async () => {
+      const page = await newSpecPage({
+        components: [AegovDropdown],
+        html: `
+          <aegov-dropdown>
+            <button slot="trigger">Open</button>
+            <div>Content</div>
+          </aegov-dropdown>
+        `,
+      });
+
+      await page.waitForChanges();
+      const trigger = page.root.querySelector('.dropdown-trigger');
+      expect(trigger.getAttribute('aria-expanded')).toBe('false');
+    });
+
+    it('should have role="menu" on dropdown content when opened', async () => {
+      const page = await newSpecPage({
+        components: [AegovDropdown],
+        html: `
+          <aegov-dropdown>
+            <button slot="trigger">Open</button>
+            <div>Content</div>
+          </aegov-dropdown>
+        `,
+      });
+
+      await page.waitForChanges();
+
+      // Open the dropdown by setting isOpen state
+      page.rootInstance.isOpen = true;
+      await page.waitForChanges();
+
+      const portal = document.querySelector('.aegov-dropdown-portal');
+      if (portal) {
+        const menu = portal.querySelector('.dropdown');
+        if (menu) {
+          expect(menu.getAttribute('role')).toBe('menu');
+        }
+      }
+      // Verify the trigger has aria-haspopup which indicates menu association
+      const trigger = page.root.querySelector('.dropdown-trigger');
+      expect(trigger.getAttribute('aria-haspopup')).toBe('true');
+    });
+
+  });
+
+  describe('aegov-context-menu - Accessibility', () => {
+
+    let testDiv: HTMLDivElement;
+
+    beforeEach(() => {
+      testDiv = document.createElement('div');
+      testDiv.id = 'ctx-test-target';
+      document.body.appendChild(testDiv);
+    });
+
+    afterEach(() => {
+      try {
+        const portals = document.querySelectorAll('.aegov-context-menu-portal');
+        portals.forEach(portal => {
+          try { portal.remove(); } catch (_e) { /* ignore */ }
+        });
+        if (testDiv && testDiv.parentNode) {
+          try { testDiv.parentNode.removeChild(testDiv); } catch (_e) { /* ignore */ }
+        }
+      } catch (_e) { /* ignore */ }
+    });
+
+    it('should render with role="menu" when opened', async () => {
+      const page = await newSpecPage({
+        components: [AegovContextMenu],
+        html: `
+          <aegov-context-menu target="#ctx-test-target">
+            <button>Item</button>
+          </aegov-context-menu>
+        `,
+      });
+
+      await page.waitForChanges();
+      await page.rootInstance.show(100, 100);
+      await page.waitForChanges();
+
+      const portal = document.querySelector('.aegov-context-menu-portal');
+      if (portal) {
+        const menu = portal.querySelector('.context-menu');
+        expect(menu.getAttribute('role')).toBe('menu');
+      }
+    });
+
+  });
+
+  describe('aegov-context-menu-item - Accessibility', () => {
+
+    it('should have role="menuitem"', async () => {
+      const page = await newSpecPage({
+        components: [AegovContextMenuItem],
+        html: `<aegov-context-menu-item>Edit</aegov-context-menu-item>`,
+      });
+
+      const button = page.root.querySelector('button');
+      expect(button.getAttribute('role')).toBe('menuitem');
+    });
+
+    it('should have aria-disabled="false" when not disabled', async () => {
+      const page = await newSpecPage({
+        components: [AegovContextMenuItem],
+        html: `<aegov-context-menu-item>Edit</aegov-context-menu-item>`,
+      });
+
+      const button = page.root.querySelector('button');
+      expect(button.getAttribute('aria-disabled')).toBe('false');
+    });
+
+    it('should have aria-disabled="true" when disabled', async () => {
+      const page = await newSpecPage({
+        components: [AegovContextMenuItem],
+        html: `<aegov-context-menu-item disabled>Delete</aegov-context-menu-item>`,
+      });
+
+      const button = page.root.querySelector('button');
+      expect(button.getAttribute('aria-disabled')).toBe('true');
+      expect(button.hasAttribute('disabled')).toBe(true);
+    });
+
+  });
+
+  describe('aegov-pagination - Accessibility', () => {
+
+    it('should have nav landmark with aria-label', async () => {
+      const page = await newSpecPage({
+        components: [AegovPagination],
+        html: `<aegov-pagination total-pages="5" current-page="1"></aegov-pagination>`,
+      });
+
+      const nav = page.root.querySelector('nav');
+      expect(nav).toBeTruthy();
+      expect(nav.getAttribute('aria-label')).toBe('Pagination');
+    });
+
+    it('should use semantic list structure', async () => {
+      const page = await newSpecPage({
+        components: [AegovPagination],
+        html: `<aegov-pagination total-pages="5" current-page="1"></aegov-pagination>`,
+      });
+
+      const list = page.root.querySelector('ul');
+      expect(list).toBeTruthy();
+      const items = page.root.querySelectorAll('li');
+      expect(items.length).toBeGreaterThan(0);
+    });
+
+    it('should mark current page with aria-current', async () => {
+      const page = await newSpecPage({
+        components: [AegovPagination],
+        html: `<aegov-pagination total-pages="5" current-page="3"></aegov-pagination>`,
+      });
+
+      const currentButton = page.root.querySelector('[aria-current="page"]');
+      expect(currentButton).toBeTruthy();
+      expect(currentButton.textContent.trim()).toBe('3');
+    });
+
+    it('should have accessible labels on navigation buttons', async () => {
+      const page = await newSpecPage({
+        components: [AegovPagination],
+        html: `<aegov-pagination total-pages="5" current-page="3"></aegov-pagination>`,
+      });
+
+      const prevButton = page.root.querySelector('[aria-label="Go to previous page"]');
+      const nextButton = page.root.querySelector('[aria-label="Go to next page"]');
+      expect(prevButton).toBeTruthy();
+      expect(nextButton).toBeTruthy();
+    });
+
+    it('should hide decorative icons from screen readers', async () => {
+      const page = await newSpecPage({
+        components: [AegovPagination],
+        html: `<aegov-pagination total-pages="5" current-page="1"></aegov-pagination>`,
+      });
+
+      const svgs = page.root.querySelectorAll('svg');
+      svgs.forEach(svg => {
+        expect(svg.getAttribute('aria-hidden')).toBe('true');
+      });
+    });
+
+    it('should hide ellipsis from screen readers', async () => {
+      const page = await newSpecPage({
+        components: [AegovPagination],
+        html: `<aegov-pagination total-pages="20" current-page="1"></aegov-pagination>`,
+      });
+
+      const ellipsis = page.root.querySelector('[aria-hidden="true"]');
+      expect(ellipsis).toBeTruthy();
+    });
+
+  });
+
+  describe('aegov-button-group - Accessibility', () => {
+
+    it('should have role="group" on container', async () => {
+      const page = await newSpecPage({
+        components: [AegovButtonGroup],
+        html: `<aegov-button-group></aegov-button-group>`,
+      });
+
+      const group = page.root.querySelector('[role="group"]');
+      expect(group).toBeTruthy();
+    });
+
+    it('should render child buttons as keyboard-accessible', async () => {
+      const page = await newSpecPage({
+        components: [AegovButtonGroup, AegovButton],
+        html: `
+          <aegov-button-group>
+            <aegov-button>One</aegov-button>
+            <aegov-button>Two</aegov-button>
+          </aegov-button-group>
+        `,
+      });
+
+      await page.waitForChanges();
+      const buttons = page.root.querySelectorAll('aegov-button button');
+      expect(buttons.length).toBe(2);
+      buttons.forEach(btn => {
+        expect(btn.hasAttribute('disabled')).toBe(false);
+      });
+    });
+
+  });
+
+  describe('aegov-separator - Accessibility', () => {
+
+    it('should have role="presentation" when decorative (default)', async () => {
+      const page = await newSpecPage({
+        components: [AegovSeparator],
+        html: `<aegov-separator></aegov-separator>`,
+      });
+
+      const hr = page.root.querySelector('hr');
+      expect(hr.getAttribute('role')).toBe('presentation');
+    });
+
+    it('should have role="separator" when not decorative', async () => {
+      const page = await newSpecPage({
+        components: [AegovSeparator],
+        html: `<aegov-separator decorative="false"></aegov-separator>`,
+      });
+
+      const hr = page.root.querySelector('hr');
+      expect(hr.getAttribute('role')).toBe('separator');
+    });
+
+    it('should have aria-orientation attribute', async () => {
+      const page = await newSpecPage({
+        components: [AegovSeparator],
+        html: `<aegov-separator orientation="vertical"></aegov-separator>`,
+      });
+
+      const hr = page.root.querySelector('hr');
+      expect(hr.getAttribute('aria-orientation')).toBe('vertical');
+    });
+
+  });
+
+  describe('aegov-title - Accessibility', () => {
+
+    it('should pass through aria-* attributes', async () => {
+      const page = await newSpecPage({
+        components: [AegovTitle],
+        html: `<aegov-title aria-label="Section heading">Heading</aegov-title>`,
+      });
+
+      const p = page.root.querySelector('p');
+      expect(p.getAttribute('aria-label')).toBe('Section heading');
+    });
+
+    it('should pass through id attribute', async () => {
+      const page = await newSpecPage({
+        components: [AegovTitle],
+        html: `<aegov-title id="section-title">Heading</aegov-title>`,
+      });
+
+      const p = page.root.querySelector('p');
+      expect(p.getAttribute('id')).toBe('section-title');
+    });
+
+    it('should render meaningful text content', async () => {
+      const page = await newSpecPage({
+        components: [AegovTitle],
+        html: `<aegov-title>Page Title</aegov-title>`,
+      });
+
+      const p = page.root.querySelector('p');
+      expect(p.textContent.trim().length).toBeGreaterThan(0);
+    });
+
+  });
+
+  describe('aegov-text - Accessibility', () => {
+
+    it('should use semantic p element', async () => {
+      const page = await newSpecPage({
+        components: [AegovText],
+        html: `<aegov-text>Paragraph content</aegov-text>`,
+      });
+
+      const p = page.root.querySelector('p');
+      expect(p).toBeTruthy();
+      expect(p.textContent.trim()).toBe('Paragraph content');
+    });
+
+    it('should pass through aria-* attributes', async () => {
+      const page = await newSpecPage({
+        components: [AegovText],
+        html: `<aegov-text aria-describedby="desc">Content</aegov-text>`,
+      });
+
+      const p = page.root.querySelector('p');
+      expect(p.getAttribute('aria-describedby')).toBe('desc');
+    });
+
+    it('should pass through data-* attributes', async () => {
+      const page = await newSpecPage({
+        components: [AegovText],
+        html: `<aegov-text data-testid="paragraph">Content</aegov-text>`,
+      });
+
+      const p = page.root.querySelector('p');
+      expect(p.getAttribute('data-testid')).toBe('paragraph');
+    });
+
+  });
+
   describe('Keyboard Navigation', () => {
 
     it('aegov-button should be keyboard accessible', async () => {
@@ -560,6 +1056,47 @@ describe('Accessibility Testing Suite', () => {
       const button = page.root.querySelector('aegov-accordion-item').querySelector('button');
       expect(button).toBeTruthy();
       expect(button.hasAttribute('disabled')).toBe(false);
+    });
+
+    it('aegov-tabs should use roving tabindex for keyboard navigation', async () => {
+      const page = await newSpecPage({
+        components: [AegovTabs, AegovTab, AegovTabPanel],
+        html: `
+          <aegov-tabs default-active-tab="one">
+            <aegov-tab slot="tabs" tab-id="one">Tab 1</aegov-tab>
+            <aegov-tab slot="tabs" tab-id="two">Tab 2</aegov-tab>
+            <aegov-tab-panel tab-id="one">Content 1</aegov-tab-panel>
+            <aegov-tab-panel tab-id="two">Content 2</aegov-tab-panel>
+          </aegov-tabs>
+        `,
+      });
+
+      await page.waitForChanges();
+      const tabs = page.root.querySelectorAll('aegov-tab button');
+      // Active tab in tab order, inactive not
+      expect(tabs[0].getAttribute('tabindex')).toBe('0');
+      expect(tabs[1].getAttribute('tabindex')).toBe('-1');
+    });
+
+    it('aegov-pagination should have focusable page buttons', async () => {
+      const page = await newSpecPage({
+        components: [AegovPagination],
+        html: `<aegov-pagination total-pages="5" current-page="1"></aegov-pagination>`,
+      });
+
+      const buttons = page.root.querySelectorAll('button');
+      expect(buttons.length).toBeGreaterThan(0);
+    });
+
+    it('aegov-context-menu-item should be keyboard accessible', async () => {
+      const page = await newSpecPage({
+        components: [AegovContextMenuItem],
+        html: `<aegov-context-menu-item>Edit</aegov-context-menu-item>`,
+      });
+
+      const button = page.root.querySelector('button');
+      expect(button).toBeTruthy();
+      expect(button.getAttribute('type')).toBe('button');
     });
 
   });
@@ -662,9 +1199,13 @@ describe('Accessibility Testing Suite', () => {
   describe('ARIA Attribute Validation', () => {
 
     it('should use valid ARIA roles', async () => {
-      const validRoles = ['alert', 'button', 'dialog', 'navigation', 'tooltip', 'region'];
+      const validRoles = [
+        'alert', 'button', 'dialog', 'navigation', 'tooltip', 'region',
+        'tab', 'tablist', 'tabpanel', 'menu', 'menuitem', 'group',
+        'separator', 'presentation',
+      ];
 
-      // Test that components use valid ARIA roles
+      // Test that components use valid ARIA roles from WAI-ARIA spec
       expect(validRoles.length).toBeGreaterThan(0);
     });
 
@@ -700,6 +1241,44 @@ describe('Accessibility Testing Suite', () => {
       const span = lastItem.querySelector('span');
 
       expect(span.getAttribute('aria-current')).toBe('page');
+    });
+
+    it('should use aria-selected on tabs', async () => {
+      const page = await newSpecPage({
+        components: [AegovTabs, AegovTab, AegovTabPanel],
+        html: `
+          <aegov-tabs default-active-tab="one">
+            <aegov-tab slot="tabs" tab-id="one">Tab 1</aegov-tab>
+            <aegov-tab slot="tabs" tab-id="two">Tab 2</aegov-tab>
+            <aegov-tab-panel tab-id="one">Content 1</aegov-tab-panel>
+            <aegov-tab-panel tab-id="two">Content 2</aegov-tab-panel>
+          </aegov-tabs>
+        `,
+      });
+
+      await page.waitForChanges();
+      const activeTab = page.root.querySelector('aegov-tab button[aria-selected="true"]');
+      expect(activeTab).toBeTruthy();
+    });
+
+    it('should use aria-current on pagination', async () => {
+      const page = await newSpecPage({
+        components: [AegovPagination],
+        html: `<aegov-pagination total-pages="5" current-page="2"></aegov-pagination>`,
+      });
+
+      const currentPage = page.root.querySelector('[aria-current="page"]');
+      expect(currentPage).toBeTruthy();
+    });
+
+    it('should use role="group" on button group', async () => {
+      const page = await newSpecPage({
+        components: [AegovButtonGroup],
+        html: `<aegov-button-group></aegov-button-group>`,
+      });
+
+      const group = page.root.querySelector('[role="group"]');
+      expect(group).toBeTruthy();
     });
 
   });

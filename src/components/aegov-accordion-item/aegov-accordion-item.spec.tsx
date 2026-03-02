@@ -55,7 +55,7 @@ describe('aegov-accordion-item', () => {
       expect(content.textContent).toBe('My Content');
     });
 
-    it('should render chevron icon', async () => {
+    it('should render chevron icon by default', async () => {
       const page = await newSpecPage({
         components: [AegovAccordion, AegovAccordionItem],
         html: `
@@ -70,6 +70,41 @@ describe('aegov-accordion-item', () => {
 
       const icon = page.root.querySelector('.accordion-item__icon');
       expect(icon).toBeTruthy();
+    });
+
+    it('should render header button', async () => {
+      const page = await newSpecPage({
+        components: [AegovAccordion, AegovAccordionItem],
+        html: `
+          <aegov-accordion>
+            <aegov-accordion-item>
+              <span slot="accordion-item-heading">Heading</span>
+              <span slot="accordion-item-content">Content</span>
+            </aegov-accordion-item>
+          </aegov-accordion>
+        `,
+      });
+
+      const button = page.root.querySelector('.accordion-item__header');
+      expect(button).toBeTruthy();
+      expect(button.tagName).toBe('BUTTON');
+    });
+
+    it('should render content wrapper', async () => {
+      const page = await newSpecPage({
+        components: [AegovAccordion, AegovAccordionItem],
+        html: `
+          <aegov-accordion>
+            <aegov-accordion-item>
+              <span slot="accordion-item-heading">Heading</span>
+              <span slot="accordion-item-content">Content</span>
+            </aegov-accordion-item>
+          </aegov-accordion>
+        `,
+      });
+
+      const wrapper = page.root.querySelector('.accordion-item__content-wrapper');
+      expect(wrapper).toBeTruthy();
     });
   });
 
@@ -184,6 +219,44 @@ describe('aegov-accordion-item', () => {
     });
   });
 
+  describe('icon variants', () => {
+    it('should render chevron icon by default', async () => {
+      const page = await newSpecPage({
+        components: [AegovAccordion, AegovAccordionItem],
+        html: `
+          <aegov-accordion>
+            <aegov-accordion-item>
+              <span slot="accordion-item-heading">Heading</span>
+              <span slot="accordion-item-content">Content</span>
+            </aegov-accordion-item>
+          </aegov-accordion>
+        `,
+      });
+
+      const chevronIcon = page.root.querySelector('.accordion-item__icon-chevron');
+      expect(chevronIcon).toBeTruthy();
+    });
+
+    it('should render plus icon when set', async () => {
+      const page = await newSpecPage({
+        components: [AegovAccordion, AegovAccordionItem],
+        html: `
+          <aegov-accordion icon="plus">
+            <aegov-accordion-item>
+              <span slot="accordion-item-heading">Heading</span>
+              <span slot="accordion-item-content">Content</span>
+            </aegov-accordion-item>
+          </aegov-accordion>
+        `,
+      });
+
+      await page.waitForChanges();
+
+      const plusIcon = page.root.querySelector('.accordion-item__icon-plus');
+      expect(plusIcon).toBeTruthy();
+    });
+  });
+
   describe('aria attributes', () => {
     it('should have aria-expanded false when closed', async () => {
       const page = await newSpecPage({
@@ -220,13 +293,27 @@ describe('aegov-accordion-item', () => {
       const button = page.root.querySelector('.accordion-item__header');
       expect(button.getAttribute('aria-expanded')).toBe('true');
     });
+
+    it('should have type="button" on header', async () => {
+      const page = await newSpecPage({
+        components: [AegovAccordion, AegovAccordionItem],
+        html: `
+          <aegov-accordion>
+            <aegov-accordion-item>
+              <span slot="accordion-item-heading">Heading</span>
+              <span slot="accordion-item-content">Content</span>
+            </aegov-accordion-item>
+          </aegov-accordion>
+        `,
+      });
+
+      const button = page.root.querySelector('.accordion-item__header');
+      expect(button.getAttribute('type')).toBe('button');
+    });
   });
 
   describe('standalone usage validation', () => {
     it('should throw error when used without parent accordion', async () => {
-      // Note: In Stencil test environment, errors in componentWillLoad don't reject the promise
-      // This validation works in real browsers but cannot be easily tested with newSpecPage
-      // The validation code is in componentWillLoad() and will throw in production
       const consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation();
 
       try {
@@ -240,7 +327,6 @@ describe('aegov-accordion-item', () => {
           `,
         });
       } catch (error) {
-        // Error thrown as expected
         expect(error.message).toContain('must be used inside <aegov-accordion>');
       }
 
@@ -324,6 +410,72 @@ describe('aegov-accordion-item', () => {
       await page.waitForChanges();
 
       expect(toggleSpy).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('heading prop', () => {
+    it('should render heading prop text when no heading slot', async () => {
+      const page = await newSpecPage({
+        components: [AegovAccordion, AegovAccordionItem],
+        html: `
+          <aegov-accordion>
+            <aegov-accordion-item heading="Test Heading">
+              <span slot="accordion-item-content">Content</span>
+            </aegov-accordion-item>
+          </aegov-accordion>
+        `,
+      });
+
+      const headingDiv = page.root.querySelector('.accordion-item__heading');
+      expect(headingDiv.textContent).toContain('Test Heading');
+    });
+  });
+
+  describe('CSS classes', () => {
+    it('should apply accordion-item__first class when isFirst', async () => {
+      const page = await newSpecPage({
+        components: [AegovAccordion, AegovAccordionItem],
+        html: `
+          <aegov-accordion>
+            <aegov-accordion-item>
+              <span slot="accordion-item-heading">Heading 1</span>
+              <span slot="accordion-item-content">Content 1</span>
+            </aegov-accordion-item>
+            <aegov-accordion-item>
+              <span slot="accordion-item-heading">Heading 2</span>
+              <span slot="accordion-item-content">Content 2</span>
+            </aegov-accordion-item>
+          </aegov-accordion>
+        `,
+      });
+
+      await page.waitForChanges();
+
+      const firstItemDiv = page.root.querySelector('aegov-accordion-item:first-of-type .accordion-item');
+      expect(firstItemDiv.classList.contains('accordion-item__first')).toBe(true);
+    });
+
+    it('should apply accordion-item__last class when isLast', async () => {
+      const page = await newSpecPage({
+        components: [AegovAccordion, AegovAccordionItem],
+        html: `
+          <aegov-accordion>
+            <aegov-accordion-item>
+              <span slot="accordion-item-heading">Heading 1</span>
+              <span slot="accordion-item-content">Content 1</span>
+            </aegov-accordion-item>
+            <aegov-accordion-item>
+              <span slot="accordion-item-heading">Heading 2</span>
+              <span slot="accordion-item-content">Content 2</span>
+            </aegov-accordion-item>
+          </aegov-accordion>
+        `,
+      });
+
+      await page.waitForChanges();
+
+      const lastItemDiv = page.root.querySelector('aegov-accordion-item:last-of-type .accordion-item');
+      expect(lastItemDiv.classList.contains('accordion-item__last')).toBe(true);
     });
   });
 });

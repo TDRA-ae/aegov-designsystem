@@ -38,6 +38,18 @@ describe('aegov-tabs e2e', () => {
       const panels = await page.findAll('aegov-tabs aegov-tab-panel [role="tabpanel"]');
       expect(panels.length).toBe(3);
     });
+
+    it('renders the list wrapper', async () => {
+      const page = await render(basicHtml);
+      const wrapper = await page.find('aegov-tabs .tabs__list-wrapper');
+      expect(wrapper).not.toBeNull();
+    });
+
+    it('renders the panels container', async () => {
+      const page = await render(basicHtml);
+      const panels = await page.find('aegov-tabs .tabs__panels');
+      expect(panels).not.toBeNull();
+    });
   });
 
   // ------------------------------------------------------------------ initial active tab
@@ -64,6 +76,19 @@ describe('aegov-tabs e2e', () => {
       const page = await render(basicHtml);
       const secondPanel = await page.find('aegov-tabs aegov-tab-panel[tab-id="tab2"] [role="tabpanel"]');
       expect(await secondPanel.getProperty('hidden')).toBe(true);
+    });
+
+    it('activates the first non-disabled tab when no defaultActiveTab', async () => {
+      const page = await render(`
+        <aegov-tabs>
+          <aegov-tab slot="tabs" tab-id="tab1" disabled>T1</aegov-tab>
+          <aegov-tab slot="tabs" tab-id="tab2">T2</aegov-tab>
+          <aegov-tab-panel tab-id="tab1">P1</aegov-tab-panel>
+          <aegov-tab-panel tab-id="tab2">P2</aegov-tab-panel>
+        </aegov-tabs>
+      `);
+      const tab2Btn = await page.find('aegov-tabs aegov-tab[tab-id="tab2"] button');
+      expect(await tab2Btn.getAttribute('aria-selected')).toBe('true');
     });
   });
 
@@ -179,6 +204,22 @@ describe('aegov-tabs e2e', () => {
       const panel2 = await page.find('aegov-tabs aegov-tab-panel[tab-id="tab2"] [role="tabpanel"]');
       expect(await panel2.getProperty('hidden')).toBe(true);
     });
+
+    it('keyboard navigation skips disabled tabs', async () => {
+      const page = await render(disabledHtml);
+      const tabsEl = await page.find('aegov-tabs');
+      const changeSpy = await tabsEl.spyOnEvent('aegovTabChange');
+
+      // Focus the active tab
+      await page.keyboard.press('Tab');
+      await page.waitForChanges();
+
+      // ArrowRight should skip disabled tab2 and go to tab3
+      await page.keyboard.press('ArrowRight');
+      await page.waitForChanges();
+
+      expect(changeSpy).toHaveReceivedEventDetail('tab3');
+    });
   });
 
   // ------------------------------------------------------------------ accessibility
@@ -230,6 +271,12 @@ describe('aegov-tabs e2e', () => {
       const panel = await page.find('aegov-tabs aegov-tab-panel[tab-id="tab1"] [role="tabpanel"]');
       expect(await panel.getAttribute('tabindex')).toBe('0');
     });
+
+    it('tablist has aria-orientation attribute', async () => {
+      const page = await render(basicHtml);
+      const tablist = await page.find('aegov-tabs [role="tablist"]');
+      expect(await tablist.getAttribute('aria-orientation')).toBe('horizontal');
+    });
   });
 
   // ------------------------------------------------------------------ keyboard navigation
@@ -240,7 +287,7 @@ describe('aegov-tabs e2e', () => {
       const changeSpy = await tabsEl.spyOnEvent('aegovTabChange');
 
       // Focus the active tab button
-      await page.keyboard.press('Tab'); // Move focus to active tab
+      await page.keyboard.press('Tab');
       await page.waitForChanges();
 
       // Press ArrowRight
@@ -296,6 +343,20 @@ describe('aegov-tabs e2e', () => {
       await page.waitForChanges();
 
       expect(changeSpy).toHaveReceivedEventDetail('tab1');
+    });
+
+    it('ArrowLeft wraps from first to last tab', async () => {
+      const page = await render(basicHtml);
+      const tabsEl = await page.find('aegov-tabs');
+      const changeSpy = await tabsEl.spyOnEvent('aegovTabChange');
+
+      await page.keyboard.press('Tab');
+      await page.waitForChanges();
+
+      await page.keyboard.press('ArrowLeft');
+      await page.waitForChanges();
+
+      expect(changeSpy).toHaveReceivedEventDetail('tab3');
     });
 
     it('Home key moves to first tab', async () => {
@@ -395,6 +456,51 @@ describe('aegov-tabs e2e', () => {
       `);
       const container = await page.find('aegov-tabs .tabs');
       expect(await container.getAttribute('class')).toContain('tabs--lg');
+    });
+  });
+
+  // ------------------------------------------------------------------ stretch
+  describe('stretch in DOM', () => {
+    it('applies tabs--stretch class when stretch is true', async () => {
+      const page = await render(`
+        <aegov-tabs stretch default-active-tab="t1">
+          <aegov-tab slot="tabs" tab-id="t1">T1</aegov-tab>
+          <aegov-tab-panel tab-id="t1">P1</aegov-tab-panel>
+        </aegov-tabs>
+      `);
+      const container = await page.find('aegov-tabs .tabs');
+      expect(await container.getAttribute('class')).toContain('tabs--stretch');
+    });
+
+    it('does not apply tabs--stretch by default', async () => {
+      const page = await render(basicHtml);
+      const container = await page.find('aegov-tabs .tabs');
+      expect(await container.getAttribute('class')).not.toContain('tabs--stretch');
+    });
+  });
+
+  // ------------------------------------------------------------------ vertical orientation
+  describe('vertical orientation in DOM', () => {
+    it('applies tabs--vertical class when orientation is vertical', async () => {
+      const page = await render(`
+        <aegov-tabs orientation="vertical" default-active-tab="t1">
+          <aegov-tab slot="tabs" tab-id="t1">T1</aegov-tab>
+          <aegov-tab-panel tab-id="t1">P1</aegov-tab-panel>
+        </aegov-tabs>
+      `);
+      const container = await page.find('aegov-tabs .tabs');
+      expect(await container.getAttribute('class')).toContain('tabs--vertical');
+    });
+
+    it('sets aria-orientation to vertical', async () => {
+      const page = await render(`
+        <aegov-tabs orientation="vertical" default-active-tab="t1">
+          <aegov-tab slot="tabs" tab-id="t1">T1</aegov-tab>
+          <aegov-tab-panel tab-id="t1">P1</aegov-tab-panel>
+        </aegov-tabs>
+      `);
+      const tablist = await page.find('aegov-tabs [role="tablist"]');
+      expect(await tablist.getAttribute('aria-orientation')).toBe('vertical');
     });
   });
 });

@@ -165,6 +165,11 @@ export type DropdownAlign = 'start' | 'center' | 'end';
 export type PaginationSize = 'sm' | 'base' | 'lg';
 
 /**
+ * Pagination component variant types
+ */
+export type PaginationVariant = 'default' | 'compact';
+
+/**
  * Tabs component variant types
  */
 export type TabVariant = 'simple' | 'segmented' | 'pill';
@@ -178,6 +183,41 @@ export type TabSize = 'sm' | 'base' | 'lg';
  * Tabs component orientation types
  */
 export type TabOrientation = 'horizontal' | 'vertical';
+
+/**
+ * Toast component variant types
+ */
+export type ToastVariant = 'default' | 'error' | 'warning' | 'success' | 'info';
+
+/**
+ * Toast component appearance types
+ */
+export type ToastAppearance = 'soft' | 'solid';
+
+/**
+ * Toast component position types
+ */
+export type ToastPosition = 'top-right' | 'top-left' | 'top-center' | 'bottom-right' | 'bottom-left' | 'bottom-center';
+
+/**
+ * Progress component variant types
+ */
+export type ProgressVariant = 'default' | 'compact';
+
+/**
+ * Progress component size types
+ */
+export type ProgressSize = 'sm' | 'base' | 'lg';
+
+/**
+ * Progress component orientation types
+ */
+export type ProgressOrientation = 'horizontal' | 'vertical';
+
+/**
+ * Progress step status types
+ */
+export type ProgressStepStatus = 'completed' | 'active' | 'pending';
 
 /**
  * Common component props

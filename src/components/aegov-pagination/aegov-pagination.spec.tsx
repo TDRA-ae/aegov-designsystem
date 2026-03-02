@@ -403,7 +403,7 @@ describe('aegov-pagination', () => {
       expect(spy).not.toHaveBeenCalled();
     });
 
-    it('should emit page 1 when Next is clicked from page 2 (after controlled update)', async () => {
+    it('should emit page-1 when Previous is clicked from page 2', async () => {
       const page = await render('<aegov-pagination total-pages="5" current-page="2"></aegov-pagination>');
       const spy = jest.fn();
       page.root.addEventListener('aegovPageChange', spy);
@@ -480,6 +480,132 @@ describe('aegov-pagination', () => {
     });
   });
 
+  // ------------------------------------------------------------------ compact variant
+  describe('compact variant', () => {
+    it('should not render page number buttons', async () => {
+      const page = await render('<aegov-pagination variant="compact" total-pages="20" current-page="5"></aegov-pagination>');
+      const pageButtons = getPageButtons(page.root);
+      expect(pageButtons.length).toBe(0);
+    });
+
+    it('should not render ellipsis', async () => {
+      const page = await render('<aegov-pagination variant="compact" total-pages="20" current-page="10"></aegov-pagination>');
+      const ellipses = page.root.querySelectorAll('.pagination__ellipsis');
+      expect(ellipses.length).toBe(0);
+    });
+
+    it('should render Previous and Next buttons', async () => {
+      const page = await render('<aegov-pagination variant="compact" total-pages="10" current-page="5"></aegov-pagination>');
+      expect(getNavButton(page.root, 'Go to previous page')).toBeTruthy();
+      expect(getNavButton(page.root, 'Go to next page')).toBeTruthy();
+    });
+
+    it('should render page indicator text', async () => {
+      const page = await render('<aegov-pagination variant="compact" total-pages="20" current-page="7"></aegov-pagination>');
+      const indicator = page.root.querySelector('.pagination__compact-indicator');
+      expect(indicator).toBeTruthy();
+      expect(indicator.textContent.trim()).toBe('7 / 20');
+    });
+
+    it('should have aria-live on page indicator for screen readers', async () => {
+      const page = await render('<aegov-pagination variant="compact" total-pages="10" current-page="3"></aegov-pagination>');
+      const indicator = page.root.querySelector('.pagination__compact-indicator');
+      expect(indicator.getAttribute('aria-live')).toBe('polite');
+      expect(indicator.getAttribute('aria-atomic')).toBe('true');
+    });
+
+    it('should not render First/Last buttons by default', async () => {
+      const page = await render('<aegov-pagination variant="compact" total-pages="10" current-page="5"></aegov-pagination>');
+      expect(getNavButton(page.root, 'Go to first page')).toBeFalsy();
+      expect(getNavButton(page.root, 'Go to last page')).toBeFalsy();
+    });
+
+    it('should render First/Last buttons when showFirstLast is true', async () => {
+      const page = await render('<aegov-pagination variant="compact" total-pages="10" current-page="5" show-first-last></aegov-pagination>');
+      expect(getNavButton(page.root, 'Go to first page')).toBeTruthy();
+      expect(getNavButton(page.root, 'Go to last page')).toBeTruthy();
+    });
+
+    it('should disable Previous on first page', async () => {
+      const page = await render('<aegov-pagination variant="compact" total-pages="10" current-page="1"></aegov-pagination>');
+      const prevBtn = getNavButton(page.root, 'Go to previous page');
+      expect(prevBtn.hasAttribute('disabled')).toBe(true);
+    });
+
+    it('should disable Next on last page', async () => {
+      const page = await render('<aegov-pagination variant="compact" total-pages="10" current-page="10"></aegov-pagination>');
+      const nextBtn = getNavButton(page.root, 'Go to next page');
+      expect(nextBtn.hasAttribute('disabled')).toBe(true);
+    });
+
+    it('should disable First/Last buttons at boundaries', async () => {
+      const page = await render('<aegov-pagination variant="compact" total-pages="10" current-page="1" show-first-last></aegov-pagination>');
+      expect(getNavButton(page.root, 'Go to first page').hasAttribute('disabled')).toBe(true);
+      expect(getNavButton(page.root, 'Go to last page').hasAttribute('disabled')).toBe(false);
+    });
+
+    it('should emit aegovPageChange when Previous is clicked', async () => {
+      const page = await render('<aegov-pagination variant="compact" total-pages="10" current-page="5"></aegov-pagination>');
+      const spy = jest.fn();
+      page.root.addEventListener('aegovPageChange', spy);
+
+      getNavButton(page.root, 'Go to previous page').click();
+      await page.waitForChanges();
+
+      expect(spy).toHaveBeenCalledTimes(1);
+      expect(spy.mock.calls[0][0].detail).toBe(4);
+    });
+
+    it('should emit aegovPageChange when Next is clicked', async () => {
+      const page = await render('<aegov-pagination variant="compact" total-pages="10" current-page="5"></aegov-pagination>');
+      const spy = jest.fn();
+      page.root.addEventListener('aegovPageChange', spy);
+
+      getNavButton(page.root, 'Go to next page').click();
+      await page.waitForChanges();
+
+      expect(spy).toHaveBeenCalledTimes(1);
+      expect(spy.mock.calls[0][0].detail).toBe(6);
+    });
+
+    it('should apply pagination--compact class to nav', async () => {
+      const page = await render('<aegov-pagination variant="compact" total-pages="5" current-page="1"></aegov-pagination>');
+      const nav = page.root.querySelector('nav');
+      expect(nav.classList.contains('pagination--compact')).toBe(true);
+    });
+
+    it('should not apply pagination--compact class for default variant', async () => {
+      const page = await render('<aegov-pagination total-pages="5" current-page="1"></aegov-pagination>');
+      const nav = page.root.querySelector('nav');
+      expect(nav.classList.contains('pagination--compact')).toBe(false);
+    });
+
+    it('should work with all sizes', async () => {
+      for (const size of ['sm', 'base', 'lg']) {
+        const page = await render(`<aegov-pagination variant="compact" total-pages="5" current-page="2" size="${size}"></aegov-pagination>`);
+        const nav = page.root.querySelector('nav');
+        expect(nav.classList.contains(`pagination--${size}`)).toBe(true);
+        expect(nav.classList.contains('pagination--compact')).toBe(true);
+      }
+    });
+
+    it('should disable all buttons when disabled is true', async () => {
+      const page = await render('<aegov-pagination variant="compact" total-pages="10" current-page="5" disabled show-first-last></aegov-pagination>');
+      const allBtns = page.root.querySelectorAll('button');
+      allBtns.forEach(btn => {
+        expect(btn.hasAttribute('disabled')).toBe(true);
+      });
+    });
+
+    it('should use custom labels', async () => {
+      const page = await render('<aegov-pagination variant="compact" total-pages="5" current-page="3" prev-label="Back" next-label="Forward"></aegov-pagination>');
+      const prevBtn = getNavButton(page.root, 'Go to previous page');
+      const nextBtn = getNavButton(page.root, 'Go to next page');
+      expect(prevBtn.querySelector('.pagination__nav-label').textContent.trim()).toBe('Back');
+      expect(nextBtn.querySelector('.pagination__nav-label').textContent.trim()).toBe('Forward');
+    });
+  });
+
   // ------------------------------------------------------------------ props
   describe('default props', () => {
     it('should default to totalPages=1', async () => {
@@ -522,6 +648,12 @@ describe('aegov-pagination', () => {
       const page = await render('<aegov-pagination total-pages="5"></aegov-pagination>');
       const component = page.rootInstance as AegovPagination;
       expect(component.disabled).toBe(false);
+    });
+
+    it('should default variant to "default"', async () => {
+      const page = await render('<aegov-pagination total-pages="5"></aegov-pagination>');
+      const component = page.rootInstance as AegovPagination;
+      expect(component.variant).toBe('default');
     });
   });
 });

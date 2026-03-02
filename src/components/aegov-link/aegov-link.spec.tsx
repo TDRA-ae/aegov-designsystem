@@ -2,249 +2,241 @@ import { newSpecPage } from '@stencil/core/testing';
 import { AegovLink } from './aegov-link';
 
 describe('aegov-link', () => {
+  // ------------------------------------------------------------------ rendering
   describe('rendering', () => {
-    it('should render with href', async () => {
+    it('renders an anchor element', async () => {
       const page = await newSpecPage({
         components: [AegovLink],
-        html: `<aegov-link href="/test">Test Link</aegov-link>`,
+        html: `<aegov-link href="/test">Test</aegov-link>`,
       });
-
-      expect(page.root).toBeTruthy();
-      const anchor = page.root?.querySelector('a');
-      expect(anchor).toBeTruthy();
-      expect(anchor?.getAttribute('href')).toBe('/test');
+      const a = page.root.querySelector('a');
+      expect(a).not.toBeNull();
     });
 
-    it('should render with slot content', async () => {
+    it('renders slot content inside anchor', async () => {
       const page = await newSpecPage({
         components: [AegovLink],
         html: `<aegov-link href="/test">Link Text</aegov-link>`,
       });
-
-      const anchor = page.root?.querySelector('a');
-      expect(anchor?.textContent).toContain('Link Text');
+      const a = page.root.querySelector('a');
+      expect(a.textContent).toContain('Link Text');
     });
 
-    it('should render with HTML content in slot', async () => {
+    it('renders HTML content in slot', async () => {
       const page = await newSpecPage({
         components: [AegovLink],
         html: `<aegov-link href="/test"><strong>Bold</strong> Link</aegov-link>`,
       });
-
-      const anchor = page.root?.querySelector('a');
-      expect(anchor?.innerHTML).toContain('<strong>Bold</strong>');
+      const a = page.root.querySelector('a');
+      expect(a.innerHTML).toContain('<strong>Bold</strong>');
     });
   });
 
+  // ------------------------------------------------------------------ href prop
   describe('href prop', () => {
-    it('should render with absolute URL', async () => {
+    it('renders absolute URL', async () => {
       const page = await newSpecPage({
         components: [AegovLink],
-        html: `<aegov-link href="https://example.com">External Link</aegov-link>`,
+        html: `<aegov-link href="https://example.com">External</aegov-link>`,
       });
-
-      const anchor = page.root?.querySelector('a');
-      expect(anchor?.getAttribute('href')).toBe('https://example.com');
+      const a = page.root.querySelector('a');
+      expect(a.getAttribute('href')).toBe('https://example.com');
     });
 
-    it('should render with relative URL', async () => {
+    it('renders relative URL', async () => {
       const page = await newSpecPage({
         components: [AegovLink],
         html: `<aegov-link href="/about">About</aegov-link>`,
       });
-
-      const anchor = page.root?.querySelector('a');
-      expect(anchor?.getAttribute('href')).toBe('/about');
+      const a = page.root.querySelector('a');
+      expect(a.getAttribute('href')).toBe('/about');
     });
 
-    it('should render with anchor link', async () => {
+    it('renders anchor link', async () => {
       const page = await newSpecPage({
         components: [AegovLink],
-        html: `<aegov-link href="#section">Jump to Section</aegov-link>`,
+        html: `<aegov-link href="#section">Jump</aegov-link>`,
       });
-
-      const anchor = page.root?.querySelector('a');
-      expect(anchor?.getAttribute('href')).toBe('#section');
+      const a = page.root.querySelector('a');
+      expect(a.getAttribute('href')).toBe('#section');
     });
   });
 
-  describe('title prop', () => {
-    it('should render with title attribute', async () => {
-      const page = await newSpecPage({
-        components: [AegovLink],
-        html: `<aegov-link href="/test" title="Click here">Link</aegov-link>`,
-      });
-
-      const anchor = page.root?.querySelector('a');
-      expect(anchor?.getAttribute('title')).toBe('Click here');
-    });
-
-    it('should not have title attribute when not provided', async () => {
-      const page = await newSpecPage({
-        components: [AegovLink],
-        html: `<aegov-link href="/test">Link</aegov-link>`,
-      });
-
-      const anchor = page.root?.querySelector('a');
-      expect(anchor?.hasAttribute('title')).toBe(false);
-    });
-  });
-
+  // ------------------------------------------------------------------ target prop
   describe('target prop', () => {
-    it('should render with target="_blank"', async () => {
+    it('renders with target="_blank"', async () => {
       const page = await newSpecPage({
         components: [AegovLink],
         html: `<aegov-link href="https://example.com" target="_blank">External</aegov-link>`,
       });
-
-      const anchor = page.root?.querySelector('a');
-      expect(anchor?.getAttribute('target')).toBe('_blank');
+      const a = page.root.querySelector('a');
+      expect(a.getAttribute('target')).toBe('_blank');
     });
 
-    it('should automatically add rel="noopener noreferrer" for target="_blank"', async () => {
-      const page = await newSpecPage({
-        components: [AegovLink],
-        html: `<aegov-link href="https://example.com" target="_blank">External</aegov-link>`,
-      });
-
-      const anchor = page.root?.querySelector('a');
-      expect(anchor?.getAttribute('rel')).toBe('noopener noreferrer');
-    });
-
-    it('should not have target attribute when not provided', async () => {
+    it('does not have target when not provided', async () => {
       const page = await newSpecPage({
         components: [AegovLink],
         html: `<aegov-link href="/test">Link</aegov-link>`,
       });
+      const a = page.root.querySelector('a');
+      expect(a.hasAttribute('target')).toBe(false);
+    });
 
-      const anchor = page.root?.querySelector('a');
-      expect(anchor?.hasAttribute('target')).toBe(false);
+    it('auto-adds rel="noopener noreferrer" for target="_blank"', async () => {
+      const page = await newSpecPage({
+        components: [AegovLink],
+        html: `<aegov-link href="https://example.com" target="_blank">External</aegov-link>`,
+      });
+      const a = page.root.querySelector('a');
+      expect(a.getAttribute('rel')).toBe('noopener noreferrer');
     });
   });
 
+  // ------------------------------------------------------------------ rel prop
   describe('rel prop', () => {
-    it('should render with custom rel attribute', async () => {
+    it('renders with custom rel', async () => {
       const page = await newSpecPage({
         components: [AegovLink],
         html: `<aegov-link href="https://example.com" rel="nofollow">Link</aegov-link>`,
       });
-
-      const anchor = page.root?.querySelector('a');
-      expect(anchor?.getAttribute('rel')).toBe('nofollow');
+      const a = page.root.querySelector('a');
+      expect(a.getAttribute('rel')).toBe('nofollow');
     });
 
-    it('should override default rel for target="_blank"', async () => {
+    it('custom rel overrides default for target="_blank"', async () => {
       const page = await newSpecPage({
         components: [AegovLink],
         html: `<aegov-link href="https://example.com" target="_blank" rel="noopener">Link</aegov-link>`,
       });
-
-      const anchor = page.root?.querySelector('a');
-      expect(anchor?.getAttribute('rel')).toBe('noopener');
+      const a = page.root.querySelector('a');
+      expect(a.getAttribute('rel')).toBe('noopener');
     });
   });
 
-  describe('data-* attributes', () => {
-    it('should pass through data-testid attribute', async () => {
+  // ------------------------------------------------------------------ pass-through attributes
+  describe('pass-through attributes', () => {
+    it('passes data-* attributes to anchor', async () => {
       const page = await newSpecPage({
         components: [AegovLink],
         html: `<aegov-link href="/test" data-testid="my-link">Link</aegov-link>`,
       });
-
-      const anchor = page.root?.querySelector('a');
-      expect(anchor?.getAttribute('data-testid')).toBe('my-link');
+      const a = page.root.querySelector('a');
+      expect(a.getAttribute('data-testid')).toBe('my-link');
     });
 
-    it('should pass through multiple data-* attributes', async () => {
+    it('passes multiple data-* attributes', async () => {
       const page = await newSpecPage({
         components: [AegovLink],
-        html: `<aegov-link href="/test" data-id="123" data-type="primary" data-category="nav">Link</aegov-link>`,
+        html: `<aegov-link href="/test" data-id="123" data-type="primary">Link</aegov-link>`,
       });
-
-      const anchor = page.root?.querySelector('a');
-      expect(anchor?.getAttribute('data-id')).toBe('123');
-      expect(anchor?.getAttribute('data-type')).toBe('primary');
-      expect(anchor?.getAttribute('data-category')).toBe('nav');
+      const a = page.root.querySelector('a');
+      expect(a.getAttribute('data-id')).toBe('123');
+      expect(a.getAttribute('data-type')).toBe('primary');
     });
-  });
 
-  describe('aria-* attributes', () => {
-    it('should pass through aria-label attribute', async () => {
+    it('passes aria-* attributes to anchor', async () => {
       const page = await newSpecPage({
         components: [AegovLink],
         html: `<aegov-link href="/test" aria-label="Go to test page">Link</aegov-link>`,
       });
-
-      const anchor = page.root?.querySelector('a');
-      expect(anchor?.getAttribute('aria-label')).toBe('Go to test page');
+      const a = page.root.querySelector('a');
+      expect(a.getAttribute('aria-label')).toBe('Go to test page');
     });
 
-    it('should pass through aria-current attribute', async () => {
+    it('passes multiple aria-* attributes', async () => {
       const page = await newSpecPage({
         components: [AegovLink],
-        html: `<aegov-link href="/current" aria-current="page">Current Page</aegov-link>`,
+        html: `<aegov-link href="/test" aria-label="Test" aria-describedby="desc" aria-controls="panel">Link</aegov-link>`,
       });
-
-      const anchor = page.root?.querySelector('a');
-      expect(anchor?.getAttribute('aria-current')).toBe('page');
+      const a = page.root.querySelector('a');
+      expect(a.getAttribute('aria-label')).toBe('Test');
+      expect(a.getAttribute('aria-describedby')).toBe('desc');
+      expect(a.getAttribute('aria-controls')).toBe('panel');
     });
 
-    it('should pass through multiple aria-* attributes', async () => {
+    it('passes title attribute to anchor', async () => {
       const page = await newSpecPage({
         components: [AegovLink],
-        html: `<aegov-link href="/test" aria-label="Test link" aria-describedby="desc" aria-controls="panel">Link</aegov-link>`,
+        html: `<aegov-link href="/test" title="Click here">Link</aegov-link>`,
       });
-
-      const anchor = page.root?.querySelector('a');
-      expect(anchor?.getAttribute('aria-label')).toBe('Test link');
-      expect(anchor?.getAttribute('aria-describedby')).toBe('desc');
-      expect(anchor?.getAttribute('aria-controls')).toBe('panel');
+      const a = page.root.querySelector('a');
+      expect(a.getAttribute('title')).toBe('Click here');
     });
-  });
 
-  describe('combined attributes', () => {
-    it('should handle data-* and aria-* attributes together', async () => {
+    it('passes id attribute to anchor', async () => {
       const page = await newSpecPage({
         components: [AegovLink],
-        html: `<aegov-link href="/test" data-id="123" aria-label="Test">Link</aegov-link>`,
+        html: `<aegov-link href="/test" id="main-link">Link</aegov-link>`,
       });
-
-      const anchor = page.root?.querySelector('a');
-      expect(anchor?.getAttribute('data-id')).toBe('123');
-      expect(anchor?.getAttribute('aria-label')).toBe('Test');
+      const a = page.root.querySelector('a');
+      expect(a.getAttribute('id')).toBe('main-link');
     });
-  });
 
-  describe('click event', () => {
-    it('should emit aegovLinkClick event when clicked', async () => {
+    it('does not have title when not provided', async () => {
       const page = await newSpecPage({
         components: [AegovLink],
         html: `<aegov-link href="/test">Link</aegov-link>`,
       });
+      const a = page.root.querySelector('a');
+      expect(a.hasAttribute('title')).toBe(false);
+    });
+  });
 
+  // ------------------------------------------------------------------ CSS classes
+  describe('CSS classes', () => {
+    it('applies default CSS classes', async () => {
+      const page = await newSpecPage({
+        components: [AegovLink],
+        html: `<aegov-link href="/test">Link</aegov-link>`,
+      });
+      const a = page.root.querySelector('a');
+      expect(a.className).toContain('no-underline');
+      expect(a.className).toContain('transition-colors');
+      expect(a.className).toContain('ease-in-out');
+      expect(a.className).toContain('duration-200');
+      expect(a.className).toContain('text-primary-600');
+    });
+
+    it('merges custom class prop', async () => {
+      const page = await newSpecPage({
+        components: [AegovLink],
+        html: `<aegov-link href="/test" class="custom-class">Link</aegov-link>`,
+      });
+      const a = page.root.querySelector('a');
+      expect(a.className).toContain('custom-class');
+      expect(a.className).toContain('no-underline');
+    });
+  });
+
+  // ------------------------------------------------------------------ click event
+  describe('click event', () => {
+    it('emits aegovLinkClick when clicked', async () => {
+      const page = await newSpecPage({
+        components: [AegovLink],
+        html: `<aegov-link href="/test">Link</aegov-link>`,
+      });
       const clickSpy = jest.fn();
-      page.root?.addEventListener('aegovLinkClick', clickSpy);
+      page.root.addEventListener('aegovLinkClick', clickSpy);
 
-      const anchor = page.root?.querySelector('a') as HTMLAnchorElement;
-      anchor?.click();
+      const a = page.root.querySelector('a') as HTMLAnchorElement;
+      a.click();
       await page.waitForChanges();
 
       expect(clickSpy).toHaveBeenCalled();
     });
 
-    it('should emit event with href in detail', async () => {
+    it('emits event with href in detail', async () => {
       const page = await newSpecPage({
         components: [AegovLink],
         html: `<aegov-link href="/test-page">Link</aegov-link>`,
       });
-
       let eventDetail: any;
-      page.root?.addEventListener('aegovLinkClick', (e: any) => {
+      page.root.addEventListener('aegovLinkClick', (e: any) => {
         eventDetail = e.detail;
       });
 
-      const anchor = page.root?.querySelector('a') as HTMLAnchorElement;
-      anchor?.click();
+      const a = page.root.querySelector('a') as HTMLAnchorElement;
+      a.click();
       await page.waitForChanges();
 
       expect(eventDetail).toBeTruthy();
@@ -252,40 +244,9 @@ describe('aegov-link', () => {
     });
   });
 
-  describe('CSS classes', () => {
-    it('should apply default CSS classes', async () => {
-      const page = await newSpecPage({
-        components: [AegovLink],
-        html: `<aegov-link href="/test">Link</aegov-link>`,
-      });
-
-      const anchor = page.root?.querySelector('a');
-      const classList = anchor?.className;
-      expect(classList).toContain('no-underline');
-      expect(classList).toContain('transition-colors');
-      expect(classList).toContain('ease-in-out');
-      expect(classList).toContain('duration-200');
-    });
-
-    it('should merge custom class prop', async () => {
-      const page = await newSpecPage({
-        components: [AegovLink],
-        html: `<aegov-link href="/test" class="custom-class">Link</aegov-link>`,
-      });
-
-      const component = page.rootInstance as AegovLink;
-      expect(component.class).toBe('custom-class');
-
-      const anchor = page.root?.querySelector('a');
-      const classList = anchor?.className;
-      expect(classList).toContain('custom-class');
-      expect(classList).toContain('no-underline'); // Still has default classes
-      expect(classList).toContain('transition-colors');
-    });
-  });
-
+  // ------------------------------------------------------------------ complete link
   describe('complete link', () => {
-    it('should render complete link with all attributes', async () => {
+    it('renders with all attributes together', async () => {
       const page = await newSpecPage({
         components: [AegovLink],
         html: `
@@ -294,20 +255,19 @@ describe('aegov-link', () => {
             title="Visit Example"
             target="_blank"
             data-id="link-1"
-            aria-label="External link to Example">
-            Visit Example.com
+            aria-label="External link">
+            Visit Site
           </aegov-link>
         `,
       });
-
-      const anchor = page.root?.querySelector('a');
-      expect(anchor?.getAttribute('href')).toBe('https://example.com');
-      expect(anchor?.getAttribute('title')).toBe('Visit Example');
-      expect(anchor?.getAttribute('target')).toBe('_blank');
-      expect(anchor?.getAttribute('rel')).toBe('noopener noreferrer');
-      expect(anchor?.getAttribute('data-id')).toBe('link-1');
-      expect(anchor?.getAttribute('aria-label')).toBe('External link to Example');
-      expect(anchor?.textContent).toContain('Visit Example.com');
+      const a = page.root.querySelector('a');
+      expect(a.getAttribute('href')).toBe('https://example.com');
+      expect(a.getAttribute('title')).toBe('Visit Example');
+      expect(a.getAttribute('target')).toBe('_blank');
+      expect(a.getAttribute('rel')).toBe('noopener noreferrer');
+      expect(a.getAttribute('data-id')).toBe('link-1');
+      expect(a.getAttribute('aria-label')).toBe('External link');
+      expect(a.textContent).toContain('Visit Site');
     });
   });
 });

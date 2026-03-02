@@ -157,14 +157,11 @@ describe('aegov-pagination e2e', () => {
       const paginationEl = await page.find('aegov-pagination');
       const changeSpy = await paginationEl.spyOnEvent('aegovPageChange');
 
-      // Active page button is disabled, so clicking has no effect
+      // Active page button is not disabled, but guarded in handler
       const activeBtn = await page.find('aegov-pagination .pagination__btn--active');
-      // disabled attribute prevents click
       const isDisabled = await activeBtn.getProperty('disabled');
       expect(isDisabled).toBe(false); // active page is not disabled, just guarded in handler
 
-      // The active page guard in handlePageClick prevents emission
-      // We can verify there's no event when clicking by using the component directly
       expect(changeSpy).toHaveReceivedEventTimes(0);
     });
   });
@@ -260,6 +257,84 @@ describe('aegov-pagination e2e', () => {
       const page = await render('<aegov-pagination total-pages="5" current-page="3"></aegov-pagination>');
       const ellipses = await page.findAll('aegov-pagination .pagination__ellipsis');
       expect(ellipses.length).toBe(0);
+    });
+  });
+
+  // ------------------------------------------------------------------ compact variant
+  describe('compact variant', () => {
+    it('should not render page number buttons', async () => {
+      const page = await render('<aegov-pagination variant="compact" total-pages="20" current-page="5"></aegov-pagination>');
+      const pageButtons = await page.findAll('aegov-pagination .pagination__btn--page');
+      expect(pageButtons.length).toBe(0);
+    });
+
+    it('should not render ellipsis', async () => {
+      const page = await render('<aegov-pagination variant="compact" total-pages="20" current-page="10"></aegov-pagination>');
+      const ellipses = await page.findAll('aegov-pagination .pagination__ellipsis');
+      expect(ellipses.length).toBe(0);
+    });
+
+    it('should render Previous and Next buttons', async () => {
+      const page = await render('<aegov-pagination variant="compact" total-pages="10" current-page="5"></aegov-pagination>');
+      const prev = await page.find('aegov-pagination [aria-label="Go to previous page"]');
+      const next = await page.find('aegov-pagination [aria-label="Go to next page"]');
+      expect(prev).not.toBeNull();
+      expect(next).not.toBeNull();
+    });
+
+    it('should render the page indicator', async () => {
+      const page = await render('<aegov-pagination variant="compact" total-pages="20" current-page="7"></aegov-pagination>');
+      const indicator = await page.find('aegov-pagination .pagination__compact-indicator');
+      expect(indicator).not.toBeNull();
+      expect(indicator.textContent.trim()).toBe('7 / 20');
+    });
+
+    it('should render First/Last buttons when show-first-last is set', async () => {
+      const page = await render('<aegov-pagination variant="compact" total-pages="10" current-page="5" show-first-last></aegov-pagination>');
+      const first = await page.find('aegov-pagination [aria-label="Go to first page"]');
+      const last = await page.find('aegov-pagination [aria-label="Go to last page"]');
+      expect(first).not.toBeNull();
+      expect(last).not.toBeNull();
+    });
+
+    it('should not render First/Last buttons by default', async () => {
+      const page = await render('<aegov-pagination variant="compact" total-pages="10" current-page="5"></aegov-pagination>');
+      const first = await page.find('aegov-pagination [aria-label="Go to first page"]');
+      const last = await page.find('aegov-pagination [aria-label="Go to last page"]');
+      expect(first).toBeNull();
+      expect(last).toBeNull();
+    });
+
+    it('should emit aegovPageChange on Previous click', async () => {
+      const page = await render('<aegov-pagination variant="compact" total-pages="10" current-page="5"></aegov-pagination>');
+      const el = await page.find('aegov-pagination');
+      const spy = await el.spyOnEvent('aegovPageChange');
+
+      const prev = await page.find('aegov-pagination [aria-label="Go to previous page"]');
+      await prev.click();
+      await page.waitForChanges();
+
+      expect(spy).toHaveReceivedEventTimes(1);
+      expect(spy).toHaveReceivedEventDetail(4);
+    });
+
+    it('should emit aegovPageChange on Next click', async () => {
+      const page = await render('<aegov-pagination variant="compact" total-pages="10" current-page="5"></aegov-pagination>');
+      const el = await page.find('aegov-pagination');
+      const spy = await el.spyOnEvent('aegovPageChange');
+
+      const next = await page.find('aegov-pagination [aria-label="Go to next page"]');
+      await next.click();
+      await page.waitForChanges();
+
+      expect(spy).toHaveReceivedEventTimes(1);
+      expect(spy).toHaveReceivedEventDetail(6);
+    });
+
+    it('should apply pagination--compact class', async () => {
+      const page = await render('<aegov-pagination variant="compact" total-pages="5" current-page="1"></aegov-pagination>');
+      const nav = await page.find('aegov-pagination nav');
+      expect(await nav.getAttribute('class')).toContain('pagination--compact');
     });
   });
 

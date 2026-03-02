@@ -83,6 +83,25 @@
   @apply leading-none;
 }
 
+/* ---- Compact variant: page indicator ---- */
+
+.pagination__compact-indicator {
+  @apply inline-flex items-center justify-center
+         font-medium text-aeblack-700 tabular-nums select-none whitespace-nowrap;
+}
+
+.pagination--sm .pagination__compact-indicator {
+  @apply h-8 px-2 text-xs;
+}
+
+.pagination--base .pagination__compact-indicator {
+  @apply h-10 px-3 text-sm;
+}
+
+.pagination--lg .pagination__compact-indicator {
+  @apply h-12 px-4 text-base;
+}
+
 /* ============================================================
    Sizes
    ============================================================ */

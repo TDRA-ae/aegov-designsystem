@@ -1,5 +1,5 @@
 import { Component, Prop, Event, EventEmitter, h } from '@stencil/core';
-import type { PaginationSize } from '../../utils/types';
+import type { PaginationSize, PaginationVariant } from '../../utils/types';
 
 @Component({
   tag: 'aegov-pagination',
@@ -32,6 +32,13 @@ export class AegovPagination {
    * Number of pages always visible at each boundary (start and end of the list).
    */
   @Prop() boundaryCount: number = 1;
+
+  /**
+   * Display variant.
+   * - 'default': shows page numbers, ellipsis, and prev/next buttons.
+   * - 'compact': shows only prev/next buttons (and first/last when showFirstLast is true).
+   */
+  @Prop() variant: PaginationVariant = 'default';
 
   /**
    * Size variant of the pagination.
@@ -175,12 +182,13 @@ export class AegovPagination {
       return null;
     }
 
-    const range = this.getPaginationRange();
+    const range = this.variant === 'compact' ? [] : this.getPaginationRange();
     const isFirst = this.currentPage <= 1;
     const isLast = this.currentPage >= this.totalPages;
+    const isCompact = this.variant === 'compact';
 
     return (
-      <nav aria-label="Pagination" class={`pagination pagination--${this.size}`}>
+      <nav aria-label="Pagination" class={`pagination pagination--${this.size}${isCompact ? ' pagination--compact' : ''}`}>
         <ul class="pagination__list">
 
           {/* First button */}
@@ -219,7 +227,16 @@ export class AegovPagination {
             </button>
           </li>
 
-          {/* Page numbers and ellipsis */}
+          {/* Compact: page indicator text */}
+          {isCompact && (
+            <li class="pagination__item">
+              <span class="pagination__compact-indicator" aria-live="polite" aria-atomic="true">
+                {this.currentPage} / {this.totalPages}
+              </span>
+            </li>
+          )}
+
+          {/* Page numbers and ellipsis (default variant only) */}
           {range.map(item => {
             if (item === 'start-ellipsis' || item === 'end-ellipsis') {
               return (

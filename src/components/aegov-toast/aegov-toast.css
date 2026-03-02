@@ -1,0 +1,205 @@
+/**
+ * AEGOV Toast Component Styles
+ *
+ * Lightweight, non-intrusive notification that appears temporarily.
+ * Supports 5 variants, 2 appearances, 6 positions, animations, and progress bar.
+ */
+
+:host {
+  display: block;
+  pointer-events: auto;
+}
+
+/* ============================================
+   BASE TOAST STYLES
+   ============================================ */
+
+.toast {
+  @apply flex items-start gap-3 rounded-lg border p-4 shadow-lg relative overflow-hidden;
+  @apply transition-all duration-300 ease-in-out;
+  min-width: 320px;
+  max-width: 420px;
+  font-family: inherit;
+}
+
+/* ============================================
+   ICON
+   ============================================ */
+
+.toast__icon {
+  @apply shrink-0 mt-0.5 flex items-center;
+}
+
+.toast__icon svg {
+  @apply w-5 h-5;
+}
+
+/* ============================================
+   CONTENT
+   ============================================ */
+
+.toast__content {
+  @apply grow text-sm;
+}
+
+.toast__actions {
+  @apply flex gap-2 mt-2;
+}
+
+/* ============================================
+   DISMISS BUTTON
+   ============================================ */
+
+.toast__dismiss {
+  @apply shrink-0 p-1 rounded-md cursor-pointer bg-transparent border-0;
+  color: inherit;
+  @apply hover:bg-black/10 focus-visible:outline-2 focus-visible:outline-offset-1;
+}
+
+/* ============================================
+   PROGRESS BAR
+   ============================================ */
+
+.toast__progress {
+  @apply absolute bottom-0 left-0 h-1;
+  border-radius: 0 0 0 0.5rem;
+  animation: toast-progress-shrink linear forwards;
+}
+
+@keyframes toast-progress-shrink {
+  from { width: 100%; }
+  to { width: 0%; }
+}
+
+/* ============================================
+   ANIMATIONS — ENTER / VISIBLE / EXIT
+   ============================================ */
+
+/* Right position: slide from right */
+.toast--right.toast--entering {
+  opacity: 0;
+  transform: translateX(100%);
+}
+.toast--right.toast--exiting {
+  opacity: 0;
+  transform: translateX(100%);
+}
+
+/* Left position: slide from left */
+.toast--left.toast--entering {
+  opacity: 0;
+  transform: translateX(-100%);
+}
+.toast--left.toast--exiting {
+  opacity: 0;
+  transform: translateX(-100%);
+}
+
+/* Center positions: slide from top or bottom */
+.toast--center.toast--top.toast--entering {
+  opacity: 0;
+  transform: translateY(-100%);
+}
+.toast--center.toast--top.toast--exiting {
+  opacity: 0;
+  transform: translateY(-100%);
+}
+
+.toast--center.toast--bottom.toast--entering {
+  opacity: 0;
+  transform: translateY(100%);
+}
+.toast--center.toast--bottom.toast--exiting {
+  opacity: 0;
+  transform: translateY(100%);
+}
+
+/* Visible: fully shown */
+.toast--visible {
+  opacity: 1;
+  transform: translate(0);
+}
+
+/* ============================================
+   VARIANT × APPEARANCE: SOFT
+   ============================================ */
+
+.toast--soft {
+  &.toast--default {
+    @apply bg-slate-50 text-slate-800 border-slate-200;
+    & .toast__icon { @apply text-slate-600; }
+    & .toast__icon svg { fill: currentColor; }
+    & .toast__progress { @apply bg-slate-400; }
+    & .toast__dismiss { @apply focus-visible:outline-slate-600; }
+  }
+  &.toast--error {
+    @apply bg-aered-50 text-aered-800 border-aered-200;
+    & .toast__icon { @apply text-aered-600; }
+    & .toast__icon svg { fill: currentColor; }
+    & .toast__progress { @apply bg-aered-500; }
+    & .toast__dismiss { @apply focus-visible:outline-aered-600; }
+  }
+  &.toast--warning {
+    @apply bg-camel-50 text-camel-800 border-camel-200;
+    & .toast__icon { @apply text-camel-600; }
+    & .toast__icon svg { fill: currentColor; }
+    & .toast__progress { @apply bg-camel-500; }
+    & .toast__dismiss { @apply focus-visible:outline-camel-600; }
+  }
+  &.toast--success {
+    @apply bg-aegreen-50 text-aegreen-800 border-aegreen-200;
+    & .toast__icon { @apply text-aegreen-600; }
+    & .toast__icon svg { fill: currentColor; }
+    & .toast__progress { @apply bg-aegreen-500; }
+    & .toast__dismiss { @apply focus-visible:outline-aegreen-600; }
+  }
+  &.toast--info {
+    @apply bg-techblue-50 text-techblue-800 border-techblue-200;
+    & .toast__icon { @apply text-techblue-600; }
+    & .toast__icon svg { fill: currentColor; }
+    & .toast__progress { @apply bg-techblue-500; }
+    & .toast__dismiss { @apply focus-visible:outline-techblue-600; }
+  }
+}
+
+/* ============================================
+   VARIANT × APPEARANCE: SOLID
+   ============================================ */
+
+.toast--solid {
+  &.toast--default {
+    @apply bg-slate-700 text-whitely-50 border-slate-600;
+    & .toast__icon { @apply text-slate-200; }
+    & .toast__icon svg { fill: currentColor; }
+    & .toast__progress { @apply bg-slate-300; }
+    & .toast__dismiss { @apply hover:bg-white/15 focus-visible:outline-slate-200; }
+  }
+  &.toast--error {
+    @apply bg-aered-600 text-whitely-50 border-aered-500;
+    & .toast__icon { @apply text-aered-100; }
+    & .toast__icon svg { fill: currentColor; }
+    & .toast__progress { @apply bg-aered-200; }
+    & .toast__dismiss { @apply hover:bg-white/15 focus-visible:outline-aered-200; }
+  }
+  &.toast--warning {
+    @apply bg-camel-600 text-whitely-50 border-camel-500;
+    & .toast__icon { @apply text-camel-100; }
+    & .toast__icon svg { fill: currentColor; }
+    & .toast__progress { @apply bg-camel-200; }
+    & .toast__dismiss { @apply hover:bg-white/15 focus-visible:outline-camel-200; }
+  }
+  &.toast--success {
+    @apply bg-aegreen-600 text-whitely-50 border-aegreen-500;
+    & .toast__icon { @apply text-aegreen-100; }
+    & .toast__icon svg { fill: currentColor; }
+    & .toast__progress { @apply bg-aegreen-200; }
+    & .toast__dismiss { @apply hover:bg-white/15 focus-visible:outline-aegreen-200; }
+  }
+  &.toast--info {
+    @apply bg-techblue-600 text-whitely-50 border-techblue-500;
+    & .toast__icon { @apply text-techblue-100; }
+    & .toast__icon svg { fill: currentColor; }
+    & .toast__progress { @apply bg-techblue-200; }
+    & .toast__dismiss { @apply hover:bg-white/15 focus-visible:outline-techblue-200; }
+  }
+}

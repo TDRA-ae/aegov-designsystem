@@ -1,0 +1,261 @@
+:host {
+  @apply block;
+  min-width: 0;
+}
+
+/* All horizontal steps take equal space — no special first/last sizing */
+:host(.host--horizontal) {
+  flex: 1 1 0%;
+}
+
+/* ============================================
+   SR-ONLY (screen reader only)
+   ============================================ */
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+/* ============================================
+   STEP — HORIZONTAL LAYOUT
+   ============================================ */
+
+.step--horizontal {
+  @apply flex flex-col items-center;
+  min-width: 0;
+}
+
+.step__indicator-row {
+  @apply flex items-center w-full;
+}
+
+/* ============================================
+   STEP — VERTICAL LAYOUT
+   ============================================ */
+
+.step--vertical {
+  @apply flex;
+}
+
+.step__vertical-row {
+  @apply flex flex-row items-stretch gap-3;
+}
+
+.step__vertical-indicator {
+  @apply flex flex-col items-center;
+  flex-shrink: 0;
+}
+
+/* ============================================
+   INDICATOR (numbered circle)
+   ============================================ */
+
+.step__indicator {
+  @apply flex items-center justify-center rounded-full shrink-0 font-semibold;
+  transition: all 0.2s ease-in-out;
+}
+
+/* Sizes */
+.step__indicator--sm {
+  width: 1.7rem;
+  height: 1.7rem;
+  font-size: 0.625rem;
+}
+
+.step__indicator--base {
+  width: 2.125rem;
+  height: 2.125rem;
+  font-size: 0.75rem;
+}
+
+.step__indicator--lg {
+  width: 2.5rem;
+  height: 2.5rem;
+  font-size: 0.875rem;
+}
+
+/* Status colors — primary palette */
+.step__indicator--completed {
+  @apply bg-primary-600 text-white;
+}
+
+.step__indicator--active {
+  @apply bg-white border-2 border-primary-600 text-primary-600;
+}
+
+.step__indicator--pending {
+  @apply bg-slate-200 text-slate-400;
+}
+
+/* Checkmark icon */
+.step__checkmark {
+  width: 50%;
+  height: 50%;
+}
+
+/* ============================================
+   DOT (compact variant)
+   ============================================ */
+
+.step__dot {
+  @apply rounded-full shrink-0;
+  transition: all 0.2s ease-in-out;
+}
+
+/* Dot sizes */
+.step__dot--sm {
+  width: 0.5rem;
+  height: 0.5rem;
+}
+
+.step__dot--base {
+  width: 0.625rem;
+  height: 0.625rem;
+}
+
+.step__dot--lg {
+  width: 0.75rem;
+  height: 0.75rem;
+}
+
+/* Dot status colors — primary palette */
+.step__dot--completed {
+  @apply bg-primary-600;
+}
+
+.step__dot--active {
+  @apply bg-primary-600;
+  box-shadow: 0 0 0 3px oklch(66% 0.114 80.7 / 0.3);
+}
+
+.step__dot--pending {
+  @apply bg-slate-300;
+}
+
+/* ============================================
+   CONNECTORS — horizontal
+   ============================================ */
+
+.step__connector--horizontal {
+  @apply flex-grow;
+  height: 2px;
+  min-width: 0.5rem;
+}
+
+/* Invisible spacer — same dimensions as connector, used on first/last ends */
+.step__spacer--horizontal {
+  @apply flex-grow;
+  height: 2px;
+  min-width: 0.5rem;
+  background: transparent;
+}
+
+/* ============================================
+   CONNECTORS — vertical
+   ============================================ */
+
+.step__connector--vertical {
+  width: 2px;
+  @apply flex-grow;
+  min-height: 1.5rem;
+  margin-top: 0.375rem;
+  margin-bottom: 0.375rem;
+}
+
+/* ============================================
+   CONNECTOR STYLES
+   ============================================ */
+
+.step__connector--solid {
+  @apply bg-primary-500;
+}
+
+.step__connector--dashed {
+  background: repeating-linear-gradient(
+    to right,
+    theme(colors.slate.300) 0,
+    theme(colors.slate.300) 6px,
+    transparent 6px,
+    transparent 12px
+  );
+}
+
+.step__connector--dashed.step__connector--vertical {
+  background: repeating-linear-gradient(
+    to bottom,
+    theme(colors.slate.300) 0,
+    theme(colors.slate.300) 6px,
+    transparent 6px,
+    transparent 12px
+  );
+}
+
+/* ============================================
+   TEXT (label + description)
+   ============================================ */
+
+.step__text--horizontal {
+  @apply flex flex-col items-center text-center mt-2;
+}
+
+.step__text--vertical {
+  @apply flex flex-col py-1;
+}
+
+.step__label {
+  @apply text-sm leading-tight;
+}
+
+.step__label--completed {
+  @apply text-primary-800 font-medium;
+}
+
+.step__label--active {
+  @apply text-aeblack-800 font-semibold;
+}
+
+.step__label--pending {
+  @apply text-slate-400;
+}
+
+.step__description {
+  @apply text-xs mt-0.5 leading-tight;
+}
+
+.step__description--completed {
+  @apply text-primary-700;
+}
+
+.step__description--active {
+  @apply text-slate-600;
+}
+
+.step__description--pending {
+  @apply text-slate-400;
+}
+
+/* ============================================
+   RESPONSIVE — hide labels on small screens (horizontal only)
+   ============================================ */
+
+@media (max-width: 639px) {
+  .step__text--horizontal {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+  }
+}

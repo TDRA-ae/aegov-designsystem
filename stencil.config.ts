@@ -22,6 +22,7 @@ setPluginConfigurationDefaults({
 
 export const config: Config = {
   namespace: 'aegov',
+  globalScript: 'src/global/app.ts',
   globalStyle: 'src/global/global.css',
 
   // Output targets for different build formats

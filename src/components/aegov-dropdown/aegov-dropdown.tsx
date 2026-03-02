@@ -240,6 +240,19 @@ export class AegovDropdown {
 
     const triggerRect = this.triggerRef.getBoundingClientRect();
     const dropdownRect = this.dropdownRef.getBoundingClientRect();
+    const viewportWidth = window.innerWidth;
+    const viewportHeight = window.innerHeight;
+
+    // Close dropdown if trigger has scrolled out of the viewport
+    if (
+      triggerRect.bottom < 0 ||
+      triggerRect.top > viewportHeight ||
+      triggerRect.right < 0 ||
+      triggerRect.left > viewportWidth
+    ) {
+      this.isOpen = false;
+      return;
+    }
 
     // If dropdown hasn't been measured yet (width/height = 0), retry with limit
     if (dropdownRect.width === 0 || dropdownRect.height === 0) {
@@ -253,8 +266,6 @@ export class AegovDropdown {
     }
 
     let position = this.position;
-    const viewportWidth = window.innerWidth;
-    const viewportHeight = window.innerHeight;
 
     // Check if there's enough space in the preferred position, flip if needed
     if (position === 'bottom' && triggerRect.bottom + this.gap + dropdownRect.height > viewportHeight) {

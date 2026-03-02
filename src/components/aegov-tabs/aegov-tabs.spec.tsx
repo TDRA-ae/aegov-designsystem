@@ -43,6 +43,29 @@ describe('aegov-tabs', () => {
       const panels = page.root.querySelector('.tabs__panels');
       expect(panels).not.toBeNull();
     });
+
+    it('renders the list wrapper', async () => {
+      const page = await render(basicHtml);
+      const wrapper = page.root.querySelector('.tabs__list-wrapper');
+      expect(wrapper).not.toBeNull();
+    });
+
+    it('sets aria-orientation on tablist', async () => {
+      const page = await render(basicHtml);
+      const tablist = page.root.querySelector('[role="tablist"]');
+      expect(tablist.getAttribute('aria-orientation')).toBe('horizontal');
+    });
+
+    it('sets aria-orientation to vertical when orientation is vertical', async () => {
+      const page = await render(`
+        <aegov-tabs orientation="vertical" default-active-tab="t1">
+          <aegov-tab slot="tabs" tab-id="t1">T1</aegov-tab>
+          <aegov-tab-panel tab-id="t1">P1</aegov-tab-panel>
+        </aegov-tabs>
+      `);
+      const tablist = page.root.querySelector('[role="tablist"]');
+      expect(tablist.getAttribute('aria-orientation')).toBe('vertical');
+    });
   });
 
   // ------------------------------------------------------------------ variant classes
@@ -104,6 +127,46 @@ describe('aegov-tabs', () => {
       `);
       const container = page.root.querySelector('.tabs');
       expect(container.classList.contains('tabs--lg')).toBe(true);
+    });
+  });
+
+  // ------------------------------------------------------------------ stretch
+  describe('stretch', () => {
+    it('does not apply tabs--stretch by default', async () => {
+      const page = await render(basicHtml);
+      const container = page.root.querySelector('.tabs');
+      expect(container.classList.contains('tabs--stretch')).toBe(false);
+    });
+
+    it('applies tabs--stretch when stretch is true', async () => {
+      const page = await render(`
+        <aegov-tabs stretch default-active-tab="t1">
+          <aegov-tab slot="tabs" tab-id="t1">T1</aegov-tab>
+          <aegov-tab-panel tab-id="t1">P1</aegov-tab-panel>
+        </aegov-tabs>
+      `);
+      const container = page.root.querySelector('.tabs');
+      expect(container.classList.contains('tabs--stretch')).toBe(true);
+    });
+  });
+
+  // ------------------------------------------------------------------ vertical orientation
+  describe('vertical orientation', () => {
+    it('does not apply tabs--vertical by default', async () => {
+      const page = await render(basicHtml);
+      const container = page.root.querySelector('.tabs');
+      expect(container.classList.contains('tabs--vertical')).toBe(false);
+    });
+
+    it('applies tabs--vertical when orientation is vertical', async () => {
+      const page = await render(`
+        <aegov-tabs orientation="vertical" default-active-tab="t1">
+          <aegov-tab slot="tabs" tab-id="t1">T1</aegov-tab>
+          <aegov-tab-panel tab-id="t1">P1</aegov-tab-panel>
+        </aegov-tabs>
+      `);
+      const container = page.root.querySelector('.tabs');
+      expect(container.classList.contains('tabs--vertical')).toBe(true);
     });
   });
 
@@ -187,11 +250,36 @@ describe('aegov-tabs', () => {
       expect(tab.size).toBe('lg');
     });
 
+    it('sets orientation on child aegov-tab elements', async () => {
+      const page = await render(`
+        <aegov-tabs orientation="vertical" default-active-tab="t1">
+          <aegov-tab slot="tabs" tab-id="t1">T1</aegov-tab>
+          <aegov-tab-panel tab-id="t1">P1</aegov-tab-panel>
+        </aegov-tabs>
+      `);
+      const tab = page.root.querySelector('aegov-tab') as any;
+      expect(tab.orientation).toBe('vertical');
+    });
+
     it('sets active on the correct aegov-tab-panel', async () => {
       const page = await render(basicHtml);
       const panels = page.root.querySelectorAll('aegov-tab-panel');
       expect((panels[0] as any).active).toBe(true);
       expect((panels[1] as any).active).toBe(false);
+      expect((panels[2] as any).active).toBe(false);
+    });
+
+    it('updates panel active states after tab change', async () => {
+      const page = await render(basicHtml);
+
+      // Simulate selecting tab2
+      const tabEl = page.root.querySelectorAll('aegov-tab')[1];
+      tabEl.dispatchEvent(new CustomEvent('aegovTabSelect', { bubbles: true, detail: 'tab2' }));
+      await page.waitForChanges();
+
+      const panels = page.root.querySelectorAll('aegov-tab-panel');
+      expect((panels[0] as any).active).toBe(false);
+      expect((panels[1] as any).active).toBe(true);
       expect((panels[2] as any).active).toBe(false);
     });
   });
@@ -272,6 +360,16 @@ describe('aegov-tabs', () => {
     it('defaults scrollable to false', async () => {
       const page = await render(basicHtml);
       expect(page.rootInstance.scrollable).toBe(false);
+    });
+
+    it('defaults stretch to false', async () => {
+      const page = await render(basicHtml);
+      expect(page.rootInstance.stretch).toBe(false);
+    });
+
+    it('defaults orientation to horizontal', async () => {
+      const page = await render(basicHtml);
+      expect(page.rootInstance.orientation).toBe('horizontal');
     });
   });
 });
