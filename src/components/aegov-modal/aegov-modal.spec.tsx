@@ -19,7 +19,7 @@ describe('aegov-modal', () => {
         html: `<aegov-modal open="false"><div>Modal content</div></aegov-modal>`,
       });
 
-      const backdrop = page.root?.shadowRoot?.querySelector('.modal-backdrop');
+      const backdrop = page.root?.shadowRoot?.querySelector('.aegov-modal-backdrop');
       expect(backdrop).toBeNull();
     });
 
@@ -30,7 +30,7 @@ describe('aegov-modal', () => {
       });
 
       await page.waitForChanges();
-      const backdrop = page.root?.shadowRoot?.querySelector('.modal-backdrop');
+      const backdrop = page.root?.shadowRoot?.querySelector('.aegov-modal-backdrop');
       expect(backdrop).toBeTruthy();
     });
 

@@ -39,7 +39,7 @@ export class AegovBlockquote {
      */
     private getBlockquoteClasses(): string {
         const classes: string[] = [
-            'aegov-quote',
+            'aegov-blockquote',
             'relative', 
             'px-10', 
             'py-6', 

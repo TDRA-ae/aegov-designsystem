@@ -37,7 +37,7 @@ export class AegovTabPanel {
         aria-labelledby={`tab-${this.tabId}`}
         tabIndex={this.active ? 0 : undefined}
         hidden={!this.active}
-        class="tab-panel"
+        class="aegov-tab-panel"
       >
         <slot />
       </div>

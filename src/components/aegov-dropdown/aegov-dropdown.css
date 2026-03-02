@@ -2,6 +2,6 @@
   @apply inline-block;
 }
 
-.dropdown-trigger {
+.aegov-dropdown-trigger {
   @apply inline-block cursor-pointer;
 }

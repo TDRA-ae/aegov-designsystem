@@ -4,7 +4,7 @@ import type { ProgressVariant, ProgressSize, ProgressOrientation, ProgressStepSt
 @Component({
   tag: 'aegov-progress-step',
   styleUrl: 'aegov-progress-step.css',
-  scoped: true,
+  scoped: false,
 })
 export class AegovProgressStep {
   @Element() el: HTMLAegovProgressStepElement;
@@ -210,7 +210,7 @@ export class AegovProgressStep {
     };
 
     const liClasses = [
-      'step',
+      'aegov-step',
       `step--${this.orientation}`,
       `step--${this.status}`,
     ].filter(Boolean).join(' ');

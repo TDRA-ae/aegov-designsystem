@@ -135,7 +135,7 @@ export class AegovAccordionItem {
 
   render() {
     const classes = [
-      'accordion-item',
+      'aegov-accordion-item',
       this.open && 'accordion-item--open',
       this.disabled && 'accordion-item--disabled',
       this.isFirst && 'accordion-item__first',

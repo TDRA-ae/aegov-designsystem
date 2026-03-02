@@ -13,7 +13,7 @@ describe('aegov-toast', () => {
     });
     expect(page.root).toBeTruthy();
     // Not visible by default (must call show())
-    const toast = page.root.querySelector('.toast');
+    const toast = page.root.querySelector('.aegov-toast');
     expect(toast).toBeNull();
   });
 
@@ -24,7 +24,7 @@ describe('aegov-toast', () => {
     });
     await page.rootInstance.show();
     await page.waitForChanges();
-    const toast = page.root.querySelector('.toast');
+    const toast = page.root.querySelector('.aegov-toast');
     expect(toast).toBeTruthy();
   });
 
@@ -35,7 +35,7 @@ describe('aegov-toast', () => {
     });
     await page.rootInstance.show();
     await page.waitForChanges();
-    const toast = page.root.querySelector('.toast');
+    const toast = page.root.querySelector('.aegov-toast');
     expect(toast.getAttribute('role')).toBeNull();
     expect(toast.getAttribute('aria-live')).toBeNull();
   });
@@ -125,7 +125,7 @@ describe('aegov-toast', () => {
     });
     await page.rootInstance.show();
     await page.waitForChanges();
-    const toast = page.root.querySelector('.toast');
+    const toast = page.root.querySelector('.aegov-toast');
     expect(toast.classList.contains('toast--error')).toBe(true);
     expect(toast.classList.contains('toast--solid')).toBe(true);
   });
@@ -286,7 +286,7 @@ describe('aegov-toast', () => {
     });
     await page.rootInstance.show();
     await page.waitForChanges();
-    const toast = page.root.querySelector('.toast');
+    const toast = page.root.querySelector('.aegov-toast');
     expect(toast.classList.contains('toast--center')).toBe(true);
     expect(toast.classList.contains('toast--top')).toBe(true);
   });
@@ -298,7 +298,7 @@ describe('aegov-toast', () => {
     });
     await page.rootInstance.show();
     await page.waitForChanges();
-    const toast = page.root.querySelector('.toast');
+    const toast = page.root.querySelector('.aegov-toast');
     expect(toast.classList.contains('toast--center')).toBe(true);
     expect(toast.classList.contains('toast--bottom')).toBe(true);
   });
@@ -500,7 +500,7 @@ describe('aegov-toast', () => {
     await page.rootInstance.show();
     await page.waitForChanges();
 
-    const toast = page.root.querySelector('.toast') as HTMLElement;
+    const toast = page.root.querySelector('.aegov-toast') as HTMLElement;
     toast.dispatchEvent(new Event('mouseenter'));
     expect(page.rootInstance.isPaused).toBe(true);
   });
@@ -513,7 +513,7 @@ describe('aegov-toast', () => {
     await page.rootInstance.show();
     await page.waitForChanges();
 
-    const toast = page.root.querySelector('.toast') as HTMLElement;
+    const toast = page.root.querySelector('.aegov-toast') as HTMLElement;
     toast.dispatchEvent(new Event('mouseenter'));
     expect(page.rootInstance.isPaused).toBe(true);
 
@@ -529,7 +529,7 @@ describe('aegov-toast', () => {
     await page.rootInstance.show();
     await page.waitForChanges();
 
-    const toast = page.root.querySelector('.toast') as HTMLElement;
+    const toast = page.root.querySelector('.aegov-toast') as HTMLElement;
     toast.dispatchEvent(new Event('mouseenter'));
     expect(page.rootInstance.isPaused).toBe(false);
   });
@@ -542,7 +542,7 @@ describe('aegov-toast', () => {
     await page.rootInstance.show();
     await page.waitForChanges();
 
-    const toast = page.root.querySelector('.toast') as HTMLElement;
+    const toast = page.root.querySelector('.aegov-toast') as HTMLElement;
     toast.dispatchEvent(new Event('mouseenter'));
     await page.waitForChanges();
 
@@ -558,7 +558,7 @@ describe('aegov-toast', () => {
     await page.rootInstance.show();
     await page.waitForChanges();
 
-    const toast = page.root.querySelector('.toast') as HTMLElement;
+    const toast = page.root.querySelector('.aegov-toast') as HTMLElement;
     toast.dispatchEvent(new Event('mouseenter'));
     await page.waitForChanges();
     toast.dispatchEvent(new Event('mouseleave'));

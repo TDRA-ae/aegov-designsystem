@@ -8,7 +8,7 @@
 
 /* ---- Base button ---- */
 
-.tab__btn {
+.aegov-tab {
   @apply inline-flex items-center justify-center gap-2
          font-medium cursor-pointer
          transition-colors duration-150 ease-in-out
@@ -151,7 +151,7 @@
    Icon sizing
    ============================================================ */
 
-.tab__btn svg {
+.aegov-tab svg {
   @apply w-4 h-4 shrink-0;
 }
 

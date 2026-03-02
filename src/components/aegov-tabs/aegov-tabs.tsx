@@ -247,7 +247,7 @@ export class AegovTabs {
 
   render() {
     return (
-      <div class={`tabs tabs--${this.variant} tabs--${this.size}${this.stretch ? ' tabs--stretch' : ''}${this.orientation === 'vertical' ? ' tabs--vertical' : ''}`}>
+      <div class={`aegov-tabs tabs--${this.variant} tabs--${this.size}${this.stretch ? ' tabs--stretch' : ''}${this.orientation === 'vertical' ? ' tabs--vertical' : ''}`}>
         <div
           class={`tabs__list-wrapper${this.scrollable ? ' tabs__list-wrapper--scrollable' : ''}`}
           ref={el => (this.listWrapperEl = el as HTMLElement)}

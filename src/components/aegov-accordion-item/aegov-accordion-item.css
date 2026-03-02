@@ -3,7 +3,7 @@
 }
 
 
-.accordion-item {
+.aegov-accordion-item {
   @apply border-b border-aeblack-100;
 
   &.accordion-item__last {

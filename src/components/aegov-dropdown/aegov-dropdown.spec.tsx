@@ -16,7 +16,7 @@ describe('aegov-dropdown', () => {
 
       expect(page.root).toEqualHtml(`
         <aegov-dropdown>
-          <div class="dropdown-trigger" aria-haspopup="true" aria-expanded="false">
+          <div class="aegov-dropdown-trigger" aria-haspopup="true" aria-expanded="false">
             <button>Trigger</button>
           </div>
           <div style="display: none;">
@@ -230,7 +230,7 @@ describe('aegov-dropdown', () => {
         `,
       });
 
-      const trigger = page.root.querySelector('.dropdown-trigger');
+      const trigger = page.root.querySelector('.aegov-dropdown-trigger');
       expect(trigger.getAttribute('aria-expanded')).toBe('false');
 
       page.rootInstance.isOpen = true;
@@ -250,7 +250,7 @@ describe('aegov-dropdown', () => {
         `,
       });
 
-      const trigger = page.root.querySelector('.dropdown-trigger');
+      const trigger = page.root.querySelector('.aegov-dropdown-trigger');
       expect(trigger.getAttribute('aria-controls')).toBeNull();
 
       page.rootInstance.isOpen = true;
@@ -346,7 +346,7 @@ describe('aegov-dropdown', () => {
         `,
       });
 
-      const trigger = page.root.querySelector('.dropdown-trigger');
+      const trigger = page.root.querySelector('.aegov-dropdown-trigger');
       expect(trigger.getAttribute('aria-haspopup')).toBe('true');
     });
 

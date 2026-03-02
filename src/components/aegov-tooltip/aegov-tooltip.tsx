@@ -10,7 +10,7 @@ import type { TooltipPosition, TooltipAlign, TooltipTrigger } from '../../utils/
 @Component({
   tag: 'aegov-tooltip',
   styleUrl: 'aegov-tooltip.css',
-  scoped: true,
+  scoped: false,
 })
 export class AegovTooltip {
   @Element() el: HTMLElement;
@@ -331,7 +331,7 @@ export class AegovTooltip {
     return (
       <Host>
         <div
-          class="tooltip-trigger"
+          class="aegov-tooltip-trigger"
           ref={(el) => (this.triggerRef = el)}
           onMouseEnter={this.handleTriggerMouseEnter}
           onMouseLeave={this.handleTriggerMouseLeave}
@@ -347,7 +347,7 @@ export class AegovTooltip {
             id={this.tooltipId}
             ref={(el) => (this.tooltipRef = el)}
             class={{
-              'tooltip': true,
+              'aegov-tooltip': true,
               [`tooltip--${this.position}`]: true,
               'tooltip--interactive': this.interactive,
             }}

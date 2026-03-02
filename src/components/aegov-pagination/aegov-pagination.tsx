@@ -4,7 +4,7 @@ import type { PaginationSize, PaginationVariant } from '../../utils/types';
 @Component({
   tag: 'aegov-pagination',
   styleUrl: 'aegov-pagination.css',
-  scoped: true,
+  scoped: false,
 })
 export class AegovPagination {
   /**
@@ -188,7 +188,7 @@ export class AegovPagination {
     const isCompact = this.variant === 'compact';
 
     return (
-      <nav aria-label="Pagination" class={`pagination pagination--${this.size}${isCompact ? ' pagination--compact' : ''}`}>
+      <nav aria-label="Pagination" class={`aegov-pagination pagination--${this.size}${isCompact ? ' pagination--compact' : ''}`}>
         <ul class="pagination__list">
 
           {/* First button */}

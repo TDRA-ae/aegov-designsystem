@@ -9,7 +9,7 @@ import type { CalloutVariant, CalloutAppearance, BannerPosition, BannerDisplay, 
 @Component({
   tag: 'aegov-banner',
   styleUrl: 'aegov-banner.css',
-  scoped: true,
+  scoped: false,
   shadow: false
 })
 export class AegovBanner {

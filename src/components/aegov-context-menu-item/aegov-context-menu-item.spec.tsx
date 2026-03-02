@@ -10,7 +10,7 @@ describe('aegov-context-menu-item', () => {
 
     expect(page.root).toEqualHtml(`
       <aegov-context-menu-item>
-        <button aria-disabled="false" class="context-menu-item" role="menuitem" type="button">
+        <button aria-disabled="false" class="aegov-context-menu-item" role="menuitem" type="button">
           Edit
         </button>
       </aegov-context-menu-item>
@@ -85,14 +85,14 @@ describe('aegov-context-menu-item', () => {
     expect(button.getAttribute('type')).toBe('button');
   });
 
-  it('should have class="context-menu-item" on button', async () => {
+  it('should have class="aegov-context-menu-item" on button', async () => {
     const page = await newSpecPage({
       components: [AegovContextMenuItem],
       html: `<aegov-context-menu-item>Edit</aegov-context-menu-item>`,
     });
 
     const button = page.root.querySelector('button');
-    expect(button.classList.contains('context-menu-item')).toBe(true);
+    expect(button.classList.contains('aegov-context-menu-item')).toBe(true);
   });
 
   it('should emit aegovContextMenuItemClick event on click', async () => {
@@ -167,7 +167,7 @@ describe('aegov-context-menu-item', () => {
 
     expect(page.root).toEqualHtml(`
       <aegov-context-menu-item disabled="">
-        <button aria-disabled="true" class="context-menu-item" disabled="" role="menuitem" type="button">
+        <button aria-disabled="true" class="aegov-context-menu-item" disabled="" role="menuitem" type="button">
           Delete
         </button>
       </aegov-context-menu-item>

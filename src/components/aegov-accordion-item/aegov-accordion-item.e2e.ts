@@ -313,7 +313,7 @@ describe('aegov-accordion-item E2E', () => {
       await button.click();
       await page.waitForChanges();
 
-      const itemDiv = await page.find('aegov-accordion-item .accordion-item');
+      const itemDiv = await page.find('aegov-accordion-item .aegov-accordion-item');
       const classes = await itemDiv.getProperty('className');
       expect(classes).toContain('accordion-item--open');
     });
@@ -329,7 +329,7 @@ describe('aegov-accordion-item E2E', () => {
         </aegov-accordion>
       `);
 
-      const itemDiv = await page.find('aegov-accordion-item .accordion-item');
+      const itemDiv = await page.find('aegov-accordion-item .aegov-accordion-item');
       const classes = await itemDiv.getProperty('className');
       expect(classes).toContain('accordion-item--disabled');
     });
@@ -351,8 +351,8 @@ describe('aegov-accordion-item E2E', () => {
 
       await page.waitForChanges();
 
-      const firstItemDiv = await page.find('aegov-accordion-item:first-of-type .accordion-item');
-      const lastItemDiv = await page.find('aegov-accordion-item:last-of-type .accordion-item');
+      const firstItemDiv = await page.find('aegov-accordion-item:first-of-type .aegov-accordion-item');
+      const lastItemDiv = await page.find('aegov-accordion-item:last-of-type .aegov-accordion-item');
 
       const firstClasses = await firstItemDiv.getProperty('className');
       const lastClasses = await lastItemDiv.getProperty('className');

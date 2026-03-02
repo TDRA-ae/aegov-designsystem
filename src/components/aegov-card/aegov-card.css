@@ -6,7 +6,7 @@
    BASE CARD
    ============================================ */
 
-.card {
+.aegov-card {
   border-radius: 1rem;
   transition: border-color 0.3s ease, box-shadow 0.3s ease, background-image 0.3s ease;
   overflow: hidden;
@@ -17,13 +17,13 @@
    ============================================ */
 
 @media (max-width: 768px) {
-  .card {
+  .aegov-card {
     border-radius: 0.75rem;
   }
 }
 
 @media (max-width: 480px) {
-  .card {
+  .aegov-card {
     border-radius: 0.5rem;
   }
 }

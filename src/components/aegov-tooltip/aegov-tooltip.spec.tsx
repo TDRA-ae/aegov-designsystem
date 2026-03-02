@@ -9,7 +9,7 @@ describe('aegov-tooltip', () => {
         html: `<aegov-tooltip content="Test tooltip"><button>Trigger</button></aegov-tooltip>`,
       });
       expect(page.root).toBeTruthy();
-      expect(page.root.querySelector('.tooltip-trigger')).toBeTruthy();
+      expect(page.root.querySelector('.aegov-tooltip-trigger')).toBeTruthy();
     });
 
     it('should render trigger element via default slot', async () => {
@@ -17,7 +17,7 @@ describe('aegov-tooltip', () => {
         components: [AegovTooltip],
         html: `<aegov-tooltip content="Test"><button>Click me</button></aegov-tooltip>`,
       });
-      const trigger = page.root.querySelector('.tooltip-trigger');
+      const trigger = page.root.querySelector('.aegov-tooltip-trigger');
       expect(trigger.textContent).toBe('Click me');
     });
 
@@ -26,7 +26,7 @@ describe('aegov-tooltip', () => {
         components: [AegovTooltip],
         html: `<aegov-tooltip content="Test tooltip"><button>Trigger</button></aegov-tooltip>`,
       });
-      const tooltip = page.root.querySelector('.tooltip') as HTMLElement;
+      const tooltip = page.root.querySelector('.aegov-tooltip') as HTMLElement;
       expect(tooltip).toBeTruthy();
       expect(tooltip.style.display).toBe('none');
     });
@@ -39,7 +39,7 @@ describe('aegov-tooltip', () => {
       const tooltip = page.rootInstance as AegovTooltip;
       tooltip.isVisible = true;
       await page.waitForChanges();
-      expect(page.root.querySelector('.tooltip')).toBeTruthy();
+      expect(page.root.querySelector('.aegov-tooltip')).toBeTruthy();
     });
   });
 
@@ -322,7 +322,7 @@ describe('aegov-tooltip', () => {
         components: [AegovTooltip],
         html: `<aegov-tooltip content="Test"><button>Trigger</button></aegov-tooltip>`,
       });
-      const trigger = page.root.querySelector('.tooltip-trigger');
+      const trigger = page.root.querySelector('.aegov-tooltip-trigger');
       expect(trigger.getAttribute('aria-describedby')).toBeNull();
     });
 
@@ -334,7 +334,7 @@ describe('aegov-tooltip', () => {
       const tooltip = page.rootInstance as AegovTooltip;
       tooltip.isVisible = true;
       await page.waitForChanges();
-      const trigger = page.root.querySelector('.tooltip-trigger');
+      const trigger = page.root.querySelector('.aegov-tooltip-trigger');
       expect(trigger.getAttribute('aria-describedby')).toBeTruthy();
     });
 
@@ -343,7 +343,7 @@ describe('aegov-tooltip', () => {
         components: [AegovTooltip],
         html: `<aegov-tooltip content="Test" trigger="click"><button>Trigger</button></aegov-tooltip>`,
       });
-      const trigger = page.root.querySelector('.tooltip-trigger');
+      const trigger = page.root.querySelector('.aegov-tooltip-trigger');
       expect(trigger.getAttribute('aria-expanded')).toBe('false');
     });
 
@@ -355,7 +355,7 @@ describe('aegov-tooltip', () => {
       const tooltip = page.rootInstance as AegovTooltip;
       tooltip.isVisible = true;
       await page.waitForChanges();
-      const trigger = page.root.querySelector('.tooltip-trigger');
+      const trigger = page.root.querySelector('.aegov-tooltip-trigger');
       expect(trigger.getAttribute('aria-expanded')).toBe('true');
     });
 
@@ -435,7 +435,7 @@ describe('aegov-tooltip', () => {
       const tooltip = page.rootInstance as AegovTooltip;
       tooltip.isVisible = true;
       await page.waitForChanges();
-      expect(page.root.querySelector('.tooltip')).toBeTruthy();
+      expect(page.root.querySelector('.aegov-tooltip')).toBeTruthy();
     });
   });
 });

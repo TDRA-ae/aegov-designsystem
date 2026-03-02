@@ -20,7 +20,7 @@ describe('aegov-tooltip e2e', () => {
           <button>Click me</button>
         </aegov-tooltip>
       `);
-      const trigger = await page.find('aegov-tooltip .tooltip-trigger');
+      const trigger = await page.find('aegov-tooltip .aegov-tooltip-trigger');
       expect(trigger).toBeTruthy();
       expect(trigger.textContent.trim()).toBe('Click me');
     });
@@ -32,7 +32,7 @@ describe('aegov-tooltip e2e', () => {
           <button>Hover me</button>
         </aegov-tooltip>
       `);
-      const tooltip = await page.find('aegov-tooltip .tooltip');
+      const tooltip = await page.find('aegov-tooltip .aegov-tooltip');
       expect(tooltip).toBeTruthy();
       const style = await tooltip.getComputedStyle();
       expect(style.display).toBe('none');
@@ -48,11 +48,11 @@ describe('aegov-tooltip e2e', () => {
         </aegov-tooltip>
       `);
 
-      const trigger = await page.find('aegov-tooltip .tooltip-trigger');
+      const trigger = await page.find('aegov-tooltip .aegov-tooltip-trigger');
       await trigger.hover();
       await page.waitForChanges();
 
-      const tooltip = await page.find('aegov-tooltip .tooltip');
+      const tooltip = await page.find('aegov-tooltip .aegov-tooltip');
       expect(tooltip).toBeTruthy();
     });
 
@@ -64,7 +64,7 @@ describe('aegov-tooltip e2e', () => {
         </aegov-tooltip>
       `);
 
-      const trigger = await page.find('aegov-tooltip .tooltip-trigger');
+      const trigger = await page.find('aegov-tooltip .aegov-tooltip-trigger');
       await trigger.hover();
       await page.waitForChanges();
 
@@ -80,7 +80,7 @@ describe('aegov-tooltip e2e', () => {
         </aegov-tooltip>
       `);
 
-      const trigger = await page.find('aegov-tooltip .tooltip-trigger');
+      const trigger = await page.find('aegov-tooltip .aegov-tooltip-trigger');
       await trigger.hover();
       await page.waitForChanges();
 
@@ -88,7 +88,7 @@ describe('aegov-tooltip e2e', () => {
       await page.mouse.move(0, 0);
       await page.waitForChanges();
 
-      const tooltip = await page.find('aegov-tooltip .tooltip');
+      const tooltip = await page.find('aegov-tooltip .aegov-tooltip');
       expect(tooltip).toBeTruthy();
       const style = await tooltip.getComputedStyle();
       expect(style.display).toBe('none');
@@ -104,11 +104,11 @@ describe('aegov-tooltip e2e', () => {
         </aegov-tooltip>
       `);
 
-      const trigger = await page.find('aegov-tooltip .tooltip-trigger');
+      const trigger = await page.find('aegov-tooltip .aegov-tooltip-trigger');
       await trigger.click();
       await page.waitForChanges();
 
-      const tooltip = await page.find('aegov-tooltip .tooltip');
+      const tooltip = await page.find('aegov-tooltip .aegov-tooltip');
       expect(tooltip).toBeTruthy();
     });
 
@@ -120,12 +120,12 @@ describe('aegov-tooltip e2e', () => {
         </aegov-tooltip>
       `);
 
-      const trigger = await page.find('aegov-tooltip .tooltip-trigger');
+      const trigger = await page.find('aegov-tooltip .aegov-tooltip-trigger');
 
       // First click - show
       await trigger.click();
       await page.waitForChanges();
-      let tooltip = await page.find('aegov-tooltip .tooltip');
+      let tooltip = await page.find('aegov-tooltip .aegov-tooltip');
       expect(tooltip).toBeTruthy();
       let style = await tooltip.getComputedStyle();
       expect(style.display).toBe('block');
@@ -133,7 +133,7 @@ describe('aegov-tooltip e2e', () => {
       // Second click - hide
       await trigger.click();
       await page.waitForChanges();
-      tooltip = await page.find('aegov-tooltip .tooltip');
+      tooltip = await page.find('aegov-tooltip .aegov-tooltip');
       expect(tooltip).toBeTruthy();
       style = await tooltip.getComputedStyle();
       expect(style.display).toBe('none');
@@ -150,11 +150,11 @@ describe('aegov-tooltip e2e', () => {
         </div>
       `);
 
-      const trigger = await page.find('aegov-tooltip .tooltip-trigger');
+      const trigger = await page.find('aegov-tooltip .aegov-tooltip-trigger');
       await trigger.click();
       await page.waitForChanges();
 
-      let tooltip = await page.find('aegov-tooltip .tooltip');
+      let tooltip = await page.find('aegov-tooltip .aegov-tooltip');
       expect(tooltip).toBeTruthy();
       let style = await tooltip.getComputedStyle();
       expect(style.display).toBe('block');
@@ -164,7 +164,7 @@ describe('aegov-tooltip e2e', () => {
       await outside.click();
       await page.waitForChanges();
 
-      tooltip = await page.find('aegov-tooltip .tooltip');
+      tooltip = await page.find('aegov-tooltip .aegov-tooltip');
       expect(tooltip).toBeTruthy();
       style = await tooltip.getComputedStyle();
       expect(style.display).toBe('none');
@@ -180,7 +180,7 @@ describe('aegov-tooltip e2e', () => {
         </aegov-tooltip>
       `);
 
-      const trigger = await page.find('aegov-tooltip .tooltip-trigger');
+      const trigger = await page.find('aegov-tooltip .aegov-tooltip-trigger');
       await trigger.hover();
       await page.waitForChanges();
 
@@ -196,7 +196,7 @@ describe('aegov-tooltip e2e', () => {
         </aegov-tooltip>
       `);
 
-      const trigger = await page.find('aegov-tooltip .tooltip-trigger');
+      const trigger = await page.find('aegov-tooltip .aegov-tooltip-trigger');
       await trigger.hover();
       await page.waitForChanges();
 
@@ -212,7 +212,7 @@ describe('aegov-tooltip e2e', () => {
         </aegov-tooltip>
       `);
 
-      const trigger = await page.find('aegov-tooltip .tooltip-trigger');
+      const trigger = await page.find('aegov-tooltip .aegov-tooltip-trigger');
       await trigger.hover();
       await page.waitForChanges();
 
@@ -228,7 +228,7 @@ describe('aegov-tooltip e2e', () => {
         </aegov-tooltip>
       `);
 
-      const trigger = await page.find('aegov-tooltip .tooltip-trigger');
+      const trigger = await page.find('aegov-tooltip .aegov-tooltip-trigger');
       await trigger.hover();
       await page.waitForChanges();
 
@@ -246,7 +246,7 @@ describe('aegov-tooltip e2e', () => {
         </aegov-tooltip>
       `);
 
-      const trigger = await page.find('aegov-tooltip .tooltip-trigger');
+      const trigger = await page.find('aegov-tooltip .aegov-tooltip-trigger');
       await trigger.hover();
       await page.waitForChanges();
 
@@ -267,7 +267,7 @@ describe('aegov-tooltip e2e', () => {
         </aegov-tooltip>
       `);
 
-      const trigger = await page.find('aegov-tooltip .tooltip-trigger');
+      const trigger = await page.find('aegov-tooltip .aegov-tooltip-trigger');
       await trigger.hover();
       await page.waitForChanges();
 
@@ -285,7 +285,7 @@ describe('aegov-tooltip e2e', () => {
         </aegov-tooltip>
       `);
 
-      const trigger = await page.find('aegov-tooltip .tooltip-trigger');
+      const trigger = await page.find('aegov-tooltip .aegov-tooltip-trigger');
       await trigger.hover();
       await page.waitForChanges();
 
@@ -301,7 +301,7 @@ describe('aegov-tooltip e2e', () => {
         </aegov-tooltip>
       `);
 
-      const trigger = await page.find('aegov-tooltip .tooltip-trigger');
+      const trigger = await page.find('aegov-tooltip .aegov-tooltip-trigger');
       const ariaExpanded = await trigger.getAttribute('aria-expanded');
       expect(ariaExpanded).toBeTruthy();
     });
@@ -314,7 +314,7 @@ describe('aegov-tooltip e2e', () => {
         </aegov-tooltip>
       `);
 
-      const trigger = await page.find('aegov-tooltip .tooltip-trigger');
+      const trigger = await page.find('aegov-tooltip .aegov-tooltip-trigger');
 
       // Initially false
       let ariaExpanded = await trigger.getAttribute('aria-expanded');
@@ -336,7 +336,7 @@ describe('aegov-tooltip e2e', () => {
         </aegov-tooltip>
       `);
 
-      const trigger = await page.find('aegov-tooltip .tooltip-trigger');
+      const trigger = await page.find('aegov-tooltip .aegov-tooltip-trigger');
       await trigger.hover();
       await page.waitForChanges();
 
@@ -352,7 +352,7 @@ describe('aegov-tooltip e2e', () => {
         </aegov-tooltip>
       `);
 
-      const trigger = await page.find('aegov-tooltip .tooltip-trigger');
+      const trigger = await page.find('aegov-tooltip .aegov-tooltip-trigger');
       await trigger.hover();
       await page.waitForChanges();
 
@@ -370,11 +370,11 @@ describe('aegov-tooltip e2e', () => {
         </aegov-tooltip>
       `);
 
-      const trigger = await page.find('aegov-tooltip .tooltip-trigger');
+      const trigger = await page.find('aegov-tooltip .aegov-tooltip-trigger');
       await trigger.click();
       await page.waitForChanges();
 
-      let tooltip = await page.find('aegov-tooltip .tooltip');
+      let tooltip = await page.find('aegov-tooltip .aegov-tooltip');
       expect(tooltip).toBeTruthy();
       let style = await tooltip.getComputedStyle();
       expect(style.display).toBe('block');
@@ -383,7 +383,7 @@ describe('aegov-tooltip e2e', () => {
       await page.keyboard.press('Escape');
       await page.waitForChanges();
 
-      tooltip = await page.find('aegov-tooltip .tooltip');
+      tooltip = await page.find('aegov-tooltip .aegov-tooltip');
       expect(tooltip).toBeTruthy();
       style = await tooltip.getComputedStyle();
       expect(style.display).toBe('none');
@@ -399,7 +399,7 @@ describe('aegov-tooltip e2e', () => {
         </aegov-tooltip>
       `);
 
-      const trigger = await page.find('aegov-tooltip .tooltip-trigger');
+      const trigger = await page.find('aegov-tooltip .aegov-tooltip-trigger');
       await trigger.hover();
       await page.waitForChanges();
 
@@ -417,11 +417,11 @@ describe('aegov-tooltip e2e', () => {
         </aegov-tooltip>
       `);
 
-      const trigger = await page.find('aegov-tooltip .tooltip-trigger');
+      const trigger = await page.find('aegov-tooltip .aegov-tooltip-trigger');
       await trigger.hover();
       await page.waitForChanges();
 
-      const tooltip = await page.find('aegov-tooltip .tooltip');
+      const tooltip = await page.find('aegov-tooltip .aegov-tooltip');
       expect(tooltip).toBeTruthy();
       const style = await tooltip.getComputedStyle();
       expect(style.display).toBe('none');
@@ -437,11 +437,11 @@ describe('aegov-tooltip e2e', () => {
         </aegov-tooltip>
       `);
 
-      const trigger = await page.find('aegov-tooltip .tooltip-trigger');
+      const trigger = await page.find('aegov-tooltip .aegov-tooltip-trigger');
       await trigger.hover();
       await page.waitForChanges();
 
-      const tooltip = await page.find('aegov-tooltip .tooltip');
+      const tooltip = await page.find('aegov-tooltip .aegov-tooltip');
       const style = await tooltip.getComputedStyle();
       expect(style.position).toBe('fixed');
     });
@@ -456,11 +456,11 @@ describe('aegov-tooltip e2e', () => {
         </aegov-tooltip>
       `);
 
-      const trigger = await page.find('aegov-tooltip .tooltip-trigger');
+      const trigger = await page.find('aegov-tooltip .aegov-tooltip-trigger');
       await trigger.hover();
       await page.waitForChanges();
 
-      const tooltip = await page.find('aegov-tooltip .tooltip');
+      const tooltip = await page.find('aegov-tooltip .aegov-tooltip');
       expect(tooltip).toBeTruthy();
     });
 
@@ -472,11 +472,11 @@ describe('aegov-tooltip e2e', () => {
         </aegov-tooltip>
       `);
 
-      const trigger = await page.find('aegov-tooltip .tooltip-trigger');
+      const trigger = await page.find('aegov-tooltip .aegov-tooltip-trigger');
       await trigger.hover();
       await page.waitForChanges();
 
-      const tooltip = await page.find('aegov-tooltip .tooltip');
+      const tooltip = await page.find('aegov-tooltip .aegov-tooltip');
       expect(tooltip).toBeTruthy();
     });
 
@@ -488,11 +488,11 @@ describe('aegov-tooltip e2e', () => {
         </aegov-tooltip>
       `);
 
-      const trigger = await page.find('aegov-tooltip .tooltip-trigger');
+      const trigger = await page.find('aegov-tooltip .aegov-tooltip-trigger');
       await trigger.hover();
       await page.waitForChanges();
 
-      const tooltip = await page.find('aegov-tooltip .tooltip');
+      const tooltip = await page.find('aegov-tooltip .aegov-tooltip');
       expect(tooltip).toBeTruthy();
     });
   });

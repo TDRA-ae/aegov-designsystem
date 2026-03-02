@@ -11,7 +11,7 @@ describe('aegov-card', () => {
       components: [AegovCard],
       html: `<aegov-card>Content</aegov-card>`,
     });
-    const card = page.root.querySelector('.card');
+    const card = page.root.querySelector('.aegov-card');
     expect(card).toBeTruthy();
     expect(card.classList.contains('card--border-1')).toBe(true);
     expect(card.classList.contains('card--border-standard')).toBe(true);
@@ -25,7 +25,7 @@ describe('aegov-card', () => {
       components: [AegovCard],
       html: `<aegov-card><p>Hello World</p></aegov-card>`,
     });
-    const card = page.root.querySelector('.card');
+    const card = page.root.querySelector('.aegov-card');
     expect(card).toBeTruthy();
     expect(page.root.textContent).toContain('Hello World');
   });
@@ -160,7 +160,7 @@ describe('aegov-card', () => {
       components: [AegovCard],
       html: `<aegov-card border-style="creative" background="subtle">Content</aegov-card>`,
     });
-    const card = page.root.querySelector('.card');
+    const card = page.root.querySelector('.aegov-card');
     expect(card.classList.contains('card--border-creative')).toBe(true);
     expect(card.classList.contains('card--bg-subtle')).toBe(true);
   });
@@ -170,7 +170,7 @@ describe('aegov-card', () => {
       components: [AegovCard],
       html: `<aegov-card border-style="creative" hover="glow">Content</aegov-card>`,
     });
-    const card = page.root.querySelector('.card');
+    const card = page.root.querySelector('.aegov-card');
     expect(card.classList.contains('card--border-creative')).toBe(true);
     expect(card.classList.contains('card--hover-glow')).toBe(true);
   });
@@ -184,7 +184,7 @@ describe('aegov-card', () => {
       components: [AegovCard],
       html: `<aegov-card border-width="3" background="subtle" hover="glow">Content</aegov-card>`,
     });
-    const card = page.root.querySelector('.card');
+    const card = page.root.querySelector('.aegov-card');
     expect(card.classList.contains('card--border-3')).toBe(true);
     expect(card.classList.contains('card--bg-subtle')).toBe(true);
     expect(card.classList.contains('card--hover-glow')).toBe(true);
@@ -211,7 +211,7 @@ describe('aegov-card', () => {
         </aegov-card>
       `,
     });
-    const card = page.root.querySelector('.card');
+    const card = page.root.querySelector('.aegov-card');
     expect(card).toBeTruthy();
   });
 });

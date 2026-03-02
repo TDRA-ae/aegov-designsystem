@@ -372,7 +372,7 @@ export class AegovContextMenu {
         pointer-events: none;
       }
 
-      .aegov-context-menu-portal .context-menu {
+      .aegov-context-menu-portal .aegov-context-menu {
         background: white;
         border: 1px solid #cbd5e0;
         border-radius: 0.5rem;
@@ -390,12 +390,12 @@ export class AegovContextMenu {
         transition: opacity 150ms ease-in-out, transform 150ms ease-in-out;
       }
 
-      .aegov-context-menu-portal .context-menu[data-state="open"] {
+      .aegov-context-menu-portal .aegov-context-menu[data-state="open"] {
         opacity: 1;
         transform: scale(1);
       }
 
-      .aegov-context-menu-portal .context-menu button {
+      .aegov-context-menu-portal .aegov-context-menu button {
         width: 100%;
         text-align: left;
         padding: 0.5rem 0.75rem;
@@ -406,24 +406,24 @@ export class AegovContextMenu {
         transition: background-color 150ms ease-in-out;
       }
 
-      .aegov-context-menu-portal .context-menu button:hover {
+      .aegov-context-menu-portal .aegov-context-menu button:hover {
         background-color: #f7fafc;
       }
 
-      .aegov-context-menu-portal .context-menu button:focus {
+      .aegov-context-menu-portal .aegov-context-menu button:focus {
         outline: 2px solid #3182ce;
         outline-offset: -2px;
         background-color: #ebf8ff;
       }
 
-      .aegov-context-menu-portal .context-menu button:disabled,
-      .aegov-context-menu-portal .context-menu button[aria-disabled="true"] {
+      .aegov-context-menu-portal .aegov-context-menu button:disabled,
+      .aegov-context-menu-portal .aegov-context-menu button[aria-disabled="true"] {
         opacity: 0.5;
         cursor: not-allowed;
         pointer-events: none;
       }
 
-      .aegov-context-menu-portal .context-menu hr {
+      .aegov-context-menu-portal .aegov-context-menu hr {
         border: none;
         border-top: 1px solid #e2e8f0;
         margin: 0.5rem 0;
@@ -433,7 +433,7 @@ export class AegovContextMenu {
 
     // Create menu container
     const menuContainer = document.createElement('div');
-    menuContainer.className = 'context-menu';
+    menuContainer.className = 'aegov-context-menu';
     menuContainer.id = this.menuId;
     menuContainer.setAttribute('role', 'menu');
     menuContainer.setAttribute('data-state', 'open');

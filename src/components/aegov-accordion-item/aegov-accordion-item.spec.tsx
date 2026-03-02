@@ -141,7 +141,7 @@ describe('aegov-accordion-item', () => {
 
       await page.waitForChanges();
 
-      const accordionItem = page.root.querySelector('.accordion-item');
+      const accordionItem = page.root.querySelector('.aegov-accordion-item');
       expect(accordionItem.classList.contains('accordion-item--open')).toBe(true);
     });
 
@@ -158,7 +158,7 @@ describe('aegov-accordion-item', () => {
         `,
       });
 
-      const accordionItem = page.root.querySelector('.accordion-item');
+      const accordionItem = page.root.querySelector('.aegov-accordion-item');
       expect(accordionItem.classList.contains('accordion-item--open')).toBe(false);
     });
   });
@@ -194,7 +194,7 @@ describe('aegov-accordion-item', () => {
         `,
       });
 
-      const accordionItem = page.root.querySelector('.accordion-item');
+      const accordionItem = page.root.querySelector('.aegov-accordion-item');
       expect(accordionItem.classList.contains('accordion-item--disabled')).toBe(true);
     });
 
@@ -451,7 +451,7 @@ describe('aegov-accordion-item', () => {
 
       await page.waitForChanges();
 
-      const firstItemDiv = page.root.querySelector('aegov-accordion-item:first-of-type .accordion-item');
+      const firstItemDiv = page.root.querySelector('aegov-accordion-item:first-of-type .aegov-accordion-item');
       expect(firstItemDiv.classList.contains('accordion-item__first')).toBe(true);
     });
 
@@ -474,7 +474,7 @@ describe('aegov-accordion-item', () => {
 
       await page.waitForChanges();
 
-      const lastItemDiv = page.root.querySelector('aegov-accordion-item:last-of-type .accordion-item');
+      const lastItemDiv = page.root.querySelector('aegov-accordion-item:last-of-type .aegov-accordion-item');
       expect(lastItemDiv.classList.contains('accordion-item__last')).toBe(true);
     });
   });

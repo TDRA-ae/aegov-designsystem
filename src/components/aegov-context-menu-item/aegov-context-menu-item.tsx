@@ -8,7 +8,7 @@ import { Component, Host, h, Prop, Event, EventEmitter } from '@stencil/core';
 @Component({
   tag: 'aegov-context-menu-item',
   styleUrl: 'aegov-context-menu-item.css',
-  scoped: true,
+  scoped: false,
 })
 export class AegovContextMenuItem {
   /**
@@ -32,7 +32,7 @@ export class AegovContextMenuItem {
     return (
       <Host>
         <button
-          class="context-menu-item"
+          class="aegov-context-menu-item"
           role="menuitem"
           disabled={this.disabled}
           aria-disabled={this.disabled ? 'true' : 'false'}

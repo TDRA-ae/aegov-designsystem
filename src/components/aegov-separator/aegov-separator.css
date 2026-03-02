@@ -2,7 +2,7 @@
   @apply block;
 }
 
-.separator {
+.aegov-separator {
   @apply m-0;
   border-style: none;
 }

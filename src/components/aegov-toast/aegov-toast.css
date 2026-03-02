@@ -14,7 +14,7 @@
    BASE TOAST STYLES
    ============================================ */
 
-.toast {
+.aegov-toast {
   @apply flex items-start gap-3 rounded-lg border p-4 shadow-lg relative overflow-hidden;
   @apply transition-all duration-300 ease-in-out;
   min-width: 320px;

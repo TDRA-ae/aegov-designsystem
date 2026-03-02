@@ -43,10 +43,10 @@ describe('aegov-tab-panel', () => {
       expect(panel.getAttribute('aria-labelledby')).toBe('tab-account');
     });
 
-    it('has class tab-panel', async () => {
+    it('has class aegov-tab-panel', async () => {
       const page = await renderStandalone({ tabId: 'test' });
       const panel = page.root.querySelector('[role="tabpanel"]');
-      expect(panel.classList.contains('tab-panel')).toBe(true);
+      expect(panel.classList.contains('aegov-tab-panel')).toBe(true);
     });
 
     it('renders slot content', async () => {

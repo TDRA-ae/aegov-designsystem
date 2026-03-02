@@ -10,13 +10,13 @@
 }
 
 /* Trigger wrapper */
-.tooltip-trigger {
+.aegov-tooltip-trigger {
   @apply inline-flex cursor-pointer;
 }
 
 /* Tooltip container */
-.tooltip {
-  @apply fixed z-9999 max-w-80 p-0 bg-transparent pointer-events-none top-0 left-0 invisible;  
+.aegov-tooltip {
+  @apply fixed z-9999 max-w-80 p-0 bg-transparent pointer-events-none top-0 left-0 invisible;
   animation: tooltipFadeIn 150ms ease-out;
 }
 

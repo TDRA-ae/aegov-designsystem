@@ -401,7 +401,7 @@ describe('aegov-tabs e2e', () => {
   describe('variant classes in DOM', () => {
     it('applies tabs--simple class for simple variant', async () => {
       const page = await render(basicHtml);
-      const container = await page.find('aegov-tabs .tabs');
+      const container = await page.find('aegov-tabs .aegov-tabs');
       expect(await container.getAttribute('class')).toContain('tabs--simple');
     });
 
@@ -412,7 +412,7 @@ describe('aegov-tabs e2e', () => {
           <aegov-tab-panel tab-id="t1">P1</aegov-tab-panel>
         </aegov-tabs>
       `);
-      const container = await page.find('aegov-tabs .tabs');
+      const container = await page.find('aegov-tabs .aegov-tabs');
       expect(await container.getAttribute('class')).toContain('tabs--segmented');
     });
 
@@ -423,7 +423,7 @@ describe('aegov-tabs e2e', () => {
           <aegov-tab-panel tab-id="t1">P1</aegov-tab-panel>
         </aegov-tabs>
       `);
-      const container = await page.find('aegov-tabs .tabs');
+      const container = await page.find('aegov-tabs .aegov-tabs');
       expect(await container.getAttribute('class')).toContain('tabs--pill');
     });
   });
@@ -432,7 +432,7 @@ describe('aegov-tabs e2e', () => {
   describe('size classes in DOM', () => {
     it('applies tabs--base class by default', async () => {
       const page = await render(basicHtml);
-      const container = await page.find('aegov-tabs .tabs');
+      const container = await page.find('aegov-tabs .aegov-tabs');
       expect(await container.getAttribute('class')).toContain('tabs--base');
     });
 
@@ -443,7 +443,7 @@ describe('aegov-tabs e2e', () => {
           <aegov-tab-panel tab-id="t1">P1</aegov-tab-panel>
         </aegov-tabs>
       `);
-      const container = await page.find('aegov-tabs .tabs');
+      const container = await page.find('aegov-tabs .aegov-tabs');
       expect(await container.getAttribute('class')).toContain('tabs--sm');
     });
 
@@ -454,7 +454,7 @@ describe('aegov-tabs e2e', () => {
           <aegov-tab-panel tab-id="t1">P1</aegov-tab-panel>
         </aegov-tabs>
       `);
-      const container = await page.find('aegov-tabs .tabs');
+      const container = await page.find('aegov-tabs .aegov-tabs');
       expect(await container.getAttribute('class')).toContain('tabs--lg');
     });
   });
@@ -468,13 +468,13 @@ describe('aegov-tabs e2e', () => {
           <aegov-tab-panel tab-id="t1">P1</aegov-tab-panel>
         </aegov-tabs>
       `);
-      const container = await page.find('aegov-tabs .tabs');
+      const container = await page.find('aegov-tabs .aegov-tabs');
       expect(await container.getAttribute('class')).toContain('tabs--stretch');
     });
 
     it('does not apply tabs--stretch by default', async () => {
       const page = await render(basicHtml);
-      const container = await page.find('aegov-tabs .tabs');
+      const container = await page.find('aegov-tabs .aegov-tabs');
       expect(await container.getAttribute('class')).not.toContain('tabs--stretch');
     });
   });
@@ -488,7 +488,7 @@ describe('aegov-tabs e2e', () => {
           <aegov-tab-panel tab-id="t1">P1</aegov-tab-panel>
         </aegov-tabs>
       `);
-      const container = await page.find('aegov-tabs .tabs');
+      const container = await page.find('aegov-tabs .aegov-tabs');
       expect(await container.getAttribute('class')).toContain('tabs--vertical');
     });
 

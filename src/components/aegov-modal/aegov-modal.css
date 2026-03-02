@@ -21,7 +21,7 @@
    Backdrop
    ============================================ */
 
-.modal-backdrop {
+.aegov-modal-backdrop {
   @apply fixed inset-0 bg-slate-900/40;
   z-index: var(--modal-z-index);
   transition: opacity var(--modal-transition-duration) var(--modal-transition-timing);
@@ -41,20 +41,20 @@
 }
 
 /* Backdrop animation states */
-.modal-backdrop[data-state="closed"] {
+.aegov-modal-backdrop[data-state="closed"] {
   @apply opacity-0;
 }
 
-.modal-backdrop[data-state="opening"] {
+.aegov-modal-backdrop[data-state="opening"] {
   @apply opacity-0;
   animation: fadeIn var(--modal-transition-duration) var(--modal-transition-timing) forwards;
 }
 
-.modal-backdrop[data-state="open"] {
+.aegov-modal-backdrop[data-state="open"] {
   @apply opacity-100;
 }
 
-.modal-backdrop[data-state="closing"] {
+.aegov-modal-backdrop[data-state="closing"] {
   @apply opacity-100;
   animation: fadeOut var(--modal-transition-duration) var(--modal-transition-timing) forwards;
 }
@@ -63,7 +63,7 @@
    Modal Container (Positioning)
    ============================================ */
 
-.modal-container {
+.aegov-modal-container {
   @apply fixed inset-0 flex p-4 overflow-y-auto overflow-x-hidden;
   z-index: calc(var(--modal-z-index) + 1);
 }
@@ -85,30 +85,30 @@
    Modal Content
    ============================================ */
 
-.modal-content {
+.aegov-modal-content {
   @apply relative bg-whitely-50 rounded-lg shadow-xl max-w-full w-auto max-h-screen overflow-y-auto;
   transition: opacity var(--modal-transition-duration) var(--modal-transition-timing),
               transform var(--modal-transition-duration) var(--modal-transition-timing);
 }
 
 /* Content animation states */
-.modal-content[data-state="closed"] {
+.aegov-modal-content[data-state="closed"] {
   @apply opacity-0;
   transform: scale(0.95);
 }
 
-.modal-content[data-state="opening"] {
+.aegov-modal-content[data-state="opening"] {
   @apply opacity-0;
   transform: scale(0.95);
   animation: fadeInScale var(--modal-transition-duration) var(--modal-transition-timing) forwards;
 }
 
-.modal-content[data-state="open"] {
+.aegov-modal-content[data-state="open"] {
   @apply opacity-100;
   transform: scale(1);
 }
 
-.modal-content[data-state="closing"] {
+.aegov-modal-content[data-state="closing"] {
   @apply opacity-100;
   transform: scale(1);
   animation: fadeOutScale var(--modal-transition-duration) var(--modal-transition-timing) forwards;
@@ -118,19 +118,19 @@
    Scrollbar Styling (Optional Enhancement)
    ============================================ */
 
-.modal-content::-webkit-scrollbar {
+.aegov-modal-content::-webkit-scrollbar {
   @apply w-2;
 }
 
-.modal-content::-webkit-scrollbar-track {
+.aegov-modal-content::-webkit-scrollbar-track {
   @apply bg-slate-100 rounded-lg;
 }
 
-.modal-content::-webkit-scrollbar-thumb {
+.aegov-modal-content::-webkit-scrollbar-thumb {
   @apply bg-slate-300 rounded-lg;
 }
 
-.modal-content::-webkit-scrollbar-thumb:hover {
+.aegov-modal-content::-webkit-scrollbar-thumb:hover {
   @apply bg-slate-400;
 }
 
@@ -183,7 +183,7 @@
    ============================================ */
 
 @media (min-width: 640px) {
-  .modal-container {
+  .aegov-modal-container {
     padding: 2rem;
   }
 
@@ -200,8 +200,8 @@
    RTL Support
    ============================================ */
 
-:host(:dir(rtl)) .modal-content,
-:host-context([dir="rtl"]) .modal-content {
+:host(:dir(rtl)) .aegov-modal-content,
+:host-context([dir="rtl"]) .aegov-modal-content {
   /* RTL-specific adjustments if needed */
 }
 
@@ -210,30 +210,30 @@
    ============================================ */
 
 @media (prefers-reduced-motion: reduce) {
-  .modal-backdrop,
-  .modal-content {
+  .aegov-modal-backdrop,
+  .aegov-modal-content {
     transition: none;
     animation: none !important;
   }
 
-  .modal-backdrop[data-state="opening"],
-  .modal-backdrop[data-state="open"] {
+  .aegov-modal-backdrop[data-state="opening"],
+  .aegov-modal-backdrop[data-state="open"] {
     opacity: 1;
   }
 
-  .modal-backdrop[data-state="closing"],
-  .modal-backdrop[data-state="closed"] {
+  .aegov-modal-backdrop[data-state="closing"],
+  .aegov-modal-backdrop[data-state="closed"] {
     opacity: 0;
   }
 
-  .modal-content[data-state="opening"],
-  .modal-content[data-state="open"] {
+  .aegov-modal-content[data-state="opening"],
+  .aegov-modal-content[data-state="open"] {
     opacity: 1;
     transform: scale(1);
   }
 
-  .modal-content[data-state="closing"],
-  .modal-content[data-state="closed"] {
+  .aegov-modal-content[data-state="closing"],
+  .aegov-modal-content[data-state="closed"] {
     opacity: 0;
     transform: scale(1);
   }

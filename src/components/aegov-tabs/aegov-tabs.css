@@ -8,7 +8,7 @@
 
 /* ---- Container ---- */
 
-.tabs {
+.aegov-tabs {
   @apply flex flex-col;
 }
 
@@ -115,7 +115,7 @@
   flex: 1;
 }
 
-.tabs--stretch .tab__btn {
+.tabs--stretch .aegov-tab {
   @apply w-full justify-center;
 }
 

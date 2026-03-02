@@ -15,7 +15,7 @@ describe('aegov-modal E2E', () => {
       const page = await newE2EPage();
       await page.setContent(`<aegov-modal><div>Modal content</div></aegov-modal>`);
 
-      const backdrop = await page.find('aegov-modal >>> .modal-backdrop');
+      const backdrop = await page.find('aegov-modal >>> .aegov-modal-backdrop');
       expect(backdrop).toBeNull();
     });
 
@@ -23,7 +23,7 @@ describe('aegov-modal E2E', () => {
       const page = await newE2EPage();
       await page.setContent(`<aegov-modal open><div>Modal content</div></aegov-modal>`);
 
-      const backdrop = await page.find('aegov-modal >>> .modal-backdrop');
+      const backdrop = await page.find('aegov-modal >>> .aegov-modal-backdrop');
       expect(backdrop).toBeTruthy();
     });
 
@@ -100,13 +100,13 @@ describe('aegov-modal E2E', () => {
 
       const modal = await page.find('aegov-modal');
 
-      let backdrop = await page.find('aegov-modal >>> .modal-backdrop');
+      let backdrop = await page.find('aegov-modal >>> .aegov-modal-backdrop');
       expect(backdrop).toBeNull();
 
       await modal.callMethod('show');
       await page.waitForChanges();
 
-      backdrop = await page.find('aegov-modal >>> .modal-backdrop');
+      backdrop = await page.find('aegov-modal >>> .aegov-modal-backdrop');
       expect(backdrop).toBeTruthy();
     });
 
@@ -116,7 +116,7 @@ describe('aegov-modal E2E', () => {
 
       const modal = await page.find('aegov-modal');
 
-      let backdrop = await page.find('aegov-modal >>> .modal-backdrop');
+      let backdrop = await page.find('aegov-modal >>> .aegov-modal-backdrop');
       expect(backdrop).toBeTruthy();
 
       await modal.callMethod('close');
@@ -132,12 +132,12 @@ describe('aegov-modal E2E', () => {
 
       const modal = await page.find('aegov-modal');
 
-      let backdrop = await page.find('aegov-modal >>> .modal-backdrop');
+      let backdrop = await page.find('aegov-modal >>> .aegov-modal-backdrop');
       expect(backdrop).toBeNull();
 
       await modal.callMethod('toggle');
       await page.waitForChanges();
-      backdrop = await page.find('aegov-modal >>> .modal-backdrop');
+      backdrop = await page.find('aegov-modal >>> .aegov-modal-backdrop');
       expect(backdrop).toBeTruthy();
 
       await modal.callMethod('toggle');
@@ -184,7 +184,7 @@ describe('aegov-modal E2E', () => {
       const modal = await page.find('aegov-modal');
       const backdropClickEvent = await modal.spyOnEvent('aegovModalBackdropClick');
 
-      const backdrop = await page.find('aegov-modal >>> .modal-backdrop');
+      const backdrop = await page.find('aegov-modal >>> .aegov-modal-backdrop');
       await backdrop.click();
       await page.waitForChanges();
 
@@ -197,7 +197,7 @@ describe('aegov-modal E2E', () => {
       const page = await newE2EPage();
       await page.setContent(`<aegov-modal open><div>Content</div></aegov-modal>`);
 
-      let backdrop = await page.find('aegov-modal >>> .modal-backdrop');
+      let backdrop = await page.find('aegov-modal >>> .aegov-modal-backdrop');
       expect(backdrop).toBeTruthy();
 
       await backdrop.click();
@@ -212,13 +212,13 @@ describe('aegov-modal E2E', () => {
       const page = await newE2EPage();
       await page.setContent(`<aegov-modal open close-with-backdrop="false"><div>Content</div></aegov-modal>`);
 
-      let backdrop = await page.find('aegov-modal >>> .modal-backdrop');
+      let backdrop = await page.find('aegov-modal >>> .aegov-modal-backdrop');
       expect(backdrop).toBeTruthy();
 
       await backdrop.click();
       await page.waitForChanges();
 
-      backdrop = await page.find('aegov-modal >>> .modal-backdrop');
+      backdrop = await page.find('aegov-modal >>> .aegov-modal-backdrop');
       expect(backdrop).toBeTruthy();
     });
 
@@ -230,14 +230,14 @@ describe('aegov-modal E2E', () => {
         </aegov-modal>
       `);
 
-      let backdrop = await page.find('aegov-modal >>> .modal-backdrop');
+      let backdrop = await page.find('aegov-modal >>> .aegov-modal-backdrop');
       expect(backdrop).toBeTruthy();
 
-      const content = await page.find('aegov-modal >>> .modal-content');
+      const content = await page.find('aegov-modal >>> .aegov-modal-content');
       await content.click();
       await page.waitForChanges();
 
-      backdrop = await page.find('aegov-modal >>> .modal-backdrop');
+      backdrop = await page.find('aegov-modal >>> .aegov-modal-backdrop');
       expect(backdrop).toBeTruthy();
     });
   });
@@ -247,7 +247,7 @@ describe('aegov-modal E2E', () => {
       const page = await newE2EPage();
       await page.setContent(`<aegov-modal open><div>Content</div></aegov-modal>`);
 
-      let backdrop = await page.find('aegov-modal >>> .modal-backdrop');
+      let backdrop = await page.find('aegov-modal >>> .aegov-modal-backdrop');
       expect(backdrop).toBeTruthy();
 
       await page.keyboard.press('Escape');

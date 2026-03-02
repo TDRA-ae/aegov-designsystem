@@ -10,7 +10,7 @@ describe('aegov-toast e2e', () => {
   it('renders and is not visible by default', async () => {
     const page = await newE2EPage();
     await page.setContent('<aegov-toast>Hello</aegov-toast>');
-    const toast = await page.find('aegov-toast .toast');
+    const toast = await page.find('aegov-toast .aegov-toast');
     expect(toast).toBeNull();
   });
 
@@ -20,7 +20,7 @@ describe('aegov-toast e2e', () => {
     const el = await page.find('aegov-toast');
     await el.callMethod('show');
     await page.waitForChanges();
-    const toast = await page.find('aegov-toast .toast');
+    const toast = await page.find('aegov-toast .aegov-toast');
     expect(toast).toBeTruthy();
   });
 
@@ -61,14 +61,14 @@ describe('aegov-toast e2e', () => {
     await page.waitForChanges();
     await wait(100);
 
-    let toast = await page.find('aegov-toast .toast');
+    let toast = await page.find('aegov-toast .aegov-toast');
     expect(toast).toBeTruthy();
 
     await el.callMethod('close');
     await wait(400);
     await page.waitForChanges();
 
-    toast = await page.find('aegov-toast .toast');
+    toast = await page.find('aegov-toast .aegov-toast');
     expect(toast).toBeNull();
   });
 
@@ -190,14 +190,14 @@ describe('aegov-toast e2e', () => {
     await page.waitForChanges();
     await wait(100);
 
-    let toast = await page.find('aegov-toast .toast');
+    let toast = await page.find('aegov-toast .aegov-toast');
     expect(toast).toBeTruthy();
 
     // Wait for duration + close animation + buffer
     await wait(1200);
     await page.waitForChanges();
 
-    toast = await page.find('aegov-toast .toast');
+    toast = await page.find('aegov-toast .aegov-toast');
     expect(toast).toBeNull();
   });
 
@@ -229,7 +229,7 @@ describe('aegov-toast e2e', () => {
     await wait(400);
     await page.waitForChanges();
 
-    const toast = await page.find('aegov-toast .toast');
+    const toast = await page.find('aegov-toast .aegov-toast');
     expect(toast).toBeNull();
   });
 
@@ -442,14 +442,14 @@ describe('aegov-toast e2e', () => {
     await wait(100);
 
     // Hover to pause
-    const toast = await page.find('aegov-toast .toast');
+    const toast = await page.find('aegov-toast .aegov-toast');
     await toast.hover();
     await wait(200);
 
     // Wait past the original duration — toast should still be visible because paused
     await wait(800);
     await page.waitForChanges();
-    let toastEl = await page.find('aegov-toast .toast');
+    let toastEl = await page.find('aegov-toast .aegov-toast');
     expect(toastEl).toBeTruthy();
 
     // Move mouse away to resume
@@ -457,7 +457,7 @@ describe('aegov-toast e2e', () => {
     await wait(1200);
     await page.waitForChanges();
 
-    toastEl = await page.find('aegov-toast .toast');
+    toastEl = await page.find('aegov-toast .aegov-toast');
     expect(toastEl).toBeNull();
   });
 

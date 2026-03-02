@@ -88,7 +88,7 @@ export class AegovTab {
         disabled={this.disabled}
         tabIndex={isActive ? 0 : -1}
         class={{
-          'tab__btn': true,
+          'aegov-tab': true,
           [`tab__btn--${this.variant}`]: true,
           [`tab__btn--${this.size}`]: true,
           'tab__btn--vertical': this.orientation === 'vertical',

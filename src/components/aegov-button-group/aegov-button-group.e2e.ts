@@ -11,7 +11,7 @@ describe('aegov-button-group E2E', () => {
         </aegov-button-group>
       `);
 
-      const buttonGroup = await page.find('aegov-button-group .button-group');
+      const buttonGroup = await page.find('aegov-button-group .aegov-button-group');
       expect(buttonGroup).toBeTruthy();
       expect(buttonGroup).toHaveClass('button-group--horizontal');
     });
@@ -25,7 +25,7 @@ describe('aegov-button-group E2E', () => {
         </aegov-button-group>
       `);
 
-      const buttonGroup = await page.find('aegov-button-group .button-group');
+      const buttonGroup = await page.find('aegov-button-group .aegov-button-group');
       expect(buttonGroup).toHaveClass('button-group--vertical');
     });
 
@@ -37,7 +37,7 @@ describe('aegov-button-group E2E', () => {
         </aegov-button-group>
       `);
 
-      const buttonGroup = await page.find('aegov-button-group .button-group');
+      const buttonGroup = await page.find('aegov-button-group .aegov-button-group');
       const role = await buttonGroup.getAttribute('role');
       expect(role).toBe('group');
     });

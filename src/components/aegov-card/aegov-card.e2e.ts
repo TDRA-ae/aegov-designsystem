@@ -8,7 +8,7 @@ describe('aegov-card e2e', () => {
   it('renders with slot content', async () => {
     const page = await newE2EPage();
     await page.setContent(`<aegov-card><p>Hello</p></aegov-card>`);
-    const card = await page.find('aegov-card .card');
+    const card = await page.find('aegov-card .aegov-card');
     expect(card).toBeTruthy();
     const text = await page.find('aegov-card p');
     expect(text).toBeTruthy();
@@ -111,7 +111,7 @@ describe('aegov-card e2e', () => {
   it('changes border color on hover with standard effect', async () => {
     const page = await newE2EPage();
     await page.setContent(`<aegov-card hover="standard">Content</aegov-card>`);
-    const card = await page.find('aegov-card .card');
+    const card = await page.find('aegov-card .aegov-card');
     const beforeStyles = await card.getComputedStyle();
     const borderBefore = beforeStyles['borderColor'];
 
@@ -128,7 +128,7 @@ describe('aegov-card e2e', () => {
   it('adds box-shadow on hover with glow effect', async () => {
     const page = await newE2EPage();
     await page.setContent(`<aegov-card hover="glow">Content</aegov-card>`);
-    const card = await page.find('aegov-card .card');
+    const card = await page.find('aegov-card .aegov-card');
 
     await card.hover();
     await page.waitForChanges();
@@ -160,7 +160,7 @@ describe('aegov-card e2e', () => {
   it('creative border has transparent border-color', async () => {
     const page = await newE2EPage();
     await page.setContent(`<aegov-card border-style="creative" border-width="2">Content</aegov-card>`);
-    const card = await page.find('aegov-card .card');
+    const card = await page.find('aegov-card .aegov-card');
     const styles = await card.getComputedStyle();
     // transparent border is rgba(0,0,0,0)
     expect(styles['borderColor']).toContain('0');
@@ -169,7 +169,7 @@ describe('aegov-card e2e', () => {
   it('creative border with glow hover shows box-shadow', async () => {
     const page = await newE2EPage();
     await page.setContent(`<aegov-card border-style="creative" hover="glow">Content</aegov-card>`);
-    const card = await page.find('aegov-card .card');
+    const card = await page.find('aegov-card .aegov-card');
     await card.hover();
     await page.waitForChanges();
     const styles = await card.getComputedStyle();
@@ -188,7 +188,7 @@ describe('aegov-card e2e', () => {
         <p>With all props set</p>
       </aegov-card>
     `);
-    const card = await page.find('aegov-card .card');
+    const card = await page.find('aegov-card .aegov-card');
     expect(card).toBeTruthy();
     expect(card.classList.contains('card--border-3')).toBe(true);
     expect(card.classList.contains('card--bg-subtle')).toBe(true);
@@ -202,7 +202,7 @@ describe('aegov-card e2e', () => {
       <aegov-card hover="standard">Card 1</aegov-card>
       <aegov-card hover="glow" background="subtle">Card 2</aegov-card>
     `);
-    const cards = await page.findAll('aegov-card .card');
+    const cards = await page.findAll('aegov-card .aegov-card');
     expect(cards.length).toBe(2);
     expect(cards[0].classList.contains('card--hover-standard')).toBe(true);
     expect(cards[1].classList.contains('card--hover-glow')).toBe(true);

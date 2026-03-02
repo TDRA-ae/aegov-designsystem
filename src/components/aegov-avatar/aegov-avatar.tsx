@@ -10,7 +10,7 @@ import type { AvatarSize, AvatarVariant, AvatarStatus } from '../../utils/types'
 @Component({
   tag: 'aegov-avatar',
   styleUrl: 'aegov-avatar.css',
-  scoped: true,
+  scoped: false,
 })
 export class AegovAvatar {
   /**

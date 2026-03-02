@@ -29,13 +29,13 @@ describe('aegov-blockquote', () => {
       expect(page.root.textContent).toContain('This is a quote');
     });
 
-    it('should have aegov-quote class', async () => {
+    it('should have aegov-blockquote class', async () => {
       const page = await newSpecPage({
         components: [AegovBlockquote],
         html: `<aegov-blockquote>Quote</aegov-blockquote>`,
       });
       const blockquote = page.root.querySelector('blockquote');
-      expect(blockquote.classList.contains('aegov-quote')).toBe(true);
+      expect(blockquote.classList.contains('aegov-blockquote')).toBe(true);
     });
   });
 
@@ -79,7 +79,7 @@ describe('aegov-blockquote', () => {
         components: [AegovBlockquote],
         html: `<aegov-blockquote variant="primary"></aegov-blockquote>`,
       });
-      const blockquote = page.root.querySelector('.aegov-quote');
+      const blockquote = page.root.querySelector('.aegov-blockquote');
       expect(blockquote.classList.contains('quote-colored')).toBe(false);
     });
 
@@ -98,7 +98,7 @@ describe('aegov-blockquote', () => {
         html: `<aegov-blockquote variant="colored"></aegov-blockquote>`,
       });
       expect(page.rootInstance.variant).toBe('colored');
-      const blockquote = page.root.querySelector('.aegov-quote');
+      const blockquote = page.root.querySelector('.aegov-blockquote');
       expect(blockquote.classList.contains('quote-colored')).toBe(true);
     });
 
@@ -117,7 +117,7 @@ describe('aegov-blockquote', () => {
         html: `<aegov-blockquote variant="coloured"></aegov-blockquote>`,
       });
       expect(page.rootInstance.variant).toBe('coloured');
-      const blockquote = page.root.querySelector('.aegov-quote');
+      const blockquote = page.root.querySelector('.aegov-blockquote');
       expect(blockquote.classList.contains('quote-colored')).toBe(true);
     });
 
@@ -250,13 +250,13 @@ describe('aegov-blockquote', () => {
         html: `<aegov-blockquote variant="primary"></aegov-blockquote>`,
       });
 
-      let blockquote = page.root.querySelector('.aegov-quote');
+      let blockquote = page.root.querySelector('.aegov-blockquote');
       expect(blockquote.classList.contains('quote-colored')).toBe(false);
 
       page.root.setAttribute('variant', 'colored');
       await page.waitForChanges();
 
-      blockquote = page.root.querySelector('.aegov-quote');
+      blockquote = page.root.querySelector('.aegov-blockquote');
       expect(blockquote.classList.contains('quote-colored')).toBe(true);
     });
 

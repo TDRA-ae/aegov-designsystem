@@ -544,7 +544,7 @@ export class AegovDropdown {
         pointer-events: none;
       }
 
-      .aegov-dropdown-portal .dropdown {
+      .aegov-dropdown-portal .aegov-dropdown {
         background: white;
         border: 1px solid #cbd5e0;
         border-radius: 0.5rem;
@@ -561,19 +561,19 @@ export class AegovDropdown {
         transition: opacity 200ms ease-in-out, transform 200ms ease-in-out;
       }
 
-      .aegov-dropdown-portal .dropdown[data-state="open"] {
+      .aegov-dropdown-portal .aegov-dropdown[data-state="open"] {
         opacity: 1;
         transform: scale(1);
       }
 
-      .aegov-dropdown-portal .dropdown hr {
+      .aegov-dropdown-portal .aegov-dropdown hr {
         border: none;
         border-top: 1px solid #e2e8f0;
         margin: 0.5rem 0;
       }
 
-      .aegov-dropdown-portal .dropdown a[aria-disabled="true"],
-      .aegov-dropdown-portal .dropdown button[disabled] {
+      .aegov-dropdown-portal .aegov-dropdown a[aria-disabled="true"],
+      .aegov-dropdown-portal .aegov-dropdown button[disabled] {
         opacity: 0.5;
         cursor: not-allowed;
         pointer-events: none;
@@ -582,13 +582,13 @@ export class AegovDropdown {
       /* Nested dropdown: make the host a block element so it fills the full
          row of the parent dropdown and never overlaps the parent panel.
          The sub-menu opens to the side (position="right") of this block row. */
-      .aegov-dropdown-portal .dropdown aegov-dropdown {
+      .aegov-dropdown-portal .aegov-dropdown aegov-dropdown {
         display: block;
       }
 
       /* Make the trigger div inside nested dropdowns span the full row width
          so the clickable / hoverable area covers the entire menu item. */
-      .aegov-dropdown-portal .dropdown aegov-dropdown .dropdown-trigger {
+      .aegov-dropdown-portal .aegov-dropdown aegov-dropdown .aegov-dropdown-trigger {
         display: block;
         width: 100%;
         box-sizing: border-box;
@@ -598,7 +598,7 @@ export class AegovDropdown {
 
     // Create dropdown container
     const dropdownContainer = document.createElement('div');
-    dropdownContainer.className = 'dropdown';
+    dropdownContainer.className = 'aegov-dropdown';
     dropdownContainer.id = this.dropdownId;
     dropdownContainer.setAttribute('role', 'menu');
     dropdownContainer.setAttribute('data-state', 'open');
@@ -625,7 +625,7 @@ export class AegovDropdown {
     return (
       <Host>
         <div
-          class="dropdown-trigger"
+          class="aegov-dropdown-trigger"
           ref={(el) => (this.triggerRef = el)}
           onMouseEnter={this.handleTriggerMouseEnter}
           onMouseLeave={this.handleTriggerMouseLeave}

@@ -8,7 +8,7 @@ import { Component, Host, h, Prop, Element } from '@stencil/core';
 @Component({
   tag: 'aegov-separator',
   styleUrl: 'aegov-separator.css',
-  scoped: true,
+  scoped: false,
 })
 export class AegovSeparator {
   @Element() el: HTMLElement;
@@ -38,7 +38,7 @@ export class AegovSeparator {
   render() {
     const hasText = this.text || this.el.textContent?.trim();
     const classes = {
-      'separator': true,
+      'aegov-separator': true,
       'separator--horizontal': this.orientation === 'horizontal',
       'separator--vertical': this.orientation === 'vertical',
       'separator--subtle': this.variant === 'subtle',

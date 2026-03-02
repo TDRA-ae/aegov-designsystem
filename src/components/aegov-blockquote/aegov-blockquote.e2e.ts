@@ -9,10 +9,10 @@ describe('aegov-blockquote E2E', () => {
       expect(element).toBeTruthy();
     });
 
-    it('should render blockquote element with aegov-quote class', async () => {
+    it('should render blockquote element with aegov-blockquote class', async () => {
       const page = await newE2EPage();
       await page.setContent('<aegov-blockquote></aegov-blockquote>');
-      const blockquote = await page.find('aegov-blockquote .aegov-quote');
+      const blockquote = await page.find('aegov-blockquote .aegov-blockquote');
       expect(blockquote).toBeTruthy();
     });
 
@@ -50,21 +50,21 @@ describe('aegov-blockquote E2E', () => {
     it('should render primary variant by default', async () => {
       const page = await newE2EPage();
       await page.setContent('<aegov-blockquote></aegov-blockquote>');
-      const blockquote = await page.find('aegov-blockquote .aegov-quote');
+      const blockquote = await page.find('aegov-blockquote .aegov-blockquote');
       expect(blockquote).not.toHaveClass('quote-colored');
     });
 
     it('should apply colored variant class', async () => {
       const page = await newE2EPage();
       await page.setContent('<aegov-blockquote variant="colored"></aegov-blockquote>');
-      const blockquote = await page.find('aegov-blockquote .aegov-quote');
+      const blockquote = await page.find('aegov-blockquote .aegov-blockquote');
       expect(blockquote).toHaveClass('quote-colored');
     });
 
     it('should apply colored variant class for coloured spelling', async () => {
       const page = await newE2EPage();
       await page.setContent('<aegov-blockquote variant="coloured"></aegov-blockquote>');
-      const blockquote = await page.find('aegov-blockquote .aegov-quote');
+      const blockquote = await page.find('aegov-blockquote .aegov-blockquote');
       expect(blockquote).toHaveClass('quote-colored');
     });
   });
@@ -183,7 +183,7 @@ describe('aegov-blockquote E2E', () => {
     it('should apply border and background for colored variant', async () => {
       const page = await newE2EPage();
       await page.setContent('<aegov-blockquote variant="colored">Quote</aegov-blockquote>');
-      const blockquote = await page.find('aegov-blockquote .aegov-quote');
+      const blockquote = await page.find('aegov-blockquote .aegov-blockquote');
       expect(blockquote).toHaveClass('quote-colored');
     });
   });

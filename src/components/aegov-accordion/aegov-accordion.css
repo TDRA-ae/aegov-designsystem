@@ -9,7 +9,7 @@
     & .accordion-item__first, & .accordion-item__last {
       @apply !border-t-0;
     }
-    & .accordion-item {
+    & .aegov-accordion-item {
       &>button.accordion-item__header {
         @apply px-5;
       }

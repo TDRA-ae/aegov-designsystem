@@ -550,7 +550,7 @@ export class AegovToast {
   }
 
   private getToastClasses(): string {
-    const classes = ['toast'];
+    const classes = ['aegov-toast'];
 
     // Variant
     classes.push(`toast--${this.variant}`);

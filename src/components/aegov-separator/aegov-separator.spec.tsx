@@ -18,7 +18,7 @@ describe('aegov-separator', () => {
         components: [AegovSeparator],
         html: `<aegov-separator text="OR"></aegov-separator>`,
       });
-      const div = page.root.querySelector('div.separator');
+      const div = page.root.querySelector('div.aegov-separator');
       expect(div).not.toBeNull();
     });
 
@@ -181,7 +181,7 @@ describe('aegov-separator', () => {
         components: [AegovSeparator],
         html: `<aegov-separator text="OR"></aegov-separator>`,
       });
-      const div = page.root.querySelector('div.separator');
+      const div = page.root.querySelector('div.aegov-separator');
       expect(div.getAttribute('role')).toBe('presentation');
     });
 
@@ -190,7 +190,7 @@ describe('aegov-separator', () => {
         components: [AegovSeparator],
         html: `<aegov-separator text="OR" decorative="false"></aegov-separator>`,
       });
-      const div = page.root.querySelector('div.separator');
+      const div = page.root.querySelector('div.aegov-separator');
       expect(div.getAttribute('role')).toBe('separator');
     });
   });
@@ -202,7 +202,7 @@ describe('aegov-separator', () => {
         components: [AegovSeparator],
         html: `<aegov-separator text="Section"></aegov-separator>`,
       });
-      const div = page.root.querySelector('div.separator');
+      const div = page.root.querySelector('div.aegov-separator');
       expect(div.classList.contains('separator--with-text')).toBe(true);
     });
 

@@ -355,7 +355,7 @@ describe('Accessibility Testing Suite', () => {
 
       await page.waitForChanges();
 
-      const separator = page.root.querySelector('aegov-breadcrumbs-item').querySelector('.separator');
+      const separator = page.root.querySelector('aegov-breadcrumbs-item').querySelector('.breadcrumb__separator');
       if (separator) {
         expect(separator.getAttribute('aria-hidden')).toBe('true');
       }
@@ -375,7 +375,7 @@ describe('Accessibility Testing Suite', () => {
       page.rootInstance.isVisible = true;
       await page.waitForChanges();
 
-      const tooltip = page.root.querySelector('.tooltip');
+      const tooltip = page.root.querySelector('.aegov-tooltip');
       expect(tooltip.getAttribute('role')).toBe('tooltip');
     });
 
@@ -389,8 +389,8 @@ describe('Accessibility Testing Suite', () => {
       page.rootInstance.isVisible = true;
       await page.waitForChanges();
 
-      const trigger = page.root.querySelector('.tooltip-trigger');
-      const tooltip = page.root.querySelector('.tooltip');
+      const trigger = page.root.querySelector('.aegov-tooltip-trigger');
+      const tooltip = page.root.querySelector('.aegov-tooltip');
 
       expect(trigger.getAttribute('aria-describedby')).toBe(tooltip.id);
     });
@@ -496,7 +496,7 @@ describe('Accessibility Testing Suite', () => {
         html: `<aegov-modal open>Modal content</aegov-modal>`,
       });
 
-      const dialog = page.root.shadowRoot.querySelector('.modal-content');
+      const dialog = page.root.shadowRoot.querySelector('.aegov-modal-content');
       expect(dialog.getAttribute('role')).toBe('dialog');
     });
 
@@ -506,7 +506,7 @@ describe('Accessibility Testing Suite', () => {
         html: `<aegov-modal open>Content</aegov-modal>`,
       });
 
-      const dialog = page.root.shadowRoot.querySelector('.modal-content');
+      const dialog = page.root.shadowRoot.querySelector('.aegov-modal-content');
       expect(dialog.getAttribute('aria-modal')).toBe('true');
     });
 
@@ -516,7 +516,7 @@ describe('Accessibility Testing Suite', () => {
         html: `<aegov-modal open aria-labelledby="modal-title">Content</aegov-modal>`,
       });
 
-      const dialog = page.root.shadowRoot.querySelector('.modal-content');
+      const dialog = page.root.shadowRoot.querySelector('.aegov-modal-content');
       expect(dialog.getAttribute('aria-labelledby')).toBe('modal-title');
     });
 
@@ -680,7 +680,7 @@ describe('Accessibility Testing Suite', () => {
       });
 
       await page.waitForChanges();
-      const trigger = page.root.querySelector('.dropdown-trigger');
+      const trigger = page.root.querySelector('.aegov-dropdown-trigger');
       expect(trigger.getAttribute('aria-haspopup')).toBe('true');
     });
 
@@ -696,7 +696,7 @@ describe('Accessibility Testing Suite', () => {
       });
 
       await page.waitForChanges();
-      const trigger = page.root.querySelector('.dropdown-trigger');
+      const trigger = page.root.querySelector('.aegov-dropdown-trigger');
       expect(trigger.getAttribute('aria-expanded')).toBe('false');
     });
 
@@ -719,13 +719,13 @@ describe('Accessibility Testing Suite', () => {
 
       const portal = document.querySelector('.aegov-dropdown-portal');
       if (portal) {
-        const menu = portal.querySelector('.dropdown');
+        const menu = portal.querySelector('.aegov-dropdown');
         if (menu) {
           expect(menu.getAttribute('role')).toBe('menu');
         }
       }
       // Verify the trigger has aria-haspopup which indicates menu association
-      const trigger = page.root.querySelector('.dropdown-trigger');
+      const trigger = page.root.querySelector('.aegov-dropdown-trigger');
       expect(trigger.getAttribute('aria-haspopup')).toBe('true');
     });
 
@@ -769,7 +769,7 @@ describe('Accessibility Testing Suite', () => {
 
       const portal = document.querySelector('.aegov-context-menu-portal');
       if (portal) {
-        const menu = portal.querySelector('.context-menu');
+        const menu = portal.querySelector('.aegov-context-menu');
         expect(menu.getAttribute('role')).toBe('menu');
       }
     });
@@ -1142,7 +1142,7 @@ describe('Accessibility Testing Suite', () => {
       });
 
       // Modal should render its content when open
-      const dialog = page.root.shadowRoot.querySelector('.modal-content');
+      const dialog = page.root.shadowRoot.querySelector('.aegov-modal-content');
       expect(dialog).toBeTruthy();
       expect(dialog.getAttribute('role')).toBe('dialog');
     });
@@ -1156,7 +1156,7 @@ describe('Accessibility Testing Suite', () => {
       page.rootInstance.isVisible = true;
       await page.waitForChanges();
 
-      const tooltip = page.root.querySelector('.tooltip');
+      const tooltip = page.root.querySelector('.aegov-tooltip');
       expect(tooltip.classList.contains('tooltip--interactive')).toBe(true);
     });
 

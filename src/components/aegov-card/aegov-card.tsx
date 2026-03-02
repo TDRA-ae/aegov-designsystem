@@ -4,7 +4,7 @@ import type { CardBorderWidth, CardBackground, CardHover, CardBorderStyle } from
 @Component({
   tag: 'aegov-card',
   styleUrl: 'aegov-card.css',
-  scoped: true,
+  scoped: false,
 })
 export class AegovCard {
   /**
@@ -34,7 +34,7 @@ export class AegovCard {
 
   render() {
     const classes = [
-      'card',
+      'aegov-card',
       `card--border-${this.borderWidth}`,
       `card--border-${this.borderStyle}`,
       `card--bg-${this.background}`,

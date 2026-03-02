@@ -385,7 +385,7 @@ describe('aegov-accordion E2E', () => {
 
       await page.waitForChanges();
 
-      const firstItemDiv = await page.find('aegov-accordion-item:first-of-type .accordion-item');
+      const firstItemDiv = await page.find('aegov-accordion-item:first-of-type .aegov-accordion-item');
       const classes = await firstItemDiv.getProperty('className');
 
       expect(classes).toContain('accordion-item__first');
@@ -408,7 +408,7 @@ describe('aegov-accordion E2E', () => {
 
       await page.waitForChanges();
 
-      const lastItemDiv = await page.find('aegov-accordion-item:last-of-type .accordion-item');
+      const lastItemDiv = await page.find('aegov-accordion-item:last-of-type .aegov-accordion-item');
       const classes = await lastItemDiv.getProperty('className');
 
       expect(classes).toContain('accordion-item__last');
@@ -427,7 +427,7 @@ describe('aegov-accordion E2E', () => {
 
       await page.waitForChanges();
 
-      const itemDiv = await page.find('aegov-accordion-item .accordion-item');
+      const itemDiv = await page.find('aegov-accordion-item .aegov-accordion-item');
       const classes = await itemDiv.getProperty('className');
 
       expect(classes).toContain('accordion-item__first');
@@ -455,7 +455,7 @@ describe('aegov-accordion E2E', () => {
 
       await page.waitForChanges();
 
-      const items = await page.findAll('aegov-accordion-item .accordion-item');
+      const items = await page.findAll('aegov-accordion-item .aegov-accordion-item');
       const middleItemClasses = await items[1].getProperty('className');
 
       expect(middleItemClasses).not.toContain('accordion-item__first');

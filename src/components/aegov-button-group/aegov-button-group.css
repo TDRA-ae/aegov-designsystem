@@ -2,7 +2,7 @@
   @apply inline-block;
 }
 
-.button-group {
+.aegov-button-group {
   @apply inline-flex;
   /* Horizontal orientation (default) */
   &.button-group--horizontal {

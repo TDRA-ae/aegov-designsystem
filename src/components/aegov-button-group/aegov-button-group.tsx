@@ -7,7 +7,7 @@ import { ButtonGroupOrientation } from '../../utils/types';
 @Component({
   tag: 'aegov-button-group',
   styleUrl: 'aegov-button-group.css',
-  scoped: true,
+  scoped: false,
 })
 export class AegovButtonGroup {
   @Element() el: HTMLElement;
@@ -92,7 +92,7 @@ export class AegovButtonGroup {
 
   render() {
     const classes = {
-      'button-group': true,
+      'aegov-button-group': true,
       'button-group--horizontal': this.orientation === 'horizontal',
       'button-group--vertical': this.orientation === 'vertical',
     };

@@ -57,10 +57,10 @@ describe('aegov-tab', () => {
       expect(btn.getAttribute('aria-controls')).toBe('panel-notifications');
     });
 
-    it('has tab__btn class', async () => {
+    it('has aegov-tab class', async () => {
       const page = await renderStandalone({ tabId: 'test' });
       const btn = page.root.querySelector('button');
-      expect(btn.classList.contains('tab__btn')).toBe(true);
+      expect(btn.classList.contains('aegov-tab')).toBe(true);
     });
 
     it('renders tab label in a span with tab__label class', async () => {

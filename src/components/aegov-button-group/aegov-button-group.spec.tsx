@@ -13,7 +13,7 @@ describe('aegov-button-group', () => {
       expect(page.root).toBeTruthy();
       expect(page.root).toEqualHtml(`
         <aegov-button-group>
-          <div class="button-group button-group--horizontal" role="group"></div>
+          <div class="aegov-button-group button-group--horizontal" role="group"></div>
         </aegov-button-group>
       `);
     });
@@ -24,7 +24,7 @@ describe('aegov-button-group', () => {
         html: `<aegov-button-group></aegov-button-group>`,
       });
 
-      const buttonGroup = page.root?.querySelector('.button-group');
+      const buttonGroup = page.root?.querySelector('.aegov-button-group');
       expect(buttonGroup?.classList.contains('button-group--horizontal')).toBe(true);
       expect(buttonGroup?.classList.contains('button-group--vertical')).toBe(false);
     });
@@ -35,7 +35,7 @@ describe('aegov-button-group', () => {
         html: `<aegov-button-group orientation="vertical"></aegov-button-group>`,
       });
 
-      const buttonGroup = page.root?.querySelector('.button-group');
+      const buttonGroup = page.root?.querySelector('.aegov-button-group');
       expect(buttonGroup?.classList.contains('button-group--vertical')).toBe(true);
       expect(buttonGroup?.classList.contains('button-group--horizontal')).toBe(false);
     });
@@ -46,7 +46,7 @@ describe('aegov-button-group', () => {
         html: `<aegov-button-group></aegov-button-group>`,
       });
 
-      const buttonGroup = page.root?.querySelector('.button-group');
+      const buttonGroup = page.root?.querySelector('.aegov-button-group');
       expect(buttonGroup?.getAttribute('role')).toBe('group');
     });
   });

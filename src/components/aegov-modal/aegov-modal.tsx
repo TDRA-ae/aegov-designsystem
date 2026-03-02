@@ -341,13 +341,13 @@ export class AegovModal {
     return (
       <Host data-state={this.animationState} style={{ '--modal-z-index': this.modalZIndex.toString() }}>
         <div
-          class={`modal-backdrop ${this.getBackdropOpacityClass()}`}
+          class={`aegov-modal-backdrop ${this.getBackdropOpacityClass()}`}
           data-state={this.animationState}
           onClick={this.handleBackdropClick}
         ></div>
-        <div class={`modal-container ${this.getPositionClass()}`} onClick={this.handleBackdropClick}>
+        <div class={`aegov-modal-container ${this.getPositionClass()}`} onClick={this.handleBackdropClick}>
           <div
-            class="modal-content"
+            class="aegov-modal-content"
             data-state={this.animationState}
             role="dialog"
             aria-modal="true"

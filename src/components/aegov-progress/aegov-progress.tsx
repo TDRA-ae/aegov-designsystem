@@ -4,7 +4,7 @@ import type { ProgressVariant, ProgressSize, ProgressOrientation } from '../../u
 @Component({
   tag: 'aegov-progress',
   styleUrl: 'aegov-progress.css',
-  scoped: true,
+  scoped: false,
 })
 export class AegovProgress {
   @Element() el: HTMLElement;
@@ -76,7 +76,7 @@ export class AegovProgress {
 
     return (
       <nav
-        class="progress"
+        class="aegov-progress"
         aria-label="Progress"
         {...passThroughAttrs}
       >

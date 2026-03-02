@@ -436,7 +436,7 @@ describe('aegov-context-menu', () => {
     await page.waitForChanges();
 
     const portal = document.querySelector('.aegov-context-menu-portal');
-    const menu = portal.querySelector('.context-menu');
+    const menu = portal.querySelector('.aegov-context-menu');
     expect(menu).not.toBeNull();
     expect(menu.getAttribute('role')).toBe('menu');
     expect(menu.getAttribute('data-state')).toBe('open');

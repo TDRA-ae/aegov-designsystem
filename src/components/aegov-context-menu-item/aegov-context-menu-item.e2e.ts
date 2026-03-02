@@ -88,11 +88,11 @@ describe('aegov-context-menu-item E2E', () => {
     expect(ariaDisabled).toBe('false');
   });
 
-  it('should have context-menu-item class on button', async () => {
+  it('should have aegov-context-menu-item class on button', async () => {
     const page = await newE2EPage();
     await page.setContent(`<aegov-context-menu-item>Edit</aegov-context-menu-item>`);
 
-    const button = await page.find('aegov-context-menu-item button.context-menu-item');
+    const button = await page.find('aegov-context-menu-item button.aegov-context-menu-item');
     expect(button).not.toBeNull();
   });
 

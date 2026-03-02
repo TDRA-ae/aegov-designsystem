@@ -47,7 +47,7 @@ describe('aegov-dropdown E2E', () => {
       expect(portal).toBeTruthy();
 
       // Should not have dropdown content yet
-      const dropdown = await page.find('.aegov-dropdown-portal .dropdown');
+      const dropdown = await page.find('.aegov-dropdown-portal .aegov-dropdown');
       expect(dropdown).toBeFalsy();
     });
   });
@@ -65,7 +65,7 @@ describe('aegov-dropdown E2E', () => {
         </aegov-dropdown>
       `);
 
-      const trigger = await page.find('aegov-dropdown .dropdown-trigger');
+      const trigger = await page.find('aegov-dropdown .aegov-dropdown-trigger');
       await trigger.click();
       await page.waitForChanges();
 
@@ -74,8 +74,8 @@ describe('aegov-dropdown E2E', () => {
       expect(ariaExpanded).toBe('true');
 
       // Check portal has dropdown content
-      await page.waitForSelector('.aegov-dropdown-portal .dropdown');
-      const dropdown = await page.find('.aegov-dropdown-portal .dropdown');
+      await page.waitForSelector('.aegov-dropdown-portal .aegov-dropdown');
+      const dropdown = await page.find('.aegov-dropdown-portal .aegov-dropdown');
       expect(dropdown).toBeTruthy();
     });
 
@@ -90,7 +90,7 @@ describe('aegov-dropdown E2E', () => {
         </aegov-dropdown>
       `);
 
-      const trigger = await page.find('aegov-dropdown .dropdown-trigger');
+      const trigger = await page.find('aegov-dropdown .aegov-dropdown-trigger');
 
       // Open
       await trigger.click();
@@ -119,7 +119,7 @@ describe('aegov-dropdown E2E', () => {
         </div>
       `);
 
-      const trigger = await page.find('aegov-dropdown .dropdown-trigger');
+      const trigger = await page.find('aegov-dropdown .aegov-dropdown-trigger');
       const outside = await page.find('#outside');
 
       // Open dropdown
@@ -146,17 +146,17 @@ describe('aegov-dropdown E2E', () => {
         </aegov-dropdown>
       `);
 
-      const trigger = await page.find('aegov-dropdown .dropdown-trigger');
+      const trigger = await page.find('aegov-dropdown .aegov-dropdown-trigger');
 
       // Open dropdown
       await trigger.click();
       await page.waitForChanges();
 
       // Wait for portal to be created
-      await page.waitForSelector('.aegov-dropdown-portal .dropdown');
+      await page.waitForSelector('.aegov-dropdown-portal .aegov-dropdown');
 
       // Verify content is rendered in the portal
-      const menuLink = await page.find('.aegov-dropdown-portal .dropdown a');
+      const menuLink = await page.find('.aegov-dropdown-portal .aegov-dropdown a');
       expect(menuLink).toBeTruthy();
     });
   });
@@ -173,7 +173,7 @@ describe('aegov-dropdown E2E', () => {
         </aegov-dropdown>
       `);
 
-      const trigger = await page.find('aegov-dropdown .dropdown-trigger');
+      const trigger = await page.find('aegov-dropdown .aegov-dropdown-trigger');
 
       // Hover over trigger
       await trigger.hover();
@@ -198,7 +198,7 @@ describe('aegov-dropdown E2E', () => {
         </div>
       `);
 
-      const trigger = await page.find('aegov-dropdown .dropdown-trigger');
+      const trigger = await page.find('aegov-dropdown .aegov-dropdown-trigger');
 
       // Hover to open
       await trigger.hover();
@@ -220,7 +220,7 @@ describe('aegov-dropdown E2E', () => {
         </aegov-dropdown>
       `);
 
-      const trigger = await page.find('aegov-dropdown .dropdown-trigger');
+      const trigger = await page.find('aegov-dropdown .aegov-dropdown-trigger');
 
       // Open dropdown
       await trigger.click();
@@ -249,20 +249,20 @@ describe('aegov-dropdown E2E', () => {
         </aegov-dropdown>
       `);
 
-      const trigger = await page.find('aegov-dropdown .dropdown-trigger');
+      const trigger = await page.find('aegov-dropdown .aegov-dropdown-trigger');
 
       // Open dropdown
       await trigger.click();
       await page.waitForChanges();
 
       // Wait for portal content
-      await page.waitForSelector('.aegov-dropdown-portal .dropdown button');
+      await page.waitForSelector('.aegov-dropdown-portal .aegov-dropdown button');
 
       // Verify dropdown is open and content is rendered
       const ariaExpanded = await trigger.getAttribute('aria-expanded');
       expect(ariaExpanded).toBe('true');
 
-      const buttons = await page.findAll('.aegov-dropdown-portal .dropdown button');
+      const buttons = await page.findAll('.aegov-dropdown-portal .aegov-dropdown button');
       expect(buttons.length).toBe(2);
     });
 
@@ -278,12 +278,12 @@ describe('aegov-dropdown E2E', () => {
         </aegov-dropdown>
       `);
 
-      const trigger = await page.find('aegov-dropdown .dropdown-trigger');
+      const trigger = await page.find('aegov-dropdown .aegov-dropdown-trigger');
 
       // Open dropdown
       await trigger.click();
       await page.waitForChanges();
-      await page.waitForSelector('.aegov-dropdown-portal .dropdown');
+      await page.waitForSelector('.aegov-dropdown-portal .aegov-dropdown');
       await new Promise(resolve => setTimeout(resolve, 50));
 
       // Press Arrow Down
@@ -307,12 +307,12 @@ describe('aegov-dropdown E2E', () => {
         </aegov-dropdown>
       `);
 
-      const trigger = await page.find('aegov-dropdown .dropdown-trigger');
+      const trigger = await page.find('aegov-dropdown .aegov-dropdown-trigger');
 
       // Open dropdown
       await trigger.click();
       await page.waitForChanges();
-      await page.waitForSelector('.aegov-dropdown-portal .dropdown');
+      await page.waitForSelector('.aegov-dropdown-portal .aegov-dropdown');
       await new Promise(resolve => setTimeout(resolve, 50));
 
       // First element should be focused, press Arrow Up to wrap to last
@@ -337,12 +337,12 @@ describe('aegov-dropdown E2E', () => {
         </aegov-dropdown>
       `);
 
-      const trigger = await page.find('aegov-dropdown .dropdown-trigger');
+      const trigger = await page.find('aegov-dropdown .aegov-dropdown-trigger');
 
       // Open dropdown
       await trigger.click();
       await page.waitForChanges();
-      await page.waitForSelector('.aegov-dropdown-portal .dropdown');
+      await page.waitForSelector('.aegov-dropdown-portal .aegov-dropdown');
       await new Promise(resolve => setTimeout(resolve, 50));
 
       // Press Tab to move to second element
@@ -370,7 +370,7 @@ describe('aegov-dropdown E2E', () => {
       const dropdown = await page.find('aegov-dropdown');
       const openSpy = await dropdown.spyOnEvent('aegovDropdownOpen');
 
-      const trigger = await page.find('aegov-dropdown .dropdown-trigger');
+      const trigger = await page.find('aegov-dropdown .aegov-dropdown-trigger');
       await trigger.click();
       await page.waitForChanges();
 
@@ -391,7 +391,7 @@ describe('aegov-dropdown E2E', () => {
       const dropdown = await page.find('aegov-dropdown');
       const closeSpy = await dropdown.spyOnEvent('aegovDropdownClose');
 
-      const trigger = await page.find('aegov-dropdown .dropdown-trigger');
+      const trigger = await page.find('aegov-dropdown .aegov-dropdown-trigger');
 
       // Open
       await trigger.click();
@@ -417,7 +417,7 @@ describe('aegov-dropdown E2E', () => {
         </aegov-dropdown>
       `);
 
-      const trigger = await page.find('aegov-dropdown .dropdown-trigger');
+      const trigger = await page.find('aegov-dropdown .aegov-dropdown-trigger');
 
       // Try to open
       await trigger.click();

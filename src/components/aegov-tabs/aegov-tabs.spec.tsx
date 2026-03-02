@@ -28,7 +28,7 @@ describe('aegov-tabs', () => {
   describe('rendering', () => {
     it('renders the tabs container div', async () => {
       const page = await render(basicHtml);
-      const container = page.root.querySelector('.tabs');
+      const container = page.root.querySelector('.aegov-tabs');
       expect(container).not.toBeNull();
     });
 
@@ -72,7 +72,7 @@ describe('aegov-tabs', () => {
   describe('variant classes', () => {
     it('applies tabs--simple by default', async () => {
       const page = await render(basicHtml);
-      const container = page.root.querySelector('.tabs');
+      const container = page.root.querySelector('.aegov-tabs');
       expect(container.classList.contains('tabs--simple')).toBe(true);
     });
 
@@ -83,7 +83,7 @@ describe('aegov-tabs', () => {
           <aegov-tab-panel tab-id="t1">P1</aegov-tab-panel>
         </aegov-tabs>
       `);
-      const container = page.root.querySelector('.tabs');
+      const container = page.root.querySelector('.aegov-tabs');
       expect(container.classList.contains('tabs--segmented')).toBe(true);
     });
 
@@ -94,7 +94,7 @@ describe('aegov-tabs', () => {
           <aegov-tab-panel tab-id="t1">P1</aegov-tab-panel>
         </aegov-tabs>
       `);
-      const container = page.root.querySelector('.tabs');
+      const container = page.root.querySelector('.aegov-tabs');
       expect(container.classList.contains('tabs--pill')).toBe(true);
     });
   });
@@ -103,7 +103,7 @@ describe('aegov-tabs', () => {
   describe('size classes', () => {
     it('applies tabs--base by default', async () => {
       const page = await render(basicHtml);
-      const container = page.root.querySelector('.tabs');
+      const container = page.root.querySelector('.aegov-tabs');
       expect(container.classList.contains('tabs--base')).toBe(true);
     });
 
@@ -114,7 +114,7 @@ describe('aegov-tabs', () => {
           <aegov-tab-panel tab-id="t1">P1</aegov-tab-panel>
         </aegov-tabs>
       `);
-      const container = page.root.querySelector('.tabs');
+      const container = page.root.querySelector('.aegov-tabs');
       expect(container.classList.contains('tabs--sm')).toBe(true);
     });
 
@@ -125,7 +125,7 @@ describe('aegov-tabs', () => {
           <aegov-tab-panel tab-id="t1">P1</aegov-tab-panel>
         </aegov-tabs>
       `);
-      const container = page.root.querySelector('.tabs');
+      const container = page.root.querySelector('.aegov-tabs');
       expect(container.classList.contains('tabs--lg')).toBe(true);
     });
   });
@@ -134,7 +134,7 @@ describe('aegov-tabs', () => {
   describe('stretch', () => {
     it('does not apply tabs--stretch by default', async () => {
       const page = await render(basicHtml);
-      const container = page.root.querySelector('.tabs');
+      const container = page.root.querySelector('.aegov-tabs');
       expect(container.classList.contains('tabs--stretch')).toBe(false);
     });
 
@@ -145,7 +145,7 @@ describe('aegov-tabs', () => {
           <aegov-tab-panel tab-id="t1">P1</aegov-tab-panel>
         </aegov-tabs>
       `);
-      const container = page.root.querySelector('.tabs');
+      const container = page.root.querySelector('.aegov-tabs');
       expect(container.classList.contains('tabs--stretch')).toBe(true);
     });
   });
@@ -154,7 +154,7 @@ describe('aegov-tabs', () => {
   describe('vertical orientation', () => {
     it('does not apply tabs--vertical by default', async () => {
       const page = await render(basicHtml);
-      const container = page.root.querySelector('.tabs');
+      const container = page.root.querySelector('.aegov-tabs');
       expect(container.classList.contains('tabs--vertical')).toBe(false);
     });
 
@@ -165,7 +165,7 @@ describe('aegov-tabs', () => {
           <aegov-tab-panel tab-id="t1">P1</aegov-tab-panel>
         </aegov-tabs>
       `);
-      const container = page.root.querySelector('.tabs');
+      const container = page.root.querySelector('.aegov-tabs');
       expect(container.classList.contains('tabs--vertical')).toBe(true);
     });
   });

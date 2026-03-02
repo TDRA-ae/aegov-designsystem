@@ -32,7 +32,7 @@ describe('aegov-context-menu E2E', () => {
     const portal = await page.find('.aegov-context-menu-portal');
     expect(portal).not.toBeNull();
 
-    const menu = await page.find('.aegov-context-menu-portal .context-menu');
+    const menu = await page.find('.aegov-context-menu-portal .aegov-context-menu');
     expect(menu).not.toBeNull();
   });
 
@@ -75,7 +75,7 @@ describe('aegov-context-menu E2E', () => {
     await page.waitForChanges();
 
     // Verify menu is open
-    let menu = await page.find('.aegov-context-menu-portal .context-menu');
+    let menu = await page.find('.aegov-context-menu-portal .aegov-context-menu');
     expect(menu).not.toBeNull();
 
     // Click outside
@@ -105,7 +105,7 @@ describe('aegov-context-menu E2E', () => {
     await page.waitForChanges();
 
     // Verify menu is open
-    let menu = await page.find('.aegov-context-menu-portal .context-menu');
+    let menu = await page.find('.aegov-context-menu-portal .aegov-context-menu');
     expect(menu).not.toBeNull();
 
     // Press Escape
@@ -194,7 +194,7 @@ describe('aegov-context-menu E2E', () => {
     await page.waitForChanges();
 
     // Menu should still be open
-    const menu = await page.find('.aegov-context-menu-portal .context-menu');
+    const menu = await page.find('.aegov-context-menu-portal .aegov-context-menu');
     expect(menu).not.toBeNull();
   });
 
@@ -214,7 +214,7 @@ describe('aegov-context-menu E2E', () => {
     await targets[0].click({ button: 'right' });
     await page.waitForChanges();
 
-    let menu = await page.find('.aegov-context-menu-portal .context-menu');
+    let menu = await page.find('.aegov-context-menu-portal .aegov-context-menu');
     expect(menu).not.toBeNull();
 
     // Close menu
@@ -225,7 +225,7 @@ describe('aegov-context-menu E2E', () => {
     await targets[1].click({ button: 'right' });
     await page.waitForChanges();
 
-    menu = await page.find('.aegov-context-menu-portal .context-menu');
+    menu = await page.find('.aegov-context-menu-portal .aegov-context-menu');
     expect(menu).not.toBeNull();
   });
 
@@ -244,7 +244,7 @@ describe('aegov-context-menu E2E', () => {
     await page.waitForChanges();
     await new Promise(resolve => setTimeout(resolve, 100));
 
-    const menu = await page.find('.aegov-context-menu-portal .context-menu');
+    const menu = await page.find('.aegov-context-menu-portal .aegov-context-menu');
     const menuStyle = await menu.getComputedStyle();
 
     expect(menuStyle.position).toBe('fixed');
@@ -359,7 +359,7 @@ describe('aegov-context-menu E2E', () => {
     await page.waitForChanges();
     await new Promise(resolve => setTimeout(resolve, 100));
 
-    const menu = await page.find('.aegov-context-menu-portal .context-menu');
+    const menu = await page.find('.aegov-context-menu-portal .aegov-context-menu');
     expect(menu).not.toBeNull();
     const menuStyle = await menu.getComputedStyle();
     expect(menuStyle.position).toBe('fixed');
@@ -383,7 +383,7 @@ describe('aegov-context-menu E2E', () => {
     await new Promise(resolve => setTimeout(resolve, 100));
 
     // Menu should be visible
-    const menu = await page.find('.aegov-context-menu-portal .context-menu');
+    const menu = await page.find('.aegov-context-menu-portal .aegov-context-menu');
     expect(menu).not.toBeNull();
   });
 
@@ -405,7 +405,7 @@ describe('aegov-context-menu E2E', () => {
     await new Promise(resolve => setTimeout(resolve, 100));
 
     // Verify menu is open
-    let menu = await page.find('.aegov-context-menu-portal .context-menu');
+    let menu = await page.find('.aegov-context-menu-portal .aegov-context-menu');
     expect(menu).not.toBeNull();
 
     // Close menu
@@ -431,7 +431,7 @@ describe('aegov-context-menu E2E', () => {
     await contextMenu.callMethod('show', 100, 100);
     await page.waitForChanges();
 
-    const menu = await page.find('.aegov-context-menu-portal .context-menu');
+    const menu = await page.find('.aegov-context-menu-portal .aegov-context-menu');
     const role = await menu.getAttribute('role');
     expect(role).toBe('menu');
   });
