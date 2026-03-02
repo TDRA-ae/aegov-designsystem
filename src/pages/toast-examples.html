@@ -240,13 +240,55 @@ toast.show();
       </div>
     </div>
 
-    <!-- Section 4: Stacking -->
+    <!-- Section 4: Stack vs Rack Mode -->
     <div class="section">
-      <h2>Stacking vs Non-Stackable</h2>
-      <p class="desc">Stackable toasts pile up. Non-stackable cross-fades the previous toast out as the new one enters.</p>
+      <h2>Stack Mode vs Rack Mode</h2>
+      <p class="desc">Stack mode shows all toasts with gaps. Rack mode collapses them into a compact deck — hover to expand.</p>
       <div class="demo-row">
-        <button class="demo-btn primary" onclick="showStackableToasts()">Stackable (3 Toasts)</button>
-        <button class="demo-btn" onclick="showNonStackableToasts()">Non-Stackable (3 rapid)</button>
+        <button class="demo-btn primary" onclick="showStackableToasts()">Stack Mode (3 Toasts)</button>
+        <button class="demo-btn primary" onclick="showRackToasts('top-right')">Rack — Top Right</button>
+        <button class="demo-btn" onclick="showRackToasts('bottom-right')">Rack — Bottom Right</button>
+        <button class="demo-btn" onclick="showRackToasts('top-center')">Rack — Top Center</button>
+        <button class="demo-btn" onclick="showRackToasts('bottom-left')">Rack — Bottom Left</button>
+      </div>
+
+      <h3 style="margin-top: 1.5rem; font-size: 1rem; color: #374151;">Rack + Duration (auto-dismiss)</h3>
+      <p class="desc">Rack toasts with auto-dismiss. Each toast dismisses individually after its duration; the rack recalculates.</p>
+      <div class="demo-row">
+        <button class="demo-btn" onclick="showRackWithDuration('top-right')">Rack + Duration — Top Right</button>
+        <button class="demo-btn" onclick="showRackWithDuration('bottom-right')">Rack + Duration — Bottom Right</button>
+      </div>
+
+      <h3 style="margin-top: 1.5rem; font-size: 1rem; color: #374151;">Rack + Actions Slot</h3>
+      <p class="desc">Rack toasts with action buttons. Expand the rack to interact with actions on each toast.</p>
+      <div class="demo-row">
+        <button class="demo-btn" onclick="showRackWithActions('top-right')">Rack + Actions — Top Right</button>
+        <button class="demo-btn" onclick="showRackWithActions('bottom-right')">Rack + Actions — Bottom Right</button>
+      </div>
+
+      <div class="code-block">
+&lt;script&gt;
+// Rack with auto-dismiss duration
+window.aegovToast.show({
+  message: 'Auto-dismiss in 4s',
+  variant: 'info',
+  mode: 'rack',
+  duration: 4000,
+  showProgress: true,
+});
+
+// Rack with action slot
+const toast = document.createElement('aegov-toast');
+toast.variant = 'info';
+toast.mode = 'rack';
+toast.duration = 0;
+toast.innerHTML = `
+  New update available
+  &lt;a slot="actions" href="#"&gt;Update Now&lt;/a&gt;
+`;
+document.body.appendChild(toast);
+toast.show();
+&lt;/script&gt;
       </div>
     </div>
 
@@ -342,7 +384,7 @@ window.aegovToast.show({
           <tr><td><code>position</code></td><td><code>ToastPosition</code></td><td><code>'top-right'</code></td><td>Screen position: top-right, top-left, top-center, bottom-right, bottom-left, bottom-center</td></tr>
           <tr><td><code>duration</code></td><td><code>number</code></td><td><code>5000</code></td><td>Auto-dismiss in ms. 0 = no auto-dismiss</td></tr>
           <tr><td><code>dismissible</code></td><td><code>boolean</code></td><td><code>true</code></td><td>Show close button</td></tr>
-          <tr><td><code>stackable</code></td><td><code>boolean</code></td><td><code>true</code></td><td>false = replaces previous toast at same position</td></tr>
+          <tr><td><code>mode</code></td><td><code>ToastMode</code></td><td><code>'stack'</code></td><td>Display mode: stack (all visible) or rack (collapsed deck, hover to expand)</td></tr>
           <tr><td><code>show-icon</code></td><td><code>boolean</code></td><td><code>true</code></td><td>Show variant-specific icon</td></tr>
           <tr><td><code>show-progress</code></td><td><code>boolean</code></td><td><code>false</code></td><td>Show countdown progress bar</td></tr>
         </tbody>
@@ -440,26 +482,65 @@ window.aegovToast.show({
         setTimeout(() => {
           createToast({
             variant: v,
-            stackable: true,
-            message: `Stackable toast #${i + 1}`,
+            message: `Stack toast #${i + 1}`,
             duration: 5000,
           });
         }, i * 300);
       });
     }
 
-    function showNonStackableToasts() {
-      const variants = ['error', 'warning', 'success'];
-      const messages = ['First toast', 'Replaces first', 'Replaces second'];
+    function showRackToasts(position) {
+      const variants = ['success', 'info', 'warning', 'error'];
       variants.forEach((v, i) => {
         setTimeout(() => {
           createToast({
             variant: v,
-            stackable: false,
-            message: messages[i],
-            duration: 3000,
+            mode: 'rack',
+            position: position,
+            message: `Rack toast #${i + 1}`,
+            duration: 0,
           });
-        }, i * 800);
+        }, i * 300);
+      });
+    }
+
+    function showRackWithDuration(position) {
+      const items = [
+        { variant: 'success', message: 'Saved! (3s)', duration: 3000 },
+        { variant: 'info', message: 'Syncing... (5s)', duration: 5000 },
+        { variant: 'warning', message: 'Low storage (7s)', duration: 7000 },
+      ];
+      items.forEach((item, i) => {
+        setTimeout(() => {
+          createToast({
+            variant: item.variant,
+            mode: 'rack',
+            position: position,
+            message: item.message,
+            duration: item.duration,
+            showProgress: true,
+          });
+        }, i * 300);
+      });
+    }
+
+    function showRackWithActions(position) {
+      const items = [
+        { variant: 'info', msg: 'New version available', action: 'Update Now' },
+        { variant: 'warning', msg: 'Session expiring soon', action: 'Extend' },
+        { variant: 'success', msg: 'File uploaded', action: 'View File' },
+      ];
+      items.forEach((item, i) => {
+        setTimeout(() => {
+          const toast = document.createElement('aegov-toast');
+          toast.variant = item.variant;
+          toast.mode = 'rack';
+          toast.position = position;
+          toast.duration = 0;
+          toast.innerHTML = `${item.msg} <a slot="actions" href="#" style="color: inherit; font-weight: 600; text-decoration: underline;" onclick="event.preventDefault(); this.closest('aegov-toast').close();">${item.action}</a>`;
+          document.body.appendChild(toast);
+          toast.show();
+        }, i * 300);
       });
     }
 

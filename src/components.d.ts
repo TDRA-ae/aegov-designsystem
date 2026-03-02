@@ -5,8 +5,8 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
-import { AccordionIcon, AvatarSize, AvatarStatus, AvatarVariant, BadgeAppearance, BadgeColor, BadgeSize, BannerDisplay, BannerMode, BannerPosition, BannerRole, BlockquoteVariant, BreadcrumbSeparator, ButtonAppearance, ButtonGroupOrientation, ButtonSize, ButtonType, ButtonVariant, CalloutAppearance, CalloutVariant, DropdownAlign, DropdownPosition, DropdownTrigger, LinkTarget, ModalBackdropOpacity, ModalPosition, PaginationSize, PaginationVariant, ProgressOrientation, ProgressSize, ProgressStepStatus, ProgressVariant, TabOrientation, TabSize, TabVariant, TextSize, TitleSize, ToastAppearance, ToastPosition, ToastVariant, TooltipAlign, TooltipPosition, TooltipTrigger } from "./utils/types";
-export { AccordionIcon, AvatarSize, AvatarStatus, AvatarVariant, BadgeAppearance, BadgeColor, BadgeSize, BannerDisplay, BannerMode, BannerPosition, BannerRole, BlockquoteVariant, BreadcrumbSeparator, ButtonAppearance, ButtonGroupOrientation, ButtonSize, ButtonType, ButtonVariant, CalloutAppearance, CalloutVariant, DropdownAlign, DropdownPosition, DropdownTrigger, LinkTarget, ModalBackdropOpacity, ModalPosition, PaginationSize, PaginationVariant, ProgressOrientation, ProgressSize, ProgressStepStatus, ProgressVariant, TabOrientation, TabSize, TabVariant, TextSize, TitleSize, ToastAppearance, ToastPosition, ToastVariant, TooltipAlign, TooltipPosition, TooltipTrigger } from "./utils/types";
+import { AccordionIcon, AvatarSize, AvatarStatus, AvatarVariant, BadgeAppearance, BadgeColor, BadgeSize, BannerDisplay, BannerMode, BannerPosition, BannerRole, BlockquoteVariant, BreadcrumbSeparator, ButtonAppearance, ButtonGroupOrientation, ButtonSize, ButtonType, ButtonVariant, CalloutAppearance, CalloutVariant, CardBackground, CardBorderStyle, CardBorderWidth, CardHover, DropdownAlign, DropdownPosition, DropdownTrigger, LinkTarget, ModalBackdropOpacity, ModalPosition, PaginationSize, PaginationVariant, ProgressOrientation, ProgressSize, ProgressStepStatus, ProgressVariant, TabOrientation, TabSize, TabVariant, TextSize, TitleSize, ToastAppearance, ToastMode, ToastPosition, ToastVariant, TooltipAlign, TooltipPosition, TooltipTrigger } from "./utils/types";
+export { AccordionIcon, AvatarSize, AvatarStatus, AvatarVariant, BadgeAppearance, BadgeColor, BadgeSize, BannerDisplay, BannerMode, BannerPosition, BannerRole, BlockquoteVariant, BreadcrumbSeparator, ButtonAppearance, ButtonGroupOrientation, ButtonSize, ButtonType, ButtonVariant, CalloutAppearance, CalloutVariant, CardBackground, CardBorderStyle, CardBorderWidth, CardHover, DropdownAlign, DropdownPosition, DropdownTrigger, LinkTarget, ModalBackdropOpacity, ModalPosition, PaginationSize, PaginationVariant, ProgressOrientation, ProgressSize, ProgressStepStatus, ProgressVariant, TabOrientation, TabSize, TabVariant, TextSize, TitleSize, ToastAppearance, ToastMode, ToastPosition, ToastVariant, TooltipAlign, TooltipPosition, TooltipTrigger } from "./utils/types";
 export namespace Components {
     /**
      * Accordion component for collapsible content sections
@@ -331,6 +331,33 @@ export namespace Components {
           * @default 'default'
          */
         "variant": CalloutVariant;
+    }
+    interface AegovCard {
+        /**
+          * Background style: 'white', 'transparent', or 'subtle' (slate-50).
+          * @default 'white'
+         */
+        "background": CardBackground;
+        /**
+          * Border style: 'standard' (solid primary-600) or 'creative' (gradient from primary-400 to primary-800).
+          * @default 'standard'
+         */
+        "borderStyle": CardBorderStyle;
+        /**
+          * Border thickness: 1, 2, or 3.
+          * @default 1
+         */
+        "borderWidth": CardBorderWidth;
+        /**
+          * Disables inner padding (1.5rem / 24px). Padding is on by default.
+          * @default false
+         */
+        "disallowPadding": boolean;
+        /**
+          * Hover effect: 'off' (none), 'standard' (border color change), or 'glow' (shadow glow).
+          * @default 'off'
+         */
+        "hover": CardHover;
     }
     /**
      * Context menu component that displays positioned content on right-click
@@ -770,6 +797,11 @@ export namespace Components {
          */
         "duration": number;
         /**
+          * Display mode for multiple toasts at the same position. 'stack' = all toasts visible with gap between them (default). 'rack' = toasts collapse into a deck; hover to expand.
+          * @default 'stack'
+         */
+        "mode": ToastMode;
+        /**
           * Screen position where the toast appears.
           * @default 'top-right'
          */
@@ -788,11 +820,6 @@ export namespace Components {
           * @default false
          */
         "showProgress": boolean;
-        /**
-          * Whether multiple toasts can stack at the same position. false = replaces previous toast at the same position (cross-fade).
-          * @default true
-         */
-        "stackable": boolean;
         /**
           * Semantic color variant of the toast.
           * @default 'default'
@@ -1063,6 +1090,12 @@ declare global {
         prototype: HTMLAegovCalloutElement;
         new (): HTMLAegovCalloutElement;
     };
+    interface HTMLAegovCardElement extends Components.AegovCard, HTMLStencilElement {
+    }
+    var HTMLAegovCardElement: {
+        prototype: HTMLAegovCardElement;
+        new (): HTMLAegovCardElement;
+    };
     interface HTMLAegovContextMenuElementEventMap {
         "aegovContextMenuOpen": { x: number; y: number; targetElement: HTMLElement };
         "aegovContextMenuClose": void;
@@ -1322,6 +1355,7 @@ declare global {
         "aegov-button": HTMLAegovButtonElement;
         "aegov-button-group": HTMLAegovButtonGroupElement;
         "aegov-callout": HTMLAegovCalloutElement;
+        "aegov-card": HTMLAegovCardElement;
         "aegov-context-menu": HTMLAegovContextMenuElement;
         "aegov-context-menu-item": HTMLAegovContextMenuItemElement;
         "aegov-dropdown": HTMLAegovDropdownElement;
@@ -1700,6 +1734,33 @@ declare namespace LocalJSX {
           * @default 'default'
          */
         "variant"?: CalloutVariant;
+    }
+    interface AegovCard {
+        /**
+          * Background style: 'white', 'transparent', or 'subtle' (slate-50).
+          * @default 'white'
+         */
+        "background"?: CardBackground;
+        /**
+          * Border style: 'standard' (solid primary-600) or 'creative' (gradient from primary-400 to primary-800).
+          * @default 'standard'
+         */
+        "borderStyle"?: CardBorderStyle;
+        /**
+          * Border thickness: 1, 2, or 3.
+          * @default 1
+         */
+        "borderWidth"?: CardBorderWidth;
+        /**
+          * Disables inner padding (1.5rem / 24px). Padding is on by default.
+          * @default false
+         */
+        "disallowPadding"?: boolean;
+        /**
+          * Hover effect: 'off' (none), 'standard' (border color change), or 'glow' (shadow glow).
+          * @default 'off'
+         */
+        "hover"?: CardHover;
     }
     /**
      * Context menu component that displays positioned content on right-click
@@ -2173,6 +2234,11 @@ declare namespace LocalJSX {
          */
         "duration"?: number;
         /**
+          * Display mode for multiple toasts at the same position. 'stack' = all toasts visible with gap between them (default). 'rack' = toasts collapse into a deck; hover to expand.
+          * @default 'stack'
+         */
+        "mode"?: ToastMode;
+        /**
           * Emitted after the toast close animation completes and element is removed.
          */
         "onAegovToastClose"?: (event: AegovToastCustomEvent<void>) => void;
@@ -2199,11 +2265,6 @@ declare namespace LocalJSX {
           * @default false
          */
         "showProgress"?: boolean;
-        /**
-          * Whether multiple toasts can stack at the same position. false = replaces previous toast at the same position (cross-fade).
-          * @default true
-         */
-        "stackable"?: boolean;
         /**
           * Semantic color variant of the toast.
           * @default 'default'
@@ -2276,6 +2337,7 @@ declare namespace LocalJSX {
         "aegov-button": AegovButton;
         "aegov-button-group": AegovButtonGroup;
         "aegov-callout": AegovCallout;
+        "aegov-card": AegovCard;
         "aegov-context-menu": AegovContextMenu;
         "aegov-context-menu-item": AegovContextMenuItem;
         "aegov-dropdown": AegovDropdown;
@@ -2322,6 +2384,7 @@ declare module "@stencil/core" {
             "aegov-button": LocalJSX.AegovButton & JSXBase.HTMLAttributes<HTMLAegovButtonElement>;
             "aegov-button-group": LocalJSX.AegovButtonGroup & JSXBase.HTMLAttributes<HTMLAegovButtonGroupElement>;
             "aegov-callout": LocalJSX.AegovCallout & JSXBase.HTMLAttributes<HTMLAegovCalloutElement>;
+            "aegov-card": LocalJSX.AegovCard & JSXBase.HTMLAttributes<HTMLAegovCardElement>;
             /**
              * Context menu component that displays positioned content on right-click
              */

@@ -200,6 +200,11 @@ export type ToastAppearance = 'soft' | 'solid';
 export type ToastPosition = 'top-right' | 'top-left' | 'top-center' | 'bottom-right' | 'bottom-left' | 'bottom-center';
 
 /**
+ * Toast component mode types
+ */
+export type ToastMode = 'stack' | 'rack';
+
+/**
  * Progress component variant types
  */
 export type ProgressVariant = 'default' | 'compact';
@@ -218,6 +223,26 @@ export type ProgressOrientation = 'horizontal' | 'vertical';
  * Progress step status types
  */
 export type ProgressStepStatus = 'completed' | 'active' | 'pending';
+
+/**
+ * Card component border width types
+ */
+export type CardBorderWidth = 1 | 2 | 3;
+
+/**
+ * Card component background types
+ */
+export type CardBackground = 'white' | 'transparent' | 'subtle';
+
+/**
+ * Card component border style types
+ */
+export type CardBorderStyle = 'standard' | 'creative';
+
+/**
+ * Card component hover effect types
+ */
+export type CardHover = 'off' | 'standard' | 'glow';
 
 /**
  * Common component props

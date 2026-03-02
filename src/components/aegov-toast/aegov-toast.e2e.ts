@@ -190,7 +190,6 @@ describe('aegov-toast e2e', () => {
     await page.waitForChanges();
     await wait(100);
 
-    // Verify visible
     let toast = await page.find('aegov-toast .toast');
     expect(toast).toBeTruthy();
 
@@ -225,7 +224,6 @@ describe('aegov-toast e2e', () => {
     await page.waitForChanges();
     await wait(100);
 
-    // Call close twice — second call should be ignored
     await el.callMethod('close');
     await el.callMethod('close');
     await wait(400);
@@ -289,29 +287,113 @@ describe('aegov-toast e2e', () => {
     expect(toasts.length).toBe(2);
   });
 
-  it('non-stackable replaces previous toast', async () => {
+  // ============================================
+  // RACK MODE
+  // ============================================
+
+  it('rack mode adds rack class to container', async () => {
     const page = await newE2EPage();
     await page.setContent(`
-      <aegov-toast id="t1" duration="0" stackable="false" position="top-right">Toast 1</aegov-toast>
-      <aegov-toast id="t2" duration="0" stackable="false" position="top-right">Toast 2</aegov-toast>
+      <aegov-toast id="t1" duration="0" mode="rack" position="top-right">Toast 1</aegov-toast>
     `);
-
     const t1 = await page.find('#t1');
-    const t2 = await page.find('#t2');
-
     await t1.callMethod('show');
     await page.waitForChanges();
     await wait(100);
 
+    const container = await page.find('.aegov-toast-container--top-right.aegov-toast-container--rack');
+    expect(container).toBeTruthy();
+  });
+
+  it('rack mode sets data-toast-index on toasts', async () => {
+    const page = await newE2EPage();
+    await page.setContent(`
+      <aegov-toast id="t1" duration="0" mode="rack" position="top-right">Toast 1</aegov-toast>
+      <aegov-toast id="t2" duration="0" mode="rack" position="top-right">Toast 2</aegov-toast>
+      <aegov-toast id="t3" duration="0" mode="rack" position="top-right">Toast 3</aegov-toast>
+    `);
+
+    const t1 = await page.find('#t1');
+    const t2 = await page.find('#t2');
+    const t3 = await page.find('#t3');
+    await t1.callMethod('show');
+    await page.waitForChanges();
     await t2.callMethod('show');
     await page.waitForChanges();
-    // Wait for first toast's close animation
-    await wait(400);
+    await t3.callMethod('show');
     await page.waitForChanges();
+    await wait(100);
 
-    // After close animation, only second toast should remain visible
-    const toasts = await page.findAll('.aegov-toast-container--top-right aegov-toast .toast');
-    expect(toasts.length).toBe(1);
+    // For top positions: first child = newest = index 0
+    const toasts = await page.findAll('.aegov-toast-container--top-right aegov-toast');
+    expect(toasts.length).toBe(3);
+
+    // Newest (t3) is prepended, so it's first = index 0
+    expect(await toasts[0].getAttribute('data-toast-index')).toBe('0');
+    expect(await toasts[1].getAttribute('data-toast-index')).toBe('1');
+    expect(await toasts[2].getAttribute('data-toast-index')).toBe('2');
+  });
+
+  it('rack mode shows count badge', async () => {
+    const page = await newE2EPage();
+    await page.setContent(`
+      <aegov-toast id="t1" duration="0" mode="rack" position="top-right">Toast 1</aegov-toast>
+      <aegov-toast id="t2" duration="0" mode="rack" position="top-right">Toast 2</aegov-toast>
+    `);
+
+    const t1 = await page.find('#t1');
+    const t2 = await page.find('#t2');
+    await t1.callMethod('show');
+    await page.waitForChanges();
+    await t2.callMethod('show');
+    await page.waitForChanges();
+    await wait(100);
+
+    const badge = await page.find('.aegov-toast-rack-count');
+    expect(badge).toBeTruthy();
+    expect(await badge.getAttribute('data-count')).toBe('2');
+  });
+
+  it('rack mode adds expanded class on hover', async () => {
+    const page = await newE2EPage();
+    await page.setContent(`
+      <aegov-toast id="t1" duration="0" mode="rack" position="top-right">Toast 1</aegov-toast>
+      <aegov-toast id="t2" duration="0" mode="rack" position="top-right">Toast 2</aegov-toast>
+    `);
+
+    const t1 = await page.find('#t1');
+    const t2 = await page.find('#t2');
+    await t1.callMethod('show');
+    await page.waitForChanges();
+    await t2.callMethod('show');
+    await page.waitForChanges();
+    await wait(100);
+
+    const container = await page.find('.aegov-toast-container--rack');
+    expect(container).toBeTruthy();
+
+    // Hover over container
+    await container.hover();
+    await page.waitForChanges();
+    await wait(100);
+
+    const expanded = await page.find('.aegov-toast-container--expanded');
+    expect(expanded).toBeTruthy();
+  });
+
+  it('rack mode injects global styles', async () => {
+    const page = await newE2EPage();
+    await page.setContent(`
+      <aegov-toast id="t1" duration="0" mode="rack" position="top-right">Toast 1</aegov-toast>
+    `);
+
+    const t1 = await page.find('#t1');
+    await t1.callMethod('show');
+    await page.waitForChanges();
+    await wait(100);
+
+    const styleEl = await page.find('#aegov-toast-rack-styles');
+    expect(styleEl).toBeTruthy();
   });
 
   // ============================================
@@ -342,6 +424,38 @@ describe('aegov-toast e2e', () => {
   });
 
   // ============================================
+  // HOVER PAUSE / RESUME
+  // ============================================
+
+  it('pauses auto-dismiss on hover and resumes on mouse leave', async () => {
+    const page = await newE2EPage();
+    await page.setContent('<aegov-toast duration="800">Hello</aegov-toast>');
+    const el = await page.find('aegov-toast');
+    await el.callMethod('show');
+    await page.waitForChanges();
+    await wait(100);
+
+    // Hover to pause
+    const toast = await page.find('aegov-toast .toast');
+    await toast.hover();
+    await wait(200);
+
+    // Wait past the original duration — toast should still be visible because paused
+    await wait(800);
+    await page.waitForChanges();
+    let toastEl = await page.find('aegov-toast .toast');
+    expect(toastEl).toBeTruthy();
+
+    // Move mouse away to resume
+    await page.mouse.move(0, 0);
+    await wait(1200);
+    await page.waitForChanges();
+
+    toastEl = await page.find('aegov-toast .toast');
+    expect(toastEl).toBeNull();
+  });
+
+  // ============================================
   // GLOBAL HELPER
   // ============================================
 
@@ -350,7 +464,6 @@ describe('aegov-toast e2e', () => {
     await page.setContent('<div id="app"></div>');
     await wait(200);
 
-    // Create toast programmatically
     await page.evaluate(() => {
       const toast = document.createElement('aegov-toast') as any;
       toast.variant = 'success';

@@ -176,7 +176,6 @@ describe('aegov-toast', () => {
     });
     await page.rootInstance.show();
     await page.waitForChanges();
-    // In scoped mode, check the icon container exists and the slot content is present
     const iconContainer = page.root.querySelector('.toast__icon');
     expect(iconContainer).toBeTruthy();
     const customIcon = page.root.querySelector('[slot="icon"]');
@@ -427,9 +426,29 @@ describe('aegov-toast', () => {
     expect(instance.position).toBe('top-right');
     expect(instance.duration).toBe(5000);
     expect(instance.dismissible).toBe(true);
-    expect(instance.stackable).toBe(true);
+    expect(instance.mode).toBe('stack');
     expect(instance.showIcon).toBe(true);
     expect(instance.showProgress).toBe(false);
+  });
+
+  // ============================================
+  // MODE PROP
+  // ============================================
+
+  it('defaults mode to stack', async () => {
+    const page = await newSpecPage({
+      components: [AegovToast],
+      html: `<aegov-toast>Message</aegov-toast>`,
+    });
+    expect(page.rootInstance.mode).toBe('stack');
+  });
+
+  it('accepts rack mode', async () => {
+    const page = await newSpecPage({
+      components: [AegovToast],
+      html: `<aegov-toast mode="rack">Message</aegov-toast>`,
+    });
+    expect(page.rootInstance.mode).toBe('rack');
   });
 
   // ============================================
@@ -459,5 +478,93 @@ describe('aegov-toast', () => {
     });
     await page.rootInstance.show();
     expect(page.rootInstance.isEntering).toBe(true);
+  });
+
+  // ============================================
+  // HOVER PAUSE / RESUME
+  // ============================================
+
+  it('isPaused defaults to false', async () => {
+    const page = await newSpecPage({
+      components: [AegovToast],
+      html: `<aegov-toast duration="5000">Message</aegov-toast>`,
+    });
+    expect(page.rootInstance.isPaused).toBe(false);
+  });
+
+  it('pauses timer on mouseenter when duration > 0', async () => {
+    const page = await newSpecPage({
+      components: [AegovToast],
+      html: `<aegov-toast duration="5000">Message</aegov-toast>`,
+    });
+    await page.rootInstance.show();
+    await page.waitForChanges();
+
+    const toast = page.root.querySelector('.toast') as HTMLElement;
+    toast.dispatchEvent(new Event('mouseenter'));
+    expect(page.rootInstance.isPaused).toBe(true);
+  });
+
+  it('resumes timer on mouseleave', async () => {
+    const page = await newSpecPage({
+      components: [AegovToast],
+      html: `<aegov-toast duration="5000">Message</aegov-toast>`,
+    });
+    await page.rootInstance.show();
+    await page.waitForChanges();
+
+    const toast = page.root.querySelector('.toast') as HTMLElement;
+    toast.dispatchEvent(new Event('mouseenter'));
+    expect(page.rootInstance.isPaused).toBe(true);
+
+    toast.dispatchEvent(new Event('mouseleave'));
+    expect(page.rootInstance.isPaused).toBe(false);
+  });
+
+  it('does not pause when duration is 0 (persistent)', async () => {
+    const page = await newSpecPage({
+      components: [AegovToast],
+      html: `<aegov-toast duration="0">Message</aegov-toast>`,
+    });
+    await page.rootInstance.show();
+    await page.waitForChanges();
+
+    const toast = page.root.querySelector('.toast') as HTMLElement;
+    toast.dispatchEvent(new Event('mouseenter'));
+    expect(page.rootInstance.isPaused).toBe(false);
+  });
+
+  it('pauses progress bar animation on hover', async () => {
+    const page = await newSpecPage({
+      components: [AegovToast],
+      html: `<aegov-toast duration="5000" show-progress="true">Message</aegov-toast>`,
+    });
+    await page.rootInstance.show();
+    await page.waitForChanges();
+
+    const toast = page.root.querySelector('.toast') as HTMLElement;
+    toast.dispatchEvent(new Event('mouseenter'));
+    await page.waitForChanges();
+
+    const progress = page.root.querySelector('.toast__progress') as HTMLElement;
+    expect(progress.style.animationPlayState).toBe('paused');
+  });
+
+  it('resumes progress bar animation on mouse leave', async () => {
+    const page = await newSpecPage({
+      components: [AegovToast],
+      html: `<aegov-toast duration="5000" show-progress="true">Message</aegov-toast>`,
+    });
+    await page.rootInstance.show();
+    await page.waitForChanges();
+
+    const toast = page.root.querySelector('.toast') as HTMLElement;
+    toast.dispatchEvent(new Event('mouseenter'));
+    await page.waitForChanges();
+    toast.dispatchEvent(new Event('mouseleave'));
+    await page.waitForChanges();
+
+    const progress = page.root.querySelector('.toast__progress') as HTMLElement;
+    expect(progress.style.animationPlayState).toBe('running');
   });
 });
