@@ -245,6 +245,47 @@ export type CardBorderStyle = 'standard' | 'creative';
 export type CardHover = 'off' | 'standard' | 'glow';
 
 /**
+ * Datepicker component mode types
+ */
+export type DatepickerMode = 'single' | 'range';
+
+/**
+ * Datepicker range preset identifiers
+ */
+export type DatepickerPreset =
+  | 'today' | 'yesterday' | 'tomorrow'
+  | 'thisWeek' | 'lastWeek' | 'nextWeek'
+  | 'last7Days' | 'next7Days' | 'last14Days' | 'next14Days'
+  | 'last30Days' | 'next30Days'
+  | 'thisMonth' | 'lastMonth' | 'nextMonth'
+  | 'last3Months' | 'next3Months' | 'last6Months' | 'next6Months'
+  | 'thisQuarter' | 'lastQuarter' | 'nextQuarter'
+  | 'thisYear' | 'lastYear' | 'nextYear'
+  | 'yearToDate' | 'allTime';
+
+/**
+ * Datepicker change event detail
+ */
+export interface DatepickerChangeDetail {
+  /** Formatted date string (or "start / end" for range mode) */
+  value: string;
+  /** Selected date (single mode) */
+  date: Date | null;
+  /** Range start date (range mode) */
+  startDate?: Date | null;
+  /** Range end date (range mode) */
+  endDate?: Date | null;
+}
+
+/**
+ * Datepicker month change event detail
+ */
+export interface DatepickerMonthChangeDetail {
+  month: number;
+  year: number;
+}
+
+/**
  * Common component props
  */
 export interface BaseComponentProps {

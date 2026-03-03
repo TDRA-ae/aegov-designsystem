@@ -5,6 +5,8 @@
  * Minimal global styles are defined here to avoid conflicts.
  */
 
+@import "./fonts.css";
+
 * {
   box-sizing: border-box;
 }

@@ -5,8 +5,8 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
-import { AccordionIcon, AvatarSize, AvatarStatus, AvatarVariant, BadgeAppearance, BadgeColor, BadgeSize, BannerDisplay, BannerMode, BannerPosition, BannerRole, BlockquoteVariant, BreadcrumbSeparator, ButtonAppearance, ButtonGroupOrientation, ButtonSize, ButtonType, ButtonVariant, CalloutAppearance, CalloutVariant, CardBackground, CardBorderStyle, CardBorderWidth, CardHover, DropdownAlign, DropdownPosition, DropdownTrigger, LinkTarget, ModalBackdropOpacity, ModalPosition, PaginationSize, PaginationVariant, ProgressOrientation, ProgressSize, ProgressStepStatus, ProgressVariant, TabOrientation, TabSize, TabVariant, TextSize, TitleSize, ToastAppearance, ToastMode, ToastPosition, ToastVariant, TooltipAlign, TooltipPosition, TooltipTrigger } from "./utils/types";
-export { AccordionIcon, AvatarSize, AvatarStatus, AvatarVariant, BadgeAppearance, BadgeColor, BadgeSize, BannerDisplay, BannerMode, BannerPosition, BannerRole, BlockquoteVariant, BreadcrumbSeparator, ButtonAppearance, ButtonGroupOrientation, ButtonSize, ButtonType, ButtonVariant, CalloutAppearance, CalloutVariant, CardBackground, CardBorderStyle, CardBorderWidth, CardHover, DropdownAlign, DropdownPosition, DropdownTrigger, LinkTarget, ModalBackdropOpacity, ModalPosition, PaginationSize, PaginationVariant, ProgressOrientation, ProgressSize, ProgressStepStatus, ProgressVariant, TabOrientation, TabSize, TabVariant, TextSize, TitleSize, ToastAppearance, ToastMode, ToastPosition, ToastVariant, TooltipAlign, TooltipPosition, TooltipTrigger } from "./utils/types";
+import { AccordionIcon, AvatarSize, AvatarStatus, AvatarVariant, BadgeAppearance, BadgeColor, BadgeSize, BannerDisplay, BannerMode, BannerPosition, BannerRole, BlockquoteVariant, BreadcrumbSeparator, ButtonAppearance, ButtonGroupOrientation, ButtonSize, ButtonType, ButtonVariant, CalloutAppearance, CalloutVariant, CardBackground, CardBorderStyle, CardBorderWidth, CardHover, DatepickerChangeDetail, DatepickerMode, DatepickerMonthChangeDetail, DropdownAlign, DropdownPosition, DropdownTrigger, LinkTarget, ModalBackdropOpacity, ModalPosition, PaginationSize, PaginationVariant, ProgressOrientation, ProgressSize, ProgressStepStatus, ProgressVariant, TabOrientation, TabSize, TabVariant, TextSize, TitleSize, ToastAppearance, ToastMode, ToastPosition, ToastVariant, TooltipAlign, TooltipPosition, TooltipTrigger } from "./utils/types";
+export { AccordionIcon, AvatarSize, AvatarStatus, AvatarVariant, BadgeAppearance, BadgeColor, BadgeSize, BannerDisplay, BannerMode, BannerPosition, BannerRole, BlockquoteVariant, BreadcrumbSeparator, ButtonAppearance, ButtonGroupOrientation, ButtonSize, ButtonType, ButtonVariant, CalloutAppearance, CalloutVariant, CardBackground, CardBorderStyle, CardBorderWidth, CardHover, DatepickerChangeDetail, DatepickerMode, DatepickerMonthChangeDetail, DropdownAlign, DropdownPosition, DropdownTrigger, LinkTarget, ModalBackdropOpacity, ModalPosition, PaginationSize, PaginationVariant, ProgressOrientation, ProgressSize, ProgressStepStatus, ProgressVariant, TabOrientation, TabSize, TabVariant, TextSize, TitleSize, ToastAppearance, ToastMode, ToastPosition, ToastVariant, TooltipAlign, TooltipPosition, TooltipTrigger } from "./utils/types";
 export namespace Components {
     /**
      * Accordion component for collapsible content sections
@@ -401,6 +401,129 @@ export namespace Components {
           * @default false
          */
         "disabled": boolean;
+    }
+    interface AegovDatepicker {
+        "clear": () => Promise<void>;
+        /**
+          * Show clear button when value is set
+          * @default true
+         */
+        "clearable": boolean;
+        "close": () => Promise<void>;
+        /**
+          * Disable all future dates (shorthand for max="today")
+          * @default false
+         */
+        "disableFuture": boolean;
+        /**
+          * Whether the datepicker is disabled
+          * @default false
+         */
+        "disabled": boolean;
+        /**
+          * Output format using tokens: YYYY, YY, MM, M, DD, D, MMM, MMMM, dd, ddd
+          * @default 'YYYY-MM-DD'
+         */
+        "format": string;
+        /**
+          * Returns formatted end date string in range mode, or false if not in range mode or no end date
+         */
+        "getEndDate": () => Promise<string | false>;
+        /**
+          * Returns the preset ID that matches the current range selection, or false if none matches or not in range mode
+         */
+        "getPreset": () => Promise<string | false>;
+        /**
+          * Returns formatted start date string in range mode, or false if not in range mode or no start date
+         */
+        "getStartDate": () => Promise<string | false>;
+        "getValue": () => Promise<string>;
+        /**
+          * Locale for day/month names (BCP 47, e.g., 'en', 'ar', 'fr')
+          * @default 'en'
+         */
+        "locale": string;
+        /**
+          * Maximum selectable date (ISO string or "today")
+          * @default ''
+         */
+        "max": string;
+        /**
+          * Maximum number of days for range selection (0 = unlimited)
+          * @default 0
+         */
+        "maxRange": number;
+        /**
+          * Minimum selectable date (ISO string or "today")
+          * @default ''
+         */
+        "min": string;
+        /**
+          * Minimum number of days for range selection
+          * @default 0
+         */
+        "minRange": number;
+        /**
+          * Selection mode: single date or date range
+          * @default 'single'
+         */
+        "mode": DatepickerMode;
+        "open": () => Promise<void>;
+        /**
+          * Placeholder text for single mode input
+          * @default 'Select date'
+         */
+        "placeholder": string;
+        /**
+          * Comma-separated preset IDs for range mode (e.g., "today,last7Days,thisMonth")
+          * @default ''
+         */
+        "presets": string;
+        /**
+          * Placeholder for range end input
+          * @default 'End date'
+         */
+        "rangePlaceholderEnd": string;
+        /**
+          * Placeholder for range start input
+          * @default 'Start date'
+         */
+        "rangePlaceholderStart": string;
+        /**
+          * Show month/year select dropdowns in header
+          * @default true
+         */
+        "selectableHeader": boolean;
+        /**
+          * Week start day: 0=Sunday, 1=Monday, ...6=Saturday
+          * @default 0
+         */
+        "startDay": number;
+        /**
+          * Comma-separated ISO dates that cannot be selected
+          * @default ''
+         */
+        "unavailableDates": string;
+        /**
+          * Pre-selected value. Single: "YYYY-MM-DD". Range: "YYYY-MM-DD / YYYY-MM-DD"
+          * @default ''
+         */
+        "value": string;
+        /**
+          * Show Apply/Cancel buttons for confirming selection
+          * @default false
+         */
+        "withConfirmation": boolean;
+        /**
+          * End year for the year dropdown (default: current year + 100)
+          * @default 0
+         */
+        "yearRangeEnd": number;
+        /**
+          * Start year for the year dropdown (default: current year - 100)
+          * @default 0
+         */
+        "yearRangeStart": number;
     }
     /**
      * Dropdown component that displays positioned content on trigger interaction
@@ -913,6 +1036,10 @@ export interface AegovContextMenuItemCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLAegovContextMenuItemElement;
 }
+export interface AegovDatepickerCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLAegovDatepickerElement;
+}
 export interface AegovDropdownCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLAegovDropdownElement;
@@ -1137,6 +1264,27 @@ declare global {
         prototype: HTMLAegovContextMenuItemElement;
         new (): HTMLAegovContextMenuItemElement;
     };
+    interface HTMLAegovDatepickerElementEventMap {
+        "aegovDatepickerChange": DatepickerChangeDetail;
+        "aegovDatepickerOpen": void;
+        "aegovDatepickerClose": void;
+        "aegovDatepickerClear": void;
+        "aegovDatepickerMonthChange": DatepickerMonthChangeDetail;
+    }
+    interface HTMLAegovDatepickerElement extends Components.AegovDatepicker, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLAegovDatepickerElementEventMap>(type: K, listener: (this: HTMLAegovDatepickerElement, ev: AegovDatepickerCustomEvent<HTMLAegovDatepickerElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLAegovDatepickerElementEventMap>(type: K, listener: (this: HTMLAegovDatepickerElement, ev: AegovDatepickerCustomEvent<HTMLAegovDatepickerElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLAegovDatepickerElement: {
+        prototype: HTMLAegovDatepickerElement;
+        new (): HTMLAegovDatepickerElement;
+    };
     interface HTMLAegovDropdownElementEventMap {
         "aegovDropdownOpen": void;
         "aegovDropdownClose": void;
@@ -1358,6 +1506,7 @@ declare global {
         "aegov-card": HTMLAegovCardElement;
         "aegov-context-menu": HTMLAegovContextMenuElement;
         "aegov-context-menu-item": HTMLAegovContextMenuItemElement;
+        "aegov-datepicker": HTMLAegovDatepickerElement;
         "aegov-dropdown": HTMLAegovDropdownElement;
         "aegov-link": HTMLAegovLinkElement;
         "aegov-modal": HTMLAegovModalElement;
@@ -1808,6 +1957,118 @@ declare namespace LocalJSX {
           * Emitted when the menu item is clicked
          */
         "onAegovContextMenuItemClick"?: (event: AegovContextMenuItemCustomEvent<MouseEvent>) => void;
+    }
+    interface AegovDatepicker {
+        /**
+          * Show clear button when value is set
+          * @default true
+         */
+        "clearable"?: boolean;
+        /**
+          * Disable all future dates (shorthand for max="today")
+          * @default false
+         */
+        "disableFuture"?: boolean;
+        /**
+          * Whether the datepicker is disabled
+          * @default false
+         */
+        "disabled"?: boolean;
+        /**
+          * Output format using tokens: YYYY, YY, MM, M, DD, D, MMM, MMMM, dd, ddd
+          * @default 'YYYY-MM-DD'
+         */
+        "format"?: string;
+        /**
+          * Locale for day/month names (BCP 47, e.g., 'en', 'ar', 'fr')
+          * @default 'en'
+         */
+        "locale"?: string;
+        /**
+          * Maximum selectable date (ISO string or "today")
+          * @default ''
+         */
+        "max"?: string;
+        /**
+          * Maximum number of days for range selection (0 = unlimited)
+          * @default 0
+         */
+        "maxRange"?: number;
+        /**
+          * Minimum selectable date (ISO string or "today")
+          * @default ''
+         */
+        "min"?: string;
+        /**
+          * Minimum number of days for range selection
+          * @default 0
+         */
+        "minRange"?: number;
+        /**
+          * Selection mode: single date or date range
+          * @default 'single'
+         */
+        "mode"?: DatepickerMode;
+        "onAegovDatepickerChange"?: (event: AegovDatepickerCustomEvent<DatepickerChangeDetail>) => void;
+        "onAegovDatepickerClear"?: (event: AegovDatepickerCustomEvent<void>) => void;
+        "onAegovDatepickerClose"?: (event: AegovDatepickerCustomEvent<void>) => void;
+        "onAegovDatepickerMonthChange"?: (event: AegovDatepickerCustomEvent<DatepickerMonthChangeDetail>) => void;
+        "onAegovDatepickerOpen"?: (event: AegovDatepickerCustomEvent<void>) => void;
+        /**
+          * Placeholder text for single mode input
+          * @default 'Select date'
+         */
+        "placeholder"?: string;
+        /**
+          * Comma-separated preset IDs for range mode (e.g., "today,last7Days,thisMonth")
+          * @default ''
+         */
+        "presets"?: string;
+        /**
+          * Placeholder for range end input
+          * @default 'End date'
+         */
+        "rangePlaceholderEnd"?: string;
+        /**
+          * Placeholder for range start input
+          * @default 'Start date'
+         */
+        "rangePlaceholderStart"?: string;
+        /**
+          * Show month/year select dropdowns in header
+          * @default true
+         */
+        "selectableHeader"?: boolean;
+        /**
+          * Week start day: 0=Sunday, 1=Monday, ...6=Saturday
+          * @default 0
+         */
+        "startDay"?: number;
+        /**
+          * Comma-separated ISO dates that cannot be selected
+          * @default ''
+         */
+        "unavailableDates"?: string;
+        /**
+          * Pre-selected value. Single: "YYYY-MM-DD". Range: "YYYY-MM-DD / YYYY-MM-DD"
+          * @default ''
+         */
+        "value"?: string;
+        /**
+          * Show Apply/Cancel buttons for confirming selection
+          * @default false
+         */
+        "withConfirmation"?: boolean;
+        /**
+          * End year for the year dropdown (default: current year + 100)
+          * @default 0
+         */
+        "yearRangeEnd"?: number;
+        /**
+          * Start year for the year dropdown (default: current year - 100)
+          * @default 0
+         */
+        "yearRangeStart"?: number;
     }
     /**
      * Dropdown component that displays positioned content on trigger interaction
@@ -2340,6 +2601,7 @@ declare namespace LocalJSX {
         "aegov-card": AegovCard;
         "aegov-context-menu": AegovContextMenu;
         "aegov-context-menu-item": AegovContextMenuItem;
+        "aegov-datepicker": AegovDatepicker;
         "aegov-dropdown": AegovDropdown;
         "aegov-link": AegovLink;
         "aegov-modal": AegovModal;
@@ -2393,6 +2655,7 @@ declare module "@stencil/core" {
              * Context menu item component (optional helper for styling)
              */
             "aegov-context-menu-item": LocalJSX.AegovContextMenuItem & JSXBase.HTMLAttributes<HTMLAegovContextMenuItemElement>;
+            "aegov-datepicker": LocalJSX.AegovDatepicker & JSXBase.HTMLAttributes<HTMLAegovDatepickerElement>;
             /**
              * Dropdown component that displays positioned content on trigger interaction
              */
