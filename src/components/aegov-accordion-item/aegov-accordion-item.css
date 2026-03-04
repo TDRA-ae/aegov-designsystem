@@ -11,16 +11,16 @@
   }
 
   &>button.accordion-item__header {
-    @apply w-full py-5 px-3 flex justify-between items-start gap-x-4 flex-nowrap text-start text-base font-semibold bg-transparent transition-all border-0 cursor-pointer hover:not-disabled:text-primary-600 focus-visible:bg-primary-support-400 focus-visible:text-primary-support-900 focus-visible:-outline-offset-3 focus-visible:outline-2 focus-visible:outline-primary-support-700 disabled:opacity-50 disabled:cursor-none;
+    @apply w-full py-5 px-3 flex justify-between items-start gap-x-4 flex-nowrap text-start text-base font-semibold bg-transparent transition-all border-0 cursor-pointer hover:not-disabled:text-primary-600 focus:text-primary-support-900  focus-visible:bg-primary-support-400 focus-visible:text-primary-support-900 focus-visible:-outline-offset-3 focus-visible:outline-2 focus-visible:outline-primary-support-700 disabled:opacity-50 disabled:cursor-none;
   }
   & .accordion-item__heading {
     @apply flex-1 font-semibold text-base leading-normal text-aeblack-800 flex items-center justify-start gap-2;
   }
   &.accordion-item--open {
     &>button.accordion-item__header {
-      @apply text-primary-600;
+      @apply text-primary-600 focus-visible:text-primary-support-900!;
       &>.accordion-item__heading {
-        @apply text-primary-600;
+        @apply text-primary-600 group-focus-visible:text-primary-support-900! ;
       }
       &>.accordion-item__icon-chevron {
         @apply text-primary-600 rotate-180;

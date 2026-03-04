@@ -146,7 +146,7 @@ export class AegovAccordionItem {
       <Host>
         <div class={classes}>
           <button
-            class="accordion-item__header"
+            class="group accordion-item__header"
             onClick={this.handleToggle}
             onKeyDown={this.handleKeyDown}
             disabled={this.disabled}
