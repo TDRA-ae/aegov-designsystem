@@ -36,16 +36,10 @@ export class AegovAvatar {
   @Prop() alt?: string;
 
   /**
-   * Status indicator visibility
-   * @default false
+   * Status indicator type. Set to 'online' or 'offline' to show indicator, or 'none'/false to hide.
+   * @default 'none'
    */
-  @Prop() status: boolean = false;
-
-  /**
-   * Status indicator type
-   * @default 'online'
-   */
-  @Prop() statusType: AvatarStatus = 'online';
+  @Prop() status: AvatarStatus | boolean = 'none';
 
   /**
    * Internal state to track image load error
@@ -92,14 +86,24 @@ export class AegovAvatar {
   }
 
   /**
+   * Get the effective status type from the status prop
+   */
+  private getEffectiveStatus(): AvatarStatus {
+    if (this.status === true || this.status === 'online') return 'online';
+    if (this.status === 'offline') return 'offline';
+    return 'none';
+  }
+
+  /**
    * Get status indicator classes
    */
   private getStatusClasses(): string {
     const classes: string[] = ['avatar-indicator'];
+    const effectiveStatus = this.getEffectiveStatus();
 
-    if (this.statusType === 'online') {
+    if (effectiveStatus === 'online') {
       classes.push('avatar-online');
-    } else if (this.statusType === 'offline') {
+    } else if (effectiveStatus === 'offline') {
       classes.push('avatar-offline');
     }
 
@@ -144,11 +148,11 @@ export class AegovAvatar {
             </div>
           )}
 
-          {this.status && this.statusType !== 'none' && (
+          {this.getEffectiveStatus() !== 'none' && (
             <span
               part="status"
               class={this.getStatusClasses()}
-              aria-label={`Status: ${this.statusType}`}
+              aria-label={`Status: ${this.getEffectiveStatus()}`}
             ></span>
           )}
         </div>

@@ -1,0 +1,800 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0">
+  <title>Avatar Group Component - AEGOV Design System</title>
+
+  <!-- Design System -->
+  <script type="module" src="/build/aegov.esm.js"></script>
+  <script nomodule src="/build/aegov.js"></script>
+  <link rel="stylesheet" href="/build/aegov.css">
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 2rem;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    }
+
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      background: white;
+      padding: 3rem;
+      border-radius: 16px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 3rem;
+      padding-bottom: 2rem;
+      border-bottom: 3px solid #e2e8f0;
+    }
+
+    .header h1 {
+      font-size: 3rem;
+      margin: 0 0 0.5rem 0;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .header .subtitle {
+      color: #64748b;
+      font-size: 1.125rem;
+      margin: 0 0 1rem 0;
+    }
+
+    .back-link {
+      display: inline-block;
+      margin-top: 1rem;
+      color: #667eea;
+      text-decoration: none;
+      font-weight: 600;
+      transition: color 0.2s;
+    }
+
+    .back-link:hover {
+      color: #764ba2;
+    }
+
+    .section {
+      margin-bottom: 4rem;
+    }
+
+    .section-title {
+      font-size: 2rem;
+      color: #1e293b;
+      margin: 0 0 1rem 0;
+      padding-bottom: 0.75rem;
+      border-bottom: 2px solid #e2e8f0;
+    }
+
+    .section-description {
+      color: #64748b;
+      margin-bottom: 2rem;
+      line-height: 1.6;
+    }
+
+    .subsection-title {
+      font-size: 1.5rem;
+      color: #475569;
+      margin: 2.5rem 0 1.5rem 0;
+      font-weight: 600;
+    }
+
+    .demo-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2rem;
+      margin-bottom: 2rem;
+    }
+
+    .demo-card {
+      background: #f8fafc;
+      padding: 1.5rem;
+      border-radius: 12px;
+      border: 2px solid #e2e8f0;
+    }
+
+    .demo-card h4 {
+      margin: 0 0 1rem 0;
+      color: #334155;
+      font-size: 1rem;
+    }
+
+    .demo-card .demo-content {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      align-items: flex-start;
+    }
+
+    .demo-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 2rem;
+      padding: 1.5rem;
+      background: #f8fafc;
+      border-radius: 12px;
+      border: 2px solid #e2e8f0;
+      margin-bottom: 1rem;
+    }
+
+    .demo-item {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .demo-label {
+      font-size: 0.8rem;
+      color: #94a3b8;
+      text-transform: uppercase;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+    }
+
+    .code-block {
+      background: #0f172a;
+      color: #e2e8f0;
+      padding: 1rem;
+      border-radius: 8px;
+      font-family: 'Courier New', monospace;
+      font-size: 0.875rem;
+      overflow-x: auto;
+      margin-top: 1rem;
+      white-space: pre;
+      line-height: 1.5;
+    }
+
+    .code-block code {
+      color: #22d3ee;
+    }
+
+    .dark-bg {
+      background: #1e293b !important;
+      border-color: #334155 !important;
+      --avatar-group-ring-color: #1e293b;
+    }
+
+    .event-log {
+      background: #0f172a;
+      color: #22c55e;
+      padding: 1rem;
+      border-radius: 8px;
+      font-family: 'Courier New', monospace;
+      font-size: 0.875rem;
+      min-height: 100px;
+      max-height: 200px;
+      overflow-y: auto;
+      margin-top: 1rem;
+    }
+
+    .event-entry {
+      margin-bottom: 0.5rem;
+      padding: 0.25rem 0;
+    }
+
+    /* API Documentation */
+    .api-section {
+      background: #f1f5f9;
+      padding: 2rem;
+      border-radius: 12px;
+      margin-top: 3rem;
+    }
+
+    .api-section h2 {
+      margin-top: 0;
+      color: #1e293b;
+    }
+
+    .api-table {
+      width: 100%;
+      border-collapse: collapse;
+      background: white;
+      border-radius: 8px;
+      overflow: hidden;
+      margin-bottom: 2rem;
+    }
+
+    .api-table th {
+      background: #334155;
+      color: white;
+      padding: 1rem;
+      text-align: left;
+      font-weight: 600;
+    }
+
+    .api-table td {
+      padding: 1rem;
+      border-bottom: 1px solid #e2e8f0;
+    }
+
+    .api-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    .api-table code {
+      background: #e0e7ff;
+      color: #4338ca;
+      padding: 0.25rem 0.5rem;
+      border-radius: 4px;
+      font-size: 0.875rem;
+    }
+
+    @media (max-width: 768px) {
+      .header h1 {
+        font-size: 2rem;
+      }
+
+      .demo-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Header -->
+    <div class="header">
+      <h1>Avatar Group Component</h1>
+      <p class="subtitle">Group multiple avatars with default (spaced) or compact (overlapping) layouts, plus an optional "+N" more indicator</p>
+      <a href="../index.html" class="back-link">&larr; Back to Components</a>
+    </div>
+
+    <!-- 1. Default Mode -->
+    <div class="section">
+      <h2 class="section-title">Default Mode (Spaced)</h2>
+      <p class="section-description">
+        Avatars are spaced apart with a uniform gap. This is the default layout mode.
+      </p>
+
+      <div class="demo-row">
+        <aegov-avatar-group>
+          <aegov-avatar variant="rounded" src="https://i.pravatar.cc/150?img=1" alt="User 1"></aegov-avatar>
+          <aegov-avatar variant="rounded" src="https://i.pravatar.cc/150?img=2" alt="User 2"></aegov-avatar>
+          <aegov-avatar variant="rounded" src="https://i.pravatar.cc/150?img=3" alt="User 3"></aegov-avatar>
+        </aegov-avatar-group>
+      </div>
+
+      <div class="code-block"><code>&lt;aegov-avatar-group&gt;
+  &lt;aegov-avatar variant="rounded" src="user1.jpg" alt="User 1"&gt;&lt;/aegov-avatar&gt;
+  &lt;aegov-avatar variant="rounded" src="user2.jpg" alt="User 2"&gt;&lt;/aegov-avatar&gt;
+  &lt;aegov-avatar variant="rounded" src="user3.jpg" alt="User 3"&gt;&lt;/aegov-avatar&gt;
+&lt;/aegov-avatar-group&gt;</code></div>
+    </div>
+
+    <!-- 2. Compact Mode -->
+    <div class="section">
+      <h2 class="section-title">Compact Mode (Overlapping)</h2>
+      <p class="section-description">
+        Avatars overlap each other with a white ring for visual separation. The overlap amount scales with the avatar size.
+      </p>
+
+      <div class="demo-row">
+        <aegov-avatar-group mode="compact">
+          <aegov-avatar variant="rounded" src="https://i.pravatar.cc/150?img=4" alt="User 4"></aegov-avatar>
+          <aegov-avatar variant="rounded" src="https://i.pravatar.cc/150?img=5" alt="User 5"></aegov-avatar>
+          <aegov-avatar variant="rounded" src="https://i.pravatar.cc/150?img=6" alt="User 6"></aegov-avatar>
+          <aegov-avatar variant="rounded" src="https://i.pravatar.cc/150?img=7" alt="User 7"></aegov-avatar>
+        </aegov-avatar-group>
+      </div>
+
+      <div class="code-block"><code>&lt;aegov-avatar-group mode="compact"&gt;
+  &lt;aegov-avatar variant="rounded" src="user4.jpg"&gt;&lt;/aegov-avatar&gt;
+  &lt;aegov-avatar variant="rounded" src="user5.jpg"&gt;&lt;/aegov-avatar&gt;
+  &lt;aegov-avatar variant="rounded" src="user6.jpg"&gt;&lt;/aegov-avatar&gt;
+  &lt;aegov-avatar variant="rounded" src="user7.jpg"&gt;&lt;/aegov-avatar&gt;
+&lt;/aegov-avatar-group&gt;</code></div>
+    </div>
+
+    <!-- 3. With More Indicator -->
+    <div class="section">
+      <h2 class="section-title">"More" Indicator</h2>
+      <p class="section-description">
+        When <code>more-count</code> is greater than 0, a "+N" button appears at the end. You can also provide custom text with <code>more-text</code>.
+      </p>
+
+      <div class="demo-grid">
+        <div class="demo-card">
+          <h4>Default "+N" text</h4>
+          <div class="demo-content">
+            <aegov-avatar-group more-count="12">
+              <aegov-avatar variant="rounded" src="https://i.pravatar.cc/150?img=8"></aegov-avatar>
+              <aegov-avatar variant="rounded" src="https://i.pravatar.cc/150?img=9"></aegov-avatar>
+              <aegov-avatar variant="rounded" src="https://i.pravatar.cc/150?img=10"></aegov-avatar>
+            </aegov-avatar-group>
+          </div>
+          <div class="code-block"><code>&lt;aegov-avatar-group more-count="12"&gt;
+  ...avatars
+&lt;/aegov-avatar-group&gt;</code></div>
+        </div>
+
+        <div class="demo-card">
+          <h4>Compact with more</h4>
+          <div class="demo-content">
+            <aegov-avatar-group mode="compact" more-count="24">
+              <aegov-avatar variant="rounded" src="https://i.pravatar.cc/150?img=11"></aegov-avatar>
+              <aegov-avatar variant="rounded" src="https://i.pravatar.cc/150?img=12"></aegov-avatar>
+              <aegov-avatar variant="rounded" src="https://i.pravatar.cc/150?img=13"></aegov-avatar>
+            </aegov-avatar-group>
+          </div>
+          <div class="code-block"><code>&lt;aegov-avatar-group mode="compact" more-count="24"&gt;
+  ...avatars
+&lt;/aegov-avatar-group&gt;</code></div>
+        </div>
+
+        <div class="demo-card">
+          <h4>Custom more text</h4>
+          <div class="demo-content">
+            <aegov-avatar-group mode="compact" more-count="99" more-text="99 others">
+              <aegov-avatar variant="rounded" src="https://i.pravatar.cc/150?img=14"></aegov-avatar>
+              <aegov-avatar variant="rounded" src="https://i.pravatar.cc/150?img=15"></aegov-avatar>
+            </aegov-avatar-group>
+          </div>
+          <div class="code-block"><code>&lt;aegov-avatar-group mode="compact"
+  more-count="99" more-text="99 others"&gt;
+  ...avatars
+&lt;/aegov-avatar-group&gt;</code></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 4. Sizes -->
+    <div class="section">
+      <h2 class="section-title">Sizes</h2>
+      <p class="section-description">
+        The <code>size</code> prop is enforced on all child avatars and the "more" indicator. Seven sizes are available from XS (24px) to 3XL (80px).
+      </p>
+
+      <div class="demo-row" style="flex-direction: column; align-items: flex-start; gap: 1.5rem;">
+        <div class="demo-item">
+          <span class="demo-label">XS (24px)</span>
+          <aegov-avatar-group mode="compact" size="xs" more-count="5">
+            <aegov-avatar variant="rounded" src="https://i.pravatar.cc/150?img=16"></aegov-avatar>
+            <aegov-avatar variant="rounded" src="https://i.pravatar.cc/150?img=17"></aegov-avatar>
+            <aegov-avatar variant="rounded" src="https://i.pravatar.cc/150?img=18"></aegov-avatar>
+          </aegov-avatar-group>
+        </div>
+        <div class="demo-item">
+          <span class="demo-label">SM (32px)</span>
+          <aegov-avatar-group mode="compact" size="sm" more-count="5">
+            <aegov-avatar variant="rounded" src="https://i.pravatar.cc/150?img=19"></aegov-avatar>
+            <aegov-avatar variant="rounded" src="https://i.pravatar.cc/150?img=20"></aegov-avatar>
+            <aegov-avatar variant="rounded" src="https://i.pravatar.cc/150?img=21"></aegov-avatar>
+          </aegov-avatar-group>
+        </div>
+        <div class="demo-item">
+          <span class="demo-label">Base (40px) - default</span>
+          <aegov-avatar-group mode="compact" size="base" more-count="5">
+            <aegov-avatar variant="rounded" src="https://i.pravatar.cc/150?img=22"></aegov-avatar>
+            <aegov-avatar variant="rounded" src="https://i.pravatar.cc/150?img=23"></aegov-avatar>
+            <aegov-avatar variant="rounded" src="https://i.pravatar.cc/150?img=24"></aegov-avatar>
+          </aegov-avatar-group>
+        </div>
+        <div class="demo-item">
+          <span class="demo-label">LG (48px)</span>
+          <aegov-avatar-group mode="compact" size="lg" more-count="5">
+            <aegov-avatar variant="rounded" src="https://i.pravatar.cc/150?img=25"></aegov-avatar>
+            <aegov-avatar variant="rounded" src="https://i.pravatar.cc/150?img=26"></aegov-avatar>
+            <aegov-avatar variant="rounded" src="https://i.pravatar.cc/150?img=27"></aegov-avatar>
+          </aegov-avatar-group>
+        </div>
+        <div class="demo-item">
+          <span class="demo-label">XL (56px)</span>
+          <aegov-avatar-group mode="compact" size="xl" more-count="5">
+            <aegov-avatar variant="rounded" src="https://i.pravatar.cc/150?img=28"></aegov-avatar>
+            <aegov-avatar variant="rounded" src="https://i.pravatar.cc/150?img=29"></aegov-avatar>
+            <aegov-avatar variant="rounded" src="https://i.pravatar.cc/150?img=30"></aegov-avatar>
+          </aegov-avatar-group>
+        </div>
+        <div class="demo-item">
+          <span class="demo-label">2XL (64px)</span>
+          <aegov-avatar-group mode="compact" size="2xl" more-count="5">
+            <aegov-avatar variant="rounded" src="https://i.pravatar.cc/150?img=31"></aegov-avatar>
+            <aegov-avatar variant="rounded" src="https://i.pravatar.cc/150?img=32"></aegov-avatar>
+            <aegov-avatar variant="rounded" src="https://i.pravatar.cc/150?img=33"></aegov-avatar>
+          </aegov-avatar-group>
+        </div>
+        <div class="demo-item">
+          <span class="demo-label">3XL (80px)</span>
+          <aegov-avatar-group mode="compact" size="3xl" more-count="5">
+            <aegov-avatar variant="rounded" src="https://i.pravatar.cc/150?img=34"></aegov-avatar>
+            <aegov-avatar variant="rounded" src="https://i.pravatar.cc/150?img=35"></aegov-avatar>
+            <aegov-avatar variant="rounded" src="https://i.pravatar.cc/150?img=36"></aegov-avatar>
+          </aegov-avatar-group>
+        </div>
+      </div>
+
+      <div class="code-block"><code>&lt;!-- Size is enforced on all children --&gt;
+&lt;aegov-avatar-group mode="compact" size="lg" more-count="5"&gt;
+  &lt;aegov-avatar variant="rounded" src="user1.jpg"&gt;&lt;/aegov-avatar&gt;
+  &lt;aegov-avatar variant="rounded" src="user2.jpg"&gt;&lt;/aegov-avatar&gt;
+  &lt;aegov-avatar variant="rounded" src="user3.jpg"&gt;&lt;/aegov-avatar&gt;
+&lt;/aegov-avatar-group&gt;</code></div>
+    </div>
+
+    <!-- 5. Square Variant -->
+    <div class="section">
+      <h2 class="section-title">Square Variant</h2>
+      <p class="section-description">
+        The <code>variant</code> prop controls the shape of the "more" indicator button. Set it to <code>"square"</code> to match square avatars.
+      </p>
+
+      <div class="demo-grid">
+        <div class="demo-card">
+          <h4>Rounded (default)</h4>
+          <div class="demo-content">
+            <aegov-avatar-group mode="compact" variant="rounded" more-count="8" size="lg">
+              <aegov-avatar variant="rounded" src="https://i.pravatar.cc/150?img=37"></aegov-avatar>
+              <aegov-avatar variant="rounded" src="https://i.pravatar.cc/150?img=38"></aegov-avatar>
+              <aegov-avatar variant="rounded" src="https://i.pravatar.cc/150?img=39"></aegov-avatar>
+            </aegov-avatar-group>
+          </div>
+          <div class="code-block"><code>&lt;aegov-avatar-group variant="rounded" ...&gt;</code></div>
+        </div>
+
+        <div class="demo-card">
+          <h4>Square</h4>
+          <div class="demo-content">
+            <aegov-avatar-group mode="compact" variant="square" more-count="8" size="lg">
+              <aegov-avatar variant="square" src="https://i.pravatar.cc/150?img=40"></aegov-avatar>
+              <aegov-avatar variant="square" src="https://i.pravatar.cc/150?img=41"></aegov-avatar>
+              <aegov-avatar variant="square" src="https://i.pravatar.cc/150?img=42"></aegov-avatar>
+            </aegov-avatar-group>
+          </div>
+          <div class="code-block"><code>&lt;aegov-avatar-group variant="square" ...&gt;</code></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 6. Dark Background -->
+    <div class="section">
+      <h2 class="section-title">Dark Background</h2>
+      <p class="section-description">
+        Use the <code>--avatar-group-ring-color</code> CSS variable to match the ring color to dark backgrounds so the overlap separation blends in.
+      </p>
+
+      <div class="demo-row dark-bg">
+        <aegov-avatar-group mode="compact" more-count="15" size="lg">
+          <aegov-avatar variant="rounded" src="https://i.pravatar.cc/150?img=43"></aegov-avatar>
+          <aegov-avatar variant="rounded" src="https://i.pravatar.cc/150?img=44"></aegov-avatar>
+          <aegov-avatar variant="rounded" src="https://i.pravatar.cc/150?img=45"></aegov-avatar>
+          <aegov-avatar variant="rounded" src="https://i.pravatar.cc/150?img=46"></aegov-avatar>
+        </aegov-avatar-group>
+      </div>
+
+      <div class="code-block"><code>&lt;!-- Set the ring color to match the background --&gt;
+&lt;div style="background: #1e293b; --avatar-group-ring-color: #1e293b;"&gt;
+  &lt;aegov-avatar-group mode="compact" more-count="15" size="lg"&gt;
+    &lt;aegov-avatar variant="rounded" src="..."&gt;&lt;/aegov-avatar&gt;
+    &lt;aegov-avatar variant="rounded" src="..."&gt;&lt;/aegov-avatar&gt;
+  &lt;/aegov-avatar-group&gt;
+&lt;/div&gt;</code></div>
+    </div>
+
+    <!-- 7. Fallback Avatars -->
+    <div class="section">
+      <h2 class="section-title">Fallback Avatars</h2>
+      <p class="section-description">
+        When no image is provided, avatars render with the default user icon. Works seamlessly in both modes.
+      </p>
+
+      <div class="demo-grid">
+        <div class="demo-card">
+          <h4>All fallback</h4>
+          <div class="demo-content">
+            <aegov-avatar-group mode="compact" more-count="3">
+              <aegov-avatar variant="rounded"></aegov-avatar>
+              <aegov-avatar variant="rounded"></aegov-avatar>
+              <aegov-avatar variant="rounded"></aegov-avatar>
+            </aegov-avatar-group>
+          </div>
+        </div>
+
+        <div class="demo-card">
+          <h4>Mixed (images + fallback)</h4>
+          <div class="demo-content">
+            <aegov-avatar-group mode="compact" more-count="7">
+              <aegov-avatar variant="rounded" src="https://i.pravatar.cc/150?img=47"></aegov-avatar>
+              <aegov-avatar variant="rounded"></aegov-avatar>
+              <aegov-avatar variant="rounded" src="https://i.pravatar.cc/150?img=48"></aegov-avatar>
+            </aegov-avatar-group>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 8. Event Handling -->
+    <div class="section">
+      <h2 class="section-title">Event Handling</h2>
+      <p class="section-description">
+        Click the "+N" indicator to fire the <code>aegovAvatarGroupMore</code> event. Use this to open a popover, modal, or list of remaining users.
+      </p>
+
+      <div class="demo-row">
+        <aegov-avatar-group id="event-demo" mode="compact" more-count="25" size="lg">
+          <aegov-avatar variant="rounded" src="https://i.pravatar.cc/150?img=49"></aegov-avatar>
+          <aegov-avatar variant="rounded" src="https://i.pravatar.cc/150?img=50"></aegov-avatar>
+          <aegov-avatar variant="rounded" src="https://i.pravatar.cc/150?img=51"></aegov-avatar>
+        </aegov-avatar-group>
+      </div>
+
+      <div class="code-block"><code>&lt;aegov-avatar-group id="group" mode="compact" more-count="25"&gt;
+  ...avatars
+&lt;/aegov-avatar-group&gt;
+
+&lt;script&gt;
+  document.getElementById('group')
+    .addEventListener('aegovAvatarGroupMore', () =&gt; {
+      // Open a modal/popover listing remaining users
+      console.log('Show all users');
+    });
+&lt;/script&gt;</code></div>
+
+      <div class="event-log" id="event-log">
+        <div class="event-entry">Click the "+25" button above to see events...</div>
+      </div>
+    </div>
+
+    <!-- 9. Practical Use Cases -->
+    <div class="section">
+      <h2 class="section-title">Practical Use Cases</h2>
+      <p class="section-description">Real-world examples showing avatar groups in common UI patterns</p>
+
+      <div class="demo-grid">
+        <div class="demo-card">
+          <h4>Team members</h4>
+          <div class="demo-content">
+            <aegov-avatar-group mode="compact" size="sm" more-count="4">
+              <aegov-avatar variant="rounded" src="https://i.pravatar.cc/150?img=52"></aegov-avatar>
+              <aegov-avatar variant="rounded" src="https://i.pravatar.cc/150?img=53"></aegov-avatar>
+              <aegov-avatar variant="rounded" src="https://i.pravatar.cc/150?img=54"></aegov-avatar>
+            </aegov-avatar-group>
+          </div>
+          <div class="code-block"><code>&lt;aegov-avatar-group mode="compact" size="sm"
+  more-count="4"&gt;
+  ...avatars
+&lt;/aegov-avatar-group&gt;</code></div>
+        </div>
+
+        <div class="demo-card">
+          <h4>Assignees (spaced)</h4>
+          <div class="demo-content">
+            <aegov-avatar-group size="sm">
+              <aegov-avatar variant="rounded" src="https://i.pravatar.cc/150?img=55"></aegov-avatar>
+              <aegov-avatar variant="rounded" src="https://i.pravatar.cc/150?img=56"></aegov-avatar>
+            </aegov-avatar-group>
+          </div>
+          <div class="code-block"><code>&lt;aegov-avatar-group size="sm"&gt;
+  ...avatars
+&lt;/aegov-avatar-group&gt;</code></div>
+        </div>
+
+        <div class="demo-card">
+          <h4>Large profile row</h4>
+          <div class="demo-content">
+            <aegov-avatar-group mode="compact" size="xl" more-count="18">
+              <aegov-avatar variant="rounded" src="https://i.pravatar.cc/150?img=57"></aegov-avatar>
+              <aegov-avatar variant="rounded" src="https://i.pravatar.cc/150?img=58"></aegov-avatar>
+              <aegov-avatar variant="rounded" src="https://i.pravatar.cc/150?img=59"></aegov-avatar>
+              <aegov-avatar variant="rounded" src="https://i.pravatar.cc/150?img=60"></aegov-avatar>
+            </aegov-avatar-group>
+          </div>
+          <div class="code-block"><code>&lt;aegov-avatar-group mode="compact" size="xl"
+  more-count="18"&gt;
+  ...avatars
+&lt;/aegov-avatar-group&gt;</code></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- API Documentation -->
+    <div class="api-section">
+      <h2>API Documentation</h2>
+
+      <!-- Properties -->
+      <h3 style="margin-top: 2rem; color: #1e293b;">Properties</h3>
+      <table class="api-table">
+        <thead>
+          <tr>
+            <th>Property</th>
+            <th>Attribute</th>
+            <th>Type</th>
+            <th>Default</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>mode</code></td>
+            <td><code>mode</code></td>
+            <td><code>'default' | 'compact'</code></td>
+            <td><code>'default'</code></td>
+            <td>Layout mode. <code>default</code> spaces avatars with a gap; <code>compact</code> overlaps them with a ring separator.</td>
+          </tr>
+          <tr>
+            <td><code>size</code></td>
+            <td><code>size</code></td>
+            <td><code>'xs' | 'sm' | 'base' | 'lg' | 'xl' | '2xl' | '3xl'</code></td>
+            <td><code>'base'</code></td>
+            <td>Enforced on every child <code>&lt;aegov-avatar&gt;</code> and the "more" indicator button.</td>
+          </tr>
+          <tr>
+            <td><code>variant</code></td>
+            <td><code>variant</code></td>
+            <td><code>'rounded' | 'square'</code></td>
+            <td><code>'rounded'</code></td>
+            <td>Shape applied to the "more" indicator button. Match this to your avatar variant.</td>
+          </tr>
+          <tr>
+            <td><code>moreCount</code></td>
+            <td><code>more-count</code></td>
+            <td><code>number</code></td>
+            <td><code>0</code></td>
+            <td>Number of additional users. When &gt; 0, displays the "+N" indicator button.</td>
+          </tr>
+          <tr>
+            <td><code>moreText</code></td>
+            <td><code>more-text</code></td>
+            <td><code>string</code></td>
+            <td><code>"{moreCount}+"</code></td>
+            <td>Custom display text for the more indicator. Overrides the default "+N" format.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- Events -->
+      <h3 style="margin-top: 2rem; color: #1e293b;">Events</h3>
+      <table class="api-table">
+        <thead>
+          <tr>
+            <th>Event</th>
+            <th>Type</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>aegovAvatarGroupMore</code></td>
+            <td><code>CustomEvent&lt;void&gt;</code></td>
+            <td>Emitted when the "more" indicator button is clicked. Use this to show a list, popover, or modal of remaining users.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- Slots -->
+      <h3 style="margin-top: 2rem; color: #1e293b;">Slots</h3>
+      <table class="api-table">
+        <thead>
+          <tr>
+            <th>Slot</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>(default)</code></td>
+            <td><code>&lt;aegov-avatar&gt;</code> elements to be grouped together</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- CSS Custom Properties -->
+      <h3 style="margin-top: 2rem; color: #1e293b;">CSS Custom Properties</h3>
+      <table class="api-table">
+        <thead>
+          <tr>
+            <th>Variable</th>
+            <th>Default</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>--avatar-group-ring-color</code></td>
+            <td><code>white</code></td>
+            <td>Ring color used in compact mode to separate overlapping avatars and on the "more" button. Set this to match dark backgrounds.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- Compact Overlap Reference -->
+      <h3 style="margin-top: 2rem; color: #1e293b;">Compact Mode Overlap Values</h3>
+      <table class="api-table">
+        <thead>
+          <tr>
+            <th>Size</th>
+            <th>Avatar Dimensions</th>
+            <th>Negative Margin</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td><code>xs</code></td><td>24 &times; 24 px</td><td>-6px</td></tr>
+          <tr><td><code>sm</code></td><td>32 &times; 32 px</td><td>-8px</td></tr>
+          <tr><td><code>base</code></td><td>40 &times; 40 px</td><td>-10px</td></tr>
+          <tr><td><code>lg</code></td><td>48 &times; 48 px</td><td>-12px</td></tr>
+          <tr><td><code>xl</code></td><td>56 &times; 56 px</td><td>-14px</td></tr>
+          <tr><td><code>2xl</code></td><td>64 &times; 64 px</td><td>-16px</td></tr>
+          <tr><td><code>3xl</code></td><td>80 &times; 80 px</td><td>-20px</td></tr>
+        </tbody>
+      </table>
+
+      <!-- Usage Examples -->
+      <h3 style="margin-top: 2rem; color: #1e293b;">Usage Examples</h3>
+      <div class="code-block"><code>&lt;!-- Basic avatar group (spaced) --&gt;
+&lt;aegov-avatar-group&gt;
+  &lt;aegov-avatar variant="rounded" src="user1.jpg"&gt;&lt;/aegov-avatar&gt;
+  &lt;aegov-avatar variant="rounded" src="user2.jpg"&gt;&lt;/aegov-avatar&gt;
+&lt;/aegov-avatar-group&gt;
+
+&lt;!-- Compact with more indicator --&gt;
+&lt;aegov-avatar-group mode="compact" more-count="15"&gt;
+  &lt;aegov-avatar variant="rounded" src="user1.jpg"&gt;&lt;/aegov-avatar&gt;
+  &lt;aegov-avatar variant="rounded" src="user2.jpg"&gt;&lt;/aegov-avatar&gt;
+  &lt;aegov-avatar variant="rounded" src="user3.jpg"&gt;&lt;/aegov-avatar&gt;
+&lt;/aegov-avatar-group&gt;
+
+&lt;!-- Custom size and more text --&gt;
+&lt;aegov-avatar-group mode="compact" size="lg" more-count="99" more-text="99 others"&gt;
+  &lt;aegov-avatar variant="rounded" src="user1.jpg"&gt;&lt;/aegov-avatar&gt;
+  &lt;aegov-avatar variant="rounded" src="user2.jpg"&gt;&lt;/aegov-avatar&gt;
+&lt;/aegov-avatar-group&gt;
+
+&lt;!-- Square variant --&gt;
+&lt;aegov-avatar-group mode="compact" variant="square" more-count="5"&gt;
+  &lt;aegov-avatar variant="square" src="user1.jpg"&gt;&lt;/aegov-avatar&gt;
+  &lt;aegov-avatar variant="square" src="user2.jpg"&gt;&lt;/aegov-avatar&gt;
+&lt;/aegov-avatar-group&gt;
+
+&lt;!-- Dark background with custom ring color --&gt;
+&lt;div style="--avatar-group-ring-color: #1e293b;"&gt;
+  &lt;aegov-avatar-group mode="compact" more-count="10"&gt;
+    &lt;aegov-avatar variant="rounded" src="user1.jpg"&gt;&lt;/aegov-avatar&gt;
+    &lt;aegov-avatar variant="rounded" src="user2.jpg"&gt;&lt;/aegov-avatar&gt;
+  &lt;/aegov-avatar-group&gt;
+&lt;/div&gt;
+
+&lt;!-- Event handling --&gt;
+&lt;aegov-avatar-group id="myGroup" mode="compact" more-count="25"&gt;
+  ...avatars
+&lt;/aegov-avatar-group&gt;
+&lt;script&gt;
+  document.getElementById('myGroup')
+    .addEventListener('aegovAvatarGroupMore', () =&gt; {
+      alert('Show all users!');
+    });
+&lt;/script&gt;</code></div>
+    </div>
+  </div>
+
+  <script>
+    // Event logging for the demo
+    const eventDemo = document.getElementById('event-demo');
+    const eventLog = document.getElementById('event-log');
+
+    eventDemo.addEventListener('aegovAvatarGroupMore', () => {
+      const timestamp = new Date().toLocaleTimeString();
+      const entry = document.createElement('div');
+      entry.className = 'event-entry';
+      entry.textContent = `[${timestamp}] aegovAvatarGroupMore fired! Show remaining users dialog.`;
+      eventLog.insertBefore(entry, eventLog.firstChild);
+
+      if (eventLog.children.length > 20) {
+        eventLog.removeChild(eventLog.lastChild);
+      }
+    });
+  </script>
+</body>
+</html>

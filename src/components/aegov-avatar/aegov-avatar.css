@@ -30,10 +30,10 @@
     @apply absolute -right-1 -top-1 block h-2.5 w-2.5 rounded-full ring-2;
 
     &.avatar-online {
-      @apply bg-aegreen-500 ring-whitely-50;
+      @apply bg-aegreen-500! ring-whitely-50;
     }
     &.avatar-offline {
-       @apply bg-aered-500 ring-whitely-50;
+       @apply bg-aered-500! ring-whitely-50;
     }
   }
 

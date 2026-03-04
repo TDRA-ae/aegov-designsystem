@@ -45,6 +45,11 @@ export type AvatarVariant = 'square' | 'rounded';
 export type AvatarStatus = 'online' | 'offline' | 'none';
 
 /**
+ * Avatar group component mode types
+ */
+export type AvatarGroupMode = 'default' | 'compact';
+
+/**
  * Blockquote component variant types
  */
 export type BlockquoteVariant = 'primary' | 'colored' | 'coloured';

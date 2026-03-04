@@ -1,0 +1,110 @@
+:host {
+  @apply inline-block;
+}
+
+.aegov-avatar-group {
+  @apply inline-flex items-center;
+}
+
+/* Default mode: spaced with gap */
+.avatar-group--default {
+  @apply gap-2;
+}
+
+/* Compact mode: overlapping avatars with white ring */
+.avatar-group--compact {
+  /* Ring on the inner .aegov-avatar div so it follows its border-radius */
+  & > aegov-avatar:not(:first-child) .aegov-avatar {
+    @apply ring-2;
+    --tw-ring-color: var(--avatar-group-ring-color, white);
+  }
+
+  /* Size-specific negative margins for compact overlap */
+  &.avatar-group--xs > aegov-avatar:not(:first-child) {
+    margin-inline-start: -6px;
+  }
+  &.avatar-group--sm > aegov-avatar:not(:first-child) {
+    margin-inline-start: -8px;
+  }
+  &.avatar-group--base > aegov-avatar:not(:first-child) {
+    margin-inline-start: -10px;
+  }
+  &.avatar-group--lg > aegov-avatar:not(:first-child) {
+    margin-inline-start: -12px;
+  }
+  &.avatar-group--xl > aegov-avatar:not(:first-child) {
+    margin-inline-start: -14px;
+  }
+  &.avatar-group--2xl > aegov-avatar:not(:first-child) {
+    margin-inline-start: -16px;
+  }
+  &.avatar-group--3xl > aegov-avatar:not(:first-child) {
+    margin-inline-start: -20px;
+  }
+
+  /* More button in compact also gets overlap */
+  &.avatar-group--xs > .avatar-group__more {
+    margin-inline-start: -6px;
+  }
+  &.avatar-group--sm > .avatar-group__more {
+    margin-inline-start: -8px;
+  }
+  &.avatar-group--base > .avatar-group__more {
+    margin-inline-start: -10px;
+  }
+  &.avatar-group--lg > .avatar-group__more {
+    margin-inline-start: -12px;
+  }
+  &.avatar-group--xl > .avatar-group__more {
+    margin-inline-start: -14px;
+  }
+  &.avatar-group--2xl > .avatar-group__more {
+    margin-inline-start: -16px;
+  }
+  &.avatar-group--3xl > .avatar-group__more {
+    margin-inline-start: -20px;
+  }
+}
+
+/* "More" indicator button styled like an avatar */
+.avatar-group__more {
+  @apply inline-flex items-center justify-center rounded bg-aeblack-100 text-aeblack-600 font-semibold cursor-pointer border-0 ring-2;
+  --tw-ring-color: var(--avatar-group-ring-color, white);
+  transition: background-color 200ms ease-in-out;
+
+  &:hover {
+    @apply bg-aeblack-200;
+  }
+
+  &:focus-visible {
+    @apply outline-2 outline-offset-2 outline-primary-500;
+  }
+
+  /* Size classes matching avatar sizes */
+  &.avatar-xs {
+    @apply h-6 w-6 text-[10px];
+  }
+  &.avatar-sm {
+    @apply h-8 w-8 text-xs;
+  }
+  &.avatar-base {
+    @apply h-10 w-10 text-sm;
+  }
+  &.avatar-lg {
+    @apply h-12 w-12 text-sm;
+  }
+  &.avatar-xl {
+    @apply h-14 w-14 text-base;
+  }
+  &.avatar-2xl {
+    @apply h-16 w-16 text-lg;
+  }
+  &.avatar-3xl {
+    @apply h-20 w-20 text-xl;
+  }
+
+  /* Rounded variant */
+  &.avatar-rounded {
+    @apply rounded-full;
+  }
+}

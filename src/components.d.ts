@@ -5,8 +5,8 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
-import { AccordionIcon, AvatarSize, AvatarStatus, AvatarVariant, BadgeAppearance, BadgeColor, BadgeSize, BannerDisplay, BannerMode, BannerPosition, BannerRole, BlockquoteVariant, BreadcrumbSeparator, ButtonAppearance, ButtonGroupOrientation, ButtonSize, ButtonType, ButtonVariant, CalloutAppearance, CalloutVariant, CardBackground, CardBorderStyle, CardBorderWidth, CardHover, DatepickerChangeDetail, DatepickerMode, DatepickerMonthChangeDetail, DropdownAlign, DropdownPosition, DropdownTrigger, LinkTarget, ModalBackdropOpacity, ModalPosition, PaginationSize, PaginationVariant, ProgressOrientation, ProgressSize, ProgressStepStatus, ProgressVariant, TabOrientation, TabSize, TabVariant, TextSize, TitleSize, ToastAppearance, ToastMode, ToastPosition, ToastVariant, TooltipAlign, TooltipPosition, TooltipTrigger } from "./utils/types";
-export { AccordionIcon, AvatarSize, AvatarStatus, AvatarVariant, BadgeAppearance, BadgeColor, BadgeSize, BannerDisplay, BannerMode, BannerPosition, BannerRole, BlockquoteVariant, BreadcrumbSeparator, ButtonAppearance, ButtonGroupOrientation, ButtonSize, ButtonType, ButtonVariant, CalloutAppearance, CalloutVariant, CardBackground, CardBorderStyle, CardBorderWidth, CardHover, DatepickerChangeDetail, DatepickerMode, DatepickerMonthChangeDetail, DropdownAlign, DropdownPosition, DropdownTrigger, LinkTarget, ModalBackdropOpacity, ModalPosition, PaginationSize, PaginationVariant, ProgressOrientation, ProgressSize, ProgressStepStatus, ProgressVariant, TabOrientation, TabSize, TabVariant, TextSize, TitleSize, ToastAppearance, ToastMode, ToastPosition, ToastVariant, TooltipAlign, TooltipPosition, TooltipTrigger } from "./utils/types";
+import { AccordionIcon, AvatarGroupMode, AvatarSize, AvatarStatus, AvatarVariant, BadgeAppearance, BadgeColor, BadgeSize, BannerDisplay, BannerMode, BannerPosition, BannerRole, BlockquoteVariant, BreadcrumbSeparator, ButtonAppearance, ButtonGroupOrientation, ButtonSize, ButtonType, ButtonVariant, CalloutAppearance, CalloutVariant, CardBackground, CardBorderStyle, CardBorderWidth, CardHover, DatepickerChangeDetail, DatepickerMode, DatepickerMonthChangeDetail, DropdownAlign, DropdownPosition, DropdownTrigger, LinkTarget, ModalBackdropOpacity, ModalPosition, PaginationSize, PaginationVariant, ProgressOrientation, ProgressSize, ProgressStepStatus, ProgressVariant, TabOrientation, TabSize, TabVariant, TextSize, TitleSize, ToastAppearance, ToastMode, ToastPosition, ToastVariant, TooltipAlign, TooltipPosition, TooltipTrigger } from "./utils/types";
+export { AccordionIcon, AvatarGroupMode, AvatarSize, AvatarStatus, AvatarVariant, BadgeAppearance, BadgeColor, BadgeSize, BannerDisplay, BannerMode, BannerPosition, BannerRole, BlockquoteVariant, BreadcrumbSeparator, ButtonAppearance, ButtonGroupOrientation, ButtonSize, ButtonType, ButtonVariant, CalloutAppearance, CalloutVariant, CardBackground, CardBorderStyle, CardBorderWidth, CardHover, DatepickerChangeDetail, DatepickerMode, DatepickerMonthChangeDetail, DropdownAlign, DropdownPosition, DropdownTrigger, LinkTarget, ModalBackdropOpacity, ModalPosition, PaginationSize, PaginationVariant, ProgressOrientation, ProgressSize, ProgressStepStatus, ProgressVariant, TabOrientation, TabSize, TabVariant, TextSize, TitleSize, ToastAppearance, ToastMode, ToastPosition, ToastVariant, TooltipAlign, TooltipPosition, TooltipTrigger } from "./utils/types";
 export namespace Components {
     /**
      * Accordion component for collapsible content sections
@@ -83,18 +83,39 @@ export namespace Components {
          */
         "src"?: string;
         /**
-          * Status indicator visibility
-          * @default false
+          * Status indicator type. Set to 'online' or 'offline' to show indicator, or 'none'/false to hide.
+          * @default 'none'
          */
-        "status": boolean;
-        /**
-          * Status indicator type
-          * @default 'online'
-         */
-        "statusType": AvatarStatus;
+        "status": AvatarStatus | boolean;
         /**
           * The avatar variant (shape)
           * @default 'square'
+         */
+        "variant": AvatarVariant;
+    }
+    interface AegovAvatarGroup {
+        /**
+          * The layout mode: 'default' (spaced) or 'compact' (overlapping)
+          * @default 'default'
+         */
+        "mode": AvatarGroupMode;
+        /**
+          * Number of additional users not shown. When > 0, displays "+N" indicator.
+          * @default 0
+         */
+        "moreCount": number;
+        /**
+          * Custom text for the "more" indicator. Defaults to "{moreCount}+"
+         */
+        "moreText"?: string;
+        /**
+          * The size enforced on all child avatars
+          * @default 'base'
+         */
+        "size": AvatarSize;
+        /**
+          * The variant (shape) applied to the "more" indicator
+          * @default 'rounded'
          */
         "variant": AvatarVariant;
     }
@@ -1008,6 +1029,10 @@ export interface AegovAccordionItemCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLAegovAccordionItemElement;
 }
+export interface AegovAvatarGroupCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLAegovAvatarGroupElement;
+}
 export interface AegovBadgeCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLAegovBadgeElement;
@@ -1105,6 +1130,23 @@ declare global {
     var HTMLAegovAvatarElement: {
         prototype: HTMLAegovAvatarElement;
         new (): HTMLAegovAvatarElement;
+    };
+    interface HTMLAegovAvatarGroupElementEventMap {
+        "aegovAvatarGroupMore": void;
+    }
+    interface HTMLAegovAvatarGroupElement extends Components.AegovAvatarGroup, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLAegovAvatarGroupElementEventMap>(type: K, listener: (this: HTMLAegovAvatarGroupElement, ev: AegovAvatarGroupCustomEvent<HTMLAegovAvatarGroupElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLAegovAvatarGroupElementEventMap>(type: K, listener: (this: HTMLAegovAvatarGroupElement, ev: AegovAvatarGroupCustomEvent<HTMLAegovAvatarGroupElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLAegovAvatarGroupElement: {
+        prototype: HTMLAegovAvatarGroupElement;
+        new (): HTMLAegovAvatarGroupElement;
     };
     interface HTMLAegovBadgeElementEventMap {
         "aegovBadgeDismiss": void;
@@ -1495,6 +1537,7 @@ declare global {
         "aegov-accordion": HTMLAegovAccordionElement;
         "aegov-accordion-item": HTMLAegovAccordionItemElement;
         "aegov-avatar": HTMLAegovAvatarElement;
+        "aegov-avatar-group": HTMLAegovAvatarGroupElement;
         "aegov-badge": HTMLAegovBadgeElement;
         "aegov-banner": HTMLAegovBannerElement;
         "aegov-blockquote": HTMLAegovBlockquoteElement;
@@ -1603,18 +1646,43 @@ declare namespace LocalJSX {
          */
         "src"?: string;
         /**
-          * Status indicator visibility
-          * @default false
+          * Status indicator type. Set to 'online' or 'offline' to show indicator, or 'none'/false to hide.
+          * @default 'none'
          */
-        "status"?: boolean;
-        /**
-          * Status indicator type
-          * @default 'online'
-         */
-        "statusType"?: AvatarStatus;
+        "status"?: AvatarStatus | boolean;
         /**
           * The avatar variant (shape)
           * @default 'square'
+         */
+        "variant"?: AvatarVariant;
+    }
+    interface AegovAvatarGroup {
+        /**
+          * The layout mode: 'default' (spaced) or 'compact' (overlapping)
+          * @default 'default'
+         */
+        "mode"?: AvatarGroupMode;
+        /**
+          * Number of additional users not shown. When > 0, displays "+N" indicator.
+          * @default 0
+         */
+        "moreCount"?: number;
+        /**
+          * Custom text for the "more" indicator. Defaults to "{moreCount}+"
+         */
+        "moreText"?: string;
+        /**
+          * Emitted when the "more" indicator button is clicked
+         */
+        "onAegovAvatarGroupMore"?: (event: AegovAvatarGroupCustomEvent<void>) => void;
+        /**
+          * The size enforced on all child avatars
+          * @default 'base'
+         */
+        "size"?: AvatarSize;
+        /**
+          * The variant (shape) applied to the "more" indicator
+          * @default 'rounded'
          */
         "variant"?: AvatarVariant;
     }
@@ -2590,6 +2658,7 @@ declare namespace LocalJSX {
         "aegov-accordion": AegovAccordion;
         "aegov-accordion-item": AegovAccordionItem;
         "aegov-avatar": AegovAvatar;
+        "aegov-avatar-group": AegovAvatarGroup;
         "aegov-badge": AegovBadge;
         "aegov-banner": AegovBanner;
         "aegov-blockquote": AegovBlockquote;
@@ -2633,6 +2702,7 @@ declare module "@stencil/core" {
              */
             "aegov-accordion-item": LocalJSX.AegovAccordionItem & JSXBase.HTMLAttributes<HTMLAegovAccordionItemElement>;
             "aegov-avatar": LocalJSX.AegovAvatar & JSXBase.HTMLAttributes<HTMLAegovAvatarElement>;
+            "aegov-avatar-group": LocalJSX.AegovAvatarGroup & JSXBase.HTMLAttributes<HTMLAegovAvatarGroupElement>;
             "aegov-badge": LocalJSX.AegovBadge & JSXBase.HTMLAttributes<HTMLAegovBadgeElement>;
             "aegov-banner": LocalJSX.AegovBanner & JSXBase.HTMLAttributes<HTMLAegovBannerElement>;
             "aegov-blockquote": LocalJSX.AegovBlockquote & JSXBase.HTMLAttributes<HTMLAegovBlockquoteElement>;
