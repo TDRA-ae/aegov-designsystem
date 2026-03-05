@@ -153,18 +153,18 @@ input[type="file"],
 [multiple],
 textarea,
 select {
-  @apply relative text-primary-900 text-base w-full border-0 bg-transparent py-3 px-4 leading-6 focus:ring-0 motion-reduce:transition-none disabled:pointer-events-none disabled:cursor-not-allowed disabled:select-none rounded-lg focus:outline-none;
+  @apply relative text-primary-900 text-base w-full border-0 bg-transparent py-3 px-4 leading-6 focus:ring-0 motion-reduce:transition-none disabled:pointer-events-none disabled:cursor-not-allowed disabled:select-none disabled:opacity-40 rounded-lg focus:outline-none;
   @apply placeholder:text-aeblack-500 bg-whitely-50 inset-ring-2 inset-ring-primary-400 focus-within:inset-ring-primary-support-600;
 
     &:has(:disabled) {
       @apply opacity-40;
     }
 
-    &:has([type="range"]) {
-      @apply border-0 focus-visible:ring-2 outline-none shadow-none inset-ring-transparent;
+    &[type="range"] {
+      @apply border-0 focus-visible:ring-2 focus:ring-2 outline-none shadow-none inset-ring-transparent;
     }
 
-    &:input[type="search"]::-webkit-search-cancel-button {
+    &[type="search"]::-webkit-search-cancel-button {
       cursor: pointer;
     }
 
