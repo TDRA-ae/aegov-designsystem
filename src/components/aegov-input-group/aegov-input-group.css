@@ -1,0 +1,86 @@
+:host {
+  display: block;
+}
+
+/* Group container */
+.aegov-input-group {
+  @apply flex items-stretch rounded-lg overflow-hidden
+         bg-whitely-50
+         inset-ring-2 inset-ring-primary-400
+         focus-within:inset-ring-primary-support-600
+         motion-reduce:transition-none;
+}
+
+/* Separator between adjacent children */
+.aegov-input-group > * + * {
+  @apply border-s border-primary-400;
+}
+
+/* --------------------------------------------------------
+   Child overrides: aegov-input inside group
+   -------------------------------------------------------- */
+
+/* Host element fills available space */
+.aegov-input-group > aegov-input {
+  @apply flex-1 min-w-0;
+}
+
+/* Native input loses its own ring/border/rounding */
+.aegov-input-group .aegov-input {
+  @apply inset-ring-0 rounded-none bg-transparent
+         focus:inset-ring-0;
+}
+
+/* Wrapper (for password toggle / copy) stretches */
+.aegov-input-group .input__wrapper {
+  @apply w-full;
+}
+
+/* --------------------------------------------------------
+   Child overrides: aegov-button inside group
+   -------------------------------------------------------- */
+.aegov-input-group .aegov-btn {
+  @apply rounded-none border-0;
+}
+
+/* --------------------------------------------------------
+   Child overrides: native select inside group
+   -------------------------------------------------------- */
+.aegov-input-group select {
+  @apply border-0 bg-transparent outline-none cursor-pointer
+         focus:ring-0 focus:outline-none
+         text-primary-900;
+}
+
+.input-group--sm select {
+  @apply text-sm h-10 px-3;
+}
+
+.input-group--base select {
+  @apply text-base h-12 px-4;
+}
+
+.input-group--lg select {
+  @apply text-lg h-14 px-5;
+}
+
+/* --------------------------------------------------------
+   Text addons (prefix / suffix props)
+   -------------------------------------------------------- */
+.input-group__addon {
+  @apply flex items-center whitespace-nowrap select-none
+         text-aeblack-600 bg-whitely-100;
+}
+
+/* Size-specific addon dimensions */
+.input-group--sm .input-group__addon {
+  @apply text-sm h-10 px-3;
+}
+
+.input-group--base .input-group__addon {
+  @apply text-base h-12 px-4;
+}
+
+.input-group--lg .input-group__addon {
+  @apply text-lg h-14 px-5;
+}

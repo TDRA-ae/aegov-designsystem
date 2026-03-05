@@ -1,0 +1,8 @@
+:host {
+  display: block;
+  margin-bottom: 1.5rem;
+}
+
+.aegov-form-field {
+  @apply flex flex-col;
+}

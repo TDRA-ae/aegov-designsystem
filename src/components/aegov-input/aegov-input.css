@@ -1,0 +1,78 @@
+:host {
+  display: block;
+}
+
+.aegov-input {
+  font-family: inherit;
+  @apply relative text-primary-900 w-full border-0 bg-transparent leading-6
+         focus:ring-0 motion-reduce:transition-none
+         disabled:pointer-events-none disabled:cursor-not-allowed
+         disabled:select-none disabled:opacity-40
+         rounded-lg focus:outline-none;
+  @apply placeholder:text-aeblack-500 bg-whitely-50
+         inset-ring-2 inset-ring-primary-400
+         focus:inset-ring-primary-support-600;
+}
+
+/* Size variants */
+.input--sm {
+  @apply text-sm py-2 px-3 h-10;
+}
+
+.input--base {
+  @apply text-base py-3 px-4 h-12;
+}
+
+.input--lg {
+  @apply text-lg py-3.5 px-5 h-14;
+}
+
+/* Password toggle wrapper */
+.input__wrapper {
+  @apply relative;
+}
+
+.input--has-action {
+  @apply pe-12;
+}
+
+/* Shared action button base */
+.input__password-toggle,
+.input__copy-btn {
+  @apply absolute top-0 end-0 flex items-center justify-center
+         border-0 bg-transparent text-aeblack-500
+         hover:text-primary-700 focus-visible:text-primary-700
+         cursor-pointer transition-colors duration-200
+         disabled:opacity-40 disabled:pointer-events-none;
+}
+
+/* Password toggle sizes */
+.password-toggle--sm {
+  @apply h-10 w-10;
+}
+
+.password-toggle--base {
+  @apply h-12 w-12;
+}
+
+.password-toggle--lg {
+  @apply h-14 w-14;
+}
+
+/* Copy button sizes */
+.copy-btn--sm {
+  @apply h-10 w-10;
+}
+
+.copy-btn--base {
+  @apply h-12 w-12;
+}
+
+.copy-btn--lg {
+  @apply h-14 w-14;
+}
+
+/* Copy success feedback */
+.input__copy-btn--copied {
+  @apply text-aegreen-600;
+}

@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0">
+  <title>Input Component - AEGOV Design System</title>
+
+  <!-- Design System -->
+  <script type="module" src="/build/aegov.esm.js"></script>
+  <script nomodule src="/build/aegov.js"></script>
+  <link rel="stylesheet" href="/build/aegov.css">
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 2rem;
+      background: linear-gradient(135deg, #0ea5e9 0%, #6366f1 100%);
+      min-height: 100vh;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      background: white;
+      padding: 3rem;
+      border-radius: 16px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 3rem;
+      padding-bottom: 2rem;
+      border-bottom: 3px solid #e2e8f0;
+    }
+
+    .header h1 {
+      font-size: 2.5rem;
+      margin: 0 0 0.5rem;
+      background: linear-gradient(135deg, #0ea5e9 0%, #6366f1 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .header p {
+      color: #64748b;
+      font-size: 1.125rem;
+      margin: 0;
+    }
+
+    section {
+      margin-bottom: 3rem;
+    }
+
+    section h2 {
+      font-size: 1.5rem;
+      color: #1e293b;
+      margin: 0 0 1rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 2px solid #e2e8f0;
+    }
+
+    section p.desc {
+      color: #64748b;
+      margin: 0 0 1.5rem;
+      font-size: 0.95rem;
+    }
+
+    .example-row {
+      display: flex;
+      gap: 1.5rem;
+      align-items: flex-start;
+      flex-wrap: wrap;
+    }
+
+    .example-row > * {
+      flex: 1;
+      min-width: 200px;
+    }
+
+    .event-log {
+      background: #1e293b;
+      color: #94a3b8;
+      padding: 1rem;
+      border-radius: 8px;
+      font-family: 'Fira Code', monospace;
+      font-size: 0.875rem;
+      max-height: 200px;
+      overflow-y: auto;
+      margin-top: 1rem;
+    }
+
+    .event-log .event-entry {
+      padding: 0.25rem 0;
+      border-bottom: 1px solid #334155;
+    }
+
+    .event-log .event-entry:last-child {
+      border-bottom: none;
+    }
+
+    .event-log .event-type {
+      color: #38bdf8;
+    }
+
+    .event-log .event-value {
+      color: #a78bfa;
+    }
+
+    .back-link {
+      display: inline-block;
+      margin-bottom: 1rem;
+      color: white;
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .back-link:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+  <a href="/" class="back-link">← Back to Components</a>
+
+  <div class="container">
+    <div class="header">
+      <h1>Input Component</h1>
+      <p>aegov-input with aegov-form-field and aegov-label helpers</p>
+    </div>
+
+    <!-- Section 1: Basic Form Field -->
+    <section>
+      <h2>1. Basic Form Field</h2>
+      <p class="desc">A form field with label and input. The label is automatically linked to the input via the <code>for</code> attribute.</p>
+
+      <aegov-form-field>
+        <aegov-label>Email Address</aegov-label>
+        <aegov-input type="email" placeholder="you@example.com"></aegov-input>
+      </aegov-form-field>
+
+      <aegov-form-field>
+        <aegov-label>Full Name</aegov-label>
+        <aegov-input type="text" placeholder="John Doe"></aegov-input>
+      </aegov-form-field>
+    </section>
+
+    <!-- Section 2: Input Types -->
+    <section>
+      <h2>2. Input Types</h2>
+      <p class="desc">Supports all standard HTML input types.</p>
+
+      <aegov-form-field>
+        <aegov-label>Text</aegov-label>
+        <aegov-input type="text" placeholder="Plain text"></aegov-input>
+      </aegov-form-field>
+
+      <aegov-form-field>
+        <aegov-label>Email</aegov-label>
+        <aegov-input type="email" placeholder="user@example.com"></aegov-input>
+      </aegov-form-field>
+
+      <aegov-form-field>
+        <aegov-label>Password</aegov-label>
+        <aegov-input type="password" placeholder="Enter password"></aegov-input>
+      </aegov-form-field>
+
+      <aegov-form-field>
+        <aegov-label>Password (with toggle)</aegov-label>
+        <aegov-input type="password" password-toggle placeholder="Click eye to reveal"></aegov-input>
+      </aegov-form-field>
+
+      <aegov-form-field>
+        <aegov-label>Phone</aegov-label>
+        <aegov-input type="tel" placeholder="+971 50 123 4567"></aegov-input>
+      </aegov-form-field>
+
+      <aegov-form-field>
+        <aegov-label>URL</aegov-label>
+        <aegov-input type="url" placeholder="https://example.com"></aegov-input>
+      </aegov-form-field>
+
+      <aegov-form-field>
+        <aegov-label>Number</aegov-label>
+        <aegov-input type="number" placeholder="42"></aegov-input>
+      </aegov-form-field>
+
+      <aegov-form-field>
+        <aegov-label>Search</aegov-label>
+        <aegov-input type="search" placeholder="Search..."></aegov-input>
+      </aegov-form-field>
+
+      <div class="example-row">
+        <aegov-form-field>
+          <aegov-label>Date</aegov-label>
+          <aegov-input type="date"></aegov-input>
+        </aegov-form-field>
+
+        <aegov-form-field>
+          <aegov-label>Time</aegov-label>
+          <aegov-input type="time"></aegov-input>
+        </aegov-form-field>
+
+        <aegov-form-field>
+          <aegov-label>Month</aegov-label>
+          <aegov-input type="month"></aegov-input>
+        </aegov-form-field>
+      </div>
+    </section>
+
+    <!-- Section 3: Input Sizes -->
+    <section>
+      <h2>3. Input Sizes</h2>
+      <p class="desc">Three size options: <code>sm</code>, <code>base</code> (default), and <code>lg</code>.</p>
+
+      <aegov-form-field>
+        <aegov-label>Small (sm)</aegov-label>
+        <aegov-input size="sm" placeholder="Small input"></aegov-input>
+      </aegov-form-field>
+
+      <aegov-form-field>
+        <aegov-label>Base (default)</aegov-label>
+        <aegov-input size="base" placeholder="Base input"></aegov-input>
+      </aegov-form-field>
+
+      <aegov-form-field>
+        <aegov-label>Large (lg)</aegov-label>
+        <aegov-input size="lg" placeholder="Large input"></aegov-input>
+      </aegov-form-field>
+    </section>
+
+    <!-- Section 4: Disabled & Readonly -->
+    <section>
+      <h2>4. Disabled & Readonly States</h2>
+      <p class="desc">Input can be disabled or readonly to prevent user interaction.</p>
+
+      <div class="example-row">
+        <aegov-form-field>
+          <aegov-label>Disabled Input</aegov-label>
+          <aegov-input disabled value="Cannot edit this"></aegov-input>
+        </aegov-form-field>
+
+        <aegov-form-field>
+          <aegov-label>Readonly Input</aegov-label>
+          <aegov-input readonly value="Read only value"></aegov-input>
+        </aegov-form-field>
+      </div>
+
+      <aegov-form-field>
+        <aegov-label>Readonly with Copy Button</aegov-label>
+        <aegov-input readonly copyable value="sk-abc123-xyz789-token-value"></aegov-input>
+      </aegov-form-field>
+    </section>
+
+    <!-- Section 5: Required Field -->
+    <section>
+      <h2>5. Required Field</h2>
+      <p class="desc">Mark inputs as required for form validation.</p>
+
+      <aegov-form-field>
+        <aegov-label>Required Email *</aegov-label>
+        <aegov-input type="email" required placeholder="This field is required"></aegov-input>
+      </aegov-form-field>
+    </section>
+
+    <!-- Section 6: Custom ID -->
+    <section>
+      <h2>6. Custom Input ID</h2>
+      <p class="desc">Override the auto-generated ID with a custom one using <code>input-id</code>.</p>
+
+      <aegov-form-field>
+        <aegov-label>Username</aegov-label>
+        <aegov-input input-id="username-field" type="text" placeholder="Enter username"></aegov-input>
+      </aegov-form-field>
+    </section>
+
+    <!-- Section 7: Standalone Components -->
+    <section>
+      <h2>7. Standalone Usage</h2>
+      <p class="desc">Components can be used independently without the form-field wrapper.</p>
+
+      <div style="margin-bottom: 1rem;">
+        <aegov-label for="standalone-input">Standalone Label</aegov-label>
+        <aegov-input input-id="standalone-input" placeholder="Standalone input"></aegov-input>
+      </div>
+
+      <div>
+        <aegov-input placeholder="Input without label"></aegov-input>
+      </div>
+    </section>
+
+    <!-- Section 8: Custom Classes -->
+    <section>
+      <h2>8. Custom Classes</h2>
+      <p class="desc">Add custom Tailwind classes to any component.</p>
+
+      <aegov-form-field class="mb-8">
+        <aegov-label class="text-lg">Large Label Text</aegov-label>
+        <aegov-input class="font-bold" placeholder="Bold input text"></aegov-input>
+      </aegov-form-field>
+    </section>
+
+    <!-- Section 9: Event Handling -->
+    <section>
+      <h2>9. Event Handling</h2>
+      <p class="desc">Listen to input events: <code>aegovInputInput</code>, <code>aegovInputChange</code>, <code>aegovInputFocus</code>, <code>aegovInputBlur</code>.</p>
+
+      <aegov-form-field>
+        <aegov-label>Type something below</aegov-label>
+        <aegov-input id="event-input" type="text" placeholder="Type here to see events..."></aegov-input>
+      </aegov-form-field>
+
+      <div class="event-log" id="event-log">
+        <div style="color: #475569;">Events will appear here...</div>
+      </div>
+    </section>
+
+    <!-- Section 10: Input Group - Text Prefix & Suffix -->
+    <section>
+      <h2>10. Input Group - Text Prefix & Suffix</h2>
+      <p class="desc">Use <code>aegov-input-group</code> with <code>prefix</code> and <code>suffix</code> props for inline text addons.</p>
+
+      <aegov-form-field>
+        <aegov-label>Website URL</aegov-label>
+        <aegov-input-group addon-prefix="https://">
+          <aegov-input placeholder="example.com"></aegov-input>
+        </aegov-input-group>
+      </aegov-form-field>
+
+      <aegov-form-field>
+        <aegov-label>Email</aegov-label>
+        <aegov-input-group addon-suffix="@company.com">
+          <aegov-input placeholder="username"></aegov-input>
+        </aegov-input-group>
+      </aegov-form-field>
+
+      <aegov-form-field>
+        <aegov-label>Price</aegov-label>
+        <aegov-input-group addon-addon-prefix="$" addon-suffix=".00">
+          <aegov-input type="number" placeholder="0"></aegov-input>
+        </aegov-input-group>
+      </aegov-form-field>
+    </section>
+
+    <!-- Section 11: Input Group - Element Prefix & Suffix -->
+    <section>
+      <h2>11. Input Group - Element Prefix & Suffix</h2>
+      <p class="desc">Place elements like <code>select</code> or <code>aegov-button</code> before or after the input.</p>
+
+      <aegov-form-field>
+        <aegov-label>Phone Number</aegov-label>
+        <aegov-input-group>
+          <select>
+            <option value="+971">+971</option>
+            <option value="+1">+1</option>
+            <option value="+44">+44</option>
+            <option value="+91">+91</option>
+          </select>
+          <aegov-input type="tel" placeholder="50 123 4567"></aegov-input>
+        </aegov-input-group>
+      </aegov-form-field>
+
+      <aegov-form-field>
+        <aegov-label>Search</aegov-label>
+        <aegov-input-group>
+          <aegov-input type="search" placeholder="Search anything..."></aegov-input>
+          <aegov-button variant="solid">Search</aegov-button>
+        </aegov-input-group>
+      </aegov-form-field>
+
+      <aegov-form-field>
+        <aegov-label>Amount</aegov-label>
+        <aegov-input-group addon-prefix="$">
+          <aegov-input type="number" placeholder="0.00"></aegov-input>
+          <aegov-button variant="solid">Pay</aegov-button>
+        </aegov-input-group>
+      </aegov-form-field>
+    </section>
+
+    <!-- Section 12: Input Group Sizes -->
+    <section>
+      <h2>12. Input Group Sizes</h2>
+      <p class="desc">The group <code>size</code> prop propagates to child input and button, keeping heights consistent.</p>
+
+      <aegov-form-field>
+        <aegov-label>Small (sm)</aegov-label>
+        <aegov-input-group size="sm" addon-prefix="https://">
+          <aegov-input placeholder="example.com"></aegov-input>
+          <aegov-button variant="solid">Go</aegov-button>
+        </aegov-input-group>
+      </aegov-form-field>
+
+      <aegov-form-field>
+        <aegov-label>Base (default)</aegov-label>
+        <aegov-input-group size="base" addon-prefix="https://">
+          <aegov-input placeholder="example.com"></aegov-input>
+          <aegov-button variant="solid">Go</aegov-button>
+        </aegov-input-group>
+      </aegov-form-field>
+
+      <aegov-form-field>
+        <aegov-label>Large (lg)</aegov-label>
+        <aegov-input-group size="lg" addon-prefix="https://">
+          <aegov-input placeholder="example.com"></aegov-input>
+          <aegov-button variant="solid">Go</aegov-button>
+        </aegov-input-group>
+      </aegov-form-field>
+    </section>
+
+    <!-- Section 13: Input Group with Password Toggle -->
+    <section>
+      <h2>13. Input Group with Password Toggle</h2>
+      <p class="desc">Password toggle and copyable features still work inside a group.</p>
+
+      <aegov-form-field>
+        <aegov-label>API Key</aegov-label>
+        <aegov-input-group addon-prefix="Bearer">
+          <aegov-input type="password" password-toggle value="sk-abc123xyz789"></aegov-input>
+        </aegov-input-group>
+      </aegov-form-field>
+
+      <aegov-form-field>
+        <aegov-label>Token (readonly, copyable)</aegov-label>
+        <aegov-input-group addon-prefix="Token">
+          <aegov-input readonly copyable value="eyJhbGciOiJIUzI1NiJ9"></aegov-input>
+        </aegov-input-group>
+      </aegov-form-field>
+    </section>
+
+    <!-- Section 14: Complete Form Example -->
+    <section>
+      <h2>14. Complete Form Example</h2>
+      <p class="desc">A realistic form using all form field components.</p>
+
+      <form onsubmit="event.preventDefault(); alert('Form submitted!');">
+        <div class="example-row">
+          <aegov-form-field>
+            <aegov-label>First Name *</aegov-label>
+            <aegov-input type="text" name="firstName" required placeholder="First name"></aegov-input>
+          </aegov-form-field>
+
+          <aegov-form-field>
+            <aegov-label>Last Name *</aegov-label>
+            <aegov-input type="text" name="lastName" required placeholder="Last name"></aegov-input>
+          </aegov-form-field>
+        </div>
+
+        <aegov-form-field>
+          <aegov-label>Email Address *</aegov-label>
+          <aegov-input type="email" name="email" required placeholder="you@example.com"></aegov-input>
+        </aegov-form-field>
+
+        <aegov-form-field>
+          <aegov-label>Phone Number</aegov-label>
+          <aegov-input type="tel" name="phone" placeholder="+971 50 123 4567"></aegov-input>
+        </aegov-form-field>
+
+        <aegov-form-field>
+          <aegov-label>Website</aegov-label>
+          <aegov-input type="url" name="website" placeholder="https://"></aegov-input>
+        </aegov-form-field>
+
+        <div class="example-row">
+          <aegov-form-field>
+            <aegov-label>Date of Birth</aegov-label>
+            <aegov-input type="date" name="dob"></aegov-input>
+          </aegov-form-field>
+
+          <aegov-form-field>
+            <aegov-label>Age</aegov-label>
+            <aegov-input type="number" name="age" placeholder="25"></aegov-input>
+          </aegov-form-field>
+        </div>
+
+        <aegov-form-field>
+          <aegov-label>Password *</aegov-label>
+          <aegov-input type="password" name="password" required password-toggle placeholder="Min 8 characters"></aegov-input>
+        </aegov-form-field>
+
+        <div style="margin-top: 1rem;">
+          <aegov-button type="submit" variant="solid">Submit Form</aegov-button>
+        </div>
+      </form>
+    </section>
+
+  </div>
+
+  <script>
+    // Event handling demo
+    document.addEventListener('DOMContentLoaded', () => {
+      const input = document.querySelector('#event-input');
+      const log = document.querySelector('#event-log');
+
+      if (input && log) {
+        const events = ['aegovInputInput', 'aegovInputChange', 'aegovInputFocus', 'aegovInputBlur'];
+
+        events.forEach(eventName => {
+          input.addEventListener(eventName, (e) => {
+            const entry = document.createElement('div');
+            entry.className = 'event-entry';
+
+            const shortName = eventName.replace('aegovInput', '');
+            const value = e.detail?.value !== undefined ? ` → "${e.detail.value}"` : '';
+            entry.innerHTML = `<span class="event-type">${shortName}</span>${value ? `<span class="event-value">${value}</span>` : ''}`;
+
+            // Remove placeholder text
+            if (log.querySelector('div[style]')) {
+              log.innerHTML = '';
+            }
+
+            log.prepend(entry);
+          });
+        });
+      }
+    });
+  </script>
+
+</body>
+</html>

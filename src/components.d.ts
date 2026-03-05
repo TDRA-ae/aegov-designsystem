@@ -5,8 +5,10 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
-import { AccordionIcon, AvatarGroupMode, AvatarSize, AvatarStatus, AvatarVariant, BadgeAppearance, BadgeColor, BadgeSize, BannerDisplay, BannerMode, BannerPosition, BannerRole, BlockquoteVariant, BreadcrumbSeparator, ButtonAppearance, ButtonGroupOrientation, ButtonSize, ButtonType, ButtonVariant, CalloutAppearance, CalloutVariant, CardBackground, CardBorderStyle, CardBorderWidth, CardHover, DatepickerChangeDetail, DatepickerMode, DatepickerMonthChangeDetail, DropdownAlign, DropdownPosition, DropdownTrigger, LinkTarget, ModalBackdropOpacity, ModalPosition, PaginationSize, PaginationVariant, ProgressOrientation, ProgressSize, ProgressStepStatus, ProgressVariant, TabOrientation, TabSize, TabVariant, TextSize, TitleSize, ToastAppearance, ToastMode, ToastPosition, ToastVariant, TooltipAlign, TooltipPosition, TooltipTrigger } from "./utils/types";
-export { AccordionIcon, AvatarGroupMode, AvatarSize, AvatarStatus, AvatarVariant, BadgeAppearance, BadgeColor, BadgeSize, BannerDisplay, BannerMode, BannerPosition, BannerRole, BlockquoteVariant, BreadcrumbSeparator, ButtonAppearance, ButtonGroupOrientation, ButtonSize, ButtonType, ButtonVariant, CalloutAppearance, CalloutVariant, CardBackground, CardBorderStyle, CardBorderWidth, CardHover, DatepickerChangeDetail, DatepickerMode, DatepickerMonthChangeDetail, DropdownAlign, DropdownPosition, DropdownTrigger, LinkTarget, ModalBackdropOpacity, ModalPosition, PaginationSize, PaginationVariant, ProgressOrientation, ProgressSize, ProgressStepStatus, ProgressVariant, TabOrientation, TabSize, TabVariant, TextSize, TitleSize, ToastAppearance, ToastMode, ToastPosition, ToastVariant, TooltipAlign, TooltipPosition, TooltipTrigger } from "./utils/types";
+import { AccordionIcon, AvatarGroupMode, AvatarSize, AvatarStatus, AvatarVariant, BadgeAppearance, BadgeColor, BadgeSize, BannerDisplay, BannerMode, BannerPosition, BannerRole, BlockquoteVariant, BreadcrumbSeparator, ButtonAppearance, ButtonGroupOrientation, ButtonSize, ButtonType, ButtonVariant, CalloutAppearance, CalloutVariant, CardBackground, CardBorderStyle, CardBorderWidth, CardHover, DatepickerChangeDetail, DatepickerMode, DatepickerMonthChangeDetail, DropdownAlign, DropdownPosition, DropdownTrigger, InputSize, InputType, LinkTarget, ModalBackdropOpacity, ModalPosition, PaginationSize, PaginationVariant, ProgressOrientation, ProgressSize, ProgressStepStatus, ProgressVariant, TabOrientation, TabSize, TabVariant, TextSize, TitleSize, ToastAppearance, ToastMode, ToastPosition, ToastVariant, TooltipAlign, TooltipPosition, TooltipTrigger } from "./utils/types";
+import { Event } from "@stencil/core";
+export { AccordionIcon, AvatarGroupMode, AvatarSize, AvatarStatus, AvatarVariant, BadgeAppearance, BadgeColor, BadgeSize, BannerDisplay, BannerMode, BannerPosition, BannerRole, BlockquoteVariant, BreadcrumbSeparator, ButtonAppearance, ButtonGroupOrientation, ButtonSize, ButtonType, ButtonVariant, CalloutAppearance, CalloutVariant, CardBackground, CardBorderStyle, CardBorderWidth, CardHover, DatepickerChangeDetail, DatepickerMode, DatepickerMonthChangeDetail, DropdownAlign, DropdownPosition, DropdownTrigger, InputSize, InputType, LinkTarget, ModalBackdropOpacity, ModalPosition, PaginationSize, PaginationVariant, ProgressOrientation, ProgressSize, ProgressStepStatus, ProgressVariant, TabOrientation, TabSize, TabVariant, TextSize, TitleSize, ToastAppearance, ToastMode, ToastPosition, ToastVariant, TooltipAlign, TooltipPosition, TooltipTrigger } from "./utils/types";
+export { Event } from "@stencil/core";
 export namespace Components {
     /**
      * Accordion component for collapsible content sections
@@ -591,6 +593,99 @@ export namespace Components {
          */
         "triggerType": DropdownTrigger;
     }
+    interface AegovFormField {
+        /**
+          * Additional CSS classes to apply.
+         */
+        "class"?: string;
+    }
+    interface AegovInput {
+        /**
+          * Additional CSS classes to apply.
+         */
+        "class"?: string;
+        /**
+          * Show a copy button to copy the input value to clipboard. Only applies when readonly.
+          * @default false
+         */
+        "copyable": boolean;
+        /**
+          * Whether the input is disabled.
+          * @default false
+         */
+        "disabled": boolean;
+        /**
+          * Unique ID for the input element. Auto-generated if not provided.
+         */
+        "inputId"?: string;
+        /**
+          * The name attribute for the input.
+         */
+        "name"?: string;
+        /**
+          * Show a toggle button to reveal/hide password. Only applies when type="password".
+          * @default false
+         */
+        "passwordToggle": boolean;
+        /**
+          * Placeholder text for the input.
+         */
+        "placeholder"?: string;
+        /**
+          * Whether the input is readonly.
+          * @default false
+         */
+        "readonly": boolean;
+        /**
+          * Whether the input is required.
+          * @default false
+         */
+        "required": boolean;
+        /**
+          * The size of the input field.
+          * @default 'base'
+         */
+        "size": InputSize;
+        /**
+          * The type of the input field.
+          * @default 'text'
+         */
+        "type": InputType;
+        /**
+          * The current value of the input.
+          * @default ''
+         */
+        "value": string;
+    }
+    interface AegovInputGroup {
+        /**
+          * Text to display as a prefix addon before the input.
+         */
+        "addonPrefix"?: string;
+        /**
+          * Text to display as a suffix addon after the input.
+         */
+        "addonSuffix"?: string;
+        /**
+          * Additional CSS classes to apply.
+         */
+        "class"?: string;
+        /**
+          * The size of the input group. Propagated to child aegov-input and aegov-button.
+          * @default 'base'
+         */
+        "size": InputSize;
+    }
+    interface AegovLabel {
+        /**
+          * Additional CSS classes to apply.
+         */
+        "class"?: string;
+        /**
+          * The ID of the form element this label is for. Automatically set by parent aegov-form-field.
+         */
+        "htmlFor"?: string;
+    }
     interface AegovLink {
         /**
           * Additional CSS classes to apply to the link.
@@ -1069,6 +1164,10 @@ export interface AegovDropdownCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLAegovDropdownElement;
 }
+export interface AegovInputCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLAegovInputElement;
+}
 export interface AegovLinkCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLAegovLinkElement;
@@ -1348,6 +1447,44 @@ declare global {
         prototype: HTMLAegovDropdownElement;
         new (): HTMLAegovDropdownElement;
     };
+    interface HTMLAegovFormFieldElement extends Components.AegovFormField, HTMLStencilElement {
+    }
+    var HTMLAegovFormFieldElement: {
+        prototype: HTMLAegovFormFieldElement;
+        new (): HTMLAegovFormFieldElement;
+    };
+    interface HTMLAegovInputElementEventMap {
+        "aegovInputChange": { value: string; event: Event };
+        "aegovInputInput": { value: string; event: Event };
+        "aegovInputFocus": FocusEvent;
+        "aegovInputBlur": FocusEvent;
+    }
+    interface HTMLAegovInputElement extends Components.AegovInput, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLAegovInputElementEventMap>(type: K, listener: (this: HTMLAegovInputElement, ev: AegovInputCustomEvent<HTMLAegovInputElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLAegovInputElementEventMap>(type: K, listener: (this: HTMLAegovInputElement, ev: AegovInputCustomEvent<HTMLAegovInputElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLAegovInputElement: {
+        prototype: HTMLAegovInputElement;
+        new (): HTMLAegovInputElement;
+    };
+    interface HTMLAegovInputGroupElement extends Components.AegovInputGroup, HTMLStencilElement {
+    }
+    var HTMLAegovInputGroupElement: {
+        prototype: HTMLAegovInputGroupElement;
+        new (): HTMLAegovInputGroupElement;
+    };
+    interface HTMLAegovLabelElement extends Components.AegovLabel, HTMLStencilElement {
+    }
+    var HTMLAegovLabelElement: {
+        prototype: HTMLAegovLabelElement;
+        new (): HTMLAegovLabelElement;
+    };
     interface HTMLAegovLinkElementEventMap {
         "aegovLinkClick": { href: string; event: MouseEvent };
     }
@@ -1551,6 +1688,10 @@ declare global {
         "aegov-context-menu-item": HTMLAegovContextMenuItemElement;
         "aegov-datepicker": HTMLAegovDatepickerElement;
         "aegov-dropdown": HTMLAegovDropdownElement;
+        "aegov-form-field": HTMLAegovFormFieldElement;
+        "aegov-input": HTMLAegovInputElement;
+        "aegov-input-group": HTMLAegovInputGroupElement;
+        "aegov-label": HTMLAegovLabelElement;
         "aegov-link": HTMLAegovLinkElement;
         "aegov-modal": HTMLAegovModalElement;
         "aegov-pagination": HTMLAegovPaginationElement;
@@ -2191,6 +2332,115 @@ declare namespace LocalJSX {
          */
         "triggerType"?: DropdownTrigger;
     }
+    interface AegovFormField {
+        /**
+          * Additional CSS classes to apply.
+         */
+        "class"?: string;
+    }
+    interface AegovInput {
+        /**
+          * Additional CSS classes to apply.
+         */
+        "class"?: string;
+        /**
+          * Show a copy button to copy the input value to clipboard. Only applies when readonly.
+          * @default false
+         */
+        "copyable"?: boolean;
+        /**
+          * Whether the input is disabled.
+          * @default false
+         */
+        "disabled"?: boolean;
+        /**
+          * Unique ID for the input element. Auto-generated if not provided.
+         */
+        "inputId"?: string;
+        /**
+          * The name attribute for the input.
+         */
+        "name"?: string;
+        /**
+          * Emitted when the input loses focus.
+         */
+        "onAegovInputBlur"?: (event: AegovInputCustomEvent<FocusEvent>) => void;
+        /**
+          * Emitted when the input value changes (on blur/enter).
+         */
+        "onAegovInputChange"?: (event: AegovInputCustomEvent<{ value: string; event: Event }>) => void;
+        /**
+          * Emitted when the input gains focus.
+         */
+        "onAegovInputFocus"?: (event: AegovInputCustomEvent<FocusEvent>) => void;
+        /**
+          * Emitted on every keystroke.
+         */
+        "onAegovInputInput"?: (event: AegovInputCustomEvent<{ value: string; event: Event }>) => void;
+        /**
+          * Show a toggle button to reveal/hide password. Only applies when type="password".
+          * @default false
+         */
+        "passwordToggle"?: boolean;
+        /**
+          * Placeholder text for the input.
+         */
+        "placeholder"?: string;
+        /**
+          * Whether the input is readonly.
+          * @default false
+         */
+        "readonly"?: boolean;
+        /**
+          * Whether the input is required.
+          * @default false
+         */
+        "required"?: boolean;
+        /**
+          * The size of the input field.
+          * @default 'base'
+         */
+        "size"?: InputSize;
+        /**
+          * The type of the input field.
+          * @default 'text'
+         */
+        "type"?: InputType;
+        /**
+          * The current value of the input.
+          * @default ''
+         */
+        "value"?: string;
+    }
+    interface AegovInputGroup {
+        /**
+          * Text to display as a prefix addon before the input.
+         */
+        "addonPrefix"?: string;
+        /**
+          * Text to display as a suffix addon after the input.
+         */
+        "addonSuffix"?: string;
+        /**
+          * Additional CSS classes to apply.
+         */
+        "class"?: string;
+        /**
+          * The size of the input group. Propagated to child aegov-input and aegov-button.
+          * @default 'base'
+         */
+        "size"?: InputSize;
+    }
+    interface AegovLabel {
+        /**
+          * Additional CSS classes to apply.
+         */
+        "class"?: string;
+        /**
+          * The ID of the form element this label is for. Automatically set by parent aegov-form-field.
+         */
+        "htmlFor"?: string;
+    }
     interface AegovLink {
         /**
           * Additional CSS classes to apply to the link.
@@ -2672,6 +2922,10 @@ declare namespace LocalJSX {
         "aegov-context-menu-item": AegovContextMenuItem;
         "aegov-datepicker": AegovDatepicker;
         "aegov-dropdown": AegovDropdown;
+        "aegov-form-field": AegovFormField;
+        "aegov-input": AegovInput;
+        "aegov-input-group": AegovInputGroup;
+        "aegov-label": AegovLabel;
         "aegov-link": AegovLink;
         "aegov-modal": AegovModal;
         "aegov-pagination": AegovPagination;
@@ -2730,6 +2984,10 @@ declare module "@stencil/core" {
              * Dropdown component that displays positioned content on trigger interaction
              */
             "aegov-dropdown": LocalJSX.AegovDropdown & JSXBase.HTMLAttributes<HTMLAegovDropdownElement>;
+            "aegov-form-field": LocalJSX.AegovFormField & JSXBase.HTMLAttributes<HTMLAegovFormFieldElement>;
+            "aegov-input": LocalJSX.AegovInput & JSXBase.HTMLAttributes<HTMLAegovInputElement>;
+            "aegov-input-group": LocalJSX.AegovInputGroup & JSXBase.HTMLAttributes<HTMLAegovInputGroupElement>;
+            "aegov-label": LocalJSX.AegovLabel & JSXBase.HTMLAttributes<HTMLAegovLabelElement>;
             "aegov-link": LocalJSX.AegovLink & JSXBase.HTMLAttributes<HTMLAegovLinkElement>;
             "aegov-modal": LocalJSX.AegovModal & JSXBase.HTMLAttributes<HTMLAegovModalElement>;
             "aegov-pagination": LocalJSX.AegovPagination & JSXBase.HTMLAttributes<HTMLAegovPaginationElement>;

@@ -291,6 +291,16 @@ export interface DatepickerMonthChangeDetail {
 }
 
 /**
+ * Input component type attribute
+ */
+export type InputType = 'text' | 'email' | 'password' | 'tel' | 'url' | 'number' | 'search' | 'date' | 'time' | 'datetime-local' | 'month' | 'week';
+
+/**
+ * Input component size types
+ */
+export type InputSize = 'sm' | 'base' | 'lg';
+
+/**
  * Common component props
  */
 export interface BaseComponentProps {
