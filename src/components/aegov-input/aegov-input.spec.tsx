@@ -372,6 +372,159 @@ describe('aegov-input', () => {
     });
   });
 
+  describe('icon slots', () => {
+    it('renders icon-start container when slotted content is provided', async () => {
+      const page = await newSpecPage({
+        components: [AegovInput],
+        html: `<aegov-input><svg slot="icon-start"></svg></aegov-input>`,
+      });
+      const iconContainer = page.root.querySelector('.input__icon--start');
+      expect(iconContainer).not.toBeNull();
+    });
+
+    it('renders icon-end container when slotted content is provided', async () => {
+      const page = await newSpecPage({
+        components: [AegovInput],
+        html: `<aegov-input><svg slot="icon-end"></svg></aegov-input>`,
+      });
+      const iconContainer = page.root.querySelector('.input__icon--end');
+      expect(iconContainer).not.toBeNull();
+    });
+
+    it('does not render icon containers when no slotted content', async () => {
+      const page = await newSpecPage({
+        components: [AegovInput],
+        html: `<aegov-input></aegov-input>`,
+      });
+      expect(page.root.querySelector('.input__icon--start')).toBeNull();
+      expect(page.root.querySelector('.input__icon--end')).toBeNull();
+    });
+
+    it('renders wrapper when icon-start is present', async () => {
+      const page = await newSpecPage({
+        components: [AegovInput],
+        html: `<aegov-input><svg slot="icon-start"></svg></aegov-input>`,
+      });
+      expect(page.root.querySelector('.input__wrapper')).not.toBeNull();
+    });
+
+    it('renders wrapper when icon-end is present', async () => {
+      const page = await newSpecPage({
+        components: [AegovInput],
+        html: `<aegov-input><svg slot="icon-end"></svg></aegov-input>`,
+      });
+      expect(page.root.querySelector('.input__wrapper')).not.toBeNull();
+    });
+
+    it('adds input--has-icon-start class when icon-start is provided', async () => {
+      const page = await newSpecPage({
+        components: [AegovInput],
+        html: `<aegov-input><svg slot="icon-start"></svg></aegov-input>`,
+      });
+      const input = page.root.querySelector('input');
+      expect(input.className).toContain('input--has-icon-start');
+    });
+
+    it('adds input--has-icon-end class when icon-end is provided', async () => {
+      const page = await newSpecPage({
+        components: [AegovInput],
+        html: `<aegov-input><svg slot="icon-end"></svg></aegov-input>`,
+      });
+      const input = page.root.querySelector('input');
+      expect(input.className).toContain('input--has-icon-end');
+    });
+
+    it('renders both icon slots simultaneously', async () => {
+      const page = await newSpecPage({
+        components: [AegovInput],
+        html: `<aegov-input><svg slot="icon-start"></svg><svg slot="icon-end"></svg></aegov-input>`,
+      });
+      expect(page.root.querySelector('.input__icon--start')).not.toBeNull();
+      expect(page.root.querySelector('.input__icon--end')).not.toBeNull();
+    });
+
+    it('ignores icon-end when password-toggle is active', async () => {
+      const page = await newSpecPage({
+        components: [AegovInput],
+        html: `<aegov-input type="password" password-toggle><svg slot="icon-end"></svg></aegov-input>`,
+      });
+      expect(page.root.querySelector('.input__icon--end')).toBeNull();
+      expect(page.root.querySelector('.input__password-toggle')).not.toBeNull();
+    });
+
+    it('ignores icon-end when copyable is active', async () => {
+      const page = await newSpecPage({
+        components: [AegovInput],
+        html: `<aegov-input readonly copyable value="test"><svg slot="icon-end"></svg></aegov-input>`,
+      });
+      expect(page.root.querySelector('.input__icon--end')).toBeNull();
+      expect(page.root.querySelector('.input__copy-btn')).not.toBeNull();
+    });
+
+    it('still renders icon-start when password-toggle is active', async () => {
+      const page = await newSpecPage({
+        components: [AegovInput],
+        html: `<aegov-input type="password" password-toggle><svg slot="icon-start"></svg></aegov-input>`,
+      });
+      expect(page.root.querySelector('.input__icon--start')).not.toBeNull();
+      expect(page.root.querySelector('.input__password-toggle')).not.toBeNull();
+    });
+
+    it('still renders icon-start when copyable is active', async () => {
+      const page = await newSpecPage({
+        components: [AegovInput],
+        html: `<aegov-input readonly copyable value="test"><svg slot="icon-start"></svg></aegov-input>`,
+      });
+      expect(page.root.querySelector('.input__icon--start')).not.toBeNull();
+      expect(page.root.querySelector('.input__copy-btn')).not.toBeNull();
+    });
+
+    it('applies wrapper size class for sm', async () => {
+      const page = await newSpecPage({
+        components: [AegovInput],
+        html: `<aegov-input size="sm"><svg slot="icon-start"></svg></aegov-input>`,
+      });
+      const wrapper = page.root.querySelector('.input__wrapper');
+      expect(wrapper.className).toContain('input__wrapper--sm');
+    });
+
+    it('applies wrapper size class for base', async () => {
+      const page = await newSpecPage({
+        components: [AegovInput],
+        html: `<aegov-input size="base"><svg slot="icon-start"></svg></aegov-input>`,
+      });
+      const wrapper = page.root.querySelector('.input__wrapper');
+      expect(wrapper.className).toContain('input__wrapper--base');
+    });
+
+    it('applies wrapper size class for lg', async () => {
+      const page = await newSpecPage({
+        components: [AegovInput],
+        html: `<aegov-input size="lg"><svg slot="icon-start"></svg></aegov-input>`,
+      });
+      const wrapper = page.root.querySelector('.input__wrapper');
+      expect(wrapper.className).toContain('input__wrapper--lg');
+    });
+
+    it('does not add icon-start class without slot content', async () => {
+      const page = await newSpecPage({
+        components: [AegovInput],
+        html: `<aegov-input></aegov-input>`,
+      });
+      const input = page.root.querySelector('input');
+      expect(input.className).not.toContain('input--has-icon-start');
+    });
+
+    it('does not add icon-end class without slot content', async () => {
+      const page = await newSpecPage({
+        components: [AegovInput],
+        html: `<aegov-input></aegov-input>`,
+      });
+      const input = page.root.querySelector('input');
+      expect(input.className).not.toContain('input--has-icon-end');
+    });
+  });
+
   describe('password toggle', () => {
     it('does not show toggle button by default for password type', async () => {
       const page = await newSpecPage({

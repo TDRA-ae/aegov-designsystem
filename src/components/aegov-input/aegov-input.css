@@ -24,7 +24,7 @@
 }
 
 .input--lg {
-  @apply text-lg py-3.5 px-5 h-14;
+  @apply text-lg py-3.5 px-5 h-13;
 }
 
 /* Password toggle wrapper */
@@ -34,6 +34,59 @@
 
 .input--has-action {
   @apply pe-12;
+}
+
+/* Icon slot containers */
+.input__icon {
+  @apply absolute top-0 flex items-center justify-center
+         text-aeblack-500 z-10;
+}
+
+.input__icon--start {
+  @apply start-0;
+}
+
+.input__icon--end {
+  @apply end-0;
+}
+
+/* Icon container sizes */
+.input__wrapper--sm .input__icon {
+  @apply h-10 w-10;
+}
+
+.input__wrapper--base .input__icon {
+  @apply h-12 w-12;
+}
+
+.input__wrapper--lg .input__icon {
+  @apply h-13 w-13;
+}
+
+/* Input padding when start icon is present */
+.input--has-icon-start.input--sm {
+  @apply ps-10;
+}
+
+.input--has-icon-start.input--base {
+  @apply ps-12;
+}
+
+.input--has-icon-start.input--lg {
+  @apply ps-13;
+}
+
+/* Input padding when end icon is present */
+.input--has-icon-end.input--sm {
+  @apply pe-10;
+}
+
+.input--has-icon-end.input--base {
+  @apply pe-12;
+}
+
+.input--has-icon-end.input--lg {
+  @apply pe-13;
 }
 
 /* Shared action button base */
@@ -56,7 +109,7 @@
 }
 
 .password-toggle--lg {
-  @apply h-14 w-14;
+  @apply h-13 w-13;
 }
 
 /* Copy button sizes */
@@ -69,7 +122,7 @@
 }
 
 .copy-btn--lg {
-  @apply h-14 w-14;
+  @apply h-13 w-13;
 }
 
 /* Copy success feedback */

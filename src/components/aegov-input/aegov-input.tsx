@@ -113,7 +113,7 @@ export class AegovInput {
     return this.type;
   }
 
-  private getInputClasses(): string {
+  private getInputClasses(hasIconStart: boolean, hasIconEnd: boolean): string {
     const classes: string[] = ['aegov-input'];
 
     const sizeClasses: Record<InputSize, string> = {
@@ -126,6 +126,14 @@ export class AegovInput {
 
     if (this.hasActionButton) {
       classes.push('input--has-action');
+    }
+
+    if (hasIconStart) {
+      classes.push('input--has-icon-start');
+    }
+
+    if (hasIconEnd) {
+      classes.push('input--has-icon-end');
     }
 
     if (this.class) {
@@ -253,12 +261,15 @@ export class AegovInput {
 
   render() {
     const passThroughAttributes = this.getPassThroughAttributes();
+    const hasIconStart = !!this.el.querySelector('[slot="icon-start"]');
+    const hasIconEnd = !this.hasActionButton && !!this.el.querySelector('[slot="icon-end"]');
+    const needsWrapper = this.hasActionButton || hasIconStart || hasIconEnd;
 
     const input = (
       <input
         id={this.inputId}
         type={this.resolvedType}
-        class={this.getInputClasses()}
+        class={this.getInputClasses(hasIconStart, hasIconEnd)}
         disabled={this.disabled}
         readOnly={this.readonly}
         placeholder={this.placeholder}
@@ -273,11 +284,21 @@ export class AegovInput {
       />
     );
 
-    if (this.hasActionButton) {
+    if (needsWrapper) {
       return (
         <Host>
-          <div class="input__wrapper">
+          <div class={`input__wrapper input__wrapper--${this.size}`}>
+            {hasIconStart && (
+              <span class="input__icon input__icon--start">
+                <slot name="icon-start" />
+              </span>
+            )}
             {input}
+            {hasIconEnd && (
+              <span class="input__icon input__icon--end">
+                <slot name="icon-end" />
+              </span>
+            )}
             {this.renderPasswordToggle()}
             {this.renderCopyButton()}
           </div>

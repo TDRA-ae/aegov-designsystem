@@ -259,9 +259,160 @@
       </aegov-form-field>
     </section>
 
-    <!-- Section 5: Required Field -->
+    <!-- Section 5: Icon Slots -->
     <section>
-      <h2>5. Required Field</h2>
+      <h2>5. Icon Slots</h2>
+      <p class="desc">Pass SVG icons via <code>slot="icon-start"</code> and <code>slot="icon-end"</code>. Icons render inside the input border and support click interactions. When <code>password-toggle</code> or <code>copyable</code> is active, <code>icon-end</code> is ignored.</p>
+
+      <aegov-form-field>
+        <aegov-label>Search (icon-start)</aegov-label>
+        <aegov-input type="search" placeholder="Search...">
+          <svg slot="icon-start" xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        </aegov-input>
+      </aegov-form-field>
+
+      <aegov-form-field>
+        <aegov-label>Email (icon-start)</aegov-label>
+        <aegov-input type="email" placeholder="you@example.com">
+          <svg slot="icon-start" xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        </aegov-input>
+      </aegov-form-field>
+
+      <aegov-form-field>
+        <aegov-label>Amount (icon-end)</aegov-label>
+        <aegov-input type="number" placeholder="0.00">
+          <svg slot="icon-end" xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+        </aegov-input>
+      </aegov-form-field>
+
+      <aegov-form-field>
+        <aegov-label>Both Icons (start + end)</aegov-label>
+        <aegov-input type="text" placeholder="Type a location...">
+          <svg slot="icon-start" xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          <svg slot="icon-end" xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+        </aegov-input>
+      </aegov-form-field>
+    </section>
+
+    <!-- Section 6: Icon Slots - Sizes -->
+    <section>
+      <h2>6. Icon Slots - Sizes</h2>
+      <p class="desc">Icon containers automatically match the input height. Control icon size via classes on the SVG.</p>
+
+      <aegov-form-field>
+        <aegov-label>Small (sm)</aegov-label>
+        <aegov-input size="sm" placeholder="Small with icon">
+          <svg slot="icon-start" xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        </aegov-input>
+      </aegov-form-field>
+
+      <aegov-form-field>
+        <aegov-label>Base (default)</aegov-label>
+        <aegov-input size="base" placeholder="Base with icon">
+          <svg slot="icon-start" xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        </aegov-input>
+      </aegov-form-field>
+
+      <aegov-form-field>
+        <aegov-label>Large (lg)</aegov-label>
+        <aegov-input size="lg" placeholder="Large with icon">
+          <svg slot="icon-start" xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        </aegov-input>
+      </aegov-form-field>
+    </section>
+
+    <!-- Section 7: Icon Slots - Priority -->
+    <section>
+      <h2>7. Icon Slots - Priority</h2>
+      <p class="desc">Password toggle and copyable features always take priority over <code>icon-end</code>. The <code>icon-start</code> slot is always shown.</p>
+
+      <aegov-form-field>
+        <aegov-label>Password with icon-start (icon-end ignored)</aegov-label>
+        <aegov-input type="password" password-toggle placeholder="icon-end SVG below is ignored">
+          <svg slot="icon-start" xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          <svg slot="icon-end" xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/></svg>
+        </aegov-input>
+      </aegov-form-field>
+
+      <aegov-form-field>
+        <aegov-label>Copyable with icon-start (icon-end ignored)</aegov-label>
+        <aegov-input readonly copyable value="API-KEY-12345">
+          <svg slot="icon-start" xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"/></svg>
+          <svg slot="icon-end" xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/></svg>
+        </aegov-input>
+      </aegov-form-field>
+    </section>
+
+    <!-- Section 8: Icon Slots - Clickable -->
+    <section>
+      <h2>8. Icon Slots - Clickable Icons</h2>
+      <p class="desc">Slotted icons support click interactions. Wrap your SVG in a <code>&lt;button&gt;</code> for accessible clickable icons.</p>
+
+      <aegov-form-field>
+        <aegov-label>Clickable search icon</aegov-label>
+        <aegov-input id="icon-click-input" type="search" placeholder="Type then click the icon...">
+          <button slot="icon-end" type="button" id="search-icon-btn" style="background: none; border: none; cursor: pointer; color: inherit; display: flex; align-items: center; justify-content: center;" aria-label="Search">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          </button>
+        </aegov-input>
+      </aegov-form-field>
+
+      <aegov-form-field>
+        <aegov-label>Clear button (icon-end)</aegov-label>
+        <aegov-input id="clearable-input" type="text" value="Click the X to clear" placeholder="Type something...">
+          <button slot="icon-end" type="button" id="clear-icon-btn" style="background: none; border: none; cursor: pointer; color: inherit; display: flex; align-items: center; justify-content: center;" aria-label="Clear input">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
+          </button>
+        </aegov-input>
+      </aegov-form-field>
+
+      <div class="event-log" id="icon-event-log">
+        <div style="color: #475569;">Icon click events will appear here...</div>
+      </div>
+    </section>
+
+    <!-- Section 9: Icon Slots inside Input Group -->
+    <section>
+      <h2>9. Icon Slots inside Input Group</h2>
+      <p class="desc">Icons stay attached to the input when used inside an <code>aegov-input-group</code> with prefix/suffix addons.</p>
+
+      <aegov-form-field>
+        <aegov-label>Website URL with icon</aegov-label>
+        <aegov-input-group addon-prefix="https://">
+          <aegov-input placeholder="example.com">
+            <svg slot="icon-end" xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+          </aegov-input>
+        </aegov-input-group>
+      </aegov-form-field>
+
+      <aegov-form-field>
+        <aegov-label>Phone with icon + select prefix</aegov-label>
+        <aegov-input-group>
+          <select>
+            <option value="+971">+971</option>
+            <option value="+1">+1</option>
+            <option value="+44">+44</option>
+          </select>
+          <aegov-input type="tel" placeholder="50 123 4567">
+            <svg slot="icon-start" xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          </aegov-input>
+        </aegov-input-group>
+      </aegov-form-field>
+
+      <aegov-form-field>
+        <aegov-label>Search with button suffix + icon</aegov-label>
+        <aegov-input-group>
+          <aegov-input type="search" placeholder="Search...">
+            <svg slot="icon-start" xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          </aegov-input>
+          <aegov-button variant="solid">Go</aegov-button>
+        </aegov-input-group>
+      </aegov-form-field>
+    </section>
+
+    <!-- Section 10: Required Field -->
+    <section>
+      <h2>10. Required Field</h2>
       <p class="desc">Mark inputs as required for form validation.</p>
 
       <aegov-form-field>
@@ -272,7 +423,7 @@
 
     <!-- Section 6: Custom ID -->
     <section>
-      <h2>6. Custom Input ID</h2>
+      <h2>11. Custom Input ID</h2>
       <p class="desc">Override the auto-generated ID with a custom one using <code>input-id</code>.</p>
 
       <aegov-form-field>
@@ -283,7 +434,7 @@
 
     <!-- Section 7: Standalone Components -->
     <section>
-      <h2>7. Standalone Usage</h2>
+      <h2>12. Standalone Usage</h2>
       <p class="desc">Components can be used independently without the form-field wrapper.</p>
 
       <div style="margin-bottom: 1rem;">
@@ -298,7 +449,7 @@
 
     <!-- Section 8: Custom Classes -->
     <section>
-      <h2>8. Custom Classes</h2>
+      <h2>13. Custom Classes</h2>
       <p class="desc">Add custom Tailwind classes to any component.</p>
 
       <aegov-form-field class="mb-8">
@@ -309,7 +460,7 @@
 
     <!-- Section 9: Event Handling -->
     <section>
-      <h2>9. Event Handling</h2>
+      <h2>14. Event Handling</h2>
       <p class="desc">Listen to input events: <code>aegovInputInput</code>, <code>aegovInputChange</code>, <code>aegovInputFocus</code>, <code>aegovInputBlur</code>.</p>
 
       <aegov-form-field>
@@ -324,7 +475,7 @@
 
     <!-- Section 10: Input Group - Text Prefix & Suffix -->
     <section>
-      <h2>10. Input Group - Text Prefix & Suffix</h2>
+      <h2>15. Input Group - Text Prefix & Suffix</h2>
       <p class="desc">Use <code>aegov-input-group</code> with <code>prefix</code> and <code>suffix</code> props for inline text addons.</p>
 
       <aegov-form-field>
@@ -351,7 +502,7 @@
 
     <!-- Section 11: Input Group - Element Prefix & Suffix -->
     <section>
-      <h2>11. Input Group - Element Prefix & Suffix</h2>
+      <h2>16. Input Group - Element Prefix & Suffix</h2>
       <p class="desc">Place elements like <code>select</code> or <code>aegov-button</code> before or after the input.</p>
 
       <aegov-form-field>
@@ -386,7 +537,7 @@
 
     <!-- Section 12: Input Group Sizes -->
     <section>
-      <h2>12. Input Group Sizes</h2>
+      <h2>17. Input Group Sizes</h2>
       <p class="desc">The group <code>size</code> prop propagates to child input and button, keeping heights consistent.</p>
 
       <aegov-form-field>
@@ -416,7 +567,7 @@
 
     <!-- Section 13: Input Group with Password Toggle -->
     <section>
-      <h2>13. Input Group with Password Toggle</h2>
+      <h2>18. Input Group with Password Toggle</h2>
       <p class="desc">Password toggle and copyable features still work inside a group.</p>
 
       <aegov-form-field>
@@ -436,7 +587,7 @@
 
     <!-- Section 14: Complete Form Example -->
     <section>
-      <h2>14. Complete Form Example</h2>
+      <h2>19. Complete Form Example</h2>
       <p class="desc">A realistic form using all form field components.</p>
 
       <form onsubmit="event.preventDefault(); alert('Form submitted!');">
@@ -493,6 +644,38 @@
   </div>
 
   <script>
+    // Icon click event demos
+    document.addEventListener('DOMContentLoaded', () => {
+      const iconLog = document.querySelector('#icon-event-log');
+
+      function logIconEvent(msg) {
+        if (!iconLog) return;
+        if (iconLog.querySelector('div[style]')) iconLog.innerHTML = '';
+        const entry = document.createElement('div');
+        entry.className = 'event-entry';
+        entry.innerHTML = `<span class="event-type">${msg}</span>`;
+        iconLog.prepend(entry);
+      }
+
+      const searchBtn = document.querySelector('#search-icon-btn');
+      if (searchBtn) {
+        searchBtn.addEventListener('click', () => {
+          const input = document.querySelector('#icon-click-input');
+          const val = input ? input.value : '';
+          logIconEvent(`Search clicked → "${val}"`);
+        });
+      }
+
+      const clearBtn = document.querySelector('#clear-icon-btn');
+      if (clearBtn) {
+        clearBtn.addEventListener('click', () => {
+          const input = document.querySelector('#clearable-input');
+          if (input) input.value = '';
+          logIconEvent('Clear clicked → input cleared');
+        });
+      }
+    });
+
     // Event handling demo
     document.addEventListener('DOMContentLoaded', () => {
       const input = document.querySelector('#event-input');

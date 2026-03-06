@@ -148,6 +148,136 @@ describe('aegov-input E2E', () => {
     });
   });
 
+  describe('icon slots', () => {
+    it('should render icon-start slot', async () => {
+      const page = await newE2EPage();
+      await page.setContent(`
+        <aegov-input>
+          <svg slot="icon-start" class="w-5 h-5"></svg>
+        </aegov-input>
+      `);
+      const icon = await page.find('aegov-input .input__icon--start');
+      expect(icon).toBeTruthy();
+    });
+
+    it('should render icon-end slot', async () => {
+      const page = await newE2EPage();
+      await page.setContent(`
+        <aegov-input>
+          <svg slot="icon-end" class="w-5 h-5"></svg>
+        </aegov-input>
+      `);
+      const icon = await page.find('aegov-input .input__icon--end');
+      expect(icon).toBeTruthy();
+    });
+
+    it('should render both icons simultaneously', async () => {
+      const page = await newE2EPage();
+      await page.setContent(`
+        <aegov-input>
+          <svg slot="icon-start" class="w-5 h-5"></svg>
+          <svg slot="icon-end" class="w-5 h-5"></svg>
+        </aegov-input>
+      `);
+      const iconStart = await page.find('aegov-input .input__icon--start');
+      const iconEnd = await page.find('aegov-input .input__icon--end');
+      expect(iconStart).toBeTruthy();
+      expect(iconEnd).toBeTruthy();
+    });
+
+    it('should not render icon-end when password-toggle is active', async () => {
+      const page = await newE2EPage();
+      await page.setContent(`
+        <aegov-input type="password" password-toggle>
+          <svg slot="icon-end" class="w-5 h-5"></svg>
+        </aegov-input>
+      `);
+      const iconEnd = await page.find('aegov-input .input__icon--end');
+      expect(iconEnd).toBeNull();
+      const toggle = await page.find('aegov-input .input__password-toggle');
+      expect(toggle).toBeTruthy();
+    });
+
+    it('should not render icon-end when copyable is active', async () => {
+      const page = await newE2EPage();
+      await page.setContent(`
+        <aegov-input readonly copyable value="test">
+          <svg slot="icon-end" class="w-5 h-5"></svg>
+        </aegov-input>
+      `);
+      const iconEnd = await page.find('aegov-input .input__icon--end');
+      expect(iconEnd).toBeNull();
+      const copyBtn = await page.find('aegov-input .input__copy-btn');
+      expect(copyBtn).toBeTruthy();
+    });
+
+    it('should still show icon-start with password-toggle', async () => {
+      const page = await newE2EPage();
+      await page.setContent(`
+        <aegov-input type="password" password-toggle>
+          <svg slot="icon-start" class="w-5 h-5"></svg>
+        </aegov-input>
+      `);
+      const iconStart = await page.find('aegov-input .input__icon--start');
+      expect(iconStart).toBeTruthy();
+      const toggle = await page.find('aegov-input .input__password-toggle');
+      expect(toggle).toBeTruthy();
+    });
+
+    it('should add input--has-icon-start class', async () => {
+      const page = await newE2EPage();
+      await page.setContent(`
+        <aegov-input>
+          <svg slot="icon-start" class="w-5 h-5"></svg>
+        </aegov-input>
+      `);
+      const input = await page.find('aegov-input input');
+      expect(await input.getAttribute('class')).toContain('input--has-icon-start');
+    });
+
+    it('should add input--has-icon-end class', async () => {
+      const page = await newE2EPage();
+      await page.setContent(`
+        <aegov-input>
+          <svg slot="icon-end" class="w-5 h-5"></svg>
+        </aegov-input>
+      `);
+      const input = await page.find('aegov-input input');
+      expect(await input.getAttribute('class')).toContain('input--has-icon-end');
+    });
+
+    it('should handle icon click events', async () => {
+      const page = await newE2EPage();
+      await page.setContent(`
+        <aegov-input>
+          <button slot="icon-start" id="test-icon-btn" type="button">
+            <svg class="w-5 h-5"></svg>
+          </button>
+        </aegov-input>
+      `);
+      const clicked = await page.evaluate(() => {
+        return new Promise<boolean>(resolve => {
+          const btn = document.querySelector('#test-icon-btn');
+          btn.addEventListener('click', () => resolve(true));
+          (btn as HTMLElement).click();
+        });
+      });
+      expect(clicked).toBe(true);
+    });
+
+    it('should render wrapper with size class', async () => {
+      const page = await newE2EPage();
+      await page.setContent(`
+        <aegov-input size="lg">
+          <svg slot="icon-start" class="w-5 h-5"></svg>
+        </aegov-input>
+      `);
+      const wrapper = await page.find('aegov-input .input__wrapper');
+      expect(wrapper).toBeTruthy();
+      expect(await wrapper.getAttribute('class')).toContain('input__wrapper--lg');
+    });
+  });
+
   describe('password toggle', () => {
     it('should not show toggle by default for password', async () => {
       const page = await newE2EPage();
