@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0">
+  <title>Textarea Component - AEGOV Design System</title>
+
+  <!-- Design System -->
+  <script type="module" src="/build/aegov.esm.js"></script>
+  <script nomodule src="/build/aegov.js"></script>
+  <link rel="stylesheet" href="/build/aegov.css">
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 2rem;
+      background: linear-gradient(135deg, #0ea5e9 0%, #6366f1 100%);
+      min-height: 100vh;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      background: white;
+      padding: 3rem;
+      border-radius: 16px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 3rem;
+      padding-bottom: 2rem;
+      border-bottom: 3px solid #e2e8f0;
+    }
+
+    .header h1 {
+      font-size: 2.5rem;
+      margin: 0 0 0.5rem;
+      background: linear-gradient(135deg, #0ea5e9 0%, #6366f1 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .header p {
+      color: #64748b;
+      font-size: 1.125rem;
+      margin: 0;
+    }
+
+    section {
+      margin-bottom: 3rem;
+    }
+
+    section h2 {
+      font-size: 1.5rem;
+      color: #1e293b;
+      margin: 0 0 1rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 2px solid #e2e8f0;
+    }
+
+    section h3 {
+      font-size: 1.1rem;
+      color: #334155;
+      margin: 1.5rem 0 0.75rem;
+    }
+
+    section p.desc {
+      color: #64748b;
+      margin: 0 0 1.5rem;
+      font-size: 0.95rem;
+    }
+
+    .example-row {
+      display: flex;
+      gap: 1.5rem;
+      align-items: flex-start;
+      flex-wrap: wrap;
+    }
+
+    .example-row > * {
+      flex: 1;
+      min-width: 200px;
+    }
+
+    .event-log {
+      background: #1e293b;
+      color: #94a3b8;
+      padding: 1rem;
+      border-radius: 8px;
+      font-family: 'Fira Code', monospace;
+      font-size: 0.875rem;
+      max-height: 200px;
+      overflow-y: auto;
+      margin-top: 1rem;
+    }
+
+    .event-log .event-entry {
+      padding: 0.25rem 0;
+      border-bottom: 1px solid #334155;
+    }
+
+    .event-log .event-entry:last-child {
+      border-bottom: none;
+    }
+
+    .event-log .event-type {
+      color: #38bdf8;
+    }
+
+    .event-log .event-value {
+      color: #a78bfa;
+    }
+
+    .back-link {
+      display: inline-block;
+      margin-bottom: 1rem;
+      color: white;
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .back-link:hover {
+      text-decoration: underline;
+    }
+
+    .api-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.875rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .api-table th {
+      text-align: left;
+      padding: 0.625rem 0.75rem;
+      background: #f1f5f9;
+      color: #334155;
+      font-weight: 600;
+      border-bottom: 2px solid #e2e8f0;
+    }
+
+    .api-table td {
+      padding: 0.5rem 0.75rem;
+      border-bottom: 1px solid #e2e8f0;
+      color: #475569;
+      vertical-align: top;
+    }
+
+    .api-table code {
+      background: #f1f5f9;
+      padding: 0.125rem 0.375rem;
+      border-radius: 4px;
+      font-size: 0.8125rem;
+      color: #6366f1;
+    }
+
+    .api-table td:first-child code {
+      color: #0f172a;
+      font-weight: 500;
+    }
+
+    .note {
+      background: #f0f9ff;
+      border-left: 4px solid #38bdf8;
+      padding: 0.75rem 1rem;
+      margin: 1rem 0;
+      font-size: 0.875rem;
+      color: #0c4a6e;
+      border-radius: 0 6px 6px 0;
+    }
+  </style>
+</head>
+<body>
+
+  <a href="/" class="back-link">&larr; Back to Components</a>
+
+  <div class="container">
+    <div class="header">
+      <h1>Textarea Component</h1>
+      <p>aegov-textarea &middot; with aegov-form-field &middot; aegov-label</p>
+    </div>
+
+    <!-- API Reference -->
+    <section>
+      <h2>API Reference</h2>
+
+      <h3>aegov-textarea</h3>
+      <p class="desc">A flexible textarea component with character counter, resize modes, auto-resize, and clipboard copy support.</p>
+      <table class="api-table">
+        <thead>
+          <tr><th>Property</th><th>Attribute</th><th>Type</th><th>Default</th><th>Description</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><code>fieldId</code></td><td><code>field-id</code></td><td><code>string</code></td><td>auto</td><td>Unique ID for the native textarea. Auto-generated if omitted.</td></tr>
+          <tr><td><code>size</code></td><td><code>size</code></td><td><code>TextareaSize</code></td><td><code>'base'</code></td><td>Font size: <code>sm</code> (14px), <code>base</code> (16px), <code>lg</code> (18px). Height is controlled by <code>rows</code>.</td></tr>
+          <tr><td><code>resize</code></td><td><code>resize</code></td><td><code>TextareaResize</code></td><td><code>'vertical'</code></td><td>Resize mode: <code>none</code>, <code>vertical</code>, <code>horizontal</code>, <code>both</code>, <code>auto</code> (grows with content).</td></tr>
+          <tr><td><code>value</code></td><td><code>value</code></td><td><code>string</code></td><td><code>''</code></td><td>Current value (mutable).</td></tr>
+          <tr><td><code>placeholder</code></td><td><code>placeholder</code></td><td><code>string</code></td><td>&mdash;</td><td>Placeholder text.</td></tr>
+          <tr><td><code>name</code></td><td><code>name</code></td><td><code>string</code></td><td>&mdash;</td><td>Form submission name.</td></tr>
+          <tr><td><code>maxlength</code></td><td><code>maxlength</code></td><td><code>number</code></td><td>&mdash;</td><td>Max characters. When set, a character counter is displayed.</td></tr>
+          <tr><td><code>disabled</code></td><td><code>disabled</code></td><td><code>boolean</code></td><td><code>false</code></td><td>Disables the textarea. Label dims automatically inside <code>aegov-form-field</code>.</td></tr>
+          <tr><td><code>readonly</code></td><td><code>readonly</code></td><td><code>boolean</code></td><td><code>false</code></td><td>Makes the textarea read-only.</td></tr>
+          <tr><td><code>required</code></td><td><code>required</code></td><td><code>boolean</code></td><td><code>false</code></td><td>Marks the field as required.</td></tr>
+          <tr><td><code>copyable</code></td><td><code>copyable</code></td><td><code>boolean</code></td><td><code>false</code></td><td>Shows copy-to-clipboard button at bottom-right. Only works when <code>readonly</code>.</td></tr>
+          <tr><td><code>class</code></td><td><code>class</code></td><td><code>string</code></td><td>&mdash;</td><td>Additional CSS classes merged onto the native textarea.</td></tr>
+        </tbody>
+      </table>
+
+      <h3>Events</h3>
+      <table class="api-table">
+        <thead>
+          <tr><th>Event</th><th>Detail</th><th>Description</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><code>aegovTextareaInput</code></td><td><code>{ value, event }</code></td><td>Fires on every keystroke.</td></tr>
+          <tr><td><code>aegovTextareaChange</code></td><td><code>{ value, event }</code></td><td>Fires on blur (native change).</td></tr>
+          <tr><td><code>aegovTextareaFocus</code></td><td><code>FocusEvent</code></td><td>Fires when the textarea gains focus.</td></tr>
+          <tr><td><code>aegovTextareaBlur</code></td><td><code>FocusEvent</code></td><td>Fires when the textarea loses focus.</td></tr>
+        </tbody>
+      </table>
+
+      <h3>Pass-through Attributes</h3>
+      <p class="desc">The following attributes are forwarded to the native <code>&lt;textarea&gt;</code> element: <code>rows</code>, <code>cols</code>, <code>minlength</code>, <code>maxlength</code>, <code>wrap</code>, <code>autocomplete</code>, <code>autofocus</code>, <code>spellcheck</code>, <code>enterkeyhint</code>, <code>title</code>, <code>tabindex</code>, <code>form</code>, plus all <code>aria-*</code> and <code>data-*</code> attributes.</p>
+    </section>
+
+    <!-- Section 1: Basic Textarea -->
+    <section>
+      <h2>1. Basic Textarea</h2>
+      <p class="desc">A simple textarea with a label, wrapped in <code>aegov-form-field</code> for automatic label linking.</p>
+
+      <aegov-form-field>
+        <aegov-label>Message</aegov-label>
+        <aegov-textarea placeholder="Write your message here..."></aegov-textarea>
+      </aegov-form-field>
+
+      <aegov-form-field>
+        <aegov-label>Bio</aegov-label>
+        <aegov-textarea placeholder="Tell us about yourself..." rows="5"></aegov-textarea>
+      </aegov-form-field>
+    </section>
+
+    <!-- Section 2: Font Sizes -->
+    <section>
+      <h2>2. Font Sizes</h2>
+      <p class="desc">Three size options that affect <strong>font size only</strong>. Textarea height is controlled by the <code>rows</code> attribute.</p>
+
+      <aegov-form-field>
+        <aegov-label>Small (sm) &mdash; 14px</aegov-label>
+        <aegov-textarea size="sm" placeholder="Small font size" rows="3"></aegov-textarea>
+      </aegov-form-field>
+
+      <aegov-form-field>
+        <aegov-label>Base (default) &mdash; 16px</aegov-label>
+        <aegov-textarea size="base" placeholder="Base font size" rows="3"></aegov-textarea>
+      </aegov-form-field>
+
+      <aegov-form-field>
+        <aegov-label>Large (lg) &mdash; 18px</aegov-label>
+        <aegov-textarea size="lg" placeholder="Large font size" rows="3"></aegov-textarea>
+      </aegov-form-field>
+    </section>
+
+    <!-- Section 3: Resize Modes -->
+    <section>
+      <h2>3. Resize Modes</h2>
+      <p class="desc">Control how the textarea can be resized by the user.</p>
+
+      <div class="example-row">
+        <aegov-form-field>
+          <aegov-label>None</aegov-label>
+          <aegov-textarea resize="none" placeholder="Cannot resize" rows="3"></aegov-textarea>
+        </aegov-form-field>
+
+        <aegov-form-field>
+          <aegov-label>Vertical (default)</aegov-label>
+          <aegov-textarea resize="vertical" placeholder="Resize vertically" rows="3"></aegov-textarea>
+        </aegov-form-field>
+      </div>
+
+      <div class="example-row">
+        <aegov-form-field>
+          <aegov-label>Horizontal</aegov-label>
+          <aegov-textarea resize="horizontal" placeholder="Resize horizontally" rows="3"></aegov-textarea>
+        </aegov-form-field>
+
+        <aegov-form-field>
+          <aegov-label>Both</aegov-label>
+          <aegov-textarea resize="both" placeholder="Resize both directions" rows="3"></aegov-textarea>
+        </aegov-form-field>
+      </div>
+    </section>
+
+    <!-- Section 4: Auto Resize -->
+    <section>
+      <h2>4. Auto Resize</h2>
+      <p class="desc">With <code>resize="auto"</code>, the textarea automatically grows as the user types more lines. Try typing multiple lines below.</p>
+
+      <aegov-form-field>
+        <aegov-label>Auto-growing textarea</aegov-label>
+        <aegov-textarea resize="auto" rows="2" placeholder="Start typing... the textarea will grow as you add more lines."></aegov-textarea>
+      </aegov-form-field>
+    </section>
+
+    <!-- Section 5: Character Counter -->
+    <section>
+      <h2>5. Character Counter</h2>
+      <p class="desc">When <code>maxlength</code> is set, a live character counter appears below the textarea. The counter turns red when the limit is exceeded.</p>
+
+      <aegov-form-field>
+        <aegov-label>Short comment (max 100 characters)</aegov-label>
+        <aegov-textarea maxlength="100" placeholder="Keep it brief..." rows="3"></aegov-textarea>
+      </aegov-form-field>
+
+      <aegov-form-field>
+        <aegov-label>Description (max 500 characters)</aegov-label>
+        <aegov-textarea maxlength="500" placeholder="Write a detailed description..." rows="5"></aegov-textarea>
+      </aegov-form-field>
+
+      <aegov-form-field>
+        <aegov-label>Pre-filled near limit (max 50)</aegov-label>
+        <aegov-textarea maxlength="50" value="This text is already quite close to the limit!" rows="2"></aegov-textarea>
+      </aegov-form-field>
+    </section>
+
+    <!-- Section 6: Disabled & Readonly -->
+    <section>
+      <h2>6. Disabled &amp; Readonly States</h2>
+      <p class="desc">Disabled textareas are non-interactive and visually dimmed. The label inside <code>aegov-form-field</code> automatically dims when the textarea is disabled.</p>
+
+      <div class="example-row">
+        <aegov-form-field>
+          <aegov-label>Disabled Textarea</aegov-label>
+          <aegov-textarea disabled value="This content cannot be edited." rows="3"></aegov-textarea>
+        </aegov-form-field>
+
+        <aegov-form-field>
+          <aegov-label>Readonly Textarea</aegov-label>
+          <aegov-textarea readonly value="This content is read-only but can be selected and copied manually." rows="3"></aegov-textarea>
+        </aegov-form-field>
+      </div>
+    </section>
+
+    <!-- Section 7: Readonly with Copy -->
+    <section>
+      <h2>7. Readonly with Copy Button</h2>
+      <p class="desc">When <code>readonly</code> and <code>copyable</code> are both set, a copy-to-clipboard button appears at the bottom-right corner. Text content is padded to avoid overlapping the button.</p>
+
+      <aegov-form-field>
+        <aegov-label>API Response (copyable)</aegov-label>
+        <aegov-textarea readonly copyable rows="5" value='{"status": "success", "data": {"id": 42, "name": "AEGOV Design System", "version": "3.0.0", "components": 25}}'></aegov-textarea>
+      </aegov-form-field>
+
+      <aegov-form-field>
+        <aegov-label>Embed Code (copyable)</aegov-label>
+        <aegov-textarea readonly copyable rows="3" value='<script type="module" src="https://cdn.example.com/aegov/aegov.esm.js"></script>'></aegov-textarea>
+      </aegov-form-field>
+    </section>
+
+    <!-- Section 8: Rows Attribute -->
+    <section>
+      <h2>8. Rows Attribute</h2>
+      <p class="desc">The <code>rows</code> attribute controls the visible height of the textarea.</p>
+
+      <div class="example-row">
+        <aegov-form-field>
+          <aegov-label>2 rows</aegov-label>
+          <aegov-textarea rows="2" placeholder="Two visible rows"></aegov-textarea>
+        </aegov-form-field>
+
+        <aegov-form-field>
+          <aegov-label>5 rows</aegov-label>
+          <aegov-textarea rows="5" placeholder="Five visible rows"></aegov-textarea>
+        </aegov-form-field>
+
+        <aegov-form-field>
+          <aegov-label>10 rows</aegov-label>
+          <aegov-textarea rows="10" placeholder="Ten visible rows"></aegov-textarea>
+        </aegov-form-field>
+      </div>
+    </section>
+
+    <!-- Section 9: Required Field -->
+    <section>
+      <h2>9. Required Field</h2>
+      <p class="desc">Mark textareas as required for form validation.</p>
+
+      <aegov-form-field>
+        <aegov-label>Feedback *</aegov-label>
+        <aegov-textarea required placeholder="Your feedback is required" rows="4"></aegov-textarea>
+      </aegov-form-field>
+    </section>
+
+    <!-- Section 10: Custom Classes & Pass-through -->
+    <section>
+      <h2>10. Custom Classes &amp; Pass-through Attributes</h2>
+      <p class="desc">Add custom Tailwind classes and native attributes. All <code>data-*</code>, <code>aria-*</code>, <code>rows</code>, <code>cols</code>, <code>wrap</code>, <code>spellcheck</code>, and <code>title</code> attributes are passed through to the native textarea.</p>
+
+      <aegov-form-field>
+        <aegov-label>Custom styled textarea</aegov-label>
+        <aegov-textarea class="font-mono" placeholder="Monospace font via custom class" rows="4" spellcheck="false" data-testid="custom-textarea"></aegov-textarea>
+      </aegov-form-field>
+    </section>
+
+    <!-- Section 11: Event Handling -->
+    <section>
+      <h2>11. Event Handling</h2>
+      <p class="desc">Listen to textarea events: <code>aegovTextareaInput</code> (every keystroke), <code>aegovTextareaChange</code> (on blur), <code>aegovTextareaFocus</code>, and <code>aegovTextareaBlur</code>.</p>
+
+      <aegov-form-field>
+        <aegov-label>Type something below</aegov-label>
+        <aegov-textarea id="event-textarea" placeholder="Type here to see events..." rows="4"></aegov-textarea>
+      </aegov-form-field>
+
+      <div class="event-log" id="event-log">
+        <div style="color: #475569;">Events will appear here...</div>
+      </div>
+    </section>
+
+    <!-- Section 12: Standalone Usage -->
+    <section>
+      <h2>12. Standalone Usage</h2>
+      <p class="desc">Components can be used independently without the <code>aegov-form-field</code> wrapper.</p>
+
+      <div style="margin-bottom: 1rem;">
+        <aegov-label for="standalone-textarea">Standalone Label</aegov-label>
+        <aegov-textarea field-id="standalone-textarea" placeholder="Standalone textarea" rows="3"></aegov-textarea>
+      </div>
+
+      <div>
+        <aegov-textarea placeholder="Textarea without label" rows="3"></aegov-textarea>
+      </div>
+    </section>
+
+    <!-- Section 13: Combined Features -->
+    <section>
+      <h2>13. Combined Features</h2>
+      <p class="desc">Multiple features working together.</p>
+
+      <aegov-form-field>
+        <aegov-label>Auto-resize with character counter</aegov-label>
+        <aegov-textarea resize="auto" maxlength="300" rows="2" placeholder="Auto-grows with a character limit..."></aegov-textarea>
+      </aegov-form-field>
+
+      <aegov-form-field>
+        <aegov-label>Large font, 8 rows, no resize</aegov-label>
+        <aegov-textarea size="lg" resize="none" rows="8" placeholder="Large text, fixed height, no resize handle"></aegov-textarea>
+      </aegov-form-field>
+    </section>
+
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const textarea = document.querySelector('#event-textarea');
+      const log = document.querySelector('#event-log');
+
+      if (textarea && log) {
+        const events = ['aegovTextareaInput', 'aegovTextareaChange', 'aegovTextareaFocus', 'aegovTextareaBlur'];
+
+        events.forEach(eventName => {
+          textarea.addEventListener(eventName, (e) => {
+            const entry = document.createElement('div');
+            entry.className = 'event-entry';
+
+            const shortName = eventName.replace('aegovTextarea', '');
+            const value = e.detail?.value !== undefined ? ` → "${e.detail.value.substring(0, 50)}${e.detail.value.length > 50 ? '...' : ''}"` : '';
+            entry.innerHTML = `<span class="event-type">${shortName}</span>${value ? `<span class="event-value">${value}</span>` : ''}`;
+
+            if (log.querySelector('div[style]')) {
+              log.innerHTML = '';
+            }
+
+            log.prepend(entry);
+          });
+        });
+      }
+    });
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,79 @@
+:host {
+  display: block;
+}
+
+.aegov-textarea {
+  font-family: inherit;
+  @apply relative text-primary-900 w-full border-0 bg-transparent leading-6
+         focus:ring-0 motion-reduce:transition-none
+         disabled:pointer-events-none disabled:cursor-not-allowed
+         disabled:select-none disabled:opacity-40
+         rounded-lg focus:outline-none;
+  @apply placeholder:text-aeblack-500 bg-whitely-50
+         inset-ring-2 inset-ring-primary-400
+         focus:inset-ring-primary-support-600;
+}
+
+/* Size variants (font size only; height controlled by rows) */
+.textarea--sm {
+  @apply text-sm py-2 px-3;
+}
+
+.textarea--base {
+  @apply text-base py-3 px-4;
+}
+
+.textarea--lg {
+  @apply text-lg py-3.5 px-5;
+}
+
+/* Resize variants */
+.textarea--resize-none {
+  resize: none;
+}
+
+.textarea--resize-vertical {
+  resize: vertical;
+}
+
+.textarea--resize-horizontal {
+  resize: horizontal;
+}
+
+.textarea--resize-both {
+  resize: both;
+}
+
+/* Extra bottom padding when copy button is present to avoid text going behind it */
+.textarea--has-copy {
+  @apply pb-10;
+}
+
+/* Wrapper for copy button positioning */
+.textarea__wrapper {
+  @apply relative;
+}
+
+/* Copy button at bottom-right */
+.textarea__copy-btn {
+  @apply absolute bottom-2 end-2 flex items-center justify-center
+         w-8 h-8 rounded-md
+         border-0 bg-whitely-100 text-aeblack-500
+         hover:text-primary-700 hover:bg-whitely-200
+         focus-visible:text-primary-700 focus-visible:bg-whitely-200
+         cursor-pointer transition-colors duration-200;
+}
+
+/* Copy success feedback */
+.textarea__copy-btn--copied {
+  @apply text-aegreen-600 hover:text-aegreen-600;
+}
+
+/* Character counter */
+.textarea__counter {
+  @apply text-xs text-aeblack-500 text-end mt-1 pe-1;
+}
+
+.textarea__counter--over {
+  @apply text-aered-600 font-semibold;
+}

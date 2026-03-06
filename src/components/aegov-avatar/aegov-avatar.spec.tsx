@@ -76,20 +76,12 @@ describe('aegov-avatar', () => {
       expect(avatar.classList.contains('avatar-rounded')).toBe(false);
     });
 
-    it('defaults status to false', async () => {
+    it('defaults status to none', async () => {
       const page = await newSpecPage({
         components: [AegovAvatar],
         html: `<aegov-avatar></aegov-avatar>`,
       });
-      expect(page.rootInstance.status).toBe(false);
-    });
-
-    it('defaults statusType to online', async () => {
-      const page = await newSpecPage({
-        components: [AegovAvatar],
-        html: `<aegov-avatar></aegov-avatar>`,
-      });
-      expect(page.rootInstance.statusType).toBe('online');
+      expect(page.rootInstance.status).toBe('none');
     });
   });
 
@@ -140,10 +132,10 @@ describe('aegov-avatar', () => {
       expect(indicator).toBeNull();
     });
 
-    it('renders status indicator when status is true', async () => {
+    it('renders status indicator when status is online', async () => {
       const page = await newSpecPage({
         components: [AegovAvatar],
-        html: `<aegov-avatar status="true"></aegov-avatar>`,
+        html: `<aegov-avatar status="online"></aegov-avatar>`,
       });
       const indicator = page.root.querySelector('.avatar-indicator');
       expect(indicator).toBeTruthy();
@@ -152,7 +144,7 @@ describe('aegov-avatar', () => {
     it('renders online status class', async () => {
       const page = await newSpecPage({
         components: [AegovAvatar],
-        html: `<aegov-avatar status="true" status-type="online"></aegov-avatar>`,
+        html: `<aegov-avatar status="online"></aegov-avatar>`,
       });
       const indicator = page.root.querySelector('.avatar-indicator');
       expect(indicator.classList.contains('avatar-online')).toBe(true);
@@ -161,16 +153,16 @@ describe('aegov-avatar', () => {
     it('renders offline status class', async () => {
       const page = await newSpecPage({
         components: [AegovAvatar],
-        html: `<aegov-avatar status="true" status-type="offline"></aegov-avatar>`,
+        html: `<aegov-avatar status="offline"></aegov-avatar>`,
       });
       const indicator = page.root.querySelector('.avatar-indicator');
       expect(indicator.classList.contains('avatar-offline')).toBe(true);
     });
 
-    it('does not render status when type is none', async () => {
+    it('does not render status when status is none', async () => {
       const page = await newSpecPage({
         components: [AegovAvatar],
-        html: `<aegov-avatar status="true" status-type="none"></aegov-avatar>`,
+        html: `<aegov-avatar status="none"></aegov-avatar>`,
       });
       const indicator = page.root.querySelector('.avatar-indicator');
       expect(indicator).toBeNull();
@@ -179,7 +171,7 @@ describe('aegov-avatar', () => {
     it('has aria-label on status indicator', async () => {
       const page = await newSpecPage({
         components: [AegovAvatar],
-        html: `<aegov-avatar status="true" status-type="online"></aegov-avatar>`,
+        html: `<aegov-avatar status="online"></aegov-avatar>`,
       });
       const indicator = page.root.querySelector('.avatar-indicator');
       expect(indicator.getAttribute('aria-label')).toBe('Status: online');
@@ -258,7 +250,7 @@ describe('aegov-avatar', () => {
     it('renders rounded avatar with status', async () => {
       const page = await newSpecPage({
         components: [AegovAvatar],
-        html: `<aegov-avatar variant="rounded" status="true" status-type="online"></aegov-avatar>`,
+        html: `<aegov-avatar variant="rounded" status="online"></aegov-avatar>`,
       });
       const avatar = page.root.querySelector('.aegov-avatar');
       expect(avatar.classList.contains('avatar-rounded')).toBe(true);
@@ -268,7 +260,7 @@ describe('aegov-avatar', () => {
     it('renders large rounded avatar with image and offline status', async () => {
       const page = await newSpecPage({
         components: [AegovAvatar],
-        html: `<aegov-avatar size="lg" variant="rounded" src="https://example.com/avatar.jpg" status="true" status-type="offline"></aegov-avatar>`,
+        html: `<aegov-avatar size="lg" variant="rounded" src="https://example.com/avatar.jpg" status="offline"></aegov-avatar>`,
       });
       const avatar = page.root.querySelector('.aegov-avatar');
       expect(avatar.classList.contains('avatar-lg')).toBe(true);

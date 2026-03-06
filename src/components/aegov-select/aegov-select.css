@@ -1,0 +1,239 @@
+:host {
+  display: block;
+}
+
+/* Hide the slot container - options are read programmatically */
+.select__slot-container {
+  display: none;
+}
+
+/* ============================================
+   NATIVE SELECT (variant="default")
+   ============================================ */
+
+.select__native-wrapper {
+  @apply relative;
+}
+
+/* Base select styles - matches aegov-input */
+.aegov-select {
+  font-family: inherit;
+  @apply relative text-primary-900 w-full border-0 bg-transparent leading-6
+         focus:ring-0 motion-reduce:transition-none
+         disabled:pointer-events-none disabled:cursor-not-allowed
+         disabled:select-none disabled:opacity-40
+         rounded-lg focus:outline-none cursor-pointer;
+  @apply placeholder:text-aeblack-500 bg-whitely-50
+         inset-ring-2 inset-ring-primary-400
+         focus:inset-ring-primary-support-600;
+  /* Custom arrow for native select */
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%234b4f58' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.5rem center;
+  background-size: 20px 20px;
+}
+
+:host-context([dir="rtl"]) .aegov-select,
+[dir="rtl"] .aegov-select {
+  background-position: left 0.5rem center;
+}
+
+/* Size variants - matches aegov-input heights */
+.select--sm {
+  @apply text-sm py-2 px-3 h-10;
+}
+
+.select--base {
+  @apply text-base py-3 px-4 h-12;
+}
+
+.select--lg {
+  @apply text-lg py-3.5 px-5 h-13;
+}
+
+/* ============================================
+   LISTBOX TRIGGER (variant="listbox" or multiple)
+   ============================================ */
+
+/* For listbox mode, the trigger is a button, not a native select */
+button.aegov-select {
+  @apply flex items-center justify-between text-start;
+  /* Remove native select arrow — we render our own SVG */
+  background-image: none;
+}
+
+.select--placeholder .select__value {
+  @apply text-aeblack-500;
+}
+
+.select--open {
+  @apply inset-ring-primary-support-600;
+}
+
+.select--disabled {
+  @apply opacity-40 pointer-events-none cursor-not-allowed;
+}
+
+.select__value {
+  @apply flex-1 truncate;
+}
+
+.select__actions {
+  @apply flex items-center gap-1 flex-shrink-0;
+}
+
+.select__clear {
+  @apply flex items-center justify-center w-5 h-5 rounded
+         text-aeblack-500 hover:text-primary-700 hover:bg-primary-50
+         cursor-pointer transition-colors duration-200;
+}
+
+.select__arrow {
+  @apply flex items-center justify-center text-aeblack-600
+         transition-transform duration-200;
+}
+
+.select__arrow--open {
+  @apply rotate-180;
+}
+
+/* ============================================
+   LISTBOX DROPDOWN
+   ============================================ */
+
+.select__trigger-wrapper {
+  @apply relative;
+}
+
+.select__listbox {
+  @apply absolute z-50 w-full bg-white rounded-lg
+         shadow-lg flex flex-col
+         inset-ring-1 inset-ring-aeblack-200;
+  animation: selectSlideIn 150ms ease-out;
+}
+
+.select__listbox--below {
+  @apply top-full mt-1;
+}
+
+.select__listbox--above {
+  @apply bottom-full mb-1;
+}
+
+@keyframes selectSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Search input inside dropdown */
+.select__search {
+  @apply p-1 border-b border-aeblack-200;
+}
+
+.select__search-input {
+  @apply w-full border-0 bg-whitely-50
+         text-primary-900 placeholder:text-aeblack-400
+         focus:outline-none focus:ring-0
+         focus:inset-ring-primary-400;
+}
+
+.select__search-input--sm {
+  @apply text-sm py-1.5 px-2;
+}
+
+.select__search-input--base {
+  @apply text-sm py-2 px-3;
+}
+
+.select__search-input--lg {
+  @apply text-base py-2.5 px-3;
+}
+
+/* Options container */
+.select__options {
+  @apply overflow-y-auto py-1 flex-1 min-h-0;
+}
+
+/* Individual option */
+.select__option {
+  @apply flex items-center gap-2 cursor-pointer
+         text-primary-900 transition-colors duration-100
+         select-none;
+}
+
+.select__option--sm {
+  @apply text-sm px-3 py-1.5;
+  min-height: 36px;
+}
+
+.select__option--base {
+  @apply text-base px-3 py-2 mx-0.5;
+  min-height: 40px;
+}
+
+.select__option--lg {
+  @apply text-lg px-4 py-2.5;
+  min-height: 48px;
+}
+
+.select__option:hover:not(.select__option--disabled) {
+  @apply bg-aeblack-50;
+}
+
+.select__option--focused:not(.select__option--disabled) {
+  @apply bg-aeblack-50;
+}
+
+.select__option--selected {
+  @apply text-primary-700 font-medium;
+}
+
+.select__option--selected:hover:not(.select__option--disabled) {
+  @apply bg-aeblack-50;
+}
+
+.select__option--disabled {
+  @apply opacity-40 cursor-not-allowed;
+}
+
+/* Checkbox for multiple select */
+.select__checkbox {
+  @apply flex items-center justify-center w-4 h-4 rounded
+         border-2 border-primary-400 flex-shrink-0
+         text-white;
+}
+
+.select__option--selected .select__checkbox {
+  @apply bg-primary-600 border-primary-600;
+}
+
+/* Checkmark icon for single select */
+.select__check-icon {
+  @apply text-primary-600 flex-shrink-0 ms-auto;
+}
+
+.select__option-label {
+  @apply truncate flex-1;
+}
+
+/* Group label */
+.select__group-label {
+  @apply text-xs font-semibold uppercase tracking-wider
+         text-aeblack-400 px-3 pt-6 pb-2;
+}
+
+.select__group-label:first-child {
+  @apply pt-3;
+}
+
+/* Empty state */
+.select__empty {
+  @apply text-sm text-aeblack-500 px-3 py-4 text-center;
+}

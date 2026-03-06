@@ -189,7 +189,7 @@ describe('Accessibility Testing Suite', () => {
     it('should have aria-label for status indicator', async () => {
       const page = await newSpecPage({
         components: [AegovAvatar],
-        html: `<aegov-avatar status status-type="online"></aegov-avatar>`,
+        html: `<aegov-avatar status="online"></aegov-avatar>`,
       });
 
       const statusIndicator = page.root.querySelector('.avatar-indicator');

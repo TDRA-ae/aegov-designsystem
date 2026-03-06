@@ -75,32 +75,32 @@ describe('aegov-avatar E2E', () => {
       expect(indicator).toBeNull();
     });
 
-    it('should render status when enabled', async () => {
+    it('should render status when online', async () => {
       const page = await newE2EPage();
-      await page.setContent('<aegov-avatar status="true"></aegov-avatar>');
+      await page.setContent('<aegov-avatar status="online"></aegov-avatar>');
       const indicator = await page.find('aegov-avatar .avatar-indicator');
       expect(indicator).toBeTruthy();
     });
 
-    it('should render online status', async () => {
+    it('should render online status class', async () => {
       const page = await newE2EPage();
-      await page.setContent('<aegov-avatar status="true" status-type="online"></aegov-avatar>');
+      await page.setContent('<aegov-avatar status="online"></aegov-avatar>');
       const indicator = await page.find('aegov-avatar .avatar-indicator');
       const classes = await indicator.getProperty('className');
       expect(classes).toContain('avatar-online');
     });
 
-    it('should render offline status', async () => {
+    it('should render offline status class', async () => {
       const page = await newE2EPage();
-      await page.setContent('<aegov-avatar status="true" status-type="offline"></aegov-avatar>');
+      await page.setContent('<aegov-avatar status="offline"></aegov-avatar>');
       const indicator = await page.find('aegov-avatar .avatar-indicator');
       const classes = await indicator.getProperty('className');
       expect(classes).toContain('avatar-offline');
     });
 
-    it('should not render status when type is none', async () => {
+    it('should not render status when none', async () => {
       const page = await newE2EPage();
-      await page.setContent('<aegov-avatar status="true" status-type="none"></aegov-avatar>');
+      await page.setContent('<aegov-avatar status="none"></aegov-avatar>');
       const indicator = await page.find('aegov-avatar .avatar-indicator');
       expect(indicator).toBeNull();
     });
@@ -130,7 +130,7 @@ describe('aegov-avatar E2E', () => {
 
     it('should have aria-label on status indicator', async () => {
       const page = await newE2EPage();
-      await page.setContent('<aegov-avatar status="true" status-type="online"></aegov-avatar>');
+      await page.setContent('<aegov-avatar status="online"></aegov-avatar>');
       const indicator = await page.find('aegov-avatar .avatar-indicator');
       expect(await indicator.getAttribute('aria-label')).toBe('Status: online');
     });
@@ -174,7 +174,7 @@ describe('aegov-avatar E2E', () => {
     it('should render large rounded avatar with image and status', async () => {
       const page = await newE2EPage();
       await page.setContent(`
-        <aegov-avatar size="lg" variant="rounded" status="true" status-type="online" src="${testImageSrc}" alt="Test User"></aegov-avatar>
+        <aegov-avatar size="lg" variant="rounded" status="online" src="${testImageSrc}" alt="Test User"></aegov-avatar>
       `);
       const avatar = await page.find('aegov-avatar .aegov-avatar');
       const classes = await avatar.getProperty('className');

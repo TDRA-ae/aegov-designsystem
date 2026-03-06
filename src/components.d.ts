@@ -5,9 +5,9 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
-import { AccordionIcon, AvatarGroupMode, AvatarSize, AvatarStatus, AvatarVariant, BadgeAppearance, BadgeColor, BadgeSize, BannerDisplay, BannerMode, BannerPosition, BannerRole, BlockquoteVariant, BreadcrumbSeparator, ButtonAppearance, ButtonGroupOrientation, ButtonSize, ButtonType, ButtonVariant, CalloutAppearance, CalloutVariant, CardBackground, CardBorderStyle, CardBorderWidth, CardHover, DatepickerChangeDetail, DatepickerMode, DatepickerMonthChangeDetail, DropdownAlign, DropdownPosition, DropdownTrigger, InputSize, InputType, LinkTarget, ModalBackdropOpacity, ModalPosition, PaginationSize, PaginationVariant, ProgressOrientation, ProgressSize, ProgressStepStatus, ProgressVariant, TabOrientation, TabSize, TabVariant, TextSize, TitleSize, ToastAppearance, ToastMode, ToastPosition, ToastVariant, TooltipAlign, TooltipPosition, TooltipTrigger } from "./utils/types";
+import { AccordionIcon, AvatarGroupMode, AvatarSize, AvatarStatus, AvatarVariant, BadgeAppearance, BadgeColor, BadgeSize, BannerDisplay, BannerMode, BannerPosition, BannerRole, BlockquoteVariant, BreadcrumbSeparator, ButtonAppearance, ButtonGroupOrientation, ButtonSize, ButtonType, ButtonVariant, CalloutAppearance, CalloutVariant, CardBackground, CardBorderStyle, CardBorderWidth, CardHover, DatepickerChangeDetail, DatepickerMode, DatepickerMonthChangeDetail, DropdownAlign, DropdownPosition, DropdownTrigger, InputSize, InputType, LinkTarget, ModalBackdropOpacity, ModalPosition, PaginationSize, PaginationVariant, ProgressOrientation, ProgressSize, ProgressStepStatus, ProgressVariant, SelectChangeDetail, SelectSize, SelectVariant, TabOrientation, TabSize, TabVariant, TextareaResize, TextareaSize, TextSize, TitleSize, ToastAppearance, ToastMode, ToastPosition, ToastVariant, TooltipAlign, TooltipPosition, TooltipTrigger } from "./utils/types";
 import { Event } from "@stencil/core";
-export { AccordionIcon, AvatarGroupMode, AvatarSize, AvatarStatus, AvatarVariant, BadgeAppearance, BadgeColor, BadgeSize, BannerDisplay, BannerMode, BannerPosition, BannerRole, BlockquoteVariant, BreadcrumbSeparator, ButtonAppearance, ButtonGroupOrientation, ButtonSize, ButtonType, ButtonVariant, CalloutAppearance, CalloutVariant, CardBackground, CardBorderStyle, CardBorderWidth, CardHover, DatepickerChangeDetail, DatepickerMode, DatepickerMonthChangeDetail, DropdownAlign, DropdownPosition, DropdownTrigger, InputSize, InputType, LinkTarget, ModalBackdropOpacity, ModalPosition, PaginationSize, PaginationVariant, ProgressOrientation, ProgressSize, ProgressStepStatus, ProgressVariant, TabOrientation, TabSize, TabVariant, TextSize, TitleSize, ToastAppearance, ToastMode, ToastPosition, ToastVariant, TooltipAlign, TooltipPosition, TooltipTrigger } from "./utils/types";
+export { AccordionIcon, AvatarGroupMode, AvatarSize, AvatarStatus, AvatarVariant, BadgeAppearance, BadgeColor, BadgeSize, BannerDisplay, BannerMode, BannerPosition, BannerRole, BlockquoteVariant, BreadcrumbSeparator, ButtonAppearance, ButtonGroupOrientation, ButtonSize, ButtonType, ButtonVariant, CalloutAppearance, CalloutVariant, CardBackground, CardBorderStyle, CardBorderWidth, CardHover, DatepickerChangeDetail, DatepickerMode, DatepickerMonthChangeDetail, DropdownAlign, DropdownPosition, DropdownTrigger, InputSize, InputType, LinkTarget, ModalBackdropOpacity, ModalPosition, PaginationSize, PaginationVariant, ProgressOrientation, ProgressSize, ProgressStepStatus, ProgressVariant, SelectChangeDetail, SelectSize, SelectVariant, TabOrientation, TabSize, TabVariant, TextareaResize, TextareaSize, TextSize, TitleSize, ToastAppearance, ToastMode, ToastPosition, ToastVariant, TooltipAlign, TooltipPosition, TooltipTrigger } from "./utils/types";
 export { Event } from "@stencil/core";
 export namespace Components {
     /**
@@ -866,6 +866,93 @@ export namespace Components {
          */
         "variant": ProgressVariant;
     }
+    interface AegovSelect {
+        /**
+          * Additional CSS classes to apply.
+         */
+        "class"?: string;
+        /**
+          * Show a clear button to reset selection.
+          * @default false
+         */
+        "clearable": boolean;
+        /**
+          * Whether the select is disabled.
+          * @default false
+         */
+        "disabled": boolean;
+        /**
+          * Message shown when search yields no results.
+          * @default 'No results found'
+         */
+        "emptyMessage": string;
+        /**
+          * Unique ID for the select element. Auto-generated if not provided.
+         */
+        "fieldId"?: string;
+        /**
+          * Whether multiple selection is enabled. Forces listbox behaviour.
+          * @default false
+         */
+        "multiple": boolean;
+        /**
+          * The name attribute for form submission.
+         */
+        "name"?: string;
+        /**
+          * Placeholder text shown when nothing is selected.
+         */
+        "placeholder"?: string;
+        /**
+          * Whether the select is required.
+          * @default false
+         */
+        "required": boolean;
+        /**
+          * Show a search input in the listbox dropdown to filter options. Only works with listbox variant.
+          * @default false
+         */
+        "searchable": boolean;
+        /**
+          * The size of the select. Matches aegov-input height.
+          * @default 'base'
+         */
+        "size": SelectSize;
+        /**
+          * The current selected value. For multiple, a comma-separated string.
+          * @default ''
+         */
+        "value": string;
+        /**
+          * The visual variant. 'default' renders a native select; 'listbox' renders a custom dropdown.
+          * @default 'default'
+         */
+        "variant": SelectVariant;
+        /**
+          * Max visible items in the dropdown before scrolling.
+          * @default 6
+         */
+        "visibleItems": number;
+    }
+    interface AegovSelectOption {
+        /**
+          * Whether this option is disabled.
+          * @default false
+         */
+        "disabled": boolean;
+        /**
+          * The value of this option.
+          * @default ''
+         */
+        "value": string;
+    }
+    interface AegovSelectOptionGroup {
+        /**
+          * The label for this option group.
+          * @default ''
+         */
+        "label": string;
+    }
     /**
      * A separator component for visually dividing sections of content
      */
@@ -1003,6 +1090,63 @@ export namespace Components {
           * @default 'base'
          */
         "size": TextSize;
+    }
+    interface AegovTextarea {
+        /**
+          * Additional CSS classes to apply.
+         */
+        "class"?: string;
+        /**
+          * Show a copy button to copy the textarea value to clipboard. Only applies when readonly.
+          * @default false
+         */
+        "copyable": boolean;
+        /**
+          * Whether the textarea is disabled.
+          * @default false
+         */
+        "disabled": boolean;
+        /**
+          * Unique ID for the native textarea element. Auto-generated if not provided.
+         */
+        "fieldId"?: string;
+        /**
+          * Maximum number of characters. When set, a character counter is displayed.
+         */
+        "maxlength"?: number;
+        /**
+          * The name attribute for the textarea.
+         */
+        "name"?: string;
+        /**
+          * Placeholder text for the textarea.
+         */
+        "placeholder"?: string;
+        /**
+          * Whether the textarea is readonly.
+          * @default false
+         */
+        "readonly": boolean;
+        /**
+          * Whether the textarea is required.
+          * @default false
+         */
+        "required": boolean;
+        /**
+          * Resize behaviour of the textarea.
+          * @default 'vertical'
+         */
+        "resize": TextareaResize;
+        /**
+          * The size of the textarea (affects font size only).
+          * @default 'base'
+         */
+        "size": TextareaSize;
+        /**
+          * The current value of the textarea.
+          * @default ''
+         */
+        "value": string;
     }
     interface AegovTitle {
         /**
@@ -1180,6 +1324,10 @@ export interface AegovPaginationCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLAegovPaginationElement;
 }
+export interface AegovSelectCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLAegovSelectElement;
+}
 export interface AegovTabCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLAegovTabElement;
@@ -1187,6 +1335,10 @@ export interface AegovTabCustomEvent<T> extends CustomEvent<T> {
 export interface AegovTabsCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLAegovTabsElement;
+}
+export interface AegovTextareaCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLAegovTextareaElement;
 }
 export interface AegovToastCustomEvent<T> extends CustomEvent<T> {
     detail: T;
@@ -1552,6 +1704,37 @@ declare global {
         prototype: HTMLAegovProgressStepElement;
         new (): HTMLAegovProgressStepElement;
     };
+    interface HTMLAegovSelectElementEventMap {
+        "aegovSelectChange": SelectChangeDetail;
+        "aegovSelectOpen": void;
+        "aegovSelectClose": void;
+    }
+    interface HTMLAegovSelectElement extends Components.AegovSelect, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLAegovSelectElementEventMap>(type: K, listener: (this: HTMLAegovSelectElement, ev: AegovSelectCustomEvent<HTMLAegovSelectElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLAegovSelectElementEventMap>(type: K, listener: (this: HTMLAegovSelectElement, ev: AegovSelectCustomEvent<HTMLAegovSelectElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLAegovSelectElement: {
+        prototype: HTMLAegovSelectElement;
+        new (): HTMLAegovSelectElement;
+    };
+    interface HTMLAegovSelectOptionElement extends Components.AegovSelectOption, HTMLStencilElement {
+    }
+    var HTMLAegovSelectOptionElement: {
+        prototype: HTMLAegovSelectOptionElement;
+        new (): HTMLAegovSelectOptionElement;
+    };
+    interface HTMLAegovSelectOptionGroupElement extends Components.AegovSelectOptionGroup, HTMLStencilElement {
+    }
+    var HTMLAegovSelectOptionGroupElement: {
+        prototype: HTMLAegovSelectOptionGroupElement;
+        new (): HTMLAegovSelectOptionGroupElement;
+    };
     /**
      * A separator component for visually dividing sections of content
      */
@@ -1636,6 +1819,26 @@ declare global {
         prototype: HTMLAegovTextElement;
         new (): HTMLAegovTextElement;
     };
+    interface HTMLAegovTextareaElementEventMap {
+        "aegovTextareaChange": { value: string; event: Event };
+        "aegovTextareaInput": { value: string; event: Event };
+        "aegovTextareaFocus": FocusEvent;
+        "aegovTextareaBlur": FocusEvent;
+    }
+    interface HTMLAegovTextareaElement extends Components.AegovTextarea, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLAegovTextareaElementEventMap>(type: K, listener: (this: HTMLAegovTextareaElement, ev: AegovTextareaCustomEvent<HTMLAegovTextareaElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLAegovTextareaElementEventMap>(type: K, listener: (this: HTMLAegovTextareaElement, ev: AegovTextareaCustomEvent<HTMLAegovTextareaElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLAegovTextareaElement: {
+        prototype: HTMLAegovTextareaElement;
+        new (): HTMLAegovTextareaElement;
+    };
     interface HTMLAegovTitleElement extends Components.AegovTitle, HTMLStencilElement {
     }
     var HTMLAegovTitleElement: {
@@ -1697,11 +1900,15 @@ declare global {
         "aegov-pagination": HTMLAegovPaginationElement;
         "aegov-progress": HTMLAegovProgressElement;
         "aegov-progress-step": HTMLAegovProgressStepElement;
+        "aegov-select": HTMLAegovSelectElement;
+        "aegov-select-option": HTMLAegovSelectOptionElement;
+        "aegov-select-option-group": HTMLAegovSelectOptionGroupElement;
         "aegov-separator": HTMLAegovSeparatorElement;
         "aegov-tab": HTMLAegovTabElement;
         "aegov-tab-panel": HTMLAegovTabPanelElement;
         "aegov-tabs": HTMLAegovTabsElement;
         "aegov-text": HTMLAegovTextElement;
+        "aegov-textarea": HTMLAegovTextareaElement;
         "aegov-title": HTMLAegovTitleElement;
         "aegov-toast": HTMLAegovToastElement;
         "aegov-tooltip": HTMLAegovTooltipElement;
@@ -2637,6 +2844,105 @@ declare namespace LocalJSX {
          */
         "variant"?: ProgressVariant;
     }
+    interface AegovSelect {
+        /**
+          * Additional CSS classes to apply.
+         */
+        "class"?: string;
+        /**
+          * Show a clear button to reset selection.
+          * @default false
+         */
+        "clearable"?: boolean;
+        /**
+          * Whether the select is disabled.
+          * @default false
+         */
+        "disabled"?: boolean;
+        /**
+          * Message shown when search yields no results.
+          * @default 'No results found'
+         */
+        "emptyMessage"?: string;
+        /**
+          * Unique ID for the select element. Auto-generated if not provided.
+         */
+        "fieldId"?: string;
+        /**
+          * Whether multiple selection is enabled. Forces listbox behaviour.
+          * @default false
+         */
+        "multiple"?: boolean;
+        /**
+          * The name attribute for form submission.
+         */
+        "name"?: string;
+        /**
+          * Emitted when the selected value changes.
+         */
+        "onAegovSelectChange"?: (event: AegovSelectCustomEvent<SelectChangeDetail>) => void;
+        /**
+          * Emitted when the dropdown closes (listbox variant).
+         */
+        "onAegovSelectClose"?: (event: AegovSelectCustomEvent<void>) => void;
+        /**
+          * Emitted when the dropdown opens (listbox variant).
+         */
+        "onAegovSelectOpen"?: (event: AegovSelectCustomEvent<void>) => void;
+        /**
+          * Placeholder text shown when nothing is selected.
+         */
+        "placeholder"?: string;
+        /**
+          * Whether the select is required.
+          * @default false
+         */
+        "required"?: boolean;
+        /**
+          * Show a search input in the listbox dropdown to filter options. Only works with listbox variant.
+          * @default false
+         */
+        "searchable"?: boolean;
+        /**
+          * The size of the select. Matches aegov-input height.
+          * @default 'base'
+         */
+        "size"?: SelectSize;
+        /**
+          * The current selected value. For multiple, a comma-separated string.
+          * @default ''
+         */
+        "value"?: string;
+        /**
+          * The visual variant. 'default' renders a native select; 'listbox' renders a custom dropdown.
+          * @default 'default'
+         */
+        "variant"?: SelectVariant;
+        /**
+          * Max visible items in the dropdown before scrolling.
+          * @default 6
+         */
+        "visibleItems"?: number;
+    }
+    interface AegovSelectOption {
+        /**
+          * Whether this option is disabled.
+          * @default false
+         */
+        "disabled"?: boolean;
+        /**
+          * The value of this option.
+          * @default ''
+         */
+        "value"?: string;
+    }
+    interface AegovSelectOptionGroup {
+        /**
+          * The label for this option group.
+          * @default ''
+         */
+        "label"?: string;
+    }
     /**
      * A separator component for visually dividing sections of content
      */
@@ -2785,6 +3091,79 @@ declare namespace LocalJSX {
          */
         "size"?: TextSize;
     }
+    interface AegovTextarea {
+        /**
+          * Additional CSS classes to apply.
+         */
+        "class"?: string;
+        /**
+          * Show a copy button to copy the textarea value to clipboard. Only applies when readonly.
+          * @default false
+         */
+        "copyable"?: boolean;
+        /**
+          * Whether the textarea is disabled.
+          * @default false
+         */
+        "disabled"?: boolean;
+        /**
+          * Unique ID for the native textarea element. Auto-generated if not provided.
+         */
+        "fieldId"?: string;
+        /**
+          * Maximum number of characters. When set, a character counter is displayed.
+         */
+        "maxlength"?: number;
+        /**
+          * The name attribute for the textarea.
+         */
+        "name"?: string;
+        /**
+          * Emitted when the textarea loses focus.
+         */
+        "onAegovTextareaBlur"?: (event: AegovTextareaCustomEvent<FocusEvent>) => void;
+        /**
+          * Emitted when the textarea value changes (on blur).
+         */
+        "onAegovTextareaChange"?: (event: AegovTextareaCustomEvent<{ value: string; event: Event }>) => void;
+        /**
+          * Emitted when the textarea gains focus.
+         */
+        "onAegovTextareaFocus"?: (event: AegovTextareaCustomEvent<FocusEvent>) => void;
+        /**
+          * Emitted on every keystroke.
+         */
+        "onAegovTextareaInput"?: (event: AegovTextareaCustomEvent<{ value: string; event: Event }>) => void;
+        /**
+          * Placeholder text for the textarea.
+         */
+        "placeholder"?: string;
+        /**
+          * Whether the textarea is readonly.
+          * @default false
+         */
+        "readonly"?: boolean;
+        /**
+          * Whether the textarea is required.
+          * @default false
+         */
+        "required"?: boolean;
+        /**
+          * Resize behaviour of the textarea.
+          * @default 'vertical'
+         */
+        "resize"?: TextareaResize;
+        /**
+          * The size of the textarea (affects font size only).
+          * @default 'base'
+         */
+        "size"?: TextareaSize;
+        /**
+          * The current value of the textarea.
+          * @default ''
+         */
+        "value"?: string;
+    }
     interface AegovTitle {
         /**
           * Additional CSS classes to apply to the title.
@@ -2931,11 +3310,15 @@ declare namespace LocalJSX {
         "aegov-pagination": AegovPagination;
         "aegov-progress": AegovProgress;
         "aegov-progress-step": AegovProgressStep;
+        "aegov-select": AegovSelect;
+        "aegov-select-option": AegovSelectOption;
+        "aegov-select-option-group": AegovSelectOptionGroup;
         "aegov-separator": AegovSeparator;
         "aegov-tab": AegovTab;
         "aegov-tab-panel": AegovTabPanel;
         "aegov-tabs": AegovTabs;
         "aegov-text": AegovText;
+        "aegov-textarea": AegovTextarea;
         "aegov-title": AegovTitle;
         "aegov-toast": AegovToast;
         "aegov-tooltip": AegovTooltip;
@@ -2993,6 +3376,9 @@ declare module "@stencil/core" {
             "aegov-pagination": LocalJSX.AegovPagination & JSXBase.HTMLAttributes<HTMLAegovPaginationElement>;
             "aegov-progress": LocalJSX.AegovProgress & JSXBase.HTMLAttributes<HTMLAegovProgressElement>;
             "aegov-progress-step": LocalJSX.AegovProgressStep & JSXBase.HTMLAttributes<HTMLAegovProgressStepElement>;
+            "aegov-select": LocalJSX.AegovSelect & JSXBase.HTMLAttributes<HTMLAegovSelectElement>;
+            "aegov-select-option": LocalJSX.AegovSelectOption & JSXBase.HTMLAttributes<HTMLAegovSelectOptionElement>;
+            "aegov-select-option-group": LocalJSX.AegovSelectOptionGroup & JSXBase.HTMLAttributes<HTMLAegovSelectOptionGroupElement>;
             /**
              * A separator component for visually dividing sections of content
              */
@@ -3030,6 +3416,7 @@ declare module "@stencil/core" {
              */
             "aegov-tabs": LocalJSX.AegovTabs & JSXBase.HTMLAttributes<HTMLAegovTabsElement>;
             "aegov-text": LocalJSX.AegovText & JSXBase.HTMLAttributes<HTMLAegovTextElement>;
+            "aegov-textarea": LocalJSX.AegovTextarea & JSXBase.HTMLAttributes<HTMLAegovTextareaElement>;
             "aegov-title": LocalJSX.AegovTitle & JSXBase.HTMLAttributes<HTMLAegovTitleElement>;
             "aegov-toast": LocalJSX.AegovToast & JSXBase.HTMLAttributes<HTMLAegovToastElement>;
             /**

@@ -88,38 +88,147 @@ a {
   @apply -ml-1.5 inline-flex items-center align-middle gap-2 px-1.5 pt-1 pb-1.5 rtl:-mr-1.5 rtl:ml-0 text-primary-600 bg-transparent hover:text-primary-500 hover:underline-offset-2 hover:underline decoration-2 focus-visible:bg-primary-support-400 focus-visible:underline focus-visible:decoration-2 focus-visible:decoration-primary-support-950 focus-visible:text-primary-support-950 focus-visible:outline-primary-support-400 focus-visible:outline focus-visible:outline-offset-0 focus-visible:rounded-md;
 }
 
-.aegov-form-input {
-  /* --- Text Input, Select, Textarea Base Styles --- */
-  input[type="text"],
-  input[type="email"],
-  input[type="url"],
-  input[type="password"],
-  input[type="number"],
-  input[type="date"],
-  input[type="datetime-local"],
-  input[type="month"],
-  input[type="search"],
-  input[type="tel"],
-  input[type="time"],
-  input[type="week"],
-  input[type="file"] {
-    @apply relative text-primary-900 text-base w-full border-0 bg-transparent py-3 px-4 leading-6 focus:ring-0 motion-reduce:transition-none disabled:pointer-events-none disabled:cursor-not-allowed disabled:select-none disabled:opacity-40 rounded-lg focus:outline-none;
-    @apply placeholder:text-aeblack-500 bg-whitely-50 inset-ring-2 inset-ring-primary-400 focus-within:inset-ring-primary-support-600;
+:root{
+  --form-select-arrow: url("data:image/svg+xml,%0A%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%237C5E24' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+}
 
-      &:has(:disabled) {
-        @apply opacity-40;
-      }
-
-      &[type="range"] {
-        @apply border-0 focus-visible:ring-2 focus:ring-2 outline-none shadow-none inset-ring-transparent;
-      }
-
-      &[type="search"]::-webkit-search-cancel-button {
-        cursor: pointer;
-      }
-
-      &:input[type=file] {
-        @apply rounded-lg;
-      }
+.aegov-form-control {
+  /* --- Shared disabled state --- */
+  &:has(input:disabled) {
+    & label {
+      color: var(--color-aeblack-300);
+    }
   }
+
+  &:has(input:disabled) {
+    color: var(--color-aeblack-200);
+  }
+
+/* --- Checkbox & Radio Base Styles --- */
+input[type="checkbox"],
+input[type="radio"] {
+  
+  @apply accent-primary-600 text-primary-600 border-2 border-primary-600 relative m-0 h-5 w-5 border  focus:outline focus:outline-primary-support-600 disabled:pointer-events-none disabled:checked:opacity-40 disabled:checked:border-primary-support-600;
+  @apply disabled:border-primary-200;
+
+  &:before {
+    content: '';
+    @apply absolute bg-primary-50 start-2/4 top-2/4 mix-blend-multiply h-12 w-12 -translate-x-2/4 -translate-y-2/4 scale-0 rounded-full transition-all;
+  }
+
+  &:hover:not(:disabled)::before {
+    @apply scale-100;
+  }
+
+  &:disabled:before {
+    @apply hidden!;
+  }
+}
+
+input[type="checkbox"] {
+  @apply rounded;
+}
+
+/* --- Text Input, Select, Textarea Base Styles --- */
+input[type="text"],
+input[type="email"],
+input[type="url"],
+input[type="password"],
+input[type="number"],
+input[type="date"],
+input[type="datetime-local"],
+input[type="month"],
+input[type="search"],
+input[type="tel"],
+input[type="time"],
+input[type="week"],
+input[type="file"],
+[multiple],
+textarea,
+select {
+  @apply relative text-primary-900 text-base w-full border-0 bg-transparent py-3 px-4 leading-6 focus:ring-0 motion-reduce:transition-none disabled:pointer-events-none disabled:cursor-not-allowed disabled:select-none disabled:opacity-40 rounded-lg focus:outline-none;
+  @apply placeholder:text-aeblack-500 bg-whitely-50 inset-ring-2 inset-ring-primary-400 focus-within:inset-ring-primary-support-600;
+
+    &:has(:disabled) {
+      @apply opacity-40;
+    }
+
+    &[type="range"] {
+      @apply border-0 focus-visible:ring-2 focus:ring-2 outline-none shadow-none inset-ring-transparent;
+    }
+
+    &[type="search"]::-webkit-search-cancel-button {
+      cursor: pointer;
+    }
+
+    &:input[type=file] {
+      @apply rounded-lg;
+    }
+}
+
+select:not(:disabled):not(:disabled) {
+  @apply opacity-100 appearance-none text-primary-900;
+    background-image: var(--form-select-arrow);
+    @apply pe-9 ps-4 bg-[right_.5rem_center] rtl:bg-[0.5rem_center] bg-no-repeat ;
+}
+ & [multiple] {
+    @apply bg-none! pr-4;
+  }
+
+  & textarea {
+    @apply h-auto;
+  }
+
+/* --- Range Slider Base Styles --- */
+input[type="range"] {
+  --range-track-bg: color-mix(in oklab, var(--color-aeblack-200)20%, transparent);
+  --range-progress-from: var(--color-primary-300);
+  --range-progress-to: var(--color-primary-500);
+  --range-thumb-bg: var(--color-primary-800);
+  --range-thumb-bg-hover: var(--color-primary-700);
+
+  background-color: var(--range-track-bg);
+  --tw-gradient-from: var(--range-progress-from);
+  --tw-gradient-to: var(--range-progress-to);
+  background-image: linear-gradient(to right, var(--range-progress-from), var(--range-progress-to));
+
+  @apply my-3 inline-block h-2 w-full appearance-none rounded bg-no-repeat align-middle text-base;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  background-color: var(--range-thumb-bg);
+  @apply cursor-[ew-resize] h-5 w-5 appearance-none rounded-full shadow-sm transition-colors;
+}
+
+input[type="range"]::-webkit-slider-thumb:hover {
+  background-color: var(--range-thumb-bg-hover);
+}
+
+input[type="range"]::-webkit-slider-runnable-track {
+  @apply appearance-none border-0 bg-transparent shadow-none;
+}
+
+/* --- File Input Base Styles --- */
+input[type="file"] {
+  @apply w-full p-0! overflow-hidden motion-reduce:transition-none h-12 outline-hidden border-0 focus:outline-none;
+  
+  &:not(:disabled):not([readonly]) {
+    @apply cursor-pointer;
+  }
+
+  &::file-selector-button {
+    @apply me-4 h-full border-0 rounded-s-lg py-3 px-4 text-primary-700 bg-primary-50 inset-ring-2 inset-ring-primary-400 ;
+  }
+
+  &:hover:not(:disabled):not([readonly])::file-selector-button {
+    @apply bg-primary-100;
+  }
+  &:focus-within::file-selector-button {
+    @apply z-10 inset-ring-primary-support-600;
+  }
+}
+input:is([type="date"], [type="time"], [type="datetime-local"], [type="month"], [type="week"]) {
+  @apply h-12;
+}
+
 }

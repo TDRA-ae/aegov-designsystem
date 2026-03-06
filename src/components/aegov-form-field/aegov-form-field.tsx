@@ -22,10 +22,19 @@ export class AegovFormField {
 
   private linkChildren() {
     const input = this.el.querySelector('aegov-input') as HTMLAegovInputElement | null;
+    const textarea = this.el.querySelector('aegov-textarea') as HTMLAegovTextareaElement | null;
     const label = this.el.querySelector('aegov-label') as HTMLAegovLabelElement | null;
 
-    if (input && label && input.fieldId) {
-      label.htmlFor = input.fieldId;
+    const select = this.el.querySelector('aegov-select') as HTMLAegovSelectElement | null;
+
+    if (label) {
+      if (input && input.fieldId) {
+        label.htmlFor = input.fieldId;
+      } else if (textarea && textarea.fieldId) {
+        label.htmlFor = textarea.fieldId;
+      } else if (select && select.fieldId) {
+        label.htmlFor = select.fieldId;
+      }
     }
   }
 

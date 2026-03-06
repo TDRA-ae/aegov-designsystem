@@ -301,6 +301,36 @@ export type InputType = 'text' | 'email' | 'password' | 'tel' | 'url' | 'number'
 export type InputSize = 'sm' | 'base' | 'lg';
 
 /**
+ * Textarea component size types (affects font size only)
+ */
+export type TextareaSize = 'sm' | 'base' | 'lg';
+
+/**
+ * Textarea component resize types
+ */
+export type TextareaResize = 'none' | 'vertical' | 'horizontal' | 'both' | 'auto';
+
+/**
+ * Select component variant types
+ */
+export type SelectVariant = 'default' | 'listbox';
+
+/**
+ * Select component size types
+ */
+export type SelectSize = 'sm' | 'base' | 'lg';
+
+/**
+ * Select change event detail
+ */
+export interface SelectChangeDetail {
+  /** Selected value (string for single, string[] for multiple) */
+  value: string | string[];
+  /** Selected label (string for single, string[] for multiple) */
+  label: string | string[];
+}
+
+/**
  * Common component props
  */
 export interface BaseComponentProps {
