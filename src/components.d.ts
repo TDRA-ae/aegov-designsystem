@@ -615,18 +615,13 @@ export namespace Components {
          */
         "disabled": boolean;
         /**
-          * Unique ID for the input element. Auto-generated if not provided.
+          * Unique ID for the native input element. Auto-generated if not provided.
          */
-        "inputId"?: string;
+        "fieldId"?: string;
         /**
           * The name attribute for the input.
          */
         "name"?: string;
-        /**
-          * Show a toggle button to reveal/hide password. Only applies when type="password".
-          * @default false
-         */
-        "passwordToggle": boolean;
         /**
           * Placeholder text for the input.
          */
@@ -641,6 +636,11 @@ export namespace Components {
           * @default false
          */
         "required": boolean;
+        /**
+          * Show a toggle button to reveal/hide password. Only applies when type="password".
+          * @default false
+         */
+        "revealable": boolean;
         /**
           * The size of the input field.
           * @default 'base'
@@ -2354,9 +2354,9 @@ declare namespace LocalJSX {
          */
         "disabled"?: boolean;
         /**
-          * Unique ID for the input element. Auto-generated if not provided.
+          * Unique ID for the native input element. Auto-generated if not provided.
          */
-        "inputId"?: string;
+        "fieldId"?: string;
         /**
           * The name attribute for the input.
          */
@@ -2378,11 +2378,6 @@ declare namespace LocalJSX {
          */
         "onAegovInputInput"?: (event: AegovInputCustomEvent<{ value: string; event: Event }>) => void;
         /**
-          * Show a toggle button to reveal/hide password. Only applies when type="password".
-          * @default false
-         */
-        "passwordToggle"?: boolean;
-        /**
           * Placeholder text for the input.
          */
         "placeholder"?: string;
@@ -2396,6 +2391,11 @@ declare namespace LocalJSX {
           * @default false
          */
         "required"?: boolean;
+        /**
+          * Show a toggle button to reveal/hide password. Only applies when type="password".
+          * @default false
+         */
+        "revealable"?: boolean;
         /**
           * The size of the input field.
           * @default 'base'

@@ -41,13 +41,13 @@ describe('aegov-form-field', () => {
       expect(label.getAttribute('for')).toBe(input.id);
     });
 
-    it('links label to input with custom input-id', async () => {
+    it('links label to input with custom field-id', async () => {
       const page = await newSpecPage({
         components: [AegovFormField, AegovLabel, AegovInput],
         html: `
           <aegov-form-field>
             <aegov-label>Email</aegov-label>
-            <aegov-input input-id="custom-email" type="email"></aegov-input>
+            <aegov-input field-id="custom-email" type="email"></aegov-input>
           </aegov-form-field>
         `,
       });

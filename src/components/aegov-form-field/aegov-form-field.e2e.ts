@@ -47,12 +47,12 @@ describe('aegov-form-field E2E', () => {
       expect(inputId).toMatch(/^aegov-input-\d+$/);
     });
 
-    it('should link label to input with custom input-id', async () => {
+    it('should link label to input with custom field-id', async () => {
       const page = await newE2EPage();
       await page.setContent(`
         <aegov-form-field>
           <aegov-label>Email</aegov-label>
-          <aegov-input input-id="custom-email" type="email"></aegov-input>
+          <aegov-input field-id="custom-email" type="email"></aegov-input>
         </aegov-form-field>
       `);
       const label = await page.find('aegov-form-field aegov-label label');

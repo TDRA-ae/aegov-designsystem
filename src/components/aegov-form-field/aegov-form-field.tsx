@@ -24,8 +24,8 @@ export class AegovFormField {
     const input = this.el.querySelector('aegov-input') as HTMLAegovInputElement | null;
     const label = this.el.querySelector('aegov-label') as HTMLAegovLabelElement | null;
 
-    if (input && label && input.inputId) {
-      label.htmlFor = input.inputId;
+    if (input && label && input.fieldId) {
+      label.htmlFor = input.fieldId;
     }
   }
 

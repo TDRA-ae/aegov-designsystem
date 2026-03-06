@@ -3,5 +3,5 @@
 }
 
 .aegov-label {
-  @apply block text-sm font-medium text-aeblack-800 mb-1.5;
+  @apply block text-sm font-semibold text-aeblack-600 mb-1.5;
 }

@@ -50,6 +50,10 @@
   @apply end-0;
 }
 
+.input__icon--hidden {
+  @apply hidden;
+}
+
 /* Icon container sizes */
 .input__wrapper--sm .input__icon {
   @apply h-10 w-10;
@@ -90,7 +94,7 @@
 }
 
 /* Shared action button base */
-.input__password-toggle,
+.input__revealable,
 .input__copy-btn {
   @apply absolute top-0 end-0 flex items-center justify-center
          border-0 bg-transparent text-aeblack-500
@@ -99,16 +103,16 @@
          disabled:opacity-40 disabled:pointer-events-none;
 }
 
-/* Password toggle sizes */
-.password-toggle--sm {
+/* Revealable button sizes */
+.revealable--sm {
   @apply h-10 w-10;
 }
 
-.password-toggle--base {
+.revealable--base {
   @apply h-12 w-12;
 }
 
-.password-toggle--lg {
+.revealable--lg {
   @apply h-13 w-13;
 }
 

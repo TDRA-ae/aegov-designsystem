@@ -6,3 +6,7 @@
 .aegov-form-field {
   @apply flex flex-col;
 }
+
+.aegov-form-field:has(aegov-input[disabled]) .aegov-label {
+  @apply text-aeblack-200;
+}

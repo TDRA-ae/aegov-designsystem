@@ -66,6 +66,12 @@
       border-bottom: 2px solid #e2e8f0;
     }
 
+    section h3 {
+      font-size: 1.1rem;
+      color: #334155;
+      margin: 1.5rem 0 0.75rem;
+    }
+
     section p.desc {
       color: #64748b;
       margin: 0 0 1.5rem;
@@ -124,31 +130,165 @@
     .back-link:hover {
       text-decoration: underline;
     }
+
+    /* API reference tables */
+    .api-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.875rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .api-table th {
+      text-align: left;
+      padding: 0.625rem 0.75rem;
+      background: #f1f5f9;
+      color: #334155;
+      font-weight: 600;
+      border-bottom: 2px solid #e2e8f0;
+    }
+
+    .api-table td {
+      padding: 0.5rem 0.75rem;
+      border-bottom: 1px solid #e2e8f0;
+      color: #475569;
+      vertical-align: top;
+    }
+
+    .api-table code {
+      background: #f1f5f9;
+      padding: 0.125rem 0.375rem;
+      border-radius: 4px;
+      font-size: 0.8125rem;
+      color: #6366f1;
+    }
+
+    .api-table td:first-child code {
+      color: #0f172a;
+      font-weight: 500;
+    }
+
+    .note {
+      background: #f0f9ff;
+      border-left: 4px solid #38bdf8;
+      padding: 0.75rem 1rem;
+      margin: 1rem 0;
+      font-size: 0.875rem;
+      color: #0c4a6e;
+      border-radius: 0 6px 6px 0;
+    }
   </style>
 </head>
 <body>
 
-  <a href="/" class="back-link">← Back to Components</a>
+  <a href="/" class="back-link">&larr; Back to Components</a>
 
   <div class="container">
     <div class="header">
       <h1>Input Component</h1>
-      <p>aegov-input with aegov-form-field and aegov-label helpers</p>
+      <p>aegov-input &middot; aegov-form-field &middot; aegov-label &middot; aegov-input-group</p>
     </div>
+
+    <!-- API Reference -->
+    <section>
+      <h2>API Reference</h2>
+
+      <h3>aegov-input</h3>
+      <p class="desc">A flexible text input component with support for multiple types, sizes, icon slots, password reveal, and clipboard copy.</p>
+      <table class="api-table">
+        <thead>
+          <tr><th>Property</th><th>Attribute</th><th>Type</th><th>Default</th><th>Description</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><code>fieldId</code></td><td><code>field-id</code></td><td><code>string</code></td><td>auto</td><td>Unique ID for the native input. Auto-generated if omitted.</td></tr>
+          <tr><td><code>type</code></td><td><code>type</code></td><td><code>InputType</code></td><td><code>'text'</code></td><td>Input type: <code>text</code>, <code>email</code>, <code>password</code>, <code>tel</code>, <code>url</code>, <code>number</code>, <code>search</code>, <code>date</code>, <code>time</code>, <code>datetime-local</code>, <code>month</code>, <code>week</code></td></tr>
+          <tr><td><code>size</code></td><td><code>size</code></td><td><code>InputSize</code></td><td><code>'base'</code></td><td>Size: <code>sm</code> (40px), <code>base</code> (48px), <code>lg</code> (52px)</td></tr>
+          <tr><td><code>value</code></td><td><code>value</code></td><td><code>string</code></td><td><code>''</code></td><td>Current value (mutable).</td></tr>
+          <tr><td><code>placeholder</code></td><td><code>placeholder</code></td><td><code>string</code></td><td>&mdash;</td><td>Placeholder text.</td></tr>
+          <tr><td><code>name</code></td><td><code>name</code></td><td><code>string</code></td><td>&mdash;</td><td>Form submission name.</td></tr>
+          <tr><td><code>disabled</code></td><td><code>disabled</code></td><td><code>boolean</code></td><td><code>false</code></td><td>Disables the input. Label colour dims automatically inside <code>aegov-form-field</code>.</td></tr>
+          <tr><td><code>readonly</code></td><td><code>readonly</code></td><td><code>boolean</code></td><td><code>false</code></td><td>Makes the input read-only.</td></tr>
+          <tr><td><code>required</code></td><td><code>required</code></td><td><code>boolean</code></td><td><code>false</code></td><td>Marks the field as required.</td></tr>
+          <tr><td><code>revealable</code></td><td><code>revealable</code></td><td><code>boolean</code></td><td><code>false</code></td><td>Shows eye toggle to reveal/hide password. Only works when <code>type="password"</code>.</td></tr>
+          <tr><td><code>copyable</code></td><td><code>copyable</code></td><td><code>boolean</code></td><td><code>false</code></td><td>Shows copy-to-clipboard button. Only works when <code>readonly</code> is true.</td></tr>
+          <tr><td><code>class</code></td><td><code>class</code></td><td><code>string</code></td><td>&mdash;</td><td>Additional CSS classes merged onto the native input.</td></tr>
+        </tbody>
+      </table>
+
+      <h3>Events</h3>
+      <table class="api-table">
+        <thead>
+          <tr><th>Event</th><th>Detail</th><th>Description</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><code>aegovInputInput</code></td><td><code>{ value, event }</code></td><td>Fires on every keystroke.</td></tr>
+          <tr><td><code>aegovInputChange</code></td><td><code>{ value, event }</code></td><td>Fires on blur or Enter (native change).</td></tr>
+          <tr><td><code>aegovInputFocus</code></td><td><code>FocusEvent</code></td><td>Fires when the input gains focus.</td></tr>
+          <tr><td><code>aegovInputBlur</code></td><td><code>FocusEvent</code></td><td>Fires when the input loses focus.</td></tr>
+        </tbody>
+      </table>
+
+      <h3>Slots</h3>
+      <table class="api-table">
+        <thead>
+          <tr><th>Slot</th><th>Description</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><code>icon-start</code></td><td>Icon rendered inside the input border at the start (flips in RTL). Always visible.</td></tr>
+          <tr><td><code>icon-end</code></td><td>Icon rendered inside the input border at the end (flips in RTL). Ignored when <code>revealable</code> or <code>copyable</code> is active.</td></tr>
+        </tbody>
+      </table>
+
+      <h3>Pass-through Attributes</h3>
+      <p class="desc">The following attributes are forwarded to the native <code>&lt;input&gt;</code> element: <code>pattern</code>, <code>min</code>, <code>max</code>, <code>minlength</code>, <code>maxlength</code>, <code>step</code>, <code>autocomplete</code>, <code>autofocus</code>, <code>inputmode</code>, <code>list</code>, <code>multiple</code>, <code>accept</code>, <code>capture</code>, <code>spellcheck</code>, <code>enterkeyhint</code>, <code>title</code>, <code>tabindex</code>, <code>form</code>, plus all <code>aria-*</code> and <code>data-*</code> attributes.</p>
+
+      <h3>aegov-form-field</h3>
+      <p class="desc">Container that auto-links a child <code>aegov-label</code> to a child <code>aegov-input</code> via the <code>for</code>/<code>id</code> relationship. Also dims the label when the input is disabled.</p>
+
+      <h3>aegov-label</h3>
+      <table class="api-table">
+        <thead>
+          <tr><th>Property</th><th>Attribute</th><th>Type</th><th>Description</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><code>htmlFor</code></td><td><code>for</code></td><td><code>string</code></td><td>ID of the input this label is for. Auto-set by parent <code>aegov-form-field</code>.</td></tr>
+          <tr><td><code>class</code></td><td><code>class</code></td><td><code>string</code></td><td>Additional CSS classes merged onto the native label.</td></tr>
+        </tbody>
+      </table>
+
+      <h3>aegov-input-group</h3>
+      <p class="desc">Wraps an <code>aegov-input</code> with visual prefix/suffix addons (text, buttons, or selects) sharing a single border ring.</p>
+      <table class="api-table">
+        <thead>
+          <tr><th>Property</th><th>Attribute</th><th>Type</th><th>Default</th><th>Description</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><code>addonPrefix</code></td><td><code>addon-prefix</code></td><td><code>string</code></td><td>&mdash;</td><td>Text displayed before the input.</td></tr>
+          <tr><td><code>addonSuffix</code></td><td><code>addon-suffix</code></td><td><code>string</code></td><td>&mdash;</td><td>Text displayed after the input.</td></tr>
+          <tr><td><code>size</code></td><td><code>size</code></td><td><code>InputSize</code></td><td><code>'base'</code></td><td>Propagated to child <code>aegov-input</code> and <code>aegov-button</code>.</td></tr>
+          <tr><td><code>class</code></td><td><code>class</code></td><td><code>string</code></td><td>&mdash;</td><td>Additional CSS classes for the group container.</td></tr>
+        </tbody>
+      </table>
+
+      <div class="note">
+        <strong>Note:</strong> <code>prefix</code> and <code>suffix</code> are reserved HTML properties. Always use <code>addon-prefix</code> / <code>addon-suffix</code> as attributes.
+      </div>
+    </section>
 
     <!-- Section 1: Basic Form Field -->
     <section>
       <h2>1. Basic Form Field</h2>
       <p class="desc">A form field with label and input. The label is automatically linked to the input via the <code>for</code> attribute.</p>
 
-      <aegov-form-field>
+      <aegov-form-field class="mb-6">
         <aegov-label>Email Address</aegov-label>
         <aegov-input type="email" placeholder="you@example.com"></aegov-input>
       </aegov-form-field>
 
-      <aegov-form-field>
-        <aegov-label>Full Name</aegov-label>
+      <aegov-form-field class="mb-6">
+        <aegov-label class="uppercase">Full Name</aegov-label>
         <aegov-input type="text" placeholder="John Doe"></aegov-input>
+        <div class="block text-xs text-aeblack-400 pt-1">Sample with custom class on label called "uppercase" and how to add help text below input.</div>
       </aegov-form-field>
     </section>
 
@@ -173,8 +313,8 @@
       </aegov-form-field>
 
       <aegov-form-field>
-        <aegov-label>Password (with toggle)</aegov-label>
-        <aegov-input type="password" password-toggle placeholder="Click eye to reveal"></aegov-input>
+        <aegov-label>Password (revealable)</aegov-label>
+        <aegov-input type="password" revealable placeholder="Click eye to reveal"></aegov-input>
       </aegov-form-field>
 
       <aegov-form-field>
@@ -218,7 +358,7 @@
     <!-- Section 3: Input Sizes -->
     <section>
       <h2>3. Input Sizes</h2>
-      <p class="desc">Three size options: <code>sm</code>, <code>base</code> (default), and <code>lg</code>.</p>
+      <p class="desc">Three size options: <code>sm</code> (40px), <code>base</code> (48px, default), and <code>lg</code> (52px). Heights match <code>aegov-button</code> sizes.</p>
 
       <aegov-form-field>
         <aegov-label>Small (sm)</aegov-label>
@@ -238,8 +378,8 @@
 
     <!-- Section 4: Disabled & Readonly -->
     <section>
-      <h2>4. Disabled & Readonly States</h2>
-      <p class="desc">Input can be disabled or readonly to prevent user interaction.</p>
+      <h2>4. Disabled &amp; Readonly States</h2>
+      <p class="desc">Disabled inputs are non-interactive and visually dimmed. The label inside <code>aegov-form-field</code> automatically dims when the input is disabled. Readonly inputs display a value but prevent editing.</p>
 
       <div class="example-row">
         <aegov-form-field>
@@ -262,7 +402,7 @@
     <!-- Section 5: Icon Slots -->
     <section>
       <h2>5. Icon Slots</h2>
-      <p class="desc">Pass SVG icons via <code>slot="icon-start"</code> and <code>slot="icon-end"</code>. Icons render inside the input border and support click interactions. When <code>password-toggle</code> or <code>copyable</code> is active, <code>icon-end</code> is ignored.</p>
+      <p class="desc">Pass SVG icons via <code>slot="icon-start"</code> and <code>slot="icon-end"</code>. Icons render inside the input border and support click interactions. Uses CSS logical properties so start/end automatically flip in RTL layouts.</p>
 
       <aegov-form-field>
         <aegov-label>Search (icon-start)</aegov-label>
@@ -296,25 +436,25 @@
 
     <!-- Section 6: Icon Slots - Sizes -->
     <section>
-      <h2>6. Icon Slots - Sizes</h2>
-      <p class="desc">Icon containers automatically match the input height. Control icon size via classes on the SVG.</p>
+      <h2>6. Icon Slots &mdash; Sizes</h2>
+      <p class="desc">Icon containers automatically match the input height. Control the icon size via Tailwind classes on the SVG element itself.</p>
 
       <aegov-form-field>
-        <aegov-label>Small (sm)</aegov-label>
+        <aegov-label>Small (sm) &mdash; w-4 h-4 icon</aegov-label>
         <aegov-input size="sm" placeholder="Small with icon">
           <svg slot="icon-start" xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
         </aegov-input>
       </aegov-form-field>
 
       <aegov-form-field>
-        <aegov-label>Base (default)</aegov-label>
+        <aegov-label>Base (default) &mdash; w-5 h-5 icon</aegov-label>
         <aegov-input size="base" placeholder="Base with icon">
           <svg slot="icon-start" xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
         </aegov-input>
       </aegov-form-field>
 
       <aegov-form-field>
-        <aegov-label>Large (lg)</aegov-label>
+        <aegov-label>Large (lg) &mdash; w-6 h-6 icon</aegov-label>
         <aegov-input size="lg" placeholder="Large with icon">
           <svg slot="icon-start" xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
         </aegov-input>
@@ -323,12 +463,12 @@
 
     <!-- Section 7: Icon Slots - Priority -->
     <section>
-      <h2>7. Icon Slots - Priority</h2>
-      <p class="desc">Password toggle and copyable features always take priority over <code>icon-end</code>. The <code>icon-start</code> slot is always shown.</p>
+      <h2>7. Icon Slots &mdash; Priority</h2>
+      <p class="desc"><code>revealable</code> and <code>copyable</code> action buttons always take priority over <code>icon-end</code>. If both are present, the user icon is ignored. The <code>icon-start</code> slot is always rendered regardless of action buttons.</p>
 
       <aegov-form-field>
         <aegov-label>Password with icon-start (icon-end ignored)</aegov-label>
-        <aegov-input type="password" password-toggle placeholder="icon-end SVG below is ignored">
+        <aegov-input type="password" revealable placeholder="icon-end SVG below is ignored">
           <svg slot="icon-start" xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
           <svg slot="icon-end" xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/></svg>
         </aegov-input>
@@ -345,7 +485,7 @@
 
     <!-- Section 8: Icon Slots - Clickable -->
     <section>
-      <h2>8. Icon Slots - Clickable Icons</h2>
+      <h2>8. Icon Slots &mdash; Clickable Icons</h2>
       <p class="desc">Slotted icons support click interactions. Wrap your SVG in a <code>&lt;button&gt;</code> for accessible clickable icons.</p>
 
       <aegov-form-field>
@@ -374,7 +514,7 @@
     <!-- Section 9: Icon Slots inside Input Group -->
     <section>
       <h2>9. Icon Slots inside Input Group</h2>
-      <p class="desc">Icons stay attached to the input when used inside an <code>aegov-input-group</code> with prefix/suffix addons.</p>
+      <p class="desc">Icons stay attached to the input when used inside an <code>aegov-input-group</code> with prefix/suffix addons. The icon renders inside the input's own border area, not in the addon.</p>
 
       <aegov-form-field>
         <aegov-label>Website URL with icon</aegov-label>
@@ -421,25 +561,25 @@
       </aegov-form-field>
     </section>
 
-    <!-- Section 6: Custom ID -->
+    <!-- Section 11: Custom Input ID -->
     <section>
       <h2>11. Custom Input ID</h2>
-      <p class="desc">Override the auto-generated ID with a custom one using <code>input-id</code>.</p>
+      <p class="desc">Override the auto-generated ID with a custom one using <code>field-id</code>.</p>
 
       <aegov-form-field>
         <aegov-label>Username</aegov-label>
-        <aegov-input input-id="username-field" type="text" placeholder="Enter username"></aegov-input>
+        <aegov-input field-id="username-field" type="text" placeholder="Enter username"></aegov-input>
       </aegov-form-field>
     </section>
 
-    <!-- Section 7: Standalone Components -->
+    <!-- Section 12: Standalone Usage -->
     <section>
       <h2>12. Standalone Usage</h2>
-      <p class="desc">Components can be used independently without the form-field wrapper.</p>
+      <p class="desc">Components can be used independently without the <code>aegov-form-field</code> wrapper. Link the label manually with <code>for</code> and <code>field-id</code>.</p>
 
       <div style="margin-bottom: 1rem;">
         <aegov-label for="standalone-input">Standalone Label</aegov-label>
-        <aegov-input input-id="standalone-input" placeholder="Standalone input"></aegov-input>
+        <aegov-input field-id="standalone-input" placeholder="Standalone input"></aegov-input>
       </div>
 
       <div>
@@ -447,10 +587,10 @@
       </div>
     </section>
 
-    <!-- Section 8: Custom Classes -->
+    <!-- Section 13: Custom Classes -->
     <section>
       <h2>13. Custom Classes</h2>
-      <p class="desc">Add custom Tailwind classes to any component.</p>
+      <p class="desc">Add custom Tailwind classes to any component via the <code>class</code> prop. Classes merge with the component defaults.</p>
 
       <aegov-form-field class="mb-8">
         <aegov-label class="text-lg">Large Label Text</aegov-label>
@@ -458,10 +598,10 @@
       </aegov-form-field>
     </section>
 
-    <!-- Section 9: Event Handling -->
+    <!-- Section 14: Event Handling -->
     <section>
       <h2>14. Event Handling</h2>
-      <p class="desc">Listen to input events: <code>aegovInputInput</code>, <code>aegovInputChange</code>, <code>aegovInputFocus</code>, <code>aegovInputBlur</code>.</p>
+      <p class="desc">Listen to input events: <code>aegovInputInput</code> (every keystroke), <code>aegovInputChange</code> (on blur/enter), <code>aegovInputFocus</code>, and <code>aegovInputBlur</code>. Each event emits a detail object with <code>{ value, event }</code>.</p>
 
       <aegov-form-field>
         <aegov-label>Type something below</aegov-label>
@@ -473,10 +613,10 @@
       </div>
     </section>
 
-    <!-- Section 10: Input Group - Text Prefix & Suffix -->
+    <!-- Section 15: Input Group - Text Prefix & Suffix -->
     <section>
-      <h2>15. Input Group - Text Prefix & Suffix</h2>
-      <p class="desc">Use <code>aegov-input-group</code> with <code>prefix</code> and <code>suffix</code> props for inline text addons.</p>
+      <h2>15. Input Group &mdash; Text Prefix &amp; Suffix</h2>
+      <p class="desc">Use <code>aegov-input-group</code> with <code>addon-prefix</code> and <code>addon-suffix</code> for inline text addons.</p>
 
       <aegov-form-field>
         <aegov-label>Website URL</aegov-label>
@@ -494,16 +634,16 @@
 
       <aegov-form-field>
         <aegov-label>Price</aegov-label>
-        <aegov-input-group addon-addon-prefix="$" addon-suffix=".00">
+        <aegov-input-group addon-prefix="$" addon-suffix=".00">
           <aegov-input type="number" placeholder="0"></aegov-input>
         </aegov-input-group>
       </aegov-form-field>
     </section>
 
-    <!-- Section 11: Input Group - Element Prefix & Suffix -->
+    <!-- Section 16: Input Group - Element Prefix & Suffix -->
     <section>
-      <h2>16. Input Group - Element Prefix & Suffix</h2>
-      <p class="desc">Place elements like <code>select</code> or <code>aegov-button</code> before or after the input.</p>
+      <h2>16. Input Group &mdash; Element Prefix &amp; Suffix</h2>
+      <p class="desc">Place elements like <code>&lt;select&gt;</code> or <code>aegov-button</code> before or after the input as children of the group.</p>
 
       <aegov-form-field>
         <aegov-label>Phone Number</aegov-label>
@@ -535,10 +675,10 @@
       </aegov-form-field>
     </section>
 
-    <!-- Section 12: Input Group Sizes -->
+    <!-- Section 17: Input Group Sizes -->
     <section>
       <h2>17. Input Group Sizes</h2>
-      <p class="desc">The group <code>size</code> prop propagates to child input and button, keeping heights consistent.</p>
+      <p class="desc">The group <code>size</code> prop propagates to child <code>aegov-input</code> and <code>aegov-button</code>, keeping heights consistent.</p>
 
       <aegov-form-field>
         <aegov-label>Small (sm)</aegov-label>
@@ -565,80 +705,24 @@
       </aegov-form-field>
     </section>
 
-    <!-- Section 13: Input Group with Password Toggle -->
+    <!-- Section 18: Input Group with Revealable & Copyable -->
     <section>
-      <h2>18. Input Group with Password Toggle</h2>
-      <p class="desc">Password toggle and copyable features still work inside a group.</p>
+      <h2>18. Input Group with Revealable &amp; Copyable</h2>
+      <p class="desc">The <code>revealable</code> and <code>copyable</code> features work inside a group.</p>
 
       <aegov-form-field>
         <aegov-label>API Key</aegov-label>
-        <aegov-input-group addon-prefix="Bearer">
-          <aegov-input type="password" password-toggle value="sk-abc123xyz789"></aegov-input>
+        <aegov-input-group addon-prefix="API key">
+          <aegov-input type="password" revealable value="sk-abc123xyz789"></aegov-input>
         </aegov-input-group>
       </aegov-form-field>
 
       <aegov-form-field>
         <aegov-label>Token (readonly, copyable)</aegov-label>
-        <aegov-input-group addon-prefix="Token">
+        <aegov-input-group addon-prefix="A very long prefix">
           <aegov-input readonly copyable value="eyJhbGciOiJIUzI1NiJ9"></aegov-input>
         </aegov-input-group>
       </aegov-form-field>
-    </section>
-
-    <!-- Section 14: Complete Form Example -->
-    <section>
-      <h2>19. Complete Form Example</h2>
-      <p class="desc">A realistic form using all form field components.</p>
-
-      <form onsubmit="event.preventDefault(); alert('Form submitted!');">
-        <div class="example-row">
-          <aegov-form-field>
-            <aegov-label>First Name *</aegov-label>
-            <aegov-input type="text" name="firstName" required placeholder="First name"></aegov-input>
-          </aegov-form-field>
-
-          <aegov-form-field>
-            <aegov-label>Last Name *</aegov-label>
-            <aegov-input type="text" name="lastName" required placeholder="Last name"></aegov-input>
-          </aegov-form-field>
-        </div>
-
-        <aegov-form-field>
-          <aegov-label>Email Address *</aegov-label>
-          <aegov-input type="email" name="email" required placeholder="you@example.com"></aegov-input>
-        </aegov-form-field>
-
-        <aegov-form-field>
-          <aegov-label>Phone Number</aegov-label>
-          <aegov-input type="tel" name="phone" placeholder="+971 50 123 4567"></aegov-input>
-        </aegov-form-field>
-
-        <aegov-form-field>
-          <aegov-label>Website</aegov-label>
-          <aegov-input type="url" name="website" placeholder="https://"></aegov-input>
-        </aegov-form-field>
-
-        <div class="example-row">
-          <aegov-form-field>
-            <aegov-label>Date of Birth</aegov-label>
-            <aegov-input type="date" name="dob"></aegov-input>
-          </aegov-form-field>
-
-          <aegov-form-field>
-            <aegov-label>Age</aegov-label>
-            <aegov-input type="number" name="age" placeholder="25"></aegov-input>
-          </aegov-form-field>
-        </div>
-
-        <aegov-form-field>
-          <aegov-label>Password *</aegov-label>
-          <aegov-input type="password" name="password" required password-toggle placeholder="Min 8 characters"></aegov-input>
-        </aegov-form-field>
-
-        <div style="margin-top: 1rem;">
-          <aegov-button type="submit" variant="solid">Submit Form</aegov-button>
-        </div>
-      </form>
     </section>
 
   </div>

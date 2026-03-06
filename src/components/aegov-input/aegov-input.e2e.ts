@@ -93,9 +93,9 @@ describe('aegov-input E2E', () => {
       expect(id).toMatch(/^aegov-input-\d+$/);
     });
 
-    it('should use provided input-id', async () => {
+    it('should use provided field-id', async () => {
       const page = await newE2EPage();
-      await page.setContent(`<aegov-input input-id="my-email"></aegov-input>`);
+      await page.setContent(`<aegov-input field-id="my-email"></aegov-input>`);
       const input = await page.find('aegov-input input');
       expect(await input.getAttribute('id')).toBe('my-email');
     });
@@ -185,20 +185,21 @@ describe('aegov-input E2E', () => {
       expect(iconEnd).toBeTruthy();
     });
 
-    it('should not render icon-end when password-toggle is active', async () => {
+    it('should hide icon-end when revealable is active', async () => {
       const page = await newE2EPage();
       await page.setContent(`
-        <aegov-input type="password" password-toggle>
+        <aegov-input type="password" revealable>
           <svg slot="icon-end" class="w-5 h-5"></svg>
         </aegov-input>
       `);
       const iconEnd = await page.find('aegov-input .input__icon--end');
-      expect(iconEnd).toBeNull();
-      const toggle = await page.find('aegov-input .input__password-toggle');
+      expect(iconEnd).toBeTruthy();
+      expect(await iconEnd.getAttribute('class')).toContain('input__icon--hidden');
+      const toggle = await page.find('aegov-input .input__revealable');
       expect(toggle).toBeTruthy();
     });
 
-    it('should not render icon-end when copyable is active', async () => {
+    it('should hide icon-end when copyable is active', async () => {
       const page = await newE2EPage();
       await page.setContent(`
         <aegov-input readonly copyable value="test">
@@ -206,21 +207,22 @@ describe('aegov-input E2E', () => {
         </aegov-input>
       `);
       const iconEnd = await page.find('aegov-input .input__icon--end');
-      expect(iconEnd).toBeNull();
+      expect(iconEnd).toBeTruthy();
+      expect(await iconEnd.getAttribute('class')).toContain('input__icon--hidden');
       const copyBtn = await page.find('aegov-input .input__copy-btn');
       expect(copyBtn).toBeTruthy();
     });
 
-    it('should still show icon-start with password-toggle', async () => {
+    it('should still show icon-start with revealable', async () => {
       const page = await newE2EPage();
       await page.setContent(`
-        <aegov-input type="password" password-toggle>
+        <aegov-input type="password" revealable>
           <svg slot="icon-start" class="w-5 h-5"></svg>
         </aegov-input>
       `);
       const iconStart = await page.find('aegov-input .input__icon--start');
       expect(iconStart).toBeTruthy();
-      const toggle = await page.find('aegov-input .input__password-toggle');
+      const toggle = await page.find('aegov-input .input__revealable');
       expect(toggle).toBeTruthy();
     });
 
@@ -282,24 +284,24 @@ describe('aegov-input E2E', () => {
     it('should not show toggle by default for password', async () => {
       const page = await newE2EPage();
       await page.setContent(`<aegov-input type="password"></aegov-input>`);
-      const toggle = await page.find('aegov-input .input__password-toggle');
+      const toggle = await page.find('aegov-input .input__revealable');
       expect(toggle).toBeNull();
     });
 
-    it('should show toggle when password-toggle is set', async () => {
+    it('should show toggle when revealable is set', async () => {
       const page = await newE2EPage();
-      await page.setContent(`<aegov-input type="password" password-toggle></aegov-input>`);
-      const toggle = await page.find('aegov-input .input__password-toggle');
+      await page.setContent(`<aegov-input type="password" revealable></aegov-input>`);
+      const toggle = await page.find('aegov-input .input__revealable');
       expect(toggle).toBeTruthy();
     });
 
     it('should toggle input type from password to text on click', async () => {
       const page = await newE2EPage();
-      await page.setContent(`<aegov-input type="password" password-toggle></aegov-input>`);
+      await page.setContent(`<aegov-input type="password" revealable></aegov-input>`);
       const input = await page.find('aegov-input input');
       expect(await input.getAttribute('type')).toBe('password');
 
-      const toggle = await page.find('aegov-input .input__password-toggle');
+      const toggle = await page.find('aegov-input .input__revealable');
       await toggle.click();
       await page.waitForChanges();
       expect(await input.getAttribute('type')).toBe('text');
@@ -307,8 +309,8 @@ describe('aegov-input E2E', () => {
 
     it('should toggle back to password on second click', async () => {
       const page = await newE2EPage();
-      await page.setContent(`<aegov-input type="password" password-toggle></aegov-input>`);
-      const toggle = await page.find('aegov-input .input__password-toggle');
+      await page.setContent(`<aegov-input type="password" revealable></aegov-input>`);
+      const toggle = await page.find('aegov-input .input__revealable');
       await toggle.click();
       await page.waitForChanges();
       await toggle.click();
@@ -319,8 +321,8 @@ describe('aegov-input E2E', () => {
 
     it('should update aria-label when toggled', async () => {
       const page = await newE2EPage();
-      await page.setContent(`<aegov-input type="password" password-toggle></aegov-input>`);
-      const toggle = await page.find('aegov-input .input__password-toggle');
+      await page.setContent(`<aegov-input type="password" revealable></aegov-input>`);
+      const toggle = await page.find('aegov-input .input__revealable');
       expect(await toggle.getAttribute('aria-label')).toBe('Show password');
 
       await toggle.click();

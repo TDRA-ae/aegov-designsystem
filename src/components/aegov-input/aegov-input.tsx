@@ -1,7 +1,7 @@
 import { Component, Host, h, Prop, State, Event, EventEmitter, Element } from '@stencil/core';
 import type { InputType, InputSize } from '../../utils/types';
 
-let inputIdCounter = 0;
+let fieldIdCounter = 0;
 
 @Component({
   tag: 'aegov-input',
@@ -12,8 +12,8 @@ let inputIdCounter = 0;
 export class AegovInput {
   @Element() el: HTMLElement;
 
-  /** Unique ID for the input element. Auto-generated if not provided. */
-  @Prop({ mutable: true, reflect: true }) inputId?: string;
+  /** Unique ID for the native input element. Auto-generated if not provided. */
+  @Prop({ mutable: true, reflect: true }) fieldId?: string;
 
   /** The type of the input field. */
   @Prop() type: InputType = 'text';
@@ -40,7 +40,7 @@ export class AegovInput {
   @Prop() required: boolean = false;
 
   /** Show a toggle button to reveal/hide password. Only applies when type="password". */
-  @Prop() passwordToggle: boolean = false;
+  @Prop() revealable: boolean = false;
 
   /** Show a copy button to copy the input value to clipboard. Only applies when readonly. */
   @Prop() copyable: boolean = false;
@@ -67,8 +67,8 @@ export class AegovInput {
   @Event() aegovInputBlur: EventEmitter<FocusEvent>;
 
   componentWillLoad() {
-    if (!this.inputId) {
-      this.inputId = `aegov-input-${++inputIdCounter}`;
+    if (!this.fieldId) {
+      this.fieldId = `aegov-input-${++fieldIdCounter}`;
     }
   }
 
@@ -94,8 +94,8 @@ export class AegovInput {
     return passThroughAttrs;
   }
 
-  private get isPasswordToggleable(): boolean {
-    return this.type === 'password' && this.passwordToggle;
+  private get isRevealable(): boolean {
+    return this.type === 'password' && this.revealable;
   }
 
   private get isCopyable(): boolean {
@@ -103,11 +103,11 @@ export class AegovInput {
   }
 
   private get hasActionButton(): boolean {
-    return this.isPasswordToggleable || this.isCopyable;
+    return this.isRevealable || this.isCopyable;
   }
 
   private get resolvedType(): string {
-    if (this.isPasswordToggleable && this.passwordVisible) {
+    if (this.isRevealable && this.passwordVisible) {
       return 'text';
     }
     return this.type;
@@ -163,7 +163,7 @@ export class AegovInput {
     this.aegovInputBlur.emit(event);
   };
 
-  private handlePasswordToggle = () => {
+  private handleRevealToggle = () => {
     this.passwordVisible = !this.passwordVisible;
   };
 
@@ -189,20 +189,20 @@ export class AegovInput {
     }
   };
 
-  private renderPasswordToggle() {
-    if (!this.isPasswordToggleable) return null;
+  private renderRevealButton() {
+    if (!this.isRevealable) return null;
 
     const sizeClasses: Record<InputSize, string> = {
-      sm: 'password-toggle--sm',
-      base: 'password-toggle--base',
-      lg: 'password-toggle--lg',
+      sm: 'revealable--sm',
+      base: 'revealable--base',
+      lg: 'revealable--lg',
     };
 
     return (
       <button
         type="button"
-        class={`input__password-toggle ${sizeClasses[this.size]}`}
-        onClick={this.handlePasswordToggle}
+        class={`input__revealable ${sizeClasses[this.size]}`}
+        onClick={this.handleRevealToggle}
         disabled={this.disabled}
         tabindex={-1}
         aria-label={this.passwordVisible ? 'Hide password' : 'Show password'}
@@ -262,12 +262,13 @@ export class AegovInput {
   render() {
     const passThroughAttributes = this.getPassThroughAttributes();
     const hasIconStart = !!this.el.querySelector('[slot="icon-start"]');
-    const hasIconEnd = !this.hasActionButton && !!this.el.querySelector('[slot="icon-end"]');
-    const needsWrapper = this.hasActionButton || hasIconStart || hasIconEnd;
+    const hasIconEndContent = !!this.el.querySelector('[slot="icon-end"]');
+    const hasIconEnd = hasIconEndContent && !this.hasActionButton;
+    const needsWrapper = this.hasActionButton || hasIconStart || hasIconEnd || hasIconEndContent;
 
     const input = (
       <input
-        id={this.inputId}
+        id={this.fieldId}
         type={this.resolvedType}
         class={this.getInputClasses(hasIconStart, hasIconEnd)}
         disabled={this.disabled}
@@ -294,12 +295,12 @@ export class AegovInput {
               </span>
             )}
             {input}
-            {hasIconEnd && (
-              <span class="input__icon input__icon--end">
+            {hasIconEndContent && (
+              <span class={`input__icon input__icon--end${!hasIconEnd ? ' input__icon--hidden' : ''}`}>
                 <slot name="icon-end" />
               </span>
             )}
-            {this.renderPasswordToggle()}
+            {this.renderRevealButton()}
             {this.renderCopyButton()}
           </div>
         </Host>

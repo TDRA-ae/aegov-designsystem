@@ -91,13 +91,13 @@ describe('aegov-input', () => {
         components: [AegovInput],
         html: `<aegov-input></aegov-input>`,
       });
-      expect(page.root.getAttribute('input-id')).toMatch(/^aegov-input-\d+$/);
+      expect(page.root.getAttribute('field-id')).toMatch(/^aegov-input-\d+$/);
     });
 
-    it('uses provided input-id instead of generating one', async () => {
+    it('uses provided field-id instead of generating one', async () => {
       const page = await newSpecPage({
         components: [AegovInput],
-        html: `<aegov-input input-id="my-custom-id"></aegov-input>`,
+        html: `<aegov-input field-id="my-custom-id"></aegov-input>`,
       });
       const input = page.root.querySelector('input');
       expect(input.id).toBe('my-custom-id');
@@ -443,31 +443,35 @@ describe('aegov-input', () => {
       expect(page.root.querySelector('.input__icon--end')).not.toBeNull();
     });
 
-    it('ignores icon-end when password-toggle is active', async () => {
+    it('hides icon-end when revealable is active', async () => {
       const page = await newSpecPage({
         components: [AegovInput],
-        html: `<aegov-input type="password" password-toggle><svg slot="icon-end"></svg></aegov-input>`,
+        html: `<aegov-input type="password" revealable><svg slot="icon-end"></svg></aegov-input>`,
       });
-      expect(page.root.querySelector('.input__icon--end')).toBeNull();
-      expect(page.root.querySelector('.input__password-toggle')).not.toBeNull();
+      const iconEnd = page.root.querySelector('.input__icon--end');
+      expect(iconEnd).not.toBeNull();
+      expect(iconEnd.classList.contains('input__icon--hidden')).toBe(true);
+      expect(page.root.querySelector('.input__revealable')).not.toBeNull();
     });
 
-    it('ignores icon-end when copyable is active', async () => {
+    it('hides icon-end when copyable is active', async () => {
       const page = await newSpecPage({
         components: [AegovInput],
         html: `<aegov-input readonly copyable value="test"><svg slot="icon-end"></svg></aegov-input>`,
       });
-      expect(page.root.querySelector('.input__icon--end')).toBeNull();
+      const iconEnd = page.root.querySelector('.input__icon--end');
+      expect(iconEnd).not.toBeNull();
+      expect(iconEnd.classList.contains('input__icon--hidden')).toBe(true);
       expect(page.root.querySelector('.input__copy-btn')).not.toBeNull();
     });
 
-    it('still renders icon-start when password-toggle is active', async () => {
+    it('still renders icon-start when revealable is active', async () => {
       const page = await newSpecPage({
         components: [AegovInput],
-        html: `<aegov-input type="password" password-toggle><svg slot="icon-start"></svg></aegov-input>`,
+        html: `<aegov-input type="password" revealable><svg slot="icon-start"></svg></aegov-input>`,
       });
       expect(page.root.querySelector('.input__icon--start')).not.toBeNull();
-      expect(page.root.querySelector('.input__password-toggle')).not.toBeNull();
+      expect(page.root.querySelector('.input__revealable')).not.toBeNull();
     });
 
     it('still renders icon-start when copyable is active', async () => {
@@ -531,32 +535,32 @@ describe('aegov-input', () => {
         components: [AegovInput],
         html: `<aegov-input type="password"></aegov-input>`,
       });
-      const toggle = page.root.querySelector('.input__password-toggle');
+      const toggle = page.root.querySelector('.input__revealable');
       expect(toggle).toBeNull();
     });
 
     it('does not show toggle button for non-password types', async () => {
       const page = await newSpecPage({
         components: [AegovInput],
-        html: `<aegov-input type="text" password-toggle></aegov-input>`,
+        html: `<aegov-input type="text" revealable></aegov-input>`,
       });
-      const toggle = page.root.querySelector('.input__password-toggle');
+      const toggle = page.root.querySelector('.input__revealable');
       expect(toggle).toBeNull();
     });
 
-    it('shows toggle button when password-toggle is set on password input', async () => {
+    it('shows toggle button when revealable is set on password input', async () => {
       const page = await newSpecPage({
         components: [AegovInput],
-        html: `<aegov-input type="password" password-toggle></aegov-input>`,
+        html: `<aegov-input type="password" revealable></aegov-input>`,
       });
-      const toggle = page.root.querySelector('.input__password-toggle');
+      const toggle = page.root.querySelector('.input__revealable');
       expect(toggle).not.toBeNull();
     });
 
     it('renders wrapper div when toggle is enabled', async () => {
       const page = await newSpecPage({
         components: [AegovInput],
-        html: `<aegov-input type="password" password-toggle></aegov-input>`,
+        html: `<aegov-input type="password" revealable></aegov-input>`,
       });
       const wrapper = page.root.querySelector('.input__wrapper');
       expect(wrapper).not.toBeNull();
@@ -565,7 +569,7 @@ describe('aegov-input', () => {
     it('renders input with type="password" initially', async () => {
       const page = await newSpecPage({
         components: [AegovInput],
-        html: `<aegov-input type="password" password-toggle></aegov-input>`,
+        html: `<aegov-input type="password" revealable></aegov-input>`,
       });
       const input = page.root.querySelector('input');
       expect(input.getAttribute('type')).toBe('password');
@@ -574,9 +578,9 @@ describe('aegov-input', () => {
     it('toggles input type to text when toggle is clicked', async () => {
       const page = await newSpecPage({
         components: [AegovInput],
-        html: `<aegov-input type="password" password-toggle></aegov-input>`,
+        html: `<aegov-input type="password" revealable></aegov-input>`,
       });
-      const toggle = page.root.querySelector('.input__password-toggle') as HTMLButtonElement;
+      const toggle = page.root.querySelector('.input__revealable') as HTMLButtonElement;
       toggle.click();
       await page.waitForChanges();
       const input = page.root.querySelector('input');
@@ -586,9 +590,9 @@ describe('aegov-input', () => {
     it('toggles back to password on second click', async () => {
       const page = await newSpecPage({
         components: [AegovInput],
-        html: `<aegov-input type="password" password-toggle></aegov-input>`,
+        html: `<aegov-input type="password" revealable></aegov-input>`,
       });
-      const toggle = page.root.querySelector('.input__password-toggle') as HTMLButtonElement;
+      const toggle = page.root.querySelector('.input__revealable') as HTMLButtonElement;
       toggle.click();
       await page.waitForChanges();
       toggle.click();
@@ -600,18 +604,18 @@ describe('aegov-input', () => {
     it('has aria-label "Show password" initially', async () => {
       const page = await newSpecPage({
         components: [AegovInput],
-        html: `<aegov-input type="password" password-toggle></aegov-input>`,
+        html: `<aegov-input type="password" revealable></aegov-input>`,
       });
-      const toggle = page.root.querySelector('.input__password-toggle');
+      const toggle = page.root.querySelector('.input__revealable');
       expect(toggle.getAttribute('aria-label')).toBe('Show password');
     });
 
     it('changes aria-label to "Hide password" when visible', async () => {
       const page = await newSpecPage({
         components: [AegovInput],
-        html: `<aegov-input type="password" password-toggle></aegov-input>`,
+        html: `<aegov-input type="password" revealable></aegov-input>`,
       });
-      const toggle = page.root.querySelector('.input__password-toggle') as HTMLButtonElement;
+      const toggle = page.root.querySelector('.input__revealable') as HTMLButtonElement;
       toggle.click();
       await page.waitForChanges();
       expect(toggle.getAttribute('aria-label')).toBe('Hide password');
@@ -620,7 +624,7 @@ describe('aegov-input', () => {
     it('adds input--has-action class to the input', async () => {
       const page = await newSpecPage({
         components: [AegovInput],
-        html: `<aegov-input type="password" password-toggle></aegov-input>`,
+        html: `<aegov-input type="password" revealable></aegov-input>`,
       });
       const input = page.root.querySelector('input');
       expect(input.className).toContain('input--has-action');
@@ -629,19 +633,19 @@ describe('aegov-input', () => {
     it('toggle button is disabled when input is disabled', async () => {
       const page = await newSpecPage({
         components: [AegovInput],
-        html: `<aegov-input type="password" password-toggle disabled></aegov-input>`,
+        html: `<aegov-input type="password" revealable disabled></aegov-input>`,
       });
-      const toggle = page.root.querySelector('.input__password-toggle');
+      const toggle = page.root.querySelector('.input__revealable');
       expect(toggle.getAttribute('disabled')).toBe('');
     });
 
     it('applies correct size class to toggle button', async () => {
       const page = await newSpecPage({
         components: [AegovInput],
-        html: `<aegov-input type="password" password-toggle size="lg"></aegov-input>`,
+        html: `<aegov-input type="password" revealable size="lg"></aegov-input>`,
       });
-      const toggle = page.root.querySelector('.input__password-toggle');
-      expect(toggle.className).toContain('password-toggle--lg');
+      const toggle = page.root.querySelector('.input__revealable');
+      expect(toggle.className).toContain('revealable--lg');
     });
   });
 

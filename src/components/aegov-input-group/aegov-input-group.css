@@ -31,7 +31,7 @@
          focus:inset-ring-0;
 }
 
-/* Wrapper (for password toggle / copy) stretches */
+/* Wrapper (for revealable / copy) stretches */
 .aegov-input-group .input__wrapper {
   @apply w-full;
 }
@@ -69,7 +69,7 @@
    -------------------------------------------------------- */
 .input-group__addon {
   @apply inline-flex items-center whitespace-nowrap select-none
-         text-primary-800 bg-primary-100 border-t-2 border-b-2 border-primary-400
+         text-primary-900 bg-primary-200 border-t-2 border-b-2 border-primary-400
          focus-within:border-primary-support-600;
 }
 

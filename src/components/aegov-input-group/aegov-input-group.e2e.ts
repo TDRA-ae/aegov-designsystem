@@ -145,14 +145,14 @@ describe('aegov-input-group E2E', () => {
   });
 
   describe('password toggle inside group', () => {
-    it('should still show password toggle inside group', async () => {
+    it('should still show revealable button inside group', async () => {
       const page = await newE2EPage();
       await page.setContent(`
         <aegov-input-group>
-          <aegov-input type="password" password-toggle></aegov-input>
+          <aegov-input type="password" revealable></aegov-input>
         </aegov-input-group>
       `);
-      const toggle = await page.find('aegov-input-group aegov-input .input__password-toggle');
+      const toggle = await page.find('aegov-input-group aegov-input .input__revealable');
       expect(toggle).toBeTruthy();
     });
 
@@ -160,13 +160,13 @@ describe('aegov-input-group E2E', () => {
       const page = await newE2EPage();
       await page.setContent(`
         <aegov-input-group>
-          <aegov-input type="password" password-toggle></aegov-input>
+          <aegov-input type="password" revealable></aegov-input>
         </aegov-input-group>
       `);
       const nativeInput = await page.find('aegov-input-group aegov-input input');
       expect(await nativeInput.getAttribute('type')).toBe('password');
 
-      const toggle = await page.find('aegov-input-group aegov-input .input__password-toggle');
+      const toggle = await page.find('aegov-input-group aegov-input .input__revealable');
       await toggle.click();
       await page.waitForChanges();
       expect(await nativeInput.getAttribute('type')).toBe('text');
