@@ -4,5 +4,5 @@
 }
 
 .aegov-form-field {
-  @apply flex flex-col;
+  @apply flex flex-col pb-6;
 }
