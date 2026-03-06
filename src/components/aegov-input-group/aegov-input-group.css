@@ -13,7 +13,7 @@
 
 /* Separator between adjacent children */
 .aegov-input-group > * + * {
-  @apply border-s border-primary-400;
+  @apply border-s-2 border-primary-400;
 }
 
 /* --------------------------------------------------------
@@ -68,8 +68,17 @@
    Text addons (prefix / suffix props)
    -------------------------------------------------------- */
 .input-group__addon {
-  @apply flex items-center whitespace-nowrap select-none
-         text-aeblack-600 bg-whitely-100;
+  @apply inline-flex items-center whitespace-nowrap select-none
+         text-primary-800 bg-primary-100 border-t-2 border-b-2 border-primary-400
+         focus-within:border-primary-support-600;
+}
+
+.input-group__addon.input-group__addon--prefix {
+  @apply rounded-s-lg border-s-2;
+}
+
+.input-group__addon.input-group__addon--suffix {
+  @apply rounded-e-lg border-e-2;
 }
 
 /* Size-specific addon dimensions */
