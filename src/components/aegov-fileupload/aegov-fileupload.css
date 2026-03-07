@@ -1,0 +1,400 @@
+:host {
+  display: block;
+}
+
+/* ============================================
+   BASE
+   ============================================ */
+
+.aegov-fileupload {
+  @apply relative;
+}
+
+.fileupload--disabled {
+  @apply pointer-events-none;
+}
+
+/* ============================================
+   LABEL / DESCRIPTION / HELPER
+   ============================================ */
+
+.fileupload__label {
+  @apply block text-aeblack-800 font-medium mb-1.5;
+}
+
+.fileupload__required {
+  @apply text-aered-600;
+}
+
+.fileupload__description {
+  @apply text-aeblack-500 mb-2;
+}
+
+.fileupload__helper {
+  @apply text-aeblack-500 mt-1.5;
+}
+
+/* Size-specific label & helper text */
+.fileupload--sm .fileupload__label {
+  @apply text-sm;
+}
+.fileupload--sm .fileupload__description,
+.fileupload--sm .fileupload__helper {
+  @apply text-xs;
+}
+.fileupload--base .fileupload__label {
+  @apply text-base;
+}
+.fileupload--base .fileupload__description,
+.fileupload--base .fileupload__helper {
+  @apply text-sm;
+}
+.fileupload--lg .fileupload__label {
+  @apply text-lg;
+}
+.fileupload--lg .fileupload__description,
+.fileupload--lg .fileupload__helper {
+  @apply text-base;
+}
+
+/* ============================================
+   HIDDEN INPUT (button & dropzone variants)
+   ============================================ */
+
+.fileupload__hidden-input {
+  @apply absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+  padding: 0;
+  margin: -1px;
+}
+
+/* ============================================
+   NATIVE INPUT — sr-only but focusable
+   (default variant)
+   ============================================ */
+
+.fileupload__native-input {
+  @apply absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+  padding: 0;
+  margin: -1px;
+}
+
+/* ============================================
+   DEFAULT VARIANT — input + browse button
+   ============================================ */
+
+.fileupload__input-wrapper {
+  font-family: inherit;
+  @apply relative flex items-center w-full border-0 cursor-pointer
+         rounded-lg overflow-hidden
+         bg-whitely-50
+         inset-ring-2 inset-ring-primary-400
+         transition-all duration-200;
+}
+
+/* Focus-within when native input has focus */
+.fileupload__input-wrapper:has(:focus-visible) {
+  @apply inset-ring-primary-support-600 outline-2 outline-offset-2 outline-primary-support-600;
+}
+
+.fileupload--disabled .fileupload__input-wrapper {
+  @apply opacity-40 cursor-not-allowed;
+}
+
+.fileupload__filename {
+  @apply flex-1 truncate text-primary-900;
+}
+
+.fileupload__filename--empty {
+  @apply text-aeblack-500;
+}
+
+.fileupload__browse-btn {
+  @apply shrink-0 font-medium text-primary-600
+         bg-primary-50 border-0
+         border-s-2 border-s-primary-400
+         transition-colors duration-200
+         cursor-pointer select-none;
+}
+
+.fileupload__input-wrapper:hover .fileupload__browse-btn {
+  @apply bg-primary-100 text-primary-700;
+}
+
+/* Default variant sizes */
+.fileupload--sm .fileupload__input-wrapper {
+  @apply h-10;
+}
+.fileupload--sm .fileupload__filename {
+  @apply text-sm px-3;
+}
+.fileupload--sm .fileupload__browse-btn {
+  @apply text-sm px-3 h-full;
+}
+
+.fileupload--base .fileupload__input-wrapper {
+  @apply h-12;
+}
+.fileupload--base .fileupload__filename {
+  @apply text-base px-4;
+}
+.fileupload--base .fileupload__browse-btn {
+  @apply text-base px-4 h-full;
+}
+
+.fileupload--lg .fileupload__input-wrapper {
+  @apply h-13;
+}
+.fileupload--lg .fileupload__filename {
+  @apply text-lg px-5;
+}
+.fileupload--lg .fileupload__browse-btn {
+  @apply text-lg px-5 h-full;
+}
+
+/* ============================================
+   BUTTON VARIANT — styled trigger button
+   ============================================ */
+
+.fileupload__trigger-btn {
+  font-family: inherit;
+  @apply inline-flex items-center justify-center gap-2 shrink-0
+         font-medium text-whitely-50 cursor-pointer select-none
+         bg-primary-600 border-1 border-primary-600
+         rounded-lg
+         transition-all duration-200
+         hover:bg-primary-500 hover:border-primary-500
+         focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-support-600
+         disabled:opacity-30 disabled:pointer-events-none disabled:cursor-default;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.fileupload__btn-icon {
+  @apply shrink-0 fill-current;
+}
+
+/* Button variant sizes */
+.fileupload--sm .fileupload__trigger-btn {
+  @apply h-10 px-3.5 text-base rounded-md;
+}
+.fileupload--sm .fileupload__btn-icon {
+  @apply size-5;
+}
+
+.fileupload--base .fileupload__trigger-btn {
+  @apply h-12 px-4 text-base;
+}
+.fileupload--base .fileupload__btn-icon {
+  @apply size-5;
+}
+
+.fileupload--lg .fileupload__trigger-btn {
+  @apply h-13 px-4.5 text-lg;
+}
+.fileupload--lg .fileupload__btn-icon {
+  @apply size-6;
+}
+
+/* ============================================
+   DROPZONE VARIANT
+   ============================================ */
+
+.fileupload__dropzone {
+  @apply relative flex flex-col items-center
+         rounded-lg
+         border-2 border-dashed border-primary-300
+         bg-whitely-50
+         transition-all duration-200;
+}
+
+.fileupload__dropzone--dragover {
+  @apply border-primary-500 bg-primary-50;
+}
+
+.fileupload--disabled .fileupload__dropzone {
+  @apply opacity-40 cursor-not-allowed;
+}
+
+.fileupload__drop-prompt {
+  @apply flex flex-col items-center;
+}
+
+.fileupload__drop-icon {
+  @apply text-primary-400;
+}
+
+.fileupload__drop-text {
+  @apply text-aeblack-500 text-center;
+}
+
+.fileupload__dropzone-btn {
+  font-family: inherit;
+  @apply inline-flex items-center justify-center
+         font-medium cursor-pointer select-none
+         text-primary-600 bg-transparent
+         border-2 border-primary-600
+         rounded-lg
+         transition-all duration-200
+         hover:bg-primary-50 hover:text-primary-700 hover:border-primary-700
+         focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-support-600
+         disabled:opacity-30 disabled:pointer-events-none disabled:cursor-default;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Dropzone sizes */
+.fileupload--sm .fileupload__dropzone {
+  @apply p-6;
+}
+.fileupload--sm .fileupload__drop-icon {
+  @apply size-8 mb-2;
+}
+.fileupload--sm .fileupload__drop-text {
+  @apply text-sm mb-2;
+}
+.fileupload--sm .fileupload__dropzone-btn {
+  @apply h-8 px-3 text-sm rounded-md;
+}
+
+.fileupload--base .fileupload__dropzone {
+  @apply p-8;
+}
+.fileupload--base .fileupload__drop-icon {
+  @apply size-10 mb-3;
+}
+.fileupload--base .fileupload__drop-text {
+  @apply text-base mb-3;
+}
+.fileupload--base .fileupload__dropzone-btn {
+  @apply h-10 px-4 text-base rounded-lg;
+}
+
+.fileupload--lg .fileupload__dropzone {
+  @apply p-10;
+}
+.fileupload--lg .fileupload__drop-icon {
+  @apply size-12 mb-4;
+}
+.fileupload--lg .fileupload__drop-text {
+  @apply text-lg mb-4;
+}
+.fileupload--lg .fileupload__dropzone-btn {
+  @apply h-12 px-5 text-lg rounded-lg;
+}
+
+/* ============================================
+   FILE LIST (button & dropzone variants)
+   ============================================ */
+
+.fileupload__file-list {
+  @apply w-full list-none p-0 m-0;
+}
+
+/* In button variant, list appears below */
+.fileupload--button .fileupload__file-list {
+  @apply mt-3;
+}
+
+/* In dropzone variant, list inside the zone */
+.fileupload--dropzone .fileupload__file-list {
+  @apply mt-4 pt-4 border-t border-primary-200;
+}
+
+.fileupload__file-item {
+  @apply flex items-center gap-2
+         bg-whitely-100 rounded-md
+         transition-colors duration-150;
+}
+
+.fileupload__file-item + .fileupload__file-item {
+  @apply mt-1.5;
+}
+
+.fileupload__file-icon {
+  @apply shrink-0 text-primary-500;
+}
+
+.fileupload__file-name {
+  @apply flex-1 truncate text-primary-900 font-medium;
+}
+
+.fileupload__file-size {
+  @apply shrink-0 text-aeblack-500;
+}
+
+.fileupload__remove-btn {
+  @apply shrink-0 flex items-center justify-center
+         rounded cursor-pointer border-0 bg-transparent
+         text-aeblack-400
+         hover:text-aered-600 hover:bg-aered-50
+         focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-primary-support-600
+         transition-colors duration-150;
+}
+
+/* File list sizes */
+.fileupload--sm .fileupload__file-item {
+  @apply px-2.5 py-1.5;
+}
+.fileupload--sm .fileupload__file-icon {
+  @apply size-4;
+}
+.fileupload--sm .fileupload__file-name {
+  @apply text-sm;
+}
+.fileupload--sm .fileupload__file-size {
+  @apply text-xs;
+}
+.fileupload--sm .fileupload__remove-btn {
+  @apply size-6;
+}
+.fileupload--sm .fileupload__remove-btn svg {
+  @apply size-3.5;
+}
+
+.fileupload--base .fileupload__file-item {
+  @apply px-3 py-2;
+}
+.fileupload--base .fileupload__file-icon {
+  @apply size-5;
+}
+.fileupload--base .fileupload__file-name {
+  @apply text-sm;
+}
+.fileupload--base .fileupload__file-size {
+  @apply text-xs;
+}
+.fileupload--base .fileupload__remove-btn {
+  @apply size-7;
+}
+.fileupload--base .fileupload__remove-btn svg {
+  @apply size-4;
+}
+
+.fileupload--lg .fileupload__file-item {
+  @apply px-4 py-2.5;
+}
+.fileupload--lg .fileupload__file-icon {
+  @apply size-6;
+}
+.fileupload--lg .fileupload__file-name {
+  @apply text-base;
+}
+.fileupload--lg .fileupload__file-size {
+  @apply text-sm;
+}
+.fileupload--lg .fileupload__remove-btn {
+  @apply size-8;
+}
+.fileupload--lg .fileupload__remove-btn svg {
+  @apply size-5;
+}

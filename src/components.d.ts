@@ -5,9 +5,9 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
-import { AccordionIcon, AvatarGroupMode, AvatarSize, AvatarStatus, AvatarVariant, BadgeAppearance, BadgeColor, BadgeSize, BannerDisplay, BannerMode, BannerPosition, BannerRole, BlockquoteVariant, BreadcrumbSeparator, ButtonAppearance, ButtonGroupOrientation, ButtonSize, ButtonType, ButtonVariant, CalloutAppearance, CalloutVariant, CardBackground, CardBorderStyle, CardBorderWidth, CardHover, CheckboxGroupOrientation, CheckboxGroupVariant, CheckboxSize, DatepickerChangeDetail, DatepickerMode, DatepickerMonthChangeDetail, DropdownAlign, DropdownPosition, DropdownTrigger, InputSize, InputType, LinkTarget, ModalBackdropOpacity, ModalPosition, PaginationSize, PaginationVariant, ProgressOrientation, ProgressSize, ProgressStepStatus, ProgressVariant, RadioGroupOrientation, RadioGroupVariant, RadioSize, SelectChangeDetail, SelectSize, SelectVariant, TabOrientation, TabSize, TabVariant, TextareaResize, TextareaSize, TextSize, TitleSize, ToastAppearance, ToastMode, ToastPosition, ToastVariant, ToggleSize, TooltipAlign, TooltipPosition, TooltipTrigger } from "./utils/types";
+import { AccordionIcon, AvatarGroupMode, AvatarSize, AvatarStatus, AvatarVariant, BadgeAppearance, BadgeColor, BadgeSize, BannerDisplay, BannerMode, BannerPosition, BannerRole, BlockquoteVariant, BreadcrumbSeparator, ButtonAppearance, ButtonGroupOrientation, ButtonSize, ButtonType, ButtonVariant, CalloutAppearance, CalloutVariant, CardBackground, CardBorderStyle, CardBorderWidth, CardHover, CheckboxGroupOrientation, CheckboxGroupVariant, CheckboxSize, DatepickerChangeDetail, DatepickerMode, DatepickerMonthChangeDetail, DropdownAlign, DropdownPosition, DropdownTrigger, FileuploadSize, FileuploadVariant, InputSize, InputType, LinkTarget, ModalBackdropOpacity, ModalPosition, PaginationSize, PaginationVariant, ProgressOrientation, ProgressSize, ProgressStepStatus, ProgressVariant, RadioGroupOrientation, RadioGroupVariant, RadioSize, SelectChangeDetail, SelectSize, SelectVariant, TabOrientation, TabSize, TabVariant, TextareaResize, TextareaSize, TextSize, TitleSize, ToastAppearance, ToastMode, ToastPosition, ToastVariant, ToggleSize, TooltipAlign, TooltipPosition, TooltipTrigger } from "./utils/types";
 import { Event } from "@stencil/core";
-export { AccordionIcon, AvatarGroupMode, AvatarSize, AvatarStatus, AvatarVariant, BadgeAppearance, BadgeColor, BadgeSize, BannerDisplay, BannerMode, BannerPosition, BannerRole, BlockquoteVariant, BreadcrumbSeparator, ButtonAppearance, ButtonGroupOrientation, ButtonSize, ButtonType, ButtonVariant, CalloutAppearance, CalloutVariant, CardBackground, CardBorderStyle, CardBorderWidth, CardHover, CheckboxGroupOrientation, CheckboxGroupVariant, CheckboxSize, DatepickerChangeDetail, DatepickerMode, DatepickerMonthChangeDetail, DropdownAlign, DropdownPosition, DropdownTrigger, InputSize, InputType, LinkTarget, ModalBackdropOpacity, ModalPosition, PaginationSize, PaginationVariant, ProgressOrientation, ProgressSize, ProgressStepStatus, ProgressVariant, RadioGroupOrientation, RadioGroupVariant, RadioSize, SelectChangeDetail, SelectSize, SelectVariant, TabOrientation, TabSize, TabVariant, TextareaResize, TextareaSize, TextSize, TitleSize, ToastAppearance, ToastMode, ToastPosition, ToastVariant, ToggleSize, TooltipAlign, TooltipPosition, TooltipTrigger } from "./utils/types";
+export { AccordionIcon, AvatarGroupMode, AvatarSize, AvatarStatus, AvatarVariant, BadgeAppearance, BadgeColor, BadgeSize, BannerDisplay, BannerMode, BannerPosition, BannerRole, BlockquoteVariant, BreadcrumbSeparator, ButtonAppearance, ButtonGroupOrientation, ButtonSize, ButtonType, ButtonVariant, CalloutAppearance, CalloutVariant, CardBackground, CardBorderStyle, CardBorderWidth, CardHover, CheckboxGroupOrientation, CheckboxGroupVariant, CheckboxSize, DatepickerChangeDetail, DatepickerMode, DatepickerMonthChangeDetail, DropdownAlign, DropdownPosition, DropdownTrigger, FileuploadSize, FileuploadVariant, InputSize, InputType, LinkTarget, ModalBackdropOpacity, ModalPosition, PaginationSize, PaginationVariant, ProgressOrientation, ProgressSize, ProgressStepStatus, ProgressVariant, RadioGroupOrientation, RadioGroupVariant, RadioSize, SelectChangeDetail, SelectSize, SelectVariant, TabOrientation, TabSize, TabVariant, TextareaResize, TextareaSize, TextSize, TitleSize, ToastAppearance, ToastMode, ToastPosition, ToastVariant, ToggleSize, TooltipAlign, TooltipPosition, TooltipTrigger } from "./utils/types";
 export { Event } from "@stencil/core";
 export namespace Components {
     /**
@@ -683,6 +683,77 @@ export namespace Components {
           * @default 'click'
          */
         "triggerType": DropdownTrigger;
+    }
+    interface AegovFileupload {
+        /**
+          * Accepted file types (e.g. ".pdf,.jpg,image/*").
+         */
+        "accept"?: string;
+        /**
+          * Custom text for the browse/trigger button.
+         */
+        "buttonText"?: string;
+        /**
+          * Clears all selected files.
+         */
+        "clear": () => Promise<void>;
+        /**
+          * Description text displayed below the label.
+         */
+        "description"?: string;
+        /**
+          * Disables the file upload.
+          * @default false
+         */
+        "disabled": boolean;
+        /**
+          * Unique field ID. Auto-generated if not provided.
+         */
+        "fieldId"?: string;
+        /**
+          * Returns the currently selected files.
+         */
+        "getFiles": () => Promise<File[]>;
+        /**
+          * Custom helper text for allowed file types. Overrides auto-generated text from `accept`.
+         */
+        "helperText"?: string;
+        /**
+          * Label text displayed above the control.
+         */
+        "label"?: string;
+        /**
+          * Maximum file size in bytes.
+         */
+        "maxFileSize"?: number;
+        /**
+          * Maximum number of files (multiple mode only). No limit by default.
+         */
+        "maxFiles"?: number;
+        /**
+          * Allow multiple file selection.
+          * @default false
+         */
+        "multiple": boolean;
+        /**
+          * Form field name.
+         */
+        "name"?: string;
+        /**
+          * Marks the field as required.
+          * @default false
+         */
+        "required": boolean;
+        /**
+          * Component size.
+          * @default 'base'
+         */
+        "size": FileuploadSize;
+        /**
+          * Variant style: 'default' (styled input + button), 'button' (hidden input, label-as-button), or 'dropzone' (drag-and-drop area).
+          * @default 'default'
+         */
+        "variant": FileuploadVariant;
     }
     interface AegovFormField {
         /**
@@ -1529,6 +1600,10 @@ export interface AegovDropdownCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLAegovDropdownElement;
 }
+export interface AegovFileuploadCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLAegovFileuploadElement;
+}
 export interface AegovInputCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLAegovInputElement;
@@ -1865,6 +1940,25 @@ declare global {
     var HTMLAegovDropdownElement: {
         prototype: HTMLAegovDropdownElement;
         new (): HTMLAegovDropdownElement;
+    };
+    interface HTMLAegovFileuploadElementEventMap {
+        "aegovFileuploadChange": { files: File[] };
+        "aegovFileuploadRemove": { file: File; remaining: File[] };
+        "aegovFileuploadError": { type: 'max-size' | 'max-files' | 'invalid-type'; file?: File; message: string };
+    }
+    interface HTMLAegovFileuploadElement extends Components.AegovFileupload, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLAegovFileuploadElementEventMap>(type: K, listener: (this: HTMLAegovFileuploadElement, ev: AegovFileuploadCustomEvent<HTMLAegovFileuploadElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLAegovFileuploadElementEventMap>(type: K, listener: (this: HTMLAegovFileuploadElement, ev: AegovFileuploadCustomEvent<HTMLAegovFileuploadElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLAegovFileuploadElement: {
+        prototype: HTMLAegovFileuploadElement;
+        new (): HTMLAegovFileuploadElement;
     };
     interface HTMLAegovFormFieldElement extends Components.AegovFormField, HTMLStencilElement {
     }
@@ -2211,6 +2305,7 @@ declare global {
         "aegov-context-menu-item": HTMLAegovContextMenuItemElement;
         "aegov-datepicker": HTMLAegovDatepickerElement;
         "aegov-dropdown": HTMLAegovDropdownElement;
+        "aegov-fileupload": HTMLAegovFileuploadElement;
         "aegov-form-field": HTMLAegovFormFieldElement;
         "aegov-input": HTMLAegovInputElement;
         "aegov-input-group": HTMLAegovInputGroupElement;
@@ -2960,6 +3055,81 @@ declare namespace LocalJSX {
           * @default 'click'
          */
         "triggerType"?: DropdownTrigger;
+    }
+    interface AegovFileupload {
+        /**
+          * Accepted file types (e.g. ".pdf,.jpg,image/*").
+         */
+        "accept"?: string;
+        /**
+          * Custom text for the browse/trigger button.
+         */
+        "buttonText"?: string;
+        /**
+          * Description text displayed below the label.
+         */
+        "description"?: string;
+        /**
+          * Disables the file upload.
+          * @default false
+         */
+        "disabled"?: boolean;
+        /**
+          * Unique field ID. Auto-generated if not provided.
+         */
+        "fieldId"?: string;
+        /**
+          * Custom helper text for allowed file types. Overrides auto-generated text from `accept`.
+         */
+        "helperText"?: string;
+        /**
+          * Label text displayed above the control.
+         */
+        "label"?: string;
+        /**
+          * Maximum file size in bytes.
+         */
+        "maxFileSize"?: number;
+        /**
+          * Maximum number of files (multiple mode only). No limit by default.
+         */
+        "maxFiles"?: number;
+        /**
+          * Allow multiple file selection.
+          * @default false
+         */
+        "multiple"?: boolean;
+        /**
+          * Form field name.
+         */
+        "name"?: string;
+        /**
+          * Emitted when the file selection changes.
+         */
+        "onAegovFileuploadChange"?: (event: AegovFileuploadCustomEvent<{ files: File[] }>) => void;
+        /**
+          * Emitted when a file fails validation (invalid type, size exceeded, or max files exceeded).
+         */
+        "onAegovFileuploadError"?: (event: AegovFileuploadCustomEvent<{ type: 'max-size' | 'max-files' | 'invalid-type'; file?: File; message: string }>) => void;
+        /**
+          * Emitted when a file is removed from the list (button/dropzone variants).
+         */
+        "onAegovFileuploadRemove"?: (event: AegovFileuploadCustomEvent<{ file: File; remaining: File[] }>) => void;
+        /**
+          * Marks the field as required.
+          * @default false
+         */
+        "required"?: boolean;
+        /**
+          * Component size.
+          * @default 'base'
+         */
+        "size"?: FileuploadSize;
+        /**
+          * Variant style: 'default' (styled input + button), 'button' (hidden input, label-as-button), or 'dropzone' (drag-and-drop area).
+          * @default 'default'
+         */
+        "variant"?: FileuploadVariant;
     }
     interface AegovFormField {
         /**
@@ -3859,6 +4029,7 @@ declare namespace LocalJSX {
         "aegov-context-menu-item": AegovContextMenuItem;
         "aegov-datepicker": AegovDatepicker;
         "aegov-dropdown": AegovDropdown;
+        "aegov-fileupload": AegovFileupload;
         "aegov-form-field": AegovFormField;
         "aegov-input": AegovInput;
         "aegov-input-group": AegovInputGroup;
@@ -3930,6 +4101,7 @@ declare module "@stencil/core" {
              * Dropdown component that displays positioned content on trigger interaction
              */
             "aegov-dropdown": LocalJSX.AegovDropdown & JSXBase.HTMLAttributes<HTMLAegovDropdownElement>;
+            "aegov-fileupload": LocalJSX.AegovFileupload & JSXBase.HTMLAttributes<HTMLAegovFileuploadElement>;
             "aegov-form-field": LocalJSX.AegovFormField & JSXBase.HTMLAttributes<HTMLAegovFormFieldElement>;
             "aegov-input": LocalJSX.AegovInput & JSXBase.HTMLAttributes<HTMLAegovInputElement>;
             "aegov-input-group": LocalJSX.AegovInputGroup & JSXBase.HTMLAttributes<HTMLAegovInputGroupElement>;
