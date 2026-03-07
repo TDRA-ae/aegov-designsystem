@@ -1,5 +1,6 @@
 import { Component, Prop, Event, EventEmitter, Element, h, Host } from '@stencil/core';
 import type { ButtonVariant, ButtonSize, ButtonType, ButtonAppearance, ButtonGroupOrientation } from '../../utils/types';
+import { getPassThroughAttributes } from '../../utils/attributes';
 
 /**
  * @slot - Button content
@@ -120,22 +121,6 @@ export class AegovButton {
     this.aegovButtonBlur.emit(event);
   };
 
-  /**
-   * Get aria-* and data-* attributes from the host element to pass through to the button
-   */
-  private getPassThroughAttributes(): { [key: string]: string } {
-    const passThroughAttrs: { [key: string]: string } = {};
-
-    // Get all attributes from the host element
-    Array.from(this.el.attributes).forEach(attr => {
-      // Pass through aria-* and data-* attributes
-      if (attr.name.startsWith('aria-') || attr.name.startsWith('data-')) {
-        passThroughAttrs[attr.name] = attr.value;
-      }
-    });
-
-    return passThroughAttrs;
-  }
 
   /**
    * Get the CSS classes based on component props
@@ -232,7 +217,7 @@ export class AegovButton {
   }
 
   render() {
-    const passThroughAttributes = this.getPassThroughAttributes();
+    const passThroughAttributes = getPassThroughAttributes(this.el);
 
     return (
       <Host>

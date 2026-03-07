@@ -1,5 +1,6 @@
 import { Component, Prop, Element, Watch, h } from '@stencil/core';
 import type { ProgressVariant, ProgressSize, ProgressOrientation } from '../../utils/types';
+import { getPassThroughAttributes } from '../../utils/attributes';
 
 @Component({
   tag: 'aegov-progress',
@@ -24,15 +25,7 @@ export class AegovProgress {
    */
   @Prop() orientation: ProgressOrientation = 'horizontal';
 
-  private getPassThroughAttributes(): { [key: string]: string } {
-    const attrs: { [key: string]: string } = {};
-    Array.from(this.el.attributes).forEach(attr => {
-      if (attr.name.startsWith('aria-') || attr.name.startsWith('data-') || attr.name === 'id') {
-        attrs[attr.name] = attr.value;
-      }
-    });
-    return attrs;
-  }
+  private static readonly PASS_THROUGH_ATTRS = new Set(['id']);
 
   private getDirectChildren(): HTMLAegovProgressStepElement[] {
     const all = Array.from(
@@ -68,7 +61,7 @@ export class AegovProgress {
   }
 
   render() {
-    const passThroughAttrs = this.getPassThroughAttributes();
+    const passThroughAttrs = getPassThroughAttributes(this.el, AegovProgress.PASS_THROUGH_ATTRS);
     const listClasses = [
       'progress__list',
       `progress__list--${this.orientation}`,

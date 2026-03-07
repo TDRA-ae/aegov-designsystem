@@ -1,5 +1,6 @@
 import { Component, Prop, Element, h, Host } from '@stencil/core';
 import type { TextSize } from '../../utils/types';
+import { getPassThroughAttributes } from '../../utils/attributes';
 
 /**
  * @slot default - The text content
@@ -24,22 +25,7 @@ export class AegovText {
    */
   @Prop() class?: string;
 
-  /**
-   * Get aria-*, data-*, and id attributes from the host element to pass through to the paragraph
-   */
-  private getPassThroughAttributes(): { [key: string]: string } {
-    const passThroughAttrs: { [key: string]: string } = {};
-
-    // Get all attributes from the host element
-    Array.from(this.el.attributes).forEach(attr => {
-      // Pass through aria-*, data-*, and id attributes
-      if (attr.name.startsWith('aria-') || attr.name.startsWith('data-') || attr.name === 'id') {
-        passThroughAttrs[attr.name] = attr.value;
-      }
-    });
-
-    return passThroughAttrs;
-  }
+  private static readonly PASS_THROUGH_ATTRS = new Set(['id']);
 
   /**
    * Get the CSS classes based on component props
@@ -65,7 +51,7 @@ export class AegovText {
   }
 
   render() {
-    const passThroughAttributes = this.getPassThroughAttributes();
+    const passThroughAttributes = getPassThroughAttributes(this.el, AegovText.PASS_THROUGH_ATTRS);
 
     return (
       <Host>

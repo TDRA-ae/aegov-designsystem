@@ -1,4 +1,5 @@
 import { Component, Host, h, Prop, Element } from '@stencil/core';
+import { getPassThroughAttributes } from '../../utils/attributes';
 
 @Component({
   tag: 'aegov-form-field',
@@ -40,15 +41,7 @@ export class AegovFormField {
     }
   }
 
-  private getPassThroughAttributes(): { [key: string]: string } {
-    const passThroughAttrs: { [key: string]: string } = {};
-    Array.from(this.el.attributes).forEach(attr => {
-      if (attr.name.startsWith('aria-') || attr.name.startsWith('data-') || attr.name === 'id') {
-        passThroughAttrs[attr.name] = attr.value;
-      }
-    });
-    return passThroughAttrs;
-  }
+  private static readonly PASS_THROUGH_ATTRS = new Set(['id']);
 
   private getFieldClasses(): string {
     const classes: string[] = ['aegov-form-field'];
@@ -59,7 +52,7 @@ export class AegovFormField {
   }
 
   render() {
-    const passThroughAttributes = this.getPassThroughAttributes();
+    const passThroughAttributes = getPassThroughAttributes(this.el, AegovFormField.PASS_THROUGH_ATTRS);
 
     return (
       <Host>

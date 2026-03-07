@@ -51,21 +51,21 @@ describe('aegov-blockquote E2E', () => {
       const page = await newE2EPage();
       await page.setContent('<aegov-blockquote></aegov-blockquote>');
       const blockquote = await page.find('aegov-blockquote .aegov-blockquote');
-      expect(blockquote).not.toHaveClass('quote-colored');
+      expect(blockquote).not.toHaveClass('blockquote--colored');
     });
 
     it('should apply colored variant class', async () => {
       const page = await newE2EPage();
       await page.setContent('<aegov-blockquote variant="colored"></aegov-blockquote>');
       const blockquote = await page.find('aegov-blockquote .aegov-blockquote');
-      expect(blockquote).toHaveClass('quote-colored');
+      expect(blockquote).toHaveClass('blockquote--colored');
     });
 
     it('should apply colored variant class for coloured spelling', async () => {
       const page = await newE2EPage();
       await page.setContent('<aegov-blockquote variant="coloured"></aegov-blockquote>');
       const blockquote = await page.find('aegov-blockquote .aegov-blockquote');
-      expect(blockquote).toHaveClass('quote-colored');
+      expect(blockquote).toHaveClass('blockquote--colored');
     });
   });
 
@@ -89,14 +89,14 @@ describe('aegov-blockquote E2E', () => {
     it('should not render footer when no author or title', async () => {
       const page = await newE2EPage();
       await page.setContent('<aegov-blockquote></aegov-blockquote>');
-      const footer = await page.find('aegov-blockquote .quote-footer');
+      const footer = await page.find('aegov-blockquote .blockquote__footer');
       expect(footer).toBeNull();
     });
 
     it('should render author when provided', async () => {
       const page = await newE2EPage();
       await page.setContent('<aegov-blockquote author="John Doe"></aegov-blockquote>');
-      const author = await page.find('aegov-blockquote .quote-author');
+      const author = await page.find('aegov-blockquote .blockquote__author');
       expect(author).toBeTruthy();
       expect(await author.getProperty('textContent')).toBe('John Doe');
     });
@@ -104,7 +104,7 @@ describe('aegov-blockquote E2E', () => {
     it('should render authorTitle when provided', async () => {
       const page = await newE2EPage();
       await page.setContent('<aegov-blockquote author-title="CEO, Company"></aegov-blockquote>');
-      const title = await page.find('aegov-blockquote .quote-title');
+      const title = await page.find('aegov-blockquote .blockquote__title');
       expect(title).toBeTruthy();
       expect(await title.getProperty('textContent')).toBe('CEO, Company');
     });
@@ -112,26 +112,26 @@ describe('aegov-blockquote E2E', () => {
     it('should render both author and authorTitle', async () => {
       const page = await newE2EPage();
       await page.setContent('<aegov-blockquote author="John Doe" author-title="CEO, Company"></aegov-blockquote>');
-      const footer = await page.find('aegov-blockquote .quote-footer');
+      const footer = await page.find('aegov-blockquote .blockquote__footer');
       expect(footer).toBeTruthy();
-      const author = await page.find('aegov-blockquote .quote-author');
+      const author = await page.find('aegov-blockquote .blockquote__author');
       expect(await author.getProperty('textContent')).toBe('John Doe');
-      const title = await page.find('aegov-blockquote .quote-title');
+      const title = await page.find('aegov-blockquote .blockquote__title');
       expect(await title.getProperty('textContent')).toBe('CEO, Company');
     });
 
     it('should render only author when title not provided', async () => {
       const page = await newE2EPage();
       await page.setContent('<aegov-blockquote author="John Doe"></aegov-blockquote>');
-      expect(await page.find('aegov-blockquote .quote-author')).toBeTruthy();
-      expect(await page.find('aegov-blockquote .quote-title')).toBeNull();
+      expect(await page.find('aegov-blockquote .blockquote__author')).toBeTruthy();
+      expect(await page.find('aegov-blockquote .blockquote__title')).toBeNull();
     });
 
     it('should render only title when author not provided', async () => {
       const page = await newE2EPage();
       await page.setContent('<aegov-blockquote author-title="CEO, Company"></aegov-blockquote>');
-      expect(await page.find('aegov-blockquote .quote-author')).toBeNull();
-      expect(await page.find('aegov-blockquote .quote-title')).toBeTruthy();
+      expect(await page.find('aegov-blockquote .blockquote__author')).toBeNull();
+      expect(await page.find('aegov-blockquote .blockquote__title')).toBeTruthy();
     });
   });
 
@@ -149,13 +149,13 @@ describe('aegov-blockquote E2E', () => {
       `);
 
       const blockquote = await page.find('aegov-blockquote blockquote');
-      expect(blockquote).toHaveClass('quote-colored');
+      expect(blockquote).toHaveClass('blockquote--colored');
       expect(await blockquote.getAttribute('cite')).toBe('https://example.com');
 
-      const author = await page.find('aegov-blockquote .quote-author');
+      const author = await page.find('aegov-blockquote .blockquote__author');
       expect(await author.getProperty('textContent')).toBe('Jane Smith');
 
-      const title = await page.find('aegov-blockquote .quote-title');
+      const title = await page.find('aegov-blockquote .blockquote__title');
       expect(await title.getProperty('textContent')).toBe('Product Manager');
 
       const element = await page.find('aegov-blockquote');
@@ -184,7 +184,7 @@ describe('aegov-blockquote E2E', () => {
       const page = await newE2EPage();
       await page.setContent('<aegov-blockquote variant="colored">Quote</aegov-blockquote>');
       const blockquote = await page.find('aegov-blockquote .aegov-blockquote');
-      expect(blockquote).toHaveClass('quote-colored');
+      expect(blockquote).toHaveClass('blockquote--colored');
     });
   });
 });

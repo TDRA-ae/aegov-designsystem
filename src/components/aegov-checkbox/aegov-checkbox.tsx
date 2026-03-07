@@ -1,5 +1,6 @@
 import { Component, Host, h, Prop, Event, EventEmitter, Element, Watch } from '@stencil/core';
 import type { CheckboxSize } from '../../utils/types';
+import { getPassThroughAttributes } from '../../utils/attributes';
 
 let checkboxIdCounter = 0;
 
@@ -83,22 +84,9 @@ export class AegovCheckbox {
     'form', 'tabindex', 'autofocus', 'title',
   ]);
 
-  private getPassThroughAttributes(): { [key: string]: string } {
-    const passThroughAttrs: { [key: string]: string } = {};
-    Array.from(this.el.attributes).forEach(attr => {
-      if (
-        attr.name.startsWith('aria-') ||
-        attr.name.startsWith('data-') ||
-        AegovCheckbox.NATIVE_CHECKBOX_ATTRS.has(attr.name)
-      ) {
-        passThroughAttrs[attr.name] = attr.value;
-      }
-    });
-    return passThroughAttrs;
-  }
 
   render() {
-    const passThroughAttrs = this.getPassThroughAttributes();
+    const passThroughAttrs = getPassThroughAttributes(this.el, AegovCheckbox.NATIVE_CHECKBOX_ATTRS);
     const wrapperClasses = ['aegov-checkbox', `checkbox--${this.size}`];
     if (this.class) wrapperClasses.push(this.class);
 

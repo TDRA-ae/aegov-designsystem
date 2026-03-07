@@ -18,7 +18,7 @@ export class AegovCard {
   @Prop() borderWidth: CardBorderWidth = 1;
 
   /**
-   * Border style: 'standard' (solid primary-600) or 'creative' (gradient from primary-400 to primary-800).
+   * Border style: 'standard' (solid primary-600), 'light' (solid primary-200), or 'creative' (gradient from primary-400 to primary-800).
    */
   @Prop() borderStyle: CardBorderStyle = 'standard';
 

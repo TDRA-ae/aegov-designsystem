@@ -1,5 +1,6 @@
 import { Component, Prop, Event, EventEmitter, Element, h, Host } from '@stencil/core';
 import type { LinkTarget } from '../../utils/types';
+import { getPassThroughAttributes } from '../../utils/attributes';
 
 /**
  * @slot default - The link text content
@@ -58,26 +59,7 @@ export class AegovLink {
     // to stop navigation and handle it themselves
   };
 
-  /**
-   * Get all data-*, aria-*, and title attributes from the host element
-   */
-  private getPassThroughAttributes(): Record<string, string> {
-    const attributes: Record<string, string> = {};
-
-    if (!this.el) return attributes;
-
-    // Get all attributes from the host element
-    Array.from(this.el.attributes).forEach((attr) => {
-      const name = attr.name;
-
-      // Pass through data-*, aria-*, and title attributes
-      if (name.startsWith('data-') || name.startsWith('aria-') || name === 'title' || name === 'id') {
-        attributes[name] = attr.value;
-      }
-    });
-
-    return attributes;
-  }
+  private static readonly PASS_THROUGH_ATTRS = new Set(['title', 'id']);
 
   /**
    * Get the CSS classes based on component props
@@ -100,7 +82,7 @@ export class AegovLink {
   }
 
   render() {
-    const passThroughAttrs = this.getPassThroughAttributes();
+    const passThroughAttrs = getPassThroughAttributes(this.el, AegovLink.PASS_THROUGH_ATTRS);
 
     return (
       <Host>

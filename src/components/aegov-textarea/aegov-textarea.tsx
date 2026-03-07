@@ -1,5 +1,6 @@
 import { Component, Host, h, Prop, State, Event, EventEmitter, Element, Watch } from '@stencil/core';
 import type { TextareaSize, TextareaResize } from '../../utils/types';
+import { getPassThroughAttributes } from '../../utils/attributes';
 
 let fieldIdCounter = 0;
 
@@ -90,19 +91,6 @@ export class AegovTextarea {
     'title', 'tabindex', 'form',
   ]);
 
-  private getPassThroughAttributes(): { [key: string]: string } {
-    const passThroughAttrs: { [key: string]: string } = {};
-    Array.from(this.el.attributes).forEach(attr => {
-      if (
-        attr.name.startsWith('aria-') ||
-        attr.name.startsWith('data-') ||
-        AegovTextarea.NATIVE_TEXTAREA_ATTRS.has(attr.name)
-      ) {
-        passThroughAttrs[attr.name] = attr.value;
-      }
-    });
-    return passThroughAttrs;
-  }
 
   private get isCopyable(): boolean {
     return this.readonly && this.copyable;
@@ -238,7 +226,7 @@ export class AegovTextarea {
   }
 
   render() {
-    const passThroughAttributes = this.getPassThroughAttributes();
+    const passThroughAttributes = getPassThroughAttributes(this.el, AegovTextarea.NATIVE_TEXTAREA_ATTRS);
     const needsWrapper = this.isCopyable;
     const hasCounter = this.maxlength !== undefined && this.maxlength !== null;
 

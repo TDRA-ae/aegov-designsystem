@@ -1,0 +1,270 @@
+:host {
+  display: block;
+}
+
+.aegov-toggle {
+  @apply relative;
+}
+
+/* ========================================
+   Toggle control (input + visual track)
+   ======================================== */
+.toggle__control {
+  @apply relative inline-flex items-center shrink-0;
+}
+
+/* ========================================
+   Native input — overlays the track for click handling
+   ======================================== */
+.toggle__input {
+  @apply absolute inset-0 opacity-0 cursor-pointer m-0;
+  z-index: 1;
+}
+
+.toggle__input:disabled {
+  @apply cursor-not-allowed;
+}
+
+/* ========================================
+   Track — shorter than the thumb
+   ======================================== */
+.toggle__track {
+  @apply relative inline-flex items-center shrink-0 rounded-full
+         bg-aeblack-200
+         transition-colors duration-200 ease-in-out cursor-pointer;
+}
+
+/* Checked track */
+.toggle__input:checked + .toggle__track {
+  @apply bg-primary-600;
+}
+
+/* Focus ring */
+.toggle__input:focus-visible + .toggle__track {
+  @apply outline-2 outline-offset-2 outline-primary-support-600;
+}
+
+/* Disabled */
+.toggle__input:disabled + .toggle__track {
+  @apply opacity-40 cursor-not-allowed;
+}
+
+/* ========================================
+   Thumb — larger than the track, with shadow
+   ======================================== */
+.toggle__thumb {
+  @apply absolute inline-flex items-center justify-center rounded-full
+         bg-white
+         transition-transform duration-200 ease-in-out;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.15), 0 1px 2px -1px rgba(0, 0, 0, 0.1);
+}
+
+/* ========================================
+   Icon inside thumb
+   ======================================== */
+.toggle__thumb--has-icon {
+  @apply overflow-hidden;
+}
+
+.toggle__icon {
+  @apply relative flex items-center justify-center;
+}
+
+.toggle__icon-item {
+  @apply absolute inset-0 flex items-center justify-center
+         opacity-0 transition-opacity duration-200 ease-in-out;
+}
+
+.toggle__icon-item--active {
+  @apply opacity-100;
+}
+
+/* Icon color */
+.toggle__icon-item svg,
+.toggle__icon-item img {
+  @apply text-aeblack-500;
+}
+
+.toggle__input:checked + .toggle__track .toggle__icon-item svg,
+.toggle__input:checked + .toggle__track .toggle__icon-item img {
+  @apply text-primary-600;
+}
+
+/* ========================================
+   Label wrapper
+   ======================================== */
+.toggle__wrapper {
+  @apply flex items-start cursor-pointer select-none;
+}
+
+.toggle__wrapper:has(.toggle__input:disabled) {
+  @apply cursor-not-allowed opacity-40;
+}
+
+.toggle__text {
+  @apply flex flex-col;
+}
+
+.toggle__label-text {
+  @apply text-aeblack-800;
+}
+
+.toggle__description {
+  @apply text-aeblack-500;
+}
+
+/* ========================================
+   Size: sm
+   Track: 32×14, Thumb: 20×20
+   Thumb protrudes 3px above and below track
+   ======================================== */
+.toggle--sm .toggle__control {
+  min-height: 20px;
+}
+
+.toggle--sm .toggle__track {
+  width: 32px;
+  height: 14px;
+}
+
+.toggle--sm .toggle__thumb {
+  width: 20px;
+  height: 20px;
+  top: 50%;
+  transform: translateX(0px) translateY(-50%);
+}
+
+.toggle--sm .toggle__input:checked + .toggle__track .toggle__thumb {
+  transform: translateX(12px) translateY(-50%);
+}
+
+.toggle--sm .toggle__icon {
+  @apply w-2.5 h-2.5;
+}
+
+.toggle--sm .toggle__wrapper {
+  @apply gap-2;
+}
+
+.toggle--sm .toggle__label-text {
+  @apply text-sm leading-5;
+}
+
+.toggle--sm .toggle__description {
+  @apply text-xs mt-0.5;
+}
+
+/* ========================================
+   Size: base (default)
+   Track: 40×18, Thumb: 24×24
+   Thumb protrudes 3px above and below track
+   ======================================== */
+.toggle--base .toggle__control {
+  min-height: 24px;
+}
+
+.toggle--base .toggle__track {
+  width: 40px;
+  height: 18px;
+}
+
+.toggle--base .toggle__thumb {
+  width: 24px;
+  height: 24px;
+  top: 50%;
+  transform: translateX(0px) translateY(-50%);
+}
+
+.toggle--base .toggle__input:checked + .toggle__track .toggle__thumb {
+  transform: translateX(16px) translateY(-50%);
+}
+
+.toggle--base .toggle__icon {
+  @apply w-3 h-3;
+}
+
+.toggle--base .toggle__wrapper {
+  @apply gap-3;
+}
+
+.toggle--base .toggle__label-text {
+  @apply text-base leading-6;
+}
+
+.toggle--base .toggle__description {
+  @apply text-sm mt-1;
+}
+
+/* ========================================
+   Size: lg
+   Track: 48×22, Thumb: 28×28
+   Thumb protrudes 3px above and below track
+   ======================================== */
+.toggle--lg .toggle__control {
+  min-height: 28px;
+}
+
+.toggle--lg .toggle__track {
+  width: 48px;
+  height: 22px;
+}
+
+.toggle--lg .toggle__thumb {
+  width: 28px;
+  height: 28px;
+  top: 50%;
+  transform: translateX(0px) translateY(-50%);
+}
+
+.toggle--lg .toggle__input:checked + .toggle__track .toggle__thumb {
+  transform: translateX(20px) translateY(-50%);
+}
+
+.toggle--lg .toggle__icon {
+  @apply w-3.5 h-3.5;
+}
+
+.toggle--lg .toggle__wrapper {
+  @apply gap-3.5;
+}
+
+.toggle--lg .toggle__label-text {
+  @apply text-lg leading-7;
+}
+
+.toggle--lg .toggle__description {
+  @apply text-base mt-1;
+}
+
+/* ========================================
+   RTL support
+   ======================================== */
+[dir="rtl"] .toggle--sm .toggle__thumb,
+:dir(rtl) .toggle--sm .toggle__thumb {
+  transform: translateX(0px) translateY(-50%);
+}
+
+[dir="rtl"] .toggle--sm .toggle__input:checked + .toggle__track .toggle__thumb,
+:dir(rtl) .toggle--sm .toggle__input:checked + .toggle__track .toggle__thumb {
+  transform: translateX(-12px) translateY(-50%);
+}
+
+[dir="rtl"] .toggle--base .toggle__thumb,
+:dir(rtl) .toggle--base .toggle__thumb {
+  transform: translateX(0px) translateY(-50%);
+}
+
+[dir="rtl"] .toggle--base .toggle__input:checked + .toggle__track .toggle__thumb,
+:dir(rtl) .toggle--base .toggle__input:checked + .toggle__track .toggle__thumb {
+  transform: translateX(-16px) translateY(-50%);
+}
+
+[dir="rtl"] .toggle--lg .toggle__thumb,
+:dir(rtl) .toggle--lg .toggle__thumb {
+  transform: translateX(0px) translateY(-50%);
+}
+
+[dir="rtl"] .toggle--lg .toggle__input:checked + .toggle__track .toggle__thumb,
+:dir(rtl) .toggle--lg .toggle__input:checked + .toggle__track .toggle__thumb {
+  transform: translateX(-20px) translateY(-50%);
+}

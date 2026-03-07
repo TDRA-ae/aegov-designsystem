@@ -1,5 +1,6 @@
 import { Component, Prop, Method, Event, EventEmitter, State, h, Element } from '@stencil/core';
 import type { ToastVariant, ToastAppearance, ToastPosition, ToastMode } from '../../utils/types';
+import { getVariantIcon } from '../../utils/icons';
 
 /* ============================================
    MODULE-LEVEL TOAST MANAGER
@@ -13,15 +14,15 @@ function getContainerStyles(position: ToastPosition): string {
 
   switch (position) {
     case 'top-right':
-      return base + 'top:0;right:0;align-items:flex-end;';
+      return base + 'top:0;inset-inline-end:0;align-items:flex-end;';
     case 'top-left':
-      return base + 'top:0;left:0;align-items:flex-start;';
+      return base + 'top:0;inset-inline-start:0;align-items:flex-start;';
     case 'top-center':
       return base + 'top:0;left:50%;transform:translateX(-50%);align-items:center;';
     case 'bottom-right':
-      return base + 'bottom:0;right:0;align-items:flex-end;flex-direction:column-reverse;';
+      return base + 'bottom:0;inset-inline-end:0;align-items:flex-end;flex-direction:column-reverse;';
     case 'bottom-left':
-      return base + 'bottom:0;left:0;align-items:flex-start;flex-direction:column-reverse;';
+      return base + 'bottom:0;inset-inline-start:0;align-items:flex-start;flex-direction:column-reverse;';
     case 'bottom-center':
       return base + 'bottom:0;left:50%;transform:translateX(-50%);align-items:center;flex-direction:column-reverse;';
   }
@@ -220,7 +221,7 @@ function injectRackStyles(): void {
     .aegov-toast-rack-count {
       position: absolute;
       top: 0.125rem;
-      right: 0.125rem;
+      inset-inline-end: 0.125rem;
       background: rgba(0, 0, 0, 0.65);
       color: white;
       font-size: 0.7rem;
@@ -522,33 +523,6 @@ export class AegovToast {
     return 'right';
   }
 
-  private getDefaultIcon() {
-    const iconClass = 'size-5';
-
-    switch (this.variant) {
-      case 'error':
-        return (
-          <svg class={iconClass} aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"><rect width="256" height="256" fill="none"/><path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm-8,56a8,8,0,0,1,16,0v56a8,8,0,0,1-16,0Zm8,104a12,12,0,1,1,12-12A12,12,0,0,1,128,184Z"/></svg>
-        );
-      case 'warning':
-        return (
-          <svg class={iconClass} aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"><rect width="256" height="256" fill="none"/><path d="M236.8,188.09,149.35,36.22h0a24.76,24.76,0,0,0-42.7,0L19.2,188.09a23.51,23.51,0,0,0,0,23.72A24.35,24.35,0,0,0,40.55,224h174.9a24.35,24.35,0,0,0,21.33-12.19A23.51,23.51,0,0,0,236.8,188.09ZM120,104a8,8,0,0,1,16,0v40a8,8,0,0,1-16,0Zm8,88a12,12,0,1,1,12-12A12,12,0,0,1,128,192Z"/></svg>
-        );
-      case 'success':
-        return (
-          <svg class={iconClass} aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"><rect width="256" height="256" fill="none"/><path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm45.66,85.66-56,56a8,8,0,0,1-11.32,0l-24-24a8,8,0,0,1,11.32-11.32L112,148.69l50.34-50.35a8,8,0,0,1,11.32,11.32Z"/></svg>
-        );
-      case 'info':
-        return (
-          <svg class={iconClass} aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"><rect width="256" height="256" fill="none"/><path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm-4,48a12,12,0,1,1-12,12A12,12,0,0,1,124,72Zm12,112a16,16,0,0,1-16-16V128a8,8,0,0,1,0-16,16,16,0,0,1,16,16v40a8,8,0,0,1,0,16Z"/></svg>
-        );
-      default:
-        return (
-          <svg class={iconClass} aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"><rect width="256" height="256" fill="none"/><path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm-2,36a12,12,0,1,1-12,12A12,12,0,0,1,126,60Zm10,124a16,16,0,0,1-16-16V128a8,8,0,0,1,0-16,16,16,0,0,1,16,16v40a8,8,0,0,1,0,16Z"/></svg>
-        );
-    }
-  }
-
   private getToastClasses(): string {
     const classes = ['aegov-toast'];
 
@@ -603,7 +577,7 @@ export class AegovToast {
             {this.hasIconSlot ? (
               <slot name="icon" />
             ) : (
-              this.getDefaultIcon()
+              getVariantIcon(this.variant, 'size-5')
             )}
           </div>
         )}

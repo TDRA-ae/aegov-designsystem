@@ -1,5 +1,6 @@
 import { Component, Host, h, Prop, Event, EventEmitter, Element, State, Watch } from '@stencil/core';
 import type { LinkTarget, BreadcrumbSeparator } from '../../utils/types';
+import { getPassThroughAttributes } from '../../utils/attributes';
 
 /**
  * Breadcrumb item component
@@ -121,22 +122,7 @@ export class AegovBreadcrumbsItem {
     return text.substring(0, this.maxLength) + '…';
   }
 
-  /**
-   * Get aria-*, data-*, and id attributes from the host element to pass through to the link/span wrapper
-   */
-  private getPassThroughAttributes(): { [key: string]: string } {
-    const passThroughAttrs: { [key: string]: string } = {};
-
-    // Get all attributes from the host element
-    Array.from(this.el.attributes).forEach(attr => {
-      // Pass through aria-*, data-*, and id attributes
-      if (attr.name.startsWith('aria-') || attr.name.startsWith('data-') || attr.name === 'id') {
-        passThroughAttrs[attr.name] = attr.value;
-      }
-    });
-
-    return passThroughAttrs;
-  }
+  private static readonly PASS_THROUGH_ATTRS = new Set(['id']);
 
   private renderSeparator() {
     if (this.isLast) {
@@ -159,7 +145,7 @@ export class AegovBreadcrumbsItem {
     // If there are element children (SVG, icons, etc.), render the slot directly
     // Otherwise, render the truncated text
     const content = this.hasElementChildren ? <slot /> : this.truncateText(this.slotContent);
-    const passThroughAttributes = this.getPassThroughAttributes();
+    const passThroughAttributes = getPassThroughAttributes(this.el, AegovBreadcrumbsItem.PASS_THROUGH_ATTRS);
 
     if (this.href) {
       return (

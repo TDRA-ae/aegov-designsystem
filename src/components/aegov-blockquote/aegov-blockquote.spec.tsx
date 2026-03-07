@@ -80,7 +80,7 @@ describe('aegov-blockquote', () => {
         html: `<aegov-blockquote variant="primary"></aegov-blockquote>`,
       });
       const blockquote = page.root.querySelector('.aegov-blockquote');
-      expect(blockquote.classList.contains('quote-colored')).toBe(false);
+      expect(blockquote.classList.contains('blockquote--colored')).toBe(false);
     });
 
     it('should render quote icon for primary variant', async () => {
@@ -99,7 +99,7 @@ describe('aegov-blockquote', () => {
       });
       expect(page.rootInstance.variant).toBe('colored');
       const blockquote = page.root.querySelector('.aegov-blockquote');
-      expect(blockquote.classList.contains('quote-colored')).toBe(true);
+      expect(blockquote.classList.contains('blockquote--colored')).toBe(true);
     });
 
     it('should not render quote icon for colored variant', async () => {
@@ -118,7 +118,7 @@ describe('aegov-blockquote', () => {
       });
       expect(page.rootInstance.variant).toBe('coloured');
       const blockquote = page.root.querySelector('.aegov-blockquote');
-      expect(blockquote.classList.contains('quote-colored')).toBe(true);
+      expect(blockquote.classList.contains('blockquote--colored')).toBe(true);
     });
 
     it('should not render quote icon for coloured variant', async () => {
@@ -158,7 +158,7 @@ describe('aegov-blockquote', () => {
         components: [AegovBlockquote],
         html: `<aegov-blockquote></aegov-blockquote>`,
       });
-      const footer = page.root.querySelector('.quote-footer');
+      const footer = page.root.querySelector('.blockquote__footer');
       expect(footer).toBeNull();
     });
 
@@ -167,7 +167,7 @@ describe('aegov-blockquote', () => {
         components: [AegovBlockquote],
         html: `<aegov-blockquote author="John Doe"></aegov-blockquote>`,
       });
-      const author = page.root.querySelector('.quote-author');
+      const author = page.root.querySelector('.blockquote__author');
       expect(author).toBeTruthy();
       expect(author.textContent).toBe('John Doe');
     });
@@ -177,7 +177,7 @@ describe('aegov-blockquote', () => {
         components: [AegovBlockquote],
         html: `<aegov-blockquote author-title="CEO, Company"></aegov-blockquote>`,
       });
-      const title = page.root.querySelector('.quote-title');
+      const title = page.root.querySelector('.blockquote__title');
       expect(title).toBeTruthy();
       expect(title.textContent).toBe('CEO, Company');
     });
@@ -187,11 +187,11 @@ describe('aegov-blockquote', () => {
         components: [AegovBlockquote],
         html: `<aegov-blockquote author="John Doe" author-title="CEO, Company"></aegov-blockquote>`,
       });
-      const footer = page.root.querySelector('.quote-footer');
+      const footer = page.root.querySelector('.blockquote__footer');
       expect(footer).toBeTruthy();
-      const author = page.root.querySelector('.quote-author');
+      const author = page.root.querySelector('.blockquote__author');
       expect(author.textContent).toBe('John Doe');
-      const title = page.root.querySelector('.quote-title');
+      const title = page.root.querySelector('.blockquote__title');
       expect(title.textContent).toBe('CEO, Company');
     });
 
@@ -200,8 +200,8 @@ describe('aegov-blockquote', () => {
         components: [AegovBlockquote],
         html: `<aegov-blockquote author="John Doe"></aegov-blockquote>`,
       });
-      expect(page.root.querySelector('.quote-author')).toBeTruthy();
-      expect(page.root.querySelector('.quote-title')).toBeNull();
+      expect(page.root.querySelector('.blockquote__author')).toBeTruthy();
+      expect(page.root.querySelector('.blockquote__title')).toBeNull();
     });
 
     it('should render only title when author not provided', async () => {
@@ -209,8 +209,8 @@ describe('aegov-blockquote', () => {
         components: [AegovBlockquote],
         html: `<aegov-blockquote author-title="CEO, Company"></aegov-blockquote>`,
       });
-      expect(page.root.querySelector('.quote-author')).toBeNull();
-      expect(page.root.querySelector('.quote-title')).toBeTruthy();
+      expect(page.root.querySelector('.blockquote__author')).toBeNull();
+      expect(page.root.querySelector('.blockquote__title')).toBeTruthy();
     });
   });
 
@@ -235,10 +235,10 @@ describe('aegov-blockquote', () => {
       expect(page.rootInstance.authorTitle).toBe('Product Manager');
 
       const blockquote = page.root.querySelector('blockquote');
-      expect(blockquote.classList.contains('quote-colored')).toBe(true);
+      expect(blockquote.classList.contains('blockquote--colored')).toBe(true);
       expect(blockquote.getAttribute('cite')).toBe('https://example.com');
-      expect(page.root.querySelector('.quote-author').textContent).toBe('Jane Smith');
-      expect(page.root.querySelector('.quote-title').textContent).toBe('Product Manager');
+      expect(page.root.querySelector('.blockquote__author').textContent).toBe('Jane Smith');
+      expect(page.root.querySelector('.blockquote__title').textContent).toBe('Product Manager');
       expect(page.root.textContent).toContain('The best way to predict the future is to create it.');
     });
   });
@@ -251,13 +251,13 @@ describe('aegov-blockquote', () => {
       });
 
       let blockquote = page.root.querySelector('.aegov-blockquote');
-      expect(blockquote.classList.contains('quote-colored')).toBe(false);
+      expect(blockquote.classList.contains('blockquote--colored')).toBe(false);
 
       page.root.setAttribute('variant', 'colored');
       await page.waitForChanges();
 
       blockquote = page.root.querySelector('.aegov-blockquote');
-      expect(blockquote.classList.contains('quote-colored')).toBe(true);
+      expect(blockquote.classList.contains('blockquote--colored')).toBe(true);
     });
 
     it('should update when author changes', async () => {
@@ -266,12 +266,12 @@ describe('aegov-blockquote', () => {
         html: `<aegov-blockquote></aegov-blockquote>`,
       });
 
-      expect(page.root.querySelector('.quote-author')).toBeNull();
+      expect(page.root.querySelector('.blockquote__author')).toBeNull();
 
       page.root.setAttribute('author', 'New Author');
       await page.waitForChanges();
 
-      const author = page.root.querySelector('.quote-author');
+      const author = page.root.querySelector('.blockquote__author');
       expect(author).toBeTruthy();
       expect(author.textContent).toBe('New Author');
     });

@@ -1,5 +1,7 @@
 import { Component, Prop, Event, EventEmitter, State, h, Element } from '@stencil/core';
 import type { CalloutVariant, CalloutAppearance } from '../../utils/types';
+import { getPassThroughAttributes } from '../../utils/attributes';
+import { getVariantIcon } from '../../utils/icons';
 
 /**
  * @slot default - The main content of the callout
@@ -83,32 +85,6 @@ export class AegovCallout {
   /**
    * Get the default icon based on variant
    */
-  private getDefaultIcon() {
-    const iconClass = "size-6";
-
-    switch (this.variant) {
-      case 'error':
-        return (
-          <svg class={iconClass} aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"><rect width="256" height="256" fill="none"/><path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm-8,56a8,8,0,0,1,16,0v56a8,8,0,0,1-16,0Zm8,104a12,12,0,1,1,12-12A12,12,0,0,1,128,184Z"/></svg>
-        );
-      case 'warning':
-        return (
-          <svg class={iconClass} aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"><rect width="256" height="256" fill="none"/><path d="M236.8,188.09,149.35,36.22h0a24.76,24.76,0,0,0-42.7,0L19.2,188.09a23.51,23.51,0,0,0,0,23.72A24.35,24.35,0,0,0,40.55,224h174.9a24.35,24.35,0,0,0,21.33-12.19A23.51,23.51,0,0,0,236.8,188.09ZM120,104a8,8,0,0,1,16,0v40a8,8,0,0,1-16,0Zm8,88a12,12,0,1,1,12-12A12,12,0,0,1,128,192Z"/></svg>
-        );
-      case 'success':
-        return (
-          <svg class={iconClass} aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"><rect width="256" height="256" fill="none"/><path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm45.66,85.66-56,56a8,8,0,0,1-11.32,0l-24-24a8,8,0,0,1,11.32-11.32L112,148.69l50.34-50.35a8,8,0,0,1,11.32,11.32Z"/></svg>
-        );
-      case 'info':
-        return (
-          <svg class={iconClass} aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"><rect width="256" height="256" fill="none"/><path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm-4,48a12,12,0,1,1-12,12A12,12,0,0,1,124,72Zm12,112a16,16,0,0,1-16-16V128a8,8,0,0,1,0-16,16,16,0,0,1,16,16v40a8,8,0,0,1,0,16Z"/></svg>
-        );
-      default: // 'default'
-        return (
-          <svg class={iconClass} aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"><rect width="256" height="256" fill="none"/><circle cx="124" cy="84" r="16"/><circle cx="128" cy="128" r="96" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="24"/><path d="M120,124a8,8,0,0,1,8,8v36a8,8,0,0,0,8,8" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="24"/></svg>
-        );
-    }
-  }
 
   /**
    * Lifecycle method called before each render
@@ -118,22 +94,7 @@ export class AegovCallout {
     this.checkIconSlot();
   }
 
-  /**
-   * Get aria-*, data-*, and id attributes from the host element to pass through to the callout wrapper
-   */
-  private getPassThroughAttributes(): { [key: string]: string } {
-    const passThroughAttrs: { [key: string]: string } = {};
-
-    // Get all attributes from the host element
-    Array.from(this.el.attributes).forEach(attr => {
-      // Pass through aria-*, data-*, and id attributes
-      if (attr.name.startsWith('aria-') || attr.name.startsWith('data-') || attr.name === 'id') {
-        passThroughAttrs[attr.name] = attr.value;
-      }
-    });
-
-    return passThroughAttrs;
-  }
+  private static readonly PASS_THROUGH_ATTRS = new Set(['id']);
 
   /**
    * Get the CSS classes based on component props
@@ -178,7 +139,7 @@ export class AegovCallout {
       return null;
     }
 
-    const passThroughAttributes = this.getPassThroughAttributes();
+    const passThroughAttributes = getPassThroughAttributes(this.el, AegovCallout.PASS_THROUGH_ATTRS);
 
     return (
       <div data-aegov-callout class={this.getCalloutClasses()} role="alert" {...passThroughAttributes}>
@@ -186,7 +147,7 @@ export class AegovCallout {
           {this.hasIconSlot ? (
             <slot name="icon" />
           ) : (
-            this.getDefaultIcon()
+            getVariantIcon(this.variant, 'size-6')
           )}
         </div>
         <div class="callout__content">

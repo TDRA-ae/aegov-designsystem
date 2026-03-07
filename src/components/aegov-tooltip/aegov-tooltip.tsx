@@ -164,6 +164,10 @@ export class AegovTooltip {
     });
   }
 
+  private isRtl(): boolean {
+    return getComputedStyle(this.el).direction === 'rtl';
+  }
+
   private updateTooltipPosition() {
     if (!this.tooltipRef || !this.triggerRef) return;
 
@@ -183,11 +187,17 @@ export class AegovTooltip {
       return;
     }
 
+    const rtl = this.isRtl();
     let top = 0;
     let left = 0;
 
+    // In RTL, "left" and "right" positions are mirrored
+    const effectivePosition = rtl
+      ? this.position === 'left' ? 'right' : this.position === 'right' ? 'left' : this.position
+      : this.position;
+
     // Calculate position based on placement
-    switch (this.position) {
+    switch (effectivePosition) {
       case 'top':
         top = triggerRect.top - tooltipRect.height - this.gap;
         left = this.calculateHorizontalPosition(triggerRect, tooltipRect);
@@ -206,9 +216,9 @@ export class AegovTooltip {
         break;
     }
 
-    // Apply offset
+    // Apply offset (flip horizontal offset in RTL)
     if (this.position === 'top' || this.position === 'bottom') {
-      left += this.offset;
+      left += rtl ? -this.offset : this.offset;
     } else {
       top += this.offset;
     }
@@ -236,7 +246,13 @@ export class AegovTooltip {
   }
 
   private calculateHorizontalPosition(triggerRect: DOMRect, tooltipRect: DOMRect): number {
-    switch (this.align) {
+    const rtl = this.isRtl();
+    // In RTL, 'start' means right edge and 'end' means left edge
+    const effectiveAlign = rtl
+      ? this.align === 'start' ? 'end' : this.align === 'end' ? 'start' : this.align
+      : this.align;
+
+    switch (effectiveAlign) {
       case 'start':
         return triggerRect.left;
       case 'end':

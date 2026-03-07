@@ -38,6 +38,15 @@
 }
 
 /* ============================================
+   BORDER STYLE: LIGHT (solid subtle color)
+   ============================================ */
+
+.card--border-light {
+  border-style: solid;
+  border-color: theme(colors.primary.200);
+}
+
+/* ============================================
    BORDER STYLE: CREATIVE (gradient border)
    Uses double background trick:
    - Inner background covers the padding-box (visible card bg)
@@ -91,15 +100,18 @@
    creative border handles bg via background-image)
    ============================================ */
 
-.card--border-standard.card--bg-white {
+.card--border-standard.card--bg-white,
+.card--border-light.card--bg-white {
   @apply bg-white;
 }
 
-.card--border-standard.card--bg-transparent {
+.card--border-standard.card--bg-transparent,
+.card--border-light.card--bg-transparent {
   @apply bg-transparent;
 }
 
-.card--border-standard.card--bg-subtle {
+.card--border-standard.card--bg-subtle,
+.card--border-light.card--bg-subtle {
   @apply bg-slate-50;
 }
 
@@ -117,6 +129,10 @@
 
 .card--border-standard.card--hover-standard:hover {
   border-color: theme(colors.primary.500);
+}
+
+.card--border-light.card--hover-standard:hover {
+  border-color: theme(colors.primary.400);
 }
 
 /* Creative border + standard hover: shift gradient lighter */
@@ -152,6 +168,10 @@
 /* Standard border + glow hover also shifts border color */
 .card--border-standard.card--hover-glow:hover {
   border-color: theme(colors.primary.500);
+}
+
+.card--border-light.card--hover-glow:hover {
+  border-color: theme(colors.primary.400);
 }
 
 /* Creative border + glow hover shifts gradient lighter */

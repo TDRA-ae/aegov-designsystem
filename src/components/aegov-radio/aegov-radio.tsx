@@ -1,5 +1,6 @@
 import { Component, Host, h, Prop, Event, EventEmitter, Element } from '@stencil/core';
 import type { RadioSize } from '../../utils/types';
+import { getPassThroughAttributes } from '../../utils/attributes';
 
 let radioIdCounter = 0;
 
@@ -61,22 +62,9 @@ export class AegovRadio {
     'form', 'tabindex', 'autofocus', 'title',
   ]);
 
-  private getPassThroughAttributes(): { [key: string]: string } {
-    const passThroughAttrs: { [key: string]: string } = {};
-    Array.from(this.el.attributes).forEach(attr => {
-      if (
-        attr.name.startsWith('aria-') ||
-        attr.name.startsWith('data-') ||
-        AegovRadio.NATIVE_RADIO_ATTRS.has(attr.name)
-      ) {
-        passThroughAttrs[attr.name] = attr.value;
-      }
-    });
-    return passThroughAttrs;
-  }
 
   render() {
-    const passThroughAttrs = this.getPassThroughAttributes();
+    const passThroughAttrs = getPassThroughAttributes(this.el, AegovRadio.NATIVE_RADIO_ATTRS);
     const wrapperClasses = ['aegov-radio', `radio--${this.size}`];
     if (this.class) wrapperClasses.push(this.class);
 

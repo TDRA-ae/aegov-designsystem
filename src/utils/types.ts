@@ -242,7 +242,7 @@ export type CardBackground = 'white' | 'transparent' | 'subtle';
 /**
  * Card component border style types
  */
-export type CardBorderStyle = 'standard' | 'creative';
+export type CardBorderStyle = 'standard' | 'light' | 'creative';
 
 /**
  * Card component hover effect types
@@ -359,6 +359,11 @@ export type RadioGroupVariant = 'default' | 'list' | 'cards' | 'pills';
  * Radio group orientation types
  */
 export type RadioGroupOrientation = 'vertical' | 'horizontal';
+
+/**
+ * Toggle component size types
+ */
+export type ToggleSize = 'sm' | 'base' | 'lg';
 
 /**
  * Common component props

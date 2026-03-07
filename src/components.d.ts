@@ -5,9 +5,9 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
-import { AccordionIcon, AvatarGroupMode, AvatarSize, AvatarStatus, AvatarVariant, BadgeAppearance, BadgeColor, BadgeSize, BannerDisplay, BannerMode, BannerPosition, BannerRole, BlockquoteVariant, BreadcrumbSeparator, ButtonAppearance, ButtonGroupOrientation, ButtonSize, ButtonType, ButtonVariant, CalloutAppearance, CalloutVariant, CardBackground, CardBorderStyle, CardBorderWidth, CardHover, CheckboxGroupOrientation, CheckboxGroupVariant, CheckboxSize, DatepickerChangeDetail, DatepickerMode, DatepickerMonthChangeDetail, DropdownAlign, DropdownPosition, DropdownTrigger, InputSize, InputType, LinkTarget, ModalBackdropOpacity, ModalPosition, PaginationSize, PaginationVariant, ProgressOrientation, ProgressSize, ProgressStepStatus, ProgressVariant, RadioGroupOrientation, RadioGroupVariant, RadioSize, SelectChangeDetail, SelectSize, SelectVariant, TabOrientation, TabSize, TabVariant, TextareaResize, TextareaSize, TextSize, TitleSize, ToastAppearance, ToastMode, ToastPosition, ToastVariant, TooltipAlign, TooltipPosition, TooltipTrigger } from "./utils/types";
+import { AccordionIcon, AvatarGroupMode, AvatarSize, AvatarStatus, AvatarVariant, BadgeAppearance, BadgeColor, BadgeSize, BannerDisplay, BannerMode, BannerPosition, BannerRole, BlockquoteVariant, BreadcrumbSeparator, ButtonAppearance, ButtonGroupOrientation, ButtonSize, ButtonType, ButtonVariant, CalloutAppearance, CalloutVariant, CardBackground, CardBorderStyle, CardBorderWidth, CardHover, CheckboxGroupOrientation, CheckboxGroupVariant, CheckboxSize, DatepickerChangeDetail, DatepickerMode, DatepickerMonthChangeDetail, DropdownAlign, DropdownPosition, DropdownTrigger, InputSize, InputType, LinkTarget, ModalBackdropOpacity, ModalPosition, PaginationSize, PaginationVariant, ProgressOrientation, ProgressSize, ProgressStepStatus, ProgressVariant, RadioGroupOrientation, RadioGroupVariant, RadioSize, SelectChangeDetail, SelectSize, SelectVariant, TabOrientation, TabSize, TabVariant, TextareaResize, TextareaSize, TextSize, TitleSize, ToastAppearance, ToastMode, ToastPosition, ToastVariant, ToggleSize, TooltipAlign, TooltipPosition, TooltipTrigger } from "./utils/types";
 import { Event } from "@stencil/core";
-export { AccordionIcon, AvatarGroupMode, AvatarSize, AvatarStatus, AvatarVariant, BadgeAppearance, BadgeColor, BadgeSize, BannerDisplay, BannerMode, BannerPosition, BannerRole, BlockquoteVariant, BreadcrumbSeparator, ButtonAppearance, ButtonGroupOrientation, ButtonSize, ButtonType, ButtonVariant, CalloutAppearance, CalloutVariant, CardBackground, CardBorderStyle, CardBorderWidth, CardHover, CheckboxGroupOrientation, CheckboxGroupVariant, CheckboxSize, DatepickerChangeDetail, DatepickerMode, DatepickerMonthChangeDetail, DropdownAlign, DropdownPosition, DropdownTrigger, InputSize, InputType, LinkTarget, ModalBackdropOpacity, ModalPosition, PaginationSize, PaginationVariant, ProgressOrientation, ProgressSize, ProgressStepStatus, ProgressVariant, RadioGroupOrientation, RadioGroupVariant, RadioSize, SelectChangeDetail, SelectSize, SelectVariant, TabOrientation, TabSize, TabVariant, TextareaResize, TextareaSize, TextSize, TitleSize, ToastAppearance, ToastMode, ToastPosition, ToastVariant, TooltipAlign, TooltipPosition, TooltipTrigger } from "./utils/types";
+export { AccordionIcon, AvatarGroupMode, AvatarSize, AvatarStatus, AvatarVariant, BadgeAppearance, BadgeColor, BadgeSize, BannerDisplay, BannerMode, BannerPosition, BannerRole, BlockquoteVariant, BreadcrumbSeparator, ButtonAppearance, ButtonGroupOrientation, ButtonSize, ButtonType, ButtonVariant, CalloutAppearance, CalloutVariant, CardBackground, CardBorderStyle, CardBorderWidth, CardHover, CheckboxGroupOrientation, CheckboxGroupVariant, CheckboxSize, DatepickerChangeDetail, DatepickerMode, DatepickerMonthChangeDetail, DropdownAlign, DropdownPosition, DropdownTrigger, InputSize, InputType, LinkTarget, ModalBackdropOpacity, ModalPosition, PaginationSize, PaginationVariant, ProgressOrientation, ProgressSize, ProgressStepStatus, ProgressVariant, RadioGroupOrientation, RadioGroupVariant, RadioSize, SelectChangeDetail, SelectSize, SelectVariant, TabOrientation, TabSize, TabVariant, TextareaResize, TextareaSize, TextSize, TitleSize, ToastAppearance, ToastMode, ToastPosition, ToastVariant, ToggleSize, TooltipAlign, TooltipPosition, TooltipTrigger } from "./utils/types";
 export { Event } from "@stencil/core";
 export namespace Components {
     /**
@@ -362,7 +362,7 @@ export namespace Components {
          */
         "background": CardBackground;
         /**
-          * Border style: 'standard' (solid primary-600) or 'creative' (gradient from primary-400 to primary-800).
+          * Border style: 'standard' (solid primary-600), 'light' (solid primary-200), or 'creative' (gradient from primary-400 to primary-800).
           * @default 'standard'
          */
         "borderStyle": CardBorderStyle;
@@ -603,6 +603,11 @@ export namespace Components {
           * @default true
          */
         "selectableHeader": boolean;
+        /**
+          * The size of the datepicker input.
+          * @default 'base'
+         */
+        "size": InputSize;
         /**
           * Week start day: 0=Sunday, 1=Monday, ...6=Saturday
           * @default 0
@@ -1375,6 +1380,48 @@ export namespace Components {
          */
         "variant": ToastVariant;
     }
+    interface AegovToggle {
+        /**
+          * Whether the toggle is checked/on.
+          * @default false
+         */
+        "checked": boolean;
+        /**
+          * Description text displayed below the label. Only rendered when label is provided.
+         */
+        "description"?: string;
+        /**
+          * Whether the toggle is disabled.
+          * @default false
+         */
+        "disabled": boolean;
+        /**
+          * Unique ID for the native checkbox element. Auto-generated if not provided.
+         */
+        "fieldId"?: string;
+        /**
+          * Label text for the toggle. Rendered at the end (inline-end).
+         */
+        "label"?: string;
+        /**
+          * The name attribute for the toggle.
+         */
+        "name"?: string;
+        /**
+          * Whether the toggle is required.
+          * @default false
+         */
+        "required": boolean;
+        /**
+          * The size of the toggle.
+          * @default 'base'
+         */
+        "size": ToggleSize;
+        /**
+          * The value attribute for the toggle.
+         */
+        "value"?: string;
+    }
     /**
      * Tooltip component that displays additional information on hover or click
      */
@@ -1525,6 +1572,10 @@ export interface AegovTextareaCustomEvent<T> extends CustomEvent<T> {
 export interface AegovToastCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLAegovToastElement;
+}
+export interface AegovToggleCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLAegovToggleElement;
 }
 declare global {
     /**
@@ -2114,6 +2165,23 @@ declare global {
         prototype: HTMLAegovToastElement;
         new (): HTMLAegovToastElement;
     };
+    interface HTMLAegovToggleElementEventMap {
+        "aegovToggleChange": { checked: boolean; value?: string };
+    }
+    interface HTMLAegovToggleElement extends Components.AegovToggle, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLAegovToggleElementEventMap>(type: K, listener: (this: HTMLAegovToggleElement, ev: AegovToggleCustomEvent<HTMLAegovToggleElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLAegovToggleElementEventMap>(type: K, listener: (this: HTMLAegovToggleElement, ev: AegovToggleCustomEvent<HTMLAegovToggleElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLAegovToggleElement: {
+        prototype: HTMLAegovToggleElement;
+        new (): HTMLAegovToggleElement;
+    };
     /**
      * Tooltip component that displays additional information on hover or click
      */
@@ -2165,6 +2233,7 @@ declare global {
         "aegov-textarea": HTMLAegovTextareaElement;
         "aegov-title": HTMLAegovTitleElement;
         "aegov-toast": HTMLAegovToastElement;
+        "aegov-toggle": HTMLAegovToggleElement;
         "aegov-tooltip": HTMLAegovTooltipElement;
     }
 }
@@ -2561,7 +2630,7 @@ declare namespace LocalJSX {
          */
         "background"?: CardBackground;
         /**
-          * Border style: 'standard' (solid primary-600) or 'creative' (gradient from primary-400 to primary-800).
+          * Border style: 'standard' (solid primary-600), 'light' (solid primary-200), or 'creative' (gradient from primary-400 to primary-800).
           * @default 'standard'
          */
         "borderStyle"?: CardBorderStyle;
@@ -2803,6 +2872,11 @@ declare namespace LocalJSX {
           * @default true
          */
         "selectableHeader"?: boolean;
+        /**
+          * The size of the datepicker input.
+          * @default 'base'
+         */
+        "size"?: InputSize;
         /**
           * Week start day: 0=Sunday, 1=Monday, ...6=Saturday
           * @default 0
@@ -3665,6 +3739,52 @@ declare namespace LocalJSX {
          */
         "variant"?: ToastVariant;
     }
+    interface AegovToggle {
+        /**
+          * Whether the toggle is checked/on.
+          * @default false
+         */
+        "checked"?: boolean;
+        /**
+          * Description text displayed below the label. Only rendered when label is provided.
+         */
+        "description"?: string;
+        /**
+          * Whether the toggle is disabled.
+          * @default false
+         */
+        "disabled"?: boolean;
+        /**
+          * Unique ID for the native checkbox element. Auto-generated if not provided.
+         */
+        "fieldId"?: string;
+        /**
+          * Label text for the toggle. Rendered at the end (inline-end).
+         */
+        "label"?: string;
+        /**
+          * The name attribute for the toggle.
+         */
+        "name"?: string;
+        /**
+          * Emitted when the toggle checked state changes.
+         */
+        "onAegovToggleChange"?: (event: AegovToggleCustomEvent<{ checked: boolean; value?: string }>) => void;
+        /**
+          * Whether the toggle is required.
+          * @default false
+         */
+        "required"?: boolean;
+        /**
+          * The size of the toggle.
+          * @default 'base'
+         */
+        "size"?: ToggleSize;
+        /**
+          * The value attribute for the toggle.
+         */
+        "value"?: string;
+    }
     /**
      * Tooltip component that displays additional information on hover or click
      */
@@ -3761,6 +3881,7 @@ declare namespace LocalJSX {
         "aegov-textarea": AegovTextarea;
         "aegov-title": AegovTitle;
         "aegov-toast": AegovToast;
+        "aegov-toggle": AegovToggle;
         "aegov-tooltip": AegovTooltip;
     }
 }
@@ -3863,6 +3984,7 @@ declare module "@stencil/core" {
             "aegov-textarea": LocalJSX.AegovTextarea & JSXBase.HTMLAttributes<HTMLAegovTextareaElement>;
             "aegov-title": LocalJSX.AegovTitle & JSXBase.HTMLAttributes<HTMLAegovTitleElement>;
             "aegov-toast": LocalJSX.AegovToast & JSXBase.HTMLAttributes<HTMLAegovToastElement>;
+            "aegov-toggle": LocalJSX.AegovToggle & JSXBase.HTMLAttributes<HTMLAegovToggleElement>;
             /**
              * Tooltip component that displays additional information on hover or click
              */

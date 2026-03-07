@@ -61,8 +61,12 @@
    ============================================ */
 
 .toast__progress {
-  @apply absolute bottom-0 left-0 h-1;
-  border-radius: 0 0 0 0.5rem;
+  @apply absolute bottom-0 h-1;
+  inset-inline-start: 0;
+  border-start-start-radius: 0;
+  border-start-end-radius: 0;
+  border-end-start-radius: 0.5rem;
+  border-end-end-radius: 0;
   animation: toast-progress-shrink linear forwards;
 }
 
@@ -112,6 +116,25 @@
 .toast--center.toast--bottom.toast--exiting {
   opacity: 0;
   transform: translateY(100%);
+}
+
+/* RTL: flip horizontal slide directions */
+[dir="rtl"] .toast--right.toast--entering,
+:dir(rtl) .toast--right.toast--entering {
+  transform: translateX(-100%);
+}
+[dir="rtl"] .toast--right.toast--exiting,
+:dir(rtl) .toast--right.toast--exiting {
+  transform: translateX(-100%);
+}
+
+[dir="rtl"] .toast--left.toast--entering,
+:dir(rtl) .toast--left.toast--entering {
+  transform: translateX(100%);
+}
+[dir="rtl"] .toast--left.toast--exiting,
+:dir(rtl) .toast--left.toast--exiting {
+  transform: translateX(100%);
 }
 
 /* Visible: fully shown */
