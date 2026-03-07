@@ -24,8 +24,8 @@ export class AegovFormField {
     const input = this.el.querySelector('aegov-input') as HTMLAegovInputElement | null;
     const textarea = this.el.querySelector('aegov-textarea') as HTMLAegovTextareaElement | null;
     const label = this.el.querySelector('aegov-label') as HTMLAegovLabelElement | null;
-
     const select = this.el.querySelector('aegov-select') as HTMLAegovSelectElement | null;
+    const checkbox = this.el.querySelector('aegov-checkbox') as HTMLAegovCheckboxElement | null;
 
     if (label) {
       if (input && input.fieldId) {
@@ -34,6 +34,8 @@ export class AegovFormField {
         label.htmlFor = textarea.fieldId;
       } else if (select && select.fieldId) {
         label.htmlFor = select.fieldId;
+      } else if (checkbox && checkbox.fieldId) {
+        label.htmlFor = checkbox.fieldId;
       }
     }
   }

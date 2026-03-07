@@ -7,8 +7,22 @@
   @apply flex flex-col;
 }
 
+/* When wrapping a checkbox, align label inline with the checkbox */
+.aegov-form-field:has(aegov-checkbox) {
+  @apply flex-row items-start gap-3;
+}
+
+.aegov-form-field:has(aegov-checkbox) .aegov-label {
+  @apply mb-0 cursor-pointer pt-px;
+}
+
 .aegov-form-field:has(aegov-input[disabled]) .aegov-label,
 .aegov-form-field:has(aegov-textarea[disabled]) .aegov-label,
-.aegov-form-field:has(aegov-select[disabled]) .aegov-label {
+.aegov-form-field:has(aegov-select[disabled]) .aegov-label,
+.aegov-form-field:has(aegov-checkbox[disabled]) .aegov-label {
   @apply text-aeblack-200;
+}
+
+.aegov-form-field:has(aegov-checkbox[disabled]) .aegov-label {
+  @apply cursor-not-allowed;
 }

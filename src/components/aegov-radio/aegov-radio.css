@@ -1,0 +1,132 @@
+:host {
+  display: block;
+}
+
+.aegov-radio {
+  @apply relative;
+}
+.aegov-radio input[type="radio"] {
+  @apply appearance-none mt-0.5 border-2 border-primary-600 checked:bg-primary-600 relative m-0 h-4.5 w-4.5 focus:outline-2 focus:outline-offset-1 focus:outline-primary-support-600 disabled:pointer-events-none disabled:checked:opacity-40 disabled:checked:border-primary-support-600 disabled:border-primary-200 rounded-full;
+
+  &:before  {
+    content: '';
+    @apply absolute bg-primary-50 start-2/4 top-2/4 mix-blend-multiply h-12 w-12 -translate-x-2/4 -translate-y-2/4 scale-0 rounded-full transition-all;
+  }
+
+  &:hover:not(:disabled)::before {
+    @apply scale-100;
+  }
+
+  &:checked {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Ccircle cx='8' cy='8' r='4' fill='white'/%3E%3C/svg%3E");
+    @apply bg-center bg-no-repeat bg-[length:100%_100%];
+  }
+
+  &:disabled:before {
+    @apply hidden!;
+  }
+}
+/* Wrapper label for inline label mode */
+.radio__wrapper {
+  @apply flex items-start cursor-pointer select-none;
+}
+
+.radio__wrapper:has(input:disabled) {
+  @apply cursor-not-allowed opacity-40;
+}
+
+.radio__text {
+  @apply flex flex-col;
+}
+
+.radio__label-text {
+  @apply text-base text-aeblack-800;
+}
+
+.radio__description {
+  @apply text-aeblack-500;
+}
+
+/* ========================================
+   Size: sm
+   Radio: 16px, label: text-sm, desc: text-xs
+   ======================================== */
+.radio--sm .radio__wrapper {
+  @apply gap-2;
+}
+
+.radio--sm input[type="radio"] {
+  @apply h-4 w-4 mt-0!;
+}
+
+.radio--sm input[type="radio"]::before {
+  @apply h-8 w-8;
+}
+
+.radio--sm .radio__text {
+  @apply pt-0;
+}
+
+.radio--sm .radio__label-text {
+  @apply text-sm leading-4;
+}
+
+.radio--sm .radio__description {
+  @apply text-xs mt-0.5;
+}
+
+/* ========================================
+   Size: base (default)
+   Radio: 18px, label: text-base, desc: text-sm
+   ======================================== */
+.radio--base .radio__wrapper {
+  @apply gap-3.5;
+}
+
+.radio--base input[type="radio"] {
+  @apply h-4.5 w-4.5;
+}
+
+.radio--base input[type="radio"]::before {
+  @apply h-10 w-10;
+}
+
+.radio--base .radio__text {
+  @apply pt-px;
+}
+
+.radio--base .radio__label-text {
+  @apply text-base leading-5;
+}
+
+.radio--base .radio__description {
+  @apply text-sm mt-1;
+}
+
+/* ========================================
+   Size: lg
+   Radio: 20px, label: text-lg, desc: text-base
+   ======================================== */
+.radio--lg .radio__wrapper {
+  @apply gap-3.5;
+}
+
+.radio--lg input[type="radio"] {
+  @apply h-5 w-5 mt-1!;
+}
+
+.radio--lg input[type="radio"]::before {
+  @apply h-12 w-12;
+}
+
+.radio--lg .radio__text {
+  @apply pt-0.5;
+}
+
+.radio--lg .radio__label-text {
+  @apply text-lg leading-6;
+}
+
+.radio--lg .radio__description {
+  @apply text-base mt-1;
+}

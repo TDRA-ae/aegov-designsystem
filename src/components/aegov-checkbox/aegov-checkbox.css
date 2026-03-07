@@ -1,0 +1,138 @@
+:host {
+  display: block;
+}
+
+.aegov-checkbox {
+  @apply relative;
+}
+.aegov-checkbox input[type="checkbox"] {
+  @apply appearance-none mt-0.5 accent-primary-600 text-whitely-50 border-2 border-primary-600 checked:bg-primary-600 relative m-0 h-4.5 w-4.5 focus:outline-2 focus:outline-offset-1 focus:outline-primary-support-600 disabled:pointer-events-none disabled:checked:opacity-40 disabled:checked:border-primary-support-600 disabled:border-primary-200 rounded;
+
+  &:before  {
+    content: '';
+    @apply absolute bg-primary-50 start-2/4 top-2/4 mix-blend-multiply h-12 w-12 -translate-x-2/4 -translate-y-2/4 scale-0 rounded-full transition-all;
+  }
+
+  &:hover:not(:disabled)::before {
+    @apply scale-100;
+  }
+
+  &:checked {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='white'%3E%3Cpath d='M12.207 4.793a1 1 0 0 1 0 1.414l-5 5a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L6.5 9.086l4.293-4.293a1 1 0 0 1 1.414 0z'/%3E%3C/svg%3E");
+    @apply bg-center bg-no-repeat bg-[length:100%_100%];
+  }
+
+  &:indeterminate {
+    @apply bg-primary-600;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='white'%3E%3Crect x='3' y='7' width='10' height='2' rx='1'/%3E%3C/svg%3E");
+    @apply bg-center bg-no-repeat bg-[length:100%_100%];
+  }
+
+  &:disabled:before {
+    @apply hidden!;
+  }
+}
+/* Wrapper label for inline label mode */
+.checkbox__wrapper {
+  @apply flex items-start cursor-pointer select-none;
+}
+
+.checkbox__wrapper:has(input:disabled) {
+  @apply cursor-not-allowed opacity-40;
+}
+
+.checkbox__text {
+  @apply flex flex-col;
+}
+
+.checkbox__label-text {
+  @apply text-base text-aeblack-800;
+}
+
+.checkbox__description {
+  @apply text-aeblack-500;
+}
+
+/* ========================================
+   Size: sm
+   Checkbox: 16px, label: text-sm, desc: text-xs
+   ======================================== */
+.checkbox--sm .checkbox__wrapper {
+  @apply gap-2;
+}
+
+.checkbox--sm input[type="checkbox"] {
+  @apply h-4 w-4 mt-0!;
+}
+
+.checkbox--sm input[type="checkbox"]::before {
+  @apply h-8 w-8;
+}
+
+.checkbox--sm .checkbox__text {
+  @apply pt-0;
+}
+
+.checkbox--sm .checkbox__label-text {
+  @apply text-sm leading-4;
+}
+
+.checkbox--sm .checkbox__description {
+  @apply text-xs mt-0.5;
+}
+
+/* ========================================
+   Size: base (default)
+   Checkbox: 20px, label: text-base, desc: text-sm
+   ======================================== */
+.checkbox--base .checkbox__wrapper {
+  @apply gap-3.5;
+}
+
+.checkbox--base input[type="checkbox"] {
+  @apply h-4.5 w-4.5;
+}
+
+.checkbox--base input[type="checkbox"]::before {
+  @apply h-10 w-10;
+}
+
+.checkbox--base .checkbox__text {
+  @apply pt-px;
+}
+
+.checkbox--base .checkbox__label-text {
+  @apply text-base leading-5;
+}
+
+.checkbox--base .checkbox__description {
+  @apply text-sm mt-1;
+}
+
+/* ========================================
+   Size: lg
+   Checkbox: 24px, label: text-lg, desc: text-base
+   ======================================== */
+.checkbox--lg .checkbox__wrapper {
+  @apply gap-3.5;
+}
+
+.checkbox--lg input[type="checkbox"] {
+  @apply h-5 w-5 mt-1!;
+}
+
+.checkbox--lg input[type="checkbox"]::before {
+  @apply h-12 w-12;
+}
+
+.checkbox--lg .checkbox__text {
+  @apply pt-0.5;
+}
+
+.checkbox--lg .checkbox__label-text {
+  @apply text-lg leading-6;
+}
+
+.checkbox--lg .checkbox__description {
+  @apply text-base mt-1;
+}
