@@ -366,6 +366,16 @@ export type RadioGroupOrientation = 'vertical' | 'horizontal';
 export type ToggleSize = 'sm' | 'base' | 'lg';
 
 /**
+ * File upload component variant types
+ */
+export type FileuploadVariant = 'default' | 'button' | 'dropzone';
+
+/**
+ * File upload component size types
+ */
+export type FileuploadSize = 'sm' | 'base' | 'lg';
+
+/**
  * Common component props
  */
 export interface BaseComponentProps {
