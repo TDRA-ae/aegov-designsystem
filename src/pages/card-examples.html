@@ -379,18 +379,38 @@
         Border Styles
       </h2>
       <p class="section-desc">
-        Two border styles: <code>standard</code> (solid primary-600) and <code>creative</code> (gradient from primary-400 to primary-800).
+        Three border styles: <code>standard</code> (solid primary-600), <code>light</code> (solid primary-200), and <code>creative</code> (gradient from primary-400 to primary-800).
         The creative border uses a CSS background-clip technique to render a smooth gradient that respects border-radius.
       </p>
       <div class="example-preview">
-        <div class="grid-2">
+        <div class="grid-3">
           <aegov-card border-style="standard" border-width="2">
             <h3 style="font-size: 1.125rem; font-weight: 700; color: #111827; margin-bottom: 0.5rem;">Standard Border</h3>
             <p style="color: #6b7280; font-size: 0.875rem;">Solid primary-600 border — the default style.</p>
           </aegov-card>
+          <aegov-card border-style="light" border-width="2">
+            <h3 style="font-size: 1.125rem; font-weight: 700; color: #111827; margin-bottom: 0.5rem;">Light Border</h3>
+            <p style="color: #6b7280; font-size: 0.875rem;">Solid primary-200 border — a softer, subtler appearance.</p>
+          </aegov-card>
           <aegov-card border-style="creative" border-width="2">
             <h3 style="font-size: 1.125rem; font-weight: 700; color: #111827; margin-bottom: 0.5rem;">Creative Border</h3>
             <p style="color: #6b7280; font-size: 0.875rem;">Gradient from primary-400 to primary-800 — a more dynamic look.</p>
+          </aegov-card>
+        </div>
+      </div>
+      <div class="example-preview" style="margin-top: 1rem;">
+        <div class="grid-3">
+          <aegov-card border-style="light" border-width="1">
+            <h3 style="font-size: 1rem; font-weight: 700; color: #111827; margin-bottom: 0.25rem;">Light + 1px</h3>
+            <p style="color: #6b7280; font-size: 0.8125rem;">Thin subtle border</p>
+          </aegov-card>
+          <aegov-card border-style="light" border-width="2">
+            <h3 style="font-size: 1rem; font-weight: 700; color: #111827; margin-bottom: 0.25rem;">Light + 2px</h3>
+            <p style="color: #6b7280; font-size: 0.8125rem;">Medium subtle border</p>
+          </aegov-card>
+          <aegov-card border-style="light" border-width="3">
+            <h3 style="font-size: 1rem; font-weight: 700; color: #111827; margin-bottom: 0.25rem;">Light + 3px</h3>
+            <p style="color: #6b7280; font-size: 0.8125rem;">Thick subtle border</p>
           </aegov-card>
         </div>
       </div>
@@ -412,8 +432,8 @@
       </div>
       <div class="code-block">
 &lt;aegov-card border-style="standard" border-width="2"&gt;...&lt;/aegov-card&gt;
+&lt;aegov-card border-style="light" border-width="2"&gt;...&lt;/aegov-card&gt;
 &lt;aegov-card border-style="creative" border-width="2"&gt;...&lt;/aegov-card&gt;
-&lt;aegov-card border-style="creative" border-width="3"&gt;...&lt;/aegov-card&gt;
       </div>
     </div>
 
@@ -773,9 +793,9 @@
           <tr>
             <td><code>borderStyle</code></td>
             <td><code>border-style</code></td>
-            <td><code>'standard' | 'creative'</code></td>
+            <td><code>'standard' | 'light' | 'creative'</code></td>
             <td><code>'standard'</code></td>
-            <td>Standard: solid primary-600. Creative: gradient from primary-400 to primary-800</td>
+            <td>Standard: solid primary-600. Light: solid primary-200. Creative: gradient from primary-400 to primary-800</td>
           </tr>
           <tr>
             <td><code>background</code></td>
@@ -821,7 +841,7 @@
         <tbody>
           <tr>
             <td>Border color</td>
-            <td><code>primary-600</code> (default), <code>primary-500</code> on hover</td>
+            <td><code>primary-600</code> (standard), <code>primary-200</code> (light), gradient primary-400→800 (creative). Hover shifts one shade lighter</td>
           </tr>
           <tr>
             <td>Border radius</td>

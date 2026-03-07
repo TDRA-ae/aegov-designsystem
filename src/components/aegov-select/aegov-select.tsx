@@ -1,5 +1,6 @@
 import { Component, Host, h, Prop, State, Event, EventEmitter, Element, Listen, Watch } from '@stencil/core';
 import type { SelectVariant, SelectSize, SelectChangeDetail } from '../../utils/types';
+import { getPassThroughAttributes } from '../../utils/attributes';
 
 interface OptionItem {
   value: string;
@@ -187,15 +188,6 @@ export class AegovSelect {
     return groups;
   }
 
-  private getPassThroughAttributes(): { [key: string]: string } {
-    const passThroughAttrs: { [key: string]: string } = {};
-    Array.from(this.el.attributes).forEach(attr => {
-      if (attr.name.startsWith('aria-') || attr.name.startsWith('data-')) {
-        passThroughAttrs[attr.name] = attr.value;
-      }
-    });
-    return passThroughAttrs;
-  }
 
   // --- Native select handlers ---
 
@@ -430,7 +422,7 @@ export class AegovSelect {
   }
 
   private renderNativeSelect() {
-    const passThroughAttrs = this.getPassThroughAttributes();
+    const passThroughAttrs = getPassThroughAttributes(this.el);
     const sizeClasses: Record<SelectSize, string> = {
       sm: 'select--sm',
       base: 'select--base',

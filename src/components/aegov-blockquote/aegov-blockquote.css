@@ -11,14 +11,14 @@
   & p {
   @apply text-base; }
 }
-.quote-colored {
+.blockquote--colored {
   ::slotted(p),
   ::slotted(li),
   & p,
   & li {
   @apply text-primary-700; }
 }
-.aegov-blockquote:not(.quote-colored) {
+.aegov-blockquote:not(.blockquote--colored) {
   ::slotted(p),
   ::slotted(li),
   & p,

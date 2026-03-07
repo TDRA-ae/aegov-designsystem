@@ -1,5 +1,6 @@
 import { Component, Host, h, Prop, State, Event, EventEmitter, Element } from '@stencil/core';
 import type { InputType, InputSize } from '../../utils/types';
+import { getPassThroughAttributes } from '../../utils/attributes';
 
 let fieldIdCounter = 0;
 
@@ -80,19 +81,6 @@ export class AegovInput {
     'tabindex', 'form',
   ]);
 
-  private getPassThroughAttributes(): { [key: string]: string } {
-    const passThroughAttrs: { [key: string]: string } = {};
-    Array.from(this.el.attributes).forEach(attr => {
-      if (
-        attr.name.startsWith('aria-') ||
-        attr.name.startsWith('data-') ||
-        AegovInput.NATIVE_INPUT_ATTRS.has(attr.name)
-      ) {
-        passThroughAttrs[attr.name] = attr.value;
-      }
-    });
-    return passThroughAttrs;
-  }
 
   private get isRevealable(): boolean {
     return this.type === 'password' && this.revealable;
@@ -260,7 +248,7 @@ export class AegovInput {
   }
 
   render() {
-    const passThroughAttributes = this.getPassThroughAttributes();
+    const passThroughAttributes = getPassThroughAttributes(this.el, AegovInput.NATIVE_INPUT_ATTRS);
     const hasIconStart = !!this.el.querySelector('[slot="icon-start"]');
     const hasIconEndContent = !!this.el.querySelector('[slot="icon-end"]');
     const hasIconEnd = hasIconEndContent && !this.hasActionButton;

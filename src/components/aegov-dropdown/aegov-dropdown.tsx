@@ -4,6 +4,8 @@ import type { DropdownPosition, DropdownAlign, DropdownTrigger } from '../../uti
 // Singleton to track currently open dropdown
 let currentOpenDropdown: AegovDropdown | null = null;
 
+let dropdownIdCounter = 0;
+
 /**
  * Dropdown component that displays positioned content on trigger interaction
  *
@@ -94,7 +96,7 @@ export class AegovDropdown {
 
   componentWillLoad() {
     // Generate stable dropdown ID once
-    this.dropdownId = `aegov-dropdown-${Math.random().toString(36).substr(2, 9)}`;
+    this.dropdownId = `aegov-dropdown-${++dropdownIdCounter}`;
 
     // Check if dropdown-content slot has content
     this.checkSlotContent();

@@ -105,8 +105,8 @@
       font-weight: 600;
     }
 
-    /* Special Links Section */
-    .special-links {
+    /* Featured Section */
+    .featured {
       background: white;
       padding: 2rem 3rem;
       border-radius: 20px;
@@ -114,7 +114,7 @@
       margin-bottom: 3rem;
     }
 
-    .special-links h2 {
+    .featured h2 {
       font-family: 'Inter', sans-serif;
       font-size: 2rem;
       font-weight: 700;
@@ -123,13 +123,7 @@
       text-align: center;
     }
 
-    .special-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 1.5rem;
-    }
-
-    .special-card {
+    .featured-card {
       background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
       padding: 2rem;
       border-radius: 16px;
@@ -137,9 +131,12 @@
       transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
       position: relative;
       overflow: hidden;
+      display: block;
+      max-width: 500px;
+      margin: 0 auto;
     }
 
-    .special-card::before {
+    .featured-card::before {
       content: '';
       position: absolute;
       top: 0;
@@ -151,16 +148,16 @@
       transition: opacity 0.3s ease;
     }
 
-    .special-card:hover {
+    .featured-card:hover {
       transform: translateY(-4px);
       box-shadow: 0 20px 50px rgba(102, 126, 234, 0.4);
     }
 
-    .special-card:hover::before {
+    .featured-card:hover::before {
       opacity: 1;
     }
 
-    .special-card h3 {
+    .featured-card h3 {
       font-family: 'Inter', sans-serif;
       font-size: 1.5rem;
       font-weight: 700;
@@ -170,7 +167,7 @@
       z-index: 1;
     }
 
-    .special-card p {
+    .featured-card p {
       color: rgba(255, 255, 255, 0.9);
       font-size: 1rem;
       line-height: 1.6;
@@ -179,7 +176,7 @@
       margin-bottom: 1rem;
     }
 
-    .special-card .arrow {
+    .featured-card .arrow {
       color: white;
       font-size: 1.5rem;
       font-weight: 700;
@@ -188,14 +185,15 @@
     }
 
     /* Components Section */
-    .components-section {
+    .section {
       background: white;
       padding: 3rem;
       border-radius: 20px;
       box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+      margin-bottom: 3rem;
     }
 
-    .components-section h2 {
+    .section h2 {
       font-family: 'Inter', sans-serif;
       font-size: 2.5rem;
       font-weight: 800;
@@ -204,7 +202,7 @@
       text-align: center;
     }
 
-    .components-section .subtitle {
+    .section .subtitle {
       text-align: center;
       font-size: 1.125rem;
       color: #64748b;
@@ -238,7 +236,6 @@
       left: 0;
       width: 100%;
       height: 4px;
-      background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
       transform: scaleX(0);
       transform-origin: left;
       transition: transform 0.3s ease;
@@ -254,10 +251,19 @@
       transform: scaleX(1);
     }
 
+    /* UI component cards - purple gradient */
+    .section--ui .component-card::before {
+      background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+    }
+
+    /* Form component cards - blue gradient */
+    .section--form .component-card::before {
+      background: linear-gradient(90deg, #0ea5e9 0%, #6366f1 100%);
+    }
+
     .component-icon {
       width: 56px;
       height: 56px;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
       border-radius: 12px;
       display: flex;
       align-items: center;
@@ -266,6 +272,14 @@
       margin-bottom: 1.25rem;
       color: white;
       font-weight: 700;
+    }
+
+    .icon--ui {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    }
+
+    .icon--form {
+      background: linear-gradient(135deg, #0ea5e9 0%, #6366f1 100%);
     }
 
     .component-card h3 {
@@ -287,7 +301,6 @@
     .component-badge {
       display: inline-block;
       padding: 0.375rem 0.875rem;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
       color: white;
       border-radius: 20px;
       font-size: 0.75rem;
@@ -296,10 +309,17 @@
       letter-spacing: 0.5px;
     }
 
+    .badge--ui {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    }
+
+    .badge--form {
+      background: linear-gradient(135deg, #0ea5e9 0%, #6366f1 100%);
+    }
+
     /* Footer */
     .footer {
       text-align: center;
-      margin-top: 4rem;
       padding: 2rem;
       color: white;
     }
@@ -342,10 +362,6 @@
       .components-grid {
         grid-template-columns: 1fr;
       }
-
-      .special-grid {
-        grid-template-columns: 1fr;
-      }
     }
   </style>
 </head>
@@ -362,7 +378,7 @@
 
       <div class="stats">
         <div class="stat">
-          <span class="stat-number">32</span>
+          <span class="stat-number">30</span>
           <span class="stat-label">Components</span>
         </div>
         <div class="stat">
@@ -376,362 +392,241 @@
       </div>
     </header>
 
-    <!-- Special Demo Page -->
-    <section class="special-links">
-      <h2>🌟 Featured Demonstrations</h2>
-      <div class="special-grid">
-        <a href="/pages/multi-components.html" class="special-card">
-          <h3>Multi-Component Integration</h3>
-          <p>
-            See all components working together in a real-world passport services landing page.
-            Features banner, navigation, breadcrumbs, accordion FAQ, callouts, and more.
-          </p>
-          <span class="arrow">→</span>
-        </a>
-      </div>
+    <!-- Featured Demo -->
+    <section class="featured">
+      <h2>Featured Demonstration</h2>
+      <a href="/pages/multi-components.html" class="featured-card">
+        <h3>Multi-Component Integration</h3>
+        <p>
+          See all components working together in a real-world passport services landing page.
+          Features banner, navigation, breadcrumbs, accordion FAQ, callouts, and more.
+        </p>
+        <span class="arrow">&rarr;</span>
+      </a>
     </section>
 
-    <!-- Components Section -->
-    <section class="components-section">
-      <h2>Component Library</h2>
-      <p class="subtitle">Explore our comprehensive collection of UI components</p>
+    <!-- UI Components Section -->
+    <section class="section section--ui">
+      <h2>UI Components</h2>
+      <p class="subtitle">Display, layout, navigation, and feedback components</p>
 
       <div class="components-grid">
-        <!-- Accordion Component -->
         <a href="/pages/accordion-examples.html" class="component-card">
-          <div class="component-icon">A</div>
+          <div class="component-icon icon--ui">A</div>
           <h3>Accordion</h3>
-          <p>
-            Collapsible content panels with smooth animations. Perfect for FAQs, documentation,
-            and organizing large amounts of content efficiently.
-          </p>
-          <span class="component-badge">Interactive</span>
+          <p>Collapsible content panels with smooth animations. Perfect for FAQs, documentation, and organizing large amounts of content.</p>
+          <span class="component-badge badge--ui">Interactive</span>
         </a>
 
-        <!-- Avatar Component -->
         <a href="/pages/avatar-examples.html" class="component-card">
-          <div class="component-icon">Av</div>
+          <div class="component-icon icon--ui">Av</div>
           <h3>Avatar</h3>
-          <p>
-            User profile images with multiple sizes and shapes. Includes status indicators,
-            fallback content, and support for image sources.
-          </p>
-          <span class="component-badge">7 Sizes</span>
+          <p>User profile images with multiple sizes and shapes. Includes status indicators, fallback content, and image support.</p>
+          <span class="component-badge badge--ui">7 Sizes</span>
         </a>
 
-        <!-- Avatar Group Component -->
         <a href="/pages/avatar-group-examples.html" class="component-card">
-          <div class="component-icon">AG</div>
+          <div class="component-icon icon--ui">AG</div>
           <h3>Avatar Group</h3>
-          <p>
-            Group multiple avatars together with default or compact (overlapping) layouts.
-            Includes a "more" indicator button for additional users.
-          </p>
-          <span class="component-badge">2 Modes</span>
+          <p>Group multiple avatars with default or compact overlapping layouts. Includes a "more" indicator for additional users.</p>
+          <span class="component-badge badge--ui">2 Modes</span>
         </a>
 
-        <!-- Badge Component -->
         <a href="/pages/badge-examples.html" class="component-card">
-          <div class="component-icon">B</div>
+          <div class="component-icon icon--ui">B</div>
           <h3>Badge</h3>
-          <p>
-            Status indicators and labels with 17 color variants. Soft and solid appearances,
-            multiple sizes, and dismissible functionality.
-          </p>
-          <span class="component-badge">17 Colors</span>
+          <p>Status indicators and labels with 17 color variants. Soft and solid appearances, multiple sizes, and dismissible.</p>
+          <span class="component-badge badge--ui">17 Colors</span>
         </a>
 
-        <!-- Banner Component -->
         <a href="/pages/banner-examples.html" class="component-card">
-          <div class="component-icon">Bn</div>
+          <div class="component-icon icon--ui">Bn</div>
           <h3>Banner</h3>
-          <p>
-            Full-width notification banners with multiple positioning modes. Fixed, sticky,
-            or static placement with action buttons and dismissible options.
-          </p>
-          <span class="component-badge">Multi-Position</span>
+          <p>Full-width notification banners with fixed, sticky, or static placement. Action buttons and dismissible options.</p>
+          <span class="component-badge badge--ui">Multi-Position</span>
         </a>
 
-        <!-- Blockquote Component -->
         <a href="/pages/blockquote-examples.html" class="component-card">
-          <div class="component-icon">Q</div>
+          <div class="component-icon icon--ui">Q</div>
           <h3>Blockquote</h3>
-          <p>
-            Styled quotations with author attribution. Primary and colored variants,
-            citation support, and semantic HTML for accessibility.
-          </p>
-          <span class="component-badge">2 Variants</span>
+          <p>Styled quotations with author attribution. Primary and colored variants, citation support, and semantic HTML.</p>
+          <span class="component-badge badge--ui">2 Variants</span>
         </a>
 
-        <!-- Breadcrumbs Component -->
         <a href="/pages/breadcrumbs-examples.html" class="component-card">
-          <div class="component-icon">Bc</div>
+          <div class="component-icon icon--ui">Bc</div>
           <h3>Breadcrumbs</h3>
-          <p>
-            Navigation breadcrumb trails with slash or chevron separators. Text truncation,
-            RTL support, and full accessibility with ARIA attributes.
-          </p>
-          <span class="component-badge">Navigation</span>
+          <p>Navigation breadcrumb trails with slash or chevron separators. Text truncation, RTL support, and full ARIA attributes.</p>
+          <span class="component-badge badge--ui">Navigation</span>
         </a>
 
-        <!-- Button Component -->
         <a href="/pages/button-examples.html" class="component-card">
-          <div class="component-icon">Bt</div>
+          <div class="component-icon icon--ui">Bt</div>
           <h3>Button</h3>
-          <p>
-            Versatile buttons with 4 variants, 5 appearances, and 4 sizes. Loading states,
-            icon support, and disabled states included.
-          </p>
-          <span class="component-badge">20 Variations</span>
+          <p>Versatile buttons with 4 variants, 5 appearances, and 4 sizes. Loading states, icon support, and disabled states.</p>
+          <span class="component-badge badge--ui">20 Variations</span>
         </a>
 
-        <!-- Button Group Component -->
         <a href="/pages/button-group-examples.html" class="component-card">
-          <div class="component-icon">Bg</div>
+          <div class="component-icon icon--ui">Bg</div>
           <h3>Button Group</h3>
-          <p>
-            Visually group related buttons with seamless border handling. Supports horizontal
-            and vertical orientations with automatic border collapse.
-          </p>
-          <span class="component-badge">2 Orientations</span>
+          <p>Visually group related buttons with seamless border handling. Horizontal and vertical orientations.</p>
+          <span class="component-badge badge--ui">2 Orientations</span>
         </a>
 
-        <!-- Card Component -->
-        <a href="/pages/card-examples.html" class="component-card">
-          <div class="component-icon" style="background: linear-gradient(135deg, #b68529 0%, #d4a84b 100%);">Cd</div>
-          <h3>Card</h3>
-          <p>
-            Skeleton card container with responsive rounded borders, configurable padding,
-            border widths, backgrounds, and hover effects including a creative glow.
-          </p>
-          <span class="component-badge">Container</span>
-        </a>
-
-        <!-- Checkbox Component -->
-        <a href="/pages/checkbox-examples.html" class="component-card">
-          <div class="component-icon" style="background: linear-gradient(135deg, #0ea5e9 0%, #6366f1 100%);">Cb</div>
-          <h3>Checkbox</h3>
-          <p>
-            Checkbox with label, description, and group support. Variants include list (dividers),
-            cards (bordered), and pills (toggle). Check-all with indeterminate state.
-          </p>
-          <span class="component-badge">Form</span>
-        </a>
-
-        <!-- Radio Component -->
-        <a href="/pages/radio-examples.html" class="component-card">
-          <div class="component-icon" style="background: linear-gradient(135deg, #0ea5e9 0%, #6366f1 100%);">Rd</div>
-          <h3>Radio</h3>
-          <p>
-            Radio button with label, description, and group support. Variants include list (dividers),
-            cards (bordered), and pills (toggle). Native single-select via shared name.
-          </p>
-          <span class="component-badge">Form</span>
-        </a>
-
-        <!-- Callout Component -->
         <a href="/pages/callout-examples.html" class="component-card">
-          <div class="component-icon">C</div>
+          <div class="component-icon icon--ui">C</div>
           <h3>Callout</h3>
-          <p>
-            Alert and notification messages with 5 semantic variants. Optional icons,
-            action links, and dismissible functionality.
-          </p>
-          <span class="component-badge">5 Variants</span>
+          <p>Alert and notification messages with 5 semantic variants. Optional icons, action links, and dismissible functionality.</p>
+          <span class="component-badge badge--ui">5 Variants</span>
         </a>
 
-        <!-- Context Menu Component -->
+        <a href="/pages/card-examples.html" class="component-card">
+          <div class="component-icon icon--ui">Cd</div>
+          <h3>Card</h3>
+          <p>Skeleton card container with responsive rounded borders, configurable padding, border widths, and hover effects.</p>
+          <span class="component-badge badge--ui">Container</span>
+        </a>
+
         <a href="/pages/context-menu-examples.html" class="component-card">
-          <div class="component-icon" style="background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);">Cm</div>
+          <div class="component-icon icon--ui">Cm</div>
           <h3>Context Menu</h3>
-          <p>
-            Right-click activated menus with flexible content. Cursor-based positioning,
-            keyboard navigation, and support for any HTML content including nested submenus.
-          </p>
-          <span class="component-badge">Right-Click</span>
+          <p>Right-click activated menus with flexible content. Cursor-based positioning, keyboard navigation, and nested submenus.</p>
+          <span class="component-badge badge--ui">Right-Click</span>
         </a>
 
-        <!-- Dropdown Component -->
         <a href="/pages/dropdown-examples.html" class="component-card">
-          <div class="component-icon" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">D</div>
+          <div class="component-icon icon--ui">D</div>
           <h3>Dropdown</h3>
-          <p>
-            Positioned dropdown menus with flexible content. Click or hover triggers,
-            smart positioning with auto-flip, and full keyboard navigation.
-          </p>
-          <span class="component-badge">Portal Rendering</span>
+          <p>Positioned dropdown menus with flexible content. Click or hover triggers, smart auto-flip, and keyboard navigation.</p>
+          <span class="component-badge badge--ui">Portal</span>
         </a>
 
-        <!-- Link Component -->
         <a href="/pages/link-examples.html" class="component-card">
-          <div class="component-icon">L</div>
+          <div class="component-icon icon--ui">L</div>
           <h3>Link</h3>
-          <p>
-            Accessible links with custom navigation handling. Pass-through attributes,
-            automatic security for external links, and event interception.
-          </p>
-          <span class="component-badge">Accessible</span>
+          <p>Accessible links with custom navigation handling. Pass-through attributes, automatic security for external links.</p>
+          <span class="component-badge badge--ui">Accessible</span>
         </a>
 
-        <!-- Modal Component -->
         <a href="/pages/modal-examples.html" class="component-card">
-          <div class="component-icon">M</div>
+          <div class="component-icon icon--ui">M</div>
           <h3>Modal</h3>
-          <p>
-            Dialog overlays with backdrop and animations. Header, body, and footer slots
-            for flexible content organization.
-          </p>
-          <span class="component-badge">Dialog</span>
+          <p>Dialog overlays with backdrop and animations. Header, body, and footer slots for flexible content organization.</p>
+          <span class="component-badge badge--ui">Dialog</span>
         </a>
 
-        <!-- Pagination Component -->
         <a href="/pages/pagination-examples.html" class="component-card">
-          <div class="component-icon" style="background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);">Pg</div>
+          <div class="component-icon icon--ui">Pg</div>
           <h3>Pagination</h3>
-          <p>
-            Navigate through paged content with accessible, flexible controls. Smart ellipsis
-            algorithm, 3 sizes, RTL support, controlled pattern, and First/Last buttons.
-          </p>
-          <span class="component-badge">Navigation</span>
+          <p>Navigate through paged content with accessible controls. Smart ellipsis, 3 sizes, RTL support, and First/Last buttons.</p>
+          <span class="component-badge badge--ui">Navigation</span>
         </a>
 
-        <!-- Tabs Component -->
-        <a href="/pages/tabs-examples.html" class="component-card">
-          <div class="component-icon" style="background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);">Tb</div>
-          <h3>Tabs</h3>
-          <p>
-            Organizes content into separate panels. Three visual variants (simple, segmented, pill),
-            icon support, scrollable with faded edge, disabled tabs, and full ARIA keyboard navigation.
-          </p>
-          <span class="component-badge">Navigation</span>
-        </a>
-
-        <!-- Separator Component -->
-        <a href="/pages/separator-examples.html" class="component-card">
-          <div class="component-icon" style="background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);">S</div>
-          <h3>Separator</h3>
-          <p>
-            Visual dividers for organizing content sections. Horizontal and vertical orientations,
-            optional text labels, and subtle styling variant.
-          </p>
-          <span class="component-badge">Layout</span>
-        </a>
-
-        <!-- Text Component -->
-        <a href="/pages/text-examples.html" class="component-card">
-          <div class="component-icon">T</div>
-          <h3>Text</h3>
-          <p>
-            Paragraph text component with 3 size options. Default vertical rhythm
-            with customizable margin via Tailwind utility classes.
-          </p>
-          <span class="component-badge">3 Sizes</span>
-        </a>
-
-        <!-- Tooltip Component -->
-        <a href="/pages/tooltip-examples.html" class="component-card">
-          <div class="component-icon">Tp</div>
-          <h3>Tooltip</h3>
-          <p>
-            Contextual information on hover or click. Multiple positions, alignments,
-            interactive mode, and rich content support via slots.
-          </p>
-          <span class="component-badge">Contextual</span>
-        </a>
-
-        <!-- Title Component -->
-        <a href="/pages/title-examples.html" class="component-card">
-          <div class="component-icon">Ti</div>
-          <h3>Title</h3>
-          <p>
-            Flexible title component with 4 size options. Bold font weight by default,
-            fully customizable with additional CSS classes.
-          </p>
-          <span class="component-badge">4 Sizes</span>
-        </a>
-
-        <!-- Toast Component -->
-        <a href="/pages/toast-examples.html" class="component-card">
-          <div class="component-icon" style="background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);">To</div>
-          <h3>Toast</h3>
-          <p>
-            Lightweight, non-intrusive notifications with auto-dismiss, progress bar,
-            stack/rack modes, 6 positions, and JS-triggered API.
-          </p>
-          <span class="component-badge">Feedback</span>
-        </a>
-
-        <!-- Progress Component -->
         <a href="/pages/progress-examples.html" class="component-card">
-          <div class="component-icon" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%);">Pr</div>
+          <div class="component-icon icon--ui">Pr</div>
           <h3>Progress</h3>
-          <p>
-            Step-based progress indicator with horizontal/vertical layouts,
-            numbered circles or compact dots, 3 sizes, and descriptions.
-          </p>
-          <span class="component-badge">Navigation</span>
+          <p>Step-based progress indicator with horizontal/vertical layouts, numbered circles or compact dots, and 3 sizes.</p>
+          <span class="component-badge badge--ui">Navigation</span>
         </a>
 
-        <!-- Datepicker Component -->
-        <a href="/pages/datepicker-examples.html" class="component-card">
-          <div class="component-icon" style="background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);">Dp</div>
-          <h3>Datepicker</h3>
-          <p>
-            Single date and date range selection with presets sidebar, constraints,
-            confirmation mode, localization, and full keyboard navigation.
-          </p>
-          <span class="component-badge">Form</span>
+        <a href="/pages/separator-examples.html" class="component-card">
+          <div class="component-icon icon--ui">S</div>
+          <h3>Separator</h3>
+          <p>Visual dividers for organizing content sections. Horizontal and vertical orientations, optional text labels.</p>
+          <span class="component-badge badge--ui">Layout</span>
         </a>
 
-        <!-- Input Component -->
-        <a href="/pages/input-examples.html" class="component-card">
-          <div class="component-icon" style="background: linear-gradient(135deg, #0ea5e9 0%, #6366f1 100%);">In</div>
-          <h3>Input</h3>
-          <p>
-            Text input component supporting all HTML input types, 3 sizes, and full event system.
-            Includes aegov-form-field and aegov-label helper components.
-          </p>
-          <span class="component-badge">Form</span>
+        <a href="/pages/tabs-examples.html" class="component-card">
+          <div class="component-icon icon--ui">Tb</div>
+          <h3>Tabs</h3>
+          <p>Organize content into panels. Three variants (simple, segmented, pill), icon support, scrollable, and ARIA keyboard nav.</p>
+          <span class="component-badge badge--ui">Navigation</span>
         </a>
 
-        <!-- Textarea Component -->
-        <a href="/pages/textarea-examples.html" class="component-card">
-          <div class="component-icon" style="background: linear-gradient(135deg, #0ea5e9 0%, #6366f1 100%);">Ta</div>
-          <h3>Textarea</h3>
-          <p>
-            Multi-line text input with resize modes, auto-resize, character counter,
-            and copyable readonly mode. Works with aegov-form-field and aegov-label.
-          </p>
-          <span class="component-badge">Form</span>
+        <a href="/pages/text-examples.html" class="component-card">
+          <div class="component-icon icon--ui">T</div>
+          <h3>Text</h3>
+          <p>Paragraph text component with 3 size options. Default vertical rhythm with customizable margin via Tailwind classes.</p>
+          <span class="component-badge badge--ui">Typography</span>
         </a>
 
-        <!-- Select Component -->
-        <a href="/pages/select-examples.html" class="component-card">
-          <div class="component-icon" style="background: linear-gradient(135deg, #0ea5e9 0%, #6366f1 100%);">Se</div>
-          <h3>Select</h3>
-          <p>
-            Flexible select with native and custom listbox variants. Multiple selection with checkboxes,
-            searchable dropdown, clearable, option groups, and form-field integration.
-          </p>
-          <span class="component-badge">Form</span>
+        <a href="/pages/title-examples.html" class="component-card">
+          <div class="component-icon icon--ui">Ti</div>
+          <h3>Title</h3>
+          <p>Flexible title component with 4 size options. Bold font weight by default, fully customizable with CSS classes.</p>
+          <span class="component-badge badge--ui">Typography</span>
+        </a>
+
+        <a href="/pages/toast-examples.html" class="component-card">
+          <div class="component-icon icon--ui">To</div>
+          <h3>Toast</h3>
+          <p>Lightweight notifications with auto-dismiss, progress bar, stack/rack modes, 6 positions, and JS-triggered API.</p>
+          <span class="component-badge badge--ui">Feedback</span>
+        </a>
+
+        <a href="/pages/tooltip-examples.html" class="component-card">
+          <div class="component-icon icon--ui">Tp</div>
+          <h3>Tooltip</h3>
+          <p>Contextual information on hover or click. Multiple positions, alignments, interactive mode, and rich content slots.</p>
+          <span class="component-badge badge--ui">Contextual</span>
         </a>
       </div>
     </section>
 
-    <!-- Native Form Elements Section -->
-    <section class="components-section" style="margin-top: 3rem;">
-      <h2>Native Form Elements</h2>
-      <p class="subtitle">See how native HTML form elements are styled by the design system</p>
+    <!-- Form Components Section -->
+    <section class="section section--form">
+      <h2>Form Components</h2>
+      <p class="subtitle">Input controls, selection, and form layout components</p>
 
       <div class="components-grid">
-        <a href="/pages/native-form-examples.html" class="component-card">
-          <div class="component-icon" style="background: linear-gradient(135deg, #0d9488 0%, #0f766e 100%);">Fm</div>
-          <h3>Native Form Elements</h3>
-          <p>
-            Every native HTML form element — inputs, textarea, select, checkbox, radio,
-            and more — styled by the design system's global CSS.
-          </p>
-          <span class="component-badge">Form Elements</span>
+        <a href="/pages/input-examples.html" class="component-card">
+          <div class="component-icon icon--form">In</div>
+          <h3>Input</h3>
+          <p>Text input supporting all HTML input types, 3 sizes, icon slots, revealable password, copyable readonly, and full events.</p>
+          <span class="component-badge badge--form">Form</span>
+        </a>
+
+        <a href="/pages/textarea-examples.html" class="component-card">
+          <div class="component-icon icon--form">Ta</div>
+          <h3>Textarea</h3>
+          <p>Multi-line text input with resize modes, auto-resize, character counter, and copyable readonly mode.</p>
+          <span class="component-badge badge--form">Form</span>
+        </a>
+
+        <a href="/pages/select-examples.html" class="component-card">
+          <div class="component-icon icon--form">Se</div>
+          <h3>Select</h3>
+          <p>Native and custom listbox variants. Multiple selection with checkboxes, searchable dropdown, clearable, and option groups.</p>
+          <span class="component-badge badge--form">Form</span>
+        </a>
+
+        <a href="/pages/checkbox-examples.html" class="component-card">
+          <div class="component-icon icon--form">Cb</div>
+          <h3>Checkbox</h3>
+          <p>Checkbox with label, description, and group support. List, card, and pill variants. Check-all with indeterminate state.</p>
+          <span class="component-badge badge--form">Form</span>
+        </a>
+
+        <a href="/pages/radio-examples.html" class="component-card">
+          <div class="component-icon icon--form">Rd</div>
+          <h3>Radio</h3>
+          <p>Radio button with label, description, and group support. List, card, and pill variants. Native single-select via name.</p>
+          <span class="component-badge badge--form">Form</span>
+        </a>
+
+        <a href="/pages/toggle-examples.html" class="component-card">
+          <div class="component-icon icon--form">Tg</div>
+          <h3>Toggle</h3>
+          <p>Switch-style toggle for on/off states. 3 sizes, label and description support, and icon slots for the thumb.</p>
+          <span class="component-badge badge--form">Form</span>
+        </a>
+
+        <a href="/pages/datepicker-examples.html" class="component-card">
+          <div class="component-icon icon--form">Dp</div>
+          <h3>Datepicker</h3>
+          <p>Single date and range selection with presets, constraints, confirmation mode, localization, and keyboard navigation.</p>
+          <span class="component-badge badge--form">Form</span>
         </a>
       </div>
     </section>
@@ -739,7 +634,7 @@
     <!-- Footer -->
     <footer class="footer">
       <p>Built with StencilJS v4.38.3 + Tailwind CSS v4.1.17</p>
-      <p>© 2025 AEGOV Design System • <a href="https://github.com/anthropics/claude-code" target="_blank">Documentation</a></p>
+      <p>&copy; 2025 AEGOV Design System</p>
     </footer>
   </div>
 </body>

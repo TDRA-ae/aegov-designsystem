@@ -128,6 +128,9 @@ input[type="checkbox"] {
   @apply rounded;
 }
 
+textarea {
+  @apply h-auto;
+}
 /* --- Text Input, Select, Textarea Base Styles --- */
 input[type="text"],
 input[type="email"],
@@ -170,13 +173,6 @@ select:not(:disabled):not(:disabled) {
     background-image: var(--form-select-arrow);
     @apply pe-9 ps-4 bg-[right_.5rem_center] rtl:bg-[0.5rem_center] bg-no-repeat ;
 }
- & [multiple] {
-    @apply bg-none! pr-4;
-  }
-
-  & textarea {
-    @apply h-auto;
-  }
 
 /* --- Range Slider Base Styles --- */
 input[type="range"] {

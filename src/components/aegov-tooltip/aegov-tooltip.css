@@ -38,22 +38,26 @@
 
 /* Arrow positioning for each placement */
 .tooltip--top .tooltip__arrow {
-  @apply -bottom-1 -ml-1;
-  left: 50%;
+  @apply -bottom-1;
+  inset-inline-start: 50%;
+  margin-inline-start: -0.25rem;
 }
 
 .tooltip--bottom .tooltip__arrow {
-  @apply -top-1 -ml-1;
-  left: 50%;
+  @apply -top-1;
+  inset-inline-start: 50%;
+  margin-inline-start: -0.25rem;
 }
 
 .tooltip--left .tooltip__arrow {
-  @apply -right-1 -mt-1;
+  @apply -mt-1;
+  inset-inline-end: -0.25rem;
   top: 50%;
 }
 
 .tooltip--right .tooltip__arrow {
-  @apply -left-1 -mt-1;
+  @apply -mt-1;
+  inset-inline-start: -0.25rem;
   top: 50%;
 }
 

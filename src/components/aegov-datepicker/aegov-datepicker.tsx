@@ -1,15 +1,17 @@
 import { Component, Host, h, Prop, Element, State, Listen, Event, EventEmitter, Watch, Method } from '@stencil/core';
-import type { DatepickerMode, DatepickerPreset, DatepickerChangeDetail, DatepickerMonthChangeDetail } from '../../utils/types';
+import type { DatepickerMode, DatepickerPreset, DatepickerChangeDetail, DatepickerMonthChangeDetail, InputSize } from '../../utils/types';
 import { generateCalendarGrid, getWeekdayNames, getMonthNames, getYearRange, isSameDay, isDateBetween, stripTime, isBefore, isAfter, diffDays } from './utils/calendar';
 import { formatDate, parseDate, parseRangeValue, formatRangeValue } from './utils/format';
 import { getPresetDefinitions, calculatePreset } from './utils/presets';
 import { DATEPICKER_PORTAL_STYLES } from './utils/portal-styles';
 
+let datepickerIdCounter = 0;
+
 // SVG icons
 const CALENDAR_ICON = `<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>`;
 const CHEVRON_LEFT = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>`;
 const CHEVRON_RIGHT = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>`;
-const CLEAR_ICON = `<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>`;
+const CLEAR_ICON = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>`;
 const ARROW_RIGHT = `<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>`;
 
 @Component({
@@ -84,6 +86,9 @@ export class AegovDatepicker {
   /** Show Apply/Cancel buttons for confirming selection */
   @Prop({ attribute: 'with-confirmation' }) withConfirmation: boolean = false;
 
+  /** The size of the datepicker input. */
+  @Prop() size: InputSize = 'base';
+
   // ── State ─────────────────────────────────────────────
   @State() isOpen: boolean = false;
   @State() viewMonth: number = new Date().getMonth();
@@ -122,7 +127,7 @@ export class AegovDatepicker {
   // ── Lifecycle ─────────────────────────────────────────
 
   componentWillLoad() {
-    this.datepickerId = `aegov-datepicker-${Math.random().toString(36).substr(2, 9)}`;
+    this.datepickerId = `aegov-datepicker-${++datepickerIdCounter}`;
     this.hasTriggerSlot = !!this.el.querySelector('[slot="trigger"]');
 
     this.parseValue();
@@ -1303,7 +1308,7 @@ export class AegovDatepicker {
     const hasValue = !!displayValue;
 
     return (
-      <div class="datepicker__input-wrapper">
+      <div class={`datepicker__input-wrapper datepicker__input-wrapper--${this.size}`}>
         <input
           type="text"
           class="datepicker__input"
@@ -1336,7 +1341,7 @@ export class AegovDatepicker {
     const hasValue = !!(startValue || endValue);
 
     return (
-      <div class="datepicker__input-wrapper datepicker__input-wrapper--range">
+      <div class={`datepicker__input-wrapper datepicker__input-wrapper--${this.size} datepicker__input-wrapper--range`}>
         <input
           type="text"
           class="datepicker__input datepicker__input--range-start"

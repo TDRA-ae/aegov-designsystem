@@ -49,7 +49,7 @@ export class AegovBlockquote {
 
         if (this.variant === 'colored' || this.variant === 'coloured') {
             classes.push(
-                'quote-colored',
+                'blockquote--colored',
                 'border-s-[10px]',
                 'bg-primary-50',
                 'border-primary-500',
@@ -78,9 +78,9 @@ export class AegovBlockquote {
                     )}
                     <slot />
                     {(this.author || this.authorTitle) && (
-                    <div class="quote-footer mt-10">
-                        {this.author && <div class="quote-author mb-1 text-sm font-medium text-primary-900">{this.author}</div>}
-                        {this.authorTitle && <div class="quote-title text-sm font-normal text-primary-800">{this.authorTitle}</div>}
+                    <div class="blockquote__footer mt-10">
+                        {this.author && <div class="blockquote__author mb-1 text-sm font-medium text-primary-900">{this.author}</div>}
+                        {this.authorTitle && <div class="blockquote__title text-sm font-normal text-primary-800">{this.authorTitle}</div>}
                     </div>
                     )}
                 </blockquote>

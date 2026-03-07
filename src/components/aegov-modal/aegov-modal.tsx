@@ -1,5 +1,6 @@
 import { Component, Host, h, Prop, Event, EventEmitter, Element, Method, Watch, State } from '@stencil/core';
 import type { ModalPosition, ModalBackdropOpacity } from '../../utils/types';
+import { getPassThroughAttributes } from '../../utils/attributes';
 
 /**
  * @slot - Modal content
@@ -314,29 +315,14 @@ export class AegovModal {
     return opacityClasses[this.backdropOpacity];
   }
 
-  /**
-   * Get aria-*, data-*, and id attributes from the host element to pass through to the dialog wrapper
-   */
-  private getPassThroughAttributes(): { [key: string]: string } {
-    const passThroughAttrs: { [key: string]: string } = {};
-
-    // Get all attributes from the host element
-    Array.from(this.el.attributes).forEach((attr) => {
-      // Pass through aria-*, data-*, and id attributes
-      if (attr.name.startsWith('aria-') || attr.name.startsWith('data-') || attr.name === 'id') {
-        passThroughAttrs[attr.name] = attr.value;
-      }
-    });
-
-    return passThroughAttrs;
-  }
+  private static readonly PASS_THROUGH_ATTRS = new Set(['id']);
 
   render() {
     if (!this.open && this.animationState === 'closed') {
       return null;
     }
 
-    const passThroughAttributes = this.getPassThroughAttributes();
+    const passThroughAttributes = getPassThroughAttributes(this.el, AegovModal.PASS_THROUGH_ATTRS);
 
     return (
       <Host data-state={this.animationState} style={{ '--modal-z-index': this.modalZIndex.toString() }}>

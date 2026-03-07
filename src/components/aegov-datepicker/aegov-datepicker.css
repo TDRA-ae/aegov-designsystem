@@ -12,10 +12,10 @@
 
 /* ── Input Wrapper ──────────────────────────────────── */
 .datepicker__input-wrapper {
-  @apply relative inline-flex items-center gap-0 border border-aeblack-200 rounded-lg bg-white
-         transition-all duration-200 ease-in-out
-         hover:border-aeblack-300
-         focus-within:border-primary-500 focus-within:ring-1 focus-within:ring-primary-500;
+  @apply relative inline-flex items-center gap-0 bg-whitely-50
+         rounded-lg transition-all duration-200 ease-in-out
+         inset-ring-2 inset-ring-primary-400
+         focus-within:inset-ring-primary-support-600;
 }
 
 .datepicker__input-wrapper--range {
@@ -23,44 +23,106 @@
 }
 
 :host([disabled]) .datepicker__input-wrapper {
-  @apply bg-aeblack-50 border-aeblack-200 pointer-events-none;
+  @apply opacity-40 pointer-events-none;
 }
 
 /* ── Input ──────────────────────────────────────────── */
 .datepicker__input {
-  @apply border-0 bg-transparent px-3 py-2.5 text-sm text-aeblack-800 outline-none
-         placeholder:text-aeblack-400;
-  min-width: 120px;
-}
-
-.datepicker__input--range-start,
-.datepicker__input--range-end {
-  min-width: 100px;
-  @apply px-2 py-2.5;
+  font-family: inherit;
+  @apply border-0 bg-transparent text-primary-900 outline-none leading-6
+         placeholder:text-aeblack-500 focus:ring-0;
 }
 
 .datepicker__input:disabled {
-  @apply text-aeblack-400 cursor-not-allowed;
+  @apply cursor-not-allowed;
+}
+
+/* ── Size: sm ──────────────────────────────────────── */
+.datepicker__input-wrapper--sm .datepicker__input {
+  @apply text-sm py-2 px-3 h-10;
+  min-width: 120px;
+}
+
+.datepicker__input-wrapper--sm .datepicker__input--range-start,
+.datepicker__input-wrapper--sm .datepicker__input--range-end {
+  @apply px-2;
+  min-width: 100px;
+}
+
+.datepicker__input-wrapper--sm .datepicker__icon {
+  @apply h-10 w-10;
+}
+
+.datepicker__input-wrapper--sm .datepicker__clear-btn {
+  @apply w-5 h-5;
+}
+
+.datepicker__input-wrapper--sm .datepicker__range-separator {
+  @apply px-0.5;
+}
+
+/* ── Size: base ────────────────────────────────────── */
+.datepicker__input-wrapper--base .datepicker__input {
+  @apply text-base py-3 px-4 h-12;
+  min-width: 140px;
+}
+
+.datepicker__input-wrapper--base .datepicker__input--range-start,
+.datepicker__input-wrapper--base .datepicker__input--range-end {
+  @apply px-3;
+  min-width: 115px;
+}
+
+.datepicker__input-wrapper--base .datepicker__icon {
+  @apply h-12 w-12;
+}
+
+.datepicker__input-wrapper--base .datepicker__clear-btn {
+  @apply w-6 h-6;
+}
+
+.datepicker__input-wrapper--base .datepicker__range-separator {
+  @apply px-1;
+}
+
+/* ── Size: lg ──────────────────────────────────────── */
+.datepicker__input-wrapper--lg .datepicker__input {
+  @apply text-lg py-3.5 px-5 h-13;
+  min-width: 160px;
+}
+
+.datepicker__input-wrapper--lg .datepicker__input--range-start,
+.datepicker__input-wrapper--lg .datepicker__input--range-end {
+  @apply px-4;
+  min-width: 130px;
+}
+
+.datepicker__input-wrapper--lg .datepicker__icon {
+  @apply h-13 w-13;
+}
+
+.datepicker__input-wrapper--lg .datepicker__clear-btn {
+  @apply w-7 h-7;
+}
+
+.datepicker__input-wrapper--lg .datepicker__range-separator {
+  @apply px-1.5;
 }
 
 /* ── Range Separator ────────────────────────────────── */
 .datepicker__range-separator {
-  @apply flex items-center text-aeblack-400 px-1;
+  @apply flex items-center text-aeblack-500;
 }
 
 /* ── Calendar Icon ──────────────────────────────────── */
 .datepicker__icon {
-  @apply flex items-center justify-center text-aeblack-500 pr-3 pl-1;
-}
-
-[dir="rtl"] .datepicker__icon {
-  @apply pl-3 pr-1;
+  @apply flex items-center justify-center text-aeblack-500;
 }
 
 /* ── Clear Button ───────────────────────────────────── */
 .datepicker__clear-btn {
-  @apply flex items-center justify-center w-6 h-6 rounded-full text-aeblack-400
-         hover:text-aeblack-600 hover:bg-aeblack-100
-         focus-visible:outline-2 focus-visible:outline-primary-500
-         transition-all duration-150 ease-in-out;
+  @apply flex items-center justify-center rounded
+         text-aeblack-500 hover:text-primary-700 hover:bg-primary-50
+         cursor-pointer transition-colors duration-200
+         focus-visible:outline-2 focus-visible:outline-primary-500;
 }
