@@ -1,0 +1,166 @@
+:host {
+  display: block;
+}
+
+.aegov-checkbox-group {
+  @apply border-0 p-0 m-0;
+}
+
+.checkbox-group__legend {
+  @apply text-sm font-semibold text-aeblack-600 mb-3;
+}
+
+.checkbox-group__items {
+  @apply flex flex-col gap-3;
+}
+
+/* Horizontal orientation */
+.checkbox-group--horizontal .checkbox-group__items {
+  @apply flex-row flex-wrap;
+}
+
+/* ========================================
+   List variant - dividers between items
+   ======================================== */
+.checkbox-group--list .checkbox-group__items {
+  @apply gap-0;
+}
+
+.checkbox-group--list aegov-checkbox {
+  @apply py-3 border-b border-aeblack-100;
+}
+
+.checkbox-group--list aegov-checkbox:first-child {
+  @apply pt-0;
+}
+
+.checkbox-group--list aegov-checkbox:last-child {
+  @apply border-b-0 pb-0;
+}
+
+/* List horizontal */
+.checkbox-group--list.checkbox-group--horizontal .checkbox-group__items {
+  @apply gap-0;
+}
+
+.checkbox-group--list.checkbox-group--horizontal aegov-checkbox {
+  @apply py-0 px-3 border-b-0 border-e border-aeblack-100;
+}
+
+.checkbox-group--list.checkbox-group--horizontal aegov-checkbox:first-child {
+  @apply ps-0;
+}
+
+.checkbox-group--list.checkbox-group--horizontal aegov-checkbox:last-child {
+  @apply border-e-0 pe-0;
+}
+
+/* ========================================
+   Cards variant - bordered card per item
+   ======================================== */
+.checkbox-group--cards aegov-checkbox:not([check-all]) .checkbox__wrapper {
+  @apply rounded-lg border-2 border-primary-200 bg-white transition-all duration-200;
+}
+
+/* Cards size padding */
+.checkbox-group--cards aegov-checkbox:not([check-all]) .checkbox--sm .checkbox__wrapper {
+  @apply p-3;
+}
+
+.checkbox-group--cards aegov-checkbox:not([check-all]) .checkbox--base .checkbox__wrapper {
+  @apply p-4;
+}
+
+.checkbox-group--cards aegov-checkbox:not([check-all]) .checkbox--lg .checkbox__wrapper {
+  @apply p-5;
+}
+
+.checkbox-group--cards aegov-checkbox:not([check-all]) .checkbox__wrapper:hover:not(:has(input:disabled)) {
+  @apply border-primary-400;
+}
+
+.checkbox-group--cards aegov-checkbox:not([check-all]) .checkbox__wrapper:has(input:checked) {
+  @apply border-primary-600 bg-primary-50;
+}
+
+.checkbox-group--cards aegov-checkbox:not([check-all]) .checkbox__wrapper:has(input:disabled) {
+  @apply cursor-not-allowed;
+}
+
+/* Check-all in cards: full width, not affected by horizontal layout */
+.checkbox-group--cards aegov-checkbox[check-all] {
+  @apply w-full basis-full;
+}
+
+/* ========================================
+   Pills variant - pill toggle buttons
+   ======================================== */
+.checkbox-group--pills input[type="checkbox"] {
+  @apply absolute! w-px! h-px! overflow-hidden! p-0! -m-px!;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+.checkbox-group--pills input[type="checkbox"]::before {
+  @apply hidden!;
+}
+
+.checkbox-group--pills .checkbox__wrapper {
+  @apply inline-flex items-center gap-0! rounded-full border-2
+         border-primary-600 bg-whitely-50 font-semibold text-primary-600!
+         transition-all duration-200 cursor-pointer select-none;
+}
+
+/* Pills size padding */
+.checkbox-group--pills .checkbox--sm .checkbox__wrapper {
+  @apply px-3 py-1 text-xs;
+}
+
+.checkbox-group--pills .checkbox--base .checkbox__wrapper {
+  @apply px-3.5 py-1.5 text-sm;
+}
+
+.checkbox-group--pills .checkbox--lg .checkbox__wrapper {
+  @apply px-4 py-2 text-base;
+}
+
+.checkbox-group--pills .checkbox__wrapper:hover:not(:has(input:disabled)) {
+  @apply border-primary-400 text-primary-50;
+}
+
+.checkbox-group--pills .checkbox__wrapper:has(input:checked) {
+  @apply bg-primary-600 border-primary-600 text-whitely-50;
+}
+
+.checkbox-group--pills .checkbox__wrapper:has(input:checked):hover:not(:has(input:disabled)) {
+  @apply bg-primary-500 border-primary-500;
+}
+
+.checkbox-group--pills .checkbox__wrapper:has(input:disabled) {
+  @apply opacity-40 cursor-not-allowed;
+}
+
+.checkbox-group--pills .checkbox__description {
+  @apply hidden;
+}
+
+.checkbox-group--pills .checkbox__label-text {
+  @apply text-primary-600!;
+}
+
+.checkbox-group--pills .checkbox__wrapper:has(input:checked) .checkbox__label-text {
+  @apply text-whitely-50!;
+}
+
+.checkbox-group--pills .checkbox--sm .checkbox__label-text {
+  @apply text-xs leading-4;
+}
+
+.checkbox-group--pills .checkbox--base .checkbox__label-text {
+  @apply text-sm leading-5;
+}
+
+.checkbox-group--pills .checkbox--lg .checkbox__label-text {
+  @apply text-base leading-6;
+}

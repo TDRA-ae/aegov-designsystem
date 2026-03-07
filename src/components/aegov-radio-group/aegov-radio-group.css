@@ -1,0 +1,161 @@
+:host {
+  display: block;
+}
+
+.aegov-radio-group {
+  @apply border-0 p-0 m-0;
+}
+
+.radio-group__legend {
+  @apply text-sm font-semibold text-aeblack-600 mb-3;
+}
+
+.radio-group__items {
+  @apply flex flex-col gap-3;
+}
+
+/* Horizontal orientation */
+.radio-group--horizontal .radio-group__items {
+  @apply flex-row flex-wrap;
+}
+
+/* ========================================
+   List variant - dividers between items
+   ======================================== */
+.radio-group--list .radio-group__items {
+  @apply gap-0;
+}
+
+.radio-group--list aegov-radio {
+  @apply py-3 border-b border-aeblack-100;
+}
+
+.radio-group--list aegov-radio:first-child {
+  @apply pt-0;
+}
+
+.radio-group--list aegov-radio:last-child {
+  @apply border-b-0 pb-0;
+}
+
+/* List horizontal */
+.radio-group--list.radio-group--horizontal .radio-group__items {
+  @apply gap-0;
+}
+
+.radio-group--list.radio-group--horizontal aegov-radio {
+  @apply py-0 px-3 border-b-0 border-e border-aeblack-100;
+}
+
+.radio-group--list.radio-group--horizontal aegov-radio:first-child {
+  @apply ps-0;
+}
+
+.radio-group--list.radio-group--horizontal aegov-radio:last-child {
+  @apply border-e-0 pe-0;
+}
+
+/* ========================================
+   Cards variant - bordered card per item
+   ======================================== */
+.radio-group--cards .radio__wrapper {
+  @apply rounded-lg border-2 border-primary-200 bg-white transition-all duration-200;
+}
+
+/* Cards size padding */
+.radio-group--cards .radio--sm .radio__wrapper {
+  @apply p-3;
+}
+
+.radio-group--cards .radio--base .radio__wrapper {
+  @apply p-4;
+}
+
+.radio-group--cards .radio--lg .radio__wrapper {
+  @apply p-5;
+}
+
+.radio-group--cards .radio__wrapper:hover:not(:has(input:disabled)) {
+  @apply border-primary-400;
+}
+
+.radio-group--cards .radio__wrapper:has(input:checked) {
+  @apply border-primary-600 bg-primary-50;
+}
+
+.radio-group--cards .radio__wrapper:has(input:disabled) {
+  @apply cursor-not-allowed;
+}
+
+/* ========================================
+   Pills variant - pill toggle buttons
+   ======================================== */
+.radio-group--pills input[type="radio"] {
+  @apply absolute! w-px! h-px! overflow-hidden! p-0! -m-px!;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+.radio-group--pills input[type="radio"]::before {
+  @apply hidden!;
+}
+
+.radio-group--pills .radio__wrapper {
+  @apply inline-flex items-center gap-0! rounded-full border-2
+         border-primary-600 bg-whitely-50 font-semibold text-primary-600!
+         transition-all duration-200 cursor-pointer select-none;
+}
+
+/* Pills size padding */
+.radio-group--pills .radio--sm .radio__wrapper {
+  @apply px-3 py-1 text-xs;
+}
+
+.radio-group--pills .radio--base .radio__wrapper {
+  @apply px-3.5 py-1.5 text-sm;
+}
+
+.radio-group--pills .radio--lg .radio__wrapper {
+  @apply px-4 py-2 text-base;
+}
+
+.radio-group--pills .radio__wrapper:hover:not(:has(input:disabled)) {
+  @apply border-primary-400 text-primary-50;
+}
+
+.radio-group--pills .radio__wrapper:has(input:checked) {
+  @apply bg-primary-600 border-primary-600 text-whitely-50;
+}
+
+.radio-group--pills .radio__wrapper:has(input:checked):hover:not(:has(input:disabled)) {
+  @apply bg-primary-500 border-primary-500;
+}
+
+.radio-group--pills .radio__wrapper:has(input:disabled) {
+  @apply opacity-40 cursor-not-allowed;
+}
+
+.radio-group--pills .radio__description {
+  @apply hidden;
+}
+
+.radio-group--pills .radio__label-text {
+  @apply text-primary-600!;
+}
+
+.radio-group--pills .radio__wrapper:has(input:checked) .radio__label-text {
+  @apply text-whitely-50!;
+}
+
+.radio-group--pills .radio--sm .radio__label-text {
+  @apply text-xs leading-4;
+}
+
+.radio-group--pills .radio--base .radio__label-text {
+  @apply text-sm leading-5;
+}
+
+.radio-group--pills .radio--lg .radio__label-text {
+  @apply text-base leading-6;
+}

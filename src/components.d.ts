@@ -5,9 +5,9 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
-import { AccordionIcon, AvatarGroupMode, AvatarSize, AvatarStatus, AvatarVariant, BadgeAppearance, BadgeColor, BadgeSize, BannerDisplay, BannerMode, BannerPosition, BannerRole, BlockquoteVariant, BreadcrumbSeparator, ButtonAppearance, ButtonGroupOrientation, ButtonSize, ButtonType, ButtonVariant, CalloutAppearance, CalloutVariant, CardBackground, CardBorderStyle, CardBorderWidth, CardHover, DatepickerChangeDetail, DatepickerMode, DatepickerMonthChangeDetail, DropdownAlign, DropdownPosition, DropdownTrigger, InputSize, InputType, LinkTarget, ModalBackdropOpacity, ModalPosition, PaginationSize, PaginationVariant, ProgressOrientation, ProgressSize, ProgressStepStatus, ProgressVariant, SelectChangeDetail, SelectSize, SelectVariant, TabOrientation, TabSize, TabVariant, TextareaResize, TextareaSize, TextSize, TitleSize, ToastAppearance, ToastMode, ToastPosition, ToastVariant, TooltipAlign, TooltipPosition, TooltipTrigger } from "./utils/types";
+import { AccordionIcon, AvatarGroupMode, AvatarSize, AvatarStatus, AvatarVariant, BadgeAppearance, BadgeColor, BadgeSize, BannerDisplay, BannerMode, BannerPosition, BannerRole, BlockquoteVariant, BreadcrumbSeparator, ButtonAppearance, ButtonGroupOrientation, ButtonSize, ButtonType, ButtonVariant, CalloutAppearance, CalloutVariant, CardBackground, CardBorderStyle, CardBorderWidth, CardHover, CheckboxGroupOrientation, CheckboxGroupVariant, CheckboxSize, DatepickerChangeDetail, DatepickerMode, DatepickerMonthChangeDetail, DropdownAlign, DropdownPosition, DropdownTrigger, InputSize, InputType, LinkTarget, ModalBackdropOpacity, ModalPosition, PaginationSize, PaginationVariant, ProgressOrientation, ProgressSize, ProgressStepStatus, ProgressVariant, RadioGroupOrientation, RadioGroupVariant, RadioSize, SelectChangeDetail, SelectSize, SelectVariant, TabOrientation, TabSize, TabVariant, TextareaResize, TextareaSize, TextSize, TitleSize, ToastAppearance, ToastMode, ToastPosition, ToastVariant, TooltipAlign, TooltipPosition, TooltipTrigger } from "./utils/types";
 import { Event } from "@stencil/core";
-export { AccordionIcon, AvatarGroupMode, AvatarSize, AvatarStatus, AvatarVariant, BadgeAppearance, BadgeColor, BadgeSize, BannerDisplay, BannerMode, BannerPosition, BannerRole, BlockquoteVariant, BreadcrumbSeparator, ButtonAppearance, ButtonGroupOrientation, ButtonSize, ButtonType, ButtonVariant, CalloutAppearance, CalloutVariant, CardBackground, CardBorderStyle, CardBorderWidth, CardHover, DatepickerChangeDetail, DatepickerMode, DatepickerMonthChangeDetail, DropdownAlign, DropdownPosition, DropdownTrigger, InputSize, InputType, LinkTarget, ModalBackdropOpacity, ModalPosition, PaginationSize, PaginationVariant, ProgressOrientation, ProgressSize, ProgressStepStatus, ProgressVariant, SelectChangeDetail, SelectSize, SelectVariant, TabOrientation, TabSize, TabVariant, TextareaResize, TextareaSize, TextSize, TitleSize, ToastAppearance, ToastMode, ToastPosition, ToastVariant, TooltipAlign, TooltipPosition, TooltipTrigger } from "./utils/types";
+export { AccordionIcon, AvatarGroupMode, AvatarSize, AvatarStatus, AvatarVariant, BadgeAppearance, BadgeColor, BadgeSize, BannerDisplay, BannerMode, BannerPosition, BannerRole, BlockquoteVariant, BreadcrumbSeparator, ButtonAppearance, ButtonGroupOrientation, ButtonSize, ButtonType, ButtonVariant, CalloutAppearance, CalloutVariant, CardBackground, CardBorderStyle, CardBorderWidth, CardHover, CheckboxGroupOrientation, CheckboxGroupVariant, CheckboxSize, DatepickerChangeDetail, DatepickerMode, DatepickerMonthChangeDetail, DropdownAlign, DropdownPosition, DropdownTrigger, InputSize, InputType, LinkTarget, ModalBackdropOpacity, ModalPosition, PaginationSize, PaginationVariant, ProgressOrientation, ProgressSize, ProgressStepStatus, ProgressVariant, RadioGroupOrientation, RadioGroupVariant, RadioSize, SelectChangeDetail, SelectSize, SelectVariant, TabOrientation, TabSize, TabVariant, TextareaResize, TextareaSize, TextSize, TitleSize, ToastAppearance, ToastMode, ToastPosition, ToastVariant, TooltipAlign, TooltipPosition, TooltipTrigger } from "./utils/types";
 export { Event } from "@stencil/core";
 export namespace Components {
     /**
@@ -381,6 +381,92 @@ export namespace Components {
           * @default 'off'
          */
         "hover": CardHover;
+    }
+    interface AegovCheckbox {
+        /**
+          * Marks this checkbox as a "check all" controller within a checkbox group.
+          * @default false
+         */
+        "checkAll": boolean;
+        /**
+          * Whether the checkbox is checked.
+          * @default false
+         */
+        "checked": boolean;
+        /**
+          * Additional CSS classes to apply.
+         */
+        "class"?: string;
+        /**
+          * Description text displayed below the label. Only rendered when label is provided.
+         */
+        "description"?: string;
+        /**
+          * Whether the checkbox is disabled.
+          * @default false
+         */
+        "disabled": boolean;
+        /**
+          * Unique ID for the native checkbox element. Auto-generated if not provided.
+         */
+        "fieldId"?: string;
+        /**
+          * Whether the checkbox is in an indeterminate state. Set by parent group for check-all.
+          * @default false
+         */
+        "indeterminate": boolean;
+        /**
+          * Label text for the checkbox. When provided, generates an associated <label> element.
+         */
+        "label"?: string;
+        /**
+          * The name attribute for the checkbox.
+         */
+        "name"?: string;
+        /**
+          * Whether the checkbox is required.
+          * @default false
+         */
+        "required": boolean;
+        /**
+          * The size of the checkbox.
+          * @default 'base'
+         */
+        "size": CheckboxSize;
+        /**
+          * The value attribute for the checkbox.
+         */
+        "value"?: string;
+    }
+    interface AegovCheckboxGroup {
+        /**
+          * Additional CSS classes to apply.
+         */
+        "class"?: string;
+        /**
+          * Disables all checkboxes within the group via native fieldset disabled.
+          * @default false
+         */
+        "disabled": boolean;
+        /**
+          * Optional label rendered as a <legend> for accessibility.
+         */
+        "label"?: string;
+        /**
+          * Stack direction for checkbox items.
+          * @default 'vertical'
+         */
+        "orientation": CheckboxGroupOrientation;
+        /**
+          * Size of all checkboxes in the group. Propagated to children.
+          * @default 'base'
+         */
+        "size": CheckboxSize;
+        /**
+          * Visual variant for the group layout.
+          * @default 'default'
+         */
+        "variant": CheckboxGroupVariant;
     }
     /**
      * Context menu component that displays positioned content on right-click
@@ -866,6 +952,86 @@ export namespace Components {
          */
         "variant": ProgressVariant;
     }
+    interface AegovRadio {
+        /**
+          * Whether the radio is checked.
+          * @default false
+         */
+        "checked": boolean;
+        /**
+          * Additional CSS classes to apply.
+         */
+        "class"?: string;
+        /**
+          * Description text displayed below the label. Only rendered when label is provided.
+         */
+        "description"?: string;
+        /**
+          * Whether the radio is disabled.
+          * @default false
+         */
+        "disabled": boolean;
+        /**
+          * Unique ID for the native radio element. Auto-generated if not provided.
+         */
+        "fieldId"?: string;
+        /**
+          * Label text for the radio. When provided, generates an associated <label> element.
+         */
+        "label"?: string;
+        /**
+          * The name attribute for the radio. Required for native radio grouping.
+         */
+        "name"?: string;
+        /**
+          * Whether the radio is required.
+          * @default false
+         */
+        "required": boolean;
+        /**
+          * The size of the radio.
+          * @default 'base'
+         */
+        "size": RadioSize;
+        /**
+          * The value attribute for the radio.
+         */
+        "value"?: string;
+    }
+    interface AegovRadioGroup {
+        /**
+          * Additional CSS classes to apply.
+         */
+        "class"?: string;
+        /**
+          * Disables all radios within the group via native fieldset disabled.
+          * @default false
+         */
+        "disabled": boolean;
+        /**
+          * Optional label rendered as a <legend> for accessibility.
+         */
+        "label"?: string;
+        /**
+          * The name shared by all radios in the group. Ensures native single-select behavior.
+         */
+        "name": string;
+        /**
+          * Stack direction for radio items.
+          * @default 'vertical'
+         */
+        "orientation": RadioGroupOrientation;
+        /**
+          * Size of all radios in the group. Propagated to children.
+          * @default 'base'
+         */
+        "size": RadioSize;
+        /**
+          * Visual variant for the group layout.
+          * @default 'default'
+         */
+        "variant": RadioGroupVariant;
+    }
     interface AegovSelect {
         /**
           * Additional CSS classes to apply.
@@ -1292,6 +1458,14 @@ export interface AegovCalloutCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLAegovCalloutElement;
 }
+export interface AegovCheckboxCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLAegovCheckboxElement;
+}
+export interface AegovCheckboxGroupCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLAegovCheckboxGroupElement;
+}
 export interface AegovContextMenuCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLAegovContextMenuElement;
@@ -1323,6 +1497,14 @@ export interface AegovModalCustomEvent<T> extends CustomEvent<T> {
 export interface AegovPaginationCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLAegovPaginationElement;
+}
+export interface AegovRadioCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLAegovRadioElement;
+}
+export interface AegovRadioGroupCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLAegovRadioGroupElement;
 }
 export interface AegovSelectCustomEvent<T> extends CustomEvent<T> {
     detail: T;
@@ -1516,6 +1698,40 @@ declare global {
         prototype: HTMLAegovCardElement;
         new (): HTMLAegovCardElement;
     };
+    interface HTMLAegovCheckboxElementEventMap {
+        "aegovCheckboxChange": { checked: boolean; value?: string };
+    }
+    interface HTMLAegovCheckboxElement extends Components.AegovCheckbox, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLAegovCheckboxElementEventMap>(type: K, listener: (this: HTMLAegovCheckboxElement, ev: AegovCheckboxCustomEvent<HTMLAegovCheckboxElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLAegovCheckboxElementEventMap>(type: K, listener: (this: HTMLAegovCheckboxElement, ev: AegovCheckboxCustomEvent<HTMLAegovCheckboxElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLAegovCheckboxElement: {
+        prototype: HTMLAegovCheckboxElement;
+        new (): HTMLAegovCheckboxElement;
+    };
+    interface HTMLAegovCheckboxGroupElementEventMap {
+        "aegovCheckboxGroupChange": { values: string[] };
+    }
+    interface HTMLAegovCheckboxGroupElement extends Components.AegovCheckboxGroup, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLAegovCheckboxGroupElementEventMap>(type: K, listener: (this: HTMLAegovCheckboxGroupElement, ev: AegovCheckboxGroupCustomEvent<HTMLAegovCheckboxGroupElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLAegovCheckboxGroupElementEventMap>(type: K, listener: (this: HTMLAegovCheckboxGroupElement, ev: AegovCheckboxGroupCustomEvent<HTMLAegovCheckboxGroupElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLAegovCheckboxGroupElement: {
+        prototype: HTMLAegovCheckboxGroupElement;
+        new (): HTMLAegovCheckboxGroupElement;
+    };
     interface HTMLAegovContextMenuElementEventMap {
         "aegovContextMenuOpen": { x: number; y: number; targetElement: HTMLElement };
         "aegovContextMenuClose": void;
@@ -1704,6 +1920,40 @@ declare global {
         prototype: HTMLAegovProgressStepElement;
         new (): HTMLAegovProgressStepElement;
     };
+    interface HTMLAegovRadioElementEventMap {
+        "aegovRadioChange": { checked: boolean; value?: string };
+    }
+    interface HTMLAegovRadioElement extends Components.AegovRadio, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLAegovRadioElementEventMap>(type: K, listener: (this: HTMLAegovRadioElement, ev: AegovRadioCustomEvent<HTMLAegovRadioElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLAegovRadioElementEventMap>(type: K, listener: (this: HTMLAegovRadioElement, ev: AegovRadioCustomEvent<HTMLAegovRadioElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLAegovRadioElement: {
+        prototype: HTMLAegovRadioElement;
+        new (): HTMLAegovRadioElement;
+    };
+    interface HTMLAegovRadioGroupElementEventMap {
+        "aegovRadioGroupChange": { value: string | undefined };
+    }
+    interface HTMLAegovRadioGroupElement extends Components.AegovRadioGroup, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLAegovRadioGroupElementEventMap>(type: K, listener: (this: HTMLAegovRadioGroupElement, ev: AegovRadioGroupCustomEvent<HTMLAegovRadioGroupElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLAegovRadioGroupElementEventMap>(type: K, listener: (this: HTMLAegovRadioGroupElement, ev: AegovRadioGroupCustomEvent<HTMLAegovRadioGroupElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLAegovRadioGroupElement: {
+        prototype: HTMLAegovRadioGroupElement;
+        new (): HTMLAegovRadioGroupElement;
+    };
     interface HTMLAegovSelectElementEventMap {
         "aegovSelectChange": SelectChangeDetail;
         "aegovSelectOpen": void;
@@ -1887,6 +2137,8 @@ declare global {
         "aegov-button-group": HTMLAegovButtonGroupElement;
         "aegov-callout": HTMLAegovCalloutElement;
         "aegov-card": HTMLAegovCardElement;
+        "aegov-checkbox": HTMLAegovCheckboxElement;
+        "aegov-checkbox-group": HTMLAegovCheckboxGroupElement;
         "aegov-context-menu": HTMLAegovContextMenuElement;
         "aegov-context-menu-item": HTMLAegovContextMenuItemElement;
         "aegov-datepicker": HTMLAegovDatepickerElement;
@@ -1900,6 +2152,8 @@ declare global {
         "aegov-pagination": HTMLAegovPaginationElement;
         "aegov-progress": HTMLAegovProgressElement;
         "aegov-progress-step": HTMLAegovProgressStepElement;
+        "aegov-radio": HTMLAegovRadioElement;
+        "aegov-radio-group": HTMLAegovRadioGroupElement;
         "aegov-select": HTMLAegovSelectElement;
         "aegov-select-option": HTMLAegovSelectOptionElement;
         "aegov-select-option-group": HTMLAegovSelectOptionGroupElement;
@@ -2326,6 +2580,100 @@ declare namespace LocalJSX {
           * @default 'off'
          */
         "hover"?: CardHover;
+    }
+    interface AegovCheckbox {
+        /**
+          * Marks this checkbox as a "check all" controller within a checkbox group.
+          * @default false
+         */
+        "checkAll"?: boolean;
+        /**
+          * Whether the checkbox is checked.
+          * @default false
+         */
+        "checked"?: boolean;
+        /**
+          * Additional CSS classes to apply.
+         */
+        "class"?: string;
+        /**
+          * Description text displayed below the label. Only rendered when label is provided.
+         */
+        "description"?: string;
+        /**
+          * Whether the checkbox is disabled.
+          * @default false
+         */
+        "disabled"?: boolean;
+        /**
+          * Unique ID for the native checkbox element. Auto-generated if not provided.
+         */
+        "fieldId"?: string;
+        /**
+          * Whether the checkbox is in an indeterminate state. Set by parent group for check-all.
+          * @default false
+         */
+        "indeterminate"?: boolean;
+        /**
+          * Label text for the checkbox. When provided, generates an associated <label> element.
+         */
+        "label"?: string;
+        /**
+          * The name attribute for the checkbox.
+         */
+        "name"?: string;
+        /**
+          * Emitted when the checkbox checked state changes.
+         */
+        "onAegovCheckboxChange"?: (event: AegovCheckboxCustomEvent<{ checked: boolean; value?: string }>) => void;
+        /**
+          * Whether the checkbox is required.
+          * @default false
+         */
+        "required"?: boolean;
+        /**
+          * The size of the checkbox.
+          * @default 'base'
+         */
+        "size"?: CheckboxSize;
+        /**
+          * The value attribute for the checkbox.
+         */
+        "value"?: string;
+    }
+    interface AegovCheckboxGroup {
+        /**
+          * Additional CSS classes to apply.
+         */
+        "class"?: string;
+        /**
+          * Disables all checkboxes within the group via native fieldset disabled.
+          * @default false
+         */
+        "disabled"?: boolean;
+        /**
+          * Optional label rendered as a <legend> for accessibility.
+         */
+        "label"?: string;
+        /**
+          * Emitted when any checkbox in the group changes. Contains all currently checked values.
+         */
+        "onAegovCheckboxGroupChange"?: (event: AegovCheckboxGroupCustomEvent<{ values: string[] }>) => void;
+        /**
+          * Stack direction for checkbox items.
+          * @default 'vertical'
+         */
+        "orientation"?: CheckboxGroupOrientation;
+        /**
+          * Size of all checkboxes in the group. Propagated to children.
+          * @default 'base'
+         */
+        "size"?: CheckboxSize;
+        /**
+          * Visual variant for the group layout.
+          * @default 'default'
+         */
+        "variant"?: CheckboxGroupVariant;
     }
     /**
      * Context menu component that displays positioned content on right-click
@@ -2844,6 +3192,94 @@ declare namespace LocalJSX {
          */
         "variant"?: ProgressVariant;
     }
+    interface AegovRadio {
+        /**
+          * Whether the radio is checked.
+          * @default false
+         */
+        "checked"?: boolean;
+        /**
+          * Additional CSS classes to apply.
+         */
+        "class"?: string;
+        /**
+          * Description text displayed below the label. Only rendered when label is provided.
+         */
+        "description"?: string;
+        /**
+          * Whether the radio is disabled.
+          * @default false
+         */
+        "disabled"?: boolean;
+        /**
+          * Unique ID for the native radio element. Auto-generated if not provided.
+         */
+        "fieldId"?: string;
+        /**
+          * Label text for the radio. When provided, generates an associated <label> element.
+         */
+        "label"?: string;
+        /**
+          * The name attribute for the radio. Required for native radio grouping.
+         */
+        "name"?: string;
+        /**
+          * Emitted when the radio checked state changes.
+         */
+        "onAegovRadioChange"?: (event: AegovRadioCustomEvent<{ checked: boolean; value?: string }>) => void;
+        /**
+          * Whether the radio is required.
+          * @default false
+         */
+        "required"?: boolean;
+        /**
+          * The size of the radio.
+          * @default 'base'
+         */
+        "size"?: RadioSize;
+        /**
+          * The value attribute for the radio.
+         */
+        "value"?: string;
+    }
+    interface AegovRadioGroup {
+        /**
+          * Additional CSS classes to apply.
+         */
+        "class"?: string;
+        /**
+          * Disables all radios within the group via native fieldset disabled.
+          * @default false
+         */
+        "disabled"?: boolean;
+        /**
+          * Optional label rendered as a <legend> for accessibility.
+         */
+        "label"?: string;
+        /**
+          * The name shared by all radios in the group. Ensures native single-select behavior.
+         */
+        "name": string;
+        /**
+          * Emitted when the selected radio changes. Contains the selected value.
+         */
+        "onAegovRadioGroupChange"?: (event: AegovRadioGroupCustomEvent<{ value: string | undefined }>) => void;
+        /**
+          * Stack direction for radio items.
+          * @default 'vertical'
+         */
+        "orientation"?: RadioGroupOrientation;
+        /**
+          * Size of all radios in the group. Propagated to children.
+          * @default 'base'
+         */
+        "size"?: RadioSize;
+        /**
+          * Visual variant for the group layout.
+          * @default 'default'
+         */
+        "variant"?: RadioGroupVariant;
+    }
     interface AegovSelect {
         /**
           * Additional CSS classes to apply.
@@ -3297,6 +3733,8 @@ declare namespace LocalJSX {
         "aegov-button-group": AegovButtonGroup;
         "aegov-callout": AegovCallout;
         "aegov-card": AegovCard;
+        "aegov-checkbox": AegovCheckbox;
+        "aegov-checkbox-group": AegovCheckboxGroup;
         "aegov-context-menu": AegovContextMenu;
         "aegov-context-menu-item": AegovContextMenuItem;
         "aegov-datepicker": AegovDatepicker;
@@ -3310,6 +3748,8 @@ declare namespace LocalJSX {
         "aegov-pagination": AegovPagination;
         "aegov-progress": AegovProgress;
         "aegov-progress-step": AegovProgressStep;
+        "aegov-radio": AegovRadio;
+        "aegov-radio-group": AegovRadioGroup;
         "aegov-select": AegovSelect;
         "aegov-select-option": AegovSelectOption;
         "aegov-select-option-group": AegovSelectOptionGroup;
@@ -3354,6 +3794,8 @@ declare module "@stencil/core" {
             "aegov-button-group": LocalJSX.AegovButtonGroup & JSXBase.HTMLAttributes<HTMLAegovButtonGroupElement>;
             "aegov-callout": LocalJSX.AegovCallout & JSXBase.HTMLAttributes<HTMLAegovCalloutElement>;
             "aegov-card": LocalJSX.AegovCard & JSXBase.HTMLAttributes<HTMLAegovCardElement>;
+            "aegov-checkbox": LocalJSX.AegovCheckbox & JSXBase.HTMLAttributes<HTMLAegovCheckboxElement>;
+            "aegov-checkbox-group": LocalJSX.AegovCheckboxGroup & JSXBase.HTMLAttributes<HTMLAegovCheckboxGroupElement>;
             /**
              * Context menu component that displays positioned content on right-click
              */
@@ -3376,6 +3818,8 @@ declare module "@stencil/core" {
             "aegov-pagination": LocalJSX.AegovPagination & JSXBase.HTMLAttributes<HTMLAegovPaginationElement>;
             "aegov-progress": LocalJSX.AegovProgress & JSXBase.HTMLAttributes<HTMLAegovProgressElement>;
             "aegov-progress-step": LocalJSX.AegovProgressStep & JSXBase.HTMLAttributes<HTMLAegovProgressStepElement>;
+            "aegov-radio": LocalJSX.AegovRadio & JSXBase.HTMLAttributes<HTMLAegovRadioElement>;
+            "aegov-radio-group": LocalJSX.AegovRadioGroup & JSXBase.HTMLAttributes<HTMLAegovRadioGroupElement>;
             "aegov-select": LocalJSX.AegovSelect & JSXBase.HTMLAttributes<HTMLAegovSelectElement>;
             "aegov-select-option": LocalJSX.AegovSelectOption & JSXBase.HTMLAttributes<HTMLAegovSelectOptionElement>;
             "aegov-select-option-group": LocalJSX.AegovSelectOptionGroup & JSXBase.HTMLAttributes<HTMLAegovSelectOptionGroupElement>;

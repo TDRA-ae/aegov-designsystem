@@ -331,6 +331,36 @@ export interface SelectChangeDetail {
 }
 
 /**
+ * Checkbox component size types
+ */
+export type CheckboxSize = 'sm' | 'base' | 'lg';
+
+/**
+ * Checkbox group variant types
+ */
+export type CheckboxGroupVariant = 'default' | 'list' | 'cards' | 'pills';
+
+/**
+ * Checkbox group orientation types
+ */
+export type CheckboxGroupOrientation = 'vertical' | 'horizontal';
+
+/**
+ * Radio component size types
+ */
+export type RadioSize = 'sm' | 'base' | 'lg';
+
+/**
+ * Radio group variant types
+ */
+export type RadioGroupVariant = 'default' | 'list' | 'cards' | 'pills';
+
+/**
+ * Radio group orientation types
+ */
+export type RadioGroupOrientation = 'vertical' | 'horizontal';
+
+/**
  * Common component props
  */
 export interface BaseComponentProps {

@@ -108,8 +108,7 @@ a {
 input[type="checkbox"],
 input[type="radio"] {
   
-  @apply accent-primary-600 text-primary-600 border-2 border-primary-600 relative m-0 h-5 w-5 border  focus:outline focus:outline-primary-support-600 disabled:pointer-events-none disabled:checked:opacity-40 disabled:checked:border-primary-support-600;
-  @apply disabled:border-primary-200;
+  @apply accent-primary-600 text-primary-600 border-2 border-primary-600 relative m-0 h-5 w-5 border  focus:outline focus:outline-primary-support-600 disabled:pointer-events-none disabled:checked:opacity-40 disabled:checked:border-primary-support-600 disabled:border-primary-200;
 
   &:before {
     content: '';
