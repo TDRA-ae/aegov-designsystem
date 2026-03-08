@@ -396,6 +396,11 @@ export type RangeOrientation = 'horizontal' | 'vertical';
 export type RangeMode = 'single' | 'range';
 
 /**
+ * Progress component counter placement types
+ */
+export type ProgressCounter = 'trailing' | 'top';
+
+/**
  * Common component props
  */
 export interface BaseComponentProps {
