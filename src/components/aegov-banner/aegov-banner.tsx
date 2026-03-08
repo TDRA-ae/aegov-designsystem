@@ -225,33 +225,33 @@ export class AegovBanner {
       banner?.focus();
     }
 
-    // Emit initial height for overlay mode
-    if (this.mode === 'overlay') {
-      this.emitHeight();
+    const needsOverlayHeight = this.mode === 'overlay';
+    const needsPushPadding = this.display === 'fixed' && this.mode === 'push';
 
-      // Set up ResizeObserver to track height changes (if available in browser)
-      if (typeof ResizeObserver !== 'undefined') {
-        this.resizeObserver = new ResizeObserver(() => {
-          this.emitHeight();
-        });
-        this.resizeObserver.observe(this.el);
-      }
+    // Emit initial height for overlay mode
+    if (needsOverlayHeight) {
+      this.emitHeight();
     }
 
     // Set body padding for push mode with fixed positioning
-    if (this.display === 'fixed' && this.mode === 'push') {
+    if (needsPushPadding) {
       // Use requestAnimationFrame to ensure element is fully rendered before measuring
       requestAnimationFrame(() => {
         this.setBodyPadding();
       });
+    }
 
-      // Set up ResizeObserver to track height changes
-      if (typeof ResizeObserver !== 'undefined') {
-        this.resizeObserver = new ResizeObserver(() => {
+    // Single ResizeObserver handles both overlay height and push padding
+    if ((needsOverlayHeight || needsPushPadding) && typeof ResizeObserver !== 'undefined') {
+      this.resizeObserver = new ResizeObserver(() => {
+        if (needsOverlayHeight) {
+          this.emitHeight();
+        }
+        if (needsPushPadding) {
           this.setBodyPadding();
-        });
-        this.resizeObserver.observe(this.el);
-      }
+        }
+      });
+      this.resizeObserver.observe(this.el);
     }
   }
 
