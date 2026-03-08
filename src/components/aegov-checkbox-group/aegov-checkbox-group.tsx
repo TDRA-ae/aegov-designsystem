@@ -36,11 +36,6 @@ export class AegovCheckboxGroup {
     this.updateCheckAllState();
   }
 
-  componentDidUpdate() {
-    this.syncChildren();
-    this.updateCheckAllState();
-  }
-
   @Watch('size')
   onSizeChange() {
     this.syncChildren();

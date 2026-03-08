@@ -69,6 +69,10 @@
   @apply flex items-end;
 }
 
+.tab__btn--simple {
+  @apply rounded-none;
+}
+
 /* ---- Panels ---- */
 
 .tabs__panels {

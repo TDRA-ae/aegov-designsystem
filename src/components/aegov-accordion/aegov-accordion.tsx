@@ -15,6 +15,7 @@ export class AegovAccordion {
   @Element() el: HTMLElement;
 
   private itemListeners: Map<HTMLElement, EventListener> = new Map();
+  private cachedItems: HTMLAegovAccordionItemElement[] = [];
 
   /**
    * Whether multiple accordion items can be open at the same time
@@ -37,70 +38,48 @@ export class AegovAccordion {
   @Prop() bordered: boolean = false;
 
   componentDidLoad() {
-    this.updateItems();
+    this.refreshItemCache();
     this.setupEventListeners();
 
     // Open default item if specified
     if (this.defaultOpen !== undefined) {
-      const items = this.getItems();
-      if (items && items[this.defaultOpen]) {
+      const items = this.cachedItems;
+      if (items[this.defaultOpen]) {
         items[this.defaultOpen].open = true;
       }
     }
 
-    // Set icon on all items
-    this.setIconOnItems();
-  }
-
-  componentDidUpdate() {
-    this.updateItems();
+    // Set icon and position flags on all items
+    this.syncItemProps();
   }
 
   disconnectedCallback() {
     this.removeEventListeners();
-  }
-
-  @Watch('allowMultiple')
-  @Watch('defaultOpen')
-  handlePropChange() {
-    this.updateItems();
+    this.cachedItems = [];
   }
 
   @Watch('icon')
   handleIconChange() {
-    this.setIconOnItems();
+    this.syncItemProps();
   }
 
-  private setIconOnItems() {
-    const items = this.getItems();
-    items.forEach((item, index) => {
-      item.icon = this.icon;
-
-      // Set first/last flags
-      item.isFirst = index === 0;
-      item.isLast = index === items.length - 1;
-    });
-  }
-
-  private getItems(): HTMLAegovAccordionItemElement[] {
-    // Get all accordion items, but filter to only direct children
+  private refreshItemCache() {
     const allItems = Array.from(
       this.el.querySelectorAll('aegov-accordion-item')
     ) as HTMLAegovAccordionItemElement[];
 
-    // Filter to only items that are direct children of this accordion
-    return allItems.filter((item) => {
-      // Find the closest accordion parent
+    this.cachedItems = allItems.filter((item) => {
       const parentAccordion = item.parentElement?.closest('aegov-accordion');
-      // Only include if the parent accordion is this element
       return parentAccordion === this.el;
     });
   }
 
-  private updateItems() {
-    // This method ensures items are queried and available
-    // The actual work is done in setupEventListeners()
-    this.getItems();
+  private syncItemProps() {
+    this.cachedItems.forEach((item, index) => {
+      item.icon = this.icon;
+      item.isFirst = index === 0;
+      item.isLast = index === this.cachedItems.length - 1;
+    });
   }
 
   private removeEventListeners() {
@@ -111,29 +90,24 @@ export class AegovAccordion {
   }
 
   private setupEventListeners() {
-    // Remove any existing listeners first to prevent duplicates
     this.removeEventListeners();
 
-    const items = this.getItems();
+    const items = this.cachedItems;
 
     items.forEach((item, index) => {
       const listener = ((event: CustomEvent<{ open: boolean }>) => {
-        // Only handle events from direct children, not nested accordion items
         const eventTarget = event.target as HTMLAegovAccordionItemElement;
         const isDirectChild = items.includes(eventTarget);
 
         if (!isDirectChild) {
-          // This event is from a nested accordion, ignore it
           return;
         }
 
-        // Stop propagation to prevent parent accordions from handling this event
         event.stopPropagation();
 
         const shouldOpen = event.detail.open;
 
         if (shouldOpen && !this.allowMultiple) {
-          // Close all other items
           items.forEach((otherItem, otherIndex) => {
             if (otherIndex !== index) {
               otherItem.open = false;
@@ -141,7 +115,6 @@ export class AegovAccordion {
           });
         }
 
-        // Toggle the clicked item
         item.open = shouldOpen;
       }) as EventListener;
 
