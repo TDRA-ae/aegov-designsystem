@@ -1,0 +1,312 @@
+:host {
+  display: block;
+}
+
+/* ========================================
+   Base wrapper
+   ======================================== */
+.aegov-range {
+  @apply relative;
+}
+
+.aegov-range--disabled {
+  @apply opacity-40 cursor-not-allowed;
+  pointer-events: none;
+}
+
+/* ========================================
+   Container — holds min/max labels + track
+   ======================================== */
+.range__container {
+  @apply flex items-center gap-3;
+}
+
+.range--vertical .range__container {
+  @apply flex-col items-center;
+  height: var(--range-height, 200px);
+}
+
+/* ========================================
+   Track wrapper — relative container for track + thumbs + inputs
+   ======================================== */
+.range__track-wrapper {
+  @apply relative flex-1;
+}
+
+.range--horizontal .range__track-wrapper {
+  @apply w-full;
+  /* Pad left/right by half-thumb so thumb doesn't overflow */
+  padding-inline: 12px;
+}
+
+.range--vertical .range__track-wrapper {
+  @apply flex-1 flex justify-center;
+  width: 24px;
+  /* Pad top/bottom by half-thumb */
+  padding-block: 12px;
+}
+
+/* ========================================
+   Track — the thin bar
+   ======================================== */
+.range__track {
+  @apply relative w-full rounded-full bg-aeblack-200;
+}
+
+.range--vertical .range__track {
+  @apply h-full;
+  width: 100%;
+}
+
+/* ========================================
+   Fill — colored portion of track
+   ======================================== */
+.range__fill {
+  @apply absolute rounded-full bg-primary-600;
+  transition: left 0ms, width 0ms, bottom 0ms, height 0ms;
+}
+
+.range--horizontal .range__fill {
+  top: 0;
+  bottom: 0;
+  inset-inline-start: var(--range-fill-start, 0%);
+  width: calc(var(--range-fill-end, 0%) - var(--range-fill-start, 0%));
+}
+
+.range--vertical .range__fill {
+  left: 0;
+  right: 0;
+  bottom: var(--range-fill-start, 0%);
+  height: calc(var(--range-fill-end, 0%) - var(--range-fill-start, 0%));
+}
+
+/* ========================================
+   Thumb — toggle-like, always 24x24
+   ======================================== */
+.range__thumb {
+  @apply absolute inline-flex items-center justify-center rounded-full
+         bg-white cursor-pointer select-none;
+  width: 24px;
+  height: 24px;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.15), 0 1px 2px -1px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 200ms ease-in-out;
+  z-index: 3;
+}
+
+.range__thumb:hover {
+  box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.2), 0 2px 4px -2px rgba(0, 0, 0, 0.15);
+}
+
+.range__thumb--active {
+  box-shadow: 0 3px 8px 0 rgba(0, 0, 0, 0.25), 0 2px 4px -2px rgba(0, 0, 0, 0.15);
+  z-index: 5;
+}
+
+/* Horizontal thumb positioning */
+.range--horizontal .range__thumb {
+  top: 50%;
+  transform: translateX(-50%) translateY(-50%);
+  inset-inline-start: var(--range-thumb-percent, 0%);
+}
+
+/* Vertical thumb positioning */
+.range--vertical .range__thumb {
+  left: 50%;
+  transform: translateX(-50%) translateY(50%);
+  bottom: var(--range-thumb-percent, 0%);
+}
+
+/* ========================================
+   Thumb — display=thumb (expanded with value)
+   ======================================== */
+.range__thumb--display-thumb {
+  width: 32px;
+  height: 32px;
+}
+
+.range--horizontal .range__thumb--display-thumb {
+  transform: translateX(-50%) translateY(-50%);
+}
+
+.range--vertical .range__thumb--display-thumb {
+  transform: translateX(-50%) translateY(50%);
+}
+
+/* Adjust track-wrapper padding for larger thumb */
+.range--display-thumb .range__track-wrapper,
+.range--display-full .range__track-wrapper {
+  padding-inline: 16px;
+}
+
+.range--vertical.range--display-thumb .range__track-wrapper,
+.range--vertical.range--display-full .range__track-wrapper {
+  padding-block: 16px;
+  width: 32px;
+}
+
+.range__thumb-value {
+  @apply font-semibold text-primary-600 leading-none select-none;
+  font-size: 10px;
+}
+
+/* ========================================
+   Tooltip — floating value above thumb
+   ======================================== */
+.range__tooltip {
+  @apply absolute bg-aeblack-800 text-white text-xs rounded
+         px-1.5 py-0.5 whitespace-nowrap pointer-events-none select-none;
+  font-variant-numeric: tabular-nums;
+}
+
+.range--horizontal .range__tooltip {
+  bottom: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.range--horizontal .range__tooltip::after {
+  content: '';
+  @apply absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 4px;
+  border-style: solid;
+  border-color: theme('colors.aeblack.800') transparent transparent transparent;
+}
+
+.range--vertical .range__tooltip {
+  inset-inline-end: calc(100% + 8px);
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.range--vertical .range__tooltip::after {
+  content: '';
+  @apply absolute;
+  inset-inline-start: 100%;
+  top: 50%;
+  transform: translateY(-50%);
+  border-width: 4px;
+  border-style: solid;
+  border-color: transparent transparent transparent theme('colors.aeblack.800');
+}
+
+/* ========================================
+   Min/Max labels (display=full)
+   ======================================== */
+.range__label-min,
+.range__label-max {
+  @apply text-xs text-aeblack-500 whitespace-nowrap select-none shrink-0;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ========================================
+   Hidden native range input
+   ======================================== */
+.range__input {
+  @apply absolute inset-0 opacity-0 m-0;
+  z-index: 4;
+  -webkit-appearance: none;
+  appearance: none;
+  pointer-events: none;
+}
+
+.range__input:focus-visible ~ .range__thumb,
+.range__input:focus-visible ~ .range__thumb--single {
+  @apply outline-2 outline-offset-2 outline-primary-support-600;
+}
+
+/* Focus ring for dual mode — uses focus-within on thumb class */
+.range__input--low:focus-visible ~ .range__thumb--low {
+  @apply outline-2 outline-offset-2 outline-primary-support-600;
+}
+
+.range__input--high:focus-visible ~ .range__thumb--high {
+  @apply outline-2 outline-offset-2 outline-primary-support-600;
+}
+
+/* Vertical native input */
+.range--vertical .range__input {
+  -webkit-appearance: slider-vertical;
+  writing-mode: vertical-lr;
+  direction: ltr;
+}
+
+/* ========================================
+   Size: sm — track 4px
+   ======================================== */
+.range--sm .range__track {
+  height: 4px;
+}
+
+.range--sm.range--vertical .range__track {
+  height: 100%;
+  width: 4px;
+}
+
+/* ========================================
+   Size: base (default) — track 6px
+   ======================================== */
+.range--base .range__track {
+  height: 6px;
+}
+
+.range--base.range--vertical .range__track {
+  height: 100%;
+  width: 6px;
+}
+
+/* ========================================
+   Size: lg — track 8px
+   ======================================== */
+.range--lg .range__track {
+  height: 8px;
+}
+
+.range--lg.range--vertical .range__track {
+  height: 100%;
+  width: 8px;
+}
+
+/* ========================================
+   Label wrapper
+   ======================================== */
+.range__wrapper {
+  @apply flex flex-col gap-2 cursor-default;
+}
+
+.range__label-text {
+  @apply text-sm text-aeblack-800 font-medium;
+}
+
+/* ========================================
+   RTL support (horizontal)
+   ======================================== */
+
+/* Flip thumb translateX to center correctly when inset-inline-start maps to right */
+[dir="rtl"] .range--horizontal .range__thumb,
+:dir(rtl) .range--horizontal .range__thumb {
+  transform: translateX(50%) translateY(-50%);
+}
+
+[dir="rtl"] .range--horizontal .range__thumb--display-thumb,
+:dir(rtl) .range--horizontal .range__thumb--display-thumb {
+  transform: translateX(50%) translateY(-50%);
+}
+
+[dir="rtl"] .range--horizontal .range__tooltip::after,
+:dir(rtl) .range--horizontal .range__tooltip::after {
+  /* Arrow stays centered, no change needed */
+}
+
+[dir="rtl"] .range--vertical .range__tooltip,
+:dir(rtl) .range--vertical .range__tooltip {
+  inset-inline-end: calc(100% + 8px);
+  inset-inline-start: auto;
+}
+
+[dir="rtl"] .range--vertical .range__tooltip::after,
+:dir(rtl) .range--vertical .range__tooltip::after {
+  border-color: transparent transparent transparent theme('colors.aeblack.800');
+}

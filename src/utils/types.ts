@@ -376,6 +376,26 @@ export type FileuploadVariant = 'default' | 'button' | 'dropzone';
 export type FileuploadSize = 'sm' | 'base' | 'lg';
 
 /**
+ * Range component size types (affects track height only)
+ */
+export type RangeSize = 'sm' | 'base' | 'lg';
+
+/**
+ * Range component display mode types
+ */
+export type RangeDisplay = 'none' | 'tooltip' | 'thumb' | 'full';
+
+/**
+ * Range component orientation types
+ */
+export type RangeOrientation = 'horizontal' | 'vertical';
+
+/**
+ * Range component mode types
+ */
+export type RangeMode = 'single' | 'range';
+
+/**
  * Common component props
  */
 export interface BaseComponentProps {

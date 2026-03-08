@@ -5,9 +5,9 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
-import { AccordionIcon, AvatarGroupMode, AvatarSize, AvatarStatus, AvatarVariant, BadgeAppearance, BadgeColor, BadgeSize, BannerDisplay, BannerMode, BannerPosition, BannerRole, BlockquoteVariant, BreadcrumbSeparator, ButtonAppearance, ButtonGroupOrientation, ButtonSize, ButtonType, ButtonVariant, CalloutAppearance, CalloutVariant, CardBackground, CardBorderStyle, CardBorderWidth, CardHover, CheckboxGroupOrientation, CheckboxGroupVariant, CheckboxSize, DatepickerChangeDetail, DatepickerMode, DatepickerMonthChangeDetail, DropdownAlign, DropdownPosition, DropdownTrigger, FileuploadSize, FileuploadVariant, InputSize, InputType, LinkTarget, ModalBackdropOpacity, ModalPosition, PaginationSize, PaginationVariant, ProgressOrientation, ProgressSize, ProgressStepStatus, ProgressVariant, RadioGroupOrientation, RadioGroupVariant, RadioSize, SelectChangeDetail, SelectSize, SelectVariant, TabOrientation, TabSize, TabVariant, TextareaResize, TextareaSize, TextSize, TitleSize, ToastAppearance, ToastMode, ToastPosition, ToastVariant, ToggleSize, TooltipAlign, TooltipPosition, TooltipTrigger } from "./utils/types";
+import { AccordionIcon, AvatarGroupMode, AvatarSize, AvatarStatus, AvatarVariant, BadgeAppearance, BadgeColor, BadgeSize, BannerDisplay, BannerMode, BannerPosition, BannerRole, BlockquoteVariant, BreadcrumbSeparator, ButtonAppearance, ButtonGroupOrientation, ButtonSize, ButtonType, ButtonVariant, CalloutAppearance, CalloutVariant, CardBackground, CardBorderStyle, CardBorderWidth, CardHover, CheckboxGroupOrientation, CheckboxGroupVariant, CheckboxSize, DatepickerChangeDetail, DatepickerMode, DatepickerMonthChangeDetail, DropdownAlign, DropdownPosition, DropdownTrigger, FileuploadSize, FileuploadVariant, InputSize, InputType, LinkTarget, ModalBackdropOpacity, ModalPosition, PaginationSize, PaginationVariant, ProgressOrientation, ProgressSize, ProgressStepStatus, ProgressVariant, RadioGroupOrientation, RadioGroupVariant, RadioSize, RangeDisplay, RangeMode, RangeOrientation, RangeSize, SelectChangeDetail, SelectSize, SelectVariant, TabOrientation, TabSize, TabVariant, TextareaResize, TextareaSize, TextSize, TitleSize, ToastAppearance, ToastMode, ToastPosition, ToastVariant, ToggleSize, TooltipAlign, TooltipPosition, TooltipTrigger } from "./utils/types";
 import { Event } from "@stencil/core";
-export { AccordionIcon, AvatarGroupMode, AvatarSize, AvatarStatus, AvatarVariant, BadgeAppearance, BadgeColor, BadgeSize, BannerDisplay, BannerMode, BannerPosition, BannerRole, BlockquoteVariant, BreadcrumbSeparator, ButtonAppearance, ButtonGroupOrientation, ButtonSize, ButtonType, ButtonVariant, CalloutAppearance, CalloutVariant, CardBackground, CardBorderStyle, CardBorderWidth, CardHover, CheckboxGroupOrientation, CheckboxGroupVariant, CheckboxSize, DatepickerChangeDetail, DatepickerMode, DatepickerMonthChangeDetail, DropdownAlign, DropdownPosition, DropdownTrigger, FileuploadSize, FileuploadVariant, InputSize, InputType, LinkTarget, ModalBackdropOpacity, ModalPosition, PaginationSize, PaginationVariant, ProgressOrientation, ProgressSize, ProgressStepStatus, ProgressVariant, RadioGroupOrientation, RadioGroupVariant, RadioSize, SelectChangeDetail, SelectSize, SelectVariant, TabOrientation, TabSize, TabVariant, TextareaResize, TextareaSize, TextSize, TitleSize, ToastAppearance, ToastMode, ToastPosition, ToastVariant, ToggleSize, TooltipAlign, TooltipPosition, TooltipTrigger } from "./utils/types";
+export { AccordionIcon, AvatarGroupMode, AvatarSize, AvatarStatus, AvatarVariant, BadgeAppearance, BadgeColor, BadgeSize, BannerDisplay, BannerMode, BannerPosition, BannerRole, BlockquoteVariant, BreadcrumbSeparator, ButtonAppearance, ButtonGroupOrientation, ButtonSize, ButtonType, ButtonVariant, CalloutAppearance, CalloutVariant, CardBackground, CardBorderStyle, CardBorderWidth, CardHover, CheckboxGroupOrientation, CheckboxGroupVariant, CheckboxSize, DatepickerChangeDetail, DatepickerMode, DatepickerMonthChangeDetail, DropdownAlign, DropdownPosition, DropdownTrigger, FileuploadSize, FileuploadVariant, InputSize, InputType, LinkTarget, ModalBackdropOpacity, ModalPosition, PaginationSize, PaginationVariant, ProgressOrientation, ProgressSize, ProgressStepStatus, ProgressVariant, RadioGroupOrientation, RadioGroupVariant, RadioSize, RangeDisplay, RangeMode, RangeOrientation, RangeSize, SelectChangeDetail, SelectSize, SelectVariant, TabOrientation, TabSize, TabVariant, TextareaResize, TextareaSize, TextSize, TitleSize, ToastAppearance, ToastMode, ToastPosition, ToastVariant, ToggleSize, TooltipAlign, TooltipPosition, TooltipTrigger } from "./utils/types";
 export { Event } from "@stencil/core";
 export namespace Components {
     /**
@@ -1108,6 +1108,84 @@ export namespace Components {
          */
         "variant": RadioGroupVariant;
     }
+    interface AegovRange {
+        /**
+          * Additional CSS classes.
+         */
+        "class"?: string;
+        /**
+          * Whether the range is disabled.
+          * @default false
+         */
+        "disabled": boolean;
+        /**
+          * Value display mode.
+          * @default 'none'
+         */
+        "display": RangeDisplay;
+        /**
+          * Unique ID for the native range input element. Auto-generated if not provided.
+         */
+        "fieldId"?: string;
+        /**
+          * Optional label text.
+         */
+        "label"?: string;
+        /**
+          * Maximum value.
+          * @default 100
+         */
+        "max": number;
+        /**
+          * Minimum value.
+          * @default 0
+         */
+        "min": number;
+        /**
+          * Single thumb or dual thumb (range selection).
+          * @default 'single'
+         */
+        "mode": RangeMode;
+        /**
+          * The name attribute for the range.
+         */
+        "name"?: string;
+        /**
+          * Layout orientation.
+          * @default 'horizontal'
+         */
+        "orientation": RangeOrientation;
+        /**
+          * Whether the range is required.
+          * @default false
+         */
+        "required": boolean;
+        /**
+          * Size of the range track. Thumb remains constant.
+          * @default 'base'
+         */
+        "size": RangeSize;
+        /**
+          * Step increment.
+          * @default 1
+         */
+        "step": number;
+        /**
+          * Current value (single mode).
+          * @default 50
+         */
+        "value": number;
+        /**
+          * High thumb value (range mode).
+          * @default 75
+         */
+        "valueHigh": number;
+        /**
+          * Low thumb value (range mode).
+          * @default 25
+         */
+        "valueLow": number;
+    }
     interface AegovSelect {
         /**
           * Additional CSS classes to apply.
@@ -1628,6 +1706,10 @@ export interface AegovRadioGroupCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLAegovRadioGroupElement;
 }
+export interface AegovRangeCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLAegovRangeElement;
+}
 export interface AegovSelectCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLAegovSelectElement;
@@ -2099,6 +2181,24 @@ declare global {
         prototype: HTMLAegovRadioGroupElement;
         new (): HTMLAegovRadioGroupElement;
     };
+    interface HTMLAegovRangeElementEventMap {
+        "aegovRangeInput": { value?: number; valueLow?: number; valueHigh?: number };
+        "aegovRangeChange": { value?: number; valueLow?: number; valueHigh?: number };
+    }
+    interface HTMLAegovRangeElement extends Components.AegovRange, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLAegovRangeElementEventMap>(type: K, listener: (this: HTMLAegovRangeElement, ev: AegovRangeCustomEvent<HTMLAegovRangeElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLAegovRangeElementEventMap>(type: K, listener: (this: HTMLAegovRangeElement, ev: AegovRangeCustomEvent<HTMLAegovRangeElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLAegovRangeElement: {
+        prototype: HTMLAegovRangeElement;
+        new (): HTMLAegovRangeElement;
+    };
     interface HTMLAegovSelectElementEventMap {
         "aegovSelectChange": SelectChangeDetail;
         "aegovSelectOpen": void;
@@ -2317,6 +2417,7 @@ declare global {
         "aegov-progress-step": HTMLAegovProgressStepElement;
         "aegov-radio": HTMLAegovRadioElement;
         "aegov-radio-group": HTMLAegovRadioGroupElement;
+        "aegov-range": HTMLAegovRangeElement;
         "aegov-select": HTMLAegovSelectElement;
         "aegov-select-option": HTMLAegovSelectOptionElement;
         "aegov-select-option-group": HTMLAegovSelectOptionGroupElement;
@@ -3524,6 +3625,92 @@ declare namespace LocalJSX {
          */
         "variant"?: RadioGroupVariant;
     }
+    interface AegovRange {
+        /**
+          * Additional CSS classes.
+         */
+        "class"?: string;
+        /**
+          * Whether the range is disabled.
+          * @default false
+         */
+        "disabled"?: boolean;
+        /**
+          * Value display mode.
+          * @default 'none'
+         */
+        "display"?: RangeDisplay;
+        /**
+          * Unique ID for the native range input element. Auto-generated if not provided.
+         */
+        "fieldId"?: string;
+        /**
+          * Optional label text.
+         */
+        "label"?: string;
+        /**
+          * Maximum value.
+          * @default 100
+         */
+        "max"?: number;
+        /**
+          * Minimum value.
+          * @default 0
+         */
+        "min"?: number;
+        /**
+          * Single thumb or dual thumb (range selection).
+          * @default 'single'
+         */
+        "mode"?: RangeMode;
+        /**
+          * The name attribute for the range.
+         */
+        "name"?: string;
+        /**
+          * Emitted on release (value committed).
+         */
+        "onAegovRangeChange"?: (event: AegovRangeCustomEvent<{ value?: number; valueLow?: number; valueHigh?: number }>) => void;
+        /**
+          * Emitted during drag on every value update.
+         */
+        "onAegovRangeInput"?: (event: AegovRangeCustomEvent<{ value?: number; valueLow?: number; valueHigh?: number }>) => void;
+        /**
+          * Layout orientation.
+          * @default 'horizontal'
+         */
+        "orientation"?: RangeOrientation;
+        /**
+          * Whether the range is required.
+          * @default false
+         */
+        "required"?: boolean;
+        /**
+          * Size of the range track. Thumb remains constant.
+          * @default 'base'
+         */
+        "size"?: RangeSize;
+        /**
+          * Step increment.
+          * @default 1
+         */
+        "step"?: number;
+        /**
+          * Current value (single mode).
+          * @default 50
+         */
+        "value"?: number;
+        /**
+          * High thumb value (range mode).
+          * @default 75
+         */
+        "valueHigh"?: number;
+        /**
+          * Low thumb value (range mode).
+          * @default 25
+         */
+        "valueLow"?: number;
+    }
     interface AegovSelect {
         /**
           * Additional CSS classes to apply.
@@ -4041,6 +4228,7 @@ declare namespace LocalJSX {
         "aegov-progress-step": AegovProgressStep;
         "aegov-radio": AegovRadio;
         "aegov-radio-group": AegovRadioGroup;
+        "aegov-range": AegovRange;
         "aegov-select": AegovSelect;
         "aegov-select-option": AegovSelectOption;
         "aegov-select-option-group": AegovSelectOptionGroup;
@@ -4113,6 +4301,7 @@ declare module "@stencil/core" {
             "aegov-progress-step": LocalJSX.AegovProgressStep & JSXBase.HTMLAttributes<HTMLAegovProgressStepElement>;
             "aegov-radio": LocalJSX.AegovRadio & JSXBase.HTMLAttributes<HTMLAegovRadioElement>;
             "aegov-radio-group": LocalJSX.AegovRadioGroup & JSXBase.HTMLAttributes<HTMLAegovRadioGroupElement>;
+            "aegov-range": LocalJSX.AegovRange & JSXBase.HTMLAttributes<HTMLAegovRangeElement>;
             "aegov-select": LocalJSX.AegovSelect & JSXBase.HTMLAttributes<HTMLAegovSelectElement>;
             "aegov-select-option": LocalJSX.AegovSelectOption & JSXBase.HTMLAttributes<HTMLAegovSelectOptionElement>;
             "aegov-select-option-group": LocalJSX.AegovSelectOptionGroup & JSXBase.HTMLAttributes<HTMLAegovSelectOptionGroupElement>;
