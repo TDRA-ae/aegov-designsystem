@@ -1,0 +1,108 @@
+:host {
+  @apply block;
+}
+
+.aegov-otp {
+  @apply relative inline-block;
+}
+
+/* ============================================
+   Wrapper
+   ============================================ */
+
+.otp__wrapper {
+  @apply flex items-center;
+}
+
+.otp__wrapper--continuous {
+  @apply border-2 border-primary-500 rounded-lg overflow-hidden;
+}
+
+.otp__wrapper--individual {
+  @apply gap-3;
+}
+
+/* ============================================
+   Cell — shared
+   ============================================ */
+
+.otp__cell {
+  @apply text-center font-extrabold text-primary-800 bg-white outline-none w-full box-content px-1;
+  transition: background-color 150ms ease, border-color 150ms ease, box-shadow 150ms ease;
+}
+
+.otp__cell:disabled {
+  @apply bg-aeblack-100 text-aeblack-400 cursor-not-allowed;
+}
+
+/* ============================================
+   Cell — continuous variant
+   ============================================ */
+
+.otp__wrapper--continuous .otp__cell {
+  @apply border-0;
+}
+
+.otp__wrapper--continuous .otp__cell:focus {
+  @apply bg-primary-50;
+}
+
+/* ============================================
+   Cell — individual variant
+   ============================================ */
+
+.otp__wrapper--individual .otp__cell {
+  @apply border-2 border-primary-500 rounded-lg;
+}
+
+.otp__wrapper--individual .otp__cell:focus {
+  @apply border-primary-400 ring-3 ring-primary-500/20;
+}
+
+.otp__wrapper--individual .otp__cell:disabled {
+  @apply border-aeblack-100;
+}
+
+/* ============================================
+   Divider (continuous only)
+   ============================================ */
+
+.otp__wrapper--continuous:has(.otp__cell:disabled) {
+  @apply border-aeblack-100;
+}
+
+.otp__divider {
+  @apply w-0.5 self-stretch bg-primary-500 shrink-0;
+}
+
+.otp__wrapper--continuous:has(.otp__cell:disabled) .otp__divider {
+  @apply bg-aeblack-200;
+}
+
+/* ============================================
+   Sizes
+   ============================================ */
+
+.otp__cell--xs {
+  @apply w-8 h-8 text-xs;
+}
+
+.otp__cell--sm {
+  @apply w-9 h-10 text-sm;
+}
+
+.otp__cell--base {
+  @apply w-10 h-12 text-base;
+}
+
+.otp__cell--lg {
+  @apply w-12 h-14 text-lg;
+}
+
+.otp__cell--xl {
+  @apply w-14 h-14 text-xl;
+}
+
+.otp__cell--2xl {
+  @apply w-16 h-16 text-2xl;
+}
