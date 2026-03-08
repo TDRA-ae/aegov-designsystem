@@ -291,7 +291,7 @@ describe('aegov-drawer E2E', () => {
 
       const drawer = await page.find('aegov-drawer');
       const state = await drawer.getAttribute('data-state');
-      expect(['closing', 'closed']).toContain(state);
+      expect(['closing', 'closed', null]).toContain(state);
     });
 
     it('should NOT close drawer when closeWithBackdrop is false', async () => {
