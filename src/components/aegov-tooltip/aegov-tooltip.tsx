@@ -369,6 +369,7 @@ export class AegovTooltip {
             }}
             style={{ display: this.isVisible ? 'block' : 'none' }}
             role={this.interactive ? 'dialog' : 'tooltip'}
+            aria-label={this.interactive ? 'Interactive tooltip' : undefined}
             onMouseEnter={this.handleTooltipMouseEnter}
             onMouseLeave={this.handleTooltipMouseLeave}
           >

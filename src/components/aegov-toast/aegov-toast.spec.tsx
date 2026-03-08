@@ -196,7 +196,7 @@ describe('aegov-toast', () => {
     await page.waitForChanges();
     const btn = page.root.querySelector('.toast__dismiss');
     expect(btn).toBeTruthy();
-    expect(btn.getAttribute('aria-label')).toBe('Close toast');
+    expect(btn.getAttribute('aria-label')).toBe('Close default notification');
   });
 
   it('hides dismiss button when dismissible is false', async () => {
@@ -385,6 +385,54 @@ describe('aegov-toast', () => {
     const btn = page.root.querySelector('.toast__dismiss') as HTMLElement;
     btn.click();
     expect(dismissSpy).toHaveBeenCalledTimes(1);
+  });
+
+  // ============================================
+  // VARIANT-SPECIFIC DISMISS ARIA-LABELS
+  // ============================================
+
+  it('has variant-specific aria-label on dismiss button for error variant', async () => {
+    const page = await newSpecPage({
+      components: [AegovToast],
+      html: `<aegov-toast variant="error" duration="0">Error!</aegov-toast>`,
+    });
+    await page.rootInstance.show();
+    await page.waitForChanges();
+    const btn = page.root.querySelector('.toast__dismiss');
+    expect(btn.getAttribute('aria-label')).toBe('Close error notification');
+  });
+
+  it('has variant-specific aria-label on dismiss button for success variant', async () => {
+    const page = await newSpecPage({
+      components: [AegovToast],
+      html: `<aegov-toast variant="success" duration="0">Success!</aegov-toast>`,
+    });
+    await page.rootInstance.show();
+    await page.waitForChanges();
+    const btn = page.root.querySelector('.toast__dismiss');
+    expect(btn.getAttribute('aria-label')).toBe('Close success notification');
+  });
+
+  it('has variant-specific aria-label on dismiss button for warning variant', async () => {
+    const page = await newSpecPage({
+      components: [AegovToast],
+      html: `<aegov-toast variant="warning" duration="0">Warning!</aegov-toast>`,
+    });
+    await page.rootInstance.show();
+    await page.waitForChanges();
+    const btn = page.root.querySelector('.toast__dismiss');
+    expect(btn.getAttribute('aria-label')).toBe('Close warning notification');
+  });
+
+  it('has variant-specific aria-label on dismiss button for info variant', async () => {
+    const page = await newSpecPage({
+      components: [AegovToast],
+      html: `<aegov-toast variant="info" duration="0">Info</aegov-toast>`,
+    });
+    await page.rootInstance.show();
+    await page.waitForChanges();
+    const btn = page.root.querySelector('.toast__dismiss');
+    expect(btn.getAttribute('aria-label')).toBe('Close info notification');
   });
 
   // ============================================

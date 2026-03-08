@@ -24,6 +24,7 @@ export class AegovAccordionItem {
 
   private contentEl?: HTMLElement;
   private resizeObserver?: ResizeObserver;
+  private itemId: string;
 
   /**
    * Heading text for the accordion item (alternative to using the slot)
@@ -66,6 +67,9 @@ export class AegovAccordionItem {
   @Event() aegovAccordionItemToggle: EventEmitter<{ open: boolean }>;
 
   componentWillLoad() {
+    // Generate a stable unique ID for ARIA linking
+    this.itemId = `accordion-item-${Math.random().toString(36).substr(2, 9)}`;
+
     // Validate that this component is inside aegov-accordion
     const parentAccordion = this.el.closest('aegov-accordion');
     if (!parentAccordion) {
@@ -151,6 +155,8 @@ export class AegovAccordionItem {
             onKeyDown={this.handleKeyDown}
             disabled={this.disabled}
             aria-expanded={this.open.toString()}
+            aria-controls={`${this.itemId}-content`}
+            id={`${this.itemId}-trigger`}
             type="button"
           >
             <div class="accordion-item__heading">
@@ -175,6 +181,9 @@ export class AegovAccordionItem {
           >
             <div
               class="accordion-item__content"
+              id={`${this.itemId}-content`}
+              role="region"
+              aria-labelledby={`${this.itemId}-trigger`}
               ref={(el) => this.contentEl = el}
             >
               <slot />

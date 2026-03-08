@@ -258,6 +258,65 @@ describe('aegov-accordion-item', () => {
   });
 
   describe('aria attributes', () => {
+    it('should have aria-controls on trigger linking to content panel', async () => {
+      const page = await newSpecPage({
+        components: [AegovAccordion, AegovAccordionItem],
+        html: `
+          <aegov-accordion>
+            <aegov-accordion-item>
+              <span slot="accordion-item-heading">Heading</span>
+              <span slot="accordion-item-content">Content</span>
+            </aegov-accordion-item>
+          </aegov-accordion>
+        `,
+      });
+
+      const button = page.root.querySelector('.accordion-item__header');
+      const contentPanel = page.root.querySelector('.accordion-item__content');
+      const ariaControls = button.getAttribute('aria-controls');
+      expect(ariaControls).toBeTruthy();
+      expect(contentPanel.id).toBe(ariaControls);
+    });
+
+    it('should have role="region" and aria-labelledby on content panel', async () => {
+      const page = await newSpecPage({
+        components: [AegovAccordion, AegovAccordionItem],
+        html: `
+          <aegov-accordion>
+            <aegov-accordion-item>
+              <span slot="accordion-item-heading">Heading</span>
+              <span slot="accordion-item-content">Content</span>
+            </aegov-accordion-item>
+          </aegov-accordion>
+        `,
+      });
+
+      const button = page.root.querySelector('.accordion-item__header');
+      const contentPanel = page.root.querySelector('.accordion-item__content');
+      expect(contentPanel.getAttribute('role')).toBe('region');
+      expect(contentPanel.getAttribute('aria-labelledby')).toBe(button.id);
+    });
+
+    it('should have matching trigger id and content aria-labelledby', async () => {
+      const page = await newSpecPage({
+        components: [AegovAccordion, AegovAccordionItem],
+        html: `
+          <aegov-accordion>
+            <aegov-accordion-item>
+              <span slot="accordion-item-heading">Heading</span>
+              <span slot="accordion-item-content">Content</span>
+            </aegov-accordion-item>
+          </aegov-accordion>
+        `,
+      });
+
+      const button = page.root.querySelector('.accordion-item__header');
+      const contentPanel = page.root.querySelector('.accordion-item__content');
+      expect(button.id).toBeTruthy();
+      expect(contentPanel.getAttribute('aria-labelledby')).toBe(button.id);
+      expect(button.getAttribute('aria-controls')).toBe(contentPanel.id);
+    });
+
     it('should have aria-expanded false when closed', async () => {
       const page = await newSpecPage({
         components: [AegovAccordion, AegovAccordionItem],

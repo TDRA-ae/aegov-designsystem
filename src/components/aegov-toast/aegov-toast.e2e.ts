@@ -84,7 +84,7 @@ describe('aegov-toast e2e', () => {
     await page.waitForChanges();
     const btn = await page.find('aegov-toast .toast__dismiss');
     expect(btn).toBeTruthy();
-    expect(await btn.getAttribute('aria-label')).toBe('Close toast');
+    expect(await btn.getAttribute('aria-label')).toBe('Close default notification');
   });
 
   it('hides dismiss button when dismissible is false', async () => {
@@ -426,7 +426,7 @@ describe('aegov-toast e2e', () => {
     await page.waitForChanges();
 
     const btn = await page.find('aegov-toast .toast__dismiss');
-    expect(await btn.getAttribute('aria-label')).toBe('Close toast');
+    expect(await btn.getAttribute('aria-label')).toBe('Close default notification');
   });
 
   // ============================================
