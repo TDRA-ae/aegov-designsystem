@@ -1,8 +1,7 @@
 import { Component, Host, h, Prop, Event, EventEmitter, Element } from '@stencil/core';
 import type { ToggleSize } from '../../utils/types';
 import { getPassThroughAttributes } from '../../utils/attributes';
-
-let toggleIdCounter = 0;
+import { generateId } from '../../utils/id-generator';
 
 @Component({
   tag: 'aegov-toggle',
@@ -45,7 +44,7 @@ export class AegovToggle {
 
   componentWillLoad() {
     if (!this.fieldId) {
-      this.fieldId = `aegov-toggle-${++toggleIdCounter}`;
+      this.fieldId = generateId('aegov-toggle');
     }
   }
 

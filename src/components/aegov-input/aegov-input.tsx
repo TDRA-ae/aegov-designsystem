@@ -1,8 +1,7 @@
 import { Component, Host, h, Prop, State, Event, EventEmitter, Element } from '@stencil/core';
 import type { InputType, InputSize } from '../../utils/types';
 import { getPassThroughAttributes } from '../../utils/attributes';
-
-let fieldIdCounter = 0;
+import { generateId } from '../../utils/id-generator';
 
 @Component({
   tag: 'aegov-input',
@@ -69,7 +68,7 @@ export class AegovInput {
 
   componentWillLoad() {
     if (!this.fieldId) {
-      this.fieldId = `aegov-input-${++fieldIdCounter}`;
+      this.fieldId = generateId('aegov-input');
     }
   }
 

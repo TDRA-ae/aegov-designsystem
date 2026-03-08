@@ -421,4 +421,130 @@ describe('aegov-accordion', () => {
       expect(item.isLast).toBe(true);
     });
   });
+
+  describe('memory leak prevention', () => {
+    it('should remove event listeners on disconnectedCallback', async () => {
+      const page = await newSpecPage({
+        components: [AegovAccordion, AegovAccordionItem],
+        html: `
+          <aegov-accordion>
+            <aegov-accordion-item>
+              <span slot="accordion-item-heading">Heading 1</span>
+              <span slot="accordion-item-content">Content 1</span>
+            </aegov-accordion-item>
+            <aegov-accordion-item>
+              <span slot="accordion-item-heading">Heading 2</span>
+              <span slot="accordion-item-content">Content 2</span>
+            </aegov-accordion-item>
+          </aegov-accordion>
+        `,
+      });
+
+      await page.waitForChanges();
+
+      const items = Array.from(page.root.querySelectorAll('aegov-accordion-item')) as HTMLAegovAccordionItemElement[];
+      const removeSpies = items.map(item => jest.spyOn(item, 'removeEventListener'));
+
+      // Trigger disconnectedCallback
+      page.root.remove();
+      await page.waitForChanges();
+
+      // Each item should have had removeEventListener called for 'aegovAccordionItemToggle'
+      removeSpies.forEach(spy => {
+        expect(spy).toHaveBeenCalledWith('aegovAccordionItemToggle', expect.any(Function));
+      });
+    });
+
+    it('should clear itemListeners map on disconnectedCallback', async () => {
+      const page = await newSpecPage({
+        components: [AegovAccordion, AegovAccordionItem],
+        html: `
+          <aegov-accordion>
+            <aegov-accordion-item>
+              <span slot="accordion-item-heading">Heading 1</span>
+              <span slot="accordion-item-content">Content 1</span>
+            </aegov-accordion-item>
+          </aegov-accordion>
+        `,
+      });
+
+      await page.waitForChanges();
+
+      const instance = page.rootInstance;
+      // Verify listeners were registered
+      expect(instance.itemListeners.size).toBeGreaterThan(0);
+
+      // Trigger disconnectedCallback
+      page.root.remove();
+      await page.waitForChanges();
+
+      // Map should be cleared
+      expect(instance.itemListeners.size).toBe(0);
+    });
+
+    it('should not accumulate listeners when setupEventListeners is called multiple times', async () => {
+      const page = await newSpecPage({
+        components: [AegovAccordion, AegovAccordionItem],
+        html: `
+          <aegov-accordion>
+            <aegov-accordion-item>
+              <span slot="accordion-item-heading">Heading 1</span>
+              <span slot="accordion-item-content">Content 1</span>
+            </aegov-accordion-item>
+            <aegov-accordion-item>
+              <span slot="accordion-item-heading">Heading 2</span>
+              <span slot="accordion-item-content">Content 2</span>
+            </aegov-accordion-item>
+          </aegov-accordion>
+        `,
+      });
+
+      await page.waitForChanges();
+
+      const instance = page.rootInstance;
+      const initialCount = instance.itemListeners.size;
+      expect(initialCount).toBe(2); // One per item
+
+      // Simulate prop change which triggers componentDidUpdate → updateItems
+      instance.allowMultiple = true;
+      await page.waitForChanges();
+
+      // Listener count should remain the same, not double
+      expect(instance.itemListeners.size).toBe(2);
+    });
+
+    it('should track each item listener in the Map', async () => {
+      const page = await newSpecPage({
+        components: [AegovAccordion, AegovAccordionItem],
+        html: `
+          <aegov-accordion>
+            <aegov-accordion-item>
+              <span slot="accordion-item-heading">Heading 1</span>
+              <span slot="accordion-item-content">Content 1</span>
+            </aegov-accordion-item>
+            <aegov-accordion-item>
+              <span slot="accordion-item-heading">Heading 2</span>
+              <span slot="accordion-item-content">Content 2</span>
+            </aegov-accordion-item>
+            <aegov-accordion-item>
+              <span slot="accordion-item-heading">Heading 3</span>
+              <span slot="accordion-item-content">Content 3</span>
+            </aegov-accordion-item>
+          </aegov-accordion>
+        `,
+      });
+
+      await page.waitForChanges();
+
+      const instance = page.rootInstance;
+      // One listener per accordion item
+      expect(instance.itemListeners.size).toBe(3);
+
+      // Each key in the Map should be an actual accordion item element
+      const items = Array.from(page.root.querySelectorAll('aegov-accordion-item'));
+      instance.itemListeners.forEach((_listener: EventListener, element: HTMLElement) => {
+        expect(items).toContain(element);
+      });
+    });
+  });
 });

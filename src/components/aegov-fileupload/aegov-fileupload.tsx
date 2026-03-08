@@ -1,7 +1,6 @@
 import { Component, Host, h, Prop, State, Event, EventEmitter, Element, Method } from '@stencil/core';
 import type { FileuploadVariant, FileuploadSize } from '../../utils/types';
-
-let fileuploadIdCounter = 0;
+import { generateId } from '../../utils/id-generator';
 
 @Component({
   tag: 'aegov-fileupload',
@@ -103,7 +102,7 @@ export class AegovFileupload {
 
   componentWillLoad() {
     if (!this.fieldId) {
-      this.fieldId = `aegov-fileupload-${++fileuploadIdCounter}`;
+      this.fieldId = generateId('aegov-fileupload');
     }
   }
 

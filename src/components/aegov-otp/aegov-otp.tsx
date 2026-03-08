@@ -1,8 +1,7 @@
 import { Component, Host, h, Prop, Element, Event, EventEmitter, Watch, Method } from '@stencil/core';
 import type { OtpVariant, OtpSize } from '../../utils/types';
 import { getPassThroughAttributes } from '../../utils/attributes';
-
-let otpIdCounter = 0;
+import { generateId } from '../../utils/id-generator';
 
 @Component({
   tag: 'aegov-otp',
@@ -61,7 +60,7 @@ export class AegovOtp {
 
   componentWillLoad() {
     if (!this.fieldId) {
-      this.fieldId = `aegov-otp-${++otpIdCounter}`;
+      this.fieldId = generateId('aegov-otp');
     }
   }
 

@@ -1,8 +1,7 @@
 import { Component, Host, h, Prop, Event, EventEmitter, Element, Watch } from '@stencil/core';
 import type { CheckboxSize } from '../../utils/types';
 import { getPassThroughAttributes } from '../../utils/attributes';
-
-let checkboxIdCounter = 0;
+import { generateId } from '../../utils/id-generator';
 
 @Component({
   tag: 'aegov-checkbox',
@@ -56,7 +55,7 @@ export class AegovCheckbox {
 
   componentWillLoad() {
     if (!this.fieldId) {
-      this.fieldId = `aegov-checkbox-${++checkboxIdCounter}`;
+      this.fieldId = generateId('aegov-checkbox');
     }
   }
 

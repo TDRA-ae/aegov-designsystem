@@ -14,6 +14,8 @@ import { AccordionIcon } from '../../utils/types';
 export class AegovAccordion {
   @Element() el: HTMLElement;
 
+  private itemListeners: Map<HTMLElement, EventListener> = new Map();
+
   /**
    * Whether multiple accordion items can be open at the same time
    */
@@ -52,6 +54,10 @@ export class AegovAccordion {
 
   componentDidUpdate() {
     this.updateItems();
+  }
+
+  disconnectedCallback() {
+    this.removeEventListeners();
   }
 
   @Watch('allowMultiple')
@@ -97,11 +103,21 @@ export class AegovAccordion {
     this.getItems();
   }
 
+  private removeEventListeners() {
+    this.itemListeners.forEach((listener, item) => {
+      item.removeEventListener('aegovAccordionItemToggle', listener);
+    });
+    this.itemListeners.clear();
+  }
+
   private setupEventListeners() {
+    // Remove any existing listeners first to prevent duplicates
+    this.removeEventListeners();
+
     const items = this.getItems();
 
     items.forEach((item, index) => {
-      item.addEventListener('aegovAccordionItemToggle', ((event: CustomEvent<{ open: boolean }>) => {
+      const listener = ((event: CustomEvent<{ open: boolean }>) => {
         // Only handle events from direct children, not nested accordion items
         const eventTarget = event.target as HTMLAegovAccordionItemElement;
         const isDirectChild = items.includes(eventTarget);
@@ -127,7 +143,10 @@ export class AegovAccordion {
 
         // Toggle the clicked item
         item.open = shouldOpen;
-      }) as EventListener);
+      }) as EventListener;
+
+      item.addEventListener('aegovAccordionItemToggle', listener);
+      this.itemListeners.set(item, listener);
     });
   }
 

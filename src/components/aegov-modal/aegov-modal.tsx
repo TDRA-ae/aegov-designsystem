@@ -1,6 +1,9 @@
 import { Component, Host, h, Prop, Event, EventEmitter, Element, Method, Watch, State } from '@stencil/core';
 import type { ModalPosition, ModalBackdropOpacity } from '../../utils/types';
 import { getPassThroughAttributes } from '../../utils/attributes';
+import { getSlottedFocusableElements, handleTabKeyWrap } from '../../utils/focus-management';
+import { lockBodyScroll, unlockBodyScroll } from '../../utils/scroll-lock';
+import { pushZIndex, popZIndex } from '../../utils/z-index-manager';
 
 /**
  * @slot - Modal content
@@ -15,8 +18,6 @@ export class AegovModal {
 
   private triggerElement: HTMLElement | null = null;
   private focusableElements: HTMLElement[] = [];
-  private static openModals: number = 0;
-  private static baseZIndex: number = 50;
   private modalZIndex: number = 50;
 
   /**
@@ -124,7 +125,9 @@ export class AegovModal {
 
   disconnectedCallback() {
     // Cleanup
-    this.unlockBodyScroll();
+    if (this.preventBodyScroll && this.open) {
+      unlockBodyScroll();
+    }
     if (this.el.parentNode === document.body) {
       document.body.removeChild(this.el);
     }
@@ -136,14 +139,15 @@ export class AegovModal {
     this.triggerElement = document.activeElement as HTMLElement;
 
     // Assign z-index for this modal
-    AegovModal.openModals++;
-    this.modalZIndex = AegovModal.baseZIndex + (AegovModal.openModals - 1) * 10;
+    this.modalZIndex = pushZIndex();
 
     // Set animation state
     this.animationState = 'opening';
 
     // Lock body scroll
-    this.lockBodyScroll();
+    if (this.preventBodyScroll) {
+      lockBodyScroll();
+    }
 
     // Add keyboard listener
     document.addEventListener('keydown', this.handleKeyDown);
@@ -182,12 +186,12 @@ export class AegovModal {
   }
 
   private handleCloseComplete() {
-    // Decrement open modals count
-    AegovModal.openModals = Math.max(0, AegovModal.openModals - 1);
+    // Decrement overlay stack
+    popZIndex();
 
-    // Only unlock body scroll if this is the last modal
-    if (AegovModal.openModals === 0) {
-      this.unlockBodyScroll();
+    // Unlock body scroll (ref-counted, only unlocks when last overlay closes)
+    if (this.preventBodyScroll) {
+      unlockBodyScroll();
     }
 
     // Remove keyboard listener
@@ -225,76 +229,19 @@ export class AegovModal {
     }
   };
 
-  private lockBodyScroll() {
-    if (!this.preventBodyScroll) return;
-
-    // Calculate scrollbar width to prevent layout shift
-    const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
-
-    document.body.style.overflow = 'hidden';
-    if (scrollbarWidth > 0) {
-      document.body.style.paddingRight = `${scrollbarWidth}px`;
-    }
-  }
-
-  private unlockBodyScroll() {
-    if (!this.preventBodyScroll) return;
-
-    document.body.style.overflow = '';
-    document.body.style.paddingRight = '';
-  }
-
   private setupFocusTrap() {
-    const focusableSelectors = [
-      'a[href]',
-      'button:not([disabled])',
-      'textarea:not([disabled])',
-      'input:not([disabled])',
-      'select:not([disabled])',
-      '[tabindex]:not([tabindex="-1"])',
-    ].join(',');
-
-    // Query within shadow root
     const shadowRoot = this.el.shadowRoot;
     if (!shadowRoot) return;
 
-    const slot = shadowRoot.querySelector('slot');
-    if (!slot) return;
+    this.focusableElements = getSlottedFocusableElements(shadowRoot);
 
-    const slottedElements = slot.assignedElements({ flatten: true });
-    this.focusableElements = [];
-
-    slottedElements.forEach((element) => {
-      const focusable = element.querySelectorAll(focusableSelectors);
-      this.focusableElements.push(...Array.from(focusable) as HTMLElement[]);
-    });
-
-    // Set focus to first focusable element
     if (this.focusableElements.length > 0) {
       this.focusableElements[0].focus();
     }
   }
 
   private handleTabKey(event: KeyboardEvent) {
-    if (!this.focusableElements.length) return;
-
-    const firstElement = this.focusableElements[0];
-    const lastElement = this.focusableElements[this.focusableElements.length - 1];
-    const activeElement = document.activeElement;
-
-    if (event.shiftKey) {
-      // Shift + Tab
-      if (activeElement === firstElement || !this.focusableElements.includes(activeElement as HTMLElement)) {
-        lastElement.focus();
-        event.preventDefault();
-      }
-    } else {
-      // Tab
-      if (activeElement === lastElement || !this.focusableElements.includes(activeElement as HTMLElement)) {
-        firstElement.focus();
-        event.preventDefault();
-      }
-    }
+    handleTabKeyWrap(event, this.focusableElements);
   }
 
   private getPositionClass(): string {

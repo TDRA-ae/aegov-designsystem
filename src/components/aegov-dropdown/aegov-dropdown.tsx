@@ -1,10 +1,12 @@
 import { Component, Host, h, Prop, Element, State, Listen, Event, EventEmitter, Watch } from '@stencil/core';
 import type { DropdownPosition, DropdownAlign, DropdownTrigger } from '../../utils/types';
+import { generateId } from '../../utils/id-generator';
+import { getFocusableElements, FOCUSABLE_SELECTORS, cycleFocus } from '../../utils/focus-management';
+import { createPortal, removePortal } from '../../utils/portal-manager';
+import { createKeyboardHandler } from '../../utils/keyboard-handler';
 
 // Singleton to track currently open dropdown
 let currentOpenDropdown: AegovDropdown | null = null;
-
-let dropdownIdCounter = 0;
 
 /**
  * Dropdown component that displays positioned content on trigger interaction
@@ -96,7 +98,7 @@ export class AegovDropdown {
 
   componentWillLoad() {
     // Generate stable dropdown ID once
-    this.dropdownId = `aegov-dropdown-${++dropdownIdCounter}`;
+    this.dropdownId = generateId('aegov-dropdown');
 
     // Check if dropdown-content slot has content
     this.checkSlotContent();
@@ -109,6 +111,7 @@ export class AegovDropdown {
 
   disconnectedCallback() {
     this.clearTimeouts();
+    this.cleanupDropdownListeners();
     this.removePortalElement();
   }
 
@@ -120,16 +123,18 @@ export class AegovDropdown {
 
   private createPortalElement() {
     if (!this.portalElement) {
-      this.portalElement = document.createElement('div');
-      this.portalElement.className = 'aegov-dropdown-portal';
-      document.body.appendChild(this.portalElement);
+      this.portalElement = createPortal('aegov-dropdown-portal');
     }
   }
 
   private removePortalElement() {
-    if (this.portalElement) {
-      document.body.removeChild(this.portalElement);
-      this.portalElement = undefined;
+    this.portalElement = removePortal(this.portalElement);
+  }
+
+  private cleanupDropdownListeners() {
+    if (this.dropdownRef) {
+      this.dropdownRef.removeEventListener('mouseenter', this.handleDropdownMouseEnter);
+      this.dropdownRef.removeEventListener('mouseleave', this.handleDropdownMouseLeave);
     }
   }
 
@@ -169,6 +174,8 @@ export class AegovDropdown {
         currentOpenDropdown = null;
       }
 
+      // Remove event listeners before destroying DOM
+      this.cleanupDropdownListeners();
       // Clear dropdown ref when hiding
       this.dropdownRef = undefined;
       // Reset scheduled flag
@@ -376,12 +383,25 @@ export class AegovDropdown {
     }, this.showDelay);
   };
 
+  /**
+   * Minimum grace period (ms) for hover-triggered dropdowns.
+   * Gives the cursor time to cross the gap between trigger and portal panel.
+   */
+  private static readonly HOVER_HIDE_GRACE = 100;
+
   private hideDropdown = () => {
     this.clearTimeouts();
 
+    // For hover-triggered dropdowns, enforce a minimum grace period
+    // so the cursor can cross the gap between trigger and dropdown panel.
+    const delay = this.triggerType === 'hover'
+      ? Math.max(this.hideDelay, AegovDropdown.HOVER_HIDE_GRACE)
+      : this.hideDelay;
+
     this.hideTimeout = window.setTimeout(() => {
+      // Re-check: if the mouse re-entered while we were waiting, don't close
       this.isOpen = false;
-    }, this.hideDelay);
+    }, delay);
   };
 
   private handleTriggerMouseEnter = () => {
@@ -392,16 +412,20 @@ export class AegovDropdown {
 
   private handleTriggerMouseLeave = (event: MouseEvent) => {
     if (this.triggerType === 'hover') {
-      // Check if we're moving to the dropdown or a nested dropdown
       const relatedTarget = event.relatedTarget as HTMLElement;
-      if (relatedTarget && this.portalElement && this.portalElement.contains(relatedTarget)) {
-        // Moving to the dropdown content, don't hide
-        return;
-      }
-      // Check if moving to a nested dropdown trigger
-      if (relatedTarget && relatedTarget.closest && relatedTarget.closest('aegov-dropdown')) {
-        // Moving to a nested dropdown, don't hide
-        return;
+      if (relatedTarget) {
+        // Moving to our own dropdown content — don't hide
+        if (this.portalElement && this.portalElement.contains(relatedTarget)) {
+          return;
+        }
+        // Moving to any dropdown portal (e.g. our nested dropdown's portal) — don't hide
+        if (relatedTarget.closest && relatedTarget.closest('.aegov-dropdown-portal')) {
+          return;
+        }
+        // Moving to a nested dropdown trigger within the same tree — don't hide
+        if (relatedTarget.closest && relatedTarget.closest('aegov-dropdown')) {
+          return;
+        }
       }
       this.hideDropdown();
     }
@@ -422,17 +446,21 @@ export class AegovDropdown {
 
   private handleDropdownMouseLeave = (event: MouseEvent) => {
     if (this.triggerType === 'hover') {
-      // Check if we're moving to a nested dropdown element or any dropdown portal
       const relatedTarget = event.relatedTarget as HTMLElement;
 
       if (relatedTarget) {
-        // Don't hide if moving to another dropdown portal (includes nested dropdown portals)
+        // Don't hide if moving to any dropdown portal (includes nested dropdown portals)
         if (relatedTarget.closest && relatedTarget.closest('.aegov-dropdown-portal')) {
           return;
         }
 
         // Don't hide if moving into our own portal element or a child within it
         if (this.portalElement && this.portalElement.contains(relatedTarget)) {
+          return;
+        }
+
+        // Don't hide if moving to our trigger area
+        if (this.triggerRef && this.triggerRef.contains(relatedTarget)) {
           return;
         }
 
@@ -443,9 +471,31 @@ export class AegovDropdown {
         }
       }
 
+      // Check if a nested dropdown inside our panel is currently open.
+      // The nested dropdown's panel lives in a separate portal, so the mouse may
+      // have left our panel to enter it — relatedTarget can be null or the gap.
+      if (this.hasOpenNestedDropdown()) {
+        return;
+      }
+
       this.hideDropdown();
     }
   };
+
+  /**
+   * Check if any nested aegov-dropdown inside our dropdown panel is currently open.
+   */
+  private hasOpenNestedDropdown(): boolean {
+    if (!this.dropdownRef) return false;
+    const nestedDropdowns = this.dropdownRef.querySelectorAll('aegov-dropdown');
+    for (let i = 0; i < nestedDropdowns.length; i++) {
+      const nestedEl = nestedDropdowns[i] as any;
+      if (nestedEl.isOpen) {
+        return true;
+      }
+    }
+    return false;
+  }
 
   @Listen('click', { target: 'document' })
   handleDocumentClick(event: MouseEvent) {
@@ -459,48 +509,24 @@ export class AegovDropdown {
     }
   }
 
+  private keyHandler = createKeyboardHandler({
+    onEscape: () => { this.isOpen = false; },
+    onTab: (reverse) => { this.focusNextElement(reverse); },
+    onArrowDown: () => { this.focusNextElement(false); },
+    onArrowUp: () => { this.focusNextElement(true); },
+  });
+
   @Listen('keydown', { target: 'document' })
   handleKeyDown(event: KeyboardEvent) {
     if (!this.isOpen) return;
-
-    switch (event.key) {
-      case 'Escape':
-        event.preventDefault();
-        this.isOpen = false;
-        break;
-      case 'Tab':
-        event.preventDefault();
-        this.focusNextElement(event.shiftKey);
-        break;
-      case 'ArrowDown':
-        event.preventDefault();
-        this.focusNextElement(false);
-        break;
-      case 'ArrowUp':
-        event.preventDefault();
-        this.focusNextElement(true);
-        break;
-    }
+    this.keyHandler(event);
   }
 
   private setupFocusTrap() {
     if (!this.dropdownRef) return;
 
-    // Get all focusable elements within dropdown
-    const focusableSelectors = [
-      'a[href]',
-      'button:not([disabled])',
-      'textarea:not([disabled])',
-      'input:not([disabled])',
-      'select:not([disabled])',
-      '[tabindex]:not([tabindex="-1"])',
-    ];
+    this.focusableElements = getFocusableElements(this.dropdownRef, FOCUSABLE_SELECTORS);
 
-    this.focusableElements = Array.from(
-      this.dropdownRef.querySelectorAll(focusableSelectors.join(', '))
-    ) as HTMLElement[];
-
-    // Focus first element
     if (this.focusableElements.length > 0) {
       this.currentFocusIndex = 0;
       this.focusableElements[0].focus();
@@ -508,21 +534,7 @@ export class AegovDropdown {
   }
 
   private focusNextElement(reverse: boolean = false) {
-    if (this.focusableElements.length === 0) return;
-
-    if (reverse) {
-      this.currentFocusIndex--;
-      if (this.currentFocusIndex < 0) {
-        this.currentFocusIndex = this.focusableElements.length - 1;
-      }
-    } else {
-      this.currentFocusIndex++;
-      if (this.currentFocusIndex >= this.focusableElements.length) {
-        this.currentFocusIndex = 0;
-      }
-    }
-
-    this.focusableElements[this.currentFocusIndex].focus();
+    this.currentFocusIndex = cycleFocus(this.focusableElements, this.currentFocusIndex, reverse);
   }
 
   private renderPortalContent() {

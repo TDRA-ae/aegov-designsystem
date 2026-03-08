@@ -1,8 +1,7 @@
 import { Component, Host, h, Prop, Element } from '@stencil/core';
 import type { ProgressCounter } from '../../utils/types';
 import { getPassThroughAttributes } from '../../utils/attributes';
-
-let progressIdCounter = 0;
+import { generateId } from '../../utils/id-generator';
 
 @Component({
   tag: 'aegov-progress',
@@ -45,7 +44,7 @@ export class AegovProgress {
 
   componentWillLoad() {
     if (!this.fieldId) {
-      this.fieldId = `aegov-progress-${++progressIdCounter}`;
+      this.fieldId = generateId('aegov-progress');
     }
   }
 
