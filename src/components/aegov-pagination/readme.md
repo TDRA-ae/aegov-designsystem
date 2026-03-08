@@ -10,7 +10,7 @@
 | Property        | Attribute         | Description                                                                                                                                                               | Type                     | Default      |
 | --------------- | ----------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------ | ------------ |
 | `boundaryCount` | `boundary-count`  | Number of pages always visible at each boundary (start and end of the list).                                                                                              | `number`                 | `1`          |
-| `currentPage`   | `current-page`    | Currently active page (1-indexed). This is a controlled prop — you must update it on every aegovPageChange event.                                                         | `number`                 | `1`          |
+| `currentPage`   | `current-page`    | Currently active page (1-indexed). This is a controlled prop — you must update it on every aegovPaginationPageChange event.                                               | `number`                 | `1`          |
 | `disabled`      | `disabled`        | Disables all pagination interaction.                                                                                                                                      | `boolean`                | `false`      |
 | `firstLabel`    | `first-label`     | Label for the First page button (only shown when showFirstLast is true).                                                                                                  | `string`                 | `'First'`    |
 | `lastLabel`     | `last-label`      | Label for the Last page button (only shown when showFirstLast is true).                                                                                                   | `string`                 | `'Last'`     |
@@ -25,9 +25,9 @@
 
 ## Events
 
-| Event             | Description                                                                                                                         | Type                  |
-| ----------------- | ----------------------------------------------------------------------------------------------------------------------------------- | --------------------- |
-| `aegovPageChange` | Emitted when a page is selected. The event detail is the new page number (1-indexed). Update currentPage in response to this event. | `CustomEvent<number>` |
+| Event                       | Description                                                                                                                         | Type                  |
+| --------------------------- | ----------------------------------------------------------------------------------------------------------------------------------- | --------------------- |
+| `aegovPaginationPageChange` | Emitted when a page is selected. The event detail is the new page number (1-indexed). Update currentPage in response to this event. | `CustomEvent<number>` |
 
 
 ----------------------------------------------

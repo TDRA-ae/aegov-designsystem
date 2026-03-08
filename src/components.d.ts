@@ -5,9 +5,9 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
-import { AccordionIcon, AvatarGroupMode, AvatarSize, AvatarStatus, AvatarVariant, BadgeAppearance, BadgeColor, BadgeSize, BannerDisplay, BannerMode, BannerPosition, BannerRole, BlockquoteVariant, BreadcrumbSeparator, ButtonAppearance, ButtonGroupOrientation, ButtonSize, ButtonType, ButtonVariant, CalloutAppearance, CalloutVariant, CardBackground, CardBorderStyle, CardBorderWidth, CardHover, CheckboxGroupOrientation, CheckboxGroupVariant, CheckboxSize, DatepickerChangeDetail, DatepickerMode, DatepickerMonthChangeDetail, DrawerAnimation, DrawerOverlayOpacity, DrawerPosition, DropdownAlign, DropdownPosition, DropdownTrigger, FileuploadSize, FileuploadVariant, InputSize, InputType, LinkTarget, ModalBackdropOpacity, ModalPosition, OtpSize, OtpVariant, PaginationSize, PaginationVariant, ProgressCounter, RadioGroupOrientation, RadioGroupVariant, RadioSize, RangeDisplay, RangeMode, RangeOrientation, RangeSize, SelectChangeDetail, SelectSize, SelectVariant, TabOrientation, TabSize, TabVariant, TextareaResize, TextareaSize, TextSize, TimelineOrientation, TimelineSize, TimelineStepStatus, TimelineVariant, TitleSize, ToastAppearance, ToastMode, ToastPosition, ToastVariant, ToggleSize, TooltipAlign, TooltipPosition, TooltipTrigger } from "./utils/types";
+import { AccordionIcon, AvatarGroupMode, AvatarSize, AvatarStatus, AvatarVariant, BadgeAppearance, BadgeColor, BadgeSize, BannerDisplay, BannerMode, BannerPosition, BannerRole, BlockquoteVariant, BreadcrumbSeparator, ButtonAppearance, ButtonGroupOrientation, ButtonGroupPosition, ButtonSize, ButtonType, ButtonVariant, CalloutAppearance, CalloutVariant, CardBackground, CardBorderStyle, CardBorderWidth, CardHover, CheckboxGroupOrientation, CheckboxGroupVariant, CheckboxSize, DatepickerChangeDetail, DatepickerMode, DatepickerMonthChangeDetail, DrawerAnimation, DrawerOverlayOpacity, DrawerPosition, DropdownAlign, DropdownPosition, DropdownTrigger, FileuploadSize, FileuploadVariant, InputSize, InputType, LinkTarget, ModalBackdropOpacity, ModalPosition, OtpSize, OtpVariant, PaginationSize, PaginationVariant, ProgressCounter, RadioGroupOrientation, RadioGroupVariant, RadioSize, RangeDisplay, RangeMode, RangeOrientation, RangeSize, SelectChangeDetail, SelectSize, SelectVariant, TabOrientation, TabSize, TabVariant, TextareaResize, TextareaSize, TextSize, TimelineOrientation, TimelineSize, TimelineStepStatus, TimelineVariant, TitleSize, ToastAppearance, ToastMode, ToastPosition, ToastVariant, ToggleSize, TooltipAlign, TooltipPosition, TooltipTrigger } from "./utils/types";
 import { Event } from "@stencil/core";
-export { AccordionIcon, AvatarGroupMode, AvatarSize, AvatarStatus, AvatarVariant, BadgeAppearance, BadgeColor, BadgeSize, BannerDisplay, BannerMode, BannerPosition, BannerRole, BlockquoteVariant, BreadcrumbSeparator, ButtonAppearance, ButtonGroupOrientation, ButtonSize, ButtonType, ButtonVariant, CalloutAppearance, CalloutVariant, CardBackground, CardBorderStyle, CardBorderWidth, CardHover, CheckboxGroupOrientation, CheckboxGroupVariant, CheckboxSize, DatepickerChangeDetail, DatepickerMode, DatepickerMonthChangeDetail, DrawerAnimation, DrawerOverlayOpacity, DrawerPosition, DropdownAlign, DropdownPosition, DropdownTrigger, FileuploadSize, FileuploadVariant, InputSize, InputType, LinkTarget, ModalBackdropOpacity, ModalPosition, OtpSize, OtpVariant, PaginationSize, PaginationVariant, ProgressCounter, RadioGroupOrientation, RadioGroupVariant, RadioSize, RangeDisplay, RangeMode, RangeOrientation, RangeSize, SelectChangeDetail, SelectSize, SelectVariant, TabOrientation, TabSize, TabVariant, TextareaResize, TextareaSize, TextSize, TimelineOrientation, TimelineSize, TimelineStepStatus, TimelineVariant, TitleSize, ToastAppearance, ToastMode, ToastPosition, ToastVariant, ToggleSize, TooltipAlign, TooltipPosition, TooltipTrigger } from "./utils/types";
+export { AccordionIcon, AvatarGroupMode, AvatarSize, AvatarStatus, AvatarVariant, BadgeAppearance, BadgeColor, BadgeSize, BannerDisplay, BannerMode, BannerPosition, BannerRole, BlockquoteVariant, BreadcrumbSeparator, ButtonAppearance, ButtonGroupOrientation, ButtonGroupPosition, ButtonSize, ButtonType, ButtonVariant, CalloutAppearance, CalloutVariant, CardBackground, CardBorderStyle, CardBorderWidth, CardHover, CheckboxGroupOrientation, CheckboxGroupVariant, CheckboxSize, DatepickerChangeDetail, DatepickerMode, DatepickerMonthChangeDetail, DrawerAnimation, DrawerOverlayOpacity, DrawerPosition, DropdownAlign, DropdownPosition, DropdownTrigger, FileuploadSize, FileuploadVariant, InputSize, InputType, LinkTarget, ModalBackdropOpacity, ModalPosition, OtpSize, OtpVariant, PaginationSize, PaginationVariant, ProgressCounter, RadioGroupOrientation, RadioGroupVariant, RadioSize, RangeDisplay, RangeMode, RangeOrientation, RangeSize, SelectChangeDetail, SelectSize, SelectVariant, TabOrientation, TabSize, TabVariant, TextareaResize, TextareaSize, TextSize, TimelineOrientation, TimelineSize, TimelineStepStatus, TimelineVariant, TitleSize, ToastAppearance, ToastMode, ToastPosition, ToastVariant, ToggleSize, TooltipAlign, TooltipPosition, TooltipTrigger } from "./utils/types";
 export { Event } from "@stencil/core";
 export namespace Components {
     /**
@@ -289,22 +289,14 @@ export namespace Components {
          */
         "groupOrientation"?: ButtonGroupOrientation;
         /**
+          * Internal: Position of this button within a button group
+         */
+        "groupPosition"?: ButtonGroupPosition;
+        /**
           * Whether the button is only an icon
           * @default false
          */
         "icon": boolean;
-        /**
-          * Internal: Whether this button is the first in a button group
-         */
-        "isFirst"?: boolean;
-        /**
-          * Internal: Whether this button is the last in a button group
-         */
-        "isLast"?: boolean;
-        /**
-          * Internal: Whether this button is a single button in a button group
-         */
-        "isSingle"?: boolean;
         /**
           * Whether the button is in a loading state
           * @default false
@@ -1019,7 +1011,7 @@ export namespace Components {
          */
         "boundaryCount": number;
         /**
-          * Currently active page (1-indexed). This is a controlled prop — you must update it on every aegovPageChange event.
+          * Currently active page (1-indexed). This is a controlled prop — you must update it on every aegovPaginationPageChange event.
           * @default 1
          */
         "currentPage": number;
@@ -2310,7 +2302,7 @@ declare global {
         new (): HTMLAegovOtpElement;
     };
     interface HTMLAegovPaginationElementEventMap {
-        "aegovPageChange": number;
+        "aegovPaginationPageChange": number;
     }
     interface HTMLAegovPaginationElement extends Components.AegovPagination, HTMLStencilElement {
         addEventListener<K extends keyof HTMLAegovPaginationElementEventMap>(type: K, listener: (this: HTMLAegovPaginationElement, ev: AegovPaginationCustomEvent<HTMLAegovPaginationElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -2937,22 +2929,14 @@ declare namespace LocalJSX {
          */
         "groupOrientation"?: ButtonGroupOrientation;
         /**
+          * Internal: Position of this button within a button group
+         */
+        "groupPosition"?: ButtonGroupPosition;
+        /**
           * Whether the button is only an icon
           * @default false
          */
         "icon"?: boolean;
-        /**
-          * Internal: Whether this button is the first in a button group
-         */
-        "isFirst"?: boolean;
-        /**
-          * Internal: Whether this button is the last in a button group
-         */
-        "isLast"?: boolean;
-        /**
-          * Internal: Whether this button is a single button in a button group
-         */
-        "isSingle"?: boolean;
         /**
           * Whether the button is in a loading state
           * @default false
@@ -3740,7 +3724,7 @@ declare namespace LocalJSX {
          */
         "boundaryCount"?: number;
         /**
-          * Currently active page (1-indexed). This is a controlled prop — you must update it on every aegovPageChange event.
+          * Currently active page (1-indexed). This is a controlled prop — you must update it on every aegovPaginationPageChange event.
           * @default 1
          */
         "currentPage"?: number;
@@ -3767,7 +3751,7 @@ declare namespace LocalJSX {
         /**
           * Emitted when a page is selected. The event detail is the new page number (1-indexed). Update currentPage in response to this event.
          */
-        "onAegovPageChange"?: (event: AegovPaginationCustomEvent<number>) => void;
+        "onAegovPaginationPageChange"?: (event: AegovPaginationCustomEvent<number>) => void;
         /**
           * Label for the Previous page button.
           * @default 'Previous'

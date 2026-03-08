@@ -30,6 +30,11 @@ export type ButtonAppearance = 'primary' | 'secondary' | 'danger' | 'neutralMin'
 export type ButtonGroupOrientation = 'horizontal' | 'vertical';
 
 /**
+ * Button group position types (set by button-group parent)
+ */
+export type ButtonGroupPosition = 'first' | 'middle' | 'last' | 'single';
+
+/**
  * Avatar component size types
  */
 export type AvatarSize = 'xs' | 'sm' | 'base' | 'lg' | 'xl' | '2xl' | '3xl';

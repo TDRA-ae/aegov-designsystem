@@ -78,14 +78,22 @@ export class AegovButtonGroup {
     }
 
     buttons.forEach((button, index) => {
+      const isSingle = buttons.length === 1;
       const isFirst = index === 0;
       const isLast = index === buttons.length - 1;
-      const isSingle = buttons.length === 1;
 
-      // Set positional flags on each button
-      button.isFirst = isFirst;
-      button.isLast = isLast;
-      button.isSingle = isSingle;
+      let position: 'first' | 'middle' | 'last' | 'single';
+      if (isSingle) {
+        position = 'single';
+      } else if (isFirst) {
+        position = 'first';
+      } else if (isLast) {
+        position = 'last';
+      } else {
+        position = 'middle';
+      }
+
+      button.groupPosition = position;
       button.groupOrientation = this.orientation;
     });
   }

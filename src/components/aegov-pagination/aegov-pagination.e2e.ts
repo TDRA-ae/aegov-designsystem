@@ -87,10 +87,10 @@ describe('aegov-pagination e2e', () => {
 
   // ------------------------------------------------------------------ events
   describe('events', () => {
-    it('emits aegovPageChange when a page button is clicked', async () => {
+    it('emits aegovPaginationPageChange when a page button is clicked', async () => {
       const page = await render('<aegov-pagination total-pages="5" current-page="1"></aegov-pagination>');
       const paginationEl = await page.find('aegov-pagination');
-      const changeSpy = await paginationEl.spyOnEvent('aegovPageChange');
+      const changeSpy = await paginationEl.spyOnEvent('aegovPaginationPageChange');
 
       const btn3 = await page.find('aegov-pagination button[aria-label="Go to page 3"]');
       await btn3.click();
@@ -100,10 +100,10 @@ describe('aegov-pagination e2e', () => {
       expect(changeSpy).toHaveReceivedEventDetail(3);
     });
 
-    it('emits aegovPageChange with currentPage+1 when Next is clicked', async () => {
+    it('emits aegovPaginationPageChange with currentPage+1 when Next is clicked', async () => {
       const page = await render('<aegov-pagination total-pages="5" current-page="2"></aegov-pagination>');
       const paginationEl = await page.find('aegov-pagination');
-      const changeSpy = await paginationEl.spyOnEvent('aegovPageChange');
+      const changeSpy = await paginationEl.spyOnEvent('aegovPaginationPageChange');
 
       const nextBtn = await page.find('aegov-pagination button[aria-label="Go to next page"]');
       await nextBtn.click();
@@ -113,10 +113,10 @@ describe('aegov-pagination e2e', () => {
       expect(changeSpy).toHaveReceivedEventDetail(3);
     });
 
-    it('emits aegovPageChange with currentPage-1 when Previous is clicked', async () => {
+    it('emits aegovPaginationPageChange with currentPage-1 when Previous is clicked', async () => {
       const page = await render('<aegov-pagination total-pages="5" current-page="3"></aegov-pagination>');
       const paginationEl = await page.find('aegov-pagination');
-      const changeSpy = await paginationEl.spyOnEvent('aegovPageChange');
+      const changeSpy = await paginationEl.spyOnEvent('aegovPaginationPageChange');
 
       const prevBtn = await page.find('aegov-pagination button[aria-label="Go to previous page"]');
       await prevBtn.click();
@@ -129,7 +129,7 @@ describe('aegov-pagination e2e', () => {
     it('emits page 1 when First button is clicked', async () => {
       const page = await render('<aegov-pagination total-pages="10" current-page="5" show-first-last></aegov-pagination>');
       const paginationEl = await page.find('aegov-pagination');
-      const changeSpy = await paginationEl.spyOnEvent('aegovPageChange');
+      const changeSpy = await paginationEl.spyOnEvent('aegovPaginationPageChange');
 
       const firstBtn = await page.find('aegov-pagination button[aria-label="Go to first page"]');
       await firstBtn.click();
@@ -142,7 +142,7 @@ describe('aegov-pagination e2e', () => {
     it('emits totalPages when Last button is clicked', async () => {
       const page = await render('<aegov-pagination total-pages="10" current-page="5" show-first-last></aegov-pagination>');
       const paginationEl = await page.find('aegov-pagination');
-      const changeSpy = await paginationEl.spyOnEvent('aegovPageChange');
+      const changeSpy = await paginationEl.spyOnEvent('aegovPaginationPageChange');
 
       const lastBtn = await page.find('aegov-pagination button[aria-label="Go to last page"]');
       await lastBtn.click();
@@ -155,7 +155,7 @@ describe('aegov-pagination e2e', () => {
     it('does not emit when clicking the active page button', async () => {
       const page = await render('<aegov-pagination total-pages="5" current-page="3"></aegov-pagination>');
       const paginationEl = await page.find('aegov-pagination');
-      const changeSpy = await paginationEl.spyOnEvent('aegovPageChange');
+      const changeSpy = await paginationEl.spyOnEvent('aegovPaginationPageChange');
 
       // Active page button is not disabled, but guarded in handler
       const activeBtn = await page.find('aegov-pagination .pagination__btn--active');
@@ -185,7 +185,7 @@ describe('aegov-pagination e2e', () => {
     it('disabled Previous button does not emit events', async () => {
       const page = await render('<aegov-pagination total-pages="10" current-page="1"></aegov-pagination>');
       const paginationEl = await page.find('aegov-pagination');
-      const changeSpy = await paginationEl.spyOnEvent('aegovPageChange');
+      const changeSpy = await paginationEl.spyOnEvent('aegovPaginationPageChange');
 
       const prevBtn = await page.find('aegov-pagination button[aria-label="Go to previous page"]');
       await prevBtn.click();
@@ -197,7 +197,7 @@ describe('aegov-pagination e2e', () => {
     it('disabled Next button does not emit events', async () => {
       const page = await render('<aegov-pagination total-pages="10" current-page="10"></aegov-pagination>');
       const paginationEl = await page.find('aegov-pagination');
-      const changeSpy = await paginationEl.spyOnEvent('aegovPageChange');
+      const changeSpy = await paginationEl.spyOnEvent('aegovPaginationPageChange');
 
       const nextBtn = await page.find('aegov-pagination button[aria-label="Go to next page"]');
       await nextBtn.click();
@@ -220,7 +220,7 @@ describe('aegov-pagination e2e', () => {
     it('page buttons do not emit when disabled', async () => {
       const page = await render('<aegov-pagination total-pages="5" current-page="3" disabled></aegov-pagination>');
       const paginationEl = await page.find('aegov-pagination');
-      const changeSpy = await paginationEl.spyOnEvent('aegovPageChange');
+      const changeSpy = await paginationEl.spyOnEvent('aegovPaginationPageChange');
 
       // Click all buttons - none should emit
       const allBtns = await page.findAll('aegov-pagination button');
@@ -305,10 +305,10 @@ describe('aegov-pagination e2e', () => {
       expect(last).toBeNull();
     });
 
-    it('should emit aegovPageChange on Previous click', async () => {
+    it('should emit aegovPaginationPageChange on Previous click', async () => {
       const page = await render('<aegov-pagination variant="compact" total-pages="10" current-page="5"></aegov-pagination>');
       const el = await page.find('aegov-pagination');
-      const spy = await el.spyOnEvent('aegovPageChange');
+      const spy = await el.spyOnEvent('aegovPaginationPageChange');
 
       const prev = await page.find('aegov-pagination [aria-label="Go to previous page"]');
       await prev.click();
@@ -318,10 +318,10 @@ describe('aegov-pagination e2e', () => {
       expect(spy).toHaveReceivedEventDetail(4);
     });
 
-    it('should emit aegovPageChange on Next click', async () => {
+    it('should emit aegovPaginationPageChange on Next click', async () => {
       const page = await render('<aegov-pagination variant="compact" total-pages="10" current-page="5"></aegov-pagination>');
       const el = await page.find('aegov-pagination');
-      const spy = await el.spyOnEvent('aegovPageChange');
+      const spy = await el.spyOnEvent('aegovPaginationPageChange');
 
       const next = await page.find('aegov-pagination [aria-label="Go to next page"]');
       await next.click();

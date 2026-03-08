@@ -354,7 +354,7 @@
     <!-- ------------------------------------------------------------------ 12. Event Handling -->
     <div class="example-section">
       <h2>Event Handling</h2>
-      <p class="description">The <code>aegovPageChange</code> event fires with the new page number whenever a page is selected. Update <code>current-page</code> in your handler.</p>
+      <p class="description">The <code>aegovPaginationPageChange</code> event fires with the new page number whenever a page is selected. Update <code>current-page</code> in your handler.</p>
 
       <aegov-pagination id="event-demo" total-pages="20" current-page="10" show-first-last></aegov-pagination>
 
@@ -367,12 +367,12 @@
           const pagination = document.getElementById('event-demo');
           const log = document.getElementById('event-log');
           let count = 0;
-          pagination.addEventListener('aegovPageChange', (e) => {
+          pagination.addEventListener('aegovPaginationPageChange', (e) => {
             count++;
             pagination.setAttribute('current-page', e.detail);
             const entry = document.createElement('div');
             entry.className = 'log-entry';
-            entry.textContent = `[${count}] aegovPageChange → page: ${e.detail}`;
+            entry.textContent = `[${count}] aegovPaginationPageChange → page: ${e.detail}`;
             if (log.querySelector('em')) log.innerHTML = '';
             log.prepend(entry);
           });
@@ -383,7 +383,7 @@
     <!-- ------------------------------------------------------------------ 13. Compact Event Handling -->
     <div class="example-section">
       <h2>Compact Event Handling</h2>
-      <p class="description">The compact variant emits the same <code>aegovPageChange</code> event. The page indicator updates accordingly.</p>
+      <p class="description">The compact variant emits the same <code>aegovPaginationPageChange</code> event. The page indicator updates accordingly.</p>
 
       <aegov-pagination id="compact-event-demo" variant="compact" total-pages="50" current-page="25" show-first-last></aegov-pagination>
 
@@ -396,12 +396,12 @@
           const pagination = document.getElementById('compact-event-demo');
           const log = document.getElementById('compact-event-log');
           let count = 0;
-          pagination.addEventListener('aegovPageChange', (e) => {
+          pagination.addEventListener('aegovPaginationPageChange', (e) => {
             count++;
             pagination.setAttribute('current-page', e.detail);
             const entry = document.createElement('div');
             entry.className = 'log-entry';
-            entry.textContent = `[${count}] aegovPageChange → page: ${e.detail}`;
+            entry.textContent = `[${count}] aegovPaginationPageChange → page: ${e.detail}`;
             if (log.querySelector('em')) log.innerHTML = '';
             log.prepend(entry);
           });
@@ -438,7 +438,7 @@
             <td style="padding:0.6rem 1rem 0.6rem 0;"><code>current-page</code></td>
             <td style="padding:0.6rem 1rem 0.6rem 0; color:#475569;">number</td>
             <td style="padding:0.6rem 1rem 0.6rem 0; color:#475569;">1</td>
-            <td style="padding:0.6rem 0; color:#475569;">Currently active page (1-indexed). Update on every <code>aegovPageChange</code> event.</td>
+            <td style="padding:0.6rem 0; color:#475569;">Currently active page (1-indexed). Update on every <code>aegovPaginationPageChange</code> event.</td>
           </tr>
           <tr style="border-bottom:1px solid #e2e8f0;">
             <td style="padding:0.6rem 1rem 0.6rem 0;"><code>variant</code></td>
@@ -524,7 +524,7 @@
         </thead>
         <tbody>
           <tr>
-            <td style="padding:0.6rem 1rem 0.6rem 0;"><code>aegovPageChange</code></td>
+            <td style="padding:0.6rem 1rem 0.6rem 0;"><code>aegovPaginationPageChange</code></td>
             <td style="padding:0.6rem 1rem 0.6rem 0; color:#475569;">number</td>
             <td style="padding:0.6rem 0; color:#475569;">Emitted when a page is selected. Detail is the new page number (1-indexed). Update <code>current-page</code> in response.</td>
           </tr>

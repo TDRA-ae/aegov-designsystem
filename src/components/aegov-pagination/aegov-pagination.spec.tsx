@@ -351,10 +351,10 @@ describe('aegov-pagination', () => {
 
   // ------------------------------------------------------------------ events
   describe('events', () => {
-    it('should emit aegovPageChange with the correct page number', async () => {
+    it('should emit aegovPaginationPageChange with the correct page number', async () => {
       const page = await render('<aegov-pagination total-pages="5" current-page="1"></aegov-pagination>');
       const spy = jest.fn();
-      page.root.addEventListener('aegovPageChange', spy);
+      page.root.addEventListener('aegovPaginationPageChange', spy);
 
       const buttons = getPageButtons(page.root);
       const btn3 = buttons.find(b => b.textContent.trim() === '3') as HTMLButtonElement;
@@ -368,7 +368,7 @@ describe('aegov-pagination', () => {
     it('should not emit when clicking the active page', async () => {
       const page = await render('<aegov-pagination total-pages="5" current-page="3"></aegov-pagination>');
       const spy = jest.fn();
-      page.root.addEventListener('aegovPageChange', spy);
+      page.root.addEventListener('aegovPaginationPageChange', spy);
 
       const component = page.rootInstance as AegovPagination;
       // Directly call the private method to simulate clicking current page
@@ -381,7 +381,7 @@ describe('aegov-pagination', () => {
     it('should not emit when disabled', async () => {
       const page = await render('<aegov-pagination total-pages="5" current-page="3" disabled></aegov-pagination>');
       const spy = jest.fn();
-      page.root.addEventListener('aegovPageChange', spy);
+      page.root.addEventListener('aegovPaginationPageChange', spy);
 
       const component = page.rootInstance as AegovPagination;
       (component as any).handlePageClick(1);
@@ -393,7 +393,7 @@ describe('aegov-pagination', () => {
     it('should not emit for out-of-range pages', async () => {
       const page = await render('<aegov-pagination total-pages="5" current-page="3"></aegov-pagination>');
       const spy = jest.fn();
-      page.root.addEventListener('aegovPageChange', spy);
+      page.root.addEventListener('aegovPaginationPageChange', spy);
 
       const component = page.rootInstance as AegovPagination;
       (component as any).handlePageClick(0);
@@ -406,7 +406,7 @@ describe('aegov-pagination', () => {
     it('should emit page-1 when Previous is clicked from page 2', async () => {
       const page = await render('<aegov-pagination total-pages="5" current-page="2"></aegov-pagination>');
       const spy = jest.fn();
-      page.root.addEventListener('aegovPageChange', spy);
+      page.root.addEventListener('aegovPaginationPageChange', spy);
 
       getNavButton(page.root, 'Go to previous page').click();
       await page.waitForChanges();
@@ -418,7 +418,7 @@ describe('aegov-pagination', () => {
     it('should emit page+1 when Next is clicked', async () => {
       const page = await render('<aegov-pagination total-pages="5" current-page="3"></aegov-pagination>');
       const spy = jest.fn();
-      page.root.addEventListener('aegovPageChange', spy);
+      page.root.addEventListener('aegovPaginationPageChange', spy);
 
       getNavButton(page.root, 'Go to next page').click();
       await page.waitForChanges();
@@ -544,10 +544,10 @@ describe('aegov-pagination', () => {
       expect(getNavButton(page.root, 'Go to last page').hasAttribute('disabled')).toBe(false);
     });
 
-    it('should emit aegovPageChange when Previous is clicked', async () => {
+    it('should emit aegovPaginationPageChange when Previous is clicked', async () => {
       const page = await render('<aegov-pagination variant="compact" total-pages="10" current-page="5"></aegov-pagination>');
       const spy = jest.fn();
-      page.root.addEventListener('aegovPageChange', spy);
+      page.root.addEventListener('aegovPaginationPageChange', spy);
 
       getNavButton(page.root, 'Go to previous page').click();
       await page.waitForChanges();
@@ -556,10 +556,10 @@ describe('aegov-pagination', () => {
       expect(spy.mock.calls[0][0].detail).toBe(4);
     });
 
-    it('should emit aegovPageChange when Next is clicked', async () => {
+    it('should emit aegovPaginationPageChange when Next is clicked', async () => {
       const page = await render('<aegov-pagination variant="compact" total-pages="10" current-page="5"></aegov-pagination>');
       const spy = jest.fn();
-      page.root.addEventListener('aegovPageChange', spy);
+      page.root.addEventListener('aegovPaginationPageChange', spy);
 
       getNavButton(page.root, 'Go to next page').click();
       await page.waitForChanges();
