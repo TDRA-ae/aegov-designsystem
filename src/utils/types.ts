@@ -401,6 +401,16 @@ export type RangeMode = 'single' | 'range';
 export type ProgressCounter = 'trailing' | 'top';
 
 /**
+ * OTP component visual variant types
+ */
+export type OtpVariant = 'continuous' | 'individual';
+
+/**
+ * OTP component size types (maps to text size)
+ */
+export type OtpSize = 'xs' | 'sm' | 'base' | 'lg' | 'xl' | '2xl';
+
+/**
  * Common component props
  */
 export interface BaseComponentProps {

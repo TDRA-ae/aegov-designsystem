@@ -5,9 +5,9 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
-import { AccordionIcon, AvatarGroupMode, AvatarSize, AvatarStatus, AvatarVariant, BadgeAppearance, BadgeColor, BadgeSize, BannerDisplay, BannerMode, BannerPosition, BannerRole, BlockquoteVariant, BreadcrumbSeparator, ButtonAppearance, ButtonGroupOrientation, ButtonSize, ButtonType, ButtonVariant, CalloutAppearance, CalloutVariant, CardBackground, CardBorderStyle, CardBorderWidth, CardHover, CheckboxGroupOrientation, CheckboxGroupVariant, CheckboxSize, DatepickerChangeDetail, DatepickerMode, DatepickerMonthChangeDetail, DropdownAlign, DropdownPosition, DropdownTrigger, FileuploadSize, FileuploadVariant, InputSize, InputType, LinkTarget, ModalBackdropOpacity, ModalPosition, PaginationSize, PaginationVariant, ProgressCounter, RadioGroupOrientation, RadioGroupVariant, RadioSize, RangeDisplay, RangeMode, RangeOrientation, RangeSize, SelectChangeDetail, SelectSize, SelectVariant, TabOrientation, TabSize, TabVariant, TextareaResize, TextareaSize, TextSize, TimelineOrientation, TimelineSize, TimelineStepStatus, TimelineVariant, TitleSize, ToastAppearance, ToastMode, ToastPosition, ToastVariant, ToggleSize, TooltipAlign, TooltipPosition, TooltipTrigger } from "./utils/types";
+import { AccordionIcon, AvatarGroupMode, AvatarSize, AvatarStatus, AvatarVariant, BadgeAppearance, BadgeColor, BadgeSize, BannerDisplay, BannerMode, BannerPosition, BannerRole, BlockquoteVariant, BreadcrumbSeparator, ButtonAppearance, ButtonGroupOrientation, ButtonSize, ButtonType, ButtonVariant, CalloutAppearance, CalloutVariant, CardBackground, CardBorderStyle, CardBorderWidth, CardHover, CheckboxGroupOrientation, CheckboxGroupVariant, CheckboxSize, DatepickerChangeDetail, DatepickerMode, DatepickerMonthChangeDetail, DropdownAlign, DropdownPosition, DropdownTrigger, FileuploadSize, FileuploadVariant, InputSize, InputType, LinkTarget, ModalBackdropOpacity, ModalPosition, OtpSize, OtpVariant, PaginationSize, PaginationVariant, ProgressCounter, RadioGroupOrientation, RadioGroupVariant, RadioSize, RangeDisplay, RangeMode, RangeOrientation, RangeSize, SelectChangeDetail, SelectSize, SelectVariant, TabOrientation, TabSize, TabVariant, TextareaResize, TextareaSize, TextSize, TimelineOrientation, TimelineSize, TimelineStepStatus, TimelineVariant, TitleSize, ToastAppearance, ToastMode, ToastPosition, ToastVariant, ToggleSize, TooltipAlign, TooltipPosition, TooltipTrigger } from "./utils/types";
 import { Event } from "@stencil/core";
-export { AccordionIcon, AvatarGroupMode, AvatarSize, AvatarStatus, AvatarVariant, BadgeAppearance, BadgeColor, BadgeSize, BannerDisplay, BannerMode, BannerPosition, BannerRole, BlockquoteVariant, BreadcrumbSeparator, ButtonAppearance, ButtonGroupOrientation, ButtonSize, ButtonType, ButtonVariant, CalloutAppearance, CalloutVariant, CardBackground, CardBorderStyle, CardBorderWidth, CardHover, CheckboxGroupOrientation, CheckboxGroupVariant, CheckboxSize, DatepickerChangeDetail, DatepickerMode, DatepickerMonthChangeDetail, DropdownAlign, DropdownPosition, DropdownTrigger, FileuploadSize, FileuploadVariant, InputSize, InputType, LinkTarget, ModalBackdropOpacity, ModalPosition, PaginationSize, PaginationVariant, ProgressCounter, RadioGroupOrientation, RadioGroupVariant, RadioSize, RangeDisplay, RangeMode, RangeOrientation, RangeSize, SelectChangeDetail, SelectSize, SelectVariant, TabOrientation, TabSize, TabVariant, TextareaResize, TextareaSize, TextSize, TimelineOrientation, TimelineSize, TimelineStepStatus, TimelineVariant, TitleSize, ToastAppearance, ToastMode, ToastPosition, ToastVariant, ToggleSize, TooltipAlign, TooltipPosition, TooltipTrigger } from "./utils/types";
+export { AccordionIcon, AvatarGroupMode, AvatarSize, AvatarStatus, AvatarVariant, BadgeAppearance, BadgeColor, BadgeSize, BannerDisplay, BannerMode, BannerPosition, BannerRole, BlockquoteVariant, BreadcrumbSeparator, ButtonAppearance, ButtonGroupOrientation, ButtonSize, ButtonType, ButtonVariant, CalloutAppearance, CalloutVariant, CardBackground, CardBorderStyle, CardBorderWidth, CardHover, CheckboxGroupOrientation, CheckboxGroupVariant, CheckboxSize, DatepickerChangeDetail, DatepickerMode, DatepickerMonthChangeDetail, DropdownAlign, DropdownPosition, DropdownTrigger, FileuploadSize, FileuploadVariant, InputSize, InputType, LinkTarget, ModalBackdropOpacity, ModalPosition, OtpSize, OtpVariant, PaginationSize, PaginationVariant, ProgressCounter, RadioGroupOrientation, RadioGroupVariant, RadioSize, RangeDisplay, RangeMode, RangeOrientation, RangeSize, SelectChangeDetail, SelectSize, SelectVariant, TabOrientation, TabSize, TabVariant, TextareaResize, TextareaSize, TextSize, TimelineOrientation, TimelineSize, TimelineStepStatus, TimelineVariant, TitleSize, ToastAppearance, ToastMode, ToastPosition, ToastVariant, ToggleSize, TooltipAlign, TooltipPosition, TooltipTrigger } from "./utils/types";
 export { Event } from "@stencil/core";
 export namespace Components {
     /**
@@ -906,6 +906,58 @@ export namespace Components {
          */
         "toggle": () => Promise<void>;
     }
+    interface AegovOtp {
+        /**
+          * Allow letters and numbers when true. Numbers only when false.
+          * @default false
+         */
+        "alphanumeric": boolean;
+        /**
+          * Additional CSS classes.
+         */
+        "class"?: string;
+        /**
+          * Clears all cells and focuses the first cell.
+         */
+        "clear": () => Promise<void>;
+        /**
+          * Disables all input cells.
+          * @default false
+         */
+        "disabled": boolean;
+        /**
+          * Unique ID for the first input cell. Auto-generated if not provided. Used by aegov-label for linking.
+         */
+        "fieldId"?: string;
+        /**
+          * Number of input cells (digits/characters expected).
+          * @default 5
+         */
+        "length": number;
+        /**
+          * Form field name for the hidden input (used in form submission).
+         */
+        "name"?: string;
+        /**
+          * Regex pattern string for validation. Checked when all cells are filled.
+         */
+        "pattern"?: string;
+        /**
+          * Size of the input cells. Maps to text size: xs, sm, base, lg, xl, 2xl.
+          * @default 'base'
+         */
+        "size": OtpSize;
+        /**
+          * Current OTP value. Can be set externally to pre-fill cells.
+          * @default ''
+         */
+        "value": string;
+        /**
+          * Visual variant. "continuous" = single bordered box with dividers between cells. "individual" = separate bordered boxes per digit. Note: named "variant" to avoid conflict with native HTML "style" attribute.
+          * @default 'continuous'
+         */
+        "variant": OtpVariant;
+    }
     interface AegovPagination {
         /**
           * Number of pages always visible at each boundary (start and end of the list).
@@ -1731,6 +1783,10 @@ export interface AegovModalCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLAegovModalElement;
 }
+export interface AegovOtpCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLAegovOtpElement;
+}
 export interface AegovPaginationCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLAegovPaginationElement;
@@ -2155,6 +2211,25 @@ declare global {
         prototype: HTMLAegovModalElement;
         new (): HTMLAegovModalElement;
     };
+    interface HTMLAegovOtpElementEventMap {
+        "aegovOtpChange": { value: string };
+        "aegovOtpComplete": { value: string };
+        "aegovOtpInvalid": { value: string; pattern: string };
+    }
+    interface HTMLAegovOtpElement extends Components.AegovOtp, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLAegovOtpElementEventMap>(type: K, listener: (this: HTMLAegovOtpElement, ev: AegovOtpCustomEvent<HTMLAegovOtpElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLAegovOtpElementEventMap>(type: K, listener: (this: HTMLAegovOtpElement, ev: AegovOtpCustomEvent<HTMLAegovOtpElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLAegovOtpElement: {
+        prototype: HTMLAegovOtpElement;
+        new (): HTMLAegovOtpElement;
+    };
     interface HTMLAegovPaginationElementEventMap {
         "aegovPageChange": number;
     }
@@ -2455,6 +2530,7 @@ declare global {
         "aegov-label": HTMLAegovLabelElement;
         "aegov-link": HTMLAegovLinkElement;
         "aegov-modal": HTMLAegovModalElement;
+        "aegov-otp": HTMLAegovOtpElement;
         "aegov-pagination": HTMLAegovPaginationElement;
         "aegov-progress": HTMLAegovProgressElement;
         "aegov-radio": HTMLAegovRadioElement;
@@ -3455,6 +3531,66 @@ declare namespace LocalJSX {
          */
         "preventBodyScroll"?: boolean;
     }
+    interface AegovOtp {
+        /**
+          * Allow letters and numbers when true. Numbers only when false.
+          * @default false
+         */
+        "alphanumeric"?: boolean;
+        /**
+          * Additional CSS classes.
+         */
+        "class"?: string;
+        /**
+          * Disables all input cells.
+          * @default false
+         */
+        "disabled"?: boolean;
+        /**
+          * Unique ID for the first input cell. Auto-generated if not provided. Used by aegov-label for linking.
+         */
+        "fieldId"?: string;
+        /**
+          * Number of input cells (digits/characters expected).
+          * @default 5
+         */
+        "length"?: number;
+        /**
+          * Form field name for the hidden input (used in form submission).
+         */
+        "name"?: string;
+        /**
+          * Fires on every character change with the current value.
+         */
+        "onAegovOtpChange"?: (event: AegovOtpCustomEvent<{ value: string }>) => void;
+        /**
+          * Fires when all cells are filled (and pattern is valid if set).
+         */
+        "onAegovOtpComplete"?: (event: AegovOtpCustomEvent<{ value: string }>) => void;
+        /**
+          * Fires when all cells are filled but pattern validation fails.
+         */
+        "onAegovOtpInvalid"?: (event: AegovOtpCustomEvent<{ value: string; pattern: string }>) => void;
+        /**
+          * Regex pattern string for validation. Checked when all cells are filled.
+         */
+        "pattern"?: string;
+        /**
+          * Size of the input cells. Maps to text size: xs, sm, base, lg, xl, 2xl.
+          * @default 'base'
+         */
+        "size"?: OtpSize;
+        /**
+          * Current OTP value. Can be set externally to pre-fill cells.
+          * @default ''
+         */
+        "value"?: string;
+        /**
+          * Visual variant. "continuous" = single bordered box with dividers between cells. "individual" = separate bordered boxes per digit. Note: named "variant" to avoid conflict with native HTML "style" attribute.
+          * @default 'continuous'
+         */
+        "variant"?: OtpVariant;
+    }
     interface AegovPagination {
         /**
           * Number of pages always visible at each boundary (start and end of the list).
@@ -4304,6 +4440,7 @@ declare namespace LocalJSX {
         "aegov-label": AegovLabel;
         "aegov-link": AegovLink;
         "aegov-modal": AegovModal;
+        "aegov-otp": AegovOtp;
         "aegov-pagination": AegovPagination;
         "aegov-progress": AegovProgress;
         "aegov-radio": AegovRadio;
@@ -4378,6 +4515,7 @@ declare module "@stencil/core" {
             "aegov-label": LocalJSX.AegovLabel & JSXBase.HTMLAttributes<HTMLAegovLabelElement>;
             "aegov-link": LocalJSX.AegovLink & JSXBase.HTMLAttributes<HTMLAegovLinkElement>;
             "aegov-modal": LocalJSX.AegovModal & JSXBase.HTMLAttributes<HTMLAegovModalElement>;
+            "aegov-otp": LocalJSX.AegovOtp & JSXBase.HTMLAttributes<HTMLAegovOtpElement>;
             "aegov-pagination": LocalJSX.AegovPagination & JSXBase.HTMLAttributes<HTMLAegovPaginationElement>;
             "aegov-progress": LocalJSX.AegovProgress & JSXBase.HTMLAttributes<HTMLAegovProgressElement>;
             "aegov-radio": LocalJSX.AegovRadio & JSXBase.HTMLAttributes<HTMLAegovRadioElement>;
