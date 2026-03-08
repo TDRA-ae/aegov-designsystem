@@ -528,8 +528,8 @@ export class AegovToast {
   };
 
   private checkSlots = () => {
-    this.hasIconSlot = this.el.querySelectorAll('[slot="icon"]').length > 0;
-    this.hasActionsSlot = this.el.querySelectorAll('[slot="actions"]').length > 0;
+    this.hasIconSlot = !!this.el.querySelector('[slot="icon"]');
+    this.hasActionsSlot = !!this.el.querySelector('[slot="actions"]');
   };
 
   private getPositionDirection(): string {
@@ -568,7 +568,7 @@ export class AegovToast {
     return classes.join(' ');
   }
 
-  componentWillRender() {
+  componentDidLoad() {
     this.checkSlots();
   }
 
