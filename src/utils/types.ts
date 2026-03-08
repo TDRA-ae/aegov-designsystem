@@ -411,6 +411,21 @@ export type OtpVariant = 'continuous' | 'individual';
 export type OtpSize = 'xs' | 'sm' | 'base' | 'lg' | 'xl' | '2xl';
 
 /**
+ * Drawer component position types
+ */
+export type DrawerPosition = 'left' | 'right' | 'top' | 'bottom';
+
+/**
+ * Drawer component animation types
+ */
+export type DrawerAnimation = 'slide' | 'fade' | 'none';
+
+/**
+ * Drawer component backdrop opacity types
+ */
+export type DrawerOverlayOpacity = 'light' | 'base' | 'dark';
+
+/**
  * Common component props
  */
 export interface BaseComponentProps {
