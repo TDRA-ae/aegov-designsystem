@@ -1,18 +1,18 @@
 import { Component, Prop, Element, State, Host, h } from '@stencil/core';
-import type { ProgressVariant, ProgressSize, ProgressOrientation, ProgressStepStatus } from '../../utils/types';
+import type { TimelineVariant, TimelineSize, TimelineOrientation, TimelineStepStatus } from '../../utils/types';
 
 @Component({
-  tag: 'aegov-progress-step',
-  styleUrl: 'aegov-progress-step.css',
+  tag: 'aegov-timeline-step',
+  styleUrl: 'aegov-timeline-step.css',
   scoped: false,
 })
-export class AegovProgressStep {
-  @Element() el: HTMLAegovProgressStepElement;
+export class AegovTimelineStep {
+  @Element() el: HTMLAegovTimelineStepElement;
 
   /**
    * Step status.
    */
-  @Prop() status: ProgressStepStatus = 'pending';
+  @Prop() status: TimelineStepStatus = 'pending';
 
   /**
    * Optional description shown below the label.
@@ -22,17 +22,17 @@ export class AegovProgressStep {
   /**
    * @internal Set by parent.
    */
-  @Prop({ mutable: true }) variant: ProgressVariant = 'default';
+  @Prop({ mutable: true }) variant: TimelineVariant = 'default';
 
   /**
    * @internal Set by parent.
    */
-  @Prop({ mutable: true }) size: ProgressSize = 'base';
+  @Prop({ mutable: true }) size: TimelineSize = 'base';
 
   /**
    * @internal Set by parent.
    */
-  @Prop({ mutable: true }) orientation: ProgressOrientation = 'horizontal';
+  @Prop({ mutable: true }) orientation: TimelineOrientation = 'horizontal';
 
   /**
    * @internal 0-based index, set by parent.
@@ -63,10 +63,10 @@ export class AegovProgressStep {
   @State() slotContent: string = '';
 
   componentWillLoad() {
-    const parent = this.el.closest('aegov-progress');
+    const parent = this.el.closest('aegov-timeline');
     if (!parent) {
       throw new Error(
-        '[aegov-progress-step] This component must be used inside <aegov-progress>. ' +
+        '[aegov-timeline-step] This component must be used inside <aegov-timeline>. ' +
         'It cannot be used as a standalone component.'
       );
     }

@@ -1,37 +1,37 @@
 import { Component, Prop, Element, Watch, h } from '@stencil/core';
-import type { ProgressVariant, ProgressSize, ProgressOrientation } from '../../utils/types';
+import type { TimelineVariant, TimelineSize, TimelineOrientation } from '../../utils/types';
 import { getPassThroughAttributes } from '../../utils/attributes';
 
 @Component({
-  tag: 'aegov-progress',
-  styleUrl: 'aegov-progress.css',
+  tag: 'aegov-timeline',
+  styleUrl: 'aegov-timeline.css',
   scoped: false,
 })
-export class AegovProgress {
+export class AegovTimeline {
   @Element() el: HTMLElement;
 
   /**
    * Visual variant: default (numbered circles) or compact (dots).
    */
-  @Prop() variant: ProgressVariant = 'default';
+  @Prop() variant: TimelineVariant = 'default';
 
   /**
    * Size of step indicators.
    */
-  @Prop() size: ProgressSize = 'base';
+  @Prop() size: TimelineSize = 'base';
 
   /**
    * Layout orientation.
    */
-  @Prop() orientation: ProgressOrientation = 'horizontal';
+  @Prop() orientation: TimelineOrientation = 'horizontal';
 
   private static readonly PASS_THROUGH_ATTRS = new Set(['id']);
 
-  private getDirectChildren(): HTMLAegovProgressStepElement[] {
+  private getDirectChildren(): HTMLAegovTimelineStepElement[] {
     const all = Array.from(
-      this.el.querySelectorAll('aegov-progress-step')
-    ) as HTMLAegovProgressStepElement[];
-    return all.filter(step => step.closest('aegov-progress') === this.el);
+      this.el.querySelectorAll('aegov-timeline-step')
+    ) as HTMLAegovTimelineStepElement[];
+    return all.filter(step => step.closest('aegov-timeline') === this.el);
   }
 
   @Watch('variant')
@@ -61,16 +61,16 @@ export class AegovProgress {
   }
 
   render() {
-    const passThroughAttrs = getPassThroughAttributes(this.el, AegovProgress.PASS_THROUGH_ATTRS);
+    const passThroughAttrs = getPassThroughAttributes(this.el, AegovTimeline.PASS_THROUGH_ATTRS);
     const listClasses = [
-      'progress__list',
-      `progress__list--${this.orientation}`,
+      'timeline__list',
+      `timeline__list--${this.orientation}`,
     ].join(' ');
 
     return (
       <nav
-        class="aegov-progress"
-        aria-label="Progress"
+        class="aegov-timeline"
+        aria-label="Timeline"
         {...passThroughAttrs}
       >
         <ol class={listClasses}>

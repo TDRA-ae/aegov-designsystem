@@ -210,24 +210,24 @@ export type ToastPosition = 'top-right' | 'top-left' | 'top-center' | 'bottom-ri
 export type ToastMode = 'stack' | 'rack';
 
 /**
- * Progress component variant types
+ * Timeline component variant types
  */
-export type ProgressVariant = 'default' | 'compact';
+export type TimelineVariant = 'default' | 'compact';
 
 /**
- * Progress component size types
+ * Timeline component size types
  */
-export type ProgressSize = 'sm' | 'base' | 'lg';
+export type TimelineSize = 'sm' | 'base' | 'lg';
 
 /**
- * Progress component orientation types
+ * Timeline component orientation types
  */
-export type ProgressOrientation = 'horizontal' | 'vertical';
+export type TimelineOrientation = 'horizontal' | 'vertical';
 
 /**
- * Progress step status types
+ * Timeline step status types
  */
-export type ProgressStepStatus = 'completed' | 'active' | 'pending';
+export type TimelineStepStatus = 'completed' | 'active' | 'pending';
 
 /**
  * Card component border width types
