@@ -292,26 +292,14 @@ export class AegovDropdown {
 
   private schedulePositionUpdate() {
     if (this.positionUpdateScheduled) return;
-
-    // Only schedule if dropdown is actually open
     if (!this.isOpen) return;
 
     this.positionUpdateScheduled = true;
-    // Use double RAF to ensure dropdown is fully rendered and measured
     requestAnimationFrame(() => {
-      // Check again if dropdown is still open before second RAF
-      if (!this.isOpen) {
-        this.positionUpdateScheduled = false;
-        return;
+      if (this.isOpen && this.dropdownRef) {
+        this.updateDropdownPosition();
       }
-
-      requestAnimationFrame(() => {
-        // Final check before updating position
-        if (this.isOpen && this.dropdownRef) {
-          this.updateDropdownPosition();
-        }
-        this.positionUpdateScheduled = false;
-      });
+      this.positionUpdateScheduled = false;
     });
   }
 
