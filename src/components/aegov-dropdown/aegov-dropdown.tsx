@@ -5,6 +5,75 @@ import { getFocusableElements, FOCUSABLE_SELECTORS, cycleFocus } from '../../uti
 import { createPortal, removePortal } from '../../utils/portal-manager';
 import { createKeyboardHandler } from '../../utils/keyboard-handler';
 
+/**
+ * Design token values used in portal-injected styles.
+ * Portal elements live outside Stencil's scope, so Tailwind utilities aren't available —
+ * these CSS values must be injected via JS. Keep in sync with the Tailwind theme.
+ */
+const PORTAL_TOKENS = {
+  borderColor: 'oklch(0.817 0.014 264.536)',   // --color-slate-300
+  dividerColor: 'oklch(0.896 0.006 264.531)',   // --color-slate-200
+  shadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
+  radius: '0.5rem',
+  transition: 'opacity 200ms ease-in-out, transform 200ms ease-in-out',
+} as const;
+
+/** CSS injected into the portal element (scoped CSS can't reach it). */
+const DROPDOWN_PORTAL_STYLES = `
+  .aegov-dropdown-portal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 9999;
+    pointer-events: none;
+  }
+
+  .aegov-dropdown-portal .aegov-dropdown {
+    background: white;
+    border: 1px solid ${PORTAL_TOKENS.borderColor};
+    border-radius: ${PORTAL_TOKENS.radius};
+    box-shadow: ${PORTAL_TOKENS.shadow};
+    position: fixed;
+    visibility: hidden;
+    pointer-events: auto;
+    padding: 0.5rem;
+    width: auto;
+    min-width: 12rem;
+    z-index: 9999;
+    opacity: 0;
+    transform: scale(0.95);
+    transition: ${PORTAL_TOKENS.transition};
+  }
+
+  .aegov-dropdown-portal .aegov-dropdown[data-state="open"] {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  .aegov-dropdown-portal .aegov-dropdown hr {
+    border: none;
+    border-top: 1px solid ${PORTAL_TOKENS.dividerColor};
+    margin: 0.5rem 0;
+  }
+
+  .aegov-dropdown-portal .aegov-dropdown a[aria-disabled="true"],
+  .aegov-dropdown-portal .aegov-dropdown button[disabled] {
+    opacity: 0.5;
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+
+  .aegov-dropdown-portal .aegov-dropdown aegov-dropdown {
+    display: block;
+  }
+
+  .aegov-dropdown-portal .aegov-dropdown aegov-dropdown .aegov-dropdown-trigger {
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+  }
+`;
+
 // Singleton to track currently open dropdown
 let currentOpenDropdown: AegovDropdown | null = null;
 
@@ -549,65 +618,7 @@ export class AegovDropdown {
 
     // Inject styles for portal content (scoped CSS can't reach portal elements)
     const styleElement = document.createElement('style');
-    styleElement.textContent = `
-      .aegov-dropdown-portal {
-        position: fixed;
-        top: 0;
-        left: 0;
-        z-index: 9999;
-        pointer-events: none;
-      }
-
-      .aegov-dropdown-portal .aegov-dropdown {
-        background: white;
-        border: 1px solid #cbd5e0;
-        border-radius: 0.5rem;
-        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-        position: fixed;
-        visibility: hidden;
-        pointer-events: auto;
-        padding: 0.5rem;
-        width: auto;
-        min-width: 12rem;
-        z-index: 9999;
-        opacity: 0;
-        transform: scale(0.95);
-        transition: opacity 200ms ease-in-out, transform 200ms ease-in-out;
-      }
-
-      .aegov-dropdown-portal .aegov-dropdown[data-state="open"] {
-        opacity: 1;
-        transform: scale(1);
-      }
-
-      .aegov-dropdown-portal .aegov-dropdown hr {
-        border: none;
-        border-top: 1px solid #e2e8f0;
-        margin: 0.5rem 0;
-      }
-
-      .aegov-dropdown-portal .aegov-dropdown a[aria-disabled="true"],
-      .aegov-dropdown-portal .aegov-dropdown button[disabled] {
-        opacity: 0.5;
-        cursor: not-allowed;
-        pointer-events: none;
-      }
-
-      /* Nested dropdown: make the host a block element so it fills the full
-         row of the parent dropdown and never overlaps the parent panel.
-         The sub-menu opens to the side (position="right") of this block row. */
-      .aegov-dropdown-portal .aegov-dropdown aegov-dropdown {
-        display: block;
-      }
-
-      /* Make the trigger div inside nested dropdowns span the full row width
-         so the clickable / hoverable area covers the entire menu item. */
-      .aegov-dropdown-portal .aegov-dropdown aegov-dropdown .aegov-dropdown-trigger {
-        display: block;
-        width: 100%;
-        box-sizing: border-box;
-      }
-    `;
+    styleElement.textContent = DROPDOWN_PORTAL_STYLES;
     this.portalElement.appendChild(styleElement);
 
     // Create dropdown container

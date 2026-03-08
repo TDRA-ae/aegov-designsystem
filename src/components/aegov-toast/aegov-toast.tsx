@@ -3,6 +3,21 @@ import type { ToastVariant, ToastAppearance, ToastPosition, ToastMode } from '..
 import { getVariantIcon } from '../../utils/icons';
 
 /* ============================================
+   CSS CLASS CONSTANTS
+   ============================================ */
+
+const CSS = {
+  container: 'aegov-toast-container',
+  containerPosition: (pos: ToastPosition) => `aegov-toast-container--${pos}`,
+  containerRack: 'aegov-toast-container--rack',
+  containerExpanded: 'aegov-toast-container--expanded',
+  rackCount: 'aegov-toast-rack-count',
+  rackCountBottom: 'aegov-toast-rack-count--bottom',
+  liveRegionId: 'aegov-toast-live-region',
+  rackStylesId: 'aegov-toast-rack-styles',
+} as const;
+
+/* ============================================
    MODULE-LEVEL TOAST MANAGER
    ============================================ */
 
@@ -32,7 +47,7 @@ function getOrCreateContainer(position: ToastPosition): HTMLDivElement {
   let container = toastContainers.get(position);
   if (!container || !document.body.contains(container)) {
     container = document.createElement('div');
-    container.className = `aegov-toast-container aegov-toast-container--${position}`;
+    container.className = `${CSS.container} ${CSS.containerPosition(position)}`;
     container.setAttribute('style', getContainerStyles(position));
     document.body.appendChild(container);
     toastContainers.set(position, container);
@@ -74,7 +89,7 @@ function getOrCreateLiveRegion(): HTMLDivElement {
     return liveRegion;
   }
   liveRegion = document.createElement('div');
-  liveRegion.id = 'aegov-toast-live-region';
+  liveRegion.id = CSS.liveRegionId;
   liveRegion.setAttribute('role', 'status');
   liveRegion.setAttribute('aria-live', 'polite');
   liveRegion.setAttribute('aria-atomic', 'true');
@@ -107,7 +122,7 @@ function injectRackStyles(): void {
   rackStylesInjected = true;
 
   const style = document.createElement('style');
-  style.id = 'aegov-toast-rack-styles';
+  style.id = CSS.rackStylesId;
   style.textContent = `
     /* Rack container overrides */
     .aegov-toast-container--rack {
@@ -252,14 +267,14 @@ function injectRackStyles(): void {
 }
 
 function setupRackContainer(container: HTMLDivElement, position: ToastPosition): void {
-  container.classList.add('aegov-toast-container--rack');
+  container.classList.add(CSS.containerRack);
 
   // Create count badge
   const badge = document.createElement('span');
-  badge.className = 'aegov-toast-rack-count';
+  badge.className = CSS.rackCount;
   // Position badge near the screen edge (top for top-positions, bottom for bottom-positions)
   if (position.startsWith('bottom')) {
-    badge.classList.add('aegov-toast-rack-count--bottom');
+    badge.classList.add(CSS.rackCountBottom);
   }
   badge.setAttribute('data-count', '0');
   badge.textContent = '0';
@@ -267,10 +282,10 @@ function setupRackContainer(container: HTMLDivElement, position: ToastPosition):
 
   // Hover listeners for expand/collapse
   container.addEventListener('mouseenter', () => {
-    container.classList.add('aegov-toast-container--expanded');
+    container.classList.add(CSS.containerExpanded);
   });
   container.addEventListener('mouseleave', () => {
-    container.classList.remove('aegov-toast-container--expanded');
+    container.classList.remove(CSS.containerExpanded);
   });
 
   rackContainers.add(position);
@@ -289,7 +304,7 @@ function updateRackIndices(position: ToastPosition): void {
   }
 
   // Update count badge
-  const badge = container.querySelector('.aegov-toast-rack-count');
+  const badge = container.querySelector(`.${CSS.rackCount}`);
   if (badge) {
     badge.textContent = String(count);
     badge.setAttribute('data-count', String(count));

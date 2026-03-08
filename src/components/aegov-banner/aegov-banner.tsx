@@ -1,6 +1,12 @@
 import { Component, Prop, Event, EventEmitter, State, h, Element } from '@stencil/core';
 import type { CalloutVariant, CalloutAppearance, BannerPosition, BannerDisplay, BannerMode, BannerRole } from '../../utils/types';
 
+/** Maps banner position to the body padding CSS property it controls. */
+const BODY_PADDING_PROP: Record<BannerPosition, string> = {
+  top: 'padding-top',
+  bottom: 'padding-bottom',
+};
+
 /**
  * @slot default - The main content of the banner
  * @slot actions - Action buttons (optional)
@@ -161,8 +167,7 @@ export class AegovBanner {
 
       // Only set padding if height is valid (> 0)
       if (height > 0) {
-        const cssVarName = this.position === 'top' ? 'padding-top' : 'padding-bottom';
-        document.body.style.setProperty(cssVarName, `${height}px`);
+        document.body.style.setProperty(BODY_PADDING_PROP[this.position], `${height}px`);
       } else {
         // If height is still 0, try again after a short delay
         setTimeout(() => this.setBodyPadding(), 50);
@@ -174,8 +179,7 @@ export class AegovBanner {
    * Clear body padding CSS variable
    */
   private clearBodyPadding = () => {
-    const cssVarName = this.position === 'top' ? 'padding-top' : 'padding-bottom';
-    document.body.style.removeProperty(cssVarName);
+    document.body.style.removeProperty(BODY_PADDING_PROP[this.position]);
   };
 
   /**
