@@ -1,6 +1,6 @@
 /**
  * Shared portal element lifecycle for components that append content to document.body.
- * Used by dropdown, context-menu, and similar portal-based components.
+ * Used by dropdown, toast, datepicker, and similar portal-based components.
  */
 
 /**

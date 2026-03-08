@@ -15,7 +15,7 @@ export const FOCUSABLE_SELECTORS = [
 ].join(',');
 
 /**
- * Focusable selectors for menu-like components (context-menu).
+ * Focusable selectors for menu-like components.
  * Includes role="menuitem" but excludes form elements not typical in menus.
  */
 export const MENU_FOCUSABLE_SELECTORS = [
@@ -82,7 +82,7 @@ export function handleTabKeyWrap(event: KeyboardEvent, focusableElements: HTMLEl
 
 /**
  * Cycle focus through a list of elements by index.
- * Used by dropdown and context-menu for arrow key / tab navigation.
+ * Used by dropdown for arrow key / tab navigation.
  *
  * @returns The new focus index
  */

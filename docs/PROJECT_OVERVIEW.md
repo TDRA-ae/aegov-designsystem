@@ -37,8 +37,6 @@ aegov-dls-3/                          # Main Stencil library
 │   │   ├── aegov-button/             # Button component
 │   │   ├── aegov-button-group/       # Button group container
 │   │   ├── aegov-callout/            # Alert/callout component
-│   │   ├── aegov-context-menu/       # Right-click context menu
-│   │   ├── aegov-context-menu-item/  # Context menu item (shadow DOM)
 │   │   ├── aegov-dropdown/           # Dropdown menu (portal)
 │   │   ├── aegov-link/               # Link component
 │   │   ├── aegov-modal/              # Modal dialog (shadow DOM)
@@ -136,12 +134,6 @@ Floating dropdown menu with portal pattern.
 - **Alignment**: Start, Center, End
 - **Features**: Portal to `document.body`, viewport-aware positioning, auto-close on scroll outside viewport, singleton pattern
 - **Events**: `aegovDropdownOpen`, `aegovDropdownClose`
-
-#### aegov-context-menu / aegov-context-menu-item
-Right-click context menu with portal pattern.
-- **Features**: Portal to `document.body`, positioned at cursor, singleton, keyboard navigation
-- **Child encapsulation**: Shadow DOM on context-menu-item
-- **Events**: `aegovContextMenuOpen`, `aegovContextMenuClose`, `aegovContextMenuItemClick`
 
 #### aegov-modal
 Dialog overlay with shadow DOM.
@@ -337,11 +329,11 @@ npm run build  # Builds main library
 
 ### 1. Encapsulation Strategy
 
-Most components use **Scoped CSS** (`scoped: true`) for Tailwind class extraction and standard DOM access. Two exceptions use **Shadow DOM**: `aegov-modal` and `aegov-context-menu-item` for strict style isolation.
+Most components use **Scoped CSS** (`scoped: true`) for Tailwind class extraction and standard DOM access. `aegov-modal` uses **Shadow DOM** for strict style isolation.
 
 ### 2. Portal Pattern
 
-`aegov-dropdown` and `aegov-context-menu` append floating content to `document.body` to escape overflow/clipping constraints. Only one instance open at a time (singleton).
+`aegov-dropdown` appends floating content to `document.body` to escape overflow/clipping constraints. Only one instance open at a time (singleton).
 
 ### 3. Parent-Child Communication
 
@@ -372,8 +364,6 @@ Build namespace is `aegov` — all outputs are `aegov.js`, `aegov.esm.js`, `aego
 | aegov-button | Standalone | scoped | `aegovButtonClick` |
 | aegov-button-group | Parent | scoped | - |
 | aegov-callout | Standalone | scoped | `aegovCalloutDismiss`, `aegovCalloutLinkClick` |
-| aegov-context-menu | Parent | scoped | `aegovContextMenuOpen`, `aegovContextMenuClose` |
-| aegov-context-menu-item | Child | shadow | `aegovContextMenuItemClick` |
 | aegov-dropdown | Standalone | scoped | `aegovDropdownOpen`, `aegovDropdownClose` |
 | aegov-link | Standalone | scoped | `aegovLinkClick` |
 | aegov-modal | Standalone | shadow | `aegovModalOpen`, `aegovModalBeforeClose` |
@@ -403,7 +393,6 @@ Build namespace is `aegov` — all outputs are `aegov.js`, `aegov.esm.js`, `aego
 | button-examples.html | Button |
 | button-group-examples.html | Button Group |
 | callout-examples.html | Callout |
-| context-menu-examples.html | Context Menu |
 | dropdown-examples.html | Dropdown |
 | link-examples.html | Link |
 | modal-examples.html | Modal |

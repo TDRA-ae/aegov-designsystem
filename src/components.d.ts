@@ -460,49 +460,6 @@ export namespace Components {
          */
         "variant": CheckboxGroupVariant;
     }
-    /**
-     * Context menu component that displays positioned content on right-click
-     */
-    interface AegovContextMenu {
-        /**
-          * Public method to close the context menu
-         */
-        "close": () => Promise<void>;
-        /**
-          * Close menu when an item is clicked
-          * @default true
-         */
-        "closeOnItemClick": boolean;
-        /**
-          * Whether the context menu is disabled
-          * @default false
-         */
-        "disabled": boolean;
-        /**
-          * Offset from cursor position (in pixels)
-          * @default 0
-         */
-        "offset": number;
-        /**
-          * Public method to show the context menu at specific coordinates
-         */
-        "show": (x: number, y: number) => Promise<void>;
-        /**
-          * CSS selector for target elements that trigger the context menu
-          * @required
-         */
-        "target": string;
-    }
-    /**
-     * Context menu item component (optional helper for styling)
-     */
-    interface AegovContextMenuItem {
-        /**
-          * Whether the menu item is disabled
-          * @default false
-         */
-        "disabled": boolean;
-    }
     interface AegovDatepicker {
         "clear": () => Promise<void>;
         /**
@@ -1802,14 +1759,6 @@ export interface AegovCheckboxGroupCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLAegovCheckboxGroupElement;
 }
-export interface AegovContextMenuCustomEvent<T> extends CustomEvent<T> {
-    detail: T;
-    target: HTMLAegovContextMenuElement;
-}
-export interface AegovContextMenuItemCustomEvent<T> extends CustomEvent<T> {
-    detail: T;
-    target: HTMLAegovContextMenuItemElement;
-}
 export interface AegovDatepickerCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLAegovDatepickerElement;
@@ -2087,47 +2036,6 @@ declare global {
     var HTMLAegovCheckboxGroupElement: {
         prototype: HTMLAegovCheckboxGroupElement;
         new (): HTMLAegovCheckboxGroupElement;
-    };
-    interface HTMLAegovContextMenuElementEventMap {
-        "aegovContextMenuOpen": { x: number; y: number; targetElement: HTMLElement };
-        "aegovContextMenuClose": void;
-    }
-    /**
-     * Context menu component that displays positioned content on right-click
-     */
-    interface HTMLAegovContextMenuElement extends Components.AegovContextMenu, HTMLStencilElement {
-        addEventListener<K extends keyof HTMLAegovContextMenuElementEventMap>(type: K, listener: (this: HTMLAegovContextMenuElement, ev: AegovContextMenuCustomEvent<HTMLAegovContextMenuElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
-        removeEventListener<K extends keyof HTMLAegovContextMenuElementEventMap>(type: K, listener: (this: HTMLAegovContextMenuElement, ev: AegovContextMenuCustomEvent<HTMLAegovContextMenuElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
-    }
-    var HTMLAegovContextMenuElement: {
-        prototype: HTMLAegovContextMenuElement;
-        new (): HTMLAegovContextMenuElement;
-    };
-    interface HTMLAegovContextMenuItemElementEventMap {
-        "aegovContextMenuItemClick": MouseEvent;
-    }
-    /**
-     * Context menu item component (optional helper for styling)
-     */
-    interface HTMLAegovContextMenuItemElement extends Components.AegovContextMenuItem, HTMLStencilElement {
-        addEventListener<K extends keyof HTMLAegovContextMenuItemElementEventMap>(type: K, listener: (this: HTMLAegovContextMenuItemElement, ev: AegovContextMenuItemCustomEvent<HTMLAegovContextMenuItemElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
-        removeEventListener<K extends keyof HTMLAegovContextMenuItemElementEventMap>(type: K, listener: (this: HTMLAegovContextMenuItemElement, ev: AegovContextMenuItemCustomEvent<HTMLAegovContextMenuItemElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
-    }
-    var HTMLAegovContextMenuItemElement: {
-        prototype: HTMLAegovContextMenuItemElement;
-        new (): HTMLAegovContextMenuItemElement;
     };
     interface HTMLAegovDatepickerElementEventMap {
         "aegovDatepickerChange": DatepickerChangeDetail;
@@ -2595,8 +2503,6 @@ declare global {
         "aegov-card": HTMLAegovCardElement;
         "aegov-checkbox": HTMLAegovCheckboxElement;
         "aegov-checkbox-group": HTMLAegovCheckboxGroupElement;
-        "aegov-context-menu": HTMLAegovContextMenuElement;
-        "aegov-context-menu-item": HTMLAegovContextMenuItemElement;
         "aegov-datepicker": HTMLAegovDatepickerElement;
         "aegov-drawer": HTMLAegovDrawerElement;
         "aegov-dropdown": HTMLAegovDropdownElement;
@@ -3128,53 +3034,6 @@ declare namespace LocalJSX {
           * @default 'default'
          */
         "variant"?: CheckboxGroupVariant;
-    }
-    /**
-     * Context menu component that displays positioned content on right-click
-     */
-    interface AegovContextMenu {
-        /**
-          * Close menu when an item is clicked
-          * @default true
-         */
-        "closeOnItemClick"?: boolean;
-        /**
-          * Whether the context menu is disabled
-          * @default false
-         */
-        "disabled"?: boolean;
-        /**
-          * Offset from cursor position (in pixels)
-          * @default 0
-         */
-        "offset"?: number;
-        /**
-          * Emitted when context menu closes
-         */
-        "onAegovContextMenuClose"?: (event: AegovContextMenuCustomEvent<void>) => void;
-        /**
-          * Emitted when context menu opens
-         */
-        "onAegovContextMenuOpen"?: (event: AegovContextMenuCustomEvent<{ x: number; y: number; targetElement: HTMLElement }>) => void;
-        /**
-          * CSS selector for target elements that trigger the context menu
-          * @required
-         */
-        "target": string;
-    }
-    /**
-     * Context menu item component (optional helper for styling)
-     */
-    interface AegovContextMenuItem {
-        /**
-          * Whether the menu item is disabled
-          * @default false
-         */
-        "disabled"?: boolean;
-        /**
-          * Emitted when the menu item is clicked
-         */
-        "onAegovContextMenuItemClick"?: (event: AegovContextMenuItemCustomEvent<MouseEvent>) => void;
     }
     interface AegovDatepicker {
         /**
@@ -4565,8 +4424,6 @@ declare namespace LocalJSX {
         "aegov-card": AegovCard;
         "aegov-checkbox": AegovCheckbox;
         "aegov-checkbox-group": AegovCheckboxGroup;
-        "aegov-context-menu": AegovContextMenu;
-        "aegov-context-menu-item": AegovContextMenuItem;
         "aegov-datepicker": AegovDatepicker;
         "aegov-drawer": AegovDrawer;
         "aegov-dropdown": AegovDropdown;
@@ -4632,14 +4489,6 @@ declare module "@stencil/core" {
             "aegov-card": LocalJSX.AegovCard & JSXBase.HTMLAttributes<HTMLAegovCardElement>;
             "aegov-checkbox": LocalJSX.AegovCheckbox & JSXBase.HTMLAttributes<HTMLAegovCheckboxElement>;
             "aegov-checkbox-group": LocalJSX.AegovCheckboxGroup & JSXBase.HTMLAttributes<HTMLAegovCheckboxGroupElement>;
-            /**
-             * Context menu component that displays positioned content on right-click
-             */
-            "aegov-context-menu": LocalJSX.AegovContextMenu & JSXBase.HTMLAttributes<HTMLAegovContextMenuElement>;
-            /**
-             * Context menu item component (optional helper for styling)
-             */
-            "aegov-context-menu-item": LocalJSX.AegovContextMenuItem & JSXBase.HTMLAttributes<HTMLAegovContextMenuItemElement>;
             "aegov-datepicker": LocalJSX.AegovDatepicker & JSXBase.HTMLAttributes<HTMLAegovDatepickerElement>;
             "aegov-drawer": LocalJSX.AegovDrawer & JSXBase.HTMLAttributes<HTMLAegovDrawerElement>;
             /**

@@ -1,6 +1,6 @@
 /**
  * Configurable keyboard event handler for popup/menu components.
- * Eliminates duplicate switch/case blocks across dropdown, context-menu, and similar components.
+ * Eliminates duplicate switch/case blocks across dropdown and similar components.
  */
 
 export interface KeyboardHandlerConfig {
