@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Progress Component Examples - AEGOV Design System</title>
-  
+  <title>Timeline Component Examples - AEGOV Design System</title>
+
   <!-- Design System -->
   <script type="module" src="/build/aegov.esm.js"></script>
   <script nomodule src="/build/aegov.js"></script>
@@ -206,17 +206,17 @@
     .note-box strong { color: #92400e; }
     .note-box p { color: #78350f; margin-top: 0.5rem; font-size: 0.9375rem; line-height: 1.6; }
 
-    /* Tooltip + progress integration helper */
-    .progress-tooltip-wrap {
+    /* Tooltip + timeline integration helper */
+    .timeline-tooltip-wrap {
       flex: 1 1 0%;
       min-width: 0;
       display: block;
     }
-    .progress-tooltip-wrap .aegov-tooltip-trigger {
+    .timeline-tooltip-wrap .aegov-tooltip-trigger {
       display: flex;
       width: 100%;
     }
-    .progress-tooltip-wrap aegov-progress-step {
+    .timeline-tooltip-wrap aegov-timeline-step {
       flex: 1 1 0%;
       min-width: 0;
     }
@@ -230,8 +230,8 @@
   <!-- HEADER -->
   <!-- ============================================ -->
   <div class="header">
-    <h1>aegov-progress</h1>
-    <p>Step-based progress indicator showing completed, active, and pending steps in a multi-step workflow. Supports horizontal and vertical layouts, compact dot variant, and multiple sizes.</p>
+    <h1>aegov-timeline</h1>
+    <p>Step-based timeline indicator showing completed, active, and pending steps in a multi-step workflow. Supports horizontal and vertical layouts, compact dot variant, and multiple sizes.</p>
     <div class="badges">
       <span class="badge">Horizontal &amp; Vertical</span>
       <span class="badge">Default &amp; Compact</span>
@@ -253,18 +253,18 @@
 
     <div class="example-preview">
       <h3>3-step workflow</h3>
-      <aegov-progress>
-        <aegov-progress-step status="completed">Account Setup</aegov-progress-step>
-        <aegov-progress-step status="active">Personal Details</aegov-progress-step>
-        <aegov-progress-step status="pending">Review &amp; Submit</aegov-progress-step>
-      </aegov-progress>
+      <aegov-timeline>
+        <aegov-timeline-step status="completed">Account Setup</aegov-timeline-step>
+        <aegov-timeline-step status="active">Personal Details</aegov-timeline-step>
+        <aegov-timeline-step status="pending">Review &amp; Submit</aegov-timeline-step>
+      </aegov-timeline>
     </div>
 
-    <div class="code-block"><code>&lt;aegov-progress&gt;
-  &lt;aegov-progress-step status="completed"&gt;Account Setup&lt;/aegov-progress-step&gt;
-  &lt;aegov-progress-step status="active"&gt;Personal Details&lt;/aegov-progress-step&gt;
-  &lt;aegov-progress-step status="pending"&gt;Review &amp; Submit&lt;/aegov-progress-step&gt;
-&lt;/aegov-progress&gt;</code></div>
+    <div class="code-block"><code>&lt;aegov-timeline&gt;
+  &lt;aegov-timeline-step status="completed"&gt;Account Setup&lt;/aegov-timeline-step&gt;
+  &lt;aegov-timeline-step status="active"&gt;Personal Details&lt;/aegov-timeline-step&gt;
+  &lt;aegov-timeline-step status="pending"&gt;Review &amp; Submit&lt;/aegov-timeline-step&gt;
+&lt;/aegov-timeline&gt;</code></div>
   </section>
 
   <!-- ============================================ -->
@@ -279,13 +279,13 @@
 
     <div class="example-preview">
       <h3>5-step process</h3>
-      <aegov-progress>
-        <aegov-progress-step status="completed">Account</aegov-progress-step>
-        <aegov-progress-step status="completed">Profile</aegov-progress-step>
-        <aegov-progress-step status="completed">Documents</aegov-progress-step>
-        <aegov-progress-step status="active">Verification</aegov-progress-step>
-        <aegov-progress-step status="pending">Complete</aegov-progress-step>
-      </aegov-progress>
+      <aegov-timeline>
+        <aegov-timeline-step status="completed">Account</aegov-timeline-step>
+        <aegov-timeline-step status="completed">Profile</aegov-timeline-step>
+        <aegov-timeline-step status="completed">Documents</aegov-timeline-step>
+        <aegov-timeline-step status="active">Verification</aegov-timeline-step>
+        <aegov-timeline-step status="pending">Complete</aegov-timeline-step>
+      </aegov-timeline>
     </div>
   </section>
 
@@ -301,34 +301,34 @@
 
     <div class="example-preview">
       <h3>Small (<code>size="sm"</code>)</h3>
-      <aegov-progress size="sm">
-        <aegov-progress-step status="completed">Step 1</aegov-progress-step>
-        <aegov-progress-step status="active">Step 2</aegov-progress-step>
-        <aegov-progress-step status="pending">Step 3</aegov-progress-step>
-      </aegov-progress>
+      <aegov-timeline size="sm">
+        <aegov-timeline-step status="completed">Step 1</aegov-timeline-step>
+        <aegov-timeline-step status="active">Step 2</aegov-timeline-step>
+        <aegov-timeline-step status="pending">Step 3</aegov-timeline-step>
+      </aegov-timeline>
     </div>
 
     <div class="example-preview">
       <h3>Base (<code>size="base"</code>) — default</h3>
-      <aegov-progress size="base">
-        <aegov-progress-step status="completed">Step 1</aegov-progress-step>
-        <aegov-progress-step status="active">Step 2</aegov-progress-step>
-        <aegov-progress-step status="pending">Step 3</aegov-progress-step>
-      </aegov-progress>
+      <aegov-timeline size="base">
+        <aegov-timeline-step status="completed">Step 1</aegov-timeline-step>
+        <aegov-timeline-step status="active">Step 2</aegov-timeline-step>
+        <aegov-timeline-step status="pending">Step 3</aegov-timeline-step>
+      </aegov-timeline>
     </div>
 
     <div class="example-preview">
       <h3>Large (<code>size="lg"</code>)</h3>
-      <aegov-progress size="lg">
-        <aegov-progress-step status="completed">Step 1</aegov-progress-step>
-        <aegov-progress-step status="active">Step 2</aegov-progress-step>
-        <aegov-progress-step status="pending">Step 3</aegov-progress-step>
-      </aegov-progress>
+      <aegov-timeline size="lg">
+        <aegov-timeline-step status="completed">Step 1</aegov-timeline-step>
+        <aegov-timeline-step status="active">Step 2</aegov-timeline-step>
+        <aegov-timeline-step status="pending">Step 3</aegov-timeline-step>
+      </aegov-timeline>
     </div>
 
-    <div class="code-block"><code>&lt;aegov-progress size="sm"&gt;...&lt;/aegov-progress&gt;
-&lt;aegov-progress size="base"&gt;...&lt;/aegov-progress&gt;
-&lt;aegov-progress size="lg"&gt;...&lt;/aegov-progress&gt;</code></div>
+    <div class="code-block"><code>&lt;aegov-timeline size="sm"&gt;...&lt;/aegov-timeline&gt;
+&lt;aegov-timeline size="base"&gt;...&lt;/aegov-timeline&gt;
+&lt;aegov-timeline size="lg"&gt;...&lt;/aegov-timeline&gt;</code></div>
   </section>
 
   <!-- ============================================ -->
@@ -343,41 +343,41 @@
 
     <div class="example-preview">
       <h3>Compact horizontal</h3>
-      <aegov-progress variant="compact">
-        <aegov-progress-step status="completed">Step 1</aegov-progress-step>
-        <aegov-progress-step status="completed">Step 2</aegov-progress-step>
-        <aegov-progress-step status="active">Step 3</aegov-progress-step>
-        <aegov-progress-step status="pending">Step 4</aegov-progress-step>
-        <aegov-progress-step status="pending">Step 5</aegov-progress-step>
-      </aegov-progress>
+      <aegov-timeline variant="compact">
+        <aegov-timeline-step status="completed">Step 1</aegov-timeline-step>
+        <aegov-timeline-step status="completed">Step 2</aegov-timeline-step>
+        <aegov-timeline-step status="active">Step 3</aegov-timeline-step>
+        <aegov-timeline-step status="pending">Step 4</aegov-timeline-step>
+        <aegov-timeline-step status="pending">Step 5</aegov-timeline-step>
+      </aegov-timeline>
     </div>
 
     <div class="example-preview">
       <h3>Compact sizes</h3>
       <div style="display: flex; flex-direction: column; gap: 1.5rem;">
-        <aegov-progress variant="compact" size="sm">
-          <aegov-progress-step status="completed">S1</aegov-progress-step>
-          <aegov-progress-step status="active">S2</aegov-progress-step>
-          <aegov-progress-step status="pending">S3</aegov-progress-step>
-        </aegov-progress>
-        <aegov-progress variant="compact" size="base">
-          <aegov-progress-step status="completed">S1</aegov-progress-step>
-          <aegov-progress-step status="active">S2</aegov-progress-step>
-          <aegov-progress-step status="pending">S3</aegov-progress-step>
-        </aegov-progress>
-        <aegov-progress variant="compact" size="lg">
-          <aegov-progress-step status="completed">S1</aegov-progress-step>
-          <aegov-progress-step status="active">S2</aegov-progress-step>
-          <aegov-progress-step status="pending">S3</aegov-progress-step>
-        </aegov-progress>
+        <aegov-timeline variant="compact" size="sm">
+          <aegov-timeline-step status="completed">S1</aegov-timeline-step>
+          <aegov-timeline-step status="active">S2</aegov-timeline-step>
+          <aegov-timeline-step status="pending">S3</aegov-timeline-step>
+        </aegov-timeline>
+        <aegov-timeline variant="compact" size="base">
+          <aegov-timeline-step status="completed">S1</aegov-timeline-step>
+          <aegov-timeline-step status="active">S2</aegov-timeline-step>
+          <aegov-timeline-step status="pending">S3</aegov-timeline-step>
+        </aegov-timeline>
+        <aegov-timeline variant="compact" size="lg">
+          <aegov-timeline-step status="completed">S1</aegov-timeline-step>
+          <aegov-timeline-step status="active">S2</aegov-timeline-step>
+          <aegov-timeline-step status="pending">S3</aegov-timeline-step>
+        </aegov-timeline>
       </div>
     </div>
 
-    <div class="code-block"><code>&lt;aegov-progress variant="compact"&gt;
-  &lt;aegov-progress-step status="completed"&gt;Step 1&lt;/aegov-progress-step&gt;
-  &lt;aegov-progress-step status="active"&gt;Step 2&lt;/aegov-progress-step&gt;
-  &lt;aegov-progress-step status="pending"&gt;Step 3&lt;/aegov-progress-step&gt;
-&lt;/aegov-progress&gt;</code></div>
+    <div class="code-block"><code>&lt;aegov-timeline variant="compact"&gt;
+  &lt;aegov-timeline-step status="completed"&gt;Step 1&lt;/aegov-timeline-step&gt;
+  &lt;aegov-timeline-step status="active"&gt;Step 2&lt;/aegov-timeline-step&gt;
+  &lt;aegov-timeline-step status="pending"&gt;Step 3&lt;/aegov-timeline-step&gt;
+&lt;/aegov-timeline&gt;</code></div>
   </section>
 
   <!-- ============================================ -->
@@ -393,45 +393,45 @@
     <div class="demo-grid">
       <div class="example-preview">
         <h3>Vertical with descriptions</h3>
-        <aegov-progress orientation="vertical">
-          <aegov-progress-step status="completed" description="Your account has been created successfully.">
+        <aegov-timeline orientation="vertical">
+          <aegov-timeline-step status="completed" description="Your account has been created successfully.">
             Create Account
-          </aegov-progress-step>
-          <aegov-progress-step status="completed" description="Profile information saved.">
+          </aegov-timeline-step>
+          <aegov-timeline-step status="completed" description="Profile information saved.">
             Complete Profile
-          </aegov-progress-step>
-          <aegov-progress-step status="active" description="Upload your identity documents for verification.">
+          </aegov-timeline-step>
+          <aegov-timeline-step status="active" description="Upload your identity documents for verification.">
             Upload Documents
-          </aegov-progress-step>
-          <aegov-progress-step status="pending" description="We will review your application within 2 business days.">
+          </aegov-timeline-step>
+          <aegov-timeline-step status="pending" description="We will review your application within 2 business days.">
             Under Review
-          </aegov-progress-step>
-          <aegov-progress-step status="pending" description="Your application will be approved once review is complete.">
+          </aegov-timeline-step>
+          <aegov-timeline-step status="pending" description="Your application will be approved once review is complete.">
             Approval
-          </aegov-progress-step>
-        </aegov-progress>
+          </aegov-timeline-step>
+        </aegov-timeline>
       </div>
 
       <div class="example-preview">
         <h3>Vertical compact with labels</h3>
-        <aegov-progress variant="compact" orientation="vertical">
-          <aegov-progress-step status="completed">Registration</aegov-progress-step>
-          <aegov-progress-step status="completed">Verification</aegov-progress-step>
-          <aegov-progress-step status="active">Payment</aegov-progress-step>
-          <aegov-progress-step status="pending">Confirmation</aegov-progress-step>
-        </aegov-progress>
+        <aegov-timeline variant="compact" orientation="vertical">
+          <aegov-timeline-step status="completed">Registration</aegov-timeline-step>
+          <aegov-timeline-step status="completed">Verification</aegov-timeline-step>
+          <aegov-timeline-step status="active">Payment</aegov-timeline-step>
+          <aegov-timeline-step status="pending">Confirmation</aegov-timeline-step>
+        </aegov-timeline>
       </div>
     </div>
 
-    <div class="code-block"><code>&lt;aegov-progress orientation="vertical"&gt;
-  &lt;aegov-progress-step status="completed" description="Account created."&gt;
+    <div class="code-block"><code>&lt;aegov-timeline orientation="vertical"&gt;
+  &lt;aegov-timeline-step status="completed" description="Account created."&gt;
     Create Account
-  &lt;/aegov-progress-step&gt;
-  &lt;aegov-progress-step status="active" description="Upload documents."&gt;
+  &lt;/aegov-timeline-step&gt;
+  &lt;aegov-timeline-step status="active" description="Upload documents."&gt;
     Upload Documents
-  &lt;/aegov-progress-step&gt;
-  &lt;aegov-progress-step status="pending"&gt;Approval&lt;/aegov-progress-step&gt;
-&lt;/aegov-progress&gt;</code></div>
+  &lt;/aegov-timeline-step&gt;
+  &lt;aegov-timeline-step status="pending"&gt;Approval&lt;/aegov-timeline-step&gt;
+&lt;/aegov-timeline&gt;</code></div>
   </section>
 
   <!-- ============================================ -->
@@ -448,27 +448,27 @@
       <div style="display: flex; gap: 3rem; flex-wrap: wrap;">
         <div>
           <h3>Small</h3>
-          <aegov-progress orientation="vertical" size="sm">
-            <aegov-progress-step status="completed">Step 1</aegov-progress-step>
-            <aegov-progress-step status="active">Step 2</aegov-progress-step>
-            <aegov-progress-step status="pending">Step 3</aegov-progress-step>
-          </aegov-progress>
+          <aegov-timeline orientation="vertical" size="sm">
+            <aegov-timeline-step status="completed">Step 1</aegov-timeline-step>
+            <aegov-timeline-step status="active">Step 2</aegov-timeline-step>
+            <aegov-timeline-step status="pending">Step 3</aegov-timeline-step>
+          </aegov-timeline>
         </div>
         <div>
           <h3>Base</h3>
-          <aegov-progress orientation="vertical" size="base">
-            <aegov-progress-step status="completed">Step 1</aegov-progress-step>
-            <aegov-progress-step status="active">Step 2</aegov-progress-step>
-            <aegov-progress-step status="pending">Step 3</aegov-progress-step>
-          </aegov-progress>
+          <aegov-timeline orientation="vertical" size="base">
+            <aegov-timeline-step status="completed">Step 1</aegov-timeline-step>
+            <aegov-timeline-step status="active">Step 2</aegov-timeline-step>
+            <aegov-timeline-step status="pending">Step 3</aegov-timeline-step>
+          </aegov-timeline>
         </div>
         <div>
           <h3>Large</h3>
-          <aegov-progress orientation="vertical" size="lg">
-            <aegov-progress-step status="completed">Step 1</aegov-progress-step>
-            <aegov-progress-step status="active">Step 2</aegov-progress-step>
-            <aegov-progress-step status="pending">Step 3</aegov-progress-step>
-          </aegov-progress>
+          <aegov-timeline orientation="vertical" size="lg">
+            <aegov-timeline-step status="completed">Step 1</aegov-timeline-step>
+            <aegov-timeline-step status="active">Step 2</aegov-timeline-step>
+            <aegov-timeline-step status="pending">Step 3</aegov-timeline-step>
+          </aegov-timeline>
         </div>
       </div>
     </div>
@@ -482,50 +482,50 @@
       <span class="section-number">7</span>
       Compact with Tooltips
     </h2>
-    <p class="section-description">Wrap each step in an <code>aegov-tooltip</code> to reveal step details on hover. Since compact horizontal mode hides labels, tooltips provide a lightweight way to surface context. Add the <code>.progress-tooltip-wrap</code> class to each tooltip to preserve the flex layout.</p>
+    <p class="section-description">Wrap each step in an <code>aegov-tooltip</code> to reveal step details on hover. Since compact horizontal mode hides labels, tooltips provide a lightweight way to surface context. Add the <code>.timeline-tooltip-wrap</code> class to each tooltip to preserve the flex layout.</p>
 
     <div class="example-preview">
       <h3>Hover over each dot to see step details</h3>
-      <aegov-progress variant="compact">
-        <aegov-tooltip class="progress-tooltip-wrap" content="Account Setup — Completed" position="top">
-          <aegov-progress-step status="completed">Account Setup</aegov-progress-step>
+      <aegov-timeline variant="compact">
+        <aegov-tooltip class="timeline-tooltip-wrap" content="Account Setup — Completed" position="top">
+          <aegov-timeline-step status="completed">Account Setup</aegov-timeline-step>
         </aegov-tooltip>
-        <aegov-tooltip class="progress-tooltip-wrap" content="Identity Verification — Completed" position="top">
-          <aegov-progress-step status="completed">Identity Verification</aegov-progress-step>
+        <aegov-tooltip class="timeline-tooltip-wrap" content="Identity Verification — Completed" position="top">
+          <aegov-timeline-step status="completed">Identity Verification</aegov-timeline-step>
         </aegov-tooltip>
-        <aegov-tooltip class="progress-tooltip-wrap" content="Document Upload — In Progress" position="top">
-          <aegov-progress-step status="active">Document Upload</aegov-progress-step>
+        <aegov-tooltip class="timeline-tooltip-wrap" content="Document Upload — In Progress" position="top">
+          <aegov-timeline-step status="active">Document Upload</aegov-timeline-step>
         </aegov-tooltip>
-        <aegov-tooltip class="progress-tooltip-wrap" content="Application Review — Pending" position="top">
-          <aegov-progress-step status="pending">Application Review</aegov-progress-step>
+        <aegov-tooltip class="timeline-tooltip-wrap" content="Application Review — Pending" position="top">
+          <aegov-timeline-step status="pending">Application Review</aegov-timeline-step>
         </aegov-tooltip>
-        <aegov-tooltip class="progress-tooltip-wrap" content="Final Approval — Pending" position="top">
-          <aegov-progress-step status="pending">Final Approval</aegov-progress-step>
+        <aegov-tooltip class="timeline-tooltip-wrap" content="Final Approval — Pending" position="top">
+          <aegov-timeline-step status="pending">Final Approval</aegov-timeline-step>
         </aegov-tooltip>
-      </aegov-progress>
+      </aegov-timeline>
     </div>
 
     <div class="code-block"><code>&lt;style&gt;
-  .progress-tooltip-wrap { flex: 1 1 0%; min-width: 0; display: block; }
-  .progress-tooltip-wrap .aegov-tooltip-trigger { display: flex; width: 100%; }
-  .progress-tooltip-wrap aegov-progress-step { flex: 1 1 0%; min-width: 0; }
+  .timeline-tooltip-wrap { flex: 1 1 0%; min-width: 0; display: block; }
+  .timeline-tooltip-wrap .aegov-tooltip-trigger { display: flex; width: 100%; }
+  .timeline-tooltip-wrap aegov-timeline-step { flex: 1 1 0%; min-width: 0; }
 &lt;/style&gt;
 
-&lt;aegov-progress variant="compact"&gt;
-  &lt;aegov-tooltip class="progress-tooltip-wrap" content="Step 1 — Completed" position="top"&gt;
-    &lt;aegov-progress-step status="completed"&gt;Step 1&lt;/aegov-progress-step&gt;
+&lt;aegov-timeline variant="compact"&gt;
+  &lt;aegov-tooltip class="timeline-tooltip-wrap" content="Step 1 — Completed" position="top"&gt;
+    &lt;aegov-timeline-step status="completed"&gt;Step 1&lt;/aegov-timeline-step&gt;
   &lt;/aegov-tooltip&gt;
-  &lt;aegov-tooltip class="progress-tooltip-wrap" content="Step 2 — Active" position="top"&gt;
-    &lt;aegov-progress-step status="active"&gt;Step 2&lt;/aegov-progress-step&gt;
+  &lt;aegov-tooltip class="timeline-tooltip-wrap" content="Step 2 — Active" position="top"&gt;
+    &lt;aegov-timeline-step status="active"&gt;Step 2&lt;/aegov-timeline-step&gt;
   &lt;/aegov-tooltip&gt;
-  &lt;aegov-tooltip class="progress-tooltip-wrap" content="Step 3 — Pending" position="top"&gt;
-    &lt;aegov-progress-step status="pending"&gt;Step 3&lt;/aegov-progress-step&gt;
+  &lt;aegov-tooltip class="timeline-tooltip-wrap" content="Step 3 — Pending" position="top"&gt;
+    &lt;aegov-timeline-step status="pending"&gt;Step 3&lt;/aegov-timeline-step&gt;
   &lt;/aegov-tooltip&gt;
-&lt;/aegov-progress&gt;</code></div>
+&lt;/aegov-timeline&gt;</code></div>
 
     <div class="note-box">
       <strong>Integration Note:</strong>
-      <p>When wrapping progress steps with tooltips, the tooltip host element sits between the flex container and the step. The <code>.progress-tooltip-wrap</code> helper class ensures all three layers (tooltip host, trigger div, step host) stretch correctly so connector lines remain connected.</p>
+      <p>When wrapping timeline steps with tooltips, the tooltip host element sits between the flex container and the step. The <code>.timeline-tooltip-wrap</code> helper class ensures all three layers (tooltip host, trigger div, step host) stretch correctly so connector lines remain connected.</p>
     </div>
   </section>
 
@@ -542,32 +542,32 @@
     <div class="demo-grid">
       <div class="example-preview">
         <h3>All pending (not started)</h3>
-        <aegov-progress>
-          <aegov-progress-step status="pending">Step 1</aegov-progress-step>
-          <aegov-progress-step status="pending">Step 2</aegov-progress-step>
-          <aegov-progress-step status="pending">Step 3</aegov-progress-step>
-        </aegov-progress>
+        <aegov-timeline>
+          <aegov-timeline-step status="pending">Step 1</aegov-timeline-step>
+          <aegov-timeline-step status="pending">Step 2</aegov-timeline-step>
+          <aegov-timeline-step status="pending">Step 3</aegov-timeline-step>
+        </aegov-timeline>
       </div>
       <div class="example-preview">
         <h3>All completed</h3>
-        <aegov-progress>
-          <aegov-progress-step status="completed">Step 1</aegov-progress-step>
-          <aegov-progress-step status="completed">Step 2</aegov-progress-step>
-          <aegov-progress-step status="completed">Step 3</aegov-progress-step>
-        </aegov-progress>
+        <aegov-timeline>
+          <aegov-timeline-step status="completed">Step 1</aegov-timeline-step>
+          <aegov-timeline-step status="completed">Step 2</aegov-timeline-step>
+          <aegov-timeline-step status="completed">Step 3</aegov-timeline-step>
+        </aegov-timeline>
       </div>
       <div class="example-preview">
         <h3>Single step</h3>
-        <aegov-progress>
-          <aegov-progress-step status="active">Only Step</aegov-progress-step>
-        </aegov-progress>
+        <aegov-timeline>
+          <aegov-timeline-step status="active">Only Step</aegov-timeline-step>
+        </aegov-timeline>
       </div>
       <div class="example-preview">
         <h3>Two steps</h3>
-        <aegov-progress>
-          <aegov-progress-step status="completed">First</aegov-progress-step>
-          <aegov-progress-step status="active">Second</aegov-progress-step>
-        </aegov-progress>
+        <aegov-timeline>
+          <aegov-timeline-step status="completed">First</aegov-timeline-step>
+          <aegov-timeline-step status="active">Second</aegov-timeline-step>
+        </aegov-timeline>
       </div>
     </div>
   </section>
@@ -584,24 +584,24 @@
 
     <div class="example-preview">
       <h3>Government service application</h3>
-      <aegov-progress size="lg">
-        <aegov-progress-step status="completed">Eligibility Check</aegov-progress-step>
-        <aegov-progress-step status="completed">Application Form</aegov-progress-step>
-        <aegov-progress-step status="active">Document Upload</aegov-progress-step>
-        <aegov-progress-step status="pending">Payment</aegov-progress-step>
-        <aegov-progress-step status="pending">Confirmation</aegov-progress-step>
-      </aegov-progress>
+      <aegov-timeline size="lg">
+        <aegov-timeline-step status="completed">Eligibility Check</aegov-timeline-step>
+        <aegov-timeline-step status="completed">Application Form</aegov-timeline-step>
+        <aegov-timeline-step status="active">Document Upload</aegov-timeline-step>
+        <aegov-timeline-step status="pending">Payment</aegov-timeline-step>
+        <aegov-timeline-step status="pending">Confirmation</aegov-timeline-step>
+      </aegov-timeline>
     </div>
 
     <div class="example-preview">
       <h3>Order tracking (compact)</h3>
-      <aegov-progress variant="compact">
-        <aegov-progress-step status="completed">Placed</aegov-progress-step>
-        <aegov-progress-step status="completed">Processing</aegov-progress-step>
-        <aegov-progress-step status="completed">Shipped</aegov-progress-step>
-        <aegov-progress-step status="active">In Transit</aegov-progress-step>
-        <aegov-progress-step status="pending">Delivered</aegov-progress-step>
-      </aegov-progress>
+      <aegov-timeline variant="compact">
+        <aegov-timeline-step status="completed">Placed</aegov-timeline-step>
+        <aegov-timeline-step status="completed">Processing</aegov-timeline-step>
+        <aegov-timeline-step status="completed">Shipped</aegov-timeline-step>
+        <aegov-timeline-step status="active">In Transit</aegov-timeline-step>
+        <aegov-timeline-step status="pending">Delivered</aegov-timeline-step>
+      </aegov-timeline>
     </div>
   </section>
 
@@ -616,12 +616,12 @@
     <p class="section-description">Resize the browser below 640px to see horizontal labels become screen-reader only. Step indicators and connectors remain visible. Vertical layouts are inherently mobile-friendly.</p>
 
     <div class="example-preview">
-      <aegov-progress>
-        <aegov-progress-step status="completed">Account Registration</aegov-progress-step>
-        <aegov-progress-step status="completed">Identity Verification</aegov-progress-step>
-        <aegov-progress-step status="active">Document Submission</aegov-progress-step>
-        <aegov-progress-step status="pending">Application Review</aegov-progress-step>
-      </aegov-progress>
+      <aegov-timeline>
+        <aegov-timeline-step status="completed">Account Registration</aegov-timeline-step>
+        <aegov-timeline-step status="completed">Identity Verification</aegov-timeline-step>
+        <aegov-timeline-step status="active">Document Submission</aegov-timeline-step>
+        <aegov-timeline-step status="pending">Application Review</aegov-timeline-step>
+      </aegov-timeline>
     </div>
   </section>
 
@@ -631,7 +631,7 @@
   <div class="api-section" id="api-section">
     <h2>API Documentation</h2>
 
-    <h3 style="font-size: 1.25rem; font-weight: 600; margin-top: 1.5rem; margin-bottom: 1rem;">aegov-progress Properties</h3>
+    <h3 style="font-size: 1.25rem; font-weight: 600; margin-top: 1.5rem; margin-bottom: 1rem;">aegov-timeline Properties</h3>
     <table class="api-table">
       <thead>
         <tr>
@@ -644,26 +644,26 @@
       <tbody>
         <tr>
           <td><code>variant</code></td>
-          <td><code>ProgressVariant</code></td>
+          <td><code>TimelineVariant</code></td>
           <td><code>'default'</code></td>
           <td>Visual variant: <code>'default'</code> (numbered circles) or <code>'compact'</code> (small dots)</td>
         </tr>
         <tr>
           <td><code>size</code></td>
-          <td><code>ProgressSize</code></td>
+          <td><code>TimelineSize</code></td>
           <td><code>'base'</code></td>
           <td>Indicator size: <code>'sm'</code>, <code>'base'</code>, or <code>'lg'</code></td>
         </tr>
         <tr>
           <td><code>orientation</code></td>
-          <td><code>ProgressOrientation</code></td>
+          <td><code>TimelineOrientation</code></td>
           <td><code>'horizontal'</code></td>
           <td>Layout direction: <code>'horizontal'</code> or <code>'vertical'</code></td>
         </tr>
       </tbody>
     </table>
 
-    <h3 style="font-size: 1.25rem; font-weight: 600; margin-top: 2rem; margin-bottom: 1rem;">aegov-progress-step Properties</h3>
+    <h3 style="font-size: 1.25rem; font-weight: 600; margin-top: 2rem; margin-bottom: 1rem;">aegov-timeline-step Properties</h3>
     <table class="api-table">
       <thead>
         <tr>
@@ -676,7 +676,7 @@
       <tbody>
         <tr>
           <td><code>status</code></td>
-          <td><code>ProgressStepStatus</code></td>
+          <td><code>TimelineStepStatus</code></td>
           <td><code>'pending'</code></td>
           <td>Step state: <code>'completed'</code>, <code>'active'</code>, or <code>'pending'</code></td>
         </tr>
@@ -700,17 +700,17 @@
       </thead>
       <tbody>
         <tr>
-          <td><code>aegov-progress</code></td>
+          <td><code>aegov-timeline</code></td>
           <td><code>default</code></td>
-          <td><code>aegov-progress-step</code> elements</td>
+          <td><code>aegov-timeline-step</code> elements</td>
         </tr>
         <tr>
-          <td><code>aegov-progress-step</code></td>
+          <td><code>aegov-timeline-step</code></td>
           <td><code>default</code></td>
           <td>Step label text</td>
         </tr>
         <tr>
-          <td><code>aegov-progress-step</code></td>
+          <td><code>aegov-timeline-step</code></td>
           <td><code>icon</code></td>
           <td>Custom icon (replaces the number or checkmark inside the circle)</td>
         </tr>
@@ -728,7 +728,7 @@
       <tbody>
         <tr>
           <td>Semantic HTML</td>
-          <td><code>&lt;nav aria-label="Progress"&gt;</code> wrapping an <code>&lt;ol&gt;</code> list</td>
+          <td><code>&lt;nav aria-label="Timeline"&gt;</code> wrapping an <code>&lt;ol&gt;</code> list</td>
         </tr>
         <tr>
           <td>Active step</td>
@@ -760,34 +760,34 @@
       <tbody>
         <tr>
           <td><strong>Basic horizontal</strong></td>
-          <td><code>&lt;aegov-progress&gt;&lt;aegov-progress-step status="active"&gt;Step&lt;/aegov-progress-step&gt;&lt;/aegov-progress&gt;</code></td>
+          <td><code>&lt;aegov-timeline&gt;&lt;aegov-timeline-step status="active"&gt;Step&lt;/aegov-timeline-step&gt;&lt;/aegov-timeline&gt;</code></td>
         </tr>
         <tr>
           <td><strong>Compact dots</strong></td>
-          <td><code>&lt;aegov-progress variant="compact"&gt;...&lt;/aegov-progress&gt;</code></td>
+          <td><code>&lt;aegov-timeline variant="compact"&gt;...&lt;/aegov-timeline&gt;</code></td>
         </tr>
         <tr>
           <td><strong>Vertical stepper</strong></td>
-          <td><code>&lt;aegov-progress orientation="vertical"&gt;...&lt;/aegov-progress&gt;</code></td>
+          <td><code>&lt;aegov-timeline orientation="vertical"&gt;...&lt;/aegov-timeline&gt;</code></td>
         </tr>
         <tr>
           <td><strong>Large size</strong></td>
-          <td><code>&lt;aegov-progress size="lg"&gt;...&lt;/aegov-progress&gt;</code></td>
+          <td><code>&lt;aegov-timeline size="lg"&gt;...&lt;/aegov-timeline&gt;</code></td>
         </tr>
         <tr>
           <td><strong>With description</strong></td>
-          <td><code>&lt;aegov-progress-step description="Details here"&gt;Label&lt;/aegov-progress-step&gt;</code></td>
+          <td><code>&lt;aegov-timeline-step description="Details here"&gt;Label&lt;/aegov-timeline-step&gt;</code></td>
         </tr>
         <tr>
           <td><strong>Custom icon</strong></td>
-          <td><code>&lt;aegov-progress-step&gt;&lt;svg slot="icon"&gt;...&lt;/svg&gt;Label&lt;/aegov-progress-step&gt;</code></td>
+          <td><code>&lt;aegov-timeline-step&gt;&lt;svg slot="icon"&gt;...&lt;/svg&gt;Label&lt;/aegov-timeline-step&gt;</code></td>
         </tr>
       </tbody>
     </table>
 
     <div class="note-box" style="margin-top: 2rem;">
       <strong>Important Notes:</strong>
-      <p><strong>Parent required:</strong> <code>aegov-progress-step</code> must be placed inside <code>aegov-progress</code>. Using it standalone will throw an error.</p>
+      <p><strong>Parent required:</strong> <code>aegov-timeline-step</code> must be placed inside <code>aegov-timeline</code>. Using it standalone will throw an error.</p>
       <p><strong>Props are managed by parent:</strong> The parent automatically passes <code>variant</code>, <code>size</code>, <code>orientation</code>, step index, and connector style to each child. You only need to set <code>status</code> and optionally <code>description</code> on each step.</p>
       <p><strong>Connector logic:</strong> Connectors between steps are solid when the preceding step is completed, and dashed otherwise.</p>
       <p><strong>No interaction:</strong> This component is purely visual. It does not emit click events or manage navigation between steps.</p>

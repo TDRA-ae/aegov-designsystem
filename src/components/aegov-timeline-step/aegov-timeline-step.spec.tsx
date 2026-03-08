@@ -1,32 +1,32 @@
 import { newSpecPage } from '@stencil/core/testing';
-import { AegovProgress } from '../aegov-progress/aegov-progress';
-import { AegovProgressStep } from './aegov-progress-step';
+import { AegovTimeline } from '../aegov-timeline/aegov-timeline';
+import { AegovTimelineStep } from './aegov-timeline-step';
 
-describe('aegov-progress-step', () => {
+describe('aegov-timeline-step', () => {
   // ============================================
   // RENDERING
   // ============================================
 
   it('renders inside parent', async () => {
     const page = await newSpecPage({
-      components: [AegovProgress, AegovProgressStep],
+      components: [AegovTimeline, AegovTimelineStep],
       html: `
-        <aegov-progress>
-          <aegov-progress-step status="active">Step 1</aegov-progress-step>
-        </aegov-progress>
+        <aegov-timeline>
+          <aegov-timeline-step status="active">Step 1</aegov-timeline-step>
+        </aegov-timeline>
       `,
     });
-    const step = page.root.querySelector('aegov-progress-step');
+    const step = page.root.querySelector('aegov-timeline-step');
     expect(step).toBeTruthy();
   });
 
   it('throws error when used outside parent', async () => {
     await expect(
       newSpecPage({
-        components: [AegovProgressStep],
-        html: `<aegov-progress-step>Orphan</aegov-progress-step>`,
+        components: [AegovTimelineStep],
+        html: `<aegov-timeline-step>Orphan</aegov-timeline-step>`,
       })
-    ).rejects.toThrow('[aegov-progress-step]');
+    ).rejects.toThrow('[aegov-timeline-step]');
   });
 
   // ============================================
@@ -35,11 +35,11 @@ describe('aegov-progress-step', () => {
 
   it('renders numbered indicator for pending step', async () => {
     const page = await newSpecPage({
-      components: [AegovProgress, AegovProgressStep],
+      components: [AegovTimeline, AegovTimelineStep],
       html: `
-        <aegov-progress>
-          <aegov-progress-step status="pending">Review</aegov-progress-step>
-        </aegov-progress>
+        <aegov-timeline>
+          <aegov-timeline-step status="pending">Review</aegov-timeline-step>
+        </aegov-timeline>
       `,
     });
     const indicator = page.root.querySelector('.step__indicator');
@@ -51,11 +51,11 @@ describe('aegov-progress-step', () => {
 
   it('renders numbered indicator for active step', async () => {
     const page = await newSpecPage({
-      components: [AegovProgress, AegovProgressStep],
+      components: [AegovTimeline, AegovTimelineStep],
       html: `
-        <aegov-progress>
-          <aegov-progress-step status="active">Current</aegov-progress-step>
-        </aegov-progress>
+        <aegov-timeline>
+          <aegov-timeline-step status="active">Current</aegov-timeline-step>
+        </aegov-timeline>
       `,
     });
     const indicator = page.root.querySelector('.step__indicator');
@@ -65,11 +65,11 @@ describe('aegov-progress-step', () => {
 
   it('renders checkmark for completed step', async () => {
     const page = await newSpecPage({
-      components: [AegovProgress, AegovProgressStep],
+      components: [AegovTimeline, AegovTimelineStep],
       html: `
-        <aegov-progress>
-          <aegov-progress-step status="completed">Done</aegov-progress-step>
-        </aegov-progress>
+        <aegov-timeline>
+          <aegov-timeline-step status="completed">Done</aegov-timeline-step>
+        </aegov-timeline>
       `,
     });
     const indicator = page.root.querySelector('.step__indicator');
@@ -84,11 +84,11 @@ describe('aegov-progress-step', () => {
 
   it('applies sm size class', async () => {
     const page = await newSpecPage({
-      components: [AegovProgress, AegovProgressStep],
+      components: [AegovTimeline, AegovTimelineStep],
       html: `
-        <aegov-progress size="sm">
-          <aegov-progress-step status="active">Step</aegov-progress-step>
-        </aegov-progress>
+        <aegov-timeline size="sm">
+          <aegov-timeline-step status="active">Step</aegov-timeline-step>
+        </aegov-timeline>
       `,
     });
     expect(page.root.querySelector('.step__indicator--sm')).toBeTruthy();
@@ -96,11 +96,11 @@ describe('aegov-progress-step', () => {
 
   it('applies base size class by default', async () => {
     const page = await newSpecPage({
-      components: [AegovProgress, AegovProgressStep],
+      components: [AegovTimeline, AegovTimelineStep],
       html: `
-        <aegov-progress>
-          <aegov-progress-step status="active">Step</aegov-progress-step>
-        </aegov-progress>
+        <aegov-timeline>
+          <aegov-timeline-step status="active">Step</aegov-timeline-step>
+        </aegov-timeline>
       `,
     });
     expect(page.root.querySelector('.step__indicator--base')).toBeTruthy();
@@ -108,11 +108,11 @@ describe('aegov-progress-step', () => {
 
   it('applies lg size class', async () => {
     const page = await newSpecPage({
-      components: [AegovProgress, AegovProgressStep],
+      components: [AegovTimeline, AegovTimelineStep],
       html: `
-        <aegov-progress size="lg">
-          <aegov-progress-step status="active">Step</aegov-progress-step>
-        </aegov-progress>
+        <aegov-timeline size="lg">
+          <aegov-timeline-step status="active">Step</aegov-timeline-step>
+        </aegov-timeline>
       `,
     });
     expect(page.root.querySelector('.step__indicator--lg')).toBeTruthy();
@@ -124,11 +124,11 @@ describe('aegov-progress-step', () => {
 
   it('renders dot for compact variant', async () => {
     const page = await newSpecPage({
-      components: [AegovProgress, AegovProgressStep],
+      components: [AegovTimeline, AegovTimelineStep],
       html: `
-        <aegov-progress variant="compact">
-          <aegov-progress-step status="active">Step</aegov-progress-step>
-        </aegov-progress>
+        <aegov-timeline variant="compact">
+          <aegov-timeline-step status="active">Step</aegov-timeline-step>
+        </aegov-timeline>
       `,
     });
     expect(page.root.querySelector('.step__dot')).toBeTruthy();
@@ -137,13 +137,13 @@ describe('aegov-progress-step', () => {
 
   it('applies dot status classes', async () => {
     const page = await newSpecPage({
-      components: [AegovProgress, AegovProgressStep],
+      components: [AegovTimeline, AegovTimelineStep],
       html: `
-        <aegov-progress variant="compact">
-          <aegov-progress-step status="completed">S1</aegov-progress-step>
-          <aegov-progress-step status="active">S2</aegov-progress-step>
-          <aegov-progress-step status="pending">S3</aegov-progress-step>
-        </aegov-progress>
+        <aegov-timeline variant="compact">
+          <aegov-timeline-step status="completed">S1</aegov-timeline-step>
+          <aegov-timeline-step status="active">S2</aegov-timeline-step>
+          <aegov-timeline-step status="pending">S3</aegov-timeline-step>
+        </aegov-timeline>
       `,
     });
     const dots = page.root.querySelectorAll('.step__dot');
@@ -154,11 +154,11 @@ describe('aegov-progress-step', () => {
 
   it('hides labels in compact horizontal mode', async () => {
     const page = await newSpecPage({
-      components: [AegovProgress, AegovProgressStep],
+      components: [AegovTimeline, AegovTimelineStep],
       html: `
-        <aegov-progress variant="compact" orientation="horizontal">
-          <aegov-progress-step status="active">Hidden Label</aegov-progress-step>
-        </aegov-progress>
+        <aegov-timeline variant="compact" orientation="horizontal">
+          <aegov-timeline-step status="active">Hidden Label</aegov-timeline-step>
+        </aegov-timeline>
       `,
     });
     expect(page.root.querySelector('.step__text')).toBeNull();
@@ -166,11 +166,11 @@ describe('aegov-progress-step', () => {
 
   it('shows labels in compact vertical mode', async () => {
     const page = await newSpecPage({
-      components: [AegovProgress, AegovProgressStep],
+      components: [AegovTimeline, AegovTimelineStep],
       html: `
-        <aegov-progress variant="compact" orientation="vertical">
-          <aegov-progress-step status="active">Visible Label</aegov-progress-step>
-        </aegov-progress>
+        <aegov-timeline variant="compact" orientation="vertical">
+          <aegov-timeline-step status="active">Visible Label</aegov-timeline-step>
+        </aegov-timeline>
       `,
     });
     expect(page.root.querySelector('.step__label')).toBeTruthy();
@@ -182,15 +182,15 @@ describe('aegov-progress-step', () => {
 
   it('first step has no before-connector (uses spacer)', async () => {
     const page = await newSpecPage({
-      components: [AegovProgress, AegovProgressStep],
+      components: [AegovTimeline, AegovTimelineStep],
       html: `
-        <aegov-progress>
-          <aegov-progress-step status="completed">First</aegov-progress-step>
-          <aegov-progress-step status="pending">Second</aegov-progress-step>
-        </aegov-progress>
+        <aegov-timeline>
+          <aegov-timeline-step status="completed">First</aegov-timeline-step>
+          <aegov-timeline-step status="pending">Second</aegov-timeline-step>
+        </aegov-timeline>
       `,
     });
-    const steps = page.root.querySelectorAll('aegov-progress-step');
+    const steps = page.root.querySelectorAll('aegov-timeline-step');
     // First step has a spacer, not a before-connector
     expect(steps[0].querySelector('.step__connector--before')).toBeNull();
     expect(steps[0].querySelector('.step__spacer')).toBeTruthy();
@@ -198,29 +198,29 @@ describe('aegov-progress-step', () => {
 
   it('first step has an after-connector', async () => {
     const page = await newSpecPage({
-      components: [AegovProgress, AegovProgressStep],
+      components: [AegovTimeline, AegovTimelineStep],
       html: `
-        <aegov-progress>
-          <aegov-progress-step status="completed">First</aegov-progress-step>
-          <aegov-progress-step status="pending">Second</aegov-progress-step>
-        </aegov-progress>
+        <aegov-timeline>
+          <aegov-timeline-step status="completed">First</aegov-timeline-step>
+          <aegov-timeline-step status="pending">Second</aegov-timeline-step>
+        </aegov-timeline>
       `,
     });
-    const steps = page.root.querySelectorAll('aegov-progress-step');
+    const steps = page.root.querySelectorAll('aegov-timeline-step');
     expect(steps[0].querySelector('.step__connector--after')).toBeTruthy();
   });
 
   it('last step has no after-connector (uses spacer)', async () => {
     const page = await newSpecPage({
-      components: [AegovProgress, AegovProgressStep],
+      components: [AegovTimeline, AegovTimelineStep],
       html: `
-        <aegov-progress>
-          <aegov-progress-step status="completed">First</aegov-progress-step>
-          <aegov-progress-step status="pending">Last</aegov-progress-step>
-        </aegov-progress>
+        <aegov-timeline>
+          <aegov-timeline-step status="completed">First</aegov-timeline-step>
+          <aegov-timeline-step status="pending">Last</aegov-timeline-step>
+        </aegov-timeline>
       `,
     });
-    const steps = page.root.querySelectorAll('aegov-progress-step');
+    const steps = page.root.querySelectorAll('aegov-timeline-step');
     expect(steps[1].querySelector('.step__connector--after')).toBeNull();
     // Last step has a spacer on the right side
     const spacers = steps[1].querySelectorAll('.step__spacer');
@@ -229,15 +229,15 @@ describe('aegov-progress-step', () => {
 
   it('renders solid before-connector when previous step is completed', async () => {
     const page = await newSpecPage({
-      components: [AegovProgress, AegovProgressStep],
+      components: [AegovTimeline, AegovTimelineStep],
       html: `
-        <aegov-progress>
-          <aegov-progress-step status="completed">First</aegov-progress-step>
-          <aegov-progress-step status="active">Second</aegov-progress-step>
-        </aegov-progress>
+        <aegov-timeline>
+          <aegov-timeline-step status="completed">First</aegov-timeline-step>
+          <aegov-timeline-step status="active">Second</aegov-timeline-step>
+        </aegov-timeline>
       `,
     });
-    const steps = page.root.querySelectorAll('aegov-progress-step');
+    const steps = page.root.querySelectorAll('aegov-timeline-step');
     const connector = steps[1].querySelector('.step__connector--before');
     expect(connector).toBeTruthy();
     expect(connector.classList.contains('step__connector--solid')).toBe(true);
@@ -245,30 +245,30 @@ describe('aegov-progress-step', () => {
 
   it('renders dashed before-connector when previous step is not completed', async () => {
     const page = await newSpecPage({
-      components: [AegovProgress, AegovProgressStep],
+      components: [AegovTimeline, AegovTimelineStep],
       html: `
-        <aegov-progress>
-          <aegov-progress-step status="active">First</aegov-progress-step>
-          <aegov-progress-step status="pending">Second</aegov-progress-step>
-        </aegov-progress>
+        <aegov-timeline>
+          <aegov-timeline-step status="active">First</aegov-timeline-step>
+          <aegov-timeline-step status="pending">Second</aegov-timeline-step>
+        </aegov-timeline>
       `,
     });
-    const steps = page.root.querySelectorAll('aegov-progress-step');
+    const steps = page.root.querySelectorAll('aegov-timeline-step');
     const connector = steps[1].querySelector('.step__connector--before');
     expect(connector.classList.contains('step__connector--dashed')).toBe(true);
   });
 
   it('renders solid after-connector when step is completed', async () => {
     const page = await newSpecPage({
-      components: [AegovProgress, AegovProgressStep],
+      components: [AegovTimeline, AegovTimelineStep],
       html: `
-        <aegov-progress>
-          <aegov-progress-step status="completed">First</aegov-progress-step>
-          <aegov-progress-step status="active">Second</aegov-progress-step>
-        </aegov-progress>
+        <aegov-timeline>
+          <aegov-timeline-step status="completed">First</aegov-timeline-step>
+          <aegov-timeline-step status="active">Second</aegov-timeline-step>
+        </aegov-timeline>
       `,
     });
-    const steps = page.root.querySelectorAll('aegov-progress-step');
+    const steps = page.root.querySelectorAll('aegov-timeline-step');
     const afterConnector = steps[0].querySelector('.step__connector--after');
     expect(afterConnector).toBeTruthy();
     expect(afterConnector.classList.contains('step__connector--solid')).toBe(true);
@@ -276,30 +276,30 @@ describe('aegov-progress-step', () => {
 
   it('renders dashed after-connector when step is not completed', async () => {
     const page = await newSpecPage({
-      components: [AegovProgress, AegovProgressStep],
+      components: [AegovTimeline, AegovTimelineStep],
       html: `
-        <aegov-progress>
-          <aegov-progress-step status="active">First</aegov-progress-step>
-          <aegov-progress-step status="pending">Second</aegov-progress-step>
-        </aegov-progress>
+        <aegov-timeline>
+          <aegov-timeline-step status="active">First</aegov-timeline-step>
+          <aegov-timeline-step status="pending">Second</aegov-timeline-step>
+        </aegov-timeline>
       `,
     });
-    const steps = page.root.querySelectorAll('aegov-progress-step');
+    const steps = page.root.querySelectorAll('aegov-timeline-step');
     const afterConnector = steps[0].querySelector('.step__connector--after');
     expect(afterConnector.classList.contains('step__connector--dashed')).toBe(true);
   });
 
   it('renders horizontal connectors', async () => {
     const page = await newSpecPage({
-      components: [AegovProgress, AegovProgressStep],
+      components: [AegovTimeline, AegovTimelineStep],
       html: `
-        <aegov-progress>
-          <aegov-progress-step status="completed">S1</aegov-progress-step>
-          <aegov-progress-step status="active">S2</aegov-progress-step>
-        </aegov-progress>
+        <aegov-timeline>
+          <aegov-timeline-step status="completed">S1</aegov-timeline-step>
+          <aegov-timeline-step status="active">S2</aegov-timeline-step>
+        </aegov-timeline>
       `,
     });
-    const connector = page.root.querySelectorAll('aegov-progress-step')[1].querySelector('.step__connector');
+    const connector = page.root.querySelectorAll('aegov-timeline-step')[1].querySelector('.step__connector');
     expect(connector.classList.contains('step__connector--horizontal')).toBe(true);
   });
 
@@ -309,44 +309,44 @@ describe('aegov-progress-step', () => {
 
   it('renders vertical connectors', async () => {
     const page = await newSpecPage({
-      components: [AegovProgress, AegovProgressStep],
+      components: [AegovTimeline, AegovTimelineStep],
       html: `
-        <aegov-progress orientation="vertical">
-          <aegov-progress-step status="completed">S1</aegov-progress-step>
-          <aegov-progress-step status="active">S2</aegov-progress-step>
-        </aegov-progress>
+        <aegov-timeline orientation="vertical">
+          <aegov-timeline-step status="completed">S1</aegov-timeline-step>
+          <aegov-timeline-step status="active">S2</aegov-timeline-step>
+        </aegov-timeline>
       `,
     });
-    const connector = page.root.querySelectorAll('aegov-progress-step')[0].querySelector('.step__connector');
+    const connector = page.root.querySelectorAll('aegov-timeline-step')[0].querySelector('.step__connector');
     expect(connector.classList.contains('step__connector--vertical')).toBe(true);
   });
 
   it('renders vertical connector below indicator (not last step)', async () => {
     const page = await newSpecPage({
-      components: [AegovProgress, AegovProgressStep],
+      components: [AegovTimeline, AegovTimelineStep],
       html: `
-        <aegov-progress orientation="vertical">
-          <aegov-progress-step status="completed">S1</aegov-progress-step>
-          <aegov-progress-step status="active">S2</aegov-progress-step>
-        </aegov-progress>
+        <aegov-timeline orientation="vertical">
+          <aegov-timeline-step status="completed">S1</aegov-timeline-step>
+          <aegov-timeline-step status="active">S2</aegov-timeline-step>
+        </aegov-timeline>
       `,
     });
-    const firstStep = page.root.querySelectorAll('aegov-progress-step')[0];
+    const firstStep = page.root.querySelectorAll('aegov-timeline-step')[0];
     const connector = firstStep.querySelector('.step__connector--vertical');
     expect(connector).toBeTruthy();
   });
 
   it('does not render vertical connector on last step', async () => {
     const page = await newSpecPage({
-      components: [AegovProgress, AegovProgressStep],
+      components: [AegovTimeline, AegovTimelineStep],
       html: `
-        <aegov-progress orientation="vertical">
-          <aegov-progress-step status="completed">S1</aegov-progress-step>
-          <aegov-progress-step status="active">S2</aegov-progress-step>
-        </aegov-progress>
+        <aegov-timeline orientation="vertical">
+          <aegov-timeline-step status="completed">S1</aegov-timeline-step>
+          <aegov-timeline-step status="active">S2</aegov-timeline-step>
+        </aegov-timeline>
       `,
     });
-    const lastStep = page.root.querySelectorAll('aegov-progress-step')[1];
+    const lastStep = page.root.querySelectorAll('aegov-timeline-step')[1];
     const connector = lastStep.querySelector('.step__connector--vertical');
     expect(connector).toBeNull();
   });
@@ -357,11 +357,11 @@ describe('aegov-progress-step', () => {
 
   it('renders step label', async () => {
     const page = await newSpecPage({
-      components: [AegovProgress, AegovProgressStep],
+      components: [AegovTimeline, AegovTimelineStep],
       html: `
-        <aegov-progress>
-          <aegov-progress-step status="active">Account Setup</aegov-progress-step>
-        </aegov-progress>
+        <aegov-timeline>
+          <aegov-timeline-step status="active">Account Setup</aegov-timeline-step>
+        </aegov-timeline>
       `,
     });
     const label = page.root.querySelector('.step__label');
@@ -371,11 +371,11 @@ describe('aegov-progress-step', () => {
 
   it('renders description when provided', async () => {
     const page = await newSpecPage({
-      components: [AegovProgress, AegovProgressStep],
+      components: [AegovTimeline, AegovTimelineStep],
       html: `
-        <aegov-progress>
-          <aegov-progress-step status="active" description="Fill in your details">Details</aegov-progress-step>
-        </aegov-progress>
+        <aegov-timeline>
+          <aegov-timeline-step status="active" description="Fill in your details">Details</aegov-timeline-step>
+        </aegov-timeline>
       `,
     });
     const desc = page.root.querySelector('.step__description');
@@ -385,11 +385,11 @@ describe('aegov-progress-step', () => {
 
   it('does not render description when not provided', async () => {
     const page = await newSpecPage({
-      components: [AegovProgress, AegovProgressStep],
+      components: [AegovTimeline, AegovTimelineStep],
       html: `
-        <aegov-progress>
-          <aegov-progress-step status="active">Details</aegov-progress-step>
-        </aegov-progress>
+        <aegov-timeline>
+          <aegov-timeline-step status="active">Details</aegov-timeline-step>
+        </aegov-timeline>
       `,
     });
     expect(page.root.querySelector('.step__description')).toBeNull();
@@ -397,13 +397,13 @@ describe('aegov-progress-step', () => {
 
   it('applies status classes to labels', async () => {
     const page = await newSpecPage({
-      components: [AegovProgress, AegovProgressStep],
+      components: [AegovTimeline, AegovTimelineStep],
       html: `
-        <aegov-progress>
-          <aegov-progress-step status="completed">S1</aegov-progress-step>
-          <aegov-progress-step status="active">S2</aegov-progress-step>
-          <aegov-progress-step status="pending">S3</aegov-progress-step>
-        </aegov-progress>
+        <aegov-timeline>
+          <aegov-timeline-step status="completed">S1</aegov-timeline-step>
+          <aegov-timeline-step status="active">S2</aegov-timeline-step>
+          <aegov-timeline-step status="pending">S3</aegov-timeline-step>
+        </aegov-timeline>
       `,
     });
     const labels = page.root.querySelectorAll('.step__label');
@@ -418,13 +418,13 @@ describe('aegov-progress-step', () => {
 
   it('sets aria-current="step" on active step', async () => {
     const page = await newSpecPage({
-      components: [AegovProgress, AegovProgressStep],
+      components: [AegovTimeline, AegovTimelineStep],
       html: `
-        <aegov-progress>
-          <aegov-progress-step status="completed">S1</aegov-progress-step>
-          <aegov-progress-step status="active">S2</aegov-progress-step>
-          <aegov-progress-step status="pending">S3</aegov-progress-step>
-        </aegov-progress>
+        <aegov-timeline>
+          <aegov-timeline-step status="completed">S1</aegov-timeline-step>
+          <aegov-timeline-step status="active">S2</aegov-timeline-step>
+          <aegov-timeline-step status="pending">S3</aegov-timeline-step>
+        </aegov-timeline>
       `,
     });
     const lis = page.root.querySelectorAll('li');
@@ -435,11 +435,11 @@ describe('aegov-progress-step', () => {
 
   it('includes sr-only text with step numbers', async () => {
     const page = await newSpecPage({
-      components: [AegovProgress, AegovProgressStep],
+      components: [AegovTimeline, AegovTimelineStep],
       html: `
-        <aegov-progress>
-          <aegov-progress-step status="active">Details</aegov-progress-step>
-        </aegov-progress>
+        <aegov-timeline>
+          <aegov-timeline-step status="active">Details</aegov-timeline-step>
+        </aegov-timeline>
       `,
     });
     const srOnly = page.root.querySelector('.sr-only');
@@ -449,15 +449,15 @@ describe('aegov-progress-step', () => {
 
   it('connector has aria-hidden', async () => {
     const page = await newSpecPage({
-      components: [AegovProgress, AegovProgressStep],
+      components: [AegovTimeline, AegovTimelineStep],
       html: `
-        <aegov-progress>
-          <aegov-progress-step status="completed">S1</aegov-progress-step>
-          <aegov-progress-step status="active">S2</aegov-progress-step>
-        </aegov-progress>
+        <aegov-timeline>
+          <aegov-timeline-step status="completed">S1</aegov-timeline-step>
+          <aegov-timeline-step status="active">S2</aegov-timeline-step>
+        </aegov-timeline>
       `,
     });
-    const connector = page.root.querySelectorAll('aegov-progress-step')[1].querySelector('.step__connector');
+    const connector = page.root.querySelectorAll('aegov-timeline-step')[1].querySelector('.step__connector');
     expect(connector.getAttribute('aria-hidden')).toBe('true');
   });
 
@@ -467,14 +467,14 @@ describe('aegov-progress-step', () => {
 
   it('renders custom icon slot (no default number shown)', async () => {
     const page = await newSpecPage({
-      components: [AegovProgress, AegovProgressStep],
+      components: [AegovTimeline, AegovTimelineStep],
       html: `
-        <aegov-progress>
-          <aegov-progress-step status="active">
+        <aegov-timeline>
+          <aegov-timeline-step status="active">
             <span slot="icon">★</span>
             Custom
-          </aegov-progress-step>
-        </aegov-progress>
+          </aegov-timeline-step>
+        </aegov-timeline>
       `,
     });
     const indicator = page.root.querySelector('.step__indicator');
@@ -489,12 +489,12 @@ describe('aegov-progress-step', () => {
 
   it('renders vertical layout structure', async () => {
     const page = await newSpecPage({
-      components: [AegovProgress, AegovProgressStep],
+      components: [AegovTimeline, AegovTimelineStep],
       html: `
-        <aegov-progress orientation="vertical">
-          <aegov-progress-step status="completed">S1</aegov-progress-step>
-          <aegov-progress-step status="active">S2</aegov-progress-step>
-        </aegov-progress>
+        <aegov-timeline orientation="vertical">
+          <aegov-timeline-step status="completed">S1</aegov-timeline-step>
+          <aegov-timeline-step status="active">S2</aegov-timeline-step>
+        </aegov-timeline>
       `,
     });
     expect(page.root.querySelector('.step--vertical')).toBeTruthy();

@@ -2,14 +2,14 @@
   @apply block;
 }
 
-.progress__list {
+.timeline__list {
   @apply flex list-none m-0 p-0;
 }
 
-.progress__list--horizontal {
+.timeline__list--horizontal {
   @apply flex-row items-start;
 }
 
-.progress__list--vertical {
+.timeline__list--vertical {
   @apply flex-col;
 }

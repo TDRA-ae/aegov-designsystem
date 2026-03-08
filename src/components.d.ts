@@ -5,9 +5,9 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
-import { AccordionIcon, AvatarGroupMode, AvatarSize, AvatarStatus, AvatarVariant, BadgeAppearance, BadgeColor, BadgeSize, BannerDisplay, BannerMode, BannerPosition, BannerRole, BlockquoteVariant, BreadcrumbSeparator, ButtonAppearance, ButtonGroupOrientation, ButtonSize, ButtonType, ButtonVariant, CalloutAppearance, CalloutVariant, CardBackground, CardBorderStyle, CardBorderWidth, CardHover, CheckboxGroupOrientation, CheckboxGroupVariant, CheckboxSize, DatepickerChangeDetail, DatepickerMode, DatepickerMonthChangeDetail, DropdownAlign, DropdownPosition, DropdownTrigger, FileuploadSize, FileuploadVariant, InputSize, InputType, LinkTarget, ModalBackdropOpacity, ModalPosition, PaginationSize, PaginationVariant, ProgressOrientation, ProgressSize, ProgressStepStatus, ProgressVariant, RadioGroupOrientation, RadioGroupVariant, RadioSize, RangeDisplay, RangeMode, RangeOrientation, RangeSize, SelectChangeDetail, SelectSize, SelectVariant, TabOrientation, TabSize, TabVariant, TextareaResize, TextareaSize, TextSize, TitleSize, ToastAppearance, ToastMode, ToastPosition, ToastVariant, ToggleSize, TooltipAlign, TooltipPosition, TooltipTrigger } from "./utils/types";
+import { AccordionIcon, AvatarGroupMode, AvatarSize, AvatarStatus, AvatarVariant, BadgeAppearance, BadgeColor, BadgeSize, BannerDisplay, BannerMode, BannerPosition, BannerRole, BlockquoteVariant, BreadcrumbSeparator, ButtonAppearance, ButtonGroupOrientation, ButtonSize, ButtonType, ButtonVariant, CalloutAppearance, CalloutVariant, CardBackground, CardBorderStyle, CardBorderWidth, CardHover, CheckboxGroupOrientation, CheckboxGroupVariant, CheckboxSize, DatepickerChangeDetail, DatepickerMode, DatepickerMonthChangeDetail, DropdownAlign, DropdownPosition, DropdownTrigger, FileuploadSize, FileuploadVariant, InputSize, InputType, LinkTarget, ModalBackdropOpacity, ModalPosition, PaginationSize, PaginationVariant, RadioGroupOrientation, RadioGroupVariant, RadioSize, RangeDisplay, RangeMode, RangeOrientation, RangeSize, SelectChangeDetail, SelectSize, SelectVariant, TabOrientation, TabSize, TabVariant, TextareaResize, TextareaSize, TextSize, TimelineOrientation, TimelineSize, TimelineStepStatus, TimelineVariant, TitleSize, ToastAppearance, ToastMode, ToastPosition, ToastVariant, ToggleSize, TooltipAlign, TooltipPosition, TooltipTrigger } from "./utils/types";
 import { Event } from "@stencil/core";
-export { AccordionIcon, AvatarGroupMode, AvatarSize, AvatarStatus, AvatarVariant, BadgeAppearance, BadgeColor, BadgeSize, BannerDisplay, BannerMode, BannerPosition, BannerRole, BlockquoteVariant, BreadcrumbSeparator, ButtonAppearance, ButtonGroupOrientation, ButtonSize, ButtonType, ButtonVariant, CalloutAppearance, CalloutVariant, CardBackground, CardBorderStyle, CardBorderWidth, CardHover, CheckboxGroupOrientation, CheckboxGroupVariant, CheckboxSize, DatepickerChangeDetail, DatepickerMode, DatepickerMonthChangeDetail, DropdownAlign, DropdownPosition, DropdownTrigger, FileuploadSize, FileuploadVariant, InputSize, InputType, LinkTarget, ModalBackdropOpacity, ModalPosition, PaginationSize, PaginationVariant, ProgressOrientation, ProgressSize, ProgressStepStatus, ProgressVariant, RadioGroupOrientation, RadioGroupVariant, RadioSize, RangeDisplay, RangeMode, RangeOrientation, RangeSize, SelectChangeDetail, SelectSize, SelectVariant, TabOrientation, TabSize, TabVariant, TextareaResize, TextareaSize, TextSize, TitleSize, ToastAppearance, ToastMode, ToastPosition, ToastVariant, ToggleSize, TooltipAlign, TooltipPosition, TooltipTrigger } from "./utils/types";
+export { AccordionIcon, AvatarGroupMode, AvatarSize, AvatarStatus, AvatarVariant, BadgeAppearance, BadgeColor, BadgeSize, BannerDisplay, BannerMode, BannerPosition, BannerRole, BlockquoteVariant, BreadcrumbSeparator, ButtonAppearance, ButtonGroupOrientation, ButtonSize, ButtonType, ButtonVariant, CalloutAppearance, CalloutVariant, CardBackground, CardBorderStyle, CardBorderWidth, CardHover, CheckboxGroupOrientation, CheckboxGroupVariant, CheckboxSize, DatepickerChangeDetail, DatepickerMode, DatepickerMonthChangeDetail, DropdownAlign, DropdownPosition, DropdownTrigger, FileuploadSize, FileuploadVariant, InputSize, InputType, LinkTarget, ModalBackdropOpacity, ModalPosition, PaginationSize, PaginationVariant, RadioGroupOrientation, RadioGroupVariant, RadioSize, RangeDisplay, RangeMode, RangeOrientation, RangeSize, SelectChangeDetail, SelectSize, SelectVariant, TabOrientation, TabSize, TabVariant, TextareaResize, TextareaSize, TextSize, TimelineOrientation, TimelineSize, TimelineStepStatus, TimelineVariant, TitleSize, ToastAppearance, ToastMode, ToastPosition, ToastVariant, ToggleSize, TooltipAlign, TooltipPosition, TooltipTrigger } from "./utils/types";
 export { Event } from "@stencil/core";
 export namespace Components {
     /**
@@ -968,66 +968,6 @@ export namespace Components {
          */
         "variant": PaginationVariant;
     }
-    interface AegovProgress {
-        /**
-          * Layout orientation.
-          * @default 'horizontal'
-         */
-        "orientation": ProgressOrientation;
-        /**
-          * Size of step indicators.
-          * @default 'base'
-         */
-        "size": ProgressSize;
-        /**
-          * Visual variant: default (numbered circles) or compact (dots).
-          * @default 'default'
-         */
-        "variant": ProgressVariant;
-    }
-    interface AegovProgressStep {
-        /**
-          * @default false
-         */
-        "connectorSolid": boolean;
-        /**
-          * Optional description shown below the label.
-         */
-        "description"?: string;
-        /**
-          * @default false
-         */
-        "isFirst": boolean;
-        /**
-          * @default false
-         */
-        "isLast": boolean;
-        /**
-          * @default 'horizontal'
-         */
-        "orientation": ProgressOrientation;
-        /**
-          * @default 'base'
-         */
-        "size": ProgressSize;
-        /**
-          * Step status.
-          * @default 'pending'
-         */
-        "status": ProgressStepStatus;
-        /**
-          * @default 1
-         */
-        "stepCount": number;
-        /**
-          * @default 0
-         */
-        "stepIndex": number;
-        /**
-          * @default 'default'
-         */
-        "variant": ProgressVariant;
-    }
     interface AegovRadio {
         /**
           * Whether the radio is checked.
@@ -1467,6 +1407,66 @@ export namespace Components {
           * @default ''
          */
         "value": string;
+    }
+    interface AegovTimeline {
+        /**
+          * Layout orientation.
+          * @default 'horizontal'
+         */
+        "orientation": TimelineOrientation;
+        /**
+          * Size of step indicators.
+          * @default 'base'
+         */
+        "size": TimelineSize;
+        /**
+          * Visual variant: default (numbered circles) or compact (dots).
+          * @default 'default'
+         */
+        "variant": TimelineVariant;
+    }
+    interface AegovTimelineStep {
+        /**
+          * @default false
+         */
+        "connectorSolid": boolean;
+        /**
+          * Optional description shown below the label.
+         */
+        "description"?: string;
+        /**
+          * @default false
+         */
+        "isFirst": boolean;
+        /**
+          * @default false
+         */
+        "isLast": boolean;
+        /**
+          * @default 'horizontal'
+         */
+        "orientation": TimelineOrientation;
+        /**
+          * @default 'base'
+         */
+        "size": TimelineSize;
+        /**
+          * Step status.
+          * @default 'pending'
+         */
+        "status": TimelineStepStatus;
+        /**
+          * @default 1
+         */
+        "stepCount": number;
+        /**
+          * @default 0
+         */
+        "stepIndex": number;
+        /**
+          * @default 'default'
+         */
+        "variant": TimelineVariant;
     }
     interface AegovTitle {
         /**
@@ -2135,18 +2135,6 @@ declare global {
         prototype: HTMLAegovPaginationElement;
         new (): HTMLAegovPaginationElement;
     };
-    interface HTMLAegovProgressElement extends Components.AegovProgress, HTMLStencilElement {
-    }
-    var HTMLAegovProgressElement: {
-        prototype: HTMLAegovProgressElement;
-        new (): HTMLAegovProgressElement;
-    };
-    interface HTMLAegovProgressStepElement extends Components.AegovProgressStep, HTMLStencilElement {
-    }
-    var HTMLAegovProgressStepElement: {
-        prototype: HTMLAegovProgressStepElement;
-        new (): HTMLAegovProgressStepElement;
-    };
     interface HTMLAegovRadioElementEventMap {
         "aegovRadioChange": { checked: boolean; value?: string };
     }
@@ -2334,6 +2322,18 @@ declare global {
         prototype: HTMLAegovTextareaElement;
         new (): HTMLAegovTextareaElement;
     };
+    interface HTMLAegovTimelineElement extends Components.AegovTimeline, HTMLStencilElement {
+    }
+    var HTMLAegovTimelineElement: {
+        prototype: HTMLAegovTimelineElement;
+        new (): HTMLAegovTimelineElement;
+    };
+    interface HTMLAegovTimelineStepElement extends Components.AegovTimelineStep, HTMLStencilElement {
+    }
+    var HTMLAegovTimelineStepElement: {
+        prototype: HTMLAegovTimelineStepElement;
+        new (): HTMLAegovTimelineStepElement;
+    };
     interface HTMLAegovTitleElement extends Components.AegovTitle, HTMLStencilElement {
     }
     var HTMLAegovTitleElement: {
@@ -2413,8 +2413,6 @@ declare global {
         "aegov-link": HTMLAegovLinkElement;
         "aegov-modal": HTMLAegovModalElement;
         "aegov-pagination": HTMLAegovPaginationElement;
-        "aegov-progress": HTMLAegovProgressElement;
-        "aegov-progress-step": HTMLAegovProgressStepElement;
         "aegov-radio": HTMLAegovRadioElement;
         "aegov-radio-group": HTMLAegovRadioGroupElement;
         "aegov-range": HTMLAegovRangeElement;
@@ -2427,6 +2425,8 @@ declare global {
         "aegov-tabs": HTMLAegovTabsElement;
         "aegov-text": HTMLAegovTextElement;
         "aegov-textarea": HTMLAegovTextareaElement;
+        "aegov-timeline": HTMLAegovTimelineElement;
+        "aegov-timeline-step": HTMLAegovTimelineStepElement;
         "aegov-title": HTMLAegovTitleElement;
         "aegov-toast": HTMLAegovToastElement;
         "aegov-toggle": HTMLAegovToggleElement;
@@ -3477,66 +3477,6 @@ declare namespace LocalJSX {
          */
         "variant"?: PaginationVariant;
     }
-    interface AegovProgress {
-        /**
-          * Layout orientation.
-          * @default 'horizontal'
-         */
-        "orientation"?: ProgressOrientation;
-        /**
-          * Size of step indicators.
-          * @default 'base'
-         */
-        "size"?: ProgressSize;
-        /**
-          * Visual variant: default (numbered circles) or compact (dots).
-          * @default 'default'
-         */
-        "variant"?: ProgressVariant;
-    }
-    interface AegovProgressStep {
-        /**
-          * @default false
-         */
-        "connectorSolid"?: boolean;
-        /**
-          * Optional description shown below the label.
-         */
-        "description"?: string;
-        /**
-          * @default false
-         */
-        "isFirst"?: boolean;
-        /**
-          * @default false
-         */
-        "isLast"?: boolean;
-        /**
-          * @default 'horizontal'
-         */
-        "orientation"?: ProgressOrientation;
-        /**
-          * @default 'base'
-         */
-        "size"?: ProgressSize;
-        /**
-          * Step status.
-          * @default 'pending'
-         */
-        "status"?: ProgressStepStatus;
-        /**
-          * @default 1
-         */
-        "stepCount"?: number;
-        /**
-          * @default 0
-         */
-        "stepIndex"?: number;
-        /**
-          * @default 'default'
-         */
-        "variant"?: ProgressVariant;
-    }
     interface AegovRadio {
         /**
           * Whether the radio is checked.
@@ -4031,6 +3971,66 @@ declare namespace LocalJSX {
          */
         "value"?: string;
     }
+    interface AegovTimeline {
+        /**
+          * Layout orientation.
+          * @default 'horizontal'
+         */
+        "orientation"?: TimelineOrientation;
+        /**
+          * Size of step indicators.
+          * @default 'base'
+         */
+        "size"?: TimelineSize;
+        /**
+          * Visual variant: default (numbered circles) or compact (dots).
+          * @default 'default'
+         */
+        "variant"?: TimelineVariant;
+    }
+    interface AegovTimelineStep {
+        /**
+          * @default false
+         */
+        "connectorSolid"?: boolean;
+        /**
+          * Optional description shown below the label.
+         */
+        "description"?: string;
+        /**
+          * @default false
+         */
+        "isFirst"?: boolean;
+        /**
+          * @default false
+         */
+        "isLast"?: boolean;
+        /**
+          * @default 'horizontal'
+         */
+        "orientation"?: TimelineOrientation;
+        /**
+          * @default 'base'
+         */
+        "size"?: TimelineSize;
+        /**
+          * Step status.
+          * @default 'pending'
+         */
+        "status"?: TimelineStepStatus;
+        /**
+          * @default 1
+         */
+        "stepCount"?: number;
+        /**
+          * @default 0
+         */
+        "stepIndex"?: number;
+        /**
+          * @default 'default'
+         */
+        "variant"?: TimelineVariant;
+    }
     interface AegovTitle {
         /**
           * Additional CSS classes to apply to the title.
@@ -4224,8 +4224,6 @@ declare namespace LocalJSX {
         "aegov-link": AegovLink;
         "aegov-modal": AegovModal;
         "aegov-pagination": AegovPagination;
-        "aegov-progress": AegovProgress;
-        "aegov-progress-step": AegovProgressStep;
         "aegov-radio": AegovRadio;
         "aegov-radio-group": AegovRadioGroup;
         "aegov-range": AegovRange;
@@ -4238,6 +4236,8 @@ declare namespace LocalJSX {
         "aegov-tabs": AegovTabs;
         "aegov-text": AegovText;
         "aegov-textarea": AegovTextarea;
+        "aegov-timeline": AegovTimeline;
+        "aegov-timeline-step": AegovTimelineStep;
         "aegov-title": AegovTitle;
         "aegov-toast": AegovToast;
         "aegov-toggle": AegovToggle;
@@ -4297,8 +4297,6 @@ declare module "@stencil/core" {
             "aegov-link": LocalJSX.AegovLink & JSXBase.HTMLAttributes<HTMLAegovLinkElement>;
             "aegov-modal": LocalJSX.AegovModal & JSXBase.HTMLAttributes<HTMLAegovModalElement>;
             "aegov-pagination": LocalJSX.AegovPagination & JSXBase.HTMLAttributes<HTMLAegovPaginationElement>;
-            "aegov-progress": LocalJSX.AegovProgress & JSXBase.HTMLAttributes<HTMLAegovProgressElement>;
-            "aegov-progress-step": LocalJSX.AegovProgressStep & JSXBase.HTMLAttributes<HTMLAegovProgressStepElement>;
             "aegov-radio": LocalJSX.AegovRadio & JSXBase.HTMLAttributes<HTMLAegovRadioElement>;
             "aegov-radio-group": LocalJSX.AegovRadioGroup & JSXBase.HTMLAttributes<HTMLAegovRadioGroupElement>;
             "aegov-range": LocalJSX.AegovRange & JSXBase.HTMLAttributes<HTMLAegovRangeElement>;
@@ -4343,6 +4341,8 @@ declare module "@stencil/core" {
             "aegov-tabs": LocalJSX.AegovTabs & JSXBase.HTMLAttributes<HTMLAegovTabsElement>;
             "aegov-text": LocalJSX.AegovText & JSXBase.HTMLAttributes<HTMLAegovTextElement>;
             "aegov-textarea": LocalJSX.AegovTextarea & JSXBase.HTMLAttributes<HTMLAegovTextareaElement>;
+            "aegov-timeline": LocalJSX.AegovTimeline & JSXBase.HTMLAttributes<HTMLAegovTimelineElement>;
+            "aegov-timeline-step": LocalJSX.AegovTimelineStep & JSXBase.HTMLAttributes<HTMLAegovTimelineStepElement>;
             "aegov-title": LocalJSX.AegovTitle & JSXBase.HTMLAttributes<HTMLAegovTitleElement>;
             "aegov-toast": LocalJSX.AegovToast & JSXBase.HTMLAttributes<HTMLAegovToastElement>;
             "aegov-toggle": LocalJSX.AegovToggle & JSXBase.HTMLAttributes<HTMLAegovToggleElement>;
