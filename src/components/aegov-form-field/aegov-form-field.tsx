@@ -28,6 +28,7 @@ export class AegovFormField {
     const select = this.el.querySelector('aegov-select') as HTMLAegovSelectElement | null;
     const checkbox = this.el.querySelector('aegov-checkbox') as HTMLAegovCheckboxElement | null;
     const range = this.el.querySelector('aegov-range') as HTMLAegovRangeElement | null;
+    const progress = this.el.querySelector('aegov-progress') as HTMLAegovProgressElement | null;
 
     if (label) {
       if (input && input.fieldId) {
@@ -40,6 +41,8 @@ export class AegovFormField {
         label.htmlFor = checkbox.fieldId;
       } else if (range && range.fieldId) {
         label.htmlFor = range.fieldId;
+      } else if (progress && progress.fieldId) {
+        label.htmlFor = progress.fieldId;
       }
     }
   }

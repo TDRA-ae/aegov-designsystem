@@ -5,9 +5,9 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
-import { AccordionIcon, AvatarGroupMode, AvatarSize, AvatarStatus, AvatarVariant, BadgeAppearance, BadgeColor, BadgeSize, BannerDisplay, BannerMode, BannerPosition, BannerRole, BlockquoteVariant, BreadcrumbSeparator, ButtonAppearance, ButtonGroupOrientation, ButtonSize, ButtonType, ButtonVariant, CalloutAppearance, CalloutVariant, CardBackground, CardBorderStyle, CardBorderWidth, CardHover, CheckboxGroupOrientation, CheckboxGroupVariant, CheckboxSize, DatepickerChangeDetail, DatepickerMode, DatepickerMonthChangeDetail, DropdownAlign, DropdownPosition, DropdownTrigger, FileuploadSize, FileuploadVariant, InputSize, InputType, LinkTarget, ModalBackdropOpacity, ModalPosition, PaginationSize, PaginationVariant, RadioGroupOrientation, RadioGroupVariant, RadioSize, RangeDisplay, RangeMode, RangeOrientation, RangeSize, SelectChangeDetail, SelectSize, SelectVariant, TabOrientation, TabSize, TabVariant, TextareaResize, TextareaSize, TextSize, TimelineOrientation, TimelineSize, TimelineStepStatus, TimelineVariant, TitleSize, ToastAppearance, ToastMode, ToastPosition, ToastVariant, ToggleSize, TooltipAlign, TooltipPosition, TooltipTrigger } from "./utils/types";
+import { AccordionIcon, AvatarGroupMode, AvatarSize, AvatarStatus, AvatarVariant, BadgeAppearance, BadgeColor, BadgeSize, BannerDisplay, BannerMode, BannerPosition, BannerRole, BlockquoteVariant, BreadcrumbSeparator, ButtonAppearance, ButtonGroupOrientation, ButtonSize, ButtonType, ButtonVariant, CalloutAppearance, CalloutVariant, CardBackground, CardBorderStyle, CardBorderWidth, CardHover, CheckboxGroupOrientation, CheckboxGroupVariant, CheckboxSize, DatepickerChangeDetail, DatepickerMode, DatepickerMonthChangeDetail, DropdownAlign, DropdownPosition, DropdownTrigger, FileuploadSize, FileuploadVariant, InputSize, InputType, LinkTarget, ModalBackdropOpacity, ModalPosition, PaginationSize, PaginationVariant, ProgressCounter, RadioGroupOrientation, RadioGroupVariant, RadioSize, RangeDisplay, RangeMode, RangeOrientation, RangeSize, SelectChangeDetail, SelectSize, SelectVariant, TabOrientation, TabSize, TabVariant, TextareaResize, TextareaSize, TextSize, TimelineOrientation, TimelineSize, TimelineStepStatus, TimelineVariant, TitleSize, ToastAppearance, ToastMode, ToastPosition, ToastVariant, ToggleSize, TooltipAlign, TooltipPosition, TooltipTrigger } from "./utils/types";
 import { Event } from "@stencil/core";
-export { AccordionIcon, AvatarGroupMode, AvatarSize, AvatarStatus, AvatarVariant, BadgeAppearance, BadgeColor, BadgeSize, BannerDisplay, BannerMode, BannerPosition, BannerRole, BlockquoteVariant, BreadcrumbSeparator, ButtonAppearance, ButtonGroupOrientation, ButtonSize, ButtonType, ButtonVariant, CalloutAppearance, CalloutVariant, CardBackground, CardBorderStyle, CardBorderWidth, CardHover, CheckboxGroupOrientation, CheckboxGroupVariant, CheckboxSize, DatepickerChangeDetail, DatepickerMode, DatepickerMonthChangeDetail, DropdownAlign, DropdownPosition, DropdownTrigger, FileuploadSize, FileuploadVariant, InputSize, InputType, LinkTarget, ModalBackdropOpacity, ModalPosition, PaginationSize, PaginationVariant, RadioGroupOrientation, RadioGroupVariant, RadioSize, RangeDisplay, RangeMode, RangeOrientation, RangeSize, SelectChangeDetail, SelectSize, SelectVariant, TabOrientation, TabSize, TabVariant, TextareaResize, TextareaSize, TextSize, TimelineOrientation, TimelineSize, TimelineStepStatus, TimelineVariant, TitleSize, ToastAppearance, ToastMode, ToastPosition, ToastVariant, ToggleSize, TooltipAlign, TooltipPosition, TooltipTrigger } from "./utils/types";
+export { AccordionIcon, AvatarGroupMode, AvatarSize, AvatarStatus, AvatarVariant, BadgeAppearance, BadgeColor, BadgeSize, BannerDisplay, BannerMode, BannerPosition, BannerRole, BlockquoteVariant, BreadcrumbSeparator, ButtonAppearance, ButtonGroupOrientation, ButtonSize, ButtonType, ButtonVariant, CalloutAppearance, CalloutVariant, CardBackground, CardBorderStyle, CardBorderWidth, CardHover, CheckboxGroupOrientation, CheckboxGroupVariant, CheckboxSize, DatepickerChangeDetail, DatepickerMode, DatepickerMonthChangeDetail, DropdownAlign, DropdownPosition, DropdownTrigger, FileuploadSize, FileuploadVariant, InputSize, InputType, LinkTarget, ModalBackdropOpacity, ModalPosition, PaginationSize, PaginationVariant, ProgressCounter, RadioGroupOrientation, RadioGroupVariant, RadioSize, RangeDisplay, RangeMode, RangeOrientation, RangeSize, SelectChangeDetail, SelectSize, SelectVariant, TabOrientation, TabSize, TabVariant, TextareaResize, TextareaSize, TextSize, TimelineOrientation, TimelineSize, TimelineStepStatus, TimelineVariant, TitleSize, ToastAppearance, ToastMode, ToastPosition, ToastVariant, ToggleSize, TooltipAlign, TooltipPosition, TooltipTrigger } from "./utils/types";
 export { Event } from "@stencil/core";
 export namespace Components {
     /**
@@ -967,6 +967,43 @@ export namespace Components {
           * @default 'default'
          */
         "variant": PaginationVariant;
+    }
+    interface AegovProgress {
+        /**
+          * Additional CSS classes.
+         */
+        "class"?: string;
+        /**
+          * Counter placement. Hidden when not set.
+         */
+        "counter"?: ProgressCounter;
+        /**
+          * Suffix appended directly to the counter value. No automatic spacing.
+          * @default ''
+         */
+        "counterSuffix": string;
+        /**
+          * Description text displayed below the progress bar.
+         */
+        "description"?: string;
+        /**
+          * Unique ID for the native progress element. Auto-generated if not provided.
+         */
+        "fieldId"?: string;
+        /**
+          * Height using Tailwind spacing scale (1, 1.5, 2, 2.5, 3, 3.5, 4, etc.). Each unit = 0.25rem. Default "2" = h-2 = 0.5rem (8px).
+          * @default '2'
+         */
+        "height": string;
+        /**
+          * Maximum value.
+          * @default 100
+         */
+        "max": number;
+        /**
+          * Current value. When not set, shows indeterminate state.
+         */
+        "value"?: number;
     }
     interface AegovRadio {
         /**
@@ -2135,6 +2172,12 @@ declare global {
         prototype: HTMLAegovPaginationElement;
         new (): HTMLAegovPaginationElement;
     };
+    interface HTMLAegovProgressElement extends Components.AegovProgress, HTMLStencilElement {
+    }
+    var HTMLAegovProgressElement: {
+        prototype: HTMLAegovProgressElement;
+        new (): HTMLAegovProgressElement;
+    };
     interface HTMLAegovRadioElementEventMap {
         "aegovRadioChange": { checked: boolean; value?: string };
     }
@@ -2413,6 +2456,7 @@ declare global {
         "aegov-link": HTMLAegovLinkElement;
         "aegov-modal": HTMLAegovModalElement;
         "aegov-pagination": HTMLAegovPaginationElement;
+        "aegov-progress": HTMLAegovProgressElement;
         "aegov-radio": HTMLAegovRadioElement;
         "aegov-radio-group": HTMLAegovRadioGroupElement;
         "aegov-range": HTMLAegovRangeElement;
@@ -3477,6 +3521,43 @@ declare namespace LocalJSX {
          */
         "variant"?: PaginationVariant;
     }
+    interface AegovProgress {
+        /**
+          * Additional CSS classes.
+         */
+        "class"?: string;
+        /**
+          * Counter placement. Hidden when not set.
+         */
+        "counter"?: ProgressCounter;
+        /**
+          * Suffix appended directly to the counter value. No automatic spacing.
+          * @default ''
+         */
+        "counterSuffix"?: string;
+        /**
+          * Description text displayed below the progress bar.
+         */
+        "description"?: string;
+        /**
+          * Unique ID for the native progress element. Auto-generated if not provided.
+         */
+        "fieldId"?: string;
+        /**
+          * Height using Tailwind spacing scale (1, 1.5, 2, 2.5, 3, 3.5, 4, etc.). Each unit = 0.25rem. Default "2" = h-2 = 0.5rem (8px).
+          * @default '2'
+         */
+        "height"?: string;
+        /**
+          * Maximum value.
+          * @default 100
+         */
+        "max"?: number;
+        /**
+          * Current value. When not set, shows indeterminate state.
+         */
+        "value"?: number;
+    }
     interface AegovRadio {
         /**
           * Whether the radio is checked.
@@ -4224,6 +4305,7 @@ declare namespace LocalJSX {
         "aegov-link": AegovLink;
         "aegov-modal": AegovModal;
         "aegov-pagination": AegovPagination;
+        "aegov-progress": AegovProgress;
         "aegov-radio": AegovRadio;
         "aegov-radio-group": AegovRadioGroup;
         "aegov-range": AegovRange;
@@ -4297,6 +4379,7 @@ declare module "@stencil/core" {
             "aegov-link": LocalJSX.AegovLink & JSXBase.HTMLAttributes<HTMLAegovLinkElement>;
             "aegov-modal": LocalJSX.AegovModal & JSXBase.HTMLAttributes<HTMLAegovModalElement>;
             "aegov-pagination": LocalJSX.AegovPagination & JSXBase.HTMLAttributes<HTMLAegovPaginationElement>;
+            "aegov-progress": LocalJSX.AegovProgress & JSXBase.HTMLAttributes<HTMLAegovProgressElement>;
             "aegov-radio": LocalJSX.AegovRadio & JSXBase.HTMLAttributes<HTMLAegovRadioElement>;
             "aegov-radio-group": LocalJSX.AegovRadioGroup & JSXBase.HTMLAttributes<HTMLAegovRadioGroupElement>;
             "aegov-range": LocalJSX.AegovRange & JSXBase.HTMLAttributes<HTMLAegovRangeElement>;

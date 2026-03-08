@@ -1,0 +1,105 @@
+:host {
+  @apply block;
+}
+
+.aegov-progress {
+  @apply relative;
+}
+
+/* ============================================
+   Top counter row
+   ============================================ */
+
+.progress__top-row {
+  @apply flex justify-end mb-1;
+}
+
+/* ============================================
+   Track row
+   ============================================ */
+
+.progress__row {
+  @apply flex items-center;
+}
+
+.progress__row--trailing {
+  @apply gap-3;
+}
+
+/* ============================================
+   Track — background bar
+   ============================================ */
+
+.progress__track {
+  @apply relative flex-1 min-w-0 rounded-full bg-aeblack-200 overflow-hidden;
+}
+
+/* ============================================
+   Fill — colored portion
+   ============================================ */
+
+.progress__fill {
+  @apply absolute inset-y-0 rounded-full bg-primary-600;
+  inset-inline-start: 0;
+  transition: width 300ms ease-in-out;
+}
+
+/* ============================================
+   Indeterminate — striped pulsing animation
+   ============================================ */
+
+.progress__track--indeterminate::after {
+  content: '';
+  @apply absolute inset-0 rounded-full;
+  background-image: repeating-linear-gradient(
+    -45deg,
+    theme('colors.primary.600') 0,
+    theme('colors.primary.600') 8px,
+    theme('colors.primary.500') 8px,
+    theme('colors.primary.500') 16px
+  );
+  background-size: 32px 100%;
+  animation: progress-stripe 0.8s linear infinite;
+}
+
+@keyframes progress-stripe {
+  0% { background-position: 0 0; }
+  100% { background-position: 32px 0; }
+}
+
+/* ============================================
+   Counter
+   ============================================ */
+
+.progress__counter {
+  @apply text-sm text-aeblack-600 font-medium whitespace-nowrap select-none;
+  font-variant-numeric: tabular-nums;
+}
+
+.progress__counter--trailing {
+  @apply shrink-0;
+}
+
+/* ============================================
+   Native progress — visually hidden, accessible
+   ============================================ */
+
+.progress__native {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+/* ============================================
+   Description
+   ============================================ */
+
+.progress__description {
+  @apply text-sm text-aeblack-500 mt-1;
+}
