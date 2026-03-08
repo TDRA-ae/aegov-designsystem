@@ -3,6 +3,89 @@ import { getFocusableElements, MENU_FOCUSABLE_SELECTORS, cycleFocus } from '../.
 import { createPortal, removePortal } from '../../utils/portal-manager';
 import { createKeyboardHandler } from '../../utils/keyboard-handler';
 
+/**
+ * Design token values used in portal-injected styles.
+ * Portal elements live outside Stencil's scope, so Tailwind utilities aren't available.
+ * Keep in sync with the Tailwind theme.
+ */
+const PORTAL_TOKENS = {
+  borderColor: 'oklch(0.817 0.014 264.536)',   // --color-slate-300
+  dividerColor: 'oklch(0.896 0.006 264.531)',   // --color-slate-200
+  hoverBg: 'oklch(0.976 0.003 264.542)',        // --color-slate-50
+  focusRing: 'oklch(0.546 0.184 259.939)',      // --color-blue-600
+  focusBg: 'oklch(0.942 0.032 254.599)',        // --color-blue-50
+  shadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
+  radius: '0.5rem',
+} as const;
+
+/** CSS injected into the portal element (scoped CSS can't reach it). */
+const CONTEXT_MENU_PORTAL_STYLES = `
+  .aegov-context-menu-portal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 9999;
+    pointer-events: none;
+  }
+
+  .aegov-context-menu-portal .aegov-context-menu {
+    background: white;
+    border: 1px solid ${PORTAL_TOKENS.borderColor};
+    border-radius: ${PORTAL_TOKENS.radius};
+    box-shadow: ${PORTAL_TOKENS.shadow};
+    position: fixed;
+    visibility: hidden;
+    pointer-events: auto;
+    padding: 0.5rem;
+    width: auto;
+    min-width: 12rem;
+    max-width: 20rem;
+    z-index: 9999;
+    opacity: 0;
+    transform: scale(0.95);
+    transition: opacity 150ms ease-in-out, transform 150ms ease-in-out;
+  }
+
+  .aegov-context-menu-portal .aegov-context-menu[data-state="open"] {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  .aegov-context-menu-portal .aegov-context-menu button {
+    width: 100%;
+    text-align: left;
+    padding: 0.5rem 0.75rem;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    border-radius: 0.25rem;
+    transition: background-color 150ms ease-in-out;
+  }
+
+  .aegov-context-menu-portal .aegov-context-menu button:hover {
+    background-color: ${PORTAL_TOKENS.hoverBg};
+  }
+
+  .aegov-context-menu-portal .aegov-context-menu button:focus {
+    outline: 2px solid ${PORTAL_TOKENS.focusRing};
+    outline-offset: -2px;
+    background-color: ${PORTAL_TOKENS.focusBg};
+  }
+
+  .aegov-context-menu-portal .aegov-context-menu button:disabled,
+  .aegov-context-menu-portal .aegov-context-menu button[aria-disabled="true"] {
+    opacity: 0.5;
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+
+  .aegov-context-menu-portal .aegov-context-menu hr {
+    border: none;
+    border-top: 1px solid ${PORTAL_TOKENS.dividerColor};
+    margin: 0.5rem 0;
+  }
+`;
+
 // Singleton to track currently open context menu
 let currentOpenContextMenu: AegovContextMenu | null = null;
 
@@ -322,72 +405,7 @@ export class AegovContextMenu {
 
     // Inject styles for portal content (scoped CSS can't reach portal elements)
     const styleElement = document.createElement('style');
-    styleElement.textContent = `
-      .aegov-context-menu-portal {
-        position: fixed;
-        top: 0;
-        left: 0;
-        z-index: 9999;
-        pointer-events: none;
-      }
-
-      .aegov-context-menu-portal .aegov-context-menu {
-        background: white;
-        border: 1px solid #cbd5e0;
-        border-radius: 0.5rem;
-        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-        position: fixed;
-        visibility: hidden;
-        pointer-events: auto;
-        padding: 0.5rem;
-        width: auto;
-        min-width: 12rem;
-        max-width: 20rem;
-        z-index: 9999;
-        opacity: 0;
-        transform: scale(0.95);
-        transition: opacity 150ms ease-in-out, transform 150ms ease-in-out;
-      }
-
-      .aegov-context-menu-portal .aegov-context-menu[data-state="open"] {
-        opacity: 1;
-        transform: scale(1);
-      }
-
-      .aegov-context-menu-portal .aegov-context-menu button {
-        width: 100%;
-        text-align: left;
-        padding: 0.5rem 0.75rem;
-        border: none;
-        background: transparent;
-        cursor: pointer;
-        border-radius: 0.25rem;
-        transition: background-color 150ms ease-in-out;
-      }
-
-      .aegov-context-menu-portal .aegov-context-menu button:hover {
-        background-color: #f7fafc;
-      }
-
-      .aegov-context-menu-portal .aegov-context-menu button:focus {
-        outline: 2px solid #3182ce;
-        outline-offset: -2px;
-        background-color: #ebf8ff;
-      }
-
-      .aegov-context-menu-portal .aegov-context-menu button:disabled,
-      .aegov-context-menu-portal .aegov-context-menu button[aria-disabled="true"] {
-        opacity: 0.5;
-        cursor: not-allowed;
-        pointer-events: none;
-      }
-
-      .aegov-context-menu-portal .aegov-context-menu hr {
-        border: none;
-        border-top: 1px solid #e2e8f0;
-        margin: 0.5rem 0;
-      }
-    `;
+    styleElement.textContent = CONTEXT_MENU_PORTAL_STYLES;
     this.portalElement.appendChild(styleElement);
 
     // Create menu container
