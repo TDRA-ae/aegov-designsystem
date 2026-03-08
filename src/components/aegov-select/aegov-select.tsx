@@ -70,6 +70,8 @@ export class AegovSelect {
   private triggerRef?: HTMLDivElement;
   private searchInputRef?: HTMLInputElement;
   private selectId: string;
+  private cachedSelectedValues: string[] = [];
+  private cachedDisplayText: string = '';
 
   /** Emitted when the selected value changes. */
   @Event() aegovSelectChange: EventEmitter<SelectChangeDetail>;
@@ -86,12 +88,14 @@ export class AegovSelect {
     }
     this.selectId = `${this.fieldId}-listbox`;
     this.parseOptions();
+    this.updateDerivedState();
   }
 
   componentDidLoad() {
     // Re-parse if children weren't available during componentWillLoad
     if (this.parsedOptions.length === 0) {
       this.parseOptions();
+      this.updateDerivedState();
     }
   }
 
@@ -106,23 +110,36 @@ export class AegovSelect {
     return this.variant === 'listbox' || this.multiple;
   }
 
-  /** Current selected values as an array. */
+  /** Current selected values as an array (cached). */
   private get selectedValues(): string[] {
-    if (!this.value) return [];
-    return this.value.split(',').filter(v => v !== '');
+    return this.cachedSelectedValues;
   }
 
-  /** Get the display text for the trigger. */
+  /** Get the display text for the trigger (cached). */
   private get displayText(): string {
-    const selected = this.selectedValues;
-    if (selected.length === 0) return '';
+    return this.cachedDisplayText;
+  }
 
-    if (this.multiple) {
-      return `${selected.length} selected`;
+  @Watch('value')
+  onValueChange() {
+    this.updateDerivedState();
+  }
+
+  /** Recompute cached selectedValues and displayText from this.value. */
+  private updateDerivedState() {
+    this.cachedSelectedValues = !this.value
+      ? []
+      : this.value.split(',').filter(v => v !== '');
+
+    const selected = this.cachedSelectedValues;
+    if (selected.length === 0) {
+      this.cachedDisplayText = '';
+    } else if (this.multiple) {
+      this.cachedDisplayText = `${selected.length} selected`;
+    } else {
+      const option = this.parsedOptions.find(o => o.value === selected[0]);
+      this.cachedDisplayText = option ? option.label : selected[0];
     }
-
-    const option = this.parsedOptions.find(o => o.value === selected[0]);
-    return option ? option.label : selected[0];
   }
 
   /** Parse option children into a flat list. */
@@ -382,6 +399,7 @@ export class AegovSelect {
   onOpenChange() {
     if (this.isOpen) {
       this.parseOptions();
+      this.updateDerivedState();
     }
   }
 
