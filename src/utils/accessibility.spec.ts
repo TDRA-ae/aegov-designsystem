@@ -29,8 +29,6 @@ import { AegovTabs } from '../components/aegov-tabs/aegov-tabs';
 import { AegovTab } from '../components/aegov-tab/aegov-tab';
 import { AegovTabPanel } from '../components/aegov-tab-panel/aegov-tab-panel';
 import { AegovDropdown } from '../components/aegov-dropdown/aegov-dropdown';
-import { AegovContextMenu } from '../components/aegov-context-menu/aegov-context-menu';
-import { AegovContextMenuItem } from '../components/aegov-context-menu-item/aegov-context-menu-item';
 import { AegovPagination } from '../components/aegov-pagination/aegov-pagination';
 import { AegovButtonGroup } from '../components/aegov-button-group/aegov-button-group';
 import { AegovSeparator } from '../components/aegov-separator/aegov-separator';
@@ -731,86 +729,6 @@ describe('Accessibility Testing Suite', () => {
 
   });
 
-  describe('aegov-context-menu - Accessibility', () => {
-
-    let testDiv: HTMLDivElement;
-
-    beforeEach(() => {
-      testDiv = document.createElement('div');
-      testDiv.id = 'ctx-test-target';
-      document.body.appendChild(testDiv);
-    });
-
-    afterEach(() => {
-      try {
-        const portals = document.querySelectorAll('.aegov-context-menu-portal');
-        portals.forEach(portal => {
-          try { portal.remove(); } catch (_e) { /* ignore */ }
-        });
-        if (testDiv && testDiv.parentNode) {
-          try { testDiv.parentNode.removeChild(testDiv); } catch (_e) { /* ignore */ }
-        }
-      } catch (_e) { /* ignore */ }
-    });
-
-    it('should render with role="menu" when opened', async () => {
-      const page = await newSpecPage({
-        components: [AegovContextMenu],
-        html: `
-          <aegov-context-menu target="#ctx-test-target">
-            <button>Item</button>
-          </aegov-context-menu>
-        `,
-      });
-
-      await page.waitForChanges();
-      await page.rootInstance.show(100, 100);
-      await page.waitForChanges();
-
-      const portal = document.querySelector('.aegov-context-menu-portal');
-      if (portal) {
-        const menu = portal.querySelector('.aegov-context-menu');
-        expect(menu.getAttribute('role')).toBe('menu');
-      }
-    });
-
-  });
-
-  describe('aegov-context-menu-item - Accessibility', () => {
-
-    it('should have role="menuitem"', async () => {
-      const page = await newSpecPage({
-        components: [AegovContextMenuItem],
-        html: `<aegov-context-menu-item>Edit</aegov-context-menu-item>`,
-      });
-
-      const button = page.root.querySelector('button');
-      expect(button.getAttribute('role')).toBe('menuitem');
-    });
-
-    it('should have aria-disabled="false" when not disabled', async () => {
-      const page = await newSpecPage({
-        components: [AegovContextMenuItem],
-        html: `<aegov-context-menu-item>Edit</aegov-context-menu-item>`,
-      });
-
-      const button = page.root.querySelector('button');
-      expect(button.getAttribute('aria-disabled')).toBe('false');
-    });
-
-    it('should have aria-disabled="true" when disabled', async () => {
-      const page = await newSpecPage({
-        components: [AegovContextMenuItem],
-        html: `<aegov-context-menu-item disabled>Delete</aegov-context-menu-item>`,
-      });
-
-      const button = page.root.querySelector('button');
-      expect(button.getAttribute('aria-disabled')).toBe('true');
-      expect(button.hasAttribute('disabled')).toBe(true);
-    });
-
-  });
-
   describe('aegov-pagination - Accessibility', () => {
 
     it('should have nav landmark with aria-label', async () => {
@@ -1086,17 +1004,6 @@ describe('Accessibility Testing Suite', () => {
 
       const buttons = page.root.querySelectorAll('button');
       expect(buttons.length).toBeGreaterThan(0);
-    });
-
-    it('aegov-context-menu-item should be keyboard accessible', async () => {
-      const page = await newSpecPage({
-        components: [AegovContextMenuItem],
-        html: `<aegov-context-menu-item>Edit</aegov-context-menu-item>`,
-      });
-
-      const button = page.root.querySelector('button');
-      expect(button).toBeTruthy();
-      expect(button.getAttribute('type')).toBe('button');
     });
 
   });

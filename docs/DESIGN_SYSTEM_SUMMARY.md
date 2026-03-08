@@ -25,7 +25,7 @@ Quick reference and overview of the entire AEGOV Design System architecture, tok
 **Technology Stack:**
 - **Component Framework:** StencilJS v4.38.3
 - **Styling:** Tailwind CSS v4.1.17
-- **Encapsulation:** Scoped CSS (with Shadow DOM for modal and context-menu-item)
+- **Encapsulation:** Scoped CSS (with Shadow DOM for modal)
 - **Color Space:** OKLCH
 - **Build Tool:** Stencil Compiler + PostCSS
 - **Testing:** Jest (Unit) + Puppeteer (E2E)
@@ -294,29 +294,6 @@ aegovDropdownClose: void
 
 ---
 
-#### `<aegov-context-menu>` / `<aegov-context-menu-item>`
-
-**Status:** Complete | **Encapsulation:** scoped (parent), shadow (item) | **Pattern:** Portal
-
-```typescript
-// Methods
-show(x: number, y: number): void
-close(): void
-// Events
-aegovContextMenuOpen: { x, y, targetElement }
-aegovContextMenuClose: void
-aegovContextMenuItemClick: { label, value }
-```
-
-```html
-<aegov-context-menu id="my-menu">
-  <aegov-context-menu-item label="Edit" value="edit"></aegov-context-menu-item>
-  <aegov-context-menu-item label="Delete" value="delete"></aegov-context-menu-item>
-</aegov-context-menu>
-```
-
----
-
 #### `<aegov-modal>`
 
 **Status:** Complete | **Encapsulation:** shadow
@@ -552,7 +529,7 @@ decorative?: boolean  // default: true (role="presentation")
 
 ### 1. Scoped CSS vs Shadow DOM
 
-**Decision:** Use Scoped CSS for most components; Shadow DOM for modal and context-menu-item.
+**Decision:** Use Scoped CSS for most components; Shadow DOM for modal and drawer.
 **Rationale:**
 - Scoped CSS allows Tailwind class extraction by consumers
 - Shadow DOM used where strict style isolation is essential (overlays)
