@@ -457,7 +457,7 @@ describe('aegov-button', () => {
         components: [AegovButton],
         html: `<aegov-button>Button</aegov-button>`,
       });
-      page.rootInstance.isFirst = true;
+      page.rootInstance.groupPosition = 'first';
       page.rootInstance.groupOrientation = 'horizontal';
       await page.waitForChanges();
 
@@ -471,7 +471,7 @@ describe('aegov-button', () => {
         components: [AegovButton],
         html: `<aegov-button>Button</aegov-button>`,
       });
-      page.rootInstance.isLast = true;
+      page.rootInstance.groupPosition = 'last';
       page.rootInstance.groupOrientation = 'horizontal';
       await page.waitForChanges();
 
@@ -484,7 +484,7 @@ describe('aegov-button', () => {
         components: [AegovButton],
         html: `<aegov-button>Button</aegov-button>`,
       });
-      page.rootInstance.isSingle = true;
+      page.rootInstance.groupPosition = 'single';
       page.rootInstance.groupOrientation = 'horizontal';
       await page.waitForChanges();
 
@@ -497,7 +497,7 @@ describe('aegov-button', () => {
         components: [AegovButton],
         html: `<aegov-button>Button</aegov-button>`,
       });
-      page.rootInstance.isFirst = true;
+      page.rootInstance.groupPosition = 'first';
       page.rootInstance.groupOrientation = 'vertical';
       await page.waitForChanges();
 

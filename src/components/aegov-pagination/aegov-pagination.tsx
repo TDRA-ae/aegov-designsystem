@@ -14,7 +14,7 @@ export class AegovPagination {
 
   /**
    * Currently active page (1-indexed).
-   * This is a controlled prop — you must update it on every aegovPageChange event.
+   * This is a controlled prop — you must update it on every aegovPaginationPageChange event.
    */
   @Prop() currentPage: number = 1;
 
@@ -74,13 +74,13 @@ export class AegovPagination {
    * Emitted when a page is selected. The event detail is the new page number (1-indexed).
    * Update currentPage in response to this event.
    */
-  @Event() aegovPageChange: EventEmitter<number>;
+  @Event() aegovPaginationPageChange: EventEmitter<number>;
 
   private handlePageClick(page: number): void {
     if (this.disabled || page === this.currentPage || page < 1 || page > this.totalPages) {
       return;
     }
-    this.aegovPageChange.emit(page);
+    this.aegovPaginationPageChange.emit(page);
   }
 
   /**

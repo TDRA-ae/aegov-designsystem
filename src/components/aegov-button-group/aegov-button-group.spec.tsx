@@ -52,7 +52,7 @@ describe('aegov-button-group', () => {
   });
 
   describe('Button Management - Horizontal', () => {
-    it('should set isFirst flag on first button in horizontal group', async () => {
+    it('should set groupPosition to first on first button in horizontal group', async () => {
       const page = await newSpecPage({
         components: [AegovButtonGroup, AegovButton],
         html: `
@@ -65,11 +65,10 @@ describe('aegov-button-group', () => {
 
       await page.waitForChanges();
       const buttons = page.root?.querySelectorAll('aegov-button') as NodeListOf<HTMLAegovButtonElement>;
-      expect(buttons[0].isFirst).toBe(true);
-      expect(buttons[0].isLast).toBe(false);
+      expect(buttons[0].groupPosition).toBe('first');
     });
 
-    it('should set isLast flag on last button in horizontal group', async () => {
+    it('should set groupPosition to last on last button in horizontal group', async () => {
       const page = await newSpecPage({
         components: [AegovButtonGroup, AegovButton],
         html: `
@@ -82,11 +81,10 @@ describe('aegov-button-group', () => {
 
       await page.waitForChanges();
       const buttons = page.root?.querySelectorAll('aegov-button') as NodeListOf<HTMLAegovButtonElement>;
-      expect(buttons[1].isLast).toBe(true);
-      expect(buttons[1].isFirst).toBe(false);
+      expect(buttons[1].groupPosition).toBe('last');
     });
 
-    it('should not set flags on middle buttons in horizontal group', async () => {
+    it('should set groupPosition to middle on middle buttons in horizontal group', async () => {
       const page = await newSpecPage({
         components: [AegovButtonGroup, AegovButton],
         html: `
@@ -100,11 +98,10 @@ describe('aegov-button-group', () => {
 
       await page.waitForChanges();
       const buttons = page.root?.querySelectorAll('aegov-button') as NodeListOf<HTMLAegovButtonElement>;
-      expect(buttons[1].isFirst).toBe(false);
-      expect(buttons[1].isLast).toBe(false);
+      expect(buttons[1].groupPosition).toBe('middle');
     });
 
-    it('should set isSingle flag on single button in horizontal group', async () => {
+    it('should set groupPosition to single on single button in horizontal group', async () => {
       const page = await newSpecPage({
         components: [AegovButtonGroup, AegovButton],
         html: `
@@ -116,9 +113,7 @@ describe('aegov-button-group', () => {
 
       await page.waitForChanges();
       const button = page.root?.querySelector('aegov-button') as HTMLAegovButtonElement;
-      expect(button.isSingle).toBe(true);
-      expect(button.isFirst).toBe(true);
-      expect(button.isLast).toBe(true);
+      expect(button.groupPosition).toBe('single');
     });
 
     it('should pass horizontal orientation to all buttons', async () => {
@@ -140,7 +135,7 @@ describe('aegov-button-group', () => {
   });
 
   describe('Button Management - Vertical', () => {
-    it('should set isFirst flag on first button in vertical group', async () => {
+    it('should set groupPosition to first on first button in vertical group', async () => {
       const page = await newSpecPage({
         components: [AegovButtonGroup, AegovButton],
         html: `
@@ -153,11 +148,10 @@ describe('aegov-button-group', () => {
 
       await page.waitForChanges();
       const buttons = page.root?.querySelectorAll('aegov-button') as NodeListOf<HTMLAegovButtonElement>;
-      expect(buttons[0].isFirst).toBe(true);
-      expect(buttons[0].isLast).toBe(false);
+      expect(buttons[0].groupPosition).toBe('first');
     });
 
-    it('should set isLast flag on last button in vertical group', async () => {
+    it('should set groupPosition to last on last button in vertical group', async () => {
       const page = await newSpecPage({
         components: [AegovButtonGroup, AegovButton],
         html: `
@@ -170,11 +164,10 @@ describe('aegov-button-group', () => {
 
       await page.waitForChanges();
       const buttons = page.root?.querySelectorAll('aegov-button') as NodeListOf<HTMLAegovButtonElement>;
-      expect(buttons[1].isLast).toBe(true);
-      expect(buttons[1].isFirst).toBe(false);
+      expect(buttons[1].groupPosition).toBe('last');
     });
 
-    it('should not set flags on middle buttons in vertical group', async () => {
+    it('should set groupPosition to middle on middle buttons in vertical group', async () => {
       const page = await newSpecPage({
         components: [AegovButtonGroup, AegovButton],
         html: `
@@ -188,8 +181,7 @@ describe('aegov-button-group', () => {
 
       await page.waitForChanges();
       const buttons = page.root?.querySelectorAll('aegov-button') as NodeListOf<HTMLAegovButtonElement>;
-      expect(buttons[1].isFirst).toBe(false);
-      expect(buttons[1].isLast).toBe(false);
+      expect(buttons[1].groupPosition).toBe('middle');
     });
 
     it('should pass vertical orientation to all buttons', async () => {
@@ -211,7 +203,7 @@ describe('aegov-button-group', () => {
   });
 
   describe('Direct Children Filtering', () => {
-    it('should set flags on direct child buttons', async () => {
+    it('should set groupPosition on direct child buttons', async () => {
       const consoleSpy = jest.spyOn(console, 'warn').mockImplementation();
 
       const page = await newSpecPage({
@@ -228,10 +220,9 @@ describe('aegov-button-group', () => {
       await page.waitForChanges();
 
       const buttons = page.root?.querySelectorAll('aegov-button') as NodeListOf<HTMLAegovButtonElement>;
-      expect(buttons[0].isFirst).toBe(true);
-      expect(buttons[1].isFirst).toBe(false);
-      expect(buttons[1].isLast).toBe(false);
-      expect(buttons[2].isLast).toBe(true);
+      expect(buttons[0].groupPosition).toBe('first');
+      expect(buttons[1].groupPosition).toBe('middle');
+      expect(buttons[2].groupPosition).toBe('last');
 
       consoleSpy.mockRestore();
     });
@@ -276,8 +267,8 @@ describe('aegov-button-group', () => {
       await page.waitForChanges();
 
       const buttons = page.root?.querySelectorAll('aegov-button') as NodeListOf<HTMLAegovButtonElement>;
-      expect(buttons[0].isFirst).toBe(true);
-      expect(buttons[1].isLast).toBe(true);
+      expect(buttons[0].groupPosition).toBe('first');
+      expect(buttons[1].groupPosition).toBe('last');
     });
   });
 
@@ -331,13 +322,8 @@ describe('aegov-button-group', () => {
       await page.waitForChanges();
       const buttons = page.root?.querySelectorAll('aegov-button') as NodeListOf<HTMLAegovButtonElement>;
 
-      expect(buttons[0].isFirst).toBe(true);
-      expect(buttons[0].isLast).toBe(false);
-      expect(buttons[0].isSingle).toBe(false);
-
-      expect(buttons[1].isFirst).toBe(false);
-      expect(buttons[1].isLast).toBe(true);
-      expect(buttons[1].isSingle).toBe(false);
+      expect(buttons[0].groupPosition).toBe('first');
+      expect(buttons[1].groupPosition).toBe('last');
     });
 
     it('should handle button group with many buttons', async () => {
@@ -357,17 +343,12 @@ describe('aegov-button-group', () => {
       await page.waitForChanges();
       const buttons = page.root?.querySelectorAll('aegov-button') as NodeListOf<HTMLAegovButtonElement>;
 
-      expect(buttons[0].isFirst).toBe(true);
-      expect(buttons[0].isLast).toBe(false);
-
-      expect(buttons[2].isFirst).toBe(false);
-      expect(buttons[2].isLast).toBe(false);
-
-      expect(buttons[4].isFirst).toBe(false);
-      expect(buttons[4].isLast).toBe(true);
+      expect(buttons[0].groupPosition).toBe('first');
+      expect(buttons[2].groupPosition).toBe('middle');
+      expect(buttons[4].groupPosition).toBe('last');
     });
 
-    it('should set isSingle to false when there are multiple buttons', async () => {
+    it('should not set groupPosition to single when there are multiple buttons', async () => {
       const page = await newSpecPage({
         components: [AegovButtonGroup, AegovButton],
         html: `
@@ -383,7 +364,7 @@ describe('aegov-button-group', () => {
       const buttons = page.root?.querySelectorAll('aegov-button') as NodeListOf<HTMLAegovButtonElement>;
 
       buttons.forEach(button => {
-        expect(button.isSingle).toBe(false);
+        expect(button.groupPosition).not.toBe('single');
       });
     });
   });

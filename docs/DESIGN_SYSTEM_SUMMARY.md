@@ -215,7 +215,7 @@ nextLabel?: string  // default: 'Next'
 firstLabel?: string  // default: 'First'
 lastLabel?: string  // default: 'Last'
 // Events
-aegovPageChange: number  // new page number
+aegovPaginationPageChange: number  // new page number
 ```
 
 ```html
@@ -578,7 +578,7 @@ decorative?: boolean  // default: true (role="presentation")
 ### 5. Event Naming Convention
 
 **Decision:** `aegov` prefix + component name for all custom events
-**Examples:** `aegovPageChange`, `aegovTabChange`, `aegovBadgeDismiss`
+**Examples:** `aegovPaginationPageChange`, `aegovTabChange`, `aegovBadgeDismiss`
 
 ---
 

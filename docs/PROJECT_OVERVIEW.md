@@ -112,7 +112,7 @@ Page navigation with range algorithm and compact variant.
 - **Sizes**: SM, Base, LG
 - **Features**: First/Last buttons, configurable boundary/sibling count, custom labels
 - **Accessibility**: `aria-current="page"`, `aria-live="polite"` on compact indicator
-- **Events**: `aegovPageChange`
+- **Events**: `aegovPaginationPageChange`
 
 ### Interactive
 
@@ -349,7 +349,7 @@ Parent components (`tabs`, `accordion`, `breadcrumbs`, `button-group`) set props
 
 ### 4. Event Naming
 
-All custom events include the component name for clarity (e.g., `aegovPageChange`, `aegovTabChange`, `aegovBadgeDismiss`).
+All custom events include the component name for clarity (e.g., `aegovPaginationPageChange`, `aegovTabChange`, `aegovBadgeDismiss`).
 
 ### 5. Namespace
 
@@ -377,7 +377,7 @@ Build namespace is `aegov` — all outputs are `aegov.js`, `aegov.esm.js`, `aego
 | aegov-dropdown | Standalone | scoped | `aegovDropdownOpen`, `aegovDropdownClose` |
 | aegov-link | Standalone | scoped | `aegovLinkClick` |
 | aegov-modal | Standalone | shadow | `aegovModalOpen`, `aegovModalBeforeClose` |
-| aegov-pagination | Standalone | scoped | `aegovPageChange` |
+| aegov-pagination | Standalone | scoped | `aegovPaginationPageChange` |
 | aegov-separator | Standalone | scoped | - |
 | aegov-tab | Child | scoped | `aegovTabSelect` |
 | aegov-tab-panel | Child | scoped | - |
