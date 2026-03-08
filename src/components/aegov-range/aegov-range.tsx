@@ -1,8 +1,7 @@
 import { Component, Host, h, Prop, State, Event, EventEmitter, Element } from '@stencil/core';
 import type { RangeSize, RangeDisplay, RangeOrientation, RangeMode } from '../../utils/types';
 import { getPassThroughAttributes } from '../../utils/attributes';
-
-let rangeIdCounter = 0;
+import { generateId } from '../../utils/id-generator';
 
 @Component({
   tag: 'aegov-range',
@@ -73,7 +72,7 @@ export class AegovRange {
 
   componentWillLoad() {
     if (!this.fieldId) {
-      this.fieldId = `aegov-range-${++rangeIdCounter}`;
+      this.fieldId = generateId('aegov-range');
     }
   }
 

@@ -1,4 +1,7 @@
 import { Component, Host, h, Prop, Element, State, Listen, Event, EventEmitter, Watch, Method } from '@stencil/core';
+import { getFocusableElements, MENU_FOCUSABLE_SELECTORS, cycleFocus } from '../../utils/focus-management';
+import { createPortal, removePortal } from '../../utils/portal-manager';
+import { createKeyboardHandler } from '../../utils/keyboard-handler';
 
 // Singleton to track currently open context menu
 let currentOpenContextMenu: AegovContextMenu | null = null;
@@ -96,17 +99,12 @@ export class AegovContextMenu {
 
   private createPortalElement() {
     if (!this.portalElement) {
-      this.portalElement = document.createElement('div');
-      this.portalElement.className = 'aegov-context-menu-portal';
-      document.body.appendChild(this.portalElement);
+      this.portalElement = createPortal('aegov-context-menu-portal');
     }
   }
 
   private removePortalElement() {
-    if (this.portalElement) {
-      document.body.removeChild(this.portalElement);
-      this.portalElement = undefined;
-    }
+    this.portalElement = removePortal(this.portalElement);
   }
 
   private bindToTargets() {
@@ -280,51 +278,26 @@ export class AegovContextMenu {
     }
   }
 
+  private keyHandler = createKeyboardHandler({
+    onEscape: () => { this.isOpen = false; },
+    onTab: (reverse) => { this.focusNextElement(reverse); },
+    onArrowDown: () => { this.focusNextElement(false); },
+    onArrowUp: () => { this.focusNextElement(true); },
+    onEnter: () => { this.activateFocusedElement(); },
+    onSpace: () => { this.activateFocusedElement(); },
+  });
+
   @Listen('keydown', { target: 'document' })
   handleKeyDown(event: KeyboardEvent) {
     if (!this.isOpen) return;
-
-    switch (event.key) {
-      case 'Escape':
-        event.preventDefault();
-        this.isOpen = false;
-        break;
-      case 'Tab':
-        event.preventDefault();
-        this.focusNextElement(event.shiftKey);
-        break;
-      case 'ArrowDown':
-        event.preventDefault();
-        this.focusNextElement(false);
-        break;
-      case 'ArrowUp':
-        event.preventDefault();
-        this.focusNextElement(true);
-        break;
-      case 'Enter':
-      case ' ':
-        event.preventDefault();
-        this.activateFocusedElement();
-        break;
-    }
+    this.keyHandler(event);
   }
 
   private setupFocusTrap() {
     if (!this.menuRef) return;
 
-    // Get all focusable elements within menu
-    const focusableSelectors = [
-      'a[href]',
-      'button:not([disabled])',
-      '[tabindex]:not([tabindex="-1"])',
-      '[role="menuitem"]:not([aria-disabled="true"])',
-    ];
+    this.focusableElements = getFocusableElements(this.menuRef, MENU_FOCUSABLE_SELECTORS);
 
-    this.focusableElements = Array.from(
-      this.menuRef.querySelectorAll(focusableSelectors.join(', '))
-    ) as HTMLElement[];
-
-    // Focus first element
     if (this.focusableElements.length > 0) {
       this.currentFocusIndex = 0;
       this.focusableElements[0].focus();
@@ -332,21 +305,7 @@ export class AegovContextMenu {
   }
 
   private focusNextElement(reverse: boolean = false) {
-    if (this.focusableElements.length === 0) return;
-
-    if (reverse) {
-      this.currentFocusIndex--;
-      if (this.currentFocusIndex < 0) {
-        this.currentFocusIndex = this.focusableElements.length - 1;
-      }
-    } else {
-      this.currentFocusIndex++;
-      if (this.currentFocusIndex >= this.focusableElements.length) {
-        this.currentFocusIndex = 0;
-      }
-    }
-
-    this.focusableElements[this.currentFocusIndex].focus();
+    this.currentFocusIndex = cycleFocus(this.focusableElements, this.currentFocusIndex, reverse);
   }
 
   private activateFocusedElement() {

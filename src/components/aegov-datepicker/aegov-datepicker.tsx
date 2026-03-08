@@ -4,8 +4,7 @@ import { generateCalendarGrid, getWeekdayNames, getMonthNames, getYearRange, isS
 import { formatDate, parseDate, parseRangeValue, formatRangeValue } from './utils/format';
 import { getPresetDefinitions, calculatePreset } from './utils/presets';
 import { DATEPICKER_PORTAL_STYLES } from './utils/portal-styles';
-
-let datepickerIdCounter = 0;
+import { generateId } from '../../utils/id-generator';
 
 // SVG icons
 const CALENDAR_ICON = `<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>`;
@@ -127,7 +126,7 @@ export class AegovDatepicker {
   // ── Lifecycle ─────────────────────────────────────────
 
   componentWillLoad() {
-    this.datepickerId = `aegov-datepicker-${++datepickerIdCounter}`;
+    this.datepickerId = generateId('aegov-datepicker');
     this.hasTriggerSlot = !!this.el.querySelector('[slot="trigger"]');
 
     this.parseValue();

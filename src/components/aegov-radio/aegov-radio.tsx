@@ -1,8 +1,7 @@
 import { Component, Host, h, Prop, Event, EventEmitter, Element } from '@stencil/core';
 import type { RadioSize } from '../../utils/types';
 import { getPassThroughAttributes } from '../../utils/attributes';
-
-let radioIdCounter = 0;
+import { generateId } from '../../utils/id-generator';
 
 @Component({
   tag: 'aegov-radio',
@@ -48,7 +47,7 @@ export class AegovRadio {
 
   componentWillLoad() {
     if (!this.fieldId) {
-      this.fieldId = `aegov-radio-${++radioIdCounter}`;
+      this.fieldId = generateId('aegov-radio');
     }
   }
 

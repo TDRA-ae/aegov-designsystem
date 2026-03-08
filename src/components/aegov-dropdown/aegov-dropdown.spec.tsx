@@ -472,4 +472,95 @@ describe('aegov-dropdown', () => {
       expect(page.rootInstance.isOpen).toBe(false);
     });
   });
+
+  describe('memory leak prevention', () => {
+    it('should call cleanupDropdownListeners on disconnectedCallback', async () => {
+      const page = await newSpecPage({
+        components: [AegovDropdown],
+        html: `
+          <aegov-dropdown>
+            <button>Trigger</button>
+            <div slot="dropdown-content">Content</div>
+          </aegov-dropdown>
+        `,
+      });
+
+      const instance = page.rootInstance;
+      const cleanupSpy = jest.spyOn(instance, 'cleanupDropdownListeners');
+
+      page.root.remove();
+      await page.waitForChanges();
+
+      expect(cleanupSpy).toHaveBeenCalled();
+    });
+
+    it('should call cleanupDropdownListeners when closing', async () => {
+      const page = await newSpecPage({
+        components: [AegovDropdown],
+        html: `
+          <aegov-dropdown>
+            <button>Trigger</button>
+            <div slot="dropdown-content">Content</div>
+          </aegov-dropdown>
+        `,
+      });
+
+      const instance = page.rootInstance;
+
+      // Open dropdown
+      instance.isOpen = true;
+      await page.waitForChanges();
+
+      const cleanupSpy = jest.spyOn(instance, 'cleanupDropdownListeners');
+
+      // Close dropdown
+      instance.isOpen = false;
+      await page.waitForChanges();
+
+      expect(cleanupSpy).toHaveBeenCalled();
+    });
+
+    it('should remove portal element on disconnectedCallback', async () => {
+      const page = await newSpecPage({
+        components: [AegovDropdown],
+        html: `
+          <aegov-dropdown>
+            <button>Trigger</button>
+            <div slot="dropdown-content">Content</div>
+          </aegov-dropdown>
+        `,
+      });
+
+      const instance = page.rootInstance;
+
+      // Verify portal was created
+      expect(instance.portalElement).toBeDefined();
+
+      page.root.remove();
+      await page.waitForChanges();
+
+      // Portal should be cleaned up
+      expect(instance.portalElement).toBeUndefined();
+    });
+
+    it('should clear timeouts on disconnectedCallback', async () => {
+      const page = await newSpecPage({
+        components: [AegovDropdown],
+        html: `
+          <aegov-dropdown>
+            <button>Trigger</button>
+            <div slot="dropdown-content">Content</div>
+          </aegov-dropdown>
+        `,
+      });
+
+      const instance = page.rootInstance;
+      const clearTimeoutsSpy = jest.spyOn(instance, 'clearTimeouts');
+
+      page.root.remove();
+      await page.waitForChanges();
+
+      expect(clearTimeoutsSpy).toHaveBeenCalled();
+    });
+  });
 });

@@ -1,6 +1,7 @@
 import { Component, Host, h, Prop, State, Event, EventEmitter, Element, Listen, Watch } from '@stencil/core';
 import type { SelectVariant, SelectSize, SelectChangeDetail } from '../../utils/types';
 import { getPassThroughAttributes } from '../../utils/attributes';
+import { generateId } from '../../utils/id-generator';
 
 interface OptionItem {
   value: string;
@@ -8,8 +9,6 @@ interface OptionItem {
   disabled: boolean;
   group?: string;
 }
-
-let fieldIdCounter = 0;
 
 @Component({
   tag: 'aegov-select',
@@ -83,7 +82,7 @@ export class AegovSelect {
 
   componentWillLoad() {
     if (!this.fieldId) {
-      this.fieldId = `aegov-select-${++fieldIdCounter}`;
+      this.fieldId = generateId('aegov-select');
     }
     this.selectId = `${this.fieldId}-listbox`;
     this.parseOptions();

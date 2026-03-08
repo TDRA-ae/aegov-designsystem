@@ -1,8 +1,7 @@
 import { Component, Host, h, Prop, State, Event, EventEmitter, Element, Watch } from '@stencil/core';
 import type { TextareaSize, TextareaResize } from '../../utils/types';
 import { getPassThroughAttributes } from '../../utils/attributes';
-
-let fieldIdCounter = 0;
+import { generateId } from '../../utils/id-generator';
 
 @Component({
   tag: 'aegov-textarea',
@@ -71,7 +70,7 @@ export class AegovTextarea {
 
   componentWillLoad() {
     if (!this.fieldId) {
-      this.fieldId = `aegov-textarea-${++fieldIdCounter}`;
+      this.fieldId = generateId('aegov-textarea');
     }
     this.charCount = (this.value || '').length;
   }

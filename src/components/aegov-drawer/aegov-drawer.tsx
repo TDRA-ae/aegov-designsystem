@@ -1,6 +1,9 @@
 import { Component, Host, h, Prop, Event, EventEmitter, Element, Method, Watch, State } from '@stencil/core';
 import type { DrawerPosition, DrawerAnimation, DrawerOverlayOpacity } from '../../utils/types';
 import { getPassThroughAttributes } from '../../utils/attributes';
+import { getSlottedFocusableElements, handleTabKeyWrap } from '../../utils/focus-management';
+import { lockBodyScroll, unlockBodyScroll } from '../../utils/scroll-lock';
+import { pushZIndex, popZIndex } from '../../utils/z-index-manager';
 
 /**
  * @slot - Drawer content
@@ -15,8 +18,6 @@ export class AegovDrawer {
 
   private triggerElement: HTMLElement | null = null;
   private focusableElements: HTMLElement[] = [];
-  private static openDrawers: number = 0;
-  private static baseZIndex: number = 50;
   private drawerZIndex: number = 50;
 
   /**
@@ -140,7 +141,9 @@ export class AegovDrawer {
   }
 
   disconnectedCallback() {
-    this.unlockBodyScroll();
+    if (this.preventBodyScroll && this.open) {
+      unlockBodyScroll();
+    }
     if (this.el.parentNode === document.body) {
       document.body.removeChild(this.el);
     }
@@ -157,15 +160,16 @@ export class AegovDrawer {
     this.triggerElement = document.activeElement as HTMLElement;
 
     // Assign z-index for this drawer
-    AegovDrawer.openDrawers++;
-    this.drawerZIndex = AegovDrawer.baseZIndex + (AegovDrawer.openDrawers - 1) * 10;
+    this.drawerZIndex = pushZIndex();
 
     // Phase 1: Render at off-screen / invisible position.
     // CSS transitions need a painted "from" state before they can animate to a "to" state.
     this.animationState = 'closed';
 
     // Lock body scroll
-    this.lockBodyScroll();
+    if (this.preventBodyScroll) {
+      lockBodyScroll();
+    }
 
     // Add keyboard listener
     document.addEventListener('keydown', this.handleKeyDown);
@@ -220,12 +224,12 @@ export class AegovDrawer {
   }
 
   private handleCloseComplete() {
-    // Decrement open drawers count
-    AegovDrawer.openDrawers = Math.max(0, AegovDrawer.openDrawers - 1);
+    // Decrement overlay stack
+    popZIndex();
 
-    // Only unlock body scroll if this is the last drawer
-    if (AegovDrawer.openDrawers === 0) {
-      this.unlockBodyScroll();
+    // Unlock body scroll (ref-counted, only unlocks when last overlay closes)
+    if (this.preventBodyScroll) {
+      unlockBodyScroll();
     }
 
     // Remove keyboard listener
@@ -260,71 +264,19 @@ export class AegovDrawer {
     }
   };
 
-  private lockBodyScroll() {
-    if (!this.preventBodyScroll) return;
-
-    const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
-    document.body.style.overflow = 'hidden';
-    if (scrollbarWidth > 0) {
-      document.body.style.paddingRight = `${scrollbarWidth}px`;
-    }
-  }
-
-  private unlockBodyScroll() {
-    if (!this.preventBodyScroll) return;
-
-    document.body.style.overflow = '';
-    document.body.style.paddingRight = '';
-  }
-
   private setupFocusTrap() {
-    const focusableSelectors = [
-      'a[href]',
-      'button:not([disabled])',
-      'textarea:not([disabled])',
-      'input:not([disabled])',
-      'select:not([disabled])',
-      '[tabindex]:not([tabindex="-1"])',
-    ].join(',');
-
     const shadowRoot = this.el.shadowRoot;
     if (!shadowRoot) return;
 
-    const slot = shadowRoot.querySelector('slot');
-    if (!slot) return;
+    this.focusableElements = getSlottedFocusableElements(shadowRoot);
 
-    const slottedElements = slot.assignedElements({ flatten: true });
-    this.focusableElements = [];
-
-    slottedElements.forEach((element) => {
-      const focusable = element.querySelectorAll(focusableSelectors);
-      this.focusableElements.push(...(Array.from(focusable) as HTMLElement[]));
-    });
-
-    // Set focus to first focusable element
     if (this.focusableElements.length > 0) {
       this.focusableElements[0].focus();
     }
   }
 
   private handleTabKey(event: KeyboardEvent) {
-    if (!this.focusableElements.length) return;
-
-    const firstElement = this.focusableElements[0];
-    const lastElement = this.focusableElements[this.focusableElements.length - 1];
-    const activeElement = document.activeElement;
-
-    if (event.shiftKey) {
-      if (activeElement === firstElement || !this.focusableElements.includes(activeElement as HTMLElement)) {
-        lastElement.focus();
-        event.preventDefault();
-      }
-    } else {
-      if (activeElement === lastElement || !this.focusableElements.includes(activeElement as HTMLElement)) {
-        firstElement.focus();
-        event.preventDefault();
-      }
-    }
+    handleTabKeyWrap(event, this.focusableElements);
   }
 
   private getOverlayOpacityClass(): string {
