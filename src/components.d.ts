@@ -5,9 +5,9 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
-import { AccordionIcon, AvatarGroupMode, AvatarSize, AvatarStatus, AvatarVariant, BadgeAppearance, BadgeColor, BadgeSize, BannerDisplay, BannerMode, BannerPosition, BannerRole, BlockquoteVariant, BreadcrumbSeparator, ButtonAppearance, ButtonGroupOrientation, ButtonSize, ButtonType, ButtonVariant, CalloutAppearance, CalloutVariant, CardBackground, CardBorderStyle, CardBorderWidth, CardHover, CheckboxGroupOrientation, CheckboxGroupVariant, CheckboxSize, DatepickerChangeDetail, DatepickerMode, DatepickerMonthChangeDetail, DropdownAlign, DropdownPosition, DropdownTrigger, FileuploadSize, FileuploadVariant, InputSize, InputType, LinkTarget, ModalBackdropOpacity, ModalPosition, OtpSize, OtpVariant, PaginationSize, PaginationVariant, ProgressCounter, RadioGroupOrientation, RadioGroupVariant, RadioSize, RangeDisplay, RangeMode, RangeOrientation, RangeSize, SelectChangeDetail, SelectSize, SelectVariant, TabOrientation, TabSize, TabVariant, TextareaResize, TextareaSize, TextSize, TimelineOrientation, TimelineSize, TimelineStepStatus, TimelineVariant, TitleSize, ToastAppearance, ToastMode, ToastPosition, ToastVariant, ToggleSize, TooltipAlign, TooltipPosition, TooltipTrigger } from "./utils/types";
+import { AccordionIcon, AvatarGroupMode, AvatarSize, AvatarStatus, AvatarVariant, BadgeAppearance, BadgeColor, BadgeSize, BannerDisplay, BannerMode, BannerPosition, BannerRole, BlockquoteVariant, BreadcrumbSeparator, ButtonAppearance, ButtonGroupOrientation, ButtonSize, ButtonType, ButtonVariant, CalloutAppearance, CalloutVariant, CardBackground, CardBorderStyle, CardBorderWidth, CardHover, CheckboxGroupOrientation, CheckboxGroupVariant, CheckboxSize, DatepickerChangeDetail, DatepickerMode, DatepickerMonthChangeDetail, DrawerAnimation, DrawerOverlayOpacity, DrawerPosition, DropdownAlign, DropdownPosition, DropdownTrigger, FileuploadSize, FileuploadVariant, InputSize, InputType, LinkTarget, ModalBackdropOpacity, ModalPosition, OtpSize, OtpVariant, PaginationSize, PaginationVariant, ProgressCounter, RadioGroupOrientation, RadioGroupVariant, RadioSize, RangeDisplay, RangeMode, RangeOrientation, RangeSize, SelectChangeDetail, SelectSize, SelectVariant, TabOrientation, TabSize, TabVariant, TextareaResize, TextareaSize, TextSize, TimelineOrientation, TimelineSize, TimelineStepStatus, TimelineVariant, TitleSize, ToastAppearance, ToastMode, ToastPosition, ToastVariant, ToggleSize, TooltipAlign, TooltipPosition, TooltipTrigger } from "./utils/types";
 import { Event } from "@stencil/core";
-export { AccordionIcon, AvatarGroupMode, AvatarSize, AvatarStatus, AvatarVariant, BadgeAppearance, BadgeColor, BadgeSize, BannerDisplay, BannerMode, BannerPosition, BannerRole, BlockquoteVariant, BreadcrumbSeparator, ButtonAppearance, ButtonGroupOrientation, ButtonSize, ButtonType, ButtonVariant, CalloutAppearance, CalloutVariant, CardBackground, CardBorderStyle, CardBorderWidth, CardHover, CheckboxGroupOrientation, CheckboxGroupVariant, CheckboxSize, DatepickerChangeDetail, DatepickerMode, DatepickerMonthChangeDetail, DropdownAlign, DropdownPosition, DropdownTrigger, FileuploadSize, FileuploadVariant, InputSize, InputType, LinkTarget, ModalBackdropOpacity, ModalPosition, OtpSize, OtpVariant, PaginationSize, PaginationVariant, ProgressCounter, RadioGroupOrientation, RadioGroupVariant, RadioSize, RangeDisplay, RangeMode, RangeOrientation, RangeSize, SelectChangeDetail, SelectSize, SelectVariant, TabOrientation, TabSize, TabVariant, TextareaResize, TextareaSize, TextSize, TimelineOrientation, TimelineSize, TimelineStepStatus, TimelineVariant, TitleSize, ToastAppearance, ToastMode, ToastPosition, ToastVariant, ToggleSize, TooltipAlign, TooltipPosition, TooltipTrigger } from "./utils/types";
+export { AccordionIcon, AvatarGroupMode, AvatarSize, AvatarStatus, AvatarVariant, BadgeAppearance, BadgeColor, BadgeSize, BannerDisplay, BannerMode, BannerPosition, BannerRole, BlockquoteVariant, BreadcrumbSeparator, ButtonAppearance, ButtonGroupOrientation, ButtonSize, ButtonType, ButtonVariant, CalloutAppearance, CalloutVariant, CardBackground, CardBorderStyle, CardBorderWidth, CardHover, CheckboxGroupOrientation, CheckboxGroupVariant, CheckboxSize, DatepickerChangeDetail, DatepickerMode, DatepickerMonthChangeDetail, DrawerAnimation, DrawerOverlayOpacity, DrawerPosition, DropdownAlign, DropdownPosition, DropdownTrigger, FileuploadSize, FileuploadVariant, InputSize, InputType, LinkTarget, ModalBackdropOpacity, ModalPosition, OtpSize, OtpVariant, PaginationSize, PaginationVariant, ProgressCounter, RadioGroupOrientation, RadioGroupVariant, RadioSize, RangeDisplay, RangeMode, RangeOrientation, RangeSize, SelectChangeDetail, SelectSize, SelectVariant, TabOrientation, TabSize, TabVariant, TextareaResize, TextareaSize, TextSize, TimelineOrientation, TimelineSize, TimelineStepStatus, TimelineVariant, TitleSize, ToastAppearance, ToastMode, ToastPosition, ToastVariant, ToggleSize, TooltipAlign, TooltipPosition, TooltipTrigger } from "./utils/types";
 export { Event } from "@stencil/core";
 export namespace Components {
     /**
@@ -638,6 +638,60 @@ export namespace Components {
           * @default 0
          */
         "yearRangeStart": number;
+    }
+    interface AegovDrawer {
+        /**
+          * Animation strategy for open/close transitions
+          * @default 'slide'
+         */
+        "animation": DrawerAnimation;
+        /**
+          * Programmatically close the drawer
+         */
+        "close": () => Promise<void>;
+        /**
+          * Whether clicking the backdrop closes the drawer
+          * @default true
+         */
+        "closeWithBackdrop": boolean;
+        /**
+          * Whether the drawer is currently open/visible
+          * @default false
+         */
+        "open": boolean;
+        /**
+          * Whether to show a backdrop overlay behind the drawer
+          * @default true
+         */
+        "overlay": boolean;
+        /**
+          * Backdrop overlay opacity level
+          * @default 'base'
+         */
+        "overlayOpacity": DrawerOverlayOpacity;
+        /**
+          * Whether the drawer is pinned flush to edges (true) or has a gap with rounded corners (false)
+          * @default true
+         */
+        "pinned": boolean;
+        /**
+          * Which edge the drawer slides from
+          * @default 'right'
+         */
+        "position": DrawerPosition;
+        /**
+          * Whether to prevent body scroll when drawer is open
+          * @default true
+         */
+        "preventBodyScroll": boolean;
+        /**
+          * Programmatically open the drawer
+         */
+        "show": () => Promise<void>;
+        /**
+          * Toggle drawer open/closed state
+         */
+        "toggle": () => Promise<void>;
     }
     /**
      * Dropdown component that displays positioned content on trigger interaction
@@ -1763,6 +1817,10 @@ export interface AegovDatepickerCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLAegovDatepickerElement;
 }
+export interface AegovDrawerCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLAegovDrawerElement;
+}
 export interface AegovDropdownCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLAegovDropdownElement;
@@ -2094,6 +2152,27 @@ declare global {
     var HTMLAegovDatepickerElement: {
         prototype: HTMLAegovDatepickerElement;
         new (): HTMLAegovDatepickerElement;
+    };
+    interface HTMLAegovDrawerElementEventMap {
+        "aegovDrawerOpen": void;
+        "aegovDrawerClose": void;
+        "aegovDrawerBeforeClose": { preventDefault: () => void };
+        "aegovDrawerBackdropClick": MouseEvent;
+        "aegovDrawerEscapePress": KeyboardEvent;
+    }
+    interface HTMLAegovDrawerElement extends Components.AegovDrawer, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLAegovDrawerElementEventMap>(type: K, listener: (this: HTMLAegovDrawerElement, ev: AegovDrawerCustomEvent<HTMLAegovDrawerElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLAegovDrawerElementEventMap>(type: K, listener: (this: HTMLAegovDrawerElement, ev: AegovDrawerCustomEvent<HTMLAegovDrawerElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLAegovDrawerElement: {
+        prototype: HTMLAegovDrawerElement;
+        new (): HTMLAegovDrawerElement;
     };
     interface HTMLAegovDropdownElementEventMap {
         "aegovDropdownOpen": void;
@@ -2522,6 +2601,7 @@ declare global {
         "aegov-context-menu": HTMLAegovContextMenuElement;
         "aegov-context-menu-item": HTMLAegovContextMenuItemElement;
         "aegov-datepicker": HTMLAegovDatepickerElement;
+        "aegov-drawer": HTMLAegovDrawerElement;
         "aegov-dropdown": HTMLAegovDropdownElement;
         "aegov-fileupload": HTMLAegovFileuploadElement;
         "aegov-form-field": HTMLAegovFormFieldElement;
@@ -3223,6 +3303,68 @@ declare namespace LocalJSX {
           * @default 0
          */
         "yearRangeStart"?: number;
+    }
+    interface AegovDrawer {
+        /**
+          * Animation strategy for open/close transitions
+          * @default 'slide'
+         */
+        "animation"?: DrawerAnimation;
+        /**
+          * Whether clicking the backdrop closes the drawer
+          * @default true
+         */
+        "closeWithBackdrop"?: boolean;
+        /**
+          * Emitted when backdrop is clicked
+         */
+        "onAegovDrawerBackdropClick"?: (event: AegovDrawerCustomEvent<MouseEvent>) => void;
+        /**
+          * Emitted before drawer closes (cancellable)
+         */
+        "onAegovDrawerBeforeClose"?: (event: AegovDrawerCustomEvent<{ preventDefault: () => void }>) => void;
+        /**
+          * Emitted when drawer is closed
+         */
+        "onAegovDrawerClose"?: (event: AegovDrawerCustomEvent<void>) => void;
+        /**
+          * Emitted when ESC key is pressed
+         */
+        "onAegovDrawerEscapePress"?: (event: AegovDrawerCustomEvent<KeyboardEvent>) => void;
+        /**
+          * Emitted when drawer is opened
+         */
+        "onAegovDrawerOpen"?: (event: AegovDrawerCustomEvent<void>) => void;
+        /**
+          * Whether the drawer is currently open/visible
+          * @default false
+         */
+        "open"?: boolean;
+        /**
+          * Whether to show a backdrop overlay behind the drawer
+          * @default true
+         */
+        "overlay"?: boolean;
+        /**
+          * Backdrop overlay opacity level
+          * @default 'base'
+         */
+        "overlayOpacity"?: DrawerOverlayOpacity;
+        /**
+          * Whether the drawer is pinned flush to edges (true) or has a gap with rounded corners (false)
+          * @default true
+         */
+        "pinned"?: boolean;
+        /**
+          * Which edge the drawer slides from
+          * @default 'right'
+         */
+        "position"?: DrawerPosition;
+        /**
+          * Whether to prevent body scroll when drawer is open
+          * @default true
+         */
+        "preventBodyScroll"?: boolean;
     }
     /**
      * Dropdown component that displays positioned content on trigger interaction
@@ -4432,6 +4574,7 @@ declare namespace LocalJSX {
         "aegov-context-menu": AegovContextMenu;
         "aegov-context-menu-item": AegovContextMenuItem;
         "aegov-datepicker": AegovDatepicker;
+        "aegov-drawer": AegovDrawer;
         "aegov-dropdown": AegovDropdown;
         "aegov-fileupload": AegovFileupload;
         "aegov-form-field": AegovFormField;
@@ -4504,6 +4647,7 @@ declare module "@stencil/core" {
              */
             "aegov-context-menu-item": LocalJSX.AegovContextMenuItem & JSXBase.HTMLAttributes<HTMLAegovContextMenuItemElement>;
             "aegov-datepicker": LocalJSX.AegovDatepicker & JSXBase.HTMLAttributes<HTMLAegovDatepickerElement>;
+            "aegov-drawer": LocalJSX.AegovDrawer & JSXBase.HTMLAttributes<HTMLAegovDrawerElement>;
             /**
              * Dropdown component that displays positioned content on trigger interaction
              */
