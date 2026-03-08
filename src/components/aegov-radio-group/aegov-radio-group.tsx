@@ -38,12 +38,9 @@ export class AegovRadioGroup {
     this.syncChildren();
   }
 
-  componentDidUpdate() {
-    this.syncChildren();
-  }
-
   @Watch('size')
-  onSizeChange() {
+  @Watch('name')
+  onChildPropChange() {
     this.syncChildren();
   }
 

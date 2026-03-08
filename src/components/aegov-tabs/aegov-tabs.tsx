@@ -106,13 +106,6 @@ export class AegovTabs {
     }
   }
 
-  componentDidUpdate() {
-    this.syncChildren();
-    if (this.scrollable) {
-      this.checkScrollFade();
-    }
-  }
-
   disconnectedCallback() {
     if (this.scrollHandler && this.listEl) {
       this.listEl.removeEventListener('scroll', this.scrollHandler);
@@ -121,7 +114,9 @@ export class AegovTabs {
 
   @Watch('activeTabId')
   onActiveTabChange() {
+    this.syncChildren();
     if (this.scrollable && this.listEl) {
+      this.checkScrollFade();
       const activeTab = this.el.querySelector(`aegov-tab[tab-id="${this.activeTabId}"]`) as HTMLElement;
       if (activeTab) {
         const scrollOpts: ScrollIntoViewOptions = this.orientation === 'vertical'
@@ -130,6 +125,13 @@ export class AegovTabs {
         activeTab.scrollIntoView(scrollOpts);
       }
     }
+  }
+
+  @Watch('variant')
+  @Watch('size')
+  @Watch('orientation')
+  onChildPropChange() {
+    this.syncChildren();
   }
 
   @Listen('aegovTabSelect')
