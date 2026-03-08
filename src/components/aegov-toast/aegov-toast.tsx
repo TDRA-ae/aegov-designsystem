@@ -609,7 +609,7 @@ export class AegovToast {
             type="button"
             class="toast__dismiss"
             onClick={this.handleDismiss}
-            aria-label="Close toast"
+            aria-label={`Close ${this.variant} notification`}
           >
             <svg xmlns="http://www.w3.org/2000/svg" class="size-4" viewBox="0 0 256 256" aria-hidden="true">
               <rect width="256" height="256" fill="none"/>

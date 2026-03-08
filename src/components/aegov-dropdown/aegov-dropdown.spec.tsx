@@ -14,16 +14,13 @@ describe('aegov-dropdown', () => {
         `,
       });
 
-      expect(page.root).toEqualHtml(`
-        <aegov-dropdown>
-          <div class="aegov-dropdown-trigger" aria-haspopup="true" aria-expanded="false">
-            <button>Trigger</button>
-          </div>
-          <div style="display: none;">
-            <div slot="dropdown-content">Content</div>
-          </div>
-        </aegov-dropdown>
-      `);
+      const trigger = page.root.querySelector('.aegov-dropdown-trigger');
+      expect(trigger).toBeTruthy();
+      expect(trigger.getAttribute('aria-haspopup')).toBe('true');
+      expect(trigger.getAttribute('aria-expanded')).toBe('false');
+      expect(trigger.id).toBeTruthy();
+      expect(trigger.id).toContain('aegov-dropdown');
+      expect(trigger.querySelector('button').textContent).toBe('Trigger');
     });
 
     it('should render trigger element via default slot', async () => {
@@ -470,6 +467,73 @@ describe('aegov-dropdown', () => {
       page.rootInstance.closeDropdown();
       await page.waitForChanges();
       expect(page.rootInstance.isOpen).toBe(false);
+    });
+  });
+
+  describe('accessibility - trigger and portal ARIA', () => {
+    it('should set id on trigger element', async () => {
+      const page = await newSpecPage({
+        components: [AegovDropdown],
+        html: `
+          <aegov-dropdown>
+            <button>Trigger</button>
+            <div slot="dropdown-content">Content</div>
+          </aegov-dropdown>
+        `,
+      });
+
+      const trigger = page.root.querySelector('.aegov-dropdown-trigger');
+      expect(trigger.id).toBeTruthy();
+      expect(trigger.id).toContain('aegov-dropdown');
+      expect(trigger.id).toContain('-trigger');
+    });
+
+    it('should set aria-labelledby on portal menu linking to trigger id', async () => {
+      const page = await newSpecPage({
+        components: [AegovDropdown],
+        html: `
+          <aegov-dropdown>
+            <button>Trigger</button>
+            <div slot="dropdown-content">Content</div>
+          </aegov-dropdown>
+        `,
+      });
+
+      const trigger = page.root.querySelector('.aegov-dropdown-trigger');
+      const triggerId = trigger.id;
+
+      // Open to create portal content
+      page.rootInstance.isOpen = true;
+      await page.waitForChanges();
+
+      const portal = document.querySelector('.aegov-dropdown-portal');
+      const menu = portal?.querySelector('.aegov-dropdown');
+      expect(menu).toBeTruthy();
+      expect(menu.getAttribute('aria-labelledby')).toBe(triggerId);
+    });
+
+    it('should assign role="menuitem" to focusable children in portal', async () => {
+      const page = await newSpecPage({
+        components: [AegovDropdown],
+        html: `
+          <aegov-dropdown>
+            <button>Trigger</button>
+            <div slot="dropdown-content">
+              <button>Item 1</button>
+              <button>Item 2</button>
+            </div>
+          </aegov-dropdown>
+        `,
+      });
+
+      page.rootInstance.isOpen = true;
+      await page.waitForChanges();
+
+      const portal = document.querySelector('.aegov-dropdown-portal');
+      const buttons = portal?.querySelectorAll('button');
+      buttons?.forEach(btn => {
+        expect(btn.getAttribute('role')).toBe('menuitem');
+      });
     });
   });
 

@@ -65,6 +65,12 @@ export class AegovTabs {
    */
   @Prop() orientation: TabOrientation = 'horizontal';
 
+  /**
+   * Accessible label for the tablist element.
+   * Provides context for screen readers about what the tabs control.
+   */
+  @Prop() tablistLabel: string = 'Tabs';
+
   /** Currently active tab id (internal uncontrolled state) */
   @State() activeTabId: string = '';
 
@@ -254,6 +260,7 @@ export class AegovTabs {
         >
           <div
             role="tablist"
+            aria-label={this.tablistLabel}
             aria-orientation={this.orientation}
             class="tabs__list"
             ref={el => (this.listEl = el as HTMLElement)}

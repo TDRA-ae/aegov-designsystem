@@ -1470,6 +1470,11 @@ export namespace Components {
          */
         "stretch": boolean;
         /**
+          * Accessible label for the tablist element. Provides context for screen readers about what the tabs control.
+          * @default 'Tabs'
+         */
+        "tablistLabel": string;
+        /**
           * Visual style variant of the tabs. - `simple`: Underline style (default) - `segmented`: Button-group style, ideal for toggling views - `pill`: Pill-shaped individual tabs
           * @default 'simple'
          */
@@ -4224,6 +4229,11 @@ declare namespace LocalJSX {
           * @default false
          */
         "stretch"?: boolean;
+        /**
+          * Accessible label for the tablist element. Provides context for screen readers about what the tabs control.
+          * @default 'Tabs'
+         */
+        "tablistLabel"?: string;
         /**
           * Visual style variant of the tabs. - `simple`: Underline style (default) - `segmented`: Button-group style, ideal for toggling views - `pill`: Pill-shaped individual tabs
           * @default 'simple'

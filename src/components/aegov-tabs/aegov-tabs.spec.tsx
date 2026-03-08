@@ -345,6 +345,31 @@ describe('aegov-tabs', () => {
     });
   });
 
+  // ------------------------------------------------------------------ tablist aria-label
+  describe('tablist aria-label', () => {
+    it('has default aria-label "Tabs" on tablist', async () => {
+      const page = await render(basicHtml);
+      const tablist = page.root.querySelector('[role="tablist"]');
+      expect(tablist.getAttribute('aria-label')).toBe('Tabs');
+    });
+
+    it('accepts custom tablistLabel prop', async () => {
+      const page = await render(`
+        <aegov-tabs tablist-label="Navigation tabs" default-active-tab="t1">
+          <aegov-tab slot="tabs" tab-id="t1">T1</aegov-tab>
+          <aegov-tab-panel tab-id="t1">P1</aegov-tab-panel>
+        </aegov-tabs>
+      `);
+      const tablist = page.root.querySelector('[role="tablist"]');
+      expect(tablist.getAttribute('aria-label')).toBe('Navigation tabs');
+    });
+
+    it('defaults tablistLabel prop to "Tabs"', async () => {
+      const page = await render(basicHtml);
+      expect(page.rootInstance.tablistLabel).toBe('Tabs');
+    });
+  });
+
   // ------------------------------------------------------------------ default props
   describe('default props', () => {
     it('defaults variant to simple', async () => {

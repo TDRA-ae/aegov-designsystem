@@ -14,6 +14,7 @@
 | `scrollable`       | `scrollable`         | Enables horizontal scrolling when tabs overflow the container. A faded gradient edge is shown to indicate scrollable content.                                             | `boolean`                           | `false`        |
 | `size`             | `size`               | Size of the tabs.                                                                                                                                                         | `"base" \| "lg" \| "sm"`            | `'base'`       |
 | `stretch`          | `stretch`            | Distributes tabs evenly to fill the full width of the container. Each tab grows equally to occupy available space.                                                        | `boolean`                           | `false`        |
+| `tablistLabel`     | `tablist-label`      | Accessible label for the tablist element. Provides context for screen readers about what the tabs control.                                                                | `string`                            | `'Tabs'`       |
 | `variant`          | `variant`            | Visual style variant of the tabs. - `simple`: Underline style (default) - `segmented`: Button-group style, ideal for toggling views - `pill`: Pill-shaped individual tabs | `"pill" \| "segmented" \| "simple"` | `'simple'`     |
 
 

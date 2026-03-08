@@ -482,6 +482,110 @@ describe('aegov-context-menu', () => {
     expect(items.length).toBe(2);
   });
 
+  // ------------------------------------------------------------------ accessibility
+  describe('accessibility - portal ARIA and focus restoration', () => {
+    it('should set aria-label="Context menu" on portal menu container', async () => {
+      const page = await newSpecPage({
+        components: [AegovContextMenu],
+        html: `
+          <aegov-context-menu target="#test-target">
+            <button>Menu Item</button>
+          </aegov-context-menu>
+        `,
+      });
+
+      await page.waitForChanges();
+
+      await page.rootInstance.show(100, 100);
+      await page.waitForChanges();
+
+      const portal = document.querySelector('.aegov-context-menu-portal');
+      const menu = portal?.querySelector('.aegov-context-menu');
+      expect(menu).toBeTruthy();
+      expect(menu.getAttribute('aria-label')).toBe('Context menu');
+    });
+
+    it('should assign role="menuitem" to focusable children in portal', async () => {
+      const page = await newSpecPage({
+        components: [AegovContextMenu],
+        html: `
+          <aegov-context-menu target="#test-target">
+            <button>Copy</button>
+            <button>Paste</button>
+          </aegov-context-menu>
+        `,
+      });
+
+      await page.waitForChanges();
+
+      await page.rootInstance.show(100, 100);
+      await page.waitForChanges();
+
+      const portal = document.querySelector('.aegov-context-menu-portal');
+      const buttons = portal?.querySelectorAll('button');
+      buttons?.forEach(btn => {
+        expect(btn.getAttribute('role')).toBe('menuitem');
+      });
+    });
+
+    it('should store lastTriggerElement when context menu is triggered', async () => {
+      const page = await newSpecPage({
+        components: [AegovContextMenu],
+        html: `
+          <aegov-context-menu target="#test-target">
+            <button>Menu Item</button>
+          </aegov-context-menu>
+        `,
+      });
+
+      await page.waitForChanges();
+
+      const mockTarget = document.createElement('div');
+      mockTarget.focus = jest.fn();
+      const contextMenuEvent = {
+        clientX: 100,
+        clientY: 100,
+        preventDefault: jest.fn(),
+        stopPropagation: jest.fn(),
+        currentTarget: mockTarget,
+      } as any;
+
+      page.rootInstance.handleContextMenu(contextMenuEvent);
+      await page.waitForChanges();
+
+      expect(page.rootInstance.lastTriggerElement).toBe(mockTarget);
+    });
+
+    it('should restore focus to trigger element on close', async () => {
+      const page = await newSpecPage({
+        components: [AegovContextMenu],
+        html: `
+          <aegov-context-menu target="#test-target">
+            <button>Menu Item</button>
+          </aegov-context-menu>
+        `,
+      });
+
+      await page.waitForChanges();
+
+      const mockTarget = document.createElement('div');
+      mockTarget.focus = jest.fn();
+
+      // Set last trigger element and open
+      page.rootInstance.lastTriggerElement = mockTarget;
+      await page.rootInstance.show(100, 100);
+      await page.waitForChanges();
+
+      expect(page.rootInstance.isOpen).toBe(true);
+
+      // Close should restore focus
+      await page.rootInstance.close();
+      await page.waitForChanges();
+
+      expect(mockTarget.focus).toHaveBeenCalled();
+    });
+  });
+
   it('should have host display set to none', async () => {
     const page = await newSpecPage({
       components: [AegovContextMenu],

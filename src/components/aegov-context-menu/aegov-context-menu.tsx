@@ -108,6 +108,7 @@ export class AegovContextMenu {
   private menuRef?: HTMLDivElement;
   private portalElement?: HTMLDivElement;
   private targetElements: HTMLElement[] = [];
+  private lastTriggerElement?: HTMLElement;
   private cursorX: number = 0;
   private cursorY: number = 0;
   private menuId: string;
@@ -218,6 +219,7 @@ export class AegovContextMenu {
     event.preventDefault();
     this.cursorX = event.clientX;
     this.cursorY = event.clientY;
+    this.lastTriggerElement = event.currentTarget as HTMLElement;
     this.showMenu();
   };
 
@@ -263,6 +265,11 @@ export class AegovContextMenu {
       // Clear portal content
       if (this.portalElement) {
         this.portalElement.innerHTML = '';
+      }
+
+      // Restore focus to the element that triggered the context menu
+      if (this.lastTriggerElement) {
+        this.lastTriggerElement.focus();
       }
 
       // Emit close event
@@ -413,6 +420,7 @@ export class AegovContextMenu {
     menuContainer.className = 'aegov-context-menu';
     menuContainer.id = this.menuId;
     menuContainer.setAttribute('role', 'menu');
+    menuContainer.setAttribute('aria-label', 'Context menu');
     menuContainer.setAttribute('data-state', 'open');
 
     // Clone slot content
@@ -422,6 +430,14 @@ export class AegovContextMenu {
 
     slotContent.forEach(node => {
       menuContainer.appendChild(node);
+    });
+
+    // Ensure focusable children have role="menuitem" for screen readers
+    const focusable = menuContainer.querySelectorAll('button, a, [tabindex]');
+    focusable.forEach(el => {
+      if (!el.getAttribute('role')) {
+        el.setAttribute('role', 'menuitem');
+      }
     });
 
     // Append to portal

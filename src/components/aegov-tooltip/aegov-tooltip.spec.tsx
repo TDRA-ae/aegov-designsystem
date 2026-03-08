@@ -380,6 +380,30 @@ describe('aegov-tooltip', () => {
       await page.waitForChanges();
       expect(page.root.querySelector('[role="dialog"]')).toBeTruthy();
     });
+
+    it('should have aria-label="Interactive tooltip" when interactive', async () => {
+      const page = await newSpecPage({
+        components: [AegovTooltip],
+        html: `<aegov-tooltip content="Test" interactive="true"><button>Trigger</button></aegov-tooltip>`,
+      });
+      const tooltip = page.rootInstance as AegovTooltip;
+      tooltip.isVisible = true;
+      await page.waitForChanges();
+      const dialog = page.root.querySelector('[role="dialog"]');
+      expect(dialog.getAttribute('aria-label')).toBe('Interactive tooltip');
+    });
+
+    it('should not have aria-label on non-interactive tooltip', async () => {
+      const page = await newSpecPage({
+        components: [AegovTooltip],
+        html: `<aegov-tooltip content="Test"><button>Trigger</button></aegov-tooltip>`,
+      });
+      const tooltip = page.rootInstance as AegovTooltip;
+      tooltip.isVisible = true;
+      await page.waitForChanges();
+      const tooltipEl = page.root.querySelector('[role="tooltip"]');
+      expect(tooltipEl.getAttribute('aria-label')).toBeNull();
+    });
   });
 
   describe('tooltip arrow', () => {

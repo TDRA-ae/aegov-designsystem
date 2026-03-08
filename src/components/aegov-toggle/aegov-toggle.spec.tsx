@@ -279,4 +279,34 @@ describe('aegov-toggle', () => {
     expect(page.root.querySelector('.toggle__thumb--has-icon')).toBeNull();
     expect(page.root.querySelector('.toggle__icon')).toBeNull();
   });
+
+  // ------------------------------------------------------------------ accessibility
+  describe('accessibility', () => {
+    it('should have aria-checked="false" when unchecked', async () => {
+      const page = await newSpecPage({
+        components: [AegovToggle],
+        html: `<aegov-toggle></aegov-toggle>`,
+      });
+      const input = page.root.querySelector('input');
+      expect(input.getAttribute('aria-checked')).toBe('false');
+    });
+
+    it('should have aria-checked="true" when checked', async () => {
+      const page = await newSpecPage({
+        components: [AegovToggle],
+        html: `<aegov-toggle checked></aegov-toggle>`,
+      });
+      const input = page.root.querySelector('input');
+      expect(input.getAttribute('aria-checked')).toBe('true');
+    });
+
+    it('should have role="switch" on the input', async () => {
+      const page = await newSpecPage({
+        components: [AegovToggle],
+        html: `<aegov-toggle></aegov-toggle>`,
+      });
+      const input = page.root.querySelector('input');
+      expect(input.getAttribute('role')).toBe('switch');
+    });
+  });
 });

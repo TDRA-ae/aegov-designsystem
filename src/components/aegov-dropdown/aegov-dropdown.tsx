@@ -103,6 +103,7 @@ export class AegovDropdown {
   private positionRetryCount: number = 0;
   private readonly MAX_POSITION_RETRIES = 10;
   private dropdownId: string;
+  private triggerId: string;
   private focusableElements: HTMLElement[] = [];
   private currentFocusIndex: number = -1;
   private triggerElement?: HTMLElement;
@@ -168,6 +169,7 @@ export class AegovDropdown {
   componentWillLoad() {
     // Generate stable dropdown ID once
     this.dropdownId = generateId('aegov-dropdown');
+    this.triggerId = `${this.dropdownId}-trigger`;
 
     // Check if dropdown-content slot has content
     this.checkSlotContent();
@@ -626,12 +628,21 @@ export class AegovDropdown {
     dropdownContainer.className = 'aegov-dropdown';
     dropdownContainer.id = this.dropdownId;
     dropdownContainer.setAttribute('role', 'menu');
+    dropdownContainer.setAttribute('aria-labelledby', this.triggerId);
     dropdownContainer.setAttribute('data-state', 'open');
 
     // Clone and append content
     const contentClone = contentSlot.cloneNode(true) as HTMLElement;
     contentClone.removeAttribute('slot');
     dropdownContainer.appendChild(contentClone);
+
+    // Ensure focusable children have role="menuitem" for screen readers
+    const focusable = dropdownContainer.querySelectorAll('button, a, [tabindex]');
+    focusable.forEach(el => {
+      if (!el.getAttribute('role')) {
+        el.setAttribute('role', 'menuitem');
+      }
+    });
 
     // Add event listeners
     dropdownContainer.addEventListener('mouseenter', this.handleDropdownMouseEnter);
@@ -651,6 +662,7 @@ export class AegovDropdown {
       <Host>
         <div
           class="aegov-dropdown-trigger"
+          id={this.triggerId}
           ref={(el) => (this.triggerRef = el)}
           onMouseEnter={this.handleTriggerMouseEnter}
           onMouseLeave={this.handleTriggerMouseLeave}

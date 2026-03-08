@@ -78,6 +78,7 @@ export class AegovToggle {
           checked={this.checked}
           disabled={this.disabled}
           required={this.required}
+          aria-checked={this.checked ? 'true' : 'false'}
           aria-required={this.required ? 'true' : undefined}
           aria-describedby={descriptionId}
           onChange={this.handleChange}
