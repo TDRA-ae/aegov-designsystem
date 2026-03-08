@@ -107,7 +107,6 @@ export class AegovContextMenu {
 
   private menuRef?: HTMLDivElement;
   private portalElement?: HTMLDivElement;
-  private targetElements: HTMLElement[] = [];
   private lastTriggerElement?: HTMLElement;
   private cursorX: number = 0;
   private cursorY: number = 0;
@@ -161,24 +160,30 @@ export class AegovContextMenu {
     // Create portal element for menu content
     this.createPortalElement();
 
-    // Bind to target elements
-    this.bindToTargets();
+    // Validate selector early so authors see errors at load time
+    this.validateTarget();
+
+    // Single delegated listener replaces per-element binding
+    document.addEventListener('contextmenu', this.delegatedContextMenuHandler);
   }
 
   disconnectedCallback() {
-    this.unbindFromTargets();
+    document.removeEventListener('contextmenu', this.delegatedContextMenuHandler);
     this.removePortalElement();
-  }
-
-  @Watch('target')
-  handleTargetChange() {
-    this.unbindFromTargets();
-    this.bindToTargets();
   }
 
   private checkSlotContent() {
     const hasSlot = this.el.childNodes.length > 0;
     this.hasContent = hasSlot;
+  }
+
+  private validateTarget() {
+    if (!this.target) return;
+    try {
+      document.querySelector(this.target);
+    } catch (error) {
+      console.error(`aegov-context-menu: Invalid selector "${this.target}"`, error);
+    }
   }
 
   private createPortalElement() {
@@ -191,35 +196,41 @@ export class AegovContextMenu {
     this.portalElement = removePortal(this.portalElement);
   }
 
-  private bindToTargets() {
-    if (!this.target || this.disabled) return;
+  /**
+   * Delegated contextmenu handler. A single listener on `document` replaces
+   * per-element binding — no DOM scanning, no unbind/rebind on target change.
+   */
+  private delegatedContextMenuHandler = (event: MouseEvent) => {
+    if (this.disabled || !this.target) return;
 
     try {
-      const allElements = document.querySelectorAll(this.target);
-      this.targetElements = Array.from(allElements) as HTMLElement[];
+      const matchedTarget = (event.target as HTMLElement).closest?.(this.target) as HTMLElement;
+      if (!matchedTarget) return;
 
-      this.targetElements.forEach(el => {
-        el.addEventListener('contextmenu', this.handleContextMenu);
-      });
-    } catch (error) {
-      console.error(`aegov-context-menu: Invalid selector "${this.target}"`, error);
+      event.preventDefault();
+      this.cursorX = event.clientX;
+      this.cursorY = event.clientY;
+      this.lastTriggerElement = matchedTarget;
+      this.showMenu();
+    } catch {
+      // Invalid selector at event time — already warned at load via validateTarget()
     }
-  }
+  };
 
-  private unbindFromTargets() {
-    this.targetElements.forEach(el => {
-      el.removeEventListener('contextmenu', this.handleContextMenu);
-    });
-    this.targetElements = [];
-  }
-
-  private handleContextMenu = (event: MouseEvent) => {
+  /**
+   * Direct contextmenu handler for programmatic / test use.
+   * The delegated handler is preferred at runtime.
+   */
+  handleContextMenu = (event: MouseEvent) => {
     if (this.disabled) return;
 
     event.preventDefault();
     this.cursorX = event.clientX;
     this.cursorY = event.clientY;
-    this.lastTriggerElement = event.currentTarget as HTMLElement;
+    // When called directly (e.g. tests), use currentTarget as trigger element
+    if (event.currentTarget && event.currentTarget !== document) {
+      this.lastTriggerElement = event.currentTarget as HTMLElement;
+    }
     this.showMenu();
   };
 
@@ -248,7 +259,7 @@ export class AegovContextMenu {
       this.aegovContextMenuOpen.emit({
         x: this.cursorX,
         y: this.cursorY,
-        targetElement: this.targetElements.find(el => el.contains(event?.target as Node)) || this.targetElements[0],
+        targetElement: this.lastTriggerElement,
       });
 
       // Set up focus trap after a tick
