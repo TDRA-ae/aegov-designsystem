@@ -14,7 +14,6 @@
 | `duration`     | `duration`      | Auto-dismiss duration in milliseconds. 0 = no auto-dismiss.                                                                                                                 | `number`                                                                                          | `5000`        |
 | `mode`         | `mode`          | Display mode for multiple toasts at the same position. 'stack' = all toasts visible with gap between them (default). 'rack' = toasts collapse into a deck; hover to expand. | `"rack" \| "stack"`                                                                               | `'stack'`     |
 | `position`     | `position`      | Screen position where the toast appears.                                                                                                                                    | `"bottom-center" \| "bottom-left" \| "bottom-right" \| "top-center" \| "top-left" \| "top-right"` | `'top-right'` |
-| `showIcon`     | `show-icon`     | Whether to show the variant-specific icon.                                                                                                                                  | `boolean`                                                                                         | `true`        |
 | `showProgress` | `show-progress` | Whether to show a countdown progress bar.                                                                                                                                   | `boolean`                                                                                         | `false`       |
 | `variant`      | `variant`       | Semantic color variant of the toast.                                                                                                                                        | `"default" \| "error" \| "info" \| "success" \| "warning"`                                        | `'default'`   |
 
@@ -53,11 +52,12 @@ Type: `Promise<void>`
 
 ## Slots
 
-| Slot        | Description                             |
-| ----------- | --------------------------------------- |
-| `"actions"` | Action buttons/links                    |
-| `"default"` | Toast message content                   |
-| `"icon"`    | Custom icon (overrides variant default) |
+| Slot        | Description               |
+| ----------- | ------------------------- |
+| `"actions"` | Action buttons/links      |
+| `"default"` | Toast description content |
+| `"icon"`    | Custom icon               |
+| `"title"`   | Toast title text          |
 
 
 ----------------------------------------------

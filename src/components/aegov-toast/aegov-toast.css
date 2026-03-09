@@ -1,8 +1,8 @@
 /**
  * AEGOV Toast Component Styles
  *
- * Lightweight, non-intrusive notification that appears temporarily.
- * Supports 5 variants, 2 appearances, 6 positions, animations, and progress bar.
+ * Clean notification design with variant-colored top border.
+ * Soft = white bg / black text. Solid = black bg / white text.
  */
 
 :host {
@@ -15,11 +15,13 @@
    ============================================ */
 
 .aegov-toast {
-  @apply flex items-start gap-3 rounded-lg border p-4 shadow-lg relative overflow-hidden;
+  @apply flex items-start gap-3 rounded-lg p-4 shadow-lg relative overflow-hidden;
   @apply transition-all duration-300 ease-in-out;
   min-width: 320px;
   max-width: 420px;
   font-family: inherit;
+  border: 1px solid;
+  border-top: 4px solid;
 }
 
 /* ============================================
@@ -39,7 +41,19 @@
    ============================================ */
 
 .toast__content {
-  @apply grow text-sm;
+  @apply grow min-w-0;
+}
+
+.toast__title {
+  @apply text-sm font-semibold leading-snug;
+}
+
+.toast__description {
+  @apply text-sm leading-snug;
+}
+
+.toast__title + .toast__description {
+  @apply mt-0.5;
 }
 
 .toast__actions {
@@ -53,7 +67,8 @@
 .toast__dismiss {
   @apply shrink-0 p-1 rounded-md cursor-pointer bg-transparent border-0;
   color: inherit;
-  @apply hover:bg-black/10 focus-visible:outline-2 focus-visible:outline-offset-1;
+  opacity: 0.6;
+  @apply hover:opacity-100 focus-visible:outline-2 focus-visible:outline-offset-1;
 }
 
 /* ============================================
@@ -144,85 +159,75 @@
 }
 
 /* ============================================
-   VARIANT × APPEARANCE: SOFT
+   APPEARANCE: SOFT (white bg, black text)
    ============================================ */
 
 .toast--soft {
-  &.toast--default {
-    @apply bg-slate-50 text-slate-800 border-slate-200;
-    & .toast__icon { @apply text-slate-600; }
-    & .toast__icon svg { fill: currentColor; }
-    & .toast__progress { @apply bg-slate-400; }
-    & .toast__dismiss { @apply focus-visible:outline-slate-600; }
-  }
-  &.toast--error {
-    @apply bg-aered-50 text-aered-800 border-aered-200;
-    & .toast__icon { @apply text-aered-600; }
-    & .toast__icon svg { fill: currentColor; }
-    & .toast__progress { @apply bg-aered-500; }
-    & .toast__dismiss { @apply focus-visible:outline-aered-600; }
-  }
-  &.toast--warning {
-    @apply bg-camel-50 text-camel-800 border-camel-200;
-    & .toast__icon { @apply text-camel-600; }
-    & .toast__icon svg { fill: currentColor; }
-    & .toast__progress { @apply bg-camel-500; }
-    & .toast__dismiss { @apply focus-visible:outline-camel-600; }
-  }
-  &.toast--success {
-    @apply bg-aegreen-50 text-aegreen-800 border-aegreen-200;
-    & .toast__icon { @apply text-aegreen-600; }
-    & .toast__icon svg { fill: currentColor; }
-    & .toast__progress { @apply bg-aegreen-500; }
-    & .toast__dismiss { @apply focus-visible:outline-aegreen-600; }
-  }
-  &.toast--info {
-    @apply bg-techblue-50 text-techblue-800 border-techblue-200;
-    & .toast__icon { @apply text-techblue-600; }
-    & .toast__icon svg { fill: currentColor; }
-    & .toast__progress { @apply bg-techblue-500; }
-    & .toast__dismiss { @apply focus-visible:outline-techblue-600; }
-  }
+  @apply bg-white text-aeblack-900;
+  border-color: theme(--color-aeblack-200);
+  border-top-color: theme(--color-aeblack-200);
+
+  & .toast__icon { @apply text-aeblack-700; }
+  & .toast__dismiss { @apply focus-visible:outline-aeblack-400; }
+  & .toast__progress { @apply bg-aeblack-300; }
 }
 
 /* ============================================
-   VARIANT × APPEARANCE: SOLID
+   APPEARANCE: SOLID (black bg, white text)
    ============================================ */
 
 .toast--solid {
-  &.toast--default {
-    @apply bg-slate-700 text-whitely-50 border-slate-600;
-    & .toast__icon { @apply text-slate-200; }
-    & .toast__icon svg { fill: currentColor; }
-    & .toast__progress { @apply bg-slate-300; }
-    & .toast__dismiss { @apply hover:bg-white/15 focus-visible:outline-slate-200; }
-  }
-  &.toast--error {
-    @apply bg-aered-600 text-whitely-50 border-aered-500;
-    & .toast__icon { @apply text-aered-100; }
-    & .toast__icon svg { fill: currentColor; }
-    & .toast__progress { @apply bg-aered-200; }
-    & .toast__dismiss { @apply hover:bg-white/15 focus-visible:outline-aered-200; }
-  }
-  &.toast--warning {
-    @apply bg-camel-600 text-whitely-50 border-camel-500;
-    & .toast__icon { @apply text-camel-100; }
-    & .toast__icon svg { fill: currentColor; }
-    & .toast__progress { @apply bg-camel-200; }
-    & .toast__dismiss { @apply hover:bg-white/15 focus-visible:outline-camel-200; }
-  }
-  &.toast--success {
-    @apply bg-aegreen-600 text-whitely-50 border-aegreen-500;
-    & .toast__icon { @apply text-aegreen-100; }
-    & .toast__icon svg { fill: currentColor; }
-    & .toast__progress { @apply bg-aegreen-200; }
-    & .toast__dismiss { @apply hover:bg-white/15 focus-visible:outline-aegreen-200; }
-  }
-  &.toast--info {
-    @apply bg-techblue-600 text-whitely-50 border-techblue-500;
-    & .toast__icon { @apply text-techblue-100; }
-    & .toast__icon svg { fill: currentColor; }
-    & .toast__progress { @apply bg-techblue-200; }
-    & .toast__dismiss { @apply hover:bg-white/15 focus-visible:outline-techblue-200; }
-  }
+  @apply bg-aeblack-900 text-whitely-50;
+  border-color: theme(--color-aeblack-700);
+  border-top-color: theme(--color-aeblack-700);
+
+  & .toast__icon { @apply text-whitely-200; }
+  & .toast__dismiss { @apply hover:bg-white/15 focus-visible:outline-whitely-300; }
+  & .toast__progress { @apply bg-whitely-300; }
+}
+
+/* ============================================
+   VARIANT TOP BORDERS (4px colored top border)
+   ============================================ */
+
+/* Default: no colored top border — uses appearance border color (set above) */
+
+/* Error */
+.toast--error {
+  border-top-color: theme(--color-aered-500);
+  & .toast__progress { @apply bg-aered-500; }
+}
+.toast--solid.toast--error {
+  border-top-color: theme(--color-aered-400);
+  & .toast__progress { @apply bg-aered-400; }
+}
+
+/* Warning */
+.toast--warning {
+  border-top-color: theme(--color-camel-500);
+  & .toast__progress { @apply bg-camel-500; }
+}
+.toast--solid.toast--warning {
+  border-top-color: theme(--color-camel-400);
+  & .toast__progress { @apply bg-camel-400; }
+}
+
+/* Success */
+.toast--success {
+  border-top-color: theme(--color-aegreen-500);
+  & .toast__progress { @apply bg-aegreen-500; }
+}
+.toast--solid.toast--success {
+  border-top-color: theme(--color-aegreen-400);
+  & .toast__progress { @apply bg-aegreen-400; }
+}
+
+/* Info */
+.toast--info {
+  border-top-color: theme(--color-techblue-500);
+  & .toast__progress { @apply bg-techblue-500; }
+}
+.toast--solid.toast--info {
+  border-top-color: theme(--color-techblue-400);
+  & .toast__progress { @apply bg-techblue-400; }
 }

@@ -8,7 +8,6 @@ export interface ShowToastOptions {
   duration?: number;
   dismissible?: boolean;
   mode?: ToastMode;
-  showIcon?: boolean;
   showProgress?: boolean;
 }
 
@@ -20,7 +19,6 @@ function showToast(options: ShowToastOptions): HTMLAegovToastElement {
   if (options.duration !== undefined) toast.duration = options.duration;
   if (options.dismissible !== undefined) toast.dismissible = options.dismissible;
   if (options.mode) toast.mode = options.mode;
-  if (options.showIcon !== undefined) toast.showIcon = options.showIcon;
   if (options.showProgress !== undefined) toast.showProgress = options.showProgress;
   toast.innerHTML = options.message;
   document.body.appendChild(toast);

@@ -1611,11 +1611,6 @@ export namespace Components {
          */
         "show": () => Promise<void>;
         /**
-          * Whether to show the variant-specific icon.
-          * @default true
-         */
-        "showIcon": boolean;
-        /**
           * Whether to show a countdown progress bar.
           * @default false
          */
@@ -4292,11 +4287,6 @@ declare namespace LocalJSX {
           * @default 'top-right'
          */
         "position"?: ToastPosition;
-        /**
-          * Whether to show the variant-specific icon.
-          * @default true
-         */
-        "showIcon"?: boolean;
         /**
           * Whether to show a countdown progress bar.
           * @default false
