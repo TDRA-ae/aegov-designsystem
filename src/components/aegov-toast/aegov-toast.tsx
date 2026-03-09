@@ -1,6 +1,5 @@
 import { Component, Prop, Method, Event, EventEmitter, State, h, Element } from '@stencil/core';
 import type { ToastVariant, ToastAppearance, ToastPosition, ToastMode } from '../../utils/types';
-import { getVariantIcon } from '../../utils/icons';
 
 /* ============================================
    CSS CLASS CONSTANTS
@@ -316,8 +315,9 @@ function updateRackIndices(position: ToastPosition): void {
    ============================================ */
 
 /**
- * @slot default - Toast message content
- * @slot icon - Custom icon (overrides variant default)
+ * @slot default - Toast description content
+ * @slot title - Toast title text
+ * @slot icon - Custom icon
  * @slot actions - Action buttons/links
  */
 @Component({
@@ -362,11 +362,6 @@ export class AegovToast {
   @Prop() mode: ToastMode = 'stack';
 
   /**
-   * Whether to show the variant-specific icon.
-   */
-  @Prop({ attribute: 'show-icon' }) showIcon: boolean = true;
-
-  /**
    * Whether to show a countdown progress bar.
    */
   @Prop({ attribute: 'show-progress' }) showProgress: boolean = false;
@@ -390,6 +385,7 @@ export class AegovToast {
   @State() isEntering: boolean = false;
   @State() isExiting: boolean = false;
   @State() hasIconSlot: boolean = false;
+  @State() hasTitleSlot: boolean = false;
   @State() hasActionsSlot: boolean = false;
 
   private autoCloseTimer: ReturnType<typeof setTimeout> | null = null;
@@ -529,6 +525,7 @@ export class AegovToast {
 
   private checkSlots = () => {
     this.hasIconSlot = !!this.el.querySelector('[slot="icon"]');
+    this.hasTitleSlot = !!this.el.querySelector('[slot="title"]');
     this.hasActionsSlot = !!this.el.querySelector('[slot="actions"]');
   };
 
@@ -587,17 +584,20 @@ export class AegovToast {
 
     return (
       <div class={this.getToastClasses()} onMouseEnter={this.handleMouseEnter} onMouseLeave={this.handleMouseLeave}>
-        {this.showIcon && (
+        {this.hasIconSlot && (
           <div class="toast__icon">
-            {this.hasIconSlot ? (
-              <slot name="icon" />
-            ) : (
-              getVariantIcon(this.variant, 'size-5')
-            )}
+            <slot name="icon" />
           </div>
         )}
         <div class="toast__content">
-          <slot />
+          {this.hasTitleSlot && (
+            <div class="toast__title">
+              <slot name="title" />
+            </div>
+          )}
+          <div class="toast__description">
+            <slot />
+          </div>
           {this.hasActionsSlot && (
             <div class="toast__actions">
               <slot name="actions" />

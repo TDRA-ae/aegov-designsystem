@@ -131,45 +131,20 @@ describe('aegov-toast', () => {
   });
 
   // ============================================
-  // ICON
+  // ICON SLOT
   // ============================================
 
-  it('shows icon by default', async () => {
+  it('does not render icon container when no icon slot provided', async () => {
     const page = await newSpecPage({
       components: [AegovToast],
       html: `<aegov-toast duration="0">Message</aegov-toast>`,
     });
     await page.rootInstance.show();
     await page.waitForChanges();
-    const icon = page.root.querySelector('.toast__icon');
-    expect(icon).toBeTruthy();
-    expect(icon.querySelector('svg')).toBeTruthy();
-  });
-
-  it('hides icon when show-icon is false', async () => {
-    const page = await newSpecPage({
-      components: [AegovToast],
-      html: `<aegov-toast show-icon="false" duration="0">Message</aegov-toast>`,
-    });
-    await page.rootInstance.show();
-    await page.waitForChanges();
     expect(page.root.querySelector('.toast__icon')).toBeNull();
   });
 
-  it('renders icon for each variant', async () => {
-    const variants = ['default', 'error', 'warning', 'success', 'info'];
-    for (const variant of variants) {
-      const page = await newSpecPage({
-        components: [AegovToast],
-        html: `<aegov-toast variant="${variant}" duration="0">Msg</aegov-toast>`,
-      });
-      await page.rootInstance.show();
-      await page.waitForChanges();
-      expect(page.root.querySelector('.toast__icon svg')).toBeTruthy();
-    }
-  });
-
-  it('renders custom icon slot when provided', async () => {
+  it('renders icon container when icon slot is provided', async () => {
     const page = await newSpecPage({
       components: [AegovToast],
       html: `<aegov-toast duration="0"><span slot="icon">★</span>Message</aegov-toast>`,
@@ -181,6 +156,66 @@ describe('aegov-toast', () => {
     const customIcon = page.root.querySelector('[slot="icon"]');
     expect(customIcon).toBeTruthy();
     expect(customIcon.textContent).toBe('★');
+  });
+
+  // ============================================
+  // TITLE SLOT
+  // ============================================
+
+  it('does not render title container when no title slot provided', async () => {
+    const page = await newSpecPage({
+      components: [AegovToast],
+      html: `<aegov-toast duration="0">Message only</aegov-toast>`,
+    });
+    await page.rootInstance.show();
+    await page.waitForChanges();
+    expect(page.root.querySelector('.toast__title')).toBeNull();
+  });
+
+  it('renders title container when title slot is provided', async () => {
+    const page = await newSpecPage({
+      components: [AegovToast],
+      html: `<aegov-toast duration="0"><span slot="title">My Title</span>Description</aegov-toast>`,
+    });
+    await page.rootInstance.show();
+    await page.waitForChanges();
+    const titleContainer = page.root.querySelector('.toast__title');
+    expect(titleContainer).toBeTruthy();
+    const titleSlot = page.root.querySelector('[slot="title"]');
+    expect(titleSlot.textContent).toBe('My Title');
+  });
+
+  it('renders both title and description', async () => {
+    const page = await newSpecPage({
+      components: [AegovToast],
+      html: `<aegov-toast duration="0"><span slot="title">Title</span>Description text</aegov-toast>`,
+    });
+    await page.rootInstance.show();
+    await page.waitForChanges();
+    expect(page.root.querySelector('.toast__title')).toBeTruthy();
+    expect(page.root.querySelector('.toast__description')).toBeTruthy();
+  });
+
+  it('renders description container always (default slot)', async () => {
+    const page = await newSpecPage({
+      components: [AegovToast],
+      html: `<aegov-toast duration="0">Just description</aegov-toast>`,
+    });
+    await page.rootInstance.show();
+    await page.waitForChanges();
+    expect(page.root.querySelector('.toast__description')).toBeTruthy();
+  });
+
+  it('renders icon, title, and description together', async () => {
+    const page = await newSpecPage({
+      components: [AegovToast],
+      html: `<aegov-toast duration="0"><span slot="icon">⚡</span><span slot="title">Alert</span>Something happened</aegov-toast>`,
+    });
+    await page.rootInstance.show();
+    await page.waitForChanges();
+    expect(page.root.querySelector('.toast__icon')).toBeTruthy();
+    expect(page.root.querySelector('.toast__title')).toBeTruthy();
+    expect(page.root.querySelector('.toast__description')).toBeTruthy();
   });
 
   // ============================================
@@ -475,7 +510,6 @@ describe('aegov-toast', () => {
     expect(instance.duration).toBe(5000);
     expect(instance.dismissible).toBe(true);
     expect(instance.mode).toBe('stack');
-    expect(instance.showIcon).toBe(true);
     expect(instance.showProgress).toBe(false);
   });
 

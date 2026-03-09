@@ -131,12 +131,22 @@ describe('aegov-toast e2e', () => {
   });
 
   // ============================================
-  // ICON
+  // ICON SLOT
   // ============================================
 
-  it('shows icon by default', async () => {
+  it('does not show icon container when no icon slot provided', async () => {
     const page = await newE2EPage();
     await page.setContent('<aegov-toast duration="0">Hello</aegov-toast>');
+    const el = await page.find('aegov-toast');
+    await el.callMethod('show');
+    await page.waitForChanges();
+    const icon = await page.find('aegov-toast .toast__icon');
+    expect(icon).toBeNull();
+  });
+
+  it('shows icon container when icon slot is provided', async () => {
+    const page = await newE2EPage();
+    await page.setContent('<aegov-toast duration="0"><span slot="icon">⚠️</span>Hello</aegov-toast>');
     const el = await page.find('aegov-toast');
     await el.callMethod('show');
     await page.waitForChanges();
@@ -144,14 +154,28 @@ describe('aegov-toast e2e', () => {
     expect(icon).toBeTruthy();
   });
 
-  it('hides icon when show-icon="false"', async () => {
+  // ============================================
+  // TITLE SLOT
+  // ============================================
+
+  it('renders title when title slot is provided', async () => {
     const page = await newE2EPage();
-    await page.setContent('<aegov-toast duration="0" show-icon="false">Hello</aegov-toast>');
+    await page.setContent('<aegov-toast duration="0"><span slot="title">My Title</span>Description</aegov-toast>');
     const el = await page.find('aegov-toast');
     await el.callMethod('show');
     await page.waitForChanges();
-    const icon = await page.find('aegov-toast .toast__icon');
-    expect(icon).toBeNull();
+    const title = await page.find('aegov-toast .toast__title');
+    expect(title).toBeTruthy();
+  });
+
+  it('does not render title when no title slot', async () => {
+    const page = await newE2EPage();
+    await page.setContent('<aegov-toast duration="0">Description only</aegov-toast>');
+    const el = await page.find('aegov-toast');
+    await el.callMethod('show');
+    await page.waitForChanges();
+    const title = await page.find('aegov-toast .toast__title');
+    expect(title).toBeNull();
   });
 
   // ============================================

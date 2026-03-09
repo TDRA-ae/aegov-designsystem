@@ -2,437 +2,332 @@
 <html dir="ltr" lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0" />
-  <title>Toast Component Examples - AEGOV Design System</title>
-
-  <!-- Design System -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Toast Examples - AEGOV Design System</title>
   <script type="module" src="/build/aegov.esm.js"></script>
   <script nomodule src="/build/aegov.js"></script>
-  <link rel="stylesheet" href="/build/aegov.css">
-
+  <link rel="stylesheet" href="/build/aegov.css" />
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+    body { font-family: 'Inter', sans-serif; max-width: 900px; margin: 0 auto; padding: 2rem; background: #fafafa; }
+    .section { background: white; border-radius: 12px; padding: 2rem; margin-bottom: 2rem; box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
+    .section h2 { margin-top: 0; font-size: 1.25rem; color: #1e293b; border-bottom: 2px solid #e2e8f0; padding-bottom: 0.5rem; }
+    .section h3 { font-size: 1rem; color: #475569; margin-top: 1.5rem; }
+    .section p { color: #64748b; line-height: 1.6; }
+    .example { margin: 1rem 0; padding: 1.5rem; background: #f8fafc; border-radius: 8px; border: 1px solid #e2e8f0; }
+    .btn-row { display: flex; gap: 0.75rem; flex-wrap: wrap; }
+    pre { background: #1e293b; color: #e2e8f0; padding: 1rem; border-radius: 8px; overflow-x: auto; font-size: 0.85rem; }
+    code { font-family: 'Fira Code', monospace; }
+    .back-link { margin-bottom: 1.5rem; display: block; }
+    .btn { display: inline-block; padding: 0.5rem 1rem; background: #f97316; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 0.875rem; font-family: inherit; }
+    .btn:hover { background: #ea580c; }
+    .btn--outline { background: transparent; color: #f97316; border: 1px solid #f97316; }
+    .btn--outline:hover { background: #fff7ed; }
+    .btn--sm { padding: 0.375rem 0.75rem; font-size: 0.8rem; }
+    #event-log { font-family: monospace; font-size: 0.8rem; background: #0f172a; color: #22d3ee; padding: 1rem; border-radius: 8px; max-height: 200px; overflow-y: auto; margin-top: 1rem; }
 
-    body {
-      font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-      background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
-      padding: 3rem 1.5rem;
-      min-height: 100vh;
-    }
-
-    .container {
-      max-width: 1400px;
-      margin: 0 auto;
-      background: white;
-      border-radius: 16px;
-      padding: 3rem;
-      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-    }
-
-    .header {
-      text-align: center;
-      margin-bottom: 3rem;
-      padding-bottom: 2rem;
-      border-bottom: 2px solid #f3f4f6;
-    }
-
-    .header h1 {
-      font-size: 2.5rem;
-      font-weight: 800;
-      background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      margin-bottom: 0.5rem;
-    }
-
-    .header p {
-      color: #6b7280;
-      font-size: 1.125rem;
-    }
-
-    .section {
-      margin-bottom: 3rem;
-    }
-
-    .section h2 {
-      font-size: 1.5rem;
-      font-weight: 700;
-      color: #1f2937;
-      margin-bottom: 0.5rem;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-
-    .section h2::before {
-      content: '';
-      width: 4px;
-      height: 24px;
-      background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
-      border-radius: 2px;
-    }
-
-    .section p.desc {
-      color: #6b7280;
-      margin-bottom: 1.5rem;
-      font-size: 0.95rem;
-    }
-
-    .demo-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.75rem;
-      margin-bottom: 1rem;
-    }
-
-    .demo-btn {
-      padding: 0.5rem 1rem;
-      border-radius: 0.5rem;
-      border: 1px solid #d1d5db;
-      background: white;
-      font-size: 0.875rem;
-      cursor: pointer;
-      transition: all 0.2s;
-      font-family: inherit;
-    }
-    .demo-btn:hover {
-      background: #f9fafb;
-      border-color: #9ca3af;
-    }
-
-    .demo-btn.primary {
-      background: #f97316;
-      color: white;
-      border-color: #f97316;
-    }
-    .demo-btn.primary:hover {
-      background: #ea580c;
-    }
-
-    .code-block {
-      background: #1f2937;
-      color: #e5e7eb;
-      padding: 1rem 1.25rem;
-      border-radius: 0.5rem;
-      font-family: 'Fira Code', 'Consolas', monospace;
-      font-size: 0.8rem;
-      overflow-x: auto;
-      margin-top: 1rem;
-      line-height: 1.6;
-    }
-
-    .event-log {
-      background: #f9fafb;
-      border: 1px solid #e5e7eb;
-      border-radius: 0.5rem;
-      padding: 1rem;
-      margin-top: 1rem;
-      font-family: 'Fira Code', monospace;
-      font-size: 0.8rem;
-      max-height: 150px;
-      overflow-y: auto;
-      color: #374151;
-    }
-
-    .api-table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 1rem;
-      font-size: 0.875rem;
-    }
-    .api-table th {
-      text-align: left;
-      padding: 0.75rem;
-      background: #f9fafb;
-      border-bottom: 2px solid #e5e7eb;
-      color: #374151;
-      font-weight: 600;
-    }
-    .api-table td {
-      padding: 0.75rem;
-      border-bottom: 1px solid #f3f4f6;
-      color: #4b5563;
-    }
-    .api-table code {
-      background: #f3f4f6;
-      padding: 0.125rem 0.375rem;
-      border-radius: 0.25rem;
-      font-size: 0.8rem;
-      color: #e11d48;
-    }
-
-    a.back-link {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.375rem;
-      color: #f97316;
-      text-decoration: none;
-      font-weight: 500;
-      margin-bottom: 2rem;
-    }
-    a.back-link:hover {
-      text-decoration: underline;
-    }
+    table { width: 100%; border-collapse: collapse; font-size: 0.875rem; }
+    thead tr { border-bottom: 2px solid #e2e8f0; }
+    th { text-align: left; padding: 0.5rem; color: #374151; font-weight: 600; }
+    td { padding: 0.5rem; border-bottom: 1px solid #f1f5f9; color: #4b5563; }
+    td code { background: #f3f4f6; padding: 0.125rem 0.375rem; border-radius: 0.25rem; font-size: 0.8rem; color: #e11d48; }
   </style>
 </head>
 <body>
-  <div class="container">
-    <a href="/" class="back-link">&larr; Back to Components</a>
+  <a href="/" class="back-link">&larr; Back to Home</a>
+  <h1>Toast Component</h1>
+  <p style="color: #64748b; margin-bottom: 2rem;">Clean notification toasts with variant-colored top borders. Soft (white) and Solid (black) appearances. Supports title, description, icon, and action slots.</p>
 
-    <div class="header">
-      <h1>Toast Component</h1>
-      <p>Lightweight, non-intrusive notifications that appear temporarily to provide feedback.</p>
-    </div>
-
-    <!-- Section 1: Variants (Soft) -->
-    <div class="section">
-      <h2>Variants — Soft Appearance</h2>
-      <p class="desc">Five semantic variants with soft (light) background. Click each to trigger.</p>
-      <div class="demo-row">
-        <button class="demo-btn" onclick="showVariantToast('default', 'soft')">Default</button>
-        <button class="demo-btn" onclick="showVariantToast('error', 'soft')">Error</button>
-        <button class="demo-btn" onclick="showVariantToast('warning', 'soft')">Warning</button>
-        <button class="demo-btn" onclick="showVariantToast('success', 'soft')">Success</button>
-        <button class="demo-btn" onclick="showVariantToast('info', 'soft')">Info</button>
-      </div>
-      <div class="code-block">
-&lt;script&gt;
-const toast = document.createElement('aegov-toast');
-toast.variant = 'success';
-toast.appearance = 'soft';
-toast.innerHTML = 'Changes saved successfully!';
-document.body.appendChild(toast);
-toast.show();
-&lt;/script&gt;
+  <!-- Variants: Soft -->
+  <div class="section">
+    <h2>Variants — Soft Appearance</h2>
+    <p>White background, black text. The variant is indicated by a bold 4px colored top border.</p>
+    <div class="example">
+      <div class="btn-row">
+        <button class="btn" onclick="showVariant('default', 'soft')">Default</button>
+        <button class="btn" onclick="showVariant('error', 'soft')">Error</button>
+        <button class="btn" onclick="showVariant('warning', 'soft')">Warning</button>
+        <button class="btn" onclick="showVariant('success', 'soft')">Success</button>
+        <button class="btn" onclick="showVariant('info', 'soft')">Info</button>
       </div>
     </div>
+    <pre><code>&lt;aegov-toast variant="success"&gt;
+  &lt;span slot="icon"&gt;...&lt;/span&gt;
+  &lt;span slot="title"&gt;Success&lt;/span&gt;
+  Changes saved successfully!
+&lt;/aegov-toast&gt;</code></pre>
+  </div>
 
-    <!-- Section 2: Variants (Solid) -->
-    <div class="section">
-      <h2>Variants — Solid Appearance</h2>
-      <p class="desc">Same five variants with bold solid background.</p>
-      <div class="demo-row">
-        <button class="demo-btn" onclick="showVariantToast('default', 'solid')">Default</button>
-        <button class="demo-btn" onclick="showVariantToast('error', 'solid')">Error</button>
-        <button class="demo-btn" onclick="showVariantToast('warning', 'solid')">Warning</button>
-        <button class="demo-btn" onclick="showVariantToast('success', 'solid')">Success</button>
-        <button class="demo-btn" onclick="showVariantToast('info', 'solid')">Info</button>
+  <!-- Variants: Solid -->
+  <div class="section">
+    <h2>Variants — Solid Appearance</h2>
+    <p>Black background, white text. Same colored top border per variant.</p>
+    <div class="example">
+      <div class="btn-row">
+        <button class="btn" onclick="showVariant('default', 'solid')">Default</button>
+        <button class="btn" onclick="showVariant('error', 'solid')">Error</button>
+        <button class="btn" onclick="showVariant('warning', 'solid')">Warning</button>
+        <button class="btn" onclick="showVariant('success', 'solid')">Success</button>
+        <button class="btn" onclick="showVariant('info', 'solid')">Info</button>
       </div>
-    </div>
-
-    <!-- Section 3: Positions -->
-    <div class="section">
-      <h2>Positions</h2>
-      <p class="desc">Toast can appear in 6 screen positions. Each slides in from the nearest edge.</p>
-      <div class="demo-row">
-        <button class="demo-btn" onclick="showPositionToast('top-right')">Top Right</button>
-        <button class="demo-btn" onclick="showPositionToast('top-left')">Top Left</button>
-        <button class="demo-btn" onclick="showPositionToast('top-center')">Top Center</button>
-        <button class="demo-btn" onclick="showPositionToast('bottom-right')">Bottom Right</button>
-        <button class="demo-btn" onclick="showPositionToast('bottom-left')">Bottom Left</button>
-        <button class="demo-btn" onclick="showPositionToast('bottom-center')">Bottom Center</button>
-      </div>
-    </div>
-
-    <!-- Section 4: Stack vs Rack Mode -->
-    <div class="section">
-      <h2>Stack Mode vs Rack Mode</h2>
-      <p class="desc">Stack mode shows all toasts with gaps. Rack mode collapses them into a compact deck — hover to expand.</p>
-      <div class="demo-row">
-        <button class="demo-btn primary" onclick="showStackableToasts()">Stack Mode (3 Toasts)</button>
-        <button class="demo-btn primary" onclick="showRackToasts('top-right')">Rack — Top Right</button>
-        <button class="demo-btn" onclick="showRackToasts('bottom-right')">Rack — Bottom Right</button>
-        <button class="demo-btn" onclick="showRackToasts('top-center')">Rack — Top Center</button>
-        <button class="demo-btn" onclick="showRackToasts('bottom-left')">Rack — Bottom Left</button>
-      </div>
-
-      <h3 style="margin-top: 1.5rem; font-size: 1rem; color: #374151;">Rack + Duration (auto-dismiss)</h3>
-      <p class="desc">Rack toasts with auto-dismiss. Each toast dismisses individually after its duration; the rack recalculates.</p>
-      <div class="demo-row">
-        <button class="demo-btn" onclick="showRackWithDuration('top-right')">Rack + Duration — Top Right</button>
-        <button class="demo-btn" onclick="showRackWithDuration('bottom-right')">Rack + Duration — Bottom Right</button>
-      </div>
-
-      <h3 style="margin-top: 1.5rem; font-size: 1rem; color: #374151;">Rack + Actions Slot</h3>
-      <p class="desc">Rack toasts with action buttons. Expand the rack to interact with actions on each toast.</p>
-      <div class="demo-row">
-        <button class="demo-btn" onclick="showRackWithActions('top-right')">Rack + Actions — Top Right</button>
-        <button class="demo-btn" onclick="showRackWithActions('bottom-right')">Rack + Actions — Bottom Right</button>
-      </div>
-
-      <div class="code-block">
-&lt;script&gt;
-// Rack with auto-dismiss duration
-window.aegovToast.show({
-  message: 'Auto-dismiss in 4s',
-  variant: 'info',
-  mode: 'rack',
-  duration: 4000,
-  showProgress: true,
-});
-
-// Rack with action slot
-const toast = document.createElement('aegov-toast');
-toast.variant = 'info';
-toast.mode = 'rack';
-toast.duration = 0;
-toast.innerHTML = `
-  New update available
-  &lt;a slot="actions" href="#"&gt;Update Now&lt;/a&gt;
-`;
-document.body.appendChild(toast);
-toast.show();
-&lt;/script&gt;
-      </div>
-    </div>
-
-    <!-- Section 5: Progress Bar -->
-    <div class="section">
-      <h2>Progress Bar</h2>
-      <p class="desc">Optional countdown progress bar showing remaining time before auto-dismiss.</p>
-      <div class="demo-row">
-        <button class="demo-btn" onclick="showProgressToast(3000)">3s with Progress</button>
-        <button class="demo-btn" onclick="showProgressToast(5000)">5s with Progress</button>
-        <button class="demo-btn" onclick="showProgressToast(8000)">8s with Progress</button>
-      </div>
-    </div>
-
-    <!-- Section 6: Duration & Persistent -->
-    <div class="section">
-      <h2>Duration & Persistent</h2>
-      <p class="desc">Auto-dismiss after a configurable duration. Set duration="0" for persistent toasts (dismiss manually).</p>
-      <div class="demo-row">
-        <button class="demo-btn" onclick="showDurationToast(2000)">2 seconds</button>
-        <button class="demo-btn" onclick="showDurationToast(5000)">5 seconds</button>
-        <button class="demo-btn" onclick="showDurationToast(0)">Persistent (no auto-dismiss)</button>
-      </div>
-    </div>
-
-    <!-- Section 7: No Icon / No Dismiss -->
-    <div class="section">
-      <h2>Options</h2>
-      <p class="desc">Hide the icon or remove the dismiss button for minimal notifications.</p>
-      <div class="demo-row">
-        <button class="demo-btn" onclick="showOptionToast(false, true)">No Icon</button>
-        <button class="demo-btn" onclick="showOptionToast(true, false)">No Dismiss Button</button>
-        <button class="demo-btn" onclick="showOptionToast(false, false)">No Icon + No Dismiss</button>
-      </div>
-    </div>
-
-    <!-- Section 8: Actions Slot -->
-    <div class="section">
-      <h2>Actions Slot</h2>
-      <p class="desc">Add action buttons inside the toast using the "actions" slot.</p>
-      <div class="demo-row">
-        <button class="demo-btn primary" onclick="showActionToast()">Toast with Action</button>
-      </div>
-      <div class="code-block">
-&lt;aegov-toast variant="info" duration="0"&gt;
-  New version available
-  &lt;button slot="actions" onclick="..."&gt;Update Now&lt;/button&gt;
-&lt;/aegov-toast&gt;
-      </div>
-    </div>
-
-    <!-- Section 9: Events -->
-    <div class="section">
-      <h2>Events</h2>
-      <p class="desc">Listen to toast lifecycle events: open, close, and dismiss.</p>
-      <div class="demo-row">
-        <button class="demo-btn primary" onclick="showEventToast()">Show Toast with Events</button>
-        <button class="demo-btn" onclick="clearLog()">Clear Log</button>
-      </div>
-      <div class="event-log" id="eventLog">Events will appear here...</div>
-    </div>
-
-    <!-- Section 10: Global Helper -->
-    <div class="section">
-      <h2>Global Helper — <code>window.aegovToast.show()</code></h2>
-      <p class="desc">Use the global helper for quick one-liner toast creation from anywhere.</p>
-      <div class="demo-row">
-        <button class="demo-btn primary" onclick="window.aegovToast.show({ message: 'Quick toast!', variant: 'success', duration: 3000 })">Quick Toast</button>
-        <button class="demo-btn" onclick="window.aegovToast.show({ message: 'Error occurred', variant: 'error', duration: 4000, showProgress: true })">Error with Progress</button>
-        <button class="demo-btn" onclick="window.aegovToast.show({ message: 'Stay until dismissed', variant: 'warning', duration: 0 })">Persistent Warning</button>
-      </div>
-      <div class="code-block">
-// One-liner from anywhere:
-window.aegovToast.show({
-  message: 'File uploaded successfully!',
-  variant: 'success',
-  duration: 3000,
-  showProgress: true
-});
-      </div>
-    </div>
-
-    <!-- API Reference -->
-    <div class="section">
-      <h2>API Reference — Props</h2>
-      <table class="api-table">
-        <thead>
-          <tr><th>Prop</th><th>Type</th><th>Default</th><th>Description</th></tr>
-        </thead>
-        <tbody>
-          <tr><td><code>variant</code></td><td><code>ToastVariant</code></td><td><code>'default'</code></td><td>Semantic color variant: default, error, warning, success, info</td></tr>
-          <tr><td><code>appearance</code></td><td><code>ToastAppearance</code></td><td><code>'soft'</code></td><td>Color scheme: soft (light bg) or solid (dark bg)</td></tr>
-          <tr><td><code>position</code></td><td><code>ToastPosition</code></td><td><code>'top-right'</code></td><td>Screen position: top-right, top-left, top-center, bottom-right, bottom-left, bottom-center</td></tr>
-          <tr><td><code>duration</code></td><td><code>number</code></td><td><code>5000</code></td><td>Auto-dismiss in ms. 0 = no auto-dismiss</td></tr>
-          <tr><td><code>dismissible</code></td><td><code>boolean</code></td><td><code>true</code></td><td>Show close button</td></tr>
-          <tr><td><code>mode</code></td><td><code>ToastMode</code></td><td><code>'stack'</code></td><td>Display mode: stack (all visible) or rack (collapsed deck, hover to expand)</td></tr>
-          <tr><td><code>show-icon</code></td><td><code>boolean</code></td><td><code>true</code></td><td>Show variant-specific icon</td></tr>
-          <tr><td><code>show-progress</code></td><td><code>boolean</code></td><td><code>false</code></td><td>Show countdown progress bar</td></tr>
-        </tbody>
-      </table>
-    </div>
-
-    <div class="section">
-      <h2>API Reference — Methods</h2>
-      <table class="api-table">
-        <thead>
-          <tr><th>Method</th><th>Signature</th><th>Description</th></tr>
-        </thead>
-        <tbody>
-          <tr><td><code>show()</code></td><td><code>async show(): Promise&lt;void&gt;</code></td><td>Show the toast (moves to portal, starts timer)</td></tr>
-          <tr><td><code>close()</code></td><td><code>async close(): Promise&lt;void&gt;</code></td><td>Close with exit animation, then auto-remove from DOM</td></tr>
-        </tbody>
-      </table>
-    </div>
-
-    <div class="section">
-      <h2>API Reference — Events</h2>
-      <table class="api-table">
-        <thead>
-          <tr><th>Event</th><th>Detail</th><th>When</th></tr>
-        </thead>
-        <tbody>
-          <tr><td><code>aegovToastOpen</code></td><td>void</td><td>After toast becomes visible</td></tr>
-          <tr><td><code>aegovToastClose</code></td><td>void</td><td>After close animation completes and element removed</td></tr>
-          <tr><td><code>aegovToastDismiss</code></td><td>void</td><td>When user clicks dismiss button</td></tr>
-        </tbody>
-      </table>
-    </div>
-
-    <div class="section">
-      <h2>API Reference — Slots</h2>
-      <table class="api-table">
-        <thead>
-          <tr><th>Slot</th><th>Purpose</th></tr>
-        </thead>
-        <tbody>
-          <tr><td>(default)</td><td>Toast message content</td></tr>
-          <tr><td><code>icon</code></td><td>Custom icon (overrides variant default)</td></tr>
-          <tr><td><code>actions</code></td><td>Action buttons/links</td></tr>
-        </tbody>
-      </table>
     </div>
   </div>
 
+  <!-- Slots: Title, Description, Icon -->
+  <div class="section">
+    <h2>Slots — Title, Description & Icon</h2>
+    <p>The toast supports three content slots: <code>icon</code>, <code>title</code>, and the default slot (description). All are optional.</p>
+
+    <h3>Description only (default slot)</h3>
+    <div class="example">
+      <button class="btn" onclick="showDescOnly()">Description Only</button>
+    </div>
+
+    <h3>Title + Description</h3>
+    <div class="example">
+      <button class="btn" onclick="showTitleDesc()">Title + Description</button>
+    </div>
+
+    <h3>Icon + Title + Description</h3>
+    <div class="example">
+      <button class="btn" onclick="showFull('success')">Success</button>
+      <button class="btn" onclick="showFull('error')">Error</button>
+      <button class="btn" onclick="showFull('warning')">Warning</button>
+      <button class="btn" onclick="showFull('info')">Info</button>
+    </div>
+
+    <pre><code>&lt;aegov-toast variant="error" duration="0"&gt;
+  &lt;svg slot="icon" ...&gt;...&lt;/svg&gt;
+  &lt;span slot="title"&gt;Upload Failed&lt;/span&gt;
+  The file exceeded the maximum size limit.
+&lt;/aegov-toast&gt;</code></pre>
+  </div>
+
+  <!-- Actions Slot -->
+  <div class="section">
+    <h2>Actions Slot</h2>
+    <p>Add action buttons or links inside the toast using <code>slot="actions"</code>. They render below the description.</p>
+    <div class="example">
+      <div class="btn-row">
+        <button class="btn" onclick="showWithActions()">Toast with Action Link</button>
+        <button class="btn--outline btn" onclick="showWithButtonAction()">Toast with Button Action</button>
+      </div>
+    </div>
+    <pre><code>&lt;aegov-toast variant="info" duration="0"&gt;
+  &lt;span slot="title"&gt;New version available&lt;/span&gt;
+  Please update to get the latest features.
+  &lt;a slot="actions" href="#"&gt;Update Now&lt;/a&gt;
+&lt;/aegov-toast&gt;</code></pre>
+  </div>
+
+  <!-- Positions -->
+  <div class="section">
+    <h2>Positions</h2>
+    <p>Toast slides in from the nearest edge. Six screen positions available.</p>
+    <div class="example">
+      <div class="btn-row">
+        <button class="btn" onclick="showPosition('top-right')">Top Right</button>
+        <button class="btn" onclick="showPosition('top-left')">Top Left</button>
+        <button class="btn" onclick="showPosition('top-center')">Top Center</button>
+        <button class="btn" onclick="showPosition('bottom-right')">Bottom Right</button>
+        <button class="btn" onclick="showPosition('bottom-left')">Bottom Left</button>
+        <button class="btn" onclick="showPosition('bottom-center')">Bottom Center</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Progress Bar -->
+  <div class="section">
+    <h2>Progress Bar</h2>
+    <p>Optional countdown bar showing time remaining before auto-dismiss. Pauses on hover.</p>
+    <div class="example">
+      <div class="btn-row">
+        <button class="btn" onclick="showProgress(3000)">3s Progress</button>
+        <button class="btn" onclick="showProgress(5000)">5s Progress</button>
+        <button class="btn" onclick="showProgress(8000)">8s Progress</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Duration & Persistent -->
+  <div class="section">
+    <h2>Duration & Persistent</h2>
+    <p>Auto-dismiss after a set duration. Use <code>duration="0"</code> for persistent toasts that stay until manually dismissed.</p>
+    <div class="example">
+      <div class="btn-row">
+        <button class="btn" onclick="showDuration(2000)">2 seconds</button>
+        <button class="btn" onclick="showDuration(5000)">5 seconds</button>
+        <button class="btn" onclick="showDuration(0)">Persistent</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Dismissible -->
+  <div class="section">
+    <h2>Dismiss Button</h2>
+    <p>The dismiss button is shown by default. Set <code>dismissible="false"</code> to hide it.</p>
+    <div class="example">
+      <div class="btn-row">
+        <button class="btn" onclick="showDismissOption(true)">With Dismiss</button>
+        <button class="btn--outline btn" onclick="showDismissOption(false)">Without Dismiss</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Stack vs Rack -->
+  <div class="section">
+    <h2>Stack Mode vs Rack Mode</h2>
+    <p>Stack mode shows all toasts with gaps between them. Rack mode collapses toasts into a compact deck — hover to expand.</p>
+
+    <h3>Stack Mode</h3>
+    <div class="example">
+      <button class="btn" onclick="showStack()">Show 3 Stacked Toasts</button>
+    </div>
+
+    <h3>Rack Mode</h3>
+    <div class="example">
+      <div class="btn-row">
+        <button class="btn" onclick="showRack('top-right')">Rack — Top Right</button>
+        <button class="btn" onclick="showRack('bottom-right')">Rack — Bottom Right</button>
+        <button class="btn" onclick="showRack('top-center')">Rack — Top Center</button>
+        <button class="btn" onclick="showRack('bottom-left')">Rack — Bottom Left</button>
+      </div>
+    </div>
+
+    <h3>Rack + Auto-dismiss + Progress</h3>
+    <div class="example">
+      <div class="btn-row">
+        <button class="btn" onclick="showRackDuration('top-right')">Top Right</button>
+        <button class="btn" onclick="showRackDuration('bottom-right')">Bottom Right</button>
+      </div>
+    </div>
+
+    <h3>Rack + Actions</h3>
+    <div class="example">
+      <div class="btn-row">
+        <button class="btn" onclick="showRackActions('top-right')">Top Right</button>
+        <button class="btn" onclick="showRackActions('bottom-right')">Bottom Right</button>
+      </div>
+    </div>
+
+    <pre><code>// Rack mode
+const toast = document.createElement('aegov-toast');
+toast.variant = 'info';
+toast.mode = 'rack';
+toast.position = 'top-right';
+toast.duration = 0;
+toast.innerHTML = '&lt;span slot="title"&gt;Title&lt;/span&gt;Description';
+document.body.appendChild(toast);
+toast.show();</code></pre>
+  </div>
+
+  <!-- Events -->
+  <div class="section">
+    <h2>Events</h2>
+    <p>Listen to toast lifecycle events: <code>aegovToastOpen</code>, <code>aegovToastClose</code>, <code>aegovToastDismiss</code>.</p>
+    <div class="example">
+      <div class="btn-row">
+        <button class="btn" onclick="showEventToast()">Show Toast with Events</button>
+        <button class="btn--outline btn btn--sm" onclick="document.getElementById('event-log').innerHTML='<div>Event log...</div>'">Clear</button>
+      </div>
+    </div>
+    <div id="event-log"><div>Event log...</div></div>
+  </div>
+
+  <!-- Global Helper -->
+  <div class="section">
+    <h2>Global Helper — <code>window.aegovToast.show()</code></h2>
+    <p>Quick one-liner from anywhere in your app.</p>
+    <div class="example">
+      <div class="btn-row">
+        <button class="btn" onclick="window.aegovToast.show({ message: 'Quick toast!', variant: 'success', duration: 3000 })">Quick Toast</button>
+        <button class="btn--outline btn" onclick="window.aegovToast.show({ message: 'Error occurred', variant: 'error', duration: 4000, showProgress: true })">Error + Progress</button>
+        <button class="btn--outline btn" onclick="window.aegovToast.show({ message: 'Stay until dismissed', variant: 'warning', duration: 0 })">Persistent Warning</button>
+      </div>
+    </div>
+    <pre><code>window.aegovToast.show({
+  message: 'File uploaded!',
+  variant: 'success',
+  duration: 3000,
+  showProgress: true
+});</code></pre>
+  </div>
+
+  <!-- API Reference -->
+  <div class="section">
+    <h2>API Reference</h2>
+
+    <h3>Properties</h3>
+    <table>
+      <thead>
+        <tr><th>Property</th><th>Attribute</th><th>Type</th><th>Default</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><code>variant</code></td><td><code>variant</code></td><td>'default' | 'error' | 'warning' | 'success' | 'info'</td><td>'default'</td></tr>
+        <tr><td><code>appearance</code></td><td><code>appearance</code></td><td>'soft' | 'solid'</td><td>'soft'</td></tr>
+        <tr><td><code>position</code></td><td><code>position</code></td><td>'top-right' | 'top-left' | 'top-center' | 'bottom-right' | 'bottom-left' | 'bottom-center'</td><td>'top-right'</td></tr>
+        <tr><td><code>duration</code></td><td><code>duration</code></td><td>number</td><td>5000</td></tr>
+        <tr><td><code>dismissible</code></td><td><code>dismissible</code></td><td>boolean</td><td>true</td></tr>
+        <tr><td><code>mode</code></td><td><code>mode</code></td><td>'stack' | 'rack'</td><td>'stack'</td></tr>
+        <tr><td><code>showProgress</code></td><td><code>show-progress</code></td><td>boolean</td><td>false</td></tr>
+      </tbody>
+    </table>
+
+    <h3>Slots</h3>
+    <table>
+      <thead>
+        <tr><th>Slot</th><th>Description</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>(default)</td><td>Toast description content</td></tr>
+        <tr><td><code>title</code></td><td>Bold title rendered above the description</td></tr>
+        <tr><td><code>icon</code></td><td>Custom icon rendered to the left of title/description</td></tr>
+        <tr><td><code>actions</code></td><td>Action buttons/links rendered below description</td></tr>
+      </tbody>
+    </table>
+
+    <h3>Methods</h3>
+    <table>
+      <thead>
+        <tr><th>Method</th><th>Description</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><code>show()</code></td><td>Show the toast (moves to portal container, starts auto-dismiss timer)</td></tr>
+        <tr><td><code>close()</code></td><td>Close with exit animation, then remove from DOM</td></tr>
+      </tbody>
+    </table>
+
+    <h3>Events</h3>
+    <table>
+      <thead>
+        <tr><th>Event</th><th>When</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><code>aegovToastOpen</code></td><td>After toast becomes visible</td></tr>
+        <tr><td><code>aegovToastClose</code></td><td>After close animation completes and element is removed</td></tr>
+        <tr><td><code>aegovToastDismiss</code></td><td>When user clicks the dismiss button</td></tr>
+      </tbody>
+    </table>
+  </div>
+
   <script>
-    const variantMessages = {
+    /* ---- Icon SVGs ---- */
+    const ICONS = {
+      default: '<svg slot="icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 256 256"><rect width="256" height="256" fill="none"/><circle cx="128" cy="128" r="96" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/><circle cx="128" cy="180" r="12" fill="currentColor"/><line x1="128" y1="80" x2="128" y2="136" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/></svg>',
+      error: '<svg slot="icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 256 256"><rect width="256" height="256" fill="none"/><circle cx="128" cy="128" r="96" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/><line x1="160" y1="96" x2="96" y2="160" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/><line x1="160" y1="160" x2="96" y2="96" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/></svg>',
+      warning: '<svg slot="icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 256 256"><rect width="256" height="256" fill="none"/><path d="M114.2,40l-88,152A16,16,0,0,0,40,216H216a16,16,0,0,0,13.8-24l-88-152A16,16,0,0,0,114.2,40Z" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/><line x1="128" y1="112" x2="128" y2="144" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/><circle cx="128" cy="176" r="12" fill="currentColor"/></svg>',
+      success: '<svg slot="icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 256 256"><rect width="256" height="256" fill="none"/><circle cx="128" cy="128" r="96" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/><polyline points="88 136 112 160 168 104" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/></svg>',
+      info: '<svg slot="icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 256 256"><rect width="256" height="256" fill="none"/><circle cx="128" cy="128" r="96" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/><circle cx="128" cy="84" r="12" fill="currentColor"/><line x1="128" y1="120" x2="128" y2="176" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/></svg>',
+    };
+
+    const TITLES = {
+      default: 'Notification',
+      error: 'Error',
+      warning: 'Warning',
+      success: 'Success',
+      info: 'Information',
+    };
+
+    const MESSAGES = {
       default: 'This is a default notification.',
       error: 'Something went wrong. Please try again.',
       warning: 'Please review your input before continuing.',
@@ -440,169 +335,187 @@ window.aegovToast.show({
       info: 'A new update is available.',
     };
 
-    function createToast(options = {}) {
-      const toast = document.createElement('aegov-toast');
-      Object.entries(options).forEach(([key, value]) => {
-        if (key === 'message') {
-          toast.innerHTML = value;
-        } else if (key === 'actionsHtml') {
-          toast.innerHTML += value;
-        } else {
-          toast[key] = value;
-        }
-      });
-      document.body.appendChild(toast);
-      toast.show();
-      return toast;
+    /* ---- Helpers ---- */
+
+    function make(variant, opts = {}) {
+      const t = document.createElement('aegov-toast');
+      t.variant = variant;
+      if (opts.appearance) t.appearance = opts.appearance;
+      if (opts.position) t.position = opts.position;
+      if (opts.duration !== undefined) t.duration = opts.duration;
+      if (opts.dismissible !== undefined) t.dismissible = opts.dismissible;
+      if (opts.mode) t.mode = opts.mode;
+      if (opts.showProgress) t.showProgress = opts.showProgress;
+
+      let html = '';
+      if (opts.icon !== false) html += ICONS[variant] || '';
+      if (opts.title) html += `<span slot="title">${opts.title}</span>`;
+      html += opts.message || '';
+      if (opts.actionsHtml) html += opts.actionsHtml;
+
+      t.innerHTML = html;
+      document.body.appendChild(t);
+      t.show();
+      return t;
     }
 
-    function showVariantToast(variant, appearance) {
-      createToast({
-        variant,
+    /* ---- Section handlers ---- */
+
+    function showVariant(variant, appearance) {
+      make(variant, {
         appearance,
-        message: variantMessages[variant],
+        title: TITLES[variant],
+        message: MESSAGES[variant],
         duration: 4000,
       });
     }
 
-    function showPositionToast(position) {
-      createToast({
-        variant: 'info',
+    function showDescOnly() {
+      make('default', {
+        icon: false,
+        message: 'A simple description-only toast.',
+        duration: 3000,
+      });
+    }
+
+    function showTitleDesc() {
+      make('success', {
+        icon: false,
+        title: 'File Uploaded',
+        message: 'Your document has been uploaded successfully.',
+        duration: 4000,
+      });
+    }
+
+    function showFull(variant) {
+      make(variant, {
+        title: TITLES[variant],
+        message: MESSAGES[variant],
+        duration: 4000,
+      });
+    }
+
+    function showWithActions() {
+      make('info', {
+        title: 'New version available',
+        message: 'Please update to get the latest features.',
+        duration: 0,
+        actionsHtml: '<a slot="actions" href="#" style="color:inherit;font-weight:600;text-decoration:underline;" onclick="event.preventDefault();this.closest(\'aegov-toast\').close();">Update Now</a>',
+      });
+    }
+
+    function showWithButtonAction() {
+      make('error', {
+        title: 'Upload Failed',
+        message: 'The file exceeded the maximum size limit.',
+        duration: 0,
+        actionsHtml: '<button slot="actions" style="padding:0.25rem 0.75rem;border-radius:4px;border:1px solid currentColor;background:transparent;color:inherit;cursor:pointer;font-size:0.8rem;font-family:inherit;" onclick="this.closest(\'aegov-toast\').close();">Retry</button>',
+      });
+    }
+
+    function showPosition(position) {
+      make('info', {
         position,
+        title: position,
         message: `Toast at ${position}`,
         duration: 3000,
       });
     }
 
-    function showStackableToasts() {
-      const variants = ['success', 'info', 'warning'];
-      variants.forEach((v, i) => {
-        setTimeout(() => {
-          createToast({
-            variant: v,
-            message: `Stack toast #${i + 1}`,
-            duration: 5000,
-          });
-        }, i * 300);
-      });
-    }
-
-    function showRackToasts(position) {
-      const variants = ['success', 'info', 'warning', 'error'];
-      variants.forEach((v, i) => {
-        setTimeout(() => {
-          createToast({
-            variant: v,
-            mode: 'rack',
-            position: position,
-            message: `Rack toast #${i + 1}`,
-            duration: 0,
-          });
-        }, i * 300);
-      });
-    }
-
-    function showRackWithDuration(position) {
-      const items = [
-        { variant: 'success', message: 'Saved! (3s)', duration: 3000 },
-        { variant: 'info', message: 'Syncing... (5s)', duration: 5000 },
-        { variant: 'warning', message: 'Low storage (7s)', duration: 7000 },
-      ];
-      items.forEach((item, i) => {
-        setTimeout(() => {
-          createToast({
-            variant: item.variant,
-            mode: 'rack',
-            position: position,
-            message: item.message,
-            duration: item.duration,
-            showProgress: true,
-          });
-        }, i * 300);
-      });
-    }
-
-    function showRackWithActions(position) {
-      const items = [
-        { variant: 'info', msg: 'New version available', action: 'Update Now' },
-        { variant: 'warning', msg: 'Session expiring soon', action: 'Extend' },
-        { variant: 'success', msg: 'File uploaded', action: 'View File' },
-      ];
-      items.forEach((item, i) => {
-        setTimeout(() => {
-          const toast = document.createElement('aegov-toast');
-          toast.variant = item.variant;
-          toast.mode = 'rack';
-          toast.position = position;
-          toast.duration = 0;
-          toast.innerHTML = `${item.msg} <a slot="actions" href="#" style="color: inherit; font-weight: 600; text-decoration: underline;" onclick="event.preventDefault(); this.closest('aegov-toast').close();">${item.action}</a>`;
-          document.body.appendChild(toast);
-          toast.show();
-        }, i * 300);
-      });
-    }
-
-    function showProgressToast(duration) {
-      createToast({
-        variant: 'info',
+    function showProgress(duration) {
+      make('info', {
         showProgress: true,
         duration,
-        message: `Auto-dismiss in ${duration / 1000}s`,
+        title: 'Auto-dismiss',
+        message: `Disappearing in ${duration / 1000}s`,
       });
     }
 
-    function showDurationToast(duration) {
-      createToast({
-        variant: 'success',
+    function showDuration(duration) {
+      make('success', {
         duration,
+        title: duration === 0 ? 'Persistent' : 'Timed',
         message: duration === 0
           ? 'I will stay until you dismiss me!'
           : `Disappearing in ${duration / 1000} seconds`,
       });
     }
 
-    function showOptionToast(showIcon, dismissible) {
-      createToast({
-        variant: 'info',
-        showIcon,
+    function showDismissOption(dismissible) {
+      make('info', {
         dismissible,
         duration: 3000,
-        message: 'Minimal notification',
+        title: 'Notification',
+        message: dismissible ? 'With dismiss button' : 'No dismiss button — auto-closes in 3s',
       });
     }
 
-    function showActionToast() {
-      const toast = document.createElement('aegov-toast');
-      toast.variant = 'info';
-      toast.duration = 0;
-      toast.innerHTML = 'New version available. <a slot="actions" href="#" style="color: inherit; font-weight: 600; text-decoration: underline;" onclick="event.preventDefault(); this.closest(\'aegov-toast\').close();">Update Now</a>';
-      document.body.appendChild(toast);
-      toast.show();
+    function showStack() {
+      ['success', 'info', 'warning'].forEach((v, i) => {
+        setTimeout(() => {
+          make(v, { title: TITLES[v], message: `Stack toast #${i + 1}`, duration: 5000 });
+        }, i * 300);
+      });
+    }
+
+    function showRack(position) {
+      ['success', 'info', 'warning', 'error'].forEach((v, i) => {
+        setTimeout(() => {
+          make(v, { mode: 'rack', position, title: TITLES[v], message: `Rack toast #${i + 1}`, duration: 0 });
+        }, i * 300);
+      });
+    }
+
+    function showRackDuration(position) {
+      [
+        { v: 'success', t: 'Saved', m: 'Changes saved (3s)', d: 3000 },
+        { v: 'info',    t: 'Syncing', m: 'Syncing data... (5s)', d: 5000 },
+        { v: 'warning', t: 'Storage', m: 'Low storage (7s)', d: 7000 },
+      ].forEach((item, i) => {
+        setTimeout(() => {
+          make(item.v, { mode: 'rack', position, title: item.t, message: item.m, duration: item.d, showProgress: true });
+        }, i * 300);
+      });
+    }
+
+    function showRackActions(position) {
+      [
+        { v: 'info',    t: 'Update',  m: 'New version available', a: 'Update Now' },
+        { v: 'warning', t: 'Session', m: 'Session expiring soon', a: 'Extend' },
+        { v: 'success', t: 'Upload',  m: 'File uploaded', a: 'View File' },
+      ].forEach((item, i) => {
+        setTimeout(() => {
+          make(item.v, {
+            mode: 'rack',
+            position,
+            title: item.t,
+            message: item.m,
+            duration: 0,
+            actionsHtml: `<a slot="actions" href="#" style="color:inherit;font-weight:600;text-decoration:underline;" onclick="event.preventDefault();this.closest('aegov-toast').close();">${item.a}</a>`,
+          });
+        }, i * 300);
+      });
     }
 
     function showEventToast() {
-      const toast = document.createElement('aegov-toast');
-      toast.variant = 'success';
-      toast.duration = 4000;
-      toast.showProgress = true;
-      toast.innerHTML = 'Watch the event log below!';
-      document.body.appendChild(toast);
-
-      toast.addEventListener('aegovToastOpen', () => logEvent('aegovToastOpen fired'));
-      toast.addEventListener('aegovToastClose', () => logEvent('aegovToastClose fired'));
-      toast.addEventListener('aegovToastDismiss', () => logEvent('aegovToastDismiss fired (user clicked X)'));
-
-      toast.show();
+      const t = make('success', {
+        title: 'Event Demo',
+        message: 'Watch the event log below!',
+        duration: 4000,
+        showProgress: true,
+      });
+      t.addEventListener('aegovToastOpen',    () => addLog('aegovToastOpen'));
+      t.addEventListener('aegovToastClose',   () => addLog('aegovToastClose'));
+      t.addEventListener('aegovToastDismiss', () => addLog('aegovToastDismiss'));
     }
 
-    const eventLog = document.getElementById('eventLog');
-    function logEvent(msg) {
+    /* ---- Event log ---- */
+    const log = document.getElementById('event-log');
+    function addLog(msg) {
       const time = new Date().toLocaleTimeString();
-      eventLog.innerHTML += `<div>[${time}] ${msg}</div>`;
-      eventLog.scrollTop = eventLog.scrollHeight;
-    }
-    function clearLog() {
-      eventLog.innerHTML = 'Events will appear here...';
+      const div = document.createElement('div');
+      div.textContent = `[${time}] ${msg}`;
+      log.prepend(div);
     }
   </script>
 </body>
