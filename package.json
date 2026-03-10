@@ -4,8 +4,6 @@
   "description": "AEGOV Design System - Framework-agnostic web components with Tailwind CSS",
   "main": "dist/index.cjs.js",
   "module": "dist/index.js",
-  "es2015": "dist/esm/index.mjs",
-  "es2017": "dist/esm/index.mjs",
   "types": "dist/types/index.d.ts",
   "collection": "dist/collection/collection-manifest.json",
   "collection:main": "dist/collection/index.js",
@@ -17,18 +15,24 @@
   ],
   "exports": {
     ".": {
-      "import": "./dist/index.js",
-      "require": "./dist/index.cjs.js",
-      "types": "./dist/types/index.d.ts"
-    },
-    "./loader": {
+      "types": "./dist/types/index.d.ts",
       "import": "./loader/index.js",
       "require": "./loader/index.cjs.js"
     },
-    "./dist/components/*.js": {
+    "./loader": {
+      "types": "./loader/index.d.ts",
+      "import": "./loader/index.js",
+      "require": "./loader/index.cjs.js"
+    },
+    "./components": {
+      "import": "./dist/components/index.js",
+      "types": "./dist/components/index.d.ts"
+    },
+    "./components/*": {
       "import": "./dist/components/*.js",
       "types": "./dist/components/*.d.ts"
     },
+    "./css": "./dist/aegov/aegov.css",
     "./tailwind.css": "./src/styles/tailwind.css",
     "./theme": "./src/styles/tailwind.css"
   },

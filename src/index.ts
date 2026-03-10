@@ -1,9 +1,96 @@
 /**
  * AEGOV Design System
  *
- * Main entry point for the design system library
+ * Main entry point for the design system library.
+ *
+ * Usage:
+ *   // Lazy-loading (recommended for most apps):
+ *   import { defineCustomElements } from '@aegov/design-system/loader';
+ *   defineCustomElements();
+ *
+ *   // Tree-shakeable individual imports:
+ *   import { AegovButton } from '@aegov/design-system/dist/components/aegov-button.js';
  */
 
-// Export all component types and interfaces including custom events
-export * from './components';
-export * from './utils';
+// Re-export shared utility types for TypeScript consumers
+export type {
+  AccordionIcon,
+  AvatarGroupMode,
+  AvatarSize,
+  AvatarStatus,
+  AvatarVariant,
+  BadgeAppearance,
+  BadgeColor,
+  BadgeSize,
+  BannerDisplay,
+  BannerMode,
+  BannerPosition,
+  BannerRole,
+  BlockquoteVariant,
+  BreadcrumbSeparator,
+  ButtonAppearance,
+  ButtonGroupOrientation,
+  ButtonGroupPosition,
+  ButtonSize,
+  ButtonType,
+  ButtonVariant,
+  CalloutAppearance,
+  CalloutVariant,
+  CardBackground,
+  CardBorderStyle,
+  CardBorderWidth,
+  CardHover,
+  CheckboxGroupOrientation,
+  CheckboxGroupVariant,
+  CheckboxSize,
+  DatepickerChangeDetail,
+  DatepickerMode,
+  DatepickerMonthChangeDetail,
+  DrawerAnimation,
+  DrawerOverlayOpacity,
+  DrawerPosition,
+  DropdownAlign,
+  DropdownPosition,
+  DropdownTrigger,
+  FileuploadSize,
+  FileuploadVariant,
+  InputSize,
+  InputType,
+  LinkTarget,
+  ModalBackdropOpacity,
+  ModalPosition,
+  OtpSize,
+  OtpVariant,
+  PaginationSize,
+  PaginationVariant,
+  ProgressCounter,
+  RadioGroupOrientation,
+  RadioGroupVariant,
+  RadioSize,
+  RangeDisplay,
+  RangeMode,
+  RangeOrientation,
+  RangeSize,
+  SelectChangeDetail,
+  SelectSize,
+  SelectVariant,
+  TabOrientation,
+  TabSize,
+  TabVariant,
+  TextareaResize,
+  TextareaSize,
+  TextSize,
+  TimelineOrientation,
+  TimelineSize,
+  TimelineStepStatus,
+  TimelineVariant,
+  TitleSize,
+  ToastAppearance,
+  ToastMode,
+  ToastPosition,
+  ToastVariant,
+  ToggleSize,
+  TooltipAlign,
+  TooltipPosition,
+  TooltipTrigger,
+} from './utils/types';
