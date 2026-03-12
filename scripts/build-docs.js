@@ -62,13 +62,16 @@ function processFile(mdFilename) {
 
   const mdContent = fs.readFileSync(mdPath, 'utf-8');
   const rendered = marked.parse(mdContent);
-  const wrapped = MARKER_START + '\n' + rendered + MARKER_END;
+  // Indent the DOC:START marker to match the surrounding HTML structure.
+  const INDENT = '          ';
+  const wrapped = INDENT + MARKER_START + '\n' + rendered.trimEnd() + '\n' + MARKER_END;
 
   let html = fs.readFileSync(htmlPath, 'utf-8');
 
   // If markers already exist, replace everything between them (greedy — safe
   // because the markers are unique HTML comments that won't appear in content).
-  var markerRegex = new RegExp(MARKER_START + '[\\s\\S]*?' + MARKER_END);
+  // Match optional leading horizontal whitespace around markers.
+  var markerRegex = new RegExp('[ \\t]*' + MARKER_START + '[\\s\\S]*?' + MARKER_END);
   if (markerRegex.test(html)) {
     var newHtml = html.replace(markerRegex, function() { return wrapped; });
     if (newHtml === html) return false;

@@ -16,10 +16,10 @@ The component provides **2 variants** (default numbered circles and compact dots
 </aegov-timeline>
 ```
 
-<div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
+<div class="p-6 bg-aeblack-50 rounded-lg my-6 w-full not-aegov">
   <aegov-timeline>
-    <aegov-timeline-step status="completed">Account Created</aegov-timeline-step>
-    <aegov-timeline-step status="active">Verification</aegov-timeline-step>
+    <aegov-timeline-step status="completed">Created</aegov-timeline-step>
+    <aegov-timeline-step status="active">Verified</aegov-timeline-step>
     <aegov-timeline-step status="pending">Approval</aegov-timeline-step>
   </aegov-timeline>
 </div>
