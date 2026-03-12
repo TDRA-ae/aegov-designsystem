@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Callout | AEGOV Design System</title>
+  <script type="module" src="/build/aegov.esm.js"></script>
+  <script nomodule src="/build/aegov.js"></script>
+  <link rel="stylesheet" href="/build/aegov.css">
+  <link rel="stylesheet" href="/docs/doc-style.css">
+  <link rel="stylesheet" href="/docs/hljs.css">
+</head>
+<body class="bg-aeblack-50">
+  <header class="mx-auto max-w-7xl sm:px-6 lg:px-8 mb-8">
+    <img src="https://designsystem.gov.ae/assets/site-logo/AEGov-DesignSystem-Logo-Color.svg" alt="UAE Design System Logo" class="w-auto h-16 my-2">
+  </header>
+  <main class="mx-auto max-w-7xl sm:px-6 lg:px-8 bg-aeblack-50">
+    <section class="flex items-start align-top gap-4">
+      <nav id="primary-nav" class="w-3xs shrink-0">&nbsp;</nav>
+      <article class="col-span-5 grow">
+          <section id="content-area" class="bg-whitely-50 p-6 rounded-md shadow-xl">
+<!-- DOC:START -->
+<h1>Callout</h1>
+<p class="text-lg text-aeblack-500 mb-8">A callout is a prominent notification banner used to communicate important messages, feedback, or contextual information. Callouts draw attention to warnings, errors, successes, and general notices within a page.</p>
+
+<h2>Introduction</h2>
+<p>The <code>aegov-callout</code> component displays a coloured notification box with an icon, message content, and optional actions. It supports <strong>5 semantic variants</strong>, <strong>2 appearances</strong> (soft and solid), named slots for icons, content, links, and actions, an optional <strong>bordered</strong> mode, and <strong>dismissible</strong> functionality.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-callout</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;content&quot;</span>&gt;</span>This is a default callout message.<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-callout</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
+  <aegov-callout>
+    <span slot="content">This is a default callout message.</span>
+  </aegov-callout>
+</div>
+
+<hr>
+<h2>Variants</h2>
+<p>The <code>variant</code> property controls the colour scheme and the default icon displayed. There are five semantic variants, each conveying a different level of importance.</p>
+<h3>Default</h3>
+<p>A neutral callout using the slate palette — suitable for general-purpose notices.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-callout</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;default&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;content&quot;</span>&gt;</span>This is a general information notice.<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-callout</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
+  <aegov-callout variant="default">
+    <span slot="content">This is a general information notice.</span>
+  </aegov-callout>
+</div>
+
+<h3>Error</h3>
+<p>A red callout for critical errors or failures that require immediate attention.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-callout</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;error&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;content&quot;</span>&gt;</span>An error occurred while processing your request.<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-callout</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
+  <aegov-callout variant="error">
+    <span slot="content">An error occurred while processing your request.</span>
+  </aegov-callout>
+</div>
+
+<h3>Warning</h3>
+<p>A camel-coloured callout for cautionary messages that the user should be aware of.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-callout</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;warning&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;content&quot;</span>&gt;</span>Your session will expire in 5 minutes.<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-callout</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
+  <aegov-callout variant="warning">
+    <span slot="content">Your session will expire in 5 minutes.</span>
+  </aegov-callout>
+</div>
+
+<h3>Success</h3>
+<p>A green callout for positive confirmations and successful operations.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-callout</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;success&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;content&quot;</span>&gt;</span>Your changes have been saved successfully.<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-callout</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
+  <aegov-callout variant="success">
+    <span slot="content">Your changes have been saved successfully.</span>
+  </aegov-callout>
+</div>
+
+<h3>Info</h3>
+<p>A blue callout for helpful, non-critical information or tips.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-callout</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;info&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;content&quot;</span>&gt;</span>You can update your profile settings at any time.<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-callout</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
+  <aegov-callout variant="info">
+    <span slot="content">You can update your profile settings at any time.</span>
+  </aegov-callout>
+</div>
+
+<hr>
+<h2>Appearances</h2>
+<p>The <code>appearance</code> property controls the visual intensity. Two appearances are available.</p>
+<h3>Soft (default)</h3>
+<p>A subtle, tinted background with darker text — ideal for inline notifications that should not overwhelm the page.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-callout</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;info&quot;</span> <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;soft&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;content&quot;</span>&gt;</span>Soft appearance — blends with the page.<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-callout</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 space-y-3 not-aegov">
+  <aegov-callout variant="default" appearance="soft">
+    <span slot="content">Default soft callout.</span>
+  </aegov-callout>
+  <aegov-callout variant="error" appearance="soft">
+    <span slot="content">Error soft callout.</span>
+  </aegov-callout>
+  <aegov-callout variant="warning" appearance="soft">
+    <span slot="content">Warning soft callout.</span>
+  </aegov-callout>
+  <aegov-callout variant="success" appearance="soft">
+    <span slot="content">Success soft callout.</span>
+  </aegov-callout>
+  <aegov-callout variant="info" appearance="soft">
+    <span slot="content">Info soft callout.</span>
+  </aegov-callout>
+</div>
+
+<h3>Solid</h3>
+<p>A bold, filled background with light text — use for high-emphasis alerts that demand attention.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-callout</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;error&quot;</span> <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;solid&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;content&quot;</span>&gt;</span>Solid appearance — high visual priority.<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-callout</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 space-y-3 not-aegov">
+  <aegov-callout variant="default" appearance="solid">
+    <span slot="content">Default solid callout.</span>
+  </aegov-callout>
+  <aegov-callout variant="error" appearance="solid">
+    <span slot="content">Error solid callout.</span>
+  </aegov-callout>
+  <aegov-callout variant="warning" appearance="solid">
+    <span slot="content">Warning solid callout.</span>
+  </aegov-callout>
+  <aegov-callout variant="success" appearance="solid">
+    <span slot="content">Success solid callout.</span>
+  </aegov-callout>
+  <aegov-callout variant="info" appearance="solid">
+    <span slot="content">Info solid callout.</span>
+  </aegov-callout>
+</div>
+
+<hr>
+<h2>Bordered</h2>
+<p>Set the <code>bordered</code> attribute to add a visible border to the callout. The border colour matches the variant&#39;s colour scheme.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-callout</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;info&quot;</span> <span class="hljs-attr">bordered</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;content&quot;</span>&gt;</span>This callout has a border.<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-callout</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 space-y-3 not-aegov">
+  <aegov-callout variant="default" bordered>
+    <span slot="content">Default bordered callout.</span>
+  </aegov-callout>
+  <aegov-callout variant="error" bordered>
+    <span slot="content">Error bordered callout.</span>
+  </aegov-callout>
+  <aegov-callout variant="warning" bordered>
+    <span slot="content">Warning bordered callout.</span>
+  </aegov-callout>
+  <aegov-callout variant="success" bordered>
+    <span slot="content">Success bordered callout.</span>
+  </aegov-callout>
+  <aegov-callout variant="info" bordered>
+    <span slot="content">Info bordered callout.</span>
+  </aegov-callout>
+</div>
+
+<hr>
+<h2>Custom Icon</h2>
+<p>By default, the callout renders a variant-appropriate icon (e.g. an exclamation triangle for warnings, a checkmark circle for success). You can override the default icon by placing your own SVG or image in the <code>icon</code> slot.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-callout</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;info&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">svg</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;icon&quot;</span> <span class="hljs-attr">xmlns</span>=<span class="hljs-string">&quot;http://www.w3.org/2000/svg&quot;</span> <span class="hljs-attr">viewBox</span>=<span class="hljs-string">&quot;0 0 24 24&quot;</span>
+       <span class="hljs-attr">fill</span>=<span class="hljs-string">&quot;currentColor&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;size-6&quot;</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">path</span> <span class="hljs-attr">d</span>=<span class="hljs-string">&quot;M12 2a10 10 0 100 20 10 10 0 000-20zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z&quot;</span>/&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">svg</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;content&quot;</span>&gt;</span>Callout with a custom icon.<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-callout</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
+  <aegov-callout variant="info">
+    <svg slot="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
+      <path d="M12 2a10 10 0 100 20 10 10 0 000-20zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/>
+    </svg>
+    <span slot="content">Callout with a custom icon.</span>
+  </aegov-callout>
+</div>
+
+<hr>
+<h2>Action Link</h2>
+<p>Use the <code>link</code> slot to place an action link on the right side of the callout. This is useful for linking to more details, documentation, or related pages.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-callout</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;info&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;content&quot;</span>&gt;</span>A new version of the API is available.<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;link&quot;</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;#&quot;</span>&gt;</span>View changelog<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-callout</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 space-y-3 not-aegov">
+  <aegov-callout variant="info">
+    <span slot="content">A new version of the API is available.</span>
+    <a slot="link" href="#">View changelog</a>
+  </aegov-callout>
+  <aegov-callout variant="warning" appearance="solid">
+    <span slot="content">Your subscription is about to expire.</span>
+    <a slot="link" href="#">Renew now</a>
+  </aegov-callout>
+</div>
+
+<hr>
+<h2>Actions Slot</h2>
+<p>Use the <code>actions</code> slot to embed buttons or other interactive elements below the callout content. This is ideal for confirmations, undo actions, or multi-step flows. Buttons placed inside the actions slot are automatically styled to match the callout&#39;s variant and appearance.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-callout</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;error&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;content&quot;</span>&gt;</span>Failed to submit your application. Please review and try again.<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;actions&quot;</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm&quot;</span>&gt;</span>Try Again<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm&quot;</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;outline&quot;</span>&gt;</span>Cancel<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-callout</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 space-y-3 not-aegov">
+  <aegov-callout variant="error">
+    <span slot="content">Failed to submit your application. Please review and try again.</span>
+    <div slot="actions">
+      <aegov-button size="sm">Try Again</aegov-button>
+      <aegov-button size="sm" variant="outline">Cancel</aegov-button>
+    </div>
+  </aegov-callout>
+  <aegov-callout variant="success">
+    <span slot="content">Your report has been generated successfully.</span>
+    <div slot="actions">
+      <aegov-button size="sm">Download</aegov-button>
+      <aegov-button size="sm" variant="link">View Online</aegov-button>
+    </div>
+  </aegov-callout>
+</div>
+
+<hr>
+<h2>Dismissible</h2>
+<p>Set the <code>dismissible</code> attribute to show a close button. When clicked, the callout hides itself and emits the <code>aegovCalloutDismiss</code> event.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-callout</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;success&quot;</span> <span class="hljs-attr">dismissible</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;content&quot;</span>&gt;</span>Your profile has been updated.<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-callout</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 space-y-3 not-aegov">
+  <aegov-callout variant="default" dismissible>
+    <span slot="content">This is a dismissible default callout.</span>
+  </aegov-callout>
+  <aegov-callout variant="error" dismissible>
+    <span slot="content">This is a dismissible error callout.</span>
+  </aegov-callout>
+  <aegov-callout variant="warning" dismissible>
+    <span slot="content">This is a dismissible warning callout.</span>
+  </aegov-callout>
+  <aegov-callout variant="success" dismissible>
+    <span slot="content">This is a dismissible success callout.</span>
+  </aegov-callout>
+  <aegov-callout variant="info" dismissible>
+    <span slot="content">This is a dismissible info callout.</span>
+  </aegov-callout>
+</div>
+
+<h3>Handling Dismiss Events</h3>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-callout</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;my-callout&quot;</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;info&quot;</span> <span class="hljs-attr">dismissible</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;content&quot;</span>&gt;</span>Click the close button to dismiss.<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-callout</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript">
+  <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;my-callout&#x27;</span>)
+    .<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;aegovCalloutDismiss&#x27;</span>, <span class="hljs-function">() =&gt;</span> {
+      <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;Callout dismissed&#x27;</span>);
+    });
+</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre><blockquote>
+<p><strong>Note:</strong> Unlike the badge component, the callout automatically hides itself when dismissed by setting internal visibility state to <code>false</code>. The <code>aegovCalloutDismiss</code> event is still emitted so you can run additional logic such as updating application state or logging analytics.</p>
+</blockquote>
+<hr>
+<h2>Combined Features</h2>
+<p>Callouts support combining multiple features together — dismissible with action links, bordered with actions, and so on.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-callout</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;warning&quot;</span> <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;soft&quot;</span> <span class="hljs-attr">bordered</span> <span class="hljs-attr">dismissible</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;content&quot;</span>&gt;</span>Your account requires verification before proceeding.<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;link&quot;</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;#&quot;</span>&gt;</span>Verify now<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-callout</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 space-y-3 not-aegov">
+  <aegov-callout variant="warning" appearance="soft" bordered dismissible>
+    <span slot="content">Your account requires verification before proceeding.</span>
+    <a slot="link" href="#">Verify now</a>
+  </aegov-callout>
+  <aegov-callout variant="info" appearance="solid" dismissible>
+    <span slot="content">Scheduled maintenance will occur on Friday at 22:00 UTC.</span>
+    <div slot="actions">
+      <aegov-button size="sm">Acknowledge</aegov-button>
+      <aegov-button size="sm" variant="link">Learn More</aegov-button>
+    </div>
+  </aegov-callout>
+</div>
+
+<hr>
+<h2>Complete Variant x Appearance Matrix</h2>
+<p>The table below shows every combination of variant and appearance for visual QA and design review.</p>
+<div class="overflow-x-auto my-6">
+<table class="w-full text-sm border-collapse">
+  <thead>
+    <tr class="bg-aeblack-50">
+      <th class="text-left p-3 border border-aeblack-100 font-semibold">Variant</th>
+      <th class="p-3 border border-aeblack-100 font-semibold">Soft</th>
+      <th class="p-3 border border-aeblack-100 font-semibold">Solid</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td class="p-3 border border-aeblack-100 font-medium"><code>default</code></td>
+      <td class="p-3 border border-aeblack-100 not-aegov"><aegov-callout variant="default" appearance="soft"><span slot="content">Default soft callout</span></aegov-callout></td>
+      <td class="p-3 border border-aeblack-100 not-aegov"><aegov-callout variant="default" appearance="solid"><span slot="content">Default solid callout</span></aegov-callout></td>
+    </tr>
+    <tr>
+      <td class="p-3 border border-aeblack-100 font-medium"><code>error</code></td>
+      <td class="p-3 border border-aeblack-100 not-aegov"><aegov-callout variant="error" appearance="soft"><span slot="content">Error soft callout</span></aegov-callout></td>
+      <td class="p-3 border border-aeblack-100 not-aegov"><aegov-callout variant="error" appearance="solid"><span slot="content">Error solid callout</span></aegov-callout></td>
+    </tr>
+    <tr>
+      <td class="p-3 border border-aeblack-100 font-medium"><code>warning</code></td>
+      <td class="p-3 border border-aeblack-100 not-aegov"><aegov-callout variant="warning" appearance="soft"><span slot="content">Warning soft callout</span></aegov-callout></td>
+      <td class="p-3 border border-aeblack-100 not-aegov"><aegov-callout variant="warning" appearance="solid"><span slot="content">Warning solid callout</span></aegov-callout></td>
+    </tr>
+    <tr>
+      <td class="p-3 border border-aeblack-100 font-medium"><code>success</code></td>
+      <td class="p-3 border border-aeblack-100 not-aegov"><aegov-callout variant="success" appearance="soft"><span slot="content">Success soft callout</span></aegov-callout></td>
+      <td class="p-3 border border-aeblack-100 not-aegov"><aegov-callout variant="success" appearance="solid"><span slot="content">Success solid callout</span></aegov-callout></td>
+    </tr>
+    <tr>
+      <td class="p-3 border border-aeblack-100 font-medium"><code>info</code></td>
+      <td class="p-3 border border-aeblack-100 not-aegov"><aegov-callout variant="info" appearance="soft"><span slot="content">Info soft callout</span></aegov-callout></td>
+      <td class="p-3 border border-aeblack-100 not-aegov"><aegov-callout variant="info" appearance="solid"><span slot="content">Info solid callout</span></aegov-callout></td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<hr>
+<h2>API Reference</h2>
+<h3>Properties</h3>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Attribute</th>
+<th>Description</th>
+<th>Type</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>variant</code></td>
+<td><code>variant</code></td>
+<td>The semantic variant controlling colour scheme</td>
+<td><code>&#39;default&#39;</code> | <code>&#39;error&#39;</code> | <code>&#39;warning&#39;</code> | <code>&#39;success&#39;</code> | <code>&#39;info&#39;</code></td>
+<td><code>&#39;default&#39;</code></td>
+</tr>
+<tr>
+<td><code>appearance</code></td>
+<td><code>appearance</code></td>
+<td>The visual intensity</td>
+<td><code>&#39;soft&#39;</code> | <code>&#39;solid&#39;</code></td>
+<td><code>&#39;soft&#39;</code></td>
+</tr>
+<tr>
+<td><code>dismissible</code></td>
+<td><code>dismissible</code></td>
+<td>Shows a close button and enables dismiss</td>
+<td><code>boolean</code></td>
+<td><code>false</code></td>
+</tr>
+<tr>
+<td><code>bordered</code></td>
+<td><code>bordered</code></td>
+<td>Adds a visible border matching the variant</td>
+<td><code>boolean</code></td>
+<td><code>false</code></td>
+</tr>
+</tbody></table>
+<h3>Events</h3>
+<table>
+<thead>
+<tr>
+<th>Event</th>
+<th>Description</th>
+<th>Detail Type</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>aegovCalloutDismiss</code></td>
+<td>Emitted when the dismiss button is clicked</td>
+<td><code>void</code></td>
+</tr>
+</tbody></table>
+<p>The event is only emitted when <code>dismissible</code> is <code>true</code>.</p>
+<h4>Listening to Events</h4>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-callout</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;alert&quot;</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;warning&quot;</span> <span class="hljs-attr">dismissible</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;content&quot;</span>&gt;</span>Session expiring soon.<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-callout</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript">
+  <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;alert&#x27;</span>)
+    .<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;aegovCalloutDismiss&#x27;</span>, <span class="hljs-function">() =&gt;</span> {
+      <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;Callout was dismissed&#x27;</span>);
+    });
+</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre><h3>Slots</h3>
+<table>
+<thead>
+<tr>
+<th>Slot</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>content</code></td>
+<td>The main message text of the callout.</td>
+</tr>
+<tr>
+<td><code>icon</code></td>
+<td>Custom icon to replace the default variant icon. Place an SVG or image.</td>
+</tr>
+<tr>
+<td><code>link</code></td>
+<td>An action link displayed on the right side of the callout.</td>
+</tr>
+<tr>
+<td><code>actions</code></td>
+<td>Buttons or interactive elements displayed below the callout content.</td>
+</tr>
+</tbody></table>
+<h3>Pass-Through Attributes</h3>
+<p>The component forwards <code>id</code> attributes from the host element to the inner container via a pass-through mechanism. All standard <code>aria-*</code> and <code>data-*</code> attributes placed on the host element are also forwarded.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-callout</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;main-alert&quot;</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;error&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;content&quot;</span>&gt;</span>Something went wrong.<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-callout</span>&gt;</span></code></pre><hr>
+<h2>Accessibility</h2>
+<p>The <code>aegov-callout</code> component is built with accessibility as a first-class concern.</p>
+<h3>Built-in Features</h3>
+<ul>
+<li><strong><code>role=&quot;alert&quot;</code></strong> — the callout container uses the <code>alert</code> role, which causes screen readers to announce the content immediately when it appears in the DOM.</li>
+<li><strong>Variant-specific icons</strong> — each variant renders an appropriate SVG icon (error: X circle, warning: triangle, success: checkmark, info: info circle) with <code>aria-hidden=&quot;true&quot;</code> since they are decorative.</li>
+<li><strong>Dismiss button <code>aria-label</code></strong> — the close button includes <code>aria-label=&quot;Close callout&quot;</code> for screen reader identification.</li>
+<li><strong>Keyboard accessible</strong> — the dismiss button is a native <code>&lt;button&gt;</code> element, focusable and activatable with Enter or Space.</li>
+<li><strong>Focus indicators</strong> — the dismiss button and action links have visible <code>focus-visible</code> outlines matching the variant&#39;s colour scheme.</li>
+</ul>
+<h3>Developer Responsibilities</h3>
+<ol>
+<li><p><strong>Provide meaningful content.</strong> The callout should always contain a clear, descriptive message in the <code>content</code> slot. Avoid using colour alone to convey meaning — the text should explain the situation.</p>
+</li>
+<li><p><strong>Action links should be descriptive.</strong> If using the <code>link</code> slot, ensure the link text clearly describes the destination or action (e.g. &quot;View changelog&quot; rather than &quot;Click here&quot;).</p>
+</li>
+<li><p><strong>Colour contrast.</strong> All built-in variant and appearance combinations meet WCAG 2.1 AA contrast ratios. If you override colours via CSS, verify that the new colours maintain at least a <strong>4.5:1</strong> contrast ratio for text.</p>
+</li>
+<li><p><strong>Do not remove focus styles.</strong> The built-in <code>focus-visible</code> outlines are essential for keyboard navigation. Avoid overriding them with <code>outline: none</code>.</p>
+</li>
+</ol>
+<hr>
+<h2>Notes</h2>
+<ul>
+<li>The callout renders a <code>&lt;div&gt;</code> with <code>role=&quot;alert&quot;</code> internally. Screen readers will announce new callouts automatically when they are added to the DOM.</li>
+<li>The <code>dismissible</code> property both shows a close button and manages internal visibility. When dismissed, the callout sets <code>isVisible</code> to <code>false</code> and renders nothing. The <code>aegovCalloutDismiss</code> event is emitted so you can run cleanup logic.</li>
+<li>The default icon is determined by the <code>variant</code> property using the shared <code>getVariantIcon</code> utility. To replace it, use the <code>icon</code> slot — when content is detected in this slot, the default icon is hidden.</li>
+<li>Buttons placed in the <code>actions</code> slot are automatically styled to match the callout&#39;s current variant and appearance through CSS descendant selectors targeting <code>aegov-button</code> inner elements.</li>
+<li>The <code>bordered</code> property adds a 1px border. The border colour is inherited from the variant&#39;s colour scheme (e.g. <code>border-aered-700</code> for the error variant in soft appearance).</li>
+<li>The host element uses <code>display: block</code> with a 16px bottom margin for consistent vertical spacing between stacked callouts.</li>
+<li>The callout uses <code>@container</code> queries internally, making it responsive to its own container width.</li>
+</ul>
+<!-- DOC:END -->
+</section>
+      </article>
+    </section>
+  </main>
+  <footer class="mx-auto max-w-7xl sm:px-6 lg:px-8 mt-8 py-6 text-sm text-aeblack-500">
+    &copy; 2026 Telecommunication and Digital Regulatory Authority. All rights reserved.
+  </footer>
+
+<script src="/docs/layout.js"></script>
+</body>
+</html>

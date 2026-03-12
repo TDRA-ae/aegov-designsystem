@@ -53,9 +53,9 @@ export const config: Config = {
     {
       type: 'www',
       serviceWorker: null,
+      indexHtml: 'src/docs/index.html',
       copy: [
-        { src: 'styles' },
-        { src: 'pages' }
+        { src: 'docs' }
       ]
     },
 

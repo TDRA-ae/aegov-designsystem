@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pagination | AEGOV Design System</title>
+  <script type="module" src="/build/aegov.esm.js"></script>
+  <script nomodule src="/build/aegov.js"></script>
+  <link rel="stylesheet" href="/build/aegov.css">
+  <link rel="stylesheet" href="/docs/doc-style.css">
+  <link rel="stylesheet" href="/docs/hljs.css">
+</head>
+<body class="bg-aeblack-50">
+  <header class="mx-auto max-w-7xl sm:px-6 lg:px-8 mb-8">
+    <img src="https://designsystem.gov.ae/assets/site-logo/AEGov-DesignSystem-Logo-Color.svg" alt="UAE Design System Logo" class="w-auto h-16 my-2">
+  </header>
+  <main class="mx-auto max-w-7xl sm:px-6 lg:px-8 bg-aeblack-50">
+    <section class="flex items-start align-top gap-4">
+      <nav id="primary-nav" class="w-3xs shrink-0">&nbsp;</nav>
+      <article class="col-span-5 grow">
+          <section id="content-area" class="bg-whitely-50 p-6 rounded-md shadow-xl">
+<!-- DOC:START -->
+<h1>Pagination</h1>
+<p class="text-lg text-aeblack-500 mb-8">Pagination lets users navigate through large sets of content split across multiple pages, providing clear page indicators and directional controls.</p>
+
+<h2>Introduction</h2>
+<p>The <code>aegov-pagination</code> component renders a fully accessible page navigation bar with numbered page buttons, ellipsis indicators for large page ranges, and previous/next navigation. It supports a <strong>compact</strong> variant for tight layouts, <strong>three sizes</strong>, customisable sibling and boundary counts, optional first/last buttons, and full RTL support.</p>
+<p>The component follows a <strong>controlled</strong> pattern — you must update the <code>current-page</code> property in response to the <code>aegovPaginationPageChange</code> event.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-pagination</span> <span class="hljs-attr">total-pages</span>=<span class="hljs-string">&quot;10&quot;</span> <span class="hljs-attr">current-page</span>=<span class="hljs-string">&quot;1&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-pagination</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
+  <aegov-pagination total-pages="10" current-page="1"></aegov-pagination>
+</div>
+
+<hr>
+<h2>Current Page</h2>
+<p>The <code>current-page</code> property controls which page is highlighted as active. It is <strong>1-indexed</strong>. When a user clicks a page button, the component emits an <code>aegovPaginationPageChange</code> event with the new page number — you must update <code>current-page</code> in response.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-pagination</span> <span class="hljs-attr">total-pages</span>=<span class="hljs-string">&quot;10&quot;</span> <span class="hljs-attr">current-page</span>=<span class="hljs-string">&quot;5&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-pagination</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
+  <aegov-pagination total-pages="10" current-page="5"></aegov-pagination>
+</div>
+
+<hr>
+<h2>Total Pages</h2>
+<p>The <code>total-pages</code> property sets the number of pages available. The component automatically calculates which page numbers and ellipsis tokens to display based on this value combined with <code>sibling-count</code> and <code>boundary-count</code>.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-pagination</span> <span class="hljs-attr">total-pages</span>=<span class="hljs-string">&quot;5&quot;</span> <span class="hljs-attr">current-page</span>=<span class="hljs-string">&quot;3&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-pagination</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-pagination</span> <span class="hljs-attr">total-pages</span>=<span class="hljs-string">&quot;20&quot;</span> <span class="hljs-attr">current-page</span>=<span class="hljs-string">&quot;10&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-pagination</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-pagination</span> <span class="hljs-attr">total-pages</span>=<span class="hljs-string">&quot;100&quot;</span> <span class="hljs-attr">current-page</span>=<span class="hljs-string">&quot;50&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-pagination</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 space-y-4 not-aegov">
+  <aegov-pagination total-pages="5" current-page="3"></aegov-pagination>
+  <aegov-pagination total-pages="20" current-page="10"></aegov-pagination>
+  <aegov-pagination total-pages="100" current-page="50"></aegov-pagination>
+</div>
+
+<hr>
+<h2>Sibling Count</h2>
+<p>The <code>sibling-count</code> property controls how many page numbers appear on each side of the current page. The default is <code>1</code>.</p>
+<pre><code class="hljs language-html"><span class="hljs-comment">&lt;!-- 1 sibling (default) --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-pagination</span> <span class="hljs-attr">total-pages</span>=<span class="hljs-string">&quot;20&quot;</span> <span class="hljs-attr">current-page</span>=<span class="hljs-string">&quot;10&quot;</span> <span class="hljs-attr">sibling-count</span>=<span class="hljs-string">&quot;1&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-pagination</span>&gt;</span>
+
+<span class="hljs-comment">&lt;!-- 2 siblings --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-pagination</span> <span class="hljs-attr">total-pages</span>=<span class="hljs-string">&quot;20&quot;</span> <span class="hljs-attr">current-page</span>=<span class="hljs-string">&quot;10&quot;</span> <span class="hljs-attr">sibling-count</span>=<span class="hljs-string">&quot;2&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-pagination</span>&gt;</span>
+
+<span class="hljs-comment">&lt;!-- 3 siblings --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-pagination</span> <span class="hljs-attr">total-pages</span>=<span class="hljs-string">&quot;20&quot;</span> <span class="hljs-attr">current-page</span>=<span class="hljs-string">&quot;10&quot;</span> <span class="hljs-attr">sibling-count</span>=<span class="hljs-string">&quot;3&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-pagination</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 space-y-4 not-aegov">
+  <aegov-pagination total-pages="20" current-page="10" sibling-count="1"></aegov-pagination>
+  <aegov-pagination total-pages="20" current-page="10" sibling-count="2"></aegov-pagination>
+  <aegov-pagination total-pages="20" current-page="10" sibling-count="3"></aegov-pagination>
+</div>
+
+<hr>
+<h2>Boundary Count</h2>
+<p>The <code>boundary-count</code> property controls how many pages are always visible at the start and end of the range. The default is <code>1</code>.</p>
+<pre><code class="hljs language-html"><span class="hljs-comment">&lt;!-- 1 boundary page (default) --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-pagination</span> <span class="hljs-attr">total-pages</span>=<span class="hljs-string">&quot;20&quot;</span> <span class="hljs-attr">current-page</span>=<span class="hljs-string">&quot;10&quot;</span> <span class="hljs-attr">boundary-count</span>=<span class="hljs-string">&quot;1&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-pagination</span>&gt;</span>
+
+<span class="hljs-comment">&lt;!-- 2 boundary pages --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-pagination</span> <span class="hljs-attr">total-pages</span>=<span class="hljs-string">&quot;20&quot;</span> <span class="hljs-attr">current-page</span>=<span class="hljs-string">&quot;10&quot;</span> <span class="hljs-attr">boundary-count</span>=<span class="hljs-string">&quot;2&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-pagination</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 space-y-4 not-aegov">
+  <aegov-pagination total-pages="20" current-page="10" boundary-count="1"></aegov-pagination>
+  <aegov-pagination total-pages="20" current-page="10" boundary-count="2"></aegov-pagination>
+</div>
+
+<hr>
+<h2>Sizes</h2>
+<p>The <code>size</code> property controls the height, padding, and font size of all pagination buttons.</p>
+<table>
+<thead>
+<tr>
+<th>Size</th>
+<th>Height</th>
+<th>Font Size</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>sm</code></td>
+<td>32px</td>
+<td>12px</td>
+</tr>
+<tr>
+<td><code>base</code></td>
+<td>40px</td>
+<td>14px</td>
+</tr>
+<tr>
+<td><code>lg</code></td>
+<td>48px</td>
+<td>16px</td>
+</tr>
+</tbody></table>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-pagination</span> <span class="hljs-attr">total-pages</span>=<span class="hljs-string">&quot;10&quot;</span> <span class="hljs-attr">current-page</span>=<span class="hljs-string">&quot;3&quot;</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-pagination</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-pagination</span> <span class="hljs-attr">total-pages</span>=<span class="hljs-string">&quot;10&quot;</span> <span class="hljs-attr">current-page</span>=<span class="hljs-string">&quot;3&quot;</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;base&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-pagination</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-pagination</span> <span class="hljs-attr">total-pages</span>=<span class="hljs-string">&quot;10&quot;</span> <span class="hljs-attr">current-page</span>=<span class="hljs-string">&quot;3&quot;</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;lg&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-pagination</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 space-y-4 not-aegov">
+  <aegov-pagination total-pages="10" current-page="3" size="sm"></aegov-pagination>
+  <aegov-pagination total-pages="10" current-page="3" size="base"></aegov-pagination>
+  <aegov-pagination total-pages="10" current-page="3" size="lg"></aegov-pagination>
+</div>
+
+<hr>
+<h2>Compact Variant</h2>
+<p>Set <code>variant=&quot;compact&quot;</code> to hide the numbered page buttons and display only the previous/next controls with a page indicator (&quot;3 / 10&quot;). This is useful in tight layouts such as mobile views or table footers.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-pagination</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;compact&quot;</span> <span class="hljs-attr">total-pages</span>=<span class="hljs-string">&quot;10&quot;</span> <span class="hljs-attr">current-page</span>=<span class="hljs-string">&quot;3&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-pagination</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
+  <aegov-pagination variant="compact" total-pages="10" current-page="3"></aegov-pagination>
+</div>
+
+<h3>Compact with First / Last Buttons</h3>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-pagination</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;compact&quot;</span> <span class="hljs-attr">total-pages</span>=<span class="hljs-string">&quot;10&quot;</span> <span class="hljs-attr">current-page</span>=<span class="hljs-string">&quot;5&quot;</span> <span class="hljs-attr">show-first-last</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-pagination</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
+  <aegov-pagination variant="compact" total-pages="10" current-page="5" show-first-last></aegov-pagination>
+</div>
+
+<h3>Compact Sizes</h3>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-pagination</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;compact&quot;</span> <span class="hljs-attr">total-pages</span>=<span class="hljs-string">&quot;10&quot;</span> <span class="hljs-attr">current-page</span>=<span class="hljs-string">&quot;3&quot;</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-pagination</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-pagination</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;compact&quot;</span> <span class="hljs-attr">total-pages</span>=<span class="hljs-string">&quot;10&quot;</span> <span class="hljs-attr">current-page</span>=<span class="hljs-string">&quot;3&quot;</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;base&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-pagination</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-pagination</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;compact&quot;</span> <span class="hljs-attr">total-pages</span>=<span class="hljs-string">&quot;10&quot;</span> <span class="hljs-attr">current-page</span>=<span class="hljs-string">&quot;3&quot;</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;lg&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-pagination</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 space-y-4 not-aegov">
+  <aegov-pagination variant="compact" total-pages="10" current-page="3" size="sm"></aegov-pagination>
+  <aegov-pagination variant="compact" total-pages="10" current-page="3" size="base"></aegov-pagination>
+  <aegov-pagination variant="compact" total-pages="10" current-page="3" size="lg"></aegov-pagination>
+</div>
+
+<hr>
+<h2>First / Last Buttons</h2>
+<p>Set the <code>show-first-last</code> attribute to add &quot;First&quot; and &quot;Last&quot; navigation buttons alongside the previous/next controls. These buttons jump directly to the first or last page.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-pagination</span> <span class="hljs-attr">total-pages</span>=<span class="hljs-string">&quot;20&quot;</span> <span class="hljs-attr">current-page</span>=<span class="hljs-string">&quot;10&quot;</span> <span class="hljs-attr">show-first-last</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-pagination</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
+  <aegov-pagination total-pages="20" current-page="10" show-first-last></aegov-pagination>
+</div>
+
+<hr>
+<h2>Custom Labels</h2>
+<p>The navigation button labels can be customised using the <code>prev-label</code>, <code>next-label</code>, <code>first-label</code>, and <code>last-label</code> properties. This is especially useful for localisation.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-pagination</span>
+  <span class="hljs-attr">total-pages</span>=<span class="hljs-string">&quot;10&quot;</span>
+  <span class="hljs-attr">current-page</span>=<span class="hljs-string">&quot;5&quot;</span>
+  <span class="hljs-attr">show-first-last</span>
+  <span class="hljs-attr">first-label</span>=<span class="hljs-string">&quot;Start&quot;</span>
+  <span class="hljs-attr">prev-label</span>=<span class="hljs-string">&quot;Back&quot;</span>
+  <span class="hljs-attr">next-label</span>=<span class="hljs-string">&quot;Forward&quot;</span>
+  <span class="hljs-attr">last-label</span>=<span class="hljs-string">&quot;End&quot;</span>
+&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-pagination</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
+  <aegov-pagination total-pages="10" current-page="5" show-first-last first-label="Start" prev-label="Back" next-label="Forward" last-label="End"></aegov-pagination>
+</div>
+
+<hr>
+<h2>Disabled State</h2>
+<p>Set the <code>disabled</code> attribute to prevent all pagination interaction. All buttons become visually muted and unclickable.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-pagination</span> <span class="hljs-attr">total-pages</span>=<span class="hljs-string">&quot;10&quot;</span> <span class="hljs-attr">current-page</span>=<span class="hljs-string">&quot;3&quot;</span> <span class="hljs-attr">disabled</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-pagination</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
+  <aegov-pagination total-pages="10" current-page="3" disabled></aegov-pagination>
+</div>
+
+<hr>
+<h2>Events</h2>
+<p>The <code>aegovPaginationPageChange</code> event is emitted whenever the user selects a page. The event <code>detail</code> contains the new page number (1-indexed). Because the component is <strong>controlled</strong>, you must update the <code>current-page</code> property yourself.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-pagination</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;demo-pagination&quot;</span> <span class="hljs-attr">total-pages</span>=<span class="hljs-string">&quot;10&quot;</span> <span class="hljs-attr">current-page</span>=<span class="hljs-string">&quot;1&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-pagination</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">p</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;demo-output&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;mt-3 text-sm text-aeblack-600&quot;</span>&gt;</span>Current page: 1<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript">
+  <span class="hljs-keyword">const</span> pag = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;demo-pagination&#x27;</span>);
+  <span class="hljs-keyword">const</span> out = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;demo-output&#x27;</span>);
+  pag.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;aegovPaginationPageChange&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">e</span>) =&gt;</span> {
+    pag.<span class="hljs-property">currentPage</span> = e.<span class="hljs-property">detail</span>;
+    out.<span class="hljs-property">textContent</span> = <span class="hljs-string">&#x27;Current page: &#x27;</span> + e.<span class="hljs-property">detail</span>;
+  });
+</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
+  <aegov-pagination id="demo-pagination" total-pages="10" current-page="1"></aegov-pagination>
+  <p id="demo-output" class="mt-3 text-sm text-aeblack-600">Current page: 1</p>
+  <script>
+    (function() {
+      var pag = document.getElementById('demo-pagination');
+      var out = document.getElementById('demo-output');
+      pag.addEventListener('aegovPaginationPageChange', function(e) {
+        pag.currentPage = e.detail;
+        out.textContent = 'Current page: ' + e.detail;
+      });
+    })();
+  </script>
+</div>
+
+<hr>
+<h2>RTL Support</h2>
+<p>The component fully supports right-to-left layouts. When the document or a parent element has <code>dir=&quot;rtl&quot;</code>, the directional icons (previous, next, first, last) automatically mirror horizontally.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">dir</span>=<span class="hljs-string">&quot;rtl&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-pagination</span>
+    <span class="hljs-attr">total-pages</span>=<span class="hljs-string">&quot;10&quot;</span>
+    <span class="hljs-attr">current-page</span>=<span class="hljs-string">&quot;5&quot;</span>
+    <span class="hljs-attr">show-first-last</span>
+    <span class="hljs-attr">prev-label</span>=<span class="hljs-string">&quot;السابق&quot;</span>
+    <span class="hljs-attr">next-label</span>=<span class="hljs-string">&quot;التالي&quot;</span>
+    <span class="hljs-attr">first-label</span>=<span class="hljs-string">&quot;الأول&quot;</span>
+    <span class="hljs-attr">last-label</span>=<span class="hljs-string">&quot;الأخير&quot;</span>
+  &gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-pagination</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre><div dir="rtl" class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
+  <aegov-pagination total-pages="10" current-page="5" show-first-last prev-label="السابق" next-label="التالي" first-label="الأول" last-label="الأخير"></aegov-pagination>
+</div>
+
+<p>No additional configuration is needed — the component reads the inherited <code>dir</code> attribute and adjusts automatically.</p>
+<hr>
+<h2>API Reference</h2>
+<h3>Properties</h3>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Attribute</th>
+<th>Description</th>
+<th>Type</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>totalPages</code></td>
+<td><code>total-pages</code></td>
+<td>Total number of pages</td>
+<td><code>number</code></td>
+<td><code>1</code></td>
+</tr>
+<tr>
+<td><code>currentPage</code></td>
+<td><code>current-page</code></td>
+<td>Currently active page (1-indexed). Must be updated on every page change event</td>
+<td><code>number</code></td>
+<td><code>1</code></td>
+</tr>
+<tr>
+<td><code>variant</code></td>
+<td><code>variant</code></td>
+<td>Display variant</td>
+<td><code>&#39;default&#39;</code> | <code>&#39;compact&#39;</code></td>
+<td><code>&#39;default&#39;</code></td>
+</tr>
+<tr>
+<td><code>size</code></td>
+<td><code>size</code></td>
+<td>Size of the pagination buttons</td>
+<td><code>&#39;sm&#39;</code> | <code>&#39;base&#39;</code> | <code>&#39;lg&#39;</code></td>
+<td><code>&#39;base&#39;</code></td>
+</tr>
+<tr>
+<td><code>siblingCount</code></td>
+<td><code>sibling-count</code></td>
+<td>Number of sibling pages shown on each side of the current page</td>
+<td><code>number</code></td>
+<td><code>1</code></td>
+</tr>
+<tr>
+<td><code>boundaryCount</code></td>
+<td><code>boundary-count</code></td>
+<td>Number of pages always visible at each boundary</td>
+<td><code>number</code></td>
+<td><code>1</code></td>
+</tr>
+<tr>
+<td><code>showFirstLast</code></td>
+<td><code>show-first-last</code></td>
+<td>Show First and Last navigation buttons</td>
+<td><code>boolean</code></td>
+<td><code>false</code></td>
+</tr>
+<tr>
+<td><code>disabled</code></td>
+<td><code>disabled</code></td>
+<td>Disables all pagination interaction</td>
+<td><code>boolean</code></td>
+<td><code>false</code></td>
+</tr>
+<tr>
+<td><code>prevLabel</code></td>
+<td><code>prev-label</code></td>
+<td>Label for the Previous button</td>
+<td><code>string</code></td>
+<td><code>&#39;Previous&#39;</code></td>
+</tr>
+<tr>
+<td><code>nextLabel</code></td>
+<td><code>next-label</code></td>
+<td>Label for the Next button</td>
+<td><code>string</code></td>
+<td><code>&#39;Next&#39;</code></td>
+</tr>
+<tr>
+<td><code>firstLabel</code></td>
+<td><code>first-label</code></td>
+<td>Label for the First button (visible when <code>showFirstLast</code> is true)</td>
+<td><code>string</code></td>
+<td><code>&#39;First&#39;</code></td>
+</tr>
+<tr>
+<td><code>lastLabel</code></td>
+<td><code>last-label</code></td>
+<td>Label for the Last button (visible when <code>showFirstLast</code> is true)</td>
+<td><code>string</code></td>
+<td><code>&#39;Last&#39;</code></td>
+</tr>
+</tbody></table>
+<h3>Events</h3>
+<table>
+<thead>
+<tr>
+<th>Event</th>
+<th>Description</th>
+<th>Detail Type</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>aegovPaginationPageChange</code></td>
+<td>Emitted when a page is selected</td>
+<td><code>number</code></td>
+</tr>
+</tbody></table>
+<p>The event detail is the new page number (1-indexed). Update <code>current-page</code> in response to this event. The event is <strong>not</strong> emitted when the component is <code>disabled</code>, when the clicked page equals the current page, or when the page number is out of range.</p>
+<h4>Listening to Events</h4>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-pagination</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;my-pag&quot;</span> <span class="hljs-attr">total-pages</span>=<span class="hljs-string">&quot;20&quot;</span> <span class="hljs-attr">current-page</span>=<span class="hljs-string">&quot;1&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-pagination</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript">
+  <span class="hljs-keyword">const</span> pag = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;my-pag&#x27;</span>);
+  pag.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;aegovPaginationPageChange&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">e</span>) =&gt;</span> {
+    pag.<span class="hljs-property">currentPage</span> = e.<span class="hljs-property">detail</span>;
+    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;Page changed to&#x27;</span>, e.<span class="hljs-property">detail</span>);
+  });
+</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre><hr>
+<h2>Accessibility</h2>
+<p>The <code>aegov-pagination</code> component is built with accessibility as a first-class concern. The following features are included out of the box.</p>
+<h3>Built-in Features</h3>
+<ul>
+<li><strong>Semantic <code>&lt;nav&gt;</code> element</strong> — the pagination is wrapped in a <code>&lt;nav&gt;</code> element with <code>aria-label=&quot;Pagination&quot;</code>, allowing screen readers to identify it as a navigation landmark.</li>
+<li><strong>Ordered list structure</strong> — page items are rendered inside a <code>&lt;ul&gt;</code> / <code>&lt;li&gt;</code> structure for proper list semantics.</li>
+<li><strong><code>aria-current=&quot;page&quot;</code></strong> — automatically set on the active page button so screen readers announce it as the current page.</li>
+<li><strong><code>aria-label</code> on buttons</strong> — each button has a descriptive label: &quot;Go to page 3&quot;, &quot;Go to previous page&quot;, &quot;Go to first page&quot;, or &quot;Page 5, current page&quot; for the active button.</li>
+<li><strong><code>aria-disabled</code></strong> — automatically set to <code>&quot;true&quot;</code> on previous/next/first/last buttons when they are at the boundary, and on all buttons when the component is <code>disabled</code>.</li>
+<li><strong><code>aria-hidden</code> icons</strong> — all SVG directional icons are marked <code>aria-hidden=&quot;true&quot;</code> so they are not announced by screen readers.</li>
+<li><strong>Compact indicator</strong> — in the compact variant, the page indicator uses <code>aria-live=&quot;polite&quot;</code> and <code>aria-atomic=&quot;true&quot;</code> so screen readers announce page changes.</li>
+<li><strong>Focus indicators</strong> — clearly visible focus rings are applied via <code>focus-visible</code> styles.</li>
+</ul>
+<h3>Developer Responsibilities</h3>
+<ol>
+<li><p><strong>Update <code>current-page</code> on events.</strong> The component is controlled — if you do not update the <code>current-page</code> property when <code>aegovPaginationPageChange</code> fires, the UI will not reflect the user&#39;s selection.</p>
+</li>
+<li><p><strong>Provide context for the pagination.</strong> If the page contains multiple pagination components (e.g. top and bottom of a list), consider adding a more specific <code>aria-label</code> to distinguish them.</p>
+</li>
+<li><p><strong>Colour contrast.</strong> All built-in colour combinations meet WCAG 2.1 AA contrast ratios. If you override styles, verify that the new colours maintain at least a <strong>4.5:1</strong> contrast ratio.</p>
+</li>
+</ol>
+<hr>
+<h2>Notes</h2>
+<ul>
+<li>The <code>aegov-pagination</code> component follows a <strong>controlled pattern</strong>. It does not internally track the current page — you must set <code>current-page</code> in response to the <code>aegovPaginationPageChange</code> event.</li>
+<li>When <code>total-pages</code> is <code>0</code> or negative, the component renders nothing.</li>
+<li>When <code>total-pages</code> is <code>1</code>, only a single page button is shown with navigation buttons disabled.</li>
+<li>The ellipsis indicators (<code>...</code>) are non-interactive and are hidden from screen readers with <code>aria-hidden=&quot;true&quot;</code>.</li>
+<li>The algorithm for computing the page range ensures that boundary pages are always visible and that ellipsis tokens only appear when they would replace at least two page numbers.</li>
+<li>Navigation buttons (previous, next, first, last) are automatically disabled when the user is at the corresponding boundary — for example, the &quot;Previous&quot; button is disabled on page 1.</li>
+<li>Directional icons (chevrons) automatically flip horizontally in RTL layouts using CSS <code>transform: scaleX(-1)</code>.</li>
+<li>The <code>disabled</code> property disables <strong>all</strong> buttons in the component, including page number buttons and navigation buttons.</li>
+</ul>
+<!-- DOC:END -->
+</section>
+      </article>
+    </section>
+  </main>
+  <footer class="mx-auto max-w-7xl sm:px-6 lg:px-8 mt-8 py-6 text-sm text-aeblack-500">
+    &copy; 2026 Telecommunication and Digital Regulatory Authority. All rights reserved.
+  </footer>
+
+<script src="/docs/layout.js"></script>
+</body>
+</html>
