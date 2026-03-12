@@ -1,0 +1,1011 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Datepicker | AEGOV Design System</title>
+  <script type="module" src="/build/aegov.esm.js"></script>
+  <script nomodule src="/build/aegov.js"></script>
+  <link rel="stylesheet" href="/build/aegov.css">
+  <link rel="stylesheet" href="/docs/doc-style.css">
+  <link rel="stylesheet" href="/docs/hljs.css">
+</head>
+<body class="bg-aeblack-50">
+  <header class="mx-auto max-w-7xl sm:px-6 lg:px-8 mb-8">
+    <img src="https://designsystem.gov.ae/assets/site-logo/AEGov-DesignSystem-Logo-Color.svg" alt="UAE Design System Logo" class="w-auto h-16 my-2">
+  </header>
+  <main class="mx-auto max-w-7xl sm:px-6 lg:px-8 bg-aeblack-50">
+    <section class="flex items-start align-top gap-4">
+      <nav id="primary-nav" class="w-3xs shrink-0">&nbsp;</nav>
+      <article class="col-span-5 grow">
+          <section id="content-area" class="bg-whitely-50 p-6 rounded-md shadow-xl">
+<!-- DOC:START -->
+<h1>Datepicker</h1>
+<p class="text-lg text-aeblack-500 mb-8">A feature-rich date selection component supporting single date and date range picking, with a calendar popup, format tokens, locale support, presets, min/max constraints, and full keyboard navigation.</p>
+
+<h2>Introduction</h2>
+<p>The <code>aegov-datepicker</code> component provides a complete date selection experience. It supports <strong>single date</strong> and <strong>date range</strong> modes, customisable display formats, locale-aware month and day names, min/max date constraints, unavailable dates, range presets, and an optional confirmation step with Apply/Cancel buttons.</p>
+<p>The calendar popup is rendered as a <strong>portal</strong> appended to <code>document.body</code>, ensuring it is never clipped by parent overflow or stacking context issues.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-datepicker</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-datepicker</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
+  <aegov-datepicker></aegov-datepicker>
+</div>
+
+<hr>
+<h2>Single Date Selection</h2>
+<p>By default the datepicker operates in <code>single</code> mode. Click the input to open the calendar, then click a day to select it. The calendar closes automatically after selection.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-datepicker</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;Choose a date&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-datepicker</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
+  <aegov-datepicker placeholder="Choose a date"></aegov-datepicker>
+</div>
+
+<hr>
+<h2>Pre-selected Value</h2>
+<p>Set the <code>value</code> attribute to pre-populate the datepicker. For single mode, use an ISO date string (or a string matching your <code>format</code>). For range mode, use the format <code>&quot;start / end&quot;</code>.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-datepicker</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;2026-03-15&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-datepicker</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
+  <aegov-datepicker value="2026-03-15"></aegov-datepicker>
+</div>
+
+<hr>
+<h2>Display Format</h2>
+<p>The <code>format</code> property controls how the selected date is displayed in the input. It uses token-based formatting.</p>
+<table>
+<thead>
+<tr>
+<th>Token</th>
+<th>Output</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>YYYY</code></td>
+<td>4-digit year</td>
+<td>2026</td>
+</tr>
+<tr>
+<td><code>YY</code></td>
+<td>2-digit year</td>
+<td>26</td>
+</tr>
+<tr>
+<td><code>MMMM</code></td>
+<td>Full month name</td>
+<td>March</td>
+</tr>
+<tr>
+<td><code>MMM</code></td>
+<td>Short month</td>
+<td>Mar</td>
+</tr>
+<tr>
+<td><code>MM</code></td>
+<td>2-digit month</td>
+<td>03</td>
+</tr>
+<tr>
+<td><code>M</code></td>
+<td>Month (no pad)</td>
+<td>3</td>
+</tr>
+<tr>
+<td><code>DD</code></td>
+<td>2-digit day</td>
+<td>07</td>
+</tr>
+<tr>
+<td><code>D</code></td>
+<td>Day (no pad)</td>
+<td>7</td>
+</tr>
+<tr>
+<td><code>ddd</code></td>
+<td>Full weekday</td>
+<td>Wednesday</td>
+</tr>
+<tr>
+<td><code>dd</code></td>
+<td>Short weekday</td>
+<td>Wed</td>
+</tr>
+</tbody></table>
+<pre><code class="hljs language-html"><span class="hljs-comment">&lt;!-- Default ISO format --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-datepicker</span> <span class="hljs-attr">format</span>=<span class="hljs-string">&quot;YYYY-MM-DD&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;2026-03-15&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-datepicker</span>&gt;</span>
+
+<span class="hljs-comment">&lt;!-- Human-friendly format --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-datepicker</span> <span class="hljs-attr">format</span>=<span class="hljs-string">&quot;DD MMM YYYY&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;2026-03-15&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-datepicker</span>&gt;</span>
+
+<span class="hljs-comment">&lt;!-- US-style format --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-datepicker</span> <span class="hljs-attr">format</span>=<span class="hljs-string">&quot;MM/DD/YYYY&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;2026-03-15&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-datepicker</span>&gt;</span>
+
+<span class="hljs-comment">&lt;!-- With weekday name --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-datepicker</span> <span class="hljs-attr">format</span>=<span class="hljs-string">&quot;ddd, DD MMMM YYYY&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;2026-03-15&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-datepicker</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 space-y-4 not-aegov">
+  <div>
+    <p class="text-sm text-aeblack-500 mb-1">YYYY-MM-DD (default)</p>
+    <aegov-datepicker format="YYYY-MM-DD" value="2026-03-15"></aegov-datepicker>
+  </div>
+  <div>
+    <p class="text-sm text-aeblack-500 mb-1">DD MMM YYYY</p>
+    <aegov-datepicker format="DD MMM YYYY" value="2026-03-15"></aegov-datepicker>
+  </div>
+  <div>
+    <p class="text-sm text-aeblack-500 mb-1">MM/DD/YYYY</p>
+    <aegov-datepicker format="MM/DD/YYYY" value="2026-03-15"></aegov-datepicker>
+  </div>
+  <div>
+    <p class="text-sm text-aeblack-500 mb-1">ddd, DD MMMM YYYY</p>
+    <aegov-datepicker format="ddd, DD MMMM YYYY" value="2026-03-15"></aegov-datepicker>
+  </div>
+</div>
+
+<hr>
+<h2>Sizes</h2>
+<p>The <code>size</code> property controls the height and padding of the datepicker input. It matches the sizing of other form components such as <code>aegov-input</code>.</p>
+<table>
+<thead>
+<tr>
+<th>Size</th>
+<th>Height</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>sm</code></td>
+<td>40px</td>
+</tr>
+<tr>
+<td><code>base</code></td>
+<td>48px</td>
+</tr>
+<tr>
+<td><code>lg</code></td>
+<td>52px</td>
+</tr>
+</tbody></table>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-datepicker</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;Small&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-datepicker</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-datepicker</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;base&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;Base (default)&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-datepicker</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-datepicker</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;lg&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;Large&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-datepicker</span>&gt;</span></code></pre><div class="flex flex-wrap items-center gap-4 p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
+  <aegov-datepicker size="sm" placeholder="Small"></aegov-datepicker>
+  <aegov-datepicker size="base" placeholder="Base"></aegov-datepicker>
+  <aegov-datepicker size="lg" placeholder="Large"></aegov-datepicker>
+</div>
+
+<hr>
+<h2>Disabled State</h2>
+<p>Set the <code>disabled</code> attribute to prevent the user from opening the calendar or interacting with the input.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-datepicker</span> <span class="hljs-attr">disabled</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;Cannot select&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-datepicker</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-datepicker</span> <span class="hljs-attr">disabled</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;2026-03-15&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-datepicker</span>&gt;</span></code></pre><div class="flex flex-wrap items-center gap-4 p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
+  <aegov-datepicker disabled placeholder="Cannot select"></aegov-datepicker>
+  <aegov-datepicker disabled value="2026-03-15"></aegov-datepicker>
+</div>
+
+<hr>
+<h2>Placeholder</h2>
+<p>Use the <code>placeholder</code> property to customise the placeholder text shown when no date is selected.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-datepicker</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;Pick your birthday&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-datepicker</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
+  <aegov-datepicker placeholder="Pick your birthday"></aegov-datepicker>
+</div>
+
+<hr>
+<h2>Min and Max Dates</h2>
+<p>Use <code>min</code> and <code>max</code> to constrain the selectable date range. Dates outside these bounds are visually dimmed and cannot be selected. Both accept ISO date strings or the special keyword <code>&quot;today&quot;</code>.</p>
+<pre><code class="hljs language-html"><span class="hljs-comment">&lt;!-- Only allow dates from today onwards --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-datepicker</span> <span class="hljs-attr">min</span>=<span class="hljs-string">&quot;today&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;Future dates only&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-datepicker</span>&gt;</span>
+
+<span class="hljs-comment">&lt;!-- Only allow dates up to today --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-datepicker</span> <span class="hljs-attr">max</span>=<span class="hljs-string">&quot;today&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;Past dates only&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-datepicker</span>&gt;</span>
+
+<span class="hljs-comment">&lt;!-- Specific date range --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-datepicker</span> <span class="hljs-attr">min</span>=<span class="hljs-string">&quot;2026-01-01&quot;</span> <span class="hljs-attr">max</span>=<span class="hljs-string">&quot;2026-12-31&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;Year 2026 only&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-datepicker</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 space-y-4 not-aegov">
+  <div>
+    <p class="text-sm text-aeblack-500 mb-1">Future dates only (min="today")</p>
+    <aegov-datepicker min="today" placeholder="Future dates only"></aegov-datepicker>
+  </div>
+  <div>
+    <p class="text-sm text-aeblack-500 mb-1">Past dates only (max="today")</p>
+    <aegov-datepicker max="today" placeholder="Past dates only"></aegov-datepicker>
+  </div>
+  <div>
+    <p class="text-sm text-aeblack-500 mb-1">Year 2026 only</p>
+    <aegov-datepicker min="2026-01-01" max="2026-12-31" placeholder="Year 2026 only"></aegov-datepicker>
+  </div>
+</div>
+
+<hr>
+<h2>Disable Future Dates</h2>
+<p>The <code>disable-future</code> attribute is a convenient shorthand for <code>max=&quot;today&quot;</code>. All dates after today are disabled.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-datepicker</span> <span class="hljs-attr">disable-future</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;No future dates&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-datepicker</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
+  <aegov-datepicker disable-future placeholder="No future dates"></aegov-datepicker>
+</div>
+
+<hr>
+<h2>Unavailable Dates</h2>
+<p>Use <code>unavailable-dates</code> to provide a comma-separated list of specific ISO dates that cannot be selected. These dates appear dimmed in the calendar alongside any min/max constraints.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-datepicker</span>
+  <span class="hljs-attr">unavailable-dates</span>=<span class="hljs-string">&quot;2026-03-10,2026-03-15,2026-03-20&quot;</span>
+  <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;Some dates blocked&quot;</span>
+&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-datepicker</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
+  <aegov-datepicker unavailable-dates="2026-03-10,2026-03-15,2026-03-20" value="2026-03-12" placeholder="Some dates blocked"></aegov-datepicker>
+</div>
+
+<hr>
+<h2>Clearable</h2>
+<p>By default, the datepicker shows a clear button (X) when a value is selected. Set <code>clearable=&quot;false&quot;</code> to hide it.</p>
+<pre><code class="hljs language-html"><span class="hljs-comment">&lt;!-- Clearable (default) --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-datepicker</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;2026-03-15&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-datepicker</span>&gt;</span>
+
+<span class="hljs-comment">&lt;!-- Not clearable --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-datepicker</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;2026-03-15&quot;</span> <span class="hljs-attr">clearable</span>=<span class="hljs-string">&quot;false&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-datepicker</span>&gt;</span></code></pre><div class="flex flex-wrap items-center gap-4 p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
+  <div>
+    <p class="text-sm text-aeblack-500 mb-1">Clearable (default)</p>
+    <aegov-datepicker value="2026-03-15"></aegov-datepicker>
+  </div>
+  <div>
+    <p class="text-sm text-aeblack-500 mb-1">Not clearable</p>
+    <aegov-datepicker value="2026-03-15" clearable="false"></aegov-datepicker>
+  </div>
+</div>
+
+<hr>
+<h2>Locale</h2>
+<p>The <code>locale</code> property accepts a BCP 47 language tag and controls the month names and weekday names displayed in the calendar. The component uses <code>Intl.DateTimeFormat</code> under the hood.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-datepicker</span> <span class="hljs-attr">locale</span>=<span class="hljs-string">&quot;en&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;English&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-datepicker</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-datepicker</span> <span class="hljs-attr">locale</span>=<span class="hljs-string">&quot;ar&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;Arabic&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-datepicker</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-datepicker</span> <span class="hljs-attr">locale</span>=<span class="hljs-string">&quot;fr&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;French&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-datepicker</span>&gt;</span></code></pre><div class="flex flex-wrap items-center gap-4 p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
+  <aegov-datepicker locale="en" placeholder="English"></aegov-datepicker>
+  <aegov-datepicker locale="ar" placeholder="Arabic"></aegov-datepicker>
+  <aegov-datepicker locale="fr" placeholder="French"></aegov-datepicker>
+</div>
+
+<hr>
+<h2>First Day of Week</h2>
+<p>The <code>start-day</code> property controls which day of the week appears first in the calendar grid. The default is <code>0</code> (Sunday). Set <code>1</code> for Monday, <code>6</code> for Saturday, and so on.</p>
+<pre><code class="hljs language-html"><span class="hljs-comment">&lt;!-- Monday start --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-datepicker</span> <span class="hljs-attr">start-day</span>=<span class="hljs-string">&quot;1&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;Week starts Monday&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-datepicker</span>&gt;</span>
+
+<span class="hljs-comment">&lt;!-- Saturday start --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-datepicker</span> <span class="hljs-attr">start-day</span>=<span class="hljs-string">&quot;6&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;Week starts Saturday&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-datepicker</span>&gt;</span></code></pre><div class="flex flex-wrap items-center gap-4 p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
+  <aegov-datepicker start-day="0" placeholder="Sunday (default)"></aegov-datepicker>
+  <aegov-datepicker start-day="1" placeholder="Monday start"></aegov-datepicker>
+  <aegov-datepicker start-day="6" placeholder="Saturday start"></aegov-datepicker>
+</div>
+
+<hr>
+<h2>Month and Year Navigation</h2>
+<p>By default, the calendar header includes <strong>month and year dropdown selects</strong> (<code>selectable-header</code> is <code>true</code>). Set <code>selectable-header=&quot;false&quot;</code> to show a simple text label instead.</p>
+<p>The previous/next arrows always allow navigating one month at a time.</p>
+<pre><code class="hljs language-html"><span class="hljs-comment">&lt;!-- Dropdowns (default) --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-datepicker</span> <span class="hljs-attr">selectable-header</span>=<span class="hljs-string">&quot;true&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-datepicker</span>&gt;</span>
+
+<span class="hljs-comment">&lt;!-- Simple label --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-datepicker</span> <span class="hljs-attr">selectable-header</span>=<span class="hljs-string">&quot;false&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-datepicker</span>&gt;</span></code></pre><div class="flex flex-wrap items-center gap-4 p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
+  <div>
+    <p class="text-sm text-aeblack-500 mb-1">With dropdown selects (default)</p>
+    <aegov-datepicker></aegov-datepicker>
+  </div>
+  <div>
+    <p class="text-sm text-aeblack-500 mb-1">Simple text label</p>
+    <aegov-datepicker selectable-header="false"></aegov-datepicker>
+  </div>
+</div>
+
+<hr>
+<h2>Year Range</h2>
+<p>Use <code>year-range-start</code> and <code>year-range-end</code> to limit the years available in the dropdown select. By default the range spans 100 years before and after the current year.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-datepicker</span> <span class="hljs-attr">year-range-start</span>=<span class="hljs-string">&quot;2020&quot;</span> <span class="hljs-attr">year-range-end</span>=<span class="hljs-string">&quot;2030&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;2020-2030 only&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-datepicker</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
+  <aegov-datepicker year-range-start="2020" year-range-end="2030" placeholder="2020-2030 only"></aegov-datepicker>
+</div>
+
+<hr>
+<h2>Date Range Selection</h2>
+<p>Set <code>mode=&quot;range&quot;</code> to enable date range selection. The input shows two fields (start and end) separated by an arrow. Click the first date, then click the second to complete the range. In range mode the calendar displays <strong>two months</strong> side by side.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-datepicker</span> <span class="hljs-attr">mode</span>=<span class="hljs-string">&quot;range&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-datepicker</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
+  <aegov-datepicker mode="range"></aegov-datepicker>
+</div>
+
+<h3>Pre-selected Range</h3>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-datepicker</span> <span class="hljs-attr">mode</span>=<span class="hljs-string">&quot;range&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;2026-03-01 / 2026-03-15&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-datepicker</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
+  <aegov-datepicker mode="range" value="2026-03-01 / 2026-03-15"></aegov-datepicker>
+</div>
+
+<h3>Range Placeholders</h3>
+<p>Customise the placeholder text for start and end inputs using <code>range-placeholder-start</code> and <code>range-placeholder-end</code>.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-datepicker</span>
+  <span class="hljs-attr">mode</span>=<span class="hljs-string">&quot;range&quot;</span>
+  <span class="hljs-attr">range-placeholder-start</span>=<span class="hljs-string">&quot;Check-in&quot;</span>
+  <span class="hljs-attr">range-placeholder-end</span>=<span class="hljs-string">&quot;Check-out&quot;</span>
+&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-datepicker</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
+  <aegov-datepicker mode="range" range-placeholder-start="Check-in" range-placeholder-end="Check-out"></aegov-datepicker>
+</div>
+
+<hr>
+<h2>Min/Max Range Length</h2>
+<p>In range mode, use <code>min-range</code> and <code>max-range</code> to constrain the number of days that can be selected. When hovering over dates that would create an invalid range, the preview turns red to indicate the constraint violation.</p>
+<pre><code class="hljs language-html"><span class="hljs-comment">&lt;!-- Must select at least 3 days, at most 14 days --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-datepicker</span> <span class="hljs-attr">mode</span>=<span class="hljs-string">&quot;range&quot;</span> <span class="hljs-attr">min-range</span>=<span class="hljs-string">&quot;3&quot;</span> <span class="hljs-attr">max-range</span>=<span class="hljs-string">&quot;14&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-datepicker</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
+  <aegov-datepicker mode="range" min-range="3" max-range="14" range-placeholder-start="Min 3 days" range-placeholder-end="Max 14 days"></aegov-datepicker>
+</div>
+
+<hr>
+<h2>Range Presets</h2>
+<p>In range mode, the <code>presets</code> property adds a sidebar panel of quick-select buttons. Pass a comma-separated list of preset IDs.</p>
+<p><strong>Available presets:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Preset ID</th>
+<th>Label</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>today</code></td>
+<td>Today</td>
+</tr>
+<tr>
+<td><code>yesterday</code></td>
+<td>Yesterday</td>
+</tr>
+<tr>
+<td><code>tomorrow</code></td>
+<td>Tomorrow</td>
+</tr>
+<tr>
+<td><code>thisWeek</code></td>
+<td>This Week</td>
+</tr>
+<tr>
+<td><code>lastWeek</code></td>
+<td>Last Week</td>
+</tr>
+<tr>
+<td><code>nextWeek</code></td>
+<td>Next Week</td>
+</tr>
+<tr>
+<td><code>last7Days</code></td>
+<td>Last 7 Days</td>
+</tr>
+<tr>
+<td><code>next7Days</code></td>
+<td>Next 7 Days</td>
+</tr>
+<tr>
+<td><code>last14Days</code></td>
+<td>Last 14 Days</td>
+</tr>
+<tr>
+<td><code>next14Days</code></td>
+<td>Next 14 Days</td>
+</tr>
+<tr>
+<td><code>last30Days</code></td>
+<td>Last 30 Days</td>
+</tr>
+<tr>
+<td><code>next30Days</code></td>
+<td>Next 30 Days</td>
+</tr>
+<tr>
+<td><code>thisMonth</code></td>
+<td>This Month</td>
+</tr>
+<tr>
+<td><code>lastMonth</code></td>
+<td>Last Month</td>
+</tr>
+<tr>
+<td><code>nextMonth</code></td>
+<td>Next Month</td>
+</tr>
+<tr>
+<td><code>last3Months</code></td>
+<td>Last 3 Months</td>
+</tr>
+<tr>
+<td><code>next3Months</code></td>
+<td>Next 3 Months</td>
+</tr>
+<tr>
+<td><code>last6Months</code></td>
+<td>Last 6 Months</td>
+</tr>
+<tr>
+<td><code>next6Months</code></td>
+<td>Next 6 Months</td>
+</tr>
+<tr>
+<td><code>thisQuarter</code></td>
+<td>This Quarter</td>
+</tr>
+<tr>
+<td><code>lastQuarter</code></td>
+<td>Last Quarter</td>
+</tr>
+<tr>
+<td><code>nextQuarter</code></td>
+<td>Next Quarter</td>
+</tr>
+<tr>
+<td><code>thisYear</code></td>
+<td>This Year</td>
+</tr>
+<tr>
+<td><code>lastYear</code></td>
+<td>Last Year</td>
+</tr>
+<tr>
+<td><code>nextYear</code></td>
+<td>Next Year</td>
+</tr>
+<tr>
+<td><code>yearToDate</code></td>
+<td>Year to Date</td>
+</tr>
+<tr>
+<td><code>allTime</code></td>
+<td>All Time</td>
+</tr>
+</tbody></table>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-datepicker</span>
+  <span class="hljs-attr">mode</span>=<span class="hljs-string">&quot;range&quot;</span>
+  <span class="hljs-attr">presets</span>=<span class="hljs-string">&quot;today,last7Days,last30Days,thisMonth,lastMonth,thisQuarter,thisYear&quot;</span>
+&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-datepicker</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
+  <aegov-datepicker mode="range" presets="today,last7Days,last30Days,thisMonth,lastMonth,thisQuarter,thisYear"></aegov-datepicker>
+</div>
+
+<hr>
+<h2>Confirmation Mode</h2>
+<p>Set <code>with-confirmation</code> to require the user to click <strong>Apply</strong> before the selection is committed. Clicking <strong>Cancel</strong> or pressing Escape discards the pending selection.</p>
+<p>This is useful when you want to prevent accidental selections, especially in range mode with presets.</p>
+<pre><code class="hljs language-html"><span class="hljs-comment">&lt;!-- Single mode with confirmation --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-datepicker</span> <span class="hljs-attr">with-confirmation</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;Confirm before selecting&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-datepicker</span>&gt;</span>
+
+<span class="hljs-comment">&lt;!-- Range mode with confirmation and presets --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-datepicker</span>
+  <span class="hljs-attr">mode</span>=<span class="hljs-string">&quot;range&quot;</span>
+  <span class="hljs-attr">with-confirmation</span>
+  <span class="hljs-attr">presets</span>=<span class="hljs-string">&quot;today,last7Days,thisMonth,lastMonth&quot;</span>
+&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-datepicker</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 space-y-4 not-aegov">
+  <div>
+    <p class="text-sm text-aeblack-500 mb-1">Single with confirmation</p>
+    <aegov-datepicker with-confirmation placeholder="Confirm before selecting"></aegov-datepicker>
+  </div>
+  <div>
+    <p class="text-sm text-aeblack-500 mb-1">Range with confirmation and presets</p>
+    <aegov-datepicker mode="range" with-confirmation presets="today,last7Days,thisMonth,lastMonth"></aegov-datepicker>
+  </div>
+</div>
+
+<hr>
+<h2>Custom Trigger</h2>
+<p>Use the <code>trigger</code> slot to replace the default input with a custom element. The calendar popup still works the same way.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-datepicker</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;trigger&quot;</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;outline&quot;</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm&quot;</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">svg</span> <span class="hljs-attr">xmlns</span>=<span class="hljs-string">&quot;http://www.w3.org/2000/svg&quot;</span> <span class="hljs-attr">width</span>=<span class="hljs-string">&quot;16&quot;</span> <span class="hljs-attr">height</span>=<span class="hljs-string">&quot;16&quot;</span> <span class="hljs-attr">viewBox</span>=<span class="hljs-string">&quot;0 0 24 24&quot;</span> <span class="hljs-attr">fill</span>=<span class="hljs-string">&quot;none&quot;</span> <span class="hljs-attr">stroke</span>=<span class="hljs-string">&quot;currentColor&quot;</span> <span class="hljs-attr">stroke-width</span>=<span class="hljs-string">&quot;2&quot;</span> <span class="hljs-attr">stroke-linecap</span>=<span class="hljs-string">&quot;round&quot;</span> <span class="hljs-attr">stroke-linejoin</span>=<span class="hljs-string">&quot;round&quot;</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">rect</span> <span class="hljs-attr">x</span>=<span class="hljs-string">&quot;3&quot;</span> <span class="hljs-attr">y</span>=<span class="hljs-string">&quot;4&quot;</span> <span class="hljs-attr">width</span>=<span class="hljs-string">&quot;18&quot;</span> <span class="hljs-attr">height</span>=<span class="hljs-string">&quot;18&quot;</span> <span class="hljs-attr">rx</span>=<span class="hljs-string">&quot;2&quot;</span> <span class="hljs-attr">ry</span>=<span class="hljs-string">&quot;2&quot;</span>/&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">line</span> <span class="hljs-attr">x1</span>=<span class="hljs-string">&quot;16&quot;</span> <span class="hljs-attr">y1</span>=<span class="hljs-string">&quot;2&quot;</span> <span class="hljs-attr">x2</span>=<span class="hljs-string">&quot;16&quot;</span> <span class="hljs-attr">y2</span>=<span class="hljs-string">&quot;6&quot;</span>/&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">line</span> <span class="hljs-attr">x1</span>=<span class="hljs-string">&quot;8&quot;</span> <span class="hljs-attr">y1</span>=<span class="hljs-string">&quot;2&quot;</span> <span class="hljs-attr">x2</span>=<span class="hljs-string">&quot;8&quot;</span> <span class="hljs-attr">y2</span>=<span class="hljs-string">&quot;6&quot;</span>/&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">line</span> <span class="hljs-attr">x1</span>=<span class="hljs-string">&quot;3&quot;</span> <span class="hljs-attr">y1</span>=<span class="hljs-string">&quot;10&quot;</span> <span class="hljs-attr">x2</span>=<span class="hljs-string">&quot;21&quot;</span> <span class="hljs-attr">y2</span>=<span class="hljs-string">&quot;10&quot;</span>/&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">svg</span>&gt;</span>
+    Pick a Date
+  <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-datepicker</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
+  <aegov-datepicker>
+    <aegov-button slot="trigger" variant="outline" size="sm">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+      Pick a Date
+    </aegov-button>
+  </aegov-datepicker>
+</div>
+
+<hr>
+<h2>Usage with Form Field</h2>
+<p>Wrap the datepicker inside <code>aegov-form-field</code> with <code>aegov-label</code> for consistent form layout and labelling.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-form-field</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-label</span>&gt;</span>Date of Birth<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-label</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-datepicker</span>
+    <span class="hljs-attr">max</span>=<span class="hljs-string">&quot;today&quot;</span>
+    <span class="hljs-attr">format</span>=<span class="hljs-string">&quot;DD/MM/YYYY&quot;</span>
+    <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;DD/MM/YYYY&quot;</span>
+    <span class="hljs-attr">year-range-start</span>=<span class="hljs-string">&quot;1920&quot;</span>
+    <span class="hljs-attr">year-range-end</span>=<span class="hljs-string">&quot;2026&quot;</span>
+  &gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-datepicker</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-form-field</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
+  <aegov-form-field>
+    <aegov-label>Date of Birth</aegov-label>
+    <aegov-datepicker max="today" format="DD/MM/YYYY" placeholder="DD/MM/YYYY" year-range-start="1920" year-range-end="2026"></aegov-datepicker>
+  </aegov-form-field>
+</div>
+
+<hr>
+<h2>Events</h2>
+<p>The datepicker emits four custom events. Listen for them with <code>addEventListener</code>.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-datepicker</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;dp-events&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-datepicker</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">pre</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;dp-event-log&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;mt-4 p-3 bg-aeblack-100 rounded text-sm max-h-40 overflow-y-auto&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">pre</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript">
+  <span class="hljs-keyword">const</span> dp = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;dp-events&#x27;</span>);
+  <span class="hljs-keyword">const</span> log = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;dp-event-log&#x27;</span>);
+
+  <span class="hljs-keyword">function</span> <span class="hljs-title function_">logEvent</span>(<span class="hljs-params">name, detail</span>) {
+    <span class="hljs-keyword">const</span> line = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">createElement</span>(<span class="hljs-string">&#x27;div&#x27;</span>);
+    line.<span class="hljs-property">textContent</span> = <span class="hljs-string">`<span class="hljs-subst">${name}</span>: <span class="hljs-subst">${<span class="hljs-built_in">JSON</span>.stringify(detail)}</span>`</span>;
+    log.<span class="hljs-title function_">prepend</span>(line);
+  }
+
+  dp.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;aegovDatepickerChange&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">e</span>) =&gt;</span> <span class="hljs-title function_">logEvent</span>(<span class="hljs-string">&#x27;change&#x27;</span>, e.<span class="hljs-property">detail</span>));
+  dp.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;aegovDatepickerOpen&#x27;</span>, <span class="hljs-function">() =&gt;</span> <span class="hljs-title function_">logEvent</span>(<span class="hljs-string">&#x27;open&#x27;</span>, {}));
+  dp.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;aegovDatepickerClose&#x27;</span>, <span class="hljs-function">() =&gt;</span> <span class="hljs-title function_">logEvent</span>(<span class="hljs-string">&#x27;close&#x27;</span>, {}));
+  dp.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;aegovDatepickerClear&#x27;</span>, <span class="hljs-function">() =&gt;</span> <span class="hljs-title function_">logEvent</span>(<span class="hljs-string">&#x27;clear&#x27;</span>, {}));
+</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
+  <aegov-datepicker id="dp-events-demo"></aegov-datepicker>
+  <pre id="dp-event-log-demo" class="mt-4 p-3 bg-aeblack-100 rounded text-sm max-h-40 overflow-y-auto font-mono text-xs"></pre>
+  <script>
+    (function() {
+      var dp = document.getElementById('dp-events-demo');
+      var log = document.getElementById('dp-event-log-demo');
+      function logEv(name, detail) {
+        var line = document.createElement('div');
+        line.textContent = name + ': ' + JSON.stringify(detail);
+        log.prepend(line);
+      }
+      dp.addEventListener('aegovDatepickerChange', function(e) { logEv('change', e.detail); });
+      dp.addEventListener('aegovDatepickerOpen', function() { logEv('open', {}); });
+      dp.addEventListener('aegovDatepickerClose', function() { logEv('close', {}); });
+      dp.addEventListener('aegovDatepickerClear', function() { logEv('clear', {}); });
+    })();
+  </script>
+</div>
+
+<hr>
+<h2>Programmatic Methods</h2>
+<p>The component exposes several async methods that can be called from JavaScript.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-datepicker</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;dp-methods&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-datepicker</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;mt-3 flex gap-2&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;dp-open-btn&quot;</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm&quot;</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;outline&quot;</span>&gt;</span>Open<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;dp-close-btn&quot;</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm&quot;</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;outline&quot;</span>&gt;</span>Close<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;dp-clear-btn&quot;</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm&quot;</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;outline&quot;</span>&gt;</span>Clear<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;dp-get-btn&quot;</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm&quot;</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;outline&quot;</span>&gt;</span>Get Value<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript">
+  <span class="hljs-keyword">const</span> dp = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;dp-methods&#x27;</span>);
+
+  <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;dp-open-btn&#x27;</span>)
+    .<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;aegovButtonClick&#x27;</span>, <span class="hljs-function">() =&gt;</span> dp.<span class="hljs-title function_">open</span>());
+
+  <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;dp-close-btn&#x27;</span>)
+    .<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;aegovButtonClick&#x27;</span>, <span class="hljs-function">() =&gt;</span> dp.<span class="hljs-title function_">close</span>());
+
+  <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;dp-clear-btn&#x27;</span>)
+    .<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;aegovButtonClick&#x27;</span>, <span class="hljs-function">() =&gt;</span> dp.<span class="hljs-title function_">clear</span>());
+
+  <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;dp-get-btn&#x27;</span>)
+    .<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;aegovButtonClick&#x27;</span>, <span class="hljs-title function_">async</span> () =&gt; {
+      <span class="hljs-keyword">const</span> value = <span class="hljs-keyword">await</span> dp.<span class="hljs-title function_">getValue</span>();
+      <span class="hljs-title function_">alert</span>(<span class="hljs-string">&#x27;Current value: &#x27;</span> + (value || <span class="hljs-string">&#x27;(empty)&#x27;</span>));
+    });
+</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
+  <aegov-datepicker id="dp-methods-demo" value="2026-03-15"></aegov-datepicker>
+  <div class="mt-3 flex gap-2">
+    <aegov-button id="dp-open-btn-demo" size="sm" variant="outline">Open</aegov-button>
+    <aegov-button id="dp-close-btn-demo" size="sm" variant="outline">Close</aegov-button>
+    <aegov-button id="dp-clear-btn-demo" size="sm" variant="outline">Clear</aegov-button>
+    <aegov-button id="dp-get-btn-demo" size="sm" variant="outline">Get Value</aegov-button>
+  </div>
+  <script>
+    (function() {
+      var dp = document.getElementById('dp-methods-demo');
+      document.getElementById('dp-open-btn-demo').addEventListener('aegovButtonClick', function() { dp.open(); });
+      document.getElementById('dp-close-btn-demo').addEventListener('aegovButtonClick', function() { dp.close(); });
+      document.getElementById('dp-clear-btn-demo').addEventListener('aegovButtonClick', function() { dp.clear(); });
+      document.getElementById('dp-get-btn-demo').addEventListener('aegovButtonClick', function() { dp.getValue().then(function(v) { alert('Current value: ' + (v || '(empty)')); }); });
+    })();
+  </script>
+</div>
+
+<h3>Range-specific Methods</h3>
+<p>In range mode, additional methods let you retrieve the individual start and end dates, and check which preset matches the current selection.</p>
+<pre><code class="hljs language-javascript"><span class="hljs-keyword">const</span> dp = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">querySelector</span>(<span class="hljs-string">&#x27;aegov-datepicker[mode=&quot;range&quot;]&#x27;</span>);
+
+<span class="hljs-comment">// Get formatted start date string, or false</span>
+<span class="hljs-keyword">const</span> start = <span class="hljs-keyword">await</span> dp.<span class="hljs-title function_">getStartDate</span>();
+
+<span class="hljs-comment">// Get formatted end date string, or false</span>
+<span class="hljs-keyword">const</span> end = <span class="hljs-keyword">await</span> dp.<span class="hljs-title function_">getEndDate</span>();
+
+<span class="hljs-comment">// Get the matching preset ID, or false</span>
+<span class="hljs-keyword">const</span> preset = <span class="hljs-keyword">await</span> dp.<span class="hljs-title function_">getPreset</span>();</code></pre><hr>
+<h2>RTL Support</h2>
+<p>The component fully supports right-to-left layouts. When the document or a parent element has <code>dir=&quot;rtl&quot;</code>, the input, calendar navigation, and popup align correctly.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">dir</span>=<span class="hljs-string">&quot;rtl&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-datepicker</span> <span class="hljs-attr">locale</span>=<span class="hljs-string">&quot;ar&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;اختر تاريخ&quot;</span> <span class="hljs-attr">start-day</span>=<span class="hljs-string">&quot;6&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-datepicker</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre><div dir="rtl" class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
+  <aegov-datepicker locale="ar" placeholder="اختر تاريخ" start-day="6"></aegov-datepicker>
+</div>
+
+<h3>RTL Range Mode</h3>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">dir</span>=<span class="hljs-string">&quot;rtl&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-datepicker</span>
+    <span class="hljs-attr">mode</span>=<span class="hljs-string">&quot;range&quot;</span>
+    <span class="hljs-attr">locale</span>=<span class="hljs-string">&quot;ar&quot;</span>
+    <span class="hljs-attr">start-day</span>=<span class="hljs-string">&quot;6&quot;</span>
+    <span class="hljs-attr">range-placeholder-start</span>=<span class="hljs-string">&quot;تاريخ البداية&quot;</span>
+    <span class="hljs-attr">range-placeholder-end</span>=<span class="hljs-string">&quot;تاريخ النهاية&quot;</span>
+  &gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-datepicker</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre><div dir="rtl" class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
+  <aegov-datepicker mode="range" locale="ar" start-day="6" range-placeholder-start="تاريخ البداية" range-placeholder-end="تاريخ النهاية"></aegov-datepicker>
+</div>
+
+<hr>
+<h2>API Reference</h2>
+<h3>Properties</h3>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Attribute</th>
+<th>Description</th>
+<th>Type</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>mode</code></td>
+<td><code>mode</code></td>
+<td>Selection mode</td>
+<td><code>&#39;single&#39;</code> | <code>&#39;range&#39;</code></td>
+<td><code>&#39;single&#39;</code></td>
+</tr>
+<tr>
+<td><code>value</code></td>
+<td><code>value</code></td>
+<td>Pre-selected value. Single: <code>&quot;YYYY-MM-DD&quot;</code>. Range: <code>&quot;start / end&quot;</code></td>
+<td><code>string</code></td>
+<td><code>&#39;&#39;</code></td>
+</tr>
+<tr>
+<td><code>format</code></td>
+<td><code>format</code></td>
+<td>Output format using tokens (YYYY, MM, DD, etc.)</td>
+<td><code>string</code></td>
+<td><code>&#39;YYYY-MM-DD&#39;</code></td>
+</tr>
+<tr>
+<td><code>placeholder</code></td>
+<td><code>placeholder</code></td>
+<td>Placeholder text for single mode input</td>
+<td><code>string</code></td>
+<td><code>&#39;Select date&#39;</code></td>
+</tr>
+<tr>
+<td><code>rangePlaceholderStart</code></td>
+<td><code>range-placeholder-start</code></td>
+<td>Placeholder for range start input</td>
+<td><code>string</code></td>
+<td><code>&#39;Start date&#39;</code></td>
+</tr>
+<tr>
+<td><code>rangePlaceholderEnd</code></td>
+<td><code>range-placeholder-end</code></td>
+<td>Placeholder for range end input</td>
+<td><code>string</code></td>
+<td><code>&#39;End date&#39;</code></td>
+</tr>
+<tr>
+<td><code>min</code></td>
+<td><code>min</code></td>
+<td>Minimum selectable date (ISO string or <code>&quot;today&quot;</code>)</td>
+<td><code>string</code></td>
+<td><code>&#39;&#39;</code></td>
+</tr>
+<tr>
+<td><code>max</code></td>
+<td><code>max</code></td>
+<td>Maximum selectable date (ISO string or <code>&quot;today&quot;</code>)</td>
+<td><code>string</code></td>
+<td><code>&#39;&#39;</code></td>
+</tr>
+<tr>
+<td><code>disableFuture</code></td>
+<td><code>disable-future</code></td>
+<td>Disable all future dates (shorthand for <code>max=&quot;today&quot;</code>)</td>
+<td><code>boolean</code></td>
+<td><code>false</code></td>
+</tr>
+<tr>
+<td><code>startDay</code></td>
+<td><code>start-day</code></td>
+<td>Week start day: 0=Sun, 1=Mon, ... 6=Sat</td>
+<td><code>number</code></td>
+<td><code>0</code></td>
+</tr>
+<tr>
+<td><code>locale</code></td>
+<td><code>locale</code></td>
+<td>BCP 47 locale for day/month names (e.g. <code>&#39;en&#39;</code>, <code>&#39;ar&#39;</code>, <code>&#39;fr&#39;</code>)</td>
+<td><code>string</code></td>
+<td><code>&#39;en&#39;</code></td>
+</tr>
+<tr>
+<td><code>minRange</code></td>
+<td><code>min-range</code></td>
+<td>Minimum number of days for range selection</td>
+<td><code>number</code></td>
+<td><code>0</code></td>
+</tr>
+<tr>
+<td><code>maxRange</code></td>
+<td><code>max-range</code></td>
+<td>Maximum number of days for range selection (0 = unlimited)</td>
+<td><code>number</code></td>
+<td><code>0</code></td>
+</tr>
+<tr>
+<td><code>unavailableDates</code></td>
+<td><code>unavailable-dates</code></td>
+<td>Comma-separated ISO dates that cannot be selected</td>
+<td><code>string</code></td>
+<td><code>&#39;&#39;</code></td>
+</tr>
+<tr>
+<td><code>presets</code></td>
+<td><code>presets</code></td>
+<td>Comma-separated preset IDs for range mode sidebar</td>
+<td><code>string</code></td>
+<td><code>&#39;&#39;</code></td>
+</tr>
+<tr>
+<td><code>disabled</code></td>
+<td><code>disabled</code></td>
+<td>Whether the datepicker is disabled</td>
+<td><code>boolean</code></td>
+<td><code>false</code></td>
+</tr>
+<tr>
+<td><code>clearable</code></td>
+<td><code>clearable</code></td>
+<td>Show clear button when a value is set</td>
+<td><code>boolean</code></td>
+<td><code>true</code></td>
+</tr>
+<tr>
+<td><code>selectableHeader</code></td>
+<td><code>selectable-header</code></td>
+<td>Show month/year select dropdowns in calendar header</td>
+<td><code>boolean</code></td>
+<td><code>true</code></td>
+</tr>
+<tr>
+<td><code>yearRangeStart</code></td>
+<td><code>year-range-start</code></td>
+<td>Start year for the year dropdown (0 = auto)</td>
+<td><code>number</code></td>
+<td><code>0</code></td>
+</tr>
+<tr>
+<td><code>yearRangeEnd</code></td>
+<td><code>year-range-end</code></td>
+<td>End year for the year dropdown (0 = auto)</td>
+<td><code>number</code></td>
+<td><code>0</code></td>
+</tr>
+<tr>
+<td><code>withConfirmation</code></td>
+<td><code>with-confirmation</code></td>
+<td>Show Apply/Cancel buttons for confirming selection</td>
+<td><code>boolean</code></td>
+<td><code>false</code></td>
+</tr>
+<tr>
+<td><code>size</code></td>
+<td><code>size</code></td>
+<td>The size of the datepicker input</td>
+<td><code>&#39;sm&#39;</code> | <code>&#39;base&#39;</code> | <code>&#39;lg&#39;</code></td>
+<td><code>&#39;base&#39;</code></td>
+</tr>
+</tbody></table>
+<h3>Events</h3>
+<table>
+<thead>
+<tr>
+<th>Event</th>
+<th>Description</th>
+<th>Detail Type</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>aegovDatepickerChange</code></td>
+<td>Emitted when the date selection changes</td>
+<td><code>DatepickerChangeDetail</code></td>
+</tr>
+<tr>
+<td><code>aegovDatepickerOpen</code></td>
+<td>Emitted when the calendar popup opens</td>
+<td><code>void</code></td>
+</tr>
+<tr>
+<td><code>aegovDatepickerClose</code></td>
+<td>Emitted when the calendar popup closes</td>
+<td><code>void</code></td>
+</tr>
+<tr>
+<td><code>aegovDatepickerClear</code></td>
+<td>Emitted when the value is cleared</td>
+<td><code>void</code></td>
+</tr>
+<tr>
+<td><code>aegovDatepickerMonthChange</code></td>
+<td>Emitted when the displayed month/year changes</td>
+<td><code>DatepickerMonthChangeDetail</code></td>
+</tr>
+</tbody></table>
+<h4>DatepickerChangeDetail</h4>
+<pre><code class="hljs language-typescript"><span class="hljs-keyword">interface</span> <span class="hljs-title class_">DatepickerChangeDetail</span> {
+  <span class="hljs-attr">value</span>: <span class="hljs-built_in">string</span>;           <span class="hljs-comment">// Formatted date string (or &quot;start / end&quot; for range)</span>
+  <span class="hljs-attr">date</span>: <span class="hljs-title class_">Date</span> | <span class="hljs-literal">null</span>;       <span class="hljs-comment">// Selected date (single mode only)</span>
+  <span class="hljs-attr">startDate</span>?: <span class="hljs-title class_">Date</span> | <span class="hljs-literal">null</span>; <span class="hljs-comment">// Range start date (range mode only)</span>
+  <span class="hljs-attr">endDate</span>?: <span class="hljs-title class_">Date</span> | <span class="hljs-literal">null</span>;   <span class="hljs-comment">// Range end date (range mode only)</span>
+}</code></pre><h4>DatepickerMonthChangeDetail</h4>
+<pre><code class="hljs language-typescript"><span class="hljs-keyword">interface</span> <span class="hljs-title class_">DatepickerMonthChangeDetail</span> {
+  <span class="hljs-attr">month</span>: <span class="hljs-built_in">number</span>; <span class="hljs-comment">// 0-11</span>
+  <span class="hljs-attr">year</span>: <span class="hljs-built_in">number</span>;
+}</code></pre><h3>Methods</h3>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Description</th>
+<th>Returns</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>open()</code></td>
+<td>Opens the calendar popup</td>
+<td><code>Promise&lt;void&gt;</code></td>
+</tr>
+<tr>
+<td><code>close()</code></td>
+<td>Closes the calendar popup</td>
+<td><code>Promise&lt;void&gt;</code></td>
+</tr>
+<tr>
+<td><code>clear()</code></td>
+<td>Clears the selected value</td>
+<td><code>Promise&lt;void&gt;</code></td>
+</tr>
+<tr>
+<td><code>getValue()</code></td>
+<td>Returns the formatted value string</td>
+<td><code>Promise&lt;string&gt;</code></td>
+</tr>
+<tr>
+<td><code>getStartDate()</code></td>
+<td>Returns formatted start date (range mode) or <code>false</code></td>
+<td><code>Promise&lt;string | false&gt;</code></td>
+</tr>
+<tr>
+<td><code>getEndDate()</code></td>
+<td>Returns formatted end date (range mode) or <code>false</code></td>
+<td><code>Promise&lt;string | false&gt;</code></td>
+</tr>
+<tr>
+<td><code>getPreset()</code></td>
+<td>Returns matching preset ID or <code>false</code></td>
+<td><code>Promise&lt;string | false&gt;</code></td>
+</tr>
+</tbody></table>
+<h3>Slots</h3>
+<table>
+<thead>
+<tr>
+<th>Slot</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>trigger</code></td>
+<td>Custom trigger element to replace the default input. The calendar popup is toggled when the slotted element is clicked.</td>
+</tr>
+</tbody></table>
+<hr>
+<h2>Accessibility</h2>
+<p>The <code>aegov-datepicker</code> component is built with keyboard navigation and screen reader support.</p>
+<h3>Built-in Features</h3>
+<ul>
+<li><strong>Dialog role</strong> -- the calendar popup has <code>role=&quot;dialog&quot;</code> and <code>aria-modal=&quot;true&quot;</code> so screen readers announce it as a modal.</li>
+<li><strong>Grid role</strong> -- the day grid uses <code>role=&quot;grid&quot;</code> for proper table-like keyboard navigation.</li>
+<li><strong><code>aria-selected</code></strong> -- applied to the currently selected date, range start, and range end.</li>
+<li><strong><code>aria-current=&quot;date&quot;</code></strong> -- marks today&#39;s date in the grid.</li>
+<li><strong><code>aria-disabled</code></strong> -- applied to dates that cannot be selected (out of min/max range or in the unavailable list).</li>
+<li><strong><code>aria-haspopup=&quot;dialog&quot;</code></strong> -- on the input trigger to indicate a popup will appear.</li>
+<li><strong><code>aria-expanded</code></strong> -- on the input trigger, reflects whether the calendar is open.</li>
+<li><strong><code>aria-controls</code></strong> -- links the trigger to the popup dialog element.</li>
+<li><strong><code>aria-label</code></strong> -- applied to navigation buttons (&quot;Previous month&quot;, &quot;Next month&quot;) and the month/year selects.</li>
+<li><strong>Live region</strong> -- an <code>aria-live=&quot;polite&quot;</code> region announces month changes to screen readers.</li>
+<li><strong>Focus management</strong> -- when the calendar opens, focus moves to the selected date (or today). When it closes, focus returns to the trigger element.</li>
+</ul>
+<h3>Keyboard Navigation</h3>
+<table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Enter</code> / <code>Space</code></td>
+<td>Open calendar (when trigger focused), select focused date (when calendar open)</td>
+</tr>
+<tr>
+<td><code>Escape</code></td>
+<td>Close calendar, discard pending selection in confirmation mode</td>
+</tr>
+<tr>
+<td><code>ArrowLeft</code></td>
+<td>Move focus to previous day</td>
+</tr>
+<tr>
+<td><code>ArrowRight</code></td>
+<td>Move focus to next day</td>
+</tr>
+<tr>
+<td><code>ArrowUp</code></td>
+<td>Move focus to same day in previous week</td>
+</tr>
+<tr>
+<td><code>ArrowDown</code></td>
+<td>Move focus to same day in next week</td>
+</tr>
+<tr>
+<td><code>PageUp</code></td>
+<td>Move focus to same day in previous month</td>
+</tr>
+<tr>
+<td><code>Shift + PageUp</code></td>
+<td>Move focus to same day in previous year</td>
+</tr>
+<tr>
+<td><code>PageDown</code></td>
+<td>Move focus to same day in next month</td>
+</tr>
+<tr>
+<td><code>Shift + PageDown</code></td>
+<td>Move focus to same day in next year</td>
+</tr>
+<tr>
+<td><code>Home</code></td>
+<td>Move focus to first day of the current month</td>
+</tr>
+<tr>
+<td><code>End</code></td>
+<td>Move focus to last day of the current month</td>
+</tr>
+<tr>
+<td><code>Tab</code></td>
+<td>Navigate between calendar controls (selects, nav buttons, day grid)</td>
+</tr>
+</tbody></table>
+<h3>Developer Responsibilities</h3>
+<ol>
+<li><p><strong>Provide a label.</strong> When used inside a form, wrap the datepicker in <code>aegov-form-field</code> with <code>aegov-label</code> so screen readers associate the label with the input.</p>
+</li>
+<li><p><strong>Custom triggers need an <code>aria-label</code>.</strong> If you use the <code>trigger</code> slot with a custom button, ensure the slotted element has an <code>aria-label</code> describing its purpose.</p>
+</li>
+</ol>
+<hr>
+<h2>Notes</h2>
+<ul>
+<li>The <code>aegov-datepicker</code> component uses <code>scoped: true</code> encapsulation. The calendar popup is rendered as a <strong>portal</strong> element (<code>div.aegov-datepicker-portal</code>) appended to <code>document.body</code>. Portal styles are injected via JavaScript since scoped CSS cannot reach outside the component host.</li>
+<li>The calendar popup automatically positions itself below the trigger. If there is not enough space below, it flips above. If the trigger scrolls out of the viewport, the popup closes automatically.</li>
+<li>In range mode, two calendar months are displayed side by side. The left calendar shows the current view month and the right shows the following month.</li>
+<li>When <code>with-confirmation</code> is enabled, date clicks update a <strong>pending</strong> selection that is only committed when the user clicks Apply. Clicking Cancel, pressing Escape, or clicking outside discards the pending selection.</li>
+<li>Range preset calculations respect the <code>start-day</code> property for week-based presets (e.g. &quot;This Week&quot;, &quot;Last Week&quot;).</li>
+<li>The <code>value</code> property is mutable -- the component updates it when the user selects a date. You can also set it programmatically to update the selection from outside.</li>
+<li>The input field is always <code>readOnly</code>. Users select dates only through the calendar popup, not by typing.</li>
+<li>The clear button emits both <code>aegovDatepickerClear</code> and <code>aegovDatepickerChange</code> (with an empty value) so you only need to listen to one event to track all changes.</li>
+</ul>
+<!-- DOC:END -->
+</section>
+      </article>
+    </section>
+  </main>
+  <footer class="mx-auto max-w-7xl sm:px-6 lg:px-8 mt-8 py-6 text-sm text-aeblack-500">
+    &copy; 2026 Telecommunication and Digital Regulatory Authority. All rights reserved.
+  </footer>
+
+<script src="/docs/layout.js"></script>
+</body>
+</html>

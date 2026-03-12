@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>File Upload | AEGOV Design System</title>
+  <script type="module" src="/build/aegov.esm.js"></script>
+  <script nomodule src="/build/aegov.js"></script>
+  <link rel="stylesheet" href="/build/aegov.css">
+  <link rel="stylesheet" href="/docs/doc-style.css">
+  <link rel="stylesheet" href="/docs/hljs.css">
+</head>
+<body class="bg-aeblack-50">
+  <header class="mx-auto max-w-7xl sm:px-6 lg:px-8 mb-8">
+    <img src="https://designsystem.gov.ae/assets/site-logo/AEGov-DesignSystem-Logo-Color.svg" alt="UAE Design System Logo" class="w-auto h-16 my-2">
+  </header>
+  <main class="mx-auto max-w-7xl sm:px-6 lg:px-8 bg-aeblack-50">
+    <section class="flex items-start align-top gap-4">
+      <nav id="primary-nav" class="w-3xs shrink-0">&nbsp;</nav>
+      <article class="col-span-5 grow">
+          <section id="content-area" class="bg-whitely-50 p-6 rounded-md shadow-xl">
+<!-- DOC:START -->
+<h1>File Upload</h1>
+<p class="text-lg text-aeblack-500 mb-8">A file upload component that lets users select files from their device via a traditional input, a styled button, or a drag-and-drop zone. Supports validation, multiple files, and file list management.</p>
+
+<h2>Introduction</h2>
+<p>The <code>aegov-fileupload</code> component provides three distinct upload experiences through its <strong>variant</strong> property: a classic styled file input (<code>default</code>), a standalone trigger button (<code>button</code>), and an interactive drag-and-drop area (<code>dropzone</code>). All three variants share the same validation logic, event system, and file list management.</p>
+<p>The component supports <strong>3 variants</strong>, <strong>3 sizes</strong>, file type and size validation, multiple file selection, and built-in label/description/helper text.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-fileupload</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Upload a file&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-fileupload</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
+  <aegov-fileupload label="Upload a file"></aegov-fileupload>
+</div>
+
+<hr>
+<h2>Variants</h2>
+<p>The <code>variant</code> property controls the visual presentation and interaction model. There are three variants available.</p>
+<h3>Default</h3>
+<p>The default variant renders a styled input field with a &quot;Browse&quot; button. Clicking anywhere on the control opens the native file picker. The file name (or count) is displayed inline.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-fileupload</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;default&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Attachment&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-fileupload</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
+  <aegov-fileupload variant="default" label="Attachment"></aegov-fileupload>
+</div>
+
+<h3>Button</h3>
+<p>The <code>button</code> variant hides the native input entirely and presents a styled trigger button. Selected files appear in a list below the button, each with a remove control.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-fileupload</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;button&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Upload Documents&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-fileupload</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
+  <aegov-fileupload variant="button" label="Upload Documents"></aegov-fileupload>
+</div>
+
+<h3>Dropzone</h3>
+<p>The <code>dropzone</code> variant renders a large drag-and-drop area with an upload icon, instructional text, and a browse button. Users can drag files directly onto the zone or click the button. Selected files are listed inside the zone.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-fileupload</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;dropzone&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Upload Files&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-fileupload</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
+  <aegov-fileupload variant="dropzone" label="Upload Files"></aegov-fileupload>
+</div>
+
+<hr>
+<h2>Sizes</h2>
+<p>The <code>size</code> property controls the dimensions, font sizes, and padding of all internal elements. It applies consistently across all three variants.</p>
+<table>
+<thead>
+<tr>
+<th>Size</th>
+<th>Input Height</th>
+<th>Font Size</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>sm</code></td>
+<td>40px</td>
+<td>14px</td>
+<td>Compact layout for dense UIs.</td>
+</tr>
+<tr>
+<td><code>base</code></td>
+<td>48px</td>
+<td>16px</td>
+<td>Default. Balanced for most forms.</td>
+</tr>
+<tr>
+<td><code>lg</code></td>
+<td>52px</td>
+<td>18px</td>
+<td>Large layout for prominent upload areas.</td>
+</tr>
+</tbody></table>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-fileupload</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Small&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-fileupload</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-fileupload</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;base&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Base (default)&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-fileupload</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-fileupload</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;lg&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Large&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-fileupload</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 space-y-4 not-aegov">
+  <aegov-fileupload size="sm" label="Small"></aegov-fileupload>
+  <aegov-fileupload size="base" label="Base (default)"></aegov-fileupload>
+  <aegov-fileupload size="lg" label="Large"></aegov-fileupload>
+</div>
+
+<h3>Sizes with Button Variant</h3>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-fileupload</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;button&quot;</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Small Button&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-fileupload</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-fileupload</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;button&quot;</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;base&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Base Button&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-fileupload</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-fileupload</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;button&quot;</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;lg&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Large Button&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-fileupload</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 space-y-4 not-aegov">
+  <aegov-fileupload variant="button" size="sm" label="Small Button"></aegov-fileupload>
+  <aegov-fileupload variant="button" size="base" label="Base Button"></aegov-fileupload>
+  <aegov-fileupload variant="button" size="lg" label="Large Button"></aegov-fileupload>
+</div>
+
+<h3>Sizes with Dropzone Variant</h3>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-fileupload</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;dropzone&quot;</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Small Dropzone&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-fileupload</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-fileupload</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;dropzone&quot;</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;lg&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Large Dropzone&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-fileupload</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 space-y-4 not-aegov">
+  <aegov-fileupload variant="dropzone" size="sm" label="Small Dropzone"></aegov-fileupload>
+  <aegov-fileupload variant="dropzone" size="lg" label="Large Dropzone"></aegov-fileupload>
+</div>
+
+<hr>
+<h2>Accepted File Types</h2>
+<p>Use the <code>accept</code> property to restrict which file types are allowed. The value follows the same format as the native HTML <code>accept</code> attribute: comma-separated file extensions (<code>.pdf</code>, <code>.jpg</code>) or MIME types (<code>image/*</code>, <code>application/pdf</code>).</p>
+<p>When <code>accept</code> is set, the component automatically generates helper text listing the allowed types. Invalid files are rejected and an <code>aegovFileuploadError</code> event is emitted.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-fileupload</span>
+  <span class="hljs-attr">accept</span>=<span class="hljs-string">&quot;.pdf,.doc,.docx&quot;</span>
+  <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Documents only&quot;</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-fileupload</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-fileupload</span>
+  <span class="hljs-attr">accept</span>=<span class="hljs-string">&quot;image/*&quot;</span>
+  <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Images only&quot;</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-fileupload</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 space-y-4 not-aegov">
+  <aegov-fileupload accept=".pdf,.doc,.docx" label="Documents only"></aegov-fileupload>
+  <aegov-fileupload accept="image/*" label="Images only"></aegov-fileupload>
+</div>
+
+<hr>
+<h2>Multiple Files</h2>
+<p>Set the <code>multiple</code> attribute to allow the user to select more than one file at a time from the native file picker. In the <code>button</code> and <code>dropzone</code> variants, subsequent selections are accumulated into the list rather than replacing the previous selection.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-fileupload</span> <span class="hljs-attr">multiple</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Select multiple files&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-fileupload</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
+  <aegov-fileupload multiple label="Select multiple files"></aegov-fileupload>
+</div>
+
+<h3>Multiple with Button Variant</h3>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-fileupload</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;button&quot;</span> <span class="hljs-attr">multiple</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Upload multiple files&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-fileupload</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
+  <aegov-fileupload variant="button" multiple label="Upload multiple files"></aegov-fileupload>
+</div>
+
+<h3>Multiple with Dropzone Variant</h3>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-fileupload</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;dropzone&quot;</span> <span class="hljs-attr">multiple</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Drop multiple files here&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-fileupload</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
+  <aegov-fileupload variant="dropzone" multiple label="Drop multiple files here"></aegov-fileupload>
+</div>
+
+<hr>
+<h2>Maximum File Size</h2>
+<p>The <code>max-file-size</code> property sets the maximum allowed size per file, in bytes. Files exceeding this limit are rejected, and an <code>aegovFileuploadError</code> event is emitted with <code>type: &#39;max-size&#39;</code>.</p>
+<p>The error message includes a human-readable file size (e.g. &quot;5 MB&quot;).</p>
+<pre><code class="hljs language-html"><span class="hljs-comment">&lt;!-- Max 5 MB per file --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-fileupload</span>
+  <span class="hljs-attr">max-file-size</span>=<span class="hljs-string">&quot;5242880&quot;</span>
+  <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Max 5 MB per file&quot;</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-fileupload</span>&gt;</span>
+
+<span class="hljs-comment">&lt;!-- Max 1 MB per file --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-fileupload</span>
+  <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;dropzone&quot;</span>
+  <span class="hljs-attr">max-file-size</span>=<span class="hljs-string">&quot;1048576&quot;</span>
+  <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Max 1 MB per file&quot;</span>
+  <span class="hljs-attr">multiple</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-fileupload</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 space-y-4 not-aegov">
+  <aegov-fileupload max-file-size="5242880" label="Max 5 MB per file"></aegov-fileupload>
+  <aegov-fileupload variant="dropzone" max-file-size="1048576" label="Max 1 MB per file" multiple></aegov-fileupload>
+</div>
+
+<hr>
+<h2>Maximum Number of Files</h2>
+<p>The <code>max-files</code> property limits the total number of files that can be selected. When the limit is reached, additional files are rejected and an <code>aegovFileuploadError</code> event is emitted with <code>type: &#39;max-files&#39;</code>.</p>
+<p>In the <code>default</code> variant, the selection is replaced each time. In the <code>button</code> and <code>dropzone</code> variants, files accumulate and the limit applies to the total.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-fileupload</span>
+  <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;button&quot;</span>
+  <span class="hljs-attr">multiple</span>
+  <span class="hljs-attr">max-files</span>=<span class="hljs-string">&quot;3&quot;</span>
+  <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Upload up to 3 files&quot;</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-fileupload</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
+  <aegov-fileupload variant="button" multiple max-files="3" label="Upload up to 3 files"></aegov-fileupload>
+</div>
+
+<hr>
+<h2>Disabled State</h2>
+<p>Set the <code>disabled</code> attribute to prevent all interaction. The component becomes visually muted and the native input is disabled.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-fileupload</span> <span class="hljs-attr">disabled</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Disabled upload&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-fileupload</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-fileupload</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;button&quot;</span> <span class="hljs-attr">disabled</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Disabled button&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-fileupload</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-fileupload</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;dropzone&quot;</span> <span class="hljs-attr">disabled</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Disabled dropzone&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-fileupload</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 space-y-4 not-aegov">
+  <aegov-fileupload disabled label="Disabled upload"></aegov-fileupload>
+  <aegov-fileupload variant="button" disabled label="Disabled button"></aegov-fileupload>
+  <aegov-fileupload variant="dropzone" disabled label="Disabled dropzone"></aegov-fileupload>
+</div>
+
+<hr>
+<h2>Required Field</h2>
+<p>Set the <code>required</code> attribute to mark the field as mandatory. A red asterisk appears next to the label, and the native input receives the <code>required</code> attribute for browser validation.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-fileupload</span> <span class="hljs-attr">required</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Required attachment&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-fileupload</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
+  <aegov-fileupload required label="Required attachment"></aegov-fileupload>
+</div>
+
+<hr>
+<h2>Label, Description, and Helper Text</h2>
+<p>The component includes built-in support for a label, a description paragraph below the label, and helper text below the control.</p>
+<ul>
+<li><strong><code>label</code></strong> — displayed as a <code>&lt;label&gt;</code> element above the control.</li>
+<li><strong><code>description</code></strong> — supplementary text between the label and the control.</li>
+<li><strong><code>helper-text</code></strong> — text below the control. If not provided but <code>accept</code> is set, helper text is auto-generated from the accepted types.</li>
+</ul>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-fileupload</span>
+  <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Profile Photo&quot;</span>
+  <span class="hljs-attr">description</span>=<span class="hljs-string">&quot;Upload a recent photo for your profile. Square images work best.&quot;</span>
+  <span class="hljs-attr">helper-text</span>=<span class="hljs-string">&quot;JPG or PNG, max 2 MB&quot;</span>
+  <span class="hljs-attr">accept</span>=<span class="hljs-string">&quot;.jpg,.png&quot;</span>
+  <span class="hljs-attr">max-file-size</span>=<span class="hljs-string">&quot;2097152&quot;</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-fileupload</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
+  <aegov-fileupload
+    label="Profile Photo"
+    description="Upload a recent photo for your profile. Square images work best."
+    helper-text="JPG or PNG, max 2 MB"
+    accept=".jpg,.png"
+    max-file-size="2097152">
+  </aegov-fileupload>
+</div>
+
+<h3>Auto-Generated Helper Text</h3>
+<p>When you set <code>accept</code> but do not provide <code>helper-text</code>, the component automatically generates a descriptive string.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-fileupload</span>
+  <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Upload document&quot;</span>
+  <span class="hljs-attr">accept</span>=<span class="hljs-string">&quot;.pdf,image/*,.docx&quot;</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-fileupload</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
+  <aegov-fileupload label="Upload document" accept=".pdf,image/*,.docx"></aegov-fileupload>
+</div>
+
+<hr>
+<h2>Custom Button Text</h2>
+<p>The <code>button-text</code> property overrides the default text shown on the browse/trigger button. Default values depend on the variant:</p>
+<table>
+<thead>
+<tr>
+<th>Variant</th>
+<th>Default Text</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>default</code></td>
+<td>&quot;Browse&quot;</td>
+</tr>
+<tr>
+<td><code>button</code></td>
+<td>&quot;Choose File&quot; / &quot;Choose Files&quot; (multiple)</td>
+</tr>
+<tr>
+<td><code>dropzone</code></td>
+<td>&quot;Browse Files&quot;</td>
+</tr>
+</tbody></table>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-fileupload</span>
+  <span class="hljs-attr">button-text</span>=<span class="hljs-string">&quot;Select Document&quot;</span>
+  <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Custom button text&quot;</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-fileupload</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-fileupload</span>
+  <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;dropzone&quot;</span>
+  <span class="hljs-attr">button-text</span>=<span class="hljs-string">&quot;Pick from Computer&quot;</span>
+  <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Custom dropzone button text&quot;</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-fileupload</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 space-y-4 not-aegov">
+  <aegov-fileupload button-text="Select Document" label="Custom button text"></aegov-fileupload>
+  <aegov-fileupload variant="dropzone" button-text="Pick from Computer" label="Custom dropzone button text"></aegov-fileupload>
+</div>
+
+<hr>
+<h2>Drag and Drop</h2>
+<p>The <code>dropzone</code> variant supports native drag-and-drop. When files are dragged over the zone, it highlights with a visual cue (border and background colour change). Dropping files processes them through the same validation pipeline as manual selection.</p>
+<p>If <code>multiple</code> is not set, only the first dropped file is accepted.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-fileupload</span>
+  <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;dropzone&quot;</span>
+  <span class="hljs-attr">multiple</span>
+  <span class="hljs-attr">accept</span>=<span class="hljs-string">&quot;image/*&quot;</span>
+  <span class="hljs-attr">max-file-size</span>=<span class="hljs-string">&quot;10485760&quot;</span>
+  <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Drag images here&quot;</span>
+  <span class="hljs-attr">description</span>=<span class="hljs-string">&quot;Drag and drop your images, or click the button below.&quot;</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-fileupload</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
+  <aegov-fileupload
+    variant="dropzone"
+    multiple
+    accept="image/*"
+    max-file-size="10485760"
+    label="Drag images here"
+    description="Drag and drop your images, or click the button below.">
+  </aegov-fileupload>
+</div>
+
+<hr>
+<h2>File List and Removal</h2>
+<p>In the <code>button</code> and <code>dropzone</code> variants, selected files appear in a list showing the file name, size, and a remove button. Clicking the remove button:</p>
+<ol>
+<li>Removes the file from the internal list.</li>
+<li>Emits an <code>aegovFileuploadRemove</code> event with the removed file and the remaining files.</li>
+<li>Emits an <code>aegovFileuploadChange</code> event with the updated file list.</li>
+</ol>
+<p>The <code>default</code> variant does not show a file list — it displays the file name (or count) inline in the input area.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-fileupload</span>
+  <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;button&quot;</span>
+  <span class="hljs-attr">multiple</span>
+  <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Files with remove buttons&quot;</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-fileupload</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
+  <aegov-fileupload variant="button" multiple label="Files with remove buttons (select files to see the list)"></aegov-fileupload>
+</div>
+
+<hr>
+<h2>Validation and Error Events</h2>
+<p>The component performs three types of validation. When a file fails validation, it is excluded from the selection and an <code>aegovFileuploadError</code> event is emitted.</p>
+<table>
+<thead>
+<tr>
+<th>Error Type</th>
+<th>Trigger</th>
+<th>Event Detail <code>type</code></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Invalid type</td>
+<td>File does not match the <code>accept</code> filter</td>
+<td><code>&#39;invalid-type&#39;</code></td>
+</tr>
+<tr>
+<td>Size exceeded</td>
+<td>File exceeds <code>maxFileSize</code> bytes</td>
+<td><code>&#39;max-size&#39;</code></td>
+</tr>
+<tr>
+<td>Max files</td>
+<td>Selection exceeds <code>maxFiles</code> limit</td>
+<td><code>&#39;max-files&#39;</code></td>
+</tr>
+</tbody></table>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-fileupload</span>
+  <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;validated-upload&quot;</span>
+  <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;dropzone&quot;</span>
+  <span class="hljs-attr">multiple</span>
+  <span class="hljs-attr">accept</span>=<span class="hljs-string">&quot;.pdf,.jpg&quot;</span>
+  <span class="hljs-attr">max-file-size</span>=<span class="hljs-string">&quot;2097152&quot;</span>
+  <span class="hljs-attr">max-files</span>=<span class="hljs-string">&quot;3&quot;</span>
+  <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Validated upload&quot;</span>
+  <span class="hljs-attr">description</span>=<span class="hljs-string">&quot;Only PDF and JPG, max 2 MB each, max 3 files.&quot;</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-fileupload</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">pre</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;error-log&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;mt-4 p-3 bg-aeblack-100 rounded text-sm max-h-40 overflow-auto&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">pre</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript">
+  <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;validated-upload&#x27;</span>)
+    .<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;aegovFileuploadError&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">e</span>) =&gt;</span> {
+      <span class="hljs-keyword">const</span> log = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;error-log&#x27;</span>);
+      log.<span class="hljs-property">textContent</span> += <span class="hljs-title class_">JSON</span>.<span class="hljs-title function_">stringify</span>(e.<span class="hljs-property">detail</span>, <span class="hljs-literal">null</span>, <span class="hljs-number">2</span>) + <span class="hljs-string">&#x27;\n&#x27;</span>;
+    });
+</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
+  <aegov-fileupload
+    id="validated-upload"
+    variant="dropzone"
+    multiple
+    accept=".pdf,.jpg"
+    max-file-size="2097152"
+    max-files="3"
+    label="Validated upload"
+    description="Only PDF and JPG, max 2 MB each, max 3 files.">
+  </aegov-fileupload>
+  <pre id="error-log" class="mt-4 p-3 bg-aeblack-100 rounded text-sm max-h-40 overflow-auto font-mono"></pre>
+  <script>
+    document.getElementById('validated-upload')
+      .addEventListener('aegovFileuploadError', function(e) {
+        var log = document.getElementById('error-log');
+        var msg = e.detail.type + ': ' + e.detail.message;
+        log.textContent += msg + '\n';
+      });
+  </script>
+</div>
+
+<hr>
+<h2>Public Methods</h2>
+<p>The component exposes two public methods that can be called programmatically.</p>
+<h3>getFiles()</h3>
+<p>Returns a <code>Promise&lt;File[]&gt;</code> containing the currently selected files.</p>
+<h3>clear()</h3>
+<p>Clears all selected files and resets the native input. Returns a <code>Promise&lt;void&gt;</code>.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-fileupload</span>
+  <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;method-demo&quot;</span>
+  <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;button&quot;</span>
+  <span class="hljs-attr">multiple</span>
+  <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Method demo&quot;</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-fileupload</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;clear-btn&quot;</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;outline&quot;</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;mt-3&quot;</span>&gt;</span>Clear Files<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;get-btn&quot;</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;soft&quot;</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;mt-3&quot;</span>&gt;</span>Get Files<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript">
+  <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;clear-btn&#x27;</span>)
+    .<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;aegovButtonClick&#x27;</span>, <span class="hljs-title function_">async</span> () =&gt; {
+      <span class="hljs-keyword">await</span> <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;method-demo&#x27;</span>).<span class="hljs-title function_">clear</span>();
+    });
+
+  <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;get-btn&#x27;</span>)
+    .<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;aegovButtonClick&#x27;</span>, <span class="hljs-title function_">async</span> () =&gt; {
+      <span class="hljs-keyword">const</span> files = <span class="hljs-keyword">await</span> <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;method-demo&#x27;</span>).<span class="hljs-title function_">getFiles</span>();
+      <span class="hljs-title function_">alert</span>(<span class="hljs-string">&#x27;Selected files: &#x27;</span> + files.<span class="hljs-title function_">map</span>(<span class="hljs-function"><span class="hljs-params">f</span> =&gt;</span> f.<span class="hljs-property">name</span>).<span class="hljs-title function_">join</span>(<span class="hljs-string">&#x27;, &#x27;</span>));
+    });
+</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
+  <aegov-fileupload id="method-demo" variant="button" multiple label="Method demo"></aegov-fileupload>
+  <div class="flex gap-2 mt-3">
+    <aegov-button id="clear-btn" variant="outline" size="sm">Clear Files</aegov-button>
+    <aegov-button id="get-btn" variant="soft" size="sm">Get Files</aegov-button>
+  </div>
+  <script>
+    document.getElementById('clear-btn')
+      .addEventListener('aegovButtonClick', async function() {
+        await document.getElementById('method-demo').clear();
+      });
+    document.getElementById('get-btn')
+      .addEventListener('aegovButtonClick', async function() {
+        var files = await document.getElementById('method-demo').getFiles();
+        alert('Selected files: ' + (files.length > 0 ? files.map(function(f) { return f.name; }).join(', ') : '(none)'));
+      });
+  </script>
+</div>
+
+<hr>
+<h2>Combined Example</h2>
+<p>A real-world example combining multiple features: dropzone variant, multiple files, file type restriction, size limit, max files, label, description, and custom button text.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-fileupload</span>
+  <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;dropzone&quot;</span>
+  <span class="hljs-attr">multiple</span>
+  <span class="hljs-attr">accept</span>=<span class="hljs-string">&quot;.pdf,.doc,.docx,.xlsx&quot;</span>
+  <span class="hljs-attr">max-file-size</span>=<span class="hljs-string">&quot;10485760&quot;</span>
+  <span class="hljs-attr">max-files</span>=<span class="hljs-string">&quot;5&quot;</span>
+  <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Supporting Documents&quot;</span>
+  <span class="hljs-attr">description</span>=<span class="hljs-string">&quot;Upload your supporting documents for the application.&quot;</span>
+  <span class="hljs-attr">helper-text</span>=<span class="hljs-string">&quot;PDF, DOC, DOCX, or XLSX. Max 10 MB each. Up to 5 files.&quot;</span>
+  <span class="hljs-attr">button-text</span>=<span class="hljs-string">&quot;Browse Documents&quot;</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-fileupload</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
+  <aegov-fileupload
+    variant="dropzone"
+    multiple
+    accept=".pdf,.doc,.docx,.xlsx"
+    max-file-size="10485760"
+    max-files="5"
+    label="Supporting Documents"
+    description="Upload your supporting documents for the application."
+    helper-text="PDF, DOC, DOCX, or XLSX. Max 10 MB each. Up to 5 files."
+    button-text="Browse Documents">
+  </aegov-fileupload>
+</div>
+
+<hr>
+<h2>Listening to Events</h2>
+<p>All three events bubble and can be listened to on the host element.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-fileupload</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;events-demo&quot;</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;button&quot;</span> <span class="hljs-attr">multiple</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Event demo&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-fileupload</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript">
+  <span class="hljs-keyword">const</span> el = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;events-demo&#x27;</span>);
+
+  el.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;aegovFileuploadChange&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">e</span>) =&gt;</span> {
+    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;Files changed:&#x27;</span>, e.<span class="hljs-property">detail</span>.<span class="hljs-property">files</span>);
+  });
+
+  el.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;aegovFileuploadRemove&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">e</span>) =&gt;</span> {
+    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;File removed:&#x27;</span>, e.<span class="hljs-property">detail</span>.<span class="hljs-property">file</span>.<span class="hljs-property">name</span>);
+    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;Remaining:&#x27;</span>, e.<span class="hljs-property">detail</span>.<span class="hljs-property">remaining</span>);
+  });
+
+  el.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;aegovFileuploadError&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">e</span>) =&gt;</span> {
+    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;Error:&#x27;</span>, e.<span class="hljs-property">detail</span>.<span class="hljs-property">type</span>, e.<span class="hljs-property">detail</span>.<span class="hljs-property">message</span>);
+  });
+</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
+  <aegov-fileupload id="events-demo" variant="button" multiple label="Event demo (open console to see output)"></aegov-fileupload>
+  <script>
+    var evEl = document.getElementById('events-demo');
+    evEl.addEventListener('aegovFileuploadChange', function(e) { console.log('aegovFileuploadChange:', e.detail.files); });
+    evEl.addEventListener('aegovFileuploadRemove', function(e) { console.log('aegovFileuploadRemove:', e.detail.file.name, 'remaining:', e.detail.remaining.length); });
+    evEl.addEventListener('aegovFileuploadError', function(e) { console.log('aegovFileuploadError:', e.detail.type, e.detail.message); });
+  </script>
+</div>
+
+<hr>
+<h2>RTL Support</h2>
+<p>The component fully supports right-to-left layouts. When the document or a parent element has <code>dir=&quot;rtl&quot;</code>, the input layout, button position, file list, and dropzone all mirror automatically.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">dir</span>=<span class="hljs-string">&quot;rtl&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-fileupload</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;رفع الملف&quot;</span> <span class="hljs-attr">button-text</span>=<span class="hljs-string">&quot;استعراض&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-fileupload</span>&gt;</span>
+
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-fileupload</span>
+    <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;dropzone&quot;</span>
+    <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;منطقة الإفلات&quot;</span>
+    <span class="hljs-attr">button-text</span>=<span class="hljs-string">&quot;استعراض الملفات&quot;</span>
+    <span class="hljs-attr">multiple</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-fileupload</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre><div dir="rtl" class="p-6 bg-aeblack-50 rounded-lg my-6 space-y-4 not-aegov">
+  <aegov-fileupload label="رفع الملف" button-text="استعراض"></aegov-fileupload>
+  <aegov-fileupload variant="dropzone" label="منطقة الإفلات" button-text="استعراض الملفات" multiple></aegov-fileupload>
+</div>
+
+<p>No additional configuration is needed — the component inherits the <code>dir</code> attribute and adjusts automatically.</p>
+<hr>
+<h2>API Reference</h2>
+<h3>Properties</h3>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Attribute</th>
+<th>Description</th>
+<th>Type</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>variant</code></td>
+<td><code>variant</code></td>
+<td>The visual style and interaction model</td>
+<td><code>&#39;default&#39;</code> | <code>&#39;button&#39;</code> | <code>&#39;dropzone&#39;</code></td>
+<td><code>&#39;default&#39;</code></td>
+</tr>
+<tr>
+<td><code>size</code></td>
+<td><code>size</code></td>
+<td>The component size</td>
+<td><code>&#39;sm&#39;</code> | <code>&#39;base&#39;</code> | <code>&#39;lg&#39;</code></td>
+<td><code>&#39;base&#39;</code></td>
+</tr>
+<tr>
+<td><code>multiple</code></td>
+<td><code>multiple</code></td>
+<td>Allow selecting multiple files</td>
+<td><code>boolean</code></td>
+<td><code>false</code></td>
+</tr>
+<tr>
+<td><code>accept</code></td>
+<td><code>accept</code></td>
+<td>Accepted file types (e.g. <code>&quot;.pdf,.jpg,image/*&quot;</code>)</td>
+<td><code>string</code></td>
+<td><code>undefined</code></td>
+</tr>
+<tr>
+<td><code>maxFileSize</code></td>
+<td><code>max-file-size</code></td>
+<td>Maximum file size in bytes</td>
+<td><code>number</code></td>
+<td><code>undefined</code></td>
+</tr>
+<tr>
+<td><code>maxFiles</code></td>
+<td><code>max-files</code></td>
+<td>Maximum number of files allowed</td>
+<td><code>number</code></td>
+<td><code>undefined</code></td>
+</tr>
+<tr>
+<td><code>disabled</code></td>
+<td><code>disabled</code></td>
+<td>Disables the file upload control</td>
+<td><code>boolean</code></td>
+<td><code>false</code></td>
+</tr>
+<tr>
+<td><code>required</code></td>
+<td><code>required</code></td>
+<td>Marks the field as required</td>
+<td><code>boolean</code></td>
+<td><code>false</code></td>
+</tr>
+<tr>
+<td><code>name</code></td>
+<td><code>name</code></td>
+<td>Form field name for the native input</td>
+<td><code>string</code></td>
+<td><code>undefined</code></td>
+</tr>
+<tr>
+<td><code>label</code></td>
+<td><code>label</code></td>
+<td>Label text displayed above the control</td>
+<td><code>string</code></td>
+<td><code>undefined</code></td>
+</tr>
+<tr>
+<td><code>description</code></td>
+<td><code>description</code></td>
+<td>Description text displayed below the label</td>
+<td><code>string</code></td>
+<td><code>undefined</code></td>
+</tr>
+<tr>
+<td><code>helperText</code></td>
+<td><code>helper-text</code></td>
+<td>Custom helper text below the control (overrides auto-generated text)</td>
+<td><code>string</code></td>
+<td><code>undefined</code></td>
+</tr>
+<tr>
+<td><code>buttonText</code></td>
+<td><code>button-text</code></td>
+<td>Custom text for the browse/trigger button</td>
+<td><code>string</code></td>
+<td><code>undefined</code></td>
+</tr>
+<tr>
+<td><code>fieldId</code></td>
+<td><code>field-id</code></td>
+<td>Unique field ID. Auto-generated if not provided.</td>
+<td><code>string</code></td>
+<td>auto</td>
+</tr>
+</tbody></table>
+<h3>Events</h3>
+<table>
+<thead>
+<tr>
+<th>Event</th>
+<th>Description</th>
+<th>Detail Type</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>aegovFileuploadChange</code></td>
+<td>Emitted when the file selection changes</td>
+<td><code>{ files: File[] }</code></td>
+</tr>
+<tr>
+<td><code>aegovFileuploadRemove</code></td>
+<td>Emitted when a file is removed from the list</td>
+<td><code>{ file: File; remaining: File[] }</code></td>
+</tr>
+<tr>
+<td><code>aegovFileuploadError</code></td>
+<td>Emitted when a file fails validation</td>
+<td><code>{ type: &#39;max-size&#39; | &#39;max-files&#39; | &#39;invalid-type&#39;; file?: File; message: string }</code></td>
+</tr>
+</tbody></table>
+<h3>Methods</h3>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Signature</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>getFiles</code></td>
+<td><code>getFiles(): Promise&lt;File[]&gt;</code></td>
+<td>Returns the currently selected files</td>
+</tr>
+<tr>
+<td><code>clear</code></td>
+<td><code>clear(): Promise&lt;void&gt;</code></td>
+<td>Clears all selected files</td>
+</tr>
+</tbody></table>
+<h3>Slots</h3>
+<p>This component does not use slots. All content is configured via properties.</p>
+<hr>
+<h2>Accessibility</h2>
+<p>The <code>aegov-fileupload</code> component includes the following accessibility features out of the box.</p>
+<h3>Built-in Features</h3>
+<ul>
+<li><strong>Semantic <code>&lt;label&gt;</code> element</strong> — the <code>label</code> property renders a native <code>&lt;label&gt;</code> element associated with the file input via <code>for</code>/<code>id</code>, ensuring screen readers announce the field purpose.</li>
+<li><strong>Required indicator</strong> — when <code>required</code> is set, a red asterisk is shown with <code>aria-hidden=&quot;true&quot;</code> so screen readers rely on the native <code>required</code> attribute instead.</li>
+<li><strong><code>aria-describedby</code></strong> — the native input is linked to the helper text element (when present) for additional context.</li>
+<li><strong>Hidden input accessibility</strong> — in the <code>button</code> and <code>dropzone</code> variants, the native file input is visually hidden with <code>aria-hidden=&quot;true&quot;</code> and <code>tabIndex=&quot;-1&quot;</code>. The visible trigger button receives focus instead.</li>
+<li><strong>Remove button labels</strong> — each file in the list has a remove button with <code>aria-label=&quot;Remove {filename}&quot;</code> for clear screen reader announcements.</li>
+<li><strong>Decorative icons</strong> — all SVG icons include <code>aria-hidden=&quot;true&quot;</code> so they are ignored by assistive technologies.</li>
+<li><strong>Focus indicators</strong> — visible focus rings on the default input wrapper (via <code>:has(:focus-visible)</code>), the trigger button, the dropzone browse button, and all remove buttons.</li>
+<li><strong>Keyboard navigation</strong> — the default variant&#39;s native input, the button variant&#39;s trigger button, and all remove buttons are keyboard-focusable and activatable with Enter or Space.</li>
+</ul>
+<h3>Developer Responsibilities</h3>
+<ol>
+<li><p><strong>Always provide a <code>label</code>.</strong> The label associates with the native input and is essential for screen reader users. If you cannot use the built-in label, provide your own <code>&lt;label&gt;</code> element with a matching <code>for</code> attribute targeting the component&#39;s <code>field-id</code>.</p>
+</li>
+<li><p><strong>Communicate file requirements.</strong> Use <code>description</code> or <code>helper-text</code> to inform users about allowed file types, size limits, and maximum file count before they attempt an upload.</p>
+</li>
+<li><p><strong>Handle error events.</strong> The component emits validation errors but does not display them visually. Listen to <code>aegovFileuploadError</code> and display user-facing error messages in your application.</p>
+</li>
+<li><p><strong>Do not remove focus styles.</strong> The built-in <code>focus-visible</code> outlines are essential for keyboard navigation.</p>
+</li>
+</ol>
+<hr>
+<h2>Notes</h2>
+<ul>
+<li>The <code>default</code> variant replaces the file selection each time the user picks new files. The <code>button</code> and <code>dropzone</code> variants accumulate files across multiple selections.</li>
+<li>The native file input is always present in the DOM for form submission compatibility, even when visually hidden.</li>
+<li>When <code>multiple</code> is not set on the <code>dropzone</code> variant, only the first dropped file is processed.</li>
+<li>The <code>accept</code> property filters the native file picker dialog and is also enforced by the component&#39;s validation logic.</li>
+<li>File sizes are displayed in a human-readable format (B, KB, MB, GB) throughout the file list.</li>
+<li>The component resets the native input value after each selection, which allows the user to re-select the same file if needed.</li>
+<li>The <code>fieldId</code> property is auto-generated using a module-level counter if not explicitly provided, ensuring unique IDs when multiple instances exist on the same page.</li>
+<li>The <code>name</code> property is passed to the native input for standard form submission workflows.</li>
+</ul>
+<!-- DOC:END -->
+</section>
+      </article>
+    </section>
+  </main>
+  <footer class="mx-auto max-w-7xl sm:px-6 lg:px-8 mt-8 py-6 text-sm text-aeblack-500">
+    &copy; 2026 Telecommunication and Digital Regulatory Authority. All rights reserved.
+  </footer>
+
+<script src="/docs/layout.js"></script>
+</body>
+</html>
