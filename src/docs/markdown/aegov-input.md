@@ -141,7 +141,7 @@ Set the `required` attribute to mark the field as mandatory. This enables native
 
 ```html
 <aegov-form-field>
-  <aegov-label>Email <span class="text-aered-500">*</span></aegov-label>
+  <aegov-label>Email *</aegov-label>
   <aegov-input type="email" required placeholder="Required field"></aegov-input>
 </aegov-form-field>
 ```
@@ -207,7 +207,7 @@ When `readonly` and `copyable` are both set, a copy button appears inside the in
 
 ## Icon Slots
 
-The input provides two named slots — `icon-start` and `icon-end` — for placing icons inside the field. Icons are vertically centred and sized to match the current input size.
+The input provides two named slots -- `icon-start` and `icon-end` -- for placing icons inside the field. Icons are vertically centred and sized to match the current input size.
 
 ### Leading Icon
 
@@ -280,12 +280,12 @@ The input provides two named slots — `icon-start` and `icon-end` — for placi
 For `type="number"`, you can pass native attributes `min`, `max`, and `step` as pass-through attributes directly on the host element.
 
 ```html
-<aegov-input type="number" min="0" max="100" step="5" placeholder="0–100"></aegov-input>
+<aegov-input type="number" min="0" max="100" step="5" placeholder="0-100"></aegov-input>
 ```
 
 <div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
   <aegov-form-field>
-    <aegov-label>Quantity (0–100, step 5)</aegov-label>
+    <aegov-label>Quantity (0-100, step 5)</aegov-label>
     <aegov-input type="number" min="0" max="100" step="5" placeholder="0"></aegov-input>
   </aegov-form-field>
 </div>
@@ -301,14 +301,19 @@ Use `aegov-form-field` to add helper text or error messages below the input. Pla
 <aegov-form-field>
   <aegov-label>Username</aegov-label>
   <aegov-input placeholder="Choose a username"></aegov-input>
-  <small class="text-sm text-aeblack-400 mt-1 block">Must be 3–20 characters, letters and numbers only.</small>
+  <small class="text-sm text-aeblack-400 mt-1 block">
+    Must be 3-20 characters, letters and numbers only.
+  </small>
 </aegov-form-field>
 
 <!-- Error state -->
 <aegov-form-field>
-  <aegov-label>Email <span class="text-aered-500">*</span></aegov-label>
-  <aegov-input type="email" placeholder="Enter email" class="!inset-ring-aered-500"></aegov-input>
-  <small class="text-sm text-aered-500 mt-1 block">Please enter a valid email address.</small>
+  <aegov-label>Email *</aegov-label>
+  <aegov-input type="email" placeholder="Enter email"
+               class="!inset-ring-aered-500"></aegov-input>
+  <small class="text-sm text-aered-500 mt-1 block">
+    Please enter a valid email address.
+  </small>
 </aegov-form-field>
 ```
 
@@ -316,7 +321,7 @@ Use `aegov-form-field` to add helper text or error messages below the input. Pla
   <aegov-form-field>
     <aegov-label>Username</aegov-label>
     <aegov-input placeholder="Choose a username"></aegov-input>
-    <small class="text-sm text-aeblack-400 mt-1 block">Must be 3–20 characters, letters and numbers only.</small>
+    <small class="text-sm text-aeblack-400 mt-1 block">Must be 3-20 characters, letters and numbers only.</small>
   </aegov-form-field>
   <aegov-form-field>
     <aegov-label>Email <span class="text-aered-500">*</span></aegov-label>
@@ -414,15 +419,15 @@ A native `<select>` element can be placed inside the group for combined input pa
 The `size` property on `aegov-input-group` propagates to child `aegov-input` and `aegov-button` components automatically.
 
 ```html
-<aegov-input-group size="sm" addon-prefix="$">
+<aegov-input-group size="sm" addon-prefix="USD">
   <aegov-input type="number" placeholder="0.00"></aegov-input>
 </aegov-input-group>
 
-<aegov-input-group size="base" addon-prefix="$">
+<aegov-input-group size="base" addon-prefix="USD">
   <aegov-input type="number" placeholder="0.00"></aegov-input>
 </aegov-input-group>
 
-<aegov-input-group size="lg" addon-prefix="$">
+<aegov-input-group size="lg" addon-prefix="USD">
   <aegov-input type="number" placeholder="0.00"></aegov-input>
 </aegov-input-group>
 ```
@@ -461,7 +466,7 @@ The `aegov-label` component renders a styled `<label>` element. When placed insi
 
 ### Required Indicator
 
-Add a required indicator by including a styled `<span>` inside the label slot.
+Add a required indicator by including a styled asterisk inside the label slot.
 
 ```html
 <aegov-form-field>
@@ -505,9 +510,11 @@ It also dims the label when the child input is disabled.
 
 ```html
 <aegov-form-field>
-  <aegov-label>Full Name <span class="text-aered-500">*</span></aegov-label>
+  <aegov-label>Full Name *</aegov-label>
   <aegov-input required placeholder="Enter your full name"></aegov-input>
-  <small class="text-sm text-aeblack-400 mt-1 block">As it appears on your Emirates ID.</small>
+  <small class="text-sm text-aeblack-400 mt-1 block">
+    As it appears on your Emirates ID.
+  </small>
 </aegov-form-field>
 ```
 
@@ -546,18 +553,19 @@ Combine `aegov-form-field`, `aegov-label`, `aegov-input`, and `aegov-input-group
 ```html
 <form class="space-y-4">
   <aegov-form-field>
-    <aegov-label>Full Name <span class="text-aered-500">*</span></aegov-label>
+    <aegov-label>Full Name *</aegov-label>
     <aegov-input required placeholder="John Doe"></aegov-input>
   </aegov-form-field>
 
   <aegov-form-field>
-    <aegov-label>Email <span class="text-aered-500">*</span></aegov-label>
+    <aegov-label>Email *</aegov-label>
     <aegov-input type="email" required placeholder="john@example.com"></aegov-input>
   </aegov-form-field>
 
   <aegov-form-field>
-    <aegov-label>Password <span class="text-aered-500">*</span></aegov-label>
-    <aegov-input type="password" revealable required placeholder="Enter password"></aegov-input>
+    <aegov-label>Password *</aegov-label>
+    <aegov-input type="password" revealable required
+                 placeholder="Enter password"></aegov-input>
     <small class="text-sm text-aeblack-400 mt-1 block">Minimum 8 characters.</small>
   </aegov-form-field>
 
@@ -647,7 +655,7 @@ All input components fully support right-to-left layouts. When the document or a
   </aegov-input-group>
 </div>
 
-No additional configuration is needed — the components read the inherited `dir` attribute and adjust automatically using logical CSS properties (`padding-inline-start`, `padding-inline-end`, etc.).
+No additional configuration is needed -- the components read the inherited `dir` attribute and adjust automatically using logical CSS properties (`padding-inline-start`, `padding-inline-end`, etc.).
 
 ---
 
@@ -658,17 +666,17 @@ No additional configuration is needed — the components read the inherited `dir
 | Property      | Attribute      | Description                                                                 | Type                                                                                                            | Default    |
 |---------------|----------------|-----------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------|------------|
 | `fieldId`     | `field-id`     | Unique ID for the native input. Auto-generated if not provided.             | `string`                                                                                                        | auto       |
-| `type`        | `type`         | The HTML input type                                                         | `'text'` \| `'email'` \| `'password'` \| `'tel'` \| `'url'` \| `'number'` \| `'search'` \| `'date'` \| `'time'` \| `'datetime-local'` \| `'month'` \| `'week'` | `'text'`   |
-| `size`        | `size`         | The input size                                                              | `'sm'` \| `'base'` \| `'lg'`                                                                                   | `'base'`   |
+| `type`        | `type`         | The HTML input type                                                         | `'text'` `'email'` `'password'` `'tel'` `'url'` `'number'` `'search'` `'date'` `'time'` `'datetime-local'` `'month'` `'week'` | `'text'`   |
+| `size`        | `size`         | The input size                                                              | `'sm'` `'base'` `'lg'`                                                                                   | `'base'`   |
 | `disabled`    | `disabled`     | Prevents interaction                                                        | `boolean`                                                                                                       | `false`    |
 | `readonly`    | `readonly`     | Makes the input read-only                                                   | `boolean`                                                                                                       | `false`    |
-| `placeholder` | `placeholder`  | Hint text shown when the input is empty                                     | `string`                                                                                                        | `—`        |
+| `placeholder` | `placeholder`  | Hint text shown when the input is empty                                     | `string`                                                                                                        | --         |
 | `value`       | `value`        | The current value of the input                                              | `string`                                                                                                        | `''`       |
-| `name`        | `name`         | The name attribute for form submission                                      | `string`                                                                                                        | `—`        |
+| `name`        | `name`         | The name attribute for form submission                                      | `string`                                                                                                        | --         |
 | `required`    | `required`     | Marks the field as required for validation                                  | `boolean`                                                                                                       | `false`    |
 | `revealable`  | `revealable`   | Shows a toggle to reveal/hide password (only when `type="password"`)        | `boolean`                                                                                                       | `false`    |
 | `copyable`    | `copyable`     | Shows a copy button (only when `readonly` is set)                           | `boolean`                                                                                                       | `false`    |
-| `class`       | `class`        | Additional CSS classes to apply to the native input                         | `string`                                                                                                        | `—`        |
+| `class`       | `class`        | Additional CSS classes to apply to the native input                         | `string`                                                                                                        | --         |
 
 ### aegov-input Events
 
@@ -722,16 +730,16 @@ The component forwards `aria-*`, `data-*`, and the following native input attrib
 
 | Property       | Attribute       | Description                                                         | Type                            | Default  |
 |----------------|-----------------|---------------------------------------------------------------------|---------------------------------|----------|
-| `size`         | `size`          | The group size. Propagated to child `aegov-input` and `aegov-button`. | `'sm'` \| `'base'` \| `'lg'` | `'base'` |
-| `addonPrefix`  | `addon-prefix`  | Static text displayed before the input                              | `string`                        | `—`      |
-| `addonSuffix`  | `addon-suffix`  | Static text displayed after the input                               | `string`                        | `—`      |
-| `class`        | `class`         | Additional CSS classes to apply                                     | `string`                        | `—`      |
+| `size`         | `size`          | The group size. Propagated to child `aegov-input` and `aegov-button`. | `'sm'` `'base'` `'lg'` | `'base'` |
+| `addonPrefix`  | `addon-prefix`  | Static text displayed before the input                              | `string`                        | --       |
+| `addonSuffix`  | `addon-suffix`  | Static text displayed after the input                               | `string`                        | --       |
+| `class`        | `class`         | Additional CSS classes to apply                                     | `string`                        | --       |
 
 ### aegov-input-group Slots
 
 | Slot      | Description                                                                      |
 |-----------|----------------------------------------------------------------------------------|
-| (default) | The group content — typically `aegov-input`, `aegov-button`, or native `<select>`. |
+| (default) | The group content -- typically `aegov-input`, `aegov-button`, or native `select`. |
 
 ---
 
@@ -739,13 +747,13 @@ The component forwards `aria-*`, `data-*`, and the following native input attrib
 
 | Property | Attribute | Description                      | Type     | Default |
 |----------|-----------|----------------------------------|----------|---------|
-| `class`  | `class`   | Additional CSS classes to apply  | `string` | `—`     |
+| `class`  | `class`   | Additional CSS classes to apply  | `string` | --      |
 
 ### aegov-form-field Slots
 
 | Slot      | Description                                                                                         |
 |-----------|-----------------------------------------------------------------------------------------------------|
-| (default) | The field content — typically `aegov-label`, a form control, and optional helper text or error text. |
+| (default) | The field content -- typically `aegov-label`, a form control, and optional helper text or error text. |
 
 ### aegov-form-field Behaviour
 
@@ -759,14 +767,14 @@ The component forwards `aria-*`, `data-*`, and the following native input attrib
 
 | Property  | Attribute | Description                                                                   | Type     | Default |
 |-----------|-----------|-------------------------------------------------------------------------------|----------|---------|
-| `htmlFor` | `for`     | The ID of the form control this label is for. Automatically set by `aegov-form-field`. | `string` | `—`     |
-| `class`   | `class`   | Additional CSS classes to apply                                               | `string` | `—`     |
+| `htmlFor` | `for`     | The ID of the form control this label is for. Automatically set by `aegov-form-field`. | `string` | --      |
+| `class`   | `class`   | Additional CSS classes to apply                                               | `string` | --      |
 
 ### aegov-label Slots
 
 | Slot      | Description                                                          |
 |-----------|----------------------------------------------------------------------|
-| (default) | The label content — text, required indicators, or optional markers.  |
+| (default) | The label content -- text, required indicators, or optional markers.  |
 
 ---
 
@@ -776,13 +784,13 @@ The `aegov-input` component and its companions are built with accessibility as a
 
 ### Built-in Features
 
-- **Native `<input>` element** — the component renders a semantic HTML input that is keyboard-focusable and announced correctly by screen readers.
-- **Native `<label>` element** — `aegov-label` renders a real `<label>` element. When used inside `aegov-form-field`, the `for` attribute is automatically linked to the input's `id`.
-- **Focus indicators** — clearly visible focus rings are applied via `focus-visible` / `focus-within` styles using the primary-support colour.
-- **Disabled state** — applies `pointer-events: none`, `cursor-not-allowed`, and reduced opacity so the input is both visually and functionally inert. The label is also dimmed.
-- **Password reveal** — the toggle button includes an `aria-label` that updates between "Show password" and "Hide password".
-- **Copy button** — the copy button includes an `aria-label` that updates between "Copy to clipboard" and "Copied".
-- **Pass-through attributes** — all `aria-*` and `data-*` attributes placed on the host element are forwarded to the native `<input>`.
+- **Native input element** -- the component renders a semantic HTML input that is keyboard-focusable and announced correctly by screen readers.
+- **Native label element** -- `aegov-label` renders a real `<label>` element. When used inside `aegov-form-field`, the `for` attribute is automatically linked to the input's `id`.
+- **Focus indicators** -- clearly visible focus rings are applied via `focus-visible` / `focus-within` styles using the primary-support colour.
+- **Disabled state** -- applies `pointer-events: none`, `cursor-not-allowed`, and reduced opacity so the input is both visually and functionally inert. The label is also dimmed.
+- **Password reveal** -- the toggle button includes an `aria-label` that updates between "Show password" and "Hide password".
+- **Copy button** -- the copy button includes an `aria-label` that updates between "Copy to clipboard" and "Copied".
+- **Pass-through attributes** -- all `aria-*` and `data-*` attributes placed on the host element are forwarded to the native input.
 
 ### Developer Responsibilities
 
@@ -790,17 +798,17 @@ The `aegov-input` component and its companions are built with accessibility as a
 
 2. **Error messages should be linked.** Use `aria-describedby` on the input pointing to the ID of the error message element so screen readers announce the error.
 
-   ```html
-   <aegov-form-field>
-     <aegov-label>Email</aegov-label>
-     <aegov-input type="email" aria-describedby="email-error"></aegov-input>
-     <small id="email-error" class="text-sm text-aered-500 mt-1 block">
-       Please enter a valid email.
-     </small>
-   </aegov-form-field>
-   ```
+```html
+<aegov-form-field>
+  <aegov-label>Email</aegov-label>
+  <aegov-input type="email" aria-describedby="email-error"></aegov-input>
+  <small id="email-error" class="text-sm text-aered-500 mt-1 block">
+    Please enter a valid email.
+  </small>
+</aegov-form-field>
+```
 
-3. **Required fields.** Use both the `required` attribute for native validation and a visible indicator (e.g. `*`) in the label for sighted users.
+3. **Required fields.** Use both the `required` attribute for native validation and a visible indicator (e.g. an asterisk) in the label for sighted users.
 
 4. **Colour contrast.** All built-in colour combinations meet WCAG 2.1 AA contrast ratios. If you override colours via the `class` property, verify that the new colours maintain at least a **4.5:1** contrast ratio for text.
 
@@ -810,7 +818,7 @@ The `aegov-input` component and its companions are built with accessibility as a
 
 ## Notes
 
-- The `aegov-input` component renders a native `<input>` element internally. Do **not** wrap it inside another `<input>` — this creates invalid HTML.
+- The `aegov-input` component renders a native `<input>` element internally. Do **not** wrap it inside another `<input>` -- this creates invalid HTML.
 - The `fieldId` property is auto-generated using a module-level counter to ensure uniqueness. You can override it by setting the `field-id` attribute explicitly.
 - The `revealable` property only works when `type="password"`. It is ignored for all other input types.
 - The `copyable` property only works when `readonly` is set. It is ignored otherwise.
@@ -818,4 +826,4 @@ The `aegov-input` component and its companions are built with accessibility as a
 - Inside an `aegov-input-group`, the input's own border ring and border radius are removed. The group provides a unified border treatment.
 - The `size` property on `aegov-input-group` automatically propagates to child `aegov-input` and `aegov-button` components. You do not need to set the size on each child individually.
 - Native attributes such as `min`, `max`, `step`, `pattern`, `minlength`, `maxlength`, `autocomplete`, `autofocus`, `inputmode`, `spellcheck`, `enterkeyhint`, `title`, `tabindex`, `list`, and `form` are passed through to the native input element automatically.
-- The `aegov-form-field` component supports linking labels to multiple form control types beyond `aegov-input` — including `aegov-textarea`, `aegov-select`, `aegov-checkbox`, `aegov-range`, `aegov-progress`, and `aegov-otp`.
+- The `aegov-form-field` component supports linking labels to multiple form control types beyond `aegov-input` -- including `aegov-textarea`, `aegov-select`, `aegov-checkbox`, `aegov-range`, `aegov-progress`, and `aegov-otp`.

@@ -19,7 +19,7 @@
       <nav id="primary-nav" class="w-3xs shrink-0">&nbsp;</nav>
       <article class="col-span-5 grow">
           <section id="content-area" class="bg-whitely-50 p-6 rounded-md shadow-xl">
-<!-- DOC:START -->
+          <!-- DOC:START -->
 <h1>OTP Input</h1>
 <p class="text-lg text-aeblack-500 mb-8">A one-time password input that splits a code into individual character cells, making it easy for users to enter verification codes received via SMS, email, or authenticator apps.</p>
 
@@ -202,8 +202,7 @@
 <h2>Pattern Validation</h2>
 <p>The <code>pattern</code> property accepts a regex string. When all cells are filled, the combined value is tested against the pattern. If the value does not match, the <code>aegovOtpInvalid</code> event fires instead of <code>aegovOtpComplete</code>.</p>
 <pre><code class="hljs language-html"><span class="hljs-comment">&lt;!-- Only accept codes starting with &quot;A&quot; followed by 3 digits --&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-otp</span> <span class="hljs-attr">length</span>=<span class="hljs-string">&quot;4&quot;</span> <span class="hljs-attr">alphanumeric</span> <span class="hljs-attr">pattern</span>=<span class="hljs-string">&quot;^A\d{3}<!-- DOC:START -->
-<!-- DOC:END -->quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-otp</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-otp</span> <span class="hljs-attr">length</span>=<span class="hljs-string">&quot;4&quot;</span> <span class="hljs-attr">alphanumeric</span> <span class="hljs-attr">pattern</span>=<span class="hljs-string">&quot;^A\d{3}$&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-otp</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
   <p class="text-sm font-semibold text-aeblack-600 mb-2">Pattern: must start with "A" followed by 3 digits (e.g. A123)</p>
   <aegov-otp id="pattern-demo" length="4" alphanumeric pattern="^A\d{3}$"></aegov-otp>
   <p id="pattern-result" class="text-sm mt-3 text-aeblack-500"></p>
@@ -573,7 +572,7 @@
 <li>Multi-character input (e.g. from browser autofill) is handled by distributing characters across cells starting from the current cell.</li>
 </ul>
 <!-- DOC:END -->
-</section>
+          </section>
       </article>
     </section>
   </main>

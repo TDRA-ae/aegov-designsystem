@@ -432,9 +432,6 @@
   .shrink-0 {
     flex-shrink: 0;
   }
-  .flex-grow {
-    flex-grow: 1;
-  }
   .grow {
     flex-grow: 1;
   }
@@ -510,13 +507,6 @@
   .gap-12 {
     gap: calc(var(--spacing) * 12);
   }
-  .space-y-0 {
-    :where(& > :not(:last-child)) {
-      --tw-space-y-reverse: 0;
-      margin-block-start: calc(calc(var(--spacing) * 0) * var(--tw-space-y-reverse));
-      margin-block-end: calc(calc(var(--spacing) * 0) * calc(1 - var(--tw-space-y-reverse)));
-    }
-  }
   .space-y-0\.5 {
     :where(& > :not(:last-child)) {
       --tw-space-y-reverse: 0;
@@ -558,9 +548,6 @@
       margin-inline-start: calc(calc(var(--spacing) * 4) * var(--tw-space-x-reverse));
       margin-inline-end: calc(calc(var(--spacing) * 4) * calc(1 - var(--tw-space-x-reverse)));
     }
-  }
-  .gap-y-8 {
-    row-gap: calc(var(--spacing) * 8);
   }
   .truncate {
     overflow: hidden;
@@ -1116,6 +1103,14 @@
   border: 1px solid var(--color-aeblack-100);
   border-radius: 0.25rem;
   color: var(--color-aered-700);
+}
+#content-area pre {
+  overflow-x: auto;
+  max-width: 100%;
+}
+#content-area {
+  min-width: 0;
+  overflow: hidden;
 }
 @property --tw-rotate-x {
   syntax: "*";
