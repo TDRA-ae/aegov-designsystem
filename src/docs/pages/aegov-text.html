@@ -20,6 +20,214 @@
       <article class="col-span-5 grow">
           <section id="content-area" class="bg-whitely-50 p-6 rounded-md shadow-xl">
 <!-- DOC:START -->
+<h1>Text</h1>
+<p class="text-lg text-aeblack-500 mb-8">A simple paragraph component for rendering body copy with consistent sizing and vertical rhythm. It outputs a semantic <code>&lt;p&gt;</code> element styled with Tailwind utility classes.</p>
+
+<h2>Introduction</h2>
+<p>The <code>aegov-text</code> component standardises paragraph text across your application. It provides <strong>3 sizes</strong>, a built-in bottom margin for vertical rhythm, and accepts additional Tailwind classes for easy customisation.</p>
+<p>By rendering a native <code>&lt;p&gt;</code> element, it preserves full semantic meaning while giving you design-system-level consistency without writing repetitive CSS.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-text</span>&gt;</span>This is a paragraph of text using the default settings.<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-text</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
+  <aegov-text>This is a paragraph of text using the default settings.</aegov-text>
+</div>
+
+<hr>
+<h2>Sizes</h2>
+<p>The <code>size</code> property controls the font size of the rendered paragraph. There are three sizes available.</p>
+<table>
+<thead>
+<tr>
+<th>Size</th>
+<th>CSS Class</th>
+<th>Font Size</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>sm</code></td>
+<td><code>text-sm</code></td>
+<td>14px</td>
+</tr>
+<tr>
+<td><code>base</code></td>
+<td><code>text-base</code></td>
+<td>16px</td>
+</tr>
+<tr>
+<td><code>lg</code></td>
+<td><code>text-lg</code></td>
+<td>18px</td>
+</tr>
+</tbody></table>
+<h3>Small</h3>
+<p>Use <code>size=&quot;sm&quot;</code> for secondary or supplementary text that should appear smaller than the main body copy.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-text</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm&quot;</span>&gt;</span>This is small text at 14px.<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-text</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
+  <aegov-text size="sm">This is small text at 14px. Use it for captions, footnotes, or helper text that accompanies a primary paragraph.</aegov-text>
+</div>
+
+<h3>Base (default)</h3>
+<p>The default size. Standard body copy at 16px — suitable for the majority of paragraph content.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-text</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;base&quot;</span>&gt;</span>This is base text at 16px.<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-text</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
+  <aegov-text size="base">This is base text at 16px. It is the default size and works well for most body content across the site.</aegov-text>
+</div>
+
+<h3>Large</h3>
+<p>Use <code>size=&quot;lg&quot;</code> for introductory paragraphs or lead text that should have more visual weight.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-text</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;lg&quot;</span>&gt;</span>This is large text at 18px.<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-text</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
+  <aegov-text size="lg">This is large text at 18px. Use it for introductory paragraphs, hero descriptions, or any text that needs to stand out from standard body copy.</aegov-text>
+</div>
+
+<h3>All Sizes Compared</h3>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-text</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm&quot;</span>&gt;</span>Small (14px)<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-text</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-text</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;base&quot;</span>&gt;</span>Base (16px)<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-text</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-text</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;lg&quot;</span>&gt;</span>Large (18px)<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-text</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
+  <aegov-text size="sm">Small text — 14px. Ideal for captions, metadata, and fine print.</aegov-text>
+  <aegov-text size="base">Base text — 16px. The default size for standard body content.</aegov-text>
+  <aegov-text size="lg">Large text — 18px. Best for lead paragraphs and introductions.</aegov-text>
+</div>
+
+<hr>
+<h2>Default Margin</h2>
+<p>Every <code>aegov-text</code> instance renders with <code>mb-8</code> (32px bottom margin) and <code>mt-0</code> (no top margin) by default. This provides consistent vertical rhythm between paragraphs without any additional configuration.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-text</span>&gt;</span>First paragraph with default 32px bottom margin.<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-text</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-text</span>&gt;</span>Second paragraph — the spacing above comes from the first paragraph&#x27;s margin.<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-text</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-text</span>&gt;</span>Third paragraph continues the rhythm.<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-text</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
+  <aegov-text>First paragraph with default 32px bottom margin.</aegov-text>
+  <aegov-text>Second paragraph — the spacing above comes from the first paragraph's margin.</aegov-text>
+  <aegov-text>Third paragraph continues the rhythm.</aegov-text>
+</div>
+
+<hr>
+<h2>Custom Classes</h2>
+<p>The <code>class</code> property lets you pass additional Tailwind utility classes that are merged with the component defaults. This gives you full control over colour, weight, alignment, spacing, and any other Tailwind utility.</p>
+<h3>Custom Colour</h3>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-text</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;text-primary-600&quot;</span>&gt;</span>Primary-coloured paragraph text.<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-text</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-text</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;text-aered-600&quot;</span>&gt;</span>Red-coloured paragraph text for emphasis.<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-text</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
+  <aegov-text class="text-primary-600">Primary-coloured paragraph text.</aegov-text>
+  <aegov-text class="text-aered-600">Red-coloured paragraph text for emphasis.</aegov-text>
+</div>
+
+<h3>Custom Font Weight</h3>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-text</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;font-semibold&quot;</span>&gt;</span>Semibold paragraph text.<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-text</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-text</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;font-light&quot;</span>&gt;</span>Light-weight paragraph text.<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-text</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
+  <aegov-text class="font-semibold">Semibold paragraph text.</aegov-text>
+  <aegov-text class="font-light">Light-weight paragraph text.</aegov-text>
+</div>
+
+<h3>Custom Alignment</h3>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-text</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;text-center&quot;</span>&gt;</span>Centre-aligned paragraph.<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-text</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-text</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;text-right&quot;</span>&gt;</span>Right-aligned paragraph.<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-text</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
+  <aegov-text class="text-center">Centre-aligned paragraph.</aegov-text>
+  <aegov-text class="text-right">Right-aligned paragraph.</aegov-text>
+</div>
+
+<hr>
+<h2>Overriding Default Margin</h2>
+<p>The default <code>mb-8</code> can be overridden by passing a different margin class. Because custom classes are appended after the defaults, Tailwind&#39;s last-class-wins behaviour applies.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-text</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;mb-0&quot;</span>&gt;</span>No bottom margin.<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-text</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-text</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;mb-2&quot;</span>&gt;</span>Tight bottom margin (8px).<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-text</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-text</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;mb-16&quot;</span>&gt;</span>Extra-large bottom margin (64px).<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-text</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
+  <aegov-text class="mb-0">No bottom margin — sits flush against the next element.</aegov-text>
+  <aegov-text class="mb-2">Tight bottom margin (8px) — for compact layouts.</aegov-text>
+  <aegov-text class="mb-16">Extra-large bottom margin (64px) — for section breaks.</aegov-text>
+  <aegov-text>Back to default margin.</aegov-text>
+</div>
+
+<hr>
+<h2>Rich Content</h2>
+<p>The default slot accepts any inline HTML, not just plain text. You can include links, bold, italic, code, and other inline elements.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-text</span>&gt;</span>
+  This paragraph contains <span class="hljs-tag">&lt;<span class="hljs-name">strong</span>&gt;</span>bold text<span class="hljs-tag">&lt;/<span class="hljs-name">strong</span>&gt;</span>, <span class="hljs-tag">&lt;<span class="hljs-name">em</span>&gt;</span>italic text<span class="hljs-tag">&lt;/<span class="hljs-name">em</span>&gt;</span>,
+  <span class="hljs-tag">&lt;<span class="hljs-name">code</span>&gt;</span>inline code<span class="hljs-tag">&lt;/<span class="hljs-name">code</span>&gt;</span>, and a <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;#&quot;</span>&gt;</span>link<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span> inside it.
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-text</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
+  <aegov-text>
+    This paragraph contains <strong>bold text</strong>, <em>italic text</em>,
+    <code>inline code</code>, and a <a href="#">link</a> inside it.
+  </aegov-text>
+</div>
+
+<hr>
+<h2>Pass-Through Attributes</h2>
+<p>The component forwards <code>id</code>, <code>aria-*</code>, and <code>data-*</code> attributes from the host element to the inner <code>&lt;p&gt;</code> element. This is useful for anchoring, accessibility, and analytics integrations.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-text</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;intro-paragraph&quot;</span> <span class="hljs-attr">data-section</span>=<span class="hljs-string">&quot;intro&quot;</span> <span class="hljs-attr">aria-label</span>=<span class="hljs-string">&quot;Introduction&quot;</span>&gt;</span>
+  This paragraph has an id, a data attribute, and an aria-label passed through.
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-text</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
+  <aegov-text id="intro-paragraph" data-section="intro">
+    This paragraph has an id and a data attribute passed through to the inner element.
+  </aegov-text>
+</div>
+
+<hr>
+<h2>API Reference</h2>
+<h3>Properties</h3>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Attribute</th>
+<th>Description</th>
+<th>Type</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>size</code></td>
+<td><code>size</code></td>
+<td>The font size of the text</td>
+<td><code>&#39;sm&#39;</code> | <code>&#39;base&#39;</code> | <code>&#39;lg&#39;</code></td>
+<td><code>&#39;base&#39;</code></td>
+</tr>
+<tr>
+<td><code>class</code></td>
+<td><code>class</code></td>
+<td>Additional Tailwind CSS classes to merge</td>
+<td><code>string</code></td>
+<td>—</td>
+</tr>
+</tbody></table>
+<h3>Slots</h3>
+<table>
+<thead>
+<tr>
+<th>Slot</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>(default)</td>
+<td>The text content — plain text, inline HTML, or mixed content.</td>
+</tr>
+</tbody></table>
+<h3>Pass-Through Attributes</h3>
+<p>The component forwards <code>id</code>, <code>aria-*</code>, and <code>data-*</code> attributes from the host element to the inner <code>&lt;p&gt;</code> element.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-text</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;my-text&quot;</span> <span class="hljs-attr">data-analytics</span>=<span class="hljs-string">&quot;paragraph-1&quot;</span>&gt;</span>
+  Content here.
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-text</span>&gt;</span></code></pre><hr>
+<h2>Accessibility</h2>
+<p>The <code>aegov-text</code> component renders a semantic <code>&lt;p&gt;</code> element, which is natively accessible and requires no additional ARIA configuration for basic use.</p>
+<h3>Built-in Features</h3>
+<ul>
+<li><strong>Semantic <code>&lt;p&gt;</code> element</strong> — screen readers and assistive technologies recognise paragraph elements by default. No additional roles or labels are needed.</li>
+<li><strong>Pass-through <code>aria-*</code> attributes</strong> — any <code>aria-*</code> attribute placed on the host element is forwarded to the inner <code>&lt;p&gt;</code>, allowing custom labelling or descriptions when needed.</li>
+<li><strong>Consistent spacing</strong> — the default bottom margin creates predictable visual separation between content blocks, which benefits users with cognitive disabilities.</li>
+</ul>
+<h3>Developer Responsibilities</h3>
+<ol>
+<li><p><strong>Colour contrast.</strong> When using custom classes to change text colour, ensure the colour maintains at least a <strong>4.5:1</strong> contrast ratio against its background (WCAG 2.1 AA).</p>
+</li>
+<li><p><strong>Do not use for headings.</strong> The <code>aegov-text</code> component renders a <code>&lt;p&gt;</code> element. For headings, use native <code>&lt;h1&gt;</code>–<code>&lt;h6&gt;</code> elements or the <code>aegov-title</code> component to maintain proper document outline and heading hierarchy.</p>
+</li>
+<li><p><strong>Language attributes.</strong> If a paragraph is in a different language from the rest of the page, add <code>lang</code> to the host element so screen readers use the correct pronunciation.</p>
+</li>
+</ol>
+<hr>
+<h2>Notes</h2>
+<ul>
+<li>The <code>aegov-text</code> component renders a native <code>&lt;p&gt;</code> element. Do <strong>not</strong> nest it inside another <code>&lt;p&gt;</code> — this creates invalid HTML.</li>
+<li>The default classes applied to the inner <code>&lt;p&gt;</code> are <code>mb-8 mt-0</code> plus the size class (e.g. <code>text-base</code>). Custom classes are appended after these defaults.</li>
+<li>The host element uses <code>display: block</code>, which means the component will take the full width of its container by default.</li>
+<li>The <code>class</code> property merges with — not replaces — the default classes. To override a default (such as <code>mb-8</code>), pass the replacement class (e.g. <code>class=&quot;mb-0&quot;</code>).</li>
+<li>This component has no events. It is a purely presentational wrapper around a <code>&lt;p&gt;</code> element.</li>
+<li>For title-like text that requires bold weight and larger sizes, use the <code>aegov-title</code> component instead.</li>
+</ul>
 <!-- DOC:END -->
 </section>
       </article>
