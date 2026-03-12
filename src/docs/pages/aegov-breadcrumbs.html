@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Breadcrumbs | AEGOV Design System</title>
+  <script type="module" src="/build/aegov.esm.js"></script>
+  <script nomodule src="/build/aegov.js"></script>
+  <link rel="stylesheet" href="/build/aegov.css">
+  <link rel="stylesheet" href="/docs/doc-style.css">
+  <link rel="stylesheet" href="/docs/hljs.css">
+</head>
+<body class="bg-aeblack-50">
+  <header class="mx-auto max-w-7xl sm:px-6 lg:px-8 mb-8">
+    <img src="https://designsystem.gov.ae/assets/site-logo/AEGov-DesignSystem-Logo-Color.svg" alt="UAE Design System Logo" class="w-auto h-16 my-2">
+  </header>
+  <main class="mx-auto max-w-7xl sm:px-6 lg:px-8 bg-aeblack-50">
+    <section class="flex items-start align-top gap-4">
+      <nav id="primary-nav" class="w-3xs shrink-0">&nbsp;</nav>
+      <article class="col-span-5 grow">
+          <section id="content-area" class="bg-whitely-50 p-6 rounded-md shadow-xl">
+<!-- DOC:START -->
+<h1>Breadcrumbs</h1>
+<p class="text-lg text-aeblack-500 mb-8">Breadcrumbs provide a navigational trail that helps users understand their location within a website's hierarchy and navigate back to higher-level pages.</p>
+
+<h2>Introduction</h2>
+<p>The <code>aegov-breadcrumbs</code> component is a parent-child pair. The <code>&lt;aegov-breadcrumbs&gt;</code> wrapper manages layout, separator style, and text truncation, while each <code>&lt;aegov-breadcrumbs-item&gt;</code> represents a single step in the trail. Items with an <code>href</code> render as links; the last item (or any item without <code>href</code>) renders as plain text representing the current page.</p>
+<p>The component outputs semantic HTML (<code>&lt;nav&gt;</code> wrapping an <code>&lt;ol&gt;</code>) and includes full ARIA support, RTL layout handling, and optional Schema.org microdata.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-breadcrumbs</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-breadcrumbs-item</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/&quot;</span>&gt;</span>Home<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-breadcrumbs-item</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-breadcrumbs-item</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/products&quot;</span>&gt;</span>Products<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-breadcrumbs-item</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-breadcrumbs-item</span>&gt;</span>Current Page<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-breadcrumbs-item</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-breadcrumbs</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
+  <aegov-breadcrumbs>
+    <aegov-breadcrumbs-item href="/">Home</aegov-breadcrumbs-item>
+    <aegov-breadcrumbs-item href="/products">Products</aegov-breadcrumbs-item>
+    <aegov-breadcrumbs-item>Current Page</aegov-breadcrumbs-item>
+  </aegov-breadcrumbs>
+</div>
+
+<hr>
+<h2>Separator Styles</h2>
+<p>The <code>separator</code> property on the parent component controls the visual divider between breadcrumb items. Two styles are available.</p>
+<h3>Slash (default)</h3>
+<p>A forward-slash character is rendered between each item. This is the default separator.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-breadcrumbs</span> <span class="hljs-attr">separator</span>=<span class="hljs-string">&quot;slash&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-breadcrumbs-item</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/&quot;</span>&gt;</span>Home<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-breadcrumbs-item</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-breadcrumbs-item</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/services&quot;</span>&gt;</span>Services<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-breadcrumbs-item</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-breadcrumbs-item</span>&gt;</span>Digital Services<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-breadcrumbs-item</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-breadcrumbs</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
+  <aegov-breadcrumbs separator="slash">
+    <aegov-breadcrumbs-item href="/">Home</aegov-breadcrumbs-item>
+    <aegov-breadcrumbs-item href="/services">Services</aegov-breadcrumbs-item>
+    <aegov-breadcrumbs-item>Digital Services</aegov-breadcrumbs-item>
+  </aegov-breadcrumbs>
+</div>
+
+<h3>Chevron</h3>
+<p>An SVG chevron icon is rendered between each item. This style provides a stronger directional cue.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-breadcrumbs</span> <span class="hljs-attr">separator</span>=<span class="hljs-string">&quot;chevron&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-breadcrumbs-item</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/&quot;</span>&gt;</span>Home<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-breadcrumbs-item</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-breadcrumbs-item</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/services&quot;</span>&gt;</span>Services<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-breadcrumbs-item</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-breadcrumbs-item</span>&gt;</span>Digital Services<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-breadcrumbs-item</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-breadcrumbs</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
+  <aegov-breadcrumbs separator="chevron">
+    <aegov-breadcrumbs-item href="/">Home</aegov-breadcrumbs-item>
+    <aegov-breadcrumbs-item href="/services">Services</aegov-breadcrumbs-item>
+    <aegov-breadcrumbs-item>Digital Services</aegov-breadcrumbs-item>
+  </aegov-breadcrumbs>
+</div>
+
+<hr>
+<h2>Text Truncation</h2>
+<p>Set the <code>max-length</code> property on the parent to truncate long breadcrumb text with an ellipsis. This is useful when breadcrumb labels may be long page titles.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-breadcrumbs</span> <span class="hljs-attr">max-length</span>=<span class="hljs-string">&quot;15&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-breadcrumbs-item</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/&quot;</span>&gt;</span>Home<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-breadcrumbs-item</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-breadcrumbs-item</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/services&quot;</span>&gt;</span>Government Services Portal<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-breadcrumbs-item</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-breadcrumbs-item</span>&gt;</span>Telecommunication and Digital Regulatory Authority<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-breadcrumbs-item</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-breadcrumbs</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
+  <aegov-breadcrumbs max-length="15">
+    <aegov-breadcrumbs-item href="/">Home</aegov-breadcrumbs-item>
+    <aegov-breadcrumbs-item href="/services">Government Services Portal</aegov-breadcrumbs-item>
+    <aegov-breadcrumbs-item>Telecommunication and Digital Regulatory Authority</aegov-breadcrumbs-item>
+  </aegov-breadcrumbs>
+</div>
+
+<p>Without truncation for comparison:</p>
+<div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
+  <aegov-breadcrumbs>
+    <aegov-breadcrumbs-item href="/">Home</aegov-breadcrumbs-item>
+    <aegov-breadcrumbs-item href="/services">Government Services Portal</aegov-breadcrumbs-item>
+    <aegov-breadcrumbs-item>Telecommunication and Digital Regulatory Authority</aegov-breadcrumbs-item>
+  </aegov-breadcrumbs>
+</div>
+
+<hr>
+<h2>Link Targets</h2>
+<p>Each breadcrumb item supports a <code>target</code> attribute for controlling where the linked page opens. This works the same as the native HTML anchor <code>target</code> attribute.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-breadcrumbs</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-breadcrumbs-item</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/&quot;</span> <span class="hljs-attr">target</span>=<span class="hljs-string">&quot;_blank&quot;</span>&gt;</span>Home (new tab)<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-breadcrumbs-item</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-breadcrumbs-item</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/about&quot;</span>&gt;</span>About<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-breadcrumbs-item</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-breadcrumbs-item</span>&gt;</span>Contact<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-breadcrumbs-item</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-breadcrumbs</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
+  <aegov-breadcrumbs>
+    <aegov-breadcrumbs-item href="/" target="_blank">Home (new tab)</aegov-breadcrumbs-item>
+    <aegov-breadcrumbs-item href="/about">About</aegov-breadcrumbs-item>
+    <aegov-breadcrumbs-item>Contact</aegov-breadcrumbs-item>
+  </aegov-breadcrumbs>
+</div>
+
+<hr>
+<h2>Current Page</h2>
+<p>The last item in the breadcrumb trail is automatically marked as the current page. It renders as a <code>&lt;span&gt;</code> with <code>aria-current=&quot;page&quot;</code> and bold text instead of a link. You can also omit the <code>href</code> on any item to render it as plain text.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-breadcrumbs</span> <span class="hljs-attr">separator</span>=<span class="hljs-string">&quot;chevron&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-breadcrumbs-item</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/&quot;</span>&gt;</span>Home<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-breadcrumbs-item</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-breadcrumbs-item</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/docs&quot;</span>&gt;</span>Documentation<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-breadcrumbs-item</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-breadcrumbs-item</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/docs/components&quot;</span>&gt;</span>Components<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-breadcrumbs-item</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-breadcrumbs-item</span>&gt;</span>Breadcrumbs<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-breadcrumbs-item</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-breadcrumbs</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
+  <aegov-breadcrumbs separator="chevron">
+    <aegov-breadcrumbs-item href="/">Home</aegov-breadcrumbs-item>
+    <aegov-breadcrumbs-item href="/docs">Documentation</aegov-breadcrumbs-item>
+    <aegov-breadcrumbs-item href="/docs/components">Components</aegov-breadcrumbs-item>
+    <aegov-breadcrumbs-item>Breadcrumbs</aegov-breadcrumbs-item>
+  </aegov-breadcrumbs>
+</div>
+
+<hr>
+<h2>Deep Navigation</h2>
+<p>Breadcrumbs are well-suited for deep page hierarchies. The component handles any number of items.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-breadcrumbs</span> <span class="hljs-attr">separator</span>=<span class="hljs-string">&quot;chevron&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-breadcrumbs-item</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/&quot;</span>&gt;</span>Home<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-breadcrumbs-item</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-breadcrumbs-item</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/government&quot;</span>&gt;</span>Government<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-breadcrumbs-item</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-breadcrumbs-item</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/government/ministries&quot;</span>&gt;</span>Ministries<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-breadcrumbs-item</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-breadcrumbs-item</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/government/ministries/digital&quot;</span>&gt;</span>Digital Affairs<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-breadcrumbs-item</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-breadcrumbs-item</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/government/ministries/digital/services&quot;</span>&gt;</span>Services<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-breadcrumbs-item</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-breadcrumbs-item</span>&gt;</span>Service Details<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-breadcrumbs-item</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-breadcrumbs</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
+  <aegov-breadcrumbs separator="chevron">
+    <aegov-breadcrumbs-item href="/">Home</aegov-breadcrumbs-item>
+    <aegov-breadcrumbs-item href="/government">Government</aegov-breadcrumbs-item>
+    <aegov-breadcrumbs-item href="/government/ministries">Ministries</aegov-breadcrumbs-item>
+    <aegov-breadcrumbs-item href="/government/ministries/digital">Digital Affairs</aegov-breadcrumbs-item>
+    <aegov-breadcrumbs-item href="/government/ministries/digital/services">Services</aegov-breadcrumbs-item>
+    <aegov-breadcrumbs-item>Service Details</aegov-breadcrumbs-item>
+  </aegov-breadcrumbs>
+</div>
+
+<hr>
+<h2>Schema.org Microdata</h2>
+<p>Set the <code>microdata</code> attribute on the parent to add <a href="https://schema.org/BreadcrumbList">Schema.org BreadcrumbList</a> structured data. This helps search engines understand your page hierarchy and can improve how your pages appear in search results.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-breadcrumbs</span> <span class="hljs-attr">microdata</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-breadcrumbs-item</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/&quot;</span>&gt;</span>Home<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-breadcrumbs-item</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-breadcrumbs-item</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/services&quot;</span>&gt;</span>Services<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-breadcrumbs-item</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-breadcrumbs-item</span>&gt;</span>Current Page<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-breadcrumbs-item</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-breadcrumbs</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
+  <aegov-breadcrumbs microdata>
+    <aegov-breadcrumbs-item href="/">Home</aegov-breadcrumbs-item>
+    <aegov-breadcrumbs-item href="/services">Services</aegov-breadcrumbs-item>
+    <aegov-breadcrumbs-item>Current Page</aegov-breadcrumbs-item>
+  </aegov-breadcrumbs>
+</div>
+
+<p>When enabled, the component adds <code>itemscope</code>, <code>itemtype</code>, and <code>itemprop</code> attributes to produce valid BreadcrumbList markup. Each item receives its <code>position</code> automatically.</p>
+<hr>
+<h2>RTL Support</h2>
+<p>The component fully supports right-to-left layouts. When a parent element has <code>dir=&quot;rtl&quot;</code>, the chevron separator automatically flips direction and the layout mirrors.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">dir</span>=<span class="hljs-string">&quot;rtl&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-breadcrumbs</span> <span class="hljs-attr">separator</span>=<span class="hljs-string">&quot;chevron&quot;</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-breadcrumbs-item</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/&quot;</span>&gt;</span>الرئيسية<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-breadcrumbs-item</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-breadcrumbs-item</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/services&quot;</span>&gt;</span>الخدمات<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-breadcrumbs-item</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-breadcrumbs-item</span>&gt;</span>الخدمات الرقمية<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-breadcrumbs-item</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-breadcrumbs</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre><div dir="rtl" class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
+  <aegov-breadcrumbs separator="chevron">
+    <aegov-breadcrumbs-item href="/">الرئيسية</aegov-breadcrumbs-item>
+    <aegov-breadcrumbs-item href="/services">الخدمات</aegov-breadcrumbs-item>
+    <aegov-breadcrumbs-item>الخدمات الرقمية</aegov-breadcrumbs-item>
+  </aegov-breadcrumbs>
+</div>
+
+<p>Slash separator in RTL:</p>
+<div dir="rtl" class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
+  <aegov-breadcrumbs separator="slash">
+    <aegov-breadcrumbs-item href="/">الرئيسية</aegov-breadcrumbs-item>
+    <aegov-breadcrumbs-item href="/services">الخدمات</aegov-breadcrumbs-item>
+    <aegov-breadcrumbs-item>الخدمات الرقمية</aegov-breadcrumbs-item>
+  </aegov-breadcrumbs>
+</div>
+
+<p>No additional configuration is needed — the component reads the inherited <code>dir</code> attribute and adjusts automatically.</p>
+<hr>
+<h2>Listening to Events</h2>
+<p>Each breadcrumb item emits an <code>aegovBreadcrumbItemClick</code> event when clicked. The event detail includes the <code>href</code> and the original <code>MouseEvent</code>. You can use <code>event.preventDefault()</code> on the custom event to stop default navigation and implement custom routing.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-breadcrumbs</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;nav-breadcrumbs&quot;</span> <span class="hljs-attr">separator</span>=<span class="hljs-string">&quot;chevron&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-breadcrumbs-item</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/&quot;</span>&gt;</span>Home<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-breadcrumbs-item</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-breadcrumbs-item</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/products&quot;</span>&gt;</span>Products<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-breadcrumbs-item</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-breadcrumbs-item</span>&gt;</span>Details<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-breadcrumbs-item</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-breadcrumbs</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript">
+  <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;nav-breadcrumbs&#x27;</span>)
+    .<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;aegovBreadcrumbItemClick&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">e</span>) =&gt;</span> {
+      <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;Breadcrumb clicked:&#x27;</span>, e.<span class="hljs-property">detail</span>.<span class="hljs-property">href</span>);
+      <span class="hljs-comment">// Call e.preventDefault() to stop navigation</span>
+    });
+</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre><hr>
+<h2>API Reference</h2>
+<h3><code>aegov-breadcrumbs</code> Properties</h3>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Attribute</th>
+<th>Description</th>
+<th>Type</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>separator</code></td>
+<td><code>separator</code></td>
+<td>The separator style between items</td>
+<td><code>&#39;slash&#39;</code> | <code>&#39;chevron&#39;</code></td>
+<td><code>&#39;slash&#39;</code></td>
+</tr>
+<tr>
+<td><code>maxLength</code></td>
+<td><code>max-length</code></td>
+<td>Maximum characters before truncating item text</td>
+<td><code>number</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>microdata</code></td>
+<td><code>microdata</code></td>
+<td>Adds Schema.org BreadcrumbList structured data</td>
+<td><code>boolean</code></td>
+<td><code>false</code></td>
+</tr>
+</tbody></table>
+<h3><code>aegov-breadcrumbs-item</code> Properties</h3>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Attribute</th>
+<th>Description</th>
+<th>Type</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>href</code></td>
+<td><code>href</code></td>
+<td>The URL the item links to. If omitted, renders as plain text.</td>
+<td><code>string</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>target</code></td>
+<td><code>target</code></td>
+<td>Where to open the linked document</td>
+<td><code>&#39;_self&#39;</code> | <code>&#39;_blank&#39;</code> | <code>&#39;_parent&#39;</code> | <code>&#39;_top&#39;</code></td>
+<td><code>&#39;_self&#39;</code></td>
+</tr>
+</tbody></table>
+<blockquote>
+<p><strong>Note:</strong> The <code>isLast</code>, <code>separator</code>, <code>maxLength</code>, <code>microdata</code>, and <code>position</code> properties on <code>aegov-breadcrumbs-item</code> are managed internally by the parent component. Do not set them manually.</p>
+</blockquote>
+<h3>Events</h3>
+<table>
+<thead>
+<tr>
+<th>Event</th>
+<th>Description</th>
+<th>Detail Type</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>aegovBreadcrumbItemClick</code></td>
+<td>Emitted when a breadcrumb item is clicked</td>
+<td><code>{ href?: string; event: MouseEvent }</code></td>
+</tr>
+</tbody></table>
+<h3>Slots</h3>
+<p><strong><code>aegov-breadcrumbs</code></strong></p>
+<table>
+<thead>
+<tr>
+<th>Slot</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>(default)</td>
+<td>One or more <code>&lt;aegov-breadcrumbs-item&gt;</code> elements.</td>
+</tr>
+</tbody></table>
+<p><strong><code>aegov-breadcrumbs-item</code></strong></p>
+<table>
+<thead>
+<tr>
+<th>Slot</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>(default)</td>
+<td>The text label or HTML content for the breadcrumb item.</td>
+</tr>
+</tbody></table>
+<hr>
+<h2>Accessibility</h2>
+<p>The <code>aegov-breadcrumbs</code> component follows the <a href="https://www.w3.org/WAI/ARIA/apg/patterns/breadcrumb/">WAI-ARIA Breadcrumb pattern</a> and is built with accessibility as a first-class concern.</p>
+<h3>Built-in Features</h3>
+<ul>
+<li><strong><code>&lt;nav&gt;</code> landmark</strong> — the breadcrumb trail is wrapped in a <code>&lt;nav&gt;</code> element with <code>aria-label=&quot;Breadcrumb&quot;</code>, making it discoverable by screen readers as a navigation landmark.</li>
+<li><strong>Ordered list</strong> — items are rendered inside an <code>&lt;ol&gt;</code> (ordered list), conveying the sequential nature of the trail to assistive technologies.</li>
+<li><strong><code>aria-current=&quot;page&quot;</code></strong> — automatically set on the last item when it has no <code>href</code>, informing screen readers that it represents the current page.</li>
+<li><strong>Decorative separators</strong> — separator icons and characters are marked <code>aria-hidden=&quot;true&quot;</code> so they are not announced by screen readers.</li>
+<li><strong>Keyboard navigation</strong> — link items are native <code>&lt;a&gt;</code> elements, so they are keyboard-focusable and support Enter to activate.</li>
+</ul>
+<h3>Developer Responsibilities</h3>
+<ol>
+<li><p><strong>Provide meaningful labels.</strong> Each breadcrumb item should have clear, concise text that describes the linked page.</p>
+</li>
+<li><p><strong>Place breadcrumbs consistently.</strong> Breadcrumbs should appear near the top of the page content, in the same position on every page, so users know where to find them.</p>
+</li>
+<li><p><strong>Do not use breadcrumbs as the only navigation.</strong> Breadcrumbs are a secondary navigation aid. Always provide a primary navigation mechanism such as a sidebar or top menu.</p>
+</li>
+</ol>
+<hr>
+<h2>Notes</h2>
+<ul>
+<li>The <code>aegov-breadcrumbs-item</code> component <strong>must</strong> be used inside <code>&lt;aegov-breadcrumbs&gt;</code>. Using it standalone will throw an error.</li>
+<li>The parent component sets <code>separator</code>, <code>maxLength</code>, <code>microdata</code>, <code>position</code>, and <code>isLast</code> on all child items automatically during lifecycle hooks. You do not need to set these props on individual items.</li>
+<li>Text truncation via <code>max-length</code> applies a Unicode ellipsis character at the cut point. It only affects text content — if the item contains HTML children (such as SVG icons), truncation is skipped and content is rendered via the slot.</li>
+<li>The last separator is never rendered, regardless of separator style.</li>
+<li>In RTL mode, the chevron separator is flipped horizontally using <code>transform: scaleX(-1)</code>. The slash separator is directionally neutral and does not change.</li>
+<li>Link items inherit styling from the design system&#39;s link colour palette (primary-600, hover: primary-500, visited: primary-700).</li>
+<li>The current page item is rendered with <code>font-semibold</code> and <code>aeblack-800</code> colour for visual distinction from the linked items.</li>
+</ul>
+<!-- DOC:END -->
+</section>
+      </article>
+    </section>
+  </main>
+  <footer class="mx-auto max-w-7xl sm:px-6 lg:px-8 mt-8 py-6 text-sm text-aeblack-500">
+    &copy; 2026 Telecommunication and Digital Regulatory Authority. All rights reserved.
+  </footer>
+
+<script src="/docs/layout.js"></script>
+</body>
+</html>

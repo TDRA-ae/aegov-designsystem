@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Avatar | AEGOV Design System</title>
+  <script type="module" src="/build/aegov.esm.js"></script>
+  <script nomodule src="/build/aegov.js"></script>
+  <link rel="stylesheet" href="/build/aegov.css">
+  <link rel="stylesheet" href="/docs/doc-style.css">
+  <link rel="stylesheet" href="/docs/hljs.css">
+</head>
+<body class="bg-aeblack-50">
+  <header class="mx-auto max-w-7xl sm:px-6 lg:px-8 mb-8">
+    <img src="https://designsystem.gov.ae/assets/site-logo/AEGov-DesignSystem-Logo-Color.svg" alt="UAE Design System Logo" class="w-auto h-16 my-2">
+  </header>
+  <main class="mx-auto max-w-7xl sm:px-6 lg:px-8 bg-aeblack-50">
+    <section class="flex items-start align-top gap-4">
+      <nav id="primary-nav" class="w-3xs shrink-0">&nbsp;</nav>
+      <article class="col-span-5 grow">
+          <section id="content-area" class="bg-whitely-50 p-6 rounded-md shadow-xl">
+<!-- DOC:START -->
+<h1>Avatar</h1>
+<p class="text-lg text-aeblack-500 mb-8">An avatar is a visual representation of a user or entity. It displays a profile image, initials, or a default placeholder icon within a consistently sized container.</p>
+
+<h2>Introduction</h2>
+<p>The <code>aegov-avatar</code> component renders a compact visual identifier for a user. It supports <strong>7 sizes</strong>, <strong>2 shape variants</strong>, <strong>online/offline status indicators</strong>, image sources with automatic fallback, and custom slot content for initials or icons.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar</span>&gt;</span></code></pre><div class="flex flex-wrap items-center gap-4 p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
+  <aegov-avatar></aegov-avatar>
+</div>
+
+<p>When no <code>src</code> is provided, a default user silhouette icon is displayed.</p>
+<hr>
+<h2>Sizes</h2>
+<p>The <code>size</code> property controls the dimensions of the avatar. Seven sizes are available, ranging from extra small to triple extra large.</p>
+<table>
+<thead>
+<tr>
+<th>Size</th>
+<th>Dimensions</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>xs</code></td>
+<td>24 × 24px</td>
+</tr>
+<tr>
+<td><code>sm</code></td>
+<td>32 × 32px</td>
+</tr>
+<tr>
+<td><code>base</code></td>
+<td>40 × 40px</td>
+</tr>
+<tr>
+<td><code>lg</code></td>
+<td>48 × 48px</td>
+</tr>
+<tr>
+<td><code>xl</code></td>
+<td>56 × 56px</td>
+</tr>
+<tr>
+<td><code>2xl</code></td>
+<td>64 × 64px</td>
+</tr>
+<tr>
+<td><code>3xl</code></td>
+<td>80 × 80px</td>
+</tr>
+</tbody></table>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;xs&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;base&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;lg&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;xl&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;2xl&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;3xl&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar</span>&gt;</span></code></pre><div class="flex flex-wrap items-end gap-4 p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
+  <aegov-avatar size="xs"></aegov-avatar>
+  <aegov-avatar size="sm"></aegov-avatar>
+  <aegov-avatar size="base"></aegov-avatar>
+  <aegov-avatar size="lg"></aegov-avatar>
+  <aegov-avatar size="xl"></aegov-avatar>
+  <aegov-avatar size="2xl"></aegov-avatar>
+  <aegov-avatar size="3xl"></aegov-avatar>
+</div>
+
+<hr>
+<h2>Variants</h2>
+<p>The <code>variant</code> property controls the shape of the avatar. Two variants are available.</p>
+<h3>Square (default)</h3>
+<p>A square avatar with slightly rounded corners. Larger sizes (<code>lg</code> and above) use progressively larger border radii.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;square&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar</span>&gt;</span></code></pre><div class="flex flex-wrap items-end gap-4 p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
+  <aegov-avatar variant="square" size="xs"></aegov-avatar>
+  <aegov-avatar variant="square" size="sm"></aegov-avatar>
+  <aegov-avatar variant="square" size="base"></aegov-avatar>
+  <aegov-avatar variant="square" size="lg"></aegov-avatar>
+  <aegov-avatar variant="square" size="xl"></aegov-avatar>
+  <aegov-avatar variant="square" size="2xl"></aegov-avatar>
+  <aegov-avatar variant="square" size="3xl"></aegov-avatar>
+</div>
+
+<h3>Rounded</h3>
+<p>A fully circular avatar, ideal for user profile pictures.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;rounded&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar</span>&gt;</span></code></pre><div class="flex flex-wrap items-end gap-4 p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
+  <aegov-avatar variant="rounded" size="xs"></aegov-avatar>
+  <aegov-avatar variant="rounded" size="sm"></aegov-avatar>
+  <aegov-avatar variant="rounded" size="base"></aegov-avatar>
+  <aegov-avatar variant="rounded" size="lg"></aegov-avatar>
+  <aegov-avatar variant="rounded" size="xl"></aegov-avatar>
+  <aegov-avatar variant="rounded" size="2xl"></aegov-avatar>
+  <aegov-avatar variant="rounded" size="3xl"></aegov-avatar>
+</div>
+
+<hr>
+<h2>Image Source</h2>
+<p>Set the <code>src</code> property to display a user&#39;s profile picture. The image is rendered with <code>object-cover</code> to fill the container without distortion. Always provide an <code>alt</code> attribute for accessibility.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://i.pravatar.cc/150?img=1&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;Ahmed&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://i.pravatar.cc/150?img=5&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;Sara&quot;</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;rounded&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar</span>&gt;</span></code></pre><div class="flex flex-wrap items-center gap-4 p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
+  <aegov-avatar src="https://i.pravatar.cc/150?img=1" alt="Ahmed" size="lg"></aegov-avatar>
+  <aegov-avatar src="https://i.pravatar.cc/150?img=5" alt="Sara" size="lg" variant="rounded"></aegov-avatar>
+  <aegov-avatar src="https://i.pravatar.cc/150?img=12" alt="Khalid" size="lg"></aegov-avatar>
+  <aegov-avatar src="https://i.pravatar.cc/150?img=32" alt="Fatima" size="lg" variant="rounded"></aegov-avatar>
+</div>
+
+<h3>Image Fallback</h3>
+<p>If the image fails to load (broken URL, network error), the component automatically falls back to the default placeholder icon or any content provided via the slot.</p>
+<pre><code class="hljs language-html"><span class="hljs-comment">&lt;!-- Broken URL — fallback icon will appear --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://invalid-url.example/photo.jpg&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;User&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar</span>&gt;</span></code></pre><div class="flex flex-wrap items-center gap-4 p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
+  <aegov-avatar src="https://invalid-url.example/photo.jpg" alt="User" size="lg"></aegov-avatar>
+  <aegov-avatar src="https://invalid-url.example/photo.jpg" alt="User" size="lg" variant="rounded"></aegov-avatar>
+</div>
+
+<hr>
+<h2>Custom Slot Content</h2>
+<p>When no <code>src</code> is provided, the default slot is used for fallback content. This is useful for displaying initials, custom icons, or other visual identifiers.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">style</span>=<span class="hljs-string">&quot;font-weight: 600; font-size: 14px; color: #555;&quot;</span>&gt;</span>AK<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar</span>&gt;</span></code></pre><div class="flex flex-wrap items-center gap-4 p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
+  <aegov-avatar size="base">
+    <span style="font-weight: 600; font-size: 12px; color: #555;">AK</span>
+  </aegov-avatar>
+  <aegov-avatar size="lg" variant="rounded">
+    <span style="font-weight: 600; font-size: 14px; color: #555;">SM</span>
+  </aegov-avatar>
+  <aegov-avatar size="xl">
+    <span style="font-weight: 600; font-size: 16px; color: #555;">FA</span>
+  </aegov-avatar>
+  <aegov-avatar size="2xl" variant="rounded">
+    <span style="font-weight: 600; font-size: 18px; color: #555;">KH</span>
+  </aegov-avatar>
+</div>
+
+<hr>
+<h2>Status Indicator</h2>
+<p>The <code>status</code> property adds a small coloured dot to the avatar indicating online or offline state. The indicator is positioned at the top-right corner.</p>
+<table>
+<thead>
+<tr>
+<th>Status</th>
+<th>Colour</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>online</code></td>
+<td>Green</td>
+<td>User is active</td>
+</tr>
+<tr>
+<td><code>offline</code></td>
+<td>Red</td>
+<td>User is away</td>
+</tr>
+<tr>
+<td><code>none</code></td>
+<td>—</td>
+<td>No indicator</td>
+</tr>
+</tbody></table>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar</span> <span class="hljs-attr">status</span>=<span class="hljs-string">&quot;online&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar</span> <span class="hljs-attr">status</span>=<span class="hljs-string">&quot;offline&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar</span>&gt;</span></code></pre><div class="flex flex-wrap items-center gap-6 p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
+  <aegov-avatar status="online" size="lg"></aegov-avatar>
+  <aegov-avatar status="offline" size="lg"></aegov-avatar>
+  <aegov-avatar status="online" size="lg" variant="rounded"></aegov-avatar>
+  <aegov-avatar status="offline" size="lg" variant="rounded"></aegov-avatar>
+</div>
+
+<p>Status indicators with images:</p>
+<div class="flex flex-wrap items-center gap-6 p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
+  <aegov-avatar src="https://i.pravatar.cc/150?img=3" alt="Online user" status="online" size="lg"></aegov-avatar>
+  <aegov-avatar src="https://i.pravatar.cc/150?img=8" alt="Offline user" status="offline" size="lg"></aegov-avatar>
+  <aegov-avatar src="https://i.pravatar.cc/150?img=11" alt="Online user" status="online" size="lg" variant="rounded"></aegov-avatar>
+  <aegov-avatar src="https://i.pravatar.cc/150?img=20" alt="Offline user" status="offline" size="lg" variant="rounded"></aegov-avatar>
+</div>
+
+<blockquote>
+<p><strong>Tip:</strong> The <code>status</code> property also accepts a boolean — <code>true</code> maps to <code>&quot;online&quot;</code> and <code>false</code> or omission maps to <code>&quot;none&quot;</code>.</p>
+</blockquote>
+<hr>
+<h2>Size × Variant Matrix</h2>
+<p>The table below shows every combination of size and variant for visual reference.</p>
+<div class="overflow-x-auto my-6">
+<table class="w-full text-sm border-collapse">
+  <thead>
+    <tr class="bg-aeblack-50">
+      <th class="text-left p-3 border border-aeblack-100 font-semibold">Size</th>
+      <th class="p-3 border border-aeblack-100 font-semibold">Square</th>
+      <th class="p-3 border border-aeblack-100 font-semibold">Rounded</th>
+      <th class="p-3 border border-aeblack-100 font-semibold">Square (image)</th>
+      <th class="p-3 border border-aeblack-100 font-semibold">Rounded (image)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td class="p-3 border border-aeblack-100 font-medium">xs</td>
+      <td class="p-3 border border-aeblack-100 text-center not-aegov"><aegov-avatar size="xs"></aegov-avatar></td>
+      <td class="p-3 border border-aeblack-100 text-center not-aegov"><aegov-avatar size="xs" variant="rounded"></aegov-avatar></td>
+      <td class="p-3 border border-aeblack-100 text-center not-aegov"><aegov-avatar size="xs" src="https://i.pravatar.cc/150?img=1" alt="User"></aegov-avatar></td>
+      <td class="p-3 border border-aeblack-100 text-center not-aegov"><aegov-avatar size="xs" variant="rounded" src="https://i.pravatar.cc/150?img=1" alt="User"></aegov-avatar></td>
+    </tr>
+    <tr>
+      <td class="p-3 border border-aeblack-100 font-medium">sm</td>
+      <td class="p-3 border border-aeblack-100 text-center not-aegov"><aegov-avatar size="sm"></aegov-avatar></td>
+      <td class="p-3 border border-aeblack-100 text-center not-aegov"><aegov-avatar size="sm" variant="rounded"></aegov-avatar></td>
+      <td class="p-3 border border-aeblack-100 text-center not-aegov"><aegov-avatar size="sm" src="https://i.pravatar.cc/150?img=5" alt="User"></aegov-avatar></td>
+      <td class="p-3 border border-aeblack-100 text-center not-aegov"><aegov-avatar size="sm" variant="rounded" src="https://i.pravatar.cc/150?img=5" alt="User"></aegov-avatar></td>
+    </tr>
+    <tr>
+      <td class="p-3 border border-aeblack-100 font-medium">base</td>
+      <td class="p-3 border border-aeblack-100 text-center not-aegov"><aegov-avatar size="base"></aegov-avatar></td>
+      <td class="p-3 border border-aeblack-100 text-center not-aegov"><aegov-avatar size="base" variant="rounded"></aegov-avatar></td>
+      <td class="p-3 border border-aeblack-100 text-center not-aegov"><aegov-avatar size="base" src="https://i.pravatar.cc/150?img=12" alt="User"></aegov-avatar></td>
+      <td class="p-3 border border-aeblack-100 text-center not-aegov"><aegov-avatar size="base" variant="rounded" src="https://i.pravatar.cc/150?img=12" alt="User"></aegov-avatar></td>
+    </tr>
+    <tr>
+      <td class="p-3 border border-aeblack-100 font-medium">lg</td>
+      <td class="p-3 border border-aeblack-100 text-center not-aegov"><aegov-avatar size="lg"></aegov-avatar></td>
+      <td class="p-3 border border-aeblack-100 text-center not-aegov"><aegov-avatar size="lg" variant="rounded"></aegov-avatar></td>
+      <td class="p-3 border border-aeblack-100 text-center not-aegov"><aegov-avatar size="lg" src="https://i.pravatar.cc/150?img=32" alt="User"></aegov-avatar></td>
+      <td class="p-3 border border-aeblack-100 text-center not-aegov"><aegov-avatar size="lg" variant="rounded" src="https://i.pravatar.cc/150?img=32" alt="User"></aegov-avatar></td>
+    </tr>
+    <tr>
+      <td class="p-3 border border-aeblack-100 font-medium">xl</td>
+      <td class="p-3 border border-aeblack-100 text-center not-aegov"><aegov-avatar size="xl"></aegov-avatar></td>
+      <td class="p-3 border border-aeblack-100 text-center not-aegov"><aegov-avatar size="xl" variant="rounded"></aegov-avatar></td>
+      <td class="p-3 border border-aeblack-100 text-center not-aegov"><aegov-avatar size="xl" src="https://i.pravatar.cc/150?img=44" alt="User"></aegov-avatar></td>
+      <td class="p-3 border border-aeblack-100 text-center not-aegov"><aegov-avatar size="xl" variant="rounded" src="https://i.pravatar.cc/150?img=44" alt="User"></aegov-avatar></td>
+    </tr>
+    <tr>
+      <td class="p-3 border border-aeblack-100 font-medium">2xl</td>
+      <td class="p-3 border border-aeblack-100 text-center not-aegov"><aegov-avatar size="2xl"></aegov-avatar></td>
+      <td class="p-3 border border-aeblack-100 text-center not-aegov"><aegov-avatar size="2xl" variant="rounded"></aegov-avatar></td>
+      <td class="p-3 border border-aeblack-100 text-center not-aegov"><aegov-avatar size="2xl" src="https://i.pravatar.cc/150?img=49" alt="User"></aegov-avatar></td>
+      <td class="p-3 border border-aeblack-100 text-center not-aegov"><aegov-avatar size="2xl" variant="rounded" src="https://i.pravatar.cc/150?img=49" alt="User"></aegov-avatar></td>
+    </tr>
+    <tr>
+      <td class="p-3 border border-aeblack-100 font-medium">3xl</td>
+      <td class="p-3 border border-aeblack-100 text-center not-aegov"><aegov-avatar size="3xl"></aegov-avatar></td>
+      <td class="p-3 border border-aeblack-100 text-center not-aegov"><aegov-avatar size="3xl" variant="rounded"></aegov-avatar></td>
+      <td class="p-3 border border-aeblack-100 text-center not-aegov"><aegov-avatar size="3xl" src="https://i.pravatar.cc/150?img=56" alt="User"></aegov-avatar></td>
+      <td class="p-3 border border-aeblack-100 text-center not-aegov"><aegov-avatar size="3xl" variant="rounded" src="https://i.pravatar.cc/150?img=56" alt="User"></aegov-avatar></td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<hr>
+<h2>API Reference</h2>
+<h3>Properties</h3>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Attribute</th>
+<th>Description</th>
+<th>Type</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>size</code></td>
+<td><code>size</code></td>
+<td>The avatar dimensions</td>
+<td><code>&#39;xs&#39;</code> | <code>&#39;sm&#39;</code> | <code>&#39;base&#39;</code> | <code>&#39;lg&#39;</code> | <code>&#39;xl&#39;</code> | <code>&#39;2xl&#39;</code> | <code>&#39;3xl&#39;</code></td>
+<td><code>&#39;base&#39;</code></td>
+</tr>
+<tr>
+<td><code>variant</code></td>
+<td><code>variant</code></td>
+<td>The avatar shape</td>
+<td><code>&#39;square&#39;</code> | <code>&#39;rounded&#39;</code></td>
+<td><code>&#39;square&#39;</code></td>
+</tr>
+<tr>
+<td><code>src</code></td>
+<td><code>src</code></td>
+<td>Image source URL</td>
+<td><code>string</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>alt</code></td>
+<td><code>alt</code></td>
+<td>Alternative text for the image</td>
+<td><code>string</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>status</code></td>
+<td><code>status</code></td>
+<td>Status indicator (<code>online</code>, <code>offline</code>, <code>none</code>, or boolean)</td>
+<td><code>&#39;online&#39;</code> | <code>&#39;offline&#39;</code> | <code>&#39;none&#39;</code> | <code>boolean</code></td>
+<td><code>&#39;none&#39;</code></td>
+</tr>
+</tbody></table>
+<h3>Slots</h3>
+<table>
+<thead>
+<tr>
+<th>Slot</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>(default)</td>
+<td>Fallback content shown when no <code>src</code> is provided (e.g. initials, custom icons).</td>
+</tr>
+</tbody></table>
+<h3>Shadow Parts</h3>
+<table>
+<thead>
+<tr>
+<th>Part</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>avatar</code></td>
+<td>The outer avatar container element.</td>
+</tr>
+<tr>
+<td><code>image</code></td>
+<td>The <code>&lt;img&gt;</code> element (when <code>src</code> is set).</td>
+</tr>
+<tr>
+<td><code>status</code></td>
+<td>The status indicator dot.</td>
+</tr>
+</tbody></table>
+<pre><code class="hljs language-css"><span class="hljs-comment">/* Example: add a custom border to all avatars */</span>
+aegov-avatar<span class="hljs-selector-pseudo">::part</span>(avatar) {
+  <span class="hljs-attribute">border</span>: <span class="hljs-number">2px</span> solid gold;
+}</code></pre><hr>
+<h2>Accessibility</h2>
+<p>The <code>aegov-avatar</code> component is built with accessibility in mind.</p>
+<h3>Built-in Features</h3>
+<ul>
+<li><strong><code>role=&quot;img&quot;</code></strong> — the avatar container is marked as an image for assistive technologies.</li>
+<li><strong><code>aria-label</code></strong> — automatically set to the <code>alt</code> prop value, or &quot;User avatar&quot; when no <code>alt</code> is provided.</li>
+<li><strong>Status <code>aria-label</code></strong> — the status indicator includes an <code>aria-label</code> describing the current status (e.g. &quot;Status: online&quot;).</li>
+<li><strong>Image fallback</strong> — if the image fails to load, the component gracefully falls back to slot content or a default icon without breaking the layout.</li>
+</ul>
+<h3>Developer Responsibilities</h3>
+<ol>
+<li><p><strong>Always provide <code>alt</code> text.</strong> When displaying a user&#39;s image, set the <code>alt</code> prop to their name or a meaningful description so screen readers can announce who the avatar represents.</p>
+</li>
+<li><p><strong>Initials should have labels.</strong> If using the slot for initials, consider adding an <code>aria-label</code> on the host element since two-letter abbreviations are not always meaningful to screen readers.</p>
+</li>
+<li><p><strong>Colour contrast for status.</strong> The green (online) and red (offline) indicators meet WCAG 2.1 AA contrast against a white background. If you change the surrounding background, verify contrast is maintained.</p>
+</li>
+</ol>
+<hr>
+<h2>Notes</h2>
+<ul>
+<li>The default shape is <code>square</code> with <code>rounded</code> corners (not sharp). The rounding increases for larger sizes — <code>lg</code> and above use <code>rounded-md</code> or <code>rounded-lg</code>.</li>
+<li>The <code>status</code> property accepts both string and boolean values. <code>true</code> maps to <code>&quot;online&quot;</code>, <code>false</code> or omission maps to <code>&quot;none&quot;</code>.</li>
+<li>When <code>src</code> is set but the image fails to load, the component sets an internal <code>imageError</code> state and falls back to slot content or the default user icon.</li>
+<li>The avatar uses <code>object-cover</code> on images, so non-square profile pictures are cropped to fill the container without distortion.</li>
+<li>The host element uses <code>display: inline-block</code>, so avatars can be placed inline with text or inside flex containers.</li>
+<li>For grouping multiple avatars with overlap or &quot;+N more&quot; indicators, use the companion <a href="/docs/pages/aegov-avatar-group.html"><code>aegov-avatar-group</code></a> component.</li>
+</ul>
+<!-- DOC:END -->
+</section>
+      </article>
+    </section>
+  </main>
+  <footer class="mx-auto max-w-7xl sm:px-6 lg:px-8 mt-8 py-6 text-sm text-aeblack-500">
+    &copy; 2026 Telecommunication and Digital Regulatory Authority. All rights reserved.
+  </footer>
+
+<script src="/docs/layout.js"></script>
+</body>
+</html>
