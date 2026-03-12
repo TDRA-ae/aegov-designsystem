@@ -10,9 +10,9 @@ The `aegov-dropdown` component provides a flexible, accessible dropdown panel th
 <aegov-dropdown>
   <aegov-button>Open Menu</aegov-button>
   <div slot="dropdown-content">
-    <button>Profile</button>
-    <button>Settings</button>
-    <button>Logout</button>
+    <a href="#">Profile</a>
+    <a href="#">Settings</a>
+    <a href="#">Logout</a>
   </div>
 </aegov-dropdown>
 ```
@@ -21,9 +21,9 @@ The `aegov-dropdown` component provides a flexible, accessible dropdown panel th
   <aegov-dropdown>
     <aegov-button>Open Menu</aegov-button>
     <div slot="dropdown-content">
-      <button>Profile</button>
-      <button>Settings</button>
-      <button>Logout</button>
+      <a href="#">Profile</a>
+      <a href="#">Settings</a>
+      <a href="#">Logout</a>
     </div>
   </aegov-dropdown>
 </div>
@@ -426,6 +426,79 @@ Dropdowns can be nested inside the `dropdown-content` slot of a parent dropdown.
       </aegov-dropdown>
       <a href="#" class="block px-3 py-2 text-sm text-aeblack-700 rounded hover:bg-aeblack-100 no-underline">About</a>
       <a href="#" class="block px-3 py-2 text-sm text-aeblack-700 rounded hover:bg-aeblack-100 no-underline">Contact</a>
+    </div>
+  </aegov-dropdown>
+</div>
+
+---
+
+## Custom Dropdown Content
+
+The `dropdown-content` slot accepts any HTML structure, not just simple link lists. You can build rich, multi-section panels with headers, descriptions, icons, and grid layouts. Set an inline `style="width: ..."` on the slotted container to override the default minimum width.
+
+```html
+<aegov-dropdown>
+  <aegov-button>Services</aegov-button>
+  <div slot="dropdown-content" style="width: 36rem;">
+    <div class="p-2">
+      <p class="px-3 py-1 text-xs font-semibold uppercase tracking-wider">Platform</p>
+      <div class="grid grid-cols-2 gap-1">
+        <a href="#" class="p-3 rounded-lg hover:bg-aeblack-50 no-underline">
+          <p class="font-semibold text-sm text-aeblack-800">Analytics</p>
+          <p class="text-xs text-aeblack-500 mt-0.5">Track performance and insights</p>
+        </a>
+        <a href="#" class="p-3 rounded-lg hover:bg-aeblack-50 no-underline">
+          <p class="font-semibold text-sm text-aeblack-800">Automation</p>
+          <p class="text-xs text-aeblack-500 mt-0.5">Workflows and scheduled tasks</p>
+        </a>
+        <!-- more items… -->
+      </div>
+      <aegov-separator variant="subtle" text="OR"></aegov-separator>
+      <p class="px-3 py-1 text-xs font-semibold uppercase tracking-wider">Resources</p>
+      <a href="#" class="p-3 rounded-lg hover:bg-aeblack-50 no-underline">
+        <p class="font-semibold text-sm text-aeblack-800">Documentation</p>
+        <p class="text-xs text-aeblack-500 mt-0.5">Guides, references, and tutorials</p>
+      </a>
+    </div>
+  </div>
+</aegov-dropdown>
+```
+
+<div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
+  <aegov-dropdown>
+    <aegov-button>Services</aegov-button>
+    <div slot="dropdown-content" style="width: 36rem;">
+      <div class="p-2">
+        <p class="px-3 py-1 text-xs font-semibold text-aeblack-400 uppercase tracking-wider mt-0 mb-0">Platform</p>
+        <div class="grid grid-cols-2 gap-1">
+          <a href="#" class="p-3 rounded-lg hover:bg-aeblack-50 no-underline">
+            <p class="font-semibold text-sm text-aeblack-800 mt-0 mb-0">Analytics</p>
+            <p class="text-xs text-aeblack-500 mt-0.5 mb-0">Track performance and insights</p>
+          </a>
+          <a href="#" class="p-3 rounded-lg hover:bg-aeblack-50 no-underline">
+            <p class="font-semibold text-sm text-aeblack-800 mt-0 mb-0">Automation</p>
+            <p class="text-xs text-aeblack-500 mt-0.5 mb-0">Workflows and scheduled tasks</p>
+          </a>
+          <a href="#" class="p-3 rounded-lg hover:bg-aeblack-50 no-underline">
+            <p class="font-semibold text-sm text-aeblack-800 mt-0 mb-0">Integrations</p>
+            <p class="text-xs text-aeblack-500 mt-0.5 mb-0">Connect third-party services</p>
+          </a>
+          <a href="#" class="p-3 rounded-lg hover:bg-aeblack-50 no-underline">
+            <p class="font-semibold text-sm text-aeblack-800 mt-0 mb-0">Security</p>
+            <p class="text-xs text-aeblack-500 mt-0.5 mb-0">Permissions, audit logs, and SSO</p>
+          </a>
+        </div>
+        <aegov-separator variant="subtle" text="OR"></aegov-separator>
+        <p class="px-3 py-1 text-xs font-semibold text-aeblack-400 uppercase tracking-wider mt-0 mb-0">Resources</p>
+        <a href="#" class="p-3 rounded-lg hover:bg-aeblack-50 no-underline">
+          <p class="font-semibold text-sm text-aeblack-800 mt-0 mb-0">Documentation</p>
+          <p class="text-xs text-aeblack-500 mt-0.5 mb-0">Guides, references, and tutorials</p>
+        </a>
+        <a href="#" class="p-3 rounded-lg hover:bg-aeblack-50 no-underline">
+          <p class="font-semibold text-sm text-aeblack-800 mt-0 mb-0">API Reference</p>
+          <p class="text-xs text-aeblack-500 mt-0.5 mb-0">Endpoints, authentication, and SDKs</p>
+        </a>
+      </div>
     </div>
   </aegov-dropdown>
 </div>

@@ -28,17 +28,17 @@
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-dropdown</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span>&gt;</span>Open Menu<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;dropdown-content&quot;</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">button</span>&gt;</span>Profile<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">button</span>&gt;</span>Settings<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">button</span>&gt;</span>Logout<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;#&quot;</span>&gt;</span>Profile<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;#&quot;</span>&gt;</span>Settings<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;#&quot;</span>&gt;</span>Logout<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>
   <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-dropdown</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
   <aegov-dropdown>
     <aegov-button>Open Menu</aegov-button>
     <div slot="dropdown-content">
-      <button>Profile</button>
-      <button>Settings</button>
-      <button>Logout</button>
+      <a href="#">Profile</a>
+      <a href="#">Settings</a>
+      <a href="#">Logout</a>
     </div>
   </aegov-dropdown>
 </div>
@@ -387,6 +387,72 @@
       </aegov-dropdown>
       <a href="#" class="block px-3 py-2 text-sm text-aeblack-700 rounded hover:bg-aeblack-100 no-underline">About</a>
       <a href="#" class="block px-3 py-2 text-sm text-aeblack-700 rounded hover:bg-aeblack-100 no-underline">Contact</a>
+    </div>
+  </aegov-dropdown>
+</div>
+
+<hr>
+<h2>Custom Dropdown Content</h2>
+<p>The <code>dropdown-content</code> slot accepts any HTML structure, not just simple link lists. You can build rich, multi-section panels with headers, descriptions, icons, and grid layouts. Set an inline <code>style=&quot;width: ...&quot;</code> on the slotted container to override the default minimum width.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-dropdown</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span>&gt;</span>Services<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;dropdown-content&quot;</span> <span class="hljs-attr">style</span>=<span class="hljs-string">&quot;width: 36rem;&quot;</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;p-2&quot;</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">p</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;px-3 py-1 text-xs font-semibold uppercase tracking-wider&quot;</span>&gt;</span>Platform<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;grid grid-cols-2 gap-1&quot;</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;#&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;p-3 rounded-lg hover:bg-aeblack-50 no-underline&quot;</span>&gt;</span>
+          <span class="hljs-tag">&lt;<span class="hljs-name">p</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;font-semibold text-sm text-aeblack-800&quot;</span>&gt;</span>Analytics<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+          <span class="hljs-tag">&lt;<span class="hljs-name">p</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;text-xs text-aeblack-500 mt-0.5&quot;</span>&gt;</span>Track performance and insights<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;#&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;p-3 rounded-lg hover:bg-aeblack-50 no-underline&quot;</span>&gt;</span>
+          <span class="hljs-tag">&lt;<span class="hljs-name">p</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;font-semibold text-sm text-aeblack-800&quot;</span>&gt;</span>Automation<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+          <span class="hljs-tag">&lt;<span class="hljs-name">p</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;text-xs text-aeblack-500 mt-0.5&quot;</span>&gt;</span>Workflows and scheduled tasks<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>
+        <span class="hljs-comment">&lt;!-- more items… --&gt;</span>
+      <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">aegov-separator</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;subtle&quot;</span> <span class="hljs-attr">text</span>=<span class="hljs-string">&quot;OR&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-separator</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">p</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;px-3 py-1 text-xs font-semibold uppercase tracking-wider&quot;</span>&gt;</span>Resources<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;#&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;p-3 rounded-lg hover:bg-aeblack-50 no-underline&quot;</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">p</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;font-semibold text-sm text-aeblack-800&quot;</span>&gt;</span>Documentation<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">p</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;text-xs text-aeblack-500 mt-0.5&quot;</span>&gt;</span>Guides, references, and tutorials<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+      <span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-dropdown</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
+  <aegov-dropdown>
+    <aegov-button>Services</aegov-button>
+    <div slot="dropdown-content" style="width: 36rem;">
+      <div class="p-2">
+        <p class="px-3 py-1 text-xs font-semibold text-aeblack-400 uppercase tracking-wider mt-0 mb-0">Platform</p>
+        <div class="grid grid-cols-2 gap-1">
+          <a href="#" class="p-3 rounded-lg hover:bg-aeblack-50 no-underline">
+            <p class="font-semibold text-sm text-aeblack-800 mt-0 mb-0">Analytics</p>
+            <p class="text-xs text-aeblack-500 mt-0.5 mb-0">Track performance and insights</p>
+          </a>
+          <a href="#" class="p-3 rounded-lg hover:bg-aeblack-50 no-underline">
+            <p class="font-semibold text-sm text-aeblack-800 mt-0 mb-0">Automation</p>
+            <p class="text-xs text-aeblack-500 mt-0.5 mb-0">Workflows and scheduled tasks</p>
+          </a>
+          <a href="#" class="p-3 rounded-lg hover:bg-aeblack-50 no-underline">
+            <p class="font-semibold text-sm text-aeblack-800 mt-0 mb-0">Integrations</p>
+            <p class="text-xs text-aeblack-500 mt-0.5 mb-0">Connect third-party services</p>
+          </a>
+          <a href="#" class="p-3 rounded-lg hover:bg-aeblack-50 no-underline">
+            <p class="font-semibold text-sm text-aeblack-800 mt-0 mb-0">Security</p>
+            <p class="text-xs text-aeblack-500 mt-0.5 mb-0">Permissions, audit logs, and SSO</p>
+          </a>
+        </div>
+        <aegov-separator variant="subtle" text="OR"></aegov-separator>
+        <p class="px-3 py-1 text-xs font-semibold text-aeblack-400 uppercase tracking-wider mt-0 mb-0">Resources</p>
+        <a href="#" class="p-3 rounded-lg hover:bg-aeblack-50 no-underline">
+          <p class="font-semibold text-sm text-aeblack-800 mt-0 mb-0">Documentation</p>
+          <p class="text-xs text-aeblack-500 mt-0.5 mb-0">Guides, references, and tutorials</p>
+        </a>
+        <a href="#" class="p-3 rounded-lg hover:bg-aeblack-50 no-underline">
+          <p class="font-semibold text-sm text-aeblack-800 mt-0 mb-0">API Reference</p>
+          <p class="text-xs text-aeblack-500 mt-0.5 mb-0">Endpoints, authentication, and SDKs</p>
+        </a>
+      </div>
     </div>
   </aegov-dropdown>
 </div>
