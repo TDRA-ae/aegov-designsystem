@@ -5,9 +5,9 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
-import { AccordionIcon, AvatarGroupMode, AvatarSize, AvatarStatus, AvatarVariant, BadgeAppearance, BadgeColor, BadgeSize, BannerDisplay, BannerMode, BannerPosition, BannerRole, BlockquoteVariant, BreadcrumbSeparator, ButtonAppearance, ButtonGroupOrientation, ButtonGroupPosition, ButtonSize, ButtonType, ButtonVariant, CalloutAppearance, CalloutVariant, CardBackground, CardBorderStyle, CardBorderWidth, CardHover, CheckboxGroupOrientation, CheckboxGroupVariant, CheckboxSize, DatepickerChangeDetail, DatepickerMode, DatepickerMonthChangeDetail, DrawerAnimation, DrawerOverlayOpacity, DrawerPosition, DropdownAlign, DropdownPosition, DropdownTrigger, FileuploadSize, FileuploadVariant, InputSize, InputType, LinkTarget, ModalBackdropOpacity, ModalPosition, OtpSize, OtpVariant, PaginationSize, PaginationVariant, ProgressCounter, RadioGroupOrientation, RadioGroupVariant, RadioSize, RangeDisplay, RangeMode, RangeOrientation, RangeSize, SelectChangeDetail, SelectSize, SelectVariant, TabOrientation, TabSize, TabVariant, TextareaResize, TextareaSize, TextSize, TimelineOrientation, TimelineSize, TimelineStepStatus, TimelineVariant, TitleSize, ToastAppearance, ToastMode, ToastPosition, ToastVariant, ToggleSize, TooltipAlign, TooltipPosition, TooltipTrigger } from "./utils/types";
+import { AccordionIcon, AvatarGroupMode, AvatarSize, AvatarStatus, AvatarVariant, BadgeAppearance, BadgeColor, BadgeSize, BannerDisplay, BannerMode, BannerPosition, BannerRole, BlockquoteVariant, BreadcrumbSeparator, ButtonAppearance, ButtonGroupOrientation, ButtonGroupPosition, ButtonSize, ButtonType, ButtonVariant, CalloutAppearance, CalloutVariant, CardBackground, CardBorderStyle, CardBorderWidth, CardHover, CheckboxGroupOrientation, CheckboxGroupVariant, CheckboxSize, DatepickerChangeDetail, DatepickerMode, DatepickerMonthChangeDetail, DrawerAnimation, DrawerOverlayOpacity, DrawerPosition, DropdownAlign, DropdownPosition, DropdownTrigger, FileuploadSize, FileuploadVariant, InputSize, InputType, LinkTarget, ModalBackdropOpacity, ModalPosition, OtpSize, OtpVariant, PaginationSize, PaginationVariant, PopoverAlign, PopoverPosition, PopoverTrigger, ProgressCounter, RadioGroupOrientation, RadioGroupVariant, RadioSize, RangeDisplay, RangeMode, RangeOrientation, RangeSize, SelectChangeDetail, SelectSize, SelectVariant, TabOrientation, TabSize, TabVariant, TextareaResize, TextareaSize, TextSize, TimelineOrientation, TimelineSize, TimelineStepStatus, TimelineVariant, TitleSize, ToastAppearance, ToastMode, ToastPosition, ToastVariant, ToggleSize, TooltipAlign, TooltipPosition, TooltipTrigger } from "./utils/types";
 import { Event } from "@stencil/core";
-export { AccordionIcon, AvatarGroupMode, AvatarSize, AvatarStatus, AvatarVariant, BadgeAppearance, BadgeColor, BadgeSize, BannerDisplay, BannerMode, BannerPosition, BannerRole, BlockquoteVariant, BreadcrumbSeparator, ButtonAppearance, ButtonGroupOrientation, ButtonGroupPosition, ButtonSize, ButtonType, ButtonVariant, CalloutAppearance, CalloutVariant, CardBackground, CardBorderStyle, CardBorderWidth, CardHover, CheckboxGroupOrientation, CheckboxGroupVariant, CheckboxSize, DatepickerChangeDetail, DatepickerMode, DatepickerMonthChangeDetail, DrawerAnimation, DrawerOverlayOpacity, DrawerPosition, DropdownAlign, DropdownPosition, DropdownTrigger, FileuploadSize, FileuploadVariant, InputSize, InputType, LinkTarget, ModalBackdropOpacity, ModalPosition, OtpSize, OtpVariant, PaginationSize, PaginationVariant, ProgressCounter, RadioGroupOrientation, RadioGroupVariant, RadioSize, RangeDisplay, RangeMode, RangeOrientation, RangeSize, SelectChangeDetail, SelectSize, SelectVariant, TabOrientation, TabSize, TabVariant, TextareaResize, TextareaSize, TextSize, TimelineOrientation, TimelineSize, TimelineStepStatus, TimelineVariant, TitleSize, ToastAppearance, ToastMode, ToastPosition, ToastVariant, ToggleSize, TooltipAlign, TooltipPosition, TooltipTrigger } from "./utils/types";
+export { AccordionIcon, AvatarGroupMode, AvatarSize, AvatarStatus, AvatarVariant, BadgeAppearance, BadgeColor, BadgeSize, BannerDisplay, BannerMode, BannerPosition, BannerRole, BlockquoteVariant, BreadcrumbSeparator, ButtonAppearance, ButtonGroupOrientation, ButtonGroupPosition, ButtonSize, ButtonType, ButtonVariant, CalloutAppearance, CalloutVariant, CardBackground, CardBorderStyle, CardBorderWidth, CardHover, CheckboxGroupOrientation, CheckboxGroupVariant, CheckboxSize, DatepickerChangeDetail, DatepickerMode, DatepickerMonthChangeDetail, DrawerAnimation, DrawerOverlayOpacity, DrawerPosition, DropdownAlign, DropdownPosition, DropdownTrigger, FileuploadSize, FileuploadVariant, InputSize, InputType, LinkTarget, ModalBackdropOpacity, ModalPosition, OtpSize, OtpVariant, PaginationSize, PaginationVariant, PopoverAlign, PopoverPosition, PopoverTrigger, ProgressCounter, RadioGroupOrientation, RadioGroupVariant, RadioSize, RangeDisplay, RangeMode, RangeOrientation, RangeSize, SelectChangeDetail, SelectSize, SelectVariant, TabOrientation, TabSize, TabVariant, TextareaResize, TextareaSize, TextSize, TimelineOrientation, TimelineSize, TimelineStepStatus, TimelineVariant, TitleSize, ToastAppearance, ToastMode, ToastPosition, ToastVariant, ToggleSize, TooltipAlign, TooltipPosition, TooltipTrigger } from "./utils/types";
 export { Event } from "@stencil/core";
 export namespace Components {
     /**
@@ -1023,6 +1023,51 @@ export namespace Components {
          */
         "variant": PaginationVariant;
     }
+    /**
+     * Popover component that displays positioned content with an arrow marker
+     */
+    interface AegovPopover {
+        /**
+          * Alignment of the popover
+          * @default 'center'
+         */
+        "align": PopoverAlign;
+        /**
+          * Whether the popover is disabled
+          * @default false
+         */
+        "disabled": boolean;
+        /**
+          * Gap between popover and trigger element (in pixels)
+          * @default 10
+         */
+        "gap": number;
+        /**
+          * Delay before hiding popover on hover (in milliseconds)
+          * @default 0
+         */
+        "hideDelay": number;
+        /**
+          * Additional offset for popover positioning (in pixels)
+          * @default 0
+         */
+        "offset": number;
+        /**
+          * Position of the popover relative to the trigger element
+          * @default 'bottom'
+         */
+        "position": PopoverPosition;
+        /**
+          * Delay before showing popover on hover (in milliseconds)
+          * @default 200
+         */
+        "showDelay": number;
+        /**
+          * Trigger type for showing the popover
+          * @default 'click'
+         */
+        "triggerType": PopoverTrigger;
+    }
     interface AegovProgress {
         /**
           * Additional CSS classes.
@@ -1790,6 +1835,10 @@ export interface AegovPaginationCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLAegovPaginationElement;
 }
+export interface AegovPopoverCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLAegovPopoverElement;
+}
 export interface AegovRadioCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLAegovRadioElement;
@@ -2226,6 +2275,27 @@ declare global {
         prototype: HTMLAegovPaginationElement;
         new (): HTMLAegovPaginationElement;
     };
+    interface HTMLAegovPopoverElementEventMap {
+        "aegovPopoverOpen": void;
+        "aegovPopoverClose": void;
+    }
+    /**
+     * Popover component that displays positioned content with an arrow marker
+     */
+    interface HTMLAegovPopoverElement extends Components.AegovPopover, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLAegovPopoverElementEventMap>(type: K, listener: (this: HTMLAegovPopoverElement, ev: AegovPopoverCustomEvent<HTMLAegovPopoverElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLAegovPopoverElementEventMap>(type: K, listener: (this: HTMLAegovPopoverElement, ev: AegovPopoverCustomEvent<HTMLAegovPopoverElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLAegovPopoverElement: {
+        prototype: HTMLAegovPopoverElement;
+        new (): HTMLAegovPopoverElement;
+    };
     interface HTMLAegovProgressElement extends Components.AegovProgress, HTMLStencilElement {
     }
     var HTMLAegovProgressElement: {
@@ -2510,6 +2580,7 @@ declare global {
         "aegov-modal": HTMLAegovModalElement;
         "aegov-otp": HTMLAegovOtpElement;
         "aegov-pagination": HTMLAegovPaginationElement;
+        "aegov-popover": HTMLAegovPopoverElement;
         "aegov-progress": HTMLAegovProgressElement;
         "aegov-radio": HTMLAegovRadioElement;
         "aegov-radio-group": HTMLAegovRadioGroupElement;
@@ -3642,6 +3713,59 @@ declare namespace LocalJSX {
          */
         "variant"?: PaginationVariant;
     }
+    /**
+     * Popover component that displays positioned content with an arrow marker
+     */
+    interface AegovPopover {
+        /**
+          * Alignment of the popover
+          * @default 'center'
+         */
+        "align"?: PopoverAlign;
+        /**
+          * Whether the popover is disabled
+          * @default false
+         */
+        "disabled"?: boolean;
+        /**
+          * Gap between popover and trigger element (in pixels)
+          * @default 10
+         */
+        "gap"?: number;
+        /**
+          * Delay before hiding popover on hover (in milliseconds)
+          * @default 0
+         */
+        "hideDelay"?: number;
+        /**
+          * Additional offset for popover positioning (in pixels)
+          * @default 0
+         */
+        "offset"?: number;
+        /**
+          * Emitted when popover closes
+         */
+        "onAegovPopoverClose"?: (event: AegovPopoverCustomEvent<void>) => void;
+        /**
+          * Emitted when popover opens
+         */
+        "onAegovPopoverOpen"?: (event: AegovPopoverCustomEvent<void>) => void;
+        /**
+          * Position of the popover relative to the trigger element
+          * @default 'bottom'
+         */
+        "position"?: PopoverPosition;
+        /**
+          * Delay before showing popover on hover (in milliseconds)
+          * @default 200
+         */
+        "showDelay"?: number;
+        /**
+          * Trigger type for showing the popover
+          * @default 'click'
+         */
+        "triggerType"?: PopoverTrigger;
+    }
     interface AegovProgress {
         /**
           * Additional CSS classes.
@@ -4426,6 +4550,7 @@ declare namespace LocalJSX {
         "aegov-modal": AegovModal;
         "aegov-otp": AegovOtp;
         "aegov-pagination": AegovPagination;
+        "aegov-popover": AegovPopover;
         "aegov-progress": AegovProgress;
         "aegov-radio": AegovRadio;
         "aegov-radio-group": AegovRadioGroup;
@@ -4494,6 +4619,10 @@ declare module "@stencil/core" {
             "aegov-modal": LocalJSX.AegovModal & JSXBase.HTMLAttributes<HTMLAegovModalElement>;
             "aegov-otp": LocalJSX.AegovOtp & JSXBase.HTMLAttributes<HTMLAegovOtpElement>;
             "aegov-pagination": LocalJSX.AegovPagination & JSXBase.HTMLAttributes<HTMLAegovPaginationElement>;
+            /**
+             * Popover component that displays positioned content with an arrow marker
+             */
+            "aegov-popover": LocalJSX.AegovPopover & JSXBase.HTMLAttributes<HTMLAegovPopoverElement>;
             "aegov-progress": LocalJSX.AegovProgress & JSXBase.HTMLAttributes<HTMLAegovProgressElement>;
             "aegov-radio": LocalJSX.AegovRadio & JSXBase.HTMLAttributes<HTMLAegovRadioElement>;
             "aegov-radio-group": LocalJSX.AegovRadioGroup & JSXBase.HTMLAttributes<HTMLAegovRadioGroupElement>;

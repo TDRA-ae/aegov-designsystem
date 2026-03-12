@@ -1,0 +1,624 @@
+import { Component, Host, h, Prop, Element, State, Listen, Event, EventEmitter, Watch } from '@stencil/core';
+import type { PopoverPosition, PopoverAlign, PopoverTrigger } from '../../utils/types';
+import { generateId } from '../../utils/id-generator';
+import { getFocusableElements, FOCUSABLE_SELECTORS, cycleFocus } from '../../utils/focus-management';
+import { createPortal, removePortal } from '../../utils/portal-manager';
+import { createKeyboardHandler } from '../../utils/keyboard-handler';
+
+/**
+ * Design token values used in portal-injected styles.
+ * Portal elements live outside Stencil's scope, so Tailwind utilities aren't available.
+ */
+const PORTAL_TOKENS = {
+  borderColor: 'oklch(0.817 0.014 264.536)',   // --color-slate-300
+  shadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
+  radius: '0.5rem',
+  transition: 'opacity 200ms ease-in-out, transform 200ms ease-in-out',
+  arrowSize: '10px',
+  arrowBg: '#ffffff',
+} as const;
+
+/** CSS injected into the portal element (scoped CSS can't reach it). */
+const POPOVER_PORTAL_STYLES = `
+  .aegov-popover-portal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 9999;
+    pointer-events: none;
+  }
+
+  .aegov-popover-portal .aegov-popover {
+    background: ${PORTAL_TOKENS.arrowBg};
+    border: 1px solid ${PORTAL_TOKENS.borderColor};
+    border-radius: ${PORTAL_TOKENS.radius};
+    box-shadow: ${PORTAL_TOKENS.shadow};
+    position: fixed;
+    visibility: hidden;
+    pointer-events: auto;
+    padding: 1rem;
+    width: auto;
+    min-width: 12rem;
+    z-index: 9999;
+    opacity: 0;
+    transform: scale(0.95);
+    transition: ${PORTAL_TOKENS.transition};
+  }
+
+  .aegov-popover-portal .aegov-popover[data-state="open"] {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  .aegov-popover-portal .aegov-popover a {
+    display: block;
+    margin: 0;
+  }
+
+  /* Arrow base */
+  .aegov-popover-portal .aegov-popover__arrow {
+    position: absolute;
+    width: ${PORTAL_TOKENS.arrowSize};
+    height: ${PORTAL_TOKENS.arrowSize};
+    background: ${PORTAL_TOKENS.arrowBg};
+    border: 1px solid ${PORTAL_TOKENS.borderColor};
+    transform: rotate(45deg);
+    z-index: -1;
+  }
+
+  /* Position-specific arrow: hide borders that face inside the popover */
+  .aegov-popover-portal .aegov-popover[data-position="bottom"] .aegov-popover__arrow {
+    top: -6px;
+    border-bottom: none;
+    border-right: none;
+  }
+
+  .aegov-popover-portal .aegov-popover[data-position="top"] .aegov-popover__arrow {
+    bottom: -6px;
+    border-top: none;
+    border-left: none;
+  }
+
+  .aegov-popover-portal .aegov-popover[data-position="right"] .aegov-popover__arrow {
+    left: -6px;
+    border-right: none;
+    border-top: none;
+  }
+
+  .aegov-popover-portal .aegov-popover[data-position="left"] .aegov-popover__arrow {
+    right: -6px;
+    border-left: none;
+    border-bottom: none;
+  }
+`;
+
+// Singleton to track currently open popover
+let currentOpenPopover: AegovPopover | null = null;
+
+/**
+ * Popover component that displays positioned content with an arrow marker
+ *
+ * @slot - Trigger element (button, link, etc.)
+ * @slot popover-content - Popover content (any HTML/components)
+ */
+@Component({
+  tag: 'aegov-popover',
+  styleUrl: 'aegov-popover.css',
+  scoped: true,
+})
+export class AegovPopover {
+  @Element() el: HTMLElement;
+
+  @State() isOpen: boolean = false;
+  @State() hasContentSlot: boolean = false;
+
+  private popoverRef?: HTMLDivElement;
+  private arrowRef?: HTMLDivElement;
+  private triggerRef?: HTMLDivElement;
+  private portalElement?: HTMLDivElement;
+  private contentSlotRef?: HTMLElement;
+  private slotWrapperRef?: HTMLDivElement;
+  private hideTimeout?: number;
+  private showTimeout?: number;
+  private positionUpdateScheduled: boolean = false;
+  private positionRetryCount: number = 0;
+  private readonly MAX_POSITION_RETRIES = 10;
+  private popoverId: string;
+  private triggerId: string;
+  private focusableElements: HTMLElement[] = [];
+  private currentFocusIndex: number = -1;
+  private triggerElement?: HTMLElement;
+
+  /**
+   * Trigger type for showing the popover
+   * @default 'click'
+   */
+  @Prop() triggerType: PopoverTrigger = 'click';
+
+  /**
+   * Position of the popover relative to the trigger element
+   * @default 'bottom'
+   */
+  @Prop() position: PopoverPosition = 'bottom';
+
+  /**
+   * Alignment of the popover
+   * @default 'center'
+   */
+  @Prop() align: PopoverAlign = 'center';
+
+  /**
+   * Gap between popover and trigger element (in pixels)
+   * @default 10
+   */
+  @Prop() gap: number = 10;
+
+  /**
+   * Additional offset for popover positioning (in pixels)
+   * @default 0
+   */
+  @Prop() offset: number = 0;
+
+  /**
+   * Whether the popover is disabled
+   * @default false
+   */
+  @Prop() disabled: boolean = false;
+
+  /**
+   * Delay before showing popover on hover (in milliseconds)
+   * @default 200
+   */
+  @Prop() showDelay: number = 200;
+
+  /**
+   * Delay before hiding popover on hover (in milliseconds)
+   * @default 0
+   */
+  @Prop() hideDelay: number = 0;
+
+  /**
+   * Emitted when popover opens
+   */
+  @Event() aegovPopoverOpen: EventEmitter<void>;
+
+  /**
+   * Emitted when popover closes
+   */
+  @Event() aegovPopoverClose: EventEmitter<void>;
+
+  componentWillLoad() {
+    this.popoverId = generateId('aegov-popover');
+    this.triggerId = `${this.popoverId}-trigger`;
+    this.checkSlotContent();
+  }
+
+  componentDidLoad() {
+    this.createPortalElement();
+  }
+
+  connectedCallback() {
+    if (!this.portalElement && this.el.isConnected) {
+      this.createPortalElement();
+    }
+  }
+
+  disconnectedCallback() {
+    this.clearTimeouts();
+    this.returnPortalContent();
+    this.removePortalElement();
+  }
+
+  private checkSlotContent() {
+    const contentSlot = this.el.querySelector('[slot="popover-content"]');
+    this.hasContentSlot = contentSlot !== null;
+  }
+
+  private createPortalElement() {
+    if (!this.portalElement) {
+      this.portalElement = createPortal('aegov-popover-portal');
+    }
+  }
+
+  private removePortalElement() {
+    this.portalElement = removePortal(this.portalElement);
+  }
+
+  @Watch('isOpen')
+  handleOpenChange(newValue: boolean) {
+    if (newValue) {
+      // Close any other open popover (singleton — no nesting)
+      if (currentOpenPopover && currentOpenPopover !== this) {
+        currentOpenPopover.closePopover();
+      }
+      currentOpenPopover = this;
+
+      this.positionRetryCount = 0;
+      this.renderPortalContent();
+      this.schedulePositionUpdate();
+      this.aegovPopoverOpen.emit();
+      this.triggerElement = document.activeElement as HTMLElement;
+      setTimeout(() => this.setupFocusTrap(), 0);
+    } else {
+      if (currentOpenPopover === this) {
+        currentOpenPopover = null;
+      }
+
+      this.cleanupPopoverListeners();
+      this.returnPortalContent();
+      this.popoverRef = undefined;
+      this.arrowRef = undefined;
+      this.positionUpdateScheduled = false;
+      this.positionRetryCount = 0;
+
+      if (this.portalElement) {
+        this.portalElement.innerHTML = '';
+      }
+
+      this.aegovPopoverClose.emit();
+
+      if (this.triggerElement) {
+        this.triggerElement.focus({ preventScroll: true });
+      }
+    }
+  }
+
+  public closePopover() {
+    this.isOpen = false;
+  }
+
+  private clearTimeouts() {
+    if (this.showTimeout) {
+      window.clearTimeout(this.showTimeout);
+    }
+    if (this.hideTimeout) {
+      window.clearTimeout(this.hideTimeout);
+    }
+  }
+
+  private cleanupPopoverListeners() {
+    if (this.popoverRef) {
+      this.popoverRef.removeEventListener('mouseenter', this.handlePopoverMouseEnter);
+      this.popoverRef.removeEventListener('mouseleave', this.handlePopoverMouseLeave);
+    }
+  }
+
+  @Listen('scroll', { target: 'window', passive: true })
+  @Listen('resize', { target: 'window', passive: true })
+  handleWindowEvents() {
+    if (this.isOpen) {
+      this.schedulePositionUpdate();
+    }
+  }
+
+  private schedulePositionUpdate() {
+    if (this.positionUpdateScheduled) return;
+    if (!this.isOpen) return;
+
+    this.positionUpdateScheduled = true;
+    requestAnimationFrame(() => {
+      if (this.isOpen && this.popoverRef) {
+        this.updatePopoverPosition();
+      }
+      this.positionUpdateScheduled = false;
+    });
+  }
+
+  private updatePopoverPosition() {
+    if (!this.popoverRef || !this.triggerRef) return;
+
+    const triggerRect = this.triggerRef.getBoundingClientRect();
+    const popoverRect = this.popoverRef.getBoundingClientRect();
+    const viewportWidth = window.innerWidth;
+    const viewportHeight = window.innerHeight;
+
+    // Close if trigger has scrolled out of viewport
+    if (
+      triggerRect.bottom < 0 ||
+      triggerRect.top > viewportHeight ||
+      triggerRect.right < 0 ||
+      triggerRect.left > viewportWidth
+    ) {
+      this.isOpen = false;
+      return;
+    }
+
+    // Retry if not yet measured
+    if (popoverRect.width === 0 || popoverRect.height === 0) {
+      if (this.positionRetryCount < this.MAX_POSITION_RETRIES) {
+        this.positionRetryCount++;
+        requestAnimationFrame(() => this.updatePopoverPosition());
+      }
+      return;
+    }
+
+    let position = this.position;
+
+    // Flip if not enough space
+    if (position === 'bottom' && triggerRect.bottom + this.gap + popoverRect.height > viewportHeight) {
+      if (triggerRect.top - this.gap - popoverRect.height > 0) position = 'top';
+    } else if (position === 'top' && triggerRect.top - this.gap - popoverRect.height < 0) {
+      if (triggerRect.bottom + this.gap + popoverRect.height < viewportHeight) position = 'bottom';
+    } else if (position === 'right' && triggerRect.right + this.gap + popoverRect.width > viewportWidth) {
+      if (triggerRect.left - this.gap - popoverRect.width > 0) position = 'left';
+    } else if (position === 'left' && triggerRect.left - this.gap - popoverRect.width < 0) {
+      if (triggerRect.right + this.gap + popoverRect.width < viewportWidth) position = 'right';
+    }
+
+    let top = 0;
+    let left = 0;
+
+    switch (position) {
+      case 'top':
+        top = triggerRect.top - popoverRect.height - this.gap;
+        left = this.calculateHorizontalPosition(triggerRect, popoverRect);
+        break;
+      case 'bottom':
+        top = triggerRect.bottom + this.gap;
+        left = this.calculateHorizontalPosition(triggerRect, popoverRect);
+        break;
+      case 'left':
+        top = this.calculateVerticalPosition(triggerRect, popoverRect);
+        left = triggerRect.left - popoverRect.width - this.gap;
+        break;
+      case 'right':
+        top = this.calculateVerticalPosition(triggerRect, popoverRect);
+        left = triggerRect.right + this.gap;
+        break;
+    }
+
+    // Apply offset
+    if (position === 'top' || position === 'bottom') {
+      left += this.offset;
+    } else {
+      top += this.offset;
+    }
+
+    // Ensure within viewport
+    if (left < 8) left = 8;
+    else if (left + popoverRect.width > viewportWidth) left = viewportWidth - popoverRect.width - 8;
+    if (top < 8) top = 8;
+    else if (top + popoverRect.height > viewportHeight) top = viewportHeight - popoverRect.height - 8;
+
+    // Transform origin for animation
+    const originX = position === 'left' ? '100%' : position === 'right' ? '0%' : '50%';
+    const originY = position === 'top' ? '100%' : position === 'bottom' ? '0%' : '50%';
+
+    this.popoverRef.style.top = `${top}px`;
+    this.popoverRef.style.left = `${left}px`;
+    this.popoverRef.style.transformOrigin = `${originX} ${originY}`;
+    this.popoverRef.style.visibility = 'visible';
+    this.popoverRef.setAttribute('data-position', position);
+
+    // Position the arrow relative to the trigger center
+    this.positionArrow(triggerRect, top, left, popoverRect, position);
+  }
+
+  private positionArrow(
+    triggerRect: DOMRect,
+    popoverTop: number,
+    popoverLeft: number,
+    popoverRect: DOMRect,
+    position: PopoverPosition,
+  ) {
+    if (!this.arrowRef) return;
+
+    const arrowSize = 10;
+    const halfArrow = arrowSize / 2;
+    const minInset = 8; // keep arrow inside rounded corners
+
+    if (position === 'top' || position === 'bottom') {
+      // Horizontal: center arrow on trigger center, clamped to popover bounds
+      const triggerCenterX = triggerRect.left + triggerRect.width / 2;
+      let arrowLeft = triggerCenterX - popoverLeft - halfArrow;
+      arrowLeft = Math.max(minInset, Math.min(arrowLeft, popoverRect.width - arrowSize - minInset));
+      this.arrowRef.style.left = `${arrowLeft}px`;
+      this.arrowRef.style.top = '';
+    } else {
+      // Vertical: center arrow on trigger center, clamped to popover bounds
+      const triggerCenterY = triggerRect.top + triggerRect.height / 2;
+      let arrowTop = triggerCenterY - popoverTop - halfArrow;
+      arrowTop = Math.max(minInset, Math.min(arrowTop, popoverRect.height - arrowSize - minInset));
+      this.arrowRef.style.top = `${arrowTop}px`;
+      this.arrowRef.style.left = '';
+    }
+  }
+
+  private calculateHorizontalPosition(triggerRect: DOMRect, popoverRect: DOMRect): number {
+    switch (this.align) {
+      case 'start':
+        return triggerRect.left;
+      case 'end':
+        return triggerRect.right - popoverRect.width;
+      case 'center':
+      default:
+        return triggerRect.left + (triggerRect.width - popoverRect.width) / 2;
+    }
+  }
+
+  private calculateVerticalPosition(triggerRect: DOMRect, popoverRect: DOMRect): number {
+    switch (this.align) {
+      case 'start':
+        return triggerRect.top;
+      case 'end':
+        return triggerRect.bottom - popoverRect.height;
+      case 'center':
+      default:
+        return triggerRect.top + (triggerRect.height - popoverRect.height) / 2;
+    }
+  }
+
+  private showPopover = () => {
+    if (this.disabled) return;
+    this.clearTimeouts();
+    this.showTimeout = window.setTimeout(() => {
+      this.isOpen = true;
+    }, this.showDelay);
+  };
+
+  private static readonly HOVER_HIDE_GRACE = 100;
+
+  private hidePopover = () => {
+    this.clearTimeouts();
+    const delay = this.triggerType === 'hover'
+      ? Math.max(this.hideDelay, AegovPopover.HOVER_HIDE_GRACE)
+      : this.hideDelay;
+
+    this.hideTimeout = window.setTimeout(() => {
+      this.isOpen = false;
+    }, delay);
+  };
+
+  private handleTriggerMouseEnter = () => {
+    if (this.triggerType === 'hover') {
+      this.showPopover();
+    }
+  };
+
+  private handleTriggerMouseLeave = (event: MouseEvent) => {
+    if (this.triggerType === 'hover') {
+      const relatedTarget = event.relatedTarget as HTMLElement;
+      if (relatedTarget && this.portalElement && this.portalElement.contains(relatedTarget)) {
+        return;
+      }
+      this.hidePopover();
+    }
+  };
+
+  private handleTriggerClick = (event: MouseEvent) => {
+    if (this.triggerType === 'click' && !this.disabled) {
+      event.stopPropagation();
+      this.isOpen = !this.isOpen;
+    }
+  };
+
+  private handlePopoverMouseEnter = () => {
+    if (this.triggerType === 'hover') {
+      this.clearTimeouts();
+    }
+  };
+
+  private handlePopoverMouseLeave = (event: MouseEvent) => {
+    if (this.triggerType === 'hover') {
+      const relatedTarget = event.relatedTarget as HTMLElement;
+      if (relatedTarget && this.triggerRef && this.triggerRef.contains(relatedTarget)) {
+        return;
+      }
+      this.hidePopover();
+    }
+  };
+
+  @Listen('click', { target: 'document' })
+  handleDocumentClick(event: MouseEvent) {
+    if (this.isOpen) {
+      const target = event.target as Node;
+      if (!this.el.contains(target) && this.portalElement && !this.portalElement.contains(target)) {
+        this.isOpen = false;
+      }
+    }
+  }
+
+  private keyHandler = createKeyboardHandler({
+    onEscape: () => { this.isOpen = false; },
+    onTab: (reverse) => { this.focusNextElement(reverse); },
+    onArrowDown: () => { this.focusNextElement(false); },
+    onArrowUp: () => { this.focusNextElement(true); },
+  });
+
+  @Listen('keydown', { target: 'document' })
+  handleKeyDown(event: KeyboardEvent) {
+    if (!this.isOpen) return;
+    this.keyHandler(event);
+  }
+
+  private setupFocusTrap() {
+    if (!this.popoverRef) return;
+    this.focusableElements = getFocusableElements(this.popoverRef, FOCUSABLE_SELECTORS);
+    if (this.focusableElements.length > 0) {
+      this.currentFocusIndex = 0;
+      this.focusableElements[0].focus();
+    }
+  }
+
+  private focusNextElement(reverse: boolean = false) {
+    this.currentFocusIndex = cycleFocus(this.focusableElements, this.currentFocusIndex, reverse);
+  }
+
+  private renderPortalContent() {
+    if (!this.portalElement || !this.hasContentSlot) return;
+
+    const contentSlot = this.el.querySelector('[slot="popover-content"]') as HTMLElement;
+    if (!contentSlot) return;
+
+    this.contentSlotRef = contentSlot;
+
+    // Clear portal
+    this.portalElement.innerHTML = '';
+
+    // Inject styles
+    const styleElement = document.createElement('style');
+    styleElement.textContent = POPOVER_PORTAL_STYLES;
+    this.portalElement.appendChild(styleElement);
+
+    // Create popover container
+    const popoverContainer = document.createElement('div');
+    popoverContainer.className = 'aegov-popover';
+    popoverContainer.id = this.popoverId;
+    popoverContainer.setAttribute('role', 'dialog');
+    popoverContainer.setAttribute('aria-labelledby', this.triggerId);
+    popoverContainer.setAttribute('data-state', 'open');
+    popoverContainer.setAttribute('data-position', this.position);
+
+    // Move the original slot element into the portal (not clone)
+    contentSlot.removeAttribute('slot');
+    popoverContainer.appendChild(contentSlot);
+
+    // Create arrow element
+    const arrowEl = document.createElement('div');
+    arrowEl.className = 'aegov-popover__arrow';
+    popoverContainer.appendChild(arrowEl);
+    this.arrowRef = arrowEl;
+
+    // Add event listeners
+    popoverContainer.addEventListener('mouseenter', this.handlePopoverMouseEnter);
+    popoverContainer.addEventListener('mouseleave', this.handlePopoverMouseLeave);
+
+    this.portalElement.appendChild(popoverContainer);
+    this.popoverRef = popoverContainer;
+  }
+
+  private returnPortalContent() {
+    if (!this.contentSlotRef || !this.slotWrapperRef) return;
+    this.contentSlotRef.setAttribute('slot', 'popover-content');
+    this.slotWrapperRef.appendChild(this.contentSlotRef);
+    this.contentSlotRef = undefined;
+  }
+
+  render() {
+    const hasContent = this.hasContentSlot;
+
+    return (
+      <Host>
+        <div
+          class="aegov-popover-trigger"
+          id={this.triggerId}
+          ref={(el) => (this.triggerRef = el)}
+          onMouseEnter={this.handleTriggerMouseEnter}
+          onMouseLeave={this.handleTriggerMouseLeave}
+          onClick={this.handleTriggerClick}
+          aria-haspopup="dialog"
+          aria-expanded={this.isOpen.toString()}
+          aria-controls={this.isOpen ? this.popoverId : undefined}
+        >
+          <slot />
+        </div>
+
+        {hasContent && (
+          <div style={{ display: 'none' }} ref={(el) => (this.slotWrapperRef = el)}>
+            <slot name="popover-content" />
+          </div>
+        )}
+      </Host>
+    );
+  }
+}

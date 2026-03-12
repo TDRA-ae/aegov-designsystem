@@ -416,6 +416,21 @@ export type OtpVariant = 'continuous' | 'individual';
 export type OtpSize = 'xs' | 'sm' | 'base' | 'lg' | 'xl' | '2xl';
 
 /**
+ * Popover component position types
+ */
+export type PopoverPosition = 'top' | 'right' | 'bottom' | 'left';
+
+/**
+ * Popover component alignment types
+ */
+export type PopoverAlign = 'start' | 'center' | 'end';
+
+/**
+ * Popover component trigger types
+ */
+export type PopoverTrigger = 'hover' | 'click';
+
+/**
  * Drawer component position types
  */
 export type DrawerPosition = 'left' | 'right' | 'top' | 'bottom';
