@@ -54,3 +54,10 @@
   min-width: 0;
   overflow: hidden;
 }
+
+/* The article wrapping #content-area sits in a flex row.
+   Without min-width: 0 it won't shrink below the intrinsic
+   width of long <pre> code blocks, blowing out the layout. */
+article:has(#content-area) {
+  min-width: 0;
+}
