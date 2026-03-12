@@ -43,3 +43,14 @@
   border-radius: 0.25rem;
   color: var(--color-aered-700);
 }
+
+/* Prevent long code blocks from breaking flex layout */
+#content-area pre {
+  overflow-x: auto;
+  max-width: 100%;
+}
+
+#content-area {
+  min-width: 0;
+  overflow: hidden;
+}

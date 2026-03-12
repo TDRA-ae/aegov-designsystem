@@ -19,7 +19,7 @@
       <nav id="primary-nav" class="w-3xs shrink-0">&nbsp;</nav>
       <article class="col-span-5 grow">
           <section id="content-area" class="bg-whitely-50 p-6 rounded-md shadow-xl">
-<!-- DOC:START -->
+          <!-- DOC:START -->
 <h1>Datepicker</h1>
 <p class="text-lg text-aeblack-500 mb-8">A feature-rich date selection component supporting single date and date range picking, with a calendar popup, format tokens, locale support, presets, min/max constraints, and full keyboard navigation.</p>
 
@@ -477,13 +477,11 @@
 <p>Use the <code>trigger</code> slot to replace the default input with a custom element. The calendar popup still works the same way.</p>
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-datepicker</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;trigger&quot;</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;outline&quot;</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm&quot;</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">svg</span> <span class="hljs-attr">xmlns</span>=<span class="hljs-string">&quot;http://www.w3.org/2000/svg&quot;</span> <span class="hljs-attr">width</span>=<span class="hljs-string">&quot;16&quot;</span> <span class="hljs-attr">height</span>=<span class="hljs-string">&quot;16&quot;</span> <span class="hljs-attr">viewBox</span>=<span class="hljs-string">&quot;0 0 24 24&quot;</span> <span class="hljs-attr">fill</span>=<span class="hljs-string">&quot;none&quot;</span> <span class="hljs-attr">stroke</span>=<span class="hljs-string">&quot;currentColor&quot;</span> <span class="hljs-attr">stroke-width</span>=<span class="hljs-string">&quot;2&quot;</span> <span class="hljs-attr">stroke-linecap</span>=<span class="hljs-string">&quot;round&quot;</span> <span class="hljs-attr">stroke-linejoin</span>=<span class="hljs-string">&quot;round&quot;</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">rect</span> <span class="hljs-attr">x</span>=<span class="hljs-string">&quot;3&quot;</span> <span class="hljs-attr">y</span>=<span class="hljs-string">&quot;4&quot;</span> <span class="hljs-attr">width</span>=<span class="hljs-string">&quot;18&quot;</span> <span class="hljs-attr">height</span>=<span class="hljs-string">&quot;18&quot;</span> <span class="hljs-attr">rx</span>=<span class="hljs-string">&quot;2&quot;</span> <span class="hljs-attr">ry</span>=<span class="hljs-string">&quot;2&quot;</span>/&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">line</span> <span class="hljs-attr">x1</span>=<span class="hljs-string">&quot;16&quot;</span> <span class="hljs-attr">y1</span>=<span class="hljs-string">&quot;2&quot;</span> <span class="hljs-attr">x2</span>=<span class="hljs-string">&quot;16&quot;</span> <span class="hljs-attr">y2</span>=<span class="hljs-string">&quot;6&quot;</span>/&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">line</span> <span class="hljs-attr">x1</span>=<span class="hljs-string">&quot;8&quot;</span> <span class="hljs-attr">y1</span>=<span class="hljs-string">&quot;2&quot;</span> <span class="hljs-attr">x2</span>=<span class="hljs-string">&quot;8&quot;</span> <span class="hljs-attr">y2</span>=<span class="hljs-string">&quot;6&quot;</span>/&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">line</span> <span class="hljs-attr">x1</span>=<span class="hljs-string">&quot;3&quot;</span> <span class="hljs-attr">y1</span>=<span class="hljs-string">&quot;10&quot;</span> <span class="hljs-attr">x2</span>=<span class="hljs-string">&quot;21&quot;</span> <span class="hljs-attr">y2</span>=<span class="hljs-string">&quot;10&quot;</span>/&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">svg</span>&gt;</span>
     Pick a Date
   <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-datepicker</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
   <aegov-datepicker>
     <aegov-button slot="trigger" variant="outline" size="sm">
-      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
       Pick a Date
     </aegov-button>
   </aegov-datepicker>
@@ -998,7 +996,7 @@
 <li>The clear button emits both <code>aegovDatepickerClear</code> and <code>aegovDatepickerChange</code> (with an empty value) so you only need to listen to one event to track all changes.</li>
 </ul>
 <!-- DOC:END -->
-</section>
+          </section>
       </article>
     </section>
   </main>

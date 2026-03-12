@@ -10,9 +10,9 @@ The `aegov-dropdown` component provides a flexible, accessible dropdown panel th
 <aegov-dropdown>
   <aegov-button>Open Menu</aegov-button>
   <div slot="dropdown-content">
-    <a href="#">Profile</a>
-    <a href="#">Settings</a>
-    <a href="#">Logout</a>
+    <button>Profile</button>
+    <button>Settings</button>
+    <button>Logout</button>
   </div>
 </aegov-dropdown>
 ```
@@ -21,9 +21,9 @@ The `aegov-dropdown` component provides a flexible, accessible dropdown panel th
   <aegov-dropdown>
     <aegov-button>Open Menu</aegov-button>
     <div slot="dropdown-content">
-      <a href="#" class="block px-3 py-2 text-sm text-aeblack-700 rounded hover:bg-aeblack-100 no-underline">Profile</a>
-      <a href="#" class="block px-3 py-2 text-sm text-aeblack-700 rounded hover:bg-aeblack-100 no-underline">Settings</a>
-      <a href="#" class="block px-3 py-2 text-sm text-aeblack-700 rounded hover:bg-aeblack-100 no-underline">Logout</a>
+      <button>Profile</button>
+      <button>Settings</button>
+      <button>Logout</button>
     </div>
   </aegov-dropdown>
 </div>

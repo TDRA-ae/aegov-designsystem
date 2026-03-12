@@ -19,7 +19,7 @@
       <nav id="primary-nav" class="w-3xs shrink-0">&nbsp;</nav>
       <article class="col-span-5 grow">
           <section id="content-area" class="bg-whitely-50 p-6 rounded-md shadow-xl">
-<!-- DOC:START -->
+          <!-- DOC:START -->
 <h1>Input</h1>
 <p class="text-lg text-aeblack-500 mb-8">A text input lets users enter and edit short-form text data such as names, emails, passwords, and numbers. It is the foundational form control of the design system.</p>
 
@@ -181,7 +181,7 @@
 <h3>Required</h3>
 <p>Set the <code>required</code> attribute to mark the field as mandatory. This enables native browser validation.</p>
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-form-field</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-label</span>&gt;</span>Email <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;text-aered-500&quot;</span>&gt;</span>*<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-label</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-label</span>&gt;</span>Email *<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-label</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;email&quot;</span> <span class="hljs-attr">required</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;Required field&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-input</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-form-field</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
   <aegov-form-field>
@@ -220,7 +220,7 @@
 
 <hr>
 <h2>Icon Slots</h2>
-<p>The input provides two named slots — <code>icon-start</code> and <code>icon-end</code> — for placing icons inside the field. Icons are vertically centred and sized to match the current input size.</p>
+<p>The input provides two named slots -- <code>icon-start</code> and <code>icon-end</code> -- for placing icons inside the field. Icons are vertically centred and sized to match the current input size.</p>
 <h3>Leading Icon</h3>
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-input</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;Search...&quot;</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">svg</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;icon-start&quot;</span> <span class="hljs-attr">xmlns</span>=<span class="hljs-string">&quot;http://www.w3.org/2000/svg&quot;</span> <span class="hljs-attr">width</span>=<span class="hljs-string">&quot;20&quot;</span> <span class="hljs-attr">height</span>=<span class="hljs-string">&quot;20&quot;</span>
@@ -274,9 +274,9 @@
 <hr>
 <h2>Number Input with Min, Max, and Step</h2>
 <p>For <code>type=&quot;number&quot;</code>, you can pass native attributes <code>min</code>, <code>max</code>, and <code>step</code> as pass-through attributes directly on the host element.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;number&quot;</span> <span class="hljs-attr">min</span>=<span class="hljs-string">&quot;0&quot;</span> <span class="hljs-attr">max</span>=<span class="hljs-string">&quot;100&quot;</span> <span class="hljs-attr">step</span>=<span class="hljs-string">&quot;5&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;0–100&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-input</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;number&quot;</span> <span class="hljs-attr">min</span>=<span class="hljs-string">&quot;0&quot;</span> <span class="hljs-attr">max</span>=<span class="hljs-string">&quot;100&quot;</span> <span class="hljs-attr">step</span>=<span class="hljs-string">&quot;5&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;0-100&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-input</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
   <aegov-form-field>
-    <aegov-label>Quantity (0–100, step 5)</aegov-label>
+    <aegov-label>Quantity (0-100, step 5)</aegov-label>
     <aegov-input type="number" min="0" max="100" step="5" placeholder="0"></aegov-input>
   </aegov-form-field>
 </div>
@@ -288,19 +288,24 @@
 <span class="hljs-tag">&lt;<span class="hljs-name">aegov-form-field</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-label</span>&gt;</span>Username<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-label</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-input</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;Choose a username&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-input</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">small</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;text-sm text-aeblack-400 mt-1 block&quot;</span>&gt;</span>Must be 3–20 characters, letters and numbers only.<span class="hljs-tag">&lt;/<span class="hljs-name">small</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">small</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;text-sm text-aeblack-400 mt-1 block&quot;</span>&gt;</span>
+    Must be 3-20 characters, letters and numbers only.
+  <span class="hljs-tag">&lt;/<span class="hljs-name">small</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-form-field</span>&gt;</span>
 
 <span class="hljs-comment">&lt;!-- Error state --&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">aegov-form-field</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-label</span>&gt;</span>Email <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;text-aered-500&quot;</span>&gt;</span>*<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-label</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;email&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;Enter email&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;!inset-ring-aered-500&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-input</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">small</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;text-sm text-aered-500 mt-1 block&quot;</span>&gt;</span>Please enter a valid email address.<span class="hljs-tag">&lt;/<span class="hljs-name">small</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-label</span>&gt;</span>Email *<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-label</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;email&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;Enter email&quot;</span>
+               <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;!inset-ring-aered-500&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-input</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">small</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;text-sm text-aered-500 mt-1 block&quot;</span>&gt;</span>
+    Please enter a valid email address.
+  <span class="hljs-tag">&lt;/<span class="hljs-name">small</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-form-field</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 space-y-4 not-aegov">
   <aegov-form-field>
     <aegov-label>Username</aegov-label>
     <aegov-input placeholder="Choose a username"></aegov-input>
-    <small class="text-sm text-aeblack-400 mt-1 block">Must be 3–20 characters, letters and numbers only.</small>
+    <small class="text-sm text-aeblack-400 mt-1 block">Must be 3-20 characters, letters and numbers only.</small>
   </aegov-form-field>
   <aegov-form-field>
     <aegov-label>Email <span class="text-aered-500">*</span></aegov-label>
@@ -374,18 +379,15 @@
 
 <h3>Input Group Sizes</h3>
 <p>The <code>size</code> property on <code>aegov-input-group</code> propagates to child <code>aegov-input</code> and <code>aegov-button</code> components automatically.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-input-group</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm&quot;</span> <span class="hljs-attr">addon-prefix</span>=<span class="hljs-string">&quot;<!-- DOC:START -->
-<!-- DOC:END -->quot;</span>&gt;</span>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-input-group</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm&quot;</span> <span class="hljs-attr">addon-prefix</span>=<span class="hljs-string">&quot;USD&quot;</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;number&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;0.00&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-input</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-input-group</span>&gt;</span>
 
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-input-group</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;base&quot;</span> <span class="hljs-attr">addon-prefix</span>=<span class="hljs-string">&quot;<!-- DOC:START -->
-<!-- DOC:END -->quot;</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-input-group</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;base&quot;</span> <span class="hljs-attr">addon-prefix</span>=<span class="hljs-string">&quot;USD&quot;</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;number&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;0.00&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-input</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-input-group</span>&gt;</span>
 
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-input-group</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;lg&quot;</span> <span class="hljs-attr">addon-prefix</span>=<span class="hljs-string">&quot;<!-- DOC:START -->
-<!-- DOC:END -->quot;</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-input-group</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;lg&quot;</span> <span class="hljs-attr">addon-prefix</span>=<span class="hljs-string">&quot;USD&quot;</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;number&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;0.00&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-input</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-input-group</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 space-y-3 not-aegov">
   <aegov-input-group size="sm" addon-prefix="$">
@@ -413,7 +415,7 @@
 </div>
 
 <h3>Required Indicator</h3>
-<p>Add a required indicator by including a styled <code>&lt;span&gt;</code> inside the label slot.</p>
+<p>Add a required indicator by including a styled asterisk inside the label slot.</p>
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-form-field</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-label</span>&gt;</span>Email Address <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;text-aered-500&quot;</span>&gt;</span>*<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-label</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;email&quot;</span> <span class="hljs-attr">required</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;you@example.com&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-input</span>&gt;</span>
@@ -441,9 +443,11 @@
 <p>The <code>aegov-form-field</code> component is a structural wrapper that automatically links a child <code>aegov-label</code> to a child form control (<code>aegov-input</code>, <code>aegov-textarea</code>, <code>aegov-select</code>, <code>aegov-checkbox</code>, <code>aegov-range</code>, <code>aegov-progress</code>, or <code>aegov-otp</code>) by setting the label&#39;s <code>for</code> attribute to match the control&#39;s generated <code>fieldId</code>.</p>
 <p>It also dims the label when the child input is disabled.</p>
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-form-field</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-label</span>&gt;</span>Full Name <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;text-aered-500&quot;</span>&gt;</span>*<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-label</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-label</span>&gt;</span>Full Name *<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-label</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-input</span> <span class="hljs-attr">required</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;Enter your full name&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-input</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">small</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;text-sm text-aeblack-400 mt-1 block&quot;</span>&gt;</span>As it appears on your Emirates ID.<span class="hljs-tag">&lt;/<span class="hljs-name">small</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">small</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;text-sm text-aeblack-400 mt-1 block&quot;</span>&gt;</span>
+    As it appears on your Emirates ID.
+  <span class="hljs-tag">&lt;/<span class="hljs-name">small</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-form-field</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
   <aegov-form-field>
     <aegov-label>Full Name <span class="text-aered-500">*</span></aegov-label>
@@ -469,18 +473,19 @@
 <p>Combine <code>aegov-form-field</code>, <code>aegov-label</code>, <code>aegov-input</code>, and <code>aegov-input-group</code> to build a real-world form layout.</p>
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">form</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;space-y-4&quot;</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-form-field</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-label</span>&gt;</span>Full Name <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;text-aered-500&quot;</span>&gt;</span>*<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-label</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-label</span>&gt;</span>Full Name *<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-label</span>&gt;</span>
     <span class="hljs-tag">&lt;<span class="hljs-name">aegov-input</span> <span class="hljs-attr">required</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;John Doe&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-input</span>&gt;</span>
   <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-form-field</span>&gt;</span>
 
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-form-field</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-label</span>&gt;</span>Email <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;text-aered-500&quot;</span>&gt;</span>*<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-label</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-label</span>&gt;</span>Email *<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-label</span>&gt;</span>
     <span class="hljs-tag">&lt;<span class="hljs-name">aegov-input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;email&quot;</span> <span class="hljs-attr">required</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;john@example.com&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-input</span>&gt;</span>
   <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-form-field</span>&gt;</span>
 
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-form-field</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-label</span>&gt;</span>Password <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;text-aered-500&quot;</span>&gt;</span>*<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-label</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;password&quot;</span> <span class="hljs-attr">revealable</span> <span class="hljs-attr">required</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;Enter password&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-input</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-label</span>&gt;</span>Password *<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-label</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;password&quot;</span> <span class="hljs-attr">revealable</span> <span class="hljs-attr">required</span>
+                 <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;Enter password&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-input</span>&gt;</span>
     <span class="hljs-tag">&lt;<span class="hljs-name">small</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;text-sm text-aeblack-400 mt-1 block&quot;</span>&gt;</span>Minimum 8 characters.<span class="hljs-tag">&lt;/<span class="hljs-name">small</span>&gt;</span>
   <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-form-field</span>&gt;</span>
 
@@ -560,7 +565,7 @@
   </aegov-input-group>
 </div>
 
-<p>No additional configuration is needed — the components read the inherited <code>dir</code> attribute and adjust automatically using logical CSS properties (<code>padding-inline-start</code>, <code>padding-inline-end</code>, etc.).</p>
+<p>No additional configuration is needed -- the components read the inherited <code>dir</code> attribute and adjust automatically using logical CSS properties (<code>padding-inline-start</code>, <code>padding-inline-end</code>, etc.).</p>
 <hr>
 <h2>API Reference</h2>
 <h3>aegov-input Properties</h3>
@@ -585,14 +590,14 @@
 <td><code>type</code></td>
 <td><code>type</code></td>
 <td>The HTML input type</td>
-<td><code>&#39;text&#39;</code> | <code>&#39;email&#39;</code> | <code>&#39;password&#39;</code> | <code>&#39;tel&#39;</code> | <code>&#39;url&#39;</code> | <code>&#39;number&#39;</code> | <code>&#39;search&#39;</code> | <code>&#39;date&#39;</code> | <code>&#39;time&#39;</code> | <code>&#39;datetime-local&#39;</code> | <code>&#39;month&#39;</code> | <code>&#39;week&#39;</code></td>
+<td><code>&#39;text&#39;</code> <code>&#39;email&#39;</code> <code>&#39;password&#39;</code> <code>&#39;tel&#39;</code> <code>&#39;url&#39;</code> <code>&#39;number&#39;</code> <code>&#39;search&#39;</code> <code>&#39;date&#39;</code> <code>&#39;time&#39;</code> <code>&#39;datetime-local&#39;</code> <code>&#39;month&#39;</code> <code>&#39;week&#39;</code></td>
 <td><code>&#39;text&#39;</code></td>
 </tr>
 <tr>
 <td><code>size</code></td>
 <td><code>size</code></td>
 <td>The input size</td>
-<td><code>&#39;sm&#39;</code> | <code>&#39;base&#39;</code> | <code>&#39;lg&#39;</code></td>
+<td><code>&#39;sm&#39;</code> <code>&#39;base&#39;</code> <code>&#39;lg&#39;</code></td>
 <td><code>&#39;base&#39;</code></td>
 </tr>
 <tr>
@@ -614,7 +619,7 @@
 <td><code>placeholder</code></td>
 <td>Hint text shown when the input is empty</td>
 <td><code>string</code></td>
-<td><code>—</code></td>
+<td>--</td>
 </tr>
 <tr>
 <td><code>value</code></td>
@@ -628,7 +633,7 @@
 <td><code>name</code></td>
 <td>The name attribute for form submission</td>
 <td><code>string</code></td>
-<td><code>—</code></td>
+<td>--</td>
 </tr>
 <tr>
 <td><code>required</code></td>
@@ -656,7 +661,7 @@
 <td><code>class</code></td>
 <td>Additional CSS classes to apply to the native input</td>
 <td><code>string</code></td>
-<td><code>—</code></td>
+<td>--</td>
 </tr>
 </tbody></table>
 <h3>aegov-input Events</h3>
@@ -741,7 +746,7 @@
 <td><code>size</code></td>
 <td><code>size</code></td>
 <td>The group size. Propagated to child <code>aegov-input</code> and <code>aegov-button</code>.</td>
-<td><code>&#39;sm&#39;</code> | <code>&#39;base&#39;</code> | <code>&#39;lg&#39;</code></td>
+<td><code>&#39;sm&#39;</code> <code>&#39;base&#39;</code> <code>&#39;lg&#39;</code></td>
 <td><code>&#39;base&#39;</code></td>
 </tr>
 <tr>
@@ -749,21 +754,21 @@
 <td><code>addon-prefix</code></td>
 <td>Static text displayed before the input</td>
 <td><code>string</code></td>
-<td><code>—</code></td>
+<td>--</td>
 </tr>
 <tr>
 <td><code>addonSuffix</code></td>
 <td><code>addon-suffix</code></td>
 <td>Static text displayed after the input</td>
 <td><code>string</code></td>
-<td><code>—</code></td>
+<td>--</td>
 </tr>
 <tr>
 <td><code>class</code></td>
 <td><code>class</code></td>
 <td>Additional CSS classes to apply</td>
 <td><code>string</code></td>
-<td><code>—</code></td>
+<td>--</td>
 </tr>
 </tbody></table>
 <h3>aegov-input-group Slots</h3>
@@ -776,7 +781,7 @@
 </thead>
 <tbody><tr>
 <td>(default)</td>
-<td>The group content — typically <code>aegov-input</code>, <code>aegov-button</code>, or native <code>&lt;select&gt;</code>.</td>
+<td>The group content -- typically <code>aegov-input</code>, <code>aegov-button</code>, or native <code>select</code>.</td>
 </tr>
 </tbody></table>
 <hr>
@@ -796,7 +801,7 @@
 <td><code>class</code></td>
 <td>Additional CSS classes to apply</td>
 <td><code>string</code></td>
-<td><code>—</code></td>
+<td>--</td>
 </tr>
 </tbody></table>
 <h3>aegov-form-field Slots</h3>
@@ -809,7 +814,7 @@
 </thead>
 <tbody><tr>
 <td>(default)</td>
-<td>The field content — typically <code>aegov-label</code>, a form control, and optional helper text or error text.</td>
+<td>The field content -- typically <code>aegov-label</code>, a form control, and optional helper text or error text.</td>
 </tr>
 </tbody></table>
 <h3>aegov-form-field Behaviour</h3>
@@ -835,14 +840,14 @@
 <td><code>for</code></td>
 <td>The ID of the form control this label is for. Automatically set by <code>aegov-form-field</code>.</td>
 <td><code>string</code></td>
-<td><code>—</code></td>
+<td>--</td>
 </tr>
 <tr>
 <td><code>class</code></td>
 <td><code>class</code></td>
 <td>Additional CSS classes to apply</td>
 <td><code>string</code></td>
-<td><code>—</code></td>
+<td>--</td>
 </tr>
 </tbody></table>
 <h3>aegov-label Slots</h3>
@@ -855,7 +860,7 @@
 </thead>
 <tbody><tr>
 <td>(default)</td>
-<td>The label content — text, required indicators, or optional markers.</td>
+<td>The label content -- text, required indicators, or optional markers.</td>
 </tr>
 </tbody></table>
 <hr>
@@ -863,27 +868,29 @@
 <p>The <code>aegov-input</code> component and its companions are built with accessibility as a first-class concern.</p>
 <h3>Built-in Features</h3>
 <ul>
-<li><strong>Native <code>&lt;input&gt;</code> element</strong> — the component renders a semantic HTML input that is keyboard-focusable and announced correctly by screen readers.</li>
-<li><strong>Native <code>&lt;label&gt;</code> element</strong> — <code>aegov-label</code> renders a real <code>&lt;label&gt;</code> element. When used inside <code>aegov-form-field</code>, the <code>for</code> attribute is automatically linked to the input&#39;s <code>id</code>.</li>
-<li><strong>Focus indicators</strong> — clearly visible focus rings are applied via <code>focus-visible</code> / <code>focus-within</code> styles using the primary-support colour.</li>
-<li><strong>Disabled state</strong> — applies <code>pointer-events: none</code>, <code>cursor-not-allowed</code>, and reduced opacity so the input is both visually and functionally inert. The label is also dimmed.</li>
-<li><strong>Password reveal</strong> — the toggle button includes an <code>aria-label</code> that updates between &quot;Show password&quot; and &quot;Hide password&quot;.</li>
-<li><strong>Copy button</strong> — the copy button includes an <code>aria-label</code> that updates between &quot;Copy to clipboard&quot; and &quot;Copied&quot;.</li>
-<li><strong>Pass-through attributes</strong> — all <code>aria-*</code> and <code>data-*</code> attributes placed on the host element are forwarded to the native <code>&lt;input&gt;</code>.</li>
+<li><strong>Native input element</strong> -- the component renders a semantic HTML input that is keyboard-focusable and announced correctly by screen readers.</li>
+<li><strong>Native label element</strong> -- <code>aegov-label</code> renders a real <code>&lt;label&gt;</code> element. When used inside <code>aegov-form-field</code>, the <code>for</code> attribute is automatically linked to the input&#39;s <code>id</code>.</li>
+<li><strong>Focus indicators</strong> -- clearly visible focus rings are applied via <code>focus-visible</code> / <code>focus-within</code> styles using the primary-support colour.</li>
+<li><strong>Disabled state</strong> -- applies <code>pointer-events: none</code>, <code>cursor-not-allowed</code>, and reduced opacity so the input is both visually and functionally inert. The label is also dimmed.</li>
+<li><strong>Password reveal</strong> -- the toggle button includes an <code>aria-label</code> that updates between &quot;Show password&quot; and &quot;Hide password&quot;.</li>
+<li><strong>Copy button</strong> -- the copy button includes an <code>aria-label</code> that updates between &quot;Copy to clipboard&quot; and &quot;Copied&quot;.</li>
+<li><strong>Pass-through attributes</strong> -- all <code>aria-*</code> and <code>data-*</code> attributes placed on the host element are forwarded to the native input.</li>
 </ul>
 <h3>Developer Responsibilities</h3>
 <ol>
 <li><p><strong>Always pair inputs with labels.</strong> Use <code>aegov-form-field</code> with <code>aegov-label</code> to ensure every input has an accessible label. If a visible label is not possible, provide <code>aria-label</code> on the <code>aegov-input</code> element.</p>
 </li>
 <li><p><strong>Error messages should be linked.</strong> Use <code>aria-describedby</code> on the input pointing to the ID of the error message element so screen readers announce the error.</p>
+</li>
+</ol>
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-form-field</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-label</span>&gt;</span>Email<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-label</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;email&quot;</span> <span class="hljs-attr">aria-describedby</span>=<span class="hljs-string">&quot;email-error&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-input</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">small</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;email-error&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;text-sm text-aered-500 mt-1 block&quot;</span>&gt;</span>
     Please enter a valid email.
   <span class="hljs-tag">&lt;/<span class="hljs-name">small</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-form-field</span>&gt;</span></code></pre></li>
-<li><p><strong>Required fields.</strong> Use both the <code>required</code> attribute for native validation and a visible indicator (e.g. <code>*</code>) in the label for sighted users.</p>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-form-field</span>&gt;</span></code></pre><ol start="3">
+<li><p><strong>Required fields.</strong> Use both the <code>required</code> attribute for native validation and a visible indicator (e.g. an asterisk) in the label for sighted users.</p>
 </li>
 <li><p><strong>Colour contrast.</strong> All built-in colour combinations meet WCAG 2.1 AA contrast ratios. If you override colours via the <code>class</code> property, verify that the new colours maintain at least a <strong>4.5:1</strong> contrast ratio for text.</p>
 </li>
@@ -893,7 +900,7 @@
 <hr>
 <h2>Notes</h2>
 <ul>
-<li>The <code>aegov-input</code> component renders a native <code>&lt;input&gt;</code> element internally. Do <strong>not</strong> wrap it inside another <code>&lt;input&gt;</code> — this creates invalid HTML.</li>
+<li>The <code>aegov-input</code> component renders a native <code>&lt;input&gt;</code> element internally. Do <strong>not</strong> wrap it inside another <code>&lt;input&gt;</code> -- this creates invalid HTML.</li>
 <li>The <code>fieldId</code> property is auto-generated using a module-level counter to ensure uniqueness. You can override it by setting the <code>field-id</code> attribute explicitly.</li>
 <li>The <code>revealable</code> property only works when <code>type=&quot;password&quot;</code>. It is ignored for all other input types.</li>
 <li>The <code>copyable</code> property only works when <code>readonly</code> is set. It is ignored otherwise.</li>
@@ -901,10 +908,10 @@
 <li>Inside an <code>aegov-input-group</code>, the input&#39;s own border ring and border radius are removed. The group provides a unified border treatment.</li>
 <li>The <code>size</code> property on <code>aegov-input-group</code> automatically propagates to child <code>aegov-input</code> and <code>aegov-button</code> components. You do not need to set the size on each child individually.</li>
 <li>Native attributes such as <code>min</code>, <code>max</code>, <code>step</code>, <code>pattern</code>, <code>minlength</code>, <code>maxlength</code>, <code>autocomplete</code>, <code>autofocus</code>, <code>inputmode</code>, <code>spellcheck</code>, <code>enterkeyhint</code>, <code>title</code>, <code>tabindex</code>, <code>list</code>, and <code>form</code> are passed through to the native input element automatically.</li>
-<li>The <code>aegov-form-field</code> component supports linking labels to multiple form control types beyond <code>aegov-input</code> — including <code>aegov-textarea</code>, <code>aegov-select</code>, <code>aegov-checkbox</code>, <code>aegov-range</code>, <code>aegov-progress</code>, and <code>aegov-otp</code>.</li>
+<li>The <code>aegov-form-field</code> component supports linking labels to multiple form control types beyond <code>aegov-input</code> -- including <code>aegov-textarea</code>, <code>aegov-select</code>, <code>aegov-checkbox</code>, <code>aegov-range</code>, <code>aegov-progress</code>, and <code>aegov-otp</code>.</li>
 </ul>
 <!-- DOC:END -->
-</section>
+          </section>
       </article>
     </section>
   </main>

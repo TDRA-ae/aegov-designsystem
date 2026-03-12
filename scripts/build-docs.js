@@ -70,7 +70,7 @@ function processFile(mdFilename) {
   // because the markers are unique HTML comments that won't appear in content).
   var markerRegex = new RegExp(MARKER_START + '[\\s\\S]*?' + MARKER_END);
   if (markerRegex.test(html)) {
-    var newHtml = html.replace(markerRegex, wrapped);
+    var newHtml = html.replace(markerRegex, function() { return wrapped; });
     if (newHtml === html) return false;
     fs.writeFileSync(htmlPath, newHtml, 'utf-8');
     console.log('[build-docs] ' + mdFilename + ' -> ' + baseName + '.html');
