@@ -56,6 +56,11 @@ const DROPDOWN_PORTAL_STYLES = `
     margin: 0.5rem 0;
   }
 
+  .aegov-dropdown-portal .aegov-dropdown a {
+    display: block;
+    margin: 0;
+  }
+
   .aegov-dropdown-portal .aegov-dropdown a[aria-disabled="true"],
   .aegov-dropdown-portal .aegov-dropdown button[disabled] {
     opacity: 0.5;
@@ -97,6 +102,8 @@ export class AegovDropdown {
   private dropdownRef?: HTMLDivElement;
   private triggerRef?: HTMLDivElement;
   private portalElement?: HTMLDivElement;
+  private contentSlotRef?: HTMLElement;
+  private slotWrapperRef?: HTMLDivElement;
   private hideTimeout?: number;
   private showTimeout?: number;
   private positionUpdateScheduled: boolean = false;
@@ -180,9 +187,21 @@ export class AegovDropdown {
     this.createPortalElement();
   }
 
+  connectedCallback() {
+    // Re-create the portal when this component is re-inserted into the DOM.
+    // This happens when a parent dropdown moves its content (which contains
+    // this nested dropdown) into a portal via appendChild — the browser fires
+    // disconnectedCallback (destroying the portal) then connectedCallback.
+    // componentDidLoad only runs once, so we must recreate the portal here.
+    if (!this.portalElement && this.el.isConnected) {
+      this.createPortalElement();
+    }
+  }
+
   disconnectedCallback() {
     this.clearTimeouts();
     this.cleanupDropdownListeners();
+    this.returnPortalContent();
     this.removePortalElement();
   }
 
@@ -247,6 +266,8 @@ export class AegovDropdown {
 
       // Remove event listeners before destroying DOM
       this.cleanupDropdownListeners();
+      // Move content back into the host before clearing the portal
+      this.returnPortalContent();
       // Clear dropdown ref when hiding
       this.dropdownRef = undefined;
       // Reset scheduled flag
@@ -258,9 +279,11 @@ export class AegovDropdown {
       }
       // Emit close event
       this.aegovDropdownClose.emit();
-      // Restore focus to trigger
+      // Restore focus to trigger without scrolling the page.
+      // When the dropdown closes because the trigger scrolled out of the
+      // viewport, a plain .focus() would snap the page back to the trigger.
       if (this.triggerElement) {
-        this.triggerElement.focus();
+        this.triggerElement.focus({ preventScroll: true });
       }
     }
   }
@@ -600,8 +623,11 @@ export class AegovDropdown {
     if (!this.portalElement || !this.hasContentSlot) return;
 
     // Get content slot element
-    const contentSlot = this.el.querySelector('[slot="dropdown-content"]');
+    const contentSlot = this.el.querySelector('[slot="dropdown-content"]') as HTMLElement;
     if (!contentSlot) return;
+
+    // Store reference so we can move it back on close
+    this.contentSlotRef = contentSlot;
 
     // Clear portal
     this.portalElement.innerHTML = '';
@@ -619,10 +645,11 @@ export class AegovDropdown {
     dropdownContainer.setAttribute('aria-labelledby', this.triggerId);
     dropdownContainer.setAttribute('data-state', 'open');
 
-    // Clone and append content
-    const contentClone = contentSlot.cloneNode(true) as HTMLElement;
-    contentClone.removeAttribute('slot');
-    dropdownContainer.appendChild(contentClone);
+    // Move the original element into the portal (not clone).
+    // Cloning causes Stencil web components to double-render because
+    // the clone captures already-hydrated DOM that Stencil re-initialises.
+    contentSlot.removeAttribute('slot');
+    dropdownContainer.appendChild(contentSlot);
 
     // Ensure focusable children have role="menuitem" for screen readers
     const focusable = dropdownContainer.querySelectorAll('button, a, [tabindex]');
@@ -641,6 +668,19 @@ export class AegovDropdown {
 
     // Store reference
     this.dropdownRef = dropdownContainer;
+  }
+
+  /**
+   * Moves the content slot element back into the host's hidden wrapper
+   * so it is available for the next open cycle.
+   */
+  private returnPortalContent() {
+    if (!this.contentSlotRef || !this.slotWrapperRef) return;
+
+    // Restore the slot attribute so the element is recognised by the named slot
+    this.contentSlotRef.setAttribute('slot', 'dropdown-content');
+    this.slotWrapperRef.appendChild(this.contentSlotRef);
+    this.contentSlotRef = undefined;
   }
 
   render() {
@@ -662,9 +702,9 @@ export class AegovDropdown {
           <slot />
         </div>
 
-        {/* Content slot is hidden - it will be cloned to portal */}
+        {/* Content slot is hidden — the element is moved to the portal on open, back here on close */}
         {hasContent && (
-          <div style={{ display: 'none' }}>
+          <div style={{ display: 'none' }} ref={(el) => (this.slotWrapperRef = el)}>
             <slot name="dropdown-content" />
           </div>
         )}
