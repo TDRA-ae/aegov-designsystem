@@ -207,11 +207,15 @@
 }
 
 .step__text--vertical {
-  @apply flex flex-col py-1;
+  @apply flex flex-col p-0;
+}
+
+.step__text--vertical > .step__label {
+  @apply px-0!;
 }
 
 .step__label {
-  @apply text-sm leading-tight;
+  @apply text-sm leading-tight px-5!;
 }
 
 .step__label--completed {
