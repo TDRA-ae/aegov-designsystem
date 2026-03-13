@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aspect Ratio | AEGOV Design System</title>
+  <script type="module" src="/build/aegov.esm.js"></script>
+  <script nomodule src="/build/aegov.js"></script>
+  <link rel="stylesheet" href="/build/aegov.css">
+  <link rel="stylesheet" href="/docs/doc-style.css">
+  <link rel="stylesheet" href="/docs/hljs.css">
+</head>
+<body class="bg-aeblack-50">
+  <header class="mx-auto max-w-7xl sm:px-6 lg:px-8 mb-8">
+    <img src="https://designsystem.gov.ae/assets/site-logo/AEGov-DesignSystem-Logo-Color.svg" alt="UAE Design System Logo" class="w-auto h-16 my-2">
+  </header>
+  <main class="mx-auto max-w-7xl sm:px-6 lg:px-8 bg-aeblack-50">
+    <section class="flex items-start align-top gap-4">
+      <nav id="primary-nav" class="w-3xs shrink-0">&nbsp;</nav>
+      <article class="col-span-5 grow">
+          <section id="content-area" class="bg-whitely-50 p-6 rounded-md shadow-xl">
+          <!-- DOC:START -->
+<h1>Aspect Ratio</h1>
+<p class="text-lg text-aeblack-500 mb-8">A layout component that enforces a specific aspect ratio on images, videos, iframes, or any slotted content. Supports responsive breakpoints via Tailwind utility classes.</p>
+
+<h2>Introduction</h2>
+<p>The <code>aegov-aspect-ratio</code> component wraps content in a container with a fixed aspect ratio, powered by the native CSS <code>aspect-ratio</code> property. It ensures that images and videos maintain consistent proportions regardless of the available width.</p>
+<p>The component supports named presets (<code>square</code>, <code>video</code>), common ratios (<code>4/3</code>, <code>3/2</code>, <code>21/9</code>), and fully custom values. Media elements (img, video, iframe) automatically fill the container with configurable <code>object-fit</code> behaviour.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-aspect-ratio</span> <span class="hljs-attr">ratio</span>=<span class="hljs-string">&quot;video&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">img</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://picsum.photos/800/800&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;Demo image&quot;</span> /&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-aspect-ratio</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
+  <div style="max-width: 480px;">
+    <aegov-aspect-ratio ratio="video">
+      <img src="https://picsum.photos/800/800" alt="Demo image" />
+    </aegov-aspect-ratio>
+  </div>
+</div>
+
+<hr>
+<h2>Ratio Presets</h2>
+<p>The <code>ratio</code> prop accepts several named presets for common aspect ratios.</p>
+<h3>Auto (default)</h3>
+<p>The content uses its natural aspect ratio.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-aspect-ratio</span> <span class="hljs-attr">ratio</span>=<span class="hljs-string">&quot;auto&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">img</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://picsum.photos/600/400&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;Auto ratio&quot;</span> /&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-aspect-ratio</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
+  <div style="max-width: 300px;">
+    <aegov-aspect-ratio ratio="auto">
+      <img src="https://picsum.photos/600/400" alt="Auto ratio" />
+    </aegov-aspect-ratio>
+  </div>
+</div>
+
+<h3>Square (1:1)</h3>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-aspect-ratio</span> <span class="hljs-attr">ratio</span>=<span class="hljs-string">&quot;square&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">img</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://picsum.photos/600/400&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;Square&quot;</span> /&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-aspect-ratio</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
+  <div style="max-width: 200px;">
+    <aegov-aspect-ratio ratio="square">
+      <img src="https://picsum.photos/600/400" alt="Square" />
+    </aegov-aspect-ratio>
+  </div>
+</div>
+
+<h3>Video (16:9)</h3>
+<p>The standard widescreen video ratio.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-aspect-ratio</span> <span class="hljs-attr">ratio</span>=<span class="hljs-string">&quot;video&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">img</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://picsum.photos/800/450&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;Video ratio&quot;</span> /&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-aspect-ratio</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
+  <div style="max-width: 480px;">
+    <aegov-aspect-ratio ratio="video">
+      <img src="https://picsum.photos/800/450" alt="Video ratio" />
+    </aegov-aspect-ratio>
+  </div>
+</div>
+
+<h3>All Presets</h3>
+<div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
+  <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem;">
+    <div>
+      <p class="text-sm font-semibold text-aeblack-700 mb-2">square (1:1)</p>
+      <aegov-aspect-ratio ratio="square" inner-class="rounded-lg">
+        <img src="https://picsum.photos/400/400?random=1" alt="Square" />
+      </aegov-aspect-ratio>
+    </div>
+    <div>
+      <p class="text-sm font-semibold text-aeblack-700 mb-2">video (16:9)</p>
+      <aegov-aspect-ratio ratio="video" inner-class="rounded-lg">
+        <img src="https://picsum.photos/800/450?random=2" alt="Video" />
+      </aegov-aspect-ratio>
+    </div>
+    <div>
+      <p class="text-sm font-semibold text-aeblack-700 mb-2">4/3</p>
+      <aegov-aspect-ratio ratio="4/3" inner-class="rounded-lg">
+        <img src="https://picsum.photos/800/600?random=3" alt="4/3" />
+      </aegov-aspect-ratio>
+    </div>
+    <div>
+      <p class="text-sm font-semibold text-aeblack-700 mb-2">3/2</p>
+      <aegov-aspect-ratio ratio="3/2" inner-class="rounded-lg">
+        <img src="https://picsum.photos/600/400?random=4" alt="3/2" />
+      </aegov-aspect-ratio>
+    </div>
+    <div>
+      <p class="text-sm font-semibold text-aeblack-700 mb-2">21/9 (Ultra-wide)</p>
+      <aegov-aspect-ratio ratio="21/9" inner-class="rounded-lg">
+        <img src="https://picsum.photos/840/360?random=5" alt="21/9" />
+      </aegov-aspect-ratio>
+    </div>
+    <div>
+      <p class="text-sm font-semibold text-aeblack-700 mb-2">auto (natural)</p>
+      <aegov-aspect-ratio ratio="auto" inner-class="rounded-lg">
+        <img src="https://picsum.photos/500/300?random=6" alt="Auto" />
+      </aegov-aspect-ratio>
+    </div>
+  </div>
+</div>
+
+<hr>
+<h2>Custom Ratios</h2>
+<p>Pass any <code>W/H</code> string to the <code>ratio</code> prop for ratios not covered by the presets.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-aspect-ratio</span> <span class="hljs-attr">ratio</span>=<span class="hljs-string">&quot;5/4&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">img</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://picsum.photos/500/400&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;5:4 ratio&quot;</span> /&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-aspect-ratio</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-aspect-ratio</span> <span class="hljs-attr">ratio</span>=<span class="hljs-string">&quot;2/1&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">img</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://picsum.photos/800/400&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;2:1 panoramic&quot;</span> /&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-aspect-ratio</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
+  <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem;">
+    <div>
+      <p class="text-sm font-semibold text-aeblack-700 mb-2">5/4</p>
+      <aegov-aspect-ratio ratio="5/4" inner-class="rounded-lg">
+        <img src="https://picsum.photos/500/400?random=7" alt="5:4" />
+      </aegov-aspect-ratio>
+    </div>
+    <div>
+      <p class="text-sm font-semibold text-aeblack-700 mb-2">2/1 (Panoramic)</p>
+      <aegov-aspect-ratio ratio="2/1" inner-class="rounded-lg">
+        <img src="https://picsum.photos/800/400?random=8" alt="2:1" />
+      </aegov-aspect-ratio>
+    </div>
+  </div>
+</div>
+
+<hr>
+<h2>Object Fit</h2>
+<p>The <code>fit</code> prop controls how media elements (img, video, iframe) fill the aspect-ratio container. This maps directly to the CSS <code>object-fit</code> property.</p>
+<h3>Cover (default)</h3>
+<p>The media fills the entire container, cropping as needed to maintain the ratio.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-aspect-ratio</span> <span class="hljs-attr">ratio</span>=<span class="hljs-string">&quot;square&quot;</span> <span class="hljs-attr">fit</span>=<span class="hljs-string">&quot;cover&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">img</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://picsum.photos/800/400&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;Cover fit&quot;</span> /&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-aspect-ratio</span>&gt;</span></code></pre><h3>Contain</h3>
+<p>The media fits inside the container without cropping, potentially leaving empty space.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-aspect-ratio</span> <span class="hljs-attr">ratio</span>=<span class="hljs-string">&quot;square&quot;</span> <span class="hljs-attr">fit</span>=<span class="hljs-string">&quot;contain&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">img</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://picsum.photos/800/400&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;Contain fit&quot;</span> /&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-aspect-ratio</span>&gt;</span></code></pre><h3>All Fit Options</h3>
+<div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
+  <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem;">
+    <div>
+      <p class="text-sm font-semibold text-aeblack-700 mb-2">cover</p>
+      <aegov-aspect-ratio ratio="square" fit="cover" inner-class="rounded-lg bg-slate-200">
+        <img src="https://picsum.photos/800/400?random=10" alt="Cover" />
+      </aegov-aspect-ratio>
+    </div>
+    <div>
+      <p class="text-sm font-semibold text-aeblack-700 mb-2">contain</p>
+      <aegov-aspect-ratio ratio="square" fit="contain" inner-class="rounded-lg bg-slate-200">
+        <img src="https://picsum.photos/800/400?random=11" alt="Contain" />
+      </aegov-aspect-ratio>
+    </div>
+    <div>
+      <p class="text-sm font-semibold text-aeblack-700 mb-2">fill</p>
+      <aegov-aspect-ratio ratio="square" fit="fill" inner-class="rounded-lg bg-slate-200">
+        <img src="https://picsum.photos/800/400?random=12" alt="Fill" />
+      </aegov-aspect-ratio>
+    </div>
+    <div>
+      <p class="text-sm font-semibold text-aeblack-700 mb-2">none</p>
+      <aegov-aspect-ratio ratio="square" fit="none" inner-class="rounded-lg bg-slate-200">
+        <img src="https://picsum.photos/800/400?random=13" alt="None" />
+      </aegov-aspect-ratio>
+    </div>
+    <div>
+      <p class="text-sm font-semibold text-aeblack-700 mb-2">scale-down</p>
+      <aegov-aspect-ratio ratio="square" fit="scale-down" inner-class="rounded-lg bg-slate-200">
+        <img src="https://picsum.photos/800/400?random=14" alt="Scale-down" />
+      </aegov-aspect-ratio>
+    </div>
+  </div>
+</div>
+
+<hr>
+<h2>Video Content</h2>
+<p>The component works with <code>&lt;video&gt;</code> elements just like images.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-aspect-ratio</span> <span class="hljs-attr">ratio</span>=<span class="hljs-string">&quot;video&quot;</span> <span class="hljs-attr">fit</span>=<span class="hljs-string">&quot;cover&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">video</span> <span class="hljs-attr">controls</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">source</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;clip.mp4&quot;</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;video/mp4&quot;</span> /&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">video</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-aspect-ratio</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
+  <div style="max-width: 480px;">
+    <aegov-aspect-ratio ratio="video" inner-class="rounded-lg bg-aeblack-900">
+      <video controls poster="https://picsum.photos/800/450?random=20">
+        <source src="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.webm" type="video/webm" />
+      </video>
+    </aegov-aspect-ratio>
+  </div>
+</div>
+
+<hr>
+<h2>Iframe Content</h2>
+<p>Embed iframes (maps, videos, etc.) with consistent aspect ratios.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-aspect-ratio</span> <span class="hljs-attr">ratio</span>=<span class="hljs-string">&quot;video&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">iframe</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://www.openstreetmap.org/export/embed.html&quot;</span> <span class="hljs-attr">allowfullscreen</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">iframe</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-aspect-ratio</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
+  <div style="max-width: 480px;">
+    <aegov-aspect-ratio ratio="video" inner-class="rounded-lg">
+      <iframe src="https://www.openstreetmap.org/export/embed.html?bbox=55.1%2C25.1%2C55.4%2C25.3&layer=mapnik" style="border: 0;"></iframe>
+    </aegov-aspect-ratio>
+  </div>
+</div>
+
+<hr>
+<h2>Inner Class</h2>
+<p>The <code>inner-class</code> prop adds CSS classes to the inner container. Use it for rounded corners, backgrounds, shadows, or responsive breakpoint overrides.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-aspect-ratio</span> <span class="hljs-attr">ratio</span>=<span class="hljs-string">&quot;square&quot;</span> <span class="hljs-attr">inner-class</span>=<span class="hljs-string">&quot;rounded-full shadow-lg bg-slate-100&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">img</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://picsum.photos/400/400&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;Rounded&quot;</span> /&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-aspect-ratio</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-aspect-ratio</span> <span class="hljs-attr">ratio</span>=<span class="hljs-string">&quot;video&quot;</span> <span class="hljs-attr">inner-class</span>=<span class="hljs-string">&quot;rounded-2xl shadow-xl&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">img</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://picsum.photos/800/450&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;Styled&quot;</span> /&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-aspect-ratio</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
+  <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; align-items: start;">
+    <div>
+      <p class="text-sm font-semibold text-aeblack-700 mb-2">rounded-full (circular)</p>
+      <aegov-aspect-ratio ratio="square" inner-class="rounded-full shadow-lg">
+        <img src="https://picsum.photos/400/400?random=30" alt="Circular" />
+      </aegov-aspect-ratio>
+    </div>
+    <div>
+      <p class="text-sm font-semibold text-aeblack-700 mb-2">rounded-2xl + shadow</p>
+      <aegov-aspect-ratio ratio="video" inner-class="rounded-2xl shadow-xl">
+        <img src="https://picsum.photos/800/450?random=31" alt="Styled" />
+      </aegov-aspect-ratio>
+    </div>
+    <div>
+      <p class="text-sm font-semibold text-aeblack-700 mb-2">bg-slate-200 + contain</p>
+      <aegov-aspect-ratio ratio="square" fit="contain" inner-class="rounded-lg bg-slate-200">
+        <img src="https://picsum.photos/800/400?random=32" alt="Contain with bg" />
+      </aegov-aspect-ratio>
+    </div>
+  </div>
+</div>
+
+<hr>
+<h2>Responsive Breakpoints</h2>
+<p>Override the aspect ratio at different viewport sizes using Tailwind responsive classes on the host element or via the <code>inner-class</code> prop.</p>
+<h3>Using host classes</h3>
+<p>Apply Tailwind <code>aspect-*</code> utilities directly on the component for responsive overrides. The inline <code>aspect-ratio</code> style from the <code>ratio</code> prop serves as the base, and Tailwind responsive utilities can override at larger breakpoints.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-aspect-ratio</span> <span class="hljs-attr">ratio</span>=<span class="hljs-string">&quot;square&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;md:aspect-video lg:aspect-[21/9]&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">img</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://picsum.photos/800/450&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;Responsive&quot;</span> /&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-aspect-ratio</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
+  <p class="text-sm text-aeblack-500 mb-4">Resize your browser window to see the ratio change: <strong>square</strong> → <strong>video (md)</strong> → <strong>21:9 (lg)</strong></p>
+  <aegov-aspect-ratio ratio="square" class="md:[&_.aegov-aspect-ratio]:aspect-video lg:[&_.aegov-aspect-ratio]:aspect-[21/9]" inner-class="rounded-lg">
+    <img src="https://picsum.photos/800/450?random=40" alt="Responsive" />
+  </aegov-aspect-ratio>
+</div>
+
+<h3>Using inner-class</h3>
+<p>Pass responsive Tailwind classes via the <code>inner-class</code> prop for a cleaner attribute.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-aspect-ratio</span> <span class="hljs-attr">ratio</span>=<span class="hljs-string">&quot;square&quot;</span> <span class="hljs-attr">inner-class</span>=<span class="hljs-string">&quot;md:aspect-video lg:aspect-[21/9] rounded-lg&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">img</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://picsum.photos/800/450&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;Responsive inner&quot;</span> /&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-aspect-ratio</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
+  <p class="text-sm text-aeblack-500 mb-4">Resize your browser to see the ratio change via inner-class: <strong>square</strong> → <strong>video (md)</strong> → <strong>21:9 (lg)</strong></p>
+  <aegov-aspect-ratio ratio="square" inner-class="md:aspect-video lg:aspect-[21/9] rounded-lg">
+    <img src="https://picsum.photos/800/450?random=41" alt="Responsive inner" />
+  </aegov-aspect-ratio>
+</div>
+
+<hr>
+<h2>Image Gallery</h2>
+<p>A practical example showing an image gallery with consistent aspect ratios.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">style</span>=<span class="hljs-string">&quot;display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem;&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-aspect-ratio</span> <span class="hljs-attr">ratio</span>=<span class="hljs-string">&quot;square&quot;</span> <span class="hljs-attr">inner-class</span>=<span class="hljs-string">&quot;rounded-lg&quot;</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">img</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;photo1.jpg&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;Gallery 1&quot;</span> /&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-aspect-ratio</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-aspect-ratio</span> <span class="hljs-attr">ratio</span>=<span class="hljs-string">&quot;square&quot;</span> <span class="hljs-attr">inner-class</span>=<span class="hljs-string">&quot;rounded-lg&quot;</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">img</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;photo2.jpg&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;Gallery 2&quot;</span> /&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-aspect-ratio</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-aspect-ratio</span> <span class="hljs-attr">ratio</span>=<span class="hljs-string">&quot;square&quot;</span> <span class="hljs-attr">inner-class</span>=<span class="hljs-string">&quot;rounded-lg&quot;</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">img</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;photo3.jpg&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;Gallery 3&quot;</span> /&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-aspect-ratio</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
+  <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.75rem;">
+    <aegov-aspect-ratio ratio="square" inner-class="rounded-lg">
+      <img src="https://picsum.photos/400/400?random=50" alt="Gallery 1" />
+    </aegov-aspect-ratio>
+    <aegov-aspect-ratio ratio="square" inner-class="rounded-lg">
+      <img src="https://picsum.photos/400/400?random=51" alt="Gallery 2" />
+    </aegov-aspect-ratio>
+    <aegov-aspect-ratio ratio="square" inner-class="rounded-lg">
+      <img src="https://picsum.photos/400/400?random=52" alt="Gallery 3" />
+    </aegov-aspect-ratio>
+    <aegov-aspect-ratio ratio="square" inner-class="rounded-lg">
+      <img src="https://picsum.photos/400/400?random=53" alt="Gallery 4" />
+    </aegov-aspect-ratio>
+    <aegov-aspect-ratio ratio="square" inner-class="rounded-lg">
+      <img src="https://picsum.photos/400/400?random=54" alt="Gallery 5" />
+    </aegov-aspect-ratio>
+    <aegov-aspect-ratio ratio="square" inner-class="rounded-lg">
+      <img src="https://picsum.photos/400/400?random=55" alt="Gallery 6" />
+    </aegov-aspect-ratio>
+    <aegov-aspect-ratio ratio="square" inner-class="rounded-lg">
+      <img src="https://picsum.photos/400/400?random=56" alt="Gallery 7" />
+    </aegov-aspect-ratio>
+    <aegov-aspect-ratio ratio="square" inner-class="rounded-lg">
+      <img src="https://picsum.photos/400/400?random=57" alt="Gallery 8" />
+    </aegov-aspect-ratio>
+  </div>
+</div>
+
+<hr>
+<h2>Video Thumbnail Grid</h2>
+<p>A video thumbnail grid using the <code>video</code> ratio preset.</p>
+<div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
+  <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem;">
+    <div>
+      <aegov-aspect-ratio ratio="video" inner-class="rounded-lg bg-aeblack-900">
+        <img src="https://picsum.photos/800/450?random=60" alt="Video 1" />
+      </aegov-aspect-ratio>
+      <p class="text-sm font-medium text-aeblack-700 mt-2">Introduction to Components</p>
+    </div>
+    <div>
+      <aegov-aspect-ratio ratio="video" inner-class="rounded-lg bg-aeblack-900">
+        <img src="https://picsum.photos/800/450?random=61" alt="Video 2" />
+      </aegov-aspect-ratio>
+      <p class="text-sm font-medium text-aeblack-700 mt-2">Design Tokens Deep Dive</p>
+    </div>
+    <div>
+      <aegov-aspect-ratio ratio="video" inner-class="rounded-lg bg-aeblack-900">
+        <img src="https://picsum.photos/800/450?random=62" alt="Video 3" />
+      </aegov-aspect-ratio>
+      <p class="text-sm font-medium text-aeblack-700 mt-2">Building Accessible UIs</p>
+    </div>
+  </div>
+</div>
+
+<hr>
+<h2>API Reference</h2>
+<h3>Properties</h3>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Attribute</th>
+<th>Type</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>ratio</code></td>
+<td><code>ratio</code></td>
+<td><code>&#39;auto&#39; | &#39;square&#39; | &#39;video&#39; | &#39;4/3&#39; | &#39;3/2&#39; | &#39;21/9&#39; | string</code></td>
+<td><code>&#39;auto&#39;</code></td>
+<td>The aspect ratio to apply. Accepts named presets or custom <code>W/H</code> strings.</td>
+</tr>
+<tr>
+<td><code>fit</code></td>
+<td><code>fit</code></td>
+<td><code>&#39;cover&#39; | &#39;contain&#39; | &#39;fill&#39; | &#39;none&#39; | &#39;scale-down&#39;</code></td>
+<td><code>&#39;cover&#39;</code></td>
+<td>How media elements fill the container. Maps to CSS <code>object-fit</code>.</td>
+</tr>
+<tr>
+<td><code>innerClass</code></td>
+<td><code>inner-class</code></td>
+<td><code>string</code></td>
+<td><code>undefined</code></td>
+<td>Additional CSS classes for the inner container. Useful for responsive overrides, rounded corners, backgrounds, etc.</td>
+</tr>
+</tbody></table>
+<h3>Slots</h3>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>(default)</td>
+<td>The content to display inside the aspect-ratio container. Typically <code>&lt;img&gt;</code>, <code>&lt;video&gt;</code>, <code>&lt;iframe&gt;</code>, or any HTML element.</td>
+</tr>
+</tbody></table>
+<h3>CSS Classes</h3>
+<table>
+<thead>
+<tr>
+<th>Class</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>.aegov-aspect-ratio</code></td>
+<td>Inner container with the aspect ratio applied.</td>
+</tr>
+<tr>
+<td><code>[data-fit]</code></td>
+<td>Data attribute controlling <code>object-fit</code> on direct child media elements.</td>
+</tr>
+</tbody></table>
+<h3>Ratio Preset Reference</h3>
+<table>
+<thead>
+<tr>
+<th>Preset</th>
+<th>CSS Value</th>
+<th>Common Use</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>auto</code></td>
+<td><code>auto</code></td>
+<td>Natural content dimensions</td>
+</tr>
+<tr>
+<td><code>square</code></td>
+<td><code>1 / 1</code></td>
+<td>Profile pictures, thumbnails, icons</td>
+</tr>
+<tr>
+<td><code>video</code></td>
+<td><code>16 / 9</code></td>
+<td>Video embeds, hero banners</td>
+</tr>
+<tr>
+<td><code>4/3</code></td>
+<td><code>4 / 3</code></td>
+<td>Classic photo format, presentations</td>
+</tr>
+<tr>
+<td><code>3/2</code></td>
+<td><code>3 / 2</code></td>
+<td>DSLR photo format</td>
+</tr>
+<tr>
+<td><code>21/9</code></td>
+<td><code>21 / 9</code></td>
+<td>Ultra-wide cinema, panoramic banners</td>
+</tr>
+</tbody></table>
+<hr>
+<h2>Accessibility</h2>
+<ul>
+<li>The component itself is purely presentational and adds no semantic meaning.</li>
+<li>Always provide <code>alt</code> attributes on images for screen reader support.</li>
+<li>Video elements should include <code>controls</code> and appropriate <code>&lt;track&gt;</code> elements for captions.</li>
+<li>Iframes should include a <code>title</code> attribute describing their content.</li>
+</ul>
+<hr>
+<h2>Notes</h2>
+<ul>
+<li>The component uses the native CSS <code>aspect-ratio</code> property, supported in all modern browsers.</li>
+<li>The <code>ratio</code> prop sets an inline <code>aspect-ratio</code> style. Responsive Tailwind <code>aspect-*</code> classes on the inner container (via <code>inner-class</code>) or on the host element will override this at the specified breakpoints.</li>
+<li>Media elements (<code>img</code>, <code>video</code>, <code>iframe</code>) that are direct children of the container automatically receive <code>width: 100%</code>, <code>height: 100%</code>, and the specified <code>object-fit</code>.</li>
+<li>For non-media content, the container enforces the ratio but child elements are not automatically sized — use your own styles as needed.</li>
+</ul>
+<!-- DOC:END -->
+          </section>
+      </article>
+    </section>
+  </main>
+  <script src="/docs/layout.js"></script>
+</body>
+</html>

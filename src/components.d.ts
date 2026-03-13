@@ -5,9 +5,9 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
-import { AccordionIcon, AvatarGroupMode, AvatarSize, AvatarStatus, AvatarVariant, BadgeAppearance, BadgeColor, BadgeSize, BannerDisplay, BannerMode, BannerPosition, BannerRole, BlockquoteVariant, BreadcrumbSeparator, ButtonAppearance, ButtonGroupOrientation, ButtonGroupPosition, ButtonSize, ButtonType, ButtonVariant, CalloutAppearance, CalloutVariant, CardBackground, CardBorderStyle, CardBorderWidth, CardHover, CheckboxGroupOrientation, CheckboxGroupVariant, CheckboxSize, DatepickerChangeDetail, DatepickerMode, DatepickerMonthChangeDetail, DrawerAnimation, DrawerOverlayOpacity, DrawerPosition, DropdownAlign, DropdownPosition, DropdownTrigger, FileuploadSize, FileuploadVariant, InputSize, InputType, LinkTarget, ModalBackdropOpacity, ModalPosition, OtpSize, OtpVariant, PaginationSize, PaginationVariant, PopoverAlign, PopoverPosition, PopoverTrigger, ProgressCounter, RadioGroupOrientation, RadioGroupVariant, RadioSize, RangeDisplay, RangeMode, RangeOrientation, RangeSize, SelectChangeDetail, SelectSize, SelectVariant, TabOrientation, TabSize, TabVariant, TextareaResize, TextareaSize, TextSize, TimelineOrientation, TimelineSize, TimelineStepStatus, TimelineVariant, TitleSize, ToastAppearance, ToastMode, ToastPosition, ToastVariant, ToggleSize, TooltipAlign, TooltipPosition, TooltipTrigger } from "./utils/types";
+import { AccordionIcon, AspectRatioFit, AspectRatioPreset, AvatarGroupMode, AvatarSize, AvatarStatus, AvatarVariant, BadgeAppearance, BadgeColor, BadgeSize, BannerDisplay, BannerMode, BannerPosition, BannerRole, BlockquoteVariant, BreadcrumbSeparator, ButtonAppearance, ButtonGroupOrientation, ButtonGroupPosition, ButtonSize, ButtonType, ButtonVariant, CalloutAppearance, CalloutVariant, CardBackground, CardBorderStyle, CardBorderWidth, CardHover, CheckboxGroupOrientation, CheckboxGroupVariant, CheckboxSize, DatepickerChangeDetail, DatepickerMode, DatepickerMonthChangeDetail, DrawerAnimation, DrawerOverlayOpacity, DrawerPosition, DropdownAlign, DropdownPosition, DropdownTrigger, FileuploadSize, FileuploadVariant, InputSize, InputType, LinkTarget, ModalBackdropOpacity, ModalPosition, OtpSize, OtpVariant, PaginationSize, PaginationVariant, PopoverAlign, PopoverPosition, PopoverTrigger, ProgressCounter, RadioGroupOrientation, RadioGroupVariant, RadioSize, RangeDisplay, RangeMode, RangeOrientation, RangeSize, SelectChangeDetail, SelectSize, SelectVariant, TabOrientation, TabSize, TabVariant, TextareaResize, TextareaSize, TextSize, TimelineOrientation, TimelineSize, TimelineStepStatus, TimelineVariant, TitleSize, ToastAppearance, ToastMode, ToastPosition, ToastVariant, ToggleSize, TooltipAlign, TooltipPosition, TooltipTrigger } from "./utils/types";
 import { Event } from "@stencil/core";
-export { AccordionIcon, AvatarGroupMode, AvatarSize, AvatarStatus, AvatarVariant, BadgeAppearance, BadgeColor, BadgeSize, BannerDisplay, BannerMode, BannerPosition, BannerRole, BlockquoteVariant, BreadcrumbSeparator, ButtonAppearance, ButtonGroupOrientation, ButtonGroupPosition, ButtonSize, ButtonType, ButtonVariant, CalloutAppearance, CalloutVariant, CardBackground, CardBorderStyle, CardBorderWidth, CardHover, CheckboxGroupOrientation, CheckboxGroupVariant, CheckboxSize, DatepickerChangeDetail, DatepickerMode, DatepickerMonthChangeDetail, DrawerAnimation, DrawerOverlayOpacity, DrawerPosition, DropdownAlign, DropdownPosition, DropdownTrigger, FileuploadSize, FileuploadVariant, InputSize, InputType, LinkTarget, ModalBackdropOpacity, ModalPosition, OtpSize, OtpVariant, PaginationSize, PaginationVariant, PopoverAlign, PopoverPosition, PopoverTrigger, ProgressCounter, RadioGroupOrientation, RadioGroupVariant, RadioSize, RangeDisplay, RangeMode, RangeOrientation, RangeSize, SelectChangeDetail, SelectSize, SelectVariant, TabOrientation, TabSize, TabVariant, TextareaResize, TextareaSize, TextSize, TimelineOrientation, TimelineSize, TimelineStepStatus, TimelineVariant, TitleSize, ToastAppearance, ToastMode, ToastPosition, ToastVariant, ToggleSize, TooltipAlign, TooltipPosition, TooltipTrigger } from "./utils/types";
+export { AccordionIcon, AspectRatioFit, AspectRatioPreset, AvatarGroupMode, AvatarSize, AvatarStatus, AvatarVariant, BadgeAppearance, BadgeColor, BadgeSize, BannerDisplay, BannerMode, BannerPosition, BannerRole, BlockquoteVariant, BreadcrumbSeparator, ButtonAppearance, ButtonGroupOrientation, ButtonGroupPosition, ButtonSize, ButtonType, ButtonVariant, CalloutAppearance, CalloutVariant, CardBackground, CardBorderStyle, CardBorderWidth, CardHover, CheckboxGroupOrientation, CheckboxGroupVariant, CheckboxSize, DatepickerChangeDetail, DatepickerMode, DatepickerMonthChangeDetail, DrawerAnimation, DrawerOverlayOpacity, DrawerPosition, DropdownAlign, DropdownPosition, DropdownTrigger, FileuploadSize, FileuploadVariant, InputSize, InputType, LinkTarget, ModalBackdropOpacity, ModalPosition, OtpSize, OtpVariant, PaginationSize, PaginationVariant, PopoverAlign, PopoverPosition, PopoverTrigger, ProgressCounter, RadioGroupOrientation, RadioGroupVariant, RadioSize, RangeDisplay, RangeMode, RangeOrientation, RangeSize, SelectChangeDetail, SelectSize, SelectVariant, TabOrientation, TabSize, TabVariant, TextareaResize, TextareaSize, TextSize, TimelineOrientation, TimelineSize, TimelineStepStatus, TimelineVariant, TitleSize, ToastAppearance, ToastMode, ToastPosition, ToastVariant, ToggleSize, TooltipAlign, TooltipPosition, TooltipTrigger } from "./utils/types";
 export { Event } from "@stencil/core";
 export namespace Components {
     /**
@@ -69,6 +69,29 @@ export namespace Components {
           * @default false
          */
         "open": boolean;
+    }
+    /**
+     * @component aegov-aspect-ratio
+     * @description A layout component that enforces a specific aspect ratio on its
+     * content. Supports images, videos, iframes, and arbitrary slotted content.
+     * Responsive breakpoints can be applied via Tailwind utility classes on the
+     * host element (e.g. `class="md:aspect-square lg:aspect-[21/9]"`).
+     */
+    interface AegovAspectRatio {
+        /**
+          * How slotted media (img, video, iframe) should fit within the aspect ratio container.
+          * @default 'cover'
+         */
+        "fit": AspectRatioFit;
+        /**
+          * Additional CSS classes to apply to the inner container. Useful for responsive aspect-ratio overrides (e.g. 'md:aspect-square') or background/border utilities.
+         */
+        "innerClass"?: string;
+        /**
+          * The aspect ratio to apply. Accepts named presets ('auto', 'square', 'video', '4/3', '3/2', '21/9') or any custom ratio string such as '5/4' or '2.35/1'.
+          * @default 'auto'
+         */
+        "ratio": AspectRatioPreset | string;
     }
     interface AegovAvatar {
         /**
@@ -1907,6 +1930,19 @@ declare global {
         prototype: HTMLAegovAccordionItemElement;
         new (): HTMLAegovAccordionItemElement;
     };
+    /**
+     * @component aegov-aspect-ratio
+     * @description A layout component that enforces a specific aspect ratio on its
+     * content. Supports images, videos, iframes, and arbitrary slotted content.
+     * Responsive breakpoints can be applied via Tailwind utility classes on the
+     * host element (e.g. `class="md:aspect-square lg:aspect-[21/9]"`).
+     */
+    interface HTMLAegovAspectRatioElement extends Components.AegovAspectRatio, HTMLStencilElement {
+    }
+    var HTMLAegovAspectRatioElement: {
+        prototype: HTMLAegovAspectRatioElement;
+        new (): HTMLAegovAspectRatioElement;
+    };
     interface HTMLAegovAvatarElement extends Components.AegovAvatar, HTMLStencilElement {
     }
     var HTMLAegovAvatarElement: {
@@ -2555,6 +2591,7 @@ declare global {
     interface HTMLElementTagNameMap {
         "aegov-accordion": HTMLAegovAccordionElement;
         "aegov-accordion-item": HTMLAegovAccordionItemElement;
+        "aegov-aspect-ratio": HTMLAegovAspectRatioElement;
         "aegov-avatar": HTMLAegovAvatarElement;
         "aegov-avatar-group": HTMLAegovAvatarGroupElement;
         "aegov-badge": HTMLAegovBadgeElement;
@@ -2666,6 +2703,29 @@ declare namespace LocalJSX {
           * @default false
          */
         "open"?: boolean;
+    }
+    /**
+     * @component aegov-aspect-ratio
+     * @description A layout component that enforces a specific aspect ratio on its
+     * content. Supports images, videos, iframes, and arbitrary slotted content.
+     * Responsive breakpoints can be applied via Tailwind utility classes on the
+     * host element (e.g. `class="md:aspect-square lg:aspect-[21/9]"`).
+     */
+    interface AegovAspectRatio {
+        /**
+          * How slotted media (img, video, iframe) should fit within the aspect ratio container.
+          * @default 'cover'
+         */
+        "fit"?: AspectRatioFit;
+        /**
+          * Additional CSS classes to apply to the inner container. Useful for responsive aspect-ratio overrides (e.g. 'md:aspect-square') or background/border utilities.
+         */
+        "innerClass"?: string;
+        /**
+          * The aspect ratio to apply. Accepts named presets ('auto', 'square', 'video', '4/3', '3/2', '21/9') or any custom ratio string such as '5/4' or '2.35/1'.
+          * @default 'auto'
+         */
+        "ratio"?: AspectRatioPreset | string;
     }
     interface AegovAvatar {
         /**
@@ -4525,6 +4585,7 @@ declare namespace LocalJSX {
     interface IntrinsicElements {
         "aegov-accordion": AegovAccordion;
         "aegov-accordion-item": AegovAccordionItem;
+        "aegov-aspect-ratio": AegovAspectRatio;
         "aegov-avatar": AegovAvatar;
         "aegov-avatar-group": AegovAvatarGroup;
         "aegov-badge": AegovBadge;
@@ -4586,6 +4647,14 @@ declare module "@stencil/core" {
              * Do not use this component standalone.
              */
             "aegov-accordion-item": LocalJSX.AegovAccordionItem & JSXBase.HTMLAttributes<HTMLAegovAccordionItemElement>;
+            /**
+             * @component aegov-aspect-ratio
+             * @description A layout component that enforces a specific aspect ratio on its
+             * content. Supports images, videos, iframes, and arbitrary slotted content.
+             * Responsive breakpoints can be applied via Tailwind utility classes on the
+             * host element (e.g. `class="md:aspect-square lg:aspect-[21/9]"`).
+             */
+            "aegov-aspect-ratio": LocalJSX.AegovAspectRatio & JSXBase.HTMLAttributes<HTMLAegovAspectRatioElement>;
             "aegov-avatar": LocalJSX.AegovAvatar & JSXBase.HTMLAttributes<HTMLAegovAvatarElement>;
             "aegov-avatar-group": LocalJSX.AegovAvatarGroup & JSXBase.HTMLAttributes<HTMLAegovAvatarGroupElement>;
             "aegov-badge": LocalJSX.AegovBadge & JSXBase.HTMLAttributes<HTMLAegovBadgeElement>;

@@ -5,6 +5,16 @@
  */
 
 /**
+ * Aspect ratio component ratio presets
+ */
+export type AspectRatioPreset = 'auto' | 'square' | 'video' | '4/3' | '3/2' | '21/9';
+
+/**
+ * Aspect ratio component object-fit types
+ */
+export type AspectRatioFit = 'cover' | 'contain' | 'fill' | 'none' | 'scale-down';
+
+/**
  * Button component variant types
  */
 export type ButtonVariant = 'solid' | 'outline' | 'soft' | 'link';
