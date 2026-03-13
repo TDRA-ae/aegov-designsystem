@@ -21,6 +21,7 @@
         { label: 'Avatar', href: '/docs/pages/aegov-avatar.html' },
         { label: 'Avatar Group', href: '/docs/pages/aegov-avatar-group.html' },
         { label: 'Badge', href: '/docs/pages/aegov-badge.html' },
+        { label: 'Aspect Ratio', href: '/docs/pages/aegov-aspect-ratio.html' },
         { label: 'Banner', href: '/docs/pages/aegov-banner.html' },
         { label: 'Blockquote', href: '/docs/pages/aegov-blockquote.html' },
         { label: 'Breadcrumbs', href: '/docs/pages/aegov-breadcrumbs.html' },
