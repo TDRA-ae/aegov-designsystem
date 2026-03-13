@@ -67,9 +67,14 @@ export class AegovTimeline {
       `timeline__list--${this.orientation}`,
     ].join(' ');
 
+    const navClasses = [
+      'aegov-timeline',
+      this.variant === 'compact' ? 'aegov-timeline--compact' : '',
+    ].filter(Boolean).join(' ');
+
     return (
       <nav
-        class="aegov-timeline"
+        class={navClasses}
         aria-label="Timeline"
         {...passThroughAttrs}
       >
