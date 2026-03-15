@@ -65,6 +65,12 @@
         { label: 'Title', href: '/docs/pages/aegov-title.html' },
       ],
     },
+    {
+      heading: 'Layout',
+      items: [
+        { label: 'Header', href: '/docs/pages/aegov-header.html' }
+      ],
+    }
   ];
 
   /* -------------------------------------------------- */

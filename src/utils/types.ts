@@ -456,6 +456,11 @@ export type DrawerAnimation = 'slide' | 'fade' | 'none';
 export type DrawerOverlayOpacity = 'light' | 'base' | 'dark';
 
 /**
+ * Header component variant types
+ */
+export type HeaderVariant = 'ministry' | 'authority';
+
+/**
  * Common component props
  */
 export interface BaseComponentProps {

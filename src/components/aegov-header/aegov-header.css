@@ -1,0 +1,48 @@
+/* aegov-header */
+:host {
+  @apply block w-full;
+}
+
+.aegov-header {
+  @apply w-full relative;
+}
+
+.header__top {
+  @apply bg-aeblack-900 text-aeblack-50 py-1 text-sm w-full relative;
+}
+
+.header__top-expand {
+  @apply bg-aeblack-900 text-aeblack-50 w-full overflow-hidden max-h-0 opacity-0 transition-all duration-300 ease-in-out absolute top-0 left-0 z-50;
+}
+
+.header__top-expand--open {
+  @apply max-h-96 opacity-100 py-4;
+}
+
+.aegov-header--error {
+  @apply bg-aered-100 text-aered-800 border border-aered-300 rounded-lg p-4 text-sm;
+}
+
+.aegov-header--error code {
+  @apply bg-aered-200 px-1 py-0.5 rounded text-xs font-mono;
+}
+
+.header__logo {
+  @apply py-2 md:py-3 lg:py-3.5 pe-4 block;
+  img, svg {
+    @apply /*h-auto w-48 lg:w-72 xl:w-80 */ w-auto max-w-48 lg:max-w-72 xl:max-w-80 h-12 lg:h-16 xl:h-18;
+  }
+}
+
+.header__search {
+  @apply min-w-sm;
+}
+
+
+/* Ministry variant */
+.header--ministry {
+}
+
+/* Authority variant */
+.header--authority {
+}

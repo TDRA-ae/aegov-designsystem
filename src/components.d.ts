@@ -5,9 +5,9 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
-import { AccordionIcon, AspectRatioFit, AspectRatioPreset, AvatarGroupMode, AvatarSize, AvatarStatus, AvatarVariant, BadgeAppearance, BadgeColor, BadgeSize, BannerDisplay, BannerMode, BannerPosition, BannerRole, BlockquoteVariant, BreadcrumbSeparator, ButtonAppearance, ButtonGroupOrientation, ButtonGroupPosition, ButtonSize, ButtonType, ButtonVariant, CalloutAppearance, CalloutVariant, CardBackground, CardBorderStyle, CardBorderWidth, CardHover, CheckboxGroupOrientation, CheckboxGroupVariant, CheckboxSize, DatepickerChangeDetail, DatepickerMode, DatepickerMonthChangeDetail, DrawerAnimation, DrawerOverlayOpacity, DrawerPosition, DropdownAlign, DropdownPosition, DropdownTrigger, FileuploadSize, FileuploadVariant, InputSize, InputType, LinkTarget, ModalBackdropOpacity, ModalPosition, OtpSize, OtpVariant, PaginationSize, PaginationVariant, PopoverAlign, PopoverPosition, PopoverTrigger, ProgressCounter, RadioGroupOrientation, RadioGroupVariant, RadioSize, RangeDisplay, RangeMode, RangeOrientation, RangeSize, SelectChangeDetail, SelectSize, SelectVariant, TabOrientation, TabSize, TabVariant, TextareaResize, TextareaSize, TextSize, TimelineOrientation, TimelineSize, TimelineStepStatus, TimelineVariant, TitleSize, ToastAppearance, ToastMode, ToastPosition, ToastVariant, ToggleSize, TooltipAlign, TooltipPosition, TooltipTrigger } from "./utils/types";
+import { AccordionIcon, AspectRatioFit, AspectRatioPreset, AvatarGroupMode, AvatarSize, AvatarStatus, AvatarVariant, BadgeAppearance, BadgeColor, BadgeSize, BannerDisplay, BannerMode, BannerPosition, BannerRole, BlockquoteVariant, BreadcrumbSeparator, ButtonAppearance, ButtonGroupOrientation, ButtonGroupPosition, ButtonSize, ButtonType, ButtonVariant, CalloutAppearance, CalloutVariant, CardBackground, CardBorderStyle, CardBorderWidth, CardHover, CheckboxGroupOrientation, CheckboxGroupVariant, CheckboxSize, DatepickerChangeDetail, DatepickerMode, DatepickerMonthChangeDetail, DrawerAnimation, DrawerOverlayOpacity, DrawerPosition, DropdownAlign, DropdownPosition, DropdownTrigger, FileuploadSize, FileuploadVariant, HeaderVariant, InputSize, InputType, LinkTarget, ModalBackdropOpacity, ModalPosition, OtpSize, OtpVariant, PaginationSize, PaginationVariant, PopoverAlign, PopoverPosition, PopoverTrigger, ProgressCounter, RadioGroupOrientation, RadioGroupVariant, RadioSize, RangeDisplay, RangeMode, RangeOrientation, RangeSize, SelectChangeDetail, SelectSize, SelectVariant, TabOrientation, TabSize, TabVariant, TextareaResize, TextareaSize, TextSize, TimelineOrientation, TimelineSize, TimelineStepStatus, TimelineVariant, TitleSize, ToastAppearance, ToastMode, ToastPosition, ToastVariant, ToggleSize, TooltipAlign, TooltipPosition, TooltipTrigger } from "./utils/types";
 import { Event } from "@stencil/core";
-export { AccordionIcon, AspectRatioFit, AspectRatioPreset, AvatarGroupMode, AvatarSize, AvatarStatus, AvatarVariant, BadgeAppearance, BadgeColor, BadgeSize, BannerDisplay, BannerMode, BannerPosition, BannerRole, BlockquoteVariant, BreadcrumbSeparator, ButtonAppearance, ButtonGroupOrientation, ButtonGroupPosition, ButtonSize, ButtonType, ButtonVariant, CalloutAppearance, CalloutVariant, CardBackground, CardBorderStyle, CardBorderWidth, CardHover, CheckboxGroupOrientation, CheckboxGroupVariant, CheckboxSize, DatepickerChangeDetail, DatepickerMode, DatepickerMonthChangeDetail, DrawerAnimation, DrawerOverlayOpacity, DrawerPosition, DropdownAlign, DropdownPosition, DropdownTrigger, FileuploadSize, FileuploadVariant, InputSize, InputType, LinkTarget, ModalBackdropOpacity, ModalPosition, OtpSize, OtpVariant, PaginationSize, PaginationVariant, PopoverAlign, PopoverPosition, PopoverTrigger, ProgressCounter, RadioGroupOrientation, RadioGroupVariant, RadioSize, RangeDisplay, RangeMode, RangeOrientation, RangeSize, SelectChangeDetail, SelectSize, SelectVariant, TabOrientation, TabSize, TabVariant, TextareaResize, TextareaSize, TextSize, TimelineOrientation, TimelineSize, TimelineStepStatus, TimelineVariant, TitleSize, ToastAppearance, ToastMode, ToastPosition, ToastVariant, ToggleSize, TooltipAlign, TooltipPosition, TooltipTrigger } from "./utils/types";
+export { AccordionIcon, AspectRatioFit, AspectRatioPreset, AvatarGroupMode, AvatarSize, AvatarStatus, AvatarVariant, BadgeAppearance, BadgeColor, BadgeSize, BannerDisplay, BannerMode, BannerPosition, BannerRole, BlockquoteVariant, BreadcrumbSeparator, ButtonAppearance, ButtonGroupOrientation, ButtonGroupPosition, ButtonSize, ButtonType, ButtonVariant, CalloutAppearance, CalloutVariant, CardBackground, CardBorderStyle, CardBorderWidth, CardHover, CheckboxGroupOrientation, CheckboxGroupVariant, CheckboxSize, DatepickerChangeDetail, DatepickerMode, DatepickerMonthChangeDetail, DrawerAnimation, DrawerOverlayOpacity, DrawerPosition, DropdownAlign, DropdownPosition, DropdownTrigger, FileuploadSize, FileuploadVariant, HeaderVariant, InputSize, InputType, LinkTarget, ModalBackdropOpacity, ModalPosition, OtpSize, OtpVariant, PaginationSize, PaginationVariant, PopoverAlign, PopoverPosition, PopoverTrigger, ProgressCounter, RadioGroupOrientation, RadioGroupVariant, RadioSize, RangeDisplay, RangeMode, RangeOrientation, RangeSize, SelectChangeDetail, SelectSize, SelectVariant, TabOrientation, TabSize, TabVariant, TextareaResize, TextareaSize, TextSize, TimelineOrientation, TimelineSize, TimelineStepStatus, TimelineVariant, TitleSize, ToastAppearance, ToastMode, ToastPosition, ToastVariant, ToggleSize, TooltipAlign, TooltipPosition, TooltipTrigger } from "./utils/types";
 export { Event } from "@stencil/core";
 export namespace Components {
     /**
@@ -786,6 +786,24 @@ export namespace Components {
           * Additional CSS classes to apply.
          */
         "class"?: string;
+    }
+    interface AegovHeader {
+        /**
+          * The domain/URL of the government entity. Required.
+         */
+        "entityDomain": string;
+        /**
+          * The name of the government entity. Required.
+         */
+        "entityName": string;
+        /**
+          * The CSS selector or ID of the main content container to skip to (e.g. "#main-content"). When provided, renders a "Skip to content" link before the header for keyboard accessibility.
+         */
+        "skipContentContainer": string;
+        /**
+          * @default 'ministry'
+         */
+        "variant": HeaderVariant;
     }
     interface AegovInput {
         /**
@@ -2205,6 +2223,12 @@ declare global {
         prototype: HTMLAegovFormFieldElement;
         new (): HTMLAegovFormFieldElement;
     };
+    interface HTMLAegovHeaderElement extends Components.AegovHeader, HTMLStencilElement {
+    }
+    var HTMLAegovHeaderElement: {
+        prototype: HTMLAegovHeaderElement;
+        new (): HTMLAegovHeaderElement;
+    };
     interface HTMLAegovInputElementEventMap {
         "aegovInputChange": { value: string; event: Event };
         "aegovInputInput": { value: string; event: Event };
@@ -2610,6 +2634,7 @@ declare global {
         "aegov-dropdown": HTMLAegovDropdownElement;
         "aegov-fileupload": HTMLAegovFileuploadElement;
         "aegov-form-field": HTMLAegovFormFieldElement;
+        "aegov-header": HTMLAegovHeaderElement;
         "aegov-input": HTMLAegovInputElement;
         "aegov-input-group": HTMLAegovInputGroupElement;
         "aegov-label": HTMLAegovLabelElement;
@@ -3473,6 +3498,24 @@ declare namespace LocalJSX {
           * Additional CSS classes to apply.
          */
         "class"?: string;
+    }
+    interface AegovHeader {
+        /**
+          * The domain/URL of the government entity. Required.
+         */
+        "entityDomain"?: string;
+        /**
+          * The name of the government entity. Required.
+         */
+        "entityName"?: string;
+        /**
+          * The CSS selector or ID of the main content container to skip to (e.g. "#main-content"). When provided, renders a "Skip to content" link before the header for keyboard accessibility.
+         */
+        "skipContentContainer"?: string;
+        /**
+          * @default 'ministry'
+         */
+        "variant"?: HeaderVariant;
     }
     interface AegovInput {
         /**
@@ -4604,6 +4647,7 @@ declare namespace LocalJSX {
         "aegov-dropdown": AegovDropdown;
         "aegov-fileupload": AegovFileupload;
         "aegov-form-field": AegovFormField;
+        "aegov-header": AegovHeader;
         "aegov-input": AegovInput;
         "aegov-input-group": AegovInputGroup;
         "aegov-label": AegovLabel;
@@ -4681,6 +4725,7 @@ declare module "@stencil/core" {
             "aegov-dropdown": LocalJSX.AegovDropdown & JSXBase.HTMLAttributes<HTMLAegovDropdownElement>;
             "aegov-fileupload": LocalJSX.AegovFileupload & JSXBase.HTMLAttributes<HTMLAegovFileuploadElement>;
             "aegov-form-field": LocalJSX.AegovFormField & JSXBase.HTMLAttributes<HTMLAegovFormFieldElement>;
+            "aegov-header": LocalJSX.AegovHeader & JSXBase.HTMLAttributes<HTMLAegovHeaderElement>;
             "aegov-input": LocalJSX.AegovInput & JSXBase.HTMLAttributes<HTMLAegovInputElement>;
             "aegov-input-group": LocalJSX.AegovInputGroup & JSXBase.HTMLAttributes<HTMLAegovInputGroupElement>;
             "aegov-label": LocalJSX.AegovLabel & JSXBase.HTMLAttributes<HTMLAegovLabelElement>;
