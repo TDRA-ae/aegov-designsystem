@@ -29,7 +29,8 @@
 
 .header__logo {
   @apply py-2 md:py-3 lg:py-3.5 pe-4 block;
-  img, svg {
+  a ::slotted(img),
+  a ::slotted(svg) {
     @apply /*h-auto w-48 lg:w-72 xl:w-80 */ w-auto max-w-48 lg:max-w-72 xl:max-w-80 h-12 lg:h-16 xl:h-18;
   }
 }
