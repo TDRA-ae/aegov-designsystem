@@ -57,6 +57,19 @@ Buttons are the primary interactive elements in user interfaces. This component 
 | `"button"` | The native button element |
 
 
+## Dependencies
+
+### Used by
+
+ - [aegov-header](../aegov-header)
+
+### Graph
+```mermaid
+graph TD;
+  aegov-header --> aegov-button
+  style aegov-button fill:#f9f,stroke:#333,stroke-width:4px
+```
+
 ----------------------------------------------
 
 *Built with [StencilJS](https://stenciljs.com/)*
