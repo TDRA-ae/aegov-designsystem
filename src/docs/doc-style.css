@@ -1269,6 +1269,11 @@
       line-height: var(--tw-leading, var(--text-sm--line-height)) !important;
     }
   }
+  .xl\:h-18 {
+    @media (width >= 1280px) {
+      height: calc(var(--spacing) * 18);
+    }
+  }
   .xl\:w-80 {
     @media (width >= 1280px) {
       width: calc(var(--spacing) * 80);
