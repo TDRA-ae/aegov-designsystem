@@ -22,7 +22,7 @@ export type ButtonVariant = 'solid' | 'outline' | 'soft' | 'link';
 /**
  * Button component size types
  */
-export type ButtonSize = 'xs' | 'sm' | 'base' | 'lg';
+export type ButtonSize = 'xs' | 'sm' | 'base' | 'lg' | 'xl';
 
 /**
  * Button component type attribute

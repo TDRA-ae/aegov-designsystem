@@ -25,7 +25,7 @@
 
 <h2>Introduction</h2>
 <p>A button is perhaps the most important and a key component in a design system. It can form the basis of every other component&#39;s design. The button defines the ability to communicate an action and is very useful in the ability to accept submissions and guide the user through the website.</p>
-<p>The <code>aegov-button</code> component provides <strong>4 variants</strong>, <strong>5 appearances</strong>, <strong>4 sizes</strong>, and supports loading, disabled, icon-only, and full-width states out of the box.</p>
+<p>The <code>aegov-button</code> component provides <strong>4 variants</strong>, <strong>5 appearances</strong>, <strong>5 sizes</strong>, and supports loading, disabled, icon-only, and full-width states out of the box.</p>
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span>&gt;</span>Default Button<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span></code></pre><div class="flex flex-wrap gap-3 p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
   <aegov-button>Default Button</aegov-button>
 </div>
@@ -130,7 +130,7 @@
 </thead>
 <tbody><tr>
 <td><code>xs</code></td>
-<td>32px</td>
+<td>36px</td>
 <td>14px</td>
 <td>20px</td>
 </tr>
@@ -142,12 +142,18 @@
 </tr>
 <tr>
 <td><code>base</code></td>
-<td>48px</td>
+<td>44px</td>
 <td>16px</td>
 <td>24px</td>
 </tr>
 <tr>
 <td><code>lg</code></td>
+<td>48px</td>
+<td>18px</td>
+<td>28px</td>
+</tr>
+<tr>
+<td><code>xl</code></td>
 <td>52px</td>
 <td>18px</td>
 <td>28px</td>
@@ -156,11 +162,13 @@
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;xs&quot;</span>&gt;</span>Extra Small<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm&quot;</span>&gt;</span>Small<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;base&quot;</span>&gt;</span>Base<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;lg&quot;</span>&gt;</span>Large<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span></code></pre><div class="flex flex-wrap items-center gap-3 p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;lg&quot;</span>&gt;</span>Large<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;xl&quot;</span>&gt;</span>Extra Large<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span></code></pre><div class="flex flex-wrap items-center gap-3 p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
   <aegov-button size="xs">Extra Small</aegov-button>
   <aegov-button size="sm">Small</aegov-button>
   <aegov-button size="base">Base</aegov-button>
   <aegov-button size="lg">Large</aegov-button>
+  <aegov-button size="xl">Extra Large</aegov-button>
 </div>
 
 <hr>
@@ -225,6 +233,9 @@
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
   </aegov-button>
   <aegov-button icon size="lg" aria-label="Close">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+  </aegov-button>
+  <aegov-button icon size="xl" aria-label="Close">
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
   </aegov-button>
 </div>
@@ -363,6 +374,60 @@
 </div>
 
 <hr>
+<h2>Complete Size × Icon Matrix</h2>
+<p>The table below shows every size with different icon configurations — text only, leading icon, trailing icon, and icon only. All examples use the <code>primary</code> appearance.</p>
+<div class="overflow-x-auto my-6">
+<table class="w-full text-sm border-collapse">
+  <thead>
+    <tr class="bg-aeblack-50">
+      <th class="text-left p-3 border border-aeblack-100 font-semibold">Size</th>
+      <th class="p-3 border border-aeblack-100 font-semibold">Text Only</th>
+      <th class="p-3 border border-aeblack-100 font-semibold">Leading Icon</th>
+      <th class="p-3 border border-aeblack-100 font-semibold">Trailing Icon</th>
+      <th class="p-3 border border-aeblack-100 font-semibold">Icon Only</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td class="p-3 border border-aeblack-100 font-medium">xs</td>
+      <td class="p-3 border border-aeblack-100 text-center not-aegov"><aegov-button size="xs">Button</aegov-button></td>
+      <td class="p-3 border border-aeblack-100 text-center not-aegov"><aegov-button size="xs"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>Button</aegov-button></td>
+      <td class="p-3 border border-aeblack-100 text-center not-aegov"><aegov-button size="xs">Button<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></aegov-button></td>
+      <td class="p-3 border border-aeblack-100 text-center not-aegov"><aegov-button size="xs" icon aria-label="Next"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></aegov-button></td>
+    </tr>
+    <tr>
+      <td class="p-3 border border-aeblack-100 font-medium">sm</td>
+      <td class="p-3 border border-aeblack-100 text-center not-aegov"><aegov-button size="sm">Button</aegov-button></td>
+      <td class="p-3 border border-aeblack-100 text-center not-aegov"><aegov-button size="sm"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>Button</aegov-button></td>
+      <td class="p-3 border border-aeblack-100 text-center not-aegov"><aegov-button size="sm">Button<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></aegov-button></td>
+      <td class="p-3 border border-aeblack-100 text-center not-aegov"><aegov-button size="sm" icon aria-label="Next"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></aegov-button></td>
+    </tr>
+    <tr>
+      <td class="p-3 border border-aeblack-100 font-medium">base</td>
+      <td class="p-3 border border-aeblack-100 text-center not-aegov"><aegov-button size="base">Button</aegov-button></td>
+      <td class="p-3 border border-aeblack-100 text-center not-aegov"><aegov-button size="base"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>Button</aegov-button></td>
+      <td class="p-3 border border-aeblack-100 text-center not-aegov"><aegov-button size="base">Button<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></aegov-button></td>
+      <td class="p-3 border border-aeblack-100 text-center not-aegov"><aegov-button size="base" icon aria-label="Next"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></aegov-button></td>
+    </tr>
+    <tr>
+      <td class="p-3 border border-aeblack-100 font-medium">lg</td>
+      <td class="p-3 border border-aeblack-100 text-center not-aegov"><aegov-button size="lg">Button</aegov-button></td>
+      <td class="p-3 border border-aeblack-100 text-center not-aegov"><aegov-button size="lg"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>Button</aegov-button></td>
+      <td class="p-3 border border-aeblack-100 text-center not-aegov"><aegov-button size="lg">Button<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></aegov-button></td>
+      <td class="p-3 border border-aeblack-100 text-center not-aegov"><aegov-button size="lg" icon aria-label="Next"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></aegov-button></td>
+    </tr>
+    <tr>
+      <td class="p-3 border border-aeblack-100 font-medium">xl</td>
+      <td class="p-3 border border-aeblack-100 text-center not-aegov"><aegov-button size="xl">Button</aegov-button></td>
+      <td class="p-3 border border-aeblack-100 text-center not-aegov"><aegov-button size="xl"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>Button</aegov-button></td>
+      <td class="p-3 border border-aeblack-100 text-center not-aegov"><aegov-button size="xl">Button<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></aegov-button></td>
+      <td class="p-3 border border-aeblack-100 text-center not-aegov"><aegov-button size="xl" icon aria-label="Next"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></aegov-button></td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<hr>
 <h2>API Reference</h2>
 <h3>Properties</h3>
 <table>
@@ -393,7 +458,7 @@
 <td><code>size</code></td>
 <td><code>size</code></td>
 <td>The button size</td>
-<td><code>&#39;xs&#39;</code> | <code>&#39;sm&#39;</code> | <code>&#39;base&#39;</code> | <code>&#39;lg&#39;</code></td>
+<td><code>&#39;xs&#39;</code> | <code>&#39;sm&#39;</code> | <code>&#39;base&#39;</code> | <code>&#39;lg&#39;</code> | <code>&#39;xl&#39;</code></td>
 <td><code>&#39;base&#39;</code></td>
 </tr>
 <tr>
