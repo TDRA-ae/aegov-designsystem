@@ -80,11 +80,11 @@ The `size` property controls the width, height, and font size of each cell. Ther
 
 | Size   | Width  | Height | Font Size |
 |--------|--------|--------|-----------|
-| `xs`   | 32px   | 32px   | 12px      |
+| `xs`   | 32px   | 36px   | 12px      |
 | `sm`   | 36px   | 40px   | 14px      |
-| `base` | 40px   | 48px   | 16px      |
-| `lg`   | 48px   | 56px   | 18px      |
-| `xl`   | 56px   | 56px   | 20px      |
+| `base` | 40px   | 44px   | 16px      |
+| `lg`   | 44px   | 48px   | 18px      |
+| `xl`   | 48px   | 52px   | 20px      |
 | `2xl`  | 64px   | 64px   | 24px      |
 
 ```html

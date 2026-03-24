@@ -46,9 +46,11 @@ export class AegovInputGroup {
     const classes: string[] = ['aegov-input-group'];
 
     const sizeClasses: Record<InputSize, string> = {
+      xs: 'input-group--xs',
       sm: 'input-group--sm',
       base: 'input-group--base',
       lg: 'input-group--lg',
+      xl: 'input-group--xl',
     };
 
     classes.push(sizeClasses[this.size]);

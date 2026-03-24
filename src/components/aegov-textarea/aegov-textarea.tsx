@@ -99,9 +99,11 @@ export class AegovTextarea {
     const classes: string[] = ['aegov-textarea'];
 
     const sizeClasses: Record<TextareaSize, string> = {
+      xs: 'textarea--xs',
       sm: 'textarea--sm',
       base: 'textarea--base',
       lg: 'textarea--lg',
+      xl: 'textarea--xl',
     };
 
     classes.push(sizeClasses[this.size]);

@@ -234,6 +234,18 @@
 }
 
 /* ========================================
+   Size: xs — track 3px
+   ======================================== */
+.range--xs .range__track {
+  height: 3px;
+}
+
+.range--xs.range--vertical .range__track {
+  height: 100%;
+  width: 3px;
+}
+
+/* ========================================
    Size: sm — track 4px
    ======================================== */
 .range--sm .range__track {
@@ -267,6 +279,18 @@
 .range--lg.range--vertical .range__track {
   height: 100%;
   width: 8px;
+}
+
+/* ========================================
+   Size: xl — track 10px
+   ======================================== */
+.range--xl .range__track {
+  height: 10px;
+}
+
+.range--xl.range--vertical .range__track {
+  height: 100%;
+  width: 10px;
 }
 
 /* ========================================

@@ -48,6 +48,34 @@
 }
 
 /* ========================================
+   Size: xs
+   Radio: 14px, label: text-xs, desc: text-xs
+   ======================================== */
+.radio--xs .radio__wrapper {
+  @apply gap-1.5;
+}
+
+.radio--xs input[type="radio"] {
+  @apply h-3.5 w-3.5 mt-0!;
+}
+
+.radio--xs input[type="radio"]::before {
+  @apply h-7 w-7;
+}
+
+.radio--xs .radio__text {
+  @apply pt-0;
+}
+
+.radio--xs .radio__label-text {
+  @apply text-xs leading-3.5;
+}
+
+.radio--xs .radio__description {
+  @apply text-xs mt-0.5;
+}
+
+/* ========================================
    Size: sm
    Radio: 16px, label: text-sm, desc: text-xs
    ======================================== */
@@ -128,5 +156,33 @@
 }
 
 .radio--lg .radio__description {
+  @apply text-base mt-1;
+}
+
+/* ========================================
+   Size: xl
+   Radio: 22px, label: text-xl, desc: text-base
+   ======================================== */
+.radio--xl .radio__wrapper {
+  @apply gap-4;
+}
+
+.radio--xl input[type="radio"] {
+  @apply h-5.5 w-5.5 mt-1!;
+}
+
+.radio--xl input[type="radio"]::before {
+  @apply h-14 w-14;
+}
+
+.radio--xl .radio__text {
+  @apply pt-0.5;
+}
+
+.radio--xl .radio__label-text {
+  @apply text-xl leading-7;
+}
+
+.radio--xl .radio__description {
   @apply text-base mt-1;
 }

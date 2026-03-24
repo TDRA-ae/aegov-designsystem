@@ -4,7 +4,7 @@
 
 ## Introduction
 
-The `aegov-range` component wraps a native `<input type="range">` in a custom visual layer that provides a consistent design-system appearance while keeping full keyboard, touch, and assistive-technology support. It offers **single** and **range** (dual-thumb) modes, **3 track sizes**, **4 value-display styles**, and both **horizontal** and **vertical** orientations.
+The `aegov-range` component wraps a native `<input type="range">` in a custom visual layer that provides a consistent design-system appearance while keeping full keyboard, touch, and assistive-technology support. It offers **single** and **range** (dual-thumb) modes, **5 track sizes**, **4 value-display styles**, and both **horizontal** and **vertical** orientations.
 
 ```html
 <aegov-range></aegov-range>
@@ -32,24 +32,30 @@ Use `value`, `min`, `max`, and `step` to control the slider's numeric range and 
 
 ## Sizes
 
-The `size` property controls the thickness of the track. The thumb remains a constant 24px circle. Three sizes are available.
+The `size` property controls the thickness of the track. The thumb remains a constant 24px circle. Five sizes are available.
 
 | Size   | Track Height |
 |--------|-------------|
+| `xs`   | 3px         |
 | `sm`   | 4px         |
 | `base` | 6px         |
 | `lg`   | 8px         |
+| `xl`   | 10px        |
 
 ```html
+<aegov-range size="xs"></aegov-range>
 <aegov-range size="sm"></aegov-range>
 <aegov-range size="base"></aegov-range>
 <aegov-range size="lg"></aegov-range>
+<aegov-range size="xl"></aegov-range>
 ```
 
 <div class="p-6 bg-aeblack-50 rounded-lg my-6 space-y-8 not-aegov">
+  <div class="pb-8"><aegov-range size="xs" value="20"></aegov-range></div>
   <div class="pb-8"><aegov-range size="sm" value="30"></aegov-range></div>
   <div class="pb-8"><aegov-range size="base" value="50"></aegov-range></div>
   <div class="pb-8"><aegov-range size="lg" value="70"></aegov-range></div>
+  <div class="pb-8"><aegov-range size="xl" value="90"></aegov-range></div>
 </div>
 
 ---
@@ -164,9 +170,11 @@ Set `orientation="vertical"` to render the slider vertically. The track height d
 ```
 
 <div class="flex items-end gap-8 p-6 bg-aeblack-50 rounded-lg my-6 not-aegov" style="height: 280px;">
+  <aegov-range orientation="vertical" value="20" size="xs"></aegov-range>
   <aegov-range orientation="vertical" value="40" size="sm"></aegov-range>
   <aegov-range orientation="vertical" value="60" size="base"></aegov-range>
   <aegov-range orientation="vertical" value="80" size="lg"></aegov-range>
+  <aegov-range orientation="vertical" value="90" size="xl"></aegov-range>
 </div>
 
 ### Vertical with Tooltip
@@ -295,7 +303,7 @@ No additional configuration is needed — the component reads the computed `dire
 | `min`         | `min`          | Minimum value                                        | `number`                                                | `0`            |
 | `max`         | `max`          | Maximum value                                        | `number`                                                | `100`          |
 | `step`        | `step`         | Step increment                                       | `number`                                                | `1`            |
-| `size`        | `size`         | Track thickness                                      | `'sm'` \| `'base'` \| `'lg'`                           | `'base'`       |
+| `size`        | `size`         | Track thickness                                      | `'xs'` \| `'sm'` \| `'base'` \| `'lg'` \| `'xl'`      | `'base'`       |
 | `display`     | `display`      | Value display mode                                   | `'none'` \| `'tooltip'` \| `'thumb'` \| `'full'`       | `'none'`       |
 | `orientation` | `orientation`  | Layout orientation                                   | `'horizontal'` \| `'vertical'`                          | `'horizontal'` |
 | `mode`        | `mode`         | Single thumb or dual-thumb range                     | `'single'` \| `'range'`                                 | `'single'`     |

@@ -24,7 +24,7 @@
 <p class="text-lg text-aeblack-500 mb-8">A toggle (also known as a switch) lets users turn a single option on or off instantly. It is the digital equivalent of a physical light switch.</p>
 
 <h2>Introduction</h2>
-<p>The <code>aegov-toggle</code> component renders an accessible on/off switch built on a native <code>&lt;input type=&quot;checkbox&quot; role=&quot;switch&quot;&gt;</code> element. It supports <strong>3 sizes</strong>, optional <strong>label</strong> and <strong>description</strong> text, <strong>custom icons</strong> inside the thumb, and a <strong>disabled</strong> state out of the box.</p>
+<p>The <code>aegov-toggle</code> component renders an accessible on/off switch built on a native <code>&lt;input type=&quot;checkbox&quot; role=&quot;switch&quot;&gt;</code> element. It supports <strong>5 sizes</strong>, optional <strong>label</strong> and <strong>description</strong> text, <strong>custom icons</strong> inside the thumb, and a <strong>disabled</strong> state out of the box.</p>
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-toggle</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Notifications&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-toggle</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
   <aegov-toggle label="Notifications"></aegov-toggle>
 </div>
@@ -49,7 +49,7 @@
 
 <hr>
 <h2>Sizes</h2>
-<p>The <code>size</code> property controls the dimensions of the track, thumb, label font size, and description font size. There are three sizes available.</p>
+<p>The <code>size</code> property controls the dimensions of the track, thumb, label font size, and description font size. There are five sizes available.</p>
 <table>
 <thead>
 <tr>
@@ -61,6 +61,13 @@
 </tr>
 </thead>
 <tbody><tr>
+<td><code>xs</code></td>
+<td>26 x 11px</td>
+<td>16px</td>
+<td>12px</td>
+<td>10px</td>
+</tr>
+<tr>
 <td><code>sm</code></td>
 <td>32 x 14px</td>
 <td>20px</td>
@@ -81,13 +88,24 @@
 <td>18px</td>
 <td>16px</td>
 </tr>
+<tr>
+<td><code>xl</code></td>
+<td>56 x 26px</td>
+<td>32px</td>
+<td>20px</td>
+<td>18px</td>
+</tr>
 </tbody></table>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-toggle</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Small&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-toggle</span>&gt;</span>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-toggle</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;xs&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Extra Small&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-toggle</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-toggle</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Small&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-toggle</span>&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">aegov-toggle</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;base&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Base (default)&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-toggle</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-toggle</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;lg&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Large&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-toggle</span>&gt;</span></code></pre><div class="flex flex-wrap items-center gap-6 p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-toggle</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;lg&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Large&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-toggle</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-toggle</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;xl&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Extra Large&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-toggle</span>&gt;</span></code></pre><div class="flex flex-wrap items-center gap-6 p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
+  <aegov-toggle size="xs" label="Extra Small"></aegov-toggle>
   <aegov-toggle size="sm" label="Small"></aegov-toggle>
   <aegov-toggle size="base" label="Base (default)"></aegov-toggle>
   <aegov-toggle size="lg" label="Large"></aegov-toggle>
+  <aegov-toggle size="xl" label="Extra Large"></aegov-toggle>
 </div>
 
 <hr>
@@ -108,15 +126,21 @@
 </div>
 
 <h3>Description with Different Sizes</h3>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-toggle</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Small toggle&quot;</span>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-toggle</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;xs&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Extra small toggle&quot;</span>
+  <span class="hljs-attr">description</span>=<span class="hljs-string">&quot;Helper text for the extra small size.&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-toggle</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-toggle</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Small toggle&quot;</span>
   <span class="hljs-attr">description</span>=<span class="hljs-string">&quot;Helper text for the small size.&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-toggle</span>&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">aegov-toggle</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;base&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Base toggle&quot;</span>
   <span class="hljs-attr">description</span>=<span class="hljs-string">&quot;Helper text for the base size.&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-toggle</span>&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">aegov-toggle</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;lg&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Large toggle&quot;</span>
-  <span class="hljs-attr">description</span>=<span class="hljs-string">&quot;Helper text for the large size.&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-toggle</span>&gt;</span></code></pre><div class="flex flex-col gap-6 p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
+  <span class="hljs-attr">description</span>=<span class="hljs-string">&quot;Helper text for the large size.&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-toggle</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-toggle</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;xl&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Extra large toggle&quot;</span>
+  <span class="hljs-attr">description</span>=<span class="hljs-string">&quot;Helper text for the extra large size.&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-toggle</span>&gt;</span></code></pre><div class="flex flex-col gap-6 p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
+  <aegov-toggle size="xs" label="Extra small toggle" description="Helper text for the extra small size."></aegov-toggle>
   <aegov-toggle size="sm" label="Small toggle" description="Helper text for the small size."></aegov-toggle>
   <aegov-toggle size="base" label="Base toggle" description="Helper text for the base size."></aegov-toggle>
   <aegov-toggle size="lg" label="Large toggle" description="Helper text for the large size."></aegov-toggle>
+  <aegov-toggle size="xl" label="Extra large toggle" description="Helper text for the extra large size."></aegov-toggle>
 </div>
 
 <hr>
@@ -159,12 +183,18 @@
 </div>
 
 <h3>Icons at All Sizes</h3>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-toggle</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm&quot;</span> <span class="hljs-attr">checked</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Small&quot;</span>&gt;</span>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-toggle</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;xs&quot;</span> <span class="hljs-attr">checked</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Extra Small&quot;</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">svg</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;icon-unchecked&quot;</span> <span class="hljs-attr">...</span>&gt;</span>...<span class="hljs-tag">&lt;/<span class="hljs-name">svg</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">svg</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;icon-checked&quot;</span> <span class="hljs-attr">...</span>&gt;</span>...<span class="hljs-tag">&lt;/<span class="hljs-name">svg</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-toggle</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-toggle</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm&quot;</span> <span class="hljs-attr">checked</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Small&quot;</span>&gt;</span>...<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-toggle</span>&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">aegov-toggle</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;base&quot;</span> <span class="hljs-attr">checked</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Base&quot;</span>&gt;</span>...<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-toggle</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-toggle</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;lg&quot;</span> <span class="hljs-attr">checked</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Large&quot;</span>&gt;</span>...<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-toggle</span>&gt;</span></code></pre><div class="flex flex-wrap items-center gap-6 p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-toggle</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;lg&quot;</span> <span class="hljs-attr">checked</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Large&quot;</span>&gt;</span>...<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-toggle</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-toggle</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;xl&quot;</span> <span class="hljs-attr">checked</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Extra Large&quot;</span>&gt;</span>...<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-toggle</span>&gt;</span></code></pre><div class="flex flex-wrap items-center gap-6 p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
+  <aegov-toggle size="xs" checked label="Extra Small">
+    <svg slot="icon-unchecked" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    <svg slot="icon-checked" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+  </aegov-toggle>
   <aegov-toggle size="sm" checked label="Small">
     <svg slot="icon-unchecked" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
     <svg slot="icon-checked" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
@@ -174,6 +204,10 @@
     <svg slot="icon-checked" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
   </aegov-toggle>
   <aegov-toggle size="lg" checked label="Large">
+    <svg slot="icon-unchecked" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    <svg slot="icon-checked" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+  </aegov-toggle>
+  <aegov-toggle size="xl" checked label="Extra Large">
     <svg slot="icon-unchecked" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
     <svg slot="icon-checked" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
   </aegov-toggle>
@@ -297,7 +331,7 @@
 <td><code>size</code></td>
 <td><code>size</code></td>
 <td>The toggle size</td>
-<td><code>&#39;sm&#39;</code> | <code>&#39;base&#39;</code> | <code>&#39;lg&#39;</code></td>
+<td><code>&#39;xs&#39;</code> | <code>&#39;sm&#39;</code> | <code>&#39;base&#39;</code> | <code>&#39;lg&#39;</code> | <code>&#39;xl&#39;</code></td>
 <td><code>&#39;base&#39;</code></td>
 </tr>
 <tr>

@@ -15,16 +15,24 @@
 }
 
 /* Size variants */
+.input--xs {
+  @apply text-sm py-1.5 px-2.5 h-9;
+}
+
 .input--sm {
   @apply text-sm py-2 px-3 h-10;
 }
 
 .input--base {
-  @apply text-base py-3 px-4 h-12;
+  @apply text-base py-2.5 px-3.5 h-11;
 }
 
 .input--lg {
-  @apply text-lg py-3.5 px-5 h-13;
+  @apply text-lg py-3 px-4 h-12;
+}
+
+.input--xl {
+  @apply text-lg py-3.5 px-4.5 h-13;
 }
 
 /* Password toggle wrapper */
@@ -55,41 +63,65 @@
 }
 
 /* Icon container sizes */
+.input__wrapper--xs .input__icon {
+  @apply h-9 w-9;
+}
+
 .input__wrapper--sm .input__icon {
   @apply h-10 w-10;
 }
 
 .input__wrapper--base .input__icon {
-  @apply h-12 w-12;
+  @apply h-11 w-11;
 }
 
 .input__wrapper--lg .input__icon {
+  @apply h-12 w-12;
+}
+
+.input__wrapper--xl .input__icon {
   @apply h-13 w-13;
 }
 
 /* Input padding when start icon is present */
+.input--has-icon-start.input--xs {
+  @apply ps-9;
+}
+
 .input--has-icon-start.input--sm {
   @apply ps-10;
 }
 
 .input--has-icon-start.input--base {
-  @apply ps-12;
+  @apply ps-11;
 }
 
 .input--has-icon-start.input--lg {
+  @apply ps-12;
+}
+
+.input--has-icon-start.input--xl {
   @apply ps-13;
 }
 
 /* Input padding when end icon is present */
+.input--has-icon-end.input--xs {
+  @apply pe-9;
+}
+
 .input--has-icon-end.input--sm {
   @apply pe-10;
 }
 
 .input--has-icon-end.input--base {
-  @apply pe-12;
+  @apply pe-11;
 }
 
 .input--has-icon-end.input--lg {
+  @apply pe-12;
+}
+
+.input--has-icon-end.input--xl {
   @apply pe-13;
 }
 
@@ -104,28 +136,44 @@
 }
 
 /* Revealable button sizes */
+.revealable--xs {
+  @apply h-9 w-9;
+}
+
 .revealable--sm {
   @apply h-10 w-10;
 }
 
 .revealable--base {
-  @apply h-12 w-12;
+  @apply h-11 w-11;
 }
 
 .revealable--lg {
+  @apply h-12 w-12;
+}
+
+.revealable--xl {
   @apply h-13 w-13;
 }
 
 /* Copy button sizes */
+.copy-btn--xs {
+  @apply h-9 w-9;
+}
+
 .copy-btn--sm {
   @apply h-10 w-10;
 }
 
 .copy-btn--base {
-  @apply h-12 w-12;
+  @apply h-11 w-11;
 }
 
 .copy-btn--lg {
+  @apply h-12 w-12;
+}
+
+.copy-btn--xl {
   @apply h-13 w-13;
 }
 

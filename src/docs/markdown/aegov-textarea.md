@@ -6,7 +6,7 @@
 
 The `aegov-textarea` component wraps a native `<textarea>` element with consistent styling, event handling, and accessibility support. It integrates seamlessly with `aegov-form-field` and `aegov-label` for structured form layouts.
 
-The component provides **3 sizes**, **5 resize modes** (including auto-grow), an optional **character counter**, and a **copy-to-clipboard** button for read-only fields.
+The component provides **5 sizes**, **5 resize modes** (including auto-grow), an optional **character counter**, and a **copy-to-clipboard** button for read-only fields.
 
 ```html
 <aegov-textarea placeholder="Enter your message..."></aegov-textarea>
@@ -24,20 +24,26 @@ The `size` property controls the font size and padding of the textarea. The heig
 
 | Size   | Font Size | Padding          |
 |--------|-----------|------------------|
+| `xs`   | 12px      | 6px 10px         |
 | `sm`   | 14px      | 8px 12px         |
-| `base` | 16px      | 12px 16px        |
-| `lg`   | 18px      | 14px 20px        |
+| `base` | 16px      | 10px 14px        |
+| `lg`   | 18px      | 12px 16px        |
+| `xl`   | 18px      | 14px 18px        |
 
 ```html
+<aegov-textarea size="xs" placeholder="Extra small textarea"></aegov-textarea>
 <aegov-textarea size="sm" placeholder="Small textarea"></aegov-textarea>
 <aegov-textarea size="base" placeholder="Base textarea (default)"></aegov-textarea>
 <aegov-textarea size="lg" placeholder="Large textarea"></aegov-textarea>
+<aegov-textarea size="xl" placeholder="Extra large textarea"></aegov-textarea>
 ```
 
 <div class="p-6 bg-aeblack-50 rounded-lg my-6 space-y-4 not-aegov">
+  <aegov-textarea size="xs" placeholder="Extra small textarea"></aegov-textarea>
   <aegov-textarea size="sm" placeholder="Small textarea"></aegov-textarea>
   <aegov-textarea size="base" placeholder="Base textarea (default)"></aegov-textarea>
   <aegov-textarea size="lg" placeholder="Large textarea"></aegov-textarea>
+  <aegov-textarea size="xl" placeholder="Extra large textarea"></aegov-textarea>
 </div>
 
 ---
@@ -390,7 +396,7 @@ No additional configuration is needed — the component reads the inherited `dir
 | Property      | Attribute      | Description                                                                 | Type                                                        | Default      |
 |---------------|----------------|-----------------------------------------------------------------------------|-------------------------------------------------------------|--------------|
 | `fieldId`     | `field-id`     | Unique ID for the native textarea. Auto-generated if not provided.          | `string`                                                    | auto         |
-| `size`        | `size`         | The size of the textarea (controls font size and padding)                   | `'sm'` \| `'base'` \| `'lg'`                               | `'base'`     |
+| `size`        | `size`         | The size of the textarea (controls font size and padding)                   | `'xs'` \| `'sm'` \| `'base'` \| `'lg'` \| `'xl'`          | `'base'`     |
 | `value`       | `value`        | The current value of the textarea                                           | `string`                                                    | `''`         |
 | `placeholder` | `placeholder`  | Placeholder hint text                                                       | `string`                                                    | `undefined`  |
 | `name`        | `name`         | The name attribute for form submission                                      | `string`                                                    | `undefined`  |

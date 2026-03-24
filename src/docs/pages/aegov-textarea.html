@@ -25,7 +25,7 @@
 
 <h2>Introduction</h2>
 <p>The <code>aegov-textarea</code> component wraps a native <code>&lt;textarea&gt;</code> element with consistent styling, event handling, and accessibility support. It integrates seamlessly with <code>aegov-form-field</code> and <code>aegov-label</code> for structured form layouts.</p>
-<p>The component provides <strong>3 sizes</strong>, <strong>5 resize modes</strong> (including auto-grow), an optional <strong>character counter</strong>, and a <strong>copy-to-clipboard</strong> button for read-only fields.</p>
+<p>The component provides <strong>5 sizes</strong>, <strong>5 resize modes</strong> (including auto-grow), an optional <strong>character counter</strong>, and a <strong>copy-to-clipboard</strong> button for read-only fields.</p>
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-textarea</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;Enter your message...&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-textarea</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
   <aegov-textarea placeholder="Enter your message..."></aegov-textarea>
 </div>
@@ -42,6 +42,11 @@
 </tr>
 </thead>
 <tbody><tr>
+<td><code>xs</code></td>
+<td>12px</td>
+<td>6px 10px</td>
+</tr>
+<tr>
 <td><code>sm</code></td>
 <td>14px</td>
 <td>8px 12px</td>
@@ -49,20 +54,29 @@
 <tr>
 <td><code>base</code></td>
 <td>16px</td>
-<td>12px 16px</td>
+<td>10px 14px</td>
 </tr>
 <tr>
 <td><code>lg</code></td>
 <td>18px</td>
-<td>14px 20px</td>
+<td>12px 16px</td>
+</tr>
+<tr>
+<td><code>xl</code></td>
+<td>18px</td>
+<td>14px 18px</td>
 </tr>
 </tbody></table>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-textarea</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;Small textarea&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-textarea</span>&gt;</span>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-textarea</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;xs&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;Extra small textarea&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-textarea</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-textarea</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;Small textarea&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-textarea</span>&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">aegov-textarea</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;base&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;Base textarea (default)&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-textarea</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-textarea</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;lg&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;Large textarea&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-textarea</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 space-y-4 not-aegov">
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-textarea</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;lg&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;Large textarea&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-textarea</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-textarea</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;xl&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;Extra large textarea&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-textarea</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 space-y-4 not-aegov">
+  <aegov-textarea size="xs" placeholder="Extra small textarea"></aegov-textarea>
   <aegov-textarea size="sm" placeholder="Small textarea"></aegov-textarea>
   <aegov-textarea size="base" placeholder="Base textarea (default)"></aegov-textarea>
   <aegov-textarea size="lg" placeholder="Large textarea"></aegov-textarea>
+  <aegov-textarea size="xl" placeholder="Extra large textarea"></aegov-textarea>
 </div>
 
 <hr>
@@ -336,7 +350,7 @@
 <td><code>size</code></td>
 <td><code>size</code></td>
 <td>The size of the textarea (controls font size and padding)</td>
-<td><code>&#39;sm&#39;</code> | <code>&#39;base&#39;</code> | <code>&#39;lg&#39;</code></td>
+<td><code>&#39;xs&#39;</code> | <code>&#39;sm&#39;</code> | <code>&#39;base&#39;</code> | <code>&#39;lg&#39;</code> | <code>&#39;xl&#39;</code></td>
 <td><code>&#39;base&#39;</code></td>
 </tr>
 <tr>

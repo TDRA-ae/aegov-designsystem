@@ -7,22 +7,22 @@
 
 ## Properties
 
-| Property      | Attribute       | Description                                                                                                                     | Type                                  | Default     |
-| ------------- | --------------- | ------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------- | ----------- |
-| `accept`      | `accept`        | Accepted file types (e.g. ".pdf,.jpg,image/*").                                                                                 | `string`                              | `undefined` |
-| `buttonText`  | `button-text`   | Custom text for the browse/trigger button.                                                                                      | `string`                              | `undefined` |
-| `description` | `description`   | Description text displayed below the label.                                                                                     | `string`                              | `undefined` |
-| `disabled`    | `disabled`      | Disables the file upload.                                                                                                       | `boolean`                             | `false`     |
-| `fieldId`     | `field-id`      | Unique field ID. Auto-generated if not provided.                                                                                | `string`                              | `undefined` |
-| `helperText`  | `helper-text`   | Custom helper text for allowed file types. Overrides auto-generated text from `accept`.                                         | `string`                              | `undefined` |
-| `label`       | `label`         | Label text displayed above the control.                                                                                         | `string`                              | `undefined` |
-| `maxFileSize` | `max-file-size` | Maximum file size in bytes.                                                                                                     | `number`                              | `undefined` |
-| `maxFiles`    | `max-files`     | Maximum number of files (multiple mode only). No limit by default.                                                              | `number`                              | `undefined` |
-| `multiple`    | `multiple`      | Allow multiple file selection.                                                                                                  | `boolean`                             | `false`     |
-| `name`        | `name`          | Form field name.                                                                                                                | `string`                              | `undefined` |
-| `required`    | `required`      | Marks the field as required.                                                                                                    | `boolean`                             | `false`     |
-| `size`        | `size`          | Component size.                                                                                                                 | `"base" \| "lg" \| "sm"`              | `'base'`    |
-| `variant`     | `variant`       | Variant style: 'default' (styled input + button), 'button' (hidden input, label-as-button), or 'dropzone' (drag-and-drop area). | `"button" \| "default" \| "dropzone"` | `'default'` |
+| Property      | Attribute       | Description                                                                                                                     | Type                                     | Default     |
+| ------------- | --------------- | ------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------- | ----------- |
+| `accept`      | `accept`        | Accepted file types (e.g. ".pdf,.jpg,image/*").                                                                                 | `string`                                 | `undefined` |
+| `buttonText`  | `button-text`   | Custom text for the browse/trigger button.                                                                                      | `string`                                 | `undefined` |
+| `description` | `description`   | Description text displayed below the label.                                                                                     | `string`                                 | `undefined` |
+| `disabled`    | `disabled`      | Disables the file upload.                                                                                                       | `boolean`                                | `false`     |
+| `fieldId`     | `field-id`      | Unique field ID. Auto-generated if not provided.                                                                                | `string`                                 | `undefined` |
+| `helperText`  | `helper-text`   | Custom helper text for allowed file types. Overrides auto-generated text from `accept`.                                         | `string`                                 | `undefined` |
+| `label`       | `label`         | Label text displayed above the control.                                                                                         | `string`                                 | `undefined` |
+| `maxFileSize` | `max-file-size` | Maximum file size in bytes.                                                                                                     | `number`                                 | `undefined` |
+| `maxFiles`    | `max-files`     | Maximum number of files (multiple mode only). No limit by default.                                                              | `number`                                 | `undefined` |
+| `multiple`    | `multiple`      | Allow multiple file selection.                                                                                                  | `boolean`                                | `false`     |
+| `name`        | `name`          | Form field name.                                                                                                                | `string`                                 | `undefined` |
+| `required`    | `required`      | Marks the field as required.                                                                                                    | `boolean`                                | `false`     |
+| `size`        | `size`          | Component size.                                                                                                                 | `"base" \| "lg" \| "sm" \| "xl" \| "xs"` | `'base'`    |
+| `variant`     | `variant`       | Variant style: 'default' (styled input + button), 'button' (hidden input, label-as-button), or 'dropzone' (drag-and-drop area). | `"button" \| "default" \| "dropzone"`    | `'default'` |
 
 
 ## Events

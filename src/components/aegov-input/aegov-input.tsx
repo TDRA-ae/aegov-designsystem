@@ -104,9 +104,11 @@ export class AegovInput {
     const classes: string[] = ['aegov-input'];
 
     const sizeClasses: Record<InputSize, string> = {
+      xs: 'input--xs',
       sm: 'input--sm',
       base: 'input--base',
       lg: 'input--lg',
+      xl: 'input--xl',
     };
 
     classes.push(sizeClasses[this.size]);
@@ -180,9 +182,11 @@ export class AegovInput {
     if (!this.isRevealable) return null;
 
     const sizeClasses: Record<InputSize, string> = {
+      xs: 'revealable--xs',
       sm: 'revealable--sm',
       base: 'revealable--base',
       lg: 'revealable--lg',
+      xl: 'revealable--xl',
     };
 
     return (
@@ -217,9 +221,11 @@ export class AegovInput {
     if (!this.isCopyable) return null;
 
     const sizeClasses: Record<InputSize, string> = {
+      xs: 'copy-btn--xs',
       sm: 'copy-btn--sm',
       base: 'copy-btn--base',
       lg: 'copy-btn--lg',
+      xl: 'copy-btn--xl',
     };
 
     return (

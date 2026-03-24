@@ -100,24 +100,30 @@ The `format` property controls how the selected date is displayed in the input. 
 
 ## Sizes
 
-The `size` property controls the height and padding of the datepicker input. It matches the sizing of other form components such as `aegov-input`.
+The `size` property controls the height and padding of the datepicker input. There are 5 sizes available, matching the sizing of other form components such as `aegov-input`.
 
-| Size   | Height |
-|--------|--------|
-| `sm`   | 40px   |
-| `base` | 48px   |
-| `lg`   | 52px   |
+| Size   | Height | Text Size |
+|--------|--------|-----------|
+| `xs`   | 36px   | text-sm   |
+| `sm`   | 40px   | text-sm   |
+| `base` | 44px   | text-base |
+| `lg`   | 48px   | text-lg   |
+| `xl`   | 52px   | text-lg   |
 
 ```html
+<aegov-datepicker size="xs" placeholder="Extra Small"></aegov-datepicker>
 <aegov-datepicker size="sm" placeholder="Small"></aegov-datepicker>
 <aegov-datepicker size="base" placeholder="Base (default)"></aegov-datepicker>
 <aegov-datepicker size="lg" placeholder="Large"></aegov-datepicker>
+<aegov-datepicker size="xl" placeholder="Extra Large"></aegov-datepicker>
 ```
 
 <div class="flex flex-wrap items-center gap-4 p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
+  <aegov-datepicker size="xs" placeholder="Extra Small"></aegov-datepicker>
   <aegov-datepicker size="sm" placeholder="Small"></aegov-datepicker>
   <aegov-datepicker size="base" placeholder="Base"></aegov-datepicker>
   <aegov-datepicker size="lg" placeholder="Large"></aegov-datepicker>
+  <aegov-datepicker size="xl" placeholder="Extra Large"></aegov-datepicker>
 </div>
 
 ---
@@ -682,7 +688,7 @@ The component fully supports right-to-left layouts. When the document or a paren
 | `yearRangeStart` | `year-range-start` | Start year for the year dropdown (0 = auto) | `number` | `0` |
 | `yearRangeEnd` | `year-range-end` | End year for the year dropdown (0 = auto) | `number` | `0` |
 | `withConfirmation` | `with-confirmation` | Show Apply/Cancel buttons for confirming selection | `boolean` | `false` |
-| `size` | `size` | The size of the datepicker input | `'sm'` \| `'base'` \| `'lg'` | `'base'` |
+| `size` | `size` | The size of the datepicker input | `'xs'` \| `'sm'` \| `'base'` \| `'lg'` \| `'xl'` | `'base'` |
 
 ### Events
 

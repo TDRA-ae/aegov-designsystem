@@ -52,16 +52,24 @@
          text-primary-900;
 }
 
+.input-group--xs select {
+  @apply text-sm h-9 px-2.5;
+}
+
 .input-group--sm select {
   @apply text-sm h-10 px-3;
 }
 
 .input-group--base select {
-  @apply text-base h-12 px-4;
+  @apply text-base h-11 px-3.5;
 }
 
 .input-group--lg select {
-  @apply text-lg h-13 px-5;
+  @apply text-lg h-12 px-4;
+}
+
+.input-group--xl select {
+  @apply text-lg h-13 px-4.5;
 }
 
 /* --------------------------------------------------------
@@ -82,14 +90,22 @@
 }
 
 /* Size-specific addon dimensions */
+.input-group--xs .input-group__addon {
+  @apply text-sm h-9 px-2.5;
+}
+
 .input-group--sm .input-group__addon {
   @apply text-sm h-10 px-3;
 }
 
 .input-group--base .input-group__addon {
-  @apply text-base h-12 px-4;
+  @apply text-base h-11 px-3.5;
 }
 
 .input-group--lg .input-group__addon {
-  @apply text-lg h-13 px-5;
+  @apply text-lg h-12 px-4;
+}
+
+.input-group--xl .input-group__addon {
+  @apply text-lg h-13 px-4.5;
 }

@@ -137,33 +137,51 @@
 
 <hr>
 <h2>Sizes</h2>
-<p>The <code>size</code> property controls the height and padding of the datepicker input. It matches the sizing of other form components such as <code>aegov-input</code>.</p>
+<p>The <code>size</code> property controls the height and padding of the datepicker input. There are 5 sizes available, matching the sizing of other form components such as <code>aegov-input</code>.</p>
 <table>
 <thead>
 <tr>
 <th>Size</th>
 <th>Height</th>
+<th>Text Size</th>
 </tr>
 </thead>
 <tbody><tr>
+<td><code>xs</code></td>
+<td>36px</td>
+<td>text-sm</td>
+</tr>
+<tr>
 <td><code>sm</code></td>
 <td>40px</td>
+<td>text-sm</td>
 </tr>
 <tr>
 <td><code>base</code></td>
-<td>48px</td>
+<td>44px</td>
+<td>text-base</td>
 </tr>
 <tr>
 <td><code>lg</code></td>
+<td>48px</td>
+<td>text-lg</td>
+</tr>
+<tr>
+<td><code>xl</code></td>
 <td>52px</td>
+<td>text-lg</td>
 </tr>
 </tbody></table>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-datepicker</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;Small&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-datepicker</span>&gt;</span>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-datepicker</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;xs&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;Extra Small&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-datepicker</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-datepicker</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;Small&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-datepicker</span>&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">aegov-datepicker</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;base&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;Base (default)&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-datepicker</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-datepicker</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;lg&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;Large&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-datepicker</span>&gt;</span></code></pre><div class="flex flex-wrap items-center gap-4 p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-datepicker</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;lg&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;Large&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-datepicker</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-datepicker</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;xl&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;Extra Large&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-datepicker</span>&gt;</span></code></pre><div class="flex flex-wrap items-center gap-4 p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
+  <aegov-datepicker size="xs" placeholder="Extra Small"></aegov-datepicker>
   <aegov-datepicker size="sm" placeholder="Small"></aegov-datepicker>
   <aegov-datepicker size="base" placeholder="Base"></aegov-datepicker>
   <aegov-datepicker size="lg" placeholder="Large"></aegov-datepicker>
+  <aegov-datepicker size="xl" placeholder="Extra Large"></aegov-datepicker>
 </div>
 
 <hr>
@@ -791,7 +809,7 @@
 <td><code>size</code></td>
 <td><code>size</code></td>
 <td>The size of the datepicker input</td>
-<td><code>&#39;sm&#39;</code> | <code>&#39;base&#39;</code> | <code>&#39;lg&#39;</code></td>
+<td><code>&#39;xs&#39;</code> | <code>&#39;sm&#39;</code> | <code>&#39;base&#39;</code> | <code>&#39;lg&#39;</code> | <code>&#39;xl&#39;</code></td>
 <td><code>&#39;base&#39;</code></td>
 </tr>
 </tbody></table>

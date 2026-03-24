@@ -4,7 +4,7 @@
 
 ## Introduction
 
-The `aegov-toggle` component renders an accessible on/off switch built on a native `<input type="checkbox" role="switch">` element. It supports **3 sizes**, optional **label** and **description** text, **custom icons** inside the thumb, and a **disabled** state out of the box.
+The `aegov-toggle` component renders an accessible on/off switch built on a native `<input type="checkbox" role="switch">` element. It supports **5 sizes**, optional **label** and **description** text, **custom icons** inside the thumb, and a **disabled** state out of the box.
 
 ```html
 <aegov-toggle label="Notifications"></aegov-toggle>
@@ -50,24 +50,30 @@ Set the `disabled` attribute to prevent interaction. The toggle becomes visually
 
 ## Sizes
 
-The `size` property controls the dimensions of the track, thumb, label font size, and description font size. There are three sizes available.
+The `size` property controls the dimensions of the track, thumb, label font size, and description font size. There are five sizes available.
 
 | Size   | Track      | Thumb  | Label Font | Description Font |
 |--------|------------|--------|------------|------------------|
+| `xs`   | 26 x 11px  | 16px   | 12px       | 10px             |
 | `sm`   | 32 x 14px  | 20px   | 14px       | 12px             |
 | `base` | 40 x 18px  | 24px   | 16px       | 14px             |
 | `lg`   | 48 x 22px  | 28px   | 18px       | 16px             |
+| `xl`   | 56 x 26px  | 32px   | 20px       | 18px             |
 
 ```html
+<aegov-toggle size="xs" label="Extra Small"></aegov-toggle>
 <aegov-toggle size="sm" label="Small"></aegov-toggle>
 <aegov-toggle size="base" label="Base (default)"></aegov-toggle>
 <aegov-toggle size="lg" label="Large"></aegov-toggle>
+<aegov-toggle size="xl" label="Extra Large"></aegov-toggle>
 ```
 
 <div class="flex flex-wrap items-center gap-6 p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
+  <aegov-toggle size="xs" label="Extra Small"></aegov-toggle>
   <aegov-toggle size="sm" label="Small"></aegov-toggle>
   <aegov-toggle size="base" label="Base (default)"></aegov-toggle>
   <aegov-toggle size="lg" label="Large"></aegov-toggle>
+  <aegov-toggle size="xl" label="Extra Large"></aegov-toggle>
 </div>
 
 ---
@@ -104,18 +110,24 @@ The `description` property renders helper text below the label. It is only displ
 ### Description with Different Sizes
 
 ```html
+<aegov-toggle size="xs" label="Extra small toggle"
+  description="Helper text for the extra small size."></aegov-toggle>
 <aegov-toggle size="sm" label="Small toggle"
   description="Helper text for the small size."></aegov-toggle>
 <aegov-toggle size="base" label="Base toggle"
   description="Helper text for the base size."></aegov-toggle>
 <aegov-toggle size="lg" label="Large toggle"
   description="Helper text for the large size."></aegov-toggle>
+<aegov-toggle size="xl" label="Extra large toggle"
+  description="Helper text for the extra large size."></aegov-toggle>
 ```
 
 <div class="flex flex-col gap-6 p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
+  <aegov-toggle size="xs" label="Extra small toggle" description="Helper text for the extra small size."></aegov-toggle>
   <aegov-toggle size="sm" label="Small toggle" description="Helper text for the small size."></aegov-toggle>
   <aegov-toggle size="base" label="Base toggle" description="Helper text for the base size."></aegov-toggle>
   <aegov-toggle size="lg" label="Large toggle" description="Helper text for the large size."></aegov-toggle>
+  <aegov-toggle size="xl" label="Extra large toggle" description="Helper text for the extra large size."></aegov-toggle>
 </div>
 
 ---
@@ -174,15 +186,21 @@ Icons are automatically sized to match the current toggle size and colour-coded:
 ### Icons at All Sizes
 
 ```html
-<aegov-toggle size="sm" checked label="Small">
+<aegov-toggle size="xs" checked label="Extra Small">
   <svg slot="icon-unchecked" ...>...</svg>
   <svg slot="icon-checked" ...>...</svg>
 </aegov-toggle>
+<aegov-toggle size="sm" checked label="Small">...</aegov-toggle>
 <aegov-toggle size="base" checked label="Base">...</aegov-toggle>
 <aegov-toggle size="lg" checked label="Large">...</aegov-toggle>
+<aegov-toggle size="xl" checked label="Extra Large">...</aegov-toggle>
 ```
 
 <div class="flex flex-wrap items-center gap-6 p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
+  <aegov-toggle size="xs" checked label="Extra Small">
+    <svg slot="icon-unchecked" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    <svg slot="icon-checked" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+  </aegov-toggle>
   <aegov-toggle size="sm" checked label="Small">
     <svg slot="icon-unchecked" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
     <svg slot="icon-checked" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
@@ -192,6 +210,10 @@ Icons are automatically sized to match the current toggle size and colour-coded:
     <svg slot="icon-checked" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
   </aegov-toggle>
   <aegov-toggle size="lg" checked label="Large">
+    <svg slot="icon-unchecked" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    <svg slot="icon-checked" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+  </aegov-toggle>
+  <aegov-toggle size="xl" checked label="Extra Large">
     <svg slot="icon-unchecked" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
     <svg slot="icon-checked" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
   </aegov-toggle>
@@ -331,7 +353,7 @@ The `field-id` property sets the `id` attribute on the native `<input>` element.
 | `checked`     | `checked`     | Whether the toggle is on                                                 | `boolean`                       | `false`     |
 | `disabled`    | `disabled`    | Prevents interaction                                                     | `boolean`                       | `false`     |
 | `required`    | `required`    | Marks the toggle as required for form validation                         | `boolean`                       | `false`     |
-| `size`        | `size`        | The toggle size                                                          | `'sm'` \| `'base'` \| `'lg'`   | `'base'`    |
+| `size`        | `size`        | The toggle size                                                          | `'xs'` \| `'sm'` \| `'base'` \| `'lg'` \| `'xl'` | `'base'`    |
 | `label`       | `label`       | Label text rendered inline with the toggle                               | `string`                        | `undefined` |
 | `description` | `description` | Helper text below the label (only shown when label is provided)          | `string`                        | `undefined` |
 | `name`        | `name`        | The name attribute for the native input                                  | `string`                        | `undefined` |
