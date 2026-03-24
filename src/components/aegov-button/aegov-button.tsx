@@ -115,7 +115,7 @@ export class AegovButton {
    */
   private getButtonClasses(): string {
     const classes: string[] = [
-      'relative inline-flex shrink-0 cursor-pointer select-none flex-wrap items-center justify-center whitespace-nowrap no-underline transition-all duration-200 ease-in-out focus-visible:outline-2  disabled:cursor-default disabled:pointer-events-none'
+      'relative inline-flex shrink-0 cursor-pointer select-none flex-wrap items-center justify-center whitespace-nowrap no-underline transition-all duration-200 ease-in-out focus-visible:outline-2  disabled:cursor-default disabled:pointer-events-none disabled:cursor-not-allowed'
     ];
 
     // Size classes
@@ -130,20 +130,20 @@ export class AegovButton {
     classes.push(...sizeClasses[this.size]);
     
     const variantClasses: Record<ButtonVariant, string[]> = {
-      solid: ['btn-solid'],
-      outline: ['btn-outline'],
-      soft: ['btn-soft'],
-      link: ['btn-link']
+      solid: ['btn-solid','shadow-[inset_0px_1px_--theme(--color-whitely-50/.2)]', 'text-whitely-50', 'border-1', 'focus-visible:outline-offset-2', 'disabled:opacity-30'],
+      outline: ['btn-outline','bg-transparent', 'border-2', 'focus-visible:outline-offset-0', 'disabled:opacity-50'],
+      soft: ['btn-soft', 'border-0', 'focus-visible:outline-offset-2', 'disabled:opacity-50'],
+      link: ['btn-link', 'bg-transparent', 'border-0', 'hover:underline', 'focus-visible:outline-offset-2', 'disabled:opacity-50']
     };
 
     classes.push(...variantClasses[this.variant]);
 
     const appearanceClasses: Record<ButtonAppearance, string[]> = {
-      primary: ['btn-primary'],
-      secondary: ['btn-secondary'],
-      danger: ['btn-danger'],
-      neutralMin: ['btn-neutral-min'],
-      neutralMax: ['btn-neutral-max']
+      primary: ['btn-primary', 'outline-primary-support-600'],
+      secondary: ['btn-secondary', 'outline-secondary-support-600'],
+      danger: ['btn-danger', 'outline-camel-600'],
+      neutralMin: ['btn-neutral-min', 'outline-seablue-600'],
+      neutralMax: ['btn-neutral-max', 'outline-seablue-600']
     };
 
     classes.push(...appearanceClasses[this.appearance]);
@@ -171,7 +171,7 @@ export class AegovButton {
 
     // bold management
     if (this.bold) {
-      classes.push('font-medium');
+      classes.push('font-semibold');
     }
 
     // Button group styling

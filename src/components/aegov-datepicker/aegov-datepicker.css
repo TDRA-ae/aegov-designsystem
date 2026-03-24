@@ -37,6 +37,30 @@
   @apply cursor-not-allowed;
 }
 
+/* ── Size: xs ──────────────────────────────────────── */
+.datepicker__input-wrapper--xs .datepicker__input {
+  @apply text-sm py-1.5 px-2.5 h-9;
+  min-width: 110px;
+}
+
+.datepicker__input-wrapper--xs .datepicker__input--range-start,
+.datepicker__input-wrapper--xs .datepicker__input--range-end {
+  @apply px-1.5;
+  min-width: 90px;
+}
+
+.datepicker__input-wrapper--xs .datepicker__icon {
+  @apply h-9 w-9;
+}
+
+.datepicker__input-wrapper--xs .datepicker__clear-btn {
+  @apply w-4 h-4;
+}
+
+.datepicker__input-wrapper--xs .datepicker__range-separator {
+  @apply px-0;
+}
+
 /* ── Size: sm ──────────────────────────────────────── */
 .datepicker__input-wrapper--sm .datepicker__input {
   @apply text-sm py-2 px-3 h-10;
@@ -63,18 +87,18 @@
 
 /* ── Size: base ────────────────────────────────────── */
 .datepicker__input-wrapper--base .datepicker__input {
-  @apply text-base py-3 px-4 h-12;
-  min-width: 140px;
+  @apply text-base py-2.5 px-3.5 h-11;
+  min-width: 135px;
 }
 
 .datepicker__input-wrapper--base .datepicker__input--range-start,
 .datepicker__input-wrapper--base .datepicker__input--range-end {
-  @apply px-3;
-  min-width: 115px;
+  @apply px-2.5;
+  min-width: 110px;
 }
 
 .datepicker__input-wrapper--base .datepicker__icon {
-  @apply h-12 w-12;
+  @apply h-11 w-11;
 }
 
 .datepicker__input-wrapper--base .datepicker__clear-btn {
@@ -87,25 +111,49 @@
 
 /* ── Size: lg ──────────────────────────────────────── */
 .datepicker__input-wrapper--lg .datepicker__input {
-  @apply text-lg py-3.5 px-5 h-13;
-  min-width: 160px;
+  @apply text-lg py-3 px-4 h-12;
+  min-width: 155px;
 }
 
 .datepicker__input-wrapper--lg .datepicker__input--range-start,
 .datepicker__input-wrapper--lg .datepicker__input--range-end {
-  @apply px-4;
-  min-width: 130px;
+  @apply px-3.5;
+  min-width: 125px;
 }
 
 .datepicker__input-wrapper--lg .datepicker__icon {
-  @apply h-13 w-13;
+  @apply h-12 w-12;
 }
 
 .datepicker__input-wrapper--lg .datepicker__clear-btn {
-  @apply w-7 h-7;
+  @apply w-6 h-6;
 }
 
 .datepicker__input-wrapper--lg .datepicker__range-separator {
+  @apply px-1;
+}
+
+/* ── Size: xl ──────────────────────────────────────── */
+.datepicker__input-wrapper--xl .datepicker__input {
+  @apply text-lg py-3.5 px-4.5 h-13;
+  min-width: 170px;
+}
+
+.datepicker__input-wrapper--xl .datepicker__input--range-start,
+.datepicker__input-wrapper--xl .datepicker__input--range-end {
+  @apply px-4;
+  min-width: 135px;
+}
+
+.datepicker__input-wrapper--xl .datepicker__icon {
+  @apply h-13 w-13;
+}
+
+.datepicker__input-wrapper--xl .datepicker__clear-btn {
+  @apply w-7 h-7;
+}
+
+.datepicker__input-wrapper--xl .datepicker__range-separator {
   @apply px-1.5;
 }
 

@@ -54,6 +54,34 @@
 }
 
 /* ========================================
+   Size: xs
+   Checkbox: 14px, label: text-xs, desc: text-xs
+   ======================================== */
+.checkbox--xs .checkbox__wrapper {
+  @apply gap-1.5;
+}
+
+.checkbox--xs input[type="checkbox"] {
+  @apply h-3.5 w-3.5 mt-0!;
+}
+
+.checkbox--xs input[type="checkbox"]::before {
+  @apply h-7 w-7;
+}
+
+.checkbox--xs .checkbox__text {
+  @apply pt-0;
+}
+
+.checkbox--xs .checkbox__label-text {
+  @apply text-xs leading-3.5;
+}
+
+.checkbox--xs .checkbox__description {
+  @apply text-xs mt-0.5;
+}
+
+/* ========================================
    Size: sm
    Checkbox: 16px, label: text-sm, desc: text-xs
    ======================================== */
@@ -134,5 +162,33 @@
 }
 
 .checkbox--lg .checkbox__description {
+  @apply text-base mt-1;
+}
+
+/* ========================================
+   Size: xl
+   Checkbox: 22px, label: text-xl, desc: text-base
+   ======================================== */
+.checkbox--xl .checkbox__wrapper {
+  @apply gap-4;
+}
+
+.checkbox--xl input[type="checkbox"] {
+  @apply h-5.5 w-5.5 mt-1!;
+}
+
+.checkbox--xl input[type="checkbox"]::before {
+  @apply h-14 w-14;
+}
+
+.checkbox--xl .checkbox__text {
+  @apply pt-0.5;
+}
+
+.checkbox--xl .checkbox__label-text {
+  @apply text-xl leading-7;
+}
+
+.checkbox--xl .checkbox__description {
   @apply text-base mt-1;
 }

@@ -6,7 +6,7 @@
 
 The `aegov-input` component renders a native `<input>` element wrapped with design-system styling, size tokens, icon slots, a password reveal toggle, and a copy-to-clipboard button. It is designed to work standalone or inside the companion components `aegov-form-field` (label + helper/error linking) and `aegov-input-group` (prefix/suffix addons).
 
-The input ships in **3 sizes**, supports **12 input types**, and includes built-in password reveal and copy-to-clipboard features.
+The input ships in **5 sizes**, supports **12 input types**, and includes built-in password reveal and copy-to-clipboard features.
 
 ```html
 <aegov-input placeholder="Enter your name"></aegov-input>
@@ -81,24 +81,30 @@ The `type` property supports 12 HTML input types. The input automatically adapts
 
 ## Sizes
 
-The `size` property controls the height, padding, and font size of the input. All three sizes align with the corresponding button sizes so they can sit side-by-side in input groups.
+The `size` property controls the height, padding, and font size of the input. All five sizes align with the corresponding button sizes so they can sit side-by-side in input groups.
 
 | Size   | Height | Font Size | Padding        |
 |--------|--------|-----------|----------------|
+| `xs`   | 36px   | 14px      | 6px 10px       |
 | `sm`   | 40px   | 14px      | 8px 12px       |
-| `base` | 48px   | 16px      | 12px 16px      |
-| `lg`   | 52px   | 18px      | 14px 20px      |
+| `base` | 44px   | 16px      | 10px 14px      |
+| `lg`   | 48px   | 18px      | 12px 16px      |
+| `xl`   | 52px   | 18px      | 14px 18px      |
 
 ```html
+<aegov-input size="xs" placeholder="Extra Small"></aegov-input>
 <aegov-input size="sm" placeholder="Small"></aegov-input>
 <aegov-input size="base" placeholder="Base (default)"></aegov-input>
 <aegov-input size="lg" placeholder="Large"></aegov-input>
+<aegov-input size="xl" placeholder="Extra Large"></aegov-input>
 ```
 
 <div class="p-6 bg-aeblack-50 rounded-lg my-6 space-y-3 not-aegov">
+  <aegov-input size="xs" placeholder="Extra Small"></aegov-input>
   <aegov-input size="sm" placeholder="Small"></aegov-input>
   <aegov-input size="base" placeholder="Base (default)"></aegov-input>
   <aegov-input size="lg" placeholder="Large"></aegov-input>
+  <aegov-input size="xl" placeholder="Extra Large"></aegov-input>
 </div>
 
 ---
@@ -419,6 +425,10 @@ A native `<select>` element can be placed inside the group for combined input pa
 The `size` property on `aegov-input-group` propagates to child `aegov-input` and `aegov-button` components automatically.
 
 ```html
+<aegov-input-group size="xs" addon-prefix="USD">
+  <aegov-input type="number" placeholder="0.00"></aegov-input>
+</aegov-input-group>
+
 <aegov-input-group size="sm" addon-prefix="USD">
   <aegov-input type="number" placeholder="0.00"></aegov-input>
 </aegov-input-group>
@@ -430,9 +440,16 @@ The `size` property on `aegov-input-group` propagates to child `aegov-input` and
 <aegov-input-group size="lg" addon-prefix="USD">
   <aegov-input type="number" placeholder="0.00"></aegov-input>
 </aegov-input-group>
+
+<aegov-input-group size="xl" addon-prefix="USD">
+  <aegov-input type="number" placeholder="0.00"></aegov-input>
+</aegov-input-group>
 ```
 
 <div class="p-6 bg-aeblack-50 rounded-lg my-6 space-y-3 not-aegov">
+  <aegov-input-group size="xs" addon-prefix="$">
+    <aegov-input type="number" placeholder="0.00"></aegov-input>
+  </aegov-input-group>
   <aegov-input-group size="sm" addon-prefix="$">
     <aegov-input type="number" placeholder="0.00"></aegov-input>
   </aegov-input-group>
@@ -440,6 +457,9 @@ The `size` property on `aegov-input-group` propagates to child `aegov-input` and
     <aegov-input type="number" placeholder="0.00"></aegov-input>
   </aegov-input-group>
   <aegov-input-group size="lg" addon-prefix="$">
+    <aegov-input type="number" placeholder="0.00"></aegov-input>
+  </aegov-input-group>
+  <aegov-input-group size="xl" addon-prefix="$">
     <aegov-input type="number" placeholder="0.00"></aegov-input>
   </aegov-input-group>
 </div>
@@ -667,7 +687,7 @@ No additional configuration is needed -- the components read the inherited `dir`
 |---------------|----------------|-----------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------|------------|
 | `fieldId`     | `field-id`     | Unique ID for the native input. Auto-generated if not provided.             | `string`                                                                                                        | auto       |
 | `type`        | `type`         | The HTML input type                                                         | `'text'` `'email'` `'password'` `'tel'` `'url'` `'number'` `'search'` `'date'` `'time'` `'datetime-local'` `'month'` `'week'` | `'text'`   |
-| `size`        | `size`         | The input size                                                              | `'sm'` `'base'` `'lg'`                                                                                   | `'base'`   |
+| `size`        | `size`         | The input size                                                              | `'xs'` `'sm'` `'base'` `'lg'` `'xl'`                                                                     | `'base'`   |
 | `disabled`    | `disabled`     | Prevents interaction                                                        | `boolean`                                                                                                       | `false`    |
 | `readonly`    | `readonly`     | Makes the input read-only                                                   | `boolean`                                                                                                       | `false`    |
 | `placeholder` | `placeholder`  | Hint text shown when the input is empty                                     | `string`                                                                                                        | --         |

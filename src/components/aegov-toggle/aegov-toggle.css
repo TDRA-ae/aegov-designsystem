@@ -114,6 +114,47 @@
 }
 
 /* ========================================
+   Size: xs
+   Track: 26×11, Thumb: 16×16
+   Thumb protrudes 2.5px above and below track
+   ======================================== */
+.toggle--xs .toggle__control {
+  min-height: 16px;
+}
+
+.toggle--xs .toggle__track {
+  width: 26px;
+  height: 11px;
+}
+
+.toggle--xs .toggle__thumb {
+  width: 16px;
+  height: 16px;
+  top: 50%;
+  transform: translateX(0px) translateY(-50%);
+}
+
+.toggle--xs .toggle__input:checked + .toggle__track .toggle__thumb {
+  transform: translateX(10px) translateY(-50%);
+}
+
+.toggle--xs .toggle__icon {
+  @apply w-2 h-2;
+}
+
+.toggle--xs .toggle__wrapper {
+  @apply gap-1.5;
+}
+
+.toggle--xs .toggle__label-text {
+  @apply text-xs leading-4;
+}
+
+.toggle--xs .toggle__description {
+  @apply text-xs mt-0.5;
+}
+
+/* ========================================
    Size: sm
    Track: 32×14, Thumb: 20×20
    Thumb protrudes 3px above and below track
@@ -237,8 +278,59 @@
 }
 
 /* ========================================
+   Size: xl
+   Track: 56×26, Thumb: 32×32
+   Thumb protrudes 3px above and below track
+   ======================================== */
+.toggle--xl .toggle__control {
+  min-height: 32px;
+}
+
+.toggle--xl .toggle__track {
+  width: 56px;
+  height: 26px;
+}
+
+.toggle--xl .toggle__thumb {
+  width: 32px;
+  height: 32px;
+  top: 50%;
+  transform: translateX(0px) translateY(-50%);
+}
+
+.toggle--xl .toggle__input:checked + .toggle__track .toggle__thumb {
+  transform: translateX(24px) translateY(-50%);
+}
+
+.toggle--xl .toggle__icon {
+  @apply w-4 h-4;
+}
+
+.toggle--xl .toggle__wrapper {
+  @apply gap-4;
+}
+
+.toggle--xl .toggle__label-text {
+  @apply text-xl leading-8;
+}
+
+.toggle--xl .toggle__description {
+  @apply text-lg mt-1;
+}
+
+/* ========================================
    RTL support
    ======================================== */
+[dir="rtl"] .toggle--xs .toggle__thumb,
+:dir(rtl) .toggle--xs .toggle__thumb {
+  transform: translateX(0px) translateY(-50%);
+}
+
+[dir="rtl"] .toggle--xs .toggle__input:checked + .toggle__track .toggle__thumb,
+:dir(rtl) .toggle--xs .toggle__input:checked + .toggle__track .toggle__thumb {
+  transform: translateX(-10px) translateY(-50%);
+}
+
 [dir="rtl"] .toggle--sm .toggle__thumb,
 :dir(rtl) .toggle--sm .toggle__thumb {
   transform: translateX(0px) translateY(-50%);
@@ -267,4 +359,14 @@
 [dir="rtl"] .toggle--lg .toggle__input:checked + .toggle__track .toggle__thumb,
 :dir(rtl) .toggle--lg .toggle__input:checked + .toggle__track .toggle__thumb {
   transform: translateX(-20px) translateY(-50%);
+}
+
+[dir="rtl"] .toggle--xl .toggle__thumb,
+:dir(rtl) .toggle--xl .toggle__thumb {
+  transform: translateX(0px) translateY(-50%);
+}
+
+[dir="rtl"] .toggle--xl .toggle__input:checked + .toggle__track .toggle__thumb,
+:dir(rtl) .toggle--xl .toggle__input:checked + .toggle__track .toggle__thumb {
+  transform: translateX(-24px) translateY(-50%);
 }

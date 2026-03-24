@@ -48,24 +48,30 @@ The `indeterminate` property displays a horizontal dash instead of a checkmark. 
 
 ## Sizes
 
-The `size` property controls the dimensions of the checkbox indicator, label font size, and description font size. Three sizes are available.
+The `size` property controls the dimensions of the checkbox indicator, label font size, and description font size. Five sizes are available.
 
 | Size   | Checkbox | Label Font | Description Font |
 |--------|----------|------------|------------------|
+| `xs`   | 14px     | text-xs    | text-xs          |
 | `sm`   | 16px     | text-sm    | text-xs          |
-| `base` | 20px     | text-base  | text-sm          |
-| `lg`   | 24px     | text-lg    | text-base        |
+| `base` | 18px     | text-base  | text-sm          |
+| `lg`   | 20px     | text-lg    | text-base        |
+| `xl`   | 22px     | text-xl    | text-lg          |
 
 ```html
+<aegov-checkbox size="xs" label="Extra small checkbox"></aegov-checkbox>
 <aegov-checkbox size="sm" label="Small checkbox"></aegov-checkbox>
 <aegov-checkbox size="base" label="Base checkbox (default)"></aegov-checkbox>
 <aegov-checkbox size="lg" label="Large checkbox"></aegov-checkbox>
+<aegov-checkbox size="xl" label="Extra large checkbox"></aegov-checkbox>
 ```
 
 <div class="p-6 bg-aeblack-50 rounded-lg my-6 space-y-4 not-aegov">
+  <aegov-checkbox size="xs" label="Extra small checkbox"></aegov-checkbox>
   <aegov-checkbox size="sm" label="Small checkbox"></aegov-checkbox>
   <aegov-checkbox size="base" label="Base checkbox (default)"></aegov-checkbox>
   <aegov-checkbox size="lg" label="Large checkbox"></aegov-checkbox>
+  <aegov-checkbox size="xl" label="Extra large checkbox"></aegov-checkbox>
 </div>
 
 ---
@@ -336,6 +342,11 @@ The check-all checkbox transitions between three visual states:
 The `size` property on the group propagates to all child checkboxes, overriding any individual size.
 
 ```html
+<aegov-checkbox-group label="Extra small group" size="xs">
+  <aegov-checkbox label="Option A" value="a"></aegov-checkbox>
+  <aegov-checkbox label="Option B" value="b"></aegov-checkbox>
+</aegov-checkbox-group>
+
 <aegov-checkbox-group label="Small group" size="sm">
   <aegov-checkbox label="Option A" value="a"></aegov-checkbox>
   <aegov-checkbox label="Option B" value="b"></aegov-checkbox>
@@ -345,14 +356,27 @@ The `size` property on the group propagates to all child checkboxes, overriding 
   <aegov-checkbox label="Option A" value="a"></aegov-checkbox>
   <aegov-checkbox label="Option B" value="b"></aegov-checkbox>
 </aegov-checkbox-group>
+
+<aegov-checkbox-group label="Extra large group" size="xl">
+  <aegov-checkbox label="Option A" value="a"></aegov-checkbox>
+  <aegov-checkbox label="Option B" value="b"></aegov-checkbox>
+</aegov-checkbox-group>
 ```
 
 <div class="p-6 bg-aeblack-50 rounded-lg my-6 space-y-6 not-aegov">
+  <aegov-checkbox-group label="Extra small group" size="xs">
+    <aegov-checkbox label="Option A" value="a"></aegov-checkbox>
+    <aegov-checkbox label="Option B" value="b"></aegov-checkbox>
+  </aegov-checkbox-group>
   <aegov-checkbox-group label="Small group" size="sm">
     <aegov-checkbox label="Option A" value="a"></aegov-checkbox>
     <aegov-checkbox label="Option B" value="b"></aegov-checkbox>
   </aegov-checkbox-group>
   <aegov-checkbox-group label="Large group" size="lg">
+    <aegov-checkbox label="Option A" value="a"></aegov-checkbox>
+    <aegov-checkbox label="Option B" value="b"></aegov-checkbox>
+  </aegov-checkbox-group>
+  <aegov-checkbox-group label="Extra large group" size="xl">
     <aegov-checkbox label="Option A" value="a"></aegov-checkbox>
     <aegov-checkbox label="Option B" value="b"></aegov-checkbox>
   </aegov-checkbox-group>
@@ -483,7 +507,7 @@ The component fully supports right-to-left layouts. When the document or a paren
 | `name`          | `name`          | The name attribute for the checkbox.                                        | `string`                         | `undefined` |
 | `value`         | `value`         | The value attribute for the checkbox.                                       | `string`                         | `undefined` |
 | `checked`       | `checked`       | Whether the checkbox is checked.                                            | `boolean`                        | `false`     |
-| `size`          | `size`          | The size of the checkbox.                                                   | `'sm'` \| `'base'` \| `'lg'`    | `'base'`    |
+| `size`          | `size`          | The size of the checkbox.                                                   | `'xs'` \| `'sm'` \| `'base'` \| `'lg'` \| `'xl'` | `'base'`    |
 | `disabled`      | `disabled`      | Whether the checkbox is disabled.                                           | `boolean`                        | `false`     |
 | `required`      | `required`      | Whether the checkbox is required for form validation.                       | `boolean`                        | `false`     |
 | `label`         | `label`         | Label text. When provided, wraps checkbox and text in a `<label>`.          | `string`                         | `undefined` |
@@ -505,7 +529,7 @@ The component fully supports right-to-left layouts. When the document or a paren
 | `variant`     | `variant`     | Visual layout variant for the group.                                        | `'default'` \| `'list'` \| `'cards'` \| `'pills'` | `'default'`  |
 | `orientation` | `orientation` | Stack direction for checkbox items.                                         | `'vertical'` \| `'horizontal'`                  | `'vertical'` |
 | `label`       | `label`       | Optional label rendered as a `<legend>` for accessibility.                  | `string`                                        | `undefined`  |
-| `size`        | `size`        | Size of all checkboxes in the group. Propagated to children.                | `'sm'` \| `'base'` \| `'lg'`                    | `'base'`     |
+| `size`        | `size`        | Size of all checkboxes in the group. Propagated to children.                | `'xs'` \| `'sm'` \| `'base'` \| `'lg'` \| `'xl'` | `'base'`     |
 | `disabled`    | `disabled`    | Disables all checkboxes within the group via native fieldset disabled.      | `boolean`                                       | `false`      |
 | `class`       | `class`       | Additional CSS classes to apply.                                            | `string`                                        | `undefined`  |
 

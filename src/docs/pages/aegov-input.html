@@ -25,7 +25,7 @@
 
 <h2>Introduction</h2>
 <p>The <code>aegov-input</code> component renders a native <code>&lt;input&gt;</code> element wrapped with design-system styling, size tokens, icon slots, a password reveal toggle, and a copy-to-clipboard button. It is designed to work standalone or inside the companion components <code>aegov-form-field</code> (label + helper/error linking) and <code>aegov-input-group</code> (prefix/suffix addons).</p>
-<p>The input ships in <strong>3 sizes</strong>, supports <strong>12 input types</strong>, and includes built-in password reveal and copy-to-clipboard features.</p>
+<p>The input ships in <strong>5 sizes</strong>, supports <strong>12 input types</strong>, and includes built-in password reveal and copy-to-clipboard features.</p>
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-input</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;Enter your name&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-input</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
   <aegov-input placeholder="Enter your name"></aegov-input>
 </div>
@@ -121,7 +121,7 @@
 
 <hr>
 <h2>Sizes</h2>
-<p>The <code>size</code> property controls the height, padding, and font size of the input. All three sizes align with the corresponding button sizes so they can sit side-by-side in input groups.</p>
+<p>The <code>size</code> property controls the height, padding, and font size of the input. All five sizes align with the corresponding button sizes so they can sit side-by-side in input groups.</p>
 <table>
 <thead>
 <tr>
@@ -132,6 +132,12 @@
 </tr>
 </thead>
 <tbody><tr>
+<td><code>xs</code></td>
+<td>36px</td>
+<td>14px</td>
+<td>6px 10px</td>
+</tr>
+<tr>
 <td><code>sm</code></td>
 <td>40px</td>
 <td>14px</td>
@@ -139,23 +145,33 @@
 </tr>
 <tr>
 <td><code>base</code></td>
-<td>48px</td>
+<td>44px</td>
 <td>16px</td>
-<td>12px 16px</td>
+<td>10px 14px</td>
 </tr>
 <tr>
 <td><code>lg</code></td>
+<td>48px</td>
+<td>18px</td>
+<td>12px 16px</td>
+</tr>
+<tr>
+<td><code>xl</code></td>
 <td>52px</td>
 <td>18px</td>
-<td>14px 20px</td>
+<td>14px 18px</td>
 </tr>
 </tbody></table>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-input</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;Small&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-input</span>&gt;</span>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-input</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;xs&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;Extra Small&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-input</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-input</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;Small&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-input</span>&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">aegov-input</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;base&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;Base (default)&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-input</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-input</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;lg&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;Large&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-input</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 space-y-3 not-aegov">
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-input</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;lg&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;Large&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-input</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-input</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;xl&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;Extra Large&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-input</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 space-y-3 not-aegov">
+  <aegov-input size="xs" placeholder="Extra Small"></aegov-input>
   <aegov-input size="sm" placeholder="Small"></aegov-input>
   <aegov-input size="base" placeholder="Base (default)"></aegov-input>
   <aegov-input size="lg" placeholder="Large"></aegov-input>
+  <aegov-input size="xl" placeholder="Extra Large"></aegov-input>
 </div>
 
 <hr>
@@ -379,7 +395,11 @@
 
 <h3>Input Group Sizes</h3>
 <p>The <code>size</code> property on <code>aegov-input-group</code> propagates to child <code>aegov-input</code> and <code>aegov-button</code> components automatically.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-input-group</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm&quot;</span> <span class="hljs-attr">addon-prefix</span>=<span class="hljs-string">&quot;USD&quot;</span>&gt;</span>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-input-group</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;xs&quot;</span> <span class="hljs-attr">addon-prefix</span>=<span class="hljs-string">&quot;USD&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;number&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;0.00&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-input</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-input-group</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-input-group</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm&quot;</span> <span class="hljs-attr">addon-prefix</span>=<span class="hljs-string">&quot;USD&quot;</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;number&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;0.00&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-input</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-input-group</span>&gt;</span>
 
@@ -389,7 +409,14 @@
 
 <span class="hljs-tag">&lt;<span class="hljs-name">aegov-input-group</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;lg&quot;</span> <span class="hljs-attr">addon-prefix</span>=<span class="hljs-string">&quot;USD&quot;</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;number&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;0.00&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-input</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-input-group</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-input-group</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;xl&quot;</span> <span class="hljs-attr">addon-prefix</span>=<span class="hljs-string">&quot;USD&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;number&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;0.00&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-input</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-input-group</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 space-y-3 not-aegov">
+  <aegov-input-group size="xs" addon-prefix="$">
+    <aegov-input type="number" placeholder="0.00"></aegov-input>
+  </aegov-input-group>
   <aegov-input-group size="sm" addon-prefix="$">
     <aegov-input type="number" placeholder="0.00"></aegov-input>
   </aegov-input-group>
@@ -397,6 +424,9 @@
     <aegov-input type="number" placeholder="0.00"></aegov-input>
   </aegov-input-group>
   <aegov-input-group size="lg" addon-prefix="$">
+    <aegov-input type="number" placeholder="0.00"></aegov-input>
+  </aegov-input-group>
+  <aegov-input-group size="xl" addon-prefix="$">
     <aegov-input type="number" placeholder="0.00"></aegov-input>
   </aegov-input-group>
 </div>
@@ -597,7 +627,7 @@
 <td><code>size</code></td>
 <td><code>size</code></td>
 <td>The input size</td>
-<td><code>&#39;sm&#39;</code> <code>&#39;base&#39;</code> <code>&#39;lg&#39;</code></td>
+<td><code>&#39;xs&#39;</code> <code>&#39;sm&#39;</code> <code>&#39;base&#39;</code> <code>&#39;lg&#39;</code> <code>&#39;xl&#39;</code></td>
 <td><code>&#39;base&#39;</code></td>
 </tr>
 <tr>

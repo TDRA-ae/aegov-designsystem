@@ -35,6 +35,13 @@
 }
 
 /* Size-specific label & helper text */
+.fileupload--xs .fileupload__label {
+  @apply text-xs;
+}
+.fileupload--xs .fileupload__description,
+.fileupload--xs .fileupload__helper {
+  @apply text-xs;
+}
 .fileupload--sm .fileupload__label {
   @apply text-sm;
 }
@@ -54,6 +61,13 @@
 }
 .fileupload--lg .fileupload__description,
 .fileupload--lg .fileupload__helper {
+  @apply text-base;
+}
+.fileupload--xl .fileupload__label {
+  @apply text-lg;
+}
+.fileupload--xl .fileupload__description,
+.fileupload--xl .fileupload__helper {
   @apply text-base;
 }
 
@@ -133,6 +147,16 @@
 }
 
 /* Default variant sizes */
+.fileupload--xs .fileupload__input-wrapper {
+  @apply h-9;
+}
+.fileupload--xs .fileupload__filename {
+  @apply text-sm px-2.5;
+}
+.fileupload--xs .fileupload__browse-btn {
+  @apply text-sm px-2.5 h-full;
+}
+
 .fileupload--sm .fileupload__input-wrapper {
   @apply h-10;
 }
@@ -144,23 +168,33 @@
 }
 
 .fileupload--base .fileupload__input-wrapper {
-  @apply h-12;
+  @apply h-11;
 }
 .fileupload--base .fileupload__filename {
-  @apply text-base px-4;
+  @apply text-base px-3.5;
 }
 .fileupload--base .fileupload__browse-btn {
-  @apply text-base px-4 h-full;
+  @apply text-base px-3.5 h-full;
 }
 
 .fileupload--lg .fileupload__input-wrapper {
-  @apply h-13;
+  @apply h-12;
 }
 .fileupload--lg .fileupload__filename {
-  @apply text-lg px-5;
+  @apply text-lg px-4;
 }
 .fileupload--lg .fileupload__browse-btn {
-  @apply text-lg px-5 h-full;
+  @apply text-lg px-4 h-full;
+}
+
+.fileupload--xl .fileupload__input-wrapper {
+  @apply h-13;
+}
+.fileupload--xl .fileupload__filename {
+  @apply text-lg px-4.5;
+}
+.fileupload--xl .fileupload__browse-btn {
+  @apply text-lg px-4.5 h-full;
 }
 
 /* ============================================
@@ -185,24 +219,38 @@
 }
 
 /* Button variant sizes */
+.fileupload--xs .fileupload__trigger-btn {
+  @apply h-9 px-2.5 text-sm rounded-md;
+}
+.fileupload--xs .fileupload__btn-icon {
+  @apply size-4;
+}
+
 .fileupload--sm .fileupload__trigger-btn {
-  @apply h-10 px-3.5 text-base rounded-md;
+  @apply h-10 px-3 text-sm rounded-md;
 }
 .fileupload--sm .fileupload__btn-icon {
   @apply size-5;
 }
 
 .fileupload--base .fileupload__trigger-btn {
-  @apply h-12 px-4 text-base;
+  @apply h-11 px-3.5 text-base;
 }
 .fileupload--base .fileupload__btn-icon {
   @apply size-5;
 }
 
 .fileupload--lg .fileupload__trigger-btn {
-  @apply h-13 px-4.5 text-lg;
+  @apply h-12 px-4 text-lg;
 }
 .fileupload--lg .fileupload__btn-icon {
+  @apply size-6;
+}
+
+.fileupload--xl .fileupload__trigger-btn {
+  @apply h-13 px-4.5 text-lg;
+}
+.fileupload--xl .fileupload__btn-icon {
   @apply size-6;
 }
 
@@ -253,6 +301,19 @@
 }
 
 /* Dropzone sizes */
+.fileupload--xs .fileupload__dropzone {
+  @apply p-5;
+}
+.fileupload--xs .fileupload__drop-icon {
+  @apply size-7 mb-1.5;
+}
+.fileupload--xs .fileupload__drop-text {
+  @apply text-xs mb-1.5;
+}
+.fileupload--xs .fileupload__dropzone-btn {
+  @apply h-7 px-2.5 text-xs rounded;
+}
+
 .fileupload--sm .fileupload__dropzone {
   @apply p-6;
 }
@@ -276,7 +337,7 @@
   @apply text-base mb-3;
 }
 .fileupload--base .fileupload__dropzone-btn {
-  @apply h-10 px-4 text-base rounded-lg;
+  @apply h-9 px-3.5 text-base rounded-lg;
 }
 
 .fileupload--lg .fileupload__dropzone {
@@ -289,6 +350,19 @@
   @apply text-lg mb-4;
 }
 .fileupload--lg .fileupload__dropzone-btn {
+  @apply h-10 px-4 text-lg rounded-lg;
+}
+
+.fileupload--xl .fileupload__dropzone {
+  @apply p-12;
+}
+.fileupload--xl .fileupload__drop-icon {
+  @apply size-14 mb-5;
+}
+.fileupload--xl .fileupload__drop-text {
+  @apply text-lg mb-5;
+}
+.fileupload--xl .fileupload__dropzone-btn {
   @apply h-12 px-5 text-lg rounded-lg;
 }
 
@@ -342,6 +416,25 @@
 }
 
 /* File list sizes */
+.fileupload--xs .fileupload__file-item {
+  @apply px-2 py-1;
+}
+.fileupload--xs .fileupload__file-icon {
+  @apply size-3.5;
+}
+.fileupload--xs .fileupload__file-name {
+  @apply text-xs;
+}
+.fileupload--xs .fileupload__file-size {
+  @apply text-xs;
+}
+.fileupload--xs .fileupload__remove-btn {
+  @apply size-5;
+}
+.fileupload--xs .fileupload__remove-btn svg {
+  @apply size-3;
+}
+
 .fileupload--sm .fileupload__file-item {
   @apply px-2.5 py-1.5;
 }
@@ -396,5 +489,24 @@
   @apply size-8;
 }
 .fileupload--lg .fileupload__remove-btn svg {
+  @apply size-5;
+}
+
+.fileupload--xl .fileupload__file-item {
+  @apply px-4.5 py-3;
+}
+.fileupload--xl .fileupload__file-icon {
+  @apply size-6;
+}
+.fileupload--xl .fileupload__file-name {
+  @apply text-base;
+}
+.fileupload--xl .fileupload__file-size {
+  @apply text-sm;
+}
+.fileupload--xl .fileupload__remove-btn {
+  @apply size-8;
+}
+.fileupload--xl .fileupload__remove-btn svg {
   @apply size-5;
 }

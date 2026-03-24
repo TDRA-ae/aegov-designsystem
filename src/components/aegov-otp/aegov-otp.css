@@ -84,7 +84,7 @@
    ============================================ */
 
 .otp__cell--xs {
-  @apply w-8 h-8 text-xs;
+  @apply w-8 h-9 text-xs;
 }
 
 .otp__cell--sm {
@@ -92,15 +92,15 @@
 }
 
 .otp__cell--base {
-  @apply w-10 h-12 text-base;
+  @apply w-10 h-11 text-base;
 }
 
 .otp__cell--lg {
-  @apply w-12 h-14 text-lg;
+  @apply w-11 h-12 text-lg;
 }
 
 .otp__cell--xl {
-  @apply w-14 h-14 text-xl;
+  @apply w-12 h-13 text-xl;
 }
 
 .otp__cell--2xl {

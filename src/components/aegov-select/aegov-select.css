@@ -40,16 +40,24 @@
 }
 
 /* Size variants - matches aegov-input heights */
+.select--xs {
+  @apply text-sm py-1.5 px-2.5 h-9;
+}
+
 .select--sm {
   @apply text-sm py-2 px-3 h-10;
 }
 
 .select--base {
-  @apply text-base py-3 px-4 h-12;
+  @apply text-base py-2.5 px-3.5 h-11;
 }
 
 .select--lg {
-  @apply text-lg py-3.5 px-5 h-13;
+  @apply text-lg py-3 px-4 h-12;
+}
+
+.select--xl {
+  @apply text-lg py-3.5 px-4.5 h-13;
 }
 
 /* ============================================
@@ -144,6 +152,10 @@ button.aegov-select {
          focus:inset-ring-primary-400;
 }
 
+.select__search-input--xs {
+  @apply text-xs py-1 px-2;
+}
+
 .select__search-input--sm {
   @apply text-sm py-1.5 px-2;
 }
@@ -154,6 +166,10 @@ button.aegov-select {
 
 .select__search-input--lg {
   @apply text-base py-2.5 px-3;
+}
+
+.select__search-input--xl {
+  @apply text-base py-3 px-3.5;
 }
 
 /* Options container */
@@ -168,6 +184,11 @@ button.aegov-select {
          select-none;
 }
 
+.select__option--xs {
+  @apply text-sm px-2.5 py-1;
+  min-height: 32px;
+}
+
 .select__option--sm {
   @apply text-sm px-3 py-1.5;
   min-height: 36px;
@@ -180,6 +201,11 @@ button.aegov-select {
 
 .select__option--lg {
   @apply text-lg px-4 py-2.5;
+  min-height: 44px;
+}
+
+.select__option--xl {
+  @apply text-lg px-4 py-3;
   min-height: 48px;
 }
 

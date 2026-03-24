@@ -6,7 +6,7 @@
 
 The `aegov-fileupload` component provides three distinct upload experiences through its **variant** property: a classic styled file input (`default`), a standalone trigger button (`button`), and an interactive drag-and-drop area (`dropzone`). All three variants share the same validation logic, event system, and file list management.
 
-The component supports **3 variants**, **3 sizes**, file type and size validation, multiple file selection, and built-in label/description/helper text.
+The component supports **3 variants**, **5 sizes**, file type and size validation, multiple file selection, and built-in label/description/helper text.
 
 ```html
 <aegov-fileupload label="Upload a file"></aegov-fileupload>
@@ -66,46 +66,62 @@ The `size` property controls the dimensions, font sizes, and padding of all inte
 
 | Size   | Input Height | Font Size | Description |
 |--------|-------------|-----------|-------------|
+| `xs`   | 36px        | 14px      | Extra-compact layout for tight spaces. |
 | `sm`   | 40px        | 14px      | Compact layout for dense UIs. |
-| `base` | 48px        | 16px      | Default. Balanced for most forms. |
-| `lg`   | 52px        | 18px      | Large layout for prominent upload areas. |
+| `base` | 44px        | 16px      | Default. Balanced for most forms. |
+| `lg`   | 48px        | 18px      | Large layout for prominent upload areas. |
+| `xl`   | 52px        | 18px      | Extra-large layout for maximum visibility. |
 
 ```html
+<aegov-fileupload size="xs" label="Extra Small"></aegov-fileupload>
 <aegov-fileupload size="sm" label="Small"></aegov-fileupload>
 <aegov-fileupload size="base" label="Base (default)"></aegov-fileupload>
 <aegov-fileupload size="lg" label="Large"></aegov-fileupload>
+<aegov-fileupload size="xl" label="Extra Large"></aegov-fileupload>
 ```
 
 <div class="p-6 bg-aeblack-50 rounded-lg my-6 space-y-4 not-aegov">
+  <aegov-fileupload size="xs" label="Extra Small"></aegov-fileupload>
   <aegov-fileupload size="sm" label="Small"></aegov-fileupload>
   <aegov-fileupload size="base" label="Base (default)"></aegov-fileupload>
   <aegov-fileupload size="lg" label="Large"></aegov-fileupload>
+  <aegov-fileupload size="xl" label="Extra Large"></aegov-fileupload>
 </div>
 
 ### Sizes with Button Variant
 
 ```html
+<aegov-fileupload variant="button" size="xs" label="Extra Small Button"></aegov-fileupload>
 <aegov-fileupload variant="button" size="sm" label="Small Button"></aegov-fileupload>
 <aegov-fileupload variant="button" size="base" label="Base Button"></aegov-fileupload>
 <aegov-fileupload variant="button" size="lg" label="Large Button"></aegov-fileupload>
+<aegov-fileupload variant="button" size="xl" label="Extra Large Button"></aegov-fileupload>
 ```
 
 <div class="p-6 bg-aeblack-50 rounded-lg my-6 space-y-4 not-aegov">
+  <aegov-fileupload variant="button" size="xs" label="Extra Small Button"></aegov-fileupload>
   <aegov-fileupload variant="button" size="sm" label="Small Button"></aegov-fileupload>
   <aegov-fileupload variant="button" size="base" label="Base Button"></aegov-fileupload>
   <aegov-fileupload variant="button" size="lg" label="Large Button"></aegov-fileupload>
+  <aegov-fileupload variant="button" size="xl" label="Extra Large Button"></aegov-fileupload>
 </div>
 
 ### Sizes with Dropzone Variant
 
 ```html
+<aegov-fileupload variant="dropzone" size="xs" label="Extra Small Dropzone"></aegov-fileupload>
 <aegov-fileupload variant="dropzone" size="sm" label="Small Dropzone"></aegov-fileupload>
+<aegov-fileupload variant="dropzone" size="base" label="Base Dropzone"></aegov-fileupload>
 <aegov-fileupload variant="dropzone" size="lg" label="Large Dropzone"></aegov-fileupload>
+<aegov-fileupload variant="dropzone" size="xl" label="Extra Large Dropzone"></aegov-fileupload>
 ```
 
 <div class="p-6 bg-aeblack-50 rounded-lg my-6 space-y-4 not-aegov">
+  <aegov-fileupload variant="dropzone" size="xs" label="Extra Small Dropzone"></aegov-fileupload>
   <aegov-fileupload variant="dropzone" size="sm" label="Small Dropzone"></aegov-fileupload>
+  <aegov-fileupload variant="dropzone" size="base" label="Base Dropzone"></aegov-fileupload>
   <aegov-fileupload variant="dropzone" size="lg" label="Large Dropzone"></aegov-fileupload>
+  <aegov-fileupload variant="dropzone" size="xl" label="Extra Large Dropzone"></aegov-fileupload>
 </div>
 
 ---
@@ -599,7 +615,7 @@ No additional configuration is needed — the component inherits the `dir` attri
 | Property      | Attribute       | Description                                                                 | Type                                        | Default      |
 |---------------|-----------------|-----------------------------------------------------------------------------|---------------------------------------------|--------------|
 | `variant`     | `variant`       | The visual style and interaction model                                      | `'default'` \| `'button'` \| `'dropzone'`  | `'default'`  |
-| `size`        | `size`          | The component size                                                          | `'sm'` \| `'base'` \| `'lg'`               | `'base'`     |
+| `size`        | `size`          | The component size                                                          | `'xs'` \| `'sm'` \| `'base'` \| `'lg'` \| `'xl'` | `'base'`     |
 | `multiple`    | `multiple`      | Allow selecting multiple files                                              | `boolean`                                    | `false`      |
 | `accept`      | `accept`        | Accepted file types (e.g. `".pdf,.jpg,image/*"`)                            | `string`                                     | `undefined`  |
 | `maxFileSize` | `max-file-size` | Maximum file size in bytes                                                  | `number`                                     | `undefined`  |

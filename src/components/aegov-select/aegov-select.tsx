@@ -261,8 +261,10 @@ export class AegovSelect {
     const spaceAbove = triggerRect.top - 8;
 
     // Calculate item height based on size
-    const itemHeight = this.size === 'sm' ? 36 : this.size === 'lg' ? 48 : 40;
-    const searchHeight = this.searchable ? (this.size === 'sm' ? 40 : this.size === 'lg' ? 52 : 48) : 0;
+    const itemHeightMap: Record<SelectSize, number> = { xs: 32, sm: 36, base: 40, lg: 44, xl: 48 };
+    const searchHeightMap: Record<SelectSize, number> = { xs: 36, sm: 40, base: 44, lg: 48, xl: 52 };
+    const itemHeight = itemHeightMap[this.size];
+    const searchHeight = this.searchable ? searchHeightMap[this.size] : 0;
     const padding = 8; // py-1 top + bottom
     const actualItemCount = Math.min(this.filteredOptions.length, this.visibleItems);
     const desiredHeight = (actualItemCount * itemHeight) + searchHeight + padding;
@@ -426,9 +428,11 @@ export class AegovSelect {
   private getTriggerClasses(): string {
     const classes: string[] = ['aegov-select'];
     const sizeClasses: Record<SelectSize, string> = {
+      xs: 'select--xs',
       sm: 'select--sm',
       base: 'select--base',
       lg: 'select--lg',
+      xl: 'select--xl',
     };
     classes.push(sizeClasses[this.size]);
     if (this.disabled) classes.push('select--disabled');
@@ -441,9 +445,11 @@ export class AegovSelect {
   private renderNativeSelect() {
     const passThroughAttrs = getPassThroughAttributes(this.el);
     const sizeClasses: Record<SelectSize, string> = {
+      xs: 'select--xs',
       sm: 'select--sm',
       base: 'select--base',
       lg: 'select--lg',
+      xl: 'select--xl',
     };
 
     const groups = this.groupedFilteredOptions;

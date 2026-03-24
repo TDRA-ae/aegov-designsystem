@@ -47,7 +47,7 @@
 
 <hr>
 <h2>Sizes</h2>
-<p>The <code>size</code> property controls the dimensions of the checkbox indicator, label font size, and description font size. Three sizes are available.</p>
+<p>The <code>size</code> property controls the dimensions of the checkbox indicator, label font size, and description font size. Five sizes are available.</p>
 <table>
 <thead>
 <tr>
@@ -58,6 +58,12 @@
 </tr>
 </thead>
 <tbody><tr>
+<td><code>xs</code></td>
+<td>14px</td>
+<td>text-xs</td>
+<td>text-xs</td>
+</tr>
+<tr>
 <td><code>sm</code></td>
 <td>16px</td>
 <td>text-sm</td>
@@ -65,23 +71,33 @@
 </tr>
 <tr>
 <td><code>base</code></td>
-<td>20px</td>
+<td>18px</td>
 <td>text-base</td>
 <td>text-sm</td>
 </tr>
 <tr>
 <td><code>lg</code></td>
-<td>24px</td>
+<td>20px</td>
 <td>text-lg</td>
 <td>text-base</td>
 </tr>
+<tr>
+<td><code>xl</code></td>
+<td>22px</td>
+<td>text-xl</td>
+<td>text-lg</td>
+</tr>
 </tbody></table>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-checkbox</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Small checkbox&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-checkbox</span>&gt;</span>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-checkbox</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;xs&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Extra small checkbox&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-checkbox</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-checkbox</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Small checkbox&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-checkbox</span>&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">aegov-checkbox</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;base&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Base checkbox (default)&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-checkbox</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-checkbox</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;lg&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Large checkbox&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-checkbox</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 space-y-4 not-aegov">
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-checkbox</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;lg&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Large checkbox&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-checkbox</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-checkbox</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;xl&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Extra large checkbox&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-checkbox</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 space-y-4 not-aegov">
+  <aegov-checkbox size="xs" label="Extra small checkbox"></aegov-checkbox>
   <aegov-checkbox size="sm" label="Small checkbox"></aegov-checkbox>
   <aegov-checkbox size="base" label="Base checkbox (default)"></aegov-checkbox>
   <aegov-checkbox size="lg" label="Large checkbox"></aegov-checkbox>
+  <aegov-checkbox size="xl" label="Extra large checkbox"></aegov-checkbox>
 </div>
 
 <hr>
@@ -263,7 +279,12 @@
 <hr>
 <h2>Group Size</h2>
 <p>The <code>size</code> property on the group propagates to all child checkboxes, overriding any individual size.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-checkbox-group</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Small group&quot;</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm&quot;</span>&gt;</span>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-checkbox-group</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Extra small group&quot;</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;xs&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-checkbox</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Option A&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;a&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-checkbox</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-checkbox</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Option B&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;b&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-checkbox</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-checkbox-group</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-checkbox-group</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Small group&quot;</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm&quot;</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-checkbox</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Option A&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;a&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-checkbox</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-checkbox</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Option B&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;b&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-checkbox</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-checkbox-group</span>&gt;</span>
@@ -271,12 +292,25 @@
 <span class="hljs-tag">&lt;<span class="hljs-name">aegov-checkbox-group</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Large group&quot;</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;lg&quot;</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-checkbox</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Option A&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;a&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-checkbox</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-checkbox</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Option B&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;b&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-checkbox</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-checkbox-group</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-checkbox-group</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Extra large group&quot;</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;xl&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-checkbox</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Option A&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;a&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-checkbox</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-checkbox</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Option B&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;b&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-checkbox</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-checkbox-group</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 space-y-6 not-aegov">
+  <aegov-checkbox-group label="Extra small group" size="xs">
+    <aegov-checkbox label="Option A" value="a"></aegov-checkbox>
+    <aegov-checkbox label="Option B" value="b"></aegov-checkbox>
+  </aegov-checkbox-group>
   <aegov-checkbox-group label="Small group" size="sm">
     <aegov-checkbox label="Option A" value="a"></aegov-checkbox>
     <aegov-checkbox label="Option B" value="b"></aegov-checkbox>
   </aegov-checkbox-group>
   <aegov-checkbox-group label="Large group" size="lg">
+    <aegov-checkbox label="Option A" value="a"></aegov-checkbox>
+    <aegov-checkbox label="Option B" value="b"></aegov-checkbox>
+  </aegov-checkbox-group>
+  <aegov-checkbox-group label="Extra large group" size="xl">
     <aegov-checkbox label="Option A" value="a"></aegov-checkbox>
     <aegov-checkbox label="Option B" value="b"></aegov-checkbox>
   </aegov-checkbox-group>
@@ -405,7 +439,7 @@
 <td><code>size</code></td>
 <td><code>size</code></td>
 <td>The size of the checkbox.</td>
-<td><code>&#39;sm&#39;</code> | <code>&#39;base&#39;</code> | <code>&#39;lg&#39;</code></td>
+<td><code>&#39;xs&#39;</code> | <code>&#39;sm&#39;</code> | <code>&#39;base&#39;</code> | <code>&#39;lg&#39;</code> | <code>&#39;xl&#39;</code></td>
 <td><code>&#39;base&#39;</code></td>
 </tr>
 <tr>
@@ -509,7 +543,7 @@
 <td><code>size</code></td>
 <td><code>size</code></td>
 <td>Size of all checkboxes in the group. Propagated to children.</td>
-<td><code>&#39;sm&#39;</code> | <code>&#39;base&#39;</code> | <code>&#39;lg&#39;</code></td>
+<td><code>&#39;xs&#39;</code> | <code>&#39;sm&#39;</code> | <code>&#39;base&#39;</code> | <code>&#39;lg&#39;</code> | <code>&#39;xl&#39;</code></td>
 <td><code>&#39;base&#39;</code></td>
 </tr>
 <tr>

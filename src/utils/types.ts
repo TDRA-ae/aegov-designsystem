@@ -313,12 +313,12 @@ export type InputType = 'text' | 'email' | 'password' | 'tel' | 'url' | 'number'
 /**
  * Input component size types
  */
-export type InputSize = 'sm' | 'base' | 'lg';
+export type InputSize = 'xs' | 'sm' | 'base' | 'lg' | 'xl';
 
 /**
  * Textarea component size types (affects font size only)
  */
-export type TextareaSize = 'sm' | 'base' | 'lg';
+export type TextareaSize = 'xs' | 'sm' | 'base' | 'lg' | 'xl';
 
 /**
  * Textarea component resize types
@@ -333,7 +333,7 @@ export type SelectVariant = 'default' | 'listbox';
 /**
  * Select component size types
  */
-export type SelectSize = 'sm' | 'base' | 'lg';
+export type SelectSize = 'xs' | 'sm' | 'base' | 'lg' | 'xl';
 
 /**
  * Select change event detail
@@ -348,7 +348,7 @@ export interface SelectChangeDetail {
 /**
  * Checkbox component size types
  */
-export type CheckboxSize = 'sm' | 'base' | 'lg';
+export type CheckboxSize = 'xs' | 'sm' | 'base' | 'lg' | 'xl';
 
 /**
  * Checkbox group variant types
@@ -363,7 +363,7 @@ export type CheckboxGroupOrientation = 'vertical' | 'horizontal';
 /**
  * Radio component size types
  */
-export type RadioSize = 'sm' | 'base' | 'lg';
+export type RadioSize = 'xs' | 'sm' | 'base' | 'lg' | 'xl';
 
 /**
  * Radio group variant types
@@ -378,7 +378,7 @@ export type RadioGroupOrientation = 'vertical' | 'horizontal';
 /**
  * Toggle component size types
  */
-export type ToggleSize = 'sm' | 'base' | 'lg';
+export type ToggleSize = 'xs' | 'sm' | 'base' | 'lg' | 'xl';
 
 /**
  * File upload component variant types
@@ -388,12 +388,12 @@ export type FileuploadVariant = 'default' | 'button' | 'dropzone';
 /**
  * File upload component size types
  */
-export type FileuploadSize = 'sm' | 'base' | 'lg';
+export type FileuploadSize = 'xs' | 'sm' | 'base' | 'lg' | 'xl';
 
 /**
  * Range component size types (affects track height only)
  */
-export type RangeSize = 'sm' | 'base' | 'lg';
+export type RangeSize = 'xs' | 'sm' | 'base' | 'lg' | 'xl';
 
 /**
  * Range component display mode types

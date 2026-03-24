@@ -74,15 +74,22 @@ Set `variant="listbox"` to render a custom dropdown with enhanced features: keyb
 
 ## Sizes
 
-The `size` property controls the height, padding, and font size of the select trigger. Three sizes are available, matching `aegov-input` heights for consistent form layouts.
+The `size` property controls the height, padding, and font size of the select trigger. Five sizes are available, matching `aegov-input` heights for consistent form layouts.
 
 | Size   | Height | Font Size |
 |--------|--------|-----------|
+| `xs`   | 36px   | 14px      |
 | `sm`   | 40px   | 14px      |
-| `base` | 48px   | 16px      |
-| `lg`   | 52px   | 18px      |
+| `base` | 44px   | 16px      |
+| `lg`   | 48px   | 18px      |
+| `xl`   | 52px   | 18px      |
 
 ```html
+<aegov-select size="xs" placeholder="Extra Small" variant="listbox">
+  <aegov-select-option value="a">Option A</aegov-select-option>
+  <aegov-select-option value="b">Option B</aegov-select-option>
+</aegov-select>
+
 <aegov-select size="sm" placeholder="Small" variant="listbox">
   <aegov-select-option value="a">Option A</aegov-select-option>
   <aegov-select-option value="b">Option B</aegov-select-option>
@@ -97,9 +104,18 @@ The `size` property controls the height, padding, and font size of the select tr
   <aegov-select-option value="a">Option A</aegov-select-option>
   <aegov-select-option value="b">Option B</aegov-select-option>
 </aegov-select>
+
+<aegov-select size="xl" placeholder="Extra Large" variant="listbox">
+  <aegov-select-option value="a">Option A</aegov-select-option>
+  <aegov-select-option value="b">Option B</aegov-select-option>
+</aegov-select>
 ```
 
 <div class="p-6 bg-aeblack-50 rounded-lg my-6 space-y-4 not-aegov">
+  <aegov-select size="xs" placeholder="Extra Small" variant="listbox">
+    <aegov-select-option value="a">Option A</aegov-select-option>
+    <aegov-select-option value="b">Option B</aegov-select-option>
+  </aegov-select>
   <aegov-select size="sm" placeholder="Small" variant="listbox">
     <aegov-select-option value="a">Option A</aegov-select-option>
     <aegov-select-option value="b">Option B</aegov-select-option>
@@ -109,6 +125,10 @@ The `size` property controls the height, padding, and font size of the select tr
     <aegov-select-option value="b">Option B</aegov-select-option>
   </aegov-select>
   <aegov-select size="lg" placeholder="Large" variant="listbox">
+    <aegov-select-option value="a">Option A</aegov-select-option>
+    <aegov-select-option value="b">Option B</aegov-select-option>
+  </aegov-select>
+  <aegov-select size="xl" placeholder="Extra Large" variant="listbox">
     <aegov-select-option value="a">Option A</aegov-select-option>
     <aegov-select-option value="b">Option B</aegov-select-option>
   </aegov-select>
@@ -592,7 +612,7 @@ No additional configuration is needed -- the component reads the inherited `dir`
 |----------------|------------------|----------------------------------------------------------------------------------------------|-----------------------------------|----------------------|
 | `fieldId`      | `field-id`       | Unique ID for the select element. Auto-generated if not provided.                            | `string`                          | auto                 |
 | `variant`      | `variant`        | The visual variant. `'default'` renders a native select; `'listbox'` renders a custom dropdown. | `'default'` \| `'listbox'`       | `'default'`          |
-| `size`         | `size`           | The size of the select. Matches aegov-input heights.                                         | `'sm'` \| `'base'` \| `'lg'`     | `'base'`             |
+| `size`         | `size`           | The size of the select. Matches aegov-input heights.                                         | `'xs'` \| `'sm'` \| `'base'` \| `'lg'` \| `'xl'` | `'base'`             |
 | `multiple`     | `multiple`       | Whether multiple selection is enabled. Forces listbox behaviour.                             | `boolean`                         | `false`              |
 | `disabled`     | `disabled`       | Whether the select is disabled.                                                              | `boolean`                         | `false`              |
 | `placeholder`  | `placeholder`    | Placeholder text shown when nothing is selected.                                             | `string`                          | `undefined`          |

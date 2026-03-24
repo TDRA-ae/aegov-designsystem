@@ -24,7 +24,7 @@
 <p class="text-lg text-aeblack-500 mb-8">A range slider lets users select a numeric value or a numeric range within a defined minimum and maximum. It supports single and dual-thumb modes, multiple display styles, vertical orientation, and full keyboard and touch accessibility.</p>
 
 <h2>Introduction</h2>
-<p>The <code>aegov-range</code> component wraps a native <code>&lt;input type=&quot;range&quot;&gt;</code> in a custom visual layer that provides a consistent design-system appearance while keeping full keyboard, touch, and assistive-technology support. It offers <strong>single</strong> and <strong>range</strong> (dual-thumb) modes, <strong>3 track sizes</strong>, <strong>4 value-display styles</strong>, and both <strong>horizontal</strong> and <strong>vertical</strong> orientations.</p>
+<p>The <code>aegov-range</code> component wraps a native <code>&lt;input type=&quot;range&quot;&gt;</code> in a custom visual layer that provides a consistent design-system appearance while keeping full keyboard, touch, and assistive-technology support. It offers <strong>single</strong> and <strong>range</strong> (dual-thumb) modes, <strong>5 track sizes</strong>, <strong>4 value-display styles</strong>, and both <strong>horizontal</strong> and <strong>vertical</strong> orientations.</p>
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-range</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-range</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
   <aegov-range></aegov-range>
 </div>
@@ -38,7 +38,7 @@
 
 <hr>
 <h2>Sizes</h2>
-<p>The <code>size</code> property controls the thickness of the track. The thumb remains a constant 24px circle. Three sizes are available.</p>
+<p>The <code>size</code> property controls the thickness of the track. The thumb remains a constant 24px circle. Five sizes are available.</p>
 <table>
 <thead>
 <tr>
@@ -47,6 +47,10 @@
 </tr>
 </thead>
 <tbody><tr>
+<td><code>xs</code></td>
+<td>3px</td>
+</tr>
+<tr>
 <td><code>sm</code></td>
 <td>4px</td>
 </tr>
@@ -58,13 +62,21 @@
 <td><code>lg</code></td>
 <td>8px</td>
 </tr>
+<tr>
+<td><code>xl</code></td>
+<td>10px</td>
+</tr>
 </tbody></table>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-range</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-range</span>&gt;</span>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-range</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;xs&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-range</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-range</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-range</span>&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">aegov-range</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;base&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-range</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-range</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;lg&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-range</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 space-y-8 not-aegov">
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-range</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;lg&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-range</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-range</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;xl&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-range</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 space-y-8 not-aegov">
+  <div class="pb-8"><aegov-range size="xs" value="20"></aegov-range></div>
   <div class="pb-8"><aegov-range size="sm" value="30"></aegov-range></div>
   <div class="pb-8"><aegov-range size="base" value="50"></aegov-range></div>
   <div class="pb-8"><aegov-range size="lg" value="70"></aegov-range></div>
+  <div class="pb-8"><aegov-range size="xl" value="90"></aegov-range></div>
 </div>
 
 <hr>
@@ -142,9 +154,11 @@
 <h2>Vertical Orientation</h2>
 <p>Set <code>orientation=&quot;vertical&quot;</code> to render the slider vertically. The track height defaults to 200px via the <code>--range-height</code> CSS variable.</p>
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-range</span> <span class="hljs-attr">orientation</span>=<span class="hljs-string">&quot;vertical&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;40&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-range</span>&gt;</span></code></pre><div class="flex items-end gap-8 p-6 bg-aeblack-50 rounded-lg my-6 not-aegov" style="height: 280px;">
+  <aegov-range orientation="vertical" value="20" size="xs"></aegov-range>
   <aegov-range orientation="vertical" value="40" size="sm"></aegov-range>
   <aegov-range orientation="vertical" value="60" size="base"></aegov-range>
   <aegov-range orientation="vertical" value="80" size="lg"></aegov-range>
+  <aegov-range orientation="vertical" value="90" size="xl"></aegov-range>
 </div>
 
 <h3>Vertical with Tooltip</h3>
@@ -296,7 +310,7 @@
 <td><code>size</code></td>
 <td><code>size</code></td>
 <td>Track thickness</td>
-<td><code>&#39;sm&#39;</code> | <code>&#39;base&#39;</code> | <code>&#39;lg&#39;</code></td>
+<td><code>&#39;xs&#39;</code> | <code>&#39;sm&#39;</code> | <code>&#39;base&#39;</code> | <code>&#39;lg&#39;</code> | <code>&#39;xl&#39;</code></td>
 <td><code>&#39;base&#39;</code></td>
 </tr>
 <tr>
