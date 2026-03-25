@@ -70,3 +70,10 @@
 article:has(#content-area) {
   min-width: 0;
 }
+
+/* Vertical spacing between components in demo containers */
+#content-area .not-aegov:not(.flex) {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}

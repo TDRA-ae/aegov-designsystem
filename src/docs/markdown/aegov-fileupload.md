@@ -80,7 +80,7 @@ The `size` property controls the dimensions, font sizes, and padding of all inte
 <aegov-fileupload size="xl" label="Extra Large"></aegov-fileupload>
 ```
 
-<div class="p-6 bg-aeblack-50 rounded-lg my-6 space-y-4 not-aegov">
+<div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
   <aegov-fileupload size="xs" label="Extra Small"></aegov-fileupload>
   <aegov-fileupload size="sm" label="Small"></aegov-fileupload>
   <aegov-fileupload size="base" label="Base (default)"></aegov-fileupload>
@@ -98,7 +98,7 @@ The `size` property controls the dimensions, font sizes, and padding of all inte
 <aegov-fileupload variant="button" size="xl" label="Extra Large Button"></aegov-fileupload>
 ```
 
-<div class="p-6 bg-aeblack-50 rounded-lg my-6 space-y-4 not-aegov">
+<div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
   <aegov-fileupload variant="button" size="xs" label="Extra Small Button"></aegov-fileupload>
   <aegov-fileupload variant="button" size="sm" label="Small Button"></aegov-fileupload>
   <aegov-fileupload variant="button" size="base" label="Base Button"></aegov-fileupload>
@@ -116,7 +116,7 @@ The `size` property controls the dimensions, font sizes, and padding of all inte
 <aegov-fileupload variant="dropzone" size="xl" label="Extra Large Dropzone"></aegov-fileupload>
 ```
 
-<div class="p-6 bg-aeblack-50 rounded-lg my-6 space-y-4 not-aegov">
+<div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
   <aegov-fileupload variant="dropzone" size="xs" label="Extra Small Dropzone"></aegov-fileupload>
   <aegov-fileupload variant="dropzone" size="sm" label="Small Dropzone"></aegov-fileupload>
   <aegov-fileupload variant="dropzone" size="base" label="Base Dropzone"></aegov-fileupload>
@@ -144,7 +144,7 @@ When `accept` is set, the component automatically generates helper text listing 
 </aegov-fileupload>
 ```
 
-<div class="p-6 bg-aeblack-50 rounded-lg my-6 space-y-4 not-aegov">
+<div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
   <aegov-fileupload accept=".pdf,.doc,.docx" label="Documents only"></aegov-fileupload>
   <aegov-fileupload accept="image/*" label="Images only"></aegov-fileupload>
 </div>
@@ -207,7 +207,7 @@ The error message includes a human-readable file size (e.g. "5 MB").
 </aegov-fileupload>
 ```
 
-<div class="p-6 bg-aeblack-50 rounded-lg my-6 space-y-4 not-aegov">
+<div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
   <aegov-fileupload max-file-size="5242880" label="Max 5 MB per file"></aegov-fileupload>
   <aegov-fileupload variant="dropzone" max-file-size="1048576" label="Max 1 MB per file" multiple></aegov-fileupload>
 </div>
@@ -245,7 +245,7 @@ Set the `disabled` attribute to prevent all interaction. The component becomes v
 <aegov-fileupload variant="dropzone" disabled label="Disabled dropzone"></aegov-fileupload>
 ```
 
-<div class="p-6 bg-aeblack-50 rounded-lg my-6 space-y-4 not-aegov">
+<div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
   <aegov-fileupload disabled label="Disabled upload"></aegov-fileupload>
   <aegov-fileupload variant="button" disabled label="Disabled button"></aegov-fileupload>
   <aegov-fileupload variant="dropzone" disabled label="Disabled dropzone"></aegov-fileupload>
@@ -335,7 +335,7 @@ The `button-text` property overrides the default text shown on the browse/trigge
 </aegov-fileupload>
 ```
 
-<div class="p-6 bg-aeblack-50 rounded-lg my-6 space-y-4 not-aegov">
+<div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
   <aegov-fileupload button-text="Select Document" label="Custom button text"></aegov-fileupload>
   <aegov-fileupload variant="dropzone" button-text="Pick from Computer" label="Custom dropzone button text"></aegov-fileupload>
 </div>
@@ -599,7 +599,7 @@ The component fully supports right-to-left layouts. When the document or a paren
 </div>
 ```
 
-<div dir="rtl" class="p-6 bg-aeblack-50 rounded-lg my-6 space-y-4 not-aegov">
+<div dir="rtl" class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
   <aegov-fileupload label="رفع الملف" button-text="استعراض"></aegov-fileupload>
   <aegov-fileupload variant="dropzone" label="منطقة الإفلات" button-text="استعراض الملفات" multiple></aegov-fileupload>
 </div>

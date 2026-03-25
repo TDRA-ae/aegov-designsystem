@@ -25,7 +25,7 @@ Set the `checked` attribute to pre-select a checkbox. The property is mutable an
 <aegov-checkbox label="SMS notifications"></aegov-checkbox>
 ```
 
-<div class="p-6 bg-aeblack-50 rounded-lg my-6 space-y-3 not-aegov">
+<div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
   <aegov-checkbox label="Email notifications" checked></aegov-checkbox>
   <aegov-checkbox label="SMS notifications"></aegov-checkbox>
 </div>
@@ -66,7 +66,7 @@ The `size` property controls the dimensions of the checkbox indicator, label fon
 <aegov-checkbox size="xl" label="Extra large checkbox"></aegov-checkbox>
 ```
 
-<div class="p-6 bg-aeblack-50 rounded-lg my-6 space-y-4 not-aegov">
+<div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
   <aegov-checkbox size="xs" label="Extra small checkbox"></aegov-checkbox>
   <aegov-checkbox size="sm" label="Small checkbox"></aegov-checkbox>
   <aegov-checkbox size="base" label="Base checkbox (default)"></aegov-checkbox>
@@ -112,7 +112,7 @@ Set the `disabled` attribute to prevent interaction. The checkbox and its label 
 <aegov-checkbox label="Checked disabled" checked disabled></aegov-checkbox>
 ```
 
-<div class="p-6 bg-aeblack-50 rounded-lg my-6 space-y-3 not-aegov">
+<div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
   <aegov-checkbox label="Unchecked disabled" disabled></aegov-checkbox>
   <aegov-checkbox label="Checked disabled" checked disabled></aegov-checkbox>
 </div>
@@ -363,7 +363,7 @@ The `size` property on the group propagates to all child checkboxes, overriding 
 </aegov-checkbox-group>
 ```
 
-<div class="p-6 bg-aeblack-50 rounded-lg my-6 space-y-6 not-aegov">
+<div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
   <aegov-checkbox-group label="Extra small group" size="xs">
     <aegov-checkbox label="Option A" value="a"></aegov-checkbox>
     <aegov-checkbox label="Option B" value="b"></aegov-checkbox>

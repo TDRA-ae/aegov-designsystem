@@ -66,7 +66,7 @@ The `type` property supports 12 HTML input types. The input automatically adapts
 <aegov-input type="date"></aegov-input>
 ```
 
-<div class="p-6 bg-aeblack-50 rounded-lg my-6 space-y-3 not-aegov">
+<div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
   <aegov-input type="text" placeholder="Text"></aegov-input>
   <aegov-input type="email" placeholder="email@example.com"></aegov-input>
   <aegov-input type="password" placeholder="Password"></aegov-input>
@@ -99,7 +99,7 @@ The `size` property controls the height, padding, and font size of the input. Al
 <aegov-input size="xl" placeholder="Extra Large"></aegov-input>
 ```
 
-<div class="p-6 bg-aeblack-50 rounded-lg my-6 space-y-3 not-aegov">
+<div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
   <aegov-input size="xs" placeholder="Extra Small"></aegov-input>
   <aegov-input size="sm" placeholder="Small"></aegov-input>
   <aegov-input size="base" placeholder="Base (default)"></aegov-input>
@@ -323,7 +323,7 @@ Use `aegov-form-field` to add helper text or error messages below the input. Pla
 </aegov-form-field>
 ```
 
-<div class="p-6 bg-aeblack-50 rounded-lg my-6 space-y-4 not-aegov">
+<div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
   <aegov-form-field>
     <aegov-label>Username</aegov-label>
     <aegov-input placeholder="Choose a username"></aegov-input>
@@ -360,7 +360,7 @@ Use the `addon-prefix` and `addon-suffix` properties to add static text before o
 </aegov-input-group>
 ```
 
-<div class="p-6 bg-aeblack-50 rounded-lg my-6 space-y-3 not-aegov">
+<div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
   <aegov-input-group addon-prefix="https://">
     <aegov-input placeholder="www.example.com"></aegov-input>
   </aegov-input-group>
@@ -383,7 +383,7 @@ Place an `aegov-button` inside the group alongside the input. The button loses i
 </aegov-input-group>
 ```
 
-<div class="p-6 bg-aeblack-50 rounded-lg my-6 space-y-3 not-aegov">
+<div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
   <aegov-input-group>
     <aegov-input placeholder="Search..."></aegov-input>
     <aegov-button>Search</aegov-button>
@@ -446,7 +446,7 @@ The `size` property on `aegov-input-group` propagates to child `aegov-input` and
 </aegov-input-group>
 ```
 
-<div class="p-6 bg-aeblack-50 rounded-lg my-6 space-y-3 not-aegov">
+<div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
   <aegov-input-group size="xs" addon-prefix="$">
     <aegov-input type="number" placeholder="0.00"></aegov-input>
   </aegov-input-group>
@@ -661,7 +661,7 @@ All input components fully support right-to-left layouts. When the document or a
 </div>
 ```
 
-<div dir="rtl" class="p-6 bg-aeblack-50 rounded-lg my-6 space-y-3 not-aegov">
+<div dir="rtl" class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
   <aegov-form-field>
     <aegov-label>الاسم الكامل</aegov-label>
     <aegov-input placeholder="أدخل اسمك الكامل"></aegov-input>

@@ -57,7 +57,7 @@ The `length` property controls how many input cells are rendered. The default is
 <aegov-otp length="6"></aegov-otp>
 ```
 
-<div class="p-6 bg-aeblack-50 rounded-lg my-6 space-y-4 not-aegov">
+<div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
   <div>
     <p class="text-sm font-semibold text-aeblack-600 mb-2">4 digits</p>
     <aegov-otp length="4"></aegov-otp>
@@ -96,7 +96,7 @@ The `size` property controls the width, height, and font size of each cell. Ther
 <aegov-otp size="2xl" length="4"></aegov-otp>
 ```
 
-<div class="p-6 bg-aeblack-50 rounded-lg my-6 space-y-4 not-aegov">
+<div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
   <div>
     <p class="text-sm font-semibold text-aeblack-600 mb-2">Extra Small (xs)</p>
     <aegov-otp size="xs" length="4"></aegov-otp>
@@ -135,7 +135,7 @@ The same six sizes are available for the individual variant.
 <aegov-otp variant="individual" size="2xl" length="4"></aegov-otp>
 ```
 
-<div class="p-6 bg-aeblack-50 rounded-lg my-6 space-y-4 not-aegov">
+<div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
   <div>
     <p class="text-sm font-semibold text-aeblack-600 mb-2">Small Individual</p>
     <aegov-otp variant="individual" size="sm" length="4"></aegov-otp>
@@ -161,7 +161,7 @@ Set the `disabled` attribute to prevent all interaction. The cells become visual
 <aegov-otp variant="individual" disabled></aegov-otp>
 ```
 
-<div class="p-6 bg-aeblack-50 rounded-lg my-6 space-y-4 not-aegov">
+<div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
   <div>
     <p class="text-sm font-semibold text-aeblack-600 mb-2">Disabled Continuous</p>
     <aegov-otp disabled></aegov-otp>
@@ -186,7 +186,7 @@ By default, only numeric digits (0-9) are accepted. Set the `alphanumeric` attri
 <aegov-otp alphanumeric></aegov-otp>
 ```
 
-<div class="p-6 bg-aeblack-50 rounded-lg my-6 space-y-4 not-aegov">
+<div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
   <div>
     <p class="text-sm font-semibold text-aeblack-600 mb-2">Numeric only (default) — try typing a letter</p>
     <aegov-otp length="4"></aegov-otp>
@@ -242,7 +242,7 @@ Use the `value` property to pre-fill the OTP cells. This is useful for auto-popu
 <aegov-otp variant="individual" value="9876" length="4"></aegov-otp>
 ```
 
-<div class="p-6 bg-aeblack-50 rounded-lg my-6 space-y-4 not-aegov">
+<div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
   <div>
     <p class="text-sm font-semibold text-aeblack-600 mb-2">Pre-filled continuous</p>
     <aegov-otp value="12345"></aegov-otp>
@@ -434,7 +434,7 @@ The component supports right-to-left layouts. When a parent element has `dir="rt
 </div>
 ```
 
-<div dir="rtl" class="p-6 bg-aeblack-50 rounded-lg my-6 space-y-4 not-aegov">
+<div dir="rtl" class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
   <div>
     <p class="text-sm font-semibold text-aeblack-600 mb-2">Continuous (RTL)</p>
     <aegov-otp length="4"></aegov-otp>

@@ -50,7 +50,7 @@ The `size` property controls the thickness of the track. The thumb remains a con
 <aegov-range size="xl"></aegov-range>
 ```
 
-<div class="p-6 bg-aeblack-50 rounded-lg my-6 space-y-8 not-aegov">
+<div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
   <div class="pb-8"><aegov-range size="xs" value="20"></aegov-range></div>
   <div class="pb-8"><aegov-range size="sm" value="30"></aegov-range></div>
   <div class="pb-8"><aegov-range size="base" value="50"></aegov-range></div>

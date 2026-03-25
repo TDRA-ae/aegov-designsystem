@@ -79,10 +79,7 @@
     --color-aeblack-800: oklch(0.264 0.006 258.4);
     --color-aeblack-900: oklch(0.230 0.008 264.4);
     --color-whitely-50: oklch(1.000 0.000 0.0);
-    --color-whitely-100: oklch(0.991 0.000 0.0);
     --color-whitely-200: oklch(0.976 0.000 0.0);
-    --color-whitely-400: oklch(0.946 0.000 0.0);
-    --color-whitely-500: oklch(0.931 0.000 0.0);
     --color-camel-50: oklch(0.987 0.021 95.3);
     --color-camel-100: oklch(0.963 0.058 97.7);
     --color-camel-200: oklch(0.923 0.113 96.6);
@@ -94,10 +91,7 @@
     --color-camel-800: oklch(0.472 0.121 47.0);
     --color-camel-900: oklch(0.414 0.103 46.7);
     --color-camel-950: oklch(0.279 0.072 46.6);
-    --color-seablue-50: oklch(0.978 0.013 226.6);
-    --color-seablue-500: oklch(0.699 0.147 234.4);
     --color-seablue-600: oklch(0.623 0.143 240.2);
-    --color-seablue-950: oklch(0.306 0.066 239.6);
     --color-desert-50: oklch(0.975 0.013 60.6);
     --color-desert-100: oklch(0.945 0.031 64.3);
     --color-desert-200: oklch(0.883 0.064 59.1);
@@ -119,18 +113,8 @@
     --color-primary-700: var(--color-aegold-700);
     --color-primary-800: var(--color-aegold-800);
     --color-primary-900: var(--color-aegold-900);
-    --color-secondary-50: var(--color-camel-50);
-    --color-secondary-100: var(--color-camel-100);
-    --color-secondary-500: var(--color-camel-500);
-    --color-secondary-600: var(--color-camel-600);
-    --color-secondary-700: var(--color-camel-700);
-    --color-secondary-800: var(--color-camel-800);
-    --color-primary-support-500: var(--color-camel-500);
     --color-primary-support-600: var(--color-camel-600);
-    --color-primary-support-950: var(--color-camel-950);
-    --color-secondary-support-500: var(--color-desert-500);
     --color-secondary-support-600: var(--color-desert-600);
-    --color-secondary-support-950: var(--color-desert-950);
   }
 }
 @layer utilities {
@@ -1395,6 +1379,11 @@
 }
 article:has(#content-area) {
   min-width: 0;
+}
+#content-area .not-aegov:not(.flex) {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
 }
 @property --tw-rotate-x {
   syntax: "*";

@@ -81,7 +81,7 @@ Set the `disabled` attribute on individual radios to prevent interaction. You ca
 </aegov-radio-group>
 ```
 
-<div class="p-6 bg-aeblack-50 rounded-lg my-6 space-y-6 not-aegov">
+<div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
   <aegov-radio-group name="plan-demo" label="Select a plan">
     <aegov-radio label="Free" value="free"></aegov-radio>
     <aegov-radio label="Pro" value="pro" disabled></aegov-radio>
@@ -173,7 +173,7 @@ The `size` property controls the dimensions of the radio button, label text, and
 </aegov-radio-group>
 ```
 
-<div class="p-6 bg-aeblack-50 rounded-lg my-6 space-y-6 not-aegov">
+<div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
   <aegov-radio-group name="size-xs-demo" label="Extra Small (xs)" size="xs">
     <aegov-radio label="Option A" description="Helper text" value="a"></aegov-radio>
     <aegov-radio label="Option B" description="Helper text" value="b"></aegov-radio>
@@ -224,7 +224,7 @@ The `orientation` property controls the stacking direction. The default is `vert
 </aegov-radio-group>
 ```
 
-<div class="p-6 bg-aeblack-50 rounded-lg my-6 space-y-6 not-aegov">
+<div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
   <aegov-radio-group name="orient-v-demo" label="Vertical (default)" orientation="vertical">
     <aegov-radio label="Option A" value="a"></aegov-radio>
     <aegov-radio label="Option B" value="b"></aegov-radio>
@@ -392,7 +392,7 @@ Pills also support different sizes.
 </aegov-radio-group>
 ```
 
-<div class="p-6 bg-aeblack-50 rounded-lg my-6 space-y-6 not-aegov">
+<div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
   <aegov-radio-group name="pills-xs-demo" label="Extra small pills" variant="pills" orientation="horizontal" size="xs">
     <aegov-radio label="S" value="s"></aegov-radio>
     <aegov-radio label="M" value="m" checked></aegov-radio>
