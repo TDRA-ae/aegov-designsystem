@@ -77,7 +77,7 @@ The `format` property controls how the selected date is displayed in the input. 
 <aegov-datepicker format="ddd, DD MMMM YYYY" value="2026-03-15"></aegov-datepicker>
 ```
 
-<div class="p-6 bg-aeblack-50 rounded-lg my-6 space-y-4 not-aegov">
+<div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
   <div>
     <p class="text-sm text-aeblack-500 mb-1">YYYY-MM-DD (default)</p>
     <aegov-datepicker format="YYYY-MM-DD" value="2026-03-15"></aegov-datepicker>
@@ -173,7 +173,7 @@ Use `min` and `max` to constrain the selectable date range. Dates outside these 
 <aegov-datepicker min="2026-01-01" max="2026-12-31" placeholder="Year 2026 only"></aegov-datepicker>
 ```
 
-<div class="p-6 bg-aeblack-50 rounded-lg my-6 space-y-4 not-aegov">
+<div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
   <div>
     <p class="text-sm text-aeblack-500 mb-1">Future dates only (min="today")</p>
     <aegov-datepicker min="today" placeholder="Future dates only"></aegov-datepicker>
@@ -447,7 +447,7 @@ This is useful when you want to prevent accidental selections, especially in ran
 ></aegov-datepicker>
 ```
 
-<div class="p-6 bg-aeblack-50 rounded-lg my-6 space-y-4 not-aegov">
+<div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
   <div>
     <p class="text-sm text-aeblack-500 mb-1">Single with confirmation</p>
     <aegov-datepicker with-confirmation placeholder="Confirm before selecting"></aegov-datepicker>

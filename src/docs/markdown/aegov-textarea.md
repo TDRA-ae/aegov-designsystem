@@ -38,7 +38,7 @@ The `size` property controls the font size and padding of the textarea. The heig
 <aegov-textarea size="xl" placeholder="Extra large textarea"></aegov-textarea>
 ```
 
-<div class="p-6 bg-aeblack-50 rounded-lg my-6 space-y-4 not-aegov">
+<div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
   <aegov-textarea size="xs" placeholder="Extra small textarea"></aegov-textarea>
   <aegov-textarea size="sm" placeholder="Small textarea"></aegov-textarea>
   <aegov-textarea size="base" placeholder="Base textarea (default)"></aegov-textarea>
@@ -58,7 +58,7 @@ The native `rows` attribute controls the initial visible height. Pass it directl
 <aegov-textarea rows="10" placeholder="10 rows"></aegov-textarea>
 ```
 
-<div class="p-6 bg-aeblack-50 rounded-lg my-6 space-y-4 not-aegov">
+<div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
   <aegov-textarea rows="3" placeholder="3 rows"></aegov-textarea>
   <aegov-textarea rows="6" placeholder="6 rows"></aegov-textarea>
   <aegov-textarea rows="10" placeholder="10 rows"></aegov-textarea>
@@ -153,7 +153,7 @@ The `resize` property controls how users can resize the textarea. There are five
 <aegov-textarea resize="none" placeholder="No resize"></aegov-textarea>
 ```
 
-<div class="p-6 bg-aeblack-50 rounded-lg my-6 space-y-4 not-aegov">
+<div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
   <aegov-textarea resize="vertical" rows="3" placeholder="Vertical resize (default)"></aegov-textarea>
   <aegov-textarea resize="horizontal" rows="3" placeholder="Horizontal resize"></aegov-textarea>
   <aegov-textarea resize="both" rows="3" placeholder="Resize in both directions"></aegov-textarea>

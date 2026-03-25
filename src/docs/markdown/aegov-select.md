@@ -111,7 +111,7 @@ The `size` property controls the height, padding, and font size of the select tr
 </aegov-select>
 ```
 
-<div class="p-6 bg-aeblack-50 rounded-lg my-6 space-y-4 not-aegov">
+<div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
   <aegov-select size="xs" placeholder="Extra Small" variant="listbox">
     <aegov-select-option value="a">Option A</aegov-select-option>
     <aegov-select-option value="b">Option B</aegov-select-option>
@@ -194,7 +194,7 @@ Set the `disabled` attribute to prevent interaction. The select becomes visually
 </aegov-select>
 ```
 
-<div class="p-6 bg-aeblack-50 rounded-lg my-6 space-y-4 not-aegov">
+<div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
   <aegov-select disabled placeholder="Disabled select">
     <aegov-select-option value="a">Option A</aegov-select-option>
     <aegov-select-option value="b">Option B</aegov-select-option>
