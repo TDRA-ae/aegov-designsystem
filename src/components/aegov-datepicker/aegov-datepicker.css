@@ -1,9 +1,9 @@
 :host {
-  @apply inline-block;
+  @apply block;
 }
 
 .datepicker__trigger {
-  @apply inline-flex items-center cursor-pointer;
+  @apply flex items-center cursor-pointer;
 }
 
 :host([disabled]) .datepicker__trigger {
@@ -12,7 +12,7 @@
 
 /* ── Input Wrapper ──────────────────────────────────── */
 .datepicker__input-wrapper {
-  @apply relative inline-flex items-center gap-0 bg-whitely-50
+  @apply relative flex items-center gap-0 w-full bg-whitely-50
          rounded-lg transition-all duration-200 ease-in-out
          inset-ring-2 inset-ring-primary-400
          focus-within:inset-ring-primary-support-600;
@@ -29,7 +29,7 @@
 /* ── Input ──────────────────────────────────────────── */
 .datepicker__input {
   font-family: inherit;
-  @apply border-0 bg-transparent text-primary-900 outline-none leading-6
+  @apply flex-1 min-w-0 border-0 bg-transparent text-primary-900 outline-none leading-6
          placeholder:text-aeblack-500 focus:ring-0;
 }
 
@@ -159,17 +159,17 @@
 
 /* ── Range Separator ────────────────────────────────── */
 .datepicker__range-separator {
-  @apply flex items-center text-aeblack-500;
+  @apply flex shrink-0 items-center text-aeblack-500;
 }
 
 /* ── Calendar Icon ──────────────────────────────────── */
 .datepicker__icon {
-  @apply flex items-center justify-center text-aeblack-500;
+  @apply flex shrink-0 items-center justify-center text-aeblack-500;
 }
 
 /* ── Clear Button ───────────────────────────────────── */
 .datepicker__clear-btn {
-  @apply flex items-center justify-center rounded
+  @apply flex shrink-0 items-center justify-center rounded
          text-aeblack-500 hover:text-primary-700 hover:bg-primary-50
          cursor-pointer transition-colors duration-200
          focus-visible:outline-2 focus-visible:outline-primary-500 border-0 bg-transparent;
