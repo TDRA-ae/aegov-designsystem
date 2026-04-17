@@ -298,4 +298,57 @@ describe('aegov-aspect-ratio', () => {
       expect(container.className).toContain('bg-slate-100');
     });
   });
+
+  describe('invalid prop values', () => {
+    let warnSpy: jest.SpyInstance;
+
+    beforeEach(() => {
+      warnSpy = jest.spyOn(console, 'warn').mockImplementation();
+    });
+
+    afterEach(() => {
+      warnSpy.mockRestore();
+    });
+
+    it('falls back to default fit when invalid', async () => {
+      const page = await newSpecPage({
+        components: [AegovAspectRatio],
+        html: `<aegov-aspect-ratio fit="weird"></aegov-aspect-ratio>`,
+      });
+      const container = page.root.querySelector('.aegov-aspect-ratio') as HTMLElement;
+      expect(container.getAttribute('data-fit')).toBe('cover');
+    });
+
+    it('warns with component name, prop name, invalid value, and fallback', async () => {
+      await newSpecPage({
+        components: [AegovAspectRatio],
+        html: `<aegov-aspect-ratio fit="weird"></aegov-aspect-ratio>`,
+      });
+      const messages = warnSpy.mock.calls.map(c => c[0] as string);
+      const warn = messages.find(m => m.includes('[aegov-aspect-ratio]') && m.includes('"fit"'));
+      expect(warn).toBeDefined();
+      expect(warn).toContain('"weird"');
+      expect(warn).toContain('cover');
+    });
+
+    it('does not warn when fit is valid', async () => {
+      await newSpecPage({
+        components: [AegovAspectRatio],
+        html: `<aegov-aspect-ratio fit="contain"></aegov-aspect-ratio>`,
+      });
+      expect(warnSpy).not.toHaveBeenCalled();
+    });
+
+    it('warns again via @Watch when fit is updated to invalid value', async () => {
+      const page = await newSpecPage({
+        components: [AegovAspectRatio],
+        html: `<aegov-aspect-ratio fit="cover"></aegov-aspect-ratio>`,
+      });
+      page.root.setAttribute('fit', 'nope');
+      await page.waitForChanges();
+      const messages = warnSpy.mock.calls.map(c => c[0] as string);
+      const warn = messages.find(m => m.includes('[aegov-aspect-ratio]') && m.includes('"fit"'));
+      expect(warn).toBeDefined();
+    });
+  });
 });

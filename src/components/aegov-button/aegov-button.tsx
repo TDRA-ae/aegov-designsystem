@@ -1,6 +1,25 @@
-import { Component, Prop, Event, EventEmitter, Element, h, Host } from '@stencil/core';
-import type { ButtonVariant, ButtonSize, ButtonType, ButtonAppearance, ButtonGroupOrientation, ButtonGroupPosition } from '../../utils/types';
+import { Component, Prop, Watch, Event, EventEmitter, Element, h, Host } from '@stencil/core';
+import {
+  BUTTON_APPEARANCES,
+  BUTTON_GROUP_ORIENTATIONS,
+  BUTTON_GROUP_POSITIONS,
+  BUTTON_SIZES,
+  BUTTON_TYPES,
+  BUTTON_VARIANTS,
+} from '../../utils/types';
+import type {
+  ButtonAppearance,
+  ButtonGroupOrientation,
+  ButtonGroupPosition,
+  ButtonSize,
+  ButtonType,
+  ButtonVariant,
+} from '../../utils/types';
 import { getPassThroughAttributes } from '../../utils/attributes';
+import { warnIfInvalidEnumProp } from '../../utils/prop-validator';
+
+const TAG = 'aegov-button';
+const ctx = (prop: string) => ({ component: TAG, prop });
 
 /**
  * @slot - Button content
@@ -95,6 +114,43 @@ export class AegovButton {
    */
   @Event() aegovButtonBlur: EventEmitter<FocusEvent>;
 
+  componentWillLoad() {
+    warnIfInvalidEnumProp(this.variant, BUTTON_VARIANTS, 'solid', ctx('variant'));
+    warnIfInvalidEnumProp(this.size, BUTTON_SIZES, 'base', ctx('size'));
+    warnIfInvalidEnumProp(this.type, BUTTON_TYPES, 'button', ctx('type'));
+    warnIfInvalidEnumProp(this.appearance, BUTTON_APPEARANCES, 'primary', ctx('appearance'));
+    if (this.groupPosition !== undefined) {
+      warnIfInvalidEnumProp(this.groupPosition, BUTTON_GROUP_POSITIONS, 'single', ctx('groupPosition'));
+    }
+    if (this.groupOrientation !== undefined) {
+      warnIfInvalidEnumProp(this.groupOrientation, BUTTON_GROUP_ORIENTATIONS, 'horizontal', ctx('groupOrientation'));
+    }
+  }
+
+  @Watch('variant')
+  onVariantChange(v: unknown) { warnIfInvalidEnumProp(v, BUTTON_VARIANTS, 'solid', ctx('variant')); }
+
+  @Watch('size')
+  onSizeChange(v: unknown) { warnIfInvalidEnumProp(v, BUTTON_SIZES, 'base', ctx('size')); }
+
+  @Watch('type')
+  onTypeChange(v: unknown) { warnIfInvalidEnumProp(v, BUTTON_TYPES, 'button', ctx('type')); }
+
+  @Watch('appearance')
+  onAppearanceChange(v: unknown) { warnIfInvalidEnumProp(v, BUTTON_APPEARANCES, 'primary', ctx('appearance')); }
+
+  @Watch('groupPosition')
+  onGroupPositionChange(v: unknown) {
+    if (v === undefined) return;
+    warnIfInvalidEnumProp(v, BUTTON_GROUP_POSITIONS, 'single', ctx('groupPosition'));
+  }
+
+  @Watch('groupOrientation')
+  onGroupOrientationChange(v: unknown) {
+    if (v === undefined) return;
+    warnIfInvalidEnumProp(v, BUTTON_GROUP_ORIENTATIONS, 'horizontal', ctx('groupOrientation'));
+  }
+
   private handleClick = (event: MouseEvent) => {
     if (!this.disabled && !this.loading) {
       this.aegovButtonClick.emit(event);
@@ -118,6 +174,10 @@ export class AegovButton {
       'relative inline-flex shrink-0 cursor-pointer select-none flex-wrap items-center justify-center whitespace-nowrap no-underline transition-all duration-200 ease-in-out focus-visible:outline-2  disabled:cursor-default disabled:pointer-events-none disabled:cursor-not-allowed'
     ];
 
+    const size: ButtonSize = (BUTTON_SIZES as readonly string[]).includes(this.size) ? this.size : 'base';
+    const variant: ButtonVariant = (BUTTON_VARIANTS as readonly string[]).includes(this.variant) ? this.variant : 'solid';
+    const appearance: ButtonAppearance = (BUTTON_APPEARANCES as readonly string[]).includes(this.appearance) ? this.appearance : 'primary';
+
     // Size classes
     const sizeClasses: Record<ButtonSize, string[]> = {
       xs: ['btn-xs','h-9','rounded-md', 'gap-1.5', 'px-2.5', 'text-sm'],
@@ -127,8 +187,8 @@ export class AegovButton {
       xl: ['btn-lg','h-13', 'rounded-lg', 'gap-3', 'px-4.5', 'text-lg']
     };
 
-    classes.push(...sizeClasses[this.size]);
-    
+    classes.push(...sizeClasses[size]);
+
     const variantClasses: Record<ButtonVariant, string[]> = {
       solid: ['btn-solid','shadow-[inset_0px_1px_--theme(--color-whitely-50/.2)]', 'text-whitely-50', 'border-1', 'focus-visible:outline-offset-2', 'disabled:opacity-30'],
       outline: ['btn-outline','bg-transparent', 'border-2', 'focus-visible:outline-offset-0', 'disabled:opacity-50'],
@@ -136,7 +196,7 @@ export class AegovButton {
       link: ['btn-link', 'bg-transparent', 'border-0', 'hover:underline', 'focus-visible:outline-offset-2', 'disabled:opacity-50']
     };
 
-    classes.push(...variantClasses[this.variant]);
+    classes.push(...variantClasses[variant]);
 
     const appearanceClasses: Record<ButtonAppearance, string[]> = {
       primary: ['btn-primary', 'outline-primary-support-600'],
@@ -146,8 +206,8 @@ export class AegovButton {
       neutralMax: ['btn-neutral-max', 'outline-seablue-600']
     };
 
-    classes.push(...appearanceClasses[this.appearance]);
-    
+    classes.push(...appearanceClasses[appearance]);
+
 
     // Disabled state
     if (this.disabled || this.loading) {
@@ -175,14 +235,20 @@ export class AegovButton {
     }
 
     // Button group styling
-    if (this.groupPosition && this.groupOrientation) {
-      const orient = this.groupOrientation;
-      classes.push(`btn-grouped-${orient}`);
+    const groupOrientation = (BUTTON_GROUP_ORIENTATIONS as readonly string[]).includes(this.groupOrientation as string)
+      ? (this.groupOrientation as ButtonGroupOrientation)
+      : undefined;
+    const groupPosition = (BUTTON_GROUP_POSITIONS as readonly string[]).includes(this.groupPosition as string)
+      ? (this.groupPosition as ButtonGroupPosition)
+      : undefined;
 
-      if (this.groupPosition === 'single') {
+    if (groupPosition && groupOrientation) {
+      classes.push(`btn-grouped-${groupOrientation}`);
+
+      if (groupPosition === 'single') {
         classes.push('btn-grouped-single');
       } else {
-        classes.push(`btn-grouped-${this.groupPosition}-${orient}`);
+        classes.push(`btn-grouped-${groupPosition}-${groupOrientation}`);
       }
     }
 
@@ -191,12 +257,13 @@ export class AegovButton {
 
   render() {
     const passThroughAttributes = getPassThroughAttributes(this.el);
+    const type: ButtonType = (BUTTON_TYPES as readonly string[]).includes(this.type) ? this.type : 'button';
 
     return (
       <Host>
         <button
           part="button"
-          type={this.type}
+          type={type}
           class={this.getButtonClasses()}
           disabled={this.disabled || this.loading}
           onClick={this.handleClick}

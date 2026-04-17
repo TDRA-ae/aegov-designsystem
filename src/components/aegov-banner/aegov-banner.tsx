@@ -1,5 +1,17 @@
-import { Component, Prop, Event, EventEmitter, State, h, Element } from '@stencil/core';
+import { Component, Prop, Watch, Event, EventEmitter, State, h, Element } from '@stencil/core';
+import {
+  CALLOUT_VARIANTS,
+  CALLOUT_APPEARANCES,
+  BANNER_POSITIONS,
+  BANNER_DISPLAYS,
+  BANNER_MODES,
+  BANNER_ROLES,
+} from '../../utils/types';
 import type { CalloutVariant, CalloutAppearance, BannerPosition, BannerDisplay, BannerMode, BannerRole } from '../../utils/types';
+import { warnIfInvalidEnumProp } from '../../utils/prop-validator';
+
+const TAG = 'aegov-banner';
+const ctx = (prop: string) => ({ component: TAG, prop });
 
 /** Maps banner position to the body padding CSS property it controls. */
 const BODY_PADDING_PROP: Record<BannerPosition, string> = {
@@ -167,7 +179,7 @@ export class AegovBanner {
 
       // Only set padding if height is valid (> 0)
       if (height > 0) {
-        document.body.style.setProperty(BODY_PADDING_PROP[this.position], `${height}px`);
+        document.body.style.setProperty(BODY_PADDING_PROP[((BANNER_POSITIONS as readonly string[]).includes(this.position) ? this.position : 'top') as BannerPosition], `${height}px`);
       } else {
         // If height is still 0, try again after a short delay
         setTimeout(() => this.setBodyPadding(), 50);
@@ -179,7 +191,7 @@ export class AegovBanner {
    * Clear body padding CSS variable
    */
   private clearBodyPadding = () => {
-    document.body.style.removeProperty(BODY_PADDING_PROP[this.position]);
+    document.body.style.removeProperty(BODY_PADDING_PROP[((BANNER_POSITIONS as readonly string[]).includes(this.position) ? this.position : 'top') as BannerPosition]);
   };
 
   /**
@@ -196,20 +208,26 @@ export class AegovBanner {
   private getBannerClasses(): string {
     const classes: string[] = ['aegov-banner'];
 
+    const display: BannerDisplay = (BANNER_DISPLAYS as readonly string[]).includes(this.display) ? this.display : 'fixed';
+    const position: BannerPosition = (BANNER_POSITIONS as readonly string[]).includes(this.position) ? this.position : 'top';
+    const mode: BannerMode = (BANNER_MODES as readonly string[]).includes(this.mode) ? this.mode : 'push';
+    const appearance: CalloutAppearance = (CALLOUT_APPEARANCES as readonly string[]).includes(this.appearance) ? this.appearance : 'soft';
+    const variant: CalloutVariant = (CALLOUT_VARIANTS as readonly string[]).includes(this.variant) ? this.variant : 'default';
+
     // Display mode (positioning)
-    classes.push(`banner--${this.display}`);
+    classes.push(`banner--${display}`);
 
     // Position (top/bottom)
-    classes.push(`banner--${this.position}`);
+    classes.push(`banner--${position}`);
 
     // Mode (push/overlay)
-    classes.push(`banner--${this.mode}`);
+    classes.push(`banner--${mode}`);
 
     // Appearance
-    classes.push(`banner--${this.appearance}`);
+    classes.push(`banner--${appearance}`);
 
     // Variant
-    classes.push(`banner--${this.variant}`);
+    classes.push(`banner--${variant}`);
 
     // Dismissing state
     if (this.isDismissing) {
@@ -217,6 +235,38 @@ export class AegovBanner {
     }
 
     return classes.join(' ');
+  }
+
+  componentWillLoad() {
+    warnIfInvalidEnumProp(this.variant, CALLOUT_VARIANTS, 'default', ctx('variant'));
+    warnIfInvalidEnumProp(this.appearance, CALLOUT_APPEARANCES, 'soft', ctx('appearance'));
+    warnIfInvalidEnumProp(this.position, BANNER_POSITIONS, 'top', ctx('position'));
+    warnIfInvalidEnumProp(this.display, BANNER_DISPLAYS, 'fixed', ctx('display'));
+    warnIfInvalidEnumProp(this.mode, BANNER_MODES, 'push', ctx('mode'));
+    if (this.ariaRole !== undefined) {
+      warnIfInvalidEnumProp(this.ariaRole, BANNER_ROLES, 'region', ctx('ariaRole'));
+    }
+  }
+
+  @Watch('variant')
+  onVariantChange(v: unknown) { warnIfInvalidEnumProp(v, CALLOUT_VARIANTS, 'default', ctx('variant')); }
+
+  @Watch('appearance')
+  onAppearanceChange(v: unknown) { warnIfInvalidEnumProp(v, CALLOUT_APPEARANCES, 'soft', ctx('appearance')); }
+
+  @Watch('position')
+  onPositionChange(v: unknown) { warnIfInvalidEnumProp(v, BANNER_POSITIONS, 'top', ctx('position')); }
+
+  @Watch('display')
+  onDisplayChange(v: unknown) { warnIfInvalidEnumProp(v, BANNER_DISPLAYS, 'fixed', ctx('display')); }
+
+  @Watch('mode')
+  onModeChange(v: unknown) { warnIfInvalidEnumProp(v, BANNER_MODES, 'push', ctx('mode')); }
+
+  @Watch('ariaRole')
+  onAriaRoleChange(v: unknown) {
+    if (v === undefined) return;
+    warnIfInvalidEnumProp(v, BANNER_ROLES, 'region', ctx('ariaRole'));
   }
 
   /**

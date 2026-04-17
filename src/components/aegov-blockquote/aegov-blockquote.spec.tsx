@@ -276,4 +276,61 @@ describe('aegov-blockquote', () => {
       expect(author.textContent).toBe('New Author');
     });
   });
+
+  describe('invalid prop values', () => {
+    let warnSpy: jest.SpyInstance;
+
+    beforeEach(() => {
+      warnSpy = jest.spyOn(console, 'warn').mockImplementation();
+    });
+
+    afterEach(() => {
+      warnSpy.mockRestore();
+    });
+
+    it('falls back to default (primary) variant when variant is invalid', async () => {
+      const page = await newSpecPage({
+        components: [AegovBlockquote],
+        html: `<aegov-blockquote variant="weird">Quote</aegov-blockquote>`,
+      });
+      const blockquote = page.root.querySelector('.aegov-blockquote');
+      expect(blockquote).toBeTruthy();
+      expect(blockquote.classList.contains('blockquote--colored')).toBe(false);
+    });
+
+    it('warns with component name, prop name, invalid value, and fallback', async () => {
+      await newSpecPage({
+        components: [AegovBlockquote],
+        html: `<aegov-blockquote variant="weird">Quote</aegov-blockquote>`,
+      });
+      const messages = warnSpy.mock.calls.map(c => c[0] as string);
+      const variantWarn = messages.find(m => m.includes('[aegov-blockquote]') && m.includes('"weird"'));
+      expect(variantWarn).toBeDefined();
+      expect(variantWarn).toContain('"variant"');
+    });
+
+    it('does not warn when all props are valid', async () => {
+      await newSpecPage({
+        components: [AegovBlockquote],
+        html: `<aegov-blockquote variant="colored">Quote</aegov-blockquote>`,
+      });
+      expect(warnSpy).not.toHaveBeenCalled();
+    });
+
+    it('warns again via @Watch when variant is updated to an invalid value', async () => {
+      const page = await newSpecPage({
+        components: [AegovBlockquote],
+        html: `<aegov-blockquote variant="primary">Quote</aegov-blockquote>`,
+      });
+      expect(warnSpy).not.toHaveBeenCalled();
+
+      page.root.setAttribute('variant', 'nope');
+      await page.waitForChanges();
+
+      const messages = warnSpy.mock.calls.map(c => c[0] as string);
+      const invalidWarn = messages.find(m => m.includes('[aegov-blockquote]') && m.includes('"nope"'));
+      expect(invalidWarn).toBeDefined();
+      expect(invalidWarn).toContain('"variant"');
+    });
+  });
 });

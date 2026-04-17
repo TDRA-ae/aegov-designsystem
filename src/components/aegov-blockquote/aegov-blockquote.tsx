@@ -1,5 +1,10 @@
-import { Component, Prop, h, Host } from '@stencil/core';
+import { Component, Prop, Watch, h, Host } from '@stencil/core';
+import { BLOCKQUOTE_VARIANTS } from '../../utils/types';
 import type { BlockquoteVariant } from '../../utils/types';
+import { warnIfInvalidEnumProp } from '../../utils/prop-validator';
+
+const TAG = 'aegov-blockquote';
+const ctx = (prop: string) => ({ component: TAG, prop });
 
 /**
  * @slot - Blockquote content
@@ -33,6 +38,13 @@ export class AegovBlockquote {
      * The author's title/position
      */
     @Prop() authorTitle?: string;
+
+    componentWillLoad() {
+        warnIfInvalidEnumProp(this.variant, BLOCKQUOTE_VARIANTS, 'primary', ctx('variant'));
+    }
+
+    @Watch('variant')
+    onVariantChange(v: unknown) { warnIfInvalidEnumProp(v, BLOCKQUOTE_VARIANTS, 'primary', ctx('variant')); }
 
     /**
      * Get the CSS classes based on component props

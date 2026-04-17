@@ -1,5 +1,10 @@
-import { Component, Prop, Event, EventEmitter, h } from '@stencil/core';
+import { Component, Prop, Event, EventEmitter, h, Watch } from '@stencil/core';
+import { PAGINATION_SIZES, PAGINATION_VARIANTS } from '../../utils/types';
 import type { PaginationSize, PaginationVariant } from '../../utils/types';
+import { warnIfInvalidEnumProp } from '../../utils/prop-validator';
+
+const TAG = 'aegov-pagination';
+const ctx = (prop: string) => ({ component: TAG, prop });
 
 @Component({
   tag: 'aegov-pagination',
@@ -75,6 +80,17 @@ export class AegovPagination {
    * Update currentPage in response to this event.
    */
   @Event() aegovPaginationPageChange: EventEmitter<number>;
+
+  componentWillLoad() {
+    warnIfInvalidEnumProp(this.variant, PAGINATION_VARIANTS, 'default', ctx('variant'));
+    warnIfInvalidEnumProp(this.size, PAGINATION_SIZES, 'base', ctx('size'));
+  }
+
+  @Watch('variant')
+  onVariantChange(v: unknown) { warnIfInvalidEnumProp(v, PAGINATION_VARIANTS, 'default', ctx('variant')); }
+
+  @Watch('size')
+  onSizeChange(v: unknown) { warnIfInvalidEnumProp(v, PAGINATION_SIZES, 'base', ctx('size')); }
 
   private handlePageClick(page: number): void {
     if (this.disabled || page === this.currentPage || page < 1 || page > this.totalPages) {
@@ -182,13 +198,15 @@ export class AegovPagination {
       return null;
     }
 
-    const range = this.variant === 'compact' ? [] : this.getPaginationRange();
+    const variant: PaginationVariant = (PAGINATION_VARIANTS as readonly string[]).includes(this.variant) ? this.variant : 'default';
+    const size: PaginationSize = (PAGINATION_SIZES as readonly string[]).includes(this.size) ? this.size : 'base';
+    const range = variant === 'compact' ? [] : this.getPaginationRange();
     const isFirst = this.currentPage <= 1;
     const isLast = this.currentPage >= this.totalPages;
-    const isCompact = this.variant === 'compact';
+    const isCompact = variant === 'compact';
 
     return (
-      <nav aria-label="Pagination" class={`aegov-pagination pagination--${this.size}${isCompact ? ' pagination--compact' : ''}`}>
+      <nav aria-label="Pagination" class={`aegov-pagination pagination--${size}${isCompact ? ' pagination--compact' : ''}`}>
         <ul class="pagination__list">
 
           {/* First button */}

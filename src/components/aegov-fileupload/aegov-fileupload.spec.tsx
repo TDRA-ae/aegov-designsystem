@@ -577,4 +577,84 @@ describe('aegov-fileupload', () => {
     const removeBtn = page.root.querySelector('.fileupload__remove-btn');
     expect(removeBtn.getAttribute('aria-label')).toBe('Remove my-file.pdf');
   });
+
+  describe('invalid prop values', () => {
+    let warnSpy: jest.SpyInstance;
+
+    beforeEach(() => {
+      warnSpy = jest.spyOn(console, 'warn').mockImplementation();
+    });
+
+    afterEach(() => {
+      warnSpy.mockRestore();
+    });
+
+    it('falls back to default size class when size is invalid', async () => {
+      const page = await newSpecPage({
+        components: [AegovFileupload],
+        html: `<aegov-fileupload size="huge"></aegov-fileupload>`,
+      });
+      expect(page.root.querySelector('.fileupload--base')).toBeTruthy();
+    });
+
+    it('falls back to default variant when variant is invalid', async () => {
+      const page = await newSpecPage({
+        components: [AegovFileupload],
+        html: `<aegov-fileupload variant="weird"></aegov-fileupload>`,
+      });
+      // default variant rendered (input-wrapper present)
+      expect(page.root.querySelector('.fileupload__input-wrapper')).toBeTruthy();
+      expect(page.root.querySelector('.fileupload--default')).toBeTruthy();
+    });
+
+    it('warns for invalid size', async () => {
+      await newSpecPage({
+        components: [AegovFileupload],
+        html: `<aegov-fileupload size="huge"></aegov-fileupload>`,
+      });
+      const messages = warnSpy.mock.calls.map(c => c[0] as string);
+      const warn = messages.find(m => m.includes('"size"'));
+      expect(warn).toBeDefined();
+      expect(warn).toContain('[aegov-fileupload]');
+      expect(warn).toContain('"huge"');
+      expect(warn).toContain('base');
+    });
+
+    it('warns for invalid variant', async () => {
+      await newSpecPage({
+        components: [AegovFileupload],
+        html: `<aegov-fileupload variant="weird"></aegov-fileupload>`,
+      });
+      const messages = warnSpy.mock.calls.map(c => c[0] as string);
+      const warn = messages.find(m => m.includes('"variant"'));
+      expect(warn).toBeDefined();
+      expect(warn).toContain('[aegov-fileupload]');
+      expect(warn).toContain('"weird"');
+      expect(warn).toContain('default');
+    });
+
+    it('does not warn when all props are valid', async () => {
+      await newSpecPage({
+        components: [AegovFileupload],
+        html: `<aegov-fileupload size="lg" variant="dropzone"></aegov-fileupload>`,
+      });
+      expect(warnSpy).not.toHaveBeenCalled();
+    });
+
+    it('warns again via @Watch when size is updated to an invalid value', async () => {
+      const page = await newSpecPage({
+        components: [AegovFileupload],
+        html: `<aegov-fileupload size="base"></aegov-fileupload>`,
+      });
+      expect(warnSpy).not.toHaveBeenCalled();
+
+      page.root.setAttribute('size', 'nope');
+      await page.waitForChanges();
+
+      const messages = warnSpy.mock.calls.map(c => c[0] as string);
+      const invalidWarn = messages.find(m => m.includes('[aegov-fileupload]') && m.includes('"nope"'));
+      expect(invalidWarn).toBeDefined();
+      expect(invalidWarn).toContain('"size"');
+    });
+  });
 });

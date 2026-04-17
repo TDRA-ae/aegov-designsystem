@@ -1,10 +1,15 @@
 import { Component, Host, h, Prop, Element, State, Listen, Event, EventEmitter, Watch, Method } from '@stencil/core';
+import { DATEPICKER_MODES, INPUT_SIZES } from '../../utils/types';
 import type { DatepickerMode, DatepickerPreset, DatepickerChangeDetail, DatepickerMonthChangeDetail, InputSize } from '../../utils/types';
 import { generateCalendarGrid, getWeekdayNames, getMonthNames, getYearRange, isSameDay, isDateBetween, stripTime, isBefore, isAfter, diffDays } from './utils/calendar';
 import { formatDate, parseDate, parseRangeValue, formatRangeValue } from './utils/format';
 import { getPresetDefinitions, calculatePreset } from './utils/presets';
 import { DATEPICKER_PORTAL_STYLES } from './utils/portal-styles';
 import { generateId } from '../../utils/id-generator';
+import { warnIfInvalidEnumProp } from '../../utils/prop-validator';
+
+const TAG = 'aegov-datepicker';
+const ctx = (prop: string) => ({ component: TAG, prop });
 
 // SVG icons
 const CALENDAR_ICON = `<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>`;
@@ -126,6 +131,8 @@ export class AegovDatepicker {
   // ── Lifecycle ─────────────────────────────────────────
 
   componentWillLoad() {
+    warnIfInvalidEnumProp(this.mode, DATEPICKER_MODES, 'single', ctx('mode'));
+    warnIfInvalidEnumProp(this.size, INPUT_SIZES, 'base', ctx('size'));
     this.datepickerId = generateId('aegov-datepicker');
     this.hasTriggerSlot = !!this.el.querySelector('[slot="trigger"]');
 
@@ -133,6 +140,12 @@ export class AegovDatepicker {
     this.parseUnavailableDates();
     this.parsePresets();
   }
+
+  @Watch('mode')
+  onModeChange(v: unknown) { warnIfInvalidEnumProp(v, DATEPICKER_MODES, 'single', ctx('mode')); }
+
+  @Watch('size')
+  onSizeChange(v: unknown) { warnIfInvalidEnumProp(v, INPUT_SIZES, 'base', ctx('size')); }
 
   componentDidLoad() {
     this.createPortalElement();
@@ -1305,9 +1318,10 @@ export class AegovDatepicker {
   private renderSingleTrigger() {
     const displayValue = this.getDisplayValue();
     const hasValue = !!displayValue;
+    const size: InputSize = (INPUT_SIZES as readonly string[]).includes(this.size) ? this.size : 'base';
 
     return (
-      <div class={`datepicker__input-wrapper datepicker__input-wrapper--${this.size}`}>
+      <div class={`datepicker__input-wrapper datepicker__input-wrapper--${size}`}>
         <input
           type="text"
           class="datepicker__input"
@@ -1338,9 +1352,10 @@ export class AegovDatepicker {
     const startValue = this.getDisplayRangeStart();
     const endValue = this.getDisplayRangeEnd();
     const hasValue = !!(startValue || endValue);
+    const size: InputSize = (INPUT_SIZES as readonly string[]).includes(this.size) ? this.size : 'base';
 
     return (
-      <div class={`datepicker__input-wrapper datepicker__input-wrapper--${this.size} datepicker__input-wrapper--range`}>
+      <div class={`datepicker__input-wrapper datepicker__input-wrapper--${size} datepicker__input-wrapper--range`}>
         <input
           type="text"
           class="datepicker__input datepicker__input--range-start"
@@ -1375,6 +1390,7 @@ export class AegovDatepicker {
   }
 
   render() {
+    const mode: DatepickerMode = (DATEPICKER_MODES as readonly string[]).includes(this.mode) ? this.mode : 'single';
     return (
       <Host>
         <div
@@ -1384,7 +1400,7 @@ export class AegovDatepicker {
         >
           {this.hasTriggerSlot ? (
             <slot name="trigger" />
-          ) : this.mode === 'range' ? (
+          ) : mode === 'range' ? (
             this.renderRangeTrigger()
           ) : (
             this.renderSingleTrigger()

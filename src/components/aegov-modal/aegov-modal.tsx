@@ -1,9 +1,14 @@
 import { Component, Host, h, Prop, Event, EventEmitter, Element, Method, Watch, State } from '@stencil/core';
+import { MODAL_POSITIONS, MODAL_BACKDROP_OPACITIES } from '../../utils/types';
 import type { ModalPosition, ModalBackdropOpacity } from '../../utils/types';
 import { getPassThroughAttributes } from '../../utils/attributes';
 import { getSlottedFocusableElements, handleTabKeyWrap } from '../../utils/focus-management';
 import { lockBodyScroll, unlockBodyScroll } from '../../utils/scroll-lock';
 import { pushZIndex, popZIndex } from '../../utils/z-index-manager';
+import { warnIfInvalidEnumProp } from '../../utils/prop-validator';
+
+const TAG = 'aegov-modal';
+const ctx = (prop: string) => ({ component: TAG, prop });
 
 /**
  * @slot - Modal content
@@ -115,6 +120,17 @@ export class AegovModal {
       this.handleCloseComplete();
     }
   }
+
+  componentWillLoad() {
+    warnIfInvalidEnumProp(this.backdropOpacity, MODAL_BACKDROP_OPACITIES, 'base', ctx('backdropOpacity'));
+    warnIfInvalidEnumProp(this.position, MODAL_POSITIONS, 'center', ctx('position'));
+  }
+
+  @Watch('backdropOpacity')
+  onBackdropOpacityChange(v: unknown) { warnIfInvalidEnumProp(v, MODAL_BACKDROP_OPACITIES, 'base', ctx('backdropOpacity')); }
+
+  @Watch('position')
+  onPositionChange(v: unknown) { warnIfInvalidEnumProp(v, MODAL_POSITIONS, 'center', ctx('position')); }
 
   connectedCallback() {
     // Move modal to body for proper stacking
@@ -245,21 +261,23 @@ export class AegovModal {
   }
 
   private getPositionClass(): string {
+    const position: ModalPosition = (MODAL_POSITIONS as readonly string[]).includes(this.position) ? this.position : 'center';
     const positionClasses: Record<ModalPosition, string> = {
       center: 'modal-container--center',
       top: 'modal-container--top',
       bottom: 'modal-container--bottom',
     };
-    return positionClasses[this.position];
+    return positionClasses[position];
   }
 
   private getBackdropOpacityClass(): string {
+    const backdropOpacity: ModalBackdropOpacity = (MODAL_BACKDROP_OPACITIES as readonly string[]).includes(this.backdropOpacity) ? this.backdropOpacity : 'base';
     const opacityClasses: Record<ModalBackdropOpacity, string> = {
       light: 'modal-backdrop--light',
       base: 'modal-backdrop--base',
       dark: 'modal-backdrop--dark',
     };
-    return opacityClasses[this.backdropOpacity];
+    return opacityClasses[backdropOpacity];
   }
 
   private static readonly PASS_THROUGH_ATTRS = new Set(['id']);

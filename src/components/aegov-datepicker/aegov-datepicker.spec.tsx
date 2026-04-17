@@ -472,4 +472,83 @@ describe('aegov-datepicker', () => {
       expect(input.value).toBe('15/03/2026');
     });
   });
+
+  describe('invalid prop values', () => {
+    let warnSpy: jest.SpyInstance;
+
+    beforeEach(() => {
+      warnSpy = jest.spyOn(console, 'warn').mockImplementation();
+    });
+
+    afterEach(() => {
+      warnSpy.mockRestore();
+    });
+
+    it('falls back to default size class when size is invalid', async () => {
+      const page = await newSpecPage({
+        components: [AegovDatepicker],
+        html: `<aegov-datepicker size="huge"></aegov-datepicker>`,
+      });
+      expect(page.root.querySelector('.datepicker__input-wrapper--base')).toBeTruthy();
+    });
+
+    it('falls back to default mode (single) when mode is invalid', async () => {
+      const page = await newSpecPage({
+        components: [AegovDatepicker],
+        html: `<aegov-datepicker mode="weird"></aegov-datepicker>`,
+      });
+      // single mode renders a single input (no range separator)
+      expect(page.root.querySelector('.datepicker__input-wrapper--range')).toBeNull();
+    });
+
+    it('warns for invalid size', async () => {
+      await newSpecPage({
+        components: [AegovDatepicker],
+        html: `<aegov-datepicker size="huge"></aegov-datepicker>`,
+      });
+      const messages = warnSpy.mock.calls.map(c => c[0] as string);
+      const warn = messages.find(m => m.includes('"size"'));
+      expect(warn).toBeDefined();
+      expect(warn).toContain('[aegov-datepicker]');
+      expect(warn).toContain('"huge"');
+      expect(warn).toContain('base');
+    });
+
+    it('warns for invalid mode', async () => {
+      await newSpecPage({
+        components: [AegovDatepicker],
+        html: `<aegov-datepicker mode="weird"></aegov-datepicker>`,
+      });
+      const messages = warnSpy.mock.calls.map(c => c[0] as string);
+      const warn = messages.find(m => m.includes('"mode"'));
+      expect(warn).toBeDefined();
+      expect(warn).toContain('[aegov-datepicker]');
+      expect(warn).toContain('"weird"');
+      expect(warn).toContain('single');
+    });
+
+    it('does not warn when all props are valid', async () => {
+      await newSpecPage({
+        components: [AegovDatepicker],
+        html: `<aegov-datepicker size="lg" mode="range"></aegov-datepicker>`,
+      });
+      expect(warnSpy).not.toHaveBeenCalled();
+    });
+
+    it('warns again via @Watch when mode is updated to an invalid value', async () => {
+      const page = await newSpecPage({
+        components: [AegovDatepicker],
+        html: `<aegov-datepicker mode="single"></aegov-datepicker>`,
+      });
+      expect(warnSpy).not.toHaveBeenCalled();
+
+      page.root.setAttribute('mode', 'nope');
+      await page.waitForChanges();
+
+      const messages = warnSpy.mock.calls.map(c => c[0] as string);
+      const invalidWarn = messages.find(m => m.includes('[aegov-datepicker]') && m.includes('"nope"'));
+      expect(invalidWarn).toBeDefined();
+      expect(invalidWarn).toContain('"mode"');
+    });
+  });
 });

@@ -1,6 +1,11 @@
-import { Component, Prop, Element, h, Host } from '@stencil/core';
+import { Component, Prop, Watch, Element, h, Host } from '@stencil/core';
+import { TITLE_SIZES } from '../../utils/types';
 import type { TitleSize } from '../../utils/types';
 import { getPassThroughAttributes } from '../../utils/attributes';
+import { warnIfInvalidEnumProp } from '../../utils/prop-validator';
+
+const TAG = 'aegov-title';
+const ctx = (prop: string) => ({ component: TAG, prop });
 
 /**
  * @slot default - The title content
@@ -27,6 +32,13 @@ export class AegovTitle {
 
   private static readonly PASS_THROUGH_ATTRS = new Set(['id']);
 
+  componentWillLoad() {
+    warnIfInvalidEnumProp(this.size, TITLE_SIZES, 'lg', ctx('size'));
+  }
+
+  @Watch('size')
+  onSizeChange(v: unknown) { warnIfInvalidEnumProp(v, TITLE_SIZES, 'lg', ctx('size')); }
+
   /**
    * Get the CSS classes based on component props
    */
@@ -41,7 +53,8 @@ export class AegovTitle {
       '2xl': 'text-2xl',
     };
 
-    classes.push(sizeClasses[this.size]);
+    const size: TitleSize = (TITLE_SIZES as readonly string[]).includes(this.size) ? this.size : 'lg';
+    classes.push(sizeClasses[size]);
 
     // Merge with custom classes if provided
     if (this.class) {

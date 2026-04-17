@@ -208,4 +208,98 @@ describe('aegov-timeline', () => {
     const nav = page.root.querySelector('nav');
     expect(nav.getAttribute('aria-describedby')).toBe('desc');
   });
+
+  describe('invalid prop values', () => {
+    let warnSpy: jest.SpyInstance;
+
+    beforeEach(() => {
+      warnSpy = jest.spyOn(console, 'warn').mockImplementation();
+    });
+
+    afterEach(() => {
+      warnSpy.mockRestore();
+    });
+
+    it('falls back to default variant when invalid', async () => {
+      const page = await newSpecPage({
+        components: [AegovTimeline],
+        html: `<aegov-timeline variant="weird"></aegov-timeline>`,
+      });
+      const nav = page.root.querySelector('nav');
+      expect(nav.classList.contains('aegov-timeline--compact')).toBe(false);
+    });
+
+    it('falls back to default orientation when invalid', async () => {
+      const page = await newSpecPage({
+        components: [AegovTimeline],
+        html: `<aegov-timeline orientation="diagonal"></aegov-timeline>`,
+      });
+      const ol = page.root.querySelector('ol');
+      expect(ol.classList.contains('timeline__list--horizontal')).toBe(true);
+    });
+
+    it('renders safely when size is invalid', async () => {
+      const page = await newSpecPage({
+        components: [AegovTimeline],
+        html: `<aegov-timeline size="huge"></aegov-timeline>`,
+      });
+      expect(page.root.querySelector('nav')).toBeTruthy();
+    });
+
+    it('warns with component name, prop name, invalid value, and fallback', async () => {
+      await newSpecPage({
+        components: [AegovTimeline],
+        html: `<aegov-timeline variant="weird"></aegov-timeline>`,
+      });
+      const messages = warnSpy.mock.calls.map(c => c[0] as string);
+      const warn = messages.find(m => m.includes('[aegov-timeline]') && m.includes('"variant"'));
+      expect(warn).toBeDefined();
+      expect(warn).toContain('"weird"');
+      expect(warn).toContain('default');
+    });
+
+    it('does not warn when all props are valid', async () => {
+      await newSpecPage({
+        components: [AegovTimeline],
+        html: `<aegov-timeline variant="compact" size="lg" orientation="vertical"></aegov-timeline>`,
+      });
+      expect(warnSpy).not.toHaveBeenCalled();
+    });
+
+    it('warns again via @Watch when variant is updated to invalid value', async () => {
+      const page = await newSpecPage({
+        components: [AegovTimeline],
+        html: `<aegov-timeline variant="default"></aegov-timeline>`,
+      });
+      page.root.setAttribute('variant', 'nope');
+      await page.waitForChanges();
+      const messages = warnSpy.mock.calls.map(c => c[0] as string);
+      const warn = messages.find(m => m.includes('[aegov-timeline]') && m.includes('"variant"'));
+      expect(warn).toBeDefined();
+    });
+
+    it('warns again via @Watch when size is updated to invalid value', async () => {
+      const page = await newSpecPage({
+        components: [AegovTimeline],
+        html: `<aegov-timeline size="base"></aegov-timeline>`,
+      });
+      page.root.setAttribute('size', 'nope');
+      await page.waitForChanges();
+      const messages = warnSpy.mock.calls.map(c => c[0] as string);
+      const warn = messages.find(m => m.includes('[aegov-timeline]') && m.includes('"size"'));
+      expect(warn).toBeDefined();
+    });
+
+    it('warns again via @Watch when orientation is updated to invalid value', async () => {
+      const page = await newSpecPage({
+        components: [AegovTimeline],
+        html: `<aegov-timeline orientation="horizontal"></aegov-timeline>`,
+      });
+      page.root.setAttribute('orientation', 'nope');
+      await page.waitForChanges();
+      const messages = warnSpy.mock.calls.map(c => c[0] as string);
+      const warn = messages.find(m => m.includes('[aegov-timeline]') && m.includes('"orientation"'));
+      expect(warn).toBeDefined();
+    });
+  });
 });

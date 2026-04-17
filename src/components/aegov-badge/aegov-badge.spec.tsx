@@ -214,4 +214,80 @@ describe('aegov-badge', () => {
       expect(page.rootInstance.dismissible).toBe(true);
     });
   });
+
+  // ------------------------------------------------------------------ invalid prop values
+  describe('invalid prop values', () => {
+    let warnSpy: jest.SpyInstance;
+
+    beforeEach(() => {
+      warnSpy = jest.spyOn(console, 'warn').mockImplementation();
+    });
+
+    afterEach(() => {
+      warnSpy.mockRestore();
+    });
+
+    it('falls back to default size class when size is invalid', async () => {
+      const page = await newSpecPage({
+        components: [AegovBadge],
+        html: `<aegov-badge size="huge">Badge</aegov-badge>`,
+      });
+      const span = page.root.querySelector('span');
+      expect(span.className).toContain('text-sm');
+      expect(span.className).toContain('py-1');
+    });
+
+    it('falls back to default appearance class when appearance is invalid', async () => {
+      const page = await newSpecPage({
+        components: [AegovBadge],
+        html: `<aegov-badge appearance="weird">Badge</aegov-badge>`,
+      });
+      const span = page.root.querySelector('span');
+      expect(span.className).toContain('badge-soft');
+    });
+
+    it('falls back to default color class when color is invalid', async () => {
+      const page = await newSpecPage({
+        components: [AegovBadge],
+        html: `<aegov-badge color="magenta">Badge</aegov-badge>`,
+      });
+      const span = page.root.querySelector('span');
+      expect(span.className).toContain('badge-default');
+    });
+
+    it('warns with component name, prop name, invalid value, and fallback', async () => {
+      await newSpecPage({
+        components: [AegovBadge],
+        html: `<aegov-badge appearance="weird">Badge</aegov-badge>`,
+      });
+      const messages = warnSpy.mock.calls.map(c => c[0] as string);
+      const appearanceWarn = messages.find(m => m.includes('[aegov-badge]') && m.includes('"weird"'));
+      expect(appearanceWarn).toBeDefined();
+      expect(appearanceWarn).toContain('"appearance"');
+    });
+
+    it('does not warn when all props are valid', async () => {
+      await newSpecPage({
+        components: [AegovBadge],
+        html: `<aegov-badge size="lg" appearance="solid" color="primary">Badge</aegov-badge>`,
+      });
+      expect(warnSpy).not.toHaveBeenCalled();
+    });
+
+    it('warns again via @Watch when size is updated to an invalid value', async () => {
+      const page = await newSpecPage({
+        components: [AegovBadge],
+        html: `<aegov-badge size="base">Badge</aegov-badge>`,
+      });
+      expect(warnSpy).not.toHaveBeenCalled();
+
+      page.root.setAttribute('size', 'nope');
+      await page.waitForChanges();
+
+      const messages = warnSpy.mock.calls.map(c => c[0] as string);
+      const invalidWarn = messages.find(m => m.includes('[aegov-badge]') && m.includes('"nope"'));
+      expect(invalidWarn).toBeDefined();
+      expect(invalidWarn).toContain('"size"');
+    });
+  });
 });

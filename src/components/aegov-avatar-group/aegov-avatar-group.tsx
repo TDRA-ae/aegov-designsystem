@@ -1,5 +1,10 @@
 import { Component, Element, Event, EventEmitter, Host, h, Prop, Watch } from '@stencil/core';
+import { AVATAR_GROUP_MODES, AVATAR_SIZES, AVATAR_VARIANTS } from '../../utils/types';
 import type { AvatarGroupMode, AvatarSize, AvatarVariant } from '../../utils/types';
+import { warnIfInvalidEnumProp } from '../../utils/prop-validator';
+
+const TAG = 'aegov-avatar-group';
+const ctx = (prop: string) => ({ component: TAG, prop });
 
 /**
  * @slot - Avatar elements to be grouped together
@@ -42,6 +47,12 @@ export class AegovAvatarGroup {
    */
   @Event() aegovAvatarGroupMore: EventEmitter<void>;
 
+  componentWillLoad() {
+    warnIfInvalidEnumProp(this.mode, AVATAR_GROUP_MODES, 'default', ctx('mode'));
+    warnIfInvalidEnumProp(this.size, AVATAR_SIZES, 'base', ctx('size'));
+    warnIfInvalidEnumProp(this.variant, AVATAR_VARIANTS, 'rounded', ctx('variant'));
+  }
+
   componentDidLoad() {
     this.updateAvatars();
   }
@@ -50,10 +61,17 @@ export class AegovAvatarGroup {
     this.updateAvatars();
   }
 
+  @Watch('mode')
+  onModeChange(v: unknown) { warnIfInvalidEnumProp(v, AVATAR_GROUP_MODES, 'default', ctx('mode')); }
+
   @Watch('size')
-  watchSize() {
+  watchSize(v: unknown) {
+    warnIfInvalidEnumProp(v, AVATAR_SIZES, 'base', ctx('size'));
     this.updateAvatars();
   }
+
+  @Watch('variant')
+  onVariantChange(v: unknown) { warnIfInvalidEnumProp(v, AVATAR_VARIANTS, 'rounded', ctx('variant')); }
 
   private getDirectChildAvatars(): HTMLAegovAvatarElement[] {
     const allAvatars = Array.from(
@@ -85,21 +103,25 @@ export class AegovAvatarGroup {
   }
 
   private getSizeClass(): string {
-    return `avatar-${this.size}`;
+    const size: AvatarSize = (AVATAR_SIZES as readonly string[]).includes(this.size) ? this.size : 'base';
+    return `avatar-${size}`;
   }
 
   render() {
+    const size: AvatarSize = (AVATAR_SIZES as readonly string[]).includes(this.size) ? this.size : 'base';
+    const mode: AvatarGroupMode = (AVATAR_GROUP_MODES as readonly string[]).includes(this.mode) ? this.mode : 'default';
+    const variant: AvatarVariant = (AVATAR_VARIANTS as readonly string[]).includes(this.variant) ? this.variant : 'rounded';
     const classes = {
       'aegov-avatar-group': true,
-      'avatar-group--default': this.mode === 'default',
-      'avatar-group--compact': this.mode === 'compact',
-      [`avatar-group--${this.size}`]: true,
+      'avatar-group--default': mode === 'default',
+      'avatar-group--compact': mode === 'compact',
+      [`avatar-group--${size}`]: true,
     };
 
     const moreClasses = {
       'avatar-group__more': true,
       [this.getSizeClass()]: true,
-      'avatar-rounded': this.variant === 'rounded',
+      'avatar-rounded': variant === 'rounded',
     };
 
     return (

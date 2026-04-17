@@ -1,9 +1,14 @@
 import { Component, Host, h, Prop, Element, State, Listen, Event, EventEmitter, Watch } from '@stencil/core';
+import { DROPDOWN_POSITIONS, DROPDOWN_ALIGNS, DROPDOWN_TRIGGERS } from '../../utils/types';
 import type { DropdownPosition, DropdownAlign, DropdownTrigger } from '../../utils/types';
 import { generateId } from '../../utils/id-generator';
 import { getFocusableElements, FOCUSABLE_SELECTORS, cycleFocus } from '../../utils/focus-management';
 import { createPortal, removePortal } from '../../utils/portal-manager';
 import { createKeyboardHandler } from '../../utils/keyboard-handler';
+import { warnIfInvalidEnumProp } from '../../utils/prop-validator';
+
+const TAG = 'aegov-dropdown';
+const ctx = (prop: string) => ({ component: TAG, prop });
 
 /**
  * Design token values used in portal-injected styles.
@@ -174,6 +179,9 @@ export class AegovDropdown {
   @Event() aegovDropdownClose: EventEmitter<void>;
 
   componentWillLoad() {
+    warnIfInvalidEnumProp(this.triggerType, DROPDOWN_TRIGGERS, 'click', ctx('triggerType'));
+    warnIfInvalidEnumProp(this.position, DROPDOWN_POSITIONS, 'bottom', ctx('position'));
+    warnIfInvalidEnumProp(this.align, DROPDOWN_ALIGNS, 'start', ctx('align'));
     // Generate stable dropdown ID once
     this.dropdownId = generateId('aegov-dropdown');
     this.triggerId = `${this.dropdownId}-trigger`;
@@ -181,6 +189,15 @@ export class AegovDropdown {
     // Check if dropdown-content slot has content
     this.checkSlotContent();
   }
+
+  @Watch('triggerType')
+  onTriggerTypeChange(v: unknown) { warnIfInvalidEnumProp(v, DROPDOWN_TRIGGERS, 'click', ctx('triggerType')); }
+
+  @Watch('position')
+  onPositionChange(v: unknown) { warnIfInvalidEnumProp(v, DROPDOWN_POSITIONS, 'bottom', ctx('position')); }
+
+  @Watch('align')
+  onAlignChange(v: unknown) { warnIfInvalidEnumProp(v, DROPDOWN_ALIGNS, 'start', ctx('align')); }
 
   componentDidLoad() {
     // Create portal element for dropdown content
@@ -356,7 +373,7 @@ export class AegovDropdown {
       return;
     }
 
-    let position = this.position;
+    let position: DropdownPosition = (DROPDOWN_POSITIONS as readonly string[]).includes(this.position) ? this.position : 'bottom';
 
     // Check if there's enough space in the preferred position, flip if needed
     if (position === 'bottom' && triggerRect.bottom + this.gap + dropdownRect.height > viewportHeight) {

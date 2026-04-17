@@ -304,4 +304,89 @@ describe('aegov-callout', () => {
       expect(callout.getAttribute('title')).toBeNull();
     });
   });
+
+  describe('invalid prop values', () => {
+    let warnSpy: jest.SpyInstance;
+
+    beforeEach(() => {
+      warnSpy = jest.spyOn(console, 'warn').mockImplementation();
+    });
+
+    afterEach(() => {
+      warnSpy.mockRestore();
+    });
+
+    it('renders safely when variant is invalid', async () => {
+      const page = await newSpecPage({
+        components: [AegovCallout],
+        html: `<aegov-callout variant="weird"><span slot="content">Message</span></aegov-callout>`,
+      });
+      const callout = page.root.querySelector('[data-aegov-callout]');
+      expect(callout).toBeTruthy();
+      expect(callout.classList.contains('callout--default')).toBe(true);
+    });
+
+    it('renders safely when appearance is invalid', async () => {
+      const page = await newSpecPage({
+        components: [AegovCallout],
+        html: `<aegov-callout appearance="mystery"><span slot="content">Message</span></aegov-callout>`,
+      });
+      const callout = page.root.querySelector('[data-aegov-callout]');
+      expect(callout).toBeTruthy();
+      expect(callout.classList.contains('callout--soft')).toBe(true);
+    });
+
+    it('warns with component name, prop name, invalid value, and fallback', async () => {
+      await newSpecPage({
+        components: [AegovCallout],
+        html: `<aegov-callout variant="weird"><span slot="content">Message</span></aegov-callout>`,
+      });
+      const messages = warnSpy.mock.calls.map(c => c[0] as string);
+      const variantWarn = messages.find(m => m.includes('"variant"'));
+      expect(variantWarn).toBeDefined();
+      expect(variantWarn).toContain('[aegov-callout]');
+      expect(variantWarn).toContain('"weird"');
+      expect(variantWarn).toContain('default');
+    });
+
+    it('does not warn when all props are valid', async () => {
+      await newSpecPage({
+        components: [AegovCallout],
+        html: `<aegov-callout variant="error" appearance="solid"><span slot="content">Message</span></aegov-callout>`,
+      });
+      expect(warnSpy).not.toHaveBeenCalled();
+    });
+
+    it('warns again via @Watch when variant is updated to an invalid value', async () => {
+      const page = await newSpecPage({
+        components: [AegovCallout],
+        html: `<aegov-callout variant="info"><span slot="content">Message</span></aegov-callout>`,
+      });
+      expect(warnSpy).not.toHaveBeenCalled();
+
+      page.root.setAttribute('variant', 'nope');
+      await page.waitForChanges();
+
+      const messages = warnSpy.mock.calls.map(c => c[0] as string);
+      const invalidWarn = messages.find(m => m.includes('[aegov-callout]') && m.includes('"nope"'));
+      expect(invalidWarn).toBeDefined();
+      expect(invalidWarn).toContain('"variant"');
+    });
+
+    it('warns again via @Watch when appearance is updated to an invalid value', async () => {
+      const page = await newSpecPage({
+        components: [AegovCallout],
+        html: `<aegov-callout appearance="soft"><span slot="content">Message</span></aegov-callout>`,
+      });
+      expect(warnSpy).not.toHaveBeenCalled();
+
+      page.root.setAttribute('appearance', 'nope');
+      await page.waitForChanges();
+
+      const messages = warnSpy.mock.calls.map(c => c[0] as string);
+      const invalidWarn = messages.find(m => m.includes('[aegov-callout]') && m.includes('"nope"'));
+      expect(invalidWarn).toBeDefined();
+      expect(invalidWarn).toContain('"appearance"');
+    });
+  });
 });

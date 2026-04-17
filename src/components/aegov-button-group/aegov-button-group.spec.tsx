@@ -368,4 +368,71 @@ describe('aegov-button-group', () => {
       });
     });
   });
+
+  describe('invalid prop values', () => {
+    let warnSpy: jest.SpyInstance;
+
+    beforeEach(() => {
+      warnSpy = jest.spyOn(console, 'warn').mockImplementation();
+    });
+
+    afterEach(() => {
+      warnSpy.mockRestore();
+    });
+
+    it('falls back to default orientation class when orientation is invalid', async () => {
+      const page = await newSpecPage({
+        components: [AegovButtonGroup],
+        html: `<aegov-button-group orientation="diagonal"></aegov-button-group>`,
+      });
+      const wrapper = page.root.querySelector('.aegov-button-group');
+      expect(wrapper.className).toContain('button-group--horizontal');
+      expect(wrapper.className).not.toContain('button-group--vertical');
+    });
+
+    it('warns for invalid orientation', async () => {
+      await newSpecPage({
+        components: [AegovButtonGroup],
+        html: `<aegov-button-group orientation="diagonal"></aegov-button-group>`,
+      });
+      const messages = warnSpy.mock.calls.map(c => c[0] as string);
+      const warn = messages.find(m => typeof m === 'string' && m.includes('"orientation"'));
+      expect(warn).toBeDefined();
+      expect(warn).toContain('[aegov-button-group]');
+      expect(warn).toContain('"diagonal"');
+      expect(warn).toContain('horizontal');
+    });
+
+    it('does not warn when all props are valid', async () => {
+      await newSpecPage({
+        components: [AegovButtonGroup],
+        html: `<aegov-button-group orientation="vertical"></aegov-button-group>`,
+      });
+      // Filter out possible non-prop warnings (e.g. from child validation)
+      const propWarns = warnSpy.mock.calls
+        .map(c => c[0] as string)
+        .filter(m => typeof m === 'string' && m.includes('[aegov-button-group]') && m.includes('Invalid value'));
+      expect(propWarns.length).toBe(0);
+    });
+
+    it('warns again via @Watch when orientation is updated to an invalid value', async () => {
+      const page = await newSpecPage({
+        components: [AegovButtonGroup],
+        html: `<aegov-button-group orientation="horizontal"></aegov-button-group>`,
+      });
+      // Filter baseline
+      const initialPropWarns = warnSpy.mock.calls
+        .map(c => c[0] as string)
+        .filter(m => typeof m === 'string' && m.includes('[aegov-button-group]') && m.includes('Invalid value'));
+      expect(initialPropWarns.length).toBe(0);
+
+      page.root.setAttribute('orientation', 'nope');
+      await page.waitForChanges();
+
+      const messages = warnSpy.mock.calls.map(c => c[0] as string);
+      const invalidWarn = messages.find(m => typeof m === 'string' && m.includes('[aegov-button-group]') && m.includes('"nope"'));
+      expect(invalidWarn).toBeDefined();
+      expect(invalidWarn).toContain('"orientation"');
+    });
+  });
 });

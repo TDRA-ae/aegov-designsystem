@@ -248,4 +248,99 @@ describe('aegov-checkbox-group', () => {
     expect(checkAllCb.checked).toBe(true);
     expect(checkAllCb.indeterminate).toBe(false);
   });
+
+  describe('invalid prop values', () => {
+    let warnSpy: jest.SpyInstance;
+
+    beforeEach(() => {
+      warnSpy = jest.spyOn(console, 'warn').mockImplementation();
+    });
+
+    afterEach(() => {
+      warnSpy.mockRestore();
+    });
+
+    it('falls back to default variant (no variant class) when variant is invalid', async () => {
+      const page = await newSpecPage({
+        components: [AegovCheckboxGroup, AegovCheckbox],
+        html: `<aegov-checkbox-group variant="weird"></aegov-checkbox-group>`,
+      });
+      const fieldset = page.root.querySelector('fieldset');
+      // default variant has no modifier class
+      expect(fieldset.className).not.toContain('checkbox-group--weird');
+      expect(fieldset.className).toContain('aegov-checkbox-group');
+    });
+
+    it('falls back to default orientation (vertical) when orientation is invalid', async () => {
+      const page = await newSpecPage({
+        components: [AegovCheckboxGroup, AegovCheckbox],
+        html: `<aegov-checkbox-group orientation="diagonal"></aegov-checkbox-group>`,
+      });
+      const fieldset = page.root.querySelector('fieldset');
+      expect(fieldset.className).not.toContain('checkbox-group--horizontal');
+    });
+
+    it('warns with component name, prop name, invalid value, and fallback for variant', async () => {
+      await newSpecPage({
+        components: [AegovCheckboxGroup, AegovCheckbox],
+        html: `<aegov-checkbox-group variant="weird"></aegov-checkbox-group>`,
+      });
+      const messages = warnSpy.mock.calls.map(c => c[0] as string);
+      const variantWarn = messages.find(m => m.includes('"variant"'));
+      expect(variantWarn).toBeDefined();
+      expect(variantWarn).toContain('[aegov-checkbox-group]');
+      expect(variantWarn).toContain('"weird"');
+      expect(variantWarn).toContain('default');
+    });
+
+    it('warns with component name, prop name, invalid value, and fallback for orientation', async () => {
+      await newSpecPage({
+        components: [AegovCheckboxGroup, AegovCheckbox],
+        html: `<aegov-checkbox-group orientation="diagonal"></aegov-checkbox-group>`,
+      });
+      const messages = warnSpy.mock.calls.map(c => c[0] as string);
+      const orientationWarn = messages.find(m => m.includes('"orientation"'));
+      expect(orientationWarn).toBeDefined();
+      expect(orientationWarn).toContain('[aegov-checkbox-group]');
+      expect(orientationWarn).toContain('"diagonal"');
+      expect(orientationWarn).toContain('vertical');
+    });
+
+    it('warns with component name, prop name, invalid value, and fallback for size', async () => {
+      await newSpecPage({
+        components: [AegovCheckboxGroup, AegovCheckbox],
+        html: `<aegov-checkbox-group size="huge"></aegov-checkbox-group>`,
+      });
+      const messages = warnSpy.mock.calls.map(c => c[0] as string);
+      const sizeWarn = messages.find(m => m.includes('"size"'));
+      expect(sizeWarn).toBeDefined();
+      expect(sizeWarn).toContain('[aegov-checkbox-group]');
+      expect(sizeWarn).toContain('"huge"');
+      expect(sizeWarn).toContain('base');
+    });
+
+    it('does not warn when all props are valid', async () => {
+      await newSpecPage({
+        components: [AegovCheckboxGroup, AegovCheckbox],
+        html: `<aegov-checkbox-group size="lg" variant="cards" orientation="horizontal"></aegov-checkbox-group>`,
+      });
+      expect(warnSpy).not.toHaveBeenCalled();
+    });
+
+    it('warns again via @Watch when variant is updated to an invalid value', async () => {
+      const page = await newSpecPage({
+        components: [AegovCheckboxGroup, AegovCheckbox],
+        html: `<aegov-checkbox-group variant="default"></aegov-checkbox-group>`,
+      });
+      expect(warnSpy).not.toHaveBeenCalled();
+
+      page.root.setAttribute('variant', 'nope');
+      await page.waitForChanges();
+
+      const messages = warnSpy.mock.calls.map(c => c[0] as string);
+      const invalidWarn = messages.find(m => m.includes('[aegov-checkbox-group]') && m.includes('"nope"'));
+      expect(invalidWarn).toBeDefined();
+      expect(invalidWarn).toContain('"variant"');
+    });
+  });
 });

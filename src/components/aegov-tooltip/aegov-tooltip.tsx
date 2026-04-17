@@ -1,5 +1,10 @@
 import { Component, Host, h, Prop, Element, State, Listen, Watch } from '@stencil/core';
+import { TOOLTIP_POSITIONS, TOOLTIP_ALIGNS, TOOLTIP_TRIGGERS } from '../../utils/types';
 import type { TooltipPosition, TooltipAlign, TooltipTrigger } from '../../utils/types';
+import { warnIfInvalidEnumProp } from '../../utils/prop-validator';
+
+const TAG = 'aegov-tooltip';
+const ctx = (prop: string) => ({ component: TAG, prop });
 
 /**
  * Tooltip component that displays additional information on hover or click
@@ -89,12 +94,24 @@ export class AegovTooltip {
   private showTooltipTimeout?: number;
 
   componentWillLoad() {
+    warnIfInvalidEnumProp(this.position, TOOLTIP_POSITIONS, 'top', ctx('position'));
+    warnIfInvalidEnumProp(this.align, TOOLTIP_ALIGNS, 'center', ctx('align'));
+    warnIfInvalidEnumProp(this.trigger, TOOLTIP_TRIGGERS, 'hover', ctx('trigger'));
     // Generate stable tooltip ID once
     this.tooltipId = `aegov-tooltip-${Math.random().toString(36).substr(2, 9)}`;
 
     // Check if tooltip-content slot has content
     this.checkSlotContent();
   }
+
+  @Watch('position')
+  onPositionChange(v: unknown) { warnIfInvalidEnumProp(v, TOOLTIP_POSITIONS, 'top', ctx('position')); }
+
+  @Watch('align')
+  onAlignChange(v: unknown) { warnIfInvalidEnumProp(v, TOOLTIP_ALIGNS, 'center', ctx('align')); }
+
+  @Watch('trigger')
+  onTriggerChange(v: unknown) { warnIfInvalidEnumProp(v, TOOLTIP_TRIGGERS, 'hover', ctx('trigger')); }
 
   private checkSlotContent() {
     const contentSlot = this.el.querySelector('[slot="tooltip-content"]');
@@ -343,6 +360,7 @@ export class AegovTooltip {
 
   render() {
     const hasContent = this.hasContentSlot || this.content;
+    const position: TooltipPosition = (TOOLTIP_POSITIONS as readonly string[]).includes(this.position) ? this.position : 'top';
 
     return (
       <Host>
@@ -364,7 +382,7 @@ export class AegovTooltip {
             ref={(el) => (this.tooltipRef = el)}
             class={{
               'aegov-tooltip': true,
-              [`tooltip--${this.position}`]: true,
+              [`tooltip--${position}`]: true,
               'tooltip--interactive': this.interactive,
             }}
             style={{ display: this.isVisible ? 'block' : 'none' }}

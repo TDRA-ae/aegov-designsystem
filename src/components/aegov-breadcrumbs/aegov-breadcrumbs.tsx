@@ -1,6 +1,11 @@
 import { Component, Host, h, Prop, Element, Watch } from '@stencil/core';
+import { BREADCRUMB_SEPARATORS } from '../../utils/types';
 import type { BreadcrumbSeparator } from '../../utils/types';
 import { getPassThroughAttributes } from '../../utils/attributes';
+import { warnIfInvalidEnumProp } from '../../utils/prop-validator';
+
+const TAG = 'aegov-breadcrumbs';
+const ctx = (prop: string) => ({ component: TAG, prop });
 
 /**
  * @slot - Breadcrumb items (aegov-breadcrumbs-item elements)
@@ -29,6 +34,13 @@ export class AegovBreadcrumbs {
    * @default false
    */
   @Prop() microdata: boolean = false;
+
+  componentWillLoad() {
+    warnIfInvalidEnumProp(this.separator, BREADCRUMB_SEPARATORS, 'slash', ctx('separator'));
+  }
+
+  @Watch('separator')
+  onSeparatorChange(v: unknown) { warnIfInvalidEnumProp(v, BREADCRUMB_SEPARATORS, 'slash', ctx('separator')); }
 
   componentDidLoad() {
     this.updateItems();

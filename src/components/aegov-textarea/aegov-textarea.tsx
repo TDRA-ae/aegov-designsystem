@@ -1,7 +1,12 @@
 import { Component, Host, h, Prop, State, Event, EventEmitter, Element, Watch } from '@stencil/core';
+import { TEXTAREA_SIZES, TEXTAREA_RESIZES } from '../../utils/types';
 import type { TextareaSize, TextareaResize } from '../../utils/types';
 import { getPassThroughAttributes } from '../../utils/attributes';
 import { generateId } from '../../utils/id-generator';
+import { warnIfInvalidEnumProp } from '../../utils/prop-validator';
+
+const TAG = 'aegov-textarea';
+const ctx = (prop: string) => ({ component: TAG, prop });
 
 @Component({
   tag: 'aegov-textarea',
@@ -69,11 +74,19 @@ export class AegovTextarea {
   @Event() aegovTextareaBlur: EventEmitter<FocusEvent>;
 
   componentWillLoad() {
+    warnIfInvalidEnumProp(this.size, TEXTAREA_SIZES, 'base', ctx('size'));
+    warnIfInvalidEnumProp(this.resize, TEXTAREA_RESIZES, 'vertical', ctx('resize'));
     if (!this.fieldId) {
       this.fieldId = generateId('aegov-textarea');
     }
     this.charCount = (this.value || '').length;
   }
+
+  @Watch('size')
+  onSizeChange(v: unknown) { warnIfInvalidEnumProp(v, TEXTAREA_SIZES, 'base', ctx('size')); }
+
+  @Watch('resize')
+  onResizeChange(v: unknown) { warnIfInvalidEnumProp(v, TEXTAREA_RESIZES, 'vertical', ctx('resize')); }
 
   @Watch('value')
   watchValue(newVal: string) {
@@ -106,7 +119,8 @@ export class AegovTextarea {
       xl: 'textarea--xl',
     };
 
-    classes.push(sizeClasses[this.size]);
+    const size: TextareaSize = (TEXTAREA_SIZES as readonly string[]).includes(this.size) ? this.size : 'base';
+    classes.push(sizeClasses[size]);
 
     const resizeClasses: Record<TextareaResize, string> = {
       none: 'textarea--resize-none',
@@ -116,7 +130,8 @@ export class AegovTextarea {
       auto: 'textarea--resize-none',
     };
 
-    classes.push(resizeClasses[this.resize]);
+    const resize: TextareaResize = (TEXTAREA_RESIZES as readonly string[]).includes(this.resize) ? this.resize : 'vertical';
+    classes.push(resizeClasses[resize]);
 
     if (this.isCopyable) {
       classes.push('textarea--has-copy');
