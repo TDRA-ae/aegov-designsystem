@@ -209,6 +209,60 @@
 </div>
 
 <hr>
+<h2>Sizes</h2>
+<p>The <code>size</code> attribute on the parent controls the heading font size for all items. Three sizes are available: <code>sm</code> (14 px), <code>base</code> (16 px, default), and <code>lg</code> (18 px).</p>
+<h3>Small</h3>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-accordion</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm&quot;</span> <span class="hljs-attr">bordered</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-accordion-item</span> <span class="hljs-attr">heading</span>=<span class="hljs-string">&quot;Small Heading&quot;</span>&gt;</span>…<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-accordion-item</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-accordion</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
+  <aegov-accordion size="sm" bordered>
+    <aegov-accordion-item heading="Small — What is digital transformation?">
+      Digital transformation is the integration of digital technology into all areas of an organisation, fundamentally changing how it operates and delivers value.
+    </aegov-accordion-item>
+    <aegov-accordion-item heading="Small — Who is this service for?">
+      This service is available to all UAE residents and citizens.
+    </aegov-accordion-item>
+    <aegov-accordion-item heading="Small — How do I apply?">
+      Submit your application through the official portal using your UAE Pass credentials.
+    </aegov-accordion-item>
+  </aegov-accordion>
+</div>
+
+<h3>Base (default)</h3>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-accordion</span> <span class="hljs-attr">bordered</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-accordion-item</span> <span class="hljs-attr">heading</span>=<span class="hljs-string">&quot;Base Heading&quot;</span>&gt;</span>…<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-accordion-item</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-accordion</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
+  <aegov-accordion bordered>
+    <aegov-accordion-item heading="Base — What is digital transformation?">
+      Digital transformation is the integration of digital technology into all areas of an organisation, fundamentally changing how it operates and delivers value.
+    </aegov-accordion-item>
+    <aegov-accordion-item heading="Base — Who is this service for?">
+      This service is available to all UAE residents and citizens.
+    </aegov-accordion-item>
+    <aegov-accordion-item heading="Base — How do I apply?">
+      Submit your application through the official portal using your UAE Pass credentials.
+    </aegov-accordion-item>
+  </aegov-accordion>
+</div>
+
+<h3>Large</h3>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-accordion</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;lg&quot;</span> <span class="hljs-attr">bordered</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-accordion-item</span> <span class="hljs-attr">heading</span>=<span class="hljs-string">&quot;Large Heading&quot;</span>&gt;</span>…<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-accordion-item</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-accordion</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
+  <aegov-accordion size="lg" bordered>
+    <aegov-accordion-item heading="Large — What is digital transformation?">
+      Digital transformation is the integration of digital technology into all areas of an organisation, fundamentally changing how it operates and delivers value.
+    </aegov-accordion-item>
+    <aegov-accordion-item heading="Large — Who is this service for?">
+      This service is available to all UAE residents and citizens.
+    </aegov-accordion-item>
+    <aegov-accordion-item heading="Large — How do I apply?">
+      Submit your application through the official portal using your UAE Pass credentials.
+    </aegov-accordion-item>
+  </aegov-accordion>
+</div>
+
+<hr>
 <h2>Long Titles</h2>
 <p>When a heading exceeds 100 characters it wraps onto multiple lines. The trigger button stretches vertically to accommodate the full text, and the icon stays pinned to the top-right so it never overlaps the heading.</p>
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-accordion</span> <span class="hljs-attr">bordered</span>&gt;</span>
@@ -329,6 +383,13 @@
 <td>Show a border around the accordion</td>
 <td><code>boolean</code></td>
 <td><code>false</code></td>
+</tr>
+<tr>
+<td><code>size</code></td>
+<td><code>size</code></td>
+<td>Heading font size for all child items</td>
+<td><code>&#39;sm&#39;</code> | <code>&#39;base&#39;</code> | <code>&#39;lg&#39;</code></td>
+<td><code>&#39;base&#39;</code></td>
 </tr>
 </tbody></table>
 <h4>Slots</h4>
