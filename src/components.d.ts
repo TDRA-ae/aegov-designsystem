@@ -148,11 +148,6 @@ export namespace Components {
           * @default 'base'
          */
         "size": AvatarSize;
-        /**
-          * The variant (shape) applied to the "more" indicator
-          * @default 'rounded'
-         */
-        "variant": AvatarVariant;
     }
     interface AegovBadge {
         /**
@@ -2821,11 +2816,6 @@ declare namespace LocalJSX {
           * @default 'base'
          */
         "size"?: AvatarSize;
-        /**
-          * The variant (shape) applied to the "more" indicator
-          * @default 'rounded'
-         */
-        "variant"?: AvatarVariant;
     }
     interface AegovBadge {
         /**

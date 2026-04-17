@@ -4,8 +4,25 @@
  * This component uses scoped CSS for avatar styling.
  */
 
-:host {
-  display: inline-block;
+:host,
+aegov-avatar {
+  /*
+   * inline-flex instead of inline-block eliminates the descender gap.
+   *
+   * When the host is a plain block/inline container and its sole child is
+   * display:inline-flex, the browser adds font-descender space (~5-7 px)
+   * below the child, making the host taller than the inner avatar div.
+   * In the group's items-center flex row that pushes the more-button down.
+   *
+   * With inline-flex on the host the inner div becomes a flex item whose
+   * height equals its explicit size-{n}, so the host is exactly that tall.
+   *
+   * :host  — works when the component is used in shadow-DOM mode.
+   * aegov-avatar — works in scoped:false mode (browsers do not match
+   *   :host without a shadow root, so the tag-name rule is the effective
+   *   one here).
+   */
+  display: inline-flex;
 }
 
 .aegov-avatar {
@@ -40,69 +57,71 @@
   /** Size definations **/
   &.avatar-xs {
     @apply h-6 w-6;
-    & > span.alert-indicator {
+    & > span.avatar-indicator {
       @apply h-1.5 w-1.5;
     }
   }
   &.avatar-sm {
     @apply h-8 w-8;
-    & > span.alert-indicator {
+    & > span.avatar-indicator {
       @apply h-2 w-2;
     }
   }
   &.avatar-base {
     @apply h-10 w-10;
-    & > span.alert-indicator {
+    & > span.avatar-indicator {
       @apply h-2.5 w-2.5;
     }
   }
   &.avatar-lg {
-    @apply h-12 w-12;
+    @apply h-12 w-12 rounded-md;
     & > img {
       @apply rounded-md;
     }
-    & > span.alert-indicator {
+    & > span.avatar-indicator {
       @apply h-3 w-3;
     }
   }
   &.avatar-xl {
-    @apply h-14 w-14;
+    @apply h-14 w-14 rounded-md;
     & > img {
       @apply rounded-md;
     }
-    & > span.alert-indicator {
+    & > span.avatar-indicator {
       @apply h-3.5 w-3.5;
     }
   }
   &.avatar-2xl {
-    @apply h-16 w-16;
+    @apply h-16 w-16 rounded-lg;
     & > img {
       @apply rounded-lg;
     }
-    & > span.alert-indicator {
+    & > span.avatar-indicator {
       @apply h-4 w-4;
     }
   }
   &.avatar-3xl {
-    @apply h-20 w-20;
+    @apply h-20 w-20 rounded-lg;
     & > img {
       @apply rounded-lg;
     }
-    & > span.alert-indicator {
+    & > span.avatar-indicator {
       @apply h-5 w-5;
     }
   }
 }
 
-.avatar-rounded {
+/* Higher specificity (.aegov-avatar.avatar-rounded) ensures rounded-full
+   overrides the per-size border-radius rules above for both container and image. */
+.aegov-avatar.avatar-rounded {
   @apply rounded-full;
-    & > img {
-      @apply rounded-full;
-    }
-    & > span.alert-indicator {
-      @apply right-0 top-0;
-    }
+  & > img {
+    @apply rounded-full;
   }
+  & > span.avatar-indicator {
+    @apply right-0 top-0;
+  }
+}
   
 /* Image styling */
 .avatar-image {

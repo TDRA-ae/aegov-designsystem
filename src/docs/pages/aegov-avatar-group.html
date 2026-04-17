@@ -21,10 +21,13 @@
           <section id="content-area" class="bg-whitely-50 p-6 rounded-md shadow-xl">
           <!-- DOC:START -->
 <h1>Avatar Group</h1>
-<p class="text-lg text-aeblack-500 mb-8">An avatar group displays multiple avatars together in a compact layout. It supports spaced or overlapping modes, a "+N more" indicator, and enforces consistent sizing across all child avatars.</p>
+<p class="text-lg text-aeblack-500 mb-8">An avatar group displays multiple avatars together in a compact layout. It supports spaced or overlapping modes, a "+N more" indicator, and enforces consistent sizing and rounded shape across all child avatars.</p>
 
 <h2>Introduction</h2>
 <p>The <code>aegov-avatar-group</code> component wraps one or more <code>&lt;aegov-avatar&gt;</code> elements and arranges them in either a spaced or overlapping layout. It enforces a uniform <code>size</code> on all children, and can display a &quot;+N more&quot; button when there are additional users not shown.</p>
+<blockquote>
+<p><strong>Always rounded.</strong> Avatars inside a group are always displayed in the <code>rounded</code> (circular) shape, regardless of any <code>variant</code> attribute set on individual <code>&lt;aegov-avatar&gt;</code> elements. The group overrides this automatically — there is no square option inside a group.</p>
+</blockquote>
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar-group</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://i.pravatar.cc/150?img=1&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;User 1&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://i.pravatar.cc/150?img=5&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;User 2&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar</span>&gt;</span>
@@ -67,16 +70,6 @@
     <aegov-avatar src="https://i.pravatar.cc/150?img=5" alt="User 2"></aegov-avatar>
     <aegov-avatar src="https://i.pravatar.cc/150?img=12" alt="User 3"></aegov-avatar>
     <aegov-avatar src="https://i.pravatar.cc/150?img=32" alt="User 4"></aegov-avatar>
-  </aegov-avatar-group>
-</div>
-
-<p>Compact mode with rounded avatars:</p>
-<div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-avatar-group mode="compact" size="lg" variant="rounded">
-    <aegov-avatar src="https://i.pravatar.cc/150?img=3" alt="User 1" variant="rounded"></aegov-avatar>
-    <aegov-avatar src="https://i.pravatar.cc/150?img=8" alt="User 2" variant="rounded"></aegov-avatar>
-    <aegov-avatar src="https://i.pravatar.cc/150?img=11" alt="User 3" variant="rounded"></aegov-avatar>
-    <aegov-avatar src="https://i.pravatar.cc/150?img=20" alt="User 4" variant="rounded"></aegov-avatar>
   </aegov-avatar-group>
 </div>
 
@@ -139,25 +132,15 @@
   </aegov-avatar-group>
 </div>
 
-<p>With rounded variant:</p>
-<div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-avatar-group mode="compact" size="lg" variant="rounded" more-count="5">
-    <aegov-avatar src="https://i.pravatar.cc/150?img=3" alt="User 1" variant="rounded"></aegov-avatar>
-    <aegov-avatar src="https://i.pravatar.cc/150?img=8" alt="User 2" variant="rounded"></aegov-avatar>
-    <aegov-avatar src="https://i.pravatar.cc/150?img=11" alt="User 3" variant="rounded"></aegov-avatar>
-    <aegov-avatar src="https://i.pravatar.cc/150?img=20" alt="User 4" variant="rounded"></aegov-avatar>
-  </aegov-avatar-group>
-</div>
-
 <h3>Custom More Text</h3>
 <p>Use the <code>more-text</code> property to override the default &quot;+N&quot; label.</p>
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar-group</span> <span class="hljs-attr">mode</span>=<span class="hljs-string">&quot;compact&quot;</span> <span class="hljs-attr">more-count</span>=<span class="hljs-string">&quot;99&quot;</span> <span class="hljs-attr">more-text</span>=<span class="hljs-string">&quot;99+&quot;</span>&gt;</span>
   …
 <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar-group</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-avatar-group mode="compact" size="lg" variant="rounded" more-count="99" more-text="99+">
-    <aegov-avatar src="https://i.pravatar.cc/150?img=1" alt="User 1" variant="rounded"></aegov-avatar>
-    <aegov-avatar src="https://i.pravatar.cc/150?img=5" alt="User 2" variant="rounded"></aegov-avatar>
-    <aegov-avatar src="https://i.pravatar.cc/150?img=12" alt="User 3" variant="rounded"></aegov-avatar>
+  <aegov-avatar-group mode="compact" size="lg" more-count="99" more-text="99+">
+    <aegov-avatar src="https://i.pravatar.cc/150?img=1" alt="User 1"></aegov-avatar>
+    <aegov-avatar src="https://i.pravatar.cc/150?img=5" alt="User 2"></aegov-avatar>
+    <aegov-avatar src="https://i.pravatar.cc/150?img=12" alt="User 3"></aegov-avatar>
   </aegov-avatar-group>
 </div>
 
@@ -175,20 +158,33 @@
       <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;Show all users&#x27;</span>);
     });
 </span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre><hr>
-<h2>Variant</h2>
-<p>The <code>variant</code> property on the group controls the shape of the &quot;more&quot; indicator button. Set it to <code>&quot;rounded&quot;</code> for a circular button or leave it as <code>&quot;square&quot;</code> for a square button. Note that you must also set <code>variant=&quot;rounded&quot;</code> on the individual avatars for visual consistency.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar-group</span> <span class="hljs-attr">mode</span>=<span class="hljs-string">&quot;compact&quot;</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;rounded&quot;</span> <span class="hljs-attr">more-count</span>=<span class="hljs-string">&quot;3&quot;</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;rounded&quot;</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;…&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;…&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;rounded&quot;</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;…&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;…&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar-group</span>&gt;</span></code></pre><hr>
+<h2>Always Rounded</h2>
+<p>Avatars inside a group are <strong>always rounded</strong>, regardless of what <code>variant</code> is set on individual <code>&lt;aegov-avatar&gt;</code> elements. The group enforces <code>variant=&quot;rounded&quot;</code> on every child automatically — you do not need to set it yourself, and setting <code>variant=&quot;square&quot;</code> on a child will be silently overridden.</p>
+<p>The &quot;more&quot; indicator button follows the same rule and is always circular.</p>
+<pre><code class="hljs language-html"><span class="hljs-comment">&lt;!-- variant=&quot;square&quot; on these avatars will be ignored inside the group --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar-group</span> <span class="hljs-attr">mode</span>=<span class="hljs-string">&quot;compact&quot;</span> <span class="hljs-attr">more-count</span>=<span class="hljs-string">&quot;3&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;…&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;…&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;…&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;…&quot;</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;square&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar-group</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
+  <aegov-avatar-group mode="compact" size="lg" more-count="3">
+    <aegov-avatar src="https://i.pravatar.cc/150?img=3" alt="User 1"></aegov-avatar>
+    <aegov-avatar src="https://i.pravatar.cc/150?img=8" alt="User 2" variant="square"></aegov-avatar>
+    <aegov-avatar src="https://i.pravatar.cc/150?img=11" alt="User 3" variant="square"></aegov-avatar>
+  </aegov-avatar-group>
+</div>
+
+<blockquote>
+<p>All three avatars above render as rounded circles — the <code>variant=&quot;square&quot;</code> on the second and third avatars is overridden by the group.</p>
+</blockquote>
+<hr>
 <h2>RTL Support</h2>
 <p>The compact mode uses <code>margin-inline-start</code> for overlap, which automatically reverses in RTL layouts. No additional configuration is needed.</p>
 <div dir="rtl" class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-avatar-group mode="compact" size="lg" variant="rounded" more-count="7">
-    <aegov-avatar src="https://i.pravatar.cc/150?img=3" alt="مستخدم 1" variant="rounded"></aegov-avatar>
-    <aegov-avatar src="https://i.pravatar.cc/150?img=8" alt="مستخدم 2" variant="rounded"></aegov-avatar>
-    <aegov-avatar src="https://i.pravatar.cc/150?img=11" alt="مستخدم 3" variant="rounded"></aegov-avatar>
-    <aegov-avatar src="https://i.pravatar.cc/150?img=20" alt="مستخدم 4" variant="rounded"></aegov-avatar>
+  <aegov-avatar-group mode="compact" size="lg" more-count="7">
+    <aegov-avatar src="https://i.pravatar.cc/150?img=3" alt="مستخدم 1"></aegov-avatar>
+    <aegov-avatar src="https://i.pravatar.cc/150?img=8" alt="مستخدم 2"></aegov-avatar>
+    <aegov-avatar src="https://i.pravatar.cc/150?img=11" alt="مستخدم 3"></aegov-avatar>
+    <aegov-avatar src="https://i.pravatar.cc/150?img=20" alt="مستخدم 4"></aegov-avatar>
   </aegov-avatar-group>
 </div>
 
@@ -218,13 +214,6 @@
 <td>Size enforced on all child avatars</td>
 <td><code>&#39;xs&#39;</code> | <code>&#39;sm&#39;</code> | <code>&#39;base&#39;</code> | <code>&#39;lg&#39;</code> | <code>&#39;xl&#39;</code> | <code>&#39;2xl&#39;</code> | <code>&#39;3xl&#39;</code></td>
 <td><code>&#39;base&#39;</code></td>
-</tr>
-<tr>
-<td><code>variant</code></td>
-<td><code>variant</code></td>
-<td>Shape of the &quot;more&quot; indicator</td>
-<td><code>&#39;square&#39;</code> | <code>&#39;rounded&#39;</code></td>
-<td><code>&#39;rounded&#39;</code></td>
 </tr>
 <tr>
 <td><code>moreCount</code></td>
@@ -289,7 +278,7 @@
 <h2>Notes</h2>
 <ul>
 <li>The group&#39;s <code>size</code> property overrides the <code>size</code> of every child <code>&lt;aegov-avatar&gt;</code> on load and update. Do not rely on per-avatar sizes when using a group.</li>
-<li>The <code>variant</code> property on the group only affects the &quot;more&quot; indicator shape. It does <strong>not</strong> override the shape of child avatars — set <code>variant=&quot;rounded&quot;</code> on each avatar individually.</li>
+<li>The group always enforces <code>variant=&quot;rounded&quot;</code> on every child <code>&lt;aegov-avatar&gt;</code>. Any <code>variant=&quot;square&quot;</code> set on an individual avatar is silently overridden. There is no square option inside a group.</li>
 <li>In compact mode, the overlap amount is size-dependent. Smaller avatars overlap less, and larger ones overlap more, keeping the proportions balanced.</li>
 <li>The &quot;more&quot; indicator uses <code>margin-inline-start</code> for overlap, which automatically mirrors in RTL layouts.</li>
 <li>The &quot;more&quot; button has hover and focus-visible styles. It matches the avatar sizing so it blends seamlessly with the stack.</li>
