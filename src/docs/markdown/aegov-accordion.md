@@ -247,6 +247,78 @@ By default, the heading text is provided via the `heading` prop. For richer cont
 
 ---
 
+## Sizes
+
+The `size` attribute on the parent controls the heading font size for all items. Three sizes are available: `sm` (14 px), `base` (16 px, default), and `lg` (18 px).
+
+### Small
+
+```html
+<aegov-accordion size="sm" bordered>
+  <aegov-accordion-item heading="Small Heading">…</aegov-accordion-item>
+</aegov-accordion>
+```
+
+<div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
+  <aegov-accordion size="sm" bordered>
+    <aegov-accordion-item heading="Small — What is digital transformation?">
+      Digital transformation is the integration of digital technology into all areas of an organisation, fundamentally changing how it operates and delivers value.
+    </aegov-accordion-item>
+    <aegov-accordion-item heading="Small — Who is this service for?">
+      This service is available to all UAE residents and citizens.
+    </aegov-accordion-item>
+    <aegov-accordion-item heading="Small — How do I apply?">
+      Submit your application through the official portal using your UAE Pass credentials.
+    </aegov-accordion-item>
+  </aegov-accordion>
+</div>
+
+### Base (default)
+
+```html
+<aegov-accordion bordered>
+  <aegov-accordion-item heading="Base Heading">…</aegov-accordion-item>
+</aegov-accordion>
+```
+
+<div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
+  <aegov-accordion bordered>
+    <aegov-accordion-item heading="Base — What is digital transformation?">
+      Digital transformation is the integration of digital technology into all areas of an organisation, fundamentally changing how it operates and delivers value.
+    </aegov-accordion-item>
+    <aegov-accordion-item heading="Base — Who is this service for?">
+      This service is available to all UAE residents and citizens.
+    </aegov-accordion-item>
+    <aegov-accordion-item heading="Base — How do I apply?">
+      Submit your application through the official portal using your UAE Pass credentials.
+    </aegov-accordion-item>
+  </aegov-accordion>
+</div>
+
+### Large
+
+```html
+<aegov-accordion size="lg" bordered>
+  <aegov-accordion-item heading="Large Heading">…</aegov-accordion-item>
+</aegov-accordion>
+```
+
+<div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
+  <aegov-accordion size="lg" bordered>
+    <aegov-accordion-item heading="Large — What is digital transformation?">
+      Digital transformation is the integration of digital technology into all areas of an organisation, fundamentally changing how it operates and delivers value.
+    </aegov-accordion-item>
+    <aegov-accordion-item heading="Large — Who is this service for?">
+      This service is available to all UAE residents and citizens.
+    </aegov-accordion-item>
+    <aegov-accordion-item heading="Large — How do I apply?">
+      Submit your application through the official portal using your UAE Pass credentials.
+    </aegov-accordion-item>
+  </aegov-accordion>
+</div>
+
+---
+
 ## Long Titles
 
 When a heading exceeds 100 characters it wraps onto multiple lines. The trigger button stretches vertically to accommodate the full text, and the icon stays pinned to the top-right so it never overlaps the heading.
@@ -355,12 +427,13 @@ Each `<aegov-accordion-item>` emits an `aegovAccordionItemToggle` event when tog
 
 #### Properties
 
-| Property        | Attribute        | Description                                       | Type                       | Default     |
-|-----------------|------------------|---------------------------------------------------|----------------------------|-------------|
-| `allowMultiple` | `allow-multiple` | Allow multiple items to be open simultaneously    | `boolean`                  | `false`     |
-| `defaultOpen`   | `default-open`   | Index of the item to open by default (0-based)    | `number`                   | `undefined` |
-| `icon`          | `icon`           | Icon style for all child items                    | `'chevron'` \| `'plus'`   | `'chevron'` |
-| `bordered`      | `bordered`       | Show a border around the accordion                | `boolean`                  | `false`     |
+| Property        | Attribute        | Description                                       | Type                                | Default     |
+|-----------------|------------------|---------------------------------------------------|-------------------------------------|-------------|
+| `allowMultiple` | `allow-multiple` | Allow multiple items to be open simultaneously    | `boolean`                           | `false`     |
+| `defaultOpen`   | `default-open`   | Index of the item to open by default (0-based)    | `number`                            | `undefined` |
+| `icon`          | `icon`           | Icon style for all child items                    | `'chevron'` \| `'plus'`            | `'chevron'` |
+| `bordered`      | `bordered`       | Show a border around the accordion                | `boolean`                           | `false`     |
+| `size`          | `size`           | Heading font size for all child items             | `'sm'` \| `'base'` \| `'lg'`      | `'base'`    |
 
 #### Slots
 

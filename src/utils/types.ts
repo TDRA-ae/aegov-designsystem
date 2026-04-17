@@ -176,6 +176,12 @@ export const ACCORDION_ICONS = ['chevron', 'plus'] as const;
 export type AccordionIcon = typeof ACCORDION_ICONS[number];
 
 /**
+ * Accordion component size types
+ */
+export const ACCORDION_SIZES = ['sm', 'base', 'lg'] as const;
+export type AccordionSize = typeof ACCORDION_SIZES[number];
+
+/**
  * Modal component position types
  */
 export const MODAL_POSITIONS = ['center', 'top', 'bottom'] as const;
