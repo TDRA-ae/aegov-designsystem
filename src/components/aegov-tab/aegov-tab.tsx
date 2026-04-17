@@ -1,5 +1,10 @@
-import { Component, Prop, State, Event, EventEmitter, Element, h } from '@stencil/core';
+import { Component, Prop, Watch, State, Event, EventEmitter, Element, h } from '@stencil/core';
+import { TAB_VARIANTS, TAB_SIZES, TAB_ORIENTATIONS } from '../../utils/types';
 import type { TabVariant, TabSize, TabOrientation } from '../../utils/types';
+import { warnIfInvalidEnumProp } from '../../utils/prop-validator';
+
+const TAG = 'aegov-tab';
+const ctx = (prop: string) => ({ component: TAG, prop });
 
 /**
  * @component aegov-tab
@@ -66,9 +71,21 @@ export class AegovTab {
   aegovTabSelect: EventEmitter<string>;
 
   componentWillLoad() {
+    warnIfInvalidEnumProp(this.variant, TAB_VARIANTS, 'simple', ctx('variant'));
+    warnIfInvalidEnumProp(this.size, TAB_SIZES, 'base', ctx('size'));
+    warnIfInvalidEnumProp(this.orientation, TAB_ORIENTATIONS, 'horizontal', ctx('orientation'));
     this.hasIconSlot = !!this.el.querySelector('[slot="icon"]');
     this.hasIconEndSlot = !!this.el.querySelector('[slot="icon-end"]');
   }
+
+  @Watch('variant')
+  onVariantChange(v: unknown) { warnIfInvalidEnumProp(v, TAB_VARIANTS, 'simple', ctx('variant')); }
+
+  @Watch('size')
+  onSizeChange(v: unknown) { warnIfInvalidEnumProp(v, TAB_SIZES, 'base', ctx('size')); }
+
+  @Watch('orientation')
+  onOrientationChange(v: unknown) { warnIfInvalidEnumProp(v, TAB_ORIENTATIONS, 'horizontal', ctx('orientation')); }
 
   private handleClick() {
     if (this.disabled) return;
@@ -77,6 +94,9 @@ export class AegovTab {
 
   render() {
     const isActive = this.tabId === this.activeTabId;
+    const variant: TabVariant = (TAB_VARIANTS as readonly string[]).includes(this.variant) ? this.variant : 'simple';
+    const size: TabSize = (TAB_SIZES as readonly string[]).includes(this.size) ? this.size : 'base';
+    const orientation: TabOrientation = (TAB_ORIENTATIONS as readonly string[]).includes(this.orientation) ? this.orientation : 'horizontal';
 
     return (
       <button
@@ -89,9 +109,9 @@ export class AegovTab {
         tabIndex={isActive ? 0 : -1}
         class={{
           'aegov-tab': true,
-          [`tab__btn--${this.variant}`]: true,
-          [`tab__btn--${this.size}`]: true,
-          'tab__btn--vertical': this.orientation === 'vertical',
+          [`tab__btn--${variant}`]: true,
+          [`tab__btn--${size}`]: true,
+          'tab__btn--vertical': orientation === 'vertical',
           'tab__btn--active': isActive,
           'tab__btn--disabled': this.disabled,
         }}

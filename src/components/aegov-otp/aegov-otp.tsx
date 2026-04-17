@@ -1,7 +1,12 @@
 import { Component, Host, h, Prop, Element, Event, EventEmitter, Watch, Method } from '@stencil/core';
+import { OTP_VARIANTS, OTP_SIZES } from '../../utils/types';
 import type { OtpVariant, OtpSize } from '../../utils/types';
 import { getPassThroughAttributes } from '../../utils/attributes';
 import { generateId } from '../../utils/id-generator';
+import { warnIfInvalidEnumProp } from '../../utils/prop-validator';
+
+const TAG = 'aegov-otp';
+const ctx = (prop: string) => ({ component: TAG, prop });
 
 @Component({
   tag: 'aegov-otp',
@@ -59,10 +64,18 @@ export class AegovOtp {
   private internalUpdate = false;
 
   componentWillLoad() {
+    warnIfInvalidEnumProp(this.variant, OTP_VARIANTS, 'continuous', ctx('variant'));
+    warnIfInvalidEnumProp(this.size, OTP_SIZES, 'base', ctx('size'));
     if (!this.fieldId) {
       this.fieldId = generateId('aegov-otp');
     }
   }
+
+  @Watch('variant')
+  onVariantChange(v: unknown) { warnIfInvalidEnumProp(v, OTP_VARIANTS, 'continuous', ctx('variant')); }
+
+  @Watch('size')
+  onSizeChange(v: unknown) { warnIfInvalidEnumProp(v, OTP_SIZES, 'base', ctx('size')); }
 
   componentDidLoad() {
     if (this.value) {
@@ -231,12 +244,14 @@ export class AegovOtp {
     const passThroughAttrs = getPassThroughAttributes(this.el, new Set([]));
     const wrapperClasses = ['aegov-otp', this.class || ''].filter(Boolean).join(' ');
     const cells = Array.from({ length: this.length }, (_, i) => i);
+    const variant: OtpVariant = (OTP_VARIANTS as readonly string[]).includes(this.variant) ? this.variant : 'continuous';
+    const size: OtpSize = (OTP_SIZES as readonly string[]).includes(this.size) ? this.size : 'base';
 
     return (
       <Host>
         <div class={wrapperClasses}>
           <div
-            class={`otp__wrapper otp__wrapper--${this.variant}`}
+            class={`otp__wrapper otp__wrapper--${variant}`}
             role="group"
             {...passThroughAttrs}
           >
@@ -244,7 +259,7 @@ export class AegovOtp {
               <input
                 ref={(el) => { this.cellRefs[index] = el; }}
                 id={index === 0 ? this.fieldId : undefined}
-                class={`otp__cell otp__cell--${this.size}`}
+                class={`otp__cell otp__cell--${size}`}
                 type="text"
                 inputMode={this.alphanumeric ? 'text' : 'numeric'}
                 disabled={this.disabled}
@@ -256,7 +271,7 @@ export class AegovOtp {
                 onFocus={(e) => this.handleFocus(e)}
                 onClick={(e) => this.handleClick(e)}
               />,
-              this.variant === 'continuous' && index < this.length - 1 && (
+              variant === 'continuous' && index < this.length - 1 && (
                 <span class="otp__divider" aria-hidden="true"></span>
               ),
             ])}

@@ -338,4 +338,84 @@ describe('aegov-otp', () => {
       expect(cell.getAttribute('type')).toBe('text');
     });
   });
+
+  describe('invalid prop values', () => {
+    let warnSpy: jest.SpyInstance;
+
+    beforeEach(() => {
+      warnSpy = jest.spyOn(console, 'warn').mockImplementation();
+    });
+
+    afterEach(() => {
+      warnSpy.mockRestore();
+    });
+
+    it('falls back to default size class when size is invalid', async () => {
+      const page = await newSpecPage({
+        components: [AegovOtp],
+        html: `<aegov-otp size="huge"></aegov-otp>`,
+      });
+      const cell = page.root.querySelector('.otp__cell');
+      expect(cell.className).toContain('otp__cell--base');
+    });
+
+    it('falls back to default variant (continuous) when variant is invalid', async () => {
+      const page = await newSpecPage({
+        components: [AegovOtp],
+        html: `<aegov-otp variant="weird"></aegov-otp>`,
+      });
+      const wrapper = page.root.querySelector('.otp__wrapper');
+      expect(wrapper.className).toContain('otp__wrapper--continuous');
+    });
+
+    it('warns for invalid size', async () => {
+      await newSpecPage({
+        components: [AegovOtp],
+        html: `<aegov-otp size="huge"></aegov-otp>`,
+      });
+      const messages = warnSpy.mock.calls.map(c => c[0] as string);
+      const warn = messages.find(m => m.includes('"size"'));
+      expect(warn).toBeDefined();
+      expect(warn).toContain('[aegov-otp]');
+      expect(warn).toContain('"huge"');
+      expect(warn).toContain('base');
+    });
+
+    it('warns for invalid variant', async () => {
+      await newSpecPage({
+        components: [AegovOtp],
+        html: `<aegov-otp variant="weird"></aegov-otp>`,
+      });
+      const messages = warnSpy.mock.calls.map(c => c[0] as string);
+      const warn = messages.find(m => m.includes('"variant"'));
+      expect(warn).toBeDefined();
+      expect(warn).toContain('[aegov-otp]');
+      expect(warn).toContain('"weird"');
+      expect(warn).toContain('continuous');
+    });
+
+    it('does not warn when all props are valid', async () => {
+      await newSpecPage({
+        components: [AegovOtp],
+        html: `<aegov-otp size="lg" variant="individual"></aegov-otp>`,
+      });
+      expect(warnSpy).not.toHaveBeenCalled();
+    });
+
+    it('warns again via @Watch when variant is updated to an invalid value', async () => {
+      const page = await newSpecPage({
+        components: [AegovOtp],
+        html: `<aegov-otp variant="continuous"></aegov-otp>`,
+      });
+      expect(warnSpy).not.toHaveBeenCalled();
+
+      page.root.setAttribute('variant', 'nope');
+      await page.waitForChanges();
+
+      const messages = warnSpy.mock.calls.map(c => c[0] as string);
+      const invalidWarn = messages.find(m => m.includes('[aegov-otp]') && m.includes('"nope"'));
+      expect(invalidWarn).toBeDefined();
+      expect(invalidWarn).toContain('"variant"');
+    });
+  });
 });

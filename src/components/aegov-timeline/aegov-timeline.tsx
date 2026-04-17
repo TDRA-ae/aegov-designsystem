@@ -1,6 +1,11 @@
 import { Component, Prop, Element, Watch, h } from '@stencil/core';
+import { TIMELINE_VARIANTS, TIMELINE_SIZES, TIMELINE_ORIENTATIONS } from '../../utils/types';
 import type { TimelineVariant, TimelineSize, TimelineOrientation } from '../../utils/types';
 import { getPassThroughAttributes } from '../../utils/attributes';
+import { warnIfInvalidEnumProp } from '../../utils/prop-validator';
+
+const TAG = 'aegov-timeline';
+const ctx = (prop: string) => ({ component: TAG, prop });
 
 @Component({
   tag: 'aegov-timeline',
@@ -34,9 +39,6 @@ export class AegovTimeline {
     return all.filter(step => step.closest('aegov-timeline') === this.el);
   }
 
-  @Watch('variant')
-  @Watch('size')
-  @Watch('orientation')
   updateSteps() {
     const steps = this.getDirectChildren();
 
@@ -52,6 +54,30 @@ export class AegovTimeline {
     });
   }
 
+  componentWillLoad() {
+    warnIfInvalidEnumProp(this.variant, TIMELINE_VARIANTS, 'default', ctx('variant'));
+    warnIfInvalidEnumProp(this.size, TIMELINE_SIZES, 'base', ctx('size'));
+    warnIfInvalidEnumProp(this.orientation, TIMELINE_ORIENTATIONS, 'horizontal', ctx('orientation'));
+  }
+
+  @Watch('variant')
+  onVariantChange(v: unknown) {
+    warnIfInvalidEnumProp(v, TIMELINE_VARIANTS, 'default', ctx('variant'));
+    this.updateSteps();
+  }
+
+  @Watch('size')
+  onSizeChange(v: unknown) {
+    warnIfInvalidEnumProp(v, TIMELINE_SIZES, 'base', ctx('size'));
+    this.updateSteps();
+  }
+
+  @Watch('orientation')
+  onOrientationChange(v: unknown) {
+    warnIfInvalidEnumProp(v, TIMELINE_ORIENTATIONS, 'horizontal', ctx('orientation'));
+    this.updateSteps();
+  }
+
   componentDidLoad() {
     this.updateSteps();
   }
@@ -62,14 +88,16 @@ export class AegovTimeline {
 
   render() {
     const passThroughAttrs = getPassThroughAttributes(this.el, AegovTimeline.PASS_THROUGH_ATTRS);
+    const orientation: TimelineOrientation = (TIMELINE_ORIENTATIONS as readonly string[]).includes(this.orientation) ? this.orientation : 'horizontal';
+    const variant: TimelineVariant = (TIMELINE_VARIANTS as readonly string[]).includes(this.variant) ? this.variant : 'default';
     const listClasses = [
       'timeline__list',
-      `timeline__list--${this.orientation}`,
+      `timeline__list--${orientation}`,
     ].join(' ');
 
     const navClasses = [
       'aegov-timeline',
-      this.variant === 'compact' ? 'aegov-timeline--compact' : '',
+      variant === 'compact' ? 'aegov-timeline--compact' : '',
     ].filter(Boolean).join(' ');
 
     return (

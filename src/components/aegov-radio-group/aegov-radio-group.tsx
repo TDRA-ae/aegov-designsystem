@@ -1,5 +1,10 @@
 import { Component, Host, h, Prop, Event, EventEmitter, Element, Listen, Watch } from '@stencil/core';
+import { RADIO_GROUP_VARIANTS, RADIO_GROUP_ORIENTATIONS, RADIO_SIZES } from '../../utils/types';
 import type { RadioGroupVariant, RadioGroupOrientation, RadioSize } from '../../utils/types';
+import { warnIfInvalidEnumProp } from '../../utils/prop-validator';
+
+const TAG = 'aegov-radio-group';
+const ctx = (prop: string) => ({ component: TAG, prop });
 
 @Component({
   tag: 'aegov-radio-group',
@@ -34,13 +39,30 @@ export class AegovRadioGroup {
   /** Emitted when the selected radio changes. Contains the selected value. */
   @Event() aegovRadioGroupChange: EventEmitter<{ value: string | undefined }>;
 
+  componentWillLoad() {
+    warnIfInvalidEnumProp(this.variant, RADIO_GROUP_VARIANTS, 'default', ctx('variant'));
+    warnIfInvalidEnumProp(this.orientation, RADIO_GROUP_ORIENTATIONS, 'vertical', ctx('orientation'));
+    warnIfInvalidEnumProp(this.size, RADIO_SIZES, 'base', ctx('size'));
+  }
+
   componentDidLoad() {
     this.syncChildren();
   }
 
+  @Watch('variant')
+  onVariantChange(v: unknown) { warnIfInvalidEnumProp(v, RADIO_GROUP_VARIANTS, 'default', ctx('variant')); }
+
+  @Watch('orientation')
+  onOrientationChange(v: unknown) { warnIfInvalidEnumProp(v, RADIO_GROUP_ORIENTATIONS, 'vertical', ctx('orientation')); }
+
   @Watch('size')
+  onSizeChange(v: unknown) {
+    warnIfInvalidEnumProp(v, RADIO_SIZES, 'base', ctx('size'));
+    this.syncChildren();
+  }
+
   @Watch('name')
-  onChildPropChange() {
+  onNameChange() {
     this.syncChildren();
   }
 
@@ -75,10 +97,12 @@ export class AegovRadioGroup {
 
   private getGroupClasses(): string {
     const classes = ['aegov-radio-group'];
-    if (this.variant !== 'default') {
-      classes.push(`radio-group--${this.variant}`);
+    const variant: RadioGroupVariant = (RADIO_GROUP_VARIANTS as readonly string[]).includes(this.variant) ? this.variant : 'default';
+    const orientation: RadioGroupOrientation = (RADIO_GROUP_ORIENTATIONS as readonly string[]).includes(this.orientation) ? this.orientation : 'vertical';
+    if (variant !== 'default') {
+      classes.push(`radio-group--${variant}`);
     }
-    if (this.orientation === 'horizontal') {
+    if (orientation === 'horizontal') {
       classes.push('radio-group--horizontal');
     }
     if (this.class) {

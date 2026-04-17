@@ -1,6 +1,11 @@
 import { Component, Element, Listen, Prop, State, Watch, getAssetPath, h } from '@stencil/core';
+import { HEADER_VARIANTS } from '../../utils/types';
 import type { HeaderVariant } from '../../utils/types';
 import { getFocusableElements, handleTabKeyWrap } from '../../utils/focus-management';
+import { warnIfInvalidEnumProp } from '../../utils/prop-validator';
+
+const TAG = 'aegov-header';
+const ctx = (prop: string) => ({ component: TAG, prop });
 
 @Component({
   tag: 'aegov-header',
@@ -47,6 +52,13 @@ export class AegovHeader {
   private closeTextAr = 'إغلاق';
   private officialTextEn = 'This is an official United Arab Emirates Federal Government website. You can recognise this by the presence of the official seal and the domain name that contains the "gov.ae" extension.';
   private officialTextAr = 'هذا هو الموقع الإلكتروني الرسمي لحكومة دولة الإمارات العربية المتحدة. يمكنك التعرف عليه من خلال وجود الختم الرسمي واسم النطاق الذي يحتوي على امتداد "gov.ae".';
+
+  componentWillLoad() {
+    warnIfInvalidEnumProp(this.variant, HEADER_VARIANTS, 'ministry', ctx('variant'));
+  }
+
+  @Watch('variant')
+  onVariantChange(v: unknown) { warnIfInvalidEnumProp(v, HEADER_VARIANTS, 'ministry', ctx('variant')); }
 
   connectedCallback() {
     if (this.skipContentContainer) {
@@ -122,8 +134,10 @@ export class AegovHeader {
       );
     }
 
+    const variant: HeaderVariant = (HEADER_VARIANTS as readonly string[]).includes(this.variant) ? this.variant : 'ministry';
+
     return (
-      <header class={`aegov-header header--${this.variant}`}>
+      <header class={`aegov-header header--${variant}`}>
         <div class="header__top">
           <div class="aegov-container flex justify-between items-center">
             <div class="block sm:flex sm:justify-start sm:items-center sm:gap-4 sm:h-5">

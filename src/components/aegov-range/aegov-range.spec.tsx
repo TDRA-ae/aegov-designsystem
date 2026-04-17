@@ -480,4 +480,129 @@ describe('aegov-range', () => {
     });
     expect(page.root.querySelector('.range--display-tooltip')).toBeNull();
   });
+
+  describe('invalid prop values', () => {
+    let warnSpy: jest.SpyInstance;
+
+    beforeEach(() => {
+      warnSpy = jest.spyOn(console, 'warn').mockImplementation();
+    });
+
+    afterEach(() => {
+      warnSpy.mockRestore();
+    });
+
+    it('falls back to default size class when size is invalid', async () => {
+      const page = await newSpecPage({
+        components: [AegovRange],
+        html: `<aegov-range size="huge"></aegov-range>`,
+      });
+      expect(page.root.querySelector('.range--base')).toBeTruthy();
+      expect(page.root.querySelector('.range--huge')).toBeNull();
+    });
+
+    it('falls back to default orientation class when orientation is invalid', async () => {
+      const page = await newSpecPage({
+        components: [AegovRange],
+        html: `<aegov-range orientation="diagonal"></aegov-range>`,
+      });
+      expect(page.root.querySelector('.range--horizontal')).toBeTruthy();
+    });
+
+    it('falls back to default mode (single) when mode is invalid', async () => {
+      const page = await newSpecPage({
+        components: [AegovRange],
+        html: `<aegov-range mode="weird"></aegov-range>`,
+      });
+      // single mode renders only one native input
+      const inputs = page.root.querySelectorAll('input[type="range"]');
+      expect(inputs.length).toBe(1);
+    });
+
+    it('falls back to default display (none) when display is invalid', async () => {
+      const page = await newSpecPage({
+        components: [AegovRange],
+        html: `<aegov-range display="weird"></aegov-range>`,
+      });
+      // no display modifier classes
+      expect(page.root.querySelector('.range--display-thumb')).toBeNull();
+      expect(page.root.querySelector('.range--display-full')).toBeNull();
+    });
+
+    it('warns for invalid size', async () => {
+      await newSpecPage({
+        components: [AegovRange],
+        html: `<aegov-range size="huge"></aegov-range>`,
+      });
+      const messages = warnSpy.mock.calls.map(c => c[0] as string);
+      const warn = messages.find(m => m.includes('"size"'));
+      expect(warn).toBeDefined();
+      expect(warn).toContain('[aegov-range]');
+      expect(warn).toContain('"huge"');
+      expect(warn).toContain('base');
+    });
+
+    it('warns for invalid display', async () => {
+      await newSpecPage({
+        components: [AegovRange],
+        html: `<aegov-range display="weird"></aegov-range>`,
+      });
+      const messages = warnSpy.mock.calls.map(c => c[0] as string);
+      const warn = messages.find(m => m.includes('"display"'));
+      expect(warn).toBeDefined();
+      expect(warn).toContain('[aegov-range]');
+      expect(warn).toContain('"weird"');
+      expect(warn).toContain('none');
+    });
+
+    it('warns for invalid orientation', async () => {
+      await newSpecPage({
+        components: [AegovRange],
+        html: `<aegov-range orientation="diagonal"></aegov-range>`,
+      });
+      const messages = warnSpy.mock.calls.map(c => c[0] as string);
+      const warn = messages.find(m => m.includes('"orientation"'));
+      expect(warn).toBeDefined();
+      expect(warn).toContain('[aegov-range]');
+      expect(warn).toContain('"diagonal"');
+      expect(warn).toContain('horizontal');
+    });
+
+    it('warns for invalid mode', async () => {
+      await newSpecPage({
+        components: [AegovRange],
+        html: `<aegov-range mode="weird"></aegov-range>`,
+      });
+      const messages = warnSpy.mock.calls.map(c => c[0] as string);
+      const warn = messages.find(m => m.includes('"mode"'));
+      expect(warn).toBeDefined();
+      expect(warn).toContain('[aegov-range]');
+      expect(warn).toContain('"weird"');
+      expect(warn).toContain('single');
+    });
+
+    it('does not warn when all props are valid', async () => {
+      await newSpecPage({
+        components: [AegovRange],
+        html: `<aegov-range size="lg" display="tooltip" orientation="vertical" mode="range"></aegov-range>`,
+      });
+      expect(warnSpy).not.toHaveBeenCalled();
+    });
+
+    it('warns again via @Watch when size is updated to an invalid value', async () => {
+      const page = await newSpecPage({
+        components: [AegovRange],
+        html: `<aegov-range size="base"></aegov-range>`,
+      });
+      expect(warnSpy).not.toHaveBeenCalled();
+
+      page.root.setAttribute('size', 'nope');
+      await page.waitForChanges();
+
+      const messages = warnSpy.mock.calls.map(c => c[0] as string);
+      const invalidWarn = messages.find(m => m.includes('[aegov-range]') && m.includes('"nope"'));
+      expect(invalidWarn).toBeDefined();
+      expect(invalidWarn).toContain('"size"');
+    });
+  });
 });

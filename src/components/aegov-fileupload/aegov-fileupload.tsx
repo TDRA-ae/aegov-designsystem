@@ -1,6 +1,11 @@
-import { Component, Host, h, Prop, State, Event, EventEmitter, Element, Method } from '@stencil/core';
+import { Component, Host, h, Prop, State, Event, EventEmitter, Element, Method, Watch } from '@stencil/core';
+import { FILEUPLOAD_VARIANTS, FILEUPLOAD_SIZES } from '../../utils/types';
 import type { FileuploadVariant, FileuploadSize } from '../../utils/types';
 import { generateId } from '../../utils/id-generator';
+import { warnIfInvalidEnumProp } from '../../utils/prop-validator';
+
+const TAG = 'aegov-fileupload';
+const ctx = (prop: string) => ({ component: TAG, prop });
 
 @Component({
   tag: 'aegov-fileupload',
@@ -101,10 +106,18 @@ export class AegovFileupload {
   @Event() aegovFileuploadError!: EventEmitter<{ type: 'max-size' | 'max-files' | 'invalid-type'; file?: File; message: string }>;
 
   componentWillLoad() {
+    warnIfInvalidEnumProp(this.variant, FILEUPLOAD_VARIANTS, 'default', ctx('variant'));
+    warnIfInvalidEnumProp(this.size, FILEUPLOAD_SIZES, 'base', ctx('size'));
     if (!this.fieldId) {
       this.fieldId = generateId('aegov-fileupload');
     }
   }
+
+  @Watch('variant')
+  onVariantChange(v: unknown) { warnIfInvalidEnumProp(v, FILEUPLOAD_VARIANTS, 'default', ctx('variant')); }
+
+  @Watch('size')
+  onSizeChange(v: unknown) { warnIfInvalidEnumProp(v, FILEUPLOAD_SIZES, 'base', ctx('size')); }
 
   /**
    * Returns the currently selected files.
@@ -468,10 +481,12 @@ export class AegovFileupload {
   }
 
   render() {
+    const variant: FileuploadVariant = (FILEUPLOAD_VARIANTS as readonly string[]).includes(this.variant) ? this.variant : 'default';
+    const size: FileuploadSize = (FILEUPLOAD_SIZES as readonly string[]).includes(this.size) ? this.size : 'base';
     const classes = [
       'aegov-fileupload',
-      `fileupload--${this.variant}`,
-      `fileupload--${this.size}`,
+      `fileupload--${variant}`,
+      `fileupload--${size}`,
       this.disabled ? 'fileupload--disabled' : '',
     ].filter(Boolean).join(' ');
 
@@ -480,9 +495,9 @@ export class AegovFileupload {
         <div class={classes}>
           {this.renderLabel()}
           {this.renderDescription()}
-          {this.variant === 'default' && this.renderDefault()}
-          {this.variant === 'button' && this.renderButton()}
-          {this.variant === 'dropzone' && this.renderDropzone()}
+          {variant === 'default' && this.renderDefault()}
+          {variant === 'button' && this.renderButton()}
+          {variant === 'dropzone' && this.renderDropzone()}
           {this.renderHelperText()}
         </div>
       </Host>

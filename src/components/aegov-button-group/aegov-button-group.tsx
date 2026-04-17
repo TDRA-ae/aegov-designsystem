@@ -1,5 +1,9 @@
 import { Component, Element, Host, h, Prop, Watch } from '@stencil/core';
-import { ButtonGroupOrientation } from '../../utils/types';
+import { ButtonGroupOrientation, BUTTON_GROUP_ORIENTATIONS } from '../../utils/types';
+import { warnIfInvalidEnumProp } from '../../utils/prop-validator';
+
+const TAG = 'aegov-button-group';
+const ctx = (prop: string) => ({ component: TAG, prop });
 
 /**
  * @slot - Button elements to be grouped together
@@ -17,6 +21,10 @@ export class AegovButtonGroup {
    */
   @Prop() orientation: ButtonGroupOrientation = 'horizontal';
 
+  componentWillLoad() {
+    warnIfInvalidEnumProp(this.orientation, BUTTON_GROUP_ORIENTATIONS, 'horizontal', ctx('orientation'));
+  }
+
   componentDidLoad() {
     this.updateButtons();
   }
@@ -26,7 +34,8 @@ export class AegovButtonGroup {
   }
 
   @Watch('orientation')
-  watchOrientation() {
+  watchOrientation(v: unknown) {
+    warnIfInvalidEnumProp(v, BUTTON_GROUP_ORIENTATIONS, 'horizontal', ctx('orientation'));
     this.updateButtons();
   }
 
@@ -94,15 +103,16 @@ export class AegovButtonGroup {
       }
 
       button.groupPosition = position;
-      button.groupOrientation = this.orientation;
+      button.groupOrientation = (BUTTON_GROUP_ORIENTATIONS as readonly string[]).includes(this.orientation) ? this.orientation : 'horizontal';
     });
   }
 
   render() {
+    const orientation: ButtonGroupOrientation = (BUTTON_GROUP_ORIENTATIONS as readonly string[]).includes(this.orientation) ? this.orientation : 'horizontal';
     const classes = {
       'aegov-button-group': true,
-      'button-group--horizontal': this.orientation === 'horizontal',
-      'button-group--vertical': this.orientation === 'vertical',
+      'button-group--horizontal': orientation === 'horizontal',
+      'button-group--vertical': orientation === 'vertical',
     };
 
     return (

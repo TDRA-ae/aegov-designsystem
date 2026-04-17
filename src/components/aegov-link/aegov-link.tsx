@@ -1,6 +1,11 @@
-import { Component, Prop, Event, EventEmitter, Element, h, Host } from '@stencil/core';
+import { Component, Prop, Watch, Event, EventEmitter, Element, h, Host } from '@stencil/core';
+import { LINK_TARGETS } from '../../utils/types';
 import type { LinkTarget } from '../../utils/types';
 import { getPassThroughAttributes } from '../../utils/attributes';
+import { warnIfInvalidEnumProp } from '../../utils/prop-validator';
+
+const TAG = 'aegov-link';
+const ctx = (prop: string) => ({ component: TAG, prop });
 
 /**
  * @slot default - The link text content
@@ -23,6 +28,18 @@ export class AegovLink {
    * Target attribute for the link (_blank, _self, _parent, _top).
    */
   @Prop() target?: LinkTarget;
+
+  componentWillLoad() {
+    if (this.target !== undefined) {
+      warnIfInvalidEnumProp(this.target, LINK_TARGETS, '_self', ctx('target'));
+    }
+  }
+
+  @Watch('target')
+  onTargetChange(v: unknown) {
+    if (v === undefined) return;
+    warnIfInvalidEnumProp(v, LINK_TARGETS, '_self', ctx('target'));
+  }
 
   /**
    * Rel attribute for the link (e.g., "noopener noreferrer" for external links).
