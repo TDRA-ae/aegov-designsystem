@@ -62,7 +62,7 @@ export class AegovBlockquote {
                 'blockquote--colored',
                 'border-s-[10px]',
                 'bg-primary-50',
-                'border-primary-500',
+                'border-primary-400',
                 'text-primary-700',
                 'py-4',
                 'px-6'
