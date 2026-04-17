@@ -3,7 +3,7 @@
 }
 
 .aegov-badge {
-  @apply inline-flex items-center font-medium whitespace-nowrap [print-color-adjust:exact] rounded-md px-2;
+  @apply inline-flex items-center whitespace-nowrap [print-color-adjust:exact];
   &.badge-soft {
     &.badge-default {
       @apply bg-slate-100 text-slate-800;

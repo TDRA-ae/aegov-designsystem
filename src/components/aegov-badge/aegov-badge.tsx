@@ -77,9 +77,9 @@ export class AegovBadge {
 
         // Size classes (includes vertical padding)
         const sizeClasses: Record<BadgeSize, string[]> = {
-            sm: ['text-xs', 'py-1'],
-            base: ['text-sm', 'py-1'],
-            lg: ['text-sm', 'py-1.5']
+            sm: ['text-xs', 'py-0.5', 'px-1.5','rounded-sm'],
+            base: ['text-sm', 'py-0.5', 'px-1.5','rounded-md'],
+            lg: ['text-sm', 'py-1', 'px-2','rounded-md','font-medium']
         };
 
         const size: BadgeSize = (BADGE_SIZES as readonly string[]).includes(this.size) ? this.size : 'base';
