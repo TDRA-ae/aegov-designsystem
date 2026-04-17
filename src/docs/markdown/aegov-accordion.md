@@ -247,6 +247,50 @@ By default, the heading text is provided via the `heading` prop. For richer cont
 
 ---
 
+## Long Titles
+
+When a heading exceeds 100 characters it wraps onto multiple lines. The trigger button stretches vertically to accommodate the full text, and the icon stays pinned to the top-right so it never overlaps the heading.
+
+```html
+<aegov-accordion bordered>
+  <aegov-accordion-item heading="Understanding the Role of Digital Transformation in Modernising Government Services Across the UAE">
+    Content for the long-title section.
+  </aegov-accordion-item>
+  <aegov-accordion-item heading="Standard Heading">
+    Content for a normal section.
+  </aegov-accordion-item>
+</aegov-accordion>
+```
+
+<div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
+  <aegov-accordion bordered>
+    <aegov-accordion-item heading="Understanding the Role of Digital Transformation in Modernising Government Services Across the UAE">
+      This item's heading is well over 100 characters. Notice how it wraps naturally across multiple lines while the chevron icon remains anchored to the top-right corner of the header, keeping the layout clean and readable.
+    </aegov-accordion-item>
+    <aegov-accordion-item heading="This is a second long-titled section covering the Implementation of Smart City Initiatives and Citizen-Centric Digital Platforms">
+      A second item with an equally long heading to show consistent multi-line wrapping behaviour across multiple items in the same accordion.
+    </aegov-accordion-item>
+    <aegov-accordion-item heading="Standard-length heading for comparison">
+      A normal-length heading alongside the long ones, showing that both coexist without layout issues.
+    </aegov-accordion-item>
+  </aegov-accordion>
+</div>
+
+The same behaviour applies with the `plus` icon and without the `bordered` variant:
+
+<div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
+  <aegov-accordion icon="plus">
+    <aegov-accordion-item heading="Understanding the Role of Digital Transformation in Modernising Government Services Across the UAE">
+      Long title with the plus icon style — the icon anchors to the top-right just as it does for the chevron.
+    </aegov-accordion-item>
+    <aegov-accordion-item heading="Short title">
+      Normal heading for comparison.
+    </aegov-accordion-item>
+  </aegov-accordion>
+</div>
+
+---
+
 ## RTL Support
 
 The component fully supports right-to-left layouts. When the document or a parent element has `dir="rtl"`, the header text alignment and layout automatically adjust.

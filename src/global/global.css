@@ -84,7 +84,7 @@
   }
   */
   button {
-    @apply relative inline-flex shrink-0 cursor-pointer select-none flex-wrap items-center justify-center whitespace-nowrap no-underline transition-all duration-200 ease-in-out rounded-lg disabled:cursor-default disabled:pointer-events-none;
+    @apply relative inline-flex shrink-0 cursor-pointer select-none flex-wrap items-center justify-center no-underline transition-all duration-200 ease-in-out rounded-lg disabled:cursor-default disabled:pointer-events-none;
   }
 
   a {
