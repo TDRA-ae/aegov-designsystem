@@ -829,4 +829,97 @@ describe('aegov-popover', () => {
       expect(returnSpy).toHaveBeenCalled();
     });
   });
+
+  describe('invalid prop values', () => {
+    let warnSpy: jest.SpyInstance;
+
+    beforeEach(() => {
+      warnSpy = jest.spyOn(console, 'warn').mockImplementation();
+    });
+
+    afterEach(() => {
+      warnSpy.mockRestore();
+    });
+
+    it('renders safely when triggerType is invalid', async () => {
+      const page = await newSpecPage({
+        components: [AegovPopover],
+        html: `<aegov-popover trigger-type="weird"><button slot="trigger">Trigger</button><div slot="popover-content">Content</div></aegov-popover>`,
+      });
+      expect(page.root).toBeTruthy();
+    });
+
+    it('renders safely when position is invalid', async () => {
+      const page = await newSpecPage({
+        components: [AegovPopover],
+        html: `<aegov-popover position="middle"><button slot="trigger">Trigger</button><div slot="popover-content">Content</div></aegov-popover>`,
+      });
+      expect(page.root).toBeTruthy();
+    });
+
+    it('renders safely when align is invalid', async () => {
+      const page = await newSpecPage({
+        components: [AegovPopover],
+        html: `<aegov-popover align="middle"><button slot="trigger">Trigger</button><div slot="popover-content">Content</div></aegov-popover>`,
+      });
+      expect(page.root).toBeTruthy();
+    });
+
+    it('warns with component name, prop name, invalid value, and fallback', async () => {
+      await newSpecPage({
+        components: [AegovPopover],
+        html: `<aegov-popover position="weird"><button slot="trigger">T</button><div slot="popover-content">C</div></aegov-popover>`,
+      });
+      const messages = warnSpy.mock.calls.map(c => c[0] as string);
+      const warn = messages.find(m => m.includes('"position"'));
+      expect(warn).toBeDefined();
+      expect(warn).toContain('[aegov-popover]');
+      expect(warn).toContain('"weird"');
+      expect(warn).toContain('bottom');
+    });
+
+    it('does not warn when all props are valid', async () => {
+      await newSpecPage({
+        components: [AegovPopover],
+        html: `<aegov-popover trigger-type="hover" position="top" align="start"><button slot="trigger">T</button><div slot="popover-content">C</div></aegov-popover>`,
+      });
+      expect(warnSpy).not.toHaveBeenCalled();
+    });
+
+    it('warns again via @Watch when triggerType is updated to invalid value', async () => {
+      const page = await newSpecPage({
+        components: [AegovPopover],
+        html: `<aegov-popover trigger-type="click"><button slot="trigger">T</button><div slot="popover-content">C</div></aegov-popover>`,
+      });
+      page.root.setAttribute('trigger-type', 'nope');
+      await page.waitForChanges();
+      const messages = warnSpy.mock.calls.map(c => c[0] as string);
+      const warn = messages.find(m => m.includes('[aegov-popover]') && m.includes('"triggerType"'));
+      expect(warn).toBeDefined();
+    });
+
+    it('warns again via @Watch when position is updated to invalid value', async () => {
+      const page = await newSpecPage({
+        components: [AegovPopover],
+        html: `<aegov-popover position="bottom"><button slot="trigger">T</button><div slot="popover-content">C</div></aegov-popover>`,
+      });
+      page.root.setAttribute('position', 'nope');
+      await page.waitForChanges();
+      const messages = warnSpy.mock.calls.map(c => c[0] as string);
+      const warn = messages.find(m => m.includes('[aegov-popover]') && m.includes('"position"'));
+      expect(warn).toBeDefined();
+    });
+
+    it('warns again via @Watch when align is updated to invalid value', async () => {
+      const page = await newSpecPage({
+        components: [AegovPopover],
+        html: `<aegov-popover align="center"><button slot="trigger">T</button><div slot="popover-content">C</div></aegov-popover>`,
+      });
+      page.root.setAttribute('align', 'nope');
+      await page.waitForChanges();
+      const messages = warnSpy.mock.calls.map(c => c[0] as string);
+      const warn = messages.find(m => m.includes('[aegov-popover]') && m.includes('"align"'));
+      expect(warn).toBeDefined();
+    });
+  });
 });

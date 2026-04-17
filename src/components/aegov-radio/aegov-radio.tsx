@@ -1,7 +1,12 @@
-import { Component, Host, h, Prop, Event, EventEmitter, Element } from '@stencil/core';
+import { Component, Host, h, Prop, Watch, Event, EventEmitter, Element } from '@stencil/core';
+import { RADIO_SIZES } from '../../utils/types';
 import type { RadioSize } from '../../utils/types';
 import { getPassThroughAttributes } from '../../utils/attributes';
 import { generateId } from '../../utils/id-generator';
+import { warnIfInvalidEnumProp } from '../../utils/prop-validator';
+
+const TAG = 'aegov-radio';
+const ctx = (prop: string) => ({ component: TAG, prop });
 
 @Component({
   tag: 'aegov-radio',
@@ -46,10 +51,14 @@ export class AegovRadio {
   @Event() aegovRadioChange: EventEmitter<{ checked: boolean; value?: string }>;
 
   componentWillLoad() {
+    warnIfInvalidEnumProp(this.size, RADIO_SIZES, 'base', ctx('size'));
     if (!this.fieldId) {
       this.fieldId = generateId('aegov-radio');
     }
   }
+
+  @Watch('size')
+  onSizeChange(v: unknown) { warnIfInvalidEnumProp(v, RADIO_SIZES, 'base', ctx('size')); }
 
   private handleChange = (event: Event) => {
     const input = event.target as HTMLInputElement;
@@ -64,7 +73,8 @@ export class AegovRadio {
 
   render() {
     const passThroughAttrs = getPassThroughAttributes(this.el, AegovRadio.NATIVE_RADIO_ATTRS);
-    const wrapperClasses = ['aegov-radio', `radio--${this.size}`];
+    const size: RadioSize = (RADIO_SIZES as readonly string[]).includes(this.size) ? this.size : 'base';
+    const wrapperClasses = ['aegov-radio', `radio--${size}`];
     if (this.class) wrapperClasses.push(this.class);
 
     const descriptionId = this.description ? `${this.fieldId}-desc` : undefined;

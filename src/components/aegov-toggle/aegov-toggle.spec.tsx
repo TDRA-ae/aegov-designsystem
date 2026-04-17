@@ -309,4 +309,61 @@ describe('aegov-toggle', () => {
       expect(input.getAttribute('role')).toBe('switch');
     });
   });
+
+  // ── Invalid prop values ────────────────────────────────
+
+  describe('invalid prop values', () => {
+    let warnSpy: jest.SpyInstance;
+
+    beforeEach(() => {
+      warnSpy = jest.spyOn(console, 'warn').mockImplementation();
+    });
+
+    afterEach(() => {
+      warnSpy.mockRestore();
+    });
+
+    it('falls back to default size class when size is invalid', async () => {
+      const page = await newSpecPage({
+        components: [AegovToggle],
+        html: `<aegov-toggle size="huge"></aegov-toggle>`,
+      });
+      expect(page.root.querySelector('.toggle--base')).toBeTruthy();
+    });
+
+    it('warns with component name, prop name, invalid value, and fallback', async () => {
+      await newSpecPage({
+        components: [AegovToggle],
+        html: `<aegov-toggle size="huge"></aegov-toggle>`,
+      });
+      const messages = warnSpy.mock.calls.map(c => c[0] as string);
+      const sizeWarn = messages.find(m => m.includes('[aegov-toggle]') && m.includes('"huge"'));
+      expect(sizeWarn).toBeDefined();
+      expect(sizeWarn).toContain('"size"');
+    });
+
+    it('does not warn when all props are valid', async () => {
+      await newSpecPage({
+        components: [AegovToggle],
+        html: `<aegov-toggle size="lg"></aegov-toggle>`,
+      });
+      expect(warnSpy).not.toHaveBeenCalled();
+    });
+
+    it('warns again via @Watch when size is updated to an invalid value', async () => {
+      const page = await newSpecPage({
+        components: [AegovToggle],
+        html: `<aegov-toggle size="base"></aegov-toggle>`,
+      });
+      expect(warnSpy).not.toHaveBeenCalled();
+
+      page.root.setAttribute('size', 'nope');
+      await page.waitForChanges();
+
+      const messages = warnSpy.mock.calls.map(c => c[0] as string);
+      const invalidWarn = messages.find(m => m.includes('[aegov-toggle]') && m.includes('"nope"'));
+      expect(invalidWarn).toBeDefined();
+      expect(invalidWarn).toContain('"size"');
+    });
+  });
 });

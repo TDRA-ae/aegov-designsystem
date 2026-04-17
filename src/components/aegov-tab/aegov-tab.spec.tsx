@@ -318,4 +318,99 @@ describe('aegov-tab', () => {
       expect(page.rootInstance.orientation).toBe('horizontal');
     });
   });
+
+  describe('invalid prop values', () => {
+    let warnSpy: jest.SpyInstance;
+
+    beforeEach(() => {
+      warnSpy = jest.spyOn(console, 'warn').mockImplementation();
+    });
+
+    afterEach(() => {
+      warnSpy.mockRestore();
+    });
+
+    it('falls back to default variant class when invalid', async () => {
+      const page = await newSpecPage({
+        components: [AegovTab],
+        html: `<aegov-tab tab-id="a" variant="weird">X</aegov-tab>`,
+      });
+      const btn = page.root.querySelector('.aegov-tab');
+      expect(btn.classList.contains('tab__btn--simple')).toBe(true);
+    });
+
+    it('falls back to default size class when invalid', async () => {
+      const page = await newSpecPage({
+        components: [AegovTab],
+        html: `<aegov-tab tab-id="a" size="huge">X</aegov-tab>`,
+      });
+      const btn = page.root.querySelector('.aegov-tab');
+      expect(btn.classList.contains('tab__btn--base')).toBe(true);
+    });
+
+    it('falls back to default orientation when invalid', async () => {
+      const page = await newSpecPage({
+        components: [AegovTab],
+        html: `<aegov-tab tab-id="a" orientation="diagonal">X</aegov-tab>`,
+      });
+      const btn = page.root.querySelector('.aegov-tab');
+      expect(btn.classList.contains('tab__btn--vertical')).toBe(false);
+    });
+
+    it('warns with component name, prop name, invalid value, and fallback', async () => {
+      await newSpecPage({
+        components: [AegovTab],
+        html: `<aegov-tab tab-id="a" variant="weird">X</aegov-tab>`,
+      });
+      const messages = warnSpy.mock.calls.map(c => c[0] as string);
+      const warn = messages.find(m => m.includes('[aegov-tab]') && m.includes('"variant"'));
+      expect(warn).toBeDefined();
+      expect(warn).toContain('"weird"');
+      expect(warn).toContain('simple');
+    });
+
+    it('does not warn when all props are valid', async () => {
+      await newSpecPage({
+        components: [AegovTab],
+        html: `<aegov-tab tab-id="a" variant="pill" size="lg" orientation="vertical">X</aegov-tab>`,
+      });
+      expect(warnSpy).not.toHaveBeenCalled();
+    });
+
+    it('warns again via @Watch when variant is updated to invalid value', async () => {
+      const page = await newSpecPage({
+        components: [AegovTab],
+        html: `<aegov-tab tab-id="a" variant="simple">X</aegov-tab>`,
+      });
+      page.root.setAttribute('variant', 'nope');
+      await page.waitForChanges();
+      const messages = warnSpy.mock.calls.map(c => c[0] as string);
+      const warn = messages.find(m => m.includes('[aegov-tab]') && m.includes('"variant"'));
+      expect(warn).toBeDefined();
+    });
+
+    it('warns again via @Watch when size is updated to invalid value', async () => {
+      const page = await newSpecPage({
+        components: [AegovTab],
+        html: `<aegov-tab tab-id="a" size="base">X</aegov-tab>`,
+      });
+      page.root.setAttribute('size', 'nope');
+      await page.waitForChanges();
+      const messages = warnSpy.mock.calls.map(c => c[0] as string);
+      const warn = messages.find(m => m.includes('[aegov-tab]') && m.includes('"size"'));
+      expect(warn).toBeDefined();
+    });
+
+    it('warns again via @Watch when orientation is updated to invalid value', async () => {
+      const page = await newSpecPage({
+        components: [AegovTab],
+        html: `<aegov-tab tab-id="a" orientation="horizontal">X</aegov-tab>`,
+      });
+      page.root.setAttribute('orientation', 'nope');
+      await page.waitForChanges();
+      const messages = warnSpy.mock.calls.map(c => c[0] as string);
+      const warn = messages.find(m => m.includes('[aegov-tab]') && m.includes('"orientation"'));
+      expect(warn).toBeDefined();
+    });
+  });
 });

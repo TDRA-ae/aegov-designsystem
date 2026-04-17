@@ -270,4 +270,69 @@ describe('aegov-link', () => {
       expect(a.textContent).toContain('Visit Site');
     });
   });
+
+  // ------------------------------------------------------------------ invalid prop values
+  describe('invalid prop values', () => {
+    let warnSpy: jest.SpyInstance;
+
+    beforeEach(() => {
+      warnSpy = jest.spyOn(console, 'warn').mockImplementation();
+    });
+
+    afterEach(() => {
+      warnSpy.mockRestore();
+    });
+
+    it('still renders the anchor when target is invalid', async () => {
+      const page = await newSpecPage({
+        components: [AegovLink],
+        html: `<aegov-link href="/test" target="nowhere">Link</aegov-link>`,
+      });
+      const a = page.root.querySelector('a');
+      expect(a).toBeTruthy();
+    });
+
+    it('warns with component name, prop name, and invalid value', async () => {
+      await newSpecPage({
+        components: [AegovLink],
+        html: `<aegov-link href="/test" target="nowhere">Link</aegov-link>`,
+      });
+      const messages = warnSpy.mock.calls.map(c => c[0] as string);
+      const targetWarn = messages.find(m => m.includes('[aegov-link]') && m.includes('"nowhere"'));
+      expect(targetWarn).toBeDefined();
+      expect(targetWarn).toContain('"target"');
+    });
+
+    it('does not warn when target is undefined', async () => {
+      await newSpecPage({
+        components: [AegovLink],
+        html: `<aegov-link href="/test">Link</aegov-link>`,
+      });
+      expect(warnSpy).not.toHaveBeenCalled();
+    });
+
+    it('does not warn when all props are valid', async () => {
+      await newSpecPage({
+        components: [AegovLink],
+        html: `<aegov-link href="/test" target="_blank">Link</aegov-link>`,
+      });
+      expect(warnSpy).not.toHaveBeenCalled();
+    });
+
+    it('warns again via @Watch when target is updated to an invalid value', async () => {
+      const page = await newSpecPage({
+        components: [AegovLink],
+        html: `<aegov-link href="/test" target="_blank">Link</aegov-link>`,
+      });
+      expect(warnSpy).not.toHaveBeenCalled();
+
+      page.root.setAttribute('target', 'nope');
+      await page.waitForChanges();
+
+      const messages = warnSpy.mock.calls.map(c => c[0] as string);
+      const invalidWarn = messages.find(m => m.includes('[aegov-link]') && m.includes('"nope"'));
+      expect(invalidWarn).toBeDefined();
+      expect(invalidWarn).toContain('"target"');
+    });
+  });
 });

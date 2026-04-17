@@ -1,7 +1,12 @@
-import { Component, Host, h, Prop, Event, EventEmitter, Element } from '@stencil/core';
+import { Component, Host, h, Prop, Watch, Event, EventEmitter, Element } from '@stencil/core';
+import { TOGGLE_SIZES } from '../../utils/types';
 import type { ToggleSize } from '../../utils/types';
 import { getPassThroughAttributes } from '../../utils/attributes';
 import { generateId } from '../../utils/id-generator';
+import { warnIfInvalidEnumProp } from '../../utils/prop-validator';
+
+const TAG = 'aegov-toggle';
+const ctx = (prop: string) => ({ component: TAG, prop });
 
 @Component({
   tag: 'aegov-toggle',
@@ -43,10 +48,14 @@ export class AegovToggle {
   @Event() aegovToggleChange: EventEmitter<{ checked: boolean; value?: string }>;
 
   componentWillLoad() {
+    warnIfInvalidEnumProp(this.size, TOGGLE_SIZES, 'base', ctx('size'));
     if (!this.fieldId) {
       this.fieldId = generateId('aegov-toggle');
     }
   }
+
+  @Watch('size')
+  onSizeChange(v: unknown) { warnIfInvalidEnumProp(v, TOGGLE_SIZES, 'base', ctx('size')); }
 
   private handleChange = (event: Event) => {
     const input = event.target as HTMLInputElement;
@@ -60,7 +69,8 @@ export class AegovToggle {
 
   render() {
     const passThroughAttrs = getPassThroughAttributes(this.el, AegovToggle.NATIVE_TOGGLE_ATTRS);
-    const wrapperClasses = ['aegov-toggle', `toggle--${this.size}`];
+    const size: ToggleSize = (TOGGLE_SIZES as readonly string[]).includes(this.size) ? this.size : 'base';
+    const wrapperClasses = ['aegov-toggle', `toggle--${size}`];
     const descriptionId = this.description ? `${this.fieldId}-desc` : undefined;
 
     const hasIconChecked = !!this.el.querySelector('[slot="icon-checked"]');

@@ -1,7 +1,12 @@
 import { Component, Host, h, Prop, Event, EventEmitter, Element, Watch } from '@stencil/core';
+import { CHECKBOX_SIZES } from '../../utils/types';
 import type { CheckboxSize } from '../../utils/types';
 import { getPassThroughAttributes } from '../../utils/attributes';
 import { generateId } from '../../utils/id-generator';
+import { warnIfInvalidEnumProp } from '../../utils/prop-validator';
+
+const TAG = 'aegov-checkbox';
+const ctx = (prop: string) => ({ component: TAG, prop });
 
 @Component({
   tag: 'aegov-checkbox',
@@ -54,10 +59,14 @@ export class AegovCheckbox {
   private inputEl?: HTMLInputElement;
 
   componentWillLoad() {
+    warnIfInvalidEnumProp(this.size, CHECKBOX_SIZES, 'base', ctx('size'));
     if (!this.fieldId) {
       this.fieldId = generateId('aegov-checkbox');
     }
   }
+
+  @Watch('size')
+  onSizeChange(v: unknown) { warnIfInvalidEnumProp(v, CHECKBOX_SIZES, 'base', ctx('size')); }
 
   componentDidRender() {
     if (this.inputEl) {
@@ -86,7 +95,8 @@ export class AegovCheckbox {
 
   render() {
     const passThroughAttrs = getPassThroughAttributes(this.el, AegovCheckbox.NATIVE_CHECKBOX_ATTRS);
-    const wrapperClasses = ['aegov-checkbox', `checkbox--${this.size}`];
+    const size: CheckboxSize = (CHECKBOX_SIZES as readonly string[]).includes(this.size) ? this.size : 'base';
+    const wrapperClasses = ['aegov-checkbox', `checkbox--${size}`];
     if (this.class) wrapperClasses.push(this.class);
 
     const descriptionId = this.description ? `${this.fieldId}-desc` : undefined;

@@ -1,5 +1,10 @@
-import { Component, Prop, h, Host, State } from '@stencil/core';
+import { Component, Prop, Watch, h, Host, State } from '@stencil/core';
+import { AVATAR_SIZES, AVATAR_VARIANTS } from '../../utils/types';
 import type { AvatarSize, AvatarVariant, AvatarStatus } from '../../utils/types';
+import { warnIfInvalidEnumProp } from '../../utils/prop-validator';
+
+const TAG = 'aegov-avatar';
+const ctx = (prop: string) => ({ component: TAG, prop });
 
 /**
  * @slot - Avatar content (used when no src is provided)
@@ -46,6 +51,17 @@ export class AegovAvatar {
    */
   @State() imageError: boolean = false;
 
+  componentWillLoad() {
+    warnIfInvalidEnumProp(this.size, AVATAR_SIZES, 'base', ctx('size'));
+    warnIfInvalidEnumProp(this.variant, AVATAR_VARIANTS, 'square', ctx('variant'));
+  }
+
+  @Watch('size')
+  onSizeChange(v: unknown) { warnIfInvalidEnumProp(v, AVATAR_SIZES, 'base', ctx('size')); }
+
+  @Watch('variant')
+  onVariantChange(v: unknown) { warnIfInvalidEnumProp(v, AVATAR_VARIANTS, 'square', ctx('variant')); }
+
   /**
    * Handle image load error
    */
@@ -59,6 +75,9 @@ export class AegovAvatar {
   private getAvatarClasses(): string {
     const classes: string[] = ['aegov-avatar'];
 
+    const size: AvatarSize = (AVATAR_SIZES as readonly string[]).includes(this.size) ? this.size : 'base';
+    const variant: AvatarVariant = (AVATAR_VARIANTS as readonly string[]).includes(this.variant) ? this.variant : 'square';
+
     // Size classes
     const sizeClasses: Record<AvatarSize, string> = {
       xs: 'avatar-xs',
@@ -70,10 +89,10 @@ export class AegovAvatar {
       '3xl': 'avatar-3xl',
     };
 
-    classes.push(sizeClasses[this.size]);
+    classes.push(sizeClasses[size]);
 
     // Variant classes
-    if (this.variant === 'rounded') {
+    if (variant === 'rounded') {
       classes.push('avatar-rounded');
     }
 

@@ -1,9 +1,14 @@
 import { Component, Host, h, Prop, Element, State, Listen, Event, EventEmitter, Watch } from '@stencil/core';
+import { POPOVER_POSITIONS, POPOVER_ALIGNS, POPOVER_TRIGGERS } from '../../utils/types';
 import type { PopoverPosition, PopoverAlign, PopoverTrigger } from '../../utils/types';
 import { generateId } from '../../utils/id-generator';
 import { getFocusableElements, FOCUSABLE_SELECTORS, cycleFocus } from '../../utils/focus-management';
 import { createPortal, removePortal } from '../../utils/portal-manager';
 import { createKeyboardHandler } from '../../utils/keyboard-handler';
+import { warnIfInvalidEnumProp } from '../../utils/prop-validator';
+
+const TAG = 'aegov-popover';
+const ctx = (prop: string) => ({ component: TAG, prop });
 
 /**
  * Design token values used in portal-injected styles.
@@ -188,10 +193,22 @@ export class AegovPopover {
   @Event() aegovPopoverClose: EventEmitter<void>;
 
   componentWillLoad() {
+    warnIfInvalidEnumProp(this.triggerType, POPOVER_TRIGGERS, 'click', ctx('triggerType'));
+    warnIfInvalidEnumProp(this.position, POPOVER_POSITIONS, 'bottom', ctx('position'));
+    warnIfInvalidEnumProp(this.align, POPOVER_ALIGNS, 'center', ctx('align'));
     this.popoverId = generateId('aegov-popover');
     this.triggerId = `${this.popoverId}-trigger`;
     this.checkSlotContent();
   }
+
+  @Watch('triggerType')
+  onTriggerTypeChange(v: unknown) { warnIfInvalidEnumProp(v, POPOVER_TRIGGERS, 'click', ctx('triggerType')); }
+
+  @Watch('position')
+  onPositionChange(v: unknown) { warnIfInvalidEnumProp(v, POPOVER_POSITIONS, 'bottom', ctx('position')); }
+
+  @Watch('align')
+  onAlignChange(v: unknown) { warnIfInvalidEnumProp(v, POPOVER_ALIGNS, 'center', ctx('align')); }
 
   componentDidLoad() {
     this.createPortalElement();
@@ -332,7 +349,7 @@ export class AegovPopover {
       return;
     }
 
-    let position = this.position;
+    let position: PopoverPosition = (POPOVER_POSITIONS as readonly string[]).includes(this.position) ? this.position : 'bottom';
 
     // Flip if not enough space
     if (position === 'bottom' && triggerRect.bottom + this.gap + popoverRect.height > viewportHeight) {
@@ -567,7 +584,7 @@ export class AegovPopover {
     popoverContainer.setAttribute('role', 'dialog');
     popoverContainer.setAttribute('aria-labelledby', this.triggerId);
     popoverContainer.setAttribute('data-state', 'open');
-    popoverContainer.setAttribute('data-position', this.position);
+    popoverContainer.setAttribute('data-position', (POPOVER_POSITIONS as readonly string[]).includes(this.position) ? this.position : 'bottom');
 
     // Move the original slot element into the portal (not clone)
     contentSlot.removeAttribute('slot');

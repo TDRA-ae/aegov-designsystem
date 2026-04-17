@@ -397,4 +397,116 @@ describe('aegov-tabs', () => {
       expect(page.rootInstance.orientation).toBe('horizontal');
     });
   });
+
+  describe('invalid prop values', () => {
+    let warnSpy: jest.SpyInstance;
+
+    beforeEach(() => {
+      warnSpy = jest.spyOn(console, 'warn').mockImplementation();
+    });
+
+    afterEach(() => {
+      warnSpy.mockRestore();
+    });
+
+    it('falls back to default variant class when invalid', async () => {
+      const page = await render(`
+        <aegov-tabs variant="weird">
+          <aegov-tab slot="tabs" tab-id="a">A</aegov-tab>
+          <aegov-tab-panel tab-id="a">P</aegov-tab-panel>
+        </aegov-tabs>
+      `);
+      const container = page.root.querySelector('.aegov-tabs');
+      expect(container.classList.contains('tabs--simple')).toBe(true);
+    });
+
+    it('falls back to default size class when invalid', async () => {
+      const page = await render(`
+        <aegov-tabs size="huge">
+          <aegov-tab slot="tabs" tab-id="a">A</aegov-tab>
+          <aegov-tab-panel tab-id="a">P</aegov-tab-panel>
+        </aegov-tabs>
+      `);
+      const container = page.root.querySelector('.aegov-tabs');
+      expect(container.classList.contains('tabs--base')).toBe(true);
+    });
+
+    it('falls back to default orientation when invalid', async () => {
+      const page = await render(`
+        <aegov-tabs orientation="diagonal">
+          <aegov-tab slot="tabs" tab-id="a">A</aegov-tab>
+          <aegov-tab-panel tab-id="a">P</aegov-tab-panel>
+        </aegov-tabs>
+      `);
+      const container = page.root.querySelector('.aegov-tabs');
+      expect(container.classList.contains('tabs--vertical')).toBe(false);
+    });
+
+    it('warns with component name, prop name, invalid value, and fallback', async () => {
+      await render(`
+        <aegov-tabs variant="weird">
+          <aegov-tab slot="tabs" tab-id="a">A</aegov-tab>
+          <aegov-tab-panel tab-id="a">P</aegov-tab-panel>
+        </aegov-tabs>
+      `);
+      const messages = warnSpy.mock.calls.map(c => c[0] as string);
+      const warn = messages.find(m => m.includes('[aegov-tabs]') && m.includes('"variant"'));
+      expect(warn).toBeDefined();
+      expect(warn).toContain('"weird"');
+      expect(warn).toContain('simple');
+    });
+
+    it('does not warn when all props are valid', async () => {
+      await render(`
+        <aegov-tabs variant="segmented" size="lg" orientation="vertical">
+          <aegov-tab slot="tabs" tab-id="a">A</aegov-tab>
+          <aegov-tab-panel tab-id="a">P</aegov-tab-panel>
+        </aegov-tabs>
+      `);
+      const tabWarns = warnSpy.mock.calls.map(c => c[0] as string).filter(m => m && m.includes('[aegov-tabs]'));
+      expect(tabWarns.length).toBe(0);
+    });
+
+    it('warns again via @Watch when variant is updated to invalid value', async () => {
+      const page = await render(`
+        <aegov-tabs variant="simple">
+          <aegov-tab slot="tabs" tab-id="a">A</aegov-tab>
+          <aegov-tab-panel tab-id="a">P</aegov-tab-panel>
+        </aegov-tabs>
+      `);
+      page.root.setAttribute('variant', 'nope');
+      await page.waitForChanges();
+      const messages = warnSpy.mock.calls.map(c => c[0] as string);
+      const warn = messages.find(m => m.includes('[aegov-tabs]') && m.includes('"variant"'));
+      expect(warn).toBeDefined();
+    });
+
+    it('warns again via @Watch when size is updated to invalid value', async () => {
+      const page = await render(`
+        <aegov-tabs size="base">
+          <aegov-tab slot="tabs" tab-id="a">A</aegov-tab>
+          <aegov-tab-panel tab-id="a">P</aegov-tab-panel>
+        </aegov-tabs>
+      `);
+      page.root.setAttribute('size', 'nope');
+      await page.waitForChanges();
+      const messages = warnSpy.mock.calls.map(c => c[0] as string);
+      const warn = messages.find(m => m.includes('[aegov-tabs]') && m.includes('"size"'));
+      expect(warn).toBeDefined();
+    });
+
+    it('warns again via @Watch when orientation is updated to invalid value', async () => {
+      const page = await render(`
+        <aegov-tabs orientation="horizontal">
+          <aegov-tab slot="tabs" tab-id="a">A</aegov-tab>
+          <aegov-tab-panel tab-id="a">P</aegov-tab-panel>
+        </aegov-tabs>
+      `);
+      page.root.setAttribute('orientation', 'nope');
+      await page.waitForChanges();
+      const messages = warnSpy.mock.calls.map(c => c[0] as string);
+      const warn = messages.find(m => m.includes('[aegov-tabs]') && m.includes('"orientation"'));
+      expect(warn).toBeDefined();
+    });
+  });
 });

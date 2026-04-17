@@ -627,4 +627,97 @@ describe('aegov-dropdown', () => {
       expect(clearTimeoutsSpy).toHaveBeenCalled();
     });
   });
+
+  describe('invalid prop values', () => {
+    let warnSpy: jest.SpyInstance;
+
+    beforeEach(() => {
+      warnSpy = jest.spyOn(console, 'warn').mockImplementation();
+    });
+
+    afterEach(() => {
+      warnSpy.mockRestore();
+    });
+
+    it('renders safely when triggerType is invalid', async () => {
+      const page = await newSpecPage({
+        components: [AegovDropdown],
+        html: `<aegov-dropdown trigger-type="weird"><button slot="trigger">T</button><div slot="dropdown-content">C</div></aegov-dropdown>`,
+      });
+      expect(page.root).toBeTruthy();
+    });
+
+    it('renders safely when position is invalid', async () => {
+      const page = await newSpecPage({
+        components: [AegovDropdown],
+        html: `<aegov-dropdown position="middle"><button slot="trigger">T</button><div slot="dropdown-content">C</div></aegov-dropdown>`,
+      });
+      expect(page.root).toBeTruthy();
+    });
+
+    it('renders safely when align is invalid', async () => {
+      const page = await newSpecPage({
+        components: [AegovDropdown],
+        html: `<aegov-dropdown align="middle"><button slot="trigger">T</button><div slot="dropdown-content">C</div></aegov-dropdown>`,
+      });
+      expect(page.root).toBeTruthy();
+    });
+
+    it('warns with component name, prop name, invalid value, and fallback', async () => {
+      await newSpecPage({
+        components: [AegovDropdown],
+        html: `<aegov-dropdown position="weird"><button slot="trigger">T</button><div slot="dropdown-content">C</div></aegov-dropdown>`,
+      });
+      const messages = warnSpy.mock.calls.map(c => c[0] as string);
+      const warn = messages.find(m => m.includes('"position"'));
+      expect(warn).toBeDefined();
+      expect(warn).toContain('[aegov-dropdown]');
+      expect(warn).toContain('"weird"');
+      expect(warn).toContain('bottom');
+    });
+
+    it('does not warn when all props are valid', async () => {
+      await newSpecPage({
+        components: [AegovDropdown],
+        html: `<aegov-dropdown trigger-type="hover" position="top" align="end"><button slot="trigger">T</button><div slot="dropdown-content">C</div></aegov-dropdown>`,
+      });
+      expect(warnSpy).not.toHaveBeenCalled();
+    });
+
+    it('warns again via @Watch when triggerType is updated to invalid value', async () => {
+      const page = await newSpecPage({
+        components: [AegovDropdown],
+        html: `<aegov-dropdown trigger-type="click"><button slot="trigger">T</button><div slot="dropdown-content">C</div></aegov-dropdown>`,
+      });
+      page.root.setAttribute('trigger-type', 'nope');
+      await page.waitForChanges();
+      const messages = warnSpy.mock.calls.map(c => c[0] as string);
+      const warn = messages.find(m => m.includes('[aegov-dropdown]') && m.includes('"triggerType"'));
+      expect(warn).toBeDefined();
+    });
+
+    it('warns again via @Watch when position is updated to invalid value', async () => {
+      const page = await newSpecPage({
+        components: [AegovDropdown],
+        html: `<aegov-dropdown position="bottom"><button slot="trigger">T</button><div slot="dropdown-content">C</div></aegov-dropdown>`,
+      });
+      page.root.setAttribute('position', 'nope');
+      await page.waitForChanges();
+      const messages = warnSpy.mock.calls.map(c => c[0] as string);
+      const warn = messages.find(m => m.includes('[aegov-dropdown]') && m.includes('"position"'));
+      expect(warn).toBeDefined();
+    });
+
+    it('warns again via @Watch when align is updated to invalid value', async () => {
+      const page = await newSpecPage({
+        components: [AegovDropdown],
+        html: `<aegov-dropdown align="start"><button slot="trigger">T</button><div slot="dropdown-content">C</div></aegov-dropdown>`,
+      });
+      page.root.setAttribute('align', 'nope');
+      await page.waitForChanges();
+      const messages = warnSpy.mock.calls.map(c => c[0] as string);
+      const warn = messages.find(m => m.includes('[aegov-dropdown]') && m.includes('"align"'));
+      expect(warn).toBeDefined();
+    });
+  });
 });

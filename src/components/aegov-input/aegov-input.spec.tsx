@@ -733,4 +733,101 @@ describe('aegov-input', () => {
       expect(btn.className).toContain('input__copy-btn--copied');
     });
   });
+
+  describe('invalid prop values', () => {
+    let warnSpy: jest.SpyInstance;
+
+    beforeEach(() => {
+      warnSpy = jest.spyOn(console, 'warn').mockImplementation();
+    });
+
+    afterEach(() => {
+      warnSpy.mockRestore();
+    });
+
+    it('falls back to default size class when size is invalid', async () => {
+      const page = await newSpecPage({
+        components: [AegovInput],
+        html: `<aegov-input size="huge"></aegov-input>`,
+      });
+      const input = page.root.querySelector('input');
+      expect(input).toBeTruthy();
+      expect(input.className).toContain('input--base');
+    });
+
+    it('falls back native type to "text" when type is invalid', async () => {
+      const page = await newSpecPage({
+        components: [AegovInput],
+        html: `<aegov-input type="bogus"></aegov-input>`,
+      });
+      const input = page.root.querySelector('input');
+      expect(input.getAttribute('type')).toBe('text');
+    });
+
+    it('warns with component name, prop name, invalid value, and fallback for size', async () => {
+      await newSpecPage({
+        components: [AegovInput],
+        html: `<aegov-input size="huge"></aegov-input>`,
+      });
+      const messages = warnSpy.mock.calls.map(c => c[0] as string);
+      const sizeWarn = messages.find(m => m.includes('"size"'));
+      expect(sizeWarn).toBeDefined();
+      expect(sizeWarn).toContain('[aegov-input]');
+      expect(sizeWarn).toContain('"huge"');
+      expect(sizeWarn).toContain('base');
+    });
+
+    it('warns with component name, prop name, invalid value, and fallback for type', async () => {
+      await newSpecPage({
+        components: [AegovInput],
+        html: `<aegov-input type="bogus"></aegov-input>`,
+      });
+      const messages = warnSpy.mock.calls.map(c => c[0] as string);
+      const typeWarn = messages.find(m => m.includes('"type"'));
+      expect(typeWarn).toBeDefined();
+      expect(typeWarn).toContain('[aegov-input]');
+      expect(typeWarn).toContain('"bogus"');
+      expect(typeWarn).toContain('text');
+    });
+
+    it('does not warn when all props are valid', async () => {
+      await newSpecPage({
+        components: [AegovInput],
+        html: `<aegov-input size="lg" type="email"></aegov-input>`,
+      });
+      expect(warnSpy).not.toHaveBeenCalled();
+    });
+
+    it('warns again via @Watch when size is updated to an invalid value', async () => {
+      const page = await newSpecPage({
+        components: [AegovInput],
+        html: `<aegov-input size="base"></aegov-input>`,
+      });
+      expect(warnSpy).not.toHaveBeenCalled();
+
+      page.root.setAttribute('size', 'nope');
+      await page.waitForChanges();
+
+      const messages = warnSpy.mock.calls.map(c => c[0] as string);
+      const invalidWarn = messages.find(m => m.includes('[aegov-input]') && m.includes('"nope"'));
+      expect(invalidWarn).toBeDefined();
+      expect(invalidWarn).toContain('"size"');
+    });
+
+    it('warns again via @Watch when type is updated to an invalid value', async () => {
+      const page = await newSpecPage({
+        components: [AegovInput],
+        html: `<aegov-input type="text"></aegov-input>`,
+      });
+      expect(warnSpy).not.toHaveBeenCalled();
+
+      page.root.setAttribute('type', 'nope');
+      await page.waitForChanges();
+
+      const messages = warnSpy.mock.calls.map(c => c[0] as string);
+      const invalidWarn = messages.find(m => m.includes('[aegov-input]') && m.includes('"nope"'));
+      expect(invalidWarn).toBeDefined();
+      expect(invalidWarn).toContain('"type"');
+    });
+  });
 });

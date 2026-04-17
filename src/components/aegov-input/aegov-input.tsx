@@ -1,7 +1,12 @@
-import { Component, Host, h, Prop, State, Event, EventEmitter, Element } from '@stencil/core';
+import { Component, Host, h, Prop, State, Event, EventEmitter, Element, Watch } from '@stencil/core';
+import { INPUT_TYPES, INPUT_SIZES } from '../../utils/types';
 import type { InputType, InputSize } from '../../utils/types';
 import { getPassThroughAttributes } from '../../utils/attributes';
 import { generateId } from '../../utils/id-generator';
+import { warnIfInvalidEnumProp } from '../../utils/prop-validator';
+
+const TAG = 'aegov-input';
+const ctx = (prop: string) => ({ component: TAG, prop });
 
 @Component({
   tag: 'aegov-input',
@@ -67,10 +72,18 @@ export class AegovInput {
   @Event() aegovInputBlur: EventEmitter<FocusEvent>;
 
   componentWillLoad() {
+    warnIfInvalidEnumProp(this.type, INPUT_TYPES, 'text', ctx('type'));
+    warnIfInvalidEnumProp(this.size, INPUT_SIZES, 'base', ctx('size'));
     if (!this.fieldId) {
       this.fieldId = generateId('aegov-input');
     }
   }
+
+  @Watch('type')
+  onTypeChange(v: unknown) { warnIfInvalidEnumProp(v, INPUT_TYPES, 'text', ctx('type')); }
+
+  @Watch('size')
+  onSizeChange(v: unknown) { warnIfInvalidEnumProp(v, INPUT_SIZES, 'base', ctx('size')); }
 
   /** Native input attributes to pass through to the inner input element. */
   private static readonly NATIVE_INPUT_ATTRS = new Set([
@@ -97,7 +110,7 @@ export class AegovInput {
     if (this.isRevealable && this.passwordVisible) {
       return 'text';
     }
-    return this.type;
+    return (INPUT_TYPES as readonly string[]).includes(this.type) ? this.type : 'text';
   }
 
   private getInputClasses(hasIconStart: boolean, hasIconEnd: boolean): string {
@@ -111,7 +124,8 @@ export class AegovInput {
       xl: 'input--xl',
     };
 
-    classes.push(sizeClasses[this.size]);
+    const size: InputSize = (INPUT_SIZES as readonly string[]).includes(this.size) ? this.size : 'base';
+    classes.push(sizeClasses[size]);
 
     if (this.hasActionButton) {
       classes.push('input--has-action');
@@ -189,10 +203,12 @@ export class AegovInput {
       xl: 'revealable--xl',
     };
 
+    const size: InputSize = (INPUT_SIZES as readonly string[]).includes(this.size) ? this.size : 'base';
+
     return (
       <button
         type="button"
-        class={`input__revealable ${sizeClasses[this.size]}`}
+        class={`input__revealable ${sizeClasses[size]}`}
         onClick={this.handleRevealToggle}
         disabled={this.disabled}
         tabindex={-1}
@@ -228,10 +244,12 @@ export class AegovInput {
       xl: 'copy-btn--xl',
     };
 
+    const size: InputSize = (INPUT_SIZES as readonly string[]).includes(this.size) ? this.size : 'base';
+
     return (
       <button
         type="button"
-        class={`input__copy-btn ${sizeClasses[this.size]}${this.justCopied ? ' input__copy-btn--copied' : ''}`}
+        class={`input__copy-btn ${sizeClasses[size]}${this.justCopied ? ' input__copy-btn--copied' : ''}`}
         onClick={this.handleCopy}
         tabindex={-1}
         aria-label={this.justCopied ? 'Copied' : 'Copy to clipboard'}
@@ -258,6 +276,7 @@ export class AegovInput {
     const hasIconEndContent = !!this.el.querySelector('[slot="icon-end"]');
     const hasIconEnd = hasIconEndContent && !this.hasActionButton;
     const needsWrapper = this.hasActionButton || hasIconStart || hasIconEnd || hasIconEndContent;
+    const size: InputSize = (INPUT_SIZES as readonly string[]).includes(this.size) ? this.size : 'base';
 
     const input = (
       <input
@@ -281,7 +300,7 @@ export class AegovInput {
     if (needsWrapper) {
       return (
         <Host>
-          <div class={`input__wrapper input__wrapper--${this.size}`}>
+          <div class={`input__wrapper input__wrapper--${size}`}>
             {hasIconStart && (
               <span class="input__icon input__icon--start">
                 <slot name="icon-start" />

@@ -1,9 +1,14 @@
 import { Component, Host, h, Prop, Event, EventEmitter, Element, Method, Watch, State } from '@stencil/core';
+import { DRAWER_POSITIONS, DRAWER_ANIMATIONS, DRAWER_OVERLAY_OPACITIES } from '../../utils/types';
 import type { DrawerPosition, DrawerAnimation, DrawerOverlayOpacity } from '../../utils/types';
 import { getPassThroughAttributes } from '../../utils/attributes';
 import { getSlottedFocusableElements, handleTabKeyWrap } from '../../utils/focus-management';
 import { lockBodyScroll, unlockBodyScroll } from '../../utils/scroll-lock';
 import { pushZIndex, popZIndex } from '../../utils/z-index-manager';
+import { warnIfInvalidEnumProp } from '../../utils/prop-validator';
+
+const TAG = 'aegov-drawer';
+const ctx = (prop: string) => ({ component: TAG, prop });
 
 /**
  * @slot - Drawer content
@@ -132,6 +137,21 @@ export class AegovDrawer {
       this.handleCloseAnimation();
     }
   }
+
+  componentWillLoad() {
+    warnIfInvalidEnumProp(this.position, DRAWER_POSITIONS, 'right', ctx('position'));
+    warnIfInvalidEnumProp(this.animation, DRAWER_ANIMATIONS, 'slide', ctx('animation'));
+    warnIfInvalidEnumProp(this.overlayOpacity, DRAWER_OVERLAY_OPACITIES, 'base', ctx('overlayOpacity'));
+  }
+
+  @Watch('position')
+  onPositionChange(v: unknown) { warnIfInvalidEnumProp(v, DRAWER_POSITIONS, 'right', ctx('position')); }
+
+  @Watch('animation')
+  onAnimationChange(v: unknown) { warnIfInvalidEnumProp(v, DRAWER_ANIMATIONS, 'slide', ctx('animation')); }
+
+  @Watch('overlayOpacity')
+  onOverlayOpacityChange(v: unknown) { warnIfInvalidEnumProp(v, DRAWER_OVERLAY_OPACITIES, 'base', ctx('overlayOpacity')); }
 
   connectedCallback() {
     // Move drawer to body for proper stacking
@@ -280,12 +300,13 @@ export class AegovDrawer {
   }
 
   private getOverlayOpacityClass(): string {
+    const overlayOpacity: DrawerOverlayOpacity = (DRAWER_OVERLAY_OPACITIES as readonly string[]).includes(this.overlayOpacity) ? this.overlayOpacity : 'base';
     const opacityClasses: Record<DrawerOverlayOpacity, string> = {
       light: 'drawer-backdrop--light',
       base: 'drawer-backdrop--base',
       dark: 'drawer-backdrop--dark',
     };
-    return opacityClasses[this.overlayOpacity];
+    return opacityClasses[overlayOpacity];
   }
 
   private static readonly PASS_THROUGH_ATTRS = new Set(['id']);
@@ -296,9 +317,10 @@ export class AegovDrawer {
     }
 
     const passThroughAttributes = getPassThroughAttributes(this.el, AegovDrawer.PASS_THROUGH_ATTRS);
+    const position: DrawerPosition = (DRAWER_POSITIONS as readonly string[]).includes(this.position) ? this.position : 'right';
     const containerClasses = [
       'aegov-drawer-container',
-      `drawer-container--${this.position}`,
+      `drawer-container--${position}`,
       !this.pinned ? 'drawer-container--unpinned' : '',
     ].filter(Boolean).join(' ');
 

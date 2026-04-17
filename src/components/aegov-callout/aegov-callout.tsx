@@ -1,7 +1,12 @@
-import { Component, Prop, Event, EventEmitter, State, h, Element } from '@stencil/core';
+import { Component, Prop, Watch, Event, EventEmitter, State, h, Element } from '@stencil/core';
+import { CALLOUT_VARIANTS, CALLOUT_APPEARANCES } from '../../utils/types';
 import type { CalloutVariant, CalloutAppearance } from '../../utils/types';
 import { getPassThroughAttributes } from '../../utils/attributes';
 import { getVariantIcon } from '../../utils/icons';
+import { warnIfInvalidEnumProp } from '../../utils/prop-validator';
+
+const TAG = 'aegov-callout';
+const ctx = (prop: string) => ({ component: TAG, prop });
 
 /**
  * @slot default - The main content of the callout
@@ -86,6 +91,17 @@ export class AegovCallout {
    * Get the default icon based on variant
    */
 
+  componentWillLoad() {
+    warnIfInvalidEnumProp(this.variant, CALLOUT_VARIANTS, 'default', ctx('variant'));
+    warnIfInvalidEnumProp(this.appearance, CALLOUT_APPEARANCES, 'soft', ctx('appearance'));
+  }
+
+  @Watch('variant')
+  onVariantChange(v: unknown) { warnIfInvalidEnumProp(v, CALLOUT_VARIANTS, 'default', ctx('variant')); }
+
+  @Watch('appearance')
+  onAppearanceChange(v: unknown) { warnIfInvalidEnumProp(v, CALLOUT_APPEARANCES, 'soft', ctx('appearance')); }
+
   /**
    * Lifecycle method called before each render
    */
@@ -114,12 +130,15 @@ export class AegovCallout {
       );
     }
 
+    const appearance: CalloutAppearance = (CALLOUT_APPEARANCES as readonly string[]).includes(this.appearance) ? this.appearance : 'soft';
+    const variant: CalloutVariant = (CALLOUT_VARIANTS as readonly string[]).includes(this.variant) ? this.variant : 'default';
+
     // Appearance classes
     const appearanceClasses: Record<CalloutAppearance, string[]> = {
         soft: ['callout--soft'],
         solid: ['callout--solid']
     };
-    classes.push(...appearanceClasses[this.appearance]);
+    classes.push(...appearanceClasses[appearance]);
 
     // Variant classes
     const variantClasses: Record<CalloutVariant, string[]> = {
@@ -129,7 +148,7 @@ export class AegovCallout {
         warning: ['callout--warning'],
         info: ['callout--info']
     };
-    classes.push(...variantClasses[this.variant]);
+    classes.push(...variantClasses[variant]);
 
     return classes.join(' ');
   }

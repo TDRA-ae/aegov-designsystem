@@ -1,5 +1,10 @@
 import { Component, Prop, State, Event, EventEmitter, Element, Listen, Watch, h } from '@stencil/core';
+import { TAB_VARIANTS, TAB_SIZES, TAB_ORIENTATIONS } from '../../utils/types';
 import type { TabVariant, TabSize, TabOrientation } from '../../utils/types';
+import { warnIfInvalidEnumProp } from '../../utils/prop-validator';
+
+const TAG = 'aegov-tabs';
+const ctx = (prop: string) => ({ component: TAG, prop });
 
 /**
  * @component aegov-tabs
@@ -86,6 +91,9 @@ export class AegovTabs {
   private scrollHandler: () => void;
 
   componentWillLoad() {
+    warnIfInvalidEnumProp(this.variant, TAB_VARIANTS, 'simple', ctx('variant'));
+    warnIfInvalidEnumProp(this.size, TAB_SIZES, 'base', ctx('size'));
+    warnIfInvalidEnumProp(this.orientation, TAB_ORIENTATIONS, 'horizontal', ctx('orientation'));
     if (this.defaultActiveTab) {
       this.activeTabId = this.defaultActiveTab;
     } else {
@@ -128,9 +136,20 @@ export class AegovTabs {
   }
 
   @Watch('variant')
+  onVariantChange(v: unknown) {
+    warnIfInvalidEnumProp(v, TAB_VARIANTS, 'simple', ctx('variant'));
+    this.syncChildren();
+  }
+
   @Watch('size')
+  onSizeChange(v: unknown) {
+    warnIfInvalidEnumProp(v, TAB_SIZES, 'base', ctx('size'));
+    this.syncChildren();
+  }
+
   @Watch('orientation')
-  onChildPropChange() {
+  onOrientationChange(v: unknown) {
+    warnIfInvalidEnumProp(v, TAB_ORIENTATIONS, 'horizontal', ctx('orientation'));
     this.syncChildren();
   }
 
@@ -254,8 +273,11 @@ export class AegovTabs {
   }
 
   render() {
+    const variant: TabVariant = (TAB_VARIANTS as readonly string[]).includes(this.variant) ? this.variant : 'simple';
+    const size: TabSize = (TAB_SIZES as readonly string[]).includes(this.size) ? this.size : 'base';
+    const orientation: TabOrientation = (TAB_ORIENTATIONS as readonly string[]).includes(this.orientation) ? this.orientation : 'horizontal';
     return (
-      <div class={`aegov-tabs tabs--${this.variant} tabs--${this.size}${this.stretch ? ' tabs--stretch' : ''}${this.orientation === 'vertical' ? ' tabs--vertical' : ''}`}>
+      <div class={`aegov-tabs tabs--${variant} tabs--${size}${this.stretch ? ' tabs--stretch' : ''}${orientation === 'vertical' ? ' tabs--vertical' : ''}`}>
         <div
           class={`tabs__list-wrapper${this.scrollable ? ' tabs__list-wrapper--scrollable' : ''}`}
           ref={el => (this.listWrapperEl = el as HTMLElement)}
@@ -263,7 +285,7 @@ export class AegovTabs {
           <div
             role="tablist"
             aria-label={this.tablistLabel}
-            aria-orientation={this.orientation}
+            aria-orientation={orientation}
             class="tabs__list"
             ref={el => (this.listEl = el as HTMLElement)}
           >

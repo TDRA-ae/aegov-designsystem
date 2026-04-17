@@ -214,4 +214,100 @@ describe('aegov-card', () => {
     const card = page.root.querySelector('.aegov-card');
     expect(card).toBeTruthy();
   });
+
+  describe('invalid prop values', () => {
+    let warnSpy: jest.SpyInstance;
+
+    beforeEach(() => {
+      warnSpy = jest.spyOn(console, 'warn').mockImplementation();
+    });
+
+    afterEach(() => {
+      warnSpy.mockRestore();
+    });
+
+    it('falls back to default borderStyle class when invalid', async () => {
+      const page = await newSpecPage({
+        components: [AegovCard],
+        html: `<aegov-card border-style="weird">X</aegov-card>`,
+      });
+      const card = page.root.querySelector('.aegov-card');
+      expect(card.className).toContain('card--border-standard');
+    });
+
+    it('falls back to default background class when invalid', async () => {
+      const page = await newSpecPage({
+        components: [AegovCard],
+        html: `<aegov-card background="weird">X</aegov-card>`,
+      });
+      const card = page.root.querySelector('.aegov-card');
+      expect(card.className).toContain('card--bg-white');
+    });
+
+    it('falls back to default hover class when invalid', async () => {
+      const page = await newSpecPage({
+        components: [AegovCard],
+        html: `<aegov-card hover="weird">X</aegov-card>`,
+      });
+      const card = page.root.querySelector('.aegov-card');
+      expect(card.className).toContain('card--hover-off');
+    });
+
+    it('warns with component name, prop name, invalid value, and fallback', async () => {
+      await newSpecPage({
+        components: [AegovCard],
+        html: `<aegov-card border-style="weird">X</aegov-card>`,
+      });
+      const messages = warnSpy.mock.calls.map(c => c[0] as string);
+      const warn = messages.find(m => m.includes('"borderStyle"'));
+      expect(warn).toBeDefined();
+      expect(warn).toContain('[aegov-card]');
+      expect(warn).toContain('"weird"');
+      expect(warn).toContain('standard');
+    });
+
+    it('does not warn when all props are valid', async () => {
+      await newSpecPage({
+        components: [AegovCard],
+        html: `<aegov-card border-style="light" background="subtle" hover="glow">X</aegov-card>`,
+      });
+      expect(warnSpy).not.toHaveBeenCalled();
+    });
+
+    it('warns again via @Watch when borderStyle is updated to invalid value', async () => {
+      const page = await newSpecPage({
+        components: [AegovCard],
+        html: `<aegov-card border-style="standard">X</aegov-card>`,
+      });
+      page.root.setAttribute('border-style', 'nope');
+      await page.waitForChanges();
+      const messages = warnSpy.mock.calls.map(c => c[0] as string);
+      const warn = messages.find(m => m.includes('[aegov-card]') && m.includes('"borderStyle"'));
+      expect(warn).toBeDefined();
+    });
+
+    it('warns again via @Watch when background is updated to invalid value', async () => {
+      const page = await newSpecPage({
+        components: [AegovCard],
+        html: `<aegov-card background="white">X</aegov-card>`,
+      });
+      page.root.setAttribute('background', 'nope');
+      await page.waitForChanges();
+      const messages = warnSpy.mock.calls.map(c => c[0] as string);
+      const warn = messages.find(m => m.includes('[aegov-card]') && m.includes('"background"'));
+      expect(warn).toBeDefined();
+    });
+
+    it('warns again via @Watch when hover is updated to invalid value', async () => {
+      const page = await newSpecPage({
+        components: [AegovCard],
+        html: `<aegov-card hover="off">X</aegov-card>`,
+      });
+      page.root.setAttribute('hover', 'nope');
+      await page.waitForChanges();
+      const messages = warnSpy.mock.calls.map(c => c[0] as string);
+      const warn = messages.find(m => m.includes('[aegov-card]') && m.includes('"hover"'));
+      expect(warn).toBeDefined();
+    });
+  });
 });

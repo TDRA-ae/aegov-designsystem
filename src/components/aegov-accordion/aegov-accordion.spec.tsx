@@ -547,4 +547,87 @@ describe('aegov-accordion', () => {
       });
     });
   });
+
+  describe('invalid prop values', () => {
+    let warnSpy: jest.SpyInstance;
+
+    beforeEach(() => {
+      warnSpy = jest.spyOn(console, 'warn').mockImplementation();
+    });
+
+    afterEach(() => {
+      warnSpy.mockRestore();
+    });
+
+    it('renders safely when icon is invalid', async () => {
+      const page = await newSpecPage({
+        components: [AegovAccordion, AegovAccordionItem],
+        html: `
+          <aegov-accordion icon="sparkle">
+            <aegov-accordion-item>
+              <span slot="accordion-item-heading">Heading</span>
+              <span slot="accordion-item-content">Content</span>
+            </aegov-accordion-item>
+          </aegov-accordion>
+        `,
+      });
+      expect(page.root.querySelector('.aegov-accordion')).toBeTruthy();
+    });
+
+    it('warns with component name, prop name, invalid value, and fallback', async () => {
+      await newSpecPage({
+        components: [AegovAccordion, AegovAccordionItem],
+        html: `
+          <aegov-accordion icon="sparkle">
+            <aegov-accordion-item>
+              <span slot="accordion-item-heading">Heading</span>
+              <span slot="accordion-item-content">Content</span>
+            </aegov-accordion-item>
+          </aegov-accordion>
+        `,
+      });
+      const messages = warnSpy.mock.calls.map(c => c[0] as string);
+      const iconWarn = messages.find(m => m.includes('[aegov-accordion]') && m.includes('"sparkle"'));
+      expect(iconWarn).toBeDefined();
+      expect(iconWarn).toContain('"icon"');
+    });
+
+    it('does not warn when all props are valid', async () => {
+      await newSpecPage({
+        components: [AegovAccordion, AegovAccordionItem],
+        html: `
+          <aegov-accordion icon="plus">
+            <aegov-accordion-item>
+              <span slot="accordion-item-heading">Heading</span>
+              <span slot="accordion-item-content">Content</span>
+            </aegov-accordion-item>
+          </aegov-accordion>
+        `,
+      });
+      expect(warnSpy).not.toHaveBeenCalled();
+    });
+
+    it('warns again via @Watch when icon is updated to an invalid value', async () => {
+      const page = await newSpecPage({
+        components: [AegovAccordion, AegovAccordionItem],
+        html: `
+          <aegov-accordion icon="chevron">
+            <aegov-accordion-item>
+              <span slot="accordion-item-heading">Heading</span>
+              <span slot="accordion-item-content">Content</span>
+            </aegov-accordion-item>
+          </aegov-accordion>
+        `,
+      });
+      expect(warnSpy).not.toHaveBeenCalled();
+
+      page.root.setAttribute('icon', 'nope');
+      await page.waitForChanges();
+
+      const messages = warnSpy.mock.calls.map(c => c[0] as string);
+      const invalidWarn = messages.find(m => m.includes('[aegov-accordion]') && m.includes('"nope"'));
+      expect(invalidWarn).toBeDefined();
+      expect(invalidWarn).toContain('"icon"');
+    });
+  });
 });

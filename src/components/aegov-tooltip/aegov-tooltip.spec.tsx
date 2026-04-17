@@ -462,4 +462,100 @@ describe('aegov-tooltip', () => {
       expect(page.root.querySelector('.aegov-tooltip')).toBeTruthy();
     });
   });
+
+  describe('invalid prop values', () => {
+    let warnSpy: jest.SpyInstance;
+
+    beforeEach(() => {
+      warnSpy = jest.spyOn(console, 'warn').mockImplementation();
+    });
+
+    afterEach(() => {
+      warnSpy.mockRestore();
+    });
+
+    it('renders safely when position is invalid', async () => {
+      const page = await newSpecPage({
+        components: [AegovTooltip],
+        html: `<aegov-tooltip position="middle" content="Test"><button>T</button></aegov-tooltip>`,
+      });
+      const tooltip = page.rootInstance as AegovTooltip;
+      tooltip.isVisible = true;
+      await page.waitForChanges();
+      expect(page.root.querySelector('.tooltip--top')).toBeTruthy();
+    });
+
+    it('renders safely when align is invalid', async () => {
+      const page = await newSpecPage({
+        components: [AegovTooltip],
+        html: `<aegov-tooltip align="middle" content="Test"><button>T</button></aegov-tooltip>`,
+      });
+      expect(page.root).toBeTruthy();
+    });
+
+    it('renders safely when trigger is invalid', async () => {
+      const page = await newSpecPage({
+        components: [AegovTooltip],
+        html: `<aegov-tooltip trigger="weird" content="Test"><button>T</button></aegov-tooltip>`,
+      });
+      expect(page.root).toBeTruthy();
+    });
+
+    it('warns with component name, prop name, invalid value, and fallback', async () => {
+      await newSpecPage({
+        components: [AegovTooltip],
+        html: `<aegov-tooltip position="weird" content="Test"><button>T</button></aegov-tooltip>`,
+      });
+      const messages = warnSpy.mock.calls.map(c => c[0] as string);
+      const warn = messages.find(m => m.includes('"position"'));
+      expect(warn).toBeDefined();
+      expect(warn).toContain('[aegov-tooltip]');
+      expect(warn).toContain('"weird"');
+      expect(warn).toContain('top');
+    });
+
+    it('does not warn when all props are valid', async () => {
+      await newSpecPage({
+        components: [AegovTooltip],
+        html: `<aegov-tooltip position="bottom" align="start" trigger="click" content="Test"><button>T</button></aegov-tooltip>`,
+      });
+      expect(warnSpy).not.toHaveBeenCalled();
+    });
+
+    it('warns again via @Watch when position is updated to invalid value', async () => {
+      const page = await newSpecPage({
+        components: [AegovTooltip],
+        html: `<aegov-tooltip position="top" content="Test"><button>T</button></aegov-tooltip>`,
+      });
+      page.root.setAttribute('position', 'nope');
+      await page.waitForChanges();
+      const messages = warnSpy.mock.calls.map(c => c[0] as string);
+      const warn = messages.find(m => m.includes('[aegov-tooltip]') && m.includes('"position"'));
+      expect(warn).toBeDefined();
+    });
+
+    it('warns again via @Watch when align is updated to invalid value', async () => {
+      const page = await newSpecPage({
+        components: [AegovTooltip],
+        html: `<aegov-tooltip align="center" content="Test"><button>T</button></aegov-tooltip>`,
+      });
+      page.root.setAttribute('align', 'nope');
+      await page.waitForChanges();
+      const messages = warnSpy.mock.calls.map(c => c[0] as string);
+      const warn = messages.find(m => m.includes('[aegov-tooltip]') && m.includes('"align"'));
+      expect(warn).toBeDefined();
+    });
+
+    it('warns again via @Watch when trigger is updated to invalid value', async () => {
+      const page = await newSpecPage({
+        components: [AegovTooltip],
+        html: `<aegov-tooltip trigger="hover" content="Test"><button>T</button></aegov-tooltip>`,
+      });
+      page.root.setAttribute('trigger', 'nope');
+      await page.waitForChanges();
+      const messages = warnSpy.mock.calls.map(c => c[0] as string);
+      const warn = messages.find(m => m.includes('[aegov-tooltip]') && m.includes('"trigger"'));
+      expect(warn).toBeDefined();
+    });
+  });
 });
