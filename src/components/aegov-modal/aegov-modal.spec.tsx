@@ -417,4 +417,79 @@ describe('aegov-modal', () => {
       expect(style).toContain('--modal-z-index');
     });
   });
+
+  describe('invalid prop values', () => {
+    let warnSpy: jest.SpyInstance;
+
+    beforeEach(() => {
+      warnSpy = jest.spyOn(console, 'warn').mockImplementation();
+    });
+
+    afterEach(() => {
+      warnSpy.mockRestore();
+    });
+
+    it('renders safely when backdropOpacity is invalid', async () => {
+      const page = await newSpecPage({
+        components: [AegovModal],
+        html: `<aegov-modal open="true" backdrop-opacity="crazy"><div>Content</div></aegov-modal>`,
+      });
+      await page.waitForChanges();
+      expect(page.root).toBeTruthy();
+    });
+
+    it('renders safely when position is invalid', async () => {
+      const page = await newSpecPage({
+        components: [AegovModal],
+        html: `<aegov-modal open="true" position="middle"><div>Content</div></aegov-modal>`,
+      });
+      await page.waitForChanges();
+      expect(page.root).toBeTruthy();
+    });
+
+    it('warns with component name, prop name, invalid value, and fallback', async () => {
+      await newSpecPage({
+        components: [AegovModal],
+        html: `<aegov-modal backdrop-opacity="weird"><div>Content</div></aegov-modal>`,
+      });
+      const messages = warnSpy.mock.calls.map(c => c[0] as string);
+      const warn = messages.find(m => m.includes('"backdropOpacity"'));
+      expect(warn).toBeDefined();
+      expect(warn).toContain('[aegov-modal]');
+      expect(warn).toContain('"weird"');
+      expect(warn).toContain('base');
+    });
+
+    it('does not warn when all props are valid', async () => {
+      await newSpecPage({
+        components: [AegovModal],
+        html: `<aegov-modal position="top" backdrop-opacity="dark"><div>Content</div></aegov-modal>`,
+      });
+      expect(warnSpy).not.toHaveBeenCalled();
+    });
+
+    it('warns again via @Watch when backdropOpacity is updated to invalid value', async () => {
+      const page = await newSpecPage({
+        components: [AegovModal],
+        html: `<aegov-modal backdrop-opacity="base"><div>Content</div></aegov-modal>`,
+      });
+      page.root.setAttribute('backdrop-opacity', 'nope');
+      await page.waitForChanges();
+      const messages = warnSpy.mock.calls.map(c => c[0] as string);
+      const warn = messages.find(m => m.includes('[aegov-modal]') && m.includes('"backdropOpacity"'));
+      expect(warn).toBeDefined();
+    });
+
+    it('warns again via @Watch when position is updated to invalid value', async () => {
+      const page = await newSpecPage({
+        components: [AegovModal],
+        html: `<aegov-modal position="center"><div>Content</div></aegov-modal>`,
+      });
+      page.root.setAttribute('position', 'nope');
+      await page.waitForChanges();
+      const messages = warnSpy.mock.calls.map(c => c[0] as string);
+      const warn = messages.find(m => m.includes('[aegov-modal]') && m.includes('"position"'));
+      expect(warn).toBeDefined();
+    });
+  });
 });

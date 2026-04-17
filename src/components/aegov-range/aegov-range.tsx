@@ -1,7 +1,12 @@
-import { Component, Host, h, Prop, State, Event, EventEmitter, Element } from '@stencil/core';
+import { Component, Host, h, Prop, State, Event, EventEmitter, Element, Watch } from '@stencil/core';
+import { RANGE_SIZES, RANGE_DISPLAYS, RANGE_ORIENTATIONS, RANGE_MODES } from '../../utils/types';
 import type { RangeSize, RangeDisplay, RangeOrientation, RangeMode } from '../../utils/types';
 import { getPassThroughAttributes } from '../../utils/attributes';
 import { generateId } from '../../utils/id-generator';
+import { warnIfInvalidEnumProp } from '../../utils/prop-validator';
+
+const TAG = 'aegov-range';
+const ctx = (prop: string) => ({ component: TAG, prop });
 
 @Component({
   tag: 'aegov-range',
@@ -71,10 +76,26 @@ export class AegovRange {
   private trackWrapperEl?: HTMLElement;
 
   componentWillLoad() {
+    warnIfInvalidEnumProp(this.size, RANGE_SIZES, 'base', ctx('size'));
+    warnIfInvalidEnumProp(this.display, RANGE_DISPLAYS, 'none', ctx('display'));
+    warnIfInvalidEnumProp(this.orientation, RANGE_ORIENTATIONS, 'horizontal', ctx('orientation'));
+    warnIfInvalidEnumProp(this.mode, RANGE_MODES, 'single', ctx('mode'));
     if (!this.fieldId) {
       this.fieldId = generateId('aegov-range');
     }
   }
+
+  @Watch('size')
+  onSizeChange(v: unknown) { warnIfInvalidEnumProp(v, RANGE_SIZES, 'base', ctx('size')); }
+
+  @Watch('display')
+  onDisplayChange(v: unknown) { warnIfInvalidEnumProp(v, RANGE_DISPLAYS, 'none', ctx('display')); }
+
+  @Watch('orientation')
+  onOrientationChange(v: unknown) { warnIfInvalidEnumProp(v, RANGE_ORIENTATIONS, 'horizontal', ctx('orientation')); }
+
+  @Watch('mode')
+  onModeChange(v: unknown) { warnIfInvalidEnumProp(v, RANGE_MODES, 'single', ctx('mode')); }
 
   private static readonly NATIVE_RANGE_ATTRS = new Set([
     'tabindex', 'autofocus', 'title', 'form',
@@ -312,7 +333,11 @@ export class AegovRange {
 
   render() {
     const passThroughAttrs = getPassThroughAttributes(this.el, AegovRange.NATIVE_RANGE_ATTRS);
-    const isRange = this.mode === 'range';
+    const size: RangeSize = (RANGE_SIZES as readonly string[]).includes(this.size) ? this.size : 'base';
+    const display: RangeDisplay = (RANGE_DISPLAYS as readonly string[]).includes(this.display) ? this.display : 'none';
+    const orientation: RangeOrientation = (RANGE_ORIENTATIONS as readonly string[]).includes(this.orientation) ? this.orientation : 'horizontal';
+    const mode: RangeMode = (RANGE_MODES as readonly string[]).includes(this.mode) ? this.mode : 'single';
+    const isRange = mode === 'range';
     const percent = this.getPercent(this.value);
     const percentLow = isRange ? this.getPercent(this.valueLow) : 0;
     const percentHigh = isRange ? this.getPercent(this.valueHigh) : percent;
@@ -325,18 +350,18 @@ export class AegovRange {
       '--range-thumb-high-percent': `${percentHigh}%`,
     };
 
-    const showTooltip = this.display === 'tooltip';
-    const showThumbValue = this.display === 'thumb' || this.display === 'full';
-    const showMinMax = this.display === 'full';
+    const showTooltip = display === 'tooltip';
+    const showThumbValue = display === 'thumb' || display === 'full';
+    const showMinMax = display === 'full';
 
-    const displayClass = (this.display === 'thumb' || this.display === 'full')
-      ? `range--display-${this.display}`
+    const displayClass = (display === 'thumb' || display === 'full')
+      ? `range--display-${display}`
       : '';
 
     const wrapperClasses = [
       'aegov-range',
-      `range--${this.size}`,
-      `range--${this.orientation}`,
+      `range--${size}`,
+      `range--${orientation}`,
       displayClass,
       this.disabled ? 'aegov-range--disabled' : '',
       this.class || '',
@@ -377,8 +402,8 @@ export class AegovRange {
                 aria-valuemin={this.min}
                 aria-valuemax={this.max}
                 aria-valuenow={this.value}
-                aria-orientation={this.orientation}
-                {...(this.orientation === 'vertical' ? { orient: 'vertical' } : {})}
+                aria-orientation={orientation}
+                {...(orientation === 'vertical' ? { orient: 'vertical' } : {})}
                 {...passThroughAttrs}
               />
             )}
@@ -399,8 +424,8 @@ export class AegovRange {
                 aria-valuemax={this.valueHigh}
                 aria-valuenow={this.valueLow}
                 aria-label="Range minimum"
-                aria-orientation={this.orientation}
-                {...(this.orientation === 'vertical' ? { orient: 'vertical' } : {})}
+                aria-orientation={orientation}
+                {...(orientation === 'vertical' ? { orient: 'vertical' } : {})}
               />,
               <input
                 type="range"
@@ -418,8 +443,8 @@ export class AegovRange {
                 aria-valuemax={this.max}
                 aria-valuenow={this.valueHigh}
                 aria-label="Range maximum"
-                aria-orientation={this.orientation}
-                {...(this.orientation === 'vertical' ? { orient: 'vertical' } : {})}
+                aria-orientation={orientation}
+                {...(orientation === 'vertical' ? { orient: 'vertical' } : {})}
               />,
             ]}
           </div>

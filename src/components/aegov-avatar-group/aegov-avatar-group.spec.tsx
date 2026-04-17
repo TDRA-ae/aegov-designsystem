@@ -227,4 +227,100 @@ describe('aegov-avatar-group', () => {
     const moreBtn = page.root.querySelector('.avatar-group__more');
     expect(moreBtn).toBeNull();
   });
+
+  describe('invalid prop values', () => {
+    let warnSpy: jest.SpyInstance;
+
+    beforeEach(() => {
+      warnSpy = jest.spyOn(console, 'warn').mockImplementation();
+    });
+
+    afterEach(() => {
+      warnSpy.mockRestore();
+    });
+
+    it('falls back to default mode class when invalid', async () => {
+      const page = await newSpecPage({
+        components: [AegovAvatarGroup],
+        html: `<aegov-avatar-group mode="weird"></aegov-avatar-group>`,
+      });
+      const group = page.root.querySelector('.aegov-avatar-group');
+      expect(group.classList.contains('avatar-group--default')).toBe(true);
+    });
+
+    it('falls back to default size class when invalid', async () => {
+      const page = await newSpecPage({
+        components: [AegovAvatarGroup],
+        html: `<aegov-avatar-group size="huge"></aegov-avatar-group>`,
+      });
+      const group = page.root.querySelector('.aegov-avatar-group');
+      expect(group.classList.contains('avatar-group--base')).toBe(true);
+    });
+
+    it('falls back to default variant when invalid', async () => {
+      const page = await newSpecPage({
+        components: [AegovAvatarGroup],
+        html: `<aegov-avatar-group variant="weird" more-count="3"></aegov-avatar-group>`,
+      });
+      const moreBtn = page.root.querySelector('.avatar-group__more');
+      expect(moreBtn.classList.contains('avatar-rounded')).toBe(true);
+    });
+
+    it('warns with component name, prop name, invalid value, and fallback', async () => {
+      await newSpecPage({
+        components: [AegovAvatarGroup],
+        html: `<aegov-avatar-group mode="weird"></aegov-avatar-group>`,
+      });
+      const messages = warnSpy.mock.calls.map(c => c[0] as string);
+      const warn = messages.find(m => m.includes('"mode"'));
+      expect(warn).toBeDefined();
+      expect(warn).toContain('[aegov-avatar-group]');
+      expect(warn).toContain('"weird"');
+      expect(warn).toContain('default');
+    });
+
+    it('does not warn when all props are valid', async () => {
+      await newSpecPage({
+        components: [AegovAvatarGroup],
+        html: `<aegov-avatar-group mode="compact" size="lg" variant="square"></aegov-avatar-group>`,
+      });
+      expect(warnSpy).not.toHaveBeenCalled();
+    });
+
+    it('warns again via @Watch when mode is updated to invalid value', async () => {
+      const page = await newSpecPage({
+        components: [AegovAvatarGroup],
+        html: `<aegov-avatar-group mode="default"></aegov-avatar-group>`,
+      });
+      page.root.setAttribute('mode', 'nope');
+      await page.waitForChanges();
+      const messages = warnSpy.mock.calls.map(c => c[0] as string);
+      const warn = messages.find(m => m.includes('[aegov-avatar-group]') && m.includes('"mode"'));
+      expect(warn).toBeDefined();
+    });
+
+    it('warns again via @Watch when size is updated to invalid value', async () => {
+      const page = await newSpecPage({
+        components: [AegovAvatarGroup],
+        html: `<aegov-avatar-group size="base"></aegov-avatar-group>`,
+      });
+      page.root.setAttribute('size', 'nope');
+      await page.waitForChanges();
+      const messages = warnSpy.mock.calls.map(c => c[0] as string);
+      const warn = messages.find(m => m.includes('[aegov-avatar-group]') && m.includes('"size"'));
+      expect(warn).toBeDefined();
+    });
+
+    it('warns again via @Watch when variant is updated to invalid value', async () => {
+      const page = await newSpecPage({
+        components: [AegovAvatarGroup],
+        html: `<aegov-avatar-group variant="rounded"></aegov-avatar-group>`,
+      });
+      page.root.setAttribute('variant', 'nope');
+      await page.waitForChanges();
+      const messages = warnSpy.mock.calls.map(c => c[0] as string);
+      const warn = messages.find(m => m.includes('[aegov-avatar-group]') && m.includes('"variant"'));
+      expect(warn).toBeDefined();
+    });
+  });
 });

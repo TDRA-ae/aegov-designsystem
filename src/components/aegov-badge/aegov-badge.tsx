@@ -1,5 +1,10 @@
-import { Component, Prop, Event, EventEmitter, h, Host } from '@stencil/core';
+import { Component, Prop, Watch, Event, EventEmitter, h, Host } from '@stencil/core';
+import { BADGE_APPEARANCES, BADGE_COLORS, BADGE_SIZES } from '../../utils/types';
 import type { BadgeSize, BadgeAppearance, BadgeColor } from '../../utils/types';
+import { warnIfInvalidEnumProp } from '../../utils/prop-validator';
+
+const TAG = 'aegov-badge';
+const ctx = (prop: string) => ({ component: TAG, prop });
 
 /**
  * @slot default - The main content of the badge
@@ -39,6 +44,21 @@ export class AegovBadge {
      */
     @Event() aegovBadgeDismiss: EventEmitter<void>;
 
+    componentWillLoad() {
+        warnIfInvalidEnumProp(this.appearance, BADGE_APPEARANCES, 'soft', ctx('appearance'));
+        warnIfInvalidEnumProp(this.color, BADGE_COLORS, 'default', ctx('color'));
+        warnIfInvalidEnumProp(this.size, BADGE_SIZES, 'base', ctx('size'));
+    }
+
+    @Watch('appearance')
+    onAppearanceChange(v: unknown) { warnIfInvalidEnumProp(v, BADGE_APPEARANCES, 'soft', ctx('appearance')); }
+
+    @Watch('color')
+    onColorChange(v: unknown) { warnIfInvalidEnumProp(v, BADGE_COLORS, 'default', ctx('color')); }
+
+    @Watch('size')
+    onSizeChange(v: unknown) { warnIfInvalidEnumProp(v, BADGE_SIZES, 'base', ctx('size')); }
+
     /**
      * Handle dismiss button click
      */
@@ -62,7 +82,8 @@ export class AegovBadge {
             lg: ['text-sm', 'py-1.5']
         };
 
-        classes.push(...sizeClasses[this.size]);
+        const size: BadgeSize = (BADGE_SIZES as readonly string[]).includes(this.size) ? this.size : 'base';
+        classes.push(...sizeClasses[size]);
 
         // Appearance classes
         const appearanceClasses: Record<BadgeAppearance, string[]> = {
@@ -70,7 +91,8 @@ export class AegovBadge {
             solid: ['badge-solid']
         };
 
-        classes.push(...appearanceClasses[this.appearance]);
+        const appearance: BadgeAppearance = (BADGE_APPEARANCES as readonly string[]).includes(this.appearance) ? this.appearance : 'soft';
+        classes.push(...appearanceClasses[appearance]);
 
         // Color classes
         const colorClasses: Record<BadgeColor, string[]> = {
@@ -93,7 +115,8 @@ export class AegovBadge {
             lime: ['badge-lime']
         };
 
-        classes.push(...colorClasses[this.color]);
+        const color: BadgeColor = (BADGE_COLORS as readonly string[]).includes(this.color) ? this.color : 'default';
+        classes.push(...colorClasses[color]);
         
         return classes.join(' ');
     }

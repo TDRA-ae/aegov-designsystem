@@ -1,5 +1,9 @@
 import { Component, Host, h, Prop, Element, Watch } from '@stencil/core';
-import { AccordionIcon } from '../../utils/types';
+import { AccordionIcon, ACCORDION_ICONS } from '../../utils/types';
+import { warnIfInvalidEnumProp } from '../../utils/prop-validator';
+
+const TAG = 'aegov-accordion';
+const ctx = (prop: string) => ({ component: TAG, prop });
 
 /**
  * Accordion component for collapsible content sections
@@ -37,6 +41,10 @@ export class AegovAccordion {
    */
   @Prop() bordered: boolean = false;
 
+  componentWillLoad() {
+    warnIfInvalidEnumProp(this.icon, ACCORDION_ICONS, 'chevron', ctx('icon'));
+  }
+
   componentDidLoad() {
     this.refreshItemCache();
     this.setupEventListeners();
@@ -57,6 +65,9 @@ export class AegovAccordion {
     this.removeEventListeners();
     this.cachedItems = [];
   }
+
+  @Watch('icon')
+  onIconChange(v: unknown) { warnIfInvalidEnumProp(v, ACCORDION_ICONS, 'chevron', ctx('icon')); }
 
   @Watch('icon')
   handleIconChange() {

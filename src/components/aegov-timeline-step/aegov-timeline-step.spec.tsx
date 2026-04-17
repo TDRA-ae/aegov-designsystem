@@ -501,4 +501,80 @@ describe('aegov-timeline-step', () => {
     expect(page.root.querySelector('.step__vertical-row')).toBeTruthy();
     expect(page.root.querySelector('.step__vertical-indicator')).toBeTruthy();
   });
+
+  // ============================================
+  // INVALID PROP VALUES
+  // ============================================
+
+  describe('invalid prop values', () => {
+    let warnSpy: jest.SpyInstance;
+
+    beforeEach(() => {
+      warnSpy = jest.spyOn(console, 'warn').mockImplementation();
+    });
+
+    afterEach(() => {
+      warnSpy.mockRestore();
+    });
+
+    it('falls back to default status class when status is invalid', async () => {
+      const page = await newSpecPage({
+        components: [AegovTimeline, AegovTimelineStep],
+        html: `
+          <aegov-timeline>
+            <aegov-timeline-step status="nope">Bad</aegov-timeline-step>
+          </aegov-timeline>
+        `,
+      });
+      expect(page.root.querySelector('.step__indicator--pending')).toBeTruthy();
+    });
+
+    it('warns with component name, prop name, invalid value, and fallback', async () => {
+      await newSpecPage({
+        components: [AegovTimeline, AegovTimelineStep],
+        html: `
+          <aegov-timeline>
+            <aegov-timeline-step status="nope">Bad</aegov-timeline-step>
+          </aegov-timeline>
+        `,
+      });
+      const messages = warnSpy.mock.calls.map(c => c[0] as string);
+      const statusWarn = messages.find(m => m.includes('[aegov-timeline-step]') && m.includes('"nope"'));
+      expect(statusWarn).toBeDefined();
+      expect(statusWarn).toContain('"status"');
+    });
+
+    it('does not warn when all props are valid', async () => {
+      await newSpecPage({
+        components: [AegovTimeline, AegovTimelineStep],
+        html: `
+          <aegov-timeline>
+            <aegov-timeline-step status="active">Good</aegov-timeline-step>
+          </aegov-timeline>
+        `,
+      });
+      expect(warnSpy).not.toHaveBeenCalled();
+    });
+
+    it('warns again via @Watch when status is updated to an invalid value', async () => {
+      const page = await newSpecPage({
+        components: [AegovTimeline, AegovTimelineStep],
+        html: `
+          <aegov-timeline>
+            <aegov-timeline-step status="pending">Step</aegov-timeline-step>
+          </aegov-timeline>
+        `,
+      });
+      expect(warnSpy).not.toHaveBeenCalled();
+
+      const step = page.root.querySelector('aegov-timeline-step');
+      step.setAttribute('status', 'broken');
+      await page.waitForChanges();
+
+      const messages = warnSpy.mock.calls.map(c => c[0] as string);
+      const invalidWarn = messages.find(m => m.includes('[aegov-timeline-step]') && m.includes('"broken"'));
+      expect(invalidWarn).toBeDefined();
+      expect(invalidWarn).toContain('"status"');
+    });
+  });
 });

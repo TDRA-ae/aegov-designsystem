@@ -555,4 +555,101 @@ describe('aegov-textarea', () => {
       expect(textarea.className).toContain('textarea--resize-none');
     });
   });
+
+  describe('invalid prop values', () => {
+    let warnSpy: jest.SpyInstance;
+
+    beforeEach(() => {
+      warnSpy = jest.spyOn(console, 'warn').mockImplementation();
+    });
+
+    afterEach(() => {
+      warnSpy.mockRestore();
+    });
+
+    it('falls back to default size class when size is invalid', async () => {
+      const page = await newSpecPage({
+        components: [AegovTextarea],
+        html: `<aegov-textarea size="huge"></aegov-textarea>`,
+      });
+      const textarea = page.root.querySelector('textarea');
+      expect(textarea).toBeTruthy();
+      expect(textarea.className).toContain('textarea--base');
+    });
+
+    it('falls back to default resize class when resize is invalid', async () => {
+      const page = await newSpecPage({
+        components: [AegovTextarea],
+        html: `<aegov-textarea resize="weird"></aegov-textarea>`,
+      });
+      const textarea = page.root.querySelector('textarea');
+      expect(textarea.className).toContain('textarea--resize-vertical');
+    });
+
+    it('warns with component name, prop name, invalid value, and fallback for size', async () => {
+      await newSpecPage({
+        components: [AegovTextarea],
+        html: `<aegov-textarea size="huge"></aegov-textarea>`,
+      });
+      const messages = warnSpy.mock.calls.map(c => c[0] as string);
+      const sizeWarn = messages.find(m => m.includes('"size"'));
+      expect(sizeWarn).toBeDefined();
+      expect(sizeWarn).toContain('[aegov-textarea]');
+      expect(sizeWarn).toContain('"huge"');
+      expect(sizeWarn).toContain('base');
+    });
+
+    it('warns with component name, prop name, invalid value, and fallback for resize', async () => {
+      await newSpecPage({
+        components: [AegovTextarea],
+        html: `<aegov-textarea resize="weird"></aegov-textarea>`,
+      });
+      const messages = warnSpy.mock.calls.map(c => c[0] as string);
+      const resizeWarn = messages.find(m => m.includes('"resize"'));
+      expect(resizeWarn).toBeDefined();
+      expect(resizeWarn).toContain('[aegov-textarea]');
+      expect(resizeWarn).toContain('"weird"');
+      expect(resizeWarn).toContain('vertical');
+    });
+
+    it('does not warn when all props are valid', async () => {
+      await newSpecPage({
+        components: [AegovTextarea],
+        html: `<aegov-textarea size="lg" resize="both"></aegov-textarea>`,
+      });
+      expect(warnSpy).not.toHaveBeenCalled();
+    });
+
+    it('warns again via @Watch when size is updated to an invalid value', async () => {
+      const page = await newSpecPage({
+        components: [AegovTextarea],
+        html: `<aegov-textarea size="base"></aegov-textarea>`,
+      });
+      expect(warnSpy).not.toHaveBeenCalled();
+
+      page.root.setAttribute('size', 'nope');
+      await page.waitForChanges();
+
+      const messages = warnSpy.mock.calls.map(c => c[0] as string);
+      const invalidWarn = messages.find(m => m.includes('[aegov-textarea]') && m.includes('"nope"'));
+      expect(invalidWarn).toBeDefined();
+      expect(invalidWarn).toContain('"size"');
+    });
+
+    it('warns again via @Watch when resize is updated to an invalid value', async () => {
+      const page = await newSpecPage({
+        components: [AegovTextarea],
+        html: `<aegov-textarea resize="vertical"></aegov-textarea>`,
+      });
+      expect(warnSpy).not.toHaveBeenCalled();
+
+      page.root.setAttribute('resize', 'nope');
+      await page.waitForChanges();
+
+      const messages = warnSpy.mock.calls.map(c => c[0] as string);
+      const invalidWarn = messages.find(m => m.includes('[aegov-textarea]') && m.includes('"nope"'));
+      expect(invalidWarn).toBeDefined();
+      expect(invalidWarn).toContain('"resize"');
+    });
+  });
 });

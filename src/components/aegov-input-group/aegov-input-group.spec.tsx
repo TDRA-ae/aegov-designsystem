@@ -244,4 +244,63 @@ describe('aegov-input-group', () => {
       expect(button).toBeTruthy();
     });
   });
+
+  describe('invalid prop values', () => {
+    let warnSpy: jest.SpyInstance;
+
+    beforeEach(() => {
+      warnSpy = jest.spyOn(console, 'warn').mockImplementation();
+    });
+
+    afterEach(() => {
+      warnSpy.mockRestore();
+    });
+
+    it('falls back to default size class when size is invalid', async () => {
+      const page = await newSpecPage({
+        components: [AegovInputGroup],
+        html: `<aegov-input-group size="huge"></aegov-input-group>`,
+      });
+      const group = page.root.querySelector('.aegov-input-group');
+      expect(group).toBeTruthy();
+      expect(group.className).toContain('input-group--base');
+    });
+
+    it('warns with component name, prop name, invalid value, and fallback for size', async () => {
+      await newSpecPage({
+        components: [AegovInputGroup],
+        html: `<aegov-input-group size="huge"></aegov-input-group>`,
+      });
+      const messages = warnSpy.mock.calls.map(c => c[0] as string);
+      const sizeWarn = messages.find(m => m.includes('"size"'));
+      expect(sizeWarn).toBeDefined();
+      expect(sizeWarn).toContain('[aegov-input-group]');
+      expect(sizeWarn).toContain('"huge"');
+      expect(sizeWarn).toContain('base');
+    });
+
+    it('does not warn when all props are valid', async () => {
+      await newSpecPage({
+        components: [AegovInputGroup],
+        html: `<aegov-input-group size="lg"></aegov-input-group>`,
+      });
+      expect(warnSpy).not.toHaveBeenCalled();
+    });
+
+    it('warns again via @Watch when size is updated to an invalid value', async () => {
+      const page = await newSpecPage({
+        components: [AegovInputGroup],
+        html: `<aegov-input-group size="base"></aegov-input-group>`,
+      });
+      expect(warnSpy).not.toHaveBeenCalled();
+
+      page.root.setAttribute('size', 'nope');
+      await page.waitForChanges();
+
+      const messages = warnSpy.mock.calls.map(c => c[0] as string);
+      const invalidWarn = messages.find(m => m.includes('[aegov-input-group]') && m.includes('"nope"'));
+      expect(invalidWarn).toBeDefined();
+      expect(invalidWarn).toContain('"size"');
+    });
+  });
 });

@@ -598,4 +598,100 @@ describe('aegov-drawer', () => {
       expect(page.rootInstance['getAnimationDuration']()).toBe(300);
     });
   });
+
+  describe('invalid prop values', () => {
+    let warnSpy: jest.SpyInstance;
+
+    beforeEach(() => {
+      warnSpy = jest.spyOn(console, 'warn').mockImplementation();
+    });
+
+    afterEach(() => {
+      warnSpy.mockRestore();
+    });
+
+    it('renders safely when position is invalid', async () => {
+      const page = await newSpecPage({
+        components: [AegovDrawer],
+        html: `<aegov-drawer open="true" position="middle"><div>Content</div></aegov-drawer>`,
+      });
+      await page.waitForChanges();
+      expect(page.root).toBeTruthy();
+    });
+
+    it('renders safely when animation is invalid', async () => {
+      const page = await newSpecPage({
+        components: [AegovDrawer],
+        html: `<aegov-drawer open="true" animation="bounce"><div>Content</div></aegov-drawer>`,
+      });
+      await page.waitForChanges();
+      expect(page.root).toBeTruthy();
+    });
+
+    it('renders safely when overlayOpacity is invalid', async () => {
+      const page = await newSpecPage({
+        components: [AegovDrawer],
+        html: `<aegov-drawer open="true" overlay-opacity="crazy"><div>Content</div></aegov-drawer>`,
+      });
+      await page.waitForChanges();
+      expect(page.root).toBeTruthy();
+    });
+
+    it('warns with component name, prop name, invalid value, and fallback', async () => {
+      await newSpecPage({
+        components: [AegovDrawer],
+        html: `<aegov-drawer position="weird"><div>Content</div></aegov-drawer>`,
+      });
+      const messages = warnSpy.mock.calls.map(c => c[0] as string);
+      const warn = messages.find(m => m.includes('"position"'));
+      expect(warn).toBeDefined();
+      expect(warn).toContain('[aegov-drawer]');
+      expect(warn).toContain('"weird"');
+      expect(warn).toContain('right');
+    });
+
+    it('does not warn when all props are valid', async () => {
+      await newSpecPage({
+        components: [AegovDrawer],
+        html: `<aegov-drawer position="left" animation="fade" overlay-opacity="dark"><div>Content</div></aegov-drawer>`,
+      });
+      expect(warnSpy).not.toHaveBeenCalled();
+    });
+
+    it('warns again via @Watch when position is updated to invalid value', async () => {
+      const page = await newSpecPage({
+        components: [AegovDrawer],
+        html: `<aegov-drawer position="right"><div>Content</div></aegov-drawer>`,
+      });
+      page.root.setAttribute('position', 'nope');
+      await page.waitForChanges();
+      const messages = warnSpy.mock.calls.map(c => c[0] as string);
+      const warn = messages.find(m => m.includes('[aegov-drawer]') && m.includes('"position"'));
+      expect(warn).toBeDefined();
+    });
+
+    it('warns again via @Watch when animation is updated to invalid value', async () => {
+      const page = await newSpecPage({
+        components: [AegovDrawer],
+        html: `<aegov-drawer animation="slide"><div>Content</div></aegov-drawer>`,
+      });
+      page.root.setAttribute('animation', 'nope');
+      await page.waitForChanges();
+      const messages = warnSpy.mock.calls.map(c => c[0] as string);
+      const warn = messages.find(m => m.includes('[aegov-drawer]') && m.includes('"animation"'));
+      expect(warn).toBeDefined();
+    });
+
+    it('warns again via @Watch when overlayOpacity is updated to invalid value', async () => {
+      const page = await newSpecPage({
+        components: [AegovDrawer],
+        html: `<aegov-drawer overlay-opacity="base"><div>Content</div></aegov-drawer>`,
+      });
+      page.root.setAttribute('overlay-opacity', 'nope');
+      await page.waitForChanges();
+      const messages = warnSpy.mock.calls.map(c => c[0] as string);
+      const warn = messages.find(m => m.includes('[aegov-drawer]') && m.includes('"overlayOpacity"'));
+      expect(warn).toBeDefined();
+    });
+  });
 });

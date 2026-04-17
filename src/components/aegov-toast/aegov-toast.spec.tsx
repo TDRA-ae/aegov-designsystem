@@ -649,4 +649,133 @@ describe('aegov-toast', () => {
     const progress = page.root.querySelector('.toast__progress') as HTMLElement;
     expect(progress.style.animationPlayState).toBe('running');
   });
+
+  // ============================================
+  // INVALID PROP VALUES
+  // ============================================
+
+  describe('invalid prop values', () => {
+    let warnSpy: jest.SpyInstance;
+
+    beforeEach(() => {
+      warnSpy = jest.spyOn(console, 'warn').mockImplementation();
+    });
+
+    afterEach(() => {
+      warnSpy.mockRestore();
+    });
+
+    it('renders safely when variant is invalid', async () => {
+      const page = await newSpecPage({
+        components: [AegovToast],
+        html: `<aegov-toast variant="weird" duration="0">Msg</aegov-toast>`,
+      });
+      await page.rootInstance.show();
+      await page.waitForChanges();
+      expect(page.root.querySelector('.toast--default')).toBeTruthy();
+    });
+
+    it('renders safely when appearance is invalid', async () => {
+      const page = await newSpecPage({
+        components: [AegovToast],
+        html: `<aegov-toast appearance="mystery" duration="0">Msg</aegov-toast>`,
+      });
+      await page.rootInstance.show();
+      await page.waitForChanges();
+      expect(page.root.querySelector('.toast--soft')).toBeTruthy();
+    });
+
+    it('renders safely when position is invalid', async () => {
+      const page = await newSpecPage({
+        components: [AegovToast],
+        html: `<aegov-toast position="middle" duration="0">Msg</aegov-toast>`,
+      });
+      await page.rootInstance.show();
+      await page.waitForChanges();
+      expect(page.root.querySelector('.aegov-toast')).toBeTruthy();
+    });
+
+    it('renders safely when mode is invalid', async () => {
+      const page = await newSpecPage({
+        components: [AegovToast],
+        html: `<aegov-toast mode="huh" duration="0">Msg</aegov-toast>`,
+      });
+      await page.rootInstance.show();
+      await page.waitForChanges();
+      expect(page.root.querySelector('.aegov-toast')).toBeTruthy();
+    });
+
+    it('warns with component name, prop name, invalid value, and fallback', async () => {
+      await newSpecPage({
+        components: [AegovToast],
+        html: `<aegov-toast variant="weird" duration="0">Msg</aegov-toast>`,
+      });
+      const messages = warnSpy.mock.calls.map(c => c[0] as string);
+      const variantWarn = messages.find(m => m.includes('"variant"'));
+      expect(variantWarn).toBeDefined();
+      expect(variantWarn).toContain('[aegov-toast]');
+      expect(variantWarn).toContain('"weird"');
+      expect(variantWarn).toContain('default');
+    });
+
+    it('does not warn when all props are valid', async () => {
+      await newSpecPage({
+        components: [AegovToast],
+        html: `<aegov-toast variant="error" appearance="solid" position="bottom-left" mode="rack" duration="0">Msg</aegov-toast>`,
+      });
+      expect(warnSpy).not.toHaveBeenCalled();
+    });
+
+    it('warns again via @Watch when variant is updated to an invalid value', async () => {
+      const page = await newSpecPage({
+        components: [AegovToast],
+        html: `<aegov-toast variant="info" duration="0">Msg</aegov-toast>`,
+      });
+      expect(warnSpy).not.toHaveBeenCalled();
+
+      page.root.setAttribute('variant', 'nope');
+      await page.waitForChanges();
+
+      const messages = warnSpy.mock.calls.map(c => c[0] as string);
+      const invalidWarn = messages.find(m => m.includes('[aegov-toast]') && m.includes('"nope"'));
+      expect(invalidWarn).toBeDefined();
+      expect(invalidWarn).toContain('"variant"');
+    });
+
+    it('warns again via @Watch when appearance is updated to an invalid value', async () => {
+      const page = await newSpecPage({
+        components: [AegovToast],
+        html: `<aegov-toast appearance="soft" duration="0">Msg</aegov-toast>`,
+      });
+      page.root.setAttribute('appearance', 'nope');
+      await page.waitForChanges();
+      const messages = warnSpy.mock.calls.map(c => c[0] as string);
+      const invalidWarn = messages.find(m => m.includes('[aegov-toast]') && m.includes('"appearance"'));
+      expect(invalidWarn).toBeDefined();
+    });
+
+    it('warns again via @Watch when position is updated to an invalid value', async () => {
+      const page = await newSpecPage({
+        components: [AegovToast],
+        html: `<aegov-toast position="top-right" duration="0">Msg</aegov-toast>`,
+      });
+      page.root.setAttribute('position', 'nope');
+      await page.waitForChanges();
+      const messages = warnSpy.mock.calls.map(c => c[0] as string);
+      const invalidWarn = messages.find(m => m.includes('[aegov-toast]') && m.includes('"position"'));
+      expect(invalidWarn).toBeDefined();
+    });
+
+    it('warns again via @Watch when mode is updated to an invalid value', async () => {
+      const page = await newSpecPage({
+        components: [AegovToast],
+        html: `<aegov-toast mode="stack" duration="0">Msg</aegov-toast>`,
+      });
+      page.root.setAttribute('mode', 'nope');
+      await page.waitForChanges();
+      const messages = warnSpy.mock.calls.map(c => c[0] as string);
+      const invalidWarn = messages.find(m => m.includes('[aegov-toast]') && m.includes('"mode"'));
+      expect(invalidWarn).toBeDefined();
+    });
+  });
 });
