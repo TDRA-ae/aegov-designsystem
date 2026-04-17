@@ -1,10 +1,12 @@
 # Avatar Group
 
-<p class="text-lg text-aeblack-500 mb-8">An avatar group displays multiple avatars together in a compact layout. It supports spaced or overlapping modes, a "+N more" indicator, and enforces consistent sizing across all child avatars.</p>
+<p class="text-lg text-aeblack-500 mb-8">An avatar group displays multiple avatars together in a compact layout. It supports spaced or overlapping modes, a "+N more" indicator, and enforces consistent sizing and rounded shape across all child avatars.</p>
 
 ## Introduction
 
 The `aegov-avatar-group` component wraps one or more `<aegov-avatar>` elements and arranges them in either a spaced or overlapping layout. It enforces a uniform `size` on all children, and can display a "+N more" button when there are additional users not shown.
+
+> **Always rounded.** Avatars inside a group are always displayed in the `rounded` (circular) shape, regardless of any `variant` attribute set on individual `<aegov-avatar>` elements. The group overrides this automatically — there is no square option inside a group.
 
 ```html
 <aegov-avatar-group>
@@ -67,17 +69,6 @@ Avatars overlap each other with a negative margin. A white ring separates each a
     <aegov-avatar src="https://i.pravatar.cc/150?img=5" alt="User 2"></aegov-avatar>
     <aegov-avatar src="https://i.pravatar.cc/150?img=12" alt="User 3"></aegov-avatar>
     <aegov-avatar src="https://i.pravatar.cc/150?img=32" alt="User 4"></aegov-avatar>
-  </aegov-avatar-group>
-</div>
-
-Compact mode with rounded avatars:
-
-<div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-avatar-group mode="compact" size="lg" variant="rounded">
-    <aegov-avatar src="https://i.pravatar.cc/150?img=3" alt="User 1" variant="rounded"></aegov-avatar>
-    <aegov-avatar src="https://i.pravatar.cc/150?img=8" alt="User 2" variant="rounded"></aegov-avatar>
-    <aegov-avatar src="https://i.pravatar.cc/150?img=11" alt="User 3" variant="rounded"></aegov-avatar>
-    <aegov-avatar src="https://i.pravatar.cc/150?img=20" alt="User 4" variant="rounded"></aegov-avatar>
   </aegov-avatar-group>
 </div>
 
@@ -153,17 +144,6 @@ When there are additional users that are not displayed, set the `more-count` pro
   </aegov-avatar-group>
 </div>
 
-With rounded variant:
-
-<div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-avatar-group mode="compact" size="lg" variant="rounded" more-count="5">
-    <aegov-avatar src="https://i.pravatar.cc/150?img=3" alt="User 1" variant="rounded"></aegov-avatar>
-    <aegov-avatar src="https://i.pravatar.cc/150?img=8" alt="User 2" variant="rounded"></aegov-avatar>
-    <aegov-avatar src="https://i.pravatar.cc/150?img=11" alt="User 3" variant="rounded"></aegov-avatar>
-    <aegov-avatar src="https://i.pravatar.cc/150?img=20" alt="User 4" variant="rounded"></aegov-avatar>
-  </aegov-avatar-group>
-</div>
-
 ### Custom More Text
 
 Use the `more-text` property to override the default "+N" label.
@@ -175,10 +155,10 @@ Use the `more-text` property to override the default "+N" label.
 ```
 
 <div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-avatar-group mode="compact" size="lg" variant="rounded" more-count="99" more-text="99+">
-    <aegov-avatar src="https://i.pravatar.cc/150?img=1" alt="User 1" variant="rounded"></aegov-avatar>
-    <aegov-avatar src="https://i.pravatar.cc/150?img=5" alt="User 2" variant="rounded"></aegov-avatar>
-    <aegov-avatar src="https://i.pravatar.cc/150?img=12" alt="User 3" variant="rounded"></aegov-avatar>
+  <aegov-avatar-group mode="compact" size="lg" more-count="99" more-text="99+">
+    <aegov-avatar src="https://i.pravatar.cc/150?img=1" alt="User 1"></aegov-avatar>
+    <aegov-avatar src="https://i.pravatar.cc/150?img=5" alt="User 2"></aegov-avatar>
+    <aegov-avatar src="https://i.pravatar.cc/150?img=12" alt="User 3"></aegov-avatar>
   </aegov-avatar-group>
 </div>
 
@@ -204,16 +184,29 @@ The "more" indicator button emits an `aegovAvatarGroupMore` event when clicked. 
 
 ---
 
-## Variant
+## Always Rounded
 
-The `variant` property on the group controls the shape of the "more" indicator button. Set it to `"rounded"` for a circular button or leave it as `"square"` for a square button. Note that you must also set `variant="rounded"` on the individual avatars for visual consistency.
+Avatars inside a group are **always rounded**, regardless of what `variant` is set on individual `<aegov-avatar>` elements. The group enforces `variant="rounded"` on every child automatically — you do not need to set it yourself, and setting `variant="square"` on a child will be silently overridden.
+
+The "more" indicator button follows the same rule and is always circular.
 
 ```html
-<aegov-avatar-group mode="compact" variant="rounded" more-count="3">
-  <aegov-avatar variant="rounded" src="…" alt="…"></aegov-avatar>
-  <aegov-avatar variant="rounded" src="…" alt="…"></aegov-avatar>
+<!-- variant="square" on these avatars will be ignored inside the group -->
+<aegov-avatar-group mode="compact" more-count="3">
+  <aegov-avatar src="…" alt="…"></aegov-avatar>
+  <aegov-avatar src="…" alt="…" variant="square"></aegov-avatar>
 </aegov-avatar-group>
 ```
+
+<div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
+  <aegov-avatar-group mode="compact" size="lg" more-count="3">
+    <aegov-avatar src="https://i.pravatar.cc/150?img=3" alt="User 1"></aegov-avatar>
+    <aegov-avatar src="https://i.pravatar.cc/150?img=8" alt="User 2" variant="square"></aegov-avatar>
+    <aegov-avatar src="https://i.pravatar.cc/150?img=11" alt="User 3" variant="square"></aegov-avatar>
+  </aegov-avatar-group>
+</div>
+
+> All three avatars above render as rounded circles — the `variant="square"` on the second and third avatars is overridden by the group.
 
 ---
 
@@ -222,11 +215,11 @@ The `variant` property on the group controls the shape of the "more" indicator b
 The compact mode uses `margin-inline-start` for overlap, which automatically reverses in RTL layouts. No additional configuration is needed.
 
 <div dir="rtl" class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-avatar-group mode="compact" size="lg" variant="rounded" more-count="7">
-    <aegov-avatar src="https://i.pravatar.cc/150?img=3" alt="مستخدم 1" variant="rounded"></aegov-avatar>
-    <aegov-avatar src="https://i.pravatar.cc/150?img=8" alt="مستخدم 2" variant="rounded"></aegov-avatar>
-    <aegov-avatar src="https://i.pravatar.cc/150?img=11" alt="مستخدم 3" variant="rounded"></aegov-avatar>
-    <aegov-avatar src="https://i.pravatar.cc/150?img=20" alt="مستخدم 4" variant="rounded"></aegov-avatar>
+  <aegov-avatar-group mode="compact" size="lg" more-count="7">
+    <aegov-avatar src="https://i.pravatar.cc/150?img=3" alt="مستخدم 1"></aegov-avatar>
+    <aegov-avatar src="https://i.pravatar.cc/150?img=8" alt="مستخدم 2"></aegov-avatar>
+    <aegov-avatar src="https://i.pravatar.cc/150?img=11" alt="مستخدم 3"></aegov-avatar>
+    <aegov-avatar src="https://i.pravatar.cc/150?img=20" alt="مستخدم 4"></aegov-avatar>
   </aegov-avatar-group>
 </div>
 
@@ -240,7 +233,6 @@ The compact mode uses `margin-inline-start` for overlap, which automatically rev
 |-------------|--------------|---------------------------------------------------|-------------------------------------------------------------------------|-------------|
 | `mode`      | `mode`       | Layout mode                                       | `'default'` \| `'compact'`                                             | `'default'` |
 | `size`      | `size`       | Size enforced on all child avatars                | `'xs'` \| `'sm'` \| `'base'` \| `'lg'` \| `'xl'` \| `'2xl'` \| `'3xl'` | `'base'`    |
-| `variant`   | `variant`    | Shape of the "more" indicator                     | `'square'` \| `'rounded'`                                              | `'rounded'` |
 | `moreCount` | `more-count` | Number of additional users not shown              | `number`                                                                | `0`         |
 | `moreText`  | `more-text`  | Custom label for the "more" indicator             | `string`                                                                | —           |
 
@@ -278,7 +270,7 @@ The compact mode uses `margin-inline-start` for overlap, which automatically rev
 ## Notes
 
 - The group's `size` property overrides the `size` of every child `<aegov-avatar>` on load and update. Do not rely on per-avatar sizes when using a group.
-- The `variant` property on the group only affects the "more" indicator shape. It does **not** override the shape of child avatars — set `variant="rounded"` on each avatar individually.
+- The group always enforces `variant="rounded"` on every child `<aegov-avatar>`. Any `variant="square"` set on an individual avatar is silently overridden. There is no square option inside a group.
 - In compact mode, the overlap amount is size-dependent. Smaller avatars overlap less, and larger ones overlap more, keeping the proportions balanced.
 - The "more" indicator uses `margin-inline-start` for overlap, which automatically mirrors in RTL layouts.
 - The "more" button has hover and focus-visible styles. It matches the avatar sizing so it blends seamlessly with the stack.

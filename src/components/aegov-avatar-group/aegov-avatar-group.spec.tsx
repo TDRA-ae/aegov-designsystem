@@ -98,22 +98,13 @@ describe('aegov-avatar-group', () => {
     expect(moreBtn.classList.contains('avatar-xl')).toBe(true);
   });
 
-  it('more button gets rounded class when variant is rounded', async () => {
+  it('more button always has avatar-rounded class', async () => {
     const page = await newSpecPage({
       components: [AegovAvatarGroup],
-      html: `<aegov-avatar-group more-count="2" variant="rounded"></aegov-avatar-group>`,
+      html: `<aegov-avatar-group more-count="2"></aegov-avatar-group>`,
     });
     const moreBtn = page.root.querySelector('.avatar-group__more');
     expect(moreBtn.classList.contains('avatar-rounded')).toBe(true);
-  });
-
-  it('more button does not get rounded class when variant is square', async () => {
-    const page = await newSpecPage({
-      components: [AegovAvatarGroup],
-      html: `<aegov-avatar-group more-count="2" variant="square"></aegov-avatar-group>`,
-    });
-    const moreBtn = page.root.querySelector('.avatar-group__more');
-    expect(moreBtn.classList.contains('avatar-rounded')).toBe(false);
   });
 
   it('emits aegovAvatarGroupMore event on more button click', async () => {
@@ -145,6 +136,40 @@ describe('aegov-avatar-group', () => {
     const avatars = page.root.querySelectorAll('aegov-avatar');
     avatars.forEach(avatar => {
       expect((avatar as any).size).toBe('lg');
+    });
+  });
+
+  it('always enforces rounded variant on all child avatars', async () => {
+    const page = await newSpecPage({
+      components: [AegovAvatarGroup, AegovAvatar],
+      html: `
+        <aegov-avatar-group>
+          <aegov-avatar></aegov-avatar>
+          <aegov-avatar></aegov-avatar>
+        </aegov-avatar-group>
+      `,
+    });
+
+    const avatars = page.root.querySelectorAll('aegov-avatar');
+    avatars.forEach(avatar => {
+      expect((avatar as any).variant).toBe('rounded');
+    });
+  });
+
+  it('overrides child avatar square variant to rounded', async () => {
+    const page = await newSpecPage({
+      components: [AegovAvatarGroup, AegovAvatar],
+      html: `
+        <aegov-avatar-group>
+          <aegov-avatar variant="square"></aegov-avatar>
+          <aegov-avatar variant="square"></aegov-avatar>
+        </aegov-avatar-group>
+      `,
+    });
+
+    const avatars = page.root.querySelectorAll('aegov-avatar');
+    avatars.forEach(avatar => {
+      expect((avatar as any).variant).toBe('rounded');
     });
   });
 
@@ -257,15 +282,6 @@ describe('aegov-avatar-group', () => {
       expect(group.classList.contains('avatar-group--base')).toBe(true);
     });
 
-    it('falls back to default variant when invalid', async () => {
-      const page = await newSpecPage({
-        components: [AegovAvatarGroup],
-        html: `<aegov-avatar-group variant="weird" more-count="3"></aegov-avatar-group>`,
-      });
-      const moreBtn = page.root.querySelector('.avatar-group__more');
-      expect(moreBtn.classList.contains('avatar-rounded')).toBe(true);
-    });
-
     it('warns with component name, prop name, invalid value, and fallback', async () => {
       await newSpecPage({
         components: [AegovAvatarGroup],
@@ -282,7 +298,7 @@ describe('aegov-avatar-group', () => {
     it('does not warn when all props are valid', async () => {
       await newSpecPage({
         components: [AegovAvatarGroup],
-        html: `<aegov-avatar-group mode="compact" size="lg" variant="square"></aegov-avatar-group>`,
+        html: `<aegov-avatar-group mode="compact" size="lg"></aegov-avatar-group>`,
       });
       expect(warnSpy).not.toHaveBeenCalled();
     });
@@ -311,16 +327,6 @@ describe('aegov-avatar-group', () => {
       expect(warn).toBeDefined();
     });
 
-    it('warns again via @Watch when variant is updated to invalid value', async () => {
-      const page = await newSpecPage({
-        components: [AegovAvatarGroup],
-        html: `<aegov-avatar-group variant="rounded"></aegov-avatar-group>`,
-      });
-      page.root.setAttribute('variant', 'nope');
-      await page.waitForChanges();
-      const messages = warnSpy.mock.calls.map(c => c[0] as string);
-      const warn = messages.find(m => m.includes('[aegov-avatar-group]') && m.includes('"variant"'));
-      expect(warn).toBeDefined();
-    });
   });
+
 });

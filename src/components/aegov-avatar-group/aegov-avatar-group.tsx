@@ -1,6 +1,6 @@
 import { Component, Element, Event, EventEmitter, Host, h, Prop, Watch } from '@stencil/core';
-import { AVATAR_GROUP_MODES, AVATAR_SIZES, AVATAR_VARIANTS } from '../../utils/types';
-import type { AvatarGroupMode, AvatarSize, AvatarVariant } from '../../utils/types';
+import { AVATAR_GROUP_MODES, AVATAR_SIZES } from '../../utils/types';
+import type { AvatarGroupMode, AvatarSize } from '../../utils/types';
 import { warnIfInvalidEnumProp } from '../../utils/prop-validator';
 
 const TAG = 'aegov-avatar-group';
@@ -28,11 +28,6 @@ export class AegovAvatarGroup {
   @Prop() size: AvatarSize = 'base';
 
   /**
-   * The variant (shape) applied to the "more" indicator
-   */
-  @Prop() variant: AvatarVariant = 'rounded';
-
-  /**
    * Number of additional users not shown. When > 0, displays "+N" indicator.
    */
   @Prop() moreCount: number = 0;
@@ -50,7 +45,6 @@ export class AegovAvatarGroup {
   componentWillLoad() {
     warnIfInvalidEnumProp(this.mode, AVATAR_GROUP_MODES, 'default', ctx('mode'));
     warnIfInvalidEnumProp(this.size, AVATAR_SIZES, 'base', ctx('size'));
-    warnIfInvalidEnumProp(this.variant, AVATAR_VARIANTS, 'rounded', ctx('variant'));
   }
 
   componentDidLoad() {
@@ -70,9 +64,6 @@ export class AegovAvatarGroup {
     this.updateAvatars();
   }
 
-  @Watch('variant')
-  onVariantChange(v: unknown) { warnIfInvalidEnumProp(v, AVATAR_VARIANTS, 'rounded', ctx('variant')); }
-
   private getDirectChildAvatars(): HTMLAegovAvatarElement[] {
     const allAvatars = Array.from(
       this.el.querySelectorAll('aegov-avatar'),
@@ -88,6 +79,8 @@ export class AegovAvatarGroup {
     const avatars = this.getDirectChildAvatars();
     avatars.forEach(avatar => {
       avatar.size = this.size;
+      // Groups always use rounded avatars — override any individual variant setting
+      avatar.variant = 'rounded';
     });
   }
 
@@ -110,7 +103,6 @@ export class AegovAvatarGroup {
   render() {
     const size: AvatarSize = (AVATAR_SIZES as readonly string[]).includes(this.size) ? this.size : 'base';
     const mode: AvatarGroupMode = (AVATAR_GROUP_MODES as readonly string[]).includes(this.mode) ? this.mode : 'default';
-    const variant: AvatarVariant = (AVATAR_VARIANTS as readonly string[]).includes(this.variant) ? this.variant : 'rounded';
     const classes = {
       'aegov-avatar-group': true,
       'avatar-group--default': mode === 'default',
@@ -118,10 +110,11 @@ export class AegovAvatarGroup {
       [`avatar-group--${size}`]: true,
     };
 
+    // More button is always rounded — groups only support rounded avatars
     const moreClasses = {
       'avatar-group__more': true,
       [this.getSizeClass()]: true,
-      'avatar-rounded': variant === 'rounded',
+      'avatar-rounded': true,
     };
 
     return (
