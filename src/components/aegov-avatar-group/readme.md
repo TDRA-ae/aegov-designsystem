@@ -13,7 +13,6 @@
 | `moreCount` | `more-count` | Number of additional users not shown. When > 0, displays "+N" indicator. | `number`                                                   | `0`         |
 | `moreText`  | `more-text`  | Custom text for the "more" indicator. Defaults to "{moreCount}+"         | `string`                                                   | `undefined` |
 | `size`      | `size`       | The size enforced on all child avatars                                   | `"2xl" \| "3xl" \| "base" \| "lg" \| "sm" \| "xl" \| "xs"` | `'base'`    |
-| `variant`   | `variant`    | The variant (shape) applied to the "more" indicator                      | `"rounded" \| "square"`                                    | `'rounded'` |
 
 
 ## Events
