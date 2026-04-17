@@ -129,6 +129,7 @@
     --color-primary-700: var(--color-aegold-700);
     --color-primary-800: var(--color-aegold-800);
     --color-primary-900: var(--color-aegold-900);
+    --color-primary-950: var(--color-aegold-950);
     --color-secondary-100: var(--color-camel-100);
     --color-secondary-700: var(--color-camel-700);
     --color-primary-support-600: var(--color-camel-600);
@@ -350,6 +351,10 @@
   .size-8 {
     width: calc(var(--spacing) * 8);
     height: calc(var(--spacing) * 8);
+  }
+  .size-10 {
+    width: calc(var(--spacing) * 10);
+    height: calc(var(--spacing) * 10);
   }
   .size-12 {
     width: calc(var(--spacing) * 12);
@@ -829,6 +834,9 @@
   .px-4\.5 {
     padding-inline: calc(var(--spacing) * 4.5);
   }
+  .px-6 {
+    padding-inline: calc(var(--spacing) * 6);
+  }
   .px-10 {
     padding-inline: calc(var(--spacing) * 10);
   }
@@ -850,14 +858,26 @@
   .py-2 {
     padding-block: calc(var(--spacing) * 2);
   }
+  .py-4 {
+    padding-block: calc(var(--spacing) * 4);
+  }
   .py-6 {
     padding-block: calc(var(--spacing) * 6);
+  }
+  .ps-12 {
+    padding-inline-start: calc(var(--spacing) * 12);
   }
   .ps-14 {
     padding-inline-start: calc(var(--spacing) * 14);
   }
   .pe-3 {
     padding-inline-end: calc(var(--spacing) * 3);
+  }
+  .pe-4 {
+    padding-inline-end: calc(var(--spacing) * 4);
+  }
+  .pe-6 {
+    padding-inline-end: calc(var(--spacing) * 6);
   }
   .pe-10 {
     padding-inline-end: calc(var(--spacing) * 10);
@@ -1007,6 +1027,9 @@
   }
   .text-primary-900 {
     color: var(--color-primary-900);
+  }
+  .text-primary-950 {
+    color: var(--color-primary-950);
   }
   .text-red-500 {
     color: var(--color-red-500);
@@ -1369,6 +1392,12 @@
       aspect-ratio: var(--aspect-video);
     }
   }
+  .md\:size-12 {
+    @media (width >= 768px) {
+      width: calc(var(--spacing) * 12);
+      height: calc(var(--spacing) * 12);
+    }
+  }
   .md\:w-24 {
     @media (width >= 768px) {
       width: calc(var(--spacing) * 24);
@@ -1392,6 +1421,11 @@
   .md\:gap-4 {
     @media (width >= 768px) {
       gap: calc(var(--spacing) * 4);
+    }
+  }
+  .md\:ps-14 {
+    @media (width >= 768px) {
+      padding-inline-start: calc(var(--spacing) * 14);
     }
   }
   .md\:text-base {
