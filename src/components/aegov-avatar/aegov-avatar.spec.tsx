@@ -303,4 +303,79 @@ describe('aegov-avatar', () => {
       expect(avatar.classList.contains('avatar-rounded')).toBe(true);
     });
   });
+
+  describe('invalid prop values', () => {
+    let warnSpy: jest.SpyInstance;
+
+    beforeEach(() => {
+      warnSpy = jest.spyOn(console, 'warn').mockImplementation();
+    });
+
+    afterEach(() => {
+      warnSpy.mockRestore();
+    });
+
+    it('falls back to default size class when invalid', async () => {
+      const page = await newSpecPage({
+        components: [AegovAvatar],
+        html: `<aegov-avatar size="huge"></aegov-avatar>`,
+      });
+      const avatar = page.root.querySelector('.aegov-avatar');
+      expect(avatar.className).toContain('avatar-base');
+    });
+
+    it('falls back to default variant when invalid', async () => {
+      const page = await newSpecPage({
+        components: [AegovAvatar],
+        html: `<aegov-avatar variant="weird"></aegov-avatar>`,
+      });
+      const avatar = page.root.querySelector('.aegov-avatar');
+      expect(avatar.classList.contains('avatar-rounded')).toBe(false);
+    });
+
+    it('warns with component name, prop name, invalid value, and fallback', async () => {
+      await newSpecPage({
+        components: [AegovAvatar],
+        html: `<aegov-avatar size="huge"></aegov-avatar>`,
+      });
+      const messages = warnSpy.mock.calls.map(c => c[0] as string);
+      const warn = messages.find(m => m.includes('"size"'));
+      expect(warn).toBeDefined();
+      expect(warn).toContain('[aegov-avatar]');
+      expect(warn).toContain('"huge"');
+      expect(warn).toContain('base');
+    });
+
+    it('does not warn when all props are valid', async () => {
+      await newSpecPage({
+        components: [AegovAvatar],
+        html: `<aegov-avatar size="lg" variant="rounded"></aegov-avatar>`,
+      });
+      expect(warnSpy).not.toHaveBeenCalled();
+    });
+
+    it('warns again via @Watch when size is updated to invalid value', async () => {
+      const page = await newSpecPage({
+        components: [AegovAvatar],
+        html: `<aegov-avatar size="base"></aegov-avatar>`,
+      });
+      page.root.setAttribute('size', 'nope');
+      await page.waitForChanges();
+      const messages = warnSpy.mock.calls.map(c => c[0] as string);
+      const warn = messages.find(m => m.includes('[aegov-avatar]') && m.includes('"size"'));
+      expect(warn).toBeDefined();
+    });
+
+    it('warns again via @Watch when variant is updated to invalid value', async () => {
+      const page = await newSpecPage({
+        components: [AegovAvatar],
+        html: `<aegov-avatar variant="square"></aegov-avatar>`,
+      });
+      page.root.setAttribute('variant', 'nope');
+      await page.waitForChanges();
+      const messages = warnSpy.mock.calls.map(c => c[0] as string);
+      const warn = messages.find(m => m.includes('[aegov-avatar]') && m.includes('"variant"'));
+      expect(warn).toBeDefined();
+    });
+  });
 });

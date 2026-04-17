@@ -587,4 +587,100 @@ describe('aegov-button', () => {
       expect(button.getAttribute('aria-busy')).toBe('true');
     });
   });
+
+  describe('invalid prop values', () => {
+    let warnSpy: jest.SpyInstance;
+
+    beforeEach(() => {
+      warnSpy = jest.spyOn(console, 'warn').mockImplementation();
+    });
+
+    afterEach(() => {
+      warnSpy.mockRestore();
+    });
+
+    it('falls back to default size class when size is invalid', async () => {
+      const page = await newSpecPage({
+        components: [AegovButton],
+        html: `<aegov-button size="huge">X</aegov-button>`,
+      });
+      const button = page.root.querySelector('button');
+      expect(button).toBeTruthy();
+      expect(button.className).toContain('btn-base');
+    });
+
+    it('falls back to default variant class when variant is invalid', async () => {
+      const page = await newSpecPage({
+        components: [AegovButton],
+        html: `<aegov-button variant="weird">X</aegov-button>`,
+      });
+      const button = page.root.querySelector('button');
+      expect(button.className).toContain('btn-solid');
+    });
+
+    it('falls back to default appearance class when appearance is invalid', async () => {
+      const page = await newSpecPage({
+        components: [AegovButton],
+        html: `<aegov-button appearance="mystery">X</aegov-button>`,
+      });
+      const button = page.root.querySelector('button');
+      expect(button.className).toContain('btn-primary');
+    });
+
+    it('falls back native type to "button" when type is invalid', async () => {
+      const page = await newSpecPage({
+        components: [AegovButton],
+        html: `<aegov-button type="weird">X</aegov-button>`,
+      });
+      const button = page.root.querySelector('button');
+      expect(button.getAttribute('type')).toBe('button');
+    });
+
+    it('warns with component name, prop name, invalid value, and fallback', async () => {
+      await newSpecPage({
+        components: [AegovButton],
+        html: `<aegov-button variant="weird">X</aegov-button>`,
+      });
+      const messages = warnSpy.mock.calls.map(c => c[0] as string);
+      const variantWarn = messages.find(m => m.includes('"variant"'));
+      expect(variantWarn).toBeDefined();
+      expect(variantWarn).toContain('[aegov-button]');
+      expect(variantWarn).toContain('"weird"');
+      expect(variantWarn).toContain('solid');
+    });
+
+    it('does not warn when all props are valid', async () => {
+      await newSpecPage({
+        components: [AegovButton],
+        html: `<aegov-button size="lg" variant="outline" appearance="danger" type="submit">X</aegov-button>`,
+      });
+      expect(warnSpy).not.toHaveBeenCalled();
+    });
+
+    it('warns again via @Watch when a prop is updated to an invalid value', async () => {
+      const page = await newSpecPage({
+        components: [AegovButton],
+        html: `<aegov-button size="base">X</aegov-button>`,
+      });
+      expect(warnSpy).not.toHaveBeenCalled();
+
+      page.root.setAttribute('size', 'nope');
+      await page.waitForChanges();
+
+      const messages = warnSpy.mock.calls.map(c => c[0] as string);
+      const invalidWarn = messages.find(m => m.includes('[aegov-button]') && m.includes('"nope"'));
+      expect(invalidWarn).toBeDefined();
+      expect(invalidWarn).toContain('"size"');
+    });
+
+    it('ignores empty string for size (treats as unset)', async () => {
+      const page = await newSpecPage({
+        components: [AegovButton],
+        html: `<aegov-button size="">X</aegov-button>`,
+      });
+      const button = page.root.querySelector('button');
+      expect(button.className).toContain('btn-base');
+      expect(warnSpy).not.toHaveBeenCalled();
+    });
+  });
 });

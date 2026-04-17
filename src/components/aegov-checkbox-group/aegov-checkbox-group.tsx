@@ -1,5 +1,10 @@
 import { Component, Host, h, Prop, Event, EventEmitter, Element, Listen, Watch } from '@stencil/core';
+import { CHECKBOX_GROUP_VARIANTS, CHECKBOX_GROUP_ORIENTATIONS, CHECKBOX_SIZES } from '../../utils/types';
 import type { CheckboxGroupVariant, CheckboxGroupOrientation, CheckboxSize } from '../../utils/types';
+import { warnIfInvalidEnumProp } from '../../utils/prop-validator';
+
+const TAG = 'aegov-checkbox-group';
+const ctx = (prop: string) => ({ component: TAG, prop });
 
 @Component({
   tag: 'aegov-checkbox-group',
@@ -31,13 +36,26 @@ export class AegovCheckboxGroup {
   /** Emitted when any checkbox in the group changes. Contains all currently checked values. */
   @Event() aegovCheckboxGroupChange: EventEmitter<{ values: string[] }>;
 
+  componentWillLoad() {
+    warnIfInvalidEnumProp(this.variant, CHECKBOX_GROUP_VARIANTS, 'default', ctx('variant'));
+    warnIfInvalidEnumProp(this.orientation, CHECKBOX_GROUP_ORIENTATIONS, 'vertical', ctx('orientation'));
+    warnIfInvalidEnumProp(this.size, CHECKBOX_SIZES, 'base', ctx('size'));
+  }
+
   componentDidLoad() {
     this.syncChildren();
     this.updateCheckAllState();
   }
 
+  @Watch('variant')
+  onVariantChange(v: unknown) { warnIfInvalidEnumProp(v, CHECKBOX_GROUP_VARIANTS, 'default', ctx('variant')); }
+
+  @Watch('orientation')
+  onOrientationChange(v: unknown) { warnIfInvalidEnumProp(v, CHECKBOX_GROUP_ORIENTATIONS, 'vertical', ctx('orientation')); }
+
   @Watch('size')
-  onSizeChange() {
+  onSizeChange(v: unknown) {
+    warnIfInvalidEnumProp(v, CHECKBOX_SIZES, 'base', ctx('size'));
     this.syncChildren();
   }
 
@@ -112,10 +130,12 @@ export class AegovCheckboxGroup {
 
   private getGroupClasses(): string {
     const classes = ['aegov-checkbox-group'];
-    if (this.variant !== 'default') {
-      classes.push(`checkbox-group--${this.variant}`);
+    const variant: CheckboxGroupVariant = (CHECKBOX_GROUP_VARIANTS as readonly string[]).includes(this.variant) ? this.variant : 'default';
+    const orientation: CheckboxGroupOrientation = (CHECKBOX_GROUP_ORIENTATIONS as readonly string[]).includes(this.orientation) ? this.orientation : 'vertical';
+    if (variant !== 'default') {
+      classes.push(`checkbox-group--${variant}`);
     }
-    if (this.orientation === 'horizontal') {
+    if (orientation === 'horizontal') {
       classes.push('checkbox-group--horizontal');
     }
     if (this.class) {

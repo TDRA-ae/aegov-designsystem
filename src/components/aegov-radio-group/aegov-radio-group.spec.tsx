@@ -233,4 +233,98 @@ describe('aegov-radio-group', () => {
     expect(spy).toHaveBeenCalled();
     expect(spy.mock.calls[0][0].detail.value).toBeUndefined();
   });
+
+  describe('invalid prop values', () => {
+    let warnSpy: jest.SpyInstance;
+
+    beforeEach(() => {
+      warnSpy = jest.spyOn(console, 'warn').mockImplementation();
+    });
+
+    afterEach(() => {
+      warnSpy.mockRestore();
+    });
+
+    it('falls back to default variant (no variant class) when variant is invalid', async () => {
+      const page = await newSpecPage({
+        components: [AegovRadioGroup, AegovRadio],
+        html: `<aegov-radio-group name="t" variant="weird"></aegov-radio-group>`,
+      });
+      const fieldset = page.root.querySelector('fieldset');
+      expect(fieldset.className).not.toContain('radio-group--weird');
+      expect(fieldset.className).toContain('aegov-radio-group');
+    });
+
+    it('falls back to default orientation when orientation is invalid', async () => {
+      const page = await newSpecPage({
+        components: [AegovRadioGroup, AegovRadio],
+        html: `<aegov-radio-group name="t" orientation="diagonal"></aegov-radio-group>`,
+      });
+      const fieldset = page.root.querySelector('fieldset');
+      expect(fieldset.className).not.toContain('radio-group--horizontal');
+    });
+
+    it('warns for invalid variant', async () => {
+      await newSpecPage({
+        components: [AegovRadioGroup, AegovRadio],
+        html: `<aegov-radio-group name="t" variant="weird"></aegov-radio-group>`,
+      });
+      const messages = warnSpy.mock.calls.map(c => c[0] as string);
+      const variantWarn = messages.find(m => m.includes('"variant"'));
+      expect(variantWarn).toBeDefined();
+      expect(variantWarn).toContain('[aegov-radio-group]');
+      expect(variantWarn).toContain('"weird"');
+      expect(variantWarn).toContain('default');
+    });
+
+    it('warns for invalid orientation', async () => {
+      await newSpecPage({
+        components: [AegovRadioGroup, AegovRadio],
+        html: `<aegov-radio-group name="t" orientation="diagonal"></aegov-radio-group>`,
+      });
+      const messages = warnSpy.mock.calls.map(c => c[0] as string);
+      const orientationWarn = messages.find(m => m.includes('"orientation"'));
+      expect(orientationWarn).toBeDefined();
+      expect(orientationWarn).toContain('[aegov-radio-group]');
+      expect(orientationWarn).toContain('"diagonal"');
+      expect(orientationWarn).toContain('vertical');
+    });
+
+    it('warns for invalid size', async () => {
+      await newSpecPage({
+        components: [AegovRadioGroup, AegovRadio],
+        html: `<aegov-radio-group name="t" size="huge"></aegov-radio-group>`,
+      });
+      const messages = warnSpy.mock.calls.map(c => c[0] as string);
+      const sizeWarn = messages.find(m => m.includes('"size"'));
+      expect(sizeWarn).toBeDefined();
+      expect(sizeWarn).toContain('[aegov-radio-group]');
+      expect(sizeWarn).toContain('"huge"');
+      expect(sizeWarn).toContain('base');
+    });
+
+    it('does not warn when all props are valid', async () => {
+      await newSpecPage({
+        components: [AegovRadioGroup, AegovRadio],
+        html: `<aegov-radio-group name="t" size="lg" variant="cards" orientation="horizontal"></aegov-radio-group>`,
+      });
+      expect(warnSpy).not.toHaveBeenCalled();
+    });
+
+    it('warns again via @Watch when variant is updated to an invalid value', async () => {
+      const page = await newSpecPage({
+        components: [AegovRadioGroup, AegovRadio],
+        html: `<aegov-radio-group name="t" variant="default"></aegov-radio-group>`,
+      });
+      expect(warnSpy).not.toHaveBeenCalled();
+
+      page.root.setAttribute('variant', 'nope');
+      await page.waitForChanges();
+
+      const messages = warnSpy.mock.calls.map(c => c[0] as string);
+      const invalidWarn = messages.find(m => m.includes('[aegov-radio-group]') && m.includes('"nope"'));
+      expect(invalidWarn).toBeDefined();
+      expect(invalidWarn).toContain('"variant"');
+    });
+  });
 });

@@ -1,5 +1,9 @@
-import { Component, Prop, Element, Host, h } from '@stencil/core';
-import { AspectRatioPreset, AspectRatioFit } from '../../utils/types';
+import { Component, Prop, Watch, Element, Host, h } from '@stencil/core';
+import { AspectRatioPreset, AspectRatioFit, ASPECT_RATIO_FITS } from '../../utils/types';
+import { warnIfInvalidEnumProp } from '../../utils/prop-validator';
+
+const TAG = 'aegov-aspect-ratio';
+const ctx = (prop: string) => ({ component: TAG, prop });
 
 /**
  * @component aegov-aspect-ratio
@@ -38,6 +42,13 @@ export class AegovAspectRatio {
    */
   @Prop({ attribute: 'inner-class' }) innerClass?: string;
 
+  componentWillLoad() {
+    warnIfInvalidEnumProp(this.fit, ASPECT_RATIO_FITS, 'cover', ctx('fit'));
+  }
+
+  @Watch('fit')
+  onFitChange(v: unknown) { warnIfInvalidEnumProp(v, ASPECT_RATIO_FITS, 'cover', ctx('fit')); }
+
   private resolveRatio(): string {
     switch (this.ratio) {
       case 'auto':
@@ -65,10 +76,11 @@ export class AegovAspectRatio {
 
   render() {
     const ratioStyle = { 'aspect-ratio': this.resolveRatio() };
+    const fit: AspectRatioFit = (ASPECT_RATIO_FITS as readonly string[]).includes(this.fit) ? this.fit : 'cover';
 
     return (
       <Host>
-        <div class={this.getContainerClasses()} style={ratioStyle} data-fit={this.fit}>
+        <div class={this.getContainerClasses()} style={ratioStyle} data-fit={fit}>
           <slot />
         </div>
       </Host>

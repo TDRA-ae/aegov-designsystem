@@ -1,5 +1,10 @@
-import { Component, Host, h, Prop, Element } from '@stencil/core';
+import { Component, Host, h, Prop, Element, Watch } from '@stencil/core';
+import { INPUT_SIZES } from '../../utils/types';
 import type { InputSize } from '../../utils/types';
+import { warnIfInvalidEnumProp } from '../../utils/prop-validator';
+
+const TAG = 'aegov-input-group';
+const ctx = (prop: string) => ({ component: TAG, prop });
 
 @Component({
   tag: 'aegov-input-group',
@@ -21,6 +26,13 @@ export class AegovInputGroup {
 
   /** Additional CSS classes to apply. */
   @Prop() class?: string;
+
+  componentWillLoad() {
+    warnIfInvalidEnumProp(this.size, INPUT_SIZES, 'base', ctx('size'));
+  }
+
+  @Watch('size')
+  onSizeChange(v: unknown) { warnIfInvalidEnumProp(v, INPUT_SIZES, 'base', ctx('size')); }
 
   componentDidLoad() {
     this.propagateSize();
@@ -53,7 +65,8 @@ export class AegovInputGroup {
       xl: 'input-group--xl',
     };
 
-    classes.push(sizeClasses[this.size]);
+    const size: InputSize = (INPUT_SIZES as readonly string[]).includes(this.size) ? this.size : 'base';
+    classes.push(sizeClasses[size]);
 
     if (this.class) {
       classes.push(this.class);

@@ -689,4 +689,101 @@ describe('aegov-select', () => {
       expect(button.className).toContain('my-class');
     });
   });
+
+  describe('invalid prop values', () => {
+    let warnSpy: jest.SpyInstance;
+
+    beforeEach(() => {
+      warnSpy = jest.spyOn(console, 'warn').mockImplementation();
+    });
+
+    afterEach(() => {
+      warnSpy.mockRestore();
+    });
+
+    it('falls back to default size class when size is invalid', async () => {
+      const page = await newSpecPage({
+        components,
+        html: `<aegov-select size="huge"><aegov-select-option value="1">One</aegov-select-option></aegov-select>`,
+      });
+      const select = page.root.querySelector('select');
+      expect(select).toBeTruthy();
+      expect(select.className).toContain('select--base');
+    });
+
+    it('falls back to default variant (renders native select) when variant is invalid', async () => {
+      const page = await newSpecPage({
+        components,
+        html: `<aegov-select variant="weird"><aegov-select-option value="1">One</aegov-select-option></aegov-select>`,
+      });
+      // Invalid variant -> useListbox is false -> renders native select
+      expect(page.root.querySelector('select')).toBeTruthy();
+    });
+
+    it('warns with component name, prop name, invalid value, and fallback for size', async () => {
+      await newSpecPage({
+        components,
+        html: `<aegov-select size="huge"><aegov-select-option value="1">One</aegov-select-option></aegov-select>`,
+      });
+      const messages = warnSpy.mock.calls.map(c => c[0] as string);
+      const sizeWarn = messages.find(m => m.includes('"size"'));
+      expect(sizeWarn).toBeDefined();
+      expect(sizeWarn).toContain('[aegov-select]');
+      expect(sizeWarn).toContain('"huge"');
+      expect(sizeWarn).toContain('base');
+    });
+
+    it('warns with component name, prop name, invalid value, and fallback for variant', async () => {
+      await newSpecPage({
+        components,
+        html: `<aegov-select variant="weird"><aegov-select-option value="1">One</aegov-select-option></aegov-select>`,
+      });
+      const messages = warnSpy.mock.calls.map(c => c[0] as string);
+      const variantWarn = messages.find(m => m.includes('"variant"'));
+      expect(variantWarn).toBeDefined();
+      expect(variantWarn).toContain('[aegov-select]');
+      expect(variantWarn).toContain('"weird"');
+      expect(variantWarn).toContain('default');
+    });
+
+    it('does not warn when all props are valid', async () => {
+      await newSpecPage({
+        components,
+        html: `<aegov-select size="lg" variant="listbox"><aegov-select-option value="1">One</aegov-select-option></aegov-select>`,
+      });
+      expect(warnSpy).not.toHaveBeenCalled();
+    });
+
+    it('warns again via @Watch when size is updated to an invalid value', async () => {
+      const page = await newSpecPage({
+        components,
+        html: `<aegov-select size="base"><aegov-select-option value="1">One</aegov-select-option></aegov-select>`,
+      });
+      expect(warnSpy).not.toHaveBeenCalled();
+
+      page.root.setAttribute('size', 'nope');
+      await page.waitForChanges();
+
+      const messages = warnSpy.mock.calls.map(c => c[0] as string);
+      const invalidWarn = messages.find(m => m.includes('[aegov-select]') && m.includes('"nope"'));
+      expect(invalidWarn).toBeDefined();
+      expect(invalidWarn).toContain('"size"');
+    });
+
+    it('warns again via @Watch when variant is updated to an invalid value', async () => {
+      const page = await newSpecPage({
+        components,
+        html: `<aegov-select variant="default"><aegov-select-option value="1">One</aegov-select-option></aegov-select>`,
+      });
+      expect(warnSpy).not.toHaveBeenCalled();
+
+      page.root.setAttribute('variant', 'nope');
+      await page.waitForChanges();
+
+      const messages = warnSpy.mock.calls.map(c => c[0] as string);
+      const invalidWarn = messages.find(m => m.includes('[aegov-select]') && m.includes('"nope"'));
+      expect(invalidWarn).toBeDefined();
+      expect(invalidWarn).toContain('"variant"');
+    });
+  });
 });

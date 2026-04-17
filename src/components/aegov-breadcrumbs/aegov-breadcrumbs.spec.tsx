@@ -488,4 +488,77 @@ describe('aegov-breadcrumbs', () => {
       expect(meta).toBeNull();
     });
   });
+
+  describe('invalid prop values', () => {
+    let warnSpy: jest.SpyInstance;
+
+    beforeEach(() => {
+      warnSpy = jest.spyOn(console, 'warn').mockImplementation();
+    });
+
+    afterEach(() => {
+      warnSpy.mockRestore();
+    });
+
+    it('renders safely when separator is invalid', async () => {
+      const page = await newSpecPage({
+        components: [AegovBreadcrumbs, AegovBreadcrumbsItem],
+        html: `
+          <aegov-breadcrumbs separator="dots">
+            <aegov-breadcrumbs-item href="/">Home</aegov-breadcrumbs-item>
+            <aegov-breadcrumbs-item>Current</aegov-breadcrumbs-item>
+          </aegov-breadcrumbs>
+        `,
+      });
+      const nav = page.root.querySelector('nav.aegov-breadcrumbs');
+      expect(nav).toBeTruthy();
+    });
+
+    it('warns with component name, prop name, invalid value, and fallback', async () => {
+      await newSpecPage({
+        components: [AegovBreadcrumbs, AegovBreadcrumbsItem],
+        html: `
+          <aegov-breadcrumbs separator="dots">
+            <aegov-breadcrumbs-item href="/">Home</aegov-breadcrumbs-item>
+          </aegov-breadcrumbs>
+        `,
+      });
+      const messages = warnSpy.mock.calls.map(c => c[0] as string);
+      const separatorWarn = messages.find(m => m.includes('[aegov-breadcrumbs]') && m.includes('"dots"'));
+      expect(separatorWarn).toBeDefined();
+      expect(separatorWarn).toContain('"separator"');
+    });
+
+    it('does not warn when all props are valid', async () => {
+      await newSpecPage({
+        components: [AegovBreadcrumbs, AegovBreadcrumbsItem],
+        html: `
+          <aegov-breadcrumbs separator="chevron">
+            <aegov-breadcrumbs-item href="/">Home</aegov-breadcrumbs-item>
+          </aegov-breadcrumbs>
+        `,
+      });
+      expect(warnSpy).not.toHaveBeenCalled();
+    });
+
+    it('warns again via @Watch when separator is updated to an invalid value', async () => {
+      const page = await newSpecPage({
+        components: [AegovBreadcrumbs, AegovBreadcrumbsItem],
+        html: `
+          <aegov-breadcrumbs separator="slash">
+            <aegov-breadcrumbs-item href="/">Home</aegov-breadcrumbs-item>
+          </aegov-breadcrumbs>
+        `,
+      });
+      expect(warnSpy).not.toHaveBeenCalled();
+
+      page.root.setAttribute('separator', 'nope');
+      await page.waitForChanges();
+
+      const messages = warnSpy.mock.calls.map(c => c[0] as string);
+      const invalidWarn = messages.find(m => m.includes('[aegov-breadcrumbs]') && m.includes('"nope"'));
+      expect(invalidWarn).toBeDefined();
+      expect(invalidWarn).toContain('"separator"');
+    });
+  });
 });
