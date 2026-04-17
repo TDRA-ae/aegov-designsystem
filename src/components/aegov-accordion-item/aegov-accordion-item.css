@@ -47,6 +47,24 @@
   }
 }
 
+/* ── Size variants ───────────────────────────────── */
+
+.accordion-item--sm > button.accordion-item__header {
+  @apply text-sm;
+}
+.accordion-item--sm .accordion-item__heading {
+  @apply text-sm;
+}
+
+/* base is the default — no override needed */
+
+.accordion-item--lg > button.accordion-item__header {
+  @apply text-lg;
+}
+.accordion-item--lg .accordion-item__heading {
+  @apply text-lg;
+}
+
 /* RTL Support */
 [dir="rtl"] .accordion-item__header {
   text-align: right;

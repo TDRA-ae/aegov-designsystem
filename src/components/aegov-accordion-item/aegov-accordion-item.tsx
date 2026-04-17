@@ -1,5 +1,5 @@
 import { Component, Host, h, Prop, Element, Event, EventEmitter, Watch, State } from '@stencil/core';
-import { AccordionIcon } from '../../utils/types';
+import { AccordionIcon, AccordionSize } from '../../utils/types';
 
 /**
  * Accordion item component
@@ -60,6 +60,12 @@ export class AegovAccordionItem {
    * @internal - Set automatically by parent component
    */
   @Prop({ mutable: true }) isLast: boolean = false;
+
+  /**
+   * Size of the accordion item — controls heading font size.
+   * @internal - Set automatically by parent component
+   */
+  @Prop({ mutable: true }) size: AccordionSize = 'base';
 
   /**
    * Emitted when the accordion item is toggled
@@ -140,6 +146,7 @@ export class AegovAccordionItem {
   render() {
     const classes = [
       'aegov-accordion-item',
+      `accordion-item--${this.size}`,
       this.open && 'accordion-item--open',
       this.disabled && 'accordion-item--disabled',
       this.isFirst && 'accordion-item__first',

@@ -1,5 +1,5 @@
 import { Component, Host, h, Prop, Element, Watch } from '@stencil/core';
-import { AccordionIcon, ACCORDION_ICONS } from '../../utils/types';
+import { AccordionIcon, ACCORDION_ICONS, AccordionSize, ACCORDION_SIZES } from '../../utils/types';
 import { warnIfInvalidEnumProp } from '../../utils/prop-validator';
 
 const TAG = 'aegov-accordion';
@@ -41,8 +41,15 @@ export class AegovAccordion {
    */
   @Prop() bordered: boolean = false;
 
+  /**
+   * Size of the accordion items — controls heading font size.
+   * sm = 14px, base = 16px (default), lg = 18px
+   */
+  @Prop() size: AccordionSize = 'base';
+
   componentWillLoad() {
     warnIfInvalidEnumProp(this.icon, ACCORDION_ICONS, 'chevron', ctx('icon'));
+    warnIfInvalidEnumProp(this.size, ACCORDION_SIZES, 'base', ctx('size'));
   }
 
   componentDidLoad() {
@@ -67,10 +74,14 @@ export class AegovAccordion {
   }
 
   @Watch('icon')
-  onIconChange(v: unknown) { warnIfInvalidEnumProp(v, ACCORDION_ICONS, 'chevron', ctx('icon')); }
+  onIconChange(v: unknown) {
+    warnIfInvalidEnumProp(v, ACCORDION_ICONS, 'chevron', ctx('icon'));
+    this.syncItemProps();
+  }
 
-  @Watch('icon')
-  handleIconChange() {
+  @Watch('size')
+  onSizeChange(v: unknown) {
+    warnIfInvalidEnumProp(v, ACCORDION_SIZES, 'base', ctx('size'));
     this.syncItemProps();
   }
 
@@ -88,6 +99,7 @@ export class AegovAccordion {
   private syncItemProps() {
     this.cachedItems.forEach((item, index) => {
       item.icon = this.icon;
+      item.size = this.size;
       item.isFirst = index === 0;
       item.isLast = index === this.cachedItems.length - 1;
     });

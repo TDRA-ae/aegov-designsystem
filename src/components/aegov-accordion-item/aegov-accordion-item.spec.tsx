@@ -536,5 +536,101 @@ describe('aegov-accordion-item', () => {
       const lastItemDiv = page.root.querySelector('aegov-accordion-item:last-of-type .aegov-accordion-item');
       expect(lastItemDiv.classList.contains('accordion-item__last')).toBe(true);
     });
+
+    it('should apply accordion-item--base class by default', async () => {
+      const page = await newSpecPage({
+        components: [AegovAccordion, AegovAccordionItem],
+        html: `
+          <aegov-accordion>
+            <aegov-accordion-item heading="Heading">Content</aegov-accordion-item>
+          </aegov-accordion>
+        `,
+      });
+
+      await page.waitForChanges();
+
+      const itemDiv = page.root.querySelector('.aegov-accordion-item');
+      expect(itemDiv.classList.contains('accordion-item--base')).toBe(true);
+    });
+
+    it('should apply accordion-item--sm class when size is sm', async () => {
+      const page = await newSpecPage({
+        components: [AegovAccordion, AegovAccordionItem],
+        html: `
+          <aegov-accordion size="sm">
+            <aegov-accordion-item heading="Heading">Content</aegov-accordion-item>
+          </aegov-accordion>
+        `,
+      });
+
+      await page.waitForChanges();
+
+      const itemDiv = page.root.querySelector('.aegov-accordion-item');
+      expect(itemDiv.classList.contains('accordion-item--sm')).toBe(true);
+    });
+
+    it('should apply accordion-item--lg class when size is lg', async () => {
+      const page = await newSpecPage({
+        components: [AegovAccordion, AegovAccordionItem],
+        html: `
+          <aegov-accordion size="lg">
+            <aegov-accordion-item heading="Heading">Content</aegov-accordion-item>
+          </aegov-accordion>
+        `,
+      });
+
+      await page.waitForChanges();
+
+      const itemDiv = page.root.querySelector('.aegov-accordion-item');
+      expect(itemDiv.classList.contains('accordion-item--lg')).toBe(true);
+    });
+  });
+
+  describe('size prop', () => {
+    it('should default to base', async () => {
+      const page = await newSpecPage({
+        components: [AegovAccordion, AegovAccordionItem],
+        html: `
+          <aegov-accordion>
+            <aegov-accordion-item heading="Heading">Content</aegov-accordion-item>
+          </aegov-accordion>
+        `,
+      });
+
+      const item = page.root.querySelector('aegov-accordion-item') as HTMLAegovAccordionItemElement;
+      expect(item.size).toBe('base');
+    });
+
+    it('should reflect sm size set by parent', async () => {
+      const page = await newSpecPage({
+        components: [AegovAccordion, AegovAccordionItem],
+        html: `
+          <aegov-accordion size="sm">
+            <aegov-accordion-item heading="Heading">Content</aegov-accordion-item>
+          </aegov-accordion>
+        `,
+      });
+
+      await page.waitForChanges();
+
+      const item = page.root.querySelector('aegov-accordion-item') as HTMLAegovAccordionItemElement;
+      expect(item.size).toBe('sm');
+    });
+
+    it('should reflect lg size set by parent', async () => {
+      const page = await newSpecPage({
+        components: [AegovAccordion, AegovAccordionItem],
+        html: `
+          <aegov-accordion size="lg">
+            <aegov-accordion-item heading="Heading">Content</aegov-accordion-item>
+          </aegov-accordion>
+        `,
+      });
+
+      await page.waitForChanges();
+
+      const item = page.root.querySelector('aegov-accordion-item') as HTMLAegovAccordionItemElement;
+      expect(item.size).toBe('lg');
+    });
   });
 });
