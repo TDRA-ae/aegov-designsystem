@@ -1,4 +1,6 @@
-import { Component, Prop, Event, EventEmitter, h, Watch } from '@stencil/core';
+import { Component, Prop, State, Event, EventEmitter, h, Watch } from '@stencil/core';
+import { watchResponsiveProp } from '../../utils/responsive-prop';
+import type { ResponsivePropWatcher } from '../../utils/responsive-prop';
 import { PAGINATION_SIZES, PAGINATION_VARIANTS } from '../../utils/types';
 import type { PaginationSize, PaginationVariant } from '../../utils/types';
 import { warnIfInvalidEnumProp } from '../../utils/prop-validator';
@@ -48,7 +50,10 @@ export class AegovPagination {
   /**
    * Size variant of the pagination.
    */
-  @Prop() size: PaginationSize = 'base';
+  @Prop() size: string = 'base';
+
+  @State() private _resolvedSize: PaginationSize = 'base';
+  private _sizeWatcher: ResponsivePropWatcher | null = null;
 
   /**
    * Disables all pagination interaction.
@@ -83,14 +88,27 @@ export class AegovPagination {
 
   componentWillLoad() {
     warnIfInvalidEnumProp(this.variant, PAGINATION_VARIANTS, 'default', ctx('variant'));
-    warnIfInvalidEnumProp(this.size, PAGINATION_SIZES, 'base', ctx('size'));
+    this._sizeWatcher = watchResponsiveProp(this.size, PAGINATION_SIZES, 'base', v => {
+      this._resolvedSize = v as PaginationSize;
+    });
+    this._resolvedSize = this._sizeWatcher.current as PaginationSize;
+  }
+
+  disconnectedCallback() {
+    this._sizeWatcher?.destroy();
   }
 
   @Watch('variant')
   onVariantChange(v: unknown) { warnIfInvalidEnumProp(v, PAGINATION_VARIANTS, 'default', ctx('variant')); }
 
   @Watch('size')
-  onSizeChange(v: unknown) { warnIfInvalidEnumProp(v, PAGINATION_SIZES, 'base', ctx('size')); }
+  onSizeChange() {
+    this._sizeWatcher?.destroy();
+    this._sizeWatcher = watchResponsiveProp(this.size, PAGINATION_SIZES, 'base', v => {
+      this._resolvedSize = v as PaginationSize;
+    });
+    this._resolvedSize = this._sizeWatcher.current as PaginationSize;
+  }
 
   private handlePageClick(page: number): void {
     if (this.disabled || page === this.currentPage || page < 1 || page > this.totalPages) {
@@ -199,7 +217,7 @@ export class AegovPagination {
     }
 
     const variant: PaginationVariant = (PAGINATION_VARIANTS as readonly string[]).includes(this.variant) ? this.variant : 'default';
-    const size: PaginationSize = (PAGINATION_SIZES as readonly string[]).includes(this.size) ? this.size : 'base';
+    const size: PaginationSize = this._resolvedSize;
     const range = variant === 'compact' ? [] : this.getPaginationRange();
     const isFirst = this.currentPage <= 1;
     const isLast = this.currentPage >= this.totalPages;

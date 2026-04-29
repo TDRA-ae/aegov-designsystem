@@ -13,7 +13,7 @@
 | `disabled`    | `disabled`    | Disables all checkboxes within the group via native fieldset disabled. | `boolean`                                   | `false`      |
 | `label`       | `label`       | Optional label rendered as a <legend> for accessibility.               | `string`                                    | `undefined`  |
 | `orientation` | `orientation` | Stack direction for checkbox items.                                    | `"horizontal" \| "vertical"`                | `'vertical'` |
-| `size`        | `size`        | Size of all checkboxes in the group. Propagated to children.           | `"base" \| "lg" \| "sm" \| "xl" \| "xs"`    | `'base'`     |
+| `size`        | `size`        | Size of all checkboxes in the group. Propagated to children.           | `string`                                    | `'base'`     |
 | `variant`     | `variant`     | Visual variant for the group layout.                                   | `"cards" \| "default" \| "list" \| "pills"` | `'default'`  |
 
 

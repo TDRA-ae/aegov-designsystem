@@ -78,6 +78,22 @@ Use `size="lg"` for introductory paragraphs or lead text that should have more v
   <aegov-text size="lg">Large text — 18px. Best for lead paragraphs and introductions.</aegov-text>
 </div>
 
+### Responsive Size
+
+The `size` prop accepts Tailwind-style responsive prefixes. Write a space-separated string where each token is either a plain value or `breakpoint:value`. The base value (no prefix) applies below the smallest specified breakpoint.
+
+Available breakpoints: `xs` (480px), `sm` (640px), `md` (768px), `lg` (1024px), `xl` (1280px), `2xl` (1536px), `3xl` (1680px).
+
+```html
+<aegov-text size="sm xl:lg">Responsive text that grows at wider viewports.</aegov-text>
+```
+
+<div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
+  <aegov-text size="sm xl:lg">Responsive text that grows at wider viewports.</aegov-text>
+</div>
+
+> **Graceful degradation:** Unknown breakpoint names and invalid values are silently ignored. An unrecognised base value falls back to the component default.
+
 ---
 
 ## Default Margin
@@ -203,7 +219,7 @@ The component forwards `id`, `aria-*`, and `data-*` attributes from the host ele
 
 | Property | Attribute | Description                              | Type                            | Default  |
 |----------|-----------|------------------------------------------|---------------------------------|----------|
-| `size`   | `size`    | The font size of the text                | `'sm'` \| `'base'` \| `'lg'`   | `'base'` |
+| `size`   | `size`    | The font size of the text. Supports responsive strings (e.g. `'sm xl:lg'`). | `'sm'` \| `'base'` \| `'lg'`   | `'base'` |
 | `class`  | `class`   | Additional Tailwind CSS classes to merge  | `string`                        | —        |
 
 ### Slots

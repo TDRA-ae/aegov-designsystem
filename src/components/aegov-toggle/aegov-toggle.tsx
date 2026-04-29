@@ -1,12 +1,10 @@
-import { Component, Host, h, Prop, Watch, Event, EventEmitter, Element } from '@stencil/core';
+import { Component, Host, h, Prop, Watch, State, Event, EventEmitter, Element } from '@stencil/core';
+import { watchResponsiveProp } from '../../utils/responsive-prop';
+import type { ResponsivePropWatcher } from '../../utils/responsive-prop';
 import { TOGGLE_SIZES } from '../../utils/types';
 import type { ToggleSize } from '../../utils/types';
 import { getPassThroughAttributes } from '../../utils/attributes';
 import { generateId } from '../../utils/id-generator';
-import { warnIfInvalidEnumProp } from '../../utils/prop-validator';
-
-const TAG = 'aegov-toggle';
-const ctx = (prop: string) => ({ component: TAG, prop });
 
 @Component({
   tag: 'aegov-toggle',
@@ -30,7 +28,10 @@ export class AegovToggle {
   @Prop({ mutable: true, reflect: true }) checked: boolean = false;
 
   /** The size of the toggle. */
-  @Prop() size: ToggleSize = 'base';
+  @Prop() size: string = 'base';
+
+  @State() private _resolvedSize: ToggleSize = 'base';
+  private _sizeWatcher: ResponsivePropWatcher | null = null;
 
   /** Whether the toggle is disabled. */
   @Prop({ reflect: true }) disabled: boolean = false;
@@ -48,14 +49,27 @@ export class AegovToggle {
   @Event() aegovToggleChange: EventEmitter<{ checked: boolean; value?: string }>;
 
   componentWillLoad() {
-    warnIfInvalidEnumProp(this.size, TOGGLE_SIZES, 'base', ctx('size'));
     if (!this.fieldId) {
       this.fieldId = generateId('aegov-toggle');
     }
+    this._sizeWatcher = watchResponsiveProp(this.size, TOGGLE_SIZES, 'base', v => {
+      this._resolvedSize = v as ToggleSize;
+    });
+    this._resolvedSize = this._sizeWatcher.current as ToggleSize;
+  }
+
+  disconnectedCallback() {
+    this._sizeWatcher?.destroy();
   }
 
   @Watch('size')
-  onSizeChange(v: unknown) { warnIfInvalidEnumProp(v, TOGGLE_SIZES, 'base', ctx('size')); }
+  onSizeChange() {
+    this._sizeWatcher?.destroy();
+    this._sizeWatcher = watchResponsiveProp(this.size, TOGGLE_SIZES, 'base', v => {
+      this._resolvedSize = v as ToggleSize;
+    });
+    this._resolvedSize = this._sizeWatcher.current as ToggleSize;
+  }
 
   private handleChange = (event: Event) => {
     const input = event.target as HTMLInputElement;
@@ -69,7 +83,7 @@ export class AegovToggle {
 
   render() {
     const passThroughAttrs = getPassThroughAttributes(this.el, AegovToggle.NATIVE_TOGGLE_ATTRS);
-    const size: ToggleSize = (TOGGLE_SIZES as readonly string[]).includes(this.size) ? this.size : 'base';
+    const size: ToggleSize = this._resolvedSize;
     const wrapperClasses = ['aegov-toggle', `toggle--${size}`];
     const descriptionId = this.description ? `${this.fieldId}-desc` : undefined;
 

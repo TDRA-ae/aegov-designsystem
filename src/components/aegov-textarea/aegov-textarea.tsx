@@ -4,6 +4,8 @@ import type { TextareaSize, TextareaResize } from '../../utils/types';
 import { getPassThroughAttributes } from '../../utils/attributes';
 import { generateId } from '../../utils/id-generator';
 import { warnIfInvalidEnumProp } from '../../utils/prop-validator';
+import { watchResponsiveProp } from '../../utils/responsive-prop';
+import type { ResponsivePropWatcher } from '../../utils/responsive-prop';
 
 const TAG = 'aegov-textarea';
 const ctx = (prop: string) => ({ component: TAG, prop });
@@ -21,7 +23,9 @@ export class AegovTextarea {
   @Prop({ mutable: true, reflect: true }) fieldId?: string;
 
   /** The size of the textarea (affects font size only). */
-  @Prop() size: TextareaSize = 'base';
+  @Prop() size: string = 'base';
+  @State() private _resolvedSize: TextareaSize = 'base';
+  private _sizeWatcher: ResponsivePropWatcher | null = null;
 
   /** Whether the textarea is disabled. */
   @Prop() disabled: boolean = false;
@@ -74,7 +78,10 @@ export class AegovTextarea {
   @Event() aegovTextareaBlur: EventEmitter<FocusEvent>;
 
   componentWillLoad() {
-    warnIfInvalidEnumProp(this.size, TEXTAREA_SIZES, 'base', ctx('size'));
+    this._sizeWatcher = watchResponsiveProp(this.size, TEXTAREA_SIZES, 'base', v => {
+      this._resolvedSize = v as TextareaSize;
+    });
+    this._resolvedSize = this._sizeWatcher.current as TextareaSize;
     warnIfInvalidEnumProp(this.resize, TEXTAREA_RESIZES, 'vertical', ctx('resize'));
     if (!this.fieldId) {
       this.fieldId = generateId('aegov-textarea');
@@ -82,8 +89,18 @@ export class AegovTextarea {
     this.charCount = (this.value || '').length;
   }
 
+  disconnectedCallback() {
+    this._sizeWatcher?.destroy();
+  }
+
   @Watch('size')
-  onSizeChange(v: unknown) { warnIfInvalidEnumProp(v, TEXTAREA_SIZES, 'base', ctx('size')); }
+  onSizeChange() {
+    this._sizeWatcher?.destroy();
+    this._sizeWatcher = watchResponsiveProp(this.size, TEXTAREA_SIZES, 'base', v => {
+      this._resolvedSize = v as TextareaSize;
+    });
+    this._resolvedSize = this._sizeWatcher.current as TextareaSize;
+  }
 
   @Watch('resize')
   onResizeChange(v: unknown) { warnIfInvalidEnumProp(v, TEXTAREA_RESIZES, 'vertical', ctx('resize')); }
@@ -119,8 +136,7 @@ export class AegovTextarea {
       xl: 'textarea--xl',
     };
 
-    const size: TextareaSize = (TEXTAREA_SIZES as readonly string[]).includes(this.size) ? this.size : 'base';
-    classes.push(sizeClasses[size]);
+    classes.push(sizeClasses[this._resolvedSize]);
 
     const resizeClasses: Record<TextareaResize, string> = {
       none: 'textarea--resize-none',

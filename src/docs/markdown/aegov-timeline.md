@@ -223,6 +223,30 @@ The `size` property on the parent controls the dimensions of the step indicators
   </div>
 </div>
 
+### Responsive Size
+
+The `size` prop accepts Tailwind-style responsive prefixes. Write a space-separated string where each token is either a plain value or `breakpoint:value`. The base value (no prefix) applies below the smallest specified breakpoint.
+
+Available breakpoints: `xs` (480px), `sm` (640px), `md` (768px), `lg` (1024px), `xl` (1280px), `2xl` (1536px), `3xl` (1680px).
+
+```html
+<aegov-timeline size="sm xl:lg">
+  <aegov-timeline-step status="completed">Account Created</aegov-timeline-step>
+  <aegov-timeline-step status="active">Verification</aegov-timeline-step>
+  <aegov-timeline-step status="pending">Approval</aegov-timeline-step>
+</aegov-timeline>
+```
+
+<div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
+  <aegov-timeline size="sm xl:lg">
+    <aegov-timeline-step status="completed">Account Created</aegov-timeline-step>
+    <aegov-timeline-step status="active">Verification</aegov-timeline-step>
+    <aegov-timeline-step status="pending">Approval</aegov-timeline-step>
+  </aegov-timeline>
+</div>
+
+> **Graceful degradation:** Unknown breakpoint names and invalid values are silently ignored. An unrecognised base value falls back to the component default.
+
 ---
 
 ## Descriptions
@@ -416,7 +440,7 @@ A minimal progress indicator for a multi-step form:
 | Property      | Attribute     | Description                             | Type                              | Default        |
 |---------------|---------------|-----------------------------------------|-----------------------------------|----------------|
 | `variant`     | `variant`     | Visual style of step indicators         | `'default'` \| `'compact'`       | `'default'`    |
-| `size`        | `size`        | Size of step indicators                 | `'sm'` \| `'base'` \| `'lg'`    | `'base'`       |
+| `size`        | `size`        | Size of step indicators. Supports responsive strings (e.g. `'sm xl:lg'`). | `'sm'` \| `'base'` \| `'lg'`    | `'base'`       |
 | `orientation` | `orientation` | Layout direction of the timeline        | `'horizontal'` \| `'vertical'`   | `'horizontal'` |
 
 ### `aegov-timeline-step` Properties
