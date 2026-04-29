@@ -5,9 +5,9 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
-import { AccordionIcon, AccordionSize, AspectRatioFit, AspectRatioPreset, AvatarGroupMode, AvatarStatus, AvatarVariant, BadgeAppearance, BadgeColor, BannerDisplay, BannerMode, BannerPosition, BannerRole, BlockquoteVariant, BreadcrumbSeparator, ButtonAppearance, ButtonGroupOrientation, ButtonGroupPosition, ButtonType, ButtonVariant, CalloutAppearance, CalloutVariant, CardBackground, CardBorderStyle, CardBorderWidth, CardHover, CheckboxGroupOrientation, CheckboxGroupVariant, DatepickerChangeDetail, DatepickerMode, DatepickerMonthChangeDetail, DrawerAnimation, DrawerOverlayOpacity, DrawerPosition, DropdownAlign, DropdownPosition, DropdownTrigger, FileuploadVariant, HeaderVariant, InputType, LinkTarget, ModalBackdropOpacity, ModalPosition, NavbarSize, OtpVariant, PaginationVariant, PopoverAlign, PopoverPosition, PopoverTrigger, ProgressCounter, RadioGroupOrientation, RadioGroupVariant, RangeDisplay, RangeMode, RangeOrientation, SelectChangeDetail, SelectVariant, TabOrientation, TabVariant, TextareaResize, TimelineOrientation, TimelineSize, TimelineStepStatus, TimelineVariant, ToastAppearance, ToastMode, ToastPosition, ToastVariant, TooltipAlign, TooltipPosition, TooltipTrigger } from "./utils/types";
+import { AccordionIcon, AccordionSize, AspectRatioFit, AspectRatioPreset, AvatarGroupMode, AvatarStatus, AvatarVariant, BadgeAppearance, BadgeColor, BannerDisplay, BannerMode, BannerPosition, BannerRole, BlockquoteVariant, BreadcrumbSeparator, ButtonAppearance, ButtonGroupOrientation, ButtonGroupPosition, ButtonType, ButtonVariant, CalloutAppearance, CalloutVariant, CardBackground, CardBorderStyle, CardBorderWidth, CardHover, CheckboxGroupOrientation, CheckboxGroupVariant, DatepickerChangeDetail, DatepickerMode, DatepickerMonthChangeDetail, DrawerAnimation, DrawerOverlayOpacity, DrawerPosition, DropdownAlign, DropdownPosition, DropdownTrigger, FileuploadVariant, HeaderVariant, InputType, LinkTarget, ModalBackdropOpacity, ModalPosition, OtpVariant, PaginationVariant, PopoverAlign, PopoverPosition, PopoverTrigger, ProgressCounter, RadioGroupOrientation, RadioGroupVariant, RangeDisplay, RangeMode, RangeOrientation, SelectChangeDetail, SelectVariant, TabOrientation, TabVariant, TextareaResize, TimelineOrientation, TimelineSize, TimelineStepStatus, TimelineVariant, ToastAppearance, ToastMode, ToastPosition, ToastVariant, TooltipAlign, TooltipPosition, TooltipTrigger } from "./utils/types";
 import { Event } from "@stencil/core";
-export { AccordionIcon, AccordionSize, AspectRatioFit, AspectRatioPreset, AvatarGroupMode, AvatarStatus, AvatarVariant, BadgeAppearance, BadgeColor, BannerDisplay, BannerMode, BannerPosition, BannerRole, BlockquoteVariant, BreadcrumbSeparator, ButtonAppearance, ButtonGroupOrientation, ButtonGroupPosition, ButtonType, ButtonVariant, CalloutAppearance, CalloutVariant, CardBackground, CardBorderStyle, CardBorderWidth, CardHover, CheckboxGroupOrientation, CheckboxGroupVariant, DatepickerChangeDetail, DatepickerMode, DatepickerMonthChangeDetail, DrawerAnimation, DrawerOverlayOpacity, DrawerPosition, DropdownAlign, DropdownPosition, DropdownTrigger, FileuploadVariant, HeaderVariant, InputType, LinkTarget, ModalBackdropOpacity, ModalPosition, NavbarSize, OtpVariant, PaginationVariant, PopoverAlign, PopoverPosition, PopoverTrigger, ProgressCounter, RadioGroupOrientation, RadioGroupVariant, RangeDisplay, RangeMode, RangeOrientation, SelectChangeDetail, SelectVariant, TabOrientation, TabVariant, TextareaResize, TimelineOrientation, TimelineSize, TimelineStepStatus, TimelineVariant, ToastAppearance, ToastMode, ToastPosition, ToastVariant, TooltipAlign, TooltipPosition, TooltipTrigger } from "./utils/types";
+export { AccordionIcon, AccordionSize, AspectRatioFit, AspectRatioPreset, AvatarGroupMode, AvatarStatus, AvatarVariant, BadgeAppearance, BadgeColor, BannerDisplay, BannerMode, BannerPosition, BannerRole, BlockquoteVariant, BreadcrumbSeparator, ButtonAppearance, ButtonGroupOrientation, ButtonGroupPosition, ButtonType, ButtonVariant, CalloutAppearance, CalloutVariant, CardBackground, CardBorderStyle, CardBorderWidth, CardHover, CheckboxGroupOrientation, CheckboxGroupVariant, DatepickerChangeDetail, DatepickerMode, DatepickerMonthChangeDetail, DrawerAnimation, DrawerOverlayOpacity, DrawerPosition, DropdownAlign, DropdownPosition, DropdownTrigger, FileuploadVariant, HeaderVariant, InputType, LinkTarget, ModalBackdropOpacity, ModalPosition, OtpVariant, PaginationVariant, PopoverAlign, PopoverPosition, PopoverTrigger, ProgressCounter, RadioGroupOrientation, RadioGroupVariant, RangeDisplay, RangeMode, RangeOrientation, SelectChangeDetail, SelectVariant, TabOrientation, TabVariant, TextareaResize, TimelineOrientation, TimelineSize, TimelineStepStatus, TimelineVariant, ToastAppearance, ToastMode, ToastPosition, ToastVariant, TooltipAlign, TooltipPosition, TooltipTrigger } from "./utils/types";
 export { Event } from "@stencil/core";
 export namespace Components {
     /**
@@ -715,6 +715,11 @@ export namespace Components {
          */
         "showDelay": number;
         /**
+          * Toggle the dropdown open/closed state regardless of triggerType. Allows external triggers (e.g. a navbar-item chevron) to drive the dropdown when triggerType is 'hover' or 'click'.
+          * @param viaKeyboard When true and this call opens the dropdown, the first focusable item receives focus (ARIA menu pattern). Pass true from keyboard handlers and false from pointer/mouse handlers.
+         */
+        "toggle": (viaKeyboard?: boolean) => Promise<void>;
+        /**
           * Trigger type for showing the dropdown
           * @default 'click'
          */
@@ -980,7 +985,7 @@ export namespace Components {
     interface AegovNavbar {
         /**
           * Tailwind gap utility class applied between items, e.g. "gap-4", "gap-6", "gap-10".
-          * @default 'gap-6'
+          * @default 'gap-3'
          */
         "gap": string;
         /**
@@ -989,22 +994,24 @@ export namespace Components {
          */
         "navLabel": string;
         /**
-          * Size of the navbar items. Cascades to all aegov-navbar-item children.
+          * Size of the navbar items. Accepts a Tailwind-style responsive string, e.g. `"sm md:base lg:lg"`, resolved against the active viewport width. The resolved token cascades to all aegov-navbar-item children.
           * @default 'base'
          */
-        "size": NavbarSize;
+        "size": string;
     }
     /**
      * @component aegov-navbar-item
      * @description Single navigation item used inside aegov-navbar. Renders as a link
      * (when `href` is set) or plain text. Optional prefix icon via `slot="icon-start"`.
-     * Optional submenu via `slot="dropdown"` containing an aegov-dropdown — a chevron
-     * trigger button is injected automatically and is independently focusable from
-     * the link, so the link navigates while the chevron opens the submenu.
+     * Optional submenu via `slot="dropdown"` containing an aegov-dropdown — the
+     * navbar-item itself becomes the dropdown trigger so hover/position resolve to
+     * the full item rect, and a chevron button is injected for keyboard/click
+     * toggling. The user controls the dropdown's `trigger-type` (e.g. set
+     * `trigger-type="hover"` for hover open).
      * @example <aegov-navbar-item href="/products">
      *   <svg slot="icon-start" ...></svg>
      *   Products
-     *   <aegov-dropdown slot="dropdown">
+     *   <aegov-dropdown slot="dropdown" trigger-type="hover">
      *     <a slot="dropdown-content" href="/a">Item A</a>
      *   </aegov-dropdown>
      * </aegov-navbar-item>
@@ -1029,10 +1036,10 @@ export namespace Components {
          */
         "rel"?: string;
         /**
-          * Size token. Set by parent aegov-navbar.
+          * Size token. Accepts a Tailwind-style responsive string (e.g. `"sm md:base lg:lg"`). Parent aegov-navbar sets this to its resolved value; standalone use also supports breakpoint syntax.
           * @default 'base'
          */
-        "size": NavbarSize;
+        "size": string;
         /**
           * Anchor target attribute.
          */
@@ -2414,13 +2421,15 @@ declare global {
      * @component aegov-navbar-item
      * @description Single navigation item used inside aegov-navbar. Renders as a link
      * (when `href` is set) or plain text. Optional prefix icon via `slot="icon-start"`.
-     * Optional submenu via `slot="dropdown"` containing an aegov-dropdown — a chevron
-     * trigger button is injected automatically and is independently focusable from
-     * the link, so the link navigates while the chevron opens the submenu.
+     * Optional submenu via `slot="dropdown"` containing an aegov-dropdown — the
+     * navbar-item itself becomes the dropdown trigger so hover/position resolve to
+     * the full item rect, and a chevron button is injected for keyboard/click
+     * toggling. The user controls the dropdown's `trigger-type` (e.g. set
+     * `trigger-type="hover"` for hover open).
      * @example <aegov-navbar-item href="/products">
      *   <svg slot="icon-start" ...></svg>
      *   Products
-     *   <aegov-dropdown slot="dropdown">
+     *   <aegov-dropdown slot="dropdown" trigger-type="hover">
      *     <a slot="dropdown-content" href="/a">Item A</a>
      *   </aegov-dropdown>
      * </aegov-navbar-item>
@@ -3854,7 +3863,7 @@ declare namespace LocalJSX {
     interface AegovNavbar {
         /**
           * Tailwind gap utility class applied between items, e.g. "gap-4", "gap-6", "gap-10".
-          * @default 'gap-6'
+          * @default 'gap-3'
          */
         "gap"?: string;
         /**
@@ -3863,22 +3872,24 @@ declare namespace LocalJSX {
          */
         "navLabel"?: string;
         /**
-          * Size of the navbar items. Cascades to all aegov-navbar-item children.
+          * Size of the navbar items. Accepts a Tailwind-style responsive string, e.g. `"sm md:base lg:lg"`, resolved against the active viewport width. The resolved token cascades to all aegov-navbar-item children.
           * @default 'base'
          */
-        "size"?: NavbarSize;
+        "size"?: string;
     }
     /**
      * @component aegov-navbar-item
      * @description Single navigation item used inside aegov-navbar. Renders as a link
      * (when `href` is set) or plain text. Optional prefix icon via `slot="icon-start"`.
-     * Optional submenu via `slot="dropdown"` containing an aegov-dropdown — a chevron
-     * trigger button is injected automatically and is independently focusable from
-     * the link, so the link navigates while the chevron opens the submenu.
+     * Optional submenu via `slot="dropdown"` containing an aegov-dropdown — the
+     * navbar-item itself becomes the dropdown trigger so hover/position resolve to
+     * the full item rect, and a chevron button is injected for keyboard/click
+     * toggling. The user controls the dropdown's `trigger-type` (e.g. set
+     * `trigger-type="hover"` for hover open).
      * @example <aegov-navbar-item href="/products">
      *   <svg slot="icon-start" ...></svg>
      *   Products
-     *   <aegov-dropdown slot="dropdown">
+     *   <aegov-dropdown slot="dropdown" trigger-type="hover">
      *     <a slot="dropdown-content" href="/a">Item A</a>
      *   </aegov-dropdown>
      * </aegov-navbar-item>
@@ -3903,10 +3914,10 @@ declare namespace LocalJSX {
          */
         "rel"?: string;
         /**
-          * Size token. Set by parent aegov-navbar.
+          * Size token. Accepts a Tailwind-style responsive string (e.g. `"sm md:base lg:lg"`). Parent aegov-navbar sets this to its resolved value; standalone use also supports breakpoint syntax.
           * @default 'base'
          */
-        "size"?: NavbarSize;
+        "size"?: string;
         /**
           * Anchor target attribute.
          */
@@ -4977,13 +4988,15 @@ declare module "@stencil/core" {
              * @component aegov-navbar-item
              * @description Single navigation item used inside aegov-navbar. Renders as a link
              * (when `href` is set) or plain text. Optional prefix icon via `slot="icon-start"`.
-             * Optional submenu via `slot="dropdown"` containing an aegov-dropdown — a chevron
-             * trigger button is injected automatically and is independently focusable from
-             * the link, so the link navigates while the chevron opens the submenu.
+             * Optional submenu via `slot="dropdown"` containing an aegov-dropdown — the
+             * navbar-item itself becomes the dropdown trigger so hover/position resolve to
+             * the full item rect, and a chevron button is injected for keyboard/click
+             * toggling. The user controls the dropdown's `trigger-type` (e.g. set
+             * `trigger-type="hover"` for hover open).
              * @example <aegov-navbar-item href="/products">
              *   <svg slot="icon-start" ...></svg>
              *   Products
-             *   <aegov-dropdown slot="dropdown">
+             *   <aegov-dropdown slot="dropdown" trigger-type="hover">
              *     <a slot="dropdown-content" href="/a">Item A</a>
              *   </aegov-dropdown>
              * </aegov-navbar-item>

@@ -25,7 +25,7 @@ describe('aegov-navbar e2e', () => {
 
     it('renders the ul list with items', async () => {
       const page = await render(basicHtml);
-      const items = await page.findAll('aegov-navbar ul.aegov-navbar__list aegov-navbar-item');
+      const items = await page.findAll('aegov-navbar ul.aegov-navbar-list aegov-navbar-item');
       expect(items.length).toBe(3);
     });
 
@@ -39,6 +39,45 @@ describe('aegov-navbar e2e', () => {
       await page.waitForChanges();
       const item = await page.find('aegov-navbar-item');
       expect(await item.getProperty('size')).toBe('lg');
+    });
+
+    it('resolves a responsive size string against the active viewport', async () => {
+      const page = await newE2EPage();
+      await page.setViewport({ width: 1280, height: 800 });
+      await page.setContent(`
+        <aegov-navbar size="sm md:base lg:lg">
+          <aegov-navbar-item href="/a">A</aegov-navbar-item>
+        </aegov-navbar>
+      `);
+      await page.waitForChanges();
+      const nav = await page.find('aegov-navbar nav.aegov-navbar');
+      expect(nav).not.toBeNull();
+      expect(nav.classList.contains('aegov-navbar-lg')).toBe(true);
+      const item = await page.find('aegov-navbar-item');
+      expect(await item.getProperty('size')).toBe('lg');
+    });
+
+    it('updates the resolved size on viewport resize', async () => {
+      const page = await newE2EPage();
+      await page.setViewport({ width: 1280, height: 800 });
+      await page.setContent(`
+        <aegov-navbar size="sm md:base lg:lg">
+          <aegov-navbar-item href="/a">A</aegov-navbar-item>
+        </aegov-navbar>
+      `);
+      await page.waitForChanges();
+      let nav = await page.find('aegov-navbar nav.aegov-navbar');
+      expect(nav.classList.contains('aegov-navbar-lg')).toBe(true);
+
+      await page.setViewport({ width: 500, height: 800 });
+      await page.waitForChanges();
+      // Allow the watcher's resize listener to settle.
+      await page.evaluate(
+        () => new Promise(r => setTimeout(r, 100)),
+      );
+      await page.waitForChanges();
+      nav = await page.find('aegov-navbar nav.aegov-navbar');
+      expect(nav.classList.contains('aegov-navbar-sm')).toBe(true);
     });
   });
 
