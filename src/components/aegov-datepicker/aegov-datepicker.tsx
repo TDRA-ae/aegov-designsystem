@@ -7,6 +7,8 @@ import { getPresetDefinitions, calculatePreset } from './utils/presets';
 import { DATEPICKER_PORTAL_STYLES } from './utils/portal-styles';
 import { generateId } from '../../utils/id-generator';
 import { warnIfInvalidEnumProp } from '../../utils/prop-validator';
+import { watchResponsiveProp } from '../../utils/responsive-prop';
+import type { ResponsivePropWatcher } from '../../utils/responsive-prop';
 
 const TAG = 'aegov-datepicker';
 const ctx = (prop: string) => ({ component: TAG, prop });
@@ -91,7 +93,9 @@ export class AegovDatepicker {
   @Prop({ attribute: 'with-confirmation' }) withConfirmation: boolean = false;
 
   /** The size of the datepicker input. */
-  @Prop() size: InputSize = 'base';
+  @Prop() size: string = 'base';
+  @State() private _resolvedSize: InputSize = 'base';
+  private _sizeWatcher: ResponsivePropWatcher | null = null;
 
   // ── State ─────────────────────────────────────────────
   @State() isOpen: boolean = false;
@@ -132,7 +136,10 @@ export class AegovDatepicker {
 
   componentWillLoad() {
     warnIfInvalidEnumProp(this.mode, DATEPICKER_MODES, 'single', ctx('mode'));
-    warnIfInvalidEnumProp(this.size, INPUT_SIZES, 'base', ctx('size'));
+    this._sizeWatcher = watchResponsiveProp(this.size, INPUT_SIZES, 'base', v => {
+      this._resolvedSize = v as InputSize;
+    });
+    this._resolvedSize = this._sizeWatcher.current as InputSize;
     this.datepickerId = generateId('aegov-datepicker');
     this.hasTriggerSlot = !!this.el.querySelector('[slot="trigger"]');
 
@@ -145,13 +152,20 @@ export class AegovDatepicker {
   onModeChange(v: unknown) { warnIfInvalidEnumProp(v, DATEPICKER_MODES, 'single', ctx('mode')); }
 
   @Watch('size')
-  onSizeChange(v: unknown) { warnIfInvalidEnumProp(v, INPUT_SIZES, 'base', ctx('size')); }
+  onSizeChange() {
+    this._sizeWatcher?.destroy();
+    this._sizeWatcher = watchResponsiveProp(this.size, INPUT_SIZES, 'base', v => {
+      this._resolvedSize = v as InputSize;
+    });
+    this._resolvedSize = this._sizeWatcher.current as InputSize;
+  }
 
   componentDidLoad() {
     this.createPortalElement();
   }
 
   disconnectedCallback() {
+    this._sizeWatcher?.destroy();
     this.removePortalElement();
   }
 
@@ -1318,10 +1332,9 @@ export class AegovDatepicker {
   private renderSingleTrigger() {
     const displayValue = this.getDisplayValue();
     const hasValue = !!displayValue;
-    const size: InputSize = (INPUT_SIZES as readonly string[]).includes(this.size) ? this.size : 'base';
 
     return (
-      <div class={`datepicker__input-wrapper datepicker__input-wrapper--${size}`}>
+      <div class={`datepicker__input-wrapper datepicker__input-wrapper--${this._resolvedSize}`}>
         <input
           type="text"
           class="datepicker__input"
@@ -1352,10 +1365,9 @@ export class AegovDatepicker {
     const startValue = this.getDisplayRangeStart();
     const endValue = this.getDisplayRangeEnd();
     const hasValue = !!(startValue || endValue);
-    const size: InputSize = (INPUT_SIZES as readonly string[]).includes(this.size) ? this.size : 'base';
 
     return (
-      <div class={`datepicker__input-wrapper datepicker__input-wrapper--${size} datepicker__input-wrapper--range`}>
+      <div class={`datepicker__input-wrapper datepicker__input-wrapper--${this._resolvedSize} datepicker__input-wrapper--range`}>
         <input
           type="text"
           class="datepicker__input datepicker__input--range-start"

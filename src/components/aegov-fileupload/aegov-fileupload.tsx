@@ -3,6 +3,8 @@ import { FILEUPLOAD_VARIANTS, FILEUPLOAD_SIZES } from '../../utils/types';
 import type { FileuploadVariant, FileuploadSize } from '../../utils/types';
 import { generateId } from '../../utils/id-generator';
 import { warnIfInvalidEnumProp } from '../../utils/prop-validator';
+import { watchResponsiveProp } from '../../utils/responsive-prop';
+import type { ResponsivePropWatcher } from '../../utils/responsive-prop';
 
 const TAG = 'aegov-fileupload';
 const ctx = (prop: string) => ({ component: TAG, prop });
@@ -30,7 +32,9 @@ export class AegovFileupload {
   /**
    * Component size.
    */
-  @Prop() size: FileuploadSize = 'base';
+  @Prop() size: string = 'base';
+  @State() private _resolvedSize: FileuploadSize = 'base';
+  private _sizeWatcher: ResponsivePropWatcher | null = null;
 
   /**
    * Allow multiple file selection.
@@ -107,17 +111,30 @@ export class AegovFileupload {
 
   componentWillLoad() {
     warnIfInvalidEnumProp(this.variant, FILEUPLOAD_VARIANTS, 'default', ctx('variant'));
-    warnIfInvalidEnumProp(this.size, FILEUPLOAD_SIZES, 'base', ctx('size'));
+    this._sizeWatcher = watchResponsiveProp(this.size, FILEUPLOAD_SIZES, 'base', v => {
+      this._resolvedSize = v as FileuploadSize;
+    });
+    this._resolvedSize = this._sizeWatcher.current as FileuploadSize;
     if (!this.fieldId) {
       this.fieldId = generateId('aegov-fileupload');
     }
+  }
+
+  disconnectedCallback() {
+    this._sizeWatcher?.destroy();
   }
 
   @Watch('variant')
   onVariantChange(v: unknown) { warnIfInvalidEnumProp(v, FILEUPLOAD_VARIANTS, 'default', ctx('variant')); }
 
   @Watch('size')
-  onSizeChange(v: unknown) { warnIfInvalidEnumProp(v, FILEUPLOAD_SIZES, 'base', ctx('size')); }
+  onSizeChange() {
+    this._sizeWatcher?.destroy();
+    this._sizeWatcher = watchResponsiveProp(this.size, FILEUPLOAD_SIZES, 'base', v => {
+      this._resolvedSize = v as FileuploadSize;
+    });
+    this._resolvedSize = this._sizeWatcher.current as FileuploadSize;
+  }
 
   /**
    * Returns the currently selected files.
@@ -482,11 +499,10 @@ export class AegovFileupload {
 
   render() {
     const variant: FileuploadVariant = (FILEUPLOAD_VARIANTS as readonly string[]).includes(this.variant) ? this.variant : 'default';
-    const size: FileuploadSize = (FILEUPLOAD_SIZES as readonly string[]).includes(this.size) ? this.size : 'base';
     const classes = [
       'aegov-fileupload',
       `fileupload--${variant}`,
-      `fileupload--${size}`,
+      `fileupload--${this._resolvedSize}`,
       this.disabled ? 'fileupload--disabled' : '',
     ].filter(Boolean).join(' ');
 

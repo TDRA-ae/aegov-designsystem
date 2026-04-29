@@ -317,6 +317,36 @@ The `size` attribute on the parent controls the heading font size for all items.
   </aegov-accordion>
 </div>
 
+### Responsive Size
+
+The `size` prop accepts Tailwind-style responsive prefixes. Write a space-separated string where each token is either a plain value or `breakpoint:value`. The base value (no prefix) applies below the smallest specified breakpoint.
+
+Available breakpoints: `xs` (480px), `sm` (640px), `md` (768px), `lg` (1024px), `xl` (1280px), `2xl` (1536px), `3xl` (1680px).
+
+```html
+<aegov-accordion size="sm xl:lg" bordered>
+  <aegov-accordion-item heading="Responsive Accordion Item">
+    This accordion uses small heading text by default, switching to large at 1280px and above.
+  </aegov-accordion-item>
+  <aegov-accordion-item heading="Another Section">
+    Resize the viewport to see the heading size change.
+  </aegov-accordion-item>
+</aegov-accordion>
+```
+
+<div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
+  <aegov-accordion size="sm xl:lg" bordered>
+    <aegov-accordion-item heading="Responsive Accordion Item">
+      This accordion uses small heading text by default, switching to large at 1280px and above.
+    </aegov-accordion-item>
+    <aegov-accordion-item heading="Another Section">
+      Resize the viewport to see the heading size change.
+    </aegov-accordion-item>
+  </aegov-accordion>
+</div>
+
+> **Graceful degradation:** Unknown breakpoint names and invalid values are silently ignored. An unrecognised base value falls back to the component default.
+
 ---
 
 ## Long Titles
@@ -433,7 +463,7 @@ Each `<aegov-accordion-item>` emits an `aegovAccordionItemToggle` event when tog
 | `defaultOpen`   | `default-open`   | Index of the item to open by default (0-based)    | `number`                            | `undefined` |
 | `icon`          | `icon`           | Icon style for all child items                    | `'chevron'` \| `'plus'`            | `'chevron'` |
 | `bordered`      | `bordered`       | Show a border around the accordion                | `boolean`                           | `false`     |
-| `size`          | `size`           | Heading font size for all child items             | `'sm'` \| `'base'` \| `'lg'`      | `'base'`    |
+| `size`          | `size`           | Heading font size for all child items. Supports responsive strings (e.g. `'sm xl:lg'`). | `'sm'` \| `'base'` \| `'lg'`      | `'base'`    |
 
 #### Slots
 

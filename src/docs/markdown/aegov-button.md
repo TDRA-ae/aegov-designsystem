@@ -146,6 +146,22 @@ The `size` property controls the height, padding, font size, and icon dimensions
   <aegov-button size="xl">Extra Large</aegov-button>
 </div>
 
+### Responsive Size
+
+The `size` prop accepts Tailwind-style responsive prefixes. Write a space-separated string where each token is either a plain value or `breakpoint:value`. The base value (no prefix) applies below the smallest specified breakpoint.
+
+Available breakpoints: `xs` (480px), `sm` (640px), `md` (768px), `lg` (1024px), `xl` (1280px), `2xl` (1536px), `3xl` (1680px).
+
+```html
+<aegov-button size="sm xl:lg">Responsive Button</aegov-button>
+```
+
+<div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
+  <aegov-button size="sm xl:lg">Resize the viewport to see the size change</aegov-button>
+</div>
+
+> **Graceful degradation:** Unknown breakpoint names and invalid values are silently ignored. An unrecognised base value falls back to the component default.
+
 ---
 
 ## States
@@ -474,7 +490,7 @@ The table below shows every size with different icon configurations — text onl
 |--------------|-------------|------------------------------------------|--------------------------------------------------------------------|-------------|
 | `variant`    | `variant`    | The visual style of the button          | `'solid'` \| `'outline'` \| `'soft'` \| `'link'`                  | `'solid'`   |
 | `appearance` | `appearance` | The colour scheme                       | `'primary'` \| `'secondary'` \| `'danger'` \| `'neutralMin'` \| `'neutralMax'` | `'primary'` |
-| `size`       | `size`       | The button size                         | `'xs'` \| `'sm'` \| `'base'` \| `'lg'` \| `'xl'`                 | `'base'`    |
+| `size`       | `size`       | The button size. Supports responsive strings (e.g. `'sm xl:lg'`). | `'xs'` \| `'sm'` \| `'base'` \| `'lg'` \| `'xl'`                 | `'base'`    |
 | `type`       | `type`       | The native HTML button type             | `'button'` \| `'submit'` \| `'reset'`                             | `'button'`  |
 | `disabled`   | `disabled`   | Prevents interaction                    | `boolean`                                                          | `false`     |
 | `loading`    | `loading`    | Shows a spinner and disables the button | `boolean`                                                          | `false`     |

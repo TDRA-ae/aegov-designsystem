@@ -20,12 +20,12 @@ Callouts (also known as alerts or notifications) draw attention to important inf
 
 ## Properties
 
-| Property      | Attribute     | Description                                              | Type                                                       | Default     |
-| ------------- | ------------- | -------------------------------------------------------- | ---------------------------------------------------------- | ----------- |
-| `appearance`  | `appearance`  | The appearance style of the callout.                     | `"soft" \| "solid"`                                        | `'soft'`    |
-| `bordered`    | `bordered`    | Whether the callout should have a border                 | `boolean`                                                  | `false`     |
-| `dismissible` | `dismissible` | Whether the callout can be dismissed/closed.             | `boolean`                                                  | `false`     |
-| `variant`     | `variant`     | The variant of the callout. Determines the color scheme. | `"default" \| "error" \| "info" \| "success" \| "warning"` | `'default'` |
+| Property      | Attribute     | Description                                                                                                                                                                                           | Type                                                       | Default     |
+| ------------- | ------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------- | ----------- |
+| `appearance`  | `appearance`  | The appearance style of the callout.                                                                                                                                                                  | `"soft" \| "solid"`                                        | `'soft'`    |
+| `dismissible` | `dismissible` | Whether the callout can be dismissed/closed.                                                                                                                                                          | `boolean`                                                  | `false`     |
+| `size`        | `size`        | The size of the callout. Controls font size, icon size, and padding. Accepts a plain value (`"sm"`, `"base"`, `"lg"`) or a responsive string using Tailwind-style breakpoint prefixes (`"sm xl:lg"`). | `string`                                                   | `'base'`    |
+| `variant`     | `variant`     | The variant of the callout. Determines the color scheme.                                                                                                                                              | `"default" \| "error" \| "info" \| "success" \| "warning"` | `'default'` |
 
 
 ## Events

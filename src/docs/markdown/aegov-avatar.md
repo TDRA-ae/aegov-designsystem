@@ -52,6 +52,22 @@ The `size` property controls the dimensions of the avatar. Seven sizes are avail
   <aegov-avatar size="3xl"></aegov-avatar>
 </div>
 
+### Responsive Size
+
+The `size` prop accepts Tailwind-style responsive prefixes. Write a space-separated string where each token is either a plain value or `breakpoint:value`. The base value (no prefix) applies below the smallest specified breakpoint.
+
+Available breakpoints: `xs` (480px), `sm` (640px), `md` (768px), `lg` (1024px), `xl` (1280px), `2xl` (1536px), `3xl` (1680px).
+
+```html
+<aegov-avatar size="sm xl:2xl" src="https://i.pravatar.cc/150?img=1" alt="User"></aegov-avatar>
+```
+
+<div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
+  <aegov-avatar size="sm xl:2xl" src="https://i.pravatar.cc/150?img=1" alt="User"></aegov-avatar>
+</div>
+
+> **Graceful degradation:** Unknown breakpoint names and invalid values are silently ignored. An unrecognised base value falls back to the component default.
+
 ---
 
 ## Variants
@@ -267,7 +283,7 @@ The table below shows every combination of size and variant for visual reference
 
 | Property  | Attribute | Description                                          | Type                                                                    | Default    |
 |-----------|-----------|------------------------------------------------------|-------------------------------------------------------------------------|------------|
-| `size`    | `size`    | The avatar dimensions                                | `'xs'` \| `'sm'` \| `'base'` \| `'lg'` \| `'xl'` \| `'2xl'` \| `'3xl'` | `'base'`   |
+| `size`    | `size`    | The avatar dimensions. Supports responsive strings (e.g. `'sm xl:2xl'`). | `'xs'` \| `'sm'` \| `'base'` \| `'lg'` \| `'xl'` \| `'2xl'` \| `'3xl'` | `'base'`   |
 | `variant` | `variant` | The avatar shape                                     | `'square'` \| `'rounded'`                                              | `'square'` |
 | `src`     | `src`     | Image source URL                                     | `string`                                                                | —          |
 | `alt`     | `alt`     | Alternative text for the image                       | `string`                                                                | —          |

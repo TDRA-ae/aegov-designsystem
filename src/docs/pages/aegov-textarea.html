@@ -79,6 +79,16 @@
   <aegov-textarea size="xl" placeholder="Extra large textarea"></aegov-textarea>
 </div>
 
+<h3>Responsive Size</h3>
+<p>The <code>size</code> prop accepts Tailwind-style responsive prefixes. Write a space-separated string where each token is either a plain value or <code>breakpoint:value</code>. The base value (no prefix) applies below the smallest specified breakpoint.</p>
+<p>Available breakpoints: <code>xs</code> (480px), <code>sm</code> (640px), <code>md</code> (768px), <code>lg</code> (1024px), <code>xl</code> (1280px), <code>2xl</code> (1536px), <code>3xl</code> (1680px).</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-textarea</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm xl:lg&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;Responsive textarea&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-textarea</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
+  <aegov-textarea size="sm xl:lg" placeholder="Responsive textarea"></aegov-textarea>
+</div>
+
+<blockquote>
+<p><strong>Graceful degradation:</strong> Unknown breakpoint names and invalid values are silently ignored. An unrecognised base value falls back to the component default.</p>
+</blockquote>
 <hr>
 <h2>Rows</h2>
 <p>The native <code>rows</code> attribute controls the initial visible height. Pass it directly on the element — it is forwarded to the inner <code>&lt;textarea&gt;</code> via attribute pass-through.</p>
@@ -349,7 +359,7 @@
 <tr>
 <td><code>size</code></td>
 <td><code>size</code></td>
-<td>The size of the textarea (controls font size and padding)</td>
+<td>The size of the textarea (controls font size and padding). Supports responsive strings (e.g. <code>&#39;sm xl:lg&#39;</code>).</td>
 <td><code>&#39;xs&#39;</code> | <code>&#39;sm&#39;</code> | <code>&#39;base&#39;</code> | <code>&#39;lg&#39;</code> | <code>&#39;xl&#39;</code></td>
 <td><code>&#39;base&#39;</code></td>
 </tr>

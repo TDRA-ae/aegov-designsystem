@@ -74,6 +74,22 @@ The `size` property controls the dimensions of the checkbox indicator, label fon
   <aegov-checkbox size="xl" label="Extra large checkbox"></aegov-checkbox>
 </div>
 
+### Responsive Size
+
+The `size` prop accepts Tailwind-style responsive prefixes. Write a space-separated string where each token is either a plain value or `breakpoint:value`. The base value (no prefix) applies below the smallest specified breakpoint.
+
+Available breakpoints: `xs` (480px), `sm` (640px), `md` (768px), `lg` (1024px), `xl` (1280px), `2xl` (1536px), `3xl` (1680px).
+
+```html
+<aegov-checkbox size="sm xl:lg" label="Responsive checkbox"></aegov-checkbox>
+```
+
+<div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
+  <aegov-checkbox size="sm xl:lg" label="Responsive checkbox"></aegov-checkbox>
+</div>
+
+> **Graceful degradation:** Unknown breakpoint names and invalid values are silently ignored. An unrecognised base value falls back to the component default.
+
 ---
 
 ## Label and Description
@@ -507,7 +523,7 @@ The component fully supports right-to-left layouts. When the document or a paren
 | `name`          | `name`          | The name attribute for the checkbox.                                        | `string`                         | `undefined` |
 | `value`         | `value`         | The value attribute for the checkbox.                                       | `string`                         | `undefined` |
 | `checked`       | `checked`       | Whether the checkbox is checked.                                            | `boolean`                        | `false`     |
-| `size`          | `size`          | The size of the checkbox.                                                   | `'xs'` \| `'sm'` \| `'base'` \| `'lg'` \| `'xl'` | `'base'`    |
+| `size`          | `size`          | The size of the checkbox. Supports responsive strings (e.g. `'sm xl:lg'`). | `'xs'` \| `'sm'` \| `'base'` \| `'lg'` \| `'xl'` | `'base'`    |
 | `disabled`      | `disabled`      | Whether the checkbox is disabled.                                           | `boolean`                        | `false`     |
 | `required`      | `required`      | Whether the checkbox is required for form validation.                       | `boolean`                        | `false`     |
 | `label`         | `label`         | Label text. When provided, wraps checkbox and text in a `<label>`.          | `string`                         | `undefined` |
@@ -529,7 +545,7 @@ The component fully supports right-to-left layouts. When the document or a paren
 | `variant`     | `variant`     | Visual layout variant for the group.                                        | `'default'` \| `'list'` \| `'cards'` \| `'pills'` | `'default'`  |
 | `orientation` | `orientation` | Stack direction for checkbox items.                                         | `'vertical'` \| `'horizontal'`                  | `'vertical'` |
 | `label`       | `label`       | Optional label rendered as a `<legend>` for accessibility.                  | `string`                                        | `undefined`  |
-| `size`        | `size`        | Size of all checkboxes in the group. Propagated to children.                | `'xs'` \| `'sm'` \| `'base'` \| `'lg'` \| `'xl'` | `'base'`     |
+| `size`        | `size`        | Size of all checkboxes in the group. Propagated to children. Supports responsive strings (e.g. `'sm xl:lg'`). | `'xs'` \| `'sm'` \| `'base'` \| `'lg'` \| `'xl'` | `'base'`     |
 | `disabled`    | `disabled`    | Disables all checkboxes within the group via native fieldset disabled.      | `boolean`                                       | `false`      |
 | `class`       | `class`       | Additional CSS classes to apply.                                            | `string`                                        | `undefined`  |
 

@@ -8,6 +8,21 @@
   @import "./fonts.css";
   :root{
     --form-select-arrow: url("data:image/svg+xml,%0A%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%237C5E24' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+
+    /*
+     * Breakpoint values — mirrored from tailwind.css @theme.
+     * Tailwind v4 does NOT emit --breakpoint-* as CSS custom properties
+     * (they are consumed internally for @media query generation only).
+     * We expose them here so watchResponsiveProp() can read them at runtime
+     * via getComputedStyle(document.documentElement).
+     */
+    --breakpoint-xs: 480px;
+    --breakpoint-sm: 640px;
+    --breakpoint-md: 768px;
+    --breakpoint-lg: 1024px;
+    --breakpoint-xl: 1280px;
+    --breakpoint-2xl: 1536px;
+    --breakpoint-3xl: 1680px;
   }
 
   * {

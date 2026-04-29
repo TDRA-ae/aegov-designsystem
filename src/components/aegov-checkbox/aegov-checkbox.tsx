@@ -1,12 +1,10 @@
-import { Component, Host, h, Prop, Event, EventEmitter, Element, Watch } from '@stencil/core';
+import { Component, Host, h, Prop, State, Event, EventEmitter, Element, Watch } from '@stencil/core';
 import { CHECKBOX_SIZES } from '../../utils/types';
 import type { CheckboxSize } from '../../utils/types';
 import { getPassThroughAttributes } from '../../utils/attributes';
 import { generateId } from '../../utils/id-generator';
-import { warnIfInvalidEnumProp } from '../../utils/prop-validator';
-
-const TAG = 'aegov-checkbox';
-const ctx = (prop: string) => ({ component: TAG, prop });
+import { watchResponsiveProp } from '../../utils/responsive-prop';
+import type { ResponsivePropWatcher } from '../../utils/responsive-prop';
 
 @Component({
   tag: 'aegov-checkbox',
@@ -30,7 +28,10 @@ export class AegovCheckbox {
   @Prop({ mutable: true, reflect: true }) checked: boolean = false;
 
   /** The size of the checkbox. */
-  @Prop() size: CheckboxSize = 'base';
+  @Prop() size: string = 'base';
+
+  @State() private _resolvedSize: CheckboxSize = 'base';
+  private _sizeWatcher: ResponsivePropWatcher | null = null;
 
   /** Whether the checkbox is disabled. */
   @Prop({ reflect: true }) disabled: boolean = false;
@@ -59,14 +60,27 @@ export class AegovCheckbox {
   private inputEl?: HTMLInputElement;
 
   componentWillLoad() {
-    warnIfInvalidEnumProp(this.size, CHECKBOX_SIZES, 'base', ctx('size'));
     if (!this.fieldId) {
       this.fieldId = generateId('aegov-checkbox');
     }
+    this._sizeWatcher = watchResponsiveProp(this.size, CHECKBOX_SIZES, 'base', v => {
+      this._resolvedSize = v as CheckboxSize;
+    });
+    this._resolvedSize = this._sizeWatcher.current as CheckboxSize;
+  }
+
+  disconnectedCallback() {
+    this._sizeWatcher?.destroy();
   }
 
   @Watch('size')
-  onSizeChange(v: unknown) { warnIfInvalidEnumProp(v, CHECKBOX_SIZES, 'base', ctx('size')); }
+  onSizeChange() {
+    this._sizeWatcher?.destroy();
+    this._sizeWatcher = watchResponsiveProp(this.size, CHECKBOX_SIZES, 'base', v => {
+      this._resolvedSize = v as CheckboxSize;
+    });
+    this._resolvedSize = this._sizeWatcher.current as CheckboxSize;
+  }
 
   componentDidRender() {
     if (this.inputEl) {
@@ -95,8 +109,7 @@ export class AegovCheckbox {
 
   render() {
     const passThroughAttrs = getPassThroughAttributes(this.el, AegovCheckbox.NATIVE_CHECKBOX_ATTRS);
-    const size: CheckboxSize = (CHECKBOX_SIZES as readonly string[]).includes(this.size) ? this.size : 'base';
-    const wrapperClasses = ['aegov-checkbox', `checkbox--${size}`];
+    const wrapperClasses = ['aegov-checkbox', `checkbox--${this._resolvedSize}`];
     if (this.class) wrapperClasses.push(this.class);
 
     const descriptionId = this.description ? `${this.fieldId}-desc` : undefined;

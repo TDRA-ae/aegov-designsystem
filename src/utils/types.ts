@@ -176,6 +176,12 @@ export const BANNER_ROLES = ['region', 'alert', 'status'] as const;
 export type BannerRole = typeof BANNER_ROLES[number];
 
 /**
+ * Banner component size types
+ */
+export const BANNER_SIZES = ['sm', 'base', 'lg'] as const;
+export type BannerSize = typeof BANNER_SIZES[number];
+
+/**
  * Accordion component icon types
  */
 export const ACCORDION_ICONS = ['chevron', 'plus'] as const;
