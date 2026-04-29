@@ -13,12 +13,6 @@
 .aegov-callout {
   font-family:inherit;
   @apply @container;
-  & .callout__right {
-        ::slotted(a),
-        & a {
-          @apply cursor-pointer;
-        }
-  }
   &.callout-soft {
     &.callout-default {
       @apply bg-aeblack-50 text-aeblack-800 border-s-4 border-aeblack-800;
@@ -377,12 +371,24 @@
     @apply shrink-0 flex items-center justify-end gap-2;
     ::slotted(a),
     & a {
-      @apply -ml-1.5 rtl:ml-0 rtl:-mr-1.5 px-1.5 inline-flex items-center text-sm font-medium underline underline-offset-2 gap-1 leading-none focus:outline-offset-2 focus:outline-offset-2 focus:outline-primary-support-600;
+      @apply cursor-pointer ml-1.5 rtl:ml-0 rtl:-mr-1.5 px-1.5 inline-flex items-center text-sm font-medium underline underline-offset-2 gap-1 leading-none focus:outline-offset-2 focus:outline-offset-2 focus:outline-primary-support-600;
       color: inherit;
     }
     & button {
       @apply w-auto h-auto border-0 p-1 bg-transparent cursor-pointer;
       color:inherit;
+    }
+  }
+  &.callout-sm .callout__right {
+    ::slotted(a),
+    & a {
+      @apply text-xs!;
+    }
+  }
+  &.callout-lg .callout__right {
+    ::slotted(a),
+    & a {
+      @apply text-base!;
     }
   }
   & .callout__actions {
@@ -406,8 +412,23 @@
       @apply list-disc;
     }
   }
+  &.callout-sm .callout__icon {
+    & svg,
+    & img,
+    & ::slotted(svg) {
+      @apply size-5;
+    }
+  }
+  &.callout-lg .callout__icon {
+    & svg,
+    & img,
+    & ::slotted(svg) {
+      @apply size-6.5;
+    }
+  }
   & .callout__content {
-    @apply grow text-base leading-normal;
+    @apply grow leading-normal;
+    font-size: inherit;
     color:inherit;
   }
 }

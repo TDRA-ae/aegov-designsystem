@@ -100,6 +100,12 @@ export const CALLOUT_APPEARANCES = ['solid', 'soft'] as const;
 export type CalloutAppearance = typeof CALLOUT_APPEARANCES[number];
 
 /**
+ * Callout component size types
+ */
+export const CALLOUT_SIZES = ['sm', 'base', 'lg'] as const;
+export type CalloutSize = typeof CALLOUT_SIZES[number];
+
+/**
  * Badge component size types
  */
 export const BADGE_SIZES = ['sm', 'base', 'lg'] as const;

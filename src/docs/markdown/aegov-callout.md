@@ -4,7 +4,7 @@
 
 ## Introduction
 
-The `aegov-callout` component displays a coloured notification box with an icon, message content, and optional actions. It supports **5 semantic variants**, **2 appearances** (soft and solid), named slots for icons, content, links, and actions, an optional **bordered** mode, and **dismissible** functionality.
+The `aegov-callout` component displays a coloured notification box with an icon, message content, and optional actions. It supports **5 semantic variants**, **2 appearances** (soft and solid), **3 sizes** (sm, base, lg), named slots for icons, content, links, and actions, an optional **bordered** mode, and **dismissible** functionality.
 
 ```html
 <aegov-callout>
@@ -165,6 +165,80 @@ A bold, filled background with light text — use for high-emphasis alerts that 
     <span slot="content">Info solid callout.</span>
   </aegov-callout>
 </div>
+
+---
+
+## Sizes
+
+The `size` property controls font size, icon size, and padding. Three sizes are available — `sm`, `base` (default), and `lg`.
+
+### Small (`sm`)
+
+14px font, 20px icon, reduced padding.
+
+```html
+<aegov-callout size="sm" variant="info">
+  <span slot="content">Small callout — compact, less visual weight.</span>
+</aegov-callout>
+```
+
+<div class="p-6 bg-aeblack-50 rounded-lg my-6 space-y-3 not-aegov">
+  <aegov-callout size="sm" variant="default">
+    <span slot="content">Small default callout.</span>
+  </aegov-callout>
+  <aegov-callout size="sm" variant="error">
+    <span slot="content">Small error callout.</span>
+  </aegov-callout>
+  <aegov-callout size="sm" variant="info">
+    <span slot="content">Small info callout.</span>
+  </aegov-callout>
+</div>
+
+### Base (`base`)
+
+16px font, 24px icon, standard padding. This is the default.
+
+```html
+<aegov-callout size="base" variant="info">
+  <span slot="content">Base callout — default size.</span>
+</aegov-callout>
+```
+
+<div class="p-6 bg-aeblack-50 rounded-lg my-6 space-y-3 not-aegov">
+  <aegov-callout size="base" variant="default">
+    <span slot="content">Base default callout.</span>
+  </aegov-callout>
+  <aegov-callout size="base" variant="error">
+    <span slot="content">Base error callout.</span>
+  </aegov-callout>
+  <aegov-callout size="base" variant="info">
+    <span slot="content">Base info callout.</span>
+  </aegov-callout>
+</div>
+
+### Large (`lg`)
+
+18px font, 28px icon, increased padding.
+
+```html
+<aegov-callout size="lg" variant="info">
+  <span slot="content">Large callout — more prominent, higher visual weight.</span>
+</aegov-callout>
+```
+
+<div class="p-6 bg-aeblack-50 rounded-lg my-6 space-y-3 not-aegov">
+  <aegov-callout size="lg" variant="default">
+    <span slot="content">Large default callout.</span>
+  </aegov-callout>
+  <aegov-callout size="lg" variant="error">
+    <span slot="content">Large error callout.</span>
+  </aegov-callout>
+  <aegov-callout size="lg" variant="info">
+    <span slot="content">Large info callout.</span>
+  </aegov-callout>
+</div>
+
+> **Note:** The `size` prop does not affect buttons placed in the `actions` slot — control their size directly via the `size` prop on `<aegov-button>`.
 
 ---
 
@@ -372,6 +446,7 @@ The table below shows every combination of variant and appearance for visual QA 
 |---------------|---------------|--------------------------------------------------|---------------------------------------------------------------|-------------|
 | `variant`     | `variant`     | The semantic variant controlling colour scheme   | `'default'` \| `'error'` \| `'warning'` \| `'success'` \| `'info'` | `'default'` |
 | `appearance`  | `appearance`  | The visual intensity                             | `'soft'` \| `'solid'`                                         | `'soft'`    |
+| `size`        | `size`        | Controls font size, icon size, and padding       | `'sm'` \| `'base'` \| `'lg'`                                  | `'base'`    |
 | `dismissible` | `dismissible` | Shows a close button and enables dismiss         | `boolean`                                                     | `false`     |
 
 ### Events

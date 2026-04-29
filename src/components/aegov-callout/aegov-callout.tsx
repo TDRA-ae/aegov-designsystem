@@ -1,6 +1,6 @@
 import { Component, Prop, Watch, Event, EventEmitter, State, h, Element } from '@stencil/core';
-import { CALLOUT_VARIANTS, CALLOUT_APPEARANCES } from '../../utils/types';
-import type { CalloutVariant, CalloutAppearance } from '../../utils/types';
+import { CALLOUT_VARIANTS, CALLOUT_APPEARANCES, CALLOUT_SIZES } from '../../utils/types';
+import type { CalloutVariant, CalloutAppearance, CalloutSize } from '../../utils/types';
 import { getPassThroughAttributes } from '../../utils/attributes';
 import { getVariantIcon } from '../../utils/icons';
 import { warnIfInvalidEnumProp } from '../../utils/prop-validator';
@@ -29,6 +29,11 @@ export class AegovCallout {
    * The appearance style of the callout.
    */
   @Prop() appearance: CalloutAppearance = 'soft';
+
+  /**
+   * The size of the callout. Controls font size, icon size, and padding.
+   */
+  @Prop() size: CalloutSize = 'base';
 
   /**
    * Whether the callout can be dismissed/closed.
@@ -88,6 +93,7 @@ export class AegovCallout {
   componentWillLoad() {
     warnIfInvalidEnumProp(this.variant, CALLOUT_VARIANTS, 'default', ctx('variant'));
     warnIfInvalidEnumProp(this.appearance, CALLOUT_APPEARANCES, 'soft', ctx('appearance'));
+    warnIfInvalidEnumProp(this.size, CALLOUT_SIZES, 'base', ctx('size'));
   }
 
   @Watch('variant')
@@ -95,6 +101,9 @@ export class AegovCallout {
 
   @Watch('appearance')
   onAppearanceChange(v: unknown) { warnIfInvalidEnumProp(v, CALLOUT_APPEARANCES, 'soft', ctx('appearance')); }
+
+  @Watch('size')
+  onSizeChange(v: unknown) { warnIfInvalidEnumProp(v, CALLOUT_SIZES, 'base', ctx('size')); }
 
   /**
    * Lifecycle method called before each render
@@ -111,11 +120,20 @@ export class AegovCallout {
    */
   private getCalloutClasses(): string {
     const classes: string[] = [
-      'aegov-callout px-5 py-4 flex items-start gap-4 rounded-md text-base border-0'
+      'aegov-callout flex items-start gap-4 rounded-md border-0'
     ];
 
     const appearance: CalloutAppearance = (CALLOUT_APPEARANCES as readonly string[]).includes(this.appearance) ? this.appearance : 'soft';
     const variant: CalloutVariant = (CALLOUT_VARIANTS as readonly string[]).includes(this.variant) ? this.variant : 'default';
+    const size: CalloutSize = (CALLOUT_SIZES as readonly string[]).includes(this.size) ? this.size : 'base';
+
+    // Size classes (font size + padding)
+    const sizeClasses: Record<CalloutSize, string[]> = {
+      sm:   ['callout-sm',   'text-sm',   'px-4', 'py-3'],
+      base: ['callout-base', 'text-base', 'px-5', 'py-4'],
+      lg:   ['callout-lg',   'text-lg',   'px-6', 'py-5'],
+    };
+    classes.push(...sizeClasses[size]);
 
     // Appearance classes
     const appearanceClasses: Record<CalloutAppearance, string[]> = {
@@ -137,6 +155,12 @@ export class AegovCallout {
     return classes.join(' ');
   }
 
+  private getIconSizeClass(): string {
+    const size: CalloutSize = (CALLOUT_SIZES as readonly string[]).includes(this.size) ? this.size : 'base';
+    const iconSizes: Record<CalloutSize, string> = { sm: 'size-5', base: 'size-6', lg: 'size-7' };
+    return iconSizes[size];
+  }
+
   render() {
     if (!this.isVisible) {
       return null;
@@ -150,7 +174,7 @@ export class AegovCallout {
           {this.hasIconSlot ? (
             <slot name="icon" />
           ) : (
-            getVariantIcon(this.variant, 'size-6')
+            getVariantIcon(this.variant, this.getIconSizeClass())
           )}
         </div>
         <div class="callout__content">

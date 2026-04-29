@@ -24,7 +24,7 @@
 <p class="text-lg text-aeblack-500 mb-8">A callout is a prominent notification banner used to communicate important messages, feedback, or contextual information. Callouts draw attention to warnings, errors, successes, and general notices within a page.</p>
 
 <h2>Introduction</h2>
-<p>The <code>aegov-callout</code> component displays a coloured notification box with an icon, message content, and optional actions. It supports <strong>5 semantic variants</strong>, <strong>2 appearances</strong> (soft and solid), named slots for icons, content, links, and actions, an optional <strong>bordered</strong> mode, and <strong>dismissible</strong> functionality.</p>
+<p>The <code>aegov-callout</code> component displays a coloured notification box with an icon, message content, and optional actions. It supports <strong>5 semantic variants</strong>, <strong>2 appearances</strong> (soft and solid), <strong>3 sizes</strong> (sm, base, lg), named slots for icons, content, links, and actions, an optional <strong>bordered</strong> mode, and <strong>dismissible</strong> functionality.</p>
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-callout</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;content&quot;</span>&gt;</span>This is a default callout message.<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-callout</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
@@ -133,6 +133,60 @@
   </aegov-callout>
 </div>
 
+<hr>
+<h2>Sizes</h2>
+<p>The <code>size</code> property controls font size, icon size, and padding. Three sizes are available — <code>sm</code>, <code>base</code> (default), and <code>lg</code>.</p>
+<h3>Small (<code>sm</code>)</h3>
+<p>14px font, 20px icon, reduced padding.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-callout</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm&quot;</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;info&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;content&quot;</span>&gt;</span>Small callout — compact, less visual weight.<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-callout</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 space-y-3 not-aegov">
+  <aegov-callout size="sm" variant="default">
+    <span slot="content">Small default callout.</span>
+  </aegov-callout>
+  <aegov-callout size="sm" variant="error">
+    <span slot="content">Small error callout.</span>
+  </aegov-callout>
+  <aegov-callout size="sm" variant="info">
+    <span slot="content">Small info callout.</span>
+  </aegov-callout>
+</div>
+
+<h3>Base (<code>base</code>)</h3>
+<p>16px font, 24px icon, standard padding. This is the default.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-callout</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;base&quot;</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;info&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;content&quot;</span>&gt;</span>Base callout — default size.<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-callout</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 space-y-3 not-aegov">
+  <aegov-callout size="base" variant="default">
+    <span slot="content">Base default callout.</span>
+  </aegov-callout>
+  <aegov-callout size="base" variant="error">
+    <span slot="content">Base error callout.</span>
+  </aegov-callout>
+  <aegov-callout size="base" variant="info">
+    <span slot="content">Base info callout.</span>
+  </aegov-callout>
+</div>
+
+<h3>Large (<code>lg</code>)</h3>
+<p>18px font, 28px icon, increased padding.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-callout</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;lg&quot;</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;info&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;content&quot;</span>&gt;</span>Large callout — more prominent, higher visual weight.<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-callout</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 space-y-3 not-aegov">
+  <aegov-callout size="lg" variant="default">
+    <span slot="content">Large default callout.</span>
+  </aegov-callout>
+  <aegov-callout size="lg" variant="error">
+    <span slot="content">Large error callout.</span>
+  </aegov-callout>
+  <aegov-callout size="lg" variant="info">
+    <span slot="content">Large info callout.</span>
+  </aegov-callout>
+</div>
+
+<blockquote>
+<p><strong>Note:</strong> The <code>size</code> prop does not affect buttons placed in the <code>actions</code> slot — control their size directly via the <code>size</code> prop on <code>&lt;aegov-button&gt;</code>.</p>
+</blockquote>
 <hr>
 <h2>Custom Icon</h2>
 <p>By default, the callout renders a variant-appropriate icon (e.g. an exclamation triangle for warnings, a checkmark circle for success). You can override the default icon by placing your own SVG or image in the <code>icon</code> slot.</p>
@@ -313,6 +367,13 @@
 <td>The visual intensity</td>
 <td><code>&#39;soft&#39;</code> | <code>&#39;solid&#39;</code></td>
 <td><code>&#39;soft&#39;</code></td>
+</tr>
+<tr>
+<td><code>size</code></td>
+<td><code>size</code></td>
+<td>Controls font size, icon size, and padding</td>
+<td><code>&#39;sm&#39;</code> | <code>&#39;base&#39;</code> | <code>&#39;lg&#39;</code></td>
+<td><code>&#39;base&#39;</code></td>
 </tr>
 <tr>
 <td><code>dismissible</code></td>
