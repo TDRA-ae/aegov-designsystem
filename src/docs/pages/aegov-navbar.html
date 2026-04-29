@@ -24,7 +24,7 @@
 <p class="text-lg text-aeblack-500 mb-8">A horizontal primary navigation for websites and web applications. Holds plain links, links with prefix icons, and links with chevron-triggered submenus.</p>
 
 <h2>Introduction</h2>
-<p>The <code>aegov-navbar</code> component pairs with <code>aegov-navbar-item</code> children. The parent renders a semantic <code>&lt;nav&gt;&lt;ul&gt;...&lt;/ul&gt;&lt;/nav&gt;</code> landmark and cascades the <code>size</code> token to every item. Each item can be a plain link, carry a prefix icon via the <code>icon-start</code> slot, or expose a submenu by slotting an <code>aegov-dropdown</code>. When a dropdown is present the item gains a chevron button that is independently focusable from the link — keyboard users can navigate the link with <code>Enter</code> and open the submenu with the chevron via <code>Enter</code>, <code>Space</code>, or <code>ArrowDown</code>.</p>
+<p>The <code>aegov-navbar</code> component pairs with <code>aegov-navbar-item</code> children. The parent renders a semantic <code>&lt;nav&gt;&lt;ul&gt;...&lt;/ul&gt;&lt;/nav&gt;</code> landmark and cascades the <code>size</code> token to every item. Each item can be a plain link, carry a prefix icon via the <code>icon-start</code> slot, or expose a submenu by slotting an <code>aegov-dropdown</code>. When a dropdown is present the entire item becomes the dropdown trigger (so hover and positioning resolve to the full item rect), and a chevron button is injected as a separate Tab stop. Keyboard users open the submenu via <code>Enter</code>, <code>Space</code>, or <code>ArrowDown</code> while the chevron is focused; clicking the link follows it without toggling the submenu.</p>
 <p>Arrow keys cycle focus along the navbar (reversed in RTL), <code>Home</code> and <code>End</code> jump to the first and last item.</p>
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-navbar</span> <span class="hljs-attr">nav-label</span>=<span class="hljs-string">&quot;Main navigation&quot;</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-navbar-item</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/&quot;</span> <span class="hljs-attr">active</span>&gt;</span>Home<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-navbar-item</span>&gt;</span>
@@ -129,12 +129,15 @@
 
 <hr>
 <h2>Item with Submenu</h2>
-<p>Slot an <code>aegov-dropdown</code> with <code>slot=&quot;dropdown&quot;</code> to attach a submenu to an item. A chevron button is injected as the dropdown&#39;s trigger and rendered inline with the link. The link itself remains a separate Tab stop so users can either follow the link or open the submenu.</p>
+<p>Slot an <code>aegov-dropdown</code> with <code>slot=&quot;dropdown&quot;</code> to attach a submenu to an item. The navbar-item itself becomes the dropdown&#39;s trigger so positioning resolves to the whole item rectangle, not just the chevron. A chevron button is injected automatically and toggles the submenu via mouse click, <code>Enter</code>, <code>Space</code>, or <code>ArrowDown</code>. The link remains a separate Tab stop and clicking it follows the link without toggling the submenu.</p>
+<p>The dropdown&#39;s <code>trigger-type</code> is left to the consumer — set it to <code>hover</code> to open on cursor enter, or leave it as the default <code>click</code> to require an explicit chevron press.</p>
+<h3>Link item with hover-triggered submenu</h3>
+<p>The whole item triggers the dropdown on hover. Clicking the link follows its <code>href</code>; the chevron lets keyboard users toggle without leaving the page.</p>
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-navbar</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-navbar-item</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/&quot;</span>&gt;</span>Home<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-navbar-item</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-navbar-item</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/products&quot;</span>&gt;</span>
     Products
-    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-dropdown</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;dropdown&quot;</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-dropdown</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;dropdown&quot;</span> <span class="hljs-attr">trigger-type</span>=<span class="hljs-string">&quot;hover&quot;</span>&gt;</span>
       <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;dropdown-content&quot;</span>&gt;</span>
         <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/products/digital&quot;</span>&gt;</span>Digital<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>
         <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/products/physical&quot;</span>&gt;</span>Physical<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>
@@ -148,11 +151,43 @@
     <aegov-navbar-item href="#">Home</aegov-navbar-item>
     <aegov-navbar-item href="#products">
       Products
-      <aegov-dropdown slot="dropdown">
+      <aegov-dropdown slot="dropdown" trigger-type="hover">
         <div slot="dropdown-content">
           <a href="#digital">Digital</a>
           <a href="#physical">Physical</a>
           <a href="#services">Services</a>
+        </div>
+      </aegov-dropdown>
+    </aegov-navbar-item>
+    <aegov-navbar-item href="#about">About</aegov-navbar-item>
+  </aegov-navbar>
+</div>
+
+<h3>Non-link item with click-only submenu</h3>
+<p>Omit <code>href</code> to render a non-navigating label. With the default <code>trigger-type=&quot;click&quot;</code>, the submenu only opens on chevron press — useful for grouping links under a category header that has no destination of its own.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-navbar</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-navbar-item</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/&quot;</span>&gt;</span>Home<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-navbar-item</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-navbar-item</span>&gt;</span>
+    Resources
+    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-dropdown</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;dropdown&quot;</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;dropdown-content&quot;</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/resources/docs&quot;</span>&gt;</span>Documentation<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/resources/guides&quot;</span>&gt;</span>Guides<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/resources/api&quot;</span>&gt;</span>API Reference<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>
+      <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-dropdown</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-navbar-item</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-navbar-item</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/about&quot;</span>&gt;</span>About<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-navbar-item</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-navbar</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
+  <aegov-navbar>
+    <aegov-navbar-item href="#">Home</aegov-navbar-item>
+    <aegov-navbar-item>
+      Resources
+      <aegov-dropdown slot="dropdown">
+        <div slot="dropdown-content">
+          <a href="#docs">Documentation</a>
+          <a href="#guides">Guides</a>
+          <a href="#api">API Reference</a>
         </div>
       </aegov-dropdown>
     </aegov-navbar-item>
@@ -363,7 +398,8 @@
 <h2>Notes</h2>
 <ul>
 <li><code>aegov-navbar-item</code> is intended to be used inside <code>aegov-navbar</code>. It will still render standalone but loses size cascading and arrow-key navigation.</li>
-<li>The chevron button is created on <code>componentDidLoad</code> and inserted as the first default-slot child of the slotted <code>aegov-dropdown</code>. The dropdown&#39;s existing trigger logic wires <code>aria-haspopup</code>, <code>aria-expanded</code>, and click handling to the wrapping element, while the chevron <code>&lt;button&gt;</code> itself is the focusable Tab stop.</li>
+<li>When a submenu is present, the link and chevron are injected as default-slot children of the slotted <code>aegov-dropdown</code>, so the dropdown&#39;s trigger element wraps the whole item. This means hover-trigger dropdowns open on hovering anywhere over the item, and positioning aligns to the full item rect rather than just the chevron.</li>
+<li>The chevron toggles the dropdown explicitly via <code>aegov-dropdown.toggle()</code>, so it works regardless of the dropdown&#39;s <code>trigger-type</code>. Clicking the link calls <code>stopPropagation</code> so a click-trigger dropdown does not toggle on link follow-through.</li>
 <li>Mobile collapse (hamburger drawer) is intentionally out of scope. Wrap the navbar in your own breakpoint logic if you need it.</li>
 <li>A vertical companion component (<code>aegov-navblock</code>) is planned. Until then, use <code>aegov-tabs</code> with <code>orientation=&quot;vertical&quot;</code> for vertical menu use cases that do not need submenus.</li>
 </ul>

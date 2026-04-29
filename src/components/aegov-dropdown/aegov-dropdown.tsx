@@ -1,4 +1,4 @@
-import { Component, Host, h, Prop, Element, State, Listen, Event, EventEmitter, Watch } from '@stencil/core';
+import { Component, Host, h, Prop, Element, State, Listen, Event, EventEmitter, Watch, Method } from '@stencil/core';
 import { DROPDOWN_POSITIONS, DROPDOWN_ALIGNS, DROPDOWN_TRIGGERS } from '../../utils/types';
 import type { DropdownPosition, DropdownAlign, DropdownTrigger } from '../../utils/types';
 import { generateId } from '../../utils/id-generator';
@@ -119,6 +119,13 @@ export class AegovDropdown {
   private focusableElements: HTMLElement[] = [];
   private currentFocusIndex: number = -1;
   private triggerElement?: HTMLElement;
+  /**
+   * Whether the most recent open was triggered via keyboard. Drives the
+   * decision to auto-focus the first menu item: keyboard opens move focus
+   * into the menu (ARIA menu pattern), pointer opens leave focus where
+   * the user put it.
+   */
+  private openedViaKeyboard: boolean = false;
 
   /**
    * Trigger type for showing the dropdown
@@ -273,8 +280,12 @@ export class AegovDropdown {
       this.aegovDropdownOpen.emit();
       // Store the trigger element for focus restoration
       this.triggerElement = document.activeElement as HTMLElement;
-      // Set up focus trap after a tick
-      setTimeout(() => this.setupFocusTrap(), 0);
+      // Always populate the focusable list so subsequent keyboard navigation
+      // (Tab / Arrow keys) inside the menu works regardless of how it opened.
+      // Only move focus into the menu when opened via keyboard (ARIA menu
+      // pattern). Pointer opens leave focus where the user placed it.
+      const moveFocus = this.openedViaKeyboard;
+      setTimeout(() => this.setupFocusTrap(moveFocus), 0);
     } else {
       // Clear reference if this was the currently open dropdown
       if (currentOpenDropdown === this) {
@@ -311,6 +322,22 @@ export class AegovDropdown {
    */
   public closeDropdown() {
     this.isOpen = false;
+  }
+
+  /**
+   * Toggle the dropdown open/closed state regardless of triggerType.
+   * Allows external triggers (e.g. a navbar-item chevron) to drive the
+   * dropdown when triggerType is 'hover' or 'click'.
+   *
+   * @param viaKeyboard When true and this call opens the dropdown, the first
+   *   focusable item receives focus (ARIA menu pattern). Pass true from
+   *   keyboard handlers and false from pointer/mouse handlers.
+   */
+  @Method()
+  async toggle(viaKeyboard: boolean = false): Promise<void> {
+    if (this.disabled) return;
+    this.openedViaKeyboard = viaKeyboard;
+    this.isOpen = !this.isOpen;
   }
 
   private clearTimeouts() {
@@ -478,6 +505,7 @@ export class AegovDropdown {
     this.clearTimeouts();
 
     this.showTimeout = window.setTimeout(() => {
+      this.openedViaKeyboard = false;
       this.isOpen = true;
     }, this.showDelay);
   };
@@ -533,6 +561,9 @@ export class AegovDropdown {
   private handleTriggerClick = (event: MouseEvent) => {
     if (this.triggerType === 'click' && !this.disabled) {
       event.stopPropagation();
+      // Click events fired by keyboard activation (Enter/Space on a focused
+      // button) have detail === 0; real mouse/touch clicks have detail >= 1.
+      this.openedViaKeyboard = event.detail === 0;
       this.isOpen = !this.isOpen;
     }
   };
@@ -621,14 +652,16 @@ export class AegovDropdown {
     this.keyHandler(event);
   }
 
-  private setupFocusTrap() {
+  private setupFocusTrap(moveFocus: boolean = true) {
     if (!this.dropdownRef) return;
 
     this.focusableElements = getFocusableElements(this.dropdownRef, FOCUSABLE_SELECTORS);
 
     if (this.focusableElements.length > 0) {
       this.currentFocusIndex = 0;
-      this.focusableElements[0].focus();
+      if (moveFocus) {
+        this.focusableElements[0].focus();
+      }
     }
   }
 

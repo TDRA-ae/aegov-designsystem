@@ -1,10 +1,8 @@
-import { Component, Host, h, Prop, Element, Listen, Watch } from '@stencil/core';
+import { Component, Host, h, Prop, Element, Listen, Watch, State } from '@stencil/core';
 import { NAVBAR_SIZES } from '../../utils/types';
 import type { NavbarSize } from '../../utils/types';
-import { warnIfInvalidEnumProp } from '../../utils/prop-validator';
-
-const TAG = 'aegov-navbar';
-const ctx = (prop: string) => ({ component: TAG, prop });
+import { watchResponsiveProp } from '../../utils/responsive-prop';
+import type { ResponsivePropWatcher } from '../../utils/responsive-prop';
 
 /**
  * @component aegov-navbar
@@ -33,25 +31,34 @@ const ctx = (prop: string) => ({ component: TAG, prop });
   scoped: false,
 })
 export class AegovNavbar {
-  @Element() el: HTMLElement;
+  @Element() el!: HTMLElement;
 
   /**
-   * Size of the navbar items. Cascades to all aegov-navbar-item children.
+   * Size of the navbar items. Accepts a Tailwind-style responsive string,
+   * e.g. `"sm md:base lg:lg"`, resolved against the active viewport width.
+   * The resolved token cascades to all aegov-navbar-item children.
    */
-  @Prop() size: NavbarSize = 'base';
+  @Prop() size: string = 'base';
 
   /**
    * Tailwind gap utility class applied between items, e.g. "gap-4", "gap-6", "gap-10".
    */
-  @Prop() gap: string = 'gap-6';
+  @Prop() gap: string = 'gap-3';
 
   /**
    * Accessible label for the navigation landmark.
    */
   @Prop() navLabel: string = 'Main navigation';
 
+  @State() private _resolvedSize: NavbarSize = 'base';
+  private _sizeWatcher: ResponsivePropWatcher | null = null;
+
   componentWillLoad() {
-    warnIfInvalidEnumProp(this.size, NAVBAR_SIZES, 'base', ctx('size'));
+    this._sizeWatcher = watchResponsiveProp(this.size, NAVBAR_SIZES, 'base', v => {
+      this._resolvedSize = v as NavbarSize;
+      this.syncChildren();
+    });
+    this._resolvedSize = this._sizeWatcher.current as NavbarSize;
   }
 
   componentDidLoad() {
@@ -62,9 +69,19 @@ export class AegovNavbar {
     this.syncChildren();
   }
 
+  disconnectedCallback() {
+    this._sizeWatcher?.destroy();
+    this._sizeWatcher = null;
+  }
+
   @Watch('size')
-  onSizeChange(v: unknown) {
-    warnIfInvalidEnumProp(v, NAVBAR_SIZES, 'base', ctx('size'));
+  onSizeChange() {
+    this._sizeWatcher?.destroy();
+    this._sizeWatcher = watchResponsiveProp(this.size, NAVBAR_SIZES, 'base', v => {
+      this._resolvedSize = v as NavbarSize;
+      this.syncChildren();
+    });
+    this._resolvedSize = this._sizeWatcher.current as NavbarSize;
     this.syncChildren();
   }
 
@@ -73,7 +90,7 @@ export class AegovNavbar {
       this.el.querySelectorAll('aegov-navbar-item'),
     ) as HTMLAegovNavbarItemElement[];
     items.forEach(item => {
-      item.size = this.size;
+      item.size = this._resolvedSize;
     });
   }
 
@@ -134,13 +151,13 @@ export class AegovNavbar {
   }
 
   render() {
-    const size: NavbarSize = (NAVBAR_SIZES as readonly string[]).includes(this.size)
-      ? this.size
-      : 'base';
     return (
       <Host>
-        <nav class={`aegov-navbar aegov-navbar--${size}`} aria-label={this.navLabel}>
-          <ul class={`aegov-navbar__list ${this.gap}`}>
+        <nav
+          class={`aegov-navbar aegov-navbar-${this._resolvedSize}`}
+          aria-label={this.navLabel}
+        >
+          <ul class={`aegov-navbar-list ${this.gap}`}>
             <slot />
           </ul>
         </nav>
