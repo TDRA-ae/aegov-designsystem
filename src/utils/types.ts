@@ -572,6 +572,12 @@ export const HEADER_VARIANTS = ['ministry', 'authority'] as const;
 export type HeaderVariant = typeof HEADER_VARIANTS[number];
 
 /**
+ * Navbar component size types
+ */
+export const NAVBAR_SIZES = ['sm', 'base', 'lg'] as const;
+export type NavbarSize = typeof NAVBAR_SIZES[number];
+
+/**
  * Common component props
  */
 export interface BaseComponentProps {
