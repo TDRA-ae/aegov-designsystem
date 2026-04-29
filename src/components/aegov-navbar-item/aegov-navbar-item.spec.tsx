@@ -111,4 +111,39 @@ describe('aegov-navbar-item', () => {
       expect(li.classList.contains('aegov-navbar-item--has-dropdown')).toBe(false);
     });
   });
+
+  describe('responsive size', () => {
+    it('accepts a responsive size string standalone', async () => {
+      // jsdom has no --breakpoint-* CSS vars so breakpoint tokens are
+      // silently ignored — the base token wins.
+      const page = await newSpecPage({
+        components: [AegovNavbarItem],
+        html: `<aegov-navbar-item size="sm md:base lg:lg" href="/x">X</aegov-navbar-item>`,
+      });
+      const li = page.root.querySelector('li');
+      expect(li.classList.contains('aegov-navbar-item--sm')).toBe(true);
+    });
+
+    it('falls back to default for invalid base tokens', async () => {
+      const page = await newSpecPage({
+        components: [AegovNavbarItem],
+        html: `<aegov-navbar-item size="huge" href="/x">X</aegov-navbar-item>`,
+      });
+      const li = page.root.querySelector('li');
+      expect(li.classList.contains('aegov-navbar-item--base')).toBe(true);
+    });
+
+    it('updates the size class when the size prop changes', async () => {
+      const page = await newSpecPage({
+        components: [AegovNavbarItem],
+        html: `<aegov-navbar-item size="sm" href="/x">X</aegov-navbar-item>`,
+      });
+      const item = page.root as HTMLAegovNavbarItemElement;
+      item.size = 'lg';
+      await page.waitForChanges();
+      const li = page.root.querySelector('li');
+      expect(li.classList.contains('aegov-navbar-item--lg')).toBe(true);
+      expect(li.classList.contains('aegov-navbar-item--sm')).toBe(false);
+    });
+  });
 });

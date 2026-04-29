@@ -6,6 +6,6 @@ nav.aegov-navbar {
   @apply block w-full;
 }
 
-ul.aegov-navbar__list {
+ul.aegov-navbar-list {
   @apply flex flex-row flex-wrap items-stretch list-none m-0 p-0;
 }
