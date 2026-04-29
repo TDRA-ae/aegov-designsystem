@@ -171,7 +171,7 @@ export class AegovButton {
    */
   private getButtonClasses(): string {
     const classes: string[] = [
-      'relative inline-flex shrink-0 cursor-pointer select-none flex-wrap items-center justify-center whitespace-nowrap no-underline transition-all duration-200 ease-in-out focus-visible:outline-2  disabled:cursor-default disabled:pointer-events-none disabled:cursor-not-allowed'
+      'aegov-btn relative inline-flex shrink-0 cursor-pointer select-none flex-wrap items-center justify-center whitespace-nowrap no-underline transition-all duration-200 ease-in-out focus-visible:outline-2  disabled:cursor-default disabled:pointer-events-none disabled:cursor-not-allowed'
     ];
 
     const size: ButtonSize = (BUTTON_SIZES as readonly string[]).includes(this.size) ? this.size : 'base';
