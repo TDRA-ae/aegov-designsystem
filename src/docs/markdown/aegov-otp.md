@@ -123,6 +123,22 @@ The `size` property controls the width, height, and font size of each cell. Ther
   </div>
 </div>
 
+### Responsive Size
+
+The `size` prop accepts Tailwind-style responsive prefixes. Write a space-separated string where each token is either a plain value or `breakpoint:value`. The base value (no prefix) applies below the smallest specified breakpoint.
+
+Available breakpoints: `xs` (480px), `sm` (640px), `md` (768px), `lg` (1024px), `xl` (1280px), `2xl` (1536px), `3xl` (1680px).
+
+```html
+<aegov-otp size="sm xl:lg" length="4"></aegov-otp>
+```
+
+<div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
+  <aegov-otp size="sm xl:lg" length="4"></aegov-otp>
+</div>
+
+> **Graceful degradation:** Unknown breakpoint names and invalid values are silently ignored. An unrecognised base value falls back to the component default.
+
 ---
 
 ## Sizes with Individual Variant
@@ -455,7 +471,7 @@ The component supports right-to-left layouts. When a parent element has `dir="rt
 |----------------|-----------------|-----------------------------------------------------------------------------|---------------------------------------------------------------|----------------|
 | `variant`      | `variant`       | Visual layout of the cells                                                  | `'continuous'` \| `'individual'`                              | `'continuous'` |
 | `length`       | `length`        | Number of input cells                                                       | `number`                                                      | `5`            |
-| `size`         | `size`          | Size of each cell                                                           | `'xs'` \| `'sm'` \| `'base'` \| `'lg'` \| `'xl'` \| `'2xl'` | `'base'`       |
+| `size`         | `size`          | Size of each cell. Supports responsive strings (e.g. `'sm xl:lg'`).        | `'xs'` \| `'sm'` \| `'base'` \| `'lg'` \| `'xl'` \| `'2xl'` | `'base'`       |
 | `alphanumeric` | `alphanumeric`  | Accept letters and numbers when true; numbers only when false               | `boolean`                                                     | `false`        |
 | `pattern`      | `pattern`       | Regex pattern string for validation when all cells are filled               | `string`                                                      | `undefined`    |
 | `disabled`     | `disabled`      | Disables all input cells                                                    | `boolean`                                                     | `false`        |

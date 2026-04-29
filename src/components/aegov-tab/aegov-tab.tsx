@@ -2,6 +2,8 @@ import { Component, Prop, Watch, State, Event, EventEmitter, Element, h } from '
 import { TAB_VARIANTS, TAB_SIZES, TAB_ORIENTATIONS } from '../../utils/types';
 import type { TabVariant, TabSize, TabOrientation } from '../../utils/types';
 import { warnIfInvalidEnumProp } from '../../utils/prop-validator';
+import { watchResponsiveProp } from '../../utils/responsive-prop';
+import type { ResponsivePropWatcher } from '../../utils/responsive-prop';
 
 const TAG = 'aegov-tab';
 const ctx = (prop: string) => ({ component: TAG, prop });
@@ -53,7 +55,10 @@ export class AegovTab {
   /**
    * Size of the tab. Set automatically by the parent aegov-tabs.
    */
-  @Prop() size: TabSize = 'base';
+  @Prop() size: string = 'base';
+
+  @State() private _resolvedSize: TabSize = 'base';
+  private _sizeWatcher: ResponsivePropWatcher | null = null;
 
   /**
    * Orientation of the tabs. Set automatically by the parent aegov-tabs.
@@ -72,17 +77,30 @@ export class AegovTab {
 
   componentWillLoad() {
     warnIfInvalidEnumProp(this.variant, TAB_VARIANTS, 'simple', ctx('variant'));
-    warnIfInvalidEnumProp(this.size, TAB_SIZES, 'base', ctx('size'));
     warnIfInvalidEnumProp(this.orientation, TAB_ORIENTATIONS, 'horizontal', ctx('orientation'));
     this.hasIconSlot = !!this.el.querySelector('[slot="icon"]');
     this.hasIconEndSlot = !!this.el.querySelector('[slot="icon-end"]');
+    this._sizeWatcher = watchResponsiveProp(this.size, TAB_SIZES, 'base', v => {
+      this._resolvedSize = v as TabSize;
+    });
+    this._resolvedSize = this._sizeWatcher.current as TabSize;
+  }
+
+  disconnectedCallback() {
+    this._sizeWatcher?.destroy();
   }
 
   @Watch('variant')
   onVariantChange(v: unknown) { warnIfInvalidEnumProp(v, TAB_VARIANTS, 'simple', ctx('variant')); }
 
   @Watch('size')
-  onSizeChange(v: unknown) { warnIfInvalidEnumProp(v, TAB_SIZES, 'base', ctx('size')); }
+  onSizeChange() {
+    this._sizeWatcher?.destroy();
+    this._sizeWatcher = watchResponsiveProp(this.size, TAB_SIZES, 'base', v => {
+      this._resolvedSize = v as TabSize;
+    });
+    this._resolvedSize = this._sizeWatcher.current as TabSize;
+  }
 
   @Watch('orientation')
   onOrientationChange(v: unknown) { warnIfInvalidEnumProp(v, TAB_ORIENTATIONS, 'horizontal', ctx('orientation')); }
@@ -95,7 +113,6 @@ export class AegovTab {
   render() {
     const isActive = this.tabId === this.activeTabId;
     const variant: TabVariant = (TAB_VARIANTS as readonly string[]).includes(this.variant) ? this.variant : 'simple';
-    const size: TabSize = (TAB_SIZES as readonly string[]).includes(this.size) ? this.size : 'base';
     const orientation: TabOrientation = (TAB_ORIENTATIONS as readonly string[]).includes(this.orientation) ? this.orientation : 'horizontal';
 
     return (
@@ -110,7 +127,7 @@ export class AegovTab {
         class={{
           'aegov-tab': true,
           [`tab__btn--${variant}`]: true,
-          [`tab__btn--${size}`]: true,
+          [`tab__btn--${this._resolvedSize}`]: true,
           'tab__btn--vertical': orientation === 'vertical',
           'tab__btn--active': isActive,
           'tab__btn--disabled': this.disabled,

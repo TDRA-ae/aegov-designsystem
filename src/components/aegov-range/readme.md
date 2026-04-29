@@ -20,7 +20,7 @@
 | `name`        | `name`        | The name attribute for the range.                                             | `string`                                   | `undefined`    |
 | `orientation` | `orientation` | Layout orientation.                                                           | `"horizontal" \| "vertical"`               | `'horizontal'` |
 | `required`    | `required`    | Whether the range is required.                                                | `boolean`                                  | `false`        |
-| `size`        | `size`        | Size of the range track. Thumb remains constant.                              | `"base" \| "lg" \| "sm" \| "xl" \| "xs"`   | `'base'`       |
+| `size`        | `size`        | Size of the range track. Thumb remains constant.                              | `string`                                   | `'base'`       |
 | `step`        | `step`        | Step increment.                                                               | `number`                                   | `1`            |
 | `value`       | `value`       | Current value (single mode).                                                  | `number`                                   | `50`           |
 | `valueHigh`   | `value-high`  | High thumb value (range mode).                                                | `number`                                   | `75`           |

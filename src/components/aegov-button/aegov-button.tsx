@@ -1,4 +1,6 @@
-import { Component, Prop, Watch, Event, EventEmitter, Element, h, Host } from '@stencil/core';
+import { Component, Prop, Watch, State, Event, EventEmitter, Element, h, Host } from '@stencil/core';
+import { watchResponsiveProp } from '../../utils/responsive-prop';
+import type { ResponsivePropWatcher } from '../../utils/responsive-prop';
 import {
   BUTTON_APPEARANCES,
   BUTTON_GROUP_ORIENTATIONS,
@@ -43,7 +45,10 @@ export class AegovButton {
    * The button size
    * @default 'base'
    */
-  @Prop() size: ButtonSize = 'base';
+  @Prop() size: string = 'base';
+
+  @State() private _resolvedSize: ButtonSize = 'base';
+  private _sizeWatcher: ResponsivePropWatcher | null = null;
 
   /**
    * The button type attribute
@@ -116,7 +121,6 @@ export class AegovButton {
 
   componentWillLoad() {
     warnIfInvalidEnumProp(this.variant, BUTTON_VARIANTS, 'solid', ctx('variant'));
-    warnIfInvalidEnumProp(this.size, BUTTON_SIZES, 'base', ctx('size'));
     warnIfInvalidEnumProp(this.type, BUTTON_TYPES, 'button', ctx('type'));
     warnIfInvalidEnumProp(this.appearance, BUTTON_APPEARANCES, 'primary', ctx('appearance'));
     if (this.groupPosition !== undefined) {
@@ -125,13 +129,27 @@ export class AegovButton {
     if (this.groupOrientation !== undefined) {
       warnIfInvalidEnumProp(this.groupOrientation, BUTTON_GROUP_ORIENTATIONS, 'horizontal', ctx('groupOrientation'));
     }
+    this._sizeWatcher = watchResponsiveProp(this.size, BUTTON_SIZES, 'base', v => {
+      this._resolvedSize = v as ButtonSize;
+    });
+    this._resolvedSize = this._sizeWatcher.current as ButtonSize;
+  }
+
+  disconnectedCallback() {
+    this._sizeWatcher?.destroy();
   }
 
   @Watch('variant')
   onVariantChange(v: unknown) { warnIfInvalidEnumProp(v, BUTTON_VARIANTS, 'solid', ctx('variant')); }
 
   @Watch('size')
-  onSizeChange(v: unknown) { warnIfInvalidEnumProp(v, BUTTON_SIZES, 'base', ctx('size')); }
+  onSizeChange() {
+    this._sizeWatcher?.destroy();
+    this._sizeWatcher = watchResponsiveProp(this.size, BUTTON_SIZES, 'base', v => {
+      this._resolvedSize = v as ButtonSize;
+    });
+    this._resolvedSize = this._sizeWatcher.current as ButtonSize;
+  }
 
   @Watch('type')
   onTypeChange(v: unknown) { warnIfInvalidEnumProp(v, BUTTON_TYPES, 'button', ctx('type')); }
@@ -174,7 +192,7 @@ export class AegovButton {
       'aegov-btn relative inline-flex shrink-0 cursor-pointer select-none flex-wrap items-center justify-center whitespace-nowrap no-underline transition-all duration-200 ease-in-out focus-visible:outline-2  disabled:cursor-default disabled:pointer-events-none disabled:cursor-not-allowed'
     ];
 
-    const size: ButtonSize = (BUTTON_SIZES as readonly string[]).includes(this.size) ? this.size : 'base';
+    const size: ButtonSize = this._resolvedSize;
     const variant: ButtonVariant = (BUTTON_VARIANTS as readonly string[]).includes(this.variant) ? this.variant : 'solid';
     const appearance: ButtonAppearance = (BUTTON_APPEARANCES as readonly string[]).includes(this.appearance) ? this.appearance : 'primary';
 

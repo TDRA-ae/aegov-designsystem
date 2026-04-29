@@ -1,10 +1,8 @@
-import { Component, Host, h, Prop, Element, Watch } from '@stencil/core';
+import { Component, Host, h, Prop, State, Element, Watch } from '@stencil/core';
 import { INPUT_SIZES } from '../../utils/types';
 import type { InputSize } from '../../utils/types';
-import { warnIfInvalidEnumProp } from '../../utils/prop-validator';
-
-const TAG = 'aegov-input-group';
-const ctx = (prop: string) => ({ component: TAG, prop });
+import { watchResponsiveProp } from '../../utils/responsive-prop';
+import type { ResponsivePropWatcher } from '../../utils/responsive-prop';
 
 @Component({
   tag: 'aegov-input-group',
@@ -16,7 +14,9 @@ export class AegovInputGroup {
   @Element() el: HTMLElement;
 
   /** The size of the input group. Propagated to child aegov-input and aegov-button. */
-  @Prop() size: InputSize = 'base';
+  @Prop() size: string = 'base';
+  @State() private _resolvedSize: InputSize = 'base';
+  private _sizeWatcher: ResponsivePropWatcher | null = null;
 
   /** Text to display as a prefix addon before the input. */
   @Prop() addonPrefix?: string;
@@ -28,11 +28,24 @@ export class AegovInputGroup {
   @Prop() class?: string;
 
   componentWillLoad() {
-    warnIfInvalidEnumProp(this.size, INPUT_SIZES, 'base', ctx('size'));
+    this._sizeWatcher = watchResponsiveProp(this.size, INPUT_SIZES, 'base', v => {
+      this._resolvedSize = v as InputSize;
+    });
+    this._resolvedSize = this._sizeWatcher.current as InputSize;
+  }
+
+  disconnectedCallback() {
+    this._sizeWatcher?.destroy();
   }
 
   @Watch('size')
-  onSizeChange(v: unknown) { warnIfInvalidEnumProp(v, INPUT_SIZES, 'base', ctx('size')); }
+  onSizeChange() {
+    this._sizeWatcher?.destroy();
+    this._sizeWatcher = watchResponsiveProp(this.size, INPUT_SIZES, 'base', v => {
+      this._resolvedSize = v as InputSize;
+    });
+    this._resolvedSize = this._sizeWatcher.current as InputSize;
+  }
 
   componentDidLoad() {
     this.propagateSize();
@@ -45,12 +58,12 @@ export class AegovInputGroup {
   private propagateSize() {
     const inputs = this.el.querySelectorAll('aegov-input');
     inputs.forEach((input: any) => {
-      input.size = this.size;
+      input.size = this._resolvedSize;
     });
 
     const buttons = this.el.querySelectorAll('aegov-button');
     buttons.forEach((btn: any) => {
-      btn.size = this.size;
+      btn.size = this._resolvedSize;
     });
   }
 
@@ -65,7 +78,7 @@ export class AegovInputGroup {
       xl: 'input-group--xl',
     };
 
-    const size: InputSize = (INPUT_SIZES as readonly string[]).includes(this.size) ? this.size : 'base';
+    const size: InputSize = this._resolvedSize;
     classes.push(sizeClasses[size]);
 
     if (this.class) {

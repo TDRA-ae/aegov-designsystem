@@ -6,9 +6,12 @@ import {
   BANNER_DISPLAYS,
   BANNER_MODES,
   BANNER_ROLES,
+  BANNER_SIZES,
 } from '../../utils/types';
-import type { CalloutVariant, CalloutAppearance, BannerPosition, BannerDisplay, BannerMode, BannerRole } from '../../utils/types';
+import type { CalloutVariant, CalloutAppearance, BannerPosition, BannerDisplay, BannerMode, BannerRole, BannerSize } from '../../utils/types';
 import { warnIfInvalidEnumProp } from '../../utils/prop-validator';
+import { watchResponsiveProp } from '../../utils/responsive-prop';
+import type { ResponsivePropWatcher } from '../../utils/responsive-prop';
 
 const TAG = 'aegov-banner';
 const ctx = (prop: string) => ({ component: TAG, prop });
@@ -72,6 +75,16 @@ export class AegovBanner {
    * Banner title for aria-labelledby attribute.
    */
   @Prop() bannerTitle?: string;
+
+  /**
+   * Size of the banner. Controls font size and vertical padding.
+   * Accepts a plain value (`"sm"`, `"base"`, `"lg"`) or a responsive string
+   * using Tailwind-style breakpoint prefixes (`"sm xl:lg"`).
+   */
+  @Prop() size: string = 'base';
+
+  @State() private _resolvedSize: BannerSize = 'base';
+  private _sizeWatcher: ResponsivePropWatcher | null = null;
 
   /**
    * Auto-focus the banner when mounted (for critical alerts only).
@@ -229,6 +242,9 @@ export class AegovBanner {
     // Variant
     classes.push(`banner--${variant}`);
 
+    // Size
+    classes.push(`banner--${this._resolvedSize}`);
+
     // Dismissing state
     if (this.isDismissing) {
       classes.push('banner--dismissing');
@@ -246,6 +262,19 @@ export class AegovBanner {
     if (this.ariaRole !== undefined) {
       warnIfInvalidEnumProp(this.ariaRole, BANNER_ROLES, 'region', ctx('ariaRole'));
     }
+    this._sizeWatcher = watchResponsiveProp(this.size, BANNER_SIZES, 'base', v => {
+      this._resolvedSize = v as BannerSize;
+    });
+    this._resolvedSize = this._sizeWatcher.current as BannerSize;
+  }
+
+  @Watch('size')
+  onSizeChange() {
+    this._sizeWatcher?.destroy();
+    this._sizeWatcher = watchResponsiveProp(this.size, BANNER_SIZES, 'base', v => {
+      this._resolvedSize = v as BannerSize;
+    });
+    this._resolvedSize = this._sizeWatcher.current as BannerSize;
   }
 
   @Watch('variant')
@@ -320,6 +349,8 @@ export class AegovBanner {
    * Lifecycle: Component disconnected
    */
   disconnectedCallback() {
+    this._sizeWatcher?.destroy();
+
     // Clean up ResizeObserver
     if (this.resizeObserver) {
       this.resizeObserver.disconnect();

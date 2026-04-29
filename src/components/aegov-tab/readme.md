@@ -12,7 +12,7 @@
 | `activeTabId`        | `active-tab-id` | The currently active tab id. Set automatically by the parent aegov-tabs.      | `string`                            | `''`           |
 | `disabled`           | `disabled`      | Disables this tab and its associated panel.                                   | `boolean`                           | `false`        |
 | `orientation`        | `orientation`   | Orientation of the tabs. Set automatically by the parent aegov-tabs.          | `"horizontal" \| "vertical"`        | `'horizontal'` |
-| `size`               | `size`          | Size of the tab. Set automatically by the parent aegov-tabs.                  | `"base" \| "lg" \| "sm"`            | `'base'`       |
+| `size`               | `size`          | Size of the tab. Set automatically by the parent aegov-tabs.                  | `string`                            | `'base'`       |
 | `tabId` _(required)_ | `tab-id`        | Unique identifier that must match the corresponding aegov-tab-panel's tab-id. | `string`                            | `undefined`    |
 | `variant`            | `variant`       | Visual variant of the tabs. Set automatically by the parent aegov-tabs.       | `"pill" \| "segmented" \| "simple"` | `'simple'`     |
 

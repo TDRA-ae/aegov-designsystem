@@ -10,7 +10,7 @@
 | Property      | Attribute     | Description                                                   | Type                         | Default        |
 | ------------- | ------------- | ------------------------------------------------------------- | ---------------------------- | -------------- |
 | `orientation` | `orientation` | Layout orientation.                                           | `"horizontal" \| "vertical"` | `'horizontal'` |
-| `size`        | `size`        | Size of step indicators.                                      | `"base" \| "lg" \| "sm"`     | `'base'`       |
+| `size`        | `size`        | Size of step indicators.                                      | `string`                     | `'base'`       |
 | `variant`     | `variant`     | Visual variant: default (numbered circles) or compact (dots). | `"compact" \| "default"`     | `'default'`    |
 
 

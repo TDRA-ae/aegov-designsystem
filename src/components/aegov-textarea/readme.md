@@ -19,7 +19,7 @@
 | `readonly`    | `readonly`    | Whether the textarea is readonly.                                                       | `boolean`                                                  | `false`      |
 | `required`    | `required`    | Whether the textarea is required.                                                       | `boolean`                                                  | `false`      |
 | `resize`      | `resize`      | Resize behaviour of the textarea.                                                       | `"auto" \| "both" \| "horizontal" \| "none" \| "vertical"` | `'vertical'` |
-| `size`        | `size`        | The size of the textarea (affects font size only).                                      | `"base" \| "lg" \| "sm" \| "xl" \| "xs"`                   | `'base'`     |
+| `size`        | `size`        | The size of the textarea (affects font size only).                                      | `string`                                                   | `'base'`     |
 | `value`       | `value`       | The current value of the textarea.                                                      | `string`                                                   | `''`         |
 
 

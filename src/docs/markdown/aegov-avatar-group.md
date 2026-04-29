@@ -122,6 +122,30 @@ The `size` property on the group overrides the size of every child avatar, ensur
 
 > **Note:** Even if individual `<aegov-avatar>` elements have their own `size` set, the group will override them to match the group's `size` property.
 
+### Responsive Size
+
+The `size` prop accepts Tailwind-style responsive prefixes. Write a space-separated string where each token is either a plain value or `breakpoint:value`. The base value (no prefix) applies below the smallest specified breakpoint.
+
+Available breakpoints: `xs` (480px), `sm` (640px), `md` (768px), `lg` (1024px), `xl` (1280px), `2xl` (1536px), `3xl` (1680px).
+
+```html
+<aegov-avatar-group size="sm xl:2xl">
+  <aegov-avatar src="https://i.pravatar.cc/150?img=1" alt="User 1"></aegov-avatar>
+  <aegov-avatar src="https://i.pravatar.cc/150?img=5" alt="User 2"></aegov-avatar>
+  <aegov-avatar src="https://i.pravatar.cc/150?img=12" alt="User 3"></aegov-avatar>
+</aegov-avatar-group>
+```
+
+<div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
+  <aegov-avatar-group size="sm xl:2xl">
+    <aegov-avatar src="https://i.pravatar.cc/150?img=1" alt="User 1"></aegov-avatar>
+    <aegov-avatar src="https://i.pravatar.cc/150?img=5" alt="User 2"></aegov-avatar>
+    <aegov-avatar src="https://i.pravatar.cc/150?img=12" alt="User 3"></aegov-avatar>
+  </aegov-avatar-group>
+</div>
+
+> **Graceful degradation:** Unknown breakpoint names and invalid values are silently ignored. An unrecognised base value falls back to the component default.
+
 ---
 
 ## More Indicator
@@ -232,7 +256,7 @@ The compact mode uses `margin-inline-start` for overlap, which automatically rev
 | Property    | Attribute    | Description                                       | Type                                                                    | Default     |
 |-------------|--------------|---------------------------------------------------|-------------------------------------------------------------------------|-------------|
 | `mode`      | `mode`       | Layout mode                                       | `'default'` \| `'compact'`                                             | `'default'` |
-| `size`      | `size`       | Size enforced on all child avatars                | `'xs'` \| `'sm'` \| `'base'` \| `'lg'` \| `'xl'` \| `'2xl'` \| `'3xl'` | `'base'`    |
+| `size`      | `size`       | Size enforced on all child avatars. Supports responsive strings (e.g. `'sm xl:2xl'`). | `'xs'` \| `'sm'` \| `'base'` \| `'lg'` \| `'xl'` \| `'2xl'` \| `'3xl'` | `'base'`    |
 | `moreCount` | `more-count` | Number of additional users not shown              | `number`                                                                | `0`         |
 | `moreText`  | `more-text`  | Custom label for the "more" indicator             | `string`                                                                | —           |
 

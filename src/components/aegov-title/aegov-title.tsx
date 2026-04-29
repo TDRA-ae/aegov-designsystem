@@ -1,11 +1,9 @@
-import { Component, Prop, Watch, Element, h, Host } from '@stencil/core';
+import { Component, Prop, Watch, State, Element, h, Host } from '@stencil/core';
+import { watchResponsiveProp } from '../../utils/responsive-prop';
+import type { ResponsivePropWatcher } from '../../utils/responsive-prop';
 import { TITLE_SIZES } from '../../utils/types';
 import type { TitleSize } from '../../utils/types';
 import { getPassThroughAttributes } from '../../utils/attributes';
-import { warnIfInvalidEnumProp } from '../../utils/prop-validator';
-
-const TAG = 'aegov-title';
-const ctx = (prop: string) => ({ component: TAG, prop });
 
 /**
  * @slot default - The title content
@@ -21,9 +19,12 @@ export class AegovTitle {
 
   /**
    * The size of the title text.
-   * @default 'base'
+   * @default 'lg'
    */
-  @Prop() size: TitleSize = 'lg';
+  @Prop() size: string = 'lg';
+
+  @State() private _resolvedSize: TitleSize = 'lg';
+  private _sizeWatcher: ResponsivePropWatcher | null = null;
 
   /**
    * Additional CSS classes to apply to the title.
@@ -33,11 +34,24 @@ export class AegovTitle {
   private static readonly PASS_THROUGH_ATTRS = new Set(['id']);
 
   componentWillLoad() {
-    warnIfInvalidEnumProp(this.size, TITLE_SIZES, 'lg', ctx('size'));
+    this._sizeWatcher = watchResponsiveProp(this.size, TITLE_SIZES, 'lg', v => {
+      this._resolvedSize = v as TitleSize;
+    });
+    this._resolvedSize = this._sizeWatcher.current as TitleSize;
+  }
+
+  disconnectedCallback() {
+    this._sizeWatcher?.destroy();
   }
 
   @Watch('size')
-  onSizeChange(v: unknown) { warnIfInvalidEnumProp(v, TITLE_SIZES, 'lg', ctx('size')); }
+  onSizeChange() {
+    this._sizeWatcher?.destroy();
+    this._sizeWatcher = watchResponsiveProp(this.size, TITLE_SIZES, 'lg', v => {
+      this._resolvedSize = v as TitleSize;
+    });
+    this._resolvedSize = this._sizeWatcher.current as TitleSize;
+  }
 
   /**
    * Get the CSS classes based on component props
@@ -53,7 +67,7 @@ export class AegovTitle {
       '2xl': 'text-2xl',
     };
 
-    const size: TitleSize = (TITLE_SIZES as readonly string[]).includes(this.size) ? this.size : 'lg';
+    const size: TitleSize = this._resolvedSize;
     classes.push(sizeClasses[size]);
 
     // Merge with custom classes if provided

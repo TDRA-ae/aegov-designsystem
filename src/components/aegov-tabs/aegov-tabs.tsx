@@ -2,6 +2,8 @@ import { Component, Prop, State, Event, EventEmitter, Element, Listen, Watch, h 
 import { TAB_VARIANTS, TAB_SIZES, TAB_ORIENTATIONS } from '../../utils/types';
 import type { TabVariant, TabSize, TabOrientation } from '../../utils/types';
 import { warnIfInvalidEnumProp } from '../../utils/prop-validator';
+import { watchResponsiveProp } from '../../utils/responsive-prop';
+import type { ResponsivePropWatcher } from '../../utils/responsive-prop';
 
 const TAG = 'aegov-tabs';
 const ctx = (prop: string) => ({ component: TAG, prop });
@@ -49,7 +51,9 @@ export class AegovTabs {
   /**
    * Size of the tabs.
    */
-  @Prop() size: TabSize = 'base';
+  @Prop() size: string = 'base';
+  @State() private _resolvedSize: TabSize = 'base';
+  private _sizeWatcher: ResponsivePropWatcher | null = null;
 
   /**
    * Enables horizontal scrolling when tabs overflow the container.
@@ -92,8 +96,12 @@ export class AegovTabs {
 
   componentWillLoad() {
     warnIfInvalidEnumProp(this.variant, TAB_VARIANTS, 'simple', ctx('variant'));
-    warnIfInvalidEnumProp(this.size, TAB_SIZES, 'base', ctx('size'));
     warnIfInvalidEnumProp(this.orientation, TAB_ORIENTATIONS, 'horizontal', ctx('orientation'));
+    this._sizeWatcher = watchResponsiveProp(this.size, TAB_SIZES, 'base', v => {
+      this._resolvedSize = v as TabSize;
+      if (this.el.isConnected) { this.syncChildren(); }
+    });
+    this._resolvedSize = this._sizeWatcher.current as TabSize;
     if (this.defaultActiveTab) {
       this.activeTabId = this.defaultActiveTab;
     } else {
@@ -115,6 +123,7 @@ export class AegovTabs {
   }
 
   disconnectedCallback() {
+    this._sizeWatcher?.destroy();
     if (this.scrollHandler && this.listEl) {
       this.listEl.removeEventListener('scroll', this.scrollHandler);
     }
@@ -142,9 +151,13 @@ export class AegovTabs {
   }
 
   @Watch('size')
-  onSizeChange(v: unknown) {
-    warnIfInvalidEnumProp(v, TAB_SIZES, 'base', ctx('size'));
-    this.syncChildren();
+  onSizeChange() {
+    this._sizeWatcher?.destroy();
+    this._sizeWatcher = watchResponsiveProp(this.size, TAB_SIZES, 'base', v => {
+      this._resolvedSize = v as TabSize;
+      if (this.el.isConnected) { this.syncChildren(); }
+    });
+    this._resolvedSize = this._sizeWatcher.current as TabSize;
   }
 
   @Watch('orientation')
@@ -174,7 +187,7 @@ export class AegovTabs {
     tabs.forEach((tab: any) => {
       tab.activeTabId = this.activeTabId;
       tab.variant = this.variant;
-      tab.size = this.size;
+      tab.size = this._resolvedSize;
       tab.orientation = this.orientation;
     });
 
@@ -274,7 +287,7 @@ export class AegovTabs {
 
   render() {
     const variant: TabVariant = (TAB_VARIANTS as readonly string[]).includes(this.variant) ? this.variant : 'simple';
-    const size: TabSize = (TAB_SIZES as readonly string[]).includes(this.size) ? this.size : 'base';
+    const size: TabSize = this._resolvedSize;
     const orientation: TabOrientation = (TAB_ORIENTATIONS as readonly string[]).includes(this.orientation) ? this.orientation : 'horizontal';
     return (
       <div class={`aegov-tabs tabs--${variant} tabs--${size}${this.stretch ? ' tabs--stretch' : ''}${orientation === 'vertical' ? ' tabs--vertical' : ''}`}>

@@ -19,13 +19,13 @@
   font-family: inherit;
   @apply w-full transition-all duration-300 ease-in-out ps-4 pe-2;
   & .banner__container {
-    @apply container py-2 flex items-start justify-between gap-4 mx-auto;
+    @apply container flex items-start justify-between gap-4 mx-auto;
 
     & .banner__content {
       @apply grow;
 
       &>.banner__text {
-        @apply text-base;
+        font-size: inherit;
       }
 
       &>.banner__text-center {
@@ -243,6 +243,23 @@
         }
       }
     }
+  }
+
+  /* ---- Size modifiers ---- */
+  &.banner--sm {
+    @apply text-sm;
+    & .banner__container { @apply py-1.5; }
+    & .banner__dismiss { @apply size-5; & > svg { @apply size-3.5; } }
+  }
+  &.banner--base {
+    @apply text-base;
+    & .banner__container { @apply py-2; }
+    & .banner__dismiss { @apply size-6; & > svg { @apply size-4; } }
+  }
+  &.banner--lg {
+    @apply text-lg;
+    & .banner__container { @apply py-3; }
+    & .banner__dismiss { @apply size-7; & > svg { @apply size-5; } }
   }
 
   &.banner--fixed {

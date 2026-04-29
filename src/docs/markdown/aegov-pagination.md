@@ -114,6 +114,22 @@ The `size` property controls the height, padding, and font size of all paginatio
   <aegov-pagination total-pages="10" current-page="3" size="lg"></aegov-pagination>
 </div>
 
+### Responsive Size
+
+The `size` prop accepts Tailwind-style responsive prefixes. Write a space-separated string where each token is either a plain value or `breakpoint:value`. The base value (no prefix) applies below the smallest specified breakpoint.
+
+Available breakpoints: `xs` (480px), `sm` (640px), `md` (768px), `lg` (1024px), `xl` (1280px), `2xl` (1536px), `3xl` (1680px).
+
+```html
+<aegov-pagination total-pages="10" current-page="3" size="sm xl:lg"></aegov-pagination>
+```
+
+<div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
+  <aegov-pagination total-pages="10" current-page="3" size="sm xl:lg"></aegov-pagination>
+</div>
+
+> **Graceful degradation:** Unknown breakpoint names and invalid values are silently ignored. An unrecognised base value falls back to the component default.
+
 ---
 
 ## Compact Variant
@@ -274,7 +290,7 @@ No additional configuration is needed — the component reads the inherited `dir
 | `totalPages`     | `total-pages`      | Total number of pages                                                       | `number`                      | `1`           |
 | `currentPage`    | `current-page`     | Currently active page (1-indexed). Must be updated on every page change event | `number`                      | `1`           |
 | `variant`        | `variant`          | Display variant                                                             | `'default'` \| `'compact'`   | `'default'`   |
-| `size`           | `size`             | Size of the pagination buttons                                              | `'sm'` \| `'base'` \| `'lg'` | `'base'`      |
+| `size`           | `size`             | Size of the pagination buttons. Supports responsive strings (e.g. `'sm xl:lg'`). | `'sm'` \| `'base'` \| `'lg'` | `'base'`      |
 | `siblingCount`   | `sibling-count`    | Number of sibling pages shown on each side of the current page              | `number`                      | `1`           |
 | `boundaryCount`  | `boundary-count`   | Number of pages always visible at each boundary                             | `number`                      | `1`           |
 | `showFirstLast`  | `show-first-last`  | Show First and Last navigation buttons                                      | `boolean`                     | `false`        |
