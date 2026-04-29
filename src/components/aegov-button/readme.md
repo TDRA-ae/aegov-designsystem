@@ -29,7 +29,7 @@ Buttons are the primary interactive elements in user interfaces. This component 
 | `full`       | `full`       | Whether the button should take full width       | `boolean`                                                              | `false`     |
 | `icon`       | `icon`       | Whether the button is only an icon              | `boolean`                                                              | `false`     |
 | `loading`    | `loading`    | Whether the button is in a loading state        | `boolean`                                                              | `false`     |
-| `size`       | `size`       | The button size                                 | `"base" \| "lg" \| "sm" \| "xl" \| "xs"`                               | `'base'`    |
+| `size`       | `size`       | The button size                                 | `string`                                                               | `'base'`    |
 | `type`       | `type`       | The button type attribute                       | `"button" \| "reset" \| "submit"`                                      | `'button'`  |
 | `variant`    | `variant`    | The button variant style                        | `"link" \| "outline" \| "soft" \| "solid"`                             | `'solid'`   |
 

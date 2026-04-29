@@ -1,11 +1,9 @@
-import { Component, Prop, Watch, Element, h, Host } from '@stencil/core';
+import { Component, Prop, Watch, State, Element, h, Host } from '@stencil/core';
+import { watchResponsiveProp } from '../../utils/responsive-prop';
+import type { ResponsivePropWatcher } from '../../utils/responsive-prop';
 import { TEXT_SIZES } from '../../utils/types';
 import type { TextSize } from '../../utils/types';
 import { getPassThroughAttributes } from '../../utils/attributes';
-import { warnIfInvalidEnumProp } from '../../utils/prop-validator';
-
-const TAG = 'aegov-text';
-const ctx = (prop: string) => ({ component: TAG, prop });
 
 /**
  * @slot default - The text content
@@ -23,7 +21,10 @@ export class AegovText {
    * The size of the text.
    * @default 'base'
    */
-  @Prop() size: TextSize = 'base';
+  @Prop() size: string = 'base';
+
+  @State() private _resolvedSize: TextSize = 'base';
+  private _sizeWatcher: ResponsivePropWatcher | null = null;
 
   /**
    * Additional CSS classes to apply to the text.
@@ -33,11 +34,24 @@ export class AegovText {
   private static readonly PASS_THROUGH_ATTRS = new Set(['id']);
 
   componentWillLoad() {
-    warnIfInvalidEnumProp(this.size, TEXT_SIZES, 'base', ctx('size'));
+    this._sizeWatcher = watchResponsiveProp(this.size, TEXT_SIZES, 'base', v => {
+      this._resolvedSize = v as TextSize;
+    });
+    this._resolvedSize = this._sizeWatcher.current as TextSize;
+  }
+
+  disconnectedCallback() {
+    this._sizeWatcher?.destroy();
   }
 
   @Watch('size')
-  onSizeChange(v: unknown) { warnIfInvalidEnumProp(v, TEXT_SIZES, 'base', ctx('size')); }
+  onSizeChange() {
+    this._sizeWatcher?.destroy();
+    this._sizeWatcher = watchResponsiveProp(this.size, TEXT_SIZES, 'base', v => {
+      this._resolvedSize = v as TextSize;
+    });
+    this._resolvedSize = this._sizeWatcher.current as TextSize;
+  }
 
   /**
    * Get the CSS classes based on component props
@@ -52,7 +66,7 @@ export class AegovText {
       lg: 'text-lg',
     };
 
-    const size: TextSize = (TEXT_SIZES as readonly string[]).includes(this.size) ? this.size : 'base';
+    const size: TextSize = this._resolvedSize;
     classes.push(sizeClasses[size]);
 
     // Merge with custom classes if provided

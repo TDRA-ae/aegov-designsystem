@@ -134,6 +134,28 @@ The `size` property controls the height, padding, and font size of the select tr
   </aegov-select>
 </div>
 
+### Responsive Size
+
+The `size` prop accepts Tailwind-style responsive prefixes. Write a space-separated string where each token is either a plain value or `breakpoint:value`. The base value (no prefix) applies below the smallest specified breakpoint.
+
+Available breakpoints: `xs` (480px), `sm` (640px), `md` (768px), `lg` (1024px), `xl` (1280px), `2xl` (1536px), `3xl` (1680px).
+
+```html
+<aegov-select size="sm xl:lg" placeholder="Responsive select" variant="listbox">
+  <aegov-select-option value="a">Option A</aegov-select-option>
+  <aegov-select-option value="b">Option B</aegov-select-option>
+</aegov-select>
+```
+
+<div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
+  <aegov-select size="sm xl:lg" placeholder="Responsive select" variant="listbox">
+    <aegov-select-option value="a">Option A</aegov-select-option>
+    <aegov-select-option value="b">Option B</aegov-select-option>
+  </aegov-select>
+</div>
+
+> **Graceful degradation:** Unknown breakpoint names and invalid values are silently ignored. An unrecognised base value falls back to the component default.
+
 ---
 
 ## Placeholder
@@ -612,7 +634,7 @@ No additional configuration is needed -- the component reads the inherited `dir`
 |----------------|------------------|----------------------------------------------------------------------------------------------|-----------------------------------|----------------------|
 | `fieldId`      | `field-id`       | Unique ID for the select element. Auto-generated if not provided.                            | `string`                          | auto                 |
 | `variant`      | `variant`        | The visual variant. `'default'` renders a native select; `'listbox'` renders a custom dropdown. | `'default'` \| `'listbox'`       | `'default'`          |
-| `size`         | `size`           | The size of the select. Matches aegov-input heights.                                         | `'xs'` \| `'sm'` \| `'base'` \| `'lg'` \| `'xl'` | `'base'`             |
+| `size`         | `size`           | The size of the select. Matches aegov-input heights. Supports responsive strings (e.g. `'sm xl:lg'`). | `'xs'` \| `'sm'` \| `'base'` \| `'lg'` \| `'xl'` | `'base'`             |
 | `multiple`     | `multiple`       | Whether multiple selection is enabled. Forces listbox behaviour.                             | `boolean`                         | `false`              |
 | `disabled`     | `disabled`       | Whether the select is disabled.                                                              | `boolean`                         | `false`              |
 | `placeholder`  | `placeholder`    | Placeholder text shown when nothing is selected.                                             | `string`                          | `undefined`          |

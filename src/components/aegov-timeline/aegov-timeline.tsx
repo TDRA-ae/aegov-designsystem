@@ -1,8 +1,10 @@
-import { Component, Prop, Element, Watch, h } from '@stencil/core';
+import { Component, Prop, State, Element, Watch, h } from '@stencil/core';
 import { TIMELINE_VARIANTS, TIMELINE_SIZES, TIMELINE_ORIENTATIONS } from '../../utils/types';
 import type { TimelineVariant, TimelineSize, TimelineOrientation } from '../../utils/types';
 import { getPassThroughAttributes } from '../../utils/attributes';
 import { warnIfInvalidEnumProp } from '../../utils/prop-validator';
+import { watchResponsiveProp } from '../../utils/responsive-prop';
+import type { ResponsivePropWatcher } from '../../utils/responsive-prop';
 
 const TAG = 'aegov-timeline';
 const ctx = (prop: string) => ({ component: TAG, prop });
@@ -23,7 +25,9 @@ export class AegovTimeline {
   /**
    * Size of step indicators.
    */
-  @Prop() size: TimelineSize = 'base';
+  @Prop() size: string = 'base';
+  @State() private _resolvedSize: TimelineSize = 'base';
+  private _sizeWatcher: ResponsivePropWatcher | null = null;
 
   /**
    * Layout orientation.
@@ -44,7 +48,7 @@ export class AegovTimeline {
 
     steps.forEach((step, index) => {
       step.variant = this.variant;
-      step.size = this.size;
+      step.size = this._resolvedSize;
       step.orientation = this.orientation;
       step.stepIndex = index;
       step.stepCount = steps.length;
@@ -56,8 +60,12 @@ export class AegovTimeline {
 
   componentWillLoad() {
     warnIfInvalidEnumProp(this.variant, TIMELINE_VARIANTS, 'default', ctx('variant'));
-    warnIfInvalidEnumProp(this.size, TIMELINE_SIZES, 'base', ctx('size'));
     warnIfInvalidEnumProp(this.orientation, TIMELINE_ORIENTATIONS, 'horizontal', ctx('orientation'));
+    this._sizeWatcher = watchResponsiveProp(this.size, TIMELINE_SIZES, 'base', v => {
+      this._resolvedSize = v as TimelineSize;
+      if (this.el.isConnected) { this.updateSteps(); }
+    });
+    this._resolvedSize = this._sizeWatcher.current as TimelineSize;
   }
 
   @Watch('variant')
@@ -66,10 +74,18 @@ export class AegovTimeline {
     this.updateSteps();
   }
 
+  disconnectedCallback() {
+    this._sizeWatcher?.destroy();
+  }
+
   @Watch('size')
-  onSizeChange(v: unknown) {
-    warnIfInvalidEnumProp(v, TIMELINE_SIZES, 'base', ctx('size'));
-    this.updateSteps();
+  onSizeChange() {
+    this._sizeWatcher?.destroy();
+    this._sizeWatcher = watchResponsiveProp(this.size, TIMELINE_SIZES, 'base', v => {
+      this._resolvedSize = v as TimelineSize;
+      if (this.el.isConnected) { this.updateSteps(); }
+    });
+    this._resolvedSize = this._sizeWatcher.current as TimelineSize;
   }
 
   @Watch('orientation')

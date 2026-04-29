@@ -2,6 +2,8 @@ import { Component, Prop, Watch, h, Host, State } from '@stencil/core';
 import { AVATAR_SIZES, AVATAR_VARIANTS } from '../../utils/types';
 import type { AvatarSize, AvatarVariant, AvatarStatus } from '../../utils/types';
 import { warnIfInvalidEnumProp } from '../../utils/prop-validator';
+import { watchResponsiveProp } from '../../utils/responsive-prop';
+import type { ResponsivePropWatcher } from '../../utils/responsive-prop';
 
 const TAG = 'aegov-avatar';
 const ctx = (prop: string) => ({ component: TAG, prop });
@@ -22,7 +24,10 @@ export class AegovAvatar {
    * The avatar size
    * @default 'base'
    */
-  @Prop() size: AvatarSize = 'base';
+  @Prop() size: string = 'base';
+
+  @State() private _resolvedSize: AvatarSize = 'base';
+  private _sizeWatcher: ResponsivePropWatcher | null = null;
 
   /**
    * The avatar variant (shape)
@@ -52,12 +57,25 @@ export class AegovAvatar {
   @State() imageError: boolean = false;
 
   componentWillLoad() {
-    warnIfInvalidEnumProp(this.size, AVATAR_SIZES, 'base', ctx('size'));
     warnIfInvalidEnumProp(this.variant, AVATAR_VARIANTS, 'square', ctx('variant'));
+    this._sizeWatcher = watchResponsiveProp(this.size, AVATAR_SIZES, 'base', v => {
+      this._resolvedSize = v as AvatarSize;
+    });
+    this._resolvedSize = this._sizeWatcher.current as AvatarSize;
+  }
+
+  disconnectedCallback() {
+    this._sizeWatcher?.destroy();
   }
 
   @Watch('size')
-  onSizeChange(v: unknown) { warnIfInvalidEnumProp(v, AVATAR_SIZES, 'base', ctx('size')); }
+  onSizeChange() {
+    this._sizeWatcher?.destroy();
+    this._sizeWatcher = watchResponsiveProp(this.size, AVATAR_SIZES, 'base', v => {
+      this._resolvedSize = v as AvatarSize;
+    });
+    this._resolvedSize = this._sizeWatcher.current as AvatarSize;
+  }
 
   @Watch('variant')
   onVariantChange(v: unknown) { warnIfInvalidEnumProp(v, AVATAR_VARIANTS, 'square', ctx('variant')); }
@@ -75,7 +93,7 @@ export class AegovAvatar {
   private getAvatarClasses(): string {
     const classes: string[] = ['aegov-avatar'];
 
-    const size: AvatarSize = (AVATAR_SIZES as readonly string[]).includes(this.size) ? this.size : 'base';
+    const size: AvatarSize = this._resolvedSize;
     const variant: AvatarVariant = (AVATAR_VARIANTS as readonly string[]).includes(this.variant) ? this.variant : 'square';
 
     // Size classes

@@ -5,9 +5,9 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
-import { AccordionIcon, AccordionSize, AspectRatioFit, AspectRatioPreset, AvatarGroupMode, AvatarSize, AvatarStatus, AvatarVariant, BadgeAppearance, BadgeColor, BadgeSize, BannerDisplay, BannerMode, BannerPosition, BannerRole, BlockquoteVariant, BreadcrumbSeparator, ButtonAppearance, ButtonGroupOrientation, ButtonGroupPosition, ButtonSize, ButtonType, ButtonVariant, CalloutAppearance, CalloutSize, CalloutVariant, CardBackground, CardBorderStyle, CardBorderWidth, CardHover, CheckboxGroupOrientation, CheckboxGroupVariant, CheckboxSize, DatepickerChangeDetail, DatepickerMode, DatepickerMonthChangeDetail, DrawerAnimation, DrawerOverlayOpacity, DrawerPosition, DropdownAlign, DropdownPosition, DropdownTrigger, FileuploadSize, FileuploadVariant, HeaderVariant, InputSize, InputType, LinkTarget, ModalBackdropOpacity, ModalPosition, OtpSize, OtpVariant, PaginationSize, PaginationVariant, PopoverAlign, PopoverPosition, PopoverTrigger, ProgressCounter, RadioGroupOrientation, RadioGroupVariant, RadioSize, RangeDisplay, RangeMode, RangeOrientation, RangeSize, SelectChangeDetail, SelectSize, SelectVariant, TabOrientation, TabSize, TabVariant, TextareaResize, TextareaSize, TextSize, TimelineOrientation, TimelineSize, TimelineStepStatus, TimelineVariant, TitleSize, ToastAppearance, ToastMode, ToastPosition, ToastVariant, ToggleSize, TooltipAlign, TooltipPosition, TooltipTrigger } from "./utils/types";
+import { AccordionIcon, AccordionSize, AspectRatioFit, AspectRatioPreset, AvatarGroupMode, AvatarStatus, AvatarVariant, BadgeAppearance, BadgeColor, BannerDisplay, BannerMode, BannerPosition, BannerRole, BlockquoteVariant, BreadcrumbSeparator, ButtonAppearance, ButtonGroupOrientation, ButtonGroupPosition, ButtonType, ButtonVariant, CalloutAppearance, CalloutVariant, CardBackground, CardBorderStyle, CardBorderWidth, CardHover, CheckboxGroupOrientation, CheckboxGroupVariant, DatepickerChangeDetail, DatepickerMode, DatepickerMonthChangeDetail, DrawerAnimation, DrawerOverlayOpacity, DrawerPosition, DropdownAlign, DropdownPosition, DropdownTrigger, FileuploadVariant, HeaderVariant, InputType, LinkTarget, ModalBackdropOpacity, ModalPosition, OtpVariant, PaginationVariant, PopoverAlign, PopoverPosition, PopoverTrigger, ProgressCounter, RadioGroupOrientation, RadioGroupVariant, RangeDisplay, RangeMode, RangeOrientation, SelectChangeDetail, SelectVariant, TabOrientation, TabVariant, TextareaResize, TimelineOrientation, TimelineSize, TimelineStepStatus, TimelineVariant, ToastAppearance, ToastMode, ToastPosition, ToastVariant, TooltipAlign, TooltipPosition, TooltipTrigger } from "./utils/types";
 import { Event } from "@stencil/core";
-export { AccordionIcon, AccordionSize, AspectRatioFit, AspectRatioPreset, AvatarGroupMode, AvatarSize, AvatarStatus, AvatarVariant, BadgeAppearance, BadgeColor, BadgeSize, BannerDisplay, BannerMode, BannerPosition, BannerRole, BlockquoteVariant, BreadcrumbSeparator, ButtonAppearance, ButtonGroupOrientation, ButtonGroupPosition, ButtonSize, ButtonType, ButtonVariant, CalloutAppearance, CalloutSize, CalloutVariant, CardBackground, CardBorderStyle, CardBorderWidth, CardHover, CheckboxGroupOrientation, CheckboxGroupVariant, CheckboxSize, DatepickerChangeDetail, DatepickerMode, DatepickerMonthChangeDetail, DrawerAnimation, DrawerOverlayOpacity, DrawerPosition, DropdownAlign, DropdownPosition, DropdownTrigger, FileuploadSize, FileuploadVariant, HeaderVariant, InputSize, InputType, LinkTarget, ModalBackdropOpacity, ModalPosition, OtpSize, OtpVariant, PaginationSize, PaginationVariant, PopoverAlign, PopoverPosition, PopoverTrigger, ProgressCounter, RadioGroupOrientation, RadioGroupVariant, RadioSize, RangeDisplay, RangeMode, RangeOrientation, RangeSize, SelectChangeDetail, SelectSize, SelectVariant, TabOrientation, TabSize, TabVariant, TextareaResize, TextareaSize, TextSize, TimelineOrientation, TimelineSize, TimelineStepStatus, TimelineVariant, TitleSize, ToastAppearance, ToastMode, ToastPosition, ToastVariant, ToggleSize, TooltipAlign, TooltipPosition, TooltipTrigger } from "./utils/types";
+export { AccordionIcon, AccordionSize, AspectRatioFit, AspectRatioPreset, AvatarGroupMode, AvatarStatus, AvatarVariant, BadgeAppearance, BadgeColor, BannerDisplay, BannerMode, BannerPosition, BannerRole, BlockquoteVariant, BreadcrumbSeparator, ButtonAppearance, ButtonGroupOrientation, ButtonGroupPosition, ButtonType, ButtonVariant, CalloutAppearance, CalloutVariant, CardBackground, CardBorderStyle, CardBorderWidth, CardHover, CheckboxGroupOrientation, CheckboxGroupVariant, DatepickerChangeDetail, DatepickerMode, DatepickerMonthChangeDetail, DrawerAnimation, DrawerOverlayOpacity, DrawerPosition, DropdownAlign, DropdownPosition, DropdownTrigger, FileuploadVariant, HeaderVariant, InputType, LinkTarget, ModalBackdropOpacity, ModalPosition, OtpVariant, PaginationVariant, PopoverAlign, PopoverPosition, PopoverTrigger, ProgressCounter, RadioGroupOrientation, RadioGroupVariant, RangeDisplay, RangeMode, RangeOrientation, SelectChangeDetail, SelectVariant, TabOrientation, TabVariant, TextareaResize, TimelineOrientation, TimelineSize, TimelineStepStatus, TimelineVariant, ToastAppearance, ToastMode, ToastPosition, ToastVariant, TooltipAlign, TooltipPosition, TooltipTrigger } from "./utils/types";
 export { Event } from "@stencil/core";
 export namespace Components {
     /**
@@ -37,7 +37,7 @@ export namespace Components {
           * Size of the accordion items — controls heading font size. sm = 14px, base = 16px (default), lg = 18px
           * @default 'base'
          */
-        "size": AccordionSize;
+        "size": string;
     }
     /**
      * Accordion item component
@@ -112,7 +112,7 @@ export namespace Components {
           * The avatar size
           * @default 'base'
          */
-        "size": AvatarSize;
+        "size": string;
         /**
           * The image source URL
          */
@@ -147,7 +147,7 @@ export namespace Components {
           * The size enforced on all child avatars
           * @default 'base'
          */
-        "size": AvatarSize;
+        "size": string;
     }
     interface AegovBadge {
         /**
@@ -169,7 +169,7 @@ export namespace Components {
           * The badge size
           * @default 'base'
          */
-        "size": BadgeSize;
+        "size": string;
     }
     interface AegovBanner {
         /**
@@ -210,6 +210,11 @@ export namespace Components {
           * @default 'top'
          */
         "position": BannerPosition;
+        /**
+          * Size of the banner. Controls font size and vertical padding. Accepts a plain value (`"sm"`, `"base"`, `"lg"`) or a responsive string using Tailwind-style breakpoint prefixes (`"sm xl:lg"`).
+          * @default 'base'
+         */
+        "size": string;
         /**
           * The variant of the banner. Determines the color scheme.
           * @default 'default'
@@ -334,7 +339,7 @@ export namespace Components {
           * The button size
           * @default 'base'
          */
-        "size": ButtonSize;
+        "size": string;
         /**
           * The button type attribute
           * @default 'button'
@@ -365,10 +370,10 @@ export namespace Components {
          */
         "dismissible": boolean;
         /**
-          * The size of the callout. Controls font size, icon size, and padding.
+          * The size of the callout. Controls font size, icon size, and padding. Accepts a plain value (`"sm"`, `"base"`, `"lg"`) or a responsive string using Tailwind-style breakpoint prefixes (`"sm xl:lg"`).
           * @default 'base'
          */
-        "size": CalloutSize;
+        "size": string;
         /**
           * The variant of the callout. Determines the color scheme.
           * @default 'default'
@@ -452,7 +457,7 @@ export namespace Components {
           * The size of the checkbox.
           * @default 'base'
          */
-        "size": CheckboxSize;
+        "size": string;
         /**
           * The value attribute for the checkbox.
          */
@@ -481,7 +486,7 @@ export namespace Components {
           * Size of all checkboxes in the group. Propagated to children.
           * @default 'base'
          */
-        "size": CheckboxSize;
+        "size": string;
         /**
           * Visual variant for the group layout.
           * @default 'default'
@@ -584,7 +589,7 @@ export namespace Components {
           * The size of the datepicker input.
           * @default 'base'
          */
-        "size": InputSize;
+        "size": string;
         /**
           * Week start day: 0=Sunday, 1=Monday, ...6=Saturday
           * @default 0
@@ -779,7 +784,7 @@ export namespace Components {
           * Component size.
           * @default 'base'
          */
-        "size": FileuploadSize;
+        "size": string;
         /**
           * Variant style: 'default' (styled input + button), 'button' (hidden input, label-as-button), or 'dropzone' (drag-and-drop area).
           * @default 'default'
@@ -856,7 +861,7 @@ export namespace Components {
           * The size of the input field.
           * @default 'base'
          */
-        "size": InputSize;
+        "size": string;
         /**
           * The type of the input field.
           * @default 'text'
@@ -885,7 +890,7 @@ export namespace Components {
           * The size of the input group. Propagated to child aegov-input and aegov-button.
           * @default 'base'
          */
-        "size": InputSize;
+        "size": string;
     }
     interface AegovLabel {
         /**
@@ -995,7 +1000,7 @@ export namespace Components {
           * Size of the input cells. Maps to text size: xs, sm, base, lg, xl, 2xl.
           * @default 'base'
          */
-        "size": OtpSize;
+        "size": string;
         /**
           * Current OTP value. Can be set externally to pre-fill cells.
           * @default ''
@@ -1057,7 +1062,7 @@ export namespace Components {
           * Size variant of the pagination.
           * @default 'base'
          */
-        "size": PaginationSize;
+        "size": string;
         /**
           * Total number of pages.
           * @default 1
@@ -1191,7 +1196,7 @@ export namespace Components {
           * The size of the radio.
           * @default 'base'
          */
-        "size": RadioSize;
+        "size": string;
         /**
           * The value attribute for the radio.
          */
@@ -1224,7 +1229,7 @@ export namespace Components {
           * Size of all radios in the group. Propagated to children.
           * @default 'base'
          */
-        "size": RadioSize;
+        "size": string;
         /**
           * Visual variant for the group layout.
           * @default 'default'
@@ -1287,7 +1292,7 @@ export namespace Components {
           * Size of the range track. Thumb remains constant.
           * @default 'base'
          */
-        "size": RangeSize;
+        "size": string;
         /**
           * Step increment.
           * @default 1
@@ -1360,7 +1365,7 @@ export namespace Components {
           * The size of the select. Matches aegov-input height.
           * @default 'base'
          */
-        "size": SelectSize;
+        "size": string;
         /**
           * The current selected value. For multiple, a comma-separated string.
           * @default ''
@@ -1449,7 +1454,7 @@ export namespace Components {
           * Size of the tab. Set automatically by the parent aegov-tabs.
           * @default 'base'
          */
-        "size": TabSize;
+        "size": string;
         /**
           * Unique identifier that must match the corresponding aegov-tab-panel's tab-id.
          */
@@ -1511,7 +1516,7 @@ export namespace Components {
           * Size of the tabs.
           * @default 'base'
          */
-        "size": TabSize;
+        "size": string;
         /**
           * Distributes tabs evenly to fill the full width of the container. Each tab grows equally to occupy available space.
           * @default false
@@ -1537,7 +1542,7 @@ export namespace Components {
           * The size of the text.
           * @default 'base'
          */
-        "size": TextSize;
+        "size": string;
     }
     interface AegovTextarea {
         /**
@@ -1589,7 +1594,7 @@ export namespace Components {
           * The size of the textarea (affects font size only).
           * @default 'base'
          */
-        "size": TextareaSize;
+        "size": string;
         /**
           * The current value of the textarea.
           * @default ''
@@ -1606,7 +1611,7 @@ export namespace Components {
           * Size of step indicators.
           * @default 'base'
          */
-        "size": TimelineSize;
+        "size": string;
         /**
           * Visual variant: default (numbered circles) or compact (dots).
           * @default 'default'
@@ -1663,9 +1668,9 @@ export namespace Components {
         "class"?: string;
         /**
           * The size of the title text.
-          * @default 'base'
+          * @default 'lg'
          */
-        "size": TitleSize;
+        "size": string;
     }
     interface AegovToast {
         /**
@@ -1748,7 +1753,7 @@ export namespace Components {
           * The size of the toggle.
           * @default 'base'
          */
-        "size": ToggleSize;
+        "size": string;
         /**
           * The value attribute for the toggle.
          */
@@ -2697,7 +2702,7 @@ declare namespace LocalJSX {
           * Size of the accordion items — controls heading font size. sm = 14px, base = 16px (default), lg = 18px
           * @default 'base'
          */
-        "size"?: AccordionSize;
+        "size"?: string;
     }
     /**
      * Accordion item component
@@ -2776,7 +2781,7 @@ declare namespace LocalJSX {
           * The avatar size
           * @default 'base'
          */
-        "size"?: AvatarSize;
+        "size"?: string;
         /**
           * The image source URL
          */
@@ -2815,7 +2820,7 @@ declare namespace LocalJSX {
           * The size enforced on all child avatars
           * @default 'base'
          */
-        "size"?: AvatarSize;
+        "size"?: string;
     }
     interface AegovBadge {
         /**
@@ -2841,7 +2846,7 @@ declare namespace LocalJSX {
           * The badge size
           * @default 'base'
          */
-        "size"?: BadgeSize;
+        "size"?: string;
     }
     interface AegovBanner {
         /**
@@ -2890,6 +2895,11 @@ declare namespace LocalJSX {
           * @default 'top'
          */
         "position"?: BannerPosition;
+        /**
+          * Size of the banner. Controls font size and vertical padding. Accepts a plain value (`"sm"`, `"base"`, `"lg"`) or a responsive string using Tailwind-style breakpoint prefixes (`"sm xl:lg"`).
+          * @default 'base'
+         */
+        "size"?: string;
         /**
           * The variant of the banner. Determines the color scheme.
           * @default 'default'
@@ -3030,7 +3040,7 @@ declare namespace LocalJSX {
           * The button size
           * @default 'base'
          */
-        "size"?: ButtonSize;
+        "size"?: string;
         /**
           * The button type attribute
           * @default 'button'
@@ -3065,10 +3075,10 @@ declare namespace LocalJSX {
          */
         "onAegovCalloutDismiss"?: (event: AegovCalloutCustomEvent<void>) => void;
         /**
-          * The size of the callout. Controls font size, icon size, and padding.
+          * The size of the callout. Controls font size, icon size, and padding. Accepts a plain value (`"sm"`, `"base"`, `"lg"`) or a responsive string using Tailwind-style breakpoint prefixes (`"sm xl:lg"`).
           * @default 'base'
          */
-        "size"?: CalloutSize;
+        "size"?: string;
         /**
           * The variant of the callout. Determines the color scheme.
           * @default 'default'
@@ -3156,7 +3166,7 @@ declare namespace LocalJSX {
           * The size of the checkbox.
           * @default 'base'
          */
-        "size"?: CheckboxSize;
+        "size"?: string;
         /**
           * The value attribute for the checkbox.
          */
@@ -3189,7 +3199,7 @@ declare namespace LocalJSX {
           * Size of all checkboxes in the group. Propagated to children.
           * @default 'base'
          */
-        "size"?: CheckboxSize;
+        "size"?: string;
         /**
           * Visual variant for the group layout.
           * @default 'default'
@@ -3281,7 +3291,7 @@ declare namespace LocalJSX {
           * The size of the datepicker input.
           * @default 'base'
          */
-        "size"?: InputSize;
+        "size"?: string;
         /**
           * Week start day: 0=Sunday, 1=Monday, ...6=Saturday
           * @default 0
@@ -3496,7 +3506,7 @@ declare namespace LocalJSX {
           * Component size.
           * @default 'base'
          */
-        "size"?: FileuploadSize;
+        "size"?: string;
         /**
           * Variant style: 'default' (styled input + button), 'button' (hidden input, label-as-button), or 'dropzone' (drag-and-drop area).
           * @default 'default'
@@ -3589,7 +3599,7 @@ declare namespace LocalJSX {
           * The size of the input field.
           * @default 'base'
          */
-        "size"?: InputSize;
+        "size"?: string;
         /**
           * The type of the input field.
           * @default 'text'
@@ -3618,7 +3628,7 @@ declare namespace LocalJSX {
           * The size of the input group. Propagated to child aegov-input and aegov-button.
           * @default 'base'
          */
-        "size"?: InputSize;
+        "size"?: string;
     }
     interface AegovLabel {
         /**
@@ -3748,7 +3758,7 @@ declare namespace LocalJSX {
           * Size of the input cells. Maps to text size: xs, sm, base, lg, xl, 2xl.
           * @default 'base'
          */
-        "size"?: OtpSize;
+        "size"?: string;
         /**
           * Current OTP value. Can be set externally to pre-fill cells.
           * @default ''
@@ -3814,7 +3824,7 @@ declare namespace LocalJSX {
           * Size variant of the pagination.
           * @default 'base'
          */
-        "size"?: PaginationSize;
+        "size"?: string;
         /**
           * Total number of pages.
           * @default 1
@@ -3960,7 +3970,7 @@ declare namespace LocalJSX {
           * The size of the radio.
           * @default 'base'
          */
-        "size"?: RadioSize;
+        "size"?: string;
         /**
           * The value attribute for the radio.
          */
@@ -3997,7 +4007,7 @@ declare namespace LocalJSX {
           * Size of all radios in the group. Propagated to children.
           * @default 'base'
          */
-        "size"?: RadioSize;
+        "size"?: string;
         /**
           * Visual variant for the group layout.
           * @default 'default'
@@ -4068,7 +4078,7 @@ declare namespace LocalJSX {
           * Size of the range track. Thumb remains constant.
           * @default 'base'
          */
-        "size"?: RangeSize;
+        "size"?: string;
         /**
           * Step increment.
           * @default 1
@@ -4153,7 +4163,7 @@ declare namespace LocalJSX {
           * The size of the select. Matches aegov-input height.
           * @default 'base'
          */
-        "size"?: SelectSize;
+        "size"?: string;
         /**
           * The current selected value. For multiple, a comma-separated string.
           * @default ''
@@ -4247,7 +4257,7 @@ declare namespace LocalJSX {
           * Size of the tab. Set automatically by the parent aegov-tabs.
           * @default 'base'
          */
-        "size"?: TabSize;
+        "size"?: string;
         /**
           * Unique identifier that must match the corresponding aegov-tab-panel's tab-id.
          */
@@ -4314,7 +4324,7 @@ declare namespace LocalJSX {
           * Size of the tabs.
           * @default 'base'
          */
-        "size"?: TabSize;
+        "size"?: string;
         /**
           * Distributes tabs evenly to fill the full width of the container. Each tab grows equally to occupy available space.
           * @default false
@@ -4340,7 +4350,7 @@ declare namespace LocalJSX {
           * The size of the text.
           * @default 'base'
          */
-        "size"?: TextSize;
+        "size"?: string;
     }
     interface AegovTextarea {
         /**
@@ -4408,7 +4418,7 @@ declare namespace LocalJSX {
           * The size of the textarea (affects font size only).
           * @default 'base'
          */
-        "size"?: TextareaSize;
+        "size"?: string;
         /**
           * The current value of the textarea.
           * @default ''
@@ -4425,7 +4435,7 @@ declare namespace LocalJSX {
           * Size of step indicators.
           * @default 'base'
          */
-        "size"?: TimelineSize;
+        "size"?: string;
         /**
           * Visual variant: default (numbered circles) or compact (dots).
           * @default 'default'
@@ -4482,9 +4492,9 @@ declare namespace LocalJSX {
         "class"?: string;
         /**
           * The size of the title text.
-          * @default 'base'
+          * @default 'lg'
          */
-        "size"?: TitleSize;
+        "size"?: string;
     }
     interface AegovToast {
         /**
@@ -4575,7 +4585,7 @@ declare namespace LocalJSX {
           * The size of the toggle.
           * @default 'base'
          */
-        "size"?: ToggleSize;
+        "size"?: string;
         /**
           * The value attribute for the toggle.
          */

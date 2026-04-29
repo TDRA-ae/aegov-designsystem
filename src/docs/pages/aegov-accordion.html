@@ -262,6 +262,30 @@
   </aegov-accordion>
 </div>
 
+<h3>Responsive Size</h3>
+<p>The <code>size</code> prop accepts Tailwind-style responsive prefixes. Write a space-separated string where each token is either a plain value or <code>breakpoint:value</code>. The base value (no prefix) applies below the smallest specified breakpoint.</p>
+<p>Available breakpoints: <code>xs</code> (480px), <code>sm</code> (640px), <code>md</code> (768px), <code>lg</code> (1024px), <code>xl</code> (1280px), <code>2xl</code> (1536px), <code>3xl</code> (1680px).</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-accordion</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm xl:lg&quot;</span> <span class="hljs-attr">bordered</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-accordion-item</span> <span class="hljs-attr">heading</span>=<span class="hljs-string">&quot;Responsive Accordion Item&quot;</span>&gt;</span>
+    This accordion uses small heading text by default, switching to large at 1280px and above.
+  <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-accordion-item</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-accordion-item</span> <span class="hljs-attr">heading</span>=<span class="hljs-string">&quot;Another Section&quot;</span>&gt;</span>
+    Resize the viewport to see the heading size change.
+  <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-accordion-item</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-accordion</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
+  <aegov-accordion size="sm xl:lg" bordered>
+    <aegov-accordion-item heading="Responsive Accordion Item">
+      This accordion uses small heading text by default, switching to large at 1280px and above.
+    </aegov-accordion-item>
+    <aegov-accordion-item heading="Another Section">
+      Resize the viewport to see the heading size change.
+    </aegov-accordion-item>
+  </aegov-accordion>
+</div>
+
+<blockquote>
+<p><strong>Graceful degradation:</strong> Unknown breakpoint names and invalid values are silently ignored. An unrecognised base value falls back to the component default.</p>
+</blockquote>
 <hr>
 <h2>Long Titles</h2>
 <p>When a heading exceeds 100 characters it wraps onto multiple lines. The trigger button stretches vertically to accommodate the full text, and the icon stays pinned to the top-right so it never overlaps the heading.</p>
@@ -387,7 +411,7 @@
 <tr>
 <td><code>size</code></td>
 <td><code>size</code></td>
-<td>Heading font size for all child items</td>
+<td>Heading font size for all child items. Supports responsive strings (e.g. <code>&#39;sm xl:lg&#39;</code>).</td>
 <td><code>&#39;sm&#39;</code> | <code>&#39;base&#39;</code> | <code>&#39;lg&#39;</code></td>
 <td><code>&#39;base&#39;</code></td>
 </tr>

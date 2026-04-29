@@ -1,4 +1,6 @@
-import { Component, Host, h, Prop, Element, Event, EventEmitter, Watch, Method } from '@stencil/core';
+import { Component, Host, h, Prop, State, Element, Event, EventEmitter, Watch, Method } from '@stencil/core';
+import { watchResponsiveProp } from '../../utils/responsive-prop';
+import type { ResponsivePropWatcher } from '../../utils/responsive-prop';
 import { OTP_VARIANTS, OTP_SIZES } from '../../utils/types';
 import type { OtpVariant, OtpSize } from '../../utils/types';
 import { getPassThroughAttributes } from '../../utils/attributes';
@@ -30,7 +32,10 @@ export class AegovOtp {
   @Prop() length: number = 5;
 
   /** Size of the input cells. Maps to text size: xs, sm, base, lg, xl, 2xl. */
-  @Prop() size: OtpSize = 'base';
+  @Prop() size: string = 'base';
+
+  @State() private _resolvedSize: OtpSize = 'base';
+  private _sizeWatcher: ResponsivePropWatcher | null = null;
 
   /** Allow letters and numbers when true. Numbers only when false. */
   @Prop() alphanumeric: boolean = false;
@@ -65,17 +70,30 @@ export class AegovOtp {
 
   componentWillLoad() {
     warnIfInvalidEnumProp(this.variant, OTP_VARIANTS, 'continuous', ctx('variant'));
-    warnIfInvalidEnumProp(this.size, OTP_SIZES, 'base', ctx('size'));
     if (!this.fieldId) {
       this.fieldId = generateId('aegov-otp');
     }
+    this._sizeWatcher = watchResponsiveProp(this.size, OTP_SIZES, 'base', v => {
+      this._resolvedSize = v as OtpSize;
+    });
+    this._resolvedSize = this._sizeWatcher.current as OtpSize;
+  }
+
+  disconnectedCallback() {
+    this._sizeWatcher?.destroy();
   }
 
   @Watch('variant')
   onVariantChange(v: unknown) { warnIfInvalidEnumProp(v, OTP_VARIANTS, 'continuous', ctx('variant')); }
 
   @Watch('size')
-  onSizeChange(v: unknown) { warnIfInvalidEnumProp(v, OTP_SIZES, 'base', ctx('size')); }
+  onSizeChange() {
+    this._sizeWatcher?.destroy();
+    this._sizeWatcher = watchResponsiveProp(this.size, OTP_SIZES, 'base', v => {
+      this._resolvedSize = v as OtpSize;
+    });
+    this._resolvedSize = this._sizeWatcher.current as OtpSize;
+  }
 
   componentDidLoad() {
     if (this.value) {
@@ -245,7 +263,7 @@ export class AegovOtp {
     const wrapperClasses = ['aegov-otp', this.class || ''].filter(Boolean).join(' ');
     const cells = Array.from({ length: this.length }, (_, i) => i);
     const variant: OtpVariant = (OTP_VARIANTS as readonly string[]).includes(this.variant) ? this.variant : 'continuous';
-    const size: OtpSize = (OTP_SIZES as readonly string[]).includes(this.size) ? this.size : 'base';
+    const size: OtpSize = this._resolvedSize;
 
     return (
       <Host>

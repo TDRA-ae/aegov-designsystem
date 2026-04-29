@@ -1,7 +1,9 @@
-import { Component, Element, Event, EventEmitter, Host, h, Prop, Watch } from '@stencil/core';
+import { Component, Element, Event, EventEmitter, Host, h, Prop, State, Watch } from '@stencil/core';
 import { AVATAR_GROUP_MODES, AVATAR_SIZES } from '../../utils/types';
 import type { AvatarGroupMode, AvatarSize } from '../../utils/types';
 import { warnIfInvalidEnumProp } from '../../utils/prop-validator';
+import { watchResponsiveProp } from '../../utils/responsive-prop';
+import type { ResponsivePropWatcher } from '../../utils/responsive-prop';
 
 const TAG = 'aegov-avatar-group';
 const ctx = (prop: string) => ({ component: TAG, prop });
@@ -25,7 +27,9 @@ export class AegovAvatarGroup {
   /**
    * The size enforced on all child avatars
    */
-  @Prop() size: AvatarSize = 'base';
+  @Prop() size: string = 'base';
+  @State() private _resolvedSize: AvatarSize = 'base';
+  private _sizeWatcher: ResponsivePropWatcher | null = null;
 
   /**
    * Number of additional users not shown. When > 0, displays "+N" indicator.
@@ -44,7 +48,11 @@ export class AegovAvatarGroup {
 
   componentWillLoad() {
     warnIfInvalidEnumProp(this.mode, AVATAR_GROUP_MODES, 'default', ctx('mode'));
-    warnIfInvalidEnumProp(this.size, AVATAR_SIZES, 'base', ctx('size'));
+    this._sizeWatcher = watchResponsiveProp(this.size, AVATAR_SIZES, 'base', v => {
+      this._resolvedSize = v as AvatarSize;
+      if (this.el.isConnected) { this.updateAvatars(); }
+    });
+    this._resolvedSize = this._sizeWatcher.current as AvatarSize;
   }
 
   componentDidLoad() {
@@ -58,10 +66,18 @@ export class AegovAvatarGroup {
   @Watch('mode')
   onModeChange(v: unknown) { warnIfInvalidEnumProp(v, AVATAR_GROUP_MODES, 'default', ctx('mode')); }
 
+  disconnectedCallback() {
+    this._sizeWatcher?.destroy();
+  }
+
   @Watch('size')
-  watchSize(v: unknown) {
-    warnIfInvalidEnumProp(v, AVATAR_SIZES, 'base', ctx('size'));
-    this.updateAvatars();
+  watchSize() {
+    this._sizeWatcher?.destroy();
+    this._sizeWatcher = watchResponsiveProp(this.size, AVATAR_SIZES, 'base', v => {
+      this._resolvedSize = v as AvatarSize;
+      if (this.el.isConnected) { this.updateAvatars(); }
+    });
+    this._resolvedSize = this._sizeWatcher.current as AvatarSize;
   }
 
   private getDirectChildAvatars(): HTMLAegovAvatarElement[] {
@@ -78,7 +94,7 @@ export class AegovAvatarGroup {
   private updateAvatars() {
     const avatars = this.getDirectChildAvatars();
     avatars.forEach(avatar => {
-      avatar.size = this.size;
+      avatar.size = this._resolvedSize;
       // Groups always use rounded avatars — override any individual variant setting
       avatar.variant = 'rounded';
     });
@@ -96,12 +112,11 @@ export class AegovAvatarGroup {
   }
 
   private getSizeClass(): string {
-    const size: AvatarSize = (AVATAR_SIZES as readonly string[]).includes(this.size) ? this.size : 'base';
-    return `avatar-${size}`;
+    return `avatar-${this._resolvedSize}`;
   }
 
   render() {
-    const size: AvatarSize = (AVATAR_SIZES as readonly string[]).includes(this.size) ? this.size : 'base';
+    const size: AvatarSize = this._resolvedSize;
     const mode: AvatarGroupMode = (AVATAR_GROUP_MODES as readonly string[]).includes(this.mode) ? this.mode : 'default';
     const classes = {
       'aegov-avatar-group': true,

@@ -124,6 +124,22 @@ The `size` property controls the dimensions, font sizes, and padding of all inte
   <aegov-fileupload variant="dropzone" size="xl" label="Extra Large Dropzone"></aegov-fileupload>
 </div>
 
+### Responsive Size
+
+The `size` prop accepts Tailwind-style responsive prefixes. Write a space-separated string where each token is either a plain value or `breakpoint:value`. The base value (no prefix) applies below the smallest specified breakpoint.
+
+Available breakpoints: `xs` (480px), `sm` (640px), `md` (768px), `lg` (1024px), `xl` (1280px), `2xl` (1536px), `3xl` (1680px).
+
+```html
+<aegov-fileupload size="sm xl:lg" label="Responsive file upload"></aegov-fileupload>
+```
+
+<div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
+  <aegov-fileupload size="sm xl:lg" label="Responsive file upload"></aegov-fileupload>
+</div>
+
+> **Graceful degradation:** Unknown breakpoint names and invalid values are silently ignored. An unrecognised base value falls back to the component default.
+
 ---
 
 ## Accepted File Types
@@ -615,7 +631,7 @@ No additional configuration is needed — the component inherits the `dir` attri
 | Property      | Attribute       | Description                                                                 | Type                                        | Default      |
 |---------------|-----------------|-----------------------------------------------------------------------------|---------------------------------------------|--------------|
 | `variant`     | `variant`       | The visual style and interaction model                                      | `'default'` \| `'button'` \| `'dropzone'`  | `'default'`  |
-| `size`        | `size`          | The component size                                                          | `'xs'` \| `'sm'` \| `'base'` \| `'lg'` \| `'xl'` | `'base'`     |
+| `size`        | `size`          | The component size. Supports responsive strings (e.g. `'sm xl:lg'`).       | `'xs'` \| `'sm'` \| `'base'` \| `'lg'` \| `'xl'` | `'base'`     |
 | `multiple`    | `multiple`      | Allow selecting multiple files                                              | `boolean`                                    | `false`      |
 | `accept`      | `accept`        | Accepted file types (e.g. `".pdf,.jpg,image/*"`)                            | `string`                                     | `undefined`  |
 | `maxFileSize` | `max-file-size` | Maximum file size in bytes                                                  | `number`                                     | `undefined`  |

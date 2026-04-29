@@ -46,6 +46,22 @@ The `size` property controls the font size and padding of the textarea. The heig
   <aegov-textarea size="xl" placeholder="Extra large textarea"></aegov-textarea>
 </div>
 
+### Responsive Size
+
+The `size` prop accepts Tailwind-style responsive prefixes. Write a space-separated string where each token is either a plain value or `breakpoint:value`. The base value (no prefix) applies below the smallest specified breakpoint.
+
+Available breakpoints: `xs` (480px), `sm` (640px), `md` (768px), `lg` (1024px), `xl` (1280px), `2xl` (1536px), `3xl` (1680px).
+
+```html
+<aegov-textarea size="sm xl:lg" placeholder="Responsive textarea"></aegov-textarea>
+```
+
+<div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
+  <aegov-textarea size="sm xl:lg" placeholder="Responsive textarea"></aegov-textarea>
+</div>
+
+> **Graceful degradation:** Unknown breakpoint names and invalid values are silently ignored. An unrecognised base value falls back to the component default.
+
 ---
 
 ## Rows
@@ -396,7 +412,7 @@ No additional configuration is needed — the component reads the inherited `dir
 | Property      | Attribute      | Description                                                                 | Type                                                        | Default      |
 |---------------|----------------|-----------------------------------------------------------------------------|-------------------------------------------------------------|--------------|
 | `fieldId`     | `field-id`     | Unique ID for the native textarea. Auto-generated if not provided.          | `string`                                                    | auto         |
-| `size`        | `size`         | The size of the textarea (controls font size and padding)                   | `'xs'` \| `'sm'` \| `'base'` \| `'lg'` \| `'xl'`          | `'base'`     |
+| `size`        | `size`         | The size of the textarea (controls font size and padding). Supports responsive strings (e.g. `'sm xl:lg'`). | `'xs'` \| `'sm'` \| `'base'` \| `'lg'` \| `'xl'`          | `'base'`     |
 | `value`       | `value`        | The current value of the textarea                                           | `string`                                                    | `''`         |
 | `placeholder` | `placeholder`  | Placeholder hint text                                                       | `string`                                                    | `undefined`  |
 | `name`        | `name`         | The name attribute for form submission                                      | `string`                                                    | `undefined`  |
