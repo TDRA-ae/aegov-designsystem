@@ -5,6 +5,9 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
+import { AccordionIcon, AccordionSize, AspectRatioFit, AspectRatioPreset, AvatarGroupMode, AvatarSize, AvatarStatus, AvatarVariant, BadgeAppearance, BadgeColor, BadgeSize, BannerDisplay, BannerMode, BannerPosition, BannerRole, BlockquoteVariant, BreadcrumbSeparator, ButtonAppearance, ButtonGroupOrientation, ButtonGroupPosition, ButtonSize, ButtonType, ButtonVariant, CalloutAppearance, CalloutSize, CalloutVariant, CardBackground, CardBorderStyle, CardBorderWidth, CardHover, CheckboxGroupOrientation, CheckboxGroupVariant, CheckboxSize, DatepickerChangeDetail, DatepickerMode, DatepickerMonthChangeDetail, DrawerAnimation, DrawerOverlayOpacity, DrawerPosition, DropdownAlign, DropdownPosition, DropdownTrigger, FileuploadSize, FileuploadVariant, HeaderVariant, InputSize, InputType, LinkTarget, ModalBackdropOpacity, ModalPosition, NavbarSize, OtpSize, OtpVariant, PaginationSize, PaginationVariant, PopoverAlign, PopoverPosition, PopoverTrigger, ProgressCounter, RadioGroupOrientation, RadioGroupVariant, RadioSize, RangeDisplay, RangeMode, RangeOrientation, RangeSize, SelectChangeDetail, SelectSize, SelectVariant, TabOrientation, TabSize, TabVariant, TextareaResize, TextareaSize, TextSize, TimelineOrientation, TimelineSize, TimelineStepStatus, TimelineVariant, TitleSize, ToastAppearance, ToastMode, ToastPosition, ToastVariant, ToggleSize, TooltipAlign, TooltipPosition, TooltipTrigger } from "./utils/types";
+import { Event } from "@stencil/core";
+export { AccordionIcon, AccordionSize, AspectRatioFit, AspectRatioPreset, AvatarGroupMode, AvatarSize, AvatarStatus, AvatarVariant, BadgeAppearance, BadgeColor, BadgeSize, BannerDisplay, BannerMode, BannerPosition, BannerRole, BlockquoteVariant, BreadcrumbSeparator, ButtonAppearance, ButtonGroupOrientation, ButtonGroupPosition, ButtonSize, ButtonType, ButtonVariant, CalloutAppearance, CalloutSize, CalloutVariant, CardBackground, CardBorderStyle, CardBorderWidth, CardHover, CheckboxGroupOrientation, CheckboxGroupVariant, CheckboxSize, DatepickerChangeDetail, DatepickerMode, DatepickerMonthChangeDetail, DrawerAnimation, DrawerOverlayOpacity, DrawerPosition, DropdownAlign, DropdownPosition, DropdownTrigger, FileuploadSize, FileuploadVariant, HeaderVariant, InputSize, InputType, LinkTarget, ModalBackdropOpacity, ModalPosition, NavbarSize, OtpSize, OtpVariant, PaginationSize, PaginationVariant, PopoverAlign, PopoverPosition, PopoverTrigger, ProgressCounter, RadioGroupOrientation, RadioGroupVariant, RadioSize, RangeDisplay, RangeMode, RangeOrientation, RangeSize, SelectChangeDetail, SelectSize, SelectVariant, TabOrientation, TabSize, TabVariant, TextareaResize, TextareaSize, TextSize, TimelineOrientation, TimelineSize, TimelineStepStatus, TimelineVariant, TitleSize, ToastAppearance, ToastMode, ToastPosition, ToastVariant, ToggleSize, TooltipAlign, TooltipPosition, TooltipTrigger } from "./utils/types";
 import { AccordionIcon, AccordionSize, AspectRatioFit, AspectRatioPreset, AvatarGroupMode, AvatarStatus, AvatarVariant, BadgeAppearance, BadgeColor, BannerDisplay, BannerMode, BannerPosition, BannerRole, BlockquoteVariant, BreadcrumbSeparator, ButtonAppearance, ButtonGroupOrientation, ButtonGroupPosition, ButtonType, ButtonVariant, CalloutAppearance, CalloutVariant, CardBackground, CardBorderStyle, CardBorderWidth, CardHover, CheckboxGroupOrientation, CheckboxGroupVariant, DatepickerChangeDetail, DatepickerMode, DatepickerMonthChangeDetail, DrawerAnimation, DrawerOverlayOpacity, DrawerPosition, DropdownAlign, DropdownPosition, DropdownTrigger, FileuploadVariant, HeaderVariant, InputType, LinkTarget, ModalBackdropOpacity, ModalPosition, OtpVariant, PaginationVariant, PopoverAlign, PopoverPosition, PopoverTrigger, ProgressCounter, RadioGroupOrientation, RadioGroupVariant, RangeDisplay, RangeMode, RangeOrientation, SelectChangeDetail, SelectVariant, TabOrientation, TabVariant, TextareaResize, TimelineOrientation, TimelineSize, TimelineStepStatus, TimelineVariant, ToastAppearance, ToastMode, ToastPosition, ToastVariant, TooltipAlign, TooltipPosition, TooltipTrigger } from "./utils/types";
 import { Event } from "@stencil/core";
 export { AccordionIcon, AccordionSize, AspectRatioFit, AspectRatioPreset, AvatarGroupMode, AvatarStatus, AvatarVariant, BadgeAppearance, BadgeColor, BannerDisplay, BannerMode, BannerPosition, BannerRole, BlockquoteVariant, BreadcrumbSeparator, ButtonAppearance, ButtonGroupOrientation, ButtonGroupPosition, ButtonType, ButtonVariant, CalloutAppearance, CalloutVariant, CardBackground, CardBorderStyle, CardBorderWidth, CardHover, CheckboxGroupOrientation, CheckboxGroupVariant, DatepickerChangeDetail, DatepickerMode, DatepickerMonthChangeDetail, DrawerAnimation, DrawerOverlayOpacity, DrawerPosition, DropdownAlign, DropdownPosition, DropdownTrigger, FileuploadVariant, HeaderVariant, InputType, LinkTarget, ModalBackdropOpacity, ModalPosition, OtpVariant, PaginationVariant, PopoverAlign, PopoverPosition, PopoverTrigger, ProgressCounter, RadioGroupOrientation, RadioGroupVariant, RangeDisplay, RangeMode, RangeOrientation, SelectChangeDetail, SelectVariant, TabOrientation, TabVariant, TextareaResize, TimelineOrientation, TimelineSize, TimelineStepStatus, TimelineVariant, ToastAppearance, ToastMode, ToastPosition, ToastVariant, TooltipAlign, TooltipPosition, TooltipTrigger } from "./utils/types";
@@ -959,6 +962,84 @@ export namespace Components {
           * Toggle modal open/closed state
          */
         "toggle": () => Promise<void>;
+    }
+    /**
+     * @component aegov-navbar
+     * @description Horizontal primary navigation container. Holds aegov-navbar-item
+     * children which can be plain links, links with prefix icons, or links paired
+     * with an aegov-dropdown submenu (chevron-triggered).
+     * @example <aegov-navbar nav-label="Main navigation" size="base" gap="gap-6">
+     *   <aegov-navbar-item href="/">Home</aegov-navbar-item>
+     *   <aegov-navbar-item href="/services">Services</aegov-navbar-item>
+     *   <aegov-navbar-item href="/products">
+     *     Products
+     *     <aegov-dropdown slot="dropdown">
+     *       <a slot="dropdown-content" href="/a">Item A</a>
+     *       <a slot="dropdown-content" href="/b">Item B</a>
+     *     </aegov-dropdown>
+     *   </aegov-navbar-item>
+     * </aegov-navbar>
+     */
+    interface AegovNavbar {
+        /**
+          * Tailwind gap utility class applied between items, e.g. "gap-4", "gap-6", "gap-10".
+          * @default 'gap-6'
+         */
+        "gap": string;
+        /**
+          * Accessible label for the navigation landmark.
+          * @default 'Main navigation'
+         */
+        "navLabel": string;
+        /**
+          * Size of the navbar items. Cascades to all aegov-navbar-item children.
+          * @default 'base'
+         */
+        "size": NavbarSize;
+    }
+    /**
+     * @component aegov-navbar-item
+     * @description Single navigation item used inside aegov-navbar. Renders as a link
+     * (when `href` is set) or plain text. Optional prefix icon via `slot="icon-start"`.
+     * Optional submenu via `slot="dropdown"` containing an aegov-dropdown — a chevron
+     * trigger button is injected automatically and is independently focusable from
+     * the link, so the link navigates while the chevron opens the submenu.
+     * @example <aegov-navbar-item href="/products">
+     *   <svg slot="icon-start" ...></svg>
+     *   Products
+     *   <aegov-dropdown slot="dropdown">
+     *     <a slot="dropdown-content" href="/a">Item A</a>
+     *   </aegov-dropdown>
+     * </aegov-navbar-item>
+     */
+    interface AegovNavbarItem {
+        /**
+          * Mark this item as the current page. Sets `aria-current="page"`.
+          * @default false
+         */
+        "active": boolean;
+        /**
+          * Visually disabled, not clickable, removed from arrow-key cycle.
+          * @default false
+         */
+        "disabled": boolean;
+        /**
+          * URL the item links to. If unset, item renders as a non-link span.
+         */
+        "href"?: string;
+        /**
+          * Anchor rel attribute.
+         */
+        "rel"?: string;
+        /**
+          * Size token. Set by parent aegov-navbar.
+          * @default 'base'
+         */
+        "size": NavbarSize;
+        /**
+          * Anchor target attribute.
+         */
+        "target"?: LinkTarget;
     }
     interface AegovOtp {
         /**
@@ -2309,6 +2390,50 @@ declare global {
         prototype: HTMLAegovModalElement;
         new (): HTMLAegovModalElement;
     };
+    /**
+     * @component aegov-navbar
+     * @description Horizontal primary navigation container. Holds aegov-navbar-item
+     * children which can be plain links, links with prefix icons, or links paired
+     * with an aegov-dropdown submenu (chevron-triggered).
+     * @example <aegov-navbar nav-label="Main navigation" size="base" gap="gap-6">
+     *   <aegov-navbar-item href="/">Home</aegov-navbar-item>
+     *   <aegov-navbar-item href="/services">Services</aegov-navbar-item>
+     *   <aegov-navbar-item href="/products">
+     *     Products
+     *     <aegov-dropdown slot="dropdown">
+     *       <a slot="dropdown-content" href="/a">Item A</a>
+     *       <a slot="dropdown-content" href="/b">Item B</a>
+     *     </aegov-dropdown>
+     *   </aegov-navbar-item>
+     * </aegov-navbar>
+     */
+    interface HTMLAegovNavbarElement extends Components.AegovNavbar, HTMLStencilElement {
+    }
+    var HTMLAegovNavbarElement: {
+        prototype: HTMLAegovNavbarElement;
+        new (): HTMLAegovNavbarElement;
+    };
+    /**
+     * @component aegov-navbar-item
+     * @description Single navigation item used inside aegov-navbar. Renders as a link
+     * (when `href` is set) or plain text. Optional prefix icon via `slot="icon-start"`.
+     * Optional submenu via `slot="dropdown"` containing an aegov-dropdown — a chevron
+     * trigger button is injected automatically and is independently focusable from
+     * the link, so the link navigates while the chevron opens the submenu.
+     * @example <aegov-navbar-item href="/products">
+     *   <svg slot="icon-start" ...></svg>
+     *   Products
+     *   <aegov-dropdown slot="dropdown">
+     *     <a slot="dropdown-content" href="/a">Item A</a>
+     *   </aegov-dropdown>
+     * </aegov-navbar-item>
+     */
+    interface HTMLAegovNavbarItemElement extends Components.AegovNavbarItem, HTMLStencilElement {
+    }
+    var HTMLAegovNavbarItemElement: {
+        prototype: HTMLAegovNavbarItemElement;
+        new (): HTMLAegovNavbarItemElement;
+    };
     interface HTMLAegovOtpElementEventMap {
         "aegovOtpChange": { value: string };
         "aegovOtpComplete": { value: string };
@@ -2650,6 +2775,8 @@ declare global {
         "aegov-label": HTMLAegovLabelElement;
         "aegov-link": HTMLAegovLinkElement;
         "aegov-modal": HTMLAegovModalElement;
+        "aegov-navbar": HTMLAegovNavbarElement;
+        "aegov-navbar-item": HTMLAegovNavbarItemElement;
         "aegov-otp": HTMLAegovOtpElement;
         "aegov-pagination": HTMLAegovPaginationElement;
         "aegov-popover": HTMLAegovPopoverElement;
@@ -3710,6 +3837,84 @@ declare namespace LocalJSX {
          */
         "preventBodyScroll"?: boolean;
     }
+    /**
+     * @component aegov-navbar
+     * @description Horizontal primary navigation container. Holds aegov-navbar-item
+     * children which can be plain links, links with prefix icons, or links paired
+     * with an aegov-dropdown submenu (chevron-triggered).
+     * @example <aegov-navbar nav-label="Main navigation" size="base" gap="gap-6">
+     *   <aegov-navbar-item href="/">Home</aegov-navbar-item>
+     *   <aegov-navbar-item href="/services">Services</aegov-navbar-item>
+     *   <aegov-navbar-item href="/products">
+     *     Products
+     *     <aegov-dropdown slot="dropdown">
+     *       <a slot="dropdown-content" href="/a">Item A</a>
+     *       <a slot="dropdown-content" href="/b">Item B</a>
+     *     </aegov-dropdown>
+     *   </aegov-navbar-item>
+     * </aegov-navbar>
+     */
+    interface AegovNavbar {
+        /**
+          * Tailwind gap utility class applied between items, e.g. "gap-4", "gap-6", "gap-10".
+          * @default 'gap-6'
+         */
+        "gap"?: string;
+        /**
+          * Accessible label for the navigation landmark.
+          * @default 'Main navigation'
+         */
+        "navLabel"?: string;
+        /**
+          * Size of the navbar items. Cascades to all aegov-navbar-item children.
+          * @default 'base'
+         */
+        "size"?: NavbarSize;
+    }
+    /**
+     * @component aegov-navbar-item
+     * @description Single navigation item used inside aegov-navbar. Renders as a link
+     * (when `href` is set) or plain text. Optional prefix icon via `slot="icon-start"`.
+     * Optional submenu via `slot="dropdown"` containing an aegov-dropdown — a chevron
+     * trigger button is injected automatically and is independently focusable from
+     * the link, so the link navigates while the chevron opens the submenu.
+     * @example <aegov-navbar-item href="/products">
+     *   <svg slot="icon-start" ...></svg>
+     *   Products
+     *   <aegov-dropdown slot="dropdown">
+     *     <a slot="dropdown-content" href="/a">Item A</a>
+     *   </aegov-dropdown>
+     * </aegov-navbar-item>
+     */
+    interface AegovNavbarItem {
+        /**
+          * Mark this item as the current page. Sets `aria-current="page"`.
+          * @default false
+         */
+        "active"?: boolean;
+        /**
+          * Visually disabled, not clickable, removed from arrow-key cycle.
+          * @default false
+         */
+        "disabled"?: boolean;
+        /**
+          * URL the item links to. If unset, item renders as a non-link span.
+         */
+        "href"?: string;
+        /**
+          * Anchor rel attribute.
+         */
+        "rel"?: string;
+        /**
+          * Size token. Set by parent aegov-navbar.
+          * @default 'base'
+         */
+        "size"?: NavbarSize;
+        /**
+          * Anchor target attribute.
+         */
+        "target"?: LinkTarget;
+    }
     interface AegovOtp {
         /**
           * Allow letters and numbers when true. Numbers only when false.
@@ -4673,6 +4878,8 @@ declare namespace LocalJSX {
         "aegov-label": AegovLabel;
         "aegov-link": AegovLink;
         "aegov-modal": AegovModal;
+        "aegov-navbar": AegovNavbar;
+        "aegov-navbar-item": AegovNavbarItem;
         "aegov-otp": AegovOtp;
         "aegov-pagination": AegovPagination;
         "aegov-popover": AegovPopover;
@@ -4751,6 +4958,40 @@ declare module "@stencil/core" {
             "aegov-label": LocalJSX.AegovLabel & JSXBase.HTMLAttributes<HTMLAegovLabelElement>;
             "aegov-link": LocalJSX.AegovLink & JSXBase.HTMLAttributes<HTMLAegovLinkElement>;
             "aegov-modal": LocalJSX.AegovModal & JSXBase.HTMLAttributes<HTMLAegovModalElement>;
+            /**
+             * @component aegov-navbar
+             * @description Horizontal primary navigation container. Holds aegov-navbar-item
+             * children which can be plain links, links with prefix icons, or links paired
+             * with an aegov-dropdown submenu (chevron-triggered).
+             * @example <aegov-navbar nav-label="Main navigation" size="base" gap="gap-6">
+             *   <aegov-navbar-item href="/">Home</aegov-navbar-item>
+             *   <aegov-navbar-item href="/services">Services</aegov-navbar-item>
+             *   <aegov-navbar-item href="/products">
+             *     Products
+             *     <aegov-dropdown slot="dropdown">
+             *       <a slot="dropdown-content" href="/a">Item A</a>
+             *       <a slot="dropdown-content" href="/b">Item B</a>
+             *     </aegov-dropdown>
+             *   </aegov-navbar-item>
+             * </aegov-navbar>
+             */
+            "aegov-navbar": LocalJSX.AegovNavbar & JSXBase.HTMLAttributes<HTMLAegovNavbarElement>;
+            /**
+             * @component aegov-navbar-item
+             * @description Single navigation item used inside aegov-navbar. Renders as a link
+             * (when `href` is set) or plain text. Optional prefix icon via `slot="icon-start"`.
+             * Optional submenu via `slot="dropdown"` containing an aegov-dropdown — a chevron
+             * trigger button is injected automatically and is independently focusable from
+             * the link, so the link navigates while the chevron opens the submenu.
+             * @example <aegov-navbar-item href="/products">
+             *   <svg slot="icon-start" ...></svg>
+             *   Products
+             *   <aegov-dropdown slot="dropdown">
+             *     <a slot="dropdown-content" href="/a">Item A</a>
+             *   </aegov-dropdown>
+             * </aegov-navbar-item>
+             */
+            "aegov-navbar-item": LocalJSX.AegovNavbarItem & JSXBase.HTMLAttributes<HTMLAegovNavbarItemElement>;
             "aegov-otp": LocalJSX.AegovOtp & JSXBase.HTMLAttributes<HTMLAegovOtpElement>;
             "aegov-pagination": LocalJSX.AegovPagination & JSXBase.HTMLAttributes<HTMLAegovPaginationElement>;
             /**
