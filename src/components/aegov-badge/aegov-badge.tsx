@@ -1,4 +1,6 @@
-import { Component, Prop, Watch, Event, EventEmitter, h, Host } from '@stencil/core';
+import { Component, Prop, Watch, State, Event, EventEmitter, h, Host } from '@stencil/core';
+import { watchResponsiveProp } from '../../utils/responsive-prop';
+import type { ResponsivePropWatcher } from '../../utils/responsive-prop';
 import { BADGE_APPEARANCES, BADGE_COLORS, BADGE_SIZES } from '../../utils/types';
 import type { BadgeSize, BadgeAppearance, BadgeColor } from '../../utils/types';
 import { warnIfInvalidEnumProp } from '../../utils/prop-validator';
@@ -37,7 +39,10 @@ export class AegovBadge {
      * The badge size
      * @default 'base'
      */
-    @Prop() size: BadgeSize = 'base';
+    @Prop() size: string = 'base';
+
+    @State() private _resolvedSize: BadgeSize = 'base';
+    private _sizeWatcher: ResponsivePropWatcher | null = null;
 
     /**
      * Emitted when the dismiss button is clicked.
@@ -47,7 +52,14 @@ export class AegovBadge {
     componentWillLoad() {
         warnIfInvalidEnumProp(this.appearance, BADGE_APPEARANCES, 'soft', ctx('appearance'));
         warnIfInvalidEnumProp(this.color, BADGE_COLORS, 'default', ctx('color'));
-        warnIfInvalidEnumProp(this.size, BADGE_SIZES, 'base', ctx('size'));
+        this._sizeWatcher = watchResponsiveProp(this.size, BADGE_SIZES, 'base', v => {
+            this._resolvedSize = v as BadgeSize;
+        });
+        this._resolvedSize = this._sizeWatcher.current as BadgeSize;
+    }
+
+    disconnectedCallback() {
+        this._sizeWatcher?.destroy();
     }
 
     @Watch('appearance')
@@ -57,7 +69,13 @@ export class AegovBadge {
     onColorChange(v: unknown) { warnIfInvalidEnumProp(v, BADGE_COLORS, 'default', ctx('color')); }
 
     @Watch('size')
-    onSizeChange(v: unknown) { warnIfInvalidEnumProp(v, BADGE_SIZES, 'base', ctx('size')); }
+    onSizeChange() {
+        this._sizeWatcher?.destroy();
+        this._sizeWatcher = watchResponsiveProp(this.size, BADGE_SIZES, 'base', v => {
+            this._resolvedSize = v as BadgeSize;
+        });
+        this._resolvedSize = this._sizeWatcher.current as BadgeSize;
+    }
 
     /**
      * Handle dismiss button click
@@ -82,7 +100,7 @@ export class AegovBadge {
             lg: ['text-sm', 'py-1', 'px-2','rounded-md','font-medium']
         };
 
-        const size: BadgeSize = (BADGE_SIZES as readonly string[]).includes(this.size) ? this.size : 'base';
+        const size: BadgeSize = this._resolvedSize;
         classes.push(...sizeClasses[size]);
 
         // Appearance classes

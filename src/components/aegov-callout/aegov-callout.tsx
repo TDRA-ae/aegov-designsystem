@@ -4,6 +4,8 @@ import type { CalloutVariant, CalloutAppearance, CalloutSize } from '../../utils
 import { getPassThroughAttributes } from '../../utils/attributes';
 import { getVariantIcon } from '../../utils/icons';
 import { warnIfInvalidEnumProp } from '../../utils/prop-validator';
+import { watchResponsiveProp } from '../../utils/responsive-prop';
+import type { ResponsivePropWatcher } from '../../utils/responsive-prop';
 
 const TAG = 'aegov-callout';
 const ctx = (prop: string) => ({ component: TAG, prop });
@@ -32,8 +34,13 @@ export class AegovCallout {
 
   /**
    * The size of the callout. Controls font size, icon size, and padding.
+   * Accepts a plain value (`"sm"`, `"base"`, `"lg"`) or a responsive string
+   * using Tailwind-style breakpoint prefixes (`"sm xl:lg"`).
    */
-  @Prop() size: CalloutSize = 'base';
+  @Prop() size: string = 'base';
+
+  @State() private _resolvedSize: CalloutSize = 'base';
+  private _sizeWatcher: ResponsivePropWatcher | null = null;
 
   /**
    * Whether the callout can be dismissed/closed.
@@ -93,7 +100,14 @@ export class AegovCallout {
   componentWillLoad() {
     warnIfInvalidEnumProp(this.variant, CALLOUT_VARIANTS, 'default', ctx('variant'));
     warnIfInvalidEnumProp(this.appearance, CALLOUT_APPEARANCES, 'soft', ctx('appearance'));
-    warnIfInvalidEnumProp(this.size, CALLOUT_SIZES, 'base', ctx('size'));
+    this._sizeWatcher = watchResponsiveProp(this.size, CALLOUT_SIZES, 'base', v => {
+      this._resolvedSize = v as CalloutSize;
+    });
+    this._resolvedSize = this._sizeWatcher.current as CalloutSize;
+  }
+
+  disconnectedCallback() {
+    this._sizeWatcher?.destroy();
   }
 
   @Watch('variant')
@@ -103,7 +117,13 @@ export class AegovCallout {
   onAppearanceChange(v: unknown) { warnIfInvalidEnumProp(v, CALLOUT_APPEARANCES, 'soft', ctx('appearance')); }
 
   @Watch('size')
-  onSizeChange(v: unknown) { warnIfInvalidEnumProp(v, CALLOUT_SIZES, 'base', ctx('size')); }
+  onSizeChange() {
+    this._sizeWatcher?.destroy();
+    this._sizeWatcher = watchResponsiveProp(this.size, CALLOUT_SIZES, 'base', v => {
+      this._resolvedSize = v as CalloutSize;
+    });
+    this._resolvedSize = this._sizeWatcher.current as CalloutSize;
+  }
 
   /**
    * Lifecycle method called before each render
@@ -120,12 +140,12 @@ export class AegovCallout {
    */
   private getCalloutClasses(): string {
     const classes: string[] = [
-      'aegov-callout flex items-start gap-4 rounded-md border-0'
+      'aegov-callout flex items-start gap-4 rounded-sm border-0'
     ];
 
     const appearance: CalloutAppearance = (CALLOUT_APPEARANCES as readonly string[]).includes(this.appearance) ? this.appearance : 'soft';
     const variant: CalloutVariant = (CALLOUT_VARIANTS as readonly string[]).includes(this.variant) ? this.variant : 'default';
-    const size: CalloutSize = (CALLOUT_SIZES as readonly string[]).includes(this.size) ? this.size : 'base';
+    const size: CalloutSize = this._resolvedSize;
 
     // Size classes (font size + padding)
     const sizeClasses: Record<CalloutSize, string[]> = {
@@ -156,7 +176,7 @@ export class AegovCallout {
   }
 
   private getIconSizeClass(): string {
-    const size: CalloutSize = (CALLOUT_SIZES as readonly string[]).includes(this.size) ? this.size : 'base';
+    const size: CalloutSize = this._resolvedSize;
     const iconSizes: Record<CalloutSize, string> = { sm: 'size-5', base: 'size-6', lg: 'size-7' };
     return iconSizes[size];
   }

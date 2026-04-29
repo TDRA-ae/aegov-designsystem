@@ -205,6 +205,22 @@
   </aegov-radio-group>
 </div>
 
+<h3>Responsive Size</h3>
+<p>The <code>size</code> prop accepts Tailwind-style responsive prefixes. Write a space-separated string where each token is either a plain value or <code>breakpoint:value</code>. The base value (no prefix) applies below the smallest specified breakpoint.</p>
+<p>Available breakpoints: <code>xs</code> (480px), <code>sm</code> (640px), <code>md</code> (768px), <code>lg</code> (1024px), <code>xl</code> (1280px), <code>2xl</code> (1536px), <code>3xl</code> (1680px).</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-radio-group</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;responsive-size&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Responsive size&quot;</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm xl:lg&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-radio</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Option A&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;a&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-radio</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-radio</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Option B&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;b&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-radio</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-radio-group</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
+  <aegov-radio-group name="responsive-size-demo" label="Responsive size" size="sm xl:lg">
+    <aegov-radio label="Option A" value="a"></aegov-radio>
+    <aegov-radio label="Option B" value="b"></aegov-radio>
+  </aegov-radio-group>
+</div>
+
+<blockquote>
+<p><strong>Graceful degradation:</strong> Unknown breakpoint names and invalid values are silently ignored. An unrecognised base value falls back to the component default.</p>
+</blockquote>
 <hr>
 <h2>Radio Group</h2>
 <p>The <code>aegov-radio-group</code> component wraps multiple <code>aegov-radio</code> elements, managing the shared <code>name</code>, <code>size</code>, layout orientation, and visual variant. It renders a semantic <code>&lt;fieldset&gt;</code> with <code>role=&quot;radiogroup&quot;</code>.</p>
@@ -487,7 +503,7 @@
 <tr>
 <td><code>size</code></td>
 <td><code>size</code></td>
-<td>The size of the radio.</td>
+<td>The size of the radio. Supports responsive strings (e.g. <code>&#39;sm xl:lg&#39;</code>).</td>
 <td><code>&#39;xs&#39;</code> | <code>&#39;sm&#39;</code> | <code>&#39;base&#39;</code> | <code>&#39;lg&#39;</code> | <code>&#39;xl&#39;</code></td>
 <td><code>&#39;base&#39;</code></td>
 </tr>
@@ -577,7 +593,7 @@
 <tr>
 <td><code>size</code></td>
 <td><code>size</code></td>
-<td>Size of all radios in the group. Propagated to children.</td>
+<td>Size of all radios in the group. Propagated to children. Supports responsive strings (e.g. <code>&#39;sm xl:lg&#39;</code>).</td>
 <td><code>&#39;xs&#39;</code> | <code>&#39;sm&#39;</code> | <code>&#39;base&#39;</code> | <code>&#39;lg&#39;</code> | <code>&#39;xl&#39;</code></td>
 <td><code>&#39;base&#39;</code></td>
 </tr>

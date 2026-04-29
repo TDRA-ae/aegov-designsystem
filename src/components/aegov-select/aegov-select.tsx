@@ -4,6 +4,8 @@ import type { SelectVariant, SelectSize, SelectChangeDetail } from '../../utils/
 import { getPassThroughAttributes } from '../../utils/attributes';
 import { generateId } from '../../utils/id-generator';
 import { warnIfInvalidEnumProp } from '../../utils/prop-validator';
+import { watchResponsiveProp } from '../../utils/responsive-prop';
+import type { ResponsivePropWatcher } from '../../utils/responsive-prop';
 
 const TAG = 'aegov-select';
 const ctx = (prop: string) => ({ component: TAG, prop });
@@ -31,7 +33,9 @@ export class AegovSelect {
   @Prop() variant: SelectVariant = 'default';
 
   /** The size of the select. Matches aegov-input height. */
-  @Prop() size: SelectSize = 'base';
+  @Prop() size: string = 'base';
+  @State() private _resolvedSize: SelectSize = 'base';
+  private _sizeWatcher: ResponsivePropWatcher | null = null;
 
   /** Whether multiple selection is enabled. Forces listbox behaviour. */
   @Prop() multiple: boolean = false;
@@ -89,7 +93,10 @@ export class AegovSelect {
 
   componentWillLoad() {
     warnIfInvalidEnumProp(this.variant, SELECT_VARIANTS, 'default', ctx('variant'));
-    warnIfInvalidEnumProp(this.size, SELECT_SIZES, 'base', ctx('size'));
+    this._sizeWatcher = watchResponsiveProp(this.size, SELECT_SIZES, 'base', v => {
+      this._resolvedSize = v as SelectSize;
+    });
+    this._resolvedSize = this._sizeWatcher.current as SelectSize;
     if (!this.fieldId) {
       this.fieldId = generateId('aegov-select');
     }
@@ -98,11 +105,21 @@ export class AegovSelect {
     this.updateDerivedState();
   }
 
+  disconnectedCallback() {
+    this._sizeWatcher?.destroy();
+  }
+
   @Watch('variant')
   onVariantChange(v: unknown) { warnIfInvalidEnumProp(v, SELECT_VARIANTS, 'default', ctx('variant')); }
 
   @Watch('size')
-  onSizeChange(v: unknown) { warnIfInvalidEnumProp(v, SELECT_SIZES, 'base', ctx('size')); }
+  onSizeChange() {
+    this._sizeWatcher?.destroy();
+    this._sizeWatcher = watchResponsiveProp(this.size, SELECT_SIZES, 'base', v => {
+      this._resolvedSize = v as SelectSize;
+    });
+    this._resolvedSize = this._sizeWatcher.current as SelectSize;
+  }
 
   componentDidLoad() {
     // Re-parse if children weren't available during componentWillLoad
@@ -276,9 +293,8 @@ export class AegovSelect {
     // Calculate item height based on size
     const itemHeightMap: Record<SelectSize, number> = { xs: 32, sm: 36, base: 40, lg: 44, xl: 48 };
     const searchHeightMap: Record<SelectSize, number> = { xs: 36, sm: 40, base: 44, lg: 48, xl: 52 };
-    const size: SelectSize = (SELECT_SIZES as readonly string[]).includes(this.size) ? this.size : 'base';
-    const itemHeight = itemHeightMap[size];
-    const searchHeight = this.searchable ? searchHeightMap[size] : 0;
+    const itemHeight = itemHeightMap[this._resolvedSize];
+    const searchHeight = this.searchable ? searchHeightMap[this._resolvedSize] : 0;
     const padding = 8; // py-1 top + bottom
     const actualItemCount = Math.min(this.filteredOptions.length, this.visibleItems);
     const desiredHeight = (actualItemCount * itemHeight) + searchHeight + padding;
@@ -448,8 +464,7 @@ export class AegovSelect {
       lg: 'select--lg',
       xl: 'select--xl',
     };
-    const size: SelectSize = (SELECT_SIZES as readonly string[]).includes(this.size) ? this.size : 'base';
-    classes.push(sizeClasses[size]);
+    classes.push(sizeClasses[this._resolvedSize]);
     if (this.disabled) classes.push('select--disabled');
     if (this.isOpen) classes.push('select--open');
     if (!this.displayText) classes.push('select--placeholder');
@@ -466,8 +481,6 @@ export class AegovSelect {
       lg: 'select--lg',
       xl: 'select--xl',
     };
-    const size: SelectSize = (SELECT_SIZES as readonly string[]).includes(this.size) ? this.size : 'base';
-
     const groups = this.groupedFilteredOptions;
 
     return (
@@ -475,7 +488,7 @@ export class AegovSelect {
         <div class="select__native-wrapper">
           <select
             id={this.fieldId}
-            class={`aegov-select ${sizeClasses[size]}${this.class ? ` ${this.class}` : ''}`}
+            class={`aegov-select ${sizeClasses[this._resolvedSize]}${this.class ? ` ${this.class}` : ''}`}
             disabled={this.disabled}
             name={this.name}
             required={this.required}
@@ -526,8 +539,6 @@ export class AegovSelect {
   private renderListbox() {
     const groups = this.groupedFilteredOptions;
     const enabledOptions = this.filteredOptions.filter(o => !o.disabled);
-    const size: SelectSize = (SELECT_SIZES as readonly string[]).includes(this.size) ? this.size : 'base';
-
     return (
       <Host>
         <div
@@ -584,7 +595,7 @@ export class AegovSelect {
                 <div class="select__search">
                   <input
                     type="text"
-                    class={`select__search-input select__search-input--${size}`}
+                    class={`select__search-input select__search-input--${this._resolvedSize}`}
                     placeholder="Search..."
                     value={this.searchQuery}
                     onInput={this.handleSearchInput}
@@ -611,7 +622,7 @@ export class AegovSelect {
                       <div
                         id={this.getOptionId(opt.value)}
                         class={
-                          `select__option select__option--${size}` +
+                          `select__option select__option--${this._resolvedSize}` +
                           (isSelected ? ' select__option--selected' : '') +
                           (opt.disabled ? ' select__option--disabled' : '') +
                           (isFocused ? ' select__option--focused' : '')

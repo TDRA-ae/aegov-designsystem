@@ -1,6 +1,8 @@
-import { Component, Host, h, Prop, Element, Watch } from '@stencil/core';
+import { Component, Host, h, Prop, State, Element, Watch } from '@stencil/core';
 import { AccordionIcon, ACCORDION_ICONS, AccordionSize, ACCORDION_SIZES } from '../../utils/types';
 import { warnIfInvalidEnumProp } from '../../utils/prop-validator';
+import { watchResponsiveProp } from '../../utils/responsive-prop';
+import type { ResponsivePropWatcher } from '../../utils/responsive-prop';
 
 const TAG = 'aegov-accordion';
 const ctx = (prop: string) => ({ component: TAG, prop });
@@ -45,11 +47,17 @@ export class AegovAccordion {
    * Size of the accordion items — controls heading font size.
    * sm = 14px, base = 16px (default), lg = 18px
    */
-  @Prop() size: AccordionSize = 'base';
+  @Prop() size: string = 'base';
+  @State() private _resolvedSize: AccordionSize = 'base';
+  private _sizeWatcher: ResponsivePropWatcher | null = null;
 
   componentWillLoad() {
     warnIfInvalidEnumProp(this.icon, ACCORDION_ICONS, 'chevron', ctx('icon'));
-    warnIfInvalidEnumProp(this.size, ACCORDION_SIZES, 'base', ctx('size'));
+    this._sizeWatcher = watchResponsiveProp(this.size, ACCORDION_SIZES, 'base', v => {
+      this._resolvedSize = v as AccordionSize;
+      if (this.el.isConnected) { this.syncItemProps(); }
+    });
+    this._resolvedSize = this._sizeWatcher.current as AccordionSize;
   }
 
   componentDidLoad() {
@@ -69,6 +77,7 @@ export class AegovAccordion {
   }
 
   disconnectedCallback() {
+    this._sizeWatcher?.destroy();
     this.removeEventListeners();
     this.cachedItems = [];
   }
@@ -80,9 +89,13 @@ export class AegovAccordion {
   }
 
   @Watch('size')
-  onSizeChange(v: unknown) {
-    warnIfInvalidEnumProp(v, ACCORDION_SIZES, 'base', ctx('size'));
-    this.syncItemProps();
+  onSizeChange() {
+    this._sizeWatcher?.destroy();
+    this._sizeWatcher = watchResponsiveProp(this.size, ACCORDION_SIZES, 'base', v => {
+      this._resolvedSize = v as AccordionSize;
+      if (this.el.isConnected) { this.syncItemProps(); }
+    });
+    this._resolvedSize = this._sizeWatcher.current as AccordionSize;
   }
 
   private refreshItemCache() {
@@ -99,7 +112,7 @@ export class AegovAccordion {
   private syncItemProps() {
     this.cachedItems.forEach((item, index) => {
       item.icon = this.icon;
-      item.size = this.size;
+      item.size = this._resolvedSize;
       item.isFirst = index === 0;
       item.isLast = index === this.cachedItems.length - 1;
     });

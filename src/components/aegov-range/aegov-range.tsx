@@ -4,6 +4,8 @@ import type { RangeSize, RangeDisplay, RangeOrientation, RangeMode } from '../..
 import { getPassThroughAttributes } from '../../utils/attributes';
 import { generateId } from '../../utils/id-generator';
 import { warnIfInvalidEnumProp } from '../../utils/prop-validator';
+import { watchResponsiveProp } from '../../utils/responsive-prop';
+import type { ResponsivePropWatcher } from '../../utils/responsive-prop';
 
 const TAG = 'aegov-range';
 const ctx = (prop: string) => ({ component: TAG, prop });
@@ -42,7 +44,9 @@ export class AegovRange {
   @Prop() step: number = 1;
 
   /** Size of the range track. Thumb remains constant. */
-  @Prop() size: RangeSize = 'base';
+  @Prop() size: string = 'base';
+  @State() private _resolvedSize: RangeSize = 'base';
+  private _sizeWatcher: ResponsivePropWatcher | null = null;
 
   /** Value display mode. */
   @Prop() display: RangeDisplay = 'none';
@@ -76,7 +80,10 @@ export class AegovRange {
   private trackWrapperEl?: HTMLElement;
 
   componentWillLoad() {
-    warnIfInvalidEnumProp(this.size, RANGE_SIZES, 'base', ctx('size'));
+    this._sizeWatcher = watchResponsiveProp(this.size, RANGE_SIZES, 'base', v => {
+      this._resolvedSize = v as RangeSize;
+    });
+    this._resolvedSize = this._sizeWatcher.current as RangeSize;
     warnIfInvalidEnumProp(this.display, RANGE_DISPLAYS, 'none', ctx('display'));
     warnIfInvalidEnumProp(this.orientation, RANGE_ORIENTATIONS, 'horizontal', ctx('orientation'));
     warnIfInvalidEnumProp(this.mode, RANGE_MODES, 'single', ctx('mode'));
@@ -85,8 +92,18 @@ export class AegovRange {
     }
   }
 
+  disconnectedCallback() {
+    this._sizeWatcher?.destroy();
+  }
+
   @Watch('size')
-  onSizeChange(v: unknown) { warnIfInvalidEnumProp(v, RANGE_SIZES, 'base', ctx('size')); }
+  onSizeChange() {
+    this._sizeWatcher?.destroy();
+    this._sizeWatcher = watchResponsiveProp(this.size, RANGE_SIZES, 'base', v => {
+      this._resolvedSize = v as RangeSize;
+    });
+    this._resolvedSize = this._sizeWatcher.current as RangeSize;
+  }
 
   @Watch('display')
   onDisplayChange(v: unknown) { warnIfInvalidEnumProp(v, RANGE_DISPLAYS, 'none', ctx('display')); }
@@ -333,7 +350,7 @@ export class AegovRange {
 
   render() {
     const passThroughAttrs = getPassThroughAttributes(this.el, AegovRange.NATIVE_RANGE_ATTRS);
-    const size: RangeSize = (RANGE_SIZES as readonly string[]).includes(this.size) ? this.size : 'base';
+    const size: RangeSize = this._resolvedSize;
     const display: RangeDisplay = (RANGE_DISPLAYS as readonly string[]).includes(this.display) ? this.display : 'none';
     const orientation: RangeOrientation = (RANGE_ORIENTATIONS as readonly string[]).includes(this.orientation) ? this.orientation : 'horizontal';
     const mode: RangeMode = (RANGE_MODES as readonly string[]).includes(this.mode) ? this.mode : 'single';

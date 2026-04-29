@@ -16,6 +16,7 @@
     --color-gray-600: oklch(44.6% 0.03 256.802);
     --color-white: #fff;
     --spacing: 0.25rem;
+    --breakpoint-sm: 640px;
     --container-3xs: 16rem;
     --container-lg: 32rem;
     --container-2xl: 42rem;
@@ -116,6 +117,7 @@
     --color-primary-950: var(--color-aegold-950);
     --color-primary-support-600: var(--color-camel-600);
     --color-secondary-support-600: var(--color-desert-600);
+    --breakpoint-xs: 480px;
   }
 }
 @layer utilities {

@@ -107,6 +107,22 @@ The `size` property controls the height, padding, and font size of the input. Al
   <aegov-input size="xl" placeholder="Extra Large"></aegov-input>
 </div>
 
+### Responsive Size
+
+The `size` prop accepts Tailwind-style responsive prefixes. Write a space-separated string where each token is either a plain value or `breakpoint:value`. The base value (no prefix) applies below the smallest specified breakpoint.
+
+Available breakpoints: `xs` (480px), `sm` (640px), `md` (768px), `lg` (1024px), `xl` (1280px), `2xl` (1536px), `3xl` (1680px).
+
+```html
+<aegov-input size="sm xl:lg" placeholder="Responsive input"></aegov-input>
+```
+
+<div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
+  <aegov-input size="sm xl:lg" placeholder="Responsive input"></aegov-input>
+</div>
+
+> **Graceful degradation:** Unknown breakpoint names and invalid values are silently ignored. An unrecognised base value falls back to the component default.
+
 ---
 
 ## States
@@ -687,7 +703,7 @@ No additional configuration is needed -- the components read the inherited `dir`
 |---------------|----------------|-----------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------|------------|
 | `fieldId`     | `field-id`     | Unique ID for the native input. Auto-generated if not provided.             | `string`                                                                                                        | auto       |
 | `type`        | `type`         | The HTML input type                                                         | `'text'` `'email'` `'password'` `'tel'` `'url'` `'number'` `'search'` `'date'` `'time'` `'datetime-local'` `'month'` `'week'` | `'text'`   |
-| `size`        | `size`         | The input size                                                              | `'xs'` `'sm'` `'base'` `'lg'` `'xl'`                                                                     | `'base'`   |
+| `size`        | `size`         | The input size. Supports responsive strings (e.g. `'sm xl:lg'`).           | `'xs'` `'sm'` `'base'` `'lg'` `'xl'`                                                                     | `'base'`   |
 | `disabled`    | `disabled`     | Prevents interaction                                                        | `boolean`                                                                                                       | `false`    |
 | `readonly`    | `readonly`     | Makes the input read-only                                                   | `boolean`                                                                                                       | `false`    |
 | `placeholder` | `placeholder`  | Hint text shown when the input is empty                                     | `string`                                                                                                        | --         |

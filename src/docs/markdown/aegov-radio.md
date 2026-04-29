@@ -200,6 +200,28 @@ The `size` property controls the dimensions of the radio button, label text, and
   </aegov-radio-group>
 </div>
 
+### Responsive Size
+
+The `size` prop accepts Tailwind-style responsive prefixes. Write a space-separated string where each token is either a plain value or `breakpoint:value`. The base value (no prefix) applies below the smallest specified breakpoint.
+
+Available breakpoints: `xs` (480px), `sm` (640px), `md` (768px), `lg` (1024px), `xl` (1280px), `2xl` (1536px), `3xl` (1680px).
+
+```html
+<aegov-radio-group name="responsive-size" label="Responsive size" size="sm xl:lg">
+  <aegov-radio label="Option A" value="a"></aegov-radio>
+  <aegov-radio label="Option B" value="b"></aegov-radio>
+</aegov-radio-group>
+```
+
+<div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
+  <aegov-radio-group name="responsive-size-demo" label="Responsive size" size="sm xl:lg">
+    <aegov-radio label="Option A" value="a"></aegov-radio>
+    <aegov-radio label="Option B" value="b"></aegov-radio>
+  </aegov-radio-group>
+</div>
+
+> **Graceful degradation:** Unknown breakpoint names and invalid values are silently ignored. An unrecognised base value falls back to the component default.
+
 ---
 
 ## Radio Group
@@ -527,7 +549,7 @@ No additional configuration is needed -- the component reads the inherited `dir`
 | `name`        | `name`         | The name attribute for the radio. Required for native radio grouping.       | `string`                        | `undefined` |
 | `value`       | `value`        | The value attribute for the radio.                                          | `string`                        | `undefined` |
 | `checked`     | `checked`      | Whether the radio is checked.                                               | `boolean`                       | `false`     |
-| `size`        | `size`         | The size of the radio.                                                      | `'xs'` \| `'sm'` \| `'base'` \| `'lg'` \| `'xl'`   | `'base'`    |
+| `size`        | `size`         | The size of the radio. Supports responsive strings (e.g. `'sm xl:lg'`).    | `'xs'` \| `'sm'` \| `'base'` \| `'lg'` \| `'xl'`   | `'base'`    |
 | `disabled`    | `disabled`     | Whether the radio is disabled.                                              | `boolean`                       | `false`     |
 | `required`    | `required`     | Whether the radio is required.                                              | `boolean`                       | `false`     |
 | `label`       | `label`        | Label text for the radio. Generates an associated `<label>` element.        | `string`                        | `undefined` |
@@ -547,7 +569,7 @@ No additional configuration is needed -- the component reads the inherited `dir`
 | `variant`     | `variant`      | Visual variant for the group layout.                                        | `'default'` \| `'list'` \| `'cards'` \| `'pills'`    | `'default'`  |
 | `orientation` | `orientation`  | Stack direction for radio items.                                            | `'vertical'` \| `'horizontal'`                        | `'vertical'` |
 | `label`       | `label`        | Optional label rendered as a `<legend>` for accessibility.                  | `string`                                              | `undefined`  |
-| `size`        | `size`         | Size of all radios in the group. Propagated to children.                    | `'xs'` \| `'sm'` \| `'base'` \| `'lg'` \| `'xl'`    | `'base'`     |
+| `size`        | `size`         | Size of all radios in the group. Propagated to children. Supports responsive strings (e.g. `'sm xl:lg'`). | `'xs'` \| `'sm'` \| `'base'` \| `'lg'` \| `'xl'`    | `'base'`     |
 | `name`        | `name`         | The name shared by all radios in the group. Required.                       | `string`                                              | --           |
 | `disabled`    | `disabled`     | Disables all radios within the group via native fieldset disabled.          | `boolean`                                             | `false`      |
 | `class`       | `class`        | Additional CSS classes to apply.                                            | `string`                                              | `undefined`  |

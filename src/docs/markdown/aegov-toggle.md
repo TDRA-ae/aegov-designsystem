@@ -76,6 +76,22 @@ The `size` property controls the dimensions of the track, thumb, label font size
   <aegov-toggle size="xl" label="Extra Large"></aegov-toggle>
 </div>
 
+### Responsive Size
+
+The `size` prop accepts Tailwind-style responsive prefixes. Write a space-separated string where each token is either a plain value or `breakpoint:value`. The base value (no prefix) applies below the smallest specified breakpoint.
+
+Available breakpoints: `xs` (480px), `sm` (640px), `md` (768px), `lg` (1024px), `xl` (1280px), `2xl` (1536px), `3xl` (1680px).
+
+```html
+<aegov-toggle size="sm xl:lg" label="Responsive Toggle"></aegov-toggle>
+```
+
+<div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
+  <aegov-toggle size="sm xl:lg" label="Responsive Toggle"></aegov-toggle>
+</div>
+
+> **Graceful degradation:** Unknown breakpoint names and invalid values are silently ignored. An unrecognised base value falls back to the component default.
+
 ---
 
 ## Label Text
@@ -353,7 +369,7 @@ The `field-id` property sets the `id` attribute on the native `<input>` element.
 | `checked`     | `checked`     | Whether the toggle is on                                                 | `boolean`                       | `false`     |
 | `disabled`    | `disabled`    | Prevents interaction                                                     | `boolean`                       | `false`     |
 | `required`    | `required`    | Marks the toggle as required for form validation                         | `boolean`                       | `false`     |
-| `size`        | `size`        | The toggle size                                                          | `'xs'` \| `'sm'` \| `'base'` \| `'lg'` \| `'xl'` | `'base'`    |
+| `size`        | `size`        | The toggle size. Supports responsive strings (e.g. `'sm xl:lg'`).       | `'xs'` \| `'sm'` \| `'base'` \| `'lg'` \| `'xl'` | `'base'`    |
 | `label`       | `label`       | Label text rendered inline with the toggle                               | `string`                        | `undefined` |
 | `description` | `description` | Helper text below the label (only shown when label is provided)          | `string`                        | `undefined` |
 | `name`        | `name`        | The name attribute for the native input                                  | `string`                        | `undefined` |

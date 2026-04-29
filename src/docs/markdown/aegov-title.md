@@ -43,6 +43,24 @@ The default size is `lg`.
   <aegov-title size="2xl">2XL Title (24px)</aegov-title>
 </div>
 
+### Responsive Size
+
+The `size` prop accepts Tailwind-style responsive prefixes. Write a space-separated string where each token is either a plain value or `breakpoint:value`. The base value (no prefix) applies below the smallest specified breakpoint.
+
+Available breakpoints: `xs` (480px), `sm` (640px), `md` (768px), `lg` (1024px), `xl` (1280px), `2xl` (1536px), `3xl` (1680px).
+
+Note: the default size is `lg`, not `base`.
+
+```html
+<aegov-title size="sm xl:2xl">Responsive Title</aegov-title>
+```
+
+<div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
+  <aegov-title size="sm xl:2xl">Resize the viewport to see the size change</aegov-title>
+</div>
+
+> **Graceful degradation:** Unknown breakpoint names and invalid values are silently ignored. An unrecognised base value falls back to the component default.
+
 ---
 
 ## Default Styling
@@ -136,7 +154,7 @@ The component forwards `aria-*`, `data-*`, and `id` attributes from the host ele
 
 | Property | Attribute | Description                                    | Type                                       | Default |
 |----------|-----------|------------------------------------------------|--------------------------------------------|---------|
-| `size`   | `size`    | The font size of the title                     | `'base'` \| `'lg'` \| `'xl'` \| `'2xl'`  | `'lg'`  |
+| `size`   | `size`    | The font size of the title. Supports responsive strings (e.g. `'sm xl:2xl'`). | `'base'` \| `'lg'` \| `'xl'` \| `'2xl'`  | `'lg'`  |
 | `class`  | `class`   | Additional Tailwind CSS classes to merge        | `string`                                   | —       |
 
 ### Slots

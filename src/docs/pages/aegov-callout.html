@@ -24,7 +24,7 @@
 <p class="text-lg text-aeblack-500 mb-8">A callout is a prominent notification banner used to communicate important messages, feedback, or contextual information. Callouts draw attention to warnings, errors, successes, and general notices within a page.</p>
 
 <h2>Introduction</h2>
-<p>The <code>aegov-callout</code> component displays a coloured notification box with an icon, message content, and optional actions. It supports <strong>5 semantic variants</strong>, <strong>2 appearances</strong> (soft and solid), <strong>3 sizes</strong> (sm, base, lg), named slots for icons, content, links, and actions, an optional <strong>bordered</strong> mode, and <strong>dismissible</strong> functionality.</p>
+<p>The <code>aegov-callout</code> component displays a coloured notification box with an icon, message content, and optional actions. It supports <strong>5 semantic variants</strong>, <strong>2 appearances</strong> (soft and solid), <strong>3 sizes</strong> (sm, base, lg), named slots for icons, content, links, and actions, and <strong>dismissible</strong> functionality.</p>
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-callout</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;content&quot;</span>&gt;</span>This is a default callout message.<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-callout</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
@@ -186,6 +186,18 @@
 
 <blockquote>
 <p><strong>Note:</strong> The <code>size</code> prop does not affect buttons placed in the <code>actions</code> slot — control their size directly via the <code>size</code> prop on <code>&lt;aegov-button&gt;</code>.</p>
+</blockquote>
+<h3>Responsive Size</h3>
+<p>The <code>size</code> prop accepts Tailwind-style responsive prefixes. Write a space-separated string where each token is either a plain value or <code>breakpoint:value</code>. The base value (no prefix) applies below the smallest specified breakpoint.</p>
+<p>Available breakpoints: <code>xs</code> (480px), <code>sm</code> (640px), <code>md</code> (768px), <code>lg</code> (1024px), <code>xl</code> (1280px), <code>2xl</code> (1536px), <code>3xl</code> (1680px).</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-callout</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm md:base xl:lg&quot;</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;info&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;content&quot;</span>&gt;</span>Responsive callout — small on mobile, large on desktop.<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-callout</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
+  <aegov-callout size="sm md:base xl:lg" variant="info"><span slot="content">Responsive callout — small on mobile, large on desktop.</span></aegov-callout>
+</div>
+
+<blockquote>
+<p><strong>Graceful degradation:</strong> Unknown breakpoint names and invalid values are silently ignored. An unrecognised base value falls back to the component default.</p>
 </blockquote>
 <hr>
 <h2>Custom Icon</h2>
@@ -371,7 +383,7 @@
 <tr>
 <td><code>size</code></td>
 <td><code>size</code></td>
-<td>Controls font size, icon size, and padding</td>
+<td>Controls font size, icon size, and padding. Supports responsive strings (e.g. <code>&#39;sm xl:lg&#39;</code>).</td>
 <td><code>&#39;sm&#39;</code> | <code>&#39;base&#39;</code> | <code>&#39;lg&#39;</code></td>
 <td><code>&#39;base&#39;</code></td>
 </tr>

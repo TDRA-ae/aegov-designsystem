@@ -1,7 +1,9 @@
-import { Component, Host, h, Prop, Event, EventEmitter, Element, Listen, Watch } from '@stencil/core';
+import { Component, Host, h, Prop, State, Event, EventEmitter, Element, Listen, Watch } from '@stencil/core';
 import { CHECKBOX_GROUP_VARIANTS, CHECKBOX_GROUP_ORIENTATIONS, CHECKBOX_SIZES } from '../../utils/types';
 import type { CheckboxGroupVariant, CheckboxGroupOrientation, CheckboxSize } from '../../utils/types';
 import { warnIfInvalidEnumProp } from '../../utils/prop-validator';
+import { watchResponsiveProp } from '../../utils/responsive-prop';
+import type { ResponsivePropWatcher } from '../../utils/responsive-prop';
 
 const TAG = 'aegov-checkbox-group';
 const ctx = (prop: string) => ({ component: TAG, prop });
@@ -25,7 +27,9 @@ export class AegovCheckboxGroup {
   @Prop() label?: string;
 
   /** Size of all checkboxes in the group. Propagated to children. */
-  @Prop() size: CheckboxSize = 'base';
+  @Prop() size: string = 'base';
+  @State() private _resolvedSize: CheckboxSize = 'base';
+  private _sizeWatcher: ResponsivePropWatcher | null = null;
 
   /** Disables all checkboxes within the group via native fieldset disabled. */
   @Prop() disabled: boolean = false;
@@ -39,7 +43,11 @@ export class AegovCheckboxGroup {
   componentWillLoad() {
     warnIfInvalidEnumProp(this.variant, CHECKBOX_GROUP_VARIANTS, 'default', ctx('variant'));
     warnIfInvalidEnumProp(this.orientation, CHECKBOX_GROUP_ORIENTATIONS, 'vertical', ctx('orientation'));
-    warnIfInvalidEnumProp(this.size, CHECKBOX_SIZES, 'base', ctx('size'));
+    this._sizeWatcher = watchResponsiveProp(this.size, CHECKBOX_SIZES, 'base', v => {
+      this._resolvedSize = v as CheckboxSize;
+      if (this.el.isConnected) { this.syncChildren(); }
+    });
+    this._resolvedSize = this._sizeWatcher.current as CheckboxSize;
   }
 
   componentDidLoad() {
@@ -53,16 +61,24 @@ export class AegovCheckboxGroup {
   @Watch('orientation')
   onOrientationChange(v: unknown) { warnIfInvalidEnumProp(v, CHECKBOX_GROUP_ORIENTATIONS, 'vertical', ctx('orientation')); }
 
+  disconnectedCallback() {
+    this._sizeWatcher?.destroy();
+  }
+
   @Watch('size')
-  onSizeChange(v: unknown) {
-    warnIfInvalidEnumProp(v, CHECKBOX_SIZES, 'base', ctx('size'));
-    this.syncChildren();
+  onSizeChange() {
+    this._sizeWatcher?.destroy();
+    this._sizeWatcher = watchResponsiveProp(this.size, CHECKBOX_SIZES, 'base', v => {
+      this._resolvedSize = v as CheckboxSize;
+      if (this.el.isConnected) { this.syncChildren(); }
+    });
+    this._resolvedSize = this._sizeWatcher.current as CheckboxSize;
   }
 
   private syncChildren() {
     const checkboxes = Array.from(this.el.querySelectorAll('aegov-checkbox')) as HTMLAegovCheckboxElement[];
     checkboxes.forEach(cb => {
-      cb.size = this.size;
+      cb.size = this._resolvedSize;
     });
   }
 

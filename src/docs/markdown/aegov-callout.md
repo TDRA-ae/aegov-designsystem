@@ -4,7 +4,7 @@
 
 ## Introduction
 
-The `aegov-callout` component displays a coloured notification box with an icon, message content, and optional actions. It supports **5 semantic variants**, **2 appearances** (soft and solid), **3 sizes** (sm, base, lg), named slots for icons, content, links, and actions, an optional **bordered** mode, and **dismissible** functionality.
+The `aegov-callout` component displays a coloured notification box with an icon, message content, and optional actions. It supports **5 semantic variants**, **2 appearances** (soft and solid), **3 sizes** (sm, base, lg), named slots for icons, content, links, and actions, and **dismissible** functionality.
 
 ```html
 <aegov-callout>
@@ -240,6 +240,24 @@ The `size` property controls font size, icon size, and padding. Three sizes are 
 
 > **Note:** The `size` prop does not affect buttons placed in the `actions` slot — control their size directly via the `size` prop on `<aegov-button>`.
 
+### Responsive Size
+
+The `size` prop accepts Tailwind-style responsive prefixes. Write a space-separated string where each token is either a plain value or `breakpoint:value`. The base value (no prefix) applies below the smallest specified breakpoint.
+
+Available breakpoints: `xs` (480px), `sm` (640px), `md` (768px), `lg` (1024px), `xl` (1280px), `2xl` (1536px), `3xl` (1680px).
+
+```html
+<aegov-callout size="sm md:base xl:lg" variant="info">
+  <span slot="content">Responsive callout — small on mobile, large on desktop.</span>
+</aegov-callout>
+```
+
+<div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
+  <aegov-callout size="sm md:base xl:lg" variant="info"><span slot="content">Responsive callout — small on mobile, large on desktop.</span></aegov-callout>
+</div>
+
+> **Graceful degradation:** Unknown breakpoint names and invalid values are silently ignored. An unrecognised base value falls back to the component default.
+
 ---
 
 ## Custom Icon
@@ -446,7 +464,7 @@ The table below shows every combination of variant and appearance for visual QA 
 |---------------|---------------|--------------------------------------------------|---------------------------------------------------------------|-------------|
 | `variant`     | `variant`     | The semantic variant controlling colour scheme   | `'default'` \| `'error'` \| `'warning'` \| `'success'` \| `'info'` | `'default'` |
 | `appearance`  | `appearance`  | The visual intensity                             | `'soft'` \| `'solid'`                                         | `'soft'`    |
-| `size`        | `size`        | Controls font size, icon size, and padding       | `'sm'` \| `'base'` \| `'lg'`                                  | `'base'`    |
+| `size`        | `size`        | Controls font size, icon size, and padding. Supports responsive strings (e.g. `'sm xl:lg'`). | `'sm'` \| `'base'` \| `'lg'`                                  | `'base'`    |
 | `dismissible` | `dismissible` | Shows a close button and enables dismiss         | `boolean`                                                     | `false`     |
 
 ### Events
