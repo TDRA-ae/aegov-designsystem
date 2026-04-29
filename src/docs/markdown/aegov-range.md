@@ -58,6 +58,22 @@ The `size` property controls the thickness of the track. The thumb remains a con
   <div class="pb-8"><aegov-range size="xl" value="90"></aegov-range></div>
 </div>
 
+### Responsive Size
+
+The `size` prop accepts Tailwind-style responsive prefixes. Write a space-separated string where each token is either a plain value or `breakpoint:value`. The base value (no prefix) applies below the smallest specified breakpoint.
+
+Available breakpoints: `xs` (480px), `sm` (640px), `md` (768px), `lg` (1024px), `xl` (1280px), `2xl` (1536px), `3xl` (1680px).
+
+```html
+<aegov-range size="sm xl:lg" value="50"></aegov-range>
+```
+
+<div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
+  <aegov-range size="sm xl:lg" value="50"></aegov-range>
+</div>
+
+> **Graceful degradation:** Unknown breakpoint names and invalid values are silently ignored. An unrecognised base value falls back to the component default.
+
 ---
 
 ## Value Display
@@ -303,7 +319,7 @@ No additional configuration is needed — the component reads the computed `dire
 | `min`         | `min`          | Minimum value                                        | `number`                                                | `0`            |
 | `max`         | `max`          | Maximum value                                        | `number`                                                | `100`          |
 | `step`        | `step`         | Step increment                                       | `number`                                                | `1`            |
-| `size`        | `size`         | Track thickness                                      | `'xs'` \| `'sm'` \| `'base'` \| `'lg'` \| `'xl'`      | `'base'`       |
+| `size`        | `size`         | Track thickness. Supports responsive strings (e.g. `'sm xl:lg'`).           | `'xs'` \| `'sm'` \| `'base'` \| `'lg'` \| `'xl'`      | `'base'`       |
 | `display`     | `display`      | Value display mode                                   | `'none'` \| `'tooltip'` \| `'thumb'` \| `'full'`       | `'none'`       |
 | `orientation` | `orientation`  | Layout orientation                                   | `'horizontal'` \| `'vertical'`                          | `'horizontal'` |
 | `mode`        | `mode`         | Single thumb or dual-thumb range                     | `'single'` \| `'range'`                                 | `'single'`     |

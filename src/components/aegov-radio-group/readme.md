@@ -14,7 +14,7 @@
 | `label`             | `label`       | Optional label rendered as a <legend> for accessibility.                           | `string`                                    | `undefined`  |
 | `name` _(required)_ | `name`        | The name shared by all radios in the group. Ensures native single-select behavior. | `string`                                    | `undefined`  |
 | `orientation`       | `orientation` | Stack direction for radio items.                                                   | `"horizontal" \| "vertical"`                | `'vertical'` |
-| `size`              | `size`        | Size of all radios in the group. Propagated to children.                           | `"base" \| "lg" \| "sm" \| "xl" \| "xs"`    | `'base'`     |
+| `size`              | `size`        | Size of all radios in the group. Propagated to children.                           | `string`                                    | `'base'`     |
 | `variant`           | `variant`     | Visual variant for the group layout.                                               | `"cards" \| "default" \| "list" \| "pills"` | `'default'`  |
 
 

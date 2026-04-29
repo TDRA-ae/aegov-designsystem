@@ -1,7 +1,9 @@
-import { Component, Host, h, Prop, Event, EventEmitter, Element, Listen, Watch } from '@stencil/core';
+import { Component, Host, h, Prop, State, Event, EventEmitter, Element, Listen, Watch } from '@stencil/core';
 import { RADIO_GROUP_VARIANTS, RADIO_GROUP_ORIENTATIONS, RADIO_SIZES } from '../../utils/types';
 import type { RadioGroupVariant, RadioGroupOrientation, RadioSize } from '../../utils/types';
 import { warnIfInvalidEnumProp } from '../../utils/prop-validator';
+import { watchResponsiveProp } from '../../utils/responsive-prop';
+import type { ResponsivePropWatcher } from '../../utils/responsive-prop';
 
 const TAG = 'aegov-radio-group';
 const ctx = (prop: string) => ({ component: TAG, prop });
@@ -25,7 +27,9 @@ export class AegovRadioGroup {
   @Prop() label?: string;
 
   /** Size of all radios in the group. Propagated to children. */
-  @Prop() size: RadioSize = 'base';
+  @Prop() size: string = 'base';
+  @State() private _resolvedSize: RadioSize = 'base';
+  private _sizeWatcher: ResponsivePropWatcher | null = null;
 
   /** The name shared by all radios in the group. Ensures native single-select behavior. */
   @Prop() name!: string;
@@ -42,7 +46,11 @@ export class AegovRadioGroup {
   componentWillLoad() {
     warnIfInvalidEnumProp(this.variant, RADIO_GROUP_VARIANTS, 'default', ctx('variant'));
     warnIfInvalidEnumProp(this.orientation, RADIO_GROUP_ORIENTATIONS, 'vertical', ctx('orientation'));
-    warnIfInvalidEnumProp(this.size, RADIO_SIZES, 'base', ctx('size'));
+    this._sizeWatcher = watchResponsiveProp(this.size, RADIO_SIZES, 'base', v => {
+      this._resolvedSize = v as RadioSize;
+      if (this.el.isConnected) { this.syncChildren(); }
+    });
+    this._resolvedSize = this._sizeWatcher.current as RadioSize;
   }
 
   componentDidLoad() {
@@ -55,10 +63,18 @@ export class AegovRadioGroup {
   @Watch('orientation')
   onOrientationChange(v: unknown) { warnIfInvalidEnumProp(v, RADIO_GROUP_ORIENTATIONS, 'vertical', ctx('orientation')); }
 
+  disconnectedCallback() {
+    this._sizeWatcher?.destroy();
+  }
+
   @Watch('size')
-  onSizeChange(v: unknown) {
-    warnIfInvalidEnumProp(v, RADIO_SIZES, 'base', ctx('size'));
-    this.syncChildren();
+  onSizeChange() {
+    this._sizeWatcher?.destroy();
+    this._sizeWatcher = watchResponsiveProp(this.size, RADIO_SIZES, 'base', v => {
+      this._resolvedSize = v as RadioSize;
+      if (this.el.isConnected) { this.syncChildren(); }
+    });
+    this._resolvedSize = this._sizeWatcher.current as RadioSize;
   }
 
   @Watch('name')
@@ -69,7 +85,7 @@ export class AegovRadioGroup {
   private syncChildren() {
     const radios = this.getRadios();
     radios.forEach(radio => {
-      radio.size = this.size;
+      radio.size = this._resolvedSize;
       radio.name = this.name;
     });
   }

@@ -202,6 +202,22 @@ All three sizes in solid appearance:
   <aegov-badge size="lg" color="techblue" appearance="solid">Large Solid</aegov-badge>
 </div>
 
+### Responsive Size
+
+The `size` prop accepts Tailwind-style responsive prefixes. Write a space-separated string where each token is either a plain value or `breakpoint:value`. The base value (no prefix) applies below the smallest specified breakpoint.
+
+Available breakpoints: `xs` (480px), `sm` (640px), `md` (768px), `lg` (1024px), `xl` (1280px), `2xl` (1536px), `3xl` (1680px).
+
+```html
+<aegov-badge size="sm xl:lg" color="primary">Responsive Badge</aegov-badge>
+```
+
+<div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
+  <aegov-badge size="sm xl:lg" color="primary">Responsive</aegov-badge>
+</div>
+
+> **Graceful degradation:** Unknown breakpoint names and invalid values are silently ignored. An unrecognised base value falls back to the component default.
+
 ---
 
 ## Dismissible
@@ -290,7 +306,7 @@ The dismiss button margin automatically flips in RTL layouts using `rtl:ml-0 rtl
 |---------------|---------------|-----------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------|
 | `appearance`  | `appearance`  | The visual intensity              | `'soft'` \| `'solid'`                                                                                                                                                                         | `'soft'`    |
 | `color`       | `color`       | The colour variant                | `'default'` \| `'primary'` \| `'secondary'` \| `'aegold'` \| `'aered'` \| `'aegreen'` \| `'aeblack'` \| `'techblue'` \| `'seablue'` \| `'camel'` \| `'desert'` \| `'fuchsia'` \| `'slate'` \| `'purple'` \| `'pink'` \| `'indigo'` \| `'lime'` | `'default'` |
-| `size`        | `size`        | The badge size                    | `'sm'` \| `'base'` \| `'lg'`                                                                                                                                                                  | `'base'`    |
+| `size`        | `size`        | The badge size. Supports responsive strings (e.g. `'sm xl:lg'`). | `'sm'` \| `'base'` \| `'lg'`                                                                                                                                                                  | `'base'`    |
 | `dismissible` | `dismissible` | Shows a close button              | `boolean`                                                                                                                                                                                      | `false`     |
 
 ### Events

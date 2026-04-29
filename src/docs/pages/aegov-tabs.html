@@ -172,6 +172,30 @@
   </div>
 </div>
 
+<h3>Responsive Size</h3>
+<p>The <code>size</code> prop accepts Tailwind-style responsive prefixes. Write a space-separated string where each token is either a plain value or <code>breakpoint:value</code>. The base value (no prefix) applies below the smallest specified breakpoint.</p>
+<p>Available breakpoints: <code>xs</code> (480px), <code>sm</code> (640px), <code>md</code> (768px), <code>lg</code> (1024px), <code>xl</code> (1280px), <code>2xl</code> (1536px), <code>3xl</code> (1680px).</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-tabs</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm xl:lg&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-tab</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;tabs&quot;</span> <span class="hljs-attr">tab-id</span>=<span class="hljs-string">&quot;tab1&quot;</span>&gt;</span>Overview<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-tab</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-tab</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;tabs&quot;</span> <span class="hljs-attr">tab-id</span>=<span class="hljs-string">&quot;tab2&quot;</span>&gt;</span>Details<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-tab</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-tab</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;tabs&quot;</span> <span class="hljs-attr">tab-id</span>=<span class="hljs-string">&quot;tab3&quot;</span>&gt;</span>Settings<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-tab</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-tab-panel</span> <span class="hljs-attr">tab-id</span>=<span class="hljs-string">&quot;tab1&quot;</span>&gt;</span>Overview content.<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-tab-panel</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-tab-panel</span> <span class="hljs-attr">tab-id</span>=<span class="hljs-string">&quot;tab2&quot;</span>&gt;</span>Details content.<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-tab-panel</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-tab-panel</span> <span class="hljs-attr">tab-id</span>=<span class="hljs-string">&quot;tab3&quot;</span>&gt;</span>Settings content.<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-tab-panel</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-tabs</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
+  <aegov-tabs size="sm xl:lg">
+    <aegov-tab slot="tabs" tab-id="resp-sz-1">Overview</aegov-tab>
+    <aegov-tab slot="tabs" tab-id="resp-sz-2">Details</aegov-tab>
+    <aegov-tab slot="tabs" tab-id="resp-sz-3">Settings</aegov-tab>
+    <aegov-tab-panel tab-id="resp-sz-1">Overview content.</aegov-tab-panel>
+    <aegov-tab-panel tab-id="resp-sz-2">Details content.</aegov-tab-panel>
+    <aegov-tab-panel tab-id="resp-sz-3">Settings content.</aegov-tab-panel>
+  </aegov-tabs>
+</div>
+
+<blockquote>
+<p><strong>Graceful degradation:</strong> Unknown breakpoint names and invalid values are silently ignored. An unrecognised base value falls back to the component default.</p>
+</blockquote>
 <hr>
 <h2>Default Active Tab</h2>
 <p>Use the <code>default-active-tab</code> property to specify which tab should be active on initial render. Pass the <code>tab-id</code> of the desired tab. If not provided, the first non-disabled tab is activated automatically.</p>
@@ -504,7 +528,7 @@
 <tr>
 <td><code>size</code></td>
 <td><code>size</code></td>
-<td>Size of the tab triggers</td>
+<td>Size of the tab triggers. Supports responsive strings (e.g. <code>&#39;sm xl:lg&#39;</code>).</td>
 <td><code>&#39;sm&#39;</code> | <code>&#39;base&#39;</code> | <code>&#39;lg&#39;</code></td>
 <td><code>&#39;base&#39;</code></td>
 </tr>

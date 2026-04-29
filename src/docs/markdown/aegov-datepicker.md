@@ -126,6 +126,22 @@ The `size` property controls the height and padding of the datepicker input. The
   <aegov-datepicker size="xl" placeholder="Extra Large"></aegov-datepicker>
 </div>
 
+### Responsive Size
+
+The `size` prop accepts Tailwind-style responsive prefixes. Write a space-separated string where each token is either a plain value or `breakpoint:value`. The base value (no prefix) applies below the smallest specified breakpoint.
+
+Available breakpoints: `xs` (480px), `sm` (640px), `md` (768px), `lg` (1024px), `xl` (1280px), `2xl` (1536px), `3xl` (1680px).
+
+```html
+<aegov-datepicker size="sm xl:lg" placeholder="Responsive datepicker"></aegov-datepicker>
+```
+
+<div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
+  <aegov-datepicker size="sm xl:lg" placeholder="Responsive datepicker"></aegov-datepicker>
+</div>
+
+> **Graceful degradation:** Unknown breakpoint names and invalid values are silently ignored. An unrecognised base value falls back to the component default.
+
 ---
 
 ## Disabled State
@@ -688,7 +704,7 @@ The component fully supports right-to-left layouts. When the document or a paren
 | `yearRangeStart` | `year-range-start` | Start year for the year dropdown (0 = auto) | `number` | `0` |
 | `yearRangeEnd` | `year-range-end` | End year for the year dropdown (0 = auto) | `number` | `0` |
 | `withConfirmation` | `with-confirmation` | Show Apply/Cancel buttons for confirming selection | `boolean` | `false` |
-| `size` | `size` | The size of the datepicker input | `'xs'` \| `'sm'` \| `'base'` \| `'lg'` \| `'xl'` | `'base'` |
+| `size` | `size` | The size of the datepicker input. Supports responsive strings (e.g. `'sm xl:lg'`). | `'xs'` \| `'sm'` \| `'base'` \| `'lg'` \| `'xl'` | `'base'` |
 
 ### Events
 

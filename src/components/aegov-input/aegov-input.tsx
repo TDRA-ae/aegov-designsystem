@@ -4,6 +4,8 @@ import type { InputType, InputSize } from '../../utils/types';
 import { getPassThroughAttributes } from '../../utils/attributes';
 import { generateId } from '../../utils/id-generator';
 import { warnIfInvalidEnumProp } from '../../utils/prop-validator';
+import { watchResponsiveProp } from '../../utils/responsive-prop';
+import type { ResponsivePropWatcher } from '../../utils/responsive-prop';
 
 const TAG = 'aegov-input';
 const ctx = (prop: string) => ({ component: TAG, prop });
@@ -24,7 +26,9 @@ export class AegovInput {
   @Prop() type: InputType = 'text';
 
   /** The size of the input field. */
-  @Prop() size: InputSize = 'base';
+  @Prop() size: string = 'base';
+  @State() private _resolvedSize: InputSize = 'base';
+  private _sizeWatcher: ResponsivePropWatcher | null = null;
 
   /** Whether the input is disabled. */
   @Prop() disabled: boolean = false;
@@ -73,17 +77,30 @@ export class AegovInput {
 
   componentWillLoad() {
     warnIfInvalidEnumProp(this.type, INPUT_TYPES, 'text', ctx('type'));
-    warnIfInvalidEnumProp(this.size, INPUT_SIZES, 'base', ctx('size'));
+    this._sizeWatcher = watchResponsiveProp(this.size, INPUT_SIZES, 'base', v => {
+      this._resolvedSize = v as InputSize;
+    });
+    this._resolvedSize = this._sizeWatcher.current as InputSize;
     if (!this.fieldId) {
       this.fieldId = generateId('aegov-input');
     }
+  }
+
+  disconnectedCallback() {
+    this._sizeWatcher?.destroy();
   }
 
   @Watch('type')
   onTypeChange(v: unknown) { warnIfInvalidEnumProp(v, INPUT_TYPES, 'text', ctx('type')); }
 
   @Watch('size')
-  onSizeChange(v: unknown) { warnIfInvalidEnumProp(v, INPUT_SIZES, 'base', ctx('size')); }
+  onSizeChange() {
+    this._sizeWatcher?.destroy();
+    this._sizeWatcher = watchResponsiveProp(this.size, INPUT_SIZES, 'base', v => {
+      this._resolvedSize = v as InputSize;
+    });
+    this._resolvedSize = this._sizeWatcher.current as InputSize;
+  }
 
   /** Native input attributes to pass through to the inner input element. */
   private static readonly NATIVE_INPUT_ATTRS = new Set([
@@ -124,8 +141,7 @@ export class AegovInput {
       xl: 'input--xl',
     };
 
-    const size: InputSize = (INPUT_SIZES as readonly string[]).includes(this.size) ? this.size : 'base';
-    classes.push(sizeClasses[size]);
+    classes.push(sizeClasses[this._resolvedSize]);
 
     if (this.hasActionButton) {
       classes.push('input--has-action');
@@ -203,12 +219,10 @@ export class AegovInput {
       xl: 'revealable--xl',
     };
 
-    const size: InputSize = (INPUT_SIZES as readonly string[]).includes(this.size) ? this.size : 'base';
-
     return (
       <button
         type="button"
-        class={`input__revealable ${sizeClasses[size]}`}
+        class={`input__revealable ${sizeClasses[this._resolvedSize]}`}
         onClick={this.handleRevealToggle}
         disabled={this.disabled}
         tabindex={-1}
@@ -244,12 +258,10 @@ export class AegovInput {
       xl: 'copy-btn--xl',
     };
 
-    const size: InputSize = (INPUT_SIZES as readonly string[]).includes(this.size) ? this.size : 'base';
-
     return (
       <button
         type="button"
-        class={`input__copy-btn ${sizeClasses[size]}${this.justCopied ? ' input__copy-btn--copied' : ''}`}
+        class={`input__copy-btn ${sizeClasses[this._resolvedSize]}${this.justCopied ? ' input__copy-btn--copied' : ''}`}
         onClick={this.handleCopy}
         tabindex={-1}
         aria-label={this.justCopied ? 'Copied' : 'Copy to clipboard'}
@@ -276,8 +288,6 @@ export class AegovInput {
     const hasIconEndContent = !!this.el.querySelector('[slot="icon-end"]');
     const hasIconEnd = hasIconEndContent && !this.hasActionButton;
     const needsWrapper = this.hasActionButton || hasIconStart || hasIconEnd || hasIconEndContent;
-    const size: InputSize = (INPUT_SIZES as readonly string[]).includes(this.size) ? this.size : 'base';
-
     const input = (
       <input
         id={this.fieldId}
@@ -300,7 +310,7 @@ export class AegovInput {
     if (needsWrapper) {
       return (
         <Host>
-          <div class={`input__wrapper input__wrapper--${size}`}>
+          <div class={`input__wrapper input__wrapper--${this._resolvedSize}`}>
             {hasIconStart && (
               <span class="input__icon input__icon--start">
                 <slot name="icon-start" />

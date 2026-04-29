@@ -20,13 +20,13 @@ Avatars represent users or entities in the interface. They can display profile p
 
 ## Properties
 
-| Property  | Attribute | Description                                                                                     | Type                                                       | Default     |
-| --------- | --------- | ----------------------------------------------------------------------------------------------- | ---------------------------------------------------------- | ----------- |
-| `alt`     | `alt`     | Alternative text for the image (required for accessibility)                                     | `string`                                                   | `undefined` |
-| `size`    | `size`    | The avatar size                                                                                 | `"2xl" \| "3xl" \| "base" \| "lg" \| "sm" \| "xl" \| "xs"` | `'base'`    |
-| `src`     | `src`     | The image source URL                                                                            | `string`                                                   | `undefined` |
-| `status`  | `status`  | Status indicator type. Set to 'online' or 'offline' to show indicator, or 'none'/false to hide. | `"none" \| "offline" \| "online" \| boolean`               | `'none'`    |
-| `variant` | `variant` | The avatar variant (shape)                                                                      | `"rounded" \| "square"`                                    | `'square'`  |
+| Property  | Attribute | Description                                                                                     | Type                                         | Default     |
+| --------- | --------- | ----------------------------------------------------------------------------------------------- | -------------------------------------------- | ----------- |
+| `alt`     | `alt`     | Alternative text for the image (required for accessibility)                                     | `string`                                     | `undefined` |
+| `size`    | `size`    | The avatar size                                                                                 | `string`                                     | `'base'`    |
+| `src`     | `src`     | The image source URL                                                                            | `string`                                     | `undefined` |
+| `status`  | `status`  | Status indicator type. Set to 'online' or 'offline' to show indicator, or 'none'/false to hide. | `"none" \| "offline" \| "online" \| boolean` | `'none'`    |
+| `variant` | `variant` | The avatar variant (shape)                                                                      | `"rounded" \| "square"`                      | `'square'`  |
 
 
 ## Slots

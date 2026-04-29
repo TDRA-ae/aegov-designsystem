@@ -168,6 +168,36 @@ The `size` property controls the padding and font size of the tab triggers. Ther
   </div>
 </div>
 
+### Responsive Size
+
+The `size` prop accepts Tailwind-style responsive prefixes. Write a space-separated string where each token is either a plain value or `breakpoint:value`. The base value (no prefix) applies below the smallest specified breakpoint.
+
+Available breakpoints: `xs` (480px), `sm` (640px), `md` (768px), `lg` (1024px), `xl` (1280px), `2xl` (1536px), `3xl` (1680px).
+
+```html
+<aegov-tabs size="sm xl:lg">
+  <aegov-tab slot="tabs" tab-id="tab1">Overview</aegov-tab>
+  <aegov-tab slot="tabs" tab-id="tab2">Details</aegov-tab>
+  <aegov-tab slot="tabs" tab-id="tab3">Settings</aegov-tab>
+  <aegov-tab-panel tab-id="tab1">Overview content.</aegov-tab-panel>
+  <aegov-tab-panel tab-id="tab2">Details content.</aegov-tab-panel>
+  <aegov-tab-panel tab-id="tab3">Settings content.</aegov-tab-panel>
+</aegov-tabs>
+```
+
+<div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
+  <aegov-tabs size="sm xl:lg">
+    <aegov-tab slot="tabs" tab-id="resp-sz-1">Overview</aegov-tab>
+    <aegov-tab slot="tabs" tab-id="resp-sz-2">Details</aegov-tab>
+    <aegov-tab slot="tabs" tab-id="resp-sz-3">Settings</aegov-tab>
+    <aegov-tab-panel tab-id="resp-sz-1">Overview content.</aegov-tab-panel>
+    <aegov-tab-panel tab-id="resp-sz-2">Details content.</aegov-tab-panel>
+    <aegov-tab-panel tab-id="resp-sz-3">Settings content.</aegov-tab-panel>
+  </aegov-tabs>
+</div>
+
+> **Graceful degradation:** Unknown breakpoint names and invalid values are silently ignored. An unrecognised base value falls back to the component default.
+
 ---
 
 ## Default Active Tab
@@ -553,7 +583,7 @@ No additional configuration is needed — keyboard arrow keys are automatically 
 | Property           | Attribute            | Description                                                                 | Type                                | Default          |
 |--------------------|----------------------|-----------------------------------------------------------------------------|-------------------------------------|------------------|
 | `variant`          | `variant`            | Visual style of the tab triggers                                           | `'simple'` \| `'segmented'` \| `'pill'` | `'simple'`       |
-| `size`             | `size`               | Size of the tab triggers                                                   | `'sm'` \| `'base'` \| `'lg'`       | `'base'`         |
+| `size`             | `size`               | Size of the tab triggers. Supports responsive strings (e.g. `'sm xl:lg'`). | `'sm'` \| `'base'` \| `'lg'`       | `'base'`         |
 | `defaultActiveTab` | `default-active-tab` | The tab-id of the initially active tab                                     | `string`                            | `''`             |
 | `scrollable`       | `scrollable`         | Enables horizontal scrolling when tabs overflow                            | `boolean`                           | `false`          |
 | `stretch`          | `stretch`            | Distributes tabs evenly across full width                                  | `boolean`                           | `false`          |

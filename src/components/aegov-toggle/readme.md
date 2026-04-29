@@ -7,17 +7,17 @@
 
 ## Properties
 
-| Property      | Attribute     | Description                                                                       | Type                                     | Default     |
-| ------------- | ------------- | --------------------------------------------------------------------------------- | ---------------------------------------- | ----------- |
-| `checked`     | `checked`     | Whether the toggle is checked/on.                                                 | `boolean`                                | `false`     |
-| `description` | `description` | Description text displayed below the label. Only rendered when label is provided. | `string`                                 | `undefined` |
-| `disabled`    | `disabled`    | Whether the toggle is disabled.                                                   | `boolean`                                | `false`     |
-| `fieldId`     | `field-id`    | Unique ID for the native checkbox element. Auto-generated if not provided.        | `string`                                 | `undefined` |
-| `label`       | `label`       | Label text for the toggle. Rendered at the end (inline-end).                      | `string`                                 | `undefined` |
-| `name`        | `name`        | The name attribute for the toggle.                                                | `string`                                 | `undefined` |
-| `required`    | `required`    | Whether the toggle is required.                                                   | `boolean`                                | `false`     |
-| `size`        | `size`        | The size of the toggle.                                                           | `"base" \| "lg" \| "sm" \| "xl" \| "xs"` | `'base'`    |
-| `value`       | `value`       | The value attribute for the toggle.                                               | `string`                                 | `undefined` |
+| Property      | Attribute     | Description                                                                       | Type      | Default     |
+| ------------- | ------------- | --------------------------------------------------------------------------------- | --------- | ----------- |
+| `checked`     | `checked`     | Whether the toggle is checked/on.                                                 | `boolean` | `false`     |
+| `description` | `description` | Description text displayed below the label. Only rendered when label is provided. | `string`  | `undefined` |
+| `disabled`    | `disabled`    | Whether the toggle is disabled.                                                   | `boolean` | `false`     |
+| `fieldId`     | `field-id`    | Unique ID for the native checkbox element. Auto-generated if not provided.        | `string`  | `undefined` |
+| `label`       | `label`       | Label text for the toggle. Rendered at the end (inline-end).                      | `string`  | `undefined` |
+| `name`        | `name`        | The name attribute for the toggle.                                                | `string`  | `undefined` |
+| `required`    | `required`    | Whether the toggle is required.                                                   | `boolean` | `false`     |
+| `size`        | `size`        | The size of the toggle.                                                           | `string`  | `'base'`    |
+| `value`       | `value`       | The value attribute for the toggle.                                               | `string`  | `undefined` |
 
 
 ## Events
