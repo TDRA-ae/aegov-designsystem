@@ -1,0 +1,112 @@
+:host {
+  display: contents;
+}
+
+li.aegov-navbar-item {
+  @apply relative inline-flex items-center;
+}
+
+.aegov-navbar-item__link {
+  @apply inline-flex items-center gap-2 no-underline text-aeblack-800 transition-colors;
+  @apply rounded-md;
+  @apply hover:text-primary-600;
+}
+
+a.aegov-navbar-item__link:focus-visible,
+button.aegov-navbar-item__chevron:focus-visible {
+  @apply outline-2 outline-offset-2 outline-primary-500;
+}
+
+.aegov-navbar-item__link[aria-current="page"] {
+  @apply text-primary-700 font-semibold relative;
+}
+
+.aegov-navbar-item__link[aria-current="page"]::after {
+  content: '';
+  @apply absolute left-0 right-0 bottom-0 h-0.5 bg-primary-600 rounded-full;
+}
+
+.aegov-navbar-item__icon {
+  @apply inline-flex items-center justify-center shrink-0;
+}
+
+.aegov-navbar-item__icon:empty {
+  display: none;
+}
+
+.aegov-navbar-item__icon svg,
+.aegov-navbar-item__icon img {
+  @apply w-full h-full;
+}
+
+.aegov-navbar-item__label {
+  @apply inline-flex items-center;
+}
+
+button.aegov-navbar-item__chevron {
+  @apply inline-flex items-center justify-center bg-transparent border-0 cursor-pointer p-1 ml-0.5;
+  @apply rounded-md text-aeblack-700 transition-colors;
+  @apply hover:text-primary-600 hover:bg-aeblack-50;
+}
+
+button.aegov-navbar-item__chevron svg {
+  @apply w-full h-full;
+}
+
+/* Disabled */
+li.aegov-navbar-item--disabled {
+  @apply opacity-50 pointer-events-none;
+}
+
+li.aegov-navbar-item--disabled .aegov-navbar-item__link {
+  @apply cursor-not-allowed;
+}
+
+/* ---- Sizes ---- */
+/* sm */
+li.aegov-navbar-item--sm .aegov-navbar-item__link {
+  @apply text-sm md:text-base py-3 md:py-3.5 px-2;
+}
+li.aegov-navbar-item--sm .aegov-navbar-item__icon {
+  @apply w-4 h-4 md:w-5 md:h-5;
+}
+li.aegov-navbar-item--sm button.aegov-navbar-item__chevron {
+  @apply w-7 h-7 md:w-8 md:h-8;
+}
+li.aegov-navbar-item--sm button.aegov-navbar-item__chevron svg {
+  @apply w-3.5 h-3.5 md:w-4 md:h-4;
+}
+
+/* base */
+li.aegov-navbar-item--base .aegov-navbar-item__link {
+  @apply text-base md:text-lg py-4 px-2.5;
+}
+li.aegov-navbar-item--base .aegov-navbar-item__icon {
+  @apply w-5 h-5 md:w-6 md:h-6;
+}
+li.aegov-navbar-item--base button.aegov-navbar-item__chevron {
+  @apply w-8 h-8 md:w-9 md:h-9;
+}
+li.aegov-navbar-item--base button.aegov-navbar-item__chevron svg {
+  @apply w-4 h-4 md:w-5 md:h-5;
+}
+
+/* lg */
+li.aegov-navbar-item--lg .aegov-navbar-item__link {
+  @apply text-lg md:text-xl py-5 px-3;
+}
+li.aegov-navbar-item--lg .aegov-navbar-item__icon {
+  @apply w-6 h-6 md:w-7 md:h-7;
+}
+li.aegov-navbar-item--lg button.aegov-navbar-item__chevron {
+  @apply w-9 h-9 md:w-10 md:h-10;
+}
+li.aegov-navbar-item--lg button.aegov-navbar-item__chevron svg {
+  @apply w-5 h-5 md:w-6 md:h-6;
+}
+
+/* RTL: flip chevron horizontally so it still points "down" but cleanly mirrors any directional intent. */
+:host(:dir(rtl)) button.aegov-navbar-item__chevron svg,
+[dir="rtl"] button.aegov-navbar-item__chevron svg {
+  /* chevron-down is symmetric so no transform needed; keep rule for future asymmetric icons */
+}
