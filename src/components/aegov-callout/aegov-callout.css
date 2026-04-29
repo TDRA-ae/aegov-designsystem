@@ -12,48 +12,54 @@
 
 .aegov-callout {
   font-family:inherit;
-  @apply @container px-5 py-4 flex items-start gap-4 rounded-md text-base;
-  &.callout--soft {
-    &.callout--default {
-      @apply bg-slate-100 text-slate-800 border-slate-800;
+  @apply @container;
+  & .callout__right {
+        ::slotted(a),
+        & a {
+          @apply cursor-pointer;
+        }
+  }
+  &.callout-soft {
+    &.callout-default {
+      @apply bg-aeblack-50 text-aeblack-800 border-s-4 border-aeblack-800;
       & .callout__icon {
         & svg {
-          @apply fill-slate-800;
+          @apply fill-aeblack-800;
         }
       }
       & .callout__actions {
         & button.aegov-btn.btn-primary.btn-solid,
         & aegov-button button.btn-primary.btn-solid {
-          @apply bg-slate-800 border-slate-800 text-whitely-50 hover:opacity-90 focus-visible:outline-offset-3 focus-visible:outline-2 focus-visible:outline-seablue-600;
+          @apply bg-aeblack-800 border-aeblack-800 text-whitely-50 hover:opacity-90 focus-visible:outline-offset-3 focus-visible:outline-2 focus-visible:outline-seablue-600;
         }
         & button.aegov-btn.btn-primary.btn-outline,
         & aegov-button button.btn-primary.btn-outline {
-          @apply border-slate-700 text-slate-700 hover:bg-slate-50 hover:opacity-80 focus-visible:outline-offset-3 focus-visible:outline-2 focus-visible:outline-seablue-600 focus-visible:bg-transparent;
+          @apply border-aeblack-700 text-aeblack-700 hover:bg-aeblack-50 hover:opacity-80 focus-visible:outline-offset-3 focus-visible:outline-2 focus-visible:outline-seablue-600 focus-visible:bg-transparent;
         }
         & button.aegov-btn.btn-primary.btn-soft,
         & aegov-button button.btn-primary.btn-soft {
-          @apply bg-slate-200/80 text-slate-800 hover:bg-slate-300/50 focus-visible:outline-offset-3 focus-visible:outline-2 focus-visible:outline-seablue-600;
+          @apply bg-aeblack-200/80 text-aeblack-800 hover:bg-aeblack-300/50 focus-visible:outline-offset-3 focus-visible:outline-2 focus-visible:outline-seablue-600;
         }
         & button.aegov-btn.btn-primary.btn-link,
         & aegov-button button.btn-primary.btn-link {
-          @apply !text-slate-700 hover:!text-slate-600 focus-visible:outline-offset-0 focus-visible:outline-2 focus-visible:outline-seablue-600 focus-visible:bg-transparent;
+          @apply !text-aeblack-700 hover:!text-aeblack-600 focus-visible:outline-offset-0 focus-visible:outline-2 focus-visible:outline-seablue-600 focus-visible:bg-transparent;
         }
       }
       & .callout__right {
         ::slotted(a),
         & a {
-          @apply focus-visible:bg-slate-800 focus-visible:text-slate-50 focus-visible:outline-slate-800 focus-visible:decoration-slate-50;
+          @apply focus-visible:bg-aeblack-800 focus-visible:text-aeblack-50 focus-visible:outline-aeblack-800 focus-visible:decoration-aeblack-50;
         }
         & button {
-          @apply focus-visible:outline-slate-800;
+          @apply focus-visible:outline-aeblack-800;
         }
       }
     }
-    &.callout--error {
-      @apply bg-aered-100 text-aered-700 border-aered-700;
+    &.callout-error {
+      @apply bg-aered-50 text-aered-700 border-s-4 border-aered-700;
       & .callout__icon {
         & svg {
-          @apply fill-aered-600;
+          @apply fill-aered-700;
         }
       }
       & .callout__actions {
@@ -84,11 +90,11 @@
         }
       }
     }
-    &.callout--success {
-      @apply bg-aegreen-100 text-aegreen-700 border-aegreen-700;
+    &.callout-success {
+      @apply bg-aegreen-50 text-aegreen-700 border-s-4 border-aegreen-700;
       & .callout__icon {
         & svg {
-          @apply fill-aegreen-600;
+          @apply fill-aegreen-700;
         }
       }
       & .callout__actions {
@@ -119,11 +125,11 @@
         }
       }
     }
-    &.callout--warning {
-      @apply bg-camel-100 text-camel-700 border-camel-700;
+    &.callout-warning {
+      @apply bg-camel-50 text-camel-700 border-s-4 border-camel-700;
       & .callout__icon {
         & svg {
-          @apply fill-camel-600;
+          @apply fill-camel-700;
         }
       }
       & .callout__actions {
@@ -154,11 +160,11 @@
         }
       }
     }
-    &.callout--info {
-      @apply bg-techblue-100 text-techblue-700 border-techblue-700;
+    &.callout-info {
+      @apply bg-techblue-50 text-techblue-700 border-s-4 border-techblue-700;
       & .callout__icon {
         & svg {
-          @apply fill-techblue-600;
+          @apply fill-techblue-700;
         }
       }
       & .callout__actions {
@@ -190,12 +196,12 @@
       }
     }
   }
-  &.callout--solid {
-    &.callout--default {
-      @apply bg-slate-800 text-slate-50 border-slate-800;
+  &.callout-solid {
+    &.callout-default {
+      @apply bg-aeblack-800 text-aeblack-50;
       & .callout__icon {
         & svg {
-          @apply fill-slate-400;
+          @apply fill-aeblack-400;
         }
       }
       & aegov-button button.btn-primary.btn-solid {
@@ -216,18 +222,18 @@
       & .callout__right {
         ::slotted(a),
         & a {
-          @apply focus-visible:bg-slate-50 focus-visible:text-slate-900 focus-visible:outline-slate-50;
+          @apply focus-visible:bg-aeblack-50 focus-visible:text-aeblack-900 focus-visible:outline-aeblack-50;
         }
         & button {
-          @apply focus-visible:outline-slate-50;
+          @apply focus-visible:outline-aeblack-50;
         }
       }
     }
-    &.callout--error {
-      @apply bg-aered-700 text-aered-50 border-aered-700;
+    &.callout-error {
+      @apply bg-aered-700 text-aered-50;
       & .callout__icon {
         & svg {
-          @apply fill-aered-400;
+          @apply fill-aered-300;
         }
       }
       & .callout__actions {
@@ -258,11 +264,11 @@
         }
       }
     }
-    &.callout--success {
-      @apply bg-aegreen-700 text-aegreen-50 border-aegreen-700;
+    &.callout-success {
+      @apply bg-aegreen-700 text-aegreen-50;
       & .callout__icon {
         & svg {
-          @apply fill-aegreen-400;
+          @apply fill-aegreen-300;
         }
       }
       & .callout__actions {
@@ -293,11 +299,11 @@
         }
       }
     }
-    &.callout--warning {
-      @apply bg-camel-700 text-camel-50 border-camel-700;
+    &.callout-warning {
+      @apply bg-camel-700 text-camel-50;
       & .callout__icon {
         & svg {
-          @apply fill-camel-400;
+          @apply fill-camel-300;
         }
       }
       & .callout__actions {
@@ -328,11 +334,11 @@
         }
       }
     }
-    &.callout--info {
-      @apply bg-techblue-700 text-techblue-50 border-techblue-700;
+    &.callout-info {
+      @apply bg-techblue-700 text-techblue-50;
       & .callout__icon {
         & svg {
-          @apply fill-techblue-400;
+          @apply fill-techblue-300;
         }
       }
       & .callout__actions {
