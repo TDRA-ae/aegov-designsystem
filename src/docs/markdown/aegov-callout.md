@@ -168,55 +168,20 @@ A bold, filled background with light text — use for high-emphasis alerts that 
 
 ---
 
-## Bordered
-
-Set the `bordered` attribute to add a visible border to the callout. The border colour matches the variant's colour scheme.
-
-```html
-<aegov-callout variant="info" bordered>
-  <span slot="content">This callout has a border.</span>
-</aegov-callout>
-```
-
-<div class="p-6 bg-aeblack-50 rounded-lg my-6 space-y-3 not-aegov">
-  <aegov-callout variant="default" bordered>
-    <span slot="content">Default bordered callout.</span>
-  </aegov-callout>
-  <aegov-callout variant="error" bordered>
-    <span slot="content">Error bordered callout.</span>
-  </aegov-callout>
-  <aegov-callout variant="warning" bordered>
-    <span slot="content">Warning bordered callout.</span>
-  </aegov-callout>
-  <aegov-callout variant="success" bordered>
-    <span slot="content">Success bordered callout.</span>
-  </aegov-callout>
-  <aegov-callout variant="info" bordered>
-    <span slot="content">Info bordered callout.</span>
-  </aegov-callout>
-</div>
-
----
-
 ## Custom Icon
 
 By default, the callout renders a variant-appropriate icon (e.g. an exclamation triangle for warnings, a checkmark circle for success). You can override the default icon by placing your own SVG or image in the `icon` slot.
 
 ```html
 <aegov-callout variant="info">
-  <svg slot="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
-       fill="currentColor" class="size-6">
-    <path d="M12 2a10 10 0 100 20 10 10 0 000-20zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/>
-  </svg>
+  <svg slot="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"><rect width="256" height="256" fill="none"/><rect x="40" y="40" width="176" height="176" rx="8" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/><line x1="176" y1="24" x2="176" y2="56" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/><line x1="80" y1="24" x2="80" y2="56" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/><line x1="40" y1="88" x2="216" y2="88" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/><circle cx="128" cy="132" r="12"/><circle cx="172" cy="132" r="12"/><circle cx="84" cy="172" r="12"/><circle cx="128" cy="172" r="12"/><circle cx="172" cy="172" r="12"/></svg>
   <span slot="content">Callout with a custom icon.</span>
 </aegov-callout>
 ```
 
 <div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
   <aegov-callout variant="info">
-    <svg slot="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
-      <path d="M12 2a10 10 0 100 20 10 10 0 000-20zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/>
-    </svg>
+    <svg slot="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"><rect width="256" height="256" fill="none"/><rect x="40" y="40" width="176" height="176" rx="8" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/><line x1="176" y1="24" x2="176" y2="56" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/><line x1="80" y1="24" x2="80" y2="56" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/><line x1="40" y1="88" x2="216" y2="88" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/><circle cx="128" cy="132" r="12"/><circle cx="172" cy="132" r="12"/><circle cx="84" cy="172" r="12"/><circle cx="128" cy="172" r="12"/><circle cx="172" cy="172" r="12"/></svg>
     <span slot="content">Callout with a custom icon.</span>
   </aegov-callout>
 </div>
@@ -408,7 +373,6 @@ The table below shows every combination of variant and appearance for visual QA 
 | `variant`     | `variant`     | The semantic variant controlling colour scheme   | `'default'` \| `'error'` \| `'warning'` \| `'success'` \| `'info'` | `'default'` |
 | `appearance`  | `appearance`  | The visual intensity                             | `'soft'` \| `'solid'`                                         | `'soft'`    |
 | `dismissible` | `dismissible` | Shows a close button and enables dismiss         | `boolean`                                                     | `false`     |
-| `bordered`    | `bordered`    | Adds a visible border matching the variant       | `boolean`                                                     | `false`     |
 
 ### Events
 

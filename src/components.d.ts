@@ -360,11 +360,6 @@ export namespace Components {
          */
         "appearance": CalloutAppearance;
         /**
-          * Whether the callout should have a border
-          * @default false
-         */
-        "bordered": boolean;
-        /**
           * Whether the callout can be dismissed/closed.
           * @default false
          */
@@ -3055,11 +3050,6 @@ declare namespace LocalJSX {
           * @default 'soft'
          */
         "appearance"?: CalloutAppearance;
-        /**
-          * Whether the callout should have a border
-          * @default false
-         */
-        "bordered"?: boolean;
         /**
           * Whether the callout can be dismissed/closed.
           * @default false

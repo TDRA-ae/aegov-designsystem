@@ -18,7 +18,7 @@ const ctx = (prop: string) => ({ component: TAG, prop });
   shadow:false
 })
 export class AegovCallout {
-  @Element() el: HTMLElement;
+  @Element() el!: HTMLElement;
 
   /**
    * The variant of the callout. Determines the color scheme.
@@ -36,15 +36,9 @@ export class AegovCallout {
   @Prop() dismissible: boolean = false;
 
   /**
-   * Whether the callout should have a border
-   * @default false
-   */
-  @Prop() bordered: boolean = false;
-
-  /**
    * Event emitted when the callout is dismissed.
    */
-  @Event() aegovCalloutDismiss: EventEmitter<void>;
+  @Event() aegovCalloutDismiss!: EventEmitter<void>;
 
   /**
    * Internal state to track visibility of the callout.
@@ -117,36 +111,26 @@ export class AegovCallout {
    */
   private getCalloutClasses(): string {
     const classes: string[] = [
-      'aegov-callout'
+      'aegov-callout px-5 py-4 flex items-start gap-4 rounded-md text-base border-0'
     ];
-
-    if(this.bordered) {
-      classes.push(
-        'border-1',
-      );
-    } else {
-      classes.push(
-        'border-0',
-      );
-    }
 
     const appearance: CalloutAppearance = (CALLOUT_APPEARANCES as readonly string[]).includes(this.appearance) ? this.appearance : 'soft';
     const variant: CalloutVariant = (CALLOUT_VARIANTS as readonly string[]).includes(this.variant) ? this.variant : 'default';
 
     // Appearance classes
     const appearanceClasses: Record<CalloutAppearance, string[]> = {
-        soft: ['callout--soft'],
-        solid: ['callout--solid']
+        soft: ['callout-soft'],
+        solid: ['callout-solid']
     };
     classes.push(...appearanceClasses[appearance]);
 
     // Variant classes
     const variantClasses: Record<CalloutVariant, string[]> = {
-        default: ['callout--default'],
-        error: ['callout--error'],
-        success: ['callout--success'],
-        warning: ['callout--warning'],
-        info: ['callout--info']
+        default: ['callout-default'],
+        error: ['callout-error'],
+        success: ['callout-success'],
+        warning: ['callout-warning'],
+        info: ['callout-info']
     };
     classes.push(...variantClasses[variant]);
 
