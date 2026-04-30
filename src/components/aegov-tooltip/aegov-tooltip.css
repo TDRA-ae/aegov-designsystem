@@ -61,6 +61,33 @@
   top: 50%;
 }
 
+/* Arrow alignment — start/end shift arrow toward the matching edge.
+   Default rules above handle align="center" (50%). */
+
+.tooltip--top.tooltip--align-start .tooltip__arrow,
+.tooltip--bottom.tooltip--align-start .tooltip__arrow {
+  inset-inline-start: 1rem;
+  margin-inline-start: 0;
+}
+
+.tooltip--top.tooltip--align-end .tooltip__arrow,
+.tooltip--bottom.tooltip--align-end .tooltip__arrow {
+  inset-inline-start: auto;
+  inset-inline-end: 1rem;
+  margin-inline-start: 0;
+}
+
+.tooltip--left.tooltip--align-start .tooltip__arrow,
+.tooltip--right.tooltip--align-start .tooltip__arrow {
+  top: 1rem;
+}
+
+.tooltip--left.tooltip--align-end .tooltip__arrow,
+.tooltip--right.tooltip--align-end .tooltip__arrow {
+  top: auto;
+  bottom: 1rem;
+}
+
 /* Animations */
 @keyframes tooltipFadeIn {
   from {
