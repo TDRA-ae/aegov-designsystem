@@ -7,43 +7,41 @@
    ============================================ */
 
 .aegov-card {
-  border-radius: 1rem;
-  transition: border-color 0.3s ease, box-shadow 0.3s ease, background-image 0.3s ease;
-  overflow: hidden;
+  @apply h-full overflow-hidden transition-[border-color,box-shadow,background-image] duration-300 ease-in-out;
 }
 
 /* ============================================
-   RESPONSIVE BORDER RADIUS
+   SIZES (drive border-radius, responsive
+   per breakpoint; padding scales via combos
+   with .card--padded below)
    ============================================ */
 
-@media (max-width: 768px) {
-  .aegov-card {
-    border-radius: 0.75rem;
-  }
+.card-size-sm {
+  @apply rounded-lg;
 }
 
-@media (max-width: 480px) {
-  .aegov-card {
-    border-radius: 0.5rem;
-  }
+.card-size-base {
+  @apply rounded-xl;
+}
+
+.card-size-lg {
+  @apply rounded-2xl;
 }
 
 /* ============================================
    BORDER STYLE: STANDARD (solid color)
    ============================================ */
 
-.card--border-standard {
-  border-style: solid;
-  border-color: theme(colors.primary.600);
+.card-border-standard {
+  @apply border-solid border-primary-600;
 }
 
 /* ============================================
    BORDER STYLE: LIGHT (solid subtle color)
    ============================================ */
 
-.card--border-light {
-  border-style: solid;
-  border-color: theme(colors.primary.200);
+.card-border-light {
+  @apply border-solid border-primary-200;
 }
 
 /* ============================================
@@ -53,46 +51,62 @@
    - Gradient fills the border-box (visible through transparent border)
    ============================================ */
 
-.card--border-creative {
-  border-style: solid;
-  border-color: transparent;
-  background-origin: border-box;
-  background-clip: padding-box, border-box;
+.card-border-creative {
+  @apply border-solid border-transparent bg-origin-border [background-clip:padding-box,border-box];
 }
 
 /* Creative + background combos */
-.card--border-creative.card--bg-white {
-  background-image:
-    linear-gradient(white, white),
-    linear-gradient(135deg, theme(colors.primary.400), theme(colors.primary.800));
+.card-border-creative.card-bg-white {
+  @apply [background-image:linear-gradient(white,white),linear-gradient(135deg,var(--color-primary-400),var(--color-primary-800))];
 }
 
-.card--border-creative.card--bg-transparent {
-  background-image:
-    linear-gradient(transparent, transparent),
-    linear-gradient(135deg, theme(colors.primary.400), theme(colors.primary.800));
+.card-border-creative.card-bg-subtle {
+  @apply [background-image:linear-gradient(var(--color-aeblack-50),var(--color-aeblack-50)),linear-gradient(135deg,var(--color-primary-400),var(--color-primary-800))];
 }
 
-.card--border-creative.card--bg-subtle {
-  background-image:
-    linear-gradient(theme(colors.slate.50), theme(colors.slate.50)),
-    linear-gradient(135deg, theme(colors.primary.400), theme(colors.primary.800));
+/* ============================================
+   BORDER STYLE: HIGHLIGHT (solid aeblack-200 at rest,
+   transitions to creative-hover gradient on hover)
+   Uses creative's double-bg-image trick so the rest
+   solid color and the hover gradient can transition.
+   ============================================ */
+
+.card-border-highlight {
+  @apply border-solid border-transparent bg-origin-border [background-clip:padding-box,border-box];
+}
+
+/* Highlight + background combos (rest state: outer "gradient" is solid aeblack-200) */
+.card-border-highlight.card-bg-white {
+  @apply [background-image:linear-gradient(white,white),linear-gradient(var(--color-aeblack-200),var(--color-aeblack-200))];
+}
+
+.card-border-highlight.card-bg-subtle {
+  @apply [background-image:linear-gradient(var(--color-aeblack-50),var(--color-aeblack-50)),linear-gradient(var(--color-aeblack-200),var(--color-aeblack-200))];
+}
+
+/* Highlight on hover: outer shifts to creative-hover gradient regardless of hover prop */
+.card-border-highlight:hover.card-bg-white {
+  @apply [background-image:linear-gradient(white,white),linear-gradient(135deg,var(--color-primary-300),var(--color-primary-700))];
+}
+
+.card-border-highlight:hover.card-bg-subtle {
+  @apply [background-image:linear-gradient(var(--color-aeblack-50),var(--color-aeblack-50)),linear-gradient(135deg,var(--color-primary-300),var(--color-primary-700))];
 }
 
 /* ============================================
    BORDER WIDTHS
    ============================================ */
 
-.card--border-1 {
-  border-width: 1px;
+.card-border-1 {
+  @apply border;
 }
 
-.card--border-2 {
-  border-width: 2px;
+.card-border-2 {
+  @apply border-2;
 }
 
-.card--border-3 {
-  border-width: 3px;
+.card-border-3 {
+  @apply border-[3px];
 }
 
 /* ============================================
@@ -100,95 +114,75 @@
    creative border handles bg via background-image)
    ============================================ */
 
-.card--border-standard.card--bg-white,
-.card--border-light.card--bg-white {
+.card-border-standard.card-bg-white,
+.card-border-light.card-bg-white {
   @apply bg-white;
 }
 
-.card--border-standard.card--bg-transparent,
-.card--border-light.card--bg-transparent {
-  @apply bg-transparent;
-}
-
-.card--border-standard.card--bg-subtle,
-.card--border-light.card--bg-subtle {
-  @apply bg-slate-50;
+.card-border-standard.card-bg-subtle,
+.card-border-light.card-bg-subtle {
+  @apply bg-aeblack-50;
 }
 
 /* ============================================
-   PADDING
+   PADDING (size-aware)
    ============================================ */
 
-.card--padded {
-  padding: 1.5rem;
+.card-size-sm.card--padded {
+  @apply p-4;
+}
+
+.card-size-base.card--padded {
+  @apply p-5;
+}
+
+.card-size-lg.card--padded {
+  @apply p-6;
 }
 
 /* ============================================
    HOVER: STANDARD (border color change)
    ============================================ */
 
-.card--border-standard.card--hover-standard:hover {
-  border-color: theme(colors.primary.500);
+.card-border-standard.card__hover-standard:hover {
+  @apply border-primary-500;
 }
 
-.card--border-light.card--hover-standard:hover {
-  border-color: theme(colors.primary.400);
+.card-border-light.card__hover-standard:hover {
+  @apply border-primary-400;
 }
 
 /* Creative border + standard hover: shift gradient lighter */
-.card--border-creative.card--hover-standard:hover.card--bg-white {
-  background-image:
-    linear-gradient(white, white),
-    linear-gradient(135deg, theme(colors.primary.300), theme(colors.primary.700));
+.card-border-creative.card__hover-standard:hover.card-bg-white {
+  @apply [background-image:linear-gradient(white,white),linear-gradient(135deg,var(--color-primary-300),var(--color-primary-700))];
 }
 
-.card--border-creative.card--hover-standard:hover.card--bg-transparent {
-  background-image:
-    linear-gradient(transparent, transparent),
-    linear-gradient(135deg, theme(colors.primary.300), theme(colors.primary.700));
-}
-
-.card--border-creative.card--hover-standard:hover.card--bg-subtle {
-  background-image:
-    linear-gradient(theme(colors.slate.50), theme(colors.slate.50)),
-    linear-gradient(135deg, theme(colors.primary.300), theme(colors.primary.700));
+.card-border-creative.card__hover-standard:hover.card-bg-subtle {
+  @apply [background-image:linear-gradient(var(--color-aeblack-50),var(--color-aeblack-50)),linear-gradient(135deg,var(--color-primary-300),var(--color-primary-700))];
 }
 
 /* ============================================
    HOVER: GLOW (creative shadow glow)
    ============================================ */
 
-.card--hover-glow:hover {
-  box-shadow:
-    0 -2px 10px -2px oklch(57% 0.097 84.4 / 0.15),
-    0 4px 14px -2px oklch(57% 0.097 84.4 / 0.2),
-    0 12px 36px -4px oklch(57% 0.097 84.4 / 0.3);
+.card__hover-glow:hover {
+  @apply shadow-lg shadow-primary-200/50;
 }
 
 /* Standard border + glow hover also shifts border color */
-.card--border-standard.card--hover-glow:hover {
-  border-color: theme(colors.primary.500);
+.card-border-standard.card__hover-glow:hover {
+  @apply border-primary-500;
 }
 
-.card--border-light.card--hover-glow:hover {
-  border-color: theme(colors.primary.400);
+.card-border-light.card__hover-glow:hover {
+  @apply border-primary-400;
 }
 
 /* Creative border + glow hover shifts gradient lighter */
-.card--border-creative.card--hover-glow:hover.card--bg-white {
-  background-image:
-    linear-gradient(white, white),
-    linear-gradient(135deg, theme(colors.primary.300), theme(colors.primary.700));
+.card-border-creative.card__hover-glow:hover.card-bg-white {
+  @apply [background-image:linear-gradient(white,white),linear-gradient(135deg,var(--color-primary-300),var(--color-primary-700))];
 }
 
-.card--border-creative.card--hover-glow:hover.card--bg-transparent {
-  background-image:
-    linear-gradient(transparent, transparent),
-    linear-gradient(135deg, theme(colors.primary.300), theme(colors.primary.700));
-}
-
-.card--border-creative.card--hover-glow:hover.card--bg-subtle {
-  background-image:
-    linear-gradient(theme(colors.slate.50), theme(colors.slate.50)),
-    linear-gradient(135deg, theme(colors.primary.300), theme(colors.primary.700));
+.card-border-creative.card__hover-glow:hover.card-bg-subtle {
+  @apply [background-image:linear-gradient(var(--color-aeblack-50),var(--color-aeblack-50)),linear-gradient(135deg,var(--color-primary-300),var(--color-primary-700))];
 }

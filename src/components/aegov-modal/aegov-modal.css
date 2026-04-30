@@ -86,9 +86,43 @@
    ============================================ */
 
 .aegov-modal-content {
-  @apply relative bg-whitely-50 rounded-lg shadow-xl max-w-full w-auto max-h-screen overflow-y-auto;
+  @apply relative bg-whitely-50 shadow-xl max-w-full w-auto max-h-screen overflow-y-auto;
   transition: opacity var(--modal-transition-duration) var(--modal-transition-timing),
               transform var(--modal-transition-duration) var(--modal-transition-timing);
+}
+
+/* ============================================
+   SIZES (drive border-radius; padding scales
+   via combos with .modal--padded below).
+   Mirrors aegov-card sizing tokens.
+   ============================================ */
+
+.modal-size-sm {
+  @apply rounded-lg;
+}
+
+.modal-size-base {
+  @apply rounded-xl;
+}
+
+.modal-size-lg {
+  @apply rounded-2xl;
+}
+
+/* ============================================
+   PADDING (size-aware) — mirrors aegov-card
+   ============================================ */
+
+.modal-size-sm.modal--padded {
+  @apply p-4;
+}
+
+.modal-size-base.modal--padded {
+  @apply p-5;
+}
+
+.modal-size-lg.modal--padded {
+  @apply p-6;
 }
 
 /* Content animation states */

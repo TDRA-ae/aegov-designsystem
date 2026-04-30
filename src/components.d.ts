@@ -5,9 +5,9 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
-import { AccordionIcon, AccordionSize, AspectRatioFit, AspectRatioPreset, AvatarGroupMode, AvatarStatus, AvatarVariant, BadgeAppearance, BadgeColor, BannerDisplay, BannerMode, BannerPosition, BannerRole, BlockquoteVariant, BreadcrumbSeparator, ButtonAppearance, ButtonGroupOrientation, ButtonGroupPosition, ButtonType, ButtonVariant, CalloutAppearance, CalloutVariant, CardBackground, CardBorderStyle, CardBorderWidth, CardHover, CheckboxGroupOrientation, CheckboxGroupVariant, DatepickerChangeDetail, DatepickerMode, DatepickerMonthChangeDetail, DrawerAnimation, DrawerOverlayOpacity, DrawerPosition, DropdownAlign, DropdownPosition, DropdownTrigger, FileuploadVariant, HeaderVariant, InputType, LinkTarget, ModalBackdropOpacity, ModalPosition, OtpVariant, PaginationVariant, PopoverAlign, PopoverPosition, PopoverTrigger, ProgressCounter, RadioGroupOrientation, RadioGroupVariant, RangeDisplay, RangeMode, RangeOrientation, SelectChangeDetail, SelectVariant, TabOrientation, TabVariant, TextareaResize, TimelineOrientation, TimelineSize, TimelineStepStatus, TimelineVariant, ToastAppearance, ToastMode, ToastPosition, ToastVariant, TooltipAlign, TooltipPosition, TooltipTrigger } from "./utils/types";
+import { AccordionIcon, AccordionSize, AspectRatioFit, AspectRatioPreset, AvatarGroupMode, AvatarStatus, AvatarVariant, BadgeAppearance, BadgeColor, BannerDisplay, BannerMode, BannerPosition, BannerRole, BlockquoteVariant, BreadcrumbSeparator, ButtonAppearance, ButtonGroupOrientation, ButtonGroupPosition, ButtonType, ButtonVariant, CalloutAppearance, CalloutVariant, CardBackground, CardBorderStyle, CardBorderWidth, CardHover, CardSize, CheckboxGroupOrientation, CheckboxGroupVariant, DatepickerChangeDetail, DatepickerMode, DatepickerMonthChangeDetail, DrawerAnimation, DrawerOverlayOpacity, DrawerPosition, DrawerSize, DropdownAlign, DropdownPosition, DropdownTrigger, FileuploadVariant, HeaderVariant, InputType, LinkTarget, ModalBackdropOpacity, ModalPosition, ModalSize, OtpVariant, PaginationVariant, PopoverAlign, PopoverPosition, PopoverTrigger, ProgressCounter, RadioGroupOrientation, RadioGroupVariant, RangeDisplay, RangeMode, RangeOrientation, SelectChangeDetail, SelectVariant, TabOrientation, TabVariant, TextareaResize, TimelineOrientation, TimelineSize, TimelineStepStatus, TimelineVariant, ToastAppearance, ToastMode, ToastPosition, ToastVariant, TooltipAlign, TooltipPosition, TooltipTrigger } from "./utils/types";
 import { Event } from "@stencil/core";
-export { AccordionIcon, AccordionSize, AspectRatioFit, AspectRatioPreset, AvatarGroupMode, AvatarStatus, AvatarVariant, BadgeAppearance, BadgeColor, BannerDisplay, BannerMode, BannerPosition, BannerRole, BlockquoteVariant, BreadcrumbSeparator, ButtonAppearance, ButtonGroupOrientation, ButtonGroupPosition, ButtonType, ButtonVariant, CalloutAppearance, CalloutVariant, CardBackground, CardBorderStyle, CardBorderWidth, CardHover, CheckboxGroupOrientation, CheckboxGroupVariant, DatepickerChangeDetail, DatepickerMode, DatepickerMonthChangeDetail, DrawerAnimation, DrawerOverlayOpacity, DrawerPosition, DropdownAlign, DropdownPosition, DropdownTrigger, FileuploadVariant, HeaderVariant, InputType, LinkTarget, ModalBackdropOpacity, ModalPosition, OtpVariant, PaginationVariant, PopoverAlign, PopoverPosition, PopoverTrigger, ProgressCounter, RadioGroupOrientation, RadioGroupVariant, RangeDisplay, RangeMode, RangeOrientation, SelectChangeDetail, SelectVariant, TabOrientation, TabVariant, TextareaResize, TimelineOrientation, TimelineSize, TimelineStepStatus, TimelineVariant, ToastAppearance, ToastMode, ToastPosition, ToastVariant, TooltipAlign, TooltipPosition, TooltipTrigger } from "./utils/types";
+export { AccordionIcon, AccordionSize, AspectRatioFit, AspectRatioPreset, AvatarGroupMode, AvatarStatus, AvatarVariant, BadgeAppearance, BadgeColor, BannerDisplay, BannerMode, BannerPosition, BannerRole, BlockquoteVariant, BreadcrumbSeparator, ButtonAppearance, ButtonGroupOrientation, ButtonGroupPosition, ButtonType, ButtonVariant, CalloutAppearance, CalloutVariant, CardBackground, CardBorderStyle, CardBorderWidth, CardHover, CardSize, CheckboxGroupOrientation, CheckboxGroupVariant, DatepickerChangeDetail, DatepickerMode, DatepickerMonthChangeDetail, DrawerAnimation, DrawerOverlayOpacity, DrawerPosition, DrawerSize, DropdownAlign, DropdownPosition, DropdownTrigger, FileuploadVariant, HeaderVariant, InputType, LinkTarget, ModalBackdropOpacity, ModalPosition, ModalSize, OtpVariant, PaginationVariant, PopoverAlign, PopoverPosition, PopoverTrigger, ProgressCounter, RadioGroupOrientation, RadioGroupVariant, RangeDisplay, RangeMode, RangeOrientation, SelectChangeDetail, SelectVariant, TabOrientation, TabVariant, TextareaResize, TimelineOrientation, TimelineSize, TimelineStepStatus, TimelineVariant, ToastAppearance, ToastMode, ToastPosition, ToastVariant, TooltipAlign, TooltipPosition, TooltipTrigger } from "./utils/types";
 export { Event } from "@stencil/core";
 export namespace Components {
     /**
@@ -382,18 +382,18 @@ export namespace Components {
     }
     interface AegovCard {
         /**
-          * Background style: 'white', 'transparent', or 'subtle' (slate-50).
+          * Background style: 'white' (default) or 'subtle' (aeblack-50).
           * @default 'white'
          */
         "background": CardBackground;
         /**
-          * Border style: 'standard' (solid primary-600), 'light' (solid primary-200), or 'creative' (gradient from primary-400 to primary-800).
+          * Border style: 'standard' (solid primary-600), 'light' (solid primary-200), 'creative' (gradient from primary-400 to primary-800), or 'highlight' (solid aeblack-200 at rest, transitions to primary-300→700 gradient on hover).
           * @default 'standard'
          */
         "borderStyle": CardBorderStyle;
         /**
           * Border thickness: 1, 2, or 3.
-          * @default 1
+          * @default 2
          */
         "borderWidth": CardBorderWidth;
         /**
@@ -406,6 +406,11 @@ export namespace Components {
           * @default 'off'
          */
         "hover": CardHover;
+        /**
+          * Size: 'sm' (compact padding/radius), 'base' (default), or 'lg' (generous padding/radius). All sizes scale down responsively at md (768px) and xs (480px) breakpoints.
+          * @default 'base'
+         */
+        "size": CardSize;
     }
     interface AegovCheckbox {
         /**
@@ -637,6 +642,11 @@ export namespace Components {
          */
         "closeWithBackdrop": boolean;
         /**
+          * Disables inner content padding. Padding is on by default and scales with size.
+          * @default false
+         */
+        "disallowPadding": boolean;
+        /**
           * Whether the drawer is currently open/visible
           * @default false
          */
@@ -670,6 +680,11 @@ export namespace Components {
           * Programmatically open the drawer
          */
         "show": () => Promise<void>;
+        /**
+          * Size: 'sm' (compact padding), 'base' (default), or 'lg' (generous padding). Mirrors aegov-card sizing tokens. When `pinned="false"`, size also drives the edge gap and border-radius. When pinned, no border-radius is applied regardless of size.
+          * @default 'base'
+         */
+        "size": DrawerSize;
         /**
           * Toggle drawer open/closed state
          */
@@ -942,6 +957,11 @@ export namespace Components {
          */
         "closeWithBackdrop": boolean;
         /**
+          * Disables inner content padding. Padding is on by default and scales with size.
+          * @default false
+         */
+        "disallowPadding": boolean;
+        /**
           * Whether the modal is currently open/visible
           * @default false
          */
@@ -960,6 +980,11 @@ export namespace Components {
           * Programmatically open the modal
          */
         "show": () => Promise<void>;
+        /**
+          * Size: 'sm' (compact padding/radius), 'base' (default), or 'lg' (generous padding/radius). Mirrors aegov-card sizing tokens.
+          * @default 'base'
+         */
+        "size": ModalSize;
         /**
           * Toggle modal open/closed state
          */
@@ -3220,18 +3245,18 @@ declare namespace LocalJSX {
     }
     interface AegovCard {
         /**
-          * Background style: 'white', 'transparent', or 'subtle' (slate-50).
+          * Background style: 'white' (default) or 'subtle' (aeblack-50).
           * @default 'white'
          */
         "background"?: CardBackground;
         /**
-          * Border style: 'standard' (solid primary-600), 'light' (solid primary-200), or 'creative' (gradient from primary-400 to primary-800).
+          * Border style: 'standard' (solid primary-600), 'light' (solid primary-200), 'creative' (gradient from primary-400 to primary-800), or 'highlight' (solid aeblack-200 at rest, transitions to primary-300→700 gradient on hover).
           * @default 'standard'
          */
         "borderStyle"?: CardBorderStyle;
         /**
           * Border thickness: 1, 2, or 3.
-          * @default 1
+          * @default 2
          */
         "borderWidth"?: CardBorderWidth;
         /**
@@ -3244,6 +3269,11 @@ declare namespace LocalJSX {
           * @default 'off'
          */
         "hover"?: CardHover;
+        /**
+          * Size: 'sm' (compact padding/radius), 'base' (default), or 'lg' (generous padding/radius). All sizes scale down responsively at md (768px) and xs (480px) breakpoints.
+          * @default 'base'
+         */
+        "size"?: CardSize;
     }
     interface AegovCheckbox {
         /**
@@ -3468,6 +3498,11 @@ declare namespace LocalJSX {
          */
         "closeWithBackdrop"?: boolean;
         /**
+          * Disables inner content padding. Padding is on by default and scales with size.
+          * @default false
+         */
+        "disallowPadding"?: boolean;
+        /**
           * Emitted when backdrop is clicked
          */
         "onAegovDrawerBackdropClick"?: (event: AegovDrawerCustomEvent<MouseEvent>) => void;
@@ -3517,6 +3552,11 @@ declare namespace LocalJSX {
           * @default true
          */
         "preventBodyScroll"?: boolean;
+        /**
+          * Size: 'sm' (compact padding), 'base' (default), or 'lg' (generous padding). Mirrors aegov-card sizing tokens. When `pinned="false"`, size also drives the edge gap and border-radius. When pinned, no border-radius is applied regardless of size.
+          * @default 'base'
+         */
+        "size"?: DrawerSize;
     }
     /**
      * Dropdown component that displays positioned content on trigger interaction
@@ -3808,6 +3848,11 @@ declare namespace LocalJSX {
          */
         "closeWithBackdrop"?: boolean;
         /**
+          * Disables inner content padding. Padding is on by default and scales with size.
+          * @default false
+         */
+        "disallowPadding"?: boolean;
+        /**
           * Emitted when backdrop is clicked
          */
         "onAegovModalBackdropClick"?: (event: AegovModalCustomEvent<MouseEvent>) => void;
@@ -3842,6 +3887,11 @@ declare namespace LocalJSX {
           * @default true
          */
         "preventBodyScroll"?: boolean;
+        /**
+          * Size: 'sm' (compact padding/radius), 'base' (default), or 'lg' (generous padding/radius). Mirrors aegov-card sizing tokens.
+          * @default 'base'
+         */
+        "size"?: ModalSize;
     }
     /**
      * @component aegov-navbar

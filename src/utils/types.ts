@@ -206,6 +206,12 @@ export const MODAL_BACKDROP_OPACITIES = ['light', 'base', 'dark'] as const;
 export type ModalBackdropOpacity = typeof MODAL_BACKDROP_OPACITIES[number];
 
 /**
+ * Modal component size types (drive padding + border-radius, mirroring card)
+ */
+export const MODAL_SIZES = ['sm', 'base', 'lg'] as const;
+export type ModalSize = typeof MODAL_SIZES[number];
+
+/**
  * Tooltip component position types
  */
 export const TOOLTIP_POSITIONS = ['top', 'right', 'bottom', 'left'] as const;
@@ -331,13 +337,13 @@ export type CardBorderWidth = typeof CARD_BORDER_WIDTHS[number];
 /**
  * Card component background types
  */
-export const CARD_BACKGROUNDS = ['white', 'transparent', 'subtle'] as const;
+export const CARD_BACKGROUNDS = ['white', 'subtle'] as const;
 export type CardBackground = typeof CARD_BACKGROUNDS[number];
 
 /**
  * Card component border style types
  */
-export const CARD_BORDER_STYLES = ['standard', 'light', 'creative'] as const;
+export const CARD_BORDER_STYLES = ['standard', 'light', 'creative', 'highlight'] as const;
 export type CardBorderStyle = typeof CARD_BORDER_STYLES[number];
 
 /**
@@ -345,6 +351,12 @@ export type CardBorderStyle = typeof CARD_BORDER_STYLES[number];
  */
 export const CARD_HOVERS = ['off', 'standard', 'glow'] as const;
 export type CardHover = typeof CARD_HOVERS[number];
+
+/**
+ * Card component size types
+ */
+export const CARD_SIZES = ['sm', 'base', 'lg'] as const;
+export type CardSize = typeof CARD_SIZES[number];
 
 /**
  * Datepicker component mode types
@@ -570,6 +582,12 @@ export type DrawerAnimation = typeof DRAWER_ANIMATIONS[number];
  */
 export const DRAWER_OVERLAY_OPACITIES = ['light', 'base', 'dark'] as const;
 export type DrawerOverlayOpacity = typeof DRAWER_OVERLAY_OPACITIES[number];
+
+/**
+ * Drawer component size types (drive padding, plus gap + border-radius when unpinned). Mirrors aegov-card sizing tokens.
+ */
+export const DRAWER_SIZES = ['sm', 'base', 'lg'] as const;
+export type DrawerSize = typeof DRAWER_SIZES[number];
 
 /**
  * Header component variant types

@@ -1,6 +1,6 @@
 import { Component, Host, h, Prop, Event, EventEmitter, Element, Method, Watch, State } from '@stencil/core';
-import { DRAWER_POSITIONS, DRAWER_ANIMATIONS, DRAWER_OVERLAY_OPACITIES } from '../../utils/types';
-import type { DrawerPosition, DrawerAnimation, DrawerOverlayOpacity } from '../../utils/types';
+import { DRAWER_POSITIONS, DRAWER_ANIMATIONS, DRAWER_OVERLAY_OPACITIES, DRAWER_SIZES } from '../../utils/types';
+import type { DrawerPosition, DrawerAnimation, DrawerOverlayOpacity, DrawerSize } from '../../utils/types';
 import { getPassThroughAttributes } from '../../utils/attributes';
 import { getSlottedFocusableElements, handleTabKeyWrap } from '../../utils/focus-management';
 import { lockBodyScroll, unlockBodyScroll } from '../../utils/scroll-lock';
@@ -72,6 +72,18 @@ export class AegovDrawer {
    */
   @Prop() preventBodyScroll: boolean = true;
 
+  /**
+   * Size: 'sm' (compact padding), 'base' (default), or 'lg' (generous padding). Mirrors aegov-card sizing tokens. When `pinned="false"`, size also drives the edge gap and border-radius. When pinned, no border-radius is applied regardless of size.
+   * @default 'base'
+   */
+  @Prop() size: DrawerSize = 'base';
+
+  /**
+   * Disables inner content padding. Padding is on by default and scales with size.
+   * @default false
+   */
+  @Prop() disallowPadding: boolean = false;
+
   // Note: ARIA attributes (aria-label, aria-labelledby, aria-describedby)
   // are passed through automatically via getPassThroughAttributes()
 
@@ -142,6 +154,7 @@ export class AegovDrawer {
     warnIfInvalidEnumProp(this.position, DRAWER_POSITIONS, 'right', ctx('position'));
     warnIfInvalidEnumProp(this.animation, DRAWER_ANIMATIONS, 'slide', ctx('animation'));
     warnIfInvalidEnumProp(this.overlayOpacity, DRAWER_OVERLAY_OPACITIES, 'base', ctx('overlayOpacity'));
+    warnIfInvalidEnumProp(this.size, DRAWER_SIZES, 'base', ctx('size'));
   }
 
   @Watch('position')
@@ -152,6 +165,9 @@ export class AegovDrawer {
 
   @Watch('overlayOpacity')
   onOverlayOpacityChange(v: unknown) { warnIfInvalidEnumProp(v, DRAWER_OVERLAY_OPACITIES, 'base', ctx('overlayOpacity')); }
+
+  @Watch('size')
+  onSizeChange(v: unknown) { warnIfInvalidEnumProp(v, DRAWER_SIZES, 'base', ctx('size')); }
 
   connectedCallback() {
     // Move drawer to body for proper stacking
@@ -318,10 +334,17 @@ export class AegovDrawer {
 
     const passThroughAttributes = getPassThroughAttributes(this.el, AegovDrawer.PASS_THROUGH_ATTRS);
     const position: DrawerPosition = (DRAWER_POSITIONS as readonly string[]).includes(this.position) ? this.position : 'right';
+    const size: DrawerSize = (DRAWER_SIZES as readonly string[]).includes(this.size) ? this.size : 'base';
     const containerClasses = [
       'aegov-drawer-container',
       `drawer-container--${position}`,
+      `drawer-size-${size}`,
       !this.pinned ? 'drawer-container--unpinned' : '',
+    ].filter(Boolean).join(' ');
+    const contentClasses = [
+      'aegov-drawer-content',
+      `drawer-size-${size}`,
+      !this.disallowPadding ? 'drawer--padded' : '',
     ].filter(Boolean).join(' ');
 
     return (
@@ -348,7 +371,7 @@ export class AegovDrawer {
           aria-modal="true"
           {...passThroughAttributes}
         >
-          <div class="aegov-drawer-content">
+          <div class={contentClasses}>
             <slot></slot>
           </div>
         </div>
