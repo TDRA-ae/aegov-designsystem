@@ -24,6 +24,7 @@ export class AegovDrawer {
   private triggerElement: HTMLElement | null = null;
   private focusableElements: HTMLElement[] = [];
   private drawerZIndex: number = 50;
+  private movedToBody: boolean = false;
 
   /**
    * Whether the drawer is currently open/visible
@@ -170,18 +171,23 @@ export class AegovDrawer {
   onSizeChange(v: unknown) { warnIfInvalidEnumProp(v, DRAWER_SIZES, 'base', ctx('size')); }
 
   connectedCallback() {
-    // Move drawer to body for proper stacking
-    if (this.el.parentNode !== document.body) {
+    // Move drawer to body for proper stacking. Guarded by movedToBody to
+    // avoid re-entrant hydration loops: appendChild triggers a synchronous
+    // disconnect/reconnect pair and Stencil's lazy hydration can fire
+    // connectedCallback again before parent state stabilises.
+    if (!this.movedToBody && this.el.parentNode !== document.body) {
+      this.movedToBody = true;
       document.body.appendChild(this.el);
     }
   }
 
   disconnectedCallback() {
+    // Cleanup. Note: we deliberately do NOT call body.removeChild(this.el)
+    // here — the disconnect IS the removal, and re-removing inside the
+    // callback caused a "Maximum call stack size exceeded" loop with
+    // connectedCallback under Stencil's shadow-DOM hydration.
     if (this.preventBodyScroll && this.open) {
       unlockBodyScroll();
-    }
-    if (this.el.parentNode === document.body) {
-      document.body.removeChild(this.el);
     }
     document.removeEventListener('keydown', this.handleKeyDown);
   }
