@@ -159,13 +159,40 @@ describe('aegov-avatar', () => {
       expect(indicator.classList.contains('avatar-offline')).toBe(true);
     });
 
-    it('does not render status when status is none', async () => {
+    it('does not render status by default (status=false)', async () => {
       const page = await newSpecPage({
         components: [AegovAvatar],
-        html: `<aegov-avatar status="none"></aegov-avatar>`,
+        html: `<aegov-avatar></aegov-avatar>`,
       });
       const indicator = page.root.querySelector('.avatar-indicator');
       expect(indicator).toBeNull();
+    });
+
+    it('renders away status class', async () => {
+      const page = await newSpecPage({
+        components: [AegovAvatar],
+        html: `<aegov-avatar status="away"></aegov-avatar>`,
+      });
+      const indicator = page.root.querySelector('.avatar-indicator');
+      expect(indicator.classList.contains('avatar-away')).toBe(true);
+    });
+
+    it('renders unavailable status class', async () => {
+      const page = await newSpecPage({
+        components: [AegovAvatar],
+        html: `<aegov-avatar status="unavailable"></aegov-avatar>`,
+      });
+      const indicator = page.root.querySelector('.avatar-indicator');
+      expect(indicator.classList.contains('avatar-unavailable')).toBe(true);
+    });
+
+    it('renders busy status class', async () => {
+      const page = await newSpecPage({
+        components: [AegovAvatar],
+        html: `<aegov-avatar status="busy"></aegov-avatar>`,
+      });
+      const indicator = page.root.querySelector('.avatar-indicator');
+      expect(indicator.classList.contains('avatar-busy')).toBe(true);
     });
 
     it('has aria-label on status indicator', async () => {
