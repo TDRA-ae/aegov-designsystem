@@ -383,6 +383,7 @@ export class AegovTooltip {
             class={{
               'aegov-tooltip': true,
               [`tooltip--${position}`]: true,
+              [`tooltip--align-${this.align}`]: true,
               'tooltip--interactive': this.interactive,
             }}
             style={{ display: this.isVisible ? 'block' : 'none' }}
