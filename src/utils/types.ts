@@ -130,8 +130,15 @@ export type BadgeColor = typeof BADGE_COLORS[number];
 /**
  * Title component size types
  */
-export const TITLE_SIZES = ['base', 'lg', 'xl', '2xl'] as const;
+export const TITLE_SIZES = ['sm', 'base', 'lg', 'xl','2xl'] as const;
 export type TitleSize = typeof TITLE_SIZES[number];
+
+/**
+ * Title component heading wrapper types.
+ * Unset → renders <p> (default).
+ */
+export const TITLE_HEADING_TYPES = ['h2', 'h3', 'h4', 'h5', 'h6', 'p'] as const;
+export type TitleHeadingType = typeof TITLE_HEADING_TYPES[number];
 
 /**
  * Text component size types
