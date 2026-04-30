@@ -24,14 +24,14 @@
 <p class="text-lg text-aeblack-500 mb-8">A lightweight typography component for rendering bold, sized title text. Use it wherever you need a visually prominent heading-like label without enforcing a semantic heading level.</p>
 
 <h2>Introduction</h2>
-<p>The <code>aegov-title</code> component renders a <code>&lt;p&gt;</code> element with bold text at one of four predefined sizes. It is designed for situations where you need title-style text but want to control semantic heading levels (<code>&lt;h1&gt;</code>–<code>&lt;h6&gt;</code>) separately. The component accepts additional Tailwind CSS classes that merge with its defaults, giving you full control over colour, spacing, and alignment.</p>
+<p>The <code>aegov-title</code> component renders a <code>&lt;p&gt;</code> element by default, with bold text at one of five predefined sizes. When you need a semantic heading instead, set the <code>heading-type</code> property to <code>h2</code>–<code>h6</code> and the same visual styling will be applied to that wrapper. The component accepts additional Tailwind CSS classes that merge with its defaults, giving you full control over colour, spacing, and alignment.</p>
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-title</span>&gt;</span>Default Title<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-title</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
   <aegov-title>Default Title</aegov-title>
 </div>
 
 <hr>
 <h2>Sizes</h2>
-<p>The <code>size</code> property controls the font size of the title text. There are four sizes available.</p>
+<p>The <code>size</code> property controls the font size of the title text. Sizes map to the design system&#39;s heading scale so a title looks identical whether the wrapper is a <code>&lt;p&gt;</code> or an <code>&lt;h*&gt;</code>.</p>
 <table>
 <thead>
 <tr>
@@ -41,47 +41,68 @@
 </tr>
 </thead>
 <tbody><tr>
-<td><code>base</code></td>
-<td><code>text-base</code></td>
+<td><code>sm</code></td>
+<td><code>text-base!</code></td>
 <td>16px</td>
 </tr>
 <tr>
-<td><code>lg</code></td>
-<td><code>text-lg</code></td>
+<td><code>base</code></td>
+<td><code>text-lg!</code></td>
 <td>18px</td>
 </tr>
 <tr>
-<td><code>xl</code></td>
-<td><code>text-xl</code></td>
+<td><code>lg</code></td>
+<td><code>text-xl!</code></td>
 <td>20px</td>
 </tr>
 <tr>
-<td><code>2xl</code></td>
-<td><code>text-2xl</code></td>
+<td><code>xl</code></td>
+<td><code>text-2xl!</code></td>
 <td>24px</td>
 </tr>
+<tr>
+<td><code>2xl</code></td>
+<td><code>text-3xl!</code></td>
+<td>30px</td>
+</tr>
 </tbody></table>
-<p>The default size is <code>lg</code>.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-title</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;base&quot;</span>&gt;</span>Base Title (16px)<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-title</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-title</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;lg&quot;</span>&gt;</span>Large Title (18px)<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-title</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-title</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;xl&quot;</span>&gt;</span>Extra Large Title (20px)<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-title</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-title</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;2xl&quot;</span>&gt;</span>2XL Title (24px)<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-title</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 space-y-4 not-aegov">
-  <aegov-title size="base">Base Title (16px)</aegov-title>
-  <aegov-title size="lg">Large Title (18px)</aegov-title>
-  <aegov-title size="xl">Extra Large Title (20px)</aegov-title>
-  <aegov-title size="2xl">2XL Title (24px)</aegov-title>
+<p>The default size is <code>base</code>.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-title</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm&quot;</span>&gt;</span>SM Title (16px)<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-title</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-title</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;base&quot;</span>&gt;</span>Base Title (18px)<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-title</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-title</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;lg&quot;</span>&gt;</span>Large Title (20px)<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-title</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-title</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;xl&quot;</span>&gt;</span>Extra Large Title (24px)<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-title</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-title</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;2xl&quot;</span>&gt;</span>2XL Title (30px)<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-title</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 space-y-4 not-aegov">
+  <aegov-title size="sm">SM Title (16px)</aegov-title>
+  <aegov-title size="base">Base Title (18px)</aegov-title>
+  <aegov-title size="lg">Large Title (20px)</aegov-title>
+  <aegov-title size="xl">Extra Large Title (24px)</aegov-title>
+  <aegov-title size="2xl">2XL Title (30px)</aegov-title>
 </div>
 
 <h3>Responsive Size</h3>
 <p>The <code>size</code> prop accepts Tailwind-style responsive prefixes. Write a space-separated string where each token is either a plain value or <code>breakpoint:value</code>. The base value (no prefix) applies below the smallest specified breakpoint.</p>
 <p>Available breakpoints: <code>xs</code> (480px), <code>sm</code> (640px), <code>md</code> (768px), <code>lg</code> (1024px), <code>xl</code> (1280px), <code>2xl</code> (1536px), <code>3xl</code> (1680px).</p>
 <p>Note: the default size is <code>lg</code>, not <code>base</code>.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-title</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm xl:2xl&quot;</span>&gt;</span>Responsive Title<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-title</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-title size="sm xl:2xl">Resize the viewport to see the size change</aegov-title>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-title</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm:sm md:base xl:xl&quot;</span>&gt;</span>Responsive Title<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-title</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
+  <aegov-title size="sm:sm md:base xl:xl">Resize the viewport to see the size change</aegov-title>
 </div>
 
 <blockquote>
 <p><strong>Graceful degradation:</strong> Unknown breakpoint names and invalid values are silently ignored. An unrecognised base value falls back to the component default.</p>
+</blockquote>
+<hr>
+<h2>Heading Type</h2>
+<p>By default, <code>aegov-title</code> renders a <code>&lt;p&gt;</code> element. Set the <code>heading-type</code> property to render the title inside a semantic heading tag (<code>h2</code>–<code>h6</code>) instead. The component&#39;s <code>size</code>, <code>font-bold</code>, and margin reset are applied with <code>!important</code> so the prop-driven typography always wins over the global heading defaults — meaning <code>&lt;aegov-title size=&quot;lg&quot;&gt;</code> and <code>&lt;aegov-title heading-type=&quot;h3&quot; size=&quot;lg&quot;&gt;</code> look identical.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-title</span> <span class="hljs-attr">heading-type</span>=<span class="hljs-string">&quot;h2&quot;</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;xl&quot;</span>&gt;</span>Section Heading<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-title</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-title</span> <span class="hljs-attr">heading-type</span>=<span class="hljs-string">&quot;h3&quot;</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;lg&quot;</span>&gt;</span>Sub-section<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-title</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-title</span> <span class="hljs-attr">heading-type</span>=<span class="hljs-string">&quot;h4&quot;</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;base&quot;</span>&gt;</span>Smaller heading<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-title</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 space-y-4 not-aegov">
+  <aegov-title heading-type="h2" size="xl">Section Heading</aegov-title>
+  <aegov-title heading-type="h3" size="lg">Sub-section</aegov-title>
+  <aegov-title heading-type="h4" size="base">Smaller heading</aegov-title>
+</div>
+
+<blockquote>
+<p><strong>Tip:</strong> Pick the heading level that fits your document outline. The component does not enforce a hierarchy — <code>heading-type</code> is purely about the rendered tag.</p>
 </blockquote>
 <hr>
 <h2>Default Styling</h2>
@@ -97,12 +118,12 @@
 <span class="hljs-tag">&lt;<span class="hljs-name">aegov-title</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;text-aered-600&quot;</span>&gt;</span>Red Title<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-title</span>&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">aegov-title</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;text-center&quot;</span>&gt;</span>Centred Title<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-title</span>&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">aegov-title</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;italic text-aeblack-400&quot;</span>&gt;</span>Italic Muted Title<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-title</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-title</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;2xl&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;mb-2 text-aegreen-700&quot;</span>&gt;</span>Custom Spaced Green Title<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-title</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 space-y-4 not-aegov">
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-title</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;xl&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;mb-2 text-aegreen-700&quot;</span>&gt;</span>Custom Spaced Green Title<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-title</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 space-y-4 not-aegov">
   <aegov-title class="text-primary-600">Primary Coloured Title</aegov-title>
   <aegov-title class="text-aered-600">Red Title</aegov-title>
   <aegov-title class="text-center">Centred Title</aegov-title>
   <aegov-title class="italic text-aeblack-400">Italic Muted Title</aegov-title>
-  <aegov-title size="2xl" class="mb-2 text-aegreen-700">Custom Spaced Green Title</aegov-title>
+  <aegov-title size="xl" class="mb-2 text-aegreen-700">Custom Spaced Green Title</aegov-title>
 </div>
 
 <hr>
@@ -117,16 +138,20 @@
 <span class="hljs-tag">&lt;<span class="hljs-name">aegov-title</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;xl&quot;</span>&gt;</span>Another Section<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-title</span>&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">aegov-text</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm&quot;</span>&gt;</span>
   Smaller body text for secondary content or captions.
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-text</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-title size="2xl">Section Heading</aegov-title>
-  <aegov-text>
-    This is the body text that follows the title. The aegov-text component
-    provides consistent paragraph spacing with a default bottom margin.
-  </aegov-text>
-  <aegov-title size="xl">Another Section</aegov-title>
-  <aegov-text size="sm">
-    Smaller body text for secondary content or captions.
-  </aegov-text>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-text</span>&gt;</span></code></pre><div class="not-aegov">
+  <div class="p-6 bg-aeblack-50 rounded-lg">
+    <aegov-title size="2xl">Section Heading</aegov-title>
+    <aegov-text>
+      This is the body text that follows the title. The aegov-text component
+      provides consistent paragraph spacing with a default bottom margin.
+    </aegov-text>
+  </div>
+  <div class="p-6 bg-aeblack-50 rounded-lg">
+    <aegov-title size="xl">Another Section</aegov-title>
+    <aegov-text size="sm">
+      Smaller body text for secondary content or captions.
+    </aegov-text>
+  </div>
 </div>
 
 <hr>
@@ -156,9 +181,16 @@
 <tbody><tr>
 <td><code>size</code></td>
 <td><code>size</code></td>
-<td>The font size of the title. Supports responsive strings (e.g. <code>&#39;sm xl:2xl&#39;</code>).</td>
-<td><code>&#39;base&#39;</code> | <code>&#39;lg&#39;</code> | <code>&#39;xl&#39;</code> | <code>&#39;2xl&#39;</code></td>
-<td><code>&#39;lg&#39;</code></td>
+<td>The font size of the title. Supports responsive strings (e.g. <code>&#39;sm md:lg xl:2xl&#39;</code>).</td>
+<td><code>&#39;sm&#39;</code> | <code>&#39;base&#39;</code> | <code>&#39;lg&#39;</code> | <code>&#39;xl&#39;</code> | <code>&#39;2xl&#39;</code></td>
+<td><code>&#39;base&#39;</code></td>
+</tr>
+<tr>
+<td><code>headingType</code></td>
+<td><code>heading-type</code></td>
+<td>The wrapper tag. When omitted, renders a <code>&lt;p&gt;</code>.</td>
+<td><code>&#39;h2&#39;</code> | <code>&#39;h3&#39;</code> | <code>&#39;h4&#39;</code> | <code>&#39;h5&#39;</code> | <code>&#39;h6&#39;</code> | <code>&#39;p&#39;</code></td>
+<td>—</td>
 </tr>
 <tr>
 <td><code>class</code></td>
@@ -199,13 +231,12 @@
 </ul>
 <h3>Developer Responsibilities</h3>
 <ol>
-<li><p><strong>Use semantic headings for document structure.</strong> The <code>aegov-title</code> component renders a <code>&lt;p&gt;</code> element, not an <code>&lt;h1&gt;</code>–<code>&lt;h6&gt;</code>. If the title represents a structural heading in the document outline, use a native HTML heading element instead (or alongside) the component.</p>
-<pre><code class="hljs language-html"><span class="hljs-comment">&lt;!-- For document structure, prefer semantic headings --&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">h2</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">aegov-title</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;xl&quot;</span>&gt;</span>Section Title<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-title</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">h2</span>&gt;</span>
+<li><p><strong>Use semantic headings for document structure.</strong> By default <code>aegov-title</code> renders a <code>&lt;p&gt;</code>, which is purely presentational. If the title represents a structural heading in the document outline, set <code>heading-type</code> to the appropriate level so the rendered tag is a real heading.</p>
+<pre><code class="hljs language-html"><span class="hljs-comment">&lt;!-- For document structure, set heading-type to the semantic level --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-title</span> <span class="hljs-attr">heading-type</span>=<span class="hljs-string">&quot;h2&quot;</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;xl&quot;</span>&gt;</span>Section Title<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-title</span>&gt;</span>
 
-<span class="hljs-comment">&lt;!-- Or use aegov-title purely for visual styling --&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">h2</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;sr-only&quot;</span>&gt;</span>Section Title<span class="hljs-tag">&lt;/<span class="hljs-name">h2</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-title</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;xl&quot;</span>&gt;</span>Section Title<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-title</span>&gt;</span></code></pre></li>
+<span class="hljs-comment">&lt;!-- Or keep the default &lt;p&gt; when the title is purely decorative --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-title</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;xl&quot;</span>&gt;</span>Decorative Title<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-title</span>&gt;</span></code></pre></li>
 <li><p><strong>Colour contrast.</strong> When using the <code>class</code> property to change text colour, ensure the chosen colour maintains at least a <strong>4.5:1</strong> contrast ratio against the background for WCAG 2.1 AA compliance.</p>
 </li>
 <li><p><strong>Meaningful content.</strong> The title text should be descriptive and meaningful. Avoid using the component for purely decorative text that carries no semantic meaning.</p>
@@ -214,11 +245,10 @@
 <hr>
 <h2>Notes</h2>
 <ul>
-<li>The <code>aegov-title</code> component renders a <code>&lt;p&gt;</code> element, <strong>not</strong> a heading (<code>&lt;h1&gt;</code>–<code>&lt;h6&gt;</code>). This is intentional — it allows you to use the component for visual styling while managing document heading hierarchy independently.</li>
-<li>The default size is <code>lg</code> (18px), not <code>base</code>. This was chosen to provide a visually distinct title appearance out of the box.</li>
-<li>Custom classes provided via the <code>class</code> property are <strong>merged</strong> with the default classes (<code>font-bold</code>, <code>mt-0</code>, and the size class). They do not replace them. To override a default, use a Tailwind class that targets the same CSS property — for example, <code>class=&quot;font-normal&quot;</code> will override <code>font-bold</code>.</li>
-<li>The component uses <code>scoped: false</code> and does not use Shadow DOM. Styles are applied via Tailwind utility classes directly on the inner <code>&lt;p&gt;</code> element, making them easy to inspect and override.</li>
-<li>The host element has <code>display: block</code> set via CSS, so each <code>aegov-title</code> occupies its own line by default.</li>
+<li>The <code>aegov-title</code> component renders a <code>&lt;p&gt;</code> element by default. Use the <code>heading-type</code> property to opt into a semantic heading wrapper (<code>&lt;h2&gt;</code>–<code>&lt;h6&gt;</code>) when needed. <code>h1</code> is excluded — page-level headings should remain a deliberate, explicit choice.</li>
+<li>The size and margin classes are applied with <code>!important</code> so the prop-driven typography overrides the global <code>&lt;h1&gt;</code>–<code>&lt;h6&gt;</code> styles defined in <code>global.css</code>. This guarantees the same visual result whether the wrapper is a <code>&lt;p&gt;</code> or an <code>&lt;h*&gt;</code>.</li>
+<li>Custom classes provided via the <code>class</code> property are <strong>merged</strong> with the default classes (<code>font-bold!</code>, <code>mt-0!</code>, <code>mb-0!</code>, and the size class). They do not replace them. To override a default, use a Tailwind class that targets the same CSS property with <code>!important</code> — for example, <code>class=&quot;font-normal!&quot;</code> will override <code>font-bold!</code>.</li>
+<li>The component uses <code>scoped: false</code> and does not use Shadow DOM. Styles are applied via Tailwind utility classes directly on the rendered wrapper, making them easy to inspect and override.</li>
 </ul>
 <!-- DOC:END -->
           </section>

@@ -4,7 +4,7 @@
 
 ## Introduction
 
-The `aegov-title` component renders a `<p>` element with bold text at one of four predefined sizes. It is designed for situations where you need title-style text but want to control semantic heading levels (`<h1>`–`<h6>`) separately. The component accepts additional Tailwind CSS classes that merge with its defaults, giving you full control over colour, spacing, and alignment.
+The `aegov-title` component renders a `<p>` element by default, with bold text at one of five predefined sizes. When you need a semantic heading instead, set the `heading-type` property to `h2`–`h6` and the same visual styling will be applied to that wrapper. The component accepts additional Tailwind CSS classes that merge with its defaults, giving you full control over colour, spacing, and alignment.
 
 ```html
 <aegov-title>Default Title</aegov-title>
@@ -18,29 +18,32 @@ The `aegov-title` component renders a `<p>` element with bold text at one of fou
 
 ## Sizes
 
-The `size` property controls the font size of the title text. There are four sizes available.
+The `size` property controls the font size of the title text. Sizes map to the design system's heading scale so a title looks identical whether the wrapper is a `<p>` or an `<h*>`.
 
-| Size   | CSS Class  | Font Size |
-|--------|-----------|-----------|
-| `base` | `text-base` | 16px      |
-| `lg`   | `text-lg`   | 18px      |
-| `xl`   | `text-xl`   | 20px      |
-| `2xl`  | `text-2xl`  | 24px      |
+| Size   | CSS Class    | Font Size |
+|--------|--------------|-----------|
+| `sm`   | `text-base!` | 16px      |
+| `base` | `text-lg!`   | 18px      |
+| `lg`   | `text-xl!`   | 20px      |
+| `xl`   | `text-2xl!`  | 24px      |
+| `2xl`  | `text-3xl!`  | 30px      |
 
-The default size is `lg`.
+The default size is `base`.
 
 ```html
-<aegov-title size="base">Base Title (16px)</aegov-title>
-<aegov-title size="lg">Large Title (18px)</aegov-title>
-<aegov-title size="xl">Extra Large Title (20px)</aegov-title>
-<aegov-title size="2xl">2XL Title (24px)</aegov-title>
+<aegov-title size="sm">SM Title (16px)</aegov-title>
+<aegov-title size="base">Base Title (18px)</aegov-title>
+<aegov-title size="lg">Large Title (20px)</aegov-title>
+<aegov-title size="xl">Extra Large Title (24px)</aegov-title>
+<aegov-title size="2xl">2XL Title (30px)</aegov-title>
 ```
 
 <div class="p-6 bg-aeblack-50 rounded-lg my-6 space-y-4 not-aegov">
-  <aegov-title size="base">Base Title (16px)</aegov-title>
-  <aegov-title size="lg">Large Title (18px)</aegov-title>
-  <aegov-title size="xl">Extra Large Title (20px)</aegov-title>
-  <aegov-title size="2xl">2XL Title (24px)</aegov-title>
+  <aegov-title size="sm">SM Title (16px)</aegov-title>
+  <aegov-title size="base">Base Title (18px)</aegov-title>
+  <aegov-title size="lg">Large Title (20px)</aegov-title>
+  <aegov-title size="xl">Extra Large Title (24px)</aegov-title>
+  <aegov-title size="2xl">2XL Title (30px)</aegov-title>
 </div>
 
 ### Responsive Size
@@ -52,14 +55,34 @@ Available breakpoints: `xs` (480px), `sm` (640px), `md` (768px), `lg` (1024px), 
 Note: the default size is `lg`, not `base`.
 
 ```html
-<aegov-title size="sm xl:2xl">Responsive Title</aegov-title>
+<aegov-title size="sm:sm md:base xl:xl">Responsive Title</aegov-title>
 ```
 
 <div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-title size="sm xl:2xl">Resize the viewport to see the size change</aegov-title>
+  <aegov-title size="sm:sm md:base xl:xl">Resize the viewport to see the size change</aegov-title>
 </div>
 
 > **Graceful degradation:** Unknown breakpoint names and invalid values are silently ignored. An unrecognised base value falls back to the component default.
+
+---
+
+## Heading Type
+
+By default, `aegov-title` renders a `<p>` element. Set the `heading-type` property to render the title inside a semantic heading tag (`h2`–`h6`) instead. The component's `size`, `font-bold`, and margin reset are applied with `!important` so the prop-driven typography always wins over the global heading defaults — meaning `<aegov-title size="lg">` and `<aegov-title heading-type="h3" size="lg">` look identical.
+
+```html
+<aegov-title heading-type="h2" size="xl">Section Heading</aegov-title>
+<aegov-title heading-type="h3" size="lg">Sub-section</aegov-title>
+<aegov-title heading-type="h4" size="base">Smaller heading</aegov-title>
+```
+
+<div class="p-6 bg-aeblack-50 rounded-lg my-6 space-y-4 not-aegov">
+  <aegov-title heading-type="h2" size="xl">Section Heading</aegov-title>
+  <aegov-title heading-type="h3" size="lg">Sub-section</aegov-title>
+  <aegov-title heading-type="h4" size="base">Smaller heading</aegov-title>
+</div>
+
+> **Tip:** Pick the heading level that fits your document outline. The component does not enforce a hierarchy — `heading-type` is purely about the rendered tag.
 
 ---
 
@@ -86,7 +109,7 @@ The `class` property accepts additional Tailwind CSS utility classes that are me
 <aegov-title class="text-aered-600">Red Title</aegov-title>
 <aegov-title class="text-center">Centred Title</aegov-title>
 <aegov-title class="italic text-aeblack-400">Italic Muted Title</aegov-title>
-<aegov-title size="2xl" class="mb-2 text-aegreen-700">Custom Spaced Green Title</aegov-title>
+<aegov-title size="xl" class="mb-2 text-aegreen-700">Custom Spaced Green Title</aegov-title>
 ```
 
 <div class="p-6 bg-aeblack-50 rounded-lg my-6 space-y-4 not-aegov">
@@ -94,7 +117,7 @@ The `class` property accepts additional Tailwind CSS utility classes that are me
   <aegov-title class="text-aered-600">Red Title</aegov-title>
   <aegov-title class="text-center">Centred Title</aegov-title>
   <aegov-title class="italic text-aeblack-400">Italic Muted Title</aegov-title>
-  <aegov-title size="2xl" class="mb-2 text-aegreen-700">Custom Spaced Green Title</aegov-title>
+  <aegov-title size="xl" class="mb-2 text-aegreen-700">Custom Spaced Green Title</aegov-title>
 </div>
 
 ---
@@ -115,17 +138,20 @@ The `aegov-title` and `aegov-text` components are designed to work together for 
   Smaller body text for secondary content or captions.
 </aegov-text>
 ```
-
-<div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-title size="2xl">Section Heading</aegov-title>
-  <aegov-text>
-    This is the body text that follows the title. The aegov-text component
-    provides consistent paragraph spacing with a default bottom margin.
-  </aegov-text>
-  <aegov-title size="xl">Another Section</aegov-title>
-  <aegov-text size="sm">
-    Smaller body text for secondary content or captions.
-  </aegov-text>
+<div class="not-aegov">
+  <div class="p-6 bg-aeblack-50 rounded-lg">
+    <aegov-title size="2xl">Section Heading</aegov-title>
+    <aegov-text>
+      This is the body text that follows the title. The aegov-text component
+      provides consistent paragraph spacing with a default bottom margin.
+    </aegov-text>
+  </div>
+  <div class="p-6 bg-aeblack-50 rounded-lg">
+    <aegov-title size="xl">Another Section</aegov-title>
+    <aegov-text size="sm">
+      Smaller body text for secondary content or captions.
+    </aegov-text>
+  </div>
 </div>
 
 ---
@@ -152,10 +178,11 @@ The component forwards `aria-*`, `data-*`, and `id` attributes from the host ele
 
 ### Properties
 
-| Property | Attribute | Description                                    | Type                                       | Default |
-|----------|-----------|------------------------------------------------|--------------------------------------------|---------|
-| `size`   | `size`    | The font size of the title. Supports responsive strings (e.g. `'sm xl:2xl'`). | `'base'` \| `'lg'` \| `'xl'` \| `'2xl'`  | `'lg'`  |
-| `class`  | `class`   | Additional Tailwind CSS classes to merge        | `string`                                   | —       |
+| Property      | Attribute      | Description                                    | Type                                       | Default |
+|---------------|----------------|------------------------------------------------|--------------------------------------------|---------|
+| `size`        | `size`         | The font size of the title. Supports responsive strings (e.g. `'sm md:lg xl:2xl'`). | `'sm'` \| `'base'` \| `'lg'` \| `'xl'` \| `'2xl'`  | `'base'`  |
+| `headingType` | `heading-type` | The wrapper tag. When omitted, renders a `<p>`. | `'h2'` \| `'h3'` \| `'h4'` \| `'h5'` \| `'h6'` \| `'p'` | —       |
+| `class`       | `class`        | Additional Tailwind CSS classes to merge        | `string`                                   | —       |
 
 ### Slots
 
@@ -189,15 +216,14 @@ The `aegov-title` component is a presentational typography helper. Keep the foll
 
 ### Developer Responsibilities
 
-1. **Use semantic headings for document structure.** The `aegov-title` component renders a `<p>` element, not an `<h1>`–`<h6>`. If the title represents a structural heading in the document outline, use a native HTML heading element instead (or alongside) the component.
+1. **Use semantic headings for document structure.** By default `aegov-title` renders a `<p>`, which is purely presentational. If the title represents a structural heading in the document outline, set `heading-type` to the appropriate level so the rendered tag is a real heading.
 
    ```html
-   <!-- For document structure, prefer semantic headings -->
-   <h2><aegov-title size="xl">Section Title</aegov-title></h2>
+   <!-- For document structure, set heading-type to the semantic level -->
+   <aegov-title heading-type="h2" size="xl">Section Title</aegov-title>
 
-   <!-- Or use aegov-title purely for visual styling -->
-   <h2 class="sr-only">Section Title</h2>
-   <aegov-title size="xl">Section Title</aegov-title>
+   <!-- Or keep the default <p> when the title is purely decorative -->
+   <aegov-title size="xl">Decorative Title</aegov-title>
    ```
 
 2. **Colour contrast.** When using the `class` property to change text colour, ensure the chosen colour maintains at least a **4.5:1** contrast ratio against the background for WCAG 2.1 AA compliance.
@@ -208,8 +234,7 @@ The `aegov-title` component is a presentational typography helper. Keep the foll
 
 ## Notes
 
-- The `aegov-title` component renders a `<p>` element, **not** a heading (`<h1>`–`<h6>`). This is intentional — it allows you to use the component for visual styling while managing document heading hierarchy independently.
-- The default size is `lg` (18px), not `base`. This was chosen to provide a visually distinct title appearance out of the box.
-- Custom classes provided via the `class` property are **merged** with the default classes (`font-bold`, `mt-0`, and the size class). They do not replace them. To override a default, use a Tailwind class that targets the same CSS property — for example, `class="font-normal"` will override `font-bold`.
-- The component uses `scoped: false` and does not use Shadow DOM. Styles are applied via Tailwind utility classes directly on the inner `<p>` element, making them easy to inspect and override.
-- The host element has `display: block` set via CSS, so each `aegov-title` occupies its own line by default.
+- The `aegov-title` component renders a `<p>` element by default. Use the `heading-type` property to opt into a semantic heading wrapper (`<h2>`–`<h6>`) when needed. `h1` is excluded — page-level headings should remain a deliberate, explicit choice.
+- The size and margin classes are applied with `!important` so the prop-driven typography overrides the global `<h1>`–`<h6>` styles defined in `global.css`. This guarantees the same visual result whether the wrapper is a `<p>` or an `<h*>`.
+- Custom classes provided via the `class` property are **merged** with the default classes (`font-bold!`, `mt-0!`, `mb-0!`, and the size class). They do not replace them. To override a default, use a Tailwind class that targets the same CSS property with `!important` — for example, `class="font-normal!"` will override `font-bold!`.
+- The component uses `scoped: false` and does not use Shadow DOM. Styles are applied via Tailwind utility classes directly on the rendered wrapper, making them easy to inspect and override.
