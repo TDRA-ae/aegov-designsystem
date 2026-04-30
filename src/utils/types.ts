@@ -72,7 +72,7 @@ export type AvatarAppearance = typeof AVATAR_APPEARANCES[number];
 /**
  * Avatar component status types
  */
-export const AVATAR_STATUSES = ['online', 'offline', 'none'] as const;
+export const AVATAR_STATUSES = ['online', 'offline', 'away', 'unavailable', 'busy'] as const;
 export type AvatarStatus = typeof AVATAR_STATUSES[number];
 
 /**

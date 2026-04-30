@@ -127,8 +127,8 @@ export namespace Components {
          */
         "src"?: string;
         /**
-          * Status indicator type. Set to 'online' or 'offline' to show indicator, or 'none'/false to hide.
-          * @default 'none'
+          * Status indicator. Set to a status string to show the indicator, or `false` to hide it. Accepts: `'online'`, `'offline'`, `'away'`, `'unavailable'`, `'busy'`, or boolean (`true` maps to `'online'`).
+          * @default false
          */
         "status": AvatarStatus | boolean;
     }
@@ -3017,8 +3017,8 @@ declare namespace LocalJSX {
          */
         "src"?: string;
         /**
-          * Status indicator type. Set to 'online' or 'offline' to show indicator, or 'none'/false to hide.
-          * @default 'none'
+          * Status indicator. Set to a status string to show the indicator, or `false` to hide it. Accepts: `'online'`, `'offline'`, `'away'`, `'unavailable'`, `'busy'`, or boolean (`true` maps to `'online'`).
+          * @default false
          */
         "status"?: AvatarStatus | boolean;
     }

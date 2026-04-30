@@ -24,7 +24,7 @@
 <p class="text-lg text-aeblack-500 mb-8">An avatar is a visual representation of a user or entity. It displays a profile image, initials, or a default placeholder icon within a consistently sized container.</p>
 
 <h2>Introduction</h2>
-<p>The <code>aegov-avatar</code> component renders a compact visual identifier for a user. It supports <strong>7 sizes</strong>, <strong>2 shape variants</strong>, <strong>online/offline status indicators</strong>, image sources with automatic fallback, and custom slot content for initials or icons.</p>
+<p>The <code>aegov-avatar</code> component renders a compact visual identifier for a user. It supports <strong>7 sizes</strong>, <strong>2 shape variants</strong>, <strong>5 presence statuses</strong> (<code>online</code>, <code>offline</code>, <code>away</code>, <code>unavailable</code>, <code>busy</code>), image sources with automatic fallback, and custom slot content for initials or icons.</p>
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar</span>&gt;</span></code></pre><div class="flex flex-wrap items-center gap-4 p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
   <aegov-avatar></aegov-avatar>
 </div>
@@ -163,7 +163,7 @@
 
 <hr>
 <h2>Status Indicator</h2>
-<p>The <code>status</code> property adds a small coloured dot to the avatar indicating online or offline state. The indicator is positioned at the top-right corner.</p>
+<p>The <code>status</code> property adds a small coloured dot to the avatar indicating presence. The indicator is positioned at the top-right corner. Omit the property (or set it to <code>false</code>) to hide the indicator.</p>
 <table>
 <thead>
 <tr>
@@ -174,38 +174,61 @@
 </thead>
 <tbody><tr>
 <td><code>online</code></td>
-<td>Green</td>
+<td>aegreen-500</td>
 <td>User is active</td>
 </tr>
 <tr>
 <td><code>offline</code></td>
-<td>Red</td>
-<td>User is away</td>
+<td>aered-500</td>
+<td>User is offline</td>
 </tr>
 <tr>
-<td><code>none</code></td>
-<td>—</td>
-<td>No indicator</td>
+<td><code>away</code></td>
+<td>camel-400</td>
+<td>User is temporarily away</td>
+</tr>
+<tr>
+<td><code>unavailable</code></td>
+<td>aeblack-400</td>
+<td>User cannot be reached</td>
+</tr>
+<tr>
+<td><code>busy</code></td>
+<td>aered-800</td>
+<td>User is busy</td>
 </tr>
 </tbody></table>
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar</span> <span class="hljs-attr">status</span>=<span class="hljs-string">&quot;online&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar</span> <span class="hljs-attr">status</span>=<span class="hljs-string">&quot;offline&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar</span>&gt;</span></code></pre><div class="flex flex-wrap items-center gap-6 p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar</span> <span class="hljs-attr">status</span>=<span class="hljs-string">&quot;offline&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar</span> <span class="hljs-attr">status</span>=<span class="hljs-string">&quot;away&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar</span> <span class="hljs-attr">status</span>=<span class="hljs-string">&quot;unavailable&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar</span> <span class="hljs-attr">status</span>=<span class="hljs-string">&quot;busy&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar</span>&gt;</span></code></pre><div class="flex flex-wrap items-center gap-6 p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
   <aegov-avatar status="online" size="lg"></aegov-avatar>
   <aegov-avatar status="offline" size="lg"></aegov-avatar>
-  <aegov-avatar status="online" size="lg" variant="rounded"></aegov-avatar>
-  <aegov-avatar status="offline" size="lg" variant="rounded"></aegov-avatar>
+  <aegov-avatar status="away" size="lg"></aegov-avatar>
+  <aegov-avatar status="unavailable" size="lg"></aegov-avatar>
+  <aegov-avatar status="busy" size="lg"></aegov-avatar>
+</div>
+
+<div class="flex flex-wrap items-center gap-6 p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
+  <aegov-avatar status="online" size="lg" appearance="rounded"></aegov-avatar>
+  <aegov-avatar status="offline" size="lg" appearance="rounded"></aegov-avatar>
+  <aegov-avatar status="away" size="lg" appearance="rounded"></aegov-avatar>
+  <aegov-avatar status="unavailable" size="lg" appearance="rounded"></aegov-avatar>
+  <aegov-avatar status="busy" size="lg" appearance="rounded"></aegov-avatar>
 </div>
 
 <p>Status indicators with images:</p>
 <div class="flex flex-wrap items-center gap-6 p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
   <aegov-avatar src="https://i.pravatar.cc/150?img=3" alt="Online user" status="online" size="lg"></aegov-avatar>
   <aegov-avatar src="https://i.pravatar.cc/150?img=8" alt="Offline user" status="offline" size="lg"></aegov-avatar>
-  <aegov-avatar src="https://i.pravatar.cc/150?img=11" alt="Online user" status="online" size="lg" variant="rounded"></aegov-avatar>
-  <aegov-avatar src="https://i.pravatar.cc/150?img=20" alt="Offline user" status="offline" size="lg" variant="rounded"></aegov-avatar>
+  <aegov-avatar src="https://i.pravatar.cc/150?img=11" alt="Away user" status="away" size="lg" appearance="rounded"></aegov-avatar>
+  <aegov-avatar src="https://i.pravatar.cc/150?img=20" alt="Unavailable user" status="unavailable" size="lg" appearance="rounded"></aegov-avatar>
+  <aegov-avatar src="https://i.pravatar.cc/150?img=15" alt="Busy user" status="busy" size="lg" appearance="rounded"></aegov-avatar>
 </div>
 
 <blockquote>
-<p><strong>Tip:</strong> The <code>status</code> property also accepts a boolean — <code>true</code> maps to <code>&quot;online&quot;</code> and <code>false</code> or omission maps to <code>&quot;none&quot;</code>.</p>
+<p><strong>Tip:</strong> The <code>status</code> property also accepts a boolean — <code>true</code> maps to <code>&quot;online&quot;</code> and <code>false</code> (the default) hides the indicator.</p>
 </blockquote>
 <hr>
 <h2>Size × Variant Matrix</h2>
@@ -319,9 +342,9 @@
 <tr>
 <td><code>status</code></td>
 <td><code>status</code></td>
-<td>Status indicator (<code>online</code>, <code>offline</code>, <code>none</code>, or boolean)</td>
-<td><code>&#39;online&#39;</code> | <code>&#39;offline&#39;</code> | <code>&#39;none&#39;</code> | <code>boolean</code></td>
-<td><code>&#39;none&#39;</code></td>
+<td>Status indicator. Use <code>false</code> (or omit) to hide. <code>true</code> maps to <code>&#39;online&#39;</code>.</td>
+<td><code>&#39;online&#39;</code> | <code>&#39;offline&#39;</code> | <code>&#39;away&#39;</code> | <code>&#39;unavailable&#39;</code> | <code>&#39;busy&#39;</code> | <code>boolean</code></td>
+<td><code>false</code></td>
 </tr>
 </tbody></table>
 <h3>Slots</h3>
@@ -377,14 +400,14 @@ aegov-avatar<span class="hljs-selector-pseudo">::part</span>(avatar) {
 </li>
 <li><p><strong>Initials should have labels.</strong> If using the slot for initials, consider adding an <code>aria-label</code> on the host element since two-letter abbreviations are not always meaningful to screen readers.</p>
 </li>
-<li><p><strong>Colour contrast for status.</strong> The green (online) and red (offline) indicators meet WCAG 2.1 AA contrast against a white background. If you change the surrounding background, verify contrast is maintained.</p>
+<li><p><strong>Colour contrast for status.</strong> All status indicator colours meet WCAG 2.1 AA contrast against a white background. If you change the surrounding background, verify contrast is maintained.</p>
 </li>
 </ol>
 <hr>
 <h2>Notes</h2>
 <ul>
 <li>The default shape is <code>square</code> with <code>rounded</code> corners (not sharp). The rounding increases for larger sizes — <code>lg</code> and above use <code>rounded-md</code> or <code>rounded-lg</code>.</li>
-<li>The <code>status</code> property accepts both string and boolean values. <code>true</code> maps to <code>&quot;online&quot;</code>, <code>false</code> or omission maps to <code>&quot;none&quot;</code>.</li>
+<li>The <code>status</code> property accepts both string and boolean values. <code>true</code> maps to <code>&quot;online&quot;</code>, while <code>false</code> (the default) or omission hides the indicator.</li>
 <li>When <code>src</code> is set but the image fails to load, the component sets an internal <code>imageError</code> state and falls back to slot content or the default user icon.</li>
 <li>The avatar uses <code>object-cover</code> on images, so non-square profile pictures are cropped to fill the container without distortion.</li>
 <li>The host element uses <code>display: inline-block</code>, so avatars can be placed inline with text or inside flex containers.</li>

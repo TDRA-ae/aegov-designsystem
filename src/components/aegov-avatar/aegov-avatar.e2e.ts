@@ -98,11 +98,35 @@ describe('aegov-avatar E2E', () => {
       expect(classes).toContain('avatar-offline');
     });
 
-    it('should not render status when none', async () => {
+    it('should not render status by default', async () => {
       const page = await newE2EPage();
-      await page.setContent('<aegov-avatar status="none"></aegov-avatar>');
+      await page.setContent('<aegov-avatar></aegov-avatar>');
       const indicator = await page.find('aegov-avatar .avatar-indicator');
       expect(indicator).toBeNull();
+    });
+
+    it('should render away status class', async () => {
+      const page = await newE2EPage();
+      await page.setContent('<aegov-avatar status="away"></aegov-avatar>');
+      const indicator = await page.find('aegov-avatar .avatar-indicator');
+      const classes = await indicator.getProperty('className');
+      expect(classes).toContain('avatar-away');
+    });
+
+    it('should render unavailable status class', async () => {
+      const page = await newE2EPage();
+      await page.setContent('<aegov-avatar status="unavailable"></aegov-avatar>');
+      const indicator = await page.find('aegov-avatar .avatar-indicator');
+      const classes = await indicator.getProperty('className');
+      expect(classes).toContain('avatar-unavailable');
+    });
+
+    it('should render busy status class', async () => {
+      const page = await newE2EPage();
+      await page.setContent('<aegov-avatar status="busy"></aegov-avatar>');
+      const indicator = await page.find('aegov-avatar .avatar-indicator');
+      const classes = await indicator.getProperty('className');
+      expect(classes).toContain('avatar-busy');
     });
   });
 
