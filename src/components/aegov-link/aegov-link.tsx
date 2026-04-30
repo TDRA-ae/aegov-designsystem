@@ -3,6 +3,7 @@ import { LINK_TARGETS } from '../../utils/types';
 import type { LinkTarget } from '../../utils/types';
 import { getPassThroughAttributes } from '../../utils/attributes';
 import { warnIfInvalidEnumProp } from '../../utils/prop-validator';
+import { generateId } from '../../utils/id-generator';
 
 const TAG = 'aegov-link';
 const ctx = (prop: string) => ({ component: TAG, prop });
@@ -19,6 +20,11 @@ export class AegovLink {
   @Element() el: HTMLElement;
 
   /**
+   * Unique ID for the inner anchor element. Auto-generated if not provided.
+   */
+  @Prop({ mutable: true, reflect: true }) fieldId?: string;
+
+  /**
    * The URL that the link points to.
    * @required
    */
@@ -30,6 +36,9 @@ export class AegovLink {
   @Prop() target?: LinkTarget;
 
   componentWillLoad() {
+    if (!this.fieldId) {
+      this.fieldId = generateId('aegov-link');
+    }
     if (this.target !== undefined) {
       warnIfInvalidEnumProp(this.target, LINK_TARGETS, '_self', ctx('target'));
     }
@@ -49,7 +58,7 @@ export class AegovLink {
   /**
    * Additional CSS classes to apply to the link.
    */
-  @Prop() class?: string;
+  @Prop() extraClass?: string;
 
   /**
    * Emitted when the link is clicked.
@@ -76,7 +85,7 @@ export class AegovLink {
     // to stop navigation and handle it themselves
   };
 
-  private static readonly PASS_THROUGH_ATTRS = new Set(['title', 'id']);
+  private static readonly PASS_THROUGH_ATTRS = new Set(['title']);
 
   /**
    * Get the CSS classes based on component props
@@ -91,8 +100,8 @@ export class AegovLink {
     ];
 
     // Merge with custom classes if provided
-    if (this.class) {
-      classes.push(this.class);
+    if (this.extraClass) {
+      classes.push(this.extraClass);
     }
 
     return classes.join(' ');
@@ -104,6 +113,7 @@ export class AegovLink {
     return (
       <Host>
         <a
+          id={this.fieldId}
           href={this.href}
           target={this.target}
           rel={this.rel || (this.target === '_blank' ? 'noopener noreferrer' : undefined)}

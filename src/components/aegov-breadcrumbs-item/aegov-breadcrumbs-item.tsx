@@ -55,7 +55,7 @@ export class AegovBreadcrumbsItem {
    * Whether to add schema.org microdata
    * @internal - Set automatically by parent component
    */
-  @Prop({ mutable: true }) microdata: boolean = false;
+  @Prop({ mutable: true }) isMicrodata: boolean = false;
 
   /**
    * Position in the breadcrumb list (1-indexed) for microdata
@@ -101,7 +101,7 @@ export class AegovBreadcrumbsItem {
   @Watch('separator')
   @Watch('isLast')
   @Watch('maxLength')
-  @Watch('microdata')
+  @Watch('isMicrodata')
   @Watch('position')
   handlePropChange() {
     // Force re-render when props change
@@ -152,23 +152,23 @@ export class AegovBreadcrumbsItem {
         <Host>
           <li
             class="breadcrumb__item"
-            itemProp={this.microdata ? "itemListElement" : undefined}
-            itemScope={this.microdata ? true : undefined}
-            itemType={this.microdata ? "https://schema.org/ListItem" : undefined}
+            itemProp={this.isMicrodata ? "itemListElement" : undefined}
+            itemScope={this.isMicrodata ? true : undefined}
+            itemType={this.isMicrodata ? "https://schema.org/ListItem" : undefined}
           >
             <a
               href={this.href}
               target={this.target}
               onClick={this.handleClick}
               class="breadcrumb-link"
-              itemProp={this.microdata ? "item" : undefined}
+              itemProp={this.isMicrodata ? "item" : undefined}
               {...passThroughAttributes}
             >
-              <span itemProp={this.microdata ? "name" : undefined}>
+              <span itemProp={this.isMicrodata ? "name" : undefined}>
                 {content}
               </span>
             </a>
-            {this.microdata && (
+            {this.isMicrodata && (
               <meta itemProp="position" content={this.position.toString()} />
             )}
             <span>
@@ -183,19 +183,19 @@ export class AegovBreadcrumbsItem {
       <Host>
         <li
           class="breadcrumb__item"
-          itemProp={this.microdata ? "itemListElement" : undefined}
-          itemScope={this.microdata ? true : undefined}
-          itemType={this.microdata ? "https://schema.org/ListItem" : undefined}
+          itemProp={this.isMicrodata ? "itemListElement" : undefined}
+          itemScope={this.isMicrodata ? true : undefined}
+          itemType={this.isMicrodata ? "https://schema.org/ListItem" : undefined}
         >
           <span
             class="breadcrumb-current"
             aria-current={this.isLast ? 'page' : undefined}
-            itemProp={this.microdata ? "name" : undefined}
+            itemProp={this.isMicrodata ? "name" : undefined}
             {...passThroughAttributes}
           >
             {content}
           </span>
-          {this.microdata && (
+          {this.isMicrodata && (
             <meta itemProp="position" content={this.position.toString()} />
           )}
           {this.renderSeparator()}

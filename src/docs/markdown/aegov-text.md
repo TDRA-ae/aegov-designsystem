@@ -121,37 +121,37 @@ The `class` property lets you pass additional Tailwind utility classes that are 
 ### Custom Colour
 
 ```html
-<aegov-text class="text-primary-600">Primary-coloured paragraph text.</aegov-text>
-<aegov-text class="text-aered-600">Red-coloured paragraph text for emphasis.</aegov-text>
+<aegov-text extra-class="text-primary-600">Primary-coloured paragraph text.</aegov-text>
+<aegov-text extra-class="text-aered-600">Red-coloured paragraph text for emphasis.</aegov-text>
 ```
 
 <div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-text class="text-primary-600">Primary-coloured paragraph text.</aegov-text>
-  <aegov-text class="text-aered-600">Red-coloured paragraph text for emphasis.</aegov-text>
+  <aegov-text extra-class="text-primary-600">Primary-coloured paragraph text.</aegov-text>
+  <aegov-text extra-class="text-aered-600">Red-coloured paragraph text for emphasis.</aegov-text>
 </div>
 
 ### Custom Font Weight
 
 ```html
-<aegov-text class="font-semibold">Semibold paragraph text.</aegov-text>
-<aegov-text class="font-light">Light-weight paragraph text.</aegov-text>
+<aegov-text extra-class="font-semibold">Semibold paragraph text.</aegov-text>
+<aegov-text extra-class="font-light">Light-weight paragraph text.</aegov-text>
 ```
 
 <div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-text class="font-semibold">Semibold paragraph text.</aegov-text>
-  <aegov-text class="font-light">Light-weight paragraph text.</aegov-text>
+  <aegov-text extra-class="font-semibold">Semibold paragraph text.</aegov-text>
+  <aegov-text extra-class="font-light">Light-weight paragraph text.</aegov-text>
 </div>
 
 ### Custom Alignment
 
 ```html
-<aegov-text class="text-center">Centre-aligned paragraph.</aegov-text>
-<aegov-text class="text-right">Right-aligned paragraph.</aegov-text>
+<aegov-text extra-class="text-center">Centre-aligned paragraph.</aegov-text>
+<aegov-text extra-class="text-right">Right-aligned paragraph.</aegov-text>
 ```
 
 <div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-text class="text-center">Centre-aligned paragraph.</aegov-text>
-  <aegov-text class="text-right">Right-aligned paragraph.</aegov-text>
+  <aegov-text extra-class="text-center">Centre-aligned paragraph.</aegov-text>
+  <aegov-text extra-class="text-right">Right-aligned paragraph.</aegov-text>
 </div>
 
 ---
@@ -161,15 +161,15 @@ The `class` property lets you pass additional Tailwind utility classes that are 
 The default `mb-8` can be overridden by passing a different margin class. Because custom classes are appended after the defaults, Tailwind's last-class-wins behaviour applies.
 
 ```html
-<aegov-text class="mb-0">No bottom margin.</aegov-text>
-<aegov-text class="mb-2">Tight bottom margin (8px).</aegov-text>
-<aegov-text class="mb-16">Extra-large bottom margin (64px).</aegov-text>
+<aegov-text extra-class="mb-0">No bottom margin.</aegov-text>
+<aegov-text extra-class="mb-2">Tight bottom margin (8px).</aegov-text>
+<aegov-text extra-class="mb-16">Extra-large bottom margin (64px).</aegov-text>
 ```
 
 <div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-text class="mb-0">No bottom margin — sits flush against the next element.</aegov-text>
-  <aegov-text class="mb-2">Tight bottom margin (8px) — for compact layouts.</aegov-text>
-  <aegov-text class="mb-16">Extra-large bottom margin (64px) — for section breaks.</aegov-text>
+  <aegov-text extra-class="mb-0">No bottom margin — sits flush against the next element.</aegov-text>
+  <aegov-text extra-class="mb-2">Tight bottom margin (8px) — for compact layouts.</aegov-text>
+  <aegov-text extra-class="mb-16">Extra-large bottom margin (64px) — for section breaks.</aegov-text>
   <aegov-text>Back to default margin.</aegov-text>
 </div>
 

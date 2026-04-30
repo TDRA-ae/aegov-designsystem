@@ -68,7 +68,7 @@ export class AegovSelect {
   @Prop() clearable: boolean = false;
 
   /** Additional CSS classes to apply. */
-  @Prop() class?: string;
+  @Prop() extraClass?: string;
 
   @State() isOpen: boolean = false;
   @State() searchQuery: string = '';
@@ -468,7 +468,7 @@ export class AegovSelect {
     if (this.disabled) classes.push('select--disabled');
     if (this.isOpen) classes.push('select--open');
     if (!this.displayText) classes.push('select--placeholder');
-    if (this.class) classes.push(this.class);
+    if (this.extraClass) classes.push(this.extraClass);
     return classes.join(' ');
   }
 
@@ -488,7 +488,7 @@ export class AegovSelect {
         <div class="select__native-wrapper">
           <select
             id={this.fieldId}
-            class={`aegov-select ${sizeClasses[this._resolvedSize]}${this.class ? ` ${this.class}` : ''}`}
+            class={`aegov-select ${sizeClasses[this._resolvedSize]}${this.extraClass ? ` ${this.extraClass}` : ''}`}
             disabled={this.disabled}
             name={this.name}
             required={this.required}

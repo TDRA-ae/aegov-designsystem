@@ -88,7 +88,7 @@ describe('aegov-text', () => {
     it('merges custom classes with defaults', async () => {
       const page = await newSpecPage({
         components: [AegovText],
-        html: `<aegov-text class="text-gray-500 italic">Text</aegov-text>`,
+        html: `<aegov-text extra-class="text-gray-500 italic">Text</aegov-text>`,
       });
       const p = page.root.querySelector('p');
       expect(p.className).toContain('mb-8');

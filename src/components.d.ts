@@ -5,9 +5,9 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
-import { AccordionIcon, AccordionSize, AspectRatioFit, AspectRatioPreset, AvatarGroupMode, AvatarStatus, AvatarVariant, BadgeAppearance, BadgeColor, BannerDisplay, BannerMode, BannerPosition, BannerRole, BlockquoteVariant, BreadcrumbSeparator, ButtonAppearance, ButtonGroupOrientation, ButtonGroupPosition, ButtonType, ButtonVariant, CalloutAppearance, CalloutVariant, CardBackground, CardBorderStyle, CardBorderWidth, CardHover, CardSize, CheckboxGroupOrientation, CheckboxGroupVariant, DatepickerChangeDetail, DatepickerMode, DatepickerMonthChangeDetail, DrawerAnimation, DrawerOverlayOpacity, DrawerPosition, DrawerSize, DropdownAlign, DropdownPosition, DropdownTrigger, FileuploadVariant, HeaderVariant, InputType, LinkTarget, ModalBackdropOpacity, ModalPosition, ModalSize, OtpVariant, PaginationVariant, PopoverAlign, PopoverPosition, PopoverTrigger, ProgressCounter, RadioGroupOrientation, RadioGroupVariant, RangeDisplay, RangeMode, RangeOrientation, SelectChangeDetail, SelectVariant, TabOrientation, TabVariant, TextareaResize, TimelineOrientation, TimelineSize, TimelineStepStatus, TimelineVariant, TitleHeadingType, ToastAppearance, ToastMode, ToastPosition, ToastVariant, TooltipAlign, TooltipPosition, TooltipTrigger } from "./utils/types";
+import { AccordionIcon, AccordionSize, AspectRatioFit, AspectRatioPreset, AvatarAppearance, AvatarGroupVariant, AvatarStatus, BadgeAppearance, BadgeColor, BannerDisplay, BannerMode, BannerPosition, BlockquoteAppearance, BreadcrumbSeparator, ButtonAppearance, ButtonGroupOrientation, ButtonGroupPosition, ButtonType, ButtonVariant, CalloutAppearance, CalloutVariant, CardBg, CardBorderStyle, CardBorderWidth, CardHover, CardSize, CheckboxGroupOrientation, CheckboxGroupVariant, DatepickerChangeDetail, DatepickerMode, DatepickerMonthChangeDetail, DrawerAnimation, DrawerOverlayOpacity, DrawerPosition, DrawerSize, DropdownAlign, DropdownPosition, DropdownTrigger, FileuploadVariant, HeaderVariant, InputType, LinkTarget, ModalOverlayOpacity, ModalPosition, ModalSize, OtpVariant, PaginationVariant, PopoverAlign, PopoverPosition, PopoverTrigger, ProgressCounter, RadioGroupOrientation, RadioGroupVariant, RangeDisplay, RangeMode, RangeOrientation, SelectChangeDetail, SelectVariant, TabOrientation, TabVariant, TextareaResize, TimelineOrientation, TimelineSize, TimelineStepStatus, TimelineVariant, TitleHeadingType, ToastAppearance, ToastMode, ToastPosition, ToastVariant, TooltipAlign, TooltipPosition, TooltipTrigger } from "./utils/types";
 import { Event } from "@stencil/core";
-export { AccordionIcon, AccordionSize, AspectRatioFit, AspectRatioPreset, AvatarGroupMode, AvatarStatus, AvatarVariant, BadgeAppearance, BadgeColor, BannerDisplay, BannerMode, BannerPosition, BannerRole, BlockquoteVariant, BreadcrumbSeparator, ButtonAppearance, ButtonGroupOrientation, ButtonGroupPosition, ButtonType, ButtonVariant, CalloutAppearance, CalloutVariant, CardBackground, CardBorderStyle, CardBorderWidth, CardHover, CardSize, CheckboxGroupOrientation, CheckboxGroupVariant, DatepickerChangeDetail, DatepickerMode, DatepickerMonthChangeDetail, DrawerAnimation, DrawerOverlayOpacity, DrawerPosition, DrawerSize, DropdownAlign, DropdownPosition, DropdownTrigger, FileuploadVariant, HeaderVariant, InputType, LinkTarget, ModalBackdropOpacity, ModalPosition, ModalSize, OtpVariant, PaginationVariant, PopoverAlign, PopoverPosition, PopoverTrigger, ProgressCounter, RadioGroupOrientation, RadioGroupVariant, RangeDisplay, RangeMode, RangeOrientation, SelectChangeDetail, SelectVariant, TabOrientation, TabVariant, TextareaResize, TimelineOrientation, TimelineSize, TimelineStepStatus, TimelineVariant, TitleHeadingType, ToastAppearance, ToastMode, ToastPosition, ToastVariant, TooltipAlign, TooltipPosition, TooltipTrigger } from "./utils/types";
+export { AccordionIcon, AccordionSize, AspectRatioFit, AspectRatioPreset, AvatarAppearance, AvatarGroupVariant, AvatarStatus, BadgeAppearance, BadgeColor, BannerDisplay, BannerMode, BannerPosition, BlockquoteAppearance, BreadcrumbSeparator, ButtonAppearance, ButtonGroupOrientation, ButtonGroupPosition, ButtonType, ButtonVariant, CalloutAppearance, CalloutVariant, CardBg, CardBorderStyle, CardBorderWidth, CardHover, CardSize, CheckboxGroupOrientation, CheckboxGroupVariant, DatepickerChangeDetail, DatepickerMode, DatepickerMonthChangeDetail, DrawerAnimation, DrawerOverlayOpacity, DrawerPosition, DrawerSize, DropdownAlign, DropdownPosition, DropdownTrigger, FileuploadVariant, HeaderVariant, InputType, LinkTarget, ModalOverlayOpacity, ModalPosition, ModalSize, OtpVariant, PaginationVariant, PopoverAlign, PopoverPosition, PopoverTrigger, ProgressCounter, RadioGroupOrientation, RadioGroupVariant, RangeDisplay, RangeMode, RangeOrientation, SelectChangeDetail, SelectVariant, TabOrientation, TabVariant, TextareaResize, TimelineOrientation, TimelineSize, TimelineStepStatus, TimelineVariant, TitleHeadingType, ToastAppearance, ToastMode, ToastPosition, ToastVariant, TooltipAlign, TooltipPosition, TooltipTrigger } from "./utils/types";
 export { Event } from "@stencil/core";
 export namespace Components {
     /**
@@ -15,24 +15,28 @@ export namespace Components {
      */
     interface AegovAccordion {
         /**
-          * Whether multiple accordion items can be open at the same time
-          * @default false
-         */
-        "allowMultiple": boolean;
-        /**
-          * Whether to show border around the accordion
-          * @default false
-         */
-        "bordered": boolean;
-        /**
           * Index of the accordion item to open by default (0-based)
          */
         "defaultOpen"?: number;
+        /**
+          * Unique ID for the accordion wrapper element. Auto-generated if not provided.
+         */
+        "fieldId"?: string;
         /**
           * Icon style for accordion items
           * @default 'chevron'
          */
         "icon": AccordionIcon;
+        /**
+          * Whether to show border around the accordion
+          * @default false
+         */
+        "isBordered": boolean;
+        /**
+          * Whether multiple accordion items can be open at the same time
+          * @default false
+         */
+        "isMultiple": boolean;
         /**
           * Size of the accordion items — controls heading font size. sm = 14px, base = 16px (default), lg = 18px
           * @default 'base'
@@ -46,11 +50,6 @@ export namespace Components {
      */
     interface AegovAccordionItem {
         /**
-          * Whether the accordion item is disabled
-          * @default false
-         */
-        "disabled": boolean;
-        /**
           * Heading text for the accordion item (alternative to using the slot) Note: If both heading property and slot are provided, the slot takes precedence
          */
         "heading"?: string;
@@ -59,6 +58,11 @@ export namespace Components {
           * @default 'chevron'
          */
         "icon": AccordionIcon;
+        /**
+          * Whether the accordion item is disabled
+          * @default false
+         */
+        "isDisabled": boolean;
         /**
           * Whether this is the first accordion item
           * @default false
@@ -73,7 +77,7 @@ export namespace Components {
           * Whether the accordion item is open
           * @default false
          */
-        "open": boolean;
+        "isOpen": boolean;
         /**
           * Size of the accordion item — controls heading font size.
           * @default 'base'
@@ -89,14 +93,14 @@ export namespace Components {
      */
     interface AegovAspectRatio {
         /**
+          * Additional CSS classes merged onto the inner aspect-ratio container.
+         */
+        "extraClass"?: string;
+        /**
           * How slotted media (img, video, iframe) should fit within the aspect ratio container.
           * @default 'cover'
          */
         "fit": AspectRatioFit;
-        /**
-          * Additional CSS classes to apply to the inner container. Useful for responsive aspect-ratio overrides (e.g. 'md:aspect-square') or background/border utilities.
-         */
-        "innerClass"?: string;
         /**
           * The aspect ratio to apply. Accepts named presets ('auto', 'square', 'video', '4/3', '3/2', '21/9') or any custom ratio string such as '5/4' or '2.35/1'.
           * @default 'auto'
@@ -108,6 +112,11 @@ export namespace Components {
           * Alternative text for the image (required for accessibility)
          */
         "alt"?: string;
+        /**
+          * The avatar appearance (shape)
+          * @default 'square'
+         */
+        "appearance": AvatarAppearance;
         /**
           * The avatar size
           * @default 'base'
@@ -122,18 +131,8 @@ export namespace Components {
           * @default 'none'
          */
         "status": AvatarStatus | boolean;
-        /**
-          * The avatar variant (shape)
-          * @default 'square'
-         */
-        "variant": AvatarVariant;
     }
     interface AegovAvatarGroup {
-        /**
-          * The layout mode: 'default' (spaced) or 'compact' (overlapping)
-          * @default 'default'
-         */
-        "mode": AvatarGroupMode;
         /**
           * Number of additional users not shown. When > 0, displays "+N" indicator.
           * @default 0
@@ -148,6 +147,11 @@ export namespace Components {
           * @default 'base'
          */
         "size": string;
+        /**
+          * The layout variant: 'default' (spaced) or 'compact' (overlapping)
+          * @default 'default'
+         */
+        "variant": AvatarGroupVariant;
     }
     interface AegovBadge {
         /**
@@ -161,10 +165,14 @@ export namespace Components {
          */
         "color": BadgeColor;
         /**
+          * Unique ID for the badge element. Auto-generated if not provided.
+         */
+        "fieldId"?: string;
+        /**
           * Whether the badge can be dismissed/closed.
           * @default false
          */
-        "dismissible": boolean;
+        "isDismissible": boolean;
         /**
           * The badge size
           * @default 'base'
@@ -178,28 +186,28 @@ export namespace Components {
          */
         "appearance": CalloutAppearance;
         /**
-          * ARIA role for accessibility. Auto-computed from variant if not specified.
-         */
-        "ariaRole"?: BannerRole;
-        /**
-          * Auto-focus the banner when mounted (for critical alerts only).
-          * @default false
-         */
-        "autoFocus": boolean;
-        /**
-          * Banner title for aria-labelledby attribute.
-         */
-        "bannerTitle"?: string;
-        /**
-          * Whether the banner can be dismissed/closed.
-          * @default true
-         */
-        "dismissible": boolean;
-        /**
           * CSS positioning strategy: fixed (stays in viewport), sticky (scrolls then sticks).
           * @default 'fixed'
          */
         "display": BannerDisplay;
+        /**
+          * Unique ID for the banner element. Auto-generated if not provided. The heading element receives a derived ID `${fieldId}-heading` for ARIA labelledby.
+         */
+        "fieldId"?: string;
+        /**
+          * Banner heading for aria-labelledby attribute.
+         */
+        "heading"?: string;
+        /**
+          * Whether the banner can be dismissed/closed.
+          * @default true
+         */
+        "isDismissible": boolean;
+        /**
+          * Auto-focus the banner when mounted (for critical alerts only).
+          * @default false
+         */
+        "isFocusable": boolean;
         /**
           * Layout mode: push (takes up space in page flow), overlay (floats over content).
           * @default 'push'
@@ -223,6 +231,11 @@ export namespace Components {
     }
     interface AegovBlockquote {
         /**
+          * The blockquote appearance style
+          * @default 'primary'
+         */
+        "appearance": BlockquoteAppearance;
+        /**
           * The author source
          */
         "author"?: string;
@@ -235,21 +248,24 @@ export namespace Components {
          */
         "cite"?: string;
         /**
-          * The blockquote variant style
-          * @default 'primary'
+          * Additional CSS classes merged onto the inner blockquote element.
          */
-        "variant": BlockquoteVariant;
+        "extraClass"?: string;
     }
     interface AegovBreadcrumbs {
         /**
-          * Maximum number of characters before truncating breadcrumb item text. If not set, text will not be truncated.
+          * Unique ID for the breadcrumbs nav element. Auto-generated if not provided.
          */
-        "maxLength"?: number;
+        "fieldId"?: string;
         /**
           * Whether to add schema.org microdata for structured data
           * @default false
          */
-        "microdata": boolean;
+        "isMicrodata": boolean;
+        /**
+          * Maximum number of characters before truncating breadcrumb item text. If not set, text will not be truncated.
+         */
+        "maxLength"?: number;
         /**
           * The separator style to use between breadcrumb items
           * @default 'slash'
@@ -272,14 +288,14 @@ export namespace Components {
          */
         "isLast": boolean;
         /**
-          * Maximum length for text before truncation
-         */
-        "maxLength"?: number;
-        /**
           * Whether to add schema.org microdata
           * @default false
          */
-        "microdata": boolean;
+        "isMicrodata": boolean;
+        /**
+          * Maximum length for text before truncation
+         */
+        "maxLength"?: number;
         /**
           * Position in the breadcrumb list (1-indexed) for microdata
           * @default 1
@@ -298,25 +314,14 @@ export namespace Components {
     }
     interface AegovButton {
         /**
-          * The button appearance (color scheme)
-          * @default 'primary'
+          * The button appearance (visual style)
+          * @default 'solid'
          */
         "appearance": ButtonAppearance;
         /**
-          * Whether the button should have bold text or not
-          * @default false
+          * Unique ID for the button element. Auto-generated if not provided.
          */
-        "bold": boolean;
-        /**
-          * Whether the button is disabled
-          * @default false
-         */
-        "disabled": boolean;
-        /**
-          * Whether the button should take full width
-          * @default true
-         */
-        "full": boolean;
+        "fieldId"?: string;
         /**
           * Internal: The orientation of the button group this button belongs to
          */
@@ -326,15 +331,30 @@ export namespace Components {
          */
         "groupPosition"?: ButtonGroupPosition;
         /**
+          * Whether the button should have bold text or not
+          * @default true
+         */
+        "isBold": boolean;
+        /**
+          * Whether the button is disabled
+          * @default false
+         */
+        "isDisabled": boolean;
+        /**
+          * Whether the button should take full width
+          * @default false
+         */
+        "isFull": boolean;
+        /**
           * Whether the button is only an icon
           * @default false
          */
-        "icon": boolean;
+        "isIcon": boolean;
         /**
           * Whether the button is in a loading state
           * @default false
          */
-        "loading": boolean;
+        "isLoading": boolean;
         /**
           * The button size
           * @default 'base'
@@ -346,8 +366,8 @@ export namespace Components {
          */
         "type": ButtonType;
         /**
-          * The button variant style
-          * @default 'solid'
+          * The button variant (color scheme)
+          * @default 'primary'
          */
         "variant": ButtonVariant;
     }
@@ -365,10 +385,14 @@ export namespace Components {
          */
         "appearance": CalloutAppearance;
         /**
+          * Unique ID for the callout element. Auto-generated if not provided.
+         */
+        "fieldId"?: string;
+        /**
           * Whether the callout can be dismissed/closed.
           * @default false
          */
-        "dismissible": boolean;
+        "isDismissible": boolean;
         /**
           * The size of the callout. Controls font size, icon size, and padding. Accepts a plain value (`"sm"`, `"base"`, `"lg"`) or a responsive string using Tailwind-style breakpoint prefixes (`"sm xl:lg"`).
           * @default 'base'
@@ -385,7 +409,7 @@ export namespace Components {
           * Background style: 'white' (default) or 'subtle' (aeblack-50).
           * @default 'white'
          */
-        "background": CardBackground;
+        "bg": CardBg;
         /**
           * Border style: 'standard' (solid primary-600), 'light' (solid primary-200), 'creative' (gradient from primary-400 to primary-800), or 'highlight' (solid aeblack-200 at rest, transitions to primary-300→700 gradient on hover).
           * @default 'standard'
@@ -397,15 +421,19 @@ export namespace Components {
          */
         "borderWidth": CardBorderWidth;
         /**
-          * Disables inner padding (1.5rem / 24px). Padding is on by default.
-          * @default false
+          * Unique ID for the card element. Auto-generated if not provided.
          */
-        "disallowPadding": boolean;
+        "fieldId"?: string;
         /**
           * Hover effect: 'off' (none), 'standard' (border color change), or 'glow' (shadow glow).
           * @default 'off'
          */
         "hover": CardHover;
+        /**
+          * Whether to apply inner padding (1.5rem / 24px). On by default.
+          * @default true
+         */
+        "isPadding": boolean;
         /**
           * Size: 'sm' (compact padding/radius), 'base' (default), or 'lg' (generous padding/radius). All sizes scale down responsively at md (768px) and xs (480px) breakpoints.
           * @default 'base'
@@ -424,10 +452,6 @@ export namespace Components {
          */
         "checked": boolean;
         /**
-          * Additional CSS classes to apply.
-         */
-        "class"?: string;
-        /**
           * Description text displayed below the label. Only rendered when label is provided.
          */
         "description"?: string;
@@ -436,6 +460,10 @@ export namespace Components {
           * @default false
          */
         "disabled": boolean;
+        /**
+          * Additional CSS classes to apply.
+         */
+        "extraClass"?: string;
         /**
           * Unique ID for the native checkbox element. Auto-generated if not provided.
          */
@@ -470,14 +498,14 @@ export namespace Components {
     }
     interface AegovCheckboxGroup {
         /**
-          * Additional CSS classes to apply.
-         */
-        "class"?: string;
-        /**
           * Disables all checkboxes within the group via native fieldset disabled.
           * @default false
          */
         "disabled": boolean;
+        /**
+          * Additional CSS classes to apply.
+         */
+        "extraClass"?: string;
         /**
           * Optional label rendered as a <legend> for accessibility.
          */
@@ -637,51 +665,55 @@ export namespace Components {
          */
         "close": () => Promise<void>;
         /**
+          * Unique ID for the drawer dialog element. Auto-generated if not provided.
+         */
+        "fieldId"?: string;
+        /**
           * Whether clicking the backdrop closes the drawer
           * @default true
          */
-        "closeWithBackdrop": boolean;
-        /**
-          * Disables inner content padding. Padding is on by default and scales with size.
-          * @default false
-         */
-        "disallowPadding": boolean;
+        "isCloseWithOverlay": boolean;
         /**
           * Whether the drawer is currently open/visible
           * @default false
          */
-        "open": boolean;
+        "isOpen": boolean;
         /**
           * Whether to show a backdrop overlay behind the drawer
           * @default true
          */
-        "overlay": boolean;
+        "isOverlay": boolean;
+        /**
+          * Whether to apply inner content padding. On by default; scales with size.
+          * @default true
+         */
+        "isPadding": boolean;
+        /**
+          * Whether the drawer is pinned flush to edges (true) or has a gap with rounded corners (false)
+          * @default true
+         */
+        "isPinned": boolean;
+        /**
+          * Whether to prevent body scroll when drawer is open
+          * @default true
+         */
+        "isPreventScroll": boolean;
         /**
           * Backdrop overlay opacity level
           * @default 'base'
          */
         "overlayOpacity": DrawerOverlayOpacity;
         /**
-          * Whether the drawer is pinned flush to edges (true) or has a gap with rounded corners (false)
-          * @default true
-         */
-        "pinned": boolean;
-        /**
           * Which edge the drawer slides from
           * @default 'right'
          */
         "position": DrawerPosition;
         /**
-          * Whether to prevent body scroll when drawer is open
-          * @default true
-         */
-        "preventBodyScroll": boolean;
-        /**
           * Programmatically open the drawer
          */
         "show": () => Promise<void>;
         /**
-          * Size: 'sm' (compact padding), 'base' (default), or 'lg' (generous padding). Mirrors aegov-card sizing tokens. When `pinned="false"`, size also drives the edge gap and border-radius. When pinned, no border-radius is applied regardless of size.
+          * Size: 'sm' (compact padding), 'base' (default), or 'lg' (generous padding). Mirrors aegov-card sizing tokens. When `is-pinned="false"`, size also drives the edge gap and border-radius. When pinned, no border-radius is applied regardless of size.
           * @default 'base'
          */
         "size": DrawerSize;
@@ -700,20 +732,29 @@ export namespace Components {
          */
         "align": DropdownAlign;
         /**
-          * Whether the dropdown is disabled
-          * @default false
+          * Delay before hiding dropdown (in milliseconds)
+          * @default 0
          */
-        "disabled": boolean;
+        "delayEnd": number;
+        /**
+          * Delay before showing dropdown (in milliseconds)
+          * @default 200
+         */
+        "delayStart": number;
+        /**
+          * Unique ID for the dropdown menu element. Auto-generated if not provided. The trigger element receives a derived ID `${fieldId}-trigger` for ARIA linkage.
+         */
+        "fieldId"?: string;
         /**
           * Gap between dropdown and trigger element (in pixels)
           * @default 8
          */
         "gap": number;
         /**
-          * Delay before hiding dropdown (in milliseconds)
-          * @default 0
+          * Whether the dropdown is disabled
+          * @default false
          */
-        "hideDelay": number;
+        "isDisabled": boolean;
         /**
           * Additional offset for dropdown positioning (in pixels)
           * @default 0
@@ -725,11 +766,6 @@ export namespace Components {
          */
         "position": DropdownPosition;
         /**
-          * Delay before showing dropdown (in milliseconds)
-          * @default 200
-         */
-        "showDelay": number;
-        /**
           * Toggle the dropdown open/closed state regardless of triggerType. Allows external triggers (e.g. a navbar-item chevron) to drive the dropdown when triggerType is 'hover' or 'click'.
           * @param viaKeyboard When true and this call opens the dropdown, the first focusable item receives focus (ARIA menu pattern). Pass true from keyboard handlers and false from pointer/mouse handlers.
          */
@@ -738,7 +774,7 @@ export namespace Components {
           * Trigger type for showing the dropdown
           * @default 'click'
          */
-        "triggerType": DropdownTrigger;
+        "trigger": DropdownTrigger;
     }
     interface AegovFileupload {
         /**
@@ -815,7 +851,7 @@ export namespace Components {
         /**
           * Additional CSS classes to apply.
          */
-        "class"?: string;
+        "extraClass"?: string;
     }
     interface AegovHeader {
         /**
@@ -837,10 +873,6 @@ export namespace Components {
     }
     interface AegovInput {
         /**
-          * Additional CSS classes to apply.
-         */
-        "class"?: string;
-        /**
           * Show a copy button to copy the input value to clipboard. Only applies when readonly.
           * @default false
          */
@@ -850,6 +882,10 @@ export namespace Components {
           * @default false
          */
         "disabled": boolean;
+        /**
+          * Additional CSS classes to apply.
+         */
+        "extraClass"?: string;
         /**
           * Unique ID for the native input element. Auto-generated if not provided.
          */
@@ -905,7 +941,7 @@ export namespace Components {
         /**
           * Additional CSS classes to apply.
          */
-        "class"?: string;
+        "extraClass"?: string;
         /**
           * The size of the input group. Propagated to child aegov-input and aegov-button.
           * @default 'base'
@@ -916,7 +952,7 @@ export namespace Components {
         /**
           * Additional CSS classes to apply.
          */
-        "class"?: string;
+        "extraClass"?: string;
         /**
           * The ID of the form element this label is for. Automatically set by parent aegov-form-field.
          */
@@ -926,7 +962,11 @@ export namespace Components {
         /**
           * Additional CSS classes to apply to the link.
          */
-        "class"?: string;
+        "extraClass"?: string;
+        /**
+          * Unique ID for the inner anchor element. Auto-generated if not provided.
+         */
+        "fieldId"?: string;
         /**
           * The URL that the link points to.
           * @required
@@ -943,39 +983,43 @@ export namespace Components {
     }
     interface AegovModal {
         /**
-          * Backdrop opacity level
-          * @default 'base'
-         */
-        "backdropOpacity": ModalBackdropOpacity;
-        /**
           * Programmatically close the modal
          */
         "close": () => Promise<void>;
         /**
-          * Whether clicking the backdrop closes the modal
+          * Unique ID for the modal dialog element. Auto-generated if not provided.
+         */
+        "fieldId"?: string;
+        /**
+          * Whether clicking the overlay closes the modal
           * @default true
          */
-        "closeWithBackdrop": boolean;
-        /**
-          * Disables inner content padding. Padding is on by default and scales with size.
-          * @default false
-         */
-        "disallowPadding": boolean;
+        "isCloseWithOverlay": boolean;
         /**
           * Whether the modal is currently open/visible
           * @default false
          */
-        "open": boolean;
+        "isOpen": boolean;
+        /**
+          * Whether to apply inner content padding. On by default; scales with size.
+          * @default true
+         */
+        "isPadding": boolean;
+        /**
+          * Whether to prevent body scroll when modal is open
+          * @default true
+         */
+        "isPreventScroll": boolean;
+        /**
+          * Overlay opacity level
+          * @default 'base'
+         */
+        "overlayOpacity": ModalOverlayOpacity;
         /**
           * Position of the modal on screen
           * @default 'center'
          */
         "position": ModalPosition;
-        /**
-          * Whether to prevent body scroll when modal is open
-          * @default true
-         */
-        "preventBodyScroll": boolean;
         /**
           * Programmatically open the modal
          */
@@ -995,7 +1039,7 @@ export namespace Components {
      * @description Horizontal primary navigation container. Holds aegov-navbar-item
      * children which can be plain links, links with prefix icons, or links paired
      * with an aegov-dropdown submenu (chevron-triggered).
-     * @example <aegov-navbar nav-label="Main navigation" size="base" gap="gap-6">
+     * @example <aegov-navbar label-nav="Main navigation" size="base" gap="gap-6">
      *   <aegov-navbar-item href="/">Home</aegov-navbar-item>
      *   <aegov-navbar-item href="/services">Services</aegov-navbar-item>
      *   <aegov-navbar-item href="/products">
@@ -1017,7 +1061,7 @@ export namespace Components {
           * Accessible label for the navigation landmark.
           * @default 'Main navigation'
          */
-        "navLabel": string;
+        "labelNav": string;
         /**
           * Size of the navbar items. Accepts a Tailwind-style responsive string, e.g. `"sm md:base lg:lg"`, resolved against the active viewport width. The resolved token cascades to all aegov-navbar-item children.
           * @default 'base'
@@ -1031,31 +1075,31 @@ export namespace Components {
      * Optional submenu via `slot="dropdown"` containing an aegov-dropdown — the
      * navbar-item itself becomes the dropdown trigger so hover/position resolve to
      * the full item rect, and a chevron button is injected for keyboard/click
-     * toggling. The user controls the dropdown's `trigger-type` (e.g. set
-     * `trigger-type="hover"` for hover open).
+     * toggling. The user controls the dropdown's `trigger` (e.g. set
+     * `trigger="hover"` for hover open).
      * @example <aegov-navbar-item href="/products">
      *   <svg slot="icon-start" ...></svg>
      *   Products
-     *   <aegov-dropdown slot="dropdown" trigger-type="hover">
+     *   <aegov-dropdown slot="dropdown" trigger="hover">
      *     <a slot="dropdown-content" href="/a">Item A</a>
      *   </aegov-dropdown>
      * </aegov-navbar-item>
      */
     interface AegovNavbarItem {
         /**
+          * URL the item links to. If unset, item renders as a non-link span.
+         */
+        "href"?: string;
+        /**
           * Mark this item as the current page. Sets `aria-current="page"`.
           * @default false
          */
-        "active": boolean;
+        "isActive": boolean;
         /**
           * Visually disabled, not clickable, removed from arrow-key cycle.
           * @default false
          */
-        "disabled": boolean;
-        /**
-          * URL the item links to. If unset, item renders as a non-link span.
-         */
-        "href"?: string;
+        "isDisabled": boolean;
         /**
           * Anchor rel attribute.
          */
@@ -1077,10 +1121,6 @@ export namespace Components {
          */
         "alphanumeric": boolean;
         /**
-          * Additional CSS classes.
-         */
-        "class"?: string;
-        /**
           * Clears all cells and focuses the first cell.
          */
         "clear": () => Promise<void>;
@@ -1089,6 +1129,10 @@ export namespace Components {
           * @default false
          */
         "disabled": boolean;
+        /**
+          * Additional CSS classes.
+         */
+        "extraClass"?: string;
         /**
           * Unique ID for the first input cell. Auto-generated if not provided. Used by aegov-label for linking.
          */
@@ -1127,59 +1171,63 @@ export namespace Components {
           * Number of pages always visible at each boundary (start and end of the list).
           * @default 1
          */
-        "boundaryCount": number;
-        /**
-          * Currently active page (1-indexed). This is a controlled prop — you must update it on every aegovPaginationPageChange event.
-          * @default 1
-         */
-        "currentPage": number;
-        /**
-          * Disables all pagination interaction.
-          * @default false
-         */
-        "disabled": boolean;
-        /**
-          * Label for the First page button (only shown when showFirstLast is true).
-          * @default 'First'
-         */
-        "firstLabel": string;
-        /**
-          * Label for the Last page button (only shown when showFirstLast is true).
-          * @default 'Last'
-         */
-        "lastLabel": string;
-        /**
-          * Label for the Next page button.
-          * @default 'Next'
-         */
-        "nextLabel": string;
-        /**
-          * Label for the Previous page button.
-          * @default 'Previous'
-         */
-        "prevLabel": string;
-        /**
-          * Show First and Last navigation buttons alongside Previous and Next.
-          * @default false
-         */
-        "showFirstLast": boolean;
+        "countBoundary": number;
         /**
           * Number of sibling pages shown on each side of the current page.
           * @default 1
          */
-        "siblingCount": number;
+        "countSibling": number;
+        /**
+          * Unique ID for the pagination nav element. Auto-generated if not provided.
+         */
+        "fieldId"?: string;
+        /**
+          * Disables all pagination interaction.
+          * @default false
+         */
+        "isDisabled": boolean;
+        /**
+          * Show First and Last navigation buttons alongside Previous and Next.
+          * @default false
+         */
+        "isEnabledFirstLast": boolean;
+        /**
+          * Label for the First page button (only shown when isEnabledFirstLast is true).
+          * @default 'First'
+         */
+        "labelFirst": string;
+        /**
+          * Label for the Last page button (only shown when isEnabledFirstLast is true).
+          * @default 'Last'
+         */
+        "labelLast": string;
+        /**
+          * Label for the Next page button.
+          * @default 'Next'
+         */
+        "labelNext": string;
+        /**
+          * Label for the Previous page button.
+          * @default 'Previous'
+         */
+        "labelPrev": string;
+        /**
+          * Currently active page (1-indexed). This is a controlled prop — you must update it on every aegovPaginationPageChange event.
+          * @default 1
+         */
+        "pageCurrent": number;
+        /**
+          * Total number of pages.
+          * @default 1
+         */
+        "pages": number;
         /**
           * Size variant of the pagination.
           * @default 'base'
          */
         "size": string;
         /**
-          * Total number of pages.
-          * @default 1
-         */
-        "totalPages": number;
-        /**
-          * Display variant. - 'default': shows page numbers, ellipsis, and prev/next buttons. - 'compact': shows only prev/next buttons (and first/last when showFirstLast is true).
+          * Display variant. - 'default': shows page numbers, ellipsis, and prev/next buttons. - 'compact': shows only prev/next buttons (and first/last when isEnabledFirstLast is true).
           * @default 'default'
          */
         "variant": PaginationVariant;
@@ -1194,20 +1242,29 @@ export namespace Components {
          */
         "align": PopoverAlign;
         /**
-          * Whether the popover is disabled
-          * @default false
+          * Delay before hiding popover on hover (in milliseconds)
+          * @default 0
          */
-        "disabled": boolean;
+        "delayEnd": number;
+        /**
+          * Delay before showing popover on hover (in milliseconds)
+          * @default 200
+         */
+        "delayStart": number;
+        /**
+          * Unique ID for the popover element. Auto-generated if not provided. The trigger element receives a derived ID `${fieldId}-trigger` for ARIA linkage.
+         */
+        "fieldId"?: string;
         /**
           * Gap between popover and trigger element (in pixels)
           * @default 10
          */
         "gap": number;
         /**
-          * Delay before hiding popover on hover (in milliseconds)
-          * @default 0
+          * Whether the popover is disabled
+          * @default false
          */
-        "hideDelay": number;
+        "isDisabled": boolean;
         /**
           * Additional offset for popover positioning (in pixels)
           * @default 0
@@ -1219,21 +1276,12 @@ export namespace Components {
          */
         "position": PopoverPosition;
         /**
-          * Delay before showing popover on hover (in milliseconds)
-          * @default 200
-         */
-        "showDelay": number;
-        /**
           * Trigger type for showing the popover
           * @default 'click'
          */
-        "triggerType": PopoverTrigger;
+        "trigger": PopoverTrigger;
     }
     interface AegovProgress {
-        /**
-          * Additional CSS classes.
-         */
-        "class"?: string;
         /**
           * Counter placement. Hidden when not set.
          */
@@ -1247,6 +1295,10 @@ export namespace Components {
           * Description text displayed below the progress bar.
          */
         "description"?: string;
+        /**
+          * Additional CSS classes.
+         */
+        "extraClass"?: string;
         /**
           * Unique ID for the native progress element. Auto-generated if not provided.
          */
@@ -1273,10 +1325,6 @@ export namespace Components {
          */
         "checked": boolean;
         /**
-          * Additional CSS classes to apply.
-         */
-        "class"?: string;
-        /**
           * Description text displayed below the label. Only rendered when label is provided.
          */
         "description"?: string;
@@ -1285,6 +1333,10 @@ export namespace Components {
           * @default false
          */
         "disabled": boolean;
+        /**
+          * Additional CSS classes to apply.
+         */
+        "extraClass"?: string;
         /**
           * Unique ID for the native radio element. Auto-generated if not provided.
          */
@@ -1314,14 +1366,14 @@ export namespace Components {
     }
     interface AegovRadioGroup {
         /**
-          * Additional CSS classes to apply.
-         */
-        "class"?: string;
-        /**
           * Disables all radios within the group via native fieldset disabled.
           * @default false
          */
         "disabled": boolean;
+        /**
+          * Additional CSS classes to apply.
+         */
+        "extraClass"?: string;
         /**
           * Optional label rendered as a <legend> for accessibility.
          */
@@ -1348,10 +1400,6 @@ export namespace Components {
     }
     interface AegovRange {
         /**
-          * Additional CSS classes.
-         */
-        "class"?: string;
-        /**
           * Whether the range is disabled.
           * @default false
          */
@@ -1361,6 +1409,10 @@ export namespace Components {
           * @default 'none'
          */
         "display": RangeDisplay;
+        /**
+          * Additional CSS classes.
+         */
+        "extraClass"?: string;
         /**
           * Unique ID for the native range input element. Auto-generated if not provided.
          */
@@ -1426,10 +1478,6 @@ export namespace Components {
     }
     interface AegovSelect {
         /**
-          * Additional CSS classes to apply.
-         */
-        "class"?: string;
-        /**
           * Show a clear button to reset selection.
           * @default false
          */
@@ -1444,6 +1492,10 @@ export namespace Components {
           * @default 'No results found'
          */
         "emptyMessage": string;
+        /**
+          * Additional CSS classes to apply.
+         */
+        "extraClass"?: string;
         /**
           * Unique ID for the select element. Auto-generated if not provided.
          */
@@ -1516,10 +1568,19 @@ export namespace Components {
      */
     interface AegovSeparator {
         /**
+          * Visual appearance of the separator
+          * @default 'default'
+         */
+        "appearance": 'default' | 'subtle';
+        /**
+          * Additional CSS classes merged onto the inner separator element.
+         */
+        "extraClass"?: string;
+        /**
           * Whether the separator is purely decorative (no semantic meaning)
           * @default true
          */
-        "decorative": boolean;
+        "isDecorative": boolean;
         /**
           * Orientation of the separator
           * @default 'horizontal'
@@ -1529,11 +1590,6 @@ export namespace Components {
           * Optional text label displayed at the center of the separator
          */
         "text"?: string;
-        /**
-          * Visual variant of the separator
-          * @default 'default'
-         */
-        "variant": 'default' | 'subtle';
     }
     /**
      * @component aegov-tab
@@ -1554,7 +1610,7 @@ export namespace Components {
           * Disables this tab and its associated panel.
           * @default false
          */
-        "disabled": boolean;
+        "isDisabled": boolean;
         /**
           * Orientation of the tabs. Set automatically by the parent aegov-tabs.
           * @default 'horizontal'
@@ -1599,7 +1655,7 @@ export namespace Components {
      * @description Tab container that organizes content into panels.
      * Manages active tab state internally (uncontrolled) and wires up tab triggers
      * with their corresponding panels via matching tab-id attributes.
-     * @example <aegov-tabs default-active-tab="overview" variant="simple">
+     * @example <aegov-tabs default-open="overview" variant="simple">
      *   <aegov-tab slot="tabs" tab-id="overview">Overview</aegov-tab>
      *   <aegov-tab slot="tabs" tab-id="details">Details</aegov-tab>
      *   <aegov-tab-panel tab-id="overview">Overview content</aegov-tab-panel>
@@ -1611,32 +1667,36 @@ export namespace Components {
           * The tab-id of the tab that should be active on initial render. If not provided, the first non-disabled tab is activated.
           * @default ''
          */
-        "defaultActiveTab": string;
+        "defaultOpen": string;
+        /**
+          * Unique ID for the tabs container. Auto-generated if not provided.
+         */
+        "fieldId"?: string;
+        /**
+          * Enables horizontal scrolling when tabs overflow the container. A faded gradient edge is shown to indicate scrollable content.
+          * @default false
+         */
+        "isScrollable": boolean;
+        /**
+          * Distributes tabs evenly to fill the full width of the container. Each tab grows equally to occupy available space.
+          * @default false
+         */
+        "isStretchable": boolean;
+        /**
+          * Accessible label for the tablist element. Provides context for screen readers about what the tabs control.
+          * @default 'Tabs'
+         */
+        "labelTablist": string;
         /**
           * Layout orientation of the tabs. - `horizontal`: Tabs appear above the panels (default) - `vertical`: Tabs appear to the side of the panels
           * @default 'horizontal'
          */
         "orientation": TabOrientation;
         /**
-          * Enables horizontal scrolling when tabs overflow the container. A faded gradient edge is shown to indicate scrollable content.
-          * @default false
-         */
-        "scrollable": boolean;
-        /**
           * Size of the tabs.
           * @default 'base'
          */
         "size": string;
-        /**
-          * Distributes tabs evenly to fill the full width of the container. Each tab grows equally to occupy available space.
-          * @default false
-         */
-        "stretch": boolean;
-        /**
-          * Accessible label for the tablist element. Provides context for screen readers about what the tabs control.
-          * @default 'Tabs'
-         */
-        "tablistLabel": string;
         /**
           * Visual style variant of the tabs. - `simple`: Underline style (default) - `segmented`: Button-group style, ideal for toggling views - `pill`: Pill-shaped individual tabs
           * @default 'simple'
@@ -1647,7 +1707,7 @@ export namespace Components {
         /**
           * Additional CSS classes to apply to the text.
          */
-        "class"?: string;
+        "extraClass"?: string;
         /**
           * The size of the text.
           * @default 'base'
@@ -1655,10 +1715,6 @@ export namespace Components {
         "size": string;
     }
     interface AegovTextarea {
-        /**
-          * Additional CSS classes to apply.
-         */
-        "class"?: string;
         /**
           * Show a copy button to copy the textarea value to clipboard. Only applies when readonly.
           * @default false
@@ -1669,6 +1725,10 @@ export namespace Components {
           * @default false
          */
         "disabled": boolean;
+        /**
+          * Additional CSS classes to apply.
+         */
+        "extraClass"?: string;
         /**
           * Unique ID for the native textarea element. Auto-generated if not provided.
          */
@@ -1713,6 +1773,10 @@ export namespace Components {
     }
     interface AegovTimeline {
         /**
+          * Unique ID for the timeline nav element. Auto-generated if not provided.
+         */
+        "fieldId"?: string;
+        /**
           * Layout orientation.
           * @default 'horizontal'
          */
@@ -1730,13 +1794,13 @@ export namespace Components {
     }
     interface AegovTimelineStep {
         /**
-          * @default false
-         */
-        "connectorSolid": boolean;
-        /**
           * Optional description shown below the label.
          */
         "description"?: string;
+        /**
+          * @default false
+         */
+        "isConnectorSolid": boolean;
         /**
           * @default false
          */
@@ -1775,7 +1839,7 @@ export namespace Components {
         /**
           * Additional CSS classes to apply to the title.
          */
-        "class"?: string;
+        "extraClass"?: string;
         /**
           * The semantic wrapper tag for the title. When set, renders the title inside the specified heading tag (`h2`–`h6`) or a `p`. When omitted, the title renders as a `<p>` (default).
          */
@@ -1797,15 +1861,20 @@ export namespace Components {
          */
         "close": () => Promise<void>;
         /**
-          * Whether the toast shows a close button.
-          * @default true
-         */
-        "dismissible": boolean;
-        /**
           * Auto-dismiss duration in milliseconds. 0 = no auto-dismiss.
           * @default 5000
          */
         "duration": number;
+        /**
+          * Whether the toast shows a close button.
+          * @default true
+         */
+        "isDismissible": boolean;
+        /**
+          * Whether to show a countdown progress bar.
+          * @default false
+         */
+        "isProgressEnabled": boolean;
         /**
           * Display mode for multiple toasts at the same position. 'stack' = all toasts visible with gap between them (default). 'rack' = toasts collapse into a deck; hover to expand.
           * @default 'stack'
@@ -1820,11 +1889,6 @@ export namespace Components {
           * Show the toast notification.
          */
         "show": () => Promise<void>;
-        /**
-          * Whether to show a countdown progress bar.
-          * @default false
-         */
-        "showProgress": boolean;
         /**
           * Semantic color variant of the toast.
           * @default 'default'
@@ -1887,25 +1951,25 @@ export namespace Components {
          */
         "content"?: string;
         /**
-          * Whether the tooltip is disabled
-          * @default false
+          * Delay before hiding tooltip (in milliseconds)
+          * @default 0
          */
-        "disabled": boolean;
+        "delayEnd": number;
+        /**
+          * Delay before showing tooltip (in milliseconds)
+          * @default 200
+         */
+        "delayStart": number;
         /**
           * Gap between tooltip and trigger element (in pixels)
           * @default 8
          */
         "gap": number;
         /**
-          * Delay before hiding tooltip (in milliseconds)
-          * @default 0
-         */
-        "hideDelay": number;
-        /**
-          * Whether the tooltip contains interactive content This adds ARIA attributes and prevents auto-hide on hover
+          * Whether the tooltip is disabled
           * @default false
          */
-        "interactive": boolean;
+        "isDisabled": boolean;
         /**
           * Additional offset for tooltip positioning (in pixels)
           * @default 0
@@ -1916,11 +1980,6 @@ export namespace Components {
           * @default 'top'
          */
         "position": TooltipPosition;
-        /**
-          * Delay before showing tooltip (in milliseconds)
-          * @default 200
-         */
-        "showDelay": number;
         /**
           * Trigger type for showing the tooltip
           * @default 'hover'
@@ -2428,7 +2487,7 @@ declare global {
      * @description Horizontal primary navigation container. Holds aegov-navbar-item
      * children which can be plain links, links with prefix icons, or links paired
      * with an aegov-dropdown submenu (chevron-triggered).
-     * @example <aegov-navbar nav-label="Main navigation" size="base" gap="gap-6">
+     * @example <aegov-navbar label-nav="Main navigation" size="base" gap="gap-6">
      *   <aegov-navbar-item href="/">Home</aegov-navbar-item>
      *   <aegov-navbar-item href="/services">Services</aegov-navbar-item>
      *   <aegov-navbar-item href="/products">
@@ -2453,12 +2512,12 @@ declare global {
      * Optional submenu via `slot="dropdown"` containing an aegov-dropdown — the
      * navbar-item itself becomes the dropdown trigger so hover/position resolve to
      * the full item rect, and a chevron button is injected for keyboard/click
-     * toggling. The user controls the dropdown's `trigger-type` (e.g. set
-     * `trigger-type="hover"` for hover open).
+     * toggling. The user controls the dropdown's `trigger` (e.g. set
+     * `trigger="hover"` for hover open).
      * @example <aegov-navbar-item href="/products">
      *   <svg slot="icon-start" ...></svg>
      *   Products
-     *   <aegov-dropdown slot="dropdown" trigger-type="hover">
+     *   <aegov-dropdown slot="dropdown" trigger="hover">
      *     <a slot="dropdown-content" href="/a">Item A</a>
      *   </aegov-dropdown>
      * </aegov-navbar-item>
@@ -2672,7 +2731,7 @@ declare global {
      * @description Tab container that organizes content into panels.
      * Manages active tab state internally (uncontrolled) and wires up tab triggers
      * with their corresponding panels via matching tab-id attributes.
-     * @example <aegov-tabs default-active-tab="overview" variant="simple">
+     * @example <aegov-tabs default-open="overview" variant="simple">
      *   <aegov-tab slot="tabs" tab-id="overview">Overview</aegov-tab>
      *   <aegov-tab slot="tabs" tab-id="details">Details</aegov-tab>
      *   <aegov-tab-panel tab-id="overview">Overview content</aegov-tab-panel>
@@ -2842,24 +2901,28 @@ declare namespace LocalJSX {
      */
     interface AegovAccordion {
         /**
-          * Whether multiple accordion items can be open at the same time
-          * @default false
-         */
-        "allowMultiple"?: boolean;
-        /**
-          * Whether to show border around the accordion
-          * @default false
-         */
-        "bordered"?: boolean;
-        /**
           * Index of the accordion item to open by default (0-based)
          */
         "defaultOpen"?: number;
+        /**
+          * Unique ID for the accordion wrapper element. Auto-generated if not provided.
+         */
+        "fieldId"?: string;
         /**
           * Icon style for accordion items
           * @default 'chevron'
          */
         "icon"?: AccordionIcon;
+        /**
+          * Whether to show border around the accordion
+          * @default false
+         */
+        "isBordered"?: boolean;
+        /**
+          * Whether multiple accordion items can be open at the same time
+          * @default false
+         */
+        "isMultiple"?: boolean;
         /**
           * Size of the accordion items — controls heading font size. sm = 14px, base = 16px (default), lg = 18px
           * @default 'base'
@@ -2873,11 +2936,6 @@ declare namespace LocalJSX {
      */
     interface AegovAccordionItem {
         /**
-          * Whether the accordion item is disabled
-          * @default false
-         */
-        "disabled"?: boolean;
-        /**
           * Heading text for the accordion item (alternative to using the slot) Note: If both heading property and slot are provided, the slot takes precedence
          */
         "heading"?: string;
@@ -2886,6 +2944,11 @@ declare namespace LocalJSX {
           * @default 'chevron'
          */
         "icon"?: AccordionIcon;
+        /**
+          * Whether the accordion item is disabled
+          * @default false
+         */
+        "isDisabled"?: boolean;
         /**
           * Whether this is the first accordion item
           * @default false
@@ -2897,14 +2960,14 @@ declare namespace LocalJSX {
          */
         "isLast"?: boolean;
         /**
-          * Emitted when the accordion item is toggled
-         */
-        "onAegovAccordionItemToggle"?: (event: AegovAccordionItemCustomEvent<{ open: boolean }>) => void;
-        /**
           * Whether the accordion item is open
           * @default false
          */
-        "open"?: boolean;
+        "isOpen"?: boolean;
+        /**
+          * Emitted when the accordion item is toggled
+         */
+        "onAegovAccordionItemToggle"?: (event: AegovAccordionItemCustomEvent<{ open: boolean }>) => void;
         /**
           * Size of the accordion item — controls heading font size.
           * @default 'base'
@@ -2920,14 +2983,14 @@ declare namespace LocalJSX {
      */
     interface AegovAspectRatio {
         /**
+          * Additional CSS classes merged onto the inner aspect-ratio container.
+         */
+        "extraClass"?: string;
+        /**
           * How slotted media (img, video, iframe) should fit within the aspect ratio container.
           * @default 'cover'
          */
         "fit"?: AspectRatioFit;
-        /**
-          * Additional CSS classes to apply to the inner container. Useful for responsive aspect-ratio overrides (e.g. 'md:aspect-square') or background/border utilities.
-         */
-        "innerClass"?: string;
         /**
           * The aspect ratio to apply. Accepts named presets ('auto', 'square', 'video', '4/3', '3/2', '21/9') or any custom ratio string such as '5/4' or '2.35/1'.
           * @default 'auto'
@@ -2939,6 +3002,11 @@ declare namespace LocalJSX {
           * Alternative text for the image (required for accessibility)
          */
         "alt"?: string;
+        /**
+          * The avatar appearance (shape)
+          * @default 'square'
+         */
+        "appearance"?: AvatarAppearance;
         /**
           * The avatar size
           * @default 'base'
@@ -2953,18 +3021,8 @@ declare namespace LocalJSX {
           * @default 'none'
          */
         "status"?: AvatarStatus | boolean;
-        /**
-          * The avatar variant (shape)
-          * @default 'square'
-         */
-        "variant"?: AvatarVariant;
     }
     interface AegovAvatarGroup {
-        /**
-          * The layout mode: 'default' (spaced) or 'compact' (overlapping)
-          * @default 'default'
-         */
-        "mode"?: AvatarGroupMode;
         /**
           * Number of additional users not shown. When > 0, displays "+N" indicator.
           * @default 0
@@ -2983,6 +3041,11 @@ declare namespace LocalJSX {
           * @default 'base'
          */
         "size"?: string;
+        /**
+          * The layout variant: 'default' (spaced) or 'compact' (overlapping)
+          * @default 'default'
+         */
+        "variant"?: AvatarGroupVariant;
     }
     interface AegovBadge {
         /**
@@ -2996,10 +3059,14 @@ declare namespace LocalJSX {
          */
         "color"?: BadgeColor;
         /**
+          * Unique ID for the badge element. Auto-generated if not provided.
+         */
+        "fieldId"?: string;
+        /**
           * Whether the badge can be dismissed/closed.
           * @default false
          */
-        "dismissible"?: boolean;
+        "isDismissible"?: boolean;
         /**
           * Emitted when the dismiss button is clicked.
          */
@@ -3017,28 +3084,28 @@ declare namespace LocalJSX {
          */
         "appearance"?: CalloutAppearance;
         /**
-          * ARIA role for accessibility. Auto-computed from variant if not specified.
-         */
-        "ariaRole"?: BannerRole;
-        /**
-          * Auto-focus the banner when mounted (for critical alerts only).
-          * @default false
-         */
-        "autoFocus"?: boolean;
-        /**
-          * Banner title for aria-labelledby attribute.
-         */
-        "bannerTitle"?: string;
-        /**
-          * Whether the banner can be dismissed/closed.
-          * @default true
-         */
-        "dismissible"?: boolean;
-        /**
           * CSS positioning strategy: fixed (stays in viewport), sticky (scrolls then sticks).
           * @default 'fixed'
          */
         "display"?: BannerDisplay;
+        /**
+          * Unique ID for the banner element. Auto-generated if not provided. The heading element receives a derived ID `${fieldId}-heading` for ARIA labelledby.
+         */
+        "fieldId"?: string;
+        /**
+          * Banner heading for aria-labelledby attribute.
+         */
+        "heading"?: string;
+        /**
+          * Whether the banner can be dismissed/closed.
+          * @default true
+         */
+        "isDismissible"?: boolean;
+        /**
+          * Auto-focus the banner when mounted (for critical alerts only).
+          * @default false
+         */
+        "isFocusable"?: boolean;
         /**
           * Layout mode: push (takes up space in page flow), overlay (floats over content).
           * @default 'push'
@@ -3070,6 +3137,11 @@ declare namespace LocalJSX {
     }
     interface AegovBlockquote {
         /**
+          * The blockquote appearance style
+          * @default 'primary'
+         */
+        "appearance"?: BlockquoteAppearance;
+        /**
           * The author source
          */
         "author"?: string;
@@ -3082,21 +3154,24 @@ declare namespace LocalJSX {
          */
         "cite"?: string;
         /**
-          * The blockquote variant style
-          * @default 'primary'
+          * Additional CSS classes merged onto the inner blockquote element.
          */
-        "variant"?: BlockquoteVariant;
+        "extraClass"?: string;
     }
     interface AegovBreadcrumbs {
         /**
-          * Maximum number of characters before truncating breadcrumb item text. If not set, text will not be truncated.
+          * Unique ID for the breadcrumbs nav element. Auto-generated if not provided.
          */
-        "maxLength"?: number;
+        "fieldId"?: string;
         /**
           * Whether to add schema.org microdata for structured data
           * @default false
          */
-        "microdata"?: boolean;
+        "isMicrodata"?: boolean;
+        /**
+          * Maximum number of characters before truncating breadcrumb item text. If not set, text will not be truncated.
+         */
+        "maxLength"?: number;
         /**
           * The separator style to use between breadcrumb items
           * @default 'slash'
@@ -3119,14 +3194,14 @@ declare namespace LocalJSX {
          */
         "isLast"?: boolean;
         /**
-          * Maximum length for text before truncation
-         */
-        "maxLength"?: number;
-        /**
           * Whether to add schema.org microdata
           * @default false
          */
-        "microdata"?: boolean;
+        "isMicrodata"?: boolean;
+        /**
+          * Maximum length for text before truncation
+         */
+        "maxLength"?: number;
         /**
           * Emitted when the breadcrumb item is clicked
          */
@@ -3149,25 +3224,14 @@ declare namespace LocalJSX {
     }
     interface AegovButton {
         /**
-          * The button appearance (color scheme)
-          * @default 'primary'
+          * The button appearance (visual style)
+          * @default 'solid'
          */
         "appearance"?: ButtonAppearance;
         /**
-          * Whether the button should have bold text or not
-          * @default false
+          * Unique ID for the button element. Auto-generated if not provided.
          */
-        "bold"?: boolean;
-        /**
-          * Whether the button is disabled
-          * @default false
-         */
-        "disabled"?: boolean;
-        /**
-          * Whether the button should take full width
-          * @default true
-         */
-        "full"?: boolean;
+        "fieldId"?: string;
         /**
           * Internal: The orientation of the button group this button belongs to
          */
@@ -3177,15 +3241,30 @@ declare namespace LocalJSX {
          */
         "groupPosition"?: ButtonGroupPosition;
         /**
+          * Whether the button should have bold text or not
+          * @default true
+         */
+        "isBold"?: boolean;
+        /**
+          * Whether the button is disabled
+          * @default false
+         */
+        "isDisabled"?: boolean;
+        /**
+          * Whether the button should take full width
+          * @default false
+         */
+        "isFull"?: boolean;
+        /**
           * Whether the button is only an icon
           * @default false
          */
-        "icon"?: boolean;
+        "isIcon"?: boolean;
         /**
           * Whether the button is in a loading state
           * @default false
          */
-        "loading"?: boolean;
+        "isLoading"?: boolean;
         /**
           * Emitted when the button loses focus
          */
@@ -3209,8 +3288,8 @@ declare namespace LocalJSX {
          */
         "type"?: ButtonType;
         /**
-          * The button variant style
-          * @default 'solid'
+          * The button variant (color scheme)
+          * @default 'primary'
          */
         "variant"?: ButtonVariant;
     }
@@ -3228,10 +3307,14 @@ declare namespace LocalJSX {
          */
         "appearance"?: CalloutAppearance;
         /**
+          * Unique ID for the callout element. Auto-generated if not provided.
+         */
+        "fieldId"?: string;
+        /**
           * Whether the callout can be dismissed/closed.
           * @default false
          */
-        "dismissible"?: boolean;
+        "isDismissible"?: boolean;
         /**
           * Event emitted when the callout is dismissed.
          */
@@ -3252,7 +3335,7 @@ declare namespace LocalJSX {
           * Background style: 'white' (default) or 'subtle' (aeblack-50).
           * @default 'white'
          */
-        "background"?: CardBackground;
+        "bg"?: CardBg;
         /**
           * Border style: 'standard' (solid primary-600), 'light' (solid primary-200), 'creative' (gradient from primary-400 to primary-800), or 'highlight' (solid aeblack-200 at rest, transitions to primary-300→700 gradient on hover).
           * @default 'standard'
@@ -3264,15 +3347,19 @@ declare namespace LocalJSX {
          */
         "borderWidth"?: CardBorderWidth;
         /**
-          * Disables inner padding (1.5rem / 24px). Padding is on by default.
-          * @default false
+          * Unique ID for the card element. Auto-generated if not provided.
          */
-        "disallowPadding"?: boolean;
+        "fieldId"?: string;
         /**
           * Hover effect: 'off' (none), 'standard' (border color change), or 'glow' (shadow glow).
           * @default 'off'
          */
         "hover"?: CardHover;
+        /**
+          * Whether to apply inner padding (1.5rem / 24px). On by default.
+          * @default true
+         */
+        "isPadding"?: boolean;
         /**
           * Size: 'sm' (compact padding/radius), 'base' (default), or 'lg' (generous padding/radius). All sizes scale down responsively at md (768px) and xs (480px) breakpoints.
           * @default 'base'
@@ -3291,10 +3378,6 @@ declare namespace LocalJSX {
          */
         "checked"?: boolean;
         /**
-          * Additional CSS classes to apply.
-         */
-        "class"?: string;
-        /**
           * Description text displayed below the label. Only rendered when label is provided.
          */
         "description"?: string;
@@ -3303,6 +3386,10 @@ declare namespace LocalJSX {
           * @default false
          */
         "disabled"?: boolean;
+        /**
+          * Additional CSS classes to apply.
+         */
+        "extraClass"?: string;
         /**
           * Unique ID for the native checkbox element. Auto-generated if not provided.
          */
@@ -3341,14 +3428,14 @@ declare namespace LocalJSX {
     }
     interface AegovCheckboxGroup {
         /**
-          * Additional CSS classes to apply.
-         */
-        "class"?: string;
-        /**
           * Disables all checkboxes within the group via native fieldset disabled.
           * @default false
          */
         "disabled"?: boolean;
+        /**
+          * Additional CSS classes to apply.
+         */
+        "extraClass"?: string;
         /**
           * Optional label rendered as a <legend> for accessibility.
          */
@@ -3497,15 +3584,39 @@ declare namespace LocalJSX {
          */
         "animation"?: DrawerAnimation;
         /**
+          * Unique ID for the drawer dialog element. Auto-generated if not provided.
+         */
+        "fieldId"?: string;
+        /**
           * Whether clicking the backdrop closes the drawer
           * @default true
          */
-        "closeWithBackdrop"?: boolean;
+        "isCloseWithOverlay"?: boolean;
         /**
-          * Disables inner content padding. Padding is on by default and scales with size.
+          * Whether the drawer is currently open/visible
           * @default false
          */
-        "disallowPadding"?: boolean;
+        "isOpen"?: boolean;
+        /**
+          * Whether to show a backdrop overlay behind the drawer
+          * @default true
+         */
+        "isOverlay"?: boolean;
+        /**
+          * Whether to apply inner content padding. On by default; scales with size.
+          * @default true
+         */
+        "isPadding"?: boolean;
+        /**
+          * Whether the drawer is pinned flush to edges (true) or has a gap with rounded corners (false)
+          * @default true
+         */
+        "isPinned"?: boolean;
+        /**
+          * Whether to prevent body scroll when drawer is open
+          * @default true
+         */
+        "isPreventScroll"?: boolean;
         /**
           * Emitted when backdrop is clicked
          */
@@ -3527,37 +3638,17 @@ declare namespace LocalJSX {
          */
         "onAegovDrawerOpen"?: (event: AegovDrawerCustomEvent<void>) => void;
         /**
-          * Whether the drawer is currently open/visible
-          * @default false
-         */
-        "open"?: boolean;
-        /**
-          * Whether to show a backdrop overlay behind the drawer
-          * @default true
-         */
-        "overlay"?: boolean;
-        /**
           * Backdrop overlay opacity level
           * @default 'base'
          */
         "overlayOpacity"?: DrawerOverlayOpacity;
-        /**
-          * Whether the drawer is pinned flush to edges (true) or has a gap with rounded corners (false)
-          * @default true
-         */
-        "pinned"?: boolean;
         /**
           * Which edge the drawer slides from
           * @default 'right'
          */
         "position"?: DrawerPosition;
         /**
-          * Whether to prevent body scroll when drawer is open
-          * @default true
-         */
-        "preventBodyScroll"?: boolean;
-        /**
-          * Size: 'sm' (compact padding), 'base' (default), or 'lg' (generous padding). Mirrors aegov-card sizing tokens. When `pinned="false"`, size also drives the edge gap and border-radius. When pinned, no border-radius is applied regardless of size.
+          * Size: 'sm' (compact padding), 'base' (default), or 'lg' (generous padding). Mirrors aegov-card sizing tokens. When `is-pinned="false"`, size also drives the edge gap and border-radius. When pinned, no border-radius is applied regardless of size.
           * @default 'base'
          */
         "size"?: DrawerSize;
@@ -3572,20 +3663,29 @@ declare namespace LocalJSX {
          */
         "align"?: DropdownAlign;
         /**
-          * Whether the dropdown is disabled
-          * @default false
+          * Delay before hiding dropdown (in milliseconds)
+          * @default 0
          */
-        "disabled"?: boolean;
+        "delayEnd"?: number;
+        /**
+          * Delay before showing dropdown (in milliseconds)
+          * @default 200
+         */
+        "delayStart"?: number;
+        /**
+          * Unique ID for the dropdown menu element. Auto-generated if not provided. The trigger element receives a derived ID `${fieldId}-trigger` for ARIA linkage.
+         */
+        "fieldId"?: string;
         /**
           * Gap between dropdown and trigger element (in pixels)
           * @default 8
          */
         "gap"?: number;
         /**
-          * Delay before hiding dropdown (in milliseconds)
-          * @default 0
+          * Whether the dropdown is disabled
+          * @default false
          */
-        "hideDelay"?: number;
+        "isDisabled"?: boolean;
         /**
           * Additional offset for dropdown positioning (in pixels)
           * @default 0
@@ -3605,15 +3705,10 @@ declare namespace LocalJSX {
          */
         "position"?: DropdownPosition;
         /**
-          * Delay before showing dropdown (in milliseconds)
-          * @default 200
-         */
-        "showDelay"?: number;
-        /**
           * Trigger type for showing the dropdown
           * @default 'click'
          */
-        "triggerType"?: DropdownTrigger;
+        "trigger"?: DropdownTrigger;
     }
     interface AegovFileupload {
         /**
@@ -3694,7 +3789,7 @@ declare namespace LocalJSX {
         /**
           * Additional CSS classes to apply.
          */
-        "class"?: string;
+        "extraClass"?: string;
     }
     interface AegovHeader {
         /**
@@ -3716,10 +3811,6 @@ declare namespace LocalJSX {
     }
     interface AegovInput {
         /**
-          * Additional CSS classes to apply.
-         */
-        "class"?: string;
-        /**
           * Show a copy button to copy the input value to clipboard. Only applies when readonly.
           * @default false
          */
@@ -3729,6 +3820,10 @@ declare namespace LocalJSX {
           * @default false
          */
         "disabled"?: boolean;
+        /**
+          * Additional CSS classes to apply.
+         */
+        "extraClass"?: string;
         /**
           * Unique ID for the native input element. Auto-generated if not provided.
          */
@@ -3800,7 +3895,7 @@ declare namespace LocalJSX {
         /**
           * Additional CSS classes to apply.
          */
-        "class"?: string;
+        "extraClass"?: string;
         /**
           * The size of the input group. Propagated to child aegov-input and aegov-button.
           * @default 'base'
@@ -3811,7 +3906,7 @@ declare namespace LocalJSX {
         /**
           * Additional CSS classes to apply.
          */
-        "class"?: string;
+        "extraClass"?: string;
         /**
           * The ID of the form element this label is for. Automatically set by parent aegov-form-field.
          */
@@ -3821,7 +3916,11 @@ declare namespace LocalJSX {
         /**
           * Additional CSS classes to apply to the link.
          */
-        "class"?: string;
+        "extraClass"?: string;
+        /**
+          * Unique ID for the inner anchor element. Auto-generated if not provided.
+         */
+        "fieldId"?: string;
         /**
           * The URL that the link points to.
           * @required
@@ -3842,20 +3941,29 @@ declare namespace LocalJSX {
     }
     interface AegovModal {
         /**
-          * Backdrop opacity level
-          * @default 'base'
+          * Unique ID for the modal dialog element. Auto-generated if not provided.
          */
-        "backdropOpacity"?: ModalBackdropOpacity;
+        "fieldId"?: string;
         /**
-          * Whether clicking the backdrop closes the modal
+          * Whether clicking the overlay closes the modal
           * @default true
          */
-        "closeWithBackdrop"?: boolean;
+        "isCloseWithOverlay"?: boolean;
         /**
-          * Disables inner content padding. Padding is on by default and scales with size.
+          * Whether the modal is currently open/visible
           * @default false
          */
-        "disallowPadding"?: boolean;
+        "isOpen"?: boolean;
+        /**
+          * Whether to apply inner content padding. On by default; scales with size.
+          * @default true
+         */
+        "isPadding"?: boolean;
+        /**
+          * Whether to prevent body scroll when modal is open
+          * @default true
+         */
+        "isPreventScroll"?: boolean;
         /**
           * Emitted when backdrop is clicked
          */
@@ -3877,20 +3985,15 @@ declare namespace LocalJSX {
          */
         "onAegovModalOpen"?: (event: AegovModalCustomEvent<void>) => void;
         /**
-          * Whether the modal is currently open/visible
-          * @default false
+          * Overlay opacity level
+          * @default 'base'
          */
-        "open"?: boolean;
+        "overlayOpacity"?: ModalOverlayOpacity;
         /**
           * Position of the modal on screen
           * @default 'center'
          */
         "position"?: ModalPosition;
-        /**
-          * Whether to prevent body scroll when modal is open
-          * @default true
-         */
-        "preventBodyScroll"?: boolean;
         /**
           * Size: 'sm' (compact padding/radius), 'base' (default), or 'lg' (generous padding/radius). Mirrors aegov-card sizing tokens.
           * @default 'base'
@@ -3902,7 +4005,7 @@ declare namespace LocalJSX {
      * @description Horizontal primary navigation container. Holds aegov-navbar-item
      * children which can be plain links, links with prefix icons, or links paired
      * with an aegov-dropdown submenu (chevron-triggered).
-     * @example <aegov-navbar nav-label="Main navigation" size="base" gap="gap-6">
+     * @example <aegov-navbar label-nav="Main navigation" size="base" gap="gap-6">
      *   <aegov-navbar-item href="/">Home</aegov-navbar-item>
      *   <aegov-navbar-item href="/services">Services</aegov-navbar-item>
      *   <aegov-navbar-item href="/products">
@@ -3924,7 +4027,7 @@ declare namespace LocalJSX {
           * Accessible label for the navigation landmark.
           * @default 'Main navigation'
          */
-        "navLabel"?: string;
+        "labelNav"?: string;
         /**
           * Size of the navbar items. Accepts a Tailwind-style responsive string, e.g. `"sm md:base lg:lg"`, resolved against the active viewport width. The resolved token cascades to all aegov-navbar-item children.
           * @default 'base'
@@ -3938,31 +4041,31 @@ declare namespace LocalJSX {
      * Optional submenu via `slot="dropdown"` containing an aegov-dropdown — the
      * navbar-item itself becomes the dropdown trigger so hover/position resolve to
      * the full item rect, and a chevron button is injected for keyboard/click
-     * toggling. The user controls the dropdown's `trigger-type` (e.g. set
-     * `trigger-type="hover"` for hover open).
+     * toggling. The user controls the dropdown's `trigger` (e.g. set
+     * `trigger="hover"` for hover open).
      * @example <aegov-navbar-item href="/products">
      *   <svg slot="icon-start" ...></svg>
      *   Products
-     *   <aegov-dropdown slot="dropdown" trigger-type="hover">
+     *   <aegov-dropdown slot="dropdown" trigger="hover">
      *     <a slot="dropdown-content" href="/a">Item A</a>
      *   </aegov-dropdown>
      * </aegov-navbar-item>
      */
     interface AegovNavbarItem {
         /**
+          * URL the item links to. If unset, item renders as a non-link span.
+         */
+        "href"?: string;
+        /**
           * Mark this item as the current page. Sets `aria-current="page"`.
           * @default false
          */
-        "active"?: boolean;
+        "isActive"?: boolean;
         /**
           * Visually disabled, not clickable, removed from arrow-key cycle.
           * @default false
          */
-        "disabled"?: boolean;
-        /**
-          * URL the item links to. If unset, item renders as a non-link span.
-         */
-        "href"?: string;
+        "isDisabled"?: boolean;
         /**
           * Anchor rel attribute.
          */
@@ -3984,14 +4087,14 @@ declare namespace LocalJSX {
          */
         "alphanumeric"?: boolean;
         /**
-          * Additional CSS classes.
-         */
-        "class"?: string;
-        /**
           * Disables all input cells.
           * @default false
          */
         "disabled"?: boolean;
+        /**
+          * Additional CSS classes.
+         */
+        "extraClass"?: string;
         /**
           * Unique ID for the first input cell. Auto-generated if not provided. Used by aegov-label for linking.
          */
@@ -4042,63 +4145,67 @@ declare namespace LocalJSX {
           * Number of pages always visible at each boundary (start and end of the list).
           * @default 1
          */
-        "boundaryCount"?: number;
-        /**
-          * Currently active page (1-indexed). This is a controlled prop — you must update it on every aegovPaginationPageChange event.
-          * @default 1
-         */
-        "currentPage"?: number;
-        /**
-          * Disables all pagination interaction.
-          * @default false
-         */
-        "disabled"?: boolean;
-        /**
-          * Label for the First page button (only shown when showFirstLast is true).
-          * @default 'First'
-         */
-        "firstLabel"?: string;
-        /**
-          * Label for the Last page button (only shown when showFirstLast is true).
-          * @default 'Last'
-         */
-        "lastLabel"?: string;
-        /**
-          * Label for the Next page button.
-          * @default 'Next'
-         */
-        "nextLabel"?: string;
-        /**
-          * Emitted when a page is selected. The event detail is the new page number (1-indexed). Update currentPage in response to this event.
-         */
-        "onAegovPaginationPageChange"?: (event: AegovPaginationCustomEvent<number>) => void;
-        /**
-          * Label for the Previous page button.
-          * @default 'Previous'
-         */
-        "prevLabel"?: string;
-        /**
-          * Show First and Last navigation buttons alongside Previous and Next.
-          * @default false
-         */
-        "showFirstLast"?: boolean;
+        "countBoundary"?: number;
         /**
           * Number of sibling pages shown on each side of the current page.
           * @default 1
          */
-        "siblingCount"?: number;
+        "countSibling"?: number;
+        /**
+          * Unique ID for the pagination nav element. Auto-generated if not provided.
+         */
+        "fieldId"?: string;
+        /**
+          * Disables all pagination interaction.
+          * @default false
+         */
+        "isDisabled"?: boolean;
+        /**
+          * Show First and Last navigation buttons alongside Previous and Next.
+          * @default false
+         */
+        "isEnabledFirstLast"?: boolean;
+        /**
+          * Label for the First page button (only shown when isEnabledFirstLast is true).
+          * @default 'First'
+         */
+        "labelFirst"?: string;
+        /**
+          * Label for the Last page button (only shown when isEnabledFirstLast is true).
+          * @default 'Last'
+         */
+        "labelLast"?: string;
+        /**
+          * Label for the Next page button.
+          * @default 'Next'
+         */
+        "labelNext"?: string;
+        /**
+          * Label for the Previous page button.
+          * @default 'Previous'
+         */
+        "labelPrev"?: string;
+        /**
+          * Emitted when a page is selected. The event detail is the new page number (1-indexed). Update pageCurrent in response to this event.
+         */
+        "onAegovPaginationPageChange"?: (event: AegovPaginationCustomEvent<number>) => void;
+        /**
+          * Currently active page (1-indexed). This is a controlled prop — you must update it on every aegovPaginationPageChange event.
+          * @default 1
+         */
+        "pageCurrent"?: number;
+        /**
+          * Total number of pages.
+          * @default 1
+         */
+        "pages"?: number;
         /**
           * Size variant of the pagination.
           * @default 'base'
          */
         "size"?: string;
         /**
-          * Total number of pages.
-          * @default 1
-         */
-        "totalPages"?: number;
-        /**
-          * Display variant. - 'default': shows page numbers, ellipsis, and prev/next buttons. - 'compact': shows only prev/next buttons (and first/last when showFirstLast is true).
+          * Display variant. - 'default': shows page numbers, ellipsis, and prev/next buttons. - 'compact': shows only prev/next buttons (and first/last when isEnabledFirstLast is true).
           * @default 'default'
          */
         "variant"?: PaginationVariant;
@@ -4113,20 +4220,29 @@ declare namespace LocalJSX {
          */
         "align"?: PopoverAlign;
         /**
-          * Whether the popover is disabled
-          * @default false
+          * Delay before hiding popover on hover (in milliseconds)
+          * @default 0
          */
-        "disabled"?: boolean;
+        "delayEnd"?: number;
+        /**
+          * Delay before showing popover on hover (in milliseconds)
+          * @default 200
+         */
+        "delayStart"?: number;
+        /**
+          * Unique ID for the popover element. Auto-generated if not provided. The trigger element receives a derived ID `${fieldId}-trigger` for ARIA linkage.
+         */
+        "fieldId"?: string;
         /**
           * Gap between popover and trigger element (in pixels)
           * @default 10
          */
         "gap"?: number;
         /**
-          * Delay before hiding popover on hover (in milliseconds)
-          * @default 0
+          * Whether the popover is disabled
+          * @default false
          */
-        "hideDelay"?: number;
+        "isDisabled"?: boolean;
         /**
           * Additional offset for popover positioning (in pixels)
           * @default 0
@@ -4146,21 +4262,12 @@ declare namespace LocalJSX {
          */
         "position"?: PopoverPosition;
         /**
-          * Delay before showing popover on hover (in milliseconds)
-          * @default 200
-         */
-        "showDelay"?: number;
-        /**
           * Trigger type for showing the popover
           * @default 'click'
          */
-        "triggerType"?: PopoverTrigger;
+        "trigger"?: PopoverTrigger;
     }
     interface AegovProgress {
-        /**
-          * Additional CSS classes.
-         */
-        "class"?: string;
         /**
           * Counter placement. Hidden when not set.
          */
@@ -4174,6 +4281,10 @@ declare namespace LocalJSX {
           * Description text displayed below the progress bar.
          */
         "description"?: string;
+        /**
+          * Additional CSS classes.
+         */
+        "extraClass"?: string;
         /**
           * Unique ID for the native progress element. Auto-generated if not provided.
          */
@@ -4200,10 +4311,6 @@ declare namespace LocalJSX {
          */
         "checked"?: boolean;
         /**
-          * Additional CSS classes to apply.
-         */
-        "class"?: string;
-        /**
           * Description text displayed below the label. Only rendered when label is provided.
          */
         "description"?: string;
@@ -4212,6 +4319,10 @@ declare namespace LocalJSX {
           * @default false
          */
         "disabled"?: boolean;
+        /**
+          * Additional CSS classes to apply.
+         */
+        "extraClass"?: string;
         /**
           * Unique ID for the native radio element. Auto-generated if not provided.
          */
@@ -4245,14 +4356,14 @@ declare namespace LocalJSX {
     }
     interface AegovRadioGroup {
         /**
-          * Additional CSS classes to apply.
-         */
-        "class"?: string;
-        /**
           * Disables all radios within the group via native fieldset disabled.
           * @default false
          */
         "disabled"?: boolean;
+        /**
+          * Additional CSS classes to apply.
+         */
+        "extraClass"?: string;
         /**
           * Optional label rendered as a <legend> for accessibility.
          */
@@ -4283,10 +4394,6 @@ declare namespace LocalJSX {
     }
     interface AegovRange {
         /**
-          * Additional CSS classes.
-         */
-        "class"?: string;
-        /**
           * Whether the range is disabled.
           * @default false
          */
@@ -4296,6 +4403,10 @@ declare namespace LocalJSX {
           * @default 'none'
          */
         "display"?: RangeDisplay;
+        /**
+          * Additional CSS classes.
+         */
+        "extraClass"?: string;
         /**
           * Unique ID for the native range input element. Auto-generated if not provided.
          */
@@ -4369,10 +4480,6 @@ declare namespace LocalJSX {
     }
     interface AegovSelect {
         /**
-          * Additional CSS classes to apply.
-         */
-        "class"?: string;
-        /**
           * Show a clear button to reset selection.
           * @default false
          */
@@ -4387,6 +4494,10 @@ declare namespace LocalJSX {
           * @default 'No results found'
          */
         "emptyMessage"?: string;
+        /**
+          * Additional CSS classes to apply.
+         */
+        "extraClass"?: string;
         /**
           * Unique ID for the select element. Auto-generated if not provided.
          */
@@ -4471,10 +4582,19 @@ declare namespace LocalJSX {
      */
     interface AegovSeparator {
         /**
+          * Visual appearance of the separator
+          * @default 'default'
+         */
+        "appearance"?: 'default' | 'subtle';
+        /**
+          * Additional CSS classes merged onto the inner separator element.
+         */
+        "extraClass"?: string;
+        /**
           * Whether the separator is purely decorative (no semantic meaning)
           * @default true
          */
-        "decorative"?: boolean;
+        "isDecorative"?: boolean;
         /**
           * Orientation of the separator
           * @default 'horizontal'
@@ -4484,11 +4604,6 @@ declare namespace LocalJSX {
           * Optional text label displayed at the center of the separator
          */
         "text"?: string;
-        /**
-          * Visual variant of the separator
-          * @default 'default'
-         */
-        "variant"?: 'default' | 'subtle';
     }
     /**
      * @component aegov-tab
@@ -4509,7 +4624,7 @@ declare namespace LocalJSX {
           * Disables this tab and its associated panel.
           * @default false
          */
-        "disabled"?: boolean;
+        "isDisabled"?: boolean;
         /**
           * Emitted when this tab is clicked. Bubbles up to the parent aegov-tabs.
           * @event aegovTabSelect
@@ -4559,7 +4674,7 @@ declare namespace LocalJSX {
      * @description Tab container that organizes content into panels.
      * Manages active tab state internally (uncontrolled) and wires up tab triggers
      * with their corresponding panels via matching tab-id attributes.
-     * @example <aegov-tabs default-active-tab="overview" variant="simple">
+     * @example <aegov-tabs default-open="overview" variant="simple">
      *   <aegov-tab slot="tabs" tab-id="overview">Overview</aegov-tab>
      *   <aegov-tab slot="tabs" tab-id="details">Details</aegov-tab>
      *   <aegov-tab-panel tab-id="overview">Overview content</aegov-tab-panel>
@@ -4571,7 +4686,26 @@ declare namespace LocalJSX {
           * The tab-id of the tab that should be active on initial render. If not provided, the first non-disabled tab is activated.
           * @default ''
          */
-        "defaultActiveTab"?: string;
+        "defaultOpen"?: string;
+        /**
+          * Unique ID for the tabs container. Auto-generated if not provided.
+         */
+        "fieldId"?: string;
+        /**
+          * Enables horizontal scrolling when tabs overflow the container. A faded gradient edge is shown to indicate scrollable content.
+          * @default false
+         */
+        "isScrollable"?: boolean;
+        /**
+          * Distributes tabs evenly to fill the full width of the container. Each tab grows equally to occupy available space.
+          * @default false
+         */
+        "isStretchable"?: boolean;
+        /**
+          * Accessible label for the tablist element. Provides context for screen readers about what the tabs control.
+          * @default 'Tabs'
+         */
+        "labelTablist"?: string;
         /**
           * Emitted when the active tab changes. Event detail contains the new active tab-id string.
           * @event aegovTabChange
@@ -4583,25 +4717,10 @@ declare namespace LocalJSX {
          */
         "orientation"?: TabOrientation;
         /**
-          * Enables horizontal scrolling when tabs overflow the container. A faded gradient edge is shown to indicate scrollable content.
-          * @default false
-         */
-        "scrollable"?: boolean;
-        /**
           * Size of the tabs.
           * @default 'base'
          */
         "size"?: string;
-        /**
-          * Distributes tabs evenly to fill the full width of the container. Each tab grows equally to occupy available space.
-          * @default false
-         */
-        "stretch"?: boolean;
-        /**
-          * Accessible label for the tablist element. Provides context for screen readers about what the tabs control.
-          * @default 'Tabs'
-         */
-        "tablistLabel"?: string;
         /**
           * Visual style variant of the tabs. - `simple`: Underline style (default) - `segmented`: Button-group style, ideal for toggling views - `pill`: Pill-shaped individual tabs
           * @default 'simple'
@@ -4612,7 +4731,7 @@ declare namespace LocalJSX {
         /**
           * Additional CSS classes to apply to the text.
          */
-        "class"?: string;
+        "extraClass"?: string;
         /**
           * The size of the text.
           * @default 'base'
@@ -4620,10 +4739,6 @@ declare namespace LocalJSX {
         "size"?: string;
     }
     interface AegovTextarea {
-        /**
-          * Additional CSS classes to apply.
-         */
-        "class"?: string;
         /**
           * Show a copy button to copy the textarea value to clipboard. Only applies when readonly.
           * @default false
@@ -4634,6 +4749,10 @@ declare namespace LocalJSX {
           * @default false
          */
         "disabled"?: boolean;
+        /**
+          * Additional CSS classes to apply.
+         */
+        "extraClass"?: string;
         /**
           * Unique ID for the native textarea element. Auto-generated if not provided.
          */
@@ -4694,6 +4813,10 @@ declare namespace LocalJSX {
     }
     interface AegovTimeline {
         /**
+          * Unique ID for the timeline nav element. Auto-generated if not provided.
+         */
+        "fieldId"?: string;
+        /**
           * Layout orientation.
           * @default 'horizontal'
          */
@@ -4711,13 +4834,13 @@ declare namespace LocalJSX {
     }
     interface AegovTimelineStep {
         /**
-          * @default false
-         */
-        "connectorSolid"?: boolean;
-        /**
           * Optional description shown below the label.
          */
         "description"?: string;
+        /**
+          * @default false
+         */
+        "isConnectorSolid"?: boolean;
         /**
           * @default false
          */
@@ -4756,7 +4879,7 @@ declare namespace LocalJSX {
         /**
           * Additional CSS classes to apply to the title.
          */
-        "class"?: string;
+        "extraClass"?: string;
         /**
           * The semantic wrapper tag for the title. When set, renders the title inside the specified heading tag (`h2`–`h6`) or a `p`. When omitted, the title renders as a `<p>` (default).
          */
@@ -4774,15 +4897,20 @@ declare namespace LocalJSX {
          */
         "appearance"?: ToastAppearance;
         /**
-          * Whether the toast shows a close button.
-          * @default true
-         */
-        "dismissible"?: boolean;
-        /**
           * Auto-dismiss duration in milliseconds. 0 = no auto-dismiss.
           * @default 5000
          */
         "duration"?: number;
+        /**
+          * Whether the toast shows a close button.
+          * @default true
+         */
+        "isDismissible"?: boolean;
+        /**
+          * Whether to show a countdown progress bar.
+          * @default false
+         */
+        "isProgressEnabled"?: boolean;
         /**
           * Display mode for multiple toasts at the same position. 'stack' = all toasts visible with gap between them (default). 'rack' = toasts collapse into a deck; hover to expand.
           * @default 'stack'
@@ -4805,11 +4933,6 @@ declare namespace LocalJSX {
           * @default 'top-right'
          */
         "position"?: ToastPosition;
-        /**
-          * Whether to show a countdown progress bar.
-          * @default false
-         */
-        "showProgress"?: boolean;
         /**
           * Semantic color variant of the toast.
           * @default 'default'
@@ -4876,25 +4999,25 @@ declare namespace LocalJSX {
          */
         "content"?: string;
         /**
-          * Whether the tooltip is disabled
-          * @default false
+          * Delay before hiding tooltip (in milliseconds)
+          * @default 0
          */
-        "disabled"?: boolean;
+        "delayEnd"?: number;
+        /**
+          * Delay before showing tooltip (in milliseconds)
+          * @default 200
+         */
+        "delayStart"?: number;
         /**
           * Gap between tooltip and trigger element (in pixels)
           * @default 8
          */
         "gap"?: number;
         /**
-          * Delay before hiding tooltip (in milliseconds)
-          * @default 0
-         */
-        "hideDelay"?: number;
-        /**
-          * Whether the tooltip contains interactive content This adds ARIA attributes and prevents auto-hide on hover
+          * Whether the tooltip is disabled
           * @default false
          */
-        "interactive"?: boolean;
+        "isDisabled"?: boolean;
         /**
           * Additional offset for tooltip positioning (in pixels)
           * @default 0
@@ -4905,11 +5028,6 @@ declare namespace LocalJSX {
           * @default 'top'
          */
         "position"?: TooltipPosition;
-        /**
-          * Delay before showing tooltip (in milliseconds)
-          * @default 200
-         */
-        "showDelay"?: number;
         /**
           * Trigger type for showing the tooltip
           * @default 'hover'
@@ -5029,7 +5147,7 @@ declare module "@stencil/core" {
              * @description Horizontal primary navigation container. Holds aegov-navbar-item
              * children which can be plain links, links with prefix icons, or links paired
              * with an aegov-dropdown submenu (chevron-triggered).
-             * @example <aegov-navbar nav-label="Main navigation" size="base" gap="gap-6">
+             * @example <aegov-navbar label-nav="Main navigation" size="base" gap="gap-6">
              *   <aegov-navbar-item href="/">Home</aegov-navbar-item>
              *   <aegov-navbar-item href="/services">Services</aegov-navbar-item>
              *   <aegov-navbar-item href="/products">
@@ -5049,12 +5167,12 @@ declare module "@stencil/core" {
              * Optional submenu via `slot="dropdown"` containing an aegov-dropdown — the
              * navbar-item itself becomes the dropdown trigger so hover/position resolve to
              * the full item rect, and a chevron button is injected for keyboard/click
-             * toggling. The user controls the dropdown's `trigger-type` (e.g. set
-             * `trigger-type="hover"` for hover open).
+             * toggling. The user controls the dropdown's `trigger` (e.g. set
+             * `trigger="hover"` for hover open).
              * @example <aegov-navbar-item href="/products">
              *   <svg slot="icon-start" ...></svg>
              *   Products
-             *   <aegov-dropdown slot="dropdown" trigger-type="hover">
+             *   <aegov-dropdown slot="dropdown" trigger="hover">
              *     <a slot="dropdown-content" href="/a">Item A</a>
              *   </aegov-dropdown>
              * </aegov-navbar-item>
@@ -5101,7 +5219,7 @@ declare module "@stencil/core" {
              * @description Tab container that organizes content into panels.
              * Manages active tab state internally (uncontrolled) and wires up tab triggers
              * with their corresponding panels via matching tab-id attributes.
-             * @example <aegov-tabs default-active-tab="overview" variant="simple">
+             * @example <aegov-tabs default-open="overview" variant="simple">
              *   <aegov-tab slot="tabs" tab-id="overview">Overview</aegov-tab>
              *   <aegov-tab slot="tabs" tab-id="details">Details</aegov-tab>
              *   <aegov-tab-panel tab-id="overview">Overview content</aegov-tab-panel>

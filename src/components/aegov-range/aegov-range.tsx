@@ -67,7 +67,7 @@ export class AegovRange {
   @Prop() label?: string;
 
   /** Additional CSS classes. */
-  @Prop() class?: string;
+  @Prop() extraClass?: string;
 
   @State() activeThumb: 'single' | 'low' | 'high' | null = null;
 
@@ -381,7 +381,7 @@ export class AegovRange {
       `range--${orientation}`,
       displayClass,
       this.disabled ? 'aegov-range--disabled' : '',
-      this.class || '',
+      this.extraClass || '',
     ].filter(Boolean).join(' ');
 
     const rangeContent = (

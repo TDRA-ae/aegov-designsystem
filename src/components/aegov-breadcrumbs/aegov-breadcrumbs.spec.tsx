@@ -328,7 +328,7 @@ describe('aegov-breadcrumbs', () => {
       const page = await newSpecPage({
         components: [AegovBreadcrumbs, AegovBreadcrumbsItem],
         html: `
-          <aegov-breadcrumbs microdata>
+          <aegov-breadcrumbs is-microdata>
             <aegov-breadcrumbs-item href="/">Home</aegov-breadcrumbs-item>
           </aegov-breadcrumbs>
         `,
@@ -345,7 +345,7 @@ describe('aegov-breadcrumbs', () => {
       const page = await newSpecPage({
         components: [AegovBreadcrumbs, AegovBreadcrumbsItem],
         html: `
-          <aegov-breadcrumbs microdata>
+          <aegov-breadcrumbs is-microdata>
             <aegov-breadcrumbs-item href="/">Home</aegov-breadcrumbs-item>
             <aegov-breadcrumbs-item href="/products">Products</aegov-breadcrumbs-item>
           </aegov-breadcrumbs>
@@ -355,15 +355,15 @@ describe('aegov-breadcrumbs', () => {
       await page.waitForChanges();
 
       const items = page.root.querySelectorAll('aegov-breadcrumbs-item') as NodeListOf<HTMLAegovBreadcrumbsItemElement>;
-      expect(items[0].microdata).toBe(true);
-      expect(items[1].microdata).toBe(true);
+      expect(items[0].isMicrodata).toBe(true);
+      expect(items[1].isMicrodata).toBe(true);
     });
 
     it('should set position on child items for microdata', async () => {
       const page = await newSpecPage({
         components: [AegovBreadcrumbs, AegovBreadcrumbsItem],
         html: `
-          <aegov-breadcrumbs microdata>
+          <aegov-breadcrumbs is-microdata>
             <aegov-breadcrumbs-item href="/">Home</aegov-breadcrumbs-item>
             <aegov-breadcrumbs-item href="/products">Products</aegov-breadcrumbs-item>
             <aegov-breadcrumbs-item>Item</aegov-breadcrumbs-item>
@@ -383,7 +383,7 @@ describe('aegov-breadcrumbs', () => {
       const page = await newSpecPage({
         components: [AegovBreadcrumbs, AegovBreadcrumbsItem],
         html: `
-          <aegov-breadcrumbs microdata>
+          <aegov-breadcrumbs is-microdata>
             <aegov-breadcrumbs-item href="/">Home</aegov-breadcrumbs-item>
           </aegov-breadcrumbs>
         `,
@@ -401,7 +401,7 @@ describe('aegov-breadcrumbs', () => {
       const page = await newSpecPage({
         components: [AegovBreadcrumbs, AegovBreadcrumbsItem],
         html: `
-          <aegov-breadcrumbs microdata>
+          <aegov-breadcrumbs is-microdata>
             <aegov-breadcrumbs-item href="/">Home</aegov-breadcrumbs-item>
           </aegov-breadcrumbs>
         `,
@@ -417,7 +417,7 @@ describe('aegov-breadcrumbs', () => {
       const page = await newSpecPage({
         components: [AegovBreadcrumbs, AegovBreadcrumbsItem],
         html: `
-          <aegov-breadcrumbs microdata>
+          <aegov-breadcrumbs is-microdata>
             <aegov-breadcrumbs-item href="/">Home</aegov-breadcrumbs-item>
           </aegov-breadcrumbs>
         `,
@@ -434,7 +434,7 @@ describe('aegov-breadcrumbs', () => {
       const page = await newSpecPage({
         components: [AegovBreadcrumbs, AegovBreadcrumbsItem],
         html: `
-          <aegov-breadcrumbs microdata>
+          <aegov-breadcrumbs is-microdata>
             <aegov-breadcrumbs-item href="/">Home</aegov-breadcrumbs-item>
             <aegov-breadcrumbs-item>Current</aegov-breadcrumbs-item>
           </aegov-breadcrumbs>
@@ -452,7 +452,7 @@ describe('aegov-breadcrumbs', () => {
       const page = await newSpecPage({
         components: [AegovBreadcrumbs, AegovBreadcrumbsItem],
         html: `
-          <aegov-breadcrumbs microdata>
+          <aegov-breadcrumbs is-microdata>
             <aegov-breadcrumbs-item href="/">Home</aegov-breadcrumbs-item>
             <aegov-breadcrumbs-item href="/products">Products</aegov-breadcrumbs-item>
           </aegov-breadcrumbs>

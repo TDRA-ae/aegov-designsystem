@@ -182,30 +182,6 @@ describe('aegov-aspect-ratio E2E', () => {
     });
   });
 
-  describe('inner-class prop', () => {
-    it('should add inner-class to container', async () => {
-      const page = await newE2EPage();
-      await page.setContent(`
-        <aegov-aspect-ratio inner-class="rounded-lg">
-          <img src="https://picsum.photos/400/300" alt="" />
-        </aegov-aspect-ratio>
-      `);
-      const container = await page.find('aegov-aspect-ratio .aegov-aspect-ratio');
-      expect(container).toHaveClass('rounded-lg');
-    });
-
-    it('should support multiple inner-class values', async () => {
-      const page = await newE2EPage();
-      await page.setContent(`
-        <aegov-aspect-ratio inner-class="rounded-lg shadow-md bg-slate-100">
-          <img src="https://picsum.photos/400/300" alt="" />
-        </aegov-aspect-ratio>
-      `);
-      const container = await page.find('aegov-aspect-ratio .aegov-aspect-ratio');
-      expect(container).toHaveClass('rounded-lg');
-      expect(container).toHaveClass('shadow-md');
-    });
-  });
 
   describe('host element', () => {
     it('should be a block-level element', async () => {
@@ -218,19 +194,6 @@ describe('aegov-aspect-ratio E2E', () => {
   });
 
   describe('combined usage', () => {
-    it('should handle ratio + fit + inner-class together', async () => {
-      const page = await newE2EPage();
-      await page.setContent(`
-        <aegov-aspect-ratio ratio="video" fit="contain" inner-class="rounded-xl">
-          <img src="https://picsum.photos/400/300" alt="" />
-        </aegov-aspect-ratio>
-      `);
-      const container = await page.find('aegov-aspect-ratio .aegov-aspect-ratio');
-      const style = await container.getAttribute('style');
-      expect(style).toContain('16 / 9');
-      expect(container.getAttribute('data-fit')).toBe('contain');
-      expect(container).toHaveClass('rounded-xl');
-    });
 
     it('should work with video inside square container', async () => {
       const page = await newE2EPage();

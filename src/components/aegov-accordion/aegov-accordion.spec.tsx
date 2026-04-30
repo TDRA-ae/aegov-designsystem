@@ -62,7 +62,7 @@ describe('aegov-accordion', () => {
     });
   });
 
-  describe('allowMultiple prop', () => {
+  describe('isMultiple prop', () => {
     it('should default to false', async () => {
       const page = await newSpecPage({
         components: [AegovAccordion, AegovAccordionItem],
@@ -77,14 +77,14 @@ describe('aegov-accordion', () => {
       });
 
       const accordion = page.root as HTMLAegovAccordionElement;
-      expect(accordion.allowMultiple).toBe(false);
+      expect(accordion.isMultiple).toBe(false);
     });
 
     it('should accept true value', async () => {
       const page = await newSpecPage({
         components: [AegovAccordion, AegovAccordionItem],
         html: `
-          <aegov-accordion allow-multiple="true">
+          <aegov-accordion is-multiple="true">
             <aegov-accordion-item>
               <span slot="accordion-item-heading">Heading 1</span>
               <span slot="accordion-item-content">Content 1</span>
@@ -94,7 +94,7 @@ describe('aegov-accordion', () => {
       });
 
       const accordion = page.root as HTMLAegovAccordionElement;
-      expect(accordion.allowMultiple).toBe(true);
+      expect(accordion.isMultiple).toBe(true);
     });
   });
 
@@ -119,8 +119,8 @@ describe('aegov-accordion', () => {
       await page.waitForChanges();
 
       const items = page.root.querySelectorAll('aegov-accordion-item') as NodeListOf<HTMLAegovAccordionItemElement>;
-      expect(items[0].open).toBe(true);
-      expect(items[1].open).toBe(false);
+      expect(items[0].isOpen).toBe(true);
+      expect(items[1].isOpen).toBe(false);
     });
 
     it('should open second item when defaultOpen is 1', async () => {
@@ -143,12 +143,12 @@ describe('aegov-accordion', () => {
       await page.waitForChanges();
 
       const items = page.root.querySelectorAll('aegov-accordion-item') as NodeListOf<HTMLAegovAccordionItemElement>;
-      expect(items[0].open).toBe(false);
-      expect(items[1].open).toBe(true);
+      expect(items[0].isOpen).toBe(false);
+      expect(items[1].isOpen).toBe(true);
     });
   });
 
-  describe('single mode (allowMultiple=false)', () => {
+  describe('single mode (isMultiple=false)', () => {
     it('should close other items when opening one', async () => {
       const page = await newSpecPage({
         components: [AegovAccordion, AegovAccordionItem],
@@ -170,29 +170,29 @@ describe('aegov-accordion', () => {
 
       const items = page.root.querySelectorAll('aegov-accordion-item') as NodeListOf<HTMLAegovAccordionItemElement>;
 
-      items[0].open = true;
+      items[0].isOpen = true;
       await page.waitForChanges();
 
-      expect(items[0].open).toBe(true);
-      expect(items[1].open).toBe(false);
+      expect(items[0].isOpen).toBe(true);
+      expect(items[1].isOpen).toBe(false);
 
-      items[1].open = true;
+      items[1].isOpen = true;
       await page.waitForChanges();
 
-      items[0].open = false;
+      items[0].isOpen = false;
       await page.waitForChanges();
 
-      expect(items[0].open).toBe(false);
-      expect(items[1].open).toBe(true);
+      expect(items[0].isOpen).toBe(false);
+      expect(items[1].isOpen).toBe(true);
     });
   });
 
-  describe('multiple mode (allowMultiple=true)', () => {
+  describe('multiple mode (isMultiple=true)', () => {
     it('should allow multiple items to be open', async () => {
       const page = await newSpecPage({
         components: [AegovAccordion, AegovAccordionItem],
         html: `
-          <aegov-accordion allow-multiple="true">
+          <aegov-accordion is-multiple="true">
             <aegov-accordion-item>
               <span slot="accordion-item-heading">Heading 1</span>
               <span slot="accordion-item-content">Content 1</span>
@@ -209,12 +209,12 @@ describe('aegov-accordion', () => {
 
       const items = page.root.querySelectorAll('aegov-accordion-item') as NodeListOf<HTMLAegovAccordionItemElement>;
 
-      items[0].open = true;
-      items[1].open = true;
+      items[0].isOpen = true;
+      items[1].isOpen = true;
       await page.waitForChanges();
 
-      expect(items[0].open).toBe(true);
-      expect(items[1].open).toBe(true);
+      expect(items[0].isOpen).toBe(true);
+      expect(items[1].isOpen).toBe(true);
     });
   });
 
@@ -278,7 +278,7 @@ describe('aegov-accordion', () => {
     });
   });
 
-  describe('bordered prop', () => {
+  describe('isBordered prop', () => {
     it('should default to false', async () => {
       const page = await newSpecPage({
         components: [AegovAccordion, AegovAccordionItem],
@@ -293,14 +293,14 @@ describe('aegov-accordion', () => {
       });
 
       const accordion = page.root as HTMLAegovAccordionElement;
-      expect(accordion.bordered).toBe(false);
+      expect(accordion.isBordered).toBe(false);
     });
 
     it('should accept true value', async () => {
       const page = await newSpecPage({
         components: [AegovAccordion, AegovAccordionItem],
         html: `
-          <aegov-accordion bordered="true">
+          <aegov-accordion is-bordered="true">
             <aegov-accordion-item>
               <span slot="accordion-item-heading">Heading</span>
               <span slot="accordion-item-content">Content</span>
@@ -310,14 +310,14 @@ describe('aegov-accordion', () => {
       });
 
       const accordion = page.root as HTMLAegovAccordionElement;
-      expect(accordion.bordered).toBe(true);
+      expect(accordion.isBordered).toBe(true);
     });
 
     it('should apply aegov-accordion__bordered class when bordered is true', async () => {
       const page = await newSpecPage({
         components: [AegovAccordion, AegovAccordionItem],
         html: `
-          <aegov-accordion bordered="true">
+          <aegov-accordion is-bordered="true">
             <aegov-accordion-item>
               <span slot="accordion-item-heading">Heading</span>
               <span slot="accordion-item-content">Content</span>
@@ -506,7 +506,7 @@ describe('aegov-accordion', () => {
       expect(initialCount).toBe(2); // One per item
 
       // Simulate prop change which triggers componentDidUpdate → updateItems
-      instance.allowMultiple = true;
+      instance.isMultiple = true;
       await page.waitForChanges();
 
       // Listener count should remain the same, not double

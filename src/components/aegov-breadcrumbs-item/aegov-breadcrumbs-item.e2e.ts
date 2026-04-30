@@ -494,7 +494,7 @@ describe('aegov-breadcrumbs-item E2E', () => {
     it('should add schema.org attributes on li when microdata enabled', async () => {
       const page = await newE2EPage();
       await page.setContent(`
-        <aegov-breadcrumbs microdata>
+        <aegov-breadcrumbs is-microdata>
           <aegov-breadcrumbs-item href="/">Home</aegov-breadcrumbs-item>
         </aegov-breadcrumbs>
       `);
@@ -508,7 +508,7 @@ describe('aegov-breadcrumbs-item E2E', () => {
     it('should add itemprop="item" on link when microdata enabled', async () => {
       const page = await newE2EPage();
       await page.setContent(`
-        <aegov-breadcrumbs microdata>
+        <aegov-breadcrumbs is-microdata>
           <aegov-breadcrumbs-item href="/">Home</aegov-breadcrumbs-item>
         </aegov-breadcrumbs>
       `);
@@ -520,7 +520,7 @@ describe('aegov-breadcrumbs-item E2E', () => {
     it('should add meta tag with position', async () => {
       const page = await newE2EPage();
       await page.setContent(`
-        <aegov-breadcrumbs microdata>
+        <aegov-breadcrumbs is-microdata>
           <aegov-breadcrumbs-item href="/">Home</aegov-breadcrumbs-item>
           <aegov-breadcrumbs-item href="/products">Products</aegov-breadcrumbs-item>
         </aegov-breadcrumbs>
@@ -535,7 +535,7 @@ describe('aegov-breadcrumbs-item E2E', () => {
     it('should add itemprop="name" on span inside link', async () => {
       const page = await newE2EPage();
       await page.setContent(`
-        <aegov-breadcrumbs microdata>
+        <aegov-breadcrumbs is-microdata>
           <aegov-breadcrumbs-item href="/">Home</aegov-breadcrumbs-item>
         </aegov-breadcrumbs>
       `);
@@ -549,7 +549,7 @@ describe('aegov-breadcrumbs-item E2E', () => {
     it('should add itemprop="name" on current item span', async () => {
       const page = await newE2EPage();
       await page.setContent(`
-        <aegov-breadcrumbs microdata>
+        <aegov-breadcrumbs is-microdata>
           <aegov-breadcrumbs-item href="/">Home</aegov-breadcrumbs-item>
           <aegov-breadcrumbs-item>Current</aegov-breadcrumbs-item>
         </aegov-breadcrumbs>
@@ -577,7 +577,7 @@ describe('aegov-breadcrumbs-item E2E', () => {
     it('should add microdata to current item li', async () => {
       const page = await newE2EPage();
       await page.setContent(`
-        <aegov-breadcrumbs microdata>
+        <aegov-breadcrumbs is-microdata>
           <aegov-breadcrumbs-item href="/">Home</aegov-breadcrumbs-item>
           <aegov-breadcrumbs-item>Current</aegov-breadcrumbs-item>
         </aegov-breadcrumbs>

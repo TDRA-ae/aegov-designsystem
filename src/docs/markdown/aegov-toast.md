@@ -214,7 +214,7 @@ When the user hovers over a toast, the auto-dismiss timer pauses. It resumes whe
 <aegov-toast duration="3000">Quick notification</aegov-toast>
 
 <!-- No auto-dismiss — must be closed manually -->
-<aegov-toast duration="0" dismissible>Persistent notification</aegov-toast>
+<aegov-toast duration="0" is-dismissible>Persistent notification</aegov-toast>
 ```
 
 <div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
@@ -261,12 +261,12 @@ When the user hovers over a toast, the auto-dismiss timer pauses. It resumes whe
 
 ## Progress Bar
 
-Set `show-progress` to display an animated countdown bar at the bottom of the toast. The bar shrinks from left to right over the `duration` period. It pauses when the user hovers over the toast.
+Set `is-progress-enabled` to display an animated countdown bar at the bottom of the toast. The bar shrinks from left to right over the `duration` period. It pauses when the user hovers over the toast.
 
 The progress bar colour matches the variant's semantic colour (e.g. red for error, green for success).
 
 ```html
-<aegov-toast variant="success" duration="6000" show-progress>
+<aegov-toast variant="success" duration="6000" is-progress-enabled>
   Upload complete!
 </aegov-toast>
 ```
@@ -308,14 +308,14 @@ The progress bar colour matches the variant's semantic colour (e.g. red for erro
 
 ## Dismissible
 
-The `dismissible` property controls whether a close button is shown. It defaults to `true`. Set it to `false` to hide the dismiss button — the toast will only close via auto-dismiss or by calling the `close()` method programmatically.
+The `is-dismissible` property controls whether a close button is shown. It defaults to `true`. Set it to `false` to hide the dismiss button — the toast will only close via auto-dismiss or by calling the `close()` method programmatically.
 
 ```html
 <!-- With dismiss button (default) -->
-<aegov-toast dismissible>You can close this.</aegov-toast>
+<aegov-toast is-dismissible>You can close this.</aegov-toast>
 
 <!-- Without dismiss button -->
-<aegov-toast dismissible="false" duration="3000">
+<aegov-toast is-dismissible="false" duration="3000">
   Auto-closing only.
 </aegov-toast>
 ```
@@ -453,7 +453,7 @@ Combining icon, title, description, actions, and progress bar in a single toast.
 
 ```html
 <aegov-toast variant="info" appearance="soft" duration="8000"
-             show-progress position="top-right">
+             is-progress-enabled position="top-right">
   <svg slot="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
        fill="none" stroke="currentColor" stroke-width="2"
        stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5">
@@ -629,9 +629,9 @@ The design system exposes a global `window.aegovToast.show()` helper function fo
 | `appearance`   | `ToastAppearance` | `'soft'`      | Visual appearance (soft or solid).                |
 | `position`     | `ToastPosition`   | `'top-right'` | Screen position for the toast.                    |
 | `duration`     | `number`          | `5000`        | Auto-dismiss delay in ms. `0` = no auto-dismiss.  |
-| `dismissible`  | `boolean`         | `true`        | Whether to show the close button.                 |
+| `is-dismissible`  | `boolean`         | `true`        | Whether to show the close button.                 |
 | `mode`         | `ToastMode`       | `'stack'`     | Display mode: `'stack'` or `'rack'`.              |
-| `showProgress` | `boolean`         | `false`       | Whether to show the countdown progress bar.       |
+| `isProgressEnabled` | `boolean`         | `false`       | Whether to show the countdown progress bar.       |
 
 ---
 
@@ -645,9 +645,9 @@ The design system exposes a global `window.aegovToast.show()` helper function fo
 | `appearance`   | `appearance`    | Visual appearance style                                            | `'soft'` \| `'solid'`                                                                         | `'soft'`      |
 | `position`     | `position`      | Screen position where the toast appears                            | `'top-right'` \| `'top-left'` \| `'top-center'` \| `'bottom-right'` \| `'bottom-left'` \| `'bottom-center'` | `'top-right'` |
 | `duration`     | `duration`      | Auto-dismiss duration in milliseconds. `0` disables auto-dismiss.  | `number`                                                                                      | `5000`        |
-| `dismissible`  | `dismissible`   | Whether to show a close button                                     | `boolean`                                                                                     | `true`        |
+| `is-dismissible`  | `is-dismissible`   | Whether to show a close button                                     | `boolean`                                                                                     | `true`        |
 | `mode`         | `mode`          | Display mode for multiple toasts at the same position              | `'stack'` \| `'rack'`                                                                         | `'stack'`     |
-| `showProgress` | `show-progress` | Whether to show a countdown progress bar                           | `boolean`                                                                                     | `false`       |
+| `isProgressEnabled` | `is-progress-enabled` | Whether to show a countdown progress bar                           | `boolean`                                                                                     | `false`       |
 
 ### Methods
 

@@ -46,7 +46,7 @@ export class AegovRadio {
   @Prop() description?: string;
 
   /** Additional CSS classes to apply. */
-  @Prop() class?: string;
+  @Prop() extraClass?: string;
 
   /** Emitted when the radio checked state changes. */
   @Event() aegovRadioChange: EventEmitter<{ checked: boolean; value?: string }>;
@@ -88,7 +88,7 @@ export class AegovRadio {
   render() {
     const passThroughAttrs = getPassThroughAttributes(this.el, AegovRadio.NATIVE_RADIO_ATTRS);
     const wrapperClasses = ['aegov-radio', `radio--${this._resolvedSize}`];
-    if (this.class) wrapperClasses.push(this.class);
+    if (this.extraClass) wrapperClasses.push(this.extraClass);
 
     const descriptionId = this.description ? `${this.fieldId}-desc` : undefined;
 

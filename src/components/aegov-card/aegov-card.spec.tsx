@@ -71,7 +71,7 @@ describe('aegov-card', () => {
   // BACKGROUND
   // ============================================
 
-  it('applies white background by default', async () => {
+  it('applies white  bg by default', async () => {
     const page = await newSpecPage({
       components: [AegovCard],
       html: `<aegov-card>Content</aegov-card>`,
@@ -82,7 +82,7 @@ describe('aegov-card', () => {
   it('applies subtle background', async () => {
     const page = await newSpecPage({
       components: [AegovCard],
-      html: `<aegov-card background="subtle">Content</aegov-card>`,
+      html: `<aegov-card bg="subtle">Content</aegov-card>`,
     });
     expect(page.root.querySelector('.card-bg-subtle')).toBeTruthy();
   });
@@ -99,10 +99,10 @@ describe('aegov-card', () => {
     expect(page.root.querySelector('.card--padded')).toBeTruthy();
   });
 
-  it('removes padding when disallow-padding is set', async () => {
+  it('removes padding when is-padding="false" is set', async () => {
     const page = await newSpecPage({
       components: [AegovCard],
-      html: `<aegov-card disallow-padding>Content</aegov-card>`,
+      html: `<aegov-card is-padding="false">Content</aegov-card>`,
     });
     expect(page.root.querySelector('.card--padded')).toBeNull();
   });
@@ -159,7 +159,7 @@ describe('aegov-card', () => {
   it('applies creative border with different backgrounds', async () => {
     const page = await newSpecPage({
       components: [AegovCard],
-      html: `<aegov-card border-style="creative" background="subtle">Content</aegov-card>`,
+      html: `<aegov-card border-style="creative" bg="subtle">Content</aegov-card>`,
     });
     const card = page.root.querySelector('.aegov-card');
     expect(card.classList.contains('card-border-creative')).toBe(true);
@@ -219,7 +219,7 @@ describe('aegov-card', () => {
   it('size class is applied even when padding is disallowed', async () => {
     const page = await newSpecPage({
       components: [AegovCard],
-      html: `<aegov-card size="sm" disallow-padding>Content</aegov-card>`,
+      html: `<aegov-card size="sm" is-padding="false">Content</aegov-card>`,
     });
     const card = page.root.querySelector('.aegov-card');
     expect(card.classList.contains('card--size-sm')).toBe(true);
@@ -233,7 +233,7 @@ describe('aegov-card', () => {
   it('applies multiple props together', async () => {
     const page = await newSpecPage({
       components: [AegovCard],
-      html: `<aegov-card border-width="3" background="subtle" hover="glow" size="lg">Content</aegov-card>`,
+      html: `<aegov-card border-width="3" bg="subtle" hover="glow" size="lg">Content</aegov-card>`,
     });
     const card = page.root.querySelector('.aegov-card');
     expect(card.classList.contains('card-border-3')).toBe(true);
@@ -287,10 +287,10 @@ describe('aegov-card', () => {
       expect(card.className).toContain('card-border-standard');
     });
 
-    it('falls back to default background class when invalid', async () => {
+    it('falls back to default  bg class when invalid', async () => {
       const page = await newSpecPage({
         components: [AegovCard],
-        html: `<aegov-card background="weird">X</aegov-card>`,
+        html: `<aegov-card bg="weird">X</aegov-card>`,
       });
       const card = page.root.querySelector('.aegov-card');
       expect(card.className).toContain('card-bg-white');
@@ -330,7 +330,7 @@ describe('aegov-card', () => {
     it('does not warn when all props are valid', async () => {
       await newSpecPage({
         components: [AegovCard],
-        html: `<aegov-card border-style="light" background="subtle" hover="glow">X</aegov-card>`,
+        html: `<aegov-card border-style="light" bg="subtle" hover="glow">X</aegov-card>`,
       });
       expect(warnSpy).not.toHaveBeenCalled();
     });
@@ -347,15 +347,15 @@ describe('aegov-card', () => {
       expect(warn).toBeDefined();
     });
 
-    it('warns again via @Watch when background is updated to invalid value', async () => {
+    it('warns again via @Watch when  bg is updated to invalid value', async () => {
       const page = await newSpecPage({
         components: [AegovCard],
-        html: `<aegov-card background="white">X</aegov-card>`,
+        html: `<aegov-card bg="white">X</aegov-card>`,
       });
-      page.root.setAttribute('background', 'nope');
+      page.root.setAttribute('bg', 'nope');
       await page.waitForChanges();
       const messages = warnSpy.mock.calls.map(c => c[0] as string);
-      const warn = messages.find(m => m.includes('[aegov-card]') && m.includes('"background"'));
+      const warn = messages.find(m => m.includes('[aegov-card]') && m.includes('"bg"'));
       expect(warn).toBeDefined();
     });
 

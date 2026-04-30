@@ -55,7 +55,7 @@ describe('aegov-label E2E', () => {
   describe('custom class', () => {
     it('should merge custom class with defaults', async () => {
       const page = await newE2EPage();
-      await page.setContent(`<aegov-label class="font-bold">Email</aegov-label>`);
+      await page.setContent(`<aegov-label extra-class="font-bold">Email</aegov-label>`);
       const label = await page.find('aegov-label label');
       const cls = await label.getAttribute('class');
       expect(cls).toContain('aegov-label');

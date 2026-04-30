@@ -230,40 +230,6 @@ describe('aegov-aspect-ratio', () => {
     });
   });
 
-  describe('inner-class prop', () => {
-    it('should not add extra classes when inner-class is not set', async () => {
-      const page = await newSpecPage({
-        components: [AegovAspectRatio],
-        html: `<aegov-aspect-ratio><img src="t.jpg" alt="" /></aegov-aspect-ratio>`,
-      });
-
-      const container = page.root.querySelector('.aegov-aspect-ratio') as HTMLElement;
-      expect(container.className).toBe('aegov-aspect-ratio');
-    });
-
-    it('should add inner-class to container', async () => {
-      const page = await newSpecPage({
-        components: [AegovAspectRatio],
-        html: `<aegov-aspect-ratio inner-class="rounded-lg shadow-md"><img src="t.jpg" alt="" /></aegov-aspect-ratio>`,
-      });
-
-      const container = page.root.querySelector('.aegov-aspect-ratio') as HTMLElement;
-      expect(container.className).toContain('aegov-aspect-ratio');
-      expect(container.className).toContain('rounded-lg');
-      expect(container.className).toContain('shadow-md');
-    });
-
-    it('should support responsive breakpoint classes', async () => {
-      const page = await newSpecPage({
-        components: [AegovAspectRatio],
-        html: `<aegov-aspect-ratio inner-class="md:aspect-square lg:aspect-video"><img src="t.jpg" alt="" /></aegov-aspect-ratio>`,
-      });
-
-      const container = page.root.querySelector('.aegov-aspect-ratio') as HTMLElement;
-      expect(container.className).toContain('md:aspect-square');
-      expect(container.className).toContain('lg:aspect-video');
-    });
-  });
 
   describe('combined props', () => {
     it('should handle ratio + fit together', async () => {
@@ -279,23 +245,6 @@ describe('aegov-aspect-ratio', () => {
       const container = page.root.querySelector('.aegov-aspect-ratio') as HTMLElement;
       expect(container.style.aspectRatio).toBe('16 / 9');
       expect(container.getAttribute('data-fit')).toBe('contain');
-    });
-
-    it('should handle ratio + fit + inner-class together', async () => {
-      const page = await newSpecPage({
-        components: [AegovAspectRatio],
-        html: `
-          <aegov-aspect-ratio ratio="square" fit="cover" inner-class="rounded-full bg-slate-100">
-            <img src="t.jpg" alt="" />
-          </aegov-aspect-ratio>
-        `,
-      });
-
-      const container = page.root.querySelector('.aegov-aspect-ratio') as HTMLElement;
-      expect(container.style.aspectRatio).toBe('1 / 1');
-      expect(container.getAttribute('data-fit')).toBe('cover');
-      expect(container.className).toContain('rounded-full');
-      expect(container.className).toContain('bg-slate-100');
     });
   });
 

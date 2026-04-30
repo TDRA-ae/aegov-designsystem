@@ -9,9 +9,9 @@
 
 | Property      | Attribute     | Description                                                                   | Type                                       | Default        |
 | ------------- | ------------- | ----------------------------------------------------------------------------- | ------------------------------------------ | -------------- |
-| `class`       | `class`       | Additional CSS classes.                                                       | `string`                                   | `undefined`    |
 | `disabled`    | `disabled`    | Whether the range is disabled.                                                | `boolean`                                  | `false`        |
 | `display`     | `display`     | Value display mode.                                                           | `"full" \| "none" \| "thumb" \| "tooltip"` | `'none'`       |
+| `extraClass`  | `extra-class` | Additional CSS classes.                                                       | `string`                                   | `undefined`    |
 | `fieldId`     | `field-id`    | Unique ID for the native range input element. Auto-generated if not provided. | `string`                                   | `undefined`    |
 | `label`       | `label`       | Optional label text.                                                          | `string`                                   | `undefined`    |
 | `max`         | `max`         | Maximum value.                                                                | `number`                                   | `100`          |

@@ -19,10 +19,10 @@ export class AegovSeparator {
   @Prop() orientation: 'horizontal' | 'vertical' = 'horizontal';
 
   /**
-   * Visual variant of the separator
+   * Visual appearance of the separator
    * @default 'default'
    */
-  @Prop() variant: 'default' | 'subtle' = 'default';
+  @Prop() appearance: 'default' | 'subtle' = 'default';
 
   /**
    * Optional text label displayed at the center of the separator
@@ -33,7 +33,12 @@ export class AegovSeparator {
    * Whether the separator is purely decorative (no semantic meaning)
    * @default true
    */
-  @Prop() decorative: boolean = true;
+  @Prop() isDecorative: boolean = true;
+
+  /**
+   * Additional CSS classes merged onto the inner separator element.
+   */
+  @Prop() extraClass?: string;
 
   render() {
     const hasText = this.text || this.el.textContent?.trim();
@@ -41,12 +46,13 @@ export class AegovSeparator {
       'aegov-separator': true,
       'separator--horizontal': this.orientation === 'horizontal',
       'separator--vertical': this.orientation === 'vertical',
-      'separator--subtle': this.variant === 'subtle',
+      'separator--subtle': this.appearance === 'subtle',
       'separator--with-text': !!hasText,
+      ...(this.extraClass ? { [this.extraClass]: true } : {}),
     };
 
     // If decorative, use presentational role, otherwise use separator role
-    const role = this.decorative ? 'presentation' : 'separator';
+    const role = this.isDecorative ? 'presentation' : 'separator';
     const ariaOrientation = this.orientation;
 
     if (hasText) {

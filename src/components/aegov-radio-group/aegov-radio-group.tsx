@@ -38,7 +38,7 @@ export class AegovRadioGroup {
   @Prop() disabled: boolean = false;
 
   /** Additional CSS classes to apply. */
-  @Prop() class?: string;
+  @Prop() extraClass?: string;
 
   /** Emitted when the selected radio changes. Contains the selected value. */
   @Event() aegovRadioGroupChange: EventEmitter<{ value: string | undefined }>;
@@ -121,8 +121,8 @@ export class AegovRadioGroup {
     if (orientation === 'horizontal') {
       classes.push('radio-group--horizontal');
     }
-    if (this.class) {
-      classes.push(this.class);
+    if (this.extraClass) {
+      classes.push(this.extraClass);
     }
     return classes.join(' ');
   }

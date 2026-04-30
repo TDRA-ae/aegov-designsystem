@@ -9,9 +9,9 @@
 
 | Property      | Attribute     | Description                                                                             | Type                                                       | Default      |
 | ------------- | ------------- | --------------------------------------------------------------------------------------- | ---------------------------------------------------------- | ------------ |
-| `class`       | `class`       | Additional CSS classes to apply.                                                        | `string`                                                   | `undefined`  |
 | `copyable`    | `copyable`    | Show a copy button to copy the textarea value to clipboard. Only applies when readonly. | `boolean`                                                  | `false`      |
 | `disabled`    | `disabled`    | Whether the textarea is disabled.                                                       | `boolean`                                                  | `false`      |
+| `extraClass`  | `extra-class` | Additional CSS classes to apply.                                                        | `string`                                                   | `undefined`  |
 | `fieldId`     | `field-id`    | Unique ID for the native textarea element. Auto-generated if not provided.              | `string`                                                   | `undefined`  |
 | `maxlength`   | `maxlength`   | Maximum number of characters. When set, a character counter is displayed.               | `number`                                                   | `undefined`  |
 | `name`        | `name`        | The name attribute for the textarea.                                                    | `string`                                                   | `undefined`  |

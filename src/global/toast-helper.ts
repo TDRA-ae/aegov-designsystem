@@ -6,9 +6,9 @@ export interface ShowToastOptions {
   appearance?: ToastAppearance;
   position?: ToastPosition;
   duration?: number;
-  dismissible?: boolean;
+  isDismissible?: boolean;
   mode?: ToastMode;
-  showProgress?: boolean;
+  isProgressEnabled?: boolean;
 }
 
 function showToast(options: ShowToastOptions): HTMLAegovToastElement {
@@ -17,9 +17,9 @@ function showToast(options: ShowToastOptions): HTMLAegovToastElement {
   if (options.appearance) toast.appearance = options.appearance;
   if (options.position) toast.position = options.position;
   if (options.duration !== undefined) toast.duration = options.duration;
-  if (options.dismissible !== undefined) toast.dismissible = options.dismissible;
+  if (options.isDismissible !== undefined) toast.isDismissible = options.isDismissible;
   if (options.mode) toast.mode = options.mode;
-  if (options.showProgress !== undefined) toast.showProgress = options.showProgress;
+  if (options.isProgressEnabled !== undefined) toast.isProgressEnabled = options.isProgressEnabled;
   toast.innerHTML = options.message;
   document.body.appendChild(toast);
   toast.show();

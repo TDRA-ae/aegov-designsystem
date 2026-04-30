@@ -7,9 +7,9 @@
 
 ## Properties
 
-| Property | Attribute | Description                      | Type     | Default     |
-| -------- | --------- | -------------------------------- | -------- | ----------- |
-| `class`  | `class`   | Additional CSS classes to apply. | `string` | `undefined` |
+| Property     | Attribute     | Description                      | Type     | Default     |
+| ------------ | ------------- | -------------------------------- | -------- | ----------- |
+| `extraClass` | `extra-class` | Additional CSS classes to apply. | `string` | `undefined` |
 
 
 ----------------------------------------------

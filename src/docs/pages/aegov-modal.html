@@ -153,7 +153,7 @@
 
 <hr>
 <h2>Backdrop Opacity</h2>
-<p>The <code>backdrop-opacity</code> attribute controls the darkness of the overlay behind the modal.</p>
+<p>The <code>overlay-opacity</code> attribute controls the darkness of the overlay behind the modal.</p>
 <table>
 <thead>
 <tr>
@@ -174,14 +174,14 @@
 <td>70%</td>
 </tr>
 </tbody></table>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-modal</span> <span class="hljs-attr">backdrop-opacity</span>=<span class="hljs-string">&quot;light&quot;</span> <span class="hljs-attr">aria-label</span>=<span class="hljs-string">&quot;Light backdrop&quot;</span>&gt;</span>...<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-modal</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-modal</span> <span class="hljs-attr">backdrop-opacity</span>=<span class="hljs-string">&quot;base&quot;</span> <span class="hljs-attr">aria-label</span>=<span class="hljs-string">&quot;Base backdrop&quot;</span>&gt;</span>...<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-modal</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-modal</span> <span class="hljs-attr">backdrop-opacity</span>=<span class="hljs-string">&quot;dark&quot;</span> <span class="hljs-attr">aria-label</span>=<span class="hljs-string">&quot;Dark backdrop&quot;</span>&gt;</span>...<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-modal</span>&gt;</span></code></pre><div class="flex flex-wrap gap-3 p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-modal</span> <span class="hljs-attr">overlay-opacity</span>=<span class="hljs-string">&quot;light&quot;</span> <span class="hljs-attr">aria-label</span>=<span class="hljs-string">&quot;Light backdrop&quot;</span>&gt;</span>...<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-modal</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-modal</span> <span class="hljs-attr">overlay-opacity</span>=<span class="hljs-string">&quot;base&quot;</span> <span class="hljs-attr">aria-label</span>=<span class="hljs-string">&quot;Base backdrop&quot;</span>&gt;</span>...<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-modal</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-modal</span> <span class="hljs-attr">overlay-opacity</span>=<span class="hljs-string">&quot;dark&quot;</span> <span class="hljs-attr">aria-label</span>=<span class="hljs-string">&quot;Dark backdrop&quot;</span>&gt;</span>...<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-modal</span>&gt;</span></code></pre><div class="flex flex-wrap gap-3 p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
   <aegov-button id="open-light-demo">Light Backdrop</aegov-button>
   <aegov-button id="open-base-demo">Base Backdrop</aegov-button>
   <aegov-button id="open-dark-demo">Dark Backdrop</aegov-button>
 
-  <aegov-modal id="light-modal-demo" backdrop-opacity="light" aria-label="Light backdrop modal">
+  <aegov-modal id="light-modal-demo" overlay-opacity="light" aria-label="Light backdrop modal">
     <div style="padding: 2rem; max-width: 480px;">
       <h2 style="margin: 0 0 0.5rem;">Light Backdrop</h2>
       <p style="margin: 0 0 1.5rem; color: #64748b;">The backdrop is 30% opaque.</p>
@@ -189,7 +189,7 @@
     </div>
   </aegov-modal>
 
-  <aegov-modal id="base-modal-demo" backdrop-opacity="base" aria-label="Base backdrop modal">
+  <aegov-modal id="base-modal-demo" overlay-opacity="base" aria-label="Base backdrop modal">
     <div style="padding: 2rem; max-width: 480px;">
       <h2 style="margin: 0 0 0.5rem;">Base Backdrop</h2>
       <p style="margin: 0 0 1.5rem; color: #64748b;">The backdrop is 50% opaque (default).</p>
@@ -197,7 +197,7 @@
     </div>
   </aegov-modal>
 
-  <aegov-modal id="dark-modal-demo" backdrop-opacity="dark" aria-label="Dark backdrop modal">
+  <aegov-modal id="dark-modal-demo" overlay-opacity="dark" aria-label="Dark backdrop modal">
     <div style="padding: 2rem; max-width: 480px;">
       <h2 style="margin: 0 0 0.5rem;">Dark Backdrop</h2>
       <p style="margin: 0 0 1.5rem; color: #64748b;">The backdrop is 70% opaque.</p>
@@ -220,12 +220,12 @@
 <hr>
 <h2>Closing Behaviour</h2>
 <h3>Backdrop Click</h3>
-<p>By default, clicking the backdrop closes the modal. Set <code>close-with-backdrop=&quot;false&quot;</code> to disable this behaviour, requiring the user to interact with an explicit close control.</p>
+<p>By default, clicking the backdrop closes the modal. Set <code>is-close-with-overlay=&quot;false&quot;</code> to disable this behaviour, requiring the user to interact with an explicit close control.</p>
 <pre><code class="hljs language-html"><span class="hljs-comment">&lt;!-- Backdrop click closes (default) --&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-modal</span> <span class="hljs-attr">close-with-backdrop</span>=<span class="hljs-string">&quot;true&quot;</span> <span class="hljs-attr">aria-label</span>=<span class="hljs-string">&quot;Closable modal&quot;</span>&gt;</span>...<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-modal</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-modal</span> <span class="hljs-attr">is-close-with-overlay</span>=<span class="hljs-string">&quot;true&quot;</span> <span class="hljs-attr">aria-label</span>=<span class="hljs-string">&quot;Closable modal&quot;</span>&gt;</span>...<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-modal</span>&gt;</span>
 
 <span class="hljs-comment">&lt;!-- Backdrop click does NOT close --&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-modal</span> <span class="hljs-attr">close-with-backdrop</span>=<span class="hljs-string">&quot;false&quot;</span> <span class="hljs-attr">aria-label</span>=<span class="hljs-string">&quot;Persistent modal&quot;</span>&gt;</span>...<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-modal</span>&gt;</span></code></pre><div class="flex flex-wrap gap-3 p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-modal</span> <span class="hljs-attr">is-close-with-overlay</span>=<span class="hljs-string">&quot;false&quot;</span> <span class="hljs-attr">aria-label</span>=<span class="hljs-string">&quot;Persistent modal&quot;</span>&gt;</span>...<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-modal</span>&gt;</span></code></pre><div class="flex flex-wrap gap-3 p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
   <aegov-button id="open-closable-demo">Backdrop Closes</aegov-button>
   <aegov-button id="open-persistent-demo">Backdrop Does Not Close</aegov-button>
 
@@ -237,7 +237,7 @@
     </div>
   </aegov-modal>
 
-  <aegov-modal id="persistent-modal-demo" close-with-backdrop="false" aria-label="Persistent modal">
+  <aegov-modal id="persistent-modal-demo" is-close-with-overlay="false" aria-label="Persistent modal">
     <div style="padding: 2rem; max-width: 480px;">
       <h2 style="margin: 0 0 0.5rem;">Persistent Modal</h2>
       <p style="margin: 0 0 1.5rem; color: #64748b;">Clicking the backdrop will not close this modal. You must use the button below or press Escape.</p>
@@ -395,12 +395,12 @@
 
 <hr>
 <h2>Body Scroll Lock</h2>
-<p>By default, the modal prevents the page from scrolling while it is open. Set <code>prevent-body-scroll=&quot;false&quot;</code> to allow background scrolling.</p>
+<p>By default, the modal prevents the page from scrolling while it is open. Set <code>is-prevent-scroll=&quot;false&quot;</code> to allow background scrolling.</p>
 <pre><code class="hljs language-html"><span class="hljs-comment">&lt;!-- Body scroll locked (default) --&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-modal</span> <span class="hljs-attr">prevent-body-scroll</span>=<span class="hljs-string">&quot;true&quot;</span> <span class="hljs-attr">aria-label</span>=<span class="hljs-string">&quot;Locked scroll&quot;</span>&gt;</span>...<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-modal</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-modal</span> <span class="hljs-attr">is-prevent-scroll</span>=<span class="hljs-string">&quot;true&quot;</span> <span class="hljs-attr">aria-label</span>=<span class="hljs-string">&quot;Locked scroll&quot;</span>&gt;</span>...<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-modal</span>&gt;</span>
 
 <span class="hljs-comment">&lt;!-- Body scroll allowed --&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-modal</span> <span class="hljs-attr">prevent-body-scroll</span>=<span class="hljs-string">&quot;false&quot;</span> <span class="hljs-attr">aria-label</span>=<span class="hljs-string">&quot;Unlocked scroll&quot;</span>&gt;</span>...<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-modal</span>&gt;</span></code></pre><p>The scroll lock is reference-counted, so nesting multiple modals works correctly — scrolling is only restored when the last overlay closes.</p>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-modal</span> <span class="hljs-attr">is-prevent-scroll</span>=<span class="hljs-string">&quot;false&quot;</span> <span class="hljs-attr">aria-label</span>=<span class="hljs-string">&quot;Unlocked scroll&quot;</span>&gt;</span>...<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-modal</span>&gt;</span></code></pre><p>The scroll lock is reference-counted, so nesting multiple modals works correctly — scrolling is only restored when the last overlay closes.</p>
 <hr>
 <h2>Slotted Content Patterns</h2>
 <p>The modal uses a single default slot. You are responsible for structuring the content inside it. Below are common layout patterns.</p>
@@ -455,7 +455,7 @@
 </div>
 
 <h3>Confirmation Dialog</h3>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-modal</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;delete-modal&quot;</span> <span class="hljs-attr">close-with-backdrop</span>=<span class="hljs-string">&quot;false&quot;</span> <span class="hljs-attr">aria-label</span>=<span class="hljs-string">&quot;Delete confirmation&quot;</span>&gt;</span>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-modal</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;delete-modal&quot;</span> <span class="hljs-attr">is-close-with-overlay</span>=<span class="hljs-string">&quot;false&quot;</span> <span class="hljs-attr">aria-label</span>=<span class="hljs-string">&quot;Delete confirmation&quot;</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">style</span>=<span class="hljs-string">&quot;padding: 2rem; max-width: 400px; text-align: center;&quot;</span>&gt;</span>
     <span class="hljs-tag">&lt;<span class="hljs-name">svg</span> <span class="hljs-attr">xmlns</span>=<span class="hljs-string">&quot;http://www.w3.org/2000/svg&quot;</span> <span class="hljs-attr">viewBox</span>=<span class="hljs-string">&quot;0 0 24 24&quot;</span> <span class="hljs-attr">fill</span>=<span class="hljs-string">&quot;none&quot;</span> <span class="hljs-attr">stroke</span>=<span class="hljs-string">&quot;#dc2626&quot;</span> <span class="hljs-attr">stroke-width</span>=<span class="hljs-string">&quot;2&quot;</span> <span class="hljs-attr">stroke-linecap</span>=<span class="hljs-string">&quot;round&quot;</span> <span class="hljs-attr">stroke-linejoin</span>=<span class="hljs-string">&quot;round&quot;</span> <span class="hljs-attr">style</span>=<span class="hljs-string">&quot;width: 48px; height: 48px; margin: 0 auto 1rem;&quot;</span>&gt;</span>
       <span class="hljs-tag">&lt;<span class="hljs-name">circle</span> <span class="hljs-attr">cx</span>=<span class="hljs-string">&quot;12&quot;</span> <span class="hljs-attr">cy</span>=<span class="hljs-string">&quot;12&quot;</span> <span class="hljs-attr">r</span>=<span class="hljs-string">&quot;10&quot;</span>/&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">line</span> <span class="hljs-attr">x1</span>=<span class="hljs-string">&quot;15&quot;</span> <span class="hljs-attr">y1</span>=<span class="hljs-string">&quot;9&quot;</span> <span class="hljs-attr">x2</span>=<span class="hljs-string">&quot;9&quot;</span> <span class="hljs-attr">y2</span>=<span class="hljs-string">&quot;15&quot;</span>/&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">line</span> <span class="hljs-attr">x1</span>=<span class="hljs-string">&quot;9&quot;</span> <span class="hljs-attr">y1</span>=<span class="hljs-string">&quot;9&quot;</span> <span class="hljs-attr">x2</span>=<span class="hljs-string">&quot;15&quot;</span> <span class="hljs-attr">y2</span>=<span class="hljs-string">&quot;15&quot;</span>/&gt;</span>
@@ -469,7 +469,7 @@
   <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-modal</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
   <aegov-button appearance="danger" id="open-delete-demo">Delete Item</aegov-button>
-  <aegov-modal id="delete-modal-demo" close-with-backdrop="false" aria-label="Delete confirmation">
+  <aegov-modal id="delete-modal-demo" is-close-with-overlay="false" aria-label="Delete confirmation">
     <div style="padding: 2rem; max-width: 400px; text-align: center;">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#dc2626" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width: 48px; height: 48px; margin: 0 auto 1rem;">
         <circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/>
@@ -574,22 +574,22 @@
 <td><code>false</code></td>
 </tr>
 <tr>
-<td><code>closeWithBackdrop</code></td>
-<td><code>close-with-backdrop</code></td>
+<td><code>isCloseWithOverlay</code></td>
+<td><code>is-close-with-overlay</code></td>
 <td>Whether clicking the backdrop closes the modal</td>
 <td><code>boolean</code></td>
 <td><code>true</code></td>
 </tr>
 <tr>
-<td><code>preventBodyScroll</code></td>
-<td><code>prevent-body-scroll</code></td>
+<td><code>isPreventScroll</code></td>
+<td><code>is-prevent-scroll</code></td>
 <td>Whether to lock body scroll when open</td>
 <td><code>boolean</code></td>
 <td><code>true</code></td>
 </tr>
 <tr>
-<td><code>backdropOpacity</code></td>
-<td><code>backdrop-opacity</code></td>
+<td><code>overlayOpacity</code></td>
+<td><code>overlay-opacity</code></td>
 <td>Backdrop darkness level</td>
 <td><code>&#39;light&#39;</code> | <code>&#39;base&#39;</code> | <code>&#39;dark&#39;</code></td>
 <td><code>&#39;base&#39;</code></td>
@@ -720,7 +720,7 @@
 <ul>
 <li>The <code>aegov-modal</code> component uses <strong>Shadow DOM</strong> (<code>shadow: true</code>). This means internal styles are fully encapsulated and you style the slotted content using regular CSS from the light DOM.</li>
 <li>The modal <strong>portals itself to <code>document.body</code></strong> on connection. This ensures correct stacking order regardless of where the element is placed in the source HTML.</li>
-<li>The <code>open</code> property is <strong>reflected</strong> to an attribute. You can set it declaratively (<code>&lt;aegov-modal open&gt;</code>) or programmatically via the <code>show()</code>, <code>close()</code>, and <code>toggle()</code> methods.</li>
+<li>The <code>is-open</code> property is <strong>reflected</strong> to an attribute. You can set it declaratively (<code>&lt;aegov-modal is-open&gt;</code>) or programmatically via the <code>show()</code>, <code>close()</code>, and <code>toggle()</code> methods.</li>
 <li><strong>Z-index management</strong> is automatic. Each modal receives a unique z-index from a shared overlay stack, so nested or sequential modals always layer correctly.</li>
 <li>Open and close <strong>animations</strong> use a 200ms cubic-bezier transition. The backdrop fades in/out while the content panel scales and fades. When <code>prefers-reduced-motion</code> is active, these animations are skipped.</li>
 <li>The <code>close()</code> method and all implicit close triggers (backdrop click, Escape) go through <code>aegovModalBeforeClose</code>, making the cancellation mechanism consistent regardless of how the close was initiated.</li>

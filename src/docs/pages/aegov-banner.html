@@ -181,9 +181,9 @@
 <span class="hljs-tag">&lt;<span class="hljs-name">aegov-banner</span>&gt;</span>Dismissible banner — click the X to close.<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-banner</span>&gt;</span>
 
 <span class="hljs-comment">&lt;!-- Non-dismissible --&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-banner</span> <span class="hljs-attr">dismissible</span>=<span class="hljs-string">&quot;false&quot;</span>&gt;</span>This banner cannot be dismissed.<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-banner</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 space-y-3 not-aegov">
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-banner</span> <span class="hljs-attr">is-dismissible</span>=<span class="hljs-string">&quot;false&quot;</span>&gt;</span>This banner cannot be dismissed.<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-banner</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 space-y-3 not-aegov">
   <aegov-banner variant="info" display="sticky" mode="overlay" style="position:relative;">Dismissible banner — click the X to close.</aegov-banner>
-  <aegov-banner variant="warning" dismissible="false" display="sticky" mode="overlay" style="position:relative;">This banner cannot be dismissed.</aegov-banner>
+  <aegov-banner variant="warning" is-dismissible="false" display="sticky" mode="overlay" style="position:relative;">This banner cannot be dismissed.</aegov-banner>
 </div>
 
 <h3>Handling Dismiss Events</h3>
@@ -230,20 +230,20 @@
 <p>Action buttons inside the slot are automatically styled to match the banner&#39;s variant and appearance. Use the <code>btn-solid</code> class for primary actions and <code>btn-outline</code> for secondary actions.</p>
 <hr>
 <h2>Banner Title</h2>
-<p>The <code>banner-title</code> property provides an accessible label for the banner region. When set, the component adds an <code>aria-labelledby</code> attribute pointing to an internal title element.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-banner</span> <span class="hljs-attr">banner-title</span>=<span class="hljs-string">&quot;System Notice&quot;</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;warning&quot;</span>&gt;</span>
+<p>The <code>heading</code> property provides an accessible label for the banner region. When set, the component adds an <code>aria-labelledby</code> attribute pointing to an internal title element.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-banner</span> <span class="hljs-attr">heading</span>=<span class="hljs-string">&quot;System Notice&quot;</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;warning&quot;</span>&gt;</span>
   Scheduled maintenance will occur this weekend.
 <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-banner</span>&gt;</span></code></pre><hr>
 <h2>Auto Focus</h2>
-<p>Set the <code>auto-focus</code> attribute to move keyboard focus to the banner when it mounts. This is appropriate only for critical alerts that require immediate attention — do not use it for routine announcements.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-banner</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;error&quot;</span> <span class="hljs-attr">auto-focus</span>&gt;</span>
+<p>Set the <code>is-focusable</code> attribute to move keyboard focus to the banner when it mounts. This is appropriate only for critical alerts that require immediate attention — do not use it for routine announcements.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-banner</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;error&quot;</span> <span class="hljs-attr">is-focusable</span>&gt;</span>
   Critical: Payment processing is currently offline.
 <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-banner</span>&gt;</span></code></pre><blockquote>
-<p><strong>Important:</strong> Only use <code>auto-focus</code> when the banner has an <code>alert</code> role (explicitly set or auto-computed from <code>variant=&quot;error&quot;</code> or <code>variant=&quot;success&quot;</code>). Moving focus unexpectedly can disorient users.</p>
+<p><strong>Important:</strong> Only use <code>is-focusable</code> when the banner has an <code>alert</code> role (explicitly set or auto-computed from <code>variant=&quot;error&quot;</code> or <code>variant=&quot;success&quot;</code>). Moving focus unexpectedly can disorient users.</p>
 </blockquote>
 <hr>
 <h2>ARIA Role</h2>
-<p>The <code>aria-role</code> property overrides the automatically computed ARIA role. By default, the component assigns roles based on the variant:</p>
+<p>The <code>role</code> property overrides the automatically computed ARIA role. By default, the component assigns roles based on the variant:</p>
 <table>
 <thead>
 <tr>
@@ -264,7 +264,7 @@
 </tr>
 </tbody></table>
 <pre><code class="hljs language-html"><span class="hljs-comment">&lt;!-- Override the role to &quot;status&quot; for a non-urgent success message --&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-banner</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;success&quot;</span> <span class="hljs-attr">aria-role</span>=<span class="hljs-string">&quot;status&quot;</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-banner</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;success&quot;</span> <span class="hljs-attr">role</span>=<span class="hljs-string">&quot;status&quot;</span>&gt;</span>
   Your preferences have been saved.
 <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-banner</span>&gt;</span></code></pre><hr>
 <h2>Complete Variant x Appearance Matrix</h2>
@@ -281,28 +281,28 @@
   <tbody>
     <tr>
       <td class="p-3 border border-aeblack-100 font-medium"><code>default</code></td>
-      <td class="p-3 border border-aeblack-100 not-aegov"><aegov-banner variant="default" appearance="soft" dismissible="false" display="sticky" mode="overlay" style="position:relative;">Default soft banner</aegov-banner></td>
-      <td class="p-3 border border-aeblack-100 not-aegov"><aegov-banner variant="default" appearance="solid" dismissible="false" display="sticky" mode="overlay" style="position:relative;">Default solid banner</aegov-banner></td>
+      <td class="p-3 border border-aeblack-100 not-aegov"><aegov-banner variant="default" appearance="soft" is-dismissible="false" display="sticky" mode="overlay" style="position:relative;">Default soft banner</aegov-banner></td>
+      <td class="p-3 border border-aeblack-100 not-aegov"><aegov-banner variant="default" appearance="solid" is-dismissible="false" display="sticky" mode="overlay" style="position:relative;">Default solid banner</aegov-banner></td>
     </tr>
     <tr>
       <td class="p-3 border border-aeblack-100 font-medium"><code>error</code></td>
-      <td class="p-3 border border-aeblack-100 not-aegov"><aegov-banner variant="error" appearance="soft" dismissible="false" display="sticky" mode="overlay" style="position:relative;">Error soft banner</aegov-banner></td>
-      <td class="p-3 border border-aeblack-100 not-aegov"><aegov-banner variant="error" appearance="solid" dismissible="false" display="sticky" mode="overlay" style="position:relative;">Error solid banner</aegov-banner></td>
+      <td class="p-3 border border-aeblack-100 not-aegov"><aegov-banner variant="error" appearance="soft" is-dismissible="false" display="sticky" mode="overlay" style="position:relative;">Error soft banner</aegov-banner></td>
+      <td class="p-3 border border-aeblack-100 not-aegov"><aegov-banner variant="error" appearance="solid" is-dismissible="false" display="sticky" mode="overlay" style="position:relative;">Error solid banner</aegov-banner></td>
     </tr>
     <tr>
       <td class="p-3 border border-aeblack-100 font-medium"><code>warning</code></td>
-      <td class="p-3 border border-aeblack-100 not-aegov"><aegov-banner variant="warning" appearance="soft" dismissible="false" display="sticky" mode="overlay" style="position:relative;">Warning soft banner</aegov-banner></td>
-      <td class="p-3 border border-aeblack-100 not-aegov"><aegov-banner variant="warning" appearance="solid" dismissible="false" display="sticky" mode="overlay" style="position:relative;">Warning solid banner</aegov-banner></td>
+      <td class="p-3 border border-aeblack-100 not-aegov"><aegov-banner variant="warning" appearance="soft" is-dismissible="false" display="sticky" mode="overlay" style="position:relative;">Warning soft banner</aegov-banner></td>
+      <td class="p-3 border border-aeblack-100 not-aegov"><aegov-banner variant="warning" appearance="solid" is-dismissible="false" display="sticky" mode="overlay" style="position:relative;">Warning solid banner</aegov-banner></td>
     </tr>
     <tr>
       <td class="p-3 border border-aeblack-100 font-medium"><code>success</code></td>
-      <td class="p-3 border border-aeblack-100 not-aegov"><aegov-banner variant="success" appearance="soft" dismissible="false" display="sticky" mode="overlay" style="position:relative;">Success soft banner</aegov-banner></td>
-      <td class="p-3 border border-aeblack-100 not-aegov"><aegov-banner variant="success" appearance="solid" dismissible="false" display="sticky" mode="overlay" style="position:relative;">Success solid banner</aegov-banner></td>
+      <td class="p-3 border border-aeblack-100 not-aegov"><aegov-banner variant="success" appearance="soft" is-dismissible="false" display="sticky" mode="overlay" style="position:relative;">Success soft banner</aegov-banner></td>
+      <td class="p-3 border border-aeblack-100 not-aegov"><aegov-banner variant="success" appearance="solid" is-dismissible="false" display="sticky" mode="overlay" style="position:relative;">Success solid banner</aegov-banner></td>
     </tr>
     <tr>
       <td class="p-3 border border-aeblack-100 font-medium"><code>info</code></td>
-      <td class="p-3 border border-aeblack-100 not-aegov"><aegov-banner variant="info" appearance="soft" dismissible="false" display="sticky" mode="overlay" style="position:relative;">Info soft banner</aegov-banner></td>
-      <td class="p-3 border border-aeblack-100 not-aegov"><aegov-banner variant="info" appearance="solid" dismissible="false" display="sticky" mode="overlay" style="position:relative;">Info solid banner</aegov-banner></td>
+      <td class="p-3 border border-aeblack-100 not-aegov"><aegov-banner variant="info" appearance="soft" is-dismissible="false" display="sticky" mode="overlay" style="position:relative;">Info soft banner</aegov-banner></td>
+      <td class="p-3 border border-aeblack-100 not-aegov"><aegov-banner variant="info" appearance="solid" is-dismissible="false" display="sticky" mode="overlay" style="position:relative;">Info solid banner</aegov-banner></td>
     </tr>
   </tbody>
 </table>
@@ -364,22 +364,22 @@
 <td><code>true</code></td>
 </tr>
 <tr>
-<td><code>ariaRole</code></td>
-<td><code>aria-role</code></td>
+<td>pass-through <code>role</code></td>
+<td><code>role</code></td>
 <td>ARIA role override (auto-computed from variant if omitted)</td>
 <td><code>&#39;region&#39;</code> | <code>&#39;alert&#39;</code> | <code>&#39;status&#39;</code></td>
 <td>—</td>
 </tr>
 <tr>
-<td><code>bannerTitle</code></td>
-<td><code>banner-title</code></td>
+<td><code>heading</code></td>
+<td><code>heading</code></td>
 <td>Accessible label for the banner region via <code>aria-labelledby</code></td>
 <td><code>string</code></td>
 <td>—</td>
 </tr>
 <tr>
-<td><code>autoFocus</code></td>
-<td><code>auto-focus</code></td>
+<td><code>isFocusable</code></td>
+<td><code>is-focusable</code></td>
 <td>Auto-focus banner on mount (critical alerts only)</td>
 <td><code>boolean</code></td>
 <td><code>false</code></td>
@@ -468,17 +468,17 @@
 <p>The <code>aegov-banner</code> component is built with accessibility as a first-class concern.</p>
 <h3>Built-in Features</h3>
 <ul>
-<li><strong>Semantic ARIA role</strong> — the banner is automatically assigned <code>role=&quot;alert&quot;</code> for error and success variants, and <code>role=&quot;region&quot;</code> for all others. This can be overridden with the <code>ariaRole</code> property.</li>
+<li><strong>Semantic ARIA role</strong> — the banner is automatically assigned <code>role=&quot;alert&quot;</code> for error and success variants, and <code>role=&quot;region&quot;</code> for all others. This can be overridden with the pass-through <code>role</code> property.</li>
 <li><strong><code>aria-live</code></strong> — automatically set to <code>&quot;assertive&quot;</code> for alert roles and <code>&quot;polite&quot;</code> for region/status roles, ensuring screen readers announce the banner content at the appropriate priority.</li>
-<li><strong><code>aria-labelledby</code></strong> — when <code>bannerTitle</code> is provided, the banner region is labelled for assistive technology navigation.</li>
+<li><strong><code>aria-labelledby</code></strong> — when <code>heading</code> is provided, the banner region is labelled for assistive technology navigation.</li>
 <li><strong>Dismiss button <code>aria-label</code></strong> — the close button includes <code>aria-label=&quot;Close banner&quot;</code> for screen reader identification.</li>
 <li><strong>Keyboard accessible</strong> — the dismiss button is a native <code>&lt;button&gt;</code> element, focusable and activatable with Enter or Space.</li>
-<li><strong>Focus management</strong> — the <code>autoFocus</code> property moves focus to the banner on mount for critical alerts.</li>
+<li><strong>Focus management</strong> — the <code>isFocusable</code> property moves focus to the banner on mount for critical alerts.</li>
 <li><strong>Dismiss animation</strong> — the banner uses a 300ms slide-out animation before hiding, giving users time to perceive the change.</li>
 </ul>
 <h3>Developer Responsibilities</h3>
 <ol>
-<li><p><strong>Use <code>autoFocus</code> sparingly.</strong> Automatically moving focus can disorient users. Only enable it for genuinely critical alerts (e.g. system outages, session expiry).</p>
+<li><p><strong>Use <code>isFocusable</code> sparingly.</strong> Automatically moving focus can disorient users. Only enable it for genuinely critical alerts (e.g. system outages, session expiry).</p>
 </li>
 <li><p><strong>Provide meaningful content.</strong> If the banner conveys urgency through colour alone (e.g. red for error), ensure the text content also communicates the severity so colour-blind users are not excluded.</p>
 </li>
@@ -498,7 +498,7 @@
 <li>The <code>mode=&quot;push&quot;</code> option only has an effect when <code>display=&quot;fixed&quot;</code>. With sticky positioning, the banner naturally takes up space in the document flow.</li>
 <li>Action buttons in the <code>actions</code> slot are automatically styled to match the current variant and appearance. Use <code>btn-solid</code> and <code>btn-outline</code> classes for consistent theming.</li>
 <li>The component uses a <code>ResizeObserver</code> to track height changes. This observer is disconnected when the component is removed from the DOM.</li>
-<li>When <code>variant=&quot;error&quot;</code> or <code>variant=&quot;success&quot;</code>, the auto-computed role is <code>alert</code>. For all other variants, the role defaults to <code>region</code>. Override with the <code>ariaRole</code> property if needed.</li>
+<li>When <code>variant=&quot;error&quot;</code> or <code>variant=&quot;success&quot;</code>, the auto-computed role is <code>alert</code>. For all other variants, the role defaults to <code>region</code>. Override with the pass-through <code>role</code> property if needed.</li>
 </ul>
 <!-- DOC:END -->
           </section>

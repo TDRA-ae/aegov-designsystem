@@ -27,7 +27,7 @@ describe('aegov-avatar-group', () => {
   it('applies compact mode class', async () => {
     const page = await newSpecPage({
       components: [AegovAvatarGroup],
-      html: `<aegov-avatar-group mode="compact"></aegov-avatar-group>`,
+      html: `<aegov-avatar-group variant="compact"></aegov-avatar-group>`,
     });
     const wrapper = page.root.querySelector('.aegov-avatar-group');
     expect(wrapper.classList.contains('avatar-group--compact')).toBe(true);
@@ -139,7 +139,7 @@ describe('aegov-avatar-group', () => {
     });
   });
 
-  it('always enforces rounded variant on all child avatars', async () => {
+  it('always enforces rounded appearance on all child avatars', async () => {
     const page = await newSpecPage({
       components: [AegovAvatarGroup, AegovAvatar],
       html: `
@@ -152,24 +152,24 @@ describe('aegov-avatar-group', () => {
 
     const avatars = page.root.querySelectorAll('aegov-avatar');
     avatars.forEach(avatar => {
-      expect((avatar as any).variant).toBe('rounded');
+      expect((avatar as any).appearance).toBe('rounded');
     });
   });
 
-  it('overrides child avatar square variant to rounded', async () => {
+  it('overrides child avatar square appearance to rounded', async () => {
     const page = await newSpecPage({
       components: [AegovAvatarGroup, AegovAvatar],
       html: `
         <aegov-avatar-group>
-          <aegov-avatar variant="square"></aegov-avatar>
-          <aegov-avatar variant="square"></aegov-avatar>
+          <aegov-avatar appearance="square"></aegov-avatar>
+          <aegov-avatar appearance="square"></aegov-avatar>
         </aegov-avatar-group>
       `,
     });
 
     const avatars = page.root.querySelectorAll('aegov-avatar');
     avatars.forEach(avatar => {
-      expect((avatar as any).variant).toBe('rounded');
+      expect((avatar as any).appearance).toBe('rounded');
     });
   });
 
@@ -228,7 +228,7 @@ describe('aegov-avatar-group', () => {
     const page = await newSpecPage({
       components: [AegovAvatarGroup, AegovAvatar],
       html: `
-        <aegov-avatar-group mode="compact" more-count="10" size="lg">
+        <aegov-avatar-group variant="compact" more-count="10" size="lg">
           <aegov-avatar></aegov-avatar>
           <aegov-avatar></aegov-avatar>
         </aegov-avatar-group>
@@ -267,7 +267,7 @@ describe('aegov-avatar-group', () => {
     it('falls back to default mode class when invalid', async () => {
       const page = await newSpecPage({
         components: [AegovAvatarGroup],
-        html: `<aegov-avatar-group mode="weird"></aegov-avatar-group>`,
+        html: `<aegov-avatar-group variant="weird"></aegov-avatar-group>`,
       });
       const group = page.root.querySelector('.aegov-avatar-group');
       expect(group.classList.contains('avatar-group--default')).toBe(true);
@@ -285,10 +285,10 @@ describe('aegov-avatar-group', () => {
     it('warns with component name, prop name, invalid value, and fallback', async () => {
       await newSpecPage({
         components: [AegovAvatarGroup],
-        html: `<aegov-avatar-group mode="weird"></aegov-avatar-group>`,
+        html: `<aegov-avatar-group variant="weird"></aegov-avatar-group>`,
       });
       const messages = warnSpy.mock.calls.map(c => c[0] as string);
-      const warn = messages.find(m => m.includes('"mode"'));
+      const warn = messages.find(m => m.includes('"variant"'));
       expect(warn).toBeDefined();
       expect(warn).toContain('[aegov-avatar-group]');
       expect(warn).toContain('"weird"');
@@ -298,20 +298,20 @@ describe('aegov-avatar-group', () => {
     it('does not warn when all props are valid', async () => {
       await newSpecPage({
         components: [AegovAvatarGroup],
-        html: `<aegov-avatar-group mode="compact" size="lg"></aegov-avatar-group>`,
+        html: `<aegov-avatar-group variant="compact" size="lg"></aegov-avatar-group>`,
       });
       expect(warnSpy).not.toHaveBeenCalled();
     });
 
-    it('warns again via @Watch when mode is updated to invalid value', async () => {
+    it('warns again via @Watch when variant is updated to invalid value', async () => {
       const page = await newSpecPage({
         components: [AegovAvatarGroup],
-        html: `<aegov-avatar-group mode="default"></aegov-avatar-group>`,
+        html: `<aegov-avatar-group variant="default"></aegov-avatar-group>`,
       });
-      page.root.setAttribute('mode', 'nope');
+      page.root.setAttribute('variant', 'nope');
       await page.waitForChanges();
       const messages = warnSpy.mock.calls.map(c => c[0] as string);
-      const warn = messages.find(m => m.includes('[aegov-avatar-group]') && m.includes('"mode"'));
+      const warn = messages.find(m => m.includes('[aegov-avatar-group]') && m.includes('"variant"'));
       expect(warn).toBeDefined();
     });
 

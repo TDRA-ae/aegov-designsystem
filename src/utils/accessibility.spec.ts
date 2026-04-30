@@ -105,7 +105,7 @@ describe('Accessibility Testing Suite', () => {
     it('should have disabled state properly communicated', async () => {
       const page = await newSpecPage({
         components: [AegovButton],
-        html: `<aegov-button disabled>Disabled</aegov-button>`,
+        html: `<aegov-button is-disabled>Disabled</aegov-button>`,
       });
 
       const button = page.root.querySelector('button');
@@ -128,7 +128,7 @@ describe('Accessibility Testing Suite', () => {
     it('should have loading state communicated with aria-busy', async () => {
       const page = await newSpecPage({
         components: [AegovButton],
-        html: `<aegov-button loading>Loading</aegov-button>`,
+        html: `<aegov-button is-loading>Loading</aegov-button>`,
       });
 
       const button = page.root.querySelector('button');
@@ -152,7 +152,7 @@ describe('Accessibility Testing Suite', () => {
     it('should have accessible dismiss button with aria-label', async () => {
       const page = await newSpecPage({
         components: [AegovBadge],
-        html: `<aegov-badge dismissible>Status</aegov-badge>`,
+        html: `<aegov-badge is-dismissible>Status</aegov-badge>`,
       });
 
       const dismissButton = page.root.querySelector('.badge-dismiss');
@@ -235,7 +235,7 @@ describe('Accessibility Testing Suite', () => {
     it('should have accessible dismiss button', async () => {
       const page = await newSpecPage({
         components: [AegovCallout],
-        html: `<aegov-callout dismissible>Message</aegov-callout>`,
+        html: `<aegov-callout is-dismissible>Message</aegov-callout>`,
       });
 
       const dismissButton = page.root.querySelector('button[aria-label="Close callout"]');

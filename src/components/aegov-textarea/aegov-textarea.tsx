@@ -55,7 +55,7 @@ export class AegovTextarea {
   @Prop() copyable: boolean = false;
 
   /** Additional CSS classes to apply. */
-  @Prop() class?: string;
+  @Prop() extraClass?: string;
 
   /** Tracks whether the value was just copied (for visual feedback). */
   @State() justCopied: boolean = false;
@@ -153,8 +153,8 @@ export class AegovTextarea {
       classes.push('textarea--has-copy');
     }
 
-    if (this.class) {
-      classes.push(this.class);
+    if (this.extraClass) {
+      classes.push(this.extraClass);
     }
 
     return classes.join(' ');

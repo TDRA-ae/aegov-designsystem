@@ -200,7 +200,7 @@ describe('aegov-link', () => {
     it('merges custom class prop', async () => {
       const page = await newSpecPage({
         components: [AegovLink],
-        html: `<aegov-link href="/test" class="custom-class">Link</aegov-link>`,
+        html: `<aegov-link href="/test" extra-class="custom-class">Link</aegov-link>`,
       });
       const a = page.root.querySelector('a');
       expect(a.className).toContain('custom-class');

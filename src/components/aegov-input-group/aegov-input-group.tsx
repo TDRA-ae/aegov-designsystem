@@ -25,7 +25,7 @@ export class AegovInputGroup {
   @Prop() addonSuffix?: string;
 
   /** Additional CSS classes to apply. */
-  @Prop() class?: string;
+  @Prop() extraClass?: string;
 
   componentWillLoad() {
     this._sizeWatcher = watchResponsiveProp(this.size, INPUT_SIZES, 'base', v => {
@@ -81,8 +81,8 @@ export class AegovInputGroup {
     const size: InputSize = this._resolvedSize;
     classes.push(sizeClasses[size]);
 
-    if (this.class) {
-      classes.push(this.class);
+    if (this.extraClass) {
+      classes.push(this.extraClass);
     }
 
     return classes.join(' ');

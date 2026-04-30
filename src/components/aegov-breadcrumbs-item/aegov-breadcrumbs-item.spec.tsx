@@ -536,7 +536,7 @@ describe('aegov-breadcrumbs-item', () => {
       const page = await newSpecPage({
         components: [AegovBreadcrumbs, AegovBreadcrumbsItem],
         html: `
-          <aegov-breadcrumbs microdata>
+          <aegov-breadcrumbs is-microdata>
             <aegov-breadcrumbs-item href="/">Home</aegov-breadcrumbs-item>
           </aegov-breadcrumbs>
         `,
@@ -554,7 +554,7 @@ describe('aegov-breadcrumbs-item', () => {
       const page = await newSpecPage({
         components: [AegovBreadcrumbs, AegovBreadcrumbsItem],
         html: `
-          <aegov-breadcrumbs microdata>
+          <aegov-breadcrumbs is-microdata>
             <aegov-breadcrumbs-item href="/">Home</aegov-breadcrumbs-item>
           </aegov-breadcrumbs>
         `,
@@ -570,7 +570,7 @@ describe('aegov-breadcrumbs-item', () => {
       const page = await newSpecPage({
         components: [AegovBreadcrumbs, AegovBreadcrumbsItem],
         html: `
-          <aegov-breadcrumbs microdata>
+          <aegov-breadcrumbs is-microdata>
             <aegov-breadcrumbs-item href="/">Home</aegov-breadcrumbs-item>
             <aegov-breadcrumbs-item href="/products">Products</aegov-breadcrumbs-item>
           </aegov-breadcrumbs>
@@ -589,7 +589,7 @@ describe('aegov-breadcrumbs-item', () => {
       const page = await newSpecPage({
         components: [AegovBreadcrumbs, AegovBreadcrumbsItem],
         html: `
-          <aegov-breadcrumbs microdata>
+          <aegov-breadcrumbs is-microdata>
             <aegov-breadcrumbs-item href="/">Home</aegov-breadcrumbs-item>
           </aegov-breadcrumbs>
         `,
@@ -605,7 +605,7 @@ describe('aegov-breadcrumbs-item', () => {
       const page = await newSpecPage({
         components: [AegovBreadcrumbs, AegovBreadcrumbsItem],
         html: `
-          <aegov-breadcrumbs microdata>
+          <aegov-breadcrumbs is-microdata>
             <aegov-breadcrumbs-item href="/">Home</aegov-breadcrumbs-item>
             <aegov-breadcrumbs-item>Current</aegov-breadcrumbs-item>
           </aegov-breadcrumbs>
@@ -643,7 +643,7 @@ describe('aegov-breadcrumbs-item', () => {
       const page = await newSpecPage({
         components: [AegovBreadcrumbs, AegovBreadcrumbsItem],
         html: `
-          <aegov-breadcrumbs microdata>
+          <aegov-breadcrumbs is-microdata>
             <aegov-breadcrumbs-item href="/">Home</aegov-breadcrumbs-item>
             <aegov-breadcrumbs-item>Current</aegov-breadcrumbs-item>
           </aegov-breadcrumbs>

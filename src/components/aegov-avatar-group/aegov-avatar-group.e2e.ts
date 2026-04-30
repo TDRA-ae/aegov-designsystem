@@ -23,7 +23,7 @@ describe('aegov-avatar-group e2e', () => {
   it('renders child avatars in compact mode', async () => {
     const page = await newE2EPage();
     await page.setContent(`
-      <aegov-avatar-group mode="compact">
+      <aegov-avatar-group variant="compact">
         <aegov-avatar></aegov-avatar>
         <aegov-avatar></aegov-avatar>
       </aegov-avatar-group>
@@ -161,7 +161,7 @@ describe('aegov-avatar-group e2e', () => {
   it('renders multiple avatars with images in compact mode', async () => {
     const page = await newE2EPage();
     await page.setContent(`
-      <aegov-avatar-group mode="compact" size="lg" more-count="3">
+      <aegov-avatar-group variant="compact" size="lg" more-count="3">
         <aegov-avatar src="https://example.com/1.jpg"></aegov-avatar>
         <aegov-avatar src="https://example.com/2.jpg"></aegov-avatar>
         <aegov-avatar src="https://example.com/3.jpg"></aegov-avatar>

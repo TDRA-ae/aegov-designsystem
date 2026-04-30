@@ -608,34 +608,34 @@ describe('aegov-pagination', () => {
 
   // ------------------------------------------------------------------ props
   describe('default props', () => {
-    it('should default to totalPages=1', async () => {
+    it('should default to pages=1', async () => {
       const page = await render('<aegov-pagination></aegov-pagination>');
       const component = page.rootInstance as AegovPagination;
-      expect(component.totalPages).toBe(1);
+      expect(component.pages).toBe(1);
     });
 
-    it('should default to currentPage=1', async () => {
+    it('should default to pageCurrent=1', async () => {
       const page = await render('<aegov-pagination total-pages="5"></aegov-pagination>');
       const component = page.rootInstance as AegovPagination;
-      expect(component.currentPage).toBe(1);
+      expect(component.pageCurrent).toBe(1);
     });
 
-    it('should default showFirstLast to false', async () => {
+    it('should default isEnabledFirstLast to false', async () => {
       const page = await render('<aegov-pagination total-pages="5"></aegov-pagination>');
       const component = page.rootInstance as AegovPagination;
-      expect(component.showFirstLast).toBe(false);
+      expect(component.isEnabledFirstLast).toBe(false);
     });
 
-    it('should default siblingCount to 1', async () => {
+    it('should default countSibling to 1', async () => {
       const page = await render('<aegov-pagination total-pages="5"></aegov-pagination>');
       const component = page.rootInstance as AegovPagination;
-      expect(component.siblingCount).toBe(1);
+      expect(component.countSibling).toBe(1);
     });
 
-    it('should default boundaryCount to 1', async () => {
+    it('should default countBoundary to 1', async () => {
       const page = await render('<aegov-pagination total-pages="5"></aegov-pagination>');
       const component = page.rootInstance as AegovPagination;
-      expect(component.boundaryCount).toBe(1);
+      expect(component.countBoundary).toBe(1);
     });
 
     it('should default size to base', async () => {
@@ -644,10 +644,10 @@ describe('aegov-pagination', () => {
       expect(component.size).toBe('base');
     });
 
-    it('should default disabled to false', async () => {
+    it('should default isDisabled to false', async () => {
       const page = await render('<aegov-pagination total-pages="5"></aegov-pagination>');
       const component = page.rootInstance as AegovPagination;
-      expect(component.disabled).toBe(false);
+      expect(component.isDisabled).toBe(false);
     });
 
     it('should default variant to "default"', async () => {

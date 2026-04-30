@@ -222,14 +222,14 @@ Available breakpoints: `xs` (480px), `sm` (640px), `md` (768px), `lg` (1024px), 
 
 ## Dismissible
 
-Set the `dismissible` attribute to show a close button inside the badge. Clicking the button emits the `aegovBadgeDismiss` event. The badge does **not** remove itself — you control visibility in your application logic.
+Set the `is-dismissible` attribute to show a close button inside the badge. Clicking the button emits the `aegovBadgeDismiss` event. The badge does **not** remove itself — you control visibility in your application logic.
 
 ```html
 <aegov-badge dismissible color="primary">Dismissible</aegov-badge>
 ```
 
 <div class="flex flex-wrap items-center gap-3 p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-badge dismissible>Default</aegov-badge>
+  <aegov-badge is-dismissible>Default</aegov-badge>
   <aegov-badge dismissible color="primary">Primary</aegov-badge>
   <aegov-badge dismissible color="aered">AERed</aegov-badge>
   <aegov-badge dismissible color="aegreen">AEGreen</aegov-badge>
@@ -269,10 +269,10 @@ Set the `dismissible` attribute to show a close button inside the badge. Clickin
 ### Category Tags
 
 <div class="flex flex-wrap items-center gap-3 p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-badge color="purple" dismissible>Design</aegov-badge>
-  <aegov-badge color="techblue" dismissible>Development</aegov-badge>
-  <aegov-badge color="fuchsia" dismissible>Marketing</aegov-badge>
-  <aegov-badge color="aegreen" dismissible>Operations</aegov-badge>
+  <aegov-badge color="purple" is-dismissible>Design</aegov-badge>
+  <aegov-badge color="techblue" is-dismissible>Development</aegov-badge>
+  <aegov-badge color="fuchsia" is-dismissible>Marketing</aegov-badge>
+  <aegov-badge color="aegreen" is-dismissible>Operations</aegov-badge>
 </div>
 
 ### Inline with Text
@@ -290,9 +290,9 @@ Set the `dismissible` attribute to show a close button inside the badge. Clickin
 The dismiss button margin automatically flips in RTL layouts using `rtl:ml-0 rtl:mr-1.5`.
 
 <div dir="rtl" class="flex flex-wrap items-center gap-3 p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-badge color="primary" dismissible>شارة أساسية</aegov-badge>
-  <aegov-badge color="aegreen" dismissible>نشط</aegov-badge>
-  <aegov-badge color="aered" appearance="solid" dismissible>خطأ</aegov-badge>
+  <aegov-badge color="primary" is-dismissible>شارة أساسية</aegov-badge>
+  <aegov-badge color="aegreen" is-dismissible>نشط</aegov-badge>
+  <aegov-badge color="aered" appearance="solid" is-dismissible>خطأ</aegov-badge>
   <aegov-badge color="camel">قيد الانتظار</aegov-badge>
 </div>
 
@@ -307,7 +307,7 @@ The dismiss button margin automatically flips in RTL layouts using `rtl:ml-0 rtl
 | `appearance`  | `appearance`  | The visual intensity              | `'soft'` \| `'solid'`                                                                                                                                                                         | `'soft'`    |
 | `color`       | `color`       | The colour variant                | `'default'` \| `'primary'` \| `'secondary'` \| `'aegold'` \| `'aered'` \| `'aegreen'` \| `'aeblack'` \| `'techblue'` \| `'seablue'` \| `'camel'` \| `'desert'` \| `'fuchsia'` \| `'slate'` \| `'purple'` \| `'pink'` \| `'indigo'` \| `'lime'` | `'default'` |
 | `size`        | `size`        | The badge size. Supports responsive strings (e.g. `'sm xl:lg'`). | `'sm'` \| `'base'` \| `'lg'`                                                                                                                                                                  | `'base'`    |
-| `dismissible` | `dismissible` | Shows a close button              | `boolean`                                                                                                                                                                                      | `false`     |
+| `is-dismissible` | `is-dismissible` | Shows a close button              | `boolean`                                                                                                                                                                                      | `false`     |
 
 ### Events
 
@@ -315,7 +315,7 @@ The dismiss button margin automatically flips in RTL layouts using `rtl:ml-0 rtl
 |--------------------|------------------------------------------|-------------|
 | `aegovBadgeDismiss` | Emitted when the dismiss button is clicked | `void`      |
 
-The event is not emitted when `dismissible` is `false`.
+The event is not emitted when `is-dismissible` is `false`.
 
 #### Listening to Events
 
@@ -360,7 +360,7 @@ The event is not emitted when `dismissible` is `false`.
 ## Notes
 
 - The badge renders as a `<span>`, so it is an inline element suitable for placement within text, headings, or alongside other inline content.
-- The `dismissible` property adds a close button but does **not** hide the badge automatically. You must handle the `aegovBadgeDismiss` event and control visibility yourself.
+- The `is-dismissible` property adds a close button but does **not** hide the badge automatically. You must handle the `aegovBadgeDismiss` event and control visibility yourself.
 - The dismiss button uses `event.stopPropagation()`, so clicking it will not trigger click handlers on parent elements.
 - The host element uses `display: inline-block` to ensure consistent sizing and alignment.
 - All 17 colour variants have both soft and solid appearances, giving you 34 visual combinations.

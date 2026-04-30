@@ -66,7 +66,7 @@ describe('aegov-button E2E', () => {
 
     it('should apply secondary appearance', async () => {
       const page = await newE2EPage();
-      await page.setContent('<aegov-button appearance="secondary">Button</aegov-button>');
+      await page.setContent('<aegov-button variant="secondary">Button</aegov-button>');
       const button = await page.find('aegov-button button');
       const classes = await button.getProperty('className');
       expect(classes).toContain('btn-secondary');
@@ -74,7 +74,7 @@ describe('aegov-button E2E', () => {
 
     it('should combine appearance with variant', async () => {
       const page = await newE2EPage();
-      await page.setContent('<aegov-button variant="outline" appearance="secondary">Button</aegov-button>');
+      await page.setContent('<aegov-button appearance="outline" variant="secondary">Button</aegov-button>');
       const button = await page.find('aegov-button button');
       const classes = await button.getProperty('className');
       expect(classes).toContain('btn-secondary');
@@ -85,15 +85,15 @@ describe('aegov-button E2E', () => {
   describe('states', () => {
     it('should handle disabled state', async () => {
       const page = await newE2EPage();
-      await page.setContent('<aegov-button disabled>Button</aegov-button>');
+      await page.setContent('<aegov-button is-disabled>Button</aegov-button>');
       const button = await page.find('aegov-button button');
-      expect(await button.getProperty('disabled')).toBe(true);
+      expect(await button.getProperty('isDisabled')).toBe(true);
       expect(await button.getAttribute('aria-disabled')).toBe('true');
     });
 
     it('should handle loading state', async () => {
       const page = await newE2EPage();
-      await page.setContent('<aegov-button loading>Button</aegov-button>');
+      await page.setContent('<aegov-button is-loading>Button</aegov-button>');
       const button = await page.find('aegov-button button');
       const spinner = await page.find('aegov-button svg');
       expect(spinner).toBeTruthy();
@@ -102,7 +102,7 @@ describe('aegov-button E2E', () => {
 
     it('should handle full width', async () => {
       const page = await newE2EPage();
-      await page.setContent('<aegov-button full>Button</aegov-button>');
+      await page.setContent('<aegov-button is-full>Button</aegov-button>');
       const button = await page.find('aegov-button button');
       const classes = await button.getProperty('className');
       expect(classes).toContain('w-full');
@@ -110,7 +110,7 @@ describe('aegov-button E2E', () => {
 
     it('should handle icon-only', async () => {
       const page = await newE2EPage();
-      await page.setContent('<aegov-button icon>Button</aegov-button>');
+      await page.setContent('<aegov-button is-icon>Button</aegov-button>');
       const button = await page.find('aegov-button button');
       const classes = await button.getProperty('className');
       expect(classes).toContain('btn-icon');
@@ -124,9 +124,9 @@ describe('aegov-button E2E', () => {
       expect(classes).toContain('font-medium');
     });
 
-    it('should handle non-bold when bold=false', async () => {
+    it('should handle non-bold when is-bold=false', async () => {
       const page = await newE2EPage();
-      await page.setContent('<aegov-button bold="false">Button</aegov-button>');
+      await page.setContent('<aegov-button is-bold="false">Button</aegov-button>');
       const button = await page.find('aegov-button button');
       const classes = await button.getProperty('className');
       expect(classes).not.toContain('font-medium');
@@ -147,7 +147,7 @@ describe('aegov-button E2E', () => {
 
     it('should not emit aegovButtonClick when disabled', async () => {
       const page = await newE2EPage();
-      await page.setContent('<aegov-button disabled>Click Me</aegov-button>');
+      await page.setContent('<aegov-button is-disabled>Click Me</aegov-button>');
       const clickEvent = await page.spyOnEvent('aegovButtonClick');
       const button = await page.find('aegov-button button');
       await button.click();
@@ -157,7 +157,7 @@ describe('aegov-button E2E', () => {
 
     it('should not emit aegovButtonClick when loading', async () => {
       const page = await newE2EPage();
-      await page.setContent('<aegov-button loading>Click Me</aegov-button>');
+      await page.setContent('<aegov-button is-loading>Click Me</aegov-button>');
       const clickEvent = await page.spyOnEvent('aegovButtonClick');
       const button = await page.find('aegov-button button');
       await button.click();
@@ -191,14 +191,14 @@ describe('aegov-button E2E', () => {
   describe('accessibility', () => {
     it('should have aria-disabled when disabled', async () => {
       const page = await newE2EPage();
-      await page.setContent('<aegov-button disabled>Button</aegov-button>');
+      await page.setContent('<aegov-button is-disabled>Button</aegov-button>');
       const button = await page.find('aegov-button button');
       expect(await button.getAttribute('aria-disabled')).toBe('true');
     });
 
     it('should have aria-busy when loading', async () => {
       const page = await newE2EPage();
-      await page.setContent('<aegov-button loading>Button</aegov-button>');
+      await page.setContent('<aegov-button is-loading>Button</aegov-button>');
       const button = await page.find('aegov-button button');
       expect(await button.getAttribute('aria-busy')).toBe('true');
     });
@@ -214,7 +214,7 @@ describe('aegov-button E2E', () => {
   describe('combinations', () => {
     it('should combine variant and size', async () => {
       const page = await newE2EPage();
-      await page.setContent('<aegov-button variant="outline" size="lg">Button</aegov-button>');
+      await page.setContent('<aegov-button appearance="outline" size="lg">Button</aegov-button>');
       const button = await page.find('aegov-button button');
       const classes = await button.getProperty('className');
       expect(classes).toContain('btn-outline');
@@ -223,7 +223,7 @@ describe('aegov-button E2E', () => {
 
     it('should combine appearance with variant', async () => {
       const page = await newE2EPage();
-      await page.setContent('<aegov-button variant="soft" appearance="secondary">Button</aegov-button>');
+      await page.setContent('<aegov-button appearance="soft" variant="secondary">Button</aegov-button>');
       const button = await page.find('aegov-button button');
       const classes = await button.getProperty('className');
       expect(classes).toContain('btn-soft');
@@ -234,7 +234,7 @@ describe('aegov-button E2E', () => {
   describe('dynamic updates', () => {
     it('should update when appearance changes', async () => {
       const page = await newE2EPage();
-      await page.setContent('<aegov-button variant="solid">Button</aegov-button>');
+      await page.setContent('<aegov-button appearance="solid">Button</aegov-button>');
       const element = await page.find('aegov-button');
       const button = await page.find('aegov-button button');
 
@@ -253,9 +253,9 @@ describe('aegov-button E2E', () => {
     it('should render independently', async () => {
       const page = await newE2EPage();
       await page.setContent(`
-        <aegov-button variant="solid" id="btn1">Button 1</aegov-button>
-        <aegov-button variant="outline" id="btn2">Button 2</aegov-button>
-        <aegov-button variant="soft" size="lg" id="btn3">Button 3</aegov-button>
+        <aegov-button appearance="solid" id="btn1">Button 1</aegov-button>
+        <aegov-button appearance="outline" id="btn2">Button 2</aegov-button>
+        <aegov-button appearance="soft" size="lg" id="btn3">Button 3</aegov-button>
       `);
 
       const button1 = await page.find('#btn1 button');

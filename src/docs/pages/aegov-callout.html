@@ -257,29 +257,29 @@
 
 <hr>
 <h2>Dismissible</h2>
-<p>Set the <code>dismissible</code> attribute to show a close button. When clicked, the callout hides itself and emits the <code>aegovCalloutDismiss</code> event.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-callout</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;success&quot;</span> <span class="hljs-attr">dismissible</span>&gt;</span>
+<p>Set the <code>is-dismissible</code> attribute to show a close button. When clicked, the callout hides itself and emits the <code>aegovCalloutDismiss</code> event.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-callout</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;success&quot;</span> <span class="hljs-attr">is-dismissible</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;content&quot;</span>&gt;</span>Your profile has been updated.<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-callout</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 space-y-3 not-aegov">
-  <aegov-callout variant="default" dismissible>
+  <aegov-callout variant="default" is-dismissible>
     <span slot="content">This is a dismissible default callout.</span>
   </aegov-callout>
-  <aegov-callout variant="error" dismissible>
+  <aegov-callout variant="error" is-dismissible>
     <span slot="content">This is a dismissible error callout.</span>
   </aegov-callout>
-  <aegov-callout variant="warning" dismissible>
+  <aegov-callout variant="warning" is-dismissible>
     <span slot="content">This is a dismissible warning callout.</span>
   </aegov-callout>
-  <aegov-callout variant="success" dismissible>
+  <aegov-callout variant="success" is-dismissible>
     <span slot="content">This is a dismissible success callout.</span>
   </aegov-callout>
-  <aegov-callout variant="info" dismissible>
+  <aegov-callout variant="info" is-dismissible>
     <span slot="content">This is a dismissible info callout.</span>
   </aegov-callout>
 </div>
 
 <h3>Handling Dismiss Events</h3>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-callout</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;my-callout&quot;</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;info&quot;</span> <span class="hljs-attr">dismissible</span>&gt;</span>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-callout</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;my-callout&quot;</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;info&quot;</span> <span class="hljs-attr">is-dismissible</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;content&quot;</span>&gt;</span>Click the close button to dismiss.<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-callout</span>&gt;</span>
 
@@ -294,15 +294,15 @@
 <hr>
 <h2>Combined Features</h2>
 <p>Callouts support combining multiple features together — dismissible with action links, bordered with actions, and so on.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-callout</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;warning&quot;</span> <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;soft&quot;</span> <span class="hljs-attr">bordered</span> <span class="hljs-attr">dismissible</span>&gt;</span>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-callout</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;warning&quot;</span> <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;soft&quot;</span> <span class="hljs-attr">bordered</span> <span class="hljs-attr">is-dismissible</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;content&quot;</span>&gt;</span>Your account requires verification before proceeding.<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;link&quot;</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;#&quot;</span>&gt;</span>Verify now<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-callout</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 space-y-3 not-aegov">
-  <aegov-callout variant="warning" appearance="soft" bordered dismissible>
+  <aegov-callout variant="warning" appearance="soft" bordered is-dismissible>
     <span slot="content">Your account requires verification before proceeding.</span>
     <a slot="link" href="#">Verify now</a>
   </aegov-callout>
-  <aegov-callout variant="info" appearance="solid" dismissible>
+  <aegov-callout variant="info" appearance="solid" is-dismissible>
     <span slot="content">Scheduled maintenance will occur on Friday at 22:00 UTC.</span>
     <div slot="actions">
       <aegov-button size="sm">Acknowledge</aegov-button>
@@ -388,8 +388,8 @@
 <td><code>&#39;base&#39;</code></td>
 </tr>
 <tr>
-<td><code>dismissible</code></td>
-<td><code>dismissible</code></td>
+<td><code>is-dismissible</code></td>
+<td><code>is-dismissible</code></td>
 <td>Shows a close button and enables dismiss</td>
 <td><code>boolean</code></td>
 <td><code>false</code></td>
@@ -410,9 +410,9 @@
 <td><code>void</code></td>
 </tr>
 </tbody></table>
-<p>The event is only emitted when <code>dismissible</code> is <code>true</code>.</p>
+<p>The event is only emitted when <code>is-dismissible</code> is <code>true</code>.</p>
 <h4>Listening to Events</h4>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-callout</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;alert&quot;</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;warning&quot;</span> <span class="hljs-attr">dismissible</span>&gt;</span>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-callout</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;alert&quot;</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;warning&quot;</span> <span class="hljs-attr">is-dismissible</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;content&quot;</span>&gt;</span>Session expiring soon.<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-callout</span>&gt;</span>
 
@@ -476,7 +476,7 @@
 <h2>Notes</h2>
 <ul>
 <li>The callout renders a <code>&lt;div&gt;</code> with <code>role=&quot;alert&quot;</code> internally. Screen readers will announce new callouts automatically when they are added to the DOM.</li>
-<li>The <code>dismissible</code> property both shows a close button and manages internal visibility. When dismissed, the callout sets <code>isVisible</code> to <code>false</code> and renders nothing. The <code>aegovCalloutDismiss</code> event is emitted so you can run cleanup logic.</li>
+<li>The <code>is-dismissible</code> property both shows a close button and manages internal visibility. When dismissed, the callout sets <code>isVisible</code> to <code>false</code> and renders nothing. The <code>aegovCalloutDismiss</code> event is emitted so you can run cleanup logic.</li>
 <li>The default icon is determined by the <code>variant</code> property using the shared <code>getVariantIcon</code> utility. To replace it, use the <code>icon</code> slot — when content is detected in this slot, the default icon is hidden.</li>
 <li>Buttons placed in the <code>actions</code> slot are automatically styled to match the callout&#39;s current variant and appearance through CSS descendant selectors targeting <code>aegov-button</code> inner elements.</li>
 <li>The <code>bordered</code> property adds a 1px border. The border colour is inherited from the variant&#39;s colour scheme (e.g. <code>border-aered-700</code> for the error variant in soft appearance).</li>

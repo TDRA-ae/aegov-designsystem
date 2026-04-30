@@ -339,28 +339,28 @@ Use the `actions` slot to embed buttons or other interactive elements below the 
 
 ## Dismissible
 
-Set the `dismissible` attribute to show a close button. When clicked, the callout hides itself and emits the `aegovCalloutDismiss` event.
+Set the `is-dismissible` attribute to show a close button. When clicked, the callout hides itself and emits the `aegovCalloutDismiss` event.
 
 ```html
-<aegov-callout variant="success" dismissible>
+<aegov-callout variant="success" is-dismissible>
   <span slot="content">Your profile has been updated.</span>
 </aegov-callout>
 ```
 
 <div class="p-6 bg-aeblack-50 rounded-lg my-6 space-y-3 not-aegov">
-  <aegov-callout variant="default" dismissible>
+  <aegov-callout variant="default" is-dismissible>
     <span slot="content">This is a dismissible default callout.</span>
   </aegov-callout>
-  <aegov-callout variant="error" dismissible>
+  <aegov-callout variant="error" is-dismissible>
     <span slot="content">This is a dismissible error callout.</span>
   </aegov-callout>
-  <aegov-callout variant="warning" dismissible>
+  <aegov-callout variant="warning" is-dismissible>
     <span slot="content">This is a dismissible warning callout.</span>
   </aegov-callout>
-  <aegov-callout variant="success" dismissible>
+  <aegov-callout variant="success" is-dismissible>
     <span slot="content">This is a dismissible success callout.</span>
   </aegov-callout>
-  <aegov-callout variant="info" dismissible>
+  <aegov-callout variant="info" is-dismissible>
     <span slot="content">This is a dismissible info callout.</span>
   </aegov-callout>
 </div>
@@ -368,7 +368,7 @@ Set the `dismissible` attribute to show a close button. When clicked, the callou
 ### Handling Dismiss Events
 
 ```html
-<aegov-callout id="my-callout" variant="info" dismissible>
+<aegov-callout id="my-callout" variant="info" is-dismissible>
   <span slot="content">Click the close button to dismiss.</span>
 </aegov-callout>
 
@@ -389,18 +389,18 @@ Set the `dismissible` attribute to show a close button. When clicked, the callou
 Callouts support combining multiple features together — dismissible with action links, bordered with actions, and so on.
 
 ```html
-<aegov-callout variant="warning" appearance="soft" bordered dismissible>
+<aegov-callout variant="warning" appearance="soft" bordered is-dismissible>
   <span slot="content">Your account requires verification before proceeding.</span>
   <a slot="link" href="#">Verify now</a>
 </aegov-callout>
 ```
 
 <div class="p-6 bg-aeblack-50 rounded-lg my-6 space-y-3 not-aegov">
-  <aegov-callout variant="warning" appearance="soft" bordered dismissible>
+  <aegov-callout variant="warning" appearance="soft" bordered is-dismissible>
     <span slot="content">Your account requires verification before proceeding.</span>
     <a slot="link" href="#">Verify now</a>
   </aegov-callout>
-  <aegov-callout variant="info" appearance="solid" dismissible>
+  <aegov-callout variant="info" appearance="solid" is-dismissible>
     <span slot="content">Scheduled maintenance will occur on Friday at 22:00 UTC.</span>
     <div slot="actions">
       <aegov-button size="sm">Acknowledge</aegov-button>
@@ -465,7 +465,7 @@ The table below shows every combination of variant and appearance for visual QA 
 | `variant`     | `variant`     | The semantic variant controlling colour scheme   | `'default'` \| `'error'` \| `'warning'` \| `'success'` \| `'info'` | `'default'` |
 | `appearance`  | `appearance`  | The visual intensity                             | `'soft'` \| `'solid'`                                         | `'soft'`    |
 | `size`        | `size`        | Controls font size, icon size, and padding. Supports responsive strings (e.g. `'sm xl:lg'`). | `'sm'` \| `'base'` \| `'lg'`                                  | `'base'`    |
-| `dismissible` | `dismissible` | Shows a close button and enables dismiss         | `boolean`                                                     | `false`     |
+| `is-dismissible` | `is-dismissible` | Shows a close button and enables dismiss         | `boolean`                                                     | `false`     |
 
 ### Events
 
@@ -473,12 +473,12 @@ The table below shows every combination of variant and appearance for visual QA 
 |-----------------------|----------------------------------------------|-------------|
 | `aegovCalloutDismiss` | Emitted when the dismiss button is clicked   | `void`      |
 
-The event is only emitted when `dismissible` is `true`.
+The event is only emitted when `is-dismissible` is `true`.
 
 #### Listening to Events
 
 ```html
-<aegov-callout id="alert" variant="warning" dismissible>
+<aegov-callout id="alert" variant="warning" is-dismissible>
   <span slot="content">Session expiring soon.</span>
 </aegov-callout>
 
@@ -538,7 +538,7 @@ The `aegov-callout` component is built with accessibility as a first-class conce
 ## Notes
 
 - The callout renders a `<div>` with `role="alert"` internally. Screen readers will announce new callouts automatically when they are added to the DOM.
-- The `dismissible` property both shows a close button and manages internal visibility. When dismissed, the callout sets `isVisible` to `false` and renders nothing. The `aegovCalloutDismiss` event is emitted so you can run cleanup logic.
+- The `is-dismissible` property both shows a close button and manages internal visibility. When dismissed, the callout sets `isVisible` to `false` and renders nothing. The `aegovCalloutDismiss` event is emitted so you can run cleanup logic.
 - The default icon is determined by the `variant` property using the shared `getVariantIcon` utility. To replace it, use the `icon` slot — when content is detected in this slot, the default icon is hidden.
 - Buttons placed in the `actions` slot are automatically styled to match the callout's current variant and appearance through CSS descendant selectors targeting `aegov-button` inner elements.
 - The `bordered` property adds a 1px border. The border colour is inherited from the variant's colour scheme (e.g. `border-aered-700` for the error variant in soft appearance).

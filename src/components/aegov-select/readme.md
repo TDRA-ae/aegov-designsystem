@@ -9,10 +9,10 @@
 
 | Property       | Attribute       | Description                                                                                     | Type                     | Default              |
 | -------------- | --------------- | ----------------------------------------------------------------------------------------------- | ------------------------ | -------------------- |
-| `class`        | `class`         | Additional CSS classes to apply.                                                                | `string`                 | `undefined`          |
 | `clearable`    | `clearable`     | Show a clear button to reset selection.                                                         | `boolean`                | `false`              |
 | `disabled`     | `disabled`      | Whether the select is disabled.                                                                 | `boolean`                | `false`              |
 | `emptyMessage` | `empty-message` | Message shown when search yields no results.                                                    | `string`                 | `'No results found'` |
+| `extraClass`   | `extra-class`   | Additional CSS classes to apply.                                                                | `string`                 | `undefined`          |
 | `fieldId`      | `field-id`      | Unique ID for the select element. Auto-generated if not provided.                               | `string`                 | `undefined`          |
 | `multiple`     | `multiple`      | Whether multiple selection is enabled. Forces listbox behaviour.                                | `boolean`                | `false`              |
 | `name`         | `name`          | The name attribute for form submission.                                                         | `string`                 | `undefined`          |

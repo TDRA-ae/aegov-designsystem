@@ -86,37 +86,37 @@ The standard widescreen video ratio.
   <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem;">
     <div>
       <p class="text-sm font-semibold text-aeblack-700 mb-2">square (1:1)</p>
-      <aegov-aspect-ratio ratio="square" inner-class="rounded-lg">
+      <aegov-aspect-ratio ratio="square">
         <img src="https://picsum.photos/400/400?random=1" alt="Square" />
       </aegov-aspect-ratio>
     </div>
     <div>
       <p class="text-sm font-semibold text-aeblack-700 mb-2">video (16:9)</p>
-      <aegov-aspect-ratio ratio="video" inner-class="rounded-lg">
+      <aegov-aspect-ratio ratio="video">
         <img src="https://picsum.photos/800/450?random=2" alt="Video" />
       </aegov-aspect-ratio>
     </div>
     <div>
       <p class="text-sm font-semibold text-aeblack-700 mb-2">4/3</p>
-      <aegov-aspect-ratio ratio="4/3" inner-class="rounded-lg">
+      <aegov-aspect-ratio ratio="4/3">
         <img src="https://picsum.photos/800/600?random=3" alt="4/3" />
       </aegov-aspect-ratio>
     </div>
     <div>
       <p class="text-sm font-semibold text-aeblack-700 mb-2">3/2</p>
-      <aegov-aspect-ratio ratio="3/2" inner-class="rounded-lg">
+      <aegov-aspect-ratio ratio="3/2">
         <img src="https://picsum.photos/600/400?random=4" alt="3/2" />
       </aegov-aspect-ratio>
     </div>
     <div>
       <p class="text-sm font-semibold text-aeblack-700 mb-2">21/9 (Ultra-wide)</p>
-      <aegov-aspect-ratio ratio="21/9" inner-class="rounded-lg">
+      <aegov-aspect-ratio ratio="21/9">
         <img src="https://picsum.photos/840/360?random=5" alt="21/9" />
       </aegov-aspect-ratio>
     </div>
     <div>
       <p class="text-sm font-semibold text-aeblack-700 mb-2">auto (natural)</p>
-      <aegov-aspect-ratio ratio="auto" inner-class="rounded-lg">
+      <aegov-aspect-ratio ratio="auto">
         <img src="https://picsum.photos/500/300?random=6" alt="Auto" />
       </aegov-aspect-ratio>
     </div>
@@ -143,13 +143,13 @@ Pass any `W/H` string to the `ratio` prop for ratios not covered by the presets.
   <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem;">
     <div>
       <p class="text-sm font-semibold text-aeblack-700 mb-2">5/4</p>
-      <aegov-aspect-ratio ratio="5/4" inner-class="rounded-lg">
+      <aegov-aspect-ratio ratio="5/4">
         <img src="https://picsum.photos/500/400?random=7" alt="5:4" />
       </aegov-aspect-ratio>
     </div>
     <div>
       <p class="text-sm font-semibold text-aeblack-700 mb-2">2/1 (Panoramic)</p>
-      <aegov-aspect-ratio ratio="2/1" inner-class="rounded-lg">
+      <aegov-aspect-ratio ratio="2/1">
         <img src="https://picsum.photos/800/400?random=8" alt="2:1" />
       </aegov-aspect-ratio>
     </div>
@@ -188,31 +188,31 @@ The media fits inside the container without cropping, potentially leaving empty 
   <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem;">
     <div>
       <p class="text-sm font-semibold text-aeblack-700 mb-2">cover</p>
-      <aegov-aspect-ratio ratio="square" fit="cover" inner-class="rounded-lg bg-slate-200">
+      <aegov-aspect-ratio ratio="square" fit="cover">
         <img src="https://picsum.photos/800/400?random=10" alt="Cover" />
       </aegov-aspect-ratio>
     </div>
     <div>
       <p class="text-sm font-semibold text-aeblack-700 mb-2">contain</p>
-      <aegov-aspect-ratio ratio="square" fit="contain" inner-class="rounded-lg bg-slate-200">
+      <aegov-aspect-ratio ratio="square" fit="contain">
         <img src="https://picsum.photos/800/400?random=11" alt="Contain" />
       </aegov-aspect-ratio>
     </div>
     <div>
       <p class="text-sm font-semibold text-aeblack-700 mb-2">fill</p>
-      <aegov-aspect-ratio ratio="square" fit="fill" inner-class="rounded-lg bg-slate-200">
+      <aegov-aspect-ratio ratio="square" fit="fill">
         <img src="https://picsum.photos/800/400?random=12" alt="Fill" />
       </aegov-aspect-ratio>
     </div>
     <div>
       <p class="text-sm font-semibold text-aeblack-700 mb-2">none</p>
-      <aegov-aspect-ratio ratio="square" fit="none" inner-class="rounded-lg bg-slate-200">
+      <aegov-aspect-ratio ratio="square" fit="none">
         <img src="https://picsum.photos/800/400?random=13" alt="None" />
       </aegov-aspect-ratio>
     </div>
     <div>
       <p class="text-sm font-semibold text-aeblack-700 mb-2">scale-down</p>
-      <aegov-aspect-ratio ratio="square" fit="scale-down" inner-class="rounded-lg bg-slate-200">
+      <aegov-aspect-ratio ratio="square" fit="scale-down">
         <img src="https://picsum.photos/800/400?random=14" alt="Scale-down" />
       </aegov-aspect-ratio>
     </div>
@@ -235,7 +235,7 @@ The component works with `<video>` elements just like images.
 
 <div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
   <div style="max-width: 480px;">
-    <aegov-aspect-ratio ratio="video" inner-class="rounded-lg bg-aeblack-900">
+    <aegov-aspect-ratio ratio="video">
       <video controls poster="https://picsum.photos/800/450?random=20">
         <source src="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.webm" type="video/webm" />
       </video>
@@ -257,7 +257,7 @@ Embed iframes (maps, videos, etc.) with consistent aspect ratios.
 
 <div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
   <div style="max-width: 480px;">
-    <aegov-aspect-ratio ratio="video" inner-class="rounded-lg">
+    <aegov-aspect-ratio ratio="video">
       <iframe src="https://www.openstreetmap.org/export/embed.html?bbox=55.1%2C25.1%2C55.4%2C25.3&layer=mapnik" style="border: 0;"></iframe>
     </aegov-aspect-ratio>
   </div>
@@ -270,11 +270,11 @@ Embed iframes (maps, videos, etc.) with consistent aspect ratios.
 The `inner-class` prop adds CSS classes to the inner container. Use it for rounded corners, backgrounds, shadows, or responsive breakpoint overrides.
 
 ```html
-<aegov-aspect-ratio ratio="square" inner-class="rounded-full shadow-lg bg-slate-100">
+<aegov-aspect-ratio ratio="square">
   <img src="https://picsum.photos/400/400" alt="Rounded" />
 </aegov-aspect-ratio>
 
-<aegov-aspect-ratio ratio="video" inner-class="rounded-2xl shadow-xl">
+<aegov-aspect-ratio ratio="video">
   <img src="https://picsum.photos/800/450" alt="Styled" />
 </aegov-aspect-ratio>
 ```
@@ -283,19 +283,19 @@ The `inner-class` prop adds CSS classes to the inner container. Use it for round
   <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; align-items: start;">
     <div>
       <p class="text-sm font-semibold text-aeblack-700 mb-2">rounded-full (circular)</p>
-      <aegov-aspect-ratio ratio="square" inner-class="rounded-full shadow-lg">
+      <aegov-aspect-ratio ratio="square">
         <img src="https://picsum.photos/400/400?random=30" alt="Circular" />
       </aegov-aspect-ratio>
     </div>
     <div>
       <p class="text-sm font-semibold text-aeblack-700 mb-2">rounded-2xl + shadow</p>
-      <aegov-aspect-ratio ratio="video" inner-class="rounded-2xl shadow-xl">
+      <aegov-aspect-ratio ratio="video">
         <img src="https://picsum.photos/800/450?random=31" alt="Styled" />
       </aegov-aspect-ratio>
     </div>
     <div>
       <p class="text-sm font-semibold text-aeblack-700 mb-2">bg-slate-200 + contain</p>
-      <aegov-aspect-ratio ratio="square" fit="contain" inner-class="rounded-lg bg-slate-200">
+      <aegov-aspect-ratio ratio="square" fit="contain">
         <img src="https://picsum.photos/800/400?random=32" alt="Contain with bg" />
       </aegov-aspect-ratio>
     </div>
@@ -320,7 +320,7 @@ Apply Tailwind `aspect-*` utilities directly on the component for responsive ove
 
 <div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
   <p class="text-sm text-aeblack-500 mb-4">Resize your browser window to see the ratio change: <strong>square</strong> → <strong>video (md)</strong> → <strong>21:9 (lg)</strong></p>
-  <aegov-aspect-ratio ratio="square" class="md:[&_.aegov-aspect-ratio]:aspect-video lg:[&_.aegov-aspect-ratio]:aspect-[21/9]" inner-class="rounded-lg">
+  <aegov-aspect-ratio ratio="square" class="md:[&_.aegov-aspect-ratio]:aspect-video lg:[&_.aegov-aspect-ratio]:aspect-[21/9]">
     <img src="https://picsum.photos/800/450?random=40" alt="Responsive" />
   </aegov-aspect-ratio>
 </div>
@@ -330,14 +330,14 @@ Apply Tailwind `aspect-*` utilities directly on the component for responsive ove
 Pass responsive Tailwind classes via the `inner-class` prop for a cleaner attribute.
 
 ```html
-<aegov-aspect-ratio ratio="square" inner-class="md:aspect-video lg:aspect-[21/9] rounded-lg">
+<aegov-aspect-ratio ratio="square">
   <img src="https://picsum.photos/800/450" alt="Responsive inner" />
 </aegov-aspect-ratio>
 ```
 
 <div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
   <p class="text-sm text-aeblack-500 mb-4">Resize your browser to see the ratio change via inner-class: <strong>square</strong> → <strong>video (md)</strong> → <strong>21:9 (lg)</strong></p>
-  <aegov-aspect-ratio ratio="square" inner-class="md:aspect-video lg:aspect-[21/9] rounded-lg">
+  <aegov-aspect-ratio ratio="square">
     <img src="https://picsum.photos/800/450?random=41" alt="Responsive inner" />
   </aegov-aspect-ratio>
 </div>
@@ -350,13 +350,13 @@ A practical example showing an image gallery with consistent aspect ratios.
 
 ```html
 <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem;">
-  <aegov-aspect-ratio ratio="square" inner-class="rounded-lg">
+  <aegov-aspect-ratio ratio="square">
     <img src="photo1.jpg" alt="Gallery 1" />
   </aegov-aspect-ratio>
-  <aegov-aspect-ratio ratio="square" inner-class="rounded-lg">
+  <aegov-aspect-ratio ratio="square">
     <img src="photo2.jpg" alt="Gallery 2" />
   </aegov-aspect-ratio>
-  <aegov-aspect-ratio ratio="square" inner-class="rounded-lg">
+  <aegov-aspect-ratio ratio="square">
     <img src="photo3.jpg" alt="Gallery 3" />
   </aegov-aspect-ratio>
 </div>
@@ -364,28 +364,28 @@ A practical example showing an image gallery with consistent aspect ratios.
 
 <div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
   <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.75rem;">
-    <aegov-aspect-ratio ratio="square" inner-class="rounded-lg">
+    <aegov-aspect-ratio ratio="square">
       <img src="https://picsum.photos/400/400?random=50" alt="Gallery 1" />
     </aegov-aspect-ratio>
-    <aegov-aspect-ratio ratio="square" inner-class="rounded-lg">
+    <aegov-aspect-ratio ratio="square">
       <img src="https://picsum.photos/400/400?random=51" alt="Gallery 2" />
     </aegov-aspect-ratio>
-    <aegov-aspect-ratio ratio="square" inner-class="rounded-lg">
+    <aegov-aspect-ratio ratio="square">
       <img src="https://picsum.photos/400/400?random=52" alt="Gallery 3" />
     </aegov-aspect-ratio>
-    <aegov-aspect-ratio ratio="square" inner-class="rounded-lg">
+    <aegov-aspect-ratio ratio="square">
       <img src="https://picsum.photos/400/400?random=53" alt="Gallery 4" />
     </aegov-aspect-ratio>
-    <aegov-aspect-ratio ratio="square" inner-class="rounded-lg">
+    <aegov-aspect-ratio ratio="square">
       <img src="https://picsum.photos/400/400?random=54" alt="Gallery 5" />
     </aegov-aspect-ratio>
-    <aegov-aspect-ratio ratio="square" inner-class="rounded-lg">
+    <aegov-aspect-ratio ratio="square">
       <img src="https://picsum.photos/400/400?random=55" alt="Gallery 6" />
     </aegov-aspect-ratio>
-    <aegov-aspect-ratio ratio="square" inner-class="rounded-lg">
+    <aegov-aspect-ratio ratio="square">
       <img src="https://picsum.photos/400/400?random=56" alt="Gallery 7" />
     </aegov-aspect-ratio>
-    <aegov-aspect-ratio ratio="square" inner-class="rounded-lg">
+    <aegov-aspect-ratio ratio="square">
       <img src="https://picsum.photos/400/400?random=57" alt="Gallery 8" />
     </aegov-aspect-ratio>
   </div>
@@ -400,19 +400,19 @@ A video thumbnail grid using the `video` ratio preset.
 <div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
   <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem;">
     <div>
-      <aegov-aspect-ratio ratio="video" inner-class="rounded-lg bg-aeblack-900">
+      <aegov-aspect-ratio ratio="video">
         <img src="https://picsum.photos/800/450?random=60" alt="Video 1" />
       </aegov-aspect-ratio>
       <p class="text-sm font-medium text-aeblack-700 mt-2">Introduction to Components</p>
     </div>
     <div>
-      <aegov-aspect-ratio ratio="video" inner-class="rounded-lg bg-aeblack-900">
+      <aegov-aspect-ratio ratio="video">
         <img src="https://picsum.photos/800/450?random=61" alt="Video 2" />
       </aegov-aspect-ratio>
       <p class="text-sm font-medium text-aeblack-700 mt-2">Design Tokens Deep Dive</p>
     </div>
     <div>
-      <aegov-aspect-ratio ratio="video" inner-class="rounded-lg bg-aeblack-900">
+      <aegov-aspect-ratio ratio="video">
         <img src="https://picsum.photos/800/450?random=62" alt="Video 3" />
       </aegov-aspect-ratio>
       <p class="text-sm font-medium text-aeblack-700 mt-2">Building Accessible UIs</p>

@@ -174,7 +174,7 @@ export class AegovHeader {
             ref={(el) => this.expandedEl = el}
           >
             <div class="aegov-container block sm:flex sm:justify-between sm:items-center sm:gap-8">
-              <aegov-button onClick={this.toggleHeaderExpanded} variant="link" size="xs" appearance="neutralMin" class="absolute top-2 left-2" ref={(el) => this.closeButtonEl = el}>
+              <aegov-button onClick={this.toggleHeaderExpanded} appearance="link" size="xs" variant="neutralMin" class="absolute top-2 left-2" ref={(el) => this.closeButtonEl = el}>
                 <svg xmlns="http://www.w3.org/2000/svg" class="w-4! h-4! text-aeblack-100!" viewBox="0 0 256 256"><rect width="256" height="256" fill="none"/><line x1="200" y1="56" x2="56" y2="200" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="24"/><line x1="200" y1="200" x2="56" y2="56" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="24"/></svg>
                 <span class="text-aeblack-100!">{this.isRtl() ? this.closeTextAr : this.closeTextEn}</span>
               </aegov-button>

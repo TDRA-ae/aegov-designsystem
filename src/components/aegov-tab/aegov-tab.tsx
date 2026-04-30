@@ -40,7 +40,7 @@ export class AegovTab {
   /**
    * Disables this tab and its associated panel.
    */
-  @Prop() disabled: boolean = false;
+  @Prop() isDisabled: boolean = false;
 
   /**
    * The currently active tab id. Set automatically by the parent aegov-tabs.
@@ -106,7 +106,7 @@ export class AegovTab {
   onOrientationChange(v: unknown) { warnIfInvalidEnumProp(v, TAB_ORIENTATIONS, 'horizontal', ctx('orientation')); }
 
   private handleClick() {
-    if (this.disabled) return;
+    if (this.isDisabled) return;
     this.aegovTabSelect.emit(this.tabId);
   }
 
@@ -121,8 +121,8 @@ export class AegovTab {
         id={`tab-${this.tabId}`}
         aria-selected={String(isActive)}
         aria-controls={`panel-${this.tabId}`}
-        aria-disabled={this.disabled ? 'true' : undefined}
-        disabled={this.disabled}
+        aria-disabled={this.isDisabled ? 'true' : undefined}
+        disabled={this.isDisabled}
         tabIndex={isActive ? 0 : -1}
         class={{
           'aegov-tab': true,
@@ -130,7 +130,7 @@ export class AegovTab {
           [`tab__btn--${this._resolvedSize}`]: true,
           'tab__btn--vertical': orientation === 'vertical',
           'tab__btn--active': isActive,
-          'tab__btn--disabled': this.disabled,
+          'tab__btn--disabled': this.isDisabled,
         }}
         onClick={() => this.handleClick()}
       >

@@ -63,7 +63,7 @@ describe('aegov-callout', () => {
         components: [AegovCallout],
         html: `<aegov-callout><span slot="content">Message</span></aegov-callout>`,
       });
-      expect(page.rootInstance.dismissible).toBe(false);
+      expect(page.rootInstance.isDismissible).toBe(false);
     });
 
     it('defaults bordered to false', async () => {
@@ -153,7 +153,7 @@ describe('aegov-callout', () => {
     it('should render dismiss button when dismissible', async () => {
       const page = await newSpecPage({
         components: [AegovCallout],
-        html: `<aegov-callout dismissible><span slot="content">Message</span></aegov-callout>`,
+        html: `<aegov-callout is-dismissible><span slot="content">Message</span></aegov-callout>`,
       });
       const dismissButton = page.root.querySelector('button[aria-label="Close callout"]');
       expect(dismissButton).toBeTruthy();
@@ -162,7 +162,7 @@ describe('aegov-callout', () => {
     it('should hide callout when dismissed', async () => {
       const page = await newSpecPage({
         components: [AegovCallout],
-        html: `<aegov-callout dismissible><span slot="content">Message</span></aegov-callout>`,
+        html: `<aegov-callout is-dismissible><span slot="content">Message</span></aegov-callout>`,
       });
       expect(page.rootInstance.isVisible).toBe(true);
 
@@ -176,7 +176,7 @@ describe('aegov-callout', () => {
     it('should emit aegovCalloutDismiss event', async () => {
       const page = await newSpecPage({
         components: [AegovCallout],
-        html: `<aegov-callout dismissible><span slot="content">Message</span></aegov-callout>`,
+        html: `<aegov-callout is-dismissible><span slot="content">Message</span></aegov-callout>`,
       });
       const dismissSpy = jest.fn();
       page.root.addEventListener('aegovCalloutDismiss', dismissSpy);
@@ -201,7 +201,7 @@ describe('aegov-callout', () => {
     it('should return null when not visible', async () => {
       const page = await newSpecPage({
         components: [AegovCallout],
-        html: `<aegov-callout dismissible><span slot="content">Message</span></aegov-callout>`,
+        html: `<aegov-callout is-dismissible><span slot="content">Message</span></aegov-callout>`,
       });
       page.rootInstance.isVisible = false;
       await page.waitForChanges();

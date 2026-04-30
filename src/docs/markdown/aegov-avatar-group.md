@@ -35,7 +35,7 @@ The `mode` property controls how avatars are arranged within the group.
 Avatars are laid out with a small gap between them. This is the default behaviour.
 
 ```html
-<aegov-avatar-group mode="default">
+<aegov-avatar-group variant="default">
   <aegov-avatar src="https://i.pravatar.cc/150?img=1" alt="User 1"></aegov-avatar>
   <aegov-avatar src="https://i.pravatar.cc/150?img=5" alt="User 2"></aegov-avatar>
   <aegov-avatar src="https://i.pravatar.cc/150?img=12" alt="User 3"></aegov-avatar>
@@ -43,7 +43,7 @@ Avatars are laid out with a small gap between them. This is the default behaviou
 ```
 
 <div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-avatar-group mode="default" size="lg">
+  <aegov-avatar-group variant="default" size="lg">
     <aegov-avatar src="https://i.pravatar.cc/150?img=1" alt="User 1"></aegov-avatar>
     <aegov-avatar src="https://i.pravatar.cc/150?img=5" alt="User 2"></aegov-avatar>
     <aegov-avatar src="https://i.pravatar.cc/150?img=12" alt="User 3"></aegov-avatar>
@@ -56,7 +56,7 @@ Avatars are laid out with a small gap between them. This is the default behaviou
 Avatars overlap each other with a negative margin. A white ring separates each avatar for clarity. The overlap amount scales with the avatar size.
 
 ```html
-<aegov-avatar-group mode="compact">
+<aegov-avatar-group variant="compact">
   <aegov-avatar src="https://i.pravatar.cc/150?img=1" alt="User 1"></aegov-avatar>
   <aegov-avatar src="https://i.pravatar.cc/150?img=5" alt="User 2"></aegov-avatar>
   <aegov-avatar src="https://i.pravatar.cc/150?img=12" alt="User 3"></aegov-avatar>
@@ -64,7 +64,7 @@ Avatars overlap each other with a negative margin. A white ring separates each a
 ```
 
 <div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-avatar-group mode="compact" size="lg">
+  <aegov-avatar-group variant="compact" size="lg">
     <aegov-avatar src="https://i.pravatar.cc/150?img=1" alt="User 1"></aegov-avatar>
     <aegov-avatar src="https://i.pravatar.cc/150?img=5" alt="User 2"></aegov-avatar>
     <aegov-avatar src="https://i.pravatar.cc/150?img=12" alt="User 3"></aegov-avatar>
@@ -88,7 +88,7 @@ The `size` property on the group overrides the size of every child avatar, ensur
 <div class="flex flex-wrap items-end gap-8 p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
   <div>
     <p class="text-xs text-aeblack-400 mb-2">size="sm"</p>
-    <aegov-avatar-group mode="compact" size="sm">
+    <aegov-avatar-group variant="compact" size="sm">
       <aegov-avatar src="https://i.pravatar.cc/150?img=1" alt="User 1"></aegov-avatar>
       <aegov-avatar src="https://i.pravatar.cc/150?img=5" alt="User 2"></aegov-avatar>
       <aegov-avatar src="https://i.pravatar.cc/150?img=12" alt="User 3"></aegov-avatar>
@@ -96,7 +96,7 @@ The `size` property on the group overrides the size of every child avatar, ensur
   </div>
   <div>
     <p class="text-xs text-aeblack-400 mb-2">size="base"</p>
-    <aegov-avatar-group mode="compact" size="base">
+    <aegov-avatar-group variant="compact" size="base">
       <aegov-avatar src="https://i.pravatar.cc/150?img=1" alt="User 1"></aegov-avatar>
       <aegov-avatar src="https://i.pravatar.cc/150?img=5" alt="User 2"></aegov-avatar>
       <aegov-avatar src="https://i.pravatar.cc/150?img=12" alt="User 3"></aegov-avatar>
@@ -104,7 +104,7 @@ The `size` property on the group overrides the size of every child avatar, ensur
   </div>
   <div>
     <p class="text-xs text-aeblack-400 mb-2">size="lg"</p>
-    <aegov-avatar-group mode="compact" size="lg">
+    <aegov-avatar-group variant="compact" size="lg">
       <aegov-avatar src="https://i.pravatar.cc/150?img=1" alt="User 1"></aegov-avatar>
       <aegov-avatar src="https://i.pravatar.cc/150?img=5" alt="User 2"></aegov-avatar>
       <aegov-avatar src="https://i.pravatar.cc/150?img=12" alt="User 3"></aegov-avatar>
@@ -112,7 +112,7 @@ The `size` property on the group overrides the size of every child avatar, ensur
   </div>
   <div>
     <p class="text-xs text-aeblack-400 mb-2">size="xl"</p>
-    <aegov-avatar-group mode="compact" size="xl">
+    <aegov-avatar-group variant="compact" size="xl">
       <aegov-avatar src="https://i.pravatar.cc/150?img=1" alt="User 1"></aegov-avatar>
       <aegov-avatar src="https://i.pravatar.cc/150?img=5" alt="User 2"></aegov-avatar>
       <aegov-avatar src="https://i.pravatar.cc/150?img=12" alt="User 3"></aegov-avatar>
@@ -153,7 +153,7 @@ Available breakpoints: `xs` (480px), `sm` (640px), `md` (768px), `lg` (1024px), 
 When there are additional users that are not displayed, set the `more-count` property to show a "+N" indicator button at the end of the group. Clicking the indicator emits the `aegovAvatarGroupMore` event.
 
 ```html
-<aegov-avatar-group mode="compact" more-count="12">
+<aegov-avatar-group variant="compact" more-count="12">
   <aegov-avatar src="https://i.pravatar.cc/150?img=1" alt="User 1"></aegov-avatar>
   <aegov-avatar src="https://i.pravatar.cc/150?img=5" alt="User 2"></aegov-avatar>
   <aegov-avatar src="https://i.pravatar.cc/150?img=12" alt="User 3"></aegov-avatar>
@@ -161,7 +161,7 @@ When there are additional users that are not displayed, set the `more-count` pro
 ```
 
 <div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-avatar-group mode="compact" size="lg" more-count="12">
+  <aegov-avatar-group variant="compact" size="lg" more-count="12">
     <aegov-avatar src="https://i.pravatar.cc/150?img=1" alt="User 1"></aegov-avatar>
     <aegov-avatar src="https://i.pravatar.cc/150?img=5" alt="User 2"></aegov-avatar>
     <aegov-avatar src="https://i.pravatar.cc/150?img=12" alt="User 3"></aegov-avatar>
@@ -173,13 +173,13 @@ When there are additional users that are not displayed, set the `more-count` pro
 Use the `more-text` property to override the default "+N" label.
 
 ```html
-<aegov-avatar-group mode="compact" more-count="99" more-text="99+">
+<aegov-avatar-group variant="compact" more-count="99" more-text="99+">
   …
 </aegov-avatar-group>
 ```
 
 <div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-avatar-group mode="compact" size="lg" more-count="99" more-text="99+">
+  <aegov-avatar-group variant="compact" size="lg" more-count="99" more-text="99+">
     <aegov-avatar src="https://i.pravatar.cc/150?img=1" alt="User 1"></aegov-avatar>
     <aegov-avatar src="https://i.pravatar.cc/150?img=5" alt="User 2"></aegov-avatar>
     <aegov-avatar src="https://i.pravatar.cc/150?img=12" alt="User 3"></aegov-avatar>
@@ -216,14 +216,14 @@ The "more" indicator button follows the same rule and is always circular.
 
 ```html
 <!-- variant="square" on these avatars will be ignored inside the group -->
-<aegov-avatar-group mode="compact" more-count="3">
+<aegov-avatar-group variant="compact" more-count="3">
   <aegov-avatar src="…" alt="…"></aegov-avatar>
   <aegov-avatar src="…" alt="…" variant="square"></aegov-avatar>
 </aegov-avatar-group>
 ```
 
 <div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-avatar-group mode="compact" size="lg" more-count="3">
+  <aegov-avatar-group variant="compact" size="lg" more-count="3">
     <aegov-avatar src="https://i.pravatar.cc/150?img=3" alt="User 1"></aegov-avatar>
     <aegov-avatar src="https://i.pravatar.cc/150?img=8" alt="User 2" variant="square"></aegov-avatar>
     <aegov-avatar src="https://i.pravatar.cc/150?img=11" alt="User 3" variant="square"></aegov-avatar>
@@ -239,7 +239,7 @@ The "more" indicator button follows the same rule and is always circular.
 The compact mode uses `margin-inline-start` for overlap, which automatically reverses in RTL layouts. No additional configuration is needed.
 
 <div dir="rtl" class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-avatar-group mode="compact" size="lg" more-count="7">
+  <aegov-avatar-group variant="compact" size="lg" more-count="7">
     <aegov-avatar src="https://i.pravatar.cc/150?img=3" alt="مستخدم 1"></aegov-avatar>
     <aegov-avatar src="https://i.pravatar.cc/150?img=8" alt="مستخدم 2"></aegov-avatar>
     <aegov-avatar src="https://i.pravatar.cc/150?img=11" alt="مستخدم 3"></aegov-avatar>
