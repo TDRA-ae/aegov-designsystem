@@ -52,6 +52,15 @@ aegov-avatar {
     &.avatar-offline {
        @apply bg-aered-500! ring-whitely-50;
     }
+    &.avatar-away {
+      @apply bg-camel-400! ring-whitely-50;
+    }
+    &.avatar-unavailable {
+      @apply bg-aeblack-400! ring-whitely-50;
+    }
+    &.avatar-busy {
+      @apply bg-aered-800! ring-whitely-50;
+    }
   }
 
   /** Size definations **/

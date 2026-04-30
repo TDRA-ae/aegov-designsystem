@@ -167,19 +167,26 @@ When there are additional users that are not displayed, set the `more-count` pro
     <aegov-avatar src="https://i.pravatar.cc/150?img=12" alt="User 3"></aegov-avatar>
   </aegov-avatar-group>
 </div>
+<div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
+  <aegov-avatar-group variant="compact" size="sm" more-count="12">
+    <aegov-avatar src="https://i.pravatar.cc/150?img=1" alt="User 1"></aegov-avatar>
+    <aegov-avatar src="https://i.pravatar.cc/150?img=5" alt="User 2"></aegov-avatar>
+    <aegov-avatar src="https://i.pravatar.cc/150?img=12" alt="User 3"></aegov-avatar>
+  </aegov-avatar-group>
+</div>
 
 ### Custom More Text
 
 Use the `more-text` property to override the default "+N" label.
 
 ```html
-<aegov-avatar-group variant="compact" more-count="99" more-text="99+">
+<aegov-avatar-group variant="compact" more-count="99" more-text="+99">
   …
 </aegov-avatar-group>
 ```
 
 <div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-avatar-group variant="compact" size="lg" more-count="99" more-text="99+">
+  <aegov-avatar-group variant="compact" size="lg" more-count="99" more-text="+99">
     <aegov-avatar src="https://i.pravatar.cc/150?img=1" alt="User 1"></aegov-avatar>
     <aegov-avatar src="https://i.pravatar.cc/150?img=5" alt="User 2"></aegov-avatar>
     <aegov-avatar src="https://i.pravatar.cc/150?img=12" alt="User 3"></aegov-avatar>

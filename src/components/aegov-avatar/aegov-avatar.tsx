@@ -1,5 +1,5 @@
 import { Component, Prop, Watch, h, Host, State } from '@stencil/core';
-import { AVATAR_SIZES, AVATAR_APPEARANCES } from '../../utils/types';
+import { AVATAR_SIZES, AVATAR_APPEARANCES, AVATAR_STATUSES } from '../../utils/types';
 import type { AvatarSize, AvatarAppearance, AvatarStatus } from '../../utils/types';
 import { warnIfInvalidEnumProp } from '../../utils/prop-validator';
 import { watchResponsiveProp } from '../../utils/responsive-prop';
@@ -46,10 +46,11 @@ export class AegovAvatar {
   @Prop() alt?: string;
 
   /**
-   * Status indicator type. Set to 'online' or 'offline' to show indicator, or 'none'/false to hide.
-   * @default 'none'
+   * Status indicator. Set to a status string to show the indicator, or `false` to hide it.
+   * Accepts: `'online'`, `'offline'`, `'away'`, `'unavailable'`, `'busy'`, or boolean (`true` maps to `'online'`).
+   * @default false
    */
-  @Prop() status: AvatarStatus | boolean = 'none';
+  @Prop() status: AvatarStatus | boolean = false;
 
   /**
    * Internal state to track image load error
@@ -123,28 +124,21 @@ export class AegovAvatar {
   }
 
   /**
-   * Get the effective status type from the status prop
+   * Get the effective status type from the status prop, or null when hidden.
    */
-  private getEffectiveStatus(): AvatarStatus {
-    if (this.status === true || this.status === 'online') return 'online';
-    if (this.status === 'offline') return 'offline';
-    return 'none';
+  private getEffectiveStatus(): AvatarStatus | null {
+    if (this.status === true) return 'online';
+    if (this.status === false) return null;
+    return (AVATAR_STATUSES as readonly string[]).includes(this.status as string)
+      ? (this.status as AvatarStatus)
+      : null;
   }
 
   /**
    * Get status indicator classes
    */
-  private getStatusClasses(): string {
-    const classes: string[] = ['avatar-indicator'];
-    const effectiveStatus = this.getEffectiveStatus();
-
-    if (effectiveStatus === 'online') {
-      classes.push('avatar-online');
-    } else if (effectiveStatus === 'offline') {
-      classes.push('avatar-offline');
-    }
-
-    return classes.join(' ');
+  private getStatusClasses(effectiveStatus: AvatarStatus): string {
+    return `avatar-indicator avatar-${effectiveStatus}`;
   }
 
   render() {
@@ -185,13 +179,16 @@ export class AegovAvatar {
             </div>
           )}
 
-          {this.getEffectiveStatus() !== 'none' && (
-            <span
-              part="status"
-              class={this.getStatusClasses()}
-              aria-label={`Status: ${this.getEffectiveStatus()}`}
-            ></span>
-          )}
+          {(() => {
+            const effectiveStatus = this.getEffectiveStatus();
+            return effectiveStatus && (
+              <span
+                part="status"
+                class={this.getStatusClasses(effectiveStatus)}
+                aria-label={`Status: ${effectiveStatus}`}
+              ></span>
+            );
+          })()}
         </div>
       </Host>
     );

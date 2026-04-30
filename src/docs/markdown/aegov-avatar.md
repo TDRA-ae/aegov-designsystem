@@ -4,7 +4,7 @@
 
 ## Introduction
 
-The `aegov-avatar` component renders a compact visual identifier for a user. It supports **7 sizes**, **2 shape variants**, **online/offline status indicators**, image sources with automatic fallback, and custom slot content for initials or icons.
+The `aegov-avatar` component renders a compact visual identifier for a user. It supports **7 sizes**, **2 shape variants**, **5 presence statuses** (`online`, `offline`, `away`, `unavailable`, `busy`), image sources with automatic fallback, and custom slot content for initials or icons.
 
 ```html
 <aegov-avatar></aegov-avatar>
@@ -173,24 +173,38 @@ When no `src` is provided, the default slot is used for fallback content. This i
 
 ## Status Indicator
 
-The `status` property adds a small coloured dot to the avatar indicating online or offline state. The indicator is positioned at the top-right corner.
+The `status` property adds a small coloured dot to the avatar indicating presence. The indicator is positioned at the top-right corner. Omit the property (or set it to `false`) to hide the indicator.
 
-| Status    | Colour | Meaning          |
-|-----------|--------|------------------|
-| `online`  | Green  | User is active   |
-| `offline` | Red    | User is away     |
-| `none`    | —      | No indicator     |
+| Status          | Colour          | Meaning                  |
+|-----------------|-----------------|--------------------------|
+| `online`        | aegreen-500     | User is active           |
+| `offline`       | aered-500       | User is offline          |
+| `away`          | camel-400       | User is temporarily away |
+| `unavailable`   | aeblack-400     | User cannot be reached   |
+| `busy`          | aered-800       | User is busy             |
 
 ```html
 <aegov-avatar status="online"></aegov-avatar>
 <aegov-avatar status="offline"></aegov-avatar>
+<aegov-avatar status="away"></aegov-avatar>
+<aegov-avatar status="unavailable"></aegov-avatar>
+<aegov-avatar status="busy"></aegov-avatar>
 ```
 
 <div class="flex flex-wrap items-center gap-6 p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
   <aegov-avatar status="online" size="lg"></aegov-avatar>
   <aegov-avatar status="offline" size="lg"></aegov-avatar>
-  <aegov-avatar status="online" size="lg" variant="rounded"></aegov-avatar>
-  <aegov-avatar status="offline" size="lg" variant="rounded"></aegov-avatar>
+  <aegov-avatar status="away" size="lg"></aegov-avatar>
+  <aegov-avatar status="unavailable" size="lg"></aegov-avatar>
+  <aegov-avatar status="busy" size="lg"></aegov-avatar>
+</div>
+
+<div class="flex flex-wrap items-center gap-6 p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
+  <aegov-avatar status="online" size="lg" appearance="rounded"></aegov-avatar>
+  <aegov-avatar status="offline" size="lg" appearance="rounded"></aegov-avatar>
+  <aegov-avatar status="away" size="lg" appearance="rounded"></aegov-avatar>
+  <aegov-avatar status="unavailable" size="lg" appearance="rounded"></aegov-avatar>
+  <aegov-avatar status="busy" size="lg" appearance="rounded"></aegov-avatar>
 </div>
 
 Status indicators with images:
@@ -198,11 +212,12 @@ Status indicators with images:
 <div class="flex flex-wrap items-center gap-6 p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
   <aegov-avatar src="https://i.pravatar.cc/150?img=3" alt="Online user" status="online" size="lg"></aegov-avatar>
   <aegov-avatar src="https://i.pravatar.cc/150?img=8" alt="Offline user" status="offline" size="lg"></aegov-avatar>
-  <aegov-avatar src="https://i.pravatar.cc/150?img=11" alt="Online user" status="online" size="lg" variant="rounded"></aegov-avatar>
-  <aegov-avatar src="https://i.pravatar.cc/150?img=20" alt="Offline user" status="offline" size="lg" variant="rounded"></aegov-avatar>
+  <aegov-avatar src="https://i.pravatar.cc/150?img=11" alt="Away user" status="away" size="lg" appearance="rounded"></aegov-avatar>
+  <aegov-avatar src="https://i.pravatar.cc/150?img=20" alt="Unavailable user" status="unavailable" size="lg" appearance="rounded"></aegov-avatar>
+  <aegov-avatar src="https://i.pravatar.cc/150?img=15" alt="Busy user" status="busy" size="lg" appearance="rounded"></aegov-avatar>
 </div>
 
-> **Tip:** The `status` property also accepts a boolean — `true` maps to `"online"` and `false` or omission maps to `"none"`.
+> **Tip:** The `status` property also accepts a boolean — `true` maps to `"online"` and `false` (the default) hides the indicator.
 
 ---
 
@@ -287,7 +302,7 @@ The table below shows every combination of size and variant for visual reference
 | `appearance` | `appearance` | The avatar shape                                     | `'square'` \| `'rounded'`                                              | `'square'` |
 | `src`     | `src`     | Image source URL                                     | `string`                                                                | —          |
 | `alt`     | `alt`     | Alternative text for the image                       | `string`                                                                | —          |
-| `status`  | `status`  | Status indicator (`online`, `offline`, `none`, or boolean) | `'online'` \| `'offline'` \| `'none'` \| `boolean`                | `'none'`   |
+| `status`  | `status`  | Status indicator. Use `false` (or omit) to hide. `true` maps to `'online'`. | `'online'` \| `'offline'` \| `'away'` \| `'unavailable'` \| `'busy'` \| `boolean` | `false`    |
 
 ### Slots
 
@@ -329,14 +344,14 @@ The `aegov-avatar` component is built with accessibility in mind.
 
 2. **Initials should have labels.** If using the slot for initials, consider adding an `aria-label` on the host element since two-letter abbreviations are not always meaningful to screen readers.
 
-3. **Colour contrast for status.** The green (online) and red (offline) indicators meet WCAG 2.1 AA contrast against a white background. If you change the surrounding background, verify contrast is maintained.
+3. **Colour contrast for status.** All status indicator colours meet WCAG 2.1 AA contrast against a white background. If you change the surrounding background, verify contrast is maintained.
 
 ---
 
 ## Notes
 
 - The default shape is `square` with `rounded` corners (not sharp). The rounding increases for larger sizes — `lg` and above use `rounded-md` or `rounded-lg`.
-- The `status` property accepts both string and boolean values. `true` maps to `"online"`, `false` or omission maps to `"none"`.
+- The `status` property accepts both string and boolean values. `true` maps to `"online"`, while `false` (the default) or omission hides the indicator.
 - When `src` is set but the image fails to load, the component sets an internal `imageError` state and falls back to slot content or the default user icon.
 - The avatar uses `object-cover` on images, so non-square profile pictures are cropped to fill the container without distortion.
 - The host element uses `display: inline-block`, so avatars can be placed inline with text or inside flex containers.
