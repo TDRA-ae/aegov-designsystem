@@ -13,10 +13,11 @@ describe('aegov-card', () => {
     });
     const card = page.root.querySelector('.aegov-card');
     expect(card).toBeTruthy();
-    expect(card.classList.contains('card--border-1')).toBe(true);
-    expect(card.classList.contains('card--border-standard')).toBe(true);
-    expect(card.classList.contains('card--bg-white')).toBe(true);
+    expect(card.classList.contains('card-border-2')).toBe(true);
+    expect(card.classList.contains('card-border-standard')).toBe(true);
+    expect(card.classList.contains('card-bg-white')).toBe(true);
     expect(card.classList.contains('card--hover-off')).toBe(true);
+    expect(card.classList.contains('card--size-base')).toBe(true);
     expect(card.classList.contains('card--padded')).toBe(true);
   });
 
@@ -34,12 +35,20 @@ describe('aegov-card', () => {
   // BORDER WIDTH
   // ============================================
 
-  it('applies border-width 1 by default', async () => {
+  it('applies border-width 2 by default', async () => {
     const page = await newSpecPage({
       components: [AegovCard],
       html: `<aegov-card>Content</aegov-card>`,
     });
-    expect(page.root.querySelector('.card--border-1')).toBeTruthy();
+    expect(page.root.querySelector('.card-border-2')).toBeTruthy();
+  });
+
+  it('applies border-width 1', async () => {
+    const page = await newSpecPage({
+      components: [AegovCard],
+      html: `<aegov-card border-width="1">Content</aegov-card>`,
+    });
+    expect(page.root.querySelector('.card-border-1')).toBeTruthy();
   });
 
   it('applies border-width 2', async () => {
@@ -47,7 +56,7 @@ describe('aegov-card', () => {
       components: [AegovCard],
       html: `<aegov-card border-width="2">Content</aegov-card>`,
     });
-    expect(page.root.querySelector('.card--border-2')).toBeTruthy();
+    expect(page.root.querySelector('.card-border-2')).toBeTruthy();
   });
 
   it('applies border-width 3', async () => {
@@ -55,7 +64,7 @@ describe('aegov-card', () => {
       components: [AegovCard],
       html: `<aegov-card border-width="3">Content</aegov-card>`,
     });
-    expect(page.root.querySelector('.card--border-3')).toBeTruthy();
+    expect(page.root.querySelector('.card-border-3')).toBeTruthy();
   });
 
   // ============================================
@@ -67,15 +76,7 @@ describe('aegov-card', () => {
       components: [AegovCard],
       html: `<aegov-card>Content</aegov-card>`,
     });
-    expect(page.root.querySelector('.card--bg-white')).toBeTruthy();
-  });
-
-  it('applies transparent background', async () => {
-    const page = await newSpecPage({
-      components: [AegovCard],
-      html: `<aegov-card background="transparent">Content</aegov-card>`,
-    });
-    expect(page.root.querySelector('.card--bg-transparent')).toBeTruthy();
+    expect(page.root.querySelector('.card-bg-white')).toBeTruthy();
   });
 
   it('applies subtle background', async () => {
@@ -83,7 +84,7 @@ describe('aegov-card', () => {
       components: [AegovCard],
       html: `<aegov-card background="subtle">Content</aegov-card>`,
     });
-    expect(page.root.querySelector('.card--bg-subtle')).toBeTruthy();
+    expect(page.root.querySelector('.card-bg-subtle')).toBeTruthy();
   });
 
   // ============================================
@@ -143,7 +144,7 @@ describe('aegov-card', () => {
       components: [AegovCard],
       html: `<aegov-card>Content</aegov-card>`,
     });
-    expect(page.root.querySelector('.card--border-standard')).toBeTruthy();
+    expect(page.root.querySelector('.card-border-standard')).toBeTruthy();
   });
 
   it('applies creative border style', async () => {
@@ -151,8 +152,8 @@ describe('aegov-card', () => {
       components: [AegovCard],
       html: `<aegov-card border-style="creative">Content</aegov-card>`,
     });
-    expect(page.root.querySelector('.card--border-creative')).toBeTruthy();
-    expect(page.root.querySelector('.card--border-standard')).toBeNull();
+    expect(page.root.querySelector('.card-border-creative')).toBeTruthy();
+    expect(page.root.querySelector('.card-border-standard')).toBeNull();
   });
 
   it('applies creative border with different backgrounds', async () => {
@@ -161,8 +162,8 @@ describe('aegov-card', () => {
       html: `<aegov-card border-style="creative" background="subtle">Content</aegov-card>`,
     });
     const card = page.root.querySelector('.aegov-card');
-    expect(card.classList.contains('card--border-creative')).toBe(true);
-    expect(card.classList.contains('card--bg-subtle')).toBe(true);
+    expect(card.classList.contains('card-border-creative')).toBe(true);
+    expect(card.classList.contains('card-bg-subtle')).toBe(true);
   });
 
   it('applies creative border with hover glow', async () => {
@@ -171,8 +172,58 @@ describe('aegov-card', () => {
       html: `<aegov-card border-style="creative" hover="glow">Content</aegov-card>`,
     });
     const card = page.root.querySelector('.aegov-card');
-    expect(card.classList.contains('card--border-creative')).toBe(true);
+    expect(card.classList.contains('card-border-creative')).toBe(true);
     expect(card.classList.contains('card--hover-glow')).toBe(true);
+  });
+
+  // ============================================
+  // SIZE
+  // ============================================
+
+  it('applies size-base by default', async () => {
+    const page = await newSpecPage({
+      components: [AegovCard],
+      html: `<aegov-card>Content</aegov-card>`,
+    });
+    expect(page.root.querySelector('.card--size-base')).toBeTruthy();
+  });
+
+  it('applies size-sm', async () => {
+    const page = await newSpecPage({
+      components: [AegovCard],
+      html: `<aegov-card size="sm">Content</aegov-card>`,
+    });
+    expect(page.root.querySelector('.card--size-sm')).toBeTruthy();
+    expect(page.root.querySelector('.card--size-base')).toBeNull();
+  });
+
+  it('applies size-lg', async () => {
+    const page = await newSpecPage({
+      components: [AegovCard],
+      html: `<aegov-card size="lg">Content</aegov-card>`,
+    });
+    expect(page.root.querySelector('.card--size-lg')).toBeTruthy();
+    expect(page.root.querySelector('.card--size-base')).toBeNull();
+  });
+
+  it('size class is applied alongside padded class', async () => {
+    const page = await newSpecPage({
+      components: [AegovCard],
+      html: `<aegov-card size="lg">Content</aegov-card>`,
+    });
+    const card = page.root.querySelector('.aegov-card');
+    expect(card.classList.contains('card--size-lg')).toBe(true);
+    expect(card.classList.contains('card--padded')).toBe(true);
+  });
+
+  it('size class is applied even when padding is disallowed', async () => {
+    const page = await newSpecPage({
+      components: [AegovCard],
+      html: `<aegov-card size="sm" disallow-padding>Content</aegov-card>`,
+    });
+    const card = page.root.querySelector('.aegov-card');
+    expect(card.classList.contains('card--size-sm')).toBe(true);
+    expect(card.classList.contains('card--padded')).toBe(false);
   });
 
   // ============================================
@@ -182,12 +233,13 @@ describe('aegov-card', () => {
   it('applies multiple props together', async () => {
     const page = await newSpecPage({
       components: [AegovCard],
-      html: `<aegov-card border-width="3" background="subtle" hover="glow">Content</aegov-card>`,
+      html: `<aegov-card border-width="3" background="subtle" hover="glow" size="lg">Content</aegov-card>`,
     });
     const card = page.root.querySelector('.aegov-card');
-    expect(card.classList.contains('card--border-3')).toBe(true);
-    expect(card.classList.contains('card--bg-subtle')).toBe(true);
+    expect(card.classList.contains('card-border-3')).toBe(true);
+    expect(card.classList.contains('card-bg-subtle')).toBe(true);
     expect(card.classList.contains('card--hover-glow')).toBe(true);
+    expect(card.classList.contains('card--size-lg')).toBe(true);
     expect(card.classList.contains('card--padded')).toBe(true);
   });
 
@@ -232,7 +284,7 @@ describe('aegov-card', () => {
         html: `<aegov-card border-style="weird">X</aegov-card>`,
       });
       const card = page.root.querySelector('.aegov-card');
-      expect(card.className).toContain('card--border-standard');
+      expect(card.className).toContain('card-border-standard');
     });
 
     it('falls back to default background class when invalid', async () => {
@@ -241,7 +293,7 @@ describe('aegov-card', () => {
         html: `<aegov-card background="weird">X</aegov-card>`,
       });
       const card = page.root.querySelector('.aegov-card');
-      expect(card.className).toContain('card--bg-white');
+      expect(card.className).toContain('card-bg-white');
     });
 
     it('falls back to default hover class when invalid', async () => {
@@ -251,6 +303,15 @@ describe('aegov-card', () => {
       });
       const card = page.root.querySelector('.aegov-card');
       expect(card.className).toContain('card--hover-off');
+    });
+
+    it('falls back to default size class when invalid', async () => {
+      const page = await newSpecPage({
+        components: [AegovCard],
+        html: `<aegov-card size="huge">X</aegov-card>`,
+      });
+      const card = page.root.querySelector('.aegov-card');
+      expect(card.className).toContain('card--size-base');
     });
 
     it('warns with component name, prop name, invalid value, and fallback', async () => {
@@ -307,6 +368,18 @@ describe('aegov-card', () => {
       await page.waitForChanges();
       const messages = warnSpy.mock.calls.map(c => c[0] as string);
       const warn = messages.find(m => m.includes('[aegov-card]') && m.includes('"hover"'));
+      expect(warn).toBeDefined();
+    });
+
+    it('warns again via @Watch when size is updated to invalid value', async () => {
+      const page = await newSpecPage({
+        components: [AegovCard],
+        html: `<aegov-card size="base">X</aegov-card>`,
+      });
+      page.root.setAttribute('size', 'nope');
+      await page.waitForChanges();
+      const messages = warnSpy.mock.calls.map(c => c[0] as string);
+      const warn = messages.find(m => m.includes('[aegov-card]') && m.includes('"size"'));
       expect(warn).toBeDefined();
     });
   });

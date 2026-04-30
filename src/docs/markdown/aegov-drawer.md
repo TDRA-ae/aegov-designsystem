@@ -280,6 +280,63 @@ By default the drawer panel is **pinned** flush to the viewport edge. Set `pinne
 
 ---
 
+## Size
+
+The `size` property scales the drawer's inner padding. It mirrors the `aegov-card` sizing tokens. When `pinned="false"`, `size` also controls the **edge gap** and **border-radius**. When pinned, no border-radius is applied regardless of size.
+
+| Size     | Padding | Unpinned gap | Unpinned radius |
+|----------|---------|--------------|-----------------|
+| `sm`     | `1rem` (16px)   | `0.25rem` (4px)  | `0.5rem` (8px)  |
+| `base`   | `1.25rem` (20px) | `0.5rem` (8px)   | `0.75rem` (12px) — default |
+| `lg`     | `1.5rem` (24px) | `0.75rem` (12px) | `1rem` (16px)   |
+
+```html
+<aegov-button id="open-size-sm" variant="outline">Small</aegov-button>
+<aegov-button id="open-size-base" variant="outline">Base</aegov-button>
+<aegov-button id="open-size-lg" variant="outline">Large</aegov-button>
+
+<aegov-drawer id="drawer-size" size="base" pinned="false" aria-label="Sized drawer">
+  <h3 style="margin-top: 0;">Sized Drawer</h3>
+  <p>Padding, gap, and radius scale with the <code>size</code> prop.</p>
+  <aegov-button id="close-size" variant="outline" size="sm">Close</aegov-button>
+</aegov-drawer>
+```
+
+<div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
+  <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+    <aegov-button id="open-size-sm-demo" variant="outline">Small</aegov-button>
+    <aegov-button id="open-size-base-demo" variant="outline">Base</aegov-button>
+    <aegov-button id="open-size-lg-demo" variant="outline">Large</aegov-button>
+  </div>
+  <aegov-drawer id="drawer-size-demo" size="base" pinned="false" aria-label="Sized drawer">
+    <h3 style="margin-top: 0;">Sized Drawer</h3>
+    <p>Padding, gap, and radius scale with the <code>size</code> prop.</p>
+    <aegov-button id="close-size-demo" variant="outline" size="sm">Close</aegov-button>
+  </aegov-drawer>
+  <script>
+    (function() {
+      var d = document.getElementById('drawer-size-demo');
+      function openWith(sz) { d.size = sz; d.show(); }
+      document.getElementById('open-size-sm-demo').addEventListener('aegovButtonClick', function() { openWith('sm'); });
+      document.getElementById('open-size-base-demo').addEventListener('aegovButtonClick', function() { openWith('base'); });
+      document.getElementById('open-size-lg-demo').addEventListener('aegovButtonClick', function() { openWith('lg'); });
+      document.getElementById('close-size-demo').addEventListener('aegovButtonClick', function() { d.close(); });
+    })();
+  </script>
+</div>
+
+### Disallow padding
+
+Set `disallow-padding` to remove inner padding entirely — useful when the slotted content provides its own structural spacing (e.g. a header / body / footer pattern).
+
+```html
+<aegov-drawer disallow-padding aria-label="Edge-to-edge drawer">
+  <!-- content controls its own padding -->
+</aegov-drawer>
+```
+
+---
+
 ## Backdrop Overlay
 
 The `overlay` property controls whether a semi-transparent backdrop is rendered behind the drawer. The `overlayOpacity` property adjusts the darkness of the backdrop.
@@ -550,6 +607,67 @@ The drawer emits several events during its lifecycle.
 
 ---
 
+## Slotted Content Patterns
+
+The drawer uses a single default slot. You are responsible for structuring the content inside it. Below are common layout patterns. Set `disallow-padding` so the slotted structure controls its own spacing.
+
+### Header, Body, and Footer
+
+```html
+<aegov-drawer id="structured-drawer" disallow-padding aria-label="Structured drawer">
+  <div style="display: flex; flex-direction: column; height: 100%; width: 360px;">
+    <!-- Header -->
+    <div style="display: flex; justify-content: space-between; align-items: center; padding: 1.5rem; border-bottom: 1px solid #e2e8f0;">
+      <h2 style="margin: 0; font-size: 1.25rem;">Drawer Title</h2>
+      <aegov-button icon variant="soft" appearance="neutralMax" aria-label="Close" id="close-structured">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </aegov-button>
+    </div>
+    <!-- Body -->
+    <div style="flex: 1; padding: 1.5rem; overflow-y: auto;">
+      <p style="margin: 0; color: #64748b;">Place your main content here — forms, text, lists, or any HTML.</p>
+    </div>
+    <!-- Footer -->
+    <div style="display: flex; justify-content: flex-end; gap: 0.5rem; padding: 1.5rem; border-top: 1px solid #e2e8f0;">
+      <aegov-button variant="outline" id="cancel-structured">Cancel</aegov-button>
+      <aegov-button id="save-structured">Save Changes</aegov-button>
+    </div>
+  </div>
+</aegov-drawer>
+```
+
+<div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
+  <aegov-button id="open-structured-demo">Open Structured Drawer</aegov-button>
+  <aegov-drawer id="structured-drawer-demo" disallow-padding aria-label="Structured drawer">
+    <div style="display: flex; flex-direction: column; height: 100%; width: 360px;">
+      <div style="display: flex; justify-content: space-between; align-items: center; padding: 1.5rem; border-bottom: 1px solid #e2e8f0;">
+        <h2 style="margin: 0; font-size: 1.25rem;">Drawer Title</h2>
+        <aegov-button icon variant="soft" appearance="neutralMax" size="sm" aria-label="Close" id="close-structured-demo">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </aegov-button>
+      </div>
+      <div style="flex: 1; padding: 1.5rem; overflow-y: auto;">
+        <p style="margin: 0; color: #64748b;">Place your main content here — forms, text, lists, or any HTML.</p>
+      </div>
+      <div style="display: flex; justify-content: flex-end; gap: 0.5rem; padding: 1.5rem; border-top: 1px solid #e2e8f0;">
+        <aegov-button variant="outline" id="cancel-structured-demo">Cancel</aegov-button>
+        <aegov-button id="save-structured-demo">Save Changes</aegov-button>
+      </div>
+    </div>
+  </aegov-drawer>
+  <script>
+    (function() {
+      const drawer = document.getElementById('structured-drawer-demo');
+      document.getElementById('open-structured-demo').addEventListener('aegovButtonClick', () => drawer.show());
+      document.getElementById('close-structured-demo').addEventListener('aegovButtonClick', () => drawer.close());
+      document.getElementById('cancel-structured-demo').addEventListener('aegovButtonClick', () => drawer.close());
+      document.getElementById('save-structured-demo').addEventListener('aegovButtonClick', () => drawer.close());
+    })();
+  </script>
+</div>
+
+---
+
 ## Practical Example — Navigation Sidebar
 
 A common use case is a responsive navigation menu that opens as a drawer on mobile.
@@ -616,6 +734,8 @@ A common use case is a responsive navigation menu that opens as a drawer on mobi
 | `overlayOpacity`     | `overlay-opacity`      | Backdrop overlay opacity level                           | `'light'` \| `'base'` \| `'dark'`              | `'base'`   |
 | `closeWithBackdrop`  | `close-with-backdrop`  | Whether clicking the backdrop closes the drawer          | `boolean`                                       | `true`     |
 | `preventBodyScroll`  | `prevent-body-scroll`  | Whether to prevent body scrolling when drawer is open    | `boolean`                                       | `true`     |
+| `size`               | `size`                 | Inner padding scale; also drives gap + radius when unpinned | `'sm'` \| `'base'` \| `'lg'`                | `'base'`   |
+| `disallowPadding`    | `disallow-padding`     | Disables inner content padding                            | `boolean`                                       | `false`    |
 
 ### Events
 

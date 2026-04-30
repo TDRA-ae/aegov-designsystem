@@ -1,6 +1,6 @@
 import { Component, Host, h, Prop, Watch } from '@stencil/core';
-import { CARD_BORDER_STYLES, CARD_BACKGROUNDS, CARD_HOVERS } from '../../utils/types';
-import type { CardBorderWidth, CardBackground, CardHover, CardBorderStyle } from '../../utils/types';
+import { CARD_BORDER_STYLES, CARD_BACKGROUNDS, CARD_HOVERS, CARD_SIZES } from '../../utils/types';
+import type { CardBorderWidth, CardBackground, CardHover, CardBorderStyle, CardSize } from '../../utils/types';
 import { warnIfInvalidEnumProp } from '../../utils/prop-validator';
 
 const TAG = 'aegov-card';
@@ -20,15 +20,15 @@ export class AegovCard {
   /**
    * Border thickness: 1, 2, or 3.
    */
-  @Prop() borderWidth: CardBorderWidth = 1;
+  @Prop() borderWidth: CardBorderWidth = 2;
 
   /**
-   * Border style: 'standard' (solid primary-600), 'light' (solid primary-200), or 'creative' (gradient from primary-400 to primary-800).
+   * Border style: 'standard' (solid primary-600), 'light' (solid primary-200), 'creative' (gradient from primary-400 to primary-800), or 'highlight' (solid aeblack-200 at rest, transitions to primary-300→700 gradient on hover).
    */
   @Prop() borderStyle: CardBorderStyle = 'standard';
 
   /**
-   * Background style: 'white', 'transparent', or 'subtle' (slate-50).
+   * Background style: 'white' (default) or 'subtle' (aeblack-50).
    */
   @Prop() background: CardBackground = 'white';
 
@@ -37,10 +37,16 @@ export class AegovCard {
    */
   @Prop() hover: CardHover = 'off';
 
+  /**
+   * Size: 'sm' (compact padding/radius), 'base' (default), or 'lg' (generous padding/radius). All sizes scale down responsively at md (768px) and xs (480px) breakpoints.
+   */
+  @Prop() size: CardSize = 'base';
+
   componentWillLoad() {
     warnIfInvalidEnumProp(this.borderStyle, CARD_BORDER_STYLES, 'standard', ctx('borderStyle'));
     warnIfInvalidEnumProp(this.background, CARD_BACKGROUNDS, 'white', ctx('background'));
     warnIfInvalidEnumProp(this.hover, CARD_HOVERS, 'off', ctx('hover'));
+    warnIfInvalidEnumProp(this.size, CARD_SIZES, 'base', ctx('size'));
   }
 
   @Watch('borderStyle')
@@ -52,17 +58,22 @@ export class AegovCard {
   @Watch('hover')
   onHoverChange(v: unknown) { warnIfInvalidEnumProp(v, CARD_HOVERS, 'off', ctx('hover')); }
 
+  @Watch('size')
+  onSizeChange(v: unknown) { warnIfInvalidEnumProp(v, CARD_SIZES, 'base', ctx('size')); }
+
   render() {
     const borderStyle: CardBorderStyle = (CARD_BORDER_STYLES as readonly string[]).includes(this.borderStyle) ? this.borderStyle : 'standard';
     const background: CardBackground = (CARD_BACKGROUNDS as readonly string[]).includes(this.background) ? this.background : 'white';
     const hover: CardHover = (CARD_HOVERS as readonly string[]).includes(this.hover) ? this.hover : 'off';
+    const size: CardSize = (CARD_SIZES as readonly string[]).includes(this.size) ? this.size : 'base';
 
     const classes = [
       'aegov-card',
-      `card--border-${this.borderWidth}`,
-      `card--border-${borderStyle}`,
-      `card--bg-${background}`,
-      `card--hover-${hover}`,
+      `card-border-${this.borderWidth}`,
+      `card-border-${borderStyle}`,
+      `card-bg-${background}`,
+      `card__hover-${hover}`,
+      `card-size-${size}`,
       !this.disallowPadding ? 'card--padded' : '',
     ].filter(Boolean).join(' ');
 

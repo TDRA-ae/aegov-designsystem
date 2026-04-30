@@ -100,27 +100,63 @@
 }
 
 /* ============================================
-   Unpinned Mode (gap + rounded corners)
+   Unpinned Mode (size-aware gap + rounded
+   corners). Pinned mode keeps no border-radius
+   regardless of size. Mirrors aegov-card sizing
+   tokens for radius (sm=lg, base=xl, lg=2xl).
    ============================================ */
 
-.drawer-container--unpinned {
+/* Border-radius (unpinned only) */
+.drawer-container--unpinned.drawer-size-sm {
   @apply rounded-lg;
 }
 
-.drawer-container--unpinned.drawer-container--right {
+.drawer-container--unpinned.drawer-size-base {
+  @apply rounded-xl;
+}
+
+.drawer-container--unpinned.drawer-size-lg {
+  @apply rounded-2xl;
+}
+
+/* Edge gap (unpinned only) — sm=4px, base=8px, lg=12px */
+.drawer-container--unpinned.drawer-size-sm.drawer-container--right {
+  @apply top-1 right-1 bottom-1;
+}
+.drawer-container--unpinned.drawer-size-sm.drawer-container--left {
+  @apply top-1 left-1 bottom-1;
+}
+.drawer-container--unpinned.drawer-size-sm.drawer-container--top {
+  @apply top-1 left-1 right-1;
+}
+.drawer-container--unpinned.drawer-size-sm.drawer-container--bottom {
+  @apply bottom-1 left-1 right-1;
+}
+
+.drawer-container--unpinned.drawer-size-base.drawer-container--right {
   @apply top-2 right-2 bottom-2;
 }
-
-.drawer-container--unpinned.drawer-container--left {
+.drawer-container--unpinned.drawer-size-base.drawer-container--left {
   @apply top-2 left-2 bottom-2;
 }
-
-.drawer-container--unpinned.drawer-container--top {
+.drawer-container--unpinned.drawer-size-base.drawer-container--top {
   @apply top-2 left-2 right-2;
 }
-
-.drawer-container--unpinned.drawer-container--bottom {
+.drawer-container--unpinned.drawer-size-base.drawer-container--bottom {
   @apply bottom-2 left-2 right-2;
+}
+
+.drawer-container--unpinned.drawer-size-lg.drawer-container--right {
+  @apply top-3 right-3 bottom-3;
+}
+.drawer-container--unpinned.drawer-size-lg.drawer-container--left {
+  @apply top-3 left-3 bottom-3;
+}
+.drawer-container--unpinned.drawer-size-lg.drawer-container--top {
+  @apply top-3 left-3 right-3;
+}
+.drawer-container--unpinned.drawer-size-lg.drawer-container--bottom {
+  @apply bottom-3 left-3 right-3;
 }
 
 /* ============================================
@@ -129,6 +165,22 @@
 
 .aegov-drawer-content {
   @apply h-full;
+}
+
+/* ============================================
+   PADDING (size-aware) — mirrors aegov-card
+   ============================================ */
+
+.aegov-drawer-content.drawer-size-sm.drawer--padded {
+  @apply p-4;
+}
+
+.aegov-drawer-content.drawer-size-base.drawer--padded {
+  @apply p-5;
+}
+
+.aegov-drawer-content.drawer-size-lg.drawer--padded {
+  @apply p-6;
 }
 
 /* ============================================

@@ -6,7 +6,7 @@
 
 Cards are one of the most versatile layout components in a design system. They serve as visual containers that group related information, making content easier to scan and interact with. Common use cases include product listings, profile summaries, dashboard widgets, and content previews.
 
-The `aegov-card` component provides **3 border styles**, **3 backgrounds**, **3 border widths**, **2 hover effects**, and configurable padding out of the box.
+The `aegov-card` component provides **4 border styles**, **2 backgrounds**, **3 border widths**, **3 sizes**, **2 hover effects**, and configurable padding out of the box.
 
 ```html
 <aegov-card>
@@ -26,7 +26,7 @@ The `aegov-card` component provides **3 border styles**, **3 backgrounds**, **3 
 
 ## Border Styles
 
-The `border-style` property controls the visual style of the card's border. There are three border styles available.
+The `border-style` property controls the visual style of the card's border. There are four border styles available.
 
 ### Standard
 
@@ -76,6 +76,22 @@ A gradient border that transitions from primary-400 to primary-800. This uses a 
   </aegov-card>
 </div>
 
+### Highlight
+
+A neutral solid border (aeblack-200) that transitions into a primary gradient (primary-300 → primary-700) when hovered. The hover transition is built-in and fires regardless of the `hover` prop. Useful for interactive cards that should feel quiet at rest and respond when targeted.
+
+```html
+<aegov-card border-style="highlight">
+  <p>Highlight border — neutral at rest, gradient on hover.</p>
+</aegov-card>
+```
+
+<div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
+  <aegov-card border-style="highlight">
+    <p class="text-aeblack-600">Highlight border — hover to see the gradient transition.</p>
+  </aegov-card>
+</div>
+
 ---
 
 ## Border Width
@@ -110,31 +126,66 @@ The `border-width` property controls the thickness of the card's border. Values 
 
 ## Backgrounds
 
-The `background` property controls the card's background fill. There are three options.
+The `background` property controls the card's background fill. There are two options.
 
-| Background    | Description                              |
-|---------------|------------------------------------------|
-| `white`       | Default. Solid white background.         |
-| `transparent` | No background fill.                      |
-| `subtle`      | A light grey tint (slate-50).            |
+| Background  | Description                              |
+|-------------|------------------------------------------|
+| `white`     | Default. Solid white background.         |
+| `subtle`    | A light grey tint (aeblack-50).          |
 
 ```html
 <aegov-card background="white">White background</aegov-card>
-<aegov-card background="transparent">Transparent background</aegov-card>
 <aegov-card background="subtle">Subtle background</aegov-card>
 ```
 
-<div class="grid grid-cols-3 gap-4 p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
+<div class="grid grid-cols-2 gap-4 p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
   <aegov-card background="white">
     <p class="text-sm text-aeblack-600 font-medium">background="white"</p>
-  </aegov-card>
-  <aegov-card background="transparent">
-    <p class="text-sm text-aeblack-600 font-medium">background="transparent"</p>
   </aegov-card>
   <aegov-card background="subtle">
     <p class="text-sm text-aeblack-600 font-medium">background="subtle"</p>
   </aegov-card>
 </div>
+
+---
+
+## Sizes
+
+The `size` property scales both the inner padding and the border radius. All sizes respect the responsive breakpoint behaviour — radius shrinks at the **md** (≤768px) and **xs** (≤480px) breakpoints to match the smaller surface area on tablets and phones.
+
+| Size     | Padding | Radius (≥md) | Radius (≤md) | Radius (≤xs) |
+|----------|---------|--------------|--------------|--------------|
+| `sm`     | 1rem    | 0.5rem       | 0.375rem     | 0.25rem      |
+| `base`   | 1.5rem  | 0.75rem      | 0.5rem       | 0.375rem     |
+| `lg`     | 2rem    | 1rem         | 0.75rem      | 0.5rem       |
+
+`base` is the default and matches the original card sizing. `sm` is suited to dense layouts like list items or compact dashboards. `lg` is suited to feature cards, hero blocks, or any card that should feel generous and prominent.
+
+```html
+<aegov-card size="sm">Compact card</aegov-card>
+<aegov-card size="base">Default card</aegov-card>
+<aegov-card size="lg">Generous card</aegov-card>
+```
+
+<div class="grid grid-cols-3 gap-4 p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
+  <aegov-card size="sm">
+    <p class="text-sm text-aeblack-600 font-medium">size="sm"</p>
+  </aegov-card>
+  <aegov-card size="base">
+    <p class="text-sm text-aeblack-600 font-medium">size="base"</p>
+  </aegov-card>
+  <aegov-card size="lg">
+    <p class="text-sm text-aeblack-600 font-medium">size="lg"</p>
+  </aegov-card>
+</div>
+
+When `disallow-padding` is set, the size still controls the border radius — the padding is simply removed.
+
+```html
+<aegov-card size="lg" disallow-padding>
+  <img src="..." alt="Full-bleed image" style="width:100%; display:block;">
+</aegov-card>
+```
 
 ---
 
@@ -241,15 +292,121 @@ Cards are designed to be composed from independent properties. Any combination o
     <h3 class="text-base font-semibold mb-1">Light + Subtle + Standard</h3>
     <p class="text-sm text-aeblack-500">border-width="1"</p>
   </aegov-card>
-  <aegov-card border-style="standard" border-width="3" background="transparent" hover="glow">
-    <h3 class="text-base font-semibold mb-1">Standard + Transparent + Glow</h3>
+  <aegov-card border-style="standard" border-width="3" background="white" hover="glow">
+    <h3 class="text-base font-semibold mb-1">Standard + White + Glow</h3>
     <p class="text-sm text-aeblack-500">border-width="3"</p>
   </aegov-card>
   <aegov-card border-style="creative" border-width="3" background="subtle" hover="standard">
     <h3 class="text-base font-semibold mb-1">Creative + Subtle + Standard</h3>
     <p class="text-sm text-aeblack-500">border-width="3"</p>
   </aegov-card>
+  <aegov-card border-style="highlight" border-width="2" background="white">
+    <h3 class="text-base font-semibold mb-1">Highlight + White</h3>
+    <p class="text-sm text-aeblack-500">border-width="2"</p>
+  </aegov-card>
+  <aegov-card border-style="highlight" border-width="2" background="subtle" hover="glow">
+    <h3 class="text-base font-semibold mb-1">Highlight + Subtle + Glow</h3>
+    <p class="text-sm text-aeblack-500">border-width="2"</p>
+  </aegov-card>
 </div>
+
+---
+
+## Layout
+
+Cards have no built-in layout — they are block-level containers that fill the width of their parent. Use any layout primitive to arrange multiple cards. The two most common patterns are **flex** for one-dimensional rows or columns, and **grid** for two-dimensional matrices that wrap and reflow predictably.
+
+### Flex Layout
+
+Use a flex container to lay cards out one after another with consistent gaps. On wide viewports the cards sit side-by-side; on narrower viewports `flex-wrap` lets them stack.
+
+```html
+<div style="display: flex; flex-wrap: wrap; gap: 1.5rem;">
+  <aegov-card style="flex: 1 1 280px;" border-style="light" hover="standard">
+    <h3>Apply for Service</h3>
+    <p>Submit a new application through our digital portal in a few quick steps.</p>
+    <aegov-button size="sm" appearance="primary">Start Application</aegov-button>
+  </aegov-card>
+  <aegov-card style="flex: 1 1 280px;" border-style="light" hover="standard">
+    <h3>Track Request</h3>
+    <p>Check the live status of any application you have already submitted.</p>
+    <aegov-button size="sm" appearance="primary">Track Now</aegov-button>
+  </aegov-card>
+  <aegov-card style="flex: 1 1 280px;" border-style="light" hover="standard">
+    <h3>Get Support</h3>
+    <p>Reach out to our support team for help with your account or services.</p>
+    <aegov-button size="sm" appearance="primary">Contact Us</aegov-button>
+  </aegov-card>
+</div>
+```
+
+<div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
+  <div style="display: flex; flex-wrap: wrap; gap: 1.5rem;">
+    <aegov-card style="flex: 1 1 280px;" border-style="light" hover="standard">
+      <h3 class="text-lg font-semibold mb-2">Apply for Service</h3>
+      <p class="text-aeblack-600 mb-4">Submit a new application through our digital portal in a few quick steps.</p>
+      <aegov-button size="sm" appearance="primary">Start Application</aegov-button>
+    </aegov-card>
+    <aegov-card style="flex: 1 1 280px;" border-style="light" hover="standard">
+      <h3 class="text-lg font-semibold mb-2">Track Request</h3>
+      <p class="text-aeblack-600 mb-4">Check the live status of any application you have already submitted.</p>
+      <aegov-button size="sm" appearance="primary">Track Now</aegov-button>
+    </aegov-card>
+    <aegov-card style="flex: 1 1 280px;" border-style="light" hover="standard">
+      <h3 class="text-lg font-semibold mb-2">Get Support</h3>
+      <p class="text-aeblack-600 mb-4">Reach out to our support team for help with your account or services.</p>
+      <aegov-button size="sm" appearance="primary">Contact Us</aegov-button>
+    </aegov-card>
+  </div>
+</div>
+
+### Grid Layout
+
+Use a CSS grid for fixed-column layouts where each card occupies a single grid track. The example below uses three equal columns; switch to `repeat(auto-fit, minmax(280px, 1fr))` for a responsive grid that re-flows when there isn't enough space.
+
+```html
+<div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem;">
+  <aegov-card border-style="light" hover="standard">
+    <h3>Apply for Service</h3>
+    <p>Submit a new application through our digital portal in a few quick steps.</p>
+    <aegov-button size="sm" appearance="primary">Start Application</aegov-button>
+  </aegov-card>
+  <aegov-card border-style="light" hover="standard">
+    <h3>Track Request</h3>
+    <p>Check the live status of any application you have already submitted.</p>
+    <aegov-button size="sm" appearance="primary">Track Now</aegov-button>
+  </aegov-card>
+  <aegov-card border-style="light" hover="standard">
+    <h3>Get Support</h3>
+    <p>Reach out to our support team for help with your account or services.</p>
+    <aegov-button size="sm" appearance="primary">Contact Us</aegov-button>
+  </aegov-card>
+</div>
+```
+
+<div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
+  <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem;">
+    <aegov-card border-style="light" hover="standard">
+      <h3 class="text-lg font-semibold mb-2">Apply for Service with a longer title</h3>
+      <p class="text-aeblack-600 mb-4">Submit a new application through our digital portal in a few quick steps.</p>
+      <aegov-button size="sm" appearance="primary">Start Application</aegov-button>
+    </aegov-card>
+    <aegov-card border-style="light" hover="standard">
+      <h3 class="text-lg font-semibold mb-2">Track Request</h3>
+      <p class="text-aeblack-600 mb-4">Check the live status of any application you have already submitted.</p>
+      <aegov-button size="sm" appearance="primary">Track Now</aegov-button>
+    </aegov-card>
+    <aegov-card border-style="light" hover="standard">
+      <h3 class="text-lg font-semibold mb-2">Get Support</h3>
+      <p class="text-aeblack-600 mb-4">Reach out to our support team for help.</p>
+      <aegov-button size="sm" appearance="primary">Contact Us</aegov-button>
+    </aegov-card>
+  </div>
+</div>
+
+**Equal heights:** Cards stretch to fill their grid row or flex track automatically. This is built into the component — no parent-side height styling required. To opt out for a specific card, set `align-self: start` on that card's host element.
+
+**Flex vs grid:** flex is best when card widths can vary or you want them to grow/shrink to fill the row. Grid is best when you need strict column alignment regardless of card content.
 
 ---
 
@@ -349,6 +506,7 @@ The table below shows every combination of border style and background. All card
       <th class="p-3 border border-aeblack-100 font-semibold">Standard</th>
       <th class="p-3 border border-aeblack-100 font-semibold">Light</th>
       <th class="p-3 border border-aeblack-100 font-semibold">Creative</th>
+      <th class="p-3 border border-aeblack-100 font-semibold">Highlight</th>
     </tr>
   </thead>
   <tbody>
@@ -357,18 +515,14 @@ The table below shows every combination of border style and background. All card
       <td class="p-3 border border-aeblack-100 not-aegov"><aegov-card border-style="standard" background="white" border-width="2"><p class="text-xs text-aeblack-500">Standard + White</p></aegov-card></td>
       <td class="p-3 border border-aeblack-100 not-aegov"><aegov-card border-style="light" background="white" border-width="2"><p class="text-xs text-aeblack-500">Light + White</p></aegov-card></td>
       <td class="p-3 border border-aeblack-100 not-aegov"><aegov-card border-style="creative" background="white" border-width="2"><p class="text-xs text-aeblack-500">Creative + White</p></aegov-card></td>
-    </tr>
-    <tr>
-      <td class="p-3 border border-aeblack-100 font-medium">Transparent</td>
-      <td class="p-3 border border-aeblack-100 not-aegov"><aegov-card border-style="standard" background="transparent" border-width="2"><p class="text-xs text-aeblack-500">Standard + Transparent</p></aegov-card></td>
-      <td class="p-3 border border-aeblack-100 not-aegov"><aegov-card border-style="light" background="transparent" border-width="2"><p class="text-xs text-aeblack-500">Light + Transparent</p></aegov-card></td>
-      <td class="p-3 border border-aeblack-100 not-aegov"><aegov-card border-style="creative" background="transparent" border-width="2"><p class="text-xs text-aeblack-500">Creative + Transparent</p></aegov-card></td>
+      <td class="p-3 border border-aeblack-100 not-aegov"><aegov-card border-style="highlight" background="white" border-width="2"><p class="text-xs text-aeblack-500">Highlight + White</p></aegov-card></td>
     </tr>
     <tr>
       <td class="p-3 border border-aeblack-100 font-medium">Subtle</td>
       <td class="p-3 border border-aeblack-100 not-aegov"><aegov-card border-style="standard" background="subtle" border-width="2"><p class="text-xs text-aeblack-500">Standard + Subtle</p></aegov-card></td>
       <td class="p-3 border border-aeblack-100 not-aegov"><aegov-card border-style="light" background="subtle" border-width="2"><p class="text-xs text-aeblack-500">Light + Subtle</p></aegov-card></td>
       <td class="p-3 border border-aeblack-100 not-aegov"><aegov-card border-style="creative" background="subtle" border-width="2"><p class="text-xs text-aeblack-500">Creative + Subtle</p></aegov-card></td>
+      <td class="p-3 border border-aeblack-100 not-aegov"><aegov-card border-style="highlight" background="subtle" border-width="2"><p class="text-xs text-aeblack-500">Highlight + Subtle</p></aegov-card></td>
     </tr>
   </tbody>
 </table>
@@ -380,13 +534,14 @@ The table below shows every combination of border style and background. All card
 
 ### Properties
 
-| Property          | Attribute          | Description                                                    | Type                                          | Default       |
-|-------------------|--------------------|----------------------------------------------------------------|-----------------------------------------------|---------------|
-| `borderStyle`     | `border-style`     | The visual style of the card border                           | `'standard'` \| `'light'` \| `'creative'`     | `'standard'`  |
-| `borderWidth`     | `border-width`     | The thickness of the border in pixels                         | `1` \| `2` \| `3`                             | `1`           |
-| `background`      | `background`       | The background fill of the card                               | `'white'` \| `'transparent'` \| `'subtle'`    | `'white'`     |
-| `hover`           | `hover`            | The hover effect applied to the card                          | `'off'` \| `'standard'` \| `'glow'`           | `'off'`       |
-| `disallowPadding` | `disallow-padding` | Removes the default 1.5rem (24px) inner padding when set      | `boolean`                                      | `false`       |
+| Property          | Attribute          | Description                                                    | Type                                                              | Default       |
+|-------------------|--------------------|----------------------------------------------------------------|-------------------------------------------------------------------|---------------|
+| `borderStyle`     | `border-style`     | The visual style of the card border                           | `'standard'` \| `'light'` \| `'creative'` \| `'highlight'`        | `'standard'`  |
+| `borderWidth`     | `border-width`     | The thickness of the border in pixels                         | `1` \| `2` \| `3`                                                 | `2`           |
+| `background`      | `background`       | The background fill of the card                               | `'white'` \| `'subtle'`                                           | `'white'`     |
+| `size`            | `size`             | Scales padding and border-radius (responsive at md/xs)        | `'sm'` \| `'base'` \| `'lg'`                                      | `'base'`      |
+| `hover`           | `hover`            | The hover effect applied to the card                          | `'off'` \| `'standard'` \| `'glow'`                               | `'off'`       |
+| `disallowPadding` | `disallow-padding` | Removes the default inner padding when set (size still controls radius) | `boolean`                                              | `false`       |
 
 ### Slots
 
@@ -405,8 +560,8 @@ The `aegov-card` component is a presentational container. It does not carry any 
 - **Use semantic headings.** When a card has a title, use an appropriate heading level (`<h2>`, `<h3>`, etc.) based on the page structure.
 - **Image alt text.** If the card contains images, ensure they have descriptive `alt` attributes or are marked as decorative with `alt=""`.
 - **Interactive cards.** If the entire card should be clickable, wrap the card content in an `<a>` element or add a link/button inside. Do not make the `aegov-card` host element clickable — it renders a `<div>`, not a `<button>` or `<a>`.
-- **Hover effects are not conveyed to assistive technologies.** The `hover` property is purely visual. Ensure that hover states are not the only means of conveying information.
-- **Colour contrast.** The `transparent` background may result in insufficient contrast depending on the parent container's background. Verify that text inside transparent cards has at least a **4.5:1** contrast ratio against the effective background.
+- **Hover effects are not conveyed to assistive technologies.** The `hover` property and the built-in highlight border transition are purely visual. Ensure that hover states are not the only means of conveying information.
+- **Colour contrast.** Verify that text inside the card has at least a **4.5:1** contrast ratio against the chosen background (`white` or `subtle`).
 
 ---
 
@@ -414,8 +569,9 @@ The `aegov-card` component is a presentational container. It does not carry any 
 
 - The `aegov-card` component renders a `<div>` with the class `aegov-card` and modifier classes. It uses `scoped: false`, so styles are global and rely on the `aegov-card` class prefix.
 - The `disallow-padding` attribute removes all inner padding. This is useful when embedding images or custom layouts that need to extend to the card's edges.
-- The `creative` border style uses a double-background technique with `background-clip: padding-box, border-box` to create a gradient border. This means the background is set via `background-image` rather than `background-color` when using the creative border style.
-- Border radius is responsive: 1rem on desktop, 0.75rem on tablets (below 768px), and 0.5rem on mobile (below 480px).
+- The `creative` and `highlight` border styles use a double-background technique with `background-clip: padding-box, border-box` to create a gradient border. The background is set via `background-image` rather than `background-color` when using these border styles.
+- The `highlight` border style transitions from a solid `aeblack-200` border to a `primary-300 → primary-700` gradient on hover. This transition is built-in and fires regardless of the `hover` prop. Combine with `hover="glow"` to also fire the shadow glow.
+- Border radius is driven by the `size` prop and is responsive at the **md** (≤768px) and **xs** (≤480px) breakpoints. See the Sizes section for the per-size radius scale.
 - The card has `overflow: hidden` applied, which means content that extends beyond the card boundaries will be clipped. This is particularly useful for full-bleed images.
 - Hover transitions are smooth with a 300ms ease timing function applied to `border-color`, `box-shadow`, and `background-image`.
 - The `glow` hover effect uses an OKLCH-based shadow for a warm, brand-aligned glow rather than a generic grey shadow.

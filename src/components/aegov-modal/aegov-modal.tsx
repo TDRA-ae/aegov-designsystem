@@ -1,6 +1,6 @@
 import { Component, Host, h, Prop, Event, EventEmitter, Element, Method, Watch, State } from '@stencil/core';
-import { MODAL_POSITIONS, MODAL_BACKDROP_OPACITIES } from '../../utils/types';
-import type { ModalPosition, ModalBackdropOpacity } from '../../utils/types';
+import { MODAL_POSITIONS, MODAL_BACKDROP_OPACITIES, MODAL_SIZES } from '../../utils/types';
+import type { ModalPosition, ModalBackdropOpacity, ModalSize } from '../../utils/types';
 import { getPassThroughAttributes } from '../../utils/attributes';
 import { getSlottedFocusableElements, handleTabKeyWrap } from '../../utils/focus-management';
 import { lockBodyScroll, unlockBodyScroll } from '../../utils/scroll-lock';
@@ -53,6 +53,18 @@ export class AegovModal {
    * @default 'center'
    */
   @Prop() position: ModalPosition = 'center';
+
+  /**
+   * Size: 'sm' (compact padding/radius), 'base' (default), or 'lg' (generous padding/radius). Mirrors aegov-card sizing tokens.
+   * @default 'base'
+   */
+  @Prop() size: ModalSize = 'base';
+
+  /**
+   * Disables inner content padding. Padding is on by default and scales with size.
+   * @default false
+   */
+  @Prop() disallowPadding: boolean = false;
 
   // Note: ARIA attributes (aria-label, aria-labelledby, aria-describedby)
   // are passed through automatically via getPassThroughAttributes()
@@ -124,6 +136,7 @@ export class AegovModal {
   componentWillLoad() {
     warnIfInvalidEnumProp(this.backdropOpacity, MODAL_BACKDROP_OPACITIES, 'base', ctx('backdropOpacity'));
     warnIfInvalidEnumProp(this.position, MODAL_POSITIONS, 'center', ctx('position'));
+    warnIfInvalidEnumProp(this.size, MODAL_SIZES, 'base', ctx('size'));
   }
 
   @Watch('backdropOpacity')
@@ -131,6 +144,9 @@ export class AegovModal {
 
   @Watch('position')
   onPositionChange(v: unknown) { warnIfInvalidEnumProp(v, MODAL_POSITIONS, 'center', ctx('position')); }
+
+  @Watch('size')
+  onSizeChange(v: unknown) { warnIfInvalidEnumProp(v, MODAL_SIZES, 'base', ctx('size')); }
 
   connectedCallback() {
     // Move modal to body for proper stacking
@@ -270,6 +286,16 @@ export class AegovModal {
     return positionClasses[position];
   }
 
+  private getSizeClass(): string {
+    const size: ModalSize = (MODAL_SIZES as readonly string[]).includes(this.size) ? this.size : 'base';
+    const sizeClasses: Record<ModalSize, string> = {
+      sm: 'modal-size-sm',
+      base: 'modal-size-base',
+      lg: 'modal-size-lg',
+    };
+    return sizeClasses[size];
+  }
+
   private getBackdropOpacityClass(): string {
     const backdropOpacity: ModalBackdropOpacity = (MODAL_BACKDROP_OPACITIES as readonly string[]).includes(this.backdropOpacity) ? this.backdropOpacity : 'base';
     const opacityClasses: Record<ModalBackdropOpacity, string> = {
@@ -298,7 +324,7 @@ export class AegovModal {
         ></div>
         <div class={`aegov-modal-container ${this.getPositionClass()}`} onClick={this.handleBackdropClick}>
           <div
-            class="aegov-modal-content"
+            class={`aegov-modal-content ${this.getSizeClass()} ${!this.disallowPadding ? 'modal--padded' : ''}`}
             data-state={this.animationState}
             role="dialog"
             aria-modal="true"

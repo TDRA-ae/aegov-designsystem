@@ -287,6 +287,72 @@
 </div>
 
 <hr>
+<h2>Size</h2>
+<p>The <code>size</code> property scales the drawer&#39;s inner padding. It mirrors the <code>aegov-card</code> sizing tokens. When <code>pinned=&quot;false&quot;</code>, <code>size</code> also controls the <strong>edge gap</strong> and <strong>border-radius</strong>. When pinned, no border-radius is applied regardless of size.</p>
+<table>
+<thead>
+<tr>
+<th>Size</th>
+<th>Padding</th>
+<th>Unpinned gap</th>
+<th>Unpinned radius</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>sm</code></td>
+<td><code>1rem</code> (16px)</td>
+<td><code>0.25rem</code> (4px)</td>
+<td><code>0.5rem</code> (8px)</td>
+</tr>
+<tr>
+<td><code>base</code></td>
+<td><code>1.25rem</code> (20px)</td>
+<td><code>0.5rem</code> (8px)</td>
+<td><code>0.75rem</code> (12px) — default</td>
+</tr>
+<tr>
+<td><code>lg</code></td>
+<td><code>1.5rem</code> (24px)</td>
+<td><code>0.75rem</code> (12px)</td>
+<td><code>1rem</code> (16px)</td>
+</tr>
+</tbody></table>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;open-size-sm&quot;</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;outline&quot;</span>&gt;</span>Small<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;open-size-base&quot;</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;outline&quot;</span>&gt;</span>Base<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;open-size-lg&quot;</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;outline&quot;</span>&gt;</span>Large<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-drawer</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;drawer-size&quot;</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;base&quot;</span> <span class="hljs-attr">pinned</span>=<span class="hljs-string">&quot;false&quot;</span> <span class="hljs-attr">aria-label</span>=<span class="hljs-string">&quot;Sized drawer&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">h3</span> <span class="hljs-attr">style</span>=<span class="hljs-string">&quot;margin-top: 0;&quot;</span>&gt;</span>Sized Drawer<span class="hljs-tag">&lt;/<span class="hljs-name">h3</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Padding, gap, and radius scale with the <span class="hljs-tag">&lt;<span class="hljs-name">code</span>&gt;</span>size<span class="hljs-tag">&lt;/<span class="hljs-name">code</span>&gt;</span> prop.<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;close-size&quot;</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;outline&quot;</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm&quot;</span>&gt;</span>Close<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-drawer</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
+  <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+    <aegov-button id="open-size-sm-demo" variant="outline">Small</aegov-button>
+    <aegov-button id="open-size-base-demo" variant="outline">Base</aegov-button>
+    <aegov-button id="open-size-lg-demo" variant="outline">Large</aegov-button>
+  </div>
+  <aegov-drawer id="drawer-size-demo" size="base" pinned="false" aria-label="Sized drawer">
+    <h3 style="margin-top: 0;">Sized Drawer</h3>
+    <p>Padding, gap, and radius scale with the <code>size</code> prop.</p>
+    <aegov-button id="close-size-demo" variant="outline" size="sm">Close</aegov-button>
+  </aegov-drawer>
+  <script>
+    (function() {
+      var d = document.getElementById('drawer-size-demo');
+      function openWith(sz) { d.size = sz; d.show(); }
+      document.getElementById('open-size-sm-demo').addEventListener('aegovButtonClick', function() { openWith('sm'); });
+      document.getElementById('open-size-base-demo').addEventListener('aegovButtonClick', function() { openWith('base'); });
+      document.getElementById('open-size-lg-demo').addEventListener('aegovButtonClick', function() { openWith('lg'); });
+      document.getElementById('close-size-demo').addEventListener('aegovButtonClick', function() { d.close(); });
+    })();
+  </script>
+</div>
+
+<h3>Disallow padding</h3>
+<p>Set <code>disallow-padding</code> to remove inner padding entirely — useful when the slotted content provides its own structural spacing (e.g. a header / body / footer pattern).</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-drawer</span> <span class="hljs-attr">disallow-padding</span> <span class="hljs-attr">aria-label</span>=<span class="hljs-string">&quot;Edge-to-edge drawer&quot;</span>&gt;</span>
+  <span class="hljs-comment">&lt;!-- content controls its own padding --&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-drawer</span>&gt;</span></code></pre><hr>
 <h2>Backdrop Overlay</h2>
 <p>The <code>overlay</code> property controls whether a semi-transparent backdrop is rendered behind the drawer. The <code>overlayOpacity</code> property adjusts the darkness of the backdrop.</p>
 <table>
@@ -536,6 +602,59 @@
 </div>
 
 <hr>
+<h2>Slotted Content Patterns</h2>
+<p>The drawer uses a single default slot. You are responsible for structuring the content inside it. Below are common layout patterns. Set <code>disallow-padding</code> so the slotted structure controls its own spacing.</p>
+<h3>Header, Body, and Footer</h3>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-drawer</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;structured-drawer&quot;</span> <span class="hljs-attr">disallow-padding</span> <span class="hljs-attr">aria-label</span>=<span class="hljs-string">&quot;Structured drawer&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">style</span>=<span class="hljs-string">&quot;display: flex; flex-direction: column; height: 100%; width: 360px;&quot;</span>&gt;</span>
+    <span class="hljs-comment">&lt;!-- Header --&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">style</span>=<span class="hljs-string">&quot;display: flex; justify-content: space-between; align-items: center; padding: 1.5rem; border-bottom: 1px solid #e2e8f0;&quot;</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">h2</span> <span class="hljs-attr">style</span>=<span class="hljs-string">&quot;margin: 0; font-size: 1.25rem;&quot;</span>&gt;</span>Drawer Title<span class="hljs-tag">&lt;/<span class="hljs-name">h2</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span> <span class="hljs-attr">icon</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;soft&quot;</span> <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;neutralMax&quot;</span> <span class="hljs-attr">aria-label</span>=<span class="hljs-string">&quot;Close&quot;</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;close-structured&quot;</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">svg</span> <span class="hljs-attr">xmlns</span>=<span class="hljs-string">&quot;http://www.w3.org/2000/svg&quot;</span> <span class="hljs-attr">viewBox</span>=<span class="hljs-string">&quot;0 0 24 24&quot;</span> <span class="hljs-attr">fill</span>=<span class="hljs-string">&quot;none&quot;</span> <span class="hljs-attr">stroke</span>=<span class="hljs-string">&quot;currentColor&quot;</span> <span class="hljs-attr">stroke-width</span>=<span class="hljs-string">&quot;2&quot;</span> <span class="hljs-attr">stroke-linecap</span>=<span class="hljs-string">&quot;round&quot;</span> <span class="hljs-attr">stroke-linejoin</span>=<span class="hljs-string">&quot;round&quot;</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">line</span> <span class="hljs-attr">x1</span>=<span class="hljs-string">&quot;18&quot;</span> <span class="hljs-attr">y1</span>=<span class="hljs-string">&quot;6&quot;</span> <span class="hljs-attr">x2</span>=<span class="hljs-string">&quot;6&quot;</span> <span class="hljs-attr">y2</span>=<span class="hljs-string">&quot;18&quot;</span>/&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">line</span> <span class="hljs-attr">x1</span>=<span class="hljs-string">&quot;6&quot;</span> <span class="hljs-attr">y1</span>=<span class="hljs-string">&quot;6&quot;</span> <span class="hljs-attr">x2</span>=<span class="hljs-string">&quot;18&quot;</span> <span class="hljs-attr">y2</span>=<span class="hljs-string">&quot;18&quot;</span>/&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">svg</span>&gt;</span>
+      <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+    <span class="hljs-comment">&lt;!-- Body --&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">style</span>=<span class="hljs-string">&quot;flex: 1; padding: 1.5rem; overflow-y: auto;&quot;</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">p</span> <span class="hljs-attr">style</span>=<span class="hljs-string">&quot;margin: 0; color: #64748b;&quot;</span>&gt;</span>Place your main content here — forms, text, lists, or any HTML.<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+    <span class="hljs-comment">&lt;!-- Footer --&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">style</span>=<span class="hljs-string">&quot;display: flex; justify-content: flex-end; gap: 0.5rem; padding: 1.5rem; border-top: 1px solid #e2e8f0;&quot;</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;outline&quot;</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;cancel-structured&quot;</span>&gt;</span>Cancel<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;save-structured&quot;</span>&gt;</span>Save Changes<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-drawer</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
+  <aegov-button id="open-structured-demo">Open Structured Drawer</aegov-button>
+  <aegov-drawer id="structured-drawer-demo" disallow-padding aria-label="Structured drawer">
+    <div style="display: flex; flex-direction: column; height: 100%; width: 360px;">
+      <div style="display: flex; justify-content: space-between; align-items: center; padding: 1.5rem; border-bottom: 1px solid #e2e8f0;">
+        <h2 style="margin: 0; font-size: 1.25rem;">Drawer Title</h2>
+        <aegov-button icon variant="soft" appearance="neutralMax" size="sm" aria-label="Close" id="close-structured-demo">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </aegov-button>
+      </div>
+      <div style="flex: 1; padding: 1.5rem; overflow-y: auto;">
+        <p style="margin: 0; color: #64748b;">Place your main content here — forms, text, lists, or any HTML.</p>
+      </div>
+      <div style="display: flex; justify-content: flex-end; gap: 0.5rem; padding: 1.5rem; border-top: 1px solid #e2e8f0;">
+        <aegov-button variant="outline" id="cancel-structured-demo">Cancel</aegov-button>
+        <aegov-button id="save-structured-demo">Save Changes</aegov-button>
+      </div>
+    </div>
+  </aegov-drawer>
+  <script>
+    (function() {
+      const drawer = document.getElementById('structured-drawer-demo');
+      document.getElementById('open-structured-demo').addEventListener('aegovButtonClick', () => drawer.show());
+      document.getElementById('close-structured-demo').addEventListener('aegovButtonClick', () => drawer.close());
+      document.getElementById('cancel-structured-demo').addEventListener('aegovButtonClick', () => drawer.close());
+      document.getElementById('save-structured-demo').addEventListener('aegovButtonClick', () => drawer.close());
+    })();
+  </script>
+</div>
+
+<hr>
 <h2>Practical Example — Navigation Sidebar</h2>
 <p>A common use case is a responsive navigation menu that opens as a drawer on mobile.</p>
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;open-nav&quot;</span> <span class="hljs-attr">icon</span> <span class="hljs-attr">aria-label</span>=<span class="hljs-string">&quot;Open menu&quot;</span>&gt;</span>
@@ -648,6 +767,20 @@
 <td>Whether to prevent body scrolling when drawer is open</td>
 <td><code>boolean</code></td>
 <td><code>true</code></td>
+</tr>
+<tr>
+<td><code>size</code></td>
+<td><code>size</code></td>
+<td>Inner padding scale; also drives gap + radius when unpinned</td>
+<td><code>&#39;sm&#39;</code> | <code>&#39;base&#39;</code> | <code>&#39;lg&#39;</code></td>
+<td><code>&#39;base&#39;</code></td>
+</tr>
+<tr>
+<td><code>disallowPadding</code></td>
+<td><code>disallow-padding</code></td>
+<td>Disables inner content padding</td>
+<td><code>boolean</code></td>
+<td><code>false</code></td>
 </tr>
 </tbody></table>
 <h3>Events</h3>
