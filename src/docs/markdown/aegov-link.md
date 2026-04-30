@@ -87,15 +87,15 @@ When `target="_blank"` is set and no custom `rel` is provided, the component aut
 Use the `class` property to add additional CSS classes to the inner anchor element. Custom classes are merged with the component's default styling classes.
 
 ```html
-<aegov-link href="/bold" class="font-bold">Bold Link</aegov-link>
-<aegov-link href="/large" class="text-lg">Larger Link</aegov-link>
-<aegov-link href="/custom" class="text-aered-600">Red Link</aegov-link>
+<aegov-link href="/bold" extra-class="font-bold">Bold Link</aegov-link>
+<aegov-link href="/large" extra-class="text-lg">Larger Link</aegov-link>
+<aegov-link href="/custom" extra-class="text-aered-600">Red Link</aegov-link>
 ```
 
 <div class="flex flex-wrap gap-6 p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-link href="/bold" class="font-bold">Bold Link</aegov-link>
-  <aegov-link href="/large" class="text-lg">Larger Link</aegov-link>
-  <aegov-link href="/custom" class="text-aered-600">Red Link</aegov-link>
+  <aegov-link href="/bold" extra-class="font-bold">Bold Link</aegov-link>
+  <aegov-link href="/large" extra-class="text-lg">Larger Link</aegov-link>
+  <aegov-link href="/custom" extra-class="text-aered-600">Red Link</aegov-link>
 </div>
 
 ---

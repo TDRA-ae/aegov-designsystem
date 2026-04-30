@@ -236,10 +236,10 @@ By default the drawer panel is **pinned** flush to the viewport edge. Set `pinne
 
 ```html
 <!-- Pinned (default) — flush to edge -->
-<aegov-drawer pinned>…</aegov-drawer>
+<aegov-drawer is-pinned>…</aegov-drawer>
 
 <!-- Unpinned — gap + rounded corners -->
-<aegov-drawer pinned="false">…</aegov-drawer>
+<aegov-drawer is-pinned="false">…</aegov-drawer>
 ```
 
 <div class="flex flex-wrap gap-3 p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
@@ -254,7 +254,7 @@ By default the drawer panel is **pinned** flush to the viewport edge. Set `pinne
     </div>
   </aegov-drawer>
 
-  <aegov-drawer id="drawer-unpinned" pinned="false">
+  <aegov-drawer id="drawer-unpinned" is-pinned="false">
     <div style="padding: 1.5rem; width: 320px;">
       <h3 style="margin-top: 0;">Unpinned Drawer</h3>
       <p>This drawer has a small gap from the viewport edges and rounded corners for a floating look.</p>
@@ -295,7 +295,7 @@ The `size` property scales the drawer's inner padding. It mirrors the `aegov-car
 <aegov-button id="open-size-base" variant="outline">Base</aegov-button>
 <aegov-button id="open-size-lg" variant="outline">Large</aegov-button>
 
-<aegov-drawer id="drawer-size" size="base" pinned="false" aria-label="Sized drawer">
+<aegov-drawer id="drawer-size" size="base" is-pinned="false" aria-label="Sized drawer">
   <h3 style="margin-top: 0;">Sized Drawer</h3>
   <p>Padding, gap, and radius scale with the <code>size</code> prop.</p>
   <aegov-button id="close-size" variant="outline" size="sm">Close</aegov-button>
@@ -308,7 +308,7 @@ The `size` property scales the drawer's inner padding. It mirrors the `aegov-car
     <aegov-button id="open-size-base-demo" variant="outline">Base</aegov-button>
     <aegov-button id="open-size-lg-demo" variant="outline">Large</aegov-button>
   </div>
-  <aegov-drawer id="drawer-size-demo" size="base" pinned="false" aria-label="Sized drawer">
+  <aegov-drawer id="drawer-size-demo" size="base" is-pinned="false" aria-label="Sized drawer">
     <h3 style="margin-top: 0;">Sized Drawer</h3>
     <p>Padding, gap, and radius scale with the <code>size</code> prop.</p>
     <aegov-button id="close-size-demo" variant="outline" size="sm">Close</aegov-button>
@@ -327,10 +327,10 @@ The `size` property scales the drawer's inner padding. It mirrors the `aegov-car
 
 ### Disallow padding
 
-Set `disallow-padding` to remove inner padding entirely — useful when the slotted content provides its own structural spacing (e.g. a header / body / footer pattern).
+Set `is-padding` to remove inner padding entirely — useful when the slotted content provides its own structural spacing (e.g. a header / body / footer pattern).
 
 ```html
-<aegov-drawer disallow-padding aria-label="Edge-to-edge drawer">
+<aegov-drawer is-padding="false" aria-label="Edge-to-edge drawer">
   <!-- content controls its own padding -->
 </aegov-drawer>
 ```
@@ -339,7 +339,7 @@ Set `disallow-padding` to remove inner padding entirely — useful when the slot
 
 ## Backdrop Overlay
 
-The `overlay` property controls whether a semi-transparent backdrop is rendered behind the drawer. The `overlayOpacity` property adjusts the darkness of the backdrop.
+The `is-overlay` property controls whether a semi-transparent backdrop is rendered behind the drawer. The `overlayOpacity` property adjusts the darkness of the backdrop.
 
 | Opacity  | Description                           |
 |----------|---------------------------------------|
@@ -348,10 +348,10 @@ The `overlay` property controls whether a semi-transparent backdrop is rendered 
 | `dark`   | 70% opacity — heavy dim.             |
 
 ```html
-<aegov-drawer overlay overlay-opacity="light">…</aegov-drawer>
-<aegov-drawer overlay overlay-opacity="base">…</aegov-drawer>
-<aegov-drawer overlay overlay-opacity="dark">…</aegov-drawer>
-<aegov-drawer overlay="false">…</aegov-drawer>
+<aegov-drawer is-overlay overlay-opacity="light">…</aegov-drawer>
+<aegov-drawer is-overlay overlay-opacity="base">…</aegov-drawer>
+<aegov-drawer is-overlay overlay-opacity="dark">…</aegov-drawer>
+<aegov-drawer is-overlay="false">…</aegov-drawer>
 ```
 
 <div class="flex flex-wrap gap-3 p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
@@ -384,7 +384,7 @@ The `overlay` property controls whether a semi-transparent backdrop is rendered 
     </div>
   </aegov-drawer>
 
-  <aegov-drawer id="drawer-ov-none" overlay="false">
+  <aegov-drawer id="drawer-ov-none" is-overlay="false">
     <div style="padding: 1.5rem; width: 320px;">
       <h3 style="margin-top: 0;">No Overlay</h3>
       <p>No backdrop is rendered. The page behind remains fully visible. Click outside still closes the drawer because <code>close-with-backdrop</code> defaults to <code>true</code>.</p>
@@ -410,19 +410,19 @@ The `overlay` property controls whether a semi-transparent backdrop is rendered 
 
 ### Backdrop Click
 
-By default, clicking the backdrop (or the area outside the drawer when `overlay` is `false`) closes the drawer. Set `close-with-backdrop="false"` to disable this.
+By default, clicking the backdrop (or the area outside the drawer when `is-overlay` is `false`) closes the drawer. Set `is-close-with-overlay="false"` to disable this.
 
 ```html
 <!-- Backdrop click closes (default) -->
-<aegov-drawer close-with-backdrop>…</aegov-drawer>
+<aegov-drawer is-close-with-overlay>…</aegov-drawer>
 
 <!-- Backdrop click does NOT close -->
-<aegov-drawer close-with-backdrop="false">…</aegov-drawer>
+<aegov-drawer is-close-with-overlay="false">…</aegov-drawer>
 ```
 
 <div class="flex flex-wrap gap-3 p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
   <aegov-button id="open-no-bd-close" variant="solid" size="sm">Backdrop Click Disabled</aegov-button>
-  <aegov-drawer id="drawer-no-bd-close" close-with-backdrop="false">
+  <aegov-drawer id="drawer-no-bd-close" is-close-with-overlay="false">
     <div style="padding: 1.5rem; width: 320px;">
       <h3 style="margin-top: 0;">Persistent Drawer</h3>
       <p>Clicking the backdrop will <strong>not</strong> close this drawer. You must use the close button or press Escape.</p>
@@ -488,14 +488,14 @@ The `aegovDrawerBeforeClose` event fires before the drawer actually closes. Call
 
 ## Body Scroll Lock
 
-By default the drawer locks body scrolling when open. Set `prevent-body-scroll="false"` to allow the page to scroll behind the drawer.
+By default the drawer locks body scrolling when open. Set `is-prevent-scroll="false"` to allow the page to scroll behind the drawer.
 
 ```html
 <!-- Body scroll locked (default) -->
-<aegov-drawer prevent-body-scroll>…</aegov-drawer>
+<aegov-drawer is-prevent-scroll>…</aegov-drawer>
 
 <!-- Body scroll allowed -->
-<aegov-drawer prevent-body-scroll="false">…</aegov-drawer>
+<aegov-drawer is-prevent-scroll="false">…</aegov-drawer>
 ```
 
 ---
@@ -609,12 +609,12 @@ The drawer emits several events during its lifecycle.
 
 ## Slotted Content Patterns
 
-The drawer uses a single default slot. You are responsible for structuring the content inside it. Below are common layout patterns. Set `disallow-padding` so the slotted structure controls its own spacing.
+The drawer uses a single default slot. You are responsible for structuring the content inside it. Below are common layout patterns. Set `is-padding` so the slotted structure controls its own spacing.
 
 ### Header, Body, and Footer
 
 ```html
-<aegov-drawer id="structured-drawer" disallow-padding aria-label="Structured drawer">
+<aegov-drawer id="structured-drawer" is-padding="false" aria-label="Structured drawer">
   <div style="display: flex; flex-direction: column; height: 100%; width: 360px;">
     <!-- Header -->
     <div style="display: flex; justify-content: space-between; align-items: center; padding: 1.5rem; border-bottom: 1px solid #e2e8f0;">
@@ -638,7 +638,7 @@ The drawer uses a single default slot. You are responsible for structuring the c
 
 <div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
   <aegov-button id="open-structured-demo">Open Structured Drawer</aegov-button>
-  <aegov-drawer id="structured-drawer-demo" disallow-padding aria-label="Structured drawer">
+  <aegov-drawer id="structured-drawer-demo" is-padding="false" aria-label="Structured drawer">
     <div style="display: flex; flex-direction: column; height: 100%; width: 360px;">
       <div style="display: flex; justify-content: space-between; align-items: center; padding: 1.5rem; border-bottom: 1px solid #e2e8f0;">
         <h2 style="margin: 0; font-size: 1.25rem;">Drawer Title</h2>
@@ -729,13 +729,13 @@ A common use case is a responsive navigation menu that opens as a drawer on mobi
 | `open`               | `open`                 | Whether the drawer is currently open                     | `boolean`                                       | `false`    |
 | `position`           | `position`             | Which edge the drawer slides from                        | `'left'` \| `'right'` \| `'top'` \| `'bottom'` | `'right'`  |
 | `animation`          | `animation`            | Animation strategy for open/close transitions            | `'slide'` \| `'fade'` \| `'none'`              | `'slide'`  |
-| `pinned`             | `pinned`               | Whether the drawer is flush to edges or floating         | `boolean`                                       | `true`     |
-| `overlay`            | `overlay`              | Whether to show a backdrop overlay behind the drawer     | `boolean`                                       | `true`     |
+| `is-pinned`             | `is-pinned`               | Whether the drawer is flush to edges or floating         | `boolean`                                       | `true`     |
+| `is-overlay`            | `is-overlay`              | Whether to show a backdrop overlay behind the drawer     | `boolean`                                       | `true`     |
 | `overlayOpacity`     | `overlay-opacity`      | Backdrop overlay opacity level                           | `'light'` \| `'base'` \| `'dark'`              | `'base'`   |
-| `closeWithBackdrop`  | `close-with-backdrop`  | Whether clicking the backdrop closes the drawer          | `boolean`                                       | `true`     |
-| `preventBodyScroll`  | `prevent-body-scroll`  | Whether to prevent body scrolling when drawer is open    | `boolean`                                       | `true`     |
+| `closeWithBackdrop`  | `is-close-with-overlay`  | Whether clicking the backdrop closes the drawer          | `boolean`                                       | `true`     |
+| `preventBodyScroll`  | `is-prevent-scroll`  | Whether to prevent body scrolling when drawer is open    | `boolean`                                       | `true`     |
 | `size`               | `size`                 | Inner padding scale; also drives gap + radius when unpinned | `'sm'` \| `'base'` \| `'lg'`                | `'base'`   |
-| `disallowPadding`    | `disallow-padding`     | Disables inner content padding                            | `boolean`                                       | `false`    |
+| `isPadding`    | `is-padding`     | Disables inner content padding                            | `boolean`                                       | `false`    |
 
 ### Events
 
@@ -820,5 +820,5 @@ The following items require action from the developer implementing the component
 - The drawer panel uses `overflow-y: auto`, so content that exceeds the drawer height will scroll within the panel. Custom scrollbar styling is applied for WebKit browsers.
 - The **z-index** is managed automatically via an internal stack. Multiple overlay components (drawers, modals) will layer correctly.
 - The `close()` method fires `aegovDrawerBeforeClose` before actually closing. If the event is cancelled via `preventDefault()`, the drawer remains open.
-- When `overlay` is `false` but `closeWithBackdrop` is `true`, an invisible full-screen element is rendered to catch clicks outside the drawer.
+- When `is-overlay` is `false` but `closeWithBackdrop` is `true`, an invisible full-screen element is rendered to catch clicks outside the drawer.
 - Animation duration is 300ms for the drawer panel and 200ms for the backdrop. These values are defined as CSS custom properties (`--drawer-duration` and `--drawer-backdrop-duration`) on the `:host` element.

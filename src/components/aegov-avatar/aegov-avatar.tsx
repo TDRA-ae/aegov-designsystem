@@ -1,6 +1,6 @@
 import { Component, Prop, Watch, h, Host, State } from '@stencil/core';
-import { AVATAR_SIZES, AVATAR_VARIANTS } from '../../utils/types';
-import type { AvatarSize, AvatarVariant, AvatarStatus } from '../../utils/types';
+import { AVATAR_SIZES, AVATAR_APPEARANCES } from '../../utils/types';
+import type { AvatarSize, AvatarAppearance, AvatarStatus } from '../../utils/types';
 import { warnIfInvalidEnumProp } from '../../utils/prop-validator';
 import { watchResponsiveProp } from '../../utils/responsive-prop';
 import type { ResponsivePropWatcher } from '../../utils/responsive-prop';
@@ -30,10 +30,10 @@ export class AegovAvatar {
   private _sizeWatcher: ResponsivePropWatcher | null = null;
 
   /**
-   * The avatar variant (shape)
+   * The avatar appearance (shape)
    * @default 'square'
    */
-  @Prop() variant: AvatarVariant = 'square';
+  @Prop() appearance: AvatarAppearance = 'square';
 
   /**
    * The image source URL
@@ -57,7 +57,7 @@ export class AegovAvatar {
   @State() imageError: boolean = false;
 
   componentWillLoad() {
-    warnIfInvalidEnumProp(this.variant, AVATAR_VARIANTS, 'square', ctx('variant'));
+    warnIfInvalidEnumProp(this.appearance, AVATAR_APPEARANCES, 'square', ctx('appearance'));
     this._sizeWatcher = watchResponsiveProp(this.size, AVATAR_SIZES, 'base', v => {
       this._resolvedSize = v as AvatarSize;
     });
@@ -77,8 +77,8 @@ export class AegovAvatar {
     this._resolvedSize = this._sizeWatcher.current as AvatarSize;
   }
 
-  @Watch('variant')
-  onVariantChange(v: unknown) { warnIfInvalidEnumProp(v, AVATAR_VARIANTS, 'square', ctx('variant')); }
+  @Watch('appearance')
+  onAppearanceChange(v: unknown) { warnIfInvalidEnumProp(v, AVATAR_APPEARANCES, 'square', ctx('appearance')); }
 
   /**
    * Handle image load error
@@ -94,7 +94,7 @@ export class AegovAvatar {
     const classes: string[] = ['aegov-avatar'];
 
     const size: AvatarSize = this._resolvedSize;
-    const variant: AvatarVariant = (AVATAR_VARIANTS as readonly string[]).includes(this.variant) ? this.variant : 'square';
+    const appearance: AvatarAppearance = (AVATAR_APPEARANCES as readonly string[]).includes(this.appearance) ? this.appearance : 'square';
 
     // Size classes
     const sizeClasses: Record<AvatarSize, string> = {
@@ -109,8 +109,8 @@ export class AegovAvatar {
 
     classes.push(sizeClasses[size]);
 
-    // Variant classes
-    if (variant === 'rounded') {
+    // Appearance classes
+    if (appearance === 'rounded') {
       classes.push('avatar-rounded');
     }
 

@@ -151,7 +151,7 @@ describe('aegov-link E2E', () => {
 
     it('should merge custom classes', async () => {
       const page = await newE2EPage();
-      await page.setContent('<aegov-link href="/test" class="custom-class">Link</aegov-link>');
+      await page.setContent('<aegov-link href="/test" extra-class="custom-class">Link</aegov-link>');
       const anchor = await page.find('aegov-link a');
       const classList = await anchor.getProperty('className');
       expect(classList).toContain('custom-class');

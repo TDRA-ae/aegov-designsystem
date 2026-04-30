@@ -99,7 +99,7 @@ describe('aegov-radio-group', () => {
   it('applies custom classes', async () => {
     const page = await newSpecPage({
       components: [AegovRadioGroup, AegovRadio],
-      html: `<aegov-radio-group name="test" class="mt-6"></aegov-radio-group>`,
+      html: `<aegov-radio-group name="test" extra-class="mt-6"></aegov-radio-group>`,
     });
     const fieldset = page.root.querySelector('fieldset');
     expect(fieldset.classList.contains('mt-6')).toBe(true);

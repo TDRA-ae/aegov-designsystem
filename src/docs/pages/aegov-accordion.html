@@ -82,12 +82,12 @@
 
 <hr>
 <h2>Bordered Variant</h2>
-<p>Set the <code>bordered</code> attribute on the parent to wrap the entire accordion in a visible border with rounded corners. This also increases the horizontal padding inside each item.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-accordion</span> <span class="hljs-attr">bordered</span>&gt;</span>
+<p>Set the <code>is-bordered</code> attribute on the parent to wrap the entire accordion in a visible border with rounded corners. This also increases the horizontal padding inside each item.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-accordion</span> <span class="hljs-attr">is-bordered</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-accordion-item</span> <span class="hljs-attr">heading</span>=<span class="hljs-string">&quot;Bordered Item One&quot;</span>&gt;</span>…<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-accordion-item</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-accordion-item</span> <span class="hljs-attr">heading</span>=<span class="hljs-string">&quot;Bordered Item Two&quot;</span>&gt;</span>…<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-accordion-item</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-accordion</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-accordion bordered>
+  <aegov-accordion is-bordered>
     <aegov-accordion-item heading="Bordered Item One">
       The accordion container has a visible border and rounded corners.
     </aegov-accordion-item>
@@ -102,7 +102,7 @@
 
 <p>Bordered with the plus icon:</p>
 <div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-accordion bordered icon="plus">
+  <aegov-accordion is-bordered icon="plus">
     <aegov-accordion-item heading="Bordered + Plus One">
       Combining the bordered variant with the plus icon style.
     </aegov-accordion-item>
@@ -114,13 +114,13 @@
 
 <hr>
 <h2>Allow Multiple Open</h2>
-<p>By default, only one accordion item can be open at a time — opening a new item automatically closes the previous one. Set <code>allow-multiple</code> to let users keep several sections open simultaneously.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-accordion</span> <span class="hljs-attr">allow-multiple</span>&gt;</span>
+<p>By default, only one accordion item can be open at a time — opening a new item automatically closes the previous one. Set <code>is-multiple</code> to let users keep several sections open simultaneously.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-accordion</span> <span class="hljs-attr">is-multiple</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-accordion-item</span> <span class="hljs-attr">heading</span>=<span class="hljs-string">&quot;Section A&quot;</span>&gt;</span>…<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-accordion-item</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-accordion-item</span> <span class="hljs-attr">heading</span>=<span class="hljs-string">&quot;Section B&quot;</span>&gt;</span>…<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-accordion-item</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-accordion-item</span> <span class="hljs-attr">heading</span>=<span class="hljs-string">&quot;Section C&quot;</span>&gt;</span>…<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-accordion-item</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-accordion</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-accordion allow-multiple bordered>
+  <aegov-accordion is-multiple is-bordered>
     <aegov-accordion-item heading="Section A">
       Open this section, then open the others — they all stay open.
     </aegov-accordion-item>
@@ -142,7 +142,7 @@
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-accordion-item</span> <span class="hljs-attr">heading</span>=<span class="hljs-string">&quot;Second (open)&quot;</span>&gt;</span>…<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-accordion-item</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-accordion-item</span> <span class="hljs-attr">heading</span>=<span class="hljs-string">&quot;Third&quot;</span>&gt;</span>…<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-accordion-item</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-accordion</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-accordion default-open="1" bordered>
+  <aegov-accordion default-open="1" is-bordered>
     <aegov-accordion-item heading="First Item">
       This item is collapsed by default.
     </aegov-accordion-item>
@@ -163,7 +163,7 @@
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-accordion-item</span> <span class="hljs-attr">heading</span>=<span class="hljs-string">&quot;Disabled&quot;</span> <span class="hljs-attr">disabled</span>&gt;</span>…<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-accordion-item</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-accordion-item</span> <span class="hljs-attr">heading</span>=<span class="hljs-string">&quot;Also Enabled&quot;</span>&gt;</span>…<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-accordion-item</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-accordion</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-accordion bordered>
+  <aegov-accordion is-bordered>
     <aegov-accordion-item heading="Enabled Section">
       This section can be toggled normally.
     </aegov-accordion-item>
@@ -188,7 +188,7 @@
     Content with a rich heading above.
   <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-accordion-item</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-accordion</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-accordion bordered>
+  <aegov-accordion is-bordered>
     <aegov-accordion-item heading="Plain heading via prop">
       This heading was set using the heading attribute.
     </aegov-accordion-item>
@@ -212,10 +212,10 @@
 <h2>Sizes</h2>
 <p>The <code>size</code> attribute on the parent controls the heading font size for all items. Three sizes are available: <code>sm</code> (14 px), <code>base</code> (16 px, default), and <code>lg</code> (18 px).</p>
 <h3>Small</h3>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-accordion</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm&quot;</span> <span class="hljs-attr">bordered</span>&gt;</span>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-accordion</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm&quot;</span> <span class="hljs-attr">is-bordered</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-accordion-item</span> <span class="hljs-attr">heading</span>=<span class="hljs-string">&quot;Small Heading&quot;</span>&gt;</span>…<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-accordion-item</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-accordion</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-accordion size="sm" bordered>
+  <aegov-accordion size="sm" is-bordered>
     <aegov-accordion-item heading="Small — What is digital transformation?">
       Digital transformation is the integration of digital technology into all areas of an organisation, fundamentally changing how it operates and delivers value.
     </aegov-accordion-item>
@@ -229,10 +229,10 @@
 </div>
 
 <h3>Base (default)</h3>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-accordion</span> <span class="hljs-attr">bordered</span>&gt;</span>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-accordion</span> <span class="hljs-attr">is-bordered</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-accordion-item</span> <span class="hljs-attr">heading</span>=<span class="hljs-string">&quot;Base Heading&quot;</span>&gt;</span>…<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-accordion-item</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-accordion</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-accordion bordered>
+  <aegov-accordion is-bordered>
     <aegov-accordion-item heading="Base — What is digital transformation?">
       Digital transformation is the integration of digital technology into all areas of an organisation, fundamentally changing how it operates and delivers value.
     </aegov-accordion-item>
@@ -246,10 +246,10 @@
 </div>
 
 <h3>Large</h3>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-accordion</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;lg&quot;</span> <span class="hljs-attr">bordered</span>&gt;</span>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-accordion</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;lg&quot;</span> <span class="hljs-attr">is-bordered</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-accordion-item</span> <span class="hljs-attr">heading</span>=<span class="hljs-string">&quot;Large Heading&quot;</span>&gt;</span>…<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-accordion-item</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-accordion</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-accordion size="lg" bordered>
+  <aegov-accordion size="lg" is-bordered>
     <aegov-accordion-item heading="Large — What is digital transformation?">
       Digital transformation is the integration of digital technology into all areas of an organisation, fundamentally changing how it operates and delivers value.
     </aegov-accordion-item>
@@ -265,7 +265,7 @@
 <h3>Responsive Size</h3>
 <p>The <code>size</code> prop accepts Tailwind-style responsive prefixes. Write a space-separated string where each token is either a plain value or <code>breakpoint:value</code>. The base value (no prefix) applies below the smallest specified breakpoint.</p>
 <p>Available breakpoints: <code>xs</code> (480px), <code>sm</code> (640px), <code>md</code> (768px), <code>lg</code> (1024px), <code>xl</code> (1280px), <code>2xl</code> (1536px), <code>3xl</code> (1680px).</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-accordion</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm xl:lg&quot;</span> <span class="hljs-attr">bordered</span>&gt;</span>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-accordion</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm xl:lg&quot;</span> <span class="hljs-attr">is-bordered</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-accordion-item</span> <span class="hljs-attr">heading</span>=<span class="hljs-string">&quot;Responsive Accordion Item&quot;</span>&gt;</span>
     This accordion uses small heading text by default, switching to large at 1280px and above.
   <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-accordion-item</span>&gt;</span>
@@ -273,7 +273,7 @@
     Resize the viewport to see the heading size change.
   <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-accordion-item</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-accordion</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-accordion size="sm xl:lg" bordered>
+  <aegov-accordion size="sm xl:lg" is-bordered>
     <aegov-accordion-item heading="Responsive Accordion Item">
       This accordion uses small heading text by default, switching to large at 1280px and above.
     </aegov-accordion-item>
@@ -289,7 +289,7 @@
 <hr>
 <h2>Long Titles</h2>
 <p>When a heading exceeds 100 characters it wraps onto multiple lines. The trigger button stretches vertically to accommodate the full text, and the icon stays pinned to the top-right so it never overlaps the heading.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-accordion</span> <span class="hljs-attr">bordered</span>&gt;</span>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-accordion</span> <span class="hljs-attr">is-bordered</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-accordion-item</span> <span class="hljs-attr">heading</span>=<span class="hljs-string">&quot;Understanding the Role of Digital Transformation in Modernising Government Services Across the UAE&quot;</span>&gt;</span>
     Content for the long-title section.
   <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-accordion-item</span>&gt;</span>
@@ -297,7 +297,7 @@
     Content for a normal section.
   <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-accordion-item</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-accordion</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-accordion bordered>
+  <aegov-accordion is-bordered>
     <aegov-accordion-item heading="Understanding the Role of Digital Transformation in Modernising Government Services Across the UAE">
       This item's heading is well over 100 characters. Notice how it wraps naturally across multiple lines while the chevron icon remains anchored to the top-right corner of the header, keeping the layout clean and readable.
     </aegov-accordion-item>
@@ -310,7 +310,7 @@
   </aegov-accordion>
 </div>
 
-<p>The same behaviour applies with the <code>plus</code> icon and without the <code>bordered</code> variant:</p>
+<p>The same behaviour applies with the <code>plus</code> icon and without the <code>is-bordered</code> variant:</p>
 <div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
   <aegov-accordion icon="plus">
     <aegov-accordion-item heading="Understanding the Role of Digital Transformation in Modernising Government Services Across the UAE">
@@ -326,7 +326,7 @@
 <h2>RTL Support</h2>
 <p>The component fully supports right-to-left layouts. When the document or a parent element has <code>dir=&quot;rtl&quot;</code>, the header text alignment and layout automatically adjust.</p>
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">dir</span>=<span class="hljs-string">&quot;rtl&quot;</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-accordion</span> <span class="hljs-attr">bordered</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-accordion</span> <span class="hljs-attr">is-bordered</span>&gt;</span>
     <span class="hljs-tag">&lt;<span class="hljs-name">aegov-accordion-item</span> <span class="hljs-attr">heading</span>=<span class="hljs-string">&quot;القسم الأول&quot;</span>&gt;</span>
       محتوى القسم الأول
     <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-accordion-item</span>&gt;</span>
@@ -335,7 +335,7 @@
     <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-accordion-item</span>&gt;</span>
   <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-accordion</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre><div dir="rtl" class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-accordion bordered>
+  <aegov-accordion is-bordered>
     <aegov-accordion-item heading="القسم الأول">
       محتوى القسم الأول يظهر هنا عند التوسيع.
     </aegov-accordion-item>
@@ -364,7 +364,7 @@
       <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;Item toggled, open:&#x27;</span>, e.<span class="hljs-property">detail</span>.<span class="hljs-property">open</span>);
     });
 </span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre><blockquote>
-<p><strong>Note:</strong> When <code>allow-multiple</code> is not set, the parent component intercepts toggle events and automatically closes other items. The event still fires so you can react to state changes in your application.</p>
+<p><strong>Note:</strong> When <code>is-multiple</code> is not set, the parent component intercepts toggle events and automatically closes other items. The event still fires so you can react to state changes in your application.</p>
 </blockquote>
 <hr>
 <h2>API Reference</h2>
@@ -381,8 +381,8 @@
 </tr>
 </thead>
 <tbody><tr>
-<td><code>allowMultiple</code></td>
-<td><code>allow-multiple</code></td>
+<td><code>isMultiple</code></td>
+<td><code>is-multiple</code></td>
 <td>Allow multiple items to be open simultaneously</td>
 <td><code>boolean</code></td>
 <td><code>false</code></td>
@@ -402,8 +402,8 @@
 <td><code>&#39;chevron&#39;</code></td>
 </tr>
 <tr>
-<td><code>bordered</code></td>
-<td><code>bordered</code></td>
+<td><code>is-bordered</code></td>
+<td><code>is-bordered</code></td>
 <td>Show a border around the accordion</td>
 <td><code>boolean</code></td>
 <td><code>false</code></td>
@@ -526,8 +526,8 @@
 <ul>
 <li>The <code>&lt;aegov-accordion-item&gt;</code> component <strong>must</strong> be used inside <code>&lt;aegov-accordion&gt;</code>. Using it standalone will throw an error.</li>
 <li>The <code>icon</code> property is set on the <strong>parent</strong> and applies to all child items. You cannot set different icon styles per item.</li>
-<li>The <code>bordered</code> property adds a border around the entire accordion and increases internal padding. Individual items do not have a bordered option.</li>
-<li>When <code>allow-multiple</code> is <code>false</code> (the default), opening a new item automatically closes the currently open one. The parent manages this behaviour by listening to toggle events from its direct children.</li>
+<li>The <code>is-bordered</code> property adds a border around the entire accordion and increases internal padding. Individual items do not have a bordered option.</li>
+<li>When <code>is-multiple</code> is <code>false</code> (the default), opening a new item automatically closes the currently open one. The parent manages this behaviour by listening to toggle events from its direct children.</li>
 <li>The <code>default-open</code> index is applied once on initial render. Changing it after the component has loaded has no effect.</li>
 <li>The content panel uses a height transition for smooth animation. A <code>ResizeObserver</code> watches for content size changes, which keeps the animation accurate even when content inside the panel changes dynamically (e.g. nested accordions opening).</li>
 <li>The last item in the accordion does not render a bottom border, maintaining a clean visual edge — especially important for the bordered variant.</li>

@@ -32,14 +32,14 @@ The `aegov-dropdown` component provides a flexible, accessible dropdown panel th
 
 ## Trigger Types
 
-The `trigger-type` property controls how the dropdown is activated. There are two options.
+The `trigger` property controls how the dropdown is activated. There are two options.
 
 ### Click (Default)
 
 The dropdown opens on click and closes when clicking outside, pressing Escape, or clicking the trigger again.
 
 ```html
-<aegov-dropdown trigger-type="click">
+<aegov-dropdown trigger="click">
   <aegov-button>Click Me</aegov-button>
   <div slot="dropdown-content">
     <a href="#">Option A</a>
@@ -49,7 +49,7 @@ The dropdown opens on click and closes when clicking outside, pressing Escape, o
 ```
 
 <div class="flex flex-wrap gap-3 p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-dropdown trigger-type="click">
+  <aegov-dropdown trigger="click">
     <aegov-button>Click Trigger</aegov-button>
     <div slot="dropdown-content">
       <a href="#" class="block px-3 py-2 text-sm text-aeblack-700 rounded hover:bg-aeblack-100 no-underline">Option A</a>
@@ -64,7 +64,7 @@ The dropdown opens on click and closes when clicking outside, pressing Escape, o
 The dropdown opens when the cursor enters the trigger area and closes when the cursor leaves both the trigger and the dropdown panel. A built-in grace period allows the cursor to cross the gap between trigger and panel without closing.
 
 ```html
-<aegov-dropdown trigger-type="hover">
+<aegov-dropdown trigger="hover">
   <aegov-button variant="outline">Hover Me</aegov-button>
   <div slot="dropdown-content">
     <a href="#">Quick Link 1</a>
@@ -74,7 +74,7 @@ The dropdown opens when the cursor enters the trigger area and closes when the c
 ```
 
 <div class="flex flex-wrap gap-3 p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-dropdown trigger-type="hover">
+  <aegov-dropdown trigger="hover">
     <aegov-button variant="outline">Hover Trigger</aegov-button>
     <div slot="dropdown-content">
       <a href="#" class="block px-3 py-2 text-sm text-aeblack-700 rounded hover:bg-aeblack-100 no-underline">Quick Link 1</a>
@@ -278,7 +278,7 @@ Use a standard `<hr>` element to visually separate groups of items. The dropdown
 
 ### Disabled Items
 
-Add `aria-disabled="true"` to links or the `disabled` attribute to buttons to render them as non-interactive with reduced opacity.
+Add `aria-disabled="true"` to links or the `is-disabled` attribute to buttons to render them as non-interactive with reduced opacity.
 
 ```html
 <div slot="dropdown-content">
@@ -303,24 +303,24 @@ Add `aria-disabled="true"` to links or the `disabled` attribute to buttons to re
 
 ## Show and Hide Delays
 
-The `show-delay` property controls the delay (in milliseconds) before the dropdown appears. The default is `200`. The `hide-delay` property controls the delay before it closes. The default is `0`. For hover-triggered dropdowns, a minimum 100ms hide grace period is always enforced.
+The `delay-start` property controls the delay (in milliseconds) before the dropdown appears. The default is `200`. The `delay-end` property controls the delay before it closes. The default is `0`. For hover-triggered dropdowns, a minimum 100ms hide grace period is always enforced.
 
 ```html
-<aegov-dropdown trigger-type="hover" show-delay="0" hide-delay="300">
+<aegov-dropdown trigger="hover" delay-start="0" delay-end="300">
   <aegov-button>Slow Close</aegov-button>
   <div slot="dropdown-content">…</div>
 </aegov-dropdown>
 ```
 
 <div class="flex flex-wrap gap-3 p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-dropdown trigger-type="hover" show-delay="0">
+  <aegov-dropdown trigger="hover" delay-start="0">
     <aegov-button size="sm">Instant Show (hover)</aegov-button>
     <div slot="dropdown-content">
       <a href="#" class="block px-3 py-2 text-sm text-aeblack-700 rounded hover:bg-aeblack-100 no-underline">Item 1</a>
       <a href="#" class="block px-3 py-2 text-sm text-aeblack-700 rounded hover:bg-aeblack-100 no-underline">Item 2</a>
     </div>
   </aegov-dropdown>
-  <aegov-dropdown trigger-type="hover" show-delay="500">
+  <aegov-dropdown trigger="hover" delay-start="500">
     <aegov-button size="sm" variant="outline">500ms Delay (hover)</aegov-button>
     <div slot="dropdown-content">
       <a href="#" class="block px-3 py-2 text-sm text-aeblack-700 rounded hover:bg-aeblack-100 no-underline">Item 1</a>
@@ -333,10 +333,10 @@ The `show-delay` property controls the delay (in milliseconds) before the dropdo
 
 ## Disabled State
 
-Set the `disabled` attribute to prevent the dropdown from opening. The trigger remains visible but interaction is blocked.
+Set the `is-disabled` attribute to prevent the dropdown from opening. The trigger remains visible but interaction is blocked.
 
 ```html
-<aegov-dropdown disabled>
+<aegov-dropdown is-disabled>
   <aegov-button disabled>Disabled Dropdown</aegov-button>
   <div slot="dropdown-content">
     <a href="#">This won't show</a>
@@ -345,7 +345,7 @@ Set the `disabled` attribute to prevent the dropdown from opening. The trigger r
 ```
 
 <div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-dropdown disabled>
+  <aegov-dropdown is-disabled>
     <aegov-button disabled>Disabled Dropdown</aegov-button>
     <div slot="dropdown-content">
       <a href="#" class="block px-3 py-2 text-sm text-aeblack-700 rounded hover:bg-aeblack-100 no-underline">This won't show</a>
@@ -379,7 +379,7 @@ The default slot accepts any element as the trigger. You are not limited to butt
       <a href="#" class="block px-3 py-2 text-sm text-aered-600 rounded hover:bg-aered-50 no-underline">Sign Out</a>
     </div>
   </aegov-dropdown>
-  <aegov-dropdown trigger-type="hover">
+  <aegov-dropdown trigger="hover">
     <aegov-badge color="primary">Hover this badge</aegov-badge>
     <div slot="dropdown-content">
       <a href="#" class="block px-3 py-2 text-sm text-aeblack-700 rounded hover:bg-aeblack-100 no-underline">Badge info</a>
@@ -399,7 +399,7 @@ Dropdowns can be nested inside the `dropdown-content` slot of a parent dropdown.
   <aegov-button>Menu</aegov-button>
   <div slot="dropdown-content">
     <a href="#">Home</a>
-    <aegov-dropdown position="right" trigger-type="hover">
+    <aegov-dropdown position="right" trigger="hover">
       <a href="#">Services</a>
       <div slot="dropdown-content">
         <a href="#">Consulting</a>
@@ -416,7 +416,7 @@ Dropdowns can be nested inside the `dropdown-content` slot of a parent dropdown.
     <aegov-button>Menu with Sub-menu</aegov-button>
     <div slot="dropdown-content">
       <a href="#" class="block px-3 py-2 text-sm text-aeblack-700 rounded hover:bg-aeblack-100 no-underline">Home</a>
-      <aegov-dropdown position="right" trigger-type="hover">
+      <aegov-dropdown position="right" trigger="hover">
         <a href="#" class="block px-3 py-2 text-sm text-aeblack-700 rounded hover:bg-aeblack-100 no-underline">Services &rarr;</a>
         <div slot="dropdown-content">
           <a href="#" class="block px-3 py-2 text-sm text-aeblack-700 rounded hover:bg-aeblack-100 no-underline">Consulting</a>
@@ -568,14 +568,14 @@ The component emits events when the dropdown opens and closes. Use these to sync
 
 | Property      | Attribute      | Description                                                  | Type                                        | Default    |
 |---------------|----------------|--------------------------------------------------------------|---------------------------------------------|------------|
-| `triggerType` | `trigger-type` | How the dropdown is activated                                | `'click'` \| `'hover'`                      | `'click'`  |
+| `trigger` | `trigger` | How the dropdown is activated                                | `'click'` \| `'hover'`                      | `'click'`  |
 | `position`    | `position`     | Position of the panel relative to the trigger                | `'top'` \| `'right'` \| `'bottom'` \| `'left'` | `'bottom'` |
 | `align`       | `align`        | Alignment of the panel along the secondary axis              | `'start'` \| `'center'` \| `'end'`         | `'start'`  |
 | `gap`         | `gap`          | Distance between trigger and panel in pixels                 | `number`                                    | `8`        |
 | `offset`      | `offset`       | Additional offset along the secondary axis in pixels         | `number`                                    | `0`        |
 | `disabled`    | `disabled`     | Prevents the dropdown from opening                           | `boolean`                                   | `false`    |
-| `showDelay`   | `show-delay`   | Delay before showing in milliseconds                         | `number`                                    | `200`      |
-| `hideDelay`   | `hide-delay`   | Delay before hiding in milliseconds                          | `number`                                    | `0`        |
+| `delayStart`   | `delay-start`   | Delay before showing in milliseconds                         | `number`                                    | `200`      |
+| `delayEnd`   | `delay-end`   | Delay before hiding in milliseconds                          | `number`                                    | `0`        |
 
 ### Events
 
@@ -653,7 +653,7 @@ The `aegov-dropdown` component is built with accessibility as a first-class conc
 
 2. **Use semantic content.** Use `<a>` for navigation items and `<button>` for actions. Avoid `<div>` or `<span>` for interactive items — they lack built-in keyboard and screen reader support.
 
-3. **Mark disabled items correctly.** Use `aria-disabled="true"` on `<a>` elements and the native `disabled` attribute on `<button>` elements.
+3. **Mark disabled items correctly.** Use `aria-disabled="true"` on `<a>` elements and the native `is-disabled` attribute on `<button>` elements.
 
 ---
 
@@ -665,5 +665,5 @@ The `aegov-dropdown` component is built with accessibility as a first-class conc
 - The component listens for `scroll` and `resize` events on the window to reposition the panel dynamically. If the trigger scrolls completely out of the viewport, the dropdown closes automatically.
 - The dropdown panel has a **minimum width of 12rem** (192px) and uses `width: auto` to accommodate its content.
 - Position flipping is automatic — if the preferred position does not have enough viewport space, the panel flips to the opposite side.
-- For **hover-triggered** dropdowns, a minimum 100ms grace period is enforced on hide, regardless of the `hide-delay` value. This ensures the cursor can cross the gap between the trigger and the portal panel without the dropdown closing prematurely.
+- For **hover-triggered** dropdowns, a minimum 100ms grace period is enforced on hide, regardless of the `delay-end` value. This ensures the cursor can cross the gap between the trigger and the portal panel without the dropdown closing prematurely.
 - The `dropdown-content` slot is cloned into the portal when opened and removed when closed. Changes to the slot content after the dropdown opens will not be reflected until the next open cycle.

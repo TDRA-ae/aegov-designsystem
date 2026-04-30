@@ -7,11 +7,12 @@
 
 ## Properties
 
-| Property      | Attribute     | Description                                                   | Type                         | Default        |
-| ------------- | ------------- | ------------------------------------------------------------- | ---------------------------- | -------------- |
-| `orientation` | `orientation` | Layout orientation.                                           | `"horizontal" \| "vertical"` | `'horizontal'` |
-| `size`        | `size`        | Size of step indicators.                                      | `string`                     | `'base'`       |
-| `variant`     | `variant`     | Visual variant: default (numbered circles) or compact (dots). | `"compact" \| "default"`     | `'default'`    |
+| Property      | Attribute     | Description                                                             | Type                         | Default        |
+| ------------- | ------------- | ----------------------------------------------------------------------- | ---------------------------- | -------------- |
+| `fieldId`     | `field-id`    | Unique ID for the timeline nav element. Auto-generated if not provided. | `string`                     | `undefined`    |
+| `orientation` | `orientation` | Layout orientation.                                                     | `"horizontal" \| "vertical"` | `'horizontal'` |
+| `size`        | `size`        | Size of step indicators.                                                | `string`                     | `'base'`       |
+| `variant`     | `variant`     | Visual variant: default (numbered circles) or compact (dots).           | `"compact" \| "default"`     | `'default'`    |
 
 
 ----------------------------------------------

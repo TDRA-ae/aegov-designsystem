@@ -27,15 +27,15 @@ The `variant` property controls the visual style of the button. There are four v
 The default variant. A filled button with a solid background colour — best for primary calls-to-action.
 
 ```html
-<aegov-button variant="solid">Solid Button</aegov-button>
+<aegov-button appearance="solid">Solid Button</aegov-button>
 ```
 
 <div class="flex flex-wrap gap-3 p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-button variant="solid">Solid</aegov-button>
-  <aegov-button variant="solid" appearance="secondary">Secondary Solid</aegov-button>
-  <aegov-button variant="solid" appearance="danger">Danger Solid</aegov-button>
-  <aegov-button variant="solid" appearance="neutralMax">Neutral Max Solid</aegov-button>
-  <aegov-button variant="solid" appearance="neutralMin">Neutral Min Solid</aegov-button>
+  <aegov-button appearance="solid">Solid</aegov-button>
+  <aegov-button appearance="solid" variant="secondary">Secondary Solid</aegov-button>
+  <aegov-button appearance="solid" variant="danger">Danger Solid</aegov-button>
+  <aegov-button appearance="solid" variant="neutralMax">Neutral Max Solid</aegov-button>
+  <aegov-button appearance="solid" variant="neutralMin">Neutral Min Solid</aegov-button>
 </div>
 
 ### Outline
@@ -43,15 +43,15 @@ The default variant. A filled button with a solid background colour — best for
 A bordered button with a transparent background — ideal for secondary actions.
 
 ```html
-<aegov-button variant="outline">Outline Button</aegov-button>
+<aegov-button appearance="outline">Outline Button</aegov-button>
 ```
 
 <div class="flex flex-wrap gap-3 p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-button variant="outline">Outline</aegov-button>
-  <aegov-button variant="outline" appearance="secondary">Secondary Outline</aegov-button>
-  <aegov-button variant="outline" appearance="danger">Danger Outline</aegov-button>
-  <aegov-button variant="outline" appearance="neutralMax">Neutral Max Outline</aegov-button>
-  <aegov-button variant="outline" appearance="neutralMin">Neutral Min Outline</aegov-button>
+  <aegov-button appearance="outline">Outline</aegov-button>
+  <aegov-button appearance="outline" variant="secondary">Secondary Outline</aegov-button>
+  <aegov-button appearance="outline" variant="danger">Danger Outline</aegov-button>
+  <aegov-button appearance="outline" variant="neutralMax">Neutral Max Outline</aegov-button>
+  <aegov-button appearance="outline" variant="neutralMin">Neutral Min Outline</aegov-button>
 </div>
 
 ### Soft
@@ -59,15 +59,15 @@ A bordered button with a transparent background — ideal for secondary actions.
 A subtle button with a tinted background — suitable for less prominent actions within a group of buttons.
 
 ```html
-<aegov-button variant="soft">Soft Button</aegov-button>
+<aegov-button appearance="soft">Soft Button</aegov-button>
 ```
 
 <div class="flex flex-wrap gap-3 p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-button variant="soft">Soft</aegov-button>
-  <aegov-button variant="soft" appearance="secondary">Secondary Soft</aegov-button>
-  <aegov-button variant="soft" appearance="danger">Danger Soft</aegov-button>
-  <aegov-button variant="soft" appearance="neutralMax">Neutral Max Soft</aegov-button>
-  <aegov-button variant="soft" appearance="neutralMin">Neutral Min Soft</aegov-button>
+  <aegov-button appearance="soft">Soft</aegov-button>
+  <aegov-button appearance="soft" variant="secondary">Secondary Soft</aegov-button>
+  <aegov-button appearance="soft" variant="danger">Danger Soft</aegov-button>
+  <aegov-button appearance="soft" variant="neutralMax">Neutral Max Soft</aegov-button>
+  <aegov-button appearance="soft" variant="neutralMin">Neutral Min Soft</aegov-button>
 </div>
 
 ### Link
@@ -75,15 +75,15 @@ A subtle button with a tinted background — suitable for less prominent actions
 A button that looks like a text link — use for tertiary actions or inline triggers that need button semantics.
 
 ```html
-<aegov-button variant="link">Link Button</aegov-button>
+<aegov-button appearance="link">Link Button</aegov-button>
 ```
 
 <div class="flex flex-wrap gap-3 p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-button variant="link">Link</aegov-button>
-  <aegov-button variant="link" appearance="secondary">Secondary Link</aegov-button>
-  <aegov-button variant="link" appearance="danger">Danger Link</aegov-button>
-  <aegov-button variant="link" appearance="neutralMax">Neutral Max Link</aegov-button>
-  <aegov-button variant="link" appearance="neutralMin">Neutral Min Link</aegov-button>
+  <aegov-button appearance="link">Link</aegov-button>
+  <aegov-button appearance="link" variant="secondary">Secondary Link</aegov-button>
+  <aegov-button appearance="link" variant="danger">Danger Link</aegov-button>
+  <aegov-button appearance="link" variant="neutralMax">Neutral Max Link</aegov-button>
+  <aegov-button appearance="link" variant="neutralMin">Neutral Min Link</aegov-button>
 </div>
 
 ---
@@ -101,19 +101,19 @@ The `appearance` property controls the colour scheme applied to the button. Ther
 | `neutralMin`   | Light neutral — low-contrast, subdued.       |
 
 ```html
-<aegov-button appearance="primary">Primary</aegov-button>
-<aegov-button appearance="secondary">Secondary</aegov-button>
-<aegov-button appearance="danger">Danger</aegov-button>
-<aegov-button appearance="neutralMax">Neutral Max</aegov-button>
-<aegov-button appearance="neutralMin">Neutral Min</aegov-button>
+<aegov-button variant="primary">Primary</aegov-button>
+<aegov-button variant="secondary">Secondary</aegov-button>
+<aegov-button variant="danger">Danger</aegov-button>
+<aegov-button variant="neutralMax">Neutral Max</aegov-button>
+<aegov-button variant="neutralMin">Neutral Min</aegov-button>
 ```
 
 <div class="flex flex-wrap gap-3 p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-button appearance="primary">Primary</aegov-button>
-  <aegov-button appearance="secondary">Secondary</aegov-button>
-  <aegov-button appearance="danger">Danger</aegov-button>
-  <aegov-button appearance="neutralMax">Neutral Max</aegov-button>
-  <aegov-button appearance="neutralMin">Neutral Min</aegov-button>
+  <aegov-button variant="primary">Primary</aegov-button>
+  <aegov-button variant="secondary">Secondary</aegov-button>
+  <aegov-button variant="danger">Danger</aegov-button>
+  <aegov-button variant="neutralMax">Neutral Max</aegov-button>
+  <aegov-button variant="neutralMin">Neutral Min</aegov-button>
 </div>
 
 ---
@@ -171,14 +171,14 @@ Available breakpoints: `xs` (480px), `sm` (640px), `md` (768px), `lg` (1024px), 
 Set the `disabled` attribute to prevent interaction. The button becomes visually muted and unclickable.
 
 ```html
-<aegov-button disabled>Disabled</aegov-button>
+<aegov-button is-disabled>Disabled</aegov-button>
 ```
 
 <div class="flex flex-wrap gap-3 p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-button disabled>Disabled Solid</aegov-button>
-  <aegov-button variant="outline" disabled>Disabled Outline</aegov-button>
-  <aegov-button variant="soft" disabled>Disabled Soft</aegov-button>
-  <aegov-button variant="link" disabled>Disabled Link</aegov-button>
+  <aegov-button is-disabled>Disabled Solid</aegov-button>
+  <aegov-button appearance="outline" is-disabled>Disabled Outline</aegov-button>
+  <aegov-button appearance="soft" is-disabled>Disabled Soft</aegov-button>
+  <aegov-button appearance="link" is-disabled>Disabled Link</aegov-button>
 </div>
 
 ### Loading
@@ -186,14 +186,14 @@ Set the `disabled` attribute to prevent interaction. The button becomes visually
 Set the `loading` attribute to show a spinner and disable interaction. Use this during asynchronous operations such as form submissions or API calls.
 
 ```html
-<aegov-button loading>Submitting…</aegov-button>
+<aegov-button is-loading>Submitting…</aegov-button>
 ```
 
 <div class="flex flex-wrap gap-3 p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-button loading>Loading Solid</aegov-button>
-  <aegov-button variant="outline" loading>Loading Outline</aegov-button>
-  <aegov-button variant="soft" loading>Loading Soft</aegov-button>
-  <aegov-button variant="link" loading>Loading Link</aegov-button>
+  <aegov-button is-loading>Loading Solid</aegov-button>
+  <aegov-button appearance="outline" is-loading>Loading Outline</aegov-button>
+  <aegov-button appearance="soft" is-loading>Loading Soft</aegov-button>
+  <aegov-button appearance="link" is-loading>Loading Link</aegov-button>
 </div>
 
 ---
@@ -203,12 +203,12 @@ Set the `loading` attribute to show a spinner and disable interaction. Use this 
 Set the `full` attribute to make the button span the entire width of its parent container. Useful within forms or card layouts.
 
 ```html
-<aegov-button full>Full Width Button</aegov-button>
+<aegov-button is-full>Full Width Button</aegov-button>
 ```
 
 <div class="p-6 bg-aeblack-50 rounded-lg my-6 space-y-3 not-aegov">
-  <aegov-button full>Full Width Solid</aegov-button>
-  <aegov-button variant="outline" full>Full Width Outline</aegov-button>
+  <aegov-button is-full>Full Width Solid</aegov-button>
+  <aegov-button appearance="outline" is-full>Full Width Outline</aegov-button>
 </div>
 
 ---
@@ -296,7 +296,7 @@ Icons can be placed before or after the button label by adding an `<svg>` or `<i
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
     Continue
   </aegov-button>
-  <aegov-button variant="outline">
+  <aegov-button appearance="outline">
     Download
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
   </aegov-button>
@@ -309,12 +309,12 @@ Icons can be placed before or after the button label by adding an `<svg>` or `<i
 By default, button text is rendered with `font-medium`. Set `bold="false"` to use the normal font weight.
 
 ```html
-<aegov-button bold="false">Normal Weight</aegov-button>
+<aegov-button is-bold="false">Normal Weight</aegov-button>
 ```
 
 <div class="flex flex-wrap gap-3 p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
   <aegov-button>Bold (default)</aegov-button>
-  <aegov-button bold="false">Normal Weight</aegov-button>
+  <aegov-button is-bold="false">Normal Weight</aegov-button>
 </div>
 
 ---
@@ -325,13 +325,13 @@ The `type` property maps to the native HTML `type` attribute. Use `submit` for f
 
 ```html
 <aegov-button type="submit">Submit Form</aegov-button>
-<aegov-button type="reset" variant="outline">Reset Form</aegov-button>
+<aegov-button type="reset" appearance="outline">Reset Form</aegov-button>
 ```
 
 <div class="flex flex-wrap gap-3 p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
   <aegov-button type="submit">Submit</aegov-button>
-  <aegov-button type="reset" variant="outline">Reset</aegov-button>
-  <aegov-button type="button" variant="soft">Button (default)</aegov-button>
+  <aegov-button type="reset" appearance="outline">Reset</aegov-button>
+  <aegov-button type="button" appearance="soft">Button (default)</aegov-button>
 </div>
 
 ---
@@ -350,7 +350,7 @@ The component fully supports right-to-left layouts. When the document or a paren
     </svg>
     متابعة
   </aegov-button>
-  <aegov-button variant="outline">إلغاء</aegov-button>
+  <aegov-button appearance="outline">إلغاء</aegov-button>
 </div>
 ```
 
@@ -359,9 +359,9 @@ The component fully supports right-to-left layouts. When the document or a paren
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
     متابعة
   </aegov-button>
-  <aegov-button variant="outline">إلغاء</aegov-button>
-  <aegov-button variant="soft" appearance="danger">حذف</aegov-button>
-  <aegov-button variant="link">تفاصيل أكثر</aegov-button>
+  <aegov-button appearance="outline">إلغاء</aegov-button>
+  <aegov-button appearance="soft" variant="danger">حذف</aegov-button>
+  <aegov-button appearance="link">تفاصيل أكثر</aegov-button>
 </div>
 
 No additional configuration is needed — the component reads the inherited `dir` attribute and adjusts automatically.
@@ -386,38 +386,38 @@ The table below shows every combination of variant and appearance. This is usefu
   <tbody>
     <tr>
       <td class="p-3 border border-aeblack-100 font-medium">Primary</td>
-      <td class="p-3 border border-aeblack-100 text-center not-aegov"><aegov-button variant="solid" appearance="primary" size="sm">Button</aegov-button></td>
-      <td class="p-3 border border-aeblack-100 text-center not-aegov"><aegov-button variant="outline" appearance="primary" size="sm">Button</aegov-button></td>
-      <td class="p-3 border border-aeblack-100 text-center not-aegov"><aegov-button variant="soft" appearance="primary" size="sm">Button</aegov-button></td>
-      <td class="p-3 border border-aeblack-100 text-center not-aegov"><aegov-button variant="link" appearance="primary" size="sm">Button</aegov-button></td>
+      <td class="p-3 border border-aeblack-100 text-center not-aegov"><aegov-button appearance="solid" variant="primary" size="sm">Button</aegov-button></td>
+      <td class="p-3 border border-aeblack-100 text-center not-aegov"><aegov-button appearance="outline" variant="primary" size="sm">Button</aegov-button></td>
+      <td class="p-3 border border-aeblack-100 text-center not-aegov"><aegov-button appearance="soft" variant="primary" size="sm">Button</aegov-button></td>
+      <td class="p-3 border border-aeblack-100 text-center not-aegov"><aegov-button appearance="link" variant="primary" size="sm">Button</aegov-button></td>
     </tr>
     <tr>
       <td class="p-3 border border-aeblack-100 font-medium">Secondary</td>
-      <td class="p-3 border border-aeblack-100 text-center not-aegov"><aegov-button variant="solid" appearance="secondary" size="sm">Button</aegov-button></td>
-      <td class="p-3 border border-aeblack-100 text-center not-aegov"><aegov-button variant="outline" appearance="secondary" size="sm">Button</aegov-button></td>
-      <td class="p-3 border border-aeblack-100 text-center not-aegov"><aegov-button variant="soft" appearance="secondary" size="sm">Button</aegov-button></td>
-      <td class="p-3 border border-aeblack-100 text-center not-aegov"><aegov-button variant="link" appearance="secondary" size="sm">Button</aegov-button></td>
+      <td class="p-3 border border-aeblack-100 text-center not-aegov"><aegov-button appearance="solid" variant="secondary" size="sm">Button</aegov-button></td>
+      <td class="p-3 border border-aeblack-100 text-center not-aegov"><aegov-button appearance="outline" variant="secondary" size="sm">Button</aegov-button></td>
+      <td class="p-3 border border-aeblack-100 text-center not-aegov"><aegov-button appearance="soft" variant="secondary" size="sm">Button</aegov-button></td>
+      <td class="p-3 border border-aeblack-100 text-center not-aegov"><aegov-button appearance="link" variant="secondary" size="sm">Button</aegov-button></td>
     </tr>
     <tr>
       <td class="p-3 border border-aeblack-100 font-medium">Danger</td>
-      <td class="p-3 border border-aeblack-100 text-center not-aegov"><aegov-button variant="solid" appearance="danger" size="sm">Button</aegov-button></td>
-      <td class="p-3 border border-aeblack-100 text-center not-aegov"><aegov-button variant="outline" appearance="danger" size="sm">Button</aegov-button></td>
-      <td class="p-3 border border-aeblack-100 text-center not-aegov"><aegov-button variant="soft" appearance="danger" size="sm">Button</aegov-button></td>
-      <td class="p-3 border border-aeblack-100 text-center not-aegov"><aegov-button variant="link" appearance="danger" size="sm">Button</aegov-button></td>
+      <td class="p-3 border border-aeblack-100 text-center not-aegov"><aegov-button appearance="solid" variant="danger" size="sm">Button</aegov-button></td>
+      <td class="p-3 border border-aeblack-100 text-center not-aegov"><aegov-button appearance="outline" variant="danger" size="sm">Button</aegov-button></td>
+      <td class="p-3 border border-aeblack-100 text-center not-aegov"><aegov-button appearance="soft" variant="danger" size="sm">Button</aegov-button></td>
+      <td class="p-3 border border-aeblack-100 text-center not-aegov"><aegov-button appearance="link" variant="danger" size="sm">Button</aegov-button></td>
     </tr>
     <tr>
       <td class="p-3 border border-aeblack-100 font-medium">Neutral Max</td>
-      <td class="p-3 border border-aeblack-100 text-center not-aegov"><aegov-button variant="solid" appearance="neutralMax" size="sm">Button</aegov-button></td>
-      <td class="p-3 border border-aeblack-100 text-center not-aegov"><aegov-button variant="outline" appearance="neutralMax" size="sm">Button</aegov-button></td>
-      <td class="p-3 border border-aeblack-100 text-center not-aegov"><aegov-button variant="soft" appearance="neutralMax" size="sm">Button</aegov-button></td>
-      <td class="p-3 border border-aeblack-100 text-center not-aegov"><aegov-button variant="link" appearance="neutralMax" size="sm">Button</aegov-button></td>
+      <td class="p-3 border border-aeblack-100 text-center not-aegov"><aegov-button appearance="solid" variant="neutralMax" size="sm">Button</aegov-button></td>
+      <td class="p-3 border border-aeblack-100 text-center not-aegov"><aegov-button appearance="outline" variant="neutralMax" size="sm">Button</aegov-button></td>
+      <td class="p-3 border border-aeblack-100 text-center not-aegov"><aegov-button appearance="soft" variant="neutralMax" size="sm">Button</aegov-button></td>
+      <td class="p-3 border border-aeblack-100 text-center not-aegov"><aegov-button appearance="link" variant="neutralMax" size="sm">Button</aegov-button></td>
     </tr>
     <tr>
       <td class="p-3 border border-aeblack-100 font-medium">Neutral Min</td>
-      <td class="p-3 border border-aeblack-100 text-center not-aegov"><aegov-button variant="solid" appearance="neutralMin" size="sm">Button</aegov-button></td>
-      <td class="p-3 border border-aeblack-100 text-center not-aegov"><aegov-button variant="outline" appearance="neutralMin" size="sm">Button</aegov-button></td>
-      <td class="p-3 border border-aeblack-100 text-center not-aegov"><aegov-button variant="soft" appearance="neutralMin" size="sm">Button</aegov-button></td>
-      <td class="p-3 border border-aeblack-100 text-center not-aegov"><aegov-button variant="link" appearance="neutralMin" size="sm">Button</aegov-button></td>
+      <td class="p-3 border border-aeblack-100 text-center not-aegov"><aegov-button appearance="solid" variant="neutralMin" size="sm">Button</aegov-button></td>
+      <td class="p-3 border border-aeblack-100 text-center not-aegov"><aegov-button appearance="outline" variant="neutralMin" size="sm">Button</aegov-button></td>
+      <td class="p-3 border border-aeblack-100 text-center not-aegov"><aegov-button appearance="soft" variant="neutralMin" size="sm">Button</aegov-button></td>
+      <td class="p-3 border border-aeblack-100 text-center not-aegov"><aegov-button appearance="link" variant="neutralMin" size="sm">Button</aegov-button></td>
     </tr>
   </tbody>
 </table>

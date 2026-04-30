@@ -88,7 +88,7 @@ describe('aegov-form-field E2E', () => {
   describe('custom class', () => {
     it('should merge custom class with defaults', async () => {
       const page = await newE2EPage();
-      await page.setContent(`<aegov-form-field class="mb-8"></aegov-form-field>`);
+      await page.setContent(`<aegov-form-field extra-class="mb-8"></aegov-form-field>`);
       const div = await page.find('aegov-form-field div');
       const cls = await div.getAttribute('class');
       expect(cls).toContain('aegov-form-field');

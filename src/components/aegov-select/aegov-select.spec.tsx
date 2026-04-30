@@ -674,7 +674,7 @@ describe('aegov-select', () => {
     it('merges custom class on native select', async () => {
       const page = await newSpecPage({
         components,
-        html: `<aegov-select class="my-class"><aegov-select-option value="1">One</aegov-select-option></aegov-select>`,
+        html: `<aegov-select extra-class="my-class"><aegov-select-option value="1">One</aegov-select-option></aegov-select>`,
       });
       const select = page.root.querySelector('select');
       expect(select.className).toContain('my-class');
@@ -683,7 +683,7 @@ describe('aegov-select', () => {
     it('merges custom class on listbox trigger', async () => {
       const page = await newSpecPage({
         components,
-        html: `<aegov-select variant="listbox" class="my-class"><aegov-select-option value="1">One</aegov-select-option></aegov-select>`,
+        html: `<aegov-select variant="listbox" extra-class="my-class"><aegov-select-option value="1">One</aegov-select-option></aegov-select>`,
       });
       const button = page.root.querySelector('button');
       expect(button.className).toContain('my-class');

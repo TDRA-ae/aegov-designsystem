@@ -71,7 +71,7 @@ describe('aegov-avatar', () => {
         components: [AegovAvatar],
         html: `<aegov-avatar></aegov-avatar>`,
       });
-      expect(page.rootInstance.variant).toBe('square');
+      expect(page.rootInstance.appearance).toBe('square');
       const avatar = page.root.querySelector('.aegov-avatar');
       expect(avatar.classList.contains('avatar-rounded')).toBe(false);
     });
@@ -105,7 +105,7 @@ describe('aegov-avatar', () => {
     it('does not apply avatar-rounded for square variant', async () => {
       const page = await newSpecPage({
         components: [AegovAvatar],
-        html: `<aegov-avatar variant="square"></aegov-avatar>`,
+        html: `<aegov-avatar appearance="square"></aegov-avatar>`,
       });
       const avatar = page.root.querySelector('.aegov-avatar');
       expect(avatar.classList.contains('avatar-rounded')).toBe(false);
@@ -114,7 +114,7 @@ describe('aegov-avatar', () => {
     it('applies avatar-rounded for rounded variant', async () => {
       const page = await newSpecPage({
         components: [AegovAvatar],
-        html: `<aegov-avatar variant="rounded"></aegov-avatar>`,
+        html: `<aegov-avatar appearance="rounded"></aegov-avatar>`,
       });
       const avatar = page.root.querySelector('.aegov-avatar');
       expect(avatar.classList.contains('avatar-rounded')).toBe(true);
@@ -250,7 +250,7 @@ describe('aegov-avatar', () => {
     it('renders rounded avatar with status', async () => {
       const page = await newSpecPage({
         components: [AegovAvatar],
-        html: `<aegov-avatar variant="rounded" status="online"></aegov-avatar>`,
+        html: `<aegov-avatar appearance="rounded" status="online"></aegov-avatar>`,
       });
       const avatar = page.root.querySelector('.aegov-avatar');
       expect(avatar.classList.contains('avatar-rounded')).toBe(true);
@@ -260,7 +260,7 @@ describe('aegov-avatar', () => {
     it('renders large rounded avatar with image and offline status', async () => {
       const page = await newSpecPage({
         components: [AegovAvatar],
-        html: `<aegov-avatar size="lg" variant="rounded" src="https://example.com/avatar.jpg" status="offline"></aegov-avatar>`,
+        html: `<aegov-avatar size="lg" appearance="rounded" src="https://example.com/avatar.jpg" status="offline"></aegov-avatar>`,
       });
       const avatar = page.root.querySelector('.aegov-avatar');
       expect(avatar.classList.contains('avatar-lg')).toBe(true);
@@ -291,12 +291,12 @@ describe('aegov-avatar', () => {
     it('updates when variant changes', async () => {
       const page = await newSpecPage({
         components: [AegovAvatar],
-        html: `<aegov-avatar variant="square"></aegov-avatar>`,
+        html: `<aegov-avatar appearance="square"></aegov-avatar>`,
       });
       let avatar = page.root.querySelector('.aegov-avatar');
       expect(avatar.classList.contains('avatar-rounded')).toBe(false);
 
-      page.root.setAttribute('variant', 'rounded');
+      page.root.setAttribute('appearance', 'rounded');
       await page.waitForChanges();
 
       avatar = page.root.querySelector('.aegov-avatar');
@@ -327,7 +327,7 @@ describe('aegov-avatar', () => {
     it('falls back to default variant when invalid', async () => {
       const page = await newSpecPage({
         components: [AegovAvatar],
-        html: `<aegov-avatar variant="weird"></aegov-avatar>`,
+        html: `<aegov-avatar appearance="weird"></aegov-avatar>`,
       });
       const avatar = page.root.querySelector('.aegov-avatar');
       expect(avatar.classList.contains('avatar-rounded')).toBe(false);
@@ -349,7 +349,7 @@ describe('aegov-avatar', () => {
     it('does not warn when all props are valid', async () => {
       await newSpecPage({
         components: [AegovAvatar],
-        html: `<aegov-avatar size="lg" variant="rounded"></aegov-avatar>`,
+        html: `<aegov-avatar size="lg" appearance="rounded"></aegov-avatar>`,
       });
       expect(warnSpy).not.toHaveBeenCalled();
     });
@@ -369,12 +369,12 @@ describe('aegov-avatar', () => {
     it('warns again via @Watch when variant is updated to invalid value', async () => {
       const page = await newSpecPage({
         components: [AegovAvatar],
-        html: `<aegov-avatar variant="square"></aegov-avatar>`,
+        html: `<aegov-avatar appearance="square"></aegov-avatar>`,
       });
-      page.root.setAttribute('variant', 'nope');
+      page.root.setAttribute('appearance', 'nope');
       await page.waitForChanges();
       const messages = warnSpy.mock.calls.map(c => c[0] as string);
-      const warn = messages.find(m => m.includes('[aegov-avatar]') && m.includes('"variant"'));
+      const warn = messages.find(m => m.includes('[aegov-avatar]') && m.includes('"appearance"'));
       expect(warn).toBeDefined();
     });
   });

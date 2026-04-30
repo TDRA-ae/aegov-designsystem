@@ -80,27 +80,27 @@ Button groups work with all button variants. Each variant has tailored border-co
 
 ```html
 <aegov-button-group>
-  <aegov-button variant="solid">One</aegov-button>
-  <aegov-button variant="solid">Two</aegov-button>
-  <aegov-button variant="solid">Three</aegov-button>
+  <aegov-button appearance="solid">One</aegov-button>
+  <aegov-button appearance="solid">Two</aegov-button>
+  <aegov-button appearance="solid">Three</aegov-button>
 </aegov-button-group>
 ```
 
 <div class="flex flex-wrap gap-4 p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
   <aegov-button-group>
-    <aegov-button variant="solid">One</aegov-button>
-    <aegov-button variant="solid">Two</aegov-button>
-    <aegov-button variant="solid">Three</aegov-button>
+    <aegov-button appearance="solid">One</aegov-button>
+    <aegov-button appearance="solid">Two</aegov-button>
+    <aegov-button appearance="solid">Three</aegov-button>
   </aegov-button-group>
   <aegov-button-group>
-    <aegov-button variant="solid" appearance="secondary">One</aegov-button>
-    <aegov-button variant="solid" appearance="secondary">Two</aegov-button>
-    <aegov-button variant="solid" appearance="secondary">Three</aegov-button>
+    <aegov-button appearance="solid" variant="secondary">One</aegov-button>
+    <aegov-button appearance="solid" variant="secondary">Two</aegov-button>
+    <aegov-button appearance="solid" variant="secondary">Three</aegov-button>
   </aegov-button-group>
   <aegov-button-group>
-    <aegov-button variant="solid" appearance="danger">One</aegov-button>
-    <aegov-button variant="solid" appearance="danger">Two</aegov-button>
-    <aegov-button variant="solid" appearance="danger">Three</aegov-button>
+    <aegov-button appearance="solid" variant="danger">One</aegov-button>
+    <aegov-button appearance="solid" variant="danger">Two</aegov-button>
+    <aegov-button appearance="solid" variant="danger">Three</aegov-button>
   </aegov-button-group>
 </div>
 
@@ -108,27 +108,27 @@ Button groups work with all button variants. Each variant has tailored border-co
 
 ```html
 <aegov-button-group>
-  <aegov-button variant="outline">One</aegov-button>
-  <aegov-button variant="outline">Two</aegov-button>
-  <aegov-button variant="outline">Three</aegov-button>
+  <aegov-button appearance="outline">One</aegov-button>
+  <aegov-button appearance="outline">Two</aegov-button>
+  <aegov-button appearance="outline">Three</aegov-button>
 </aegov-button-group>
 ```
 
 <div class="flex flex-wrap gap-4 p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
   <aegov-button-group>
-    <aegov-button variant="outline">One</aegov-button>
-    <aegov-button variant="outline">Two</aegov-button>
-    <aegov-button variant="outline">Three</aegov-button>
+    <aegov-button appearance="outline">One</aegov-button>
+    <aegov-button appearance="outline">Two</aegov-button>
+    <aegov-button appearance="outline">Three</aegov-button>
   </aegov-button-group>
   <aegov-button-group>
-    <aegov-button variant="outline" appearance="secondary">One</aegov-button>
-    <aegov-button variant="outline" appearance="secondary">Two</aegov-button>
-    <aegov-button variant="outline" appearance="secondary">Three</aegov-button>
+    <aegov-button appearance="outline" variant="secondary">One</aegov-button>
+    <aegov-button appearance="outline" variant="secondary">Two</aegov-button>
+    <aegov-button appearance="outline" variant="secondary">Three</aegov-button>
   </aegov-button-group>
   <aegov-button-group>
-    <aegov-button variant="outline" appearance="danger">One</aegov-button>
-    <aegov-button variant="outline" appearance="danger">Two</aegov-button>
-    <aegov-button variant="outline" appearance="danger">Three</aegov-button>
+    <aegov-button appearance="outline" variant="danger">One</aegov-button>
+    <aegov-button appearance="outline" variant="danger">Two</aegov-button>
+    <aegov-button appearance="outline" variant="danger">Three</aegov-button>
   </aegov-button-group>
 </div>
 
@@ -136,27 +136,27 @@ Button groups work with all button variants. Each variant has tailored border-co
 
 ```html
 <aegov-button-group>
-  <aegov-button variant="soft">One</aegov-button>
-  <aegov-button variant="soft">Two</aegov-button>
-  <aegov-button variant="soft">Three</aegov-button>
+  <aegov-button appearance="soft">One</aegov-button>
+  <aegov-button appearance="soft">Two</aegov-button>
+  <aegov-button appearance="soft">Three</aegov-button>
 </aegov-button-group>
 ```
 
 <div class="flex flex-wrap gap-4 p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
   <aegov-button-group>
-    <aegov-button variant="soft">One</aegov-button>
-    <aegov-button variant="soft">Two</aegov-button>
-    <aegov-button variant="soft">Three</aegov-button>
+    <aegov-button appearance="soft">One</aegov-button>
+    <aegov-button appearance="soft">Two</aegov-button>
+    <aegov-button appearance="soft">Three</aegov-button>
   </aegov-button-group>
   <aegov-button-group>
-    <aegov-button variant="soft" appearance="secondary">One</aegov-button>
-    <aegov-button variant="soft" appearance="secondary">Two</aegov-button>
-    <aegov-button variant="soft" appearance="secondary">Three</aegov-button>
+    <aegov-button appearance="soft" variant="secondary">One</aegov-button>
+    <aegov-button appearance="soft" variant="secondary">Two</aegov-button>
+    <aegov-button appearance="soft" variant="secondary">Three</aegov-button>
   </aegov-button-group>
   <aegov-button-group>
-    <aegov-button variant="soft" appearance="danger">One</aegov-button>
-    <aegov-button variant="soft" appearance="danger">Two</aegov-button>
-    <aegov-button variant="soft" appearance="danger">Three</aegov-button>
+    <aegov-button appearance="soft" variant="danger">One</aegov-button>
+    <aegov-button appearance="soft" variant="danger">Two</aegov-button>
+    <aegov-button appearance="soft" variant="danger">Three</aegov-button>
   </aegov-button-group>
 </div>
 
@@ -235,24 +235,24 @@ Combine the button `icon` property with a button group to create a compact toolb
 
 <div class="flex flex-wrap items-center gap-4 p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
   <aegov-button-group>
-    <aegov-button icon variant="outline" aria-label="Bold">
+    <aegov-button icon appearance="outline" aria-label="Bold">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 4h8a4 4 0 014 4 4 4 0 01-4 4H6z"/><path d="M6 12h9a4 4 0 014 4 4 4 0 01-4 4H6z"/></svg>
     </aegov-button>
-    <aegov-button icon variant="outline" aria-label="Italic">
+    <aegov-button icon appearance="outline" aria-label="Italic">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="4" x2="10" y2="4"/><line x1="14" y1="20" x2="5" y2="20"/><line x1="15" y1="4" x2="9" y2="20"/></svg>
     </aegov-button>
-    <aegov-button icon variant="outline" aria-label="Underline">
+    <aegov-button icon appearance="outline" aria-label="Underline">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3v7a6 6 0 006 6 6 6 0 006-6V3"/><line x1="4" y1="21" x2="20" y2="21"/></svg>
     </aegov-button>
   </aegov-button-group>
   <aegov-button-group>
-    <aegov-button icon variant="soft" aria-label="Align Left">
+    <aegov-button icon appearance="soft" aria-label="Align Left">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="17" y1="10" x2="3" y2="10"/><line x1="21" y1="6" x2="3" y2="6"/><line x1="21" y1="14" x2="3" y2="14"/><line x1="17" y1="18" x2="3" y2="18"/></svg>
     </aegov-button>
-    <aegov-button icon variant="soft" aria-label="Align Centre">
+    <aegov-button icon appearance="soft" aria-label="Align Centre">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="10" x2="6" y2="10"/><line x1="21" y1="6" x2="3" y2="6"/><line x1="21" y1="14" x2="3" y2="14"/><line x1="18" y1="18" x2="6" y2="18"/></svg>
     </aegov-button>
-    <aegov-button icon variant="soft" aria-label="Align Right">
+    <aegov-button icon appearance="soft" aria-label="Align Right">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="21" y1="10" x2="7" y2="10"/><line x1="21" y1="6" x2="3" y2="6"/><line x1="21" y1="14" x2="3" y2="14"/><line x1="21" y1="18" x2="7" y2="18"/></svg>
     </aegov-button>
   </aegov-button-group>
@@ -268,23 +268,23 @@ You can mix different button variants or appearances within a single group to cr
 
 ```html
 <aegov-button-group>
-  <aegov-button variant="solid">Save</aegov-button>
-  <aegov-button variant="outline">Cancel</aegov-button>
+  <aegov-button appearance="solid">Save</aegov-button>
+  <aegov-button appearance="outline">Cancel</aegov-button>
 </aegov-button-group>
 ```
 
 <div class="flex flex-wrap gap-4 p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
   <aegov-button-group>
-    <aegov-button variant="solid">Save</aegov-button>
-    <aegov-button variant="outline">Cancel</aegov-button>
+    <aegov-button appearance="solid">Save</aegov-button>
+    <aegov-button appearance="outline">Cancel</aegov-button>
   </aegov-button-group>
   <aegov-button-group>
-    <aegov-button variant="solid" appearance="danger">Delete</aegov-button>
-    <aegov-button variant="outline">Cancel</aegov-button>
+    <aegov-button appearance="solid" variant="danger">Delete</aegov-button>
+    <aegov-button appearance="outline">Cancel</aegov-button>
   </aegov-button-group>
   <aegov-button-group>
-    <aegov-button variant="soft">Draft</aegov-button>
-    <aegov-button variant="solid">Publish</aegov-button>
+    <aegov-button appearance="soft">Draft</aegov-button>
+    <aegov-button appearance="solid">Publish</aegov-button>
   </aegov-button-group>
 </div>
 

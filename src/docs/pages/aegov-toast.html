@@ -242,7 +242,7 @@
 <span class="hljs-tag">&lt;<span class="hljs-name">aegov-toast</span> <span class="hljs-attr">duration</span>=<span class="hljs-string">&quot;3000&quot;</span>&gt;</span>Quick notification<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-toast</span>&gt;</span>
 
 <span class="hljs-comment">&lt;!-- No auto-dismiss — must be closed manually --&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-toast</span> <span class="hljs-attr">duration</span>=<span class="hljs-string">&quot;0&quot;</span> <span class="hljs-attr">dismissible</span>&gt;</span>Persistent notification<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-toast</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-toast</span> <span class="hljs-attr">duration</span>=<span class="hljs-string">&quot;0&quot;</span> <span class="hljs-attr">is-dismissible</span>&gt;</span>Persistent notification<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-toast</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
   <div class="flex flex-wrap gap-2">
     <aegov-button id="dur-short" size="sm">3 Second Toast</aegov-button>
     <aegov-button id="dur-long" size="sm">10 Second Toast</aegov-button>
@@ -284,9 +284,9 @@
 
 <hr>
 <h2>Progress Bar</h2>
-<p>Set <code>show-progress</code> to display an animated countdown bar at the bottom of the toast. The bar shrinks from left to right over the <code>duration</code> period. It pauses when the user hovers over the toast.</p>
+<p>Set <code>is-progress-enabled</code> to display an animated countdown bar at the bottom of the toast. The bar shrinks from left to right over the <code>duration</code> period. It pauses when the user hovers over the toast.</p>
 <p>The progress bar colour matches the variant&#39;s semantic colour (e.g. red for error, green for success).</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-toast</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;success&quot;</span> <span class="hljs-attr">duration</span>=<span class="hljs-string">&quot;6000&quot;</span> <span class="hljs-attr">show-progress</span>&gt;</span>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-toast</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;success&quot;</span> <span class="hljs-attr">duration</span>=<span class="hljs-string">&quot;6000&quot;</span> <span class="hljs-attr">is-progress-enabled</span>&gt;</span>
   Upload complete!
 <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-toast</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
   <div class="flex flex-wrap gap-2">
@@ -323,12 +323,12 @@
 
 <hr>
 <h2>Dismissible</h2>
-<p>The <code>dismissible</code> property controls whether a close button is shown. It defaults to <code>true</code>. Set it to <code>false</code> to hide the dismiss button — the toast will only close via auto-dismiss or by calling the <code>close()</code> method programmatically.</p>
+<p>The <code>is-dismissible</code> property controls whether a close button is shown. It defaults to <code>true</code>. Set it to <code>false</code> to hide the dismiss button — the toast will only close via auto-dismiss or by calling the <code>close()</code> method programmatically.</p>
 <pre><code class="hljs language-html"><span class="hljs-comment">&lt;!-- With dismiss button (default) --&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-toast</span> <span class="hljs-attr">dismissible</span>&gt;</span>You can close this.<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-toast</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-toast</span> <span class="hljs-attr">is-dismissible</span>&gt;</span>You can close this.<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-toast</span>&gt;</span>
 
 <span class="hljs-comment">&lt;!-- Without dismiss button --&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-toast</span> <span class="hljs-attr">dismissible</span>=<span class="hljs-string">&quot;false&quot;</span> <span class="hljs-attr">duration</span>=<span class="hljs-string">&quot;3000&quot;</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-toast</span> <span class="hljs-attr">is-dismissible</span>=<span class="hljs-string">&quot;false&quot;</span> <span class="hljs-attr">duration</span>=<span class="hljs-string">&quot;3000&quot;</span>&gt;</span>
   Auto-closing only.
 <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-toast</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
   <div class="flex flex-wrap gap-2">
@@ -438,7 +438,7 @@
 <h2>Complete Example</h2>
 <p>Combining icon, title, description, actions, and progress bar in a single toast.</p>
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-toast</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;info&quot;</span> <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;soft&quot;</span> <span class="hljs-attr">duration</span>=<span class="hljs-string">&quot;8000&quot;</span>
-             <span class="hljs-attr">show-progress</span> <span class="hljs-attr">position</span>=<span class="hljs-string">&quot;top-right&quot;</span>&gt;</span>
+             <span class="hljs-attr">is-progress-enabled</span> <span class="hljs-attr">position</span>=<span class="hljs-string">&quot;top-right&quot;</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">svg</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;icon&quot;</span> <span class="hljs-attr">xmlns</span>=<span class="hljs-string">&quot;http://www.w3.org/2000/svg&quot;</span> <span class="hljs-attr">viewBox</span>=<span class="hljs-string">&quot;0 0 24 24&quot;</span>
        <span class="hljs-attr">fill</span>=<span class="hljs-string">&quot;none&quot;</span> <span class="hljs-attr">stroke</span>=<span class="hljs-string">&quot;currentColor&quot;</span> <span class="hljs-attr">stroke-width</span>=<span class="hljs-string">&quot;2&quot;</span>
        <span class="hljs-attr">stroke-linecap</span>=<span class="hljs-string">&quot;round&quot;</span> <span class="hljs-attr">stroke-linejoin</span>=<span class="hljs-string">&quot;round&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;w-5 h-5&quot;</span>&gt;</span>
@@ -621,7 +621,7 @@
 <td>Auto-dismiss delay in ms. <code>0</code> = no auto-dismiss.</td>
 </tr>
 <tr>
-<td><code>dismissible</code></td>
+<td><code>is-dismissible</code></td>
 <td><code>boolean</code></td>
 <td><code>true</code></td>
 <td>Whether to show the close button.</td>
@@ -633,7 +633,7 @@
 <td>Display mode: <code>&#39;stack&#39;</code> or <code>&#39;rack&#39;</code>.</td>
 </tr>
 <tr>
-<td><code>showProgress</code></td>
+<td><code>isProgressEnabled</code></td>
 <td><code>boolean</code></td>
 <td><code>false</code></td>
 <td>Whether to show the countdown progress bar.</td>
@@ -681,8 +681,8 @@
 <td><code>5000</code></td>
 </tr>
 <tr>
-<td><code>dismissible</code></td>
-<td><code>dismissible</code></td>
+<td><code>is-dismissible</code></td>
+<td><code>is-dismissible</code></td>
 <td>Whether to show a close button</td>
 <td><code>boolean</code></td>
 <td><code>true</code></td>
@@ -695,8 +695,8 @@
 <td><code>&#39;stack&#39;</code></td>
 </tr>
 <tr>
-<td><code>showProgress</code></td>
-<td><code>show-progress</code></td>
+<td><code>isProgressEnabled</code></td>
+<td><code>is-progress-enabled</code></td>
 <td>Whether to show a countdown progress bar</td>
 <td><code>boolean</code></td>
 <td><code>false</code></td>

@@ -123,7 +123,7 @@ describe('aegov-accordion-item', () => {
       });
 
       const item = page.root.querySelector('aegov-accordion-item') as HTMLAegovAccordionItemElement;
-      expect(item.open).toBe(false);
+      expect(item.isOpen).toBe(false);
     });
 
     it('should have open class when open', async () => {
@@ -131,7 +131,7 @@ describe('aegov-accordion-item', () => {
         components: [AegovAccordion, AegovAccordionItem],
         html: `
           <aegov-accordion>
-            <aegov-accordion-item open>
+            <aegov-accordion-item is-open>
               <span slot="accordion-item-heading">Heading</span>
               <span slot="accordion-item-content">Content</span>
             </aegov-accordion-item>
@@ -178,7 +178,7 @@ describe('aegov-accordion-item', () => {
       });
 
       const item = page.root.querySelector('aegov-accordion-item') as HTMLAegovAccordionItemElement;
-      expect(item.disabled).toBe(false);
+      expect(item.isDisabled).toBe(false);
     });
 
     it('should have disabled class when disabled', async () => {
@@ -186,7 +186,7 @@ describe('aegov-accordion-item', () => {
         components: [AegovAccordion, AegovAccordionItem],
         html: `
           <aegov-accordion>
-            <aegov-accordion-item disabled>
+            <aegov-accordion-item is-disabled>
               <span slot="accordion-item-heading">Heading</span>
               <span slot="accordion-item-content">Content</span>
             </aegov-accordion-item>
@@ -203,7 +203,7 @@ describe('aegov-accordion-item', () => {
         components: [AegovAccordion, AegovAccordionItem],
         html: `
           <aegov-accordion>
-            <aegov-accordion-item disabled>
+            <aegov-accordion-item is-disabled>
               <span slot="accordion-item-heading">Heading</span>
               <span slot="accordion-item-content">Content</span>
             </aegov-accordion-item>
@@ -339,7 +339,7 @@ describe('aegov-accordion-item', () => {
         components: [AegovAccordion, AegovAccordionItem],
         html: `
           <aegov-accordion>
-            <aegov-accordion-item open>
+            <aegov-accordion-item is-open>
               <span slot="accordion-item-heading">Heading</span>
               <span slot="accordion-item-content">Content</span>
             </aegov-accordion-item>
@@ -451,7 +451,7 @@ describe('aegov-accordion-item', () => {
         components: [AegovAccordion, AegovAccordionItem],
         html: `
           <aegov-accordion>
-            <aegov-accordion-item disabled>
+            <aegov-accordion-item is-disabled>
               <span slot="accordion-item-heading">Heading</span>
               <span slot="accordion-item-content">Content</span>
             </aegov-accordion-item>

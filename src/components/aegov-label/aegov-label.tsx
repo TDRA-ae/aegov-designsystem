@@ -14,14 +14,14 @@ export class AegovLabel {
   @Prop({ mutable: true, attribute: 'for' }) htmlFor?: string;
 
   /** Additional CSS classes to apply. */
-  @Prop() class?: string;
+  @Prop() extraClass?: string;
 
   private static readonly PASS_THROUGH_ATTRS = new Set(['id']);
 
   private getLabelClasses(): string {
     const classes: string[] = ['aegov-label'];
-    if (this.class) {
-      classes.push(this.class);
+    if (this.extraClass) {
+      classes.push(this.extraClass);
     }
     return classes.join(' ');
   }

@@ -3,6 +3,7 @@ import { AccordionIcon, ACCORDION_ICONS, AccordionSize, ACCORDION_SIZES } from '
 import { warnIfInvalidEnumProp } from '../../utils/prop-validator';
 import { watchResponsiveProp } from '../../utils/responsive-prop';
 import type { ResponsivePropWatcher } from '../../utils/responsive-prop';
+import { generateId } from '../../utils/id-generator';
 
 const TAG = 'aegov-accordion';
 const ctx = (prop: string) => ({ component: TAG, prop });
@@ -24,9 +25,14 @@ export class AegovAccordion {
   private cachedItems: HTMLAegovAccordionItemElement[] = [];
 
   /**
+   * Unique ID for the accordion wrapper element. Auto-generated if not provided.
+   */
+  @Prop({ mutable: true, reflect: true }) fieldId?: string;
+
+  /**
    * Whether multiple accordion items can be open at the same time
    */
-  @Prop() allowMultiple: boolean = false;
+  @Prop() isMultiple: boolean = false;
 
   /**
    * Index of the accordion item to open by default (0-based)
@@ -41,7 +47,7 @@ export class AegovAccordion {
   /**
    * Whether to show border around the accordion
    */
-  @Prop() bordered: boolean = false;
+  @Prop() isBordered: boolean = false;
 
   /**
    * Size of the accordion items — controls heading font size.
@@ -52,6 +58,9 @@ export class AegovAccordion {
   private _sizeWatcher: ResponsivePropWatcher | null = null;
 
   componentWillLoad() {
+    if (!this.fieldId) {
+      this.fieldId = generateId('aegov-accordion');
+    }
     warnIfInvalidEnumProp(this.icon, ACCORDION_ICONS, 'chevron', ctx('icon'));
     this._sizeWatcher = watchResponsiveProp(this.size, ACCORDION_SIZES, 'base', v => {
       this._resolvedSize = v as AccordionSize;
@@ -68,7 +77,7 @@ export class AegovAccordion {
     if (this.defaultOpen !== undefined) {
       const items = this.cachedItems;
       if (items[this.defaultOpen]) {
-        items[this.defaultOpen].open = true;
+        items[this.defaultOpen].isOpen = true;
       }
     }
 
@@ -143,15 +152,15 @@ export class AegovAccordion {
 
         const shouldOpen = event.detail.open;
 
-        if (shouldOpen && !this.allowMultiple) {
+        if (shouldOpen && !this.isMultiple) {
           items.forEach((otherItem, otherIndex) => {
             if (otherIndex !== index) {
-              otherItem.open = false;
+              otherItem.isOpen = false;
             }
           });
         }
 
-        item.open = shouldOpen;
+        item.isOpen = shouldOpen;
       }) as EventListener;
 
       item.addEventListener('aegovAccordionItemToggle', listener);
@@ -162,12 +171,12 @@ export class AegovAccordion {
   render() {
     const classes = [
       'aegov-accordion',
-      this.bordered && 'aegov-accordion__bordered'
+      this.isBordered && 'aegov-accordion__bordered'
     ].filter(Boolean).join(' ');
 
     return (
       <Host>
-        <div class={classes}>
+        <div class={classes} id={this.fieldId}>
           <slot />
         </div>
       </Host>

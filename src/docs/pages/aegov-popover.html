@@ -44,17 +44,17 @@
 
 <hr>
 <h2>Trigger Types</h2>
-<p>The <code>trigger-type</code> property controls how the popover is activated. There are two options.</p>
+<p>The <code>trigger</code> property controls how the popover is activated. There are two options.</p>
 <h3>Click (Default)</h3>
 <p>The popover opens on click and closes when clicking outside, pressing Escape, or clicking the trigger again.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-popover</span> <span class="hljs-attr">trigger-type</span>=<span class="hljs-string">&quot;click&quot;</span>&gt;</span>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-popover</span> <span class="hljs-attr">trigger</span>=<span class="hljs-string">&quot;click&quot;</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span>&gt;</span>Click Me<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;popover-content&quot;</span>&gt;</span>
     <span class="hljs-tag">&lt;<span class="hljs-name">p</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;font-semibold text-sm mb-2&quot;</span>&gt;</span>Account Info<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
     <span class="hljs-tag">&lt;<span class="hljs-name">p</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;text-sm text-aeblack-600&quot;</span>&gt;</span>You are logged in as admin@example.com<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
   <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-popover</span>&gt;</span></code></pre><div class="flex flex-wrap gap-3 p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-popover trigger-type="click">
+  <aegov-popover trigger="click">
     <aegov-button>Click Trigger</aegov-button>
     <div slot="popover-content">
       <p class="font-semibold text-sm mb-2">Account Info</p>
@@ -65,13 +65,13 @@
 
 <h3>Hover</h3>
 <p>The popover opens when the cursor enters the trigger area and closes when the cursor leaves both the trigger and the popover panel. A built-in grace period (minimum 100ms) allows the cursor to cross the gap between trigger and panel without closing.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-popover</span> <span class="hljs-attr">trigger-type</span>=<span class="hljs-string">&quot;hover&quot;</span>&gt;</span>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-popover</span> <span class="hljs-attr">trigger</span>=<span class="hljs-string">&quot;hover&quot;</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;outline&quot;</span>&gt;</span>Hover Me<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;popover-content&quot;</span>&gt;</span>
     <span class="hljs-tag">&lt;<span class="hljs-name">p</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;text-sm text-aeblack-600&quot;</span>&gt;</span>This appears on hover and stays open while you interact.<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
   <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-popover</span>&gt;</span></code></pre><div class="flex flex-wrap gap-3 p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-popover trigger-type="hover">
+  <aegov-popover trigger="hover">
     <aegov-button variant="outline">Hover Trigger</aegov-button>
     <div slot="popover-content">
       <p class="text-sm text-aeblack-600 mb-0">This appears on hover and stays open while you interact with the content.</p>
@@ -538,51 +538,51 @@
 
 <hr>
 <h2>Show and Hide Delays</h2>
-<p>The <code>show-delay</code> property controls the delay (in milliseconds) before the popover appears. The default is <code>200</code>. The <code>hide-delay</code> property controls the delay before it closes. The default is <code>0</code>. For hover-triggered popovers, a minimum 100ms hide grace period is always enforced.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-popover</span> <span class="hljs-attr">trigger-type</span>=<span class="hljs-string">&quot;hover&quot;</span> <span class="hljs-attr">show-delay</span>=<span class="hljs-string">&quot;0&quot;</span>&gt;</span>
+<p>The <code>delay-start</code> property controls the delay (in milliseconds) before the popover appears. The default is <code>200</code>. The <code>delay-end</code> property controls the delay before it closes. The default is <code>0</code>. For hover-triggered popovers, a minimum 100ms hide grace period is always enforced.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-popover</span> <span class="hljs-attr">trigger</span>=<span class="hljs-string">&quot;hover&quot;</span> <span class="hljs-attr">delay-start</span>=<span class="hljs-string">&quot;0&quot;</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span>&gt;</span>Instant Show<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;popover-content&quot;</span>&gt;</span>…<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-popover</span>&gt;</span>
 
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-popover</span> <span class="hljs-attr">trigger-type</span>=<span class="hljs-string">&quot;hover&quot;</span> <span class="hljs-attr">show-delay</span>=<span class="hljs-string">&quot;500&quot;</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-popover</span> <span class="hljs-attr">trigger</span>=<span class="hljs-string">&quot;hover&quot;</span> <span class="hljs-attr">delay-start</span>=<span class="hljs-string">&quot;500&quot;</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span>&gt;</span>Slow Show (500ms)<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;popover-content&quot;</span>&gt;</span>…<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-popover</span>&gt;</span>
 
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-popover</span> <span class="hljs-attr">trigger-type</span>=<span class="hljs-string">&quot;hover&quot;</span> <span class="hljs-attr">hide-delay</span>=<span class="hljs-string">&quot;500&quot;</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-popover</span> <span class="hljs-attr">trigger</span>=<span class="hljs-string">&quot;hover&quot;</span> <span class="hljs-attr">delay-end</span>=<span class="hljs-string">&quot;500&quot;</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span>&gt;</span>Slow Close (500ms)<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;popover-content&quot;</span>&gt;</span>…<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-popover</span>&gt;</span></code></pre><div class="flex flex-wrap gap-3 p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-popover trigger-type="hover" show-delay="0">
+  <aegov-popover trigger="hover" delay-start="0">
     <aegov-button size="sm">Instant Show (hover)</aegov-button>
     <div slot="popover-content">
-      <p class="text-sm text-aeblack-600 mb-0">show-delay="0" — appears immediately on hover</p>
+      <p class="text-sm text-aeblack-600 mb-0">delay-start="0" — appears immediately on hover</p>
     </div>
   </aegov-popover>
-  <aegov-popover trigger-type="hover" show-delay="500">
+  <aegov-popover trigger="hover" delay-start="500">
     <aegov-button size="sm" variant="outline">500ms Show Delay (hover)</aegov-button>
     <div slot="popover-content">
-      <p class="text-sm text-aeblack-600 mb-0">show-delay="500" — waits half a second before appearing</p>
+      <p class="text-sm text-aeblack-600 mb-0">delay-start="500" — waits half a second before appearing</p>
     </div>
   </aegov-popover>
-  <aegov-popover trigger-type="hover" hide-delay="500">
+  <aegov-popover trigger="hover" delay-end="500">
     <aegov-button size="sm" variant="soft">500ms Hide Delay (hover)</aegov-button>
     <div slot="popover-content">
-      <p class="text-sm text-aeblack-600 mb-0">hide-delay="500" — stays open for 500ms after cursor leaves</p>
+      <p class="text-sm text-aeblack-600 mb-0">delay-end="500" — stays open for 500ms after cursor leaves</p>
     </div>
   </aegov-popover>
 </div>
 
 <hr>
 <h2>Disabled State</h2>
-<p>Set the <code>disabled</code> attribute to prevent the popover from opening. The trigger remains visible but interaction is blocked.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-popover</span> <span class="hljs-attr">disabled</span>&gt;</span>
+<p>Set the <code>is-disabled</code> attribute to prevent the popover from opening. The trigger remains visible but interaction is blocked.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-popover</span> <span class="hljs-attr">is-disabled</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span> <span class="hljs-attr">disabled</span>&gt;</span>Disabled Popover<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;popover-content&quot;</span>&gt;</span>
     <span class="hljs-tag">&lt;<span class="hljs-name">p</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;text-sm&quot;</span>&gt;</span>This won&#x27;t show<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
   <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-popover</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-popover disabled>
+  <aegov-popover is-disabled>
     <aegov-button disabled>Disabled Popover</aegov-button>
     <div slot="popover-content">
       <p class="text-sm mb-0">This won't show</p>
@@ -609,13 +609,13 @@
       <aegov-button size="sm" variant="outline">View Profile</aegov-button>
     </div>
   </aegov-popover>
-  <aegov-popover trigger-type="hover">
+  <aegov-popover trigger="hover">
     <aegov-badge color="techblue">Hover this badge</aegov-badge>
     <div slot="popover-content" style="width: 14rem;">
       <p class="text-sm text-aeblack-600 mb-0">Badges can also serve as popover triggers for supplementary details.</p>
     </div>
   </aegov-popover>
-  <aegov-popover trigger-type="hover">
+  <aegov-popover trigger="hover">
     <span class="inline-flex items-center justify-center size-8 rounded-full bg-aeblack-100 text-aeblack-600 cursor-pointer text-sm font-semibold">?</span>
     <div slot="popover-content" style="width: 16rem;">
       <p class="font-semibold text-sm mb-1 mt-0">Need help?</p>
@@ -704,8 +704,8 @@
 </tr>
 </thead>
 <tbody><tr>
-<td><code>triggerType</code></td>
-<td><code>trigger-type</code></td>
+<td><code>trigger</code></td>
+<td><code>trigger</code></td>
 <td>How the popover is activated</td>
 <td><code>&#39;click&#39;</code> | <code>&#39;hover&#39;</code></td>
 <td><code>&#39;click&#39;</code></td>
@@ -746,15 +746,15 @@
 <td><code>false</code></td>
 </tr>
 <tr>
-<td><code>showDelay</code></td>
-<td><code>show-delay</code></td>
+<td><code>delayStart</code></td>
+<td><code>delay-start</code></td>
 <td>Delay before showing in milliseconds</td>
 <td><code>number</code></td>
 <td><code>200</code></td>
 </tr>
 <tr>
-<td><code>hideDelay</code></td>
-<td><code>hide-delay</code></td>
+<td><code>delayEnd</code></td>
+<td><code>delay-end</code></td>
 <td>Delay before hiding in milliseconds</td>
 <td><code>number</code></td>
 <td><code>0</code></td>
@@ -918,7 +918,7 @@
 <li>The popover panel has a <strong>minimum width of 12rem</strong> (192px), <code>1rem</code> padding, and uses <code>width: auto</code> to accommodate its content. Override with an inline style on the slot container for wider layouts.</li>
 <li>Position flipping is automatic — if the preferred position does not have enough viewport space, the panel flips to the opposite side.</li>
 <li>The <strong>arrow</strong> is a 10px rotated square element. Per position, the two border sides facing the panel interior are removed for a clean look. The arrow&#39;s offset tracks the trigger&#39;s centre point, clamped between 8px from the panel edges to stay within rounded corners.</li>
-<li>For <strong>hover-triggered</strong> popovers, a minimum 100ms grace period is enforced on hide, regardless of the <code>hide-delay</code> value. This ensures the cursor can cross the gap between the trigger and the portal panel without the popover closing prematurely.</li>
+<li>For <strong>hover-triggered</strong> popovers, a minimum 100ms grace period is enforced on hide, regardless of the <code>delay-end</code> value. This ensures the cursor can cross the gap between the trigger and the portal panel without the popover closing prematurely.</li>
 <li>The <code>popover-content</code> slot content is <strong>moved</strong> (not cloned) into the portal when opened and moved back when closed. This allows Stencil web components inside the slot to work correctly without double-rendering. Changes to the slot content after the popover opens will not be reflected until the next open cycle.</li>
 </ul>
 <!-- DOC:END -->

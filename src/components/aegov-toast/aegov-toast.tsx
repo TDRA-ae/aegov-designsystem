@@ -357,7 +357,7 @@ export class AegovToast {
   /**
    * Whether the toast shows a close button.
    */
-  @Prop() dismissible: boolean = true;
+  @Prop() isDismissible: boolean = true;
 
   /**
    * Display mode for multiple toasts at the same position.
@@ -369,7 +369,7 @@ export class AegovToast {
   /**
    * Whether to show a countdown progress bar.
    */
-  @Prop({ attribute: 'show-progress' }) showProgress: boolean = false;
+  @Prop() isProgressEnabled: boolean = false;
 
   /**
    * Emitted after the toast becomes visible.
@@ -632,7 +632,7 @@ export class AegovToast {
             </div>
           )}
         </div>
-        {this.dismissible && (
+        {this.isDismissible && (
           <button
             type="button"
             class="toast__dismiss"
@@ -646,7 +646,7 @@ export class AegovToast {
             </svg>
           </button>
         )}
-        {this.showProgress && this.duration > 0 && (
+        {this.isProgressEnabled && this.duration > 0 && (
           <div
             class="toast__progress"
             style={{

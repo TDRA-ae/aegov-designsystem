@@ -52,14 +52,14 @@ describe('aegov-accordion E2E', () => {
       const button = await page.find('aegov-accordion-item .accordion-item__header');
 
       let item = await page.find('aegov-accordion-item');
-      let isOpen = await item.getProperty('open');
+      let isOpen = await item.getProperty('isOpen');
       expect(isOpen).toBe(false);
 
       await button.click();
       await page.waitForChanges();
 
       item = await page.find('aegov-accordion-item');
-      isOpen = await item.getProperty('open');
+      isOpen = await item.getProperty('isOpen');
       expect(isOpen).toBe(true);
     });
 
@@ -84,22 +84,22 @@ describe('aegov-accordion E2E', () => {
       await buttons[0].click();
       await page.waitForChanges();
 
-      let item1Open = await items[0].getProperty('open');
+      let item1Open = await items[0].getProperty('isOpen');
       expect(item1Open).toBe(true);
 
       await buttons[1].click();
       await page.waitForChanges();
 
-      item1Open = await items[0].getProperty('open');
-      const item2Open = await items[1].getProperty('open');
+      item1Open = await items[0].getProperty('isOpen');
+      const item2Open = await items[1].getProperty('isOpen');
       expect(item1Open).toBe(false);
       expect(item2Open).toBe(true);
     });
 
-    it('should allow multiple open items when allow-multiple is true', async () => {
+    it('should allow multiple open items when is-multiple is true', async () => {
       const page = await newE2EPage();
       await page.setContent(`
-        <aegov-accordion allow-multiple>
+        <aegov-accordion is-multiple>
           <aegov-accordion-item>
             <span slot="accordion-item-heading">Heading 1</span>
             <span slot="accordion-item-content">Content 1</span>
@@ -120,8 +120,8 @@ describe('aegov-accordion E2E', () => {
       await buttons[1].click();
       await page.waitForChanges();
 
-      const item1Open = await items[0].getProperty('open');
-      const item2Open = await items[1].getProperty('open');
+      const item1Open = await items[0].getProperty('isOpen');
+      const item2Open = await items[1].getProperty('isOpen');
       expect(item1Open).toBe(true);
       expect(item2Open).toBe(true);
     });
@@ -130,7 +130,7 @@ describe('aegov-accordion E2E', () => {
       const page = await newE2EPage();
       await page.setContent(`
         <aegov-accordion>
-          <aegov-accordion-item disabled>
+          <aegov-accordion-item is-disabled>
             <span slot="accordion-item-heading">Heading</span>
             <span slot="accordion-item-content">Content</span>
           </aegov-accordion-item>
@@ -143,7 +143,7 @@ describe('aegov-accordion E2E', () => {
       await button.click();
       await page.waitForChanges();
 
-      const isOpen = await item.getProperty('open');
+      const isOpen = await item.getProperty('isOpen');
       expect(isOpen).toBe(false);
     });
   });
@@ -167,8 +167,8 @@ describe('aegov-accordion E2E', () => {
       await page.waitForChanges();
 
       const items = await page.findAll('aegov-accordion-item');
-      const item1Open = await items[0].getProperty('open');
-      const item2Open = await items[1].getProperty('open');
+      const item1Open = await items[0].getProperty('isOpen');
+      const item2Open = await items[1].getProperty('isOpen');
 
       expect(item1Open).toBe(false);
       expect(item2Open).toBe(true);
@@ -193,7 +193,7 @@ describe('aegov-accordion E2E', () => {
       await page.waitForChanges();
 
       const item = await page.find('aegov-accordion-item');
-      const isOpen = await item.getProperty('open');
+      const isOpen = await item.getProperty('isOpen');
       expect(isOpen).toBe(true);
     });
 
@@ -214,7 +214,7 @@ describe('aegov-accordion E2E', () => {
       await page.waitForChanges();
 
       const item = await page.find('aegov-accordion-item');
-      const isOpen = await item.getProperty('open');
+      const isOpen = await item.getProperty('isOpen');
       expect(isOpen).toBe(true);
     });
   });
@@ -331,7 +331,7 @@ describe('aegov-accordion E2E', () => {
     });
   });
 
-  describe('bordered property', () => {
+  describe('isBordered property', () => {
     it('should not have bordered class by default', async () => {
       const page = await newE2EPage();
       await page.setContent(`
@@ -352,7 +352,7 @@ describe('aegov-accordion E2E', () => {
     it('should have bordered class when bordered="true"', async () => {
       const page = await newE2EPage();
       await page.setContent(`
-        <aegov-accordion bordered>
+        <aegov-accordion is-bordered>
           <aegov-accordion-item>
             <span slot="accordion-item-heading">Heading</span>
             <span slot="accordion-item-content">Content</span>
@@ -472,7 +472,7 @@ describe('aegov-accordion E2E', () => {
             <span slot="accordion-item-heading">Parent Item</span>
             <div slot="accordion-item-content">
               <p>Some content before nested accordion</p>
-              <aegov-accordion allow-multiple>
+              <aegov-accordion is-multiple>
                 <aegov-accordion-item>
                   <span slot="accordion-item-heading">Nested Item 1</span>
                   <div slot="accordion-item-content">
@@ -526,8 +526,8 @@ describe('aegov-accordion E2E', () => {
       expect(allItems.length).toBe(2); // 1 parent + 1 nested
 
       // Verify all items start closed
-      const parentOpen = await allItems[0].getProperty('open');
-      const nestedOpen = await allItems[1].getProperty('open');
+      const parentOpen = await allItems[0].getProperty('isOpen');
+      const nestedOpen = await allItems[1].getProperty('isOpen');
       expect(parentOpen).toBe(false);
       expect(nestedOpen).toBe(false);
     });

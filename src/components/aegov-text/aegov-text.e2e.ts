@@ -60,7 +60,7 @@ describe('aegov-text E2E', () => {
   describe('custom class', () => {
     it('should merge custom classes with defaults', async () => {
       const page = await newE2EPage();
-      await page.setContent(`<aegov-text class="text-gray-600">Text</aegov-text>`);
+      await page.setContent(`<aegov-text extra-class="text-gray-600">Text</aegov-text>`);
       const p = await page.find('aegov-text p');
       const cls = await p.getAttribute('class');
       expect(cls).toContain('mb-8');

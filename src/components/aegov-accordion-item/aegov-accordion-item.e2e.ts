@@ -79,21 +79,21 @@ describe('aegov-accordion-item E2E', () => {
       const button = await page.find('aegov-accordion-item .accordion-item__header');
       const item = await page.find('aegov-accordion-item');
 
-      let isOpen = await item.getProperty('open');
+      let isOpen = await item.getProperty('isOpen');
       expect(isOpen).toBe(false);
 
       await button.click();
       await page.waitForChanges();
 
-      isOpen = await item.getProperty('open');
+      isOpen = await item.getProperty('isOpen');
       expect(isOpen).toBe(true);
     });
 
     it('should close when header is clicked while open', async () => {
       const page = await newE2EPage();
       await page.setContent(`
-        <aegov-accordion allow-multiple>
-          <aegov-accordion-item open>
+        <aegov-accordion is-multiple>
+          <aegov-accordion-item is-open>
             <span slot="accordion-item-heading">Heading</span>
             <span slot="accordion-item-content">Content</span>
           </aegov-accordion-item>
@@ -103,13 +103,13 @@ describe('aegov-accordion-item E2E', () => {
       const button = await page.find('aegov-accordion-item .accordion-item__header');
       const item = await page.find('aegov-accordion-item');
 
-      let isOpen = await item.getProperty('open');
+      let isOpen = await item.getProperty('isOpen');
       expect(isOpen).toBe(true);
 
       await button.click();
       await page.waitForChanges();
 
-      isOpen = await item.getProperty('open');
+      isOpen = await item.getProperty('isOpen');
       expect(isOpen).toBe(false);
     });
 
@@ -117,7 +117,7 @@ describe('aegov-accordion-item E2E', () => {
       const page = await newE2EPage();
       await page.setContent(`
         <aegov-accordion>
-          <aegov-accordion-item disabled>
+          <aegov-accordion-item is-disabled>
             <span slot="accordion-item-heading">Heading</span>
             <span slot="accordion-item-content">Content</span>
           </aegov-accordion-item>
@@ -130,7 +130,7 @@ describe('aegov-accordion-item E2E', () => {
       await button.click();
       await page.waitForChanges();
 
-      const isOpen = await item.getProperty('open');
+      const isOpen = await item.getProperty('isOpen');
       expect(isOpen).toBe(false);
     });
   });
@@ -153,7 +153,7 @@ describe('aegov-accordion-item E2E', () => {
       await page.waitForChanges();
 
       const item = await page.find('aegov-accordion-item');
-      const isOpen = await item.getProperty('open');
+      const isOpen = await item.getProperty('isOpen');
       expect(isOpen).toBe(true);
     });
 
@@ -174,7 +174,7 @@ describe('aegov-accordion-item E2E', () => {
       await page.waitForChanges();
 
       const item = await page.find('aegov-accordion-item');
-      const isOpen = await item.getProperty('open');
+      const isOpen = await item.getProperty('isOpen');
       expect(isOpen).toBe(true);
     });
   });
@@ -219,7 +219,7 @@ describe('aegov-accordion-item E2E', () => {
       const page = await newE2EPage();
       await page.setContent(`
         <aegov-accordion>
-          <aegov-accordion-item disabled>
+          <aegov-accordion-item is-disabled>
             <span slot="accordion-item-heading">Heading</span>
             <span slot="accordion-item-content">Content</span>
           </aegov-accordion-item>
@@ -227,7 +227,7 @@ describe('aegov-accordion-item E2E', () => {
       `);
 
       const button = await page.find('aegov-accordion-item .accordion-item__header');
-      const disabled = await button.getProperty('disabled');
+      const disabled = await button.getProperty('isDisabled');
       expect(disabled).toBe(true);
     });
   });
@@ -279,7 +279,7 @@ describe('aegov-accordion-item E2E', () => {
       const page = await newE2EPage();
       await page.setContent(`
         <aegov-accordion>
-          <aegov-accordion-item disabled>
+          <aegov-accordion-item is-disabled>
             <span slot="accordion-item-heading">Heading</span>
             <span slot="accordion-item-content">Content</span>
           </aegov-accordion-item>
@@ -322,7 +322,7 @@ describe('aegov-accordion-item E2E', () => {
       const page = await newE2EPage();
       await page.setContent(`
         <aegov-accordion>
-          <aegov-accordion-item disabled>
+          <aegov-accordion-item is-disabled>
             <span slot="accordion-item-heading">Heading</span>
             <span slot="accordion-item-content">Content</span>
           </aegov-accordion-item>

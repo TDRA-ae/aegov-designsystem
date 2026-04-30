@@ -11,7 +11,7 @@ export class AegovFormField {
   @Element() el: HTMLElement;
 
   /** Additional CSS classes to apply. */
-  @Prop() class?: string;
+  @Prop() extraClass?: string;
 
   componentDidLoad() {
     this.linkChildren();
@@ -54,8 +54,8 @@ export class AegovFormField {
 
   private getFieldClasses(): string {
     const classes: string[] = ['aegov-form-field'];
-    if (this.class) {
-      classes.push(this.class);
+    if (this.extraClass) {
+      classes.push(this.extraClass);
     }
     return classes.join(' ');
   }

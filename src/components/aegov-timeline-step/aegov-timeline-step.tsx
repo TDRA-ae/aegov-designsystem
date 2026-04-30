@@ -62,7 +62,7 @@ export class AegovTimelineStep {
   /**
    * @internal Whether connector before this step is solid (prev completed). Set by parent.
    */
-  @Prop({ mutable: true }) connectorSolid: boolean = false;
+  @Prop({ mutable: true }) isConnectorSolid: boolean = false;
 
   @State() hasIconSlot: boolean = false;
   @State() slotContent: string = '';
@@ -159,7 +159,7 @@ export class AegovTimelineStep {
       'step__connector',
       'step__connector--horizontal',
       'step__connector--before',
-      this.connectorSolid ? 'step__connector--solid' : 'step__connector--dashed',
+      this.isConnectorSolid ? 'step__connector--solid' : 'step__connector--dashed',
     ].join(' ');
 
     return <div class={connectorClass} aria-hidden="true" />;

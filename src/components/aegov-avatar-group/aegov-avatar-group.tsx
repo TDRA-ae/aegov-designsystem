@@ -1,6 +1,6 @@
 import { Component, Element, Event, EventEmitter, Host, h, Prop, State, Watch } from '@stencil/core';
-import { AVATAR_GROUP_MODES, AVATAR_SIZES } from '../../utils/types';
-import type { AvatarGroupMode, AvatarSize } from '../../utils/types';
+import { AVATAR_GROUP_VARIANTS, AVATAR_SIZES } from '../../utils/types';
+import type { AvatarGroupVariant, AvatarSize } from '../../utils/types';
 import { warnIfInvalidEnumProp } from '../../utils/prop-validator';
 import { watchResponsiveProp } from '../../utils/responsive-prop';
 import type { ResponsivePropWatcher } from '../../utils/responsive-prop';
@@ -20,9 +20,9 @@ export class AegovAvatarGroup {
   @Element() el: HTMLElement;
 
   /**
-   * The layout mode: 'default' (spaced) or 'compact' (overlapping)
+   * The layout variant: 'default' (spaced) or 'compact' (overlapping)
    */
-  @Prop() mode: AvatarGroupMode = 'default';
+  @Prop() variant: AvatarGroupVariant = 'default';
 
   /**
    * The size enforced on all child avatars
@@ -47,7 +47,7 @@ export class AegovAvatarGroup {
   @Event() aegovAvatarGroupMore: EventEmitter<void>;
 
   componentWillLoad() {
-    warnIfInvalidEnumProp(this.mode, AVATAR_GROUP_MODES, 'default', ctx('mode'));
+    warnIfInvalidEnumProp(this.variant, AVATAR_GROUP_VARIANTS, 'default', ctx('variant'));
     this._sizeWatcher = watchResponsiveProp(this.size, AVATAR_SIZES, 'base', v => {
       this._resolvedSize = v as AvatarSize;
       if (this.el.isConnected) { this.updateAvatars(); }
@@ -63,8 +63,8 @@ export class AegovAvatarGroup {
     this.updateAvatars();
   }
 
-  @Watch('mode')
-  onModeChange(v: unknown) { warnIfInvalidEnumProp(v, AVATAR_GROUP_MODES, 'default', ctx('mode')); }
+  @Watch('variant')
+  onVariantChange(v: unknown) { warnIfInvalidEnumProp(v, AVATAR_GROUP_VARIANTS, 'default', ctx('variant')); }
 
   disconnectedCallback() {
     this._sizeWatcher?.destroy();
@@ -95,8 +95,8 @@ export class AegovAvatarGroup {
     const avatars = this.getDirectChildAvatars();
     avatars.forEach(avatar => {
       avatar.size = this._resolvedSize;
-      // Groups always use rounded avatars — override any individual variant setting
-      avatar.variant = 'rounded';
+      // Groups always use rounded avatars — override any individual appearance setting
+      avatar.appearance = 'rounded';
     });
   }
 
@@ -117,11 +117,11 @@ export class AegovAvatarGroup {
 
   render() {
     const size: AvatarSize = this._resolvedSize;
-    const mode: AvatarGroupMode = (AVATAR_GROUP_MODES as readonly string[]).includes(this.mode) ? this.mode : 'default';
+    const variant: AvatarGroupVariant = (AVATAR_GROUP_VARIANTS as readonly string[]).includes(this.variant) ? this.variant : 'default';
     const classes = {
       'aegov-avatar-group': true,
-      'avatar-group--default': mode === 'default',
-      'avatar-group--compact': mode === 'compact',
+      'avatar-group--default': variant === 'default',
+      'avatar-group--compact': variant === 'compact',
       [`avatar-group--${size}`]: true,
     };
 

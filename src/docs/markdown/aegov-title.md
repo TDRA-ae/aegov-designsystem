@@ -105,19 +105,19 @@ Every `aegov-title` comes with `font-bold` and `mt-0` applied by default. This p
 The `class` property accepts additional Tailwind CSS utility classes that are merged with the component defaults. This lets you customise colour, alignment, spacing, and more without needing to wrap the component in extra elements.
 
 ```html
-<aegov-title class="text-primary-600">Primary Coloured Title</aegov-title>
-<aegov-title class="text-aered-600">Red Title</aegov-title>
-<aegov-title class="text-center">Centred Title</aegov-title>
-<aegov-title class="italic text-aeblack-400">Italic Muted Title</aegov-title>
-<aegov-title size="xl" class="mb-2 text-aegreen-700">Custom Spaced Green Title</aegov-title>
+<aegov-title extra-class="text-primary-600">Primary Coloured Title</aegov-title>
+<aegov-title extra-class="text-aered-600">Red Title</aegov-title>
+<aegov-title extra-class="text-center">Centred Title</aegov-title>
+<aegov-title extra-class="italic text-aeblack-400">Italic Muted Title</aegov-title>
+<aegov-title size="xl" extra-class="mb-2 text-aegreen-700">Custom Spaced Green Title</aegov-title>
 ```
 
 <div class="p-6 bg-aeblack-50 rounded-lg my-6 space-y-4 not-aegov">
-  <aegov-title class="text-primary-600">Primary Coloured Title</aegov-title>
-  <aegov-title class="text-aered-600">Red Title</aegov-title>
-  <aegov-title class="text-center">Centred Title</aegov-title>
-  <aegov-title class="italic text-aeblack-400">Italic Muted Title</aegov-title>
-  <aegov-title size="xl" class="mb-2 text-aegreen-700">Custom Spaced Green Title</aegov-title>
+  <aegov-title extra-class="text-primary-600">Primary Coloured Title</aegov-title>
+  <aegov-title extra-class="text-aered-600">Red Title</aegov-title>
+  <aegov-title extra-class="text-center">Centred Title</aegov-title>
+  <aegov-title extra-class="italic text-aeblack-400">Italic Muted Title</aegov-title>
+  <aegov-title size="xl" extra-class="mb-2 text-aegreen-700">Custom Spaced Green Title</aegov-title>
 </div>
 
 ---

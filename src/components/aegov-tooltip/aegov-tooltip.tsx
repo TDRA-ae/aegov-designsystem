@@ -70,26 +70,19 @@ export class AegovTooltip {
    * Whether the tooltip is disabled
    * @default false
    */
-  @Prop() disabled: boolean = false;
-
-  /**
-   * Whether the tooltip contains interactive content
-   * This adds ARIA attributes and prevents auto-hide on hover
-   * @default false
-   */
-  @Prop() interactive: boolean = false;
+  @Prop() isDisabled: boolean = false;
 
   /**
    * Delay before showing tooltip (in milliseconds)
    * @default 200
    */
-  @Prop() showDelay: number = 200;
+  @Prop() delayStart: number = 200;
 
   /**
    * Delay before hiding tooltip (in milliseconds)
    * @default 0
    */
-  @Prop() hideDelay: number = 0;
+  @Prop() delayEnd: number = 0;
 
   private showTooltipTimeout?: number;
 
@@ -293,13 +286,13 @@ export class AegovTooltip {
   }
 
   private showTooltip = () => {
-    if (this.disabled) return;
+    if (this.isDisabled) return;
 
     this.clearTimeouts();
 
     this.showTooltipTimeout = window.setTimeout(() => {
       this.isVisible = true;
-    }, this.showDelay);
+    }, this.delayStart);
   };
 
   private hideTooltip = () => {
@@ -307,7 +300,7 @@ export class AegovTooltip {
 
     this.hideTimeout = window.setTimeout(() => {
       this.isVisible = false;
-    }, this.hideDelay);
+    }, this.delayEnd);
   };
 
   private handleTriggerMouseEnter = () => {
@@ -317,7 +310,7 @@ export class AegovTooltip {
   };
 
   private handleTriggerMouseLeave = () => {
-    if (this.trigger === 'hover' && !this.interactive) {
+    if (this.trigger === 'hover') {
       this.hideTooltip();
     }
   };
@@ -326,18 +319,6 @@ export class AegovTooltip {
     if (this.trigger === 'click') {
       event.stopPropagation();
       this.isVisible = !this.isVisible;
-    }
-  };
-
-  private handleTooltipMouseEnter = () => {
-    if (this.interactive && this.trigger === 'hover') {
-      this.clearTimeouts();
-    }
-  };
-
-  private handleTooltipMouseLeave = () => {
-    if (this.interactive && this.trigger === 'hover') {
-      this.hideTooltip();
     }
   };
 
@@ -384,13 +365,9 @@ export class AegovTooltip {
               'aegov-tooltip': true,
               [`tooltip--${position}`]: true,
               [`tooltip--align-${this.align}`]: true,
-              'tooltip--interactive': this.interactive,
             }}
             style={{ display: this.isVisible ? 'block' : 'none' }}
-            role={this.interactive ? 'dialog' : 'tooltip'}
-            aria-label={this.interactive ? 'Interactive tooltip' : undefined}
-            onMouseEnter={this.handleTooltipMouseEnter}
-            onMouseLeave={this.handleTooltipMouseLeave}
+            role="tooltip"
           >
             <div class="tooltip__content">
               {this.hasContentSlot ? (

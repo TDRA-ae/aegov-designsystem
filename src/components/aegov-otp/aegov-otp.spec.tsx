@@ -213,7 +213,7 @@ describe('aegov-otp', () => {
   it('applies custom class', async () => {
     const page = await newSpecPage({
       components: [AegovOtp],
-      html: `<aegov-otp class="my-custom"></aegov-otp>`,
+      html: `<aegov-otp extra-class="my-custom"></aegov-otp>`,
     });
     const wrapper = page.root.querySelector('.aegov-otp');
     expect(wrapper.classList.contains('my-custom')).toBe(true);

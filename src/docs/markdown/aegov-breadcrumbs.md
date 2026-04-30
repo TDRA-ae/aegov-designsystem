@@ -180,10 +180,10 @@ Breadcrumbs are well-suited for deep page hierarchies. The component handles any
 
 ## Schema.org Microdata
 
-Set the `microdata` attribute on the parent to add [Schema.org BreadcrumbList](https://schema.org/BreadcrumbList) structured data. This helps search engines understand your page hierarchy and can improve how your pages appear in search results.
+Set the `is-microdata` attribute on the parent to add [Schema.org BreadcrumbList](https://schema.org/BreadcrumbList) structured data. This helps search engines understand your page hierarchy and can improve how your pages appear in search results.
 
 ```html
-<aegov-breadcrumbs microdata>
+<aegov-breadcrumbs is-microdata>
   <aegov-breadcrumbs-item href="/">Home</aegov-breadcrumbs-item>
   <aegov-breadcrumbs-item href="/services">Services</aegov-breadcrumbs-item>
   <aegov-breadcrumbs-item>Current Page</aegov-breadcrumbs-item>
@@ -191,7 +191,7 @@ Set the `microdata` attribute on the parent to add [Schema.org BreadcrumbList](h
 ```
 
 <div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-breadcrumbs microdata>
+  <aegov-breadcrumbs is-microdata>
     <aegov-breadcrumbs-item href="/">Home</aegov-breadcrumbs-item>
     <aegov-breadcrumbs-item href="/services">Services</aegov-breadcrumbs-item>
     <aegov-breadcrumbs-item>Current Page</aegov-breadcrumbs-item>
@@ -268,7 +268,7 @@ Each breadcrumb item emits an `aegovBreadcrumbItemClick` event when clicked. The
 |-------------|--------------|--------------------------------------------------------------------|----------------------------|-----------|
 | `separator` | `separator`  | The separator style between items                                  | `'slash'` \| `'chevron'`   | `'slash'` |
 | `maxLength` | `max-length` | Maximum characters before truncating item text                     | `number`                   | —         |
-| `microdata` | `microdata`  | Adds Schema.org BreadcrumbList structured data                     | `boolean`                  | `false`   |
+| `is-microdata` | `is-microdata`  | Adds Schema.org BreadcrumbList structured data                     | `boolean`                  | `false`   |
 
 ### `aegov-breadcrumbs-item` Properties
 
@@ -277,7 +277,7 @@ Each breadcrumb item emits an `aegovBreadcrumbItemClick` event when clicked. The
 | `href`      | `href`     | The URL the item links to. If omitted, renders as plain text.          | `string`                                             | —         |
 | `target`    | `target`   | Where to open the linked document                                      | `'_self'` \| `'_blank'` \| `'_parent'` \| `'_top'`  | `'_self'` |
 
-> **Note:** The `isLast`, `separator`, `maxLength`, `microdata`, and `position` properties on `aegov-breadcrumbs-item` are managed internally by the parent component. Do not set them manually.
+> **Note:** The `isLast`, `separator`, `maxLength`, `is-microdata`, and `position` properties on `aegov-breadcrumbs-item` are managed internally by the parent component. Do not set them manually.
 
 ### Events
 
@@ -326,7 +326,7 @@ The `aegov-breadcrumbs` component follows the [WAI-ARIA Breadcrumb pattern](http
 ## Notes
 
 - The `aegov-breadcrumbs-item` component **must** be used inside `<aegov-breadcrumbs>`. Using it standalone will throw an error.
-- The parent component sets `separator`, `maxLength`, `microdata`, `position`, and `isLast` on all child items automatically during lifecycle hooks. You do not need to set these props on individual items.
+- The parent component sets `separator`, `maxLength`, `is-microdata`, `position`, and `isLast` on all child items automatically during lifecycle hooks. You do not need to set these props on individual items.
 - Text truncation via `max-length` applies a Unicode ellipsis character at the cut point. It only affects text content — if the item contains HTML children (such as SVG icons), truncation is skipped and content is rendered via the slot.
 - The last separator is never rendered, regardless of separator style.
 - In RTL mode, the chevron separator is flipped horizontally using `transform: scaleX(-1)`. The slash separator is directionally neutral and does not change.

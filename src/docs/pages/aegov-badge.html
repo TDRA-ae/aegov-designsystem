@@ -227,9 +227,9 @@
 </blockquote>
 <hr>
 <h2>Dismissible</h2>
-<p>Set the <code>dismissible</code> attribute to show a close button inside the badge. Clicking the button emits the <code>aegovBadgeDismiss</code> event. The badge does <strong>not</strong> remove itself — you control visibility in your application logic.</p>
+<p>Set the <code>is-dismissible</code> attribute to show a close button inside the badge. Clicking the button emits the <code>aegovBadgeDismiss</code> event. The badge does <strong>not</strong> remove itself — you control visibility in your application logic.</p>
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-badge</span> <span class="hljs-attr">dismissible</span> <span class="hljs-attr">color</span>=<span class="hljs-string">&quot;primary&quot;</span>&gt;</span>Dismissible<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-badge</span>&gt;</span></code></pre><div class="flex flex-wrap items-center gap-3 p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-badge dismissible>Default</aegov-badge>
+  <aegov-badge is-dismissible>Default</aegov-badge>
   <aegov-badge dismissible color="primary">Primary</aegov-badge>
   <aegov-badge dismissible color="aered">AERed</aegov-badge>
   <aegov-badge dismissible color="aegreen">AEGreen</aegov-badge>
@@ -261,10 +261,10 @@
 
 <h3>Category Tags</h3>
 <div class="flex flex-wrap items-center gap-3 p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-badge color="purple" dismissible>Design</aegov-badge>
-  <aegov-badge color="techblue" dismissible>Development</aegov-badge>
-  <aegov-badge color="fuchsia" dismissible>Marketing</aegov-badge>
-  <aegov-badge color="aegreen" dismissible>Operations</aegov-badge>
+  <aegov-badge color="purple" is-dismissible>Design</aegov-badge>
+  <aegov-badge color="techblue" is-dismissible>Development</aegov-badge>
+  <aegov-badge color="fuchsia" is-dismissible>Marketing</aegov-badge>
+  <aegov-badge color="aegreen" is-dismissible>Operations</aegov-badge>
 </div>
 
 <h3>Inline with Text</h3>
@@ -278,9 +278,9 @@
 <h2>RTL Support</h2>
 <p>The dismiss button margin automatically flips in RTL layouts using <code>rtl:ml-0 rtl:mr-1.5</code>.</p>
 <div dir="rtl" class="flex flex-wrap items-center gap-3 p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-badge color="primary" dismissible>شارة أساسية</aegov-badge>
-  <aegov-badge color="aegreen" dismissible>نشط</aegov-badge>
-  <aegov-badge color="aered" appearance="solid" dismissible>خطأ</aegov-badge>
+  <aegov-badge color="primary" is-dismissible>شارة أساسية</aegov-badge>
+  <aegov-badge color="aegreen" is-dismissible>نشط</aegov-badge>
+  <aegov-badge color="aered" appearance="solid" is-dismissible>خطأ</aegov-badge>
   <aegov-badge color="camel">قيد الانتظار</aegov-badge>
 </div>
 
@@ -319,8 +319,8 @@
 <td><code>&#39;base&#39;</code></td>
 </tr>
 <tr>
-<td><code>dismissible</code></td>
-<td><code>dismissible</code></td>
+<td><code>is-dismissible</code></td>
+<td><code>is-dismissible</code></td>
 <td>Shows a close button</td>
 <td><code>boolean</code></td>
 <td><code>false</code></td>
@@ -341,7 +341,7 @@
 <td><code>void</code></td>
 </tr>
 </tbody></table>
-<p>The event is not emitted when <code>dismissible</code> is <code>false</code>.</p>
+<p>The event is not emitted when <code>is-dismissible</code> is <code>false</code>.</p>
 <h4>Listening to Events</h4>
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-badge</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;tag&quot;</span> <span class="hljs-attr">dismissible</span> <span class="hljs-attr">color</span>=<span class="hljs-string">&quot;primary&quot;</span>&gt;</span>Tag<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-badge</span>&gt;</span>
 
@@ -385,7 +385,7 @@
 <h2>Notes</h2>
 <ul>
 <li>The badge renders as a <code>&lt;span&gt;</code>, so it is an inline element suitable for placement within text, headings, or alongside other inline content.</li>
-<li>The <code>dismissible</code> property adds a close button but does <strong>not</strong> hide the badge automatically. You must handle the <code>aegovBadgeDismiss</code> event and control visibility yourself.</li>
+<li>The <code>is-dismissible</code> property adds a close button but does <strong>not</strong> hide the badge automatically. You must handle the <code>aegovBadgeDismiss</code> event and control visibility yourself.</li>
 <li>The dismiss button uses <code>event.stopPropagation()</code>, so clicking it will not trigger click handlers on parent elements.</li>
 <li>The host element uses <code>display: inline-block</code> to ensure consistent sizing and alignment.</li>
 <li>All 17 colour variants have both soft and solid appearances, giving you 34 visual combinations.</li>

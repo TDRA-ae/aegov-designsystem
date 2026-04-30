@@ -66,7 +66,7 @@ A vertical line that spans the full height of its container. Useful for separati
 
 ## Variants
 
-The `variant` property controls the visual weight of the separator line.
+The `appearance` property controls the visual weight of the separator line.
 
 ### Default
 
@@ -85,11 +85,11 @@ The standard separator with a `slate-300` border colour.
 A lighter separator with a `slate-200` border colour — useful when you want a less prominent division.
 
 ```html
-<aegov-separator variant="subtle"></aegov-separator>
+<aegov-separator appearance="subtle"></aegov-separator>
 ```
 
 <div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-separator variant="subtle"></aegov-separator>
+  <aegov-separator appearance="subtle"></aegov-separator>
 </div>
 
 Comparison of both variants side by side:
@@ -101,7 +101,7 @@ Comparison of both variants side by side:
   </div>
   <div>
     <p class="text-xs font-semibold text-slate-500 mb-2">Subtle</p>
-    <aegov-separator variant="subtle"></aegov-separator>
+    <aegov-separator appearance="subtle"></aegov-separator>
   </div>
 </div>
 
@@ -134,11 +134,11 @@ You can also provide label text via the default slot instead of the `text` prope
 The subtle variant also applies to the flanking lines when a text label is present.
 
 ```html
-<aegov-separator text="Continue" variant="subtle"></aegov-separator>
+<aegov-separator text="Continue" appearance="subtle"></aegov-separator>
 ```
 
 <div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-separator text="Continue" variant="subtle"></aegov-separator>
+  <aegov-separator text="Continue" appearance="subtle"></aegov-separator>
 </div>
 
 ### Real-World Example: Login Form Divider
@@ -159,14 +159,14 @@ The subtle variant also applies to the flanking lines when a text label is prese
 
 ## Decorative vs Semantic
 
-By default, the separator is decorative (`decorative="true"`) and receives `role="presentation"`, which tells assistive technologies to ignore it. When the separator conveys meaningful structure — for example, dividing distinct sections of a page — set `decorative="false"` to apply `role="separator"` instead.
+By default, the separator is decorative (`is-decorative="true"`) and receives `role="presentation"`, which tells assistive technologies to ignore it. When the separator conveys meaningful structure — for example, dividing distinct sections of a page — set `is-decorative="false"` to apply `role="separator"` instead.
 
 ```html
 <!-- Decorative (default) — ignored by screen readers -->
 <aegov-separator></aegov-separator>
 
 <!-- Semantic — announced as a separator -->
-<aegov-separator decorative="false"></aegov-separator>
+<aegov-separator is-is-decorative="false"></aegov-separator>
 ```
 
 <div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov space-y-4">
@@ -176,7 +176,7 @@ By default, the separator is decorative (`decorative="true"`) and receives `role
   </div>
   <div>
     <p class="text-xs font-semibold text-slate-500 mb-2">Semantic (role="separator")</p>
-    <aegov-separator decorative="false"></aegov-separator>
+    <aegov-separator is-is-decorative="false"></aegov-separator>
   </div>
 </div>
 
@@ -221,9 +221,9 @@ A common pattern is using vertical separators to group related actions in a hori
 | Property      | Attribute     | Description                                                        | Type                            | Default          |
 |---------------|---------------|--------------------------------------------------------------------|---------------------------------|------------------|
 | `orientation` | `orientation` | The direction of the separator line                                | `'horizontal'` \| `'vertical'` | `'horizontal'`   |
-| `variant`     | `variant`     | The visual weight of the separator                                 | `'default'` \| `'subtle'`      | `'default'`      |
+| `appearance`     | `appearance`     | The visual weight of the separator                                 | `'default'` \| `'subtle'`      | `'default'`      |
 | `text`        | `text`        | Optional text label displayed at the centre of the separator       | `string`                        | `undefined`      |
-| `decorative`  | `decorative`  | Whether the separator is purely decorative (no semantic meaning)   | `boolean`                       | `true`           |
+| `is-decorative`  | `is-decorative`  | Whether the separator is purely decorative (no semantic meaning)   | `boolean`                       | `true`           |
 
 ### Slots
 
@@ -239,14 +239,14 @@ The `aegov-separator` component provides appropriate ARIA semantics based on its
 
 ### Built-in Features
 
-- **`role="presentation"`** — applied by default when `decorative` is `true`. Assistive technologies ignore the element, treating it as purely visual.
-- **`role="separator"`** — applied when `decorative` is set to `false`, indicating a meaningful content boundary.
+- **`role="presentation"`** — applied by default when `is-decorative` is `true`. Assistive technologies ignore the element, treating it as purely visual.
+- **`role="separator"`** — applied when `is-decorative` is set to `false`, indicating a meaningful content boundary.
 - **`aria-orientation`** — automatically set to `"horizontal"` or `"vertical"` to match the `orientation` property, allowing screen readers to announce the direction.
 - **Semantic `<hr>` element** — when no text label is present, the component renders a native `<hr>` tag, which is inherently recognised as a thematic break by assistive technologies.
 
 ### Developer Responsibilities
 
-1. **Use `decorative="false"` for meaningful dividers.** If the separator marks a significant boundary between distinct content sections (e.g. between a header and body), set `decorative="false"` so screen readers can announce it.
+1. **Use `is-decorative="false"` for meaningful dividers.** If the separator marks a significant boundary between distinct content sections (e.g. between a header and body), set `is-decorative="false"` so screen readers can announce it.
 
 2. **Keep labels short.** When using the `text` property or default slot, keep the label concise (one or two words). Long labels reduce the visual impact of the separator line.
 

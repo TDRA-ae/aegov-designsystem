@@ -72,24 +72,24 @@ Available breakpoints: `xs` (480px), `sm` (640px), `md` (768px), `lg` (1024px), 
 
 ## Variants
 
-The `variant` property controls the shape of the avatar. Two variants are available.
+The `appearance` property controls the shape of the avatar. Two variants are available.
 
 ### Square (default)
 
 A square avatar with slightly rounded corners. Larger sizes (`lg` and above) use progressively larger border radii.
 
 ```html
-<aegov-avatar variant="square"></aegov-avatar>
+<aegov-avatar appearance="square"></aegov-avatar>
 ```
 
 <div class="flex flex-wrap items-end gap-4 p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-avatar variant="square" size="xs"></aegov-avatar>
-  <aegov-avatar variant="square" size="sm"></aegov-avatar>
-  <aegov-avatar variant="square" size="base"></aegov-avatar>
-  <aegov-avatar variant="square" size="lg"></aegov-avatar>
-  <aegov-avatar variant="square" size="xl"></aegov-avatar>
-  <aegov-avatar variant="square" size="2xl"></aegov-avatar>
-  <aegov-avatar variant="square" size="3xl"></aegov-avatar>
+  <aegov-avatar appearance="square" size="xs"></aegov-avatar>
+  <aegov-avatar appearance="square" size="sm"></aegov-avatar>
+  <aegov-avatar appearance="square" size="base"></aegov-avatar>
+  <aegov-avatar appearance="square" size="lg"></aegov-avatar>
+  <aegov-avatar appearance="square" size="xl"></aegov-avatar>
+  <aegov-avatar appearance="square" size="2xl"></aegov-avatar>
+  <aegov-avatar appearance="square" size="3xl"></aegov-avatar>
 </div>
 
 ### Rounded
@@ -97,17 +97,17 @@ A square avatar with slightly rounded corners. Larger sizes (`lg` and above) use
 A fully circular avatar, ideal for user profile pictures.
 
 ```html
-<aegov-avatar variant="rounded"></aegov-avatar>
+<aegov-avatar appearance="rounded"></aegov-avatar>
 ```
 
 <div class="flex flex-wrap items-end gap-4 p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-avatar variant="rounded" size="xs"></aegov-avatar>
-  <aegov-avatar variant="rounded" size="sm"></aegov-avatar>
-  <aegov-avatar variant="rounded" size="base"></aegov-avatar>
-  <aegov-avatar variant="rounded" size="lg"></aegov-avatar>
-  <aegov-avatar variant="rounded" size="xl"></aegov-avatar>
-  <aegov-avatar variant="rounded" size="2xl"></aegov-avatar>
-  <aegov-avatar variant="rounded" size="3xl"></aegov-avatar>
+  <aegov-avatar appearance="rounded" size="xs"></aegov-avatar>
+  <aegov-avatar appearance="rounded" size="sm"></aegov-avatar>
+  <aegov-avatar appearance="rounded" size="base"></aegov-avatar>
+  <aegov-avatar appearance="rounded" size="lg"></aegov-avatar>
+  <aegov-avatar appearance="rounded" size="xl"></aegov-avatar>
+  <aegov-avatar appearance="rounded" size="2xl"></aegov-avatar>
+  <aegov-avatar appearance="rounded" size="3xl"></aegov-avatar>
 </div>
 
 ---
@@ -284,7 +284,7 @@ The table below shows every combination of size and variant for visual reference
 | Property  | Attribute | Description                                          | Type                                                                    | Default    |
 |-----------|-----------|------------------------------------------------------|-------------------------------------------------------------------------|------------|
 | `size`    | `size`    | The avatar dimensions. Supports responsive strings (e.g. `'sm xl:2xl'`). | `'xs'` \| `'sm'` \| `'base'` \| `'lg'` \| `'xl'` \| `'2xl'` \| `'3xl'` | `'base'`   |
-| `variant` | `variant` | The avatar shape                                     | `'square'` \| `'rounded'`                                              | `'square'` |
+| `appearance` | `appearance` | The avatar shape                                     | `'square'` \| `'rounded'`                                              | `'square'` |
 | `src`     | `src`     | Image source URL                                     | `string`                                                                | —          |
 | `alt`     | `alt`     | Alternative text for the image                       | `string`                                                                | —          |
 | `status`  | `status`  | Status indicator (`online`, `offline`, `none`, or boolean) | `'online'` \| `'offline'` \| `'none'` \| `boolean`                | `'none'`   |

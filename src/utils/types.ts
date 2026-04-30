@@ -22,9 +22,9 @@ export const ASPECT_RATIO_FITS = ['cover', 'contain', 'fill', 'none', 'scale-dow
 export type AspectRatioFit = typeof ASPECT_RATIO_FITS[number];
 
 /**
- * Button component variant types
+ * Button component variant types (color scheme)
  */
-export const BUTTON_VARIANTS = ['solid', 'outline', 'soft', 'link'] as const;
+export const BUTTON_VARIANTS = ['primary', 'secondary', 'danger', 'neutralMin', 'neutralMax'] as const;
 export type ButtonVariant = typeof BUTTON_VARIANTS[number];
 
 /**
@@ -40,9 +40,9 @@ export const BUTTON_TYPES = ['button', 'submit', 'reset'] as const;
 export type ButtonType = typeof BUTTON_TYPES[number];
 
 /**
- * Button component appearance types (color scheme)
+ * Button component appearance types (visual style)
  */
-export const BUTTON_APPEARANCES = ['primary', 'secondary', 'danger', 'neutralMin', 'neutralMax'] as const;
+export const BUTTON_APPEARANCES = ['solid', 'outline', 'soft', 'link'] as const;
 export type ButtonAppearance = typeof BUTTON_APPEARANCES[number];
 
 /**
@@ -64,10 +64,10 @@ export const AVATAR_SIZES = ['xs', 'sm', 'base', 'lg', 'xl', '2xl', '3xl'] as co
 export type AvatarSize = typeof AVATAR_SIZES[number];
 
 /**
- * Avatar component variant types
+ * Avatar component appearance types (shape)
  */
-export const AVATAR_VARIANTS = ['square', 'rounded'] as const;
-export type AvatarVariant = typeof AVATAR_VARIANTS[number];
+export const AVATAR_APPEARANCES = ['square', 'rounded'] as const;
+export type AvatarAppearance = typeof AVATAR_APPEARANCES[number];
 
 /**
  * Avatar component status types
@@ -76,16 +76,16 @@ export const AVATAR_STATUSES = ['online', 'offline', 'none'] as const;
 export type AvatarStatus = typeof AVATAR_STATUSES[number];
 
 /**
- * Avatar group component mode types
+ * Avatar group component variant types
  */
-export const AVATAR_GROUP_MODES = ['default', 'compact'] as const;
-export type AvatarGroupMode = typeof AVATAR_GROUP_MODES[number];
+export const AVATAR_GROUP_VARIANTS = ['default', 'compact'] as const;
+export type AvatarGroupVariant = typeof AVATAR_GROUP_VARIANTS[number];
 
 /**
- * Blockquote component variant types
+ * Blockquote component appearance types
  */
-export const BLOCKQUOTE_VARIANTS = ['primary', 'colored', 'coloured'] as const;
-export type BlockquoteVariant = typeof BLOCKQUOTE_VARIANTS[number];
+export const BLOCKQUOTE_APPEARANCES = ['primary', 'colored', 'coloured'] as const;
+export type BlockquoteAppearance = typeof BLOCKQUOTE_APPEARANCES[number];
 
 /**
  * Callout component variant types
@@ -207,10 +207,10 @@ export const MODAL_POSITIONS = ['center', 'top', 'bottom'] as const;
 export type ModalPosition = typeof MODAL_POSITIONS[number];
 
 /**
- * Modal component backdrop opacity types
+ * Modal component overlay opacity types
  */
-export const MODAL_BACKDROP_OPACITIES = ['light', 'base', 'dark'] as const;
-export type ModalBackdropOpacity = typeof MODAL_BACKDROP_OPACITIES[number];
+export const MODAL_OVERLAY_OPACITIES = ['light', 'base', 'dark'] as const;
+export type ModalOverlayOpacity = typeof MODAL_OVERLAY_OPACITIES[number];
 
 /**
  * Modal component size types (drive padding + border-radius, mirroring card)
@@ -344,8 +344,8 @@ export type CardBorderWidth = typeof CARD_BORDER_WIDTHS[number];
 /**
  * Card component background types
  */
-export const CARD_BACKGROUNDS = ['white', 'subtle'] as const;
-export type CardBackground = typeof CARD_BACKGROUNDS[number];
+export const CARD_BGS = ['white', 'subtle'] as const;
+export type CardBg = typeof CARD_BGS[number];
 
 /**
  * Card component border style types
@@ -613,7 +613,7 @@ export type NavbarSize = typeof NAVBAR_SIZES[number];
  */
 export interface BaseComponentProps {
   /**
-   * Additional CSS classes to apply
+   * Additional CSS classes to apply (extra-class HTML attribute)
    */
-  class?: string;
+  extraClass?: string;
 }

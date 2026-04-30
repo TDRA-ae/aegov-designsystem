@@ -86,7 +86,7 @@ describe('aegov-form-field', () => {
     it('merges custom class with defaults', async () => {
       const page = await newSpecPage({
         components: [AegovFormField],
-        html: `<aegov-form-field class="mb-4"></aegov-form-field>`,
+        html: `<aegov-form-field extra-class="mb-4"></aegov-form-field>`,
       });
       const div = page.root.querySelector('div');
       expect(div.className).toContain('aegov-form-field');

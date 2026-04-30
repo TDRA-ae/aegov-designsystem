@@ -109,35 +109,35 @@
 <h2>Custom Classes</h2>
 <p>The <code>class</code> property lets you pass additional Tailwind utility classes that are merged with the component defaults. This gives you full control over colour, weight, alignment, spacing, and any other Tailwind utility.</p>
 <h3>Custom Colour</h3>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-text</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;text-primary-600&quot;</span>&gt;</span>Primary-coloured paragraph text.<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-text</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-text</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;text-aered-600&quot;</span>&gt;</span>Red-coloured paragraph text for emphasis.<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-text</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-text class="text-primary-600">Primary-coloured paragraph text.</aegov-text>
-  <aegov-text class="text-aered-600">Red-coloured paragraph text for emphasis.</aegov-text>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-text</span> <span class="hljs-attr">extra-class</span>=<span class="hljs-string">&quot;text-primary-600&quot;</span>&gt;</span>Primary-coloured paragraph text.<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-text</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-text</span> <span class="hljs-attr">extra-class</span>=<span class="hljs-string">&quot;text-aered-600&quot;</span>&gt;</span>Red-coloured paragraph text for emphasis.<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-text</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
+  <aegov-text extra-class="text-primary-600">Primary-coloured paragraph text.</aegov-text>
+  <aegov-text extra-class="text-aered-600">Red-coloured paragraph text for emphasis.</aegov-text>
 </div>
 
 <h3>Custom Font Weight</h3>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-text</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;font-semibold&quot;</span>&gt;</span>Semibold paragraph text.<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-text</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-text</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;font-light&quot;</span>&gt;</span>Light-weight paragraph text.<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-text</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-text class="font-semibold">Semibold paragraph text.</aegov-text>
-  <aegov-text class="font-light">Light-weight paragraph text.</aegov-text>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-text</span> <span class="hljs-attr">extra-class</span>=<span class="hljs-string">&quot;font-semibold&quot;</span>&gt;</span>Semibold paragraph text.<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-text</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-text</span> <span class="hljs-attr">extra-class</span>=<span class="hljs-string">&quot;font-light&quot;</span>&gt;</span>Light-weight paragraph text.<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-text</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
+  <aegov-text extra-class="font-semibold">Semibold paragraph text.</aegov-text>
+  <aegov-text extra-class="font-light">Light-weight paragraph text.</aegov-text>
 </div>
 
 <h3>Custom Alignment</h3>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-text</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;text-center&quot;</span>&gt;</span>Centre-aligned paragraph.<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-text</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-text</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;text-right&quot;</span>&gt;</span>Right-aligned paragraph.<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-text</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-text class="text-center">Centre-aligned paragraph.</aegov-text>
-  <aegov-text class="text-right">Right-aligned paragraph.</aegov-text>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-text</span> <span class="hljs-attr">extra-class</span>=<span class="hljs-string">&quot;text-center&quot;</span>&gt;</span>Centre-aligned paragraph.<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-text</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-text</span> <span class="hljs-attr">extra-class</span>=<span class="hljs-string">&quot;text-right&quot;</span>&gt;</span>Right-aligned paragraph.<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-text</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
+  <aegov-text extra-class="text-center">Centre-aligned paragraph.</aegov-text>
+  <aegov-text extra-class="text-right">Right-aligned paragraph.</aegov-text>
 </div>
 
 <hr>
 <h2>Overriding Default Margin</h2>
 <p>The default <code>mb-8</code> can be overridden by passing a different margin class. Because custom classes are appended after the defaults, Tailwind&#39;s last-class-wins behaviour applies.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-text</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;mb-0&quot;</span>&gt;</span>No bottom margin.<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-text</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-text</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;mb-2&quot;</span>&gt;</span>Tight bottom margin (8px).<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-text</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-text</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;mb-16&quot;</span>&gt;</span>Extra-large bottom margin (64px).<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-text</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-text class="mb-0">No bottom margin — sits flush against the next element.</aegov-text>
-  <aegov-text class="mb-2">Tight bottom margin (8px) — for compact layouts.</aegov-text>
-  <aegov-text class="mb-16">Extra-large bottom margin (64px) — for section breaks.</aegov-text>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-text</span> <span class="hljs-attr">extra-class</span>=<span class="hljs-string">&quot;mb-0&quot;</span>&gt;</span>No bottom margin.<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-text</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-text</span> <span class="hljs-attr">extra-class</span>=<span class="hljs-string">&quot;mb-2&quot;</span>&gt;</span>Tight bottom margin (8px).<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-text</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-text</span> <span class="hljs-attr">extra-class</span>=<span class="hljs-string">&quot;mb-16&quot;</span>&gt;</span>Extra-large bottom margin (64px).<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-text</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
+  <aegov-text extra-class="mb-0">No bottom margin — sits flush against the next element.</aegov-text>
+  <aegov-text extra-class="mb-2">Tight bottom margin (8px) — for compact layouts.</aegov-text>
+  <aegov-text extra-class="mb-16">Extra-large bottom margin (64px) — for section breaks.</aegov-text>
   <aegov-text>Back to default margin.</aegov-text>
 </div>
 

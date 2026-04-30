@@ -52,7 +52,7 @@ export class AegovCheckbox {
   @Prop({ mutable: true }) indeterminate: boolean = false;
 
   /** Additional CSS classes to apply. */
-  @Prop() class?: string;
+  @Prop() extraClass?: string;
 
   /** Emitted when the checkbox checked state changes. */
   @Event() aegovCheckboxChange: EventEmitter<{ checked: boolean; value?: string }>;
@@ -110,7 +110,7 @@ export class AegovCheckbox {
   render() {
     const passThroughAttrs = getPassThroughAttributes(this.el, AegovCheckbox.NATIVE_CHECKBOX_ATTRS);
     const wrapperClasses = ['aegov-checkbox', `checkbox--${this._resolvedSize}`];
-    if (this.class) wrapperClasses.push(this.class);
+    if (this.extraClass) wrapperClasses.push(this.extraClass);
 
     const descriptionId = this.description ? `${this.fieldId}-desc` : undefined;
 

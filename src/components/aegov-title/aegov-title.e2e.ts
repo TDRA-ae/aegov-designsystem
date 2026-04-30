@@ -76,7 +76,7 @@ describe('aegov-title E2E', () => {
   describe('custom class', () => {
     it('should merge custom classes with defaults', async () => {
       const page = await newE2EPage();
-      await page.setContent(`<aegov-title class="text-red-500">Title</aegov-title>`);
+      await page.setContent(`<aegov-title extra-class="text-red-500">Title</aegov-title>`);
       const p = await page.find('aegov-title p');
       const cls = await p.getAttribute('class');
       expect(cls).toContain('font-bold');

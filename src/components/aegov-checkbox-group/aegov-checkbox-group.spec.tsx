@@ -98,7 +98,7 @@ describe('aegov-checkbox-group', () => {
   it('applies custom classes', async () => {
     const page = await newSpecPage({
       components: [AegovCheckboxGroup, AegovCheckbox],
-      html: `<aegov-checkbox-group class="mt-6"></aegov-checkbox-group>`,
+      html: `<aegov-checkbox-group extra-class="mt-6"></aegov-checkbox-group>`,
     });
     const fieldset = page.root.querySelector('fieldset');
     expect(fieldset.classList.contains('mt-6')).toBe(true);

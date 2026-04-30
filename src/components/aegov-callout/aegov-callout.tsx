@@ -6,6 +6,7 @@ import { getVariantIcon } from '../../utils/icons';
 import { warnIfInvalidEnumProp } from '../../utils/prop-validator';
 import { watchResponsiveProp } from '../../utils/responsive-prop';
 import type { ResponsivePropWatcher } from '../../utils/responsive-prop';
+import { generateId } from '../../utils/id-generator';
 
 const TAG = 'aegov-callout';
 const ctx = (prop: string) => ({ component: TAG, prop });
@@ -21,6 +22,11 @@ const ctx = (prop: string) => ({ component: TAG, prop });
 })
 export class AegovCallout {
   @Element() el!: HTMLElement;
+
+  /**
+   * Unique ID for the callout element. Auto-generated if not provided.
+   */
+  @Prop({ mutable: true, reflect: true }) fieldId?: string;
 
   /**
    * The variant of the callout. Determines the color scheme.
@@ -45,7 +51,7 @@ export class AegovCallout {
   /**
    * Whether the callout can be dismissed/closed.
    */
-  @Prop() dismissible: boolean = false;
+  @Prop() isDismissible: boolean = false;
 
   /**
    * Event emitted when the callout is dismissed.
@@ -98,6 +104,9 @@ export class AegovCallout {
    */
 
   componentWillLoad() {
+    if (!this.fieldId) {
+      this.fieldId = generateId('aegov-callout');
+    }
     warnIfInvalidEnumProp(this.variant, CALLOUT_VARIANTS, 'default', ctx('variant'));
     warnIfInvalidEnumProp(this.appearance, CALLOUT_APPEARANCES, 'soft', ctx('appearance'));
     this._sizeWatcher = watchResponsiveProp(this.size, CALLOUT_SIZES, 'base', v => {
@@ -133,7 +142,7 @@ export class AegovCallout {
     this.checkIconSlot();
   }
 
-  private static readonly PASS_THROUGH_ATTRS = new Set(['id']);
+  private static readonly PASS_THROUGH_ATTRS = new Set<string>();
 
   /**
    * Get the CSS classes based on component props
@@ -189,7 +198,7 @@ export class AegovCallout {
     const passThroughAttributes = getPassThroughAttributes(this.el, AegovCallout.PASS_THROUGH_ATTRS);
 
     return (
-      <div data-aegov-callout class={this.getCalloutClasses()} role="alert" {...passThroughAttributes}>
+      <div data-aegov-callout class={this.getCalloutClasses()} role="alert" id={this.fieldId} {...passThroughAttributes}>
         <div class="callout__icon">
           {this.hasIconSlot ? (
             <slot name="icon" />
@@ -207,7 +216,7 @@ export class AegovCallout {
         </div>
         <div class="callout__right">
           <slot name="link" />
-        {this.dismissible && (
+        {this.isDismissible && (
           <button
             type="button"
             onClick={this.handleDismiss}

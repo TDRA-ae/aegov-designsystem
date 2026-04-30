@@ -9,8 +9,8 @@ The `aegov-navbar` component pairs with `aegov-navbar-item` children. The parent
 Arrow keys cycle focus along the navbar (reversed in RTL), `Home` and `End` jump to the first and last item.
 
 ```html
-<aegov-navbar nav-label="Main navigation">
-  <aegov-navbar-item href="/" active>Home</aegov-navbar-item>
+<aegov-navbar label-nav="Main navigation">
+  <aegov-navbar-item href="/" is-active>Home</aegov-navbar-item>
   <aegov-navbar-item href="/services">Services</aegov-navbar-item>
   <aegov-navbar-item href="/products">
     Products
@@ -26,8 +26,8 @@ Arrow keys cycle focus along the navbar (reversed in RTL), `Home` and `End` jump
 ```
 
 <div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-navbar nav-label="Main navigation">
-    <aegov-navbar-item href="#" active>Home</aegov-navbar-item>
+  <aegov-navbar label-nav="Main navigation">
+    <aegov-navbar-item href="#" is-active>Home</aegov-navbar-item>
     <aegov-navbar-item href="#services">Services</aegov-navbar-item>
     <aegov-navbar-item href="#products">
       Products
@@ -144,7 +144,7 @@ Pass an SVG into the `icon-start` slot to render an icon before the label. Icon 
 
 Slot an `aegov-dropdown` with `slot="dropdown"` to attach a submenu to an item. The navbar-item itself becomes the dropdown's trigger so positioning resolves to the whole item rectangle, not just the chevron. A chevron button is injected automatically and toggles the submenu via mouse click, `Enter`, `Space`, or `ArrowDown`. The link remains a separate Tab stop and clicking it follows the link without toggling the submenu.
 
-The dropdown's `trigger-type` is left to the consumer — set it to `hover` to open on cursor enter, or leave it as the default `click` to require an explicit chevron press.
+The dropdown's `trigger` is left to the consumer — set it to `hover` to open on cursor enter, or leave it as the default `click` to require an explicit chevron press.
 
 ### Link item with hover-triggered submenu
 
@@ -155,7 +155,7 @@ The whole item triggers the dropdown on hover. Clicking the link follows its `hr
   <aegov-navbar-item href="/">Home</aegov-navbar-item>
   <aegov-navbar-item href="/products">
     Products
-    <aegov-dropdown slot="dropdown" trigger-type="hover">
+    <aegov-dropdown slot="dropdown" trigger="hover">
       <div slot="dropdown-content">
         <a href="/products/digital">Digital</a>
         <a href="/products/physical">Physical</a>
@@ -172,7 +172,7 @@ The whole item triggers the dropdown on hover. Clicking the link follows its `hr
     <aegov-navbar-item href="#">Home</aegov-navbar-item>
     <aegov-navbar-item href="#products">
       Products
-      <aegov-dropdown slot="dropdown" trigger-type="hover">
+      <aegov-dropdown slot="dropdown" trigger="hover">
         <div slot="dropdown-content">
           <a href="#digital">Digital</a>
           <a href="#physical">Physical</a>
@@ -186,7 +186,7 @@ The whole item triggers the dropdown on hover. Clicking the link follows its `hr
 
 ### Non-link item with click-only submenu
 
-Omit `href` to render a non-navigating label. With the default `trigger-type="click"`, the submenu only opens on chevron press — useful for grouping links under a category header that has no destination of its own.
+Omit `href` to render a non-navigating label. With the default `trigger="click"`, the submenu only opens on chevron press — useful for grouping links under a category header that has no destination of its own.
 
 ```html
 <aegov-navbar>
@@ -231,7 +231,7 @@ Mark the current page with the `active` boolean prop. The link is styled with th
 ```html
 <aegov-navbar>
   <aegov-navbar-item href="/">Home</aegov-navbar-item>
-  <aegov-navbar-item href="/services" active>Services</aegov-navbar-item>
+  <aegov-navbar-item href="/services" is-active>Services</aegov-navbar-item>
   <aegov-navbar-item href="/contact">Contact</aegov-navbar-item>
 </aegov-navbar>
 ```
@@ -239,7 +239,7 @@ Mark the current page with the `active` boolean prop. The link is styled with th
 <div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
   <aegov-navbar>
     <aegov-navbar-item href="#home">Home</aegov-navbar-item>
-    <aegov-navbar-item href="#services" active>Services</aegov-navbar-item>
+    <aegov-navbar-item href="#services" is-active>Services</aegov-navbar-item>
     <aegov-navbar-item href="#contact">Contact</aegov-navbar-item>
   </aegov-navbar>
 </div>
@@ -275,7 +275,7 @@ Set `disabled` to render a non-interactive item. Disabled items render as a `<sp
 ```html
 <aegov-navbar>
   <aegov-navbar-item href="#">Home</aegov-navbar-item>
-  <aegov-navbar-item href="#" disabled>Reports (coming soon)</aegov-navbar-item>
+  <aegov-navbar-item href="#" is-disabled>Reports (coming soon)</aegov-navbar-item>
   <aegov-navbar-item href="#">Contact</aegov-navbar-item>
 </aegov-navbar>
 ```
@@ -283,7 +283,7 @@ Set `disabled` to render a non-interactive item. Disabled items render as a `<sp
 <div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
   <aegov-navbar>
     <aegov-navbar-item href="#">Home</aegov-navbar-item>
-    <aegov-navbar-item href="#" disabled>Reports (coming soon)</aegov-navbar-item>
+    <aegov-navbar-item href="#" is-disabled>Reports (coming soon)</aegov-navbar-item>
     <aegov-navbar-item href="#">Contact</aegov-navbar-item>
   </aegov-navbar>
 </div>
@@ -314,7 +314,7 @@ Set `disabled` to render a non-interactive item. Disabled items render as a `<sp
 | --- | --- | --- | --- |
 | `size` | `'sm' \| 'base' \| 'lg'` | `'base'` | Cascades to every child item. |
 | `gap` | `string` | `'gap-6'` | Tailwind gap utility class applied to the `<ul>`. |
-| `nav-label` | `string` | `'Main navigation'` | Accessible label for the nav landmark. |
+| `label-nav` | `string` | `'Main navigation'` | Accessible label for the nav landmark. |
 
 ### `aegov-navbar-item` props
 
@@ -342,6 +342,6 @@ Set `disabled` to render a non-interactive item. Disabled items render as a `<sp
 
 - `aegov-navbar-item` is intended to be used inside `aegov-navbar`. It will still render standalone but loses size cascading and arrow-key navigation.
 - When a submenu is present, the link and chevron are injected as default-slot children of the slotted `aegov-dropdown`, so the dropdown's trigger element wraps the whole item. This means hover-trigger dropdowns open on hovering anywhere over the item, and positioning aligns to the full item rect rather than just the chevron.
-- The chevron toggles the dropdown explicitly via `aegov-dropdown.toggle()`, so it works regardless of the dropdown's `trigger-type`. Clicking the link calls `stopPropagation` so a click-trigger dropdown does not toggle on link follow-through.
+- The chevron toggles the dropdown explicitly via `aegov-dropdown.toggle()`, so it works regardless of the dropdown's `trigger`. Clicking the link calls `stopPropagation` so a click-trigger dropdown does not toggle on link follow-through.
 - Mobile collapse (hamburger drawer) is intentionally out of scope. Wrap the navbar in your own breakpoint logic if you need it.
 - A vertical companion component (`aegov-navblock`) is planned. Until then, use `aegov-tabs` with `orientation="vertical"` for vertical menu use cases that do not need submenus.

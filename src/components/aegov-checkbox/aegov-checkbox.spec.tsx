@@ -164,7 +164,7 @@ describe('aegov-checkbox', () => {
   it('applies custom classes', async () => {
     const page = await newSpecPage({
       components: [AegovCheckbox],
-      html: '<aegov-checkbox class="mt-4"></aegov-checkbox>',
+      html: '<aegov-checkbox extra-class="mt-4"></aegov-checkbox>',
     });
     const wrapper = page.root.querySelector('.aegov-checkbox');
     expect(wrapper.classList.contains('mt-4')).toBe(true);

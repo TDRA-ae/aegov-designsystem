@@ -34,7 +34,7 @@ describe('aegov-button', () => {
         components: [AegovButton],
         html: `<aegov-button>Button</aegov-button>`,
       });
-      expect(page.rootInstance.variant).toBe('solid');
+      expect(page.rootInstance.appearance).toBe('solid');
     });
 
     it('defaults size to base', async () => {
@@ -58,7 +58,7 @@ describe('aegov-button', () => {
         components: [AegovButton],
         html: `<aegov-button>Button</aegov-button>`,
       });
-      expect(page.rootInstance.appearance).toBe('primary');
+      expect(page.rootInstance.variant).toBe('primary');
     });
 
     it('defaults disabled to false', async () => {
@@ -66,7 +66,7 @@ describe('aegov-button', () => {
         components: [AegovButton],
         html: `<aegov-button>Button</aegov-button>`,
       });
-      expect(page.rootInstance.disabled).toBe(false);
+      expect(page.rootInstance.isDisabled).toBe(false);
     });
 
     it('defaults bold to true', async () => {
@@ -74,21 +74,21 @@ describe('aegov-button', () => {
         components: [AegovButton],
         html: `<aegov-button>Button</aegov-button>`,
       });
-      expect(page.rootInstance.bold).toBe(true);
+      expect(page.rootInstance.isBold).toBe(true);
     });
   });
 
-  describe('variants', () => {
-    const variants = ['solid', 'outline', 'soft', 'link'];
-    variants.forEach(variant => {
-      it(`should apply btn-${variant} class`, async () => {
+  describe('appearances', () => {
+    const appearances = ['solid', 'outline', 'soft', 'link'];
+    appearances.forEach(appearance => {
+      it(`should apply btn-${appearance} class`, async () => {
         const page = await newSpecPage({
           components: [AegovButton],
-          html: `<aegov-button variant="${variant}">Button</aegov-button>`,
+          html: `<aegov-button appearance="${appearance}">Button</aegov-button>`,
         });
         const button = page.root.querySelector('button');
         expect(button.classList.contains('aegov-btn')).toBe(true);
-        expect(button.classList.contains(`btn-${variant}`)).toBe(true);
+        expect(button.classList.contains(`btn-${appearance}`)).toBe(true);
       });
     });
   });
@@ -120,7 +120,7 @@ describe('aegov-button', () => {
     it('should apply btn-secondary', async () => {
       const page = await newSpecPage({
         components: [AegovButton],
-        html: `<aegov-button appearance="secondary">Button</aegov-button>`,
+        html: `<aegov-button variant="secondary">Button</aegov-button>`,
       });
       const button = page.root.querySelector('button');
       expect(button.classList.contains('btn-secondary')).toBe(true);
@@ -129,7 +129,7 @@ describe('aegov-button', () => {
     it('should apply btn-danger', async () => {
       const page = await newSpecPage({
         components: [AegovButton],
-        html: `<aegov-button appearance="danger">Button</aegov-button>`,
+        html: `<aegov-button variant="danger">Button</aegov-button>`,
       });
       const button = page.root.querySelector('button');
       expect(button.classList.contains('btn-danger')).toBe(true);
@@ -138,7 +138,7 @@ describe('aegov-button', () => {
     it('should apply btn-neutral-min', async () => {
       const page = await newSpecPage({
         components: [AegovButton],
-        html: `<aegov-button appearance="neutralMin">Button</aegov-button>`,
+        html: `<aegov-button variant="neutralMin">Button</aegov-button>`,
       });
       const button = page.root.querySelector('button');
       expect(button.classList.contains('btn-neutral-min')).toBe(true);
@@ -147,7 +147,7 @@ describe('aegov-button', () => {
     it('should apply btn-neutral-max', async () => {
       const page = await newSpecPage({
         components: [AegovButton],
-        html: `<aegov-button appearance="neutralMax">Button</aegov-button>`,
+        html: `<aegov-button variant="neutralMax">Button</aegov-button>`,
       });
       const button = page.root.querySelector('button');
       expect(button.classList.contains('btn-neutral-max')).toBe(true);
@@ -197,7 +197,7 @@ describe('aegov-button', () => {
     it('should render disabled state', async () => {
       const page = await newSpecPage({
         components: [AegovButton],
-        html: `<aegov-button disabled>Button</aegov-button>`,
+        html: `<aegov-button is-disabled>Button</aegov-button>`,
       });
       const button = page.root.querySelector('button');
       expect(button.hasAttribute('disabled')).toBe(true);
@@ -221,7 +221,7 @@ describe('aegov-button', () => {
     it('should render loading spinner', async () => {
       const page = await newSpecPage({
         components: [AegovButton],
-        html: `<aegov-button loading>Button</aegov-button>`,
+        html: `<aegov-button is-loading>Button</aegov-button>`,
       });
       const button = page.root.querySelector('button');
       const spinner = button.querySelector('svg');
@@ -233,7 +233,7 @@ describe('aegov-button', () => {
     it('should disable button when loading', async () => {
       const page = await newSpecPage({
         components: [AegovButton],
-        html: `<aegov-button loading>Button</aegov-button>`,
+        html: `<aegov-button is-loading>Button</aegov-button>`,
       });
       const button = page.root.querySelector('button');
       expect(button.hasAttribute('disabled')).toBe(true);
@@ -254,7 +254,7 @@ describe('aegov-button', () => {
     it('should apply w-full class', async () => {
       const page = await newSpecPage({
         components: [AegovButton],
-        html: `<aegov-button full>Button</aegov-button>`,
+        html: `<aegov-button is-full>Button</aegov-button>`,
       });
       const button = page.root.querySelector('button');
       expect(button.classList.contains('w-full')).toBe(true);
@@ -271,10 +271,10 @@ describe('aegov-button', () => {
       expect(button.classList.contains('font-medium')).toBe(true);
     });
 
-    it('should not be bold when bold=false', async () => {
+    it('should not be bold when is-bold=false', async () => {
       const page = await newSpecPage({
         components: [AegovButton],
-        html: `<aegov-button bold="false">Button</aegov-button>`,
+        html: `<aegov-button is-bold="false">Button</aegov-button>`,
       });
       const button = page.root.querySelector('button');
       expect(button.classList.contains('font-medium')).toBe(false);
@@ -294,7 +294,7 @@ describe('aegov-button', () => {
     it('should apply btn-icon class', async () => {
       const page = await newSpecPage({
         components: [AegovButton],
-        html: `<aegov-button icon>Button</aegov-button>`,
+        html: `<aegov-button is-icon>Button</aegov-button>`,
       });
       const button = page.root.querySelector('button');
       expect(button.classList.contains('btn-icon')).toBe(true);
@@ -318,7 +318,7 @@ describe('aegov-button', () => {
     it('should not emit aegovButtonClick when disabled', async () => {
       const page = await newSpecPage({
         components: [AegovButton],
-        html: `<aegov-button disabled>Button</aegov-button>`,
+        html: `<aegov-button is-disabled>Button</aegov-button>`,
       });
       const clickSpy = jest.fn();
       page.root.addEventListener('aegovButtonClick', clickSpy);
@@ -331,7 +331,7 @@ describe('aegov-button', () => {
     it('should not emit aegovButtonClick when loading', async () => {
       const page = await newSpecPage({
         components: [AegovButton],
-        html: `<aegov-button loading>Button</aegov-button>`,
+        html: `<aegov-button is-loading>Button</aegov-button>`,
       });
       const clickSpy = jest.fn();
       page.root.addEventListener('aegovButtonClick', clickSpy);
@@ -372,7 +372,7 @@ describe('aegov-button', () => {
     it('should have aria-disabled when disabled', async () => {
       const page = await newSpecPage({
         components: [AegovButton],
-        html: `<aegov-button disabled>Button</aegov-button>`,
+        html: `<aegov-button is-disabled>Button</aegov-button>`,
       });
       const button = page.root.querySelector('button');
       expect(button.getAttribute('aria-disabled')).toBe('true');
@@ -381,7 +381,7 @@ describe('aegov-button', () => {
     it('should have aria-busy when loading', async () => {
       const page = await newSpecPage({
         components: [AegovButton],
-        html: `<aegov-button loading>Button</aegov-button>`,
+        html: `<aegov-button is-loading>Button</aegov-button>`,
       });
       const button = page.root.querySelector('button');
       expect(button.getAttribute('aria-busy')).toBe('true');
@@ -421,7 +421,7 @@ describe('aegov-button', () => {
     it('should render solid variant with lg size', async () => {
       const page = await newSpecPage({
         components: [AegovButton],
-        html: `<aegov-button variant="solid" size="lg">Button</aegov-button>`,
+        html: `<aegov-button appearance="solid" size="lg">Button</aegov-button>`,
       });
       const button = page.root.querySelector('button');
       expect(button.classList.contains('btn-solid')).toBe(true);
@@ -431,7 +431,7 @@ describe('aegov-button', () => {
     it('should render disabled loading button', async () => {
       const page = await newSpecPage({
         components: [AegovButton],
-        html: `<aegov-button disabled loading>Button</aegov-button>`,
+        html: `<aegov-button is-disabled is-loading>Button</aegov-button>`,
       });
       const button = page.root.querySelector('button');
       expect(button.hasAttribute('disabled')).toBe(true);
@@ -443,7 +443,7 @@ describe('aegov-button', () => {
     it('should render full width outline button', async () => {
       const page = await newSpecPage({
         components: [AegovButton],
-        html: `<aegov-button variant="outline" full>Button</aegov-button>`,
+        html: `<aegov-button appearance="outline" is-full>Button</aegov-button>`,
       });
       const button = page.root.querySelector('button');
       expect(button.classList.contains('btn-outline')).toBe(true);
@@ -511,12 +511,12 @@ describe('aegov-button', () => {
     it('should update when variant changes', async () => {
       const page = await newSpecPage({
         components: [AegovButton],
-        html: `<aegov-button variant="solid">Button</aegov-button>`,
+        html: `<aegov-button appearance="solid">Button</aegov-button>`,
       });
       let button = page.root.querySelector('button');
       expect(button.classList.contains('btn-solid')).toBe(true);
 
-      page.root.setAttribute('variant', 'outline');
+      page.root.setAttribute('appearance', 'outline');
       await page.waitForChanges();
 
       button = page.root.querySelector('button');
@@ -548,7 +548,7 @@ describe('aegov-button', () => {
       let button = page.root.querySelector('button');
       expect(button.hasAttribute('disabled')).toBe(false);
 
-      page.root.setAttribute('disabled', 'true');
+      page.root.setAttribute('is-disabled', 'true');
       await page.waitForChanges();
 
       button = page.root.querySelector('button');
@@ -558,12 +558,12 @@ describe('aegov-button', () => {
     it('should update when appearance changes', async () => {
       const page = await newSpecPage({
         components: [AegovButton],
-        html: `<aegov-button appearance="primary">Button</aegov-button>`,
+        html: `<aegov-button variant="primary">Button</aegov-button>`,
       });
       let button = page.root.querySelector('button');
       expect(button.classList.contains('btn-primary')).toBe(true);
 
-      page.root.setAttribute('appearance', 'secondary');
+      page.root.setAttribute('variant', 'secondary');
       await page.waitForChanges();
 
       button = page.root.querySelector('button');
@@ -579,7 +579,7 @@ describe('aegov-button', () => {
       let button = page.root.querySelector('button');
       expect(button.querySelector('svg')).toBeNull();
 
-      page.root.setAttribute('loading', 'true');
+      page.root.setAttribute('is-loading', 'true');
       await page.waitForChanges();
 
       button = page.root.querySelector('button');
@@ -646,13 +646,13 @@ describe('aegov-button', () => {
       expect(variantWarn).toBeDefined();
       expect(variantWarn).toContain('[aegov-button]');
       expect(variantWarn).toContain('"weird"');
-      expect(variantWarn).toContain('solid');
+      expect(variantWarn).toContain('primary');
     });
 
     it('does not warn when all props are valid', async () => {
       await newSpecPage({
         components: [AegovButton],
-        html: `<aegov-button size="lg" variant="outline" appearance="danger" type="submit">X</aegov-button>`,
+        html: `<aegov-button size="lg" appearance="outline" variant="danger" type="submit">X</aegov-button>`,
       });
       expect(warnSpy).not.toHaveBeenCalled();
     });

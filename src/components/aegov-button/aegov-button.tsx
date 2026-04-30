@@ -19,6 +19,7 @@ import type {
 } from '../../utils/types';
 import { getPassThroughAttributes } from '../../utils/attributes';
 import { warnIfInvalidEnumProp } from '../../utils/prop-validator';
+import { generateId } from '../../utils/id-generator';
 
 const TAG = 'aegov-button';
 const ctx = (prop: string) => ({ component: TAG, prop });
@@ -35,11 +36,17 @@ const ctx = (prop: string) => ({ component: TAG, prop });
 })
 export class AegovButton {
   @Element() el: HTMLElement;
+
   /**
-   * The button variant style
-   * @default 'solid'
+   * Unique ID for the button element. Auto-generated if not provided.
    */
-  @Prop() variant: ButtonVariant = 'solid';
+  @Prop({ mutable: true, reflect: true }) fieldId?: string;
+
+  /**
+   * The button variant (color scheme)
+   * @default 'primary'
+   */
+  @Prop() variant: ButtonVariant = 'primary';
 
   /**
    * The button size
@@ -57,40 +64,40 @@ export class AegovButton {
   @Prop() type: ButtonType = 'button';
 
   /**
-   * The button appearance (color scheme)
-   * @default 'primary'
+   * The button appearance (visual style)
+   * @default 'solid'
    */
-  @Prop() appearance: ButtonAppearance = 'primary';
+  @Prop() appearance: ButtonAppearance = 'solid';
 
   /**
    * Whether the button is disabled
    * @default false
    */
-  @Prop() disabled: boolean = false;
+  @Prop() isDisabled: boolean = false;
 
   /**
    * Whether the button is only an icon
    * @default false
    */
-  @Prop() icon: boolean = false;
+  @Prop() isIcon: boolean = false;
 
   /**
    * Whether the button should take full width
-   * @default true
+   * @default false
    */
-  @Prop() full: boolean = false;
+  @Prop() isFull: boolean = false;
 
   /**
    * Whether the button should have bold text or not
-   * @default false
+   * @default true
    */
-  @Prop() bold: boolean = true;
+  @Prop() isBold: boolean = true;
 
   /**
    * Whether the button is in a loading state
    * @default false
    */
-  @Prop() loading: boolean = false;
+  @Prop() isLoading: boolean = false;
 
   /**
    * Internal: Position of this button within a button group
@@ -120,9 +127,12 @@ export class AegovButton {
   @Event() aegovButtonBlur: EventEmitter<FocusEvent>;
 
   componentWillLoad() {
-    warnIfInvalidEnumProp(this.variant, BUTTON_VARIANTS, 'solid', ctx('variant'));
+    if (!this.fieldId) {
+      this.fieldId = generateId('aegov-button');
+    }
+    warnIfInvalidEnumProp(this.variant, BUTTON_VARIANTS, 'primary', ctx('variant'));
     warnIfInvalidEnumProp(this.type, BUTTON_TYPES, 'button', ctx('type'));
-    warnIfInvalidEnumProp(this.appearance, BUTTON_APPEARANCES, 'primary', ctx('appearance'));
+    warnIfInvalidEnumProp(this.appearance, BUTTON_APPEARANCES, 'solid', ctx('appearance'));
     if (this.groupPosition !== undefined) {
       warnIfInvalidEnumProp(this.groupPosition, BUTTON_GROUP_POSITIONS, 'single', ctx('groupPosition'));
     }
@@ -140,7 +150,7 @@ export class AegovButton {
   }
 
   @Watch('variant')
-  onVariantChange(v: unknown) { warnIfInvalidEnumProp(v, BUTTON_VARIANTS, 'solid', ctx('variant')); }
+  onVariantChange(v: unknown) { warnIfInvalidEnumProp(v, BUTTON_VARIANTS, 'primary', ctx('variant')); }
 
   @Watch('size')
   onSizeChange() {
@@ -155,7 +165,7 @@ export class AegovButton {
   onTypeChange(v: unknown) { warnIfInvalidEnumProp(v, BUTTON_TYPES, 'button', ctx('type')); }
 
   @Watch('appearance')
-  onAppearanceChange(v: unknown) { warnIfInvalidEnumProp(v, BUTTON_APPEARANCES, 'primary', ctx('appearance')); }
+  onAppearanceChange(v: unknown) { warnIfInvalidEnumProp(v, BUTTON_APPEARANCES, 'solid', ctx('appearance')); }
 
   @Watch('groupPosition')
   onGroupPositionChange(v: unknown) {
@@ -170,7 +180,7 @@ export class AegovButton {
   }
 
   private handleClick = (event: MouseEvent) => {
-    if (!this.disabled && !this.loading) {
+    if (!this.isDisabled && !this.isLoading) {
       this.aegovButtonClick.emit(event);
     }
   };
@@ -193,8 +203,8 @@ export class AegovButton {
     ];
 
     const size: ButtonSize = this._resolvedSize;
-    const variant: ButtonVariant = (BUTTON_VARIANTS as readonly string[]).includes(this.variant) ? this.variant : 'solid';
-    const appearance: ButtonAppearance = (BUTTON_APPEARANCES as readonly string[]).includes(this.appearance) ? this.appearance : 'primary';
+    const variant: ButtonVariant = (BUTTON_VARIANTS as readonly string[]).includes(this.variant) ? this.variant : 'primary';
+    const appearance: ButtonAppearance = (BUTTON_APPEARANCES as readonly string[]).includes(this.appearance) ? this.appearance : 'solid';
 
     // Size classes
     const sizeClasses: Record<ButtonSize, string[]> = {
@@ -208,15 +218,6 @@ export class AegovButton {
     classes.push(...sizeClasses[size]);
 
     const variantClasses: Record<ButtonVariant, string[]> = {
-      solid: ['btn-solid','shadow-[inset_0px_1px_--theme(--color-whitely-50/.2)]', 'text-whitely-50', 'border-1', 'focus-visible:outline-offset-2', 'disabled:opacity-30'],
-      outline: ['btn-outline','bg-transparent', 'border-2', 'focus-visible:outline-offset-0', 'disabled:opacity-50'],
-      soft: ['btn-soft', 'border-0', 'focus-visible:outline-offset-2', 'disabled:opacity-50'],
-      link: ['btn-link', 'bg-transparent', 'border-0', 'hover:underline', 'focus-visible:outline-offset-2', 'disabled:opacity-50']
-    };
-
-    classes.push(...variantClasses[variant]);
-
-    const appearanceClasses: Record<ButtonAppearance, string[]> = {
       primary: ['btn-primary', 'outline-primary-support-600'],
       secondary: ['btn-secondary', 'outline-secondary-support-600'],
       danger: ['btn-danger', 'outline-camel-600'],
@@ -224,11 +225,20 @@ export class AegovButton {
       neutralMax: ['btn-neutral-max', 'outline-seablue-600']
     };
 
+    classes.push(...variantClasses[variant]);
+
+    const appearanceClasses: Record<ButtonAppearance, string[]> = {
+      solid: ['btn-solid','shadow-[inset_0px_1px_--theme(--color-whitely-50/.2)]', 'text-whitely-50', 'border-1', 'focus-visible:outline-offset-2', 'disabled:opacity-30'],
+      outline: ['btn-outline','bg-transparent', 'border-2', 'focus-visible:outline-offset-0', 'disabled:opacity-50'],
+      soft: ['btn-soft', 'border-0', 'focus-visible:outline-offset-2', 'disabled:opacity-50'],
+      link: ['btn-link', 'bg-transparent', 'border-0', 'hover:underline', 'focus-visible:outline-offset-2', 'disabled:opacity-50']
+    };
+
     classes.push(...appearanceClasses[appearance]);
 
 
     // Disabled state
-    if (this.disabled || this.loading) {
+    if (this.isDisabled || this.isLoading) {
       classes.push(
         'cursor-not-allowed',
         'pointer-events-none'
@@ -236,19 +246,19 @@ export class AegovButton {
     }
 
     // Icon only button
-    if (this.icon) {
+    if (this.isIcon) {
       classes.push(
         'btn-icon'
       );
     }
 
     // Full width
-    if (this.full) {
+    if (this.isFull) {
       classes.push('w-full');
     }
 
     // bold management
-    if (this.bold) {
+    if (this.isBold) {
       classes.push('font-semibold');
     }
 
@@ -281,17 +291,18 @@ export class AegovButton {
       <Host>
         <button
           part="button"
+          id={this.fieldId}
           type={type}
           class={this.getButtonClasses()}
-          disabled={this.disabled || this.loading}
+          disabled={this.isDisabled || this.isLoading}
           onClick={this.handleClick}
           onFocus={this.handleFocus}
           onBlur={this.handleBlur}
-          aria-disabled={this.disabled || this.loading ? 'true' : 'false'}
-          aria-busy={this.loading ? 'true' : 'false'}
+          aria-disabled={this.isDisabled || this.isLoading ? 'true' : 'false'}
+          aria-busy={this.isLoading ? 'true' : 'false'}
           {...passThroughAttributes}
         >
-          {this.loading && (
+          {this.isLoading && (
             <svg class="mr-1 -ml-1 size-4! animate-spin text-whitely-50" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
           )}
           <slot></slot>

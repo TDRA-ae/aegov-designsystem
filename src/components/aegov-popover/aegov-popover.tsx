@@ -128,17 +128,21 @@ export class AegovPopover {
   private positionUpdateScheduled: boolean = false;
   private positionRetryCount: number = 0;
   private readonly MAX_POSITION_RETRIES = 10;
-  private popoverId: string;
-  private triggerId: string;
   private focusableElements: HTMLElement[] = [];
   private currentFocusIndex: number = -1;
   private triggerElement?: HTMLElement;
 
   /**
+   * Unique ID for the popover element. Auto-generated if not provided.
+   * The trigger element receives a derived ID `${fieldId}-trigger` for ARIA linkage.
+   */
+  @Prop({ mutable: true, reflect: true }) fieldId?: string;
+
+  /**
    * Trigger type for showing the popover
    * @default 'click'
    */
-  @Prop() triggerType: PopoverTrigger = 'click';
+  @Prop() trigger: PopoverTrigger = 'click';
 
   /**
    * Position of the popover relative to the trigger element
@@ -168,19 +172,19 @@ export class AegovPopover {
    * Whether the popover is disabled
    * @default false
    */
-  @Prop() disabled: boolean = false;
+  @Prop() isDisabled: boolean = false;
 
   /**
    * Delay before showing popover on hover (in milliseconds)
    * @default 200
    */
-  @Prop() showDelay: number = 200;
+  @Prop() delayStart: number = 200;
 
   /**
    * Delay before hiding popover on hover (in milliseconds)
    * @default 0
    */
-  @Prop() hideDelay: number = 0;
+  @Prop() delayEnd: number = 0;
 
   /**
    * Emitted when popover opens
@@ -193,16 +197,21 @@ export class AegovPopover {
   @Event() aegovPopoverClose: EventEmitter<void>;
 
   componentWillLoad() {
-    warnIfInvalidEnumProp(this.triggerType, POPOVER_TRIGGERS, 'click', ctx('triggerType'));
+    warnIfInvalidEnumProp(this.trigger, POPOVER_TRIGGERS, 'click', ctx('trigger'));
     warnIfInvalidEnumProp(this.position, POPOVER_POSITIONS, 'bottom', ctx('position'));
     warnIfInvalidEnumProp(this.align, POPOVER_ALIGNS, 'center', ctx('align'));
-    this.popoverId = generateId('aegov-popover');
-    this.triggerId = `${this.popoverId}-trigger`;
+    if (!this.fieldId) {
+      this.fieldId = generateId('aegov-popover');
+    }
     this.checkSlotContent();
   }
 
-  @Watch('triggerType')
-  onTriggerTypeChange(v: unknown) { warnIfInvalidEnumProp(v, POPOVER_TRIGGERS, 'click', ctx('triggerType')); }
+  private get triggerId(): string {
+    return `${this.fieldId}-trigger`;
+  }
+
+  @Watch('trigger')
+  onTriggerChange(v: unknown) { warnIfInvalidEnumProp(v, POPOVER_TRIGGERS, 'click', ctx('trigger')); }
 
   @Watch('position')
   onPositionChange(v: unknown) { warnIfInvalidEnumProp(v, POPOVER_POSITIONS, 'bottom', ctx('position')); }
@@ -466,20 +475,20 @@ export class AegovPopover {
   }
 
   private showPopover = () => {
-    if (this.disabled) return;
+    if (this.isDisabled) return;
     this.clearTimeouts();
     this.showTimeout = window.setTimeout(() => {
       this.isOpen = true;
-    }, this.showDelay);
+    }, this.delayStart);
   };
 
   private static readonly HOVER_HIDE_GRACE = 100;
 
   private hidePopover = () => {
     this.clearTimeouts();
-    const delay = this.triggerType === 'hover'
-      ? Math.max(this.hideDelay, AegovPopover.HOVER_HIDE_GRACE)
-      : this.hideDelay;
+    const delay = this.trigger === 'hover'
+      ? Math.max(this.delayEnd, AegovPopover.HOVER_HIDE_GRACE)
+      : this.delayEnd;
 
     this.hideTimeout = window.setTimeout(() => {
       this.isOpen = false;
@@ -487,13 +496,13 @@ export class AegovPopover {
   };
 
   private handleTriggerMouseEnter = () => {
-    if (this.triggerType === 'hover') {
+    if (this.trigger === 'hover') {
       this.showPopover();
     }
   };
 
   private handleTriggerMouseLeave = (event: MouseEvent) => {
-    if (this.triggerType === 'hover') {
+    if (this.trigger === 'hover') {
       const relatedTarget = event.relatedTarget as HTMLElement;
       if (relatedTarget && this.portalElement && this.portalElement.contains(relatedTarget)) {
         return;
@@ -503,20 +512,20 @@ export class AegovPopover {
   };
 
   private handleTriggerClick = (event: MouseEvent) => {
-    if (this.triggerType === 'click' && !this.disabled) {
+    if (this.trigger === 'click' && !this.isDisabled) {
       event.stopPropagation();
       this.isOpen = !this.isOpen;
     }
   };
 
   private handlePopoverMouseEnter = () => {
-    if (this.triggerType === 'hover') {
+    if (this.trigger === 'hover') {
       this.clearTimeouts();
     }
   };
 
   private handlePopoverMouseLeave = (event: MouseEvent) => {
-    if (this.triggerType === 'hover') {
+    if (this.trigger === 'hover') {
       const relatedTarget = event.relatedTarget as HTMLElement;
       if (relatedTarget && this.triggerRef && this.triggerRef.contains(relatedTarget)) {
         return;
@@ -580,7 +589,7 @@ export class AegovPopover {
     // Create popover container
     const popoverContainer = document.createElement('div');
     popoverContainer.className = 'aegov-popover';
-    popoverContainer.id = this.popoverId;
+    popoverContainer.id = this.fieldId;
     popoverContainer.setAttribute('role', 'dialog');
     popoverContainer.setAttribute('aria-labelledby', this.triggerId);
     popoverContainer.setAttribute('data-state', 'open');
@@ -625,7 +634,7 @@ export class AegovPopover {
           onClick={this.handleTriggerClick}
           aria-haspopup="dialog"
           aria-expanded={this.isOpen.toString()}
-          aria-controls={this.isOpen ? this.popoverId : undefined}
+          aria-controls={this.isOpen ? this.fieldId : undefined}
         >
           <slot />
         </div>

@@ -36,12 +36,12 @@ export class AegovAccordionItem {
    * Whether the accordion item is open
    * @internal - Set automatically by parent component
    */
-  @Prop({ mutable: true }) open: boolean = false;
+  @Prop({ mutable: true }) isOpen: boolean = false;
 
   /**
    * Whether the accordion item is disabled
    */
-  @Prop() disabled: boolean = false;
+  @Prop() isDisabled: boolean = false;
 
   /**
    * Icon style for the accordion item
@@ -98,7 +98,7 @@ export class AegovAccordionItem {
     if (this.contentEl && typeof ResizeObserver !== 'undefined') {
       this.resizeObserver = new ResizeObserver(() => {
         // Only update if the accordion is open
-        if (this.open) {
+        if (this.isOpen) {
           this.updateContentHeight();
         }
       });
@@ -113,14 +113,14 @@ export class AegovAccordionItem {
     }
   }
 
-  @Watch('open')
+  @Watch('isOpen')
   handleOpenChange() {
     this.updateContentHeight();
   }
 
   private updateContentHeight() {
     if (this.contentEl) {
-      if (this.open) {
+      if (this.isOpen) {
         this.contentHeight = this.contentEl.scrollHeight;
       } else {
         this.contentHeight = 0;
@@ -129,11 +129,11 @@ export class AegovAccordionItem {
   }
 
   private handleToggle = () => {
-    if (this.disabled) {
+    if (this.isDisabled) {
       return;
     }
 
-    this.aegovAccordionItemToggle.emit({ open: !this.open });
+    this.aegovAccordionItemToggle.emit({ open: !this.isOpen });
   };
 
   private handleKeyDown = (event: KeyboardEvent) => {
@@ -147,8 +147,8 @@ export class AegovAccordionItem {
     const classes = [
       'aegov-accordion-item',
       `accordion-item--${this.size}`,
-      this.open && 'accordion-item--open',
-      this.disabled && 'accordion-item--disabled',
+      this.isOpen && 'accordion-item--open',
+      this.isDisabled && 'accordion-item--disabled',
       this.isFirst && 'accordion-item__first',
       this.isLast && 'accordion-item__last'
     ].filter(Boolean).join(' ');
@@ -160,8 +160,8 @@ export class AegovAccordionItem {
             class="group accordion-item__header"
             onClick={this.handleToggle}
             onKeyDown={this.handleKeyDown}
-            disabled={this.disabled}
-            aria-expanded={this.open.toString()}
+            disabled={this.isDisabled}
+            aria-expanded={this.isOpen.toString()}
             aria-controls={`${this.itemId}-content`}
             id={`${this.itemId}-trigger`}
             type="button"

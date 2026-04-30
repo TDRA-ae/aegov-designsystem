@@ -53,7 +53,7 @@ export class AegovOtp {
   @Prop({ mutable: true }) value: string = '';
 
   /** Additional CSS classes. */
-  @Prop() class?: string;
+  @Prop() extraClass?: string;
 
   /** Fires on every character change with the current value. */
   @Event() aegovOtpChange: EventEmitter<{ value: string }>;
@@ -260,7 +260,7 @@ export class AegovOtp {
 
   render() {
     const passThroughAttrs = getPassThroughAttributes(this.el, new Set([]));
-    const wrapperClasses = ['aegov-otp', this.class || ''].filter(Boolean).join(' ');
+    const wrapperClasses = ['aegov-otp', this.extraClass || ''].filter(Boolean).join(' ');
     const cells = Array.from({ length: this.length }, (_, i) => i);
     const variant: OtpVariant = (OTP_VARIANTS as readonly string[]).includes(this.variant) ? this.variant : 'continuous';
     const size: OtpSize = this._resolvedSize;

@@ -31,21 +31,21 @@
 
 <hr>
 <h2>Variants</h2>
-<p>The <code>variant</code> property controls the visual style of the blockquote. There are two variants available.</p>
+<p>The <code>appearance</code> property controls the visual style of the blockquote. There are two variants available.</p>
 <h3>Primary (default)</h3>
 <p>The default variant displays a large decorative quote icon in the top-left corner. The quote text is rendered in a neutral dark colour with generous left padding to accommodate the icon.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-blockquote</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;primary&quot;</span>&gt;</span>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-blockquote</span> <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;primary&quot;</span>&gt;</span>
   The future belongs to those who believe in the beauty of their dreams.
 <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-blockquote</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-blockquote variant="primary">The future belongs to those who believe in the beauty of their dreams.</aegov-blockquote>
+  <aegov-blockquote appearance="primary">The future belongs to those who believe in the beauty of their dreams.</aegov-blockquote>
 </div>
 
 <h3>Colored</h3>
 <p>The colored variant replaces the quote icon with a bold left border and a tinted background using the primary colour palette. This style works well for pull quotes and editorial highlights.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-blockquote</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;colored&quot;</span>&gt;</span>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-blockquote</span> <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;colored&quot;</span>&gt;</span>
   Innovation distinguishes between a leader and a follower.
 <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-blockquote</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-blockquote variant="colored">Innovation distinguishes between a leader and a follower.</aegov-blockquote>
+  <aegov-blockquote appearance="colored">Innovation distinguishes between a leader and a follower.</aegov-blockquote>
 </div>
 
 <blockquote>
@@ -55,11 +55,11 @@
 <div class="grid grid-cols-1 md:grid-cols-2 gap-4 p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
   <div>
     <p class="text-sm font-semibold text-aeblack-500 mb-2">Primary</p>
-    <aegov-blockquote variant="primary">Quality is not an act, it is a habit.</aegov-blockquote>
+    <aegov-blockquote appearance="primary">Quality is not an act, it is a habit.</aegov-blockquote>
   </div>
   <div>
     <p class="text-sm font-semibold text-aeblack-500 mb-2">Colored</p>
-    <aegov-blockquote variant="colored">Quality is not an act, it is a habit.</aegov-blockquote>
+    <aegov-blockquote appearance="colored">Quality is not an act, it is a habit.</aegov-blockquote>
   </div>
 </div>
 
@@ -83,7 +83,7 @@
 
 <p>Author attribution works with both variants:</p>
 <div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-blockquote variant="colored" author="Albert Einstein" author-title="Theoretical Physicist">Imagination is more important than knowledge. Knowledge is limited. Imagination encircles the world.</aegov-blockquote>
+  <aegov-blockquote appearance="colored" author="Albert Einstein" author-title="Theoretical Physicist">Imagination is more important than knowledge. Knowledge is limited. Imagination encircles the world.</aegov-blockquote>
 </div>
 
 <hr>
@@ -118,7 +118,7 @@
 
 <p>Rich content with the colored variant:</p>
 <div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-blockquote variant="colored" author="Policy Document">
+  <aegov-blockquote appearance="colored" author="Policy Document">
     <p>All government entities shall adhere to the following principles:</p>
     <ul>
       <li>Transparency in decision-making</li>
@@ -141,7 +141,7 @@
 
 <p>RTL with the colored variant:</p>
 <div dir="rtl" class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-blockquote variant="colored" author="حكمة عربية">العلم نور والجهل ظلام.</aegov-blockquote>
+  <aegov-blockquote appearance="colored" author="حكمة عربية">العلم نور والجهل ظلام.</aegov-blockquote>
 </div>
 
 <hr>
@@ -153,7 +153,7 @@
 
 <h3>Pull Quote (Colored)</h3>
 <div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-blockquote variant="colored">By 2031, the UAE aims to be among the top 10 countries globally in digital government services.</aegov-blockquote>
+  <aegov-blockquote appearance="colored">By 2031, the UAE aims to be among the top 10 countries globally in digital government services.</aegov-blockquote>
 </div>
 
 <h3>Academic Citation</h3>
@@ -175,8 +175,8 @@
 </tr>
 </thead>
 <tbody><tr>
-<td><code>variant</code></td>
-<td><code>variant</code></td>
+<td><code>appearance</code></td>
+<td><code>appearance</code></td>
 <td>The visual style of the blockquote</td>
 <td><code>&#39;primary&#39;</code> | <code>&#39;colored&#39;</code> | <code>&#39;coloured&#39;</code></td>
 <td><code>&#39;primary&#39;</code></td>
@@ -269,7 +269,7 @@
 <h2>Notes</h2>
 <ul>
 <li>The component renders a native <code>&lt;blockquote&gt;</code> element. Do <strong>not</strong> wrap it inside another <code>&lt;blockquote&gt;</code> — this creates invalid HTML.</li>
-<li>The <code>variant</code> property accepts both <code>colored</code> and <code>coloured</code> spellings. They are functionally identical.</li>
+<li>The <code>appearance</code> property accepts both <code>colored</code> and <code>coloured</code> spellings. They are functionally identical.</li>
 <li>The decorative quote icon in the primary variant uses an inline SVG that automatically mirrors in RTL layouts via the <code>rtl:-scale-x-100</code> class.</li>
 <li>The <code>cite</code> property maps directly to the HTML <code>cite</code> attribute. It is not visually rendered — it provides metadata only.</li>
 <li>The <code>authorTitle</code> property uses the attribute name <code>author-title</code> in HTML (kebab-case), following StencilJS conventions for multi-word attributes.</li>

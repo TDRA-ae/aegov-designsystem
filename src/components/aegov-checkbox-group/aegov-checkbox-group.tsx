@@ -35,7 +35,7 @@ export class AegovCheckboxGroup {
   @Prop() disabled: boolean = false;
 
   /** Additional CSS classes to apply. */
-  @Prop() class?: string;
+  @Prop() extraClass?: string;
 
   /** Emitted when any checkbox in the group changes. Contains all currently checked values. */
   @Event() aegovCheckboxGroupChange: EventEmitter<{ values: string[] }>;
@@ -154,8 +154,8 @@ export class AegovCheckboxGroup {
     if (orientation === 'horizontal') {
       classes.push('checkbox-group--horizontal');
     }
-    if (this.class) {
-      classes.push(this.class);
+    if (this.extraClass) {
+      classes.push(this.extraClass);
     }
     return classes.join(' ');
   }
