@@ -160,10 +160,10 @@ describe('aegov-banner', () => {
       expect(page.root?.querySelector('.banner__dismiss')).toBeTruthy();
     });
 
-    it('should not render dismiss button when dismissible=false', async () => {
+    it('should not render dismiss button when is-dismissible=false', async () => {
       const page = await newSpecPage({
         components: [AegovBanner],
-        template: () => <aegov-banner dismissible={false}>Content</aegov-banner>,
+        template: () => <aegov-banner isDismissible={false}>Content</aegov-banner>,
       });
       expect(page.root?.querySelector('.banner__dismiss')).toBeFalsy();
     });
@@ -256,10 +256,10 @@ describe('aegov-banner', () => {
       expect(banner?.getAttribute('role')).toBe('region');
     });
 
-    it('should allow custom aria role', async () => {
+    it('should allow custom aria role via pass-through role attribute', async () => {
       const page = await newSpecPage({
         components: [AegovBanner],
-        template: () => <aegov-banner ariaRole="status">Content</aegov-banner>,
+        html: `<aegov-banner role="status">Content</aegov-banner>`,
       });
       const banner = page.root?.querySelector('[role]');
       expect(banner?.getAttribute('role')).toBe('status');
@@ -283,16 +283,16 @@ describe('aegov-banner', () => {
       expect(banner?.getAttribute('aria-live')).toBe('polite');
     });
 
-    it('should have aria-labelledby when bannerTitle is provided', async () => {
+    it('should have aria-labelledby when heading is provided', async () => {
       const page = await newSpecPage({
         components: [AegovBanner],
-        template: () => <aegov-banner bannerTitle="Important Notice">Content</aegov-banner>,
+        template: () => <aegov-banner heading="Important Notice">Content</aegov-banner>,
       });
       const banner = page.root?.querySelector('[aria-labelledby]');
       expect(banner?.getAttribute('aria-labelledby')).toBe('aegov-banner-title');
     });
 
-    it('should not have aria-labelledby when no bannerTitle', async () => {
+    it('should not have aria-labelledby when no heading', async () => {
       const page = await newSpecPage({
         components: [AegovBanner],
         template: () => <aegov-banner>Content</aegov-banner>,
@@ -301,19 +301,19 @@ describe('aegov-banner', () => {
       expect(banner?.getAttribute('aria-labelledby')).toBeFalsy();
     });
 
-    it('should have tabindex when autoFocus is true', async () => {
+    it('should have tabindex when isFocusable is true', async () => {
       const page = await newSpecPage({
         components: [AegovBanner],
-        template: () => <aegov-banner autoFocus={true} variant="error">Critical</aegov-banner>,
+        template: () => <aegov-banner isFocusable={true} variant="error">Critical</aegov-banner>,
       });
       const banner = page.root?.querySelector('[tabindex]');
       expect(banner?.getAttribute('tabindex')).toBe('-1');
     });
 
-    it('should not have tabindex when autoFocus is false', async () => {
+    it('should not have tabindex when isFocusable is false', async () => {
       const page = await newSpecPage({
         components: [AegovBanner],
-        template: () => <aegov-banner autoFocus={false}>Content</aegov-banner>,
+        template: () => <aegov-banner isFocusable={false}>Content</aegov-banner>,
       });
       const banner = page.root?.querySelector('.aegov-banner');
       expect(banner?.hasAttribute('tabindex')).toBe(false);
@@ -455,7 +455,7 @@ describe('aegov-banner', () => {
       const page = await newSpecPage({
         components: [AegovBanner],
         template: () => (
-          <aegov-banner variant="warning" dismissible={false}>
+          <aegov-banner variant="warning" isDismissible={false}>
             Permanent warning
           </aegov-banner>
         ),
@@ -522,12 +522,14 @@ describe('aegov-banner', () => {
       expect(banner?.classList.contains('banner--push')).toBe(true);
     });
 
-    it('renders safely when ariaRole is invalid', async () => {
+    it('passes through any role attribute via getPassThroughAttributes', async () => {
       const page = await newSpecPage({
         components: [AegovBanner],
-        html: `<aegov-banner aria-role="nonsense">Message</aegov-banner>`,
+        html: `<aegov-banner role="status">Message</aegov-banner>`,
       });
-      expect(page.root?.querySelector('.aegov-banner')).toBeTruthy();
+      const banner = page.root?.querySelector('.aegov-banner');
+      expect(banner).toBeTruthy();
+      expect(banner?.getAttribute('role')).toBe('status');
     });
 
     it('warns with component name, prop name, invalid value, and fallback', async () => {
@@ -551,7 +553,7 @@ describe('aegov-banner', () => {
       expect(warnSpy).not.toHaveBeenCalled();
     });
 
-    it('does not warn when ariaRole is unset', async () => {
+    it('does not warn when role attribute is unset', async () => {
       await newSpecPage({
         components: [AegovBanner],
         html: `<aegov-banner>Message</aegov-banner>`,
@@ -623,16 +625,5 @@ describe('aegov-banner', () => {
       expect(invalidWarn).toBeDefined();
     });
 
-    it('warns again via @Watch when ariaRole is updated to an invalid value', async () => {
-      const page = await newSpecPage({
-        components: [AegovBanner],
-        html: `<aegov-banner>Message</aegov-banner>`,
-      });
-      page.root.setAttribute('aria-role', 'nope');
-      await page.waitForChanges();
-      const messages = warnSpy.mock.calls.map(c => c[0] as string);
-      const invalidWarn = messages.find(m => m.includes('[aegov-banner]') && m.includes('"ariaRole"'));
-      expect(invalidWarn).toBeDefined();
-    });
   });
 });

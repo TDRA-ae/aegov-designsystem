@@ -45,7 +45,7 @@ describe('aegov-blockquote', () => {
         components: [AegovBlockquote],
         html: `<aegov-blockquote></aegov-blockquote>`,
       });
-      expect(page.rootInstance.variant).toBe('primary');
+      expect(page.rootInstance.appearance).toBe('primary');
     });
 
     it('defaults cite to undefined', async () => {
@@ -77,7 +77,7 @@ describe('aegov-blockquote', () => {
     it('should render primary variant (default)', async () => {
       const page = await newSpecPage({
         components: [AegovBlockquote],
-        html: `<aegov-blockquote variant="primary"></aegov-blockquote>`,
+        html: `<aegov-blockquote appearance="primary"></aegov-blockquote>`,
       });
       const blockquote = page.root.querySelector('.aegov-blockquote');
       expect(blockquote.classList.contains('blockquote--colored')).toBe(false);
@@ -86,7 +86,7 @@ describe('aegov-blockquote', () => {
     it('should render quote icon for primary variant', async () => {
       const page = await newSpecPage({
         components: [AegovBlockquote],
-        html: `<aegov-blockquote variant="primary"></aegov-blockquote>`,
+        html: `<aegov-blockquote appearance="primary"></aegov-blockquote>`,
       });
       const svg = page.root.querySelector('svg');
       expect(svg).toBeTruthy();
@@ -95,9 +95,9 @@ describe('aegov-blockquote', () => {
     it('should render colored variant', async () => {
       const page = await newSpecPage({
         components: [AegovBlockquote],
-        html: `<aegov-blockquote variant="colored"></aegov-blockquote>`,
+        html: `<aegov-blockquote appearance="colored"></aegov-blockquote>`,
       });
-      expect(page.rootInstance.variant).toBe('colored');
+      expect(page.rootInstance.appearance).toBe('colored');
       const blockquote = page.root.querySelector('.aegov-blockquote');
       expect(blockquote.classList.contains('blockquote--colored')).toBe(true);
     });
@@ -105,7 +105,7 @@ describe('aegov-blockquote', () => {
     it('should not render quote icon for colored variant', async () => {
       const page = await newSpecPage({
         components: [AegovBlockquote],
-        html: `<aegov-blockquote variant="colored"></aegov-blockquote>`,
+        html: `<aegov-blockquote appearance="colored"></aegov-blockquote>`,
       });
       const svg = page.root.querySelector('svg');
       expect(svg).toBeNull();
@@ -114,9 +114,9 @@ describe('aegov-blockquote', () => {
     it('should render coloured variant (alternative spelling)', async () => {
       const page = await newSpecPage({
         components: [AegovBlockquote],
-        html: `<aegov-blockquote variant="coloured"></aegov-blockquote>`,
+        html: `<aegov-blockquote appearance="coloured"></aegov-blockquote>`,
       });
-      expect(page.rootInstance.variant).toBe('coloured');
+      expect(page.rootInstance.appearance).toBe('coloured');
       const blockquote = page.root.querySelector('.aegov-blockquote');
       expect(blockquote.classList.contains('blockquote--colored')).toBe(true);
     });
@@ -124,7 +124,7 @@ describe('aegov-blockquote', () => {
     it('should not render quote icon for coloured variant', async () => {
       const page = await newSpecPage({
         components: [AegovBlockquote],
-        html: `<aegov-blockquote variant="coloured"></aegov-blockquote>`,
+        html: `<aegov-blockquote appearance="coloured"></aegov-blockquote>`,
       });
       const svg = page.root.querySelector('svg');
       expect(svg).toBeNull();
@@ -229,7 +229,7 @@ describe('aegov-blockquote', () => {
         `,
       });
 
-      expect(page.rootInstance.variant).toBe('colored');
+      expect(page.rootInstance.appearance).toBe('colored');
       expect(page.rootInstance.cite).toBe('https://example.com');
       expect(page.rootInstance.author).toBe('Jane Smith');
       expect(page.rootInstance.authorTitle).toBe('Product Manager');
@@ -247,13 +247,13 @@ describe('aegov-blockquote', () => {
     it('should update when variant changes', async () => {
       const page = await newSpecPage({
         components: [AegovBlockquote],
-        html: `<aegov-blockquote variant="primary"></aegov-blockquote>`,
+        html: `<aegov-blockquote appearance="primary"></aegov-blockquote>`,
       });
 
       let blockquote = page.root.querySelector('.aegov-blockquote');
       expect(blockquote.classList.contains('blockquote--colored')).toBe(false);
 
-      page.root.setAttribute('variant', 'colored');
+      page.root.setAttribute('appearance', 'colored');
       await page.waitForChanges();
 
       blockquote = page.root.querySelector('.aegov-blockquote');
@@ -291,7 +291,7 @@ describe('aegov-blockquote', () => {
     it('falls back to default (primary) variant when variant is invalid', async () => {
       const page = await newSpecPage({
         components: [AegovBlockquote],
-        html: `<aegov-blockquote variant="weird">Quote</aegov-blockquote>`,
+        html: `<aegov-blockquote appearance="weird">Quote</aegov-blockquote>`,
       });
       const blockquote = page.root.querySelector('.aegov-blockquote');
       expect(blockquote).toBeTruthy();
@@ -301,7 +301,7 @@ describe('aegov-blockquote', () => {
     it('warns with component name, prop name, invalid value, and fallback', async () => {
       await newSpecPage({
         components: [AegovBlockquote],
-        html: `<aegov-blockquote variant="weird">Quote</aegov-blockquote>`,
+        html: `<aegov-blockquote appearance="weird">Quote</aegov-blockquote>`,
       });
       const messages = warnSpy.mock.calls.map(c => c[0] as string);
       const variantWarn = messages.find(m => m.includes('[aegov-blockquote]') && m.includes('"weird"'));
@@ -312,7 +312,7 @@ describe('aegov-blockquote', () => {
     it('does not warn when all props are valid', async () => {
       await newSpecPage({
         components: [AegovBlockquote],
-        html: `<aegov-blockquote variant="colored">Quote</aegov-blockquote>`,
+        html: `<aegov-blockquote appearance="colored">Quote</aegov-blockquote>`,
       });
       expect(warnSpy).not.toHaveBeenCalled();
     });
@@ -320,17 +320,17 @@ describe('aegov-blockquote', () => {
     it('warns again via @Watch when variant is updated to an invalid value', async () => {
       const page = await newSpecPage({
         components: [AegovBlockquote],
-        html: `<aegov-blockquote variant="primary">Quote</aegov-blockquote>`,
+        html: `<aegov-blockquote appearance="primary">Quote</aegov-blockquote>`,
       });
       expect(warnSpy).not.toHaveBeenCalled();
 
-      page.root.setAttribute('variant', 'nope');
+      page.root.setAttribute('appearance', 'nope');
       await page.waitForChanges();
 
       const messages = warnSpy.mock.calls.map(c => c[0] as string);
       const invalidWarn = messages.find(m => m.includes('[aegov-blockquote]') && m.includes('"nope"'));
       expect(invalidWarn).toBeDefined();
-      expect(invalidWarn).toContain('"variant"');
+      expect(invalidWarn).toContain('"appearance"');
     });
   });
 });

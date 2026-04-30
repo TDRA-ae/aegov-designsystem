@@ -118,7 +118,7 @@
 
 <hr>
 <h2>Backgrounds</h2>
-<p>The <code>background</code> property controls the card&#39;s background fill. There are two options.</p>
+<p>The <code>bg</code> property controls the card&#39;s background fill. There are two options.</p>
 <table>
 <thead>
 <tr>
@@ -135,12 +135,12 @@
 <td>A light grey tint (aeblack-50).</td>
 </tr>
 </tbody></table>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-card</span> <span class="hljs-attr">background</span>=<span class="hljs-string">&quot;white&quot;</span>&gt;</span>White background<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-card</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-card</span> <span class="hljs-attr">background</span>=<span class="hljs-string">&quot;subtle&quot;</span>&gt;</span>Subtle background<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-card</span>&gt;</span></code></pre><div class="grid grid-cols-2 gap-4 p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-card background="white">
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-card</span> <span class="hljs-attr">bg</span>=<span class="hljs-string">&quot;white&quot;</span>&gt;</span>White background<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-card</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-card</span> <span class="hljs-attr">bg</span>=<span class="hljs-string">&quot;subtle&quot;</span>&gt;</span>Subtle background<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-card</span>&gt;</span></code></pre><div class="grid grid-cols-2 gap-4 p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
+  <aegov-card bg="white">
     <p class="text-sm text-aeblack-600 font-medium">background="white"</p>
   </aegov-card>
-  <aegov-card background="subtle">
+  <aegov-card bg="subtle">
     <p class="text-sm text-aeblack-600 font-medium">background="subtle"</p>
   </aegov-card>
 </div>
@@ -195,8 +195,8 @@
   </aegov-card>
 </div>
 
-<p>When <code>disallow-padding</code> is set, the size still controls the border radius — the padding is simply removed.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-card</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;lg&quot;</span> <span class="hljs-attr">disallow-padding</span>&gt;</span>
+<p>When <code>is-padding</code> is set, the size still controls the border radius — the padding is simply removed.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-card</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;lg&quot;</span> <span class="hljs-attr">is-padding</span>=<span class="hljs-string">&quot;false&quot;</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">img</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;...&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;Full-bleed image&quot;</span> <span class="hljs-attr">style</span>=<span class="hljs-string">&quot;width:100%; display:block;&quot;</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-card</span>&gt;</span></code></pre><hr>
 <h2>Hover Effects</h2>
@@ -237,22 +237,22 @@
 
 <hr>
 <h2>Padding</h2>
-<p>By default, cards include 1.5rem (24px) of inner padding. Set the <code>disallow-padding</code> attribute to remove all inner padding — useful when embedding full-bleed images or custom layouts.</p>
+<p>By default, cards include 1.5rem (24px) of inner padding. Set the <code>is-padding</code> attribute to remove all inner padding — useful when embedding full-bleed images or custom layouts.</p>
 <pre><code class="hljs language-html"><span class="hljs-comment">&lt;!-- With padding (default) --&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">aegov-card</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>This card has 24px padding.<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-card</span>&gt;</span>
 
 <span class="hljs-comment">&lt;!-- Without padding --&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-card</span> <span class="hljs-attr">disallow-padding</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-card</span> <span class="hljs-attr">is-padding</span>=<span class="hljs-string">&quot;false&quot;</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">img</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;...&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;Full-bleed image&quot;</span> <span class="hljs-attr">style</span>=<span class="hljs-string">&quot;width:100%; display:block;&quot;</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-card</span>&gt;</span></code></pre><div class="grid grid-cols-2 gap-4 p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
   <aegov-card>
     <p class="text-sm text-aeblack-600 font-medium">With padding (default)</p>
   </aegov-card>
-  <aegov-card disallow-padding>
+  <aegov-card is-padding="false">
     <div style="padding: 1.5rem;">
-      <p class="text-sm text-aeblack-600 font-medium">disallow-padding (no inner padding)</p>
+      <p class="text-sm text-aeblack-600 font-medium">is-padding="false" (no inner padding)</p>
     </div>
   </aegov-card>
 </div>
@@ -260,31 +260,31 @@
 <hr>
 <h2>Combining Options</h2>
 <p>Cards are designed to be composed from independent properties. Any combination of border style, border width, background, hover effect, and padding is valid.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-card</span> <span class="hljs-attr">border-style</span>=<span class="hljs-string">&quot;creative&quot;</span> <span class="hljs-attr">border-width</span>=<span class="hljs-string">&quot;2&quot;</span> <span class="hljs-attr">background</span>=<span class="hljs-string">&quot;subtle&quot;</span> <span class="hljs-attr">hover</span>=<span class="hljs-string">&quot;glow&quot;</span>&gt;</span>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-card</span> <span class="hljs-attr">border-style</span>=<span class="hljs-string">&quot;creative&quot;</span> <span class="hljs-attr">border-width</span>=<span class="hljs-string">&quot;2&quot;</span> <span class="hljs-attr">bg</span>=<span class="hljs-string">&quot;subtle&quot;</span> <span class="hljs-attr">hover</span>=<span class="hljs-string">&quot;glow&quot;</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">h3</span>&gt;</span>Featured Article<span class="hljs-tag">&lt;/<span class="hljs-name">h3</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>A card with creative gradient border, subtle background, and glow hover.<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-card</span>&gt;</span></code></pre><div class="grid grid-cols-2 gap-4 p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-card border-style="creative" border-width="2" background="white" hover="glow">
+  <aegov-card border-style="creative" border-width="2" bg="white" hover="glow">
     <h3 class="text-base font-semibold mb-1">Creative + White + Glow</h3>
     <p class="text-sm text-aeblack-500">border-width="2"</p>
   </aegov-card>
-  <aegov-card border-style="light" border-width="1" background="subtle" hover="standard">
+  <aegov-card border-style="light" border-width="1" bg="subtle" hover="standard">
     <h3 class="text-base font-semibold mb-1">Light + Subtle + Standard</h3>
     <p class="text-sm text-aeblack-500">border-width="1"</p>
   </aegov-card>
-  <aegov-card border-style="standard" border-width="3" background="white" hover="glow">
+  <aegov-card border-style="standard" border-width="3" bg="white" hover="glow">
     <h3 class="text-base font-semibold mb-1">Standard + White + Glow</h3>
     <p class="text-sm text-aeblack-500">border-width="3"</p>
   </aegov-card>
-  <aegov-card border-style="creative" border-width="3" background="subtle" hover="standard">
+  <aegov-card border-style="creative" border-width="3" bg="subtle" hover="standard">
     <h3 class="text-base font-semibold mb-1">Creative + Subtle + Standard</h3>
     <p class="text-sm text-aeblack-500">border-width="3"</p>
   </aegov-card>
-  <aegov-card border-style="highlight" border-width="2" background="white">
+  <aegov-card border-style="highlight" border-width="2" bg="white">
     <h3 class="text-base font-semibold mb-1">Highlight + White</h3>
     <p class="text-sm text-aeblack-500">border-width="2"</p>
   </aegov-card>
-  <aegov-card border-style="highlight" border-width="2" background="subtle" hover="glow">
+  <aegov-card border-style="highlight" border-width="2" bg="subtle" hover="glow">
     <h3 class="text-base font-semibold mb-1">Highlight + Subtle + Glow</h3>
     <p class="text-sm text-aeblack-500">border-width="2"</p>
   </aegov-card>
@@ -409,29 +409,29 @@
 
 <h3>Stats Cards</h3>
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">style</span>=<span class="hljs-string">&quot;display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem;&quot;</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-card</span> <span class="hljs-attr">border-style</span>=<span class="hljs-string">&quot;light&quot;</span> <span class="hljs-attr">background</span>=<span class="hljs-string">&quot;subtle&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-card</span> <span class="hljs-attr">border-style</span>=<span class="hljs-string">&quot;light&quot;</span> <span class="hljs-attr">bg</span>=<span class="hljs-string">&quot;subtle&quot;</span>&gt;</span>
     <span class="hljs-tag">&lt;<span class="hljs-name">p</span> <span class="hljs-attr">style</span>=<span class="hljs-string">&quot;font-size: 2rem; font-weight: 700; margin: 0;&quot;</span>&gt;</span>1,247<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
     <span class="hljs-tag">&lt;<span class="hljs-name">p</span> <span class="hljs-attr">style</span>=<span class="hljs-string">&quot;color: #6b7280; margin: 0;&quot;</span>&gt;</span>Active Users<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
   <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-card</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-card</span> <span class="hljs-attr">border-style</span>=<span class="hljs-string">&quot;light&quot;</span> <span class="hljs-attr">background</span>=<span class="hljs-string">&quot;subtle&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-card</span> <span class="hljs-attr">border-style</span>=<span class="hljs-string">&quot;light&quot;</span> <span class="hljs-attr">bg</span>=<span class="hljs-string">&quot;subtle&quot;</span>&gt;</span>
     <span class="hljs-tag">&lt;<span class="hljs-name">p</span> <span class="hljs-attr">style</span>=<span class="hljs-string">&quot;font-size: 2rem; font-weight: 700; margin: 0;&quot;</span>&gt;</span>98.5%<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
     <span class="hljs-tag">&lt;<span class="hljs-name">p</span> <span class="hljs-attr">style</span>=<span class="hljs-string">&quot;color: #6b7280; margin: 0;&quot;</span>&gt;</span>Uptime<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
   <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-card</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-card</span> <span class="hljs-attr">border-style</span>=<span class="hljs-string">&quot;light&quot;</span> <span class="hljs-attr">background</span>=<span class="hljs-string">&quot;subtle&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-card</span> <span class="hljs-attr">border-style</span>=<span class="hljs-string">&quot;light&quot;</span> <span class="hljs-attr">bg</span>=<span class="hljs-string">&quot;subtle&quot;</span>&gt;</span>
     <span class="hljs-tag">&lt;<span class="hljs-name">p</span> <span class="hljs-attr">style</span>=<span class="hljs-string">&quot;font-size: 2rem; font-weight: 700; margin: 0;&quot;</span>&gt;</span>3.2s<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
     <span class="hljs-tag">&lt;<span class="hljs-name">p</span> <span class="hljs-attr">style</span>=<span class="hljs-string">&quot;color: #6b7280; margin: 0;&quot;</span>&gt;</span>Avg Response<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
   <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-card</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
   <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem;">
-    <aegov-card border-style="light" background="subtle">
+    <aegov-card border-style="light" bg="subtle">
       <p style="font-size: 2rem; font-weight: 700; margin: 0;">1,247</p>
       <p style="color: #6b7280; margin: 0;">Active Users</p>
     </aegov-card>
-    <aegov-card border-style="light" background="subtle">
+    <aegov-card border-style="light" bg="subtle">
       <p style="font-size: 2rem; font-weight: 700; margin: 0;">98.5%</p>
       <p style="color: #6b7280; margin: 0;">Uptime</p>
     </aegov-card>
-    <aegov-card border-style="light" background="subtle">
+    <aegov-card border-style="light" bg="subtle">
       <p style="font-size: 2rem; font-weight: 700; margin: 0;">3.2s</p>
       <p style="color: #6b7280; margin: 0;">Avg Response</p>
     </aegov-card>
@@ -455,17 +455,17 @@
   <tbody>
     <tr>
       <td class="p-3 border border-aeblack-100 font-medium">White</td>
-      <td class="p-3 border border-aeblack-100 not-aegov"><aegov-card border-style="standard" background="white" border-width="2"><p class="text-xs text-aeblack-500">Standard + White</p></aegov-card></td>
-      <td class="p-3 border border-aeblack-100 not-aegov"><aegov-card border-style="light" background="white" border-width="2"><p class="text-xs text-aeblack-500">Light + White</p></aegov-card></td>
-      <td class="p-3 border border-aeblack-100 not-aegov"><aegov-card border-style="creative" background="white" border-width="2"><p class="text-xs text-aeblack-500">Creative + White</p></aegov-card></td>
-      <td class="p-3 border border-aeblack-100 not-aegov"><aegov-card border-style="highlight" background="white" border-width="2"><p class="text-xs text-aeblack-500">Highlight + White</p></aegov-card></td>
+      <td class="p-3 border border-aeblack-100 not-aegov"><aegov-card border-style="standard" bg="white" border-width="2"><p class="text-xs text-aeblack-500">Standard + White</p></aegov-card></td>
+      <td class="p-3 border border-aeblack-100 not-aegov"><aegov-card border-style="light" bg="white" border-width="2"><p class="text-xs text-aeblack-500">Light + White</p></aegov-card></td>
+      <td class="p-3 border border-aeblack-100 not-aegov"><aegov-card border-style="creative" bg="white" border-width="2"><p class="text-xs text-aeblack-500">Creative + White</p></aegov-card></td>
+      <td class="p-3 border border-aeblack-100 not-aegov"><aegov-card border-style="highlight" bg="white" border-width="2"><p class="text-xs text-aeblack-500">Highlight + White</p></aegov-card></td>
     </tr>
     <tr>
       <td class="p-3 border border-aeblack-100 font-medium">Subtle</td>
-      <td class="p-3 border border-aeblack-100 not-aegov"><aegov-card border-style="standard" background="subtle" border-width="2"><p class="text-xs text-aeblack-500">Standard + Subtle</p></aegov-card></td>
-      <td class="p-3 border border-aeblack-100 not-aegov"><aegov-card border-style="light" background="subtle" border-width="2"><p class="text-xs text-aeblack-500">Light + Subtle</p></aegov-card></td>
-      <td class="p-3 border border-aeblack-100 not-aegov"><aegov-card border-style="creative" background="subtle" border-width="2"><p class="text-xs text-aeblack-500">Creative + Subtle</p></aegov-card></td>
-      <td class="p-3 border border-aeblack-100 not-aegov"><aegov-card border-style="highlight" background="subtle" border-width="2"><p class="text-xs text-aeblack-500">Highlight + Subtle</p></aegov-card></td>
+      <td class="p-3 border border-aeblack-100 not-aegov"><aegov-card border-style="standard" bg="subtle" border-width="2"><p class="text-xs text-aeblack-500">Standard + Subtle</p></aegov-card></td>
+      <td class="p-3 border border-aeblack-100 not-aegov"><aegov-card border-style="light" bg="subtle" border-width="2"><p class="text-xs text-aeblack-500">Light + Subtle</p></aegov-card></td>
+      <td class="p-3 border border-aeblack-100 not-aegov"><aegov-card border-style="creative" bg="subtle" border-width="2"><p class="text-xs text-aeblack-500">Creative + Subtle</p></aegov-card></td>
+      <td class="p-3 border border-aeblack-100 not-aegov"><aegov-card border-style="highlight" bg="subtle" border-width="2"><p class="text-xs text-aeblack-500">Highlight + Subtle</p></aegov-card></td>
     </tr>
   </tbody>
 </table>
@@ -499,8 +499,8 @@
 <td><code>2</code></td>
 </tr>
 <tr>
-<td><code>background</code></td>
-<td><code>background</code></td>
+<td><code>bg</code></td>
+<td><code>bg</code></td>
 <td>The background fill of the card</td>
 <td><code>&#39;white&#39;</code> | <code>&#39;subtle&#39;</code></td>
 <td><code>&#39;white&#39;</code></td>
@@ -520,8 +520,8 @@
 <td><code>&#39;off&#39;</code></td>
 </tr>
 <tr>
-<td><code>disallowPadding</code></td>
-<td><code>disallow-padding</code></td>
+<td><code>isPadding</code></td>
+<td><code>is-padding</code></td>
 <td>Removes the default inner padding when set (size still controls radius)</td>
 <td><code>boolean</code></td>
 <td><code>false</code></td>
@@ -555,7 +555,7 @@
 <h2>Notes</h2>
 <ul>
 <li>The <code>aegov-card</code> component renders a <code>&lt;div&gt;</code> with the class <code>aegov-card</code> and modifier classes. It uses <code>scoped: false</code>, so styles are global and rely on the <code>aegov-card</code> class prefix.</li>
-<li>The <code>disallow-padding</code> attribute removes all inner padding. This is useful when embedding images or custom layouts that need to extend to the card&#39;s edges.</li>
+<li>The <code>is-padding</code> attribute removes all inner padding. This is useful when embedding images or custom layouts that need to extend to the card&#39;s edges.</li>
 <li>The <code>creative</code> and <code>highlight</code> border styles use a double-background technique with <code>background-clip: padding-box, border-box</code> to create a gradient border. The background is set via <code>background-image</code> rather than <code>background-color</code> when using these border styles.</li>
 <li>The <code>highlight</code> border style transitions from a solid <code>aeblack-200</code> border to a <code>primary-300 → primary-700</code> gradient on hover. This transition is built-in and fires regardless of the <code>hover</code> prop. Combine with <code>hover=&quot;glow&quot;</code> to also fire the shadow glow.</li>
 <li>Border radius is driven by the <code>size</code> prop and is responsive at the <strong>md</strong> (≤768px) and <strong>xs</strong> (≤480px) breakpoints. See the Sizes section for the per-size radius scale.</li>

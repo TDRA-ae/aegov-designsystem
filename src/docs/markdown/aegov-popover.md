@@ -32,14 +32,14 @@ Unlike a tooltip (which is primarily for brief text labels), popovers support ri
 
 ## Trigger Types
 
-The `trigger-type` property controls how the popover is activated. There are two options.
+The `trigger` property controls how the popover is activated. There are two options.
 
 ### Click (Default)
 
 The popover opens on click and closes when clicking outside, pressing Escape, or clicking the trigger again.
 
 ```html
-<aegov-popover trigger-type="click">
+<aegov-popover trigger="click">
   <aegov-button>Click Me</aegov-button>
   <div slot="popover-content">
     <p class="font-semibold text-sm mb-2">Account Info</p>
@@ -49,7 +49,7 @@ The popover opens on click and closes when clicking outside, pressing Escape, or
 ```
 
 <div class="flex flex-wrap gap-3 p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-popover trigger-type="click">
+  <aegov-popover trigger="click">
     <aegov-button>Click Trigger</aegov-button>
     <div slot="popover-content">
       <p class="font-semibold text-sm mb-2">Account Info</p>
@@ -63,7 +63,7 @@ The popover opens on click and closes when clicking outside, pressing Escape, or
 The popover opens when the cursor enters the trigger area and closes when the cursor leaves both the trigger and the popover panel. A built-in grace period (minimum 100ms) allows the cursor to cross the gap between trigger and panel without closing.
 
 ```html
-<aegov-popover trigger-type="hover">
+<aegov-popover trigger="hover">
   <aegov-button variant="outline">Hover Me</aegov-button>
   <div slot="popover-content">
     <p class="text-sm text-aeblack-600">This appears on hover and stays open while you interact.</p>
@@ -72,7 +72,7 @@ The popover opens when the cursor enters the trigger area and closes when the cu
 ```
 
 <div class="flex flex-wrap gap-3 p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-popover trigger-type="hover">
+  <aegov-popover trigger="hover">
     <aegov-button variant="outline">Hover Trigger</aegov-button>
     <div slot="popover-content">
       <p class="text-sm text-aeblack-600 mb-0">This appears on hover and stays open while you interact with the content.</p>
@@ -549,42 +549,42 @@ Set an inline `style="width: ..."` on the slotted container to override the defa
 
 ## Show and Hide Delays
 
-The `show-delay` property controls the delay (in milliseconds) before the popover appears. The default is `200`. The `hide-delay` property controls the delay before it closes. The default is `0`. For hover-triggered popovers, a minimum 100ms hide grace period is always enforced.
+The `delay-start` property controls the delay (in milliseconds) before the popover appears. The default is `200`. The `delay-end` property controls the delay before it closes. The default is `0`. For hover-triggered popovers, a minimum 100ms hide grace period is always enforced.
 
 ```html
-<aegov-popover trigger-type="hover" show-delay="0">
+<aegov-popover trigger="hover" delay-start="0">
   <aegov-button>Instant Show</aegov-button>
   <div slot="popover-content">…</div>
 </aegov-popover>
 
-<aegov-popover trigger-type="hover" show-delay="500">
+<aegov-popover trigger="hover" delay-start="500">
   <aegov-button>Slow Show (500ms)</aegov-button>
   <div slot="popover-content">…</div>
 </aegov-popover>
 
-<aegov-popover trigger-type="hover" hide-delay="500">
+<aegov-popover trigger="hover" delay-end="500">
   <aegov-button>Slow Close (500ms)</aegov-button>
   <div slot="popover-content">…</div>
 </aegov-popover>
 ```
 
 <div class="flex flex-wrap gap-3 p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-popover trigger-type="hover" show-delay="0">
+  <aegov-popover trigger="hover" delay-start="0">
     <aegov-button size="sm">Instant Show (hover)</aegov-button>
     <div slot="popover-content">
-      <p class="text-sm text-aeblack-600 mb-0">show-delay="0" — appears immediately on hover</p>
+      <p class="text-sm text-aeblack-600 mb-0">delay-start="0" — appears immediately on hover</p>
     </div>
   </aegov-popover>
-  <aegov-popover trigger-type="hover" show-delay="500">
+  <aegov-popover trigger="hover" delay-start="500">
     <aegov-button size="sm" variant="outline">500ms Show Delay (hover)</aegov-button>
     <div slot="popover-content">
-      <p class="text-sm text-aeblack-600 mb-0">show-delay="500" — waits half a second before appearing</p>
+      <p class="text-sm text-aeblack-600 mb-0">delay-start="500" — waits half a second before appearing</p>
     </div>
   </aegov-popover>
-  <aegov-popover trigger-type="hover" hide-delay="500">
+  <aegov-popover trigger="hover" delay-end="500">
     <aegov-button size="sm" variant="soft">500ms Hide Delay (hover)</aegov-button>
     <div slot="popover-content">
-      <p class="text-sm text-aeblack-600 mb-0">hide-delay="500" — stays open for 500ms after cursor leaves</p>
+      <p class="text-sm text-aeblack-600 mb-0">delay-end="500" — stays open for 500ms after cursor leaves</p>
     </div>
   </aegov-popover>
 </div>
@@ -593,10 +593,10 @@ The `show-delay` property controls the delay (in milliseconds) before the popove
 
 ## Disabled State
 
-Set the `disabled` attribute to prevent the popover from opening. The trigger remains visible but interaction is blocked.
+Set the `is-disabled` attribute to prevent the popover from opening. The trigger remains visible but interaction is blocked.
 
 ```html
-<aegov-popover disabled>
+<aegov-popover is-disabled>
   <aegov-button disabled>Disabled Popover</aegov-button>
   <div slot="popover-content">
     <p class="text-sm">This won't show</p>
@@ -605,7 +605,7 @@ Set the `disabled` attribute to prevent the popover from opening. The trigger re
 ```
 
 <div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-popover disabled>
+  <aegov-popover is-disabled>
     <aegov-button disabled>Disabled Popover</aegov-button>
     <div slot="popover-content">
       <p class="text-sm mb-0">This won't show</p>
@@ -639,13 +639,13 @@ The default slot accepts any element as the trigger. You are not limited to butt
       <aegov-button size="sm" variant="outline">View Profile</aegov-button>
     </div>
   </aegov-popover>
-  <aegov-popover trigger-type="hover">
+  <aegov-popover trigger="hover">
     <aegov-badge color="techblue">Hover this badge</aegov-badge>
     <div slot="popover-content" style="width: 14rem;">
       <p class="text-sm text-aeblack-600 mb-0">Badges can also serve as popover triggers for supplementary details.</p>
     </div>
   </aegov-popover>
-  <aegov-popover trigger-type="hover">
+  <aegov-popover trigger="hover">
     <span class="inline-flex items-center justify-center size-8 rounded-full bg-aeblack-100 text-aeblack-600 cursor-pointer text-sm font-semibold">?</span>
     <div slot="popover-content" style="width: 16rem;">
       <p class="font-semibold text-sm mb-1 mt-0">Need help?</p>
@@ -738,14 +738,14 @@ The component emits events when the popover opens and closes. Use these to synch
 
 | Property      | Attribute      | Description                                              | Type                                             | Default     |
 |---------------|----------------|----------------------------------------------------------|--------------------------------------------------|-------------|
-| `triggerType` | `trigger-type` | How the popover is activated                             | `'click'` \| `'hover'`                           | `'click'`   |
+| `trigger` | `trigger` | How the popover is activated                             | `'click'` \| `'hover'`                           | `'click'`   |
 | `position`    | `position`     | Position of the panel relative to the trigger            | `'top'` \| `'right'` \| `'bottom'` \| `'left'`  | `'bottom'`  |
 | `align`       | `align`        | Alignment of the panel along the secondary axis          | `'start'` \| `'center'` \| `'end'`              | `'center'`  |
 | `gap`         | `gap`          | Distance between trigger and panel in pixels             | `number`                                         | `10`        |
 | `offset`      | `offset`       | Additional offset along the secondary axis in pixels     | `number`                                         | `0`         |
 | `disabled`    | `disabled`     | Prevents the popover from opening                        | `boolean`                                        | `false`     |
-| `showDelay`   | `show-delay`   | Delay before showing in milliseconds                     | `number`                                         | `200`       |
-| `hideDelay`   | `hide-delay`   | Delay before hiding in milliseconds                      | `number`                                         | `0`         |
+| `delayStart`   | `delay-start`   | Delay before showing in milliseconds                     | `number`                                         | `200`       |
+| `delayEnd`   | `delay-end`   | Delay before hiding in milliseconds                      | `number`                                         | `0`         |
 
 ### Events
 
@@ -849,5 +849,5 @@ The `aegov-popover` component is built with accessibility as a first-class conce
 - The popover panel has a **minimum width of 12rem** (192px), `1rem` padding, and uses `width: auto` to accommodate its content. Override with an inline style on the slot container for wider layouts.
 - Position flipping is automatic — if the preferred position does not have enough viewport space, the panel flips to the opposite side.
 - The **arrow** is a 10px rotated square element. Per position, the two border sides facing the panel interior are removed for a clean look. The arrow's offset tracks the trigger's centre point, clamped between 8px from the panel edges to stay within rounded corners.
-- For **hover-triggered** popovers, a minimum 100ms grace period is enforced on hide, regardless of the `hide-delay` value. This ensures the cursor can cross the gap between the trigger and the portal panel without the popover closing prematurely.
+- For **hover-triggered** popovers, a minimum 100ms grace period is enforced on hide, regardless of the `delay-end` value. This ensures the cursor can cross the gap between the trigger and the portal panel without the popover closing prematurely.
 - The `popover-content` slot content is **moved** (not cloned) into the portal when opened and moved back when closed. This allows Stencil web components inside the slot to work correctly without double-rendering. Changes to the slot content after the popover opens will not be reflected until the next open cycle.

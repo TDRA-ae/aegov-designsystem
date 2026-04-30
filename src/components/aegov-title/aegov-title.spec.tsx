@@ -171,7 +171,7 @@ describe('aegov-title', () => {
     it('merges custom classes with defaults', async () => {
       const page = await newSpecPage({
         components: [AegovTitle],
-        html: `<aegov-title class="text-red-500 uppercase">Title</aegov-title>`,
+        html: `<aegov-title extra-class="text-red-500 uppercase">Title</aegov-title>`,
       });
       const p = page.root.querySelector('p');
       expect(p.className).toContain('font-bold');

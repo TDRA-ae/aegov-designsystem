@@ -26,21 +26,21 @@ describe('aegov-blockquote E2E', () => {
 
     it('should render quote icon for primary variant', async () => {
       const page = await newE2EPage();
-      await page.setContent('<aegov-blockquote variant="primary"></aegov-blockquote>');
+      await page.setContent('<aegov-blockquote appearance="primary"></aegov-blockquote>');
       const svg = await page.find('aegov-blockquote svg');
       expect(svg).toBeTruthy();
     });
 
     it('should not render quote icon for colored variant', async () => {
       const page = await newE2EPage();
-      await page.setContent('<aegov-blockquote variant="colored"></aegov-blockquote>');
+      await page.setContent('<aegov-blockquote appearance="colored"></aegov-blockquote>');
       const svg = await page.find('aegov-blockquote svg');
       expect(svg).toBeNull();
     });
 
     it('should not render quote icon for coloured variant', async () => {
       const page = await newE2EPage();
-      await page.setContent('<aegov-blockquote variant="coloured"></aegov-blockquote>');
+      await page.setContent('<aegov-blockquote appearance="coloured"></aegov-blockquote>');
       const svg = await page.find('aegov-blockquote svg');
       expect(svg).toBeNull();
     });
@@ -56,14 +56,14 @@ describe('aegov-blockquote E2E', () => {
 
     it('should apply colored variant class', async () => {
       const page = await newE2EPage();
-      await page.setContent('<aegov-blockquote variant="colored"></aegov-blockquote>');
+      await page.setContent('<aegov-blockquote appearance="colored"></aegov-blockquote>');
       const blockquote = await page.find('aegov-blockquote .aegov-blockquote');
       expect(blockquote).toHaveClass('blockquote--colored');
     });
 
     it('should apply colored variant class for coloured spelling', async () => {
       const page = await newE2EPage();
-      await page.setContent('<aegov-blockquote variant="coloured"></aegov-blockquote>');
+      await page.setContent('<aegov-blockquote appearance="coloured"></aegov-blockquote>');
       const blockquote = await page.find('aegov-blockquote .aegov-blockquote');
       expect(blockquote).toHaveClass('blockquote--colored');
     });
@@ -182,7 +182,7 @@ describe('aegov-blockquote E2E', () => {
   describe('styling', () => {
     it('should apply border and background for colored variant', async () => {
       const page = await newE2EPage();
-      await page.setContent('<aegov-blockquote variant="colored">Quote</aegov-blockquote>');
+      await page.setContent('<aegov-blockquote appearance="colored">Quote</aegov-blockquote>');
       const blockquote = await page.find('aegov-blockquote .aegov-blockquote');
       expect(blockquote).toHaveClass('blockquote--colored');
     });

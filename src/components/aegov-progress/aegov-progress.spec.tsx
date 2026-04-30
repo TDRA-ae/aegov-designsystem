@@ -272,7 +272,7 @@ describe('aegov-progress', () => {
   it('applies custom class', async () => {
     const page = await newSpecPage({
       components: [AegovProgress],
-      html: `<aegov-progress value="50" class="my-custom"></aegov-progress>`,
+      html: `<aegov-progress value="50" extra-class="my-custom"></aegov-progress>`,
     });
     const wrapper = page.root.querySelector('.aegov-progress');
     expect(wrapper.classList.contains('my-custom')).toBe(true);

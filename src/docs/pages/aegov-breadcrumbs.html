@@ -148,13 +148,13 @@
 
 <hr>
 <h2>Schema.org Microdata</h2>
-<p>Set the <code>microdata</code> attribute on the parent to add <a href="https://schema.org/BreadcrumbList">Schema.org BreadcrumbList</a> structured data. This helps search engines understand your page hierarchy and can improve how your pages appear in search results.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-breadcrumbs</span> <span class="hljs-attr">microdata</span>&gt;</span>
+<p>Set the <code>is-microdata</code> attribute on the parent to add <a href="https://schema.org/BreadcrumbList">Schema.org BreadcrumbList</a> structured data. This helps search engines understand your page hierarchy and can improve how your pages appear in search results.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-breadcrumbs</span> <span class="hljs-attr">is-microdata</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-breadcrumbs-item</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/&quot;</span>&gt;</span>Home<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-breadcrumbs-item</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-breadcrumbs-item</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/services&quot;</span>&gt;</span>Services<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-breadcrumbs-item</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-breadcrumbs-item</span>&gt;</span>Current Page<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-breadcrumbs-item</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-breadcrumbs</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-breadcrumbs microdata>
+  <aegov-breadcrumbs is-microdata>
     <aegov-breadcrumbs-item href="/">Home</aegov-breadcrumbs-item>
     <aegov-breadcrumbs-item href="/services">Services</aegov-breadcrumbs-item>
     <aegov-breadcrumbs-item>Current Page</aegov-breadcrumbs-item>
@@ -232,8 +232,8 @@
 <td>—</td>
 </tr>
 <tr>
-<td><code>microdata</code></td>
-<td><code>microdata</code></td>
+<td><code>is-microdata</code></td>
+<td><code>is-microdata</code></td>
 <td>Adds Schema.org BreadcrumbList structured data</td>
 <td><code>boolean</code></td>
 <td><code>false</code></td>
@@ -266,7 +266,7 @@
 </tr>
 </tbody></table>
 <blockquote>
-<p><strong>Note:</strong> The <code>isLast</code>, <code>separator</code>, <code>maxLength</code>, <code>microdata</code>, and <code>position</code> properties on <code>aegov-breadcrumbs-item</code> are managed internally by the parent component. Do not set them manually.</p>
+<p><strong>Note:</strong> The <code>isLast</code>, <code>separator</code>, <code>maxLength</code>, <code>is-microdata</code>, and <code>position</code> properties on <code>aegov-breadcrumbs-item</code> are managed internally by the parent component. Do not set them manually.</p>
 </blockquote>
 <h3>Events</h3>
 <table>
@@ -334,7 +334,7 @@
 <h2>Notes</h2>
 <ul>
 <li>The <code>aegov-breadcrumbs-item</code> component <strong>must</strong> be used inside <code>&lt;aegov-breadcrumbs&gt;</code>. Using it standalone will throw an error.</li>
-<li>The parent component sets <code>separator</code>, <code>maxLength</code>, <code>microdata</code>, <code>position</code>, and <code>isLast</code> on all child items automatically during lifecycle hooks. You do not need to set these props on individual items.</li>
+<li>The parent component sets <code>separator</code>, <code>maxLength</code>, <code>is-microdata</code>, <code>position</code>, and <code>isLast</code> on all child items automatically during lifecycle hooks. You do not need to set these props on individual items.</li>
 <li>Text truncation via <code>max-length</code> applies a Unicode ellipsis character at the cut point. It only affects text content — if the item contains HTML children (such as SVG icons), truncation is skipped and content is rendered via the slot.</li>
 <li>The last separator is never rendered, regardless of separator style.</li>
 <li>In RTL mode, the chevron separator is flipped horizontally using <code>transform: scaleX(-1)</code>. The slash separator is directionally neutral and does not change.</li>

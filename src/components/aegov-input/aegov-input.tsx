@@ -55,7 +55,7 @@ export class AegovInput {
   @Prop() copyable: boolean = false;
 
   /** Additional CSS classes to apply. */
-  @Prop() class?: string;
+  @Prop() extraClass?: string;
 
   /** Tracks whether the password is currently visible. */
   @State() passwordVisible: boolean = false;
@@ -155,8 +155,8 @@ export class AegovInput {
       classes.push('input--has-icon-end');
     }
 
-    if (this.class) {
-      classes.push(this.class);
+    if (this.extraClass) {
+      classes.push(this.extraClass);
     }
 
     return classes.join(' ');

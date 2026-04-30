@@ -201,14 +201,14 @@
 <hr>
 <h2>Interactive Tooltips</h2>
 <p>Set the <code>interactive</code> property to allow users to hover over and interact with the tooltip content. When interactive, the tooltip does not auto-hide when the cursor moves from the trigger to the tooltip itself. The tooltip is also assigned <code>role=&quot;dialog&quot;</code> instead of <code>role=&quot;tooltip&quot;</code>.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-tooltip</span> <span class="hljs-attr">interactive</span> <span class="hljs-attr">trigger</span>=<span class="hljs-string">&quot;hover&quot;</span>&gt;</span>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-tooltip</span> <span class="hljs-attr">trigger</span>=<span class="hljs-string">&quot;hover&quot;</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span>&gt;</span>Interactive tooltip<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;tooltip-content&quot;</span>&gt;</span>
     <span class="hljs-tag">&lt;<span class="hljs-name">p</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;mb-2&quot;</span>&gt;</span>This tooltip has interactive content.<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
     <span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;xs&quot;</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;outline&quot;</span> <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;neutralMin&quot;</span>&gt;</span>Learn more<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span>
   <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-tooltip</span>&gt;</span></code></pre><div class="flex flex-wrap gap-3 p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-tooltip interactive trigger="hover">
+  <aegov-tooltip trigger="hover">
     <aegov-button>Interactive tooltip</aegov-button>
     <div slot="tooltip-content">
       <p style="margin-bottom: 8px; color: white;">This tooltip has interactive content.</p>
@@ -219,20 +219,20 @@
 
 <hr>
 <h2>Show and Hide Delay</h2>
-<p>The <code>show-delay</code> and <code>hide-delay</code> properties control the time in milliseconds before the tooltip appears or disappears. This is useful for preventing accidental tooltip triggers or for keeping the tooltip visible while the user moves between elements.</p>
+<p>The <code>delay-start</code> and <code>delay-end</code> properties control the time in milliseconds before the tooltip appears or disappears. This is useful for preventing accidental tooltip triggers or for keeping the tooltip visible while the user moves between elements.</p>
 <pre><code class="hljs language-html"><span class="hljs-comment">&lt;!-- 500ms delay before showing --&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-tooltip</span> <span class="hljs-attr">content</span>=<span class="hljs-string">&quot;I take 500ms to appear&quot;</span> <span class="hljs-attr">show-delay</span>=<span class="hljs-string">&quot;500&quot;</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-tooltip</span> <span class="hljs-attr">content</span>=<span class="hljs-string">&quot;I take 500ms to appear&quot;</span> <span class="hljs-attr">delay-start</span>=<span class="hljs-string">&quot;500&quot;</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;outline&quot;</span>&gt;</span>Slow show<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-tooltip</span>&gt;</span>
 
 <span class="hljs-comment">&lt;!-- 300ms delay before hiding --&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-tooltip</span> <span class="hljs-attr">content</span>=<span class="hljs-string">&quot;I take 300ms to hide&quot;</span> <span class="hljs-attr">hide-delay</span>=<span class="hljs-string">&quot;300&quot;</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-tooltip</span> <span class="hljs-attr">content</span>=<span class="hljs-string">&quot;I take 300ms to hide&quot;</span> <span class="hljs-attr">delay-end</span>=<span class="hljs-string">&quot;300&quot;</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;outline&quot;</span>&gt;</span>Slow hide<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-tooltip</span>&gt;</span></code></pre><div class="flex flex-wrap gap-3 p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-tooltip content="I take 500ms to appear" show-delay="500">
+  <aegov-tooltip content="I take 500ms to appear" delay-start="500">
     <aegov-button variant="outline">Slow show (500ms)</aegov-button>
   </aegov-tooltip>
-  <aegov-tooltip content="I take 300ms to hide" hide-delay="300">
+  <aegov-tooltip content="I take 300ms to hide" delay-end="300">
     <aegov-button variant="outline">Slow hide (300ms)</aegov-button>
   </aegov-tooltip>
 </div>
@@ -260,10 +260,10 @@
 <hr>
 <h2>Disabled</h2>
 <p>Set the <code>disabled</code> property to prevent the tooltip from appearing. The trigger element remains visible and interactive but the tooltip will not show.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-tooltip</span> <span class="hljs-attr">content</span>=<span class="hljs-string">&quot;You will not see this&quot;</span> <span class="hljs-attr">disabled</span>&gt;</span>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-tooltip</span> <span class="hljs-attr">content</span>=<span class="hljs-string">&quot;You will not see this&quot;</span> <span class="hljs-attr">is-disabled</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span>&gt;</span>Disabled tooltip<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-tooltip</span>&gt;</span></code></pre><div class="flex flex-wrap gap-3 p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-tooltip content="You will not see this" disabled>
+  <aegov-tooltip content="You will not see this" is-disabled>
     <aegov-button>Disabled tooltip</aegov-button>
   </aegov-tooltip>
 </div>
@@ -355,15 +355,15 @@
 <td><code>false</code></td>
 </tr>
 <tr>
-<td><code>showDelay</code></td>
-<td><code>show-delay</code></td>
+<td><code>delayStart</code></td>
+<td><code>delay-start</code></td>
 <td>Delay before showing the tooltip (in milliseconds)</td>
 <td><code>number</code></td>
 <td><code>200</code></td>
 </tr>
 <tr>
-<td><code>hideDelay</code></td>
-<td><code>hide-delay</code></td>
+<td><code>delayEnd</code></td>
+<td><code>delay-end</code></td>
 <td>Delay before hiding the tooltip (in milliseconds)</td>
 <td><code>number</code></td>
 <td><code>0</code></td>
@@ -417,8 +417,8 @@
 <li>The tooltip uses <code>position: fixed</code> and dynamically calculates its coordinates relative to the viewport. It repositions on scroll and window resize to stay visible.</li>
 <li>The arrow indicator automatically points toward the trigger element and adjusts its position based on the <code>position</code> property.</li>
 <li>When both the <code>content</code> prop and the <code>tooltip-content</code> slot are provided, the slot takes precedence.</li>
-<li>The <code>showDelay</code> defaults to <code>200ms</code> to prevent tooltips from flickering during normal mouse movement. Set it to <code>0</code> if you need instant display.</li>
-<li>The <code>hideDelay</code> defaults to <code>0</code> for immediate dismissal. Increase it when using <code>interactive</code> mode so the user has time to move their cursor into the tooltip.</li>
+<li>The <code>delayStart</code> defaults to <code>200ms</code> to prevent tooltips from flickering during normal mouse movement. Set it to <code>0</code> if you need instant display.</li>
+<li>The <code>delayEnd</code> defaults to <code>0</code> for immediate dismissal. Increase it when using <code>interactive</code> mode so the user has time to move their cursor into the tooltip.</li>
 <li>The tooltip has a maximum width of <code>320px</code> (<code>max-w-80</code>) and text wraps automatically. For wider content, apply custom styles.</li>
 <li>The component listens for <code>Escape</code> key presses globally while visible, so pressing Escape from anywhere on the page will close an open tooltip.</li>
 <li>In RTL mode, the <code>left</code> and <code>right</code> positions are automatically swapped. The <code>start</code> and <code>end</code> alignments also mirror to match the text direction.</li>

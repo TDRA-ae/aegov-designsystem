@@ -5,6 +5,7 @@ import { getPassThroughAttributes } from '../../utils/attributes';
 import { warnIfInvalidEnumProp } from '../../utils/prop-validator';
 import { watchResponsiveProp } from '../../utils/responsive-prop';
 import type { ResponsivePropWatcher } from '../../utils/responsive-prop';
+import { generateId } from '../../utils/id-generator';
 
 const TAG = 'aegov-timeline';
 const ctx = (prop: string) => ({ component: TAG, prop });
@@ -16,6 +17,11 @@ const ctx = (prop: string) => ({ component: TAG, prop });
 })
 export class AegovTimeline {
   @Element() el: HTMLElement;
+
+  /**
+   * Unique ID for the timeline nav element. Auto-generated if not provided.
+   */
+  @Prop({ mutable: true, reflect: true }) fieldId?: string;
 
   /**
    * Visual variant: default (numbered circles) or compact (dots).
@@ -33,8 +39,6 @@ export class AegovTimeline {
    * Layout orientation.
    */
   @Prop() orientation: TimelineOrientation = 'horizontal';
-
-  private static readonly PASS_THROUGH_ATTRS = new Set(['id']);
 
   private getDirectChildren(): HTMLAegovTimelineStepElement[] {
     const all = Array.from(
@@ -54,11 +58,14 @@ export class AegovTimeline {
       step.stepCount = steps.length;
       step.isFirst = index === 0;
       step.isLast = index === steps.length - 1;
-      step.connectorSolid = index > 0 && steps[index - 1].getAttribute('status') === 'completed';
+      step.isConnectorSolid = index > 0 && steps[index - 1].getAttribute('status') === 'completed';
     });
   }
 
   componentWillLoad() {
+    if (!this.fieldId) {
+      this.fieldId = generateId('aegov-timeline');
+    }
     warnIfInvalidEnumProp(this.variant, TIMELINE_VARIANTS, 'default', ctx('variant'));
     warnIfInvalidEnumProp(this.orientation, TIMELINE_ORIENTATIONS, 'horizontal', ctx('orientation'));
     this._sizeWatcher = watchResponsiveProp(this.size, TIMELINE_SIZES, 'base', v => {
@@ -103,7 +110,7 @@ export class AegovTimeline {
   }
 
   render() {
-    const passThroughAttrs = getPassThroughAttributes(this.el, AegovTimeline.PASS_THROUGH_ATTRS);
+    const passThroughAttrs = getPassThroughAttributes(this.el);
     const orientation: TimelineOrientation = (TIMELINE_ORIENTATIONS as readonly string[]).includes(this.orientation) ? this.orientation : 'horizontal';
     const variant: TimelineVariant = (TIMELINE_VARIANTS as readonly string[]).includes(this.variant) ? this.variant : 'default';
     const listClasses = [
@@ -118,6 +125,7 @@ export class AegovTimeline {
 
     return (
       <nav
+        id={this.fieldId}
         class={navClasses}
         aria-label="Timeline"
         {...passThroughAttrs}

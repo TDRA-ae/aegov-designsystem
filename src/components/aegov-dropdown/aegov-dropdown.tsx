@@ -114,8 +114,6 @@ export class AegovDropdown {
   private positionUpdateScheduled: boolean = false;
   private positionRetryCount: number = 0;
   private readonly MAX_POSITION_RETRIES = 10;
-  private dropdownId: string;
-  private triggerId: string;
   private focusableElements: HTMLElement[] = [];
   private currentFocusIndex: number = -1;
   private triggerElement?: HTMLElement;
@@ -128,10 +126,16 @@ export class AegovDropdown {
   private openedViaKeyboard: boolean = false;
 
   /**
+   * Unique ID for the dropdown menu element. Auto-generated if not provided.
+   * The trigger element receives a derived ID `${fieldId}-trigger` for ARIA linkage.
+   */
+  @Prop({ mutable: true, reflect: true }) fieldId?: string;
+
+  /**
    * Trigger type for showing the dropdown
    * @default 'click'
    */
-  @Prop() triggerType: DropdownTrigger = 'click';
+  @Prop() trigger: DropdownTrigger = 'click';
 
   /**
    * Position of the dropdown relative to the trigger element
@@ -161,19 +165,19 @@ export class AegovDropdown {
    * Whether the dropdown is disabled
    * @default false
    */
-  @Prop() disabled: boolean = false;
+  @Prop() isDisabled: boolean = false;
 
   /**
    * Delay before showing dropdown (in milliseconds)
    * @default 200
    */
-  @Prop() showDelay: number = 200;
+  @Prop() delayStart: number = 200;
 
   /**
    * Delay before hiding dropdown (in milliseconds)
    * @default 0
    */
-  @Prop() hideDelay: number = 0;
+  @Prop() delayEnd: number = 0;
 
   /**
    * Emitted when dropdown opens
@@ -186,19 +190,23 @@ export class AegovDropdown {
   @Event() aegovDropdownClose: EventEmitter<void>;
 
   componentWillLoad() {
-    warnIfInvalidEnumProp(this.triggerType, DROPDOWN_TRIGGERS, 'click', ctx('triggerType'));
+    warnIfInvalidEnumProp(this.trigger, DROPDOWN_TRIGGERS, 'click', ctx('trigger'));
     warnIfInvalidEnumProp(this.position, DROPDOWN_POSITIONS, 'bottom', ctx('position'));
     warnIfInvalidEnumProp(this.align, DROPDOWN_ALIGNS, 'start', ctx('align'));
-    // Generate stable dropdown ID once
-    this.dropdownId = generateId('aegov-dropdown');
-    this.triggerId = `${this.dropdownId}-trigger`;
+    if (!this.fieldId) {
+      this.fieldId = generateId('aegov-dropdown');
+    }
 
     // Check if dropdown-content slot has content
     this.checkSlotContent();
   }
 
-  @Watch('triggerType')
-  onTriggerTypeChange(v: unknown) { warnIfInvalidEnumProp(v, DROPDOWN_TRIGGERS, 'click', ctx('triggerType')); }
+  private get triggerId(): string {
+    return `${this.fieldId}-trigger`;
+  }
+
+  @Watch('trigger')
+  onTriggerChange(v: unknown) { warnIfInvalidEnumProp(v, DROPDOWN_TRIGGERS, 'click', ctx('trigger')); }
 
   @Watch('position')
   onPositionChange(v: unknown) { warnIfInvalidEnumProp(v, DROPDOWN_POSITIONS, 'bottom', ctx('position')); }
@@ -335,7 +343,7 @@ export class AegovDropdown {
    */
   @Method()
   async toggle(viaKeyboard: boolean = false): Promise<void> {
-    if (this.disabled) return;
+    if (this.isDisabled) return;
     this.openedViaKeyboard = viaKeyboard;
     this.isOpen = !this.isOpen;
   }
@@ -500,14 +508,14 @@ export class AegovDropdown {
   }
 
   private showDropdown = () => {
-    if (this.disabled) return;
+    if (this.isDisabled) return;
 
     this.clearTimeouts();
 
     this.showTimeout = window.setTimeout(() => {
       this.openedViaKeyboard = false;
       this.isOpen = true;
-    }, this.showDelay);
+    }, this.delayStart);
   };
 
   /**
@@ -521,9 +529,9 @@ export class AegovDropdown {
 
     // For hover-triggered dropdowns, enforce a minimum grace period
     // so the cursor can cross the gap between trigger and dropdown panel.
-    const delay = this.triggerType === 'hover'
-      ? Math.max(this.hideDelay, AegovDropdown.HOVER_HIDE_GRACE)
-      : this.hideDelay;
+    const delay = this.trigger === 'hover'
+      ? Math.max(this.delayEnd, AegovDropdown.HOVER_HIDE_GRACE)
+      : this.delayEnd;
 
     this.hideTimeout = window.setTimeout(() => {
       // Re-check: if the mouse re-entered while we were waiting, don't close
@@ -532,13 +540,13 @@ export class AegovDropdown {
   };
 
   private handleTriggerMouseEnter = () => {
-    if (this.triggerType === 'hover') {
+    if (this.trigger === 'hover') {
       this.showDropdown();
     }
   };
 
   private handleTriggerMouseLeave = (event: MouseEvent) => {
-    if (this.triggerType === 'hover') {
+    if (this.trigger === 'hover') {
       const relatedTarget = event.relatedTarget as HTMLElement;
       if (relatedTarget) {
         // Moving to our own dropdown content — don't hide
@@ -559,7 +567,7 @@ export class AegovDropdown {
   };
 
   private handleTriggerClick = (event: MouseEvent) => {
-    if (this.triggerType === 'click' && !this.disabled) {
+    if (this.trigger === 'click' && !this.isDisabled) {
       event.stopPropagation();
       // Click events fired by keyboard activation (Enter/Space on a focused
       // button) have detail === 0; real mouse/touch clicks have detail >= 1.
@@ -569,13 +577,13 @@ export class AegovDropdown {
   };
 
   private handleDropdownMouseEnter = () => {
-    if (this.triggerType === 'hover') {
+    if (this.trigger === 'hover') {
       this.clearTimeouts();
     }
   };
 
   private handleDropdownMouseLeave = (event: MouseEvent) => {
-    if (this.triggerType === 'hover') {
+    if (this.trigger === 'hover') {
       const relatedTarget = event.relatedTarget as HTMLElement;
 
       if (relatedTarget) {
@@ -690,7 +698,7 @@ export class AegovDropdown {
     // Create dropdown container
     const dropdownContainer = document.createElement('div');
     dropdownContainer.className = 'aegov-dropdown';
-    dropdownContainer.id = this.dropdownId;
+    dropdownContainer.id = this.fieldId;
     dropdownContainer.setAttribute('role', 'menu');
     dropdownContainer.setAttribute('aria-labelledby', this.triggerId);
     dropdownContainer.setAttribute('data-state', 'open');
@@ -747,7 +755,7 @@ export class AegovDropdown {
           onClick={this.handleTriggerClick}
           aria-haspopup="true"
           aria-expanded={this.isOpen.toString()}
-          aria-controls={this.isOpen ? this.dropdownId : undefined}
+          aria-controls={this.isOpen ? this.fieldId : undefined}
         >
           <slot />
         </div>

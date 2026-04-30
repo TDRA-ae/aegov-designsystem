@@ -245,7 +245,7 @@ For rich or structured content, use the `tooltip-content` named slot. This allow
 Set the `interactive` property to allow users to hover over and interact with the tooltip content. When interactive, the tooltip does not auto-hide when the cursor moves from the trigger to the tooltip itself. The tooltip is also assigned `role="dialog"` instead of `role="tooltip"`.
 
 ```html
-<aegov-tooltip interactive trigger="hover">
+<aegov-tooltip trigger="hover">
   <aegov-button>Interactive tooltip</aegov-button>
   <div slot="tooltip-content">
     <p class="mb-2">This tooltip has interactive content.</p>
@@ -255,7 +255,7 @@ Set the `interactive` property to allow users to hover over and interact with th
 ```
 
 <div class="flex flex-wrap gap-3 p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-tooltip interactive trigger="hover">
+  <aegov-tooltip trigger="hover">
     <aegov-button>Interactive tooltip</aegov-button>
     <div slot="tooltip-content">
       <p style="margin-bottom: 8px; color: white;">This tooltip has interactive content.</p>
@@ -268,25 +268,25 @@ Set the `interactive` property to allow users to hover over and interact with th
 
 ## Show and Hide Delay
 
-The `show-delay` and `hide-delay` properties control the time in milliseconds before the tooltip appears or disappears. This is useful for preventing accidental tooltip triggers or for keeping the tooltip visible while the user moves between elements.
+The `delay-start` and `delay-end` properties control the time in milliseconds before the tooltip appears or disappears. This is useful for preventing accidental tooltip triggers or for keeping the tooltip visible while the user moves between elements.
 
 ```html
 <!-- 500ms delay before showing -->
-<aegov-tooltip content="I take 500ms to appear" show-delay="500">
+<aegov-tooltip content="I take 500ms to appear" delay-start="500">
   <aegov-button variant="outline">Slow show</aegov-button>
 </aegov-tooltip>
 
 <!-- 300ms delay before hiding -->
-<aegov-tooltip content="I take 300ms to hide" hide-delay="300">
+<aegov-tooltip content="I take 300ms to hide" delay-end="300">
   <aegov-button variant="outline">Slow hide</aegov-button>
 </aegov-tooltip>
 ```
 
 <div class="flex flex-wrap gap-3 p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-tooltip content="I take 500ms to appear" show-delay="500">
+  <aegov-tooltip content="I take 500ms to appear" delay-start="500">
     <aegov-button variant="outline">Slow show (500ms)</aegov-button>
   </aegov-tooltip>
-  <aegov-tooltip content="I take 300ms to hide" hide-delay="300">
+  <aegov-tooltip content="I take 300ms to hide" delay-end="300">
     <aegov-button variant="outline">Slow hide (300ms)</aegov-button>
   </aegov-tooltip>
 </div>
@@ -325,13 +325,13 @@ The `gap` property controls the space in pixels between the trigger and the tool
 Set the `disabled` property to prevent the tooltip from appearing. The trigger element remains visible and interactive but the tooltip will not show.
 
 ```html
-<aegov-tooltip content="You will not see this" disabled>
+<aegov-tooltip content="You will not see this" is-disabled>
   <aegov-button>Disabled tooltip</aegov-button>
 </aegov-tooltip>
 ```
 
 <div class="flex flex-wrap gap-3 p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-tooltip content="You will not see this" disabled>
+  <aegov-tooltip content="You will not see this" is-disabled>
     <aegov-button>Disabled tooltip</aegov-button>
   </aegov-tooltip>
 </div>
@@ -377,8 +377,8 @@ No additional configuration is needed — the component reads the computed `dire
 | `offset`     | `offset`      | Additional offset along the cross-axis (in pixels)                         | `number`                                            | `0`        |
 | `disabled`   | `disabled`    | Prevents the tooltip from appearing                                        | `boolean`                                           | `false`    |
 | `interactive`| `interactive` | Allows users to hover over and interact with tooltip content               | `boolean`                                           | `false`    |
-| `showDelay`  | `show-delay`  | Delay before showing the tooltip (in milliseconds)                         | `number`                                            | `200`      |
-| `hideDelay`  | `hide-delay`  | Delay before hiding the tooltip (in milliseconds)                          | `number`                                            | `0`        |
+| `delayStart`  | `delay-start`  | Delay before showing the tooltip (in milliseconds)                         | `number`                                            | `200`      |
+| `delayEnd`  | `delay-end`  | Delay before hiding the tooltip (in milliseconds)                          | `number`                                            | `0`        |
 
 ### Slots
 
@@ -422,8 +422,8 @@ The following items require action from the developer implementing the component
 - The tooltip uses `position: fixed` and dynamically calculates its coordinates relative to the viewport. It repositions on scroll and window resize to stay visible.
 - The arrow indicator automatically points toward the trigger element and adjusts its position based on the `position` property.
 - When both the `content` prop and the `tooltip-content` slot are provided, the slot takes precedence.
-- The `showDelay` defaults to `200ms` to prevent tooltips from flickering during normal mouse movement. Set it to `0` if you need instant display.
-- The `hideDelay` defaults to `0` for immediate dismissal. Increase it when using `interactive` mode so the user has time to move their cursor into the tooltip.
+- The `delayStart` defaults to `200ms` to prevent tooltips from flickering during normal mouse movement. Set it to `0` if you need instant display.
+- The `delayEnd` defaults to `0` for immediate dismissal. Increase it when using `interactive` mode so the user has time to move their cursor into the tooltip.
 - The tooltip has a maximum width of `320px` (`max-w-80`) and text wraps automatically. For wider content, apply custom styles.
 - The component listens for `Escape` key presses globally while visible, so pressing Escape from anywhere on the page will close an open tooltip.
 - In RTL mode, the `left` and `right` positions are automatically swapped. The `start` and `end` alignments also mirror to match the text direction.

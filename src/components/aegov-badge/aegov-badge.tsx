@@ -4,6 +4,7 @@ import type { ResponsivePropWatcher } from '../../utils/responsive-prop';
 import { BADGE_APPEARANCES, BADGE_COLORS, BADGE_SIZES } from '../../utils/types';
 import type { BadgeSize, BadgeAppearance, BadgeColor } from '../../utils/types';
 import { warnIfInvalidEnumProp } from '../../utils/prop-validator';
+import { generateId } from '../../utils/id-generator';
 
 const TAG = 'aegov-badge';
 const ctx = (prop: string) => ({ component: TAG, prop });
@@ -17,6 +18,11 @@ const ctx = (prop: string) => ({ component: TAG, prop });
   scoped: false,
 })
 export class AegovBadge {
+    /**
+     * Unique ID for the badge element. Auto-generated if not provided.
+     */
+    @Prop({ mutable: true, reflect: true }) fieldId?: string;
+
     /**
      * The appearance style of the badge.
      * @default 'soft'
@@ -33,7 +39,7 @@ export class AegovBadge {
      * Whether the badge can be dismissed/closed.
      * @default false
      */
-    @Prop() dismissible: boolean = false;
+    @Prop() isDismissible: boolean = false;
 
     /**
      * The badge size
@@ -50,6 +56,9 @@ export class AegovBadge {
     @Event() aegovBadgeDismiss: EventEmitter<void>;
 
     componentWillLoad() {
+        if (!this.fieldId) {
+            this.fieldId = generateId('aegov-badge');
+        }
         warnIfInvalidEnumProp(this.appearance, BADGE_APPEARANCES, 'soft', ctx('appearance'));
         warnIfInvalidEnumProp(this.color, BADGE_COLORS, 'default', ctx('color'));
         this._sizeWatcher = watchResponsiveProp(this.size, BADGE_SIZES, 'base', v => {
@@ -142,9 +151,9 @@ export class AegovBadge {
     render() {
         return (
             <Host>
-                <span class={this.getBadgeClasses()}>
+                <span class={this.getBadgeClasses()} id={this.fieldId}>
                     <slot />
-                    {this.dismissible && (
+                    {this.isDismissible && (
                         <button
                             type="button"
                             class="badge-dismiss"

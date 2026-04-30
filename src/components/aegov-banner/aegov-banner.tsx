@@ -5,13 +5,14 @@ import {
   BANNER_POSITIONS,
   BANNER_DISPLAYS,
   BANNER_MODES,
-  BANNER_ROLES,
   BANNER_SIZES,
 } from '../../utils/types';
 import type { CalloutVariant, CalloutAppearance, BannerPosition, BannerDisplay, BannerMode, BannerRole, BannerSize } from '../../utils/types';
+import { getPassThroughAttributes } from '../../utils/attributes';
 import { warnIfInvalidEnumProp } from '../../utils/prop-validator';
 import { watchResponsiveProp } from '../../utils/responsive-prop';
 import type { ResponsivePropWatcher } from '../../utils/responsive-prop';
+import { generateId } from '../../utils/id-generator';
 
 const TAG = 'aegov-banner';
 const ctx = (prop: string) => ({ component: TAG, prop });
@@ -35,6 +36,12 @@ const BODY_PADDING_PROP: Record<BannerPosition, string> = {
 })
 export class AegovBanner {
   @Element() el: HTMLElement;
+
+  /**
+   * Unique ID for the banner element. Auto-generated if not provided.
+   * The heading element receives a derived ID `${fieldId}-heading` for ARIA labelledby.
+   */
+  @Prop({ mutable: true, reflect: true }) fieldId?: string;
 
   /**
    * The variant of the banner. Determines the color scheme.
@@ -64,17 +71,12 @@ export class AegovBanner {
   /**
    * Whether the banner can be dismissed/closed.
    */
-  @Prop() dismissible: boolean = true;
+  @Prop() isDismissible: boolean = true;
 
   /**
-   * ARIA role for accessibility. Auto-computed from variant if not specified.
+   * Banner heading for aria-labelledby attribute.
    */
-  @Prop() ariaRole?: BannerRole;
-
-  /**
-   * Banner title for aria-labelledby attribute.
-   */
-  @Prop() bannerTitle?: string;
+  @Prop() heading?: string;
 
   /**
    * Size of the banner. Controls font size and vertical padding.
@@ -89,7 +91,7 @@ export class AegovBanner {
   /**
    * Auto-focus the banner when mounted (for critical alerts only).
    */
-  @Prop() autoFocus: boolean = false;
+  @Prop() isFocusable: boolean = false;
 
   /**
    * Event emitted when the banner is dismissed.
@@ -119,12 +121,14 @@ export class AegovBanner {
   private resizeObserver: ResizeObserver | null = null;
 
   /**
-   * Get the ARIA role based on variant and prop override
+   * Get the ARIA role based on variant and pass-through `role` attribute.
+   * If a `role` attribute is set on the host, it overrides the auto-computed value.
    */
   private getRole(): BannerRole {
-    // If explicit role provided, use it
-    if (this.ariaRole) {
-      return this.ariaRole;
+    // If user provided a role attribute on the host, use it
+    const hostRole = this.el.getAttribute('role') as BannerRole | null;
+    if (hostRole) {
+      return hostRole;
     }
     // Auto-compute based on variant
     if (this.variant === 'success' || this.variant === 'error') {
@@ -254,14 +258,14 @@ export class AegovBanner {
   }
 
   componentWillLoad() {
+    if (!this.fieldId) {
+      this.fieldId = generateId('aegov-banner');
+    }
     warnIfInvalidEnumProp(this.variant, CALLOUT_VARIANTS, 'default', ctx('variant'));
     warnIfInvalidEnumProp(this.appearance, CALLOUT_APPEARANCES, 'soft', ctx('appearance'));
     warnIfInvalidEnumProp(this.position, BANNER_POSITIONS, 'top', ctx('position'));
     warnIfInvalidEnumProp(this.display, BANNER_DISPLAYS, 'fixed', ctx('display'));
     warnIfInvalidEnumProp(this.mode, BANNER_MODES, 'push', ctx('mode'));
-    if (this.ariaRole !== undefined) {
-      warnIfInvalidEnumProp(this.ariaRole, BANNER_ROLES, 'region', ctx('ariaRole'));
-    }
     this._sizeWatcher = watchResponsiveProp(this.size, BANNER_SIZES, 'base', v => {
       this._resolvedSize = v as BannerSize;
     });
@@ -292,18 +296,12 @@ export class AegovBanner {
   @Watch('mode')
   onModeChange(v: unknown) { warnIfInvalidEnumProp(v, BANNER_MODES, 'push', ctx('mode')); }
 
-  @Watch('ariaRole')
-  onAriaRoleChange(v: unknown) {
-    if (v === undefined) return;
-    warnIfInvalidEnumProp(v, BANNER_ROLES, 'region', ctx('ariaRole'));
-  }
-
   /**
    * Lifecycle: Component loaded
    */
   componentDidLoad() {
     // Auto-focus for critical alerts
-    if (this.autoFocus && this.getRole() === 'alert') {
+    if (this.isFocusable && this.getRole() === 'alert') {
       const banner = this.el.querySelector('[role]') as HTMLElement;
       banner?.focus();
     }
@@ -370,17 +368,22 @@ export class AegovBanner {
 
     const role = this.getRole();
     const ariaLive = this.getAriaLive();
-    const titleId = this.bannerTitle ? 'aegov-banner-title' : undefined;
+    const headingId = this.heading ? `${this.fieldId}-heading` : undefined;
+    // Pass-through aria-* and data-* attributes; `role` is consumed by getRole() so omit from spread
+    const passThroughAttributes = getPassThroughAttributes(this.el);
+    delete passThroughAttributes['role'];
 
     return (
       <div
+        id={this.fieldId}
         class={this.getBannerClasses()}
         role={role}
         aria-live={ariaLive}
-        aria-labelledby={titleId}
-        tabindex={this.autoFocus ? -1 : undefined}
+        aria-labelledby={headingId}
+        tabindex={this.isFocusable ? -1 : undefined}
+        {...passThroughAttributes}
       >
-        <div class="banner__container">          
+        <div class="banner__container">
            <div class="banner__content">
             <div class={`banner__text ${this.hasActionsSlot ? 'banner__text-left' : 'banner__text-center'}`}>
               <slot />
@@ -393,7 +396,7 @@ export class AegovBanner {
           </div>
 
           {/* Dismiss button */}
-          {this.dismissible && (
+          {this.isDismissible && (
             <button
               type="button"
               class="banner__dismiss"

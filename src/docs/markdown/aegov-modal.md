@@ -145,7 +145,7 @@ The `position` property controls where the modal appears on screen. There are th
 
 ## Backdrop Opacity
 
-The `backdrop-opacity` attribute controls the darkness of the overlay behind the modal.
+The `overlay-opacity` attribute controls the darkness of the overlay behind the modal.
 
 | Value   | Opacity |
 |---------|---------|
@@ -154,9 +154,9 @@ The `backdrop-opacity` attribute controls the darkness of the overlay behind the
 | `dark`  | 70%     |
 
 ```html
-<aegov-modal backdrop-opacity="light" aria-label="Light backdrop">...</aegov-modal>
-<aegov-modal backdrop-opacity="base" aria-label="Base backdrop">...</aegov-modal>
-<aegov-modal backdrop-opacity="dark" aria-label="Dark backdrop">...</aegov-modal>
+<aegov-modal overlay-opacity="light" aria-label="Light backdrop">...</aegov-modal>
+<aegov-modal overlay-opacity="base" aria-label="Base backdrop">...</aegov-modal>
+<aegov-modal overlay-opacity="dark" aria-label="Dark backdrop">...</aegov-modal>
 ```
 
 <div class="flex flex-wrap gap-3 p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
@@ -164,7 +164,7 @@ The `backdrop-opacity` attribute controls the darkness of the overlay behind the
   <aegov-button id="open-base-demo">Base Backdrop</aegov-button>
   <aegov-button id="open-dark-demo">Dark Backdrop</aegov-button>
 
-  <aegov-modal id="light-modal-demo" backdrop-opacity="light" aria-label="Light backdrop modal">
+  <aegov-modal id="light-modal-demo" overlay-opacity="light" aria-label="Light backdrop modal">
     <div style="padding: 2rem; max-width: 480px;">
       <h2 style="margin: 0 0 0.5rem;">Light Backdrop</h2>
       <p style="margin: 0 0 1.5rem; color: #64748b;">The backdrop is 30% opaque.</p>
@@ -172,7 +172,7 @@ The `backdrop-opacity` attribute controls the darkness of the overlay behind the
     </div>
   </aegov-modal>
 
-  <aegov-modal id="base-modal-demo" backdrop-opacity="base" aria-label="Base backdrop modal">
+  <aegov-modal id="base-modal-demo" overlay-opacity="base" aria-label="Base backdrop modal">
     <div style="padding: 2rem; max-width: 480px;">
       <h2 style="margin: 0 0 0.5rem;">Base Backdrop</h2>
       <p style="margin: 0 0 1.5rem; color: #64748b;">The backdrop is 50% opaque (default).</p>
@@ -180,7 +180,7 @@ The `backdrop-opacity` attribute controls the darkness of the overlay behind the
     </div>
   </aegov-modal>
 
-  <aegov-modal id="dark-modal-demo" backdrop-opacity="dark" aria-label="Dark backdrop modal">
+  <aegov-modal id="dark-modal-demo" overlay-opacity="dark" aria-label="Dark backdrop modal">
     <div style="padding: 2rem; max-width: 480px;">
       <h2 style="margin: 0 0 0.5rem;">Dark Backdrop</h2>
       <p style="margin: 0 0 1.5rem; color: #64748b;">The backdrop is 70% opaque.</p>
@@ -206,14 +206,14 @@ The `backdrop-opacity` attribute controls the darkness of the overlay behind the
 
 ### Backdrop Click
 
-By default, clicking the backdrop closes the modal. Set `close-with-backdrop="false"` to disable this behaviour, requiring the user to interact with an explicit close control.
+By default, clicking the backdrop closes the modal. Set `is-close-with-overlay="false"` to disable this behaviour, requiring the user to interact with an explicit close control.
 
 ```html
 <!-- Backdrop click closes (default) -->
-<aegov-modal close-with-backdrop="true" aria-label="Closable modal">...</aegov-modal>
+<aegov-modal is-close-with-overlay="true" aria-label="Closable modal">...</aegov-modal>
 
 <!-- Backdrop click does NOT close -->
-<aegov-modal close-with-backdrop="false" aria-label="Persistent modal">...</aegov-modal>
+<aegov-modal is-close-with-overlay="false" aria-label="Persistent modal">...</aegov-modal>
 ```
 
 <div class="flex flex-wrap gap-3 p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
@@ -228,7 +228,7 @@ By default, clicking the backdrop closes the modal. Set `close-with-backdrop="fa
     </div>
   </aegov-modal>
 
-  <aegov-modal id="persistent-modal-demo" close-with-backdrop="false" aria-label="Persistent modal">
+  <aegov-modal id="persistent-modal-demo" is-close-with-overlay="false" aria-label="Persistent modal">
     <div style="padding: 2rem; max-width: 480px;">
       <h2 style="margin: 0 0 0.5rem;">Persistent Modal</h2>
       <p style="margin: 0 0 1.5rem; color: #64748b;">Clicking the backdrop will not close this modal. You must use the button below or press Escape.</p>
@@ -390,14 +390,14 @@ The `aegovModalBeforeClose` event fires before the modal begins its closing anim
 
 ## Body Scroll Lock
 
-By default, the modal prevents the page from scrolling while it is open. Set `prevent-body-scroll="false"` to allow background scrolling.
+By default, the modal prevents the page from scrolling while it is open. Set `is-prevent-scroll="false"` to allow background scrolling.
 
 ```html
 <!-- Body scroll locked (default) -->
-<aegov-modal prevent-body-scroll="true" aria-label="Locked scroll">...</aegov-modal>
+<aegov-modal is-prevent-scroll="true" aria-label="Locked scroll">...</aegov-modal>
 
 <!-- Body scroll allowed -->
-<aegov-modal prevent-body-scroll="false" aria-label="Unlocked scroll">...</aegov-modal>
+<aegov-modal is-prevent-scroll="false" aria-label="Unlocked scroll">...</aegov-modal>
 ```
 
 The scroll lock is reference-counted, so nesting multiple modals works correctly — scrolling is only restored when the last overlay closes.
@@ -466,7 +466,7 @@ The modal uses a single default slot. You are responsible for structuring the co
 ### Confirmation Dialog
 
 ```html
-<aegov-modal id="delete-modal" close-with-backdrop="false" aria-label="Delete confirmation">
+<aegov-modal id="delete-modal" is-close-with-overlay="false" aria-label="Delete confirmation">
   <div style="padding: 2rem; max-width: 400px; text-align: center;">
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#dc2626" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width: 48px; height: 48px; margin: 0 auto 1rem;">
       <circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/>
@@ -483,7 +483,7 @@ The modal uses a single default slot. You are responsible for structuring the co
 
 <div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
   <aegov-button appearance="danger" id="open-delete-demo">Delete Item</aegov-button>
-  <aegov-modal id="delete-modal-demo" close-with-backdrop="false" aria-label="Delete confirmation">
+  <aegov-modal id="delete-modal-demo" is-close-with-overlay="false" aria-label="Delete confirmation">
     <div style="padding: 2rem; max-width: 400px; text-align: center;">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#dc2626" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width: 48px; height: 48px; margin: 0 auto 1rem;">
         <circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/>
@@ -583,9 +583,9 @@ The modal emits five custom events to let you react to lifecycle changes.
 | Property             | Attribute              | Description                                     | Type                                    | Default    |
 |----------------------|------------------------|-------------------------------------------------|-----------------------------------------|------------|
 | `open`               | `open`                 | Whether the modal is currently visible          | `boolean`                               | `false`    |
-| `closeWithBackdrop`  | `close-with-backdrop`  | Whether clicking the backdrop closes the modal  | `boolean`                               | `true`     |
-| `preventBodyScroll`  | `prevent-body-scroll`  | Whether to lock body scroll when open           | `boolean`                               | `true`     |
-| `backdropOpacity`    | `backdrop-opacity`     | Backdrop darkness level                         | `'light'` \| `'base'` \| `'dark'`      | `'base'`   |
+| `isCloseWithOverlay`  | `is-close-with-overlay`  | Whether clicking the backdrop closes the modal  | `boolean`                               | `true`     |
+| `isPreventScroll`  | `is-prevent-scroll`  | Whether to lock body scroll when open           | `boolean`                               | `true`     |
+| `overlayOpacity`    | `overlay-opacity`     | Backdrop darkness level                         | `'light'` \| `'base'` \| `'dark'`      | `'base'`   |
 | `position`           | `position`             | Position of the modal on screen                 | `'center'` \| `'top'` \| `'bottom'`    | `'center'` |
 
 ### Events
@@ -670,7 +670,7 @@ The following items require action from the developer implementing the component
 
 - The `aegov-modal` component uses **Shadow DOM** (`shadow: true`). This means internal styles are fully encapsulated and you style the slotted content using regular CSS from the light DOM.
 - The modal **portals itself to `document.body`** on connection. This ensures correct stacking order regardless of where the element is placed in the source HTML.
-- The `open` property is **reflected** to an attribute. You can set it declaratively (`<aegov-modal open>`) or programmatically via the `show()`, `close()`, and `toggle()` methods.
+- The `is-open` property is **reflected** to an attribute. You can set it declaratively (`<aegov-modal is-open>`) or programmatically via the `show()`, `close()`, and `toggle()` methods.
 - **Z-index management** is automatic. Each modal receives a unique z-index from a shared overlay stack, so nested or sequential modals always layer correctly.
 - Open and close **animations** use a 200ms cubic-bezier transition. The backdrop fades in/out while the content panel scales and fades. When `prefers-reduced-motion` is active, these animations are skipped.
 - The `close()` method and all implicit close triggers (backdrop click, Escape) go through `aegovModalBeforeClose`, making the cancellation mechanism consistent regardless of how the close was initiated.

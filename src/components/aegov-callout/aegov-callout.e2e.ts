@@ -91,14 +91,14 @@ describe('aegov-callout E2E', () => {
 
     it('should show dismiss button when dismissible', async () => {
       const page = await newE2EPage();
-      await page.setContent('<aegov-callout dismissible><span slot="content">Message</span></aegov-callout>');
+      await page.setContent('<aegov-callout is-dismissible><span slot="content">Message</span></aegov-callout>');
       const dismissButton = await page.find('aegov-callout button[aria-label="Close callout"]');
       expect(dismissButton).toBeTruthy();
     });
 
     it('should hide callout when dismiss button clicked', async () => {
       const page = await newE2EPage();
-      await page.setContent('<aegov-callout dismissible><span slot="content">Message</span></aegov-callout>');
+      await page.setContent('<aegov-callout is-dismissible><span slot="content">Message</span></aegov-callout>');
 
       let callout = await page.find('aegov-callout [data-aegov-callout]');
       expect(callout).toBeTruthy();
@@ -113,7 +113,7 @@ describe('aegov-callout E2E', () => {
 
     it('should emit aegovCalloutDismiss event', async () => {
       const page = await newE2EPage();
-      await page.setContent('<aegov-callout dismissible><span slot="content">Message</span></aegov-callout>');
+      await page.setContent('<aegov-callout is-dismissible><span slot="content">Message</span></aegov-callout>');
       const dismissSpy = await page.spyOnEvent('aegovCalloutDismiss');
       const dismissButton = await page.find('aegov-callout button[aria-label="Close callout"]');
       await dismissButton.click();
@@ -181,7 +181,7 @@ describe('aegov-callout E2E', () => {
     it('should apply multiple props correctly', async () => {
       const page = await newE2EPage();
       await page.setContent(`
-        <aegov-callout variant="success" appearance="solid" bordered dismissible>
+        <aegov-callout variant="success" appearance="solid" bordered is-dismissible>
           <span slot="content">Success message</span>
         </aegov-callout>
       `);
@@ -207,14 +207,14 @@ describe('aegov-callout E2E', () => {
 
     it('should have aria-label on dismiss button', async () => {
       const page = await newE2EPage();
-      await page.setContent('<aegov-callout dismissible><span slot="content">Message</span></aegov-callout>');
+      await page.setContent('<aegov-callout is-dismissible><span slot="content">Message</span></aegov-callout>');
       const dismissButton = await page.find('aegov-callout button[aria-label="Close callout"]');
       expect(await dismissButton.getAttribute('aria-label')).toBe('Close callout');
     });
 
     it('should have aria-hidden on dismiss icon', async () => {
       const page = await newE2EPage();
-      await page.setContent('<aegov-callout dismissible><span slot="content">Message</span></aegov-callout>');
+      await page.setContent('<aegov-callout is-dismissible><span slot="content">Message</span></aegov-callout>');
       const svg = await page.find('aegov-callout button[aria-label="Close callout"] svg');
       expect(await svg.getAttribute('aria-hidden')).toBe('true');
     });

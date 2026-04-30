@@ -36,7 +36,7 @@ export class AegovTitle {
   /**
    * Additional CSS classes to apply to the title.
    */
-  @Prop() class?: string;
+  @Prop() extraClass?: string;
 
   private static readonly PASS_THROUGH_ATTRS = new Set(['id']);
 
@@ -79,8 +79,8 @@ export class AegovTitle {
     classes.push(sizeClasses[size]);
 
     // Merge with custom classes if provided
-    if (this.class) {
-      classes.push(this.class);
+    if (this.extraClass) {
+      classes.push(this.extraClass);
     }
 
     return classes.join(' ');

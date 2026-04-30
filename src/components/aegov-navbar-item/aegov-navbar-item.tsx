@@ -13,8 +13,8 @@ const CHEVRON_SVG = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 25
  * Optional submenu via `slot="dropdown"` containing an aegov-dropdown — the
  * navbar-item itself becomes the dropdown trigger so hover/position resolve to
  * the full item rect, and a chevron button is injected for keyboard/click
- * toggling. The user controls the dropdown's `trigger-type` (e.g. set
- * `trigger-type="hover"` for hover open).
+ * toggling. The user controls the dropdown's `trigger` (e.g. set
+ * `trigger="hover"` for hover open).
  *
  * @slot           - Item label.
  * @slot icon-start - Optional prefix icon (SVG).
@@ -24,7 +24,7 @@ const CHEVRON_SVG = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 25
  * <aegov-navbar-item href="/products">
  *   <svg slot="icon-start" ...></svg>
  *   Products
- *   <aegov-dropdown slot="dropdown" trigger-type="hover">
+ *   <aegov-dropdown slot="dropdown" trigger="hover">
  *     <a slot="dropdown-content" href="/a">Item A</a>
  *   </aegov-dropdown>
  * </aegov-navbar-item>
@@ -50,10 +50,10 @@ export class AegovNavbarItem {
   @Prop() rel?: string;
 
   /** Mark this item as the current page. Sets `aria-current="page"`. */
-  @Prop() active: boolean = false;
+  @Prop() isActive: boolean = false;
 
   /** Visually disabled, not clickable, removed from arrow-key cycle. */
-  @Prop() disabled: boolean = false;
+  @Prop() isDisabled: boolean = false;
 
   /**
    * Size token. Accepts a Tailwind-style responsive string (e.g.
@@ -77,7 +77,7 @@ export class AegovNavbarItem {
     this.hasDropdown = !!this.el.querySelector('aegov-dropdown[slot="dropdown"]');
     // Inject link + chevron BEFORE the dropdown hydrates so they are captured
     // as the dropdown's default-slot content (becoming the trigger area).
-    if (this.hasDropdown && !this.disabled) {
+    if (this.hasDropdown && !this.isDisabled) {
       this.wireDropdown();
     }
   }
@@ -131,7 +131,7 @@ export class AegovNavbarItem {
       if (this.target) link.setAttribute('target', this.target);
       if (this.rel) link.setAttribute('rel', this.rel);
     }
-    if (this.active) link.setAttribute('aria-current', 'page');
+    if (this.isActive) link.setAttribute('aria-current', 'page');
 
     // Move user-provided icon into the link.
     const iconEl = this.el.querySelector('[slot="icon-start"]') as HTMLElement | null;
@@ -218,13 +218,13 @@ export class AegovNavbarItem {
       'aegov-navbar-item': true,
       [sizeClass]: true,
       'aegov-navbar-item--has-dropdown': this.hasDropdown,
-      'aegov-navbar-item--active': this.active,
-      'aegov-navbar-item--disabled': this.disabled,
+      'aegov-navbar-item--active': this.isActive,
+      'aegov-navbar-item--disabled': this.isDisabled,
     };
 
     // hasDropdown && !disabled: link/chevron live inside the user's
     // <aegov-dropdown>. Render only the dropdown slot.
-    if (this.hasDropdown && !this.disabled) {
+    if (this.hasDropdown && !this.isDisabled) {
       return (
         <Host>
           <li class={liClasses}>
@@ -247,7 +247,7 @@ export class AegovNavbarItem {
     );
 
     let inner: any;
-    if (this.disabled) {
+    if (this.isDisabled) {
       inner = (
         <span class="aegov-navbar-item__link" aria-disabled="true">
           {iconNode}
@@ -261,7 +261,7 @@ export class AegovNavbarItem {
           href={this.href}
           target={this.target}
           rel={this.rel}
-          aria-current={this.active ? 'page' : undefined}
+          aria-current={this.isActive ? 'page' : undefined}
         >
           {iconNode}
           {labelNode}
@@ -271,7 +271,7 @@ export class AegovNavbarItem {
       inner = (
         <span
           class="aegov-navbar-item__link"
-          aria-current={this.active ? 'page' : undefined}
+          aria-current={this.isActive ? 'page' : undefined}
         >
           {iconNode}
           {labelNode}

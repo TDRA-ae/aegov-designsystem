@@ -71,7 +71,7 @@ describe('aegov-badge', () => {
         components: [AegovBadge],
         html: `<aegov-badge>Badge</aegov-badge>`,
       });
-      expect(page.rootInstance.dismissible).toBe(false);
+      expect(page.rootInstance.isDismissible).toBe(false);
     });
   });
 
@@ -160,7 +160,7 @@ describe('aegov-badge', () => {
     it('renders dismiss button when dismissible', async () => {
       const page = await newSpecPage({
         components: [AegovBadge],
-        html: `<aegov-badge dismissible>Badge</aegov-badge>`,
+        html: `<aegov-badge is-dismissible>Badge</aegov-badge>`,
       });
       const btn = page.root.querySelector('.badge-dismiss');
       expect(btn).toBeTruthy();
@@ -169,7 +169,7 @@ describe('aegov-badge', () => {
     it('emits aegovBadgeDismiss on dismiss click', async () => {
       const page = await newSpecPage({
         components: [AegovBadge],
-        html: `<aegov-badge dismissible>Badge</aegov-badge>`,
+        html: `<aegov-badge is-dismissible>Badge</aegov-badge>`,
       });
       const spy = jest.fn();
       page.root.addEventListener('aegovBadgeDismiss', spy);
@@ -184,7 +184,7 @@ describe('aegov-badge', () => {
     it('has aria-label on dismiss button', async () => {
       const page = await newSpecPage({
         components: [AegovBadge],
-        html: `<aegov-badge dismissible>Badge</aegov-badge>`,
+        html: `<aegov-badge is-dismissible>Badge</aegov-badge>`,
       });
       const btn = page.root.querySelector('.badge-dismiss');
       expect(btn.getAttribute('aria-label')).toBe('Badge dismiss button');
@@ -193,7 +193,7 @@ describe('aegov-badge', () => {
     it('has SVG icon in dismiss button', async () => {
       const page = await newSpecPage({
         components: [AegovBadge],
-        html: `<aegov-badge dismissible>Badge</aegov-badge>`,
+        html: `<aegov-badge is-dismissible>Badge</aegov-badge>`,
       });
       const svg = page.root.querySelector('.badge-dismiss svg');
       expect(svg).toBeTruthy();
@@ -206,12 +206,12 @@ describe('aegov-badge', () => {
     it('applies all props correctly', async () => {
       const page = await newSpecPage({
         components: [AegovBadge],
-        html: `<aegov-badge color="primary" appearance="solid" size="lg" dismissible>Badge</aegov-badge>`,
+        html: `<aegov-badge color="primary" appearance="solid" size="lg" is-dismissible>Badge</aegov-badge>`,
       });
       expect(page.rootInstance.color).toBe('primary');
       expect(page.rootInstance.appearance).toBe('solid');
       expect(page.rootInstance.size).toBe('lg');
-      expect(page.rootInstance.dismissible).toBe(true);
+      expect(page.rootInstance.isDismissible).toBe(true);
     });
   });
 

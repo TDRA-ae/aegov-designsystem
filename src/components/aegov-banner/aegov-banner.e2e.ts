@@ -131,9 +131,9 @@ describe('aegov-banner E2E', () => {
       expect(dismissButton).toBeTruthy();
     });
 
-    it('should not render dismiss button when dismissible=false', async () => {
+    it('should not render dismiss button when is-dismissible=false', async () => {
       const page = await newE2EPage();
-      await page.setContent('<aegov-banner dismissible="false">Message</aegov-banner>');
+      await page.setContent('<aegov-banner is-dismissible="false">Message</aegov-banner>');
       const dismissButton = await page.find('aegov-banner .banner__dismiss');
       expect(dismissButton).toBeFalsy();
     });
@@ -208,16 +208,16 @@ describe('aegov-banner E2E', () => {
       expect(await banner.getAttribute('aria-live')).toBe('assertive');
     });
 
-    it('should have aria-labelledby when bannerTitle is provided', async () => {
+    it('should have aria-labelledby when heading is provided', async () => {
       const page = await newE2EPage();
-      await page.setContent('<aegov-banner banner-title="Notice">Message</aegov-banner>');
+      await page.setContent('<aegov-banner heading="Notice">Message</aegov-banner>');
       const banner = await page.find('aegov-banner .aegov-banner');
       expect(await banner.getAttribute('aria-labelledby')).toBe('aegov-banner-title');
     });
 
-    it('should allow custom ARIA role override', async () => {
+    it('should allow custom ARIA role override via pass-through', async () => {
       const page = await newE2EPage();
-      await page.setContent('<aegov-banner aria-role="status">Message</aegov-banner>');
+      await page.setContent('<aegov-banner role="status">Message</aegov-banner>');
       const banner = await page.find('aegov-banner .aegov-banner');
       expect(await banner.getAttribute('role')).toBe('status');
     });

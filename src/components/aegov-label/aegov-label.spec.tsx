@@ -66,7 +66,7 @@ describe('aegov-label', () => {
     it('merges custom class with defaults', async () => {
       const page = await newSpecPage({
         components: [AegovLabel],
-        html: `<aegov-label class="text-red-500">Email</aegov-label>`,
+        html: `<aegov-label extra-class="text-red-500">Email</aegov-label>`,
       });
       const label = page.root.querySelector('label');
       expect(label.className).toContain('aegov-label');

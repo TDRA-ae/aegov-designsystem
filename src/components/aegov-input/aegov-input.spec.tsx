@@ -227,7 +227,7 @@ describe('aegov-input', () => {
     it('merges custom class with defaults', async () => {
       const page = await newSpecPage({
         components: [AegovInput],
-        html: `<aegov-input class="my-custom-class"></aegov-input>`,
+        html: `<aegov-input extra-class="my-custom-class"></aegov-input>`,
       });
       const input = page.root.querySelector('input');
       expect(input.className).toContain('aegov-input');

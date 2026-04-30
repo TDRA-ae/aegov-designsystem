@@ -44,7 +44,7 @@ describe('aegov-card e2e', () => {
   // BACKGROUNDS
   // ============================================
 
-  it('renders white background by default', async () => {
+  it('renders white  bg by default', async () => {
     const page = await newE2EPage();
     await page.setContent(`<aegov-card>Content</aegov-card>`);
     const card = await page.find('aegov-card .card-bg-white');
@@ -53,7 +53,7 @@ describe('aegov-card e2e', () => {
 
   it('renders subtle background', async () => {
     const page = await newE2EPage();
-    await page.setContent(`<aegov-card background="subtle">Content</aegov-card>`);
+    await page.setContent(`<aegov-card bg="subtle">Content</aegov-card>`);
     const card = await page.find('aegov-card .card-bg-subtle');
     expect(card).toBeTruthy();
   });
@@ -69,9 +69,9 @@ describe('aegov-card e2e', () => {
     expect(card).toBeTruthy();
   });
 
-  it('removes padding when disallow-padding is set', async () => {
+  it('removes padding when is-padding="false" is set', async () => {
     const page = await newE2EPage();
-    await page.setContent(`<aegov-card disallow-padding>Content</aegov-card>`);
+    await page.setContent(`<aegov-card is-padding="false">Content</aegov-card>`);
     const card = await page.find('aegov-card .card--padded');
     expect(card).toBeNull();
   });
@@ -227,7 +227,7 @@ describe('aegov-card e2e', () => {
   it('size affects radius even when padding is disallowed', async () => {
     const page = await newE2EPage();
     await page.setViewport({ width: 1024, height: 768 });
-    await page.setContent(`<aegov-card size="lg" disallow-padding>Content</aegov-card>`);
+    await page.setContent(`<aegov-card size="lg" is-padding="false">Content</aegov-card>`);
     const card = await page.find('aegov-card .aegov-card');
     const styles = await card.getComputedStyle();
     expect(styles['padding']).toBe('0px');
@@ -277,7 +277,7 @@ describe('aegov-card e2e', () => {
   it('renders with all props combined', async () => {
     const page = await newE2EPage();
     await page.setContent(`
-      <aegov-card border-width="3" background="subtle" hover="glow" size="lg">
+      <aegov-card border-width="3" bg="subtle" hover="glow" size="lg">
         <h2>Full Card</h2>
         <p>With all props set</p>
       </aegov-card>
@@ -295,7 +295,7 @@ describe('aegov-card e2e', () => {
     const page = await newE2EPage();
     await page.setContent(`
       <aegov-card hover="standard">Card 1</aegov-card>
-      <aegov-card hover="glow" background="subtle">Card 2</aegov-card>
+      <aegov-card hover="glow" bg="subtle">Card 2</aegov-card>
     `);
     const cards = await page.findAll('aegov-card .aegov-card');
     expect(cards.length).toBe(2);

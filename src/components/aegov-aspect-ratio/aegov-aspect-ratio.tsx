@@ -36,11 +36,9 @@ export class AegovAspectRatio {
   @Prop() fit: AspectRatioFit = 'cover';
 
   /**
-   * Additional CSS classes to apply to the inner container. Useful for
-   * responsive aspect-ratio overrides (e.g. 'md:aspect-square') or
-   * background/border utilities.
+   * Additional CSS classes merged onto the inner aspect-ratio container.
    */
-  @Prop({ attribute: 'inner-class' }) innerClass?: string;
+  @Prop() extraClass?: string;
 
   componentWillLoad() {
     warnIfInvalidEnumProp(this.fit, ASPECT_RATIO_FITS, 'cover', ctx('fit'));
@@ -66,21 +64,14 @@ export class AegovAspectRatio {
     }
   }
 
-  private getContainerClasses(): string {
-    const classes = ['aegov-aspect-ratio'];
-    if (this.innerClass) {
-      classes.push(this.innerClass);
-    }
-    return classes.join(' ');
-  }
-
   render() {
     const ratioStyle = { 'aspect-ratio': this.resolveRatio() };
     const fit: AspectRatioFit = (ASPECT_RATIO_FITS as readonly string[]).includes(this.fit) ? this.fit : 'cover';
+    const containerClass = ['aegov-aspect-ratio', this.extraClass || ''].filter(Boolean).join(' ');
 
     return (
       <Host>
-        <div class={this.getContainerClasses()} style={ratioStyle} data-fit={fit}>
+        <div class={containerClass} style={ratioStyle} data-fit={fit}>
           <slot />
         </div>
       </Host>

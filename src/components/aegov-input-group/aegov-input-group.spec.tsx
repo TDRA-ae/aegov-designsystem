@@ -185,7 +185,7 @@ describe('aegov-input-group', () => {
     it('should merge custom classes', async () => {
       const page = await newSpecPage({
         components: [AegovInputGroup],
-        html: `<aegov-input-group class="mt-4"></aegov-input-group>`,
+        html: `<aegov-input-group extra-class="mt-4"></aegov-input-group>`,
       });
       const div = page.root.querySelector('.aegov-input-group');
       expect(div.classList.contains('mt-4')).toBe(true);

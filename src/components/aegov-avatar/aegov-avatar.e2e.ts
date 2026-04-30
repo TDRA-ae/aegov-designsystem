@@ -52,7 +52,7 @@ describe('aegov-avatar E2E', () => {
   describe('variants', () => {
     it('should apply square variant (default)', async () => {
       const page = await newE2EPage();
-      await page.setContent('<aegov-avatar variant="square"></aegov-avatar>');
+      await page.setContent('<aegov-avatar appearance="square"></aegov-avatar>');
       const avatar = await page.find('aegov-avatar .aegov-avatar');
       const classes = await avatar.getProperty('className');
       expect(classes).not.toContain('avatar-rounded');
@@ -60,7 +60,7 @@ describe('aegov-avatar E2E', () => {
 
     it('should apply rounded variant', async () => {
       const page = await newE2EPage();
-      await page.setContent('<aegov-avatar variant="rounded"></aegov-avatar>');
+      await page.setContent('<aegov-avatar appearance="rounded"></aegov-avatar>');
       const avatar = await page.find('aegov-avatar .aegov-avatar');
       const classes = await avatar.getProperty('className');
       expect(classes).toContain('avatar-rounded');
@@ -155,14 +155,14 @@ describe('aegov-avatar E2E', () => {
 
     it('should update when variant changes', async () => {
       const page = await newE2EPage();
-      await page.setContent('<aegov-avatar variant="square"></aegov-avatar>');
+      await page.setContent('<aegov-avatar appearance="square"></aegov-avatar>');
       const element = await page.find('aegov-avatar');
       const avatar = await page.find('aegov-avatar .aegov-avatar');
 
       let classes = await avatar.getProperty('className');
       expect(classes).not.toContain('avatar-rounded');
 
-      element.setProperty('variant', 'rounded');
+      element.setProperty('appearance', 'rounded');
       await page.waitForChanges();
 
       classes = await avatar.getProperty('className');

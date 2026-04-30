@@ -258,7 +258,7 @@ describe('aegov-textarea', () => {
     it('merges custom class with defaults', async () => {
       const page = await newSpecPage({
         components: [AegovTextarea],
-        html: `<aegov-textarea class="my-custom-class"></aegov-textarea>`,
+        html: `<aegov-textarea extra-class="my-custom-class"></aegov-textarea>`,
       });
       const textarea = page.root.querySelector('textarea');
       expect(textarea.className).toContain('aegov-textarea');

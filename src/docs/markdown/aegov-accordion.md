@@ -85,17 +85,17 @@ A plus sign that rotates 45° to become an × when the section is open.
 
 ## Bordered Variant
 
-Set the `bordered` attribute on the parent to wrap the entire accordion in a visible border with rounded corners. This also increases the horizontal padding inside each item.
+Set the `is-bordered` attribute on the parent to wrap the entire accordion in a visible border with rounded corners. This also increases the horizontal padding inside each item.
 
 ```html
-<aegov-accordion bordered>
+<aegov-accordion is-bordered>
   <aegov-accordion-item heading="Bordered Item One">…</aegov-accordion-item>
   <aegov-accordion-item heading="Bordered Item Two">…</aegov-accordion-item>
 </aegov-accordion>
 ```
 
 <div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-accordion bordered>
+  <aegov-accordion is-bordered>
     <aegov-accordion-item heading="Bordered Item One">
       The accordion container has a visible border and rounded corners.
     </aegov-accordion-item>
@@ -111,7 +111,7 @@ Set the `bordered` attribute on the parent to wrap the entire accordion in a vis
 Bordered with the plus icon:
 
 <div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-accordion bordered icon="plus">
+  <aegov-accordion is-bordered icon="plus">
     <aegov-accordion-item heading="Bordered + Plus One">
       Combining the bordered variant with the plus icon style.
     </aegov-accordion-item>
@@ -125,10 +125,10 @@ Bordered with the plus icon:
 
 ## Allow Multiple Open
 
-By default, only one accordion item can be open at a time — opening a new item automatically closes the previous one. Set `allow-multiple` to let users keep several sections open simultaneously.
+By default, only one accordion item can be open at a time — opening a new item automatically closes the previous one. Set `is-multiple` to let users keep several sections open simultaneously.
 
 ```html
-<aegov-accordion allow-multiple>
+<aegov-accordion is-multiple>
   <aegov-accordion-item heading="Section A">…</aegov-accordion-item>
   <aegov-accordion-item heading="Section B">…</aegov-accordion-item>
   <aegov-accordion-item heading="Section C">…</aegov-accordion-item>
@@ -136,7 +136,7 @@ By default, only one accordion item can be open at a time — opening a new item
 ```
 
 <div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-accordion allow-multiple bordered>
+  <aegov-accordion is-multiple is-bordered>
     <aegov-accordion-item heading="Section A">
       Open this section, then open the others — they all stay open.
     </aegov-accordion-item>
@@ -165,7 +165,7 @@ Use the `default-open` attribute on the parent to specify which item should be e
 ```
 
 <div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-accordion default-open="1" bordered>
+  <aegov-accordion default-open="1" is-bordered>
     <aegov-accordion-item heading="First Item">
       This item is collapsed by default.
     </aegov-accordion-item>
@@ -193,7 +193,7 @@ Set the `disabled` attribute on an individual `<aegov-accordion-item>` to preven
 ```
 
 <div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-accordion bordered>
+  <aegov-accordion is-bordered>
     <aegov-accordion-item heading="Enabled Section">
       This section can be toggled normally.
     </aegov-accordion-item>
@@ -225,7 +225,7 @@ By default, the heading text is provided via the `heading` prop. For richer cont
 ```
 
 <div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-accordion bordered>
+  <aegov-accordion is-bordered>
     <aegov-accordion-item heading="Plain heading via prop">
       This heading was set using the heading attribute.
     </aegov-accordion-item>
@@ -254,13 +254,13 @@ The `size` attribute on the parent controls the heading font size for all items.
 ### Small
 
 ```html
-<aegov-accordion size="sm" bordered>
+<aegov-accordion size="sm" is-bordered>
   <aegov-accordion-item heading="Small Heading">…</aegov-accordion-item>
 </aegov-accordion>
 ```
 
 <div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-accordion size="sm" bordered>
+  <aegov-accordion size="sm" is-bordered>
     <aegov-accordion-item heading="Small — What is digital transformation?">
       Digital transformation is the integration of digital technology into all areas of an organisation, fundamentally changing how it operates and delivers value.
     </aegov-accordion-item>
@@ -276,13 +276,13 @@ The `size` attribute on the parent controls the heading font size for all items.
 ### Base (default)
 
 ```html
-<aegov-accordion bordered>
+<aegov-accordion is-bordered>
   <aegov-accordion-item heading="Base Heading">…</aegov-accordion-item>
 </aegov-accordion>
 ```
 
 <div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-accordion bordered>
+  <aegov-accordion is-bordered>
     <aegov-accordion-item heading="Base — What is digital transformation?">
       Digital transformation is the integration of digital technology into all areas of an organisation, fundamentally changing how it operates and delivers value.
     </aegov-accordion-item>
@@ -298,13 +298,13 @@ The `size` attribute on the parent controls the heading font size for all items.
 ### Large
 
 ```html
-<aegov-accordion size="lg" bordered>
+<aegov-accordion size="lg" is-bordered>
   <aegov-accordion-item heading="Large Heading">…</aegov-accordion-item>
 </aegov-accordion>
 ```
 
 <div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-accordion size="lg" bordered>
+  <aegov-accordion size="lg" is-bordered>
     <aegov-accordion-item heading="Large — What is digital transformation?">
       Digital transformation is the integration of digital technology into all areas of an organisation, fundamentally changing how it operates and delivers value.
     </aegov-accordion-item>
@@ -324,7 +324,7 @@ The `size` prop accepts Tailwind-style responsive prefixes. Write a space-separa
 Available breakpoints: `xs` (480px), `sm` (640px), `md` (768px), `lg` (1024px), `xl` (1280px), `2xl` (1536px), `3xl` (1680px).
 
 ```html
-<aegov-accordion size="sm xl:lg" bordered>
+<aegov-accordion size="sm xl:lg" is-bordered>
   <aegov-accordion-item heading="Responsive Accordion Item">
     This accordion uses small heading text by default, switching to large at 1280px and above.
   </aegov-accordion-item>
@@ -335,7 +335,7 @@ Available breakpoints: `xs` (480px), `sm` (640px), `md` (768px), `lg` (1024px), 
 ```
 
 <div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-accordion size="sm xl:lg" bordered>
+  <aegov-accordion size="sm xl:lg" is-bordered>
     <aegov-accordion-item heading="Responsive Accordion Item">
       This accordion uses small heading text by default, switching to large at 1280px and above.
     </aegov-accordion-item>
@@ -354,7 +354,7 @@ Available breakpoints: `xs` (480px), `sm` (640px), `md` (768px), `lg` (1024px), 
 When a heading exceeds 100 characters it wraps onto multiple lines. The trigger button stretches vertically to accommodate the full text, and the icon stays pinned to the top-right so it never overlaps the heading.
 
 ```html
-<aegov-accordion bordered>
+<aegov-accordion is-bordered>
   <aegov-accordion-item heading="Understanding the Role of Digital Transformation in Modernising Government Services Across the UAE">
     Content for the long-title section.
   </aegov-accordion-item>
@@ -365,7 +365,7 @@ When a heading exceeds 100 characters it wraps onto multiple lines. The trigger 
 ```
 
 <div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-accordion bordered>
+  <aegov-accordion is-bordered>
     <aegov-accordion-item heading="Understanding the Role of Digital Transformation in Modernising Government Services Across the UAE">
       This item's heading is well over 100 characters. Notice how it wraps naturally across multiple lines while the chevron icon remains anchored to the top-right corner of the header, keeping the layout clean and readable.
     </aegov-accordion-item>
@@ -378,7 +378,7 @@ When a heading exceeds 100 characters it wraps onto multiple lines. The trigger 
   </aegov-accordion>
 </div>
 
-The same behaviour applies with the `plus` icon and without the `bordered` variant:
+The same behaviour applies with the `plus` icon and without the `is-bordered` variant:
 
 <div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
   <aegov-accordion icon="plus">
@@ -399,7 +399,7 @@ The component fully supports right-to-left layouts. When the document or a paren
 
 ```html
 <div dir="rtl">
-  <aegov-accordion bordered>
+  <aegov-accordion is-bordered>
     <aegov-accordion-item heading="القسم الأول">
       محتوى القسم الأول
     </aegov-accordion-item>
@@ -411,7 +411,7 @@ The component fully supports right-to-left layouts. When the document or a paren
 ```
 
 <div dir="rtl" class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-accordion bordered>
+  <aegov-accordion is-bordered>
     <aegov-accordion-item heading="القسم الأول">
       محتوى القسم الأول يظهر هنا عند التوسيع.
     </aegov-accordion-item>
@@ -447,7 +447,7 @@ Each `<aegov-accordion-item>` emits an `aegovAccordionItemToggle` event when tog
 </script>
 ```
 
-> **Note:** When `allow-multiple` is not set, the parent component intercepts toggle events and automatically closes other items. The event still fires so you can react to state changes in your application.
+> **Note:** When `is-multiple` is not set, the parent component intercepts toggle events and automatically closes other items. The event still fires so you can react to state changes in your application.
 
 ---
 
@@ -459,10 +459,10 @@ Each `<aegov-accordion-item>` emits an `aegovAccordionItemToggle` event when tog
 
 | Property        | Attribute        | Description                                       | Type                                | Default     |
 |-----------------|------------------|---------------------------------------------------|-------------------------------------|-------------|
-| `allowMultiple` | `allow-multiple` | Allow multiple items to be open simultaneously    | `boolean`                           | `false`     |
+| `isMultiple` | `is-multiple` | Allow multiple items to be open simultaneously    | `boolean`                           | `false`     |
 | `defaultOpen`   | `default-open`   | Index of the item to open by default (0-based)    | `number`                            | `undefined` |
 | `icon`          | `icon`           | Icon style for all child items                    | `'chevron'` \| `'plus'`            | `'chevron'` |
-| `bordered`      | `bordered`       | Show a border around the accordion                | `boolean`                           | `false`     |
+| `is-bordered`      | `is-bordered`       | Show a border around the accordion                | `boolean`                           | `false`     |
 | `size`          | `size`           | Heading font size for all child items. Supports responsive strings (e.g. `'sm xl:lg'`). | `'sm'` \| `'base'` \| `'lg'`      | `'base'`    |
 
 #### Slots
@@ -528,8 +528,8 @@ The `aegov-accordion` component is built with accessibility as a first-class con
 
 - The `<aegov-accordion-item>` component **must** be used inside `<aegov-accordion>`. Using it standalone will throw an error.
 - The `icon` property is set on the **parent** and applies to all child items. You cannot set different icon styles per item.
-- The `bordered` property adds a border around the entire accordion and increases internal padding. Individual items do not have a bordered option.
-- When `allow-multiple` is `false` (the default), opening a new item automatically closes the currently open one. The parent manages this behaviour by listening to toggle events from its direct children.
+- The `is-bordered` property adds a border around the entire accordion and increases internal padding. Individual items do not have a bordered option.
+- When `is-multiple` is `false` (the default), opening a new item automatically closes the currently open one. The parent manages this behaviour by listening to toggle events from its direct children.
 - The `default-open` index is applied once on initial render. Changing it after the component has loaded has no effect.
 - The content panel uses a height transition for smooth animation. A `ResizeObserver` watches for content size changes, which keeps the animation accurate even when content inside the panel changes dynamically (e.g. nested accordions opening).
 - The last item in the accordion does not render a bottom border, maintaining a clean visual edge — especially important for the bordered variant.

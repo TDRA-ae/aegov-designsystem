@@ -332,7 +332,7 @@ Use `aegov-form-field` to add helper text or error messages below the input. Pla
 <aegov-form-field>
   <aegov-label>Email *</aegov-label>
   <aegov-input type="email" placeholder="Enter email"
-               class="!inset-ring-aered-500"></aegov-input>
+               extra-class="!inset-ring-aered-500"></aegov-input>
   <small class="text-sm text-aered-500 mt-1 block">
     Please enter a valid email address.
   </small>
@@ -347,7 +347,7 @@ Use `aegov-form-field` to add helper text or error messages below the input. Pla
   </aegov-form-field>
   <aegov-form-field>
     <aegov-label>Email <span class="text-aered-500">*</span></aegov-label>
-    <aegov-input type="email" placeholder="Enter email" class="!inset-ring-aered-500"></aegov-input>
+    <aegov-input type="email" placeholder="Enter email" extra-class="!inset-ring-aered-500"></aegov-input>
     <small class="text-sm text-aered-500 mt-1 block">Please enter a valid email address.</small>
   </aegov-form-field>
 </div>

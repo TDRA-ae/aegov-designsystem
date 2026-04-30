@@ -13,7 +13,7 @@ import type { ResponsivePropWatcher } from '../../utils/responsive-prop';
  * @slot - Place aegov-navbar-item elements as direct children.
  *
  * @example
- * <aegov-navbar nav-label="Main navigation" size="base" gap="gap-6">
+ * <aegov-navbar label-nav="Main navigation" size="base" gap="gap-6">
  *   <aegov-navbar-item href="/">Home</aegov-navbar-item>
  *   <aegov-navbar-item href="/services">Services</aegov-navbar-item>
  *   <aegov-navbar-item href="/products">
@@ -48,7 +48,7 @@ export class AegovNavbar {
   /**
    * Accessible label for the navigation landmark.
    */
-  @Prop() navLabel: string = 'Main navigation';
+  @Prop() labelNav: string = 'Main navigation';
 
   @State() private _resolvedSize: NavbarSize = 'base';
   private _sizeWatcher: ResponsivePropWatcher | null = null;
@@ -155,7 +155,7 @@ export class AegovNavbar {
       <Host>
         <nav
           class={`aegov-navbar aegov-navbar-${this._resolvedSize}`}
-          aria-label={this.navLabel}
+          aria-label={this.labelNav}
         >
           <ul class={`aegov-navbar-list ${this.gap}`}>
             <slot />

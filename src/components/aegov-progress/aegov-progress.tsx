@@ -36,7 +36,7 @@ export class AegovProgress {
   @Prop() description?: string;
 
   /** Additional CSS classes. */
-  @Prop() class?: string;
+  @Prop() extraClass?: string;
 
   private static readonly NATIVE_PROGRESS_ATTRS = new Set([
     'tabindex', 'title', 'form',
@@ -73,7 +73,7 @@ export class AegovProgress {
 
     const wrapperClasses = [
       'aegov-progress',
-      this.class || '',
+      this.extraClass || '',
     ].filter(Boolean).join(' ');
 
     return (
