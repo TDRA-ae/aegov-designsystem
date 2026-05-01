@@ -26,6 +26,11 @@ interface OptionItem {
 export class AegovSelect {
   @Element() el: HTMLElement;
 
+  /** Native select attributes to pass through to the inner select element. */
+  private static readonly PASS_THROUGH_ATTRS = new Set([
+    'autofocus', 'form',
+  ]);
+
   /** Unique ID for the select element. Auto-generated if not provided. */
   @Prop({ mutable: true, reflect: true }) fieldId?: string;
 
@@ -38,10 +43,10 @@ export class AegovSelect {
   private _sizeWatcher: ResponsivePropWatcher | null = null;
 
   /** Whether multiple selection is enabled. Forces listbox behaviour. */
-  @Prop() multiple: boolean = false;
+  @Prop() isMultiple: boolean = false;
 
   /** Whether the select is disabled. */
-  @Prop() disabled: boolean = false;
+  @Prop() isDisabled: boolean = false;
 
   /** Placeholder text shown when nothing is selected. */
   @Prop() placeholder?: string;
@@ -53,10 +58,10 @@ export class AegovSelect {
   @Prop() name?: string;
 
   /** Whether the select is required. */
-  @Prop() required: boolean = false;
+  @Prop() isRequired: boolean = false;
 
   /** Show a search input in the listbox dropdown to filter options. Only works with listbox variant. */
-  @Prop() searchable: boolean = false;
+  @Prop() isSearchable: boolean = false;
 
   /** Message shown when search yields no results. */
   @Prop() emptyMessage: string = 'No results found';
@@ -65,7 +70,7 @@ export class AegovSelect {
   @Prop() visibleItems: number = 6;
 
   /** Show a clear button to reset selection. */
-  @Prop() clearable: boolean = false;
+  @Prop() isClearable: boolean = false;
 
   /** Additional CSS classes to apply. */
   @Prop() extraClass?: string;
@@ -137,7 +142,7 @@ export class AegovSelect {
 
   /** Whether to use the custom listbox rendering. */
   private get useListbox(): boolean {
-    return this.variant === 'listbox' || this.multiple;
+    return this.variant === 'listbox' || this.isMultiple;
   }
 
   /** Current selected values as an array (cached). */
@@ -164,7 +169,7 @@ export class AegovSelect {
     const selected = this.cachedSelectedValues;
     if (selected.length === 0) {
       this.cachedDisplayText = '';
-    } else if (this.multiple) {
+    } else if (this.isMultiple) {
       this.cachedDisplayText = `${selected.length} selected`;
     } else {
       const option = this.parsedOptions.find(o => o.value === selected[0]);
@@ -188,7 +193,7 @@ export class AegovSelect {
         items.push({
           value: opt.getAttribute('value') || '',
           label: opt.textContent?.trim() || '',
-          disabled: opt.hasAttribute('disabled'),
+          disabled: opt.hasAttribute('is-disabled'),
           group: groupLabel,
         });
       }
@@ -201,7 +206,7 @@ export class AegovSelect {
         items.push({
           value: opt.getAttribute('value') || '',
           label: opt.textContent?.trim() || '',
-          disabled: opt.hasAttribute('disabled'),
+          disabled: opt.hasAttribute('is-disabled'),
         });
       }
     }
@@ -250,7 +255,7 @@ export class AegovSelect {
   // --- Listbox handlers ---
 
   private toggleDropdown = () => {
-    if (this.disabled) return;
+    if (this.isDisabled) return;
     if (this.isOpen) {
       this.closeDropdown();
     } else {
@@ -294,7 +299,7 @@ export class AegovSelect {
     const itemHeightMap: Record<SelectSize, number> = { xs: 32, sm: 36, base: 40, lg: 44, xl: 48 };
     const searchHeightMap: Record<SelectSize, number> = { xs: 36, sm: 40, base: 44, lg: 48, xl: 52 };
     const itemHeight = itemHeightMap[this._resolvedSize];
-    const searchHeight = this.searchable ? searchHeightMap[this._resolvedSize] : 0;
+    const searchHeight = this.isSearchable ? searchHeightMap[this._resolvedSize] : 0;
     const padding = 8; // py-1 top + bottom
     const actualItemCount = Math.min(this.filteredOptions.length, this.visibleItems);
     const desiredHeight = (actualItemCount * itemHeight) + searchHeight + padding;
@@ -316,7 +321,7 @@ export class AegovSelect {
   private selectOption(option: OptionItem) {
     if (option.disabled) return;
 
-    if (this.multiple) {
+    if (this.isMultiple) {
       const selected = new Set(this.selectedValues);
       if (selected.has(option.value)) {
         selected.delete(option.value);
@@ -347,8 +352,8 @@ export class AegovSelect {
     event.stopPropagation();
     this.value = '';
     this.aegovSelectChange.emit({
-      value: this.multiple ? [] : '',
-      label: this.multiple ? [] : '',
+      value: this.isMultiple ? [] : '',
+      label: this.isMultiple ? [] : '',
     });
   };
 
@@ -399,7 +404,7 @@ export class AegovSelect {
         break;
       case 'Enter':
       case ' ':
-        if (this.searchable && event.key === ' ') return; // Allow space in search
+        if (this.isSearchable && event.key === ' ') return; // Allow space in search
         event.preventDefault();
         if (this.focusedIndex >= 0 && this.focusedIndex < options.length) {
           this.selectOption(options[this.focusedIndex]);
@@ -465,7 +470,7 @@ export class AegovSelect {
       xl: 'select--xl',
     };
     classes.push(sizeClasses[this._resolvedSize]);
-    if (this.disabled) classes.push('select--disabled');
+    if (this.isDisabled) classes.push('select--disabled');
     if (this.isOpen) classes.push('select--open');
     if (!this.displayText) classes.push('select--placeholder');
     if (this.extraClass) classes.push(this.extraClass);
@@ -473,7 +478,7 @@ export class AegovSelect {
   }
 
   private renderNativeSelect() {
-    const passThroughAttrs = getPassThroughAttributes(this.el);
+    const passThroughAttrs = getPassThroughAttributes(this.el, AegovSelect.PASS_THROUGH_ATTRS);
     const sizeClasses: Record<SelectSize, string> = {
       xs: 'select--xs',
       sm: 'select--sm',
@@ -489,9 +494,9 @@ export class AegovSelect {
           <select
             id={this.fieldId}
             class={`aegov-select ${sizeClasses[this._resolvedSize]}${this.extraClass ? ` ${this.extraClass}` : ''}`}
-            disabled={this.disabled}
+            disabled={this.isDisabled}
             name={this.name}
-            required={this.required}
+            required={this.isRequired}
             onChange={this.handleNativeChange}
             {...passThroughAttrs}
           >
@@ -550,7 +555,7 @@ export class AegovSelect {
             id={this.fieldId}
             class={this.getTriggerClasses()}
             onClick={this.toggleDropdown}
-            disabled={this.disabled}
+            disabled={this.isDisabled}
             role="combobox"
             aria-expanded={this.isOpen ? 'true' : 'false'}
             aria-haspopup="listbox"
@@ -561,7 +566,7 @@ export class AegovSelect {
               {this.displayText || this.placeholder || ''}
             </span>
             <span class="select__actions">
-              {this.clearable && this.selectedValues.length > 0 && !this.disabled && (
+              {this.isClearable && this.selectedValues.length > 0 && !this.isDisabled && (
                 <span
                   class="select__clear"
                   onClick={this.handleClear}
@@ -589,9 +594,9 @@ export class AegovSelect {
               ref={el => this.listboxRef = el}
               role="listbox"
               id={this.selectId}
-              aria-multiselectable={this.multiple ? 'true' : undefined}
+              aria-multiselectable={this.isMultiple ? 'true' : undefined}
             >
-              {this.searchable && (
+              {this.isSearchable && (
                 <div class="select__search">
                   <input
                     type="text"
@@ -633,7 +638,7 @@ export class AegovSelect {
                         onClick={() => this.selectOption(opt)}
                         data-value={opt.value}
                       >
-                        {this.multiple && (
+                        {this.isMultiple && (
                           <span class="select__checkbox">
                             {isSelected && (
                               <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -643,7 +648,7 @@ export class AegovSelect {
                           </span>
                         )}
                         <span class="select__option-label">{opt.label}</span>
-                        {!this.multiple && isSelected && (
+                        {!this.isMultiple && isSelected && (
                           <svg class="select__check-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                             <polyline points="20 6 9 17 4 12" />
                           </svg>

@@ -13,7 +13,7 @@ export class AegovSelectOption {
   @Prop() value: string = '';
 
   /** Whether this option is disabled. */
-  @Prop() disabled: boolean = false;
+  @Prop() isDisabled: boolean = false;
 
   /** Internal: label text captured from slot content. */
   @State() slotContent: string = '';
@@ -28,7 +28,7 @@ export class AegovSelectOption {
         role="option"
         data-value={this.value}
         data-label={this.slotContent}
-        aria-disabled={this.disabled ? 'true' : null}
+        aria-disabled={this.isDisabled ? 'true' : null}
       >
         <slot />
       </Host>

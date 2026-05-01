@@ -28,10 +28,10 @@ export class AegovTextarea {
   private _sizeWatcher: ResponsivePropWatcher | null = null;
 
   /** Whether the textarea is disabled. */
-  @Prop() disabled: boolean = false;
+  @Prop() isDisabled: boolean = false;
 
   /** Whether the textarea is readonly. */
-  @Prop() readonly: boolean = false;
+  @Prop() isReadonly: boolean = false;
 
   /** Placeholder text for the textarea. */
   @Prop() placeholder?: string;
@@ -43,7 +43,7 @@ export class AegovTextarea {
   @Prop() name?: string;
 
   /** Whether the textarea is required. */
-  @Prop() required: boolean = false;
+  @Prop() isRequired: boolean = false;
 
   /** Resize behaviour of the textarea. */
   @Prop() resize: TextareaResize = 'vertical';
@@ -52,7 +52,7 @@ export class AegovTextarea {
   @Prop() maxlength?: number;
 
   /** Show a copy button to copy the textarea value to clipboard. Only applies when readonly. */
-  @Prop() copyable: boolean = false;
+  @Prop() isCopyable: boolean = false;
 
   /** Additional CSS classes to apply. */
   @Prop() extraClass?: string;
@@ -122,7 +122,7 @@ export class AegovTextarea {
 
 
   private get isCopyable(): boolean {
-    return this.readonly && this.copyable;
+    return this.isReadonly && this.isCopyable;
   }
 
   private getTextareaClasses(): string {
@@ -266,12 +266,12 @@ export class AegovTextarea {
       <textarea
         id={this.fieldId}
         class={this.getTextareaClasses()}
-        disabled={this.disabled}
-        readOnly={this.readonly}
+        disabled={this.isDisabled}
+        readOnly={this.isReadonly}
         placeholder={this.placeholder}
         value={this.value}
         name={this.name}
-        required={this.required}
+        required={this.isRequired}
         aria-describedby={hasCounter ? this.counterId : undefined}
         onChange={this.handleChange}
         onInput={this.handleInput}
