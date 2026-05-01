@@ -76,6 +76,15 @@ export class AegovTab {
   aegovTabSelect: EventEmitter<string>;
 
   componentWillLoad() {
+    const parentTabs = this.el.closest('aegov-tabs');
+    if (!parentTabs) {
+      throw new Error(
+        '[aegov-tab] This component must be used inside <aegov-tabs>. ' +
+        'It cannot be used as a standalone component. ' +
+        'Please wrap it with <aegov-tabs>...</aegov-tabs>'
+      );
+    }
+
     warnIfInvalidEnumProp(this.variant, TAB_VARIANTS, 'simple', ctx('variant'));
     warnIfInvalidEnumProp(this.orientation, TAB_ORIENTATIONS, 'horizontal', ctx('orientation'));
     this.hasIconSlot = !!this.el.querySelector('[slot="icon"]');

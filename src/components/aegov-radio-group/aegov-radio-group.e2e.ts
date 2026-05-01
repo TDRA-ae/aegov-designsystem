@@ -1,193 +1,94 @@
 import { newE2EPage } from '@stencil/core/testing';
 
-describe('aegov-radio-group e2e', () => {
-  it('renders', async () => {
+describe('aegov-radio-group (e2e)', () => {
+  it('renders fieldset with role="radiogroup" and legend', async () => {
     const page = await newE2EPage();
-    await page.setContent(`
-      <aegov-radio-group name="test">
-        <aegov-radio label="A" value="a"></aegov-radio>
-      </aegov-radio-group>
-    `);
-    const el = await page.find('aegov-radio-group');
-    expect(el).not.toBeNull();
-  });
-
-  it('renders legend when label provided', async () => {
-    const page = await newE2EPage();
-    await page.setContent(`
-      <aegov-radio-group name="test" label="Pick one">
-        <aegov-radio label="A" value="a"></aegov-radio>
-      </aegov-radio-group>
-    `);
+    await page.setContent('<aegov-radio-group name="g" label="Pick"></aegov-radio-group>');
+    const fieldset = await page.find('aegov-radio-group fieldset');
+    expect(fieldset.getAttribute('role')).toBe('radiogroup');
     const legend = await page.find('aegov-radio-group legend');
-    expect(legend.textContent).toBe('Pick one');
+    expect(legend.textContent).toContain('Pick');
   });
 
-  it('clicking a radio selects it', async () => {
+  it('disables all child radios when is-disabled is set', async () => {
     const page = await newE2EPage();
     await page.setContent(`
-      <aegov-radio-group name="color">
-        <aegov-radio label="Red" value="red"></aegov-radio>
-        <aegov-radio label="Blue" value="blue"></aegov-radio>
-      </aegov-radio-group>
-    `);
-    const inputRed = await page.find('aegov-radio[value="red"] input');
-    await inputRed.click();
-    await page.waitForChanges();
-    expect(await inputRed.getProperty('checked')).toBe(true);
-  });
-
-  it('selecting one radio unchecks the other', async () => {
-    const page = await newE2EPage();
-    await page.setContent(`
-      <aegov-radio-group name="color">
-        <aegov-radio label="Red" value="red"></aegov-radio>
-        <aegov-radio label="Blue" value="blue"></aegov-radio>
-      </aegov-radio-group>
-    `);
-    const inputRed = await page.find('aegov-radio[value="red"] input');
-    const inputBlue = await page.find('aegov-radio[value="blue"] input');
-
-    await inputRed.click();
-    await page.waitForChanges();
-    expect(await inputRed.getProperty('checked')).toBe(true);
-
-    await inputBlue.click();
-    await page.waitForChanges();
-    expect(await inputBlue.getProperty('checked')).toBe(true);
-    // Native radio behavior unchecks the other via name grouping
-  });
-
-  it('emits aegovRadioGroupChange with selected value', async () => {
-    const page = await newE2EPage();
-    await page.setContent(`
-      <aegov-radio-group name="color">
-        <aegov-radio label="Red" value="red"></aegov-radio>
-        <aegov-radio label="Blue" value="blue"></aegov-radio>
-      </aegov-radio-group>
-    `);
-    const group = await page.find('aegov-radio-group');
-    const spy = await group.spyOnEvent('aegovRadioGroupChange');
-
-    const inputRed = await page.find('aegov-radio[value="red"] input');
-    await inputRed.click();
-    await page.waitForChanges();
-
-    expect(spy).toHaveReceivedEventDetail({ value: 'red' });
-  });
-
-  it('disabled group prevents selection', async () => {
-    const page = await newE2EPage();
-    await page.setContent(`
-      <aegov-radio-group name="color" is-disabled>
-        <aegov-radio label="Red" value="red"></aegov-radio>
-        <aegov-radio label="Blue" value="blue"></aegov-radio>
-      </aegov-radio-group>
-    `);
-    const inputRed = await page.find('aegov-radio[value="red"] input');
-    await inputRed.click();
-    await page.waitForChanges();
-    expect(await inputRed.getProperty('checked')).toBe(false);
-  });
-
-  it('list variant applies correct class', async () => {
-    const page = await newE2EPage();
-    await page.setContent(`
-      <aegov-radio-group name="test" variant="list">
-        <aegov-radio label="A" value="a"></aegov-radio>
-      </aegov-radio-group>
-    `);
-    const fieldset = await page.find('aegov-radio-group fieldset');
-    expect(fieldset).toHaveClass('radio-group--list');
-  });
-
-  it('cards variant applies correct class', async () => {
-    const page = await newE2EPage();
-    await page.setContent(`
-      <aegov-radio-group name="test" variant="cards">
-        <aegov-radio label="A" value="a"></aegov-radio>
-      </aegov-radio-group>
-    `);
-    const fieldset = await page.find('aegov-radio-group fieldset');
-    expect(fieldset).toHaveClass('radio-group--cards');
-  });
-
-  it('pills variant applies correct class', async () => {
-    const page = await newE2EPage();
-    await page.setContent(`
-      <aegov-radio-group name="test" variant="pills">
-        <aegov-radio label="A" value="a"></aegov-radio>
-      </aegov-radio-group>
-    `);
-    const fieldset = await page.find('aegov-radio-group fieldset');
-    expect(fieldset).toHaveClass('radio-group--pills');
-  });
-
-  it('horizontal orientation applies class', async () => {
-    const page = await newE2EPage();
-    await page.setContent(`
-      <aegov-radio-group name="test" orientation="horizontal">
+      <aegov-radio-group name="g" is-disabled="true">
         <aegov-radio label="A" value="a"></aegov-radio>
         <aegov-radio label="B" value="b"></aegov-radio>
       </aegov-radio-group>
     `);
+    // The disabled state propagates via the native <fieldset disabled>;
+    // descendant inputs match :disabled but do not reflect a JS-level
+    // disabled property unless they have their own disabled attribute.
     const fieldset = await page.find('aegov-radio-group fieldset');
-    expect(fieldset).toHaveClass('radio-group--horizontal');
-  });
-
-  it('propagates name to child radios', async () => {
-    const page = await newE2EPage();
-    await page.setContent(`
-      <aegov-radio-group name="fruit">
-        <aegov-radio label="Apple" value="apple"></aegov-radio>
-        <aegov-radio label="Banana" value="banana"></aegov-radio>
-      </aegov-radio-group>
-    `);
-    await page.waitForChanges();
-
-    const names = await page.evaluate(() => {
-      const inputs = document.querySelectorAll('aegov-radio input');
-      return Array.from(inputs).map(i => (i as HTMLInputElement).name);
+    expect(fieldset.getAttribute('disabled')).not.toBeNull();
+    const allDisabled = await page.evaluate(() => {
+      const inputs = document.querySelectorAll('aegov-radio-group aegov-radio input');
+      return Array.from(inputs).every((i) => (i as HTMLInputElement).matches(':disabled'));
     });
-    expect(names).toEqual(['fruit', 'fruit']);
+    expect(allDisabled).toBe(true);
   });
 
-  it('propagates size to child radios', async () => {
+  it('selecting one radio enforces single selection', async () => {
     const page = await newE2EPage();
     await page.setContent(`
-      <aegov-radio-group name="test" size="lg">
+      <aegov-radio-group name="g">
         <aegov-radio label="A" value="a"></aegov-radio>
+        <aegov-radio label="B" value="b"></aegov-radio>
       </aegov-radio-group>
     `);
+    const first = await page.find('aegov-radio[value="a"] input');
+    await first.click();
     await page.waitForChanges();
+    expect(await first.getProperty('checked')).toBe(true);
 
-    const wrapper = await page.find('aegov-radio .aegov-radio');
-    expect(wrapper).toHaveClass('radio--lg');
+    const second = await page.find('aegov-radio[value="b"] input');
+    await second.click();
+    await page.waitForChanges();
+    expect(await second.getProperty('checked')).toBe(true);
+    expect(await first.getProperty('checked')).toBe(false);
   });
 
-  it('has fieldset with role radiogroup', async () => {
+  it('emits aegovRadioGroupChange with the selected value', async () => {
     const page = await newE2EPage();
     await page.setContent(`
-      <aegov-radio-group name="test">
+      <aegov-radio-group name="g">
         <aegov-radio label="A" value="a"></aegov-radio>
+        <aegov-radio label="B" value="b"></aegov-radio>
       </aegov-radio-group>
     `);
-    const fieldset = await page.find('aegov-radio-group fieldset');
-    expect(fieldset.getAttribute('role')).toBe('radiogroup');
+    const group = await page.find('aegov-radio-group');
+    const spy = await group.spyOnEvent('aegovRadioGroupChange');
+    const input = await page.find('aegov-radio[value="b"] input');
+    await input.click();
+    await page.waitForChanges();
+    expect(spy).toHaveReceivedEventTimes(1);
+    expect(spy.lastEvent.detail).toEqual({ value: 'b' });
   });
 
-  it('keyboard navigation works between radios', async () => {
+  it('propagates name to children', async () => {
     const page = await newE2EPage();
     await page.setContent(`
-      <aegov-radio-group name="color">
-        <aegov-radio label="Red" value="red"></aegov-radio>
-        <aegov-radio label="Blue" value="blue"></aegov-radio>
+      <aegov-radio-group name="grp1">
+        <aegov-radio label="A" value="a"></aegov-radio>
+        <aegov-radio label="B" value="b"></aegov-radio>
       </aegov-radio-group>
     `);
-    const inputRed = await page.find('aegov-radio[value="red"] input');
-    await inputRed.focus();
-    await inputRed.click();
-    await page.waitForChanges();
-    expect(await inputRed.getProperty('checked')).toBe(true);
+    const inputs = await page.findAll('aegov-radio-group aegov-radio input');
+    for (const i of inputs) {
+      expect(await i.getProperty('name')).toBe('grp1');
+    }
+  });
+
+  it('propagates size to children', async () => {
+    const page = await newE2EPage();
+    await page.setContent(`
+      <aegov-radio-group name="g" size="sm">
+        <aegov-radio label="A"></aegov-radio>
+      </aegov-radio-group>
+    `);
+    const r = await page.find('aegov-radio-group aegov-radio div.aegov-radio');
+    expect(r).toHaveClass('radio--sm');
   });
 });

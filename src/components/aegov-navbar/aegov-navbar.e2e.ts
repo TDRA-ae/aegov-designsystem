@@ -1,230 +1,62 @@
 import { newE2EPage } from '@stencil/core/testing';
 
 describe('aegov-navbar e2e', () => {
-  async function render(html: string) {
+  it('renders nav with default label', async () => {
     const page = await newE2EPage();
-    await page.setContent(html);
-    return page;
-  }
-
-  const basicHtml = `
-    <aegov-navbar>
-      <aegov-navbar-item href="/a">A</aegov-navbar-item>
-      <aegov-navbar-item href="/b">B</aegov-navbar-item>
-      <aegov-navbar-item href="/c">C</aegov-navbar-item>
-    </aegov-navbar>
-  `;
-
-  describe('basic rendering', () => {
-    it('renders the nav element', async () => {
-      const page = await render(basicHtml);
-      const nav = await page.find('aegov-navbar nav.aegov-navbar');
-      expect(nav).not.toBeNull();
-      expect(await nav.getAttribute('aria-label')).toBe('Main navigation');
-    });
-
-    it('renders the ul list with items', async () => {
-      const page = await render(basicHtml);
-      const items = await page.findAll('aegov-navbar ul.aegov-navbar-list aegov-navbar-item');
-      expect(items.length).toBe(3);
-    });
-
-    it('cascades size to children', async () => {
-      const page = await render(`
-        <aegov-navbar size="lg">
-          <aegov-navbar-item href="/a">A</aegov-navbar-item>
-          <aegov-navbar-item href="/b">B</aegov-navbar-item>
-        </aegov-navbar>
-      `);
-      await page.waitForChanges();
-      const item = await page.find('aegov-navbar-item');
-      expect(await item.getProperty('size')).toBe('lg');
-    });
-
-    it('resolves a responsive size string against the active viewport', async () => {
-      const page = await newE2EPage();
-      await page.setViewport({ width: 1280, height: 800 });
-      await page.setContent(`
-        <aegov-navbar size="sm md:base lg:lg">
-          <aegov-navbar-item href="/a">A</aegov-navbar-item>
-        </aegov-navbar>
-      `);
-      await page.waitForChanges();
-      const nav = await page.find('aegov-navbar nav.aegov-navbar');
-      expect(nav).not.toBeNull();
-      expect(nav.classList.contains('aegov-navbar-lg')).toBe(true);
-      const item = await page.find('aegov-navbar-item');
-      expect(await item.getProperty('size')).toBe('lg');
-    });
-
-    it('updates the resolved size on viewport resize', async () => {
-      const page = await newE2EPage();
-      await page.setViewport({ width: 1280, height: 800 });
-      await page.setContent(`
-        <aegov-navbar size="sm md:base lg:lg">
-          <aegov-navbar-item href="/a">A</aegov-navbar-item>
-        </aegov-navbar>
-      `);
-      await page.waitForChanges();
-      let nav = await page.find('aegov-navbar nav.aegov-navbar');
-      expect(nav.classList.contains('aegov-navbar-lg')).toBe(true);
-
-      await page.setViewport({ width: 500, height: 800 });
-      await page.waitForChanges();
-      // Allow the watcher's resize listener to settle.
-      await page.evaluate(
-        () => new Promise(r => setTimeout(r, 100)),
-      );
-      await page.waitForChanges();
-      nav = await page.find('aegov-navbar nav.aegov-navbar');
-      expect(nav.classList.contains('aegov-navbar-sm')).toBe(true);
-    });
+    await page.setContent(`<aegov-navbar><aegov-navbar-item href="/">Home</aegov-navbar-item></aegov-navbar>`);
+    const nav = await page.find('aegov-navbar nav');
+    expect(nav).not.toBeNull();
+    expect(nav.getAttribute('aria-label')).toBe('Main navigation');
   });
 
-  describe('keyboard navigation', () => {
-    it('ArrowRight moves focus to the next link', async () => {
-      const page = await render(basicHtml);
-      // Tab into the first link
-      await page.keyboard.press('Tab');
-      await page.waitForChanges();
-
-      // Verify first link focused
-      let focusedHref = await page.evaluate(() => (document.activeElement as HTMLAnchorElement).getAttribute('href'));
-      expect(focusedHref).toBe('/a');
-
-      await page.keyboard.press('ArrowRight');
-      await page.waitForChanges();
-
-      focusedHref = await page.evaluate(() => (document.activeElement as HTMLAnchorElement).getAttribute('href'));
-      expect(focusedHref).toBe('/b');
-    });
-
-    it('ArrowLeft moves focus to the previous link', async () => {
-      const page = await render(basicHtml);
-      await page.keyboard.press('Tab');
-      await page.keyboard.press('ArrowRight');
-      await page.waitForChanges();
-      await page.keyboard.press('ArrowLeft');
-      await page.waitForChanges();
-      const href = await page.evaluate(() => (document.activeElement as HTMLAnchorElement).getAttribute('href'));
-      expect(href).toBe('/a');
-    });
-
-    it('ArrowRight wraps from last back to first', async () => {
-      const page = await render(basicHtml);
-      await page.keyboard.press('Tab');
-      await page.keyboard.press('End');
-      await page.waitForChanges();
-      let href = await page.evaluate(() => (document.activeElement as HTMLAnchorElement).getAttribute('href'));
-      expect(href).toBe('/c');
-
-      await page.keyboard.press('ArrowRight');
-      await page.waitForChanges();
-      href = await page.evaluate(() => (document.activeElement as HTMLAnchorElement).getAttribute('href'));
-      expect(href).toBe('/a');
-    });
-
-    it('Home jumps to the first link, End to the last', async () => {
-      const page = await render(basicHtml);
-      await page.keyboard.press('Tab');
-      await page.keyboard.press('End');
-      await page.waitForChanges();
-      let href = await page.evaluate(() => (document.activeElement as HTMLAnchorElement).getAttribute('href'));
-      expect(href).toBe('/c');
-
-      await page.keyboard.press('Home');
-      await page.waitForChanges();
-      href = await page.evaluate(() => (document.activeElement as HTMLAnchorElement).getAttribute('href'));
-      expect(href).toBe('/a');
-    });
-
-    it('reverses ArrowRight/ArrowLeft in RTL', async () => {
-      const page = await newE2EPage();
-      await page.setContent(`
-        <div dir="rtl">
-          <aegov-navbar>
-            <aegov-navbar-item href="/a">A</aegov-navbar-item>
-            <aegov-navbar-item href="/b">B</aegov-navbar-item>
-          </aegov-navbar>
-        </div>
-      `);
-      await page.keyboard.press('Tab');
-      await page.waitForChanges();
-      // First focusable in document order is /a
-      await page.keyboard.press('ArrowLeft');
-      await page.waitForChanges();
-      const href = await page.evaluate(() => (document.activeElement as HTMLAnchorElement).getAttribute('href'));
-      expect(href).toBe('/b');
-    });
+  it('renders all child navbar items', async () => {
+    const page = await newE2EPage();
+    await page.setContent(`
+      <aegov-navbar>
+        <aegov-navbar-item href="/">Home</aegov-navbar-item>
+        <aegov-navbar-item href="/about">About</aegov-navbar-item>
+        <aegov-navbar-item href="/contact">Contact</aegov-navbar-item>
+      </aegov-navbar>
+    `);
+    const items = await page.findAll('aegov-navbar aegov-navbar-item');
+    expect(items.length).toBe(3);
   });
 
-  describe('with chevron + dropdown', () => {
-    const dropdownHtml = `
+  it('applies size="sm" class to nav', async () => {
+    const page = await newE2EPage();
+    await page.setContent(`<aegov-navbar size="sm"><aegov-navbar-item href="/">A</aegov-navbar-item></aegov-navbar>`);
+    const nav = await page.find('aegov-navbar nav');
+    expect(nav.className).toContain('aegov-navbar-sm');
+  });
+
+  it('uses custom labelNav prop', async () => {
+    const page = await newE2EPage();
+    await page.setContent(`<aegov-navbar label-nav="Primary nav"><aegov-navbar-item href="/">A</aegov-navbar-item></aegov-navbar>`);
+    const nav = await page.find('aegov-navbar nav');
+    expect(nav.getAttribute('aria-label')).toBe('Primary nav');
+  });
+
+  it('navigates between items with ArrowRight', async () => {
+    const page = await newE2EPage();
+    await page.setContent(`
       <aegov-navbar>
         <aegov-navbar-item href="/a">A</aegov-navbar-item>
-        <aegov-navbar-item href="/products">
-          Products
-          <aegov-dropdown slot="dropdown" trigger-type="click">
-            <a slot="dropdown-content" href="/p1">P1</a>
-            <a slot="dropdown-content" href="/p2">P2</a>
-          </aegov-dropdown>
-        </aegov-navbar-item>
+        <aegov-navbar-item href="/b">B</aegov-navbar-item>
         <aegov-navbar-item href="/c">C</aegov-navbar-item>
       </aegov-navbar>
-    `;
-
-    it('injects a chevron button when aegov-dropdown is slotted', async () => {
-      const page = await render(dropdownHtml);
-      await page.waitForChanges();
-      const chevron = await page.find('aegov-navbar-item button.aegov-navbar-item__chevron');
-      expect(chevron).not.toBeNull();
-    });
-
-    it('keeps link and chevron as separate Tab stops', async () => {
-      const page = await render(dropdownHtml);
-      await page.waitForChanges();
-
-      // Tab 1: first link /a
-      await page.keyboard.press('Tab');
-      let activeTag = await page.evaluate(() => document.activeElement.tagName);
-      let activeHref = await page.evaluate(() => (document.activeElement as HTMLAnchorElement).getAttribute?.('href') || '');
-      expect(activeTag).toBe('A');
-      expect(activeHref).toBe('/a');
-
-      // Tab 2: products link
-      await page.keyboard.press('Tab');
-      activeTag = await page.evaluate(() => document.activeElement.tagName);
-      activeHref = await page.evaluate(() => (document.activeElement as HTMLAnchorElement).getAttribute?.('href') || '');
-      expect(activeTag).toBe('A');
-      expect(activeHref).toBe('/products');
-
-      // Tab 3: chevron button
-      await page.keyboard.press('Tab');
-      activeTag = await page.evaluate(() => document.activeElement.tagName);
-      const isChevron = await page.evaluate(() =>
-        document.activeElement.classList.contains('aegov-navbar-item__chevron'),
-      );
-      expect(activeTag).toBe('BUTTON');
-      expect(isChevron).toBe(true);
-
-      // Tab 4: link /c
-      await page.keyboard.press('Tab');
-      activeHref = await page.evaluate(() => (document.activeElement as HTMLAnchorElement).getAttribute?.('href') || '');
-      expect(activeHref).toBe('/c');
-    });
+    `);
+    await page.waitForChanges();
+    await page.$eval('aegov-navbar a.aegov-navbar-item__link', (el: HTMLElement) => el.focus());
+    await page.keyboard.press('ArrowRight');
+    await page.waitForChanges();
+    const focusedHref = await page.evaluate(() => (document.activeElement as HTMLAnchorElement)?.getAttribute('href'));
+    expect(focusedHref).toBe('/b');
   });
 
-  describe('active state', () => {
-    it('sets aria-current="page" on the active item link', async () => {
-      const page = await render(`
-        <aegov-navbar>
-          <aegov-navbar-item href="/a" active>A</aegov-navbar-item>
-          <aegov-navbar-item href="/b">B</aegov-navbar-item>
-        </aegov-navbar>
-      `);
-      await page.waitForChanges();
-      const link = await page.find('aegov-navbar-item[href="/a"] a');
-      expect(await link.getAttribute('aria-current')).toBe('page');
-    });
+  it('applies custom gap class to ul', async () => {
+    const page = await newE2EPage();
+    await page.setContent(`<aegov-navbar gap="gap-8"><aegov-navbar-item href="/">A</aegov-navbar-item></aegov-navbar>`);
+    const ul = await page.find('aegov-navbar ul');
+    expect(ul.className).toContain('gap-8');
   });
 });

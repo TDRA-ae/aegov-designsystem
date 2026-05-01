@@ -35,10 +35,10 @@
   </style>
 </head>
 <body class="bg-aeblack-50">
-  <header class="mx-auto max-w-7xl sm:px-6 lg:px-8 mb-8">
+  <header class="aegov-container sm:px-6 lg:px-8 mb-8">
     <img src="https://designsystem.gov.ae/assets/site-logo/AEGov-DesignSystem-Logo-Color.svg" alt="UAE Design System Logo" class="w-auto h-16 my-2">
   </header>
-  <main class="mx-auto max-w-7xl sm:px-6 lg:px-8 bg-aeblack-50">
+  <main class="aegov-container sm:px-6 lg:px-8 bg-aeblack-50">
     <section class="flex items-start align-top gap-4">
       <nav id="primary-nav" class="w-3xs shrink-0">&nbsp;</nav>
       <article class="col-span-5 grow">
@@ -48,30 +48,26 @@
             <h1>AEGOV Design System</h1>
             <p>A comprehensive library of accessible, production-ready web components built with StencilJS and Tailwind CSS. Use these components across any framework — React, Angular, Vue, or plain HTML.</p>
             <div class="stat-row">
-              <div class="stat"><strong>36</strong> Components</div>
-              <div class="stat"><strong>2,700+</strong> Tests</div>
-              <div class="stat"><strong>100%</strong> Coverage</div>
+              <div class="stat"><strong>38</strong> Components</div>
+              <div class="stat"><strong>1,100+</strong> Tests</div>
+              <div class="stat"><strong>WCAG 2.1 AA</strong></div>
             </div>
           </div>
 
-          <!-- UI Components -->
+          <!-- Components -->
           <div class="section-heading">Components</div>
           <div class="card-grid">
             <a class="doc-card" href="/docs/pages/aegov-accordion.html">
               <div class="card-title">Accordion</div>
               <p class="card-desc">Collapsible content panels for organising information into expandable sections.</p>
             </a>
-            <a class="doc-card" href="/docs/pages/aegov-avatar.html">
-              <div class="card-title">Avatar</div>
-              <p class="card-desc">User profile images or initials with status indicators and multiple sizes.</p>
-            </a>
-            <a class="doc-card" href="/docs/pages/aegov-avatar-group.html">
-              <div class="card-title">Avatar Group</div>
-              <p class="card-desc">Stacked avatar collection with overflow count for displaying multiple users.</p>
-            </a>
             <a class="doc-card" href="/docs/pages/aegov-aspect-ratio.html">
               <div class="card-title">Aspect Ratio</div>
               <p class="card-desc">Layout container enforcing aspect ratios on images, videos, and iframes with responsive breakpoint support.</p>
+            </a>
+            <a class="doc-card" href="/docs/pages/aegov-avatar.html">
+              <div class="card-title">Avatar</div>
+              <p class="card-desc">User profile images or initials with status indicators, sizes, and grouped overflow.</p>
             </a>
             <a class="doc-card" href="/docs/pages/aegov-badge.html">
               <div class="card-title">Badge</div>
@@ -91,11 +87,7 @@
             </a>
             <a class="doc-card" href="/docs/pages/aegov-button.html">
               <div class="card-title">Button</div>
-              <p class="card-desc">Clickable actions with 4 variants, 5 appearances, loading and icon states.</p>
-            </a>
-            <a class="doc-card" href="/docs/pages/aegov-button-group.html">
-              <div class="card-title">Button Group</div>
-              <p class="card-desc">Group related buttons together with connected borders and shared sizing.</p>
+              <p class="card-desc">Clickable actions with multiple variants, appearances, loading and icon states. Includes button group.</p>
             </a>
             <a class="doc-card" href="/docs/pages/aegov-callout.html">
               <div class="card-title">Callout</div>
@@ -143,7 +135,7 @@
             </a>
             <a class="doc-card" href="/docs/pages/aegov-tabs.html">
               <div class="card-title">Tabs</div>
-              <p class="card-desc">Tabbed interface for switching between related content panels.</p>
+              <p class="card-desc">Tabbed interface for switching between related content panels with keyboard navigation.</p>
             </a>
             <a class="doc-card" href="/docs/pages/aegov-timeline.html">
               <div class="card-title">Timeline</div>
@@ -174,9 +166,17 @@
               <div class="card-title">File Upload</div>
               <p class="card-desc">Drag-and-drop or click-to-browse file uploader with type and size validation.</p>
             </a>
+            <a class="doc-card" href="/docs/pages/aegov-form-field.html">
+              <div class="card-title">Form Field</div>
+              <p class="card-desc">Wrapper that auto-links a label to its input via the auto-generated field id.</p>
+            </a>
             <a class="doc-card" href="/docs/pages/aegov-input.html">
               <div class="card-title">Input</div>
-              <p class="card-desc">Text input with labels, addons, icons, validation states, and input groups.</p>
+              <p class="card-desc">Text input with labels, addons, icons, validation states, password reveal, copy, and input groups.</p>
+            </a>
+            <a class="doc-card" href="/docs/pages/aegov-label.html">
+              <div class="card-title">Label</div>
+              <p class="card-desc">Standalone form label with required indicator and programmatic input association.</p>
             </a>
             <a class="doc-card" href="/docs/pages/aegov-otp.html">
               <div class="card-title">OTP</div>
@@ -192,11 +192,11 @@
             </a>
             <a class="doc-card" href="/docs/pages/aegov-select.html">
               <div class="card-title">Select</div>
-              <p class="card-desc">Custom dropdown select with option groups, search, and keyboard navigation.</p>
+              <p class="card-desc">Custom dropdown select with option groups, search, multi-select, and keyboard navigation.</p>
             </a>
             <a class="doc-card" href="/docs/pages/aegov-textarea.html">
               <div class="card-title">Textarea</div>
-              <p class="card-desc">Multi-line text input with auto-resize, character count, and validation.</p>
+              <p class="card-desc">Multi-line text input with auto-resize, character count, copy, and validation.</p>
             </a>
             <a class="doc-card" href="/docs/pages/aegov-toggle.html">
               <div class="card-title">Toggle</div>
@@ -213,7 +213,16 @@
             </a>
             <a class="doc-card" href="/docs/pages/aegov-title.html">
               <div class="card-title">Title</div>
-              <p class="card-desc">Flexible title component with 4 sizes and custom Tailwind class support.</p>
+              <p class="card-desc">Flexible title component with multiple sizes and custom Tailwind class support.</p>
+            </a>
+          </div>
+
+          <!-- Layout -->
+          <div class="section-heading">Layout</div>
+          <div class="card-grid">
+            <a class="doc-card" href="/docs/pages/aegov-header.html">
+              <div class="card-title">Header</div>
+              <p class="card-desc">Government site header with skip link, branding, and shadow-DOM isolation.</p>
             </a>
           </div>
 

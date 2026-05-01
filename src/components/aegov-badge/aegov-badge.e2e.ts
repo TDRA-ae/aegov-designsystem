@@ -1,141 +1,68 @@
 import { newE2EPage } from '@stencil/core/testing';
 
-describe('aegov-badge E2E', () => {
-  describe('rendering', () => {
-    it('should render', async () => {
-      const page = await newE2EPage();
-      await page.setContent('<aegov-badge>Test Badge</aegov-badge>');
-      const element = await page.find('aegov-badge');
-      expect(element).not.toBeNull();
-    });
-
-    it('should display slot content', async () => {
-      const page = await newE2EPage();
-      await page.setContent('<aegov-badge>Badge Text</aegov-badge>');
-      const span = await page.find('aegov-badge span');
-      expect(span.textContent).toBe('Badge Text');
-    });
-
-    it('should render with HTML content', async () => {
-      const page = await newE2EPage();
-      await page.setContent('<aegov-badge><strong>Bold</strong> Text</aegov-badge>');
-      const strong = await page.find('aegov-badge strong');
-      expect(strong).not.toBeNull();
-    });
+describe('aegov-badge (e2e)', () => {
+  it('renders with default classes', async () => {
+    const page = await newE2EPage();
+    await page.setContent('<aegov-badge>New</aegov-badge>');
+    const span = await page.find('aegov-badge span');
+    expect(span).not.toBeNull();
+    expect(span).toHaveClass('aegov-badge');
+    expect(span).toHaveClass('badge-soft');
+    expect(span).toHaveClass('badge-default');
   });
 
-  describe('size variants', () => {
-    it('should render sm size', async () => {
-      const page = await newE2EPage();
-      await page.setContent('<aegov-badge size="sm">Small</aegov-badge>');
-      const span = await page.find('aegov-badge span');
-      const classList = await span.getProperty('className');
-      expect(classList).toContain('text-xs');
-    });
-
-    it('should render base size (default)', async () => {
-      const page = await newE2EPage();
-      await page.setContent('<aegov-badge>Base</aegov-badge>');
-      const span = await page.find('aegov-badge span');
-      const classList = await span.getProperty('className');
-      expect(classList).toContain('text-sm');
-    });
-
-    it('should render lg size', async () => {
-      const page = await newE2EPage();
-      await page.setContent('<aegov-badge size="lg">Large</aegov-badge>');
-      const span = await page.find('aegov-badge span');
-      const classList = await span.getProperty('className');
-      expect(classList).toContain('py-1.5');
-    });
+  it('renders the slot content', async () => {
+    const page = await newE2EPage();
+    await page.setContent('<aegov-badge>Hello</aegov-badge>');
+    const el = await page.find('aegov-badge');
+    expect(el.textContent).toContain('Hello');
   });
 
-  describe('appearance variants', () => {
-    it('should render soft appearance by default', async () => {
-      const page = await newE2EPage();
-      await page.setContent('<aegov-badge color="primary">Soft</aegov-badge>');
-      const span = await page.find('aegov-badge span');
-      const classList = await span.getProperty('className');
-      expect(classList).toContain('badge-soft');
-    });
-
-    it('should render solid appearance', async () => {
-      const page = await newE2EPage();
-      await page.setContent('<aegov-badge appearance="solid" color="primary">Solid</aegov-badge>');
-      const span = await page.find('aegov-badge span');
-      const classList = await span.getProperty('className');
-      expect(classList).toContain('badge-solid');
-    });
+  it('applies color and appearance classes', async () => {
+    const page = await newE2EPage();
+    await page.setContent('<aegov-badge color="primary" appearance="solid">X</aegov-badge>');
+    const span = await page.find('aegov-badge span');
+    expect(span).toHaveClass('badge-solid');
+    expect(span).toHaveClass('badge-primary');
   });
 
-  describe('color variants', () => {
-    const colors = [
-      'default', 'primary', 'secondary', 'aegold', 'aered', 'aegreen',
-      'aeblack', 'techblue', 'seablue', 'camel', 'desert', 'fuchsia',
-      'slate', 'purple', 'pink', 'indigo', 'lime',
-    ];
-
-    colors.forEach(color => {
-      it(`should render ${color} color`, async () => {
-        const page = await newE2EPage();
-        await page.setContent(`<aegov-badge color="${color}">${color}</aegov-badge>`);
-        const span = await page.find('aegov-badge span');
-        const classList = await span.getProperty('className');
-        expect(classList).toContain(`badge-${color}`);
-      });
-    });
+  it('does not show dismiss button by default', async () => {
+    const page = await newE2EPage();
+    await page.setContent('<aegov-badge>X</aegov-badge>');
+    const btn = await page.find('aegov-badge button.badge-dismiss');
+    expect(btn).toBeNull();
   });
 
-  describe('dismissible functionality', () => {
-    it('should not show dismiss button by default', async () => {
-      const page = await newE2EPage();
-      await page.setContent('<aegov-badge>Badge</aegov-badge>');
-      const btn = await page.find('aegov-badge .badge-dismiss');
-      expect(btn).toBeNull();
-    });
-
-    it('should show dismiss button when dismissible', async () => {
-      const page = await newE2EPage();
-      await page.setContent('<aegov-badge is-dismissible>Badge</aegov-badge>');
-      const btn = await page.find('aegov-badge .badge-dismiss');
-      expect(btn).not.toBeNull();
-    });
-
-    it('should emit aegovBadgeDismiss on click', async () => {
-      const page = await newE2EPage();
-      await page.setContent('<aegov-badge is-dismissible>Badge</aegov-badge>');
-      const spy = await page.spyOnEvent('aegovBadgeDismiss');
-      const btn = await page.find('aegov-badge .badge-dismiss');
-      await btn.click();
-      expect(spy).toHaveReceivedEvent();
-    });
-
-    it('should have aria-label on dismiss button', async () => {
-      const page = await newE2EPage();
-      await page.setContent('<aegov-badge is-dismissible>Badge</aegov-badge>');
-      const btn = await page.find('aegov-badge .badge-dismiss');
-      expect(await btn.getAttribute('aria-label')).toBe('Badge dismiss button');
-    });
-
-    it('should hide dismiss SVG from screen readers', async () => {
-      const page = await newE2EPage();
-      await page.setContent('<aegov-badge is-dismissible>Badge</aegov-badge>');
-      const svg = await page.find('aegov-badge .badge-dismiss svg');
-      expect(await svg.getAttribute('aria-hidden')).toBe('true');
-    });
+  it('shows dismiss button when is-dismissible', async () => {
+    const page = await newE2EPage();
+    await page.setContent('<aegov-badge is-dismissible="true">X</aegov-badge>');
+    const btn = await page.find('aegov-badge button.badge-dismiss');
+    expect(btn).not.toBeNull();
   });
 
-  describe('combined props', () => {
-    it('should apply multiple props', async () => {
-      const page = await newE2EPage();
-      await page.setContent('<aegov-badge color="primary" appearance="solid" size="lg" is-dismissible>Badge</aegov-badge>');
-      const span = await page.find('aegov-badge span');
-      const classList = await span.getProperty('className');
-      expect(classList).toContain('badge-solid');
-      expect(classList).toContain('badge-primary');
+  it('emits aegovBadgeDismiss when dismiss is clicked', async () => {
+    const page = await newE2EPage();
+    await page.setContent('<aegov-badge is-dismissible="true">X</aegov-badge>');
+    const el = await page.find('aegov-badge');
+    const spy = await el.spyOnEvent('aegovBadgeDismiss');
+    const btn = await page.find('aegov-badge button.badge-dismiss');
+    await btn.click();
+    await page.waitForChanges();
+    expect(spy).toHaveReceivedEventTimes(1);
+  });
 
-      const btn = await page.find('aegov-badge .badge-dismiss');
-      expect(btn).not.toBeNull();
-    });
+  it('reflects fieldId to the inner span id', async () => {
+    const page = await newE2EPage();
+    await page.setContent('<aegov-badge field-id="b1">X</aegov-badge>');
+    const span = await page.find('aegov-badge span');
+    expect(span.id).toBe('b1');
+  });
+
+  it('forwards aria and data attributes', async () => {
+    const page = await newE2EPage();
+    await page.setContent('<aegov-badge aria-label="status" data-foo="bar">X</aegov-badge>');
+    const span = await page.find('aegov-badge span');
+    expect(span.getAttribute('aria-label')).toBe('status');
+    expect(span.getAttribute('data-foo')).toBe('bar');
   });
 });

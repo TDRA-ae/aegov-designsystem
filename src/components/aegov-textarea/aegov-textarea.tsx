@@ -115,7 +115,7 @@ export class AegovTextarea {
 
   /** Native textarea attributes to pass through. */
   private static readonly PASS_THROUGH_ATTRS = new Set([
-    'rows', 'cols', 'minlength', 'maxlength', 'wrap',
+    'rows', 'cols', 'minlength', 'wrap',
     'autocomplete', 'autofocus', 'spellcheck', 'enterkeyhint',
     'title', 'tabindex', 'form',
   ]);

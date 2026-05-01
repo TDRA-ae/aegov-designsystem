@@ -1,693 +1,338 @@
-# Tabs
+# aegov-tabs
 
-<p class="text-lg text-aeblack-500 mb-8">Tabs organise related content into separate panels, allowing users to switch between views without leaving the page. They reduce clutter and group information logically.</p>
+A tab container that groups related views into a single surface. The `aegov-tabs` parent owns the active state, while `aegov-tab` triggers and `aegov-tab-panel` content elements are paired by matching `tab-id` values. The component supports three visual variants, two orientations, scrollable overflow, and full keyboard navigation that follows the WAI-ARIA tabs pattern.
 
-## Introduction
+## Properties
 
-The tabs component is built from three elements that work together: `<aegov-tabs>` (the container), `<aegov-tab>` (the clickable triggers), and `<aegov-tab-panel>` (the content panels). Each tab is linked to its panel via a matching `tab-id` attribute.
+### default-open
 
-The `aegov-tabs` component provides **3 variants**, **3 sizes**, and supports scrollable overflow, stretched layout, vertical orientation, icons, disabled tabs, and full keyboard navigation out of the box.
+The `tab-id` of the tab that should be active on first render. If omitted, the first non-disabled tab is activated automatically.
 
 ```html
-<aegov-tabs>
+<aegov-tabs default-open="overview">
   <aegov-tab slot="tabs" tab-id="overview">Overview</aegov-tab>
   <aegov-tab slot="tabs" tab-id="details">Details</aegov-tab>
-  <aegov-tab slot="tabs" tab-id="settings">Settings</aegov-tab>
-  <aegov-tab-panel tab-id="overview">Overview content goes here.</aegov-tab-panel>
-  <aegov-tab-panel tab-id="details">Details content goes here.</aegov-tab-panel>
-  <aegov-tab-panel tab-id="settings">Settings content goes here.</aegov-tab-panel>
+  <aegov-tab-panel tab-id="overview">Overview content</aegov-tab-panel>
+  <aegov-tab-panel tab-id="details">Details content</aegov-tab-panel>
 </aegov-tabs>
 ```
 
-<div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-tabs>
-    <aegov-tab slot="tabs" tab-id="intro-overview">Overview</aegov-tab>
-    <aegov-tab slot="tabs" tab-id="intro-details">Details</aegov-tab>
-    <aegov-tab slot="tabs" tab-id="intro-settings">Settings</aegov-tab>
-    <aegov-tab-panel tab-id="intro-overview">Overview content goes here.</aegov-tab-panel>
-    <aegov-tab-panel tab-id="intro-details">Details content goes here.</aegov-tab-panel>
-    <aegov-tab-panel tab-id="intro-settings">Settings content goes here.</aegov-tab-panel>
-  </aegov-tabs>
-</div>
+### variant
 
----
+Visual style for the tab triggers.
 
-## Variants
-
-The `variant` property on `<aegov-tabs>` controls the visual style of the tab triggers. There are three variants available.
-
-### Simple
-
-The default variant. Tabs are rendered as text labels with an underline indicator on the active tab. Best for standard page-level navigation.
+- `simple` (default): underline-style tabs.
+- `segmented`: connected button-group tabs, ideal for view toggles.
+- `pill`: pill-shaped individual tabs.
 
 ```html
-<aegov-tabs variant="simple">
-  <aegov-tab slot="tabs" tab-id="tab1">First</aegov-tab>
-  <aegov-tab slot="tabs" tab-id="tab2">Second</aegov-tab>
-  <aegov-tab slot="tabs" tab-id="tab3">Third</aegov-tab>
-  <aegov-tab-panel tab-id="tab1">First panel content.</aegov-tab-panel>
-  <aegov-tab-panel tab-id="tab2">Second panel content.</aegov-tab-panel>
-  <aegov-tab-panel tab-id="tab3">Third panel content.</aegov-tab-panel>
+<aegov-tabs variant="segmented" default-open="day">
+  <aegov-tab slot="tabs" tab-id="day">Day</aegov-tab>
+  <aegov-tab slot="tabs" tab-id="week">Week</aegov-tab>
+  <aegov-tab-panel tab-id="day">Daily view</aegov-tab-panel>
+  <aegov-tab-panel tab-id="week">Weekly view</aegov-tab-panel>
 </aegov-tabs>
 ```
 
-<div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-tabs variant="simple">
-    <aegov-tab slot="tabs" tab-id="simple-1">First</aegov-tab>
-    <aegov-tab slot="tabs" tab-id="simple-2">Second</aegov-tab>
-    <aegov-tab slot="tabs" tab-id="simple-3">Third</aegov-tab>
-    <aegov-tab-panel tab-id="simple-1">First panel content.</aegov-tab-panel>
-    <aegov-tab-panel tab-id="simple-2">Second panel content.</aegov-tab-panel>
-    <aegov-tab-panel tab-id="simple-3">Third panel content.</aegov-tab-panel>
-  </aegov-tabs>
-</div>
+### size
 
-### Segmented
-
-A button-group style where the active tab appears as a raised, white card within a neutral container. Ideal for toggling between compact views or filters.
+Tab trigger size. Accepts `sm`, `base`, or `lg`. Also supports a Tailwind-style responsive string.
 
 ```html
-<aegov-tabs variant="segmented">
-  <aegov-tab slot="tabs" tab-id="tab1">Grid</aegov-tab>
-  <aegov-tab slot="tabs" tab-id="tab2">List</aegov-tab>
-  <aegov-tab slot="tabs" tab-id="tab3">Map</aegov-tab>
-  <aegov-tab-panel tab-id="tab1">Grid view content.</aegov-tab-panel>
-  <aegov-tab-panel tab-id="tab2">List view content.</aegov-tab-panel>
-  <aegov-tab-panel tab-id="tab3">Map view content.</aegov-tab-panel>
+<aegov-tabs size="lg" default-open="a">
+  <aegov-tab slot="tabs" tab-id="a">A</aegov-tab>
+  <aegov-tab-panel tab-id="a">A</aegov-tab-panel>
 </aegov-tabs>
 ```
 
-<div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-tabs variant="segmented">
-    <aegov-tab slot="tabs" tab-id="seg-1">Grid</aegov-tab>
-    <aegov-tab slot="tabs" tab-id="seg-2">List</aegov-tab>
-    <aegov-tab slot="tabs" tab-id="seg-3">Map</aegov-tab>
-    <aegov-tab-panel tab-id="seg-1">Grid view content.</aegov-tab-panel>
-    <aegov-tab-panel tab-id="seg-2">List view content.</aegov-tab-panel>
-    <aegov-tab-panel tab-id="seg-3">Map view content.</aegov-tab-panel>
-  </aegov-tabs>
-</div>
+### orientation
 
-### Pill
-
-Individual pill-shaped tabs with rounded borders. The active tab receives a tinted primary background. Suitable for category filters or tag-like navigation.
+Layout direction. `horizontal` (default) places tabs above panels; `vertical` places them to the side.
 
 ```html
-<aegov-tabs variant="pill">
-  <aegov-tab slot="tabs" tab-id="tab1">All</aegov-tab>
-  <aegov-tab slot="tabs" tab-id="tab2">Active</aegov-tab>
-  <aegov-tab slot="tabs" tab-id="tab3">Archived</aegov-tab>
-  <aegov-tab-panel tab-id="tab1">All items content.</aegov-tab-panel>
-  <aegov-tab-panel tab-id="tab2">Active items content.</aegov-tab-panel>
-  <aegov-tab-panel tab-id="tab3">Archived items content.</aegov-tab-panel>
+<aegov-tabs orientation="vertical" default-open="profile">
+  <aegov-tab slot="tabs" tab-id="profile">Profile</aegov-tab>
+  <aegov-tab slot="tabs" tab-id="security">Security</aegov-tab>
+  <aegov-tab-panel tab-id="profile">Profile</aegov-tab-panel>
+  <aegov-tab-panel tab-id="security">Security</aegov-tab-panel>
 </aegov-tabs>
 ```
 
-<div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-tabs variant="pill">
-    <aegov-tab slot="tabs" tab-id="pill-1">All</aegov-tab>
-    <aegov-tab slot="tabs" tab-id="pill-2">Active</aegov-tab>
-    <aegov-tab slot="tabs" tab-id="pill-3">Archived</aegov-tab>
-    <aegov-tab-panel tab-id="pill-1">All items content.</aegov-tab-panel>
-    <aegov-tab-panel tab-id="pill-2">Active items content.</aegov-tab-panel>
-    <aegov-tab-panel tab-id="pill-3">Archived items content.</aegov-tab-panel>
-  </aegov-tabs>
-</div>
+### is-scrollable
 
----
+Enables horizontal (or vertical) scrolling when tabs overflow, with a faded gradient edge to signal more content.
+
+```html
+<aegov-tabs is-scrollable="true" default-open="t1">
+  <aegov-tab slot="tabs" tab-id="t1">Tab 1</aegov-tab>
+  <aegov-tab slot="tabs" tab-id="t2">Tab 2</aegov-tab>
+  <aegov-tab slot="tabs" tab-id="t3">Tab 3</aegov-tab>
+  <aegov-tab slot="tabs" tab-id="t4">Tab 4</aegov-tab>
+  <!-- panels... -->
+</aegov-tabs>
+```
+
+### is-stretchable
+
+Stretches each tab to fill the available width equally.
+
+```html
+<aegov-tabs is-stretchable="true" default-open="a">
+  <aegov-tab slot="tabs" tab-id="a">A</aegov-tab>
+  <aegov-tab slot="tabs" tab-id="b">B</aegov-tab>
+  <aegov-tab-panel tab-id="a">A</aegov-tab-panel>
+  <aegov-tab-panel tab-id="b">B</aegov-tab-panel>
+</aegov-tabs>
+```
+
+### label-tablist
+
+Accessible label for the `role="tablist"` element. Defaults to `"Tabs"`.
+
+```html
+<aegov-tabs label-tablist="Account sections">...</aegov-tabs>
+```
+
+### field-id
+
+Auto-generated when omitted. Reflects to the outer container's `id`.
+
+### Sub-component: aegov-tab
+
+A single tab trigger. Place inside `aegov-tabs` with `slot="tabs"`. Uses `tab-id` to pair with its panel.
+
+#### tab-id
+
+Required. Must match a sibling `aegov-tab-panel`'s `tab-id`.
+
+#### is-disabled
+
+Disables the trigger and is skipped during keyboard navigation.
+
+```html
+<aegov-tab slot="tabs" tab-id="archive" is-disabled="true">Archive</aegov-tab>
+```
+
+#### Slots
+
+`aegov-tab` exposes three slots:
+
+- (default) — the tab label.
+- `icon` — an icon placed before the label.
+- `icon-end` — an icon placed after the label.
+
+```html
+<aegov-tab slot="tabs" tab-id="profile">
+  <svg slot="icon" viewBox="0 0 24 24" width="16" height="16"><!-- ... --></svg>
+  Profile
+</aegov-tab>
+```
+
+### Sub-component: aegov-tab-panel
+
+The content panel for a tab. Pair via matching `tab-id`. The parent toggles its `active` prop.
+
+#### tab-id
+
+Required. Must match the corresponding `aegov-tab`'s `tab-id`.
+
+#### extra-class
+
+Additional CSS classes merged onto the inner panel element.
+
+```html
+<aegov-tab-panel tab-id="overview" extra-class="prose">
+  <p>Overview content...</p>
+</aegov-tab-panel>
+```
 
 ## Sizes
 
-The `size` property controls the padding and font size of the tab triggers. There are three sizes available.
-
-| Size   | Font Size | Description              |
-|--------|-----------|--------------------------|
-| `sm`   | 14px      | Compact, space-efficient |
-| `base` | 16px      | Default balanced size    |
-| `lg`   | 18px      | Prominent, high emphasis |
+`size` accepts a single token or a responsive string using Tailwind-style breakpoint prefixes (`xs`, `sm`, `md`, `lg`, `xl`, `2xl`).
 
 ```html
-<aegov-tabs size="sm">…</aegov-tabs>
-<aegov-tabs size="base">…</aegov-tabs>
-<aegov-tabs size="lg">…</aegov-tabs>
-```
-
-<div class="space-y-8 p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <div>
-    <p class="text-xs text-aeblack-400 mb-2">size="sm"</p>
-    <aegov-tabs size="sm">
-      <aegov-tab slot="tabs" tab-id="sz-sm-1">Overview</aegov-tab>
-      <aegov-tab slot="tabs" tab-id="sz-sm-2">Details</aegov-tab>
-      <aegov-tab slot="tabs" tab-id="sz-sm-3">Settings</aegov-tab>
-      <aegov-tab-panel tab-id="sz-sm-1">Small size panel content.</aegov-tab-panel>
-      <aegov-tab-panel tab-id="sz-sm-2">Details panel content.</aegov-tab-panel>
-      <aegov-tab-panel tab-id="sz-sm-3">Settings panel content.</aegov-tab-panel>
-    </aegov-tabs>
-  </div>
-  <div>
-    <p class="text-xs text-aeblack-400 mb-2">size="base"</p>
-    <aegov-tabs size="base">
-      <aegov-tab slot="tabs" tab-id="sz-base-1">Overview</aegov-tab>
-      <aegov-tab slot="tabs" tab-id="sz-base-2">Details</aegov-tab>
-      <aegov-tab slot="tabs" tab-id="sz-base-3">Settings</aegov-tab>
-      <aegov-tab-panel tab-id="sz-base-1">Base size panel content.</aegov-tab-panel>
-      <aegov-tab-panel tab-id="sz-base-2">Details panel content.</aegov-tab-panel>
-      <aegov-tab-panel tab-id="sz-base-3">Settings panel content.</aegov-tab-panel>
-    </aegov-tabs>
-  </div>
-  <div>
-    <p class="text-xs text-aeblack-400 mb-2">size="lg"</p>
-    <aegov-tabs size="lg">
-      <aegov-tab slot="tabs" tab-id="sz-lg-1">Overview</aegov-tab>
-      <aegov-tab slot="tabs" tab-id="sz-lg-2">Details</aegov-tab>
-      <aegov-tab slot="tabs" tab-id="sz-lg-3">Settings</aegov-tab>
-      <aegov-tab-panel tab-id="sz-lg-1">Large size panel content.</aegov-tab-panel>
-      <aegov-tab-panel tab-id="sz-lg-2">Details panel content.</aegov-tab-panel>
-      <aegov-tab-panel tab-id="sz-lg-3">Settings panel content.</aegov-tab-panel>
-    </aegov-tabs>
-  </div>
-</div>
-
-### Responsive Size
-
-The `size` prop accepts Tailwind-style responsive prefixes. Write a space-separated string where each token is either a plain value or `breakpoint:value`. The base value (no prefix) applies below the smallest specified breakpoint.
-
-Available breakpoints: `xs` (480px), `sm` (640px), `md` (768px), `lg` (1024px), `xl` (1280px), `2xl` (1536px), `3xl` (1680px).
-
-```html
-<aegov-tabs size="sm xl:lg">
-  <aegov-tab slot="tabs" tab-id="tab1">Overview</aegov-tab>
-  <aegov-tab slot="tabs" tab-id="tab2">Details</aegov-tab>
-  <aegov-tab slot="tabs" tab-id="tab3">Settings</aegov-tab>
-  <aegov-tab-panel tab-id="tab1">Overview content.</aegov-tab-panel>
-  <aegov-tab-panel tab-id="tab2">Details content.</aegov-tab-panel>
-  <aegov-tab-panel tab-id="tab3">Settings content.</aegov-tab-panel>
+<aegov-tabs size="sm md:base lg:lg" default-open="a">
+  <aegov-tab slot="tabs" tab-id="a">A</aegov-tab>
+  <aegov-tab-panel tab-id="a">A</aegov-tab-panel>
 </aegov-tabs>
 ```
 
-<div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-tabs size="sm xl:lg">
-    <aegov-tab slot="tabs" tab-id="resp-sz-1">Overview</aegov-tab>
-    <aegov-tab slot="tabs" tab-id="resp-sz-2">Details</aegov-tab>
-    <aegov-tab slot="tabs" tab-id="resp-sz-3">Settings</aegov-tab>
-    <aegov-tab-panel tab-id="resp-sz-1">Overview content.</aegov-tab-panel>
-    <aegov-tab-panel tab-id="resp-sz-2">Details content.</aegov-tab-panel>
-    <aegov-tab-panel tab-id="resp-sz-3">Settings content.</aegov-tab-panel>
-  </aegov-tabs>
-</div>
+| Token  | Trigger size |
+| ------ | ------------ |
+| `sm`   | Compact      |
+| `base` | Default      |
+| `lg`   | Large        |
 
-> **Graceful degradation:** Unknown breakpoint names and invalid values are silently ignored. An unrecognised base value falls back to the component default.
+## Examples
 
----
-
-## Default Active Tab
-
-Use the `default-open` property to specify which tab should be active on initial render. Pass the `tab-id` of the desired tab. If not provided, the first non-disabled tab is activated automatically.
+### Basic horizontal tabs
 
 ```html
-<aegov-tabs default-open="details">
+<aegov-tabs default-open="overview">
   <aegov-tab slot="tabs" tab-id="overview">Overview</aegov-tab>
-  <aegov-tab slot="tabs" tab-id="details">Details</aegov-tab>
-  <aegov-tab slot="tabs" tab-id="settings">Settings</aegov-tab>
-  <aegov-tab-panel tab-id="overview">Overview content.</aegov-tab-panel>
-  <aegov-tab-panel tab-id="details">Details content (active on load).</aegov-tab-panel>
-  <aegov-tab-panel tab-id="settings">Settings content.</aegov-tab-panel>
+  <aegov-tab slot="tabs" tab-id="usage">Usage</aegov-tab>
+  <aegov-tab slot="tabs" tab-id="api">API</aegov-tab>
+  <aegov-tab-panel tab-id="overview">Overview content</aegov-tab-panel>
+  <aegov-tab-panel tab-id="usage">Usage content</aegov-tab-panel>
+  <aegov-tab-panel tab-id="api">API content</aegov-tab-panel>
 </aegov-tabs>
 ```
 
-<div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-tabs default-open="dat-details">
-    <aegov-tab slot="tabs" tab-id="dat-overview">Overview</aegov-tab>
-    <aegov-tab slot="tabs" tab-id="dat-details">Details</aegov-tab>
-    <aegov-tab slot="tabs" tab-id="dat-settings">Settings</aegov-tab>
-    <aegov-tab-panel tab-id="dat-overview">Overview content.</aegov-tab-panel>
-    <aegov-tab-panel tab-id="dat-details">Details content (active on load).</aegov-tab-panel>
-    <aegov-tab-panel tab-id="dat-settings">Settings content.</aegov-tab-panel>
-  </aegov-tabs>
-</div>
-
----
-
-## Disabled Tabs
-
-Set the `disabled` attribute on individual `<aegov-tab>` elements to prevent interaction. Disabled tabs are visually muted and cannot be activated by click or keyboard.
+### Segmented view-toggle
 
 ```html
-<aegov-tabs>
-  <aegov-tab slot="tabs" tab-id="tab1">Active Tab</aegov-tab>
-  <aegov-tab slot="tabs" tab-id="tab2" is-disabled>Disabled Tab</aegov-tab>
-  <aegov-tab slot="tabs" tab-id="tab3">Another Tab</aegov-tab>
-  <aegov-tab-panel tab-id="tab1">First panel content.</aegov-tab-panel>
-  <aegov-tab-panel tab-id="tab2">This panel cannot be reached.</aegov-tab-panel>
-  <aegov-tab-panel tab-id="tab3">Third panel content.</aegov-tab-panel>
+<aegov-tabs variant="segmented" default-open="grid">
+  <aegov-tab slot="tabs" tab-id="grid">Grid</aegov-tab>
+  <aegov-tab slot="tabs" tab-id="list">List</aegov-tab>
+  <aegov-tab-panel tab-id="grid">Grid view</aegov-tab-panel>
+  <aegov-tab-panel tab-id="list">List view</aegov-tab-panel>
 </aegov-tabs>
 ```
 
-<div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-tabs>
-    <aegov-tab slot="tabs" tab-id="dis-1">Active Tab</aegov-tab>
-    <aegov-tab slot="tabs" tab-id="dis-2" is-disabled>Disabled Tab</aegov-tab>
-    <aegov-tab slot="tabs" tab-id="dis-3">Another Tab</aegov-tab>
-    <aegov-tab-panel tab-id="dis-1">First panel content.</aegov-tab-panel>
-    <aegov-tab-panel tab-id="dis-2">This panel cannot be reached.</aegov-tab-panel>
-    <aegov-tab-panel tab-id="dis-3">Third panel content.</aegov-tab-panel>
-  </aegov-tabs>
-</div>
-
----
-
-## Icons in Tabs
-
-Tabs support optional icon slots. Use `slot="icon"` for a leading icon and `slot="icon-end"` for a trailing icon. Icons are automatically sized to match the current tab size.
+### Vertical tabs with icons
 
 ```html
-<aegov-tabs>
-  <aegov-tab slot="tabs" tab-id="tab1">
-    <svg slot="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
-         stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
-      <polyline points="9 22 9 12 15 12 15 22"/>
-    </svg>
-    Home
-  </aegov-tab>
-  <aegov-tab slot="tabs" tab-id="tab2">
-    <svg slot="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
-         stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/>
-      <circle cx="12" cy="7" r="4"/>
-    </svg>
+<aegov-tabs orientation="vertical" default-open="profile">
+  <aegov-tab slot="tabs" tab-id="profile">
+    <svg slot="icon" width="16" height="16"><!-- ... --></svg>
     Profile
   </aegov-tab>
-  <aegov-tab slot="tabs" tab-id="tab3">
-    <svg slot="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
-         stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <circle cx="12" cy="12" r="3"/>
-      <path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06A1.65 1.65 0 004.6 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06A1.65 1.65 0 009 4.6a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9c.26.604.852.997 1.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/>
-    </svg>
-    Settings
+  <aegov-tab slot="tabs" tab-id="security">
+    <svg slot="icon" width="16" height="16"><!-- ... --></svg>
+    Security
   </aegov-tab>
-  <aegov-tab-panel tab-id="tab1">Home content.</aegov-tab-panel>
-  <aegov-tab-panel tab-id="tab2">Profile content.</aegov-tab-panel>
-  <aegov-tab-panel tab-id="tab3">Settings content.</aegov-tab-panel>
+  <aegov-tab-panel tab-id="profile">Profile content</aegov-tab-panel>
+  <aegov-tab-panel tab-id="security">Security content</aegov-tab-panel>
 </aegov-tabs>
 ```
 
-<div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-tabs>
-    <aegov-tab slot="tabs" tab-id="icon-1">
-      <svg slot="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-      Home
-    </aegov-tab>
-    <aegov-tab slot="tabs" tab-id="icon-2">
-      <svg slot="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-      Profile
-    </aegov-tab>
-    <aegov-tab slot="tabs" tab-id="icon-3">
-      <svg slot="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06A1.65 1.65 0 004.6 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06A1.65 1.65 0 009 4.6a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9c.26.604.852.997 1.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
-      Settings
-    </aegov-tab>
-    <aegov-tab-panel tab-id="icon-1">Home content.</aegov-tab-panel>
-    <aegov-tab-panel tab-id="icon-2">Profile content.</aegov-tab-panel>
-    <aegov-tab-panel tab-id="icon-3">Settings content.</aegov-tab-panel>
-  </aegov-tabs>
-</div>
-
-Icons also work with segmented and pill variants:
-
-<div class="flex flex-wrap gap-8 p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <div>
-    <p class="text-xs text-aeblack-400 mb-2">Segmented with icons</p>
-    <aegov-tabs variant="segmented">
-      <aegov-tab slot="tabs" tab-id="iseg-1">
-        <svg slot="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
-        Grid
-      </aegov-tab>
-      <aegov-tab slot="tabs" tab-id="iseg-2">
-        <svg slot="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
-        List
-      </aegov-tab>
-      <aegov-tab-panel tab-id="iseg-1">Grid view content.</aegov-tab-panel>
-      <aegov-tab-panel tab-id="iseg-2">List view content.</aegov-tab-panel>
-    </aegov-tabs>
-  </div>
-  <div>
-    <p class="text-xs text-aeblack-400 mb-2">Pill with icons</p>
-    <aegov-tabs variant="pill">
-      <aegov-tab slot="tabs" tab-id="ipill-1">
-        <svg slot="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
-        Grid
-      </aegov-tab>
-      <aegov-tab slot="tabs" tab-id="ipill-2">
-        <svg slot="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
-        List
-      </aegov-tab>
-      <aegov-tab-panel tab-id="ipill-1">Grid view content.</aegov-tab-panel>
-      <aegov-tab-panel tab-id="ipill-2">List view content.</aegov-tab-panel>
-    </aegov-tabs>
-  </div>
-</div>
-
----
-
-## Stretched Tabs
-
-Set the `is-stretchable` attribute on `<aegov-tabs>` to distribute tabs evenly across the full width of the container. Each tab grows equally to fill available space.
+### Scrollable overflow
 
 ```html
-<aegov-tabs is-stretchable>
-  <aegov-tab slot="tabs" tab-id="tab1">Overview</aegov-tab>
-  <aegov-tab slot="tabs" tab-id="tab2">Details</aegov-tab>
-  <aegov-tab slot="tabs" tab-id="tab3">Settings</aegov-tab>
-  <aegov-tab-panel tab-id="tab1">Overview panel.</aegov-tab-panel>
-  <aegov-tab-panel tab-id="tab2">Details panel.</aegov-tab-panel>
-  <aegov-tab-panel tab-id="tab3">Settings panel.</aegov-tab-panel>
+<aegov-tabs is-scrollable="true" default-open="m1">
+  <aegov-tab slot="tabs" tab-id="m1">January</aegov-tab>
+  <aegov-tab slot="tabs" tab-id="m2">February</aegov-tab>
+  <aegov-tab slot="tabs" tab-id="m3">March</aegov-tab>
+  <!-- ...more months -->
+  <aegov-tab-panel tab-id="m1">January</aegov-tab-panel>
+  <!-- ... -->
 </aegov-tabs>
 ```
 
-<div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-tabs is-stretchable>
-    <aegov-tab slot="tabs" tab-id="str-1">Overview</aegov-tab>
-    <aegov-tab slot="tabs" tab-id="str-2">Details</aegov-tab>
-    <aegov-tab slot="tabs" tab-id="str-3">Settings</aegov-tab>
-    <aegov-tab-panel tab-id="str-1">Overview panel content.</aegov-tab-panel>
-    <aegov-tab-panel tab-id="str-2">Details panel content.</aegov-tab-panel>
-    <aegov-tab-panel tab-id="str-3">Settings panel content.</aegov-tab-panel>
-  </aegov-tabs>
-</div>
+## RTL Behavior
 
-Stretch works with all variants:
+`aegov-tabs` is direction-aware. In an RTL context (`dir="rtl"`):
 
-<div class="space-y-8 p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <div>
-    <p class="text-xs text-aeblack-400 mb-2">Segmented + stretch</p>
-    <aegov-tabs variant="segmented" is-stretchable>
-      <aegov-tab slot="tabs" tab-id="strseg-1">Overview</aegov-tab>
-      <aegov-tab slot="tabs" tab-id="strseg-2">Details</aegov-tab>
-      <aegov-tab slot="tabs" tab-id="strseg-3">Settings</aegov-tab>
-      <aegov-tab-panel tab-id="strseg-1">Overview content.</aegov-tab-panel>
-      <aegov-tab-panel tab-id="strseg-2">Details content.</aegov-tab-panel>
-      <aegov-tab-panel tab-id="strseg-3">Settings content.</aegov-tab-panel>
-    </aegov-tabs>
-  </div>
-  <div>
-    <p class="text-xs text-aeblack-400 mb-2">Pill + stretch</p>
-    <aegov-tabs variant="pill" is-stretchable>
-      <aegov-tab slot="tabs" tab-id="strpill-1">Overview</aegov-tab>
-      <aegov-tab slot="tabs" tab-id="strpill-2">Details</aegov-tab>
-      <aegov-tab slot="tabs" tab-id="strpill-3">Settings</aegov-tab>
-      <aegov-tab-panel tab-id="strpill-1">Overview content.</aegov-tab-panel>
-      <aegov-tab-panel tab-id="strpill-2">Details content.</aegov-tab-panel>
-      <aegov-tab-panel tab-id="strpill-3">Settings content.</aegov-tab-panel>
-    </aegov-tabs>
-  </div>
-</div>
-
----
-
-## Scrollable Tabs
-
-When there are many tabs that overflow the container, set the `is-scrollable` attribute to enable horizontal scrolling. A faded gradient edge appears to indicate that more tabs are available.
-
-```html
-<aegov-tabs is-scrollable>
-  <aegov-tab slot="tabs" tab-id="tab1">Dashboard</aegov-tab>
-  <aegov-tab slot="tabs" tab-id="tab2">Analytics</aegov-tab>
-  <aegov-tab slot="tabs" tab-id="tab3">Reports</aegov-tab>
-  <aegov-tab slot="tabs" tab-id="tab4">Users</aegov-tab>
-  <aegov-tab slot="tabs" tab-id="tab5">Permissions</aegov-tab>
-  <aegov-tab slot="tabs" tab-id="tab6">Notifications</aegov-tab>
-  <aegov-tab slot="tabs" tab-id="tab7">Integrations</aegov-tab>
-  <aegov-tab slot="tabs" tab-id="tab8">Billing</aegov-tab>
-  <aegov-tab slot="tabs" tab-id="tab9">Support</aegov-tab>
-  <!-- panels omitted for brevity -->
-</aegov-tabs>
-```
-
-<div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov" style="max-width: 500px;">
-  <aegov-tabs is-scrollable>
-    <aegov-tab slot="tabs" tab-id="scr-1">Dashboard</aegov-tab>
-    <aegov-tab slot="tabs" tab-id="scr-2">Analytics</aegov-tab>
-    <aegov-tab slot="tabs" tab-id="scr-3">Reports</aegov-tab>
-    <aegov-tab slot="tabs" tab-id="scr-4">Users</aegov-tab>
-    <aegov-tab slot="tabs" tab-id="scr-5">Permissions</aegov-tab>
-    <aegov-tab slot="tabs" tab-id="scr-6">Notifications</aegov-tab>
-    <aegov-tab slot="tabs" tab-id="scr-7">Integrations</aegov-tab>
-    <aegov-tab slot="tabs" tab-id="scr-8">Billing</aegov-tab>
-    <aegov-tab slot="tabs" tab-id="scr-9">Support</aegov-tab>
-    <aegov-tab-panel tab-id="scr-1">Dashboard content.</aegov-tab-panel>
-    <aegov-tab-panel tab-id="scr-2">Analytics content.</aegov-tab-panel>
-    <aegov-tab-panel tab-id="scr-3">Reports content.</aegov-tab-panel>
-    <aegov-tab-panel tab-id="scr-4">Users content.</aegov-tab-panel>
-    <aegov-tab-panel tab-id="scr-5">Permissions content.</aegov-tab-panel>
-    <aegov-tab-panel tab-id="scr-6">Notifications content.</aegov-tab-panel>
-    <aegov-tab-panel tab-id="scr-7">Integrations content.</aegov-tab-panel>
-    <aegov-tab-panel tab-id="scr-8">Billing content.</aegov-tab-panel>
-    <aegov-tab-panel tab-id="scr-9">Support content.</aegov-tab-panel>
-  </aegov-tabs>
-</div>
-
-> **Note:** The scrollbar is visually hidden but the tab list remains scrollable via mouse drag, trackpad, or touch. When a tab is activated via keyboard, it is automatically scrolled into view.
-
----
-
-## Vertical Orientation
-
-Set `orientation="vertical"` to display the tab list alongside the panels instead of above them. The tab triggers stack vertically with the panels to their right (or left in RTL).
-
-```html
-<aegov-tabs orientation="vertical">
-  <aegov-tab slot="tabs" tab-id="tab1">General</aegov-tab>
-  <aegov-tab slot="tabs" tab-id="tab2">Security</aegov-tab>
-  <aegov-tab slot="tabs" tab-id="tab3">Notifications</aegov-tab>
-  <aegov-tab-panel tab-id="tab1">General settings panel.</aegov-tab-panel>
-  <aegov-tab-panel tab-id="tab2">Security settings panel.</aegov-tab-panel>
-  <aegov-tab-panel tab-id="tab3">Notification settings panel.</aegov-tab-panel>
-</aegov-tabs>
-```
-
-<div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-tabs orientation="vertical">
-    <aegov-tab slot="tabs" tab-id="vert-1">General</aegov-tab>
-    <aegov-tab slot="tabs" tab-id="vert-2">Security</aegov-tab>
-    <aegov-tab slot="tabs" tab-id="vert-3">Notifications</aegov-tab>
-    <aegov-tab-panel tab-id="vert-1">General settings content goes here. This panel appears to the right of the tab list in LTR layouts.</aegov-tab-panel>
-    <aegov-tab-panel tab-id="vert-2">Security settings content goes here.</aegov-tab-panel>
-    <aegov-tab-panel tab-id="vert-3">Notification preferences content goes here.</aegov-tab-panel>
-  </aegov-tabs>
-</div>
-
-Vertical orientation works with all three variants:
-
-<div class="space-y-8 p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <div>
-    <p class="text-xs text-aeblack-400 mb-2">Segmented + vertical</p>
-    <aegov-tabs variant="segmented" orientation="vertical">
-      <aegov-tab slot="tabs" tab-id="vseg-1">General</aegov-tab>
-      <aegov-tab slot="tabs" tab-id="vseg-2">Security</aegov-tab>
-      <aegov-tab slot="tabs" tab-id="vseg-3">Notifications</aegov-tab>
-      <aegov-tab-panel tab-id="vseg-1">General settings content.</aegov-tab-panel>
-      <aegov-tab-panel tab-id="vseg-2">Security settings content.</aegov-tab-panel>
-      <aegov-tab-panel tab-id="vseg-3">Notification settings content.</aegov-tab-panel>
-    </aegov-tabs>
-  </div>
-  <div>
-    <p class="text-xs text-aeblack-400 mb-2">Pill + vertical</p>
-    <aegov-tabs variant="pill" orientation="vertical">
-      <aegov-tab slot="tabs" tab-id="vpill-1">General</aegov-tab>
-      <aegov-tab slot="tabs" tab-id="vpill-2">Security</aegov-tab>
-      <aegov-tab slot="tabs" tab-id="vpill-3">Notifications</aegov-tab>
-      <aegov-tab-panel tab-id="vpill-1">General settings content.</aegov-tab-panel>
-      <aegov-tab-panel tab-id="vpill-2">Security settings content.</aegov-tab-panel>
-      <aegov-tab-panel tab-id="vpill-3">Notification settings content.</aegov-tab-panel>
-    </aegov-tabs>
-  </div>
-</div>
-
-In vertical mode, keyboard navigation uses **Arrow Up** and **Arrow Down** instead of Arrow Left and Arrow Right.
-
----
-
-## Tablist Label
-
-Use the `label-tablist` property to provide a custom accessible label for the tablist. This helps screen readers distinguish between multiple tab groups on the same page.
-
-```html
-<aegov-tabs label-tablist="Account settings">
-  <aegov-tab slot="tabs" tab-id="tab1">Profile</aegov-tab>
-  <aegov-tab slot="tabs" tab-id="tab2">Password</aegov-tab>
-  <aegov-tab-panel tab-id="tab1">Profile settings.</aegov-tab-panel>
-  <aegov-tab-panel tab-id="tab2">Password settings.</aegov-tab-panel>
-</aegov-tabs>
-```
-
----
-
-## Events
-
-The `aegovTabChange` event is emitted on the `<aegov-tabs>` element whenever the active tab changes. The event detail contains the `tab-id` string of the newly active tab.
-
-```html
-<aegov-tabs id="my-tabs">
-  <aegov-tab slot="tabs" tab-id="overview">Overview</aegov-tab>
-  <aegov-tab slot="tabs" tab-id="details">Details</aegov-tab>
-  <aegov-tab-panel tab-id="overview">Overview content.</aegov-tab-panel>
-  <aegov-tab-panel tab-id="details">Details content.</aegov-tab-panel>
-</aegov-tabs>
-
-<script>
-  document.getElementById('my-tabs')
-    .addEventListener('aegovTabChange', (e) => {
-      console.log('Active tab changed to:', e.detail);
-    });
-</script>
-```
-
----
-
-## RTL Support
-
-The component fully supports right-to-left layouts. When the document or a parent element has `dir="rtl"`, the tab layout, scroll fades, keyboard navigation, and vertical border positions automatically mirror.
-
-```html
-<div dir="rtl">
-  <aegov-tabs>
-    <aegov-tab slot="tabs" tab-id="tab1">نظرة عامة</aegov-tab>
-    <aegov-tab slot="tabs" tab-id="tab2">التفاصيل</aegov-tab>
-    <aegov-tab slot="tabs" tab-id="tab3">الإعدادات</aegov-tab>
-    <aegov-tab-panel tab-id="tab1">محتوى نظرة عامة.</aegov-tab-panel>
-    <aegov-tab-panel tab-id="tab2">محتوى التفاصيل.</aegov-tab-panel>
-    <aegov-tab-panel tab-id="tab3">محتوى الإعدادات.</aegov-tab-panel>
-  </aegov-tabs>
-</div>
-```
-
-<div dir="rtl" class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-tabs>
-    <aegov-tab slot="tabs" tab-id="rtl-1">نظرة عامة</aegov-tab>
-    <aegov-tab slot="tabs" tab-id="rtl-2">التفاصيل</aegov-tab>
-    <aegov-tab slot="tabs" tab-id="rtl-3">الإعدادات</aegov-tab>
-    <aegov-tab-panel tab-id="rtl-1">محتوى نظرة عامة.</aegov-tab-panel>
-    <aegov-tab-panel tab-id="rtl-2">محتوى التفاصيل.</aegov-tab-panel>
-    <aegov-tab-panel tab-id="rtl-3">محتوى الإعدادات.</aegov-tab-panel>
-  </aegov-tabs>
-</div>
-
-No additional configuration is needed — keyboard arrow keys are automatically reversed in RTL mode.
-
----
+- Horizontal tab order flows right-to-left so `ArrowLeft` advances and `ArrowRight` retreats.
+- Vertical orientation is unaffected; arrow keys remain `ArrowUp`/`ArrowDown`.
+- `Home` and `End` always jump to first/last tab regardless of direction.
+- Scrollable fade gradients adjust to reflect scroll position from either edge.
 
 ## API Reference
 
 ### aegov-tabs Properties
 
-| Property           | Attribute            | Description                                                                 | Type                                | Default          |
-|--------------------|----------------------|-----------------------------------------------------------------------------|-------------------------------------|------------------|
-| `variant`          | `variant`            | Visual style of the tab triggers                                           | `'simple'` \| `'segmented'` \| `'pill'` | `'simple'`       |
-| `size`             | `size`               | Size of the tab triggers. Supports responsive strings (e.g. `'sm xl:lg'`). | `'sm'` \| `'base'` \| `'lg'`       | `'base'`         |
-| `defaultOpen` | `default-open` | The tab-id of the initially active tab                                     | `string`                            | `''`             |
-| `is-scrollable`       | `is-scrollable`         | Enables horizontal scrolling when tabs overflow                            | `boolean`                           | `false`          |
-| `is-stretchable`          | `is-stretchable`            | Distributes tabs evenly across full width                                  | `boolean`                           | `false`          |
-| `orientation`      | `orientation`        | Layout direction of the tab list                                           | `'horizontal'` \| `'vertical'`     | `'horizontal'`   |
-| `labelTablist`     | `label-tablist`      | Accessible label for the tablist element                                   | `string`                            | `'Tabs'`         |
+| Property         | Attribute         | Description                                              | Type                                       | Default      |
+| ---------------- | ----------------- | -------------------------------------------------------- | ------------------------------------------ | ------------ |
+| `fieldId`        | `field-id`        | DOM `id` for the container. Auto-generated if omitted   | `string`                                   | generated    |
+| `variant`        | `variant`         | Visual style                                             | `'simple' \| 'segmented' \| 'pill'`        | `'simple'`   |
+| `defaultOpen`    | `default-open`    | `tab-id` of the initially active tab                     | `string`                                   | `''`         |
+| `size`           | `size`            | Trigger size token or responsive string                  | `string`                                   | `'base'`     |
+| `orientation`    | `orientation`     | Layout orientation                                       | `'horizontal' \| 'vertical'`               | `'horizontal'` |
+| `isScrollable`   | `is-scrollable`   | Enable scroll-overflow with edge fade                    | `boolean`                                  | `false`      |
+| `isStretchable`  | `is-stretchable`  | Stretch tabs to fill container                           | `boolean`                                  | `false`      |
+| `labelTablist`   | `label-tablist`   | `aria-label` for the `role="tablist"` element            | `string`                                   | `'Tabs'`     |
 
 ### aegov-tab Properties
 
-| Property      | Attribute      | Description                                                      | Type                                | Default      |
-|---------------|----------------|------------------------------------------------------------------|-------------------------------------|--------------|
-| `tabId`       | `tab-id`       | Unique identifier matching the corresponding panel's tab-id      | `string`                            | **(required)** |
-| `disabled`    | `disabled`     | Disables this tab so it cannot be activated                      | `boolean`                           | `false`      |
-| `activeTabId` | `active-tab-id`| Currently active tab id (set automatically by parent)            | `string`                            | `''`         |
-| `variant`     | `variant`      | Visual variant (set automatically by parent)                     | `'simple'` \| `'segmented'` \| `'pill'` | `'simple'`   |
-| `size`        | `size`         | Size of the tab (set automatically by parent)                    | `'sm'` \| `'base'` \| `'lg'`       | `'base'`     |
-| `orientation` | `orientation`  | Orientation (set automatically by parent)                        | `'horizontal'` \| `'vertical'`     | `'horizontal'` |
+| Property        | Attribute         | Description                                       | Type      | Default     |
+| --------------- | ----------------- | ------------------------------------------------- | --------- | ----------- |
+| `tabId`         | `tab-id`          | Required. Matches the corresponding panel        | `string`  | (required)  |
+| `isDisabled`    | `is-disabled`     | Disable this tab                                  | `boolean` | `false`     |
+| `activeTabId`   | `active-tab-id`   | (managed by parent) currently active tab id       | `string`  | `''`        |
+| `variant`       | `variant`         | (managed by parent)                               | enum      | `'simple'`  |
+| `size`          | `size`            | (managed by parent)                               | `string`  | `'base'`    |
+| `orientation`   | `orientation`     | (managed by parent)                               | enum      | `'horizontal'` |
 
 ### aegov-tab-panel Properties
 
-| Property | Attribute | Description                                                  | Type      | Default          |
-|----------|-----------|--------------------------------------------------------------|-----------|------------------|
-| `tabId`  | `tab-id`  | Unique identifier matching the corresponding tab's tab-id    | `string`  | **(required)**   |
-| `active` | `active`  | Whether this panel is currently visible (set by parent)      | `boolean` | `false`          |
+| Property      | Attribute      | Description                                     | Type      | Default      |
+| ------------- | -------------- | ----------------------------------------------- | --------- | ------------ |
+| `tabId`       | `tab-id`       | Required. Matches the corresponding tab         | `string`  | (required)   |
+| `active`      | `active`       | (managed by parent) is panel currently shown    | `boolean` | `false`      |
+| `extraClass`  | `extra-class`  | Additional CSS classes on the panel element     | `string`  | `undefined`  |
+
+### Pass-through Attributes
+
+`aegov-tabs` forwards `aria-*` and `data-*` attributes set on the host onto the rendered container element. Pass-through is not enabled on `aegov-tab` or `aegov-tab-panel`.
 
 ### Events
 
-| Event            | Description                                       | Detail Type | Emitted by     |
-|------------------|---------------------------------------------------|-------------|----------------|
-| `aegovTabChange` | Emitted when the active tab changes               | `string`    | `aegov-tabs`   |
-| `aegovTabSelect` | Emitted when a tab trigger is clicked (internal)  | `string`    | `aegov-tab`    |
+| Event             | Component     | Detail   | Description                                        |
+| ----------------- | ------------- | -------- | -------------------------------------------------- |
+| `aegovTabChange`  | `aegov-tabs`  | `string` | Fires when the active tab changes (after the new tab is applied). Detail is the new active `tab-id`. |
+| `aegovTabSelect`  | `aegov-tab`   | `string` | Bubbles up from a tab when clicked. The parent listens and updates state — consumers normally listen to `aegovTabChange` instead. |
 
-> **Note:** The `aegovTabSelect` event is an internal event that bubbles from `<aegov-tab>` to `<aegov-tabs>`. Listen to `aegovTabChange` on the `<aegov-tabs>` element for tab change notifications.
+### Event listening example
+
+```html
+<aegov-tabs id="settings" default-open="profile">
+  <aegov-tab slot="tabs" tab-id="profile">Profile</aegov-tab>
+  <aegov-tab slot="tabs" tab-id="security">Security</aegov-tab>
+  <aegov-tab-panel tab-id="profile">Profile</aegov-tab-panel>
+  <aegov-tab-panel tab-id="security">Security</aegov-tab-panel>
+</aegov-tabs>
+
+<script>
+  document.querySelector('#settings').addEventListener('aegovTabChange', (e) => {
+    console.log('Active tab is now', e.detail);
+  });
+</script>
+```
 
 ### Slots
 
-#### aegov-tabs
-
-| Slot      | Description                                                          |
-|-----------|----------------------------------------------------------------------|
-| `tabs`    | Place `<aegov-tab>` elements here with `slot="tabs"`                |
-| (default) | Place `<aegov-tab-panel>` elements here (no slot attribute needed)  |
-
-#### aegov-tab
-
-| Slot        | Description                        |
-|-------------|------------------------------------|
-| (default)   | Tab label text                     |
-| `icon`      | Optional icon before the label     |
-| `icon-end`  | Optional icon after the label      |
-
-#### aegov-tab-panel
-
-| Slot      | Description              |
-|-----------|--------------------------|
-| (default) | The panel content        |
-
----
+| Component         | Slot name | Description                                              |
+| ----------------- | --------- | -------------------------------------------------------- |
+| `aegov-tabs`      | `tabs`    | `aegov-tab` triggers (each must use `slot="tabs"`)       |
+| `aegov-tabs`      | (default) | `aegov-tab-panel` elements                               |
+| `aegov-tab`       | (default) | Tab label text                                           |
+| `aegov-tab`       | `icon`    | Optional icon shown before the label                     |
+| `aegov-tab`       | `icon-end`| Optional icon shown after the label                      |
+| `aegov-tab-panel` | (default) | Panel content                                            |
 
 ## Accessibility
 
-The `aegov-tabs` component implements the [WAI-ARIA Tabs pattern](https://www.w3.org/WAI/ARIA/apg/patterns/tabs/) with full keyboard support.
+### Built-in
 
-### Built-in Features
+- The tablist uses `role="tablist"` with an `aria-label` (`labelTablist`) and `aria-orientation` reflecting `orientation`.
+- Each tab is a real `<button>` with `role="tab"`, `aria-selected`, and `aria-controls` linking to its panel.
+- Each panel uses `role="tabpanel"`, `aria-labelledby` linking to its tab, and `hidden` when inactive.
+- Inactive tabs receive `tabindex="-1"`; the active tab uses `tabindex="0"` (roving tabindex pattern).
+- Disabled tabs set both `disabled` and `aria-disabled="true"` and are skipped by keyboard navigation.
 
-- **`role="tablist"`** — the tab list container is marked with the tablist role. The `aria-label` is configurable via the `label-tablist` property.
-- **`aria-orientation`** — set to `"horizontal"` or `"vertical"` based on the `orientation` property, so assistive technologies know the expected keyboard navigation direction.
-- **`role="tab"`** — each tab trigger has the tab role with `aria-selected` set to `"true"` for the active tab and `"false"` for inactive ones.
-- **`aria-controls`** — each tab trigger references its corresponding panel via `aria-controls="panel-{tab-id}"`.
-- **`aria-disabled`** — set to `"true"` on disabled tabs along with the native `disabled` attribute.
-- **`role="tabpanel"`** — each panel has the tabpanel role with `aria-labelledby="tab-{tab-id}"` linking back to its trigger.
-- **`tabIndex` management** — only the active tab has `tabIndex="0"`. Inactive tabs have `tabIndex="-1"` so users can Tab past the entire tab list in one step, then use arrow keys to navigate between tabs.
-- **`hidden` attribute** — inactive panels are hidden from both visual display and assistive technologies.
+### Developer responsibilities
 
-### Keyboard Navigation
+- Provide a unique, matching `tab-id` for each tab/panel pair.
+- Ensure each tab has a meaningful accessible name through the default slot.
+- When using only icons, provide accessible text via the default slot or visually hidden text.
+- Override the default `label-tablist` when the tabs control more specific content.
 
-| Key                  | Horizontal Tabs          | Vertical Tabs            |
-|----------------------|--------------------------|--------------------------|
-| **Arrow Right**      | Next tab                 | —                        |
-| **Arrow Left**       | Previous tab             | —                        |
-| **Arrow Down**       | —                        | Next tab                 |
-| **Arrow Up**         | —                        | Previous tab             |
-| **Home**             | First tab                | First tab                |
-| **End**              | Last tab                 | Last tab                 |
-| **Tab**              | Move to panel content    | Move to panel content    |
+### Keyboard support
 
-Arrow keys wrap around — pressing Right on the last tab moves focus to the first tab. Disabled tabs are skipped during keyboard navigation. In RTL mode, Arrow Right and Arrow Left are reversed.
+| Key            | Horizontal           | Vertical             |
+| -------------- | -------------------- | -------------------- |
+| `ArrowRight`   | Move to next tab     | (no effect)          |
+| `ArrowLeft`    | Move to previous tab | (no effect)          |
+| `ArrowDown`    | (no effect)          | Move to next tab     |
+| `ArrowUp`      | (no effect)          | Move to previous tab |
+| `Home`         | Move to first tab    | Move to first tab    |
+| `End`          | Move to last tab     | Move to last tab     |
+| `Tab`          | Move into/out of tablist (focuses active tab on entry) | Same |
 
-### Developer Responsibilities
+Arrow-key navigation is automatic, wraps around at the ends, and skips disabled tabs. RTL flips the horizontal arrow direction. Note that activation occurs on focus change (automatic activation) — moving focus also activates the tab.
 
-1. **Provide meaningful tab labels.** Each `<aegov-tab>` should contain descriptive text so that screen readers can announce the tab's purpose.
+### Notes
 
-2. **Use `label-tablist` for multiple tab groups.** If a page contains more than one tabs component, give each a unique `label-tablist` so screen readers can distinguish them.
-
-3. **Use icons with text, not alone.** Unlike buttons, tabs do not support `aria-label` directly. Always include visible text alongside icons in tabs.
-
----
-
-## Notes
-
-- The `<aegov-tabs>` component manages all state internally. You do not need to manually set `active` on panels or `activeTabId` on tabs — the parent component handles this automatically.
-- The `tab-id` attribute must be unique within each `<aegov-tabs>` instance and must match between an `<aegov-tab>` and its corresponding `<aegov-tab-panel>`.
-- Properties like `variant`, `size`, and `orientation` are set on the parent `<aegov-tabs>` and automatically propagated to all child `<aegov-tab>` elements. Do not set these on individual tabs.
-- The `is-scrollable` and `is-stretchable` properties are mutually exclusive in practice — stretching tabs to fill the width eliminates the need for scrolling.
-- In scrollable mode, the native scrollbar is hidden for a clean appearance. Users can scroll via mouse drag, trackpad gestures, or touch input.
-- When a tab is activated via keyboard in scrollable mode, the active tab is automatically scrolled into view with smooth animation.
-- The `aegovTabSelect` event from `<aegov-tab>` is an internal event intercepted by `<aegov-tabs>`. Use the `aegovTabChange` event on the parent for external listeners.
-- SVG icons placed in the `icon` and `icon-end` slots are automatically sized based on the current tab size (14px for sm, 16px for base, 20px for lg).
+- Activation follows focus by design. If you need manual activation (focus moves but content does not change until `Enter`/`Space`), this is not currently supported.
+- When `is-scrollable` is enabled, activating a tab smoothly scrolls it into view.

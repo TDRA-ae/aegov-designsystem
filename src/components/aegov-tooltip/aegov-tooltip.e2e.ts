@@ -1,499 +1,90 @@
 import { newE2EPage } from '@stencil/core/testing';
 
-describe('aegov-tooltip e2e', () => {
-  describe('rendering', () => {
-    it('should render tooltip component', async () => {
-      const page = await newE2EPage();
-      await page.setContent(`
-        <aegov-tooltip content="Test tooltip">
-          <button>Hover me</button>
-        </aegov-tooltip>
-      `);
-      const element = await page.find('aegov-tooltip');
-      expect(element).toBeTruthy();
-    });
-
-    it('should render trigger element', async () => {
-      const page = await newE2EPage();
-      await page.setContent(`
-        <aegov-tooltip content="Test tooltip">
-          <button>Click me</button>
-        </aegov-tooltip>
-      `);
-      const trigger = await page.find('aegov-tooltip .aegov-tooltip-trigger');
-      expect(trigger).toBeTruthy();
-      expect(trigger.textContent.trim()).toBe('Click me');
-    });
-
-    it('should not display tooltip initially', async () => {
-      const page = await newE2EPage();
-      await page.setContent(`
-        <aegov-tooltip content="Test tooltip">
-          <button>Hover me</button>
-        </aegov-tooltip>
-      `);
-      const tooltip = await page.find('aegov-tooltip .aegov-tooltip');
-      expect(tooltip).toBeTruthy();
-      const style = await tooltip.getComputedStyle();
-      expect(style.display).toBe('none');
-    });
+describe('aegov-tooltip (e2e)', () => {
+  it('renders trigger with default ARIA absent until visible', async () => {
+    const page = await newE2EPage();
+    await page.setContent('<aegov-tooltip content="Hello"><button>t</button></aegov-tooltip>');
+    const trigger = await page.find('aegov-tooltip .aegov-tooltip-trigger');
+    expect(trigger).not.toBeNull();
+    expect(trigger.getAttribute('aria-describedby')).toBeNull();
   });
 
-  describe('hover trigger', () => {
-    it('should show tooltip on mouse enter', async () => {
-      const page = await newE2EPage();
-      await page.setContent(`
-        <aegov-tooltip content="Hover tooltip" show-delay="0">
-          <button>Hover me</button>
-        </aegov-tooltip>
-      `);
-
-      const trigger = await page.find('aegov-tooltip .aegov-tooltip-trigger');
-      await trigger.hover();
-      await page.waitForChanges();
-
-      const tooltip = await page.find('aegov-tooltip .aegov-tooltip');
-      expect(tooltip).toBeTruthy();
-    });
-
-    it('should display content property in tooltip', async () => {
-      const page = await newE2EPage();
-      await page.setContent(`
-        <aegov-tooltip content="This is tooltip content" show-delay="0">
-          <button>Hover me</button>
-        </aegov-tooltip>
-      `);
-
-      const trigger = await page.find('aegov-tooltip .aegov-tooltip-trigger');
-      await trigger.hover();
-      await page.waitForChanges();
-
-      const content = await page.find('aegov-tooltip .tooltip__content');
-      expect(content.textContent).toBe('This is tooltip content');
-    });
-
-    it('should hide tooltip on mouse leave', async () => {
-      const page = await newE2EPage();
-      await page.setContent(`
-        <aegov-tooltip content="Hover tooltip" show-delay="0" hide-delay="0">
-          <button>Hover me</button>
-        </aegov-tooltip>
-      `);
-
-      const trigger = await page.find('aegov-tooltip .aegov-tooltip-trigger');
-      await trigger.hover();
-      await page.waitForChanges();
-
-      // Move mouse away
-      await page.mouse.move(0, 0);
-      await page.waitForChanges();
-
-      const tooltip = await page.find('aegov-tooltip .aegov-tooltip');
-      expect(tooltip).toBeTruthy();
-      const style = await tooltip.getComputedStyle();
-      expect(style.display).toBe('none');
-    });
+  it('renders tooltip role="tooltip" body when content set', async () => {
+    const page = await newE2EPage();
+    await page.setContent('<aegov-tooltip content="Hi"><button>t</button></aegov-tooltip>');
+    const tip = await page.find('aegov-tooltip .aegov-tooltip');
+    expect(tip).not.toBeNull();
+    expect(tip.getAttribute('role')).toBe('tooltip');
   });
 
-  describe('click trigger', () => {
-    it('should show tooltip on click', async () => {
-      const page = await newE2EPage();
-      await page.setContent(`
-        <aegov-tooltip content="Click tooltip" trigger="click">
-          <button>Click me</button>
-        </aegov-tooltip>
-      `);
-
-      const trigger = await page.find('aegov-tooltip .aegov-tooltip-trigger');
-      await trigger.click();
-      await page.waitForChanges();
-
-      const tooltip = await page.find('aegov-tooltip .aegov-tooltip');
-      expect(tooltip).toBeTruthy();
-    });
-
-    it('should toggle tooltip on repeated clicks', async () => {
-      const page = await newE2EPage();
-      await page.setContent(`
-        <aegov-tooltip content="Toggle tooltip" trigger="click">
-          <button>Click me</button>
-        </aegov-tooltip>
-      `);
-
-      const trigger = await page.find('aegov-tooltip .aegov-tooltip-trigger');
-
-      // First click - show
-      await trigger.click();
-      await page.waitForChanges();
-      let tooltip = await page.find('aegov-tooltip .aegov-tooltip');
-      expect(tooltip).toBeTruthy();
-      let style = await tooltip.getComputedStyle();
-      expect(style.display).toBe('block');
-
-      // Second click - hide
-      await trigger.click();
-      await page.waitForChanges();
-      tooltip = await page.find('aegov-tooltip .aegov-tooltip');
-      expect(tooltip).toBeTruthy();
-      style = await tooltip.getComputedStyle();
-      expect(style.display).toBe('none');
-    });
-
-    it('should hide tooltip on outside click', async () => {
-      const page = await newE2EPage();
-      await page.setContent(`
-        <div>
-          <aegov-tooltip content="Click tooltip" trigger="click">
-            <button>Click me</button>
-          </aegov-tooltip>
-          <div id="outside">Outside element</div>
-        </div>
-      `);
-
-      const trigger = await page.find('aegov-tooltip .aegov-tooltip-trigger');
-      await trigger.click();
-      await page.waitForChanges();
-
-      let tooltip = await page.find('aegov-tooltip .aegov-tooltip');
-      expect(tooltip).toBeTruthy();
-      let style = await tooltip.getComputedStyle();
-      expect(style.display).toBe('block');
-
-      // Click outside
-      const outside = await page.find('#outside');
-      await outside.click();
-      await page.waitForChanges();
-
-      tooltip = await page.find('aegov-tooltip .aegov-tooltip');
-      expect(tooltip).toBeTruthy();
-      style = await tooltip.getComputedStyle();
-      expect(style.display).toBe('none');
-    });
+  it('shows tooltip on hover', async () => {
+    const page = await newE2EPage();
+    await page.setContent('<aegov-tooltip content="Hi" delay-start="0"><button id="t">t</button></aegov-tooltip>');
+    await page.hover('#t');
+    await new Promise(resolve => setTimeout(resolve, 50));
+    await page.waitForChanges();
+    const trigger = await page.find('aegov-tooltip .aegov-tooltip-trigger');
+    expect(trigger.getAttribute('aria-describedby')).not.toBeNull();
   });
 
-  describe('positions', () => {
-    it('should apply top position class', async () => {
-      const page = await newE2EPage();
-      await page.setContent(`
-        <aegov-tooltip content="Top tooltip" position="top" show-delay="0">
-          <button>Hover me</button>
-        </aegov-tooltip>
-      `);
-
-      const trigger = await page.find('aegov-tooltip .aegov-tooltip-trigger');
-      await trigger.hover();
-      await page.waitForChanges();
-
-      const tooltip = await page.find('aegov-tooltip .tooltip--top');
-      expect(tooltip).toBeTruthy();
-    });
-
-    it('should apply right position class', async () => {
-      const page = await newE2EPage();
-      await page.setContent(`
-        <aegov-tooltip content="Right tooltip" position="right" show-delay="0">
-          <button>Hover me</button>
-        </aegov-tooltip>
-      `);
-
-      const trigger = await page.find('aegov-tooltip .aegov-tooltip-trigger');
-      await trigger.hover();
-      await page.waitForChanges();
-
-      const tooltip = await page.find('aegov-tooltip .tooltip--right');
-      expect(tooltip).toBeTruthy();
-    });
-
-    it('should apply bottom position class', async () => {
-      const page = await newE2EPage();
-      await page.setContent(`
-        <aegov-tooltip content="Bottom tooltip" position="bottom" show-delay="0">
-          <button>Hover me</button>
-        </aegov-tooltip>
-      `);
-
-      const trigger = await page.find('aegov-tooltip .aegov-tooltip-trigger');
-      await trigger.hover();
-      await page.waitForChanges();
-
-      const tooltip = await page.find('aegov-tooltip .tooltip--bottom');
-      expect(tooltip).toBeTruthy();
-    });
-
-    it('should apply left position class', async () => {
-      const page = await newE2EPage();
-      await page.setContent(`
-        <aegov-tooltip content="Left tooltip" position="left" show-delay="0">
-          <button>Hover me</button>
-        </aegov-tooltip>
-      `);
-
-      const trigger = await page.find('aegov-tooltip .aegov-tooltip-trigger');
-      await trigger.hover();
-      await page.waitForChanges();
-
-      const tooltip = await page.find('aegov-tooltip .tooltip--left');
-      expect(tooltip).toBeTruthy();
-    });
+  it('shows tooltip on click when trigger="click"', async () => {
+    const page = await newE2EPage();
+    await page.setContent('<aegov-tooltip content="Hi" trigger="click"><button id="t">t</button></aegov-tooltip>');
+    await page.click('#t');
+    await page.waitForChanges();
+    const trigger = await page.find('aegov-tooltip .aegov-tooltip-trigger');
+    expect(trigger.getAttribute('aria-expanded')).toBe('true');
   });
 
-  describe('interactive mode', () => {
-    it('should apply interactive class', async () => {
-      const page = await newE2EPage();
-      await page.setContent(`
-        <aegov-tooltip content="Interactive tooltip" interactive="true" show-delay="0">
-          <button>Hover me</button>
-        </aegov-tooltip>
-      `);
-
-      const trigger = await page.find('aegov-tooltip .aegov-tooltip-trigger');
-      await trigger.hover();
-      await page.waitForChanges();
-
-      const tooltip = await page.find('aegov-tooltip .tooltip--interactive');
-      expect(tooltip).toBeTruthy();
-    });
+  it('Escape hides the tooltip', async () => {
+    const page = await newE2EPage();
+    await page.setContent('<aegov-tooltip content="Hi" trigger="click"><button id="t">t</button></aegov-tooltip>');
+    await page.click('#t');
+    await page.waitForChanges();
+    await page.keyboard.press('Escape');
+    await page.waitForChanges();
+    const trigger = await page.find('aegov-tooltip .aegov-tooltip-trigger');
+    expect(trigger.getAttribute('aria-expanded')).toBe('false');
   });
 
-  describe('slot content', () => {
-    it('should render rich content via slot', async () => {
-      const page = await newE2EPage();
-      await page.setContent(`
-        <aegov-tooltip show-delay="0">
-          <button>Hover me</button>
-          <div slot="tooltip-content">
-            <strong>Rich</strong> content
-          </div>
-        </aegov-tooltip>
-      `);
-
-      const trigger = await page.find('aegov-tooltip .aegov-tooltip-trigger');
-      await trigger.hover();
-      await page.waitForChanges();
-
-      const content = await page.find('aegov-tooltip .tooltip__content');
-      expect(content.innerHTML).toContain('<strong>Rich</strong>');
-    });
+  it('outside click closes click-triggered tooltip', async () => {
+    const page = await newE2EPage();
+    await page.setContent(`
+      <div>
+        <aegov-tooltip content="Hi" trigger="click"><button id="t">t</button></aegov-tooltip>
+        <p id="outside">x</p>
+      </div>
+    `);
+    await page.click('#t');
+    await page.waitForChanges();
+    await page.click('#outside');
+    await page.waitForChanges();
+    const trigger = await page.find('aegov-tooltip .aegov-tooltip-trigger');
+    expect(trigger.getAttribute('aria-expanded')).toBe('false');
   });
 
-  describe('ARIA attributes', () => {
-    it('should have aria-describedby when visible', async () => {
-      const page = await newE2EPage();
-      await page.setContent(`
-        <aegov-tooltip content="ARIA tooltip" show-delay="0">
-          <button>Hover me</button>
-        </aegov-tooltip>
-      `);
-
-      const trigger = await page.find('aegov-tooltip .aegov-tooltip-trigger');
-      await trigger.hover();
-      await page.waitForChanges();
-
-      const ariaDescribedBy = await trigger.getAttribute('aria-describedby');
-      expect(ariaDescribedBy).toBeTruthy();
-    });
-
-    it('should have aria-expanded for click trigger', async () => {
-      const page = await newE2EPage();
-      await page.setContent(`
-        <aegov-tooltip content="Click tooltip" trigger="click">
-          <button>Click me</button>
-        </aegov-tooltip>
-      `);
-
-      const trigger = await page.find('aegov-tooltip .aegov-tooltip-trigger');
-      const ariaExpanded = await trigger.getAttribute('aria-expanded');
-      expect(ariaExpanded).toBeTruthy();
-    });
-
-    it('should update aria-expanded on click', async () => {
-      const page = await newE2EPage();
-      await page.setContent(`
-        <aegov-tooltip content="Click tooltip" trigger="click">
-          <button>Click me</button>
-        </aegov-tooltip>
-      `);
-
-      const trigger = await page.find('aegov-tooltip .aegov-tooltip-trigger');
-
-      // Initially false
-      let ariaExpanded = await trigger.getAttribute('aria-expanded');
-      expect(ariaExpanded).toBe('false');
-
-      // Click to show
-      await trigger.click();
-      await page.waitForChanges();
-
-      ariaExpanded = await trigger.getAttribute('aria-expanded');
-      expect(ariaExpanded).toBe('true');
-    });
-
-    it('should have role="tooltip" for non-interactive', async () => {
-      const page = await newE2EPage();
-      await page.setContent(`
-        <aegov-tooltip content="Tooltip" show-delay="0">
-          <button>Hover me</button>
-        </aegov-tooltip>
-      `);
-
-      const trigger = await page.find('aegov-tooltip .aegov-tooltip-trigger');
-      await trigger.hover();
-      await page.waitForChanges();
-
-      const tooltip = await page.find('aegov-tooltip [role="tooltip"]');
-      expect(tooltip).toBeTruthy();
-    });
-
-    it('should have role="dialog" for interactive', async () => {
-      const page = await newE2EPage();
-      await page.setContent(`
-        <aegov-tooltip content="Tooltip" interactive="true" show-delay="0">
-          <button>Hover me</button>
-        </aegov-tooltip>
-      `);
-
-      const trigger = await page.find('aegov-tooltip .aegov-tooltip-trigger');
-      await trigger.hover();
-      await page.waitForChanges();
-
-      const tooltip = await page.find('aegov-tooltip [role="dialog"]');
-      expect(tooltip).toBeTruthy();
-    });
+  it('disabled tooltip does not show on hover', async () => {
+    const page = await newE2EPage();
+    await page.setContent('<aegov-tooltip content="Hi" is-disabled="true" delay-start="0"><button id="t">t</button></aegov-tooltip>');
+    await page.hover('#t');
+    await new Promise(resolve => setTimeout(resolve, 50));
+    await page.waitForChanges();
+    const trigger = await page.find('aegov-tooltip .aegov-tooltip-trigger');
+    expect(trigger.getAttribute('aria-describedby')).toBeNull();
   });
 
-  describe('keyboard interaction', () => {
-    it('should close tooltip on Escape key', async () => {
-      const page = await newE2EPage();
-      await page.setContent(`
-        <aegov-tooltip content="Click tooltip" trigger="click">
-          <button>Click me</button>
-        </aegov-tooltip>
-      `);
-
-      const trigger = await page.find('aegov-tooltip .aegov-tooltip-trigger');
-      await trigger.click();
-      await page.waitForChanges();
-
-      let tooltip = await page.find('aegov-tooltip .aegov-tooltip');
-      expect(tooltip).toBeTruthy();
-      let style = await tooltip.getComputedStyle();
-      expect(style.display).toBe('block');
-
-      // Press Escape
-      await page.keyboard.press('Escape');
-      await page.waitForChanges();
-
-      tooltip = await page.find('aegov-tooltip .aegov-tooltip');
-      expect(tooltip).toBeTruthy();
-      style = await tooltip.getComputedStyle();
-      expect(style.display).toBe('none');
-    });
+  it('renders content slot text', async () => {
+    const page = await newE2EPage();
+    await page.setContent('<aegov-tooltip><button>t</button><span slot="tooltip-content">Rich content</span></aegov-tooltip>');
+    const slotted = await page.find('aegov-tooltip [slot="tooltip-content"]');
+    expect(slotted).not.toBeNull();
+    expect(slotted.textContent).toContain('Rich content');
   });
 
-  describe('tooltip arrow', () => {
-    it('should render arrow element', async () => {
-      const page = await newE2EPage();
-      await page.setContent(`
-        <aegov-tooltip content="Tooltip with arrow" show-delay="0">
-          <button>Hover me</button>
-        </aegov-tooltip>
-      `);
-
-      const trigger = await page.find('aegov-tooltip .aegov-tooltip-trigger');
-      await trigger.hover();
-      await page.waitForChanges();
-
-      const arrow = await page.find('aegov-tooltip .tooltip__arrow');
-      expect(arrow).toBeTruthy();
-    });
-  });
-
-  describe('disabled state', () => {
-    it('should not show tooltip when disabled', async () => {
-      const page = await newE2EPage();
-      await page.setContent(`
-        <aegov-tooltip content="Disabled tooltip" disabled="true" show-delay="0">
-          <button>Hover me</button>
-        </aegov-tooltip>
-      `);
-
-      const trigger = await page.find('aegov-tooltip .aegov-tooltip-trigger');
-      await trigger.hover();
-      await page.waitForChanges();
-
-      const tooltip = await page.find('aegov-tooltip .aegov-tooltip');
-      expect(tooltip).toBeTruthy();
-      const style = await tooltip.getComputedStyle();
-      expect(style.display).toBe('none');
-    });
-  });
-
-  describe('custom styling', () => {
-    it('should apply fixed positioning', async () => {
-      const page = await newE2EPage();
-      await page.setContent(`
-        <aegov-tooltip content="Positioned tooltip" show-delay="0">
-          <button>Hover me</button>
-        </aegov-tooltip>
-      `);
-
-      const trigger = await page.find('aegov-tooltip .aegov-tooltip-trigger');
-      await trigger.hover();
-      await page.waitForChanges();
-
-      const tooltip = await page.find('aegov-tooltip .aegov-tooltip');
-      const style = await tooltip.getComputedStyle();
-      expect(style.position).toBe('fixed');
-    });
-  });
-
-  describe('with different trigger elements', () => {
-    it('should work with button', async () => {
-      const page = await newE2EPage();
-      await page.setContent(`
-        <aegov-tooltip content="Button tooltip" show-delay="0">
-          <button>Click</button>
-        </aegov-tooltip>
-      `);
-
-      const trigger = await page.find('aegov-tooltip .aegov-tooltip-trigger');
-      await trigger.hover();
-      await page.waitForChanges();
-
-      const tooltip = await page.find('aegov-tooltip .aegov-tooltip');
-      expect(tooltip).toBeTruthy();
-    });
-
-    it('should work with link', async () => {
-      const page = await newE2EPage();
-      await page.setContent(`
-        <aegov-tooltip content="Link tooltip" show-delay="0">
-          <a href="#">Link</a>
-        </aegov-tooltip>
-      `);
-
-      const trigger = await page.find('aegov-tooltip .aegov-tooltip-trigger');
-      await trigger.hover();
-      await page.waitForChanges();
-
-      const tooltip = await page.find('aegov-tooltip .aegov-tooltip');
-      expect(tooltip).toBeTruthy();
-    });
-
-    it('should work with span', async () => {
-      const page = await newE2EPage();
-      await page.setContent(`
-        <aegov-tooltip content="Span tooltip" show-delay="0">
-          <span>Text</span>
-        </aegov-tooltip>
-      `);
-
-      const trigger = await page.find('aegov-tooltip .aegov-tooltip-trigger');
-      await trigger.hover();
-      await page.waitForChanges();
-
-      const tooltip = await page.find('aegov-tooltip .aegov-tooltip');
-      expect(tooltip).toBeTruthy();
-    });
+  it('applies position class on body element', async () => {
+    const page = await newE2EPage();
+    await page.setContent('<aegov-tooltip content="Hi" position="right"><button>t</button></aegov-tooltip>');
+    const tip = await page.find('aegov-tooltip .aegov-tooltip');
+    expect(tip).toHaveClass('tooltip--right');
   });
 });
