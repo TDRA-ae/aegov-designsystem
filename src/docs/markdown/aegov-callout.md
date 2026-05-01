@@ -1,546 +1,188 @@
-# Callout
+# aegov-callout
 
-<p class="text-lg text-aeblack-500 mb-8">A callout is a prominent notification banner used to communicate important messages, feedback, or contextual information. Callouts draw attention to warnings, errors, successes, and general notices within a page.</p>
+A bordered, attention-drawing block for inline messaging — system notices, validation summaries, contextual help, success confirmations, etc. Each callout has a leading icon, a content area, optional actions, an optional inline link, and an optional dismiss button. Use the `variant` prop to convey severity (info, success, warning, error) and `appearance` to choose between a softer tinted style and a fully solid-coloured style.
 
-## Introduction
+## Properties
 
-The `aegov-callout` component displays a coloured notification box with an icon, message content, and optional actions. It supports **5 semantic variants**, **2 appearances** (soft and solid), **3 sizes** (sm, base, lg), named slots for icons, content, links, and actions, and **dismissible** functionality.
+### variant
+
+Sets the colour scheme and the default leading icon. Defaults to `default` (neutral, no icon glyph).
 
 ```html
-<aegov-callout>
-  <span slot="content">This is a default callout message.</span>
+<aegov-callout variant="info"><p slot="content">Heads up.</p></aegov-callout>
+<aegov-callout variant="success"><p slot="content">Saved.</p></aegov-callout>
+<aegov-callout variant="warning"><p slot="content">Check your input.</p></aegov-callout>
+<aegov-callout variant="error"><p slot="content">Something went wrong.</p></aegov-callout>
+```
+
+### appearance
+
+`soft` uses a tinted background with full-saturation text; `solid` uses a fully filled colour panel.
+
+```html
+<aegov-callout appearance="soft" variant="info">
+  <p slot="content">Soft variant.</p>
+</aegov-callout>
+<aegov-callout appearance="solid" variant="info">
+  <p slot="content">Solid variant.</p>
 </aegov-callout>
 ```
 
-<div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-callout>
-    <span slot="content">This is a default callout message.</span>
-  </aegov-callout>
-</div>
+### size
 
----
-
-## Variants
-
-The `variant` property controls the colour scheme and the default icon displayed. There are five semantic variants, each conveying a different level of importance.
-
-### Default
-
-A neutral callout using the slate palette — suitable for general-purpose notices.
+Controls font size, icon size, and padding. Accepts `sm`, `base`, `lg`, or a responsive string.
 
 ```html
-<aegov-callout variant="default">
-  <span slot="content">This is a general information notice.</span>
+<aegov-callout size="sm"><p slot="content">Compact callout.</p></aegov-callout>
+<aegov-callout size="lg"><p slot="content">Prominent callout.</p></aegov-callout>
+```
+
+### is-dismissible
+
+When set, a close button appears on the trailing side. Clicking it emits `aegovCalloutDismiss` and removes the callout from view.
+
+```html
+<aegov-callout variant="info" is-dismissible>
+  <p slot="content">Tip: you can collapse this notice.</p>
 </aegov-callout>
 ```
 
-<div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-callout variant="default">
-    <span slot="content">This is a general information notice.</span>
-  </aegov-callout>
-</div>
+### field-id
 
-### Error
-
-A red callout for critical errors or failures that require immediate attention.
+Unique identifier reflected onto the callout root. Auto-generated as `aegov-callout-{n}` if not provided.
 
 ```html
-<aegov-callout variant="error">
-  <span slot="content">An error occurred while processing your request.</span>
+<aegov-callout field-id="onboarding-tip" variant="info">
+  <p slot="content">Welcome.</p>
 </aegov-callout>
 ```
-
-<div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-callout variant="error">
-    <span slot="content">An error occurred while processing your request.</span>
-  </aegov-callout>
-</div>
-
-### Warning
-
-A camel-coloured callout for cautionary messages that the user should be aware of.
-
-```html
-<aegov-callout variant="warning">
-  <span slot="content">Your session will expire in 5 minutes.</span>
-</aegov-callout>
-```
-
-<div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-callout variant="warning">
-    <span slot="content">Your session will expire in 5 minutes.</span>
-  </aegov-callout>
-</div>
-
-### Success
-
-A green callout for positive confirmations and successful operations.
-
-```html
-<aegov-callout variant="success">
-  <span slot="content">Your changes have been saved successfully.</span>
-</aegov-callout>
-```
-
-<div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-callout variant="success">
-    <span slot="content">Your changes have been saved successfully.</span>
-  </aegov-callout>
-</div>
-
-### Info
-
-A blue callout for helpful, non-critical information or tips.
-
-```html
-<aegov-callout variant="info">
-  <span slot="content">You can update your profile settings at any time.</span>
-</aegov-callout>
-```
-
-<div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-callout variant="info">
-    <span slot="content">You can update your profile settings at any time.</span>
-  </aegov-callout>
-</div>
-
----
-
-## Appearances
-
-The `appearance` property controls the visual intensity. Two appearances are available.
-
-### Soft (default)
-
-A subtle, tinted background with darker text — ideal for inline notifications that should not overwhelm the page.
-
-```html
-<aegov-callout variant="info" appearance="soft">
-  <span slot="content">Soft appearance — blends with the page.</span>
-</aegov-callout>
-```
-
-<div class="p-6 bg-aeblack-50 rounded-lg my-6 space-y-3 not-aegov">
-  <aegov-callout variant="default" appearance="soft">
-    <span slot="content">Default soft callout.</span>
-  </aegov-callout>
-  <aegov-callout variant="error" appearance="soft">
-    <span slot="content">Error soft callout.</span>
-  </aegov-callout>
-  <aegov-callout variant="warning" appearance="soft">
-    <span slot="content">Warning soft callout.</span>
-  </aegov-callout>
-  <aegov-callout variant="success" appearance="soft">
-    <span slot="content">Success soft callout.</span>
-  </aegov-callout>
-  <aegov-callout variant="info" appearance="soft">
-    <span slot="content">Info soft callout.</span>
-  </aegov-callout>
-</div>
-
-### Solid
-
-A bold, filled background with light text — use for high-emphasis alerts that demand attention.
-
-```html
-<aegov-callout variant="error" appearance="solid">
-  <span slot="content">Solid appearance — high visual priority.</span>
-</aegov-callout>
-```
-
-<div class="p-6 bg-aeblack-50 rounded-lg my-6 space-y-3 not-aegov">
-  <aegov-callout variant="default" appearance="solid">
-    <span slot="content">Default solid callout.</span>
-  </aegov-callout>
-  <aegov-callout variant="error" appearance="solid">
-    <span slot="content">Error solid callout.</span>
-  </aegov-callout>
-  <aegov-callout variant="warning" appearance="solid">
-    <span slot="content">Warning solid callout.</span>
-  </aegov-callout>
-  <aegov-callout variant="success" appearance="solid">
-    <span slot="content">Success solid callout.</span>
-  </aegov-callout>
-  <aegov-callout variant="info" appearance="solid">
-    <span slot="content">Info solid callout.</span>
-  </aegov-callout>
-</div>
-
----
 
 ## Sizes
 
-The `size` property controls font size, icon size, and padding. Three sizes are available — `sm`, `base` (default), and `lg`.
-
-### Small (`sm`)
-
-14px font, 20px icon, reduced padding.
+`size` accepts a single token or a Tailwind-style responsive string using breakpoint prefixes.
 
 ```html
-<aegov-callout size="sm" variant="info">
-  <span slot="content">Small callout — compact, less visual weight.</span>
-</aegov-callout>
+<!-- Static -->
+<aegov-callout size="sm"></aegov-callout>
+<aegov-callout size="base"></aegov-callout>
+<aegov-callout size="lg"></aegov-callout>
+
+<!-- Responsive -->
+<aegov-callout size="sm md:base lg:lg"></aegov-callout>
 ```
 
-<div class="p-6 bg-aeblack-50 rounded-lg my-6 space-y-3 not-aegov">
-  <aegov-callout size="sm" variant="default">
-    <span slot="content">Small default callout.</span>
-  </aegov-callout>
-  <aegov-callout size="sm" variant="error">
-    <span slot="content">Small error callout.</span>
-  </aegov-callout>
-  <aegov-callout size="sm" variant="info">
-    <span slot="content">Small info callout.</span>
-  </aegov-callout>
-</div>
+| Token   | Text       | Padding       | Icon       |
+| ------- | ---------- | ------------- | ---------- |
+| `sm`    | `text-sm`  | `px-4 py-3`   | `size-5`   |
+| `base`  | `text-base`| `px-5 py-4`   | `size-6`   |
+| `lg`    | `text-lg`  | `px-6 py-5`   | `size-7`   |
 
-### Base (`base`)
+## Examples
 
-16px font, 24px icon, standard padding. This is the default.
-
-```html
-<aegov-callout size="base" variant="info">
-  <span slot="content">Base callout — default size.</span>
-</aegov-callout>
-```
-
-<div class="p-6 bg-aeblack-50 rounded-lg my-6 space-y-3 not-aegov">
-  <aegov-callout size="base" variant="default">
-    <span slot="content">Base default callout.</span>
-  </aegov-callout>
-  <aegov-callout size="base" variant="error">
-    <span slot="content">Base error callout.</span>
-  </aegov-callout>
-  <aegov-callout size="base" variant="info">
-    <span slot="content">Base info callout.</span>
-  </aegov-callout>
-</div>
-
-### Large (`lg`)
-
-18px font, 28px icon, increased padding.
-
-```html
-<aegov-callout size="lg" variant="info">
-  <span slot="content">Large callout — more prominent, higher visual weight.</span>
-</aegov-callout>
-```
-
-<div class="p-6 bg-aeblack-50 rounded-lg my-6 space-y-3 not-aegov">
-  <aegov-callout size="lg" variant="default">
-    <span slot="content">Large default callout.</span>
-  </aegov-callout>
-  <aegov-callout size="lg" variant="error">
-    <span slot="content">Large error callout.</span>
-  </aegov-callout>
-  <aegov-callout size="lg" variant="info">
-    <span slot="content">Large info callout.</span>
-  </aegov-callout>
-</div>
-
-> **Note:** The `size` prop does not affect buttons placed in the `actions` slot — control their size directly via the `size` prop on `<aegov-button>`.
-
-### Responsive Size
-
-The `size` prop accepts Tailwind-style responsive prefixes. Write a space-separated string where each token is either a plain value or `breakpoint:value`. The base value (no prefix) applies below the smallest specified breakpoint.
-
-Available breakpoints: `xs` (480px), `sm` (640px), `md` (768px), `lg` (1024px), `xl` (1280px), `2xl` (1536px), `3xl` (1680px).
-
-```html
-<aegov-callout size="sm md:base xl:lg" variant="info">
-  <span slot="content">Responsive callout — small on mobile, large on desktop.</span>
-</aegov-callout>
-```
-
-<div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-callout size="sm md:base xl:lg" variant="info"><span slot="content">Responsive callout — small on mobile, large on desktop.</span></aegov-callout>
-</div>
-
-> **Graceful degradation:** Unknown breakpoint names and invalid values are silently ignored. An unrecognised base value falls back to the component default.
-
----
-
-## Custom Icon
-
-By default, the callout renders a variant-appropriate icon (e.g. an exclamation triangle for warnings, a checkmark circle for success). You can override the default icon by placing your own SVG or image in the `icon` slot.
-
-```html
-<aegov-callout variant="info">
-  <svg slot="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"><rect width="256" height="256" fill="none"/><rect x="40" y="40" width="176" height="176" rx="8" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/><line x1="176" y1="24" x2="176" y2="56" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/><line x1="80" y1="24" x2="80" y2="56" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/><line x1="40" y1="88" x2="216" y2="88" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/><circle cx="128" cy="132" r="12"/><circle cx="172" cy="132" r="12"/><circle cx="84" cy="172" r="12"/><circle cx="128" cy="172" r="12"/><circle cx="172" cy="172" r="12"/></svg>
-  <span slot="content">Callout with a custom icon.</span>
-</aegov-callout>
-```
-
-<div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-callout variant="info">
-    <svg slot="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"><rect width="256" height="256" fill="none"/><rect x="40" y="40" width="176" height="176" rx="8" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/><line x1="176" y1="24" x2="176" y2="56" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/><line x1="80" y1="24" x2="80" y2="56" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/><line x1="40" y1="88" x2="216" y2="88" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/><circle cx="128" cy="132" r="12"/><circle cx="172" cy="132" r="12"/><circle cx="84" cy="172" r="12"/><circle cx="128" cy="172" r="12"/><circle cx="172" cy="172" r="12"/></svg>
-    <span slot="content">Callout with a custom icon.</span>
-  </aegov-callout>
-</div>
-
----
-
-## Action Link
-
-Use the `link` slot to place an action link on the right side of the callout. This is useful for linking to more details, documentation, or related pages.
-
-```html
-<aegov-callout variant="info">
-  <span slot="content">A new version of the API is available.</span>
-  <a slot="link" href="#">View changelog</a>
-</aegov-callout>
-```
-
-<div class="p-6 bg-aeblack-50 rounded-lg my-6 space-y-3 not-aegov">
-  <aegov-callout variant="info">
-    <span slot="content">A new version of the API is available.</span>
-    <a slot="link" href="#">View changelog</a>
-  </aegov-callout>
-  <aegov-callout variant="warning" appearance="solid">
-    <span slot="content">Your subscription is about to expire.</span>
-    <a slot="link" href="#">Renew now</a>
-  </aegov-callout>
-</div>
-
----
-
-## Actions Slot
-
-Use the `actions` slot to embed buttons or other interactive elements below the callout content. This is ideal for confirmations, undo actions, or multi-step flows. Buttons placed inside the actions slot are automatically styled to match the callout's variant and appearance.
+### Inline form validation summary
 
 ```html
 <aegov-callout variant="error">
-  <span slot="content">Failed to submit your application. Please review and try again.</span>
+  <p slot="content">Please fix the highlighted fields before submitting.</p>
+</aegov-callout>
+```
+
+### Success confirmation with actions
+
+```html
+<aegov-callout variant="success" appearance="soft" is-dismissible>
+  <p slot="content">Your application has been received.</p>
   <div slot="actions">
-    <aegov-button size="sm">Try Again</aegov-button>
-    <aegov-button size="sm" variant="outline">Cancel</aegov-button>
+    <aegov-button size="sm">View application</aegov-button>
+    <aegov-button size="sm" variant="secondary">Download PDF</aegov-button>
   </div>
 </aegov-callout>
 ```
 
-<div class="p-6 bg-aeblack-50 rounded-lg my-6 space-y-3 not-aegov">
-  <aegov-callout variant="error">
-    <span slot="content">Failed to submit your application. Please review and try again.</span>
-    <div slot="actions">
-      <aegov-button size="sm">Try Again</aegov-button>
-      <aegov-button size="sm" variant="outline">Cancel</aegov-button>
-    </div>
-  </aegov-callout>
-  <aegov-callout variant="success">
-    <span slot="content">Your report has been generated successfully.</span>
-    <div slot="actions">
-      <aegov-button size="sm">Download</aegov-button>
-      <aegov-button size="sm" variant="link">View Online</aegov-button>
-    </div>
-  </aegov-callout>
-</div>
-
----
-
-## Dismissible
-
-Set the `is-dismissible` attribute to show a close button. When clicked, the callout hides itself and emits the `aegovCalloutDismiss` event.
+### Custom icon
 
 ```html
-<aegov-callout variant="success" is-dismissible>
-  <span slot="content">Your profile has been updated.</span>
+<aegov-callout variant="info">
+  <svg slot="icon" width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+    <path d="M10 2a8 8 0 100 16 8 8 0 000-16z" />
+  </svg>
+  <p slot="content">Use a custom icon for branded contexts.</p>
 </aegov-callout>
 ```
 
-<div class="p-6 bg-aeblack-50 rounded-lg my-6 space-y-3 not-aegov">
-  <aegov-callout variant="default" is-dismissible>
-    <span slot="content">This is a dismissible default callout.</span>
-  </aegov-callout>
-  <aegov-callout variant="error" is-dismissible>
-    <span slot="content">This is a dismissible error callout.</span>
-  </aegov-callout>
-  <aegov-callout variant="warning" is-dismissible>
-    <span slot="content">This is a dismissible warning callout.</span>
-  </aegov-callout>
-  <aegov-callout variant="success" is-dismissible>
-    <span slot="content">This is a dismissible success callout.</span>
-  </aegov-callout>
-  <aegov-callout variant="info" is-dismissible>
-    <span slot="content">This is a dismissible info callout.</span>
-  </aegov-callout>
-</div>
-
-### Handling Dismiss Events
+### Inline link on the trailing side
 
 ```html
-<aegov-callout id="my-callout" variant="info" is-dismissible>
-  <span slot="content">Click the close button to dismiss.</span>
-</aegov-callout>
-
-<script>
-  document.getElementById('my-callout')
-    .addEventListener('aegovCalloutDismiss', () => {
-      console.log('Callout dismissed');
-    });
-</script>
-```
-
-> **Note:** Unlike the badge component, the callout automatically hides itself when dismissed by setting internal visibility state to `false`. The `aegovCalloutDismiss` event is still emitted so you can run additional logic such as updating application state or logging analytics.
-
----
-
-## Combined Features
-
-Callouts support combining multiple features together — dismissible with action links, bordered with actions, and so on.
-
-```html
-<aegov-callout variant="warning" appearance="soft" bordered is-dismissible>
-  <span slot="content">Your account requires verification before proceeding.</span>
-  <a slot="link" href="#">Verify now</a>
+<aegov-callout variant="info">
+  <p slot="content">A new policy is in effect.</p>
+  <a slot="link" href="/policies">Learn more</a>
 </aegov-callout>
 ```
 
-<div class="p-6 bg-aeblack-50 rounded-lg my-6 space-y-3 not-aegov">
-  <aegov-callout variant="warning" appearance="soft" bordered is-dismissible>
-    <span slot="content">Your account requires verification before proceeding.</span>
-    <a slot="link" href="#">Verify now</a>
-  </aegov-callout>
-  <aegov-callout variant="info" appearance="solid" is-dismissible>
-    <span slot="content">Scheduled maintenance will occur on Friday at 22:00 UTC.</span>
-    <div slot="actions">
-      <aegov-button size="sm">Acknowledge</aegov-button>
-      <aegov-button size="sm" variant="link">Learn More</aegov-button>
-    </div>
-  </aegov-callout>
-</div>
+## RTL Behavior
 
----
-
-## Complete Variant x Appearance Matrix
-
-The table below shows every combination of variant and appearance for visual QA and design review.
-
-<div class="overflow-x-auto my-6">
-<table class="w-full text-sm border-collapse">
-  <thead>
-    <tr class="bg-aeblack-50">
-      <th class="text-left p-3 border border-aeblack-100 font-semibold">Variant</th>
-      <th class="p-3 border border-aeblack-100 font-semibold">Soft</th>
-      <th class="p-3 border border-aeblack-100 font-semibold">Solid</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td class="p-3 border border-aeblack-100 font-medium"><code>default</code></td>
-      <td class="p-3 border border-aeblack-100 not-aegov"><aegov-callout variant="default" appearance="soft"><span slot="content">Default soft callout</span></aegov-callout></td>
-      <td class="p-3 border border-aeblack-100 not-aegov"><aegov-callout variant="default" appearance="solid"><span slot="content">Default solid callout</span></aegov-callout></td>
-    </tr>
-    <tr>
-      <td class="p-3 border border-aeblack-100 font-medium"><code>error</code></td>
-      <td class="p-3 border border-aeblack-100 not-aegov"><aegov-callout variant="error" appearance="soft"><span slot="content">Error soft callout</span></aegov-callout></td>
-      <td class="p-3 border border-aeblack-100 not-aegov"><aegov-callout variant="error" appearance="solid"><span slot="content">Error solid callout</span></aegov-callout></td>
-    </tr>
-    <tr>
-      <td class="p-3 border border-aeblack-100 font-medium"><code>warning</code></td>
-      <td class="p-3 border border-aeblack-100 not-aegov"><aegov-callout variant="warning" appearance="soft"><span slot="content">Warning soft callout</span></aegov-callout></td>
-      <td class="p-3 border border-aeblack-100 not-aegov"><aegov-callout variant="warning" appearance="solid"><span slot="content">Warning solid callout</span></aegov-callout></td>
-    </tr>
-    <tr>
-      <td class="p-3 border border-aeblack-100 font-medium"><code>success</code></td>
-      <td class="p-3 border border-aeblack-100 not-aegov"><aegov-callout variant="success" appearance="soft"><span slot="content">Success soft callout</span></aegov-callout></td>
-      <td class="p-3 border border-aeblack-100 not-aegov"><aegov-callout variant="success" appearance="solid"><span slot="content">Success solid callout</span></aegov-callout></td>
-    </tr>
-    <tr>
-      <td class="p-3 border border-aeblack-100 font-medium"><code>info</code></td>
-      <td class="p-3 border border-aeblack-100 not-aegov"><aegov-callout variant="info" appearance="soft"><span slot="content">Info soft callout</span></aegov-callout></td>
-      <td class="p-3 border border-aeblack-100 not-aegov"><aegov-callout variant="info" appearance="solid"><span slot="content">Info solid callout</span></aegov-callout></td>
-    </tr>
-  </tbody>
-</table>
-</div>
-
----
+The callout uses Tailwind logical utilities. The icon sits at the inline-start edge, content runs in the middle, and the link/dismiss area sits at the inline-end. In `dir="rtl"` containers the icon and dismiss button automatically swap sides — no additional configuration is required.
 
 ## API Reference
 
 ### Properties
 
-| Property      | Attribute     | Description                                      | Type                                                          | Default     |
-|---------------|---------------|--------------------------------------------------|---------------------------------------------------------------|-------------|
-| `variant`     | `variant`     | The semantic variant controlling colour scheme   | `'default'` \| `'error'` \| `'warning'` \| `'success'` \| `'info'` | `'default'` |
-| `appearance`  | `appearance`  | The visual intensity                             | `'soft'` \| `'solid'`                                         | `'soft'`    |
-| `size`        | `size`        | Controls font size, icon size, and padding. Supports responsive strings (e.g. `'sm xl:lg'`). | `'sm'` \| `'base'` \| `'lg'`                                  | `'base'`    |
-| `is-dismissible` | `is-dismissible` | Shows a close button and enables dismiss         | `boolean`                                                     | `false`     |
+| Property         | Attribute         | Description                                                | Type                                                            | Default     |
+| ---------------- | ----------------- | ---------------------------------------------------------- | --------------------------------------------------------------- | ----------- |
+| `fieldId`        | `field-id`        | Unique ID for the callout element. Auto-generated if not.  | `string`                                                        | `undefined` |
+| `variant`        | `variant`         | Visual variant / severity.                                 | `'default' \| 'error' \| 'warning' \| 'success' \| 'info'`     | `'default'` |
+| `appearance`     | `appearance`      | Style treatment.                                           | `'soft' \| 'solid'`                                             | `'soft'`    |
+| `size`           | `size`            | Size token or responsive string.                           | `string`                                                        | `'base'`    |
+| `isDismissible`  | `is-dismissible`  | Whether to render a dismiss button.                        | `boolean`                                                       | `false`     |
+
+### Pass-through Attributes
+
+`aria-*` and `data-*` attributes set on the host are forwarded to the callout root element.
 
 ### Events
 
-| Event                 | Description                                  | Detail Type |
-|-----------------------|----------------------------------------------|-------------|
-| `aegovCalloutDismiss` | Emitted when the dismiss button is clicked   | `void`      |
+| Event                  | Description                                | Detail Type |
+| ---------------------- | ------------------------------------------ | ----------- |
+| `aegovCalloutDismiss`  | Emitted when the dismiss button is clicked. | `void`      |
 
-The event is only emitted when `is-dismissible` is `true`.
-
-#### Listening to Events
+#### Listening for events
 
 ```html
-<aegov-callout id="alert" variant="warning" is-dismissible>
-  <span slot="content">Session expiring soon.</span>
+<aegov-callout id="c1" variant="info" is-dismissible>
+  <p slot="content">Notice</p>
 </aegov-callout>
-
 <script>
-  document.getElementById('alert')
-    .addEventListener('aegovCalloutDismiss', () => {
-      console.log('Callout was dismissed');
-    });
+  document.getElementById('c1').addEventListener('aegovCalloutDismiss', () => {
+    console.log('User dismissed the callout');
+  });
 </script>
 ```
 
 ### Slots
 
-| Slot        | Description                                                                 |
-|-------------|-----------------------------------------------------------------------------|
-| `content`   | The main message text of the callout.                                       |
-| `icon`      | Custom icon to replace the default variant icon. Place an SVG or image.     |
-| `link`      | An action link displayed on the right side of the callout.                  |
-| `actions`   | Buttons or interactive elements displayed below the callout content.        |
-
-### Pass-Through Attributes
-
-The component forwards `id` attributes from the host element to the inner container via a pass-through mechanism. All standard `aria-*` and `data-*` attributes placed on the host element are also forwarded.
-
-```html
-<aegov-callout id="main-alert" variant="error">
-  <span slot="content">Something went wrong.</span>
-</aegov-callout>
-```
-
----
+| Slot      | Description                                                                    |
+| --------- | ------------------------------------------------------------------------------ |
+| `icon`    | Custom leading icon. When omitted, a variant-specific default icon is rendered. |
+| `content` | The main message content (paragraph, headings, etc).                           |
+| `actions` | Action buttons rendered below the content.                                     |
+| `link`    | Inline link rendered on the trailing side, before the dismiss button.          |
 
 ## Accessibility
 
-The `aegov-callout` component is built with accessibility as a first-class concern.
+### Built-in
 
-### Built-in Features
+- The callout root has `role="alert"`, so assistive technology announces its content as soon as it appears in the DOM.
+- The dismiss button is a real `<button type="button">` with `aria-label="Close callout"` and is keyboard-accessible.
+- Decorative SVGs (default variant icon, dismiss glyph) are marked `aria-hidden="true"`.
 
-- **`role="alert"`** — the callout container uses the `alert` role, which causes screen readers to announce the content immediately when it appears in the DOM.
-- **Variant-specific icons** — each variant renders an appropriate SVG icon (error: X circle, warning: triangle, success: checkmark, info: info circle) with `aria-hidden="true"` since they are decorative.
-- **Dismiss button `aria-label`** — the close button includes `aria-label="Close callout"` for screen reader identification.
-- **Keyboard accessible** — the dismiss button is a native `<button>` element, focusable and activatable with Enter or Space.
-- **Focus indicators** — the dismiss button and action links have visible `focus-visible` outlines matching the variant's colour scheme.
+### Developer responsibilities
 
-### Developer Responsibilities
+- Provide content that conveys meaning without relying on colour alone — pair the variant with explicit text.
+- Use `variant="error"` only for genuine errors. For non-blocking informational content, prefer `variant="info"` so that screen readers do not over-announce severity.
+- If you slot a custom icon, ensure it is marked `aria-hidden="true"` (or has a meaningful `aria-label` if it conveys unique information not present in the text).
+- Action buttons inside the `actions` slot must have visible labels and meet contrast requirements against the chosen `appearance`.
 
-1. **Provide meaningful content.** The callout should always contain a clear, descriptive message in the `content` slot. Avoid using colour alone to convey meaning — the text should explain the situation.
+### Notes
 
-2. **Action links should be descriptive.** If using the `link` slot, ensure the link text clearly describes the destination or action (e.g. "View changelog" rather than "Click here").
-
-3. **Colour contrast.** All built-in variant and appearance combinations meet WCAG 2.1 AA contrast ratios. If you override colours via CSS, verify that the new colours maintain at least a **4.5:1** contrast ratio for text.
-
-4. **Do not remove focus styles.** The built-in `focus-visible` outlines are essential for keyboard navigation. Avoid overriding them with `outline: none`.
-
----
-
-## Notes
-
-- The callout renders a `<div>` with `role="alert"` internally. Screen readers will announce new callouts automatically when they are added to the DOM.
-- The `is-dismissible` property both shows a close button and manages internal visibility. When dismissed, the callout sets `isVisible` to `false` and renders nothing. The `aegovCalloutDismiss` event is emitted so you can run cleanup logic.
-- The default icon is determined by the `variant` property using the shared `getVariantIcon` utility. To replace it, use the `icon` slot — when content is detected in this slot, the default icon is hidden.
-- Buttons placed in the `actions` slot are automatically styled to match the callout's current variant and appearance through CSS descendant selectors targeting `aegov-button` inner elements.
-- The `bordered` property adds a 1px border. The border colour is inherited from the variant's colour scheme (e.g. `border-aered-700` for the error variant in soft appearance).
-- The host element uses `display: block` with a 16px bottom margin for consistent vertical spacing between stacked callouts.
-- The callout uses `@container` queries internally, making it responsive to its own container width.
+- `role="alert"` triggers screen-reader announcements only when the callout is added or made visible — re-rendering a hidden callout does not re-announce.
+- Calling dismiss removes the callout from the DOM via internal state (`isVisible = false`); to control visibility externally, manage the element directly rather than using `is-dismissible`.

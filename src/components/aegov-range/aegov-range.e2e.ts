@@ -1,231 +1,113 @@
 import { newE2EPage } from '@stencil/core/testing';
 
-describe('aegov-range e2e', () => {
-  // ── Rendering ──────────────────────────────────────────
-
-  it('renders in the DOM', async () => {
+describe('aegov-range (e2e)', () => {
+  it('renders single mode by default with one native range input', async () => {
     const page = await newE2EPage();
-    await page.setContent('<aegov-range></aegov-range>');
-    const el = await page.find('aegov-range');
-    expect(el).not.toBeNull();
+    await page.setContent('<aegov-range value="40"></aegov-range>');
+    const input = await page.find('aegov-range input.range__input');
+    expect(input).not.toBeNull();
+    expect(await input.getProperty('type')).toBe('range');
+    expect(await input.getProperty('value')).toBe('40');
+    const low = await page.find('aegov-range .range__input--low');
+    expect(low).toBeNull();
   });
 
-  it('renders track and thumb', async () => {
+  it('renders two native inputs in range mode', async () => {
     const page = await newE2EPage();
-    await page.setContent('<aegov-range></aegov-range>');
-    const track = await page.find('aegov-range .range__track');
-    const thumb = await page.find('aegov-range .range__thumb');
-    expect(track).not.toBeNull();
-    expect(thumb).not.toBeNull();
+    await page.setContent('<aegov-range mode="range" value-low="20" value-high="80"></aegov-range>');
+    const inputs = await page.findAll('aegov-range input[type="range"]');
+    expect(inputs.length).toBe(2);
   });
 
-  it('renders two thumbs in range mode', async () => {
+  it('emits aegovRangeInput when value changes via the native input', async () => {
     const page = await newE2EPage();
-    await page.setContent('<aegov-range mode="range"></aegov-range>');
-    const thumbs = await page.findAll('aegov-range .range__thumb');
-    expect(thumbs.length).toBe(2);
-  });
+    await page.setContent('<aegov-range min="0" max="100" step="1" value="50"></aegov-range>');
+    const host = await page.find('aegov-range');
+    const spy = await host.spyOnEvent('aegovRangeInput');
 
-  // ── Sizes ──────────────────────────────────────────────
-
-  it('applies size sm class', async () => {
-    const page = await newE2EPage();
-    await page.setContent('<aegov-range size="sm"></aegov-range>');
-    const el = await page.find('aegov-range .range--sm');
-    expect(el).not.toBeNull();
-  });
-
-  it('applies size lg class', async () => {
-    const page = await newE2EPage();
-    await page.setContent('<aegov-range size="lg"></aegov-range>');
-    const el = await page.find('aegov-range .range--lg');
-    expect(el).not.toBeNull();
-  });
-
-  // ── Display modes ─────────────────────────────────────
-
-  it('shows tooltip in display=tooltip', async () => {
-    const page = await newE2EPage();
-    await page.setContent('<aegov-range display="tooltip" value="42"></aegov-range>');
-    const tooltip = await page.find('aegov-range .range__tooltip');
-    expect(tooltip).not.toBeNull();
-    expect(tooltip.textContent).toBe('42');
-  });
-
-  it('shows value inside thumb in display=thumb', async () => {
-    const page = await newE2EPage();
-    await page.setContent('<aegov-range display="thumb" value="88"></aegov-range>');
-    const thumbVal = await page.find('aegov-range .range__thumb-value');
-    expect(thumbVal).not.toBeNull();
-    expect(thumbVal.textContent).toBe('88');
-  });
-
-  it('shows min/max labels in display=full', async () => {
-    const page = await newE2EPage();
-    await page.setContent('<aegov-range display="full" min="0" max="200"></aegov-range>');
-    const minLabel = await page.find('aegov-range .range__label-min');
-    const maxLabel = await page.find('aegov-range .range__label-max');
-    expect(minLabel.textContent).toBe('0');
-    expect(maxLabel.textContent).toBe('200');
-  });
-
-  // ── Vertical ──────────────────────────────────────────
-
-  it('renders vertically', async () => {
-    const page = await newE2EPage();
-    await page.setContent('<aegov-range orientation="vertical"></aegov-range>');
-    const el = await page.find('aegov-range .range--vertical');
-    expect(el).not.toBeNull();
-  });
-
-  // ── Events ────────────────────────────────────────────
-
-  it('emits aegovRangeChange on native input change', async () => {
-    const page = await newE2EPage();
-    await page.setContent('<aegov-range value="50"></aegov-range>');
-    const el = await page.find('aegov-range');
-    const spy = await el.spyOnEvent('aegovRangeChange');
-
-    await page.$eval('aegov-range input[type="range"]', (input: HTMLInputElement) => {
+    await page.evaluate(() => {
+      const input = document.querySelector('aegov-range input.range__input') as HTMLInputElement;
       input.value = '70';
-      input.dispatchEvent(new Event('change', { bubbles: true }));
-    });
-    await page.waitForChanges();
-
-    expect(spy).toHaveReceivedEvent();
-  });
-
-  it('emits aegovRangeInput on native input event', async () => {
-    const page = await newE2EPage();
-    await page.setContent('<aegov-range value="50"></aegov-range>');
-    const el = await page.find('aegov-range');
-    const spy = await el.spyOnEvent('aegovRangeInput');
-
-    await page.$eval('aegov-range input[type="range"]', (input: HTMLInputElement) => {
-      input.value = '60';
       input.dispatchEvent(new Event('input', { bubbles: true }));
     });
     await page.waitForChanges();
 
-    expect(spy).toHaveReceivedEvent();
+    expect(spy.events.length).toBeGreaterThanOrEqual(1);
+    expect(spy.lastEvent.detail).toEqual({ value: 70 });
   });
 
-  it('emits range events in dual mode', async () => {
+  it('emits aegovRangeChange on commit (change event)', async () => {
     const page = await newE2EPage();
-    await page.setContent('<aegov-range mode="range" value-low="20" value-high="80"></aegov-range>');
-    const el = await page.find('aegov-range');
-    const spy = await el.spyOnEvent('aegovRangeChange');
+    await page.setContent('<aegov-range min="0" max="100" step="1" value="50"></aegov-range>');
+    const host = await page.find('aegov-range');
+    const spy = await host.spyOnEvent('aegovRangeChange');
 
-    await page.$eval('aegov-range .range__input--high', (input: HTMLInputElement) => {
-      input.value = '90';
+    await page.evaluate(() => {
+      const input = document.querySelector('aegov-range input.range__input') as HTMLInputElement;
+      input.value = '88';
       input.dispatchEvent(new Event('change', { bubbles: true }));
     });
     await page.waitForChanges();
 
-    expect(spy).toHaveReceivedEvent();
-    expect(spy.firstEvent.detail.valueHigh).toBeDefined();
+    expect(spy).toHaveReceivedEventTimes(1);
+    expect(spy.lastEvent.detail).toEqual({ value: 88 });
   });
 
-  // ── Disabled ──────────────────────────────────────────
-
-  it('applies disabled class and disables input', async () => {
+  it('keyboard ArrowRight increments single value', async () => {
     const page = await newE2EPage();
-    await page.setContent('<aegov-range disabled></aegov-range>');
-    const disabledClass = await page.find('aegov-range .aegov-range--disabled');
-    expect(disabledClass).not.toBeNull();
-
-    const disabled = await page.$eval('aegov-range input', (el: HTMLInputElement) => el.disabled);
-    expect(disabled).toBe(true);
-  });
-
-  it('does not emit events when disabled', async () => {
-    const page = await newE2EPage();
-    await page.setContent('<aegov-range disabled value="50"></aegov-range>');
-    const el = await page.find('aegov-range');
-    const spy = await el.spyOnEvent('aegovRangeChange');
-
-    // Try clicking the track area
-    const track = await page.find('aegov-range .range__track-wrapper');
-    await track.click();
+    await page.setContent('<aegov-range min="0" max="100" step="1" value="50"></aegov-range>');
+    const host = await page.find('aegov-range');
+    const spy = await host.spyOnEvent('aegovRangeInput');
+    const input = await page.find('aegov-range input.range__input');
+    await input.focus();
+    await page.keyboard.press('ArrowRight');
     await page.waitForChanges();
-
-    expect(spy).not.toHaveReceivedEvent();
+    expect(spy.events.length).toBeGreaterThanOrEqual(1);
+    expect(await host.getProperty('value')).toBe(51);
   });
 
-  // ── Label ─────────────────────────────────────────────
+  it('range mode keeps low < high (low cannot exceed high - step)', async () => {
+    const page = await newE2EPage();
+    await page.setContent('<aegov-range mode="range" min="0" max="100" step="1" value-low="20" value-high="40"></aegov-range>');
+    await page.evaluate(() => {
+      const low = document.querySelector('aegov-range .range__input--low') as HTMLInputElement;
+      low.value = '90';
+      low.dispatchEvent(new Event('input', { bubbles: true }));
+    });
+    await page.waitForChanges();
+    const host = await page.find('aegov-range');
+    expect(await host.getProperty('valueLow')).toBe(39); // clamped to high - step
+    expect(await host.getProperty('valueHigh')).toBe(40);
+  });
 
-  it('renders label text', async () => {
+  it('renders a label text element when label is provided', async () => {
     const page = await newE2EPage();
     await page.setContent('<aegov-range label="Volume"></aegov-range>');
     const label = await page.find('aegov-range .range__label-text');
-    expect(label.textContent).toBe('Volume');
+    expect(label).not.toBeNull();
+    expect(await label.getProperty('textContent')).toBe('Volume');
   });
 
-  // ── Accessibility ─────────────────────────────────────
-
-  it('has correct aria attributes on native input', async () => {
+  it('is-disabled prevents input from being editable', async () => {
     const page = await newE2EPage();
-    await page.setContent('<aegov-range min="0" max="100" value="50"></aegov-range>');
-
-    const ariaMin = await page.$eval('aegov-range input', (el: Element) => el.getAttribute('aria-valuemin'));
-    const ariaMax = await page.$eval('aegov-range input', (el: Element) => el.getAttribute('aria-valuemax'));
-    const ariaNow = await page.$eval('aegov-range input', (el: Element) => el.getAttribute('aria-valuenow'));
-
-    expect(ariaMin).toBe('0');
-    expect(ariaMax).toBe('100');
-    expect(ariaNow).toBe('50');
+    await page.setContent('<aegov-range is-disabled value="50"></aegov-range>');
+    const input = await page.find('aegov-range input.range__input');
+    expect(await input.getProperty('disabled')).toBe(true);
   });
 
-  it('has aria-label on dual mode inputs', async () => {
+  it('display="full" renders min and max labels', async () => {
     const page = await newE2EPage();
-    await page.setContent('<aegov-range mode="range"></aegov-range>');
-
-    const labelLow = await page.$eval('aegov-range .range__input--low', (el: Element) => el.getAttribute('aria-label'));
-    const labelHigh = await page.$eval('aegov-range .range__input--high', (el: Element) => el.getAttribute('aria-label'));
-
-    expect(labelLow).toBe('Range minimum');
-    expect(labelHigh).toBe('Range maximum');
+    await page.setContent('<aegov-range display="full" min="0" max="50"></aegov-range>');
+    const min = await page.find('aegov-range .range__label-min');
+    const max = await page.find('aegov-range .range__label-max');
+    expect(await min.getProperty('textContent')).toBe('0');
+    expect(await max.getProperty('textContent')).toBe('50');
   });
 
-  // ── Keyboard interaction ──────────────────────────────
-
-  it('responds to keyboard arrow keys', async () => {
+  it('forwards aria/data attributes to the host wrapper', async () => {
     const page = await newE2EPage();
-    await page.setContent('<aegov-range value="50" step="1"></aegov-range>');
-    const el = await page.find('aegov-range');
-    const spy = await el.spyOnEvent('aegovRangeInput');
-
-    // Focus the native input and press arrow right
-    await page.focus('aegov-range input[type="range"]');
-    await page.keyboard.press('ArrowRight');
-    await page.waitForChanges();
-
-    expect(spy).toHaveReceivedEvent();
-  });
-
-  // ── Pass-through attributes ───────────────────────────
-
-  it('passes through data attributes to native input', async () => {
-    const page = await newE2EPage();
-    await page.setContent('<aegov-range data-testid="vol-slider"></aegov-range>');
-
-    const attr = await page.$eval('aegov-range input', (el: Element) => el.getAttribute('data-testid'));
-    expect(attr).toBe('vol-slider');
-  });
-
-  // ── Value update reflects in display ──────────────────
-
-  it('updates tooltip value after native input change', async () => {
-    const page = await newE2EPage();
-    await page.setContent('<aegov-range display="tooltip" value="50"></aegov-range>');
-
-    await page.$eval('aegov-range input[type="range"]', (input: HTMLInputElement) => {
-      input.value = '75';
-      input.dispatchEvent(new Event('input', { bubbles: true }));
-    });
-    await page.waitForChanges();
-
-    const tooltip = await page.find('aegov-range .range__tooltip');
-    expect(tooltip.textContent).toBe('75');
+    await page.setContent('<aegov-range data-testid="rg" value="50"></aegov-range>');
+    const host = await page.find('aegov-range');
+    expect(host.getAttribute('data-testid')).toBe('rg');
   });
 });

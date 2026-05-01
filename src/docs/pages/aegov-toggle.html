@@ -11,299 +11,62 @@
   <link rel="stylesheet" href="/docs/hljs.css">
 </head>
 <body class="bg-aeblack-50">
-  <header class="mx-auto max-w-7xl sm:px-6 lg:px-8 mb-8">
+  <header class="aegov-container sm:px-6 lg:px-8 mb-8">
     <img src="https://designsystem.gov.ae/assets/site-logo/AEGov-DesignSystem-Logo-Color.svg" alt="UAE Design System Logo" class="w-auto h-16 my-2">
   </header>
-  <main class="mx-auto max-w-7xl sm:px-6 lg:px-8 bg-aeblack-50">
+  <main class="aegov-container sm:px-6 lg:px-8 bg-aeblack-50">
     <section class="flex items-start align-top gap-4">
       <nav id="primary-nav" class="w-3xs shrink-0">&nbsp;</nav>
       <article class="col-span-5 grow">
           <section id="content-area" class="bg-whitely-50 p-6 rounded-md shadow-xl">
           <!-- DOC:START -->
-<h1>Toggle</h1>
-<p class="text-lg text-aeblack-500 mb-8">A toggle (also known as a switch) lets users turn a single option on or off instantly. It is the digital equivalent of a physical light switch.</p>
-
-<h2>Introduction</h2>
-<p>The <code>aegov-toggle</code> component renders an accessible on/off switch built on a native <code>&lt;input type=&quot;checkbox&quot; role=&quot;switch&quot;&gt;</code> element. It supports <strong>5 sizes</strong>, optional <strong>label</strong> and <strong>description</strong> text, <strong>custom icons</strong> inside the thumb, and a <strong>disabled</strong> state out of the box.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-toggle</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Notifications&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-toggle</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-toggle label="Notifications"></aegov-toggle>
-</div>
-
-<hr>
-<h2>Checked State</h2>
-<p>Set the <code>checked</code> attribute to render the toggle in its on position. The track colour changes from neutral grey to the primary brand colour.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-toggle</span> <span class="hljs-attr">is-checked</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Enabled&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-toggle</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-toggle</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Disabled feature&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-toggle</span>&gt;</span></code></pre><div class="flex flex-wrap items-center gap-6 p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-toggle is-checked label="Enabled"></aegov-toggle>
-  <aegov-toggle label="Disabled feature"></aegov-toggle>
-</div>
-
-<hr>
-<h2>Disabled</h2>
-<p>Set the <code>disabled</code> attribute to prevent interaction. The toggle becomes visually muted and unclickable.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-toggle</span> <span class="hljs-attr">is-disabled</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Disabled off&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-toggle</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-toggle</span> <span class="hljs-attr">is-disabled</span> <span class="hljs-attr">is-checked</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Disabled on&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-toggle</span>&gt;</span></code></pre><div class="flex flex-wrap items-center gap-6 p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-toggle is-disabled label="Disabled off"></aegov-toggle>
-  <aegov-toggle is-disabled is-checked label="Disabled on"></aegov-toggle>
-</div>
-
-<hr>
-<h2>Sizes</h2>
-<p>The <code>size</code> property controls the dimensions of the track, thumb, label font size, and description font size. There are five sizes available.</p>
-<table>
-<thead>
-<tr>
-<th>Size</th>
-<th>Track</th>
-<th>Thumb</th>
-<th>Label Font</th>
-<th>Description Font</th>
-</tr>
-</thead>
-<tbody><tr>
-<td><code>xs</code></td>
-<td>26 x 11px</td>
-<td>16px</td>
-<td>12px</td>
-<td>10px</td>
-</tr>
-<tr>
-<td><code>sm</code></td>
-<td>32 x 14px</td>
-<td>20px</td>
-<td>14px</td>
-<td>12px</td>
-</tr>
-<tr>
-<td><code>base</code></td>
-<td>40 x 18px</td>
-<td>24px</td>
-<td>16px</td>
-<td>14px</td>
-</tr>
-<tr>
-<td><code>lg</code></td>
-<td>48 x 22px</td>
-<td>28px</td>
-<td>18px</td>
-<td>16px</td>
-</tr>
-<tr>
-<td><code>xl</code></td>
-<td>56 x 26px</td>
-<td>32px</td>
-<td>20px</td>
-<td>18px</td>
-</tr>
-</tbody></table>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-toggle</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;xs&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Extra Small&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-toggle</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-toggle</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Small&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-toggle</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-toggle</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;base&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Base (default)&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-toggle</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-toggle</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;lg&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Large&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-toggle</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-toggle</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;xl&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Extra Large&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-toggle</span>&gt;</span></code></pre><div class="flex flex-wrap items-center gap-6 p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-toggle size="xs" label="Extra Small"></aegov-toggle>
-  <aegov-toggle size="sm" label="Small"></aegov-toggle>
-  <aegov-toggle size="base" label="Base (default)"></aegov-toggle>
-  <aegov-toggle size="lg" label="Large"></aegov-toggle>
-  <aegov-toggle size="xl" label="Extra Large"></aegov-toggle>
-</div>
-
-<h3>Responsive Size</h3>
-<p>The <code>size</code> prop accepts Tailwind-style responsive prefixes. Write a space-separated string where each token is either a plain value or <code>breakpoint:value</code>. The base value (no prefix) applies below the smallest specified breakpoint.</p>
-<p>Available breakpoints: <code>xs</code> (480px), <code>sm</code> (640px), <code>md</code> (768px), <code>lg</code> (1024px), <code>xl</code> (1280px), <code>2xl</code> (1536px), <code>3xl</code> (1680px).</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-toggle</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm xl:lg&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Responsive Toggle&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-toggle</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-toggle size="sm xl:lg" label="Responsive Toggle"></aegov-toggle>
-</div>
-
-<blockquote>
-<p><strong>Graceful degradation:</strong> Unknown breakpoint names and invalid values are silently ignored. An unrecognised base value falls back to the component default.</p>
-</blockquote>
-<hr>
-<h2>Label Text</h2>
-<p>The <code>label</code> property renders a text label inline with the toggle. The label is placed at the inline-end of the toggle control (to the right in LTR, to the left in RTL). When a label is provided, the entire row becomes a clickable <code>&lt;label&gt;</code> element.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-toggle</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Dark mode&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-toggle</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-toggle label="Dark mode"></aegov-toggle>
-</div>
-
-<hr>
-<h2>Description</h2>
-<p>The <code>description</code> property renders helper text below the label. It is only displayed when a <code>label</code> is also provided. The description is linked to the native input via <code>aria-describedby</code> for screen readers.</p>
+<h1>aegov-toggle</h1>
+<p>A switch-style on/off control built on a native checkbox with <code>role=&quot;switch&quot;</code>. Use <code>aegov-toggle</code> for binary settings where the change takes effect immediately (e.g. enabling notifications, toggling a preference) — not for form submission choices that should map to checkboxes.</p>
+<h2>Properties</h2>
+<h3>field-id</h3>
+<p>Unique ID applied to the underlying <code>&lt;input&gt;</code>. Auto-generated as <code>aegov-toggle-{n}</code> when omitted.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-toggle</span> <span class="hljs-attr">field-id</span>=<span class="hljs-string">&quot;notifications&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Email notifications&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-toggle</span>&gt;</span></code></pre><h3>name / value</h3>
+<p>Standard form attributes forwarded to the native input.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-toggle</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;notify&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;on&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Notifications&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-toggle</span>&gt;</span></code></pre><h3>is-checked</h3>
+<p>Whether the toggle is on. Reflects to the host attribute, the native <code>checked</code> property, and <code>aria-checked</code>.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-toggle</span> <span class="hljs-attr">is-checked</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;On by default&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-toggle</span>&gt;</span></code></pre><h3>is-disabled</h3>
+<p>Disables the toggle.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-toggle</span> <span class="hljs-attr">is-disabled</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Locked&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-toggle</span>&gt;</span></code></pre><h3>is-required</h3>
+<p>Marks the toggle as required and sets <code>aria-required=&quot;true&quot;</code>.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-toggle</span> <span class="hljs-attr">is-required</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Must be on&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-toggle</span>&gt;</span></code></pre><h3>label</h3>
+<p>Visible label text rendered after the switch.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-toggle</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Receive newsletters&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-toggle</span>&gt;</span></code></pre><h3>description</h3>
+<p>Helper text displayed below the label and exposed via <code>aria-describedby</code>. Only renders when <code>label</code> is also set.</p>
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-toggle</span>
-  <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Email notifications&quot;</span>
-  <span class="hljs-attr">description</span>=<span class="hljs-string">&quot;Receive updates about your account activity via email.&quot;</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-toggle</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-toggle label="Email notifications" description="Receive updates about your account activity via email."></aegov-toggle>
-</div>
+  <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Push notifications&quot;</span>
+  <span class="hljs-attr">description</span>=<span class="hljs-string">&quot;We will only ping you for important updates.&quot;</span>
+&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-toggle</span>&gt;</span></code></pre><h3>size</h3>
+<p>Token: <code>xs</code>, <code>sm</code>, <code>base</code>, <code>lg</code>, <code>xl</code>. Also accepts a Tailwind-style responsive string.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-toggle</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;lg&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Large&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-toggle</span>&gt;</span></code></pre><h2>Sizes</h2>
+<p><code>size</code> accepts a single token or a responsive string using Tailwind-style breakpoint prefixes (<code>xs</code>, <code>sm</code>, <code>md</code>, <code>lg</code>, <code>xl</code>, <code>2xl</code>).</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-toggle</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Small&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-toggle</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-toggle</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;base&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Base&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-toggle</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-toggle</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;lg&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Large&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-toggle</span>&gt;</span>
 
-<h3>Description with Different Sizes</h3>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-toggle</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;xs&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Extra small toggle&quot;</span>
-  <span class="hljs-attr">description</span>=<span class="hljs-string">&quot;Helper text for the extra small size.&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-toggle</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-toggle</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Small toggle&quot;</span>
-  <span class="hljs-attr">description</span>=<span class="hljs-string">&quot;Helper text for the small size.&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-toggle</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-toggle</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;base&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Base toggle&quot;</span>
-  <span class="hljs-attr">description</span>=<span class="hljs-string">&quot;Helper text for the base size.&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-toggle</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-toggle</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;lg&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Large toggle&quot;</span>
-  <span class="hljs-attr">description</span>=<span class="hljs-string">&quot;Helper text for the large size.&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-toggle</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-toggle</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;xl&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Extra large toggle&quot;</span>
-  <span class="hljs-attr">description</span>=<span class="hljs-string">&quot;Helper text for the extra large size.&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-toggle</span>&gt;</span></code></pre><div class="flex flex-col gap-6 p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-toggle size="xs" label="Extra small toggle" description="Helper text for the extra small size."></aegov-toggle>
-  <aegov-toggle size="sm" label="Small toggle" description="Helper text for the small size."></aegov-toggle>
-  <aegov-toggle size="base" label="Base toggle" description="Helper text for the base size."></aegov-toggle>
-  <aegov-toggle size="lg" label="Large toggle" description="Helper text for the large size."></aegov-toggle>
-  <aegov-toggle size="xl" label="Extra large toggle" description="Helper text for the extra large size."></aegov-toggle>
-</div>
-
-<hr>
-<h2>Toggle without Label</h2>
-<p>When no <code>label</code> is provided, only the toggle control is rendered. This is useful when the toggle sits inside a layout that already provides a visible label.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-toggle</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-toggle</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-toggle</span> <span class="hljs-attr">is-checked</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-toggle</span>&gt;</span></code></pre><div class="flex flex-wrap items-center gap-6 p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-toggle></aegov-toggle>
-  <aegov-toggle is-checked></aegov-toggle>
-</div>
-
-<blockquote>
-<p><strong>Important:</strong> When using a toggle without a label, provide an <code>aria-label</code> attribute on the host element so screen readers can announce the toggle&#39;s purpose.</p>
-</blockquote>
-<hr>
-<h2>Custom Icons in Thumb</h2>
-<p>The toggle supports two named slots for placing icons inside the thumb: <code>icon-checked</code> and <code>icon-unchecked</code>. Only the icon matching the current state is visible at any time — the transition between them is a smooth opacity fade.</p>
-<p>Icons are automatically sized to match the current toggle size and colour-coded: grey when unchecked, primary brand colour when checked.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-toggle</span> <span class="hljs-attr">is-checked</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;With icons&quot;</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">svg</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;icon-unchecked&quot;</span> <span class="hljs-attr">xmlns</span>=<span class="hljs-string">&quot;http://www.w3.org/2000/svg&quot;</span> <span class="hljs-attr">viewBox</span>=<span class="hljs-string">&quot;0 0 24 24&quot;</span>
-       <span class="hljs-attr">fill</span>=<span class="hljs-string">&quot;none&quot;</span> <span class="hljs-attr">stroke</span>=<span class="hljs-string">&quot;currentColor&quot;</span> <span class="hljs-attr">stroke-width</span>=<span class="hljs-string">&quot;3&quot;</span>
-       <span class="hljs-attr">stroke-linecap</span>=<span class="hljs-string">&quot;round&quot;</span> <span class="hljs-attr">stroke-linejoin</span>=<span class="hljs-string">&quot;round&quot;</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">line</span> <span class="hljs-attr">x1</span>=<span class="hljs-string">&quot;18&quot;</span> <span class="hljs-attr">y1</span>=<span class="hljs-string">&quot;6&quot;</span> <span class="hljs-attr">x2</span>=<span class="hljs-string">&quot;6&quot;</span> <span class="hljs-attr">y2</span>=<span class="hljs-string">&quot;18&quot;</span>/&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">line</span> <span class="hljs-attr">x1</span>=<span class="hljs-string">&quot;6&quot;</span> <span class="hljs-attr">y1</span>=<span class="hljs-string">&quot;6&quot;</span> <span class="hljs-attr">x2</span>=<span class="hljs-string">&quot;18&quot;</span> <span class="hljs-attr">y2</span>=<span class="hljs-string">&quot;18&quot;</span>/&gt;</span>
-  <span class="hljs-tag">&lt;/<span class="hljs-name">svg</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">svg</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;icon-checked&quot;</span> <span class="hljs-attr">xmlns</span>=<span class="hljs-string">&quot;http://www.w3.org/2000/svg&quot;</span> <span class="hljs-attr">viewBox</span>=<span class="hljs-string">&quot;0 0 24 24&quot;</span>
-       <span class="hljs-attr">fill</span>=<span class="hljs-string">&quot;none&quot;</span> <span class="hljs-attr">stroke</span>=<span class="hljs-string">&quot;currentColor&quot;</span> <span class="hljs-attr">stroke-width</span>=<span class="hljs-string">&quot;3&quot;</span>
-       <span class="hljs-attr">stroke-linecap</span>=<span class="hljs-string">&quot;round&quot;</span> <span class="hljs-attr">stroke-linejoin</span>=<span class="hljs-string">&quot;round&quot;</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">polyline</span> <span class="hljs-attr">points</span>=<span class="hljs-string">&quot;20 6 9 17 4 12&quot;</span>/&gt;</span>
-  <span class="hljs-tag">&lt;/<span class="hljs-name">svg</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-toggle</span>&gt;</span></code></pre><div class="flex flex-wrap items-center gap-6 p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-toggle label="Off with icons">
-    <svg slot="icon-unchecked" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-    <svg slot="icon-checked" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-  </aegov-toggle>
-  <aegov-toggle is-checked label="On with icons">
-    <svg slot="icon-unchecked" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-    <svg slot="icon-checked" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-  </aegov-toggle>
-</div>
-
-<h3>Icons at All Sizes</h3>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-toggle</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;xs&quot;</span> <span class="hljs-attr">is-checked</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Extra Small&quot;</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">svg</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;icon-unchecked&quot;</span> <span class="hljs-attr">...</span>&gt;</span>...<span class="hljs-tag">&lt;/<span class="hljs-name">svg</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">svg</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;icon-checked&quot;</span> <span class="hljs-attr">...</span>&gt;</span>...<span class="hljs-tag">&lt;/<span class="hljs-name">svg</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-toggle</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-toggle</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm&quot;</span> <span class="hljs-attr">is-checked</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Small&quot;</span>&gt;</span>...<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-toggle</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-toggle</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;base&quot;</span> <span class="hljs-attr">is-checked</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Base&quot;</span>&gt;</span>...<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-toggle</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-toggle</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;lg&quot;</span> <span class="hljs-attr">is-checked</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Large&quot;</span>&gt;</span>...<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-toggle</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-toggle</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;xl&quot;</span> <span class="hljs-attr">is-checked</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Extra Large&quot;</span>&gt;</span>...<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-toggle</span>&gt;</span></code></pre><div class="flex flex-wrap items-center gap-6 p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-toggle size="xs" is-checked label="Extra Small">
-    <svg slot="icon-unchecked" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-    <svg slot="icon-checked" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-  </aegov-toggle>
-  <aegov-toggle size="sm" is-checked label="Small">
-    <svg slot="icon-unchecked" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-    <svg slot="icon-checked" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-  </aegov-toggle>
-  <aegov-toggle size="base" is-checked label="Base">
-    <svg slot="icon-unchecked" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-    <svg slot="icon-checked" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-  </aegov-toggle>
-  <aegov-toggle size="lg" is-checked label="Large">
-    <svg slot="icon-unchecked" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-    <svg slot="icon-checked" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-  </aegov-toggle>
-  <aegov-toggle size="xl" is-checked label="Extra Large">
-    <svg slot="icon-unchecked" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-    <svg slot="icon-checked" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-  </aegov-toggle>
-</div>
-
-<hr>
-<h2>Name and Value</h2>
-<p>The <code>name</code> and <code>value</code> properties map directly to the native <code>&lt;input&gt;</code> attributes, making the toggle compatible with standard HTML forms.</p>
+<span class="hljs-comment">&lt;!-- Responsive: small on mobile, base from md, large from lg --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-toggle</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm md:base lg:lg&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Responsive&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-toggle</span>&gt;</span></code></pre><h2>Examples</h2>
+<h3>Default</h3>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-toggle</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Enable notifications&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-toggle</span>&gt;</span></code></pre><h3>With description</h3>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-toggle</span>
+  <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Marketing emails&quot;</span>
+  <span class="hljs-attr">description</span>=<span class="hljs-string">&quot;Receive product news roughly once a month.&quot;</span>
+&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-toggle</span>&gt;</span></code></pre><h3>Pre-checked</h3>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-toggle</span> <span class="hljs-attr">is-checked</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Auto-save&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-toggle</span>&gt;</span></code></pre><h3>Disabled</h3>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-toggle</span> <span class="hljs-attr">is-disabled</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Beta features (coming soon)&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-toggle</span>&gt;</span></code></pre><h3>With icons inside the thumb</h3>
+<p>Provide icons via the <code>icon-checked</code> and <code>icon-unchecked</code> slots. Both slots are optional; supplying either one enables the icon area inside the thumb.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-toggle</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Dark mode&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;icon-unchecked&quot;</span>&gt;</span>☼<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;icon-checked&quot;</span>&gt;</span>☾<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-toggle</span>&gt;</span></code></pre><h3>In a form</h3>
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">form</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-toggle</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;notifications&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;email&quot;</span> <span class="hljs-attr">is-checked</span>
-    <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Email notifications&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-toggle</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-toggle</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;notifications&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;sms&quot;</span>
-    <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;SMS notifications&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-toggle</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">form</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <div class="flex flex-col gap-4">
-    <aegov-toggle name="notifications" value="email" is-checked label="Email notifications"></aegov-toggle>
-    <aegov-toggle name="notifications" value="sms" label="SMS notifications"></aegov-toggle>
-  </div>
-</div>
-
-<hr>
-<h2>Required</h2>
-<p>Set the <code>required</code> attribute to mark the toggle as required. This adds <code>aria-required=&quot;true&quot;</code> to the native input for accessibility and enables built-in browser validation.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-toggle</span> <span class="hljs-attr">is-required</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;I agree to the terms and conditions&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-toggle</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-toggle is-required label="I agree to the terms and conditions"></aegov-toggle>
-</div>
-
-<hr>
-<h2>Usage with Form Field</h2>
-<p>The toggle can be placed inside an <code>aegov-form-field</code> component for consistent form layout with other form elements.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-form-field</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-toggle</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Enable two-factor authentication&quot;</span>
-    <span class="hljs-attr">description</span>=<span class="hljs-string">&quot;Adds an extra layer of security to your account.&quot;</span>&gt;</span>
-  <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-toggle</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-form-field</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-form-field>
-    <aegov-toggle label="Enable two-factor authentication" description="Adds an extra layer of security to your account."></aegov-toggle>
-  </aegov-form-field>
-</div>
-
-<hr>
-<h2>Events</h2>
-<p>The toggle emits an <code>aegovToggleChange</code> event whenever the checked state changes. The event detail includes <code>checked</code> (boolean) and <code>value</code> (string, if set).</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-toggle</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;my-toggle&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Dark mode&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;dark&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-toggle</span>&gt;</span>
-
-<span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript">
-  <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;my-toggle&#x27;</span>)
-    .<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;aegovToggleChange&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">e</span>) =&gt;</span> {
-      <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;Checked:&#x27;</span>, e.<span class="hljs-property">detail</span>.<span class="hljs-property">checked</span>);
-      <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;Value:&#x27;</span>, e.<span class="hljs-property">detail</span>.<span class="hljs-property">value</span>);
-    });
-</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-toggle id="toggle-event-demo" label="Toggle me and check the console" value="demo"></aegov-toggle>
-  <p class="mt-3 text-sm text-aeblack-500" id="toggle-event-output">State: off</p>
-  <script>
-    document.getElementById('toggle-event-demo')
-      .addEventListener('aegovToggleChange', function(e) {
-        document.getElementById('toggle-event-output').textContent =
-          'State: ' + (e.detail.checked ? 'on' : 'off') + (e.detail.value ? ' (value: ' + e.detail.value + ')' : '');
-      });
-  </script>
-</div>
-
-<hr>
-<h2>RTL Support</h2>
-<p>The component fully supports right-to-left layouts. When the document or a parent element has <code>dir=&quot;rtl&quot;</code>, the thumb slides in the opposite direction and the label appears on the inline-start side (left in RTL).</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">dir</span>=<span class="hljs-string">&quot;rtl&quot;</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-toggle</span> <span class="hljs-attr">is-checked</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;الوضع الداكن&quot;</span>
-    <span class="hljs-attr">description</span>=<span class="hljs-string">&quot;تفعيل المظهر الداكن للتطبيق.&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-toggle</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre><div dir="rtl" class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <div class="flex flex-col gap-6">
-    <aegov-toggle is-checked label="الوضع الداكن" description="تفعيل المظهر الداكن للتطبيق."></aegov-toggle>
-    <aegov-toggle label="الإشعارات" description="تلقي الإشعارات عبر البريد الإلكتروني."></aegov-toggle>
-    <aegov-toggle is-disabled is-checked label="معطل (مفعل)"></aegov-toggle>
-  </div>
-</div>
-
-<p>No additional configuration is needed — the component reads the inherited <code>dir</code> attribute and adjusts the thumb translation direction automatically.</p>
-<hr>
-<h2>Field ID</h2>
-<p>The <code>field-id</code> property sets the <code>id</code> attribute on the native <code>&lt;input&gt;</code> element. If not provided, a unique ID is auto-generated. This is useful when you need to associate an external <code>&lt;label&gt;</code> with the toggle.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-toggle</span> <span class="hljs-attr">field-id</span>=<span class="hljs-string">&quot;custom-toggle-id&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Custom ID&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-toggle</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-toggle field-id="custom-toggle-id" label="Custom ID"></aegov-toggle>
-</div>
-
-<hr>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-toggle</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;newsletter&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;on&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Subscribe to newsletter&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-toggle</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">form</span>&gt;</span></code></pre><h2>RTL Behavior</h2>
+<p>The control is inline-flow and uses logical layout. When the document or container has <code>dir=&quot;rtl&quot;</code>, the switch and label automatically flip — the switch ends up on the right and the label on the left, with the thumb sliding in the appropriate direction. No props need to change.</p>
 <h2>API Reference</h2>
 <h3>Properties</h3>
 <table>
@@ -317,93 +80,93 @@
 </tr>
 </thead>
 <tbody><tr>
+<td><code>fieldId</code></td>
+<td><code>field-id</code></td>
+<td>Unique ID for the native input. Auto-generated if not provided.</td>
+<td><code>string</code></td>
+<td>auto</td>
+</tr>
+<tr>
+<td><code>name</code></td>
+<td><code>name</code></td>
+<td>Native input <code>name</code>.</td>
+<td><code>string</code></td>
+<td><code>undefined</code></td>
+</tr>
+<tr>
+<td><code>value</code></td>
+<td><code>value</code></td>
+<td>Native input <code>value</code>.</td>
+<td><code>string</code></td>
+<td><code>undefined</code></td>
+</tr>
+<tr>
 <td><code>isChecked</code></td>
 <td><code>is-checked</code></td>
-<td>Whether the toggle is on</td>
+<td>Whether the toggle is on. Reflected.</td>
 <td><code>boolean</code></td>
 <td><code>false</code></td>
 </tr>
 <tr>
+<td><code>size</code></td>
+<td><code>size</code></td>
+<td>Size token or responsive string.</td>
+<td><code>string</code></td>
+<td><code>&#39;base&#39;</code></td>
+</tr>
+<tr>
 <td><code>isDisabled</code></td>
 <td><code>is-disabled</code></td>
-<td>Prevents interaction</td>
+<td>Disables the input. Reflected.</td>
 <td><code>boolean</code></td>
 <td><code>false</code></td>
 </tr>
 <tr>
 <td><code>isRequired</code></td>
 <td><code>is-required</code></td>
-<td>Marks the toggle as required for form validation</td>
+<td>Marks the input as required and sets <code>aria-required=&quot;true&quot;</code>.</td>
 <td><code>boolean</code></td>
 <td><code>false</code></td>
 </tr>
 <tr>
-<td><code>size</code></td>
-<td><code>size</code></td>
-<td>The toggle size. Supports responsive strings (e.g. <code>&#39;sm xl:lg&#39;</code>).</td>
-<td><code>&#39;xs&#39;</code> | <code>&#39;sm&#39;</code> | <code>&#39;base&#39;</code> | <code>&#39;lg&#39;</code> | <code>&#39;xl&#39;</code></td>
-<td><code>&#39;base&#39;</code></td>
-</tr>
-<tr>
 <td><code>label</code></td>
 <td><code>label</code></td>
-<td>Label text rendered inline with the toggle</td>
+<td>Visible label text.</td>
 <td><code>string</code></td>
 <td><code>undefined</code></td>
 </tr>
 <tr>
 <td><code>description</code></td>
 <td><code>description</code></td>
-<td>Helper text below the label (only shown when label is provided)</td>
+<td>Helper text linked via <code>aria-describedby</code>. Only rendered when <code>label</code> is set.</td>
 <td><code>string</code></td>
 <td><code>undefined</code></td>
-</tr>
-<tr>
-<td><code>name</code></td>
-<td><code>name</code></td>
-<td>The name attribute for the native input</td>
-<td><code>string</code></td>
-<td><code>undefined</code></td>
-</tr>
-<tr>
-<td><code>value</code></td>
-<td><code>value</code></td>
-<td>The value attribute for the native input</td>
-<td><code>string</code></td>
-<td><code>undefined</code></td>
-</tr>
-<tr>
-<td><code>fieldId</code></td>
-<td><code>field-id</code></td>
-<td>Custom ID for the native input. Auto-generated if not provided.</td>
-<td><code>string</code></td>
-<td>auto</td>
 </tr>
 </tbody></table>
+<h3>Pass-through Attributes</h3>
+<p><code>aria-*</code> and <code>data-*</code> attributes set on <code>aegov-toggle</code> are forwarded to the underlying <code>&lt;input&gt;</code>. Additional forwarded attributes: <code>form</code>, <code>tabindex</code>, <code>autofocus</code>, <code>title</code>.</p>
 <h3>Events</h3>
 <table>
 <thead>
 <tr>
 <th>Event</th>
+<th>Detail</th>
 <th>Description</th>
-<th>Detail Type</th>
 </tr>
 </thead>
 <tbody><tr>
 <td><code>aegovToggleChange</code></td>
-<td>Emitted when the checked state changes</td>
 <td><code>{ checked: boolean; value?: string }</code></td>
+<td>Fires whenever the toggle&#39;s state changes.</td>
 </tr>
 </tbody></table>
-<h4>Listening to Events</h4>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-toggle</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;my-toggle&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Alerts&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;alerts&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-toggle</span>&gt;</span>
+<h4>Event listening example</h4>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-toggle</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;notify&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Notifications&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-toggle</span>&gt;</span>
 
 <span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript">
-  <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;my-toggle&#x27;</span>)
-    .<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;aegovToggleChange&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">e</span>) =&gt;</span> {
-      <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;Checked:&#x27;</span>, e.<span class="hljs-property">detail</span>.<span class="hljs-property">checked</span>);
-      <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;Value:&#x27;</span>, e.<span class="hljs-property">detail</span>.<span class="hljs-property">value</span>);
-    });
+  <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;notify&#x27;</span>).<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;aegovToggleChange&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">e</span>) =&gt;</span> {
+    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;toggle is now&#x27;</span>, e.<span class="hljs-property">detail</span>.<span class="hljs-property">checked</span> ? <span class="hljs-string">&#x27;on&#x27;</span> : <span class="hljs-string">&#x27;off&#x27;</span>);
+  });
 </span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre><h3>Slots</h3>
 <table>
 <thead>
@@ -414,58 +177,38 @@
 </thead>
 <tbody><tr>
 <td><code>icon-unchecked</code></td>
-<td>Icon shown inside the thumb when the toggle is <strong>off</strong>.</td>
+<td>Icon shown inside the thumb when the toggle is off.</td>
 </tr>
 <tr>
 <td><code>icon-checked</code></td>
-<td>Icon shown inside the thumb when the toggle is <strong>on</strong>.</td>
+<td>Icon shown inside the thumb when the toggle is on.</td>
 </tr>
 </tbody></table>
-<p>Icons placed in these slots are automatically sized and colour-coded. Use SVG or <code>&lt;img&gt;</code> elements.</p>
-<h3>Pass-Through Attributes</h3>
-<p>The component forwards the following attributes from the host element to the native <code>&lt;input&gt;</code>: <code>form</code>, <code>tabindex</code>, <code>autofocus</code>, <code>title</code>, and all <code>aria-*</code> and <code>data-*</code> attributes.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-toggle</span> <span class="hljs-attr">aria-label</span>=<span class="hljs-string">&quot;Enable feature&quot;</span> <span class="hljs-attr">data-track</span>=<span class="hljs-string">&quot;feature-toggle&quot;</span>
-  <span class="hljs-attr">tabindex</span>=<span class="hljs-string">&quot;0&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-toggle</span>&gt;</span></code></pre><hr>
 <h2>Accessibility</h2>
-<p>The <code>aegov-toggle</code> component is built with accessibility as a first-class concern. The following features are included out of the box.</p>
-<h3>Built-in Features</h3>
+<h3>Built-in</h3>
 <ul>
-<li><strong><code>role=&quot;switch&quot;</code></strong> — the native input is rendered with <code>role=&quot;switch&quot;</code>, which tells screen readers this is an on/off toggle rather than a standard checkbox.</li>
-<li><strong><code>aria-checked</code></strong> — automatically set to <code>&quot;true&quot;</code> or <code>&quot;false&quot;</code> to reflect the current state, ensuring assistive technologies announce the toggle correctly.</li>
-<li><strong><code>aria-required</code></strong> — automatically set to <code>&quot;true&quot;</code> when the <code>required</code> property is enabled.</li>
-<li><strong><code>aria-describedby</code></strong> — when a <code>description</code> is provided, it is linked to the input via <code>aria-describedby</code> so screen readers announce the helper text.</li>
-<li><strong>Native <code>&lt;input&gt;</code> element</strong> — a real checkbox input is used under the hood, providing built-in keyboard support (Space to toggle) and form participation.</li>
-<li><strong>Focus indicators</strong> — clearly visible focus rings are applied on keyboard navigation via <code>focus-visible</code> styles using the primary support colour.</li>
-<li><strong>Disabled state</strong> — adds <code>cursor-not-allowed</code> and reduced opacity so the toggle is both visually and functionally inert.</li>
-<li><strong>Clickable label</strong> — when the <code>label</code> property is set, the entire label area acts as a click target via a native <code>&lt;label&gt;</code> wrapper.</li>
-<li><strong>Pass-through <code>aria-*</code> attributes</strong> — any <code>aria-*</code> attribute placed on the host element is forwarded to the native input.</li>
+<li>Uses a native <code>&lt;input type=&quot;checkbox&quot;&gt;</code> decorated with <code>role=&quot;switch&quot;</code> so assistive tech announces it as a switch (e.g. &quot;On&quot; / &quot;Off&quot;) rather than a generic checkbox.</li>
+<li><code>aria-checked</code> is set explicitly to <code>&quot;true&quot;</code> or <code>&quot;false&quot;</code> and stays in sync with the native <code>checked</code> state.</li>
+<li>Wrapping <code>&lt;label&gt;</code> makes the switch and its label/description fully clickable and announced together.</li>
+<li><code>description</code> is linked via <code>aria-describedby</code>.</li>
+<li><code>is-required</code> sets <code>aria-required=&quot;true&quot;</code> in addition to native <code>required</code>.</li>
+<li>Decorative track/thumb elements are marked <code>aria-hidden=&quot;true&quot;</code>.</li>
 </ul>
-<h3>Developer Responsibilities</h3>
-<ol>
-<li><p><strong>Toggles without a <code>label</code> must have an <code>aria-label</code>.</strong> When a toggle has no visible label text, screen readers cannot determine its purpose. Always provide <code>aria-label</code> on the host element.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-toggle</span> <span class="hljs-attr">aria-label</span>=<span class="hljs-string">&quot;Enable dark mode&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-toggle</span>&gt;</span></code></pre></li>
-<li><p><strong>Colour contrast.</strong> All built-in colour combinations meet WCAG 2.1 AA contrast ratios. If you override colours via custom CSS, verify that the new colours maintain at least a <strong>3:1</strong> contrast ratio for the track and thumb.</p>
-</li>
-<li><p><strong>Do not remove focus styles.</strong> The built-in <code>focus-visible</code> outlines are essential for keyboard navigation. Avoid overriding them with <code>outline: none</code>.</p>
-</li>
-</ol>
-<hr>
-<h2>Notes</h2>
+<h3>Developer responsibilities</h3>
 <ul>
-<li>The <code>aegov-toggle</code> component renders a native <code>&lt;input type=&quot;checkbox&quot; role=&quot;switch&quot;&gt;</code> internally. This ensures full keyboard support and form compatibility without any extra JavaScript.</li>
-<li>The <code>checked</code> property is mutable and reflected. It updates automatically when the user interacts with the toggle. You can also set it programmatically to control the state.</li>
-<li>The <code>description</code> property only renders when a <code>label</code> is also provided. If you need a standalone description, use <code>aria-describedby</code> with an external element.</li>
-<li>The thumb intentionally protrudes beyond the track by 3px on each side. This is a deliberate design choice for visual prominence and touch-friendliness.</li>
-<li>Icons in the <code>icon-checked</code> and <code>icon-unchecked</code> slots transition with a smooth opacity fade (200ms). Only one icon is visible at a time.</li>
-<li>The component generates a unique ID automatically if <code>field-id</code> is not set. This ensures the <code>&lt;label&gt;</code> and <code>&lt;input&gt;</code> are always properly associated.</li>
-<li>Events are emitted even when the toggle is toggled programmatically via the <code>checked</code> property, as long as the change goes through the native input&#39;s <code>change</code> event.</li>
+<li>Always provide a <code>label</code>. Without one, the switch is reachable but unlabeled.</li>
+<li>Use a toggle for immediate state changes — if a change requires confirmation or only takes effect on submit, prefer <code>aegov-checkbox</code>.</li>
+</ul>
+<h3>Notes</h3>
+<ul>
+<li>Keyboard support is fully native: focus the switch and press Space to flip it. Tab moves to the next focusable element.</li>
 </ul>
 <!-- DOC:END -->
           </section>
       </article>
     </section>
   </main>
-  <footer class="mx-auto max-w-7xl sm:px-6 lg:px-8 mt-8 py-6 text-sm text-aeblack-500">
+  <footer class="aegov-container sm:px-6 lg:px-8 mt-8 py-6 text-sm text-aeblack-500">
     &copy; 2026 Telecommunication and Digital Regulatory Authority. All rights reserved.
   </footer>
 

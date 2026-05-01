@@ -18,21 +18,20 @@
       heading: 'Components',
       items: [
         { label: 'Accordion', href: '/docs/pages/aegov-accordion.html' },
-        { label: 'Avatar', href: '/docs/pages/aegov-avatar.html' },
-        { label: 'Avatar Group', href: '/docs/pages/aegov-avatar-group.html' },
-        { label: 'Badge', href: '/docs/pages/aegov-badge.html' },
         { label: 'Aspect Ratio', href: '/docs/pages/aegov-aspect-ratio.html' },
+        { label: 'Avatar', href: '/docs/pages/aegov-avatar.html' },
+        { label: 'Badge', href: '/docs/pages/aegov-badge.html' },
         { label: 'Banner', href: '/docs/pages/aegov-banner.html' },
         { label: 'Blockquote', href: '/docs/pages/aegov-blockquote.html' },
         { label: 'Breadcrumbs', href: '/docs/pages/aegov-breadcrumbs.html' },
         { label: 'Button', href: '/docs/pages/aegov-button.html' },
-        { label: 'Button Group', href: '/docs/pages/aegov-button-group.html' },
         { label: 'Callout', href: '/docs/pages/aegov-callout.html' },
         { label: 'Card', href: '/docs/pages/aegov-card.html' },
         { label: 'Drawer', href: '/docs/pages/aegov-drawer.html' },
         { label: 'Dropdown', href: '/docs/pages/aegov-dropdown.html' },
         { label: 'Link', href: '/docs/pages/aegov-link.html' },
         { label: 'Modal', href: '/docs/pages/aegov-modal.html' },
+        { label: 'Navbar', href: '/docs/pages/aegov-navbar.html' },
         { label: 'Pagination', href: '/docs/pages/aegov-pagination.html' },
         { label: 'Popover', href: '/docs/pages/aegov-popover.html' },
         { label: 'Progress', href: '/docs/pages/aegov-progress.html' },
@@ -49,7 +48,9 @@
         { label: 'Checkbox', href: '/docs/pages/aegov-checkbox.html' },
         { label: 'Datepicker', href: '/docs/pages/aegov-datepicker.html' },
         { label: 'File Upload', href: '/docs/pages/aegov-fileupload.html' },
+        { label: 'Form Field', href: '/docs/pages/aegov-form-field.html' },
         { label: 'Input', href: '/docs/pages/aegov-input.html' },
+        { label: 'Label', href: '/docs/pages/aegov-label.html' },
         { label: 'OTP', href: '/docs/pages/aegov-otp.html' },
         { label: 'Radio', href: '/docs/pages/aegov-radio.html' },
         { label: 'Range', href: '/docs/pages/aegov-range.html' },
@@ -68,9 +69,9 @@
     {
       heading: 'Layout',
       items: [
-        { label: 'Header', href: '/docs/pages/aegov-header.html' }
+        { label: 'Header', href: '/docs/pages/aegov-header.html' },
       ],
-    }
+    },
   ];
 
   /* -------------------------------------------------- */

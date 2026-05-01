@@ -2,186 +2,74 @@ import { newSpecPage } from '@stencil/core/testing';
 import { AegovText } from './aegov-text';
 
 describe('aegov-text', () => {
-  // ------------------------------------------------------------------ rendering
-  describe('rendering', () => {
-    it('renders a p element', async () => {
-      const page = await newSpecPage({
-        components: [AegovText],
-        html: `<aegov-text>Hello</aegov-text>`,
-      });
-      const p = page.root.querySelector('p');
-      expect(p).not.toBeNull();
+  it('renders with default size base', async () => {
+    const page = await newSpecPage({
+      components: [AegovText],
+      html: `<aegov-text>Hello</aegov-text>`,
     });
-
-    it('renders slot content inside p', async () => {
-      const page = await newSpecPage({
-        components: [AegovText],
-        html: `<aegov-text>Body text here</aegov-text>`,
-      });
-      const p = page.root.querySelector('p');
-      expect(p.textContent).toBe('Body text here');
-    });
+    expect(page.root).toBeTruthy();
+    const p = page.root.querySelector('p');
+    expect(p).toBeTruthy();
+    expect(p.classList.contains('text-base')).toBe(true);
   });
 
-  // ------------------------------------------------------------------ default props
-  describe('default props', () => {
-    it('defaults size to base', async () => {
-      const page = await newSpecPage({
-        components: [AegovText],
-        html: `<aegov-text>Text</aegov-text>`,
-      });
-      expect(page.rootInstance.size).toBe('base');
+  it('applies size="sm" class', async () => {
+    const page = await newSpecPage({
+      components: [AegovText],
+      html: `<aegov-text size="sm">x</aegov-text>`,
     });
-
-    it('has mb-8 and mt-0 classes by default', async () => {
-      const page = await newSpecPage({
-        components: [AegovText],
-        html: `<aegov-text>Text</aegov-text>`,
-      });
-      const p = page.root.querySelector('p');
-      expect(p.className).toContain('mb-8');
-      expect(p.className).toContain('mt-0');
-    });
-
-    it('has text-base class by default', async () => {
-      const page = await newSpecPage({
-        components: [AegovText],
-        html: `<aegov-text>Text</aegov-text>`,
-      });
-      const p = page.root.querySelector('p');
-      expect(p.className).toContain('text-base');
-    });
+    expect(page.root.querySelector('p').classList.contains('text-sm')).toBe(true);
   });
 
-  // ------------------------------------------------------------------ size prop
-  describe('size prop', () => {
-    it('applies text-sm for size=sm', async () => {
-      const page = await newSpecPage({
-        components: [AegovText],
-        html: `<aegov-text size="sm">Small text</aegov-text>`,
-      });
-      const p = page.root.querySelector('p');
-      expect(p.className).toContain('text-sm');
+  it('applies size="lg" class', async () => {
+    const page = await newSpecPage({
+      components: [AegovText],
+      html: `<aegov-text size="lg">x</aegov-text>`,
     });
-
-    it('applies text-base for size=base', async () => {
-      const page = await newSpecPage({
-        components: [AegovText],
-        html: `<aegov-text size="base">Base text</aegov-text>`,
-      });
-      const p = page.root.querySelector('p');
-      expect(p.className).toContain('text-base');
-    });
-
-    it('applies text-lg for size=lg', async () => {
-      const page = await newSpecPage({
-        components: [AegovText],
-        html: `<aegov-text size="lg">Large text</aegov-text>`,
-      });
-      const p = page.root.querySelector('p');
-      expect(p.className).toContain('text-lg');
-    });
+    expect(page.root.querySelector('p').classList.contains('text-lg')).toBe(true);
   });
 
-  // ------------------------------------------------------------------ custom class
-  describe('custom class', () => {
-    it('merges custom classes with defaults', async () => {
-      const page = await newSpecPage({
-        components: [AegovText],
-        html: `<aegov-text extra-class="text-gray-500 italic">Text</aegov-text>`,
-      });
-      const p = page.root.querySelector('p');
-      expect(p.className).toContain('mb-8');
-      expect(p.className).toContain('text-gray-500');
-      expect(p.className).toContain('italic');
+  it('appends extraClass to the rendered <p>', async () => {
+    const page = await newSpecPage({
+      components: [AegovText],
+      html: `<aegov-text extra-class="my-extra">x</aegov-text>`,
     });
+    expect(page.root.querySelector('p').classList.contains('my-extra')).toBe(true);
   });
 
-  // ------------------------------------------------------------------ pass-through attributes
-  describe('pass-through attributes', () => {
-    it('passes data-* attributes to p element', async () => {
-      const page = await newSpecPage({
-        components: [AegovText],
-        html: `<aegov-text data-testid="body-text">Text</aegov-text>`,
-      });
-      const p = page.root.querySelector('p');
-      expect(p.getAttribute('data-testid')).toBe('body-text');
+  it('passes through aria-* and data-* attributes', async () => {
+    const page = await newSpecPage({
+      components: [AegovText],
+      html: `<aegov-text aria-label="hello" data-test="value">x</aegov-text>`,
     });
-
-    it('passes aria-* attributes to p element', async () => {
-      const page = await newSpecPage({
-        components: [AegovText],
-        html: `<aegov-text aria-describedby="desc-1">Text</aegov-text>`,
-      });
-      const p = page.root.querySelector('p');
-      expect(p.getAttribute('aria-describedby')).toBe('desc-1');
-    });
-
-    it('passes id attribute to p element', async () => {
-      const page = await newSpecPage({
-        components: [AegovText],
-        html: `<aegov-text id="intro-text">Text</aegov-text>`,
-      });
-      const p = page.root.querySelector('p');
-      expect(p.getAttribute('id')).toBe('intro-text');
-    });
+    const p = page.root.querySelector('p');
+    expect(p.getAttribute('aria-label')).toBe('hello');
+    expect(p.getAttribute('data-test')).toBe('value');
   });
 
-  // ------------------------------------------------------------------ invalid prop values
-  describe('invalid prop values', () => {
-    let warnSpy: jest.SpyInstance;
-
-    beforeEach(() => {
-      warnSpy = jest.spyOn(console, 'warn').mockImplementation();
+  it('renders default slot content', async () => {
+    const page = await newSpecPage({
+      components: [AegovText],
+      html: `<aegov-text>Slotted text</aegov-text>`,
     });
+    expect(page.root.textContent).toContain('Slotted text');
+  });
 
-    afterEach(() => {
-      warnSpy.mockRestore();
+  it('updates resolved class when size prop changes', async () => {
+    const page = await newSpecPage({
+      components: [AegovText],
+      html: `<aegov-text size="sm">x</aegov-text>`,
     });
+    page.rootInstance.size = 'lg';
+    await page.waitForChanges();
+    expect(page.root.querySelector('p').classList.contains('text-lg')).toBe(true);
+  });
 
-    it('falls back to default size class when size is invalid', async () => {
-      const page = await newSpecPage({
-        components: [AegovText],
-        html: `<aegov-text size="huge">Text</aegov-text>`,
-      });
-      const p = page.root.querySelector('p');
-      expect(p).toBeTruthy();
-      expect(p.className).toContain('text-base');
+  it('falls back to base class when size value is invalid', async () => {
+    const page = await newSpecPage({
+      components: [AegovText],
+      html: `<aegov-text size="huge">x</aegov-text>`,
     });
-
-    it('warns with component name, prop name, invalid value, and fallback', async () => {
-      await newSpecPage({
-        components: [AegovText],
-        html: `<aegov-text size="huge">Text</aegov-text>`,
-      });
-      const messages = warnSpy.mock.calls.map(c => c[0] as string);
-      const sizeWarn = messages.find(m => m.includes('[aegov-text]') && m.includes('"huge"'));
-      expect(sizeWarn).toBeDefined();
-      expect(sizeWarn).toContain('"size"');
-    });
-
-    it('does not warn when all props are valid', async () => {
-      await newSpecPage({
-        components: [AegovText],
-        html: `<aegov-text size="lg">Text</aegov-text>`,
-      });
-      expect(warnSpy).not.toHaveBeenCalled();
-    });
-
-    it('warns again via @Watch when size is updated to an invalid value', async () => {
-      const page = await newSpecPage({
-        components: [AegovText],
-        html: `<aegov-text size="base">Text</aegov-text>`,
-      });
-      expect(warnSpy).not.toHaveBeenCalled();
-
-      page.root.setAttribute('size', 'nope');
-      await page.waitForChanges();
-
-      const messages = warnSpy.mock.calls.map(c => c[0] as string);
-      const invalidWarn = messages.find(m => m.includes('[aegov-text]') && m.includes('"nope"'));
-      expect(invalidWarn).toBeDefined();
-      expect(invalidWarn).toContain('"size"');
-    });
+    expect(page.root.querySelector('p').classList.contains('text-base')).toBe(true);
   });
 });

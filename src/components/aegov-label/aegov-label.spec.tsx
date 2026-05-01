@@ -2,104 +2,82 @@ import { newSpecPage } from '@stencil/core/testing';
 import { AegovLabel } from './aegov-label';
 
 describe('aegov-label', () => {
-  describe('rendering', () => {
-    it('renders a label element', async () => {
-      const page = await newSpecPage({
-        components: [AegovLabel],
-        html: `<aegov-label>Email</aegov-label>`,
-      });
-      const label = page.root.querySelector('label');
-      expect(label).not.toBeNull();
+  it('renders a <label> element', async () => {
+    const page = await newSpecPage({
+      components: [AegovLabel],
+      html: `<aegov-label>Email</aegov-label>`,
     });
-
-    it('renders slot content', async () => {
-      const page = await newSpecPage({
-        components: [AegovLabel],
-        html: `<aegov-label>Email Address</aegov-label>`,
-      });
-      const label = page.root.querySelector('label');
-      expect(label.textContent).toBe('Email Address');
-    });
-
-    it('renders with aegov-label class', async () => {
-      const page = await newSpecPage({
-        components: [AegovLabel],
-        html: `<aegov-label>Email</aegov-label>`,
-      });
-      const label = page.root.querySelector('label');
-      expect(label.className).toContain('aegov-label');
-    });
+    const label = page.root.querySelector('label');
+    expect(label).toBeTruthy();
+    expect(label.classList.contains('aegov-label')).toBe(true);
   });
 
-  describe('for prop', () => {
-    it('sets for attribute on the label when for is provided', async () => {
-      const page = await newSpecPage({
-        components: [AegovLabel],
-        html: `<aegov-label for="input-1">Email</aegov-label>`,
-      });
-      const label = page.root.querySelector('label');
-      expect(label.getAttribute('for')).toBe('input-1');
+  it('auto-generates a fieldId when none provided', async () => {
+    const page = await newSpecPage({
+      components: [AegovLabel],
+      html: `<aegov-label>Email</aegov-label>`,
     });
-
-    it('does not set for attribute when for is not provided', async () => {
-      const page = await newSpecPage({
-        components: [AegovLabel],
-        html: `<aegov-label>Email</aegov-label>`,
-      });
-      const label = page.root.querySelector('label');
-      expect(label.getAttribute('for')).toBeNull();
-    });
-
-    it('updates for attribute when htmlFor prop changes', async () => {
-      const page = await newSpecPage({
-        components: [AegovLabel],
-        html: `<aegov-label for="old-id">Email</aegov-label>`,
-      });
-      page.rootInstance.htmlFor = 'new-id';
-      await page.waitForChanges();
-      const label = page.root.querySelector('label');
-      expect(label.getAttribute('for')).toBe('new-id');
-    });
+    expect(page.rootInstance.fieldId).toMatch(/^aegov-label-\d+$/);
+    expect(page.root.querySelector('label').id).toBe(page.rootInstance.fieldId);
   });
 
-  describe('custom class', () => {
-    it('merges custom class with defaults', async () => {
-      const page = await newSpecPage({
-        components: [AegovLabel],
-        html: `<aegov-label extra-class="text-red-500">Email</aegov-label>`,
-      });
-      const label = page.root.querySelector('label');
-      expect(label.className).toContain('aegov-label');
-      expect(label.className).toContain('text-red-500');
+  it('respects an explicit fieldId', async () => {
+    const page = await newSpecPage({
+      components: [AegovLabel],
+      html: `<aegov-label field-id="my-label">Email</aegov-label>`,
     });
+    expect(page.root.querySelector('label').id).toBe('my-label');
   });
 
-  describe('pass-through attributes', () => {
-    it('passes data-* attributes to label', async () => {
-      const page = await newSpecPage({
-        components: [AegovLabel],
-        html: `<aegov-label data-testid="email-label">Email</aegov-label>`,
-      });
-      const label = page.root.querySelector('label');
-      expect(label.getAttribute('data-testid')).toBe('email-label');
+  it('reflects the for attribute (htmlFor prop) onto the label', async () => {
+    const page = await newSpecPage({
+      components: [AegovLabel],
+      html: `<aegov-label for="email-input">Email</aegov-label>`,
     });
+    expect(page.root.querySelector('label').getAttribute('for')).toBe('email-input');
+  });
 
-    it('passes aria-* attributes to label', async () => {
-      const page = await newSpecPage({
-        components: [AegovLabel],
-        html: `<aegov-label aria-hidden="true">Email</aegov-label>`,
-      });
-      const label = page.root.querySelector('label');
-      expect(label.getAttribute('aria-hidden')).toBe('true');
+  it('omits the for attribute when htmlFor is not set', async () => {
+    const page = await newSpecPage({
+      components: [AegovLabel],
+      html: `<aegov-label>Email</aegov-label>`,
     });
+    expect(page.root.querySelector('label').hasAttribute('for')).toBe(false);
+  });
 
-    it('passes id attribute to label', async () => {
-      const page = await newSpecPage({
-        components: [AegovLabel],
-        html: `<aegov-label id="my-label">Email</aegov-label>`,
-      });
-      const label = page.root.querySelector('label');
-      expect(label.getAttribute('id')).toBe('my-label');
+  it('appends extraClass to the label', async () => {
+    const page = await newSpecPage({
+      components: [AegovLabel],
+      html: `<aegov-label extra-class="my-extra">x</aegov-label>`,
     });
+    expect(page.root.querySelector('label').classList.contains('my-extra')).toBe(true);
+  });
+
+  it('renders default slot content', async () => {
+    const page = await newSpecPage({
+      components: [AegovLabel],
+      html: `<aegov-label>Email address</aegov-label>`,
+    });
+    expect(page.root.textContent).toContain('Email address');
+  });
+
+  it('passes through aria-* and data-* attributes', async () => {
+    const page = await newSpecPage({
+      components: [AegovLabel],
+      html: `<aegov-label aria-label="lbl" data-test="1">x</aegov-label>`,
+    });
+    const label = page.root.querySelector('label');
+    expect(label.getAttribute('aria-label')).toBe('lbl');
+    expect(label.getAttribute('data-test')).toBe('1');
+  });
+
+  it('updates label "for" when htmlFor changes at runtime', async () => {
+    const page = await newSpecPage({
+      components: [AegovLabel],
+      html: `<aegov-label for="a">x</aegov-label>`,
+    });
+    page.rootInstance.htmlFor = 'b';
+    await page.waitForChanges();
+    expect(page.root.querySelector('label').getAttribute('for')).toBe('b');
   });
 });

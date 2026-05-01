@@ -7,10 +7,10 @@
 
 ## Properties
 
-| Property   | Attribute  | Description                      | Type      | Default |
-| ---------- | ---------- | -------------------------------- | --------- | ------- |
-| `disabled` | `disabled` | Whether this option is disabled. | `boolean` | `false` |
-| `value`    | `value`    | The value of this option.        | `string`  | `''`    |
+| Property     | Attribute     | Description                      | Type      | Default |
+| ------------ | ------------- | -------------------------------- | --------- | ------- |
+| `isDisabled` | `is-disabled` | Whether this option is disabled. | `boolean` | `false` |
+| `value`      | `value`       | The value of this option.        | `string`  | `''`    |
 
 
 ----------------------------------------------

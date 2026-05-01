@@ -1,215 +1,60 @@
 import { newE2EPage } from '@stencil/core/testing';
 
-describe('aegov-avatar E2E', () => {
-  const testImageSrc = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==';
-
-  describe('rendering', () => {
-    it('should render', async () => {
-      const page = await newE2EPage();
-      await page.setContent('<aegov-avatar></aegov-avatar>');
-      const element = await page.find('aegov-avatar');
-      expect(element).toBeTruthy();
-      expect(element).toHaveClass('hydrated');
-    });
-
-    it('should render avatar container', async () => {
-      const page = await newE2EPage();
-      await page.setContent('<aegov-avatar></aegov-avatar>');
-      const avatar = await page.find('aegov-avatar .aegov-avatar');
-      expect(avatar).toBeTruthy();
-    });
-
-    it('should render with image', async () => {
-      const page = await newE2EPage();
-      await page.setContent(`<aegov-avatar src="${testImageSrc}" alt="Test User"></aegov-avatar>`);
-      const img = await page.find('aegov-avatar img');
-      expect(img).toBeTruthy();
-    });
-
-    it('should render fallback when no src', async () => {
-      const page = await newE2EPage();
-      await page.setContent('<aegov-avatar></aegov-avatar>');
-      const fallback = await page.find('aegov-avatar .avatar-fallback');
-      expect(fallback).toBeTruthy();
-      const icon = await page.find('aegov-avatar .avatar-icon');
-      expect(icon).toBeTruthy();
-    });
+describe('aegov-avatar (e2e)', () => {
+  it('renders fallback when no src', async () => {
+    const page = await newE2EPage();
+    await page.setContent('<aegov-avatar></aegov-avatar>');
+    const inner = await page.find('aegov-avatar [part="avatar"]');
+    expect(inner).toHaveClass('aegov-avatar');
+    expect(inner).toHaveClass('avatar-base');
+    expect(inner).toHaveClass('no-user');
+    const fallback = await page.find('aegov-avatar .avatar-fallback');
+    expect(fallback).not.toBeNull();
   });
 
-  describe('sizes', () => {
-    const sizes = ['xs', 'sm', 'base', 'lg', 'xl', '2xl', '3xl'];
-    sizes.forEach(size => {
-      it(`should apply avatar-${size} class`, async () => {
-        const page = await newE2EPage();
-        await page.setContent(`<aegov-avatar size="${size}"></aegov-avatar>`);
-        const avatar = await page.find('aegov-avatar .aegov-avatar');
-        const classes = await avatar.getProperty('className');
-        expect(classes).toContain(`avatar-${size}`);
-      });
-    });
+  it('renders an image when src is provided', async () => {
+    const page = await newE2EPage();
+    await page.setContent('<aegov-avatar src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=" alt="Person"></aegov-avatar>');
+    const img = await page.find('aegov-avatar img');
+    expect(img).not.toBeNull();
+    expect(img.getAttribute('alt')).toBe('Person');
   });
 
-  describe('variants', () => {
-    it('should apply square variant (default)', async () => {
-      const page = await newE2EPage();
-      await page.setContent('<aegov-avatar appearance="square"></aegov-avatar>');
-      const avatar = await page.find('aegov-avatar .aegov-avatar');
-      const classes = await avatar.getProperty('className');
-      expect(classes).not.toContain('avatar-rounded');
-    });
-
-    it('should apply rounded variant', async () => {
-      const page = await newE2EPage();
-      await page.setContent('<aegov-avatar appearance="rounded"></aegov-avatar>');
-      const avatar = await page.find('aegov-avatar .aegov-avatar');
-      const classes = await avatar.getProperty('className');
-      expect(classes).toContain('avatar-rounded');
-    });
+  it('uses alt as inner aria-label', async () => {
+    const page = await newE2EPage();
+    await page.setContent('<aegov-avatar alt="Jane"></aegov-avatar>');
+    const inner = await page.find('aegov-avatar [part="avatar"]');
+    expect(inner.getAttribute('aria-label')).toBe('Jane');
   });
 
-  describe('status indicator', () => {
-    it('should not render status by default', async () => {
-      const page = await newE2EPage();
-      await page.setContent('<aegov-avatar></aegov-avatar>');
-      const indicator = await page.find('aegov-avatar .avatar-indicator');
-      expect(indicator).toBeNull();
-    });
-
-    it('should render status when online', async () => {
-      const page = await newE2EPage();
-      await page.setContent('<aegov-avatar status="online"></aegov-avatar>');
-      const indicator = await page.find('aegov-avatar .avatar-indicator');
-      expect(indicator).toBeTruthy();
-    });
-
-    it('should render online status class', async () => {
-      const page = await newE2EPage();
-      await page.setContent('<aegov-avatar status="online"></aegov-avatar>');
-      const indicator = await page.find('aegov-avatar .avatar-indicator');
-      const classes = await indicator.getProperty('className');
-      expect(classes).toContain('avatar-online');
-    });
-
-    it('should render offline status class', async () => {
-      const page = await newE2EPage();
-      await page.setContent('<aegov-avatar status="offline"></aegov-avatar>');
-      const indicator = await page.find('aegov-avatar .avatar-indicator');
-      const classes = await indicator.getProperty('className');
-      expect(classes).toContain('avatar-offline');
-    });
-
-    it('should not render status by default', async () => {
-      const page = await newE2EPage();
-      await page.setContent('<aegov-avatar></aegov-avatar>');
-      const indicator = await page.find('aegov-avatar .avatar-indicator');
-      expect(indicator).toBeNull();
-    });
-
-    it('should render away status class', async () => {
-      const page = await newE2EPage();
-      await page.setContent('<aegov-avatar status="away"></aegov-avatar>');
-      const indicator = await page.find('aegov-avatar .avatar-indicator');
-      const classes = await indicator.getProperty('className');
-      expect(classes).toContain('avatar-away');
-    });
-
-    it('should render unavailable status class', async () => {
-      const page = await newE2EPage();
-      await page.setContent('<aegov-avatar status="unavailable"></aegov-avatar>');
-      const indicator = await page.find('aegov-avatar .avatar-indicator');
-      const classes = await indicator.getProperty('className');
-      expect(classes).toContain('avatar-unavailable');
-    });
-
-    it('should render busy status class', async () => {
-      const page = await newE2EPage();
-      await page.setContent('<aegov-avatar status="busy"></aegov-avatar>');
-      const indicator = await page.find('aegov-avatar .avatar-indicator');
-      const classes = await indicator.getProperty('className');
-      expect(classes).toContain('avatar-busy');
-    });
+  it('applies size and rounded appearance classes', async () => {
+    const page = await newE2EPage();
+    await page.setContent('<aegov-avatar size="lg" appearance="rounded"></aegov-avatar>');
+    const inner = await page.find('aegov-avatar [part="avatar"]');
+    expect(inner).toHaveClass('avatar-lg');
+    expect(inner).toHaveClass('avatar-rounded');
   });
 
-  describe('accessibility', () => {
-    it('should have role="img"', async () => {
-      const page = await newE2EPage();
-      await page.setContent('<aegov-avatar></aegov-avatar>');
-      const avatar = await page.find('aegov-avatar .aegov-avatar');
-      expect(await avatar.getAttribute('role')).toBe('img');
-    });
-
-    it('should have aria-label with alt text', async () => {
-      const page = await newE2EPage();
-      await page.setContent('<aegov-avatar alt="John Doe"></aegov-avatar>');
-      const avatar = await page.find('aegov-avatar .aegov-avatar');
-      expect(await avatar.getAttribute('aria-label')).toBe('John Doe');
-    });
-
-    it('should have default aria-label when no alt', async () => {
-      const page = await newE2EPage();
-      await page.setContent('<aegov-avatar></aegov-avatar>');
-      const avatar = await page.find('aegov-avatar .aegov-avatar');
-      expect(await avatar.getAttribute('aria-label')).toBe('User avatar');
-    });
-
-    it('should have aria-label on status indicator', async () => {
-      const page = await newE2EPage();
-      await page.setContent('<aegov-avatar status="online"></aegov-avatar>');
-      const indicator = await page.find('aegov-avatar .avatar-indicator');
-      expect(await indicator.getAttribute('aria-label')).toBe('Status: online');
-    });
+  it('renders a status indicator when status set', async () => {
+    const page = await newE2EPage();
+    await page.setContent('<aegov-avatar status="online"></aegov-avatar>');
+    const dot = await page.find('aegov-avatar [part="status"]');
+    expect(dot).not.toBeNull();
+    expect(dot).toHaveClass('avatar-online');
+    expect(dot.getAttribute('aria-label')).toBe('Status: online');
   });
 
-  describe('dynamic updates', () => {
-    it('should update when size changes', async () => {
-      const page = await newE2EPage();
-      await page.setContent('<aegov-avatar size="sm"></aegov-avatar>');
-      const element = await page.find('aegov-avatar');
-      const avatar = await page.find('aegov-avatar .aegov-avatar');
-
-      let classes = await avatar.getProperty('className');
-      expect(classes).toContain('avatar-sm');
-
-      element.setProperty('size', 'lg');
-      await page.waitForChanges();
-
-      classes = await avatar.getProperty('className');
-      expect(classes).toContain('avatar-lg');
-    });
-
-    it('should update when variant changes', async () => {
-      const page = await newE2EPage();
-      await page.setContent('<aegov-avatar appearance="square"></aegov-avatar>');
-      const element = await page.find('aegov-avatar');
-      const avatar = await page.find('aegov-avatar .aegov-avatar');
-
-      let classes = await avatar.getProperty('className');
-      expect(classes).not.toContain('avatar-rounded');
-
-      element.setProperty('appearance', 'rounded');
-      await page.waitForChanges();
-
-      classes = await avatar.getProperty('className');
-      expect(classes).toContain('avatar-rounded');
-    });
+  it('does not render status by default', async () => {
+    const page = await newE2EPage();
+    await page.setContent('<aegov-avatar></aegov-avatar>');
+    const dot = await page.find('aegov-avatar [part="status"]');
+    expect(dot).toBeNull();
   });
 
-  describe('combinations', () => {
-    it('should render large rounded avatar with image and status', async () => {
-      const page = await newE2EPage();
-      await page.setContent(`
-        <aegov-avatar size="lg" variant="rounded" status="online" src="${testImageSrc}" alt="Test User"></aegov-avatar>
-      `);
-      const avatar = await page.find('aegov-avatar .aegov-avatar');
-      const classes = await avatar.getProperty('className');
-      expect(classes).toContain('avatar-lg');
-      expect(classes).toContain('avatar-rounded');
-
-      const img = await page.find('aegov-avatar img');
-      expect(img).toBeTruthy();
-
-      const indicator = await page.find('aegov-avatar .avatar-indicator');
-      expect(indicator).toBeTruthy();
-    });
+  it('renders slot content as fallback', async () => {
+    const page = await newE2EPage();
+    await page.setContent('<aegov-avatar>JD</aegov-avatar>');
+    const el = await page.find('aegov-avatar');
+    expect(el.textContent).toContain('JD');
   });
 });

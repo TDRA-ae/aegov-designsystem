@@ -11,500 +11,76 @@
   <link rel="stylesheet" href="/docs/hljs.css">
 </head>
 <body class="bg-aeblack-50">
-  <header class="mx-auto max-w-7xl sm:px-6 lg:px-8 mb-8">
+  <header class="aegov-container sm:px-6 lg:px-8 mb-8">
     <img src="https://designsystem.gov.ae/assets/site-logo/AEGov-DesignSystem-Logo-Color.svg" alt="UAE Design System Logo" class="w-auto h-16 my-2">
   </header>
-  <main class="mx-auto max-w-7xl sm:px-6 lg:px-8 bg-aeblack-50">
+  <main class="aegov-container sm:px-6 lg:px-8 bg-aeblack-50">
     <section class="flex items-start align-top gap-4">
       <nav id="primary-nav" class="w-3xs shrink-0">&nbsp;</nav>
       <article class="col-span-5 grow">
           <section id="content-area" class="bg-whitely-50 p-6 rounded-md shadow-xl">
           <!-- DOC:START -->
-<h1>Dropdown</h1>
-<p class="text-lg text-aeblack-500 mb-8">A dropdown displays a panel of content or actions that appears on demand, positioned relative to a trigger element. Use it for menus, contextual options, and progressive disclosure of secondary choices.</p>
-
-<h2>Introduction</h2>
-<p>The <code>aegov-dropdown</code> component provides a flexible, accessible dropdown panel that can be triggered by a click or hover. It supports <strong>4 positions</strong>, <strong>3 alignments</strong>, configurable delays, nested dropdowns, and automatic viewport-aware repositioning. Content is rendered through a portal to <code>document.body</code>, avoiding overflow clipping from parent containers.</p>
+<h1>aegov-dropdown</h1>
+<p>A menu of actions or navigation items anchored to a trigger button or link. Use a dropdown for action lists, user menus, command groupings, and navigation. Choose <code>aegov-popover</code> instead when the panel is informational rather than a list of actions, and <code>aegov-tooltip</code> for short hover hints.</p>
+<p>The dropdown content is rendered into a portal at <code>document.body</code> so it can escape ancestor clipping and stacking contexts.</p>
+<h2>Properties</h2>
+<h3><code>trigger</code></h3>
+<p><code>&#39;click&#39;</code> (default) or <code>&#39;hover&#39;</code>. Determines how the dropdown opens.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-dropdown</span> <span class="hljs-attr">trigger</span>=<span class="hljs-string">&quot;hover&quot;</span>&gt;</span>…<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-dropdown</span>&gt;</span></code></pre><h3><code>position</code></h3>
+<p><code>&#39;top&#39;</code>, <code>&#39;right&#39;</code>, <code>&#39;bottom&#39;</code> (default), or <code>&#39;left&#39;</code>. Preferred placement relative to the trigger. The dropdown auto-flips to the opposite edge if there isn&#39;t room.</p>
+<h3><code>align</code></h3>
+<p><code>&#39;start&#39;</code> (default), <code>&#39;center&#39;</code>, or <code>&#39;end&#39;</code>. Cross-axis alignment.</p>
+<h3><code>gap</code></h3>
+<p>Pixel distance between trigger and dropdown panel. Default <code>8</code>.</p>
+<h3><code>offset</code></h3>
+<p>Additional pixel offset on the cross axis. Default <code>0</code>.</p>
+<h3><code>is-disabled</code></h3>
+<p>When <code>true</code>, the trigger is inert and the dropdown won&#39;t open.</p>
+<h3><code>delay-start</code></h3>
+<p>Milliseconds to wait before opening (mainly relevant for <code>trigger=&quot;hover&quot;</code>). Default <code>200</code>.</p>
+<h3><code>delay-end</code></h3>
+<p>Milliseconds to wait before closing on hover-out. Default <code>0</code>. A 100 ms grace period is enforced for hover triggers.</p>
+<h3><code>field-id</code></h3>
+<p>Optional unique ID for the dropdown menu element. Auto-generated as <code>aegov-dropdown-{n}</code>. The trigger element receives <code>${fieldId}-trigger</code>.</p>
+<h2>Examples</h2>
+<h3>Click dropdown menu</h3>
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-dropdown</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span>&gt;</span>Open Menu<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;primary&quot;</span>&gt;</span>Actions<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;dropdown-content&quot;</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;#&quot;</span>&gt;</span>Profile<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;#&quot;</span>&gt;</span>Settings<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;#&quot;</span>&gt;</span>Logout<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;#edit&quot;</span>&gt;</span>Edit<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;#share&quot;</span>&gt;</span>Share<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">hr</span> /&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;#delete&quot;</span>&gt;</span>Delete<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>
   <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-dropdown</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-dropdown>
-    <aegov-button>Open Menu</aegov-button>
-    <div slot="dropdown-content">
-      <a href="#">Profile</a>
-      <a href="#">Settings</a>
-      <a href="#">Logout</a>
-    </div>
-  </aegov-dropdown>
-</div>
-
-<hr>
-<h2>Trigger Types</h2>
-<p>The <code>trigger</code> property controls how the dropdown is activated. There are two options.</p>
-<h3>Click (Default)</h3>
-<p>The dropdown opens on click and closes when clicking outside, pressing Escape, or clicking the trigger again.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-dropdown</span> <span class="hljs-attr">trigger</span>=<span class="hljs-string">&quot;click&quot;</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span>&gt;</span>Click Me<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-dropdown</span>&gt;</span></code></pre><h3>Hover navigation menu</h3>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-dropdown</span> <span class="hljs-attr">trigger</span>=<span class="hljs-string">&quot;hover&quot;</span> <span class="hljs-attr">position</span>=<span class="hljs-string">&quot;bottom&quot;</span> <span class="hljs-attr">align</span>=<span class="hljs-string">&quot;start&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;#&quot;</span>&gt;</span>Products<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;dropdown-content&quot;</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;#&quot;</span>&gt;</span>Option A<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;#&quot;</span>&gt;</span>Option B<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/a&quot;</span>&gt;</span>Product A<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/b&quot;</span>&gt;</span>Product B<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>
   <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-dropdown</span>&gt;</span></code></pre><div class="flex flex-wrap gap-3 p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-dropdown trigger="click">
-    <aegov-button>Click Trigger</aegov-button>
-    <div slot="dropdown-content">
-      <a href="#" class="block px-3 py-2 text-sm text-aeblack-700 rounded hover:bg-aeblack-100 no-underline">Option A</a>
-      <a href="#" class="block px-3 py-2 text-sm text-aeblack-700 rounded hover:bg-aeblack-100 no-underline">Option B</a>
-      <a href="#" class="block px-3 py-2 text-sm text-aeblack-700 rounded hover:bg-aeblack-100 no-underline">Option C</a>
-    </div>
-  </aegov-dropdown>
-</div>
-
-<h3>Hover</h3>
-<p>The dropdown opens when the cursor enters the trigger area and closes when the cursor leaves both the trigger and the dropdown panel. A built-in grace period allows the cursor to cross the gap between trigger and panel without closing.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-dropdown</span> <span class="hljs-attr">trigger</span>=<span class="hljs-string">&quot;hover&quot;</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;outline&quot;</span>&gt;</span>Hover Me<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-dropdown</span>&gt;</span></code></pre><h3>Aligned to end</h3>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-dropdown</span> <span class="hljs-attr">align</span>=<span class="hljs-string">&quot;end&quot;</span> <span class="hljs-attr">position</span>=<span class="hljs-string">&quot;bottom&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;me.jpg&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;&quot;</span> /&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;dropdown-content&quot;</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;#&quot;</span>&gt;</span>Quick Link 1<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;#&quot;</span>&gt;</span>Quick Link 2<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/profile&quot;</span>&gt;</span>Profile<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/logout&quot;</span>&gt;</span>Sign out<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>
   <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-dropdown</span>&gt;</span></code></pre><div class="flex flex-wrap gap-3 p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-dropdown trigger="hover">
-    <aegov-button variant="outline">Hover Trigger</aegov-button>
-    <div slot="dropdown-content">
-      <a href="#" class="block px-3 py-2 text-sm text-aeblack-700 rounded hover:bg-aeblack-100 no-underline">Quick Link 1</a>
-      <a href="#" class="block px-3 py-2 text-sm text-aeblack-700 rounded hover:bg-aeblack-100 no-underline">Quick Link 2</a>
-      <a href="#" class="block px-3 py-2 text-sm text-aeblack-700 rounded hover:bg-aeblack-100 no-underline">Quick Link 3</a>
-    </div>
-  </aegov-dropdown>
-</div>
-
-<hr>
-<h2>Position</h2>
-<p>The <code>position</code> property sets where the dropdown panel appears relative to the trigger. The component automatically flips to the opposite side if there is not enough viewport space.</p>
-<table>
-<thead>
-<tr>
-<th>Position</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr>
-<td><code>bottom</code></td>
-<td>Default. Below the trigger.</td>
-</tr>
-<tr>
-<td><code>top</code></td>
-<td>Above the trigger.</td>
-</tr>
-<tr>
-<td><code>left</code></td>
-<td>To the left of the trigger.</td>
-</tr>
-<tr>
-<td><code>right</code></td>
-<td>To the right of the trigger.</td>
-</tr>
-</tbody></table>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-dropdown</span> <span class="hljs-attr">position</span>=<span class="hljs-string">&quot;bottom&quot;</span>&gt;</span>…<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-dropdown</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-dropdown</span> <span class="hljs-attr">position</span>=<span class="hljs-string">&quot;top&quot;</span>&gt;</span>…<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-dropdown</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-dropdown</span> <span class="hljs-attr">position</span>=<span class="hljs-string">&quot;left&quot;</span>&gt;</span>…<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-dropdown</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-dropdown</span> <span class="hljs-attr">position</span>=<span class="hljs-string">&quot;right&quot;</span>&gt;</span>…<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-dropdown</span>&gt;</span></code></pre><div class="flex flex-wrap items-center gap-3 p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-dropdown position="bottom">
-    <aegov-button size="sm">Bottom</aegov-button>
-    <div slot="dropdown-content">
-      <a href="#" class="block px-3 py-2 text-sm text-aeblack-700 rounded hover:bg-aeblack-100 no-underline">Item 1</a>
-      <a href="#" class="block px-3 py-2 text-sm text-aeblack-700 rounded hover:bg-aeblack-100 no-underline">Item 2</a>
-    </div>
-  </aegov-dropdown>
-  <aegov-dropdown position="top">
-    <aegov-button size="sm" variant="outline">Top</aegov-button>
-    <div slot="dropdown-content">
-      <a href="#" class="block px-3 py-2 text-sm text-aeblack-700 rounded hover:bg-aeblack-100 no-underline">Item 1</a>
-      <a href="#" class="block px-3 py-2 text-sm text-aeblack-700 rounded hover:bg-aeblack-100 no-underline">Item 2</a>
-    </div>
-  </aegov-dropdown>
-  <aegov-dropdown position="left">
-    <aegov-button size="sm" variant="soft">Left</aegov-button>
-    <div slot="dropdown-content">
-      <a href="#" class="block px-3 py-2 text-sm text-aeblack-700 rounded hover:bg-aeblack-100 no-underline">Item 1</a>
-      <a href="#" class="block px-3 py-2 text-sm text-aeblack-700 rounded hover:bg-aeblack-100 no-underline">Item 2</a>
-    </div>
-  </aegov-dropdown>
-  <aegov-dropdown position="right">
-    <aegov-button size="sm" appearance="secondary">Right</aegov-button>
-    <div slot="dropdown-content">
-      <a href="#" class="block px-3 py-2 text-sm text-aeblack-700 rounded hover:bg-aeblack-100 no-underline">Item 1</a>
-      <a href="#" class="block px-3 py-2 text-sm text-aeblack-700 rounded hover:bg-aeblack-100 no-underline">Item 2</a>
-    </div>
-  </aegov-dropdown>
-</div>
-
-<hr>
-<h2>Alignment</h2>
-<p>The <code>align</code> property controls how the dropdown panel is aligned along the secondary axis relative to the trigger.</p>
-<table>
-<thead>
-<tr>
-<th>Align</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr>
-<td><code>start</code></td>
-<td>Default. Aligns the leading edge of the panel with the trigger.</td>
-</tr>
-<tr>
-<td><code>center</code></td>
-<td>Centres the panel relative to the trigger.</td>
-</tr>
-<tr>
-<td><code>end</code></td>
-<td>Aligns the trailing edge of the panel with the trigger.</td>
-</tr>
-</tbody></table>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-dropdown</span> <span class="hljs-attr">align</span>=<span class="hljs-string">&quot;start&quot;</span>&gt;</span>…<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-dropdown</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-dropdown</span> <span class="hljs-attr">align</span>=<span class="hljs-string">&quot;center&quot;</span>&gt;</span>…<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-dropdown</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-dropdown</span> <span class="hljs-attr">align</span>=<span class="hljs-string">&quot;end&quot;</span>&gt;</span>…<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-dropdown</span>&gt;</span></code></pre><div class="flex flex-wrap items-center gap-3 p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-dropdown align="start">
-    <aegov-button size="sm">Align Start</aegov-button>
-    <div slot="dropdown-content">
-      <a href="#" class="block px-3 py-2 text-sm text-aeblack-700 rounded hover:bg-aeblack-100 no-underline">Dashboard</a>
-      <a href="#" class="block px-3 py-2 text-sm text-aeblack-700 rounded hover:bg-aeblack-100 no-underline">Analytics</a>
-      <a href="#" class="block px-3 py-2 text-sm text-aeblack-700 rounded hover:bg-aeblack-100 no-underline">Reports</a>
-    </div>
-  </aegov-dropdown>
-  <aegov-dropdown align="center">
-    <aegov-button size="sm" variant="outline">Align Center</aegov-button>
-    <div slot="dropdown-content">
-      <a href="#" class="block px-3 py-2 text-sm text-aeblack-700 rounded hover:bg-aeblack-100 no-underline">Dashboard</a>
-      <a href="#" class="block px-3 py-2 text-sm text-aeblack-700 rounded hover:bg-aeblack-100 no-underline">Analytics</a>
-      <a href="#" class="block px-3 py-2 text-sm text-aeblack-700 rounded hover:bg-aeblack-100 no-underline">Reports</a>
-    </div>
-  </aegov-dropdown>
-  <aegov-dropdown align="end">
-    <aegov-button size="sm" variant="soft">Align End</aegov-button>
-    <div slot="dropdown-content">
-      <a href="#" class="block px-3 py-2 text-sm text-aeblack-700 rounded hover:bg-aeblack-100 no-underline">Dashboard</a>
-      <a href="#" class="block px-3 py-2 text-sm text-aeblack-700 rounded hover:bg-aeblack-100 no-underline">Analytics</a>
-      <a href="#" class="block px-3 py-2 text-sm text-aeblack-700 rounded hover:bg-aeblack-100 no-underline">Reports</a>
-    </div>
-  </aegov-dropdown>
-</div>
-
-<hr>
-<h2>Gap and Offset</h2>
-<p>The <code>gap</code> property controls the distance (in pixels) between the trigger and the dropdown panel. The default is <code>8</code>. The <code>offset</code> property shifts the panel along the secondary axis.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-dropdown</span> <span class="hljs-attr">gap</span>=<span class="hljs-string">&quot;16&quot;</span>&gt;</span>…<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-dropdown</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-dropdown</span> <span class="hljs-attr">offset</span>=<span class="hljs-string">&quot;20&quot;</span>&gt;</span>…<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-dropdown</span>&gt;</span></code></pre><div class="flex flex-wrap items-center gap-3 p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-dropdown gap="0">
-    <aegov-button size="sm">Gap 0</aegov-button>
-    <div slot="dropdown-content">
-      <a href="#" class="block px-3 py-2 text-sm text-aeblack-700 rounded hover:bg-aeblack-100 no-underline">Item 1</a>
-      <a href="#" class="block px-3 py-2 text-sm text-aeblack-700 rounded hover:bg-aeblack-100 no-underline">Item 2</a>
-    </div>
-  </aegov-dropdown>
-  <aegov-dropdown gap="16">
-    <aegov-button size="sm" variant="outline">Gap 16</aegov-button>
-    <div slot="dropdown-content">
-      <a href="#" class="block px-3 py-2 text-sm text-aeblack-700 rounded hover:bg-aeblack-100 no-underline">Item 1</a>
-      <a href="#" class="block px-3 py-2 text-sm text-aeblack-700 rounded hover:bg-aeblack-100 no-underline">Item 2</a>
-    </div>
-  </aegov-dropdown>
-  <aegov-dropdown offset="30">
-    <aegov-button size="sm" variant="soft">Offset 30</aegov-button>
-    <div slot="dropdown-content">
-      <a href="#" class="block px-3 py-2 text-sm text-aeblack-700 rounded hover:bg-aeblack-100 no-underline">Item 1</a>
-      <a href="#" class="block px-3 py-2 text-sm text-aeblack-700 rounded hover:bg-aeblack-100 no-underline">Item 2</a>
-    </div>
-  </aegov-dropdown>
-</div>
-
-<hr>
-<h2>Dropdown Content</h2>
-<p>The <code>dropdown-content</code> slot accepts any HTML. Common patterns include links, buttons, and dividers.</p>
-<h3>Links and Buttons</h3>
-<p>Use <code>&lt;a&gt;</code> elements for navigation items and <code>&lt;button&gt;</code> elements for actions. Focusable elements inside the dropdown automatically receive <code>role=&quot;menuitem&quot;</code>.</p>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-dropdown</span>&gt;</span></code></pre><h3>Nested dropdowns</h3>
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-dropdown</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span>&gt;</span>Actions<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;dropdown-content&quot;</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/profile&quot;</span>&gt;</span>View Profile<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/settings&quot;</span>&gt;</span>Settings<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">hr</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">onclick</span>=<span class="hljs-string">&quot;alert(&#x27;Deleted!&#x27;)&quot;</span>&gt;</span>Delete Account<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
-  <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-dropdown</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-dropdown>
-    <aegov-button>Actions</aegov-button>
-    <div slot="dropdown-content">
-      <a href="#" class="block px-3 py-2 text-sm text-aeblack-700 rounded hover:bg-aeblack-100 no-underline">View Profile</a>
-      <a href="#" class="block px-3 py-2 text-sm text-aeblack-700 rounded hover:bg-aeblack-100 no-underline">Settings</a>
-      <hr>
-      <button class="block w-full text-left px-3 py-2 text-sm text-aered-600 rounded hover:bg-aered-50 border-0 bg-transparent cursor-pointer">Delete Account</button>
-    </div>
-  </aegov-dropdown>
-</div>
-
-<h3>Dividers</h3>
-<p>Use a standard <code>&lt;hr&gt;</code> element to visually separate groups of items. The dropdown portal automatically styles horizontal rules with a subtle border.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;dropdown-content&quot;</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;#&quot;</span>&gt;</span>Edit<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;#&quot;</span>&gt;</span>Duplicate<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">hr</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;#&quot;</span>&gt;</span>Archive<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;#&quot;</span>&gt;</span>Delete<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-dropdown>
-    <aegov-button variant="outline">With Divider</aegov-button>
-    <div slot="dropdown-content">
-      <a href="#" class="block px-3 py-2 text-sm text-aeblack-700 rounded hover:bg-aeblack-100 no-underline">Edit</a>
-      <a href="#" class="block px-3 py-2 text-sm text-aeblack-700 rounded hover:bg-aeblack-100 no-underline">Duplicate</a>
-      <hr>
-      <a href="#" class="block px-3 py-2 text-sm text-aeblack-700 rounded hover:bg-aeblack-100 no-underline">Archive</a>
-      <a href="#" class="block px-3 py-2 text-sm text-aered-600 rounded hover:bg-aered-50 no-underline">Delete</a>
-    </div>
-  </aegov-dropdown>
-</div>
-
-<h3>Disabled Items</h3>
-<p>Add <code>aria-disabled=&quot;true&quot;</code> to links or the <code>is-disabled</code> attribute to buttons to render them as non-interactive with reduced opacity.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;dropdown-content&quot;</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;#&quot;</span>&gt;</span>Active Item<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;#&quot;</span> <span class="hljs-attr">aria-disabled</span>=<span class="hljs-string">&quot;true&quot;</span>&gt;</span>Disabled Link<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">disabled</span>&gt;</span>Disabled Button<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-dropdown>
-    <aegov-button variant="soft">Disabled Items</aegov-button>
-    <div slot="dropdown-content">
-      <a href="#" class="block px-3 py-2 text-sm text-aeblack-700 rounded hover:bg-aeblack-100 no-underline">Active Item</a>
-      <a href="#" aria-disabled="true" class="block px-3 py-2 text-sm text-aeblack-700 rounded no-underline">Disabled Link</a>
-      <button disabled class="block w-full text-left px-3 py-2 text-sm text-aeblack-700 rounded border-0 bg-transparent">Disabled Button</button>
-    </div>
-  </aegov-dropdown>
-</div>
-
-<hr>
-<h2>Show and Hide Delays</h2>
-<p>The <code>delay-start</code> property controls the delay (in milliseconds) before the dropdown appears. The default is <code>200</code>. The <code>delay-end</code> property controls the delay before it closes. The default is <code>0</code>. For hover-triggered dropdowns, a minimum 100ms hide grace period is always enforced.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-dropdown</span> <span class="hljs-attr">trigger</span>=<span class="hljs-string">&quot;hover&quot;</span> <span class="hljs-attr">delay-start</span>=<span class="hljs-string">&quot;0&quot;</span> <span class="hljs-attr">delay-end</span>=<span class="hljs-string">&quot;300&quot;</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span>&gt;</span>Slow Close<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;dropdown-content&quot;</span>&gt;</span>…<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-dropdown</span>&gt;</span></code></pre><div class="flex flex-wrap gap-3 p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-dropdown trigger="hover" delay-start="0">
-    <aegov-button size="sm">Instant Show (hover)</aegov-button>
-    <div slot="dropdown-content">
-      <a href="#" class="block px-3 py-2 text-sm text-aeblack-700 rounded hover:bg-aeblack-100 no-underline">Item 1</a>
-      <a href="#" class="block px-3 py-2 text-sm text-aeblack-700 rounded hover:bg-aeblack-100 no-underline">Item 2</a>
-    </div>
-  </aegov-dropdown>
-  <aegov-dropdown trigger="hover" delay-start="500">
-    <aegov-button size="sm" variant="outline">500ms Delay (hover)</aegov-button>
-    <div slot="dropdown-content">
-      <a href="#" class="block px-3 py-2 text-sm text-aeblack-700 rounded hover:bg-aeblack-100 no-underline">Item 1</a>
-      <a href="#" class="block px-3 py-2 text-sm text-aeblack-700 rounded hover:bg-aeblack-100 no-underline">Item 2</a>
-    </div>
-  </aegov-dropdown>
-</div>
-
-<hr>
-<h2>Disabled State</h2>
-<p>Set the <code>is-disabled</code> attribute to prevent the dropdown from opening. The trigger remains visible but interaction is blocked.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-dropdown</span> <span class="hljs-attr">is-disabled</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span> <span class="hljs-attr">disabled</span>&gt;</span>Disabled Dropdown<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;dropdown-content&quot;</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;#&quot;</span>&gt;</span>This won&#x27;t show<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>
-  <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-dropdown</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-dropdown is-disabled>
-    <aegov-button disabled>Disabled Dropdown</aegov-button>
-    <div slot="dropdown-content">
-      <a href="#" class="block px-3 py-2 text-sm text-aeblack-700 rounded hover:bg-aeblack-100 no-underline">This won't show</a>
-    </div>
-  </aegov-dropdown>
-</div>
-
-<hr>
-<h2>Custom Trigger</h2>
-<p>The default slot accepts any element as the trigger. You are not limited to buttons — use links, icons, avatars, or any interactive element.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-dropdown</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://i.pravatar.cc/150?img=5&quot;</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;base&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;dropdown-content&quot;</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;#&quot;</span>&gt;</span>My Account<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;#&quot;</span>&gt;</span>Sign Out<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>
-  <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-dropdown</span>&gt;</span></code></pre><div class="flex flex-wrap items-center gap-3 p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-dropdown>
-    <aegov-avatar src="https://i.pravatar.cc/150?img=5" size="base"></aegov-avatar>
-    <div slot="dropdown-content">
-      <a href="#" class="block px-3 py-2 text-sm text-aeblack-700 rounded hover:bg-aeblack-100 no-underline">My Account</a>
-      <a href="#" class="block px-3 py-2 text-sm text-aeblack-700 rounded hover:bg-aeblack-100 no-underline">Preferences</a>
-      <hr>
-      <a href="#" class="block px-3 py-2 text-sm text-aered-600 rounded hover:bg-aered-50 no-underline">Sign Out</a>
-    </div>
-  </aegov-dropdown>
-  <aegov-dropdown trigger="hover">
-    <aegov-badge color="primary">Hover this badge</aegov-badge>
-    <div slot="dropdown-content">
-      <a href="#" class="block px-3 py-2 text-sm text-aeblack-700 rounded hover:bg-aeblack-100 no-underline">Badge info</a>
-      <a href="#" class="block px-3 py-2 text-sm text-aeblack-700 rounded hover:bg-aeblack-100 no-underline">Learn more</a>
-    </div>
-  </aegov-dropdown>
-</div>
-
-<hr>
-<h2>Nested Dropdowns</h2>
-<p>Dropdowns can be nested inside the <code>dropdown-content</code> slot of a parent dropdown. The component tracks parent-child relationships to prevent premature closing.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-dropdown</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span>&gt;</span>Menu<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;dropdown-content&quot;</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;#&quot;</span>&gt;</span>Home<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-dropdown</span> <span class="hljs-attr">position</span>=<span class="hljs-string">&quot;right&quot;</span> <span class="hljs-attr">trigger</span>=<span class="hljs-string">&quot;hover&quot;</span>&gt;</span>
-      <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;#&quot;</span>&gt;</span>Services<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>
-      <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;dropdown-content&quot;</span>&gt;</span>
-        <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;#&quot;</span>&gt;</span>Consulting<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>
-        <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;#&quot;</span>&gt;</span>Development<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>
-      <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
-    <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-dropdown</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;#&quot;</span>&gt;</span>Contact<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>
-  <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-dropdown</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-dropdown>
-    <aegov-button>Menu with Sub-menu</aegov-button>
-    <div slot="dropdown-content">
-      <a href="#" class="block px-3 py-2 text-sm text-aeblack-700 rounded hover:bg-aeblack-100 no-underline">Home</a>
-      <aegov-dropdown position="right" trigger="hover">
-        <a href="#" class="block px-3 py-2 text-sm text-aeblack-700 rounded hover:bg-aeblack-100 no-underline">Services &rarr;</a>
-        <div slot="dropdown-content">
-          <a href="#" class="block px-3 py-2 text-sm text-aeblack-700 rounded hover:bg-aeblack-100 no-underline">Consulting</a>
-          <a href="#" class="block px-3 py-2 text-sm text-aeblack-700 rounded hover:bg-aeblack-100 no-underline">Development</a>
-          <a href="#" class="block px-3 py-2 text-sm text-aeblack-700 rounded hover:bg-aeblack-100 no-underline">Support</a>
-        </div>
-      </aegov-dropdown>
-      <a href="#" class="block px-3 py-2 text-sm text-aeblack-700 rounded hover:bg-aeblack-100 no-underline">About</a>
-      <a href="#" class="block px-3 py-2 text-sm text-aeblack-700 rounded hover:bg-aeblack-100 no-underline">Contact</a>
-    </div>
-  </aegov-dropdown>
-</div>
-
-<hr>
-<h2>Custom Dropdown Content</h2>
-<p>The <code>dropdown-content</code> slot accepts any HTML structure, not just simple link lists. You can build rich, multi-section panels with headers, descriptions, icons, and grid layouts. Set an inline <code>style=&quot;width: ...&quot;</code> on the slotted container to override the default minimum width.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-dropdown</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span>&gt;</span>Services<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;dropdown-content&quot;</span> <span class="hljs-attr">style</span>=<span class="hljs-string">&quot;width: 36rem;&quot;</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;p-2&quot;</span>&gt;</span>
-      <span class="hljs-tag">&lt;<span class="hljs-name">p</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;px-3 py-1 text-xs font-semibold uppercase tracking-wider&quot;</span>&gt;</span>Platform<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
-      <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;grid grid-cols-2 gap-1&quot;</span>&gt;</span>
-        <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;#&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;p-3 rounded-lg hover:bg-aeblack-50 no-underline&quot;</span>&gt;</span>
-          <span class="hljs-tag">&lt;<span class="hljs-name">p</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;font-semibold text-sm text-aeblack-800&quot;</span>&gt;</span>Analytics<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
-          <span class="hljs-tag">&lt;<span class="hljs-name">p</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;text-xs text-aeblack-500 mt-0.5&quot;</span>&gt;</span>Track performance and insights<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
-        <span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>
-        <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;#&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;p-3 rounded-lg hover:bg-aeblack-50 no-underline&quot;</span>&gt;</span>
-          <span class="hljs-tag">&lt;<span class="hljs-name">p</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;font-semibold text-sm text-aeblack-800&quot;</span>&gt;</span>Automation<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
-          <span class="hljs-tag">&lt;<span class="hljs-name">p</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;text-xs text-aeblack-500 mt-0.5&quot;</span>&gt;</span>Workflows and scheduled tasks<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
-        <span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>
-        <span class="hljs-comment">&lt;!-- more items… --&gt;</span>
-      <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
-      <span class="hljs-tag">&lt;<span class="hljs-name">aegov-separator</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;subtle&quot;</span> <span class="hljs-attr">text</span>=<span class="hljs-string">&quot;OR&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-separator</span>&gt;</span>
-      <span class="hljs-tag">&lt;<span class="hljs-name">p</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;px-3 py-1 text-xs font-semibold uppercase tracking-wider&quot;</span>&gt;</span>Resources<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
-      <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;#&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;p-3 rounded-lg hover:bg-aeblack-50 no-underline&quot;</span>&gt;</span>
-        <span class="hljs-tag">&lt;<span class="hljs-name">p</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;font-semibold text-sm text-aeblack-800&quot;</span>&gt;</span>Documentation<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
-        <span class="hljs-tag">&lt;<span class="hljs-name">p</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;text-xs text-aeblack-500 mt-0.5&quot;</span>&gt;</span>Guides, references, and tutorials<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
-      <span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>
-    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
-  <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-dropdown</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-dropdown>
-    <aegov-button>Services</aegov-button>
-    <div slot="dropdown-content" style="width: 36rem;">
-      <div class="p-2">
-        <p class="px-3 py-1 text-xs font-semibold text-aeblack-400 uppercase tracking-wider mt-0 mb-0">Platform</p>
-        <div class="grid grid-cols-2 gap-1">
-          <a href="#" class="p-3 rounded-lg hover:bg-aeblack-50 no-underline">
-            <p class="font-semibold text-sm text-aeblack-800 mt-0 mb-0">Analytics</p>
-            <p class="text-xs text-aeblack-500 mt-0.5 mb-0">Track performance and insights</p>
-          </a>
-          <a href="#" class="p-3 rounded-lg hover:bg-aeblack-50 no-underline">
-            <p class="font-semibold text-sm text-aeblack-800 mt-0 mb-0">Automation</p>
-            <p class="text-xs text-aeblack-500 mt-0.5 mb-0">Workflows and scheduled tasks</p>
-          </a>
-          <a href="#" class="p-3 rounded-lg hover:bg-aeblack-50 no-underline">
-            <p class="font-semibold text-sm text-aeblack-800 mt-0 mb-0">Integrations</p>
-            <p class="text-xs text-aeblack-500 mt-0.5 mb-0">Connect third-party services</p>
-          </a>
-          <a href="#" class="p-3 rounded-lg hover:bg-aeblack-50 no-underline">
-            <p class="font-semibold text-sm text-aeblack-800 mt-0 mb-0">Security</p>
-            <p class="text-xs text-aeblack-500 mt-0.5 mb-0">Permissions, audit logs, and SSO</p>
-          </a>
-        </div>
-        <aegov-separator variant="subtle" text="OR"></aegov-separator>
-        <p class="px-3 py-1 text-xs font-semibold text-aeblack-400 uppercase tracking-wider mt-0 mb-0">Resources</p>
-        <a href="#" class="p-3 rounded-lg hover:bg-aeblack-50 no-underline">
-          <p class="font-semibold text-sm text-aeblack-800 mt-0 mb-0">Documentation</p>
-          <p class="text-xs text-aeblack-500 mt-0.5 mb-0">Guides, references, and tutorials</p>
-        </a>
-        <a href="#" class="p-3 rounded-lg hover:bg-aeblack-50 no-underline">
-          <p class="font-semibold text-sm text-aeblack-800 mt-0 mb-0">API Reference</p>
-          <p class="text-xs text-aeblack-500 mt-0.5 mb-0">Endpoints, authentication, and SDKs</p>
-        </a>
-      </div>
-    </div>
-  </aegov-dropdown>
-</div>
-
-<hr>
-<h2>Singleton Behaviour</h2>
-<p>Only one dropdown can be open at a time (unless nested). Opening a new dropdown automatically closes the previously open one. This is managed at the module level and requires no additional configuration.</p>
-<hr>
-<h2>Events</h2>
-<p>The component emits events when the dropdown opens and closes. Use these to synchronise external state or trigger side-effects.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-dropdown</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;event-demo&quot;</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span>&gt;</span>Event Demo<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">button</span>&gt;</span>Top menu<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;dropdown-content&quot;</span>&gt;</span>
     <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;#&quot;</span>&gt;</span>Item 1<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;#&quot;</span>&gt;</span>Item 2<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-dropdown</span> <span class="hljs-attr">trigger</span>=<span class="hljs-string">&quot;hover&quot;</span> <span class="hljs-attr">position</span>=<span class="hljs-string">&quot;right&quot;</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;#&quot;</span>&gt;</span>More ›<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;dropdown-content&quot;</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;#&quot;</span>&gt;</span>Sub A<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;#&quot;</span>&gt;</span>Sub B<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>
+      <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-dropdown</span>&gt;</span>
   <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-dropdown</span>&gt;</span>
-
-<span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript">
-  <span class="hljs-keyword">const</span> dd = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;event-demo&#x27;</span>);
-  dd.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;aegovDropdownOpen&#x27;</span>, <span class="hljs-function">() =&gt;</span> {
-    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;Dropdown opened&#x27;</span>);
-  });
-  dd.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;aegovDropdownClose&#x27;</span>, <span class="hljs-function">() =&gt;</span> {
-    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;Dropdown closed&#x27;</span>);
-  });
-</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-dropdown id="event-demo-dd">
-    <aegov-button>Event Demo</aegov-button>
-    <div slot="dropdown-content">
-      <a href="#" class="block px-3 py-2 text-sm text-aeblack-700 rounded hover:bg-aeblack-100 no-underline">Item 1</a>
-      <a href="#" class="block px-3 py-2 text-sm text-aeblack-700 rounded hover:bg-aeblack-100 no-underline">Item 2</a>
-    </div>
-  </aegov-dropdown>
-  <p id="event-log-dd" class="mt-3 text-sm text-aeblack-500 font-mono">Interact with the dropdown to see events...</p>
-  <script>
-    (function() {
-      var dd = document.getElementById('event-demo-dd');
-      var log = document.getElementById('event-log-dd');
-      if (dd && log) {
-        dd.addEventListener('aegovDropdownOpen', function() {
-          log.textContent = 'Event: aegovDropdownOpen fired';
-        });
-        dd.addEventListener('aegovDropdownClose', function() {
-          log.textContent = 'Event: aegovDropdownClose fired';
-        });
-      }
-    })();
-  </script>
-</div>
-
-<hr>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-dropdown</span>&gt;</span></code></pre><h2>RTL Behavior</h2>
+<p><code>align=&quot;start&quot;</code> resolves to the inline-start edge of the trigger — left in LTR, right in RTL. Position values (<code>top</code>/<code>bottom</code>/<code>left</code>/<code>right</code>) are physical and used as the preferred placement; viewport flipping ignores writing direction. Slot content inherits the host document&#39;s <code>dir</code>.</p>
 <h2>API Reference</h2>
 <h3>Properties</h3>
 <table>
@@ -512,100 +88,91 @@
 <tr>
 <th>Property</th>
 <th>Attribute</th>
-<th>Description</th>
 <th>Type</th>
 <th>Default</th>
 </tr>
 </thead>
 <tbody><tr>
+<td><code>fieldId</code></td>
+<td><code>field-id</code></td>
+<td><code>string</code></td>
+<td>auto</td>
+</tr>
+<tr>
 <td><code>trigger</code></td>
 <td><code>trigger</code></td>
-<td>How the dropdown is activated</td>
-<td><code>&#39;click&#39;</code> | <code>&#39;hover&#39;</code></td>
+<td><code>&#39;click&#39; | &#39;hover&#39;</code></td>
 <td><code>&#39;click&#39;</code></td>
 </tr>
 <tr>
 <td><code>position</code></td>
 <td><code>position</code></td>
-<td>Position of the panel relative to the trigger</td>
-<td><code>&#39;top&#39;</code> | <code>&#39;right&#39;</code> | <code>&#39;bottom&#39;</code> | <code>&#39;left&#39;</code></td>
+<td><code>&#39;top&#39; | &#39;right&#39; | &#39;bottom&#39; | &#39;left&#39;</code></td>
 <td><code>&#39;bottom&#39;</code></td>
 </tr>
 <tr>
 <td><code>align</code></td>
 <td><code>align</code></td>
-<td>Alignment of the panel along the secondary axis</td>
-<td><code>&#39;start&#39;</code> | <code>&#39;center&#39;</code> | <code>&#39;end&#39;</code></td>
+<td><code>&#39;start&#39; | &#39;center&#39; | &#39;end&#39;</code></td>
 <td><code>&#39;start&#39;</code></td>
 </tr>
 <tr>
 <td><code>gap</code></td>
 <td><code>gap</code></td>
-<td>Distance between trigger and panel in pixels</td>
 <td><code>number</code></td>
 <td><code>8</code></td>
 </tr>
 <tr>
 <td><code>offset</code></td>
 <td><code>offset</code></td>
-<td>Additional offset along the secondary axis in pixels</td>
 <td><code>number</code></td>
 <td><code>0</code></td>
 </tr>
 <tr>
-<td><code>disabled</code></td>
-<td><code>disabled</code></td>
-<td>Prevents the dropdown from opening</td>
+<td><code>isDisabled</code></td>
+<td><code>is-disabled</code></td>
 <td><code>boolean</code></td>
 <td><code>false</code></td>
 </tr>
 <tr>
 <td><code>delayStart</code></td>
 <td><code>delay-start</code></td>
-<td>Delay before showing in milliseconds</td>
 <td><code>number</code></td>
 <td><code>200</code></td>
 </tr>
 <tr>
 <td><code>delayEnd</code></td>
 <td><code>delay-end</code></td>
-<td>Delay before hiding in milliseconds</td>
 <td><code>number</code></td>
 <td><code>0</code></td>
 </tr>
 </tbody></table>
+<h3>Pass-through Attributes</h3>
+<p><code>aria-*</code> and <code>data-*</code> attributes set on <code>&lt;aegov-dropdown&gt;</code> are forwarded onto the trigger wrapper element.</p>
 <h3>Events</h3>
 <table>
 <thead>
 <tr>
 <th>Event</th>
 <th>Description</th>
-<th>Detail Type</th>
+<th>Detail</th>
 </tr>
 </thead>
 <tbody><tr>
 <td><code>aegovDropdownOpen</code></td>
-<td>Emitted when the dropdown opens</td>
+<td>Fires when the dropdown opens.</td>
 <td><code>void</code></td>
 </tr>
 <tr>
 <td><code>aegovDropdownClose</code></td>
-<td>Emitted when the dropdown closes</td>
+<td>Fires when the dropdown closes.</td>
 <td><code>void</code></td>
 </tr>
 </tbody></table>
-<h4>Listening to Events</h4>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-dropdown</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;my-dd&quot;</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span>&gt;</span>Menu<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;dropdown-content&quot;</span>&gt;</span>…<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-dropdown</span>&gt;</span>
-
-<span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript">
-  <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;my-dd&#x27;</span>)
-    .<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;aegovDropdownOpen&#x27;</span>, <span class="hljs-function">() =&gt;</span> {
-      <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;Opened&#x27;</span>);
-    });
-</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre><h3>Slots</h3>
+<h3>Event listening example</h3>
+<pre><code class="hljs language-js"><span class="hljs-keyword">const</span> dd = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">querySelector</span>(<span class="hljs-string">&#x27;aegov-dropdown&#x27;</span>);
+dd.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;aegovDropdownOpen&#x27;</span>, <span class="hljs-function">() =&gt;</span> analytics.<span class="hljs-title function_">track</span>(<span class="hljs-string">&#x27;menu_open&#x27;</span>));
+dd.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;aegovDropdownClose&#x27;</span>, <span class="hljs-function">() =&gt;</span> <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;closed&#x27;</span>));</code></pre><h3>Slots</h3>
 <table>
 <thead>
 <tr>
@@ -615,11 +182,11 @@
 </thead>
 <tbody><tr>
 <td>(default)</td>
-<td>The trigger element — a button, link, avatar, or any interactive element.</td>
+<td>The trigger element (button, link, avatar, etc.).</td>
 </tr>
 <tr>
 <td><code>dropdown-content</code></td>
-<td>The dropdown panel content — links, buttons, dividers, or any HTML.</td>
+<td>Menu items. Anchors, buttons, and <code>&lt;hr/&gt;</code> are styled in the portal.</td>
 </tr>
 </tbody></table>
 <h3>Methods</h3>
@@ -628,65 +195,44 @@
 <tr>
 <th>Method</th>
 <th>Description</th>
-<th>Signature</th>
 </tr>
 </thead>
 <tbody><tr>
-<td><code>closeDropdown()</code></td>
-<td>Programmatically closes the dropdown</td>
-<td><code>() =&gt; void</code></td>
+<td><code>toggle(viaKeyboard?: boolean)</code></td>
+<td>Toggle open/closed regardless of <code>trigger</code> type. Pass <code>true</code> from keyboard handlers so the first menu item gets focus.</td>
 </tr>
 </tbody></table>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript">
-  <span class="hljs-comment">// Programmatically close a dropdown</span>
-  <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">querySelector</span>(<span class="hljs-string">&#x27;aegov-dropdown&#x27;</span>).<span class="hljs-title function_">closeDropdown</span>();
-</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre><hr>
 <h2>Accessibility</h2>
-<p>The <code>aegov-dropdown</code> component is built with accessibility as a first-class concern. The following features are included out of the box.</p>
-<h3>Built-in Features</h3>
+<p><strong>Built in</strong></p>
 <ul>
-<li><strong><code>aria-haspopup=&quot;true&quot;</code></strong> — set on the trigger wrapper to indicate that activating it will display a popup menu.</li>
-<li><strong><code>aria-expanded</code></strong> — dynamically set to <code>&quot;true&quot;</code> when the dropdown is open and <code>&quot;false&quot;</code> when closed.</li>
-<li><strong><code>aria-controls</code></strong> — links the trigger to the dropdown panel&#39;s <code>id</code> when open.</li>
-<li><strong><code>role=&quot;menu&quot;</code></strong> — applied to the dropdown panel container for correct screen reader announcement.</li>
-<li><strong><code>role=&quot;menuitem&quot;</code></strong> — automatically applied to focusable children (<code>&lt;a&gt;</code>, <code>&lt;button&gt;</code>, <code>[tabindex]</code>) that do not already have a <code>role</code> attribute.</li>
-<li><strong><code>aria-labelledby</code></strong> — the dropdown panel references the trigger element&#39;s <code>id</code> so screen readers can announce the relationship.</li>
-<li><strong>Keyboard navigation</strong> — <code>ArrowDown</code> and <code>ArrowUp</code> cycle through menu items, <code>Tab</code> moves focus forward, <code>Escape</code> closes the dropdown and returns focus to the trigger.</li>
-<li><strong>Focus management</strong> — when the dropdown opens, focus moves to the first focusable item. When it closes, focus returns to the trigger element.</li>
-<li><strong>Disabled items</strong> — links with <code>aria-disabled=&quot;true&quot;</code> and buttons with <code>disabled</code> are rendered with reduced opacity and <code>pointer-events: none</code>.</li>
+<li>Trigger has <code>aria-haspopup=&quot;true&quot;</code> and <code>aria-expanded</code> reflecting state.</li>
+<li>When open, the trigger gets <code>aria-controls</code> pointing at the menu.</li>
+<li>The menu has <code>role=&quot;menu&quot;</code>; focusable children without an explicit <code>role</code> get <code>role=&quot;menuitem&quot;</code>.</li>
+<li>Escape closes the dropdown.</li>
+<li>Tab and Arrow Up/Down cycle focus through menu items.</li>
+<li>Keyboard-triggered opens (Enter/Space on focused trigger) automatically move focus into the menu; pointer opens leave focus on the trigger (per the WAI-ARIA menu pattern).</li>
+<li>Focus returns to the trigger on close (with <code>preventScroll</code>, so the page doesn&#39;t jump).</li>
+<li>Only one dropdown is open at a time (siblings auto-close); nested dropdowns are exempt.</li>
+<li>Dropdown auto-closes if the trigger scrolls out of the viewport.</li>
 </ul>
-<h3>Developer Responsibilities</h3>
-<ol>
-<li><p><strong>Provide meaningful trigger labels.</strong> If the trigger is an icon-only button, add <code>aria-label</code> to describe the dropdown&#39;s purpose.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-dropdown</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span> <span class="hljs-attr">icon</span> <span class="hljs-attr">aria-label</span>=<span class="hljs-string">&quot;User menu&quot;</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">svg</span>&gt;</span>…<span class="hljs-tag">&lt;/<span class="hljs-name">svg</span>&gt;</span>
-  <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;dropdown-content&quot;</span>&gt;</span>…<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-dropdown</span>&gt;</span></code></pre></li>
-<li><p><strong>Use semantic content.</strong> Use <code>&lt;a&gt;</code> for navigation items and <code>&lt;button&gt;</code> for actions. Avoid <code>&lt;div&gt;</code> or <code>&lt;span&gt;</code> for interactive items — they lack built-in keyboard and screen reader support.</p>
-</li>
-<li><p><strong>Mark disabled items correctly.</strong> Use <code>aria-disabled=&quot;true&quot;</code> on <code>&lt;a&gt;</code> elements and the native <code>is-disabled</code> attribute on <code>&lt;button&gt;</code> elements.</p>
-</li>
-</ol>
-<hr>
-<h2>Notes</h2>
+<p><strong>Developer responsibilities</strong></p>
 <ul>
-<li>The <code>aegov-dropdown</code> component uses <strong><code>scoped: true</code></strong> encapsulation. This is required because the dropdown content is rendered through a <strong>portal</strong> — the panel is appended to <code>document.body</code> to avoid overflow clipping from parent containers. Scoped mode provides the event re-targeting needed for custom events to bubble correctly after the DOM portal move.</li>
-<li>Portal content is styled via JavaScript-injected <code>&lt;style&gt;</code> elements because Stencil&#39;s scoped CSS cannot reach elements outside the component&#39;s DOM tree.</li>
-<li>Only <strong>one dropdown</strong> can be open at a time at the same nesting level. Opening a new dropdown automatically closes any previously open one (singleton pattern). Nested dropdowns are an exception — a child dropdown can be open alongside its parent.</li>
-<li>The component listens for <code>scroll</code> and <code>resize</code> events on the window to reposition the panel dynamically. If the trigger scrolls completely out of the viewport, the dropdown closes automatically.</li>
-<li>The dropdown panel has a <strong>minimum width of 12rem</strong> (192px) and uses <code>width: auto</code> to accommodate its content.</li>
-<li>Position flipping is automatic — if the preferred position does not have enough viewport space, the panel flips to the opposite side.</li>
-<li>For <strong>hover-triggered</strong> dropdowns, a minimum 100ms grace period is enforced on hide, regardless of the <code>delay-end</code> value. This ensures the cursor can cross the gap between the trigger and the portal panel without the dropdown closing prematurely.</li>
-<li>The <code>dropdown-content</code> slot is cloned into the portal when opened and removed when closed. Changes to the slot content after the dropdown opens will not be reflected until the next open cycle.</li>
+<li>The trigger slot must contain a focusable element (button, link, etc.).</li>
+<li>Ensure menu items are keyboard activatable (links, buttons, or elements with <code>tabindex</code>).</li>
+<li>Provide an accessible name on the trigger (visible label or <code>aria-label</code>).</li>
+</ul>
+<p><strong>Notes</strong></p>
+<ul>
+<li><code>scoped: true</code> encapsulation: events from inside the menu re-target correctly through portal moves.</li>
+<li>The slot element is <strong>moved</strong> (not cloned) into the portal on open and moved back on close — this preserves Stencil hydration for nested web components.</li>
+<li>Anchor styles inside the portal are reset (<code>display: block; margin: 0</code>) to override unlayered global <code>&lt;a&gt;</code> styles.</li>
 </ul>
 <!-- DOC:END -->
           </section>
       </article>
     </section>
   </main>
-  <footer class="mx-auto max-w-7xl sm:px-6 lg:px-8 mt-8 py-6 text-sm text-aeblack-500">
+  <footer class="aegov-container sm:px-6 lg:px-8 mt-8 py-6 text-sm text-aeblack-500">
     &copy; 2026 Telecommunication and Digital Regulatory Authority. All rights reserved.
   </footer>
 

@@ -9,15 +9,15 @@
 
 | Property      | Attribute     | Description                                                                             | Type                                                       | Default      |
 | ------------- | ------------- | --------------------------------------------------------------------------------------- | ---------------------------------------------------------- | ------------ |
-| `copyable`    | `copyable`    | Show a copy button to copy the textarea value to clipboard. Only applies when readonly. | `boolean`                                                  | `false`      |
-| `disabled`    | `disabled`    | Whether the textarea is disabled.                                                       | `boolean`                                                  | `false`      |
 | `extraClass`  | `extra-class` | Additional CSS classes to apply.                                                        | `string`                                                   | `undefined`  |
 | `fieldId`     | `field-id`    | Unique ID for the native textarea element. Auto-generated if not provided.              | `string`                                                   | `undefined`  |
+| `isCopyable`  | `is-copyable` | Show a copy button to copy the textarea value to clipboard. Only applies when readonly. | `boolean`                                                  | `false`      |
+| `isDisabled`  | `is-disabled` | Whether the textarea is disabled.                                                       | `boolean`                                                  | `false`      |
+| `isReadonly`  | `is-readonly` | Whether the textarea is readonly.                                                       | `boolean`                                                  | `false`      |
+| `isRequired`  | `is-required` | Whether the textarea is required.                                                       | `boolean`                                                  | `false`      |
 | `maxlength`   | `maxlength`   | Maximum number of characters. When set, a character counter is displayed.               | `number`                                                   | `undefined`  |
 | `name`        | `name`        | The name attribute for the textarea.                                                    | `string`                                                   | `undefined`  |
 | `placeholder` | `placeholder` | Placeholder text for the textarea.                                                      | `string`                                                   | `undefined`  |
-| `readonly`    | `readonly`    | Whether the textarea is readonly.                                                       | `boolean`                                                  | `false`      |
-| `required`    | `required`    | Whether the textarea is required.                                                       | `boolean`                                                  | `false`      |
 | `resize`      | `resize`      | Resize behaviour of the textarea.                                                       | `"auto" \| "both" \| "horizontal" \| "none" \| "vertical"` | `'vertical'` |
 | `size`        | `size`        | The size of the textarea (affects font size only).                                      | `string`                                                   | `'base'`     |
 | `value`       | `value`       | The current value of the textarea.                                                      | `string`                                                   | `''`         |

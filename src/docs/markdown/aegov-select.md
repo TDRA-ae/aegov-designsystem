@@ -1,737 +1,302 @@
-# Select
+# aegov-select
 
-<p class="text-lg text-aeblack-500 mb-8">A select component lets users choose one or more options from a predefined list. It supports a native browser select for simple use cases and a custom listbox variant with search, multiple selection, clearable state, and grouped options.</p>
+A flexible select control with two render modes. The default `variant` renders a real native `<select>` (best for simple lists, mobile, and form submission). The `listbox` variant renders a custom dropdown with rich features — option groups, search filtering, multi-select, and a clear button. Options are declared as light DOM children using `aegov-select-option` and optionally wrapped in `aegov-select-option-group`.
 
-## Introduction
+## Properties
 
-The `aegov-select` component provides a flexible dropdown selection interface. In its **default** variant it renders a native HTML `<select>` element for maximum browser compatibility and accessibility. The **listbox** variant renders a custom dropdown with keyboard navigation, search filtering, multiple selection, option groups, and a clear button.
+### `variant`
 
-Options are defined declaratively using `aegov-select-option` child elements, and can be organised into labelled groups with `aegov-select-option-group`.
+`'default'` (native `<select>`) or `'listbox'` (custom dropdown). Setting `is-multiple="true"` automatically forces listbox behaviour.
 
 ```html
-<aegov-select placeholder="Choose a country">
-  <aegov-select-option value="ae">United Arab Emirates</aegov-select-option>
-  <aegov-select-option value="sa">Saudi Arabia</aegov-select-option>
-  <aegov-select-option value="om">Oman</aegov-select-option>
+<aegov-select variant="listbox">
+  <aegov-select-option value="a">Apple</aegov-select-option>
+  <aegov-select-option value="b">Banana</aegov-select-option>
 </aegov-select>
 ```
 
-<div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-select placeholder="Choose a country">
-    <aegov-select-option value="ae">United Arab Emirates</aegov-select-option>
-    <aegov-select-option value="sa">Saudi Arabia</aegov-select-option>
-    <aegov-select-option value="om">Oman</aegov-select-option>
-  </aegov-select>
-</div>
+### `size`
 
----
-
-## Variants
-
-### Default (Native Select)
-
-The default variant renders a native `<select>` element styled to match the design system. This is the recommended choice for simple, single-selection use cases where you want maximum browser compatibility and built-in mobile optimisation.
+`'xs'`, `'sm'`, `'base'` (default), `'lg'`, or `'xl'`. Matches `aegov-input` height. Accepts a responsive expression like `"sm md:base lg:lg"`.
 
 ```html
-<aegov-select placeholder="Select a fruit">
-  <aegov-select-option value="apple">Apple</aegov-select-option>
-  <aegov-select-option value="banana">Banana</aegov-select-option>
-  <aegov-select-option value="cherry">Cherry</aegov-select-option>
+<aegov-select size="lg">…</aegov-select>
+```
+
+### `placeholder`
+
+Text shown when nothing is selected. In the native variant it renders as a disabled first `<option value="">`. In the listbox variant it appears in the trigger.
+
+```html
+<aegov-select placeholder="Choose a fruit">…</aegov-select>
+```
+
+### `value`
+
+The current selection. For `is-multiple`, this is a comma-separated string of values (the event detail uses a `string[]` form).
+
+```html
+<aegov-select value="b">…</aegov-select>
+<aegov-select is-multiple="true" value="a,b">…</aegov-select>
+```
+
+### `name`
+
+Form field name. In the listbox variant, a hidden `<input>` is rendered alongside the trigger so the value participates in form submission.
+
+### `is-disabled`
+
+Disables the control. The native variant disables the `<select>`; the listbox variant disables the trigger button and prevents opening.
+
+### `is-required`
+
+Applies the `required` attribute to the native `<select>`.
+
+### `is-multiple`
+
+Enables multi-select. Forces the listbox variant. Each option shows a checkbox indicator; clicking toggles selection without closing the dropdown.
+
+```html
+<aegov-select is-multiple="true" placeholder="Pick a few">
+  <aegov-select-option value="a">Apple</aegov-select-option>
+  <aegov-select-option value="b">Banana</aegov-select-option>
 </aegov-select>
 ```
 
-<div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-select placeholder="Select a fruit">
-    <aegov-select-option value="apple">Apple</aegov-select-option>
-    <aegov-select-option value="banana">Banana</aegov-select-option>
-    <aegov-select-option value="cherry">Cherry</aegov-select-option>
-  </aegov-select>
-</div>
+### `is-searchable`
 
-### Listbox (Custom Dropdown)
-
-Set `variant="listbox"` to render a custom dropdown with enhanced features: keyboard navigation, a chevron indicator that rotates when open, and a selected-option checkmark.
+Adds a search input above the option list (listbox variant only). Filters options by case-insensitive substring match against their label.
 
 ```html
-<aegov-select variant="listbox" placeholder="Select a city">
-  <aegov-select-option value="abudhabi">Abu Dhabi</aegov-select-option>
-  <aegov-select-option value="dubai">Dubai</aegov-select-option>
-  <aegov-select-option value="sharjah">Sharjah</aegov-select-option>
-  <aegov-select-option value="ajman">Ajman</aegov-select-option>
-</aegov-select>
+<aegov-select variant="listbox" is-searchable="true">…</aegov-select>
 ```
 
-<div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-select variant="listbox" placeholder="Select a city">
-    <aegov-select-option value="abudhabi">Abu Dhabi</aegov-select-option>
-    <aegov-select-option value="dubai">Dubai</aegov-select-option>
-    <aegov-select-option value="sharjah">Sharjah</aegov-select-option>
-    <aegov-select-option value="ajman">Ajman</aegov-select-option>
-  </aegov-select>
-</div>
+### `is-clearable`
 
----
+Shows a small clear (×) button inside the trigger when a value is set (listbox variant only). Clicking it resets the value and emits `aegovSelectChange` with an empty value.
+
+### `empty-message`
+
+Text shown inside the listbox when search filtering returns no results. Defaults to `'No results found'`.
+
+### `visible-items`
+
+Maximum number of visible items in the dropdown before scrolling. Defaults to `6`.
+
+### `extra-class`
+
+Additional CSS classes applied to the inner `<select>` (native) or trigger button (listbox).
+
+### `field-id`
+
+Optional unique ID. Auto-generated as `aegov-select-{n}` if omitted. Reflected to the host as `field-id` and applied to the inner `<select>` or trigger button.
+
+### Sub-component: `aegov-select-option`
+
+Declares a single option in the light DOM. The host element has `role="option"`.
+
+| Prop          | Attribute      | Type      | Default | Description                         |
+| ------------- | -------------- | --------- | ------- | ----------------------------------- |
+| `value`       | `value`        | `string`  | `''`    | Option value passed to the parent.  |
+| `isDisabled`  | `is-disabled`  | `boolean` | `false` | Disables this option.               |
+
+Slot content is the visible label; it is captured at load time.
+
+```html
+<aegov-select-option value="a">Apple</aegov-select-option>
+<aegov-select-option value="b" is-disabled="true">Banana</aegov-select-option>
+```
+
+### Sub-component: `aegov-select-option-group`
+
+Wraps a group of options under a label. Renders an `<optgroup>` in the native variant and a labelled section (`role="group"`) in the listbox variant.
+
+| Prop    | Attribute | Type     | Default | Description       |
+| ------- | --------- | -------- | ------- | ----------------- |
+| `label` | `label`   | `string` | `''`    | Group heading.    |
+
+```html
+<aegov-select-option-group label="Citrus">
+  <aegov-select-option value="o">Orange</aegov-select-option>
+  <aegov-select-option value="l">Lemon</aegov-select-option>
+</aegov-select-option-group>
+```
 
 ## Sizes
 
-The `size` property controls the height, padding, and font size of the select trigger. Five sizes are available, matching `aegov-input` heights for consistent form layouts.
+```html
+<aegov-select size="xs">…</aegov-select>
+<aegov-select size="sm">…</aegov-select>
+<aegov-select size="base">…</aegov-select>
+<aegov-select size="lg">…</aegov-select>
+<aegov-select size="xl">…</aegov-select>
+<!-- Responsive -->
+<aegov-select size="sm md:base lg:lg">…</aegov-select>
+```
 
-| Size   | Height | Font Size |
-|--------|--------|-----------|
-| `xs`   | 36px   | 14px      |
-| `sm`   | 40px   | 14px      |
-| `base` | 44px   | 16px      |
-| `lg`   | 48px   | 18px      |
-| `xl`   | 52px   | 18px      |
+## Examples
+
+### Native variant (default)
 
 ```html
-<aegov-select size="xs" placeholder="Extra Small" variant="listbox">
-  <aegov-select-option value="a">Option A</aegov-select-option>
-  <aegov-select-option value="b">Option B</aegov-select-option>
-</aegov-select>
-
-<aegov-select size="sm" placeholder="Small" variant="listbox">
-  <aegov-select-option value="a">Option A</aegov-select-option>
-  <aegov-select-option value="b">Option B</aegov-select-option>
-</aegov-select>
-
-<aegov-select size="base" placeholder="Base (default)" variant="listbox">
-  <aegov-select-option value="a">Option A</aegov-select-option>
-  <aegov-select-option value="b">Option B</aegov-select-option>
-</aegov-select>
-
-<aegov-select size="lg" placeholder="Large" variant="listbox">
-  <aegov-select-option value="a">Option A</aegov-select-option>
-  <aegov-select-option value="b">Option B</aegov-select-option>
-</aegov-select>
-
-<aegov-select size="xl" placeholder="Extra Large" variant="listbox">
-  <aegov-select-option value="a">Option A</aegov-select-option>
-  <aegov-select-option value="b">Option B</aegov-select-option>
+<aegov-select name="fruit" placeholder="Choose a fruit">
+  <aegov-select-option value="a">Apple</aegov-select-option>
+  <aegov-select-option value="b">Banana</aegov-select-option>
+  <aegov-select-option value="c">Cherry</aegov-select-option>
 </aegov-select>
 ```
 
-<div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-select size="xs" placeholder="Extra Small" variant="listbox">
-    <aegov-select-option value="a">Option A</aegov-select-option>
-    <aegov-select-option value="b">Option B</aegov-select-option>
-  </aegov-select>
-  <aegov-select size="sm" placeholder="Small" variant="listbox">
-    <aegov-select-option value="a">Option A</aegov-select-option>
-    <aegov-select-option value="b">Option B</aegov-select-option>
-  </aegov-select>
-  <aegov-select size="base" placeholder="Base (default)" variant="listbox">
-    <aegov-select-option value="a">Option A</aegov-select-option>
-    <aegov-select-option value="b">Option B</aegov-select-option>
-  </aegov-select>
-  <aegov-select size="lg" placeholder="Large" variant="listbox">
-    <aegov-select-option value="a">Option A</aegov-select-option>
-    <aegov-select-option value="b">Option B</aegov-select-option>
-  </aegov-select>
-  <aegov-select size="xl" placeholder="Extra Large" variant="listbox">
-    <aegov-select-option value="a">Option A</aegov-select-option>
-    <aegov-select-option value="b">Option B</aegov-select-option>
-  </aegov-select>
-</div>
-
-### Responsive Size
-
-The `size` prop accepts Tailwind-style responsive prefixes. Write a space-separated string where each token is either a plain value or `breakpoint:value`. The base value (no prefix) applies below the smallest specified breakpoint.
-
-Available breakpoints: `xs` (480px), `sm` (640px), `md` (768px), `lg` (1024px), `xl` (1280px), `2xl` (1536px), `3xl` (1680px).
+### Listbox variant
 
 ```html
-<aegov-select size="sm xl:lg" placeholder="Responsive select" variant="listbox">
-  <aegov-select-option value="a">Option A</aegov-select-option>
-  <aegov-select-option value="b">Option B</aegov-select-option>
+<aegov-select variant="listbox" placeholder="Choose a fruit">
+  <aegov-select-option value="a">Apple</aegov-select-option>
+  <aegov-select-option value="b">Banana</aegov-select-option>
+  <aegov-select-option value="c">Cherry</aegov-select-option>
 </aegov-select>
 ```
 
-<div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-select size="sm xl:lg" placeholder="Responsive select" variant="listbox">
-    <aegov-select-option value="a">Option A</aegov-select-option>
-    <aegov-select-option value="b">Option B</aegov-select-option>
-  </aegov-select>
-</div>
-
-> **Graceful degradation:** Unknown breakpoint names and invalid values are silently ignored. An unrecognised base value falls back to the component default.
-
----
-
-## Placeholder
-
-The `placeholder` property displays hint text when no option is selected. For the native variant it renders as a disabled `<option>`. For the listbox variant it appears as muted text in the trigger button.
+### With search
 
 ```html
-<aegov-select placeholder="Please select an option">
-  <aegov-select-option value="one">Option One</aegov-select-option>
-  <aegov-select-option value="two">Option Two</aegov-select-option>
-</aegov-select>
-```
-
-<div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-select placeholder="Please select an option">
-    <aegov-select-option value="one">Option One</aegov-select-option>
-    <aegov-select-option value="two">Option Two</aegov-select-option>
-  </aegov-select>
-</div>
-
----
-
-## Default Value
-
-Set the `value` property to pre-select an option. The value must match one of the `aegov-select-option` values.
-
-```html
-<aegov-select value="banana" variant="listbox" placeholder="Select a fruit">
-  <aegov-select-option value="apple">Apple</aegov-select-option>
-  <aegov-select-option value="banana">Banana</aegov-select-option>
-  <aegov-select-option value="cherry">Cherry</aegov-select-option>
-</aegov-select>
-```
-
-<div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-select value="banana" variant="listbox" placeholder="Select a fruit">
-    <aegov-select-option value="apple">Apple</aegov-select-option>
-    <aegov-select-option value="banana">Banana</aegov-select-option>
-    <aegov-select-option value="cherry">Cherry</aegov-select-option>
-  </aegov-select>
-</div>
-
----
-
-## Disabled State
-
-Set the `disabled` attribute to prevent interaction. The select becomes visually muted and unclickable.
-
-```html
-<aegov-select disabled placeholder="Disabled select">
-  <aegov-select-option value="a">Option A</aegov-select-option>
-  <aegov-select-option value="b">Option B</aegov-select-option>
-</aegov-select>
-
-<aegov-select disabled variant="listbox" value="a" placeholder="Disabled listbox">
-  <aegov-select-option value="a">Option A</aegov-select-option>
-  <aegov-select-option value="b">Option B</aegov-select-option>
-</aegov-select>
-```
-
-<div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-select disabled placeholder="Disabled select">
-    <aegov-select-option value="a">Option A</aegov-select-option>
-    <aegov-select-option value="b">Option B</aegov-select-option>
-  </aegov-select>
-  <aegov-select disabled variant="listbox" value="a" placeholder="Disabled listbox">
-    <aegov-select-option value="a">Option A</aegov-select-option>
-    <aegov-select-option value="b">Option B</aegov-select-option>
-  </aegov-select>
-</div>
-
----
-
-## Required
-
-Set the `required` attribute for form validation. The native select will enforce browser validation, and the attribute is forwarded to the underlying element.
-
-```html
-<aegov-select required placeholder="Required field">
-  <aegov-select-option value="yes">Yes</aegov-select-option>
-  <aegov-select-option value="no">No</aegov-select-option>
-</aegov-select>
-```
-
-<div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-select required placeholder="Required field">
-    <aegov-select-option value="yes">Yes</aegov-select-option>
-    <aegov-select-option value="no">No</aegov-select-option>
-  </aegov-select>
-</div>
-
----
-
-## Disabled Options
-
-Individual options can be disabled by setting the `disabled` attribute on `aegov-select-option`. Disabled options are visually muted and cannot be selected.
-
-```html
-<aegov-select variant="listbox" placeholder="Some options are disabled">
-  <aegov-select-option value="available">Available</aegov-select-option>
-  <aegov-select-option value="unavailable" disabled>Unavailable</aegov-select-option>
-  <aegov-select-option value="limited">Limited</aegov-select-option>
-</aegov-select>
-```
-
-<div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-select variant="listbox" placeholder="Some options are disabled">
-    <aegov-select-option value="available">Available</aegov-select-option>
-    <aegov-select-option value="unavailable" disabled>Unavailable</aegov-select-option>
-    <aegov-select-option value="limited">Limited</aegov-select-option>
-  </aegov-select>
-</div>
-
----
-
-## Option Groups
-
-Use `aegov-select-option-group` with a `label` attribute to organise options into labelled groups. Groups are rendered as native `<optgroup>` in the default variant and as labelled sections in the listbox variant.
-
-```html
-<aegov-select variant="listbox" placeholder="Select a vehicle">
-  <aegov-select-option-group label="Cars">
-    <aegov-select-option value="sedan">Sedan</aegov-select-option>
-    <aegov-select-option value="suv">SUV</aegov-select-option>
-    <aegov-select-option value="coupe">Coupe</aegov-select-option>
-  </aegov-select-option-group>
-  <aegov-select-option-group label="Trucks">
-    <aegov-select-option value="pickup">Pickup</aegov-select-option>
-    <aegov-select-option value="semi">Semi</aegov-select-option>
-  </aegov-select-option-group>
-</aegov-select>
-```
-
-<div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-select variant="listbox" placeholder="Select a vehicle">
-    <aegov-select-option-group label="Cars">
-      <aegov-select-option value="sedan">Sedan</aegov-select-option>
-      <aegov-select-option value="suv">SUV</aegov-select-option>
-      <aegov-select-option value="coupe">Coupe</aegov-select-option>
-    </aegov-select-option-group>
-    <aegov-select-option-group label="Trucks">
-      <aegov-select-option value="pickup">Pickup</aegov-select-option>
-      <aegov-select-option value="semi">Semi</aegov-select-option>
-    </aegov-select-option-group>
-  </aegov-select>
-</div>
-
-Option groups also work with the native default variant:
-
-```html
-<aegov-select placeholder="Select a vehicle">
-  <aegov-select-option-group label="Cars">
-    <aegov-select-option value="sedan">Sedan</aegov-select-option>
-    <aegov-select-option value="suv">SUV</aegov-select-option>
-  </aegov-select-option-group>
-  <aegov-select-option-group label="Trucks">
-    <aegov-select-option value="pickup">Pickup</aegov-select-option>
-    <aegov-select-option value="semi">Semi</aegov-select-option>
-  </aegov-select-option-group>
-</aegov-select>
-```
-
-<div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-select placeholder="Select a vehicle">
-    <aegov-select-option-group label="Cars">
-      <aegov-select-option value="sedan">Sedan</aegov-select-option>
-      <aegov-select-option value="suv">SUV</aegov-select-option>
-    </aegov-select-option-group>
-    <aegov-select-option-group label="Trucks">
-      <aegov-select-option value="pickup">Pickup</aegov-select-option>
-      <aegov-select-option value="semi">Semi</aegov-select-option>
-    </aegov-select-option-group>
-  </aegov-select>
-</div>
-
----
-
-## Multiple Selection
-
-Set the `multiple` attribute to allow users to select more than one option. This automatically forces the listbox variant regardless of the `variant` prop. Selected items display a count (e.g. "3 selected") in the trigger, and each option shows a checkbox indicator.
-
-```html
-<aegov-select multiple placeholder="Select languages">
-  <aegov-select-option value="en">English</aegov-select-option>
-  <aegov-select-option value="ar">Arabic</aegov-select-option>
-  <aegov-select-option value="fr">French</aegov-select-option>
-  <aegov-select-option value="hi">Hindi</aegov-select-option>
-  <aegov-select-option value="zh">Chinese</aegov-select-option>
-</aegov-select>
-```
-
-<div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-select multiple placeholder="Select languages">
-    <aegov-select-option value="en">English</aegov-select-option>
-    <aegov-select-option value="ar">Arabic</aegov-select-option>
-    <aegov-select-option value="fr">French</aegov-select-option>
-    <aegov-select-option value="hi">Hindi</aegov-select-option>
-    <aegov-select-option value="zh">Chinese</aegov-select-option>
-  </aegov-select>
-</div>
-
-When using multiple selection, the `value` property holds a comma-separated string of selected values (e.g. `"en,ar,fr"`), and the `aegovSelectChange` event emits arrays for both `value` and `label`.
-
----
-
-## Searchable
-
-Set the `searchable` attribute to show a search input at the top of the listbox dropdown. Users can type to filter options by label text. Only available in the listbox variant.
-
-```html
-<aegov-select variant="listbox" searchable placeholder="Search countries...">
+<aegov-select variant="listbox" is-searchable="true" placeholder="Find a country">
   <aegov-select-option value="ae">United Arab Emirates</aegov-select-option>
   <aegov-select-option value="sa">Saudi Arabia</aegov-select-option>
-  <aegov-select-option value="om">Oman</aegov-select-option>
-  <aegov-select-option value="kw">Kuwait</aegov-select-option>
-  <aegov-select-option value="bh">Bahrain</aegov-select-option>
   <aegov-select-option value="qa">Qatar</aegov-select-option>
+  <aegov-select-option value="om">Oman</aegov-select-option>
 </aegov-select>
 ```
 
-<div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-select variant="listbox" searchable placeholder="Search countries...">
-    <aegov-select-option value="ae">United Arab Emirates</aegov-select-option>
-    <aegov-select-option value="sa">Saudi Arabia</aegov-select-option>
-    <aegov-select-option value="om">Oman</aegov-select-option>
-    <aegov-select-option value="kw">Kuwait</aegov-select-option>
-    <aegov-select-option value="bh">Bahrain</aegov-select-option>
-    <aegov-select-option value="qa">Qatar</aegov-select-option>
-  </aegov-select>
-</div>
-
-### Custom Empty Message
-
-When no options match the search query, the component displays "No results found" by default. Customise this text using the `empty-message` property.
+### Multi-select
 
 ```html
-<aegov-select variant="listbox" searchable empty-message="No matching items" placeholder="Search...">
-  <aegov-select-option value="a">Alpha</aegov-select-option>
-  <aegov-select-option value="b">Bravo</aegov-select-option>
+<aegov-select is-multiple="true" placeholder="Choose toppings">
+  <aegov-select-option value="cheese">Cheese</aegov-select-option>
+  <aegov-select-option value="olives">Olives</aegov-select-option>
+  <aegov-select-option value="mushrooms">Mushrooms</aegov-select-option>
 </aegov-select>
 ```
 
-<div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-select variant="listbox" searchable empty-message="No matching items" placeholder="Search...">
-    <aegov-select-option value="a">Alpha</aegov-select-option>
-    <aegov-select-option value="b">Bravo</aegov-select-option>
-  </aegov-select>
-</div>
-
----
-
-## Clearable
-
-Set the `clearable` attribute to show a small clear (X) button inside the trigger when an option is selected. Clicking the clear button resets the selection to empty.
+### With option groups
 
 ```html
-<aegov-select variant="listbox" clearable value="dubai" placeholder="Select a city">
-  <aegov-select-option value="abudhabi">Abu Dhabi</aegov-select-option>
-  <aegov-select-option value="dubai">Dubai</aegov-select-option>
-  <aegov-select-option value="sharjah">Sharjah</aegov-select-option>
-</aegov-select>
-```
-
-<div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-select variant="listbox" clearable value="dubai" placeholder="Select a city">
-    <aegov-select-option value="abudhabi">Abu Dhabi</aegov-select-option>
-    <aegov-select-option value="dubai">Dubai</aegov-select-option>
-    <aegov-select-option value="sharjah">Sharjah</aegov-select-option>
-  </aegov-select>
-</div>
-
----
-
-## Visible Items
-
-The `visible-items` property controls the maximum number of options visible in the dropdown before it starts scrolling. The default is `6`.
-
-```html
-<aegov-select variant="listbox" visible-items="3" placeholder="Only 3 visible at a time">
-  <aegov-select-option value="1">Option 1</aegov-select-option>
-  <aegov-select-option value="2">Option 2</aegov-select-option>
-  <aegov-select-option value="3">Option 3</aegov-select-option>
-  <aegov-select-option value="4">Option 4</aegov-select-option>
-  <aegov-select-option value="5">Option 5</aegov-select-option>
-  <aegov-select-option value="6">Option 6</aegov-select-option>
-  <aegov-select-option value="7">Option 7</aegov-select-option>
-  <aegov-select-option value="8">Option 8</aegov-select-option>
-</aegov-select>
-```
-
-<div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-select variant="listbox" visible-items="3" placeholder="Only 3 visible at a time">
-    <aegov-select-option value="1">Option 1</aegov-select-option>
-    <aegov-select-option value="2">Option 2</aegov-select-option>
-    <aegov-select-option value="3">Option 3</aegov-select-option>
-    <aegov-select-option value="4">Option 4</aegov-select-option>
-    <aegov-select-option value="5">Option 5</aegov-select-option>
-    <aegov-select-option value="6">Option 6</aegov-select-option>
-    <aegov-select-option value="7">Option 7</aegov-select-option>
-    <aegov-select-option value="8">Option 8</aegov-select-option>
-  </aegov-select>
-</div>
-
----
-
-## Combined Features
-
-The listbox variant supports combining multiple features together. Here is a searchable, clearable, multiple select with option groups:
-
-```html
-<aegov-select multiple searchable clearable placeholder="Select team members">
-  <aegov-select-option-group label="Engineering">
-    <aegov-select-option value="alice">Alice</aegov-select-option>
-    <aegov-select-option value="bob">Bob</aegov-select-option>
-    <aegov-select-option value="charlie">Charlie</aegov-select-option>
+<aegov-select variant="listbox" placeholder="Pick a fruit">
+  <aegov-select-option-group label="Citrus">
+    <aegov-select-option value="o">Orange</aegov-select-option>
+    <aegov-select-option value="l">Lemon</aegov-select-option>
   </aegov-select-option-group>
-  <aegov-select-option-group label="Design">
-    <aegov-select-option value="diana">Diana</aegov-select-option>
-    <aegov-select-option value="eve">Eve</aegov-select-option>
+  <aegov-select-option-group label="Berries">
+    <aegov-select-option value="s">Strawberry</aegov-select-option>
+    <aegov-select-option value="r">Raspberry</aegov-select-option>
   </aegov-select-option-group>
 </aegov-select>
 ```
 
-<div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-select multiple searchable clearable placeholder="Select team members">
-    <aegov-select-option-group label="Engineering">
-      <aegov-select-option value="alice">Alice</aegov-select-option>
-      <aegov-select-option value="bob">Bob</aegov-select-option>
-      <aegov-select-option value="charlie">Charlie</aegov-select-option>
-    </aegov-select-option-group>
-    <aegov-select-option-group label="Design">
-      <aegov-select-option value="diana">Diana</aegov-select-option>
-      <aegov-select-option value="eve">Eve</aegov-select-option>
-    </aegov-select-option-group>
-  </aegov-select>
-</div>
-
----
-
-## Usage with Form Field
-
-Wrap a select inside `aegov-form-field` with `aegov-label` for consistent form styling, label association, and spacing with other form elements.
+### Clearable
 
 ```html
-<aegov-form-field>
-  <aegov-label>Country of residence</aegov-label>
-  <aegov-select placeholder="Select a country">
-    <aegov-select-option value="ae">United Arab Emirates</aegov-select-option>
-    <aegov-select-option value="sa">Saudi Arabia</aegov-select-option>
-    <aegov-select-option value="om">Oman</aegov-select-option>
-  </aegov-select>
-</aegov-form-field>
-```
-
-<div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-form-field>
-    <aegov-label>Country of residence</aegov-label>
-    <aegov-select placeholder="Select a country">
-      <aegov-select-option value="ae">United Arab Emirates</aegov-select-option>
-      <aegov-select-option value="sa">Saudi Arabia</aegov-select-option>
-      <aegov-select-option value="om">Oman</aegov-select-option>
-    </aegov-select>
-  </aegov-form-field>
-</div>
-
-Listbox variant inside a form field:
-
-```html
-<aegov-form-field>
-  <aegov-label>Preferred language</aegov-label>
-  <aegov-select variant="listbox" searchable placeholder="Search languages...">
-    <aegov-select-option value="en">English</aegov-select-option>
-    <aegov-select-option value="ar">Arabic</aegov-select-option>
-    <aegov-select-option value="fr">French</aegov-select-option>
-    <aegov-select-option value="de">German</aegov-select-option>
-  </aegov-select>
-</aegov-form-field>
-```
-
-<div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-form-field>
-    <aegov-label>Preferred language</aegov-label>
-    <aegov-select variant="listbox" searchable placeholder="Search languages...">
-      <aegov-select-option value="en">English</aegov-select-option>
-      <aegov-select-option value="ar">Arabic</aegov-select-option>
-      <aegov-select-option value="fr">French</aegov-select-option>
-      <aegov-select-option value="de">German</aegov-select-option>
-    </aegov-select>
-  </aegov-form-field>
-</div>
-
----
-
-## Events
-
-### aegovSelectChange
-
-Emitted when the selected value changes. The event detail contains the new `value` and `label`. For single selection these are strings; for multiple selection they are arrays.
-
-```html
-<aegov-select id="city-select" variant="listbox" placeholder="Select a city">
-  <aegov-select-option value="abudhabi">Abu Dhabi</aegov-select-option>
-  <aegov-select-option value="dubai">Dubai</aegov-select-option>
-  <aegov-select-option value="sharjah">Sharjah</aegov-select-option>
+<aegov-select variant="listbox" is-clearable="true" value="a" placeholder="Choose a fruit">
+  <aegov-select-option value="a">Apple</aegov-select-option>
+  <aegov-select-option value="b">Banana</aegov-select-option>
 </aegov-select>
-
-<script>
-  document.getElementById('city-select')
-    .addEventListener('aegovSelectChange', (e) => {
-      console.log('Value:', e.detail.value);
-      console.log('Label:', e.detail.label);
-    });
-</script>
 ```
 
-### aegovSelectOpen
-
-Emitted when the listbox dropdown opens. Only fires for the listbox variant.
-
-### aegovSelectClose
-
-Emitted when the listbox dropdown closes. Only fires for the listbox variant.
+### With placeholder only
 
 ```html
-<aegov-select id="events-select" variant="listbox" placeholder="Open/close events">
-  <aegov-select-option value="a">Option A</aegov-select-option>
-  <aegov-select-option value="b">Option B</aegov-select-option>
+<aegov-select placeholder="Choose…">
+  <aegov-select-option value="a">Apple</aegov-select-option>
 </aegov-select>
-
-<script>
-  const select = document.getElementById('events-select');
-
-  select.addEventListener('aegovSelectOpen', () => {
-    console.log('Dropdown opened');
-  });
-
-  select.addEventListener('aegovSelectClose', () => {
-    console.log('Dropdown closed');
-  });
-</script>
 ```
 
----
+## RTL Behavior
 
-## RTL Support
-
-The component fully supports right-to-left layouts. When the document or a parent element has `dir="rtl"`, the native select arrow repositions to the left side, and the listbox trigger, chevron, and dropdown all mirror correctly.
-
-```html
-<div dir="rtl">
-  <aegov-select variant="listbox" placeholder="اختر مدينة">
-    <aegov-select-option value="abudhabi">أبو ظبي</aegov-select-option>
-    <aegov-select-option value="dubai">دبي</aegov-select-option>
-    <aegov-select-option value="sharjah">الشارقة</aegov-select-option>
-  </aegov-select>
-</div>
-```
-
-<div dir="rtl" class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-select variant="listbox" placeholder="اختر مدينة">
-    <aegov-select-option value="abudhabi">أبو ظبي</aegov-select-option>
-    <aegov-select-option value="dubai">دبي</aegov-select-option>
-    <aegov-select-option value="sharjah">الشارقة</aegov-select-option>
-  </aegov-select>
-</div>
-
-No additional configuration is needed -- the component reads the inherited `dir` attribute and adjusts automatically.
-
----
+The trigger, search input, and option rows mirror under `[dir="rtl"]`. Inline icons (clear, dropdown chevron, selection check) are flipped or repositioned to the trailing edge automatically. Option labels inherit the host document's text direction.
 
 ## API Reference
 
-### aegov-select Properties
+### Properties — `aegov-select`
 
-| Property       | Attribute        | Description                                                                                  | Type                              | Default              |
-|----------------|------------------|----------------------------------------------------------------------------------------------|-----------------------------------|----------------------|
-| `fieldId`      | `field-id`       | Unique ID for the select element. Auto-generated if not provided.                            | `string`                          | auto                 |
-| `variant`      | `variant`        | The visual variant. `'default'` renders a native select; `'listbox'` renders a custom dropdown. | `'default'` \| `'listbox'`       | `'default'`          |
-| `size`         | `size`           | The size of the select. Matches aegov-input heights. Supports responsive strings (e.g. `'sm xl:lg'`). | `'xs'` \| `'sm'` \| `'base'` \| `'lg'` \| `'xl'` | `'base'`             |
-| `multiple`     | `multiple`       | Whether multiple selection is enabled. Forces listbox behaviour.                             | `boolean`                         | `false`              |
-| `disabled`     | `disabled`       | Whether the select is disabled.                                                              | `boolean`                         | `false`              |
-| `placeholder`  | `placeholder`    | Placeholder text shown when nothing is selected.                                             | `string`                          | `undefined`          |
-| `value`        | `value`          | The current selected value. For multiple, a comma-separated string.                          | `string`                          | `''`                 |
-| `name`         | `name`           | The name attribute for form submission.                                                      | `string`                          | `undefined`          |
-| `required`     | `required`       | Whether the select is required for form validation.                                          | `boolean`                         | `false`              |
-| `searchable`   | `searchable`     | Show a search input in the listbox dropdown to filter options. Listbox variant only.         | `boolean`                         | `false`              |
-| `emptyMessage` | `empty-message`  | Message shown when search yields no results.                                                 | `string`                          | `'No results found'` |
-| `visibleItems` | `visible-items`  | Max visible items in the dropdown before scrolling.                                          | `number`                          | `6`                  |
-| `clearable`    | `clearable`      | Show a clear button to reset selection.                                                      | `boolean`                         | `false`              |
-| `class`        | `class`          | Additional CSS classes to apply.                                                             | `string`                          | `undefined`          |
+| Property        | Attribute        | Type                       | Default               |
+| --------------- | ---------------- | -------------------------- | --------------------- |
+| `variant`       | `variant`        | `'default' \| 'listbox'`   | `'default'`           |
+| `size`          | `size`           | `string`                   | `'base'`              |
+| `value`         | `value`          | `string`                   | `''`                  |
+| `name`          | `name`           | `string`                   | —                     |
+| `placeholder`   | `placeholder`    | `string`                   | —                     |
+| `isMultiple`    | `is-multiple`    | `boolean`                  | `false`               |
+| `isDisabled`    | `is-disabled`    | `boolean`                  | `false`               |
+| `isRequired`    | `is-required`    | `boolean`                  | `false`               |
+| `isSearchable`  | `is-searchable`  | `boolean`                  | `false`               |
+| `isClearable`   | `is-clearable`   | `boolean`                  | `false`               |
+| `emptyMessage`  | `empty-message`  | `string`                   | `'No results found'`  |
+| `visibleItems`  | `visible-items`  | `number`                   | `6`                   |
+| `extraClass`    | `extra-class`    | `string`                   | —                     |
+| `fieldId`       | `field-id`       | `string`                   | auto                  |
 
-### aegov-select Events
+### Properties — `aegov-select-option`
 
-| Event              | Description                                          | Detail Type                                          |
-|--------------------|------------------------------------------------------|------------------------------------------------------|
-| `aegovSelectChange` | Emitted when the selected value changes.            | `{ value: string \| string[], label: string \| string[] }` |
-| `aegovSelectOpen`   | Emitted when the listbox dropdown opens.            | `void`                                               |
-| `aegovSelectClose`  | Emitted when the listbox dropdown closes.           | `void`                                               |
+| Property      | Attribute      | Type      | Default |
+| ------------- | -------------- | --------- | ------- |
+| `value`       | `value`        | `string`  | `''`    |
+| `isDisabled`  | `is-disabled`  | `boolean` | `false` |
 
-### aegov-select-option Properties
+### Properties — `aegov-select-option-group`
 
-| Property   | Attribute  | Description                          | Type      | Default     |
-|------------|-----------|--------------------------------------|-----------|-------------|
-| `value`    | `value`    | The value of this option.            | `string`  | `''`        |
-| `disabled` | `disabled` | Whether this option is disabled.     | `boolean` | `false`     |
+| Property | Attribute | Type     | Default |
+| -------- | --------- | -------- | ------- |
+| `label`  | `label`   | `string` | `''`    |
 
-The label text is provided as the element's text content (default slot).
+### Pass-through Attributes
 
-### aegov-select-option-group Properties
+`autofocus` and `form` are forwarded onto the inner native `<select>`. Any `aria-*` and `data-*` attributes set on the host are also forwarded onto the inner `<select>`. Pass-through applies only to the native variant — the listbox trigger does not receive these attributes.
 
-| Property | Attribute | Description                        | Type     | Default |
-|----------|-----------|------------------------------------|----------|---------|
-| `label`  | `label`   | The label for this option group.   | `string` | `''`    |
+### Events
 
-### Pass-Through Attributes
+| Event                 | Description                                         | Detail                                          |
+| --------------------- | --------------------------------------------------- | ----------------------------------------------- |
+| `aegovSelectChange`   | Fires when the selected value changes.              | `{ value: string \| string[]; label: string \| string[] }` |
+| `aegovSelectOpen`     | Fires when the listbox dropdown opens.              | `void`                                          |
+| `aegovSelectClose`    | Fires when the listbox dropdown closes.             | `void`                                          |
 
-The `aegov-select` component forwards `aria-*` and `data-*` attributes from the host element to the underlying native `<select>` (default variant) or trigger `<button>` (listbox variant).
+For single selection, `value` and `label` are strings. For `is-multiple`, both are arrays.
 
-```html
-<aegov-select aria-label="Country selection" data-tracking="country-select" placeholder="Select...">
-  <aegov-select-option value="ae">UAE</aegov-select-option>
-</aegov-select>
+### Event listening example
+
+```js
+const select = document.querySelector('aegov-select');
+select.addEventListener('aegovSelectChange', (e) => {
+  console.log('selected', e.detail.value, e.detail.label);
+});
 ```
 
----
+### Slots
+
+| Slot      | Description                                                       |
+| --------- | ----------------------------------------------------------------- |
+| (default) | One or more `aegov-select-option` and/or `aegov-select-option-group` elements. |
 
 ## Accessibility
 
-The `aegov-select` component is built with accessibility as a first-class concern.
+**Built in**
 
-### Built-in Features
+- Listbox variant uses `role="combobox"` on the trigger with `aria-haspopup="listbox"` and `aria-expanded` reflecting open state.
+- The popup has `role="listbox"`, `aria-multiselectable="true"` for multi-select, and is referenced via `aria-controls` from the trigger.
+- The currently focused option is exposed via `aria-activedescendant` on the trigger (and on the search input when it has focus).
+- Each option uses `role="option"` with `aria-selected` and, where applicable, `aria-disabled`.
+- Option groups use `role="group"` and are labelled by the group heading via `aria-labelledby`.
+- Keyboard support on the listbox: `ArrowDown` / `ArrowUp` move focus, `Home` / `End` jump to ends, `Enter` selects the focused option, `Space` selects (or types in the search input when searchable), `Escape` closes the dropdown and returns focus to the trigger.
+- Clicking outside the component closes the dropdown.
+- Native variant inherits all native `<select>` accessibility behaviours and submits with the surrounding form.
 
-- **Native `<select>` in default variant** -- renders a semantic HTML select element that works with all assistive technologies out of the box.
-- **`role="combobox"`** -- the listbox trigger button uses the combobox role for correct screen reader announcement.
-- **`aria-expanded`** -- automatically toggled when the listbox dropdown opens and closes.
-- **`aria-haspopup="listbox"`** -- informs assistive technologies that a listbox will appear.
-- **`aria-controls`** -- links the trigger to the dropdown listbox element.
-- **`aria-activedescendant`** -- tracks the currently focused option during keyboard navigation, so screen readers announce the focused item.
-- **`role="listbox"` on dropdown** -- the options container has correct listbox semantics.
-- **`role="option"` on items** -- each option has the correct role with `aria-selected` reflecting its state.
-- **`aria-disabled`** -- set on disabled options to inform screen readers.
-- **`aria-multiselectable`** -- set on the listbox when `multiple` is enabled.
-- **`role="group"` with `aria-labelledby`** -- option groups are wrapped in semantic groups linked to their label for screen reader announcement.
-- **`role="searchbox"`** -- the search input has the correct role with `aria-label` and `aria-controls`.
-- **Focus indicators** -- clearly visible focus ring on keyboard navigation via the primary support colour.
-- **Disabled state** -- applies reduced opacity and `pointer-events: none` so the select is both visually and functionally inert.
-- **Keyboard navigation** -- full keyboard support including Arrow Up/Down for option navigation, Enter/Space to select, Escape to close, and Home/End to jump to first/last option.
+**Developer responsibilities**
 
-### Developer Responsibilities
+- Provide an accessible name. Pair the select with `aegov-form-field`/`aegov-label`, or set `aria-label`/`aria-labelledby` on the host.
+- When the listbox is closed and a placeholder is shown, ensure surrounding context conveys that a selection is required (e.g. via the form-field label and `is-required`).
+- For `is-multiple`, communicate the count or selected items in surrounding UI — the trigger only shows `"N selected"`.
 
-1. **Provide a label.** Always pair a select with an `aegov-label` inside an `aegov-form-field`, or provide an `aria-label` attribute on the select. A select without a label is inaccessible.
+**Notes**
 
-   ```html
-   <aegov-form-field>
-     <aegov-label>Country</aegov-label>
-     <aegov-select placeholder="Select...">...</aegov-select>
-   </aegov-form-field>
-   ```
-
-2. **Use meaningful option text.** Option labels should be clear and descriptive. Avoid abbreviations or codes that screen readers cannot interpret.
-
-3. **Do not remove focus styles.** The built-in focus outlines are essential for keyboard navigation. Avoid overriding them with `outline: none`.
-
-4. **Colour contrast.** All built-in colour combinations meet WCAG 2.1 AA contrast ratios. If you override colours, verify that the new colours maintain at least a **4.5:1** contrast ratio.
-
----
-
-## Notes
-
-- The `aegov-select` component reads its options from `aegov-select-option` children. These children are hidden from the DOM (`display: none`) and their content is parsed programmatically.
-- Setting `multiple` to `true` automatically forces the listbox variant, regardless of the `variant` property value.
-- The listbox dropdown positions itself above or below the trigger automatically based on available viewport space.
-- The dropdown animates in with a subtle slide-in effect (150ms ease-out).
-- The `value` property is mutable. For single selection it holds a plain string; for multiple selection it holds a comma-separated string of values (e.g. `"en,ar,fr"`).
-- When the `name` property is set in listbox mode, the component renders a hidden `<input type="hidden">` for form submission compatibility.
-- Clicking outside the listbox dropdown closes it automatically.
-- The `fieldId` prop is auto-generated using a unique ID if not provided. To control the ID explicitly (e.g. for external label association), pass `field-id="my-id"`.
-- The `searchable` and `clearable` features are only available in the listbox variant. They have no effect on the native default variant.
-- The native default variant uses a custom SVG arrow background image that repositions in RTL mode.
+- The search input is decorated with `role="searchbox"` and `aria-label="Search options"`. If you need a localised label, override it via the form-field label or by wrapping with appropriate context — the built-in label is in English.
+- When `is-multiple` is set, `variant` is effectively `'listbox'` regardless of the explicit value.
+- The listbox flips above the trigger when there is insufficient space below; this is purely visual and does not affect roles or focus order.

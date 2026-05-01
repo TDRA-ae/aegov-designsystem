@@ -11,332 +11,72 @@
   <link rel="stylesheet" href="/docs/hljs.css">
 </head>
 <body class="bg-aeblack-50">
-  <header class="mx-auto max-w-7xl sm:px-6 lg:px-8 mb-8">
+  <header class="aegov-container sm:px-6 lg:px-8 mb-8">
     <img src="https://designsystem.gov.ae/assets/site-logo/AEGov-DesignSystem-Logo-Color.svg" alt="UAE Design System Logo" class="w-auto h-16 my-2">
   </header>
-  <main class="mx-auto max-w-7xl sm:px-6 lg:px-8 bg-aeblack-50">
+  <main class="aegov-container sm:px-6 lg:px-8 bg-aeblack-50">
     <section class="flex items-start align-top gap-4">
       <nav id="primary-nav" class="w-3xs shrink-0">&nbsp;</nav>
       <article class="col-span-5 grow">
           <section id="content-area" class="bg-whitely-50 p-6 rounded-md shadow-xl">
           <!-- DOC:START -->
-<h1>Textarea</h1>
-<p class="text-lg text-aeblack-500 mb-8">A multi-line text input for collecting longer-form content such as comments, descriptions, and messages. Supports sizing, character counting, auto-grow, resize control, and a read-only copy feature.</p>
+<h1>aegov-textarea</h1>
+<p>A styled wrapper around the native <code>&lt;textarea&gt;</code> element for collecting multi-line text. Supports design-system-aligned sizing, configurable resize behavior, an optional character counter, and an optional copy-to-clipboard button.</p>
+<h2>Properties</h2>
+<h3>value</h3>
+<p>The current value of the textarea. Mutable — updated internally on <code>input</code>/<code>change</code>.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-textarea</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;Hello&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-textarea</span>&gt;</span></code></pre><h3>size</h3>
+<p>The font-size scale of the textarea. Accepts <code>xs</code>, <code>sm</code>, <code>base</code>, <code>lg</code>, <code>xl</code>. Also supports a Tailwind-style responsive string.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-textarea</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;lg&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-textarea</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-textarea</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm md:base lg:lg&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-textarea</span>&gt;</span></code></pre><h3>resize</h3>
+<p>Controls user-resize behavior. Accepts <code>none</code>, <code>vertical</code>, <code>horizontal</code>, <code>both</code>, or <code>auto</code>. With <code>auto</code>, the textarea automatically grows to fit its content (resize handle disabled).</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-textarea</span> <span class="hljs-attr">resize</span>=<span class="hljs-string">&quot;none&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-textarea</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-textarea</span> <span class="hljs-attr">resize</span>=<span class="hljs-string">&quot;vertical&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-textarea</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-textarea</span> <span class="hljs-attr">resize</span>=<span class="hljs-string">&quot;auto&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-textarea</span>&gt;</span></code></pre><h3>placeholder</h3>
+<p>Placeholder text shown when empty.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-textarea</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;Tell us more...&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-textarea</span>&gt;</span></code></pre><h3>name</h3>
+<p>The native <code>name</code> attribute used in form submission.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-textarea</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;comments&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-textarea</span>&gt;</span></code></pre><h3>field-id</h3>
+<p>The <code>id</code> of the rendered native <code>&lt;textarea&gt;</code>. Auto-generated as <code>aegov-textarea-{n}</code> if not provided.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-textarea</span> <span class="hljs-attr">field-id</span>=<span class="hljs-string">&quot;comments-ta&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-textarea</span>&gt;</span></code></pre><h3>is-disabled</h3>
+<p>Disables the textarea.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-textarea</span> <span class="hljs-attr">is-disabled</span>=<span class="hljs-string">&quot;true&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-textarea</span>&gt;</span></code></pre><h3>is-readonly</h3>
+<p>Marks the textarea as readonly. Required to enable <code>is-copyable</code>.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-textarea</span> <span class="hljs-attr">is-readonly</span>=<span class="hljs-string">&quot;true&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;System message&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-textarea</span>&gt;</span></code></pre><h3>is-required</h3>
+<p>Marks the field as required.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-textarea</span> <span class="hljs-attr">is-required</span>=<span class="hljs-string">&quot;true&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-textarea</span>&gt;</span></code></pre><h3>maxlength</h3>
+<p>Maximum number of characters. When set, a live character counter is rendered below the textarea and linked via <code>aria-describedby</code>.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-textarea</span> <span class="hljs-attr">maxlength</span>=<span class="hljs-string">&quot;280&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;Up to 280 chars&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-textarea</span>&gt;</span></code></pre><h3>is-copyable</h3>
+<p>Adds a copy-to-clipboard button. Only takes effect when <code>is-readonly=&quot;true&quot;</code>.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-textarea</span> <span class="hljs-attr">is-readonly</span>=<span class="hljs-string">&quot;true&quot;</span> <span class="hljs-attr">is-copyable</span>=<span class="hljs-string">&quot;true&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;Long text...&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-textarea</span>&gt;</span></code></pre><h3>extra-class</h3>
+<p>Additional CSS classes applied to the native <code>&lt;textarea&gt;</code>.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-textarea</span> <span class="hljs-attr">extra-class</span>=<span class="hljs-string">&quot;font-mono&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-textarea</span>&gt;</span></code></pre><h2>Sizes</h2>
+<p><code>size</code> accepts a single token or a responsive string using Tailwind-style breakpoint prefixes (<code>xs</code>, <code>sm</code>, <code>md</code>, <code>lg</code>, <code>xl</code>, <code>2xl</code>).</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-textarea</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;xs&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-textarea</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-textarea</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-textarea</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-textarea</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;base&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-textarea</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-textarea</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;lg&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-textarea</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-textarea</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;xl&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-textarea</span>&gt;</span>
 
-<h2>Introduction</h2>
-<p>The <code>aegov-textarea</code> component wraps a native <code>&lt;textarea&gt;</code> element with consistent styling, event handling, and accessibility support. It integrates seamlessly with <code>aegov-form-field</code> and <code>aegov-label</code> for structured form layouts.</p>
-<p>The component provides <strong>5 sizes</strong>, <strong>5 resize modes</strong> (including auto-grow), an optional <strong>character counter</strong>, and a <strong>copy-to-clipboard</strong> button for read-only fields.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-textarea</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;Enter your message...&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-textarea</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-textarea placeholder="Enter your message..."></aegov-textarea>
-</div>
-
-<hr>
-<h2>Sizes</h2>
-<p>The <code>size</code> property controls the font size and padding of the textarea. The height itself is determined by the native <code>rows</code> attribute.</p>
-<table>
-<thead>
-<tr>
-<th>Size</th>
-<th>Font Size</th>
-<th>Padding</th>
-</tr>
-</thead>
-<tbody><tr>
-<td><code>xs</code></td>
-<td>12px</td>
-<td>6px 10px</td>
-</tr>
-<tr>
-<td><code>sm</code></td>
-<td>14px</td>
-<td>8px 12px</td>
-</tr>
-<tr>
-<td><code>base</code></td>
-<td>16px</td>
-<td>10px 14px</td>
-</tr>
-<tr>
-<td><code>lg</code></td>
-<td>18px</td>
-<td>12px 16px</td>
-</tr>
-<tr>
-<td><code>xl</code></td>
-<td>18px</td>
-<td>14px 18px</td>
-</tr>
-</tbody></table>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-textarea</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;xs&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;Extra small textarea&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-textarea</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-textarea</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;Small textarea&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-textarea</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-textarea</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;base&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;Base textarea (default)&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-textarea</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-textarea</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;lg&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;Large textarea&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-textarea</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-textarea</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;xl&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;Extra large textarea&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-textarea</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-textarea size="xs" placeholder="Extra small textarea"></aegov-textarea>
-  <aegov-textarea size="sm" placeholder="Small textarea"></aegov-textarea>
-  <aegov-textarea size="base" placeholder="Base textarea (default)"></aegov-textarea>
-  <aegov-textarea size="lg" placeholder="Large textarea"></aegov-textarea>
-  <aegov-textarea size="xl" placeholder="Extra large textarea"></aegov-textarea>
-</div>
-
-<h3>Responsive Size</h3>
-<p>The <code>size</code> prop accepts Tailwind-style responsive prefixes. Write a space-separated string where each token is either a plain value or <code>breakpoint:value</code>. The base value (no prefix) applies below the smallest specified breakpoint.</p>
-<p>Available breakpoints: <code>xs</code> (480px), <code>sm</code> (640px), <code>md</code> (768px), <code>lg</code> (1024px), <code>xl</code> (1280px), <code>2xl</code> (1536px), <code>3xl</code> (1680px).</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-textarea</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm xl:lg&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;Responsive textarea&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-textarea</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-textarea size="sm xl:lg" placeholder="Responsive textarea"></aegov-textarea>
-</div>
-
-<blockquote>
-<p><strong>Graceful degradation:</strong> Unknown breakpoint names and invalid values are silently ignored. An unrecognised base value falls back to the component default.</p>
-</blockquote>
-<hr>
-<h2>Rows</h2>
-<p>The native <code>rows</code> attribute controls the initial visible height. Pass it directly on the element — it is forwarded to the inner <code>&lt;textarea&gt;</code> via attribute pass-through.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-textarea</span> <span class="hljs-attr">rows</span>=<span class="hljs-string">&quot;3&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;3 rows&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-textarea</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-textarea</span> <span class="hljs-attr">rows</span>=<span class="hljs-string">&quot;6&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;6 rows&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-textarea</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-textarea</span> <span class="hljs-attr">rows</span>=<span class="hljs-string">&quot;10&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;10 rows&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-textarea</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-textarea rows="3" placeholder="3 rows"></aegov-textarea>
-  <aegov-textarea rows="6" placeholder="6 rows"></aegov-textarea>
-  <aegov-textarea rows="10" placeholder="10 rows"></aegov-textarea>
-</div>
-
-<hr>
-<h2>Placeholder</h2>
-<p>Use the <code>placeholder</code> property to show hint text when the textarea is empty.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-textarea</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;Tell us about your experience...&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-textarea</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-textarea placeholder="Tell us about your experience..."></aegov-textarea>
-</div>
-
-<hr>
-<h2>Value</h2>
-<p>Set the <code>value</code> property to pre-fill the textarea. The property is mutable and stays in sync with user input.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-textarea</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;This textarea has a pre-filled value.&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-textarea</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-textarea value="This textarea has a pre-filled value."></aegov-textarea>
-</div>
-
-<hr>
-<h2>States</h2>
-<h3>Disabled</h3>
-<p>Set <code>disabled</code> to prevent interaction. The textarea becomes visually muted and unclickable.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-textarea</span> <span class="hljs-attr">disabled</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;This textarea is disabled.&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-textarea</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-textarea disabled value="This textarea is disabled."></aegov-textarea>
-</div>
-
-<h3>Readonly</h3>
-<p>Set <code>readonly</code> to allow users to see and select text but not modify it.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-textarea</span> <span class="hljs-attr">readonly</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;This content is read-only. You can select and copy the text but cannot edit it.&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-textarea</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-textarea readonly value="This content is read-only. You can select and copy the text but cannot edit it."></aegov-textarea>
-</div>
-
-<h3>Required</h3>
-<p>Set <code>required</code> to mark the textarea as a mandatory field. The native <code>required</code> attribute is forwarded to the inner element.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-textarea</span> <span class="hljs-attr">required</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;This field is required&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-textarea</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-textarea required placeholder="This field is required"></aegov-textarea>
-</div>
-
-<hr>
-<h2>Resize Behaviour</h2>
-<p>The <code>resize</code> property controls how users can resize the textarea. There are five options.</p>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Behaviour</th>
-</tr>
-</thead>
-<tbody><tr>
-<td><code>vertical</code></td>
-<td>Default. The user can resize vertically only.</td>
-</tr>
-<tr>
-<td><code>horizontal</code></td>
-<td>The user can resize horizontally only.</td>
-</tr>
-<tr>
-<td><code>both</code></td>
-<td>The user can resize in both directions.</td>
-</tr>
-<tr>
-<td><code>none</code></td>
-<td>Resizing is disabled entirely.</td>
-</tr>
-<tr>
-<td><code>auto</code></td>
-<td>The textarea grows automatically to fit its content.</td>
-</tr>
-</tbody></table>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-textarea</span> <span class="hljs-attr">resize</span>=<span class="hljs-string">&quot;vertical&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;Vertical resize (default)&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-textarea</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-textarea</span> <span class="hljs-attr">resize</span>=<span class="hljs-string">&quot;horizontal&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;Horizontal resize&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-textarea</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-textarea</span> <span class="hljs-attr">resize</span>=<span class="hljs-string">&quot;both&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;Resize in both directions&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-textarea</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-textarea</span> <span class="hljs-attr">resize</span>=<span class="hljs-string">&quot;none&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;No resize&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-textarea</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-textarea resize="vertical" rows="3" placeholder="Vertical resize (default)"></aegov-textarea>
-  <aegov-textarea resize="horizontal" rows="3" placeholder="Horizontal resize"></aegov-textarea>
-  <aegov-textarea resize="both" rows="3" placeholder="Resize in both directions"></aegov-textarea>
-  <aegov-textarea resize="none" rows="3" placeholder="No resize"></aegov-textarea>
-</div>
-
-<hr>
-<h2>Auto-Grow</h2>
-<p>Set <code>resize=&quot;auto&quot;</code> to make the textarea grow automatically as the user types. The textarea starts at the height defined by <code>rows</code> and expands vertically to fit the content. Manual resizing is disabled in this mode.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-textarea</span> <span class="hljs-attr">resize</span>=<span class="hljs-string">&quot;auto&quot;</span> <span class="hljs-attr">rows</span>=<span class="hljs-string">&quot;2&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;Start typing — I will grow...&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-textarea</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-textarea resize="auto" rows="2" placeholder="Start typing — I will grow..."></aegov-textarea>
-</div>
-
-<hr>
-<h2>Character Counter</h2>
-<p>Set the <code>maxlength</code> property to display a character counter below the textarea. The counter shows the current character count against the maximum and turns red when exceeded.</p>
-<p>The <code>maxlength</code> attribute is also forwarded to the native textarea, so the browser enforces the limit natively. The counter provides visual feedback.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-textarea</span> <span class="hljs-attr">maxlength</span>=<span class="hljs-string">&quot;100&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;Maximum 100 characters&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-textarea</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-textarea maxlength="100" placeholder="Maximum 100 characters"></aegov-textarea>
-</div>
-
-<p>When the character count exceeds the limit, the counter text turns red and bold.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-textarea</span> <span class="hljs-attr">maxlength</span>=<span class="hljs-string">&quot;20&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;This text is longer than twenty characters&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-textarea</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-textarea maxlength="20" value="This text is longer than twenty characters"></aegov-textarea>
-</div>
-
-<hr>
-<h2>Copyable (Read-Only with Copy Button)</h2>
-<p>When both <code>readonly</code> and <code>copyable</code> are set, a copy button appears in the bottom-right corner of the textarea. Clicking it copies the textarea value to the clipboard and shows a brief checkmark confirmation.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-textarea</span> <span class="hljs-attr">readonly</span> <span class="hljs-attr">copyable</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;Click the copy button in the bottom-right corner to copy this text to your clipboard.&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-textarea</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-textarea readonly copyable value="Click the copy button in the bottom-right corner to copy this text to your clipboard."></aegov-textarea>
-</div>
-
-<blockquote>
-<p><strong>Note:</strong> The <code>copyable</code> property only takes effect when <code>readonly</code> is also set. On a writable textarea, the copy button is not rendered.</p>
-</blockquote>
-<hr>
-<h2>Usage with Form Field</h2>
-<p>The <code>aegov-textarea</code> component is designed to work inside <code>aegov-form-field</code> alongside <code>aegov-label</code>. The form field automatically links the label to the textarea for accessibility.</p>
-<h3>Basic Form Field</h3>
+<span class="hljs-comment">&lt;!-- Responsive --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-textarea</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm md:base lg:lg&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-textarea</span>&gt;</span></code></pre><h2>Examples</h2>
+<h3>Basic textarea</h3>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-textarea</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;Add a comment&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-textarea</span>&gt;</span></code></pre><h3>With character counter</h3>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-textarea</span>
+  <span class="hljs-attr">maxlength</span>=<span class="hljs-string">&quot;280&quot;</span>
+  <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;What&#x27;s happening?&quot;</span>
+&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-textarea</span>&gt;</span></code></pre><h3>Auto-resizing textarea</h3>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-textarea</span> <span class="hljs-attr">resize</span>=<span class="hljs-string">&quot;auto&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;Grows as you type&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-textarea</span>&gt;</span></code></pre><h3>Readonly + copyable</h3>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-textarea</span>
+  <span class="hljs-attr">is-readonly</span>=<span class="hljs-string">&quot;true&quot;</span>
+  <span class="hljs-attr">is-copyable</span>=<span class="hljs-string">&quot;true&quot;</span>
+  <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;The quick brown fox jumps over the lazy dog.&quot;</span>
+&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-textarea</span>&gt;</span></code></pre><h3>Inside an aegov-form-field</h3>
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-form-field</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-label</span>&gt;</span>Description<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-label</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-textarea</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;Enter a description...&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-textarea</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-form-field</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-form-field>
-    <aegov-label>Description</aegov-label>
-    <aegov-textarea placeholder="Enter a description..."></aegov-textarea>
-  </aegov-form-field>
-</div>
-
-<h3>With Helper Text</h3>
-<p>Add a helper <code>&lt;span&gt;</code> or <code>&lt;p&gt;</code> below the textarea for additional guidance.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-form-field</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-label</span>&gt;</span>Bio<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-label</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-textarea</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;Tell us about yourself...&quot;</span> <span class="hljs-attr">maxlength</span>=<span class="hljs-string">&quot;250&quot;</span> <span class="hljs-attr">rows</span>=<span class="hljs-string">&quot;4&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-textarea</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;text-sm text-aeblack-400 mt-1&quot;</span>&gt;</span>Write a short bio in 250 characters or less.<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-form-field</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-form-field>
-    <aegov-label>Bio</aegov-label>
-    <aegov-textarea placeholder="Tell us about yourself..." maxlength="250" rows="4"></aegov-textarea>
-    <span class="text-sm text-aeblack-400 mt-1">Write a short bio in 250 characters or less.</span>
-  </aegov-form-field>
-</div>
-
-<h3>Disabled Form Field</h3>
-<p>When the textarea is disabled inside a form field, the label is also visually dimmed.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-form-field</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-label</span>&gt;</span>Notes<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-label</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-textarea</span> <span class="hljs-attr">disabled</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;This field is not available.&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-textarea</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-form-field</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-form-field>
-    <aegov-label>Notes</aegov-label>
-    <aegov-textarea disabled value="This field is not available."></aegov-textarea>
-  </aegov-form-field>
-</div>
-
-<h3>Complete Form Example</h3>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-form-field</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-label</span>&gt;</span>Feedback<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-label</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-textarea</span>
-    <span class="hljs-attr">required</span>
-    <span class="hljs-attr">maxlength</span>=<span class="hljs-string">&quot;500&quot;</span>
-    <span class="hljs-attr">rows</span>=<span class="hljs-string">&quot;5&quot;</span>
-    <span class="hljs-attr">resize</span>=<span class="hljs-string">&quot;auto&quot;</span>
-    <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;Share your feedback with us...&quot;</span>
-  &gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-textarea</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;text-sm text-aeblack-400 mt-1&quot;</span>&gt;</span>Your feedback helps us improve our services.<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-form-field</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-form-field>
-    <aegov-label>Feedback</aegov-label>
-    <aegov-textarea required maxlength="500" rows="5" resize="auto" placeholder="Share your feedback with us..."></aegov-textarea>
-    <span class="text-sm text-aeblack-400 mt-1">Your feedback helps us improve our services.</span>
-  </aegov-form-field>
-</div>
-
-<hr>
-<h2>Events</h2>
-<p>The component emits four custom events. All events bubble and are composed.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-textarea</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;event-demo&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;Type here to see events...&quot;</span> <span class="hljs-attr">maxlength</span>=<span class="hljs-string">&quot;50&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-textarea</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">pre</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;event-log&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;mt-4 text-sm bg-aeblack-800 text-whitely-50 p-4 rounded-lg h-32 overflow-auto&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">pre</span>&gt;</span>
-
-<span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript">
-  <span class="hljs-keyword">const</span> textarea = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;event-demo&#x27;</span>);
-  <span class="hljs-keyword">const</span> log = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;event-log&#x27;</span>);
-
-  <span class="hljs-keyword">function</span> <span class="hljs-title function_">logEvent</span>(<span class="hljs-params">name, detail</span>) {
-    <span class="hljs-keyword">const</span> line = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">createElement</span>(<span class="hljs-string">&#x27;div&#x27;</span>);
-    line.<span class="hljs-property">textContent</span> = name + <span class="hljs-string">&#x27;: &#x27;</span> + <span class="hljs-title class_">JSON</span>.<span class="hljs-title function_">stringify</span>(detail).<span class="hljs-title function_">slice</span>(<span class="hljs-number">0</span>, <span class="hljs-number">80</span>);
-    log.<span class="hljs-title function_">prepend</span>(line);
-  }
-
-  textarea.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;aegovTextareaInput&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">e</span>) =&gt;</span> {
-    <span class="hljs-title function_">logEvent</span>(<span class="hljs-string">&#x27;aegovTextareaInput&#x27;</span>, { <span class="hljs-attr">value</span>: e.<span class="hljs-property">detail</span>.<span class="hljs-property">value</span> });
-  });
-  textarea.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;aegovTextareaChange&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">e</span>) =&gt;</span> {
-    <span class="hljs-title function_">logEvent</span>(<span class="hljs-string">&#x27;aegovTextareaChange&#x27;</span>, { <span class="hljs-attr">value</span>: e.<span class="hljs-property">detail</span>.<span class="hljs-property">value</span> });
-  });
-  textarea.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;aegovTextareaFocus&#x27;</span>, <span class="hljs-function">() =&gt;</span> {
-    <span class="hljs-title function_">logEvent</span>(<span class="hljs-string">&#x27;aegovTextareaFocus&#x27;</span>, {});
-  });
-  textarea.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;aegovTextareaBlur&#x27;</span>, <span class="hljs-function">() =&gt;</span> {
-    <span class="hljs-title function_">logEvent</span>(<span class="hljs-string">&#x27;aegovTextareaBlur&#x27;</span>, {});
-  });
-</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-textarea id="event-demo-textarea" placeholder="Type here to see events..." maxlength="50"></aegov-textarea>
-  <pre id="event-log-textarea" class="mt-4 text-sm bg-aeblack-800 text-whitely-50 p-4 rounded-lg h-32 overflow-auto"></pre>
-  <script>
-    (function() {
-      var textarea = document.getElementById('event-demo-textarea');
-      var log = document.getElementById('event-log-textarea');
-      function logEvent(name, detail) {
-        var line = document.createElement('div');
-        line.textContent = name + ': ' + JSON.stringify(detail).slice(0, 80);
-        log.prepend(line);
-      }
-      textarea.addEventListener('aegovTextareaInput', function(e) {
-        logEvent('aegovTextareaInput', { value: e.detail.value });
-      });
-      textarea.addEventListener('aegovTextareaChange', function(e) {
-        logEvent('aegovTextareaChange', { value: e.detail.value });
-      });
-      textarea.addEventListener('aegovTextareaFocus', function() {
-        logEvent('aegovTextareaFocus', {});
-      });
-      textarea.addEventListener('aegovTextareaBlur', function() {
-        logEvent('aegovTextareaBlur', {});
-      });
-    })();
-  </script>
-</div>
-
-<hr>
-<h2>RTL Support</h2>
-<p>The component fully supports right-to-left layouts. When the document or a parent element has <code>dir=&quot;rtl&quot;</code>, text alignment, padding, the character counter, and the copy button position all mirror automatically.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">dir</span>=<span class="hljs-string">&quot;rtl&quot;</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-form-field</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-label</span>&gt;</span>الوصف<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-label</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-textarea</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;أدخل الوصف هنا...&quot;</span> <span class="hljs-attr">maxlength</span>=<span class="hljs-string">&quot;200&quot;</span> <span class="hljs-attr">rows</span>=<span class="hljs-string">&quot;4&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-textarea</span>&gt;</span>
-  <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-form-field</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre><div dir="rtl" class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-form-field>
-    <aegov-label>الوصف</aegov-label>
-    <aegov-textarea placeholder="أدخل الوصف هنا..." maxlength="200" rows="4"></aegov-textarea>
-  </aegov-form-field>
-</div>
-
-<p>No additional configuration is needed — the component reads the inherited <code>dir</code> attribute and adjusts automatically.</p>
-<hr>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-textarea</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;description&quot;</span> <span class="hljs-attr">maxlength</span>=<span class="hljs-string">&quot;500&quot;</span> <span class="hljs-attr">rows</span>=<span class="hljs-string">&quot;5&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-textarea</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-form-field</span>&gt;</span></code></pre><h2>RTL Behavior</h2>
+<p><code>aegov-textarea</code> uses Tailwind logical properties for padding and the copy button position, so it lays out correctly when the surrounding container has <code>dir=&quot;rtl&quot;</code>. The character counter renders below the field and follows the textual direction of the document.</p>
 <h2>API Reference</h2>
 <h3>Properties</h3>
 <table>
@@ -352,86 +92,136 @@
 <tbody><tr>
 <td><code>fieldId</code></td>
 <td><code>field-id</code></td>
-<td>Unique ID for the native textarea. Auto-generated if not provided.</td>
+<td>ID for the native <code>&lt;textarea&gt;</code>. Auto-generated if not provided.</td>
 <td><code>string</code></td>
 <td>auto</td>
 </tr>
 <tr>
-<td><code>size</code></td>
-<td><code>size</code></td>
-<td>The size of the textarea (controls font size and padding). Supports responsive strings (e.g. <code>&#39;sm xl:lg&#39;</code>).</td>
-<td><code>&#39;xs&#39;</code> | <code>&#39;sm&#39;</code> | <code>&#39;base&#39;</code> | <code>&#39;lg&#39;</code> | <code>&#39;xl&#39;</code></td>
-<td><code>&#39;base&#39;</code></td>
-</tr>
-<tr>
 <td><code>value</code></td>
 <td><code>value</code></td>
-<td>The current value of the textarea</td>
+<td>Current value (mutable).</td>
 <td><code>string</code></td>
 <td><code>&#39;&#39;</code></td>
 </tr>
 <tr>
-<td><code>placeholder</code></td>
-<td><code>placeholder</code></td>
-<td>Placeholder hint text</td>
+<td><code>size</code></td>
+<td><code>size</code></td>
+<td>Size token or responsive string.</td>
 <td><code>string</code></td>
-<td><code>undefined</code></td>
-</tr>
-<tr>
-<td><code>name</code></td>
-<td><code>name</code></td>
-<td>The name attribute for form submission</td>
-<td><code>string</code></td>
-<td><code>undefined</code></td>
-</tr>
-<tr>
-<td><code>disabled</code></td>
-<td><code>disabled</code></td>
-<td>Prevents interaction</td>
-<td><code>boolean</code></td>
-<td><code>false</code></td>
-</tr>
-<tr>
-<td><code>readonly</code></td>
-<td><code>readonly</code></td>
-<td>Allows selection but prevents editing</td>
-<td><code>boolean</code></td>
-<td><code>false</code></td>
-</tr>
-<tr>
-<td><code>required</code></td>
-<td><code>required</code></td>
-<td>Marks the field as mandatory</td>
-<td><code>boolean</code></td>
-<td><code>false</code></td>
+<td><code>&#39;base&#39;</code></td>
 </tr>
 <tr>
 <td><code>resize</code></td>
 <td><code>resize</code></td>
-<td>Controls resize behaviour</td>
-<td><code>&#39;none&#39;</code> | <code>&#39;vertical&#39;</code> | <code>&#39;horizontal&#39;</code> | <code>&#39;both&#39;</code> | <code>&#39;auto&#39;</code></td>
+<td>Resize behavior.</td>
+<td><code>&#39;none&#39; | &#39;vertical&#39; | &#39;horizontal&#39; | &#39;both&#39; | &#39;auto&#39;</code></td>
 <td><code>&#39;vertical&#39;</code></td>
 </tr>
 <tr>
+<td><code>placeholder</code></td>
+<td><code>placeholder</code></td>
+<td>Placeholder text.</td>
+<td><code>string</code></td>
+<td><code>undefined</code></td>
+</tr>
+<tr>
+<td><code>name</code></td>
+<td><code>name</code></td>
+<td>Native <code>name</code> attribute.</td>
+<td><code>string</code></td>
+<td><code>undefined</code></td>
+</tr>
+<tr>
+<td><code>isDisabled</code></td>
+<td><code>is-disabled</code></td>
+<td>Disable the textarea.</td>
+<td><code>boolean</code></td>
+<td><code>false</code></td>
+</tr>
+<tr>
+<td><code>isReadonly</code></td>
+<td><code>is-readonly</code></td>
+<td>Mark the textarea readonly.</td>
+<td><code>boolean</code></td>
+<td><code>false</code></td>
+</tr>
+<tr>
+<td><code>isRequired</code></td>
+<td><code>is-required</code></td>
+<td>Mark the field as required.</td>
+<td><code>boolean</code></td>
+<td><code>false</code></td>
+</tr>
+<tr>
 <td><code>maxlength</code></td>
 <td><code>maxlength</code></td>
-<td>Maximum character count. When set, displays a character counter.</td>
+<td>Max characters; enables counter.</td>
 <td><code>number</code></td>
 <td><code>undefined</code></td>
 </tr>
 <tr>
-<td><code>copyable</code></td>
-<td><code>copyable</code></td>
-<td>Show a copy button (only when <code>readonly</code> is also set)</td>
+<td><code>isCopyable</code></td>
+<td><code>is-copyable</code></td>
+<td>Show copy-to-clipboard button (only with <code>is-readonly</code>).</td>
 <td><code>boolean</code></td>
 <td><code>false</code></td>
 </tr>
 <tr>
-<td><code>class</code></td>
-<td><code>class</code></td>
-<td>Additional CSS classes to apply to the native textarea</td>
+<td><code>extraClass</code></td>
+<td><code>extra-class</code></td>
+<td>Additional CSS classes.</td>
 <td><code>string</code></td>
 <td><code>undefined</code></td>
+</tr>
+</tbody></table>
+<h3>Pass-through Attributes</h3>
+<p><code>aria-*</code> and <code>data-*</code> attributes set on the host are always forwarded to the native <code>&lt;textarea&gt;</code>. The following standard textarea attributes are also forwarded when set on the host:</p>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>rows</code>, <code>cols</code></td>
+<td>Visible lines / characters per line</td>
+</tr>
+<tr>
+<td><code>minlength</code>, <code>maxlength</code></td>
+<td>Character count constraints (note: <code>maxlength</code> is also a typed prop and enables the counter)</td>
+</tr>
+<tr>
+<td><code>wrap</code></td>
+<td><code>soft</code> / <code>hard</code> text wrapping</td>
+</tr>
+<tr>
+<td><code>autocomplete</code></td>
+<td>Autofill hints</td>
+</tr>
+<tr>
+<td><code>autofocus</code></td>
+<td>Focus on mount</td>
+</tr>
+<tr>
+<td><code>spellcheck</code></td>
+<td>Spellchecking on/off</td>
+</tr>
+<tr>
+<td><code>enterkeyhint</code></td>
+<td>Mobile keyboard &quot;Enter&quot; label</td>
+</tr>
+<tr>
+<td><code>title</code></td>
+<td>Native tooltip / validation message</td>
+</tr>
+<tr>
+<td><code>tabindex</code></td>
+<td>Custom tab order</td>
+</tr>
+<tr>
+<td><code>form</code></td>
+<td>Associate with a form by id</td>
 </tr>
 </tbody></table>
 <h3>Events</h3>
@@ -440,143 +230,64 @@
 <tr>
 <th>Event</th>
 <th>Description</th>
-<th>Detail Type</th>
+<th>Detail</th>
 </tr>
 </thead>
 <tbody><tr>
-<td><code>aegovTextareaInput</code></td>
-<td>Emitted on every keystroke</td>
+<td><code>aegovTextareaChange</code></td>
+<td>Fires on commit (<code>change</code>).</td>
 <td><code>{ value: string; event: Event }</code></td>
 </tr>
 <tr>
-<td><code>aegovTextareaChange</code></td>
-<td>Emitted when the value changes (on blur)</td>
+<td><code>aegovTextareaInput</code></td>
+<td>Fires on every keystroke.</td>
 <td><code>{ value: string; event: Event }</code></td>
 </tr>
 <tr>
 <td><code>aegovTextareaFocus</code></td>
-<td>Emitted when the textarea gains focus</td>
+<td>Fires on focus.</td>
 <td><code>FocusEvent</code></td>
 </tr>
 <tr>
 <td><code>aegovTextareaBlur</code></td>
-<td>Emitted when the textarea loses focus</td>
+<td>Fires on blur.</td>
 <td><code>FocusEvent</code></td>
 </tr>
 </tbody></table>
-<h4>Listening to Events</h4>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-textarea</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;my-textarea&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-textarea</span>&gt;</span>
-
+<h3>Event listening example</h3>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-textarea</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;bio&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-textarea</span>&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript">
-  <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;my-textarea&#x27;</span>)
-    .<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;aegovTextareaInput&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">e</span>) =&gt;</span> {
-      <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;Current value:&#x27;</span>, e.<span class="hljs-property">detail</span>.<span class="hljs-property">value</span>);
-    });
+  <span class="hljs-keyword">const</span> el = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;bio&#x27;</span>);
+  el.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;aegovTextareaInput&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">e</span>) =&gt;</span> {
+    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;Typed:&#x27;</span>, e.<span class="hljs-property">detail</span>.<span class="hljs-property">value</span>);
+  });
 </span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre><h3>Slots</h3>
-<p>This component does <strong>not</strong> use slots. All content is managed through the <code>value</code> property.</p>
-<h3>Pass-Through Attributes</h3>
-<p>The component forwards a set of native textarea attributes from the host element to the inner <code>&lt;textarea&gt;</code>. This allows you to use standard HTML attributes without extra configuration.</p>
-<table>
-<thead>
-<tr>
-<th>Attribute</th>
-<th>Purpose</th>
-</tr>
-</thead>
-<tbody><tr>
-<td><code>rows</code></td>
-<td>Number of visible text lines</td>
-</tr>
-<tr>
-<td><code>cols</code></td>
-<td>Visible width in average character widths</td>
-</tr>
-<tr>
-<td><code>minlength</code></td>
-<td>Minimum number of characters</td>
-</tr>
-<tr>
-<td><code>maxlength</code></td>
-<td>Maximum number of characters (also enables counter)</td>
-</tr>
-<tr>
-<td><code>wrap</code></td>
-<td>How the text wraps (<code>soft</code>, <code>hard</code>)</td>
-</tr>
-<tr>
-<td><code>autocomplete</code></td>
-<td>Browser autocomplete hint</td>
-</tr>
-<tr>
-<td><code>autofocus</code></td>
-<td>Focus the textarea on page load</td>
-</tr>
-<tr>
-<td><code>spellcheck</code></td>
-<td>Enable/disable spell checking</td>
-</tr>
-<tr>
-<td><code>enterkeyhint</code></td>
-<td>Virtual keyboard enter key hint</td>
-</tr>
-<tr>
-<td><code>title</code></td>
-<td>Tooltip text</td>
-</tr>
-<tr>
-<td><code>tabindex</code></td>
-<td>Tab order override</td>
-</tr>
-<tr>
-<td><code>form</code></td>
-<td>Associate with a form by ID</td>
-</tr>
-</tbody></table>
-<p>In addition, all <code>aria-*</code> and <code>data-*</code> attributes are automatically forwarded.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-textarea</span> <span class="hljs-attr">rows</span>=<span class="hljs-string">&quot;5&quot;</span> <span class="hljs-attr">spellcheck</span>=<span class="hljs-string">&quot;false&quot;</span> <span class="hljs-attr">data-testid</span>=<span class="hljs-string">&quot;feedback-field&quot;</span> <span class="hljs-attr">aria-label</span>=<span class="hljs-string">&quot;Feedback&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-textarea</span>&gt;</span></code></pre><hr>
+<p>This component has no named slots — its content is entirely the textarea value. Set initial text via the <code>value</code> attribute.</p>
 <h2>Accessibility</h2>
-<p>The <code>aegov-textarea</code> component is built with accessibility as a first-class concern.</p>
-<h3>Built-in Features</h3>
+<h3>Built-in</h3>
 <ul>
-<li><strong>Native <code>&lt;textarea&gt;</code> element</strong> — renders a semantic HTML textarea that is keyboard-focusable and announced correctly by screen readers.</li>
-<li><strong>Label association</strong> — when used inside <code>aegov-form-field</code> with <code>aegov-label</code>, the label is automatically linked via <code>for</code>/<code>id</code> pairing.</li>
-<li><strong>Character counter with <code>aria-live</code></strong> — the counter uses <code>aria-live=&quot;polite&quot;</code> and <code>aria-atomic=&quot;true&quot;</code> so screen readers announce count changes without interrupting the user.</li>
-<li><strong><code>aria-describedby</code></strong> — when a character counter is present, the textarea is linked to it via <code>aria-describedby</code> so assistive technologies can read the count.</li>
-<li><strong>Focus indicators</strong> — clearly visible focus rings using <code>inset-ring</code> styles ensure the textarea is identifiable during keyboard navigation.</li>
-<li><strong>Disabled state</strong> — adds <code>pointer-events: none</code>, <code>cursor-not-allowed</code>, and reduced opacity to make the textarea visually and functionally inert.</li>
-<li><strong>Pass-through <code>aria-*</code> attributes</strong> — any <code>aria-*</code> attribute placed on the host element is forwarded to the native textarea.</li>
-<li><strong>Copy button labelling</strong> — the copy button includes a dynamic <code>aria-label</code> that changes from &quot;Copy to clipboard&quot; to &quot;Copied&quot; on activation.</li>
+<li>Renders a native <code>&lt;textarea&gt;</code> for full keyboard, IME, and assistive-tech support.</li>
+<li><code>is-required</code> sets the native <code>required</code> attribute.</li>
+<li>When <code>maxlength</code> is set, the counter is given a stable id (<code>{fieldId}-counter</code>), is announced via <code>aria-live=&quot;polite&quot;</code>, and is referenced by <code>aria-describedby</code> on the textarea so screen readers report the limit and remaining characters.</li>
+<li>The copy button has an <code>aria-label</code> (<code>&quot;Copy to clipboard&quot;</code> / <code>&quot;Copied&quot;</code>) and <code>tabindex=&quot;-1&quot;</code> to avoid extra tab stops.</li>
 </ul>
-<h3>Developer Responsibilities</h3>
-<ol>
-<li><p><strong>Always pair with a label.</strong> Use <code>aegov-form-field</code> with <code>aegov-label</code> or provide an <code>aria-label</code> attribute if a visible label is not appropriate.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-textarea</span> <span class="hljs-attr">aria-label</span>=<span class="hljs-string">&quot;Additional notes&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-textarea</span>&gt;</span></code></pre></li>
-<li><p><strong>Provide error messages.</strong> When validation fails, add an error message below the textarea and link it with <code>aria-describedby</code> for screen reader users.</p>
-</li>
-<li><p><strong>Colour contrast.</strong> All built-in styles meet WCAG 2.1 AA contrast ratios. If you override colours using the <code>class</code> property, verify that the new colours maintain at least a <strong>4.5:1</strong> contrast ratio for text.</p>
-</li>
-<li><p><strong>Do not remove focus styles.</strong> The built-in focus ring is essential for keyboard navigation. Avoid overriding it with <code>outline: none</code>.</p>
-</li>
-</ol>
-<hr>
-<h2>Notes</h2>
+<h3>Developer responsibilities</h3>
 <ul>
-<li>The <code>aegov-textarea</code> component renders a native <code>&lt;textarea&gt;</code> element internally. It does <strong>not</strong> use Shadow DOM, so global styles can reach it.</li>
-<li>The <code>resize</code> property defaults to <code>vertical</code>. Set it to <code>auto</code> for auto-growing textareas that expand as the user types.</li>
-<li>When <code>resize=&quot;auto&quot;</code> is set, the textarea adjusts its height on every input event and whenever the <code>value</code> property changes programmatically.</li>
-<li>The <code>copyable</code> property only takes effect when <code>readonly</code> is also <code>true</code>. On editable textareas, the copy button is never rendered.</li>
-<li>The character counter appears only when <code>maxlength</code> is set. It does <strong>not</strong> prevent the user from typing beyond the limit by default (native HTML <code>maxlength</code> handles enforcement). The counter provides visual feedback and turns red when exceeded.</li>
-<li>The <code>fieldId</code> property is auto-generated if not provided. If you need a stable ID (e.g. for testing), pass <code>field-id=&quot;my-textarea&quot;</code> explicitly.</li>
-<li>The component emits <code>aegovTextareaInput</code> on every keystroke and <code>aegovTextareaChange</code> on blur. Use <code>aegovTextareaInput</code> for live validation or character counting, and <code>aegovTextareaChange</code> for final value submission.</li>
-<li>When used inside <code>aegov-form-field</code>, the parent component automatically links the <code>aegov-label</code> to the textarea via the <code>fieldId</code>. You do not need to set <code>for</code> manually on the label.</li>
-<li>Native attributes like <code>rows</code>, <code>cols</code>, <code>wrap</code>, <code>spellcheck</code>, <code>autofocus</code>, and <code>tabindex</code> are passed through to the inner textarea. Place them directly on the <code>aegov-textarea</code> element.</li>
+<li>Provide a visible label via <code>aegov-label</code> (inside <code>aegov-form-field</code>), a sibling <code>&lt;label for=&quot;...&quot;&gt;</code>, or <code>aria-label</code> / <code>aria-labelledby</code> on the host.</li>
+<li>When error or hint text is shown nearby, link it with <code>aria-describedby</code>.</li>
+</ul>
+<h3>Notes</h3>
+<ul>
+<li><code>is-copyable</code> only takes effect when <code>is-readonly=&quot;true&quot;</code>.</li>
+<li><code>resize=&quot;auto&quot;</code> disables the manual resize handle and auto-grows the textarea on input.</li>
+<li>The character counter still renders when <code>charCount</code> exceeds <code>maxlength</code>, with a visual <code>--over</code> modifier; the native <code>maxlength</code> attribute (if provided via pass-through) will additionally cap input at the browser level.</li>
 </ul>
 <!-- DOC:END -->
           </section>
       </article>
     </section>
   </main>
-  <footer class="mx-auto max-w-7xl sm:px-6 lg:px-8 mt-8 py-6 text-sm text-aeblack-500">
+  <footer class="aegov-container sm:px-6 lg:px-8 mt-8 py-6 text-sm text-aeblack-500">
     &copy; 2026 Telecommunication and Digital Regulatory Authority. All rights reserved.
   </footer>
 
