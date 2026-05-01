@@ -20,50 +20,159 @@
       <article class="col-span-5 grow">
           <section id="content-area" class="bg-whitely-50 p-6 rounded-md shadow-xl">
           <!-- DOC:START -->
-<h1>aegov-accordion</h1>
-<p>A vertical stack of collapsible content sections. Use it to progressively disclose related groups of information without consuming screen real estate. Compose <code>aegov-accordion</code> with one or more <code>aegov-accordion-item</code> children — the parent wires up shared icon style, sizing, first/last positioning, and the single-open vs. multi-open behavior.</p>
-<h2>Properties</h2>
-<h3>is-multiple</h3>
-<p>When <code>true</code>, multiple items can be open at the same time. By default only one item is open at a time and opening another closes the rest.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-accordion</span> <span class="hljs-attr">is-multiple</span>=<span class="hljs-string">&quot;true&quot;</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-accordion-item</span> <span class="hljs-attr">heading</span>=<span class="hljs-string">&quot;One&quot;</span>&gt;</span>A<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-accordion-item</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-accordion-item</span> <span class="hljs-attr">heading</span>=<span class="hljs-string">&quot;Two&quot;</span>&gt;</span>B<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-accordion-item</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-accordion</span>&gt;</span></code></pre><h3>default-open</h3>
-<p>Zero-based index of the item that should be open on initial render.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-accordion</span> <span class="hljs-attr">default-open</span>=<span class="hljs-string">&quot;1&quot;</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-accordion-item</span> <span class="hljs-attr">heading</span>=<span class="hljs-string">&quot;First&quot;</span>&gt;</span>A<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-accordion-item</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-accordion-item</span> <span class="hljs-attr">heading</span>=<span class="hljs-string">&quot;Second&quot;</span>&gt;</span>B<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-accordion-item</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-accordion</span>&gt;</span></code></pre><h3>icon</h3>
-<p>Toggle indicator style. <code>chevron</code> (default) rotates a chevron; <code>plus</code> swaps a plus for a minus.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-accordion</span> <span class="hljs-attr">icon</span>=<span class="hljs-string">&quot;plus&quot;</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-accordion-item</span> <span class="hljs-attr">heading</span>=<span class="hljs-string">&quot;One&quot;</span>&gt;</span>A<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-accordion-item</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-accordion</span>&gt;</span></code></pre><h3>is-bordered</h3>
-<p>Adds an outer border and rounded corners around the entire accordion.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-accordion</span> <span class="hljs-attr">is-bordered</span>=<span class="hljs-string">&quot;true&quot;</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-accordion-item</span> <span class="hljs-attr">heading</span>=<span class="hljs-string">&quot;Bordered&quot;</span>&gt;</span>A<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-accordion-item</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-accordion</span>&gt;</span></code></pre><h3>size</h3>
-<p>Sets the heading typography size. Accepts <code>sm</code>, <code>base</code>, or <code>lg</code>. Also supports a Tailwind-style responsive string.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-accordion</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;lg&quot;</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-accordion-item</span> <span class="hljs-attr">heading</span>=<span class="hljs-string">&quot;Larger heading&quot;</span>&gt;</span>A<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-accordion-item</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-accordion</span>&gt;</span></code></pre><h3>field-id</h3>
-<p>Auto-generated when omitted. Reflects to the accordion wrapper element&#39;s <code>id</code>.</p>
-<h3>Sub-component: aegov-accordion-item</h3>
-<p>Each item exposes its own props. <code>icon</code>, <code>size</code>, <code>is-first</code>, and <code>is-last</code> are written by the parent and should not be set manually.</p>
-<h4>heading</h4>
-<p>Text shown in the trigger when no <code>accordion-item-heading</code> slot is provided.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-accordion-item</span> <span class="hljs-attr">heading</span>=<span class="hljs-string">&quot;Privacy&quot;</span>&gt;</span>Body...<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-accordion-item</span>&gt;</span></code></pre><h4>is-disabled</h4>
-<p>Disables the trigger so the item cannot be opened or closed.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-accordion-item</span> <span class="hljs-attr">heading</span>=<span class="hljs-string">&quot;Coming soon&quot;</span> <span class="hljs-attr">is-disabled</span>=<span class="hljs-string">&quot;true&quot;</span>&gt;</span>...<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-accordion-item</span>&gt;</span></code></pre><h4>is-open</h4>
-<p>Reflects the current open state. The parent accordion mutates this value in response to user interaction.</p>
-<h2>Sizes</h2>
-<p><code>size</code> accepts a single token or a responsive string using Tailwind-style breakpoint prefixes (<code>xs</code>, <code>sm</code>, <code>md</code>, <code>lg</code>, <code>xl</code>, <code>2xl</code>).</p>
-<pre><code class="hljs language-html"><span class="hljs-comment">&lt;!-- Static --&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-accordion</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-accordion</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-accordion</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;base&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-accordion</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-accordion</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;lg&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-accordion</span>&gt;</span>
+<h1>Accordion</h1>
+<p class="text-lg text-aeblack-500 mb-8">An Accordion is a dynamic user interface component that helps effectively manage and organize content in an interactive, user-friendly manner. It enables content to be collapsed into separate sections that can be expanded upon user interaction. This design is especially beneficial in environments with limited screen space, enhancing readability and providing a clean, organized layout for information presentation.</p>
 
-<span class="hljs-comment">&lt;!-- Responsive --&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-accordion</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm md:base lg:lg&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-accordion</span>&gt;</span></code></pre><table>
+<h2>Introduction</h2>
+<p>The <code>aegov-accordion</code> component composes a parent wrapper with one or more <code>aegov-accordion-item</code> children. The parent owns shared configuration — icon style, heading size, single-open vs. multi-open behaviour, and first/last positioning — and propagates it to each item automatically. You only need to author content inside each item; everything else is wired up for you.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-accordion</span> <span class="hljs-attr">default-open</span>=<span class="hljs-string">&quot;0&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-accordion-item</span> <span class="hljs-attr">heading</span>=<span class="hljs-string">&quot;What is the UAE Design System?&quot;</span>&gt;</span>
+    A shared library of UI components built to a common visual and accessibility standard, used by UAE Government services to deliver consistent digital experiences.
+  <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-accordion-item</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-accordion-item</span> <span class="hljs-attr">heading</span>=<span class="hljs-string">&quot;Where can I report bugs?&quot;</span>&gt;</span>
+    File an issue on the project repository, or contact the design system team via your usual support channel.
+  <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-accordion-item</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-accordion-item</span> <span class="hljs-attr">heading</span>=<span class="hljs-string">&quot;Is the design system free to use?&quot;</span>&gt;</span>
+    Yes. The design system is open and available to all UAE federal and local government entities at no cost.
+  <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-accordion-item</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-accordion</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-accordion default-open="0">
+    <aegov-accordion-item heading="What is the UAE Design System?">
+      A shared library of UI components built to a common visual and accessibility standard, used by UAE Government services to deliver consistent digital experiences.
+    </aegov-accordion-item>
+    <aegov-accordion-item heading="Where can I report bugs?">
+      File an issue on the project repository, or contact the design system team via your usual support channel.
+    </aegov-accordion-item>
+    <aegov-accordion-item heading="Is the design system free to use?">
+      Yes. The design system is open and available to all UAE federal and local government entities at no cost.
+    </aegov-accordion-item>
+  </aegov-accordion>
+</div>
+
+<hr>
+<h2>Single item opened vs. Multiple item opened</h2>
+<p>By default the accordion behaves like a radio group — opening one item collapses the rest. Set <code>is-multiple=&quot;true&quot;</code> to allow any number of items to be expanded at once.</p>
+<h3>Single item (default)</h3>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-accordion</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-accordion-item</span> <span class="hljs-attr">heading</span>=<span class="hljs-string">&quot;Application requirements&quot;</span>&gt;</span>
+    Valid Emirates ID, recent utility bill, and proof of residence.
+  <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-accordion-item</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-accordion-item</span> <span class="hljs-attr">heading</span>=<span class="hljs-string">&quot;Processing times&quot;</span>&gt;</span>
+    Most applications are processed within three business days.
+  <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-accordion-item</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-accordion-item</span> <span class="hljs-attr">heading</span>=<span class="hljs-string">&quot;Fees and payment&quot;</span>&gt;</span>
+    Service fees are payable online through the secure payment gateway.
+  <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-accordion-item</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-accordion</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-accordion>
+    <aegov-accordion-item heading="Application requirements">
+      Valid Emirates ID, recent utility bill, and proof of residence.
+    </aegov-accordion-item>
+    <aegov-accordion-item heading="Processing times">
+      Most applications are processed within three business days.
+    </aegov-accordion-item>
+    <aegov-accordion-item heading="Fees and payment">
+      Service fees are payable online through the secure payment gateway.
+    </aegov-accordion-item>
+  </aegov-accordion>
+</div>
+
+<h3>Multiple items</h3>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-accordion</span> <span class="hljs-attr">is-multiple</span>=<span class="hljs-string">&quot;true&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-accordion-item</span> <span class="hljs-attr">heading</span>=<span class="hljs-string">&quot;Eligibility&quot;</span>&gt;</span>
+    Open to UAE nationals and residents aged 18 and over.
+  <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-accordion-item</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-accordion-item</span> <span class="hljs-attr">heading</span>=<span class="hljs-string">&quot;Documents&quot;</span>&gt;</span>
+    Upload a clear copy of both sides of your Emirates ID.
+  <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-accordion-item</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-accordion-item</span> <span class="hljs-attr">heading</span>=<span class="hljs-string">&quot;Confirmation&quot;</span>&gt;</span>
+    A confirmation message is sent by SMS once your request is received.
+  <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-accordion-item</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-accordion</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-accordion is-multiple="true">
+    <aegov-accordion-item heading="Eligibility">
+      Open to UAE nationals and residents aged 18 and over.
+    </aegov-accordion-item>
+    <aegov-accordion-item heading="Documents">
+      Upload a clear copy of both sides of your Emirates ID.
+    </aegov-accordion-item>
+    <aegov-accordion-item heading="Confirmation">
+      A confirmation message is sent by SMS once your request is received.
+    </aegov-accordion-item>
+  </aegov-accordion>
+</div>
+
+<hr>
+<h2>Default Open Item</h2>
+<p>Use <code>default-open</code> with a zero-based index to expand a specific item on initial render. This is useful for highlighting the most important question in an FAQ.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-accordion</span> <span class="hljs-attr">default-open</span>=<span class="hljs-string">&quot;1&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-accordion-item</span> <span class="hljs-attr">heading</span>=<span class="hljs-string">&quot;Section A&quot;</span>&gt;</span>
+    First section content.
+  <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-accordion-item</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-accordion-item</span> <span class="hljs-attr">heading</span>=<span class="hljs-string">&quot;Section B (open by default)&quot;</span>&gt;</span>
+    Second section content — open on initial render.
+  <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-accordion-item</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-accordion-item</span> <span class="hljs-attr">heading</span>=<span class="hljs-string">&quot;Section C&quot;</span>&gt;</span>
+    Third section content.
+  <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-accordion-item</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-accordion</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-accordion default-open="1">
+    <aegov-accordion-item heading="Section A">
+      First section content.
+    </aegov-accordion-item>
+    <aegov-accordion-item heading="Section B (open by default)">
+      Second section content — open on initial render.
+    </aegov-accordion-item>
+    <aegov-accordion-item heading="Section C">
+      Third section content.
+    </aegov-accordion-item>
+  </aegov-accordion>
+</div>
+
+<hr>
+<h2>Toggle Icon</h2>
+<p>The <code>icon</code> property selects the visual indicator next to each heading. <code>chevron</code> (default) rotates downward as the item expands; <code>plus</code> swaps to a minus sign when open.</p>
+<h3>Chevron (default)</h3>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-accordion</span> <span class="hljs-attr">icon</span>=<span class="hljs-string">&quot;chevron&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-accordion-item</span> <span class="hljs-attr">heading</span>=<span class="hljs-string">&quot;Privacy policy&quot;</span>&gt;</span>…<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-accordion-item</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-accordion-item</span> <span class="hljs-attr">heading</span>=<span class="hljs-string">&quot;Terms of service&quot;</span>&gt;</span>…<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-accordion-item</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-accordion</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-accordion icon="chevron">
+    <aegov-accordion-item heading="Privacy policy">We collect only the data necessary to provide the service.</aegov-accordion-item>
+    <aegov-accordion-item heading="Terms of service">By using this service you agree to the terms set out in the official agreement.</aegov-accordion-item>
+  </aegov-accordion>
+</div>
+
+<h3>Plus / minus</h3>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-accordion</span> <span class="hljs-attr">icon</span>=<span class="hljs-string">&quot;plus&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-accordion-item</span> <span class="hljs-attr">heading</span>=<span class="hljs-string">&quot;Privacy policy&quot;</span>&gt;</span>…<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-accordion-item</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-accordion-item</span> <span class="hljs-attr">heading</span>=<span class="hljs-string">&quot;Terms of service&quot;</span>&gt;</span>…<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-accordion-item</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-accordion</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-accordion icon="plus">
+    <aegov-accordion-item heading="Privacy policy">We collect only the data necessary to provide the service.</aegov-accordion-item>
+    <aegov-accordion-item heading="Terms of service">By using this service you agree to the terms set out in the official agreement.</aegov-accordion-item>
+  </aegov-accordion>
+</div>
+
+<hr>
+<h2>Bordered Container</h2>
+<p>Set <code>is-bordered=&quot;true&quot;</code> to wrap the entire accordion in a rounded outline. Use this when the accordion sits on a page background that needs a visible boundary; omit it when the surrounding card already provides a container.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-accordion</span> <span class="hljs-attr">is-bordered</span>=<span class="hljs-string">&quot;true&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-accordion-item</span> <span class="hljs-attr">heading</span>=<span class="hljs-string">&quot;Bordered item one&quot;</span>&gt;</span>First item content.<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-accordion-item</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-accordion-item</span> <span class="hljs-attr">heading</span>=<span class="hljs-string">&quot;Bordered item two&quot;</span>&gt;</span>Second item content.<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-accordion-item</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-accordion-item</span> <span class="hljs-attr">heading</span>=<span class="hljs-string">&quot;Bordered item three&quot;</span>&gt;</span>Third item content.<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-accordion-item</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-accordion</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-accordion is-bordered="true">
+    <aegov-accordion-item heading="Bordered item one">First item content.</aegov-accordion-item>
+    <aegov-accordion-item heading="Bordered item two">Second item content.</aegov-accordion-item>
+    <aegov-accordion-item heading="Bordered item three">Third item content.</aegov-accordion-item>
+  </aegov-accordion>
+</div>
+
+<hr>
+<h2>Sizes</h2>
+<p>The <code>size</code> property sets the heading typography. Three tokens are available: <code>sm</code>, <code>base</code> (default), and <code>lg</code>. The body content keeps its inherited size — only the trigger heading scales.</p>
+<table>
 <thead>
 <tr>
 <th>Token</th>
@@ -72,44 +181,247 @@
 </thead>
 <tbody><tr>
 <td><code>sm</code></td>
-<td>14px</td>
+<td>14 px</td>
 </tr>
 <tr>
 <td><code>base</code></td>
-<td>16px (default)</td>
+<td>16 px (default)</td>
 </tr>
 <tr>
 <td><code>lg</code></td>
-<td>18px</td>
+<td>18 px</td>
 </tr>
 </tbody></table>
-<h2>Examples</h2>
-<h3>Basic FAQ</h3>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-accordion</span> <span class="hljs-attr">default-open</span>=<span class="hljs-string">&quot;0&quot;</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-accordion-item</span> <span class="hljs-attr">heading</span>=<span class="hljs-string">&quot;What is the design system?&quot;</span>&gt;</span>
-    A shared library of UAE Government UI components.
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-accordion</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm&quot;</span>&gt;</span>…<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-accordion</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-accordion</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;base&quot;</span>&gt;</span>…<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-accordion</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-accordion</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;lg&quot;</span>&gt;</span>…<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-accordion</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-accordion size="sm">
+    <aegov-accordion-item heading="Small heading (14 px)">Compact size suits dense administrative interfaces.</aegov-accordion-item>
+    <aegov-accordion-item heading="Another small heading">Compact size suits dense administrative interfaces.</aegov-accordion-item>
+  </aegov-accordion>
+  <aegov-accordion size="base">
+    <aegov-accordion-item heading="Base heading (16 px)">The default size, suitable for most page contexts.</aegov-accordion-item>
+    <aegov-accordion-item heading="Another base heading">The default size, suitable for most page contexts.</aegov-accordion-item>
+  </aegov-accordion>
+  <aegov-accordion size="lg">
+    <aegov-accordion-item heading="Large heading (18 px)">Large size works well as a primary FAQ on a landing page.</aegov-accordion-item>
+    <aegov-accordion-item heading="Another large heading">Large size works well as a primary FAQ on a landing page.</aegov-accordion-item>
+  </aegov-accordion>
+</div>
+
+<h3>Responsive sizes</h3>
+<p><code>size</code> also accepts a Tailwind-style responsive string with the breakpoint prefixes <code>xs</code>, <code>sm</code>, <code>md</code>, <code>lg</code>, <code>xl</code>, and <code>2xl</code>. Each segment overrides smaller breakpoints, so the example below is <code>sm</code> on phones, <code>base</code> from the <code>md</code> breakpoint up, and <code>lg</code> from <code>xl</code> up.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-accordion</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm md:base xl:lg&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-accordion-item</span> <span class="hljs-attr">heading</span>=<span class="hljs-string">&quot;Resizes with the viewport&quot;</span>&gt;</span>
+    Resize your browser to see the heading scale.
   <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-accordion-item</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-accordion-item</span> <span class="hljs-attr">heading</span>=<span class="hljs-string">&quot;Where can I report bugs?&quot;</span>&gt;</span>
-    File an issue on the project repository.
-  <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-accordion-item</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-accordion</span>&gt;</span></code></pre><h3>Multi-open with plus icon</h3>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-accordion</span> <span class="hljs-attr">is-multiple</span>=<span class="hljs-string">&quot;true&quot;</span> <span class="hljs-attr">icon</span>=<span class="hljs-string">&quot;plus&quot;</span> <span class="hljs-attr">is-bordered</span>=<span class="hljs-string">&quot;true&quot;</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-accordion-item</span> <span class="hljs-attr">heading</span>=<span class="hljs-string">&quot;Section A&quot;</span>&gt;</span>A...<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-accordion-item</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-accordion-item</span> <span class="hljs-attr">heading</span>=<span class="hljs-string">&quot;Section B&quot;</span>&gt;</span>B...<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-accordion-item</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-accordion</span>&gt;</span></code></pre><h3>Custom heading slot</h3>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-accordion</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-accordion size="sm md:base xl:lg">
+    <aegov-accordion-item heading="Resizes with the viewport">
+      Resize your browser to see the heading scale across the <code>sm</code>, <code>md</code>, and <code>xl</code> breakpoints.
+    </aegov-accordion-item>
+    <aegov-accordion-item heading="Same item at every size">
+      Body content stays the same — only the trigger heading scales.
+    </aegov-accordion-item>
+  </aegov-accordion>
+</div>
+
+<hr>
+<h2>Custom Heading Slot</h2>
+<p>When the trigger needs richer markup — formatting, an inline icon, a status badge — use the <code>accordion-item-heading</code> slot instead of the <code>heading</code> property. The slot replaces the plain text heading entirely.</p>
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-accordion</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-accordion-item</span>&gt;</span>
     <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;accordion-item-heading&quot;</span>&gt;</span>
-      <span class="hljs-tag">&lt;<span class="hljs-name">strong</span>&gt;</span>Custom<span class="hljs-tag">&lt;/<span class="hljs-name">strong</span>&gt;</span> heading content
+      <span class="hljs-tag">&lt;<span class="hljs-name">strong</span>&gt;</span>Step 1.<span class="hljs-tag">&lt;/<span class="hljs-name">strong</span>&gt;</span> Verify your identity
+      <span class="hljs-tag">&lt;<span class="hljs-name">aegov-badge</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;success&quot;</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm&quot;</span>&gt;</span>Required<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-badge</span>&gt;</span>
     <span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
-    Body content...
+    Use your Emirates ID to confirm your identity before proceeding.
   <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-accordion-item</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-accordion</span>&gt;</span></code></pre><h3>Disabled item</h3>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-accordion-item</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;accordion-item-heading&quot;</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">strong</span>&gt;</span>Step 2.<span class="hljs-tag">&lt;/<span class="hljs-name">strong</span>&gt;</span> Submit your documents
+    <span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
+    Upload the supporting documents listed in the application form.
+  <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-accordion-item</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-accordion</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-accordion>
+    <aegov-accordion-item>
+      <span slot="accordion-item-heading">
+        <strong>Step 1.</strong> Verify your identity
+        <aegov-badge color="aegreen" appearance="soft" size="sm">Required</aegov-badge>
+      </span>
+      Use your Emirates ID to confirm your identity before proceeding.
+    </aegov-accordion-item>
+    <aegov-accordion-item>
+      <span slot="accordion-item-heading">
+        <strong>Step 2.</strong> Submit your documents
+      </span>
+      Upload the supporting documents listed in the application form.
+    </aegov-accordion-item>
+  </aegov-accordion>
+</div>
+
+<hr>
+<h2>Disabled Items</h2>
+<p>Set <code>is-disabled=&quot;true&quot;</code> on an individual item to prevent it from being opened. The trigger renders as visually muted and is removed from the keyboard tab order.</p>
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-accordion</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-accordion-item</span> <span class="hljs-attr">heading</span>=<span class="hljs-string">&quot;Available&quot;</span>&gt;</span>A<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-accordion-item</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-accordion-item</span> <span class="hljs-attr">heading</span>=<span class="hljs-string">&quot;Disabled&quot;</span> <span class="hljs-attr">is-disabled</span>=<span class="hljs-string">&quot;true&quot;</span>&gt;</span>B<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-accordion-item</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-accordion</span>&gt;</span></code></pre><h2>RTL Behavior</h2>
-<p>The accordion lays out vertically and is direction-agnostic. Headings and triggers respect the document direction, and the chevron/plus icon position flips automatically when the surrounding context is <code>dir=&quot;rtl&quot;</code>. Content slot rendering uses logical properties so padding, borders, and animation behave correctly in both directions.</p>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-accordion-item</span> <span class="hljs-attr">heading</span>=<span class="hljs-string">&quot;Active service&quot;</span>&gt;</span>
+    This service is currently accepting applications.
+  <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-accordion-item</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-accordion-item</span> <span class="hljs-attr">heading</span>=<span class="hljs-string">&quot;Coming soon&quot;</span> <span class="hljs-attr">is-disabled</span>=<span class="hljs-string">&quot;true&quot;</span>&gt;</span>
+    This section is not yet available.
+  <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-accordion-item</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-accordion-item</span> <span class="hljs-attr">heading</span>=<span class="hljs-string">&quot;Active service&quot;</span>&gt;</span>
+    This service is currently accepting applications.
+  <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-accordion-item</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-accordion</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-accordion>
+    <aegov-accordion-item heading="Active service">
+      This service is currently accepting applications.
+    </aegov-accordion-item>
+    <aegov-accordion-item heading="Coming soon" is-disabled="true">
+      This section is not yet available.
+    </aegov-accordion-item>
+    <aegov-accordion-item heading="Active service">
+      This service is currently accepting applications.
+    </aegov-accordion-item>
+  </aegov-accordion>
+</div>
+
+<hr>
+<h2>Combined Example</h2>
+<p>This example combines <code>is-multiple</code>, <code>icon=&quot;plus&quot;</code>, <code>is-bordered</code>, and <code>default-open</code> to build a bordered FAQ card that lets users open several questions at once.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-accordion</span> <span class="hljs-attr">is-multiple</span>=<span class="hljs-string">&quot;true&quot;</span> <span class="hljs-attr">icon</span>=<span class="hljs-string">&quot;plus&quot;</span> <span class="hljs-attr">is-bordered</span>=<span class="hljs-string">&quot;true&quot;</span> <span class="hljs-attr">default-open</span>=<span class="hljs-string">&quot;0&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-accordion-item</span> <span class="hljs-attr">heading</span>=<span class="hljs-string">&quot;How do I create an account?&quot;</span>&gt;</span>
+    Visit the registration page and verify your Emirates ID. Account activation is instant.
+  <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-accordion-item</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-accordion-item</span> <span class="hljs-attr">heading</span>=<span class="hljs-string">&quot;How do I reset my password?&quot;</span>&gt;</span>
+    Use the <span class="hljs-symbol">&amp;ldquo;</span>Forgot password<span class="hljs-symbol">&amp;rdquo;</span> link on the sign-in page. A reset link is sent to your registered email.
+  <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-accordion-item</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-accordion-item</span> <span class="hljs-attr">heading</span>=<span class="hljs-string">&quot;How do I update my contact information?&quot;</span>&gt;</span>
+    Sign in, open your profile, and edit your phone number or email under <span class="hljs-tag">&lt;<span class="hljs-name">em</span>&gt;</span>Personal details<span class="hljs-tag">&lt;/<span class="hljs-name">em</span>&gt;</span>.
+  <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-accordion-item</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-accordion-item</span> <span class="hljs-attr">heading</span>=<span class="hljs-string">&quot;How do I delete my account?&quot;</span>&gt;</span>
+    Contact support — account deletion requires identity verification and cannot be reversed.
+  <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-accordion-item</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-accordion</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-accordion is-multiple="true" icon="plus" is-bordered="true" default-open="0">
+    <aegov-accordion-item heading="How do I create an account?">
+      Visit the registration page and verify your Emirates ID. Account activation is instant.
+    </aegov-accordion-item>
+    <aegov-accordion-item heading="How do I reset my password?">
+      Use the &ldquo;Forgot password&rdquo; link on the sign-in page. A reset link is sent to your registered email.
+    </aegov-accordion-item>
+    <aegov-accordion-item heading="How do I update my contact information?">
+      Sign in, open your profile, and edit your phone number or email under <em>Personal details</em>.
+    </aegov-accordion-item>
+    <aegov-accordion-item heading="How do I delete my account?">
+      Contact support — account deletion requires identity verification and cannot be reversed.
+    </aegov-accordion-item>
+  </aegov-accordion>
+</div>
+
+<hr>
+<h2>Nested accordion</h2>
+<p>A nested accordion is the ablity to place a single accordion element inside the item of a parent accordion.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-accordion</span> <span class="hljs-attr">is-bordered</span>=<span class="hljs-string">&quot;true&quot;</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-accordion-item</span> <span class="hljs-attr">heading</span>=<span class="hljs-string">&quot;How can I get a passport&quot;</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>To receive a passport, you must follow the steps mentioned here<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">aegov-accordion</span> <span class="hljs-attr">icon</span>=<span class="hljs-string">&quot;plus&quot;</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">aegov-accordion-item</span> <span class="hljs-attr">heading</span>=<span class="hljs-string">&quot;Privacy policy&quot;</span>&gt;</span>We collect only the data necessary to provide the service.<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-accordion-item</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">aegov-accordion-item</span> <span class="hljs-attr">heading</span>=<span class="hljs-string">&quot;Terms of service&quot;</span>&gt;</span>By using this service you agree to the terms set out in the official agreement.<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-accordion-item</span>&gt;</span>
+      <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-accordion</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-accordion-item</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-accordion-item</span> <span class="hljs-attr">heading</span>=<span class="hljs-string">&quot;Documents required&quot;</span>&gt;</span>Second item content.<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-accordion-item</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-accordion-item</span> <span class="hljs-attr">heading</span>=<span class="hljs-string">&quot;Appointment booking&quot;</span>&gt;</span>Third item content.<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-accordion-item</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-accordion</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-accordion is-bordered="true">
+    <aegov-accordion-item heading="How can I get a passport">
+      <p>To receive a passport, you must follow the steps mentioned here</p>
+      <aegov-accordion icon="plus">
+        <aegov-accordion-item heading="Privacy policy">We collect only the data necessary to provide the service.</aegov-accordion-item>
+        <aegov-accordion-item heading="Terms of service">By using this service you agree to the terms set out in the official agreement.</aegov-accordion-item>
+      </aegov-accordion>
+    </aegov-accordion-item>
+    <aegov-accordion-item heading="Documents required">Second item content.</aegov-accordion-item>
+    <aegov-accordion-item heading="Appointment booking">Third item content.</aegov-accordion-item>
+  </aegov-accordion>
+</div>
+
+<hr>
+<h2>Rich text enabled</h2>
+<p>The <code>aegov-accordion-item</code> is a slot that will accept HTML directly as well. you may therefore add text that is styled as a list, paragraph or more.</p>
+<aegov-accordion>
+  <aegov-accordion-item heading="Specifications">
+    <p>To repair the Kirby, you need the following items that mean specefications</p>
+    <ul>
+      <li>A 55 mm plugable chain</li>
+      <li>Original cleaning brush</li>
+      <li>60 ml of cleaning liquid</li>
+    </ul>
+    <p>It is essentially to have all of the above placed in the correct container before proceeding with the repair.</p>
+  </aegov-accordion-item>
+  <aegov-accordion-item heading="Hardware">
+    <p class="mb-6">Obtain the hardware from an authorised dealership only. Since you are located in Dubai, United Arab Emirates, here is the nearest dealship to you.</p>
+    <div class="flex items-start justify-start gap-8 pt-8">
+      <div class="bg-aeblack-500 w-60 h-48">&nbsp;</div>
+      <div>
+        <h6>Headoffice locaton</h6>
+        <p>17A Street, Al Habtoor Building<br>Umm Ramool,<br>Dubai, United Arab Emirates</p>
+      </div>
+    </div>
+  </aegov-accordion-item>
+  <aegov-accordion-item heading="Software">
+    <p>All software must be downloaded form our portal</p>
+  </aegov-accordion-item>
+</aegov-accordion>
+
+
+<hr>
+<h2>RTL Support</h2>
+<p>The accordion is direction-agnostic. When the document or any ancestor is set to <code>dir=&quot;rtl&quot;</code> the layout, heading alignment, and toggle icon position mirror automatically. The component uses CSS logical properties for padding, borders, and the expand animation, so no additional configuration is required.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">dir</span>=<span class="hljs-string">&quot;rtl&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-accordion</span> <span class="hljs-attr">is-bordered</span>=<span class="hljs-string">&quot;true&quot;</span> <span class="hljs-attr">default-open</span>=<span class="hljs-string">&quot;0&quot;</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-accordion-item</span> <span class="hljs-attr">heading</span>=<span class="hljs-string">&quot;ما هو نظام التصميم الإماراتي؟&quot;</span>&gt;</span>
+      مكتبة مشتركة من مكوّنات واجهة المستخدم مبنية وفق معيار بصري وإمكانية وصول موحّدة، تستخدمها الجهات الحكومية في دولة الإمارات لتقديم تجربة رقمية متّسقة.
+    <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-accordion-item</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-accordion-item</span> <span class="hljs-attr">heading</span>=<span class="hljs-string">&quot;كيف يمكنني الإبلاغ عن خطأ؟&quot;</span>&gt;</span>
+      افتح طلب دعم على مستودع المشروع، أو تواصل مع فريق نظام التصميم عبر قنوات الدعم المعتمدة لديك.
+    <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-accordion-item</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-accordion-item</span> <span class="hljs-attr">heading</span>=<span class="hljs-string">&quot;هل النظام متاح مجاناً؟&quot;</span>&gt;</span>
+      نعم. نظام التصميم متاح مجاناً لجميع الجهات الحكومية الاتحادية والمحلية في دولة الإمارات.
+    <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-accordion-item</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-accordion</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre><div dir="rtl" class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-accordion is-bordered="true" default-open="0">
+    <aegov-accordion-item heading="ما هو نظام التصميم الإماراتي؟">
+      مكتبة مشتركة من مكوّنات واجهة المستخدم مبنية وفق معيار بصري وإمكانية وصول موحّدة، تستخدمها الجهات الحكومية في دولة الإمارات لتقديم تجربة رقمية متّسقة.
+    </aegov-accordion-item>
+    <aegov-accordion-item heading="كيف يمكنني الإبلاغ عن خطأ؟">
+      افتح طلب دعم على مستودع المشروع، أو تواصل مع فريق نظام التصميم عبر قنوات الدعم المعتمدة لديك.
+    </aegov-accordion-item>
+    <aegov-accordion-item heading="هل النظام متاح مجاناً؟">
+      نعم. نظام التصميم متاح مجاناً لجميع الجهات الحكومية الاتحادية والمحلية في دولة الإمارات.
+    </aegov-accordion-item>
+  </aegov-accordion>
+</div>
+
+<p>The same accordion with the plus icon and multi-open behaviour, in RTL:</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">dir</span>=<span class="hljs-string">&quot;rtl&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-accordion</span> <span class="hljs-attr">is-multiple</span>=<span class="hljs-string">&quot;true&quot;</span> <span class="hljs-attr">icon</span>=<span class="hljs-string">&quot;plus&quot;</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-accordion-item</span> <span class="hljs-attr">heading</span>=<span class="hljs-string">&quot;الفقرة الأولى&quot;</span>&gt;</span>المحتوى الأول.<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-accordion-item</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-accordion-item</span> <span class="hljs-attr">heading</span>=<span class="hljs-string">&quot;الفقرة الثانية&quot;</span>&gt;</span>المحتوى الثاني.<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-accordion-item</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-accordion-item</span> <span class="hljs-attr">heading</span>=<span class="hljs-string">&quot;الفقرة الثالثة&quot;</span>&gt;</span>المحتوى الثالث.<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-accordion-item</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-accordion</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre><div dir="rtl" class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-accordion is-multiple="true" icon="plus">
+    <aegov-accordion-item heading="الفقرة الأولى">المحتوى الأول.</aegov-accordion-item>
+    <aegov-accordion-item heading="الفقرة الثانية">المحتوى الثاني.</aegov-accordion-item>
+    <aegov-accordion-item heading="الفقرة الثالثة">المحتوى الثالث.</aegov-accordion-item>
+  </aegov-accordion>
+</div>
+
+<hr>
 <h2>API Reference</h2>
 <h3>aegov-accordion Properties</h3>
 <table>
@@ -125,42 +437,42 @@
 <tbody><tr>
 <td><code>fieldId</code></td>
 <td><code>field-id</code></td>
-<td>DOM <code>id</code> for the accordion wrapper. Auto-generated if omitted</td>
+<td>DOM <code>id</code> for the accordion wrapper element. Auto-generated if omitted.</td>
 <td><code>string</code></td>
-<td>generated</td>
+<td><em>generated</em></td>
 </tr>
 <tr>
 <td><code>isMultiple</code></td>
 <td><code>is-multiple</code></td>
-<td>Allow multiple items open at once</td>
+<td>When <code>true</code>, multiple items can be open at the same time.</td>
 <td><code>boolean</code></td>
 <td><code>false</code></td>
 </tr>
 <tr>
 <td><code>defaultOpen</code></td>
 <td><code>default-open</code></td>
-<td>Index of item to open on initial render</td>
+<td>Zero-based index of the item to open on initial render.</td>
 <td><code>number</code></td>
 <td><code>undefined</code></td>
 </tr>
 <tr>
 <td><code>icon</code></td>
 <td><code>icon</code></td>
-<td>Toggle indicator style</td>
+<td>Toggle indicator style — <code>chevron</code> rotates, <code>plus</code> swaps to a minus.</td>
 <td><code>&#39;chevron&#39; | &#39;plus&#39;</code></td>
 <td><code>&#39;chevron&#39;</code></td>
 </tr>
 <tr>
 <td><code>isBordered</code></td>
 <td><code>is-bordered</code></td>
-<td>Add an outer border around the accordion</td>
+<td>Adds an outer border and rounded corners around the entire accordion.</td>
 <td><code>boolean</code></td>
 <td><code>false</code></td>
 </tr>
 <tr>
 <td><code>size</code></td>
 <td><code>size</code></td>
-<td>Heading size token or responsive string</td>
+<td>Heading typography size. Accepts a single token or a responsive string.</td>
 <td><code>string</code></td>
 <td><code>&#39;base&#39;</code></td>
 </tr>
@@ -179,55 +491,81 @@
 <tbody><tr>
 <td><code>heading</code></td>
 <td><code>heading</code></td>
-<td>Trigger text (used if no heading slot)</td>
+<td>Trigger text. Ignored when the <code>accordion-item-heading</code> slot is used.</td>
 <td><code>string</code></td>
 <td><code>undefined</code></td>
 </tr>
 <tr>
 <td><code>isOpen</code></td>
 <td><code>is-open</code></td>
-<td>Whether the item is currently expanded (managed)</td>
+<td>Reflects whether the item is currently expanded. Managed by the parent.</td>
 <td><code>boolean</code></td>
 <td><code>false</code></td>
 </tr>
 <tr>
 <td><code>isDisabled</code></td>
 <td><code>is-disabled</code></td>
-<td>Disable user interaction with the trigger</td>
+<td>Disables the trigger so the item cannot be opened or closed.</td>
 <td><code>boolean</code></td>
 <td><code>false</code></td>
 </tr>
 <tr>
 <td><code>icon</code></td>
 <td><code>icon</code></td>
-<td>(managed by parent) toggle indicator style</td>
+<td><em>Set by the parent.</em> Toggle indicator style.</td>
 <td><code>&#39;chevron&#39; | &#39;plus&#39;</code></td>
 <td><code>&#39;chevron&#39;</code></td>
 </tr>
 <tr>
 <td><code>isFirst</code></td>
 <td><code>is-first</code></td>
-<td>(managed by parent) whether this is the first item</td>
+<td><em>Set by the parent.</em> Whether this is the first item in the group.</td>
 <td><code>boolean</code></td>
 <td><code>false</code></td>
 </tr>
 <tr>
 <td><code>isLast</code></td>
 <td><code>is-last</code></td>
-<td>(managed by parent) whether this is the last item</td>
+<td><em>Set by the parent.</em> Whether this is the last item in the group.</td>
 <td><code>boolean</code></td>
 <td><code>false</code></td>
 </tr>
 <tr>
 <td><code>size</code></td>
 <td><code>size</code></td>
-<td>(managed by parent) heading size token</td>
+<td><em>Set by the parent.</em> Heading typography size.</td>
 <td><code>&#39;sm&#39; | &#39;base&#39; | &#39;lg&#39;</code></td>
 <td><code>&#39;base&#39;</code></td>
 </tr>
 </tbody></table>
-<h3>Pass-through Attributes</h3>
-<p><code>aria-*</code> and <code>data-*</code> attributes are not forwarded by <code>aegov-accordion</code>. Place them directly on the host element if needed; native HTML attributes still apply.</p>
+<blockquote>
+<p>Properties marked <em>Set by the parent</em> are written automatically by <code>aegov-accordion</code>. Setting them on an item directly will be overridden on the next sync.</p>
+</blockquote>
+<h3>Slots</h3>
+<table>
+<thead>
+<tr>
+<th>Component</th>
+<th>Slot</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>aegov-accordion</code></td>
+<td><em>(default)</em></td>
+<td>Place one or more <code>aegov-accordion-item</code> children here.</td>
+</tr>
+<tr>
+<td><code>aegov-accordion-item</code></td>
+<td><code>accordion-item-heading</code></td>
+<td>Custom heading content. Overrides the <code>heading</code> property when supplied.</td>
+</tr>
+<tr>
+<td><code>aegov-accordion-item</code></td>
+<td><em>(default)</em></td>
+<td>Body content shown when the item is expanded.</td>
+</tr>
+</tbody></table>
 <h3>Events</h3>
 <table>
 <thead>
@@ -242,56 +580,64 @@
 <td><code>aegovAccordionItemToggle</code></td>
 <td><code>aegov-accordion-item</code></td>
 <td><code>{ open: boolean }</code></td>
-<td>Fired when an item requests open/close. The parent intercepts this event and updates <code>isOpen</code> accordingly.</td>
+<td>Fired when an item requests open or close. The parent intercepts this event and updates <code>isOpen</code>.</td>
 </tr>
 </tbody></table>
-<h3>Event listening example</h3>
+<h4>Listening for toggle events</h4>
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-accordion</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;faq&quot;</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-accordion-item</span> <span class="hljs-attr">heading</span>=<span class="hljs-string">&quot;A&quot;</span>&gt;</span>A<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-accordion-item</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-accordion-item</span> <span class="hljs-attr">heading</span>=<span class="hljs-string">&quot;B&quot;</span>&gt;</span>B<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-accordion-item</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-accordion</span>&gt;</span>
 
 <span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript">
   <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">querySelector</span>(<span class="hljs-string">&#x27;#faq&#x27;</span>).<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;aegovAccordionItemToggle&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">e</span>) =&gt;</span> {
     <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;Item toggle requested, open =&#x27;</span>, e.<span class="hljs-property">detail</span>.<span class="hljs-property">open</span>);
   });
-</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre><h3>Slots</h3>
+</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre><h3>Pass-through Attributes</h3>
+<p>The accordion does not forward any attributes to inner elements — set attributes directly on the host element where they are needed.</p>
 <table>
 <thead>
 <tr>
-<th>Component</th>
-<th>Slot name</th>
-<th>Description</th>
+<th>Attribute group</th>
+<th>Forwarded?</th>
+<th>Where to apply</th>
 </tr>
 </thead>
 <tbody><tr>
-<td><code>aegov-accordion</code></td>
-<td>(default)</td>
-<td>Place <code>aegov-accordion-item</code> children here</td>
+<td><code>aria-*</code></td>
+<td>No</td>
+<td>Apply directly to <code>&lt;aegov-accordion&gt;</code> or <code>&lt;aegov-accordion-item&gt;</code>.</td>
 </tr>
 <tr>
-<td><code>aegov-accordion-item</code></td>
-<td><code>accordion-item-heading</code></td>
-<td>Custom heading content (overrides <code>heading</code>)</td>
+<td><code>data-*</code></td>
+<td>No</td>
+<td>Apply directly to <code>&lt;aegov-accordion&gt;</code> or <code>&lt;aegov-accordion-item&gt;</code>.</td>
 </tr>
 <tr>
-<td><code>aegov-accordion-item</code></td>
-<td>(default)</td>
-<td>Body content shown when expanded</td>
+<td><code>id</code></td>
+<td>n/a</td>
+<td>Use <code>field-id</code> on <code>&lt;aegov-accordion&gt;</code>. The trigger and panel use generated IDs.</td>
+</tr>
+<tr>
+<td><code>class</code>, <code>style</code></td>
+<td>Allowed</td>
+<td>Applied to the host element.</td>
 </tr>
 </tbody></table>
+<hr>
 <h2>Accessibility</h2>
-<h3>Built-in</h3>
+<h3>Built-in behaviour</h3>
 <ul>
-<li>Each trigger is a real <code>&lt;button&gt;</code> with <code>aria-expanded</code> reflecting the open state and <code>aria-controls</code> linking to the panel.</li>
-<li>Each panel uses <code>role=&quot;region&quot;</code> and <code>aria-labelledby</code> pointing at its trigger so screen readers announce the relationship.</li>
+<li>Each trigger is a real <code>&lt;button&gt;</code> with <code>aria-expanded</code> reflecting the open state and <code>aria-controls</code> linked to its panel.</li>
+<li>Each panel uses <code>role=&quot;region&quot;</code> and <code>aria-labelledby</code> pointing at its trigger so screen readers announce the heading–content relationship.</li>
 <li><code>Enter</code> and <code>Space</code> toggle the focused item.</li>
-<li>Disabled items set both <code>disabled</code> and skip toggle emission.</li>
+<li>Disabled items set the native <code>disabled</code> attribute and do not emit toggle events.</li>
 </ul>
 <h3>Developer responsibilities</h3>
 <ul>
-<li>Provide a meaningful <code>heading</code> (or heading slot) on every item so the trigger reads as more than just &quot;button&quot;.</li>
-<li>Avoid placing focusable controls inside a collapsed item that should remain off the tab order — use <code>is-disabled</code> or omit them when collapsed.</li>
-<li>When using <code>default-open</code>, ensure the index points at a real child item.</li>
+<li>Provide a meaningful <code>heading</code> (or heading slot) on every item — without it the trigger reads as just &ldquo;button&rdquo;.</li>
+<li>Avoid placing focusable controls inside collapsed panels that should remain off the tab order. Either disable the item or remove the controls when collapsed.</li>
+<li>When using <code>default-open</code>, ensure the index points to a real child item.</li>
 </ul>
 <h3>Keyboard support</h3>
 <table>
@@ -303,21 +649,19 @@
 </thead>
 <tbody><tr>
 <td><code>Enter</code>, <code>Space</code></td>
-<td>Toggle the focused accordion item</td>
+<td>Toggle the focused accordion item.</td>
 </tr>
 <tr>
 <td><code>Tab</code></td>
-<td>Move focus to the next focusable element</td>
+<td>Move focus to the next focusable element.</td>
 </tr>
 <tr>
-<td><code>Shift+Tab</code></td>
-<td>Move focus to the previous focusable element</td>
+<td><code>Shift + Tab</code></td>
+<td>Move focus to the previous focusable element.</td>
 </tr>
 </tbody></table>
-<h3>Notes</h3>
-<ul>
-<li>The accordion does not currently provide arrow-key navigation between item triggers; users move between triggers with <code>Tab</code>. If full WAI-ARIA accordion pattern keyboard support (<code>ArrowUp</code>/<code>ArrowDown</code>/<code>Home</code>/<code>End</code> between triggers) is required for your use case, treat this as a known gap.</li>
-</ul>
+<h3>Known gaps</h3>
+<p>The component does not currently provide arrow-key navigation between item triggers (<code>ArrowUp</code> / <code>ArrowDown</code> / <code>Home</code> / <code>End</code> per the WAI-ARIA accordion pattern). Users move between triggers with <code>Tab</code>. If full WAI-ARIA keyboard support is required for your context, treat this as a known gap and plan accordingly.</p>
 <!-- DOC:END -->
           </section>
       </article>
