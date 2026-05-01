@@ -33,7 +33,7 @@ describe('aegov-checkbox e2e', () => {
 
   it('disabled checkbox cannot be toggled', async () => {
     const page = await newE2EPage();
-    await page.setContent('<aegov-checkbox label="Test" disabled></aegov-checkbox>');
+    await page.setContent('<aegov-checkbox label="Test" is-disabled></aegov-checkbox>');
     const input = await page.find('aegov-checkbox input');
     await input.click();
     await page.waitForChanges();
@@ -53,7 +53,7 @@ describe('aegov-checkbox e2e', () => {
 
   it('emits aegovCheckboxChange with checked=false on uncheck', async () => {
     const page = await newE2EPage();
-    await page.setContent('<aegov-checkbox label="Test" value="v1" checked></aegov-checkbox>');
+    await page.setContent('<aegov-checkbox label="Test" value="v1" is-checked></aegov-checkbox>');
     const el = await page.find('aegov-checkbox');
     const spy = await el.spyOnEvent('aegovCheckboxChange');
     const input = await page.find('aegov-checkbox input');
@@ -88,7 +88,7 @@ describe('aegov-checkbox e2e', () => {
 
   it('renders with checked attribute', async () => {
     const page = await newE2EPage();
-    await page.setContent('<aegov-checkbox label="Pre-checked" checked></aegov-checkbox>');
+    await page.setContent('<aegov-checkbox label="Pre-checked" is-checked></aegov-checkbox>');
     const input = await page.find('aegov-checkbox input');
     expect(await input.getProperty('checked')).toBe(true);
   });
@@ -110,7 +110,7 @@ describe('aegov-checkbox e2e', () => {
 
   it('sets required attribute', async () => {
     const page = await newE2EPage();
-    await page.setContent('<aegov-checkbox label="Required" required></aegov-checkbox>');
+    await page.setContent('<aegov-checkbox label="Required" is-required></aegov-checkbox>');
     const input = await page.find('aegov-checkbox input');
     expect(await input.getProperty('required')).toBe(true);
   });
@@ -119,7 +119,7 @@ describe('aegov-checkbox e2e', () => {
     const page = await newE2EPage();
     await page.setContent(`
       <form id="testform">
-        <aegov-checkbox name="terms" value="accepted" label="Accept" checked></aegov-checkbox>
+        <aegov-checkbox name="terms" value="accepted" label="Accept" is-checked></aegov-checkbox>
       </form>
     `);
     const formData = await page.evaluate(() => {

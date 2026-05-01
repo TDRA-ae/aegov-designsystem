@@ -55,7 +55,7 @@
 <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-radio-group</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
   <aegov-radio-group name="colour-demo" label="Favourite colour">
     <aegov-radio label="Red" value="red"></aegov-radio>
-    <aegov-radio label="Green" value="green" checked></aegov-radio>
+    <aegov-radio label="Green" value="green" is-checked></aegov-radio>
     <aegov-radio label="Blue" value="blue"></aegov-radio>
   </aegov-radio-group>
 </div>
@@ -77,13 +77,13 @@
 <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-radio-group</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
   <aegov-radio-group name="plan-demo" label="Select a plan">
     <aegov-radio label="Free" value="free"></aegov-radio>
-    <aegov-radio label="Pro" value="pro" disabled></aegov-radio>
+    <aegov-radio label="Pro" value="pro" is-disabled></aegov-radio>
     <aegov-radio label="Enterprise" value="enterprise"></aegov-radio>
   </aegov-radio-group>
 
-  <aegov-radio-group name="locked-demo" label="This group is disabled" disabled>
+  <aegov-radio-group name="locked-demo" label="This group is disabled" is-disabled>
     <aegov-radio label="Option A" value="a"></aegov-radio>
-    <aegov-radio label="Option B" value="b" checked></aegov-radio>
+    <aegov-radio label="Option B" value="b" is-checked></aegov-radio>
   </aegov-radio-group>
 </div>
 
@@ -91,7 +91,7 @@
 <h2>Required</h2>
 <p>Set <code>required</code> on an <code>aegov-radio</code> to mark it as a mandatory field. This adds the native <code>required</code> attribute and sets <code>aria-required=&quot;true&quot;</code> on the underlying <code>&lt;input&gt;</code>.</p>
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-radio</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;agree&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;yes&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;I accept the privacy policy&quot;</span> <span class="hljs-attr">required</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-radio</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-radio name="agree-demo" value="yes" label="I accept the privacy policy" required></aegov-radio>
+  <aegov-radio name="agree-demo" value="yes" label="I accept the privacy policy" is-required></aegov-radio>
 </div>
 
 <hr>
@@ -332,7 +332,7 @@
 <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-radio-group</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
   <aegov-radio-group name="var-pills-demo" label="Pills variant" variant="pills" orientation="horizontal">
     <aegov-radio label="Daily" value="daily"></aegov-radio>
-    <aegov-radio label="Weekly" value="weekly" checked></aegov-radio>
+    <aegov-radio label="Weekly" value="weekly" is-checked></aegov-radio>
     <aegov-radio label="Monthly" value="monthly"></aegov-radio>
     <aegov-radio label="Yearly" value="yearly"></aegov-radio>
   </aegov-radio-group>
@@ -364,26 +364,26 @@
 <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-radio-group</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
   <aegov-radio-group name="pills-xs-demo" label="Extra small pills" variant="pills" orientation="horizontal" size="xs">
     <aegov-radio label="S" value="s"></aegov-radio>
-    <aegov-radio label="M" value="m" checked></aegov-radio>
+    <aegov-radio label="M" value="m" is-checked></aegov-radio>
     <aegov-radio label="L" value="l"></aegov-radio>
   </aegov-radio-group>
 
   <aegov-radio-group name="pills-sm-demo" label="Small pills" variant="pills" orientation="horizontal" size="sm">
     <aegov-radio label="S" value="s"></aegov-radio>
-    <aegov-radio label="M" value="m" checked></aegov-radio>
+    <aegov-radio label="M" value="m" is-checked></aegov-radio>
     <aegov-radio label="L" value="l"></aegov-radio>
   </aegov-radio-group>
 
   <aegov-radio-group name="pills-lg-demo" label="Large pills" variant="pills" orientation="horizontal" size="lg">
     <aegov-radio label="Small" value="s"></aegov-radio>
     <aegov-radio label="Medium" value="m"></aegov-radio>
-    <aegov-radio label="Large" value="l" checked></aegov-radio>
+    <aegov-radio label="Large" value="l" is-checked></aegov-radio>
   </aegov-radio-group>
 
   <aegov-radio-group name="pills-xl-demo" label="Extra large pills" variant="pills" orientation="horizontal" size="xl">
     <aegov-radio label="Small" value="s"></aegov-radio>
     <aegov-radio label="Medium" value="m"></aegov-radio>
-    <aegov-radio label="Large" value="l" checked></aegov-radio>
+    <aegov-radio label="Large" value="l" is-checked></aegov-radio>
   </aegov-radio-group>
 </div>
 

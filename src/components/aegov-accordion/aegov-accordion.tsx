@@ -19,7 +19,7 @@ const ctx = (prop: string) => ({ component: TAG, prop });
   scoped: false,
 })
 export class AegovAccordion {
-  @Element() el: HTMLElement;
+  @Element() el!: HTMLElement;
 
   private itemListeners: Map<HTMLElement, EventListener> = new Map();
   private cachedItems: HTMLAegovAccordionItemElement[] = [];

@@ -79,7 +79,7 @@ describe('aegov-radio-group e2e', () => {
   it('disabled group prevents selection', async () => {
     const page = await newE2EPage();
     await page.setContent(`
-      <aegov-radio-group name="color" disabled>
+      <aegov-radio-group name="color" is-disabled>
         <aegov-radio label="Red" value="red"></aegov-radio>
         <aegov-radio label="Blue" value="blue"></aegov-radio>
       </aegov-radio-group>

@@ -25,7 +25,7 @@ export class AegovToggle {
   @Prop() value?: string;
 
   /** Whether the toggle is checked/on. */
-  @Prop({ mutable: true, reflect: true }) checked: boolean = false;
+  @Prop({ mutable: true, reflect: true }) isChecked: boolean = false;
 
   /** The size of the toggle. */
   @Prop() size: string = 'base';
@@ -34,10 +34,10 @@ export class AegovToggle {
   private _sizeWatcher: ResponsivePropWatcher | null = null;
 
   /** Whether the toggle is disabled. */
-  @Prop({ reflect: true }) disabled: boolean = false;
+  @Prop({ reflect: true }) isDisabled: boolean = false;
 
   /** Whether the toggle is required. */
-  @Prop() required: boolean = false;
+  @Prop() isRequired: boolean = false;
 
   /** Label text for the toggle. Rendered at the end (inline-end). */
   @Prop() label?: string;
@@ -73,16 +73,16 @@ export class AegovToggle {
 
   private handleChange = (event: Event) => {
     const input = event.target as HTMLInputElement;
-    this.checked = input.checked;
-    this.aegovToggleChange.emit({ checked: this.checked, value: this.value });
+    this.isChecked = input.checked;
+    this.aegovToggleChange.emit({ checked: this.isChecked, value: this.value });
   };
 
-  private static readonly NATIVE_TOGGLE_ATTRS = new Set([
+  private static readonly PASS_THROUGH_ATTRS = new Set([
     'form', 'tabindex', 'autofocus', 'title',
   ]);
 
   render() {
-    const passThroughAttrs = getPassThroughAttributes(this.el, AegovToggle.NATIVE_TOGGLE_ATTRS);
+    const passThroughAttrs = getPassThroughAttributes(this.el, AegovToggle.PASS_THROUGH_ATTRS);
     const size: ToggleSize = this._resolvedSize;
     const wrapperClasses = ['aegov-toggle', `toggle--${size}`];
     const descriptionId = this.description ? `${this.fieldId}-desc` : undefined;
@@ -99,11 +99,11 @@ export class AegovToggle {
           id={this.fieldId}
           name={this.name}
           value={this.value}
-          checked={this.checked}
-          disabled={this.disabled}
-          required={this.required}
-          aria-checked={this.checked ? 'true' : 'false'}
-          aria-required={this.required ? 'true' : undefined}
+          checked={this.isChecked}
+          disabled={this.isDisabled}
+          required={this.isRequired}
+          aria-checked={this.isChecked ? 'true' : 'false'}
+          aria-required={this.isRequired ? 'true' : undefined}
           aria-describedby={descriptionId}
           onChange={this.handleChange}
           class="toggle__input"
@@ -113,10 +113,10 @@ export class AegovToggle {
           <span class={`toggle__thumb${hasIcons ? ' toggle__thumb--has-icon' : ''}`}>
             {hasIcons && (
               <span class="toggle__icon">
-                <span class={`toggle__icon-item${this.checked ? '' : ' toggle__icon-item--active'}`}>
+                <span class={`toggle__icon-item${this.isChecked ? '' : ' toggle__icon-item--active'}`}>
                   <slot name="icon-unchecked" />
                 </span>
-                <span class={`toggle__icon-item${this.checked ? ' toggle__icon-item--active' : ''}`}>
+                <span class={`toggle__icon-item${this.isChecked ? ' toggle__icon-item--active' : ''}`}>
                   <slot name="icon-checked" />
                 </span>
               </span>

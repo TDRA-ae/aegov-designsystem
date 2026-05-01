@@ -1,16 +1,28 @@
-import { Component, Prop, Watch, Element, Host, h } from '@stencil/core';
+import { Component, Prop, Watch, State, Element, Host, h } from '@stencil/core';
 import { AspectRatioPreset, AspectRatioFit, ASPECT_RATIO_FITS } from '../../utils/types';
 import { warnIfInvalidEnumProp } from '../../utils/prop-validator';
+import { watchResponsiveProp } from '../../utils/responsive-prop';
+import type { ResponsivePropWatcher } from '../../utils/responsive-prop';
 
 const TAG = 'aegov-aspect-ratio';
 const ctx = (prop: string) => ({ component: TAG, prop });
 
 /**
+ * Accepts named presets (`'auto'`, `'square'`, `'video'`) or any custom ratio
+ * string such as `'5/4'`, `'21/9'`, `'2.35/1'`.
+ */
+const RATIO_PATTERN = /^[\d.]+\s*\/\s*[\d.]+$/;
+const NAMED_RATIOS = new Set(['auto', 'square', 'video']);
+function isValidRatio(value: string): boolean {
+  return NAMED_RATIOS.has(value) || RATIO_PATTERN.test(value);
+}
+
+/**
  * @component aegov-aspect-ratio
  * @description A layout component that enforces a specific aspect ratio on its
  * content. Supports images, videos, iframes, and arbitrary slotted content.
- * Responsive breakpoints can be applied via Tailwind utility classes on the
- * host element (e.g. `class="md:aspect-square lg:aspect-[21/9]"`).
+ * The `ratio` prop supports Tailwind-style breakpoint prefixes — e.g.
+ * `ratio="square md:video lg:21/9"` switches the ratio at each breakpoint.
  */
 @Component({
   tag: 'aegov-aspect-ratio',
@@ -21,9 +33,10 @@ export class AegovAspectRatio {
   @Element() el!: HTMLElement;
 
   /**
-   * The aspect ratio to apply. Accepts named presets ('auto', 'square',
-   * 'video', '4/3', '3/2', '21/9') or any custom ratio string such as
-   * '5/4' or '2.35/1'.
+   * The aspect ratio to apply. Accepts named presets (`'auto'`, `'square'`,
+   * `'video'`) or any custom ratio string such as `'5/4'`, `'21/9'`,
+   * `'2.35/1'`. Supports a Tailwind-style responsive string with breakpoint
+   * prefixes, e.g. `"square md:video lg:21/9"`.
    * @default 'auto'
    */
   @Prop() ratio: AspectRatioPreset | string = 'auto';
@@ -40,15 +53,36 @@ export class AegovAspectRatio {
    */
   @Prop() extraClass?: string;
 
+  @State() private _resolvedRatio: string = 'auto';
+  private _ratioWatcher: ResponsivePropWatcher | null = null;
+
   componentWillLoad() {
     warnIfInvalidEnumProp(this.fit, ASPECT_RATIO_FITS, 'cover', ctx('fit'));
+    this._ratioWatcher = watchResponsiveProp(this.ratio, isValidRatio, 'auto', v => {
+      this._resolvedRatio = v;
+    });
+    this._resolvedRatio = this._ratioWatcher.current;
+  }
+
+  disconnectedCallback() {
+    this._ratioWatcher?.destroy();
   }
 
   @Watch('fit')
   onFitChange(v: unknown) { warnIfInvalidEnumProp(v, ASPECT_RATIO_FITS, 'cover', ctx('fit')); }
 
+  @Watch('ratio')
+  onRatioChange() {
+    this._ratioWatcher?.destroy();
+    this._ratioWatcher = watchResponsiveProp(this.ratio, isValidRatio, 'auto', v => {
+      this._resolvedRatio = v;
+    });
+    this._resolvedRatio = this._ratioWatcher.current;
+  }
+
   private resolveRatio(): string {
-    switch (this.ratio) {
+    const value = this._resolvedRatio;
+    switch (value) {
       case 'auto':
         return 'auto';
       case 'square':
@@ -56,11 +90,11 @@ export class AegovAspectRatio {
       case 'video':
         return '16 / 9';
       default:
-        if (this.ratio.includes('/')) {
-          const parts = this.ratio.split('/').map(s => s.trim());
+        if (value.includes('/')) {
+          const parts = value.split('/').map(s => s.trim());
           return `${parts[0]} / ${parts[1]}`;
         }
-        return this.ratio;
+        return value;
     }
   }
 

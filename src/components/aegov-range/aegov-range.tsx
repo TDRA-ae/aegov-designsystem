@@ -114,7 +114,7 @@ export class AegovRange {
   @Watch('mode')
   onModeChange(v: unknown) { warnIfInvalidEnumProp(v, RANGE_MODES, 'single', ctx('mode')); }
 
-  private static readonly NATIVE_RANGE_ATTRS = new Set([
+  private static readonly PASS_THROUGH_ATTRS = new Set([
     'tabindex', 'autofocus', 'title', 'form',
   ]);
 
@@ -349,7 +349,7 @@ export class AegovRange {
   }
 
   render() {
-    const passThroughAttrs = getPassThroughAttributes(this.el, AegovRange.NATIVE_RANGE_ATTRS);
+    const passThroughAttrs = getPassThroughAttributes(this.el, AegovRange.PASS_THROUGH_ATTRS);
     const size: RangeSize = this._resolvedSize;
     const display: RangeDisplay = (RANGE_DISPLAYS as readonly string[]).includes(this.display) ? this.display : 'none';
     const orientation: RangeOrientation = (RANGE_ORIENTATIONS as readonly string[]).includes(this.orientation) ? this.orientation : 'horizontal';

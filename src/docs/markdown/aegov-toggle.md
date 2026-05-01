@@ -21,12 +21,12 @@ The `aegov-toggle` component renders an accessible on/off switch built on a nati
 Set the `checked` attribute to render the toggle in its on position. The track colour changes from neutral grey to the primary brand colour.
 
 ```html
-<aegov-toggle checked label="Enabled"></aegov-toggle>
+<aegov-toggle is-checked label="Enabled"></aegov-toggle>
 <aegov-toggle label="Disabled feature"></aegov-toggle>
 ```
 
 <div class="flex flex-wrap items-center gap-6 p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-toggle checked label="Enabled"></aegov-toggle>
+  <aegov-toggle is-checked label="Enabled"></aegov-toggle>
   <aegov-toggle label="Disabled feature"></aegov-toggle>
 </div>
 
@@ -37,13 +37,13 @@ Set the `checked` attribute to render the toggle in its on position. The track c
 Set the `disabled` attribute to prevent interaction. The toggle becomes visually muted and unclickable.
 
 ```html
-<aegov-toggle disabled label="Disabled off"></aegov-toggle>
-<aegov-toggle disabled checked label="Disabled on"></aegov-toggle>
+<aegov-toggle is-disabled label="Disabled off"></aegov-toggle>
+<aegov-toggle is-disabled is-checked label="Disabled on"></aegov-toggle>
 ```
 
 <div class="flex flex-wrap items-center gap-6 p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-toggle disabled label="Disabled off"></aegov-toggle>
-  <aegov-toggle disabled checked label="Disabled on"></aegov-toggle>
+  <aegov-toggle is-disabled label="Disabled off"></aegov-toggle>
+  <aegov-toggle is-disabled is-checked label="Disabled on"></aegov-toggle>
 </div>
 
 ---
@@ -154,12 +154,12 @@ When no `label` is provided, only the toggle control is rendered. This is useful
 
 ```html
 <aegov-toggle></aegov-toggle>
-<aegov-toggle checked></aegov-toggle>
+<aegov-toggle is-checked></aegov-toggle>
 ```
 
 <div class="flex flex-wrap items-center gap-6 p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
   <aegov-toggle></aegov-toggle>
-  <aegov-toggle checked></aegov-toggle>
+  <aegov-toggle is-checked></aegov-toggle>
 </div>
 
 > **Important:** When using a toggle without a label, provide an `aria-label` attribute on the host element so screen readers can announce the toggle's purpose.
@@ -173,7 +173,7 @@ The toggle supports two named slots for placing icons inside the thumb: `icon-ch
 Icons are automatically sized to match the current toggle size and colour-coded: grey when unchecked, primary brand colour when checked.
 
 ```html
-<aegov-toggle checked label="With icons">
+<aegov-toggle is-checked label="With icons">
   <svg slot="icon-unchecked" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
        fill="none" stroke="currentColor" stroke-width="3"
        stroke-linecap="round" stroke-linejoin="round">
@@ -193,7 +193,7 @@ Icons are automatically sized to match the current toggle size and colour-coded:
     <svg slot="icon-unchecked" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
     <svg slot="icon-checked" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
   </aegov-toggle>
-  <aegov-toggle checked label="On with icons">
+  <aegov-toggle is-checked label="On with icons">
     <svg slot="icon-unchecked" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
     <svg slot="icon-checked" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
   </aegov-toggle>
@@ -202,34 +202,34 @@ Icons are automatically sized to match the current toggle size and colour-coded:
 ### Icons at All Sizes
 
 ```html
-<aegov-toggle size="xs" checked label="Extra Small">
+<aegov-toggle size="xs" is-checked label="Extra Small">
   <svg slot="icon-unchecked" ...>...</svg>
   <svg slot="icon-checked" ...>...</svg>
 </aegov-toggle>
-<aegov-toggle size="sm" checked label="Small">...</aegov-toggle>
-<aegov-toggle size="base" checked label="Base">...</aegov-toggle>
-<aegov-toggle size="lg" checked label="Large">...</aegov-toggle>
-<aegov-toggle size="xl" checked label="Extra Large">...</aegov-toggle>
+<aegov-toggle size="sm" is-checked label="Small">...</aegov-toggle>
+<aegov-toggle size="base" is-checked label="Base">...</aegov-toggle>
+<aegov-toggle size="lg" is-checked label="Large">...</aegov-toggle>
+<aegov-toggle size="xl" is-checked label="Extra Large">...</aegov-toggle>
 ```
 
 <div class="flex flex-wrap items-center gap-6 p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-toggle size="xs" checked label="Extra Small">
+  <aegov-toggle size="xs" is-checked label="Extra Small">
     <svg slot="icon-unchecked" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
     <svg slot="icon-checked" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
   </aegov-toggle>
-  <aegov-toggle size="sm" checked label="Small">
+  <aegov-toggle size="sm" is-checked label="Small">
     <svg slot="icon-unchecked" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
     <svg slot="icon-checked" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
   </aegov-toggle>
-  <aegov-toggle size="base" checked label="Base">
+  <aegov-toggle size="base" is-checked label="Base">
     <svg slot="icon-unchecked" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
     <svg slot="icon-checked" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
   </aegov-toggle>
-  <aegov-toggle size="lg" checked label="Large">
+  <aegov-toggle size="lg" is-checked label="Large">
     <svg slot="icon-unchecked" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
     <svg slot="icon-checked" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
   </aegov-toggle>
-  <aegov-toggle size="xl" checked label="Extra Large">
+  <aegov-toggle size="xl" is-checked label="Extra Large">
     <svg slot="icon-unchecked" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
     <svg slot="icon-checked" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
   </aegov-toggle>
@@ -243,7 +243,7 @@ The `name` and `value` properties map directly to the native `<input>` attribute
 
 ```html
 <form>
-  <aegov-toggle name="notifications" value="email" checked
+  <aegov-toggle name="notifications" value="email" is-checked
     label="Email notifications"></aegov-toggle>
   <aegov-toggle name="notifications" value="sms"
     label="SMS notifications"></aegov-toggle>
@@ -252,7 +252,7 @@ The `name` and `value` properties map directly to the native `<input>` attribute
 
 <div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
   <div class="flex flex-col gap-4">
-    <aegov-toggle name="notifications" value="email" checked label="Email notifications"></aegov-toggle>
+    <aegov-toggle name="notifications" value="email" is-checked label="Email notifications"></aegov-toggle>
     <aegov-toggle name="notifications" value="sms" label="SMS notifications"></aegov-toggle>
   </div>
 </div>
@@ -264,11 +264,11 @@ The `name` and `value` properties map directly to the native `<input>` attribute
 Set the `required` attribute to mark the toggle as required. This adds `aria-required="true"` to the native input for accessibility and enables built-in browser validation.
 
 ```html
-<aegov-toggle required label="I agree to the terms and conditions"></aegov-toggle>
+<aegov-toggle is-required label="I agree to the terms and conditions"></aegov-toggle>
 ```
 
 <div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-toggle required label="I agree to the terms and conditions"></aegov-toggle>
+  <aegov-toggle is-required label="I agree to the terms and conditions"></aegov-toggle>
 </div>
 
 ---
@@ -329,16 +329,16 @@ The component fully supports right-to-left layouts. When the document or a paren
 
 ```html
 <div dir="rtl">
-  <aegov-toggle checked label="الوضع الداكن"
+  <aegov-toggle is-checked label="الوضع الداكن"
     description="تفعيل المظهر الداكن للتطبيق."></aegov-toggle>
 </div>
 ```
 
 <div dir="rtl" class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
   <div class="flex flex-col gap-6">
-    <aegov-toggle checked label="الوضع الداكن" description="تفعيل المظهر الداكن للتطبيق."></aegov-toggle>
+    <aegov-toggle is-checked label="الوضع الداكن" description="تفعيل المظهر الداكن للتطبيق."></aegov-toggle>
     <aegov-toggle label="الإشعارات" description="تلقي الإشعارات عبر البريد الإلكتروني."></aegov-toggle>
-    <aegov-toggle disabled checked label="معطل (مفعل)"></aegov-toggle>
+    <aegov-toggle is-disabled is-checked label="معطل (مفعل)"></aegov-toggle>
   </div>
 </div>
 
@@ -366,9 +366,9 @@ The `field-id` property sets the `id` attribute on the native `<input>` element.
 
 | Property      | Attribute     | Description                                                              | Type                            | Default     |
 |---------------|---------------|--------------------------------------------------------------------------|---------------------------------|-------------|
-| `checked`     | `checked`     | Whether the toggle is on                                                 | `boolean`                       | `false`     |
-| `disabled`    | `disabled`    | Prevents interaction                                                     | `boolean`                       | `false`     |
-| `required`    | `required`    | Marks the toggle as required for form validation                         | `boolean`                       | `false`     |
+| `isChecked`     | `is-checked`     | Whether the toggle is on                                                 | `boolean`                       | `false`     |
+| `isDisabled`    | `is-disabled`    | Prevents interaction                                                     | `boolean`                       | `false`     |
+| `isRequired`    | `is-required`    | Marks the toggle as required for form validation                         | `boolean`                       | `false`     |
 | `size`        | `size`        | The toggle size. Supports responsive strings (e.g. `'sm xl:lg'`).       | `'xs'` \| `'sm'` \| `'base'` \| `'lg'` \| `'xl'` | `'base'`    |
 | `label`       | `label`       | Label text rendered inline with the toggle                               | `string`                        | `undefined` |
 | `description` | `description` | Helper text below the label (only shown when label is provided)          | `string`                        | `undefined` |

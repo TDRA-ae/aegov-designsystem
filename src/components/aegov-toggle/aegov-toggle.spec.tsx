@@ -29,7 +29,7 @@ describe('aegov-toggle', () => {
   it('renders checked when prop is set', async () => {
     const page = await newSpecPage({
       components: [AegovToggle],
-      html: `<aegov-toggle checked></aegov-toggle>`,
+      html: `<aegov-toggle is-checked></aegov-toggle>`,
     });
     const input = page.root.querySelector('input') as HTMLInputElement;
     expect(input.checked).toBe(true);
@@ -102,7 +102,7 @@ describe('aegov-toggle', () => {
   it('sets disabled attribute on input', async () => {
     const page = await newSpecPage({
       components: [AegovToggle],
-      html: `<aegov-toggle disabled></aegov-toggle>`,
+      html: `<aegov-toggle is-disabled></aegov-toggle>`,
     });
     const input = page.root.querySelector('input') as HTMLInputElement;
     expect(input.disabled).toBe(true);
@@ -111,7 +111,7 @@ describe('aegov-toggle', () => {
   it('sets required attribute on input', async () => {
     const page = await newSpecPage({
       components: [AegovToggle],
-      html: `<aegov-toggle required></aegov-toggle>`,
+      html: `<aegov-toggle is-required></aegov-toggle>`,
     });
     const input = page.root.querySelector('input') as HTMLInputElement;
     expect(input.required).toBe(true);
@@ -294,7 +294,7 @@ describe('aegov-toggle', () => {
     it('should have aria-checked="true" when checked', async () => {
       const page = await newSpecPage({
         components: [AegovToggle],
-        html: `<aegov-toggle checked></aegov-toggle>`,
+        html: `<aegov-toggle is-checked></aegov-toggle>`,
       });
       const input = page.root.querySelector('input');
       expect(input.getAttribute('aria-checked')).toBe('true');

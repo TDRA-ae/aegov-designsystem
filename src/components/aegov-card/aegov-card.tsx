@@ -1,8 +1,9 @@
-import { Component, Host, h, Prop, Watch } from '@stencil/core';
+import { Component, Element, Host, h, Prop, Watch } from '@stencil/core';
 import { CARD_BORDER_STYLES, CARD_BGS, CARD_HOVERS, CARD_SIZES } from '../../utils/types';
 import type { CardBorderWidth, CardBg, CardHover, CardBorderStyle, CardSize } from '../../utils/types';
 import { warnIfInvalidEnumProp } from '../../utils/prop-validator';
 import { generateId } from '../../utils/id-generator';
+import { getPassThroughAttributes } from '../../utils/attributes';
 
 const TAG = 'aegov-card';
 const ctx = (prop: string) => ({ component: TAG, prop });
@@ -13,6 +14,8 @@ const ctx = (prop: string) => ({ component: TAG, prop });
   scoped: false,
 })
 export class AegovCard {
+  @Element() el: HTMLElement;
+
   /**
    * Unique ID for the card element. Auto-generated if not provided.
    */
@@ -86,9 +89,11 @@ export class AegovCard {
       this.isPadding ? 'card--padded' : '',
     ].filter(Boolean).join(' ');
 
+    const passThroughAttributes = getPassThroughAttributes(this.el);
+
     return (
       <Host>
-        <div class={classes} id={this.fieldId}>
+        <div {...passThroughAttributes} class={classes} id={this.fieldId}>
           <slot />
         </div>
       </Host>

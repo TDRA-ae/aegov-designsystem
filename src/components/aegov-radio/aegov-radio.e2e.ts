@@ -29,7 +29,7 @@ describe('aegov-radio e2e', () => {
 
   it('disabled radio cannot be checked', async () => {
     const page = await newE2EPage();
-    await page.setContent('<aegov-radio label="Option A" value="a" disabled></aegov-radio>');
+    await page.setContent('<aegov-radio label="Option A" value="a" is-disabled></aegov-radio>');
     const input = await page.find('aegov-radio input');
     await input.click();
     await page.waitForChanges();
@@ -80,7 +80,7 @@ describe('aegov-radio e2e', () => {
 
   it('renders with checked attribute', async () => {
     const page = await newE2EPage();
-    await page.setContent('<aegov-radio label="Pre-checked" checked></aegov-radio>');
+    await page.setContent('<aegov-radio label="Pre-checked" is-checked></aegov-radio>');
     const input = await page.find('aegov-radio input');
     expect(await input.getProperty('checked')).toBe(true);
   });
@@ -95,7 +95,7 @@ describe('aegov-radio e2e', () => {
 
   it('sets required attribute', async () => {
     const page = await newE2EPage();
-    await page.setContent('<aegov-radio label="Required" required></aegov-radio>');
+    await page.setContent('<aegov-radio label="Required" is-required></aegov-radio>');
     const input = await page.find('aegov-radio input');
     expect(await input.getProperty('required')).toBe(true);
   });
@@ -133,7 +133,7 @@ describe('aegov-radio e2e', () => {
     const page = await newE2EPage();
     await page.setContent(`
       <form id="testform">
-        <aegov-radio name="choice" value="yes" label="Yes" checked></aegov-radio>
+        <aegov-radio name="choice" value="yes" label="Yes" is-checked></aegov-radio>
       </form>
     `);
     const formData = await page.evaluate(() => {
