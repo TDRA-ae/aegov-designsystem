@@ -32,7 +32,7 @@
 <hr>
 <h2>Checked State</h2>
 <p>Set the <code>checked</code> attribute to pre-select a checkbox. The property is mutable and reflects back to the attribute when toggled by the user.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-checkbox</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Email notifications&quot;</span> <span class="hljs-attr">checked</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-checkbox</span>&gt;</span>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-checkbox</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Email notifications&quot;</span> <span class="hljs-attr">is-checked</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-checkbox</span>&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">aegov-checkbox</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;SMS notifications&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-checkbox</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
   <aegov-checkbox label="Email notifications" is-checked></aegov-checkbox>
   <aegov-checkbox label="SMS notifications"></aegov-checkbox>
@@ -41,7 +41,7 @@
 <hr>
 <h2>Indeterminate State</h2>
 <p>The <code>indeterminate</code> property displays a horizontal dash instead of a checkmark. This is typically used on a &quot;check all&quot; controller when only some children are checked. The indeterminate state is cleared automatically when the user clicks the checkbox.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-checkbox</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Select all items&quot;</span> <span class="hljs-attr">indeterminate</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-checkbox</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-checkbox</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Select all items&quot;</span> <span class="hljs-attr">is-indeterminate</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-checkbox</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
   <aegov-checkbox label="Select all items" is-indeterminate></aegov-checkbox>
 </div>
 
@@ -128,8 +128,8 @@
 <hr>
 <h2>Disabled State</h2>
 <p>Set the <code>disabled</code> attribute to prevent interaction. The checkbox and its label become visually muted and unclickable.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-checkbox</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Unchecked disabled&quot;</span> <span class="hljs-attr">disabled</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-checkbox</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-checkbox</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Checked disabled&quot;</span> <span class="hljs-attr">checked</span> <span class="hljs-attr">disabled</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-checkbox</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-checkbox</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Unchecked disabled&quot;</span> <span class="hljs-attr">is-disabled</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-checkbox</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-checkbox</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Checked disabled&quot;</span> <span class="hljs-attr">is-checked</span> <span class="hljs-attr">is-disabled</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-checkbox</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
   <aegov-checkbox label="Unchecked disabled" is-disabled></aegov-checkbox>
   <aegov-checkbox label="Checked disabled" is-checked is-disabled></aegov-checkbox>
 </div>
@@ -137,7 +137,7 @@
 <hr>
 <h2>Required</h2>
 <p>Set the <code>required</code> attribute for form validation. The component adds <code>aria-required=&quot;true&quot;</code> to the native checkbox input.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-checkbox</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;I accept the privacy policy&quot;</span> <span class="hljs-attr">required</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-checkbox</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-checkbox</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;I accept the privacy policy&quot;</span> <span class="hljs-attr">is-required</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-checkbox</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
   <aegov-checkbox label="I accept the privacy policy" is-required></aegov-checkbox>
 </div>
 
@@ -180,7 +180,7 @@
 <h3>Default</h3>
 <p>The standard layout with no additional styling. Checkboxes are stacked with a gap.</p>
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-checkbox-group</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Notifications&quot;</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;default&quot;</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-checkbox</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Email&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;email&quot;</span> <span class="hljs-attr">checked</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-checkbox</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-checkbox</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Email&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;email&quot;</span> <span class="hljs-attr">is-checked</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-checkbox</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-checkbox</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Push&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;push&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-checkbox</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-checkbox</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;SMS&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;sms&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-checkbox</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-checkbox-group</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
@@ -194,7 +194,7 @@
 <h3>List</h3>
 <p>Adds dividers between items. When horizontal, dividers appear as vertical separators between items instead.</p>
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-checkbox-group</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Languages&quot;</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;list&quot;</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-checkbox</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;English&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;en&quot;</span> <span class="hljs-attr">checked</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-checkbox</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-checkbox</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;English&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;en&quot;</span> <span class="hljs-attr">is-checked</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-checkbox</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-checkbox</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Arabic&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;ar&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-checkbox</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-checkbox</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;French&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;fr&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-checkbox</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-checkbox</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Hindi&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;hi&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-checkbox</span>&gt;</span>
@@ -209,7 +209,7 @@
 
 <p>Horizontal list variant:</p>
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-checkbox-group</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Languages&quot;</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;list&quot;</span> <span class="hljs-attr">orientation</span>=<span class="hljs-string">&quot;horizontal&quot;</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-checkbox</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;English&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;en&quot;</span> <span class="hljs-attr">checked</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-checkbox</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-checkbox</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;English&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;en&quot;</span> <span class="hljs-attr">is-checked</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-checkbox</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-checkbox</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Arabic&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;ar&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-checkbox</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-checkbox</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;French&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;fr&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-checkbox</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-checkbox-group</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
@@ -224,7 +224,7 @@
 <p>Wraps each checkbox in a bordered card with padding. Selected cards receive a highlighted border and background. The <code>check-all</code> checkbox is excluded from card styling and spans full width.</p>
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-checkbox-group</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Select a plan&quot;</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;cards&quot;</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-checkbox</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Basic&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;basic&quot;</span> <span class="hljs-attr">description</span>=<span class="hljs-string">&quot;Free forever&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-checkbox</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-checkbox</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Pro&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;pro&quot;</span> <span class="hljs-attr">description</span>=<span class="hljs-string">&quot;$9/month&quot;</span> <span class="hljs-attr">checked</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-checkbox</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-checkbox</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Pro&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;pro&quot;</span> <span class="hljs-attr">description</span>=<span class="hljs-string">&quot;$9/month&quot;</span> <span class="hljs-attr">is-checked</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-checkbox</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-checkbox</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Enterprise&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;enterprise&quot;</span> <span class="hljs-attr">description</span>=<span class="hljs-string">&quot;Contact us&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-checkbox</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-checkbox-group</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
   <aegov-checkbox-group label="Select a plan" variant="cards">
@@ -237,7 +237,7 @@
 <p>Horizontal cards:</p>
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-checkbox-group</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Features&quot;</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;cards&quot;</span> <span class="hljs-attr">orientation</span>=<span class="hljs-string">&quot;horizontal&quot;</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-checkbox</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Analytics&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;analytics&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-checkbox</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-checkbox</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Reporting&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;reporting&quot;</span> <span class="hljs-attr">checked</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-checkbox</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-checkbox</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Reporting&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;reporting&quot;</span> <span class="hljs-attr">is-checked</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-checkbox</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-checkbox</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Exports&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;exports&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-checkbox</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-checkbox-group</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
   <aegov-checkbox-group label="Features" variant="cards" orientation="horizontal">
@@ -250,7 +250,7 @@
 <h3>Pills</h3>
 <p>Transforms checkboxes into pill-shaped toggle buttons. The native checkbox input is visually hidden and the label becomes the clickable pill. Descriptions are hidden in this variant.</p>
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-checkbox-group</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Tags&quot;</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;pills&quot;</span> <span class="hljs-attr">orientation</span>=<span class="hljs-string">&quot;horizontal&quot;</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-checkbox</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;JavaScript&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;js&quot;</span> <span class="hljs-attr">checked</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-checkbox</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-checkbox</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;JavaScript&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;js&quot;</span> <span class="hljs-attr">is-checked</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-checkbox</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-checkbox</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;TypeScript&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;ts&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-checkbox</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-checkbox</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Python&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;py&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-checkbox</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-checkbox</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Rust&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;rs&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-checkbox</span>&gt;</span>
@@ -267,8 +267,8 @@
 <h2>Check All / Select All</h2>
 <p>Add the <code>check-all</code> attribute to one checkbox inside a group to make it act as a &quot;select all&quot; controller. When clicked, it toggles all non-disabled checkboxes in the group. The parent group automatically manages the controller&#39;s indeterminate state based on the checked status of its siblings.</p>
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-checkbox-group</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Permissions&quot;</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-checkbox</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Select all&quot;</span> <span class="hljs-attr">check-all</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-checkbox</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-checkbox</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Read&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;read&quot;</span> <span class="hljs-attr">checked</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-checkbox</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-checkbox</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Select all&quot;</span> <span class="hljs-attr">is-check-all</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-checkbox</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-checkbox</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Read&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;read&quot;</span> <span class="hljs-attr">is-checked</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-checkbox</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-checkbox</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Write&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;write&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-checkbox</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-checkbox</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Delete&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;delete&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-checkbox</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-checkbox-group</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
@@ -329,8 +329,8 @@
 <hr>
 <h2>Disabled Group</h2>
 <p>Set <code>disabled</code> on the group to disable the entire fieldset, preventing interaction with all child checkboxes.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-checkbox-group</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Disabled group&quot;</span> <span class="hljs-attr">disabled</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-checkbox</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Option A&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;a&quot;</span> <span class="hljs-attr">checked</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-checkbox</span>&gt;</span>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-checkbox-group</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Disabled group&quot;</span> <span class="hljs-attr">is-disabled</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-checkbox</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Option A&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;a&quot;</span> <span class="hljs-attr">is-checked</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-checkbox</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-checkbox</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Option B&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;b&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-checkbox</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-checkbox</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Option C&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;c&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-checkbox</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-checkbox-group</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
@@ -392,7 +392,7 @@
 <p>The component fully supports right-to-left layouts. When the document or a parent element has <code>dir=&quot;rtl&quot;</code>, the checkbox, label, and description mirror automatically. The hover ripple effect uses logical properties (<code>start</code>) so it centres correctly in both directions.</p>
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">dir</span>=<span class="hljs-string">&quot;rtl&quot;</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-checkbox-group</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;اختر اللغات&quot;</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-checkbox</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;العربية&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;ar&quot;</span> <span class="hljs-attr">checked</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-checkbox</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-checkbox</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;العربية&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;ar&quot;</span> <span class="hljs-attr">is-checked</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-checkbox</span>&gt;</span>
     <span class="hljs-tag">&lt;<span class="hljs-name">aegov-checkbox</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;الإنجليزية&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;en&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-checkbox</span>&gt;</span>
     <span class="hljs-tag">&lt;<span class="hljs-name">aegov-checkbox</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;الفرنسية&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;fr&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-checkbox</span>&gt;</span>
   <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-checkbox-group</span>&gt;</span>
@@ -439,8 +439,8 @@
 <td><code>undefined</code></td>
 </tr>
 <tr>
-<td><code>checked</code></td>
-<td><code>checked</code></td>
+<td><code>isChecked</code></td>
+<td><code>is-checked</code></td>
 <td>Whether the checkbox is checked.</td>
 <td><code>boolean</code></td>
 <td><code>false</code></td>
@@ -453,15 +453,15 @@
 <td><code>&#39;base&#39;</code></td>
 </tr>
 <tr>
-<td><code>disabled</code></td>
-<td><code>disabled</code></td>
+<td><code>isDisabled</code></td>
+<td><code>is-disabled</code></td>
 <td>Whether the checkbox is disabled.</td>
 <td><code>boolean</code></td>
 <td><code>false</code></td>
 </tr>
 <tr>
-<td><code>required</code></td>
-<td><code>required</code></td>
+<td><code>isRequired</code></td>
+<td><code>is-required</code></td>
 <td>Whether the checkbox is required for form validation.</td>
 <td><code>boolean</code></td>
 <td><code>false</code></td>
@@ -481,15 +481,15 @@
 <td><code>undefined</code></td>
 </tr>
 <tr>
-<td><code>checkAll</code></td>
-<td><code>check-all</code></td>
+<td><code>isCheckAll</code></td>
+<td><code>is-check-all</code></td>
 <td>Marks as a &quot;check all&quot; controller within a checkbox group.</td>
 <td><code>boolean</code></td>
 <td><code>false</code></td>
 </tr>
 <tr>
-<td><code>indeterminate</code></td>
-<td><code>indeterminate</code></td>
+<td><code>isIndeterminate</code></td>
+<td><code>is-indeterminate</code></td>
 <td>Displays the indeterminate dash icon. Managed by the parent group.</td>
 <td><code>boolean</code></td>
 <td><code>false</code></td>
@@ -557,8 +557,8 @@
 <td><code>&#39;base&#39;</code></td>
 </tr>
 <tr>
-<td><code>disabled</code></td>
-<td><code>disabled</code></td>
+<td><code>isDisabled</code></td>
+<td><code>is-disabled</code></td>
 <td>Disables all checkboxes within the group via native fieldset disabled.</td>
 <td><code>boolean</code></td>
 <td><code>false</code></td>

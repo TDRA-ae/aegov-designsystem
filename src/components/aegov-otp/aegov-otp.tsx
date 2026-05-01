@@ -38,13 +38,13 @@ export class AegovOtp {
   private _sizeWatcher: ResponsivePropWatcher | null = null;
 
   /** Allow letters and numbers when true. Numbers only when false. */
-  @Prop() alphanumeric: boolean = false;
+  @Prop() isAlphanumeric: boolean = false;
 
   /** Regex pattern string for validation. Checked when all cells are filled. */
   @Prop() pattern?: string;
 
   /** Disables all input cells. */
-  @Prop() disabled: boolean = false;
+  @Prop() isDisabled: boolean = false;
 
   /** Form field name for the hidden input (used in form submission). */
   @Prop() name?: string;
@@ -137,7 +137,7 @@ export class AegovOtp {
   }
 
   private isValidChar(char: string): boolean {
-    if (this.alphanumeric) {
+    if (this.isAlphanumeric) {
       return /^[a-zA-Z0-9]$/.test(char);
     }
     return /^[0-9]$/.test(char);
@@ -279,8 +279,8 @@ export class AegovOtp {
                 id={index === 0 ? this.fieldId : undefined}
                 class={`otp__cell otp__cell--${size}`}
                 type="text"
-                inputMode={this.alphanumeric ? 'text' : 'numeric'}
-                disabled={this.disabled}
+                inputMode={this.isAlphanumeric ? 'text' : 'numeric'}
+                disabled={this.isDisabled}
                 autocomplete={index === 0 ? 'one-time-code' : 'off'}
                 aria-label={`Character ${index + 1} of ${this.length}`}
                 onInput={(e) => this.handleInput(index, e)}

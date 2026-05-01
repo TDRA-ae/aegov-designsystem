@@ -5,6 +5,7 @@ import { generateId } from '../../utils/id-generator';
 import { warnIfInvalidEnumProp } from '../../utils/prop-validator';
 import { watchResponsiveProp } from '../../utils/responsive-prop';
 import type { ResponsivePropWatcher } from '../../utils/responsive-prop';
+import { getPassThroughAttributes } from '../../utils/attributes';
 
 const TAG = 'aegov-fileupload';
 const ctx = (prop: string) => ({ component: TAG, prop });
@@ -17,6 +18,11 @@ const ctx = (prop: string) => ({ component: TAG, prop });
 export class AegovFileupload {
   @Element() el!: HTMLElement;
   private inputEl?: HTMLInputElement;
+
+  /** Native file-input attributes to pass through to the inner `<input type="file">`. */
+  private static readonly PASS_THROUGH_ATTRS = new Set([
+    'capture', 'autofocus', 'form', 'tabindex', 'title', 'webkitdirectory',
+  ]);
 
   /**
    * Unique field ID. Auto-generated if not provided.
@@ -39,7 +45,7 @@ export class AegovFileupload {
   /**
    * Allow multiple file selection.
    */
-  @Prop() multiple: boolean = false;
+  @Prop() isMultiple: boolean = false;
 
   /**
    * Accepted file types (e.g. ".pdf,.jpg,image/*").
@@ -59,12 +65,12 @@ export class AegovFileupload {
   /**
    * Disables the file upload.
    */
-  @Prop({ reflect: true }) disabled: boolean = false;
+  @Prop({ reflect: true }) isDisabled: boolean = false;
 
   /**
    * Marks the field as required.
    */
-  @Prop() required: boolean = false;
+  @Prop() isRequired: boolean = false;
 
   /**
    * Form field name.
@@ -84,12 +90,12 @@ export class AegovFileupload {
   /**
    * Custom helper text for allowed file types. Overrides auto-generated text from `accept`.
    */
-  @Prop() helperText?: string;
+  @Prop() labelHelp?: string;
 
   /**
    * Custom text for the browse/trigger button.
    */
-  @Prop() buttonText?: string;
+  @Prop() labelButton?: string;
 
   @State() selectedFiles: File[] = [];
   @State() isDragOver: boolean = false;
@@ -156,7 +162,7 @@ export class AegovFileupload {
   }
 
   private triggerFileDialog() {
-    if (!this.disabled && this.inputEl) {
+    if (!this.isDisabled && this.inputEl) {
       this.inputEl.click();
     }
   }
@@ -263,7 +269,7 @@ export class AegovFileupload {
   }
 
   private getHelperText(): string {
-    if (this.helperText) return this.helperText;
+    if (this.labelHelp) return this.labelHelp;
     if (!this.accept) return '';
     const types = this.accept.split(',').map(t => t.trim());
     const labels = types.map(t => {
@@ -278,10 +284,10 @@ export class AegovFileupload {
   }
 
   private getDefaultButtonText(): string {
-    if (this.buttonText) return this.buttonText;
+    if (this.labelButton) return this.labelButton;
     switch (this.variant) {
       case 'default': return 'Browse';
-      case 'button': return this.multiple ? 'Choose Files' : 'Choose File';
+      case 'button': return this.isMultiple ? 'Choose Files' : 'Choose File';
       case 'dropzone': return 'Browse Files';
       default: return 'Browse';
     }
@@ -292,7 +298,7 @@ export class AegovFileupload {
   private handleDragOver = (e: DragEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    if (!this.disabled) {
+    if (!this.isDisabled) {
       this.isDragOver = true;
     }
   };
@@ -307,10 +313,10 @@ export class AegovFileupload {
     e.preventDefault();
     e.stopPropagation();
     this.isDragOver = false;
-    if (this.disabled || !e.dataTransfer?.files) return;
+    if (this.isDisabled || !e.dataTransfer?.files) return;
 
     const files = Array.from(e.dataTransfer.files);
-    const filesToProcess = this.multiple ? files : [files[0]];
+    const filesToProcess = this.isMultiple ? files : [files[0]];
     this.processFiles(filesToProcess);
   };
 
@@ -321,7 +327,7 @@ export class AegovFileupload {
     return (
       <label class="fileupload__label" {...{ for: this.fieldId }}>
         {this.label}
-        {this.required && <span class="fileupload__required" aria-hidden="true"> *</span>}
+        {this.isRequired && <span class="fileupload__required" aria-hidden="true"> *</span>}
       </label>
     );
   }
@@ -395,19 +401,20 @@ export class AegovFileupload {
 
   // --- Variant renderers ---
 
-  private renderDefault() {
+  private renderDefault(passThroughAttrs: Record<string, string>) {
     const helperText = this.getHelperText();
     return (
       <div class="fileupload__input-wrapper" onClick={() => this.triggerFileDialog()}>
         <input
           type="file"
           ref={(el) => this.inputEl = el as HTMLInputElement}
+          {...passThroughAttrs}
           id={this.fieldId}
           name={this.name}
           accept={this.accept}
-          multiple={this.multiple}
-          disabled={this.disabled}
-          required={this.required}
+          multiple={this.isMultiple}
+          disabled={this.isDisabled}
+          required={this.isRequired}
           class="fileupload__native-input"
           onChange={this.handleFileChange}
           aria-describedby={helperText ? `${this.fieldId}-helper` : undefined}
@@ -422,17 +429,18 @@ export class AegovFileupload {
     );
   }
 
-  private renderButton() {
+  private renderButton(passThroughAttrs: Record<string, string>) {
     return [
       <input
         type="file"
         ref={(el) => this.inputEl = el as HTMLInputElement}
+        {...passThroughAttrs}
         id={this.fieldId}
         name={this.name}
         accept={this.accept}
-        multiple={this.multiple}
-        disabled={this.disabled}
-        required={this.required}
+        multiple={this.isMultiple}
+        disabled={this.isDisabled}
+        required={this.isRequired}
         class="fileupload__hidden-input"
         onChange={this.handleFileChange}
         tabIndex={-1}
@@ -442,7 +450,7 @@ export class AegovFileupload {
         type="button"
         class="fileupload__trigger-btn"
         onClick={() => this.triggerFileDialog()}
-        disabled={this.disabled}
+        disabled={this.isDisabled}
       >
         {this.renderBtnUploadIcon()}
         {this.getDefaultButtonText()}
@@ -451,7 +459,7 @@ export class AegovFileupload {
     ];
   }
 
-  private renderDropzone() {
+  private renderDropzone(passThroughAttrs: Record<string, string>) {
     const dropzoneClasses = [
       'fileupload__dropzone',
       this.isDragOver ? 'fileupload__dropzone--dragover' : '',
@@ -461,12 +469,13 @@ export class AegovFileupload {
       <input
         type="file"
         ref={(el) => this.inputEl = el as HTMLInputElement}
+        {...passThroughAttrs}
         id={this.fieldId}
         name={this.name}
         accept={this.accept}
-        multiple={this.multiple}
-        disabled={this.disabled}
-        required={this.required}
+        multiple={this.isMultiple}
+        disabled={this.isDisabled}
+        required={this.isRequired}
         class="fileupload__hidden-input"
         onChange={this.handleFileChange}
         tabIndex={-1}
@@ -481,13 +490,13 @@ export class AegovFileupload {
         <div class="fileupload__drop-prompt">
           {this.renderUploadIcon()}
           <p class="fileupload__drop-text">
-            Drag and drop {this.multiple ? 'files' : 'a file'} here, or
+            Drag and drop {this.isMultiple ? 'files' : 'a file'} here, or
           </p>
           <button
             type="button"
             class="fileupload__dropzone-btn"
             onClick={() => this.triggerFileDialog()}
-            disabled={this.disabled}
+            disabled={this.isDisabled}
           >
             {this.getDefaultButtonText()}
           </button>
@@ -503,17 +512,18 @@ export class AegovFileupload {
       'aegov-fileupload',
       `fileupload--${variant}`,
       `fileupload--${this._resolvedSize}`,
-      this.disabled ? 'fileupload--disabled' : '',
+      this.isDisabled ? 'fileupload--disabled' : '',
     ].filter(Boolean).join(' ');
+    const passThroughAttrs = getPassThroughAttributes(this.el, AegovFileupload.PASS_THROUGH_ATTRS);
 
     return (
       <Host>
         <div class={classes}>
           {this.renderLabel()}
           {this.renderDescription()}
-          {variant === 'default' && this.renderDefault()}
-          {variant === 'button' && this.renderButton()}
-          {variant === 'dropzone' && this.renderDropzone()}
+          {variant === 'default' && this.renderDefault(passThroughAttrs)}
+          {variant === 'button' && this.renderButton(passThroughAttrs)}
+          {variant === 'dropzone' && this.renderDropzone(passThroughAttrs)}
           {this.renderHelperText()}
         </div>
       </Host>
