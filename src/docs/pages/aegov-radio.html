@@ -50,7 +50,7 @@
 <p>Set the <code>checked</code> attribute to pre-select a radio. Within a group, only one radio should be checked at a time.</p>
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-radio-group</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;colour&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Favourite colour&quot;</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-radio</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Red&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;red&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-radio</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-radio</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Green&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;green&quot;</span> <span class="hljs-attr">checked</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-radio</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-radio</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Green&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;green&quot;</span> <span class="hljs-attr">is-checked</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-radio</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-radio</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Blue&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;blue&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-radio</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-radio-group</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
   <aegov-radio-group name="colour-demo" label="Favourite colour">
@@ -66,14 +66,14 @@
 <pre><code class="hljs language-html"><span class="hljs-comment">&lt;!-- Individual disabled radio --&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">aegov-radio-group</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;plan&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Select a plan&quot;</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-radio</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Free&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;free&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-radio</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-radio</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Pro&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;pro&quot;</span> <span class="hljs-attr">disabled</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-radio</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-radio</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Pro&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;pro&quot;</span> <span class="hljs-attr">is-disabled</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-radio</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-radio</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Enterprise&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;enterprise&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-radio</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-radio-group</span>&gt;</span>
 
 <span class="hljs-comment">&lt;!-- Entire group disabled --&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-radio-group</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;locked&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;This group is disabled&quot;</span> <span class="hljs-attr">disabled</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-radio-group</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;locked&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;This group is disabled&quot;</span> <span class="hljs-attr">is-disabled</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-radio</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Option A&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;a&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-radio</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-radio</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Option B&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;b&quot;</span> <span class="hljs-attr">checked</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-radio</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-radio</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Option B&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;b&quot;</span> <span class="hljs-attr">is-checked</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-radio</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-radio-group</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
   <aegov-radio-group name="plan-demo" label="Select a plan">
     <aegov-radio label="Free" value="free"></aegov-radio>
@@ -90,7 +90,7 @@
 <hr>
 <h2>Required</h2>
 <p>Set <code>required</code> on an <code>aegov-radio</code> to mark it as a mandatory field. This adds the native <code>required</code> attribute and sets <code>aria-required=&quot;true&quot;</code> on the underlying <code>&lt;input&gt;</code>.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-radio</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;agree&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;yes&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;I accept the privacy policy&quot;</span> <span class="hljs-attr">required</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-radio</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-radio</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;agree&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;yes&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;I accept the privacy policy&quot;</span> <span class="hljs-attr">is-required</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-radio</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
   <aegov-radio name="agree-demo" value="yes" label="I accept the privacy policy" is-required></aegov-radio>
 </div>
 
@@ -326,7 +326,7 @@
 <p>Renders radios as pill-shaped toggle buttons. The native radio input is visually hidden but remains accessible. The selected pill receives a filled background. Descriptions are hidden in this variant.</p>
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-radio-group</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;var-pills&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Pills variant&quot;</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;pills&quot;</span> <span class="hljs-attr">orientation</span>=<span class="hljs-string">&quot;horizontal&quot;</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-radio</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Daily&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;daily&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-radio</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-radio</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Weekly&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;weekly&quot;</span> <span class="hljs-attr">checked</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-radio</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-radio</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Weekly&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;weekly&quot;</span> <span class="hljs-attr">is-checked</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-radio</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-radio</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Monthly&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;monthly&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-radio</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-radio</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Yearly&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;yearly&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-radio</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-radio-group</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
@@ -341,26 +341,26 @@
 <p>Pills also support different sizes.</p>
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-radio-group</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;pills-xs&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Extra small pills&quot;</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;pills&quot;</span> <span class="hljs-attr">orientation</span>=<span class="hljs-string">&quot;horizontal&quot;</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;xs&quot;</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-radio</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;S&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;s&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-radio</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-radio</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;M&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;m&quot;</span> <span class="hljs-attr">checked</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-radio</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-radio</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;M&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;m&quot;</span> <span class="hljs-attr">is-checked</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-radio</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-radio</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;L&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;l&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-radio</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-radio-group</span>&gt;</span>
 
 <span class="hljs-tag">&lt;<span class="hljs-name">aegov-radio-group</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;pills-sm&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Small pills&quot;</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;pills&quot;</span> <span class="hljs-attr">orientation</span>=<span class="hljs-string">&quot;horizontal&quot;</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm&quot;</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-radio</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;S&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;s&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-radio</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-radio</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;M&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;m&quot;</span> <span class="hljs-attr">checked</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-radio</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-radio</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;M&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;m&quot;</span> <span class="hljs-attr">is-checked</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-radio</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-radio</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;L&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;l&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-radio</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-radio-group</span>&gt;</span>
 
 <span class="hljs-tag">&lt;<span class="hljs-name">aegov-radio-group</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;pills-lg&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Large pills&quot;</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;pills&quot;</span> <span class="hljs-attr">orientation</span>=<span class="hljs-string">&quot;horizontal&quot;</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;lg&quot;</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-radio</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Small&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;s&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-radio</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-radio</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Medium&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;m&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-radio</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-radio</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Large&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;l&quot;</span> <span class="hljs-attr">checked</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-radio</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-radio</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Large&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;l&quot;</span> <span class="hljs-attr">is-checked</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-radio</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-radio-group</span>&gt;</span>
 
 <span class="hljs-tag">&lt;<span class="hljs-name">aegov-radio-group</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;pills-xl&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Extra large pills&quot;</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;pills&quot;</span> <span class="hljs-attr">orientation</span>=<span class="hljs-string">&quot;horizontal&quot;</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;xl&quot;</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-radio</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Small&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;s&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-radio</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-radio</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Medium&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;m&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-radio</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-radio</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Large&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;l&quot;</span> <span class="hljs-attr">checked</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-radio</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-radio</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Large&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;l&quot;</span> <span class="hljs-attr">is-checked</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-radio</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-radio-group</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
   <aegov-radio-group name="pills-xs-demo" label="Extra small pills" variant="pills" orientation="horizontal" size="xs">
     <aegov-radio label="S" value="s"></aegov-radio>
@@ -494,8 +494,8 @@
 <td><code>undefined</code></td>
 </tr>
 <tr>
-<td><code>checked</code></td>
-<td><code>checked</code></td>
+<td><code>isChecked</code></td>
+<td><code>is-checked</code></td>
 <td>Whether the radio is checked.</td>
 <td><code>boolean</code></td>
 <td><code>false</code></td>
@@ -508,15 +508,15 @@
 <td><code>&#39;base&#39;</code></td>
 </tr>
 <tr>
-<td><code>disabled</code></td>
-<td><code>disabled</code></td>
+<td><code>isDisabled</code></td>
+<td><code>is-disabled</code></td>
 <td>Whether the radio is disabled.</td>
 <td><code>boolean</code></td>
 <td><code>false</code></td>
 </tr>
 <tr>
-<td><code>required</code></td>
-<td><code>required</code></td>
+<td><code>isRequired</code></td>
+<td><code>is-required</code></td>
 <td>Whether the radio is required.</td>
 <td><code>boolean</code></td>
 <td><code>false</code></td>
@@ -605,8 +605,8 @@
 <td>--</td>
 </tr>
 <tr>
-<td><code>disabled</code></td>
-<td><code>disabled</code></td>
+<td><code>isDisabled</code></td>
+<td><code>is-disabled</code></td>
 <td>Disables all radios within the group via native fieldset disabled.</td>
 <td><code>boolean</code></td>
 <td><code>false</code></td>

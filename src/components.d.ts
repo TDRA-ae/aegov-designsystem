@@ -531,23 +531,13 @@ export namespace Components {
         "variant": CheckboxGroupVariant;
     }
     interface AegovDatepicker {
+        /**
+          * Comma-separated ISO dates that cannot be selected
+          * @default ''
+         */
+        "blackout": string;
         "clear": () => Promise<void>;
-        /**
-          * Show clear button when value is set
-          * @default true
-         */
-        "clearable": boolean;
         "close": () => Promise<void>;
-        /**
-          * Disable all future dates (shorthand for max="today")
-          * @default false
-         */
-        "disableFuture": boolean;
-        /**
-          * Whether the datepicker is disabled
-          * @default false
-         */
-        "disabled": boolean;
         /**
           * Output format using tokens: YYYY, YY, MM, M, DD, D, MMM, MMMM, dd, ddd
           * @default 'YYYY-MM-DD'
@@ -566,6 +556,46 @@ export namespace Components {
          */
         "getStartDate": () => Promise<string | false>;
         "getValue": () => Promise<string>;
+        /**
+          * Show clear button when value is set
+          * @default true
+         */
+        "isClearable": boolean;
+        /**
+          * Disable all future dates (shorthand for max="today")
+          * @default false
+         */
+        "isDisableFuture": boolean;
+        /**
+          * Whether the datepicker is disabled
+          * @default false
+         */
+        "isDisabled": boolean;
+        /**
+          * Show month/year select dropdowns in header
+          * @default true
+         */
+        "isHeaderSelectable": boolean;
+        /**
+          * Marks the datepicker as required for form validation. Sets `required` on the inner input.
+          * @default false
+         */
+        "isRequired": boolean;
+        /**
+          * Show Apply/Cancel buttons for confirming selection
+          * @default false
+         */
+        "isWithConfirmation": boolean;
+        /**
+          * Placeholder for range end input
+          * @default 'End date'
+         */
+        "labelRangeEnd": string;
+        /**
+          * Placeholder for range start input
+          * @default 'Start date'
+         */
+        "labelRangeStart": string;
         /**
           * Locale for day/month names (BCP 47, e.g., 'en', 'ar', 'fr')
           * @default 'en'
@@ -591,11 +621,6 @@ export namespace Components {
           * @default 0
          */
         "minRange": number;
-        /**
-          * Selection mode: single date or date range
-          * @default 'single'
-         */
-        "mode": DatepickerMode;
         "open": () => Promise<void>;
         /**
           * Placeholder text for single mode input
@@ -608,21 +633,6 @@ export namespace Components {
          */
         "presets": string;
         /**
-          * Placeholder for range end input
-          * @default 'End date'
-         */
-        "rangePlaceholderEnd": string;
-        /**
-          * Placeholder for range start input
-          * @default 'Start date'
-         */
-        "rangePlaceholderStart": string;
-        /**
-          * Show month/year select dropdowns in header
-          * @default true
-         */
-        "selectableHeader": boolean;
-        /**
           * The size of the datepicker input.
           * @default 'base'
          */
@@ -633,20 +643,15 @@ export namespace Components {
          */
         "startDay": number;
         /**
-          * Comma-separated ISO dates that cannot be selected
-          * @default ''
-         */
-        "unavailableDates": string;
-        /**
           * Pre-selected value. Single: "YYYY-MM-DD". Range: "YYYY-MM-DD / YYYY-MM-DD"
           * @default ''
          */
         "value": string;
         /**
-          * Show Apply/Cancel buttons for confirming selection
-          * @default false
+          * Selection variant: single date or date range
+          * @default 'single'
          */
-        "withConfirmation": boolean;
+        "variant": DatepickerMode;
         /**
           * End year for the year dropdown (default: current year + 100)
           * @default 0
@@ -786,10 +791,6 @@ export namespace Components {
          */
         "accept"?: string;
         /**
-          * Custom text for the browse/trigger button.
-         */
-        "buttonText"?: string;
-        /**
           * Clears all selected files.
          */
         "clear": () => Promise<void>;
@@ -797,11 +798,6 @@ export namespace Components {
           * Description text displayed below the label.
          */
         "description"?: string;
-        /**
-          * Disables the file upload.
-          * @default false
-         */
-        "disabled": boolean;
         /**
           * Unique field ID. Auto-generated if not provided.
          */
@@ -811,13 +807,32 @@ export namespace Components {
          */
         "getFiles": () => Promise<File[]>;
         /**
-          * Custom helper text for allowed file types. Overrides auto-generated text from `accept`.
+          * Disables the file upload.
+          * @default false
          */
-        "helperText"?: string;
+        "isDisabled": boolean;
+        /**
+          * Allow multiple file selection.
+          * @default false
+         */
+        "isMultiple": boolean;
+        /**
+          * Marks the field as required.
+          * @default false
+         */
+        "isRequired": boolean;
         /**
           * Label text displayed above the control.
          */
         "label"?: string;
+        /**
+          * Custom text for the browse/trigger button.
+         */
+        "labelButton"?: string;
+        /**
+          * Custom helper text for allowed file types. Overrides auto-generated text from `accept`.
+         */
+        "labelHelp"?: string;
         /**
           * Maximum file size in bytes.
          */
@@ -827,19 +842,9 @@ export namespace Components {
          */
         "maxFiles"?: number;
         /**
-          * Allow multiple file selection.
-          * @default false
-         */
-        "multiple": boolean;
-        /**
           * Form field name.
          */
         "name"?: string;
-        /**
-          * Marks the field as required.
-          * @default false
-         */
-        "required": boolean;
         /**
           * Component size.
           * @default 'base'
@@ -881,16 +886,6 @@ export namespace Components {
     }
     interface AegovInput {
         /**
-          * Show a copy button to copy the input value to clipboard. Only applies when readonly.
-          * @default false
-         */
-        "copyable": boolean;
-        /**
-          * Whether the input is disabled.
-          * @default false
-         */
-        "disabled": boolean;
-        /**
           * Additional CSS classes to apply.
          */
         "extraClass"?: string;
@@ -899,6 +894,31 @@ export namespace Components {
          */
         "fieldId"?: string;
         /**
+          * Show a copy button to copy the input value to clipboard. Only applies when readonly.
+          * @default false
+         */
+        "isCopyable": boolean;
+        /**
+          * Whether the input is disabled.
+          * @default false
+         */
+        "isDisabled": boolean;
+        /**
+          * Whether the input is readonly.
+          * @default false
+         */
+        "isReadonly": boolean;
+        /**
+          * Whether the input is required.
+          * @default false
+         */
+        "isRequired": boolean;
+        /**
+          * Show a toggle button to reveal/hide password. Only applies when type="password".
+          * @default false
+         */
+        "isRevealable": boolean;
+        /**
           * The name attribute for the input.
          */
         "name"?: string;
@@ -906,21 +926,6 @@ export namespace Components {
           * Placeholder text for the input.
          */
         "placeholder"?: string;
-        /**
-          * Whether the input is readonly.
-          * @default false
-         */
-        "readonly": boolean;
-        /**
-          * Whether the input is required.
-          * @default false
-         */
-        "required": boolean;
-        /**
-          * Show a toggle button to reveal/hide password. Only applies when type="password".
-          * @default false
-         */
-        "revealable": boolean;
         /**
           * The size of the input field.
           * @default 'base'
@@ -1128,19 +1133,9 @@ export namespace Components {
     }
     interface AegovOtp {
         /**
-          * Allow letters and numbers when true. Numbers only when false.
-          * @default false
-         */
-        "alphanumeric": boolean;
-        /**
           * Clears all cells and focuses the first cell.
          */
         "clear": () => Promise<void>;
-        /**
-          * Disables all input cells.
-          * @default false
-         */
-        "disabled": boolean;
         /**
           * Additional CSS classes.
          */
@@ -1149,6 +1144,16 @@ export namespace Components {
           * Unique ID for the first input cell. Auto-generated if not provided. Used by aegov-label for linking.
          */
         "fieldId"?: string;
+        /**
+          * Allow letters and numbers when true. Numbers only when false.
+          * @default false
+         */
+        "isAlphanumeric": boolean;
+        /**
+          * Disables all input cells.
+          * @default false
+         */
+        "isDisabled": boolean;
         /**
           * Number of input cells (digits/characters expected).
           * @default 5
@@ -1412,11 +1417,6 @@ export namespace Components {
     }
     interface AegovRange {
         /**
-          * Whether the range is disabled.
-          * @default false
-         */
-        "disabled": boolean;
-        /**
           * Value display mode.
           * @default 'none'
          */
@@ -1429,6 +1429,16 @@ export namespace Components {
           * Unique ID for the native range input element. Auto-generated if not provided.
          */
         "fieldId"?: string;
+        /**
+          * Whether the range is disabled.
+          * @default false
+         */
+        "isDisabled": boolean;
+        /**
+          * Whether the range is required.
+          * @default false
+         */
+        "isRequired": boolean;
         /**
           * Optional label text.
          */
@@ -1458,11 +1468,6 @@ export namespace Components {
          */
         "orientation": RangeOrientation;
         /**
-          * Whether the range is required.
-          * @default false
-         */
-        "required": boolean;
-        /**
           * Size of the range track. Thumb remains constant.
           * @default 'base'
          */
@@ -1490,16 +1495,6 @@ export namespace Components {
     }
     interface AegovSelect {
         /**
-          * Show a clear button to reset selection.
-          * @default false
-         */
-        "clearable": boolean;
-        /**
-          * Whether the select is disabled.
-          * @default false
-         */
-        "disabled": boolean;
-        /**
           * Message shown when search yields no results.
           * @default 'No results found'
          */
@@ -1513,10 +1508,30 @@ export namespace Components {
          */
         "fieldId"?: string;
         /**
+          * Show a clear button to reset selection.
+          * @default false
+         */
+        "isClearable": boolean;
+        /**
+          * Whether the select is disabled.
+          * @default false
+         */
+        "isDisabled": boolean;
+        /**
           * Whether multiple selection is enabled. Forces listbox behaviour.
           * @default false
          */
-        "multiple": boolean;
+        "isMultiple": boolean;
+        /**
+          * Whether the select is required.
+          * @default false
+         */
+        "isRequired": boolean;
+        /**
+          * Show a search input in the listbox dropdown to filter options. Only works with listbox variant.
+          * @default false
+         */
+        "isSearchable": boolean;
         /**
           * The name attribute for form submission.
          */
@@ -1525,16 +1540,6 @@ export namespace Components {
           * Placeholder text shown when nothing is selected.
          */
         "placeholder"?: string;
-        /**
-          * Whether the select is required.
-          * @default false
-         */
-        "required": boolean;
-        /**
-          * Show a search input in the listbox dropdown to filter options. Only works with listbox variant.
-          * @default false
-         */
-        "searchable": boolean;
         /**
           * The size of the select. Matches aegov-input height.
           * @default 'base'
@@ -1561,7 +1566,7 @@ export namespace Components {
           * Whether this option is disabled.
           * @default false
          */
-        "disabled": boolean;
+        "isDisabled": boolean;
         /**
           * The value of this option.
           * @default ''
@@ -1732,16 +1737,6 @@ export namespace Components {
     }
     interface AegovTextarea {
         /**
-          * Show a copy button to copy the textarea value to clipboard. Only applies when readonly.
-          * @default false
-         */
-        "copyable": boolean;
-        /**
-          * Whether the textarea is disabled.
-          * @default false
-         */
-        "disabled": boolean;
-        /**
           * Additional CSS classes to apply.
          */
         "extraClass"?: string;
@@ -1749,6 +1744,26 @@ export namespace Components {
           * Unique ID for the native textarea element. Auto-generated if not provided.
          */
         "fieldId"?: string;
+        /**
+          * Show a copy button to copy the textarea value to clipboard. Only applies when readonly.
+          * @default false
+         */
+        "isCopyable": boolean;
+        /**
+          * Whether the textarea is disabled.
+          * @default false
+         */
+        "isDisabled": boolean;
+        /**
+          * Whether the textarea is readonly.
+          * @default false
+         */
+        "isReadonly": boolean;
+        /**
+          * Whether the textarea is required.
+          * @default false
+         */
+        "isRequired": boolean;
         /**
           * Maximum number of characters. When set, a character counter is displayed.
          */
@@ -1761,16 +1776,6 @@ export namespace Components {
           * Placeholder text for the textarea.
          */
         "placeholder"?: string;
-        /**
-          * Whether the textarea is readonly.
-          * @default false
-         */
-        "readonly": boolean;
-        /**
-          * Whether the textarea is required.
-          * @default false
-         */
-        "required": boolean;
         /**
           * Resize behaviour of the textarea.
           * @default 'vertical'
@@ -3486,25 +3491,55 @@ declare namespace LocalJSX {
     }
     interface AegovDatepicker {
         /**
-          * Show clear button when value is set
-          * @default true
+          * Comma-separated ISO dates that cannot be selected
+          * @default ''
          */
-        "clearable"?: boolean;
-        /**
-          * Disable all future dates (shorthand for max="today")
-          * @default false
-         */
-        "disableFuture"?: boolean;
-        /**
-          * Whether the datepicker is disabled
-          * @default false
-         */
-        "disabled"?: boolean;
+        "blackout"?: string;
         /**
           * Output format using tokens: YYYY, YY, MM, M, DD, D, MMM, MMMM, dd, ddd
           * @default 'YYYY-MM-DD'
          */
         "format"?: string;
+        /**
+          * Show clear button when value is set
+          * @default true
+         */
+        "isClearable"?: boolean;
+        /**
+          * Disable all future dates (shorthand for max="today")
+          * @default false
+         */
+        "isDisableFuture"?: boolean;
+        /**
+          * Whether the datepicker is disabled
+          * @default false
+         */
+        "isDisabled"?: boolean;
+        /**
+          * Show month/year select dropdowns in header
+          * @default true
+         */
+        "isHeaderSelectable"?: boolean;
+        /**
+          * Marks the datepicker as required for form validation. Sets `required` on the inner input.
+          * @default false
+         */
+        "isRequired"?: boolean;
+        /**
+          * Show Apply/Cancel buttons for confirming selection
+          * @default false
+         */
+        "isWithConfirmation"?: boolean;
+        /**
+          * Placeholder for range end input
+          * @default 'End date'
+         */
+        "labelRangeEnd"?: string;
+        /**
+          * Placeholder for range start input
+          * @default 'Start date'
+         */
+        "labelRangeStart"?: string;
         /**
           * Locale for day/month names (BCP 47, e.g., 'en', 'ar', 'fr')
           * @default 'en'
@@ -3530,11 +3565,6 @@ declare namespace LocalJSX {
           * @default 0
          */
         "minRange"?: number;
-        /**
-          * Selection mode: single date or date range
-          * @default 'single'
-         */
-        "mode"?: DatepickerMode;
         "onAegovDatepickerChange"?: (event: AegovDatepickerCustomEvent<DatepickerChangeDetail>) => void;
         "onAegovDatepickerClear"?: (event: AegovDatepickerCustomEvent<void>) => void;
         "onAegovDatepickerClose"?: (event: AegovDatepickerCustomEvent<void>) => void;
@@ -3551,21 +3581,6 @@ declare namespace LocalJSX {
          */
         "presets"?: string;
         /**
-          * Placeholder for range end input
-          * @default 'End date'
-         */
-        "rangePlaceholderEnd"?: string;
-        /**
-          * Placeholder for range start input
-          * @default 'Start date'
-         */
-        "rangePlaceholderStart"?: string;
-        /**
-          * Show month/year select dropdowns in header
-          * @default true
-         */
-        "selectableHeader"?: boolean;
-        /**
           * The size of the datepicker input.
           * @default 'base'
          */
@@ -3576,20 +3591,15 @@ declare namespace LocalJSX {
          */
         "startDay"?: number;
         /**
-          * Comma-separated ISO dates that cannot be selected
-          * @default ''
-         */
-        "unavailableDates"?: string;
-        /**
           * Pre-selected value. Single: "YYYY-MM-DD". Range: "YYYY-MM-DD / YYYY-MM-DD"
           * @default ''
          */
         "value"?: string;
         /**
-          * Show Apply/Cancel buttons for confirming selection
-          * @default false
+          * Selection variant: single date or date range
+          * @default 'single'
          */
-        "withConfirmation"?: boolean;
+        "variant"?: DatepickerMode;
         /**
           * End year for the year dropdown (default: current year + 100)
           * @default 0
@@ -3740,30 +3750,40 @@ declare namespace LocalJSX {
          */
         "accept"?: string;
         /**
-          * Custom text for the browse/trigger button.
-         */
-        "buttonText"?: string;
-        /**
           * Description text displayed below the label.
          */
         "description"?: string;
-        /**
-          * Disables the file upload.
-          * @default false
-         */
-        "disabled"?: boolean;
         /**
           * Unique field ID. Auto-generated if not provided.
          */
         "fieldId"?: string;
         /**
-          * Custom helper text for allowed file types. Overrides auto-generated text from `accept`.
+          * Disables the file upload.
+          * @default false
          */
-        "helperText"?: string;
+        "isDisabled"?: boolean;
+        /**
+          * Allow multiple file selection.
+          * @default false
+         */
+        "isMultiple"?: boolean;
+        /**
+          * Marks the field as required.
+          * @default false
+         */
+        "isRequired"?: boolean;
         /**
           * Label text displayed above the control.
          */
         "label"?: string;
+        /**
+          * Custom text for the browse/trigger button.
+         */
+        "labelButton"?: string;
+        /**
+          * Custom helper text for allowed file types. Overrides auto-generated text from `accept`.
+         */
+        "labelHelp"?: string;
         /**
           * Maximum file size in bytes.
          */
@@ -3772,11 +3792,6 @@ declare namespace LocalJSX {
           * Maximum number of files (multiple mode only). No limit by default.
          */
         "maxFiles"?: number;
-        /**
-          * Allow multiple file selection.
-          * @default false
-         */
-        "multiple"?: boolean;
         /**
           * Form field name.
          */
@@ -3793,11 +3808,6 @@ declare namespace LocalJSX {
           * Emitted when a file is removed from the list (button/dropzone variants).
          */
         "onAegovFileuploadRemove"?: (event: AegovFileuploadCustomEvent<{ file: File; remaining: File[] }>) => void;
-        /**
-          * Marks the field as required.
-          * @default false
-         */
-        "required"?: boolean;
         /**
           * Component size.
           * @default 'base'
@@ -3839,16 +3849,6 @@ declare namespace LocalJSX {
     }
     interface AegovInput {
         /**
-          * Show a copy button to copy the input value to clipboard. Only applies when readonly.
-          * @default false
-         */
-        "copyable"?: boolean;
-        /**
-          * Whether the input is disabled.
-          * @default false
-         */
-        "disabled"?: boolean;
-        /**
           * Additional CSS classes to apply.
          */
         "extraClass"?: string;
@@ -3856,6 +3856,31 @@ declare namespace LocalJSX {
           * Unique ID for the native input element. Auto-generated if not provided.
          */
         "fieldId"?: string;
+        /**
+          * Show a copy button to copy the input value to clipboard. Only applies when readonly.
+          * @default false
+         */
+        "isCopyable"?: boolean;
+        /**
+          * Whether the input is disabled.
+          * @default false
+         */
+        "isDisabled"?: boolean;
+        /**
+          * Whether the input is readonly.
+          * @default false
+         */
+        "isReadonly"?: boolean;
+        /**
+          * Whether the input is required.
+          * @default false
+         */
+        "isRequired"?: boolean;
+        /**
+          * Show a toggle button to reveal/hide password. Only applies when type="password".
+          * @default false
+         */
+        "isRevealable"?: boolean;
         /**
           * The name attribute for the input.
          */
@@ -3880,21 +3905,6 @@ declare namespace LocalJSX {
           * Placeholder text for the input.
          */
         "placeholder"?: string;
-        /**
-          * Whether the input is readonly.
-          * @default false
-         */
-        "readonly"?: boolean;
-        /**
-          * Whether the input is required.
-          * @default false
-         */
-        "required"?: boolean;
-        /**
-          * Show a toggle button to reveal/hide password. Only applies when type="password".
-          * @default false
-         */
-        "revealable"?: boolean;
         /**
           * The size of the input field.
           * @default 'base'
@@ -4114,16 +4124,6 @@ declare namespace LocalJSX {
     }
     interface AegovOtp {
         /**
-          * Allow letters and numbers when true. Numbers only when false.
-          * @default false
-         */
-        "alphanumeric"?: boolean;
-        /**
-          * Disables all input cells.
-          * @default false
-         */
-        "disabled"?: boolean;
-        /**
           * Additional CSS classes.
          */
         "extraClass"?: string;
@@ -4131,6 +4131,16 @@ declare namespace LocalJSX {
           * Unique ID for the first input cell. Auto-generated if not provided. Used by aegov-label for linking.
          */
         "fieldId"?: string;
+        /**
+          * Allow letters and numbers when true. Numbers only when false.
+          * @default false
+         */
+        "isAlphanumeric"?: boolean;
+        /**
+          * Disables all input cells.
+          * @default false
+         */
+        "isDisabled"?: boolean;
         /**
           * Number of input cells (digits/characters expected).
           * @default 5
@@ -4426,11 +4436,6 @@ declare namespace LocalJSX {
     }
     interface AegovRange {
         /**
-          * Whether the range is disabled.
-          * @default false
-         */
-        "disabled"?: boolean;
-        /**
           * Value display mode.
           * @default 'none'
          */
@@ -4443,6 +4448,16 @@ declare namespace LocalJSX {
           * Unique ID for the native range input element. Auto-generated if not provided.
          */
         "fieldId"?: string;
+        /**
+          * Whether the range is disabled.
+          * @default false
+         */
+        "isDisabled"?: boolean;
+        /**
+          * Whether the range is required.
+          * @default false
+         */
+        "isRequired"?: boolean;
         /**
           * Optional label text.
          */
@@ -4480,11 +4495,6 @@ declare namespace LocalJSX {
          */
         "orientation"?: RangeOrientation;
         /**
-          * Whether the range is required.
-          * @default false
-         */
-        "required"?: boolean;
-        /**
           * Size of the range track. Thumb remains constant.
           * @default 'base'
          */
@@ -4512,16 +4522,6 @@ declare namespace LocalJSX {
     }
     interface AegovSelect {
         /**
-          * Show a clear button to reset selection.
-          * @default false
-         */
-        "clearable"?: boolean;
-        /**
-          * Whether the select is disabled.
-          * @default false
-         */
-        "disabled"?: boolean;
-        /**
           * Message shown when search yields no results.
           * @default 'No results found'
          */
@@ -4535,10 +4535,30 @@ declare namespace LocalJSX {
          */
         "fieldId"?: string;
         /**
+          * Show a clear button to reset selection.
+          * @default false
+         */
+        "isClearable"?: boolean;
+        /**
+          * Whether the select is disabled.
+          * @default false
+         */
+        "isDisabled"?: boolean;
+        /**
           * Whether multiple selection is enabled. Forces listbox behaviour.
           * @default false
          */
-        "multiple"?: boolean;
+        "isMultiple"?: boolean;
+        /**
+          * Whether the select is required.
+          * @default false
+         */
+        "isRequired"?: boolean;
+        /**
+          * Show a search input in the listbox dropdown to filter options. Only works with listbox variant.
+          * @default false
+         */
+        "isSearchable"?: boolean;
         /**
           * The name attribute for form submission.
          */
@@ -4559,16 +4579,6 @@ declare namespace LocalJSX {
           * Placeholder text shown when nothing is selected.
          */
         "placeholder"?: string;
-        /**
-          * Whether the select is required.
-          * @default false
-         */
-        "required"?: boolean;
-        /**
-          * Show a search input in the listbox dropdown to filter options. Only works with listbox variant.
-          * @default false
-         */
-        "searchable"?: boolean;
         /**
           * The size of the select. Matches aegov-input height.
           * @default 'base'
@@ -4595,7 +4605,7 @@ declare namespace LocalJSX {
           * Whether this option is disabled.
           * @default false
          */
-        "disabled"?: boolean;
+        "isDisabled"?: boolean;
         /**
           * The value of this option.
           * @default ''
@@ -4776,16 +4786,6 @@ declare namespace LocalJSX {
     }
     interface AegovTextarea {
         /**
-          * Show a copy button to copy the textarea value to clipboard. Only applies when readonly.
-          * @default false
-         */
-        "copyable"?: boolean;
-        /**
-          * Whether the textarea is disabled.
-          * @default false
-         */
-        "disabled"?: boolean;
-        /**
           * Additional CSS classes to apply.
          */
         "extraClass"?: string;
@@ -4793,6 +4793,26 @@ declare namespace LocalJSX {
           * Unique ID for the native textarea element. Auto-generated if not provided.
          */
         "fieldId"?: string;
+        /**
+          * Show a copy button to copy the textarea value to clipboard. Only applies when readonly.
+          * @default false
+         */
+        "isCopyable"?: boolean;
+        /**
+          * Whether the textarea is disabled.
+          * @default false
+         */
+        "isDisabled"?: boolean;
+        /**
+          * Whether the textarea is readonly.
+          * @default false
+         */
+        "isReadonly"?: boolean;
+        /**
+          * Whether the textarea is required.
+          * @default false
+         */
+        "isRequired"?: boolean;
         /**
           * Maximum number of characters. When set, a character counter is displayed.
          */
@@ -4821,16 +4841,6 @@ declare namespace LocalJSX {
           * Placeholder text for the textarea.
          */
         "placeholder"?: string;
-        /**
-          * Whether the textarea is readonly.
-          * @default false
-         */
-        "readonly"?: boolean;
-        /**
-          * Whether the textarea is required.
-          * @default false
-         */
-        "required"?: boolean;
         /**
           * Resize behaviour of the textarea.
           * @default 'vertical'
