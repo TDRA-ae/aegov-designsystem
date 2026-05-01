@@ -111,20 +111,20 @@ export class AegovInput {
   ]);
 
 
-  private get isRevealable(): boolean {
+  private get showReveal(): boolean {
     return this.type === 'password' && this.isRevealable;
   }
 
-  private get isCopyable(): boolean {
+  private get showCopy(): boolean {
     return this.isReadonly && this.isCopyable;
   }
 
   private get hasActionButton(): boolean {
-    return this.isRevealable || this.isCopyable;
+    return this.showReveal || this.showCopy;
   }
 
   private get resolvedType(): string {
-    if (this.isRevealable && this.passwordVisible) {
+    if (this.showReveal && this.passwordVisible) {
       return 'text';
     }
     return (INPUT_TYPES as readonly string[]).includes(this.type) ? this.type : 'text';
@@ -209,7 +209,7 @@ export class AegovInput {
   };
 
   private renderRevealButton() {
-    if (!this.isRevealable) return null;
+    if (!this.showReveal) return null;
 
     const sizeClasses: Record<InputSize, string> = {
       xs: 'revealable--xs',
@@ -248,7 +248,7 @@ export class AegovInput {
   }
 
   private renderCopyButton() {
-    if (!this.isCopyable) return null;
+    if (!this.showCopy) return null;
 
     const sizeClasses: Record<InputSize, string> = {
       xs: 'copy-btn--xs',

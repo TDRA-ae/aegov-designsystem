@@ -121,7 +121,7 @@ export class AegovTextarea {
   ]);
 
 
-  private get isCopyable(): boolean {
+  private get showCopy(): boolean {
     return this.isReadonly && this.isCopyable;
   }
 
@@ -149,7 +149,7 @@ export class AegovTextarea {
     const resize: TextareaResize = (TEXTAREA_RESIZES as readonly string[]).includes(this.resize) ? this.resize : 'vertical';
     classes.push(resizeClasses[resize]);
 
-    if (this.isCopyable) {
+    if (this.showCopy) {
       classes.push('textarea--has-copy');
     }
 
@@ -212,7 +212,7 @@ export class AegovTextarea {
   };
 
   private renderCopyButton() {
-    if (!this.isCopyable) return null;
+    if (!this.showCopy) return null;
 
     return (
       <button
@@ -259,7 +259,7 @@ export class AegovTextarea {
 
   render() {
     const passThroughAttributes = getPassThroughAttributes(this.el, AegovTextarea.PASS_THROUGH_ATTRS);
-    const needsWrapper = this.isCopyable;
+    const needsWrapper = this.showCopy;
     const hasCounter = this.maxlength !== undefined && this.maxlength !== null;
 
     const textarea = (
