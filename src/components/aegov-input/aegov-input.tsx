@@ -31,10 +31,10 @@ export class AegovInput {
   private _sizeWatcher: ResponsivePropWatcher | null = null;
 
   /** Whether the input is disabled. */
-  @Prop() disabled: boolean = false;
+  @Prop() isDisabled: boolean = false;
 
   /** Whether the input is readonly. */
-  @Prop() readonly: boolean = false;
+  @Prop() isReadonly: boolean = false;
 
   /** Placeholder text for the input. */
   @Prop() placeholder?: string;
@@ -46,13 +46,13 @@ export class AegovInput {
   @Prop() name?: string;
 
   /** Whether the input is required. */
-  @Prop() required: boolean = false;
+  @Prop() isRequired: boolean = false;
 
   /** Show a toggle button to reveal/hide password. Only applies when type="password". */
-  @Prop() revealable: boolean = false;
+  @Prop() isRevealable: boolean = false;
 
   /** Show a copy button to copy the input value to clipboard. Only applies when readonly. */
-  @Prop() copyable: boolean = false;
+  @Prop() isCopyable: boolean = false;
 
   /** Additional CSS classes to apply. */
   @Prop() extraClass?: string;
@@ -112,11 +112,11 @@ export class AegovInput {
 
 
   private get isRevealable(): boolean {
-    return this.type === 'password' && this.revealable;
+    return this.type === 'password' && this.isRevealable;
   }
 
   private get isCopyable(): boolean {
-    return this.readonly && this.copyable;
+    return this.isReadonly && this.isCopyable;
   }
 
   private get hasActionButton(): boolean {
@@ -224,7 +224,7 @@ export class AegovInput {
         type="button"
         class={`input__revealable ${sizeClasses[this._resolvedSize]}`}
         onClick={this.handleRevealToggle}
-        disabled={this.disabled}
+        disabled={this.isDisabled}
         tabindex={-1}
         aria-label={this.passwordVisible ? 'Hide password' : 'Show password'}
       >
@@ -293,12 +293,12 @@ export class AegovInput {
         id={this.fieldId}
         type={this.resolvedType}
         class={this.getInputClasses(hasIconStart, hasIconEnd)}
-        disabled={this.disabled}
-        readOnly={this.readonly}
+        disabled={this.isDisabled}
+        readOnly={this.isReadonly}
         placeholder={this.placeholder}
         value={this.value}
         name={this.name}
-        required={this.required}
+        required={this.isRequired}
         onChange={this.handleChange}
         onInput={this.handleInput}
         onFocus={this.handleFocus}

@@ -58,10 +58,10 @@ export class AegovRange {
   @Prop() mode: RangeMode = 'single';
 
   /** Whether the range is disabled. */
-  @Prop({ reflect: true }) disabled: boolean = false;
+  @Prop({ reflect: true }) isDisabled: boolean = false;
 
   /** Whether the range is required. */
-  @Prop() required: boolean = false;
+  @Prop() isRequired: boolean = false;
 
   /** Optional label text. */
   @Prop() label?: string;
@@ -241,7 +241,7 @@ export class AegovRange {
   }
 
   private handleThumbMouseDown = (e: MouseEvent, which: 'single' | 'low' | 'high') => {
-    if (this.disabled) return;
+    if (this.isDisabled) return;
     e.preventDefault();
     this.activeThumb = which;
     this.focusNativeInput(which);
@@ -260,7 +260,7 @@ export class AegovRange {
   };
 
   private handleThumbTouchStart = (e: TouchEvent, which: 'single' | 'low' | 'high') => {
-    if (this.disabled) return;
+    if (this.isDisabled) return;
     e.preventDefault();
     this.activeThumb = which;
     this.focusNativeInput(which);
@@ -280,7 +280,7 @@ export class AegovRange {
   };
 
   private handleTrackClick = (e: MouseEvent) => {
-    if (this.disabled) return;
+    if (this.isDisabled) return;
     // Determine which thumb to move in range mode (closest to click)
     if (this.mode === 'range') {
       const wrapper = this.trackWrapperEl;
@@ -380,7 +380,7 @@ export class AegovRange {
       `range--${size}`,
       `range--${orientation}`,
       displayClass,
-      this.disabled ? 'aegov-range--disabled' : '',
+      this.isDisabled ? 'aegov-range--disabled' : '',
       this.extraClass || '',
     ].filter(Boolean).join(' ');
 
@@ -412,8 +412,8 @@ export class AegovRange {
                 max={this.max}
                 step={this.step}
                 value={this.value}
-                disabled={this.disabled}
-                required={this.required}
+                disabled={this.isDisabled}
+                required={this.isRequired}
                 onInput={this.handleSingleInput}
                 onChange={this.handleSingleChange}
                 aria-valuemin={this.min}
@@ -434,7 +434,7 @@ export class AegovRange {
                 max={this.max}
                 step={this.step}
                 value={this.valueLow}
-                disabled={this.disabled}
+                disabled={this.isDisabled}
                 onInput={this.handleLowInput}
                 onChange={this.handleLowChange}
                 aria-valuemin={this.min}
@@ -453,7 +453,7 @@ export class AegovRange {
                 max={this.max}
                 step={this.step}
                 value={this.valueHigh}
-                disabled={this.disabled}
+                disabled={this.isDisabled}
                 onInput={this.handleHighInput}
                 onChange={this.handleHighChange}
                 aria-valuemin={this.valueLow}

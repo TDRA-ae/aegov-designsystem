@@ -9,6 +9,7 @@ import { generateId } from '../../utils/id-generator';
 import { warnIfInvalidEnumProp } from '../../utils/prop-validator';
 import { watchResponsiveProp } from '../../utils/responsive-prop';
 import type { ResponsivePropWatcher } from '../../utils/responsive-prop';
+import { getPassThroughAttributes } from '../../utils/attributes';
 
 const TAG = 'aegov-datepicker';
 const ctx = (prop: string) => ({ component: TAG, prop });
@@ -28,9 +29,17 @@ const ARROW_RIGHT = `<svg xmlns="http://www.w3.org/2000/svg" width="14" height="
 export class AegovDatepicker {
   @Element() el: HTMLElement;
 
+  /** Native input attributes to pass through to the inner input element. */
+  private static readonly PASS_THROUGH_ATTRS = new Set([
+    'pattern', 'minlength', 'maxlength', 'step',
+    'autocomplete', 'autofocus', 'inputmode', 'list', 'multiple',
+    'accept', 'capture', 'spellcheck', 'enterkeyhint', 'title',
+    'tabindex', 'form',
+  ]);
+
   // ── Props ─────────────────────────────────────────────
-  /** Selection mode: single date or date range */
-  @Prop() mode: DatepickerMode = 'single';
+  /** Selection variant: single date or date range */
+  @Prop() variant: DatepickerMode = 'single';
 
   /** Pre-selected value. Single: "YYYY-MM-DD". Range: "YYYY-MM-DD / YYYY-MM-DD" */
   @Prop({ mutable: true }) value: string = '';
@@ -42,10 +51,10 @@ export class AegovDatepicker {
   @Prop() placeholder: string = 'Select date';
 
   /** Placeholder for range start input */
-  @Prop({ attribute: 'range-placeholder-start' }) rangePlaceholderStart: string = 'Start date';
+  @Prop() labelRangeStart: string = 'Start date';
 
   /** Placeholder for range end input */
-  @Prop({ attribute: 'range-placeholder-end' }) rangePlaceholderEnd: string = 'End date';
+  @Prop() labelRangeEnd: string = 'End date';
 
   /** Minimum selectable date (ISO string or "today") */
   @Prop() min: string = '';
@@ -54,7 +63,7 @@ export class AegovDatepicker {
   @Prop() max: string = '';
 
   /** Disable all future dates (shorthand for max="today") */
-  @Prop({ attribute: 'disable-future' }) disableFuture: boolean = false;
+  @Prop() isDisableFuture: boolean = false;
 
   /** Week start day: 0=Sunday, 1=Monday, ...6=Saturday */
   @Prop({ attribute: 'start-day' }) startDay: number = 0;
@@ -69,19 +78,22 @@ export class AegovDatepicker {
   @Prop({ attribute: 'max-range' }) maxRange: number = 0;
 
   /** Comma-separated ISO dates that cannot be selected */
-  @Prop({ attribute: 'unavailable-dates' }) unavailableDates: string = '';
+  @Prop() blackout: string = '';
 
   /** Comma-separated preset IDs for range mode (e.g., "today,last7Days,thisMonth") */
   @Prop() presets: string = '';
 
   /** Whether the datepicker is disabled */
-  @Prop() disabled: boolean = false;
+  @Prop() isDisabled: boolean = false;
+
+  /** Marks the datepicker as required for form validation. Sets `required` on the inner input. */
+  @Prop() isRequired: boolean = false;
 
   /** Show clear button when value is set */
-  @Prop() clearable: boolean = true;
+  @Prop() isClearable: boolean = true;
 
   /** Show month/year select dropdowns in header */
-  @Prop({ attribute: 'selectable-header' }) selectableHeader: boolean = true;
+  @Prop() isHeaderSelectable: boolean = true;
 
   /** Start year for the year dropdown (default: current year - 100) */
   @Prop({ attribute: 'year-range-start' }) yearRangeStart: number = 0;
@@ -90,7 +102,7 @@ export class AegovDatepicker {
   @Prop({ attribute: 'year-range-end' }) yearRangeEnd: number = 0;
 
   /** Show Apply/Cancel buttons for confirming selection */
-  @Prop({ attribute: 'with-confirmation' }) withConfirmation: boolean = false;
+  @Prop() isWithConfirmation: boolean = false;
 
   /** The size of the datepicker input. */
   @Prop() size: string = 'base';
@@ -135,7 +147,7 @@ export class AegovDatepicker {
   // ── Lifecycle ─────────────────────────────────────────
 
   componentWillLoad() {
-    warnIfInvalidEnumProp(this.mode, DATEPICKER_MODES, 'single', ctx('mode'));
+    warnIfInvalidEnumProp(this.variant, DATEPICKER_MODES, 'single', ctx('variant'));
     this._sizeWatcher = watchResponsiveProp(this.size, INPUT_SIZES, 'base', v => {
       this._resolvedSize = v as InputSize;
     });
@@ -148,8 +160,8 @@ export class AegovDatepicker {
     this.parsePresets();
   }
 
-  @Watch('mode')
-  onModeChange(v: unknown) { warnIfInvalidEnumProp(v, DATEPICKER_MODES, 'single', ctx('mode')); }
+  @Watch('variant')
+  onVariantChange(v: unknown) { warnIfInvalidEnumProp(v, DATEPICKER_MODES, 'single', ctx('variant')); }
 
   @Watch('size')
   onSizeChange() {
@@ -192,10 +204,10 @@ export class AegovDatepicker {
       this.positionRetryCount = 0;
 
       // Set view month/year based on selection or today
-      if (this.mode === 'single' && this.selectedDate) {
+      if (this.variant === 'single' && this.selectedDate) {
         this.viewMonth = this.selectedDate.getMonth();
         this.viewYear = this.selectedDate.getFullYear();
-      } else if (this.mode === 'range' && this.rangeStart) {
+      } else if (this.variant === 'range' && this.rangeStart) {
         this.viewMonth = this.rangeStart.getMonth();
         this.viewYear = this.rangeStart.getFullYear();
       } else {
@@ -205,7 +217,7 @@ export class AegovDatepicker {
       }
 
       // Reset pending state for confirmation mode
-      if (this.withConfirmation) {
+      if (this.isWithConfirmation) {
         this.pendingDate = this.selectedDate;
         this.pendingRangeStart = this.rangeStart;
         this.pendingRangeEnd = this.rangeEnd;
@@ -217,7 +229,7 @@ export class AegovDatepicker {
       this.triggerElement = document.activeElement as HTMLElement;
 
       // Move focus into the calendar: focus today, selected day, or first day
-      const focusTarget = this.selectedDate || (this.mode === 'range' && this.rangeStart ? this.rangeStart : null) || stripTime(new Date());
+      const focusTarget = this.selectedDate || (this.variant === 'range' && this.rangeStart ? this.rangeStart : null) || stripTime(new Date());
       this.focusedDate = focusTarget;
       this.focusDayButton(focusTarget);
     } else {
@@ -239,7 +251,7 @@ export class AegovDatepicker {
 
   @Method()
   async open() {
-    if (this.disabled) return;
+    if (this.isDisabled) return;
     // Ensure portal is ready (may not exist if called before componentDidLoad)
     this.createPortalElement();
     this.isOpen = true;
@@ -263,21 +275,21 @@ export class AegovDatepicker {
   /** Returns formatted start date string in range mode, or false if not in range mode or no start date */
   @Method()
   async getStartDate(): Promise<string | false> {
-    if (this.mode !== 'range') return false;
+    if (this.variant !== 'range') return false;
     return this.rangeStart ? formatDate(this.rangeStart, this.format, this.locale) : false;
   }
 
   /** Returns formatted end date string in range mode, or false if not in range mode or no end date */
   @Method()
   async getEndDate(): Promise<string | false> {
-    if (this.mode !== 'range') return false;
+    if (this.variant !== 'range') return false;
     return this.rangeEnd ? formatDate(this.rangeEnd, this.format, this.locale) : false;
   }
 
   /** Returns the preset ID that matches the current range selection, or false if none matches or not in range mode */
   @Method()
   async getPreset(): Promise<string | false> {
-    if (this.mode !== 'range' || !this.rangeStart || !this.rangeEnd || this.parsedPresets.length === 0) return false;
+    if (this.variant !== 'range' || !this.rangeStart || !this.rangeEnd || this.parsedPresets.length === 0) return false;
     const definitions = getPresetDefinitions(this.parsedPresets);
     for (const preset of definitions) {
       const range = preset.calculate(this.startDay);
@@ -298,7 +310,7 @@ export class AegovDatepicker {
       return;
     }
 
-    if (this.mode === 'single') {
+    if (this.variant === 'single') {
       this.selectedDate = parseDate(this.value, this.format);
     } else {
       const { start, end } = parseRangeValue(this.value, this.format);
@@ -309,8 +321,8 @@ export class AegovDatepicker {
 
   private parseUnavailableDates() {
     this.parsedUnavailableDates = new Set();
-    if (this.unavailableDates) {
-      this.unavailableDates.split(',').forEach(d => {
+    if (this.blackout) {
+      this.blackout.split(',').forEach(d => {
         const trimmed = d.trim();
         if (trimmed) this.parsedUnavailableDates.add(trimmed);
       });
@@ -333,7 +345,7 @@ export class AegovDatepicker {
   }
 
   private getMaxDate(): Date | null {
-    if (this.max === 'today' || this.disableFuture) return stripTime(new Date());
+    if (this.max === 'today' || this.isDisableFuture) return stripTime(new Date());
     if (this.max) return parseDate(this.max, 'YYYY-MM-DD');
     return null;
   }
@@ -361,7 +373,7 @@ export class AegovDatepicker {
   // ── Formatted Value ───────────────────────────────────
 
   private getFormattedValue(): string {
-    if (this.mode === 'single') {
+    if (this.variant === 'single') {
       return this.selectedDate ? formatDate(this.selectedDate, this.format, this.locale) : '';
     }
     if (this.rangeStart && this.rangeEnd) {
@@ -371,7 +383,7 @@ export class AegovDatepicker {
   }
 
   private getDisplayValue(): string {
-    if (this.mode === 'single') {
+    if (this.variant === 'single') {
       return this.selectedDate ? formatDate(this.selectedDate, this.format, this.locale) : '';
     }
     return '';
@@ -519,7 +531,7 @@ export class AegovDatepicker {
     container.appendChild(liveRegion);
 
     // Presets sidebar (range mode only)
-    if (this.mode === 'range' && this.parsedPresets.length > 0) {
+    if (this.variant === 'range' && this.parsedPresets.length > 0) {
       container.appendChild(this.buildPresetsPanel());
     }
 
@@ -534,7 +546,7 @@ export class AegovDatepicker {
     calendars.appendChild(this.buildCalendarMonth(this.viewYear, this.viewMonth, true));
 
     // Second calendar for range mode
-    if (this.mode === 'range') {
+    if (this.variant === 'range') {
       let secondMonth = this.viewMonth + 1;
       let secondYear = this.viewYear;
       if (secondMonth > 11) {
@@ -547,7 +559,7 @@ export class AegovDatepicker {
     body.appendChild(calendars);
 
     // Confirmation footer
-    if (this.withConfirmation) {
+    if (this.isWithConfirmation) {
       body.appendChild(this.buildConfirmationFooter());
     }
 
@@ -604,7 +616,7 @@ export class AegovDatepicker {
     const selects = document.createElement('div');
     selects.className = 'datepicker__selects';
 
-    if (this.selectableHeader) {
+    if (this.isHeaderSelectable) {
       // Month select
       const monthSelect = document.createElement('select');
       monthSelect.className = 'datepicker__select';
@@ -653,7 +665,7 @@ export class AegovDatepicker {
     header.appendChild(selects);
 
     // Next button only on last calendar shown
-    const isLastCalendar = this.mode === 'single' ? showNavigation : !showNavigation;
+    const isLastCalendar = this.variant === 'single' ? showNavigation : !showNavigation;
     if (isLastCalendar) {
       const nextBtn = document.createElement('button');
       nextBtn.className = 'datepicker__nav-btn';
@@ -687,13 +699,13 @@ export class AegovDatepicker {
     const todayDate = stripTime(new Date());
 
     // Determine active selection state (pending if confirmation mode, actual otherwise)
-    const activeSelectedDate = this.withConfirmation ? this.pendingDate : this.selectedDate;
-    const activeRangeStart = this.withConfirmation ? this.pendingRangeStart : this.rangeStart;
-    const activeRangeEnd = this.withConfirmation ? this.pendingRangeEnd : this.rangeEnd;
+    const activeSelectedDate = this.isWithConfirmation ? this.pendingDate : this.selectedDate;
+    const activeRangeStart = this.isWithConfirmation ? this.pendingRangeStart : this.rangeStart;
+    const activeRangeEnd = this.isWithConfirmation ? this.pendingRangeEnd : this.rangeEnd;
 
     // Determine if the hover preview range is invalid (min/max range violation)
     let isHoverRangeInvalid = false;
-    if (this.mode === 'range' && activeRangeStart && !activeRangeEnd && this.hoverDate && (this.minRange > 0 || this.maxRange > 0)) {
+    if (this.variant === 'range' && activeRangeStart && !activeRangeEnd && this.hoverDate && (this.minRange > 0 || this.maxRange > 0)) {
       const previewStart = isBefore(this.hoverDate, activeRangeStart) ? this.hoverDate : activeRangeStart;
       const previewEnd = isBefore(this.hoverDate, activeRangeStart) ? activeRangeStart : this.hoverDate;
       isHoverRangeInvalid = this.isRangeSelectionInvalid(previewStart, previewEnd);
@@ -720,7 +732,7 @@ export class AegovDatepicker {
         let isRangeEnd = false;
         let isInRange = false;
 
-        if (this.mode === 'single') {
+        if (this.variant === 'single') {
           isSelected = activeSelectedDate ? isSameDay(date, activeSelectedDate) : false;
         } else {
           if (activeRangeStart) {
@@ -806,7 +818,7 @@ export class AegovDatepicker {
   // ── Event Handlers ────────────────────────────────────
 
   private handleTriggerClick = () => {
-    if (!this.disabled) {
+    if (!this.isDisabled) {
       this.isOpen = !this.isOpen;
     }
   };
@@ -814,8 +826,8 @@ export class AegovDatepicker {
   private handleDayClick(date: Date) {
     if (this.isDateDisabled(date)) return;
 
-    if (this.mode === 'single') {
-      if (this.withConfirmation) {
+    if (this.variant === 'single') {
+      if (this.isWithConfirmation) {
         this.pendingDate = date;
         this.updateDayClasses();
       } else {
@@ -833,12 +845,12 @@ export class AegovDatepicker {
   }
 
   private handleRangeDayClick(date: Date) {
-    const activeStart = this.withConfirmation ? this.pendingRangeStart : this.rangeStart;
-    const activeEnd = this.withConfirmation ? this.pendingRangeEnd : this.rangeEnd;
+    const activeStart = this.isWithConfirmation ? this.pendingRangeStart : this.rangeStart;
+    const activeEnd = this.isWithConfirmation ? this.pendingRangeEnd : this.rangeEnd;
 
     if (!activeStart || (activeStart && activeEnd)) {
       // First click or reset
-      if (this.withConfirmation) {
+      if (this.isWithConfirmation) {
         this.pendingRangeStart = date;
         this.pendingRangeEnd = null;
       } else {
@@ -863,7 +875,7 @@ export class AegovDatepicker {
         return; // Don't complete selection if invalid
       }
 
-      if (this.withConfirmation) {
+      if (this.isWithConfirmation) {
         this.pendingRangeStart = start;
         this.pendingRangeEnd = end;
         // Lightweight update for confirmation mode
@@ -884,9 +896,9 @@ export class AegovDatepicker {
   }
 
   private handleDayHover(date: Date) {
-    if (this.mode !== 'range') return;
-    const activeStart = this.withConfirmation ? this.pendingRangeStart : this.rangeStart;
-    const activeEnd = this.withConfirmation ? this.pendingRangeEnd : this.rangeEnd;
+    if (this.variant !== 'range') return;
+    const activeStart = this.isWithConfirmation ? this.pendingRangeStart : this.rangeStart;
+    const activeEnd = this.isWithConfirmation ? this.pendingRangeEnd : this.rangeEnd;
 
     if (activeStart && !activeEnd) {
       // Skip if hovering the same date (prevents infinite rebuild loops)
@@ -901,7 +913,7 @@ export class AegovDatepicker {
     const range = calculatePreset(presetId, this.startDay);
     if (!range) return;
 
-    if (this.withConfirmation) {
+    if (this.isWithConfirmation) {
       this.pendingRangeStart = range.start;
       this.pendingRangeEnd = range.end;
       this.viewMonth = range.start.getMonth();
@@ -923,14 +935,14 @@ export class AegovDatepicker {
   }
 
   private handleApply() {
-    if (this.mode === 'single' && this.pendingDate) {
+    if (this.variant === 'single' && this.pendingDate) {
       this.selectedDate = this.pendingDate;
       this.value = formatDate(this.selectedDate, this.format, this.locale);
       this.aegovDatepickerChange.emit({
         value: this.value,
         date: this.selectedDate,
       });
-    } else if (this.mode === 'range' && this.pendingRangeStart && this.pendingRangeEnd) {
+    } else if (this.variant === 'range' && this.pendingRangeStart && this.pendingRangeEnd) {
       this.rangeStart = this.pendingRangeStart;
       this.rangeEnd = this.pendingRangeEnd;
       this.value = formatRangeValue(this.rangeStart, this.rangeEnd, this.format, this.locale);
@@ -1066,7 +1078,7 @@ export class AegovDatepicker {
 
     if (clickedInsideComponent) return;
 
-    if (this.withConfirmation) {
+    if (this.isWithConfirmation) {
       this.handleCancel();
     } else {
       this.isOpen = false;
@@ -1087,7 +1099,7 @@ export class AegovDatepicker {
     // Escape always works when calendar is open, regardless of focus position
     if (event.key === 'Escape') {
       event.preventDefault();
-      if (this.withConfirmation) {
+      if (this.isWithConfirmation) {
         this.handleCancel();
       } else {
         this.isOpen = false;
@@ -1230,13 +1242,13 @@ export class AegovDatepicker {
   private updateDayClasses() {
     if (!this.portalElement) return;
 
-    const activeRangeStart = this.withConfirmation ? this.pendingRangeStart : this.rangeStart;
-    const activeRangeEnd = this.withConfirmation ? this.pendingRangeEnd : this.rangeEnd;
-    const activeSelectedDate = this.withConfirmation ? this.pendingDate : this.selectedDate;
+    const activeRangeStart = this.isWithConfirmation ? this.pendingRangeStart : this.rangeStart;
+    const activeRangeEnd = this.isWithConfirmation ? this.pendingRangeEnd : this.rangeEnd;
+    const activeSelectedDate = this.isWithConfirmation ? this.pendingDate : this.selectedDate;
 
     // Determine if the hover preview range is invalid (min/max range violation)
     let isHoverRangeInvalid = false;
-    if (this.mode === 'range' && activeRangeStart && !activeRangeEnd && this.hoverDate && (this.minRange > 0 || this.maxRange > 0)) {
+    if (this.variant === 'range' && activeRangeStart && !activeRangeEnd && this.hoverDate && (this.minRange > 0 || this.maxRange > 0)) {
       const previewStart = isBefore(this.hoverDate, activeRangeStart) ? this.hoverDate : activeRangeStart;
       const previewEnd = isBefore(this.hoverDate, activeRangeStart) ? activeRangeStart : this.hoverDate;
       isHoverRangeInvalid = this.isRangeSelectionInvalid(previewStart, previewEnd);
@@ -1259,7 +1271,7 @@ export class AegovDatepicker {
       );
       btn.removeAttribute('aria-selected');
 
-      if (this.mode === 'single') {
+      if (this.variant === 'single') {
         if (activeSelectedDate && isSameDay(date, activeSelectedDate)) {
           btn.classList.add('datepicker__day--selected');
           btn.setAttribute('aria-selected', 'true');
@@ -1329,7 +1341,7 @@ export class AegovDatepicker {
 
   // ── Render ────────────────────────────────────────────
 
-  private renderSingleTrigger() {
+  private renderSingleTrigger(passThroughAttrs: Record<string, string>) {
     const displayValue = this.getDisplayValue();
     const hasValue = !!displayValue;
 
@@ -1338,16 +1350,19 @@ export class AegovDatepicker {
         <input
           type="text"
           class="datepicker__input"
+          {...passThroughAttrs}
           value={displayValue}
           placeholder={this.placeholder}
           readOnly
-          disabled={this.disabled}
+          disabled={this.isDisabled}
+          required={this.isRequired}
+          aria-required={this.isRequired ? 'true' : undefined}
           aria-haspopup="dialog"
           aria-expanded={this.isOpen.toString()}
           aria-controls={this.isOpen ? this.datepickerId : undefined}
           aria-label={this.placeholder}
         />
-        {hasValue && this.clearable && !this.disabled && (
+        {hasValue && this.isClearable && !this.isDisabled && (
           <button
             type="button"
             class="datepicker__clear-btn"
@@ -1361,7 +1376,7 @@ export class AegovDatepicker {
     );
   }
 
-  private renderRangeTrigger() {
+  private renderRangeTrigger(passThroughAttrs: Record<string, string>) {
     const startValue = this.getDisplayRangeStart();
     const endValue = this.getDisplayRangeEnd();
     const hasValue = !!(startValue || endValue);
@@ -1371,23 +1386,29 @@ export class AegovDatepicker {
         <input
           type="text"
           class="datepicker__input datepicker__input--range-start"
+          {...passThroughAttrs}
           value={startValue}
-          placeholder={this.rangePlaceholderStart}
+          placeholder={this.labelRangeStart}
           readOnly
-          disabled={this.disabled}
-          aria-label={this.rangePlaceholderStart}
+          disabled={this.isDisabled}
+          required={this.isRequired}
+          aria-required={this.isRequired ? 'true' : undefined}
+          aria-label={this.labelRangeStart}
         />
         <span class="datepicker__range-separator" aria-hidden="true" innerHTML={ARROW_RIGHT} />
         <input
           type="text"
           class="datepicker__input datepicker__input--range-end"
+          {...passThroughAttrs}
           value={endValue}
-          placeholder={this.rangePlaceholderEnd}
+          placeholder={this.labelRangeEnd}
           readOnly
-          disabled={this.disabled}
-          aria-label={this.rangePlaceholderEnd}
+          disabled={this.isDisabled}
+          required={this.isRequired}
+          aria-required={this.isRequired ? 'true' : undefined}
+          aria-label={this.labelRangeEnd}
         />
-        {hasValue && this.clearable && !this.disabled && (
+        {hasValue && this.isClearable && !this.isDisabled && (
           <button
             type="button"
             class="datepicker__clear-btn"
@@ -1402,7 +1423,8 @@ export class AegovDatepicker {
   }
 
   render() {
-    const mode: DatepickerMode = (DATEPICKER_MODES as readonly string[]).includes(this.mode) ? this.mode : 'single';
+    const mode: DatepickerMode = (DATEPICKER_MODES as readonly string[]).includes(this.variant) ? this.variant : 'single';
+    const passThroughAttrs = getPassThroughAttributes(this.el, AegovDatepicker.PASS_THROUGH_ATTRS);
     return (
       <Host>
         <div
@@ -1413,9 +1435,9 @@ export class AegovDatepicker {
           {this.hasTriggerSlot ? (
             <slot name="trigger" />
           ) : mode === 'range' ? (
-            this.renderRangeTrigger()
+            this.renderRangeTrigger(passThroughAttrs)
           ) : (
-            this.renderSingleTrigger()
+            this.renderSingleTrigger(passThroughAttrs)
           )}
         </div>
       </Host>
