@@ -2,6 +2,7 @@ import { Component, Host, h, Prop, Element, State, Listen, Watch } from '@stenci
 import { TOOLTIP_POSITIONS, TOOLTIP_ALIGNS, TOOLTIP_TRIGGERS } from '../../utils/types';
 import type { TooltipPosition, TooltipAlign, TooltipTrigger } from '../../utils/types';
 import { warnIfInvalidEnumProp } from '../../utils/prop-validator';
+import { getPassThroughAttributes } from '../../utils/attributes';
 
 const TAG = 'aegov-tooltip';
 const ctx = (prop: string) => ({ component: TAG, prop });
@@ -342,10 +343,12 @@ export class AegovTooltip {
   render() {
     const hasContent = this.hasContentSlot || this.content;
     const position: TooltipPosition = (TOOLTIP_POSITIONS as readonly string[]).includes(this.position) ? this.position : 'top';
+    const passThroughAttributes = getPassThroughAttributes(this.el);
 
     return (
       <Host>
         <div
+          {...passThroughAttributes}
           class="aegov-tooltip-trigger"
           ref={(el) => (this.triggerRef = el)}
           onMouseEnter={this.handleTriggerMouseEnter}

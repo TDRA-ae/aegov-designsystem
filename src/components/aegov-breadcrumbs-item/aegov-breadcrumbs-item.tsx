@@ -17,7 +17,7 @@ import { getPassThroughAttributes } from '../../utils/attributes';
   scoped: false,
 })
 export class AegovBreadcrumbsItem {
-  @Element() el: HTMLElement;
+  @Element() el!: HTMLElement;
 
   @State() slotContent: string = '';
   @State() hasElementChildren: boolean = false;
@@ -122,7 +122,7 @@ export class AegovBreadcrumbsItem {
     return text.substring(0, this.maxLength) + '…';
   }
 
-  private static readonly PASS_THROUGH_ATTRS = new Set(['id']);
+  private static readonly PASS_THROUGH_ATTRS = new Set(['title','hreflang','rel','referrerpolicy']);
 
   private renderSeparator() {
     if (this.isLast) {

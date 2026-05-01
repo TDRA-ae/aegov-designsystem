@@ -5,6 +5,7 @@ import { warnIfInvalidEnumProp } from '../../utils/prop-validator';
 import { watchResponsiveProp } from '../../utils/responsive-prop';
 import type { ResponsivePropWatcher } from '../../utils/responsive-prop';
 import { generateId } from '../../utils/id-generator';
+import { getPassThroughAttributes } from '../../utils/attributes';
 
 const TAG = 'aegov-tabs';
 const ctx = (prop: string) => ({ component: TAG, prop });
@@ -298,8 +299,9 @@ export class AegovTabs {
     const variant: TabVariant = (TAB_VARIANTS as readonly string[]).includes(this.variant) ? this.variant : 'simple';
     const size: TabSize = this._resolvedSize;
     const orientation: TabOrientation = (TAB_ORIENTATIONS as readonly string[]).includes(this.orientation) ? this.orientation : 'horizontal';
+    const passThroughAttributes = getPassThroughAttributes(this.el);
     return (
-      <div id={this.fieldId} class={`aegov-tabs tabs--${variant} tabs--${size}${this.isStretchable ? ' tabs--stretch' : ''}${orientation === 'vertical' ? ' tabs--vertical' : ''}`}>
+      <div {...passThroughAttributes} id={this.fieldId} class={`aegov-tabs tabs--${variant} tabs--${size}${this.isStretchable ? ' tabs--stretch' : ''}${orientation === 'vertical' ? ' tabs--vertical' : ''}`}>
         <div
           class={`tabs__list-wrapper${this.isScrollable ? ' tabs__list-wrapper--scrollable' : ''}`}
           ref={el => (this.listWrapperEl = el as HTMLElement)}

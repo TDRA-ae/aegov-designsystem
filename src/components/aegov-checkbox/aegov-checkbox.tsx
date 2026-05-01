@@ -25,7 +25,7 @@ export class AegovCheckbox {
   @Prop() value?: string;
 
   /** Whether the checkbox is checked. */
-  @Prop({ mutable: true, reflect: true }) checked: boolean = false;
+  @Prop({ mutable: true, reflect: true }) isChecked: boolean = false;
 
   /** The size of the checkbox. */
   @Prop() size: string = 'base';
@@ -34,10 +34,10 @@ export class AegovCheckbox {
   private _sizeWatcher: ResponsivePropWatcher | null = null;
 
   /** Whether the checkbox is disabled. */
-  @Prop({ reflect: true }) disabled: boolean = false;
+  @Prop({ reflect: true }) isDisabled: boolean = false;
 
   /** Whether the checkbox is required. */
-  @Prop() required: boolean = false;
+  @Prop() isRequired: boolean = false;
 
   /** Label text for the checkbox. When provided, generates an associated <label> element. */
   @Prop() label?: string;
@@ -46,10 +46,10 @@ export class AegovCheckbox {
   @Prop() description?: string;
 
   /** Marks this checkbox as a "check all" controller within a checkbox group. */
-  @Prop({ reflect: true }) checkAll: boolean = false;
+  @Prop({ reflect: true }) isCheckAll: boolean = false;
 
   /** Whether the checkbox is in an indeterminate state. Set by parent group for check-all. */
-  @Prop({ mutable: true }) indeterminate: boolean = false;
+  @Prop({ mutable: true }) isIndeterminate: boolean = false;
 
   /** Additional CSS classes to apply. */
   @Prop() extraClass?: string;
@@ -84,31 +84,31 @@ export class AegovCheckbox {
 
   componentDidRender() {
     if (this.inputEl) {
-      this.inputEl.indeterminate = this.indeterminate;
+      this.inputEl.indeterminate = this.isIndeterminate;
     }
   }
 
-  @Watch('indeterminate')
+  @Watch('isIndeterminate')
   onIndeterminateChange() {
     if (this.inputEl) {
-      this.inputEl.indeterminate = this.indeterminate;
+      this.inputEl.indeterminate = this.isIndeterminate;
     }
   }
 
   private handleChange = (event: Event) => {
     const input = event.target as HTMLInputElement;
-    this.checked = input.checked;
-    this.indeterminate = false;
-    this.aegovCheckboxChange.emit({ checked: this.checked, value: this.value });
+    this.isChecked = input.checked;
+    this.isIndeterminate = false;
+    this.aegovCheckboxChange.emit({ checked: this.isChecked, value: this.value });
   };
 
-  private static readonly NATIVE_CHECKBOX_ATTRS = new Set([
+  private static readonly PASS_THROUGH_ATTRS = new Set([
     'form', 'tabindex', 'autofocus', 'title',
   ]);
 
 
   render() {
-    const passThroughAttrs = getPassThroughAttributes(this.el, AegovCheckbox.NATIVE_CHECKBOX_ATTRS);
+    const passThroughAttrs = getPassThroughAttributes(this.el, AegovCheckbox.PASS_THROUGH_ATTRS);
     const wrapperClasses = ['aegov-checkbox', `checkbox--${this._resolvedSize}`];
     if (this.extraClass) wrapperClasses.push(this.extraClass);
 
@@ -121,10 +121,10 @@ export class AegovCheckbox {
         id={this.fieldId}
         name={this.name}
         value={this.value}
-        checked={this.checked}
-        disabled={this.disabled}
-        required={this.required}
-        aria-required={this.required ? 'true' : undefined}
+        checked={this.isChecked}
+        disabled={this.isDisabled}
+        required={this.isRequired}
+        aria-required={this.isRequired ? 'true' : undefined}
         aria-describedby={descriptionId}
         onChange={this.handleChange}
         {...passThroughAttrs}

@@ -17,7 +17,7 @@ const ctx = (prop: string) => ({ component: TAG, prop });
   scoped: false,
 })
 export class AegovAvatarGroup {
-  @Element() el: HTMLElement;
+  @Element() el!: HTMLElement;
 
   /**
    * The layout variant: 'default' (spaced) or 'compact' (overlapping)
@@ -44,7 +44,7 @@ export class AegovAvatarGroup {
   /**
    * Emitted when the "more" indicator button is clicked
    */
-  @Event() aegovAvatarGroupMore: EventEmitter<void>;
+  @Event() aegovAvatarGroupMore!: EventEmitter<void>;
 
   componentWillLoad() {
     warnIfInvalidEnumProp(this.variant, AVATAR_GROUP_VARIANTS, 'default', ctx('variant'));

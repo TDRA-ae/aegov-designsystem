@@ -35,7 +35,7 @@ const ctx = (prop: string) => ({ component: TAG, prop });
   shadow:false
 })
 export class AegovButton {
-  @Element() el: HTMLElement;
+  @Element() el!: HTMLElement;
 
   /**
    * Unique ID for the button element. Auto-generated if not provided.

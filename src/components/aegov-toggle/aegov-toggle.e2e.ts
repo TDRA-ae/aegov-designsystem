@@ -43,7 +43,7 @@ describe('aegov-toggle e2e', () => {
 
   it('toggles off when clicked again', async () => {
     const page = await newE2EPage();
-    await page.setContent('<aegov-toggle checked></aegov-toggle>');
+    await page.setContent('<aegov-toggle is-checked></aegov-toggle>');
     const toggle = await page.find('aegov-toggle .toggle__control');
 
     await toggle.click();
@@ -72,7 +72,7 @@ describe('aegov-toggle e2e', () => {
 
   it('does not toggle when disabled', async () => {
     const page = await newE2EPage();
-    await page.setContent('<aegov-toggle disabled></aegov-toggle>');
+    await page.setContent('<aegov-toggle is-disabled></aegov-toggle>');
     const toggle = await page.find('aegov-toggle .toggle__control');
 
     await toggle.click();
@@ -85,7 +85,7 @@ describe('aegov-toggle e2e', () => {
 
   it('does not emit event when disabled', async () => {
     const page = await newE2EPage();
-    await page.setContent('<aegov-toggle disabled></aegov-toggle>');
+    await page.setContent('<aegov-toggle is-disabled></aegov-toggle>');
 
     const changeSpy = await page.spyOnEvent('aegovToggleChange');
     const toggle = await page.find('aegov-toggle .toggle__control');

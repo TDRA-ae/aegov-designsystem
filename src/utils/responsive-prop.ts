@@ -24,6 +24,21 @@ export interface ResponsivePropWatcher {
   destroy(): void;
 }
 
+/**
+ * The validator that decides whether a parsed token is acceptable.
+ * - `readonly T[]` — strict enum: token must be one of the listed values.
+ * - `(value: string) => boolean` — custom predicate, used for free-form props
+ *   like aspect-ratio where any `n/m` shape (or named preset) is valid.
+ */
+export type ResponsivePropValidator<T extends string> =
+  | readonly T[]
+  | ((value: string) => boolean);
+
+function isValid<T extends string>(validate: ResponsivePropValidator<T>, value: string): boolean {
+  if (typeof validate === 'function') return validate(value);
+  return (validate as readonly string[]).includes(value);
+}
+
 function readBreakpointPx(name: string): number | null {
   if (typeof document === 'undefined') return null;
   const raw = getComputedStyle(document.documentElement)
@@ -35,7 +50,7 @@ function readBreakpointPx(name: string): number | null {
 
 function parseRaw<T extends string>(
   raw: string,
-  validValues: readonly T[],
+  validate: ResponsivePropValidator<T>,
   defaultValue: T,
 ): { base: T; breakpoints: BreakpointEntry<T>[] } {
   const parts = raw.trim().split(/\s+/);
@@ -48,12 +63,12 @@ function parseRaw<T extends string>(
       const bpName = part.slice(0, colonIdx);
       const val = part.slice(colonIdx + 1);
       const px = readBreakpointPx(bpName);
-      if (px !== null && (validValues as readonly string[]).includes(val)) {
+      if (px !== null && isValid(validate, val)) {
         breakpoints.push({ minWidth: px, value: val as T });
       }
       // Unknown breakpoint or invalid value → silently skip
     } else {
-      if ((validValues as readonly string[]).includes(part)) {
+      if (isValid(validate, part)) {
         base = part as T;
       }
       // Invalid base value → silently fall back to defaultValue
@@ -71,18 +86,21 @@ function parseRaw<T extends string>(
  * value changes due to a viewport resize.
  *
  * @param raw        - The raw prop value, e.g. `"sm xl:lg"` or just `"base"`
- * @param validValues - The allowed enum values for this prop
+ * @param validate   - Either an enum array of allowed values, or a predicate
+ *                     function that returns `true` for an acceptable token.
+ *                     Use the predicate form for free-form props (e.g. aspect
+ *                     ratios like `'21/9'` that aren't part of a fixed enum).
  * @param defaultValue - Fallback when the base token is invalid
  * @param onChange   - Called immediately with the initial value, then on every change
  * @returns A watcher object with `.current` and `.destroy()`
  */
 export function watchResponsiveProp<T extends string>(
   raw: string,
-  validValues: readonly T[],
+  validate: ResponsivePropValidator<T>,
   defaultValue: T,
   onChange: (value: T) => void,
 ): ResponsivePropWatcher {
-  const { base, breakpoints } = parseRaw(raw, validValues, defaultValue);
+  const { base, breakpoints } = parseRaw(raw, validate, defaultValue);
 
   // No responsive breakpoints — static resolution, no listeners needed
   if (breakpoints.length === 0 || typeof window === 'undefined') {

@@ -7,9 +7,10 @@
 
 ## Properties
 
-| Property     | Attribute     | Description                      | Type     | Default     |
-| ------------ | ------------- | -------------------------------- | -------- | ----------- |
-| `extraClass` | `extra-class` | Additional CSS classes to apply. | `string` | `undefined` |
+| Property     | Attribute     | Description                                                           | Type     | Default     |
+| ------------ | ------------- | --------------------------------------------------------------------- | -------- | ----------- |
+| `extraClass` | `extra-class` | Additional CSS classes to apply.                                      | `string` | `undefined` |
+| `fieldId`    | `field-id`    | Unique ID for the form-field wrapper. Auto-generated if not provided. | `string` | `undefined` |
 
 
 ----------------------------------------------

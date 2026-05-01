@@ -35,7 +35,7 @@ const BODY_PADDING_PROP: Record<BannerPosition, string> = {
   shadow: false
 })
 export class AegovBanner {
-  @Element() el: HTMLElement;
+  @Element() el!: HTMLElement;
 
   /**
    * Unique ID for the banner element. Auto-generated if not provided.
@@ -96,12 +96,12 @@ export class AegovBanner {
   /**
    * Event emitted when the banner is dismissed.
    */
-  @Event() aegovBannerDismiss: EventEmitter<void>;
+  @Event() aegovBannerDismiss!: EventEmitter<void>;
 
   /**
    * Event emitted when banner height changes (useful for overlay mode to adjust body padding).
    */
-  @Event() aegovBannerHeightChange: EventEmitter<number>;
+  @Event() aegovBannerHeightChange!: EventEmitter<number>;
 
   /**
    * Internal state to track visibility of the banner.

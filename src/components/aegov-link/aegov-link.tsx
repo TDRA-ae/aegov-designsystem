@@ -85,7 +85,7 @@ export class AegovLink {
     // to stop navigation and handle it themselves
   };
 
-  private static readonly PASS_THROUGH_ATTRS = new Set(['title']);
+  private static readonly PASS_THROUGH_ATTRS = new Set(['title','referrerpolicy','hreflang','rel','target','download','type']);
 
   /**
    * Get the CSS classes based on component props

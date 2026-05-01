@@ -25,7 +25,7 @@ export class AegovRadio {
   @Prop() value?: string;
 
   /** Whether the radio is checked. */
-  @Prop({ mutable: true, reflect: true }) checked: boolean = false;
+  @Prop({ mutable: true, reflect: true }) isChecked: boolean = false;
 
   /** The size of the radio. */
   @Prop() size: string = 'base';
@@ -34,10 +34,10 @@ export class AegovRadio {
   private _sizeWatcher: ResponsivePropWatcher | null = null;
 
   /** Whether the radio is disabled. */
-  @Prop({ reflect: true }) disabled: boolean = false;
+  @Prop({ reflect: true }) isDisabled: boolean = false;
 
   /** Whether the radio is required. */
-  @Prop() required: boolean = false;
+  @Prop() isRequired: boolean = false;
 
   /** Label text for the radio. When provided, generates an associated <label> element. */
   @Prop() label?: string;
@@ -76,17 +76,17 @@ export class AegovRadio {
 
   private handleChange = (event: Event) => {
     const input = event.target as HTMLInputElement;
-    this.checked = input.checked;
-    this.aegovRadioChange.emit({ checked: this.checked, value: this.value });
+    this.isChecked = input.checked;
+    this.aegovRadioChange.emit({ checked: this.isChecked, value: this.value });
   };
 
-  private static readonly NATIVE_RADIO_ATTRS = new Set([
+  private static readonly PASS_THROUGH_ATTRS = new Set([
     'form', 'tabindex', 'autofocus', 'title',
   ]);
 
 
   render() {
-    const passThroughAttrs = getPassThroughAttributes(this.el, AegovRadio.NATIVE_RADIO_ATTRS);
+    const passThroughAttrs = getPassThroughAttributes(this.el, AegovRadio.PASS_THROUGH_ATTRS);
     const wrapperClasses = ['aegov-radio', `radio--${this._resolvedSize}`];
     if (this.extraClass) wrapperClasses.push(this.extraClass);
 
@@ -98,10 +98,10 @@ export class AegovRadio {
         id={this.fieldId}
         name={this.name}
         value={this.value}
-        checked={this.checked}
-        disabled={this.disabled}
-        required={this.required}
-        aria-required={this.required ? 'true' : undefined}
+        checked={this.isChecked}
+        disabled={this.isDisabled}
+        required={this.isRequired}
+        aria-required={this.isRequired ? 'true' : undefined}
         aria-describedby={descriptionId}
         onChange={this.handleChange}
         {...passThroughAttrs}

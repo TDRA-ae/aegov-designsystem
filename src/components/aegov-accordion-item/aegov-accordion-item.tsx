@@ -17,14 +17,14 @@ import { AccordionIcon, AccordionSize } from '../../utils/types';
   scoped: false,
 })
 export class AegovAccordionItem {
-  @Element() el: HTMLElement;
+  @Element() el!: HTMLElement;
 
   @State() contentHeight: number = 0;
   @State() hasHeadingSlot: boolean = false;
 
   private contentEl?: HTMLElement;
   private resizeObserver?: ResizeObserver;
-  private itemId: string;
+  private itemId!: string;
 
   /**
    * Heading text for the accordion item (alternative to using the slot)
@@ -70,7 +70,7 @@ export class AegovAccordionItem {
   /**
    * Emitted when the accordion item is toggled
    */
-  @Event() aegovAccordionItemToggle: EventEmitter<{ open: boolean }>;
+  @Event() aegovAccordionItemToggle!: EventEmitter<{ open: boolean }>;
 
   componentWillLoad() {
     // Generate a stable unique ID for ARIA linking

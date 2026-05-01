@@ -38,7 +38,7 @@ export class AegovProgress {
   /** Additional CSS classes. */
   @Prop() extraClass?: string;
 
-  private static readonly NATIVE_PROGRESS_ATTRS = new Set([
+  private static readonly PASS_THROUGH_ATTRS = new Set([
     'tabindex', 'title', 'form',
   ]);
 
@@ -64,7 +64,7 @@ export class AegovProgress {
   }
 
   render() {
-    const passThroughAttrs = getPassThroughAttributes(this.el, AegovProgress.NATIVE_PROGRESS_ATTRS);
+    const passThroughAttrs = getPassThroughAttributes(this.el, AegovProgress.PASS_THROUGH_ATTRS);
     const heightRem = this.getHeightRem();
     const percent = this.getPercent();
     const indeterminate = this.isIndeterminate();

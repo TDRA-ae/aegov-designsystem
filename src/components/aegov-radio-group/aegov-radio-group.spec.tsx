@@ -90,7 +90,7 @@ describe('aegov-radio-group', () => {
   it('disables fieldset when disabled', async () => {
     const page = await newSpecPage({
       components: [AegovRadioGroup, AegovRadio],
-      html: `<aegov-radio-group name="test" disabled></aegov-radio-group>`,
+      html: `<aegov-radio-group name="test" is-disabled></aegov-radio-group>`,
     });
     const fieldset = page.root.querySelector('fieldset');
     expect(fieldset.hasAttribute('disabled')).toBe(true);
@@ -192,7 +192,7 @@ describe('aegov-radio-group', () => {
       components: [AegovRadioGroup, AegovRadio],
       html: `
         <aegov-radio-group name="color">
-          <aegov-radio label="Red" value="red" checked></aegov-radio>
+          <aegov-radio label="Red" value="red" is-checked></aegov-radio>
           <aegov-radio label="Blue" value="blue"></aegov-radio>
         </aegov-radio-group>
       `,
@@ -206,9 +206,9 @@ describe('aegov-radio-group', () => {
     await page.waitForChanges();
 
     const radioRed = page.root.querySelector('aegov-radio[value="red"]') as HTMLAegovRadioElement;
-    expect(radioRed.checked).toBe(false);
+    expect(radioRed.isChecked).toBe(false);
     const radioBlueEl = page.root.querySelector('aegov-radio[value="blue"]') as HTMLAegovRadioElement;
-    expect(radioBlueEl.checked).toBe(true);
+    expect(radioBlueEl.isChecked).toBe(true);
   });
 
   it('emits undefined value when radio is unchecked', async () => {
@@ -216,7 +216,7 @@ describe('aegov-radio-group', () => {
       components: [AegovRadioGroup, AegovRadio],
       html: `
         <aegov-radio-group name="color">
-          <aegov-radio label="Red" value="red" checked></aegov-radio>
+          <aegov-radio label="Red" value="red" is-checked></aegov-radio>
         </aegov-radio-group>
       `,
     });
