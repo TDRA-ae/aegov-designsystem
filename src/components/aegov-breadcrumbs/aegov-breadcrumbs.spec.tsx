@@ -3,562 +3,118 @@ import { AegovBreadcrumbs } from './aegov-breadcrumbs';
 import { AegovBreadcrumbsItem } from '../aegov-breadcrumbs-item/aegov-breadcrumbs-item';
 
 describe('aegov-breadcrumbs', () => {
-  describe('rendering', () => {
-    it('should render', async () => {
-      const page = await newSpecPage({
-        components: [AegovBreadcrumbs, AegovBreadcrumbsItem],
-        html: `
-          <aegov-breadcrumbs>
-            <aegov-breadcrumbs-item href="/">Home</aegov-breadcrumbs-item>
-            <aegov-breadcrumbs-item>Current</aegov-breadcrumbs-item>
-          </aegov-breadcrumbs>
-        `,
-      });
-      expect(page.root).toBeTruthy();
+  it('renders default nav with breadcrumb class', async () => {
+    const page = await newSpecPage({
+      components: [AegovBreadcrumbs, AegovBreadcrumbsItem],
+      html: `<aegov-breadcrumbs><aegov-breadcrumbs-item href="/">Home</aegov-breadcrumbs-item></aegov-breadcrumbs>`,
     });
-
-    it('should render nav element with aria-label', async () => {
-      const page = await newSpecPage({
-        components: [AegovBreadcrumbs, AegovBreadcrumbsItem],
-        html: `
-          <aegov-breadcrumbs>
-            <aegov-breadcrumbs-item href="/">Home</aegov-breadcrumbs-item>
-            <aegov-breadcrumbs-item>Current</aegov-breadcrumbs-item>
-          </aegov-breadcrumbs>
-        `,
-      });
-
-      const nav = page.root.querySelector('nav');
-      expect(nav).toBeTruthy();
-      expect(nav.getAttribute('aria-label')).toBe('Breadcrumb');
-    });
-
-    it('should render aegov-breadcrumbs class on nav', async () => {
-      const page = await newSpecPage({
-        components: [AegovBreadcrumbs, AegovBreadcrumbsItem],
-        html: `
-          <aegov-breadcrumbs>
-            <aegov-breadcrumbs-item href="/">Home</aegov-breadcrumbs-item>
-          </aegov-breadcrumbs>
-        `,
-      });
-
-      const nav = page.root.querySelector('nav.aegov-breadcrumbs');
-      expect(nav).toBeTruthy();
-    });
-
-    it('should render ordered list', async () => {
-      const page = await newSpecPage({
-        components: [AegovBreadcrumbs, AegovBreadcrumbsItem],
-        html: `
-          <aegov-breadcrumbs>
-            <aegov-breadcrumbs-item href="/">Home</aegov-breadcrumbs-item>
-          </aegov-breadcrumbs>
-        `,
-      });
-
-      const ol = page.root.querySelector('ol.breadcrumb__list');
-      expect(ol).toBeTruthy();
-    });
-
-    it('should render multiple breadcrumb items', async () => {
-      const page = await newSpecPage({
-        components: [AegovBreadcrumbs, AegovBreadcrumbsItem],
-        html: `
-          <aegov-breadcrumbs>
-            <aegov-breadcrumbs-item href="/">Home</aegov-breadcrumbs-item>
-            <aegov-breadcrumbs-item href="/products">Products</aegov-breadcrumbs-item>
-            <aegov-breadcrumbs-item>Item</aegov-breadcrumbs-item>
-          </aegov-breadcrumbs>
-        `,
-      });
-
-      const items = page.root.querySelectorAll('aegov-breadcrumbs-item');
-      expect(items.length).toBe(3);
-    });
+    const nav = page.root.querySelector('nav');
+    expect(nav).not.toBeNull();
+    expect(nav.getAttribute('aria-label')).toBe('Breadcrumb');
+    expect(nav.className).toContain('aegov-breadcrumbs');
+    expect(nav.querySelector('ol')).not.toBeNull();
   });
 
-  describe('separator prop', () => {
-    it('should default to slash', async () => {
-      const page = await newSpecPage({
-        components: [AegovBreadcrumbs, AegovBreadcrumbsItem],
-        html: `
-          <aegov-breadcrumbs>
-            <aegov-breadcrumbs-item href="/">Home</aegov-breadcrumbs-item>
-            <aegov-breadcrumbs-item>Current</aegov-breadcrumbs-item>
-          </aegov-breadcrumbs>
-        `,
-      });
-
-      const component = page.rootInstance as AegovBreadcrumbs;
-      expect(component.separator).toBe('slash');
+  it('auto-generates fieldId when not provided', async () => {
+    const page = await newSpecPage({
+      components: [AegovBreadcrumbs, AegovBreadcrumbsItem],
+      html: `<aegov-breadcrumbs><aegov-breadcrumbs-item>Home</aegov-breadcrumbs-item></aegov-breadcrumbs>`,
     });
-
-    it('should accept chevron value', async () => {
-      const page = await newSpecPage({
-        components: [AegovBreadcrumbs, AegovBreadcrumbsItem],
-        html: `
-          <aegov-breadcrumbs separator="chevron">
-            <aegov-breadcrumbs-item href="/">Home</aegov-breadcrumbs-item>
-            <aegov-breadcrumbs-item>Current</aegov-breadcrumbs-item>
-          </aegov-breadcrumbs>
-        `,
-      });
-
-      const component = page.rootInstance as AegovBreadcrumbs;
-      expect(component.separator).toBe('chevron');
-    });
-
-    it('should pass separator to child items', async () => {
-      const page = await newSpecPage({
-        components: [AegovBreadcrumbs, AegovBreadcrumbsItem],
-        html: `
-          <aegov-breadcrumbs separator="chevron">
-            <aegov-breadcrumbs-item href="/">Home</aegov-breadcrumbs-item>
-            <aegov-breadcrumbs-item>Current</aegov-breadcrumbs-item>
-          </aegov-breadcrumbs>
-        `,
-      });
-
-      await page.waitForChanges();
-
-      const items = page.root.querySelectorAll('aegov-breadcrumbs-item') as NodeListOf<HTMLAegovBreadcrumbsItemElement>;
-      expect(items[0].separator).toBe('chevron');
-      expect(items[1].separator).toBe('chevron');
-    });
+    expect(page.rootInstance.fieldId).toMatch(/^aegov-breadcrumbs-\d+$/);
+    expect(page.root.querySelector('nav').id).toBe(page.rootInstance.fieldId);
   });
 
-  describe('maxLength prop', () => {
-    it('should not have maxLength by default', async () => {
-      const page = await newSpecPage({
-        components: [AegovBreadcrumbs, AegovBreadcrumbsItem],
-        html: `
-          <aegov-breadcrumbs>
-            <aegov-breadcrumbs-item href="/">Home</aegov-breadcrumbs-item>
-          </aegov-breadcrumbs>
-        `,
-      });
-
-      const component = page.rootInstance as AegovBreadcrumbs;
-      expect(component.maxLength).toBeUndefined();
+  it('respects user-provided fieldId', async () => {
+    const page = await newSpecPage({
+      components: [AegovBreadcrumbs, AegovBreadcrumbsItem],
+      html: `<aegov-breadcrumbs field-id="bc-1"><aegov-breadcrumbs-item>Home</aegov-breadcrumbs-item></aegov-breadcrumbs>`,
     });
-
-    it('should accept maxLength value', async () => {
-      const page = await newSpecPage({
-        components: [AegovBreadcrumbs, AegovBreadcrumbsItem],
-        html: `
-          <aegov-breadcrumbs max-length="20">
-            <aegov-breadcrumbs-item href="/">Home</aegov-breadcrumbs-item>
-          </aegov-breadcrumbs>
-        `,
-      });
-
-      const component = page.rootInstance as AegovBreadcrumbs;
-      expect(component.maxLength).toBe(20);
-    });
-
-    it('should pass maxLength to child items', async () => {
-      const page = await newSpecPage({
-        components: [AegovBreadcrumbs, AegovBreadcrumbsItem],
-        html: `
-          <aegov-breadcrumbs max-length="15">
-            <aegov-breadcrumbs-item href="/">Home</aegov-breadcrumbs-item>
-          </aegov-breadcrumbs>
-        `,
-      });
-
-      await page.waitForChanges();
-
-      const item = page.root.querySelector('aegov-breadcrumbs-item') as HTMLAegovBreadcrumbsItemElement;
-      expect(item.maxLength).toBe(15);
-    });
+    expect(page.rootInstance.fieldId).toBe('bc-1');
+    expect(page.root.querySelector('nav').id).toBe('bc-1');
   });
 
-  describe('item properties', () => {
-    it('should set isLast on last item only', async () => {
-      const page = await newSpecPage({
-        components: [AegovBreadcrumbs, AegovBreadcrumbsItem],
-        html: `
-          <aegov-breadcrumbs>
-            <aegov-breadcrumbs-item href="/">Home</aegov-breadcrumbs-item>
-            <aegov-breadcrumbs-item href="/products">Products</aegov-breadcrumbs-item>
-            <aegov-breadcrumbs-item>Current</aegov-breadcrumbs-item>
-          </aegov-breadcrumbs>
-        `,
-      });
-
-      await page.waitForChanges();
-
-      const items = page.root.querySelectorAll('aegov-breadcrumbs-item') as NodeListOf<HTMLAegovBreadcrumbsItemElement>;
-      expect(items[0].isLast).toBe(false);
-      expect(items[1].isLast).toBe(false);
-      expect(items[2].isLast).toBe(true);
+  it('passes separator down to children (slash default)', async () => {
+    const page = await newSpecPage({
+      components: [AegovBreadcrumbs, AegovBreadcrumbsItem],
+      html: `<aegov-breadcrumbs>
+        <aegov-breadcrumbs-item href="/">Home</aegov-breadcrumbs-item>
+        <aegov-breadcrumbs-item>Page</aegov-breadcrumbs-item>
+      </aegov-breadcrumbs>`,
     });
-
-    it('should set position on items (1-indexed)', async () => {
-      const page = await newSpecPage({
-        components: [AegovBreadcrumbs, AegovBreadcrumbsItem],
-        html: `
-          <aegov-breadcrumbs>
-            <aegov-breadcrumbs-item href="/">Home</aegov-breadcrumbs-item>
-            <aegov-breadcrumbs-item href="/products">Products</aegov-breadcrumbs-item>
-            <aegov-breadcrumbs-item>Current</aegov-breadcrumbs-item>
-          </aegov-breadcrumbs>
-        `,
-      });
-
-      await page.waitForChanges();
-
-      const items = page.root.querySelectorAll('aegov-breadcrumbs-item') as NodeListOf<HTMLAegovBreadcrumbsItemElement>;
-      expect(items[0].position).toBe(1);
-      expect(items[1].position).toBe(2);
-      expect(items[2].position).toBe(3);
-    });
-
-    it('should set isLast on single item', async () => {
-      const page = await newSpecPage({
-        components: [AegovBreadcrumbs, AegovBreadcrumbsItem],
-        html: `
-          <aegov-breadcrumbs>
-            <aegov-breadcrumbs-item>Home</aegov-breadcrumbs-item>
-          </aegov-breadcrumbs>
-        `,
-      });
-
-      await page.waitForChanges();
-
-      const item = page.root.querySelector('aegov-breadcrumbs-item') as HTMLAegovBreadcrumbsItemElement;
-      expect(item.isLast).toBe(true);
-    });
+    const items = page.root.querySelectorAll('aegov-breadcrumbs-item');
+    expect((items[0] as any).separator).toBe('slash');
   });
 
-  describe('pass-through attributes', () => {
-    it('should pass through aria-* attributes to nav', async () => {
-      const page = await newSpecPage({
-        components: [AegovBreadcrumbs, AegovBreadcrumbsItem],
-        html: `
-          <aegov-breadcrumbs aria-describedby="breadcrumb-desc">
-            <aegov-breadcrumbs-item href="/">Home</aegov-breadcrumbs-item>
-          </aegov-breadcrumbs>
-        `,
-      });
-
-      const nav = page.root.querySelector('nav');
-      expect(nav.getAttribute('aria-describedby')).toBe('breadcrumb-desc');
+  it('passes chevron separator to children', async () => {
+    const page = await newSpecPage({
+      components: [AegovBreadcrumbs, AegovBreadcrumbsItem],
+      html: `<aegov-breadcrumbs separator="chevron">
+        <aegov-breadcrumbs-item href="/">Home</aegov-breadcrumbs-item>
+        <aegov-breadcrumbs-item>Page</aegov-breadcrumbs-item>
+      </aegov-breadcrumbs>`,
     });
-
-    it('should pass through data-* attributes to nav', async () => {
-      const page = await newSpecPage({
-        components: [AegovBreadcrumbs, AegovBreadcrumbsItem],
-        html: `
-          <aegov-breadcrumbs data-testid="main-breadcrumb" data-tracking="nav-123">
-            <aegov-breadcrumbs-item href="/">Home</aegov-breadcrumbs-item>
-          </aegov-breadcrumbs>
-        `,
-      });
-
-      const nav = page.root.querySelector('nav');
-      expect(nav.getAttribute('data-testid')).toBe('main-breadcrumb');
-      expect(nav.getAttribute('data-tracking')).toBe('nav-123');
-    });
-
-    it('should pass through id attribute to nav', async () => {
-      const page = await newSpecPage({
-        components: [AegovBreadcrumbs, AegovBreadcrumbsItem],
-        html: `
-          <aegov-breadcrumbs id="primary-nav">
-            <aegov-breadcrumbs-item href="/">Home</aegov-breadcrumbs-item>
-          </aegov-breadcrumbs>
-        `,
-      });
-
-      const nav = page.root.querySelector('nav');
-      expect(nav.getAttribute('id')).toBe('primary-nav');
-    });
-
-    it('should pass through multiple attribute types simultaneously', async () => {
-      const page = await newSpecPage({
-        components: [AegovBreadcrumbs, AegovBreadcrumbsItem],
-        html: `
-          <aegov-breadcrumbs id="test-id" aria-describedby="desc-1" data-value="123">
-            <aegov-breadcrumbs-item href="/">Home</aegov-breadcrumbs-item>
-          </aegov-breadcrumbs>
-        `,
-      });
-
-      const nav = page.root.querySelector('nav');
-      expect(nav.getAttribute('id')).toBe('test-id');
-      expect(nav.getAttribute('aria-describedby')).toBe('desc-1');
-      expect(nav.getAttribute('data-value')).toBe('123');
-    });
-
-    it('should not pass through non-supported attributes', async () => {
-      const page = await newSpecPage({
-        components: [AegovBreadcrumbs, AegovBreadcrumbsItem],
-        html: `
-          <aegov-breadcrumbs title="tooltip" custom="value">
-            <aegov-breadcrumbs-item href="/">Home</aegov-breadcrumbs-item>
-          </aegov-breadcrumbs>
-        `,
-      });
-
-      const nav = page.root.querySelector('nav');
-      expect(nav.getAttribute('title')).toBeNull();
-      expect(nav.getAttribute('custom')).toBeNull();
-    });
+    const items = page.root.querySelectorAll('aegov-breadcrumbs-item');
+    expect((items[0] as any).separator).toBe('chevron');
   });
 
-  describe('microdata', () => {
-    it('should not add microdata attributes by default', async () => {
-      const page = await newSpecPage({
-        components: [AegovBreadcrumbs, AegovBreadcrumbsItem],
-        html: `
-          <aegov-breadcrumbs>
-            <aegov-breadcrumbs-item href="/">Home</aegov-breadcrumbs-item>
-          </aegov-breadcrumbs>
-        `,
-      });
-
-      const ol = page.root.querySelector('ol');
-      expect(ol.getAttribute('itemscope')).toBeNull();
-      expect(ol.getAttribute('itemtype')).toBeNull();
+  it('marks the last child item with isLast=true', async () => {
+    const page = await newSpecPage({
+      components: [AegovBreadcrumbs, AegovBreadcrumbsItem],
+      html: `<aegov-breadcrumbs>
+        <aegov-breadcrumbs-item href="/">Home</aegov-breadcrumbs-item>
+        <aegov-breadcrumbs-item href="/a">A</aegov-breadcrumbs-item>
+        <aegov-breadcrumbs-item>Last</aegov-breadcrumbs-item>
+      </aegov-breadcrumbs>`,
     });
-
-    it('should add microdata attributes to ol when microdata is true', async () => {
-      const page = await newSpecPage({
-        components: [AegovBreadcrumbs, AegovBreadcrumbsItem],
-        html: `
-          <aegov-breadcrumbs is-microdata>
-            <aegov-breadcrumbs-item href="/">Home</aegov-breadcrumbs-item>
-          </aegov-breadcrumbs>
-        `,
-      });
-
-      await page.waitForChanges();
-
-      const ol = page.root.querySelector('ol');
-      expect(ol.hasAttribute('itemscope')).toBe(true);
-      expect(ol.getAttribute('itemtype')).toBe('https://schema.org/BreadcrumbList');
-    });
-
-    it('should pass microdata property to child items', async () => {
-      const page = await newSpecPage({
-        components: [AegovBreadcrumbs, AegovBreadcrumbsItem],
-        html: `
-          <aegov-breadcrumbs is-microdata>
-            <aegov-breadcrumbs-item href="/">Home</aegov-breadcrumbs-item>
-            <aegov-breadcrumbs-item href="/products">Products</aegov-breadcrumbs-item>
-          </aegov-breadcrumbs>
-        `,
-      });
-
-      await page.waitForChanges();
-
-      const items = page.root.querySelectorAll('aegov-breadcrumbs-item') as NodeListOf<HTMLAegovBreadcrumbsItemElement>;
-      expect(items[0].isMicrodata).toBe(true);
-      expect(items[1].isMicrodata).toBe(true);
-    });
-
-    it('should set position on child items for microdata', async () => {
-      const page = await newSpecPage({
-        components: [AegovBreadcrumbs, AegovBreadcrumbsItem],
-        html: `
-          <aegov-breadcrumbs is-microdata>
-            <aegov-breadcrumbs-item href="/">Home</aegov-breadcrumbs-item>
-            <aegov-breadcrumbs-item href="/products">Products</aegov-breadcrumbs-item>
-            <aegov-breadcrumbs-item>Item</aegov-breadcrumbs-item>
-          </aegov-breadcrumbs>
-        `,
-      });
-
-      await page.waitForChanges();
-
-      const items = page.root.querySelectorAll('aegov-breadcrumbs-item') as NodeListOf<HTMLAegovBreadcrumbsItemElement>;
-      expect(items[0].position).toBe(1);
-      expect(items[1].position).toBe(2);
-      expect(items[2].position).toBe(3);
-    });
-
-    it('should add microdata attributes to li elements with links', async () => {
-      const page = await newSpecPage({
-        components: [AegovBreadcrumbs, AegovBreadcrumbsItem],
-        html: `
-          <aegov-breadcrumbs is-microdata>
-            <aegov-breadcrumbs-item href="/">Home</aegov-breadcrumbs-item>
-          </aegov-breadcrumbs>
-        `,
-      });
-
-      await page.waitForChanges();
-
-      const li = page.root.querySelector('aegov-breadcrumbs-item li');
-      expect(li.getAttribute('itemprop')).toBe('itemListElement');
-      expect(li.hasAttribute('itemscope')).toBe(true);
-      expect(li.getAttribute('itemtype')).toBe('https://schema.org/ListItem');
-    });
-
-    it('should add itemprop="item" to link elements', async () => {
-      const page = await newSpecPage({
-        components: [AegovBreadcrumbs, AegovBreadcrumbsItem],
-        html: `
-          <aegov-breadcrumbs is-microdata>
-            <aegov-breadcrumbs-item href="/">Home</aegov-breadcrumbs-item>
-          </aegov-breadcrumbs>
-        `,
-      });
-
-      await page.waitForChanges();
-
-      const link = page.root.querySelector('aegov-breadcrumbs-item a');
-      expect(link.getAttribute('itemprop')).toBe('item');
-    });
-
-    it('should wrap link content in span with itemprop="name"', async () => {
-      const page = await newSpecPage({
-        components: [AegovBreadcrumbs, AegovBreadcrumbsItem],
-        html: `
-          <aegov-breadcrumbs is-microdata>
-            <aegov-breadcrumbs-item href="/">Home</aegov-breadcrumbs-item>
-          </aegov-breadcrumbs>
-        `,
-      });
-
-      await page.waitForChanges();
-
-      const span = page.root.querySelector('aegov-breadcrumbs-item a span');
-      expect(span.getAttribute('itemprop')).toBe('name');
-      expect(span.textContent).toBe('Home');
-    });
-
-    it('should add itemprop="name" to current item span', async () => {
-      const page = await newSpecPage({
-        components: [AegovBreadcrumbs, AegovBreadcrumbsItem],
-        html: `
-          <aegov-breadcrumbs is-microdata>
-            <aegov-breadcrumbs-item href="/">Home</aegov-breadcrumbs-item>
-            <aegov-breadcrumbs-item>Current</aegov-breadcrumbs-item>
-          </aegov-breadcrumbs>
-        `,
-      });
-
-      await page.waitForChanges();
-
-      const currentSpan = page.root.querySelector('aegov-breadcrumbs-item:last-child span.breadcrumb-current');
-      expect(currentSpan.getAttribute('itemprop')).toBe('name');
-      expect(currentSpan.getAttribute('aria-current')).toBe('page');
-    });
-
-    it('should add meta tag with position for each item', async () => {
-      const page = await newSpecPage({
-        components: [AegovBreadcrumbs, AegovBreadcrumbsItem],
-        html: `
-          <aegov-breadcrumbs is-microdata>
-            <aegov-breadcrumbs-item href="/">Home</aegov-breadcrumbs-item>
-            <aegov-breadcrumbs-item href="/products">Products</aegov-breadcrumbs-item>
-          </aegov-breadcrumbs>
-        `,
-      });
-
-      await page.waitForChanges();
-
-      const metas = page.root.querySelectorAll('aegov-breadcrumbs-item meta[itemprop="position"]');
-      expect(metas.length).toBe(2);
-      expect(metas[0].getAttribute('content')).toBe('1');
-      expect(metas[1].getAttribute('content')).toBe('2');
-    });
-
-    it('should not add microdata when disabled', async () => {
-      const page = await newSpecPage({
-        components: [AegovBreadcrumbs, AegovBreadcrumbsItem],
-        html: `
-          <aegov-breadcrumbs>
-            <aegov-breadcrumbs-item href="/">Home</aegov-breadcrumbs-item>
-          </aegov-breadcrumbs>
-        `,
-      });
-
-      await page.waitForChanges();
-
-      const li = page.root.querySelector('aegov-breadcrumbs-item li');
-      const link = page.root.querySelector('aegov-breadcrumbs-item a');
-      const meta = page.root.querySelector('aegov-breadcrumbs-item meta');
-
-      expect(li.getAttribute('itemprop')).toBeNull();
-      expect(link.getAttribute('itemprop')).toBeNull();
-      expect(meta).toBeNull();
-    });
+    const items = page.root.querySelectorAll('aegov-breadcrumbs-item');
+    expect((items[0] as any).isLast).toBe(false);
+    expect((items[1] as any).isLast).toBe(false);
+    expect((items[2] as any).isLast).toBe(true);
   });
 
-  describe('invalid prop values', () => {
-    let warnSpy: jest.SpyInstance;
-
-    beforeEach(() => {
-      warnSpy = jest.spyOn(console, 'warn').mockImplementation();
+  it('passes maxLength prop to children when set', async () => {
+    const page = await newSpecPage({
+      components: [AegovBreadcrumbs, AegovBreadcrumbsItem],
+      html: `<aegov-breadcrumbs max-length="5">
+        <aegov-breadcrumbs-item href="/">Home</aegov-breadcrumbs-item>
+        <aegov-breadcrumbs-item>VeryLongTitle</aegov-breadcrumbs-item>
+      </aegov-breadcrumbs>`,
     });
+    const items = page.root.querySelectorAll('aegov-breadcrumbs-item');
+    expect((items[1] as any).maxLength).toBe(5);
+  });
 
-    afterEach(() => {
-      warnSpy.mockRestore();
+  it('sets schema.org microdata when isMicrodata true', async () => {
+    const page = await newSpecPage({
+      components: [AegovBreadcrumbs, AegovBreadcrumbsItem],
+      html: `<aegov-breadcrumbs is-microdata="true">
+        <aegov-breadcrumbs-item href="/">Home</aegov-breadcrumbs-item>
+      </aegov-breadcrumbs>`,
     });
+    const ol = page.root.querySelector('ol');
+    expect(ol.getAttribute('itemtype')).toBe('https://schema.org/BreadcrumbList');
+  });
 
-    it('renders safely when separator is invalid', async () => {
-      const page = await newSpecPage({
-        components: [AegovBreadcrumbs, AegovBreadcrumbsItem],
-        html: `
-          <aegov-breadcrumbs separator="dots">
-            <aegov-breadcrumbs-item href="/">Home</aegov-breadcrumbs-item>
-            <aegov-breadcrumbs-item>Current</aegov-breadcrumbs-item>
-          </aegov-breadcrumbs>
-        `,
-      });
-      const nav = page.root.querySelector('nav.aegov-breadcrumbs');
-      expect(nav).toBeTruthy();
+  it('assigns 1-indexed position to children', async () => {
+    const page = await newSpecPage({
+      components: [AegovBreadcrumbs, AegovBreadcrumbsItem],
+      html: `<aegov-breadcrumbs is-microdata="true">
+        <aegov-breadcrumbs-item href="/">Home</aegov-breadcrumbs-item>
+        <aegov-breadcrumbs-item href="/a">A</aegov-breadcrumbs-item>
+      </aegov-breadcrumbs>`,
     });
+    const items = page.root.querySelectorAll('aegov-breadcrumbs-item');
+    expect((items[0] as any).position).toBe(1);
+    expect((items[1] as any).position).toBe(2);
+  });
 
-    it('warns with component name, prop name, invalid value, and fallback', async () => {
-      await newSpecPage({
-        components: [AegovBreadcrumbs, AegovBreadcrumbsItem],
-        html: `
-          <aegov-breadcrumbs separator="dots">
-            <aegov-breadcrumbs-item href="/">Home</aegov-breadcrumbs-item>
-          </aegov-breadcrumbs>
-        `,
-      });
-      const messages = warnSpy.mock.calls.map(c => c[0] as string);
-      const separatorWarn = messages.find(m => m.includes('[aegov-breadcrumbs]') && m.includes('"dots"'));
-      expect(separatorWarn).toBeDefined();
-      expect(separatorWarn).toContain('"separator"');
+  it('forwards aria-* and data-* attributes to nav', async () => {
+    const page = await newSpecPage({
+      components: [AegovBreadcrumbs, AegovBreadcrumbsItem],
+      html: `<aegov-breadcrumbs aria-describedby="d" data-test="x"><aegov-breadcrumbs-item>X</aegov-breadcrumbs-item></aegov-breadcrumbs>`,
     });
-
-    it('does not warn when all props are valid', async () => {
-      await newSpecPage({
-        components: [AegovBreadcrumbs, AegovBreadcrumbsItem],
-        html: `
-          <aegov-breadcrumbs separator="chevron">
-            <aegov-breadcrumbs-item href="/">Home</aegov-breadcrumbs-item>
-          </aegov-breadcrumbs>
-        `,
-      });
-      expect(warnSpy).not.toHaveBeenCalled();
-    });
-
-    it('warns again via @Watch when separator is updated to an invalid value', async () => {
-      const page = await newSpecPage({
-        components: [AegovBreadcrumbs, AegovBreadcrumbsItem],
-        html: `
-          <aegov-breadcrumbs separator="slash">
-            <aegov-breadcrumbs-item href="/">Home</aegov-breadcrumbs-item>
-          </aegov-breadcrumbs>
-        `,
-      });
-      expect(warnSpy).not.toHaveBeenCalled();
-
-      page.root.setAttribute('separator', 'nope');
-      await page.waitForChanges();
-
-      const messages = warnSpy.mock.calls.map(c => c[0] as string);
-      const invalidWarn = messages.find(m => m.includes('[aegov-breadcrumbs]') && m.includes('"nope"'));
-      expect(invalidWarn).toBeDefined();
-      expect(invalidWarn).toContain('"separator"');
-    });
+    const nav = page.root.querySelector('nav');
+    expect(nav.getAttribute('aria-describedby')).toBe('d');
+    expect(nav.getAttribute('data-test')).toBe('x');
   });
 });

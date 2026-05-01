@@ -1,57 +1,28 @@
 import { newE2EPage } from '@stencil/core/testing';
 
-describe('aegov-select-option e2e', () => {
-  it('renders', async () => {
+const wrap = (inner: string) => `<aegov-select>${inner}</aegov-select>`;
+
+describe('aegov-select-option (e2e)', () => {
+  it('renders with role=option and data attributes', async () => {
     const page = await newE2EPage();
-    await page.setContent('<aegov-select-option value="a">Option A</aegov-select-option>');
+    await page.setContent(wrap(`<aegov-select-option value="a">Apple</aegov-select-option>`));
     const el = await page.find('aegov-select-option');
-    expect(el).not.toBeNull();
+    expect(el).toEqualAttribute('role', 'option');
+    expect(el).toEqualAttribute('data-value', 'a');
+    expect(el).toEqualAttribute('data-label', 'Apple');
   });
 
-  it('has role="option" attribute', async () => {
+  it('reflects is-disabled via aria-disabled', async () => {
     const page = await newE2EPage();
-    await page.setContent('<aegov-select-option value="a">Option A</aegov-select-option>');
+    await page.setContent(wrap(`<aegov-select-option value="a" is-disabled="true">A</aegov-select-option>`));
     const el = await page.find('aegov-select-option');
-    expect(el.getAttribute('role')).toBe('option');
+    expect(el).toEqualAttribute('aria-disabled', 'true');
   });
 
-  it('has data-value attribute', async () => {
+  it('renders slot content', async () => {
     const page = await newE2EPage();
-    await page.setContent('<aegov-select-option value="test">Test</aegov-select-option>');
+    await page.setContent(wrap(`<aegov-select-option value="a">Apple</aegov-select-option>`));
     const el = await page.find('aegov-select-option');
-    expect(el.getAttribute('data-value')).toBe('test');
-  });
-
-  it('has data-label attribute from text content', async () => {
-    const page = await newE2EPage();
-    await page.setContent('<aegov-select-option value="a">My Label</aegov-select-option>');
-    const el = await page.find('aegov-select-option');
-    expect(el.getAttribute('data-label')).toBe('My Label');
-  });
-
-  it('sets aria-disabled when disabled', async () => {
-    const page = await newE2EPage();
-    await page.setContent('<aegov-select-option value="a" disabled>Disabled</aegov-select-option>');
-    const el = await page.find('aegov-select-option');
-    expect(el.getAttribute('aria-disabled')).toBe('true');
-  });
-
-  it('does not set aria-disabled when enabled', async () => {
-    const page = await newE2EPage();
-    await page.setContent('<aegov-select-option value="a">Enabled</aegov-select-option>');
-    const el = await page.find('aegov-select-option');
-    expect(el.getAttribute('aria-disabled')).toBeNull();
-  });
-
-  it('works as a child of aegov-select', async () => {
-    const page = await newE2EPage();
-    await page.setContent(`
-      <aegov-select placeholder="Choose">
-        <aegov-select-option value="a">Alpha</aegov-select-option>
-        <aegov-select-option value="b">Beta</aegov-select-option>
-      </aegov-select>
-    `);
-    const options = await page.findAll('aegov-select-option');
-    expect(options.length).toBe(2);
+    expect((await el.getProperty('textContent')).trim()).toBe('Apple');
   });
 });

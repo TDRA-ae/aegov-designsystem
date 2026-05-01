@@ -19,6 +19,15 @@ export class AegovSelectOption {
   @State() slotContent: string = '';
 
   componentWillLoad() {
+    const parentSelect = this.el.closest('aegov-select');
+    if (!parentSelect) {
+      throw new Error(
+        '[aegov-select-option] This component must be used inside <aegov-select> ' +
+        '(optionally nested in <aegov-select-option-group>). ' +
+        'It cannot be used as a standalone component. ' +
+        'Please wrap it with <aegov-select>...</aegov-select>'
+      );
+    }
     this.slotContent = this.el.textContent?.trim() || '';
   }
 

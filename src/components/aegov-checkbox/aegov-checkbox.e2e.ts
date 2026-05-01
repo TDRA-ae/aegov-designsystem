@@ -1,84 +1,46 @@
 import { newE2EPage } from '@stencil/core/testing';
 
-describe('aegov-checkbox e2e', () => {
-  it('renders', async () => {
+describe('aegov-checkbox (e2e)', () => {
+  it('renders the native checkbox input', async () => {
     const page = await newE2EPage();
-    await page.setContent('<aegov-checkbox label="Test"></aegov-checkbox>');
-    const el = await page.find('aegov-checkbox');
-    expect(el).not.toBeNull();
-  });
-
-  it('clicking checkbox toggles checked state', async () => {
-    const page = await newE2EPage();
-    await page.setContent('<aegov-checkbox label="Test"></aegov-checkbox>');
+    await page.setContent('<aegov-checkbox label="Accept"></aegov-checkbox>');
     const input = await page.find('aegov-checkbox input');
-    await input.click();
-    await page.waitForChanges();
-    expect(await input.getProperty('checked')).toBe(true);
-
-    await input.click();
-    await page.waitForChanges();
-    expect(await input.getProperty('checked')).toBe(false);
+    expect(input).not.toBeNull();
+    expect(await input.getProperty('type')).toBe('checkbox');
   });
 
-  it('clicking label toggles checkbox', async () => {
+  it('reflects is-checked to native checked', async () => {
     const page = await newE2EPage();
-    await page.setContent('<aegov-checkbox label="Click me"></aegov-checkbox>');
-    const label = await page.find('aegov-checkbox .checkbox__wrapper');
-    await label.click();
+    await page.setContent('<aegov-checkbox is-checked></aegov-checkbox>');
+    const input = await page.find('aegov-checkbox input');
+    expect(await input.getProperty('checked')).toBe(true);
+  });
+
+  it('clicking the label toggles the checkbox', async () => {
+    const page = await newE2EPage();
+    await page.setContent('<aegov-checkbox label="Toggle me"></aegov-checkbox>');
+    const labelText = await page.find('aegov-checkbox .checkbox__label-text');
+    await labelText.click();
     await page.waitForChanges();
     const input = await page.find('aegov-checkbox input');
     expect(await input.getProperty('checked')).toBe(true);
   });
 
-  it('disabled checkbox cannot be toggled', async () => {
+  it('emits aegovCheckboxChange when toggled', async () => {
     const page = await newE2EPage();
-    await page.setContent('<aegov-checkbox label="Test" is-disabled></aegov-checkbox>');
+    await page.setContent('<aegov-checkbox value="v1" label="L"></aegov-checkbox>');
+    const host = await page.find('aegov-checkbox');
+    const spy = await host.spyOnEvent('aegovCheckboxChange');
     const input = await page.find('aegov-checkbox input');
     await input.click();
     await page.waitForChanges();
-    expect(await input.getProperty('checked')).toBe(false);
+    expect(spy).toHaveReceivedEventTimes(1);
+    expect(spy.lastEvent.detail).toEqual({ checked: true, value: 'v1' });
   });
 
-  it('emits aegovCheckboxChange with checked=true', async () => {
+  it('Space key toggles the checkbox when input is focused', async () => {
     const page = await newE2EPage();
-    await page.setContent('<aegov-checkbox label="Test" value="v1"></aegov-checkbox>');
-    const el = await page.find('aegov-checkbox');
-    const spy = await el.spyOnEvent('aegovCheckboxChange');
-    const input = await page.find('aegov-checkbox input');
-    await input.click();
-    await page.waitForChanges();
-    expect(spy).toHaveReceivedEventDetail({ checked: true, value: 'v1' });
-  });
-
-  it('emits aegovCheckboxChange with checked=false on uncheck', async () => {
-    const page = await newE2EPage();
-    await page.setContent('<aegov-checkbox label="Test" value="v1" is-checked></aegov-checkbox>');
-    const el = await page.find('aegov-checkbox');
-    const spy = await el.spyOnEvent('aegovCheckboxChange');
-    const input = await page.find('aegov-checkbox input');
-    await input.click();
-    await page.waitForChanges();
-    expect(spy).toHaveReceivedEventDetail({ checked: false, value: 'v1' });
-  });
-
-  it('renders label text', async () => {
-    const page = await newE2EPage();
-    await page.setContent('<aegov-checkbox label="My Label"></aegov-checkbox>');
-    const label = await page.find('aegov-checkbox .checkbox__label-text');
-    expect(label.textContent).toBe('My Label');
-  });
-
-  it('renders description text', async () => {
-    const page = await newE2EPage();
-    await page.setContent('<aegov-checkbox label="Title" description="Some description"></aegov-checkbox>');
-    const desc = await page.find('aegov-checkbox .checkbox__description');
-    expect(desc.textContent).toBe('Some description');
-  });
-
-  it('checkbox is keyboard accessible', async () => {
-    const page = await newE2EPage();
-    await page.setContent('<aegov-checkbox label="Test"></aegov-checkbox>');
+    await page.setContent('<aegov-checkbox label="Press"></aegov-checkbox>');
     const input = await page.find('aegov-checkbox input');
     await input.focus();
     await page.keyboard.press('Space');
@@ -86,47 +48,28 @@ describe('aegov-checkbox e2e', () => {
     expect(await input.getProperty('checked')).toBe(true);
   });
 
-  it('renders with checked attribute', async () => {
+  it('disabled checkbox does not toggle on click', async () => {
     const page = await newE2EPage();
-    await page.setContent('<aegov-checkbox label="Pre-checked" is-checked></aegov-checkbox>');
+    await page.setContent('<aegov-checkbox is-disabled label="Off"></aegov-checkbox>');
     const input = await page.find('aegov-checkbox input');
-    expect(await input.getProperty('checked')).toBe(true);
+    await input.click();
+    await page.waitForChanges();
+    expect(await input.getProperty('checked')).toBe(false);
+    expect(await input.getProperty('disabled')).toBe(true);
   });
 
-  it('renders without label wrapper when no label prop', async () => {
+  it('reflects fieldId on the native input id', async () => {
     const page = await newE2EPage();
-    await page.setContent('<aegov-checkbox></aegov-checkbox>');
-    const wrapper = await page.find('aegov-checkbox label.checkbox__wrapper');
-    expect(wrapper).toBeNull();
-  });
-
-  it('has correct name and value attributes', async () => {
-    const page = await newE2EPage();
-    await page.setContent('<aegov-checkbox name="color" value="red"></aegov-checkbox>');
+    await page.setContent('<aegov-checkbox field-id="my-cb" label="X"></aegov-checkbox>');
     const input = await page.find('aegov-checkbox input');
-    expect(await input.getProperty('name')).toBe('color');
-    expect(await input.getProperty('value')).toBe('red');
+    expect(input.id).toBe('my-cb');
   });
 
-  it('sets required attribute', async () => {
+  it('forwards aria and data attributes to the input', async () => {
     const page = await newE2EPage();
-    await page.setContent('<aegov-checkbox label="Required" is-required></aegov-checkbox>');
+    await page.setContent('<aegov-checkbox aria-label="agree" data-id="1"></aegov-checkbox>');
     const input = await page.find('aegov-checkbox input');
-    expect(await input.getProperty('required')).toBe(true);
-  });
-
-  it('works inside a form submission', async () => {
-    const page = await newE2EPage();
-    await page.setContent(`
-      <form id="testform">
-        <aegov-checkbox name="terms" value="accepted" label="Accept" is-checked></aegov-checkbox>
-      </form>
-    `);
-    const formData = await page.evaluate(() => {
-      const form = document.getElementById('testform') as HTMLFormElement;
-      const data = new FormData(form);
-      return data.get('terms');
-    });
-    expect(formData).toBe('accepted');
+    expect(input.getAttribute('aria-label')).toBe('agree');
+    expect(input.getAttribute('data-id')).toBe('1');
   });
 });

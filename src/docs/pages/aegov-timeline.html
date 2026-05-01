@@ -11,399 +11,123 @@
   <link rel="stylesheet" href="/docs/hljs.css">
 </head>
 <body class="bg-aeblack-50">
-  <header class="mx-auto max-w-7xl sm:px-6 lg:px-8 mb-8">
+  <header class="aegov-container sm:px-6 lg:px-8 mb-8">
     <img src="https://designsystem.gov.ae/assets/site-logo/AEGov-DesignSystem-Logo-Color.svg" alt="UAE Design System Logo" class="w-auto h-16 my-2">
   </header>
-  <main class="mx-auto max-w-7xl sm:px-6 lg:px-8 bg-aeblack-50">
+  <main class="aegov-container sm:px-6 lg:px-8 bg-aeblack-50">
     <section class="flex items-start align-top gap-4">
       <nav id="primary-nav" class="w-3xs shrink-0">&nbsp;</nav>
       <article class="col-span-5 grow">
           <section id="content-area" class="bg-whitely-50 p-6 rounded-md shadow-xl">
           <!-- DOC:START -->
-<h1>Timeline</h1>
-<p class="text-lg text-aeblack-500 mb-8">A timeline displays a sequence of steps or events in a linear progression. It supports horizontal and vertical orientations, numbered or compact dot indicators, and three step statuses to communicate progress.</p>
-
-<h2>Introduction</h2>
-<p>The <code>aegov-timeline</code> component is a parent-child pair: <code>&lt;aegov-timeline&gt;</code> wraps one or more <code>&lt;aegov-timeline-step&gt;</code> elements. The parent controls layout orientation, visual variant, and indicator size, while each step manages its own status and label content.</p>
-<p>The component provides <strong>2 variants</strong> (default numbered circles and compact dots), <strong>2 orientations</strong> (horizontal and vertical), <strong>3 sizes</strong>, and <strong>3 step statuses</strong> out of the box.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-timeline</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-timeline-step</span> <span class="hljs-attr">status</span>=<span class="hljs-string">&quot;completed&quot;</span>&gt;</span>Account Created<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-timeline-step</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-timeline-step</span> <span class="hljs-attr">status</span>=<span class="hljs-string">&quot;active&quot;</span>&gt;</span>Verification<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-timeline-step</span>&gt;</span>
+<h1>aegov-timeline</h1>
+<p>A visual representation of progress through a sequence of steps. Use it for multi-stage flows (forms, applications, status tracking) where the user needs context about what&#39;s complete, in progress, and still pending. The <code>aegov-timeline</code> parent renders the surrounding <code>&lt;nav&gt;</code> / <code>&lt;ol&gt;</code> and writes shared layout props onto each <code>aegov-timeline-step</code> child — your markup only needs to set per-step <code>status</code> and content.</p>
+<h2>Properties</h2>
+<h3>variant</h3>
+<p>Visual style. <code>default</code> shows numbered circle indicators with labels; <code>compact</code> shows minimal dot indicators.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-timeline</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;default&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-timeline-step</span> <span class="hljs-attr">status</span>=<span class="hljs-string">&quot;completed&quot;</span>&gt;</span>Application<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-timeline-step</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-timeline-step</span> <span class="hljs-attr">status</span>=<span class="hljs-string">&quot;active&quot;</span>&gt;</span>Review<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-timeline-step</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-timeline-step</span> <span class="hljs-attr">status</span>=<span class="hljs-string">&quot;pending&quot;</span>&gt;</span>Approval<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-timeline-step</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-timeline</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 w-full not-aegov">
-  <aegov-timeline>
-    <aegov-timeline-step status="completed">Created</aegov-timeline-step>
-    <aegov-timeline-step status="active">Verified</aegov-timeline-step>
-    <aegov-timeline-step status="pending">Approval</aegov-timeline-step>
-  </aegov-timeline>
-</div>
-
-<hr>
-<h2>Orientation</h2>
-<p>The <code>orientation</code> property controls the layout direction of the timeline. There are two options.</p>
-<h3>Horizontal</h3>
-<p>The default orientation. Steps are arranged in a row with connectors between them. Labels appear below the indicators. On screens narrower than 640px, labels are visually hidden but remain accessible to screen readers.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-timeline</span> <span class="hljs-attr">orientation</span>=<span class="hljs-string">&quot;horizontal&quot;</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-timeline</span>&gt;</span></code></pre><pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-timeline</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;compact&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-timeline-step</span> <span class="hljs-attr">status</span>=<span class="hljs-string">&quot;completed&quot;</span>&gt;</span>A<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-timeline-step</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-timeline-step</span> <span class="hljs-attr">status</span>=<span class="hljs-string">&quot;active&quot;</span>&gt;</span>B<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-timeline-step</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-timeline</span>&gt;</span></code></pre><h3>size</h3>
+<p>Step indicator size. Accepts <code>sm</code>, <code>base</code>, or <code>lg</code>. Also supports a Tailwind-style responsive string.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-timeline</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;lg&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-timeline-step</span> <span class="hljs-attr">status</span>=<span class="hljs-string">&quot;active&quot;</span>&gt;</span>Step<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-timeline-step</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-timeline</span>&gt;</span></code></pre><h3>orientation</h3>
+<p>Layout direction. <code>horizontal</code> (default) lays steps left-to-right; <code>vertical</code> stacks steps top-to-bottom.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-timeline</span> <span class="hljs-attr">orientation</span>=<span class="hljs-string">&quot;vertical&quot;</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-timeline-step</span> <span class="hljs-attr">status</span>=<span class="hljs-string">&quot;completed&quot;</span>&gt;</span>Step 1<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-timeline-step</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-timeline-step</span> <span class="hljs-attr">status</span>=<span class="hljs-string">&quot;active&quot;</span>&gt;</span>Step 2<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-timeline-step</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-timeline-step</span> <span class="hljs-attr">status</span>=<span class="hljs-string">&quot;pending&quot;</span>&gt;</span>Step 3<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-timeline-step</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-timeline-step</span> <span class="hljs-attr">status</span>=<span class="hljs-string">&quot;pending&quot;</span>&gt;</span>Step 4<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-timeline-step</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-timeline</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-timeline orientation="horizontal">
-    <aegov-timeline-step status="completed">Step 1</aegov-timeline-step>
-    <aegov-timeline-step status="active">Step 2</aegov-timeline-step>
-    <aegov-timeline-step status="pending">Step 3</aegov-timeline-step>
-    <aegov-timeline-step status="pending">Step 4</aegov-timeline-step>
-  </aegov-timeline>
-</div>
-
-<h3>Vertical</h3>
-<p>Steps are stacked top-to-bottom with connectors running vertically between indicators. Labels appear to the right of each indicator.</p>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-timeline</span>&gt;</span></code></pre><h3>field-id</h3>
+<p>Auto-generated when omitted. Reflects to the timeline <code>&lt;nav&gt;</code> element&#39;s <code>id</code>.</p>
+<h3>Sub-component: aegov-timeline-step</h3>
+<p>Each step represents one stage in the sequence. Most layout props (<code>variant</code>, <code>size</code>, <code>orientation</code>, <code>step-index</code>, <code>step-count</code>, <code>is-first</code>, <code>is-last</code>, <code>is-connector-solid</code>) are written by the parent and should not be set manually.</p>
+<h4>status</h4>
+<p>Required visual state. One of <code>completed</code>, <code>active</code>, <code>pending</code>. Defaults to <code>pending</code>.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-timeline-step</span> <span class="hljs-attr">status</span>=<span class="hljs-string">&quot;completed&quot;</span>&gt;</span>Identity<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-timeline-step</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-timeline-step</span> <span class="hljs-attr">status</span>=<span class="hljs-string">&quot;active&quot;</span>&gt;</span>Verification<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-timeline-step</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-timeline-step</span> <span class="hljs-attr">status</span>=<span class="hljs-string">&quot;pending&quot;</span>&gt;</span>Approval<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-timeline-step</span>&gt;</span></code></pre><h4>description</h4>
+<p>Optional supplementary text shown below the label.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-timeline-step</span> <span class="hljs-attr">status</span>=<span class="hljs-string">&quot;active&quot;</span> <span class="hljs-attr">description</span>=<span class="hljs-string">&quot;In progress&quot;</span>&gt;</span>
+  Document review
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-timeline-step</span>&gt;</span></code></pre><h4>Slots</h4>
+<ul>
+<li>(default) — The step label text. Captured into a screen-reader description.</li>
+<li><code>icon</code> — Optional icon replacing the default number/checkmark. Only shown in <code>default</code> (non-compact) variant.</li>
+</ul>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-timeline-step</span> <span class="hljs-attr">status</span>=<span class="hljs-string">&quot;active&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">svg</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;icon&quot;</span> <span class="hljs-attr">width</span>=<span class="hljs-string">&quot;16&quot;</span> <span class="hljs-attr">height</span>=<span class="hljs-string">&quot;16&quot;</span> <span class="hljs-attr">viewBox</span>=<span class="hljs-string">&quot;0 0 24 24&quot;</span>&gt;</span><span class="hljs-comment">&lt;!-- ... --&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">svg</span>&gt;</span>
+  Custom icon step
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-timeline-step</span>&gt;</span></code></pre><h2>Sizes</h2>
+<p><code>size</code> accepts a single token or a responsive string using Tailwind-style breakpoint prefixes (<code>xs</code>, <code>sm</code>, <code>md</code>, <code>lg</code>, <code>xl</code>, <code>2xl</code>).</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-timeline</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm md:base lg:lg&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-timeline-step</span> <span class="hljs-attr">status</span>=<span class="hljs-string">&quot;active&quot;</span>&gt;</span>Responsive<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-timeline-step</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-timeline</span>&gt;</span></code></pre><table>
+<thead>
+<tr>
+<th>Token</th>
+<th>Indicator size</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>sm</code></td>
+<td>Compact</td>
+</tr>
+<tr>
+<td><code>base</code></td>
+<td>Default</td>
+</tr>
+<tr>
+<td><code>lg</code></td>
+<td>Large</td>
+</tr>
+</tbody></table>
+<h2>Examples</h2>
+<h3>Application progress (horizontal)</h3>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-timeline</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-timeline-step</span> <span class="hljs-attr">status</span>=<span class="hljs-string">&quot;completed&quot;</span> <span class="hljs-attr">description</span>=<span class="hljs-string">&quot;Submitted&quot;</span>&gt;</span>
+    Application
+  <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-timeline-step</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-timeline-step</span> <span class="hljs-attr">status</span>=<span class="hljs-string">&quot;completed&quot;</span> <span class="hljs-attr">description</span>=<span class="hljs-string">&quot;Verified&quot;</span>&gt;</span>
+    Documents
+  <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-timeline-step</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-timeline-step</span> <span class="hljs-attr">status</span>=<span class="hljs-string">&quot;active&quot;</span> <span class="hljs-attr">description</span>=<span class="hljs-string">&quot;In review&quot;</span>&gt;</span>
+    Approval
+  <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-timeline-step</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-timeline-step</span> <span class="hljs-attr">status</span>=<span class="hljs-string">&quot;pending&quot;</span>&gt;</span>
+    Issuance
+  <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-timeline-step</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-timeline</span>&gt;</span></code></pre><h3>Vertical stepper</h3>
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-timeline</span> <span class="hljs-attr">orientation</span>=<span class="hljs-string">&quot;vertical&quot;</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-timeline-step</span> <span class="hljs-attr">status</span>=<span class="hljs-string">&quot;completed&quot;</span>&gt;</span>Account Created<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-timeline-step</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-timeline-step</span> <span class="hljs-attr">status</span>=<span class="hljs-string">&quot;completed&quot;</span>&gt;</span>Email Verified<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-timeline-step</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-timeline-step</span> <span class="hljs-attr">status</span>=<span class="hljs-string">&quot;active&quot;</span>&gt;</span>Document Upload<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-timeline-step</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-timeline-step</span> <span class="hljs-attr">status</span>=<span class="hljs-string">&quot;pending&quot;</span>&gt;</span>Review<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-timeline-step</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-timeline-step</span> <span class="hljs-attr">status</span>=<span class="hljs-string">&quot;pending&quot;</span>&gt;</span>Approval<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-timeline-step</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-timeline</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-timeline orientation="vertical">
-    <aegov-timeline-step status="completed">Account Created</aegov-timeline-step>
-    <aegov-timeline-step status="completed">Email Verified</aegov-timeline-step>
-    <aegov-timeline-step status="active">Document Upload</aegov-timeline-step>
-    <aegov-timeline-step status="pending">Review</aegov-timeline-step>
-    <aegov-timeline-step status="pending">Approval</aegov-timeline-step>
-  </aegov-timeline>
-</div>
-
-<hr>
-<h2>Variants</h2>
-<p>The <code>variant</code> property on the parent controls the visual style of step indicators.</p>
-<h3>Default</h3>
-<p>The default variant displays numbered circles for each step. Completed steps show a checkmark icon instead of a number.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-timeline</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;default&quot;</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-timeline-step</span> <span class="hljs-attr">status</span>=<span class="hljs-string">&quot;completed&quot;</span>&gt;</span>Details<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-timeline-step</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-timeline-step</span> <span class="hljs-attr">status</span>=<span class="hljs-string">&quot;active&quot;</span>&gt;</span>Payment<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-timeline-step</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-timeline-step</span> <span class="hljs-attr">status</span>=<span class="hljs-string">&quot;pending&quot;</span>&gt;</span>Confirmation<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-timeline-step</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-timeline</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-timeline variant="default">
-    <aegov-timeline-step status="completed">Details</aegov-timeline-step>
-    <aegov-timeline-step status="active">Payment</aegov-timeline-step>
-    <aegov-timeline-step status="pending">Confirmation</aegov-timeline-step>
-  </aegov-timeline>
-</div>
-
-<h3>Compact</h3>
-<p>The compact variant replaces numbered circles with small dots. In horizontal mode, labels are hidden (screen-reader only) to keep the layout minimal. In vertical mode, labels remain visible.</p>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-timeline-step</span> <span class="hljs-attr">status</span>=<span class="hljs-string">&quot;completed&quot;</span>&gt;</span>Account created<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-timeline-step</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-timeline-step</span> <span class="hljs-attr">status</span>=<span class="hljs-string">&quot;completed&quot;</span>&gt;</span>Profile completed<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-timeline-step</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-timeline-step</span> <span class="hljs-attr">status</span>=<span class="hljs-string">&quot;active&quot;</span>&gt;</span>Verification<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-timeline-step</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-timeline-step</span> <span class="hljs-attr">status</span>=<span class="hljs-string">&quot;pending&quot;</span>&gt;</span>Activation<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-timeline-step</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-timeline</span>&gt;</span></code></pre><h3>Compact dots</h3>
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-timeline</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;compact&quot;</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-timeline-step</span> <span class="hljs-attr">status</span>=<span class="hljs-string">&quot;completed&quot;</span>&gt;</span>Step 1<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-timeline-step</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-timeline-step</span> <span class="hljs-attr">status</span>=<span class="hljs-string">&quot;completed&quot;</span>&gt;</span>Step 2<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-timeline-step</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-timeline-step</span> <span class="hljs-attr">status</span>=<span class="hljs-string">&quot;active&quot;</span>&gt;</span>Step 3<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-timeline-step</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-timeline-step</span> <span class="hljs-attr">status</span>=<span class="hljs-string">&quot;pending&quot;</span>&gt;</span>Step 4<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-timeline-step</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-timeline-step</span> <span class="hljs-attr">status</span>=<span class="hljs-string">&quot;pending&quot;</span>&gt;</span>Step 5<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-timeline-step</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-timeline</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-timeline variant="compact">
-    <aegov-timeline-step status="completed">Step 1</aegov-timeline-step>
-    <aegov-timeline-step status="completed">Step 2</aegov-timeline-step>
-    <aegov-timeline-step status="active">Step 3</aegov-timeline-step>
-    <aegov-timeline-step status="pending">Step 4</aegov-timeline-step>
-    <aegov-timeline-step status="pending">Step 5</aegov-timeline-step>
-  </aegov-timeline>
-</div>
-
-<p>Compact variant in vertical orientation (labels are visible):</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-timeline</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;compact&quot;</span> <span class="hljs-attr">orientation</span>=<span class="hljs-string">&quot;vertical&quot;</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-timeline-step</span> <span class="hljs-attr">status</span>=<span class="hljs-string">&quot;completed&quot;</span>&gt;</span>Registration<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-timeline-step</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-timeline-step</span> <span class="hljs-attr">status</span>=<span class="hljs-string">&quot;active&quot;</span>&gt;</span>Processing<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-timeline-step</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-timeline-step</span> <span class="hljs-attr">status</span>=<span class="hljs-string">&quot;pending&quot;</span>&gt;</span>Complete<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-timeline-step</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-timeline</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-timeline variant="compact" orientation="vertical">
-    <aegov-timeline-step status="completed">Registration</aegov-timeline-step>
-    <aegov-timeline-step status="active">Processing</aegov-timeline-step>
-    <aegov-timeline-step status="pending">Complete</aegov-timeline-step>
-  </aegov-timeline>
-</div>
-
-<hr>
-<h2>Step Status</h2>
-<p>Each <code>&lt;aegov-timeline-step&gt;</code> has a <code>status</code> property that controls its visual state and the connector style.</p>
-<table>
-<thead>
-<tr>
-<th>Status</th>
-<th>Indicator</th>
-<th>Connector After</th>
-</tr>
-</thead>
-<tbody><tr>
-<td><code>completed</code></td>
-<td>Filled primary circle with checkmark</td>
-<td>Solid primary line</td>
-</tr>
-<tr>
-<td><code>active</code></td>
-<td>White circle with primary border</td>
-<td>Dashed grey line</td>
-</tr>
-<tr>
-<td><code>pending</code></td>
-<td>Grey circle with grey number</td>
-<td>Dashed grey line</td>
-</tr>
-</tbody></table>
-<p>Connectors between steps reflect the status of the preceding step: a solid line follows a completed step, and a dashed line follows an active or pending step.</p>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-timeline</span>&gt;</span></code></pre><h3>Step with custom icon</h3>
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-timeline</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-timeline-step</span> <span class="hljs-attr">status</span>=<span class="hljs-string">&quot;completed&quot;</span>&gt;</span>Submitted<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-timeline-step</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-timeline-step</span> <span class="hljs-attr">status</span>=<span class="hljs-string">&quot;completed&quot;</span>&gt;</span>Under Review<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-timeline-step</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-timeline-step</span> <span class="hljs-attr">status</span>=<span class="hljs-string">&quot;active&quot;</span>&gt;</span>Approved<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-timeline-step</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-timeline-step</span> <span class="hljs-attr">status</span>=<span class="hljs-string">&quot;pending&quot;</span>&gt;</span>Published<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-timeline-step</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-timeline</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-timeline>
-    <aegov-timeline-step status="completed">Submitted</aegov-timeline-step>
-    <aegov-timeline-step status="completed">Under Review</aegov-timeline-step>
-    <aegov-timeline-step status="active">Approved</aegov-timeline-step>
-    <aegov-timeline-step status="pending">Published</aegov-timeline-step>
-  </aegov-timeline>
-</div>
-
-<hr>
-<h2>Sizes</h2>
-<p>The <code>size</code> property on the parent controls the dimensions of the step indicators. All child steps inherit the same size for visual consistency.</p>
-<table>
-<thead>
-<tr>
-<th>Size</th>
-<th>Indicator Diameter</th>
-<th>Dot Diameter</th>
-<th>Font Size</th>
-</tr>
-</thead>
-<tbody><tr>
-<td><code>sm</code></td>
-<td>1.7rem (27px)</td>
-<td>0.5rem</td>
-<td>0.625rem</td>
-</tr>
-<tr>
-<td><code>base</code></td>
-<td>2.125rem (34px)</td>
-<td>0.625rem</td>
-<td>0.75rem</td>
-</tr>
-<tr>
-<td><code>lg</code></td>
-<td>2.5rem (40px)</td>
-<td>0.75rem</td>
-<td>0.875rem</td>
-</tr>
-</tbody></table>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-timeline</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm&quot;</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-timeline-step</span> <span class="hljs-attr">status</span>=<span class="hljs-string">&quot;completed&quot;</span>&gt;</span>Small<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-timeline-step</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-timeline-step</span> <span class="hljs-attr">status</span>=<span class="hljs-string">&quot;active&quot;</span>&gt;</span>Steps<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-timeline-step</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-timeline-step</span> <span class="hljs-attr">status</span>=<span class="hljs-string">&quot;pending&quot;</span>&gt;</span>Here<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-timeline-step</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-timeline</span>&gt;</span></code></pre><div class="flex flex-col gap-8 p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <div>
-    <p class="text-xs text-aeblack-400 mb-2">size="sm"</p>
-    <aegov-timeline size="sm">
-      <aegov-timeline-step status="completed">Details</aegov-timeline-step>
-      <aegov-timeline-step status="active">Payment</aegov-timeline-step>
-      <aegov-timeline-step status="pending">Confirmation</aegov-timeline-step>
-    </aegov-timeline>
-  </div>
-  <div>
-    <p class="text-xs text-aeblack-400 mb-2">size="base" (default)</p>
-    <aegov-timeline size="base">
-      <aegov-timeline-step status="completed">Details</aegov-timeline-step>
-      <aegov-timeline-step status="active">Payment</aegov-timeline-step>
-      <aegov-timeline-step status="pending">Confirmation</aegov-timeline-step>
-    </aegov-timeline>
-  </div>
-  <div>
-    <p class="text-xs text-aeblack-400 mb-2">size="lg"</p>
-    <aegov-timeline size="lg">
-      <aegov-timeline-step status="completed">Details</aegov-timeline-step>
-      <aegov-timeline-step status="active">Payment</aegov-timeline-step>
-      <aegov-timeline-step status="pending">Confirmation</aegov-timeline-step>
-    </aegov-timeline>
-  </div>
-</div>
-
-<h3>Responsive Size</h3>
-<p>The <code>size</code> prop accepts Tailwind-style responsive prefixes. Write a space-separated string where each token is either a plain value or <code>breakpoint:value</code>. The base value (no prefix) applies below the smallest specified breakpoint.</p>
-<p>Available breakpoints: <code>xs</code> (480px), <code>sm</code> (640px), <code>md</code> (768px), <code>lg</code> (1024px), <code>xl</code> (1280px), <code>2xl</code> (1536px), <code>3xl</code> (1680px).</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-timeline</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm xl:lg&quot;</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-timeline-step</span> <span class="hljs-attr">status</span>=<span class="hljs-string">&quot;completed&quot;</span>&gt;</span>Account Created<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-timeline-step</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-timeline-step</span> <span class="hljs-attr">status</span>=<span class="hljs-string">&quot;active&quot;</span>&gt;</span>Verification<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-timeline-step</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-timeline-step</span> <span class="hljs-attr">status</span>=<span class="hljs-string">&quot;pending&quot;</span>&gt;</span>Approval<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-timeline-step</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-timeline</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-timeline size="sm xl:lg">
-    <aegov-timeline-step status="completed">Account Created</aegov-timeline-step>
-    <aegov-timeline-step status="active">Verification</aegov-timeline-step>
-    <aegov-timeline-step status="pending">Approval</aegov-timeline-step>
-  </aegov-timeline>
-</div>
-
-<blockquote>
-<p><strong>Graceful degradation:</strong> Unknown breakpoint names and invalid values are silently ignored. An unrecognised base value falls back to the component default.</p>
-</blockquote>
-<hr>
-<h2>Descriptions</h2>
-<p>Each step can display a description below the label using the <code>description</code> property. Descriptions provide additional context about the step.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-timeline</span> <span class="hljs-attr">orientation</span>=<span class="hljs-string">&quot;vertical&quot;</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-timeline-step</span> <span class="hljs-attr">status</span>=<span class="hljs-string">&quot;completed&quot;</span> <span class="hljs-attr">description</span>=<span class="hljs-string">&quot;Jan 15, 2026&quot;</span>&gt;</span>Application Submitted<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-timeline-step</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-timeline-step</span> <span class="hljs-attr">status</span>=<span class="hljs-string">&quot;completed&quot;</span> <span class="hljs-attr">description</span>=<span class="hljs-string">&quot;Jan 18, 2026&quot;</span>&gt;</span>Documents Verified<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-timeline-step</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-timeline-step</span> <span class="hljs-attr">status</span>=<span class="hljs-string">&quot;active&quot;</span> <span class="hljs-attr">description</span>=<span class="hljs-string">&quot;In progress&quot;</span>&gt;</span>Under Review<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-timeline-step</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-timeline-step</span> <span class="hljs-attr">status</span>=<span class="hljs-string">&quot;pending&quot;</span> <span class="hljs-attr">description</span>=<span class="hljs-string">&quot;Estimated: Feb 1, 2026&quot;</span>&gt;</span>Decision<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-timeline-step</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-timeline</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-timeline orientation="vertical">
-    <aegov-timeline-step status="completed" description="Jan 15, 2026">Application Submitted</aegov-timeline-step>
-    <aegov-timeline-step status="completed" description="Jan 18, 2026">Documents Verified</aegov-timeline-step>
-    <aegov-timeline-step status="active" description="In progress">Under Review</aegov-timeline-step>
-    <aegov-timeline-step status="pending" description="Estimated: Feb 1, 2026">Decision</aegov-timeline-step>
-  </aegov-timeline>
-</div>
-
-<p>Descriptions also work in horizontal orientation:</p>
-<div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-timeline orientation="horizontal">
-    <aegov-timeline-step status="completed" description="Done">Order Placed</aegov-timeline-step>
-    <aegov-timeline-step status="completed" description="Done">Processing</aegov-timeline-step>
-    <aegov-timeline-step status="active" description="In transit">Shipping</aegov-timeline-step>
-    <aegov-timeline-step status="pending" description="Pending">Delivered</aegov-timeline-step>
-  </aegov-timeline>
-</div>
-
-<hr>
-<h2>Custom Icons</h2>
-<p>Use the <code>icon</code> named slot on <code>&lt;aegov-timeline-step&gt;</code> to replace the default number or checkmark with a custom icon. This works for all statuses.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-timeline</span> <span class="hljs-attr">orientation</span>=<span class="hljs-string">&quot;vertical&quot;</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-timeline-step</span> <span class="hljs-attr">status</span>=<span class="hljs-string">&quot;completed&quot;</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">svg</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;icon&quot;</span> <span class="hljs-attr">xmlns</span>=<span class="hljs-string">&quot;http://www.w3.org/2000/svg&quot;</span> <span class="hljs-attr">viewBox</span>=<span class="hljs-string">&quot;0 0 24 24&quot;</span> <span class="hljs-attr">fill</span>=<span class="hljs-string">&quot;none&quot;</span>
-         <span class="hljs-attr">stroke</span>=<span class="hljs-string">&quot;currentColor&quot;</span> <span class="hljs-attr">stroke-width</span>=<span class="hljs-string">&quot;2&quot;</span> <span class="hljs-attr">stroke-linecap</span>=<span class="hljs-string">&quot;round&quot;</span> <span class="hljs-attr">stroke-linejoin</span>=<span class="hljs-string">&quot;round&quot;</span>
-         <span class="hljs-attr">width</span>=<span class="hljs-string">&quot;16&quot;</span> <span class="hljs-attr">height</span>=<span class="hljs-string">&quot;16&quot;</span>&gt;</span>
-      <span class="hljs-tag">&lt;<span class="hljs-name">path</span> <span class="hljs-attr">d</span>=<span class="hljs-string">&quot;M16 21v-2a4 4 0 00-4-4H6a4 4 0 00-4-4v2&quot;</span>/&gt;</span>
-      <span class="hljs-tag">&lt;<span class="hljs-name">circle</span> <span class="hljs-attr">cx</span>=<span class="hljs-string">&quot;9&quot;</span> <span class="hljs-attr">cy</span>=<span class="hljs-string">&quot;7&quot;</span> <span class="hljs-attr">r</span>=<span class="hljs-string">&quot;4&quot;</span>/&gt;</span>
-    <span class="hljs-tag">&lt;/<span class="hljs-name">svg</span>&gt;</span>
-    Registration
+    <span class="hljs-tag">&lt;<span class="hljs-name">svg</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;icon&quot;</span> <span class="hljs-attr">width</span>=<span class="hljs-string">&quot;16&quot;</span> <span class="hljs-attr">height</span>=<span class="hljs-string">&quot;16&quot;</span> <span class="hljs-attr">viewBox</span>=<span class="hljs-string">&quot;0 0 24 24&quot;</span>&gt;</span><span class="hljs-comment">&lt;!-- check --&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">svg</span>&gt;</span>
+    Identity verified
   <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-timeline-step</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-timeline-step</span> <span class="hljs-attr">status</span>=<span class="hljs-string">&quot;active&quot;</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">svg</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;icon&quot;</span> <span class="hljs-attr">xmlns</span>=<span class="hljs-string">&quot;http://www.w3.org/2000/svg&quot;</span> <span class="hljs-attr">viewBox</span>=<span class="hljs-string">&quot;0 0 24 24&quot;</span> <span class="hljs-attr">fill</span>=<span class="hljs-string">&quot;none&quot;</span>
-         <span class="hljs-attr">stroke</span>=<span class="hljs-string">&quot;currentColor&quot;</span> <span class="hljs-attr">stroke-width</span>=<span class="hljs-string">&quot;2&quot;</span> <span class="hljs-attr">stroke-linecap</span>=<span class="hljs-string">&quot;round&quot;</span> <span class="hljs-attr">stroke-linejoin</span>=<span class="hljs-string">&quot;round&quot;</span>
-         <span class="hljs-attr">width</span>=<span class="hljs-string">&quot;16&quot;</span> <span class="hljs-attr">height</span>=<span class="hljs-string">&quot;16&quot;</span>&gt;</span>
-      <span class="hljs-tag">&lt;<span class="hljs-name">path</span> <span class="hljs-attr">d</span>=<span class="hljs-string">&quot;M14.5 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V7.5L14.5 2z&quot;</span>/&gt;</span>
-      <span class="hljs-tag">&lt;<span class="hljs-name">polyline</span> <span class="hljs-attr">points</span>=<span class="hljs-string">&quot;14 2 14 8 20 8&quot;</span>/&gt;</span>
-    <span class="hljs-tag">&lt;/<span class="hljs-name">svg</span>&gt;</span>
-    Document Upload
-  <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-timeline-step</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-timeline-step</span> <span class="hljs-attr">status</span>=<span class="hljs-string">&quot;pending&quot;</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">svg</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;icon&quot;</span> <span class="hljs-attr">xmlns</span>=<span class="hljs-string">&quot;http://www.w3.org/2000/svg&quot;</span> <span class="hljs-attr">viewBox</span>=<span class="hljs-string">&quot;0 0 24 24&quot;</span> <span class="hljs-attr">fill</span>=<span class="hljs-string">&quot;none&quot;</span>
-         <span class="hljs-attr">stroke</span>=<span class="hljs-string">&quot;currentColor&quot;</span> <span class="hljs-attr">stroke-width</span>=<span class="hljs-string">&quot;2&quot;</span> <span class="hljs-attr">stroke-linecap</span>=<span class="hljs-string">&quot;round&quot;</span> <span class="hljs-attr">stroke-linejoin</span>=<span class="hljs-string">&quot;round&quot;</span>
-         <span class="hljs-attr">width</span>=<span class="hljs-string">&quot;16&quot;</span> <span class="hljs-attr">height</span>=<span class="hljs-string">&quot;16&quot;</span>&gt;</span>
-      <span class="hljs-tag">&lt;<span class="hljs-name">polyline</span> <span class="hljs-attr">points</span>=<span class="hljs-string">&quot;20 6 9 17 4 12&quot;</span>/&gt;</span>
-    <span class="hljs-tag">&lt;/<span class="hljs-name">svg</span>&gt;</span>
-    Approval
-  <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-timeline-step</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-timeline</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-timeline orientation="vertical">
-    <aegov-timeline-step status="completed">
-      <svg slot="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><path d="M16 21v-2a4 4 0 00-4-4H6a4 4 0 00-4-4v2"/><circle cx="9" cy="7" r="4"/></svg>
-      Registration
-    </aegov-timeline-step>
-    <aegov-timeline-step status="active">
-      <svg slot="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><path d="M14.5 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/></svg>
-      Document Upload
-    </aegov-timeline-step>
-    <aegov-timeline-step status="pending">
-      <svg slot="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><polyline points="20 6 9 17 4 12"/></svg>
-      Approval
-    </aegov-timeline-step>
-  </aegov-timeline>
-</div>
-
-<blockquote>
-<p><strong>Note:</strong> Custom icons via the <code>icon</code> slot only work with the <code>default</code> variant. The <code>compact</code> variant always renders dots regardless of slotted content.</p>
-</blockquote>
-<hr>
-<h2>Connectors</h2>
-<p>Connectors between steps visually indicate progress. The style of each connector depends on the status of the step it follows:</p>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-timeline-step</span> <span class="hljs-attr">status</span>=<span class="hljs-string">&quot;active&quot;</span>&gt;</span>Approval pending<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-timeline-step</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-timeline</span>&gt;</span></code></pre><h2>RTL Behavior</h2>
+<p>When the surrounding context is <code>dir=&quot;rtl&quot;</code>:</p>
 <ul>
-<li><strong>Solid connector</strong> — appears after a completed step, using the primary colour.</li>
-<li><strong>Dashed connector</strong> — appears after an active or pending step, using a muted grey.</li>
+<li>Horizontal step order flows right-to-left so step 1 appears on the right.</li>
+<li>Vertical orientation is unchanged.</li>
+<li>Connector lines, indicator alignment, and label alignment use logical properties so they mirror automatically.</li>
 </ul>
-<p>In horizontal mode, the first step has a transparent spacer on its left and the last step has a transparent spacer on its right to keep indicators properly centred.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-timeline</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-timeline-step</span> <span class="hljs-attr">status</span>=<span class="hljs-string">&quot;completed&quot;</span>&gt;</span>Completed<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-timeline-step</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-timeline-step</span> <span class="hljs-attr">status</span>=<span class="hljs-string">&quot;completed&quot;</span>&gt;</span>Completed<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-timeline-step</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-timeline-step</span> <span class="hljs-attr">status</span>=<span class="hljs-string">&quot;active&quot;</span>&gt;</span>Active<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-timeline-step</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-timeline-step</span> <span class="hljs-attr">status</span>=<span class="hljs-string">&quot;pending&quot;</span>&gt;</span>Pending<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-timeline-step</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-timeline-step</span> <span class="hljs-attr">status</span>=<span class="hljs-string">&quot;pending&quot;</span>&gt;</span>Pending<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-timeline-step</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-timeline</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-timeline>
-    <aegov-timeline-step status="completed">Completed</aegov-timeline-step>
-    <aegov-timeline-step status="completed">Completed</aegov-timeline-step>
-    <aegov-timeline-step status="active">Active</aegov-timeline-step>
-    <aegov-timeline-step status="pending">Pending</aegov-timeline-step>
-    <aegov-timeline-step status="pending">Pending</aegov-timeline-step>
-  </aegov-timeline>
-</div>
-
-<hr>
-<h2>Combined Examples</h2>
-<h3>Vertical Default with Descriptions</h3>
-<p>A common real-world pattern for application tracking:</p>
-<div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-timeline orientation="vertical" size="lg">
-    <aegov-timeline-step status="completed" description="Completed on March 1, 2026">Application Received</aegov-timeline-step>
-    <aegov-timeline-step status="completed" description="Completed on March 3, 2026">Identity Verification</aegov-timeline-step>
-    <aegov-timeline-step status="completed" description="Completed on March 5, 2026">Document Review</aegov-timeline-step>
-    <aegov-timeline-step status="active" description="Currently in progress">Committee Approval</aegov-timeline-step>
-    <aegov-timeline-step status="pending" description="Awaiting previous step">Licence Issued</aegov-timeline-step>
-  </aegov-timeline>
-</div>
-
-<h3>Compact Horizontal Progress</h3>
-<p>A minimal progress indicator for a multi-step form:</p>
-<div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-timeline variant="compact">
-    <aegov-timeline-step status="completed">Step 1</aegov-timeline-step>
-    <aegov-timeline-step status="completed">Step 2</aegov-timeline-step>
-    <aegov-timeline-step status="completed">Step 3</aegov-timeline-step>
-    <aegov-timeline-step status="active">Step 4</aegov-timeline-step>
-    <aegov-timeline-step status="pending">Step 5</aegov-timeline-step>
-    <aegov-timeline-step status="pending">Step 6</aegov-timeline-step>
-  </aegov-timeline>
-</div>
-
-<h3>All Sizes — Vertical Compact</h3>
-<div class="flex flex-wrap gap-12 p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <div>
-    <p class="text-xs text-aeblack-400 mb-2">sm</p>
-    <aegov-timeline variant="compact" orientation="vertical" size="sm">
-      <aegov-timeline-step status="completed">Done</aegov-timeline-step>
-      <aegov-timeline-step status="active">Current</aegov-timeline-step>
-      <aegov-timeline-step status="pending">Next</aegov-timeline-step>
-    </aegov-timeline>
-  </div>
-  <div>
-    <p class="text-xs text-aeblack-400 mb-2">base</p>
-    <aegov-timeline variant="compact" orientation="vertical" size="base">
-      <aegov-timeline-step status="completed">Done</aegov-timeline-step>
-      <aegov-timeline-step status="active">Current</aegov-timeline-step>
-      <aegov-timeline-step status="pending">Next</aegov-timeline-step>
-    </aegov-timeline>
-  </div>
-  <div>
-    <p class="text-xs text-aeblack-400 mb-2">lg</p>
-    <aegov-timeline variant="compact" orientation="vertical" size="lg">
-      <aegov-timeline-step status="completed">Done</aegov-timeline-step>
-      <aegov-timeline-step status="active">Current</aegov-timeline-step>
-      <aegov-timeline-step status="pending">Next</aegov-timeline-step>
-    </aegov-timeline>
-  </div>
-</div>
-
-<hr>
 <h2>API Reference</h2>
-<h3><code>aegov-timeline</code> Properties</h3>
+<h3>aegov-timeline Properties</h3>
 <table>
 <thead>
 <tr>
@@ -415,28 +139,35 @@
 </tr>
 </thead>
 <tbody><tr>
+<td><code>fieldId</code></td>
+<td><code>field-id</code></td>
+<td>DOM <code>id</code> for the <code>&lt;nav&gt;</code>. Auto-generated if omitted</td>
+<td><code>string</code></td>
+<td>generated</td>
+</tr>
+<tr>
 <td><code>variant</code></td>
 <td><code>variant</code></td>
-<td>Visual style of step indicators</td>
-<td><code>&#39;default&#39;</code> | <code>&#39;compact&#39;</code></td>
+<td>Visual style</td>
+<td><code>&#39;default&#39; | &#39;compact&#39;</code></td>
 <td><code>&#39;default&#39;</code></td>
 </tr>
 <tr>
 <td><code>size</code></td>
 <td><code>size</code></td>
-<td>Size of step indicators. Supports responsive strings (e.g. <code>&#39;sm xl:lg&#39;</code>).</td>
-<td><code>&#39;sm&#39;</code> | <code>&#39;base&#39;</code> | <code>&#39;lg&#39;</code></td>
+<td>Indicator size token or responsive string</td>
+<td><code>string</code></td>
 <td><code>&#39;base&#39;</code></td>
 </tr>
 <tr>
 <td><code>orientation</code></td>
 <td><code>orientation</code></td>
-<td>Layout direction of the timeline</td>
-<td><code>&#39;horizontal&#39;</code> | <code>&#39;vertical&#39;</code></td>
+<td>Layout orientation</td>
+<td><code>&#39;horizontal&#39; | &#39;vertical&#39;</code></td>
 <td><code>&#39;horizontal&#39;</code></td>
 </tr>
 </tbody></table>
-<h3><code>aegov-timeline-step</code> Properties</h3>
+<h3>aegov-timeline-step Properties</h3>
 <table>
 <thead>
 <tr>
@@ -450,92 +181,130 @@
 <tbody><tr>
 <td><code>status</code></td>
 <td><code>status</code></td>
-<td>The visual status of the step</td>
-<td><code>&#39;completed&#39;</code> | <code>&#39;active&#39;</code> | <code>&#39;pending&#39;</code></td>
+<td>Step state</td>
+<td><code>&#39;completed&#39; | &#39;active&#39; | &#39;pending&#39;</code></td>
 <td><code>&#39;pending&#39;</code></td>
 </tr>
 <tr>
 <td><code>description</code></td>
 <td><code>description</code></td>
-<td>Optional text shown below the label</td>
+<td>Optional supplementary text below the label</td>
 <td><code>string</code></td>
-<td>—</td>
+<td><code>undefined</code></td>
+</tr>
+<tr>
+<td><code>variant</code></td>
+<td><code>variant</code></td>
+<td>(managed by parent)</td>
+<td>enum</td>
+<td><code>&#39;default&#39;</code></td>
+</tr>
+<tr>
+<td><code>size</code></td>
+<td><code>size</code></td>
+<td>(managed by parent)</td>
+<td>enum</td>
+<td><code>&#39;base&#39;</code></td>
+</tr>
+<tr>
+<td><code>orientation</code></td>
+<td><code>orientation</code></td>
+<td>(managed by parent)</td>
+<td>enum</td>
+<td><code>&#39;horizontal&#39;</code></td>
+</tr>
+<tr>
+<td><code>stepIndex</code></td>
+<td><code>step-index</code></td>
+<td>(managed by parent) zero-based position</td>
+<td><code>number</code></td>
+<td><code>0</code></td>
+</tr>
+<tr>
+<td><code>stepCount</code></td>
+<td><code>step-count</code></td>
+<td>(managed by parent) total number of steps</td>
+<td><code>number</code></td>
+<td><code>1</code></td>
+</tr>
+<tr>
+<td><code>isFirst</code></td>
+<td><code>is-first</code></td>
+<td>(managed by parent) whether this is the first step</td>
+<td><code>boolean</code></td>
+<td><code>false</code></td>
+</tr>
+<tr>
+<td><code>isLast</code></td>
+<td><code>is-last</code></td>
+<td>(managed by parent) whether this is the last step</td>
+<td><code>boolean</code></td>
+<td><code>false</code></td>
+</tr>
+<tr>
+<td><code>isConnectorSolid</code></td>
+<td><code>is-connector-solid</code></td>
+<td>(managed by parent) whether the leading connector renders solid</td>
+<td><code>boolean</code></td>
+<td><code>false</code></td>
 </tr>
 </tbody></table>
-<blockquote>
-<p><strong>Note:</strong> The <code>variant</code>, <code>size</code>, <code>orientation</code>, <code>stepIndex</code>, <code>stepCount</code>, <code>isFirst</code>, <code>isLast</code>, and <code>connectorSolid</code> properties on <code>aegov-timeline-step</code> are set internally by the parent component. Do not set them manually.</p>
-</blockquote>
+<h3>Pass-through Attributes</h3>
+<p><code>aegov-timeline</code> forwards <code>aria-*</code> and <code>data-*</code> attributes set on the host onto the rendered <code>&lt;nav&gt;</code>. Pass-through is not enabled on <code>aegov-timeline-step</code>.</p>
+<h3>Events</h3>
+<p><code>aegov-timeline</code> and <code>aegov-timeline-step</code> do not emit custom events — the timeline is a presentational, non-interactive component.</p>
 <h3>Slots</h3>
-<h4><code>aegov-timeline</code></h4>
 <table>
 <thead>
 <tr>
-<th>Slot</th>
+<th>Component</th>
+<th>Slot name</th>
 <th>Description</th>
 </tr>
 </thead>
 <tbody><tr>
+<td><code>aegov-timeline</code></td>
 <td>(default)</td>
-<td>One or more <code>&lt;aegov-timeline-step&gt;</code> elements to display.</td>
-</tr>
-</tbody></table>
-<h4><code>aegov-timeline-step</code></h4>
-<table>
-<thead>
-<tr>
-<th>Slot</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>(default)</td>
-<td>The step label text.</td>
+<td>Place <code>aegov-timeline-step</code> children here</td>
 </tr>
 <tr>
+<td><code>aegov-timeline-step</code></td>
+<td>(default)</td>
+<td>The step label text</td>
+</tr>
+<tr>
+<td><code>aegov-timeline-step</code></td>
 <td><code>icon</code></td>
-<td>Custom icon to replace the default number or checkmark (default variant only).</td>
+<td>Optional icon replacing the number/checkmark (default variant only)</td>
 </tr>
 </tbody></table>
-<hr>
 <h2>Accessibility</h2>
-<p>The <code>aegov-timeline</code> component is built with accessibility as a first-class concern.</p>
-<h3>Built-in Features</h3>
+<h3>Built-in</h3>
 <ul>
-<li><strong>Semantic <code>&lt;nav&gt;</code> element</strong> — the timeline is wrapped in a <code>&lt;nav&gt;</code> with <code>aria-label=&quot;Timeline&quot;</code> so assistive technologies can identify it as a navigation landmark.</li>
-<li><strong>Ordered list</strong> — steps are rendered inside an <code>&lt;ol&gt;</code> element, conveying the sequential nature of the content to screen readers.</li>
-<li><strong><code>aria-current=&quot;step&quot;</code></strong> — automatically set on the step with <code>status=&quot;active&quot;</code> so screen readers announce it as the current step.</li>
-<li><strong>Screen-reader text</strong> — each step indicator includes visually hidden text that announces &quot;Step N of M&quot; along with the step label and status (e.g. &quot;completed&quot; or &quot;current&quot;).</li>
-<li><strong>Decorative connectors</strong> — all connector lines are marked with <code>aria-hidden=&quot;true&quot;</code> so they do not generate noise for screen reader users.</li>
-<li><strong>Responsive labels</strong> — in horizontal mode, labels are visually hidden on small screens (under 640px) but remain accessible via screen-reader-only text.</li>
+<li>The container renders a <code>&lt;nav&gt;</code> with <code>aria-label=&quot;Timeline&quot;</code> so assistive technologies announce it as a navigation landmark.</li>
+<li>Steps render as <code>&lt;li&gt;</code> items inside an <code>&lt;ol&gt;</code>, preserving order semantics.</li>
+<li>The active step&#39;s <code>&lt;li&gt;</code> carries <code>aria-current=&quot;step&quot;</code> so screen readers announce the user&#39;s current position.</li>
+<li>Each step includes a visually hidden description (<code>Step N of M: &lt;label&gt; (current/completed)</code>) that gives screen reader users full context regardless of variant.</li>
+<li>Decorative connectors and indicator graphics are marked <code>aria-hidden=&quot;true&quot;</code>.</li>
 </ul>
-<h3>Developer Responsibilities</h3>
-<ol>
-<li><p><strong>Provide meaningful step labels.</strong> Each <code>&lt;aegov-timeline-step&gt;</code> should contain a clear, concise text label that describes the step. Screen readers rely on this text.</p>
-</li>
-<li><p><strong>Update statuses dynamically.</strong> When the user progresses through steps, update the <code>status</code> attribute on each step so that the visual and accessible state remain in sync.</p>
-</li>
-<li><p><strong>Compact horizontal variant relies on SR text.</strong> In compact horizontal mode, labels are not visible. The built-in screen-reader-only text ensures accessibility, but consider using the vertical orientation or default variant if visible labels are needed for your audience.</p>
-</li>
-</ol>
-<hr>
-<h2>Notes</h2>
+<h3>Developer responsibilities</h3>
 <ul>
-<li>The <code>&lt;aegov-timeline-step&gt;</code> component <strong>must</strong> be used inside an <code>&lt;aegov-timeline&gt;</code>. Using it as a standalone component will throw an error.</li>
-<li>The parent component sets <code>variant</code>, <code>size</code>, <code>orientation</code>, and positional properties on all child steps during its lifecycle hooks. Do not set these manually on individual steps.</li>
-<li>In the <strong>compact</strong> variant with <strong>horizontal</strong> orientation, step labels are hidden visually but remain accessible to screen readers via <code>sr-only</code> text.</li>
-<li>In the <strong>compact</strong> variant with <strong>vertical</strong> orientation, labels remain visible next to each dot.</li>
-<li>Connectors use a <strong>solid</strong> primary-coloured line after completed steps and a <strong>dashed</strong> grey line after active or pending steps.</li>
-<li>The first and last steps in horizontal mode use invisible spacers instead of connectors on their outer edges, keeping the indicators properly centred within their column.</li>
-<li>All horizontal steps share equal width (<code>flex: 1 1 0%</code>) so the timeline distributes space evenly regardless of label length.</li>
-<li>The <code>icon</code> slot replaces the default number or checkmark in the <strong>default</strong> variant. It has no effect in the <strong>compact</strong> variant.</li>
-<li>Step descriptions are shown below the label in both orientations using the <code>description</code> property.</li>
+<li>Provide a meaningful label as default slot text on every step. The screen reader description depends on it.</li>
+<li>When using a custom <code>icon</code> slot in place of the number/check, ensure the icon itself is <code>aria-hidden=&quot;true&quot;</code> (the step still gets its <code>sr-only</code> label).</li>
+<li>Keep step ordering meaningful — the visual progression is what gives <code>aria-current=&quot;step&quot;</code> value.</li>
+<li>If you need to override the <code>aria-label</code> on the timeline, set <code>aria-label</code> directly on the host (it forwards to <code>&lt;nav&gt;</code>).</li>
+</ul>
+<h3>Notes</h3>
+<ul>
+<li>The timeline is not interactive — it does not respond to keyboard or pointer input. If your flow needs clickable step navigation, wrap step content in a button/link or build a separate interactive stepper.</li>
+<li>The connector before a step renders solid only when the previous step&#39;s status is <code>completed</code>; this is handled automatically by the parent.</li>
 </ul>
 <!-- DOC:END -->
           </section>
       </article>
     </section>
   </main>
-  <footer class="mx-auto max-w-7xl sm:px-6 lg:px-8 mt-8 py-6 text-sm text-aeblack-500">
+  <footer class="aegov-container sm:px-6 lg:px-8 mt-8 py-6 text-sm text-aeblack-500">
     &copy; 2026 Telecommunication and Digital Regulatory Authority. All rights reserved.
   </footer>
 

@@ -1,84 +1,66 @@
 import { newSpecPage } from '@stencil/core/testing';
 import { AegovSelectOption } from './aegov-select-option';
+import { AegovSelect } from '../aegov-select/aegov-select';
+
+const wrap = (inner: string) => `<aegov-select>${inner}</aegov-select>`;
+const COMPONENTS = [AegovSelect, AegovSelectOption];
+const opt = (root: any) => root.querySelector('aegov-select-option');
 
 describe('aegov-select-option', () => {
-  it('renders', async () => {
+  it('renders with role=option and slot content', async () => {
     const page = await newSpecPage({
-      components: [AegovSelectOption],
-      html: '<aegov-select-option value="a">Option A</aegov-select-option>',
+      components: COMPONENTS,
+      html: wrap(`<aegov-select-option value="a">Apple</aegov-select-option>`),
     });
-    expect(page.root).toBeTruthy();
+    const o = opt(page.root);
+    expect(o.getAttribute('role')).toBe('option');
+    expect(o.getAttribute('data-value')).toBe('a');
+    expect(o.getAttribute('data-label')).toBe('Apple');
+    expect(o.textContent.trim()).toBe('Apple');
   });
 
-  it('sets role="option" on host', async () => {
+  it('captures slot content into slotContent state (trimmed)', async () => {
     const page = await newSpecPage({
-      components: [AegovSelectOption],
-      html: '<aegov-select-option value="a">Option A</aegov-select-option>',
+      components: COMPONENTS,
+      html: wrap(`<aegov-select-option value="x">  Hello world  </aegov-select-option>`),
     });
-    expect(page.root.getAttribute('role')).toBe('option');
+    const inst = (opt(page.root) as any).component;
+    // Stencil's spec mode exposes the instance via a private field; fall back
+    // to data-label which mirrors the captured slot content.
+    expect(opt(page.root).getAttribute('data-label')).toBe('Hello world');
+    if (inst) expect(inst.slotContent).toBe('Hello world');
   });
 
-  it('sets data-value attribute from value prop', async () => {
+  it('reflects isDisabled via aria-disabled', async () => {
     const page = await newSpecPage({
-      components: [AegovSelectOption],
-      html: '<aegov-select-option value="test-val">Test</aegov-select-option>',
+      components: COMPONENTS,
+      html: wrap(`<aegov-select-option value="a" is-disabled="true">A</aegov-select-option>`),
     });
-    expect(page.root.getAttribute('data-value')).toBe('test-val');
+    expect(opt(page.root).getAttribute('aria-disabled')).toBe('true');
   });
 
-  it('sets data-label attribute from slot content', async () => {
+  it('omits aria-disabled when not disabled', async () => {
     const page = await newSpecPage({
-      components: [AegovSelectOption],
-      html: '<aegov-select-option value="a">Option Alpha</aegov-select-option>',
+      components: COMPONENTS,
+      html: wrap(`<aegov-select-option value="a">A</aegov-select-option>`),
     });
-    expect(page.root.getAttribute('data-label')).toBe('Option Alpha');
+    expect(opt(page.root).getAttribute('aria-disabled')).toBeNull();
   });
 
   it('defaults value to empty string', async () => {
     const page = await newSpecPage({
-      components: [AegovSelectOption],
-      html: '<aegov-select-option>Empty</aegov-select-option>',
+      components: COMPONENTS,
+      html: wrap(`<aegov-select-option>Free</aegov-select-option>`),
     });
-    expect(page.root.getAttribute('data-value')).toBe('');
+    expect(opt(page.root).getAttribute('data-value')).toBe('');
   });
 
-  it('sets aria-disabled when disabled', async () => {
-    const page = await newSpecPage({
-      components: [AegovSelectOption],
-      html: '<aegov-select-option value="a" disabled>Disabled</aegov-select-option>',
-    });
-    expect(page.root.getAttribute('aria-disabled')).toBe('true');
-  });
-
-  it('does not set aria-disabled when not disabled', async () => {
-    const page = await newSpecPage({
-      components: [AegovSelectOption],
-      html: '<aegov-select-option value="a">Enabled</aegov-select-option>',
-    });
-    expect(page.root.getAttribute('aria-disabled')).toBeNull();
-  });
-
-  it('trims whitespace from slot content for data-label', async () => {
-    const page = await newSpecPage({
-      components: [AegovSelectOption],
-      html: '<aegov-select-option value="a">  Spaced  </aegov-select-option>',
-    });
-    expect(page.root.getAttribute('data-label')).toBe('Spaced');
-  });
-
-  it('renders slot content', async () => {
-    const page = await newSpecPage({
-      components: [AegovSelectOption],
-      html: '<aegov-select-option value="a">Slot Content</aegov-select-option>',
-    });
-    expect(page.root.textContent).toContain('Slot Content');
-  });
-
-  it('handles empty content gracefully', async () => {
-    const page = await newSpecPage({
-      components: [AegovSelectOption],
-      html: '<aegov-select-option value="a"></aegov-select-option>',
-    });
-    expect(page.root.getAttribute('data-label')).toBe('');
+  it('throws when used outside aegov-select', async () => {
+    await expect(
+      newSpecPage({
+        components: [AegovSelectOption],
+        html: `<aegov-select-option value="a">A</aegov-select-option>`,
+      }),
+    ).rejects.toThrow('must be used inside <aegov-select>');
   });
 });

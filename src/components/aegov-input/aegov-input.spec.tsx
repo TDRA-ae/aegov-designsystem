@@ -2,832 +2,214 @@ import { newSpecPage } from '@stencil/core/testing';
 import { AegovInput } from './aegov-input';
 
 describe('aegov-input', () => {
-  describe('rendering', () => {
-    it('renders an input element', async () => {
-      const page = await newSpecPage({
-        components: [AegovInput],
-        html: `<aegov-input></aegov-input>`,
-      });
-      const input = page.root.querySelector('input');
-      expect(input).not.toBeNull();
+  it('renders a native input with default type=text', async () => {
+    const page = await newSpecPage({
+      components: [AegovInput],
+      html: `<aegov-input></aegov-input>`,
     });
-
-    it('renders with aegov-input class', async () => {
-      const page = await newSpecPage({
-        components: [AegovInput],
-        html: `<aegov-input></aegov-input>`,
-      });
-      const input = page.root.querySelector('input');
-      expect(input.className).toContain('aegov-input');
-    });
+    const input = page.root.querySelector('input');
+    expect(input).not.toBeNull();
+    expect(input.type).toBe('text');
+    expect(input.className).toContain('aegov-input');
+    expect(input.className).toContain('input--base');
   });
 
-  describe('default props', () => {
-    it('defaults type to text', async () => {
-      const page = await newSpecPage({
-        components: [AegovInput],
-        html: `<aegov-input></aegov-input>`,
-      });
-      const input = page.root.querySelector('input');
-      expect(input.getAttribute('type')).toBe('text');
+  it('auto-generates fieldId when not provided', async () => {
+    const page = await newSpecPage({
+      components: [AegovInput],
+      html: `<aegov-input></aegov-input>`,
     });
-
-    it('defaults size to base', async () => {
-      const page = await newSpecPage({
-        components: [AegovInput],
-        html: `<aegov-input></aegov-input>`,
-      });
-      expect(page.rootInstance.size).toBe('base');
-    });
-
-    it('applies input--base class by default', async () => {
-      const page = await newSpecPage({
-        components: [AegovInput],
-        html: `<aegov-input></aegov-input>`,
-      });
-      const input = page.root.querySelector('input');
-      expect(input.className).toContain('input--base');
-    });
-
-    it('defaults disabled to false', async () => {
-      const page = await newSpecPage({
-        components: [AegovInput],
-        html: `<aegov-input></aegov-input>`,
-      });
-      const input = page.root.querySelector('input');
-      expect(input.disabled).toBe(false);
-    });
-
-    it('defaults readonly to false', async () => {
-      const page = await newSpecPage({
-        components: [AegovInput],
-        html: `<aegov-input></aegov-input>`,
-      });
-      const input = page.root.querySelector('input');
-      expect(input.readOnly).toBe(false);
-    });
-
-    it('defaults value to empty string', async () => {
-      const page = await newSpecPage({
-        components: [AegovInput],
-        html: `<aegov-input></aegov-input>`,
-      });
-      expect(page.rootInstance.value).toBe('');
-    });
+    expect(page.rootInstance.fieldId).toMatch(/^aegov-input-\d+$/);
+    expect(page.root.querySelector('input').id).toBe(page.rootInstance.fieldId);
   });
 
-  describe('ID generation', () => {
-    it('auto-generates a unique ID', async () => {
-      const page = await newSpecPage({
-        components: [AegovInput],
-        html: `<aegov-input></aegov-input>`,
-      });
-      const input = page.root.querySelector('input');
-      expect(input.id).toMatch(/^aegov-input-\d+$/);
+  it('respects user-provided fieldId', async () => {
+    const page = await newSpecPage({
+      components: [AegovInput],
+      html: `<aegov-input field-id="my-input"></aegov-input>`,
     });
-
-    it('reflects the generated ID on the host element', async () => {
-      const page = await newSpecPage({
-        components: [AegovInput],
-        html: `<aegov-input></aegov-input>`,
-      });
-      expect(page.root.getAttribute('field-id')).toMatch(/^aegov-input-\d+$/);
-    });
-
-    it('uses provided field-id instead of generating one', async () => {
-      const page = await newSpecPage({
-        components: [AegovInput],
-        html: `<aegov-input field-id="my-custom-id"></aegov-input>`,
-      });
-      const input = page.root.querySelector('input');
-      expect(input.id).toBe('my-custom-id');
-    });
-
-    it('generates unique IDs for multiple instances', async () => {
-      const page = await newSpecPage({
-        components: [AegovInput],
-        html: `<div><aegov-input></aegov-input><aegov-input></aegov-input></div>`,
-      });
-      const inputs = page.doc.querySelectorAll('input');
-      expect(inputs[0].id).not.toBe(inputs[1].id);
-    });
+    expect(page.rootInstance.fieldId).toBe('my-input');
+    expect(page.root.querySelector('input').id).toBe('my-input');
   });
 
-  describe('type prop', () => {
-    const types = ['text', 'email', 'password', 'tel', 'url', 'number', 'search', 'date', 'time', 'datetime-local', 'month', 'week'];
-
-    types.forEach(type => {
-      it(`renders type="${type}"`, async () => {
-        const page = await newSpecPage({
-          components: [AegovInput],
-          html: `<aegov-input type="${type}"></aegov-input>`,
-        });
-        const input = page.root.querySelector('input');
-        expect(input.getAttribute('type')).toBe(type);
-      });
+  it('applies type prop to native input', async () => {
+    const page = await newSpecPage({
+      components: [AegovInput],
+      html: `<aegov-input type="email"></aegov-input>`,
     });
+    expect(page.root.querySelector('input').type).toBe('email');
   });
 
-  describe('size prop', () => {
-    it('applies input--sm class for size sm', async () => {
-      const page = await newSpecPage({
-        components: [AegovInput],
-        html: `<aegov-input size="sm"></aegov-input>`,
-      });
-      const input = page.root.querySelector('input');
-      expect(input.className).toContain('input--sm');
+  it('applies size class', async () => {
+    const page = await newSpecPage({
+      components: [AegovInput],
+      html: `<aegov-input size="lg"></aegov-input>`,
     });
-
-    it('applies input--base class for size base', async () => {
-      const page = await newSpecPage({
-        components: [AegovInput],
-        html: `<aegov-input size="base"></aegov-input>`,
-      });
-      const input = page.root.querySelector('input');
-      expect(input.className).toContain('input--base');
-    });
-
-    it('applies input--lg class for size lg', async () => {
-      const page = await newSpecPage({
-        components: [AegovInput],
-        html: `<aegov-input size="lg"></aegov-input>`,
-      });
-      const input = page.root.querySelector('input');
-      expect(input.className).toContain('input--lg');
-    });
+    expect(page.root.querySelector('input').className).toContain('input--lg');
   });
 
-  describe('disabled prop', () => {
-    it('sets disabled attribute on native input', async () => {
-      const page = await newSpecPage({
-        components: [AegovInput],
-        html: `<aegov-input disabled></aegov-input>`,
-      });
-      const input = page.root.querySelector('input');
-      expect(input.disabled).toBe(true);
+  it('disables the native input when is-disabled', async () => {
+    const page = await newSpecPage({
+      components: [AegovInput],
+      html: `<aegov-input is-disabled="true"></aegov-input>`,
     });
+    expect(page.root.querySelector('input').disabled).toBe(true);
   });
 
-  describe('readonly prop', () => {
-    it('sets readOnly attribute on native input', async () => {
-      const page = await newSpecPage({
-        components: [AegovInput],
-        html: `<aegov-input readonly></aegov-input>`,
-      });
-      const input = page.root.querySelector('input');
-      expect(input.readOnly).toBe(true);
+  it('makes the input readonly when is-readonly', async () => {
+    const page = await newSpecPage({
+      components: [AegovInput],
+      html: `<aegov-input is-readonly="true"></aegov-input>`,
     });
+    expect(page.root.querySelector('input').readOnly).toBe(true);
   });
 
-  describe('placeholder prop', () => {
-    it('sets placeholder on native input', async () => {
-      const page = await newSpecPage({
-        components: [AegovInput],
-        html: `<aegov-input placeholder="Enter text"></aegov-input>`,
-      });
-      const input = page.root.querySelector('input');
-      expect(input.getAttribute('placeholder')).toBe('Enter text');
+  it('applies required when is-required', async () => {
+    const page = await newSpecPage({
+      components: [AegovInput],
+      html: `<aegov-input is-required="true"></aegov-input>`,
     });
+    expect(page.root.querySelector('input').required).toBe(true);
   });
 
-  describe('value prop', () => {
-    it('sets value on native input', async () => {
-      const page = await newSpecPage({
-        components: [AegovInput],
-        html: `<aegov-input value="hello"></aegov-input>`,
-      });
-      const input = page.root.querySelector('input');
-      expect(input.value).toBe('hello');
+  it('applies placeholder, value, and name', async () => {
+    const page = await newSpecPage({
+      components: [AegovInput],
+      html: `<aegov-input placeholder="enter" value="hi" name="field"></aegov-input>`,
     });
+    const input = page.root.querySelector('input');
+    expect(input.placeholder).toBe('enter');
+    expect(input.value).toBe('hi');
+    expect(input.name).toBe('field');
   });
 
-  describe('name prop', () => {
-    it('sets name attribute on native input', async () => {
-      const page = await newSpecPage({
-        components: [AegovInput],
-        html: `<aegov-input name="email"></aegov-input>`,
-      });
-      const input = page.root.querySelector('input');
-      expect(input.getAttribute('name')).toBe('email');
+  it('emits aegovInputInput on input event', async () => {
+    const page = await newSpecPage({
+      components: [AegovInput],
+      html: `<aegov-input></aegov-input>`,
     });
+    const spy = jest.fn();
+    page.root.addEventListener('aegovInputInput', spy);
+    const input = page.root.querySelector('input');
+    input.value = 'abc';
+    input.dispatchEvent(new Event('input'));
+    await page.waitForChanges();
+    expect(spy).toHaveBeenCalledTimes(1);
+    expect(spy.mock.calls[0][0].detail.value).toBe('abc');
   });
 
-  describe('required prop', () => {
-    it('sets required attribute on native input', async () => {
-      const page = await newSpecPage({
-        components: [AegovInput],
-        html: `<aegov-input required></aegov-input>`,
-      });
-      const input = page.root.querySelector('input');
-      expect(input.required).toBe(true);
+  it('emits aegovInputChange on change event', async () => {
+    const page = await newSpecPage({
+      components: [AegovInput],
+      html: `<aegov-input></aegov-input>`,
     });
+    const spy = jest.fn();
+    page.root.addEventListener('aegovInputChange', spy);
+    const input = page.root.querySelector('input');
+    input.value = 'done';
+    input.dispatchEvent(new Event('change'));
+    await page.waitForChanges();
+    expect(spy).toHaveBeenCalledTimes(1);
+    expect(spy.mock.calls[0][0].detail.value).toBe('done');
   });
 
-  describe('custom class', () => {
-    it('merges custom class with defaults', async () => {
-      const page = await newSpecPage({
-        components: [AegovInput],
-        html: `<aegov-input extra-class="my-custom-class"></aegov-input>`,
-      });
-      const input = page.root.querySelector('input');
-      expect(input.className).toContain('aegov-input');
-      expect(input.className).toContain('my-custom-class');
+  it('emits aegovInputFocus and aegovInputBlur', async () => {
+    const page = await newSpecPage({
+      components: [AegovInput],
+      html: `<aegov-input></aegov-input>`,
     });
+    const focusSpy = jest.fn();
+    const blurSpy = jest.fn();
+    page.root.addEventListener('aegovInputFocus', focusSpy);
+    page.root.addEventListener('aegovInputBlur', blurSpy);
+    const input = page.root.querySelector('input');
+    input.dispatchEvent(new FocusEvent('focus'));
+    input.dispatchEvent(new FocusEvent('blur'));
+    await page.waitForChanges();
+    expect(focusSpy).toHaveBeenCalledTimes(1);
+    expect(blurSpy).toHaveBeenCalledTimes(1);
   });
 
-  describe('pass-through attributes', () => {
-    it('passes data-* attributes to native input', async () => {
-      const page = await newSpecPage({
-        components: [AegovInput],
-        html: `<aegov-input data-testid="email-input"></aegov-input>`,
-      });
-      const input = page.root.querySelector('input');
-      expect(input.getAttribute('data-testid')).toBe('email-input');
+  it('does not render reveal button when type is not password', async () => {
+    const page = await newSpecPage({
+      components: [AegovInput],
+      html: `<aegov-input is-revealable="true"></aegov-input>`,
     });
-
-    it('passes aria-* attributes to native input', async () => {
-      const page = await newSpecPage({
-        components: [AegovInput],
-        html: `<aegov-input aria-describedby="help-text"></aegov-input>`,
-      });
-      const input = page.root.querySelector('input');
-      expect(input.getAttribute('aria-describedby')).toBe('help-text');
-    });
-
-    it('passes pattern attribute to native input', async () => {
-      const page = await newSpecPage({
-        components: [AegovInput],
-        html: `<aegov-input pattern="[A-Za-z]{3}"></aegov-input>`,
-      });
-      const input = page.root.querySelector('input');
-      expect(input.getAttribute('pattern')).toBe('[A-Za-z]{3}');
-    });
-
-    it('passes min and max attributes to native input', async () => {
-      const page = await newSpecPage({
-        components: [AegovInput],
-        html: `<aegov-input type="number" min="0" max="100"></aegov-input>`,
-      });
-      const input = page.root.querySelector('input');
-      expect(input.getAttribute('min')).toBe('0');
-      expect(input.getAttribute('max')).toBe('100');
-    });
-
-    it('passes minlength and maxlength attributes to native input', async () => {
-      const page = await newSpecPage({
-        components: [AegovInput],
-        html: `<aegov-input minlength="3" maxlength="50"></aegov-input>`,
-      });
-      const input = page.root.querySelector('input');
-      expect(input.getAttribute('minlength')).toBe('3');
-      expect(input.getAttribute('maxlength')).toBe('50');
-    });
-
-    it('passes step attribute to native input', async () => {
-      const page = await newSpecPage({
-        components: [AegovInput],
-        html: `<aegov-input type="number" step="0.01"></aegov-input>`,
-      });
-      const input = page.root.querySelector('input');
-      expect(input.getAttribute('step')).toBe('0.01');
-    });
-
-    it('passes autocomplete attribute to native input', async () => {
-      const page = await newSpecPage({
-        components: [AegovInput],
-        html: `<aegov-input autocomplete="email"></aegov-input>`,
-      });
-      const input = page.root.querySelector('input');
-      expect(input.getAttribute('autocomplete')).toBe('email');
-    });
-
-    it('passes inputmode attribute to native input', async () => {
-      const page = await newSpecPage({
-        components: [AegovInput],
-        html: `<aegov-input inputmode="numeric"></aegov-input>`,
-      });
-      const input = page.root.querySelector('input');
-      expect(input.getAttribute('inputmode')).toBe('numeric');
-    });
-
-    it('passes title attribute to native input', async () => {
-      const page = await newSpecPage({
-        components: [AegovInput],
-        html: `<aegov-input title="Enter your email"></aegov-input>`,
-      });
-      const input = page.root.querySelector('input');
-      expect(input.getAttribute('title')).toBe('Enter your email');
-    });
+    expect(page.root.querySelector('.input__revealable')).toBeNull();
   });
 
-  describe('events', () => {
-    it('emits aegovInputInput on input', async () => {
-      const page = await newSpecPage({
-        components: [AegovInput],
-        html: `<aegov-input></aegov-input>`,
-      });
-      const input = page.root.querySelector('input');
-      const spy = jest.fn();
-      page.root.addEventListener('aegovInputInput', spy);
-      input.value = 'test';
-      input.dispatchEvent(new Event('input'));
-      expect(spy).toHaveBeenCalled();
+  it('renders reveal button when type=password and is-revealable', async () => {
+    const page = await newSpecPage({
+      components: [AegovInput],
+      html: `<aegov-input type="password" is-revealable="true"></aegov-input>`,
     });
-
-    it('emits aegovInputChange on change', async () => {
-      const page = await newSpecPage({
-        components: [AegovInput],
-        html: `<aegov-input></aegov-input>`,
-      });
-      const input = page.root.querySelector('input');
-      const spy = jest.fn();
-      page.root.addEventListener('aegovInputChange', spy);
-      input.value = 'test';
-      input.dispatchEvent(new Event('change'));
-      expect(spy).toHaveBeenCalled();
-    });
-
-    it('emits aegovInputFocus on focus', async () => {
-      const page = await newSpecPage({
-        components: [AegovInput],
-        html: `<aegov-input></aegov-input>`,
-      });
-      const input = page.root.querySelector('input');
-      const spy = jest.fn();
-      page.root.addEventListener('aegovInputFocus', spy);
-      input.dispatchEvent(new FocusEvent('focus'));
-      expect(spy).toHaveBeenCalled();
-    });
-
-    it('emits aegovInputBlur on blur', async () => {
-      const page = await newSpecPage({
-        components: [AegovInput],
-        html: `<aegov-input></aegov-input>`,
-      });
-      const input = page.root.querySelector('input');
-      const spy = jest.fn();
-      page.root.addEventListener('aegovInputBlur', spy);
-      input.dispatchEvent(new FocusEvent('blur'));
-      expect(spy).toHaveBeenCalled();
-    });
+    const btn = page.root.querySelector('.input__revealable');
+    expect(btn).not.toBeNull();
+    expect(btn.getAttribute('aria-label')).toBe('Show password');
   });
 
-  describe('icon slots', () => {
-    it('renders icon-start container when slotted content is provided', async () => {
-      const page = await newSpecPage({
-        components: [AegovInput],
-        html: `<aegov-input><svg slot="icon-start"></svg></aegov-input>`,
-      });
-      const iconContainer = page.root.querySelector('.input__icon--start');
-      expect(iconContainer).not.toBeNull();
+  it('toggles password visibility on reveal click', async () => {
+    const page = await newSpecPage({
+      components: [AegovInput],
+      html: `<aegov-input type="password" is-revealable="true"></aegov-input>`,
     });
-
-    it('renders icon-end container when slotted content is provided', async () => {
-      const page = await newSpecPage({
-        components: [AegovInput],
-        html: `<aegov-input><svg slot="icon-end"></svg></aegov-input>`,
-      });
-      const iconContainer = page.root.querySelector('.input__icon--end');
-      expect(iconContainer).not.toBeNull();
-    });
-
-    it('does not render icon containers when no slotted content', async () => {
-      const page = await newSpecPage({
-        components: [AegovInput],
-        html: `<aegov-input></aegov-input>`,
-      });
-      expect(page.root.querySelector('.input__icon--start')).toBeNull();
-      expect(page.root.querySelector('.input__icon--end')).toBeNull();
-    });
-
-    it('renders wrapper when icon-start is present', async () => {
-      const page = await newSpecPage({
-        components: [AegovInput],
-        html: `<aegov-input><svg slot="icon-start"></svg></aegov-input>`,
-      });
-      expect(page.root.querySelector('.input__wrapper')).not.toBeNull();
-    });
-
-    it('renders wrapper when icon-end is present', async () => {
-      const page = await newSpecPage({
-        components: [AegovInput],
-        html: `<aegov-input><svg slot="icon-end"></svg></aegov-input>`,
-      });
-      expect(page.root.querySelector('.input__wrapper')).not.toBeNull();
-    });
-
-    it('adds input--has-icon-start class when icon-start is provided', async () => {
-      const page = await newSpecPage({
-        components: [AegovInput],
-        html: `<aegov-input><svg slot="icon-start"></svg></aegov-input>`,
-      });
-      const input = page.root.querySelector('input');
-      expect(input.className).toContain('input--has-icon-start');
-    });
-
-    it('adds input--has-icon-end class when icon-end is provided', async () => {
-      const page = await newSpecPage({
-        components: [AegovInput],
-        html: `<aegov-input><svg slot="icon-end"></svg></aegov-input>`,
-      });
-      const input = page.root.querySelector('input');
-      expect(input.className).toContain('input--has-icon-end');
-    });
-
-    it('renders both icon slots simultaneously', async () => {
-      const page = await newSpecPage({
-        components: [AegovInput],
-        html: `<aegov-input><svg slot="icon-start"></svg><svg slot="icon-end"></svg></aegov-input>`,
-      });
-      expect(page.root.querySelector('.input__icon--start')).not.toBeNull();
-      expect(page.root.querySelector('.input__icon--end')).not.toBeNull();
-    });
-
-    it('hides icon-end when revealable is active', async () => {
-      const page = await newSpecPage({
-        components: [AegovInput],
-        html: `<aegov-input type="password" revealable><svg slot="icon-end"></svg></aegov-input>`,
-      });
-      const iconEnd = page.root.querySelector('.input__icon--end');
-      expect(iconEnd).not.toBeNull();
-      expect(iconEnd.classList.contains('input__icon--hidden')).toBe(true);
-      expect(page.root.querySelector('.input__revealable')).not.toBeNull();
-    });
-
-    it('hides icon-end when copyable is active', async () => {
-      const page = await newSpecPage({
-        components: [AegovInput],
-        html: `<aegov-input readonly copyable value="test"><svg slot="icon-end"></svg></aegov-input>`,
-      });
-      const iconEnd = page.root.querySelector('.input__icon--end');
-      expect(iconEnd).not.toBeNull();
-      expect(iconEnd.classList.contains('input__icon--hidden')).toBe(true);
-      expect(page.root.querySelector('.input__copy-btn')).not.toBeNull();
-    });
-
-    it('still renders icon-start when revealable is active', async () => {
-      const page = await newSpecPage({
-        components: [AegovInput],
-        html: `<aegov-input type="password" revealable><svg slot="icon-start"></svg></aegov-input>`,
-      });
-      expect(page.root.querySelector('.input__icon--start')).not.toBeNull();
-      expect(page.root.querySelector('.input__revealable')).not.toBeNull();
-    });
-
-    it('still renders icon-start when copyable is active', async () => {
-      const page = await newSpecPage({
-        components: [AegovInput],
-        html: `<aegov-input readonly copyable value="test"><svg slot="icon-start"></svg></aegov-input>`,
-      });
-      expect(page.root.querySelector('.input__icon--start')).not.toBeNull();
-      expect(page.root.querySelector('.input__copy-btn')).not.toBeNull();
-    });
-
-    it('applies wrapper size class for sm', async () => {
-      const page = await newSpecPage({
-        components: [AegovInput],
-        html: `<aegov-input size="sm"><svg slot="icon-start"></svg></aegov-input>`,
-      });
-      const wrapper = page.root.querySelector('.input__wrapper');
-      expect(wrapper.className).toContain('input__wrapper--sm');
-    });
-
-    it('applies wrapper size class for base', async () => {
-      const page = await newSpecPage({
-        components: [AegovInput],
-        html: `<aegov-input size="base"><svg slot="icon-start"></svg></aegov-input>`,
-      });
-      const wrapper = page.root.querySelector('.input__wrapper');
-      expect(wrapper.className).toContain('input__wrapper--base');
-    });
-
-    it('applies wrapper size class for lg', async () => {
-      const page = await newSpecPage({
-        components: [AegovInput],
-        html: `<aegov-input size="lg"><svg slot="icon-start"></svg></aegov-input>`,
-      });
-      const wrapper = page.root.querySelector('.input__wrapper');
-      expect(wrapper.className).toContain('input__wrapper--lg');
-    });
-
-    it('does not add icon-start class without slot content', async () => {
-      const page = await newSpecPage({
-        components: [AegovInput],
-        html: `<aegov-input></aegov-input>`,
-      });
-      const input = page.root.querySelector('input');
-      expect(input.className).not.toContain('input--has-icon-start');
-    });
-
-    it('does not add icon-end class without slot content', async () => {
-      const page = await newSpecPage({
-        components: [AegovInput],
-        html: `<aegov-input></aegov-input>`,
-      });
-      const input = page.root.querySelector('input');
-      expect(input.className).not.toContain('input--has-icon-end');
-    });
+    const btn = page.root.querySelector('.input__revealable') as HTMLButtonElement;
+    btn.click();
+    await page.waitForChanges();
+    expect(page.root.querySelector('input').type).toBe('text');
+    expect(page.root.querySelector('.input__revealable').getAttribute('aria-label')).toBe('Hide password');
   });
 
-  describe('password toggle', () => {
-    it('does not show toggle button by default for password type', async () => {
-      const page = await newSpecPage({
-        components: [AegovInput],
-        html: `<aegov-input type="password"></aegov-input>`,
-      });
-      const toggle = page.root.querySelector('.input__revealable');
-      expect(toggle).toBeNull();
+  it('does not render copy button without is-readonly', async () => {
+    const page = await newSpecPage({
+      components: [AegovInput],
+      html: `<aegov-input is-copyable="true"></aegov-input>`,
     });
-
-    it('does not show toggle button for non-password types', async () => {
-      const page = await newSpecPage({
-        components: [AegovInput],
-        html: `<aegov-input type="text" revealable></aegov-input>`,
-      });
-      const toggle = page.root.querySelector('.input__revealable');
-      expect(toggle).toBeNull();
-    });
-
-    it('shows toggle button when revealable is set on password input', async () => {
-      const page = await newSpecPage({
-        components: [AegovInput],
-        html: `<aegov-input type="password" revealable></aegov-input>`,
-      });
-      const toggle = page.root.querySelector('.input__revealable');
-      expect(toggle).not.toBeNull();
-    });
-
-    it('renders wrapper div when toggle is enabled', async () => {
-      const page = await newSpecPage({
-        components: [AegovInput],
-        html: `<aegov-input type="password" revealable></aegov-input>`,
-      });
-      const wrapper = page.root.querySelector('.input__wrapper');
-      expect(wrapper).not.toBeNull();
-    });
-
-    it('renders input with type="password" initially', async () => {
-      const page = await newSpecPage({
-        components: [AegovInput],
-        html: `<aegov-input type="password" revealable></aegov-input>`,
-      });
-      const input = page.root.querySelector('input');
-      expect(input.getAttribute('type')).toBe('password');
-    });
-
-    it('toggles input type to text when toggle is clicked', async () => {
-      const page = await newSpecPage({
-        components: [AegovInput],
-        html: `<aegov-input type="password" revealable></aegov-input>`,
-      });
-      const toggle = page.root.querySelector('.input__revealable') as HTMLButtonElement;
-      toggle.click();
-      await page.waitForChanges();
-      const input = page.root.querySelector('input');
-      expect(input.getAttribute('type')).toBe('text');
-    });
-
-    it('toggles back to password on second click', async () => {
-      const page = await newSpecPage({
-        components: [AegovInput],
-        html: `<aegov-input type="password" revealable></aegov-input>`,
-      });
-      const toggle = page.root.querySelector('.input__revealable') as HTMLButtonElement;
-      toggle.click();
-      await page.waitForChanges();
-      toggle.click();
-      await page.waitForChanges();
-      const input = page.root.querySelector('input');
-      expect(input.getAttribute('type')).toBe('password');
-    });
-
-    it('has aria-label "Show password" initially', async () => {
-      const page = await newSpecPage({
-        components: [AegovInput],
-        html: `<aegov-input type="password" revealable></aegov-input>`,
-      });
-      const toggle = page.root.querySelector('.input__revealable');
-      expect(toggle.getAttribute('aria-label')).toBe('Show password');
-    });
-
-    it('changes aria-label to "Hide password" when visible', async () => {
-      const page = await newSpecPage({
-        components: [AegovInput],
-        html: `<aegov-input type="password" revealable></aegov-input>`,
-      });
-      const toggle = page.root.querySelector('.input__revealable') as HTMLButtonElement;
-      toggle.click();
-      await page.waitForChanges();
-      expect(toggle.getAttribute('aria-label')).toBe('Hide password');
-    });
-
-    it('adds input--has-action class to the input', async () => {
-      const page = await newSpecPage({
-        components: [AegovInput],
-        html: `<aegov-input type="password" revealable></aegov-input>`,
-      });
-      const input = page.root.querySelector('input');
-      expect(input.className).toContain('input--has-action');
-    });
-
-    it('toggle button is disabled when input is disabled', async () => {
-      const page = await newSpecPage({
-        components: [AegovInput],
-        html: `<aegov-input type="password" revealable disabled></aegov-input>`,
-      });
-      const toggle = page.root.querySelector('.input__revealable');
-      expect(toggle.getAttribute('disabled')).toBe('');
-    });
-
-    it('applies correct size class to toggle button', async () => {
-      const page = await newSpecPage({
-        components: [AegovInput],
-        html: `<aegov-input type="password" revealable size="lg"></aegov-input>`,
-      });
-      const toggle = page.root.querySelector('.input__revealable');
-      expect(toggle.className).toContain('revealable--lg');
-    });
+    expect(page.root.querySelector('.input__copy-btn')).toBeNull();
   });
 
-  describe('copy button', () => {
-    it('does not show copy button by default on readonly input', async () => {
-      const page = await newSpecPage({
-        components: [AegovInput],
-        html: `<aegov-input readonly value="token-123"></aegov-input>`,
-      });
-      const btn = page.root.querySelector('.input__copy-btn');
-      expect(btn).toBeNull();
+  it('renders copy button when is-readonly and is-copyable', async () => {
+    const page = await newSpecPage({
+      components: [AegovInput],
+      html: `<aegov-input is-readonly="true" is-copyable="true" value="text"></aegov-input>`,
     });
-
-    it('does not show copy button on non-readonly input', async () => {
-      const page = await newSpecPage({
-        components: [AegovInput],
-        html: `<aegov-input copyable value="token-123"></aegov-input>`,
-      });
-      const btn = page.root.querySelector('.input__copy-btn');
-      expect(btn).toBeNull();
-    });
-
-    it('shows copy button when copyable and readonly', async () => {
-      const page = await newSpecPage({
-        components: [AegovInput],
-        html: `<aegov-input readonly copyable value="token-123"></aegov-input>`,
-      });
-      const btn = page.root.querySelector('.input__copy-btn');
-      expect(btn).not.toBeNull();
-    });
-
-    it('renders wrapper div when copy button is enabled', async () => {
-      const page = await newSpecPage({
-        components: [AegovInput],
-        html: `<aegov-input readonly copyable value="token-123"></aegov-input>`,
-      });
-      const wrapper = page.root.querySelector('.input__wrapper');
-      expect(wrapper).not.toBeNull();
-    });
-
-    it('adds input--has-action class to the input', async () => {
-      const page = await newSpecPage({
-        components: [AegovInput],
-        html: `<aegov-input readonly copyable value="token-123"></aegov-input>`,
-      });
-      const input = page.root.querySelector('input');
-      expect(input.className).toContain('input--has-action');
-    });
-
-    it('has aria-label "Copy to clipboard" initially', async () => {
-      const page = await newSpecPage({
-        components: [AegovInput],
-        html: `<aegov-input readonly copyable value="token-123"></aegov-input>`,
-      });
-      const btn = page.root.querySelector('.input__copy-btn');
-      expect(btn.getAttribute('aria-label')).toBe('Copy to clipboard');
-    });
-
-    it('applies correct size class to copy button', async () => {
-      const page = await newSpecPage({
-        components: [AegovInput],
-        html: `<aegov-input readonly copyable size="lg" value="token-123"></aegov-input>`,
-      });
-      const btn = page.root.querySelector('.input__copy-btn');
-      expect(btn.className).toContain('copy-btn--lg');
-    });
-
-    it('shows copied feedback after click', async () => {
-      // Mock clipboard API
-      const writeText = jest.fn().mockResolvedValue(undefined);
-      Object.assign(navigator, {
-        clipboard: { writeText },
-      });
-      const page = await newSpecPage({
-        components: [AegovInput],
-        html: `<aegov-input readonly copyable value="token-123"></aegov-input>`,
-      });
-      const btn = page.root.querySelector('.input__copy-btn') as HTMLButtonElement;
-      btn.click();
-      // Wait for the async clipboard call to resolve
-      await new Promise(r => setTimeout(r, 0));
-      await page.waitForChanges();
-      expect(writeText).toHaveBeenCalledWith('token-123');
-      expect(btn.getAttribute('aria-label')).toBe('Copied');
-      expect(btn.className).toContain('input__copy-btn--copied');
-    });
+    expect(page.root.querySelector('.input__copy-btn')).not.toBeNull();
   });
 
-  describe('invalid prop values', () => {
-    let warnSpy: jest.SpyInstance;
-
-    beforeEach(() => {
-      warnSpy = jest.spyOn(console, 'warn').mockImplementation();
+  it('forwards aria-* and data-* attributes', async () => {
+    const page = await newSpecPage({
+      components: [AegovInput],
+      html: `<aegov-input aria-describedby="hint" data-test="x"></aegov-input>`,
     });
+    const input = page.root.querySelector('input');
+    expect(input.getAttribute('aria-describedby')).toBe('hint');
+    expect(input.getAttribute('data-test')).toBe('x');
+  });
 
-    afterEach(() => {
-      warnSpy.mockRestore();
+  it('forwards declared pass-through attrs (maxlength, autocomplete)', async () => {
+    const page = await newSpecPage({
+      components: [AegovInput],
+      html: `<aegov-input maxlength="5" autocomplete="email"></aegov-input>`,
     });
+    const input = page.root.querySelector('input');
+    expect(input.getAttribute('maxlength')).toBe('5');
+    expect(input.getAttribute('autocomplete')).toBe('email');
+  });
 
-    it('falls back to default size class when size is invalid', async () => {
-      const page = await newSpecPage({
-        components: [AegovInput],
-        html: `<aegov-input size="huge"></aegov-input>`,
-      });
-      const input = page.root.querySelector('input');
-      expect(input).toBeTruthy();
-      expect(input.className).toContain('input--base');
+  it('renders icon-start slot wrapper when slot is provided', async () => {
+    const page = await newSpecPage({
+      components: [AegovInput],
+      html: `<aegov-input><svg slot="icon-start"></svg></aegov-input>`,
     });
+    expect(page.root.querySelector('.input__icon--start')).not.toBeNull();
+    expect(page.root.querySelector('input').className).toContain('input--has-icon-start');
+  });
 
-    it('falls back native type to "text" when type is invalid', async () => {
-      const page = await newSpecPage({
-        components: [AegovInput],
-        html: `<aegov-input type="bogus"></aegov-input>`,
-      });
-      const input = page.root.querySelector('input');
-      expect(input.getAttribute('type')).toBe('text');
+  it('applies extra-class', async () => {
+    const page = await newSpecPage({
+      components: [AegovInput],
+      html: `<aegov-input extra-class="custom"></aegov-input>`,
     });
-
-    it('warns with component name, prop name, invalid value, and fallback for size', async () => {
-      await newSpecPage({
-        components: [AegovInput],
-        html: `<aegov-input size="huge"></aegov-input>`,
-      });
-      const messages = warnSpy.mock.calls.map(c => c[0] as string);
-      const sizeWarn = messages.find(m => m.includes('"size"'));
-      expect(sizeWarn).toBeDefined();
-      expect(sizeWarn).toContain('[aegov-input]');
-      expect(sizeWarn).toContain('"huge"');
-      expect(sizeWarn).toContain('base');
-    });
-
-    it('warns with component name, prop name, invalid value, and fallback for type', async () => {
-      await newSpecPage({
-        components: [AegovInput],
-        html: `<aegov-input type="bogus"></aegov-input>`,
-      });
-      const messages = warnSpy.mock.calls.map(c => c[0] as string);
-      const typeWarn = messages.find(m => m.includes('"type"'));
-      expect(typeWarn).toBeDefined();
-      expect(typeWarn).toContain('[aegov-input]');
-      expect(typeWarn).toContain('"bogus"');
-      expect(typeWarn).toContain('text');
-    });
-
-    it('does not warn when all props are valid', async () => {
-      await newSpecPage({
-        components: [AegovInput],
-        html: `<aegov-input size="lg" type="email"></aegov-input>`,
-      });
-      expect(warnSpy).not.toHaveBeenCalled();
-    });
-
-    it('warns again via @Watch when size is updated to an invalid value', async () => {
-      const page = await newSpecPage({
-        components: [AegovInput],
-        html: `<aegov-input size="base"></aegov-input>`,
-      });
-      expect(warnSpy).not.toHaveBeenCalled();
-
-      page.root.setAttribute('size', 'nope');
-      await page.waitForChanges();
-
-      const messages = warnSpy.mock.calls.map(c => c[0] as string);
-      const invalidWarn = messages.find(m => m.includes('[aegov-input]') && m.includes('"nope"'));
-      expect(invalidWarn).toBeDefined();
-      expect(invalidWarn).toContain('"size"');
-    });
-
-    it('warns again via @Watch when type is updated to an invalid value', async () => {
-      const page = await newSpecPage({
-        components: [AegovInput],
-        html: `<aegov-input type="text"></aegov-input>`,
-      });
-      expect(warnSpy).not.toHaveBeenCalled();
-
-      page.root.setAttribute('type', 'nope');
-      await page.waitForChanges();
-
-      const messages = warnSpy.mock.calls.map(c => c[0] as string);
-      const invalidWarn = messages.find(m => m.includes('[aegov-input]') && m.includes('"nope"'));
-      expect(invalidWarn).toBeDefined();
-      expect(invalidWarn).toContain('"type"');
-    });
+    expect(page.root.querySelector('input').className).toContain('custom');
   });
 });

@@ -11,635 +11,60 @@
   <link rel="stylesheet" href="/docs/hljs.css">
 </head>
 <body class="bg-aeblack-50">
-  <header class="mx-auto max-w-7xl sm:px-6 lg:px-8 mb-8">
+  <header class="aegov-container sm:px-6 lg:px-8 mb-8">
     <img src="https://designsystem.gov.ae/assets/site-logo/AEGov-DesignSystem-Logo-Color.svg" alt="UAE Design System Logo" class="w-auto h-16 my-2">
   </header>
-  <main class="mx-auto max-w-7xl sm:px-6 lg:px-8 bg-aeblack-50">
+  <main class="aegov-container sm:px-6 lg:px-8 bg-aeblack-50">
     <section class="flex items-start align-top gap-4">
       <nav id="primary-nav" class="w-3xs shrink-0">&nbsp;</nav>
       <article class="col-span-5 grow">
           <section id="content-area" class="bg-whitely-50 p-6 rounded-md shadow-xl">
           <!-- DOC:START -->
-<h1>Toast</h1>
-<p class="text-lg text-aeblack-500 mb-8">A toast is a lightweight, non-intrusive notification that appears temporarily to inform users about the result of an action or a system event. Toasts auto-dismiss after a set duration and can be stacked or racked at any screen corner.</p>
-
-<h2>Introduction</h2>
-<p>The <code>aegov-toast</code> component provides transient feedback messages that overlay the page without interrupting the user&#39;s workflow. Toasts are portal-based — they detach from their original DOM position and render inside a fixed container at one of <strong>6 screen positions</strong>.</p>
-<p>The component supports <strong>5 semantic variants</strong>, <strong>2 appearances</strong> (soft and solid), <strong>auto-dismiss with progress bar</strong>, <strong>stack and rack display modes</strong>, and named slots for title, icon, and action buttons.</p>
-<p>Toast is a <strong>programmatic component</strong> — you create a toast element, then call its <code>show()</code> method to display it. When it closes, it is automatically removed from the DOM.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-toast</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;demo-toast&quot;</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;success&quot;</span> <span class="hljs-attr">duration</span>=<span class="hljs-string">&quot;5000&quot;</span>&gt;</span>
-  Your changes have been saved.
+<h1>aegov-toast</h1>
+<p>A transient, non-blocking notification that appears in a fixed corner of the viewport and auto-dismisses. Use a toast for asynchronous status updates (&quot;Saved&quot;, &quot;Connection lost&quot;), confirmations, and undo affordances. For confirmations the user must acknowledge, use <code>aegov-modal</code>. For inline messages, use <code>aegov-callout</code>.</p>
+<p>Toasts are rendered into a per-position portal container at <code>document.body</code>, so a single page can have multiple stacks (e.g. one in the top-right and one in the bottom-center).</p>
+<h2>Properties</h2>
+<h3><code>variant</code></h3>
+<p><code>&#39;default&#39;</code>, <code>&#39;error&#39;</code>, <code>&#39;warning&#39;</code>, <code>&#39;success&#39;</code>, or <code>&#39;info&#39;</code>. Controls the 4 px colored top border. <code>&#39;default&#39;</code> has no colored border.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-toast</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;success&quot;</span>&gt;</span>Saved<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-toast</span>&gt;</span></code></pre><h3><code>appearance</code></h3>
+<p><code>&#39;soft&#39;</code> (default, white background, dark text) or <code>&#39;solid&#39;</code> (dark background, white text).</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-toast</span> <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;solid&quot;</span>&gt;</span>Update available<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-toast</span>&gt;</span></code></pre><h3><code>position</code></h3>
+<p>Where the toast appears: <code>&#39;top-right&#39;</code> (default), <code>&#39;top-left&#39;</code>, <code>&#39;top-center&#39;</code>, <code>&#39;bottom-right&#39;</code>, <code>&#39;bottom-left&#39;</code>, or <code>&#39;bottom-center&#39;</code>.</p>
+<h3><code>duration</code></h3>
+<p>Auto-dismiss timeout in milliseconds. <code>0</code> disables auto-dismiss. Default <code>5000</code>. Hovering the toast pauses the timer.</p>
+<h3><code>is-dismissible</code></h3>
+<p><code>true</code> (default) shows a close button.</p>
+<h3><code>mode</code></h3>
+<p><code>&#39;stack&#39;</code> (default) shows all toasts with a gap between them. <code>&#39;rack&#39;</code> collapses them into a single deck that expands on hover; older items peek behind the newest one and a count badge shows the total.</p>
+<h3><code>is-progress-enabled</code></h3>
+<p>When <code>true</code> and <code>duration &gt; 0</code>, renders a countdown progress bar. The bar pauses on hover.</p>
+<h2>Examples</h2>
+<h3>Programmatic usage</h3>
+<p>Toasts are generally not declared in markup at the place they appear — instead, declare them anywhere in your DOM and call <code>show()</code>:</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-toast</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;saved&quot;</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;success&quot;</span> <span class="hljs-attr">duration</span>=<span class="hljs-string">&quot;3000&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;title&quot;</span>&gt;</span>Saved<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
+  Your changes were saved.
 <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-toast</span>&gt;</span>
 
 <span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript">
-  <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;demo-toast&#x27;</span>).<span class="hljs-title function_">show</span>();
-</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-button id="intro-trigger">Show Toast</aegov-button>
-  <script>
-    document.getElementById('intro-trigger').addEventListener('aegovButtonClick', function() {
-      var t = document.createElement('aegov-toast');
-      t.variant = 'success';
-      t.duration = 4000;
-      t.position = 'top-right';
-      t.innerHTML = 'Your changes have been saved.';
-      document.body.appendChild(t);
-      t.show();
-    });
-  </script>
-</div>
-
-<hr>
-<h2>Variants</h2>
-<p>The <code>variant</code> property controls the colour of the 4px top border, giving the toast semantic meaning. The rest of the toast appearance (background, text colour) is controlled by the <code>appearance</code> property.</p>
-<table>
-<thead>
-<tr>
-<th>Variant</th>
-<th>Border Colour</th>
-<th>Use Case</th>
-</tr>
-</thead>
-<tbody><tr>
-<td><code>default</code></td>
-<td>None (neutral)</td>
-<td>General notifications</td>
-</tr>
-<tr>
-<td><code>error</code></td>
-<td>AERed</td>
-<td>Error messages, failed operations</td>
-</tr>
-<tr>
-<td><code>warning</code></td>
-<td>Camel</td>
-<td>Warnings, important notices</td>
-</tr>
-<tr>
-<td><code>success</code></td>
-<td>AEGreen</td>
-<td>Success confirmations</td>
-</tr>
-<tr>
-<td><code>info</code></td>
-<td>TechBlue</td>
-<td>Informational messages</td>
-</tr>
-</tbody></table>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-toast</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;default&quot;</span>&gt;</span>Default notification<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-toast</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-toast</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;error&quot;</span>&gt;</span>Something went wrong<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-toast</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-toast</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;warning&quot;</span>&gt;</span>Please review your input<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-toast</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-toast</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;success&quot;</span>&gt;</span>File uploaded successfully<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-toast</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-toast</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;info&quot;</span>&gt;</span>A new version is available<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-toast</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 space-y-3 not-aegov">
-  <div class="flex flex-wrap gap-2">
-    <aegov-button id="var-default" size="sm">Default</aegov-button>
-    <aegov-button id="var-error" size="sm" appearance="danger">Error</aegov-button>
-    <aegov-button id="var-warning" size="sm" appearance="secondary">Warning</aegov-button>
-    <aegov-button id="var-success" size="sm">Success</aegov-button>
-    <aegov-button id="var-info" size="sm">Info</aegov-button>
-  </div>
-  <script>
-    (function() {
-      var variants = {
-        'var-default': { variant: 'default', msg: 'Default notification' },
-        'var-error': { variant: 'error', msg: 'Something went wrong' },
-        'var-warning': { variant: 'warning', msg: 'Please review your input' },
-        'var-success': { variant: 'success', msg: 'File uploaded successfully' },
-        'var-info': { variant: 'info', msg: 'A new version is available' },
-      };
-      Object.keys(variants).forEach(function(id) {
-        document.getElementById(id).addEventListener('aegovButtonClick', function() {
-          var t = document.createElement('aegov-toast');
-          t.variant = variants[id].variant;
-          t.duration = 4000;
-          t.position = 'top-right';
-          t.innerHTML = variants[id].msg;
-          document.body.appendChild(t);
-          t.show();
-        });
-      });
-    })();
-  </script>
-</div>
-
-<hr>
-<h2>Appearances</h2>
-<p>The <code>appearance</code> property controls the overall colour scheme of the toast. The variant-coloured top border is applied on top of this base appearance.</p>
-<h3>Soft</h3>
-<p>The default appearance. White background with dark text — clean and unobtrusive.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-toast</span> <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;soft&quot;</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;info&quot;</span>&gt;</span>
-  Soft appearance with info border
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-toast</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-button id="app-soft" size="sm">Show Soft Toast</aegov-button>
-  <script>
-    document.getElementById('app-soft').addEventListener('aegovButtonClick', function() {
-      var t = document.createElement('aegov-toast');
-      t.appearance = 'soft';
-      t.variant = 'info';
-      t.duration = 4000;
-      t.position = 'top-right';
-      t.innerHTML = 'Soft appearance with info border';
-      document.body.appendChild(t);
-      t.show();
-    });
-  </script>
-</div>
-
-<h3>Solid</h3>
-<p>Dark background with light text — higher contrast, draws more attention.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-toast</span> <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;solid&quot;</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;error&quot;</span>&gt;</span>
-  Solid appearance with error border
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-toast</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-button id="app-solid" size="sm">Show Solid Toast</aegov-button>
-  <script>
-    document.getElementById('app-solid').addEventListener('aegovButtonClick', function() {
-      var t = document.createElement('aegov-toast');
-      t.appearance = 'solid';
-      t.variant = 'error';
-      t.duration = 4000;
-      t.position = 'top-right';
-      t.innerHTML = 'Solid appearance with error border';
-      document.body.appendChild(t);
-      t.show();
-    });
-  </script>
-</div>
-
-<hr>
-<h2>Positions</h2>
-<p>The <code>position</code> property determines which corner (or centre edge) of the viewport the toast appears in. There are six positions available.</p>
-<table>
-<thead>
-<tr>
-<th>Position</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr>
-<td><code>top-right</code></td>
-<td>Default. Top-right corner.</td>
-</tr>
-<tr>
-<td><code>top-left</code></td>
-<td>Top-left corner.</td>
-</tr>
-<tr>
-<td><code>top-center</code></td>
-<td>Top centre of viewport.</td>
-</tr>
-<tr>
-<td><code>bottom-right</code></td>
-<td>Bottom-right corner.</td>
-</tr>
-<tr>
-<td><code>bottom-left</code></td>
-<td>Bottom-left corner.</td>
-</tr>
-<tr>
-<td><code>bottom-center</code></td>
-<td>Bottom centre of viewport.</td>
-</tr>
-</tbody></table>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-toast</span> <span class="hljs-attr">position</span>=<span class="hljs-string">&quot;top-right&quot;</span>&gt;</span>Top Right (default)<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-toast</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-toast</span> <span class="hljs-attr">position</span>=<span class="hljs-string">&quot;bottom-center&quot;</span>&gt;</span>Bottom Center<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-toast</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <div class="flex flex-wrap gap-2">
-    <aegov-button id="pos-tr" size="sm">Top Right</aegov-button>
-    <aegov-button id="pos-tl" size="sm">Top Left</aegov-button>
-    <aegov-button id="pos-tc" size="sm">Top Center</aegov-button>
-    <aegov-button id="pos-br" size="sm">Bottom Right</aegov-button>
-    <aegov-button id="pos-bl" size="sm">Bottom Left</aegov-button>
-    <aegov-button id="pos-bc" size="sm">Bottom Center</aegov-button>
-  </div>
-  <script>
-    (function() {
-      var positions = {
-        'pos-tr': 'top-right',
-        'pos-tl': 'top-left',
-        'pos-tc': 'top-center',
-        'pos-br': 'bottom-right',
-        'pos-bl': 'bottom-left',
-        'pos-bc': 'bottom-center',
-      };
-      Object.keys(positions).forEach(function(id) {
-        document.getElementById(id).addEventListener('aegovButtonClick', function() {
-          var t = document.createElement('aegov-toast');
-          t.variant = 'info';
-          t.duration = 3000;
-          t.position = positions[id];
-          t.innerHTML = 'Position: ' + positions[id];
-          document.body.appendChild(t);
-          t.show();
-        });
-      });
-    })();
-  </script>
-</div>
-
-<hr>
-<h2>Duration and Auto-dismiss</h2>
-<p>The <code>duration</code> property controls how long the toast stays visible before automatically closing, in milliseconds. The default is <code>5000</code> (5 seconds). Set to <code>0</code> to disable auto-dismiss — the toast will remain until manually closed.</p>
-<p>When the user hovers over a toast, the auto-dismiss timer pauses. It resumes when the mouse leaves.</p>
-<pre><code class="hljs language-html"><span class="hljs-comment">&lt;!-- Auto-dismiss after 3 seconds --&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-toast</span> <span class="hljs-attr">duration</span>=<span class="hljs-string">&quot;3000&quot;</span>&gt;</span>Quick notification<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-toast</span>&gt;</span>
-
-<span class="hljs-comment">&lt;!-- No auto-dismiss — must be closed manually --&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-toast</span> <span class="hljs-attr">duration</span>=<span class="hljs-string">&quot;0&quot;</span> <span class="hljs-attr">is-dismissible</span>&gt;</span>Persistent notification<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-toast</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <div class="flex flex-wrap gap-2">
-    <aegov-button id="dur-short" size="sm">3 Second Toast</aegov-button>
-    <aegov-button id="dur-long" size="sm">10 Second Toast</aegov-button>
-    <aegov-button id="dur-none" size="sm">Persistent (no auto-dismiss)</aegov-button>
-  </div>
-  <script>
-    (function() {
-      document.getElementById('dur-short').addEventListener('aegovButtonClick', function() {
-        var t = document.createElement('aegov-toast');
-        t.variant = 'info';
-        t.duration = 3000;
-        t.position = 'top-right';
-        t.innerHTML = 'This will close in 3 seconds.';
-        document.body.appendChild(t);
-        t.show();
-      });
-      document.getElementById('dur-long').addEventListener('aegovButtonClick', function() {
-        var t = document.createElement('aegov-toast');
-        t.variant = 'warning';
-        t.duration = 10000;
-        t.position = 'top-right';
-        t.innerHTML = 'This will close in 10 seconds. Hover to pause.';
-        document.body.appendChild(t);
-        t.show();
-      });
-      document.getElementById('dur-none').addEventListener('aegovButtonClick', function() {
-        var t = document.createElement('aegov-toast');
-        t.variant = 'error';
-        t.duration = 0;
-        t.dismissible = true;
-        t.position = 'top-right';
-        t.innerHTML = 'This will stay until you close it.';
-        document.body.appendChild(t);
-        t.show();
-      });
-    })();
-  </script>
-</div>
-
-<hr>
-<h2>Progress Bar</h2>
-<p>Set <code>is-progress-enabled</code> to display an animated countdown bar at the bottom of the toast. The bar shrinks from left to right over the <code>duration</code> period. It pauses when the user hovers over the toast.</p>
-<p>The progress bar colour matches the variant&#39;s semantic colour (e.g. red for error, green for success).</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-toast</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;success&quot;</span> <span class="hljs-attr">duration</span>=<span class="hljs-string">&quot;6000&quot;</span> <span class="hljs-attr">is-progress-enabled</span>&gt;</span>
-  Upload complete!
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-toast</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <div class="flex flex-wrap gap-2">
-    <aegov-button id="prog-soft" size="sm">Soft + Progress</aegov-button>
-    <aegov-button id="prog-solid" size="sm">Solid + Progress</aegov-button>
-  </div>
-  <script>
-    (function() {
-      document.getElementById('prog-soft').addEventListener('aegovButtonClick', function() {
-        var t = document.createElement('aegov-toast');
-        t.variant = 'success';
-        t.appearance = 'soft';
-        t.duration = 6000;
-        t.showProgress = true;
-        t.position = 'top-right';
-        t.innerHTML = 'Upload complete! (soft with progress bar)';
-        document.body.appendChild(t);
-        t.show();
-      });
-      document.getElementById('prog-solid').addEventListener('aegovButtonClick', function() {
-        var t = document.createElement('aegov-toast');
-        t.variant = 'error';
-        t.appearance = 'solid';
-        t.duration = 6000;
-        t.showProgress = true;
-        t.position = 'top-right';
-        t.innerHTML = 'Connection lost! (solid with progress bar)';
-        document.body.appendChild(t);
-        t.show();
-      });
-    })();
-  </script>
-</div>
-
-<hr>
-<h2>Dismissible</h2>
-<p>The <code>is-dismissible</code> property controls whether a close button is shown. It defaults to <code>true</code>. Set it to <code>false</code> to hide the dismiss button — the toast will only close via auto-dismiss or by calling the <code>close()</code> method programmatically.</p>
-<pre><code class="hljs language-html"><span class="hljs-comment">&lt;!-- With dismiss button (default) --&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-toast</span> <span class="hljs-attr">is-dismissible</span>&gt;</span>You can close this.<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-toast</span>&gt;</span>
-
-<span class="hljs-comment">&lt;!-- Without dismiss button --&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-toast</span> <span class="hljs-attr">is-dismissible</span>=<span class="hljs-string">&quot;false&quot;</span> <span class="hljs-attr">duration</span>=<span class="hljs-string">&quot;3000&quot;</span>&gt;</span>
-  Auto-closing only.
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-toast</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <div class="flex flex-wrap gap-2">
-    <aegov-button id="dism-yes" size="sm">Dismissible</aegov-button>
-    <aegov-button id="dism-no" size="sm">Not Dismissible (3s)</aegov-button>
-  </div>
-  <script>
-    (function() {
-      document.getElementById('dism-yes').addEventListener('aegovButtonClick', function() {
-        var t = document.createElement('aegov-toast');
-        t.variant = 'default';
-        t.duration = 0;
-        t.dismissible = true;
-        t.position = 'top-right';
-        t.innerHTML = 'Click the X to close.';
-        document.body.appendChild(t);
-        t.show();
-      });
-      document.getElementById('dism-no').addEventListener('aegovButtonClick', function() {
-        var t = document.createElement('aegov-toast');
-        t.variant = 'info';
-        t.duration = 3000;
-        t.dismissible = false;
-        t.position = 'top-right';
-        t.innerHTML = 'No dismiss button — auto-closes in 3s.';
-        document.body.appendChild(t);
-        t.show();
-      });
-    })();
-  </script>
-</div>
-
-<hr>
-<h2>Title Slot</h2>
-<p>Use the <code>title</code> named slot to add a bold heading above the description text. This is useful for toasts that need more context.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-toast</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;error&quot;</span> <span class="hljs-attr">duration</span>=<span class="hljs-string">&quot;0&quot;</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;title&quot;</span>&gt;</span>Payment Failed<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
-  Your card was declined. Please try a different payment method.
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-toast</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-button id="slot-title" size="sm">Show Toast with Title</aegov-button>
-  <script>
-    document.getElementById('slot-title').addEventListener('aegovButtonClick', function() {
-      var t = document.createElement('aegov-toast');
-      t.variant = 'error';
-      t.duration = 0;
-      t.position = 'top-right';
-      t.innerHTML = '<span slot="title">Payment Failed</span>Your card was declined. Please try a different payment method.';
-      document.body.appendChild(t);
-      t.show();
-    });
-  </script>
-</div>
-
-<hr>
-<h2>Icon Slot</h2>
-<p>Use the <code>icon</code> named slot to provide a custom icon displayed to the left of the content. The icon area is fixed-width and vertically aligned with the top of the text.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-toast</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;success&quot;</span> <span class="hljs-attr">duration</span>=<span class="hljs-string">&quot;5000&quot;</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">svg</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;icon&quot;</span> <span class="hljs-attr">xmlns</span>=<span class="hljs-string">&quot;http://www.w3.org/2000/svg&quot;</span> <span class="hljs-attr">viewBox</span>=<span class="hljs-string">&quot;0 0 24 24&quot;</span>
-       <span class="hljs-attr">fill</span>=<span class="hljs-string">&quot;none&quot;</span> <span class="hljs-attr">stroke</span>=<span class="hljs-string">&quot;currentColor&quot;</span> <span class="hljs-attr">stroke-width</span>=<span class="hljs-string">&quot;2&quot;</span>
-       <span class="hljs-attr">stroke-linecap</span>=<span class="hljs-string">&quot;round&quot;</span> <span class="hljs-attr">stroke-linejoin</span>=<span class="hljs-string">&quot;round&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;w-5 h-5&quot;</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">path</span> <span class="hljs-attr">d</span>=<span class="hljs-string">&quot;M22 11.08V12a10 10 0 11-5.93-9.14&quot;</span>/&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">polyline</span> <span class="hljs-attr">points</span>=<span class="hljs-string">&quot;22 4 12 14.01 9 11.01&quot;</span>/&gt;</span>
-  <span class="hljs-tag">&lt;/<span class="hljs-name">svg</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;title&quot;</span>&gt;</span>Success<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
-  Your profile has been updated.
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-toast</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-button id="slot-icon" size="sm">Show Toast with Icon</aegov-button>
-  <script>
-    document.getElementById('slot-icon').addEventListener('aegovButtonClick', function() {
-      var t = document.createElement('aegov-toast');
-      t.variant = 'success';
-      t.duration = 5000;
-      t.position = 'top-right';
-      t.innerHTML = '<svg slot="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg><span slot="title">Success</span>Your profile has been updated.';
-      document.body.appendChild(t);
-      t.show();
-    });
-  </script>
-</div>
-
-<hr>
-<h2>Actions Slot</h2>
-<p>Use the <code>actions</code> named slot to add action buttons or links below the description. This is useful for toasts that require user interaction, such as &quot;Undo&quot; or &quot;View Details&quot;.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-toast</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;warning&quot;</span> <span class="hljs-attr">duration</span>=<span class="hljs-string">&quot;0&quot;</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;title&quot;</span>&gt;</span>Unsaved Changes<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
-  You have unsaved changes that will be lost.
-  <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;actions&quot;</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm&quot;</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;outline&quot;</span>&gt;</span>Discard<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm&quot;</span>&gt;</span>Save Now<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span>
-  <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-toast</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-button id="slot-actions" size="sm">Show Toast with Actions</aegov-button>
-  <script>
-    document.getElementById('slot-actions').addEventListener('aegovButtonClick', function() {
-      var t = document.createElement('aegov-toast');
-      t.variant = 'warning';
-      t.duration = 0;
-      t.position = 'top-right';
-      t.innerHTML = '<span slot="title">Unsaved Changes</span>You have unsaved changes that will be lost.<div slot="actions"><aegov-button size="sm" variant="outline">Discard</aegov-button> <aegov-button size="sm">Save Now</aegov-button></div>';
-      document.body.appendChild(t);
-      t.show();
-    });
-  </script>
-</div>
-
-<hr>
-<h2>Complete Example</h2>
-<p>Combining icon, title, description, actions, and progress bar in a single toast.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-toast</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;info&quot;</span> <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;soft&quot;</span> <span class="hljs-attr">duration</span>=<span class="hljs-string">&quot;8000&quot;</span>
-             <span class="hljs-attr">is-progress-enabled</span> <span class="hljs-attr">position</span>=<span class="hljs-string">&quot;top-right&quot;</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">svg</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;icon&quot;</span> <span class="hljs-attr">xmlns</span>=<span class="hljs-string">&quot;http://www.w3.org/2000/svg&quot;</span> <span class="hljs-attr">viewBox</span>=<span class="hljs-string">&quot;0 0 24 24&quot;</span>
-       <span class="hljs-attr">fill</span>=<span class="hljs-string">&quot;none&quot;</span> <span class="hljs-attr">stroke</span>=<span class="hljs-string">&quot;currentColor&quot;</span> <span class="hljs-attr">stroke-width</span>=<span class="hljs-string">&quot;2&quot;</span>
-       <span class="hljs-attr">stroke-linecap</span>=<span class="hljs-string">&quot;round&quot;</span> <span class="hljs-attr">stroke-linejoin</span>=<span class="hljs-string">&quot;round&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;w-5 h-5&quot;</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">circle</span> <span class="hljs-attr">cx</span>=<span class="hljs-string">&quot;12&quot;</span> <span class="hljs-attr">cy</span>=<span class="hljs-string">&quot;12&quot;</span> <span class="hljs-attr">r</span>=<span class="hljs-string">&quot;10&quot;</span>/&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">line</span> <span class="hljs-attr">x1</span>=<span class="hljs-string">&quot;12&quot;</span> <span class="hljs-attr">y1</span>=<span class="hljs-string">&quot;16&quot;</span> <span class="hljs-attr">x2</span>=<span class="hljs-string">&quot;12&quot;</span> <span class="hljs-attr">y2</span>=<span class="hljs-string">&quot;12&quot;</span>/&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">line</span> <span class="hljs-attr">x1</span>=<span class="hljs-string">&quot;12&quot;</span> <span class="hljs-attr">y1</span>=<span class="hljs-string">&quot;8&quot;</span> <span class="hljs-attr">x2</span>=<span class="hljs-string">&quot;12.01&quot;</span> <span class="hljs-attr">y2</span>=<span class="hljs-string">&quot;8&quot;</span>/&gt;</span>
-  <span class="hljs-tag">&lt;/<span class="hljs-name">svg</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;title&quot;</span>&gt;</span>New Update Available<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
-  Version 2.4.0 is ready. Refresh to apply the latest improvements.
-  <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;actions&quot;</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm&quot;</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;soft&quot;</span>&gt;</span>Later<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm&quot;</span>&gt;</span>Refresh Now<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span>
-  <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-toast</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-button id="complete-demo" size="sm">Show Complete Toast</aegov-button>
-  <script>
-    document.getElementById('complete-demo').addEventListener('aegovButtonClick', function() {
-      var t = document.createElement('aegov-toast');
-      t.variant = 'info';
-      t.appearance = 'soft';
-      t.duration = 8000;
-      t.showProgress = true;
-      t.position = 'top-right';
-      t.innerHTML = '<svg slot="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg><span slot="title">New Update Available</span>Version 2.4.0 is ready. Refresh to apply the latest improvements.<div slot="actions"><aegov-button size="sm" variant="soft">Later</aegov-button> <aegov-button size="sm">Refresh Now</aegov-button></div>';
-      document.body.appendChild(t);
-      t.show();
-    });
-  </script>
-</div>
-
-<hr>
-<h2>Stack Mode (Default)</h2>
-<p>In stack mode, multiple toasts at the same position are displayed with a gap between each one, all fully visible. This is the default <code>mode</code>.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-toast</span> <span class="hljs-attr">mode</span>=<span class="hljs-string">&quot;stack&quot;</span> <span class="hljs-attr">position</span>=<span class="hljs-string">&quot;top-right&quot;</span>&gt;</span>First toast<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-toast</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-toast</span> <span class="hljs-attr">mode</span>=<span class="hljs-string">&quot;stack&quot;</span> <span class="hljs-attr">position</span>=<span class="hljs-string">&quot;top-right&quot;</span>&gt;</span>Second toast<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-toast</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-toast</span> <span class="hljs-attr">mode</span>=<span class="hljs-string">&quot;stack&quot;</span> <span class="hljs-attr">position</span>=<span class="hljs-string">&quot;top-right&quot;</span>&gt;</span>Third toast<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-toast</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-button id="stack-demo" size="sm">Show 3 Stacked Toasts</aegov-button>
-  <script>
-    document.getElementById('stack-demo').addEventListener('aegovButtonClick', function() {
-      var variants = ['success', 'warning', 'error'];
-      var messages = ['First toast (success)', 'Second toast (warning)', 'Third toast (error)'];
-      for (var i = 0; i < 3; i++) {
-        (function(idx) {
-          setTimeout(function() {
-            var t = document.createElement('aegov-toast');
-            t.variant = variants[idx];
-            t.mode = 'stack';
-            t.duration = 5000;
-            t.position = 'top-right';
-            t.innerHTML = messages[idx];
-            document.body.appendChild(t);
-            t.show();
-          }, idx * 300);
-        })(i);
-      }
-    });
-  </script>
-</div>
-
-<hr>
-<h2>Rack Mode</h2>
-<p>In rack mode, multiple toasts at the same position collapse into a compact deck. Only the newest toast is fully visible; older toasts peek out behind it with decreasing scale and opacity. A count badge shows how many toasts are in the rack.</p>
-<p><strong>Hover over the rack to expand</strong> all toasts and interact with them individually.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-toast</span> <span class="hljs-attr">mode</span>=<span class="hljs-string">&quot;rack&quot;</span> <span class="hljs-attr">position</span>=<span class="hljs-string">&quot;bottom-right&quot;</span>&gt;</span>First toast<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-toast</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-toast</span> <span class="hljs-attr">mode</span>=<span class="hljs-string">&quot;rack&quot;</span> <span class="hljs-attr">position</span>=<span class="hljs-string">&quot;bottom-right&quot;</span>&gt;</span>Second toast<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-toast</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-toast</span> <span class="hljs-attr">mode</span>=<span class="hljs-string">&quot;rack&quot;</span> <span class="hljs-attr">position</span>=<span class="hljs-string">&quot;bottom-right&quot;</span>&gt;</span>Third toast<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-toast</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-button id="rack-demo" size="sm">Show 3 Racked Toasts</aegov-button>
-  <script>
-    document.getElementById('rack-demo').addEventListener('aegovButtonClick', function() {
-      var variants = ['info', 'success', 'warning'];
-      var messages = ['First notification', 'Second notification', 'Third notification'];
-      for (var i = 0; i < 3; i++) {
-        (function(idx) {
-          setTimeout(function() {
-            var t = document.createElement('aegov-toast');
-            t.variant = variants[idx];
-            t.mode = 'rack';
-            t.duration = 10000;
-            t.position = 'bottom-right';
-            t.innerHTML = messages[idx];
-            document.body.appendChild(t);
-            t.show();
-          }, idx * 300);
-        })(i);
-      }
-    });
-  </script>
-</div>
-
-<hr>
-<h2>Programmatic API (Toast Helper)</h2>
-<p>The design system exposes a global <code>window.aegovToast.show()</code> helper function for creating toasts without manually constructing DOM elements. This is useful for quick notifications from event handlers or API callbacks.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript">
-  <span class="hljs-comment">// Simple message</span>
-  aegovToast.<span class="hljs-title function_">show</span>({
-    <span class="hljs-attr">message</span>: <span class="hljs-string">&#x27;Settings saved successfully.&#x27;</span>,
-    <span class="hljs-attr">variant</span>: <span class="hljs-string">&#x27;success&#x27;</span>,
+  <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">querySelector</span>(<span class="hljs-string">&#x27;#save-button&#x27;</span>).<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;click&#x27;</span>, <span class="hljs-function">() =&gt;</span> {
+    <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;saved&#x27;</span>).<span class="hljs-title function_">show</span>();
   });
-
-  <span class="hljs-comment">// Full options</span>
-  aegovToast.<span class="hljs-title function_">show</span>({
-    <span class="hljs-attr">message</span>: <span class="hljs-string">&#x27;&lt;span slot=&quot;title&quot;&gt;Error&lt;/span&gt;Could not reach the server.&#x27;</span>,
-    <span class="hljs-attr">variant</span>: <span class="hljs-string">&#x27;error&#x27;</span>,
-    <span class="hljs-attr">appearance</span>: <span class="hljs-string">&#x27;solid&#x27;</span>,
-    <span class="hljs-attr">position</span>: <span class="hljs-string">&#x27;bottom-center&#x27;</span>,
-    <span class="hljs-attr">duration</span>: <span class="hljs-number">0</span>,
-    <span class="hljs-attr">dismissible</span>: <span class="hljs-literal">true</span>,
-    <span class="hljs-attr">mode</span>: <span class="hljs-string">&#x27;stack&#x27;</span>,
-    <span class="hljs-attr">showProgress</span>: <span class="hljs-literal">false</span>,
-  });
-</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <div class="flex flex-wrap gap-2">
-    <aegov-button id="helper-simple" size="sm">Simple Helper</aegov-button>
-    <aegov-button id="helper-full" size="sm">Full Options Helper</aegov-button>
-  </div>
-  <script>
-    document.getElementById('helper-simple').addEventListener('aegovButtonClick', function() {
-      if (window.aegovToast) {
-        aegovToast.show({
-          message: 'Settings saved successfully.',
-          variant: 'success',
-          duration: 4000,
-        });
-      }
-    });
-    document.getElementById('helper-full').addEventListener('aegovButtonClick', function() {
-      if (window.aegovToast) {
-        aegovToast.show({
-          message: '<span slot="title">Connection Error</span>Could not reach the server. Please check your internet connection.',
-          variant: 'error',
-          appearance: 'solid',
-          position: 'top-center',
-          duration: 0,
-          dismissible: true,
-          showProgress: false,
-        });
-      }
-    });
-  </script>
-</div>
-
-<h3>Helper Options</h3>
-<table>
-<thead>
-<tr>
-<th>Option</th>
-<th>Type</th>
-<th>Default</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr>
-<td><code>message</code></td>
-<td><code>string</code></td>
-<td>(required)</td>
-<td>HTML content for the toast body. Can include named slots.</td>
-</tr>
-<tr>
-<td><code>variant</code></td>
-<td><code>ToastVariant</code></td>
-<td><code>&#39;default&#39;</code></td>
-<td>Semantic variant for the top border colour.</td>
-</tr>
-<tr>
-<td><code>appearance</code></td>
-<td><code>ToastAppearance</code></td>
-<td><code>&#39;soft&#39;</code></td>
-<td>Visual appearance (soft or solid).</td>
-</tr>
-<tr>
-<td><code>position</code></td>
-<td><code>ToastPosition</code></td>
-<td><code>&#39;top-right&#39;</code></td>
-<td>Screen position for the toast.</td>
-</tr>
-<tr>
-<td><code>duration</code></td>
-<td><code>number</code></td>
-<td><code>5000</code></td>
-<td>Auto-dismiss delay in ms. <code>0</code> = no auto-dismiss.</td>
-</tr>
-<tr>
-<td><code>is-dismissible</code></td>
-<td><code>boolean</code></td>
-<td><code>true</code></td>
-<td>Whether to show the close button.</td>
-</tr>
-<tr>
-<td><code>mode</code></td>
-<td><code>ToastMode</code></td>
-<td><code>&#39;stack&#39;</code></td>
-<td>Display mode: <code>&#39;stack&#39;</code> or <code>&#39;rack&#39;</code>.</td>
-</tr>
-<tr>
-<td><code>isProgressEnabled</code></td>
-<td><code>boolean</code></td>
-<td><code>false</code></td>
-<td>Whether to show the countdown progress bar.</td>
-</tr>
-</tbody></table>
-<hr>
+</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre><h3>Toast with action</h3>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-toast</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;deleted&quot;</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;default&quot;</span> <span class="hljs-attr">duration</span>=<span class="hljs-string">&quot;6000&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;title&quot;</span>&gt;</span>Item moved to trash<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
+  You can undo this action.
+  <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;actions&quot;</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;button&quot;</span>&gt;</span>Undo<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-toast</span>&gt;</span></code></pre><h3>Custom icon</h3>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-toast</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;info&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">svg</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;icon&quot;</span> <span class="hljs-attr">aria-hidden</span>=<span class="hljs-string">&quot;true&quot;</span> <span class="hljs-attr">width</span>=<span class="hljs-string">&quot;20&quot;</span> <span class="hljs-attr">height</span>=<span class="hljs-string">&quot;20&quot;</span>&gt;</span>…<span class="hljs-tag">&lt;/<span class="hljs-name">svg</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;title&quot;</span>&gt;</span>Update available<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
+  Version 2.4 is ready to install.
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-toast</span>&gt;</span></code></pre><h3>Rack mode (collapsed deck)</h3>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-toast</span> <span class="hljs-attr">mode</span>=<span class="hljs-string">&quot;rack&quot;</span> <span class="hljs-attr">position</span>=<span class="hljs-string">&quot;bottom-right&quot;</span>&gt;</span>First notification<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-toast</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-toast</span> <span class="hljs-attr">mode</span>=<span class="hljs-string">&quot;rack&quot;</span> <span class="hljs-attr">position</span>=<span class="hljs-string">&quot;bottom-right&quot;</span>&gt;</span>Second notification<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-toast</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-toast</span> <span class="hljs-attr">mode</span>=<span class="hljs-string">&quot;rack&quot;</span> <span class="hljs-attr">position</span>=<span class="hljs-string">&quot;bottom-right&quot;</span>&gt;</span>Third notification<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-toast</span>&gt;</span></code></pre><h2>RTL Behavior</h2>
+<p>Position containers use logical CSS properties (<code>inset-inline-start</code>/<code>inset-inline-end</code>), so <code>top-right</code> and <code>bottom-right</code> resolve to the inline-end edge — that is, the left edge in RTL. Toast content inherits the host document&#39;s <code>dir</code>.</p>
 <h2>API Reference</h2>
 <h3>Properties</h3>
 <table>
@@ -647,7 +72,6 @@
 <tr>
 <th>Property</th>
 <th>Attribute</th>
-<th>Description</th>
 <th>Type</th>
 <th>Default</th>
 </tr>
@@ -655,71 +79,44 @@
 <tbody><tr>
 <td><code>variant</code></td>
 <td><code>variant</code></td>
-<td>Semantic colour variant for the top border</td>
-<td><code>&#39;default&#39;</code> | <code>&#39;error&#39;</code> | <code>&#39;warning&#39;</code> | <code>&#39;success&#39;</code> | <code>&#39;info&#39;</code></td>
+<td><code>&#39;default&#39; | &#39;error&#39; | &#39;warning&#39; | &#39;success&#39; | &#39;info&#39;</code></td>
 <td><code>&#39;default&#39;</code></td>
 </tr>
 <tr>
 <td><code>appearance</code></td>
 <td><code>appearance</code></td>
-<td>Visual appearance style</td>
-<td><code>&#39;soft&#39;</code> | <code>&#39;solid&#39;</code></td>
+<td><code>&#39;soft&#39; | &#39;solid&#39;</code></td>
 <td><code>&#39;soft&#39;</code></td>
 </tr>
 <tr>
 <td><code>position</code></td>
 <td><code>position</code></td>
-<td>Screen position where the toast appears</td>
-<td><code>&#39;top-right&#39;</code> | <code>&#39;top-left&#39;</code> | <code>&#39;top-center&#39;</code> | <code>&#39;bottom-right&#39;</code> | <code>&#39;bottom-left&#39;</code> | <code>&#39;bottom-center&#39;</code></td>
+<td><code>&#39;top-right&#39; | &#39;top-left&#39; | &#39;top-center&#39; | &#39;bottom-right&#39; | &#39;bottom-left&#39; | &#39;bottom-center&#39;</code></td>
 <td><code>&#39;top-right&#39;</code></td>
 </tr>
 <tr>
 <td><code>duration</code></td>
 <td><code>duration</code></td>
-<td>Auto-dismiss duration in milliseconds. <code>0</code> disables auto-dismiss.</td>
 <td><code>number</code></td>
 <td><code>5000</code></td>
 </tr>
 <tr>
+<td><code>isDismissible</code></td>
 <td><code>is-dismissible</code></td>
-<td><code>is-dismissible</code></td>
-<td>Whether to show a close button</td>
 <td><code>boolean</code></td>
 <td><code>true</code></td>
 </tr>
 <tr>
 <td><code>mode</code></td>
 <td><code>mode</code></td>
-<td>Display mode for multiple toasts at the same position</td>
-<td><code>&#39;stack&#39;</code> | <code>&#39;rack&#39;</code></td>
+<td><code>&#39;stack&#39; | &#39;rack&#39;</code></td>
 <td><code>&#39;stack&#39;</code></td>
 </tr>
 <tr>
 <td><code>isProgressEnabled</code></td>
 <td><code>is-progress-enabled</code></td>
-<td>Whether to show a countdown progress bar</td>
 <td><code>boolean</code></td>
 <td><code>false</code></td>
-</tr>
-</tbody></table>
-<h3>Methods</h3>
-<table>
-<thead>
-<tr>
-<th>Method</th>
-<th>Signature</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr>
-<td><code>show()</code></td>
-<td><code>show() =&gt; Promise&lt;void&gt;</code></td>
-<td>Shows the toast with an enter animation. Moves the element into the portal container at the specified position. Starts the auto-dismiss timer if <code>duration &gt; 0</code>.</td>
-</tr>
-<tr>
-<td><code>close()</code></td>
-<td><code>close() =&gt; Promise&lt;void&gt;</code></td>
-<td>Closes the toast with an exit animation. After the animation (300ms), the element is removed from the DOM and the <code>aegovToastClose</code> event is emitted.</td>
 </tr>
 </tbody></table>
 <h3>Events</h3>
@@ -728,45 +125,29 @@
 <tr>
 <th>Event</th>
 <th>Description</th>
-<th>Detail Type</th>
+<th>Detail</th>
 </tr>
 </thead>
 <tbody><tr>
 <td><code>aegovToastOpen</code></td>
-<td>Emitted after the toast becomes visible (enter animation ends)</td>
+<td>Fires after the toast becomes visible.</td>
 <td><code>void</code></td>
 </tr>
 <tr>
 <td><code>aegovToastClose</code></td>
-<td>Emitted after the close animation completes and element is removed</td>
+<td>Fires after the close animation completes and DOM is removed.</td>
 <td><code>void</code></td>
 </tr>
 <tr>
 <td><code>aegovToastDismiss</code></td>
-<td>Emitted when the user clicks the dismiss button</td>
+<td>Fires when the user clicks the dismiss button.</td>
 <td><code>void</code></td>
 </tr>
 </tbody></table>
-<h4>Listening to Events</h4>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-toast</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;my-toast&quot;</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;info&quot;</span>&gt;</span>Something happened<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-toast</span>&gt;</span>
-
-<span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript">
-  <span class="hljs-keyword">var</span> toast = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;my-toast&#x27;</span>);
-
-  toast.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;aegovToastOpen&#x27;</span>, <span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) {
-    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;Toast is now visible&#x27;</span>);
-  });
-
-  toast.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;aegovToastClose&#x27;</span>, <span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) {
-    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;Toast was removed from the DOM&#x27;</span>);
-  });
-
-  toast.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;aegovToastDismiss&#x27;</span>, <span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) {
-    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;User clicked dismiss&#x27;</span>);
-  });
-
-  toast.<span class="hljs-title function_">show</span>();
-</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre><h3>Slots</h3>
+<h3>Event listening example</h3>
+<pre><code class="hljs language-js"><span class="hljs-keyword">const</span> toast = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">querySelector</span>(<span class="hljs-string">&#x27;aegov-toast&#x27;</span>);
+toast.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;aegovToastOpen&#x27;</span>, <span class="hljs-function">() =&gt;</span> <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;shown&#x27;</span>));
+toast.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;aegovToastClose&#x27;</span>, <span class="hljs-function">() =&gt;</span> <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;removed&#x27;</span>));</code></pre><h3>Slots</h3>
 <table>
 <thead>
 <tr>
@@ -776,59 +157,64 @@
 </thead>
 <tbody><tr>
 <td>(default)</td>
-<td>The toast description text.</td>
+<td>Toast description text.</td>
 </tr>
 <tr>
 <td><code>title</code></td>
-<td>Bold title text displayed above the description.</td>
+<td>Toast title (rendered in bold above the description).</td>
 </tr>
 <tr>
 <td><code>icon</code></td>
-<td>Custom icon displayed to the left of the content area.</td>
+<td>Optional custom icon (no built-in variant icons).</td>
 </tr>
 <tr>
 <td><code>actions</code></td>
-<td>Action buttons or links displayed below the description.</td>
+<td>Action buttons or links rendered below the description.</td>
 </tr>
 </tbody></table>
-<hr>
+<h3>Methods</h3>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>show()</code></td>
+<td>Display the toast. Moves it into the per-position portal container and starts the auto-close timer.</td>
+</tr>
+<tr>
+<td><code>close()</code></td>
+<td>Begin exit animation, fire <code>aegovToastClose</code>, and remove from the DOM.</td>
+</tr>
+</tbody></table>
 <h2>Accessibility</h2>
-<p>The <code>aegov-toast</code> component is designed with accessibility in mind. The following features are built in.</p>
-<h3>Built-in Features</h3>
+<p><strong>Built in</strong></p>
 <ul>
-<li><strong>Screen reader announcements</strong> — when a toast is shown, its text content is injected into a persistent <code>aria-live=&quot;polite&quot;</code> live region in the DOM. This ensures screen readers announce the notification without requiring focus.</li>
-<li><strong><code>role=&quot;status&quot;</code></strong> — the live region uses <code>role=&quot;status&quot;</code> so assistive technologies treat it as a non-urgent status update.</li>
-<li><strong>Dismiss button label</strong> — the close button includes <code>aria-label</code> text that describes the variant (e.g. &quot;Close error notification&quot;) so screen readers convey the action clearly.</li>
-<li><strong>Decorative icon</strong> — the dismiss button&#39;s SVG icon is marked with <code>aria-hidden=&quot;true&quot;</code> to prevent screen readers from announcing the icon path data.</li>
-<li><strong>Hover-to-pause</strong> — when a user hovers over a toast, the auto-dismiss timer pauses, giving users with motor impairments more time to read and interact.</li>
+<li>A persistent off-screen live region (<code>role=&quot;status&quot;</code>, <code>aria-live=&quot;polite&quot;</code>) is created at the document level. When <code>show()</code> is called, the toast&#39;s text content is announced through it — without re-mounting the live region, which would skip announcements.</li>
+<li>Hovering the toast pauses both the auto-close timer and the progress bar; leaving resumes them.</li>
+<li>The dismiss button has an aria-label that includes the variant (e.g. <code>&quot;Close success notification&quot;</code>).</li>
+<li>Stacked toasts render in source order; in rack mode, older toasts are visually demoted via <code>opacity</code> and <code>transform</code> only, leaving the live-region announcement intact.</li>
 </ul>
-<h3>Developer Responsibilities</h3>
-<ol>
-<li><p><strong>Keep toast messages concise.</strong> Screen readers announce the full text content. Long messages may be truncated or overwhelming. If you need more detail, provide a link to a full-page view.</p>
-</li>
-<li><p><strong>Avoid critical actions in toasts.</strong> Toasts are transient and auto-dismiss. Do not use them as the sole mechanism for critical user decisions. If actions are included via the <code>actions</code> slot, consider using <code>duration=&quot;0&quot;</code> to prevent the toast from disappearing before the user can interact.</p>
-</li>
-<li><p><strong>Do not rely solely on colour.</strong> The variant top border provides visual differentiation, but users with colour vision deficiencies may not perceive it. Use the <code>title</code> and <code>icon</code> slots to provide additional context.</p>
-</li>
-</ol>
-<hr>
-<h2>Notes</h2>
+<p><strong>Developer responsibilities</strong></p>
 <ul>
-<li>The <code>aegov-toast</code> component uses <strong><code>scoped: true</code></strong> encapsulation. This is required because it is a portal component — the element is moved to a container on <code>document.body</code> when shown.</li>
-<li>Toasts are <strong>automatically removed from the DOM</strong> after closing. You do not need to manually clean up the element.</li>
-<li>A <strong>module-level toast manager</strong> tracks active toasts per position. When the last toast at a position closes, its portal container is also removed from the DOM.</li>
-<li>In <strong>rack mode</strong>, toasts are always prepended (newest first). CSS transforms create the stacking effect. Indices are recalculated when a toast is added or removed.</li>
-<li>The <strong>progress bar</strong> animation uses CSS <code>@keyframes</code> with <code>animation-play-state</code> toggled between <code>running</code> and <code>paused</code> on hover. The animation duration is set dynamically to match the <code>duration</code> prop.</li>
-<li>The <strong>toast helper</strong> (<code>window.aegovToast.show()</code>) is a convenience wrapper that creates and shows a toast in a single call. It is loaded as a global script and available on <code>window</code> after the component library initialises.</li>
-<li>The enter and exit animations slide in from the direction nearest to the screen edge. RTL layouts automatically flip the horizontal slide direction.</li>
-<li>Multiple toasts at the same position stack newest-first for top positions and newest-last for bottom positions, ensuring the most recent toast is always closest to the screen edge.</li>
+<li>Keep toast text short and self-contained — do not use a toast as the only place critical information appears.</li>
+<li>Provide an actionable label for any <code>slot=&quot;actions&quot;</code> button.</li>
+<li>For critical errors that require acknowledgement, use <code>aegov-modal</code> instead — toasts can be missed.</li>
+</ul>
+<p><strong>Notes</strong></p>
+<ul>
+<li><code>scoped: true</code> encapsulation: events from inside the toast re-target correctly even after the toast is moved into the portal container.</li>
+<li>Containers are created lazily per position and removed when their last toast closes.</li>
+<li>A 300 ms exit animation runs before <code>aegovToastClose</code> fires and the element is removed.</li>
 </ul>
 <!-- DOC:END -->
           </section>
       </article>
     </section>
   </main>
-  <footer class="mx-auto max-w-7xl sm:px-6 lg:px-8 mt-8 py-6 text-sm text-aeblack-500">
+  <footer class="aegov-container sm:px-6 lg:px-8 mt-8 py-6 text-sm text-aeblack-500">
     &copy; 2026 Telecommunication and Digital Regulatory Authority. All rights reserved.
   </footer>
 

@@ -75,6 +75,15 @@ export class AegovNavbarItem {
   private chevronEl?: HTMLButtonElement;
 
   componentWillLoad() {
+    const parentNavbar = this.el.closest('aegov-navbar');
+    if (!parentNavbar) {
+      throw new Error(
+        '[aegov-navbar-item] This component must be used inside <aegov-navbar>. ' +
+        'It cannot be used as a standalone component. ' +
+        'Please wrap it with <aegov-navbar>...</aegov-navbar>'
+      );
+    }
+
     this._sizeWatcher = watchResponsiveProp(this.size, NAVBAR_SIZES, 'base', v => {
       this._resolvedSize = v as NavbarSize;
     });

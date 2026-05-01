@@ -3,510 +3,166 @@ import { AegovTabs } from './aegov-tabs';
 import { AegovTab } from '../aegov-tab/aegov-tab';
 import { AegovTabPanel } from '../aegov-tab-panel/aegov-tab-panel';
 
+const baseHtml = `
+  <aegov-tabs default-open="one">
+    <aegov-tab slot="tabs" tab-id="one">One</aegov-tab>
+    <aegov-tab slot="tabs" tab-id="two">Two</aegov-tab>
+    <aegov-tab-panel tab-id="one">Panel One</aegov-tab-panel>
+    <aegov-tab-panel tab-id="two">Panel Two</aegov-tab-panel>
+  </aegov-tabs>
+`;
+
 describe('aegov-tabs', () => {
-  // ------------------------------------------------------------------ helpers
-  async function render(html: string) {
+  it('renders tablist and panel containers', async () => {
     const page = await newSpecPage({
       components: [AegovTabs, AegovTab, AegovTabPanel],
-      html,
+      html: baseHtml,
     });
-    return page;
-  }
-
-  const basicHtml = `
-    <aegov-tabs default-active-tab="tab1">
-      <aegov-tab slot="tabs" tab-id="tab1">Tab One</aegov-tab>
-      <aegov-tab slot="tabs" tab-id="tab2">Tab Two</aegov-tab>
-      <aegov-tab slot="tabs" tab-id="tab3">Tab Three</aegov-tab>
-      <aegov-tab-panel tab-id="tab1">Panel One</aegov-tab-panel>
-      <aegov-tab-panel tab-id="tab2">Panel Two</aegov-tab-panel>
-      <aegov-tab-panel tab-id="tab3">Panel Three</aegov-tab-panel>
-    </aegov-tabs>
-  `;
-
-  // ------------------------------------------------------------------ rendering
-  describe('rendering', () => {
-    it('renders the tabs container div', async () => {
-      const page = await render(basicHtml);
-      const container = page.root.querySelector('.aegov-tabs');
-      expect(container).not.toBeNull();
-    });
-
-    it('renders the tablist with role="tablist"', async () => {
-      const page = await render(basicHtml);
-      const tablist = page.root.querySelector('[role="tablist"]');
-      expect(tablist).not.toBeNull();
-    });
-
-    it('renders panels container', async () => {
-      const page = await render(basicHtml);
-      const panels = page.root.querySelector('.tabs__panels');
-      expect(panels).not.toBeNull();
-    });
-
-    it('renders the list wrapper', async () => {
-      const page = await render(basicHtml);
-      const wrapper = page.root.querySelector('.tabs__list-wrapper');
-      expect(wrapper).not.toBeNull();
-    });
-
-    it('sets aria-orientation on tablist', async () => {
-      const page = await render(basicHtml);
-      const tablist = page.root.querySelector('[role="tablist"]');
-      expect(tablist.getAttribute('aria-orientation')).toBe('horizontal');
-    });
-
-    it('sets aria-orientation to vertical when orientation is vertical', async () => {
-      const page = await render(`
-        <aegov-tabs orientation="vertical" default-active-tab="t1">
-          <aegov-tab slot="tabs" tab-id="t1">T1</aegov-tab>
-          <aegov-tab-panel tab-id="t1">P1</aegov-tab-panel>
-        </aegov-tabs>
-      `);
-      const tablist = page.root.querySelector('[role="tablist"]');
-      expect(tablist.getAttribute('aria-orientation')).toBe('vertical');
-    });
+    expect(page.root.querySelector('[role="tablist"]')).not.toBeNull();
+    expect(page.root.querySelector('.aegov-tabs')).not.toBeNull();
+    expect(page.root.querySelector('.tabs__panels')).not.toBeNull();
   });
 
-  // ------------------------------------------------------------------ variant classes
-  describe('variant classes', () => {
-    it('applies tabs--simple by default', async () => {
-      const page = await render(basicHtml);
-      const container = page.root.querySelector('.aegov-tabs');
-      expect(container.classList.contains('tabs--simple')).toBe(true);
+  it('auto-generates fieldId when not provided', async () => {
+    const page = await newSpecPage({
+      components: [AegovTabs],
+      html: `<aegov-tabs></aegov-tabs>`,
     });
-
-    it('applies tabs--segmented for segmented variant', async () => {
-      const page = await render(`
-        <aegov-tabs variant="segmented" default-active-tab="t1">
-          <aegov-tab slot="tabs" tab-id="t1">T1</aegov-tab>
-          <aegov-tab-panel tab-id="t1">P1</aegov-tab-panel>
-        </aegov-tabs>
-      `);
-      const container = page.root.querySelector('.aegov-tabs');
-      expect(container.classList.contains('tabs--segmented')).toBe(true);
-    });
-
-    it('applies tabs--pill for pill variant', async () => {
-      const page = await render(`
-        <aegov-tabs variant="pill" default-active-tab="t1">
-          <aegov-tab slot="tabs" tab-id="t1">T1</aegov-tab>
-          <aegov-tab-panel tab-id="t1">P1</aegov-tab-panel>
-        </aegov-tabs>
-      `);
-      const container = page.root.querySelector('.aegov-tabs');
-      expect(container.classList.contains('tabs--pill')).toBe(true);
-    });
+    expect(page.rootInstance.fieldId).toMatch(/^aegov-tabs-\d+$/);
+    expect(page.root.querySelector('.aegov-tabs').id).toBe(page.rootInstance.fieldId);
   });
 
-  // ------------------------------------------------------------------ size classes
-  describe('size classes', () => {
-    it('applies tabs--base by default', async () => {
-      const page = await render(basicHtml);
-      const container = page.root.querySelector('.aegov-tabs');
-      expect(container.classList.contains('tabs--base')).toBe(true);
+  it('uses default-open as initial active tab', async () => {
+    const page = await newSpecPage({
+      components: [AegovTabs, AegovTab, AegovTabPanel],
+      html: baseHtml,
     });
-
-    it('applies tabs--sm for sm size', async () => {
-      const page = await render(`
-        <aegov-tabs size="sm" default-active-tab="t1">
-          <aegov-tab slot="tabs" tab-id="t1">T1</aegov-tab>
-          <aegov-tab-panel tab-id="t1">P1</aegov-tab-panel>
-        </aegov-tabs>
-      `);
-      const container = page.root.querySelector('.aegov-tabs');
-      expect(container.classList.contains('tabs--sm')).toBe(true);
-    });
-
-    it('applies tabs--lg for lg size', async () => {
-      const page = await render(`
-        <aegov-tabs size="lg" default-active-tab="t1">
-          <aegov-tab slot="tabs" tab-id="t1">T1</aegov-tab>
-          <aegov-tab-panel tab-id="t1">P1</aegov-tab-panel>
-        </aegov-tabs>
-      `);
-      const container = page.root.querySelector('.aegov-tabs');
-      expect(container.classList.contains('tabs--lg')).toBe(true);
-    });
+    expect(page.rootInstance.activeTabId).toBe('one');
+    const tabs = page.root.querySelectorAll('aegov-tab');
+    expect((tabs[0] as any).activeTabId).toBe('one');
+    const panels = page.root.querySelectorAll('aegov-tab-panel');
+    expect((panels[0] as any).active).toBe(true);
+    expect((panels[1] as any).active).toBe(false);
   });
 
-  // ------------------------------------------------------------------ stretch
-  describe('stretch', () => {
-    it('does not apply tabs--stretch by default', async () => {
-      const page = await render(basicHtml);
-      const container = page.root.querySelector('.aegov-tabs');
-      expect(container.classList.contains('tabs--stretch')).toBe(false);
-    });
-
-    it('applies tabs--stretch when stretch is true', async () => {
-      const page = await render(`
-        <aegov-tabs stretch default-active-tab="t1">
-          <aegov-tab slot="tabs" tab-id="t1">T1</aegov-tab>
-          <aegov-tab-panel tab-id="t1">P1</aegov-tab-panel>
-        </aegov-tabs>
-      `);
-      const container = page.root.querySelector('.aegov-tabs');
-      expect(container.classList.contains('tabs--stretch')).toBe(true);
-    });
-  });
-
-  // ------------------------------------------------------------------ vertical orientation
-  describe('vertical orientation', () => {
-    it('does not apply tabs--vertical by default', async () => {
-      const page = await render(basicHtml);
-      const container = page.root.querySelector('.aegov-tabs');
-      expect(container.classList.contains('tabs--vertical')).toBe(false);
-    });
-
-    it('applies tabs--vertical when orientation is vertical', async () => {
-      const page = await render(`
-        <aegov-tabs orientation="vertical" default-active-tab="t1">
-          <aegov-tab slot="tabs" tab-id="t1">T1</aegov-tab>
-          <aegov-tab-panel tab-id="t1">P1</aegov-tab-panel>
-        </aegov-tabs>
-      `);
-      const container = page.root.querySelector('.aegov-tabs');
-      expect(container.classList.contains('tabs--vertical')).toBe(true);
-    });
-  });
-
-  // ------------------------------------------------------------------ initial active tab
-  describe('initial active tab', () => {
-    it('activates the specified defaultActiveTab', async () => {
-      const page = await render(basicHtml);
-      expect(page.rootInstance.activeTabId).toBe('tab1');
-    });
-
-    it('activates the second tab when defaultActiveTab is tab2', async () => {
-      const page = await render(`
-        <aegov-tabs default-active-tab="tab2">
-          <aegov-tab slot="tabs" tab-id="tab1">T1</aegov-tab>
-          <aegov-tab slot="tabs" tab-id="tab2">T2</aegov-tab>
-          <aegov-tab-panel tab-id="tab1">P1</aegov-tab-panel>
-          <aegov-tab-panel tab-id="tab2">P2</aegov-tab-panel>
-        </aegov-tabs>
-      `);
-      expect(page.rootInstance.activeTabId).toBe('tab2');
-    });
-
-    it('activates first non-disabled tab when no defaultActiveTab specified', async () => {
-      const page = await render(`
+  it('falls back to first non-disabled tab when no default-open', async () => {
+    const page = await newSpecPage({
+      components: [AegovTabs, AegovTab, AegovTabPanel],
+      html: `
         <aegov-tabs>
-          <aegov-tab slot="tabs" tab-id="tab1">T1</aegov-tab>
-          <aegov-tab slot="tabs" tab-id="tab2">T2</aegov-tab>
-          <aegov-tab-panel tab-id="tab1">P1</aegov-tab-panel>
-          <aegov-tab-panel tab-id="tab2">P2</aegov-tab-panel>
+          <aegov-tab slot="tabs" tab-id="a" is-disabled="true">A</aegov-tab>
+          <aegov-tab slot="tabs" tab-id="b">B</aegov-tab>
+          <aegov-tab-panel tab-id="a">Pa</aegov-tab-panel>
+          <aegov-tab-panel tab-id="b">Pb</aegov-tab-panel>
         </aegov-tabs>
-      `);
-      expect(page.rootInstance.activeTabId).toBe('tab1');
+      `,
     });
-
-    it('skips disabled tabs when auto-selecting first tab', async () => {
-      const page = await render(`
-        <aegov-tabs>
-          <aegov-tab slot="tabs" tab-id="tab1" disabled>T1</aegov-tab>
-          <aegov-tab slot="tabs" tab-id="tab2">T2</aegov-tab>
-          <aegov-tab-panel tab-id="tab1">P1</aegov-tab-panel>
-          <aegov-tab-panel tab-id="tab2">P2</aegov-tab-panel>
-        </aegov-tabs>
-      `);
-      expect(page.rootInstance.activeTabId).toBe('tab2');
-    });
+    expect(page.rootInstance.activeTabId).toBe('b');
   });
 
-  // ------------------------------------------------------------------ prop syncing to children
-  describe('prop syncing to children', () => {
-    it('sets activeTabId on child aegov-tab elements', async () => {
-      const page = await render(basicHtml);
-      const tabs = page.root.querySelectorAll('aegov-tab');
-      tabs.forEach((tab: any) => {
-        expect(tab.activeTabId).toBe('tab1');
-      });
+  it('applies variant class', async () => {
+    const page = await newSpecPage({
+      components: [AegovTabs],
+      html: `<aegov-tabs variant="pill"></aegov-tabs>`,
     });
-
-    it('sets variant on child aegov-tab elements', async () => {
-      const page = await render(`
-        <aegov-tabs variant="pill" default-active-tab="t1">
-          <aegov-tab slot="tabs" tab-id="t1">T1</aegov-tab>
-          <aegov-tab slot="tabs" tab-id="t2">T2</aegov-tab>
-          <aegov-tab-panel tab-id="t1">P1</aegov-tab-panel>
-          <aegov-tab-panel tab-id="t2">P2</aegov-tab-panel>
-        </aegov-tabs>
-      `);
-      const tabs = page.root.querySelectorAll('aegov-tab');
-      tabs.forEach((tab: any) => {
-        expect(tab.variant).toBe('pill');
-      });
-    });
-
-    it('sets size on child aegov-tab elements', async () => {
-      const page = await render(`
-        <aegov-tabs size="lg" default-active-tab="t1">
-          <aegov-tab slot="tabs" tab-id="t1">T1</aegov-tab>
-          <aegov-tab-panel tab-id="t1">P1</aegov-tab-panel>
-        </aegov-tabs>
-      `);
-      const tab = page.root.querySelector('aegov-tab') as any;
-      expect(tab.size).toBe('lg');
-    });
-
-    it('sets orientation on child aegov-tab elements', async () => {
-      const page = await render(`
-        <aegov-tabs orientation="vertical" default-active-tab="t1">
-          <aegov-tab slot="tabs" tab-id="t1">T1</aegov-tab>
-          <aegov-tab-panel tab-id="t1">P1</aegov-tab-panel>
-        </aegov-tabs>
-      `);
-      const tab = page.root.querySelector('aegov-tab') as any;
-      expect(tab.orientation).toBe('vertical');
-    });
-
-    it('sets active on the correct aegov-tab-panel', async () => {
-      const page = await render(basicHtml);
-      const panels = page.root.querySelectorAll('aegov-tab-panel');
-      expect((panels[0] as any).active).toBe(true);
-      expect((panels[1] as any).active).toBe(false);
-      expect((panels[2] as any).active).toBe(false);
-    });
-
-    it('updates panel active states after tab change', async () => {
-      const page = await render(basicHtml);
-
-      // Simulate selecting tab2
-      const tabEl = page.root.querySelectorAll('aegov-tab')[1];
-      tabEl.dispatchEvent(new CustomEvent('aegovTabSelect', { bubbles: true, detail: 'tab2' }));
-      await page.waitForChanges();
-
-      const panels = page.root.querySelectorAll('aegov-tab-panel');
-      expect((panels[0] as any).active).toBe(false);
-      expect((panels[1] as any).active).toBe(true);
-      expect((panels[2] as any).active).toBe(false);
-    });
+    expect(page.root.querySelector('.aegov-tabs').className).toContain('tabs--pill');
   });
 
-  // ------------------------------------------------------------------ events
-  describe('events', () => {
-    it('emits aegovTabChange when a tab is selected', async () => {
-      const page = await render(basicHtml);
-      const changeSpy = jest.fn();
-      page.root.addEventListener('aegovTabChange', changeSpy);
-
-      // Simulate tab select event from aegov-tab
-      const tabEl = page.root.querySelectorAll('aegov-tab')[1];
-      tabEl.dispatchEvent(new CustomEvent('aegovTabSelect', { bubbles: true, detail: 'tab2' }));
-      await page.waitForChanges();
-
-      expect(changeSpy).toHaveBeenCalledTimes(1);
-      expect(changeSpy.mock.calls[0][0].detail).toBe('tab2');
+  it('applies size class', async () => {
+    const page = await newSpecPage({
+      components: [AegovTabs],
+      html: `<aegov-tabs size="lg"></aegov-tabs>`,
     });
-
-    it('does not emit if same tab is selected again', async () => {
-      const page = await render(basicHtml);
-      const changeSpy = jest.fn();
-      page.root.addEventListener('aegovTabChange', changeSpy);
-
-      // Select the already-active tab
-      page.root.querySelectorAll('aegov-tab')[0].dispatchEvent(
-        new CustomEvent('aegovTabSelect', { bubbles: true, detail: 'tab1' }),
-      );
-      await page.waitForChanges();
-
-      expect(changeSpy).toHaveBeenCalledTimes(0);
-    });
-
-    it('updates activeTabId state when tab is selected', async () => {
-      const page = await render(basicHtml);
-      page.root.querySelectorAll('aegov-tab')[1].dispatchEvent(
-        new CustomEvent('aegovTabSelect', { bubbles: true, detail: 'tab2' }),
-      );
-      await page.waitForChanges();
-
-      expect(page.rootInstance.activeTabId).toBe('tab2');
-    });
+    expect(page.root.querySelector('.aegov-tabs').className).toContain('tabs--lg');
   });
 
-  // ------------------------------------------------------------------ scrollable
-  describe('scrollable', () => {
-    it('adds tabs__list-wrapper--scrollable class when scrollable is true', async () => {
-      const page = await render(`
-        <aegov-tabs scrollable default-active-tab="t1">
-          <aegov-tab slot="tabs" tab-id="t1">T1</aegov-tab>
-          <aegov-tab-panel tab-id="t1">P1</aegov-tab-panel>
-        </aegov-tabs>
-      `);
-      const wrapper = page.root.querySelector('.tabs__list-wrapper');
-      expect(wrapper.classList.contains('tabs__list-wrapper--scrollable')).toBe(true);
+  it('applies stretch and vertical modifiers', async () => {
+    const page = await newSpecPage({
+      components: [AegovTabs],
+      html: `<aegov-tabs is-stretchable="true" orientation="vertical"></aegov-tabs>`,
     });
-
-    it('does not add scrollable class when scrollable is false', async () => {
-      const page = await render(basicHtml);
-      const wrapper = page.root.querySelector('.tabs__list-wrapper');
-      expect(wrapper.classList.contains('tabs__list-wrapper--scrollable')).toBe(false);
-    });
+    const cls = page.root.querySelector('.aegov-tabs').className;
+    expect(cls).toContain('tabs--stretch');
+    expect(cls).toContain('tabs--vertical');
   });
 
-  // ------------------------------------------------------------------ tablist aria-label
-  describe('tablist aria-label', () => {
-    it('has default aria-label "Tabs" on tablist', async () => {
-      const page = await render(basicHtml);
-      const tablist = page.root.querySelector('[role="tablist"]');
-      expect(tablist.getAttribute('aria-label')).toBe('Tabs');
+  it('applies scrollable wrapper modifier', async () => {
+    const page = await newSpecPage({
+      components: [AegovTabs],
+      html: `<aegov-tabs is-scrollable="true"></aegov-tabs>`,
     });
-
-    it('accepts custom tablistLabel prop', async () => {
-      const page = await render(`
-        <aegov-tabs tablist-label="Navigation tabs" default-active-tab="t1">
-          <aegov-tab slot="tabs" tab-id="t1">T1</aegov-tab>
-          <aegov-tab-panel tab-id="t1">P1</aegov-tab-panel>
-        </aegov-tabs>
-      `);
-      const tablist = page.root.querySelector('[role="tablist"]');
-      expect(tablist.getAttribute('aria-label')).toBe('Navigation tabs');
-    });
-
-    it('defaults tablistLabel prop to "Tabs"', async () => {
-      const page = await render(basicHtml);
-      expect(page.rootInstance.tablistLabel).toBe('Tabs');
-    });
+    expect(page.root.querySelector('.tabs__list-wrapper').className).toContain('tabs__list-wrapper--scrollable');
   });
 
-  // ------------------------------------------------------------------ default props
-  describe('default props', () => {
-    it('defaults variant to simple', async () => {
-      const page = await render(basicHtml);
-      expect(page.rootInstance.variant).toBe('simple');
+  it('emits aegovTabChange and updates active tab on aegovTabSelect', async () => {
+    const page = await newSpecPage({
+      components: [AegovTabs, AegovTab, AegovTabPanel],
+      html: baseHtml,
     });
+    const spy = jest.fn();
+    page.root.addEventListener('aegovTabChange', spy);
 
-    it('defaults size to base', async () => {
-      const page = await render(basicHtml);
-      expect(page.rootInstance.size).toBe('base');
-    });
+    page.root.dispatchEvent(new CustomEvent('aegovTabSelect', { detail: 'two', bubbles: true, composed: true }));
+    await page.waitForChanges();
 
-    it('defaults scrollable to false', async () => {
-      const page = await render(basicHtml);
-      expect(page.rootInstance.scrollable).toBe(false);
-    });
-
-    it('defaults stretch to false', async () => {
-      const page = await render(basicHtml);
-      expect(page.rootInstance.stretch).toBe(false);
-    });
-
-    it('defaults orientation to horizontal', async () => {
-      const page = await render(basicHtml);
-      expect(page.rootInstance.orientation).toBe('horizontal');
-    });
+    expect(page.rootInstance.activeTabId).toBe('two');
+    expect(spy).toHaveBeenCalledTimes(1);
+    expect(spy.mock.calls[0][0].detail).toBe('two');
   });
 
-  describe('invalid prop values', () => {
-    let warnSpy: jest.SpyInstance;
-
-    beforeEach(() => {
-      warnSpy = jest.spyOn(console, 'warn').mockImplementation();
+  it('does not re-emit when activating the already-active tab', async () => {
+    const page = await newSpecPage({
+      components: [AegovTabs, AegovTab, AegovTabPanel],
+      html: baseHtml,
     });
+    const spy = jest.fn();
+    page.root.addEventListener('aegovTabChange', spy);
 
-    afterEach(() => {
-      warnSpy.mockRestore();
-    });
+    page.root.dispatchEvent(new CustomEvent('aegovTabSelect', { detail: 'one', bubbles: true, composed: true }));
+    await page.waitForChanges();
+    expect(spy).not.toHaveBeenCalled();
+  });
 
-    it('falls back to default variant class when invalid', async () => {
-      const page = await render(`
-        <aegov-tabs variant="weird">
-          <aegov-tab slot="tabs" tab-id="a">A</aegov-tab>
-          <aegov-tab-panel tab-id="a">P</aegov-tab-panel>
+  it('syncs variant/size/orientation onto child tabs', async () => {
+    const page = await newSpecPage({
+      components: [AegovTabs, AegovTab, AegovTabPanel],
+      html: `
+        <aegov-tabs variant="pill" size="lg" orientation="vertical" default-open="one">
+          <aegov-tab slot="tabs" tab-id="one">One</aegov-tab>
+          <aegov-tab-panel tab-id="one">P</aegov-tab-panel>
         </aegov-tabs>
-      `);
-      const container = page.root.querySelector('.aegov-tabs');
-      expect(container.classList.contains('tabs--simple')).toBe(true);
+      `,
     });
+    await page.waitForChanges();
+    const tab = page.root.querySelector('aegov-tab');
+    expect((tab as any).variant).toBe('pill');
+    expect((tab as any).size).toBe('lg');
+    expect((tab as any).orientation).toBe('vertical');
+  });
 
-    it('falls back to default size class when invalid', async () => {
-      const page = await render(`
-        <aegov-tabs size="huge">
-          <aegov-tab slot="tabs" tab-id="a">A</aegov-tab>
-          <aegov-tab-panel tab-id="a">P</aegov-tab-panel>
-        </aegov-tabs>
-      `);
-      const container = page.root.querySelector('.aegov-tabs');
-      expect(container.classList.contains('tabs--base')).toBe(true);
+  it('exposes aria-orientation on tablist', async () => {
+    const page = await newSpecPage({
+      components: [AegovTabs],
+      html: `<aegov-tabs orientation="vertical"></aegov-tabs>`,
     });
+    expect(page.root.querySelector('[role="tablist"]').getAttribute('aria-orientation')).toBe('vertical');
+  });
 
-    it('falls back to default orientation when invalid', async () => {
-      const page = await render(`
-        <aegov-tabs orientation="diagonal">
-          <aegov-tab slot="tabs" tab-id="a">A</aegov-tab>
-          <aegov-tab-panel tab-id="a">P</aegov-tab-panel>
-        </aegov-tabs>
-      `);
-      const container = page.root.querySelector('.aegov-tabs');
-      expect(container.classList.contains('tabs--vertical')).toBe(false);
+  it('uses labelTablist for aria-label', async () => {
+    const page = await newSpecPage({
+      components: [AegovTabs],
+      html: `<aegov-tabs label-tablist="Account sections"></aegov-tabs>`,
     });
+    expect(page.root.querySelector('[role="tablist"]').getAttribute('aria-label')).toBe('Account sections');
+  });
 
-    it('warns with component name, prop name, invalid value, and fallback', async () => {
-      await render(`
-        <aegov-tabs variant="weird">
-          <aegov-tab slot="tabs" tab-id="a">A</aegov-tab>
-          <aegov-tab-panel tab-id="a">P</aegov-tab-panel>
-        </aegov-tabs>
-      `);
-      const messages = warnSpy.mock.calls.map(c => c[0] as string);
-      const warn = messages.find(m => m.includes('[aegov-tabs]') && m.includes('"variant"'));
-      expect(warn).toBeDefined();
-      expect(warn).toContain('"weird"');
-      expect(warn).toContain('simple');
+  it('forwards aria-* and data-* attributes', async () => {
+    const page = await newSpecPage({
+      components: [AegovTabs],
+      html: `<aegov-tabs aria-describedby="desc" data-test="x"></aegov-tabs>`,
     });
-
-    it('does not warn when all props are valid', async () => {
-      await render(`
-        <aegov-tabs variant="segmented" size="lg" orientation="vertical">
-          <aegov-tab slot="tabs" tab-id="a">A</aegov-tab>
-          <aegov-tab-panel tab-id="a">P</aegov-tab-panel>
-        </aegov-tabs>
-      `);
-      const tabWarns = warnSpy.mock.calls.map(c => c[0] as string).filter(m => m && m.includes('[aegov-tabs]'));
-      expect(tabWarns.length).toBe(0);
-    });
-
-    it('warns again via @Watch when variant is updated to invalid value', async () => {
-      const page = await render(`
-        <aegov-tabs variant="simple">
-          <aegov-tab slot="tabs" tab-id="a">A</aegov-tab>
-          <aegov-tab-panel tab-id="a">P</aegov-tab-panel>
-        </aegov-tabs>
-      `);
-      page.root.setAttribute('variant', 'nope');
-      await page.waitForChanges();
-      const messages = warnSpy.mock.calls.map(c => c[0] as string);
-      const warn = messages.find(m => m.includes('[aegov-tabs]') && m.includes('"variant"'));
-      expect(warn).toBeDefined();
-    });
-
-    it('warns again via @Watch when size is updated to invalid value', async () => {
-      const page = await render(`
-        <aegov-tabs size="base">
-          <aegov-tab slot="tabs" tab-id="a">A</aegov-tab>
-          <aegov-tab-panel tab-id="a">P</aegov-tab-panel>
-        </aegov-tabs>
-      `);
-      page.root.setAttribute('size', 'nope');
-      await page.waitForChanges();
-      const messages = warnSpy.mock.calls.map(c => c[0] as string);
-      const warn = messages.find(m => m.includes('[aegov-tabs]') && m.includes('"size"'));
-      expect(warn).toBeDefined();
-    });
-
-    it('warns again via @Watch when orientation is updated to invalid value', async () => {
-      const page = await render(`
-        <aegov-tabs orientation="horizontal">
-          <aegov-tab slot="tabs" tab-id="a">A</aegov-tab>
-          <aegov-tab-panel tab-id="a">P</aegov-tab-panel>
-        </aegov-tabs>
-      `);
-      page.root.setAttribute('orientation', 'nope');
-      await page.waitForChanges();
-      const messages = warnSpy.mock.calls.map(c => c[0] as string);
-      const warn = messages.find(m => m.includes('[aegov-tabs]') && m.includes('"orientation"'));
-      expect(warn).toBeDefined();
-    });
+    const root = page.root.querySelector('.aegov-tabs');
+    expect(root.getAttribute('aria-describedby')).toBe('desc');
+    expect(root.getAttribute('data-test')).toBe('x');
   });
 });

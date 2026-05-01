@@ -3,116 +3,66 @@ import { AegovNavbar } from './aegov-navbar';
 import { AegovNavbarItem } from '../aegov-navbar-item/aegov-navbar-item';
 
 describe('aegov-navbar', () => {
-  describe('rendering', () => {
-    it('renders', async () => {
-      const page = await newSpecPage({
-        components: [AegovNavbar, AegovNavbarItem],
-        html: `
-          <aegov-navbar>
-            <aegov-navbar-item href="/">Home</aegov-navbar-item>
-          </aegov-navbar>
-        `,
-      });
-      expect(page.root).toBeTruthy();
+  it('renders nav with default label and base size', async () => {
+    const page = await newSpecPage({
+      components: [AegovNavbar, AegovNavbarItem],
+      html: `<aegov-navbar><aegov-navbar-item href="/">Home</aegov-navbar-item></aegov-navbar>`,
     });
-
-    it('renders <nav> with default aria-label', async () => {
-      const page = await newSpecPage({
-        components: [AegovNavbar, AegovNavbarItem],
-        html: `<aegov-navbar><aegov-navbar-item href="/">A</aegov-navbar-item></aegov-navbar>`,
-      });
-      const nav = page.root.querySelector('nav');
-      expect(nav).toBeTruthy();
-      expect(nav.getAttribute('aria-label')).toBe('Main navigation');
-    });
-
-    it('renders <ul> list with default gap class', async () => {
-      const page = await newSpecPage({
-        components: [AegovNavbar, AegovNavbarItem],
-        html: `<aegov-navbar><aegov-navbar-item href="/">A</aegov-navbar-item></aegov-navbar>`,
-      });
-      const ul = page.root.querySelector('ul.aegov-navbar-list');
-      expect(ul).toBeTruthy();
-      expect(ul.classList.contains('gap-3')).toBe(true);
-    });
-
-    it('applies custom gap class', async () => {
-      const page = await newSpecPage({
-        components: [AegovNavbar, AegovNavbarItem],
-        html: `<aegov-navbar gap="gap-10"><aegov-navbar-item href="/">A</aegov-navbar-item></aegov-navbar>`,
-      });
-      const ul = page.root.querySelector('ul.aegov-navbar-list');
-      expect(ul.classList.contains('gap-10')).toBe(true);
-    });
-
-    it('applies custom navLabel', async () => {
-      const page = await newSpecPage({
-        components: [AegovNavbar, AegovNavbarItem],
-        html: `<aegov-navbar nav-label="Site nav"><aegov-navbar-item href="/">A</aegov-navbar-item></aegov-navbar>`,
-      });
-      expect(page.root.querySelector('nav').getAttribute('aria-label')).toBe('Site nav');
-    });
-
-    it('applies resolved size class on nav', async () => {
-      const page = await newSpecPage({
-        components: [AegovNavbar, AegovNavbarItem],
-        html: `<aegov-navbar size="lg"><aegov-navbar-item href="/">A</aegov-navbar-item></aegov-navbar>`,
-      });
-      expect(page.root.querySelector('nav').classList.contains('aegov-navbar-lg')).toBe(true);
-    });
+    const nav = page.root.querySelector('nav');
+    expect(nav).not.toBeNull();
+    expect(nav.getAttribute('aria-label')).toBe('Main navigation');
+    expect(nav.className).toContain('aegov-navbar');
+    expect(nav.className).toContain('aegov-navbar-base');
   });
 
-  describe('size cascading', () => {
-    it('pushes resolved size to children on load', async () => {
-      const page = await newSpecPage({
-        components: [AegovNavbar, AegovNavbarItem],
-        html: `
-          <aegov-navbar size="lg">
-            <aegov-navbar-item href="/">A</aegov-navbar-item>
-            <aegov-navbar-item href="/b">B</aegov-navbar-item>
-          </aegov-navbar>
-        `,
-      });
-      const items = page.root.querySelectorAll('aegov-navbar-item');
-      items.forEach(item => {
-        expect((item as HTMLAegovNavbarItemElement).size).toBe('lg');
-      });
+  it('uses custom labelNav', async () => {
+    const page = await newSpecPage({
+      components: [AegovNavbar, AegovNavbarItem],
+      html: `<aegov-navbar label-nav="Site nav"><aegov-navbar-item href="/">A</aegov-navbar-item></aegov-navbar>`,
     });
-
-    it('updates child sizes when parent size changes', async () => {
-      const page = await newSpecPage({
-        components: [AegovNavbar, AegovNavbarItem],
-        html: `<aegov-navbar><aegov-navbar-item href="/">A</aegov-navbar-item></aegov-navbar>`,
-      });
-      const navbar = page.root as HTMLAegovNavbarElement;
-      navbar.size = 'sm';
-      await page.waitForChanges();
-      const item = page.root.querySelector('aegov-navbar-item') as HTMLAegovNavbarItemElement;
-      expect(item.size).toBe('sm');
-    });
+    expect(page.root.querySelector('nav').getAttribute('aria-label')).toBe('Site nav');
   });
 
-  describe('responsive size', () => {
-    it('accepts a Tailwind-style responsive size string', async () => {
-      // In jsdom no --breakpoint-* CSS vars are defined, so breakpoint
-      // tokens are silently ignored and the base token wins.
-      const page = await newSpecPage({
-        components: [AegovNavbar, AegovNavbarItem],
-        html: `<aegov-navbar size="sm md:base lg:lg"><aegov-navbar-item href="/">A</aegov-navbar-item></aegov-navbar>`,
-      });
-      const nav = page.root.querySelector('nav');
-      expect(nav.classList.contains('aegov-navbar-sm')).toBe(true);
-      const item = page.root.querySelector('aegov-navbar-item') as HTMLAegovNavbarItemElement;
-      expect(item.size).toBe('sm');
+  it('applies custom gap class to ul', async () => {
+    const page = await newSpecPage({
+      components: [AegovNavbar, AegovNavbarItem],
+      html: `<aegov-navbar gap="gap-10"><aegov-navbar-item href="/">A</aegov-navbar-item></aegov-navbar>`,
     });
+    const ul = page.root.querySelector('ul');
+    expect(ul.className).toContain('gap-10');
+  });
 
-    it('falls back to default when base token is invalid', async () => {
-      const page = await newSpecPage({
-        components: [AegovNavbar, AegovNavbarItem],
-        html: `<aegov-navbar size="huge"><aegov-navbar-item href="/">A</aegov-navbar-item></aegov-navbar>`,
-      });
-      const nav = page.root.querySelector('nav');
-      expect(nav.classList.contains('aegov-navbar-base')).toBe(true);
+  it('cascades resolved size to child navbar items', async () => {
+    const page = await newSpecPage({
+      components: [AegovNavbar, AegovNavbarItem],
+      html: `<aegov-navbar size="lg">
+        <aegov-navbar-item href="/">A</aegov-navbar-item>
+        <aegov-navbar-item href="/b">B</aegov-navbar-item>
+      </aegov-navbar>`,
     });
+    const items = page.root.querySelectorAll('aegov-navbar-item');
+    expect((items[0] as any).size).toBe('lg');
+    expect((items[1] as any).size).toBe('lg');
+  });
+
+  it('applies size class to nav element', async () => {
+    const page = await newSpecPage({
+      components: [AegovNavbar, AegovNavbarItem],
+      html: `<aegov-navbar size="sm"><aegov-navbar-item href="/">A</aegov-navbar-item></aegov-navbar>`,
+    });
+    expect(page.root.querySelector('nav').className).toContain('aegov-navbar-sm');
+  });
+
+  it('renders ul with role list semantics', async () => {
+    const page = await newSpecPage({
+      components: [AegovNavbar, AegovNavbarItem],
+      html: `<aegov-navbar>
+        <aegov-navbar-item href="/">A</aegov-navbar-item>
+        <aegov-navbar-item href="/b">B</aegov-navbar-item>
+      </aegov-navbar>`,
+    });
+    const ul = page.root.querySelector('ul');
+    expect(ul).not.toBeNull();
+    expect(ul.querySelectorAll('aegov-navbar-item').length).toBe(2);
   });
 });

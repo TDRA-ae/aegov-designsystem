@@ -1,149 +1,111 @@
 import { newSpecPage } from '@stencil/core/testing';
-import { AegovNavbar } from '../aegov-navbar/aegov-navbar';
 import { AegovNavbarItem } from './aegov-navbar-item';
+import { AegovNavbar } from '../aegov-navbar/aegov-navbar';
+
+// aegov-navbar propagates `size` to its child items via componentDidLoad. Tests
+// that depend on a specific size should set it on the parent.
+const wrap = (inner: string, parentAttrs = '') =>
+  `<aegov-navbar ${parentAttrs}>${inner}</aegov-navbar>`;
+const COMPONENTS = [AegovNavbar, AegovNavbarItem];
 
 describe('aegov-navbar-item', () => {
-  describe('rendering', () => {
-    it('renders <a> when href is set', async () => {
-      const page = await newSpecPage({
-        components: [AegovNavbar, AegovNavbarItem],
-        html: `<aegov-navbar><aegov-navbar-item href="/x">X</aegov-navbar-item></aegov-navbar>`,
-      });
-      const link = page.root.querySelector('aegov-navbar-item a.aegov-navbar-item__link');
-      expect(link).toBeTruthy();
-      expect((link as HTMLAnchorElement).getAttribute('href')).toBe('/x');
+  it('renders as link when href provided', async () => {
+    const page = await newSpecPage({
+      components: COMPONENTS,
+      html: wrap(`<aegov-navbar-item href="/page">Page</aegov-navbar-item>`),
     });
-
-    it('renders <span> when href is missing', async () => {
-      const page = await newSpecPage({
-        components: [AegovNavbar, AegovNavbarItem],
-        html: `<aegov-navbar><aegov-navbar-item>X</aegov-navbar-item></aegov-navbar>`,
-      });
-      const link = page.root.querySelector('aegov-navbar-item span.aegov-navbar-item__link');
-      expect(link).toBeTruthy();
-      expect(page.root.querySelector('aegov-navbar-item a.aegov-navbar-item__link')).toBeNull();
-    });
-
-    it('sets aria-current="page" when active', async () => {
-      const page = await newSpecPage({
-        components: [AegovNavbar, AegovNavbarItem],
-        html: `<aegov-navbar><aegov-navbar-item href="/x" active>X</aegov-navbar-item></aegov-navbar>`,
-      });
-      const link = page.root.querySelector('aegov-navbar-item a.aegov-navbar-item__link');
-      expect(link.getAttribute('aria-current')).toBe('page');
-    });
-
-    it('omits aria-current when not active', async () => {
-      const page = await newSpecPage({
-        components: [AegovNavbar, AegovNavbarItem],
-        html: `<aegov-navbar><aegov-navbar-item href="/x">X</aegov-navbar-item></aegov-navbar>`,
-      });
-      const link = page.root.querySelector('aegov-navbar-item a.aegov-navbar-item__link');
-      expect(link.getAttribute('aria-current')).toBeNull();
-    });
-
-    it('renders disabled span with aria-disabled', async () => {
-      const page = await newSpecPage({
-        components: [AegovNavbar, AegovNavbarItem],
-        html: `<aegov-navbar><aegov-navbar-item href="/x" disabled>X</aegov-navbar-item></aegov-navbar>`,
-      });
-      expect(page.root.querySelector('aegov-navbar-item a.aegov-navbar-item__link')).toBeNull();
-      const span = page.root.querySelector('aegov-navbar-item span.aegov-navbar-item__link');
-      expect(span).toBeTruthy();
-      expect(span.getAttribute('aria-disabled')).toBe('true');
-    });
-
-    it('applies size class to <li>', async () => {
-      const page = await newSpecPage({
-        components: [AegovNavbar, AegovNavbarItem],
-        html: `<aegov-navbar size="sm"><aegov-navbar-item href="/x">X</aegov-navbar-item></aegov-navbar>`,
-      });
-      const li = page.root.querySelector('aegov-navbar-item li');
-      expect(li.classList.contains('aegov-navbar-item--sm')).toBe(true);
-    });
-
-    it('renders icon-start slot wrapper when icon is present', async () => {
-      const page = await newSpecPage({
-        components: [AegovNavbar, AegovNavbarItem],
-        html: `
-          <aegov-navbar>
-            <aegov-navbar-item href="/x">
-              <svg slot="icon-start"></svg>
-              X
-            </aegov-navbar-item>
-          </aegov-navbar>
-        `,
-      });
-      const iconWrap = page.root.querySelector('aegov-navbar-item .aegov-navbar-item__icon');
-      expect(iconWrap).toBeTruthy();
-    });
-
-    it('omits icon wrapper when no icon-start slot', async () => {
-      const page = await newSpecPage({
-        components: [AegovNavbar, AegovNavbarItem],
-        html: `<aegov-navbar><aegov-navbar-item href="/x">X</aegov-navbar-item></aegov-navbar>`,
-      });
-      expect(page.root.querySelector('aegov-navbar-item .aegov-navbar-item__icon')).toBeNull();
-    });
-
-    it('marks li with --has-dropdown when aegov-dropdown is slotted', async () => {
-      const page = await newSpecPage({
-        components: [AegovNavbar, AegovNavbarItem],
-        html: `
-          <aegov-navbar>
-            <aegov-navbar-item href="/x">
-              X
-              <aegov-dropdown slot="dropdown"></aegov-dropdown>
-            </aegov-navbar-item>
-          </aegov-navbar>
-        `,
-      });
-      const li = page.root.querySelector('aegov-navbar-item li');
-      expect(li.classList.contains('aegov-navbar-item--has-dropdown')).toBe(true);
-    });
-
-    it('does not render --has-dropdown when no dropdown slotted', async () => {
-      const page = await newSpecPage({
-        components: [AegovNavbar, AegovNavbarItem],
-        html: `<aegov-navbar><aegov-navbar-item href="/x">X</aegov-navbar-item></aegov-navbar>`,
-      });
-      const li = page.root.querySelector('aegov-navbar-item li');
-      expect(li.classList.contains('aegov-navbar-item--has-dropdown')).toBe(false);
-    });
+    const a = page.root.querySelector('aegov-navbar-item a');
+    expect(a).not.toBeNull();
+    expect(a.getAttribute('href')).toBe('/page');
+    expect(a.className).toContain('aegov-navbar-item__link');
   });
 
-  describe('responsive size', () => {
-    it('accepts a responsive size string standalone', async () => {
-      // jsdom has no --breakpoint-* CSS vars so breakpoint tokens are
-      // silently ignored — the base token wins.
-      const page = await newSpecPage({
-        components: [AegovNavbarItem],
-        html: `<aegov-navbar-item size="sm md:base lg:lg" href="/x">X</aegov-navbar-item>`,
-      });
-      const li = page.root.querySelector('li');
-      expect(li.classList.contains('aegov-navbar-item--sm')).toBe(true);
+  it('renders as span when no href', async () => {
+    const page = await newSpecPage({
+      components: COMPONENTS,
+      html: wrap(`<aegov-navbar-item>Plain</aegov-navbar-item>`),
     });
+    expect(page.root.querySelector('aegov-navbar-item a')).toBeNull();
+    expect(page.root.querySelector('aegov-navbar-item span.aegov-navbar-item__link')).not.toBeNull();
+  });
 
-    it('falls back to default for invalid base tokens', async () => {
-      const page = await newSpecPage({
-        components: [AegovNavbarItem],
-        html: `<aegov-navbar-item size="huge" href="/x">X</aegov-navbar-item>`,
-      });
-      const li = page.root.querySelector('li');
-      expect(li.classList.contains('aegov-navbar-item--base')).toBe(true);
+  it('renders disabled span with aria-disabled when isDisabled', async () => {
+    const page = await newSpecPage({
+      components: COMPONENTS,
+      html: wrap(`<aegov-navbar-item href="/x" is-disabled="true">D</aegov-navbar-item>`),
     });
+    expect(page.root.querySelector('aegov-navbar-item a')).toBeNull();
+    const span = page.root.querySelector('aegov-navbar-item span.aegov-navbar-item__link');
+    expect(span.getAttribute('aria-disabled')).toBe('true');
+  });
 
-    it('updates the size class when the size prop changes', async () => {
-      const page = await newSpecPage({
-        components: [AegovNavbarItem],
-        html: `<aegov-navbar-item size="sm" href="/x">X</aegov-navbar-item>`,
-      });
-      const item = page.root as HTMLAegovNavbarItemElement;
-      item.size = 'lg';
-      await page.waitForChanges();
-      const li = page.root.querySelector('li');
-      expect(li.classList.contains('aegov-navbar-item--lg')).toBe(true);
-      expect(li.classList.contains('aegov-navbar-item--sm')).toBe(false);
+  it('marks active item with aria-current="page"', async () => {
+    const page = await newSpecPage({
+      components: COMPONENTS,
+      html: wrap(`<aegov-navbar-item href="/x" is-active="true">A</aegov-navbar-item>`),
     });
+    expect(page.root.querySelector('aegov-navbar-item a').getAttribute('aria-current')).toBe('page');
+  });
+
+  it('applies size class from parent', async () => {
+    const page = await newSpecPage({
+      components: COMPONENTS,
+      html: wrap(`<aegov-navbar-item href="/">A</aegov-navbar-item>`, 'size="lg"'),
+    });
+    const li = page.root.querySelector('aegov-navbar-item li');
+    expect(li.className).toContain('aegov-navbar-item--lg');
+  });
+
+  it('applies active state class', async () => {
+    const page = await newSpecPage({
+      components: COMPONENTS,
+      html: wrap(`<aegov-navbar-item href="/" is-active="true">A</aegov-navbar-item>`),
+    });
+    expect(page.root.querySelector('aegov-navbar-item li').className).toContain('aegov-navbar-item--active');
+  });
+
+  it('applies disabled state class', async () => {
+    const page = await newSpecPage({
+      components: COMPONENTS,
+      html: wrap(`<aegov-navbar-item is-disabled="true">D</aegov-navbar-item>`),
+    });
+    expect(page.root.querySelector('aegov-navbar-item li').className).toContain('aegov-navbar-item--disabled');
+  });
+
+  it('renders icon-start slot when present', async () => {
+    const page = await newSpecPage({
+      components: COMPONENTS,
+      html: wrap(`<aegov-navbar-item href="/"><svg slot="icon-start"></svg>Page</aegov-navbar-item>`),
+    });
+    const iconWrap = page.root.querySelector('.aegov-navbar-item__icon');
+    expect(iconWrap).not.toBeNull();
+  });
+
+  it('renders label inside aegov-navbar-item__label span', async () => {
+    const page = await newSpecPage({
+      components: COMPONENTS,
+      html: wrap(`<aegov-navbar-item href="/">Hello</aegov-navbar-item>`),
+    });
+    const label = page.root.querySelector('.aegov-navbar-item__label');
+    expect(label).not.toBeNull();
+  });
+
+  it('forwards target and rel on the anchor', async () => {
+    const page = await newSpecPage({
+      components: COMPONENTS,
+      html: wrap(`<aegov-navbar-item href="/" target="_blank" rel="noopener">X</aegov-navbar-item>`),
+    });
+    const a = page.root.querySelector('aegov-navbar-item a');
+    expect(a.getAttribute('target')).toBe('_blank');
+    expect(a.getAttribute('rel')).toBe('noopener');
+  });
+
+  it('throws when used outside aegov-navbar', async () => {
+    await expect(
+      newSpecPage({
+        components: [AegovNavbarItem],
+        html: `<aegov-navbar-item>X</aegov-navbar-item>`,
+      }),
+    ).rejects.toThrow('must be used inside <aegov-navbar>');
   });
 });

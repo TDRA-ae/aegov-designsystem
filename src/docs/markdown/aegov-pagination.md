@@ -1,361 +1,212 @@
-# Pagination
+# aegov-pagination
 
-<p class="text-lg text-aeblack-500 mb-8">Pagination lets users navigate through large sets of content split across multiple pages, providing clear page indicators and directional controls.</p>
+Numbered pagination control for navigating multi-page lists, search results, or tables. Renders a semantic `<nav>` landmark with first / previous / page / next / last buttons, plus ellipsis collapsing for long ranges. The component is **controlled** — the consumer owns `pageCurrent` and updates it in response to each `aegovPaginationPageChange` event.
 
-## Introduction
+## Properties
 
-The `aegov-pagination` component renders a fully accessible page navigation bar with numbered page buttons, ellipsis indicators for large page ranges, and previous/next navigation. It supports a **compact** variant for tight layouts, **three sizes**, customisable sibling and boundary counts, optional first/last buttons, and full RTL support.
+### fieldId
 
-The component follows a **controlled** pattern — you must update the `page-current` property in response to the `aegovPaginationPageChange` event.
-
-```html
-<aegov-pagination pages="10" page-current="1"></aegov-pagination>
-```
-
-<div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-pagination pages="10" page-current="1"></aegov-pagination>
-</div>
-
----
-
-## Current Page
-
-The `page-current` property controls which page is highlighted as active. It is **1-indexed**. When a user clicks a page button, the component emits an `aegovPaginationPageChange` event with the new page number — you must update `page-current` in response.
+Auto-generated id (`aegov-pagination-{n}`) reflected to the host attribute.
 
 ```html
-<aegov-pagination pages="10" page-current="5"></aegov-pagination>
+<aegov-pagination field-id="results-pager" pages="20" page-current="1"></aegov-pagination>
 ```
 
-<div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-pagination pages="10" page-current="5"></aegov-pagination>
-</div>
+### pages
 
----
-
-## Total Pages
-
-The `pages` property sets the number of pages available. The component automatically calculates which page numbers and ellipsis tokens to display based on this value combined with `count-sibling` and `count-boundary`.
+Total page count (1-based). Required for the component to render.
 
 ```html
-<aegov-pagination pages="5" page-current="3"></aegov-pagination>
-<aegov-pagination pages="20" page-current="10"></aegov-pagination>
-<aegov-pagination pages="100" page-current="50"></aegov-pagination>
+<aegov-pagination pages="42" page-current="1"></aegov-pagination>
 ```
 
-<div class="p-6 bg-aeblack-50 rounded-lg my-6 space-y-4 not-aegov">
-  <aegov-pagination pages="5" page-current="3"></aegov-pagination>
-  <aegov-pagination pages="20" page-current="10"></aegov-pagination>
-  <aegov-pagination pages="100" page-current="50"></aegov-pagination>
-</div>
+### pageCurrent
 
----
-
-## Sibling Count
-
-The `count-sibling` property controls how many page numbers appear on each side of the current page. The default is `1`.
+Currently active page (1-indexed). Update this on every `aegovPaginationPageChange`.
 
 ```html
-<!-- 1 sibling (default) -->
-<aegov-pagination pages="20" page-current="10" count-sibling="1"></aegov-pagination>
-
-<!-- 2 siblings -->
-<aegov-pagination pages="20" page-current="10" count-sibling="2"></aegov-pagination>
-
-<!-- 3 siblings -->
-<aegov-pagination pages="20" page-current="10" count-sibling="3"></aegov-pagination>
+<aegov-pagination pages="20" page-current="7"></aegov-pagination>
 ```
 
-<div class="p-6 bg-aeblack-50 rounded-lg my-6 space-y-4 not-aegov">
-  <aegov-pagination pages="20" page-current="10" count-sibling="1"></aegov-pagination>
-  <aegov-pagination pages="20" page-current="10" count-sibling="2"></aegov-pagination>
-  <aegov-pagination pages="20" page-current="10" count-sibling="3"></aegov-pagination>
-</div>
+### isEnabledFirstLast
 
----
-
-## Boundary Count
-
-The `count-boundary` property controls how many pages are always visible at the start and end of the range. The default is `1`.
+Show First and Last navigation buttons in addition to Previous/Next.
 
 ```html
-<!-- 1 boundary page (default) -->
-<aegov-pagination pages="20" page-current="10" count-boundary="1"></aegov-pagination>
-
-<!-- 2 boundary pages -->
-<aegov-pagination pages="20" page-current="10" count-boundary="2"></aegov-pagination>
+<aegov-pagination pages="50" page-current="10" is-enabled-first-last="true"></aegov-pagination>
 ```
 
-<div class="p-6 bg-aeblack-50 rounded-lg my-6 space-y-4 not-aegov">
-  <aegov-pagination pages="20" page-current="10" count-boundary="1"></aegov-pagination>
-  <aegov-pagination pages="20" page-current="10" count-boundary="2"></aegov-pagination>
-</div>
+### countSibling
 
----
-
-## Sizes
-
-The `size` property controls the height, padding, and font size of all pagination buttons.
-
-| Size   | Height | Font Size |
-|--------|--------|-----------|
-| `sm`   | 32px   | 12px      |
-| `base` | 40px   | 14px      |
-| `lg`   | 48px   | 16px      |
+How many sibling pages to show on each side of the current page. Defaults to `1`.
 
 ```html
-<aegov-pagination pages="10" page-current="3" size="sm"></aegov-pagination>
-<aegov-pagination pages="10" page-current="3" size="base"></aegov-pagination>
-<aegov-pagination pages="10" page-current="3" size="lg"></aegov-pagination>
+<aegov-pagination pages="50" page-current="20" count-sibling="2"></aegov-pagination>
 ```
 
-<div class="p-6 bg-aeblack-50 rounded-lg my-6 space-y-4 not-aegov">
-  <aegov-pagination pages="10" page-current="3" size="sm"></aegov-pagination>
-  <aegov-pagination pages="10" page-current="3" size="base"></aegov-pagination>
-  <aegov-pagination pages="10" page-current="3" size="lg"></aegov-pagination>
-</div>
+### countBoundary
 
-### Responsive Size
-
-The `size` prop accepts Tailwind-style responsive prefixes. Write a space-separated string where each token is either a plain value or `breakpoint:value`. The base value (no prefix) applies below the smallest specified breakpoint.
-
-Available breakpoints: `xs` (480px), `sm` (640px), `md` (768px), `lg` (1024px), `xl` (1280px), `2xl` (1536px), `3xl` (1680px).
+How many pages to always show at each end of the list. Defaults to `1`.
 
 ```html
-<aegov-pagination pages="10" page-current="3" size="sm xl:lg"></aegov-pagination>
+<aegov-pagination pages="50" page-current="20" count-boundary="2"></aegov-pagination>
 ```
 
-<div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-pagination pages="10" page-current="3" size="sm xl:lg"></aegov-pagination>
-</div>
+### variant
 
-> **Graceful degradation:** Unknown breakpoint names and invalid values are silently ignored. An unrecognised base value falls back to the component default.
-
----
-
-## Compact Variant
-
-Set `variant="compact"` to hide the numbered page buttons and display only the previous/next controls with a page indicator ("3 / 10"). This is useful in tight layouts such as mobile views or table footers.
+`default` shows page numbers and prev/next. `compact` shows only prev/next plus a `current / total` indicator.
 
 ```html
-<aegov-pagination variant="compact" pages="10" page-current="3"></aegov-pagination>
+<aegov-pagination variant="compact" pages="20" page-current="3"></aegov-pagination>
 ```
 
-<div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-pagination variant="compact" pages="10" page-current="3"></aegov-pagination>
-</div>
+### isDisabled
 
-### Compact with First / Last Buttons
+Disables every button in the pagination. The page count is still announced.
 
 ```html
-<aegov-pagination variant="compact" pages="10" page-current="5" is-enabled-first-last></aegov-pagination>
+<aegov-pagination pages="10" page-current="3" is-disabled="true"></aegov-pagination>
 ```
 
-<div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-pagination variant="compact" pages="10" page-current="5" is-enabled-first-last></aegov-pagination>
-</div>
+### labelPrev / labelNext / labelFirst / labelLast
 
-### Compact Sizes
-
-```html
-<aegov-pagination variant="compact" pages="10" page-current="3" size="sm"></aegov-pagination>
-<aegov-pagination variant="compact" pages="10" page-current="3" size="base"></aegov-pagination>
-<aegov-pagination variant="compact" pages="10" page-current="3" size="lg"></aegov-pagination>
-```
-
-<div class="p-6 bg-aeblack-50 rounded-lg my-6 space-y-4 not-aegov">
-  <aegov-pagination variant="compact" pages="10" page-current="3" size="sm"></aegov-pagination>
-  <aegov-pagination variant="compact" pages="10" page-current="3" size="base"></aegov-pagination>
-  <aegov-pagination variant="compact" pages="10" page-current="3" size="lg"></aegov-pagination>
-</div>
-
----
-
-## First / Last Buttons
-
-Set the `is-enabled-first-last` attribute to add "First" and "Last" navigation buttons alongside the previous/next controls. These buttons jump directly to the first or last page.
-
-```html
-<aegov-pagination pages="20" page-current="10" is-enabled-first-last></aegov-pagination>
-```
-
-<div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-pagination pages="20" page-current="10" is-enabled-first-last></aegov-pagination>
-</div>
-
----
-
-## Custom Labels
-
-The navigation button labels can be customised using the `label-prev`, `label-next`, `label-first`, and `label-last` properties. This is especially useful for localisation.
+Override the visible button labels (defaults: `Previous`, `Next`, `First`, `Last`). Useful for localization.
 
 ```html
 <aegov-pagination
-  pages="10"
+  pages="20"
   page-current="5"
-  is-enabled-first-last
-  label-first="Start"
-  label-prev="Back"
-  label-next="Forward"
-  label-last="End"
+  is-enabled-first-last="true"
+  label-prev="السابق"
+  label-next="التالي"
+  label-first="الأول"
+  label-last="الأخير"
 ></aegov-pagination>
 ```
 
-<div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-pagination pages="10" page-current="5" is-enabled-first-last label-first="Start" label-prev="Back" label-next="Forward" label-last="End"></aegov-pagination>
-</div>
+## Sizes
 
----
-
-## Disabled State
-
-Set the `disabled` attribute to prevent all pagination interaction. All buttons become visually muted and unclickable.
+The `size` prop accepts `sm`, `base` (default), `lg` and supports responsive strings (e.g. `"sm md:base"`).
 
 ```html
-<aegov-pagination pages="10" page-current="3" is-disabled></aegov-pagination>
+<aegov-pagination size="sm" pages="10" page-current="1"></aegov-pagination>
+<aegov-pagination size="base" pages="10" page-current="1"></aegov-pagination>
+<aegov-pagination size="lg" pages="10" page-current="1"></aegov-pagination>
+
+<!-- Responsive -->
+<aegov-pagination size="sm md:base lg:lg" pages="20" page-current="1"></aegov-pagination>
 ```
 
-<div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-pagination pages="10" page-current="3" is-disabled></aegov-pagination>
-</div>
+## Examples
 
----
-
-## Events
-
-The `aegovPaginationPageChange` event is emitted whenever the user selects a page. The event `detail` contains the new page number (1-indexed). Because the component is **controlled**, you must update the `page-current` property yourself.
+### Default with controlled state (HTML)
 
 ```html
-<aegov-pagination id="demo-pagination" pages="10" page-current="1"></aegov-pagination>
-<p id="demo-output" class="mt-3 text-sm text-aeblack-600">Current page: 1</p>
-
+<aegov-pagination id="pager" pages="20" page-current="1"></aegov-pagination>
 <script>
-  const pag = document.getElementById('demo-pagination');
-  const out = document.getElementById('demo-output');
-  pag.addEventListener('aegovPaginationPageChange', (e) => {
-    pag.currentPage = e.detail;
-    out.textContent = 'Current page: ' + e.detail;
+  const pager = document.getElementById('pager');
+  pager.addEventListener('aegovPaginationPageChange', (e) => {
+    pager.pageCurrent = e.detail;
+    // load data for the new page…
   });
 </script>
 ```
 
-<div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-pagination id="demo-pagination" pages="10" page-current="1"></aegov-pagination>
-  <p id="demo-output" class="mt-3 text-sm text-aeblack-600">Current page: 1</p>
-  <script>
-    (function() {
-      var pag = document.getElementById('demo-pagination');
-      var out = document.getElementById('demo-output');
-      pag.addEventListener('aegovPaginationPageChange', function(e) {
-        pag.currentPage = e.detail;
-        out.textContent = 'Current page: ' + e.detail;
-      });
-    })();
-  </script>
-</div>
+### Compact variant for narrow layouts
 
----
+```html
+<aegov-pagination variant="compact" pages="50" page-current="3"></aegov-pagination>
+```
 
-## RTL Support
+### With First / Last buttons
 
-The component fully supports right-to-left layouts. When the document or a parent element has `dir="rtl"`, the directional icons (previous, next, first, last) automatically mirror horizontally.
+```html
+<aegov-pagination
+  pages="100"
+  page-current="50"
+  is-enabled-first-last="true"
+  count-sibling="2"
+></aegov-pagination>
+```
+
+## RTL Behavior
+
+The pagination uses Tailwind logical properties — directional icons (chevrons) flip automatically when the document or an ancestor has `dir="rtl"`. The button order is unchanged in DOM but renders right-to-left visually.
 
 ```html
 <div dir="rtl">
   <aegov-pagination
-    pages="10"
-    page-current="5"
-    is-enabled-first-last
+    pages="20"
+    page-current="3"
     label-prev="السابق"
     label-next="التالي"
-    label-first="الأول"
-    label-last="الأخير"
   ></aegov-pagination>
 </div>
 ```
-
-<div dir="rtl" class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-pagination pages="10" page-current="5" is-enabled-first-last label-prev="السابق" label-next="التالي" label-first="الأول" label-last="الأخير"></aegov-pagination>
-</div>
-
-No additional configuration is needed — the component reads the inherited `dir` attribute and adjusts automatically.
-
----
 
 ## API Reference
 
 ### Properties
 
-| Property         | Attribute          | Description                                                                 | Type                          | Default       |
-|------------------|--------------------|-----------------------------------------------------------------------------|-------------------------------|---------------|
-| `pages`     | `pages`      | Total number of pages                                                       | `number`                      | `1`           |
-| `pageCurrent`    | `page-current`     | Currently active page (1-indexed). Must be updated on every page change event | `number`                      | `1`           |
-| `variant`        | `variant`          | Display variant                                                             | `'default'` \| `'compact'`   | `'default'`   |
-| `size`           | `size`             | Size of the pagination buttons. Supports responsive strings (e.g. `'sm xl:lg'`). | `'sm'` \| `'base'` \| `'lg'` | `'base'`      |
-| `countSibling`   | `count-sibling`    | Number of sibling pages shown on each side of the current page              | `number`                      | `1`           |
-| `countBoundary`  | `count-boundary`   | Number of pages always visible at each boundary                             | `number`                      | `1`           |
-| `isEnabledFirstLast`  | `is-enabled-first-last`  | Show First and Last navigation buttons                                      | `boolean`                     | `false`        |
-| `disabled`       | `disabled`         | Disables all pagination interaction                                         | `boolean`                     | `false`        |
-| `labelPrev`      | `label-prev`       | Label for the Previous button                                               | `string`                      | `'Previous'`  |
-| `labelNext`      | `label-next`       | Label for the Next button                                                   | `string`                      | `'Next'`      |
-| `labelFirst`     | `label-first`      | Label for the First button (visible when `isEnabledFirstLast` is true)           | `string`                      | `'First'`     |
-| `labelLast`      | `label-last`       | Label for the Last button (visible when `isEnabledFirstLast` is true)            | `string`                      | `'Last'`      |
+| Property | Attribute | Description | Type | Default |
+|---|---|---|---|---|
+| `fieldId` | `field-id` | Nav id (auto-generated). | `string` | `aegov-pagination-{n}` |
+| `pages` | `pages` | Total page count. | `number` | `1` |
+| `pageCurrent` | `page-current` | Currently active page (1-indexed). | `number` | `1` |
+| `isEnabledFirstLast` | `is-enabled-first-last` | Show First/Last buttons. | `boolean` | `false` |
+| `countSibling` | `count-sibling` | Sibling pages on each side of current. | `number` | `1` |
+| `countBoundary` | `count-boundary` | Pages always visible at each end. | `number` | `1` |
+| `variant` | `variant` | Display variant. | `'default' \| 'compact'` | `'default'` |
+| `size` | `size` | Size token (responsive). | `'sm' \| 'base' \| 'lg'` | `'base'` |
+| `isDisabled` | `is-disabled` | Disables all interaction. | `boolean` | `false` |
+| `labelPrev` | `label-prev` | Previous button label. | `string` | `'Previous'` |
+| `labelNext` | `label-next` | Next button label. | `string` | `'Next'` |
+| `labelFirst` | `label-first` | First button label. | `string` | `'First'` |
+| `labelLast` | `label-last` | Last button label. | `string` | `'Last'` |
+
+### Pass-through Attributes
+
+All `aria-*` and `data-*` attributes set on the host are forwarded to the inner `<nav>`.
 
 ### Events
 
-| Event                        | Description                                    | Detail Type |
-|------------------------------|------------------------------------------------|-------------|
-| `aegovPaginationPageChange`  | Emitted when a page is selected                | `number`    |
+| Event | Description | Detail |
+|---|---|---|
+| `aegovPaginationPageChange` | Fired when the user selects a different page. | `number` (the new 1-indexed page) |
 
-The event detail is the new page number (1-indexed). Update `page-current` in response to this event. The event is **not** emitted when the component is `disabled`, when the clicked page equals the current page, or when the page number is out of range.
-
-#### Listening to Events
+### Event listening example
 
 ```html
-<aegov-pagination id="my-pag" pages="20" page-current="1"></aegov-pagination>
-
+<aegov-pagination id="pager" pages="20" page-current="1"></aegov-pagination>
 <script>
-  const pag = document.getElementById('my-pag');
-  pag.addEventListener('aegovPaginationPageChange', (e) => {
-    pag.currentPage = e.detail;
-    console.log('Page changed to', e.detail);
+  document.getElementById('pager').addEventListener('aegovPaginationPageChange', (e) => {
+    console.log('User selected page', e.detail);
   });
 </script>
 ```
 
----
+### Slots
+
+This component does not expose slots.
 
 ## Accessibility
 
-The `aegov-pagination` component is built with accessibility as a first-class concern. The following features are included out of the box.
+### Built-in
 
-### Built-in Features
+- Wrapping element is a `<nav>` with `aria-label="Pagination"`.
+- The active page button has `aria-current="page"` and a descriptive `aria-label` (e.g. `"Page 3, current page"`).
+- Previous/Next/First/Last buttons each have explicit `aria-label`s.
+- The compact variant exposes the page indicator inside a polite `aria-live` region so AT users hear the change.
+- Disabled buttons set both `disabled` and `aria-disabled="true"`.
 
-- **Semantic `<nav>` element** — the pagination is wrapped in a `<nav>` element with `aria-label="Pagination"`, allowing screen readers to identify it as a navigation landmark.
-- **Ordered list structure** — page items are rendered inside a `<ul>` / `<li>` structure for proper list semantics.
-- **`aria-current="page"`** — automatically set on the active page button so screen readers announce it as the current page.
-- **`aria-label` on buttons** — each button has a descriptive label: "Go to page 3", "Go to previous page", "Go to first page", or "Page 5, current page" for the active button.
-- **`aria-disabled`** — automatically set to `"true"` on previous/next/first/last buttons when they are at the boundary, and on all buttons when the component is `disabled`.
-- **`aria-hidden` icons** — all SVG directional icons are marked `aria-hidden="true"` so they are not announced by screen readers.
-- **Compact indicator** — in the compact variant, the page indicator uses `aria-live="polite"` and `aria-atomic="true"` so screen readers announce page changes.
-- **Focus indicators** — clearly visible focus rings are applied via `focus-visible` styles.
+### Developer responsibilities
 
-### Developer Responsibilities
+- Translate the `labelPrev`, `labelNext`, `labelFirst`, `labelLast` strings when rendering in non-English contexts.
+- After a page change, move focus to (or scroll to) the updated content region for keyboard users.
+- For very long lists, prefer the `compact` variant on small viewports rather than letting numbers wrap.
 
-1. **Update `page-current` on events.** The component is controlled — if you do not update the `page-current` property when `aegovPaginationPageChange` fires, the UI will not reflect the user's selection.
+### Notes
 
-2. **Provide context for the pagination.** If the page contains multiple pagination components (e.g. top and bottom of a list), consider adding a more specific `aria-label` to distinguish them.
-
-3. **Colour contrast.** All built-in colour combinations meet WCAG 2.1 AA contrast ratios. If you override styles, verify that the new colours maintain at least a **4.5:1** contrast ratio.
-
----
-
-## Notes
-
-- The `aegov-pagination` component follows a **controlled pattern**. It does not internally track the current page — you must set `page-current` in response to the `aegovPaginationPageChange` event.
-- When `pages` is `0` or negative, the component renders nothing.
-- When `pages` is `1`, only a single page button is shown with navigation buttons disabled.
-- The ellipsis indicators (`...`) are non-interactive and are hidden from screen readers with `aria-hidden="true"`.
-- The algorithm for computing the page range ensures that boundary pages are always visible and that ellipsis tokens only appear when they would replace at least two page numbers.
-- Navigation buttons (previous, next, first, last) are automatically disabled when the user is at the corresponding boundary — for example, the "Previous" button is disabled on page 1.
-- Directional icons (chevrons) automatically flip horizontally in RTL layouts using CSS `transform: scaleX(-1)`.
-- The `disabled` property disables **all** buttons in the component, including page number buttons and navigation buttons.
+- The component is fully controlled. If you do not update `pageCurrent` on the change event, the active page does not move.
+- Setting `pages="0"` renders nothing.
+- Setting `pages="1"` renders only the prev/next shells (both disabled).

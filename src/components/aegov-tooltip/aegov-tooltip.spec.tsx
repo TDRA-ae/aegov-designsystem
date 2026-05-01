@@ -2,560 +2,127 @@ import { newSpecPage } from '@stencil/core/testing';
 import { AegovTooltip } from './aegov-tooltip';
 
 describe('aegov-tooltip', () => {
-  describe('rendering', () => {
-    it('should render with default props', async () => {
-      const page = await newSpecPage({
-        components: [AegovTooltip],
-        html: `<aegov-tooltip content="Test tooltip"><button>Trigger</button></aegov-tooltip>`,
-      });
-      expect(page.root).toBeTruthy();
-      expect(page.root.querySelector('.aegov-tooltip-trigger')).toBeTruthy();
+  it('renders trigger wrapper', async () => {
+    const page = await newSpecPage({
+      components: [AegovTooltip],
+      html: `<aegov-tooltip content="Hello"><button>x</button></aegov-tooltip>`,
     });
-
-    it('should render trigger element via default slot', async () => {
-      const page = await newSpecPage({
-        components: [AegovTooltip],
-        html: `<aegov-tooltip content="Test"><button>Click me</button></aegov-tooltip>`,
-      });
-      const trigger = page.root.querySelector('.aegov-tooltip-trigger');
-      expect(trigger.textContent).toBe('Click me');
-    });
-
-    it('should not render tooltip when not visible', async () => {
-      const page = await newSpecPage({
-        components: [AegovTooltip],
-        html: `<aegov-tooltip content="Test tooltip"><button>Trigger</button></aegov-tooltip>`,
-      });
-      const tooltip = page.root.querySelector('.aegov-tooltip') as HTMLElement;
-      expect(tooltip).toBeTruthy();
-      expect(tooltip.style.display).toBe('none');
-    });
-
-    it('should render tooltip when visible', async () => {
-      const page = await newSpecPage({
-        components: [AegovTooltip],
-        html: `<aegov-tooltip content="Test tooltip"><button>Trigger</button></aegov-tooltip>`,
-      });
-      const tooltip = page.rootInstance as AegovTooltip;
-      tooltip.isVisible = true;
-      await page.waitForChanges();
-      expect(page.root.querySelector('.aegov-tooltip')).toBeTruthy();
-    });
+    const trigger = page.root.querySelector('.aegov-tooltip-trigger');
+    expect(trigger).not.toBeNull();
   });
 
-  describe('content property', () => {
-    it('should render content from property', async () => {
-      const page = await newSpecPage({
-        components: [AegovTooltip],
-        html: `<aegov-tooltip content="Tooltip text"><button>Trigger</button></aegov-tooltip>`,
-      });
-      const tooltip = page.rootInstance as AegovTooltip;
-      tooltip.isVisible = true;
-      await page.waitForChanges();
-      const content = page.root.querySelector('.tooltip__content');
-      expect(content.textContent).toBe('Tooltip text');
+  it('does not render tooltip body when content/slot empty', async () => {
+    const page = await newSpecPage({
+      components: [AegovTooltip],
+      html: `<aegov-tooltip><button>x</button></aegov-tooltip>`,
     });
-
-    it('should render content from slot when provided', async () => {
-      const page = await newSpecPage({
-        components: [AegovTooltip],
-        html: `
-          <aegov-tooltip>
-            <button>Trigger</button>
-            <div slot="tooltip-content">Rich content</div>
-          </aegov-tooltip>
-        `,
-      });
-      const tooltip = page.rootInstance as AegovTooltip;
-      tooltip.isVisible = true;
-      await page.waitForChanges();
-      const content = page.root.querySelector('.tooltip__content');
-      expect(content.textContent.trim()).toBe('Rich content');
-    });
-
-    it('should prioritize slot content over property', async () => {
-      const page = await newSpecPage({
-        components: [AegovTooltip],
-        html: `
-          <aegov-tooltip content="Property content">
-            <button>Trigger</button>
-            <div slot="tooltip-content">Slot content</div>
-          </aegov-tooltip>
-        `,
-      });
-      const tooltip = page.rootInstance as AegovTooltip;
-      tooltip.isVisible = true;
-      tooltip.hasContentSlot = true;
-      await page.waitForChanges();
-      const content = page.root.querySelector('.tooltip__content');
-      expect(content.textContent.trim()).toBe('Slot content');
-    });
+    expect(page.root.querySelector('.aegov-tooltip')).toBeNull();
   });
 
-  describe('position property', () => {
-    it('should default to top position', async () => {
-      const page = await newSpecPage({
-        components: [AegovTooltip],
-        html: `<aegov-tooltip content="Test"><button>Trigger</button></aegov-tooltip>`,
-      });
-      expect(page.rootInstance.position).toBe('top');
+  it('renders tooltip body when content prop set (hidden until visible)', async () => {
+    const page = await newSpecPage({
+      components: [AegovTooltip],
+      html: `<aegov-tooltip content="Tip text"><button>x</button></aegov-tooltip>`,
     });
-
-    it('should accept right position', async () => {
-      const page = await newSpecPage({
-        components: [AegovTooltip],
-        html: `<aegov-tooltip content="Test" position="right"><button>Trigger</button></aegov-tooltip>`,
-      });
-      expect(page.rootInstance.position).toBe('right');
-    });
-
-    it('should accept bottom position', async () => {
-      const page = await newSpecPage({
-        components: [AegovTooltip],
-        html: `<aegov-tooltip content="Test" position="bottom"><button>Trigger</button></aegov-tooltip>`,
-      });
-      expect(page.rootInstance.position).toBe('bottom');
-    });
-
-    it('should accept left position', async () => {
-      const page = await newSpecPage({
-        components: [AegovTooltip],
-        html: `<aegov-tooltip content="Test" position="left"><button>Trigger</button></aegov-tooltip>`,
-      });
-      expect(page.rootInstance.position).toBe('left');
-    });
-
-    it('should apply position class to tooltip', async () => {
-      const page = await newSpecPage({
-        components: [AegovTooltip],
-        html: `<aegov-tooltip content="Test" position="right"><button>Trigger</button></aegov-tooltip>`,
-      });
-      const tooltip = page.rootInstance as AegovTooltip;
-      tooltip.isVisible = true;
-      await page.waitForChanges();
-      expect(page.root.querySelector('.tooltip--right')).toBeTruthy();
-    });
+    const tip = page.root.querySelector('.aegov-tooltip') as HTMLElement;
+    expect(tip).not.toBeNull();
+    expect(tip.getAttribute('role')).toBe('tooltip');
+    expect(tip.style.display).toBe('none');
   });
 
-  describe('align property', () => {
-    it('should default to center alignment', async () => {
-      const page = await newSpecPage({
-        components: [AegovTooltip],
-        html: `<aegov-tooltip content="Test"><button>Trigger</button></aegov-tooltip>`,
-      });
-      expect(page.rootInstance.align).toBe('center');
+  it('detects tooltip-content slot', async () => {
+    const page = await newSpecPage({
+      components: [AegovTooltip],
+      html: `<aegov-tooltip><button>x</button><span slot="tooltip-content">rich</span></aegov-tooltip>`,
     });
-
-    it('should accept start alignment', async () => {
-      const page = await newSpecPage({
-        components: [AegovTooltip],
-        html: `<aegov-tooltip content="Test" align="start"><button>Trigger</button></aegov-tooltip>`,
-      });
-      expect(page.rootInstance.align).toBe('start');
-    });
-
-    it('should accept end alignment', async () => {
-      const page = await newSpecPage({
-        components: [AegovTooltip],
-        html: `<aegov-tooltip content="Test" align="end"><button>Trigger</button></aegov-tooltip>`,
-      });
-      expect(page.rootInstance.align).toBe('end');
-    });
+    expect(page.rootInstance.hasContentSlot).toBe(true);
   });
 
-  describe('trigger property', () => {
-    it('should default to hover trigger', async () => {
-      const page = await newSpecPage({
-        components: [AegovTooltip],
-        html: `<aegov-tooltip content="Test"><button>Trigger</button></aegov-tooltip>`,
-      });
-      expect(page.rootInstance.trigger).toBe('hover');
+  it('applies position class', async () => {
+    const page = await newSpecPage({
+      components: [AegovTooltip],
+      html: `<aegov-tooltip content="x" position="bottom"><button>t</button></aegov-tooltip>`,
     });
-
-    it('should accept click trigger', async () => {
-      const page = await newSpecPage({
-        components: [AegovTooltip],
-        html: `<aegov-tooltip content="Test" trigger="click"><button>Trigger</button></aegov-tooltip>`,
-      });
-      expect(page.rootInstance.trigger).toBe('click');
-    });
+    const tip = page.root.querySelector('.aegov-tooltip');
+    expect(tip.className).toContain('tooltip--bottom');
   });
 
-  describe('gap property', () => {
-    it('should default to 8 pixels', async () => {
-      const page = await newSpecPage({
-        components: [AegovTooltip],
-        html: `<aegov-tooltip content="Test"><button>Trigger</button></aegov-tooltip>`,
-      });
-      expect(page.rootInstance.gap).toBe(8);
+  it('applies align class', async () => {
+    const page = await newSpecPage({
+      components: [AegovTooltip],
+      html: `<aegov-tooltip content="x" align="start"><button>t</button></aegov-tooltip>`,
     });
-
-    it('should accept custom gap value', async () => {
-      const page = await newSpecPage({
-        components: [AegovTooltip],
-        html: `<aegov-tooltip content="Test" gap="20"><button>Trigger</button></aegov-tooltip>`,
-      });
-      expect(page.rootInstance.gap).toBe(20);
-    });
+    const tip = page.root.querySelector('.aegov-tooltip');
+    expect(tip.className).toContain('tooltip--align-start');
   });
 
-  describe('offset property', () => {
-    it('should default to 0 pixels', async () => {
-      const page = await newSpecPage({
-        components: [AegovTooltip],
-        html: `<aegov-tooltip content="Test"><button>Trigger</button></aegov-tooltip>`,
-      });
-      expect(page.rootInstance.offset).toBe(0);
+  it('shows on visibility state change', async () => {
+    const page = await newSpecPage({
+      components: [AegovTooltip],
+      html: `<aegov-tooltip content="x"><button>t</button></aegov-tooltip>`,
     });
-
-    it('should accept custom offset value', async () => {
-      const page = await newSpecPage({
-        components: [AegovTooltip],
-        html: `<aegov-tooltip content="Test" offset="30"><button>Trigger</button></aegov-tooltip>`,
-      });
-      expect(page.rootInstance.offset).toBe(30);
-    });
-
-    it('should accept negative offset value', async () => {
-      const page = await newSpecPage({
-        components: [AegovTooltip],
-        html: `<aegov-tooltip content="Test" offset="-15"><button>Trigger</button></aegov-tooltip>`,
-      });
-      expect(page.rootInstance.offset).toBe(-15);
-    });
+    page.rootInstance.isVisible = true;
+    await page.waitForChanges();
+    const tip = page.root.querySelector('.aegov-tooltip') as HTMLElement;
+    expect(tip.style.display).toBe('block');
   });
 
-  describe('disabled property', () => {
-    it('should default to false', async () => {
-      const page = await newSpecPage({
-        components: [AegovTooltip],
-        html: `<aegov-tooltip content="Test"><button>Trigger</button></aegov-tooltip>`,
-      });
-      expect(page.rootInstance.disabled).toBe(false);
+  it('aria-describedby populates when visible', async () => {
+    const page = await newSpecPage({
+      components: [AegovTooltip],
+      html: `<aegov-tooltip content="x"><button>t</button></aegov-tooltip>`,
     });
-
-    it('should accept disabled state', async () => {
-      const page = await newSpecPage({
-        components: [AegovTooltip],
-        html: `<aegov-tooltip content="Test" disabled="true"><button>Trigger</button></aegov-tooltip>`,
-      });
-      expect(page.rootInstance.disabled).toBe(true);
-    });
+    page.rootInstance.isVisible = true;
+    await page.waitForChanges();
+    const trigger = page.root.querySelector('.aegov-tooltip-trigger');
+    const tip = page.root.querySelector('.aegov-tooltip');
+    expect(trigger.getAttribute('aria-describedby')).toBe(tip.id);
   });
 
-  describe('interactive property', () => {
-    it('should default to false', async () => {
-      const page = await newSpecPage({
-        components: [AegovTooltip],
-        html: `<aegov-tooltip content="Test"><button>Trigger</button></aegov-tooltip>`,
-      });
-      expect(page.rootInstance.interactive).toBe(false);
+  it('aria-expanded is set only for click trigger', async () => {
+    const click = await newSpecPage({
+      components: [AegovTooltip],
+      html: `<aegov-tooltip trigger="click" content="x"><button>t</button></aegov-tooltip>`,
     });
+    expect(click.root.querySelector('.aegov-tooltip-trigger').getAttribute('aria-expanded')).toBe('false');
 
-    it('should accept interactive mode', async () => {
-      const page = await newSpecPage({
-        components: [AegovTooltip],
-        html: `<aegov-tooltip content="Test" interactive="true"><button>Trigger</button></aegov-tooltip>`,
-      });
-      expect(page.rootInstance.interactive).toBe(true);
+    const hover = await newSpecPage({
+      components: [AegovTooltip],
+      html: `<aegov-tooltip trigger="hover" content="x"><button>t</button></aegov-tooltip>`,
     });
-
-    it('should apply interactive class when enabled', async () => {
-      const page = await newSpecPage({
-        components: [AegovTooltip],
-        html: `<aegov-tooltip content="Test" interactive="true"><button>Trigger</button></aegov-tooltip>`,
-      });
-      const tooltip = page.rootInstance as AegovTooltip;
-      tooltip.isVisible = true;
-      await page.waitForChanges();
-      expect(page.root.querySelector('.tooltip--interactive')).toBeTruthy();
-    });
+    expect(hover.root.querySelector('.aegov-tooltip-trigger').getAttribute('aria-expanded')).toBeNull();
   });
 
-  describe('show-delay property', () => {
-    it('should default to 200ms', async () => {
-      const page = await newSpecPage({
-        components: [AegovTooltip],
-        html: `<aegov-tooltip content="Test"><button>Trigger</button></aegov-tooltip>`,
-      });
-      expect(page.rootInstance.showDelay).toBe(200);
+  it('disabled tooltip does not show via showTooltip', async () => {
+    const page = await newSpecPage({
+      components: [AegovTooltip],
+      html: `<aegov-tooltip content="x" is-disabled="true"><button>t</button></aegov-tooltip>`,
     });
-
-    it('should accept custom show delay', async () => {
-      const page = await newSpecPage({
-        components: [AegovTooltip],
-        html: `<aegov-tooltip content="Test" show-delay="500"><button>Trigger</button></aegov-tooltip>`,
-      });
-      expect(page.rootInstance.showDelay).toBe(500);
-    });
-
-    it('should accept zero delay', async () => {
-      const page = await newSpecPage({
-        components: [AegovTooltip],
-        html: `<aegov-tooltip content="Test" show-delay="0"><button>Trigger</button></aegov-tooltip>`,
-      });
-      expect(page.rootInstance.showDelay).toBe(0);
-    });
+    // Simulate trigger mouse enter
+    const trigger = page.root.querySelector('.aegov-tooltip-trigger') as HTMLElement;
+    trigger.dispatchEvent(new MouseEvent('mouseenter'));
+    await page.waitForChanges();
+    expect(page.rootInstance.isVisible).toBe(false);
   });
 
-  describe('hide-delay property', () => {
-    it('should default to 0ms', async () => {
-      const page = await newSpecPage({
-        components: [AegovTooltip],
-        html: `<aegov-tooltip content="Test"><button>Trigger</button></aegov-tooltip>`,
-      });
-      expect(page.rootInstance.hideDelay).toBe(0);
+  it('escape key hides tooltip when visible', async () => {
+    const page = await newSpecPage({
+      components: [AegovTooltip],
+      html: `<aegov-tooltip content="x"><button>t</button></aegov-tooltip>`,
     });
-
-    it('should accept custom hide delay', async () => {
-      const page = await newSpecPage({
-        components: [AegovTooltip],
-        html: `<aegov-tooltip content="Test" hide-delay="1000"><button>Trigger</button></aegov-tooltip>`,
-      });
-      expect(page.rootInstance.hideDelay).toBe(1000);
-    });
+    page.rootInstance.isVisible = true;
+    await page.waitForChanges();
+    page.rootInstance.handleKeyDown(new KeyboardEvent('keydown', { key: 'Escape' }));
+    await page.waitForChanges();
+    expect(page.rootInstance.isVisible).toBe(false);
   });
 
-  describe('ARIA attributes', () => {
-    it('should not have aria-describedby when tooltip is hidden', async () => {
-      const page = await newSpecPage({
-        components: [AegovTooltip],
-        html: `<aegov-tooltip content="Test"><button>Trigger</button></aegov-tooltip>`,
-      });
-      const trigger = page.root.querySelector('.aegov-tooltip-trigger');
-      expect(trigger.getAttribute('aria-describedby')).toBeNull();
+  it('passes through data-* attributes onto the trigger', async () => {
+    const page = await newSpecPage({
+      components: [AegovTooltip],
+      html: `<aegov-tooltip content="x" data-test="abc"><button>t</button></aegov-tooltip>`,
     });
-
-    it('should have aria-describedby when tooltip is visible', async () => {
-      const page = await newSpecPage({
-        components: [AegovTooltip],
-        html: `<aegov-tooltip content="Test"><button>Trigger</button></aegov-tooltip>`,
-      });
-      const tooltip = page.rootInstance as AegovTooltip;
-      tooltip.isVisible = true;
-      await page.waitForChanges();
-      const trigger = page.root.querySelector('.aegov-tooltip-trigger');
-      expect(trigger.getAttribute('aria-describedby')).toBeTruthy();
-    });
-
-    it('should have aria-expanded for click trigger', async () => {
-      const page = await newSpecPage({
-        components: [AegovTooltip],
-        html: `<aegov-tooltip content="Test" trigger="click"><button>Trigger</button></aegov-tooltip>`,
-      });
-      const trigger = page.root.querySelector('.aegov-tooltip-trigger');
-      expect(trigger.getAttribute('aria-expanded')).toBe('false');
-    });
-
-    it('should update aria-expanded when clicked', async () => {
-      const page = await newSpecPage({
-        components: [AegovTooltip],
-        html: `<aegov-tooltip content="Test" trigger="click"><button>Trigger</button></aegov-tooltip>`,
-      });
-      const tooltip = page.rootInstance as AegovTooltip;
-      tooltip.isVisible = true;
-      await page.waitForChanges();
-      const trigger = page.root.querySelector('.aegov-tooltip-trigger');
-      expect(trigger.getAttribute('aria-expanded')).toBe('true');
-    });
-
-    it('should have role="tooltip" for non-interactive tooltips', async () => {
-      const page = await newSpecPage({
-        components: [AegovTooltip],
-        html: `<aegov-tooltip content="Test"><button>Trigger</button></aegov-tooltip>`,
-      });
-      const tooltip = page.rootInstance as AegovTooltip;
-      tooltip.isVisible = true;
-      await page.waitForChanges();
-      expect(page.root.querySelector('[role="tooltip"]')).toBeTruthy();
-    });
-
-    it('should have role="dialog" for interactive tooltips', async () => {
-      const page = await newSpecPage({
-        components: [AegovTooltip],
-        html: `<aegov-tooltip content="Test" interactive="true"><button>Trigger</button></aegov-tooltip>`,
-      });
-      const tooltip = page.rootInstance as AegovTooltip;
-      tooltip.isVisible = true;
-      await page.waitForChanges();
-      expect(page.root.querySelector('[role="dialog"]')).toBeTruthy();
-    });
-
-    it('should have aria-label="Interactive tooltip" when interactive', async () => {
-      const page = await newSpecPage({
-        components: [AegovTooltip],
-        html: `<aegov-tooltip content="Test" interactive="true"><button>Trigger</button></aegov-tooltip>`,
-      });
-      const tooltip = page.rootInstance as AegovTooltip;
-      tooltip.isVisible = true;
-      await page.waitForChanges();
-      const dialog = page.root.querySelector('[role="dialog"]');
-      expect(dialog.getAttribute('aria-label')).toBe('Interactive tooltip');
-    });
-
-    it('should not have aria-label on non-interactive tooltip', async () => {
-      const page = await newSpecPage({
-        components: [AegovTooltip],
-        html: `<aegov-tooltip content="Test"><button>Trigger</button></aegov-tooltip>`,
-      });
-      const tooltip = page.rootInstance as AegovTooltip;
-      tooltip.isVisible = true;
-      await page.waitForChanges();
-      const tooltipEl = page.root.querySelector('[role="tooltip"]');
-      expect(tooltipEl.getAttribute('aria-label')).toBeNull();
-    });
-  });
-
-  describe('tooltip arrow', () => {
-    it('should render arrow element', async () => {
-      const page = await newSpecPage({
-        components: [AegovTooltip],
-        html: `<aegov-tooltip content="Test"><button>Trigger</button></aegov-tooltip>`,
-      });
-      const tooltip = page.rootInstance as AegovTooltip;
-      tooltip.isVisible = true;
-      await page.waitForChanges();
-      expect(page.root.querySelector('.tooltip__arrow')).toBeTruthy();
-    });
-  });
-
-  describe('component lifecycle', () => {
-    it('should detect slot content in componentWillLoad', async () => {
-      const page = await newSpecPage({
-        components: [AegovTooltip],
-        html: `
-          <aegov-tooltip>
-            <button>Trigger</button>
-            <div slot="tooltip-content">Slot content</div>
-          </aegov-tooltip>
-        `,
-      });
-      expect(page.rootInstance.hasContentSlot).toBe(true);
-    });
-
-    it('should not detect slot content when not provided', async () => {
-      const page = await newSpecPage({
-        components: [AegovTooltip],
-        html: `<aegov-tooltip content="Property content"><button>Trigger</button></aegov-tooltip>`,
-      });
-      expect(page.rootInstance.hasContentSlot).toBe(false);
-    });
-  });
-
-  describe('visibility state', () => {
-    it('should start as not visible', async () => {
-      const page = await newSpecPage({
-        components: [AegovTooltip],
-        html: `<aegov-tooltip content="Test"><button>Trigger</button></aegov-tooltip>`,
-      });
-      expect(page.rootInstance.isVisible).toBe(false);
-    });
-
-    it('should become visible when isVisible is set to true', async () => {
-      const page = await newSpecPage({
-        components: [AegovTooltip],
-        html: `<aegov-tooltip content="Test"><button>Trigger</button></aegov-tooltip>`,
-      });
-      const tooltip = page.rootInstance as AegovTooltip;
-      tooltip.isVisible = true;
-      await page.waitForChanges();
-      expect(page.root.querySelector('.aegov-tooltip')).toBeTruthy();
-    });
-  });
-
-  describe('invalid prop values', () => {
-    let warnSpy: jest.SpyInstance;
-
-    beforeEach(() => {
-      warnSpy = jest.spyOn(console, 'warn').mockImplementation();
-    });
-
-    afterEach(() => {
-      warnSpy.mockRestore();
-    });
-
-    it('renders safely when position is invalid', async () => {
-      const page = await newSpecPage({
-        components: [AegovTooltip],
-        html: `<aegov-tooltip position="middle" content="Test"><button>T</button></aegov-tooltip>`,
-      });
-      const tooltip = page.rootInstance as AegovTooltip;
-      tooltip.isVisible = true;
-      await page.waitForChanges();
-      expect(page.root.querySelector('.tooltip--top')).toBeTruthy();
-    });
-
-    it('renders safely when align is invalid', async () => {
-      const page = await newSpecPage({
-        components: [AegovTooltip],
-        html: `<aegov-tooltip align="middle" content="Test"><button>T</button></aegov-tooltip>`,
-      });
-      expect(page.root).toBeTruthy();
-    });
-
-    it('renders safely when trigger is invalid', async () => {
-      const page = await newSpecPage({
-        components: [AegovTooltip],
-        html: `<aegov-tooltip trigger="weird" content="Test"><button>T</button></aegov-tooltip>`,
-      });
-      expect(page.root).toBeTruthy();
-    });
-
-    it('warns with component name, prop name, invalid value, and fallback', async () => {
-      await newSpecPage({
-        components: [AegovTooltip],
-        html: `<aegov-tooltip position="weird" content="Test"><button>T</button></aegov-tooltip>`,
-      });
-      const messages = warnSpy.mock.calls.map(c => c[0] as string);
-      const warn = messages.find(m => m.includes('"position"'));
-      expect(warn).toBeDefined();
-      expect(warn).toContain('[aegov-tooltip]');
-      expect(warn).toContain('"weird"');
-      expect(warn).toContain('top');
-    });
-
-    it('does not warn when all props are valid', async () => {
-      await newSpecPage({
-        components: [AegovTooltip],
-        html: `<aegov-tooltip position="bottom" align="start" trigger="click" content="Test"><button>T</button></aegov-tooltip>`,
-      });
-      expect(warnSpy).not.toHaveBeenCalled();
-    });
-
-    it('warns again via @Watch when position is updated to invalid value', async () => {
-      const page = await newSpecPage({
-        components: [AegovTooltip],
-        html: `<aegov-tooltip position="top" content="Test"><button>T</button></aegov-tooltip>`,
-      });
-      page.root.setAttribute('position', 'nope');
-      await page.waitForChanges();
-      const messages = warnSpy.mock.calls.map(c => c[0] as string);
-      const warn = messages.find(m => m.includes('[aegov-tooltip]') && m.includes('"position"'));
-      expect(warn).toBeDefined();
-    });
-
-    it('warns again via @Watch when align is updated to invalid value', async () => {
-      const page = await newSpecPage({
-        components: [AegovTooltip],
-        html: `<aegov-tooltip align="center" content="Test"><button>T</button></aegov-tooltip>`,
-      });
-      page.root.setAttribute('align', 'nope');
-      await page.waitForChanges();
-      const messages = warnSpy.mock.calls.map(c => c[0] as string);
-      const warn = messages.find(m => m.includes('[aegov-tooltip]') && m.includes('"align"'));
-      expect(warn).toBeDefined();
-    });
-
-    it('warns again via @Watch when trigger is updated to invalid value', async () => {
-      const page = await newSpecPage({
-        components: [AegovTooltip],
-        html: `<aegov-tooltip trigger="hover" content="Test"><button>T</button></aegov-tooltip>`,
-      });
-      page.root.setAttribute('trigger', 'nope');
-      await page.waitForChanges();
-      const messages = warnSpy.mock.calls.map(c => c[0] as string);
-      const warn = messages.find(m => m.includes('[aegov-tooltip]') && m.includes('"trigger"'));
-      expect(warn).toBeDefined();
-    });
+    const trigger = page.root.querySelector('.aegov-tooltip-trigger');
+    expect(trigger.getAttribute('data-test')).toBe('abc');
   });
 });

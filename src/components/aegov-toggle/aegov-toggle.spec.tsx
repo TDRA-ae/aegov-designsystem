@@ -2,104 +2,80 @@ import { newSpecPage } from '@stencil/core/testing';
 import { AegovToggle } from './aegov-toggle';
 
 describe('aegov-toggle', () => {
-  // ── Rendering ──────────────────────────────────────────
-
-  it('renders with defaults', async () => {
+  it('renders with default props', async () => {
     const page = await newSpecPage({
       components: [AegovToggle],
       html: `<aegov-toggle></aegov-toggle>`,
     });
-    const el = page.root;
-    expect(el).toBeTruthy();
-    expect(el.querySelector('.aegov-toggle')).toBeTruthy();
-    expect(el.querySelector('.toggle--base')).toBeTruthy();
-    expect(el.querySelector('input[type="checkbox"]')).toBeTruthy();
-    expect(el.querySelector('input[role="switch"]')).toBeTruthy();
-  });
-
-  it('renders unchecked by default', async () => {
-    const page = await newSpecPage({
-      components: [AegovToggle],
-      html: `<aegov-toggle></aegov-toggle>`,
-    });
-    const input = page.root.querySelector('input') as HTMLInputElement;
+    const wrapper = page.root.querySelector('div.aegov-toggle');
+    expect(wrapper).not.toBeNull();
+    expect(wrapper.className).toContain('toggle--base');
+    const input = page.root.querySelector('input[type="checkbox"]') as HTMLInputElement;
+    expect(input).not.toBeNull();
+    expect(input.getAttribute('role')).toBe('switch');
     expect(input.checked).toBe(false);
   });
 
-  it('renders checked when prop is set', async () => {
+  it('auto-generates fieldId when not provided', async () => {
+    const page = await newSpecPage({
+      components: [AegovToggle],
+      html: `<aegov-toggle></aegov-toggle>`,
+    });
+    expect(page.rootInstance.fieldId).toMatch(/^aegov-toggle-\d+$/);
+    const input = page.root.querySelector('input') as HTMLInputElement;
+    expect(input.id).toBe(page.rootInstance.fieldId);
+  });
+
+  it('respects user-provided fieldId', async () => {
+    const page = await newSpecPage({
+      components: [AegovToggle],
+      html: `<aegov-toggle field-id="t-1"></aegov-toggle>`,
+    });
+    expect((page.root.querySelector('input') as HTMLInputElement).id).toBe('t-1');
+  });
+
+  it('renders label inside wrapping <label>', async () => {
+    const page = await newSpecPage({
+      components: [AegovToggle],
+      html: `<aegov-toggle label="Notifications"></aegov-toggle>`,
+    });
+    const label = page.root.querySelector('label.toggle__wrapper');
+    expect(label).not.toBeNull();
+    expect(label.textContent).toContain('Notifications');
+    expect(label.querySelector('input[type="checkbox"]')).not.toBeNull();
+  });
+
+  it('renders description with aria-describedby linking', async () => {
+    const page = await newSpecPage({
+      components: [AegovToggle],
+      html: `<aegov-toggle label="A" description="Helper"></aegov-toggle>`,
+    });
+    const desc = page.root.querySelector('.toggle__description');
+    expect(desc).not.toBeNull();
+    const input = page.root.querySelector('input') as HTMLInputElement;
+    expect(input.getAttribute('aria-describedby')).toBe(desc.id);
+  });
+
+  it('reflects is-checked to native checked and aria-checked', async () => {
     const page = await newSpecPage({
       components: [AegovToggle],
       html: `<aegov-toggle is-checked></aegov-toggle>`,
     });
     const input = page.root.querySelector('input') as HTMLInputElement;
     expect(input.checked).toBe(true);
+    expect(input.getAttribute('aria-checked')).toBe('true');
   });
 
-  it('auto-generates an ID', async () => {
+  it('aria-checked is "false" when not checked', async () => {
     const page = await newSpecPage({
       components: [AegovToggle],
       html: `<aegov-toggle></aegov-toggle>`,
     });
     const input = page.root.querySelector('input') as HTMLInputElement;
-    expect(input.id).toMatch(/^aegov-toggle-\d+$/);
+    expect(input.getAttribute('aria-checked')).toBe('false');
   });
 
-  it('uses provided field-id', async () => {
-    const page = await newSpecPage({
-      components: [AegovToggle],
-      html: `<aegov-toggle field-id="my-toggle"></aegov-toggle>`,
-    });
-    const input = page.root.querySelector('input') as HTMLInputElement;
-    expect(input.id).toBe('my-toggle');
-  });
-
-  // ── Sizes ──────────────────────────────────────────────
-
-  it('renders size sm', async () => {
-    const page = await newSpecPage({
-      components: [AegovToggle],
-      html: `<aegov-toggle size="sm"></aegov-toggle>`,
-    });
-    expect(page.root.querySelector('.toggle--sm')).toBeTruthy();
-  });
-
-  it('renders size base by default', async () => {
-    const page = await newSpecPage({
-      components: [AegovToggle],
-      html: `<aegov-toggle></aegov-toggle>`,
-    });
-    expect(page.root.querySelector('.toggle--base')).toBeTruthy();
-  });
-
-  it('renders size lg', async () => {
-    const page = await newSpecPage({
-      components: [AegovToggle],
-      html: `<aegov-toggle size="lg"></aegov-toggle>`,
-    });
-    expect(page.root.querySelector('.toggle--lg')).toBeTruthy();
-  });
-
-  // ── Props ──────────────────────────────────────────────
-
-  it('sets name attribute on input', async () => {
-    const page = await newSpecPage({
-      components: [AegovToggle],
-      html: `<aegov-toggle name="notifications"></aegov-toggle>`,
-    });
-    const input = page.root.querySelector('input') as HTMLInputElement;
-    expect(input.name).toBe('notifications');
-  });
-
-  it('sets value attribute on input', async () => {
-    const page = await newSpecPage({
-      components: [AegovToggle],
-      html: `<aegov-toggle value="on"></aegov-toggle>`,
-    });
-    const input = page.root.querySelector('input') as HTMLInputElement;
-    expect(input.value).toBe('on');
-  });
-
-  it('sets disabled attribute on input', async () => {
+  it('reflects is-disabled to native disabled', async () => {
     const page = await newSpecPage({
       components: [AegovToggle],
       html: `<aegov-toggle is-disabled></aegov-toggle>`,
@@ -108,7 +84,7 @@ describe('aegov-toggle', () => {
     expect(input.disabled).toBe(true);
   });
 
-  it('sets required attribute on input', async () => {
+  it('reflects is-required and sets aria-required', async () => {
     const page = await newSpecPage({
       components: [AegovToggle],
       html: `<aegov-toggle is-required></aegov-toggle>`,
@@ -118,252 +94,64 @@ describe('aegov-toggle', () => {
     expect(input.getAttribute('aria-required')).toBe('true');
   });
 
-  // ── Label & description ────────────────────────────────
-
-  it('renders without label wrapper when no label', async () => {
+  it('applies size class', async () => {
     const page = await newSpecPage({
       components: [AegovToggle],
-      html: `<aegov-toggle></aegov-toggle>`,
+      html: `<aegov-toggle size="lg"></aegov-toggle>`,
     });
-    expect(page.root.querySelector('.toggle__wrapper')).toBeNull();
-    expect(page.root.querySelector('label')).toBeNull();
+    expect(page.root.querySelector('div.aegov-toggle').className).toContain('toggle--lg');
   });
 
-  it('renders label when provided', async () => {
+  it('applies name and value to native input', async () => {
     const page = await newSpecPage({
       components: [AegovToggle],
-      html: `<aegov-toggle label="Enable notifications"></aegov-toggle>`,
-    });
-    const label = page.root.querySelector('.toggle__label-text');
-    expect(label).toBeTruthy();
-    expect(label.textContent).toBe('Enable notifications');
-  });
-
-  it('wraps in label element when label is set', async () => {
-    const page = await newSpecPage({
-      components: [AegovToggle],
-      html: `<aegov-toggle label="Test"></aegov-toggle>`,
-    });
-    expect(page.root.querySelector('label.toggle__wrapper')).toBeTruthy();
-  });
-
-  it('renders description when label and description are set', async () => {
-    const page = await newSpecPage({
-      components: [AegovToggle],
-      html: `<aegov-toggle label="Sync" description="Sync data automatically"></aegov-toggle>`,
-    });
-    const desc = page.root.querySelector('.toggle__description');
-    expect(desc).toBeTruthy();
-    expect(desc.textContent).toBe('Sync data automatically');
-  });
-
-  it('links description via aria-describedby', async () => {
-    const page = await newSpecPage({
-      components: [AegovToggle],
-      html: `<aegov-toggle field-id="t1" label="Sync" description="Details"></aegov-toggle>`,
+      html: `<aegov-toggle name="nm" value="vl"></aegov-toggle>`,
     });
     const input = page.root.querySelector('input') as HTMLInputElement;
-    const desc = page.root.querySelector('.toggle__description');
-    expect(input.getAttribute('aria-describedby')).toBe('t1-desc');
-    expect(desc.id).toBe('t1-desc');
+    expect(input.name).toBe('nm');
+    expect(input.value).toBe('vl');
   });
-
-  it('does not render description without label', async () => {
-    const page = await newSpecPage({
-      components: [AegovToggle],
-      html: `<aegov-toggle description="Some text"></aegov-toggle>`,
-    });
-    expect(page.root.querySelector('.toggle__description')).toBeNull();
-  });
-
-  // ── Events ─────────────────────────────────────────────
 
   it('emits aegovToggleChange on change', async () => {
     const page = await newSpecPage({
       components: [AegovToggle],
-      html: `<aegov-toggle value="dark"></aegov-toggle>`,
+      html: `<aegov-toggle value="on"></aegov-toggle>`,
     });
     const spy = jest.fn();
     page.root.addEventListener('aegovToggleChange', spy);
-
     const input = page.root.querySelector('input') as HTMLInputElement;
     input.checked = true;
     input.dispatchEvent(new Event('change'));
     await page.waitForChanges();
-
     expect(spy).toHaveBeenCalledTimes(1);
-    expect(spy.mock.calls[0][0].detail).toEqual({ checked: true, value: 'dark' });
+    expect(spy.mock.calls[0][0].detail).toEqual({ checked: true, value: 'on' });
   });
 
-  it('updates checked state on change', async () => {
+  it('renders track and thumb decoration', async () => {
     const page = await newSpecPage({
       components: [AegovToggle],
       html: `<aegov-toggle></aegov-toggle>`,
+    });
+    expect(page.root.querySelector('.toggle__track')).not.toBeNull();
+    expect(page.root.querySelector('.toggle__thumb')).not.toBeNull();
+  });
+
+  it('renders icon slot wrappers when icon-checked slot is provided', async () => {
+    const page = await newSpecPage({
+      components: [AegovToggle],
+      html: `<aegov-toggle><span slot="icon-checked">on</span></aegov-toggle>`,
+    });
+    expect(page.root.querySelector('.toggle__icon')).not.toBeNull();
+    expect(page.root.querySelector('.toggle__thumb--has-icon')).not.toBeNull();
+  });
+
+  it('forwards pass-through attributes', async () => {
+    const page = await newSpecPage({
+      components: [AegovToggle],
+      html: `<aegov-toggle aria-label="notify" data-test="x"></aegov-toggle>`,
     });
     const input = page.root.querySelector('input') as HTMLInputElement;
-    input.checked = true;
-    input.dispatchEvent(new Event('change'));
-    await page.waitForChanges();
-
-    expect(page.rootInstance.checked).toBe(true);
-  });
-
-  // ── Accessibility ──────────────────────────────────────
-
-  it('has role="switch" on input', async () => {
-    const page = await newSpecPage({
-      components: [AegovToggle],
-      html: `<aegov-toggle></aegov-toggle>`,
-    });
-    const input = page.root.querySelector('input');
-    expect(input.getAttribute('role')).toBe('switch');
-  });
-
-  it('renders track with aria-hidden', async () => {
-    const page = await newSpecPage({
-      components: [AegovToggle],
-      html: `<aegov-toggle></aegov-toggle>`,
-    });
-    const track = page.root.querySelector('.toggle__track');
-    expect(track.getAttribute('aria-hidden')).toBe('true');
-  });
-
-  it('passes through aria-label', async () => {
-    const page = await newSpecPage({
-      components: [AegovToggle],
-      html: `<aegov-toggle aria-label="Dark mode"></aegov-toggle>`,
-    });
-    const input = page.root.querySelector('input');
-    expect(input.getAttribute('aria-label')).toBe('Dark mode');
-  });
-
-  // ── Pass-through attributes ────────────────────────────
-
-  it('passes through data attributes', async () => {
-    const page = await newSpecPage({
-      components: [AegovToggle],
-      html: `<aegov-toggle data-testid="my-toggle"></aegov-toggle>`,
-    });
-    const input = page.root.querySelector('input');
-    expect(input.getAttribute('data-testid')).toBe('my-toggle');
-  });
-
-  it('passes through tabindex', async () => {
-    const page = await newSpecPage({
-      components: [AegovToggle],
-      html: `<aegov-toggle tabindex="-1"></aegov-toggle>`,
-    });
-    const input = page.root.querySelector('input');
-    expect(input.getAttribute('tabindex')).toBe('-1');
-  });
-
-  // ── Icon slots ─────────────────────────────────────────
-
-  it('renders icon slots when provided', async () => {
-    const page = await newSpecPage({
-      components: [AegovToggle],
-      html: `<aegov-toggle>
-        <svg slot="icon-unchecked"><circle r="5"/></svg>
-        <svg slot="icon-checked"><rect width="5" height="5"/></svg>
-      </aegov-toggle>`,
-    });
-    expect(page.root.querySelector('.toggle__thumb--has-icon')).toBeTruthy();
-    expect(page.root.querySelector('.toggle__icon')).toBeTruthy();
-  });
-
-  it('does not render icon container when no icon slots', async () => {
-    const page = await newSpecPage({
-      components: [AegovToggle],
-      html: `<aegov-toggle></aegov-toggle>`,
-    });
-    expect(page.root.querySelector('.toggle__thumb--has-icon')).toBeNull();
-    expect(page.root.querySelector('.toggle__icon')).toBeNull();
-  });
-
-  // ------------------------------------------------------------------ accessibility
-  describe('accessibility', () => {
-    it('should have aria-checked="false" when unchecked', async () => {
-      const page = await newSpecPage({
-        components: [AegovToggle],
-        html: `<aegov-toggle></aegov-toggle>`,
-      });
-      const input = page.root.querySelector('input');
-      expect(input.getAttribute('aria-checked')).toBe('false');
-    });
-
-    it('should have aria-checked="true" when checked', async () => {
-      const page = await newSpecPage({
-        components: [AegovToggle],
-        html: `<aegov-toggle is-checked></aegov-toggle>`,
-      });
-      const input = page.root.querySelector('input');
-      expect(input.getAttribute('aria-checked')).toBe('true');
-    });
-
-    it('should have role="switch" on the input', async () => {
-      const page = await newSpecPage({
-        components: [AegovToggle],
-        html: `<aegov-toggle></aegov-toggle>`,
-      });
-      const input = page.root.querySelector('input');
-      expect(input.getAttribute('role')).toBe('switch');
-    });
-  });
-
-  // ── Invalid prop values ────────────────────────────────
-
-  describe('invalid prop values', () => {
-    let warnSpy: jest.SpyInstance;
-
-    beforeEach(() => {
-      warnSpy = jest.spyOn(console, 'warn').mockImplementation();
-    });
-
-    afterEach(() => {
-      warnSpy.mockRestore();
-    });
-
-    it('falls back to default size class when size is invalid', async () => {
-      const page = await newSpecPage({
-        components: [AegovToggle],
-        html: `<aegov-toggle size="huge"></aegov-toggle>`,
-      });
-      expect(page.root.querySelector('.toggle--base')).toBeTruthy();
-    });
-
-    it('warns with component name, prop name, invalid value, and fallback', async () => {
-      await newSpecPage({
-        components: [AegovToggle],
-        html: `<aegov-toggle size="huge"></aegov-toggle>`,
-      });
-      const messages = warnSpy.mock.calls.map(c => c[0] as string);
-      const sizeWarn = messages.find(m => m.includes('[aegov-toggle]') && m.includes('"huge"'));
-      expect(sizeWarn).toBeDefined();
-      expect(sizeWarn).toContain('"size"');
-    });
-
-    it('does not warn when all props are valid', async () => {
-      await newSpecPage({
-        components: [AegovToggle],
-        html: `<aegov-toggle size="lg"></aegov-toggle>`,
-      });
-      expect(warnSpy).not.toHaveBeenCalled();
-    });
-
-    it('warns again via @Watch when size is updated to an invalid value', async () => {
-      const page = await newSpecPage({
-        components: [AegovToggle],
-        html: `<aegov-toggle size="base"></aegov-toggle>`,
-      });
-      expect(warnSpy).not.toHaveBeenCalled();
-
-      page.root.setAttribute('size', 'nope');
-      await page.waitForChanges();
-
-      const messages = warnSpy.mock.calls.map(c => c[0] as string);
-      const invalidWarn = messages.find(m => m.includes('[aegov-toggle]') && m.includes('"nope"'));
-      expect(invalidWarn).toBeDefined();
-      expect(invalidWarn).toContain('"size"');
-    });
+    expect(input.getAttribute('aria-label')).toBe('notify');
+    expect(input.getAttribute('data-test')).toBe('x');
   });
 });

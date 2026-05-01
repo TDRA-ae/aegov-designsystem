@@ -11,749 +11,364 @@
   <link rel="stylesheet" href="/docs/hljs.css">
 </head>
 <body class="bg-aeblack-50">
-  <header class="mx-auto max-w-7xl sm:px-6 lg:px-8 mb-8">
+  <header class="aegov-container sm:px-6 lg:px-8 mb-8">
     <img src="https://designsystem.gov.ae/assets/site-logo/AEGov-DesignSystem-Logo-Color.svg" alt="UAE Design System Logo" class="w-auto h-16 my-2">
   </header>
-  <main class="mx-auto max-w-7xl sm:px-6 lg:px-8 bg-aeblack-50">
+  <main class="aegov-container sm:px-6 lg:px-8 bg-aeblack-50">
     <section class="flex items-start align-top gap-4">
       <nav id="primary-nav" class="w-3xs shrink-0">&nbsp;</nav>
       <article class="col-span-5 grow">
           <section id="content-area" class="bg-whitely-50 p-6 rounded-md shadow-xl">
           <!-- DOC:START -->
-<h1>Select</h1>
-<p class="text-lg text-aeblack-500 mb-8">A select component lets users choose one or more options from a predefined list. It supports a native browser select for simple use cases and a custom listbox variant with search, multiple selection, clearable state, and grouped options.</p>
-
-<h2>Introduction</h2>
-<p>The <code>aegov-select</code> component provides a flexible dropdown selection interface. In its <strong>default</strong> variant it renders a native HTML <code>&lt;select&gt;</code> element for maximum browser compatibility and accessibility. The <strong>listbox</strong> variant renders a custom dropdown with keyboard navigation, search filtering, multiple selection, option groups, and a clear button.</p>
-<p>Options are defined declaratively using <code>aegov-select-option</code> child elements, and can be organised into labelled groups with <code>aegov-select-option-group</code>.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-select</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;Choose a country&quot;</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-select-option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;ae&quot;</span>&gt;</span>United Arab Emirates<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select-option</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-select-option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;sa&quot;</span>&gt;</span>Saudi Arabia<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select-option</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-select-option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;om&quot;</span>&gt;</span>Oman<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select-option</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-select placeholder="Choose a country">
-    <aegov-select-option value="ae">United Arab Emirates</aegov-select-option>
-    <aegov-select-option value="sa">Saudi Arabia</aegov-select-option>
-    <aegov-select-option value="om">Oman</aegov-select-option>
-  </aegov-select>
-</div>
-
-<hr>
-<h2>Variants</h2>
-<h3>Default (Native Select)</h3>
-<p>The default variant renders a native <code>&lt;select&gt;</code> element styled to match the design system. This is the recommended choice for simple, single-selection use cases where you want maximum browser compatibility and built-in mobile optimisation.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-select</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;Select a fruit&quot;</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-select-option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;apple&quot;</span>&gt;</span>Apple<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select-option</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-select-option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;banana&quot;</span>&gt;</span>Banana<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select-option</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-select-option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;cherry&quot;</span>&gt;</span>Cherry<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select-option</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-select placeholder="Select a fruit">
-    <aegov-select-option value="apple">Apple</aegov-select-option>
-    <aegov-select-option value="banana">Banana</aegov-select-option>
-    <aegov-select-option value="cherry">Cherry</aegov-select-option>
-  </aegov-select>
-</div>
-
-<h3>Listbox (Custom Dropdown)</h3>
-<p>Set <code>variant=&quot;listbox&quot;</code> to render a custom dropdown with enhanced features: keyboard navigation, a chevron indicator that rotates when open, and a selected-option checkmark.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-select</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;listbox&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;Select a city&quot;</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-select-option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;abudhabi&quot;</span>&gt;</span>Abu Dhabi<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select-option</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-select-option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;dubai&quot;</span>&gt;</span>Dubai<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select-option</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-select-option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;sharjah&quot;</span>&gt;</span>Sharjah<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select-option</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-select-option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;ajman&quot;</span>&gt;</span>Ajman<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select-option</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-select variant="listbox" placeholder="Select a city">
-    <aegov-select-option value="abudhabi">Abu Dhabi</aegov-select-option>
-    <aegov-select-option value="dubai">Dubai</aegov-select-option>
-    <aegov-select-option value="sharjah">Sharjah</aegov-select-option>
-    <aegov-select-option value="ajman">Ajman</aegov-select-option>
-  </aegov-select>
-</div>
-
-<hr>
-<h2>Sizes</h2>
-<p>The <code>size</code> property controls the height, padding, and font size of the select trigger. Five sizes are available, matching <code>aegov-input</code> heights for consistent form layouts.</p>
+<h1>aegov-select</h1>
+<p>A flexible select control with two render modes. The default <code>variant</code> renders a real native <code>&lt;select&gt;</code> (best for simple lists, mobile, and form submission). The <code>listbox</code> variant renders a custom dropdown with rich features — option groups, search filtering, multi-select, and a clear button. Options are declared as light DOM children using <code>aegov-select-option</code> and optionally wrapped in <code>aegov-select-option-group</code>.</p>
+<h2>Properties</h2>
+<h3><code>variant</code></h3>
+<p><code>&#39;default&#39;</code> (native <code>&lt;select&gt;</code>) or <code>&#39;listbox&#39;</code> (custom dropdown). Setting <code>is-multiple=&quot;true&quot;</code> automatically forces listbox behaviour.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-select</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;listbox&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-select-option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;a&quot;</span>&gt;</span>Apple<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select-option</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-select-option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;b&quot;</span>&gt;</span>Banana<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select-option</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select</span>&gt;</span></code></pre><h3><code>size</code></h3>
+<p><code>&#39;xs&#39;</code>, <code>&#39;sm&#39;</code>, <code>&#39;base&#39;</code> (default), <code>&#39;lg&#39;</code>, or <code>&#39;xl&#39;</code>. Matches <code>aegov-input</code> height. Accepts a responsive expression like <code>&quot;sm md:base lg:lg&quot;</code>.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-select</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;lg&quot;</span>&gt;</span>…<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select</span>&gt;</span></code></pre><h3><code>placeholder</code></h3>
+<p>Text shown when nothing is selected. In the native variant it renders as a disabled first <code>&lt;option value=&quot;&quot;&gt;</code>. In the listbox variant it appears in the trigger.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-select</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;Choose a fruit&quot;</span>&gt;</span>…<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select</span>&gt;</span></code></pre><h3><code>value</code></h3>
+<p>The current selection. For <code>is-multiple</code>, this is a comma-separated string of values (the event detail uses a <code>string[]</code> form).</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-select</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;b&quot;</span>&gt;</span>…<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-select</span> <span class="hljs-attr">is-multiple</span>=<span class="hljs-string">&quot;true&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;a,b&quot;</span>&gt;</span>…<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select</span>&gt;</span></code></pre><h3><code>name</code></h3>
+<p>Form field name. In the listbox variant, a hidden <code>&lt;input&gt;</code> is rendered alongside the trigger so the value participates in form submission.</p>
+<h3><code>is-disabled</code></h3>
+<p>Disables the control. The native variant disables the <code>&lt;select&gt;</code>; the listbox variant disables the trigger button and prevents opening.</p>
+<h3><code>is-required</code></h3>
+<p>Applies the <code>required</code> attribute to the native <code>&lt;select&gt;</code>.</p>
+<h3><code>is-multiple</code></h3>
+<p>Enables multi-select. Forces the listbox variant. Each option shows a checkbox indicator; clicking toggles selection without closing the dropdown.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-select</span> <span class="hljs-attr">is-multiple</span>=<span class="hljs-string">&quot;true&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;Pick a few&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-select-option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;a&quot;</span>&gt;</span>Apple<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select-option</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-select-option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;b&quot;</span>&gt;</span>Banana<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select-option</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select</span>&gt;</span></code></pre><h3><code>is-searchable</code></h3>
+<p>Adds a search input above the option list (listbox variant only). Filters options by case-insensitive substring match against their label.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-select</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;listbox&quot;</span> <span class="hljs-attr">is-searchable</span>=<span class="hljs-string">&quot;true&quot;</span>&gt;</span>…<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select</span>&gt;</span></code></pre><h3><code>is-clearable</code></h3>
+<p>Shows a small clear (×) button inside the trigger when a value is set (listbox variant only). Clicking it resets the value and emits <code>aegovSelectChange</code> with an empty value.</p>
+<h3><code>empty-message</code></h3>
+<p>Text shown inside the listbox when search filtering returns no results. Defaults to <code>&#39;No results found&#39;</code>.</p>
+<h3><code>visible-items</code></h3>
+<p>Maximum number of visible items in the dropdown before scrolling. Defaults to <code>6</code>.</p>
+<h3><code>extra-class</code></h3>
+<p>Additional CSS classes applied to the inner <code>&lt;select&gt;</code> (native) or trigger button (listbox).</p>
+<h3><code>field-id</code></h3>
+<p>Optional unique ID. Auto-generated as <code>aegov-select-{n}</code> if omitted. Reflected to the host as <code>field-id</code> and applied to the inner <code>&lt;select&gt;</code> or trigger button.</p>
+<h3>Sub-component: <code>aegov-select-option</code></h3>
+<p>Declares a single option in the light DOM. The host element has <code>role=&quot;option&quot;</code>.</p>
 <table>
 <thead>
 <tr>
-<th>Size</th>
-<th>Height</th>
-<th>Font Size</th>
+<th>Prop</th>
+<th>Attribute</th>
+<th>Type</th>
+<th>Default</th>
+<th>Description</th>
 </tr>
 </thead>
 <tbody><tr>
-<td><code>xs</code></td>
-<td>36px</td>
-<td>14px</td>
+<td><code>value</code></td>
+<td><code>value</code></td>
+<td><code>string</code></td>
+<td><code>&#39;&#39;</code></td>
+<td>Option value passed to the parent.</td>
 </tr>
 <tr>
-<td><code>sm</code></td>
-<td>40px</td>
-<td>14px</td>
-</tr>
-<tr>
-<td><code>base</code></td>
-<td>44px</td>
-<td>16px</td>
-</tr>
-<tr>
-<td><code>lg</code></td>
-<td>48px</td>
-<td>18px</td>
-</tr>
-<tr>
-<td><code>xl</code></td>
-<td>52px</td>
-<td>18px</td>
+<td><code>isDisabled</code></td>
+<td><code>is-disabled</code></td>
+<td><code>boolean</code></td>
+<td><code>false</code></td>
+<td>Disables this option.</td>
 </tr>
 </tbody></table>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-select</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;xs&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;Extra Small&quot;</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;listbox&quot;</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-select-option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;a&quot;</span>&gt;</span>Option A<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select-option</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-select-option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;b&quot;</span>&gt;</span>Option B<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select-option</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select</span>&gt;</span>
-
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-select</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;Small&quot;</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;listbox&quot;</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-select-option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;a&quot;</span>&gt;</span>Option A<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select-option</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-select-option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;b&quot;</span>&gt;</span>Option B<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select-option</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select</span>&gt;</span>
-
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-select</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;base&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;Base (default)&quot;</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;listbox&quot;</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-select-option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;a&quot;</span>&gt;</span>Option A<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select-option</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-select-option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;b&quot;</span>&gt;</span>Option B<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select-option</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select</span>&gt;</span>
-
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-select</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;lg&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;Large&quot;</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;listbox&quot;</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-select-option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;a&quot;</span>&gt;</span>Option A<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select-option</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-select-option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;b&quot;</span>&gt;</span>Option B<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select-option</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select</span>&gt;</span>
-
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-select</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;xl&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;Extra Large&quot;</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;listbox&quot;</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-select-option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;a&quot;</span>&gt;</span>Option A<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select-option</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-select-option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;b&quot;</span>&gt;</span>Option B<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select-option</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-select size="xs" placeholder="Extra Small" variant="listbox">
-    <aegov-select-option value="a">Option A</aegov-select-option>
-    <aegov-select-option value="b">Option B</aegov-select-option>
-  </aegov-select>
-  <aegov-select size="sm" placeholder="Small" variant="listbox">
-    <aegov-select-option value="a">Option A</aegov-select-option>
-    <aegov-select-option value="b">Option B</aegov-select-option>
-  </aegov-select>
-  <aegov-select size="base" placeholder="Base (default)" variant="listbox">
-    <aegov-select-option value="a">Option A</aegov-select-option>
-    <aegov-select-option value="b">Option B</aegov-select-option>
-  </aegov-select>
-  <aegov-select size="lg" placeholder="Large" variant="listbox">
-    <aegov-select-option value="a">Option A</aegov-select-option>
-    <aegov-select-option value="b">Option B</aegov-select-option>
-  </aegov-select>
-  <aegov-select size="xl" placeholder="Extra Large" variant="listbox">
-    <aegov-select-option value="a">Option A</aegov-select-option>
-    <aegov-select-option value="b">Option B</aegov-select-option>
-  </aegov-select>
-</div>
-
-<h3>Responsive Size</h3>
-<p>The <code>size</code> prop accepts Tailwind-style responsive prefixes. Write a space-separated string where each token is either a plain value or <code>breakpoint:value</code>. The base value (no prefix) applies below the smallest specified breakpoint.</p>
-<p>Available breakpoints: <code>xs</code> (480px), <code>sm</code> (640px), <code>md</code> (768px), <code>lg</code> (1024px), <code>xl</code> (1280px), <code>2xl</code> (1536px), <code>3xl</code> (1680px).</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-select</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm xl:lg&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;Responsive select&quot;</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;listbox&quot;</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-select-option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;a&quot;</span>&gt;</span>Option A<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select-option</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-select-option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;b&quot;</span>&gt;</span>Option B<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select-option</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-select size="sm xl:lg" placeholder="Responsive select" variant="listbox">
-    <aegov-select-option value="a">Option A</aegov-select-option>
-    <aegov-select-option value="b">Option B</aegov-select-option>
-  </aegov-select>
-</div>
-
-<blockquote>
-<p><strong>Graceful degradation:</strong> Unknown breakpoint names and invalid values are silently ignored. An unrecognised base value falls back to the component default.</p>
-</blockquote>
-<hr>
-<h2>Placeholder</h2>
-<p>The <code>placeholder</code> property displays hint text when no option is selected. For the native variant it renders as a disabled <code>&lt;option&gt;</code>. For the listbox variant it appears as muted text in the trigger button.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-select</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;Please select an option&quot;</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-select-option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;one&quot;</span>&gt;</span>Option One<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select-option</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-select-option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;two&quot;</span>&gt;</span>Option Two<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select-option</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-select placeholder="Please select an option">
-    <aegov-select-option value="one">Option One</aegov-select-option>
-    <aegov-select-option value="two">Option Two</aegov-select-option>
-  </aegov-select>
-</div>
-
-<hr>
-<h2>Default Value</h2>
-<p>Set the <code>value</code> property to pre-select an option. The value must match one of the <code>aegov-select-option</code> values.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-select</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;banana&quot;</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;listbox&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;Select a fruit&quot;</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-select-option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;apple&quot;</span>&gt;</span>Apple<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select-option</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-select-option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;banana&quot;</span>&gt;</span>Banana<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select-option</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-select-option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;cherry&quot;</span>&gt;</span>Cherry<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select-option</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-select value="banana" variant="listbox" placeholder="Select a fruit">
-    <aegov-select-option value="apple">Apple</aegov-select-option>
-    <aegov-select-option value="banana">Banana</aegov-select-option>
-    <aegov-select-option value="cherry">Cherry</aegov-select-option>
-  </aegov-select>
-</div>
-
-<hr>
-<h2>Disabled State</h2>
-<p>Set the <code>disabled</code> attribute to prevent interaction. The select becomes visually muted and unclickable.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-select</span> <span class="hljs-attr">disabled</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;Disabled select&quot;</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-select-option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;a&quot;</span>&gt;</span>Option A<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select-option</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-select-option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;b&quot;</span>&gt;</span>Option B<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select-option</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select</span>&gt;</span>
-
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-select</span> <span class="hljs-attr">disabled</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;listbox&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;a&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;Disabled listbox&quot;</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-select-option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;a&quot;</span>&gt;</span>Option A<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select-option</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-select-option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;b&quot;</span>&gt;</span>Option B<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select-option</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-select disabled placeholder="Disabled select">
-    <aegov-select-option value="a">Option A</aegov-select-option>
-    <aegov-select-option value="b">Option B</aegov-select-option>
-  </aegov-select>
-  <aegov-select disabled variant="listbox" value="a" placeholder="Disabled listbox">
-    <aegov-select-option value="a">Option A</aegov-select-option>
-    <aegov-select-option value="b">Option B</aegov-select-option>
-  </aegov-select>
-</div>
-
-<hr>
-<h2>Required</h2>
-<p>Set the <code>required</code> attribute for form validation. The native select will enforce browser validation, and the attribute is forwarded to the underlying element.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-select</span> <span class="hljs-attr">required</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;Required field&quot;</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-select-option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;yes&quot;</span>&gt;</span>Yes<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select-option</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-select-option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;no&quot;</span>&gt;</span>No<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select-option</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-select required placeholder="Required field">
-    <aegov-select-option value="yes">Yes</aegov-select-option>
-    <aegov-select-option value="no">No</aegov-select-option>
-  </aegov-select>
-</div>
-
-<hr>
-<h2>Disabled Options</h2>
-<p>Individual options can be disabled by setting the <code>disabled</code> attribute on <code>aegov-select-option</code>. Disabled options are visually muted and cannot be selected.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-select</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;listbox&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;Some options are disabled&quot;</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-select-option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;available&quot;</span>&gt;</span>Available<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select-option</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-select-option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;unavailable&quot;</span> <span class="hljs-attr">disabled</span>&gt;</span>Unavailable<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select-option</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-select-option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;limited&quot;</span>&gt;</span>Limited<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select-option</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-select variant="listbox" placeholder="Some options are disabled">
-    <aegov-select-option value="available">Available</aegov-select-option>
-    <aegov-select-option value="unavailable" disabled>Unavailable</aegov-select-option>
-    <aegov-select-option value="limited">Limited</aegov-select-option>
-  </aegov-select>
-</div>
-
-<hr>
-<h2>Option Groups</h2>
-<p>Use <code>aegov-select-option-group</code> with a <code>label</code> attribute to organise options into labelled groups. Groups are rendered as native <code>&lt;optgroup&gt;</code> in the default variant and as labelled sections in the listbox variant.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-select</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;listbox&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;Select a vehicle&quot;</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-select-option-group</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Cars&quot;</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-select-option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;sedan&quot;</span>&gt;</span>Sedan<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select-option</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-select-option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;suv&quot;</span>&gt;</span>SUV<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select-option</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-select-option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;coupe&quot;</span>&gt;</span>Coupe<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select-option</span>&gt;</span>
-  <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select-option-group</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-select-option-group</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Trucks&quot;</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-select-option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;pickup&quot;</span>&gt;</span>Pickup<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select-option</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-select-option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;semi&quot;</span>&gt;</span>Semi<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select-option</span>&gt;</span>
-  <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select-option-group</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-select variant="listbox" placeholder="Select a vehicle">
-    <aegov-select-option-group label="Cars">
-      <aegov-select-option value="sedan">Sedan</aegov-select-option>
-      <aegov-select-option value="suv">SUV</aegov-select-option>
-      <aegov-select-option value="coupe">Coupe</aegov-select-option>
-    </aegov-select-option-group>
-    <aegov-select-option-group label="Trucks">
-      <aegov-select-option value="pickup">Pickup</aegov-select-option>
-      <aegov-select-option value="semi">Semi</aegov-select-option>
-    </aegov-select-option-group>
-  </aegov-select>
-</div>
-
-<p>Option groups also work with the native default variant:</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-select</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;Select a vehicle&quot;</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-select-option-group</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Cars&quot;</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-select-option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;sedan&quot;</span>&gt;</span>Sedan<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select-option</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-select-option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;suv&quot;</span>&gt;</span>SUV<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select-option</span>&gt;</span>
-  <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select-option-group</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-select-option-group</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Trucks&quot;</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-select-option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;pickup&quot;</span>&gt;</span>Pickup<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select-option</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-select-option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;semi&quot;</span>&gt;</span>Semi<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select-option</span>&gt;</span>
-  <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select-option-group</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-select placeholder="Select a vehicle">
-    <aegov-select-option-group label="Cars">
-      <aegov-select-option value="sedan">Sedan</aegov-select-option>
-      <aegov-select-option value="suv">SUV</aegov-select-option>
-    </aegov-select-option-group>
-    <aegov-select-option-group label="Trucks">
-      <aegov-select-option value="pickup">Pickup</aegov-select-option>
-      <aegov-select-option value="semi">Semi</aegov-select-option>
-    </aegov-select-option-group>
-  </aegov-select>
-</div>
-
-<hr>
-<h2>Multiple Selection</h2>
-<p>Set the <code>multiple</code> attribute to allow users to select more than one option. This automatically forces the listbox variant regardless of the <code>variant</code> prop. Selected items display a count (e.g. &quot;3 selected&quot;) in the trigger, and each option shows a checkbox indicator.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-select</span> <span class="hljs-attr">multiple</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;Select languages&quot;</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-select-option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;en&quot;</span>&gt;</span>English<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select-option</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-select-option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;ar&quot;</span>&gt;</span>Arabic<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select-option</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-select-option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;fr&quot;</span>&gt;</span>French<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select-option</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-select-option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;hi&quot;</span>&gt;</span>Hindi<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select-option</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-select-option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;zh&quot;</span>&gt;</span>Chinese<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select-option</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-select multiple placeholder="Select languages">
-    <aegov-select-option value="en">English</aegov-select-option>
-    <aegov-select-option value="ar">Arabic</aegov-select-option>
-    <aegov-select-option value="fr">French</aegov-select-option>
-    <aegov-select-option value="hi">Hindi</aegov-select-option>
-    <aegov-select-option value="zh">Chinese</aegov-select-option>
-  </aegov-select>
-</div>
-
-<p>When using multiple selection, the <code>value</code> property holds a comma-separated string of selected values (e.g. <code>&quot;en,ar,fr&quot;</code>), and the <code>aegovSelectChange</code> event emits arrays for both <code>value</code> and <code>label</code>.</p>
-<hr>
-<h2>Searchable</h2>
-<p>Set the <code>searchable</code> attribute to show a search input at the top of the listbox dropdown. Users can type to filter options by label text. Only available in the listbox variant.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-select</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;listbox&quot;</span> <span class="hljs-attr">searchable</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;Search countries...&quot;</span>&gt;</span>
+<p>Slot content is the visible label; it is captured at load time.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-select-option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;a&quot;</span>&gt;</span>Apple<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select-option</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-select-option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;b&quot;</span> <span class="hljs-attr">is-disabled</span>=<span class="hljs-string">&quot;true&quot;</span>&gt;</span>Banana<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select-option</span>&gt;</span></code></pre><h3>Sub-component: <code>aegov-select-option-group</code></h3>
+<p>Wraps a group of options under a label. Renders an <code>&lt;optgroup&gt;</code> in the native variant and a labelled section (<code>role=&quot;group&quot;</code>) in the listbox variant.</p>
+<table>
+<thead>
+<tr>
+<th>Prop</th>
+<th>Attribute</th>
+<th>Type</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>label</code></td>
+<td><code>label</code></td>
+<td><code>string</code></td>
+<td><code>&#39;&#39;</code></td>
+<td>Group heading.</td>
+</tr>
+</tbody></table>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-select-option-group</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Citrus&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-select-option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;o&quot;</span>&gt;</span>Orange<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select-option</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-select-option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;l&quot;</span>&gt;</span>Lemon<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select-option</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select-option-group</span>&gt;</span></code></pre><h2>Sizes</h2>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-select</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;xs&quot;</span>&gt;</span>…<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-select</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm&quot;</span>&gt;</span>…<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-select</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;base&quot;</span>&gt;</span>…<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-select</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;lg&quot;</span>&gt;</span>…<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-select</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;xl&quot;</span>&gt;</span>…<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select</span>&gt;</span>
+<span class="hljs-comment">&lt;!-- Responsive --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-select</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm md:base lg:lg&quot;</span>&gt;</span>…<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select</span>&gt;</span></code></pre><h2>Examples</h2>
+<h3>Native variant (default)</h3>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-select</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;fruit&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;Choose a fruit&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-select-option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;a&quot;</span>&gt;</span>Apple<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select-option</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-select-option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;b&quot;</span>&gt;</span>Banana<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select-option</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-select-option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;c&quot;</span>&gt;</span>Cherry<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select-option</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select</span>&gt;</span></code></pre><h3>Listbox variant</h3>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-select</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;listbox&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;Choose a fruit&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-select-option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;a&quot;</span>&gt;</span>Apple<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select-option</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-select-option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;b&quot;</span>&gt;</span>Banana<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select-option</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-select-option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;c&quot;</span>&gt;</span>Cherry<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select-option</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select</span>&gt;</span></code></pre><h3>With search</h3>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-select</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;listbox&quot;</span> <span class="hljs-attr">is-searchable</span>=<span class="hljs-string">&quot;true&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;Find a country&quot;</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-select-option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;ae&quot;</span>&gt;</span>United Arab Emirates<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select-option</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-select-option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;sa&quot;</span>&gt;</span>Saudi Arabia<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select-option</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-select-option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;om&quot;</span>&gt;</span>Oman<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select-option</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-select-option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;kw&quot;</span>&gt;</span>Kuwait<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select-option</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-select-option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;bh&quot;</span>&gt;</span>Bahrain<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select-option</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-select-option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;qa&quot;</span>&gt;</span>Qatar<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select-option</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-select variant="listbox" searchable placeholder="Search countries...">
-    <aegov-select-option value="ae">United Arab Emirates</aegov-select-option>
-    <aegov-select-option value="sa">Saudi Arabia</aegov-select-option>
-    <aegov-select-option value="om">Oman</aegov-select-option>
-    <aegov-select-option value="kw">Kuwait</aegov-select-option>
-    <aegov-select-option value="bh">Bahrain</aegov-select-option>
-    <aegov-select-option value="qa">Qatar</aegov-select-option>
-  </aegov-select>
-</div>
-
-<h3>Custom Empty Message</h3>
-<p>When no options match the search query, the component displays &quot;No results found&quot; by default. Customise this text using the <code>empty-message</code> property.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-select</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;listbox&quot;</span> <span class="hljs-attr">searchable</span> <span class="hljs-attr">empty-message</span>=<span class="hljs-string">&quot;No matching items&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;Search...&quot;</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-select-option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;a&quot;</span>&gt;</span>Alpha<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select-option</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-select-option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;b&quot;</span>&gt;</span>Bravo<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select-option</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-select variant="listbox" searchable empty-message="No matching items" placeholder="Search...">
-    <aegov-select-option value="a">Alpha</aegov-select-option>
-    <aegov-select-option value="b">Bravo</aegov-select-option>
-  </aegov-select>
-</div>
-
-<hr>
-<h2>Clearable</h2>
-<p>Set the <code>clearable</code> attribute to show a small clear (X) button inside the trigger when an option is selected. Clicking the clear button resets the selection to empty.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-select</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;listbox&quot;</span> <span class="hljs-attr">clearable</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;dubai&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;Select a city&quot;</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-select-option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;abudhabi&quot;</span>&gt;</span>Abu Dhabi<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select-option</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-select-option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;dubai&quot;</span>&gt;</span>Dubai<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select-option</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-select-option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;sharjah&quot;</span>&gt;</span>Sharjah<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select-option</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-select variant="listbox" clearable value="dubai" placeholder="Select a city">
-    <aegov-select-option value="abudhabi">Abu Dhabi</aegov-select-option>
-    <aegov-select-option value="dubai">Dubai</aegov-select-option>
-    <aegov-select-option value="sharjah">Sharjah</aegov-select-option>
-  </aegov-select>
-</div>
-
-<hr>
-<h2>Visible Items</h2>
-<p>The <code>visible-items</code> property controls the maximum number of options visible in the dropdown before it starts scrolling. The default is <code>6</code>.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-select</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;listbox&quot;</span> <span class="hljs-attr">visible-items</span>=<span class="hljs-string">&quot;3&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;Only 3 visible at a time&quot;</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-select-option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;1&quot;</span>&gt;</span>Option 1<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select-option</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-select-option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;2&quot;</span>&gt;</span>Option 2<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select-option</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-select-option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;3&quot;</span>&gt;</span>Option 3<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select-option</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-select-option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;4&quot;</span>&gt;</span>Option 4<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select-option</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-select-option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;5&quot;</span>&gt;</span>Option 5<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select-option</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-select-option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;6&quot;</span>&gt;</span>Option 6<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select-option</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-select-option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;7&quot;</span>&gt;</span>Option 7<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select-option</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-select-option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;8&quot;</span>&gt;</span>Option 8<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select-option</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-select variant="listbox" visible-items="3" placeholder="Only 3 visible at a time">
-    <aegov-select-option value="1">Option 1</aegov-select-option>
-    <aegov-select-option value="2">Option 2</aegov-select-option>
-    <aegov-select-option value="3">Option 3</aegov-select-option>
-    <aegov-select-option value="4">Option 4</aegov-select-option>
-    <aegov-select-option value="5">Option 5</aegov-select-option>
-    <aegov-select-option value="6">Option 6</aegov-select-option>
-    <aegov-select-option value="7">Option 7</aegov-select-option>
-    <aegov-select-option value="8">Option 8</aegov-select-option>
-  </aegov-select>
-</div>
-
-<hr>
-<h2>Combined Features</h2>
-<p>The listbox variant supports combining multiple features together. Here is a searchable, clearable, multiple select with option groups:</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-select</span> <span class="hljs-attr">multiple</span> <span class="hljs-attr">searchable</span> <span class="hljs-attr">clearable</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;Select team members&quot;</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-select-option-group</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Engineering&quot;</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-select-option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;alice&quot;</span>&gt;</span>Alice<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select-option</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-select-option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;bob&quot;</span>&gt;</span>Bob<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select-option</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-select-option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;charlie&quot;</span>&gt;</span>Charlie<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select-option</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-select-option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;om&quot;</span>&gt;</span>Oman<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select-option</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select</span>&gt;</span></code></pre><h3>Multi-select</h3>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-select</span> <span class="hljs-attr">is-multiple</span>=<span class="hljs-string">&quot;true&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;Choose toppings&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-select-option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;cheese&quot;</span>&gt;</span>Cheese<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select-option</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-select-option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;olives&quot;</span>&gt;</span>Olives<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select-option</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-select-option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;mushrooms&quot;</span>&gt;</span>Mushrooms<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select-option</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select</span>&gt;</span></code></pre><h3>With option groups</h3>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-select</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;listbox&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;Pick a fruit&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-select-option-group</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Citrus&quot;</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-select-option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;o&quot;</span>&gt;</span>Orange<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select-option</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-select-option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;l&quot;</span>&gt;</span>Lemon<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select-option</span>&gt;</span>
   <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select-option-group</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-select-option-group</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Design&quot;</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-select-option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;diana&quot;</span>&gt;</span>Diana<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select-option</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-select-option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;eve&quot;</span>&gt;</span>Eve<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select-option</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-select-option-group</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Berries&quot;</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-select-option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;s&quot;</span>&gt;</span>Strawberry<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select-option</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-select-option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;r&quot;</span>&gt;</span>Raspberry<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select-option</span>&gt;</span>
   <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select-option-group</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-select multiple searchable clearable placeholder="Select team members">
-    <aegov-select-option-group label="Engineering">
-      <aegov-select-option value="alice">Alice</aegov-select-option>
-      <aegov-select-option value="bob">Bob</aegov-select-option>
-      <aegov-select-option value="charlie">Charlie</aegov-select-option>
-    </aegov-select-option-group>
-    <aegov-select-option-group label="Design">
-      <aegov-select-option value="diana">Diana</aegov-select-option>
-      <aegov-select-option value="eve">Eve</aegov-select-option>
-    </aegov-select-option-group>
-  </aegov-select>
-</div>
-
-<hr>
-<h2>Usage with Form Field</h2>
-<p>Wrap a select inside <code>aegov-form-field</code> with <code>aegov-label</code> for consistent form styling, label association, and spacing with other form elements.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-form-field</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-label</span>&gt;</span>Country of residence<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-label</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-select</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;Select a country&quot;</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-select-option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;ae&quot;</span>&gt;</span>United Arab Emirates<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select-option</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-select-option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;sa&quot;</span>&gt;</span>Saudi Arabia<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select-option</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-select-option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;om&quot;</span>&gt;</span>Oman<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select-option</span>&gt;</span>
-  <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-form-field</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-form-field>
-    <aegov-label>Country of residence</aegov-label>
-    <aegov-select placeholder="Select a country">
-      <aegov-select-option value="ae">United Arab Emirates</aegov-select-option>
-      <aegov-select-option value="sa">Saudi Arabia</aegov-select-option>
-      <aegov-select-option value="om">Oman</aegov-select-option>
-    </aegov-select>
-  </aegov-form-field>
-</div>
-
-<p>Listbox variant inside a form field:</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-form-field</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-label</span>&gt;</span>Preferred language<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-label</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-select</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;listbox&quot;</span> <span class="hljs-attr">searchable</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;Search languages...&quot;</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-select-option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;en&quot;</span>&gt;</span>English<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select-option</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-select-option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;ar&quot;</span>&gt;</span>Arabic<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select-option</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-select-option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;fr&quot;</span>&gt;</span>French<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select-option</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-select-option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;de&quot;</span>&gt;</span>German<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select-option</span>&gt;</span>
-  <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-form-field</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-form-field>
-    <aegov-label>Preferred language</aegov-label>
-    <aegov-select variant="listbox" searchable placeholder="Search languages...">
-      <aegov-select-option value="en">English</aegov-select-option>
-      <aegov-select-option value="ar">Arabic</aegov-select-option>
-      <aegov-select-option value="fr">French</aegov-select-option>
-      <aegov-select-option value="de">German</aegov-select-option>
-    </aegov-select>
-  </aegov-form-field>
-</div>
-
-<hr>
-<h2>Events</h2>
-<h3>aegovSelectChange</h3>
-<p>Emitted when the selected value changes. The event detail contains the new <code>value</code> and <code>label</code>. For single selection these are strings; for multiple selection they are arrays.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-select</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;city-select&quot;</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;listbox&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;Select a city&quot;</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-select-option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;abudhabi&quot;</span>&gt;</span>Abu Dhabi<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select-option</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-select-option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;dubai&quot;</span>&gt;</span>Dubai<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select-option</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-select-option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;sharjah&quot;</span>&gt;</span>Sharjah<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select-option</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select</span>&gt;</span>
-
-<span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript">
-  <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;city-select&#x27;</span>)
-    .<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;aegovSelectChange&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">e</span>) =&gt;</span> {
-      <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;Value:&#x27;</span>, e.<span class="hljs-property">detail</span>.<span class="hljs-property">value</span>);
-      <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;Label:&#x27;</span>, e.<span class="hljs-property">detail</span>.<span class="hljs-property">label</span>);
-    });
-</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre><h3>aegovSelectOpen</h3>
-<p>Emitted when the listbox dropdown opens. Only fires for the listbox variant.</p>
-<h3>aegovSelectClose</h3>
-<p>Emitted when the listbox dropdown closes. Only fires for the listbox variant.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-select</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;events-select&quot;</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;listbox&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;Open/close events&quot;</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-select-option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;a&quot;</span>&gt;</span>Option A<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select-option</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-select-option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;b&quot;</span>&gt;</span>Option B<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select-option</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select</span>&gt;</span>
-
-<span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript">
-  <span class="hljs-keyword">const</span> select = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;events-select&#x27;</span>);
-
-  select.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;aegovSelectOpen&#x27;</span>, <span class="hljs-function">() =&gt;</span> {
-    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;Dropdown opened&#x27;</span>);
-  });
-
-  select.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;aegovSelectClose&#x27;</span>, <span class="hljs-function">() =&gt;</span> {
-    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;Dropdown closed&#x27;</span>);
-  });
-</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre><hr>
-<h2>RTL Support</h2>
-<p>The component fully supports right-to-left layouts. When the document or a parent element has <code>dir=&quot;rtl&quot;</code>, the native select arrow repositions to the left side, and the listbox trigger, chevron, and dropdown all mirror correctly.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">dir</span>=<span class="hljs-string">&quot;rtl&quot;</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-select</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;listbox&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;اختر مدينة&quot;</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-select-option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;abudhabi&quot;</span>&gt;</span>أبو ظبي<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select-option</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-select-option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;dubai&quot;</span>&gt;</span>دبي<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select-option</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-select-option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;sharjah&quot;</span>&gt;</span>الشارقة<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select-option</span>&gt;</span>
-  <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre><div dir="rtl" class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-select variant="listbox" placeholder="اختر مدينة">
-    <aegov-select-option value="abudhabi">أبو ظبي</aegov-select-option>
-    <aegov-select-option value="dubai">دبي</aegov-select-option>
-    <aegov-select-option value="sharjah">الشارقة</aegov-select-option>
-  </aegov-select>
-</div>
-
-<p>No additional configuration is needed -- the component reads the inherited <code>dir</code> attribute and adjusts automatically.</p>
-<hr>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select</span>&gt;</span></code></pre><h3>Clearable</h3>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-select</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;listbox&quot;</span> <span class="hljs-attr">is-clearable</span>=<span class="hljs-string">&quot;true&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;a&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;Choose a fruit&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-select-option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;a&quot;</span>&gt;</span>Apple<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select-option</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-select-option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;b&quot;</span>&gt;</span>Banana<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select-option</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select</span>&gt;</span></code></pre><h3>With placeholder only</h3>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-select</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;Choose…&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-select-option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;a&quot;</span>&gt;</span>Apple<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select-option</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select</span>&gt;</span></code></pre><h2>RTL Behavior</h2>
+<p>The trigger, search input, and option rows mirror under <code>[dir=&quot;rtl&quot;]</code>. Inline icons (clear, dropdown chevron, selection check) are flipped or repositioned to the trailing edge automatically. Option labels inherit the host document&#39;s text direction.</p>
 <h2>API Reference</h2>
-<h3>aegov-select Properties</h3>
+<h3>Properties — <code>aegov-select</code></h3>
 <table>
 <thead>
 <tr>
 <th>Property</th>
 <th>Attribute</th>
-<th>Description</th>
 <th>Type</th>
 <th>Default</th>
 </tr>
 </thead>
 <tbody><tr>
-<td><code>fieldId</code></td>
-<td><code>field-id</code></td>
-<td>Unique ID for the select element. Auto-generated if not provided.</td>
-<td><code>string</code></td>
-<td>auto</td>
-</tr>
-<tr>
 <td><code>variant</code></td>
 <td><code>variant</code></td>
-<td>The visual variant. <code>&#39;default&#39;</code> renders a native select; <code>&#39;listbox&#39;</code> renders a custom dropdown.</td>
-<td><code>&#39;default&#39;</code> | <code>&#39;listbox&#39;</code></td>
+<td><code>&#39;default&#39; | &#39;listbox&#39;</code></td>
 <td><code>&#39;default&#39;</code></td>
 </tr>
 <tr>
 <td><code>size</code></td>
 <td><code>size</code></td>
-<td>The size of the select. Matches aegov-input heights. Supports responsive strings (e.g. <code>&#39;sm xl:lg&#39;</code>).</td>
-<td><code>&#39;xs&#39;</code> | <code>&#39;sm&#39;</code> | <code>&#39;base&#39;</code> | <code>&#39;lg&#39;</code> | <code>&#39;xl&#39;</code></td>
+<td><code>string</code></td>
 <td><code>&#39;base&#39;</code></td>
 </tr>
 <tr>
-<td><code>multiple</code></td>
-<td><code>multiple</code></td>
-<td>Whether multiple selection is enabled. Forces listbox behaviour.</td>
-<td><code>boolean</code></td>
-<td><code>false</code></td>
-</tr>
-<tr>
-<td><code>disabled</code></td>
-<td><code>disabled</code></td>
-<td>Whether the select is disabled.</td>
-<td><code>boolean</code></td>
-<td><code>false</code></td>
-</tr>
-<tr>
-<td><code>placeholder</code></td>
-<td><code>placeholder</code></td>
-<td>Placeholder text shown when nothing is selected.</td>
-<td><code>string</code></td>
-<td><code>undefined</code></td>
-</tr>
-<tr>
 <td><code>value</code></td>
 <td><code>value</code></td>
-<td>The current selected value. For multiple, a comma-separated string.</td>
 <td><code>string</code></td>
 <td><code>&#39;&#39;</code></td>
 </tr>
 <tr>
 <td><code>name</code></td>
 <td><code>name</code></td>
-<td>The name attribute for form submission.</td>
 <td><code>string</code></td>
-<td><code>undefined</code></td>
+<td>—</td>
 </tr>
 <tr>
-<td><code>required</code></td>
-<td><code>required</code></td>
-<td>Whether the select is required for form validation.</td>
+<td><code>placeholder</code></td>
+<td><code>placeholder</code></td>
+<td><code>string</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>isMultiple</code></td>
+<td><code>is-multiple</code></td>
 <td><code>boolean</code></td>
 <td><code>false</code></td>
 </tr>
 <tr>
-<td><code>searchable</code></td>
-<td><code>searchable</code></td>
-<td>Show a search input in the listbox dropdown to filter options. Listbox variant only.</td>
+<td><code>isDisabled</code></td>
+<td><code>is-disabled</code></td>
+<td><code>boolean</code></td>
+<td><code>false</code></td>
+</tr>
+<tr>
+<td><code>isRequired</code></td>
+<td><code>is-required</code></td>
+<td><code>boolean</code></td>
+<td><code>false</code></td>
+</tr>
+<tr>
+<td><code>isSearchable</code></td>
+<td><code>is-searchable</code></td>
+<td><code>boolean</code></td>
+<td><code>false</code></td>
+</tr>
+<tr>
+<td><code>isClearable</code></td>
+<td><code>is-clearable</code></td>
 <td><code>boolean</code></td>
 <td><code>false</code></td>
 </tr>
 <tr>
 <td><code>emptyMessage</code></td>
 <td><code>empty-message</code></td>
-<td>Message shown when search yields no results.</td>
 <td><code>string</code></td>
 <td><code>&#39;No results found&#39;</code></td>
 </tr>
 <tr>
 <td><code>visibleItems</code></td>
 <td><code>visible-items</code></td>
-<td>Max visible items in the dropdown before scrolling.</td>
 <td><code>number</code></td>
 <td><code>6</code></td>
 </tr>
 <tr>
-<td><code>clearable</code></td>
-<td><code>clearable</code></td>
-<td>Show a clear button to reset selection.</td>
+<td><code>extraClass</code></td>
+<td><code>extra-class</code></td>
+<td><code>string</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>fieldId</code></td>
+<td><code>field-id</code></td>
+<td><code>string</code></td>
+<td>auto</td>
+</tr>
+</tbody></table>
+<h3>Properties — <code>aegov-select-option</code></h3>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Attribute</th>
+<th>Type</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>value</code></td>
+<td><code>value</code></td>
+<td><code>string</code></td>
+<td><code>&#39;&#39;</code></td>
+</tr>
+<tr>
+<td><code>isDisabled</code></td>
+<td><code>is-disabled</code></td>
 <td><code>boolean</code></td>
 <td><code>false</code></td>
 </tr>
+</tbody></table>
+<h3>Properties — <code>aegov-select-option-group</code></h3>
+<table>
+<thead>
 <tr>
-<td><code>class</code></td>
-<td><code>class</code></td>
-<td>Additional CSS classes to apply.</td>
+<th>Property</th>
+<th>Attribute</th>
+<th>Type</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>label</code></td>
+<td><code>label</code></td>
 <td><code>string</code></td>
-<td><code>undefined</code></td>
+<td><code>&#39;&#39;</code></td>
 </tr>
 </tbody></table>
-<h3>aegov-select Events</h3>
+<h3>Pass-through Attributes</h3>
+<p><code>autofocus</code> and <code>form</code> are forwarded onto the inner native <code>&lt;select&gt;</code>. Any <code>aria-*</code> and <code>data-*</code> attributes set on the host are also forwarded onto the inner <code>&lt;select&gt;</code>. Pass-through applies only to the native variant — the listbox trigger does not receive these attributes.</p>
+<h3>Events</h3>
 <table>
 <thead>
 <tr>
 <th>Event</th>
 <th>Description</th>
-<th>Detail Type</th>
+<th>Detail</th>
 </tr>
 </thead>
 <tbody><tr>
 <td><code>aegovSelectChange</code></td>
-<td>Emitted when the selected value changes.</td>
-<td><code>{ value: string | string[], label: string | string[] }</code></td>
+<td>Fires when the selected value changes.</td>
+<td><code>{ value: string | string[]; label: string | string[] }</code></td>
 </tr>
 <tr>
 <td><code>aegovSelectOpen</code></td>
-<td>Emitted when the listbox dropdown opens.</td>
+<td>Fires when the listbox dropdown opens.</td>
 <td><code>void</code></td>
 </tr>
 <tr>
 <td><code>aegovSelectClose</code></td>
-<td>Emitted when the listbox dropdown closes.</td>
+<td>Fires when the listbox dropdown closes.</td>
 <td><code>void</code></td>
 </tr>
 </tbody></table>
-<h3>aegov-select-option Properties</h3>
+<p>For single selection, <code>value</code> and <code>label</code> are strings. For <code>is-multiple</code>, both are arrays.</p>
+<h3>Event listening example</h3>
+<pre><code class="hljs language-js"><span class="hljs-keyword">const</span> select = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">querySelector</span>(<span class="hljs-string">&#x27;aegov-select&#x27;</span>);
+select.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;aegovSelectChange&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">e</span>) =&gt;</span> {
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;selected&#x27;</span>, e.<span class="hljs-property">detail</span>.<span class="hljs-property">value</span>, e.<span class="hljs-property">detail</span>.<span class="hljs-property">label</span>);
+});</code></pre><h3>Slots</h3>
 <table>
 <thead>
 <tr>
-<th>Property</th>
-<th>Attribute</th>
+<th>Slot</th>
 <th>Description</th>
-<th>Type</th>
-<th>Default</th>
 </tr>
 </thead>
 <tbody><tr>
-<td><code>value</code></td>
-<td><code>value</code></td>
-<td>The value of this option.</td>
-<td><code>string</code></td>
-<td><code>&#39;&#39;</code></td>
-</tr>
-<tr>
-<td><code>disabled</code></td>
-<td><code>disabled</code></td>
-<td>Whether this option is disabled.</td>
-<td><code>boolean</code></td>
-<td><code>false</code></td>
+<td>(default)</td>
+<td>One or more <code>aegov-select-option</code> and/or <code>aegov-select-option-group</code> elements.</td>
 </tr>
 </tbody></table>
-<p>The label text is provided as the element&#39;s text content (default slot).</p>
-<h3>aegov-select-option-group Properties</h3>
-<table>
-<thead>
-<tr>
-<th>Property</th>
-<th>Attribute</th>
-<th>Description</th>
-<th>Type</th>
-<th>Default</th>
-</tr>
-</thead>
-<tbody><tr>
-<td><code>label</code></td>
-<td><code>label</code></td>
-<td>The label for this option group.</td>
-<td><code>string</code></td>
-<td><code>&#39;&#39;</code></td>
-</tr>
-</tbody></table>
-<h3>Pass-Through Attributes</h3>
-<p>The <code>aegov-select</code> component forwards <code>aria-*</code> and <code>data-*</code> attributes from the host element to the underlying native <code>&lt;select&gt;</code> (default variant) or trigger <code>&lt;button&gt;</code> (listbox variant).</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-select</span> <span class="hljs-attr">aria-label</span>=<span class="hljs-string">&quot;Country selection&quot;</span> <span class="hljs-attr">data-tracking</span>=<span class="hljs-string">&quot;country-select&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;Select...&quot;</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-select-option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;ae&quot;</span>&gt;</span>UAE<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select-option</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select</span>&gt;</span></code></pre><hr>
 <h2>Accessibility</h2>
-<p>The <code>aegov-select</code> component is built with accessibility as a first-class concern.</p>
-<h3>Built-in Features</h3>
+<p><strong>Built in</strong></p>
 <ul>
-<li><strong>Native <code>&lt;select&gt;</code> in default variant</strong> -- renders a semantic HTML select element that works with all assistive technologies out of the box.</li>
-<li><strong><code>role=&quot;combobox&quot;</code></strong> -- the listbox trigger button uses the combobox role for correct screen reader announcement.</li>
-<li><strong><code>aria-expanded</code></strong> -- automatically toggled when the listbox dropdown opens and closes.</li>
-<li><strong><code>aria-haspopup=&quot;listbox&quot;</code></strong> -- informs assistive technologies that a listbox will appear.</li>
-<li><strong><code>aria-controls</code></strong> -- links the trigger to the dropdown listbox element.</li>
-<li><strong><code>aria-activedescendant</code></strong> -- tracks the currently focused option during keyboard navigation, so screen readers announce the focused item.</li>
-<li><strong><code>role=&quot;listbox&quot;</code> on dropdown</strong> -- the options container has correct listbox semantics.</li>
-<li><strong><code>role=&quot;option&quot;</code> on items</strong> -- each option has the correct role with <code>aria-selected</code> reflecting its state.</li>
-<li><strong><code>aria-disabled</code></strong> -- set on disabled options to inform screen readers.</li>
-<li><strong><code>aria-multiselectable</code></strong> -- set on the listbox when <code>multiple</code> is enabled.</li>
-<li><strong><code>role=&quot;group&quot;</code> with <code>aria-labelledby</code></strong> -- option groups are wrapped in semantic groups linked to their label for screen reader announcement.</li>
-<li><strong><code>role=&quot;searchbox&quot;</code></strong> -- the search input has the correct role with <code>aria-label</code> and <code>aria-controls</code>.</li>
-<li><strong>Focus indicators</strong> -- clearly visible focus ring on keyboard navigation via the primary support colour.</li>
-<li><strong>Disabled state</strong> -- applies reduced opacity and <code>pointer-events: none</code> so the select is both visually and functionally inert.</li>
-<li><strong>Keyboard navigation</strong> -- full keyboard support including Arrow Up/Down for option navigation, Enter/Space to select, Escape to close, and Home/End to jump to first/last option.</li>
+<li>Listbox variant uses <code>role=&quot;combobox&quot;</code> on the trigger with <code>aria-haspopup=&quot;listbox&quot;</code> and <code>aria-expanded</code> reflecting open state.</li>
+<li>The popup has <code>role=&quot;listbox&quot;</code>, <code>aria-multiselectable=&quot;true&quot;</code> for multi-select, and is referenced via <code>aria-controls</code> from the trigger.</li>
+<li>The currently focused option is exposed via <code>aria-activedescendant</code> on the trigger (and on the search input when it has focus).</li>
+<li>Each option uses <code>role=&quot;option&quot;</code> with <code>aria-selected</code> and, where applicable, <code>aria-disabled</code>.</li>
+<li>Option groups use <code>role=&quot;group&quot;</code> and are labelled by the group heading via <code>aria-labelledby</code>.</li>
+<li>Keyboard support on the listbox: <code>ArrowDown</code> / <code>ArrowUp</code> move focus, <code>Home</code> / <code>End</code> jump to ends, <code>Enter</code> selects the focused option, <code>Space</code> selects (or types in the search input when searchable), <code>Escape</code> closes the dropdown and returns focus to the trigger.</li>
+<li>Clicking outside the component closes the dropdown.</li>
+<li>Native variant inherits all native <code>&lt;select&gt;</code> accessibility behaviours and submits with the surrounding form.</li>
 </ul>
-<h3>Developer Responsibilities</h3>
-<ol>
-<li><p><strong>Provide a label.</strong> Always pair a select with an <code>aegov-label</code> inside an <code>aegov-form-field</code>, or provide an <code>aria-label</code> attribute on the select. A select without a label is inaccessible.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-form-field</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-label</span>&gt;</span>Country<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-label</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-select</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;Select...&quot;</span>&gt;</span>...<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-form-field</span>&gt;</span></code></pre></li>
-<li><p><strong>Use meaningful option text.</strong> Option labels should be clear and descriptive. Avoid abbreviations or codes that screen readers cannot interpret.</p>
-</li>
-<li><p><strong>Do not remove focus styles.</strong> The built-in focus outlines are essential for keyboard navigation. Avoid overriding them with <code>outline: none</code>.</p>
-</li>
-<li><p><strong>Colour contrast.</strong> All built-in colour combinations meet WCAG 2.1 AA contrast ratios. If you override colours, verify that the new colours maintain at least a <strong>4.5:1</strong> contrast ratio.</p>
-</li>
-</ol>
-<hr>
-<h2>Notes</h2>
+<p><strong>Developer responsibilities</strong></p>
 <ul>
-<li>The <code>aegov-select</code> component reads its options from <code>aegov-select-option</code> children. These children are hidden from the DOM (<code>display: none</code>) and their content is parsed programmatically.</li>
-<li>Setting <code>multiple</code> to <code>true</code> automatically forces the listbox variant, regardless of the <code>variant</code> property value.</li>
-<li>The listbox dropdown positions itself above or below the trigger automatically based on available viewport space.</li>
-<li>The dropdown animates in with a subtle slide-in effect (150ms ease-out).</li>
-<li>The <code>value</code> property is mutable. For single selection it holds a plain string; for multiple selection it holds a comma-separated string of values (e.g. <code>&quot;en,ar,fr&quot;</code>).</li>
-<li>When the <code>name</code> property is set in listbox mode, the component renders a hidden <code>&lt;input type=&quot;hidden&quot;&gt;</code> for form submission compatibility.</li>
-<li>Clicking outside the listbox dropdown closes it automatically.</li>
-<li>The <code>fieldId</code> prop is auto-generated using a unique ID if not provided. To control the ID explicitly (e.g. for external label association), pass <code>field-id=&quot;my-id&quot;</code>.</li>
-<li>The <code>searchable</code> and <code>clearable</code> features are only available in the listbox variant. They have no effect on the native default variant.</li>
-<li>The native default variant uses a custom SVG arrow background image that repositions in RTL mode.</li>
+<li>Provide an accessible name. Pair the select with <code>aegov-form-field</code>/<code>aegov-label</code>, or set <code>aria-label</code>/<code>aria-labelledby</code> on the host.</li>
+<li>When the listbox is closed and a placeholder is shown, ensure surrounding context conveys that a selection is required (e.g. via the form-field label and <code>is-required</code>).</li>
+<li>For <code>is-multiple</code>, communicate the count or selected items in surrounding UI — the trigger only shows <code>&quot;N selected&quot;</code>.</li>
+</ul>
+<p><strong>Notes</strong></p>
+<ul>
+<li>The search input is decorated with <code>role=&quot;searchbox&quot;</code> and <code>aria-label=&quot;Search options&quot;</code>. If you need a localised label, override it via the form-field label or by wrapping with appropriate context — the built-in label is in English.</li>
+<li>When <code>is-multiple</code> is set, <code>variant</code> is effectively <code>&#39;listbox&#39;</code> regardless of the explicit value.</li>
+<li>The listbox flips above the trigger when there is insufficient space below; this is purely visual and does not affect roles or focus order.</li>
 </ul>
 <!-- DOC:END -->
           </section>
       </article>
     </section>
   </main>
-  <footer class="mx-auto max-w-7xl sm:px-6 lg:px-8 mt-8 py-6 text-sm text-aeblack-500">
+  <footer class="aegov-container sm:px-6 lg:px-8 mt-8 py-6 text-sm text-aeblack-500">
     &copy; 2026 Telecommunication and Digital Regulatory Authority. All rights reserved.
   </footer>
 

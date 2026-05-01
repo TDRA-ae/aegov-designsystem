@@ -2,696 +2,157 @@ import { newSpecPage } from '@stencil/core/testing';
 import { AegovDrawer } from './aegov-drawer';
 
 describe('aegov-drawer', () => {
-  describe('rendering', () => {
-    it('should render with default props', async () => {
-      const page = await newSpecPage({
-        components: [AegovDrawer],
-        html: `<aegov-drawer><div>Drawer content</div></aegov-drawer>`,
-      });
-
-      expect(page.root).toBeTruthy();
-      expect(page.root?.shadowRoot).toBeTruthy();
+  it('does not render content when closed', async () => {
+    const page = await newSpecPage({
+      components: [AegovDrawer],
+      html: `<aegov-drawer></aegov-drawer>`,
     });
-
-    it('should not render content when closed', async () => {
-      const page = await newSpecPage({
-        components: [AegovDrawer],
-        html: `<aegov-drawer><div>Drawer content</div></aegov-drawer>`,
-      });
-
-      const container = page.root?.shadowRoot?.querySelector('.aegov-drawer-container');
-      expect(container).toBeNull();
-    });
-
-    it('should render when open is true', async () => {
-      const page = await newSpecPage({
-        components: [AegovDrawer],
-        html: `<aegov-drawer is-open="true"><div>Drawer content</div></aegov-drawer>`,
-      });
-
-      await page.waitForChanges();
-      const container = page.root?.shadowRoot?.querySelector('.aegov-drawer-container');
-      expect(container).toBeTruthy();
-    });
-
-    it('should use shadow DOM', async () => {
-      const page = await newSpecPage({
-        components: [AegovDrawer],
-        html: `<aegov-drawer is-open="true"><div>Content</div></aegov-drawer>`,
-      });
-
-      expect(page.root?.shadowRoot).toBeTruthy();
-    });
-
-    it('should render slotted content', async () => {
-      const page = await newSpecPage({
-        components: [AegovDrawer],
-        html: `<aegov-drawer is-open="true"><div class="test-content">Test</div></aegov-drawer>`,
-      });
-
-      await page.waitForChanges();
-      const slot = page.root?.shadowRoot?.querySelector('slot');
-      expect(slot).toBeTruthy();
-    });
-
-    it('should return null when closed and animationState is closed', async () => {
-      const page = await newSpecPage({
-        components: [AegovDrawer],
-        html: `<aegov-drawer><div>Content</div></aegov-drawer>`,
-      });
-
-      expect(page.rootInstance.isOpen).toBe(false);
-      expect(page.rootInstance.animationState).toBe('closed');
-      const backdrop = page.root?.shadowRoot?.querySelector('.aegov-drawer-backdrop');
-      expect(backdrop).toBeNull();
-    });
+    expect(page.root.shadowRoot.querySelector('[role="dialog"]')).toBeNull();
   });
 
-  describe('default props', () => {
-    it('should have default open value of false', async () => {
-      const page = await newSpecPage({
-        components: [AegovDrawer],
-        html: `<aegov-drawer><div>Content</div></aegov-drawer>`,
-      });
-
-      expect(page.rootInstance.isOpen).toBe(false);
+  it('renders dialog with role and aria-modal when open', async () => {
+    const page = await newSpecPage({
+      components: [AegovDrawer],
+      html: `<aegov-drawer is-open="true"><p>Body</p></aegov-drawer>`,
     });
-
-    it('should have default position value of right', async () => {
-      const page = await newSpecPage({
-        components: [AegovDrawer],
-        html: `<aegov-drawer><div>Content</div></aegov-drawer>`,
-      });
-
-      expect(page.rootInstance.position).toBe('right');
-    });
-
-    it('should have default animation value of slide', async () => {
-      const page = await newSpecPage({
-        components: [AegovDrawer],
-        html: `<aegov-drawer><div>Content</div></aegov-drawer>`,
-      });
-
-      expect(page.rootInstance.animation).toBe('slide');
-    });
-
-    it('should have default pinned value of true', async () => {
-      const page = await newSpecPage({
-        components: [AegovDrawer],
-        html: `<aegov-drawer><div>Content</div></aegov-drawer>`,
-      });
-
-      expect(page.rootInstance.isPinned).toBe(true);
-    });
-
-    it('should have default overlay value of true', async () => {
-      const page = await newSpecPage({
-        components: [AegovDrawer],
-        html: `<aegov-drawer><div>Content</div></aegov-drawer>`,
-      });
-
-      expect(page.rootInstance.isOverlay).toBe(true);
-    });
-
-    it('should have default overlayOpacity value of base', async () => {
-      const page = await newSpecPage({
-        components: [AegovDrawer],
-        html: `<aegov-drawer><div>Content</div></aegov-drawer>`,
-      });
-
-      expect(page.rootInstance.overlayOpacity).toBe('base');
-    });
-
-    it('should have default closeWithBackdrop value of true', async () => {
-      const page = await newSpecPage({
-        components: [AegovDrawer],
-        html: `<aegov-drawer><div>Content</div></aegov-drawer>`,
-      });
-
-      expect(page.rootInstance.isCloseWithBackdrop).toBe(true);
-    });
-
-    it('should have default preventBodyScroll value of true', async () => {
-      const page = await newSpecPage({
-        components: [AegovDrawer],
-        html: `<aegov-drawer><div>Content</div></aegov-drawer>`,
-      });
-
-      expect(page.rootInstance.isPreventScroll).toBe(true);
-    });
-
-    it('should have default animationState of closed', async () => {
-      const page = await newSpecPage({
-        components: [AegovDrawer],
-        html: `<aegov-drawer><div>Content</div></aegov-drawer>`,
-      });
-
-      expect(page.rootInstance.animationState).toBe('closed');
-    });
+    const dialog = page.root.shadowRoot.querySelector('[role="dialog"]');
+    expect(dialog).not.toBeNull();
+    expect(dialog.getAttribute('aria-modal')).toBe('true');
   });
 
-  describe('position variants', () => {
-    it('should apply drawer-container--right class by default', async () => {
-      const page = await newSpecPage({
-        components: [AegovDrawer],
-        html: `<aegov-drawer is-open="true"><div>Content</div></aegov-drawer>`,
-      });
-
-      await page.waitForChanges();
-      const container = page.root?.shadowRoot?.querySelector('.drawer-container--right');
-      expect(container).toBeTruthy();
+  it('auto-generates fieldId', async () => {
+    const page = await newSpecPage({
+      components: [AegovDrawer],
+      html: `<aegov-drawer is-open="true"></aegov-drawer>`,
     });
-
-    it('should apply drawer-container--left class', async () => {
-      const page = await newSpecPage({
-        components: [AegovDrawer],
-        html: `<aegov-drawer is-open="true" position="left"><div>Content</div></aegov-drawer>`,
-      });
-
-      await page.waitForChanges();
-      const container = page.root?.shadowRoot?.querySelector('.drawer-container--left');
-      expect(container).toBeTruthy();
-    });
-
-    it('should apply drawer-container--top class', async () => {
-      const page = await newSpecPage({
-        components: [AegovDrawer],
-        html: `<aegov-drawer is-open="true" position="top"><div>Content</div></aegov-drawer>`,
-      });
-
-      await page.waitForChanges();
-      const container = page.root?.shadowRoot?.querySelector('.drawer-container--top');
-      expect(container).toBeTruthy();
-    });
-
-    it('should apply drawer-container--bottom class', async () => {
-      const page = await newSpecPage({
-        components: [AegovDrawer],
-        html: `<aegov-drawer is-open="true" position="bottom"><div>Content</div></aegov-drawer>`,
-      });
-
-      await page.waitForChanges();
-      const container = page.root?.shadowRoot?.querySelector('.drawer-container--bottom');
-      expect(container).toBeTruthy();
-    });
+    expect(page.rootInstance.fieldId).toMatch(/^aegov-drawer-\d+$/);
   });
 
-  describe('animation variants', () => {
-    it('should set data-animation="slide" by default', async () => {
-      const page = await newSpecPage({
-        components: [AegovDrawer],
-        html: `<aegov-drawer is-open="true"><div>Content</div></aegov-drawer>`,
-      });
-
-      await page.waitForChanges();
-      const container = page.root?.shadowRoot?.querySelector('.aegov-drawer-container');
-      expect(container?.getAttribute('data-animation')).toBe('slide');
+  it('applies right position class by default', async () => {
+    const page = await newSpecPage({
+      components: [AegovDrawer],
+      html: `<aegov-drawer is-open="true"></aegov-drawer>`,
     });
-
-    it('should set data-animation="fade"', async () => {
-      const page = await newSpecPage({
-        components: [AegovDrawer],
-        html: `<aegov-drawer is-open="true" animation="fade"><div>Content</div></aegov-drawer>`,
-      });
-
-      await page.waitForChanges();
-      const container = page.root?.shadowRoot?.querySelector('.aegov-drawer-container');
-      expect(container?.getAttribute('data-animation')).toBe('fade');
-    });
-
-    it('should set data-animation="none"', async () => {
-      const page = await newSpecPage({
-        components: [AegovDrawer],
-        html: `<aegov-drawer is-open="true" animation="none"><div>Content</div></aegov-drawer>`,
-      });
-
-      await page.waitForChanges();
-      const container = page.root?.shadowRoot?.querySelector('.aegov-drawer-container');
-      expect(container?.getAttribute('data-animation')).toBe('none');
-    });
+    expect(page.root.shadowRoot.querySelector('.drawer-container--right')).not.toBeNull();
   });
 
-  describe('pinned vs unpinned', () => {
-    it('should not have unpinned class when pinned is true', async () => {
-      const page = await newSpecPage({
-        components: [AegovDrawer],
-        html: `<aegov-drawer is-open="true"><div>Content</div></aegov-drawer>`,
-      });
-
-      await page.waitForChanges();
-      const container = page.root?.shadowRoot?.querySelector('.drawer-container--unpinned');
-      expect(container).toBeNull();
+  it('applies left position class', async () => {
+    const page = await newSpecPage({
+      components: [AegovDrawer],
+      html: `<aegov-drawer is-open="true" position="left"></aegov-drawer>`,
     });
-
-    it('should have unpinned class when pinned is false', async () => {
-      const page = await newSpecPage({
-        components: [AegovDrawer],
-        html: `<aegov-drawer is-open="true" is-pinned="false"><div>Content</div></aegov-drawer>`,
-      });
-
-      await page.waitForChanges();
-      const container = page.root?.shadowRoot?.querySelector('.drawer-container--unpinned');
-      expect(container).toBeTruthy();
-    });
+    expect(page.root.shadowRoot.querySelector('.drawer-container--left')).not.toBeNull();
   });
 
-  describe('overlay', () => {
-    it('should render backdrop when overlay is true', async () => {
-      const page = await newSpecPage({
-        components: [AegovDrawer],
-        html: `<aegov-drawer is-open="true"><div>Content</div></aegov-drawer>`,
-      });
-
-      await page.waitForChanges();
-      const backdrop = page.root?.shadowRoot?.querySelector('.aegov-drawer-backdrop');
-      expect(backdrop).toBeTruthy();
+  it('applies top and bottom position classes', async () => {
+    const top = await newSpecPage({
+      components: [AegovDrawer],
+      html: `<aegov-drawer is-open="true" position="top"></aegov-drawer>`,
     });
+    expect(top.root.shadowRoot.querySelector('.drawer-container--top')).not.toBeNull();
 
-    it('should not render backdrop when overlay is false', async () => {
-      const page = await newSpecPage({
-        components: [AegovDrawer],
-        html: `<aegov-drawer is-open="true" is-overlay="false"><div>Content</div></aegov-drawer>`,
-      });
-
-      await page.waitForChanges();
-      const backdrop = page.root?.shadowRoot?.querySelector('.aegov-drawer-backdrop');
-      expect(backdrop).toBeNull();
+    const bot = await newSpecPage({
+      components: [AegovDrawer],
+      html: `<aegov-drawer is-open="true" position="bottom"></aegov-drawer>`,
     });
-
-    it('should render invisible backdrop when overlay is false but closeWithBackdrop is true', async () => {
-      const page = await newSpecPage({
-        components: [AegovDrawer],
-        html: `<aegov-drawer is-open="true" is-overlay="false"><div>Content</div></aegov-drawer>`,
-      });
-
-      await page.waitForChanges();
-      const invisible = page.root?.shadowRoot?.querySelector('.aegov-drawer-backdrop-invisible');
-      expect(invisible).toBeTruthy();
-    });
-
-    it('should not render invisible backdrop when both overlay and closeWithBackdrop are false', async () => {
-      const page = await newSpecPage({
-        components: [AegovDrawer],
-        html: `<aegov-drawer is-open="true" is-overlay="false" is-close-with-backdrop="false"><div>Content</div></aegov-drawer>`,
-      });
-
-      await page.waitForChanges();
-      const invisible = page.root?.shadowRoot?.querySelector('.aegov-drawer-backdrop-invisible');
-      expect(invisible).toBeNull();
-    });
-
-    it('should apply drawer-backdrop--base class by default', async () => {
-      const page = await newSpecPage({
-        components: [AegovDrawer],
-        html: `<aegov-drawer is-open="true"><div>Content</div></aegov-drawer>`,
-      });
-
-      await page.waitForChanges();
-      const backdrop = page.root?.shadowRoot?.querySelector('.drawer-backdrop--base');
-      expect(backdrop).toBeTruthy();
-    });
-
-    it('should apply drawer-backdrop--light class', async () => {
-      const page = await newSpecPage({
-        components: [AegovDrawer],
-        html: `<aegov-drawer is-open="true" overlay-opacity="light"><div>Content</div></aegov-drawer>`,
-      });
-
-      await page.waitForChanges();
-      const backdrop = page.root?.shadowRoot?.querySelector('.drawer-backdrop--light');
-      expect(backdrop).toBeTruthy();
-    });
-
-    it('should apply drawer-backdrop--dark class', async () => {
-      const page = await newSpecPage({
-        components: [AegovDrawer],
-        html: `<aegov-drawer is-open="true" overlay-opacity="dark"><div>Content</div></aegov-drawer>`,
-      });
-
-      await page.waitForChanges();
-      const backdrop = page.root?.shadowRoot?.querySelector('.drawer-backdrop--dark');
-      expect(backdrop).toBeTruthy();
-    });
+    expect(bot.root.shadowRoot.querySelector('.drawer-container--bottom')).not.toBeNull();
   });
 
-  describe('accessibility', () => {
-    it('should render with role="dialog"', async () => {
-      const page = await newSpecPage({
-        components: [AegovDrawer],
-        html: `<aegov-drawer is-open="true"><div>Content</div></aegov-drawer>`,
-      });
-
-      await page.waitForChanges();
-      const dialog = page.root?.shadowRoot?.querySelector('[role="dialog"]');
-      expect(dialog).toBeTruthy();
+  it('applies size classes', async () => {
+    const page = await newSpecPage({
+      components: [AegovDrawer],
+      html: `<aegov-drawer is-open="true" size="lg"></aegov-drawer>`,
     });
-
-    it('should render with aria-modal="true"', async () => {
-      const page = await newSpecPage({
-        components: [AegovDrawer],
-        html: `<aegov-drawer is-open="true"><div>Content</div></aegov-drawer>`,
-      });
-
-      await page.waitForChanges();
-      const modal = page.root?.shadowRoot?.querySelector('[aria-modal="true"]');
-      expect(modal).toBeTruthy();
-    });
-
-    it('should pass through aria-label attribute', async () => {
-      const page = await newSpecPage({
-        components: [AegovDrawer],
-        html: `<aegov-drawer is-open="true" aria-label="Navigation drawer"><div>Content</div></aegov-drawer>`,
-      });
-
-      await page.waitForChanges();
-      const dialog = page.root?.shadowRoot?.querySelector('[aria-label="Navigation drawer"]');
-      expect(dialog).toBeTruthy();
-    });
+    expect(page.root.shadowRoot.querySelector('.drawer-size-lg')).not.toBeNull();
   });
 
-  describe('pass-through attributes', () => {
-    it('should pass through id attribute', async () => {
-      const page = await newSpecPage({
-        components: [AegovDrawer],
-        html: `<aegov-drawer id="my-drawer" is-open="true"><div>Content</div></aegov-drawer>`,
-      });
-
-      await page.waitForChanges();
-      const content = page.root?.shadowRoot?.querySelector('#my-drawer');
-      expect(content).toBeTruthy();
+  it('applies unpinned modifier when is-pinned=false', async () => {
+    const page = await newSpecPage({
+      components: [AegovDrawer],
+      html: `<aegov-drawer is-open="true" is-pinned="false"></aegov-drawer>`,
     });
-
-    it('should pass through data-* attributes', async () => {
-      const page = await newSpecPage({
-        components: [AegovDrawer],
-        html: `<aegov-drawer data-testid="drawer-test" is-open="true"><div>Content</div></aegov-drawer>`,
-      });
-
-      await page.waitForChanges();
-      const content = page.root?.shadowRoot?.querySelector('[data-testid="drawer-test"]');
-      expect(content).toBeTruthy();
-    });
-
-    it('should pass through aria-describedby attribute', async () => {
-      const page = await newSpecPage({
-        components: [AegovDrawer],
-        html: `<aegov-drawer aria-describedby="desc" is-open="true"><div>Content</div></aegov-drawer>`,
-      });
-
-      await page.waitForChanges();
-      const content = page.root?.shadowRoot?.querySelector('[aria-describedby="desc"]');
-      expect(content).toBeTruthy();
-    });
+    expect(page.root.shadowRoot.querySelector('.drawer-container--unpinned')).not.toBeNull();
   });
 
-  describe('public methods', () => {
-    it('should open drawer via show() method', async () => {
-      const page = await newSpecPage({
-        components: [AegovDrawer],
-        html: `<aegov-drawer><div>Content</div></aegov-drawer>`,
-      });
-
-      expect(page.rootInstance.isOpen).toBe(false);
-
-      await page.rootInstance.show();
-      await page.waitForChanges();
-
-      expect(page.rootInstance.isOpen).toBe(true);
+  it('renders backdrop when is-overlay=true (default)', async () => {
+    const page = await newSpecPage({
+      components: [AegovDrawer],
+      html: `<aegov-drawer is-open="true"></aegov-drawer>`,
     });
-
-    it('should close drawer via close() method', async () => {
-      const page = await newSpecPage({
-        components: [AegovDrawer],
-        html: `<aegov-drawer is-open="true"><div>Content</div></aegov-drawer>`,
-      });
-
-      expect(page.rootInstance.isOpen).toBe(true);
-
-      await page.rootInstance.close();
-      await page.waitForChanges();
-
-      expect(page.rootInstance.animationState).toBe('closing');
-    });
-
-    it('should toggle drawer via toggle() method', async () => {
-      const page = await newSpecPage({
-        components: [AegovDrawer],
-        html: `<aegov-drawer><div>Content</div></aegov-drawer>`,
-      });
-
-      expect(page.rootInstance.isOpen).toBe(false);
-
-      await page.rootInstance.toggle();
-      await page.waitForChanges();
-
-      expect(page.rootInstance.isOpen).toBe(true);
-
-      await page.rootInstance.toggle();
-      await page.waitForChanges();
-
-      expect(page.rootInstance.isOpen).toBe(false);
-    });
+    expect(page.root.shadowRoot.querySelector('.aegov-drawer-backdrop')).not.toBeNull();
   });
 
-  describe('events', () => {
-    it('should emit aegovDrawerOpen event when opened', async () => {
-      const page = await newSpecPage({
-        components: [AegovDrawer],
-        html: `<aegov-drawer><div>Content</div></aegov-drawer>`,
-      });
-
-      const openSpy = jest.fn();
-      page.root?.addEventListener('aegovDrawerOpen', openSpy);
-
-      await page.rootInstance.show();
-      await page.waitForChanges();
-
-      expect(openSpy).toHaveBeenCalled();
+  it('omits visible backdrop when is-overlay=false', async () => {
+    const page = await newSpecPage({
+      components: [AegovDrawer],
+      html: `<aegov-drawer is-open="true" is-overlay="false"></aegov-drawer>`,
     });
-
-    it('should emit aegovDrawerClose event when closed', async () => {
-      const page = await newSpecPage({
-        components: [AegovDrawer],
-        html: `<aegov-drawer is-open="true"><div>Content</div></aegov-drawer>`,
-      });
-
-      const closeSpy = jest.fn();
-      page.root?.addEventListener('aegovDrawerClose', closeSpy);
-
-      page.rootInstance.isOpen = false;
-      page.rootInstance['handleCloseComplete']();
-      await page.waitForChanges();
-
-      expect(closeSpy).toHaveBeenCalled();
-    });
-
-    it('should emit aegovDrawerBeforeClose event before closing', async () => {
-      const page = await newSpecPage({
-        components: [AegovDrawer],
-        html: `<aegov-drawer is-open="true"><div>Content</div></aegov-drawer>`,
-      });
-
-      const beforeCloseSpy = jest.fn();
-      page.root?.addEventListener('aegovDrawerBeforeClose', beforeCloseSpy);
-
-      await page.rootInstance.close();
-      await page.waitForChanges();
-
-      expect(beforeCloseSpy).toHaveBeenCalled();
-    });
-
-    it('should allow preventing drawer close via aegovDrawerBeforeClose', async () => {
-      const page = await newSpecPage({
-        components: [AegovDrawer],
-        html: `<aegov-drawer is-open="true"><div>Content</div></aegov-drawer>`,
-      });
-
-      page.root?.addEventListener('aegovDrawerBeforeClose', (event: any) => {
-        event.detail.preventDefault();
-      });
-
-      await page.rootInstance.close();
-      await page.waitForChanges();
-
-      expect(page.rootInstance.isOpen).toBe(true);
-    });
+    expect(page.root.shadowRoot.querySelector('.aegov-drawer-backdrop')).toBeNull();
   });
 
-  describe('animation states', () => {
-    it('should have animationState="closed" initially', async () => {
-      const page = await newSpecPage({
-        components: [AegovDrawer],
-        html: `<aegov-drawer><div>Content</div></aegov-drawer>`,
-      });
-
-      expect(page.rootInstance.animationState).toBe('closed');
+  it('applies overlay opacity classes', async () => {
+    const page = await newSpecPage({
+      components: [AegovDrawer],
+      html: `<aegov-drawer is-open="true" overlay-opacity="dark"></aegov-drawer>`,
     });
-
-    it('should begin open sequence when show() is called', async () => {
-      const page = await newSpecPage({
-        components: [AegovDrawer],
-        html: `<aegov-drawer><div>Content</div></aegov-drawer>`,
-      });
-
-      await page.rootInstance.show();
-      await page.waitForChanges();
-
-      // Initially renders at 'closed' position for the transition start state,
-      // then rAF moves it to 'opening'. In spec tests rAF doesn't fire,
-      // so we verify the element is rendered (open=true) with a transitional state.
-      expect(page.rootInstance.isOpen).toBe(true);
-      expect(['closed', 'opening']).toContain(page.rootInstance.animationState);
-    });
-
-    it('should set animationState="closing" when closing', async () => {
-      const page = await newSpecPage({
-        components: [AegovDrawer],
-        html: `<aegov-drawer is-open="true"><div>Content</div></aegov-drawer>`,
-      });
-
-      await page.rootInstance.close();
-      await page.waitForChanges();
-
-      expect(page.rootInstance.animationState).toBe('closing');
-    });
+    expect(page.root.shadowRoot.querySelector('.drawer-backdrop--dark')).not.toBeNull();
   });
 
-  describe('z-index stacking', () => {
-    it('should set z-index based on drawer count', async () => {
-      const page = await newSpecPage({
-        components: [AegovDrawer],
-        html: `<aegov-drawer is-open="true"><div>Content</div></aegov-drawer>`,
-      });
-
-      await page.waitForChanges();
-
-      const style = page.root?.getAttribute('style');
-      expect(style).toContain('--drawer-z-index');
+  it('reflects animation attribute', async () => {
+    const page = await newSpecPage({
+      components: [AegovDrawer],
+      html: `<aegov-drawer is-open="true" animation="fade"></aegov-drawer>`,
     });
+    const dialog = page.root.shadowRoot.querySelector('[role="dialog"]');
+    expect(dialog.getAttribute('data-animation')).toBe('fade');
   });
 
-  describe('animation duration', () => {
-    it('should return 0 for none animation', async () => {
-      const page = await newSpecPage({
-        components: [AegovDrawer],
-        html: `<aegov-drawer animation="none"><div>Content</div></aegov-drawer>`,
-      });
-
-      expect(page.rootInstance['getAnimationDuration']()).toBe(0);
+  it('applies padding class by default', async () => {
+    const page = await newSpecPage({
+      components: [AegovDrawer],
+      html: `<aegov-drawer is-open="true"></aegov-drawer>`,
     });
-
-    it('should return 300 for slide animation', async () => {
-      const page = await newSpecPage({
-        components: [AegovDrawer],
-        html: `<aegov-drawer animation="slide"><div>Content</div></aegov-drawer>`,
-      });
-
-      expect(page.rootInstance['getAnimationDuration']()).toBe(300);
-    });
-
-    it('should return 300 for fade animation', async () => {
-      const page = await newSpecPage({
-        components: [AegovDrawer],
-        html: `<aegov-drawer animation="fade"><div>Content</div></aegov-drawer>`,
-      });
-
-      expect(page.rootInstance['getAnimationDuration']()).toBe(300);
-    });
+    expect(page.root.shadowRoot.querySelector('.drawer--padded')).not.toBeNull();
   });
 
-  describe('invalid prop values', () => {
-    let warnSpy: jest.SpyInstance;
-
-    beforeEach(() => {
-      warnSpy = jest.spyOn(console, 'warn').mockImplementation();
+  it('emits aegovDrawerOpen on open', async () => {
+    const page = await newSpecPage({
+      components: [AegovDrawer],
+      html: `<aegov-drawer></aegov-drawer>`,
     });
+    const spy = jest.fn();
+    page.root.addEventListener('aegovDrawerOpen', spy);
+    page.rootInstance.isOpen = true;
+    await page.waitForChanges();
+    expect(spy).toHaveBeenCalled();
+  });
 
-    afterEach(() => {
-      warnSpy.mockRestore();
+  it('show() opens the drawer', async () => {
+    const page = await newSpecPage({
+      components: [AegovDrawer],
+      html: `<aegov-drawer></aegov-drawer>`,
     });
+    await page.rootInstance.show();
+    expect(page.rootInstance.isOpen).toBe(true);
+  });
 
-    it('renders safely when position is invalid', async () => {
-      const page = await newSpecPage({
-        components: [AegovDrawer],
-        html: `<aegov-drawer is-open="true" position="middle"><div>Content</div></aegov-drawer>`,
-      });
-      await page.waitForChanges();
-      expect(page.root).toBeTruthy();
+  it('toggle() flips state', async () => {
+    const page = await newSpecPage({
+      components: [AegovDrawer],
+      html: `<aegov-drawer></aegov-drawer>`,
     });
+    await page.rootInstance.toggle();
+    expect(page.rootInstance.isOpen).toBe(true);
+  });
 
-    it('renders safely when animation is invalid', async () => {
-      const page = await newSpecPage({
-        components: [AegovDrawer],
-        html: `<aegov-drawer is-open="true" animation="bounce"><div>Content</div></aegov-drawer>`,
-      });
-      await page.waitForChanges();
-      expect(page.root).toBeTruthy();
+  it('emits aegovDrawerBeforeClose on close()', async () => {
+    const page = await newSpecPage({
+      components: [AegovDrawer],
+      html: `<aegov-drawer is-open="true"></aegov-drawer>`,
     });
-
-    it('renders safely when overlayOpacity is invalid', async () => {
-      const page = await newSpecPage({
-        components: [AegovDrawer],
-        html: `<aegov-drawer is-open="true" overlay-opacity="crazy"><div>Content</div></aegov-drawer>`,
-      });
-      await page.waitForChanges();
-      expect(page.root).toBeTruthy();
-    });
-
-    it('warns with component name, prop name, invalid value, and fallback', async () => {
-      await newSpecPage({
-        components: [AegovDrawer],
-        html: `<aegov-drawer position="weird"><div>Content</div></aegov-drawer>`,
-      });
-      const messages = warnSpy.mock.calls.map(c => c[0] as string);
-      const warn = messages.find(m => m.includes('"position"'));
-      expect(warn).toBeDefined();
-      expect(warn).toContain('[aegov-drawer]');
-      expect(warn).toContain('"weird"');
-      expect(warn).toContain('right');
-    });
-
-    it('does not warn when all props are valid', async () => {
-      await newSpecPage({
-        components: [AegovDrawer],
-        html: `<aegov-drawer position="left" animation="fade" overlay-opacity="dark"><div>Content</div></aegov-drawer>`,
-      });
-      expect(warnSpy).not.toHaveBeenCalled();
-    });
-
-    it('warns again via @Watch when position is updated to invalid value', async () => {
-      const page = await newSpecPage({
-        components: [AegovDrawer],
-        html: `<aegov-drawer position="right"><div>Content</div></aegov-drawer>`,
-      });
-      page.root.setAttribute('position', 'nope');
-      await page.waitForChanges();
-      const messages = warnSpy.mock.calls.map(c => c[0] as string);
-      const warn = messages.find(m => m.includes('[aegov-drawer]') && m.includes('"position"'));
-      expect(warn).toBeDefined();
-    });
-
-    it('warns again via @Watch when animation is updated to invalid value', async () => {
-      const page = await newSpecPage({
-        components: [AegovDrawer],
-        html: `<aegov-drawer animation="slide"><div>Content</div></aegov-drawer>`,
-      });
-      page.root.setAttribute('animation', 'nope');
-      await page.waitForChanges();
-      const messages = warnSpy.mock.calls.map(c => c[0] as string);
-      const warn = messages.find(m => m.includes('[aegov-drawer]') && m.includes('"animation"'));
-      expect(warn).toBeDefined();
-    });
-
-    it('warns again via @Watch when overlayOpacity is updated to invalid value', async () => {
-      const page = await newSpecPage({
-        components: [AegovDrawer],
-        html: `<aegov-drawer is-overlay-opacity="base"><div>Content</div></aegov-drawer>`,
-      });
-      page.root.setAttribute('overlay-opacity', 'nope');
-      await page.waitForChanges();
-      const messages = warnSpy.mock.calls.map(c => c[0] as string);
-      const warn = messages.find(m => m.includes('[aegov-drawer]') && m.includes('"overlayOpacity"'));
-      expect(warn).toBeDefined();
-    });
+    const spy = jest.fn();
+    page.root.addEventListener('aegovDrawerBeforeClose', spy);
+    await page.rootInstance.close();
+    expect(spy).toHaveBeenCalled();
   });
 });

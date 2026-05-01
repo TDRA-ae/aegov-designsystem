@@ -1,535 +1,239 @@
-# Accordion
+# aegov-accordion
 
-<p class="text-lg text-aeblack-500 mb-8">An accordion is a vertically stacked set of collapsible sections. It lets users expand and collapse content on demand, keeping pages clean while making detailed information easily accessible.</p>
+A vertical stack of collapsible content sections. Use it to progressively disclose related groups of information without consuming screen real estate. Compose `aegov-accordion` with one or more `aegov-accordion-item` children — the parent wires up shared icon style, sizing, first/last positioning, and the single-open vs. multi-open behavior.
 
-## Introduction
+## Properties
 
-The `aegov-accordion` component uses a parent-child architecture. The `<aegov-accordion>` wrapper manages shared behaviour — single or multiple open panels, icon style, bordered appearance — while each `<aegov-accordion-item>` holds an individual collapsible section.
+### is-multiple
 
-The component supports **2 icon styles**, a **bordered variant**, **single or multi-open** modes, **default-open** items, **disabled** items, and **full keyboard and screen-reader accessibility** out of the box.
+When `true`, multiple items can be open at the same time. By default only one item is open at a time and opening another closes the rest.
 
 ```html
-<aegov-accordion>
-  <aegov-accordion-item heading="Section One">
-    Content for the first section.
-  </aegov-accordion-item>
-  <aegov-accordion-item heading="Section Two">
-    Content for the second section.
-  </aegov-accordion-item>
+<aegov-accordion is-multiple="true">
+  <aegov-accordion-item heading="One">A</aegov-accordion-item>
+  <aegov-accordion-item heading="Two">B</aegov-accordion-item>
 </aegov-accordion>
 ```
 
-<div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-accordion>
-    <aegov-accordion-item heading="Section One">
-      Content for the first section.
-    </aegov-accordion-item>
-    <aegov-accordion-item heading="Section Two">
-      Content for the second section.
-    </aegov-accordion-item>
-    <aegov-accordion-item heading="Section Three">
-      Content for the third section.
-    </aegov-accordion-item>
-  </aegov-accordion>
-</div>
+### default-open
 
----
-
-## Icon Styles
-
-The `icon` property on the parent controls the indicator shown on every item. Two styles are available.
-
-### Chevron (default)
-
-A downward-pointing chevron that rotates 180° when the section is open.
+Zero-based index of the item that should be open on initial render.
 
 ```html
-<aegov-accordion icon="chevron">
-  <aegov-accordion-item heading="Chevron Item">…</aegov-accordion-item>
+<aegov-accordion default-open="1">
+  <aegov-accordion-item heading="First">A</aegov-accordion-item>
+  <aegov-accordion-item heading="Second">B</aegov-accordion-item>
 </aegov-accordion>
 ```
 
-<div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-accordion icon="chevron">
-    <aegov-accordion-item heading="Chevron Item One">
-      This section uses the default chevron icon.
-    </aegov-accordion-item>
-    <aegov-accordion-item heading="Chevron Item Two">
-      The chevron rotates 180 degrees when the section opens.
-    </aegov-accordion-item>
-  </aegov-accordion>
-</div>
+### icon
 
-### Plus
-
-A plus sign that rotates 45° to become an × when the section is open.
+Toggle indicator style. `chevron` (default) rotates a chevron; `plus` swaps a plus for a minus.
 
 ```html
 <aegov-accordion icon="plus">
-  <aegov-accordion-item heading="Plus Item">…</aegov-accordion-item>
+  <aegov-accordion-item heading="One">A</aegov-accordion-item>
 </aegov-accordion>
 ```
 
-<div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-accordion icon="plus">
-    <aegov-accordion-item heading="Plus Item One">
-      This section uses the plus icon style.
-    </aegov-accordion-item>
-    <aegov-accordion-item heading="Plus Item Two">
-      The plus rotates 45 degrees to form an × when open.
-    </aegov-accordion-item>
-  </aegov-accordion>
-</div>
+### is-bordered
 
----
-
-## Bordered Variant
-
-Set the `is-bordered` attribute on the parent to wrap the entire accordion in a visible border with rounded corners. This also increases the horizontal padding inside each item.
+Adds an outer border and rounded corners around the entire accordion.
 
 ```html
-<aegov-accordion is-bordered>
-  <aegov-accordion-item heading="Bordered Item One">…</aegov-accordion-item>
-  <aegov-accordion-item heading="Bordered Item Two">…</aegov-accordion-item>
+<aegov-accordion is-bordered="true">
+  <aegov-accordion-item heading="Bordered">A</aegov-accordion-item>
 </aegov-accordion>
 ```
 
-<div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-accordion is-bordered>
-    <aegov-accordion-item heading="Bordered Item One">
-      The accordion container has a visible border and rounded corners.
-    </aegov-accordion-item>
-    <aegov-accordion-item heading="Bordered Item Two">
-      Padding is automatically increased for a more spacious look.
-    </aegov-accordion-item>
-    <aegov-accordion-item heading="Bordered Item Three">
-      Works with both chevron and plus icon styles.
-    </aegov-accordion-item>
-  </aegov-accordion>
-</div>
+### size
 
-Bordered with the plus icon:
-
-<div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-accordion is-bordered icon="plus">
-    <aegov-accordion-item heading="Bordered + Plus One">
-      Combining the bordered variant with the plus icon style.
-    </aegov-accordion-item>
-    <aegov-accordion-item heading="Bordered + Plus Two">
-      The bordered and icon props are independent — mix them freely.
-    </aegov-accordion-item>
-  </aegov-accordion>
-</div>
-
----
-
-## Allow Multiple Open
-
-By default, only one accordion item can be open at a time — opening a new item automatically closes the previous one. Set `is-multiple` to let users keep several sections open simultaneously.
+Sets the heading typography size. Accepts `sm`, `base`, or `lg`. Also supports a Tailwind-style responsive string.
 
 ```html
-<aegov-accordion is-multiple>
-  <aegov-accordion-item heading="Section A">…</aegov-accordion-item>
-  <aegov-accordion-item heading="Section B">…</aegov-accordion-item>
-  <aegov-accordion-item heading="Section C">…</aegov-accordion-item>
+<aegov-accordion size="lg">
+  <aegov-accordion-item heading="Larger heading">A</aegov-accordion-item>
 </aegov-accordion>
 ```
 
-<div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-accordion is-multiple is-bordered>
-    <aegov-accordion-item heading="Section A">
-      Open this section, then open the others — they all stay open.
-    </aegov-accordion-item>
-    <aegov-accordion-item heading="Section B">
-      Multiple sections can be expanded at the same time.
-    </aegov-accordion-item>
-    <aegov-accordion-item heading="Section C">
-      Click any header again to collapse that individual section.
-    </aegov-accordion-item>
-  </aegov-accordion>
-</div>
+### field-id
 
----
+Auto-generated when omitted. Reflects to the accordion wrapper element's `id`.
 
-## Default Open
+### Sub-component: aegov-accordion-item
 
-Use the `default-open` attribute on the parent to specify which item should be expanded on initial render. The value is a zero-based index.
+Each item exposes its own props. `icon`, `size`, `is-first`, and `is-last` are written by the parent and should not be set manually.
+
+#### heading
+
+Text shown in the trigger when no `accordion-item-heading` slot is provided.
 
 ```html
-<!-- Opens the second item (index 1) by default -->
-<aegov-accordion default-open="1">
-  <aegov-accordion-item heading="First">…</aegov-accordion-item>
-  <aegov-accordion-item heading="Second (open)">…</aegov-accordion-item>
-  <aegov-accordion-item heading="Third">…</aegov-accordion-item>
-</aegov-accordion>
+<aegov-accordion-item heading="Privacy">Body...</aegov-accordion-item>
 ```
 
-<div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-accordion default-open="1" is-bordered>
-    <aegov-accordion-item heading="First Item">
-      This item is collapsed by default.
-    </aegov-accordion-item>
-    <aegov-accordion-item heading="Second Item (default open)">
-      This item is automatically expanded when the page loads because the parent has default-open="1".
-    </aegov-accordion-item>
-    <aegov-accordion-item heading="Third Item">
-      This item is also collapsed by default.
-    </aegov-accordion-item>
-  </aegov-accordion>
-</div>
+#### is-disabled
 
----
-
-## Disabled Items
-
-Set the `disabled` attribute on an individual `<aegov-accordion-item>` to prevent it from being toggled. Disabled items appear visually muted and do not respond to clicks or keyboard input.
+Disables the trigger so the item cannot be opened or closed.
 
 ```html
-<aegov-accordion>
-  <aegov-accordion-item heading="Enabled">…</aegov-accordion-item>
-  <aegov-accordion-item heading="Disabled" disabled>…</aegov-accordion-item>
-  <aegov-accordion-item heading="Also Enabled">…</aegov-accordion-item>
+<aegov-accordion-item heading="Coming soon" is-disabled="true">...</aegov-accordion-item>
+```
+
+#### is-open
+
+Reflects the current open state. The parent accordion mutates this value in response to user interaction.
+
+## Sizes
+
+`size` accepts a single token or a responsive string using Tailwind-style breakpoint prefixes (`xs`, `sm`, `md`, `lg`, `xl`, `2xl`).
+
+```html
+<!-- Static -->
+<aegov-accordion size="sm"></aegov-accordion>
+<aegov-accordion size="base"></aegov-accordion>
+<aegov-accordion size="lg"></aegov-accordion>
+
+<!-- Responsive -->
+<aegov-accordion size="sm md:base lg:lg"></aegov-accordion>
+```
+
+| Token  | Heading size |
+| ------ | ------------ |
+| `sm`   | 14px |
+| `base` | 16px (default) |
+| `lg`   | 18px |
+
+## Examples
+
+### Basic FAQ
+
+```html
+<aegov-accordion default-open="0">
+  <aegov-accordion-item heading="What is the design system?">
+    A shared library of UAE Government UI components.
+  </aegov-accordion-item>
+  <aegov-accordion-item heading="Where can I report bugs?">
+    File an issue on the project repository.
+  </aegov-accordion-item>
 </aegov-accordion>
 ```
 
-<div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-accordion is-bordered>
-    <aegov-accordion-item heading="Enabled Section">
-      This section can be toggled normally.
-    </aegov-accordion-item>
-    <aegov-accordion-item heading="Disabled Section" disabled>
-      This section cannot be opened — clicking or pressing Enter has no effect.
-    </aegov-accordion-item>
-    <aegov-accordion-item heading="Another Enabled Section">
-      This section also works normally.
-    </aegov-accordion-item>
-  </aegov-accordion>
-</div>
+### Multi-open with plus icon
 
----
+```html
+<aegov-accordion is-multiple="true" icon="plus" is-bordered="true">
+  <aegov-accordion-item heading="Section A">A...</aegov-accordion-item>
+  <aegov-accordion-item heading="Section B">B...</aegov-accordion-item>
+</aegov-accordion>
+```
 
-## Heading Slot
-
-By default, the heading text is provided via the `heading` prop. For richer content — icons, badges, formatted text — use the `accordion-item-heading` named slot instead. When both are provided, the slot takes precedence.
+### Custom heading slot
 
 ```html
 <aegov-accordion>
   <aegov-accordion-item>
     <span slot="accordion-item-heading">
-      <aegov-badge color="primary" size="sm">New</aegov-badge>
-      Custom Heading with Badge
+      <strong>Custom</strong> heading content
     </span>
-    Content with a rich heading above.
+    Body content...
   </aegov-accordion-item>
 </aegov-accordion>
 ```
 
-<div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-accordion is-bordered>
-    <aegov-accordion-item heading="Plain heading via prop">
-      This heading was set using the heading attribute.
-    </aegov-accordion-item>
-    <aegov-accordion-item>
-      <span slot="accordion-item-heading">
-        <aegov-badge color="primary" size="sm">New</aegov-badge>
-        Rich heading with a badge
-      </span>
-      This heading uses the named slot for richer content.
-    </aegov-accordion-item>
-    <aegov-accordion-item>
-      <span slot="accordion-item-heading">
-        <strong>Bold heading</strong> — with inline HTML
-      </span>
-      The slot accepts any HTML content.
-    </aegov-accordion-item>
-  </aegov-accordion>
-</div>
-
----
-
-## Sizes
-
-The `size` attribute on the parent controls the heading font size for all items. Three sizes are available: `sm` (14 px), `base` (16 px, default), and `lg` (18 px).
-
-### Small
+### Disabled item
 
 ```html
-<aegov-accordion size="sm" is-bordered>
-  <aegov-accordion-item heading="Small Heading">…</aegov-accordion-item>
+<aegov-accordion>
+  <aegov-accordion-item heading="Available">A</aegov-accordion-item>
+  <aegov-accordion-item heading="Disabled" is-disabled="true">B</aegov-accordion-item>
 </aegov-accordion>
 ```
 
-<div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-accordion size="sm" is-bordered>
-    <aegov-accordion-item heading="Small — What is digital transformation?">
-      Digital transformation is the integration of digital technology into all areas of an organisation, fundamentally changing how it operates and delivers value.
-    </aegov-accordion-item>
-    <aegov-accordion-item heading="Small — Who is this service for?">
-      This service is available to all UAE residents and citizens.
-    </aegov-accordion-item>
-    <aegov-accordion-item heading="Small — How do I apply?">
-      Submit your application through the official portal using your UAE Pass credentials.
-    </aegov-accordion-item>
-  </aegov-accordion>
-</div>
+## RTL Behavior
 
-### Base (default)
-
-```html
-<aegov-accordion is-bordered>
-  <aegov-accordion-item heading="Base Heading">…</aegov-accordion-item>
-</aegov-accordion>
-```
-
-<div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-accordion is-bordered>
-    <aegov-accordion-item heading="Base — What is digital transformation?">
-      Digital transformation is the integration of digital technology into all areas of an organisation, fundamentally changing how it operates and delivers value.
-    </aegov-accordion-item>
-    <aegov-accordion-item heading="Base — Who is this service for?">
-      This service is available to all UAE residents and citizens.
-    </aegov-accordion-item>
-    <aegov-accordion-item heading="Base — How do I apply?">
-      Submit your application through the official portal using your UAE Pass credentials.
-    </aegov-accordion-item>
-  </aegov-accordion>
-</div>
-
-### Large
-
-```html
-<aegov-accordion size="lg" is-bordered>
-  <aegov-accordion-item heading="Large Heading">…</aegov-accordion-item>
-</aegov-accordion>
-```
-
-<div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-accordion size="lg" is-bordered>
-    <aegov-accordion-item heading="Large — What is digital transformation?">
-      Digital transformation is the integration of digital technology into all areas of an organisation, fundamentally changing how it operates and delivers value.
-    </aegov-accordion-item>
-    <aegov-accordion-item heading="Large — Who is this service for?">
-      This service is available to all UAE residents and citizens.
-    </aegov-accordion-item>
-    <aegov-accordion-item heading="Large — How do I apply?">
-      Submit your application through the official portal using your UAE Pass credentials.
-    </aegov-accordion-item>
-  </aegov-accordion>
-</div>
-
-### Responsive Size
-
-The `size` prop accepts Tailwind-style responsive prefixes. Write a space-separated string where each token is either a plain value or `breakpoint:value`. The base value (no prefix) applies below the smallest specified breakpoint.
-
-Available breakpoints: `xs` (480px), `sm` (640px), `md` (768px), `lg` (1024px), `xl` (1280px), `2xl` (1536px), `3xl` (1680px).
-
-```html
-<aegov-accordion size="sm xl:lg" is-bordered>
-  <aegov-accordion-item heading="Responsive Accordion Item">
-    This accordion uses small heading text by default, switching to large at 1280px and above.
-  </aegov-accordion-item>
-  <aegov-accordion-item heading="Another Section">
-    Resize the viewport to see the heading size change.
-  </aegov-accordion-item>
-</aegov-accordion>
-```
-
-<div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-accordion size="sm xl:lg" is-bordered>
-    <aegov-accordion-item heading="Responsive Accordion Item">
-      This accordion uses small heading text by default, switching to large at 1280px and above.
-    </aegov-accordion-item>
-    <aegov-accordion-item heading="Another Section">
-      Resize the viewport to see the heading size change.
-    </aegov-accordion-item>
-  </aegov-accordion>
-</div>
-
-> **Graceful degradation:** Unknown breakpoint names and invalid values are silently ignored. An unrecognised base value falls back to the component default.
-
----
-
-## Long Titles
-
-When a heading exceeds 100 characters it wraps onto multiple lines. The trigger button stretches vertically to accommodate the full text, and the icon stays pinned to the top-right so it never overlaps the heading.
-
-```html
-<aegov-accordion is-bordered>
-  <aegov-accordion-item heading="Understanding the Role of Digital Transformation in Modernising Government Services Across the UAE">
-    Content for the long-title section.
-  </aegov-accordion-item>
-  <aegov-accordion-item heading="Standard Heading">
-    Content for a normal section.
-  </aegov-accordion-item>
-</aegov-accordion>
-```
-
-<div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-accordion is-bordered>
-    <aegov-accordion-item heading="Understanding the Role of Digital Transformation in Modernising Government Services Across the UAE">
-      This item's heading is well over 100 characters. Notice how it wraps naturally across multiple lines while the chevron icon remains anchored to the top-right corner of the header, keeping the layout clean and readable.
-    </aegov-accordion-item>
-    <aegov-accordion-item heading="This is a second long-titled section covering the Implementation of Smart City Initiatives and Citizen-Centric Digital Platforms">
-      A second item with an equally long heading to show consistent multi-line wrapping behaviour across multiple items in the same accordion.
-    </aegov-accordion-item>
-    <aegov-accordion-item heading="Standard-length heading for comparison">
-      A normal-length heading alongside the long ones, showing that both coexist without layout issues.
-    </aegov-accordion-item>
-  </aegov-accordion>
-</div>
-
-The same behaviour applies with the `plus` icon and without the `is-bordered` variant:
-
-<div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-accordion icon="plus">
-    <aegov-accordion-item heading="Understanding the Role of Digital Transformation in Modernising Government Services Across the UAE">
-      Long title with the plus icon style — the icon anchors to the top-right just as it does for the chevron.
-    </aegov-accordion-item>
-    <aegov-accordion-item heading="Short title">
-      Normal heading for comparison.
-    </aegov-accordion-item>
-  </aegov-accordion>
-</div>
-
----
-
-## RTL Support
-
-The component fully supports right-to-left layouts. When the document or a parent element has `dir="rtl"`, the header text alignment and layout automatically adjust.
-
-```html
-<div dir="rtl">
-  <aegov-accordion is-bordered>
-    <aegov-accordion-item heading="القسم الأول">
-      محتوى القسم الأول
-    </aegov-accordion-item>
-    <aegov-accordion-item heading="القسم الثاني">
-      محتوى القسم الثاني
-    </aegov-accordion-item>
-  </aegov-accordion>
-</div>
-```
-
-<div dir="rtl" class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-accordion is-bordered>
-    <aegov-accordion-item heading="القسم الأول">
-      محتوى القسم الأول يظهر هنا عند التوسيع.
-    </aegov-accordion-item>
-    <aegov-accordion-item heading="القسم الثاني">
-      محتوى القسم الثاني يظهر هنا عند التوسيع.
-    </aegov-accordion-item>
-    <aegov-accordion-item heading="القسم الثالث">
-      محتوى القسم الثالث يظهر هنا عند التوسيع.
-    </aegov-accordion-item>
-  </aegov-accordion>
-</div>
-
-No additional configuration is needed — the component reads the inherited `dir` attribute and adjusts automatically.
-
----
-
-## Listening to Events
-
-Each `<aegov-accordion-item>` emits an `aegovAccordionItemToggle` event when toggled. The event detail contains `{ open: boolean }` indicating the requested state.
-
-```html
-<aegov-accordion id="my-accordion">
-  <aegov-accordion-item heading="Click Me">
-    Toggle content.
-  </aegov-accordion-item>
-</aegov-accordion>
-
-<script>
-  document.getElementById('my-accordion')
-    .addEventListener('aegovAccordionItemToggle', (e) => {
-      console.log('Item toggled, open:', e.detail.open);
-    });
-</script>
-```
-
-> **Note:** When `is-multiple` is not set, the parent component intercepts toggle events and automatically closes other items. The event still fires so you can react to state changes in your application.
-
----
+The accordion lays out vertically and is direction-agnostic. Headings and triggers respect the document direction, and the chevron/plus icon position flips automatically when the surrounding context is `dir="rtl"`. Content slot rendering uses logical properties so padding, borders, and animation behave correctly in both directions.
 
 ## API Reference
 
-### aegov-accordion (Parent)
+### aegov-accordion Properties
 
-#### Properties
+| Property      | Attribute      | Description                                                   | Type                  | Default    |
+| ------------- | -------------- | ------------------------------------------------------------- | --------------------- | ---------- |
+| `fieldId`     | `field-id`     | DOM `id` for the accordion wrapper. Auto-generated if omitted | `string`              | generated  |
+| `isMultiple`  | `is-multiple`  | Allow multiple items open at once                             | `boolean`             | `false`    |
+| `defaultOpen` | `default-open` | Index of item to open on initial render                       | `number`              | `undefined`|
+| `icon`        | `icon`         | Toggle indicator style                                        | `'chevron' \| 'plus'` | `'chevron'`|
+| `isBordered`  | `is-bordered`  | Add an outer border around the accordion                      | `boolean`             | `false`    |
+| `size`        | `size`         | Heading size token or responsive string                       | `string`              | `'base'`   |
 
-| Property        | Attribute        | Description                                       | Type                                | Default     |
-|-----------------|------------------|---------------------------------------------------|-------------------------------------|-------------|
-| `isMultiple` | `is-multiple` | Allow multiple items to be open simultaneously    | `boolean`                           | `false`     |
-| `defaultOpen`   | `default-open`   | Index of the item to open by default (0-based)    | `number`                            | `undefined` |
-| `icon`          | `icon`           | Icon style for all child items                    | `'chevron'` \| `'plus'`            | `'chevron'` |
-| `is-bordered`      | `is-bordered`       | Show a border around the accordion                | `boolean`                           | `false`     |
-| `size`          | `size`           | Heading font size for all child items. Supports responsive strings (e.g. `'sm xl:lg'`). | `'sm'` \| `'base'` \| `'lg'`      | `'base'`    |
+### aegov-accordion-item Properties
 
-#### Slots
+| Property     | Attribute      | Description                                              | Type                  | Default    |
+| ------------ | -------------- | -------------------------------------------------------- | --------------------- | ---------- |
+| `heading`    | `heading`      | Trigger text (used if no heading slot)                   | `string`              | `undefined`|
+| `isOpen`     | `is-open`      | Whether the item is currently expanded (managed)         | `boolean`             | `false`    |
+| `isDisabled` | `is-disabled`  | Disable user interaction with the trigger                | `boolean`             | `false`    |
+| `icon`       | `icon`         | (managed by parent) toggle indicator style               | `'chevron' \| 'plus'` | `'chevron'`|
+| `isFirst`    | `is-first`     | (managed by parent) whether this is the first item       | `boolean`             | `false`    |
+| `isLast`     | `is-last`      | (managed by parent) whether this is the last item        | `boolean`             | `false`    |
+| `size`       | `size`         | (managed by parent) heading size token                   | `'sm' \| 'base' \| 'lg'` | `'base'` |
 
-| Slot      | Description                                                        |
-|-----------|--------------------------------------------------------------------|
-| (default) | One or more `<aegov-accordion-item>` elements.                    |
+### Pass-through Attributes
 
-### aegov-accordion-item (Child)
+`aria-*` and `data-*` attributes are not forwarded by `aegov-accordion`. Place them directly on the host element if needed; native HTML attributes still apply.
 
-#### Properties
+### Events
 
-| Property   | Attribute  | Description                                       | Type      | Default |
-|------------|------------|---------------------------------------------------|-----------|---------|
-| `heading`  | `heading`  | Heading text (alternative to the named slot)      | `string`  | —       |
-| `open`     | `open`     | Whether the item is expanded                      | `boolean` | `false` |
-| `disabled` | `disabled` | Prevents the item from being toggled              | `boolean` | `false` |
+| Event                       | Component               | Detail              | Description                              |
+| --------------------------- | ----------------------- | ------------------- | ---------------------------------------- |
+| `aegovAccordionItemToggle`  | `aegov-accordion-item`  | `{ open: boolean }` | Fired when an item requests open/close. The parent intercepts this event and updates `isOpen` accordingly. |
 
-> Properties `icon`, `isFirst`, and `isLast` are set internally by the parent and should not be set manually.
+### Event listening example
 
-#### Events
+```html
+<aegov-accordion id="faq">
+  <aegov-accordion-item heading="A">A</aegov-accordion-item>
+</aegov-accordion>
 
-| Event                       | Description                          | Detail Type           |
-|-----------------------------|--------------------------------------|-----------------------|
-| `aegovAccordionItemToggle`  | Emitted when the item is toggled     | `{ open: boolean }`   |
+<script>
+  document.querySelector('#faq').addEventListener('aegovAccordionItemToggle', (e) => {
+    console.log('Item toggle requested, open =', e.detail.open);
+  });
+</script>
+```
 
-The event is not emitted when the item is `disabled`.
+### Slots
 
-#### Slots
-
-| Slot                       | Description                                          |
-|----------------------------|------------------------------------------------------|
-| (default)                  | The collapsible content of the item.                |
-| `accordion-item-heading`   | Rich heading content (takes precedence over `heading` prop). |
-
----
+| Component                | Slot name                  | Description                                  |
+| ------------------------ | -------------------------- | -------------------------------------------- |
+| `aegov-accordion`        | (default)                  | Place `aegov-accordion-item` children here   |
+| `aegov-accordion-item`   | `accordion-item-heading`   | Custom heading content (overrides `heading`) |
+| `aegov-accordion-item`   | (default)                  | Body content shown when expanded             |
 
 ## Accessibility
 
-The `aegov-accordion` component is built with accessibility as a first-class concern.
+### Built-in
 
-### Built-in Features
+- Each trigger is a real `<button>` with `aria-expanded` reflecting the open state and `aria-controls` linking to the panel.
+- Each panel uses `role="region"` and `aria-labelledby` pointing at its trigger so screen readers announce the relationship.
+- `Enter` and `Space` toggle the focused item.
+- Disabled items set both `disabled` and skip toggle emission.
 
-- **Semantic `<button>` trigger** — each item header is a native `<button>` element, keyboard-focusable and announced correctly by screen readers.
-- **`aria-expanded`** — automatically set to `"true"` or `"false"` on the trigger button to reflect open/closed state.
-- **`aria-controls`** — links the trigger button to the collapsible content panel via matching IDs.
-- **`role="region"`** — the content panel is marked as a region, labelled by the trigger button via `aria-labelledby`.
-- **Keyboard navigation** — supports Enter and Space to toggle items. Tab moves focus between items naturally.
-- **Disabled state** — sets the native `disabled` attribute on the button, removing it from the interaction flow and announcing it as disabled to assistive technologies.
-- **Animated height** — content opens and closes with a smooth height transition using `ResizeObserver` to track content size changes.
+### Developer responsibilities
 
-### Developer Responsibilities
+- Provide a meaningful `heading` (or heading slot) on every item so the trigger reads as more than just "button".
+- Avoid placing focusable controls inside a collapsed item that should remain off the tab order — use `is-disabled` or omit them when collapsed.
+- When using `default-open`, ensure the index points at a real child item.
 
-1. **Provide meaningful headings.** Every accordion item should have a clear, descriptive heading — either via the `heading` prop or the `accordion-item-heading` slot. Avoid generic labels like "Click here".
+### Keyboard support
 
-2. **Do not nest interactive elements in headings.** The heading is rendered inside a `<button>`. Nesting other buttons, links, or form controls inside it creates invalid HTML and confuses assistive technologies.
+| Key            | Action                                          |
+| -------------- | ----------------------------------------------- |
+| `Enter`, `Space` | Toggle the focused accordion item             |
+| `Tab`          | Move focus to the next focusable element        |
+| `Shift+Tab`    | Move focus to the previous focusable element    |
 
-3. **Colour contrast.** The built-in colour scheme meets WCAG 2.1 AA contrast requirements. If you override colours via CSS, verify that the new colours maintain at least a **4.5:1** contrast ratio for text.
+### Notes
 
----
-
-## Notes
-
-- The `<aegov-accordion-item>` component **must** be used inside `<aegov-accordion>`. Using it standalone will throw an error.
-- The `icon` property is set on the **parent** and applies to all child items. You cannot set different icon styles per item.
-- The `is-bordered` property adds a border around the entire accordion and increases internal padding. Individual items do not have a bordered option.
-- When `is-multiple` is `false` (the default), opening a new item automatically closes the currently open one. The parent manages this behaviour by listening to toggle events from its direct children.
-- The `default-open` index is applied once on initial render. Changing it after the component has loaded has no effect.
-- The content panel uses a height transition for smooth animation. A `ResizeObserver` watches for content size changes, which keeps the animation accurate even when content inside the panel changes dynamically (e.g. nested accordions opening).
-- The last item in the accordion does not render a bottom border, maintaining a clean visual edge — especially important for the bordered variant.
+- The accordion does not currently provide arrow-key navigation between item triggers; users move between triggers with `Tab`. If full WAI-ARIA accordion pattern keyboard support (`ArrowUp`/`ArrowDown`/`Home`/`End` between triggers) is required for your use case, treat this as a known gap.

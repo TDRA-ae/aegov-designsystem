@@ -1,521 +1,246 @@
-# Textarea
+# aegov-textarea
 
-<p class="text-lg text-aeblack-500 mb-8">A multi-line text input for collecting longer-form content such as comments, descriptions, and messages. Supports sizing, character counting, auto-grow, resize control, and a read-only copy feature.</p>
+A styled wrapper around the native `<textarea>` element for collecting multi-line text. Supports design-system-aligned sizing, configurable resize behavior, an optional character counter, and an optional copy-to-clipboard button.
 
-## Introduction
+## Properties
 
-The `aegov-textarea` component wraps a native `<textarea>` element with consistent styling, event handling, and accessibility support. It integrates seamlessly with `aegov-form-field` and `aegov-label` for structured form layouts.
+### value
 
-The component provides **5 sizes**, **5 resize modes** (including auto-grow), an optional **character counter**, and a **copy-to-clipboard** button for read-only fields.
+The current value of the textarea. Mutable — updated internally on `input`/`change`.
 
 ```html
-<aegov-textarea placeholder="Enter your message..."></aegov-textarea>
+<aegov-textarea value="Hello"></aegov-textarea>
 ```
 
-<div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-textarea placeholder="Enter your message..."></aegov-textarea>
-</div>
+### size
 
----
+The font-size scale of the textarea. Accepts `xs`, `sm`, `base`, `lg`, `xl`. Also supports a Tailwind-style responsive string.
+
+```html
+<aegov-textarea size="lg"></aegov-textarea>
+<aegov-textarea size="sm md:base lg:lg"></aegov-textarea>
+```
+
+### resize
+
+Controls user-resize behavior. Accepts `none`, `vertical`, `horizontal`, `both`, or `auto`. With `auto`, the textarea automatically grows to fit its content (resize handle disabled).
+
+```html
+<aegov-textarea resize="none"></aegov-textarea>
+<aegov-textarea resize="vertical"></aegov-textarea>
+<aegov-textarea resize="auto"></aegov-textarea>
+```
+
+### placeholder
+
+Placeholder text shown when empty.
+
+```html
+<aegov-textarea placeholder="Tell us more..."></aegov-textarea>
+```
+
+### name
+
+The native `name` attribute used in form submission.
+
+```html
+<aegov-textarea name="comments"></aegov-textarea>
+```
+
+### field-id
+
+The `id` of the rendered native `<textarea>`. Auto-generated as `aegov-textarea-{n}` if not provided.
+
+```html
+<aegov-textarea field-id="comments-ta"></aegov-textarea>
+```
+
+### is-disabled
+
+Disables the textarea.
+
+```html
+<aegov-textarea is-disabled="true"></aegov-textarea>
+```
+
+### is-readonly
+
+Marks the textarea as readonly. Required to enable `is-copyable`.
+
+```html
+<aegov-textarea is-readonly="true" value="System message"></aegov-textarea>
+```
+
+### is-required
+
+Marks the field as required.
+
+```html
+<aegov-textarea is-required="true"></aegov-textarea>
+```
+
+### maxlength
+
+Maximum number of characters. When set, a live character counter is rendered below the textarea and linked via `aria-describedby`.
+
+```html
+<aegov-textarea maxlength="280" placeholder="Up to 280 chars"></aegov-textarea>
+```
+
+### is-copyable
+
+Adds a copy-to-clipboard button. Only takes effect when `is-readonly="true"`.
+
+```html
+<aegov-textarea is-readonly="true" is-copyable="true" value="Long text..."></aegov-textarea>
+```
+
+### extra-class
+
+Additional CSS classes applied to the native `<textarea>`.
+
+```html
+<aegov-textarea extra-class="font-mono"></aegov-textarea>
+```
 
 ## Sizes
 
-The `size` property controls the font size and padding of the textarea. The height itself is determined by the native `rows` attribute.
-
-| Size   | Font Size | Padding          |
-|--------|-----------|------------------|
-| `xs`   | 12px      | 6px 10px         |
-| `sm`   | 14px      | 8px 12px         |
-| `base` | 16px      | 10px 14px        |
-| `lg`   | 18px      | 12px 16px        |
-| `xl`   | 18px      | 14px 18px        |
+`size` accepts a single token or a responsive string using Tailwind-style breakpoint prefixes (`xs`, `sm`, `md`, `lg`, `xl`, `2xl`).
 
 ```html
-<aegov-textarea size="xs" placeholder="Extra small textarea"></aegov-textarea>
-<aegov-textarea size="sm" placeholder="Small textarea"></aegov-textarea>
-<aegov-textarea size="base" placeholder="Base textarea (default)"></aegov-textarea>
-<aegov-textarea size="lg" placeholder="Large textarea"></aegov-textarea>
-<aegov-textarea size="xl" placeholder="Extra large textarea"></aegov-textarea>
+<aegov-textarea size="xs"></aegov-textarea>
+<aegov-textarea size="sm"></aegov-textarea>
+<aegov-textarea size="base"></aegov-textarea>
+<aegov-textarea size="lg"></aegov-textarea>
+<aegov-textarea size="xl"></aegov-textarea>
+
+<!-- Responsive -->
+<aegov-textarea size="sm md:base lg:lg"></aegov-textarea>
 ```
 
-<div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-textarea size="xs" placeholder="Extra small textarea"></aegov-textarea>
-  <aegov-textarea size="sm" placeholder="Small textarea"></aegov-textarea>
-  <aegov-textarea size="base" placeholder="Base textarea (default)"></aegov-textarea>
-  <aegov-textarea size="lg" placeholder="Large textarea"></aegov-textarea>
-  <aegov-textarea size="xl" placeholder="Extra large textarea"></aegov-textarea>
-</div>
+## Examples
 
-### Responsive Size
-
-The `size` prop accepts Tailwind-style responsive prefixes. Write a space-separated string where each token is either a plain value or `breakpoint:value`. The base value (no prefix) applies below the smallest specified breakpoint.
-
-Available breakpoints: `xs` (480px), `sm` (640px), `md` (768px), `lg` (1024px), `xl` (1280px), `2xl` (1536px), `3xl` (1680px).
+### Basic textarea
 
 ```html
-<aegov-textarea size="sm xl:lg" placeholder="Responsive textarea"></aegov-textarea>
+<aegov-textarea placeholder="Add a comment"></aegov-textarea>
 ```
 
-<div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-textarea size="sm xl:lg" placeholder="Responsive textarea"></aegov-textarea>
-</div>
-
-> **Graceful degradation:** Unknown breakpoint names and invalid values are silently ignored. An unrecognised base value falls back to the component default.
-
----
-
-## Rows
-
-The native `rows` attribute controls the initial visible height. Pass it directly on the element — it is forwarded to the inner `<textarea>` via attribute pass-through.
+### With character counter
 
 ```html
-<aegov-textarea rows="3" placeholder="3 rows"></aegov-textarea>
-<aegov-textarea rows="6" placeholder="6 rows"></aegov-textarea>
-<aegov-textarea rows="10" placeholder="10 rows"></aegov-textarea>
+<aegov-textarea
+  maxlength="280"
+  placeholder="What's happening?"
+></aegov-textarea>
 ```
 
-<div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-textarea rows="3" placeholder="3 rows"></aegov-textarea>
-  <aegov-textarea rows="6" placeholder="6 rows"></aegov-textarea>
-  <aegov-textarea rows="10" placeholder="10 rows"></aegov-textarea>
-</div>
-
----
-
-## Placeholder
-
-Use the `placeholder` property to show hint text when the textarea is empty.
+### Auto-resizing textarea
 
 ```html
-<aegov-textarea placeholder="Tell us about your experience..."></aegov-textarea>
+<aegov-textarea resize="auto" placeholder="Grows as you type"></aegov-textarea>
 ```
 
-<div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-textarea placeholder="Tell us about your experience..."></aegov-textarea>
-</div>
-
----
-
-## Value
-
-Set the `value` property to pre-fill the textarea. The property is mutable and stays in sync with user input.
+### Readonly + copyable
 
 ```html
-<aegov-textarea value="This textarea has a pre-filled value."></aegov-textarea>
+<aegov-textarea
+  is-readonly="true"
+  is-copyable="true"
+  value="The quick brown fox jumps over the lazy dog."
+></aegov-textarea>
 ```
 
-<div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-textarea value="This textarea has a pre-filled value."></aegov-textarea>
-</div>
-
----
-
-## States
-
-### Disabled
-
-Set `disabled` to prevent interaction. The textarea becomes visually muted and unclickable.
-
-```html
-<aegov-textarea disabled value="This textarea is disabled."></aegov-textarea>
-```
-
-<div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-textarea disabled value="This textarea is disabled."></aegov-textarea>
-</div>
-
-### Readonly
-
-Set `readonly` to allow users to see and select text but not modify it.
-
-```html
-<aegov-textarea readonly value="This content is read-only. You can select and copy the text but cannot edit it."></aegov-textarea>
-```
-
-<div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-textarea readonly value="This content is read-only. You can select and copy the text but cannot edit it."></aegov-textarea>
-</div>
-
-### Required
-
-Set `required` to mark the textarea as a mandatory field. The native `required` attribute is forwarded to the inner element.
-
-```html
-<aegov-textarea required placeholder="This field is required"></aegov-textarea>
-```
-
-<div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-textarea required placeholder="This field is required"></aegov-textarea>
-</div>
-
----
-
-## Resize Behaviour
-
-The `resize` property controls how users can resize the textarea. There are five options.
-
-| Value        | Behaviour                                            |
-|--------------|------------------------------------------------------|
-| `vertical`   | Default. The user can resize vertically only.        |
-| `horizontal` | The user can resize horizontally only.               |
-| `both`       | The user can resize in both directions.              |
-| `none`       | Resizing is disabled entirely.                       |
-| `auto`       | The textarea grows automatically to fit its content. |
-
-```html
-<aegov-textarea resize="vertical" placeholder="Vertical resize (default)"></aegov-textarea>
-<aegov-textarea resize="horizontal" placeholder="Horizontal resize"></aegov-textarea>
-<aegov-textarea resize="both" placeholder="Resize in both directions"></aegov-textarea>
-<aegov-textarea resize="none" placeholder="No resize"></aegov-textarea>
-```
-
-<div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-textarea resize="vertical" rows="3" placeholder="Vertical resize (default)"></aegov-textarea>
-  <aegov-textarea resize="horizontal" rows="3" placeholder="Horizontal resize"></aegov-textarea>
-  <aegov-textarea resize="both" rows="3" placeholder="Resize in both directions"></aegov-textarea>
-  <aegov-textarea resize="none" rows="3" placeholder="No resize"></aegov-textarea>
-</div>
-
----
-
-## Auto-Grow
-
-Set `resize="auto"` to make the textarea grow automatically as the user types. The textarea starts at the height defined by `rows` and expands vertically to fit the content. Manual resizing is disabled in this mode.
-
-```html
-<aegov-textarea resize="auto" rows="2" placeholder="Start typing — I will grow..."></aegov-textarea>
-```
-
-<div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-textarea resize="auto" rows="2" placeholder="Start typing — I will grow..."></aegov-textarea>
-</div>
-
----
-
-## Character Counter
-
-Set the `maxlength` property to display a character counter below the textarea. The counter shows the current character count against the maximum and turns red when exceeded.
-
-The `maxlength` attribute is also forwarded to the native textarea, so the browser enforces the limit natively. The counter provides visual feedback.
-
-```html
-<aegov-textarea maxlength="100" placeholder="Maximum 100 characters"></aegov-textarea>
-```
-
-<div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-textarea maxlength="100" placeholder="Maximum 100 characters"></aegov-textarea>
-</div>
-
-When the character count exceeds the limit, the counter text turns red and bold.
-
-```html
-<aegov-textarea maxlength="20" value="This text is longer than twenty characters"></aegov-textarea>
-```
-
-<div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-textarea maxlength="20" value="This text is longer than twenty characters"></aegov-textarea>
-</div>
-
----
-
-## Copyable (Read-Only with Copy Button)
-
-When both `readonly` and `copyable` are set, a copy button appears in the bottom-right corner of the textarea. Clicking it copies the textarea value to the clipboard and shows a brief checkmark confirmation.
-
-```html
-<aegov-textarea readonly copyable value="Click the copy button in the bottom-right corner to copy this text to your clipboard."></aegov-textarea>
-```
-
-<div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-textarea readonly copyable value="Click the copy button in the bottom-right corner to copy this text to your clipboard."></aegov-textarea>
-</div>
-
-> **Note:** The `copyable` property only takes effect when `readonly` is also set. On a writable textarea, the copy button is not rendered.
-
----
-
-## Usage with Form Field
-
-The `aegov-textarea` component is designed to work inside `aegov-form-field` alongside `aegov-label`. The form field automatically links the label to the textarea for accessibility.
-
-### Basic Form Field
+### Inside an aegov-form-field
 
 ```html
 <aegov-form-field>
   <aegov-label>Description</aegov-label>
-  <aegov-textarea placeholder="Enter a description..."></aegov-textarea>
+  <aegov-textarea name="description" maxlength="500" rows="5"></aegov-textarea>
 </aegov-form-field>
 ```
 
-<div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-form-field>
-    <aegov-label>Description</aegov-label>
-    <aegov-textarea placeholder="Enter a description..."></aegov-textarea>
-  </aegov-form-field>
-</div>
+## RTL Behavior
 
-### With Helper Text
-
-Add a helper `<span>` or `<p>` below the textarea for additional guidance.
-
-```html
-<aegov-form-field>
-  <aegov-label>Bio</aegov-label>
-  <aegov-textarea placeholder="Tell us about yourself..." maxlength="250" rows="4"></aegov-textarea>
-  <span class="text-sm text-aeblack-400 mt-1">Write a short bio in 250 characters or less.</span>
-</aegov-form-field>
-```
-
-<div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-form-field>
-    <aegov-label>Bio</aegov-label>
-    <aegov-textarea placeholder="Tell us about yourself..." maxlength="250" rows="4"></aegov-textarea>
-    <span class="text-sm text-aeblack-400 mt-1">Write a short bio in 250 characters or less.</span>
-  </aegov-form-field>
-</div>
-
-### Disabled Form Field
-
-When the textarea is disabled inside a form field, the label is also visually dimmed.
-
-```html
-<aegov-form-field>
-  <aegov-label>Notes</aegov-label>
-  <aegov-textarea disabled value="This field is not available."></aegov-textarea>
-</aegov-form-field>
-```
-
-<div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-form-field>
-    <aegov-label>Notes</aegov-label>
-    <aegov-textarea disabled value="This field is not available."></aegov-textarea>
-  </aegov-form-field>
-</div>
-
-### Complete Form Example
-
-```html
-<aegov-form-field>
-  <aegov-label>Feedback</aegov-label>
-  <aegov-textarea
-    required
-    maxlength="500"
-    rows="5"
-    resize="auto"
-    placeholder="Share your feedback with us..."
-  ></aegov-textarea>
-  <span class="text-sm text-aeblack-400 mt-1">Your feedback helps us improve our services.</span>
-</aegov-form-field>
-```
-
-<div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-form-field>
-    <aegov-label>Feedback</aegov-label>
-    <aegov-textarea required maxlength="500" rows="5" resize="auto" placeholder="Share your feedback with us..."></aegov-textarea>
-    <span class="text-sm text-aeblack-400 mt-1">Your feedback helps us improve our services.</span>
-  </aegov-form-field>
-</div>
-
----
-
-## Events
-
-The component emits four custom events. All events bubble and are composed.
-
-```html
-<aegov-textarea id="event-demo" placeholder="Type here to see events..." maxlength="50"></aegov-textarea>
-<pre id="event-log" class="mt-4 text-sm bg-aeblack-800 text-whitely-50 p-4 rounded-lg h-32 overflow-auto"></pre>
-
-<script>
-  const textarea = document.getElementById('event-demo');
-  const log = document.getElementById('event-log');
-
-  function logEvent(name, detail) {
-    const line = document.createElement('div');
-    line.textContent = name + ': ' + JSON.stringify(detail).slice(0, 80);
-    log.prepend(line);
-  }
-
-  textarea.addEventListener('aegovTextareaInput', (e) => {
-    logEvent('aegovTextareaInput', { value: e.detail.value });
-  });
-  textarea.addEventListener('aegovTextareaChange', (e) => {
-    logEvent('aegovTextareaChange', { value: e.detail.value });
-  });
-  textarea.addEventListener('aegovTextareaFocus', () => {
-    logEvent('aegovTextareaFocus', {});
-  });
-  textarea.addEventListener('aegovTextareaBlur', () => {
-    logEvent('aegovTextareaBlur', {});
-  });
-</script>
-```
-
-<div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-textarea id="event-demo-textarea" placeholder="Type here to see events..." maxlength="50"></aegov-textarea>
-  <pre id="event-log-textarea" class="mt-4 text-sm bg-aeblack-800 text-whitely-50 p-4 rounded-lg h-32 overflow-auto"></pre>
-  <script>
-    (function() {
-      var textarea = document.getElementById('event-demo-textarea');
-      var log = document.getElementById('event-log-textarea');
-      function logEvent(name, detail) {
-        var line = document.createElement('div');
-        line.textContent = name + ': ' + JSON.stringify(detail).slice(0, 80);
-        log.prepend(line);
-      }
-      textarea.addEventListener('aegovTextareaInput', function(e) {
-        logEvent('aegovTextareaInput', { value: e.detail.value });
-      });
-      textarea.addEventListener('aegovTextareaChange', function(e) {
-        logEvent('aegovTextareaChange', { value: e.detail.value });
-      });
-      textarea.addEventListener('aegovTextareaFocus', function() {
-        logEvent('aegovTextareaFocus', {});
-      });
-      textarea.addEventListener('aegovTextareaBlur', function() {
-        logEvent('aegovTextareaBlur', {});
-      });
-    })();
-  </script>
-</div>
-
----
-
-## RTL Support
-
-The component fully supports right-to-left layouts. When the document or a parent element has `dir="rtl"`, text alignment, padding, the character counter, and the copy button position all mirror automatically.
-
-```html
-<div dir="rtl">
-  <aegov-form-field>
-    <aegov-label>الوصف</aegov-label>
-    <aegov-textarea placeholder="أدخل الوصف هنا..." maxlength="200" rows="4"></aegov-textarea>
-  </aegov-form-field>
-</div>
-```
-
-<div dir="rtl" class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-form-field>
-    <aegov-label>الوصف</aegov-label>
-    <aegov-textarea placeholder="أدخل الوصف هنا..." maxlength="200" rows="4"></aegov-textarea>
-  </aegov-form-field>
-</div>
-
-No additional configuration is needed — the component reads the inherited `dir` attribute and adjusts automatically.
-
----
+`aegov-textarea` uses Tailwind logical properties for padding and the copy button position, so it lays out correctly when the surrounding container has `dir="rtl"`. The character counter renders below the field and follows the textual direction of the document.
 
 ## API Reference
 
 ### Properties
 
-| Property      | Attribute      | Description                                                                 | Type                                                        | Default      |
-|---------------|----------------|-----------------------------------------------------------------------------|-------------------------------------------------------------|--------------|
-| `fieldId`     | `field-id`     | Unique ID for the native textarea. Auto-generated if not provided.          | `string`                                                    | auto         |
-| `size`        | `size`         | The size of the textarea (controls font size and padding). Supports responsive strings (e.g. `'sm xl:lg'`). | `'xs'` \| `'sm'` \| `'base'` \| `'lg'` \| `'xl'`          | `'base'`     |
-| `value`       | `value`        | The current value of the textarea                                           | `string`                                                    | `''`         |
-| `placeholder` | `placeholder`  | Placeholder hint text                                                       | `string`                                                    | `undefined`  |
-| `name`        | `name`         | The name attribute for form submission                                      | `string`                                                    | `undefined`  |
-| `disabled`    | `disabled`     | Prevents interaction                                                        | `boolean`                                                   | `false`      |
-| `readonly`    | `readonly`     | Allows selection but prevents editing                                       | `boolean`                                                   | `false`      |
-| `required`    | `required`     | Marks the field as mandatory                                                | `boolean`                                                   | `false`      |
-| `resize`      | `resize`       | Controls resize behaviour                                                   | `'none'` \| `'vertical'` \| `'horizontal'` \| `'both'` \| `'auto'` | `'vertical'` |
-| `maxlength`   | `maxlength`    | Maximum character count. When set, displays a character counter.            | `number`                                                    | `undefined`  |
-| `copyable`    | `copyable`     | Show a copy button (only when `readonly` is also set)                       | `boolean`                                                   | `false`      |
-| `class`       | `class`        | Additional CSS classes to apply to the native textarea                      | `string`                                                    | `undefined`  |
+| Property | Attribute | Description | Type | Default |
+| --- | --- | --- | --- | --- |
+| `fieldId` | `field-id` | ID for the native `<textarea>`. Auto-generated if not provided. | `string` | auto |
+| `value` | `value` | Current value (mutable). | `string` | `''` |
+| `size` | `size` | Size token or responsive string. | `string` | `'base'` |
+| `resize` | `resize` | Resize behavior. | `'none' \| 'vertical' \| 'horizontal' \| 'both' \| 'auto'` | `'vertical'` |
+| `placeholder` | `placeholder` | Placeholder text. | `string` | `undefined` |
+| `name` | `name` | Native `name` attribute. | `string` | `undefined` |
+| `isDisabled` | `is-disabled` | Disable the textarea. | `boolean` | `false` |
+| `isReadonly` | `is-readonly` | Mark the textarea readonly. | `boolean` | `false` |
+| `isRequired` | `is-required` | Mark the field as required. | `boolean` | `false` |
+| `maxlength` | `maxlength` | Max characters; enables counter. | `number` | `undefined` |
+| `isCopyable` | `is-copyable` | Show copy-to-clipboard button (only with `is-readonly`). | `boolean` | `false` |
+| `extraClass` | `extra-class` | Additional CSS classes. | `string` | `undefined` |
+
+### Pass-through Attributes
+
+`aria-*` and `data-*` attributes set on the host are always forwarded to the native `<textarea>`. The following standard textarea attributes are also forwarded when set on the host:
+
+| Attribute | Notes |
+| --- | --- |
+| `rows`, `cols` | Visible lines / characters per line |
+| `minlength`, `maxlength` | Character count constraints (note: `maxlength` is also a typed prop and enables the counter) |
+| `wrap` | `soft` / `hard` text wrapping |
+| `autocomplete` | Autofill hints |
+| `autofocus` | Focus on mount |
+| `spellcheck` | Spellchecking on/off |
+| `enterkeyhint` | Mobile keyboard "Enter" label |
+| `title` | Native tooltip / validation message |
+| `tabindex` | Custom tab order |
+| `form` | Associate with a form by id |
 
 ### Events
 
-| Event                  | Description                                      | Detail Type                            |
-|------------------------|--------------------------------------------------|----------------------------------------|
-| `aegovTextareaInput`   | Emitted on every keystroke                       | `{ value: string; event: Event }`      |
-| `aegovTextareaChange`  | Emitted when the value changes (on blur)         | `{ value: string; event: Event }`      |
-| `aegovTextareaFocus`   | Emitted when the textarea gains focus            | `FocusEvent`                           |
-| `aegovTextareaBlur`    | Emitted when the textarea loses focus            | `FocusEvent`                           |
+| Event | Description | Detail |
+| --- | --- | --- |
+| `aegovTextareaChange` | Fires on commit (`change`). | `{ value: string; event: Event }` |
+| `aegovTextareaInput` | Fires on every keystroke. | `{ value: string; event: Event }` |
+| `aegovTextareaFocus` | Fires on focus. | `FocusEvent` |
+| `aegovTextareaBlur` | Fires on blur. | `FocusEvent` |
 
-#### Listening to Events
+### Event listening example
 
 ```html
-<aegov-textarea id="my-textarea"></aegov-textarea>
-
+<aegov-textarea id="bio"></aegov-textarea>
 <script>
-  document.getElementById('my-textarea')
-    .addEventListener('aegovTextareaInput', (e) => {
-      console.log('Current value:', e.detail.value);
-    });
+  const el = document.getElementById('bio');
+  el.addEventListener('aegovTextareaInput', (e) => {
+    console.log('Typed:', e.detail.value);
+  });
 </script>
 ```
 
 ### Slots
 
-This component does **not** use slots. All content is managed through the `value` property.
-
-### Pass-Through Attributes
-
-The component forwards a set of native textarea attributes from the host element to the inner `<textarea>`. This allows you to use standard HTML attributes without extra configuration.
-
-| Attribute       | Purpose                                  |
-|-----------------|------------------------------------------|
-| `rows`          | Number of visible text lines             |
-| `cols`          | Visible width in average character widths |
-| `minlength`     | Minimum number of characters             |
-| `maxlength`     | Maximum number of characters (also enables counter) |
-| `wrap`          | How the text wraps (`soft`, `hard`)      |
-| `autocomplete`  | Browser autocomplete hint                |
-| `autofocus`     | Focus the textarea on page load          |
-| `spellcheck`    | Enable/disable spell checking            |
-| `enterkeyhint`  | Virtual keyboard enter key hint          |
-| `title`         | Tooltip text                             |
-| `tabindex`      | Tab order override                       |
-| `form`          | Associate with a form by ID             |
-
-In addition, all `aria-*` and `data-*` attributes are automatically forwarded.
-
-```html
-<aegov-textarea rows="5" spellcheck="false" data-testid="feedback-field" aria-label="Feedback"></aegov-textarea>
-```
-
----
+This component has no named slots — its content is entirely the textarea value. Set initial text via the `value` attribute.
 
 ## Accessibility
 
-The `aegov-textarea` component is built with accessibility as a first-class concern.
+### Built-in
 
-### Built-in Features
+- Renders a native `<textarea>` for full keyboard, IME, and assistive-tech support.
+- `is-required` sets the native `required` attribute.
+- When `maxlength` is set, the counter is given a stable id (`{fieldId}-counter`), is announced via `aria-live="polite"`, and is referenced by `aria-describedby` on the textarea so screen readers report the limit and remaining characters.
+- The copy button has an `aria-label` (`"Copy to clipboard"` / `"Copied"`) and `tabindex="-1"` to avoid extra tab stops.
 
-- **Native `<textarea>` element** — renders a semantic HTML textarea that is keyboard-focusable and announced correctly by screen readers.
-- **Label association** — when used inside `aegov-form-field` with `aegov-label`, the label is automatically linked via `for`/`id` pairing.
-- **Character counter with `aria-live`** — the counter uses `aria-live="polite"` and `aria-atomic="true"` so screen readers announce count changes without interrupting the user.
-- **`aria-describedby`** — when a character counter is present, the textarea is linked to it via `aria-describedby` so assistive technologies can read the count.
-- **Focus indicators** — clearly visible focus rings using `inset-ring` styles ensure the textarea is identifiable during keyboard navigation.
-- **Disabled state** — adds `pointer-events: none`, `cursor-not-allowed`, and reduced opacity to make the textarea visually and functionally inert.
-- **Pass-through `aria-*` attributes** — any `aria-*` attribute placed on the host element is forwarded to the native textarea.
-- **Copy button labelling** — the copy button includes a dynamic `aria-label` that changes from "Copy to clipboard" to "Copied" on activation.
+### Developer responsibilities
 
-### Developer Responsibilities
+- Provide a visible label via `aegov-label` (inside `aegov-form-field`), a sibling `<label for="...">`, or `aria-label` / `aria-labelledby` on the host.
+- When error or hint text is shown nearby, link it with `aria-describedby`.
 
-1. **Always pair with a label.** Use `aegov-form-field` with `aegov-label` or provide an `aria-label` attribute if a visible label is not appropriate.
+### Notes
 
-   ```html
-   <aegov-textarea aria-label="Additional notes"></aegov-textarea>
-   ```
-
-2. **Provide error messages.** When validation fails, add an error message below the textarea and link it with `aria-describedby` for screen reader users.
-
-3. **Colour contrast.** All built-in styles meet WCAG 2.1 AA contrast ratios. If you override colours using the `class` property, verify that the new colours maintain at least a **4.5:1** contrast ratio for text.
-
-4. **Do not remove focus styles.** The built-in focus ring is essential for keyboard navigation. Avoid overriding it with `outline: none`.
-
----
-
-## Notes
-
-- The `aegov-textarea` component renders a native `<textarea>` element internally. It does **not** use Shadow DOM, so global styles can reach it.
-- The `resize` property defaults to `vertical`. Set it to `auto` for auto-growing textareas that expand as the user types.
-- When `resize="auto"` is set, the textarea adjusts its height on every input event and whenever the `value` property changes programmatically.
-- The `copyable` property only takes effect when `readonly` is also `true`. On editable textareas, the copy button is never rendered.
-- The character counter appears only when `maxlength` is set. It does **not** prevent the user from typing beyond the limit by default (native HTML `maxlength` handles enforcement). The counter provides visual feedback and turns red when exceeded.
-- The `fieldId` property is auto-generated if not provided. If you need a stable ID (e.g. for testing), pass `field-id="my-textarea"` explicitly.
-- The component emits `aegovTextareaInput` on every keystroke and `aegovTextareaChange` on blur. Use `aegovTextareaInput` for live validation or character counting, and `aegovTextareaChange` for final value submission.
-- When used inside `aegov-form-field`, the parent component automatically links the `aegov-label` to the textarea via the `fieldId`. You do not need to set `for` manually on the label.
-- Native attributes like `rows`, `cols`, `wrap`, `spellcheck`, `autofocus`, and `tabindex` are passed through to the inner textarea. Place them directly on the `aegov-textarea` element.
+- `is-copyable` only takes effect when `is-readonly="true"`.
+- `resize="auto"` disables the manual resize handle and auto-grows the textarea on input.
+- The character counter still renders when `charCount` exceeds `maxlength`, with a visual `--over` modifier; the native `maxlength` attribute (if provided via pass-through) will additionally cap input at the browser level.
