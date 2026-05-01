@@ -91,7 +91,7 @@ describe('aegov-radio', () => {
   it('reflects checked state', async () => {
     const page = await newSpecPage({
       components: [AegovRadio],
-      html: '<aegov-radio checked></aegov-radio>',
+      html: '<aegov-radio is-checked></aegov-radio>',
     });
     const input = page.root.querySelector('input');
     expect(input.checked).toBe(true);
@@ -100,7 +100,7 @@ describe('aegov-radio', () => {
   it('applies disabled state', async () => {
     const page = await newSpecPage({
       components: [AegovRadio],
-      html: '<aegov-radio disabled></aegov-radio>',
+      html: '<aegov-radio is-disabled></aegov-radio>',
     });
     const input = page.root.querySelector('input');
     expect(input.disabled).toBe(true);
@@ -109,7 +109,7 @@ describe('aegov-radio', () => {
   it('applies required attribute', async () => {
     const page = await newSpecPage({
       components: [AegovRadio],
-      html: '<aegov-radio required></aegov-radio>',
+      html: '<aegov-radio is-required></aegov-radio>',
     });
     const input = page.root.querySelector('input');
     expect(input.required).toBe(true);
@@ -118,7 +118,7 @@ describe('aegov-radio', () => {
   it('sets aria-required when required', async () => {
     const page = await newSpecPage({
       components: [AegovRadio],
-      html: '<aegov-radio required></aegov-radio>',
+      html: '<aegov-radio is-required></aegov-radio>',
     });
     const input = page.root.querySelector('input');
     expect(input.getAttribute('aria-required')).toBe('true');

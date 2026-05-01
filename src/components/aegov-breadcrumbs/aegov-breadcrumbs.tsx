@@ -17,7 +17,7 @@ const ctx = (prop: string) => ({ component: TAG, prop });
   scoped: false,
 })
 export class AegovBreadcrumbs {
-  @Element() el: HTMLElement;
+  @Element() el!: HTMLElement;
 
   /**
    * Unique ID for the breadcrumbs nav element. Auto-generated if not provided.

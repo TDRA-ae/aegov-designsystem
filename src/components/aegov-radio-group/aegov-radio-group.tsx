@@ -35,7 +35,7 @@ export class AegovRadioGroup {
   @Prop() name!: string;
 
   /** Disables all radios within the group via native fieldset disabled. */
-  @Prop() disabled: boolean = false;
+  @Prop() isDisabled: boolean = false;
 
   /** Additional CSS classes to apply. */
   @Prop() extraClass?: string;
@@ -103,7 +103,7 @@ export class AegovRadioGroup {
       const radios = this.getRadios();
       radios.forEach(radio => {
         if (radio !== target) {
-          radio.checked = false;
+          radio.isChecked = false;
         }
       });
     }
@@ -130,7 +130,7 @@ export class AegovRadioGroup {
   render() {
     return (
       <Host>
-        <fieldset class={this.getGroupClasses()} role="radiogroup" disabled={this.disabled}>
+        <fieldset class={this.getGroupClasses()} role="radiogroup" disabled={this.isDisabled}>
           {this.label && <legend class="radio-group__legend">{this.label}</legend>}
           <div class="radio-group__items">
             <slot />

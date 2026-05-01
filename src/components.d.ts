@@ -88,8 +88,8 @@ export namespace Components {
      * @component aegov-aspect-ratio
      * @description A layout component that enforces a specific aspect ratio on its
      * content. Supports images, videos, iframes, and arbitrary slotted content.
-     * Responsive breakpoints can be applied via Tailwind utility classes on the
-     * host element (e.g. `class="md:aspect-square lg:aspect-[21/9]"`).
+     * The `ratio` prop supports Tailwind-style breakpoint prefixes — e.g.
+     * `ratio="square md:video lg:21/9"` switches the ratio at each breakpoint.
      */
     interface AegovAspectRatio {
         /**
@@ -102,7 +102,7 @@ export namespace Components {
          */
         "fit": AspectRatioFit;
         /**
-          * The aspect ratio to apply. Accepts named presets ('auto', 'square', 'video', '4/3', '3/2', '21/9') or any custom ratio string such as '5/4' or '2.35/1'.
+          * The aspect ratio to apply. Accepts named presets (`'auto'`, `'square'`, `'video'`) or any custom ratio string such as `'5/4'`, `'21/9'`, `'2.35/1'`. Supports a Tailwind-style responsive string with breakpoint prefixes, e.g. `"square md:video lg:21/9"`.
           * @default 'auto'
          */
         "ratio": AspectRatioPreset | string;
@@ -117,6 +117,10 @@ export namespace Components {
           * @default 'square'
          */
         "appearance": AvatarAppearance;
+        /**
+          * Unique ID for the inner avatar element. Auto-generated if not provided.
+         */
+        "fieldId"?: string;
         /**
           * The avatar size
           * @default 'base'
@@ -442,24 +446,9 @@ export namespace Components {
     }
     interface AegovCheckbox {
         /**
-          * Marks this checkbox as a "check all" controller within a checkbox group.
-          * @default false
-         */
-        "checkAll": boolean;
-        /**
-          * Whether the checkbox is checked.
-          * @default false
-         */
-        "checked": boolean;
-        /**
           * Description text displayed below the label. Only rendered when label is provided.
          */
         "description"?: string;
-        /**
-          * Whether the checkbox is disabled.
-          * @default false
-         */
-        "disabled": boolean;
         /**
           * Additional CSS classes to apply.
          */
@@ -469,10 +458,30 @@ export namespace Components {
          */
         "fieldId"?: string;
         /**
+          * Marks this checkbox as a "check all" controller within a checkbox group.
+          * @default false
+         */
+        "isCheckAll": boolean;
+        /**
+          * Whether the checkbox is checked.
+          * @default false
+         */
+        "isChecked": boolean;
+        /**
+          * Whether the checkbox is disabled.
+          * @default false
+         */
+        "isDisabled": boolean;
+        /**
           * Whether the checkbox is in an indeterminate state. Set by parent group for check-all.
           * @default false
          */
-        "indeterminate": boolean;
+        "isIndeterminate": boolean;
+        /**
+          * Whether the checkbox is required.
+          * @default false
+         */
+        "isRequired": boolean;
         /**
           * Label text for the checkbox. When provided, generates an associated <label> element.
          */
@@ -481,11 +490,6 @@ export namespace Components {
           * The name attribute for the checkbox.
          */
         "name"?: string;
-        /**
-          * Whether the checkbox is required.
-          * @default false
-         */
-        "required": boolean;
         /**
           * The size of the checkbox.
           * @default 'base'
@@ -498,14 +502,14 @@ export namespace Components {
     }
     interface AegovCheckboxGroup {
         /**
-          * Disables all checkboxes within the group via native fieldset disabled.
-          * @default false
-         */
-        "disabled": boolean;
-        /**
           * Additional CSS classes to apply.
          */
         "extraClass"?: string;
+        /**
+          * Disables all checkboxes within the group via native fieldset disabled.
+          * @default false
+         */
+        "isDisabled": boolean;
         /**
           * Optional label rendered as a <legend> for accessibility.
          */
@@ -852,6 +856,10 @@ export namespace Components {
           * Additional CSS classes to apply.
          */
         "extraClass"?: string;
+        /**
+          * Unique ID for the form-field wrapper. Auto-generated if not provided.
+         */
+        "fieldId"?: string;
     }
     interface AegovHeader {
         /**
@@ -953,6 +961,10 @@ export namespace Components {
           * Additional CSS classes to apply.
          */
         "extraClass"?: string;
+        /**
+          * Unique ID for the label element. Auto-generated if not provided.
+         */
+        "fieldId"?: string;
         /**
           * The ID of the form element this label is for. Automatically set by parent aegov-form-field.
          */
@@ -1320,19 +1332,9 @@ export namespace Components {
     }
     interface AegovRadio {
         /**
-          * Whether the radio is checked.
-          * @default false
-         */
-        "checked": boolean;
-        /**
           * Description text displayed below the label. Only rendered when label is provided.
          */
         "description"?: string;
-        /**
-          * Whether the radio is disabled.
-          * @default false
-         */
-        "disabled": boolean;
         /**
           * Additional CSS classes to apply.
          */
@@ -1342,6 +1344,21 @@ export namespace Components {
          */
         "fieldId"?: string;
         /**
+          * Whether the radio is checked.
+          * @default false
+         */
+        "isChecked": boolean;
+        /**
+          * Whether the radio is disabled.
+          * @default false
+         */
+        "isDisabled": boolean;
+        /**
+          * Whether the radio is required.
+          * @default false
+         */
+        "isRequired": boolean;
+        /**
           * Label text for the radio. When provided, generates an associated <label> element.
          */
         "label"?: string;
@@ -1349,11 +1366,6 @@ export namespace Components {
           * The name attribute for the radio. Required for native radio grouping.
          */
         "name"?: string;
-        /**
-          * Whether the radio is required.
-          * @default false
-         */
-        "required": boolean;
         /**
           * The size of the radio.
           * @default 'base'
@@ -1366,14 +1378,14 @@ export namespace Components {
     }
     interface AegovRadioGroup {
         /**
-          * Disables all radios within the group via native fieldset disabled.
-          * @default false
-         */
-        "disabled": boolean;
-        /**
           * Additional CSS classes to apply.
          */
         "extraClass"?: string;
+        /**
+          * Disables all radios within the group via native fieldset disabled.
+          * @default false
+         */
+        "isDisabled": boolean;
         /**
           * Optional label rendered as a <legend> for accessibility.
          */
@@ -1646,6 +1658,10 @@ export namespace Components {
          */
         "active": boolean;
         /**
+          * Additional CSS classes merged onto the inner panel element.
+         */
+        "extraClass"?: string;
+        /**
           * Unique identifier that must match the corresponding aegov-tab's tab-id.
          */
         "tabId": string;
@@ -1841,6 +1857,10 @@ export namespace Components {
          */
         "extraClass"?: string;
         /**
+          * Unique ID for the title element. Auto-generated if not provided.
+         */
+        "fieldId"?: string;
+        /**
           * The semantic wrapper tag for the title. When set, renders the title inside the specified heading tag (`h2`–`h6`) or a `p`. When omitted, the title renders as a `<p>` (default).
          */
         "headingType"?: TitleHeadingType;
@@ -1897,23 +1917,28 @@ export namespace Components {
     }
     interface AegovToggle {
         /**
-          * Whether the toggle is checked/on.
-          * @default false
-         */
-        "checked": boolean;
-        /**
           * Description text displayed below the label. Only rendered when label is provided.
          */
         "description"?: string;
         /**
-          * Whether the toggle is disabled.
-          * @default false
-         */
-        "disabled": boolean;
-        /**
           * Unique ID for the native checkbox element. Auto-generated if not provided.
          */
         "fieldId"?: string;
+        /**
+          * Whether the toggle is checked/on.
+          * @default false
+         */
+        "isChecked": boolean;
+        /**
+          * Whether the toggle is disabled.
+          * @default false
+         */
+        "isDisabled": boolean;
+        /**
+          * Whether the toggle is required.
+          * @default false
+         */
+        "isRequired": boolean;
         /**
           * Label text for the toggle. Rendered at the end (inline-end).
          */
@@ -1922,11 +1947,6 @@ export namespace Components {
           * The name attribute for the toggle.
          */
         "name"?: string;
-        /**
-          * Whether the toggle is required.
-          * @default false
-         */
-        "required": boolean;
         /**
           * The size of the toggle.
           * @default 'base'
@@ -2135,8 +2155,8 @@ declare global {
      * @component aegov-aspect-ratio
      * @description A layout component that enforces a specific aspect ratio on its
      * content. Supports images, videos, iframes, and arbitrary slotted content.
-     * Responsive breakpoints can be applied via Tailwind utility classes on the
-     * host element (e.g. `class="md:aspect-square lg:aspect-[21/9]"`).
+     * The `ratio` prop supports Tailwind-style breakpoint prefixes — e.g.
+     * `ratio="square md:video lg:21/9"` switches the ratio at each breakpoint.
      */
     interface HTMLAegovAspectRatioElement extends Components.AegovAspectRatio, HTMLStencilElement {
     }
@@ -2978,8 +2998,8 @@ declare namespace LocalJSX {
      * @component aegov-aspect-ratio
      * @description A layout component that enforces a specific aspect ratio on its
      * content. Supports images, videos, iframes, and arbitrary slotted content.
-     * Responsive breakpoints can be applied via Tailwind utility classes on the
-     * host element (e.g. `class="md:aspect-square lg:aspect-[21/9]"`).
+     * The `ratio` prop supports Tailwind-style breakpoint prefixes — e.g.
+     * `ratio="square md:video lg:21/9"` switches the ratio at each breakpoint.
      */
     interface AegovAspectRatio {
         /**
@@ -2992,7 +3012,7 @@ declare namespace LocalJSX {
          */
         "fit"?: AspectRatioFit;
         /**
-          * The aspect ratio to apply. Accepts named presets ('auto', 'square', 'video', '4/3', '3/2', '21/9') or any custom ratio string such as '5/4' or '2.35/1'.
+          * The aspect ratio to apply. Accepts named presets (`'auto'`, `'square'`, `'video'`) or any custom ratio string such as `'5/4'`, `'21/9'`, `'2.35/1'`. Supports a Tailwind-style responsive string with breakpoint prefixes, e.g. `"square md:video lg:21/9"`.
           * @default 'auto'
          */
         "ratio"?: AspectRatioPreset | string;
@@ -3007,6 +3027,10 @@ declare namespace LocalJSX {
           * @default 'square'
          */
         "appearance"?: AvatarAppearance;
+        /**
+          * Unique ID for the inner avatar element. Auto-generated if not provided.
+         */
+        "fieldId"?: string;
         /**
           * The avatar size
           * @default 'base'
@@ -3368,24 +3392,9 @@ declare namespace LocalJSX {
     }
     interface AegovCheckbox {
         /**
-          * Marks this checkbox as a "check all" controller within a checkbox group.
-          * @default false
-         */
-        "checkAll"?: boolean;
-        /**
-          * Whether the checkbox is checked.
-          * @default false
-         */
-        "checked"?: boolean;
-        /**
           * Description text displayed below the label. Only rendered when label is provided.
          */
         "description"?: string;
-        /**
-          * Whether the checkbox is disabled.
-          * @default false
-         */
-        "disabled"?: boolean;
         /**
           * Additional CSS classes to apply.
          */
@@ -3395,10 +3404,30 @@ declare namespace LocalJSX {
          */
         "fieldId"?: string;
         /**
+          * Marks this checkbox as a "check all" controller within a checkbox group.
+          * @default false
+         */
+        "isCheckAll"?: boolean;
+        /**
+          * Whether the checkbox is checked.
+          * @default false
+         */
+        "isChecked"?: boolean;
+        /**
+          * Whether the checkbox is disabled.
+          * @default false
+         */
+        "isDisabled"?: boolean;
+        /**
           * Whether the checkbox is in an indeterminate state. Set by parent group for check-all.
           * @default false
          */
-        "indeterminate"?: boolean;
+        "isIndeterminate"?: boolean;
+        /**
+          * Whether the checkbox is required.
+          * @default false
+         */
+        "isRequired"?: boolean;
         /**
           * Label text for the checkbox. When provided, generates an associated <label> element.
          */
@@ -3412,11 +3441,6 @@ declare namespace LocalJSX {
          */
         "onAegovCheckboxChange"?: (event: AegovCheckboxCustomEvent<{ checked: boolean; value?: string }>) => void;
         /**
-          * Whether the checkbox is required.
-          * @default false
-         */
-        "required"?: boolean;
-        /**
           * The size of the checkbox.
           * @default 'base'
          */
@@ -3428,14 +3452,14 @@ declare namespace LocalJSX {
     }
     interface AegovCheckboxGroup {
         /**
-          * Disables all checkboxes within the group via native fieldset disabled.
-          * @default false
-         */
-        "disabled"?: boolean;
-        /**
           * Additional CSS classes to apply.
          */
         "extraClass"?: string;
+        /**
+          * Disables all checkboxes within the group via native fieldset disabled.
+          * @default false
+         */
+        "isDisabled"?: boolean;
         /**
           * Optional label rendered as a <legend> for accessibility.
          */
@@ -3790,6 +3814,10 @@ declare namespace LocalJSX {
           * Additional CSS classes to apply.
          */
         "extraClass"?: string;
+        /**
+          * Unique ID for the form-field wrapper. Auto-generated if not provided.
+         */
+        "fieldId"?: string;
     }
     interface AegovHeader {
         /**
@@ -3907,6 +3935,10 @@ declare namespace LocalJSX {
           * Additional CSS classes to apply.
          */
         "extraClass"?: string;
+        /**
+          * Unique ID for the label element. Auto-generated if not provided.
+         */
+        "fieldId"?: string;
         /**
           * The ID of the form element this label is for. Automatically set by parent aegov-form-field.
          */
@@ -4306,19 +4338,9 @@ declare namespace LocalJSX {
     }
     interface AegovRadio {
         /**
-          * Whether the radio is checked.
-          * @default false
-         */
-        "checked"?: boolean;
-        /**
           * Description text displayed below the label. Only rendered when label is provided.
          */
         "description"?: string;
-        /**
-          * Whether the radio is disabled.
-          * @default false
-         */
-        "disabled"?: boolean;
         /**
           * Additional CSS classes to apply.
          */
@@ -4327,6 +4349,21 @@ declare namespace LocalJSX {
           * Unique ID for the native radio element. Auto-generated if not provided.
          */
         "fieldId"?: string;
+        /**
+          * Whether the radio is checked.
+          * @default false
+         */
+        "isChecked"?: boolean;
+        /**
+          * Whether the radio is disabled.
+          * @default false
+         */
+        "isDisabled"?: boolean;
+        /**
+          * Whether the radio is required.
+          * @default false
+         */
+        "isRequired"?: boolean;
         /**
           * Label text for the radio. When provided, generates an associated <label> element.
          */
@@ -4340,11 +4377,6 @@ declare namespace LocalJSX {
          */
         "onAegovRadioChange"?: (event: AegovRadioCustomEvent<{ checked: boolean; value?: string }>) => void;
         /**
-          * Whether the radio is required.
-          * @default false
-         */
-        "required"?: boolean;
-        /**
           * The size of the radio.
           * @default 'base'
          */
@@ -4356,14 +4388,14 @@ declare namespace LocalJSX {
     }
     interface AegovRadioGroup {
         /**
-          * Disables all radios within the group via native fieldset disabled.
-          * @default false
-         */
-        "disabled"?: boolean;
-        /**
           * Additional CSS classes to apply.
          */
         "extraClass"?: string;
+        /**
+          * Disables all radios within the group via native fieldset disabled.
+          * @default false
+         */
+        "isDisabled"?: boolean;
         /**
           * Optional label rendered as a <legend> for accessibility.
          */
@@ -4665,6 +4697,10 @@ declare namespace LocalJSX {
          */
         "active"?: boolean;
         /**
+          * Additional CSS classes merged onto the inner panel element.
+         */
+        "extraClass"?: string;
+        /**
           * Unique identifier that must match the corresponding aegov-tab's tab-id.
          */
         "tabId": string;
@@ -4881,6 +4917,10 @@ declare namespace LocalJSX {
          */
         "extraClass"?: string;
         /**
+          * Unique ID for the title element. Auto-generated if not provided.
+         */
+        "fieldId"?: string;
+        /**
           * The semantic wrapper tag for the title. When set, renders the title inside the specified heading tag (`h2`–`h6`) or a `p`. When omitted, the title renders as a `<p>` (default).
          */
         "headingType"?: TitleHeadingType;
@@ -4941,23 +4981,28 @@ declare namespace LocalJSX {
     }
     interface AegovToggle {
         /**
-          * Whether the toggle is checked/on.
-          * @default false
-         */
-        "checked"?: boolean;
-        /**
           * Description text displayed below the label. Only rendered when label is provided.
          */
         "description"?: string;
         /**
-          * Whether the toggle is disabled.
-          * @default false
-         */
-        "disabled"?: boolean;
-        /**
           * Unique ID for the native checkbox element. Auto-generated if not provided.
          */
         "fieldId"?: string;
+        /**
+          * Whether the toggle is checked/on.
+          * @default false
+         */
+        "isChecked"?: boolean;
+        /**
+          * Whether the toggle is disabled.
+          * @default false
+         */
+        "isDisabled"?: boolean;
+        /**
+          * Whether the toggle is required.
+          * @default false
+         */
+        "isRequired"?: boolean;
         /**
           * Label text for the toggle. Rendered at the end (inline-end).
          */
@@ -4970,11 +5015,6 @@ declare namespace LocalJSX {
           * Emitted when the toggle checked state changes.
          */
         "onAegovToggleChange"?: (event: AegovToggleCustomEvent<{ checked: boolean; value?: string }>) => void;
-        /**
-          * Whether the toggle is required.
-          * @default false
-         */
-        "required"?: boolean;
         /**
           * The size of the toggle.
           * @default 'base'
@@ -5106,8 +5146,8 @@ declare module "@stencil/core" {
              * @component aegov-aspect-ratio
              * @description A layout component that enforces a specific aspect ratio on its
              * content. Supports images, videos, iframes, and arbitrary slotted content.
-             * Responsive breakpoints can be applied via Tailwind utility classes on the
-             * host element (e.g. `class="md:aspect-square lg:aspect-[21/9]"`).
+             * The `ratio` prop supports Tailwind-style breakpoint prefixes — e.g.
+             * `ratio="square md:video lg:21/9"` switches the ratio at each breakpoint.
              */
             "aegov-aspect-ratio": LocalJSX.AegovAspectRatio & JSXBase.HTMLAttributes<HTMLAegovAspectRatioElement>;
             "aegov-avatar": LocalJSX.AegovAvatar & JSXBase.HTMLAttributes<HTMLAegovAvatarElement>;

@@ -91,7 +91,7 @@ describe('aegov-checkbox', () => {
   it('reflects checked state', async () => {
     const page = await newSpecPage({
       components: [AegovCheckbox],
-      html: '<aegov-checkbox checked></aegov-checkbox>',
+      html: '<aegov-checkbox is-checked></aegov-checkbox>',
     });
     const input = page.root.querySelector('input');
     expect(input.checked).toBe(true);
@@ -100,7 +100,7 @@ describe('aegov-checkbox', () => {
   it('applies disabled state', async () => {
     const page = await newSpecPage({
       components: [AegovCheckbox],
-      html: '<aegov-checkbox disabled></aegov-checkbox>',
+      html: '<aegov-checkbox is-disabled></aegov-checkbox>',
     });
     const input = page.root.querySelector('input');
     expect(input.disabled).toBe(true);
@@ -109,7 +109,7 @@ describe('aegov-checkbox', () => {
   it('applies required attribute', async () => {
     const page = await newSpecPage({
       components: [AegovCheckbox],
-      html: '<aegov-checkbox required></aegov-checkbox>',
+      html: '<aegov-checkbox is-required></aegov-checkbox>',
     });
     const input = page.root.querySelector('input');
     expect(input.required).toBe(true);
@@ -118,7 +118,7 @@ describe('aegov-checkbox', () => {
   it('sets aria-required when required', async () => {
     const page = await newSpecPage({
       components: [AegovCheckbox],
-      html: '<aegov-checkbox required></aegov-checkbox>',
+      html: '<aegov-checkbox is-required></aegov-checkbox>',
     });
     const input = page.root.querySelector('input');
     expect(input.getAttribute('aria-required')).toBe('true');
@@ -156,9 +156,9 @@ describe('aegov-checkbox', () => {
   it('reflects check-all attribute', async () => {
     const page = await newSpecPage({
       components: [AegovCheckbox],
-      html: '<aegov-checkbox check-all label="Select All"></aegov-checkbox>',
+      html: '<aegov-checkbox is-check-all label="Select All"></aegov-checkbox>',
     });
-    expect(page.root.getAttribute('check-all')).not.toBeNull();
+    expect(page.root.getAttribute('is-check-all')).not.toBeNull();
   });
 
   it('applies custom classes', async () => {
@@ -217,12 +217,12 @@ describe('aegov-checkbox', () => {
       html: '<aegov-checkbox></aegov-checkbox>',
     });
     const component = page.rootInstance as AegovCheckbox;
-    component.indeterminate = true;
+    component.isIndeterminate = true;
     await page.waitForChanges();
     const input = page.root.querySelector('input');
     input.checked = true;
     input.dispatchEvent(new Event('change'));
-    expect(component.indeterminate).toBe(false);
+    expect(component.isIndeterminate).toBe(false);
   });
 
   it('has aegov-checkbox wrapper class', async () => {

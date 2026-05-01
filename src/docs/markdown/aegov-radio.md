@@ -47,7 +47,7 @@ Set the `checked` attribute to pre-select a radio. Within a group, only one radi
 ```html
 <aegov-radio-group name="colour" label="Favourite colour">
   <aegov-radio label="Red" value="red"></aegov-radio>
-  <aegov-radio label="Green" value="green" checked></aegov-radio>
+  <aegov-radio label="Green" value="green" is-checked></aegov-radio>
   <aegov-radio label="Blue" value="blue"></aegov-radio>
 </aegov-radio-group>
 ```
@@ -55,7 +55,7 @@ Set the `checked` attribute to pre-select a radio. Within a group, only one radi
 <div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
   <aegov-radio-group name="colour-demo" label="Favourite colour">
     <aegov-radio label="Red" value="red"></aegov-radio>
-    <aegov-radio label="Green" value="green" checked></aegov-radio>
+    <aegov-radio label="Green" value="green" is-checked></aegov-radio>
     <aegov-radio label="Blue" value="blue"></aegov-radio>
   </aegov-radio-group>
 </div>
@@ -70,27 +70,27 @@ Set the `disabled` attribute on individual radios to prevent interaction. You ca
 <!-- Individual disabled radio -->
 <aegov-radio-group name="plan" label="Select a plan">
   <aegov-radio label="Free" value="free"></aegov-radio>
-  <aegov-radio label="Pro" value="pro" disabled></aegov-radio>
+  <aegov-radio label="Pro" value="pro" is-disabled></aegov-radio>
   <aegov-radio label="Enterprise" value="enterprise"></aegov-radio>
 </aegov-radio-group>
 
 <!-- Entire group disabled -->
-<aegov-radio-group name="locked" label="This group is disabled" disabled>
+<aegov-radio-group name="locked" label="This group is disabled" is-disabled>
   <aegov-radio label="Option A" value="a"></aegov-radio>
-  <aegov-radio label="Option B" value="b" checked></aegov-radio>
+  <aegov-radio label="Option B" value="b" is-checked></aegov-radio>
 </aegov-radio-group>
 ```
 
 <div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
   <aegov-radio-group name="plan-demo" label="Select a plan">
     <aegov-radio label="Free" value="free"></aegov-radio>
-    <aegov-radio label="Pro" value="pro" disabled></aegov-radio>
+    <aegov-radio label="Pro" value="pro" is-disabled></aegov-radio>
     <aegov-radio label="Enterprise" value="enterprise"></aegov-radio>
   </aegov-radio-group>
 
-  <aegov-radio-group name="locked-demo" label="This group is disabled" disabled>
+  <aegov-radio-group name="locked-demo" label="This group is disabled" is-disabled>
     <aegov-radio label="Option A" value="a"></aegov-radio>
-    <aegov-radio label="Option B" value="b" checked></aegov-radio>
+    <aegov-radio label="Option B" value="b" is-checked></aegov-radio>
   </aegov-radio-group>
 </div>
 
@@ -101,11 +101,11 @@ Set the `disabled` attribute on individual radios to prevent interaction. You ca
 Set `required` on an `aegov-radio` to mark it as a mandatory field. This adds the native `required` attribute and sets `aria-required="true"` on the underlying `<input>`.
 
 ```html
-<aegov-radio name="agree" value="yes" label="I accept the privacy policy" required></aegov-radio>
+<aegov-radio name="agree" value="yes" label="I accept the privacy policy" is-required></aegov-radio>
 ```
 
 <div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-radio name="agree-demo" value="yes" label="I accept the privacy policy" required></aegov-radio>
+  <aegov-radio name="agree-demo" value="yes" label="I accept the privacy policy" is-required></aegov-radio>
 </div>
 
 ---
@@ -371,7 +371,7 @@ Renders radios as pill-shaped toggle buttons. The native radio input is visually
 ```html
 <aegov-radio-group name="var-pills" label="Pills variant" variant="pills" orientation="horizontal">
   <aegov-radio label="Daily" value="daily"></aegov-radio>
-  <aegov-radio label="Weekly" value="weekly" checked></aegov-radio>
+  <aegov-radio label="Weekly" value="weekly" is-checked></aegov-radio>
   <aegov-radio label="Monthly" value="monthly"></aegov-radio>
   <aegov-radio label="Yearly" value="yearly"></aegov-radio>
 </aegov-radio-group>
@@ -380,7 +380,7 @@ Renders radios as pill-shaped toggle buttons. The native radio input is visually
 <div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
   <aegov-radio-group name="var-pills-demo" label="Pills variant" variant="pills" orientation="horizontal">
     <aegov-radio label="Daily" value="daily"></aegov-radio>
-    <aegov-radio label="Weekly" value="weekly" checked></aegov-radio>
+    <aegov-radio label="Weekly" value="weekly" is-checked></aegov-radio>
     <aegov-radio label="Monthly" value="monthly"></aegov-radio>
     <aegov-radio label="Yearly" value="yearly"></aegov-radio>
   </aegov-radio-group>
@@ -391,52 +391,52 @@ Pills also support different sizes.
 ```html
 <aegov-radio-group name="pills-xs" label="Extra small pills" variant="pills" orientation="horizontal" size="xs">
   <aegov-radio label="S" value="s"></aegov-radio>
-  <aegov-radio label="M" value="m" checked></aegov-radio>
+  <aegov-radio label="M" value="m" is-checked></aegov-radio>
   <aegov-radio label="L" value="l"></aegov-radio>
 </aegov-radio-group>
 
 <aegov-radio-group name="pills-sm" label="Small pills" variant="pills" orientation="horizontal" size="sm">
   <aegov-radio label="S" value="s"></aegov-radio>
-  <aegov-radio label="M" value="m" checked></aegov-radio>
+  <aegov-radio label="M" value="m" is-checked></aegov-radio>
   <aegov-radio label="L" value="l"></aegov-radio>
 </aegov-radio-group>
 
 <aegov-radio-group name="pills-lg" label="Large pills" variant="pills" orientation="horizontal" size="lg">
   <aegov-radio label="Small" value="s"></aegov-radio>
   <aegov-radio label="Medium" value="m"></aegov-radio>
-  <aegov-radio label="Large" value="l" checked></aegov-radio>
+  <aegov-radio label="Large" value="l" is-checked></aegov-radio>
 </aegov-radio-group>
 
 <aegov-radio-group name="pills-xl" label="Extra large pills" variant="pills" orientation="horizontal" size="xl">
   <aegov-radio label="Small" value="s"></aegov-radio>
   <aegov-radio label="Medium" value="m"></aegov-radio>
-  <aegov-radio label="Large" value="l" checked></aegov-radio>
+  <aegov-radio label="Large" value="l" is-checked></aegov-radio>
 </aegov-radio-group>
 ```
 
 <div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
   <aegov-radio-group name="pills-xs-demo" label="Extra small pills" variant="pills" orientation="horizontal" size="xs">
     <aegov-radio label="S" value="s"></aegov-radio>
-    <aegov-radio label="M" value="m" checked></aegov-radio>
+    <aegov-radio label="M" value="m" is-checked></aegov-radio>
     <aegov-radio label="L" value="l"></aegov-radio>
   </aegov-radio-group>
 
   <aegov-radio-group name="pills-sm-demo" label="Small pills" variant="pills" orientation="horizontal" size="sm">
     <aegov-radio label="S" value="s"></aegov-radio>
-    <aegov-radio label="M" value="m" checked></aegov-radio>
+    <aegov-radio label="M" value="m" is-checked></aegov-radio>
     <aegov-radio label="L" value="l"></aegov-radio>
   </aegov-radio-group>
 
   <aegov-radio-group name="pills-lg-demo" label="Large pills" variant="pills" orientation="horizontal" size="lg">
     <aegov-radio label="Small" value="s"></aegov-radio>
     <aegov-radio label="Medium" value="m"></aegov-radio>
-    <aegov-radio label="Large" value="l" checked></aegov-radio>
+    <aegov-radio label="Large" value="l" is-checked></aegov-radio>
   </aegov-radio-group>
 
   <aegov-radio-group name="pills-xl-demo" label="Extra large pills" variant="pills" orientation="horizontal" size="xl">
     <aegov-radio label="Small" value="s"></aegov-radio>
     <aegov-radio label="Medium" value="m"></aegov-radio>
-    <aegov-radio label="Large" value="l" checked></aegov-radio>
+    <aegov-radio label="Large" value="l" is-checked></aegov-radio>
   </aegov-radio-group>
 </div>
 
@@ -548,10 +548,10 @@ No additional configuration is needed -- the component reads the inherited `dir`
 | `fieldId`     | `field-id`     | Unique ID for the native radio element. Auto-generated if not provided.     | `string`                        | auto        |
 | `name`        | `name`         | The name attribute for the radio. Required for native radio grouping.       | `string`                        | `undefined` |
 | `value`       | `value`        | The value attribute for the radio.                                          | `string`                        | `undefined` |
-| `checked`     | `checked`      | Whether the radio is checked.                                               | `boolean`                       | `false`     |
+| `isChecked`     | `is-checked`      | Whether the radio is checked.                                               | `boolean`                       | `false`     |
 | `size`        | `size`         | The size of the radio. Supports responsive strings (e.g. `'sm xl:lg'`).    | `'xs'` \| `'sm'` \| `'base'` \| `'lg'` \| `'xl'`   | `'base'`    |
-| `disabled`    | `disabled`     | Whether the radio is disabled.                                              | `boolean`                       | `false`     |
-| `required`    | `required`     | Whether the radio is required.                                              | `boolean`                       | `false`     |
+| `isDisabled`    | `is-disabled`     | Whether the radio is disabled.                                              | `boolean`                       | `false`     |
+| `isRequired`    | `is-required`     | Whether the radio is required.                                              | `boolean`                       | `false`     |
 | `label`       | `label`        | Label text for the radio. Generates an associated `<label>` element.        | `string`                        | `undefined` |
 | `description` | `description`  | Description text displayed below the label. Only shown when label exists.   | `string`                        | `undefined` |
 | `class`       | `class`        | Additional CSS classes to apply.                                            | `string`                        | `undefined` |
@@ -571,7 +571,7 @@ No additional configuration is needed -- the component reads the inherited `dir`
 | `label`       | `label`        | Optional label rendered as a `<legend>` for accessibility.                  | `string`                                              | `undefined`  |
 | `size`        | `size`         | Size of all radios in the group. Propagated to children. Supports responsive strings (e.g. `'sm xl:lg'`). | `'xs'` \| `'sm'` \| `'base'` \| `'lg'` \| `'xl'`    | `'base'`     |
 | `name`        | `name`         | The name shared by all radios in the group. Required.                       | `string`                                              | --           |
-| `disabled`    | `disabled`     | Disables all radios within the group via native fieldset disabled.          | `boolean`                                             | `false`      |
+| `isDisabled`    | `is-disabled`     | Disables all radios within the group via native fieldset disabled.          | `boolean`                                             | `false`      |
 | `class`       | `class`        | Additional CSS classes to apply.                                            | `string`                                              | `undefined`  |
 
 ### aegov-radio-group Events

@@ -1,10 +1,11 @@
-import { Component, Prop, State, Event, EventEmitter, h, Watch } from '@stencil/core';
+import { Component, Element, Prop, State, Event, EventEmitter, h, Watch } from '@stencil/core';
 import { watchResponsiveProp } from '../../utils/responsive-prop';
 import type { ResponsivePropWatcher } from '../../utils/responsive-prop';
 import { PAGINATION_SIZES, PAGINATION_VARIANTS } from '../../utils/types';
 import type { PaginationSize, PaginationVariant } from '../../utils/types';
 import { warnIfInvalidEnumProp } from '../../utils/prop-validator';
 import { generateId } from '../../utils/id-generator';
+import { getPassThroughAttributes } from '../../utils/attributes';
 
 const TAG = 'aegov-pagination';
 const ctx = (prop: string) => ({ component: TAG, prop });
@@ -15,6 +16,8 @@ const ctx = (prop: string) => ({ component: TAG, prop });
   scoped: false,
 })
 export class AegovPagination {
+  @Element() el: HTMLElement;
+
   /**
    * Unique ID for the pagination nav element. Auto-generated if not provided.
    */
@@ -231,9 +234,10 @@ export class AegovPagination {
     const isFirst = this.pageCurrent <= 1;
     const isLast = this.pageCurrent >= this.pages;
     const isCompact = variant === 'compact';
+    const passThroughAttributes = getPassThroughAttributes(this.el);
 
     return (
-      <nav aria-label="Pagination" id={this.fieldId} class={`aegov-pagination pagination--${size}${isCompact ? ' pagination--compact' : ''}`}>
+      <nav {...passThroughAttributes} aria-label="Pagination" id={this.fieldId} class={`aegov-pagination pagination--${size}${isCompact ? ' pagination--compact' : ''}`}>
         <ul class="pagination__list">
 
           {/* First button */}

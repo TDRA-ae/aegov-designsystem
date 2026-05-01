@@ -89,7 +89,7 @@ describe('aegov-checkbox-group', () => {
   it('disables fieldset when disabled', async () => {
     const page = await newSpecPage({
       components: [AegovCheckboxGroup, AegovCheckbox],
-      html: `<aegov-checkbox-group disabled></aegov-checkbox-group>`,
+      html: `<aegov-checkbox-group is-disabled></aegov-checkbox-group>`,
     });
     const fieldset = page.root.querySelector('fieldset');
     expect(fieldset.hasAttribute('disabled')).toBe(true);
@@ -155,14 +155,14 @@ describe('aegov-checkbox-group', () => {
       components: [AegovCheckboxGroup, AegovCheckbox],
       html: `
         <aegov-checkbox-group>
-          <aegov-checkbox check-all label="Select All"></aegov-checkbox>
+          <aegov-checkbox is-check-all label="Select All"></aegov-checkbox>
           <aegov-checkbox label="A" value="a"></aegov-checkbox>
           <aegov-checkbox label="B" value="b"></aegov-checkbox>
         </aegov-checkbox-group>
       `,
     });
 
-    const checkAllCb = page.root.querySelector('aegov-checkbox[check-all]');
+    const checkAllCb = page.root.querySelector('aegov-checkbox[is-check-all]');
     const inputAll = checkAllCb.querySelector('input') as HTMLInputElement;
     inputAll.checked = true;
     inputAll.dispatchEvent(new Event('change', { bubbles: true }));
@@ -170,8 +170,8 @@ describe('aegov-checkbox-group', () => {
 
     const cbA = page.root.querySelector('aegov-checkbox[value="a"]') as HTMLAegovCheckboxElement;
     const cbB = page.root.querySelector('aegov-checkbox[value="b"]') as HTMLAegovCheckboxElement;
-    expect(cbA.checked).toBe(true);
-    expect(cbB.checked).toBe(true);
+    expect(cbA.isChecked).toBe(true);
+    expect(cbB.isChecked).toBe(true);
   });
 
   it('updates check-all to indeterminate when some items checked', async () => {
@@ -179,7 +179,7 @@ describe('aegov-checkbox-group', () => {
       components: [AegovCheckboxGroup, AegovCheckbox],
       html: `
         <aegov-checkbox-group>
-          <aegov-checkbox check-all label="Select All"></aegov-checkbox>
+          <aegov-checkbox is-check-all label="Select All"></aegov-checkbox>
           <aegov-checkbox label="A" value="a"></aegov-checkbox>
           <aegov-checkbox label="B" value="b"></aegov-checkbox>
         </aegov-checkbox-group>
@@ -192,8 +192,8 @@ describe('aegov-checkbox-group', () => {
     inputA.dispatchEvent(new Event('change', { bubbles: true }));
     await page.waitForChanges();
 
-    const checkAllCb = page.root.querySelector('aegov-checkbox[check-all]') as HTMLAegovCheckboxElement;
-    expect(checkAllCb.indeterminate).toBe(true);
+    const checkAllCb = page.root.querySelector('aegov-checkbox[is-check-all]') as HTMLAegovCheckboxElement;
+    expect(checkAllCb.isIndeterminate).toBe(true);
   });
 
   it('check-all skips disabled checkboxes', async () => {
@@ -201,14 +201,14 @@ describe('aegov-checkbox-group', () => {
       components: [AegovCheckboxGroup, AegovCheckbox],
       html: `
         <aegov-checkbox-group>
-          <aegov-checkbox check-all label="Select All"></aegov-checkbox>
+          <aegov-checkbox is-check-all label="Select All"></aegov-checkbox>
           <aegov-checkbox label="A" value="a"></aegov-checkbox>
-          <aegov-checkbox label="B" value="b" disabled></aegov-checkbox>
+          <aegov-checkbox label="B" value="b" is-disabled></aegov-checkbox>
         </aegov-checkbox-group>
       `,
     });
 
-    const checkAllCb = page.root.querySelector('aegov-checkbox[check-all]');
+    const checkAllCb = page.root.querySelector('aegov-checkbox[is-check-all]');
     const inputAll = checkAllCb.querySelector('input') as HTMLInputElement;
     inputAll.checked = true;
     inputAll.dispatchEvent(new Event('change', { bubbles: true }));
@@ -216,8 +216,8 @@ describe('aegov-checkbox-group', () => {
 
     const cbA = page.root.querySelector('aegov-checkbox[value="a"]') as HTMLAegovCheckboxElement;
     const cbB = page.root.querySelector('aegov-checkbox[value="b"]') as HTMLAegovCheckboxElement;
-    expect(cbA.checked).toBe(true);
-    expect(cbB.checked).toBe(false);
+    expect(cbA.isChecked).toBe(true);
+    expect(cbB.isChecked).toBe(false);
   });
 
   it('sets check-all to checked when all items are checked', async () => {
@@ -225,7 +225,7 @@ describe('aegov-checkbox-group', () => {
       components: [AegovCheckboxGroup, AegovCheckbox],
       html: `
         <aegov-checkbox-group>
-          <aegov-checkbox check-all label="Select All"></aegov-checkbox>
+          <aegov-checkbox is-check-all label="Select All"></aegov-checkbox>
           <aegov-checkbox label="A" value="a"></aegov-checkbox>
           <aegov-checkbox label="B" value="b"></aegov-checkbox>
         </aegov-checkbox-group>
@@ -244,9 +244,9 @@ describe('aegov-checkbox-group', () => {
     inputB.dispatchEvent(new Event('change', { bubbles: true }));
     await page.waitForChanges();
 
-    const checkAllCb = page.root.querySelector('aegov-checkbox[check-all]') as HTMLAegovCheckboxElement;
-    expect(checkAllCb.checked).toBe(true);
-    expect(checkAllCb.indeterminate).toBe(false);
+    const checkAllCb = page.root.querySelector('aegov-checkbox[is-check-all]') as HTMLAegovCheckboxElement;
+    expect(checkAllCb.isChecked).toBe(true);
+    expect(checkAllCb.isIndeterminate).toBe(false);
   });
 
   describe('invalid prop values', () => {

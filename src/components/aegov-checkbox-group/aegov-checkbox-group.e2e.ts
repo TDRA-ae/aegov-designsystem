@@ -27,13 +27,13 @@ describe('aegov-checkbox-group e2e', () => {
     const page = await newE2EPage();
     await page.setContent(`
       <aegov-checkbox-group>
-        <aegov-checkbox check-all label="Select All"></aegov-checkbox>
+        <aegov-checkbox is-check-all label="Select All"></aegov-checkbox>
         <aegov-checkbox label="A" value="a"></aegov-checkbox>
         <aegov-checkbox label="B" value="b"></aegov-checkbox>
         <aegov-checkbox label="C" value="c"></aegov-checkbox>
       </aegov-checkbox-group>
     `);
-    const checkAllInput = await page.find('aegov-checkbox[check-all] input');
+    const checkAllInput = await page.find('aegov-checkbox[is-check-all] input');
     await checkAllInput.click();
     await page.waitForChanges();
 
@@ -49,13 +49,13 @@ describe('aegov-checkbox-group e2e', () => {
     const page = await newE2EPage();
     await page.setContent(`
       <aegov-checkbox-group>
-        <aegov-checkbox check-all label="Select All"></aegov-checkbox>
-        <aegov-checkbox label="A" value="a" checked></aegov-checkbox>
-        <aegov-checkbox label="B" value="b" checked></aegov-checkbox>
+        <aegov-checkbox is-check-all label="Select All"></aegov-checkbox>
+        <aegov-checkbox label="A" value="a" is-checked></aegov-checkbox>
+        <aegov-checkbox label="B" value="b" is-checked></aegov-checkbox>
       </aegov-checkbox-group>
     `);
     // First click sets check-all to checked (since all are checked, it toggles to uncheck)
-    const checkAllInput = await page.find('aegov-checkbox[check-all] input');
+    const checkAllInput = await page.find('aegov-checkbox[is-check-all] input');
     // All are already checked, check-all should be auto-checked after load
     await page.waitForChanges();
     // Now click to uncheck
@@ -72,7 +72,7 @@ describe('aegov-checkbox-group e2e', () => {
     const page = await newE2EPage();
     await page.setContent(`
       <aegov-checkbox-group>
-        <aegov-checkbox check-all label="Select All"></aegov-checkbox>
+        <aegov-checkbox is-check-all label="Select All"></aegov-checkbox>
         <aegov-checkbox label="A" value="a"></aegov-checkbox>
         <aegov-checkbox label="B" value="b"></aegov-checkbox>
       </aegov-checkbox-group>
@@ -81,7 +81,7 @@ describe('aegov-checkbox-group e2e', () => {
     await inputA.click();
     await page.waitForChanges();
 
-    const checkAllInput = await page.find('aegov-checkbox[check-all] input');
+    const checkAllInput = await page.find('aegov-checkbox[is-check-all] input');
     const isIndeterminate = await checkAllInput.getProperty('indeterminate');
     expect(isIndeterminate).toBe(true);
   });
@@ -150,7 +150,7 @@ describe('aegov-checkbox-group e2e', () => {
   it('disabled group disables all checkboxes', async () => {
     const page = await newE2EPage();
     await page.setContent(`
-      <aegov-checkbox-group disabled>
+      <aegov-checkbox-group is-disabled>
         <aegov-checkbox label="A" value="a"></aegov-checkbox>
         <aegov-checkbox label="B" value="b"></aegov-checkbox>
       </aegov-checkbox-group>
@@ -189,12 +189,12 @@ describe('aegov-checkbox-group e2e', () => {
     const page = await newE2EPage();
     await page.setContent(`
       <aegov-checkbox-group>
-        <aegov-checkbox check-all label="Select All"></aegov-checkbox>
+        <aegov-checkbox is-check-all label="Select All"></aegov-checkbox>
         <aegov-checkbox label="A" value="a"></aegov-checkbox>
-        <aegov-checkbox label="B" value="b" disabled></aegov-checkbox>
+        <aegov-checkbox label="B" value="b" is-disabled></aegov-checkbox>
       </aegov-checkbox-group>
     `);
-    const checkAllInput = await page.find('aegov-checkbox[check-all] input');
+    const checkAllInput = await page.find('aegov-checkbox[is-check-all] input');
     await checkAllInput.click();
     await page.waitForChanges();
 
@@ -208,7 +208,7 @@ describe('aegov-checkbox-group e2e', () => {
     const page = await newE2EPage();
     await page.setContent(`
       <aegov-checkbox-group>
-        <aegov-checkbox check-all label="Select All"></aegov-checkbox>
+        <aegov-checkbox is-check-all label="Select All"></aegov-checkbox>
         <aegov-checkbox label="A" value="a"></aegov-checkbox>
         <aegov-checkbox label="B" value="b"></aegov-checkbox>
       </aegov-checkbox-group>
@@ -221,7 +221,7 @@ describe('aegov-checkbox-group e2e', () => {
     await inputB.click();
     await page.waitForChanges();
 
-    const checkAllInput = await page.find('aegov-checkbox[check-all] input');
+    const checkAllInput = await page.find('aegov-checkbox[is-check-all] input');
     expect(await checkAllInput.getProperty('checked')).toBe(true);
     expect(await checkAllInput.getProperty('indeterminate')).toBe(false);
   });

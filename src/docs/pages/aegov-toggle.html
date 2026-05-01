@@ -34,7 +34,7 @@
 <p>Set the <code>checked</code> attribute to render the toggle in its on position. The track colour changes from neutral grey to the primary brand colour.</p>
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-toggle</span> <span class="hljs-attr">checked</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Enabled&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-toggle</span>&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">aegov-toggle</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Disabled feature&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-toggle</span>&gt;</span></code></pre><div class="flex flex-wrap items-center gap-6 p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-toggle checked label="Enabled"></aegov-toggle>
+  <aegov-toggle is-checked label="Enabled"></aegov-toggle>
   <aegov-toggle label="Disabled feature"></aegov-toggle>
 </div>
 
@@ -43,8 +43,8 @@
 <p>Set the <code>disabled</code> attribute to prevent interaction. The toggle becomes visually muted and unclickable.</p>
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-toggle</span> <span class="hljs-attr">disabled</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Disabled off&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-toggle</span>&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">aegov-toggle</span> <span class="hljs-attr">disabled</span> <span class="hljs-attr">checked</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Disabled on&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-toggle</span>&gt;</span></code></pre><div class="flex flex-wrap items-center gap-6 p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-toggle disabled label="Disabled off"></aegov-toggle>
-  <aegov-toggle disabled checked label="Disabled on"></aegov-toggle>
+  <aegov-toggle is-disabled label="Disabled off"></aegov-toggle>
+  <aegov-toggle is-disabled is-checked label="Disabled on"></aegov-toggle>
 </div>
 
 <hr>
@@ -159,7 +159,7 @@
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-toggle</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-toggle</span>&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">aegov-toggle</span> <span class="hljs-attr">checked</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-toggle</span>&gt;</span></code></pre><div class="flex flex-wrap items-center gap-6 p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
   <aegov-toggle></aegov-toggle>
-  <aegov-toggle checked></aegov-toggle>
+  <aegov-toggle is-checked></aegov-toggle>
 </div>
 
 <blockquote>
@@ -186,7 +186,7 @@
     <svg slot="icon-unchecked" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
     <svg slot="icon-checked" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
   </aegov-toggle>
-  <aegov-toggle checked label="On with icons">
+  <aegov-toggle is-checked label="On with icons">
     <svg slot="icon-unchecked" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
     <svg slot="icon-checked" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
   </aegov-toggle>
@@ -201,23 +201,23 @@
 <span class="hljs-tag">&lt;<span class="hljs-name">aegov-toggle</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;base&quot;</span> <span class="hljs-attr">checked</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Base&quot;</span>&gt;</span>...<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-toggle</span>&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">aegov-toggle</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;lg&quot;</span> <span class="hljs-attr">checked</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Large&quot;</span>&gt;</span>...<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-toggle</span>&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">aegov-toggle</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;xl&quot;</span> <span class="hljs-attr">checked</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Extra Large&quot;</span>&gt;</span>...<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-toggle</span>&gt;</span></code></pre><div class="flex flex-wrap items-center gap-6 p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-toggle size="xs" checked label="Extra Small">
+  <aegov-toggle size="xs" is-checked label="Extra Small">
     <svg slot="icon-unchecked" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
     <svg slot="icon-checked" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
   </aegov-toggle>
-  <aegov-toggle size="sm" checked label="Small">
+  <aegov-toggle size="sm" is-checked label="Small">
     <svg slot="icon-unchecked" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
     <svg slot="icon-checked" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
   </aegov-toggle>
-  <aegov-toggle size="base" checked label="Base">
+  <aegov-toggle size="base" is-checked label="Base">
     <svg slot="icon-unchecked" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
     <svg slot="icon-checked" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
   </aegov-toggle>
-  <aegov-toggle size="lg" checked label="Large">
+  <aegov-toggle size="lg" is-checked label="Large">
     <svg slot="icon-unchecked" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
     <svg slot="icon-checked" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
   </aegov-toggle>
-  <aegov-toggle size="xl" checked label="Extra Large">
+  <aegov-toggle size="xl" is-checked label="Extra Large">
     <svg slot="icon-unchecked" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
     <svg slot="icon-checked" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
   </aegov-toggle>
@@ -233,7 +233,7 @@
     <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;SMS notifications&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-toggle</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">form</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
   <div class="flex flex-col gap-4">
-    <aegov-toggle name="notifications" value="email" checked label="Email notifications"></aegov-toggle>
+    <aegov-toggle name="notifications" value="email" is-checked label="Email notifications"></aegov-toggle>
     <aegov-toggle name="notifications" value="sms" label="SMS notifications"></aegov-toggle>
   </div>
 </div>
@@ -242,7 +242,7 @@
 <h2>Required</h2>
 <p>Set the <code>required</code> attribute to mark the toggle as required. This adds <code>aria-required=&quot;true&quot;</code> to the native input for accessibility and enables built-in browser validation.</p>
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-toggle</span> <span class="hljs-attr">required</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;I agree to the terms and conditions&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-toggle</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-toggle required label="I agree to the terms and conditions"></aegov-toggle>
+  <aegov-toggle is-required label="I agree to the terms and conditions"></aegov-toggle>
 </div>
 
 <hr>
@@ -289,9 +289,9 @@
     <span class="hljs-attr">description</span>=<span class="hljs-string">&quot;تفعيل المظهر الداكن للتطبيق.&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-toggle</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre><div dir="rtl" class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
   <div class="flex flex-col gap-6">
-    <aegov-toggle checked label="الوضع الداكن" description="تفعيل المظهر الداكن للتطبيق."></aegov-toggle>
+    <aegov-toggle is-checked label="الوضع الداكن" description="تفعيل المظهر الداكن للتطبيق."></aegov-toggle>
     <aegov-toggle label="الإشعارات" description="تلقي الإشعارات عبر البريد الإلكتروني."></aegov-toggle>
-    <aegov-toggle disabled checked label="معطل (مفعل)"></aegov-toggle>
+    <aegov-toggle is-disabled is-checked label="معطل (مفعل)"></aegov-toggle>
   </div>
 </div>
 

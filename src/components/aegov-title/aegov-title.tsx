@@ -4,6 +4,7 @@ import type { ResponsivePropWatcher } from '../../utils/responsive-prop';
 import { TITLE_SIZES } from '../../utils/types';
 import type { TitleSize, TitleHeadingType } from '../../utils/types';
 import { getPassThroughAttributes } from '../../utils/attributes';
+import { generateId } from '../../utils/id-generator';
 
 /**
  * @slot default - The title content
@@ -15,7 +16,12 @@ import { getPassThroughAttributes } from '../../utils/attributes';
   shadow:false
 })
 export class AegovTitle {
-  @Element() el: HTMLElement;
+  @Element() el!: HTMLElement;
+
+  /**
+   * Unique ID for the title element. Auto-generated if not provided.
+   */
+  @Prop({ mutable: true, reflect: true }) fieldId?: string;
 
   /**
    * The size of the title text.
@@ -38,9 +44,10 @@ export class AegovTitle {
    */
   @Prop() extraClass?: string;
 
-  private static readonly PASS_THROUGH_ATTRS = new Set(['id']);
-
   componentWillLoad() {
+    if (!this.fieldId) {
+      this.fieldId = generateId('aegov-title');
+    }
     this._sizeWatcher = watchResponsiveProp(this.size, TITLE_SIZES, 'base', v => {
       this._resolvedSize = v as TitleSize;
     });
@@ -87,12 +94,12 @@ export class AegovTitle {
   }
 
   render() {
-    const passThroughAttributes = getPassThroughAttributes(this.el, AegovTitle.PASS_THROUGH_ATTRS);
+    const passThroughAttributes = getPassThroughAttributes(this.el);
     const Tag: any = this.headingType || 'p';
 
     return (
       <Host>
-        <Tag class={this.getTitleClasses()} {...passThroughAttributes}>
+        <Tag id={this.fieldId} class={this.getTitleClasses()} {...passThroughAttributes}>
           <slot />
         </Tag>
       </Host>

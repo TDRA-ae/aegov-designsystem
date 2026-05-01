@@ -11,7 +11,7 @@ import { Component, Host, h, Prop, Element } from '@stencil/core';
   scoped: false,
 })
 export class AegovSeparator {
-  @Element() el: HTMLElement;
+  @Element() el!: HTMLElement;
   /**
    * Orientation of the separator
    * @default 'horizontal'

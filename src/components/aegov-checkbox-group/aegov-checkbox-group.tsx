@@ -32,7 +32,7 @@ export class AegovCheckboxGroup {
   private _sizeWatcher: ResponsivePropWatcher | null = null;
 
   /** Disables all checkboxes within the group via native fieldset disabled. */
-  @Prop() disabled: boolean = false;
+  @Prop() isDisabled: boolean = false;
 
   /** Additional CSS classes to apply. */
   @Prop() extraClass?: string;
@@ -83,18 +83,18 @@ export class AegovCheckboxGroup {
   }
 
   private getRegularCheckboxes(): HTMLAegovCheckboxElement[] {
-    return Array.from(this.el.querySelectorAll('aegov-checkbox')).filter(cb => !cb.checkAll);
+    return Array.from(this.el.querySelectorAll('aegov-checkbox')).filter(cb => !cb.isCheckAll);
   }
 
   private getCheckAllCheckbox(): HTMLAegovCheckboxElement | null {
-    return this.el.querySelector('aegov-checkbox[check-all]') as HTMLAegovCheckboxElement | null;
+    return this.el.querySelector('aegov-checkbox[is-check-all]') as HTMLAegovCheckboxElement | null;
   }
 
   @Listen('aegovCheckboxChange')
   handleCheckboxChange(event: CustomEvent<{ checked: boolean; value?: string }>) {
     const target = event.target as HTMLAegovCheckboxElement;
 
-    if (target.checkAll) {
+    if (target.isCheckAll) {
       this.handleCheckAllToggle(event.detail.checked);
     } else {
       this.updateCheckAllState();
@@ -106,8 +106,8 @@ export class AegovCheckboxGroup {
   private handleCheckAllToggle(checked: boolean) {
     const checkboxes = this.getRegularCheckboxes();
     checkboxes.forEach(cb => {
-      if (!cb.disabled) {
-        cb.checked = checked;
+      if (!cb.isDisabled) {
+        cb.isChecked = checked;
       }
     });
   }
@@ -117,28 +117,28 @@ export class AegovCheckboxGroup {
     if (!checkAll) return;
 
     const checkboxes = this.getRegularCheckboxes();
-    const enabledCheckboxes = checkboxes.filter(cb => !cb.disabled);
-    const checkedCount = enabledCheckboxes.filter(cb => cb.checked).length;
+    const enabledCheckboxes = checkboxes.filter(cb => !cb.isDisabled);
+    const checkedCount = enabledCheckboxes.filter(cb => cb.isChecked).length;
     const total = enabledCheckboxes.length;
 
     if (total === 0) return;
 
     if (checkedCount === 0) {
-      checkAll.checked = false;
-      checkAll.indeterminate = false;
+      checkAll.isChecked = false;
+      checkAll.isIndeterminate = false;
     } else if (checkedCount === total) {
-      checkAll.checked = true;
-      checkAll.indeterminate = false;
+      checkAll.isChecked = true;
+      checkAll.isIndeterminate = false;
     } else {
-      checkAll.checked = false;
-      checkAll.indeterminate = true;
+      checkAll.isChecked = false;
+      checkAll.isIndeterminate = true;
     }
   }
 
   private emitGroupChange() {
     const checkboxes = this.getRegularCheckboxes();
     const values = checkboxes
-      .filter(cb => cb.checked)
+      .filter(cb => cb.isChecked)
       .map(cb => cb.value)
       .filter((v): v is string => v != null);
     this.aegovCheckboxGroupChange.emit({ values });
@@ -163,7 +163,7 @@ export class AegovCheckboxGroup {
   render() {
     return (
       <Host>
-        <fieldset class={this.getGroupClasses()} disabled={this.disabled}>
+        <fieldset class={this.getGroupClasses()} disabled={this.isDisabled}>
           {this.label && <legend class="checkbox-group__legend">{this.label}</legend>}
           <div class="checkbox-group__items">
             <slot />

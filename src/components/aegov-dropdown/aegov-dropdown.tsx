@@ -6,6 +6,7 @@ import { getFocusableElements, FOCUSABLE_SELECTORS, cycleFocus } from '../../uti
 import { createPortal, removePortal } from '../../utils/portal-manager';
 import { createKeyboardHandler } from '../../utils/keyboard-handler';
 import { warnIfInvalidEnumProp } from '../../utils/prop-validator';
+import { getPassThroughAttributes } from '../../utils/attributes';
 
 const TAG = 'aegov-dropdown';
 const ctx = (prop: string) => ({ component: TAG, prop });
@@ -743,10 +744,12 @@ export class AegovDropdown {
 
   render() {
     const hasContent = this.hasContentSlot;
+    const passThroughAttributes = getPassThroughAttributes(this.el);
 
     return (
       <Host>
         <div
+          {...passThroughAttributes}
           class="aegov-dropdown-trigger"
           id={this.triggerId}
           ref={(el) => (this.triggerRef = el)}

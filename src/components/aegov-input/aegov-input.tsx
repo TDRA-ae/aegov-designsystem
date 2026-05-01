@@ -103,7 +103,7 @@ export class AegovInput {
   }
 
   /** Native input attributes to pass through to the inner input element. */
-  private static readonly NATIVE_INPUT_ATTRS = new Set([
+  private static readonly PASS_THROUGH_ATTRS = new Set([
     'pattern', 'min', 'max', 'minlength', 'maxlength', 'step',
     'autocomplete', 'autofocus', 'inputmode', 'list', 'multiple',
     'accept', 'capture', 'spellcheck', 'enterkeyhint', 'title',
@@ -283,7 +283,7 @@ export class AegovInput {
   }
 
   render() {
-    const passThroughAttributes = getPassThroughAttributes(this.el, AegovInput.NATIVE_INPUT_ATTRS);
+    const passThroughAttributes = getPassThroughAttributes(this.el, AegovInput.PASS_THROUGH_ATTRS);
     const hasIconStart = !!this.el.querySelector('[slot="icon-start"]');
     const hasIconEndContent = !!this.el.querySelector('[slot="icon-end"]');
     const hasIconEnd = hasIconEndContent && !this.hasActionButton;

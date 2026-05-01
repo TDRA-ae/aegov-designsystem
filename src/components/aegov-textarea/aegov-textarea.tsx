@@ -114,7 +114,7 @@ export class AegovTextarea {
   }
 
   /** Native textarea attributes to pass through. */
-  private static readonly NATIVE_TEXTAREA_ATTRS = new Set([
+  private static readonly PASS_THROUGH_ATTRS = new Set([
     'rows', 'cols', 'minlength', 'maxlength', 'wrap',
     'autocomplete', 'autofocus', 'spellcheck', 'enterkeyhint',
     'title', 'tabindex', 'form',
@@ -258,7 +258,7 @@ export class AegovTextarea {
   }
 
   render() {
-    const passThroughAttributes = getPassThroughAttributes(this.el, AegovTextarea.NATIVE_TEXTAREA_ATTRS);
+    const passThroughAttributes = getPassThroughAttributes(this.el, AegovTextarea.PASS_THROUGH_ATTRS);
     const needsWrapper = this.isCopyable;
     const hasCounter = this.maxlength !== undefined && this.maxlength !== null;
 

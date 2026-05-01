@@ -1,10 +1,11 @@
-import { Component, Prop, Watch, State, Event, EventEmitter, h, Host } from '@stencil/core';
+import { Component, Element, Prop, Watch, State, Event, EventEmitter, h, Host } from '@stencil/core';
 import { watchResponsiveProp } from '../../utils/responsive-prop';
 import type { ResponsivePropWatcher } from '../../utils/responsive-prop';
 import { BADGE_APPEARANCES, BADGE_COLORS, BADGE_SIZES } from '../../utils/types';
 import type { BadgeSize, BadgeAppearance, BadgeColor } from '../../utils/types';
 import { warnIfInvalidEnumProp } from '../../utils/prop-validator';
 import { generateId } from '../../utils/id-generator';
+import { getPassThroughAttributes } from '../../utils/attributes';
 
 const TAG = 'aegov-badge';
 const ctx = (prop: string) => ({ component: TAG, prop });
@@ -18,6 +19,8 @@ const ctx = (prop: string) => ({ component: TAG, prop });
   scoped: false,
 })
 export class AegovBadge {
+    @Element() el: HTMLElement;
+
     /**
      * Unique ID for the badge element. Auto-generated if not provided.
      */
@@ -53,7 +56,7 @@ export class AegovBadge {
     /**
      * Emitted when the dismiss button is clicked.
      */
-    @Event() aegovBadgeDismiss: EventEmitter<void>;
+    @Event() aegovBadgeDismiss!: EventEmitter<void>;
 
     componentWillLoad() {
         if (!this.fieldId) {
@@ -149,9 +152,10 @@ export class AegovBadge {
     }
 
     render() {
+        const passThroughAttributes = getPassThroughAttributes(this.el);
         return (
             <Host>
-                <span class={this.getBadgeClasses()} id={this.fieldId}>
+                <span {...passThroughAttributes} class={this.getBadgeClasses()} id={this.fieldId}>
                     <slot />
                     {this.isDismissible && (
                         <button

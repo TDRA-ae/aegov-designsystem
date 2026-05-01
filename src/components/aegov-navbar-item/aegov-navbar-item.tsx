@@ -3,6 +3,7 @@ import { NAVBAR_SIZES } from '../../utils/types';
 import type { NavbarSize, LinkTarget } from '../../utils/types';
 import { watchResponsiveProp } from '../../utils/responsive-prop';
 import type { ResponsivePropWatcher } from '../../utils/responsive-prop';
+import { getPassThroughAttributes } from '../../utils/attributes';
 
 const CHEVRON_SVG = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" aria-hidden="true" focusable="false"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="20" d="m48 96 80 80 80-80"/></svg>`;
 
@@ -36,6 +37,11 @@ const CHEVRON_SVG = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 25
 })
 export class AegovNavbarItem {
   @Element() el: HTMLElement;
+
+  /** Native anchor attributes to pass through to the inner link element. */
+  private static readonly PASS_THROUGH_ATTRS = new Set([
+    'rel', 'referrerpolicy', 'target',
+  ]);
 
   @State() hasIconStartSlot: boolean = false;
   @State() hasDropdown: boolean = false;
@@ -130,6 +136,8 @@ export class AegovNavbarItem {
       link.setAttribute('href', this.href);
       if (this.target) link.setAttribute('target', this.target);
       if (this.rel) link.setAttribute('rel', this.rel);
+      const referrerPolicy = this.el.getAttribute('referrerpolicy');
+      if (referrerPolicy) link.setAttribute('referrerpolicy', referrerPolicy);
     }
     if (this.isActive) link.setAttribute('aria-current', 'page');
 
@@ -221,13 +229,20 @@ export class AegovNavbarItem {
       'aegov-navbar-item--active': this.isActive,
       'aegov-navbar-item--disabled': this.isDisabled,
     };
+    const passThroughAttributes = getPassThroughAttributes(this.el);
+    const linkAttrs: Record<string, string> = {};
+    Array.from(this.el.attributes).forEach(attr => {
+      if (AegovNavbarItem.PASS_THROUGH_ATTRS.has(attr.name)) {
+        linkAttrs[attr.name] = attr.value;
+      }
+    });
 
     // hasDropdown && !disabled: link/chevron live inside the user's
     // <aegov-dropdown>. Render only the dropdown slot.
     if (this.hasDropdown && !this.isDisabled) {
       return (
         <Host>
-          <li class={liClasses}>
+          <li {...passThroughAttributes} class={liClasses}>
             <slot name="dropdown" />
           </li>
         </Host>
@@ -257,6 +272,7 @@ export class AegovNavbarItem {
     } else if (this.href) {
       inner = (
         <a
+          {...linkAttrs}
           class="aegov-navbar-item__link"
           href={this.href}
           target={this.target}
@@ -281,7 +297,7 @@ export class AegovNavbarItem {
 
     return (
       <Host>
-        <li class={liClasses}>
+        <li {...passThroughAttributes} class={liClasses}>
           {inner}
           {this.hasDropdown && <slot name="dropdown" />}
         </li>

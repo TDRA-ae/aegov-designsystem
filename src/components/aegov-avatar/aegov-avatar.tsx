@@ -1,9 +1,11 @@
-import { Component, Prop, Watch, h, Host, State } from '@stencil/core';
+import { Component, Element, Prop, Watch, h, Host, State } from '@stencil/core';
 import { AVATAR_SIZES, AVATAR_APPEARANCES, AVATAR_STATUSES } from '../../utils/types';
 import type { AvatarSize, AvatarAppearance, AvatarStatus } from '../../utils/types';
 import { warnIfInvalidEnumProp } from '../../utils/prop-validator';
 import { watchResponsiveProp } from '../../utils/responsive-prop';
 import type { ResponsivePropWatcher } from '../../utils/responsive-prop';
+import { getPassThroughAttributes } from '../../utils/attributes';
+import { generateId } from '../../utils/id-generator';
 
 const TAG = 'aegov-avatar';
 const ctx = (prop: string) => ({ component: TAG, prop });
@@ -20,6 +22,16 @@ const ctx = (prop: string) => ({ component: TAG, prop });
   scoped: false,
 })
 export class AegovAvatar {
+  @Element() el: HTMLElement;
+
+  /** Native img attributes to pass through to the inner img element. */
+  private static readonly PASS_THROUGH_ATTRS = new Set([
+    'loading', 'crossorigin', 'referrerpolicy', 'srcset', 'alt', 'src',
+  ]);
+
+  /** Unique ID for the inner avatar element. Auto-generated if not provided. */
+  @Prop({ mutable: true, reflect: true }) fieldId?: string;
+
   /**
    * The avatar size
    * @default 'base'
@@ -63,6 +75,9 @@ export class AegovAvatar {
       this._resolvedSize = v as AvatarSize;
     });
     this._resolvedSize = this._sizeWatcher.current as AvatarSize;
+    if (!this.fieldId) {
+      this.fieldId = generateId('aegov-avatar');
+    }
   }
 
   disconnectedCallback() {
@@ -143,10 +158,12 @@ export class AegovAvatar {
 
   render() {
     const showImage = this.src && !this.imageError;
+    const passThroughAttributes = getPassThroughAttributes(this.el, AegovAvatar.PASS_THROUGH_ATTRS);
 
     return (
       <Host>
         <div
+          id={this.fieldId}
           part="avatar"
           class={this.getAvatarClasses()}
           role="img"
@@ -155,6 +172,7 @@ export class AegovAvatar {
           {showImage ? (
             <img
               part="image"
+              {...passThroughAttributes}
               src={this.src}
               alt={this.alt || ''}
               onError={this.handleImageError}

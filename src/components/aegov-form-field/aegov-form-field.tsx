@@ -1,5 +1,6 @@
 import { Component, Host, h, Prop, Element } from '@stencil/core';
 import { getPassThroughAttributes } from '../../utils/attributes';
+import { generateId } from '../../utils/id-generator';
 
 @Component({
   tag: 'aegov-form-field',
@@ -10,8 +11,17 @@ import { getPassThroughAttributes } from '../../utils/attributes';
 export class AegovFormField {
   @Element() el: HTMLElement;
 
+  /** Unique ID for the form-field wrapper. Auto-generated if not provided. */
+  @Prop({ mutable: true, reflect: true }) fieldId?: string;
+
   /** Additional CSS classes to apply. */
   @Prop() extraClass?: string;
+
+  componentWillLoad() {
+    if (!this.fieldId) {
+      this.fieldId = generateId('aegov-form-field');
+    }
+  }
 
   componentDidLoad() {
     this.linkChildren();
@@ -50,8 +60,6 @@ export class AegovFormField {
     }
   }
 
-  private static readonly PASS_THROUGH_ATTRS = new Set(['id']);
-
   private getFieldClasses(): string {
     const classes: string[] = ['aegov-form-field'];
     if (this.extraClass) {
@@ -61,11 +69,11 @@ export class AegovFormField {
   }
 
   render() {
-    const passThroughAttributes = getPassThroughAttributes(this.el, AegovFormField.PASS_THROUGH_ATTRS);
+    const passThroughAttributes = getPassThroughAttributes(this.el);
 
     return (
       <Host>
-        <div class={this.getFieldClasses()} {...passThroughAttributes}>
+        <div id={this.fieldId} class={this.getFieldClasses()} {...passThroughAttributes}>
           <slot />
         </div>
       </Host>

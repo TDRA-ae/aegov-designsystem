@@ -31,8 +31,6 @@ export class AegovText {
    */
   @Prop() extraClass?: string;
 
-  private static readonly PASS_THROUGH_ATTRS = new Set(['id']);
-
   componentWillLoad() {
     this._sizeWatcher = watchResponsiveProp(this.size, TEXT_SIZES, 'base', v => {
       this._resolvedSize = v as TextSize;
@@ -78,7 +76,7 @@ export class AegovText {
   }
 
   render() {
-    const passThroughAttributes = getPassThroughAttributes(this.el, AegovText.PASS_THROUGH_ATTRS);
+    const passThroughAttributes = getPassThroughAttributes(this.el);
 
     return (
       <Host>
