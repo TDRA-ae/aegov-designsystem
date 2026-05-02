@@ -1,209 +1,362 @@
-# aegov-avatar
+# Avatar
 
-A user-avatar component that renders an image when one is available and falls back to slotted content (initials, custom icon) or a default user silhouette when it is not. Supports seven sizes, square or rounded shapes, and an optional status indicator. The companion sub-component `aegov-avatar-group` lays out multiple avatars together with an optional "+N more" indicator.
+<p class="text-lg text-aeblack-500 mb-8">A user-avatar component that renders an image when one is available and falls back to slotted content (such as initials) or a default user silhouette when it is not. Supports seven sizes, square or rounded shapes, and an optional status indicator. Use it for citizen profiles, ministry staff listings, and any place a single user is represented in the interface.</p>
 
-## Properties
+## Introduction
 
-### src
-
-Image URL. When set and the image loads successfully, the avatar shows the image. If the image fails to load, the component automatically falls back to slotted content or the default user icon.
-
-```html
-<aegov-avatar src="/photos/jane.jpg" alt="Jane Doe"></aegov-avatar>
-```
-
-### alt
-
-Alt text used both as the image's `alt` attribute and as the host's `aria-label`. Always provide this when an image is set.
-
-```html
-<aegov-avatar src="/photos/jane.jpg" alt="Jane Doe"></aegov-avatar>
-```
-
-### size
-
-Avatar size. Accepts `xs`, `sm`, `base`, `lg`, `xl`, `2xl`, `3xl`, or a Tailwind-style responsive string.
-
-```html
-<aegov-avatar size="xs"></aegov-avatar>
-<aegov-avatar size="lg"></aegov-avatar>
-<aegov-avatar size="3xl"></aegov-avatar>
-```
-
-### appearance
-
-Shape of the avatar — `square` (rounded corners) or `rounded` (full circle).
-
-```html
-<aegov-avatar appearance="square"></aegov-avatar>
-<aegov-avatar appearance="rounded"></aegov-avatar>
-```
-
-### status
-
-Status indicator. Accepts `'online'`, `'offline'`, `'away'`, `'unavailable'`, `'busy'`, or boolean (`true` maps to `'online'`, `false` hides the indicator). Defaults to `false`.
-
-```html
-<aegov-avatar status="online"></aegov-avatar>
-<aegov-avatar status="busy" src="/photos/jane.jpg" alt="Jane"></aegov-avatar>
-```
-
-### field-id
-
-Unique identifier reflected onto the inner avatar `<div>`. Auto-generated as `aegov-avatar-{n}` if not provided.
-
-```html
-<aegov-avatar field-id="me"></aegov-avatar>
-```
-
-## Sizes
-
-`size` accepts a single token or a Tailwind-style responsive string.
-
-```html
-<!-- Static -->
-<aegov-avatar size="xs"></aegov-avatar>
-<aegov-avatar size="sm"></aegov-avatar>
-<aegov-avatar size="base"></aegov-avatar>
-<aegov-avatar size="lg"></aegov-avatar>
-<aegov-avatar size="xl"></aegov-avatar>
-<aegov-avatar size="2xl"></aegov-avatar>
-<aegov-avatar size="3xl"></aegov-avatar>
-
-<!-- Responsive: small on mobile, larger from md, largest from lg -->
-<aegov-avatar size="sm md:base lg:lg"></aegov-avatar>
-```
-
-## Examples
-
-### Image avatar
-
-```html
-<aegov-avatar src="/photos/jane.jpg" alt="Jane Doe" size="lg"></aegov-avatar>
-```
-
-### Initials fallback
-
-```html
-<aegov-avatar appearance="rounded">JD</aegov-avatar>
-```
-
-### Default silhouette fallback
-
-```html
-<aegov-avatar></aegov-avatar>
-```
-
-### Avatar with online status
+The `aegov-avatar` component is the building block for representing a single person in the UI. Set `src` to display a photograph, slot in initials as a fallback, and optionally render a coloured status dot in the lower-right corner. When the image fails to load, the component automatically falls back to whatever is in the default slot — or to a generic user silhouette if no slot content is provided.
 
 ```html
 <aegov-avatar
-  src="/photos/jane.jpg"
-  alt="Jane Doe"
-  status="online"
+  src="https://i.pravatar.cc/150?img=12"
+  alt="Khalid Al Mansoori"
+  size="lg"
   appearance="rounded"
+  status="online"
 ></aegov-avatar>
 ```
 
-### Graceful fallback on broken image
+<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-avatar src="https://i.pravatar.cc/150?img=12" alt="Khalid Al Mansoori" size="lg" appearance="rounded" status="online"></aegov-avatar>
+</div>
+
+---
+
+## Image, Initials, and Default Fallback
+
+The avatar resolves its content in this order:
+
+1. If `src` is set and the image loads successfully — show the image.
+2. If `src` is missing or the image fails to load — render the default slot.
+3. If the default slot is empty — render a built-in user silhouette icon.
 
 ```html
-<!-- If /missing.jpg fails to load, the slot contents are shown instead -->
-<aegov-avatar src="/missing.jpg" alt="Jane Doe">JD</aegov-avatar>
+<!-- 1. Image -->
+<aegov-avatar src="https://i.pravatar.cc/150?img=5" alt="Sara Al Hashimi" appearance="rounded"></aegov-avatar>
+
+<!-- 2. Initials fallback (no src) -->
+<aegov-avatar appearance="rounded">SA</aegov-avatar>
+
+<!-- 3. Default silhouette (no src, no slot) -->
+<aegov-avatar appearance="rounded"></aegov-avatar>
+
+<!-- 4. Graceful fallback when image fails to load -->
+<aegov-avatar src="https://example.invalid/missing.jpg" alt="Sara Al Hashimi" appearance="rounded">SA</aegov-avatar>
 ```
 
-## RTL Behavior
+<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <div style="display:flex;gap:1rem;align-items:center;">
+    <aegov-avatar src="https://i.pravatar.cc/150?img=5" alt="Sara Al Hashimi" appearance="rounded"></aegov-avatar>
+    <aegov-avatar appearance="rounded">SA</aegov-avatar>
+    <aegov-avatar appearance="rounded"></aegov-avatar>
+    <aegov-avatar src="https://example.invalid/missing.jpg" alt="Sara Al Hashimi" appearance="rounded">SA</aegov-avatar>
+  </div>
+</div>
 
-The avatar is square/circular and direction-neutral — it renders identically in `dir="ltr"` and `dir="rtl"`. The status indicator's position is fixed relative to the avatar circle, so it stays in place regardless of direction. When used inside `aegov-avatar-group`, the natural source-order layout flips automatically in RTL.
+---
+
+## Appearance
+
+Two shape tokens are available. `square` (default) renders the avatar with rounded corners, while `rounded` renders a full circle. Use `rounded` for personal profiles and chat-style UIs; `square` works well for employee directories and structured layouts.
+
+```html
+<aegov-avatar src="https://i.pravatar.cc/150?img=14" alt="Ahmed Al Marri" appearance="square"></aegov-avatar>
+<aegov-avatar src="https://i.pravatar.cc/150?img=14" alt="Ahmed Al Marri" appearance="rounded"></aegov-avatar>
+```
+
+<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <div style="display:flex;gap:1rem;align-items:center;">
+    <aegov-avatar src="https://i.pravatar.cc/150?img=14" alt="Ahmed Al Marri" appearance="square" size="lg"></aegov-avatar>
+    <aegov-avatar src="https://i.pravatar.cc/150?img=14" alt="Ahmed Al Marri" appearance="rounded" size="lg"></aegov-avatar>
+  </div>
+</div>
+
+---
+
+## Sizes
+
+`size` accepts `xs`, `sm`, `base` (default), `lg`, `xl`, `2xl`, or `3xl`. The same value can be supplied as a Tailwind-style responsive string with the breakpoint prefixes `xs`, `sm`, `md`, `lg`, `xl`, and `2xl` so the avatar scales with the viewport.
+
+```html
+<aegov-avatar size="xs" src="https://i.pravatar.cc/150?img=20" alt="Hamda"></aegov-avatar>
+<aegov-avatar size="sm" src="https://i.pravatar.cc/150?img=20" alt="Hamda"></aegov-avatar>
+<aegov-avatar size="base" src="https://i.pravatar.cc/150?img=20" alt="Hamda"></aegov-avatar>
+<aegov-avatar size="lg" src="https://i.pravatar.cc/150?img=20" alt="Hamda"></aegov-avatar>
+<aegov-avatar size="xl" src="https://i.pravatar.cc/150?img=20" alt="Hamda"></aegov-avatar>
+<aegov-avatar size="2xl" src="https://i.pravatar.cc/150?img=20" alt="Hamda"></aegov-avatar>
+<aegov-avatar size="3xl" src="https://i.pravatar.cc/150?img=20" alt="Hamda"></aegov-avatar>
+```
+
+<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <div style="display:flex;gap:1rem;align-items:center;flex-wrap:wrap;">
+    <aegov-avatar size="xs" src="https://i.pravatar.cc/150?img=20" alt="Hamda" appearance="rounded"></aegov-avatar>
+    <aegov-avatar size="sm" src="https://i.pravatar.cc/150?img=20" alt="Hamda" appearance="rounded"></aegov-avatar>
+    <aegov-avatar size="base" src="https://i.pravatar.cc/150?img=20" alt="Hamda" appearance="rounded"></aegov-avatar>
+    <aegov-avatar size="lg" src="https://i.pravatar.cc/150?img=20" alt="Hamda" appearance="rounded"></aegov-avatar>
+    <aegov-avatar size="xl" src="https://i.pravatar.cc/150?img=20" alt="Hamda" appearance="rounded"></aegov-avatar>
+    <aegov-avatar size="2xl" src="https://i.pravatar.cc/150?img=20" alt="Hamda" appearance="rounded"></aegov-avatar>
+    <aegov-avatar size="3xl" src="https://i.pravatar.cc/150?img=20" alt="Hamda" appearance="rounded"></aegov-avatar>
+  </div>
+</div>
+
+### Responsive sizes
+
+```html
+<!-- Small on phones, base from md, large from lg -->
+<aegov-avatar size="sm md:base lg:lg" src="https://i.pravatar.cc/150?img=27" alt="Latifa" appearance="rounded"></aegov-avatar>
+```
+
+<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-avatar size="sm md:base lg:lg" src="https://i.pravatar.cc/150?img=27" alt="Latifa" appearance="rounded"></aegov-avatar>
+</div>
+
+---
+
+## Status Indicator
+
+Set `status` to render a coloured dot in the lower-right corner. Five status values are supported, each with its own colour:
+
+- `online` — the user is currently active
+- `offline` — the user is not connected
+- `away` — the user is away from their device
+- `unavailable` — the user is do-not-disturb / unavailable
+- `busy` — the user is busy
+
+`status="true"` is shorthand for `online`; `status="false"` (default) hides the indicator. The indicator carries `aria-label="Status: {status}"` so screen readers announce the user's state.
+
+```html
+<aegov-avatar src="https://i.pravatar.cc/150?img=8" alt="Mohammed" appearance="rounded" status="online"></aegov-avatar>
+<aegov-avatar src="https://i.pravatar.cc/150?img=8" alt="Mohammed" appearance="rounded" status="away"></aegov-avatar>
+<aegov-avatar src="https://i.pravatar.cc/150?img=8" alt="Mohammed" appearance="rounded" status="busy"></aegov-avatar>
+<aegov-avatar src="https://i.pravatar.cc/150?img=8" alt="Mohammed" appearance="rounded" status="unavailable"></aegov-avatar>
+<aegov-avatar src="https://i.pravatar.cc/150?img=8" alt="Mohammed" appearance="rounded" status="offline"></aegov-avatar>
+```
+
+<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <div style="display:flex;gap:1rem;align-items:center;flex-wrap:wrap;">
+    <aegov-avatar src="https://i.pravatar.cc/150?img=8" alt="Mohammed (online)" appearance="rounded" size="lg" status="online"></aegov-avatar>
+    <aegov-avatar src="https://i.pravatar.cc/150?img=8" alt="Mohammed (away)" appearance="rounded" size="lg" status="away"></aegov-avatar>
+    <aegov-avatar src="https://i.pravatar.cc/150?img=8" alt="Mohammed (busy)" appearance="rounded" size="lg" status="busy"></aegov-avatar>
+    <aegov-avatar src="https://i.pravatar.cc/150?img=8" alt="Mohammed (unavailable)" appearance="rounded" size="lg" status="unavailable"></aegov-avatar>
+    <aegov-avatar src="https://i.pravatar.cc/150?img=8" alt="Mohammed (offline)" appearance="rounded" size="lg" status="offline"></aegov-avatar>
+  </div>
+</div>
+
+---
+
+## Initials Avatar
+
+When no portrait is available — for example, on a freshly created account — slot in the user's initials. The component uses the slot for the fallback rendering, so any markup is allowed.
+
+```html
+<aegov-avatar appearance="rounded" size="lg">KM</aegov-avatar>
+<aegov-avatar appearance="rounded" size="lg" status="online">FZ</aegov-avatar>
+<aegov-avatar appearance="square" size="lg">AH</aegov-avatar>
+```
+
+<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <div style="display:flex;gap:1rem;align-items:center;">
+    <aegov-avatar appearance="rounded" size="lg">KM</aegov-avatar>
+    <aegov-avatar appearance="rounded" size="lg" status="online">FZ</aegov-avatar>
+    <aegov-avatar appearance="square" size="lg">AH</aegov-avatar>
+  </div>
+</div>
+
+---
+
+## Composite Examples
+
+### Profile row
+
+```html
+<div style="display:flex;gap:0.75rem;align-items:center;">
+  <aegov-avatar
+    src="https://i.pravatar.cc/150?img=12"
+    alt="Khalid Al Mansoori"
+    size="lg"
+    appearance="rounded"
+    status="online"
+  ></aegov-avatar>
+  <div>
+    <strong>Khalid Al Mansoori</strong>
+    <div style="color:var(--color-aeblack-500);font-size:0.875rem;">
+      Director, Digital Services — TDRA
+    </div>
+  </div>
+</div>
+```
+
+<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <div style="display:flex;gap:0.75rem;align-items:center;">
+    <aegov-avatar src="https://i.pravatar.cc/150?img=12" alt="Khalid Al Mansoori" size="lg" appearance="rounded" status="online"></aegov-avatar>
+    <div>
+      <strong>Khalid Al Mansoori</strong>
+      <div style="color:#475569;font-size:0.875rem;">Director, Digital Services — TDRA</div>
+    </div>
+  </div>
+</div>
+
+### Support team list
+
+```html
+<ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:0.75rem;">
+  <li style="display:flex;gap:0.75rem;align-items:center;">
+    <aegov-avatar src="https://i.pravatar.cc/150?img=32" alt="Fatima Al Zaabi" appearance="rounded" status="online"></aegov-avatar>
+    <span>Fatima Al Zaabi — Senior Support</span>
+  </li>
+  <li style="display:flex;gap:0.75rem;align-items:center;">
+    <aegov-avatar src="https://i.pravatar.cc/150?img=58" alt="Yousef Al Suwaidi" appearance="rounded" status="busy"></aegov-avatar>
+    <span>Yousef Al Suwaidi — Tier 2 Support</span>
+  </li>
+  <li style="display:flex;gap:0.75rem;align-items:center;">
+    <aegov-avatar appearance="rounded" status="away">MA</aegov-avatar>
+    <span>Maryam Al Ali — Out today</span>
+  </li>
+</ul>
+```
+
+<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:0.75rem;">
+    <li style="display:flex;gap:0.75rem;align-items:center;">
+      <aegov-avatar src="https://i.pravatar.cc/150?img=32" alt="Fatima Al Zaabi" appearance="rounded" status="online"></aegov-avatar>
+      <span>Fatima Al Zaabi — Senior Support</span>
+    </li>
+    <li style="display:flex;gap:0.75rem;align-items:center;">
+      <aegov-avatar src="https://i.pravatar.cc/150?img=58" alt="Yousef Al Suwaidi" appearance="rounded" status="busy"></aegov-avatar>
+      <span>Yousef Al Suwaidi — Tier 2 Support</span>
+    </li>
+    <li style="display:flex;gap:0.75rem;align-items:center;">
+      <aegov-avatar appearance="rounded" status="away">MA</aegov-avatar>
+      <span>Maryam Al Ali — Out today</span>
+    </li>
+  </ul>
+</div>
+
+---
+
+## RTL Support
+
+The avatar itself is square or circular and direction-neutral — it renders identically in `dir="ltr"` and `dir="rtl"`. The status indicator's position is fixed relative to the avatar circle, so it stays in the lower-right corner regardless of direction. Surrounding layout (such as a profile row) flips automatically when wrapped in `dir="rtl"`.
+
+```html
+<div dir="rtl">
+  <div style="display:flex;gap:0.75rem;align-items:center;">
+    <aegov-avatar
+      src="https://i.pravatar.cc/150?img=32"
+      alt="فاطمة الزعابي"
+      size="lg"
+      appearance="rounded"
+      status="online"
+    ></aegov-avatar>
+    <div>
+      <strong>فاطمة الزعابي</strong>
+      <div style="color:#475569;font-size:0.875rem;">
+        مديرة الخدمات الرقمية — هيئة تنظيم الاتصالات
+      </div>
+    </div>
+  </div>
+</div>
+```
+
+<div dir="rtl" class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <div style="display:flex;gap:0.75rem;align-items:center;">
+    <aegov-avatar src="https://i.pravatar.cc/150?img=32" alt="فاطمة الزعابي" size="lg" appearance="rounded" status="online"></aegov-avatar>
+    <div>
+      <strong>فاطمة الزعابي</strong>
+      <div style="color:#475569;font-size:0.875rem;">مديرة الخدمات الرقمية — هيئة تنظيم الاتصالات</div>
+    </div>
+  </div>
+</div>
+
+A list of team members in RTL — the avatars sit on the right and the names align to the right edge:
+
+```html
+<div dir="rtl">
+  <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:0.75rem;">
+    <li style="display:flex;gap:0.75rem;align-items:center;">
+      <aegov-avatar src="https://i.pravatar.cc/150?img=12" alt="خالد المنصوري" appearance="rounded" status="online"></aegov-avatar>
+      <span>خالد المنصوري — مدير الخدمات الرقمية</span>
+    </li>
+    <li style="display:flex;gap:0.75rem;align-items:center;">
+      <aegov-avatar appearance="rounded" status="busy">يس</aegov-avatar>
+      <span>يوسف السويدي — الدعم الفني</span>
+    </li>
+  </ul>
+</div>
+```
+
+<div dir="rtl" class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:0.75rem;">
+    <li style="display:flex;gap:0.75rem;align-items:center;">
+      <aegov-avatar src="https://i.pravatar.cc/150?img=12" alt="خالد المنصوري" appearance="rounded" status="online"></aegov-avatar>
+      <span>خالد المنصوري — مدير الخدمات الرقمية</span>
+    </li>
+    <li style="display:flex;gap:0.75rem;align-items:center;">
+      <aegov-avatar appearance="rounded" status="busy">يس</aegov-avatar>
+      <span>يوسف السويدي — الدعم الفني</span>
+    </li>
+  </ul>
+</div>
+
+---
 
 ## API Reference
 
 ### Properties
 
-| Property       | Attribute     | Description                                                            | Type                                                                            | Default        |
-| -------------- | ------------- | ---------------------------------------------------------------------- | ------------------------------------------------------------------------------- | -------------- |
-| `fieldId`      | `field-id`    | Unique ID for the avatar element. Auto-generated if not provided.      | `string`                                                                        | `undefined`    |
-| `size`         | `size`        | Avatar size or responsive string.                                      | `string`                                                                        | `'base'`       |
-| `appearance`   | `appearance`  | Avatar shape.                                                          | `'square' \| 'rounded'`                                                         | `'square'`     |
-| `src`          | `src`         | Image source URL.                                                      | `string`                                                                        | `undefined`    |
-| `alt`          | `alt`         | Alternative text for the image (also used as host `aria-label`).       | `string`                                                                        | `undefined`    |
-| `status`       | `status`      | Status indicator (string, `true` = online, `false` = hidden).          | `'online' \| 'offline' \| 'away' \| 'unavailable' \| 'busy' \| boolean`         | `false`        |
-
-### Pass-through Attributes
-
-In addition to `aria-*` and `data-*`, the following native `<img>` attributes are forwarded to the inner image element when one is rendered:
-
-| Attribute        | Description                                       |
-| ---------------- | ------------------------------------------------- |
-| `loading`        | Native lazy-loading hint (`lazy`, `eager`).       |
-| `crossorigin`    | CORS settings for the image request.              |
-| `referrerpolicy` | Referrer policy for the image request.            |
-| `srcset`         | Responsive image sources.                         |
-| `alt`            | Image alt text.                                   |
-| `src`            | Image source URL.                                 |
+| Property      | Attribute    | Description                                                              | Type                                                                       | Default       |
+| ------------- | ------------ | ------------------------------------------------------------------------ | -------------------------------------------------------------------------- | ------------- |
+| `fieldId`     | `field-id`   | DOM `id` reflected onto the inner avatar `<div>`. Auto-generated if omitted. | `string`                                                                   | _generated_   |
+| `size`        | `size`       | Avatar size, single token or responsive string.                          | `'xs' \| 'sm' \| 'base' \| 'lg' \| 'xl' \| '2xl' \| '3xl'` (or responsive) | `'base'`      |
+| `appearance`  | `appearance` | Shape — `square` (rounded corners) or `rounded` (circle).                | `'square' \| 'rounded'`                                                    | `'square'`    |
+| `src`         | `src`        | Image source URL.                                                        | `string`                                                                   | `undefined`   |
+| `alt`         | `alt`        | Alternative text — used for the image and as host `aria-label`.          | `string`                                                                   | `undefined`   |
+| `status`      | `status`     | Status indicator. `true` maps to `online`; `false` hides the dot.        | `'online' \| 'offline' \| 'away' \| 'unavailable' \| 'busy' \| boolean`    | `false`       |
 
 ### Slots
 
-| Slot      | Description                                                                                  |
-| --------- | -------------------------------------------------------------------------------------------- |
-| (default) | Fallback content rendered when no `src` is set or when the image fails to load (e.g. initials). |
+| Slot        | Description                                                                                  |
+| ----------- | -------------------------------------------------------------------------------------------- |
+| _(default)_ | Fallback content rendered when no `src` is set or the image fails to load (e.g. initials).   |
+
+### Events
+
+The avatar does not emit any custom events.
+
+### Pass-through Attributes
+
+`aria-*` and `data-*` attributes set on the host are forwarded automatically. In addition, the following native `<img>` attributes are forwarded to the inner image element when one is rendered:
+
+| Attribute          | Description                                                              |
+| ------------------ | ------------------------------------------------------------------------ |
+| `loading`          | Native lazy-loading hint (`lazy`, `eager`).                              |
+| `crossorigin`      | CORS settings for the image request.                                     |
+| `referrerpolicy`   | Referrer policy for the image request.                                   |
+| `srcset`           | Responsive image sources.                                                |
+| `alt`              | Image alt text (also applied to the host `aria-label`).                   |
+| `src`              | Image source URL.                                                        |
+| `aria-*`, `data-*` | Forwarded to the inner `<img>` element.                                  |
+
+---
 
 ## Accessibility
 
-### Built-in
+### Built-in behaviour
 
 - The avatar root has `role="img"` and an `aria-label` derived from `alt` (or the literal string `"User avatar"` when `alt` is missing).
-- The image element receives the same `alt` text.
-- The status indicator has `aria-label="Status: {status}"` so screen readers announce the user's state.
-- Decorative SVG fallback is unlabelled and rendered inside the labelled root; nothing extra is announced.
+- The `<img>` element receives the same `alt` text.
+- The status indicator carries `aria-label="Status: {status}"` so screen readers announce the user's state.
+- The decorative SVG silhouette is unlabelled and rendered inside the labelled root, so nothing extra is announced.
+- When the image fails to load, `imageError` flips to `true` and the fallback path renders. This prevents broken-image icons from ever showing.
 
 ### Developer responsibilities
 
 - Always provide a meaningful `alt` when the avatar represents a real user. Without `alt`, the host falls back to the generic label `"User avatar"`, which is rarely useful in context.
 - Initials inside the default slot are visual only — the `aria-label` on the host is what assistive technology announces. Make sure the `alt` matches the user's name.
-- If a status indicator is informational beyond the visual cue, ensure that the surrounding context reflects the same state in text (e.g. "Jane (online)").
+- If a status indicator is informational beyond the visual cue, ensure that the surrounding context reflects the same state in text (e.g. "Fatima (online)").
+- The avatar itself is not focusable. If the avatar is interactive (e.g. opens a profile), wrap it in an `<a>` or `<button>` element.
 
 ### Notes
 
-- When the image errors, `imageError` flips to `true` and the fallback path renders. This prevents broken-image icons from ever showing.
-- `status="false"` (default) renders no indicator at all — there is no "no status" dot.
-
-## Sub-component: aegov-avatar-group
-
-A layout wrapper that arranges multiple `aegov-avatar` children and optionally shows a "+N more" indicator. The group enforces a uniform `size` and forces every child avatar to `appearance="rounded"`.
-
-### Properties
-
-| Property     | Attribute     | Description                                                                  | Type                          | Default     |
-| ------------ | ------------- | ---------------------------------------------------------------------------- | ----------------------------- | ----------- |
-| `variant`    | `variant`     | Layout: `default` (spaced) or `compact` (overlapping).                       | `'default' \| 'compact'`      | `'default'` |
-| `size`       | `size`        | Size enforced on all child avatars (any `aegov-avatar` size token).          | `string`                      | `'base'`    |
-| `moreCount`  | `more-count`  | When greater than zero, renders a trailing "+N" button.                      | `number`                      | `0`         |
-| `moreText`   | `more-text`   | Custom label for the more indicator. Defaults to `"{moreCount}+"`.           | `string`                      | `undefined` |
-
-### Events
-
-| Event                     | Description                                       | Detail Type |
-| ------------------------- | ------------------------------------------------- | ----------- |
-| `aegovAvatarGroupMore`    | Emitted when the "+N" button is clicked.          | `void`      |
-
-### Example
-
-```html
-<aegov-avatar-group variant="compact" size="lg" more-count="3">
-  <aegov-avatar src="/p/1.jpg" alt="Ava"></aegov-avatar>
-  <aegov-avatar src="/p/2.jpg" alt="Ben"></aegov-avatar>
-  <aegov-avatar>JD</aegov-avatar>
-</aegov-avatar-group>
-<script>
-  document.querySelector('aegov-avatar-group').addEventListener('aegovAvatarGroupMore', () => {
-    console.log('User wants to see all members');
-  });
-</script>
-```
-
-### Behaviour notes
-
-- The group always renders rounded avatars regardless of each child's `appearance`.
-- The `+N` button is keyboard-accessible (`type="button"`) and has `aria-label="Show {N} more users"`.
-- The container has `role="group"` and `aria-label="Avatar group"` so screen readers announce the cluster as a single unit.
+- `status="false"` (the default) renders no indicator at all — there is no "no status" dot.
+- When grouped via `aegov-avatar-group`, the parent overrides each child's `appearance` to `rounded` and synchronises `size` across all children.
