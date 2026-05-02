@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Label | AEGOV Design System</title>
+  <script type="module" src="/build/aegov.esm.js"></script>
+  <script nomodule src="/build/aegov.js"></script>
+  <link rel="stylesheet" href="/build/aegov.css">
+  <link rel="stylesheet" href="/docs/doc-style.css">
+  <link rel="stylesheet" href="/docs/hljs.css">
+</head>
+<body class="bg-aeblack-50">
+  <header class="aegov-container sm:px-6 lg:px-8 mb-8">
+    <img src="https://designsystem.gov.ae/assets/site-logo/AEGov-DesignSystem-Logo-Color.svg" alt="UAE Design System Logo" class="w-auto h-16 my-2">
+  </header>
+  <main class="aegov-container sm:px-6 lg:px-8 bg-aeblack-50">
+    <section class="flex items-start align-top gap-4">
+      <nav id="primary-nav" class="w-3xs shrink-0">&nbsp;</nav>
+      <article class="col-span-5 grow">
+          <section id="content-area" class="bg-whitely-50 p-6 rounded-md shadow-xl">
+          <!-- DOC:START -->
+<h1>Label</h1>
+<p class="text-lg text-aeblack-500 mb-8">A Label is a semantic <code>&lt;label&gt;</code> wrapper used to caption form controls. Use it to associate visible text with an input, textarea, select, checkbox, radio, toggle, or any other form control. When placed inside <code>aegov-form-field</code>, the parent automatically wires the label's <code>for</code> attribute to the linked input — for standalone usage, set <code>for</code> manually so screen readers and click-to-focus behaviour work correctly.</p>
+
+<h2>Introduction</h2>
+<p>The <code>aegov-label</code> component renders a real native <code>&lt;label&gt;</code> element with an auto-generated <code>id</code>. It is intentionally minimal: it owns no styling beyond an <code>aegov-label</code> base class and forwards <code>aria-*</code> and <code>data-*</code> attributes to the underlying <code>&lt;label&gt;</code>. Inside <code>aegov-form-field</code>, the parent sets <code>htmlFor</code> for you so the label, input, error, and hint message all share the same id graph.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-form-field</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-label</span>&gt;</span>Email address<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-label</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;email&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;name@domain.ae&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-input</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-form-field</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-form-field>
+    <aegov-label>Email address</aegov-label>
+    <aegov-input type="email" placeholder="name@domain.ae"></aegov-input>
+  </aegov-form-field>
+</div>
+
+<hr>
+<h2>Standalone Usage</h2>
+<p>Outside <code>aegov-form-field</code> you must set the <code>for</code> attribute manually so the label points at the linked control&#39;s <code>field-id</code> (or native <code>id</code>). Clicking the label will then focus or toggle the control as expected.</p>
+<h3>Paired with aegov-input</h3>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-label</span> <span class="hljs-attr">for</span>=<span class="hljs-string">&quot;emirates-id&quot;</span>&gt;</span>Emirates ID number<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-label</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-input</span> <span class="hljs-attr">field-id</span>=<span class="hljs-string">&quot;emirates-id&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;784-XXXX-XXXXXXX-X&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-input</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-label for="emirates-id">Emirates ID number</aegov-label>
+  <aegov-input field-id="emirates-id" placeholder="784-XXXX-XXXXXXX-X"></aegov-input>
+</div>
+
+<h3>Paired with a native input</h3>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-label</span> <span class="hljs-attr">for</span>=<span class="hljs-string">&quot;full-name&quot;</span>&gt;</span>Full name as on passport<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-label</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;full-name&quot;</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;text&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;aegov-input&quot;</span> /&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-label for="full-name-demo">Full name as on passport</aegov-label>
+  <input id="full-name-demo" type="text" class="aegov-input" />
+</div>
+
+<h3>Paired with a checkbox</h3>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;flex items-center gap-2&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-checkbox</span> <span class="hljs-attr">field-id</span>=<span class="hljs-string">&quot;terms&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-checkbox</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-label</span> <span class="hljs-attr">for</span>=<span class="hljs-string">&quot;terms&quot;</span>&gt;</span>I accept the terms and privacy notice<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-label</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <div class="flex items-center gap-2">
+    <aegov-checkbox field-id="terms"></aegov-checkbox>
+    <aegov-label for="terms">I accept the terms and privacy notice</aegov-label>
+  </div>
+</div>
+
+<hr>
+<h2>Auto-wired inside aegov-form-field</h2>
+<p>When wrapped in <code>aegov-form-field</code>, the parent finds the first <code>aegov-label</code> and the first form control inside the slot, then writes the control&#39;s <code>field-id</code> onto the label&#39;s <code>htmlFor</code> automatically. You only need to author the visible text.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-form-field</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-label</span>&gt;</span>Mobile number<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-label</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;tel&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;+971 50 000 0000&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-input</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-form-field</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-form-field</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-label</span>&gt;</span>Date of birth<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-label</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-datepicker</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-datepicker</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-form-field</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-form-field>
+    <aegov-label>Mobile number</aegov-label>
+    <aegov-input type="tel" placeholder="+971 50 000 0000"></aegov-input>
+  </aegov-form-field>
+  <div class="mt-6"></div>
+  <aegov-form-field>
+    <aegov-label>Date of birth</aegov-label>
+    <aegov-datepicker></aegov-datepicker>
+  </aegov-form-field>
+</div>
+
+<hr>
+<h2>Custom Styling</h2>
+<p>Use <code>extra-class</code> to apply additional Tailwind utilities — for example to emphasise a required-field label or to mute an optional one. The component does not introduce decorative markers; combine <code>extra-class</code> with the appropriate utility classes when needed.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-label</span> <span class="hljs-attr">extra-class</span>=<span class="hljs-string">&quot;font-semibold text-aeblack-900&quot;</span> <span class="hljs-attr">for</span>=<span class="hljs-string">&quot;passport-number&quot;</span>&gt;</span>
+  Passport number
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-label</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-input</span> <span class="hljs-attr">field-id</span>=<span class="hljs-string">&quot;passport-number&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-input</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-label extra-class="font-semibold text-aeblack-900" for="passport-number">
+    Passport number
+  </aegov-label>
+  <aegov-input field-id="passport-number"></aegov-input>
+</div>
+
+<hr>
+<h2>RTL Support</h2>
+<p>The component renders a plain <code>&lt;label&gt;</code> element with no directional layout of its own. It inherits text alignment and writing direction from the surrounding container&#39;s <code>dir</code> attribute, so it works without any extra configuration in RTL contexts.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">dir</span>=<span class="hljs-string">&quot;rtl&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-form-field</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-label</span>&gt;</span>رقم الهوية الإماراتية<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-label</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;text&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;784-XXXX-XXXXXXX-X&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-input</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-form-field</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre><div dir="rtl" class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-form-field>
+    <aegov-label>رقم الهوية الإماراتية</aegov-label>
+    <aegov-input type="text" placeholder="784-XXXX-XXXXXXX-X"></aegov-input>
+  </aegov-form-field>
+  <div class="mt-6"></div>
+  <aegov-form-field>
+    <aegov-label>رقم الجوال</aegov-label>
+    <aegov-input type="tel" placeholder="+971 50 000 0000"></aegov-input>
+  </aegov-form-field>
+</div>
+
+<hr>
+<h2>API Reference</h2>
+<h3>Properties</h3>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Attribute</th>
+<th>Description</th>
+<th>Type</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>htmlFor</code></td>
+<td><code>for</code></td>
+<td>ID of the linked form control. Set automatically when used inside <code>aegov-form-field</code>.</td>
+<td><code>string</code></td>
+<td><code>undefined</code></td>
+</tr>
+<tr>
+<td><code>fieldId</code></td>
+<td><code>field-id</code></td>
+<td>DOM <code>id</code> for the label element. Auto-generated if omitted.</td>
+<td><code>string</code></td>
+<td><em>generated</em></td>
+</tr>
+<tr>
+<td><code>extraClass</code></td>
+<td><code>extra-class</code></td>
+<td>Additional CSS classes merged onto the inner <code>&lt;label&gt;</code> element.</td>
+<td><code>string</code></td>
+<td><code>undefined</code></td>
+</tr>
+</tbody></table>
+<h3>Slots</h3>
+<table>
+<thead>
+<tr>
+<th>Slot</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><em>(default)</em></td>
+<td>The visible label text. Accepts plain text or inline HTML such as <code>&lt;strong&gt;</code>.</td>
+</tr>
+</tbody></table>
+<h3>Events</h3>
+<p>The component emits no custom events.</p>
+<h3>Pass-through Attributes</h3>
+<table>
+<thead>
+<tr>
+<th>Attribute group</th>
+<th>Forwarded?</th>
+<th>Where to apply</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>aria-*</code></td>
+<td>Yes — to inner <code>&lt;label&gt;</code></td>
+<td>Set on <code>&lt;aegov-label&gt;</code>; forwarded automatically.</td>
+</tr>
+<tr>
+<td><code>data-*</code></td>
+<td>Yes — to inner <code>&lt;label&gt;</code></td>
+<td>Set on <code>&lt;aegov-label&gt;</code>; forwarded automatically.</td>
+</tr>
+<tr>
+<td><code>title</code></td>
+<td>Yes — to inner <code>&lt;label&gt;</code></td>
+<td>Set on <code>&lt;aegov-label&gt;</code> to provide a tooltip on the inner element.</td>
+</tr>
+<tr>
+<td><code>class</code>, <code>style</code></td>
+<td>Allowed — host element</td>
+<td>Use <code>extra-class</code> to add classes to the inner <code>&lt;label&gt;</code>.</td>
+</tr>
+<tr>
+<td><code>id</code></td>
+<td>Use <code>field-id</code></td>
+<td>The inner <code>&lt;label&gt;</code> receives the value of <code>field-id</code> (auto-generated by default).</td>
+</tr>
+</tbody></table>
+<hr>
+<h2>Accessibility</h2>
+<h3>Built-in behaviour</h3>
+<ul>
+<li>Renders a real native <code>&lt;label&gt;</code> element. Clicking the label focuses or toggles the linked control by default — provided <code>for</code> matches a control&#39;s <code>id</code>.</li>
+<li>Auto-generates a unique <code>id</code> so other components (error messages, hint text) can reference the label via <code>aria-labelledby</code> or <code>aria-describedby</code> if needed.</li>
+<li>When used inside <code>aegov-form-field</code>, the parent wires <code>for</code> to the linked control automatically.</li>
+</ul>
+<h3>Developer responsibilities</h3>
+<ul>
+<li>Always set <code>for</code> (or rely on <code>aegov-form-field</code>) to associate the label with its control. Without this association, screen readers cannot announce the label when the input is focused, and clicking the label will not focus the control.</li>
+<li>Keep label text concise and descriptive. Avoid placeholder-only labels — placeholders disappear on input and do not satisfy WCAG label requirements.</li>
+<li>For required fields, mark the requirement clearly in the label text or via <code>aegov-form-field</code>&#39;s required indicator. Do not rely on colour alone to communicate &ldquo;required&rdquo;.</li>
+<li>Avoid putting interactive elements (buttons, links) inside the label slot — clicks intended for the inner control will be intercepted.</li>
+</ul>
+<!-- DOC:END -->
+</section>
+      </article>
+    </section>
+  </main>
+  <footer class="aegov-container sm:px-6 lg:px-8 mt-8 py-6 text-sm text-aeblack-500">
+    &copy; 2026 Telecommunication and Digital Regulatory Authority. All rights reserved.
+  </footer>
+
+<script src="/docs/layout.js"></script>
+</body>
+</html>

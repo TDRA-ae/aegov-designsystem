@@ -1,6 +1,6 @@
 # Label
 
-<p class="text-lg text-aeblack-500 mb-8">A Label is a semantic `<label>` wrapper used to caption form controls. Use it to associate visible text with an input, textarea, select, checkbox, radio, toggle, or any other form control. When placed inside `aegov-form-field`, the parent automatically wires the label's `for` attribute to the linked input — for standalone usage, set `for` manually so screen readers and click-to-focus behaviour work correctly.</p>
+<p class="text-lg text-aeblack-500 mb-8">A Label is a semantic <code>&lt;label&gt;</code> wrapper used to caption form controls. Use it to associate visible text with an input, textarea, select, checkbox, radio, toggle, or any other form control. When placed inside <code>aegov-form-field</code>, the parent automatically wires the label's <code>for</code> attribute to the linked input — for standalone usage, set <code>for</code> manually so screen readers and click-to-focus behaviour work correctly.</p>
 
 ## Introduction
 

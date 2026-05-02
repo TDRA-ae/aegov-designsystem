@@ -1,6 +1,6 @@
 # Form Field
 
-<p class="text-lg text-aeblack-500 mb-8">A lightweight wrapper that groups a label with a form control — input, textarea, select, checkbox, range, progress, or one-time-password — and links them automatically. Use it on every field of a UAE Government service form to guarantee a correctly associated `<label for="…">` without managing IDs by hand. The wrapper itself adds no spacing or visual styling beyond a single `aegov-form-field` block; surround it with your form's grid or stack rules as you would any other element.</p>
+<p class="text-lg text-aeblack-500 mb-8">A lightweight wrapper that groups a label with a form control — input, textarea, select, checkbox, range, progress, or one-time-password — and links them automatically. Use it on every field of a UAE Government service form to guarantee a correctly associated <code>&lt;label for="…"&gt;</code> without managing IDs by hand. The wrapper itself adds no spacing or visual styling beyond a single <code>aegov-form-field</code> block; surround it with your form's grid or stack rules as you would any other element.</p>
 
 ## Introduction
 

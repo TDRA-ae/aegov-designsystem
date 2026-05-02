@@ -1,6 +1,6 @@
 # Blockquote
 
-<p class="text-lg text-aeblack-500 mb-8">A Blockquote is a semantic component for displaying pulled quotes, testimonials, or attributed statements. Use it whenever you need to visually emphasise a quoted passage with optional attribution to an author, role, or external source. The component renders a native `<blockquote>` element so assistive technology can recognise the quoted content.</p>
+<p class="text-lg text-aeblack-500 mb-8">A Blockquote is a semantic component for displaying pulled quotes, testimonials, or attributed statements. Use it whenever you need to visually emphasise a quoted passage with optional attribution to an author, role, or external source. The component renders a native <code>&lt;blockquote&gt;</code> element so assistive technology can recognise the quoted content.</p>
 
 ## Introduction
 
