@@ -20,57 +20,166 @@
       <article class="col-span-5 grow">
           <section id="content-area" class="bg-whitely-50 p-6 rounded-md shadow-xl">
           <!-- DOC:START -->
-<h1>aegov-otp</h1>
-<p>A one-time-passcode input rendered as a row of focused cells. Auto-advances focus as the user types, supports paste-to-fill, optional alphanumeric mode, and pattern validation. Emits a single combined value through change/complete/invalid events.</p>
-<h2>Properties</h2>
-<h3>variant</h3>
-<p>Visual layout. <code>continuous</code> renders a single bordered group with thin dividers between cells; <code>individual</code> renders fully separated bordered cells.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-otp</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;continuous&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-otp</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-otp</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;individual&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-otp</span>&gt;</span></code></pre><h3>length</h3>
-<p>Number of input cells. Defaults to <code>5</code>.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-otp</span> <span class="hljs-attr">length</span>=<span class="hljs-string">&quot;4&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-otp</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-otp</span> <span class="hljs-attr">length</span>=<span class="hljs-string">&quot;6&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-otp</span>&gt;</span></code></pre><h3>size</h3>
-<p>Controls cell typography size. Accepts <code>xs</code>, <code>sm</code>, <code>base</code>, <code>lg</code>, <code>xl</code>, <code>2xl</code>, or a responsive string.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-otp</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;lg&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-otp</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-otp</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm md:base lg:lg&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-otp</span>&gt;</span></code></pre><h3>is-alphanumeric</h3>
-<p>When set, allows letters in addition to digits. Numeric only by default.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-otp</span> <span class="hljs-attr">is-alphanumeric</span> <span class="hljs-attr">length</span>=<span class="hljs-string">&quot;6&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-otp</span>&gt;</span></code></pre><h3>pattern</h3>
-<p>Regex string validated when all cells are filled. Pass without <code>/</code> delimiters. If validation fails, <code>aegovOtpInvalid</code> fires instead of <code>aegovOtpComplete</code>.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-otp</span> <span class="hljs-attr">length</span>=<span class="hljs-string">&quot;6&quot;</span> <span class="hljs-attr">pattern</span>=<span class="hljs-string">&quot;^[0-9]{6}$&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-otp</span>&gt;</span></code></pre><h3>is-disabled</h3>
-<p>Disables all cells.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-otp</span> <span class="hljs-attr">is-disabled</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;1234&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-otp</span>&gt;</span></code></pre><h3>value</h3>
-<p>Pre-fills cells. Setting it externally distributes characters across cells.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-otp</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;9087&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-otp</span>&gt;</span></code></pre><h3>name</h3>
-<p>Form field name written onto a hidden input that mirrors the joined value.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-otp</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;otp&quot;</span> <span class="hljs-attr">length</span>=<span class="hljs-string">&quot;6&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-otp</span>&gt;</span></code></pre><h3>field-id</h3>
-<p>Auto-generated as <code>aegov-otp-{n}</code> if not provided. Reflected onto the first cell so an <code>aegov-label</code> can target it via <code>for</code>.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-otp</span> <span class="hljs-attr">field-id</span>=<span class="hljs-string">&quot;login-otp&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-otp</span>&gt;</span></code></pre><h2>Sizes</h2>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-otp</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;xs&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-otp</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-otp</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-otp</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-otp</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;base&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-otp</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-otp</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;lg&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-otp</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-otp</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;xl&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-otp</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-otp</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;2xl&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-otp</span>&gt;</span>
+<h1>OTP</h1>
+<p class="text-lg text-aeblack-500 mb-8">An OTP (one-time passcode) input is a row of focused cells used to enter a short verification code received by SMS, email, or an authenticator app. It auto-advances focus as the user types, supports paste-to-fill, and can validate against an alphanumeric or pattern rule. Use it for multi-factor authentication, transaction confirmation, and identity verification flows.</p>
 
-<span class="hljs-comment">&lt;!-- Responsive --&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-otp</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm md:base lg:lg&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-otp</span>&gt;</span></code></pre><h2>Examples</h2>
-<h3>4-digit numeric</h3>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-otp</span> <span class="hljs-attr">length</span>=<span class="hljs-string">&quot;4&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-otp</span>&gt;</span></code></pre><h3>6-digit numeric, individual variant</h3>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-otp</span> <span class="hljs-attr">length</span>=<span class="hljs-string">&quot;6&quot;</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;individual&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-otp</span>&gt;</span></code></pre><h3>Alphanumeric activation code</h3>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-otp</span> <span class="hljs-attr">length</span>=<span class="hljs-string">&quot;8&quot;</span> <span class="hljs-attr">is-alphanumeric</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-otp</span>&gt;</span></code></pre><h3>Pattern validation (must equal a fixed code)</h3>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-otp</span> <span class="hljs-attr">length</span>=<span class="hljs-string">&quot;6&quot;</span> <span class="hljs-attr">pattern</span>=<span class="hljs-string">&quot;^123456$&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-otp</span>&gt;</span>
+<h2>Introduction</h2>
+<p>The <code>aegov-otp</code> component renders a configurable number of input cells as a single logical input. Auto-advance moves focus on each character; backspace returns focus and clears the previous cell; paste distributes the clipboard contents from the first cell. It emits a single combined value through change, complete, and invalid events, and contributes a hidden input to standard form submission.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-otp</span> <span class="hljs-attr">length</span>=<span class="hljs-string">&quot;6&quot;</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;otp_code&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-otp</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-otp length="6" name="otp_code"></aegov-otp>
+</div>
+
+<hr>
+<h2>Variants</h2>
+<p>The <code>variant</code> property selects between two visual layouts.</p>
+<h3>Continuous (default)</h3>
+<p>A single bordered group with thin dividers between cells. Best when the code is read as one logical token (typical SMS or authenticator OTP).</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-otp</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;continuous&quot;</span> <span class="hljs-attr">length</span>=<span class="hljs-string">&quot;6&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-otp</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-otp variant="continuous" length="6"></aegov-otp>
+</div>
+
+<h3>Individual</h3>
+<p>Each cell is rendered as a fully separated, bordered box. Useful when the code is read as discrete digits — for example PIN-style activation codes printed on a physical voucher.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-otp</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;individual&quot;</span> <span class="hljs-attr">length</span>=<span class="hljs-string">&quot;6&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-otp</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-otp variant="individual" length="6"></aegov-otp>
+</div>
+
+<hr>
+<h2>Length</h2>
+<p>The <code>length</code> property sets the number of cells. Common values are <code>4</code> (PIN), <code>5</code> (default), <code>6</code> (most SMS / TOTP codes), or <code>8</code> (longer activation codes).</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-otp</span> <span class="hljs-attr">length</span>=<span class="hljs-string">&quot;4&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-otp</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-otp</span> <span class="hljs-attr">length</span>=<span class="hljs-string">&quot;5&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-otp</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-otp</span> <span class="hljs-attr">length</span>=<span class="hljs-string">&quot;6&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-otp</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-otp</span> <span class="hljs-attr">length</span>=<span class="hljs-string">&quot;8&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-otp</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov flex flex-col gap-6">
+  <aegov-otp length="4"></aegov-otp>
+  <aegov-otp length="5"></aegov-otp>
+  <aegov-otp length="6"></aegov-otp>
+  <aegov-otp length="8"></aegov-otp>
+</div>
+
+<hr>
+<h2>Sizes</h2>
+<p>The <code>size</code> property scales each cell. Six tokens are available — <code>xs</code>, <code>sm</code>, <code>base</code> (default), <code>lg</code>, <code>xl</code>, and <code>2xl</code>.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-otp</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;xs&quot;</span> <span class="hljs-attr">length</span>=<span class="hljs-string">&quot;6&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-otp</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-otp</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm&quot;</span> <span class="hljs-attr">length</span>=<span class="hljs-string">&quot;6&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-otp</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-otp</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;base&quot;</span> <span class="hljs-attr">length</span>=<span class="hljs-string">&quot;6&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-otp</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-otp</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;lg&quot;</span> <span class="hljs-attr">length</span>=<span class="hljs-string">&quot;6&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-otp</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-otp</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;xl&quot;</span> <span class="hljs-attr">length</span>=<span class="hljs-string">&quot;6&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-otp</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-otp</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;2xl&quot;</span> <span class="hljs-attr">length</span>=<span class="hljs-string">&quot;6&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-otp</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov flex flex-col gap-6">
+  <aegov-otp size="xs" length="6"></aegov-otp>
+  <aegov-otp size="sm" length="6"></aegov-otp>
+  <aegov-otp size="base" length="6"></aegov-otp>
+  <aegov-otp size="lg" length="6"></aegov-otp>
+  <aegov-otp size="xl" length="6"></aegov-otp>
+  <aegov-otp size="2xl" length="6"></aegov-otp>
+</div>
+
+<h3>Responsive sizes</h3>
+<p>The <code>size</code> property accepts a Tailwind-style responsive string with the breakpoint prefixes <code>xs</code>, <code>sm</code>, <code>md</code>, <code>lg</code>, <code>xl</code>, and <code>2xl</code>.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-otp</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm md:base lg:lg&quot;</span> <span class="hljs-attr">length</span>=<span class="hljs-string">&quot;6&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-otp</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-otp size="sm md:base lg:lg" length="6"></aegov-otp>
+</div>
+
+<hr>
+<h2>Numeric vs. alphanumeric</h2>
+<p>By default the component accepts digits only (<code>0</code>–<code>9</code>) and presents the numeric keyboard on mobile via <code>inputmode=&quot;numeric&quot;</code>. Set <code>is-alphanumeric=&quot;true&quot;</code> to accept letters as well — useful for codes that mix digits and letters such as activation tokens.</p>
+<h3>Numeric only (default)</h3>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-otp</span> <span class="hljs-attr">length</span>=<span class="hljs-string">&quot;6&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-otp</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-otp length="6"></aegov-otp>
+</div>
+
+<h3>Alphanumeric</h3>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-otp</span> <span class="hljs-attr">length</span>=<span class="hljs-string">&quot;8&quot;</span> <span class="hljs-attr">is-alphanumeric</span>=<span class="hljs-string">&quot;true&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-otp</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-otp length="8" is-alphanumeric="true"></aegov-otp>
+</div>
+
+<hr>
+<h2>Pattern validation</h2>
+<p>Use the <code>pattern</code> property to validate the assembled value. When the user fills the last cell, the component checks the regex; if it fails, <code>aegovOtpInvalid</code> is emitted instead of <code>aegovOtpComplete</code>. Combine with your own UI to surface an inline error.</p>
+<pre><code class="hljs language-html"><span class="hljs-comment">&lt;!-- Six digits where the first must be 1, 2, or 3 --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-otp</span> <span class="hljs-attr">length</span>=<span class="hljs-string">&quot;6&quot;</span> <span class="hljs-attr">pattern</span>=<span class="hljs-string">&quot;^[1-3][0-9]{5}$&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-otp</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-otp length="6" pattern="^[1-3][0-9]{5}$"></aegov-otp>
+</div>
+
+<hr>
+<h2>Disabled</h2>
+<p>Set <code>is-disabled=&quot;true&quot;</code> to disable every cell. The component appears muted and does not accept keyboard input or paste.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-otp</span> <span class="hljs-attr">length</span>=<span class="hljs-string">&quot;6&quot;</span> <span class="hljs-attr">is-disabled</span>=<span class="hljs-string">&quot;true&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;123&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-otp</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-otp length="6" is-disabled="true" value="123"></aegov-otp>
+</div>
+
+<hr>
+<h2>Pre-filled value</h2>
+<p>Set the <code>value</code> attribute to seed the cells. Setting the property programmatically also redistributes the value across cells.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-otp</span> <span class="hljs-attr">length</span>=<span class="hljs-string">&quot;6&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;478129&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-otp</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-otp length="6" value="478129"></aegov-otp>
+</div>
+
+<hr>
+<h2>Paste support</h2>
+<p>Paste the entire code into any cell — the component distributes characters from cell 0 onwards, ignores spaces, and rejects invalid characters according to the alphanumeric rule. It then focuses the first empty cell, or the last cell if the code is complete. This works equally well with autofill from SMS on iOS / Android (<code>autocomplete=&quot;one-time-code&quot;</code>).</p>
+<p>Try copying <code>123456</code> and pasting into the field below.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-otp</span> <span class="hljs-attr">length</span>=<span class="hljs-string">&quot;6&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-otp</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-otp length="6"></aegov-otp>
+</div>
+
+<hr>
+<h2>Form integration</h2>
+<p>Provide a <code>name</code> to participate in standard form submission. The component renders a hidden input with the assembled value, so the form payload contains a single field — not one per cell.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">form</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-otp</span> <span class="hljs-attr">length</span>=<span class="hljs-string">&quot;6&quot;</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;mfa_code&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-otp</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">form</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-otp length="6" name="mfa_code"></aegov-otp>
+</div>
+
+<hr>
+<h2>UAE Pass MFA verification example</h2>
+<p>A typical UAE Government scenario: confirming a UAE Pass two-factor authentication code sent by SMS to the citizen&#39;s registered mobile number. The example wires the complete and invalid events to update an inline status message.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-label</span> <span class="hljs-attr">field-id</span>=<span class="hljs-string">&quot;mfa&quot;</span>&gt;</span>
+  Enter the 6-digit code sent to your UAE Pass mobile number
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-label</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-otp</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;mfa-otp&quot;</span> <span class="hljs-attr">field-id</span>=<span class="hljs-string">&quot;mfa&quot;</span> <span class="hljs-attr">length</span>=<span class="hljs-string">&quot;6&quot;</span> <span class="hljs-attr">pattern</span>=<span class="hljs-string">&quot;^[0-9]{6}$&quot;</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;mfa_code&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-otp</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">p</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;mfa-status&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;mt-3 text-sm text-aeblack-600&quot;</span>&gt;</span>Waiting for code…<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+
 <span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript">
-  <span class="hljs-keyword">const</span> otp = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">querySelector</span>(<span class="hljs-string">&#x27;aegov-otp&#x27;</span>);
-  otp.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;aegovOtpComplete&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">e</span>) =&gt;</span> <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;valid&#x27;</span>, e.<span class="hljs-property">detail</span>.<span class="hljs-property">value</span>));
-  otp.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;aegovOtpInvalid&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">e</span>) =&gt;</span> <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;invalid&#x27;</span>, e.<span class="hljs-property">detail</span>.<span class="hljs-property">value</span>));
-</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre><h3>Inside a form with a label</h3>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-form-field</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-label</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;label&quot;</span>&gt;</span>Verification code<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-label</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-otp</span> <span class="hljs-attr">length</span>=<span class="hljs-string">&quot;6&quot;</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;otp&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-otp</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-form-field</span>&gt;</span></code></pre><h2>RTL Behavior</h2>
-<p>OTP cells are rendered in source order. Under <code>dir=&quot;rtl&quot;</code>, the first cell still represents the first character of the value but appears on the right edge. Arrow-key navigation maps to logical positions: <code>ArrowLeft</code> moves to the previous cell index, <code>ArrowRight</code> to the next, regardless of layout direction.</p>
+  <span class="hljs-keyword">const</span> otp = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">querySelector</span>(<span class="hljs-string">&#x27;#mfa-otp&#x27;</span>);
+  <span class="hljs-keyword">const</span> status = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">querySelector</span>(<span class="hljs-string">&#x27;#mfa-status&#x27;</span>);
+  otp.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;aegovOtpComplete&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">e</span>) =&gt;</span> {
+    status.<span class="hljs-property">textContent</span> = <span class="hljs-string">&#x27;Verifying &#x27;</span> + e.<span class="hljs-property">detail</span>.<span class="hljs-property">value</span> + <span class="hljs-string">&#x27;…&#x27;</span>;
+    status.<span class="hljs-property">className</span> = <span class="hljs-string">&#x27;mt-3 text-sm text-techblue-600&#x27;</span>;
+  });
+  otp.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;aegovOtpInvalid&#x27;</span>, <span class="hljs-function">() =&gt;</span> {
+    status.<span class="hljs-property">textContent</span> = <span class="hljs-string">&#x27;That code is not valid. Please try again.&#x27;</span>;
+    status.<span class="hljs-property">className</span> = <span class="hljs-string">&#x27;mt-3 text-sm text-aered-600&#x27;</span>;
+  });
+</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-label field-id="mfa-uae">
+    Enter the 6-digit code sent to your UAE Pass mobile number
+  </aegov-label>
+  <aegov-otp field-id="mfa-uae" length="6" pattern="^[0-9]{6}$"></aegov-otp>
+</div>
+
+<hr>
+<h2>RTL Support</h2>
+<p>The component is direction-agnostic. When the document or any ancestor is set to <code>dir=&quot;rtl&quot;</code> the cell row mirrors automatically. The first cell sits on the right, focus advances to the left as the user types, and paste continues to fill from the first cell (the rightmost cell in RTL).</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">dir</span>=<span class="hljs-string">&quot;rtl&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-label</span> <span class="hljs-attr">field-id</span>=<span class="hljs-string">&quot;mfa-ar&quot;</span>&gt;</span>أدخل الرمز المكوّن من 6 أرقام المرسل إلى رقم هاتفك<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-label</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-otp</span> <span class="hljs-attr">field-id</span>=<span class="hljs-string">&quot;mfa-ar&quot;</span> <span class="hljs-attr">length</span>=<span class="hljs-string">&quot;6&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-otp</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre><div dir="rtl" class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-label field-id="mfa-ar">أدخل الرمز المكوّن من 6 أرقام المرسل إلى رقم هاتفك</aegov-label>
+  <aegov-otp field-id="mfa-ar" length="6"></aegov-otp>
+</div>
+
+<p>The same field with the individual variant in RTL:</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">dir</span>=<span class="hljs-string">&quot;rtl&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-otp</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;individual&quot;</span> <span class="hljs-attr">length</span>=<span class="hljs-string">&quot;4&quot;</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;lg&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-otp</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre><div dir="rtl" class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-otp variant="individual" length="4" size="lg"></aegov-otp>
+</div>
+
+<hr>
 <h2>API Reference</h2>
-<h3>Properties</h3>
+<h3>aegov-otp Properties</h3>
 <table>
 <thead>
 <tr>
@@ -84,42 +193,42 @@
 <tbody><tr>
 <td><code>fieldId</code></td>
 <td><code>field-id</code></td>
-<td>Unique ID for the first cell. Auto-generated if omitted.</td>
+<td>DOM <code>id</code> for the first input cell. Used by <code>aegov-label</code> for linking. Auto-generated if omitted.</td>
 <td><code>string</code></td>
-<td><code>undefined</code></td>
+<td><em>generated</em></td>
 </tr>
 <tr>
 <td><code>variant</code></td>
 <td><code>variant</code></td>
-<td><code>&#39;continuous&#39;</code> or <code>&#39;individual&#39;</code>.</td>
-<td><code>OtpVariant</code></td>
+<td>Visual layout. <code>continuous</code> is one bordered group; <code>individual</code> is separated cells.</td>
+<td><code>&#39;continuous&#39; | &#39;individual&#39;</code></td>
 <td><code>&#39;continuous&#39;</code></td>
 </tr>
 <tr>
 <td><code>length</code></td>
 <td><code>length</code></td>
-<td>Number of cells.</td>
+<td>Number of input cells.</td>
 <td><code>number</code></td>
 <td><code>5</code></td>
 </tr>
 <tr>
 <td><code>size</code></td>
 <td><code>size</code></td>
-<td>Cell text size token (responsive supported).</td>
+<td>Cell size token (<code>xs</code>, <code>sm</code>, <code>base</code>, <code>lg</code>, <code>xl</code>, <code>2xl</code>) or a responsive string.</td>
 <td><code>string</code></td>
 <td><code>&#39;base&#39;</code></td>
 </tr>
 <tr>
 <td><code>isAlphanumeric</code></td>
 <td><code>is-alphanumeric</code></td>
-<td>Allow letters as well as digits.</td>
+<td>Allow letters and numbers when <code>true</code>. Numbers only when <code>false</code>.</td>
 <td><code>boolean</code></td>
 <td><code>false</code></td>
 </tr>
 <tr>
 <td><code>pattern</code></td>
 <td><code>pattern</code></td>
-<td>Regex applied when all cells are filled.</td>
+<td>Regex string checked when all cells are filled. Failure emits <code>aegovOtpInvalid</code>.</td>
 <td><code>string</code></td>
 <td><code>undefined</code></td>
 </tr>
@@ -133,92 +242,161 @@
 <tr>
 <td><code>name</code></td>
 <td><code>name</code></td>
-<td>Hidden input name for form submission.</td>
+<td>Form field name for the hidden input used during submission.</td>
 <td><code>string</code></td>
 <td><code>undefined</code></td>
 </tr>
 <tr>
 <td><code>value</code></td>
 <td><code>value</code></td>
-<td>Combined value. Setter distributes chars across cells.</td>
+<td>Current value. Setting this redistributes characters across cells.</td>
 <td><code>string</code></td>
 <td><code>&#39;&#39;</code></td>
 </tr>
 <tr>
 <td><code>extraClass</code></td>
 <td><code>extra-class</code></td>
-<td>Additional CSS classes on the wrapper.</td>
+<td>Additional CSS classes appended to the wrapper.</td>
 <td><code>string</code></td>
 <td><code>undefined</code></td>
 </tr>
 </tbody></table>
-<h3>Pass-through Attributes</h3>
-<p><code>aria-*</code> and <code>data-*</code> attributes set on <code>&lt;aegov-otp&gt;</code> are forwarded to the inner <code>role=&quot;group&quot;</code> wrapper.</p>
-<h3>Events</h3>
-<table>
-<thead>
-<tr>
-<th>Event</th>
-<th>Description</th>
-<th>Detail</th>
-</tr>
-</thead>
-<tbody><tr>
-<td><code>aegovOtpChange</code></td>
-<td>Fires on every character change.</td>
-<td><code>{ value: string }</code></td>
-</tr>
-<tr>
-<td><code>aegovOtpComplete</code></td>
-<td>Fires when all cells are filled and pattern (if any) validates.</td>
-<td><code>{ value: string }</code></td>
-</tr>
-<tr>
-<td><code>aegovOtpInvalid</code></td>
-<td>Fires when all cells are filled but the pattern fails.</td>
-<td><code>{ value: string; pattern: string }</code></td>
-</tr>
-</tbody></table>
-<h3>Event listening example</h3>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-otp</span> <span class="hljs-attr">length</span>=<span class="hljs-string">&quot;6&quot;</span> <span class="hljs-attr">pattern</span>=<span class="hljs-string">&quot;^[0-9]{6}$&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-otp</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript">
-  <span class="hljs-keyword">const</span> otp = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">querySelector</span>(<span class="hljs-string">&#x27;aegov-otp&#x27;</span>);
-  otp.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;aegovOtpChange&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">e</span>) =&gt;</span> <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;partial&#x27;</span>, e.<span class="hljs-property">detail</span>.<span class="hljs-property">value</span>));
-  otp.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;aegovOtpComplete&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">e</span>) =&gt;</span> <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;done&#x27;</span>, e.<span class="hljs-property">detail</span>.<span class="hljs-property">value</span>));
-  otp.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;aegovOtpInvalid&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">e</span>) =&gt;</span> <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;invalid&#x27;</span>, e.<span class="hljs-property">detail</span>));
-</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre><h3>Methods</h3>
+<h3>Methods</h3>
 <table>
 <thead>
 <tr>
 <th>Method</th>
+<th>Returns</th>
 <th>Description</th>
 </tr>
 </thead>
 <tbody><tr>
 <td><code>clear()</code></td>
-<td>Empties all cells, resets value, focuses first cell.</td>
+<td><code>Promise&lt;void&gt;</code></td>
+<td>Clears every cell, emits <code>aegovOtpChange</code>, and focuses the first cell.</td>
 </tr>
 </tbody></table>
-<pre><code class="hljs language-js"><span class="hljs-keyword">const</span> otp = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">querySelector</span>(<span class="hljs-string">&#x27;aegov-otp&#x27;</span>);
-<span class="hljs-keyword">await</span> otp.<span class="hljs-title function_">clear</span>();</code></pre><h2>Accessibility</h2>
-<h3>Built-in</h3>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-otp</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;mfa&quot;</span> <span class="hljs-attr">length</span>=<span class="hljs-string">&quot;6&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-otp</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">onclick</span>=<span class="hljs-string">&quot;document.querySelector(&#x27;#mfa&#x27;).clear()&quot;</span>&gt;</span>Reset code<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span></code></pre><h3>Slots</h3>
+<p>The component does not expose slots — content is configured via properties.</p>
+<h3>Events</h3>
+<table>
+<thead>
+<tr>
+<th>Event</th>
+<th>Detail</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>aegovOtpChange</code></td>
+<td><code>{ value: string }</code></td>
+<td>Fires after every character change with the current assembled value.</td>
+</tr>
+<tr>
+<td><code>aegovOtpComplete</code></td>
+<td><code>{ value: string }</code></td>
+<td>Fires when all cells are filled and the optional <code>pattern</code> validates.</td>
+</tr>
+<tr>
+<td><code>aegovOtpInvalid</code></td>
+<td><code>{ value: string; pattern: string }</code></td>
+<td>Fires when all cells are filled but the value does not match <code>pattern</code>.</td>
+</tr>
+</tbody></table>
+<h4>Listening for completion</h4>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-otp</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;mfa&quot;</span> <span class="hljs-attr">length</span>=<span class="hljs-string">&quot;6&quot;</span> <span class="hljs-attr">pattern</span>=<span class="hljs-string">&quot;^[0-9]{6}$&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-otp</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript">
+  <span class="hljs-keyword">const</span> otp = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">querySelector</span>(<span class="hljs-string">&#x27;#mfa&#x27;</span>);
+  otp.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;aegovOtpComplete&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">e</span>) =&gt;</span> {
+    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;Submitting code:&#x27;</span>, e.<span class="hljs-property">detail</span>.<span class="hljs-property">value</span>);
+  });
+  otp.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;aegovOtpInvalid&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">e</span>) =&gt;</span> {
+    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">warn</span>(<span class="hljs-string">&#x27;Code did not match pattern&#x27;</span>, e.<span class="hljs-property">detail</span>.<span class="hljs-property">pattern</span>);
+  });
+</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre><h3>Pass-through Attributes</h3>
+<p>The component forwards <code>aria-*</code> and <code>data-*</code> attributes onto the inner cell-group wrapper. Apply them on <code>&lt;aegov-otp&gt;</code> to extend the group&#39;s ARIA semantics or to add test selectors.</p>
+<table>
+<thead>
+<tr>
+<th>Attribute group</th>
+<th>Forwarded?</th>
+<th>Where applied</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>aria-*</code></td>
+<td>Yes</td>
+<td>The inner <code>role=&quot;group&quot;</code> wrapper around the cells.</td>
+</tr>
+<tr>
+<td><code>data-*</code></td>
+<td>Yes</td>
+<td>The inner <code>role=&quot;group&quot;</code> wrapper around the cells.</td>
+</tr>
+<tr>
+<td><code>class</code>, <code>style</code></td>
+<td>Allowed</td>
+<td>The host element (use <code>extra-class</code> for cell wrapper).</td>
+</tr>
+</tbody></table>
+<p>To set the field&#39;s accessible label, pair the OTP with <code>&lt;aegov-label field-id=&quot;...&quot;&gt;</code> rather than relying on <code>aria-label</code> on the host.</p>
+<hr>
+<h2>Accessibility</h2>
+<h3>Built-in behaviour</h3>
 <ul>
-<li>The cell row is wrapped in <code>role=&quot;group&quot;</code> so assistive tech announces it as a single composite control.</li>
-<li>Each cell carries <code>aria-label=&quot;Character N of M&quot;</code> for unambiguous position context.</li>
-<li>The first cell sets <code>autocomplete=&quot;one-time-code&quot;</code> so SMS auto-fill (iOS/Android) works; remaining cells set <code>autocomplete=&quot;off&quot;</code> to avoid duplicate suggestions.</li>
-<li><code>inputmode</code> is <code>numeric</code> by default, switching to <code>text</code> when <code>is-alphanumeric</code> is set, so mobile keyboards present the right layout.</li>
-<li><code>Backspace</code>, <code>ArrowLeft</code>, and <code>ArrowRight</code> all move logical focus across cells.</li>
+<li>Each cell is a real <code>&lt;input type=&quot;text&quot;&gt;</code> with <code>inputmode=&quot;numeric&quot;</code> (or <code>text</code> when alphanumeric), so mobile devices show the correct keyboard.</li>
+<li>The first cell carries <code>autocomplete=&quot;one-time-code&quot;</code> to enable iOS / Android SMS autofill.</li>
+<li>The cells are wrapped in a <code>role=&quot;group&quot;</code> element so screen readers treat them as a single field. Each cell has an <code>aria-label</code> of the form &quot;Character {n} of {length}&quot; so users know how many digits remain.</li>
+<li>Focus auto-advances to the next cell after a valid character and returns to the previous cell on backspace when the current cell is empty.</li>
+<li>Paste fills from the first cell, ignores whitespace, and rejects characters that fail the alphanumeric rule.</li>
+<li>A hidden <code>&lt;input&gt;</code> carries the assembled value for form submission so the rest of the page sees a single field.</li>
 </ul>
 <h3>Developer responsibilities</h3>
 <ul>
-<li>Provide a visible label via <code>aegov-form-field</code> + <code>aegov-label</code>, or pass <code>aria-label</code> on <code>&lt;aegov-otp&gt;</code> to describe the purpose (e.g. &quot;Verification code&quot;).</li>
-<li>If you need a description (e.g. &quot;We sent a code to your phone&quot;), wire it via <code>aria-describedby</code> on the host or use <code>aegov-form-field</code>.</li>
+<li>Pair the OTP with an <code>&lt;aegov-label&gt;</code> linked through <code>field-id</code> — the per-cell <code>aria-label</code> describes position, not purpose.</li>
+<li>Use the optional <code>pattern</code> only as a fast failure signal; always verify the code on the server.</li>
+<li>When showing an inline error after <code>aegovOtpInvalid</code>, also announce it with an <code>aria-live=&quot;polite&quot;</code> region so non-sighted users hear that the code is invalid.</li>
+<li>Provide a way to resend the code (a button or link) and a way to reset the field — call <code>.clear()</code> on the host element.</li>
 </ul>
-<h3>Notes</h3>
-<ul>
-<li><code>pattern</code> validation only runs once <strong>all</strong> cells are filled. Partial values never trigger <code>aegovOtpInvalid</code>.</li>
-<li>Pasting more characters than <code>length</code> simply truncates; non-matching characters are skipped (filtered to digits or alphanumerics depending on mode).</li>
-</ul>
+<h3>Keyboard support</h3>
+<table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>0</code>–<code>9</code>, <code>A</code>–<code>Z</code></td>
+<td>Enter a character. Auto-advances focus to the next cell.</td>
+</tr>
+<tr>
+<td><code>Backspace</code></td>
+<td>Clear the current cell, or step back to the previous cell when empty.</td>
+</tr>
+<tr>
+<td><code>Arrow Left</code></td>
+<td>Move focus to the previous cell.</td>
+</tr>
+<tr>
+<td><code>Arrow Right</code></td>
+<td>Move focus to the next cell.</td>
+</tr>
+<tr>
+<td><code>Cmd/Ctrl + V</code></td>
+<td>Paste the code; characters are distributed across cells from the start.</td>
+</tr>
+<tr>
+<td><code>Tab</code></td>
+<td>Move focus out of the OTP to the next focusable element.</td>
+</tr>
+<tr>
+<td><code>Shift + Tab</code></td>
+<td>Move focus out of the OTP to the previous focusable element.</td>
+</tr>
+</tbody></table>
 <!-- DOC:END -->
           </section>
       </article>

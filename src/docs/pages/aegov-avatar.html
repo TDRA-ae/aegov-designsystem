@@ -20,51 +20,237 @@
       <article class="col-span-5 grow">
           <section id="content-area" class="bg-whitely-50 p-6 rounded-md shadow-xl">
           <!-- DOC:START -->
-<h1>aegov-avatar</h1>
-<p>A user-avatar component that renders an image when one is available and falls back to slotted content (initials, custom icon) or a default user silhouette when it is not. Supports seven sizes, square or rounded shapes, and an optional status indicator. The companion sub-component <code>aegov-avatar-group</code> lays out multiple avatars together with an optional &quot;+N more&quot; indicator.</p>
-<h2>Properties</h2>
-<h3>src</h3>
-<p>Image URL. When set and the image loads successfully, the avatar shows the image. If the image fails to load, the component automatically falls back to slotted content or the default user icon.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;/photos/jane.jpg&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;Jane Doe&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar</span>&gt;</span></code></pre><h3>alt</h3>
-<p>Alt text used both as the image&#39;s <code>alt</code> attribute and as the host&#39;s <code>aria-label</code>. Always provide this when an image is set.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;/photos/jane.jpg&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;Jane Doe&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar</span>&gt;</span></code></pre><h3>size</h3>
-<p>Avatar size. Accepts <code>xs</code>, <code>sm</code>, <code>base</code>, <code>lg</code>, <code>xl</code>, <code>2xl</code>, <code>3xl</code>, or a Tailwind-style responsive string.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;xs&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;lg&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;3xl&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar</span>&gt;</span></code></pre><h3>appearance</h3>
-<p>Shape of the avatar — <code>square</code> (rounded corners) or <code>rounded</code> (full circle).</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar</span> <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;square&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar</span> <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;rounded&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar</span>&gt;</span></code></pre><h3>status</h3>
-<p>Status indicator. Accepts <code>&#39;online&#39;</code>, <code>&#39;offline&#39;</code>, <code>&#39;away&#39;</code>, <code>&#39;unavailable&#39;</code>, <code>&#39;busy&#39;</code>, or boolean (<code>true</code> maps to <code>&#39;online&#39;</code>, <code>false</code> hides the indicator). Defaults to <code>false</code>.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar</span> <span class="hljs-attr">status</span>=<span class="hljs-string">&quot;online&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar</span> <span class="hljs-attr">status</span>=<span class="hljs-string">&quot;busy&quot;</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;/photos/jane.jpg&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;Jane&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar</span>&gt;</span></code></pre><h3>field-id</h3>
-<p>Unique identifier reflected onto the inner avatar <code>&lt;div&gt;</code>. Auto-generated as <code>aegov-avatar-{n}</code> if not provided.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar</span> <span class="hljs-attr">field-id</span>=<span class="hljs-string">&quot;me&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar</span>&gt;</span></code></pre><h2>Sizes</h2>
-<p><code>size</code> accepts a single token or a Tailwind-style responsive string.</p>
-<pre><code class="hljs language-html"><span class="hljs-comment">&lt;!-- Static --&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;xs&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;base&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;lg&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;xl&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;2xl&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;3xl&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar</span>&gt;</span>
+<h1>Avatar</h1>
+<p class="text-lg text-aeblack-500 mb-8">A user-avatar component that renders an image when one is available and falls back to slotted content (such as initials) or a default user silhouette when it is not. Supports seven sizes, square or rounded shapes, and an optional status indicator. Use it for citizen profiles, ministry staff listings, and any place a single user is represented in the interface.</p>
 
-<span class="hljs-comment">&lt;!-- Responsive: small on mobile, larger from md, largest from lg --&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm md:base lg:lg&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar</span>&gt;</span></code></pre><h2>Examples</h2>
-<h3>Image avatar</h3>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;/photos/jane.jpg&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;Jane Doe&quot;</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;lg&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar</span>&gt;</span></code></pre><h3>Initials fallback</h3>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar</span> <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;rounded&quot;</span>&gt;</span>JD<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar</span>&gt;</span></code></pre><h3>Default silhouette fallback</h3>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar</span>&gt;</span></code></pre><h3>Avatar with online status</h3>
+<h2>Introduction</h2>
+<p>The <code>aegov-avatar</code> component is the building block for representing a single person in the UI. Set <code>src</code> to display a photograph, slot in initials as a fallback, and optionally render a coloured status dot in the lower-right corner. When the image fails to load, the component automatically falls back to whatever is in the default slot — or to a generic user silhouette if no slot content is provided.</p>
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar</span>
-  <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;/photos/jane.jpg&quot;</span>
-  <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;Jane Doe&quot;</span>
-  <span class="hljs-attr">status</span>=<span class="hljs-string">&quot;online&quot;</span>
+  <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://i.pravatar.cc/150?img=12&quot;</span>
+  <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;Khalid Al Mansoori&quot;</span>
+  <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;lg&quot;</span>
   <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;rounded&quot;</span>
-&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar</span>&gt;</span></code></pre><h3>Graceful fallback on broken image</h3>
-<pre><code class="hljs language-html"><span class="hljs-comment">&lt;!-- If /missing.jpg fails to load, the slot contents are shown instead --&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;/missing.jpg&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;Jane Doe&quot;</span>&gt;</span>JD<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar</span>&gt;</span></code></pre><h2>RTL Behavior</h2>
-<p>The avatar is square/circular and direction-neutral — it renders identically in <code>dir=&quot;ltr&quot;</code> and <code>dir=&quot;rtl&quot;</code>. The status indicator&#39;s position is fixed relative to the avatar circle, so it stays in place regardless of direction. When used inside <code>aegov-avatar-group</code>, the natural source-order layout flips automatically in RTL.</p>
+  <span class="hljs-attr">status</span>=<span class="hljs-string">&quot;online&quot;</span>
+&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-avatar src="https://i.pravatar.cc/150?img=12" alt="Khalid Al Mansoori" size="lg" appearance="rounded" status="online"></aegov-avatar>
+</div>
+
+<hr>
+<h2>Image, Initials, and Default Fallback</h2>
+<p>The avatar resolves its content in this order:</p>
+<ol>
+<li>If <code>src</code> is set and the image loads successfully — show the image.</li>
+<li>If <code>src</code> is missing or the image fails to load — render the default slot.</li>
+<li>If the default slot is empty — render a built-in user silhouette icon.</li>
+</ol>
+<pre><code class="hljs language-html"><span class="hljs-comment">&lt;!-- 1. Image --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://i.pravatar.cc/150?img=5&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;Sara Al Hashimi&quot;</span> <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;rounded&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar</span>&gt;</span>
+
+<span class="hljs-comment">&lt;!-- 2. Initials fallback (no src) --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar</span> <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;rounded&quot;</span>&gt;</span>SA<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar</span>&gt;</span>
+
+<span class="hljs-comment">&lt;!-- 3. Default silhouette (no src, no slot) --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar</span> <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;rounded&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar</span>&gt;</span>
+
+<span class="hljs-comment">&lt;!-- 4. Graceful fallback when image fails to load --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://example.invalid/missing.jpg&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;Sara Al Hashimi&quot;</span> <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;rounded&quot;</span>&gt;</span>SA<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <div style="display:flex;gap:1rem;align-items:center;">
+    <aegov-avatar src="https://i.pravatar.cc/150?img=5" alt="Sara Al Hashimi" appearance="rounded"></aegov-avatar>
+    <aegov-avatar appearance="rounded">SA</aegov-avatar>
+    <aegov-avatar appearance="rounded"></aegov-avatar>
+    <aegov-avatar src="https://example.invalid/missing.jpg" alt="Sara Al Hashimi" appearance="rounded">SA</aegov-avatar>
+  </div>
+</div>
+
+<hr>
+<h2>Appearance</h2>
+<p>Two shape tokens are available. <code>square</code> (default) renders the avatar with rounded corners, while <code>rounded</code> renders a full circle. Use <code>rounded</code> for personal profiles and chat-style UIs; <code>square</code> works well for employee directories and structured layouts.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://i.pravatar.cc/150?img=14&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;Ahmed Al Marri&quot;</span> <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;square&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://i.pravatar.cc/150?img=14&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;Ahmed Al Marri&quot;</span> <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;rounded&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <div style="display:flex;gap:1rem;align-items:center;">
+    <aegov-avatar src="https://i.pravatar.cc/150?img=14" alt="Ahmed Al Marri" appearance="square" size="lg"></aegov-avatar>
+    <aegov-avatar src="https://i.pravatar.cc/150?img=14" alt="Ahmed Al Marri" appearance="rounded" size="lg"></aegov-avatar>
+  </div>
+</div>
+
+<hr>
+<h2>Sizes</h2>
+<p><code>size</code> accepts <code>xs</code>, <code>sm</code>, <code>base</code> (default), <code>lg</code>, <code>xl</code>, <code>2xl</code>, or <code>3xl</code>. The same value can be supplied as a Tailwind-style responsive string with the breakpoint prefixes <code>xs</code>, <code>sm</code>, <code>md</code>, <code>lg</code>, <code>xl</code>, and <code>2xl</code> so the avatar scales with the viewport.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;xs&quot;</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://i.pravatar.cc/150?img=20&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;Hamda&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm&quot;</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://i.pravatar.cc/150?img=20&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;Hamda&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;base&quot;</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://i.pravatar.cc/150?img=20&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;Hamda&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;lg&quot;</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://i.pravatar.cc/150?img=20&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;Hamda&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;xl&quot;</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://i.pravatar.cc/150?img=20&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;Hamda&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;2xl&quot;</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://i.pravatar.cc/150?img=20&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;Hamda&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;3xl&quot;</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://i.pravatar.cc/150?img=20&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;Hamda&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <div style="display:flex;gap:1rem;align-items:center;flex-wrap:wrap;">
+    <aegov-avatar size="xs" src="https://i.pravatar.cc/150?img=20" alt="Hamda" appearance="rounded"></aegov-avatar>
+    <aegov-avatar size="sm" src="https://i.pravatar.cc/150?img=20" alt="Hamda" appearance="rounded"></aegov-avatar>
+    <aegov-avatar size="base" src="https://i.pravatar.cc/150?img=20" alt="Hamda" appearance="rounded"></aegov-avatar>
+    <aegov-avatar size="lg" src="https://i.pravatar.cc/150?img=20" alt="Hamda" appearance="rounded"></aegov-avatar>
+    <aegov-avatar size="xl" src="https://i.pravatar.cc/150?img=20" alt="Hamda" appearance="rounded"></aegov-avatar>
+    <aegov-avatar size="2xl" src="https://i.pravatar.cc/150?img=20" alt="Hamda" appearance="rounded"></aegov-avatar>
+    <aegov-avatar size="3xl" src="https://i.pravatar.cc/150?img=20" alt="Hamda" appearance="rounded"></aegov-avatar>
+  </div>
+</div>
+
+<h3>Responsive sizes</h3>
+<pre><code class="hljs language-html"><span class="hljs-comment">&lt;!-- Small on phones, base from md, large from lg --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm md:base lg:lg&quot;</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://i.pravatar.cc/150?img=27&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;Latifa&quot;</span> <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;rounded&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-avatar size="sm md:base lg:lg" src="https://i.pravatar.cc/150?img=27" alt="Latifa" appearance="rounded"></aegov-avatar>
+</div>
+
+<hr>
+<h2>Status Indicator</h2>
+<p>Set <code>status</code> to render a coloured dot in the lower-right corner. Five status values are supported, each with its own colour:</p>
+<ul>
+<li><code>online</code> — the user is currently active</li>
+<li><code>offline</code> — the user is not connected</li>
+<li><code>away</code> — the user is away from their device</li>
+<li><code>unavailable</code> — the user is do-not-disturb / unavailable</li>
+<li><code>busy</code> — the user is busy</li>
+</ul>
+<p><code>status=&quot;true&quot;</code> is shorthand for <code>online</code>; <code>status=&quot;false&quot;</code> (default) hides the indicator. The indicator carries <code>aria-label=&quot;Status: {status}&quot;</code> so screen readers announce the user&#39;s state.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://i.pravatar.cc/150?img=8&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;Mohammed&quot;</span> <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;rounded&quot;</span> <span class="hljs-attr">status</span>=<span class="hljs-string">&quot;online&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://i.pravatar.cc/150?img=8&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;Mohammed&quot;</span> <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;rounded&quot;</span> <span class="hljs-attr">status</span>=<span class="hljs-string">&quot;away&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://i.pravatar.cc/150?img=8&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;Mohammed&quot;</span> <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;rounded&quot;</span> <span class="hljs-attr">status</span>=<span class="hljs-string">&quot;busy&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://i.pravatar.cc/150?img=8&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;Mohammed&quot;</span> <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;rounded&quot;</span> <span class="hljs-attr">status</span>=<span class="hljs-string">&quot;unavailable&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://i.pravatar.cc/150?img=8&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;Mohammed&quot;</span> <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;rounded&quot;</span> <span class="hljs-attr">status</span>=<span class="hljs-string">&quot;offline&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <div style="display:flex;gap:1rem;align-items:center;flex-wrap:wrap;">
+    <aegov-avatar src="https://i.pravatar.cc/150?img=8" alt="Mohammed (online)" appearance="rounded" size="lg" status="online"></aegov-avatar>
+    <aegov-avatar src="https://i.pravatar.cc/150?img=8" alt="Mohammed (away)" appearance="rounded" size="lg" status="away"></aegov-avatar>
+    <aegov-avatar src="https://i.pravatar.cc/150?img=8" alt="Mohammed (busy)" appearance="rounded" size="lg" status="busy"></aegov-avatar>
+    <aegov-avatar src="https://i.pravatar.cc/150?img=8" alt="Mohammed (unavailable)" appearance="rounded" size="lg" status="unavailable"></aegov-avatar>
+    <aegov-avatar src="https://i.pravatar.cc/150?img=8" alt="Mohammed (offline)" appearance="rounded" size="lg" status="offline"></aegov-avatar>
+  </div>
+</div>
+
+<hr>
+<h2>Initials Avatar</h2>
+<p>When no portrait is available — for example, on a freshly created account — slot in the user&#39;s initials. The component uses the slot for the fallback rendering, so any markup is allowed.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar</span> <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;rounded&quot;</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;lg&quot;</span>&gt;</span>KM<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar</span> <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;rounded&quot;</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;lg&quot;</span> <span class="hljs-attr">status</span>=<span class="hljs-string">&quot;online&quot;</span>&gt;</span>FZ<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar</span> <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;square&quot;</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;lg&quot;</span>&gt;</span>AH<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <div style="display:flex;gap:1rem;align-items:center;">
+    <aegov-avatar appearance="rounded" size="lg">KM</aegov-avatar>
+    <aegov-avatar appearance="rounded" size="lg" status="online">FZ</aegov-avatar>
+    <aegov-avatar appearance="square" size="lg">AH</aegov-avatar>
+  </div>
+</div>
+
+<hr>
+<h2>Composite Examples</h2>
+<h3>Profile row</h3>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">style</span>=<span class="hljs-string">&quot;display:flex;gap:0.75rem;align-items:center;&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar</span>
+    <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://i.pravatar.cc/150?img=12&quot;</span>
+    <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;Khalid Al Mansoori&quot;</span>
+    <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;lg&quot;</span>
+    <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;rounded&quot;</span>
+    <span class="hljs-attr">status</span>=<span class="hljs-string">&quot;online&quot;</span>
+  &gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">strong</span>&gt;</span>Khalid Al Mansoori<span class="hljs-tag">&lt;/<span class="hljs-name">strong</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">style</span>=<span class="hljs-string">&quot;color:var(--color-aeblack-500);font-size:0.875rem;&quot;</span>&gt;</span>
+      Director, Digital Services — TDRA
+    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <div style="display:flex;gap:0.75rem;align-items:center;">
+    <aegov-avatar src="https://i.pravatar.cc/150?img=12" alt="Khalid Al Mansoori" size="lg" appearance="rounded" status="online"></aegov-avatar>
+    <div>
+      <strong>Khalid Al Mansoori</strong>
+      <div style="color:#475569;font-size:0.875rem;">Director, Digital Services — TDRA</div>
+    </div>
+  </div>
+</div>
+
+<h3>Support team list</h3>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">ul</span> <span class="hljs-attr">style</span>=<span class="hljs-string">&quot;list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:0.75rem;&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">li</span> <span class="hljs-attr">style</span>=<span class="hljs-string">&quot;display:flex;gap:0.75rem;align-items:center;&quot;</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://i.pravatar.cc/150?img=32&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;Fatima Al Zaabi&quot;</span> <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;rounded&quot;</span> <span class="hljs-attr">status</span>=<span class="hljs-string">&quot;online&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">span</span>&gt;</span>Fatima Al Zaabi — Senior Support<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">li</span> <span class="hljs-attr">style</span>=<span class="hljs-string">&quot;display:flex;gap:0.75rem;align-items:center;&quot;</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://i.pravatar.cc/150?img=58&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;Yousef Al Suwaidi&quot;</span> <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;rounded&quot;</span> <span class="hljs-attr">status</span>=<span class="hljs-string">&quot;busy&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">span</span>&gt;</span>Yousef Al Suwaidi — Tier 2 Support<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">li</span> <span class="hljs-attr">style</span>=<span class="hljs-string">&quot;display:flex;gap:0.75rem;align-items:center;&quot;</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar</span> <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;rounded&quot;</span> <span class="hljs-attr">status</span>=<span class="hljs-string">&quot;away&quot;</span>&gt;</span>MA<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">span</span>&gt;</span>Maryam Al Ali — Out today<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">ul</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:0.75rem;">
+    <li style="display:flex;gap:0.75rem;align-items:center;">
+      <aegov-avatar src="https://i.pravatar.cc/150?img=32" alt="Fatima Al Zaabi" appearance="rounded" status="online"></aegov-avatar>
+      <span>Fatima Al Zaabi — Senior Support</span>
+    </li>
+    <li style="display:flex;gap:0.75rem;align-items:center;">
+      <aegov-avatar src="https://i.pravatar.cc/150?img=58" alt="Yousef Al Suwaidi" appearance="rounded" status="busy"></aegov-avatar>
+      <span>Yousef Al Suwaidi — Tier 2 Support</span>
+    </li>
+    <li style="display:flex;gap:0.75rem;align-items:center;">
+      <aegov-avatar appearance="rounded" status="away">MA</aegov-avatar>
+      <span>Maryam Al Ali — Out today</span>
+    </li>
+  </ul>
+</div>
+
+<hr>
+<h2>RTL Support</h2>
+<p>The avatar itself is square or circular and direction-neutral — it renders identically in <code>dir=&quot;ltr&quot;</code> and <code>dir=&quot;rtl&quot;</code>. The status indicator&#39;s position is fixed relative to the avatar circle, so it stays in the lower-right corner regardless of direction. Surrounding layout (such as a profile row) flips automatically when wrapped in <code>dir=&quot;rtl&quot;</code>.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">dir</span>=<span class="hljs-string">&quot;rtl&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">style</span>=<span class="hljs-string">&quot;display:flex;gap:0.75rem;align-items:center;&quot;</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar</span>
+      <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://i.pravatar.cc/150?img=32&quot;</span>
+      <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;فاطمة الزعابي&quot;</span>
+      <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;lg&quot;</span>
+      <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;rounded&quot;</span>
+      <span class="hljs-attr">status</span>=<span class="hljs-string">&quot;online&quot;</span>
+    &gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">strong</span>&gt;</span>فاطمة الزعابي<span class="hljs-tag">&lt;/<span class="hljs-name">strong</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">style</span>=<span class="hljs-string">&quot;color:#475569;font-size:0.875rem;&quot;</span>&gt;</span>
+        مديرة الخدمات الرقمية — هيئة تنظيم الاتصالات
+      <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre><div dir="rtl" class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <div style="display:flex;gap:0.75rem;align-items:center;">
+    <aegov-avatar src="https://i.pravatar.cc/150?img=32" alt="فاطمة الزعابي" size="lg" appearance="rounded" status="online"></aegov-avatar>
+    <div>
+      <strong>فاطمة الزعابي</strong>
+      <div style="color:#475569;font-size:0.875rem;">مديرة الخدمات الرقمية — هيئة تنظيم الاتصالات</div>
+    </div>
+  </div>
+</div>
+
+<p>A list of team members in RTL — the avatars sit on the right and the names align to the right edge:</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">dir</span>=<span class="hljs-string">&quot;rtl&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">ul</span> <span class="hljs-attr">style</span>=<span class="hljs-string">&quot;list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:0.75rem;&quot;</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">li</span> <span class="hljs-attr">style</span>=<span class="hljs-string">&quot;display:flex;gap:0.75rem;align-items:center;&quot;</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://i.pravatar.cc/150?img=12&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;خالد المنصوري&quot;</span> <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;rounded&quot;</span> <span class="hljs-attr">status</span>=<span class="hljs-string">&quot;online&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">span</span>&gt;</span>خالد المنصوري — مدير الخدمات الرقمية<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">li</span> <span class="hljs-attr">style</span>=<span class="hljs-string">&quot;display:flex;gap:0.75rem;align-items:center;&quot;</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar</span> <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;rounded&quot;</span> <span class="hljs-attr">status</span>=<span class="hljs-string">&quot;busy&quot;</span>&gt;</span>يس<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">span</span>&gt;</span>يوسف السويدي — الدعم الفني<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">ul</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre><div dir="rtl" class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:0.75rem;">
+    <li style="display:flex;gap:0.75rem;align-items:center;">
+      <aegov-avatar src="https://i.pravatar.cc/150?img=12" alt="خالد المنصوري" appearance="rounded" status="online"></aegov-avatar>
+      <span>خالد المنصوري — مدير الخدمات الرقمية</span>
+    </li>
+    <li style="display:flex;gap:0.75rem;align-items:center;">
+      <aegov-avatar appearance="rounded" status="busy">يس</aegov-avatar>
+      <span>يوسف السويدي — الدعم الفني</span>
+    </li>
+  </ul>
+</div>
+
+<hr>
 <h2>API Reference</h2>
 <h3>Properties</h3>
 <table>
@@ -80,21 +266,21 @@
 <tbody><tr>
 <td><code>fieldId</code></td>
 <td><code>field-id</code></td>
-<td>Unique ID for the avatar element. Auto-generated if not provided.</td>
+<td>DOM <code>id</code> reflected onto the inner avatar <code>&lt;div&gt;</code>. Auto-generated if omitted.</td>
 <td><code>string</code></td>
-<td><code>undefined</code></td>
+<td><em>generated</em></td>
 </tr>
 <tr>
 <td><code>size</code></td>
 <td><code>size</code></td>
-<td>Avatar size or responsive string.</td>
-<td><code>string</code></td>
+<td>Avatar size, single token or responsive string.</td>
+<td><code>&#39;xs&#39; | &#39;sm&#39; | &#39;base&#39; | &#39;lg&#39; | &#39;xl&#39; | &#39;2xl&#39; | &#39;3xl&#39;</code> (or responsive)</td>
 <td><code>&#39;base&#39;</code></td>
 </tr>
 <tr>
 <td><code>appearance</code></td>
 <td><code>appearance</code></td>
-<td>Avatar shape.</td>
+<td>Shape — <code>square</code> (rounded corners) or <code>rounded</code> (circle).</td>
 <td><code>&#39;square&#39; | &#39;rounded&#39;</code></td>
 <td><code>&#39;square&#39;</code></td>
 </tr>
@@ -108,20 +294,35 @@
 <tr>
 <td><code>alt</code></td>
 <td><code>alt</code></td>
-<td>Alternative text for the image (also used as host <code>aria-label</code>).</td>
+<td>Alternative text — used for the image and as host <code>aria-label</code>.</td>
 <td><code>string</code></td>
 <td><code>undefined</code></td>
 </tr>
 <tr>
 <td><code>status</code></td>
 <td><code>status</code></td>
-<td>Status indicator (string, <code>true</code> = online, <code>false</code> = hidden).</td>
+<td>Status indicator. <code>true</code> maps to <code>online</code>; <code>false</code> hides the dot.</td>
 <td><code>&#39;online&#39; | &#39;offline&#39; | &#39;away&#39; | &#39;unavailable&#39; | &#39;busy&#39; | boolean</code></td>
 <td><code>false</code></td>
 </tr>
 </tbody></table>
+<h3>Slots</h3>
+<table>
+<thead>
+<tr>
+<th>Slot</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><em>(default)</em></td>
+<td>Fallback content rendered when no <code>src</code> is set or the image fails to load (e.g. initials).</td>
+</tr>
+</tbody></table>
+<h3>Events</h3>
+<p>The avatar does not emit any custom events.</p>
 <h3>Pass-through Attributes</h3>
-<p>In addition to <code>aria-*</code> and <code>data-*</code>, the following native <code>&lt;img&gt;</code> attributes are forwarded to the inner image element when one is rendered:</p>
+<p><code>aria-*</code> and <code>data-*</code> attributes set on the host are forwarded automatically. In addition, the following native <code>&lt;img&gt;</code> attributes are forwarded to the inner image element when one is rendered:</p>
 <table>
 <thead>
 <tr>
@@ -147,117 +348,38 @@
 </tr>
 <tr>
 <td><code>alt</code></td>
-<td>Image alt text.</td>
+<td>Image alt text (also applied to the host <code>aria-label</code>).</td>
 </tr>
 <tr>
 <td><code>src</code></td>
 <td>Image source URL.</td>
 </tr>
-</tbody></table>
-<h3>Slots</h3>
-<table>
-<thead>
 <tr>
-<th>Slot</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>(default)</td>
-<td>Fallback content rendered when no <code>src</code> is set or when the image fails to load (e.g. initials).</td>
+<td><code>aria-*</code>, <code>data-*</code></td>
+<td>Forwarded to the inner <code>&lt;img&gt;</code> element.</td>
 </tr>
 </tbody></table>
+<hr>
 <h2>Accessibility</h2>
-<h3>Built-in</h3>
+<h3>Built-in behaviour</h3>
 <ul>
 <li>The avatar root has <code>role=&quot;img&quot;</code> and an <code>aria-label</code> derived from <code>alt</code> (or the literal string <code>&quot;User avatar&quot;</code> when <code>alt</code> is missing).</li>
-<li>The image element receives the same <code>alt</code> text.</li>
-<li>The status indicator has <code>aria-label=&quot;Status: {status}&quot;</code> so screen readers announce the user&#39;s state.</li>
-<li>Decorative SVG fallback is unlabelled and rendered inside the labelled root; nothing extra is announced.</li>
+<li>The <code>&lt;img&gt;</code> element receives the same <code>alt</code> text.</li>
+<li>The status indicator carries <code>aria-label=&quot;Status: {status}&quot;</code> so screen readers announce the user&#39;s state.</li>
+<li>The decorative SVG silhouette is unlabelled and rendered inside the labelled root, so nothing extra is announced.</li>
+<li>When the image fails to load, <code>imageError</code> flips to <code>true</code> and the fallback path renders. This prevents broken-image icons from ever showing.</li>
 </ul>
 <h3>Developer responsibilities</h3>
 <ul>
 <li>Always provide a meaningful <code>alt</code> when the avatar represents a real user. Without <code>alt</code>, the host falls back to the generic label <code>&quot;User avatar&quot;</code>, which is rarely useful in context.</li>
 <li>Initials inside the default slot are visual only — the <code>aria-label</code> on the host is what assistive technology announces. Make sure the <code>alt</code> matches the user&#39;s name.</li>
-<li>If a status indicator is informational beyond the visual cue, ensure that the surrounding context reflects the same state in text (e.g. &quot;Jane (online)&quot;).</li>
+<li>If a status indicator is informational beyond the visual cue, ensure that the surrounding context reflects the same state in text (e.g. &quot;Fatima (online)&quot;).</li>
+<li>The avatar itself is not focusable. If the avatar is interactive (e.g. opens a profile), wrap it in an <code>&lt;a&gt;</code> or <code>&lt;button&gt;</code> element.</li>
 </ul>
 <h3>Notes</h3>
 <ul>
-<li>When the image errors, <code>imageError</code> flips to <code>true</code> and the fallback path renders. This prevents broken-image icons from ever showing.</li>
-<li><code>status=&quot;false&quot;</code> (default) renders no indicator at all — there is no &quot;no status&quot; dot.</li>
-</ul>
-<h2>Sub-component: aegov-avatar-group</h2>
-<p>A layout wrapper that arranges multiple <code>aegov-avatar</code> children and optionally shows a &quot;+N more&quot; indicator. The group enforces a uniform <code>size</code> and forces every child avatar to <code>appearance=&quot;rounded&quot;</code>.</p>
-<h3>Properties</h3>
-<table>
-<thead>
-<tr>
-<th>Property</th>
-<th>Attribute</th>
-<th>Description</th>
-<th>Type</th>
-<th>Default</th>
-</tr>
-</thead>
-<tbody><tr>
-<td><code>variant</code></td>
-<td><code>variant</code></td>
-<td>Layout: <code>default</code> (spaced) or <code>compact</code> (overlapping).</td>
-<td><code>&#39;default&#39; | &#39;compact&#39;</code></td>
-<td><code>&#39;default&#39;</code></td>
-</tr>
-<tr>
-<td><code>size</code></td>
-<td><code>size</code></td>
-<td>Size enforced on all child avatars (any <code>aegov-avatar</code> size token).</td>
-<td><code>string</code></td>
-<td><code>&#39;base&#39;</code></td>
-</tr>
-<tr>
-<td><code>moreCount</code></td>
-<td><code>more-count</code></td>
-<td>When greater than zero, renders a trailing &quot;+N&quot; button.</td>
-<td><code>number</code></td>
-<td><code>0</code></td>
-</tr>
-<tr>
-<td><code>moreText</code></td>
-<td><code>more-text</code></td>
-<td>Custom label for the more indicator. Defaults to <code>&quot;{moreCount}+&quot;</code>.</td>
-<td><code>string</code></td>
-<td><code>undefined</code></td>
-</tr>
-</tbody></table>
-<h3>Events</h3>
-<table>
-<thead>
-<tr>
-<th>Event</th>
-<th>Description</th>
-<th>Detail Type</th>
-</tr>
-</thead>
-<tbody><tr>
-<td><code>aegovAvatarGroupMore</code></td>
-<td>Emitted when the &quot;+N&quot; button is clicked.</td>
-<td><code>void</code></td>
-</tr>
-</tbody></table>
-<h3>Example</h3>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar-group</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;compact&quot;</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;lg&quot;</span> <span class="hljs-attr">more-count</span>=<span class="hljs-string">&quot;3&quot;</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;/p/1.jpg&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;Ava&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;/p/2.jpg&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;Ben&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar</span>&gt;</span>JD<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar-group</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript">
-  <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">querySelector</span>(<span class="hljs-string">&#x27;aegov-avatar-group&#x27;</span>).<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;aegovAvatarGroupMore&#x27;</span>, <span class="hljs-function">() =&gt;</span> {
-    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;User wants to see all members&#x27;</span>);
-  });
-</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre><h3>Behaviour notes</h3>
-<ul>
-<li>The group always renders rounded avatars regardless of each child&#39;s <code>appearance</code>.</li>
-<li>The <code>+N</code> button is keyboard-accessible (<code>type=&quot;button&quot;</code>) and has <code>aria-label=&quot;Show {N} more users&quot;</code>.</li>
-<li>The container has <code>role=&quot;group&quot;</code> and <code>aria-label=&quot;Avatar group&quot;</code> so screen readers announce the cluster as a single unit.</li>
+<li><code>status=&quot;false&quot;</code> (the default) renders no indicator at all — there is no &quot;no status&quot; dot.</li>
+<li>When grouped via <code>aegov-avatar-group</code>, the parent overrides each child&#39;s <code>appearance</code> to <code>rounded</code> and synchronises <code>size</code> across all children.</li>
 </ul>
 <!-- DOC:END -->
           </section>

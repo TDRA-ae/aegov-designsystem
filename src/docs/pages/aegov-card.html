@@ -20,69 +20,293 @@
       <article class="col-span-5 grow">
           <section id="content-area" class="bg-whitely-50 p-6 rounded-md shadow-xl">
           <!-- DOC:START -->
-<h1>aegov-card</h1>
-<p>A flexible bordered container for grouping related content — service tiles, summary panels, dashboard sections, list items, etc. Cards support several border styles, two background tones, three sizes, and optional hover effects. Their content is fully slotted, so any combination of headings, body copy, badges, or actions can be composed inside.</p>
-<h2>Properties</h2>
-<h3>is-padding</h3>
-<p>Whether the card applies its standard inner padding (<code>1.5rem</code> / 24px). On by default. Disable when you need to render edge-to-edge content (media, tables) and provide your own padding inside.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-card</span>&gt;</span>Default padded card<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-card</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-card</span> <span class="hljs-attr">is-padding</span>=<span class="hljs-string">&quot;false&quot;</span>&gt;</span>Edge-to-edge card<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-card</span>&gt;</span></code></pre><h3>border-width</h3>
-<p>Border thickness in pixels. Accepts <code>1</code>, <code>2</code>, or <code>3</code>. Defaults to <code>2</code>.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-card</span> <span class="hljs-attr">border-width</span>=<span class="hljs-string">&quot;1&quot;</span>&gt;</span>Thin border<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-card</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-card</span> <span class="hljs-attr">border-width</span>=<span class="hljs-string">&quot;3&quot;</span>&gt;</span>Thick border<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-card</span>&gt;</span></code></pre><h3>border-style</h3>
-<p>Sets how the border looks.</p>
+<h1>Card</h1>
+<p class="text-lg text-aeblack-500 mb-8">A flexible bordered container for grouping related content — service tiles, summary panels, dashboard sections, profile snippets, and list items. Cards support several border styles, two background tones, three sizes, and optional hover effects. Their content is fully slotted, so any combination of headings, body copy, badges, or actions can be composed inside.</p>
+
+<h2>Introduction</h2>
+<p>The <code>aegov-card</code> component renders a single bordered surface with a default content slot. It exposes a small but expressive set of properties — border thickness, border style, background tone, hover effect, size, and inner padding — so the same primitive can adapt to a service tile, a feature highlight, a media card, or a quiet supporting panel.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-card</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-title</span> <span class="hljs-attr">level</span>=<span class="hljs-string">&quot;3&quot;</span>&gt;</span>Apply for Emirates ID<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-title</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-text</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm&quot;</span>&gt;</span>
+    Renew, replace, or apply for an Emirates ID online through ICP services.
+  <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-text</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span>&gt;</span>Start application<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-card</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-card>
+    <aegov-title level="3">Apply for Emirates ID</aegov-title>
+    <aegov-text size="sm">Renew, replace, or apply for an Emirates ID online through ICP services.</aegov-text>
+    <div class="mt-4">
+      <aegov-button>Start application</aegov-button>
+    </div>
+  </aegov-card>
+</div>
+
+<hr>
+<h2>Border Style</h2>
+<p>The <code>border-style</code> property controls how the card outline is drawn. Four treatments are available, ranging from a quiet light outline to a bold gradient that activates on hover.</p>
 <ul>
-<li><code>standard</code> — solid <code>primary-600</code></li>
+<li><code>standard</code> — solid <code>primary-600</code> (default)</li>
 <li><code>light</code> — solid <code>primary-200</code></li>
 <li><code>creative</code> — gradient from <code>primary-400</code> to <code>primary-800</code></li>
 <li><code>highlight</code> — solid <code>aeblack-200</code> at rest, transitions to a <code>primary-300 → 700</code> gradient on hover</li>
 </ul>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-card</span> <span class="hljs-attr">border-style</span>=<span class="hljs-string">&quot;creative&quot;</span>&gt;</span>Creative<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-card</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-card</span> <span class="hljs-attr">border-style</span>=<span class="hljs-string">&quot;highlight&quot;</span> <span class="hljs-attr">hover</span>=<span class="hljs-string">&quot;standard&quot;</span>&gt;</span>Hover me<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-card</span>&gt;</span></code></pre><h3>bg</h3>
-<p>Background tone.</p>
-<ul>
-<li><code>white</code> — white surface (default)</li>
-<li><code>subtle</code> — <code>aeblack-50</code> surface</li>
-</ul>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-card</span> <span class="hljs-attr">bg</span>=<span class="hljs-string">&quot;subtle&quot;</span>&gt;</span>On a subtle surface<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-card</span>&gt;</span></code></pre><h3>hover</h3>
-<p>Hover treatment.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-card</span> <span class="hljs-attr">border-style</span>=<span class="hljs-string">&quot;standard&quot;</span>&gt;</span>Standard outline<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-card</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-card</span> <span class="hljs-attr">border-style</span>=<span class="hljs-string">&quot;light&quot;</span>&gt;</span>Light outline<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-card</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-card</span> <span class="hljs-attr">border-style</span>=<span class="hljs-string">&quot;creative&quot;</span>&gt;</span>Creative gradient<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-card</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-card</span> <span class="hljs-attr">border-style</span>=<span class="hljs-string">&quot;highlight&quot;</span> <span class="hljs-attr">hover</span>=<span class="hljs-string">&quot;standard&quot;</span>&gt;</span>Highlight on hover<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-card</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <aegov-card border-style="standard">
+      <aegov-title level="4">Standard</aegov-title>
+      <aegov-text size="sm">Solid primary-600 outline. Use as the default surface.</aegov-text>
+    </aegov-card>
+    <aegov-card border-style="light">
+      <aegov-title level="4">Light</aegov-title>
+      <aegov-text size="sm">Quieter primary-200 outline for grouped or supporting content.</aegov-text>
+    </aegov-card>
+    <aegov-card border-style="creative">
+      <aegov-title level="4">Creative</aegov-title>
+      <aegov-text size="sm">Gradient outline for featured or promotional cards.</aegov-text>
+    </aegov-card>
+    <aegov-card border-style="highlight" hover="standard">
+      <aegov-title level="4">Highlight</aegov-title>
+      <aegov-text size="sm">Hover to activate the gradient outline.</aegov-text>
+    </aegov-card>
+  </div>
+</div>
+
+<hr>
+<h2>Border Width</h2>
+<p><code>border-width</code> accepts <code>1</code>, <code>2</code>, or <code>3</code> and controls the outline thickness in pixels. The default of <code>2</code> works well for most contexts; reach for <code>1</code> when the card sits next to many siblings, and <code>3</code> for hero or featured cards where extra emphasis is desired.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-card</span> <span class="hljs-attr">border-width</span>=<span class="hljs-string">&quot;1&quot;</span>&gt;</span>Thin border<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-card</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-card</span> <span class="hljs-attr">border-width</span>=<span class="hljs-string">&quot;2&quot;</span>&gt;</span>Default border<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-card</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-card</span> <span class="hljs-attr">border-width</span>=<span class="hljs-string">&quot;3&quot;</span>&gt;</span>Thick border<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-card</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+    <aegov-card border-width="1">
+      <aegov-text size="sm">1 px border — quiet emphasis.</aegov-text>
+    </aegov-card>
+    <aegov-card border-width="2">
+      <aegov-text size="sm">2 px border — the default.</aegov-text>
+    </aegov-card>
+    <aegov-card border-width="3">
+      <aegov-text size="sm">3 px border — strong emphasis.</aegov-text>
+    </aegov-card>
+  </div>
+</div>
+
+<hr>
+<h2>Background</h2>
+<p>Two background tones are available. <code>white</code> (default) is the neutral surface for most contexts. <code>subtle</code> switches to <code>aeblack-50</code> and is useful for nested or supporting panels that should sit visually below their surroundings.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-card</span> <span class="hljs-attr">bg</span>=<span class="hljs-string">&quot;white&quot;</span>&gt;</span>Default white surface<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-card</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-card</span> <span class="hljs-attr">bg</span>=<span class="hljs-string">&quot;subtle&quot;</span> <span class="hljs-attr">border-style</span>=<span class="hljs-string">&quot;light&quot;</span>&gt;</span>Subtle aeblack-50 surface<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-card</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <aegov-card bg="white">
+      <aegov-title level="4">White</aegov-title>
+      <aegov-text size="sm">The default surface for primary cards.</aegov-text>
+    </aegov-card>
+    <aegov-card bg="subtle" border-style="light">
+      <aegov-title level="4">Subtle</aegov-title>
+      <aegov-text size="sm">A quieter aeblack-50 surface for nested panels.</aegov-text>
+    </aegov-card>
+  </div>
+</div>
+
+<hr>
+<h2>Hover Effect</h2>
+<p>The <code>hover</code> property adds visual feedback when the user hovers over the card.</p>
 <ul>
 <li><code>off</code> — no hover effect (default)</li>
 <li><code>standard</code> — border colour shift</li>
 <li><code>glow</code> — soft drop-shadow glow</li>
 </ul>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-card</span> <span class="hljs-attr">hover</span>=<span class="hljs-string">&quot;glow&quot;</span>&gt;</span>Glow on hover<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-card</span>&gt;</span></code></pre><h3>size</h3>
-<p>Controls padding and corner radius. Accepts <code>sm</code>, <code>base</code>, or <code>lg</code>. All sizes scale down responsively at <code>md</code> (768px) and <code>xs</code> (480px) breakpoints.</p>
+<p>Use <code>standard</code> for clickable tiles and <code>glow</code> for prominent links to a deeper page. Hover styles are visual only — focus styling lives on the focusable element inside the card.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-card</span> <span class="hljs-attr">hover</span>=<span class="hljs-string">&quot;off&quot;</span>&gt;</span>No hover<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-card</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-card</span> <span class="hljs-attr">hover</span>=<span class="hljs-string">&quot;standard&quot;</span>&gt;</span>Border shift on hover<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-card</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-card</span> <span class="hljs-attr">hover</span>=<span class="hljs-string">&quot;glow&quot;</span>&gt;</span>Drop-shadow glow on hover<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-card</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+    <aegov-card hover="off">
+      <aegov-title level="4">No hover</aegov-title>
+      <aegov-text size="sm">Static surface — used for non-interactive cards.</aegov-text>
+    </aegov-card>
+    <aegov-card hover="standard">
+      <aegov-title level="4">Standard</aegov-title>
+      <aegov-text size="sm">Hover to see the border colour shift.</aegov-text>
+    </aegov-card>
+    <aegov-card hover="glow">
+      <aegov-title level="4">Glow</aegov-title>
+      <aegov-text size="sm">Hover for a soft drop-shadow glow.</aegov-text>
+    </aegov-card>
+  </div>
+</div>
+
+<hr>
+<h2>Sizes</h2>
+<p><code>size</code> controls the inner padding and corner radius. Three tokens are available — <code>sm</code>, <code>base</code> (default), and <code>lg</code>. All sizes scale down responsively at the <code>md</code> (768px) and <code>xs</code> (480px) breakpoints, so dense card grids remain legible on small screens.</p>
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-card</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm&quot;</span>&gt;</span>Compact<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-card</span>&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">aegov-card</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;base&quot;</span>&gt;</span>Default<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-card</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-card</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;lg&quot;</span>&gt;</span>Spacious<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-card</span>&gt;</span></code></pre><h3>field-id</h3>
-<p>Unique identifier reflected onto the inner <code>&lt;div&gt;</code>. Auto-generated as <code>aegov-card-{n}</code> if not provided.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-card</span> <span class="hljs-attr">field-id</span>=<span class="hljs-string">&quot;service-card-1&quot;</span>&gt;</span>…<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-card</span>&gt;</span></code></pre><h2>Sizes</h2>
-<p><code>size</code> accepts a single token. The size affects padding and corner radius; all sizes degrade at <code>md</code> and <code>xs</code> breakpoints automatically.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-card</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm&quot;</span>&gt;</span>Compact<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-card</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-card</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;base&quot;</span>&gt;</span>Default<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-card</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-card</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;lg&quot;</span>&gt;</span>Spacious<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-card</span>&gt;</span></code></pre><h2>Examples</h2>
-<h3>Basic content card</h3>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-card</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-title</span> <span class="hljs-attr">level</span>=<span class="hljs-string">&quot;3&quot;</span>&gt;</span>Service title<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-title</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-text</span>&gt;</span>Short description of the service offered to citizens.<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-text</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span>&gt;</span>Get started<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-card</span>&gt;</span></code></pre><h3>Highlight card with hover gradient</h3>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-card</span> <span class="hljs-attr">border-style</span>=<span class="hljs-string">&quot;highlight&quot;</span> <span class="hljs-attr">hover</span>=<span class="hljs-string">&quot;standard&quot;</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-title</span> <span class="hljs-attr">level</span>=<span class="hljs-string">&quot;4&quot;</span>&gt;</span>Featured service<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-title</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-text</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm&quot;</span>&gt;</span>Hover to see the highlight border activate.<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-text</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-card</span>&gt;</span></code></pre><h3>Edge-to-edge media card</h3>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-card</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;lg&quot;</span>&gt;</span>Spacious<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-card</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+    <aegov-card size="sm">
+      <aegov-title level="4">Small</aegov-title>
+      <aegov-text size="sm">Compact padding and tighter corner radius.</aegov-text>
+    </aegov-card>
+    <aegov-card size="base">
+      <aegov-title level="4">Base</aegov-title>
+      <aegov-text size="sm">The default size — suitable for most cards.</aegov-text>
+    </aegov-card>
+    <aegov-card size="lg">
+      <aegov-title level="4">Large</aegov-title>
+      <aegov-text size="sm">Generous padding for hero or featured cards.</aegov-text>
+    </aegov-card>
+  </div>
+</div>
+
+<hr>
+<h2>Padding</h2>
+<p>By default a card applies <code>1.5rem</code> (24px) of inner padding. Set <code>is-padding=&quot;false&quot;</code> when you need edge-to-edge content — a media image, a data table, or any element that should bleed to the card border. Provide your own inner padding for the body content beneath.</p>
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-card</span> <span class="hljs-attr">is-padding</span>=<span class="hljs-string">&quot;false&quot;</span> <span class="hljs-attr">hover</span>=<span class="hljs-string">&quot;glow&quot;</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">img</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;/banner.jpg&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;&quot;</span> <span class="hljs-attr">style</span>=<span class="hljs-string">&quot;display:block;width:100%;&quot;</span> /&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">style</span>=<span class="hljs-string">&quot;padding:1.25rem&quot;</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-title</span> <span class="hljs-attr">level</span>=<span class="hljs-string">&quot;4&quot;</span>&gt;</span>Media-led card<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-title</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-text</span>&gt;</span>Body content sits beneath the full-bleed image.<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-text</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">img</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://i.pravatar.cc/600?img=15&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;&quot;</span> <span class="hljs-attr">style</span>=<span class="hljs-string">&quot;display:block;width:100%;border-top-left-radius:inherit;border-top-right-radius:inherit;&quot;</span> /&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">style</span>=<span class="hljs-string">&quot;padding:1.25rem;&quot;</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-title</span> <span class="hljs-attr">level</span>=<span class="hljs-string">&quot;4&quot;</span>&gt;</span>Smart Dubai initiative<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-title</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-text</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm&quot;</span>&gt;</span>Edge-to-edge media with custom padding beneath.<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-text</span>&gt;</span>
   <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-card</span>&gt;</span></code></pre><h3>Subtle background panel</h3>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-card</span> <span class="hljs-attr">bg</span>=<span class="hljs-string">&quot;subtle&quot;</span> <span class="hljs-attr">border-style</span>=<span class="hljs-string">&quot;light&quot;</span> <span class="hljs-attr">border-width</span>=<span class="hljs-string">&quot;1&quot;</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-text</span>&gt;</span>A quieter panel for nested or supporting content.<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-text</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-card</span>&gt;</span></code></pre><h2>RTL Behavior</h2>
-<p>The card itself is direction-agnostic — it is a simple bordered surface. Content rendered inside the default slot follows the document <code>dir</code>. Use Tailwind logical properties (<code>ms-*</code> / <code>me-*</code>, <code>ps-*</code> / <code>pe-*</code>) on inner elements when you need direction-aware layout that automatically adapts to <code>dir=&quot;rtl&quot;</code>.</p>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-card</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-card is-padding="false" hover="glow">
+    <img src="https://i.pravatar.cc/600?img=15" alt="" style="display:block;width:100%;height:200px;object-fit:cover;border-top-left-radius:inherit;border-top-right-radius:inherit;" />
+    <div style="padding:1.25rem;">
+      <aegov-title level="4">Smart Dubai initiative</aegov-title>
+      <aegov-text size="sm">Edge-to-edge media with custom padding beneath the image.</aegov-text>
+    </div>
+  </aegov-card>
+</div>
+
+<hr>
+<h2>Composite Examples</h2>
+<p>Cards combine well with other components — titles, text, badges, avatars, and buttons — to build service tiles, profile cards, and dashboard panels.</p>
+<h3>Ministry service tile</h3>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-card</span> <span class="hljs-attr">hover</span>=<span class="hljs-string">&quot;glow&quot;</span> <span class="hljs-attr">border-style</span>=<span class="hljs-string">&quot;highlight&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-badge</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;success&quot;</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm&quot;</span>&gt;</span>Active<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-badge</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-title</span> <span class="hljs-attr">level</span>=<span class="hljs-string">&quot;3&quot;</span>&gt;</span>Renew vehicle registration<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-title</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-text</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm&quot;</span>&gt;</span>
+    Renew your vehicle registration through the Ministry of Interior portal — most
+    renewals are processed within minutes.
+  <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-text</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span>&gt;</span>Renew now<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-card</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-card hover="glow" border-style="highlight">
+    <div class="mb-3"><aegov-badge variant="success" size="sm">Active</aegov-badge></div>
+    <aegov-title level="3">Renew vehicle registration</aegov-title>
+    <aegov-text size="sm">Renew your vehicle registration through the Ministry of Interior portal — most renewals are processed within minutes.</aegov-text>
+    <div class="mt-4"><aegov-button>Renew now</aegov-button></div>
+  </aegov-card>
+</div>
+
+<h3>Profile card</h3>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-card</span> <span class="hljs-attr">border-style</span>=<span class="hljs-string">&quot;light&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">style</span>=<span class="hljs-string">&quot;display:flex;gap:1rem;align-items:center;&quot;</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar</span>
+      <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://i.pravatar.cc/150?img=12&quot;</span>
+      <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;Khalid Al Mansoori&quot;</span>
+      <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;lg&quot;</span>
+      <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;rounded&quot;</span>
+      <span class="hljs-attr">status</span>=<span class="hljs-string">&quot;online&quot;</span>
+    &gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">aegov-title</span> <span class="hljs-attr">level</span>=<span class="hljs-string">&quot;4&quot;</span>&gt;</span>Khalid Al Mansoori<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-title</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">aegov-text</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm&quot;</span>&gt;</span>Director, Digital Services — TDRA<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-text</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-card</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-card border-style="light">
+    <div style="display:flex;gap:1rem;align-items:center;">
+      <aegov-avatar src="https://i.pravatar.cc/150?img=12" alt="Khalid Al Mansoori" size="lg" appearance="rounded" status="online"></aegov-avatar>
+      <div>
+        <aegov-title level="4">Khalid Al Mansoori</aegov-title>
+        <aegov-text size="sm">Director, Digital Services — TDRA</aegov-text>
+      </div>
+    </div>
+  </aegov-card>
+</div>
+
+<h3>Dashboard summary grid</h3>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;grid grid-cols-1 md:grid-cols-3 gap-4&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-card</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm&quot;</span> <span class="hljs-attr">bg</span>=<span class="hljs-string">&quot;subtle&quot;</span> <span class="hljs-attr">border-style</span>=<span class="hljs-string">&quot;light&quot;</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-text</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm&quot;</span>&gt;</span>Pending applications<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-text</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-title</span> <span class="hljs-attr">level</span>=<span class="hljs-string">&quot;2&quot;</span>&gt;</span>128<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-title</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-card</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-card</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm&quot;</span> <span class="hljs-attr">bg</span>=<span class="hljs-string">&quot;subtle&quot;</span> <span class="hljs-attr">border-style</span>=<span class="hljs-string">&quot;light&quot;</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-text</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm&quot;</span>&gt;</span>Approved this week<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-text</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-title</span> <span class="hljs-attr">level</span>=<span class="hljs-string">&quot;2&quot;</span>&gt;</span>412<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-title</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-card</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-card</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm&quot;</span> <span class="hljs-attr">bg</span>=<span class="hljs-string">&quot;subtle&quot;</span> <span class="hljs-attr">border-style</span>=<span class="hljs-string">&quot;light&quot;</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-text</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm&quot;</span>&gt;</span>Average response time<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-text</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-title</span> <span class="hljs-attr">level</span>=<span class="hljs-string">&quot;2&quot;</span>&gt;</span>1.4h<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-title</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-card</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+    <aegov-card size="sm" bg="subtle" border-style="light">
+      <aegov-text size="sm">Pending applications</aegov-text>
+      <aegov-title level="2">128</aegov-title>
+    </aegov-card>
+    <aegov-card size="sm" bg="subtle" border-style="light">
+      <aegov-text size="sm">Approved this week</aegov-text>
+      <aegov-title level="2">412</aegov-title>
+    </aegov-card>
+    <aegov-card size="sm" bg="subtle" border-style="light">
+      <aegov-text size="sm">Average response time</aegov-text>
+      <aegov-title level="2">1.4h</aegov-title>
+    </aegov-card>
+  </div>
+</div>
+
+<hr>
+<h2>RTL Support</h2>
+<p>The card itself is direction-agnostic — it is a simple bordered surface. Content rendered inside the default slot follows the document <code>dir</code> automatically, so headings, text, and inline icons mirror without any extra configuration. Use Tailwind logical properties (<code>ms-*</code> / <code>me-*</code>, <code>ps-*</code> / <code>pe-*</code>) on inner elements when you need direction-aware spacing.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">dir</span>=<span class="hljs-string">&quot;rtl&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-card</span> <span class="hljs-attr">border-style</span>=<span class="hljs-string">&quot;highlight&quot;</span> <span class="hljs-attr">hover</span>=<span class="hljs-string">&quot;standard&quot;</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-title</span> <span class="hljs-attr">level</span>=<span class="hljs-string">&quot;3&quot;</span>&gt;</span>تجديد بطاقة الهوية الإماراتية<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-title</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-text</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm&quot;</span>&gt;</span>
+      جدّد بطاقة هويتك الإماراتية إلكترونياً من خلال خدمات الهيئة الاتحادية للهوية والجنسية. تتم معالجة معظم الطلبات خلال دقائق.
+    <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-text</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span>&gt;</span>ابدأ الطلب<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-card</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre><div dir="rtl" class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-card border-style="highlight" hover="standard">
+    <aegov-title level="3">تجديد بطاقة الهوية الإماراتية</aegov-title>
+    <aegov-text size="sm">جدّد بطاقة هويتك الإماراتية إلكترونياً من خلال خدمات الهيئة الاتحادية للهوية والجنسية. تتم معالجة معظم الطلبات خلال دقائق.</aegov-text>
+    <div class="mt-4"><aegov-button>ابدأ الطلب</aegov-button></div>
+  </aegov-card>
+</div>
+
+<p>A profile card in RTL — note that the avatar naturally moves to the right and the text aligns to the right edge:</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">dir</span>=<span class="hljs-string">&quot;rtl&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-card</span> <span class="hljs-attr">border-style</span>=<span class="hljs-string">&quot;light&quot;</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">style</span>=<span class="hljs-string">&quot;display:flex;gap:1rem;align-items:center;&quot;</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar</span>
+        <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://i.pravatar.cc/150?img=32&quot;</span>
+        <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;فاطمة الزعابي&quot;</span>
+        <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;lg&quot;</span>
+        <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;rounded&quot;</span>
+        <span class="hljs-attr">status</span>=<span class="hljs-string">&quot;online&quot;</span>
+      &gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">aegov-title</span> <span class="hljs-attr">level</span>=<span class="hljs-string">&quot;4&quot;</span>&gt;</span>فاطمة الزعابي<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-title</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">aegov-text</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm&quot;</span>&gt;</span>مديرة الخدمات الرقمية — هيئة تنظيم الاتصالات<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-text</span>&gt;</span>
+      <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-card</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre><div dir="rtl" class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-card border-style="light">
+    <div style="display:flex;gap:1rem;align-items:center;">
+      <aegov-avatar src="https://i.pravatar.cc/150?img=32" alt="فاطمة الزعابي" size="lg" appearance="rounded" status="online"></aegov-avatar>
+      <div>
+        <aegov-title level="4">فاطمة الزعابي</aegov-title>
+        <aegov-text size="sm">مديرة الخدمات الرقمية — هيئة تنظيم الاتصالات</aegov-text>
+      </div>
+    </div>
+  </aegov-card>
+</div>
+
+<hr>
 <h2>API Reference</h2>
 <h3>Properties</h3>
 <table>
@@ -98,21 +322,21 @@
 <tbody><tr>
 <td><code>fieldId</code></td>
 <td><code>field-id</code></td>
-<td>Unique ID for the card element. Auto-generated if not provided.</td>
+<td>DOM <code>id</code> reflected onto the inner <code>&lt;div&gt;</code>. Auto-generated if omitted.</td>
 <td><code>string</code></td>
-<td><code>undefined</code></td>
+<td><em>generated</em></td>
 </tr>
 <tr>
 <td><code>isPadding</code></td>
 <td><code>is-padding</code></td>
-<td>Whether to apply inner padding.</td>
+<td>Whether the card applies its standard inner padding (<code>1.5rem</code>).</td>
 <td><code>boolean</code></td>
 <td><code>true</code></td>
 </tr>
 <tr>
 <td><code>borderWidth</code></td>
 <td><code>border-width</code></td>
-<td>Border thickness (1, 2, or 3).</td>
+<td>Border thickness in pixels.</td>
 <td><code>1 | 2 | 3</code></td>
 <td><code>2</code></td>
 </tr>
@@ -140,13 +364,11 @@
 <tr>
 <td><code>size</code></td>
 <td><code>size</code></td>
-<td>Size token controlling padding and radius.</td>
+<td>Size token controlling padding and corner radius.</td>
 <td><code>&#39;sm&#39; | &#39;base&#39; | &#39;lg&#39;</code></td>
 <td><code>&#39;base&#39;</code></td>
 </tr>
 </tbody></table>
-<h3>Pass-through Attributes</h3>
-<p><code>aria-*</code> and <code>data-*</code> attributes set on the host are forwarded to the inner <code>&lt;div&gt;</code>.</p>
 <h3>Slots</h3>
 <table>
 <thead>
@@ -156,26 +378,62 @@
 </tr>
 </thead>
 <tbody><tr>
-<td>(default)</td>
-<td>The card&#39;s content (any markup allowed).</td>
+<td><em>(default)</em></td>
+<td>Card content. Any markup or other AEGOV components are allowed here.</td>
 </tr>
 </tbody></table>
+<h3>Events</h3>
+<p>The card does not emit any custom events.</p>
+<h3>Pass-through Attributes</h3>
+<p><code>aria-*</code> and <code>data-*</code> attributes set on the host are forwarded to the inner <code>&lt;div&gt;</code> via <code>getPassThroughAttributes</code>. Apply roles (such as <code>region</code>) and labels here when the card represents a discrete landmark.</p>
+<table>
+<thead>
+<tr>
+<th>Attribute group</th>
+<th>Forwarded?</th>
+<th>Where it lands</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>aria-*</code></td>
+<td>Yes</td>
+<td>Forwarded to the inner <code>&lt;div&gt;</code>.</td>
+</tr>
+<tr>
+<td><code>data-*</code></td>
+<td>Yes</td>
+<td>Forwarded to the inner <code>&lt;div&gt;</code>.</td>
+</tr>
+<tr>
+<td><code>id</code></td>
+<td>n/a</td>
+<td>Use <code>field-id</code> on <code>&lt;aegov-card&gt;</code> — it reflects to the inner <code>&lt;div&gt;</code>.</td>
+</tr>
+<tr>
+<td><code>class</code>, <code>style</code></td>
+<td>Allowed</td>
+<td>Applied to the host element.</td>
+</tr>
+</tbody></table>
+<hr>
 <h2>Accessibility</h2>
-<h3>Built-in</h3>
+<h3>Built-in behaviour</h3>
 <ul>
-<li>The card renders a single <code>&lt;div&gt;</code> so it carries no implicit role and does not interfere with assistive-technology announcements of its inner content.</li>
-<li>Pass-through <code>aria-*</code> allows consumers to apply roles such as <code>region</code> (with <code>aria-labelledby</code>) when the card represents a discrete landmark.</li>
+<li>The card renders a single <code>&lt;div&gt;</code> and carries no implicit role, so it does not interfere with assistive-technology announcements of its inner content.</li>
+<li>Pass-through <code>aria-*</code> allows consumers to apply landmark roles (<code>region</code>, <code>article</code>) with an <code>aria-labelledby</code> reference when appropriate.</li>
+<li>Hover styles are visual only — they do not change the focus order or replace focus indicators.</li>
 </ul>
 <h3>Developer responsibilities</h3>
 <ul>
-<li>If the entire card is interactive (e.g. clickable tile), wrap the contents in a single <code>&lt;a&gt;</code> or <code>&lt;button&gt;</code> so that keyboard users can focus and activate it. Do not attach a click handler directly to the card host without a focusable element inside.</li>
+<li>If the entire card should be interactive (a clickable tile), wrap its contents in a single focusable element such as <code>&lt;a&gt;</code> or <code>&lt;button&gt;</code>. Do not attach a click handler directly to the card host without a focusable element inside.</li>
 <li>When the card represents a labelled region, set <code>role=&quot;region&quot;</code> and <code>aria-labelledby</code> (pointing at the heading inside) via host attributes.</li>
 <li>Ensure inner content meets colour-contrast requirements against the chosen <code>bg</code> and <code>border-style</code>.</li>
+<li>For media cards using <code>is-padding=&quot;false&quot;</code>, supply alt text on every image and provide your own inner padding so headings and body copy do not touch the border.</li>
 </ul>
 <h3>Notes</h3>
 <ul>
-<li>The <code>hover</code> prop affects visual feedback only; it does not add focus styles. Focus styling lives on the focusable elements inside the card.</li>
 <li>Card sizes scale down automatically at <code>md</code> (768px) and <code>xs</code> (480px) breakpoints so dense card grids remain legible on small screens.</li>
+<li>The <code>highlight</code> border style is designed to be paired with <code>hover=&quot;standard&quot;</code> — without a hover variant the gradient never activates.</li>
 </ul>
 <!-- DOC:END -->
           </section>
