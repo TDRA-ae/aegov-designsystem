@@ -20,64 +20,268 @@
       <article class="col-span-5 grow">
           <section id="content-area" class="bg-whitely-50 p-6 rounded-md shadow-xl">
           <!-- DOC:START -->
-<h1>aegov-range</h1>
-<p>A slider for choosing a numeric value or a numeric range. Built on the native <code>&lt;input type=&quot;range&quot;&gt;</code> for full keyboard, screen-reader, and form support, with an extra interactive track and thumb layer for richer styling and dual-thumb selection.</p>
-<h2>Properties</h2>
-<h3>mode</h3>
-<p><code>single</code> shows one thumb; <code>range</code> shows two thumbs (a low/high pair) for selecting a span.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-range</span> <span class="hljs-attr">mode</span>=<span class="hljs-string">&quot;single&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;40&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-range</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-range</span> <span class="hljs-attr">mode</span>=<span class="hljs-string">&quot;range&quot;</span> <span class="hljs-attr">value-low</span>=<span class="hljs-string">&quot;20&quot;</span> <span class="hljs-attr">value-high</span>=<span class="hljs-string">&quot;80&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-range</span>&gt;</span></code></pre><h3>min / max / step</h3>
-<p>Numeric bounds and increment.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-range</span> <span class="hljs-attr">min</span>=<span class="hljs-string">&quot;0&quot;</span> <span class="hljs-attr">max</span>=<span class="hljs-string">&quot;200&quot;</span> <span class="hljs-attr">step</span>=<span class="hljs-string">&quot;5&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;50&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-range</span>&gt;</span></code></pre><h3>value</h3>
-<p>Current value in single mode.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-range</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;35&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-range</span>&gt;</span></code></pre><h3>value-low / value-high</h3>
-<p>Low and high thumb values in range mode. The component clamps <code>valueLow</code> to at most <code>valueHigh - step</code> and <code>valueHigh</code> to at least <code>valueLow + step</code>.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-range</span> <span class="hljs-attr">mode</span>=<span class="hljs-string">&quot;range&quot;</span> <span class="hljs-attr">min</span>=<span class="hljs-string">&quot;0&quot;</span> <span class="hljs-attr">max</span>=<span class="hljs-string">&quot;100&quot;</span> <span class="hljs-attr">value-low</span>=<span class="hljs-string">&quot;25&quot;</span> <span class="hljs-attr">value-high</span>=<span class="hljs-string">&quot;75&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-range</span>&gt;</span></code></pre><h3>display</h3>
-<p>Controls how the current value is shown.</p>
-<ul>
-<li><code>none</code> (default): no value display</li>
-<li><code>tooltip</code>: small floating bubble over the thumb</li>
-<li><code>thumb</code>: value rendered inside the thumb</li>
-<li><code>full</code>: thumb value plus min/max labels at the ends of the track</li>
-</ul>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-range</span> <span class="hljs-attr">display</span>=<span class="hljs-string">&quot;tooltip&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-range</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-range</span> <span class="hljs-attr">display</span>=<span class="hljs-string">&quot;full&quot;</span> <span class="hljs-attr">min</span>=<span class="hljs-string">&quot;0&quot;</span> <span class="hljs-attr">max</span>=<span class="hljs-string">&quot;100&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-range</span>&gt;</span></code></pre><h3>orientation</h3>
-<p><code>horizontal</code> (default) or <code>vertical</code>.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-range</span> <span class="hljs-attr">orientation</span>=<span class="hljs-string">&quot;vertical&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;60&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-range</span>&gt;</span></code></pre><h3>size</h3>
-<p>Track size token. Accepts <code>xs</code>, <code>sm</code>, <code>base</code>, <code>lg</code>, <code>xl</code>, or a responsive string. Thumb size remains constant.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-range</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;lg&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-range</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-range</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm md:base lg:lg&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-range</span>&gt;</span></code></pre><h3>label</h3>
-<p>Optional label text rendered above the slider.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-range</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Volume&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;40&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-range</span>&gt;</span></code></pre><h3>is-disabled / is-required</h3>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-range</span> <span class="hljs-attr">is-disabled</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;50&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-range</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-range</span> <span class="hljs-attr">is-required</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Pick a number&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-range</span>&gt;</span></code></pre><h3>name</h3>
-<p>Form field name. In range mode, the two inputs are submitted as <code>${name}-low</code> and <code>${name}-high</code>.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-range</span> <span class="hljs-attr">mode</span>=<span class="hljs-string">&quot;range&quot;</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;price&quot;</span> <span class="hljs-attr">value-low</span>=<span class="hljs-string">&quot;100&quot;</span> <span class="hljs-attr">value-high</span>=<span class="hljs-string">&quot;500&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-range</span>&gt;</span></code></pre><h3>field-id</h3>
-<p>Auto-generated as <code>aegov-range-{n}</code>. In range mode, the inner inputs use <code>${fieldId}-low</code> and <code>${fieldId}-high</code>.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-range</span> <span class="hljs-attr">field-id</span>=<span class="hljs-string">&quot;rng-1&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-range</span>&gt;</span></code></pre><h2>Sizes</h2>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-range</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;xs&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-range</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-range</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-range</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-range</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;base&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-range</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-range</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;lg&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-range</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-range</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;xl&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-range</span>&gt;</span>
+<h1>Range</h1>
+<p class="text-lg text-aeblack-500 mb-8">A Range is a slider for choosing a numeric value or a numeric span between a minimum and a maximum. It is well suited to inputs where the magnitude is more meaningful than the exact figure — residency duration, age filters, fee brackets — and works equally well with mouse, touch, and keyboard.</p>
 
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-range</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm md:base lg:lg&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-range</span>&gt;</span></code></pre><h2>Examples</h2>
-<h3>Single thumb</h3>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-range</span> <span class="hljs-attr">min</span>=<span class="hljs-string">&quot;0&quot;</span> <span class="hljs-attr">max</span>=<span class="hljs-string">&quot;100&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;40&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Brightness&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-range</span>&gt;</span></code></pre><h3>Dual thumb (range)</h3>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-range</span> <span class="hljs-attr">mode</span>=<span class="hljs-string">&quot;range&quot;</span> <span class="hljs-attr">min</span>=<span class="hljs-string">&quot;0&quot;</span> <span class="hljs-attr">max</span>=<span class="hljs-string">&quot;1000&quot;</span> <span class="hljs-attr">step</span>=<span class="hljs-string">&quot;10&quot;</span> <span class="hljs-attr">value-low</span>=<span class="hljs-string">&quot;100&quot;</span> <span class="hljs-attr">value-high</span>=<span class="hljs-string">&quot;700&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Price range&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-range</span>&gt;</span></code></pre><h3>With value display</h3>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-range</span> <span class="hljs-attr">display</span>=<span class="hljs-string">&quot;tooltip&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;60&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-range</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-range</span> <span class="hljs-attr">display</span>=<span class="hljs-string">&quot;thumb&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;60&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-range</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-range</span> <span class="hljs-attr">display</span>=<span class="hljs-string">&quot;full&quot;</span> <span class="hljs-attr">min</span>=<span class="hljs-string">&quot;0&quot;</span> <span class="hljs-attr">max</span>=<span class="hljs-string">&quot;100&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;60&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-range</span>&gt;</span></code></pre><h3>Listening to changes</h3>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-range</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;vol&quot;</span> <span class="hljs-attr">min</span>=<span class="hljs-string">&quot;0&quot;</span> <span class="hljs-attr">max</span>=<span class="hljs-string">&quot;100&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;20&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-range</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript">
-  <span class="hljs-keyword">const</span> r = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;vol&#x27;</span>);
-  r.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;aegovRangeInput&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">e</span>) =&gt;</span> <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;input&#x27;</span>, e.<span class="hljs-property">detail</span>.<span class="hljs-property">value</span>));
-  r.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;aegovRangeChange&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">e</span>) =&gt;</span> <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;committed&#x27;</span>, e.<span class="hljs-property">detail</span>.<span class="hljs-property">value</span>));
-</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre><h3>Vertical orientation</h3>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-range</span> <span class="hljs-attr">orientation</span>=<span class="hljs-string">&quot;vertical&quot;</span> <span class="hljs-attr">min</span>=<span class="hljs-string">&quot;0&quot;</span> <span class="hljs-attr">max</span>=<span class="hljs-string">&quot;100&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;50&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-range</span>&gt;</span></code></pre><h2>RTL Behavior</h2>
-<p>In <code>dir=&quot;rtl&quot;</code> containers, the horizontal track is mirrored: the lower value sits at the right edge and increases toward the left. Pointer interaction is mapped logically (clicking near the start of the track always moves toward <code>min</code>). Native input semantics — including arrow-key direction — follow the browser&#39;s RTL behavior. Vertical orientation is unaffected by <code>dir</code>.</p>
+<h2>Introduction</h2>
+<p>The <code>aegov-range</code> component is built on a native <code>&lt;input type=&quot;range&quot;&gt;</code> for full keyboard, screen-reader, and form support, with an extra interactive track-and-thumb layer for richer styling and dual-thumb selection. It supports single or dual modes, horizontal and vertical orientation, four value-display styles, and five sizes.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-range</span>
+  <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Search radius (km)&quot;</span>
+  <span class="hljs-attr">min</span>=<span class="hljs-string">&quot;1&quot;</span>
+  <span class="hljs-attr">max</span>=<span class="hljs-string">&quot;50&quot;</span>
+  <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;10&quot;</span>
+  <span class="hljs-attr">display</span>=<span class="hljs-string">&quot;tooltip&quot;</span>
+&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-range</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-range
+    label="Search radius (km)"
+    min="1"
+    max="50"
+    value="10"
+    display="tooltip"
+  ></aegov-range>
+</div>
+
+<hr>
+<h2>Single vs. range mode</h2>
+<p>Use <code>mode=&quot;single&quot;</code> (default) for one thumb and one value, or <code>mode=&quot;range&quot;</code> for two thumbs that select a low/high pair. In range mode, set <code>value-low</code> and <code>value-high</code> instead of <code>value</code>.</p>
+<h3>Single mode (default)</h3>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-range</span>
+  <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Monthly income (AED, thousands)&quot;</span>
+  <span class="hljs-attr">min</span>=<span class="hljs-string">&quot;0&quot;</span>
+  <span class="hljs-attr">max</span>=<span class="hljs-string">&quot;100&quot;</span>
+  <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;25&quot;</span>
+  <span class="hljs-attr">display</span>=<span class="hljs-string">&quot;tooltip&quot;</span>
+&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-range</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-range
+    label="Monthly income (AED, thousands)"
+    min="0"
+    max="100"
+    value="25"
+    display="tooltip"
+  ></aegov-range>
+</div>
+
+<h3>Dual-thumb range</h3>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-range</span>
+  <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Age of dependants&quot;</span>
+  <span class="hljs-attr">mode</span>=<span class="hljs-string">&quot;range&quot;</span>
+  <span class="hljs-attr">min</span>=<span class="hljs-string">&quot;0&quot;</span>
+  <span class="hljs-attr">max</span>=<span class="hljs-string">&quot;80&quot;</span>
+  <span class="hljs-attr">value-low</span>=<span class="hljs-string">&quot;18&quot;</span>
+  <span class="hljs-attr">value-high</span>=<span class="hljs-string">&quot;65&quot;</span>
+  <span class="hljs-attr">display</span>=<span class="hljs-string">&quot;full&quot;</span>
+&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-range</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-range
+    label="Age of dependants"
+    mode="range"
+    min="0"
+    max="80"
+    value-low="18"
+    value-high="65"
+    display="full"
+  ></aegov-range>
+</div>
+
+<hr>
+<h2>Min, max, and step</h2>
+<p><code>min</code> and <code>max</code> define the bounds; <code>step</code> controls the granularity. Use a non-integer step for currency or fractional values, and a larger step (10, 50, 100) when fine precision is unnecessary.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-range</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Years of UAE residency&quot;</span> <span class="hljs-attr">min</span>=<span class="hljs-string">&quot;0&quot;</span> <span class="hljs-attr">max</span>=<span class="hljs-string">&quot;40&quot;</span> <span class="hljs-attr">step</span>=<span class="hljs-string">&quot;1&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;5&quot;</span> <span class="hljs-attr">display</span>=<span class="hljs-string">&quot;tooltip&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-range</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-range</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Service fee (AED)&quot;</span> <span class="hljs-attr">min</span>=<span class="hljs-string">&quot;0&quot;</span> <span class="hljs-attr">max</span>=<span class="hljs-string">&quot;500&quot;</span> <span class="hljs-attr">step</span>=<span class="hljs-string">&quot;25&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;200&quot;</span> <span class="hljs-attr">display</span>=<span class="hljs-string">&quot;full&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-range</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-range</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Acceptance threshold&quot;</span> <span class="hljs-attr">min</span>=<span class="hljs-string">&quot;0&quot;</span> <span class="hljs-attr">max</span>=<span class="hljs-string">&quot;1&quot;</span> <span class="hljs-attr">step</span>=<span class="hljs-string">&quot;0.05&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;0.75&quot;</span> <span class="hljs-attr">display</span>=<span class="hljs-string">&quot;thumb&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-range</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov flex flex-col gap-8">
+  <aegov-range label="Years of UAE residency" min="0" max="40" step="1" value="5" display="tooltip"></aegov-range>
+  <aegov-range label="Service fee (AED)" min="0" max="500" step="25" value="200" display="full"></aegov-range>
+  <aegov-range label="Acceptance threshold" min="0" max="1" step="0.05" value="0.75" display="thumb"></aegov-range>
+</div>
+
+<hr>
+<h2>Value display</h2>
+<p>The <code>display</code> property controls how the current value is shown alongside the slider.</p>
+<table>
+<thead>
+<tr>
+<th>Token</th>
+<th>Behaviour</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>none</code></td>
+<td>No on-screen value (default). The label or surrounding UI explains.</td>
+</tr>
+<tr>
+<td><code>tooltip</code></td>
+<td>A small bubble appears above the active thumb on focus or drag.</td>
+</tr>
+<tr>
+<td><code>thumb</code></td>
+<td>The value sits inside the thumb itself, always visible.</td>
+</tr>
+<tr>
+<td><code>full</code></td>
+<td>Min and max labels at each end of the track, plus the value in-thumb.</td>
+</tr>
+</tbody></table>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-range</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;display = none&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;40&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-range</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-range</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;display = tooltip&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;40&quot;</span> <span class="hljs-attr">display</span>=<span class="hljs-string">&quot;tooltip&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-range</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-range</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;display = thumb&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;40&quot;</span> <span class="hljs-attr">display</span>=<span class="hljs-string">&quot;thumb&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-range</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-range</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;display = full&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;40&quot;</span> <span class="hljs-attr">display</span>=<span class="hljs-string">&quot;full&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-range</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov flex flex-col gap-8">
+  <aegov-range label="display = none" value="40"></aegov-range>
+  <aegov-range label="display = tooltip" value="40" display="tooltip"></aegov-range>
+  <aegov-range label="display = thumb" value="40" display="thumb"></aegov-range>
+  <aegov-range label="display = full" value="40" display="full"></aegov-range>
+</div>
+
+<hr>
+<h2>Sizes</h2>
+<p>The <code>size</code> property controls the height of the track. Five tokens are available — <code>xs</code>, <code>sm</code>, <code>base</code> (default), <code>lg</code>, and <code>xl</code>. The thumb size remains constant so it stays comfortably tappable on touch devices.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-range</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;xs&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;50&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-range</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-range</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;50&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-range</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-range</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;base&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;50&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-range</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-range</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;lg&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;50&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-range</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-range</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;xl&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;50&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-range</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov flex flex-col gap-6">
+  <aegov-range size="xs" value="50"></aegov-range>
+  <aegov-range size="sm" value="50"></aegov-range>
+  <aegov-range size="base" value="50"></aegov-range>
+  <aegov-range size="lg" value="50"></aegov-range>
+  <aegov-range size="xl" value="50"></aegov-range>
+</div>
+
+<h3>Responsive sizes</h3>
+<p>The <code>size</code> property accepts a Tailwind-style responsive string with the breakpoint prefixes <code>xs</code>, <code>sm</code>, <code>md</code>, <code>lg</code>, <code>xl</code>, and <code>2xl</code>. Each segment overrides smaller breakpoints.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-range</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm md:base xl:lg&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Resizes with the viewport&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;50&quot;</span> <span class="hljs-attr">display</span>=<span class="hljs-string">&quot;tooltip&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-range</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-range size="sm md:base xl:lg" label="Resizes with the viewport" value="50" display="tooltip"></aegov-range>
+</div>
+
+<hr>
+<h2>Orientation</h2>
+<p>Set <code>orientation=&quot;vertical&quot;</code> for a vertical slider. Vertical sliders are most appropriate for graphical equalisers, density controls, and tall side panels. Provide a fixed height on the wrapper — the component fills its container.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-range</span>
+  <span class="hljs-attr">orientation</span>=<span class="hljs-string">&quot;vertical&quot;</span>
+  <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;60&quot;</span>
+  <span class="hljs-attr">display</span>=<span class="hljs-string">&quot;tooltip&quot;</span>
+  <span class="hljs-attr">style</span>=<span class="hljs-string">&quot;height: 200px&quot;</span>
+&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-range</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov flex gap-8 items-end">
+  <aegov-range orientation="vertical" value="20" display="tooltip" style="height: 200px"></aegov-range>
+  <aegov-range orientation="vertical" value="60" display="tooltip" style="height: 200px"></aegov-range>
+  <aegov-range orientation="vertical" value="90" display="tooltip" style="height: 200px"></aegov-range>
+</div>
+
+<hr>
+<h2>Disabled</h2>
+<p>Set <code>is-disabled=&quot;true&quot;</code> to prevent interaction. The track and thumb appear muted and the underlying input receives the native <code>disabled</code> attribute, removing it from the tab order and form submission.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-range</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Disabled&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;40&quot;</span> <span class="hljs-attr">is-disabled</span>=<span class="hljs-string">&quot;true&quot;</span> <span class="hljs-attr">display</span>=<span class="hljs-string">&quot;tooltip&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-range</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-range label="Disabled" value="40" is-disabled="true" display="tooltip"></aegov-range>
+</div>
+
+<hr>
+<h2>Form integration</h2>
+<p>Provide <code>name</code> to participate in standard form submission. In single mode the value is submitted directly. In range mode, two fields are submitted using the suffixes <code>-low</code> and <code>-high</code> (for example <code>salary-low</code> and <code>salary-high</code>).</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">form</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-range</span>
+    <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Acceptable processing fee (AED)&quot;</span>
+    <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;processing_fee&quot;</span>
+    <span class="hljs-attr">min</span>=<span class="hljs-string">&quot;0&quot;</span>
+    <span class="hljs-attr">max</span>=<span class="hljs-string">&quot;500&quot;</span>
+    <span class="hljs-attr">step</span>=<span class="hljs-string">&quot;10&quot;</span>
+    <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;150&quot;</span>
+    <span class="hljs-attr">display</span>=<span class="hljs-string">&quot;full&quot;</span>
+  &gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-range</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">form</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-range
+    label="Acceptable processing fee (AED)"
+    name="processing_fee"
+    min="0"
+    max="500"
+    step="10"
+    value="150"
+    display="full"
+  ></aegov-range>
+</div>
+
+<hr>
+<h2>Service-search example</h2>
+<p>A typical UAE Government scenario: a citizen filtering nearby service centres on the federal portal. A single-thumb radius slider plus a dual-thumb age band on the same panel is a common pairing.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-range</span>
+  <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Service centres within (km)&quot;</span>
+  <span class="hljs-attr">min</span>=<span class="hljs-string">&quot;1&quot;</span>
+  <span class="hljs-attr">max</span>=<span class="hljs-string">&quot;50&quot;</span>
+  <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;10&quot;</span>
+  <span class="hljs-attr">display</span>=<span class="hljs-string">&quot;tooltip&quot;</span>
+&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-range</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-range</span>
+  <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Eligible age band&quot;</span>
+  <span class="hljs-attr">mode</span>=<span class="hljs-string">&quot;range&quot;</span>
+  <span class="hljs-attr">min</span>=<span class="hljs-string">&quot;0&quot;</span>
+  <span class="hljs-attr">max</span>=<span class="hljs-string">&quot;80&quot;</span>
+  <span class="hljs-attr">value-low</span>=<span class="hljs-string">&quot;21&quot;</span>
+  <span class="hljs-attr">value-high</span>=<span class="hljs-string">&quot;60&quot;</span>
+  <span class="hljs-attr">display</span>=<span class="hljs-string">&quot;full&quot;</span>
+&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-range</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov flex flex-col gap-10">
+  <aegov-range
+    label="Service centres within (km)"
+    min="1"
+    max="50"
+    value="10"
+    display="tooltip"
+  ></aegov-range>
+  <aegov-range
+    label="Eligible age band"
+    mode="range"
+    min="0"
+    max="80"
+    value-low="21"
+    value-high="60"
+    display="full"
+  ></aegov-range>
+</div>
+
+<hr>
+<h2>RTL Support</h2>
+<p>The range is direction-agnostic. When the document or any ancestor is set to <code>dir=&quot;rtl&quot;</code> the fill, min/max labels, and pointer mapping mirror automatically — <code>min</code> sits on the right, <code>max</code> on the left, and dragging right decreases the value.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">dir</span>=<span class="hljs-string">&quot;rtl&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-range</span>
+    <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;نصف قطر البحث (كم)&quot;</span>
+    <span class="hljs-attr">min</span>=<span class="hljs-string">&quot;1&quot;</span>
+    <span class="hljs-attr">max</span>=<span class="hljs-string">&quot;50&quot;</span>
+    <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;10&quot;</span>
+    <span class="hljs-attr">display</span>=<span class="hljs-string">&quot;full&quot;</span>
+  &gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-range</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre><div dir="rtl" class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-range
+    label="نصف قطر البحث (كم)"
+    min="1"
+    max="50"
+    value="10"
+    display="full"
+  ></aegov-range>
+</div>
+
+<p>A dual-thumb range in RTL:</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">dir</span>=<span class="hljs-string">&quot;rtl&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-range</span>
+    <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;الفئة العمرية المؤهلة&quot;</span>
+    <span class="hljs-attr">mode</span>=<span class="hljs-string">&quot;range&quot;</span>
+    <span class="hljs-attr">min</span>=<span class="hljs-string">&quot;0&quot;</span>
+    <span class="hljs-attr">max</span>=<span class="hljs-string">&quot;80&quot;</span>
+    <span class="hljs-attr">value-low</span>=<span class="hljs-string">&quot;21&quot;</span>
+    <span class="hljs-attr">value-high</span>=<span class="hljs-string">&quot;60&quot;</span>
+    <span class="hljs-attr">display</span>=<span class="hljs-string">&quot;full&quot;</span>
+  &gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-range</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre><div dir="rtl" class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-range
+    label="الفئة العمرية المؤهلة"
+    mode="range"
+    min="0"
+    max="80"
+    value-low="21"
+    value-high="60"
+    display="full"
+  ></aegov-range>
+</div>
+
+<hr>
 <h2>API Reference</h2>
-<h3>Properties</h3>
+<h3>aegov-range Properties</h3>
 <table>
 <thead>
 <tr>
@@ -91,28 +295,21 @@
 <tbody><tr>
 <td><code>fieldId</code></td>
 <td><code>field-id</code></td>
-<td>Unique id (auto-generated if omitted).</td>
+<td>DOM <code>id</code> for the underlying <code>&lt;input type=&quot;range&quot;&gt;</code>. Auto-generated if omitted.</td>
 <td><code>string</code></td>
-<td><code>undefined</code></td>
+<td><em>generated</em></td>
 </tr>
 <tr>
 <td><code>name</code></td>
 <td><code>name</code></td>
-<td>Form field name.</td>
+<td>Form field name used during submission. In range mode, submitted as <code>name-low</code> and <code>name-high</code>.</td>
 <td><code>string</code></td>
 <td><code>undefined</code></td>
 </tr>
 <tr>
-<td><code>mode</code></td>
-<td><code>mode</code></td>
-<td><code>&#39;single&#39;</code> or <code>&#39;range&#39;</code>.</td>
-<td><code>RangeMode</code></td>
-<td><code>&#39;single&#39;</code></td>
-</tr>
-<tr>
 <td><code>value</code></td>
 <td><code>value</code></td>
-<td>Single-mode value.</td>
+<td>Current value in single mode.</td>
 <td><code>number</code></td>
 <td><code>50</code></td>
 </tr>
@@ -133,14 +330,14 @@
 <tr>
 <td><code>min</code></td>
 <td><code>min</code></td>
-<td>Minimum.</td>
+<td>Minimum value of the range.</td>
 <td><code>number</code></td>
 <td><code>0</code></td>
 </tr>
 <tr>
 <td><code>max</code></td>
 <td><code>max</code></td>
-<td>Maximum.</td>
+<td>Maximum value of the range.</td>
 <td><code>number</code></td>
 <td><code>100</code></td>
 </tr>
@@ -152,104 +349,194 @@
 <td><code>1</code></td>
 </tr>
 <tr>
-<td><code>display</code></td>
-<td><code>display</code></td>
-<td><code>&#39;none&#39; | &#39;tooltip&#39; | &#39;thumb&#39; | &#39;full&#39;</code>.</td>
-<td><code>RangeDisplay</code></td>
-<td><code>&#39;none&#39;</code></td>
+<td><code>mode</code></td>
+<td><code>mode</code></td>
+<td>Single thumb or dual thumb (range selection).</td>
+<td><code>&#39;single&#39; | &#39;range&#39;</code></td>
+<td><code>&#39;single&#39;</code></td>
 </tr>
 <tr>
 <td><code>orientation</code></td>
 <td><code>orientation</code></td>
-<td><code>&#39;horizontal&#39; | &#39;vertical&#39;</code>.</td>
-<td><code>RangeOrientation</code></td>
+<td>Slider layout direction.</td>
+<td><code>&#39;horizontal&#39; | &#39;vertical&#39;</code></td>
 <td><code>&#39;horizontal&#39;</code></td>
 </tr>
 <tr>
+<td><code>display</code></td>
+<td><code>display</code></td>
+<td>How the current value is shown. See the Value display section.</td>
+<td><code>&#39;none&#39; | &#39;tooltip&#39; | &#39;thumb&#39; | &#39;full&#39;</code></td>
+<td><code>&#39;none&#39;</code></td>
+</tr>
+<tr>
 <td><code>size</code></td>
 <td><code>size</code></td>
-<td>Track size (responsive supported).</td>
+<td>Track size token, or a responsive string.</td>
 <td><code>string</code></td>
 <td><code>&#39;base&#39;</code></td>
 </tr>
 <tr>
-<td><code>label</code></td>
-<td><code>label</code></td>
-<td>Optional label text.</td>
-<td><code>string</code></td>
-<td><code>undefined</code></td>
-</tr>
-<tr>
 <td><code>isDisabled</code></td>
 <td><code>is-disabled</code></td>
-<td>Disables the slider.</td>
+<td>Disables the input and removes it from the tab order.</td>
 <td><code>boolean</code></td>
 <td><code>false</code></td>
 </tr>
 <tr>
 <td><code>isRequired</code></td>
 <td><code>is-required</code></td>
-<td>Marks single-mode input as required.</td>
+<td>Marks the underlying input as required for form validation.</td>
 <td><code>boolean</code></td>
 <td><code>false</code></td>
 </tr>
 <tr>
+<td><code>label</code></td>
+<td><code>label</code></td>
+<td>Optional label rendered above the slider.</td>
+<td><code>string</code></td>
+<td><code>undefined</code></td>
+</tr>
+<tr>
 <td><code>extraClass</code></td>
 <td><code>extra-class</code></td>
-<td>Additional CSS classes.</td>
+<td>Additional CSS classes appended to the wrapper.</td>
 <td><code>string</code></td>
 <td><code>undefined</code></td>
 </tr>
 </tbody></table>
-<h3>Pass-through Attributes</h3>
-<p><code>aria-*</code>, <code>data-*</code>, plus the explicit list <code>tabindex</code>, <code>autofocus</code>, <code>title</code>, <code>form</code> are forwarded to the inner native <code>&lt;input type=&quot;range&quot;&gt;</code> (single mode only).</p>
+<h3>Slots</h3>
+<p>The component does not expose slots — content is configured via properties.</p>
 <h3>Events</h3>
 <table>
 <thead>
 <tr>
 <th>Event</th>
-<th>Description</th>
 <th>Detail</th>
+<th>Description</th>
 </tr>
 </thead>
 <tbody><tr>
 <td><code>aegovRangeInput</code></td>
-<td>Fires continuously during drag / on each keystroke.</td>
 <td><code>{ value?: number; valueLow?: number; valueHigh?: number }</code></td>
+<td>Fires continuously while a thumb is being dragged or a key changes the value.</td>
 </tr>
 <tr>
 <td><code>aegovRangeChange</code></td>
-<td>Fires when the value is committed (release / change).</td>
 <td><code>{ value?: number; valueLow?: number; valueHigh?: number }</code></td>
+<td>Fires once when the value is committed (mouse-up, touch-end, or keypress).</td>
 </tr>
 </tbody></table>
-<h3>Event listening example</h3>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-range</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;r&quot;</span> <span class="hljs-attr">min</span>=<span class="hljs-string">&quot;0&quot;</span> <span class="hljs-attr">max</span>=<span class="hljs-string">&quot;100&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;20&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-range</span>&gt;</span>
+<p>The detail object contains <code>value</code> in single mode, or <code>valueLow</code> and <code>valueHigh</code> in range mode.</p>
+<h4>Listening for changes</h4>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-range</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;radius&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Search radius (km)&quot;</span> <span class="hljs-attr">min</span>=<span class="hljs-string">&quot;1&quot;</span> <span class="hljs-attr">max</span>=<span class="hljs-string">&quot;50&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;10&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-range</span>&gt;</span>
+
 <span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript">
-  <span class="hljs-keyword">const</span> r = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;r&#x27;</span>);
-  r.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;aegovRangeInput&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">e</span>) =&gt;</span> {
-    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;live&#x27;</span>, e.<span class="hljs-property">detail</span>);
+  <span class="hljs-keyword">const</span> slider = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">querySelector</span>(<span class="hljs-string">&#x27;#radius&#x27;</span>);
+  slider.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;aegovRangeInput&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">e</span>) =&gt;</span> {
+    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;Dragging:&#x27;</span>, e.<span class="hljs-property">detail</span>.<span class="hljs-property">value</span>);
   });
-  r.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;aegovRangeChange&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">e</span>) =&gt;</span> {
-    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;committed&#x27;</span>, e.<span class="hljs-property">detail</span>);
+  slider.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;aegovRangeChange&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">e</span>) =&gt;</span> {
+    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;Committed:&#x27;</span>, e.<span class="hljs-property">detail</span>.<span class="hljs-property">value</span>);
   });
-</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre><h2>Accessibility</h2>
-<h3>Built-in</h3>
+</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre><h3>Pass-through Attributes</h3>
+<p>The component forwards the attribute groups below onto the inner <code>&lt;input type=&quot;range&quot;&gt;</code>. In dual-thumb mode they are forwarded onto the single-thumb input only; dual inputs use the component&#39;s own derived ids and labels.</p>
+<table>
+<thead>
+<tr>
+<th>Attribute group</th>
+<th>Forwarded to inner <code>&lt;input&gt;</code></th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>aria-*</code></td>
+<td>Yes</td>
+<td>Augment ARIA semantics. The component already sets <code>aria-valuemin/max/now</code>.</td>
+</tr>
+<tr>
+<td><code>data-*</code></td>
+<td>Yes</td>
+<td>Useful for analytics or test selectors.</td>
+</tr>
+<tr>
+<td><code>form</code></td>
+<td>Yes</td>
+<td>Associates the input with a form by <code>id</code> when not nested inside it.</td>
+</tr>
+<tr>
+<td><code>tabindex</code></td>
+<td>Yes</td>
+<td>Override default tab order.</td>
+</tr>
+<tr>
+<td><code>autofocus</code></td>
+<td>Yes</td>
+<td>Focus the slider on initial page load.</td>
+</tr>
+<tr>
+<td><code>title</code></td>
+<td>Yes</td>
+<td>Native browser tooltip text.</td>
+</tr>
+</tbody></table>
+<hr>
+<h2>Accessibility</h2>
+<h3>Built-in behaviour</h3>
 <ul>
-<li>The slider uses the native <code>&lt;input type=&quot;range&quot;&gt;</code> element, so it is fully focusable, keyboard-operable (arrow keys, Home/End, Page Up/Down), and reported as a slider role to assistive tech.</li>
-<li><code>aria-valuemin</code>, <code>aria-valuemax</code>, <code>aria-valuenow</code>, and <code>aria-orientation</code> are wired automatically.</li>
-<li>In range mode the two thumbs carry distinct <code>aria-label</code>s (&quot;Range minimum&quot; / &quot;Range maximum&quot;) and are individually focusable.</li>
+<li>The component uses one or two real <code>&lt;input type=&quot;range&quot;&gt;</code> elements, so screen readers, the OS rotor, and assistive tech all treat it as a native slider.</li>
+<li><code>aria-valuemin</code>, <code>aria-valuemax</code>, and <code>aria-valuenow</code> are kept in sync as the user drags. In dual-thumb mode the low thumb&#39;s <code>aria-valuemax</code> clamps to the high thumb&#39;s value, and vice-versa, so each handle reports its own permitted range.</li>
+<li>Each thumb in range mode is given an explicit <code>aria-label</code> (&quot;Range minimum&quot; / &quot;Range maximum&quot;) so they are distinguishable when traversed by keyboard.</li>
+<li>Pointer events are translated to value updates that respect the configured <code>step</code>, so all input methods snap to the same grid.</li>
 </ul>
 <h3>Developer responsibilities</h3>
 <ul>
-<li>Provide a label via the <code>label</code> prop, an <code>aria-label</code> on the host, or an external <code>aegov-label</code> linked to <code>field-id</code> so screen readers announce what the slider controls.</li>
-<li>Consider adding <code>aria-valuetext</code> via pass-through if the numeric value benefits from a unit (e.g. &quot;30 percent&quot;).</li>
+<li>Provide a <code>label</code> (or external <code>&lt;aegov-label&gt;</code>) that describes the unit (km, AED, years, etc.). A bare slider gives users no way to interpret the value.</li>
+<li>Pair sliders with a visible numeric readout when precision matters — set <code>display=&quot;tooltip&quot;</code>, <code>display=&quot;thumb&quot;</code>, or <code>display=&quot;full&quot;</code>, or echo the value elsewhere on the page.</li>
+<li>Keep the value-range realistic. Sliders are poor inputs for values where a free-form number is required; pair with an <code>aegov-input type=&quot;number&quot;</code> for those cases.</li>
+<li>For range mode, check that <code>value-low</code> and <code>value-high</code> always satisfy <code>value-low + step ≤ value-high</code> — the component enforces this on input but seeded values must respect it.</li>
 </ul>
-<h3>Notes</h3>
-<ul>
-<li>In dual-thumb mode the low and high inputs are constrained on every change so they cannot cross. If you set conflicting <code>value-low</code> / <code>value-high</code> props at runtime, the next user interaction snaps them back into a valid configuration.</li>
-<li>Both the visual layer and the underlying native input emit; <code>aegovRangeInput</code> fires for every step (including pointer drag), while <code>aegovRangeChange</code> fires once per commit.</li>
-</ul>
+<h3>Keyboard support</h3>
+<table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Arrow Right</code> / <code>Arrow Up</code></td>
+<td>Increase the value by one step.</td>
+</tr>
+<tr>
+<td><code>Arrow Left</code> / <code>Arrow Down</code></td>
+<td>Decrease the value by one step.</td>
+</tr>
+<tr>
+<td><code>Page Up</code></td>
+<td>Increase the value by a larger increment (browser-defined).</td>
+</tr>
+<tr>
+<td><code>Page Down</code></td>
+<td>Decrease the value by a larger increment (browser-defined).</td>
+</tr>
+<tr>
+<td><code>Home</code></td>
+<td>Jump to <code>min</code>.</td>
+</tr>
+<tr>
+<td><code>End</code></td>
+<td>Jump to <code>max</code>.</td>
+</tr>
+<tr>
+<td><code>Tab</code></td>
+<td>Move focus to the next slider thumb or focusable element.</td>
+</tr>
+<tr>
+<td><code>Shift + Tab</code></td>
+<td>Move focus to the previous slider thumb or focusable element.</td>
+</tr>
+</tbody></table>
 <!-- DOC:END -->
           </section>
       </article>

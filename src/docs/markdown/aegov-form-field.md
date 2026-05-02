@@ -1,175 +1,437 @@
-# aegov-form-field
+# Form Field
 
-A wrapper that groups a label with a form control (input, textarea, select, checkbox, range, progress, or OTP). It auto-links the child `aegov-label`'s `for` attribute to the child control's `field-id`, removing the need to manage IDs manually.
+<p class="text-lg text-aeblack-500 mb-8">A lightweight wrapper that groups a label with a form control — input, textarea, select, checkbox, range, progress, or one-time-password — and links them automatically. Use it on every field of a UAE Government service form to guarantee a correctly associated `<label for="…">` without managing IDs by hand. The wrapper itself adds no spacing or visual styling beyond a single `aegov-form-field` block; surround it with your form's grid or stack rules as you would any other element.</p>
 
-## Properties
+## Introduction
 
-### field-id
-
-The `id` applied to the wrapper `<div>`. Auto-generated as `aegov-form-field-{n}` if not provided.
-
-```html
-<aegov-form-field field-id="email-field">
-  <aegov-label>Email</aegov-label>
-  <aegov-input type="email"></aegov-input>
-</aegov-form-field>
-```
-
-### extra-class
-
-Additional CSS classes applied to the wrapper.
-
-```html
-<aegov-form-field extra-class="mb-6">
-  <aegov-label>Phone</aegov-label>
-  <aegov-input type="tel"></aegov-input>
-</aegov-form-field>
-```
-
-## Sizes
-
-`aegov-form-field` is a layout wrapper and does not expose a `size` prop. Sizing is controlled on the child control (e.g., `aegov-input`) via its own `size` prop, including responsive strings.
+The `aegov-form-field` component watches its slotted children for an `aegov-label` and a supported control. When both are present it sets the label's `htmlFor` to the control's auto-generated `field-id`, producing a fully accessible label-input pairing. There is nothing to wire by hand — drop the children in, and the wrapper does the rest on mount and on every update.
 
 ```html
 <aegov-form-field>
-  <aegov-label>Search</aegov-label>
-  <aegov-input size="sm md:base lg:lg"></aegov-input>
+  <aegov-label>Full name as on Emirates ID</aegov-label>
+  <aegov-input name="fullName" is-required="true"></aegov-input>
 </aegov-form-field>
 ```
 
-## Examples
+<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-form-field>
+    <aegov-label>Full name as on Emirates ID</aegov-label>
+    <aegov-input name="fullName" is-required="true"></aegov-input>
+  </aegov-form-field>
+</div>
 
-### Label + input
+---
+
+## Supported children
+
+The form-field links the first matching child it finds in the priority below. Place exactly one label and one control inside each wrapper; if you need more than one input on a row, use multiple form-fields.
+
+| Priority | Child element       | Linked via                       |
+| -------- | ------------------- | -------------------------------- |
+| 1        | `aegov-input`       | `label.htmlFor → input.fieldId`  |
+| 2        | `aegov-textarea`    | `label.htmlFor → textarea.fieldId` |
+| 3        | `aegov-select`      | `label.htmlFor → select.fieldId` |
+| 4        | `aegov-checkbox`    | `label.htmlFor → checkbox.fieldId` |
+| 5        | `aegov-range`       | `label.htmlFor → range.fieldId`  |
+| 6        | `aegov-progress`    | `label.htmlFor → progress.fieldId` |
+| 7        | `aegov-otp`         | `label.htmlFor → otp.fieldId`    |
+
+### Input
 
 ```html
 <aegov-form-field>
-  <aegov-label>Full name</aegov-label>
-  <aegov-input name="name" is-required="true"></aegov-input>
+  <aegov-label>Mobile number</aegov-label>
+  <aegov-input type="tel" placeholder="+971 5X XXX XXXX"></aegov-input>
 </aegov-form-field>
 ```
 
-### Label + textarea
+<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-form-field>
+    <aegov-label>Mobile number</aegov-label>
+    <aegov-input type="tel" placeholder="+971 5X XXX XXXX"></aegov-input>
+  </aegov-form-field>
+</div>
+
+### Textarea
 
 ```html
 <aegov-form-field>
-  <aegov-label>Comments</aegov-label>
-  <aegov-textarea maxlength="500"></aegov-textarea>
+  <aegov-label>Reason for application</aegov-label>
+  <aegov-textarea
+    placeholder="Briefly describe the purpose of your application."
+    maxlength="500"
+  ></aegov-textarea>
 </aegov-form-field>
 ```
 
-### Label + select
+<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-form-field>
+    <aegov-label>Reason for application</aegov-label>
+    <aegov-textarea
+      placeholder="Briefly describe the purpose of your application."
+      maxlength="500"
+    ></aegov-textarea>
+  </aegov-form-field>
+</div>
+
+### Select
 
 ```html
 <aegov-form-field>
-  <aegov-label>Country</aegov-label>
-  <aegov-select>
-    <aegov-select-option value="ae">United Arab Emirates</aegov-select-option>
-    <aegov-select-option value="sa">Saudi Arabia</aegov-select-option>
+  <aegov-label>Emirate of residence</aegov-label>
+  <aegov-select placeholder="Select your emirate">
+    <aegov-select-option value="abu-dhabi">Abu Dhabi</aegov-select-option>
+    <aegov-select-option value="dubai">Dubai</aegov-select-option>
+    <aegov-select-option value="sharjah">Sharjah</aegov-select-option>
+    <aegov-select-option value="ajman">Ajman</aegov-select-option>
+    <aegov-select-option value="umm-al-quwain">Umm Al Quwain</aegov-select-option>
+    <aegov-select-option value="ras-al-khaimah">Ras Al Khaimah</aegov-select-option>
+    <aegov-select-option value="fujairah">Fujairah</aegov-select-option>
   </aegov-select>
 </aegov-form-field>
 ```
 
-### Label + checkbox
+<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-form-field>
+    <aegov-label>Emirate of residence</aegov-label>
+    <aegov-select placeholder="Select your emirate">
+      <aegov-select-option value="abu-dhabi">Abu Dhabi</aegov-select-option>
+      <aegov-select-option value="dubai">Dubai</aegov-select-option>
+      <aegov-select-option value="sharjah">Sharjah</aegov-select-option>
+      <aegov-select-option value="ajman">Ajman</aegov-select-option>
+      <aegov-select-option value="umm-al-quwain">Umm Al Quwain</aegov-select-option>
+      <aegov-select-option value="ras-al-khaimah">Ras Al Khaimah</aegov-select-option>
+      <aegov-select-option value="fujairah">Fujairah</aegov-select-option>
+    </aegov-select>
+  </aegov-form-field>
+</div>
+
+### Checkbox
 
 ```html
 <aegov-form-field>
-  <aegov-label>I agree to the terms</aegov-label>
+  <aegov-label>I confirm that the information provided is true and accurate</aegov-label>
   <aegov-checkbox></aegov-checkbox>
 </aegov-form-field>
 ```
 
-### Label + range
+<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-form-field>
+    <aegov-label>I confirm that the information provided is true and accurate</aegov-label>
+    <aegov-checkbox></aegov-checkbox>
+  </aegov-form-field>
+</div>
+
+### Range
 
 ```html
 <aegov-form-field>
-  <aegov-label>Volume</aegov-label>
-  <aegov-range min="0" max="100" value="40"></aegov-range>
+  <aegov-label>Number of dependants</aegov-label>
+  <aegov-range min="0" max="10" value="2"></aegov-range>
 </aegov-form-field>
 ```
 
-### Label + progress
+<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-form-field>
+    <aegov-label>Number of dependants</aegov-label>
+    <aegov-range min="0" max="10" value="2"></aegov-range>
+  </aegov-form-field>
+</div>
+
+### Progress
 
 ```html
 <aegov-form-field>
-  <aegov-label>Profile completion</aegov-label>
-  <aegov-progress value="60" counter="trailing" counter-suffix="%"></aegov-progress>
+  <aegov-label>Application progress</aegov-label>
+  <aegov-progress value="65" counter="trailing" counter-suffix="%"></aegov-progress>
 </aegov-form-field>
 ```
 
-### Label + OTP
+<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-form-field>
+    <aegov-label>Application progress</aegov-label>
+    <aegov-progress value="65" counter="trailing" counter-suffix="%"></aegov-progress>
+  </aegov-form-field>
+</div>
+
+### One-time password
 
 ```html
 <aegov-form-field>
-  <aegov-label>One-time code</aegov-label>
+  <aegov-label>Enter the code we sent to your registered mobile</aegov-label>
   <aegov-otp length="6"></aegov-otp>
 </aegov-form-field>
 ```
 
-### With helper / error text
+<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-form-field>
+    <aegov-label>Enter the code we sent to your registered mobile</aegov-label>
+    <aegov-otp length="6"></aegov-otp>
+  </aegov-form-field>
+</div>
+
+---
+
+## Helper and error text
+
+`aegov-form-field` is a layout wrapper, so any extra paragraph or message you place inside it renders below the control. Reference such text from the control with `aria-describedby` so screen readers announce it as part of the field.
 
 ```html
 <aegov-form-field>
-  <aegov-label>Email</aegov-label>
-  <aegov-input type="email" aria-describedby="email-help"></aegov-input>
-  <p id="email-help">We'll never share your address.</p>
+  <aegov-label>Email address</aegov-label>
+  <aegov-input
+    type="email"
+    placeholder="name@example.ae"
+    aria-describedby="email-help"
+  ></aegov-input>
+  <p id="email-help" class="text-sm text-aeblack-500 mt-2">
+    We will use this address only to send service updates.
+  </p>
 </aegov-form-field>
 ```
 
-## RTL Behavior
+<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-form-field>
+    <aegov-label>Email address</aegov-label>
+    <aegov-input
+      type="email"
+      placeholder="name@example.ae"
+      aria-describedby="email-help"
+    ></aegov-input>
+    <p id="email-help" class="text-sm text-aeblack-500 mt-2">
+      We will use this address only to send service updates.
+    </p>
+  </aegov-form-field>
+</div>
 
-`aegov-form-field` is a thin block-level wrapper without horizontal directional styling, so it renders identically in LTR and RTL. The directionality of the inner controls follows their own behavior and the surrounding `dir` attribute.
+---
+
+## Required fields
+
+Mark required fields on the inner control via `is-required="true"`. The `aegov-label` reads the linked control's required state and renders the asterisk automatically.
+
+```html
+<aegov-form-field>
+  <aegov-label>Emirates ID number</aegov-label>
+  <aegov-input
+    name="eid"
+    placeholder="784-XXXX-XXXXXXX-X"
+    is-required="true"
+  ></aegov-input>
+</aegov-form-field>
+```
+
+<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-form-field>
+    <aegov-label>Emirates ID number</aegov-label>
+    <aegov-input
+      name="eid"
+      placeholder="784-XXXX-XXXXXXX-X"
+      is-required="true"
+    ></aegov-input>
+  </aegov-form-field>
+</div>
+
+---
+
+## Sizes
+
+`aegov-form-field` has no `size` property — the wrapper is unstyled. Size the inner control directly using its own `size` prop, including responsive strings such as `sm md:base lg:lg`.
+
+```html
+<aegov-form-field>
+  <aegov-label>Search the service catalogue</aegov-label>
+  <aegov-input size="sm md:base lg:lg" placeholder="Type to search"></aegov-input>
+</aegov-form-field>
+```
+
+<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-form-field>
+    <aegov-label>Search the service catalogue</aegov-label>
+    <aegov-input size="sm md:base lg:lg" placeholder="Type to search"></aegov-input>
+  </aegov-form-field>
+</div>
+
+---
+
+## Custom IDs and class hooks
+
+Set `field-id` to override the auto-generated id on the wrapper `<div>`. Use `extra-class` to add Tailwind utility classes to the wrapper without polluting the host with arbitrary classes.
+
+```html
+<aegov-form-field field-id="dob-field" extra-class="mb-6">
+  <aegov-label>Date of birth</aegov-label>
+  <aegov-input type="date" is-required="true"></aegov-input>
+</aegov-form-field>
+```
+
+<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-form-field field-id="dob-field" extra-class="mb-6">
+    <aegov-label>Date of birth</aegov-label>
+    <aegov-input type="date" is-required="true"></aegov-input>
+  </aegov-form-field>
+</div>
+
+---
+
+## Combined Example
+
+A short application step using three form-fields back-to-back. Each field handles its own label association — there is no `for=` to write by hand.
+
+```html
+<aegov-form-field>
+  <aegov-label>Full name (as on Emirates ID)</aegov-label>
+  <aegov-input is-required="true" placeholder="Your full legal name"></aegov-input>
+</aegov-form-field>
+
+<aegov-form-field>
+  <aegov-label>Emirate of residence</aegov-label>
+  <aegov-select placeholder="Select your emirate">
+    <aegov-select-option value="abu-dhabi">Abu Dhabi</aegov-select-option>
+    <aegov-select-option value="dubai">Dubai</aegov-select-option>
+    <aegov-select-option value="sharjah">Sharjah</aegov-select-option>
+  </aegov-select>
+</aegov-form-field>
+
+<aegov-form-field>
+  <aegov-label>Comments</aegov-label>
+  <aegov-textarea placeholder="Anything else we should know?" maxlength="500"></aegov-textarea>
+</aegov-form-field>
+
+<aegov-form-field>
+  <aegov-label>I agree to the terms of the service</aegov-label>
+  <aegov-checkbox is-required="true"></aegov-checkbox>
+</aegov-form-field>
+```
+
+<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-form-field extra-class="mb-6">
+    <aegov-label>Full name (as on Emirates ID)</aegov-label>
+    <aegov-input is-required="true" placeholder="Your full legal name"></aegov-input>
+  </aegov-form-field>
+
+  <aegov-form-field extra-class="mb-6">
+    <aegov-label>Emirate of residence</aegov-label>
+    <aegov-select placeholder="Select your emirate">
+      <aegov-select-option value="abu-dhabi">Abu Dhabi</aegov-select-option>
+      <aegov-select-option value="dubai">Dubai</aegov-select-option>
+      <aegov-select-option value="sharjah">Sharjah</aegov-select-option>
+    </aegov-select>
+  </aegov-form-field>
+
+  <aegov-form-field extra-class="mb-6">
+    <aegov-label>Comments</aegov-label>
+    <aegov-textarea placeholder="Anything else we should know?" maxlength="500"></aegov-textarea>
+  </aegov-form-field>
+
+  <aegov-form-field>
+    <aegov-label>I agree to the terms of the service</aegov-label>
+    <aegov-checkbox is-required="true"></aegov-checkbox>
+  </aegov-form-field>
+</div>
+
+---
+
+## RTL Support
+
+`aegov-form-field` is a thin block-level wrapper without horizontal directional styling, so it renders identically in LTR and RTL. The directionality of the inner controls follows their own behaviour and the surrounding `dir` attribute, so simply wrap the form (or its container) with `dir="rtl"` and every linked label, input, and helper text flips correctly.
+
+```html
+<div dir="rtl">
+  <aegov-form-field>
+    <aegov-label>الاسم الكامل كما في الهوية الإماراتية</aegov-label>
+    <aegov-input is-required="true" placeholder="الاسم الكامل"></aegov-input>
+  </aegov-form-field>
+
+  <aegov-form-field>
+    <aegov-label>إمارة الإقامة</aegov-label>
+    <aegov-select placeholder="اختر الإمارة">
+      <aegov-select-option value="abu-dhabi">أبوظبي</aegov-select-option>
+      <aegov-select-option value="dubai">دبي</aegov-select-option>
+      <aegov-select-option value="sharjah">الشارقة</aegov-select-option>
+    </aegov-select>
+  </aegov-form-field>
+</div>
+```
+
+<div dir="rtl" class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-form-field extra-class="mb-6">
+    <aegov-label>الاسم الكامل كما في الهوية الإماراتية</aegov-label>
+    <aegov-input is-required="true" placeholder="الاسم الكامل"></aegov-input>
+  </aegov-form-field>
+
+  <aegov-form-field>
+    <aegov-label>إمارة الإقامة</aegov-label>
+    <aegov-select placeholder="اختر الإمارة">
+      <aegov-select-option value="abu-dhabi">أبوظبي</aegov-select-option>
+      <aegov-select-option value="dubai">دبي</aegov-select-option>
+      <aegov-select-option value="sharjah">الشارقة</aegov-select-option>
+    </aegov-select>
+  </aegov-form-field>
+</div>
+
+---
 
 ## API Reference
 
-### Properties
+### aegov-form-field Properties
 
-| Property | Attribute | Description | Type | Default |
-| --- | --- | --- | --- | --- |
-| `fieldId` | `field-id` | ID for the wrapper `<div>`. Auto-generated if not provided. | `string` | auto |
-| `extraClass` | `extra-class` | Additional CSS classes on the wrapper. | `string` | `undefined` |
+| Property      | Attribute     | Description                                                                | Type     | Default     |
+| ------------- | ------------- | -------------------------------------------------------------------------- | -------- | ----------- |
+| `fieldId`     | `field-id`    | DOM `id` for the wrapper `<div>`. Auto-generated if omitted.                | `string` | _generated_ |
+| `extraClass`  | `extra-class` | Additional CSS classes appended to the wrapper.                             | `string` | `undefined` |
 
-### Pass-through Attributes
+### Slots
 
-`aria-*` and `data-*` attributes set on the host are forwarded to the wrapper `<div>`. There are no additional pass-through attributes.
+| Slot         | Description                                                                                                                        |
+| ------------ | ---------------------------------------------------------------------------------------------------------------------------------- |
+| _(default)_  | One `aegov-label`, one supported control (`aegov-input`, `aegov-textarea`, `aegov-select`, `aegov-checkbox`, `aegov-range`, `aegov-progress`, or `aegov-otp`), and optional helper / error paragraphs. |
 
 ### Events
 
-`aegov-form-field` does not emit any custom events. Listen for events on the inner control (`aegov-input`, `aegov-textarea`, etc.).
-
-### Event listening example
+`aegov-form-field` does not emit any custom events. Listen for events directly on the inner control (`aegovInputChange`, `aegovSelectChange`, etc.).
 
 ```html
 <aegov-form-field>
   <aegov-label>Email</aegov-label>
   <aegov-input id="email" type="email"></aegov-input>
 </aegov-form-field>
+
 <script>
   document.getElementById('email').addEventListener('aegovInputChange', (e) => {
-    console.log(e.detail.value);
+    console.log('value', e.detail.value);
   });
 </script>
 ```
 
-### Slots
+### Pass-through Attributes
 
-| Slot | Description |
-| --- | --- |
-| (default) | The label (`aegov-label`) and form control (`aegov-input`, `aegov-textarea`, `aegov-select`, `aegov-checkbox`, `aegov-range`, `aegov-progress`, `aegov-otp`) — and optionally helper or error text. |
+`aria-*` and `data-*` attributes set on the host are forwarded to the wrapper `<div>`. Use these for grouping semantics (e.g. `role="group"` plus `aria-labelledby`) or for analytics hooks.
+
+| Attribute group  | Forwarded to       | Notes                                                                                  |
+| ---------------- | ------------------ | -------------------------------------------------------------------------------------- |
+| `aria-*`         | wrapper `<div>`    | Useful for `role="group"`, `aria-labelledby`, `aria-describedby` on the wrapper.        |
+| `data-*`         | wrapper `<div>`    | For testing hooks, analytics tagging, or CSS targeting.                                 |
+| `id`             | n/a                | Use `field-id` instead — `id` is reserved by the host.                                  |
+| `class`, `style` | host               | Stay on the `<aegov-form-field>` element. Use `extra-class` to extend wrapper classes.  |
+
+---
 
 ## Accessibility
 
-### Built-in
+### Built-in behaviour
 
-- After mount and on every update, the form-field queries its slotted children for an `aegov-label` and a supported control. If both are present, the label's `htmlFor` is set to the control's `field-id`, producing a correctly associated `<label for="...">`.
+- After mount and on every update, the form-field queries its slotted children for an `aegov-label` and a supported control. If both are present, the label's `htmlFor` is set to the control's `field-id`, producing a correctly associated `<label for="…">` pairing.
 - The wrapper preserves user-set `aria-*` and `data-*` attributes via pass-through, allowing things like `aria-labelledby` or `role="group"` when grouping multiple inputs.
+- The wrapper has no implicit ARIA role — assistive technology treats it as a plain `<div>`.
 
 ### Developer responsibilities
 
 - Place exactly one `aegov-label` and one supported control inside each form-field. With multiple controls, only the first matching one (in this priority: input → textarea → select → checkbox → range → progress → otp) will receive the label association.
 - For helper or error text, render it inside the form-field with a stable `id` and reference it from the control with `aria-describedby`.
 - For required fields, set `is-required` on the inner control rather than relying on visual cues alone.
+- If you are creating a fieldset/legend pattern (e.g. grouping radio buttons), add `role="group"` and `aria-labelledby` referencing the label's id.
 
-### Notes
+### Keyboard support
 
-- The form-field wrapper has no implicit ARIA role. If you are creating a fieldset/legend pattern (e.g., grouping radio buttons), consider adding `role="group"` and `aria-labelledby` referencing the label's id.
-- Children are queried via `querySelector('aegov-{tag}')` — only the first matching descendant is linked to the label.
+`aegov-form-field` does not introduce any keyboard behaviour of its own. All keyboard interaction is handled by the inner control. Refer to the control's own documentation for its keyboard map.

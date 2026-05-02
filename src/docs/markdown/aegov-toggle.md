@@ -1,202 +1,319 @@
-# aegov-toggle
+# Toggle
 
-A switch-style on/off control built on a native checkbox with `role="switch"`. Use `aegov-toggle` for binary settings where the change takes effect immediately (e.g. enabling notifications, toggling a preference) — not for form submission choices that should map to checkboxes.
+<p class="text-lg text-aeblack-500 mb-8">A Toggle is a switch input that lets users turn a single setting on or off. It is the right choice for binary preferences that take effect immediately — notification channels, language preference, accessibility options — and provides clear visual and assistive-technology feedback for the current state.</p>
 
-## Properties
+## Introduction
 
-### field-id
-
-Unique ID applied to the underlying `<input>`. Auto-generated as `aegov-toggle-{n}` when omitted.
-
-```html
-<aegov-toggle field-id="notifications" label="Email notifications"></aegov-toggle>
-```
-
-### name / value
-
-Standard form attributes forwarded to the native input.
-
-```html
-<aegov-toggle name="notify" value="on" label="Notifications"></aegov-toggle>
-```
-
-### is-checked
-
-Whether the toggle is on. Reflects to the host attribute, the native `checked` property, and `aria-checked`.
-
-```html
-<aegov-toggle is-checked label="On by default"></aegov-toggle>
-```
-
-### is-disabled
-
-Disables the toggle.
-
-```html
-<aegov-toggle is-disabled label="Locked"></aegov-toggle>
-```
-
-### is-required
-
-Marks the toggle as required and sets `aria-required="true"`.
-
-```html
-<aegov-toggle is-required label="Must be on"></aegov-toggle>
-```
-
-### label
-
-Visible label text rendered after the switch.
-
-```html
-<aegov-toggle label="Receive newsletters"></aegov-toggle>
-```
-
-### description
-
-Helper text displayed below the label and exposed via `aria-describedby`. Only renders when `label` is also set.
+The `aegov-toggle` component renders a fully accessible switch built on a native `<input type="checkbox">` with `role="switch"`. It supports an optional inline label and description, five sizes, custom on/off icons via slots, and standard form integration through `name` and `value`. Use it for "on now" decisions; for choices that only apply after a Save action, prefer a checkbox.
 
 ```html
 <aegov-toggle
-  label="Push notifications"
-  description="We will only ping you for important updates."
+  label="Enable SMS notifications"
+  description="Receive transactional updates on your registered UAE mobile number."
+  is-checked="true"
 ></aegov-toggle>
 ```
 
-### size
+<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-toggle
+    label="Enable SMS notifications"
+    description="Receive transactional updates on your registered UAE mobile number."
+    is-checked="true"
+  ></aegov-toggle>
+</div>
 
-Token: `xs`, `sm`, `base`, `lg`, `xl`. Also accepts a Tailwind-style responsive string.
-
-```html
-<aegov-toggle size="lg" label="Large"></aegov-toggle>
-```
+---
 
 ## Sizes
 
-`size` accepts a single token or a responsive string using Tailwind-style breakpoint prefixes (`xs`, `sm`, `md`, `lg`, `xl`, `2xl`).
+The `size` property scales the track, thumb, and label typography. Five tokens are available — `xs`, `sm`, `base` (default), `lg`, and `xl` — to match the surrounding control density.
 
 ```html
+<aegov-toggle size="xs" label="Extra small"></aegov-toggle>
 <aegov-toggle size="sm" label="Small"></aegov-toggle>
-<aegov-toggle size="base" label="Base"></aegov-toggle>
+<aegov-toggle size="base" label="Base (default)"></aegov-toggle>
 <aegov-toggle size="lg" label="Large"></aegov-toggle>
-
-<!-- Responsive: small on mobile, base from md, large from lg -->
-<aegov-toggle size="sm md:base lg:lg" label="Responsive"></aegov-toggle>
+<aegov-toggle size="xl" label="Extra large"></aegov-toggle>
 ```
 
-## Examples
+<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov flex flex-col gap-4">
+  <aegov-toggle size="xs" label="Extra small (xs)"></aegov-toggle>
+  <aegov-toggle size="sm" label="Small (sm)"></aegov-toggle>
+  <aegov-toggle size="base" label="Base (default)"></aegov-toggle>
+  <aegov-toggle size="lg" label="Large (lg)"></aegov-toggle>
+  <aegov-toggle size="xl" label="Extra large (xl)"></aegov-toggle>
+</div>
 
-### Default
+### Responsive sizes
+
+The `size` property accepts a Tailwind-style responsive string with the breakpoint prefixes `xs`, `sm`, `md`, `lg`, `xl`, and `2xl`. Each segment overrides smaller breakpoints.
 
 ```html
-<aegov-toggle label="Enable notifications"></aegov-toggle>
+<aegov-toggle size="sm md:base xl:lg" label="Resizes with the viewport"></aegov-toggle>
 ```
 
-### With description
+<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-toggle size="sm md:base xl:lg" label="Resizes with the viewport"></aegov-toggle>
+</div>
+
+---
+
+## Label and description
+
+When a `label` is supplied, the toggle renders inside a `<label>` element so the entire row is clickable. Add `description` to provide secondary helper text below the label — for example to explain consent implications or rate-limit consequences.
 
 ```html
 <aegov-toggle
-  label="Marketing emails"
-  description="Receive product news roughly once a month."
+  label="Share my data with partner government entities"
+  description="Allows the Ministry to share verified profile data with other UAE federal services to pre-fill applications."
 ></aegov-toggle>
 ```
 
-### Pre-checked
+<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-toggle
+    label="Share my data with partner government entities"
+    description="Allows the Ministry to share verified profile data with other UAE federal services to pre-fill applications."
+  ></aegov-toggle>
+</div>
+
+A toggle without a label renders as a bare switch — useful inside cards or table rows where the label is provided by the surrounding context.
 
 ```html
-<aegov-toggle is-checked label="Auto-save"></aegov-toggle>
+<aegov-toggle is-checked="true"></aegov-toggle>
 ```
 
-### Disabled
+<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov flex items-center gap-3">
+  <span class="text-aeblack-700">Email notifications</span>
+  <aegov-toggle is-checked="true"></aegov-toggle>
+</div>
+
+---
+
+## Checked and unchecked states
+
+Use `is-checked` to set the initial state. The property is reflected back to the host attribute as the user interacts, so reading the attribute always reflects the current value.
 
 ```html
-<aegov-toggle is-disabled label="Beta features (coming soon)"></aegov-toggle>
+<aegov-toggle label="Off by default"></aegov-toggle>
+<aegov-toggle label="On by default" is-checked="true"></aegov-toggle>
 ```
 
-### With icons inside the thumb
+<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov flex flex-col gap-4">
+  <aegov-toggle label="Off by default"></aegov-toggle>
+  <aegov-toggle label="On by default" is-checked="true"></aegov-toggle>
+</div>
 
-Provide icons via the `icon-checked` and `icon-unchecked` slots. Both slots are optional; supplying either one enables the icon area inside the thumb.
+---
+
+## Disabled
+
+Set `is-disabled="true"` to prevent interaction. The track and thumb are visually muted and the underlying input receives the native `disabled` attribute, removing it from the tab order and form submission.
 
 ```html
-<aegov-toggle label="Dark mode">
-  <span slot="icon-unchecked">☼</span>
-  <span slot="icon-checked">☾</span>
+<aegov-toggle label="Disabled (off)" is-disabled="true"></aegov-toggle>
+<aegov-toggle label="Disabled (on)" is-disabled="true" is-checked="true"></aegov-toggle>
+```
+
+<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov flex flex-col gap-4">
+  <aegov-toggle label="Disabled (off)" is-disabled="true"></aegov-toggle>
+  <aegov-toggle label="Disabled (on)" is-disabled="true" is-checked="true"></aegov-toggle>
+</div>
+
+---
+
+## Custom on/off icons
+
+Use the `icon-checked` and `icon-unchecked` slots to embed icons inside the thumb that swap as the toggle changes state. Keep glyphs small and high-contrast — they sit inside a small circular thumb.
+
+```html
+<aegov-toggle label="Dark mode" size="lg">
+  <svg slot="icon-checked" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+  </svg>
+  <svg slot="icon-unchecked" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="12" cy="12" r="5"/>
+  </svg>
 </aegov-toggle>
 ```
 
-### In a form
+<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-toggle label="Dark mode" size="lg">
+    <svg slot="icon-checked" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+    </svg>
+    <svg slot="icon-unchecked" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="12" r="5"/>
+    </svg>
+  </aegov-toggle>
+</div>
+
+---
+
+## Form integration
+
+Provide `name` and `value` to participate in standard form submission. When checked, the form payload will include the supplied value under the given name; when unchecked, the field is omitted (matching native checkbox behaviour).
 
 ```html
 <form>
-  <aegov-toggle name="newsletter" value="on" label="Subscribe to newsletter"></aegov-toggle>
+  <aegov-toggle
+    name="marketing_consent"
+    value="yes"
+    label="I consent to receive service updates by email"
+    is-required="true"
+  ></aegov-toggle>
 </form>
 ```
 
-## RTL Behavior
+<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-toggle
+    name="marketing_consent"
+    value="yes"
+    label="I consent to receive service updates by email"
+    is-required="true"
+  ></aegov-toggle>
+</div>
 
-The control is inline-flow and uses logical layout. When the document or container has `dir="rtl"`, the switch and label automatically flip — the switch ends up on the right and the label on the left, with the thumb sliding in the appropriate direction. No props need to change.
+---
+
+## Notification preferences example
+
+A typical UAE Government scenario: a citizen managing notification channels for service updates from a federal portal. Each channel is independent and toggling it takes effect immediately.
+
+```html
+<aegov-toggle label="SMS" description="Status updates sent to your registered UAE mobile." is-checked="true"></aegov-toggle>
+<aegov-toggle label="Email" description="Receipts and renewal reminders." is-checked="true"></aegov-toggle>
+<aegov-toggle label="Push notifications" description="In-app alerts on the official UAE Pass mobile app."></aegov-toggle>
+<aegov-toggle label="WhatsApp" description="High-priority security alerts only." is-disabled="true"></aegov-toggle>
+```
+
+<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <div class="space-y-4">
+    <aegov-toggle label="SMS" description="Status updates sent to your registered UAE mobile." is-checked="true"></aegov-toggle>
+    <aegov-toggle label="Email" description="Receipts and renewal reminders." is-checked="true"></aegov-toggle>
+    <aegov-toggle label="Push notifications" description="In-app alerts on the official UAE Pass mobile app."></aegov-toggle>
+    <aegov-toggle label="WhatsApp" description="High-priority security alerts only." is-disabled="true"></aegov-toggle>
+  </div>
+</div>
+
+---
+
+## RTL Support
+
+The toggle is direction-agnostic. When the document or any ancestor is set to `dir="rtl"` the label moves to the inline-end automatically and the thumb travels in the correct direction (right-to-left when checked).
+
+```html
+<div dir="rtl">
+  <aegov-toggle
+    label="تفعيل الإشعارات عبر الرسائل النصية"
+    description="استلام تحديثات الخدمة على رقم هاتفك المتحرك المسجل في دولة الإمارات."
+    is-checked="true"
+  ></aegov-toggle>
+</div>
+```
+
+<div dir="rtl" class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-toggle
+    label="تفعيل الإشعارات عبر الرسائل النصية"
+    description="استلام تحديثات الخدمة على رقم هاتفك المتحرك المسجل في دولة الإمارات."
+    is-checked="true"
+  ></aegov-toggle>
+</div>
+
+A full preferences panel in RTL:
+
+```html
+<div dir="rtl">
+  <aegov-toggle label="رسائل SMS" description="تحديثات الحالة على رقم هاتفك." is-checked="true"></aegov-toggle>
+  <aegov-toggle label="البريد الإلكتروني" description="إيصالات وتذكيرات التجديد." is-checked="true"></aegov-toggle>
+  <aegov-toggle label="إشعارات التطبيق" description="تنبيهات داخل تطبيق الهوية الرقمية UAE Pass."></aegov-toggle>
+</div>
+```
+
+<div dir="rtl" class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <div class="space-y-4">
+    <aegov-toggle label="رسائل SMS" description="تحديثات الحالة على رقم هاتفك." is-checked="true"></aegov-toggle>
+    <aegov-toggle label="البريد الإلكتروني" description="إيصالات وتذكيرات التجديد." is-checked="true"></aegov-toggle>
+    <aegov-toggle label="إشعارات التطبيق" description="تنبيهات داخل تطبيق الهوية الرقمية UAE Pass."></aegov-toggle>
+  </div>
+</div>
+
+---
 
 ## API Reference
 
-### Properties
+### aegov-toggle Properties
 
-| Property       | Attribute      | Description                                                                          | Type      | Default     |
-| -------------- | -------------- | ------------------------------------------------------------------------------------ | --------- | ----------- |
-| `fieldId`      | `field-id`     | Unique ID for the native input. Auto-generated if not provided.                      | `string`  | auto        |
-| `name`         | `name`         | Native input `name`.                                                                 | `string`  | `undefined` |
-| `value`        | `value`        | Native input `value`.                                                                | `string`  | `undefined` |
-| `isChecked`    | `is-checked`   | Whether the toggle is on. Reflected.                                                 | `boolean` | `false`     |
-| `size`         | `size`         | Size token or responsive string.                                                     | `string`  | `'base'`    |
-| `isDisabled`   | `is-disabled`  | Disables the input. Reflected.                                                       | `boolean` | `false`     |
-| `isRequired`   | `is-required`  | Marks the input as required and sets `aria-required="true"`.                         | `boolean` | `false`     |
-| `label`        | `label`        | Visible label text.                                                                  | `string`  | `undefined` |
-| `description`  | `description`  | Helper text linked via `aria-describedby`. Only rendered when `label` is set.        | `string`  | `undefined` |
+| Property      | Attribute      | Description                                                                  | Type      | Default     |
+| ------------- | -------------- | ---------------------------------------------------------------------------- | --------- | ----------- |
+| `fieldId`     | `field-id`     | DOM `id` for the underlying `<input>`. Auto-generated if omitted.             | `string`  | _generated_ |
+| `name`        | `name`         | Form field name used during submission.                                       | `string`  | `undefined` |
+| `value`       | `value`        | Form value submitted when the toggle is checked.                              | `string`  | `undefined` |
+| `isChecked`   | `is-checked`   | Whether the toggle is on. Reflected to the host attribute.                    | `boolean` | `false`     |
+| `size`        | `size`         | Size token (`xs`, `sm`, `base`, `lg`, `xl`) or a responsive string.            | `string`  | `'base'`    |
+| `isDisabled`  | `is-disabled`  | Disables the input and removes it from the tab order.                         | `boolean` | `false`     |
+| `isRequired`  | `is-required`  | Marks the underlying input as required for form validation.                   | `boolean` | `false`     |
+| `label`       | `label`        | Inline label text rendered after the switch.                                  | `string`  | `undefined` |
+| `description` | `description`  | Secondary helper text shown below the label. Requires `label` to render.      | `string`  | `undefined` |
 
-### Pass-through Attributes
+### Slots
 
-`aria-*` and `data-*` attributes set on `aegov-toggle` are forwarded to the underlying `<input>`. Additional forwarded attributes: `form`, `tabindex`, `autofocus`, `title`.
+| Slot              | Description                                                                                |
+| ----------------- | ------------------------------------------------------------------------------------------ |
+| `icon-checked`    | Icon shown inside the thumb when the toggle is on. Keep dimensions ≤ 14×14 px.              |
+| `icon-unchecked`  | Icon shown inside the thumb when the toggle is off. Keep dimensions ≤ 14×14 px.             |
 
 ### Events
 
-| Event                | Detail                                       | Description                                       |
-| -------------------- | -------------------------------------------- | ------------------------------------------------- |
-| `aegovToggleChange`  | `{ checked: boolean; value?: string }`       | Fires whenever the toggle's state changes.        |
+| Event                 | Detail                                  | Description                                                |
+| --------------------- | --------------------------------------- | ---------------------------------------------------------- |
+| `aegovToggleChange`   | `{ checked: boolean; value?: string }`  | Fires after every state change with the new checked value. |
 
-#### Event listening example
+#### Listening for changes
 
 ```html
-<aegov-toggle id="notify" label="Notifications"></aegov-toggle>
+<aegov-toggle id="sms" label="SMS notifications"></aegov-toggle>
 
 <script>
-  document.getElementById('notify').addEventListener('aegovToggleChange', (e) => {
-    console.log('toggle is now', e.detail.checked ? 'on' : 'off');
+  document.querySelector('#sms').addEventListener('aegovToggleChange', (e) => {
+    console.log('SMS toggle is now', e.detail.checked ? 'on' : 'off');
   });
 </script>
 ```
 
-### Slots
+### Pass-through Attributes
 
-| Slot              | Description                                                                |
-| ----------------- | -------------------------------------------------------------------------- |
-| `icon-unchecked`  | Icon shown inside the thumb when the toggle is off.                        |
-| `icon-checked`    | Icon shown inside the thumb when the toggle is on.                         |
+The component forwards the attribute groups below onto the inner `<input>`. Apply them on `<aegov-toggle>` and they will appear on the native input that participates in the focus order and form submission.
+
+| Attribute group | Forwarded to inner `<input>` | Notes                                                            |
+| --------------- | ---------------------------- | ---------------------------------------------------------------- |
+| `aria-*`        | Yes                          | Use to extend ARIA semantics (e.g. `aria-labelledby`).            |
+| `data-*`        | Yes                          | Useful for analytics or test selectors.                           |
+| `form`          | Yes                          | Associates the input with a form by `id` when not nested inside it.|
+| `tabindex`      | Yes                          | Override default tab order.                                       |
+| `autofocus`     | Yes                          | Focus the toggle on initial page load.                            |
+| `title`         | Yes                          | Native browser tooltip text.                                      |
+
+---
 
 ## Accessibility
 
-### Built-in
+### Built-in behaviour
 
-- Uses a native `<input type="checkbox">` decorated with `role="switch"` so assistive tech announces it as a switch (e.g. "On" / "Off") rather than a generic checkbox.
-- `aria-checked` is set explicitly to `"true"` or `"false"` and stays in sync with the native `checked` state.
-- Wrapping `<label>` makes the switch and its label/description fully clickable and announced together.
-- `description` is linked via `aria-describedby`.
-- `is-required` sets `aria-required="true"` in addition to native `required`.
-- Decorative track/thumb elements are marked `aria-hidden="true"`.
+- The underlying control is a native `<input type="checkbox">` with `role="switch"` and an explicit `aria-checked` state, so assistive technology announces "switch, on" or "switch, off" rather than "checkbox, checked".
+- When `description` is provided, the input is linked to it via `aria-describedby` so screen readers read the helper text after the label.
+- `is-required` sets both the native `required` attribute and `aria-required="true"`.
+- The label wraps the switch, so the entire row — label and description included — is clickable and fires the same change event.
 
 ### Developer responsibilities
 
-- Always provide a `label`. Without one, the switch is reachable but unlabeled.
-- Use a toggle for immediate state changes — if a change requires confirmation or only takes effect on submit, prefer `aegov-checkbox`.
+- Always provide a `label` (or an external `<aegov-label>` linked via `field-id`). A bare switch without an accessible name is opaque to screen reader users.
+- Use a switch only for settings that take effect immediately. For "save later" choices, use a checkbox.
+- Keep on/off icons decorative — the state is already announced via `aria-checked`. Do not encode the only meaning of the toggle in the icon.
 
-### Notes
+### Keyboard support
 
-- Keyboard support is fully native: focus the switch and press Space to flip it. Tab moves to the next focusable element.
+| Key              | Action                                          |
+| ---------------- | ----------------------------------------------- |
+| `Space`          | Toggle the switch on or off.                    |
+| `Tab`            | Move focus to the next focusable element.       |
+| `Shift + Tab`    | Move focus to the previous focusable element.   |

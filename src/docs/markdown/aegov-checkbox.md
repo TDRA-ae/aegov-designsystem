@@ -1,267 +1,493 @@
-# aegov-checkbox
+# Checkbox
 
-A native checkbox wrapped in a labeled, design-system-aligned control. Use it for binary or multi-select form inputs. Pair it with `aegov-checkbox-group` to group related options, propagate sizing, and add an optional "select all" controller.
+<p class="text-lg text-aeblack-500 mb-8">A Checkbox lets a user select zero, one, or many options from a list — accepting terms, opting in to notifications, choosing service preferences, or filtering results. Each instance is a real native `<input type="checkbox">` styled to the design system, and the optional `aegov-checkbox-group` wrapper handles grouping, sizing, layout variants, and a "select all" controller.</p>
 
-## Properties
+## Introduction
 
-### field-id
-
-Unique ID applied to the underlying `<input>`. Auto-generated as `aegov-checkbox-{n}` when omitted, so every instance has a stable, label-linkable id without the consumer having to manage them.
-
-```html
-<aegov-checkbox field-id="terms" label="Accept the terms"></aegov-checkbox>
-```
-
-### name / value
-
-Standard form attributes forwarded to the native input. Use `value` to identify which option a given checkbox represents when included in a form submission.
-
-```html
-<aegov-checkbox name="prefs" value="email" label="Email updates"></aegov-checkbox>
-```
-
-### is-checked
-
-Controls the checked state. Reflects to the host attribute and the native `checked` property.
-
-```html
-<aegov-checkbox is-checked label="Pre-selected option"></aegov-checkbox>
-```
-
-### is-disabled
-
-Disables the input and prevents interaction.
-
-```html
-<aegov-checkbox is-disabled label="Locked option"></aegov-checkbox>
-```
-
-### is-required
-
-Marks the input as required and sets `aria-required="true"`.
-
-```html
-<aegov-checkbox is-required label="I agree"></aegov-checkbox>
-```
-
-### label
-
-Renders an associated `<label>` element wrapping the input.
-
-```html
-<aegov-checkbox label="Subscribe to newsletter"></aegov-checkbox>
-```
-
-### description
-
-Helper text displayed below the label and exposed via `aria-describedby`. Only renders when `label` is also set.
+The `aegov-checkbox` component wraps a single native checkbox with a label, optional description, and consistent sizing. Use it standalone for one-off agreements (terms acceptance, marketing consent), or compose multiple checkboxes inside an `aegov-checkbox-group` to group related options and emit a unified change event with all currently selected values.
 
 ```html
 <aegov-checkbox
-  label="Marketing emails"
-  description="Receive product updates roughly once a month."
+  field-id="terms"
+  name="terms"
+  value="accepted"
+  label="I accept the Terms of Service and the Privacy Policy"
+  is-required="true"
 ></aegov-checkbox>
 ```
 
-### is-check-all
+<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-checkbox
+    field-id="terms"
+    name="terms"
+    value="accepted"
+    label="I accept the Terms of Service and the Privacy Policy"
+    is-required="true"
+  ></aegov-checkbox>
+</div>
 
-Marks this checkbox as the "select all" controller for an enclosing `aegov-checkbox-group`. The group reads this flag via `[is-check-all]` and wires up bulk toggle plus indeterminate state.
+---
 
-```html
-<aegov-checkbox-group label="Topics">
-  <aegov-checkbox is-check-all label="Select all"></aegov-checkbox>
-  <aegov-checkbox value="news" label="News"></aegov-checkbox>
-  <aegov-checkbox value="events" label="Events"></aegov-checkbox>
-</aegov-checkbox-group>
-```
+## Label and Description
 
-### is-indeterminate
-
-Sets the native `indeterminate` flag on the input. Typically managed by `aegov-checkbox-group` for the check-all controller, but can also be set manually for tri-state UIs.
-
-```html
-<aegov-checkbox is-indeterminate label="Some selected"></aegov-checkbox>
-```
-
-### size
-
-Token: `xs`, `sm`, `base`, `lg`, `xl`. Also accepts a Tailwind-style responsive string (see Sizes section).
+When you set the `label` property, the component renders a `<label>` element wrapping the input — the entire label area becomes a click target. Add the `description` property for additional helper text below the label, automatically associated via `aria-describedby`.
 
 ```html
-<aegov-checkbox size="lg" label="Large"></aegov-checkbox>
+<aegov-checkbox
+  label="Receive SMS notifications"
+  description="We'll send updates about your application status to your registered mobile number."
+></aegov-checkbox>
 ```
 
-### extra-class
+<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-checkbox
+    label="Receive SMS notifications"
+    description="We'll send updates about your application status to your registered mobile number."
+  ></aegov-checkbox>
+</div>
 
-Additional classes merged onto the wrapper div.
+---
+
+## States
+
+### Checked
+
+Set `is-checked` to control the checked state. The property is mutable and reflects to the host as `is-checked`.
 
 ```html
-<aegov-checkbox extra-class="my-2" label="Custom"></aegov-checkbox>
+<aegov-checkbox label="Pre-selected option" is-checked="true"></aegov-checkbox>
 ```
+
+<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-checkbox label="Pre-selected option" is-checked="true"></aegov-checkbox>
+</div>
+
+### Disabled
+
+```html
+<aegov-checkbox label="This option is unavailable" is-disabled="true"></aegov-checkbox>
+<aegov-checkbox label="Pre-selected and locked" is-checked="true" is-disabled="true"></aegov-checkbox>
+```
+
+<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <div class="grid gap-3">
+    <aegov-checkbox label="This option is unavailable" is-disabled="true"></aegov-checkbox>
+    <aegov-checkbox label="Pre-selected and locked" is-checked="true" is-disabled="true"></aegov-checkbox>
+  </div>
+</div>
+
+### Required
+
+```html
+<aegov-checkbox label="I confirm the information provided is accurate" is-required="true"></aegov-checkbox>
+```
+
+<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-checkbox label="I confirm the information provided is accurate" is-required="true"></aegov-checkbox>
+</div>
+
+### Indeterminate
+
+A checkbox can be in three visual states: unchecked, checked, or indeterminate (a horizontal bar). Indeterminate is used most often by a "select all" controller above a list when only some children are selected. The `aegov-checkbox-group` manages this automatically (see below); for ad-hoc use, set `is-indeterminate="true"` directly.
+
+```html
+<aegov-checkbox label="Some items selected" is-indeterminate="true"></aegov-checkbox>
+```
+
+<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-checkbox label="Some items selected" is-indeterminate="true"></aegov-checkbox>
+</div>
+
+---
 
 ## Sizes
 
-`size` accepts a single token or a responsive string using Tailwind-style breakpoint prefixes (`xs`, `sm`, `md`, `lg`, `xl`, `2xl`).
+Five sizes are available: `xs`, `sm`, `base` (default), `lg`, and `xl`. The size scales the checkbox box, the label typography, and the click target.
 
 ```html
+<aegov-checkbox size="xs" label="Extra small"></aegov-checkbox>
 <aegov-checkbox size="sm" label="Small"></aegov-checkbox>
-<aegov-checkbox size="base" label="Base"></aegov-checkbox>
+<aegov-checkbox size="base" label="Base (default)"></aegov-checkbox>
 <aegov-checkbox size="lg" label="Large"></aegov-checkbox>
-
-<!-- Responsive: small on mobile, base from md, large from lg -->
-<aegov-checkbox size="sm md:base lg:lg" label="Responsive"></aegov-checkbox>
+<aegov-checkbox size="xl" label="Extra large"></aegov-checkbox>
 ```
 
-## Examples
+<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <div class="grid gap-3">
+    <aegov-checkbox size="xs" label="Extra small"></aegov-checkbox>
+    <aegov-checkbox size="sm" label="Small"></aegov-checkbox>
+    <aegov-checkbox size="base" label="Base (default)"></aegov-checkbox>
+    <aegov-checkbox size="lg" label="Large"></aegov-checkbox>
+    <aegov-checkbox size="xl" label="Extra large"></aegov-checkbox>
+  </div>
+</div>
 
-### Default
+`size` also accepts a Tailwind-style responsive string (e.g. `sm md:base xl:lg`).
+
+---
+
+## Checkbox Group
+
+`aegov-checkbox-group` wraps multiple `aegov-checkbox` children to provide:
+
+- A `<fieldset>` with optional `<legend>` for accessibility
+- A single `aegovCheckboxGroupChange` event with the array of currently selected values
+- Group-wide `size` and `is-disabled` (via native `<fieldset disabled>`) propagation
+- Layout variants and orientation control
+- Automatic management of an optional "select all" checkbox
 
 ```html
-<aegov-checkbox label="Send me updates"></aegov-checkbox>
+<aegov-checkbox-group label="Notification preferences" name="prefs">
+  <aegov-checkbox value="email" label="Email" is-checked="true"></aegov-checkbox>
+  <aegov-checkbox value="sms" label="SMS"></aegov-checkbox>
+  <aegov-checkbox value="push" label="Push notifications"></aegov-checkbox>
+  <aegov-checkbox value="post" label="Post (mailed letter)"></aegov-checkbox>
+</aegov-checkbox-group>
 ```
 
-### With description
+<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-checkbox-group label="Notification preferences" name="prefs">
+    <aegov-checkbox value="email" label="Email" is-checked="true"></aegov-checkbox>
+    <aegov-checkbox value="sms" label="SMS"></aegov-checkbox>
+    <aegov-checkbox value="push" label="Push notifications"></aegov-checkbox>
+    <aegov-checkbox value="post" label="Post (mailed letter)"></aegov-checkbox>
+  </aegov-checkbox-group>
+</div>
+
+### Orientation
+
+Set `orientation="horizontal"` to lay items out in a row instead of the default vertical stack.
 
 ```html
-<aegov-checkbox
-  label="Marketing emails"
-  description="No more than once a month. You can unsubscribe at any time."
-></aegov-checkbox>
+<aegov-checkbox-group label="Languages spoken" orientation="horizontal">
+  <aegov-checkbox value="ar" label="Arabic"></aegov-checkbox>
+  <aegov-checkbox value="en" label="English"></aegov-checkbox>
+  <aegov-checkbox value="ur" label="Urdu"></aegov-checkbox>
+  <aegov-checkbox value="hi" label="Hindi"></aegov-checkbox>
+</aegov-checkbox-group>
 ```
 
-### Required in a form
+<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-checkbox-group label="Languages spoken" orientation="horizontal">
+    <aegov-checkbox value="ar" label="Arabic"></aegov-checkbox>
+    <aegov-checkbox value="en" label="English"></aegov-checkbox>
+    <aegov-checkbox value="ur" label="Urdu"></aegov-checkbox>
+    <aegov-checkbox value="hi" label="Hindi"></aegov-checkbox>
+  </aegov-checkbox-group>
+</div>
+
+### Variants
+
+The `variant` property selects the visual treatment of the group: `default` (plain stack), `list` (dividers between items), `cards` (each item is a bordered card), or `pills` (toggle pill buttons with the native input visually hidden). All variants work with both vertical and horizontal orientation.
 
 ```html
-<form>
+<aegov-checkbox-group variant="list" label="Documents to attach">
+  <aegov-checkbox value="eid" label="Emirates ID (front and back)"></aegov-checkbox>
+  <aegov-checkbox value="passport" label="Passport copy"></aegov-checkbox>
+  <aegov-checkbox value="utility" label="Recent utility bill"></aegov-checkbox>
+  <aegov-checkbox value="employment" label="Employment letter"></aegov-checkbox>
+</aegov-checkbox-group>
+
+<aegov-checkbox-group variant="cards" label="Notification preferences">
+  <aegov-checkbox value="email" label="Email" description="Updates sent to your registered address."></aegov-checkbox>
+  <aegov-checkbox value="sms" label="SMS" description="Short text alerts to your mobile number."></aegov-checkbox>
+  <aegov-checkbox value="push" label="Push" description="In-app and browser notifications."></aegov-checkbox>
+</aegov-checkbox-group>
+
+<aegov-checkbox-group variant="pills" orientation="horizontal" label="Filter by emirate">
+  <aegov-checkbox value="abudhabi" label="Abu Dhabi"></aegov-checkbox>
+  <aegov-checkbox value="dubai" label="Dubai"></aegov-checkbox>
+  <aegov-checkbox value="sharjah" label="Sharjah"></aegov-checkbox>
+  <aegov-checkbox value="ajman" label="Ajman"></aegov-checkbox>
+  <aegov-checkbox value="rak" label="Ras Al Khaimah"></aegov-checkbox>
+</aegov-checkbox-group>
+```
+
+<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <div class="grid gap-8">
+    <aegov-checkbox-group variant="list" label="Documents to attach">
+      <aegov-checkbox value="eid" label="Emirates ID (front and back)"></aegov-checkbox>
+      <aegov-checkbox value="passport" label="Passport copy"></aegov-checkbox>
+      <aegov-checkbox value="utility" label="Recent utility bill"></aegov-checkbox>
+      <aegov-checkbox value="employment" label="Employment letter"></aegov-checkbox>
+    </aegov-checkbox-group>
+    <aegov-checkbox-group variant="cards" label="Notification preferences">
+      <aegov-checkbox value="email" label="Email" description="Updates sent to your registered address."></aegov-checkbox>
+      <aegov-checkbox value="sms" label="SMS" description="Short text alerts to your mobile number."></aegov-checkbox>
+      <aegov-checkbox value="push" label="Push" description="In-app and browser notifications."></aegov-checkbox>
+    </aegov-checkbox-group>
+    <aegov-checkbox-group variant="pills" orientation="horizontal" label="Filter by emirate">
+      <aegov-checkbox value="abudhabi" label="Abu Dhabi"></aegov-checkbox>
+      <aegov-checkbox value="dubai" label="Dubai"></aegov-checkbox>
+      <aegov-checkbox value="sharjah" label="Sharjah"></aegov-checkbox>
+      <aegov-checkbox value="ajman" label="Ajman"></aegov-checkbox>
+      <aegov-checkbox value="rak" label="Ras Al Khaimah"></aegov-checkbox>
+    </aegov-checkbox-group>
+  </div>
+</div>
+
+### Group disabled
+
+Setting `is-disabled="true"` on the group disables all child checkboxes via the native `<fieldset disabled>` mechanism — no per-child changes needed.
+
+```html
+<aegov-checkbox-group label="This section is locked" is-disabled="true">
+  <aegov-checkbox value="a" label="Option A"></aegov-checkbox>
+  <aegov-checkbox value="b" label="Option B" is-checked="true"></aegov-checkbox>
+  <aegov-checkbox value="c" label="Option C"></aegov-checkbox>
+</aegov-checkbox-group>
+```
+
+<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-checkbox-group label="This section is locked" is-disabled="true">
+    <aegov-checkbox value="a" label="Option A"></aegov-checkbox>
+    <aegov-checkbox value="b" label="Option B" is-checked="true"></aegov-checkbox>
+    <aegov-checkbox value="c" label="Option C"></aegov-checkbox>
+  </aegov-checkbox-group>
+</div>
+
+---
+
+## Select All
+
+Set `is-check-all="true"` on a checkbox inside a group to make it the "select all" controller. The group automatically:
+
+- Toggles every non-disabled regular checkbox when the controller changes
+- Sets the controller to `checked` when every regular checkbox is selected
+- Sets the controller to `indeterminate` when only some are selected
+- Sets the controller to `unchecked` when none are selected
+
+```html
+<aegov-checkbox-group label="Documents to attach" name="docs">
+  <aegov-checkbox is-check-all="true" label="Select all"></aegov-checkbox>
+  <aegov-checkbox value="eid" label="Emirates ID (front and back)"></aegov-checkbox>
+  <aegov-checkbox value="passport" label="Passport copy"></aegov-checkbox>
+  <aegov-checkbox value="utility" label="Recent utility bill"></aegov-checkbox>
+  <aegov-checkbox value="employment" label="Employment letter"></aegov-checkbox>
+</aegov-checkbox-group>
+```
+
+<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-checkbox-group label="Documents to attach" name="docs">
+    <aegov-checkbox is-check-all="true" label="Select all"></aegov-checkbox>
+    <aegov-checkbox value="eid" label="Emirates ID (front and back)"></aegov-checkbox>
+    <aegov-checkbox value="passport" label="Passport copy"></aegov-checkbox>
+    <aegov-checkbox value="utility" label="Recent utility bill"></aegov-checkbox>
+    <aegov-checkbox value="employment" label="Employment letter"></aegov-checkbox>
+  </aegov-checkbox-group>
+</div>
+
+---
+
+## Composite Example — Service Preferences
+
+A realistic snippet from a profile-settings page combining several groups, variants, and a required terms checkbox.
+
+```html
+<form class="grid gap-8 max-w-xl">
+  <aegov-form-field>
+    <aegov-label>Notification preferences</aegov-label>
+    <aegov-checkbox-group variant="cards" name="notifications">
+      <aegov-checkbox value="email" label="Email" description="Updates sent to your registered address." is-checked="true"></aegov-checkbox>
+      <aegov-checkbox value="sms" label="SMS" description="Short text alerts to your mobile number."></aegov-checkbox>
+      <aegov-checkbox value="push" label="Push" description="In-app and browser notifications."></aegov-checkbox>
+    </aegov-checkbox-group>
+  </aegov-form-field>
+
+  <aegov-form-field>
+    <aegov-label>Languages spoken</aegov-label>
+    <aegov-checkbox-group variant="pills" orientation="horizontal" name="languages">
+      <aegov-checkbox value="ar" label="Arabic" is-checked="true"></aegov-checkbox>
+      <aegov-checkbox value="en" label="English" is-checked="true"></aegov-checkbox>
+      <aegov-checkbox value="ur" label="Urdu"></aegov-checkbox>
+      <aegov-checkbox value="hi" label="Hindi"></aegov-checkbox>
+      <aegov-checkbox value="fr" label="French"></aegov-checkbox>
+    </aegov-checkbox-group>
+  </aegov-form-field>
+
   <aegov-checkbox
     name="terms"
     value="accepted"
-    is-required
-    label="I accept the terms and conditions"
+    label="I confirm the information provided is accurate and I accept the Terms of Service"
+    is-required="true"
   ></aegov-checkbox>
 </form>
 ```
 
-### Group with select-all
+<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <form class="grid gap-8 max-w-xl">
+    <aegov-form-field>
+      <aegov-label>Notification preferences</aegov-label>
+      <aegov-checkbox-group variant="cards" name="notifications">
+        <aegov-checkbox value="email" label="Email" description="Updates sent to your registered address." is-checked="true"></aegov-checkbox>
+        <aegov-checkbox value="sms" label="SMS" description="Short text alerts to your mobile number."></aegov-checkbox>
+        <aegov-checkbox value="push" label="Push" description="In-app and browser notifications."></aegov-checkbox>
+      </aegov-checkbox-group>
+    </aegov-form-field>
+    <aegov-form-field>
+      <aegov-label>Languages spoken</aegov-label>
+      <aegov-checkbox-group variant="pills" orientation="horizontal" name="languages">
+        <aegov-checkbox value="ar" label="Arabic" is-checked="true"></aegov-checkbox>
+        <aegov-checkbox value="en" label="English" is-checked="true"></aegov-checkbox>
+        <aegov-checkbox value="ur" label="Urdu"></aegov-checkbox>
+        <aegov-checkbox value="hi" label="Hindi"></aegov-checkbox>
+        <aegov-checkbox value="fr" label="French"></aegov-checkbox>
+      </aegov-checkbox-group>
+    </aegov-form-field>
+    <aegov-checkbox
+      name="terms"
+      value="accepted"
+      label="I confirm the information provided is accurate and I accept the Terms of Service"
+      is-required="true"
+    ></aegov-checkbox>
+  </form>
+</div>
+
+---
+
+## Listening for change events
+
+Individual checkboxes emit `aegovCheckboxChange`. The group emits `aegovCheckboxGroupChange` with the array of currently selected values.
 
 ```html
-<aegov-checkbox-group label="Notification topics">
-  <aegov-checkbox is-check-all label="Select all"></aegov-checkbox>
-  <aegov-checkbox name="topics" value="news" label="News"></aegov-checkbox>
-  <aegov-checkbox name="topics" value="events" label="Events"></aegov-checkbox>
-  <aegov-checkbox name="topics" value="offers" label="Offers"></aegov-checkbox>
-</aegov-checkbox-group>
-```
-
-### Group disabled
-
-```html
-<aegov-checkbox-group label="Locked options" is-disabled>
-  <aegov-checkbox value="a" label="Option A" is-checked></aegov-checkbox>
-  <aegov-checkbox value="b" label="Option B"></aegov-checkbox>
-</aegov-checkbox-group>
-```
-
-### Horizontal group
-
-```html
-<aegov-checkbox-group label="Languages" orientation="horizontal">
-  <aegov-checkbox value="en" label="English"></aegov-checkbox>
-  <aegov-checkbox value="ar" label="Arabic"></aegov-checkbox>
-</aegov-checkbox-group>
-```
-
-## RTL Behavior
-
-The control is inline-flow and uses logical layout. When the document or container has `dir="rtl"`, the input switches to the right of the label automatically — no extra props are required. Description text follows the label in reading order.
-
-## API Reference
-
-### Properties — `aegov-checkbox`
-
-| Property         | Attribute          | Description                                                                          | Type      | Default  |
-| ---------------- | ------------------ | ------------------------------------------------------------------------------------ | --------- | -------- |
-| `fieldId`        | `field-id`         | Unique ID for the native input. Auto-generated if not provided.                      | `string`  | auto     |
-| `name`           | `name`             | Native input `name`.                                                                 | `string`  | `undefined` |
-| `value`          | `value`            | Native input `value`.                                                                | `string`  | `undefined` |
-| `isChecked`      | `is-checked`       | Whether the checkbox is checked. Reflected.                                          | `boolean` | `false`  |
-| `size`           | `size`             | Size token or responsive string.                                                     | `string`  | `'base'` |
-| `isDisabled`     | `is-disabled`      | Disables the input. Reflected.                                                       | `boolean` | `false`  |
-| `isRequired`     | `is-required`      | Marks the input as required and sets `aria-required="true"`.                         | `boolean` | `false`  |
-| `label`          | `label`            | Visible label text.                                                                  | `string`  | `undefined` |
-| `description`    | `description`      | Helper text linked via `aria-describedby`. Only rendered when `label` is set.        | `string`  | `undefined` |
-| `isCheckAll`     | `is-check-all`     | Marks this checkbox as the "select all" controller for an enclosing group.           | `boolean` | `false`  |
-| `isIndeterminate`| `is-indeterminate` | Sets the native `indeterminate` flag on the input.                                   | `boolean` | `false`  |
-| `extraClass`     | `extra-class`      | Additional CSS classes on the wrapper.                                               | `string`  | `undefined` |
-
-### Sub-component: aegov-checkbox-group
-
-A `fieldset`-based group that propagates size, owns selection state, and (optionally) wires a check-all controller.
-
-#### Properties — `aegov-checkbox-group`
-
-| Property      | Attribute     | Description                                                                                       | Type     | Default       |
-| ------------- | ------------- | ------------------------------------------------------------------------------------------------- | -------- | ------------- |
-| `variant`     | `variant`     | Visual variant: `default`, `list`, `cards`, `pills`.                                              | `string` | `'default'`   |
-| `orientation` | `orientation` | Stack direction: `vertical` or `horizontal`.                                                      | `string` | `'vertical'`  |
-| `label`       | `label`       | Optional `<legend>` text for accessibility.                                                       | `string` | `undefined`   |
-| `size`        | `size`        | Size token or responsive string. Propagated to children.                                          | `string` | `'base'`      |
-| `isDisabled`  | `is-disabled` | Disables every checkbox via the native `fieldset[disabled]`.                                      | `boolean`| `false`       |
-| `extraClass`  | `extra-class` | Additional classes on the rendered `fieldset`.                                                    | `string` | `undefined`   |
-
-The group automatically detects a child marked with `is-check-all` and synchronizes its checked / indeterminate state from the regular (non-check-all) children. Disabled children are ignored when computing or applying the bulk toggle.
-
-### Pass-through Attributes
-
-`aria-*` and `data-*` attributes set on `aegov-checkbox` are forwarded to the underlying `<input>`. Additional forwarded attributes: `form`, `tabindex`, `autofocus`, `title`.
-
-### Events
-
-| Component               | Event                       | Detail                                       | Description                                       |
-| ----------------------- | --------------------------- | -------------------------------------------- | ------------------------------------------------- |
-| `aegov-checkbox`        | `aegovCheckboxChange`       | `{ checked: boolean; value?: string }`       | Fires whenever the checkbox state changes.         |
-| `aegov-checkbox-group`  | `aegovCheckboxGroupChange`  | `{ values: string[] }`                       | Fires whenever any child changes; `values` is the list of currently checked (non-check-all) child values. |
-
-#### Event listening example
-
-```html
-<aegov-checkbox-group id="prefs" label="Preferences">
-  <aegov-checkbox is-check-all label="Select all"></aegov-checkbox>
-  <aegov-checkbox value="news" label="News"></aegov-checkbox>
-  <aegov-checkbox value="offers" label="Offers"></aegov-checkbox>
+<aegov-checkbox-group id="docs" label="Documents to attach" name="docs">
+  <aegov-checkbox value="eid" label="Emirates ID"></aegov-checkbox>
+  <aegov-checkbox value="passport" label="Passport"></aegov-checkbox>
+  <aegov-checkbox value="utility" label="Utility bill"></aegov-checkbox>
 </aegov-checkbox-group>
 
 <script>
-  document.getElementById('prefs').addEventListener('aegovCheckboxGroupChange', (e) => {
-    console.log('selected values:', e.detail.values);
+  const group = document.getElementById('docs');
+  group.addEventListener('aegovCheckboxGroupChange', (e) => {
+    console.log('Selected:', e.detail.values);
+    // e.g. ['eid', 'passport']
   });
 </script>
 ```
 
+---
+
+## RTL Support
+
+The checkbox uses CSS logical properties throughout. When the document or any ancestor is set to `dir="rtl"`, the box swaps to the right of the label, the description aligns right, group dividers and card borders flip, and pill spacing follows the writing direction. No additional configuration is needed.
+
+```html
+<div dir="rtl">
+  <aegov-checkbox-group variant="cards" label="تفضيلات الإشعارات" name="prefs">
+    <aegov-checkbox value="email" label="البريد الإلكتروني" description="تصلك التحديثات على عنوانك المسجل." is-checked="true"></aegov-checkbox>
+    <aegov-checkbox value="sms" label="الرسائل النصية" description="تنبيهات قصيرة على رقم هاتفك المحمول."></aegov-checkbox>
+    <aegov-checkbox value="push" label="الإشعارات الفورية" description="إشعارات داخل التطبيق والمتصفح."></aegov-checkbox>
+  </aegov-checkbox-group>
+
+  <aegov-checkbox
+    label="أؤكد أن المعلومات المقدمة صحيحة وأوافق على شروط الخدمة"
+    is-required="true"
+  ></aegov-checkbox>
+</div>
+```
+
+<div dir="rtl" class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <div class="grid gap-8">
+    <aegov-checkbox-group variant="cards" label="تفضيلات الإشعارات" name="prefs">
+      <aegov-checkbox value="email" label="البريد الإلكتروني" description="تصلك التحديثات على عنوانك المسجل." is-checked="true"></aegov-checkbox>
+      <aegov-checkbox value="sms" label="الرسائل النصية" description="تنبيهات قصيرة على رقم هاتفك المحمول."></aegov-checkbox>
+      <aegov-checkbox value="push" label="الإشعارات الفورية" description="إشعارات داخل التطبيق والمتصفح."></aegov-checkbox>
+    </aegov-checkbox-group>
+    <aegov-checkbox
+      label="أؤكد أن المعلومات المقدمة صحيحة وأوافق على شروط الخدمة"
+      is-required="true"
+    ></aegov-checkbox>
+  </div>
+</div>
+
+---
+
+## API Reference
+
+### aegov-checkbox Properties
+
+| Property          | Attribute          | Description                                                                          | Type           | Default     |
+| ----------------- | ------------------ | ------------------------------------------------------------------------------------ | -------------- | ----------- |
+| `fieldId`         | `field-id`         | DOM `id` for the native `<input>`. Auto-generated as `aegov-checkbox-{n}` if omitted. | `string`       | _generated_ |
+| `name`            | `name`             | Native `name` attribute used during form submission.                                   | `string`       | `undefined` |
+| `value`           | `value`            | Native `value` attribute. Identifies the option in form data and group events.         | `string`       | `undefined` |
+| `isChecked`       | `is-checked`       | Whether the checkbox is checked. Mutable and reflected to the host.                    | `boolean`      | `false`     |
+| `isIndeterminate` | `is-indeterminate` | Whether to show the indeterminate (mixed) state.                                        | `boolean`      | `false`     |
+| `size`            | `size`             | Size token or responsive string. Propagated by `aegov-checkbox-group`.                  | `string`       | `'base'`    |
+| `isDisabled`      | `is-disabled`      | Disable the checkbox. Reflected to the host.                                             | `boolean`      | `false`     |
+| `isRequired`      | `is-required`      | Mark the field as required (sets native `required` and `aria-required`).                  | `boolean`      | `false`     |
+| `label`           | `label`            | Label text. When set, renders a wrapping `<label>` element.                              | `string`       | `undefined` |
+| `description`     | `description`      | Helper text shown below the label. Only rendered when `label` is also set.                | `string`       | `undefined` |
+| `isCheckAll`      | `is-check-all`     | Mark this checkbox as the "select all" controller within an `aegov-checkbox-group`.        | `boolean`      | `false`     |
+| `extraClass`      | `extra-class`      | Additional CSS classes applied to the wrapper.                                              | `string`       | `undefined` |
+
+### aegov-checkbox-group Properties
+
+| Property      | Attribute     | Description                                                                  | Type                         | Default      |
+| ------------- | ------------- | ---------------------------------------------------------------------------- | ---------------------------- | ------------ |
+| `variant`     | `variant`     | Visual layout variant.                                                        | `CheckboxGroupVariant`       | `'default'`  |
+| `orientation` | `orientation` | Stack direction for items.                                                    | `CheckboxGroupOrientation`   | `'vertical'` |
+| `label`       | `label`       | Optional `<legend>` text for the underlying `<fieldset>`.                       | `string`                     | `undefined`  |
+| `size`        | `size`        | Size token or responsive string. Propagated to all child checkboxes.            | `string`                     | `'base'`     |
+| `isDisabled`  | `is-disabled` | Disable the entire group via native `<fieldset disabled>`.                      | `boolean`                    | `false`      |
+| `extraClass`  | `extra-class` | Additional CSS classes applied to the `<fieldset>`.                              | `string`                     | `undefined`  |
+
+`CheckboxGroupVariant` accepts: `default`, `list`, `cards`, `pills`. `CheckboxGroupOrientation` accepts: `vertical`, `horizontal`.
+
 ### Slots
 
-| Component              | Slot      | Description                                              |
-| ---------------------- | --------- | -------------------------------------------------------- |
-| `aegov-checkbox`       | (none)    | Use the `label` and `description` props for content.     |
-| `aegov-checkbox-group` | (default) | One or more `aegov-checkbox` children.                   |
+| Component               | Slot        | Description                                                          |
+| ----------------------- | ----------- | -------------------------------------------------------------------- |
+| `aegov-checkbox-group`  | _(default)_ | Place one or more `aegov-checkbox` children here.                     |
+
+`aegov-checkbox` does not expose named slots — content is set through the `label` and `description` properties.
+
+### Events
+
+| Event                       | Component               | Detail                                       | Description                                                                                  |
+| --------------------------- | ----------------------- | -------------------------------------------- | -------------------------------------------------------------------------------------------- |
+| `aegovCheckboxChange`       | `aegov-checkbox`        | `{ checked: boolean; value?: string }`       | Fires when the individual checkbox state changes.                                              |
+| `aegovCheckboxGroupChange`  | `aegov-checkbox-group`  | `{ values: string[] }`                       | Fires when any child checkbox changes. Detail contains all currently checked non-controller values. |
+
+### Pass-through Attributes
+
+`aria-*` and `data-*` attributes set on `<aegov-checkbox>` are always forwarded to the native `<input>`. The following standard attributes are also forwarded when set on the host:
+
+| Attribute   | Description                          |
+| ----------- | ------------------------------------ |
+| `form`      | Associate with a form by id.          |
+| `tabindex`  | Custom tab order.                     |
+| `autofocus` | Focus the checkbox when it mounts.    |
+| `title`     | Native tooltip text.                  |
+
+> Reserved HTML attributes (`id`, `class`, `style`) cannot be used as props — `id` is replaced by `field-id`, and `class`/`style` are applied to the host as usual.
+
+---
 
 ## Accessibility
 
-### Built-in
+### Built-in behaviour
 
-- Uses a native `<input type="checkbox">` so screen readers and keyboards behave with no extra ARIA wiring.
-- Wrapping `<label>` makes the entire label/description region clickable and announced.
-- `description` is linked to the input via `aria-describedby`.
-- `is-required` sets `aria-required="true"` in addition to the native `required` attribute.
-- The check-all child uses the native `indeterminate` property so assistive tech announces a "mixed" state when only some children are selected.
-- Groups render a `<fieldset>` with an optional `<legend>` (when `label` is set) so the group is announced as a single labeled set.
+- Renders a real `<input type="checkbox">`, preserving native semantics, keyboard handling, and assistive-technology behaviour.
+- `field-id` is auto-generated and reflected to the host so external `<label for>` (or `aegov-label`) can associate reliably.
+- When `label` is set, the entire label area is part of the click target via the wrapping `<label>` element.
+- `description` is associated with the input via `aria-describedby`.
+- `is-required` sets the native `required` attribute and `aria-required="true"`.
+- `aegov-checkbox-group` renders a real `<fieldset>` with an optional `<legend>`, giving screen-reader users a clear group label.
+- The "select all" indeterminate state is set on the native input via the `indeterminate` property, which assistive tech announces as "mixed".
 
 ### Developer responsibilities
 
-- Always provide a `label`. Without one, no visible label is rendered and the input is reachable but unlabeled.
-- For groups, provide a `label` so the `<legend>` describes the set.
-- Match `name` across grouped checkboxes if you depend on native form submission semantics.
+- Always provide either a visible `label`, a sibling `<label for>`, or `aria-label` / `aria-labelledby` on the host. A bare checkbox with no label reads as just "checkbox".
+- When using `aegov-checkbox-group`, prefer setting the group `label` over labelling each item with the same group name.
+- Use `is-required` for genuine submission requirements (e.g. terms acceptance), not for "preferred" options.
+- For dynamic check-all groups where children are added or removed at runtime, the group recomputes the controller state automatically — no extra wiring is required.
 
-### Notes
+### Keyboard support
 
-- Keyboard support is fully native: focus the input and press Space to toggle. Tab moves between checkboxes — there is no roving tabindex (this matches HTML defaults; checkboxes are not single-select).
+| Key             | Action                                                                                |
+| --------------- | ------------------------------------------------------------------------------------- |
+| `Tab`           | Move focus to the next checkbox.                                                       |
+| `Shift + Tab`   | Move focus to the previous checkbox.                                                   |
+| `Space`         | Toggle the focused checkbox.                                                           |
+| `Enter`         | Submit the surrounding form (does not toggle the checkbox — native browser behaviour). |

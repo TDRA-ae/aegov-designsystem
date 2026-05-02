@@ -20,35 +20,173 @@
       <article class="col-span-5 grow">
           <section id="content-area" class="bg-whitely-50 p-6 rounded-md shadow-xl">
           <!-- DOC:START -->
-<h1>aegov-link</h1>
-<p>A styled inline anchor component for navigation links and external references. Use it for in-content links that should follow the design system&#39;s link colors and transitions, including automatic safe-rel handling for external targets and a custom click event for SPA-style routing.</p>
-<h2>Properties</h2>
-<h3>href (required)</h3>
-<p>The URL the link points to.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-link</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;https://u.ae&quot;</span>&gt;</span>UAE Government<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-link</span>&gt;</span></code></pre><h3>target</h3>
-<p>Standard anchor <code>target</code> attribute. Accepts <code>_blank</code>, <code>_self</code>, <code>_parent</code>, or <code>_top</code>.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-link</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;https://u.ae&quot;</span> <span class="hljs-attr">target</span>=<span class="hljs-string">&quot;_blank&quot;</span>&gt;</span>Open in new tab<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-link</span>&gt;</span></code></pre><h3>rel</h3>
-<p>Standard anchor <code>rel</code> attribute. When omitted with <code>target=&quot;_blank&quot;</code>, the component automatically applies <code>rel=&quot;noopener noreferrer&quot;</code>.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-link</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;https://example.com&quot;</span> <span class="hljs-attr">target</span>=<span class="hljs-string">&quot;_blank&quot;</span> <span class="hljs-attr">rel</span>=<span class="hljs-string">&quot;nofollow&quot;</span>&gt;</span>External<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-link</span>&gt;</span></code></pre><h3>field-id</h3>
-<p>Unique ID for the inner anchor. Auto-generated if not provided.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-link</span> <span class="hljs-attr">field-id</span>=<span class="hljs-string">&quot;contact-link&quot;</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/contact&quot;</span>&gt;</span>Contact us<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-link</span>&gt;</span></code></pre><h3>extra-class</h3>
-<p>Additional CSS classes merged onto the anchor.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-link</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/x&quot;</span> <span class="hljs-attr">extra-class</span>=<span class="hljs-string">&quot;font-semibold&quot;</span>&gt;</span>Bold link<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-link</span>&gt;</span></code></pre><h2>Examples</h2>
-<h3>Internal link</h3>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-link</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/services&quot;</span>&gt;</span>View services<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-link</span>&gt;</span></code></pre><h3>External link (auto rel)</h3>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-link</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;https://u.ae&quot;</span> <span class="hljs-attr">target</span>=<span class="hljs-string">&quot;_blank&quot;</span>&gt;</span>UAE Portal<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-link</span>&gt;</span>
-<span class="hljs-comment">&lt;!-- Renders: &lt;a target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot; ...&gt; --&gt;</span></code></pre><h3>Intercept navigation for SPA routing</h3>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-link</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/dashboard&quot;</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;spa-link&quot;</span>&gt;</span>Dashboard<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-link</span>&gt;</span>
+<h1>Link</h1>
+<p class="text-lg text-aeblack-500 mb-8">A styled inline anchor for navigation, in-content references, and external destinations. The component wraps a real <code>&lt;a&gt;</code> element so it remains keyboard-accessible and crawlable, while applying the design system's link colour and transition. It also adds automatic safe-rel handling for external targets and a custom click event for SPA-style routing.</p>
+
+<h2>Introduction</h2>
+<p>The <code>aegov-link</code> component renders a styled anchor with the system&#39;s link colour (<code>text-primary-600</code>) and a subtle colour transition. It accepts the standard anchor properties (<code>href</code>, <code>target</code>, <code>rel</code>, <code>download</code>, <code>hreflang</code>, etc.) and automatically applies <code>rel=&quot;noopener noreferrer&quot;</code> when <code>target=&quot;_blank&quot;</code> to prevent reverse-tabnabbing. For SPA routing, a custom <code>aegovLinkClick</code> event lets you intercept navigation and hand off to your client-side router.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-text</span>&gt;</span>
+  Visit the official UAE Government portal at
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-link</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;https://u.ae&quot;</span> <span class="hljs-attr">target</span>=<span class="hljs-string">&quot;_blank&quot;</span>&gt;</span>u.ae<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-link</span>&gt;</span>
+  for the full directory of federal services.
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-text</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-text>
+    Visit the official UAE Government portal at <aegov-link href="https://u.ae" target="_blank">u.ae</aegov-link> for the full directory of federal services.
+  </aegov-text>
+</div>
+
+<hr>
+<h2>Internal Links</h2>
+<p>For in-application navigation, set <code>href</code> to the route or in-page anchor. The link inherits its size from the surrounding text, so you can drop it inside <code>aegov-text</code>, list items, or table cells without additional styling.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-text</span>&gt;</span>
+  Already have an account?
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-link</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/sign-in&quot;</span>&gt;</span>Sign in<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-link</span>&gt;</span>
+  to continue your application.
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-text</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-text</span>&gt;</span>
+  See the
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-link</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;#fees&quot;</span>&gt;</span>fees and charges<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-link</span>&gt;</span>
+  section below for details.
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-text</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-text>
+    Already have an account? <aegov-link href="/sign-in">Sign in</aegov-link> to continue your application.
+  </aegov-text>
+  <aegov-text>
+    See the <aegov-link href="#fees">fees and charges</aegov-link> section below for details.
+  </aegov-text>
+</div>
+
+<hr>
+<h2>External Links</h2>
+<p>Set <code>target=&quot;_blank&quot;</code> to open the link in a new browser tab. When <code>target=&quot;_blank&quot;</code> is set without an explicit <code>rel</code>, the component automatically adds <code>rel=&quot;noopener noreferrer&quot;</code> to mitigate reverse-tabnabbing. You can override this by providing your own <code>rel</code> value.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-link</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;https://u.ae&quot;</span> <span class="hljs-attr">target</span>=<span class="hljs-string">&quot;_blank&quot;</span>&gt;</span>
+  UAE Government portal
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-link</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-link</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;https://government.ae&quot;</span> <span class="hljs-attr">target</span>=<span class="hljs-string">&quot;_blank&quot;</span> <span class="hljs-attr">rel</span>=<span class="hljs-string">&quot;nofollow&quot;</span>&gt;</span>
+  Federal services directory
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-link</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-text>
+    Open the
+    <aegov-link href="https://u.ae" target="_blank">UAE Government portal</aegov-link>
+    or the
+    <aegov-link href="https://government.ae" target="_blank">federal services directory</aegov-link>
+    in a new tab.
+  </aegov-text>
+</div>
+
+<hr>
+<h2>Download Links</h2>
+<p>Pass the standard <code>download</code> attribute to prompt the browser to save the resource instead of navigating to it. The attribute is forwarded through to the underlying <code>&lt;a&gt;</code> element.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-link</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/files/service-charter.pdf&quot;</span> <span class="hljs-attr">download</span>=<span class="hljs-string">&quot;service-charter.pdf&quot;</span>&gt;</span>
+  Download service charter (PDF)
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-link</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-text>
+    <aegov-link href="/files/service-charter.pdf" download="service-charter.pdf">
+      Download service charter (PDF)
+    </aegov-link>
+  </aegov-text>
+</div>
+
+<hr>
+<h2>Custom Styling</h2>
+<p>Use <code>extra-class</code> to merge additional Tailwind utilities — for example, to make the link bolder, change its colour, or add an underline.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-link</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/services&quot;</span> <span class="hljs-attr">extra-class</span>=<span class="hljs-string">&quot;font-semibold underline&quot;</span>&gt;</span>
+  Browse all services
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-link</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-link</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/help&quot;</span> <span class="hljs-attr">extra-class</span>=<span class="hljs-string">&quot;text-aeblack-700 hover:text-primary-600&quot;</span>&gt;</span>
+  Help and support
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-link</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-text>
+    <aegov-link href="/services" extra-class="font-semibold underline">Browse all services</aegov-link>
+    &nbsp;·&nbsp;
+    <aegov-link href="/help" extra-class="text-aeblack-700 hover:text-primary-600">Help and support</aegov-link>
+  </aegov-text>
+</div>
+
+<hr>
+<h2>Intercepting Navigation</h2>
+<p>The <code>aegovLinkClick</code> event fires before navigation. Listen for it and call <code>preventDefault()</code> on <code>event.detail.event</code> to stop the browser navigation and hand control to your SPA router.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-link</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/dashboard&quot;</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;dashboard-link&quot;</span>&gt;</span>Open dashboard<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-link</span>&gt;</span>
+
 <span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript">
-  <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;spa-link&#x27;</span>).<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;aegovLinkClick&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">e</span>) =&gt;</span> {
-    e.<span class="hljs-property">detail</span>.<span class="hljs-property">event</span>.<span class="hljs-title function_">preventDefault</span>();
-    router.<span class="hljs-title function_">push</span>(e.<span class="hljs-property">detail</span>.<span class="hljs-property">href</span>);
-  });
-</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre><h3>Download link</h3>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-link</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/files/report.pdf&quot;</span> <span class="hljs-attr">download</span>=<span class="hljs-string">&quot;report.pdf&quot;</span>&gt;</span>
-  Download report
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-link</span>&gt;</span></code></pre><h2>RTL Behavior</h2>
-<p><code>aegov-link</code> renders inline content. Direction follows the surrounding <code>dir</code> attribute. The component itself contains no directional layout logic, so links flow naturally with the document&#39;s reading direction.</p>
+  <span class="hljs-variable language_">document</span>
+    .<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;dashboard-link&#x27;</span>)
+    .<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;aegovLinkClick&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">e</span>) =&gt;</span> {
+      e.<span class="hljs-property">detail</span>.<span class="hljs-property">event</span>.<span class="hljs-title function_">preventDefault</span>();
+      <span class="hljs-comment">// Hand off to the client-side router</span>
+      router.<span class="hljs-title function_">push</span>(e.<span class="hljs-property">detail</span>.<span class="hljs-property">href</span>);
+    });
+</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre><p>The event detail also includes the original <code>MouseEvent</code>, so you can read modifier keys (Cmd / Ctrl-click for new tab) and decide whether to intercept or let the browser proceed.</p>
+<hr>
+<h2>Combined Example</h2>
+<p>A typical service description block uses inline links for navigation and external references. The example below combines internal navigation, an external link, and a download.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-title</span> <span class="hljs-attr">heading-type</span>=<span class="hljs-string">&quot;h3&quot;</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;lg&quot;</span> <span class="hljs-attr">extra-class</span>=<span class="hljs-string">&quot;mb-2&quot;</span>&gt;</span>
+  Renew your residence visa
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-title</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-text</span>&gt;</span>
+  Eligible residents can renew their visa through the
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-link</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/services/visa-renewal&quot;</span>&gt;</span>online service<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-link</span>&gt;</span>
+  or by visiting an
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-link</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;https://icp.gov.ae&quot;</span> <span class="hljs-attr">target</span>=<span class="hljs-string">&quot;_blank&quot;</span>&gt;</span>authorised ICP centre<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-link</span>&gt;</span>.
+  Read the
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-link</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/files/visa-renewal-guide.pdf&quot;</span> <span class="hljs-attr">download</span>&gt;</span>full guide (PDF)<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-link</span>&gt;</span>
+  before you start.
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-text</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-title heading-type="h3" size="lg" extra-class="mb-2">
+    Renew your residence visa
+  </aegov-title>
+  <aegov-text>
+    Eligible residents can renew their visa through the
+    <aegov-link href="/services/visa-renewal">online service</aegov-link>
+    or by visiting an
+    <aegov-link href="https://icp.gov.ae" target="_blank">authorised ICP centre</aegov-link>.
+    Read the
+    <aegov-link href="/files/visa-renewal-guide.pdf" download>full guide (PDF)</aegov-link>
+    before you start.
+  </aegov-text>
+</div>
+
+<hr>
+<h2>RTL Support</h2>
+<p><code>aegov-link</code> is direction-agnostic. Because it renders inline content, the link simply flows in the direction set by the surrounding <code>dir</code> attribute. No properties need to change between LTR and RTL — wrap any ancestor with <code>dir=&quot;rtl&quot;</code> and the link reads right-to-left automatically.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">dir</span>=<span class="hljs-string">&quot;rtl&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-text</span>&gt;</span>
+    تفضّل بزيارة
+    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-link</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;https://u.ae&quot;</span> <span class="hljs-attr">target</span>=<span class="hljs-string">&quot;_blank&quot;</span>&gt;</span>البوابة الرسمية لحكومة الإمارات<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-link</span>&gt;</span>
+    للاطلاع على الدليل الكامل للخدمات الاتحادية.
+  <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-text</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-text</span>&gt;</span>
+    لديك حساب بالفعل؟
+    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-link</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/sign-in&quot;</span>&gt;</span>سجّل الدخول<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-link</span>&gt;</span>
+    لمتابعة طلبك.
+  <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-text</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-text</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-link</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/files/service-charter.pdf&quot;</span> <span class="hljs-attr">download</span>=<span class="hljs-string">&quot;service-charter.pdf&quot;</span>&gt;</span>
+      تنزيل ميثاق الخدمة (PDF)
+    <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-link</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-text</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre><div dir="rtl" class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-text>
+    تفضّل بزيارة
+    <aegov-link href="https://u.ae" target="_blank">البوابة الرسمية لحكومة الإمارات</aegov-link>
+    للاطلاع على الدليل الكامل للخدمات الاتحادية.
+  </aegov-text>
+  <aegov-text>
+    لديك حساب بالفعل؟
+    <aegov-link href="/sign-in">سجّل الدخول</aegov-link>
+    لمتابعة طلبك.
+  </aegov-text>
+  <aegov-text>
+    <aegov-link href="/files/service-charter.pdf" download="service-charter.pdf">
+      تنزيل ميثاق الخدمة (PDF)
+    </aegov-link>
+  </aegov-text>
+</div>
+
+<hr>
 <h2>API Reference</h2>
 <h3>Properties</h3>
 <table>
@@ -71,84 +209,33 @@
 <tr>
 <td><code>target</code></td>
 <td><code>target</code></td>
-<td>Anchor target attribute.</td>
-<td><code>&quot;_blank&quot; | &quot;_self&quot; | &quot;_parent&quot; | &quot;_top&quot;</code></td>
+<td>Anchor <code>target</code> attribute.</td>
+<td><code>&#39;_blank&#39; | &#39;_self&#39; | &#39;_parent&#39; | &#39;_top&#39;</code></td>
 <td><code>undefined</code></td>
 </tr>
 <tr>
 <td><code>rel</code></td>
 <td><code>rel</code></td>
-<td>Anchor rel attribute. Auto-set to <code>&quot;noopener noreferrer&quot;</code> when <code>target=&quot;_blank&quot;</code> and not provided.</td>
+<td>Anchor <code>rel</code> attribute. Auto-set to <code>&#39;noopener noreferrer&#39;</code> when <code>target=&quot;_blank&quot;</code> and not explicitly provided.</td>
 <td><code>string</code></td>
 <td><code>undefined</code></td>
 </tr>
 <tr>
 <td><code>fieldId</code></td>
 <td><code>field-id</code></td>
-<td>Unique ID for the anchor. Auto-generated if not provided.</td>
+<td>DOM <code>id</code> for the inner anchor element. Auto-generated if omitted.</td>
 <td><code>string</code></td>
-<td><code>undefined</code></td>
+<td><em>generated</em></td>
 </tr>
 <tr>
 <td><code>extraClass</code></td>
 <td><code>extra-class</code></td>
-<td>Additional classes applied to the anchor.</td>
+<td>Additional Tailwind / CSS classes merged onto the rendered <code>&lt;a&gt;</code>.</td>
 <td><code>string</code></td>
 <td><code>undefined</code></td>
 </tr>
 </tbody></table>
-<h3>Pass-through Attributes</h3>
-<p>In addition to <code>aria-*</code> and <code>data-*</code>, the following attributes are forwarded to the inner <code>&lt;a&gt;</code>:</p>
-<table>
-<thead>
-<tr>
-<th>Attribute</th>
-</tr>
-</thead>
-<tbody><tr>
-<td><code>title</code></td>
-</tr>
-<tr>
-<td><code>referrerpolicy</code></td>
-</tr>
-<tr>
-<td><code>hreflang</code></td>
-</tr>
-<tr>
-<td><code>rel</code></td>
-</tr>
-<tr>
-<td><code>target</code></td>
-</tr>
-<tr>
-<td><code>download</code></td>
-</tr>
-<tr>
-<td><code>type</code></td>
-</tr>
-</tbody></table>
-<h3>Events</h3>
-<table>
-<thead>
-<tr>
-<th>Event</th>
-<th>Description</th>
-<th>Detail Type</th>
-</tr>
-</thead>
-<tbody><tr>
-<td><code>aegovLinkClick</code></td>
-<td>Fires when the link is clicked. Call <code>event.detail.event.preventDefault()</code> (or the custom event&#39;s own <code>preventDefault()</code>) to stop default navigation.</td>
-<td><code>{ href: string; event: MouseEvent }</code></td>
-</tr>
-</tbody></table>
-<h4>Event listening example</h4>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-link</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/page&quot;</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;my-link&quot;</span>&gt;</span>Open<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-link</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript">
-  <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;my-link&#x27;</span>).<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;aegovLinkClick&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">e</span>) =&gt;</span> {
-    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;Navigating to&#x27;</span>, e.<span class="hljs-property">detail</span>.<span class="hljs-property">href</span>);
-  });
-</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre><h3>Slots</h3>
+<h3>Slots</h3>
 <table>
 <thead>
 <tr>
@@ -157,26 +244,128 @@
 </tr>
 </thead>
 <tbody><tr>
-<td>(default)</td>
-<td>The link text content</td>
+<td><em>(default)</em></td>
+<td>The link text content rendered inside <code>&lt;a&gt;</code>.</td>
 </tr>
 </tbody></table>
+<h3>Events</h3>
+<table>
+<thead>
+<tr>
+<th>Event</th>
+<th>Detail</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>aegovLinkClick</code></td>
+<td><code>{ href: string; event: MouseEvent }</code></td>
+<td>Fired when the link is clicked. Call <code>event.detail.event.preventDefault()</code> (or <code>event.preventDefault()</code> on the custom event) to stop default navigation.</td>
+</tr>
+</tbody></table>
+<h4>Listening for click events</h4>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-link</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/page&quot;</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;my-link&quot;</span>&gt;</span>Open page<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-link</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript">
+  <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;my-link&#x27;</span>).<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;aegovLinkClick&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">e</span>) =&gt;</span> {
+    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;Navigating to&#x27;</span>, e.<span class="hljs-property">detail</span>.<span class="hljs-property">href</span>);
+  });
+</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre><h3>Pass-through Attributes</h3>
+<p>In addition to <code>aria-*</code> and <code>data-*</code>, the following standard anchor attributes are forwarded from the host to the inner <code>&lt;a&gt;</code> element:</p>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Forwarded?</th>
+<th>Where it lands</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>title</code></td>
+<td>Yes</td>
+<td>Inner <code>&lt;a&gt;</code> element.</td>
+</tr>
+<tr>
+<td><code>referrerpolicy</code></td>
+<td>Yes</td>
+<td>Inner <code>&lt;a&gt;</code> element.</td>
+</tr>
+<tr>
+<td><code>hreflang</code></td>
+<td>Yes</td>
+<td>Inner <code>&lt;a&gt;</code> element.</td>
+</tr>
+<tr>
+<td><code>rel</code></td>
+<td>Yes</td>
+<td>Inner <code>&lt;a&gt;</code> element.</td>
+</tr>
+<tr>
+<td><code>target</code></td>
+<td>Yes</td>
+<td>Inner <code>&lt;a&gt;</code> element.</td>
+</tr>
+<tr>
+<td><code>download</code></td>
+<td>Yes</td>
+<td>Inner <code>&lt;a&gt;</code> element.</td>
+</tr>
+<tr>
+<td><code>type</code></td>
+<td>Yes</td>
+<td>Inner <code>&lt;a&gt;</code> element.</td>
+</tr>
+<tr>
+<td><code>aria-*</code>, <code>data-*</code></td>
+<td>Yes</td>
+<td>Inner <code>&lt;a&gt;</code> element.</td>
+</tr>
+<tr>
+<td><code>class</code>, <code>style</code></td>
+<td>Allowed</td>
+<td>Host element.</td>
+</tr>
+</tbody></table>
+<hr>
 <h2>Accessibility</h2>
-<h3>Built-in</h3>
+<h3>Built-in behaviour</h3>
 <ul>
-<li>Renders a real <code>&lt;a&gt;</code> element so it is keyboard-focusable and recognized by assistive technology as a link.</li>
-<li>Automatically sets <code>rel=&quot;noopener noreferrer&quot;</code> when <code>target=&quot;_blank&quot;</code> to prevent reverse-tabnabbing security issues.</li>
-<li>Pass-through attributes allow <code>aria-label</code>, <code>aria-describedby</code>, <code>title</code>, etc. to be forwarded.</li>
+<li>Renders a real <code>&lt;a&gt;</code> element so it is keyboard-focusable, recognised by assistive technology as a link, and discoverable to search engines.</li>
+<li>Automatically applies <code>rel=&quot;noopener noreferrer&quot;</code> when <code>target=&quot;_blank&quot;</code> (and no explicit <code>rel</code> is provided) to prevent reverse-tabnabbing.</li>
+<li>Pass-through attributes allow <code>aria-label</code>, <code>aria-describedby</code>, <code>title</code>, <code>hreflang</code>, and <code>referrerpolicy</code> to be forwarded without wrapping markup.</li>
 </ul>
 <h3>Developer responsibilities</h3>
 <ul>
-<li>Provide descriptive link text. Avoid generic text like &quot;click here&quot;. The slot content should describe the destination.</li>
+<li>Provide descriptive link text. Avoid generic text like &quot;click here&quot; or &quot;read more&quot; — the slot content should describe the destination.</li>
 <li>For icon-only links, provide an <code>aria-label</code> so screen readers announce the destination.</li>
-<li>Use <code>target=&quot;_blank&quot;</code> sparingly — opening new tabs unexpectedly is disorienting for many users.</li>
+<li>Use <code>target=&quot;_blank&quot;</code> sparingly — opening new tabs unexpectedly is disorienting for many users. When you do, consider warning the user in the link text (for example, &quot;(opens in a new tab)&quot;).</li>
+<li>Maintain sufficient colour contrast (at least 4.5 : 1 against the background) when overriding colour via <code>extra-class</code>.</li>
 </ul>
+<h3>Keyboard support</h3>
+<table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Tab</code></td>
+<td>Move focus to the link.</td>
+</tr>
+<tr>
+<td><code>Shift + Tab</code></td>
+<td>Move focus away from the link.</td>
+</tr>
+<tr>
+<td><code>Enter</code></td>
+<td>Activate the link (navigate or fire the event).</td>
+</tr>
+</tbody></table>
 <h3>Notes</h3>
 <ul>
 <li>The <code>aegovLinkClick</code> event fires before navigation. To intercept SPA navigation, call <code>preventDefault()</code> on <code>event.detail.event</code> from your handler.</li>
+<li>The component does not underline links by default. If your site or context requires underlines for link affordance (often the case for inline links inside body copy), apply them via <code>extra-class=&quot;underline&quot;</code> or via a global CSS rule.</li>
 </ul>
 <!-- DOC:END -->
           </section>

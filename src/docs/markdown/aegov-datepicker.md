@@ -1,337 +1,602 @@
-# aegov-datepicker
+# Datepicker
 
-A date and date-range picker. Renders a read-only input trigger and opens a calendar in a portal attached to `document.body`. Supports single dates, ranges, presets, custom locales, blackout dates, min/max constraints, and an optional Apply/Cancel confirmation flow. Fully keyboard accessible.
+<p class="text-lg text-aeblack-500 mb-8">A date and date-range picker for UAE Government service forms — date of birth, residency expiry, application window, leave request, appointment booking, and any other field that asks the user for one or two calendar dates. The component renders a read-only input trigger and opens a calendar in a portal attached to `document.body`, so the calendar is never clipped by overflow rules on the surrounding form. Single-date and range modes share one component, with full keyboard navigation and Arabic / English locale support out of the box.</p>
 
-## Properties
+## Introduction
 
-### variant
+The `aegov-datepicker` component composes a styled trigger input with a portaled calendar popover. The trigger is `readOnly`, so users cannot type free-form text — every selection happens through the calendar dialog. Single mode commits as soon as the user clicks a day; range mode accumulates two clicks (start, then end) and commits when the second click lands on a valid day. Min/max constraints, blackout dates, range-length limits, presets, and an optional Apply / Cancel confirmation flow are all configurable via attributes.
 
-Selection mode.
-
-```html
-<aegov-datepicker variant="single"></aegov-datepicker>
-<aegov-datepicker variant="range"></aegov-datepicker>
-```
-
-### value
-
-Pre-selected value. Single mode uses one date string in `format`. Range mode uses two dates joined by ` / `.
+> The calendar is rendered inside a portal at the end of `document.body`, similar to `aegov-dropdown` and `aegov-toast`. This keeps the calendar above any clipping ancestor (`overflow: hidden`, fixed cards, etc.) and lets it size itself freely.
 
 ```html
-<aegov-datepicker value="2024-06-15"></aegov-datepicker>
-<aegov-datepicker variant="range" value="2024-06-01 / 2024-06-15"></aegov-datepicker>
+<aegov-datepicker
+  placeholder="Select a date"
+  format="DD MMM YYYY"
+></aegov-datepicker>
 ```
 
-### format
+<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-datepicker
+    placeholder="Select a date"
+    format="DD MMM YYYY"
+  ></aegov-datepicker>
+</div>
 
-Output and display format. Tokens: `YYYY`, `YY`, `MM`, `M`, `DD`, `D`, `MMM`, `MMMM`, `dd`, `ddd`.
+---
+
+## Single date
+
+The default `variant="single"` collects one date. Clicking a day commits the selection, fires `aegovDatepickerChange`, and closes the calendar.
 
 ```html
-<aegov-datepicker format="DD MMM YYYY"></aegov-datepicker>
-<aegov-datepicker format="MMMM D, YYYY"></aegov-datepicker>
+<aegov-datepicker
+  placeholder="Date of birth"
+  format="DD MMM YYYY"
+  is-disable-future="true"
+></aegov-datepicker>
 ```
 
-### placeholder
+<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-datepicker
+    placeholder="Date of birth"
+    format="DD MMM YYYY"
+    is-disable-future="true"
+  ></aegov-datepicker>
+</div>
 
-Placeholder for single mode.
+---
+
+## Date range
+
+Set `variant="range"` to render two trigger inputs — start and end — and a side-by-side two-month calendar in the popover. The first click marks the start, the second click marks the end. If the user clicks a day before the existing start, the dates are swapped automatically.
 
 ```html
-<aegov-datepicker placeholder="Select a date"></aegov-datepicker>
+<aegov-datepicker
+  variant="range"
+  label-range-start="Check-in"
+  label-range-end="Check-out"
+  format="DD MMM YYYY"
+></aegov-datepicker>
 ```
 
-### label-range-start / label-range-end
+<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-datepicker
+    variant="range"
+    label-range-start="Check-in"
+    label-range-end="Check-out"
+    format="DD MMM YYYY"
+  ></aegov-datepicker>
+</div>
 
-Placeholders for the two range-mode inputs.
+---
+
+## Output format
+
+The `format` property controls how the selected date is rendered into the trigger input and into the `value` string emitted with each change event. The default is `YYYY-MM-DD`.
+
+| Token  | Output          | Example       |
+| ------ | --------------- | ------------- |
+| `YYYY` | 4-digit year    | `2026`        |
+| `YY`   | 2-digit year    | `26`          |
+| `MMMM` | Full month name | `May`         |
+| `MMM`  | Short month     | `May`         |
+| `MM`   | 2-digit month   | `05`          |
+| `M`    | Numeric month   | `5`           |
+| `DD`   | 2-digit day     | `01`          |
+| `D`    | Numeric day     | `1`           |
+| `dddd` | Full weekday    | `Friday`      |
+| `ddd`  | Short weekday   | `Fri`         |
 
 ```html
-<aegov-datepicker variant="range" label-range-start="From" label-range-end="To"></aegov-datepicker>
+<aegov-datepicker format="DD MMM YYYY" placeholder="DD MMM YYYY"></aegov-datepicker>
+<aegov-datepicker format="MMMM D, YYYY" placeholder="MMMM D, YYYY"></aegov-datepicker>
+<aegov-datepicker format="YYYY-MM-DD" placeholder="YYYY-MM-DD"></aegov-datepicker>
 ```
 
-### min / max
+<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-datepicker format="DD MMM YYYY" placeholder="DD MMM YYYY"></aegov-datepicker>
+  <div class="my-4"></div>
+  <aegov-datepicker format="MMMM D, YYYY" placeholder="MMMM D, YYYY"></aegov-datepicker>
+  <div class="my-4"></div>
+  <aegov-datepicker format="YYYY-MM-DD" placeholder="YYYY-MM-DD"></aegov-datepicker>
+</div>
 
-Minimum and maximum selectable dates (`YYYY-MM-DD` strings or the literal `today`).
+---
+
+## Minimum and maximum dates
+
+Use `min` and `max` to constrain the selectable range. Both accept an ISO date string (`YYYY-MM-DD`) or the literal `today`. The shorthand `is-disable-future="true"` is equivalent to `max="today"`, useful for date-of-birth or document-issue-date fields.
 
 ```html
-<aegov-datepicker min="2024-01-01" max="2024-12-31"></aegov-datepicker>
-<aegov-datepicker min="today"></aegov-datepicker>
+<aegov-datepicker
+  placeholder="Emirates ID issue date"
+  is-disable-future="true"
+  format="DD MMM YYYY"
+></aegov-datepicker>
+
+<aegov-datepicker
+  placeholder="Appointment date"
+  min="today"
+  format="DD MMM YYYY"
+></aegov-datepicker>
 ```
 
-### is-disable-future
+<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-datepicker
+    placeholder="Emirates ID issue date"
+    is-disable-future="true"
+    format="DD MMM YYYY"
+  ></aegov-datepicker>
+  <div class="my-4"></div>
+  <aegov-datepicker
+    placeholder="Appointment date"
+    min="today"
+    format="DD MMM YYYY"
+  ></aegov-datepicker>
+</div>
 
-Shorthand for `max="today"`.
+---
+
+## Blackout dates
+
+Pass a comma-separated list of ISO dates to `blackout`. Listed days are visually muted, marked `aria-disabled`, and cannot be picked — useful for closed days, public holidays, or fully booked slots.
 
 ```html
-<aegov-datepicker is-disable-future></aegov-datepicker>
+<aegov-datepicker
+  placeholder="Service appointment"
+  min="today"
+  blackout="2026-12-02,2026-12-03,2026-01-01"
+  format="DD MMM YYYY"
+></aegov-datepicker>
 ```
 
-### start-day
+<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-datepicker
+    placeholder="Service appointment"
+    min="today"
+    blackout="2026-12-02,2026-12-03,2026-01-01"
+    format="DD MMM YYYY"
+  ></aegov-datepicker>
+</div>
 
-First day of the week. `0` = Sunday, `1` = Monday, ... `6` = Saturday.
+---
+
+## Range constraints
+
+In range mode, `min-range` and `max-range` cap the number of days the user is allowed to span. The hover preview turns red while the user is dragging across an invalid range.
 
 ```html
-<aegov-datepicker start-day="1"></aegov-datepicker>
+<aegov-datepicker
+  variant="range"
+  label-range-start="Leave start"
+  label-range-end="Leave end"
+  min-range="2"
+  max-range="14"
+  format="DD MMM YYYY"
+></aegov-datepicker>
 ```
 
-### locale
+<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-datepicker
+    variant="range"
+    label-range-start="Leave start"
+    label-range-end="Leave end"
+    min-range="2"
+    max-range="14"
+    format="DD MMM YYYY"
+  ></aegov-datepicker>
+</div>
 
-BCP-47 locale used for month and weekday names.
+---
 
-```html
-<aegov-datepicker locale="ar"></aegov-datepicker>
-<aegov-datepicker locale="fr"></aegov-datepicker>
-```
+## Presets
 
-### min-range / max-range
-
-Minimum and maximum number of days for range selection. `0` means unconstrained.
-
-```html
-<aegov-datepicker variant="range" min-range="2" max-range="14"></aegov-datepicker>
-```
-
-### blackout
-
-Comma-separated list of ISO dates that cannot be selected.
-
-```html
-<aegov-datepicker blackout="2024-12-25,2024-12-26,2025-01-01"></aegov-datepicker>
-```
-
-### presets
-
-Comma-separated preset IDs (e.g. `today`, `yesterday`, `last7Days`, `thisMonth`, `lastMonth`). Renders a presets panel beside the calendar in range mode.
-
-```html
-<aegov-datepicker variant="range" presets="today,last7Days,thisMonth"></aegov-datepicker>
-```
-
-### is-disabled / is-required / is-clearable
-
-```html
-<aegov-datepicker is-disabled></aegov-datepicker>
-<aegov-datepicker is-required></aegov-datepicker>
-<!-- is-clearable defaults to true; set false to hide the clear button -->
-<aegov-datepicker is-clearable="false" value="2024-06-15"></aegov-datepicker>
-```
-
-### is-header-selectable
-
-When `true` (default), the header shows month and year `<select>` dropdowns; when `false`, it shows a static label.
-
-```html
-<aegov-datepicker is-header-selectable="false"></aegov-datepicker>
-```
-
-### year-range-start / year-range-end
-
-Constrains the year dropdown to a fixed range. If not provided, the picker uses current year ± 100.
-
-```html
-<aegov-datepicker year-range-start="1950" year-range-end="2050"></aegov-datepicker>
-```
-
-### is-with-confirmation
-
-Adds Apply and Cancel buttons. The user's clicks become "pending" until Apply is pressed.
-
-```html
-<aegov-datepicker is-with-confirmation></aegov-datepicker>
-```
-
-### size
-
-Size of the trigger input (`xs`, `sm`, `base`, `lg`, `xl`, or responsive).
-
-```html
-<aegov-datepicker size="lg"></aegov-datepicker>
-<aegov-datepicker size="sm md:base lg:lg"></aegov-datepicker>
-```
-
-## Sizes
-
-```html
-<aegov-datepicker size="xs"></aegov-datepicker>
-<aegov-datepicker size="sm"></aegov-datepicker>
-<aegov-datepicker size="base"></aegov-datepicker>
-<aegov-datepicker size="lg"></aegov-datepicker>
-<aegov-datepicker size="xl"></aegov-datepicker>
-```
-
-## Examples
-
-### Single date
-
-```html
-<aegov-datepicker placeholder="Select a date" format="DD MMM YYYY"></aegov-datepicker>
-```
-
-### Date range with two-month calendar
-
-```html
-<aegov-datepicker variant="range" label-range-start="Check-in" label-range-end="Check-out"></aegov-datepicker>
-```
-
-### With presets
+In range mode, the `presets` property renders a sidebar of one-click range shortcuts. Pass a comma-separated list of preset ids; supported ids include `today`, `yesterday`, `tomorrow`, `thisWeek`, `lastWeek`, `nextWeek`, `last7Days`, `next7Days`, `last14Days`, `next14Days`, `last30Days`, `next30Days`, `thisMonth`, `lastMonth`, `nextMonth`, `last3Months`, `next3Months`, `last6Months`, `next6Months`, `thisQuarter`, `lastQuarter`, `nextQuarter`, `thisYear`, `lastYear`, `nextYear`, `yearToDate`, and `allTime`.
 
 ```html
 <aegov-datepicker
   variant="range"
   presets="today,yesterday,last7Days,thisMonth,lastMonth"
+  label-range-start="From"
+  label-range-end="To"
+  format="DD MMM YYYY"
 ></aegov-datepicker>
 ```
 
-### With Apply / Cancel confirmation
+<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-datepicker
+    variant="range"
+    presets="today,yesterday,last7Days,thisMonth,lastMonth"
+    label-range-start="From"
+    label-range-end="To"
+    format="DD MMM YYYY"
+  ></aegov-datepicker>
+</div>
 
-```html
-<aegov-datepicker is-with-confirmation variant="range"></aegov-datepicker>
-```
+---
 
-### Disable future dates
+## Apply / Cancel confirmation
 
-```html
-<aegov-datepicker is-disable-future placeholder="Date of birth"></aegov-datepicker>
-```
-
-### Blackout dates and constrained range
+Set `is-with-confirmation="true"` to render Apply and Cancel buttons in the calendar footer. While the calendar is open the user's clicks build a pending selection that only commits to the trigger input on Apply. Cancel and outside-clicks discard the pending state without firing a change event.
 
 ```html
 <aegov-datepicker
   variant="range"
-  min="2025-01-01"
-  max="2025-12-31"
-  blackout="2025-12-25,2026-01-01"
-  min-range="3"
-  max-range="14"
+  is-with-confirmation="true"
+  label-range-start="Start"
+  label-range-end="End"
+  format="DD MMM YYYY"
 ></aegov-datepicker>
 ```
 
-### Custom locale and start day
+<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-datepicker
+    variant="range"
+    is-with-confirmation="true"
+    label-range-start="Start"
+    label-range-end="End"
+    format="DD MMM YYYY"
+  ></aegov-datepicker>
+</div>
+
+---
+
+## Week start day
+
+The `start-day` property sets the first column of the calendar grid. `0` is Sunday (default), `1` is Monday, `6` is Saturday. UAE working-week conventions typically use `1` (Monday) or `6` (Saturday).
 
 ```html
-<aegov-datepicker locale="ar" start-day="6"></aegov-datepicker>
-<aegov-datepicker locale="fr" start-day="1"></aegov-datepicker>
+<aegov-datepicker start-day="1" placeholder="Week starts Monday"></aegov-datepicker>
+<aegov-datepicker start-day="6" placeholder="Week starts Saturday"></aegov-datepicker>
 ```
 
-### Custom trigger via slot
+<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-datepicker start-day="1" placeholder="Week starts Monday"></aegov-datepicker>
+  <div class="my-4"></div>
+  <aegov-datepicker start-day="6" placeholder="Week starts Saturday"></aegov-datepicker>
+</div>
+
+---
+
+## Header style
+
+`is-header-selectable` (default `true`) renders month and year `<select>` dropdowns in the calendar header so the user can jump months or years quickly. Set it to `false` to fall back to a static month-year label with only the chevron arrows for navigation.
+
+```html
+<aegov-datepicker is-header-selectable="false" placeholder="Static header"></aegov-datepicker>
+```
+
+<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-datepicker is-header-selectable="false" placeholder="Static header"></aegov-datepicker>
+</div>
+
+To bound the year dropdown to a fixed range — useful when the field is meant to capture a date of birth — pair it with `year-range-start` and `year-range-end`.
+
+```html
+<aegov-datepicker
+  placeholder="Date of birth"
+  year-range-start="1925"
+  year-range-end="2026"
+  is-disable-future="true"
+></aegov-datepicker>
+```
+
+<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-datepicker
+    placeholder="Date of birth"
+    year-range-start="1925"
+    year-range-end="2026"
+    is-disable-future="true"
+  ></aegov-datepicker>
+</div>
+
+---
+
+## Disabled and required
+
+Set `is-disabled="true"` to lock the trigger and prevent the calendar from opening. Set `is-required="true"` to mark the field as required and forward the `required` attribute to the inner native input.
+
+```html
+<aegov-datepicker is-required="true" placeholder="Application date"></aegov-datepicker>
+<aegov-datepicker is-disabled="true" value="2026-05-01" format="DD MMM YYYY"></aegov-datepicker>
+```
+
+<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-datepicker is-required="true" placeholder="Application date"></aegov-datepicker>
+  <div class="my-4"></div>
+  <aegov-datepicker is-disabled="true" value="2026-05-01" format="DD MMM YYYY"></aegov-datepicker>
+</div>
+
+---
+
+## Sizes
+
+The `size` property scales the trigger input. Tokens: `xs`, `sm`, `base` (default), `lg`, `xl`. Responsive strings (`sm md:base lg:lg`) work the same way as on `aegov-input`.
+
+```html
+<aegov-datepicker size="sm" placeholder="Small"></aegov-datepicker>
+<aegov-datepicker size="base" placeholder="Base (default)"></aegov-datepicker>
+<aegov-datepicker size="lg" placeholder="Large"></aegov-datepicker>
+```
+
+<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-datepicker size="sm" placeholder="Small"></aegov-datepicker>
+  <div class="my-4"></div>
+  <aegov-datepicker size="base" placeholder="Base (default)"></aegov-datepicker>
+  <div class="my-4"></div>
+  <aegov-datepicker size="lg" placeholder="Large"></aegov-datepicker>
+</div>
+
+---
+
+## Custom trigger
+
+The `trigger` slot replaces the default input with any focusable element — useful for icon-only buttons or other custom launchers. The component still owns open / close state and positioning; the slotted element only needs to be focusable.
 
 ```html
 <aegov-datepicker>
-  <button slot="trigger" class="my-button">Open calendar</button>
+  <aegov-button slot="trigger" variant="outline">
+    Pick a date
+  </aegov-button>
 </aegov-datepicker>
 ```
 
-## RTL Behavior
+<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-datepicker>
+    <aegov-button slot="trigger" variant="outline">
+      Pick a date
+    </aegov-button>
+  </aegov-datepicker>
+</div>
 
-When the host (or any ancestor) has `dir="rtl"`, the calendar inside the body portal follows logical layout: weekday columns flip, the previous/next month buttons swap visual sides, and the input wrapper aligns its inputs and adornments using inline-start / inline-end. Month and weekday names use the configured `locale`, so set `locale="ar"` (or another RTL locale) along with `dir="rtl"` for fully localized output. The portal positioning logic always anchors the calendar to the trigger's start edge in both LTR and RTL.
+---
 
-## API Reference
+## Combined Example
 
-### Properties
-
-| Property              | Attribute               | Description                                              | Type              | Default       |
-| --------------------- | ----------------------- | -------------------------------------------------------- | ----------------- | ------------- |
-| `variant`             | `variant`               | `'single'` or `'range'`.                                 | `DatepickerMode`  | `'single'`    |
-| `value`               | `value`                 | Current value (string).                                  | `string`          | `''`          |
-| `format`              | `format`                | Output/display format.                                   | `string`          | `'YYYY-MM-DD'`|
-| `placeholder`         | `placeholder`           | Placeholder for single mode.                             | `string`          | `'Select date'`|
-| `labelRangeStart`     | `label-range-start`     | Placeholder for range start input.                       | `string`          | `'Start date'`|
-| `labelRangeEnd`       | `label-range-end`       | Placeholder for range end input.                         | `string`          | `'End date'`  |
-| `min`                 | `min`                   | Minimum date (`'YYYY-MM-DD'` or `'today'`).              | `string`          | `''`          |
-| `max`                 | `max`                   | Maximum date (`'YYYY-MM-DD'` or `'today'`).              | `string`          | `''`          |
-| `isDisableFuture`     | `is-disable-future`     | Shorthand for `max="today"`.                             | `boolean`         | `false`       |
-| `startDay`            | `start-day`             | First weekday (0=Sun … 6=Sat).                           | `number`          | `0`           |
-| `locale`              | `locale`                | BCP-47 locale for names.                                 | `string`          | `'en'`        |
-| `minRange`            | `min-range`             | Minimum days in range.                                   | `number`          | `0`           |
-| `maxRange`            | `max-range`             | Maximum days in range (0 = unlimited).                   | `number`          | `0`           |
-| `blackout`            | `blackout`              | Comma-separated unselectable dates.                      | `string`          | `''`          |
-| `presets`             | `presets`               | Comma-separated preset IDs.                              | `string`          | `''`          |
-| `isDisabled`          | `is-disabled`           | Disables the trigger.                                    | `boolean`         | `false`       |
-| `isRequired`          | `is-required`           | Marks the input as required.                             | `boolean`         | `false`       |
-| `isClearable`         | `is-clearable`          | Show clear button when a value is set.                   | `boolean`         | `true`        |
-| `isHeaderSelectable`  | `is-header-selectable`  | Use month/year selects in header.                        | `boolean`         | `true`        |
-| `yearRangeStart`      | `year-range-start`      | First year in dropdown (0 = auto).                       | `number`          | `0`           |
-| `yearRangeEnd`        | `year-range-end`        | Last year in dropdown (0 = auto).                        | `number`          | `0`           |
-| `isWithConfirmation`  | `is-with-confirmation`  | Render Apply/Cancel buttons.                             | `boolean`         | `false`       |
-| `size`                | `size`                  | Input size (responsive supported).                       | `string`          | `'base'`      |
-
-### Pass-through Attributes
-
-`aria-*`, `data-*`, plus the explicit list `pattern`, `minlength`, `maxlength`, `step`, `autocomplete`, `autofocus`, `inputmode`, `list`, `multiple`, `accept`, `capture`, `spellcheck`, `enterkeyhint`, `title`, `tabindex`, `form` are forwarded to the inner `<input>` element(s). Note: `min` and `max` are component props, not pass-through.
-
-### Events
-
-| Event                          | Description                                              | Detail                                                  |
-| ------------------------------ | -------------------------------------------------------- | ------------------------------------------------------- |
-| `aegovDatepickerChange`        | Fires when the value commits (single click or range pair / Apply). | `DatepickerChangeDetail`                                |
-| `aegovDatepickerOpen`          | Fires when the calendar opens.                           | `void`                                                  |
-| `aegovDatepickerClose`         | Fires when the calendar closes.                          | `void`                                                  |
-| `aegovDatepickerClear`         | Fires when the clear button or `clear()` method is used. | `void`                                                  |
-| `aegovDatepickerMonthChange`   | Fires whenever the visible month or year changes.        | `{ month: number; year: number }`                       |
-
-`DatepickerChangeDetail` shape: `{ value: string; date: Date | null; startDate?: Date | null; endDate?: Date | null }`.
-
-### Event listening example
+A residency-renewal screen — required range with a Saturday week start, three quick presets, blackout days for the office closure, and Apply / Cancel confirmation.
 
 ```html
-<aegov-datepicker id="dp" variant="range" presets="today,last7Days"></aegov-datepicker>
+<aegov-datepicker
+  variant="range"
+  is-required="true"
+  is-with-confirmation="true"
+  start-day="6"
+  label-range-start="Renewal from"
+  label-range-end="Renewal to"
+  presets="today,next7Days,thisMonth,nextMonth"
+  blackout="2026-12-02,2026-12-03"
+  min="today"
+  format="DD MMM YYYY"
+></aegov-datepicker>
+```
+
+<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-datepicker
+    variant="range"
+    is-required="true"
+    is-with-confirmation="true"
+    start-day="6"
+    label-range-start="Renewal from"
+    label-range-end="Renewal to"
+    presets="today,next7Days,thisMonth,nextMonth"
+    blackout="2026-12-02,2026-12-03"
+    min="today"
+    format="DD MMM YYYY"
+  ></aegov-datepicker>
+</div>
+
+---
+
+## Listening for events
+
+The component emits five custom events. `aegovDatepickerChange` is the most important — it carries both the formatted string and parsed `Date` objects.
+
+```html
+<aegov-datepicker id="dob" placeholder="Date of birth" format="DD MMM YYYY" is-disable-future="true"></aegov-datepicker>
+
 <script>
-  const dp = document.getElementById('dp');
-  dp.addEventListener('aegovDatepickerChange', (e) => {
-    console.log('value', e.detail.value, 'startDate', e.detail.startDate, 'endDate', e.detail.endDate);
+  const dob = document.getElementById('dob');
+
+  dob.addEventListener('aegovDatepickerChange', (e) => {
+    console.log('value', e.detail.value, 'date', e.detail.date);
   });
-  dp.addEventListener('aegovDatepickerOpen', () => console.log('opened'));
-  dp.addEventListener('aegovDatepickerClose', () => console.log('closed'));
-  dp.addEventListener('aegovDatepickerMonthChange', (e) => {
+  dob.addEventListener('aegovDatepickerOpen',  () => console.log('opened'));
+  dob.addEventListener('aegovDatepickerClose', () => console.log('closed'));
+  dob.addEventListener('aegovDatepickerClear', () => console.log('cleared'));
+  dob.addEventListener('aegovDatepickerMonthChange', (e) => {
     console.log('viewing', e.detail.month, e.detail.year);
   });
 </script>
 ```
 
-### Slots
+---
 
-| Slot      | Description                                                                  |
-| --------- | ---------------------------------------------------------------------------- |
-| `trigger` | Custom trigger element. When provided, the default input wrapper is replaced. |
-
-### Methods
-
-| Method            | Description                                                                                |
-| ----------------- | ------------------------------------------------------------------------------------------ |
-| `open()`          | Opens the calendar (no-op when `is-disabled`).                                             |
-| `close()`         | Closes the calendar.                                                                       |
-| `clear()`         | Clears the value and emits `aegovDatepickerClear` and `aegovDatepickerChange`.             |
-| `getValue()`      | Resolves to the current formatted value string.                                            |
-| `getStartDate()`  | Range mode: formatted start date string. `false` in single mode or when no start is set.   |
-| `getEndDate()`    | Range mode: formatted end date string. `false` in single mode or when no end is set.       |
-| `getPreset()`     | Range mode: the matching preset ID for the current selection, or `false`.                  |
+## Programmatic access
 
 ```js
 const dp = document.querySelector('aegov-datepicker');
-await dp.open();
-const value = await dp.getValue();
-await dp.clear();
+
+await dp.open();                  // opens the calendar
+await dp.close();                 // closes the calendar
+await dp.clear();                 // clears the value
+const value = await dp.getValue();        // formatted string
+const start = await dp.getStartDate();    // range mode start (or false)
+const end   = await dp.getEndDate();      // range mode end (or false)
+const preset = await dp.getPreset();      // matching preset id (or false)
 ```
+
+---
+
+## RTL Support
+
+The datepicker is direction-aware. When the host (or any ancestor) is set to `dir="rtl"`, the calendar inside the body portal flips its weekday columns, the previous / next month chevrons swap visual sides, and the trigger uses logical inline-start / inline-end for input alignment. Pair `dir="rtl"` with `locale="ar"` so month and weekday names render in Arabic. UAE conventions also typically use `start-day="6"` (Saturday) for the calendar's first column.
+
+```html
+<div dir="rtl">
+  <aegov-datepicker
+    locale="ar"
+    start-day="6"
+    placeholder="اختر تاريخاً"
+    format="D MMMM YYYY"
+  ></aegov-datepicker>
+</div>
+```
+
+<div dir="rtl" class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-datepicker
+    locale="ar"
+    start-day="6"
+    placeholder="اختر تاريخاً"
+    format="D MMMM YYYY"
+  ></aegov-datepicker>
+</div>
+
+A range picker with Arabic presets in RTL:
+
+```html
+<div dir="rtl">
+  <aegov-datepicker
+    variant="range"
+    locale="ar"
+    start-day="6"
+    label-range-start="من"
+    label-range-end="إلى"
+    presets="today,last7Days,thisMonth,lastMonth"
+    format="D MMMM YYYY"
+  ></aegov-datepicker>
+</div>
+```
+
+<div dir="rtl" class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-datepicker
+    variant="range"
+    locale="ar"
+    start-day="6"
+    label-range-start="من"
+    label-range-end="إلى"
+    presets="today,last7Days,thisMonth,lastMonth"
+    format="D MMMM YYYY"
+  ></aegov-datepicker>
+</div>
+
+---
+
+## API Reference
+
+### aegov-datepicker Properties
+
+| Property              | Attribute              | Description                                                           | Type                  | Default          |
+| --------------------- | ---------------------- | --------------------------------------------------------------------- | --------------------- | ---------------- |
+| `variant`             | `variant`              | Selection mode — single date or date range.                            | `'single' \| 'range'` | `'single'`       |
+| `value`               | `value`                | Pre-selected value. Range uses `"start / end"` format.                 | `string`              | `''`             |
+| `format`              | `format`               | Output and display format using calendar tokens.                       | `string`              | `'YYYY-MM-DD'`   |
+| `placeholder`         | `placeholder`          | Placeholder for single-mode input.                                     | `string`              | `'Select date'`  |
+| `labelRangeStart`     | `label-range-start`    | Placeholder for the range-mode start input.                            | `string`              | `'Start date'`   |
+| `labelRangeEnd`       | `label-range-end`      | Placeholder for the range-mode end input.                              | `string`              | `'End date'`     |
+| `min`                 | `min`                  | Minimum selectable date (`YYYY-MM-DD` or `today`).                     | `string`              | `''`             |
+| `max`                 | `max`                  | Maximum selectable date (`YYYY-MM-DD` or `today`).                     | `string`              | `''`             |
+| `isDisableFuture`     | `is-disable-future`    | Shorthand for `max="today"`.                                           | `boolean`             | `false`          |
+| `startDay`            | `start-day`            | First weekday column (0 = Sunday … 6 = Saturday).                      | `number`              | `0`              |
+| `locale`              | `locale`               | BCP-47 locale used for month and weekday names.                         | `string`              | `'en'`           |
+| `minRange`            | `min-range`            | Minimum number of days for range selection (0 = unconstrained).         | `number`              | `0`              |
+| `maxRange`            | `max-range`            | Maximum number of days for range selection (0 = unlimited).             | `number`              | `0`              |
+| `blackout`            | `blackout`             | Comma-separated list of ISO dates that cannot be selected.              | `string`              | `''`             |
+| `presets`             | `presets`              | Comma-separated preset ids (range mode only).                           | `string`              | `''`             |
+| `isDisabled`          | `is-disabled`          | Disables the trigger and prevents the calendar from opening.            | `boolean`             | `false`          |
+| `isRequired`          | `is-required`          | Marks the inner input as required for native form validation.           | `boolean`             | `false`          |
+| `isClearable`         | `is-clearable`         | Show a clear button when a value is set.                                | `boolean`             | `true`           |
+| `isHeaderSelectable`  | `is-header-selectable` | Render month / year `<select>` dropdowns in the calendar header.        | `boolean`             | `true`           |
+| `yearRangeStart`      | `year-range-start`     | First year in the year dropdown (0 = current year − 100).               | `number`              | `0`              |
+| `yearRangeEnd`        | `year-range-end`       | Last year in the year dropdown (0 = current year + 100).                | `number`              | `0`              |
+| `isWithConfirmation`  | `is-with-confirmation` | Render Apply / Cancel buttons; commits only on Apply.                   | `boolean`             | `false`          |
+| `size`                | `size`                 | Trigger size token. Accepts a single token or a responsive string.       | `string`              | `'base'`         |
+
+### Slots
+
+| Slot      | Description                                                                                |
+| --------- | ------------------------------------------------------------------------------------------ |
+| `trigger` | Custom focusable element to replace the default input wrapper. The component owns open / close state. |
+
+### Events
+
+| Event                          | Detail                                  | Description                                                                                          |
+| ------------------------------ | --------------------------------------- | ---------------------------------------------------------------------------------------------------- |
+| `aegovDatepickerChange`        | `DatepickerChangeDetail`                | Fires when the value commits — single click in single mode, second click (or Apply) in range mode.    |
+| `aegovDatepickerOpen`          | `void`                                  | Fires when the calendar opens.                                                                        |
+| `aegovDatepickerClose`         | `void`                                  | Fires when the calendar closes.                                                                       |
+| `aegovDatepickerClear`         | `void`                                  | Fires when the clear button is clicked or the `clear()` method is called.                             |
+| `aegovDatepickerMonthChange`   | `{ month: number; year: number }`       | Fires whenever the visible month or year changes.                                                     |
+
+`DatepickerChangeDetail` shape: `{ value: string; date: Date | null; startDate?: Date | null; endDate?: Date | null }`.
+
+### Methods
+
+| Method            | Returns                       | Description                                                                                |
+| ----------------- | ----------------------------- | ------------------------------------------------------------------------------------------ |
+| `open()`          | `Promise<void>`               | Opens the calendar (no-op when `is-disabled`).                                             |
+| `close()`         | `Promise<void>`               | Closes the calendar.                                                                       |
+| `clear()`         | `Promise<void>`               | Clears the value and emits `aegovDatepickerClear` and `aegovDatepickerChange`.             |
+| `getValue()`      | `Promise<string>`             | Resolves with the current formatted value string.                                          |
+| `getStartDate()`  | `Promise<string \| false>`    | Range mode: formatted start date string. `false` in single mode or when no start is set.   |
+| `getEndDate()`    | `Promise<string \| false>`    | Range mode: formatted end date string. `false` in single mode or when no end is set.       |
+| `getPreset()`     | `Promise<string \| false>`    | Range mode: the matching preset id for the current selection, or `false`.                  |
+
+### Pass-through Attributes
+
+`aria-*` and `data-*` attributes set on the host are forwarded to the inner native `<input>` element(s), plus the explicit list below. Note that `min` and `max` are component props (for date constraints), not pass-through attributes.
+
+| Attribute group  | Forwarded to        | Notes                                                                                  |
+| ---------------- | ------------------- | -------------------------------------------------------------------------------------- |
+| `aria-*`         | inner `<input>`(s)  | Preserves `aria-label`, `aria-describedby`, etc. on the native input.                  |
+| `data-*`         | inner `<input>`(s)  | Useful for analytics hooks and test selectors.                                         |
+| `pattern`        | inner `<input>`(s)  | Native pattern attribute.                                                              |
+| `minlength`      | inner `<input>`(s)  | Native minlength attribute.                                                            |
+| `maxlength`      | inner `<input>`(s)  | Native maxlength attribute.                                                            |
+| `step`           | inner `<input>`(s)  | Native step attribute.                                                                 |
+| `autocomplete`   | inner `<input>`(s)  | Browser autofill hints.                                                                |
+| `autofocus`      | inner `<input>`(s)  | Auto-focus on page load.                                                               |
+| `inputmode`      | inner `<input>`(s)  | Hints the on-screen keyboard layout.                                                    |
+| `list`           | inner `<input>`(s)  | Reference to a `<datalist>`.                                                            |
+| `multiple`       | inner `<input>`(s)  | Native multiple attribute.                                                              |
+| `accept`         | inner `<input>`(s)  | Native accept attribute.                                                                |
+| `capture`        | inner `<input>`(s)  | Camera capture preference.                                                              |
+| `spellcheck`     | inner `<input>`(s)  | Browser spell-check toggle.                                                             |
+| `enterkeyhint`   | inner `<input>`(s)  | Hints the on-screen keyboard's Enter key label.                                         |
+| `title`          | inner `<input>`(s)  | Native browser tooltip.                                                                 |
+| `tabindex`       | inner `<input>`(s)  | Custom tab order.                                                                       |
+| `form`           | inner `<input>`(s)  | Associates the input with a `<form>` element by id.                                     |
+| `class`, `style` | host                | Stay on the `<aegov-datepicker>` element.                                               |
+
+---
 
 ## Accessibility
 
-### Built-in
+### Built-in behaviour
 
 - The trigger input has `aria-haspopup="dialog"` and reflects `aria-expanded` so screen readers announce the calendar relationship.
 - The portal calendar renders as `role="dialog"` with `aria-modal="true"` and an `aria-label="Choose date"` description.
 - A polite live region inside the portal announces the current month and year as the user navigates.
 - Day buttons expose `aria-selected` for picked dates, `aria-current="date"` for today, and `aria-disabled` plus a disabled state for blackout / out-of-range dates.
-- Full keyboard support: Arrow keys move the focused day by 1 / 7; PageUp / PageDown move by month (Shift adds the year); Home / End jump to first / last day of the month; Enter / Space picks the focused day; Escape closes the calendar.
 - Focus is automatically moved into the calendar on open and returned to the original trigger on close.
 - The trigger is `readOnly` so users cannot type free-form text and produce invalid dates; navigation always happens through the dialog.
+- The calendar closes if the trigger scrolls off-screen, and re-positions on every scroll and resize.
 
 ### Developer responsibilities
 
 - Provide a meaningful `placeholder` (single) or `label-range-start` / `label-range-end` (range) — these are also wired to `aria-label` on the inputs.
-- For long-form labels, place the datepicker inside an `aegov-form-field` with an `aegov-label` and a `for` matching the trigger's auto-generated id.
+- For long-form labels, place the datepicker inside an `aegov-form-field` with an `aegov-label` referencing the trigger via the form-field's auto-link logic.
 - If you supply a custom trigger via the `trigger` slot, ensure it is a focusable element with appropriate `aria-haspopup` and labelling.
+- In Arabic locales pair `locale="ar"` with `dir="rtl"` on the host or an ancestor and set `start-day` to match the local convention (typically `6` — Saturday — in the UAE).
 
-### Notes
+### Keyboard support
 
-- The calendar is portaled to `document.body`, so it ignores ancestor `overflow: hidden` clipping. The component re-positions on scroll/resize and closes if the trigger scrolls off-screen.
-- In confirmation mode (`is-with-confirmation`), clicks build a pending selection that only commits on Apply; Cancel and outside-clicks discard the pending state without firing change.
-- Locale defaults to `'en'`; for fully localized layouts pair `locale` with `dir="rtl"` on the host or an ancestor and set `start-day` to match the local convention.
+| Key                       | Action                                                                                |
+| ------------------------- | ------------------------------------------------------------------------------------- |
+| `Enter`, `Space`          | Open the calendar from the trigger; pick the focused day inside the calendar.         |
+| `Arrow Left` / `Right`    | Move the focused day by one column.                                                   |
+| `Arrow Up` / `Down`       | Move the focused day by one week.                                                     |
+| `PageUp` / `PageDown`     | Move the focused day by one month.                                                    |
+| `Shift + PageUp` / `PageDown` | Move the focused day by one year.                                                 |
+| `Home` / `End`            | Jump to the first / last day of the visible month.                                    |
+| `Escape`                  | Close the calendar without committing (cancels pending state in confirmation mode).    |
+| `Tab`                     | Cycle through interactive elements inside the calendar (selects, nav buttons, days).   |
