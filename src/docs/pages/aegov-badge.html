@@ -20,33 +20,115 @@
       <article class="col-span-5 grow">
           <section id="content-area" class="bg-whitely-50 p-6 rounded-md shadow-xl">
           <!-- DOC:START -->
-<h1>aegov-badge</h1>
-<p>A small, inline status or tag component. Use badges to label content, indicate counts, mark statuses, or annotate items in lists, headers, or table cells. Supports a wide colour palette, two appearance styles (soft/solid), three sizes, and an optional dismiss control.</p>
-<h2>Properties</h2>
-<h3>appearance</h3>
-<p>Visual style of the badge. <code>soft</code> uses a tinted background with darker text; <code>solid</code> uses a fully filled colour.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-badge</span> <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;soft&quot;</span> <span class="hljs-attr">color</span>=<span class="hljs-string">&quot;primary&quot;</span>&gt;</span>Soft<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-badge</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-badge</span> <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;solid&quot;</span> <span class="hljs-attr">color</span>=<span class="hljs-string">&quot;primary&quot;</span>&gt;</span>Solid<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-badge</span>&gt;</span></code></pre><h3>color</h3>
-<p>Colour token applied to the badge. Defaults to <code>default</code>. The full palette includes brand and accent colours.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-badge</span> <span class="hljs-attr">color</span>=<span class="hljs-string">&quot;aered&quot;</span>&gt;</span>Error<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-badge</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-badge</span> <span class="hljs-attr">color</span>=<span class="hljs-string">&quot;aegreen&quot;</span>&gt;</span>Success<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-badge</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-badge</span> <span class="hljs-attr">color</span>=<span class="hljs-string">&quot;techblue&quot;</span>&gt;</span>Info<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-badge</span>&gt;</span></code></pre><h3>size</h3>
-<p>Controls font size, padding, and corner radius. Accepts <code>sm</code>, <code>base</code>, <code>lg</code>, or a responsive string.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-badge</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm&quot;</span>&gt;</span>Small<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-badge</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-badge</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;base&quot;</span>&gt;</span>Base<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-badge</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-badge</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;lg&quot;</span>&gt;</span>Large<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-badge</span>&gt;</span></code></pre><h3>is-dismissible</h3>
-<p>When set, renders a close button. Listen for <code>aegovBadgeDismiss</code> to handle removal.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-badge</span> <span class="hljs-attr">is-dismissible</span>&gt;</span>Removable<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-badge</span>&gt;</span></code></pre><h3>field-id</h3>
-<p>Unique identifier reflected onto the inner <code>&lt;span&gt;</code>. Auto-generated as <code>aegov-badge-{n}</code> if not provided.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-badge</span> <span class="hljs-attr">field-id</span>=<span class="hljs-string">&quot;status-badge&quot;</span>&gt;</span>Active<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-badge</span>&gt;</span></code></pre><h2>Sizes</h2>
-<p><code>size</code> accepts a single token or a Tailwind-style responsive string using breakpoint prefixes (<code>xs</code>, <code>sm</code>, <code>md</code>, <code>lg</code>, <code>xl</code>, <code>2xl</code>).</p>
-<pre><code class="hljs language-html"><span class="hljs-comment">&lt;!-- Static --&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-badge</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm&quot;</span>&gt;</span>Small<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-badge</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-badge</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;base&quot;</span>&gt;</span>Base<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-badge</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-badge</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;lg&quot;</span>&gt;</span>Large<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-badge</span>&gt;</span>
+<h1>Badge</h1>
+<p class="text-lg text-aeblack-500 mb-8">A Badge is a small inline element used to label, classify, or count items. Use it to communicate status, mark counts of unread notifications, tag list rows with metadata, or annotate content with short context. Badges are intentionally compact and read alongside the content they describe rather than standing alone.</p>
 
-<span class="hljs-comment">&lt;!-- Responsive: small on mobile, base from md, large from lg --&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-badge</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm md:base lg:lg&quot;</span>&gt;</span>Responsive<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-badge</span>&gt;</span></code></pre><table>
+<h2>Introduction</h2>
+<p>The <code>aegov-badge</code> component renders a single inline pill containing the slotted text. The full UAE Government colour palette is available through the <code>color</code> property, and two visual treatments — <code>soft</code> and <code>solid</code> — let you tune the badge to its surroundings. An optional dismiss button turns the badge into a removable tag for filter chips and similar patterns.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-badge</span>&gt;</span>Default<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-badge</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-badge</span> <span class="hljs-attr">color</span>=<span class="hljs-string">&quot;primary&quot;</span>&gt;</span>Primary<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-badge</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-badge</span> <span class="hljs-attr">color</span>=<span class="hljs-string">&quot;aegreen&quot;</span>&gt;</span>Active<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-badge</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-badge</span> <span class="hljs-attr">color</span>=<span class="hljs-string">&quot;aered&quot;</span>&gt;</span>Suspended<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-badge</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-badge</span> <span class="hljs-attr">color</span>=<span class="hljs-string">&quot;techblue&quot;</span>&gt;</span>In review<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-badge</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <div class="flex flex-wrap items-center gap-3">
+    <aegov-badge>Default</aegov-badge>
+    <aegov-badge color="primary">Primary</aegov-badge>
+    <aegov-badge color="aegreen">Active</aegov-badge>
+    <aegov-badge color="aered">Suspended</aegov-badge>
+    <aegov-badge color="techblue">In review</aegov-badge>
+  </div>
+</div>
+
+<hr>
+<h2>Appearance</h2>
+<p>The <code>appearance</code> property switches between two styles. <code>soft</code> (default) uses a tinted background with a darker, full-saturation label — quieter, suitable for tables and list rows. <code>solid</code> uses a fully filled colour panel with white text — louder, suitable for emphasised counters or critical statuses.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-badge</span> <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;soft&quot;</span> <span class="hljs-attr">color</span>=<span class="hljs-string">&quot;aegreen&quot;</span>&gt;</span>Approved<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-badge</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-badge</span> <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;solid&quot;</span> <span class="hljs-attr">color</span>=<span class="hljs-string">&quot;aegreen&quot;</span>&gt;</span>Approved<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-badge</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-badge</span> <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;soft&quot;</span> <span class="hljs-attr">color</span>=<span class="hljs-string">&quot;aered&quot;</span>&gt;</span>Rejected<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-badge</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-badge</span> <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;solid&quot;</span> <span class="hljs-attr">color</span>=<span class="hljs-string">&quot;aered&quot;</span>&gt;</span>Rejected<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-badge</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-badge</span> <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;soft&quot;</span> <span class="hljs-attr">color</span>=<span class="hljs-string">&quot;camel&quot;</span>&gt;</span>Pending<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-badge</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-badge</span> <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;solid&quot;</span> <span class="hljs-attr">color</span>=<span class="hljs-string">&quot;camel&quot;</span>&gt;</span>Pending<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-badge</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <div class="flex flex-wrap items-center gap-3 mb-4">
+    <aegov-badge appearance="soft" color="aegreen">Approved</aegov-badge>
+    <aegov-badge appearance="solid" color="aegreen">Approved</aegov-badge>
+    <aegov-badge appearance="soft" color="aered">Rejected</aegov-badge>
+    <aegov-badge appearance="solid" color="aered">Rejected</aegov-badge>
+  </div>
+  <div class="flex flex-wrap items-center gap-3">
+    <aegov-badge appearance="soft" color="camel">Pending</aegov-badge>
+    <aegov-badge appearance="solid" color="camel">Pending</aegov-badge>
+    <aegov-badge appearance="soft" color="techblue">In review</aegov-badge>
+    <aegov-badge appearance="solid" color="techblue">In review</aegov-badge>
+  </div>
+</div>
+
+<hr>
+<h2>Color Palette</h2>
+<p>The <code>color</code> property accepts every token in the UAE Design System palette. Use the brand colours (<code>primary</code>, <code>secondary</code>, <code>aegold</code>, <code>aered</code>, <code>aegreen</code>, <code>aeblack</code>) for status that aligns with platform identity, and the accent colours (<code>techblue</code>, <code>seablue</code>, <code>camel</code>, <code>desert</code>, <code>fuchsia</code>, <code>slate</code>, <code>purple</code>, <code>pink</code>, <code>indigo</code>, <code>lime</code>) for richer category tagging.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-badge</span> <span class="hljs-attr">color</span>=<span class="hljs-string">&quot;primary&quot;</span>&gt;</span>Primary<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-badge</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-badge</span> <span class="hljs-attr">color</span>=<span class="hljs-string">&quot;secondary&quot;</span>&gt;</span>Secondary<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-badge</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-badge</span> <span class="hljs-attr">color</span>=<span class="hljs-string">&quot;aegold&quot;</span>&gt;</span>Aegold<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-badge</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-badge</span> <span class="hljs-attr">color</span>=<span class="hljs-string">&quot;aered&quot;</span>&gt;</span>Aered<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-badge</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-badge</span> <span class="hljs-attr">color</span>=<span class="hljs-string">&quot;aegreen&quot;</span>&gt;</span>Aegreen<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-badge</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-badge</span> <span class="hljs-attr">color</span>=<span class="hljs-string">&quot;aeblack&quot;</span>&gt;</span>Aeblack<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-badge</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-badge</span> <span class="hljs-attr">color</span>=<span class="hljs-string">&quot;techblue&quot;</span>&gt;</span>Techblue<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-badge</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-badge</span> <span class="hljs-attr">color</span>=<span class="hljs-string">&quot;seablue&quot;</span>&gt;</span>Seablue<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-badge</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-badge</span> <span class="hljs-attr">color</span>=<span class="hljs-string">&quot;camel&quot;</span>&gt;</span>Camel<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-badge</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-badge</span> <span class="hljs-attr">color</span>=<span class="hljs-string">&quot;desert&quot;</span>&gt;</span>Desert<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-badge</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-badge</span> <span class="hljs-attr">color</span>=<span class="hljs-string">&quot;fuchsia&quot;</span>&gt;</span>Fuchsia<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-badge</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-badge</span> <span class="hljs-attr">color</span>=<span class="hljs-string">&quot;slate&quot;</span>&gt;</span>Slate<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-badge</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-badge</span> <span class="hljs-attr">color</span>=<span class="hljs-string">&quot;purple&quot;</span>&gt;</span>Purple<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-badge</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-badge</span> <span class="hljs-attr">color</span>=<span class="hljs-string">&quot;pink&quot;</span>&gt;</span>Pink<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-badge</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-badge</span> <span class="hljs-attr">color</span>=<span class="hljs-string">&quot;indigo&quot;</span>&gt;</span>Indigo<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-badge</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-badge</span> <span class="hljs-attr">color</span>=<span class="hljs-string">&quot;lime&quot;</span>&gt;</span>Lime<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-badge</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <p class="font-medium mb-3">Soft appearance</p>
+  <div class="flex flex-wrap items-center gap-2 mb-6">
+    <aegov-badge color="default">Default</aegov-badge>
+    <aegov-badge color="primary">Primary</aegov-badge>
+    <aegov-badge color="secondary">Secondary</aegov-badge>
+    <aegov-badge color="aegold">Aegold</aegov-badge>
+    <aegov-badge color="aered">Aered</aegov-badge>
+    <aegov-badge color="aegreen">Aegreen</aegov-badge>
+    <aegov-badge color="aeblack">Aeblack</aegov-badge>
+    <aegov-badge color="techblue">Techblue</aegov-badge>
+    <aegov-badge color="seablue">Seablue</aegov-badge>
+    <aegov-badge color="camel">Camel</aegov-badge>
+    <aegov-badge color="desert">Desert</aegov-badge>
+    <aegov-badge color="fuchsia">Fuchsia</aegov-badge>
+    <aegov-badge color="slate">Slate</aegov-badge>
+    <aegov-badge color="purple">Purple</aegov-badge>
+    <aegov-badge color="pink">Pink</aegov-badge>
+    <aegov-badge color="indigo">Indigo</aegov-badge>
+    <aegov-badge color="lime">Lime</aegov-badge>
+  </div>
+  <p class="font-medium mb-3">Solid appearance</p>
+  <div class="flex flex-wrap items-center gap-2">
+    <aegov-badge appearance="solid" color="default">Default</aegov-badge>
+    <aegov-badge appearance="solid" color="primary">Primary</aegov-badge>
+    <aegov-badge appearance="solid" color="secondary">Secondary</aegov-badge>
+    <aegov-badge appearance="solid" color="aegold">Aegold</aegov-badge>
+    <aegov-badge appearance="solid" color="aered">Aered</aegov-badge>
+    <aegov-badge appearance="solid" color="aegreen">Aegreen</aegov-badge>
+    <aegov-badge appearance="solid" color="aeblack">Aeblack</aegov-badge>
+    <aegov-badge appearance="solid" color="techblue">Techblue</aegov-badge>
+    <aegov-badge appearance="solid" color="seablue">Seablue</aegov-badge>
+    <aegov-badge appearance="solid" color="camel">Camel</aegov-badge>
+    <aegov-badge appearance="solid" color="desert">Desert</aegov-badge>
+    <aegov-badge appearance="solid" color="fuchsia">Fuchsia</aegov-badge>
+    <aegov-badge appearance="solid" color="slate">Slate</aegov-badge>
+    <aegov-badge appearance="solid" color="purple">Purple</aegov-badge>
+    <aegov-badge appearance="solid" color="pink">Pink</aegov-badge>
+    <aegov-badge appearance="solid" color="indigo">Indigo</aegov-badge>
+    <aegov-badge appearance="solid" color="lime">Lime</aegov-badge>
+  </div>
+</div>
+
+<hr>
+<h2>Sizes</h2>
+<p>The <code>size</code> property controls font size, padding, and corner radius. Three tokens are available: <code>sm</code>, <code>base</code> (default), and <code>lg</code>. The <code>lg</code> token additionally bumps the font weight to medium for slightly stronger emphasis.</p>
+<table>
 <thead>
 <tr>
 <th>Token</th>
@@ -74,26 +156,125 @@
 <td><code>rounded-md</code>, <code>font-medium</code></td>
 </tr>
 </tbody></table>
-<h2>Examples</h2>
-<h3>Status indicator</h3>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-badge</span> <span class="hljs-attr">color</span>=<span class="hljs-string">&quot;aegreen&quot;</span> <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;soft&quot;</span>&gt;</span>Active<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-badge</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-badge</span> <span class="hljs-attr">color</span>=<span class="hljs-string">&quot;aered&quot;</span> <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;soft&quot;</span>&gt;</span>Inactive<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-badge</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-badge</span> <span class="hljs-attr">color</span>=<span class="hljs-string">&quot;camel&quot;</span> <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;soft&quot;</span>&gt;</span>Pending<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-badge</span>&gt;</span></code></pre><h3>Counters</h3>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-badge</span> <span class="hljs-attr">color</span>=<span class="hljs-string">&quot;primary&quot;</span> <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;solid&quot;</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm&quot;</span>&gt;</span>3<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-badge</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-badge</span> <span class="hljs-attr">color</span>=<span class="hljs-string">&quot;aered&quot;</span> <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;solid&quot;</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm&quot;</span>&gt;</span>12<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-badge</span>&gt;</span></code></pre><h3>Dismissible tag</h3>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-badge</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm&quot;</span> <span class="hljs-attr">color</span>=<span class="hljs-string">&quot;primary&quot;</span>&gt;</span>Small<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-badge</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-badge</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;base&quot;</span> <span class="hljs-attr">color</span>=<span class="hljs-string">&quot;primary&quot;</span>&gt;</span>Base<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-badge</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-badge</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;lg&quot;</span> <span class="hljs-attr">color</span>=<span class="hljs-string">&quot;primary&quot;</span>&gt;</span>Large<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-badge</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <div class="flex flex-wrap items-center gap-3">
+    <aegov-badge size="sm" color="primary">Small</aegov-badge>
+    <aegov-badge size="base" color="primary">Base</aegov-badge>
+    <aegov-badge size="lg" color="primary">Large</aegov-badge>
+  </div>
+</div>
+
+<h3>Responsive sizes</h3>
+<p><code>size</code> also accepts a Tailwind-style responsive string with breakpoint prefixes <code>xs</code>, <code>sm</code>, <code>md</code>, <code>lg</code>, <code>xl</code>, and <code>2xl</code>. Each segment overrides smaller breakpoints.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-badge</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm md:base xl:lg&quot;</span> <span class="hljs-attr">color</span>=<span class="hljs-string">&quot;techblue&quot;</span>&gt;</span>
+  Resizes with the viewport
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-badge</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-badge size="sm md:base xl:lg" color="techblue">Resizes with the viewport</aegov-badge>
+</div>
+
+<hr>
+<h2>Dismissible Badge</h2>
+<p>Set <code>is-dismissible</code> to render a close button at the trailing edge of the badge. Clicking it emits the <code>aegovBadgeDismiss</code> event. The badge does not remove itself from the DOM — your application decides what to do (most commonly, remove the host element from a list of active filters).</p>
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-badge</span> <span class="hljs-attr">color</span>=<span class="hljs-string">&quot;techblue&quot;</span> <span class="hljs-attr">is-dismissible</span>&gt;</span>
-  Filter: Region
+  Filter: Abu Dhabi
 <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-badge</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-badge</span> <span class="hljs-attr">color</span>=<span class="hljs-string">&quot;techblue&quot;</span> <span class="hljs-attr">is-dismissible</span>&gt;</span>
+  Filter: Dubai
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-badge</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-badge</span> <span class="hljs-attr">color</span>=<span class="hljs-string">&quot;techblue&quot;</span> <span class="hljs-attr">is-dismissible</span>&gt;</span>
+  Filter: Sharjah
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-badge</span>&gt;</span>
+
 <span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript">
-  <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">querySelector</span>(<span class="hljs-string">&#x27;aegov-badge&#x27;</span>).<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;aegovBadgeDismiss&#x27;</span>, <span class="hljs-function">() =&gt;</span> {
-    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;Tag removed&#x27;</span>);
+  <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">querySelectorAll</span>(<span class="hljs-string">&#x27;aegov-badge[is-dismissible]&#x27;</span>).<span class="hljs-title function_">forEach</span>(<span class="hljs-function"><span class="hljs-params">b</span> =&gt;</span> {
+    b.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;aegovBadgeDismiss&#x27;</span>, <span class="hljs-function">() =&gt;</span> b.<span class="hljs-title function_">remove</span>());
   });
-</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre><h3>Inside a list</h3>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">ul</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">li</span>&gt;</span>Service A <span class="hljs-tag">&lt;<span class="hljs-name">aegov-badge</span> <span class="hljs-attr">color</span>=<span class="hljs-string">&quot;aegreen&quot;</span>&gt;</span>Open<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-badge</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">li</span>&gt;</span>Service B <span class="hljs-tag">&lt;<span class="hljs-name">aegov-badge</span> <span class="hljs-attr">color</span>=<span class="hljs-string">&quot;camel&quot;</span>&gt;</span>Maintenance<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-badge</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">ul</span>&gt;</span></code></pre><h2>RTL Behavior</h2>
-<p>The badge is a single inline span with logical padding utilities. The dismiss button sits at the inline end of the badge, which automatically flips to the left in <code>dir=&quot;rtl&quot;</code> containers. No additional configuration is needed for RTL layouts.</p>
+</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <p class="text-sm text-aeblack-500 mb-3">Active filters</p>
+  <div class="flex flex-wrap items-center gap-2">
+    <aegov-badge color="techblue" is-dismissible>Abu Dhabi</aegov-badge>
+    <aegov-badge color="techblue" is-dismissible>Dubai</aegov-badge>
+    <aegov-badge color="techblue" is-dismissible>Sharjah</aegov-badge>
+    <aegov-badge color="techblue" is-dismissible>Ajman</aegov-badge>
+  </div>
+</div>
+
+<hr>
+<h2>Status Indicators</h2>
+<p>A common badge use is to mark the status of a row in a service list — application progress, account state, document validity, and so on. Pair colours consistently across your application so users learn the meaning at a glance.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-badge</span> <span class="hljs-attr">color</span>=<span class="hljs-string">&quot;aegreen&quot;</span>&gt;</span>Active<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-badge</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-badge</span> <span class="hljs-attr">color</span>=<span class="hljs-string">&quot;camel&quot;</span>&gt;</span>Pending<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-badge</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-badge</span> <span class="hljs-attr">color</span>=<span class="hljs-string">&quot;aered&quot;</span>&gt;</span>Suspended<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-badge</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-badge</span> <span class="hljs-attr">color</span>=<span class="hljs-string">&quot;slate&quot;</span>&gt;</span>Archived<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-badge</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <ul class="divide-y divide-aeblack-100">
+    <li class="flex items-center justify-between py-3">
+      <span>Emirates ID renewal</span>
+      <aegov-badge color="aegreen">Active</aegov-badge>
+    </li>
+    <li class="flex items-center justify-between py-3">
+      <span>Driving licence transfer</span>
+      <aegov-badge color="camel">Pending</aegov-badge>
+    </li>
+    <li class="flex items-center justify-between py-3">
+      <span>Vehicle registration</span>
+      <aegov-badge color="aered">Expired</aegov-badge>
+    </li>
+    <li class="flex items-center justify-between py-3">
+      <span>Old passport application</span>
+      <aegov-badge color="slate">Archived</aegov-badge>
+    </li>
+  </ul>
+</div>
+
+<hr>
+<h2>Counters</h2>
+<p>Small solid badges work well as numerical counters next to navigation items, tabs, or icons. Use <code>size=&quot;sm&quot;</code> for the most common counter footprint.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;relative&quot;</span>&gt;</span>
+  Inbox
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-badge</span> <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;solid&quot;</span> <span class="hljs-attr">color</span>=<span class="hljs-string">&quot;aered&quot;</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm&quot;</span>&gt;</span>12<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-badge</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;relative&quot;</span>&gt;</span>
+  Notifications
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-badge</span> <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;solid&quot;</span> <span class="hljs-attr">color</span>=<span class="hljs-string">&quot;primary&quot;</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm&quot;</span>&gt;</span>3<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-badge</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;relative&quot;</span>&gt;</span>
+  Pending tasks
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-badge</span> <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;solid&quot;</span> <span class="hljs-attr">color</span>=<span class="hljs-string">&quot;camel&quot;</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm&quot;</span>&gt;</span>5<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-badge</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <div class="flex flex-wrap items-center gap-6">
+    <span class="inline-flex items-center gap-2">Inbox <aegov-badge appearance="solid" color="aered" size="sm">12</aegov-badge></span>
+    <span class="inline-flex items-center gap-2">Notifications <aegov-badge appearance="solid" color="primary" size="sm">3</aegov-badge></span>
+    <span class="inline-flex items-center gap-2">Pending tasks <aegov-badge appearance="solid" color="camel" size="sm">5</aegov-badge></span>
+    <span class="inline-flex items-center gap-2">Drafts <aegov-badge appearance="solid" color="slate" size="sm">2</aegov-badge></span>
+  </div>
+</div>
+
+<hr>
+<h2>RTL Support</h2>
+<p>The badge is direction-agnostic. The dismiss button uses logical inline padding, so in <code>dir=&quot;rtl&quot;</code> containers it automatically renders on the inline-end (visually the left side). No extra configuration is required — pass real Arabic content into the slot and the layout flips correctly.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">dir</span>=<span class="hljs-string">&quot;rtl&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-badge</span> <span class="hljs-attr">color</span>=<span class="hljs-string">&quot;aegreen&quot;</span>&gt;</span>نشِط<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-badge</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-badge</span> <span class="hljs-attr">color</span>=<span class="hljs-string">&quot;camel&quot;</span>&gt;</span>قيد الانتظار<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-badge</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-badge</span> <span class="hljs-attr">color</span>=<span class="hljs-string">&quot;aered&quot;</span>&gt;</span>موقوف<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-badge</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-badge</span> <span class="hljs-attr">color</span>=<span class="hljs-string">&quot;techblue&quot;</span> <span class="hljs-attr">is-dismissible</span>&gt;</span>تصنيف: أبوظبي<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-badge</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre><div dir="rtl" class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <div class="flex flex-wrap items-center gap-3 mb-6">
+    <aegov-badge color="aegreen">نشِط</aegov-badge>
+    <aegov-badge color="camel">قيد الانتظار</aegov-badge>
+    <aegov-badge color="aered">موقوف</aegov-badge>
+    <aegov-badge color="slate">مؤرشف</aegov-badge>
+  </div>
+  <p class="text-sm text-aeblack-500 mb-3">المُرشِّحات النشِطة</p>
+  <div class="flex flex-wrap items-center gap-2">
+    <aegov-badge color="techblue" is-dismissible>أبوظبي</aegov-badge>
+    <aegov-badge color="techblue" is-dismissible>دبي</aegov-badge>
+    <aegov-badge color="techblue" is-dismissible>الشارقة</aegov-badge>
+  </div>
+</div>
+
+<hr>
 <h2>API Reference</h2>
 <h3>Properties</h3>
 <table>
@@ -109,63 +290,40 @@
 <tbody><tr>
 <td><code>fieldId</code></td>
 <td><code>field-id</code></td>
-<td>Unique ID for the badge element. Auto-generated if not provided.</td>
+<td>Unique ID for the badge element. Auto-generated if omitted.</td>
 <td><code>string</code></td>
-<td><code>undefined</code></td>
+<td><em>generated</em></td>
 </tr>
 <tr>
 <td><code>appearance</code></td>
 <td><code>appearance</code></td>
-<td>Visual style of the badge.</td>
+<td>Visual style — <code>soft</code> (tinted) or <code>solid</code> (filled).</td>
 <td><code>&#39;soft&#39; | &#39;solid&#39;</code></td>
 <td><code>&#39;soft&#39;</code></td>
 </tr>
 <tr>
 <td><code>color</code></td>
 <td><code>color</code></td>
-<td>Colour token.</td>
+<td>Colour token from the UAE Design System palette.</td>
 <td><code>&#39;default&#39; | &#39;primary&#39; | &#39;secondary&#39; | &#39;aegold&#39; | &#39;aered&#39; | &#39;aegreen&#39; | &#39;aeblack&#39; | &#39;techblue&#39; | &#39;seablue&#39; | &#39;camel&#39; | &#39;desert&#39; | &#39;fuchsia&#39; | &#39;slate&#39; | &#39;purple&#39; | &#39;pink&#39; | &#39;indigo&#39; | &#39;lime&#39;</code></td>
 <td><code>&#39;default&#39;</code></td>
 </tr>
 <tr>
-<td><code>isDismissible</code></td>
-<td><code>is-dismissible</code></td>
-<td>Whether to render a dismiss button.</td>
-<td><code>boolean</code></td>
-<td><code>false</code></td>
-</tr>
-<tr>
 <td><code>size</code></td>
 <td><code>size</code></td>
-<td>Size token or responsive string.</td>
+<td>Size token (<code>sm</code>, <code>base</code>, <code>lg</code>) or responsive string.</td>
 <td><code>string</code></td>
 <td><code>&#39;base&#39;</code></td>
 </tr>
-</tbody></table>
-<h3>Pass-through Attributes</h3>
-<p><code>aria-*</code> and <code>data-*</code> attributes set on the host are forwarded to the inner <code>&lt;span&gt;</code>.</p>
-<h3>Events</h3>
-<table>
-<thead>
 <tr>
-<th>Event</th>
-<th>Description</th>
-<th>Detail Type</th>
-</tr>
-</thead>
-<tbody><tr>
-<td><code>aegovBadgeDismiss</code></td>
-<td>Emitted when the dismiss button is clicked.</td>
-<td><code>void</code></td>
+<td><code>isDismissible</code></td>
+<td><code>is-dismissible</code></td>
+<td>When <code>true</code>, renders a close button.</td>
+<td><code>boolean</code></td>
+<td><code>false</code></td>
 </tr>
 </tbody></table>
-<h4>Listening for events</h4>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-badge</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;b1&quot;</span> <span class="hljs-attr">is-dismissible</span> <span class="hljs-attr">color</span>=<span class="hljs-string">&quot;primary&quot;</span>&gt;</span>Tag<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-badge</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript">
-  <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;b1&#x27;</span>).<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;aegovBadgeDismiss&#x27;</span>, <span class="hljs-function">() =&gt;</span> {
-    <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;b1&#x27;</span>).<span class="hljs-title function_">remove</span>();
-  });
-</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre><h3>Slots</h3>
+<h3>Slots</h3>
 <table>
 <thead>
 <tr>
@@ -174,28 +332,99 @@
 </tr>
 </thead>
 <tbody><tr>
-<td>(default)</td>
-<td>The badge label / contents.</td>
+<td><em>(default)</em></td>
+<td>The badge label. Plain text or simple inline HTML.</td>
 </tr>
 </tbody></table>
+<h3>Events</h3>
+<table>
+<thead>
+<tr>
+<th>Event</th>
+<th>Detail</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>aegovBadgeDismiss</code></td>
+<td><code>void</code></td>
+<td>Fired when the dismiss button is clicked.</td>
+</tr>
+</tbody></table>
+<h4>Listening for dismiss events</h4>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-badge</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;filter-region&quot;</span> <span class="hljs-attr">color</span>=<span class="hljs-string">&quot;techblue&quot;</span> <span class="hljs-attr">is-dismissible</span>&gt;</span>
+  Region: Abu Dhabi
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-badge</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript">
+  <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">querySelector</span>(<span class="hljs-string">&#x27;#filter-region&#x27;</span>).<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;aegovBadgeDismiss&#x27;</span>, <span class="hljs-function">() =&gt;</span> {
+    <span class="hljs-comment">// Remove the badge from the DOM, or update application state</span>
+    <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">querySelector</span>(<span class="hljs-string">&#x27;#filter-region&#x27;</span>).<span class="hljs-title function_">remove</span>();
+  });
+</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre><h3>Pass-through Attributes</h3>
+<p>Pass-through attributes set on <code>&lt;aegov-badge&gt;</code> are forwarded to the inner <code>&lt;span&gt;</code> so they end up on the rendered badge element rather than the host wrapper.</p>
+<table>
+<thead>
+<tr>
+<th>Attribute group</th>
+<th>Forwarded?</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>aria-*</code></td>
+<td>Yes</td>
+<td>Forwarded to the inner <code>&lt;span&gt;</code> for accessibility annotations.</td>
+</tr>
+<tr>
+<td><code>data-*</code></td>
+<td>Yes</td>
+<td>Forwarded to the inner <code>&lt;span&gt;</code> for analytics or styling hooks.</td>
+</tr>
+<tr>
+<td><code>id</code></td>
+<td>n/a</td>
+<td>Use <code>field-id</code> on the host. The inner <code>&lt;span&gt;</code> reflects that value.</td>
+</tr>
+<tr>
+<td><code>class</code>, <code>style</code></td>
+<td>Allowed</td>
+<td>Applied to the host element only.</td>
+</tr>
+</tbody></table>
+<hr>
 <h2>Accessibility</h2>
-<h3>Built-in</h3>
+<h3>Built-in behaviour</h3>
 <ul>
-<li>The dismiss button is rendered as a real <code>&lt;button type=&quot;button&quot;&gt;</code> and is keyboard-accessible (Enter / Space).</li>
-<li>The dismiss button has <code>aria-label=&quot;Badge dismiss button&quot;</code> so screen reader users know what it does.</li>
+<li>The dismiss button is a real <code>&lt;button type=&quot;button&quot;&gt;</code> and is reachable with the keyboard.</li>
+<li>The dismiss button has <code>aria-label=&quot;Badge dismiss button&quot;</code> so screen reader users know its purpose.</li>
 <li>The dismiss SVG is marked <code>aria-hidden=&quot;true&quot;</code>.</li>
+<li>The dismiss-click handler calls <code>event.stopPropagation()</code>, so a parent click handler does not also fire when the badge is dismissed.</li>
 </ul>
 <h3>Developer responsibilities</h3>
 <ul>
-<li>Provide a meaningful text label inside the slot — colour alone is not sufficient to convey meaning.</li>
-<li>If the badge represents live status that changes over time, consider wrapping it (or the surrounding container) in <code>aria-live=&quot;polite&quot;</code>.</li>
-<li>For badges acting as counters (e.g. unread messages), include a context word or set a more descriptive <code>aria-label</code> on the host: <code>&lt;aegov-badge aria-label=&quot;3 unread messages&quot;&gt;3&lt;/aegov-badge&gt;</code>.</li>
-</ul>
-<h3>Notes</h3>
-<ul>
-<li>The dismiss-click handler calls <code>event.stopPropagation()</code>, so a parent click handler will not also fire when the badge is dismissed.</li>
+<li>Provide meaningful text inside the badge — colour alone is not sufficient to convey status. Pair colour with explicit words such as &quot;Active&quot;, &quot;Pending&quot;, or &quot;Suspended&quot;.</li>
+<li>For badges acting as numerical counters (e.g. unread messages), set a more descriptive <code>aria-label</code> on the host so the count is announced in context: <code>&lt;aegov-badge aria-label=&quot;3 unread messages&quot;&gt;3&lt;/aegov-badge&gt;</code>.</li>
+<li>If the badge represents a value that changes over time, consider wrapping it (or its surrounding container) in an <code>aria-live=&quot;polite&quot;</code> region.</li>
 <li>Removing the badge from the DOM after dismiss is the consumer&#39;s responsibility — the component does not auto-remove itself.</li>
 </ul>
+<h3>Keyboard support</h3>
+<table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Tab</code></td>
+<td>Move focus to the dismiss button (when present).</td>
+</tr>
+<tr>
+<td><code>Enter</code>, <code>Space</code></td>
+<td>Activate the dismiss button.</td>
+</tr>
+</tbody></table>
 <!-- DOC:END -->
           </section>
       </article>

@@ -21,201 +21,212 @@
           <section id="content-area" class="bg-whitely-50 p-6 rounded-md shadow-xl">
           <!-- DOC:START -->
 <h1>Avatar Group</h1>
-<p class="text-lg text-aeblack-500 mb-8">An avatar group displays multiple avatars together in a compact layout. It supports spaced or overlapping modes, a "+N more" indicator, and enforces consistent sizing and rounded shape across all child avatars.</p>
+<p class="text-lg text-aeblack-500 mb-8">A layout wrapper that arranges multiple <code>aegov-avatar</code> children in a row and optionally renders a trailing &ldquo;+N more&rdquo; indicator. Use it for service teams, project members, document collaborators, or any place where several users are represented as a single cluster. The group enforces a uniform size across its children and forces every avatar to a circular appearance.</p>
 
 <h2>Introduction</h2>
-<p>The <code>aegov-avatar-group</code> component wraps one or more <code>&lt;aegov-avatar&gt;</code> elements and arranges them in either a spaced or overlapping layout. It enforces a uniform <code>size</code> on all children, and can display a &quot;+N more&quot; button when there are additional users not shown.</p>
-<blockquote>
-<p><strong>Always rounded.</strong> Avatars inside a group are always displayed in the <code>rounded</code> (circular) shape, regardless of any <code>variant</code> attribute set on individual <code>&lt;aegov-avatar&gt;</code> elements. The group overrides this automatically — there is no square option inside a group.</p>
-</blockquote>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar-group</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://i.pravatar.cc/150?img=1&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;User 1&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://i.pravatar.cc/150?img=5&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;User 2&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://i.pravatar.cc/150?img=12&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;User 3&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar-group</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-avatar-group>
-    <aegov-avatar src="https://i.pravatar.cc/150?img=1" alt="User 1"></aegov-avatar>
-    <aegov-avatar src="https://i.pravatar.cc/150?img=5" alt="User 2"></aegov-avatar>
-    <aegov-avatar src="https://i.pravatar.cc/150?img=12" alt="User 3"></aegov-avatar>
+<p>The <code>aegov-avatar-group</code> component composes a parent wrapper with one or more <code>aegov-avatar</code> children. The parent owns shared configuration — size and appearance — and propagates it to each child automatically: every child avatar is forced to <code>appearance=&quot;rounded&quot;</code> and inherits the group&#39;s <code>size</code>. You only need to author each <code>aegov-avatar</code> inside the group; the visual harmony of the cluster is wired up for you.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar-group</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;lg&quot;</span> <span class="hljs-attr">more-count</span>=<span class="hljs-string">&quot;3&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://i.pravatar.cc/150?img=12&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;Khalid Al Mansoori&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://i.pravatar.cc/150?img=32&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;Fatima Al Zaabi&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://i.pravatar.cc/150?img=58&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;Yousef Al Suwaidi&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar</span>&gt;</span>MA<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar-group</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-avatar-group size="lg" more-count="3">
+    <aegov-avatar src="https://i.pravatar.cc/150?img=12" alt="Khalid Al Mansoori"></aegov-avatar>
+    <aegov-avatar src="https://i.pravatar.cc/150?img=32" alt="Fatima Al Zaabi"></aegov-avatar>
+    <aegov-avatar src="https://i.pravatar.cc/150?img=58" alt="Yousef Al Suwaidi"></aegov-avatar>
+    <aegov-avatar>MA</aegov-avatar>
   </aegov-avatar-group>
 </div>
 
 <hr>
-<h2>Layout Modes</h2>
-<p>The <code>mode</code> property controls how avatars are arranged within the group.</p>
+<h2>Variant — Default vs. Compact</h2>
+<p>The <code>variant</code> property controls how the avatars are arranged.</p>
+<ul>
+<li><code>default</code> — avatars are spaced apart with a small gap between them.</li>
+<li><code>compact</code> — avatars overlap, mimicking a stack of stickers; the leftmost avatar sits on top.</li>
+</ul>
+<p>Use <code>default</code> when each user is a distinct unit (a team listing, a contact strip). Use <code>compact</code> to compress a cluster into a tight visual shorthand for &quot;these people are involved&quot;, typically alongside text such as a project name.</p>
 <h3>Default (spaced)</h3>
-<p>Avatars are laid out with a small gap between them. This is the default behaviour.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar-group</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;default&quot;</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://i.pravatar.cc/150?img=1&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;User 1&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://i.pravatar.cc/150?img=5&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;User 2&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://i.pravatar.cc/150?img=12&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;User 3&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar-group</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar-group</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;default&quot;</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;lg&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://i.pravatar.cc/150?img=15&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;Ahmed&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://i.pravatar.cc/150?img=23&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;Sara&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://i.pravatar.cc/150?img=44&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;Hamda&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar-group</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-avatar-group variant="default" size="lg">
-    <aegov-avatar src="https://i.pravatar.cc/150?img=1" alt="User 1"></aegov-avatar>
-    <aegov-avatar src="https://i.pravatar.cc/150?img=5" alt="User 2"></aegov-avatar>
-    <aegov-avatar src="https://i.pravatar.cc/150?img=12" alt="User 3"></aegov-avatar>
-    <aegov-avatar src="https://i.pravatar.cc/150?img=32" alt="User 4"></aegov-avatar>
+    <aegov-avatar src="https://i.pravatar.cc/150?img=15" alt="Ahmed"></aegov-avatar>
+    <aegov-avatar src="https://i.pravatar.cc/150?img=23" alt="Sara"></aegov-avatar>
+    <aegov-avatar src="https://i.pravatar.cc/150?img=44" alt="Hamda"></aegov-avatar>
   </aegov-avatar-group>
 </div>
 
 <h3>Compact (overlapping)</h3>
-<p>Avatars overlap each other with a negative margin. A white ring separates each avatar for clarity. The overlap amount scales with the avatar size.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar-group</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;compact&quot;</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://i.pravatar.cc/150?img=1&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;User 1&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://i.pravatar.cc/150?img=5&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;User 2&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://i.pravatar.cc/150?img=12&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;User 3&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar-group</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar-group</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;compact&quot;</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;lg&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://i.pravatar.cc/150?img=15&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;Ahmed&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://i.pravatar.cc/150?img=23&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;Sara&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://i.pravatar.cc/150?img=44&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;Hamda&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://i.pravatar.cc/150?img=51&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;Mohammed&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar-group</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-avatar-group variant="compact" size="lg">
-    <aegov-avatar src="https://i.pravatar.cc/150?img=1" alt="User 1"></aegov-avatar>
-    <aegov-avatar src="https://i.pravatar.cc/150?img=5" alt="User 2"></aegov-avatar>
-    <aegov-avatar src="https://i.pravatar.cc/150?img=12" alt="User 3"></aegov-avatar>
-    <aegov-avatar src="https://i.pravatar.cc/150?img=32" alt="User 4"></aegov-avatar>
+    <aegov-avatar src="https://i.pravatar.cc/150?img=15" alt="Ahmed"></aegov-avatar>
+    <aegov-avatar src="https://i.pravatar.cc/150?img=23" alt="Sara"></aegov-avatar>
+    <aegov-avatar src="https://i.pravatar.cc/150?img=44" alt="Hamda"></aegov-avatar>
+    <aegov-avatar src="https://i.pravatar.cc/150?img=51" alt="Mohammed"></aegov-avatar>
   </aegov-avatar-group>
 </div>
 
-<hr>
-<h2>Enforced Size</h2>
-<p>The <code>size</code> property on the group overrides the size of every child avatar, ensuring visual consistency.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar-group</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;xl&quot;</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://i.pravatar.cc/150?img=1&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;User 1&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://i.pravatar.cc/150?img=5&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;User 2&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar-group</span>&gt;</span></code></pre><div class="flex flex-wrap items-end gap-8 p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <div>
-    <p class="text-xs text-aeblack-400 mb-2">size="sm"</p>
-    <aegov-avatar-group variant="compact" size="sm">
-      <aegov-avatar src="https://i.pravatar.cc/150?img=1" alt="User 1"></aegov-avatar>
-      <aegov-avatar src="https://i.pravatar.cc/150?img=5" alt="User 2"></aegov-avatar>
-      <aegov-avatar src="https://i.pravatar.cc/150?img=12" alt="User 3"></aegov-avatar>
-    </aegov-avatar-group>
-  </div>
-  <div>
-    <p class="text-xs text-aeblack-400 mb-2">size="base"</p>
-    <aegov-avatar-group variant="compact" size="base">
-      <aegov-avatar src="https://i.pravatar.cc/150?img=1" alt="User 1"></aegov-avatar>
-      <aegov-avatar src="https://i.pravatar.cc/150?img=5" alt="User 2"></aegov-avatar>
-      <aegov-avatar src="https://i.pravatar.cc/150?img=12" alt="User 3"></aegov-avatar>
-    </aegov-avatar-group>
-  </div>
-  <div>
-    <p class="text-xs text-aeblack-400 mb-2">size="lg"</p>
-    <aegov-avatar-group variant="compact" size="lg">
-      <aegov-avatar src="https://i.pravatar.cc/150?img=1" alt="User 1"></aegov-avatar>
-      <aegov-avatar src="https://i.pravatar.cc/150?img=5" alt="User 2"></aegov-avatar>
-      <aegov-avatar src="https://i.pravatar.cc/150?img=12" alt="User 3"></aegov-avatar>
-    </aegov-avatar-group>
-  </div>
-  <div>
-    <p class="text-xs text-aeblack-400 mb-2">size="xl"</p>
-    <aegov-avatar-group variant="compact" size="xl">
-      <aegov-avatar src="https://i.pravatar.cc/150?img=1" alt="User 1"></aegov-avatar>
-      <aegov-avatar src="https://i.pravatar.cc/150?img=5" alt="User 2"></aegov-avatar>
-      <aegov-avatar src="https://i.pravatar.cc/150?img=12" alt="User 3"></aegov-avatar>
-    </aegov-avatar-group>
-  </div>
-</div>
-
-<blockquote>
-<p><strong>Note:</strong> Even if individual <code>&lt;aegov-avatar&gt;</code> elements have their own <code>size</code> set, the group will override them to match the group&#39;s <code>size</code> property.</p>
-</blockquote>
-<h3>Responsive Size</h3>
-<p>The <code>size</code> prop accepts Tailwind-style responsive prefixes. Write a space-separated string where each token is either a plain value or <code>breakpoint:value</code>. The base value (no prefix) applies below the smallest specified breakpoint.</p>
-<p>Available breakpoints: <code>xs</code> (480px), <code>sm</code> (640px), <code>md</code> (768px), <code>lg</code> (1024px), <code>xl</code> (1280px), <code>2xl</code> (1536px), <code>3xl</code> (1680px).</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar-group</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm xl:2xl&quot;</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://i.pravatar.cc/150?img=1&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;User 1&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://i.pravatar.cc/150?img=5&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;User 2&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://i.pravatar.cc/150?img=12&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;User 3&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar-group</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-avatar-group size="sm xl:2xl">
-    <aegov-avatar src="https://i.pravatar.cc/150?img=1" alt="User 1"></aegov-avatar>
-    <aegov-avatar src="https://i.pravatar.cc/150?img=5" alt="User 2"></aegov-avatar>
-    <aegov-avatar src="https://i.pravatar.cc/150?img=12" alt="User 3"></aegov-avatar>
-  </aegov-avatar-group>
-</div>
-
-<blockquote>
-<p><strong>Graceful degradation:</strong> Unknown breakpoint names and invalid values are silently ignored. An unrecognised base value falls back to the component default.</p>
-</blockquote>
 <hr>
 <h2>More Indicator</h2>
-<p>When there are additional users that are not displayed, set the <code>more-count</code> property to show a &quot;+N&quot; indicator button at the end of the group. Clicking the indicator emits the <code>aegovAvatarGroupMore</code> event.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar-group</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;compact&quot;</span> <span class="hljs-attr">more-count</span>=<span class="hljs-string">&quot;12&quot;</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://i.pravatar.cc/150?img=1&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;User 1&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://i.pravatar.cc/150?img=5&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;User 2&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://i.pravatar.cc/150?img=12&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;User 3&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar-group</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
+<p>When more users belong to the group than are visible, set <code>more-count</code> to render a trailing &quot;+N&quot; button. The indicator is a real <code>&lt;button&gt;</code> and emits the <code>aegovAvatarGroupMore</code> event when clicked, so you can open a modal listing the full membership.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar-group</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;compact&quot;</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;lg&quot;</span> <span class="hljs-attr">more-count</span>=<span class="hljs-string">&quot;12&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://i.pravatar.cc/150?img=12&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;Khalid&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://i.pravatar.cc/150?img=32&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;Fatima&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://i.pravatar.cc/150?img=58&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;Yousef&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar-group</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-avatar-group variant="compact" size="lg" more-count="12">
-    <aegov-avatar src="https://i.pravatar.cc/150?img=1" alt="User 1"></aegov-avatar>
-    <aegov-avatar src="https://i.pravatar.cc/150?img=5" alt="User 2"></aegov-avatar>
-    <aegov-avatar src="https://i.pravatar.cc/150?img=12" alt="User 3"></aegov-avatar>
-  </aegov-avatar-group>
-</div>
-<div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-avatar-group variant="compact" size="sm" more-count="12">
-    <aegov-avatar src="https://i.pravatar.cc/150?img=1" alt="User 1"></aegov-avatar>
-    <aegov-avatar src="https://i.pravatar.cc/150?img=5" alt="User 2"></aegov-avatar>
-    <aegov-avatar src="https://i.pravatar.cc/150?img=12" alt="User 3"></aegov-avatar>
+    <aegov-avatar src="https://i.pravatar.cc/150?img=12" alt="Khalid"></aegov-avatar>
+    <aegov-avatar src="https://i.pravatar.cc/150?img=32" alt="Fatima"></aegov-avatar>
+    <aegov-avatar src="https://i.pravatar.cc/150?img=58" alt="Yousef"></aegov-avatar>
   </aegov-avatar-group>
 </div>
 
 <h3>Custom More Text</h3>
-<p>Use the <code>more-text</code> property to override the default &quot;+N&quot; label.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar-group</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;compact&quot;</span> <span class="hljs-attr">more-count</span>=<span class="hljs-string">&quot;99&quot;</span> <span class="hljs-attr">more-text</span>=<span class="hljs-string">&quot;+99&quot;</span>&gt;</span>
-  …
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar-group</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-avatar-group variant="compact" size="lg" more-count="99" more-text="+99">
-    <aegov-avatar src="https://i.pravatar.cc/150?img=1" alt="User 1"></aegov-avatar>
-    <aegov-avatar src="https://i.pravatar.cc/150?img=5" alt="User 2"></aegov-avatar>
-    <aegov-avatar src="https://i.pravatar.cc/150?img=12" alt="User 3"></aegov-avatar>
+<p>By default, the indicator renders as <code>{moreCount}+</code>. Set <code>more-text</code> to provide a different label — for example a localised string or shorter shorthand.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar-group</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;lg&quot;</span> <span class="hljs-attr">more-count</span>=<span class="hljs-string">&quot;48&quot;</span> <span class="hljs-attr">more-text</span>=<span class="hljs-string">&quot;See all&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://i.pravatar.cc/150?img=12&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;Khalid&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://i.pravatar.cc/150?img=32&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;Fatima&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://i.pravatar.cc/150?img=58&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;Yousef&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar-group</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-avatar-group size="lg" more-count="48" more-text="See all">
+    <aegov-avatar src="https://i.pravatar.cc/150?img=12" alt="Khalid"></aegov-avatar>
+    <aegov-avatar src="https://i.pravatar.cc/150?img=32" alt="Fatima"></aegov-avatar>
+    <aegov-avatar src="https://i.pravatar.cc/150?img=58" alt="Yousef"></aegov-avatar>
   </aegov-avatar-group>
 </div>
 
-<hr>
-<h2>Listening to Events</h2>
-<p>The &quot;more&quot; indicator button emits an <code>aegovAvatarGroupMore</code> event when clicked. Use this to open a popover, modal, or navigate to a full user list.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar-group</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;team-group&quot;</span> <span class="hljs-attr">mode</span>=<span class="hljs-string">&quot;compact&quot;</span> <span class="hljs-attr">more-count</span>=<span class="hljs-string">&quot;8&quot;</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://i.pravatar.cc/150?img=1&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;User 1&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://i.pravatar.cc/150?img=5&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;User 2&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar</span>&gt;</span>
+<h3>Reacting to the More Click</h3>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar-group</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;team&quot;</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;lg&quot;</span> <span class="hljs-attr">more-count</span>=<span class="hljs-string">&quot;12&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://i.pravatar.cc/150?img=12&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;Khalid&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://i.pravatar.cc/150?img=32&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;Fatima&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar-group</span>&gt;</span>
 
 <span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript">
-  <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;team-group&#x27;</span>)
-    .<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;aegovAvatarGroupMore&#x27;</span>, <span class="hljs-function">() =&gt;</span> {
-      <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;Show all users&#x27;</span>);
-    });
+  <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">querySelector</span>(<span class="hljs-string">&#x27;#team&#x27;</span>).<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;aegovAvatarGroupMore&#x27;</span>, <span class="hljs-function">() =&gt;</span> {
+    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;User wants to see all members of the team&#x27;</span>);
+    <span class="hljs-comment">// open a modal, navigate to a team page, etc.</span>
+  });
 </span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre><hr>
-<h2>Always Rounded</h2>
-<p>Avatars inside a group are <strong>always rounded</strong>, regardless of what <code>variant</code> is set on individual <code>&lt;aegov-avatar&gt;</code> elements. The group enforces <code>variant=&quot;rounded&quot;</code> on every child automatically — you do not need to set it yourself, and setting <code>variant=&quot;square&quot;</code> on a child will be silently overridden.</p>
-<p>The &quot;more&quot; indicator button follows the same rule and is always circular.</p>
-<pre><code class="hljs language-html"><span class="hljs-comment">&lt;!-- variant=&quot;square&quot; on these avatars will be ignored inside the group --&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar-group</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;compact&quot;</span> <span class="hljs-attr">more-count</span>=<span class="hljs-string">&quot;3&quot;</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;…&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;…&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;…&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;…&quot;</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;square&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar-group</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-avatar-group variant="compact" size="lg" more-count="3">
-    <aegov-avatar src="https://i.pravatar.cc/150?img=3" alt="User 1"></aegov-avatar>
-    <aegov-avatar src="https://i.pravatar.cc/150?img=8" alt="User 2" variant="square"></aegov-avatar>
-    <aegov-avatar src="https://i.pravatar.cc/150?img=11" alt="User 3" variant="square"></aegov-avatar>
+<h2>Sizes</h2>
+<p>The <code>size</code> property is enforced on every child <code>aegov-avatar</code> — individual <code>size</code> settings on children are overridden. Accepts <code>xs</code>, <code>sm</code>, <code>base</code> (default), <code>lg</code>, <code>xl</code>, <code>2xl</code>, <code>3xl</code>, or a Tailwind-style responsive string.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar-group</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm&quot;</span>&gt;</span>…<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar-group</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar-group</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;base&quot;</span>&gt;</span>…<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar-group</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar-group</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;lg&quot;</span>&gt;</span>…<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar-group</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar-group</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;xl&quot;</span>&gt;</span>…<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar-group</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <div style="display:flex;flex-direction:column;gap:1rem;">
+    <aegov-avatar-group variant="compact" size="sm" more-count="5">
+      <aegov-avatar src="https://i.pravatar.cc/150?img=12" alt="Khalid"></aegov-avatar>
+      <aegov-avatar src="https://i.pravatar.cc/150?img=32" alt="Fatima"></aegov-avatar>
+      <aegov-avatar src="https://i.pravatar.cc/150?img=58" alt="Yousef"></aegov-avatar>
+    </aegov-avatar-group>
+    <aegov-avatar-group variant="compact" size="base" more-count="5">
+      <aegov-avatar src="https://i.pravatar.cc/150?img=12" alt="Khalid"></aegov-avatar>
+      <aegov-avatar src="https://i.pravatar.cc/150?img=32" alt="Fatima"></aegov-avatar>
+      <aegov-avatar src="https://i.pravatar.cc/150?img=58" alt="Yousef"></aegov-avatar>
+    </aegov-avatar-group>
+    <aegov-avatar-group variant="compact" size="lg" more-count="5">
+      <aegov-avatar src="https://i.pravatar.cc/150?img=12" alt="Khalid"></aegov-avatar>
+      <aegov-avatar src="https://i.pravatar.cc/150?img=32" alt="Fatima"></aegov-avatar>
+      <aegov-avatar src="https://i.pravatar.cc/150?img=58" alt="Yousef"></aegov-avatar>
+    </aegov-avatar-group>
+    <aegov-avatar-group variant="compact" size="xl" more-count="5">
+      <aegov-avatar src="https://i.pravatar.cc/150?img=12" alt="Khalid"></aegov-avatar>
+      <aegov-avatar src="https://i.pravatar.cc/150?img=32" alt="Fatima"></aegov-avatar>
+      <aegov-avatar src="https://i.pravatar.cc/150?img=58" alt="Yousef"></aegov-avatar>
+    </aegov-avatar-group>
+  </div>
+</div>
+
+<hr>
+<h2>Composite Examples</h2>
+<h3>Project members card</h3>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-card</span> <span class="hljs-attr">border-style</span>=<span class="hljs-string">&quot;light&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-title</span> <span class="hljs-attr">level</span>=<span class="hljs-string">&quot;4&quot;</span>&gt;</span>Smart City roadmap<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-title</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-text</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm&quot;</span>&gt;</span>Cross-ministry team delivering digital transformation initiatives.<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-text</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">style</span>=<span class="hljs-string">&quot;margin-top:1rem;&quot;</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar-group</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;compact&quot;</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;base&quot;</span> <span class="hljs-attr">more-count</span>=<span class="hljs-string">&quot;8&quot;</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://i.pravatar.cc/150?img=12&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;Khalid Al Mansoori&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://i.pravatar.cc/150?img=32&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;Fatima Al Zaabi&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://i.pravatar.cc/150?img=58&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;Yousef Al Suwaidi&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://i.pravatar.cc/150?img=44&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;Hamda Al Shamsi&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar-group</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-card</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-card border-style="light">
+    <aegov-title level="4">Smart City roadmap</aegov-title>
+    <aegov-text size="sm">Cross-ministry team delivering digital transformation initiatives.</aegov-text>
+    <div style="margin-top:1rem;">
+      <aegov-avatar-group variant="compact" size="base" more-count="8">
+        <aegov-avatar src="https://i.pravatar.cc/150?img=12" alt="Khalid Al Mansoori"></aegov-avatar>
+        <aegov-avatar src="https://i.pravatar.cc/150?img=32" alt="Fatima Al Zaabi"></aegov-avatar>
+        <aegov-avatar src="https://i.pravatar.cc/150?img=58" alt="Yousef Al Suwaidi"></aegov-avatar>
+        <aegov-avatar src="https://i.pravatar.cc/150?img=44" alt="Hamda Al Shamsi"></aegov-avatar>
+      </aegov-avatar-group>
+    </div>
+  </aegov-card>
+</div>
+
+<h3>Mixed image and initials fallback</h3>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar-group</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;compact&quot;</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;lg&quot;</span> <span class="hljs-attr">more-count</span>=<span class="hljs-string">&quot;2&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://i.pravatar.cc/150?img=12&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;Khalid Al Mansoori&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar</span>&gt;</span>FZ<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://i.pravatar.cc/150?img=58&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;Yousef Al Suwaidi&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar</span>&gt;</span>MA<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar-group</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-avatar-group variant="compact" size="lg" more-count="2">
+    <aegov-avatar src="https://i.pravatar.cc/150?img=12" alt="Khalid Al Mansoori"></aegov-avatar>
+    <aegov-avatar>FZ</aegov-avatar>
+    <aegov-avatar src="https://i.pravatar.cc/150?img=58" alt="Yousef Al Suwaidi"></aegov-avatar>
+    <aegov-avatar>MA</aegov-avatar>
   </aegov-avatar-group>
 </div>
 
-<blockquote>
-<p>All three avatars above render as rounded circles — the <code>variant=&quot;square&quot;</code> on the second and third avatars is overridden by the group.</p>
-</blockquote>
 <hr>
 <h2>RTL Support</h2>
-<p>The compact mode uses <code>margin-inline-start</code> for overlap, which automatically reverses in RTL layouts. No additional configuration is needed.</p>
-<div dir="rtl" class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
-  <aegov-avatar-group variant="compact" size="lg" more-count="7">
-    <aegov-avatar src="https://i.pravatar.cc/150?img=3" alt="مستخدم 1"></aegov-avatar>
-    <aegov-avatar src="https://i.pravatar.cc/150?img=8" alt="مستخدم 2"></aegov-avatar>
-    <aegov-avatar src="https://i.pravatar.cc/150?img=11" alt="مستخدم 3"></aegov-avatar>
-    <aegov-avatar src="https://i.pravatar.cc/150?img=20" alt="مستخدم 4"></aegov-avatar>
+<p>The avatar group flows in source order. When the document or any ancestor is set to <code>dir=&quot;rtl&quot;</code>, the natural flex layout reverses automatically — the first avatar sits on the right and the &quot;+N&quot; indicator slides to the left, all without additional configuration. Each individual <code>aegov-avatar</code> remains direction-neutral; only the row layout flips.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">dir</span>=<span class="hljs-string">&quot;rtl&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar-group</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;compact&quot;</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;lg&quot;</span> <span class="hljs-attr">more-count</span>=<span class="hljs-string">&quot;3&quot;</span> <span class="hljs-attr">more-text</span>=<span class="hljs-string">&quot;عرض الكل&quot;</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://i.pravatar.cc/150?img=12&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;خالد المنصوري&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://i.pravatar.cc/150?img=32&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;فاطمة الزعابي&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://i.pravatar.cc/150?img=58&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;يوسف السويدي&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar</span>&gt;</span>ما<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar-group</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre><div dir="rtl" class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-avatar-group variant="compact" size="lg" more-count="3" more-text="عرض الكل">
+    <aegov-avatar src="https://i.pravatar.cc/150?img=12" alt="خالد المنصوري"></aegov-avatar>
+    <aegov-avatar src="https://i.pravatar.cc/150?img=32" alt="فاطمة الزعابي"></aegov-avatar>
+    <aegov-avatar src="https://i.pravatar.cc/150?img=58" alt="يوسف السويدي"></aegov-avatar>
+    <aegov-avatar>ما</aegov-avatar>
+  </aegov-avatar-group>
+</div>
+
+<p>A spaced (default) variant in RTL — note the consistent right-to-left flow:</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">dir</span>=<span class="hljs-string">&quot;rtl&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar-group</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;default&quot;</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;base&quot;</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://i.pravatar.cc/150?img=15&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;أحمد&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://i.pravatar.cc/150?img=23&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;سارة&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://i.pravatar.cc/150?img=44&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;حمدة&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar-group</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre><div dir="rtl" class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-avatar-group variant="default" size="base">
+    <aegov-avatar src="https://i.pravatar.cc/150?img=15" alt="أحمد"></aegov-avatar>
+    <aegov-avatar src="https://i.pravatar.cc/150?img=23" alt="سارة"></aegov-avatar>
+    <aegov-avatar src="https://i.pravatar.cc/150?img=44" alt="حمدة"></aegov-avatar>
   </aegov-avatar-group>
 </div>
 
 <hr>
 <h2>API Reference</h2>
-<h3>Properties</h3>
+<h3>aegov-avatar-group Properties</h3>
 <table>
 <thead>
 <tr>
@@ -227,32 +238,77 @@
 </tr>
 </thead>
 <tbody><tr>
-<td><code>mode</code></td>
-<td><code>mode</code></td>
-<td>Layout mode</td>
-<td><code>&#39;default&#39;</code> | <code>&#39;compact&#39;</code></td>
+<td><code>variant</code></td>
+<td><code>variant</code></td>
+<td>Layout — <code>default</code> (spaced) or <code>compact</code> (overlapping).</td>
+<td><code>&#39;default&#39; | &#39;compact&#39;</code></td>
 <td><code>&#39;default&#39;</code></td>
 </tr>
 <tr>
 <td><code>size</code></td>
 <td><code>size</code></td>
-<td>Size enforced on all child avatars. Supports responsive strings (e.g. <code>&#39;sm xl:2xl&#39;</code>).</td>
-<td><code>&#39;xs&#39;</code> | <code>&#39;sm&#39;</code> | <code>&#39;base&#39;</code> | <code>&#39;lg&#39;</code> | <code>&#39;xl&#39;</code> | <code>&#39;2xl&#39;</code> | <code>&#39;3xl&#39;</code></td>
+<td>Size enforced on every child avatar. Accepts a single token or responsive string.</td>
+<td><code>string</code></td>
 <td><code>&#39;base&#39;</code></td>
 </tr>
 <tr>
 <td><code>moreCount</code></td>
 <td><code>more-count</code></td>
-<td>Number of additional users not shown</td>
+<td>When greater than zero, renders a trailing <code>+N</code> button.</td>
 <td><code>number</code></td>
 <td><code>0</code></td>
 </tr>
 <tr>
 <td><code>moreText</code></td>
 <td><code>more-text</code></td>
-<td>Custom label for the &quot;more&quot; indicator</td>
+<td>Custom label for the more indicator. Defaults to <code>&quot;{moreCount}+&quot;</code>.</td>
 <td><code>string</code></td>
-<td>—</td>
+<td><code>undefined</code></td>
+</tr>
+</tbody></table>
+<h3>aegov-avatar Properties (synced by the parent)</h3>
+<p>The parent group writes the following properties on each child <code>aegov-avatar</code> automatically. Setting these on a child directly is overridden on the next sync.</p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Attribute</th>
+<th>Description</th>
+<th>Type</th>
+<th>Set to</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>size</code></td>
+<td><code>size</code></td>
+<td><em>Set by the parent.</em> Resolved size token from the group&#39;s <code>size</code>.</td>
+<td><code>&#39;xs&#39; | &#39;sm&#39; | &#39;base&#39; | &#39;lg&#39; | &#39;xl&#39; | &#39;2xl&#39; | &#39;3xl&#39;</code></td>
+<td><em>from group</em></td>
+</tr>
+<tr>
+<td><code>appearance</code></td>
+<td><code>appearance</code></td>
+<td><em>Set by the parent.</em> Always forced to <code>rounded</code> while inside a group.</td>
+<td><code>&#39;square&#39; | &#39;rounded&#39;</code></td>
+<td><code>&#39;rounded&#39;</code></td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>Other <code>aegov-avatar</code> props — <code>src</code>, <code>alt</code>, <code>status</code>, <code>field-id</code> — remain under your control and behave exactly as documented on the avatar component.</p>
+</blockquote>
+<h3>Slots</h3>
+<table>
+<thead>
+<tr>
+<th>Component</th>
+<th>Slot</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>aegov-avatar-group</code></td>
+<td><em>(default)</em></td>
+<td>Place one or more <code>aegov-avatar</code> children here.</td>
 </tr>
 </tbody></table>
 <h3>Events</h3>
@@ -260,54 +316,94 @@
 <thead>
 <tr>
 <th>Event</th>
+<th>Component</th>
+<th>Detail</th>
 <th>Description</th>
-<th>Detail Type</th>
 </tr>
 </thead>
 <tbody><tr>
 <td><code>aegovAvatarGroupMore</code></td>
-<td>Emitted when the &quot;more&quot; button is clicked</td>
+<td><code>aegov-avatar-group</code></td>
 <td><code>void</code></td>
+<td>Fired when the trailing <code>+N</code> button is clicked by the user.</td>
 </tr>
 </tbody></table>
-<h3>Slots</h3>
+<h4>Listening for the more click</h4>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar-group</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;team&quot;</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;lg&quot;</span> <span class="hljs-attr">more-count</span>=<span class="hljs-string">&quot;12&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://i.pravatar.cc/150?img=12&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;Khalid&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://i.pravatar.cc/150?img=32&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;Fatima&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar-group</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript">
+  <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">querySelector</span>(<span class="hljs-string">&#x27;#team&#x27;</span>).<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;aegovAvatarGroupMore&#x27;</span>, <span class="hljs-function">() =&gt;</span> {
+    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;Open the full team list&#x27;</span>);
+  });
+</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre><h3>Pass-through Attributes</h3>
+<p>The avatar group does not forward attributes to inner elements — set attributes directly on the host where they are needed. Use <code>aria-label</code> on the host to override the default group label when the cluster represents a named team or project.</p>
 <table>
 <thead>
 <tr>
-<th>Slot</th>
-<th>Description</th>
+<th>Attribute group</th>
+<th>Forwarded?</th>
+<th>Where to apply</th>
 </tr>
 </thead>
 <tbody><tr>
-<td>(default)</td>
-<td>One or more <code>&lt;aegov-avatar&gt;</code> elements to group.</td>
+<td><code>aria-*</code></td>
+<td>No</td>
+<td>Apply directly to <code>&lt;aegov-avatar-group&gt;</code> or each <code>&lt;aegov-avatar&gt;</code>.</td>
+</tr>
+<tr>
+<td><code>data-*</code></td>
+<td>No</td>
+<td>Apply directly to <code>&lt;aegov-avatar-group&gt;</code> or each <code>&lt;aegov-avatar&gt;</code>.</td>
+</tr>
+<tr>
+<td><code>class</code>, <code>style</code></td>
+<td>Allowed</td>
+<td>Applied to the host element.</td>
 </tr>
 </tbody></table>
 <hr>
 <h2>Accessibility</h2>
-<h3>Built-in Features</h3>
+<h3>Built-in behaviour</h3>
 <ul>
-<li><strong><code>role=&quot;group&quot;</code></strong> — the group container is marked with the <code>group</code> role for assistive technologies.</li>
-<li><strong><code>aria-label=&quot;Avatar group&quot;</code></strong> — provides a label for the group container.</li>
-<li><strong>&quot;More&quot; button <code>aria-label</code></strong> — automatically set to &quot;Show N more users&quot; based on the <code>more-count</code> value.</li>
-<li><strong>Keyboard accessible</strong> — the &quot;more&quot; button is a native <code>&lt;button&gt;</code> element with visible focus indicators.</li>
+<li>The group container has <code>role=&quot;group&quot;</code> and <code>aria-label=&quot;Avatar group&quot;</code> so screen readers announce the cluster as a single unit.</li>
+<li>The trailing <code>+N</code> indicator is a real <code>&lt;button type=&quot;button&quot;&gt;</code> and is keyboard-focusable. It carries <code>aria-label=&quot;Show {N} more users&quot;</code> so its purpose is announced clearly.</li>
+<li>Each child <code>aegov-avatar</code> retains its own <code>role=&quot;img&quot;</code> and <code>aria-label</code> (derived from <code>alt</code>), so individual users are still announced when the user navigates into the group.</li>
 </ul>
-<h3>Developer Responsibilities</h3>
-<ol>
-<li><p><strong>Provide <code>alt</code> text on each avatar.</strong> The group component does not add labels to individual avatars — that responsibility stays with each <code>&lt;aegov-avatar&gt;</code>.</p>
-</li>
-<li><p><strong>Handle the &quot;more&quot; event meaningfully.</strong> When a user clicks the &quot;+N&quot; button, provide a way to see the remaining users (popover, modal, navigation to a list page).</p>
-</li>
-</ol>
-<hr>
-<h2>Notes</h2>
+<h3>Developer responsibilities</h3>
 <ul>
-<li>The group&#39;s <code>size</code> property overrides the <code>size</code> of every child <code>&lt;aegov-avatar&gt;</code> on load and update. Do not rely on per-avatar sizes when using a group.</li>
-<li>The group always enforces <code>variant=&quot;rounded&quot;</code> on every child <code>&lt;aegov-avatar&gt;</code>. Any <code>variant=&quot;square&quot;</code> set on an individual avatar is silently overridden. There is no square option inside a group.</li>
-<li>In compact mode, the overlap amount is size-dependent. Smaller avatars overlap less, and larger ones overlap more, keeping the proportions balanced.</li>
-<li>The &quot;more&quot; indicator uses <code>margin-inline-start</code> for overlap, which automatically mirrors in RTL layouts.</li>
-<li>The &quot;more&quot; button has hover and focus-visible styles. It matches the avatar sizing so it blends seamlessly with the stack.</li>
-<li>When <code>more-count</code> is <code>0</code> or not set, no indicator is rendered.</li>
+<li>Provide a meaningful <code>alt</code> on every child avatar — the group&#39;s container label alone is not enough to identify individual people.</li>
+<li>When the group represents a specific named team or project, override the default <code>aria-label</code> on the host (e.g. <code>aria-label=&quot;Smart City team members&quot;</code>) so the cluster&#39;s purpose is clear.</li>
+<li>If the <code>+N</code> button opens a modal or navigates away, follow the relevant accessibility guidance for that destination — focus management, return focus, and labelled headings.</li>
+<li>Avoid placing too many avatars in a <code>compact</code> cluster — the overlapping arrangement makes individual avatars harder to identify visually. Use <code>more-count</code> to off-load the long tail to a dedicated list.</li>
+</ul>
+<h3>Keyboard support</h3>
+<table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Tab</code></td>
+<td>Move focus to the <code>+N</code> button (when present) and onward.</td>
+</tr>
+<tr>
+<td><code>Enter</code>, <code>Space</code></td>
+<td>Activate the focused <code>+N</code> button — emits <code>aegovAvatarGroupMore</code>.</td>
+</tr>
+<tr>
+<td><code>Shift + Tab</code></td>
+<td>Move focus to the previous focusable element.</td>
+</tr>
+</tbody></table>
+<h3>Notes</h3>
+<ul>
+<li>The group always renders rounded avatars regardless of each child&#39;s <code>appearance</code>. If you need square avatars in a row, lay them out manually instead of using the group.</li>
+<li>Updating <code>size</code> on the group propagates to every child on the next render cycle; you do not need to set it on each avatar individually.</li>
 </ul>
 <!-- DOC:END -->
           </section>

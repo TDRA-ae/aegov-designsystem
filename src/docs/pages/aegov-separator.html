@@ -20,35 +20,145 @@
       <article class="col-span-5 grow">
           <section id="content-area" class="bg-whitely-50 p-6 rounded-md shadow-xl">
           <!-- DOC:START -->
-<h1>aegov-separator</h1>
-<p>A visual divider for separating sections of content. Use it to break up form sections, divide list groups, or insert an &quot;OR&quot;-style break between two interaction paths. Supports horizontal and vertical orientation, optional inline text label, and a subtle appearance for less visual weight.</p>
-<h2>Properties</h2>
-<h3>orientation</h3>
-<p>Direction of the separator. Accepts <code>horizontal</code> (default) or <code>vertical</code>.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-separator</span> <span class="hljs-attr">orientation</span>=<span class="hljs-string">&quot;horizontal&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-separator</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-separator</span> <span class="hljs-attr">orientation</span>=<span class="hljs-string">&quot;vertical&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-separator</span>&gt;</span></code></pre><h3>appearance</h3>
-<p>Visual weight. Accepts <code>default</code> (standard) or <code>subtle</code> (lighter).</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-separator</span> <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;subtle&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-separator</span>&gt;</span></code></pre><h3>text</h3>
-<p>Optional inline text label rendered at the center of the separator. When set (or when slotted content is present), the separator renders as a flex layout with line/text/line.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-separator</span> <span class="hljs-attr">text</span>=<span class="hljs-string">&quot;Or&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-separator</span>&gt;</span></code></pre><h3>is-decorative</h3>
-<p>Whether the separator is purely decorative. When <code>true</code> (default), uses <code>role=&quot;presentation&quot;</code>. When <code>false</code>, uses <code>role=&quot;separator&quot;</code> for assistive technology.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-separator</span> <span class="hljs-attr">is-decorative</span>=<span class="hljs-string">&quot;false&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-separator</span>&gt;</span></code></pre><h3>extra-class</h3>
-<p>Additional CSS class merged onto the separator element.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-separator</span> <span class="hljs-attr">extra-class</span>=<span class="hljs-string">&quot;my-2&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-separator</span>&gt;</span></code></pre><h2>Examples</h2>
-<h3>Horizontal divider</h3>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-separator</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-separator</span>&gt;</span></code></pre><h3>Subtle divider between sections</h3>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">section</span>&gt;</span>...<span class="hljs-tag">&lt;/<span class="hljs-name">section</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-separator</span> <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;subtle&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-separator</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">section</span>&gt;</span>...<span class="hljs-tag">&lt;/<span class="hljs-name">section</span>&gt;</span></code></pre><h3>&quot;Or&quot; divider between login methods</h3>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span>&gt;</span>Sign in<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-separator</span> <span class="hljs-attr">text</span>=<span class="hljs-string">&quot;OR&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-separator</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span> <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;outline&quot;</span>&gt;</span>Sign in with UAE Pass<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span></code></pre><h3>Vertical divider in a row of actions</h3>
+<h1>Separator</h1>
+<p class="text-lg text-aeblack-500 mb-8">A Separator is a thin visual divider used to break up sections of content, group related items, or signal a contextual boundary in an interface. Use it to separate form sections, divide list groups, mark a transition between two interaction paths, or insert an &ldquo;OR&rdquo;-style break between alternative actions. Separators support horizontal and vertical orientation, an optional inline label, and a subtle appearance for less visual weight.</p>
+
+<h2>Introduction</h2>
+<p>The <code>aegov-separator</code> component renders as a native <code>&lt;hr&gt;</code> when used without a label, or as a flex layout of line / text / line when a <code>text</code> value or slotted label is supplied. It exposes a small surface — <code>orientation</code>, <code>appearance</code>, <code>text</code>, and <code>is-decorative</code> — and uses logical CSS properties so it works identically in LTR and RTL contexts.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-separator</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-separator</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <p class="mb-4">Above the separator.</p>
+  <aegov-separator></aegov-separator>
+  <p class="mt-4">Below the separator.</p>
+</div>
+
+<hr>
+<h2>Orientation</h2>
+<p>Separators can be rendered horizontally or vertically. Horizontal is the default and fills the full width of its container. Vertical separators require a height context — either a parent with a defined height, or content of a fixed height around the separator.</p>
+<h3>Horizontal (default)</h3>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-separator</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-separator</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <p class="mb-4">Personal details</p>
+  <aegov-separator></aegov-separator>
+  <p class="mt-4">Contact information</p>
+</div>
+
+<h3>Vertical</h3>
+<p>Use a vertical separator inside a flex row of links or actions to create a clean visual divider.</p>
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;flex items-center gap-3 h-6&quot;</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-link</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/edit&quot;</span>&gt;</span>Edit<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-link</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-separator</span> <span class="hljs-attr">orientation</span>=<span class="hljs-string">&quot;vertical&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-separator</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-link</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/share&quot;</span>&gt;</span>Share<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-link</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-separator</span> <span class="hljs-attr">orientation</span>=<span class="hljs-string">&quot;vertical&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-separator</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-link</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/delete&quot;</span>&gt;</span>Delete<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-link</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre><h2>RTL Behavior</h2>
-<p>The separator is symmetric and direction-agnostic. The horizontal variant fills its container width identically in LTR and RTL. The text-bearing variant centers the label in either direction.</p>
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <div class="flex items-center gap-3 h-6">
+    <aegov-link href="javascript:void(0)">Edit</aegov-link>
+    <aegov-separator orientation="vertical"></aegov-separator>
+    <aegov-link href="javascript:void(0)">Share</aegov-link>
+    <aegov-separator orientation="vertical"></aegov-separator>
+    <aegov-link href="javascript:void(0)">Delete</aegov-link>
+  </div>
+</div>
+
+<hr>
+<h2>Appearance</h2>
+<p>The <code>appearance</code> property tunes the visual weight. Use <code>default</code> (a slate-300 line) for clear section breaks, and <code>subtle</code> (slate-200) where the separator should recede behind the surrounding content.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-separator</span> <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;default&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-separator</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-separator</span> <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;subtle&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-separator</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <p class="text-sm text-aeblack-600 mb-2">Default</p>
+  <aegov-separator appearance="default"></aegov-separator>
+  <p class="text-sm text-aeblack-600 mt-6 mb-2">Subtle</p>
+  <aegov-separator appearance="subtle"></aegov-separator>
+</div>
+
+<hr>
+<h2>Separator with Text</h2>
+<p>Set the <code>text</code> property to render an inline label centred between two lines. This pattern is common between two alternative sign-in methods or between a primary action and its alternatives.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-separator</span> <span class="hljs-attr">text</span>=<span class="hljs-string">&quot;OR&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-separator</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-button appearance="solid" extra-class="w-full">Sign in with Emirates ID</aegov-button>
+  <aegov-separator text="OR"></aegov-separator>
+  <aegov-button appearance="outline" extra-class="w-full">Sign in with UAE Pass</aegov-button>
+</div>
+
+<p>The same pattern with a longer label:</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-separator</span> <span class="hljs-attr">text</span>=<span class="hljs-string">&quot;Continue with another method&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-separator</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-separator text="Continue with another method"></aegov-separator>
+</div>
+
+<p>You can also pass the label as slotted content instead of using the <code>text</code> property — useful when the label needs richer markup such as an inline icon.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-separator</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">strong</span>&gt;</span>Section break<span class="hljs-tag">&lt;/<span class="hljs-name">strong</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-separator</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-separator>
+    <strong>Section break</strong>
+  </aegov-separator>
+</div>
+
+<hr>
+<h2>Decorative vs. Semantic</h2>
+<p>By default the separator is decorative — it renders with <code>role=&quot;presentation&quot;</code> so assistive technology ignores it. When the divider carries meaning (for example, separating two unrelated content groups in a list or marking a topic shift), set <code>is-decorative=&quot;false&quot;</code> to expose <code>role=&quot;separator&quot;</code> instead.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-separator</span> <span class="hljs-attr">is-decorative</span>=<span class="hljs-string">&quot;false&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-separator</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <p class="mb-3">Active applications</p>
+  <aegov-separator is-decorative="false"></aegov-separator>
+  <p class="mt-3">Archived applications</p>
+</div>
+
+<hr>
+<h2>Common Patterns</h2>
+<h3>Form section divider</h3>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">form</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">h3</span>&gt;</span>Personal details<span class="hljs-tag">&lt;/<span class="hljs-name">h3</span>&gt;</span>
+  <span class="hljs-comment">&lt;!-- inputs --&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-separator</span> <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;subtle&quot;</span> <span class="hljs-attr">extra-class</span>=<span class="hljs-string">&quot;my-6&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-separator</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">h3</span>&gt;</span>Contact information<span class="hljs-tag">&lt;/<span class="hljs-name">h3</span>&gt;</span>
+  <span class="hljs-comment">&lt;!-- inputs --&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">form</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <h3 class="text-lg font-semibold mb-2">Personal details</h3>
+  <p class="text-sm text-aeblack-600">Emirates ID, full name, date of birth.</p>
+  <aegov-separator appearance="subtle" extra-class="my-6"></aegov-separator>
+  <h3 class="text-lg font-semibold mb-2">Contact information</h3>
+  <p class="text-sm text-aeblack-600">Mobile number, email address, residential address.</p>
+</div>
+
+<h3>Footer link list with vertical dividers</h3>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;flex items-center gap-3 h-5&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-link</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/privacy&quot;</span>&gt;</span>Privacy<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-link</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-separator</span> <span class="hljs-attr">orientation</span>=<span class="hljs-string">&quot;vertical&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-separator</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-link</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/terms&quot;</span>&gt;</span>Terms<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-link</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-separator</span> <span class="hljs-attr">orientation</span>=<span class="hljs-string">&quot;vertical&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-separator</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-link</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/contact&quot;</span>&gt;</span>Contact<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-link</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <div class="flex items-center gap-3 h-5">
+    <aegov-link href="javascript:void(0)">Privacy</aegov-link>
+    <aegov-separator orientation="vertical"></aegov-separator>
+    <aegov-link href="javascript:void(0)">Terms</aegov-link>
+    <aegov-separator orientation="vertical"></aegov-separator>
+    <aegov-link href="javascript:void(0)">Contact</aegov-link>
+  </div>
+</div>
+
+<hr>
+<h2>RTL Support</h2>
+<p>The separator is symmetric and direction-agnostic. The horizontal variant fills its container width identically in LTR and RTL. The text-bearing variant centres the label in either direction, with the lines on each side flipping naturally because the component uses flex layout — no manual adjustment is required.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">dir</span>=<span class="hljs-string">&quot;rtl&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-separator</span> <span class="hljs-attr">text</span>=<span class="hljs-string">&quot;أو&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-separator</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre><div dir="rtl" class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-button appearance="solid" extra-class="w-full">تسجيل الدخول بالهوية الإماراتية</aegov-button>
+  <aegov-separator text="أو"></aegov-separator>
+  <aegov-button appearance="outline" extra-class="w-full">تسجيل الدخول عبر الهوية الرقمية</aegov-button>
+</div>
+
+<p>A subtle horizontal divider between two Arabic sections:</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">dir</span>=<span class="hljs-string">&quot;rtl&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>البيانات الشخصية<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-separator</span> <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;subtle&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-separator</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>بيانات التواصل<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre><div dir="rtl" class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <p class="mb-4">البيانات الشخصية</p>
+  <aegov-separator appearance="subtle"></aegov-separator>
+  <p class="mt-4">بيانات التواصل</p>
+</div>
+
+<hr>
 <h2>API Reference</h2>
 <h3>Properties</h3>
 <table>
@@ -65,34 +175,34 @@
 <td><code>orientation</code></td>
 <td><code>orientation</code></td>
 <td>Direction of the separator.</td>
-<td><code>&quot;horizontal&quot; | &quot;vertical&quot;</code></td>
+<td><code>&#39;horizontal&#39; | &#39;vertical&#39;</code></td>
 <td><code>&#39;horizontal&#39;</code></td>
 </tr>
 <tr>
 <td><code>appearance</code></td>
 <td><code>appearance</code></td>
 <td>Visual weight.</td>
-<td><code>&quot;default&quot; | &quot;subtle&quot;</code></td>
+<td><code>&#39;default&#39; | &#39;subtle&#39;</code></td>
 <td><code>&#39;default&#39;</code></td>
 </tr>
 <tr>
 <td><code>text</code></td>
 <td><code>text</code></td>
-<td>Inline label text rendered at the center.</td>
+<td>Inline label text rendered at the centre of the separator.</td>
 <td><code>string</code></td>
 <td><code>undefined</code></td>
 </tr>
 <tr>
 <td><code>isDecorative</code></td>
 <td><code>is-decorative</code></td>
-<td>If <code>true</code>, uses <code>role=&quot;presentation&quot;</code>. If <code>false</code>, uses <code>role=&quot;separator&quot;</code>.</td>
+<td>When <code>true</code>, exposes <code>role=&quot;presentation&quot;</code>. When <code>false</code>, exposes <code>role=&quot;separator&quot;</code>.</td>
 <td><code>boolean</code></td>
 <td><code>true</code></td>
 </tr>
 <tr>
 <td><code>extraClass</code></td>
 <td><code>extra-class</code></td>
-<td>Additional CSS classes.</td>
+<td>Additional CSS classes merged onto the inner separator element.</td>
 <td><code>string</code></td>
 <td><code>undefined</code></td>
 </tr>
@@ -106,24 +216,56 @@
 </tr>
 </thead>
 <tbody><tr>
-<td>(default)</td>
-<td>Optional inline label (alternative to the <code>text</code> prop). When present, switches to the text-bearing variant.</td>
+<td><em>(default)</em></td>
+<td>Optional inline label, used as an alternative to the <code>text</code> property. Accepts arbitrary HTML.</td>
 </tr>
 </tbody></table>
+<h3>Events</h3>
+<p>The component emits no custom events.</p>
+<h3>Pass-through Attributes</h3>
+<table>
+<thead>
+<tr>
+<th>Attribute group</th>
+<th>Forwarded?</th>
+<th>Where to apply</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>aria-*</code></td>
+<td>No</td>
+<td>Apply directly to <code>&lt;aegov-separator&gt;</code> — the host element receives them.</td>
+</tr>
+<tr>
+<td><code>data-*</code></td>
+<td>No</td>
+<td>Apply directly to <code>&lt;aegov-separator&gt;</code>.</td>
+</tr>
+<tr>
+<td><code>class</code>, <code>style</code></td>
+<td>Allowed</td>
+<td>Applied to the host element. Use <code>extra-class</code> to add classes to the inner element.</td>
+</tr>
+<tr>
+<td><code>id</code></td>
+<td>Allowed</td>
+<td>Applied to the host element.</td>
+</tr>
+</tbody></table>
+<hr>
 <h2>Accessibility</h2>
-<h3>Built-in</h3>
+<h3>Built-in behaviour</h3>
 <ul>
-<li>Renders <code>role=&quot;presentation&quot;</code> by default (purely decorative). When <code>is-decorative=&quot;false&quot;</code>, renders <code>role=&quot;separator&quot;</code> so AT announces it as a structural divider.</li>
-<li>Sets <code>aria-orientation</code> to match the <code>orientation</code> prop.</li>
+<li>Defaults to <code>role=&quot;presentation&quot;</code> so decorative dividers do not generate noise for screen readers.</li>
+<li>When <code>is-decorative=&quot;false&quot;</code>, exposes <code>role=&quot;separator&quot;</code> so assistive technology announces it as a structural divider.</li>
+<li>Sets <code>aria-orientation</code> to match the <code>orientation</code> property.</li>
+<li>Without a label, renders the native semantic <code>&lt;hr&gt;</code> element. With a label, renders a <code>&lt;div&gt;</code> with the appropriate role and aria attributes.</li>
 </ul>
 <h3>Developer responsibilities</h3>
 <ul>
-<li>Set <code>is-decorative=&quot;false&quot;</code> only when the separator carries meaning for assistive technology — for example, separating two distinct content groups in a list.</li>
-<li>For decorative dividers, leave the default to avoid noisy AT announcements.</li>
-</ul>
-<h3>Notes</h3>
-<ul>
-<li>The vertical separator requires a height context — its parent or the separator itself must have a defined height.</li>
+<li>Use the default decorative mode for purely visual breaks. Switch to <code>is-decorative=&quot;false&quot;</code> only when the separator carries meaning for assistive technology — for example, separating two distinct content groups in a list of items.</li>
+<li>Vertical separators need a height context. Place them inside a parent with a defined height (e.g. a flex row with <code>h-6</code>) or set a height directly via <code>extra-class</code>.</li>
+<li>Keep label text short. Long labels in a text-bearing separator can wrap awkwardly on narrow viewports.</li>
 </ul>
 <!-- DOC:END -->
           </section>
