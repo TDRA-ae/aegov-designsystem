@@ -1,6 +1,6 @@
 # Radio
 
-<p class="text-lg text-aeblack-500 mb-8">A Radio lets a user pick exactly one option from a small, fixed set — title, gender, payment method, preferred language, application type. Each instance is a real native `<input type="radio">` styled to the design system, and the `aegov-radio-group` wrapper takes care of sharing the `name` attribute, propagating sizing, and emitting a single event when the selection changes.</p>
+<p class="text-lg text-aeblack-500 mb-8">A Radio lets a user pick exactly one option from a small, fixed set — title, gender, payment method, preferred language, application type. Each instance is a real native <code>&lt;input type="radio"&gt;</code> styled to the design system, and the <code>aegov-radio-group</code> wrapper takes care of sharing the <code>name</code> attribute, propagating sizing, and emitting a single event when the selection changes.</p>
 
 ## Introduction
 

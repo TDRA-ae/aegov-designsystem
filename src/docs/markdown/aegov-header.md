@@ -483,3 +483,63 @@ The header uses Shadow DOM for full style isolation. It does not forward arbitra
 
 - The component uses Shadow DOM, so host-page CSS cannot leak into the header. Use the host element's `class` or `style` for outer-level changes; deeper theming requires CSS custom properties exposed by the component.
 - The header is presentational — it does not fetch any branding from `entity-domain`. You are responsible for providing the correct logo image.
+
+---
+
+## Responsive Previews
+
+Because the header occupies the full viewport width, the easiest way to inspect its responsive behaviour is to render it at fixed widths in an iframe. The previews below load the dedicated demo pages — `aegov-header-ministry.html` and `aegov-header-authority.html` — at common screen sizes.
+
+### Ministry variant
+
+<section class="mb-8 not-aegov">
+  <p class="mb-4 text-sm text-aeblack-500">Screen size: 1680px</p>
+  <iframe src="/docs/pages/aegov-header-ministry.html" width="1680" class="block border border-aeblack-100 h-60 rounded-md max-w-full" title="Ministry header preview at 1680px"></iframe>
+</section>
+
+<section class="mb-8 not-aegov">
+  <p class="mb-4 text-sm text-aeblack-500">Screen size: 1366px</p>
+  <iframe src="/docs/pages/aegov-header-ministry.html" width="1366" class="block border border-aeblack-100 h-60 rounded-md max-w-full" title="Ministry header preview at 1366px"></iframe>
+</section>
+
+<section class="mb-8 not-aegov">
+  <p class="mb-4 text-sm text-aeblack-500">Screen size: 1024px</p>
+  <iframe src="/docs/pages/aegov-header-ministry.html" width="1024" class="block border border-aeblack-100 h-60 rounded-md max-w-full" title="Ministry header preview at 1024px"></iframe>
+</section>
+
+<section class="mb-8 not-aegov">
+  <p class="mb-4 text-sm text-aeblack-500">Screen size: 768px</p>
+  <iframe src="/docs/pages/aegov-header-ministry.html" width="768" class="block border border-aeblack-100 h-60 rounded-md max-w-full" title="Ministry header preview at 768px"></iframe>
+</section>
+
+<section class="mb-8 not-aegov">
+  <p class="mb-4 text-sm text-aeblack-500">Screen size: 640px</p>
+  <iframe src="/docs/pages/aegov-header-ministry.html" width="640" class="block border border-aeblack-100 h-80 rounded-md max-w-full" title="Ministry header preview at 640px"></iframe>
+</section>
+
+### Authority variant
+
+<section class="mb-8 not-aegov">
+  <p class="mb-4 text-sm text-aeblack-500">Screen size: 1680px</p>
+  <iframe src="/docs/pages/aegov-header-authority.html" width="1680" class="block border border-aeblack-100 h-60 rounded-md max-w-full" title="Authority header preview at 1680px"></iframe>
+</section>
+
+<section class="mb-8 not-aegov">
+  <p class="mb-4 text-sm text-aeblack-500">Screen size: 1366px</p>
+  <iframe src="/docs/pages/aegov-header-authority.html" width="1366" class="block border border-aeblack-100 h-60 rounded-md max-w-full" title="Authority header preview at 1366px"></iframe>
+</section>
+
+<section class="mb-8 not-aegov">
+  <p class="mb-4 text-sm text-aeblack-500">Screen size: 1024px</p>
+  <iframe src="/docs/pages/aegov-header-authority.html" width="1024" class="block border border-aeblack-100 h-60 rounded-md max-w-full" title="Authority header preview at 1024px"></iframe>
+</section>
+
+<section class="mb-8 not-aegov">
+  <p class="mb-4 text-sm text-aeblack-500">Screen size: 768px</p>
+  <iframe src="/docs/pages/aegov-header-authority.html" width="768" class="block border border-aeblack-100 h-60 rounded-md max-w-full" title="Authority header preview at 768px"></iframe>
+</section>
+
+<section class="mb-8 not-aegov">
+  <p class="mb-4 text-sm text-aeblack-500">Screen size: 640px</p>
+  <iframe src="/docs/pages/aegov-header-authority.html" width="640" class="block border border-aeblack-100 h-80 rounded-md max-w-full" title="Authority header preview at 640px"></iframe>
+</section>

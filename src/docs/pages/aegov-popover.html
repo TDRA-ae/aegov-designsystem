@@ -20,52 +20,265 @@
       <article class="col-span-5 grow">
           <section id="content-area" class="bg-whitely-50 p-6 rounded-md shadow-xl">
           <!-- DOC:START -->
-<h1>aegov-popover</h1>
-<p>A floating dialog with a directional arrow, anchored to a trigger element. Use a popover for short, contextual content — help text, mini-forms, definitions, or controls that benefit from a visual connection to their trigger. Choose <code>aegov-tooltip</code> for short, hover-only labels, <code>aegov-dropdown</code> for action menus, and <code>aegov-modal</code> for blocking dialogs.</p>
-<p>The popover content is rendered into a portal at <code>document.body</code> so it can escape ancestor clipping and stacking contexts.</p>
-<h2>Properties</h2>
-<h3><code>trigger</code></h3>
-<p><code>&#39;click&#39;</code> (default) or <code>&#39;hover&#39;</code>. Determines how the popover opens.</p>
-<h3><code>position</code></h3>
-<p><code>&#39;top&#39;</code>, <code>&#39;right&#39;</code>, <code>&#39;bottom&#39;</code> (default), or <code>&#39;left&#39;</code>. Preferred placement; auto-flips when the viewport doesn&#39;t have room.</p>
-<h3><code>align</code></h3>
-<p><code>&#39;start&#39;</code>, <code>&#39;center&#39;</code> (default), or <code>&#39;end&#39;</code>. Cross-axis alignment.</p>
-<h3><code>gap</code></h3>
-<p>Pixel distance between trigger and popover panel. Default <code>10</code>.</p>
-<h3><code>offset</code></h3>
-<p>Additional cross-axis pixel offset. Default <code>0</code>.</p>
-<h3><code>is-disabled</code></h3>
-<p>When <code>true</code>, the popover won&#39;t open.</p>
-<h3><code>delay-start</code></h3>
-<p>Open delay (ms). Default <code>200</code> — primarily for <code>trigger=&quot;hover&quot;</code>.</p>
-<h3><code>delay-end</code></h3>
-<p>Close delay (ms) on hover-out. Default <code>0</code>. A 100 ms grace period is enforced for hover triggers.</p>
-<h3><code>field-id</code></h3>
-<p>Optional unique ID for the popover element. Auto-generated as <code>aegov-popover-{n}</code>. The trigger element receives <code>${fieldId}-trigger</code>.</p>
-<h2>Examples</h2>
-<h3>Help popover</h3>
+<h1>Popover</h1>
+<p class="text-lg text-aeblack-500 mb-8">A Popover is a small floating panel anchored to a trigger element with a directional arrow. Use it for short, contextual content — definitions, helper text, mini-forms, or quick actions — that benefits from a clear visual connection back to the control that opened it. For short hover-only labels, use a Tooltip; for blocking dialogs, use a Modal.</p>
+
+<h2>Introduction</h2>
+<p>The <code>aegov-popover</code> component wraps a trigger element and renders its <code>popover-content</code> slot into a portal at <code>document.body</code>, so the panel can escape any clipping or stacking context on the page. By default the popover opens on click, focus is trapped inside while it is open, and <code>Escape</code>, outside-click, or scrolling the trigger out of view all close it. Only one popover can be open at a time.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-popover</span> <span class="hljs-attr">position</span>=<span class="hljs-string">&quot;bottom&quot;</span> <span class="hljs-attr">align</span>=<span class="hljs-string">&quot;center&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;secondary&quot;</span>&gt;</span>Quick actions<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;popover-content&quot;</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">h4</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;text-base font-semibold mb-2&quot;</span>&gt;</span>Service shortcuts<span class="hljs-tag">&lt;/<span class="hljs-name">h4</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">ul</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;space-y-1 text-sm&quot;</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">li</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;#&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;text-primary-600 hover:underline&quot;</span>&gt;</span>Renew Emirates ID<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">li</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;#&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;text-primary-600 hover:underline&quot;</span>&gt;</span>Pay traffic fines<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">li</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;#&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;text-primary-600 hover:underline&quot;</span>&gt;</span>Track application<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">ul</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-popover</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <div class="flex justify-center py-12">
+    <aegov-popover position="bottom" align="center">
+      <aegov-button variant="secondary">Quick actions</aegov-button>
+      <div slot="popover-content">
+        <h4 class="text-base font-semibold mb-2">Service shortcuts</h4>
+        <ul class="space-y-1 text-sm">
+          <li><a href="#" class="text-primary-600 hover:underline">Renew Emirates ID</a></li>
+          <li><a href="#" class="text-primary-600 hover:underline">Pay traffic fines</a></li>
+          <li><a href="#" class="text-primary-600 hover:underline">Track application</a></li>
+        </ul>
+      </div>
+    </aegov-popover>
+  </div>
+</div>
+
+<hr>
+<h2>Position</h2>
+<p>The <code>position</code> property sets which side of the trigger the popover prefers. If there is not enough space on the chosen side, the popover automatically flips to the opposite side so it stays inside the viewport.</p>
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-popover</span> <span class="hljs-attr">position</span>=<span class="hljs-string">&quot;top&quot;</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;ghost&quot;</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm&quot;</span>&gt;</span>?<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;popover-content&quot;</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">strong</span>&gt;</span>Tip:<span class="hljs-tag">&lt;/<span class="hljs-name">strong</span>&gt;</span> Use commas to separate values.<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;secondary&quot;</span>&gt;</span>Top<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;popover-content&quot;</span>&gt;</span>Popover content above the trigger.<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-popover</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-popover</span> <span class="hljs-attr">position</span>=<span class="hljs-string">&quot;right&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;secondary&quot;</span>&gt;</span>Right<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;popover-content&quot;</span>&gt;</span>Popover content to the right.<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-popover</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-popover</span> <span class="hljs-attr">position</span>=<span class="hljs-string">&quot;bottom&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;secondary&quot;</span>&gt;</span>Bottom<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;popover-content&quot;</span>&gt;</span>Popover content below the trigger.<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-popover</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-popover</span> <span class="hljs-attr">position</span>=<span class="hljs-string">&quot;left&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;secondary&quot;</span>&gt;</span>Left<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;popover-content&quot;</span>&gt;</span>Popover content to the left.<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-popover</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <div class="flex flex-wrap gap-12 items-center justify-center py-16">
+    <aegov-popover position="top">
+      <aegov-button variant="secondary">Top</aegov-button>
+      <div slot="popover-content"><strong>Top.</strong> The popover appears above the trigger and points down.</div>
+    </aegov-popover>
+    <aegov-popover position="right">
+      <aegov-button variant="secondary">Right</aegov-button>
+      <div slot="popover-content"><strong>Right.</strong> The popover appears to the right of the trigger.</div>
+    </aegov-popover>
+    <aegov-popover position="bottom">
+      <aegov-button variant="secondary">Bottom</aegov-button>
+      <div slot="popover-content"><strong>Bottom.</strong> The popover appears below the trigger.</div>
+    </aegov-popover>
+    <aegov-popover position="left">
+      <aegov-button variant="secondary">Left</aegov-button>
+      <div slot="popover-content"><strong>Left.</strong> The popover appears to the left of the trigger.</div>
+    </aegov-popover>
+  </div>
+</div>
+
+<hr>
+<h2>Alignment</h2>
+<p><code>align</code> shifts the popover along its cross-axis relative to the trigger. For a <code>bottom</code>-positioned popover this means horizontal alignment; for a <code>left</code>-positioned popover it means vertical alignment.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-popover</span> <span class="hljs-attr">position</span>=<span class="hljs-string">&quot;bottom&quot;</span> <span class="hljs-attr">align</span>=<span class="hljs-string">&quot;start&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;secondary&quot;</span>&gt;</span>Start<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;popover-content&quot;</span>&gt;</span>Anchored to the start edge of the trigger.<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-popover</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-popover</span> <span class="hljs-attr">position</span>=<span class="hljs-string">&quot;bottom&quot;</span> <span class="hljs-attr">align</span>=<span class="hljs-string">&quot;center&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;secondary&quot;</span>&gt;</span>Centre<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;popover-content&quot;</span>&gt;</span>Centred on the trigger.<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-popover</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-popover</span> <span class="hljs-attr">position</span>=<span class="hljs-string">&quot;bottom&quot;</span> <span class="hljs-attr">align</span>=<span class="hljs-string">&quot;end&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;secondary&quot;</span>&gt;</span>End<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;popover-content&quot;</span>&gt;</span>Anchored to the end edge of the trigger.<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-popover</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <div class="flex flex-wrap gap-12 items-center justify-center py-12">
+    <aegov-popover position="bottom" align="start">
+      <aegov-button variant="secondary">Start</aegov-button>
+      <div slot="popover-content">Anchored to the start edge of the trigger.</div>
+    </aegov-popover>
+    <aegov-popover position="bottom" align="center">
+      <aegov-button variant="secondary">Centre</aegov-button>
+      <div slot="popover-content">Centred on the trigger.</div>
+    </aegov-popover>
+    <aegov-popover position="bottom" align="end">
+      <aegov-button variant="secondary">End</aegov-button>
+      <div slot="popover-content">Anchored to the end edge of the trigger.</div>
+    </aegov-popover>
+  </div>
+</div>
+
+<hr>
+<h2>Trigger</h2>
+<p>By default the popover opens on click and stays open until the user clicks elsewhere or presses <code>Escape</code>. Set <code>trigger=&quot;hover&quot;</code> to open on hover with a short grace period, so users can move their cursor onto the popover content without it closing.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-popover</span> <span class="hljs-attr">trigger</span>=<span class="hljs-string">&quot;click&quot;</span> <span class="hljs-attr">position</span>=<span class="hljs-string">&quot;bottom&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;secondary&quot;</span>&gt;</span>Click to open<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;popover-content&quot;</span>&gt;</span>Click triggers are best for popovers users will read or interact with.<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-popover</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-popover</span> <span class="hljs-attr">trigger</span>=<span class="hljs-string">&quot;hover&quot;</span> <span class="hljs-attr">position</span>=<span class="hljs-string">&quot;bottom&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;secondary&quot;</span>&gt;</span>Hover to open<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;popover-content&quot;</span>&gt;</span>Hover triggers suit transient information that does not need a click.<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-popover</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <div class="flex flex-wrap gap-6 items-center justify-center py-8">
+    <aegov-popover trigger="click" position="bottom">
+      <aegov-button variant="secondary">Click to open</aegov-button>
+      <div slot="popover-content">Click triggers are best for popovers users will read or interact with.</div>
+    </aegov-popover>
+    <aegov-popover trigger="hover" position="bottom">
+      <aegov-button variant="secondary">Hover to open</aegov-button>
+      <div slot="popover-content">Hover triggers suit transient information that does not need a click.</div>
+    </aegov-popover>
+  </div>
+</div>
+
+<hr>
+<h2>Delay</h2>
+<p>When the popover is set to <code>trigger=&quot;hover&quot;</code>, <code>delay-start</code> (default 200 ms) controls how long the user must hover before it appears, and <code>delay-end</code> (default 0 ms) adds a brief delay before it hides — giving the user time to move into the popover.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-popover</span> <span class="hljs-attr">trigger</span>=<span class="hljs-string">&quot;hover&quot;</span> <span class="hljs-attr">delay-start</span>=<span class="hljs-string">&quot;500&quot;</span> <span class="hljs-attr">position</span>=<span class="hljs-string">&quot;top&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;secondary&quot;</span>&gt;</span>Slow appearance<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;popover-content&quot;</span>&gt;</span>Appears after 500 ms of sustained hover.<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-popover</span>&gt;</span></code></pre><hr>
+<h2>Gap and Offset</h2>
+<p><code>gap</code> (pixels, default 10) controls the distance between the trigger and the popover. <code>offset</code> (default 0) shifts the popover along its cross-axis — useful when the trigger has visual padding that the popover should not appear to overlap.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-popover</span> <span class="hljs-attr">position</span>=<span class="hljs-string">&quot;bottom&quot;</span> <span class="hljs-attr">gap</span>=<span class="hljs-string">&quot;2&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;secondary&quot;</span>&gt;</span>Tight<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;popover-content&quot;</span>&gt;</span>Snug to the trigger.<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-popover</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-popover</span> <span class="hljs-attr">position</span>=<span class="hljs-string">&quot;bottom&quot;</span> <span class="hljs-attr">gap</span>=<span class="hljs-string">&quot;20&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;secondary&quot;</span>&gt;</span>Loose<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;popover-content&quot;</span>&gt;</span>A larger gap from the trigger.<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-popover</span>&gt;</span></code></pre><hr>
+<h2>Composite Example — Help Text on a Form Field</h2>
+<p>A popover is well-suited to in-context help — clicking an info icon next to a field opens a short explanation that may include a link to a fuller article. Because the popover is interactive, the link inside the panel is keyboard-reachable; a tooltip would not allow that.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;max-w-md&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;flex items-center gap-2 mb-2&quot;</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">label</span> <span class="hljs-attr">for</span>=<span class="hljs-string">&quot;iban&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;font-semibold&quot;</span>&gt;</span>IBAN<span class="hljs-tag">&lt;/<span class="hljs-name">label</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-popover</span> <span class="hljs-attr">position</span>=<span class="hljs-string">&quot;top&quot;</span> <span class="hljs-attr">align</span>=<span class="hljs-string">&quot;start&quot;</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;button&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;text-aeblack-500 hover:text-primary-600 inline-flex&quot;</span> <span class="hljs-attr">aria-label</span>=<span class="hljs-string">&quot;What is an IBAN?&quot;</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">svg</span> <span class="hljs-attr">width</span>=<span class="hljs-string">&quot;18&quot;</span> <span class="hljs-attr">height</span>=<span class="hljs-string">&quot;18&quot;</span> <span class="hljs-attr">viewBox</span>=<span class="hljs-string">&quot;0 0 24 24&quot;</span> <span class="hljs-attr">fill</span>=<span class="hljs-string">&quot;none&quot;</span> <span class="hljs-attr">stroke</span>=<span class="hljs-string">&quot;currentColor&quot;</span> <span class="hljs-attr">stroke-width</span>=<span class="hljs-string">&quot;2&quot;</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">circle</span> <span class="hljs-attr">cx</span>=<span class="hljs-string">&quot;12&quot;</span> <span class="hljs-attr">cy</span>=<span class="hljs-string">&quot;12&quot;</span> <span class="hljs-attr">r</span>=<span class="hljs-string">&quot;10&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">circle</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">path</span> <span class="hljs-attr">d</span>=<span class="hljs-string">&quot;M12 16v-4M12 8h.01&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">path</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">svg</span>&gt;</span>
+      <span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;popover-content&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;max-w-xs&quot;</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">h4</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;text-base font-semibold mb-2&quot;</span>&gt;</span>International Bank Account Number<span class="hljs-tag">&lt;/<span class="hljs-name">h4</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">p</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;text-sm mb-2&quot;</span>&gt;</span>A UAE IBAN is 23 characters long and starts with <span class="hljs-tag">&lt;<span class="hljs-name">strong</span>&gt;</span>AE<span class="hljs-tag">&lt;/<span class="hljs-name">strong</span>&gt;</span>. You will find it on the front of your bank card or on a recent bank statement.<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;#&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;text-sm text-primary-600 hover:underline&quot;</span>&gt;</span>Read full guidance<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>
+      <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-popover</span>&gt;</span>
   <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-popover</span>&gt;</span></code></pre><h3>Hover popover with rich content</h3>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-popover</span> <span class="hljs-attr">trigger</span>=<span class="hljs-string">&quot;hover&quot;</span> <span class="hljs-attr">position</span>=<span class="hljs-string">&quot;right&quot;</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/profile/jane&quot;</span>&gt;</span>@jane<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;popover-content&quot;</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;jane.jpg&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;&quot;</span> /&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">strong</span>&gt;</span>Jane Doe<span class="hljs-tag">&lt;/<span class="hljs-name">strong</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Senior Designer<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-input</span> <span class="hljs-attr">field-id</span>=<span class="hljs-string">&quot;iban&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;AE07 0331 2345 6789 0123 456&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-input</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <div class="max-w-md">
+    <div class="flex items-center gap-2 mb-2">
+      <label for="demo-iban" class="font-semibold">IBAN</label>
+      <aegov-popover position="top" align="start">
+        <button type="button" class="text-aeblack-500 hover:text-primary-600 inline-flex" aria-label="What is an IBAN?">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><path d="M12 16v-4M12 8h.01"></path></svg>
+        </button>
+        <div slot="popover-content" class="max-w-xs">
+          <h4 class="text-base font-semibold mb-2">International Bank Account Number</h4>
+          <p class="text-sm mb-2">A UAE IBAN is 23 characters long and starts with <strong>AE</strong>. You will find it on the front of your bank card or on a recent bank statement.</p>
+          <a href="#" class="text-sm text-primary-600 hover:underline">Read full guidance</a>
+        </div>
+      </aegov-popover>
+    </div>
+    <aegov-input field-id="demo-iban" placeholder="AE07 0331 2345 6789 0123 456"></aegov-input>
+  </div>
+</div>
+
+<hr>
+<h2>Composite Example — Quick Actions Menu</h2>
+<p>Popovers are also useful for compact action menus attached to a row, card, or service tile. Because content inside is fully focusable, links and buttons all work with the keyboard.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;bg-white border border-aeblack-100 rounded-lg p-4 flex items-center justify-between max-w-md&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">h4</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;font-semibold&quot;</span>&gt;</span>Application #AE-2026-0419-3128<span class="hljs-tag">&lt;/<span class="hljs-name">h4</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">p</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;text-sm text-aeblack-500&quot;</span>&gt;</span>Submitted 12 March 2026<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
   <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-popover</span>&gt;</span></code></pre><h3>Mini-form</h3>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-popover</span> <span class="hljs-attr">position</span>=<span class="hljs-string">&quot;bottom&quot;</span> <span class="hljs-attr">align</span>=<span class="hljs-string">&quot;end&quot;</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span>&gt;</span>Share<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;popover-content&quot;</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-input</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Email&quot;</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;email&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-input</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;primary&quot;</span>&gt;</span>Send<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span>
-  <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-popover</span>&gt;</span></code></pre><h2>RTL Behavior</h2>
-<p><code>align=&quot;start&quot;</code> resolves to the inline-start edge of the trigger — left in LTR, right in RTL. Position values (<code>top</code>/<code>bottom</code>/<code>left</code>/<code>right</code>) are physical and used as the preferred placement.</p>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-popover</span> <span class="hljs-attr">position</span>=<span class="hljs-string">&quot;bottom&quot;</span> <span class="hljs-attr">align</span>=<span class="hljs-string">&quot;end&quot;</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;ghost&quot;</span> <span class="hljs-attr">aria-label</span>=<span class="hljs-string">&quot;More actions&quot;</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">svg</span> <span class="hljs-attr">width</span>=<span class="hljs-string">&quot;20&quot;</span> <span class="hljs-attr">height</span>=<span class="hljs-string">&quot;20&quot;</span> <span class="hljs-attr">viewBox</span>=<span class="hljs-string">&quot;0 0 24 24&quot;</span> <span class="hljs-attr">fill</span>=<span class="hljs-string">&quot;currentColor&quot;</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">circle</span> <span class="hljs-attr">cx</span>=<span class="hljs-string">&quot;5&quot;</span> <span class="hljs-attr">cy</span>=<span class="hljs-string">&quot;12&quot;</span> <span class="hljs-attr">r</span>=<span class="hljs-string">&quot;2&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">circle</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">circle</span> <span class="hljs-attr">cx</span>=<span class="hljs-string">&quot;12&quot;</span> <span class="hljs-attr">cy</span>=<span class="hljs-string">&quot;12&quot;</span> <span class="hljs-attr">r</span>=<span class="hljs-string">&quot;2&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">circle</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">circle</span> <span class="hljs-attr">cx</span>=<span class="hljs-string">&quot;19&quot;</span> <span class="hljs-attr">cy</span>=<span class="hljs-string">&quot;12&quot;</span> <span class="hljs-attr">r</span>=<span class="hljs-string">&quot;2&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">circle</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">svg</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;popover-content&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;min-w-[12rem]&quot;</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">ul</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;space-y-1 text-sm&quot;</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">li</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;#&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;block px-2 py-1 hover:bg-aeblack-50 rounded&quot;</span>&gt;</span>View details<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">li</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;#&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;block px-2 py-1 hover:bg-aeblack-50 rounded&quot;</span>&gt;</span>Download receipt<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">li</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;#&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;block px-2 py-1 hover:bg-aeblack-50 rounded&quot;</span>&gt;</span>Track status<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">li</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;#&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;block px-2 py-1 hover:bg-aeblack-50 rounded text-aered-600&quot;</span>&gt;</span>Cancel application<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span>
+      <span class="hljs-tag">&lt;/<span class="hljs-name">ul</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-popover</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <div class="bg-white border border-aeblack-100 rounded-lg p-4 flex items-center justify-between max-w-md">
+    <div>
+      <h4 class="font-semibold">Application #AE-2026-0419-3128</h4>
+      <p class="text-sm text-aeblack-500">Submitted 12 March 2026</p>
+    </div>
+    <aegov-popover position="bottom" align="end">
+      <aegov-button variant="ghost" aria-label="More actions">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><circle cx="5" cy="12" r="2"></circle><circle cx="12" cy="12" r="2"></circle><circle cx="19" cy="12" r="2"></circle></svg>
+      </aegov-button>
+      <div slot="popover-content" class="min-w-[12rem]">
+        <ul class="space-y-1 text-sm">
+          <li><a href="#" class="block px-2 py-1 hover:bg-aeblack-50 rounded">View details</a></li>
+          <li><a href="#" class="block px-2 py-1 hover:bg-aeblack-50 rounded">Download receipt</a></li>
+          <li><a href="#" class="block px-2 py-1 hover:bg-aeblack-50 rounded">Track status</a></li>
+          <li><a href="#" class="block px-2 py-1 hover:bg-aeblack-50 rounded text-aered-600">Cancel application</a></li>
+        </ul>
+      </div>
+    </aegov-popover>
+  </div>
+</div>
+
+<hr>
+<h2>RTL Support</h2>
+<p>The popover follows the document direction. The internal layout of the panel mirrors automatically when <code>dir=&quot;rtl&quot;</code> is set on an ancestor, and <code>align=&quot;start&quot;</code> / <code>align=&quot;end&quot;</code> follow the reading direction. The <code>position</code> values remain absolute viewport directions (<code>top</code>, <code>right</code>, <code>bottom</code>, <code>left</code>).</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">dir</span>=<span class="hljs-string">&quot;rtl&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-popover</span> <span class="hljs-attr">position</span>=<span class="hljs-string">&quot;bottom&quot;</span> <span class="hljs-attr">align</span>=<span class="hljs-string">&quot;start&quot;</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;secondary&quot;</span>&gt;</span>إجراءات سريعة<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;popover-content&quot;</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">h4</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;text-base font-semibold mb-2&quot;</span>&gt;</span>اختصارات الخدمات<span class="hljs-tag">&lt;/<span class="hljs-name">h4</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">ul</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;space-y-1 text-sm&quot;</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">li</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;#&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;text-primary-600 hover:underline&quot;</span>&gt;</span>تجديد الهوية الإماراتية<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">li</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;#&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;text-primary-600 hover:underline&quot;</span>&gt;</span>دفع المخالفات المرورية<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">li</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;#&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;text-primary-600 hover:underline&quot;</span>&gt;</span>متابعة الطلب<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span>
+      <span class="hljs-tag">&lt;/<span class="hljs-name">ul</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-popover</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre><div dir="rtl" class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <div class="flex justify-center py-12">
+    <aegov-popover position="bottom" align="start">
+      <aegov-button variant="secondary">إجراءات سريعة</aegov-button>
+      <div slot="popover-content">
+        <h4 class="text-base font-semibold mb-2">اختصارات الخدمات</h4>
+        <ul class="space-y-1 text-sm">
+          <li><a href="#" class="text-primary-600 hover:underline">تجديد الهوية الإماراتية</a></li>
+          <li><a href="#" class="text-primary-600 hover:underline">دفع المخالفات المرورية</a></li>
+          <li><a href="#" class="text-primary-600 hover:underline">متابعة الطلب</a></li>
+        </ul>
+      </div>
+    </aegov-popover>
+  </div>
+</div>
+
+<hr>
 <h2>API Reference</h2>
 <h3>Properties</h3>
 <table>
@@ -73,6 +286,7 @@
 <tr>
 <th>Property</th>
 <th>Attribute</th>
+<th>Description</th>
 <th>Type</th>
 <th>Default</th>
 </tr>
@@ -80,81 +294,68 @@
 <tbody><tr>
 <td><code>fieldId</code></td>
 <td><code>field-id</code></td>
+<td>DOM <code>id</code> for the popover panel. The trigger receives <code>${fieldId}-trigger</code> for ARIA linkage. Auto-generated if omitted.</td>
 <td><code>string</code></td>
-<td>auto</td>
+<td><em>generated</em></td>
 </tr>
 <tr>
 <td><code>trigger</code></td>
 <td><code>trigger</code></td>
+<td>How the popover is opened.</td>
 <td><code>&#39;click&#39; | &#39;hover&#39;</code></td>
 <td><code>&#39;click&#39;</code></td>
 </tr>
 <tr>
 <td><code>position</code></td>
 <td><code>position</code></td>
+<td>Preferred side of the trigger. The popover auto-flips when there is no room.</td>
 <td><code>&#39;top&#39; | &#39;right&#39; | &#39;bottom&#39; | &#39;left&#39;</code></td>
 <td><code>&#39;bottom&#39;</code></td>
 </tr>
 <tr>
 <td><code>align</code></td>
 <td><code>align</code></td>
+<td>Alignment along the popover&#39;s cross-axis.</td>
 <td><code>&#39;start&#39; | &#39;center&#39; | &#39;end&#39;</code></td>
 <td><code>&#39;center&#39;</code></td>
 </tr>
 <tr>
 <td><code>gap</code></td>
 <td><code>gap</code></td>
+<td>Distance in pixels between the trigger and the popover.</td>
 <td><code>number</code></td>
 <td><code>10</code></td>
 </tr>
 <tr>
 <td><code>offset</code></td>
 <td><code>offset</code></td>
+<td>Additional offset along the cross-axis, in pixels.</td>
 <td><code>number</code></td>
 <td><code>0</code></td>
 </tr>
 <tr>
 <td><code>isDisabled</code></td>
 <td><code>is-disabled</code></td>
+<td>Suppress opening the popover entirely.</td>
 <td><code>boolean</code></td>
 <td><code>false</code></td>
 </tr>
 <tr>
 <td><code>delayStart</code></td>
 <td><code>delay-start</code></td>
+<td>Delay before showing on hover, in milliseconds.</td>
 <td><code>number</code></td>
 <td><code>200</code></td>
 </tr>
 <tr>
 <td><code>delayEnd</code></td>
 <td><code>delay-end</code></td>
+<td>Delay before hiding on hover, in milliseconds. (A minimum 100 ms grace is always applied for hover.)</td>
 <td><code>number</code></td>
 <td><code>0</code></td>
 </tr>
 </tbody></table>
-<h3>Events</h3>
-<table>
-<thead>
-<tr>
-<th>Event</th>
-<th>Description</th>
-<th>Detail</th>
-</tr>
-</thead>
-<tbody><tr>
-<td><code>aegovPopoverOpen</code></td>
-<td>Fires when the popover opens.</td>
-<td><code>void</code></td>
-</tr>
-<tr>
-<td><code>aegovPopoverClose</code></td>
-<td>Fires when the popover closes.</td>
-<td><code>void</code></td>
-</tr>
-</tbody></table>
-<h3>Event listening example</h3>
-<pre><code class="hljs language-js"><span class="hljs-keyword">const</span> pop = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">querySelector</span>(<span class="hljs-string">&#x27;aegov-popover&#x27;</span>);
-pop.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;aegovPopoverOpen&#x27;</span>, <span class="hljs-function">() =&gt;</span> <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;opened&#x27;</span>));</code></pre><h3>Slots</h3>
+<h3>Slots</h3>
 <table>
 <thead>
 <tr>
@@ -163,37 +364,128 @@ pop.<span class="hljs-title function_">addEventListener</span>(<span class="hljs
 </tr>
 </thead>
 <tbody><tr>
-<td>(default)</td>
-<td>The trigger element.</td>
+<td><em>(default)</em></td>
+<td>The trigger element — typically a button or icon button.</td>
 </tr>
 <tr>
 <td><code>popover-content</code></td>
-<td>The popover body. Anchors are reset to <code>display: block</code> in the portal.</td>
+<td>The popover body. Any HTML or other components are accepted.</td>
 </tr>
 </tbody></table>
+<h3>Events</h3>
+<table>
+<thead>
+<tr>
+<th>Event</th>
+<th>Detail</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>aegovPopoverOpen</code></td>
+<td><code>void</code></td>
+<td>Fired when the popover transitions to the open state.</td>
+</tr>
+<tr>
+<td><code>aegovPopoverClose</code></td>
+<td><code>void</code></td>
+<td>Fired when the popover transitions to the closed state.</td>
+</tr>
+</tbody></table>
+<h3>Pass-through Attributes</h3>
+<p>The popover does not currently forward host-element attributes through to the panel — apply ARIA on the trigger element you place in the default slot, or on the host. The component sets <code>role</code>, <code>aria-haspopup</code>, <code>aria-expanded</code>, <code>aria-controls</code>, and <code>aria-labelledby</code> automatically.</p>
+<table>
+<thead>
+<tr>
+<th>Attribute group</th>
+<th>Forwarded?</th>
+<th>Where to apply</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>aria-*</code></td>
+<td>No</td>
+<td>Apply directly to the trigger you slot in, or to <code>&lt;aegov-popover&gt;</code>.</td>
+</tr>
+<tr>
+<td><code>data-*</code></td>
+<td>No</td>
+<td>Apply directly to the trigger you slot in, or to <code>&lt;aegov-popover&gt;</code>.</td>
+</tr>
+<tr>
+<td><code>aria-haspopup</code></td>
+<td>Managed</td>
+<td>Set automatically to <code>dialog</code> on the trigger wrapper.</td>
+</tr>
+<tr>
+<td><code>aria-expanded</code></td>
+<td>Managed</td>
+<td>Reflects the open state on the trigger wrapper.</td>
+</tr>
+<tr>
+<td><code>aria-controls</code></td>
+<td>Managed</td>
+<td>Linked to the popover panel while open.</td>
+</tr>
+<tr>
+<td><code>aria-labelledby</code></td>
+<td>Managed</td>
+<td>The panel is labelled by the trigger wrapper.</td>
+</tr>
+<tr>
+<td><code>class</code>, <code>style</code></td>
+<td>Allowed</td>
+<td>Applied to the host element.</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p><strong>Portal note.</strong> Popover content is moved (not cloned) into a portal at <code>document.body</code> while open, and returned to its original location when closed. Avoid wrapping <code>&lt;aegov-popover&gt;</code> content with CSS that depends on the parent layout — once portalled, the panel only inherits styles from <code>:root</code>.</p>
+</blockquote>
+<hr>
 <h2>Accessibility</h2>
-<p><strong>Built in</strong></p>
+<h3>Built-in behaviour</h3>
 <ul>
-<li>Trigger has <code>aria-haspopup=&quot;dialog&quot;</code> and <code>aria-expanded</code> reflecting state; <code>aria-controls</code> points at the panel when open.</li>
-<li>The panel has <code>role=&quot;dialog&quot;</code> and <code>aria-labelledby</code> pointing at the trigger.</li>
-<li>Escape closes the popover.</li>
-<li>Tab and Arrow Up/Down cycle focus through focusable items inside the popover.</li>
-<li>Focus moves into the popover on open and returns to the trigger on close (<code>preventScroll</code>, so the page doesn&#39;t jump).</li>
-<li>Only one popover is open at a time (no nesting).</li>
-<li>Auto-closes if the trigger scrolls out of the viewport.</li>
+<li>The trigger wrapper is given <code>aria-haspopup=&quot;dialog&quot;</code> and <code>aria-expanded</code> reflects the open state.</li>
+<li>The portalled panel renders with <code>role=&quot;dialog&quot;</code> and is labelled by the trigger via <code>aria-labelledby</code>.</li>
+<li>When the popover opens, focus moves to the first focusable element inside the panel.</li>
+<li><code>Tab</code>, <code>Shift + Tab</code>, <code>ArrowUp</code>, and <code>ArrowDown</code> cycle focus through the focusable elements inside the panel.</li>
+<li><code>Escape</code> closes the popover and returns focus to the trigger (with <code>preventScroll</code> so the page does not jump).</li>
+<li>Clicking outside the trigger and panel closes the popover.</li>
+<li>If the trigger scrolls out of the viewport, the popover closes automatically.</li>
+<li>Only one popover may be open at a time; opening a new popover automatically closes any other.</li>
 </ul>
-<p><strong>Developer responsibilities</strong></p>
+<h3>Developer responsibilities</h3>
 <ul>
-<li>The trigger slot must contain a focusable element.</li>
-<li>Provide an accessible name on the trigger.</li>
-<li>For dense informational content, prefer <code>aria-labelledby</code> on a heading inside the panel via additional ARIA wiring on your slotted content.</li>
+<li><strong>Provide an accessible name on the trigger.</strong> A button with only an icon needs an <code>aria-label</code>. The popover panel is then labelled by that trigger automatically.</li>
+<li>Keep popover content compact and self-contained. Long forms or multi-step flows belong in <code>aegov-modal</code> or <code>aegov-drawer</code>.</li>
+<li>For list-style content, mark up the list with <code>&lt;ul&gt;</code> / <code>&lt;li&gt;</code> and link items so keyboard users can move through them naturally.</li>
+<li>Be mindful when nesting popovers inside scrollable regions — the popover closes when the trigger scrolls out of view, which is usually the right behaviour but can be disorienting if the user did not intend to scroll the trigger away.</li>
 </ul>
-<p><strong>Notes</strong></p>
-<ul>
-<li><code>scoped: true</code> encapsulation: events from inside the panel re-target correctly through portal moves.</li>
-<li>The slot element is <strong>moved</strong> (not cloned) into the portal on open and moved back on close — preserves Stencil hydration for nested web components.</li>
-<li>The arrow element is positioned dynamically and clamped within the panel&#39;s rounded corners.</li>
-</ul>
+<h3>Keyboard support</h3>
+<table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Enter</code>, <code>Space</code></td>
+<td>Open the popover when the trigger is focused (click trigger).</td>
+</tr>
+<tr>
+<td><code>Escape</code></td>
+<td>Close the popover and return focus to the trigger.</td>
+</tr>
+<tr>
+<td><code>Tab</code> / <code>Shift + Tab</code></td>
+<td>Cycle through focusable elements inside the popover panel.</td>
+</tr>
+<tr>
+<td><code>ArrowDown</code> / <code>ArrowUp</code></td>
+<td>Move to the next/previous focusable element inside the popover panel.</td>
+</tr>
+</tbody></table>
 <!-- DOC:END -->
           </section>
       </article>
