@@ -1,6 +1,6 @@
 # Checkbox
 
-<p class="text-lg text-aeblack-500 mb-8">A Checkbox lets a user select zero, one, or many options from a list — accepting terms, opting in to notifications, choosing service preferences, or filtering results. Each instance is a real native `<input type="checkbox">` styled to the design system, and the optional `aegov-checkbox-group` wrapper handles grouping, sizing, layout variants, and a "select all" controller.</p>
+<p class="text-lg text-aeblack-500 mb-8">A Checkbox lets a user select zero, one, or many options from a list — accepting terms, opting in to notifications, choosing service preferences, or filtering results. Each instance is a real native <code>&lt;input type="checkbox"&gt;</code> styled to the design system, and the optional <code>aegov-checkbox-group</code> wrapper handles grouping, sizing, layout variants, and a "select all" controller.</p>
 
 ## Introduction
 

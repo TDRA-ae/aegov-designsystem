@@ -1,6 +1,6 @@
 # Select
 
-<p class="text-lg text-aeblack-500 mb-8">A Select lets users choose one or more options from a list. The AEGOV select supports two render modes — a real native `<select>` for simple cases and form submission, and a custom listbox for richer experiences with search, multi-select, grouped options, and a clear button. Options are declared as light DOM children using `aegov-select-option` and optionally wrapped in `aegov-select-option-group`.</p>
+<p class="text-lg text-aeblack-500 mb-8">A Select lets users choose one or more options from a list. The AEGOV select supports two render modes — a real native <code>&lt;select&gt;</code> for simple cases and form submission, and a custom listbox for richer experiences with search, multi-select, grouped options, and a clear button. Options are declared as light DOM children using <code>aegov-select-option</code> and optionally wrapped in <code>aegov-select-option-group</code>.</p>
 
 ## Introduction
 
