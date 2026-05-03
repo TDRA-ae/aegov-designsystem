@@ -508,6 +508,74 @@ The input uses CSS logical properties throughout, so padding, slot icons, and th
 
 ---
 
+## Validation
+
+`aegov-input` exposes the unified validation surface described in [Validation Surface](validation-overview.html). The full contract (props, event payload, methods, value types, ARIA) lives there — only input-specific notes are here.
+
+### Surface
+
+| Prop | Description |
+| --- | --- |
+| `is-invalid` | Toggles invalid state; sets `aria-invalid="true"` on the inner `<input>`. |
+| `error-message` | Inline error text below the input. Use `error` slot for richer markup. |
+| `hint` | Helper text below the input when no error is shown. |
+
+| Method | Description |
+| --- | --- |
+| `validate(trigger?)` | Re-runs validation; emits `aegovValidate`. |
+| `setCustomValidity(message)` | Sets a custom error message; pass `''` to clear. |
+
+| Event | Detail |
+| --- | --- |
+| `aegovValidate` | `{ name, value, validity, validationMessage, customError, trigger }` — `value` is `string`. |
+
+### Common recipes
+
+**Required + email validation:**
+
+```html
+<aegov-input name="email" type="email" is-required></aegov-input>
+```
+
+The native `type="email"` triggers `validity.typeMismatch`; `is-required` triggers `validity.valueMissing`. Both surface through the `aegovValidate` event.
+
+**Min/max length:**
+
+```html
+<aegov-input name="zip" minlength="5" maxlength="5"></aegov-input>
+```
+
+**Pattern (regex):**
+
+```html
+<aegov-input name="phone" pattern="^\+971-?\d{9}$"></aegov-input>
+```
+
+**Custom server-side error:**
+
+```js
+input.setCustomValidity('Username already taken');
+```
+
+See the [Bring Your Own Validator](validation-byo.html) recipes for the full pattern catalog including async server checks and cross-field rules.
+
+### Use with `@aegov/designsystem-validation`
+
+```ts
+import { createForm } from '@aegov/designsystem-validation';
+import { valibotAdapter } from '@aegov/designsystem-validation/adapters/valibot';
+import * as v from 'valibot';
+
+const schema = v.object({
+  email: v.pipe(v.string(), v.email('Invalid email')),
+});
+createForm(form, schema, valibotAdapter(), { onValidSubmit: console.log });
+```
+
+The orchestrator listens for `aegovValidate` events and writes back `is-invalid` / `error-message`. No per-component wiring required.
+
+---
+
 ## Accessibility
 
 ### Built-in behaviour
