@@ -569,6 +569,60 @@ A range picker with Arabic presets in RTL:
 
 ---
 
+## Validation
+
+`aegov-datepicker` exposes the unified [Validation Surface](validation-overview.html). Datepicker-specific notes:
+
+### FormAssociated
+
+The component participates in `<form>` via `ElementInternals` (no inner `<input name>`). `name` prop is required for form submission. In `range` variant, two FormData entries submit as `name-start` and `name-end`.
+
+### Validity flags surfaced
+
+| Validity flag | When |
+| --- | --- |
+| `valueMissing` | `is-required` and no date selected |
+| `tooShort` | `range` variant, `min-range` set, selected days < min |
+| `tooLong` | `range` variant, `max-range` set, selected days > max |
+| `customError` | `setCustomValidity('msg')` invoked |
+
+### Common recipes
+
+**Required birthdate (no future dates):**
+
+```html
+<aegov-datepicker
+  name="dob"
+  is-required
+  is-disable-future
+  hint="DD/MM/YYYY"
+></aegov-datepicker>
+```
+
+**Date range with minimum 3 days:**
+
+```html
+<aegov-datepicker
+  name="trip"
+  variant="range"
+  min-range="3"
+  max-range="30"
+></aegov-datepicker>
+```
+
+**Cross-field min via another picker:**
+
+```js
+checkInPicker.addEventListener('aegovValidate', (e) => {
+  // checkout cannot be earlier than checkin
+  checkOutPicker.min = e.detail.value;
+});
+```
+
+See [BYO Validator](validation-byo.html) for more patterns.
+
+---
+
 ## Accessibility
 
 ### Built-in behaviour

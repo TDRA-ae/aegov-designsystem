@@ -789,6 +789,54 @@
 </tr>
 </tbody></table>
 <hr>
+<h2>Validation</h2>
+<p><code>aegov-datepicker</code> exposes the unified <a href="validation-overview.html">Validation Surface</a>. Datepicker-specific notes:</p>
+<h3>FormAssociated</h3>
+<p>The component participates in <code>&lt;form&gt;</code> via <code>ElementInternals</code> (no inner <code>&lt;input name&gt;</code>). <code>name</code> prop is required for form submission. In <code>range</code> variant, two FormData entries submit as <code>name-start</code> and <code>name-end</code>.</p>
+<h3>Validity flags surfaced</h3>
+<table>
+<thead>
+<tr>
+<th>Validity flag</th>
+<th>When</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>valueMissing</code></td>
+<td><code>is-required</code> and no date selected</td>
+</tr>
+<tr>
+<td><code>tooShort</code></td>
+<td><code>range</code> variant, <code>min-range</code> set, selected days &lt; min</td>
+</tr>
+<tr>
+<td><code>tooLong</code></td>
+<td><code>range</code> variant, <code>max-range</code> set, selected days &gt; max</td>
+</tr>
+<tr>
+<td><code>customError</code></td>
+<td><code>setCustomValidity(&#39;msg&#39;)</code> invoked</td>
+</tr>
+</tbody></table>
+<h3>Common recipes</h3>
+<p><strong>Required birthdate (no future dates):</strong></p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-datepicker</span>
+  <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;dob&quot;</span>
+  <span class="hljs-attr">is-required</span>
+  <span class="hljs-attr">is-disable-future</span>
+  <span class="hljs-attr">hint</span>=<span class="hljs-string">&quot;DD/MM/YYYY&quot;</span>
+&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-datepicker</span>&gt;</span></code></pre><p><strong>Date range with minimum 3 days:</strong></p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-datepicker</span>
+  <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;trip&quot;</span>
+  <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;range&quot;</span>
+  <span class="hljs-attr">min-range</span>=<span class="hljs-string">&quot;3&quot;</span>
+  <span class="hljs-attr">max-range</span>=<span class="hljs-string">&quot;30&quot;</span>
+&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-datepicker</span>&gt;</span></code></pre><p><strong>Cross-field min via another picker:</strong></p>
+<pre><code class="hljs language-js">checkInPicker.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;aegovValidate&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">e</span>) =&gt;</span> {
+  <span class="hljs-comment">// checkout cannot be earlier than checkin</span>
+  checkOutPicker.<span class="hljs-property">min</span> = e.<span class="hljs-property">detail</span>.<span class="hljs-property">value</span>;
+});</code></pre><p>See <a href="validation-byo.html">BYO Validator</a> for more patterns.</p>
+<hr>
 <h2>Accessibility</h2>
 <h3>Built-in behaviour</h3>
 <ul>

@@ -692,6 +692,38 @@
 </tr>
 </tbody></table>
 <hr>
+<h2>Validation</h2>
+<p><code>aegov-select</code> exposes the unified <a href="validation-overview.html">Validation Surface</a>. Select-specific notes only:</p>
+<h3>Variants and form participation</h3>
+<table>
+<thead>
+<tr>
+<th>Variant</th>
+<th>Form mechanism</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>default</code> (native)</td>
+<td>Inner native <code>&lt;select name&gt;</code> submits naturally. <code>aria-invalid</code> set on <code>&lt;select&gt;</code>.</td>
+</tr>
+<tr>
+<td><code>listbox</code> (custom)</td>
+<td>FormAssociated via <code>ElementInternals.setFormValue()</code>. <code>aria-invalid</code> set on the trigger <code>&lt;button&gt;</code>.</td>
+</tr>
+</tbody></table>
+<p>For <code>is-multiple</code> listbox, the FormData payload contains <strong>one entry per selected value</strong> (not a comma-joined string). Schemas should match:</p>
+<pre><code class="hljs language-ts">v.<span class="hljs-title function_">object</span>({ <span class="hljs-attr">countries</span>: v.<span class="hljs-title function_">array</span>(v.<span class="hljs-title function_">string</span>()) })  <span class="hljs-comment">// listbox multiple</span></code></pre><h3>Common recipes</h3>
+<p><strong>Required selection:</strong></p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-select</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;country&quot;</span> <span class="hljs-attr">is-required</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-select-option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;ae&quot;</span>&gt;</span>UAE<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select-option</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select</span>&gt;</span></code></pre><p><strong>Conditional required (depends on another field):</strong></p>
+<pre><code class="hljs language-js">toggle.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;aegovValidate&#x27;</span>, <span class="hljs-function">() =&gt;</span> {
+  select.<span class="hljs-property">isRequired</span> = toggle.<span class="hljs-property">isChecked</span>;
+  select.<span class="hljs-title function_">validate</span>(<span class="hljs-string">&#x27;change&#x27;</span>);
+});</code></pre><p><strong>Programmatic clear:</strong></p>
+<pre><code class="hljs language-js"><span class="hljs-keyword">await</span> select.<span class="hljs-title function_">setCustomValidity</span>(<span class="hljs-string">&#x27;&#x27;</span>);
+select.<span class="hljs-property">value</span> = <span class="hljs-string">&#x27;&#x27;</span>;</code></pre><p>See <a href="validation-byo.html">BYO Validator</a> for more patterns.</p>
+<hr>
 <h2>Accessibility</h2>
 <h3>Built-in behaviour</h3>
 <ul>

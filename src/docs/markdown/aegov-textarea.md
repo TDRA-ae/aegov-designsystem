@@ -371,6 +371,52 @@ The textarea has no named slots. The textarea content is set through the `value`
 
 ---
 
+## Validation
+
+`aegov-textarea` exposes the unified [Validation Surface](validation-overview.html). Textarea-specific notes only:
+
+| Prop | Description |
+| --- | --- |
+| `is-invalid` | Toggles invalid state; sets `aria-invalid="true"` on the inner `<textarea>`. |
+| `error-message` | Inline error text below the textarea. Use `error` slot for richer markup. |
+| `hint` | Helper text below the textarea when no error is shown. |
+
+### `aria-describedby` chain
+
+When `maxlength` is set, the character counter ID is included automatically. Adding an error region appends its ID alongside the counter:
+
+```text
+aria-describedby="textarea-x-counter textarea-x-error"
+```
+
+### Common recipes
+
+**Required + max length:**
+
+```html
+<aegov-textarea name="bio" is-required maxlength="500"></aegov-textarea>
+```
+
+**Custom server-side rejection:**
+
+```js
+textarea.setCustomValidity('Contains banned terms');
+```
+
+**Profanity filter (BYO):**
+
+```js
+textarea.addEventListener('aegovValidate', (e) => {
+  const ok = !/(badword1|badword2)/i.test(e.detail.value);
+  textarea.isInvalid = !ok;
+  textarea.errorMessage = ok ? '' : 'Please remove inappropriate language';
+});
+```
+
+See [BYO Validator](validation-byo.html) for more patterns.
+
+---
+
 ## Accessibility
 
 ### Built-in behaviour
