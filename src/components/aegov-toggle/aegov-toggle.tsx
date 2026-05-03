@@ -1,10 +1,17 @@
-import { Component, Host, h, Prop, Watch, State, Event, EventEmitter, Element } from '@stencil/core';
+import { Component, Host, h, Prop, Watch, State, Event, EventEmitter, Element, Method } from '@stencil/core';
 import { watchResponsiveProp } from '../../utils/responsive-prop';
 import type { ResponsivePropWatcher } from '../../utils/responsive-prop';
 import { TOGGLE_SIZES } from '../../utils/types';
-import type { ToggleSize } from '../../utils/types';
+import type {
+  ToggleSize,
+  AegovValidationDetail, AegovValidationResult, AegovValidationTrigger,
+} from '../../utils/types';
 import { getPassThroughAttributes } from '../../utils/attributes';
 import { generateId } from '../../utils/id-generator';
+import {
+  fromNativeValidity, VALID_STATE,
+  composeDescribedBy, buildValidationDetail,
+} from '../../utils/validation';
 
 @Component({
   tag: 'aegov-toggle',
@@ -42,16 +49,37 @@ export class AegovToggle {
   /** Label text for the toggle. Rendered at the end (inline-end). */
   @Prop() label?: string;
 
-  /** Description text displayed below the label. Only rendered when label is provided. */
-  @Prop() description?: string;
+  /**
+   * Helper hint text displayed below the label. Renamed from `description` per §6.6.
+   * Hidden when an error is shown.
+   */
+  @Prop() hint?: string;
+
+  /** Visual + a11y invalid state. See §2.3. */
+  @Prop({ mutable: true, reflect: true }) isInvalid: boolean = false;
+
+  /** Inline error message. Use `error` slot for rich markup. */
+  @Prop({ mutable: true }) errorMessage: string = '';
 
   /** Emitted when the toggle checked state changes. */
   @Event() aegovToggleChange: EventEmitter<{ checked: boolean; value?: string }>;
+
+  /** Unified validation event. See §2.3. */
+  @Event() aegovValidate: EventEmitter<AegovValidationDetail<boolean>>;
+
+  /** Whether user has blurred at least once — gates aria-live (gap §7.10). */
+  @State() private hasBlurredOnce: boolean = false;
+
+  private inputEl?: HTMLInputElement;
+  private errorId: string = '';
+  private hintId: string = '';
 
   componentWillLoad() {
     if (!this.fieldId) {
       this.fieldId = generateId('aegov-toggle');
     }
+    this.errorId = `${this.fieldId}-error`;
+    this.hintId = `${this.fieldId}-hint`;
     this._sizeWatcher = watchResponsiveProp(this.size, TOGGLE_SIZES, 'base', v => {
       this._resolvedSize = v as ToggleSize;
     });
@@ -71,10 +99,56 @@ export class AegovToggle {
     this._resolvedSize = this._sizeWatcher.current as ToggleSize;
   }
 
+  /** Imperatively re-run validation. */
+  @Method()
+  async validate(trigger: AegovValidationTrigger = 'manual'): Promise<AegovValidationResult> {
+    const validity = this.readValidity();
+    const message = !validity.valid
+      ? (this.errorMessage || this.inputEl?.validationMessage || '')
+      : '';
+    this.aegovValidate.emit(buildValidationDetail<boolean>(
+      this.el as unknown as HTMLElement & { name?: string },
+      this.isChecked, validity, message, this.errorMessage || null, trigger,
+    ));
+    return { valid: validity.valid, message, validity };
+  }
+
+  /** Mirror of HTMLInputElement.setCustomValidity(). */
+  @Method()
+  async setCustomValidity(message: string): Promise<void> {
+    this.errorMessage = message;
+    this.isInvalid = !!message;
+    if (this.inputEl && typeof this.inputEl.setCustomValidity === 'function') {
+      this.inputEl.setCustomValidity(message);
+    }
+  }
+
+  private readValidity() {
+    const v = this.inputEl?.validity;
+    return v ? fromNativeValidity(v) : VALID_STATE;
+  }
+
+  private emitValidate(trigger: AegovValidationTrigger) {
+    const validity = this.readValidity();
+    const message = !validity.valid
+      ? (this.errorMessage || this.inputEl?.validationMessage || '')
+      : '';
+    this.aegovValidate.emit(buildValidationDetail<boolean>(
+      this.el as unknown as HTMLElement & { name?: string },
+      this.isChecked, validity, message, this.errorMessage || null, trigger,
+    ));
+  }
+
   private handleChange = (event: Event) => {
     const input = event.target as HTMLInputElement;
     this.isChecked = input.checked;
     this.aegovToggleChange.emit({ checked: this.isChecked, value: this.value });
+    this.emitValidate('change');
+  };
+
+  private handleBlur = () => {
+    this.hasBlurredOnce = true;
+    this.emitValidate('blur');
   };
 
   private static readonly PASS_THROUGH_ATTRS = new Set([
@@ -83,9 +157,23 @@ export class AegovToggle {
 
   render() {
     const passThroughAttrs = getPassThroughAttributes(this.el, AegovToggle.PASS_THROUGH_ATTRS);
+    delete passThroughAttrs['aria-invalid'];
+    delete passThroughAttrs['aria-describedby'];
+
     const size: ToggleSize = this._resolvedSize;
     const wrapperClasses = ['aegov-toggle', `toggle--${size}`];
-    const descriptionId = this.description ? `${this.fieldId}-desc` : undefined;
+
+    const hasErrorSlot = !!this.el.querySelector('[slot="error"]');
+    const hasHintSlot = !!this.el.querySelector('[slot="hint"]');
+    const showError = this.isInvalid && (hasErrorSlot || !!this.errorMessage);
+    const showHint = !showError && (hasHintSlot || !!this.hint);
+    const announceError = showError && this.hasBlurredOnce;
+    const authorDescribedBy = this.el.getAttribute('aria-describedby');
+    const describedBy = composeDescribedBy(
+      authorDescribedBy,
+      showError ? this.errorId : null,
+      showHint ? this.hintId : null,
+    );
 
     const hasIconChecked = !!this.el.querySelector('[slot="icon-checked"]');
     const hasIconUnchecked = !!this.el.querySelector('[slot="icon-unchecked"]');
@@ -94,6 +182,7 @@ export class AegovToggle {
     const toggle = (
       <span class="toggle__control">
         <input
+          ref={(el) => this.inputEl = el}
           type="checkbox"
           role="switch"
           id={this.fieldId}
@@ -104,8 +193,10 @@ export class AegovToggle {
           required={this.isRequired}
           aria-checked={this.isChecked ? 'true' : 'false'}
           aria-required={this.isRequired ? 'true' : undefined}
-          aria-describedby={descriptionId}
+          aria-invalid={this.isInvalid ? 'true' : null}
+          aria-describedby={describedBy}
           onChange={this.handleChange}
+          onBlur={this.handleBlur}
           class="toggle__input"
           {...passThroughAttrs}
         />
@@ -126,29 +217,46 @@ export class AegovToggle {
       </span>
     );
 
+    const errorRegion = showError ? (
+      <div
+        id={this.errorId}
+        class="aegov-toggle__error"
+        role={announceError ? 'alert' : null}
+        aria-live={announceError ? 'polite' : null}
+      >
+        {hasErrorSlot ? <slot name="error" /> : this.errorMessage}
+      </div>
+    ) : null;
+
+    const hostClass = { 'is-invalid': this.isInvalid };
+
     if (this.label) {
       return (
-        <Host>
+        <Host class={hostClass}>
           <div class={wrapperClasses.join(' ')}>
             <label class="toggle__wrapper">
               {toggle}
               <span class="toggle__text">
                 <span class="toggle__label-text">{this.label}</span>
-                {this.description && (
-                  <span id={descriptionId} class="toggle__description">{this.description}</span>
+                {showHint && (
+                  <span id={this.hintId} class="toggle__hint">
+                    {hasHintSlot ? <slot name="hint" /> : this.hint}
+                  </span>
                 )}
               </span>
             </label>
           </div>
+          {errorRegion}
         </Host>
       );
     }
 
     return (
-      <Host>
+      <Host class={hostClass}>
         <div class={wrapperClasses.join(' ')}>
           {toggle}
         </div>
+        {errorRegion}
       </Host>
     );
   }

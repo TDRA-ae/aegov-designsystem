@@ -44,11 +44,11 @@ describe('aegov-fileupload (e2e)', () => {
     expect(spy.lastEvent.detail.files.length).toBe(1);
   });
 
-  it('emits aegovFileuploadError of type max-size when a file exceeds the limit', async () => {
+  it('emits aegovValidate with tooLong when a file exceeds the size limit (replaces aegovFileuploadError per §6.6)', async () => {
     const page = await newE2EPage();
     await page.setContent('<aegov-fileupload max-file-size="5"></aegov-fileupload>');
     const host = await page.find('aegov-fileupload');
-    const errSpy = await host.spyOnEvent('aegovFileuploadError');
+    const validateSpy = await host.spyOnEvent('aegovValidate');
 
     await page.evaluate(() => {
       const input = document.querySelector('aegov-fileupload input[type="file"]') as HTMLInputElement;
@@ -59,15 +59,15 @@ describe('aegov-fileupload (e2e)', () => {
     });
     await page.waitForChanges();
 
-    expect(errSpy.events.length).toBeGreaterThanOrEqual(1);
-    expect(errSpy.lastEvent.detail.type).toBe('max-size');
+    const fired = validateSpy.events.filter((e: any) => e.detail?.validity?.tooLong === true);
+    expect(fired.length).toBeGreaterThanOrEqual(1);
   });
 
-  it('emits aegovFileuploadError of type invalid-type when file does not match accept', async () => {
+  it('emits aegovValidate with typeMismatch when file does not match accept (replaces aegovFileuploadError per §6.6)', async () => {
     const page = await newE2EPage();
     await page.setContent('<aegov-fileupload accept=".pdf"></aegov-fileupload>');
     const host = await page.find('aegov-fileupload');
-    const errSpy = await host.spyOnEvent('aegovFileuploadError');
+    const validateSpy = await host.spyOnEvent('aegovValidate');
 
     await page.evaluate(() => {
       const input = document.querySelector('aegov-fileupload input[type="file"]') as HTMLInputElement;
@@ -78,8 +78,8 @@ describe('aegov-fileupload (e2e)', () => {
     });
     await page.waitForChanges();
 
-    expect(errSpy.events.length).toBeGreaterThanOrEqual(1);
-    expect(errSpy.lastEvent.detail.type).toBe('invalid-type');
+    const fired = validateSpy.events.filter((e: any) => e.detail?.validity?.typeMismatch === true);
+    expect(fired.length).toBeGreaterThanOrEqual(1);
   });
 
   it('button variant renders selected file and a remove button works', async () => {
@@ -129,13 +129,13 @@ describe('aegov-fileupload (e2e)', () => {
     expect(items.length).toBe(0);
   });
 
-  it('renders label and description', async () => {
+  it('renders label and hint', async () => {
     const page = await newE2EPage();
-    await page.setContent('<aegov-fileupload label="Upload" description="Pick a file"></aegov-fileupload>');
+    await page.setContent('<aegov-fileupload label="Upload" hint="Pick a file"></aegov-fileupload>');
     const label = await page.find('aegov-fileupload .fileupload__label');
-    const desc = await page.find('aegov-fileupload .fileupload__description');
+    const hint = await page.find('aegov-fileupload .fileupload__hint');
     expect(await label.getProperty('textContent')).toContain('Upload');
-    expect(await desc.getProperty('textContent')).toBe('Pick a file');
+    expect(await hint.getProperty('textContent')).toBe('Pick a file');
   });
 
   it('forwards aria/data attributes to the host', async () => {

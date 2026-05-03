@@ -1,6 +1,17 @@
 import { Component, Host, h, Prop, Element, State, Listen, Event, EventEmitter, Watch, Method } from '@stencil/core';
 import { DATEPICKER_MODES, INPUT_SIZES } from '../../utils/types';
-import type { DatepickerMode, DatepickerPreset, DatepickerChangeDetail, DatepickerMonthChangeDetail, InputSize } from '../../utils/types';
+import type {
+  DatepickerMode, DatepickerPreset, DatepickerChangeDetail, DatepickerMonthChangeDetail, InputSize,
+  AegovValidationDetail, AegovValidationResult, AegovValidationTrigger,
+  AegovValidityState,
+} from '../../utils/types';
+import {
+  composeDescribedBy, buildValidationDetail, synthesizeValidity, setInternalsValidity,
+} from '../../utils/validation';
+import type { InternalsHost } from '../../utils/validation';
+
+/** Datepicker value type per §2.4.1 — ISO string for single, { start, end } for range. */
+export type AegovDatepickerValue = string | { start: string; end: string };
 import { generateCalendarGrid, getWeekdayNames, getMonthNames, getYearRange, isSameDay, isDateBetween, stripTime, isBefore, isAfter, diffDays } from './utils/calendar';
 import { formatDate, parseDate, parseRangeValue, formatRangeValue } from './utils/format';
 import { getPresetDefinitions, calculatePreset } from './utils/presets';
@@ -25,6 +36,7 @@ const ARROW_RIGHT = `<svg xmlns="http://www.w3.org/2000/svg" width="14" height="
   tag: 'aegov-datepicker',
   styleUrl: 'aegov-datepicker.css',
   scoped: true,
+  formAssociated: true, // §2.5 + §7.5 spike: scoped:true + formAssociated combo verified
 })
 export class AegovDatepicker {
   @Element() el: HTMLElement;
@@ -109,6 +121,21 @@ export class AegovDatepicker {
   @State() private _resolvedSize: InputSize = 'base';
   private _sizeWatcher: ResponsivePropWatcher | null = null;
 
+  /** Optional unique field ID. Used by aegov-form-field for label linking + error/hint id derivation. */
+  @Prop({ mutable: true, reflect: true }) fieldId?: string;
+
+  /** Form field name for FormAssociated submission (§2.5). */
+  @Prop() name?: string;
+
+  /** Visual + a11y invalid state. See §2.3. */
+  @Prop({ mutable: true, reflect: true }) isInvalid: boolean = false;
+
+  /** Inline error message. Use `error` slot for rich markup. */
+  @Prop({ mutable: true }) errorMessage: string = '';
+
+  /** Helper hint shown below the control. Hidden when an error is shown. */
+  @Prop() hint: string = '';
+
   // ── State ─────────────────────────────────────────────
   @State() isOpen: boolean = false;
   @State() viewMonth: number = new Date().getMonth();
@@ -132,6 +159,14 @@ export class AegovDatepicker {
   @Event() aegovDatepickerClear: EventEmitter<void>;
   @Event() aegovDatepickerMonthChange: EventEmitter<DatepickerMonthChangeDetail>;
 
+  /** Unified validation event. See §2.3. */
+  @Event() aegovValidate: EventEmitter<AegovValidationDetail<AegovDatepickerValue>>;
+
+  @State() private hasBlurredOnce: boolean = false;
+  private internals: ElementInternals | null = null;
+  private errorId: string = '';
+  private hintId: string = '';
+
   // ── Private ───────────────────────────────────────────
   private portalElement?: HTMLDivElement;
   private triggerRef?: HTMLDivElement;
@@ -153,6 +188,21 @@ export class AegovDatepicker {
     });
     this._resolvedSize = this._sizeWatcher.current as InputSize;
     this.datepickerId = generateId('aegov-datepicker');
+    if (!this.fieldId) {
+      this.fieldId = this.datepickerId;
+    }
+    this.errorId = `${this.fieldId}-error`;
+    this.hintId = `${this.fieldId}-hint`;
+
+    // Manual attachInternals per §6.8 fallback
+    const host = this.el as unknown as InternalsHost;
+    if (typeof host.attachInternals === 'function') {
+      try {
+        this.internals = host.attachInternals();
+      } catch {
+        this.internals = null;
+      }
+    }
     this.hasTriggerSlot = !!this.el.querySelector('[slot="trigger"]');
 
     this.parseValue();
@@ -174,6 +224,7 @@ export class AegovDatepicker {
 
   componentDidLoad() {
     this.createPortalElement();
+    this.runValidationSync();
   }
 
   disconnectedCallback() {
@@ -181,11 +232,114 @@ export class AegovDatepicker {
     this.removePortalElement();
   }
 
+  // ── FormAssociated lifecycle (§2.5 + §7.5 spike) ──
+  formAssociatedCallback(_form: HTMLFormElement | null) { /* no-op */ }
+  formDisabledCallback(disabled: boolean) { this.isDisabled = disabled; }
+  formResetCallback() {
+    this.value = '';
+    this.parseValue();
+    this.runValidationSync();
+  }
+
+  // ── Validation surface (Layer 1) ──
+
+  /** Imperatively re-run validation. */
+  @Method()
+  async validate(trigger: AegovValidationTrigger = 'manual'): Promise<AegovValidationResult> {
+    return this.runAndEmitValidation(trigger);
+  }
+
+  /** Mirror of HTMLInputElement.setCustomValidity(). */
+  @Method()
+  async setCustomValidity(message: string): Promise<void> {
+    this.errorMessage = message;
+    this.isInvalid = !!message;
+    if (this.internals) {
+      if (message) {
+        setInternalsValidity(
+          this.internals,
+          synthesizeValidity({ customError: true }),
+          message,
+          this.triggerElement,
+        );
+      } else {
+        setInternalsValidity(this.internals, { valid: true }, '');
+      }
+    }
+  }
+
+  private currentValueForDetail(): AegovDatepickerValue {
+    if (this.variant === 'range') {
+      const start = this.rangeStart ? formatDate(this.rangeStart, 'YYYY-MM-DD') : '';
+      const end = this.rangeEnd ? formatDate(this.rangeEnd, 'YYYY-MM-DD') : '';
+      return { start, end };
+    }
+    return this.selectedDate ? formatDate(this.selectedDate, 'YYYY-MM-DD') : '';
+  }
+
+  private computeValidity(): { validity: AegovValidityState; message: string } {
+    const hasValue = this.variant === 'range'
+      ? !!(this.rangeStart && this.rangeEnd)
+      : !!this.selectedDate;
+    if (this.isRequired && !hasValue) {
+      return { validity: synthesizeValidity({ valueMissing: true }), message: this.errorMessage || 'Required' };
+    }
+    if (this.variant === 'range' && this.rangeStart && this.rangeEnd) {
+      const days = diffDays(this.rangeStart, this.rangeEnd) + 1;
+      if (this.minRange && days < this.minRange) {
+        return { validity: synthesizeValidity({ tooShort: true }), message: this.errorMessage || `Range must be at least ${this.minRange} days` };
+      }
+      if (this.maxRange && days > this.maxRange) {
+        return { validity: synthesizeValidity({ tooLong: true }), message: this.errorMessage || `Range must be at most ${this.maxRange} days` };
+      }
+    }
+    return { validity: synthesizeValidity({}), message: '' };
+  }
+
+  private runValidationSync() {
+    const { validity, message } = this.computeValidity();
+    setInternalsValidity(this.internals, validity, message, this.triggerElement);
+    try {
+      if (this.internals && typeof this.internals.setFormValue === 'function' && this.name) {
+        if (this.variant === 'range') {
+          const fd = new FormData();
+          if (this.rangeStart) fd.append(`${this.name}-start`, formatDate(this.rangeStart, 'YYYY-MM-DD'));
+          if (this.rangeEnd) fd.append(`${this.name}-end`, formatDate(this.rangeEnd, 'YYYY-MM-DD'));
+          this.internals.setFormValue(fd);
+        } else {
+          this.internals.setFormValue(this.value || '');
+        }
+      }
+    } catch { /* ignore mock env */ }
+  }
+
+  private async runAndEmitValidation(trigger: AegovValidationTrigger): Promise<AegovValidationResult> {
+    this.runValidationSync();
+    const { validity, message } = this.computeValidity();
+    this.aegovValidate.emit(buildValidationDetail<AegovDatepickerValue>(
+      this.el as unknown as HTMLElement & { name?: string },
+      this.currentValueForDetail(), validity, message, this.errorMessage || null, trigger,
+    ));
+    return { valid: validity.valid, message, validity };
+  }
+
+  private emitValidate(trigger: AegovValidationTrigger) {
+    const { validity, message } = this.computeValidity();
+    this.aegovValidate.emit(buildValidationDetail<AegovDatepickerValue>(
+      this.el as unknown as HTMLElement & { name?: string },
+      this.currentValueForDetail(), validity, message, this.errorMessage || null, trigger,
+    ));
+  }
+
   // ── Watchers ──────────────────────────────────────────
 
   @Watch('value')
   onValueChange() {
     this.parseValue();
+    this.runValidationSync();
+    // Emit unified validate event whenever value changes (covers all selection paths
+    // — single day click, range complete, preset, apply, clear, programmatic set)
+    this.emitValidate('change');
   }
 
   @Watch('unavailableDates')
@@ -1425,12 +1579,44 @@ export class AegovDatepicker {
   render() {
     const mode: DatepickerMode = (DATEPICKER_MODES as readonly string[]).includes(this.variant) ? this.variant : 'single';
     const passThroughAttrs = getPassThroughAttributes(this.el, AegovDatepicker.PASS_THROUGH_ATTRS);
+    delete passThroughAttrs['aria-invalid'];
+    delete passThroughAttrs['aria-describedby'];
+
+    const hasErrorSlot = !!this.el.querySelector('[slot="error"]');
+    const hasHintSlot = !!this.el.querySelector('[slot="hint"]');
+    const showError = this.isInvalid && (hasErrorSlot || !!this.errorMessage);
+    const showHint = !showError && (hasHintSlot || !!this.hint);
+    const announceError = showError && this.hasBlurredOnce;
+
+    const errorRegion = showError ? (
+      <div
+        id={this.errorId}
+        class="aegov-datepicker__error"
+        role={announceError ? 'alert' : null}
+        aria-live={announceError ? 'polite' : null}
+      >
+        {hasErrorSlot ? <slot name="error" /> : this.errorMessage}
+      </div>
+    ) : null;
+    const hintRegion = showHint ? (
+      <div id={this.hintId} class="aegov-datepicker__hint">
+        {hasHintSlot ? <slot name="hint" /> : this.hint}
+      </div>
+    ) : null;
+
     return (
-      <Host>
+      <Host class={{ 'is-invalid': this.isInvalid }}>
         <div
           class="datepicker__trigger"
           ref={(el) => (this.triggerRef = el)}
           onClick={this.handleTriggerClick}
+          onBlur={() => { this.hasBlurredOnce = true; this.emitValidate('blur'); }}
+          aria-invalid={this.isInvalid ? 'true' : null}
+          aria-describedby={composeDescribedBy(
+            this.el.getAttribute('aria-describedby'),
+            showError ? this.errorId : null,
+            showHint ? this.hintId : null,
+          )}
         >
           {this.hasTriggerSlot ? (
             <slot name="trigger" />
@@ -1440,6 +1626,8 @@ export class AegovDatepicker {
             this.renderSingleTrigger(passThroughAttrs)
           )}
         </div>
+        {errorRegion}
+        {hintRegion}
       </Host>
     );
   }

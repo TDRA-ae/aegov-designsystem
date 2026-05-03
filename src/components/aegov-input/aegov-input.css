@@ -181,3 +181,27 @@
 .input__copy-btn--copied {
   @apply text-aegreen-600;
 }
+
+/* ─────────────────────────────────────────────────────────────────────
+   Validation surface (Layer 1)
+   See: validation-engine-addon.md §2.6
+   ───────────────────────────────────────────────────────────────────── */
+
+/* Invalid state — host class toggled via isInvalid prop */
+:host(.is-invalid) .aegov-input {
+  @apply inset-ring-aered-600;
+}
+
+:host(.is-invalid) .aegov-input:focus {
+  @apply inset-ring-aered-700;
+}
+
+/* Inline error region — rendered below the control */
+.aegov-input__error {
+  @apply text-sm text-aered-600 mt-1.5 flex items-start gap-1.5 leading-snug;
+}
+
+/* Hint region — same vertical slot as error, neutral color */
+.aegov-input__hint {
+  @apply text-sm text-aeblack-600 mt-1.5 leading-snug;
+}
