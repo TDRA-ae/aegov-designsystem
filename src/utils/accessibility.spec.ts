@@ -37,6 +37,8 @@ import { AegovTabPanel } from '../components/aegov-tab-panel/aegov-tab-panel';
 import { AegovTabs } from '../components/aegov-tabs/aegov-tabs';
 import { AegovTextarea } from '../components/aegov-textarea/aegov-textarea';
 import { AegovToggle } from '../components/aegov-toggle/aegov-toggle';
+import { AegovSelect } from '../components/aegov-select/aegov-select';
+import { AegovSelectOption } from '../components/aegov-select-option/aegov-select-option';
 
 describe('Cross-component accessibility (WCAG 2.1 AA)', () => {
   // ── 1.3.1 Info and Relationships ─────────────────────────────────────────
@@ -367,6 +369,122 @@ describe('Cross-component accessibility (WCAG 2.1 AA)', () => {
       });
       const dismiss = page.root.querySelector('button[aria-label]');
       expect(dismiss).toBeTruthy();
+    });
+  });
+
+  // ── 4.1.2 — validation surface (Layer 1) a11y invariants ─────────────
+  // See: validation-engine-addon.md §2.3, §2.6, §7.10
+
+  describe('validation surface — aria-invalid wiring', () => {
+    const cases: Array<{ name: string; ctor: any; tag: string; controlSelector: string }> = [
+      { name: 'aegov-input',         ctor: AegovInput,        tag: 'aegov-input',        controlSelector: 'input' },
+      { name: 'aegov-textarea',      ctor: AegovTextarea,     tag: 'aegov-textarea',     controlSelector: 'textarea' },
+      { name: 'aegov-select',        ctor: AegovSelect,       tag: 'aegov-select',       controlSelector: 'select' },
+      { name: 'aegov-checkbox',      ctor: AegovCheckbox,     tag: 'aegov-checkbox',     controlSelector: 'input[type="checkbox"]' },
+      { name: 'aegov-radio',         ctor: AegovRadio,        tag: 'aegov-radio',        controlSelector: 'input[type="radio"]' },
+      { name: 'aegov-toggle',        ctor: AegovToggle,       tag: 'aegov-toggle',       controlSelector: 'input[type="checkbox"]' },
+      { name: 'aegov-range',         ctor: AegovRange,        tag: 'aegov-range',        controlSelector: 'input[type="range"]' },
+    ];
+
+    cases.forEach(({ name, ctor, tag, controlSelector }) => {
+      it(`${name} sets aria-invalid="true" on inner control when isInvalid`, async () => {
+        const page = await newSpecPage({
+          components: [ctor],
+          html: `<${tag} is-invalid="true"></${tag}>`,
+        });
+        const control = page.root.querySelector(controlSelector);
+        expect(control?.getAttribute('aria-invalid')).toBe('true');
+      });
+    });
+
+    it('aegov-checkbox-group sets aria-invalid on fieldset when isInvalid', async () => {
+      const page = await newSpecPage({
+        components: [AegovCheckboxGroup, AegovCheckbox],
+        html: `<aegov-checkbox-group is-invalid="true">
+          <aegov-checkbox value="a"></aegov-checkbox>
+        </aegov-checkbox-group>`,
+      });
+      expect(page.root.querySelector('fieldset')?.getAttribute('aria-invalid')).toBe('true');
+    });
+
+    it('aegov-radio-group sets aria-invalid on fieldset when isInvalid', async () => {
+      const page = await newSpecPage({
+        components: [AegovRadioGroup, AegovRadio],
+        html: `<aegov-radio-group name="r" is-invalid="true">
+          <aegov-radio value="a"></aegov-radio>
+        </aegov-radio-group>`,
+      });
+      expect(page.root.querySelector('fieldset')?.getAttribute('aria-invalid')).toBe('true');
+    });
+  });
+
+  describe('validation surface — aria-describedby chains to error region', () => {
+    it('aegov-input aria-describedby resolves to non-empty error text', async () => {
+      const page = await newSpecPage({
+        components: [AegovInput],
+        html: `<aegov-input field-id="x" is-invalid="true" error-message="Bad value"></aegov-input>`,
+      });
+      const input = page.root.querySelector('input');
+      const describedById = input?.getAttribute('aria-describedby');
+      expect(describedById).toContain('x-error');
+      const errorEl = page.root.querySelector(`#${describedById?.split(' ')[0]}`);
+      expect(errorEl?.textContent).toBe('Bad value');
+    });
+
+    it('aegov-textarea aria-describedby chains counter + error IDs', async () => {
+      const page = await newSpecPage({
+        components: [AegovTextarea],
+        html: `<aegov-textarea field-id="t" maxlength="10" is-invalid="true" error-message="msg"></aegov-textarea>`,
+      });
+      const desc = page.root.querySelector('textarea')?.getAttribute('aria-describedby');
+      expect(desc).toContain('t-counter');
+      expect(desc).toContain('t-error');
+    });
+
+    it('aegov-select aria-describedby includes error ID on listbox button', async () => {
+      const page = await newSpecPage({
+        components: [AegovSelect, AegovSelectOption],
+        html: `<aegov-select variant="listbox" field-id="s" is-invalid="true" error-message="err">
+          <aegov-select-option value="a">A</aegov-select-option>
+        </aegov-select>`,
+      });
+      expect(page.root.querySelector('button')?.getAttribute('aria-describedby')).toContain('s-error');
+    });
+  });
+
+  describe('validation surface — aria-live gate (gap §7.10)', () => {
+    it('aegov-input error region has NO role=alert before first blur', async () => {
+      const page = await newSpecPage({
+        components: [AegovInput],
+        html: `<aegov-input is-invalid="true" error-message="err"></aegov-input>`,
+      });
+      const region = page.root.querySelector('.aegov-input__error');
+      expect(region?.getAttribute('role')).toBeNull();
+      expect(region?.getAttribute('aria-live')).toBeNull();
+    });
+
+    it('aegov-input error region gains role=alert + aria-live=polite after first blur', async () => {
+      const page = await newSpecPage({
+        components: [AegovInput],
+        html: `<aegov-input is-invalid="true" error-message="err"></aegov-input>`,
+      });
+      page.rootInstance.hasBlurredOnce = true;
+      await page.waitForChanges();
+      const region = page.root.querySelector('.aegov-input__error');
+      expect(region?.getAttribute('role')).toBe('alert');
+      expect(region?.getAttribute('aria-live')).toBe('polite');
+    });
+  });
+
+  describe('validation surface — author-supplied aria-describedby preserved (gap §7.8)', () => {
+    it('aegov-input preserves author aria-describedby and appends error ID', async () => {
+      const page = await newSpecPage({
+        components: [AegovInput],
+        html: `<aegov-input field-id="x" aria-describedby="external-help" is-invalid="true" error-message="err"></aegov-input>`,
+      });
+      const desc = page.root.querySelector('input')?.getAttribute('aria-describedby');
+      expect(desc).toContain('external-help');
+      expect(desc).toContain('x-error');
     });
   });
 });
