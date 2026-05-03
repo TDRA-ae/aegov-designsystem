@@ -438,6 +438,40 @@
 <p>Reserved HTML attributes (<code>id</code>, <code>class</code>, <code>style</code>) cannot be used as props — <code>id</code> is replaced by <code>field-id</code>, and <code>class</code>/<code>style</code> are applied to the host as usual.</p>
 </blockquote>
 <hr>
+<h2>Validation</h2>
+<p><code>aegov-textarea</code> exposes the unified <a href="validation-overview.html">Validation Surface</a>. Textarea-specific notes only:</p>
+<table>
+<thead>
+<tr>
+<th>Prop</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>is-invalid</code></td>
+<td>Toggles invalid state; sets <code>aria-invalid=&quot;true&quot;</code> on the inner <code>&lt;textarea&gt;</code>.</td>
+</tr>
+<tr>
+<td><code>error-message</code></td>
+<td>Inline error text below the textarea. Use <code>error</code> slot for richer markup.</td>
+</tr>
+<tr>
+<td><code>hint</code></td>
+<td>Helper text below the textarea when no error is shown.</td>
+</tr>
+</tbody></table>
+<h3><code>aria-describedby</code> chain</h3>
+<p>When <code>maxlength</code> is set, the character counter ID is included automatically. Adding an error region appends its ID alongside the counter:</p>
+<pre><code class="hljs language-text">aria-describedby=&quot;textarea-x-counter textarea-x-error&quot;</code></pre><h3>Common recipes</h3>
+<p><strong>Required + max length:</strong></p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-textarea</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;bio&quot;</span> <span class="hljs-attr">is-required</span> <span class="hljs-attr">maxlength</span>=<span class="hljs-string">&quot;500&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-textarea</span>&gt;</span></code></pre><p><strong>Custom server-side rejection:</strong></p>
+<pre><code class="hljs language-js">textarea.<span class="hljs-title function_">setCustomValidity</span>(<span class="hljs-string">&#x27;Contains banned terms&#x27;</span>);</code></pre><p><strong>Profanity filter (BYO):</strong></p>
+<pre><code class="hljs language-js">textarea.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;aegovValidate&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">e</span>) =&gt;</span> {
+  <span class="hljs-keyword">const</span> ok = !<span class="hljs-regexp">/(badword1|badword2)/i</span>.<span class="hljs-title function_">test</span>(e.<span class="hljs-property">detail</span>.<span class="hljs-property">value</span>);
+  textarea.<span class="hljs-property">isInvalid</span> = !ok;
+  textarea.<span class="hljs-property">errorMessage</span> = ok ? <span class="hljs-string">&#x27;&#x27;</span> : <span class="hljs-string">&#x27;Please remove inappropriate language&#x27;</span>;
+});</code></pre><p>See <a href="validation-byo.html">BYO Validator</a> for more patterns.</p>
+<hr>
 <h2>Accessibility</h2>
 <h3>Built-in behaviour</h3>
 <ul>
