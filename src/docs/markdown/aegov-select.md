@@ -590,6 +590,53 @@ The component forwards the following attribute groups onto the inner `<select>` 
 
 ---
 
+## Validation
+
+`aegov-select` exposes the unified [Validation Surface](validation-overview.html). Select-specific notes only:
+
+### Variants and form participation
+
+| Variant | Form mechanism |
+| --- | --- |
+| `default` (native) | Inner native `<select name>` submits naturally. `aria-invalid` set on `<select>`. |
+| `listbox` (custom) | FormAssociated via `ElementInternals.setFormValue()`. `aria-invalid` set on the trigger `<button>`. |
+
+For `is-multiple` listbox, the FormData payload contains **one entry per selected value** (not a comma-joined string). Schemas should match:
+
+```ts
+v.object({ countries: v.array(v.string()) })  // listbox multiple
+```
+
+### Common recipes
+
+**Required selection:**
+
+```html
+<aegov-select name="country" is-required>
+  <aegov-select-option value="ae">UAE</aegov-select-option>
+</aegov-select>
+```
+
+**Conditional required (depends on another field):**
+
+```js
+toggle.addEventListener('aegovValidate', () => {
+  select.isRequired = toggle.isChecked;
+  select.validate('change');
+});
+```
+
+**Programmatic clear:**
+
+```js
+await select.setCustomValidity('');
+select.value = '';
+```
+
+See [BYO Validator](validation-byo.html) for more patterns.
+
+---
+
 ## Accessibility
 
 ### Built-in behaviour
