@@ -619,6 +619,74 @@
 <p>Reserved HTML attributes (<code>id</code>, <code>class</code>, <code>style</code>) cannot be used as props — <code>id</code> is replaced by <code>field-id</code>, and <code>class</code>/<code>style</code> are applied to the host as usual.</p>
 </blockquote>
 <hr>
+<h2>Validation</h2>
+<p><code>aegov-input</code> exposes the unified validation surface described in <a href="validation-overview.html">Validation Surface</a>. The full contract (props, event payload, methods, value types, ARIA) lives there — only input-specific notes are here.</p>
+<h3>Surface</h3>
+<table>
+<thead>
+<tr>
+<th>Prop</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>is-invalid</code></td>
+<td>Toggles invalid state; sets <code>aria-invalid=&quot;true&quot;</code> on the inner <code>&lt;input&gt;</code>.</td>
+</tr>
+<tr>
+<td><code>error-message</code></td>
+<td>Inline error text below the input. Use <code>error</code> slot for richer markup.</td>
+</tr>
+<tr>
+<td><code>hint</code></td>
+<td>Helper text below the input when no error is shown.</td>
+</tr>
+</tbody></table>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>validate(trigger?)</code></td>
+<td>Re-runs validation; emits <code>aegovValidate</code>.</td>
+</tr>
+<tr>
+<td><code>setCustomValidity(message)</code></td>
+<td>Sets a custom error message; pass <code>&#39;&#39;</code> to clear.</td>
+</tr>
+</tbody></table>
+<table>
+<thead>
+<tr>
+<th>Event</th>
+<th>Detail</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>aegovValidate</code></td>
+<td><code>{ name, value, validity, validationMessage, customError, trigger }</code> — <code>value</code> is <code>string</code>.</td>
+</tr>
+</tbody></table>
+<h3>Common recipes</h3>
+<p><strong>Required + email validation:</strong></p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-input</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;email&quot;</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;email&quot;</span> <span class="hljs-attr">is-required</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-input</span>&gt;</span></code></pre><p>The native <code>type=&quot;email&quot;</code> triggers <code>validity.typeMismatch</code>; <code>is-required</code> triggers <code>validity.valueMissing</code>. Both surface through the <code>aegovValidate</code> event.</p>
+<p><strong>Min/max length:</strong></p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-input</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;zip&quot;</span> <span class="hljs-attr">minlength</span>=<span class="hljs-string">&quot;5&quot;</span> <span class="hljs-attr">maxlength</span>=<span class="hljs-string">&quot;5&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-input</span>&gt;</span></code></pre><p><strong>Pattern (regex):</strong></p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-input</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;phone&quot;</span> <span class="hljs-attr">pattern</span>=<span class="hljs-string">&quot;^\+971-?\d{9}$&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-input</span>&gt;</span></code></pre><p><strong>Custom server-side error:</strong></p>
+<pre><code class="hljs language-js">input.<span class="hljs-title function_">setCustomValidity</span>(<span class="hljs-string">&#x27;Username already taken&#x27;</span>);</code></pre><p>See the <a href="validation-byo.html">Bring Your Own Validator</a> recipes for the full pattern catalog including async server checks and cross-field rules.</p>
+<h3>Use with <code>@aegov/designsystem-validation</code></h3>
+<pre><code class="hljs language-ts"><span class="hljs-keyword">import</span> { createForm } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@aegov/designsystem-validation&#x27;</span>;
+<span class="hljs-keyword">import</span> { valibotAdapter } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@aegov/designsystem-validation/adapters/valibot&#x27;</span>;
+<span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> v <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;valibot&#x27;</span>;
+
+<span class="hljs-keyword">const</span> schema = v.<span class="hljs-title function_">object</span>({
+  <span class="hljs-attr">email</span>: v.<span class="hljs-title function_">pipe</span>(v.<span class="hljs-title function_">string</span>(), v.<span class="hljs-title function_">email</span>(<span class="hljs-string">&#x27;Invalid email&#x27;</span>)),
+});
+<span class="hljs-title function_">createForm</span>(form, schema, <span class="hljs-title function_">valibotAdapter</span>(), { <span class="hljs-attr">onValidSubmit</span>: <span class="hljs-variable language_">console</span>.<span class="hljs-property">log</span> });</code></pre><p>The orchestrator listens for <code>aegovValidate</code> events and writes back <code>is-invalid</code> / <code>error-message</code>. No per-component wiring required.</p>
+<hr>
 <h2>Accessibility</h2>
 <h3>Built-in behaviour</h3>
 <ul>

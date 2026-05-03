@@ -1909,7 +1909,7 @@ export class AegovOtp {
 
 ### 6.10 License & browser targets — **DECIDED**
 
-**6.10a License:** **MIT** — matches core `@aegov/design-system` (verified in `aegov-dls-3/package.json` and `aegov-dls-3/LICENSE.md`). New repo `aegov-designsystem-validation` ships with identical `LICENSE` file copied from core.
+**6.10a License:** **Custom UAE Government License** (matches core; `package.json` of core says "MIT" but actual `LICENSE.md` is a UAE-Government-restricted license — package.json `license` field is misleading and should be reviewed separately). Validation repo ships an identical `LICENSE` file copied from core; `package.json` uses `"license": "SEE LICENSE IN LICENSE"` (SPDX expression for non-OSI licenses). Recommend follow-up to fix core's `package.json` license declaration to match the actual `LICENSE.md`.
 
 **6.10b Browser targets:** **Modern evergreen** — Chrome / Edge ≥77, Firefox ≥98, Safari ≥16.4. Aligned with FormAssociated / ElementInternals support floor.
 
