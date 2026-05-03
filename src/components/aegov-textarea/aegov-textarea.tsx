@@ -1,11 +1,18 @@
-import { Component, Host, h, Prop, State, Event, EventEmitter, Element, Watch } from '@stencil/core';
+import { Component, Host, h, Prop, State, Event, EventEmitter, Element, Watch, Method } from '@stencil/core';
 import { TEXTAREA_SIZES, TEXTAREA_RESIZES } from '../../utils/types';
-import type { TextareaSize, TextareaResize } from '../../utils/types';
+import type {
+  TextareaSize, TextareaResize,
+  AegovValidationDetail, AegovValidationResult, AegovValidationTrigger,
+} from '../../utils/types';
 import { getPassThroughAttributes } from '../../utils/attributes';
 import { generateId } from '../../utils/id-generator';
 import { warnIfInvalidEnumProp } from '../../utils/prop-validator';
 import { watchResponsiveProp } from '../../utils/responsive-prop';
 import type { ResponsivePropWatcher } from '../../utils/responsive-prop';
+import {
+  fromNativeValidity, VALID_STATE,
+  composeDescribedBy, buildValidationDetail,
+} from '../../utils/validation';
 
 const TAG = 'aegov-textarea';
 const ctx = (prop: string) => ({ component: TAG, prop });
@@ -54,6 +61,15 @@ export class AegovTextarea {
   /** Show a copy button to copy the textarea value to clipboard. Only applies when readonly. */
   @Prop() isCopyable: boolean = false;
 
+  /** Visual + a11y invalid state. Toggles `aria-invalid` and `.is-invalid` host class. See validation-engine-addon.md §2.3. */
+  @Prop({ mutable: true, reflect: true }) isInvalid: boolean = false;
+
+  /** Inline error message rendered below the control when `isInvalid` is true. Use `error` slot for richer markup. */
+  @Prop({ mutable: true }) errorMessage: string = '';
+
+  /** Helper hint rendered below the control. Hidden when an error is shown. Use `hint` slot for richer markup. */
+  @Prop() hint: string = '';
+
   /** Additional CSS classes to apply. */
   @Prop() extraClass?: string;
 
@@ -77,6 +93,15 @@ export class AegovTextarea {
   /** Emitted when the textarea loses focus. */
   @Event() aegovTextareaBlur: EventEmitter<FocusEvent>;
 
+  /** Unified validation event. See validation-engine-addon.md §2.3. */
+  @Event() aegovValidate: EventEmitter<AegovValidationDetail<string>>;
+
+  /** Whether user has blurred at least once — gates aria-live (gap §7.10). */
+  @State() private hasBlurredOnce: boolean = false;
+
+  private errorId: string = '';
+  private hintId: string = '';
+
   componentWillLoad() {
     this._sizeWatcher = watchResponsiveProp(this.size, TEXTAREA_SIZES, 'base', v => {
       this._resolvedSize = v as TextareaSize;
@@ -86,7 +111,49 @@ export class AegovTextarea {
     if (!this.fieldId) {
       this.fieldId = generateId('aegov-textarea');
     }
+    this.errorId = `${this.fieldId}-error`;
+    this.hintId = `${this.fieldId}-hint`;
     this.charCount = (this.value || '').length;
+  }
+
+  /** Imperatively re-run validation. */
+  @Method()
+  async validate(trigger: AegovValidationTrigger = 'manual'): Promise<AegovValidationResult> {
+    const validity = this.readValidity();
+    const message = !validity.valid
+      ? (this.errorMessage || this.textareaEl?.validationMessage || '')
+      : '';
+    this.aegovValidate.emit(buildValidationDetail<string>(
+      this.el as unknown as HTMLElement & { name?: string },
+      this.value, validity, message, this.errorMessage || null, trigger,
+    ));
+    return { valid: validity.valid, message, validity };
+  }
+
+  /** Mirror of `HTMLTextAreaElement.setCustomValidity()`. */
+  @Method()
+  async setCustomValidity(message: string): Promise<void> {
+    this.errorMessage = message;
+    this.isInvalid = !!message;
+    if (this.textareaEl && typeof this.textareaEl.setCustomValidity === 'function') {
+      this.textareaEl.setCustomValidity(message);
+    }
+  }
+
+  private readValidity() {
+    const v = this.textareaEl?.validity;
+    return v ? fromNativeValidity(v) : VALID_STATE;
+  }
+
+  private emitValidate(trigger: AegovValidationTrigger) {
+    const validity = this.readValidity();
+    const message = !validity.valid
+      ? (this.errorMessage || this.textareaEl?.validationMessage || '')
+      : '';
+    this.aegovValidate.emit(buildValidationDetail<string>(
+      this.el as unknown as HTMLElement & { name?: string },
+      this.value, validity, message, this.errorMessage || null, trigger,
+    ));
   }
 
   disconnectedCallback() {
@@ -164,6 +231,7 @@ export class AegovTextarea {
     const textarea = event.target as HTMLTextAreaElement;
     this.value = textarea.value;
     this.aegovTextareaChange.emit({ value: this.value, event });
+    this.emitValidate('change');
   };
 
   private handleInput = (event: Event) => {
@@ -173,6 +241,7 @@ export class AegovTextarea {
     if (this.resize === 'auto') {
       this.autoResize();
     }
+    this.emitValidate('input');
   };
 
   private handleFocus = (event: FocusEvent) => {
@@ -180,7 +249,9 @@ export class AegovTextarea {
   };
 
   private handleBlur = (event: FocusEvent) => {
+    this.hasBlurredOnce = true;
     this.aegovTextareaBlur.emit(event);
+    this.emitValidate('blur');
   };
 
   private autoResize() {
@@ -259,8 +330,24 @@ export class AegovTextarea {
 
   render() {
     const passThroughAttributes = getPassThroughAttributes(this.el, AegovTextarea.PASS_THROUGH_ATTRS);
+    // Layer 1 owns aria-invalid + aria-describedby (gap §7.8); strip from pass-through.
+    delete passThroughAttributes['aria-invalid'];
+    delete passThroughAttributes['aria-describedby'];
+
     const needsWrapper = this.showCopy;
     const hasCounter = this.maxlength !== undefined && this.maxlength !== null;
+    const hasErrorSlot = !!this.el.querySelector('[slot="error"]');
+    const hasHintSlot = !!this.el.querySelector('[slot="hint"]');
+    const showError = this.isInvalid && (hasErrorSlot || !!this.errorMessage);
+    const showHint = !showError && (hasHintSlot || !!this.hint);
+    const announceError = showError && this.hasBlurredOnce;
+    const authorDescribedBy = this.el.getAttribute('aria-describedby');
+    const describedBy = composeDescribedBy(
+      authorDescribedBy,
+      hasCounter ? this.counterId : null,
+      showError ? this.errorId : null,
+      showHint ? this.hintId : null,
+    );
 
     const textarea = (
       <textarea
@@ -272,7 +359,8 @@ export class AegovTextarea {
         value={this.value}
         name={this.name}
         required={this.isRequired}
-        aria-describedby={hasCounter ? this.counterId : undefined}
+        aria-invalid={this.isInvalid ? 'true' : null}
+        aria-describedby={describedBy}
         onChange={this.handleChange}
         onInput={this.handleInput}
         onFocus={this.handleFocus}
@@ -282,21 +370,44 @@ export class AegovTextarea {
       />
     );
 
+    const errorRegion = showError ? (
+      <div
+        id={this.errorId}
+        class="aegov-textarea__error"
+        role={announceError ? 'alert' : null}
+        aria-live={announceError ? 'polite' : null}
+      >
+        {hasErrorSlot ? <slot name="error" /> : this.errorMessage}
+      </div>
+    ) : null;
+
+    const hintRegion = showHint ? (
+      <div id={this.hintId} class="aegov-textarea__hint">
+        {hasHintSlot ? <slot name="hint" /> : this.hint}
+      </div>
+    ) : null;
+
+    const hostClass = { 'is-invalid': this.isInvalid };
+
     if (needsWrapper || hasCounter) {
       return (
-        <Host>
+        <Host class={hostClass}>
           <div class="textarea__wrapper">
             {textarea}
             {this.renderCopyButton()}
           </div>
           {this.renderCharCounter()}
+          {errorRegion}
+          {hintRegion}
         </Host>
       );
     }
 
     return (
-      <Host>
+      <Host class={hostClass}>
         {textarea}
+        {errorRegion}
+        {hintRegion}
       </Host>
     );
   }

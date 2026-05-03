@@ -1,11 +1,21 @@
-import { Component, Host, h, Prop, State, Event, EventEmitter, Element, Watch } from '@stencil/core';
+import { Component, Host, h, Prop, State, Event, EventEmitter, Element, Watch, Method } from '@stencil/core';
 import { RANGE_SIZES, RANGE_DISPLAYS, RANGE_ORIENTATIONS, RANGE_MODES } from '../../utils/types';
-import type { RangeSize, RangeDisplay, RangeOrientation, RangeMode } from '../../utils/types';
+import type {
+  RangeSize, RangeDisplay, RangeOrientation, RangeMode,
+  AegovValidationDetail, AegovValidationResult, AegovValidationTrigger,
+} from '../../utils/types';
 import { getPassThroughAttributes } from '../../utils/attributes';
 import { generateId } from '../../utils/id-generator';
 import { warnIfInvalidEnumProp } from '../../utils/prop-validator';
 import { watchResponsiveProp } from '../../utils/responsive-prop';
 import type { ResponsivePropWatcher } from '../../utils/responsive-prop';
+import {
+  fromNativeValidity, VALID_STATE,
+  composeDescribedBy, buildValidationDetail,
+} from '../../utils/validation';
+
+/** Range value type — number for single mode, { low, high } for range mode. See §2.4.1. */
+export type AegovRangeValue = number | { low: number; high: number };
 
 const TAG = 'aegov-range';
 const ctx = (prop: string) => ({ component: TAG, prop });
@@ -66,10 +76,22 @@ export class AegovRange {
   /** Optional label text. */
   @Prop() label?: string;
 
+  /** Helper hint shown below the control. Hidden when an error is shown. */
+  @Prop() hint: string = '';
+
+  /** Visual + a11y invalid state. See §2.3. */
+  @Prop({ mutable: true, reflect: true }) isInvalid: boolean = false;
+
+  /** Inline error message. Use `error` slot for rich markup. */
+  @Prop({ mutable: true }) errorMessage: string = '';
+
   /** Additional CSS classes. */
   @Prop() extraClass?: string;
 
   @State() activeThumb: 'single' | 'low' | 'high' | null = null;
+
+  /** Whether user has blurred at least once — gates aria-live (gap §7.10). */
+  @State() private hasBlurredOnce: boolean = false;
 
   /** Emitted during drag on every value update. */
   @Event() aegovRangeInput: EventEmitter<{ value?: number; valueLow?: number; valueHigh?: number }>;
@@ -77,7 +99,13 @@ export class AegovRange {
   /** Emitted on release (value committed). */
   @Event() aegovRangeChange: EventEmitter<{ value?: number; valueLow?: number; valueHigh?: number }>;
 
+  /** Unified validation event. See §2.3. */
+  @Event() aegovValidate: EventEmitter<AegovValidationDetail<AegovRangeValue>>;
+
   private trackWrapperEl?: HTMLElement;
+  private nativeRef?: HTMLInputElement;
+  private errorId: string = '';
+  private hintId: string = '';
 
   componentWillLoad() {
     this._sizeWatcher = watchResponsiveProp(this.size, RANGE_SIZES, 'base', v => {
@@ -90,7 +118,62 @@ export class AegovRange {
     if (!this.fieldId) {
       this.fieldId = generateId('aegov-range');
     }
+    this.errorId = `${this.fieldId}-error`;
+    this.hintId = `${this.fieldId}-hint`;
   }
+
+  /** Imperatively re-run validation. */
+  @Method()
+  async validate(trigger: AegovValidationTrigger = 'manual'): Promise<AegovValidationResult> {
+    const validity = this.readValidity();
+    const message = !validity.valid
+      ? (this.errorMessage || this.nativeRef?.validationMessage || '')
+      : '';
+    this.aegovValidate.emit(buildValidationDetail<AegovRangeValue>(
+      this.el as unknown as HTMLElement & { name?: string },
+      this.currentValueForDetail(),
+      validity, message, this.errorMessage || null, trigger,
+    ));
+    return { valid: validity.valid, message, validity };
+  }
+
+  /** Mirror of HTMLInputElement.setCustomValidity(). */
+  @Method()
+  async setCustomValidity(message: string): Promise<void> {
+    this.errorMessage = message;
+    this.isInvalid = !!message;
+    if (this.nativeRef && typeof this.nativeRef.setCustomValidity === 'function') {
+      this.nativeRef.setCustomValidity(message);
+    }
+  }
+
+  private readValidity() {
+    const v = this.nativeRef?.validity;
+    return v ? fromNativeValidity(v) : VALID_STATE;
+  }
+
+  private currentValueForDetail(): AegovRangeValue {
+    return this.mode === 'range'
+      ? { low: this.valueLow, high: this.valueHigh }
+      : this.value;
+  }
+
+  private emitValidate(trigger: AegovValidationTrigger) {
+    const validity = this.readValidity();
+    const message = !validity.valid
+      ? (this.errorMessage || this.nativeRef?.validationMessage || '')
+      : '';
+    this.aegovValidate.emit(buildValidationDetail<AegovRangeValue>(
+      this.el as unknown as HTMLElement & { name?: string },
+      this.currentValueForDetail(),
+      validity, message, this.errorMessage || null, trigger,
+    ));
+  }
+
+  private handleInputBlur = () => {
+    this.hasBlurredOnce = true;
+    this.emitValidate('blur');
+  };
 
   disconnectedCallback() {
     this._sizeWatcher?.destroy();
@@ -137,6 +220,7 @@ export class AegovRange {
     } else {
       this.aegovRangeInput.emit({ value: this.value });
     }
+    this.emitValidate('input');
   }
 
   private emitChange() {
@@ -145,6 +229,7 @@ export class AegovRange {
     } else {
       this.aegovRangeChange.emit({ value: this.value });
     }
+    this.emitValidate('change');
   }
 
   // ── Native input handlers (keyboard) ──
@@ -350,6 +435,22 @@ export class AegovRange {
 
   render() {
     const passThroughAttrs = getPassThroughAttributes(this.el, AegovRange.PASS_THROUGH_ATTRS);
+    delete passThroughAttrs['aria-invalid'];
+    delete passThroughAttrs['aria-describedby'];
+
+    const hasErrorSlot = !!this.el.querySelector('[slot="error"]');
+    const hasHintSlot = !!this.el.querySelector('[slot="hint"]');
+    const showError = this.isInvalid && (hasErrorSlot || !!this.errorMessage);
+    const showHint = !showError && (hasHintSlot || !!this.hint);
+    const announceError = showError && this.hasBlurredOnce;
+    const authorDescribedBy = this.el.getAttribute('aria-describedby');
+    const describedBy = composeDescribedBy(
+      authorDescribedBy,
+      showError ? this.errorId : null,
+      showHint ? this.hintId : null,
+    );
+    const ariaInvalidAttr = this.isInvalid ? 'true' : null;
+
     const size: RangeSize = this._resolvedSize;
     const display: RangeDisplay = (RANGE_DISPLAYS as readonly string[]).includes(this.display) ? this.display : 'none';
     const orientation: RangeOrientation = (RANGE_ORIENTATIONS as readonly string[]).includes(this.orientation) ? this.orientation : 'horizontal';
@@ -404,6 +505,7 @@ export class AegovRange {
 
             {!isRange && (
               <input
+                ref={(el) => this.nativeRef = el}
                 type="range"
                 class="range__input"
                 id={this.fieldId}
@@ -416,16 +518,20 @@ export class AegovRange {
                 required={this.isRequired}
                 onInput={this.handleSingleInput}
                 onChange={this.handleSingleChange}
+                onBlur={this.handleInputBlur}
                 aria-valuemin={this.min}
                 aria-valuemax={this.max}
                 aria-valuenow={this.value}
                 aria-orientation={orientation}
+                aria-invalid={ariaInvalidAttr}
+                aria-describedby={describedBy}
                 {...(orientation === 'vertical' ? { orient: 'vertical' } : {})}
                 {...passThroughAttrs}
               />
             )}
             {isRange && [
               <input
+                ref={(el) => this.nativeRef = el}
                 type="range"
                 class="range__input range__input--low"
                 id={`${this.fieldId}-low`}
@@ -437,11 +543,14 @@ export class AegovRange {
                 disabled={this.isDisabled}
                 onInput={this.handleLowInput}
                 onChange={this.handleLowChange}
+                onBlur={this.handleInputBlur}
                 aria-valuemin={this.min}
                 aria-valuemax={this.valueHigh}
                 aria-valuenow={this.valueLow}
                 aria-label="Range minimum"
                 aria-orientation={orientation}
+                aria-invalid={ariaInvalidAttr}
+                aria-describedby={describedBy}
                 {...(orientation === 'vertical' ? { orient: 'vertical' } : {})}
               />,
               <input
@@ -471,17 +580,42 @@ export class AegovRange {
       </div>
     );
 
+    const errorRegion = showError ? (
+      <div
+        id={this.errorId}
+        class="aegov-range__error"
+        role={announceError ? 'alert' : null}
+        aria-live={announceError ? 'polite' : null}
+      >
+        {hasErrorSlot ? <slot name="error" /> : this.errorMessage}
+      </div>
+    ) : null;
+    const hintRegion = showHint ? (
+      <div id={this.hintId} class="aegov-range__hint">
+        {hasHintSlot ? <slot name="hint" /> : this.hint}
+      </div>
+    ) : null;
+    const hostClass = { 'is-invalid': this.isInvalid };
+
     if (this.label) {
       return (
-        <Host>
+        <Host class={hostClass}>
           <div class="range__wrapper">
             <span class="range__label-text">{this.label}</span>
             {rangeContent}
           </div>
+          {errorRegion}
+          {hintRegion}
         </Host>
       );
     }
 
-    return <Host>{rangeContent}</Host>;
+    return (
+      <Host class={hostClass}>
+        {rangeContent}
+        {errorRegion}
+        {hintRegion}
+      </Host>
+    );
   }
 }

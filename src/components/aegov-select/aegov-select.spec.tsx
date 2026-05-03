@@ -310,17 +310,19 @@ describe('aegov-select', () => {
       expect(page.rootInstance.isOpen).toBe(false);
     });
 
-    it('renders a hidden input for form submission when name is set', async () => {
+    it('uses ElementInternals for form submission (replaces hidden input per §2.5)', async () => {
+      // Per validation-engine-addon.md §2.5: listbox upgraded to formAssociated: true.
+      // Hidden input removed; ElementInternals.setFormValue() handles submission.
+      // jsdom mock has no ElementInternals — assert hidden input gone and props tracked.
       const page = await newSpecPage({
         components: [AegovSelect, AegovSelectOption],
         html: `<aegov-select variant="listbox" name="fruit" value="a">
           <aegov-select-option value="a">Apple</aegov-select-option>
         </aegov-select>`,
       });
-      const hidden = page.root.querySelector('input[type="hidden"]') as HTMLInputElement;
-      expect(hidden).not.toBeNull();
-      expect(hidden.name).toBe('fruit');
-      expect(hidden.value).toBe('a');
+      expect(page.root.querySelector('input[type="hidden"]')).toBeNull();
+      expect(page.rootInstance.name).toBe('fruit');
+      expect(page.rootInstance.value).toBe('a');
     });
   });
 

@@ -80,19 +80,20 @@ describe('aegov-otp (e2e)', () => {
     expect(spy.lastEvent.detail).toEqual({ value: '1234' });
   });
 
-  it('emits aegovOtpInvalid when filled value fails pattern', async () => {
+  it('emits aegovValidate with patternMismatch when filled value fails pattern (replaces aegovOtpInvalid per §6.6)', async () => {
     const page = await newE2EPage();
     await page.setContent('<aegov-otp length="4" pattern="^9999$"></aegov-otp>');
     const host = await page.find('aegov-otp');
-    const invalidSpy = await host.spyOnEvent('aegovOtpInvalid');
+    const validateSpy = await host.spyOnEvent('aegovValidate');
     const completeSpy = await host.spyOnEvent('aegovOtpComplete');
     const first = await page.find('aegov-otp .otp__cell:nth-of-type(1)');
     await first.focus();
     await page.keyboard.type('1234');
     await page.waitForChanges();
-    expect(invalidSpy).toHaveReceivedEventTimes(1);
     expect(completeSpy).toHaveReceivedEventTimes(0);
-    expect(invalidSpy.lastEvent.detail.pattern).toBe('^9999$');
+    // The change-trigger validate event reports patternMismatch
+    const fired = validateSpy.events.filter((e: any) => e.detail?.validity?.patternMismatch === true);
+    expect(fired.length).toBeGreaterThan(0);
   });
 
   it('ArrowLeft / ArrowRight move focus between cells', async () => {

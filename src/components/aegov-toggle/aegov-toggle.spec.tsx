@@ -45,15 +45,15 @@ describe('aegov-toggle', () => {
     expect(label.querySelector('input[type="checkbox"]')).not.toBeNull();
   });
 
-  it('renders description with aria-describedby linking', async () => {
+  it('renders hint with aria-describedby linking', async () => {
     const page = await newSpecPage({
       components: [AegovToggle],
-      html: `<aegov-toggle label="A" description="Helper"></aegov-toggle>`,
+      html: `<aegov-toggle label="A" hint="Helper"></aegov-toggle>`,
     });
-    const desc = page.root.querySelector('.toggle__description');
-    expect(desc).not.toBeNull();
+    const hint = page.root.querySelector('.toggle__hint');
+    expect(hint).not.toBeNull();
     const input = page.root.querySelector('input') as HTMLInputElement;
-    expect(input.getAttribute('aria-describedby')).toBe(desc.id);
+    expect(input.getAttribute('aria-describedby')).toBe(hint.id);
   });
 
   it('reflects is-checked to native checked and aria-checked', async () => {

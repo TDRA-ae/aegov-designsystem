@@ -212,4 +212,161 @@ describe('aegov-input', () => {
     });
     expect(page.root.querySelector('input').className).toContain('custom');
   });
+
+  // ───────────────────────────────────────────────────────────────────
+  // Validation surface (Layer 1)
+  // See: validation-engine-addon.md §2.8
+  // ───────────────────────────────────────────────────────────────────
+
+  describe('validation surface', () => {
+    it('toggles aria-invalid when isInvalid is true', async () => {
+      const page = await newSpecPage({
+        components: [AegovInput],
+        html: `<aegov-input is-invalid="true"></aegov-input>`,
+      });
+      expect(page.root.querySelector('input').getAttribute('aria-invalid')).toBe('true');
+      expect(page.root.classList.contains('is-invalid')).toBe(true);
+    });
+
+    it('does not set aria-invalid when isInvalid is false', async () => {
+      const page = await newSpecPage({
+        components: [AegovInput],
+        html: `<aegov-input></aegov-input>`,
+      });
+      expect(page.root.querySelector('input').getAttribute('aria-invalid')).toBeNull();
+      expect(page.root.classList.contains('is-invalid')).toBe(false);
+    });
+
+    it('renders errorMessage in error region when isInvalid', async () => {
+      const page = await newSpecPage({
+        components: [AegovInput],
+        html: `<aegov-input is-invalid="true" error-message="Bad value"></aegov-input>`,
+      });
+      const error = page.root.querySelector('.aegov-input__error');
+      expect(error).not.toBeNull();
+      expect(error.textContent).toBe('Bad value');
+    });
+
+    it('does not render error region when isInvalid is false', async () => {
+      const page = await newSpecPage({
+        components: [AegovInput],
+        html: `<aegov-input error-message="Hidden"></aegov-input>`,
+      });
+      expect(page.root.querySelector('.aegov-input__error')).toBeNull();
+    });
+
+    it('renders hint region when hint prop set and not invalid', async () => {
+      const page = await newSpecPage({
+        components: [AegovInput],
+        html: `<aegov-input hint="Helper text"></aegov-input>`,
+      });
+      const hint = page.root.querySelector('.aegov-input__hint');
+      expect(hint).not.toBeNull();
+      expect(hint.textContent).toBe('Helper text');
+    });
+
+    it('hides hint when error is shown (error wins)', async () => {
+      const page = await newSpecPage({
+        components: [AegovInput],
+        html: `<aegov-input is-invalid="true" error-message="Err" hint="Hint"></aegov-input>`,
+      });
+      expect(page.root.querySelector('.aegov-input__error')).not.toBeNull();
+      expect(page.root.querySelector('.aegov-input__hint')).toBeNull();
+    });
+
+    it('aria-describedby points at error region id when error shown', async () => {
+      const page = await newSpecPage({
+        components: [AegovInput],
+        html: `<aegov-input field-id="x" is-invalid="true" error-message="msg"></aegov-input>`,
+      });
+      expect(page.root.querySelector('input').getAttribute('aria-describedby')).toBe('x-error');
+    });
+
+    it('aria-describedby points at hint region id when hint shown', async () => {
+      const page = await newSpecPage({
+        components: [AegovInput],
+        html: `<aegov-input field-id="x" hint="help"></aegov-input>`,
+      });
+      expect(page.root.querySelector('input').getAttribute('aria-describedby')).toBe('x-hint');
+    });
+
+    it('preserves author-supplied aria-describedby and appends our IDs (gap §7.8)', async () => {
+      const page = await newSpecPage({
+        components: [AegovInput],
+        html: `<aegov-input field-id="x" aria-describedby="extra-help" is-invalid="true" error-message="err" hint="h"></aegov-input>`,
+      });
+      // hint hides because error wins; chain is "extra-help x-error"
+      expect(page.root.querySelector('input').getAttribute('aria-describedby')).toBe('extra-help x-error');
+    });
+
+    it('error slot present overrides errorMessage prop (slot wins)', async () => {
+      const page = await newSpecPage({
+        components: [AegovInput],
+        html: `<aegov-input is-invalid="true" error-message="prop"><span slot="error">slotted</span></aegov-input>`,
+      });
+      const errorRegion = page.root.querySelector('.aegov-input__error');
+      expect(errorRegion).not.toBeNull();
+      // Error region should NOT contain the prop string when slot is present
+      // (it renders <slot name="error" /> instead)
+      expect(errorRegion.textContent).not.toContain('prop');
+      // Slotted child remains in the host's light DOM
+      expect(page.root.querySelector('span[slot="error"]')?.textContent).toBe('slotted');
+    });
+
+    it('validate() resolves with valid:true for empty optional input', async () => {
+      const page = await newSpecPage({
+        components: [AegovInput],
+        html: `<aegov-input></aegov-input>`,
+      });
+      const result = await page.rootInstance.validate('manual');
+      expect(result.valid).toBe(true);
+      expect(result.message).toBe('');
+      expect(result.validity?.valid).toBe(true);
+    });
+
+    it('setCustomValidity("msg") flips isInvalid + errorMessage', async () => {
+      const page = await newSpecPage({
+        components: [AegovInput],
+        html: `<aegov-input></aegov-input>`,
+      });
+      await page.rootInstance.setCustomValidity('Custom error');
+      await page.waitForChanges();
+      expect(page.rootInstance.isInvalid).toBe(true);
+      expect(page.rootInstance.errorMessage).toBe('Custom error');
+      expect(page.root.querySelector('input').getAttribute('aria-invalid')).toBe('true');
+    });
+
+    it('setCustomValidity("") clears isInvalid + errorMessage', async () => {
+      const page = await newSpecPage({
+        components: [AegovInput],
+        html: `<aegov-input is-invalid="true" error-message="x"></aegov-input>`,
+      });
+      await page.rootInstance.setCustomValidity('');
+      await page.waitForChanges();
+      expect(page.rootInstance.isInvalid).toBe(false);
+      expect(page.rootInstance.errorMessage).toBe('');
+    });
+
+    it('error region has no role/aria-live before first blur (gap §7.10)', async () => {
+      const page = await newSpecPage({
+        components: [AegovInput],
+        html: `<aegov-input is-invalid="true" error-message="err"></aegov-input>`,
+      });
+      const region = page.root.querySelector('.aegov-input__error');
+      expect(region.getAttribute('role')).toBeNull();
+      expect(region.getAttribute('aria-live')).toBeNull();
+    });
+
+    it('error region gains role=alert after first blur', async () => {
+      const page = await newSpecPage({
+        components: [AegovInput],
+        html: `<aegov-input is-invalid="true" error-message="err"></aegov-input>`,
+      });
+      page.rootInstance.hasBlurredOnce = true;
+      await page.waitForChanges();
+      const region = page.root.querySelector('.aegov-input__error');
+      expect(region.getAttribute('role')).toBe('alert');
+      expect(region.getAttribute('aria-live')).toBe('polite');
+    });
+  });
 });

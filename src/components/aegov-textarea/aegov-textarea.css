@@ -85,3 +85,23 @@
 .textarea__counter--over {
   @apply text-aered-600 font-semibold;
 }
+
+/* ─────────────────────────────────────────────────────────────────────
+   Validation surface (Layer 1) — see validation-engine-addon.md §2.6
+   ───────────────────────────────────────────────────────────────────── */
+
+:host(.is-invalid) .aegov-textarea {
+  @apply inset-ring-aered-600;
+}
+
+:host(.is-invalid) .aegov-textarea:focus {
+  @apply inset-ring-aered-700;
+}
+
+.aegov-textarea__error {
+  @apply text-sm text-aered-600 mt-1.5 flex items-start gap-1.5 leading-snug;
+}
+
+.aegov-textarea__hint {
+  @apply text-sm text-aeblack-600 mt-1.5 leading-snug;
+}

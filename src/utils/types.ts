@@ -617,3 +617,67 @@ export interface BaseComponentProps {
    */
   extraClass?: string;
 }
+
+// ────────────────────────────────────────────────────────────────────────────
+// Validation surface (Layer 1)
+// See: validation-engine-addon.md §2.1
+// ────────────────────────────────────────────────────────────────────────────
+
+/**
+ * Validity snapshot mirroring the native `ValidityState` interface, but
+ * synthesizable for custom controls (otp, datepicker, fileupload, listbox-select)
+ * that don't expose a single inner native form element.
+ */
+export interface AegovValidityState {
+  badInput: boolean;
+  customError: boolean;
+  patternMismatch: boolean;
+  rangeOverflow: boolean;
+  rangeUnderflow: boolean;
+  stepMismatch: boolean;
+  tooLong: boolean;
+  tooShort: boolean;
+  typeMismatch: boolean;
+  valueMissing: boolean;
+  valid: boolean;
+}
+
+/**
+ * Trigger that caused a validation event to fire.
+ * - `input` — fired during typing (mode: 'onInput')
+ * - `change` — fired on value-change events
+ * - `blur` — fired on blur (mode: 'onBlur', default)
+ * - `submit` — fired during full-form validation on submit
+ * - `manual` — fired by imperative `validate()` call
+ */
+export type AegovValidationTrigger = 'input' | 'change' | 'blur' | 'submit' | 'manual';
+
+/**
+ * Payload of the unified `aegovValidate` event emitted by every form component.
+ * Generic `T` is the component-specific value type (string, boolean, File[],
+ * ISO date string, etc.) — see validation-engine-addon.md §2.4.1 for the
+ * canonical type per component.
+ */
+export interface AegovValidationDetail<T = unknown> {
+  /** Field name from `name` attribute, or null if unnamed. */
+  name: string | null;
+  /** Current value at the time the event fires. */
+  value: T;
+  /** Mirrors native ValidityState; synthesized for custom controls. */
+  validity: AegovValidityState;
+  /** Human-readable validation message; empty if valid. */
+  validationMessage: string;
+  /** Custom error message set via `setCustomValidity()`; null if none. */
+  customError: string | null;
+  /** Trigger that caused the event. */
+  trigger: AegovValidationTrigger;
+}
+
+/**
+ * Return shape of the imperative `validate()` method on every form component.
+ */
+export interface AegovValidationResult {
+  valid: boolean;
+  message?: string;
+  validity?: AegovValidityState;
+}

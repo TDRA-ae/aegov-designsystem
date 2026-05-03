@@ -46,16 +46,16 @@ describe('aegov-checkbox', () => {
     expect(label.querySelector('input[type="checkbox"]')).not.toBeNull();
   });
 
-  it('renders description with aria-describedby linking', async () => {
+  it('renders hint with aria-describedby linking', async () => {
     const page = await newSpecPage({
       components: [AegovCheckbox],
-      html: `<aegov-checkbox label="Marketing" description="Receive emails"></aegov-checkbox>`,
+      html: `<aegov-checkbox label="Marketing" hint="Receive emails"></aegov-checkbox>`,
     });
-    const desc = page.root.querySelector('.checkbox__description');
-    expect(desc).not.toBeNull();
-    expect(desc.textContent).toContain('Receive emails');
+    const hint = page.root.querySelector('.checkbox__hint');
+    expect(hint).not.toBeNull();
+    expect(hint.textContent).toContain('Receive emails');
     const input = page.root.querySelector('input') as HTMLInputElement;
-    expect(input.getAttribute('aria-describedby')).toBe(desc.id);
+    expect(input.getAttribute('aria-describedby')).toBe(hint.id);
   });
 
   it('reflects is-checked to native checked', async () => {
