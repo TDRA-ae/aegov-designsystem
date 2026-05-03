@@ -88,12 +88,12 @@ describe('aegov-fileupload', () => {
     expect(input.required).toBe(true);
   });
 
-  it('renders description and helper text', async () => {
+  it('renders hint and helper text', async () => {
     const page = await newSpecPage({
       components: [AegovFileupload],
-      html: `<aegov-fileupload label="L" description="Pick file" label-help="PDF only"></aegov-fileupload>`,
+      html: `<aegov-fileupload label="L" hint="Pick file" label-help="PDF only"></aegov-fileupload>`,
     });
-    expect(page.root.querySelector('.fileupload__description').textContent).toBe('Pick file');
+    expect(page.root.querySelector('.fileupload__hint').textContent).toBe('Pick file');
     expect(page.root.querySelector('.fileupload__helper').textContent).toBe('PDF only');
     const input = page.root.querySelector('input[type="file"]') as HTMLInputElement;
     expect(input.getAttribute('aria-describedby')).toContain('-helper');
@@ -168,36 +168,38 @@ describe('aegov-fileupload', () => {
     expect(spy.mock.calls[0][0].detail.files[0].name).toBe('a.txt');
   });
 
-  it('emits aegovFileuploadError for max-size violation', async () => {
+  it('emits aegovValidate with tooLong flag for max-size violation (replaces aegovFileuploadError per §6.6)', async () => {
     const page = await newSpecPage({
       components: [AegovFileupload],
       html: `<aegov-fileupload max-file-size="5"></aegov-fileupload>`,
     });
     const errSpy = jest.fn();
-    page.root.addEventListener('aegovFileuploadError', errSpy);
+    page.root.addEventListener('aegovValidate', errSpy);
     const input = page.root.querySelector('input[type="file"]') as HTMLInputElement;
     const big = new File(['1234567890'], 'big.txt', { type: 'text/plain' });
     Object.defineProperty(input, 'files', { value: [big] });
     input.dispatchEvent(new Event('change'));
     await page.waitForChanges();
     expect(errSpy).toHaveBeenCalled();
-    expect(errSpy.mock.calls[0][0].detail.type).toBe('max-size');
+    const detail = errSpy.mock.calls[errSpy.mock.calls.length - 1][0].detail;
+    expect(detail.validity.tooLong).toBe(true);
   });
 
-  it('emits aegovFileuploadError for invalid-type', async () => {
+  it('emits aegovValidate with typeMismatch flag for invalid-type (replaces aegovFileuploadError per §6.6)', async () => {
     const page = await newSpecPage({
       components: [AegovFileupload],
       html: `<aegov-fileupload accept=".pdf"></aegov-fileupload>`,
     });
     const errSpy = jest.fn();
-    page.root.addEventListener('aegovFileuploadError', errSpy);
+    page.root.addEventListener('aegovValidate', errSpy);
     const input = page.root.querySelector('input[type="file"]') as HTMLInputElement;
     const notPdf = new File(['x'], 'a.txt', { type: 'text/plain' });
     Object.defineProperty(input, 'files', { value: [notPdf] });
     input.dispatchEvent(new Event('change'));
     await page.waitForChanges();
     expect(errSpy).toHaveBeenCalled();
-    expect(errSpy.mock.calls[0][0].detail.type).toBe('invalid-type');
+    const detail = errSpy.mock.calls[errSpy.mock.calls.length - 1][0].detail;
+    expect(detail.validity.typeMismatch).toBe(true);
   });
 
   it('getFiles() returns a copy of selected files', async () => {

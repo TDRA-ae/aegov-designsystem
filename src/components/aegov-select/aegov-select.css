@@ -263,3 +263,18 @@ button.aegov-select {
 .select__empty {
   @apply text-sm text-aeblack-500 px-3 py-4 text-center;
 }
+
+/* Validation surface (Layer 1) — see validation-engine-addon.md §2.6 */
+
+:host(.is-invalid) .aegov-select,
+:host(.is-invalid) .select__trigger {
+  @apply ring-2 ring-aered-600;
+}
+
+.aegov-select__error {
+  @apply text-sm text-aered-600 mt-1.5 flex items-start gap-1.5 leading-snug;
+}
+
+.aegov-select__hint {
+  @apply text-sm text-aeblack-600 mt-1.5 leading-snug;
+}

@@ -1,9 +1,16 @@
-import { Component, Host, h, Prop, State, Event, EventEmitter, Element, Listen, Watch } from '@stencil/core';
+import { Component, Host, h, Prop, State, Event, EventEmitter, Element, Listen, Watch, Method } from '@stencil/core';
 import { RADIO_GROUP_VARIANTS, RADIO_GROUP_ORIENTATIONS, RADIO_SIZES } from '../../utils/types';
-import type { RadioGroupVariant, RadioGroupOrientation, RadioSize } from '../../utils/types';
+import type {
+  RadioGroupVariant, RadioGroupOrientation, RadioSize,
+  AegovValidationDetail, AegovValidationResult, AegovValidationTrigger,
+} from '../../utils/types';
 import { warnIfInvalidEnumProp } from '../../utils/prop-validator';
 import { watchResponsiveProp } from '../../utils/responsive-prop';
 import type { ResponsivePropWatcher } from '../../utils/responsive-prop';
+import {
+  composeDescribedBy, buildValidationDetail, synthesizeValidity,
+} from '../../utils/validation';
+import { generateId } from '../../utils/id-generator';
 
 const TAG = 'aegov-radio-group';
 const ctx = (prop: string) => ({ component: TAG, prop });
@@ -37,11 +44,31 @@ export class AegovRadioGroup {
   /** Disables all radios within the group via native fieldset disabled. */
   @Prop() isDisabled: boolean = false;
 
+  /** Group is required — at least one radio must be selected. Aggregate-level only. */
+  @Prop() isRequired: boolean = false;
+
+  /** Visual + a11y invalid state. See §2.3. */
+  @Prop({ mutable: true, reflect: true }) isInvalid: boolean = false;
+
+  /** Inline error message. */
+  @Prop({ mutable: true }) errorMessage: string = '';
+
+  /** Helper hint shown below the legend when not invalid. */
+  @Prop() hint: string = '';
+
   /** Additional CSS classes to apply. */
   @Prop() extraClass?: string;
 
   /** Emitted when the selected radio changes. Contains the selected value. */
   @Event() aegovRadioGroupChange: EventEmitter<{ value: string | undefined }>;
+
+  /** Unified validation event (group-level aggregate). See §2.3. */
+  @Event() aegovValidate: EventEmitter<AegovValidationDetail<string | undefined>>;
+
+  @State() private hasInteractedOnce: boolean = false;
+  private fieldId: string = '';
+  private errorId: string = '';
+  private hintId: string = '';
 
   componentWillLoad() {
     warnIfInvalidEnumProp(this.variant, RADIO_GROUP_VARIANTS, 'default', ctx('variant'));
@@ -51,6 +78,45 @@ export class AegovRadioGroup {
       if (this.el.isConnected) { this.syncChildren(); }
     });
     this._resolvedSize = this._sizeWatcher.current as RadioSize;
+    this.fieldId = generateId('aegov-radio-group');
+    this.errorId = `${this.fieldId}-error`;
+    this.hintId = `${this.fieldId}-hint`;
+  }
+
+  /** Imperatively re-run validation. */
+  @Method()
+  async validate(trigger: AegovValidationTrigger = 'manual'): Promise<AegovValidationResult> {
+    return this.runAndEmitValidation(trigger);
+  }
+
+  /** Set a custom error message. */
+  @Method()
+  async setCustomValidity(message: string): Promise<void> {
+    this.errorMessage = message;
+    this.isInvalid = !!message;
+  }
+
+  private collectSelectedValue(): string | undefined {
+    const radios = this.getRadios();
+    const selected = radios.find(r => r.isChecked);
+    return selected?.value;
+  }
+
+  private computeValidity() {
+    const value = this.collectSelectedValue();
+    if (this.isRequired && !value) {
+      return { validity: synthesizeValidity({ valueMissing: true }), message: this.errorMessage || 'Required', value };
+    }
+    return { validity: synthesizeValidity({}), message: '', value };
+  }
+
+  private async runAndEmitValidation(trigger: AegovValidationTrigger): Promise<AegovValidationResult> {
+    const { validity, message, value } = this.computeValidity();
+    this.aegovValidate.emit(buildValidationDetail<string | undefined>(
+      this.el as unknown as HTMLElement & { name?: string },
+      value, validity, message, this.errorMessage || null, trigger,
+    ));
+    return { valid: validity.valid, message, validity };
   }
 
   componentDidLoad() {
@@ -109,6 +175,12 @@ export class AegovRadioGroup {
     }
 
     this.aegovRadioGroupChange.emit({ value: event.detail.checked ? event.detail.value : undefined });
+    this.hasInteractedOnce = true;
+    const { validity, message, value } = this.computeValidity();
+    this.aegovValidate.emit(buildValidationDetail<string | undefined>(
+      this.el as unknown as HTMLElement & { name?: string },
+      value, validity, message, this.errorMessage || null, 'change',
+    ));
   }
 
   private getGroupClasses(): string {
@@ -128,10 +200,41 @@ export class AegovRadioGroup {
   }
 
   render() {
+    const hasErrorSlot = !!this.el.querySelector('[slot="error"]');
+    const hasHintSlot = !!this.el.querySelector('[slot="hint"]');
+    const showError = this.isInvalid && (hasErrorSlot || !!this.errorMessage);
+    const showHint = !showError && (hasHintSlot || !!this.hint);
+    const announceError = showError && this.hasInteractedOnce;
+    const describedBy = composeDescribedBy(
+      showError ? this.errorId : null,
+      showHint ? this.hintId : null,
+    );
+
     return (
-      <Host>
-        <fieldset class={this.getGroupClasses()} role="radiogroup" disabled={this.isDisabled}>
+      <Host class={{ 'is-invalid': this.isInvalid }}>
+        <fieldset
+          class={this.getGroupClasses()}
+          role="radiogroup"
+          disabled={this.isDisabled}
+          aria-invalid={this.isInvalid ? 'true' : null}
+          aria-describedby={describedBy}
+        >
           {this.label && <legend class="radio-group__legend">{this.label}</legend>}
+          {showHint && (
+            <div id={this.hintId} class="aegov-radio-group__hint">
+              {hasHintSlot ? <slot name="hint" /> : this.hint}
+            </div>
+          )}
+          {showError && (
+            <div
+              id={this.errorId}
+              class="aegov-radio-group__error"
+              role={announceError ? 'alert' : null}
+              aria-live={announceError ? 'polite' : null}
+            >
+              {hasErrorSlot ? <slot name="error" /> : this.errorMessage}
+            </div>
+          )}
           <div class="radio-group__items">
             <slot />
           </div>

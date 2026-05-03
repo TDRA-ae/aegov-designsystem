@@ -5,10 +5,16 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
-import { AccordionIcon, AccordionSize, AspectRatioFit, AspectRatioPreset, AvatarAppearance, AvatarGroupVariant, AvatarStatus, BadgeAppearance, BadgeColor, BannerDisplay, BannerMode, BannerPosition, BlockquoteAppearance, BreadcrumbSeparator, ButtonAppearance, ButtonGroupOrientation, ButtonGroupPosition, ButtonType, ButtonVariant, CalloutAppearance, CalloutVariant, CardBg, CardBorderStyle, CardBorderWidth, CardHover, CardSize, CheckboxGroupOrientation, CheckboxGroupVariant, DatepickerChangeDetail, DatepickerMode, DatepickerMonthChangeDetail, DrawerAnimation, DrawerOverlayOpacity, DrawerPosition, DrawerSize, DropdownAlign, DropdownPosition, DropdownTrigger, FileuploadVariant, HeaderVariant, InputType, LinkTarget, ModalOverlayOpacity, ModalPosition, ModalSize, OtpVariant, PaginationVariant, PopoverAlign, PopoverPosition, PopoverTrigger, ProgressCounter, RadioGroupOrientation, RadioGroupVariant, RangeDisplay, RangeMode, RangeOrientation, SelectChangeDetail, SelectVariant, TabOrientation, TabVariant, TextareaResize, TimelineOrientation, TimelineSize, TimelineStepStatus, TimelineVariant, TitleHeadingType, ToastAppearance, ToastMode, ToastPosition, ToastVariant, TooltipAlign, TooltipPosition, TooltipTrigger } from "./utils/types";
+import { AccordionIcon, AccordionSize, AegovValidationDetail, AegovValidationResult, AegovValidationTrigger, AspectRatioFit, AspectRatioPreset, AvatarAppearance, AvatarGroupVariant, AvatarStatus, BadgeAppearance, BadgeColor, BannerDisplay, BannerMode, BannerPosition, BlockquoteAppearance, BreadcrumbSeparator, ButtonAppearance, ButtonGroupOrientation, ButtonGroupPosition, ButtonType, ButtonVariant, CalloutAppearance, CalloutVariant, CardBg, CardBorderStyle, CardBorderWidth, CardHover, CardSize, CheckboxGroupOrientation, CheckboxGroupVariant, DatepickerChangeDetail, DatepickerMode, DatepickerMonthChangeDetail, DrawerAnimation, DrawerOverlayOpacity, DrawerPosition, DrawerSize, DropdownAlign, DropdownPosition, DropdownTrigger, FileuploadVariant, HeaderVariant, InputType, LinkTarget, ModalOverlayOpacity, ModalPosition, ModalSize, OtpVariant, PaginationVariant, PopoverAlign, PopoverPosition, PopoverTrigger, ProgressCounter, RadioGroupOrientation, RadioGroupVariant, RangeDisplay, RangeMode, RangeOrientation, SelectChangeDetail, SelectVariant, TabOrientation, TabVariant, TextareaResize, TimelineOrientation, TimelineSize, TimelineStepStatus, TimelineVariant, TitleHeadingType, ToastAppearance, ToastMode, ToastPosition, ToastVariant, TooltipAlign, TooltipPosition, TooltipTrigger } from "./utils/types";
+import { AegovDatepickerValue } from "./components/aegov-datepicker/aegov-datepicker";
 import { Event } from "@stencil/core";
-export { AccordionIcon, AccordionSize, AspectRatioFit, AspectRatioPreset, AvatarAppearance, AvatarGroupVariant, AvatarStatus, BadgeAppearance, BadgeColor, BannerDisplay, BannerMode, BannerPosition, BlockquoteAppearance, BreadcrumbSeparator, ButtonAppearance, ButtonGroupOrientation, ButtonGroupPosition, ButtonType, ButtonVariant, CalloutAppearance, CalloutVariant, CardBg, CardBorderStyle, CardBorderWidth, CardHover, CardSize, CheckboxGroupOrientation, CheckboxGroupVariant, DatepickerChangeDetail, DatepickerMode, DatepickerMonthChangeDetail, DrawerAnimation, DrawerOverlayOpacity, DrawerPosition, DrawerSize, DropdownAlign, DropdownPosition, DropdownTrigger, FileuploadVariant, HeaderVariant, InputType, LinkTarget, ModalOverlayOpacity, ModalPosition, ModalSize, OtpVariant, PaginationVariant, PopoverAlign, PopoverPosition, PopoverTrigger, ProgressCounter, RadioGroupOrientation, RadioGroupVariant, RangeDisplay, RangeMode, RangeOrientation, SelectChangeDetail, SelectVariant, TabOrientation, TabVariant, TextareaResize, TimelineOrientation, TimelineSize, TimelineStepStatus, TimelineVariant, TitleHeadingType, ToastAppearance, ToastMode, ToastPosition, ToastVariant, TooltipAlign, TooltipPosition, TooltipTrigger } from "./utils/types";
+import { AegovRangeValue } from "./components/aegov-range/aegov-range";
+import { AegovSelectValue } from "./components/aegov-select/aegov-select";
+export { AccordionIcon, AccordionSize, AegovValidationDetail, AegovValidationResult, AegovValidationTrigger, AspectRatioFit, AspectRatioPreset, AvatarAppearance, AvatarGroupVariant, AvatarStatus, BadgeAppearance, BadgeColor, BannerDisplay, BannerMode, BannerPosition, BlockquoteAppearance, BreadcrumbSeparator, ButtonAppearance, ButtonGroupOrientation, ButtonGroupPosition, ButtonType, ButtonVariant, CalloutAppearance, CalloutVariant, CardBg, CardBorderStyle, CardBorderWidth, CardHover, CardSize, CheckboxGroupOrientation, CheckboxGroupVariant, DatepickerChangeDetail, DatepickerMode, DatepickerMonthChangeDetail, DrawerAnimation, DrawerOverlayOpacity, DrawerPosition, DrawerSize, DropdownAlign, DropdownPosition, DropdownTrigger, FileuploadVariant, HeaderVariant, InputType, LinkTarget, ModalOverlayOpacity, ModalPosition, ModalSize, OtpVariant, PaginationVariant, PopoverAlign, PopoverPosition, PopoverTrigger, ProgressCounter, RadioGroupOrientation, RadioGroupVariant, RangeDisplay, RangeMode, RangeOrientation, SelectChangeDetail, SelectVariant, TabOrientation, TabVariant, TextareaResize, TimelineOrientation, TimelineSize, TimelineStepStatus, TimelineVariant, TitleHeadingType, ToastAppearance, ToastMode, ToastPosition, ToastVariant, TooltipAlign, TooltipPosition, TooltipTrigger } from "./utils/types";
+export { AegovDatepickerValue } from "./components/aegov-datepicker/aegov-datepicker";
 export { Event } from "@stencil/core";
+export { AegovRangeValue } from "./components/aegov-range/aegov-range";
+export { AegovSelectValue } from "./components/aegov-select/aegov-select";
 export namespace Components {
     /**
      * Accordion component for collapsible content sections
@@ -446,9 +452,10 @@ export namespace Components {
     }
     interface AegovCheckbox {
         /**
-          * Description text displayed below the label. Only rendered when label is provided.
+          * Inline error message. Use `error` slot for rich markup.
+          * @default ''
          */
-        "description"?: string;
+        "errorMessage": string;
         /**
           * Additional CSS classes to apply.
          */
@@ -457,6 +464,10 @@ export namespace Components {
           * Unique ID for the native checkbox element. Auto-generated if not provided.
          */
         "fieldId"?: string;
+        /**
+          * Helper hint text displayed below the label. Only rendered when label is provided and no error is shown. Renamed from `description` (decision §6.6).
+         */
+        "hint"?: string;
         /**
           * Marks this checkbox as a "check all" controller within a checkbox group.
           * @default false
@@ -478,6 +489,11 @@ export namespace Components {
          */
         "isIndeterminate": boolean;
         /**
+          * Visual + a11y invalid state. Toggles `aria-invalid` + `is-invalid` host class. See §2.3.
+          * @default false
+         */
+        "isInvalid": boolean;
+        /**
           * Whether the checkbox is required.
           * @default false
          */
@@ -491,10 +507,18 @@ export namespace Components {
          */
         "name"?: string;
         /**
+          * Mirror of HTMLInputElement.setCustomValidity().
+         */
+        "setCustomValidity": (message: string) => Promise<void>;
+        /**
           * The size of the checkbox.
           * @default 'base'
          */
         "size": string;
+        /**
+          * Imperatively re-run validation.
+         */
+        "validate": (trigger?: AegovValidationTrigger) => Promise<AegovValidationResult>;
         /**
           * The value attribute for the checkbox.
          */
@@ -502,14 +526,34 @@ export namespace Components {
     }
     interface AegovCheckboxGroup {
         /**
+          * Inline error message rendered below the legend when `isInvalid`.
+          * @default ''
+         */
+        "errorMessage": string;
+        /**
           * Additional CSS classes to apply.
          */
         "extraClass"?: string;
+        /**
+          * Helper hint shown below the legend when not invalid.
+          * @default ''
+         */
+        "hint": string;
         /**
           * Disables all checkboxes within the group via native fieldset disabled.
           * @default false
          */
         "isDisabled": boolean;
+        /**
+          * Visual + a11y invalid state. See §2.3.
+          * @default false
+         */
+        "isInvalid": boolean;
+        /**
+          * Group is required — at least one child checkbox must be checked. Aggregate-level only.
+          * @default false
+         */
+        "isRequired": boolean;
         /**
           * Optional label rendered as a <legend> for accessibility.
          */
@@ -520,10 +564,18 @@ export namespace Components {
          */
         "orientation": CheckboxGroupOrientation;
         /**
+          * Set a custom error message; clears with empty string.
+         */
+        "setCustomValidity": (message: string) => Promise<void>;
+        /**
           * Size of all checkboxes in the group. Propagated to children.
           * @default 'base'
          */
         "size": string;
+        /**
+          * Imperatively re-run validation.
+         */
+        "validate": (trigger?: AegovValidationTrigger) => Promise<AegovValidationResult>;
         /**
           * Visual variant for the group layout.
           * @default 'default'
@@ -538,6 +590,15 @@ export namespace Components {
         "blackout": string;
         "clear": () => Promise<void>;
         "close": () => Promise<void>;
+        /**
+          * Inline error message. Use `error` slot for rich markup.
+          * @default ''
+         */
+        "errorMessage": string;
+        /**
+          * Optional unique field ID. Used by aegov-form-field for label linking + error/hint id derivation.
+         */
+        "fieldId"?: string;
         /**
           * Output format using tokens: YYYY, YY, MM, M, DD, D, MMM, MMMM, dd, ddd
           * @default 'YYYY-MM-DD'
@@ -556,6 +617,11 @@ export namespace Components {
          */
         "getStartDate": () => Promise<string | false>;
         "getValue": () => Promise<string>;
+        /**
+          * Helper hint shown below the control. Hidden when an error is shown.
+          * @default ''
+         */
+        "hint": string;
         /**
           * Show clear button when value is set
           * @default true
@@ -576,6 +642,11 @@ export namespace Components {
           * @default true
          */
         "isHeaderSelectable": boolean;
+        /**
+          * Visual + a11y invalid state. See §2.3.
+          * @default false
+         */
+        "isInvalid": boolean;
         /**
           * Marks the datepicker as required for form validation. Sets `required` on the inner input.
           * @default false
@@ -621,6 +692,10 @@ export namespace Components {
           * @default 0
          */
         "minRange": number;
+        /**
+          * Form field name for FormAssociated submission (§2.5).
+         */
+        "name"?: string;
         "open": () => Promise<void>;
         /**
           * Placeholder text for single mode input
@@ -633,6 +708,10 @@ export namespace Components {
          */
         "presets": string;
         /**
+          * Mirror of HTMLInputElement.setCustomValidity().
+         */
+        "setCustomValidity": (message: string) => Promise<void>;
+        /**
           * The size of the datepicker input.
           * @default 'base'
          */
@@ -642,6 +721,10 @@ export namespace Components {
           * @default 0
          */
         "startDay": number;
+        /**
+          * Imperatively re-run validation.
+         */
+        "validate": (trigger?: AegovValidationTrigger) => Promise<AegovValidationResult>;
         /**
           * Pre-selected value. Single: "YYYY-MM-DD". Range: "YYYY-MM-DD / YYYY-MM-DD"
           * @default ''
@@ -795,9 +878,10 @@ export namespace Components {
          */
         "clear": () => Promise<void>;
         /**
-          * Description text displayed below the label.
+          * Inline error message. Use `error` slot for rich markup.
+          * @default ''
          */
-        "description"?: string;
+        "errorMessage": string;
         /**
           * Unique field ID. Auto-generated if not provided.
          */
@@ -807,10 +891,19 @@ export namespace Components {
          */
         "getFiles": () => Promise<File[]>;
         /**
+          * Helper hint text displayed below the label. Renamed from `description` per §6.6 (pre-production rename, no compat shim). Hidden when an error is shown.
+         */
+        "hint"?: string;
+        /**
           * Disables the file upload.
           * @default false
          */
         "isDisabled": boolean;
+        /**
+          * Visual + a11y invalid state. See §2.3.
+          * @default false
+         */
+        "isInvalid": boolean;
         /**
           * Allow multiple file selection.
           * @default false
@@ -830,7 +923,7 @@ export namespace Components {
          */
         "labelButton"?: string;
         /**
-          * Custom helper text for allowed file types. Overrides auto-generated text from `accept`.
+          * Custom helper text for allowed file types. Overrides auto-generated text from `accept`. Shown alongside the hint, distinct from validation error text.
          */
         "labelHelp"?: string;
         /**
@@ -846,10 +939,18 @@ export namespace Components {
          */
         "name"?: string;
         /**
+          * Mirror of HTMLInputElement.setCustomValidity().
+         */
+        "setCustomValidity": (message: string) => Promise<void>;
+        /**
           * Component size.
           * @default 'base'
          */
         "size": string;
+        /**
+          * Imperatively re-run validation.
+         */
+        "validate": (trigger?: AegovValidationTrigger) => Promise<AegovValidationResult>;
         /**
           * Variant style: 'default' (styled input + button), 'button' (hidden input, label-as-button), or 'dropzone' (drag-and-drop area).
           * @default 'default'
@@ -858,6 +959,11 @@ export namespace Components {
     }
     interface AegovFormField {
         /**
+          * Wrapper-level error message — cascaded to first form-control descendant.
+          * @default ''
+         */
+        "errorMessage": string;
+        /**
           * Additional CSS classes to apply.
          */
         "extraClass"?: string;
@@ -865,6 +971,16 @@ export namespace Components {
           * Unique ID for the form-field wrapper. Auto-generated if not provided.
          */
         "fieldId"?: string;
+        /**
+          * Wrapper-level hint — cascaded to first form-control descendant.
+          * @default ''
+         */
+        "hint": string;
+        /**
+          * Wrapper-level invalid state. Cascades to the first form-control descendant if the child has not set its own value. See validation-engine-addon.md §2.7.
+          * @default false
+         */
+        "isInvalid": boolean;
     }
     interface AegovHeader {
         /**
@@ -886,6 +1002,11 @@ export namespace Components {
     }
     interface AegovInput {
         /**
+          * Inline error message rendered below the control when `isInvalid` is true. Auto-wires `aria-describedby` on the inner input. Use the `error` slot for richer markup.
+          * @default ''
+         */
+        "errorMessage": string;
+        /**
           * Additional CSS classes to apply.
          */
         "extraClass"?: string;
@@ -893,6 +1014,11 @@ export namespace Components {
           * Unique ID for the native input element. Auto-generated if not provided.
          */
         "fieldId"?: string;
+        /**
+          * Helper hint rendered below the control. Hidden when an error is shown so the two text regions don't compete for the user's attention. Use the `hint` slot for richer markup.
+          * @default ''
+         */
+        "hint": string;
         /**
           * Show a copy button to copy the input value to clipboard. Only applies when readonly.
           * @default false
@@ -903,6 +1029,11 @@ export namespace Components {
           * @default false
          */
         "isDisabled": boolean;
+        /**
+          * Visual + a11y invalid state. Toggles `aria-invalid="true"` on the inner input and adds the `is-invalid` class on the host. See validation-engine-addon.md §2.3.
+          * @default false
+         */
+        "isInvalid": boolean;
         /**
           * Whether the input is readonly.
           * @default false
@@ -927,6 +1058,10 @@ export namespace Components {
          */
         "placeholder"?: string;
         /**
+          * Mirror of `HTMLInputElement.setCustomValidity()`. Setting a non-empty message marks the field invalid AND surfaces the message in the error region. Pass an empty string to clear.
+         */
+        "setCustomValidity": (message: string) => Promise<void>;
+        /**
           * The size of the input field.
           * @default 'base'
          */
@@ -936,6 +1071,11 @@ export namespace Components {
           * @default 'text'
          */
         "type": InputType;
+        /**
+          * Imperatively re-run validation. Emits `aegovValidate` and returns the result.
+          * @param trigger Reason for the validation run; defaults to `'manual'`.
+         */
+        "validate": (trigger?: AegovValidationTrigger) => Promise<AegovValidationResult>;
         /**
           * The current value of the input.
           * @default ''
@@ -1137,6 +1277,11 @@ export namespace Components {
          */
         "clear": () => Promise<void>;
         /**
+          * Inline error message. Use `error` slot for rich markup.
+          * @default ''
+         */
+        "errorMessage": string;
+        /**
           * Additional CSS classes.
          */
         "extraClass"?: string;
@@ -1144,6 +1289,11 @@ export namespace Components {
           * Unique ID for the first input cell. Auto-generated if not provided. Used by aegov-label for linking.
          */
         "fieldId"?: string;
+        /**
+          * Helper hint shown below the control. Hidden when an error is shown.
+          * @default ''
+         */
+        "hint": string;
         /**
           * Allow letters and numbers when true. Numbers only when false.
           * @default false
@@ -1155,12 +1305,22 @@ export namespace Components {
          */
         "isDisabled": boolean;
         /**
+          * Visual + a11y invalid state. See §2.3.
+          * @default false
+         */
+        "isInvalid": boolean;
+        /**
+          * Marks the field as required for form submission. Used by FormAssociated for `valueMissing`.
+          * @default false
+         */
+        "isRequired": boolean;
+        /**
           * Number of input cells (digits/characters expected).
           * @default 5
          */
         "length": number;
         /**
-          * Form field name for the hidden input (used in form submission).
+          * Form field name for FormAssociated submission.
          */
         "name"?: string;
         /**
@@ -1168,17 +1328,25 @@ export namespace Components {
          */
         "pattern"?: string;
         /**
-          * Size of the input cells. Maps to text size: xs, sm, base, lg, xl, 2xl.
+          * Mirror of HTMLInputElement.setCustomValidity(). Marks field invalid + sets error message.
+         */
+        "setCustomValidity": (message: string) => Promise<void>;
+        /**
+          * Size of the input cells.
           * @default 'base'
          */
         "size": string;
+        /**
+          * Imperatively re-run validation.
+         */
+        "validate": (trigger?: AegovValidationTrigger) => Promise<AegovValidationResult>;
         /**
           * Current OTP value. Can be set externally to pre-fill cells.
           * @default ''
          */
         "value": string;
         /**
-          * Visual variant. "continuous" = single bordered box with dividers between cells. "individual" = separate bordered boxes per digit. Note: named "variant" to avoid conflict with native HTML "style" attribute.
+          * Visual variant. "continuous" = single bordered box with dividers between cells. "individual" = separate bordered boxes per digit.
           * @default 'continuous'
          */
         "variant": OtpVariant;
@@ -1337,9 +1505,10 @@ export namespace Components {
     }
     interface AegovRadio {
         /**
-          * Description text displayed below the label. Only rendered when label is provided.
+          * Inline error message. Use `error` slot for rich markup.
+          * @default ''
          */
-        "description"?: string;
+        "errorMessage": string;
         /**
           * Additional CSS classes to apply.
          */
@@ -1348,6 +1517,10 @@ export namespace Components {
           * Unique ID for the native radio element. Auto-generated if not provided.
          */
         "fieldId"?: string;
+        /**
+          * Helper hint text displayed below the label. Renamed from `description` per §6.6. Hidden when an error is shown.
+         */
+        "hint"?: string;
         /**
           * Whether the radio is checked.
           * @default false
@@ -1358,6 +1531,11 @@ export namespace Components {
           * @default false
          */
         "isDisabled": boolean;
+        /**
+          * Visual + a11y invalid state. See §2.3.
+          * @default false
+         */
+        "isInvalid": boolean;
         /**
           * Whether the radio is required.
           * @default false
@@ -1372,10 +1550,18 @@ export namespace Components {
          */
         "name"?: string;
         /**
+          * Mirror of HTMLInputElement.setCustomValidity().
+         */
+        "setCustomValidity": (message: string) => Promise<void>;
+        /**
           * The size of the radio.
           * @default 'base'
          */
         "size": string;
+        /**
+          * Imperatively re-run validation.
+         */
+        "validate": (trigger?: AegovValidationTrigger) => Promise<AegovValidationResult>;
         /**
           * The value attribute for the radio.
          */
@@ -1383,14 +1569,34 @@ export namespace Components {
     }
     interface AegovRadioGroup {
         /**
+          * Inline error message.
+          * @default ''
+         */
+        "errorMessage": string;
+        /**
           * Additional CSS classes to apply.
          */
         "extraClass"?: string;
+        /**
+          * Helper hint shown below the legend when not invalid.
+          * @default ''
+         */
+        "hint": string;
         /**
           * Disables all radios within the group via native fieldset disabled.
           * @default false
          */
         "isDisabled": boolean;
+        /**
+          * Visual + a11y invalid state. See §2.3.
+          * @default false
+         */
+        "isInvalid": boolean;
+        /**
+          * Group is required — at least one radio must be selected. Aggregate-level only.
+          * @default false
+         */
+        "isRequired": boolean;
         /**
           * Optional label rendered as a <legend> for accessibility.
          */
@@ -1405,10 +1611,18 @@ export namespace Components {
          */
         "orientation": RadioGroupOrientation;
         /**
+          * Set a custom error message.
+         */
+        "setCustomValidity": (message: string) => Promise<void>;
+        /**
           * Size of all radios in the group. Propagated to children.
           * @default 'base'
          */
         "size": string;
+        /**
+          * Imperatively re-run validation.
+         */
+        "validate": (trigger?: AegovValidationTrigger) => Promise<AegovValidationResult>;
         /**
           * Visual variant for the group layout.
           * @default 'default'
@@ -1422,6 +1636,11 @@ export namespace Components {
          */
         "display": RangeDisplay;
         /**
+          * Inline error message. Use `error` slot for rich markup.
+          * @default ''
+         */
+        "errorMessage": string;
+        /**
           * Additional CSS classes.
          */
         "extraClass"?: string;
@@ -1430,10 +1649,20 @@ export namespace Components {
          */
         "fieldId"?: string;
         /**
+          * Helper hint shown below the control. Hidden when an error is shown.
+          * @default ''
+         */
+        "hint": string;
+        /**
           * Whether the range is disabled.
           * @default false
          */
         "isDisabled": boolean;
+        /**
+          * Visual + a11y invalid state. See §2.3.
+          * @default false
+         */
+        "isInvalid": boolean;
         /**
           * Whether the range is required.
           * @default false
@@ -1468,6 +1697,10 @@ export namespace Components {
          */
         "orientation": RangeOrientation;
         /**
+          * Mirror of HTMLInputElement.setCustomValidity().
+         */
+        "setCustomValidity": (message: string) => Promise<void>;
+        /**
           * Size of the range track. Thumb remains constant.
           * @default 'base'
          */
@@ -1477,6 +1710,10 @@ export namespace Components {
           * @default 1
          */
         "step": number;
+        /**
+          * Imperatively re-run validation.
+         */
+        "validate": (trigger?: AegovValidationTrigger) => Promise<AegovValidationResult>;
         /**
           * Current value (single mode).
           * @default 50
@@ -1500,6 +1737,11 @@ export namespace Components {
          */
         "emptyMessage": string;
         /**
+          * Inline error message. Use `error` slot for rich markup.
+          * @default ''
+         */
+        "errorMessage": string;
+        /**
           * Additional CSS classes to apply.
          */
         "extraClass"?: string;
@@ -1507,6 +1749,11 @@ export namespace Components {
           * Unique ID for the select element. Auto-generated if not provided.
          */
         "fieldId"?: string;
+        /**
+          * Helper hint shown below the control. Hidden when an error is shown.
+          * @default ''
+         */
+        "hint": string;
         /**
           * Show a clear button to reset selection.
           * @default false
@@ -1517,6 +1764,11 @@ export namespace Components {
           * @default false
          */
         "isDisabled": boolean;
+        /**
+          * Visual + a11y invalid state. See §2.3.
+          * @default false
+         */
+        "isInvalid": boolean;
         /**
           * Whether multiple selection is enabled. Forces listbox behaviour.
           * @default false
@@ -1541,10 +1793,18 @@ export namespace Components {
          */
         "placeholder"?: string;
         /**
+          * Mirror of HTMLSelectElement.setCustomValidity().
+         */
+        "setCustomValidity": (message: string) => Promise<void>;
+        /**
           * The size of the select. Matches aegov-input height.
           * @default 'base'
          */
         "size": string;
+        /**
+          * Imperatively re-run validation.
+         */
+        "validate": (trigger?: AegovValidationTrigger) => Promise<AegovValidationResult>;
         /**
           * The current selected value. For multiple, a comma-separated string.
           * @default ''
@@ -1737,6 +1997,11 @@ export namespace Components {
     }
     interface AegovTextarea {
         /**
+          * Inline error message rendered below the control when `isInvalid` is true. Use `error` slot for richer markup.
+          * @default ''
+         */
+        "errorMessage": string;
+        /**
           * Additional CSS classes to apply.
          */
         "extraClass"?: string;
@@ -1744,6 +2009,11 @@ export namespace Components {
           * Unique ID for the native textarea element. Auto-generated if not provided.
          */
         "fieldId"?: string;
+        /**
+          * Helper hint rendered below the control. Hidden when an error is shown. Use `hint` slot for richer markup.
+          * @default ''
+         */
+        "hint": string;
         /**
           * Show a copy button to copy the textarea value to clipboard. Only applies when readonly.
           * @default false
@@ -1754,6 +2024,11 @@ export namespace Components {
           * @default false
          */
         "isDisabled": boolean;
+        /**
+          * Visual + a11y invalid state. Toggles `aria-invalid` and `.is-invalid` host class. See validation-engine-addon.md §2.3.
+          * @default false
+         */
+        "isInvalid": boolean;
         /**
           * Whether the textarea is readonly.
           * @default false
@@ -1782,10 +2057,18 @@ export namespace Components {
          */
         "resize": TextareaResize;
         /**
+          * Mirror of `HTMLTextAreaElement.setCustomValidity()`.
+         */
+        "setCustomValidity": (message: string) => Promise<void>;
+        /**
           * The size of the textarea (affects font size only).
           * @default 'base'
          */
         "size": string;
+        /**
+          * Imperatively re-run validation.
+         */
+        "validate": (trigger?: AegovValidationTrigger) => Promise<AegovValidationResult>;
         /**
           * The current value of the textarea.
           * @default ''
@@ -1922,13 +2205,18 @@ export namespace Components {
     }
     interface AegovToggle {
         /**
-          * Description text displayed below the label. Only rendered when label is provided.
+          * Inline error message. Use `error` slot for rich markup.
+          * @default ''
          */
-        "description"?: string;
+        "errorMessage": string;
         /**
           * Unique ID for the native checkbox element. Auto-generated if not provided.
          */
         "fieldId"?: string;
+        /**
+          * Helper hint text displayed below the label. Renamed from `description` per §6.6. Hidden when an error is shown.
+         */
+        "hint"?: string;
         /**
           * Whether the toggle is checked/on.
           * @default false
@@ -1939,6 +2227,11 @@ export namespace Components {
           * @default false
          */
         "isDisabled": boolean;
+        /**
+          * Visual + a11y invalid state. See §2.3.
+          * @default false
+         */
+        "isInvalid": boolean;
         /**
           * Whether the toggle is required.
           * @default false
@@ -1953,10 +2246,18 @@ export namespace Components {
          */
         "name"?: string;
         /**
+          * Mirror of HTMLInputElement.setCustomValidity().
+         */
+        "setCustomValidity": (message: string) => Promise<void>;
+        /**
           * The size of the toggle.
           * @default 'base'
          */
         "size": string;
+        /**
+          * Imperatively re-run validation.
+         */
+        "validate": (trigger?: AegovValidationTrigger) => Promise<AegovValidationResult>;
         /**
           * The value attribute for the toggle.
          */
@@ -2311,6 +2612,7 @@ declare global {
     };
     interface HTMLAegovCheckboxElementEventMap {
         "aegovCheckboxChange": { checked: boolean; value?: string };
+        "aegovValidate": AegovValidationDetail<boolean>;
     }
     interface HTMLAegovCheckboxElement extends Components.AegovCheckbox, HTMLStencilElement {
         addEventListener<K extends keyof HTMLAegovCheckboxElementEventMap>(type: K, listener: (this: HTMLAegovCheckboxElement, ev: AegovCheckboxCustomEvent<HTMLAegovCheckboxElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -2328,6 +2630,7 @@ declare global {
     };
     interface HTMLAegovCheckboxGroupElementEventMap {
         "aegovCheckboxGroupChange": { values: string[] };
+        "aegovValidate": AegovValidationDetail<string[]>;
     }
     interface HTMLAegovCheckboxGroupElement extends Components.AegovCheckboxGroup, HTMLStencilElement {
         addEventListener<K extends keyof HTMLAegovCheckboxGroupElementEventMap>(type: K, listener: (this: HTMLAegovCheckboxGroupElement, ev: AegovCheckboxGroupCustomEvent<HTMLAegovCheckboxGroupElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -2349,6 +2652,7 @@ declare global {
         "aegovDatepickerClose": void;
         "aegovDatepickerClear": void;
         "aegovDatepickerMonthChange": DatepickerMonthChangeDetail;
+        "aegovValidate": AegovValidationDetail<AegovDatepickerValue>;
     }
     interface HTMLAegovDatepickerElement extends Components.AegovDatepicker, HTMLStencilElement {
         addEventListener<K extends keyof HTMLAegovDatepickerElementEventMap>(type: K, listener: (this: HTMLAegovDatepickerElement, ev: AegovDatepickerCustomEvent<HTMLAegovDatepickerElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -2409,7 +2713,7 @@ declare global {
     interface HTMLAegovFileuploadElementEventMap {
         "aegovFileuploadChange": { files: File[] };
         "aegovFileuploadRemove": { file: File; remaining: File[] };
-        "aegovFileuploadError": { type: 'max-size' | 'max-files' | 'invalid-type'; file?: File; message: string };
+        "aegovValidate": AegovValidationDetail<File[]>;
     }
     interface HTMLAegovFileuploadElement extends Components.AegovFileupload, HTMLStencilElement {
         addEventListener<K extends keyof HTMLAegovFileuploadElementEventMap>(type: K, listener: (this: HTMLAegovFileuploadElement, ev: AegovFileuploadCustomEvent<HTMLAegovFileuploadElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -2442,6 +2746,7 @@ declare global {
         "aegovInputInput": { value: string; event: Event };
         "aegovInputFocus": FocusEvent;
         "aegovInputBlur": FocusEvent;
+        "aegovValidate": AegovValidationDetail<string>;
     }
     interface HTMLAegovInputElement extends Components.AegovInput, HTMLStencilElement {
         addEventListener<K extends keyof HTMLAegovInputElementEventMap>(type: K, listener: (this: HTMLAegovInputElement, ev: AegovInputCustomEvent<HTMLAegovInputElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -2556,7 +2861,7 @@ declare global {
     interface HTMLAegovOtpElementEventMap {
         "aegovOtpChange": { value: string };
         "aegovOtpComplete": { value: string };
-        "aegovOtpInvalid": { value: string; pattern: string };
+        "aegovValidate": AegovValidationDetail<string>;
     }
     interface HTMLAegovOtpElement extends Components.AegovOtp, HTMLStencilElement {
         addEventListener<K extends keyof HTMLAegovOtpElementEventMap>(type: K, listener: (this: HTMLAegovOtpElement, ev: AegovOtpCustomEvent<HTMLAegovOtpElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -2618,6 +2923,7 @@ declare global {
     };
     interface HTMLAegovRadioElementEventMap {
         "aegovRadioChange": { checked: boolean; value?: string };
+        "aegovValidate": AegovValidationDetail<boolean>;
     }
     interface HTMLAegovRadioElement extends Components.AegovRadio, HTMLStencilElement {
         addEventListener<K extends keyof HTMLAegovRadioElementEventMap>(type: K, listener: (this: HTMLAegovRadioElement, ev: AegovRadioCustomEvent<HTMLAegovRadioElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -2635,6 +2941,7 @@ declare global {
     };
     interface HTMLAegovRadioGroupElementEventMap {
         "aegovRadioGroupChange": { value: string | undefined };
+        "aegovValidate": AegovValidationDetail<string | undefined>;
     }
     interface HTMLAegovRadioGroupElement extends Components.AegovRadioGroup, HTMLStencilElement {
         addEventListener<K extends keyof HTMLAegovRadioGroupElementEventMap>(type: K, listener: (this: HTMLAegovRadioGroupElement, ev: AegovRadioGroupCustomEvent<HTMLAegovRadioGroupElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -2653,6 +2960,7 @@ declare global {
     interface HTMLAegovRangeElementEventMap {
         "aegovRangeInput": { value?: number; valueLow?: number; valueHigh?: number };
         "aegovRangeChange": { value?: number; valueLow?: number; valueHigh?: number };
+        "aegovValidate": AegovValidationDetail<AegovRangeValue>;
     }
     interface HTMLAegovRangeElement extends Components.AegovRange, HTMLStencilElement {
         addEventListener<K extends keyof HTMLAegovRangeElementEventMap>(type: K, listener: (this: HTMLAegovRangeElement, ev: AegovRangeCustomEvent<HTMLAegovRangeElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -2672,6 +2980,7 @@ declare global {
         "aegovSelectChange": SelectChangeDetail;
         "aegovSelectOpen": void;
         "aegovSelectClose": void;
+        "aegovValidate": AegovValidationDetail<AegovSelectValue>;
     }
     interface HTMLAegovSelectElement extends Components.AegovSelect, HTMLStencilElement {
         addEventListener<K extends keyof HTMLAegovSelectElementEventMap>(type: K, listener: (this: HTMLAegovSelectElement, ev: AegovSelectCustomEvent<HTMLAegovSelectElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -2788,6 +3097,7 @@ declare global {
         "aegovTextareaInput": { value: string; event: Event };
         "aegovTextareaFocus": FocusEvent;
         "aegovTextareaBlur": FocusEvent;
+        "aegovValidate": AegovValidationDetail<string>;
     }
     interface HTMLAegovTextareaElement extends Components.AegovTextarea, HTMLStencilElement {
         addEventListener<K extends keyof HTMLAegovTextareaElementEventMap>(type: K, listener: (this: HTMLAegovTextareaElement, ev: AegovTextareaCustomEvent<HTMLAegovTextareaElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -2842,6 +3152,7 @@ declare global {
     };
     interface HTMLAegovToggleElementEventMap {
         "aegovToggleChange": { checked: boolean; value?: string };
+        "aegovValidate": AegovValidationDetail<boolean>;
     }
     interface HTMLAegovToggleElement extends Components.AegovToggle, HTMLStencilElement {
         addEventListener<K extends keyof HTMLAegovToggleElementEventMap>(type: K, listener: (this: HTMLAegovToggleElement, ev: AegovToggleCustomEvent<HTMLAegovToggleElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -3397,9 +3708,10 @@ declare namespace LocalJSX {
     }
     interface AegovCheckbox {
         /**
-          * Description text displayed below the label. Only rendered when label is provided.
+          * Inline error message. Use `error` slot for rich markup.
+          * @default ''
          */
-        "description"?: string;
+        "errorMessage"?: string;
         /**
           * Additional CSS classes to apply.
          */
@@ -3408,6 +3720,10 @@ declare namespace LocalJSX {
           * Unique ID for the native checkbox element. Auto-generated if not provided.
          */
         "fieldId"?: string;
+        /**
+          * Helper hint text displayed below the label. Only rendered when label is provided and no error is shown. Renamed from `description` (decision §6.6).
+         */
+        "hint"?: string;
         /**
           * Marks this checkbox as a "check all" controller within a checkbox group.
           * @default false
@@ -3429,6 +3745,11 @@ declare namespace LocalJSX {
          */
         "isIndeterminate"?: boolean;
         /**
+          * Visual + a11y invalid state. Toggles `aria-invalid` + `is-invalid` host class. See §2.3.
+          * @default false
+         */
+        "isInvalid"?: boolean;
+        /**
           * Whether the checkbox is required.
           * @default false
          */
@@ -3446,6 +3767,10 @@ declare namespace LocalJSX {
          */
         "onAegovCheckboxChange"?: (event: AegovCheckboxCustomEvent<{ checked: boolean; value?: string }>) => void;
         /**
+          * Unified validation event. See §2.3.
+         */
+        "onAegovValidate"?: (event: AegovCheckboxCustomEvent<AegovValidationDetail<boolean>>) => void;
+        /**
           * The size of the checkbox.
           * @default 'base'
          */
@@ -3457,14 +3782,34 @@ declare namespace LocalJSX {
     }
     interface AegovCheckboxGroup {
         /**
+          * Inline error message rendered below the legend when `isInvalid`.
+          * @default ''
+         */
+        "errorMessage"?: string;
+        /**
           * Additional CSS classes to apply.
          */
         "extraClass"?: string;
+        /**
+          * Helper hint shown below the legend when not invalid.
+          * @default ''
+         */
+        "hint"?: string;
         /**
           * Disables all checkboxes within the group via native fieldset disabled.
           * @default false
          */
         "isDisabled"?: boolean;
+        /**
+          * Visual + a11y invalid state. See §2.3.
+          * @default false
+         */
+        "isInvalid"?: boolean;
+        /**
+          * Group is required — at least one child checkbox must be checked. Aggregate-level only.
+          * @default false
+         */
+        "isRequired"?: boolean;
         /**
           * Optional label rendered as a <legend> for accessibility.
          */
@@ -3473,6 +3818,10 @@ declare namespace LocalJSX {
           * Emitted when any checkbox in the group changes. Contains all currently checked values.
          */
         "onAegovCheckboxGroupChange"?: (event: AegovCheckboxGroupCustomEvent<{ values: string[] }>) => void;
+        /**
+          * Unified validation event (group-level aggregate). See §2.3.
+         */
+        "onAegovValidate"?: (event: AegovCheckboxGroupCustomEvent<AegovValidationDetail<string[]>>) => void;
         /**
           * Stack direction for checkbox items.
           * @default 'vertical'
@@ -3496,10 +3845,24 @@ declare namespace LocalJSX {
          */
         "blackout"?: string;
         /**
+          * Inline error message. Use `error` slot for rich markup.
+          * @default ''
+         */
+        "errorMessage"?: string;
+        /**
+          * Optional unique field ID. Used by aegov-form-field for label linking + error/hint id derivation.
+         */
+        "fieldId"?: string;
+        /**
           * Output format using tokens: YYYY, YY, MM, M, DD, D, MMM, MMMM, dd, ddd
           * @default 'YYYY-MM-DD'
          */
         "format"?: string;
+        /**
+          * Helper hint shown below the control. Hidden when an error is shown.
+          * @default ''
+         */
+        "hint"?: string;
         /**
           * Show clear button when value is set
           * @default true
@@ -3520,6 +3883,11 @@ declare namespace LocalJSX {
           * @default true
          */
         "isHeaderSelectable"?: boolean;
+        /**
+          * Visual + a11y invalid state. See §2.3.
+          * @default false
+         */
+        "isInvalid"?: boolean;
         /**
           * Marks the datepicker as required for form validation. Sets `required` on the inner input.
           * @default false
@@ -3565,11 +3933,19 @@ declare namespace LocalJSX {
           * @default 0
          */
         "minRange"?: number;
+        /**
+          * Form field name for FormAssociated submission (§2.5).
+         */
+        "name"?: string;
         "onAegovDatepickerChange"?: (event: AegovDatepickerCustomEvent<DatepickerChangeDetail>) => void;
         "onAegovDatepickerClear"?: (event: AegovDatepickerCustomEvent<void>) => void;
         "onAegovDatepickerClose"?: (event: AegovDatepickerCustomEvent<void>) => void;
         "onAegovDatepickerMonthChange"?: (event: AegovDatepickerCustomEvent<DatepickerMonthChangeDetail>) => void;
         "onAegovDatepickerOpen"?: (event: AegovDatepickerCustomEvent<void>) => void;
+        /**
+          * Unified validation event. See §2.3.
+         */
+        "onAegovValidate"?: (event: AegovDatepickerCustomEvent<AegovValidationDetail<AegovDatepickerValue>>) => void;
         /**
           * Placeholder text for single mode input
           * @default 'Select date'
@@ -3750,18 +4126,28 @@ declare namespace LocalJSX {
          */
         "accept"?: string;
         /**
-          * Description text displayed below the label.
+          * Inline error message. Use `error` slot for rich markup.
+          * @default ''
          */
-        "description"?: string;
+        "errorMessage"?: string;
         /**
           * Unique field ID. Auto-generated if not provided.
          */
         "fieldId"?: string;
         /**
+          * Helper hint text displayed below the label. Renamed from `description` per §6.6 (pre-production rename, no compat shim). Hidden when an error is shown.
+         */
+        "hint"?: string;
+        /**
           * Disables the file upload.
           * @default false
          */
         "isDisabled"?: boolean;
+        /**
+          * Visual + a11y invalid state. See §2.3.
+          * @default false
+         */
+        "isInvalid"?: boolean;
         /**
           * Allow multiple file selection.
           * @default false
@@ -3781,7 +4167,7 @@ declare namespace LocalJSX {
          */
         "labelButton"?: string;
         /**
-          * Custom helper text for allowed file types. Overrides auto-generated text from `accept`.
+          * Custom helper text for allowed file types. Overrides auto-generated text from `accept`. Shown alongside the hint, distinct from validation error text.
          */
         "labelHelp"?: string;
         /**
@@ -3801,13 +4187,13 @@ declare namespace LocalJSX {
          */
         "onAegovFileuploadChange"?: (event: AegovFileuploadCustomEvent<{ files: File[] }>) => void;
         /**
-          * Emitted when a file fails validation (invalid type, size exceeded, or max files exceeded).
-         */
-        "onAegovFileuploadError"?: (event: AegovFileuploadCustomEvent<{ type: 'max-size' | 'max-files' | 'invalid-type'; file?: File; message: string }>) => void;
-        /**
           * Emitted when a file is removed from the list (button/dropzone variants).
          */
         "onAegovFileuploadRemove"?: (event: AegovFileuploadCustomEvent<{ file: File; remaining: File[] }>) => void;
+        /**
+          * Unified validation event. See §2.3.
+         */
+        "onAegovValidate"?: (event: AegovFileuploadCustomEvent<AegovValidationDetail<File[]>>) => void;
         /**
           * Component size.
           * @default 'base'
@@ -3821,6 +4207,11 @@ declare namespace LocalJSX {
     }
     interface AegovFormField {
         /**
+          * Wrapper-level error message — cascaded to first form-control descendant.
+          * @default ''
+         */
+        "errorMessage"?: string;
+        /**
           * Additional CSS classes to apply.
          */
         "extraClass"?: string;
@@ -3828,6 +4219,16 @@ declare namespace LocalJSX {
           * Unique ID for the form-field wrapper. Auto-generated if not provided.
          */
         "fieldId"?: string;
+        /**
+          * Wrapper-level hint — cascaded to first form-control descendant.
+          * @default ''
+         */
+        "hint"?: string;
+        /**
+          * Wrapper-level invalid state. Cascades to the first form-control descendant if the child has not set its own value. See validation-engine-addon.md §2.7.
+          * @default false
+         */
+        "isInvalid"?: boolean;
     }
     interface AegovHeader {
         /**
@@ -3849,6 +4250,11 @@ declare namespace LocalJSX {
     }
     interface AegovInput {
         /**
+          * Inline error message rendered below the control when `isInvalid` is true. Auto-wires `aria-describedby` on the inner input. Use the `error` slot for richer markup.
+          * @default ''
+         */
+        "errorMessage"?: string;
+        /**
           * Additional CSS classes to apply.
          */
         "extraClass"?: string;
@@ -3856,6 +4262,11 @@ declare namespace LocalJSX {
           * Unique ID for the native input element. Auto-generated if not provided.
          */
         "fieldId"?: string;
+        /**
+          * Helper hint rendered below the control. Hidden when an error is shown so the two text regions don't compete for the user's attention. Use the `hint` slot for richer markup.
+          * @default ''
+         */
+        "hint"?: string;
         /**
           * Show a copy button to copy the input value to clipboard. Only applies when readonly.
           * @default false
@@ -3866,6 +4277,11 @@ declare namespace LocalJSX {
           * @default false
          */
         "isDisabled"?: boolean;
+        /**
+          * Visual + a11y invalid state. Toggles `aria-invalid="true"` on the inner input and adds the `is-invalid` class on the host. See validation-engine-addon.md §2.3.
+          * @default false
+         */
+        "isInvalid"?: boolean;
         /**
           * Whether the input is readonly.
           * @default false
@@ -3901,6 +4317,10 @@ declare namespace LocalJSX {
           * Emitted on every keystroke.
          */
         "onAegovInputInput"?: (event: AegovInputCustomEvent<{ value: string; event: Event }>) => void;
+        /**
+          * Unified validation event emitted on input/change/blur/manual triggers. Carries full validity snapshot for orchestrators (Layer 2) and BYO consumers. See validation-engine-addon.md §2.3.
+         */
+        "onAegovValidate"?: (event: AegovInputCustomEvent<AegovValidationDetail<string>>) => void;
         /**
           * Placeholder text for the input.
          */
@@ -4124,6 +4544,11 @@ declare namespace LocalJSX {
     }
     interface AegovOtp {
         /**
+          * Inline error message. Use `error` slot for rich markup.
+          * @default ''
+         */
+        "errorMessage"?: string;
+        /**
           * Additional CSS classes.
          */
         "extraClass"?: string;
@@ -4131,6 +4556,11 @@ declare namespace LocalJSX {
           * Unique ID for the first input cell. Auto-generated if not provided. Used by aegov-label for linking.
          */
         "fieldId"?: string;
+        /**
+          * Helper hint shown below the control. Hidden when an error is shown.
+          * @default ''
+         */
+        "hint"?: string;
         /**
           * Allow letters and numbers when true. Numbers only when false.
           * @default false
@@ -4142,12 +4572,22 @@ declare namespace LocalJSX {
          */
         "isDisabled"?: boolean;
         /**
+          * Visual + a11y invalid state. See §2.3.
+          * @default false
+         */
+        "isInvalid"?: boolean;
+        /**
+          * Marks the field as required for form submission. Used by FormAssociated for `valueMissing`.
+          * @default false
+         */
+        "isRequired"?: boolean;
+        /**
           * Number of input cells (digits/characters expected).
           * @default 5
          */
         "length"?: number;
         /**
-          * Form field name for the hidden input (used in form submission).
+          * Form field name for FormAssociated submission.
          */
         "name"?: string;
         /**
@@ -4159,15 +4599,15 @@ declare namespace LocalJSX {
          */
         "onAegovOtpComplete"?: (event: AegovOtpCustomEvent<{ value: string }>) => void;
         /**
-          * Fires when all cells are filled but pattern validation fails.
+          * Unified validation event. See §2.3.
          */
-        "onAegovOtpInvalid"?: (event: AegovOtpCustomEvent<{ value: string; pattern: string }>) => void;
+        "onAegovValidate"?: (event: AegovOtpCustomEvent<AegovValidationDetail<string>>) => void;
         /**
           * Regex pattern string for validation. Checked when all cells are filled.
          */
         "pattern"?: string;
         /**
-          * Size of the input cells. Maps to text size: xs, sm, base, lg, xl, 2xl.
+          * Size of the input cells.
           * @default 'base'
          */
         "size"?: string;
@@ -4177,7 +4617,7 @@ declare namespace LocalJSX {
          */
         "value"?: string;
         /**
-          * Visual variant. "continuous" = single bordered box with dividers between cells. "individual" = separate bordered boxes per digit. Note: named "variant" to avoid conflict with native HTML "style" attribute.
+          * Visual variant. "continuous" = single bordered box with dividers between cells. "individual" = separate bordered boxes per digit.
           * @default 'continuous'
          */
         "variant"?: OtpVariant;
@@ -4348,9 +4788,10 @@ declare namespace LocalJSX {
     }
     interface AegovRadio {
         /**
-          * Description text displayed below the label. Only rendered when label is provided.
+          * Inline error message. Use `error` slot for rich markup.
+          * @default ''
          */
-        "description"?: string;
+        "errorMessage"?: string;
         /**
           * Additional CSS classes to apply.
          */
@@ -4359,6 +4800,10 @@ declare namespace LocalJSX {
           * Unique ID for the native radio element. Auto-generated if not provided.
          */
         "fieldId"?: string;
+        /**
+          * Helper hint text displayed below the label. Renamed from `description` per §6.6. Hidden when an error is shown.
+         */
+        "hint"?: string;
         /**
           * Whether the radio is checked.
           * @default false
@@ -4369,6 +4814,11 @@ declare namespace LocalJSX {
           * @default false
          */
         "isDisabled"?: boolean;
+        /**
+          * Visual + a11y invalid state. See §2.3.
+          * @default false
+         */
+        "isInvalid"?: boolean;
         /**
           * Whether the radio is required.
           * @default false
@@ -4387,6 +4837,10 @@ declare namespace LocalJSX {
          */
         "onAegovRadioChange"?: (event: AegovRadioCustomEvent<{ checked: boolean; value?: string }>) => void;
         /**
+          * Unified validation event. See §2.3.
+         */
+        "onAegovValidate"?: (event: AegovRadioCustomEvent<AegovValidationDetail<boolean>>) => void;
+        /**
           * The size of the radio.
           * @default 'base'
          */
@@ -4398,14 +4852,34 @@ declare namespace LocalJSX {
     }
     interface AegovRadioGroup {
         /**
+          * Inline error message.
+          * @default ''
+         */
+        "errorMessage"?: string;
+        /**
           * Additional CSS classes to apply.
          */
         "extraClass"?: string;
+        /**
+          * Helper hint shown below the legend when not invalid.
+          * @default ''
+         */
+        "hint"?: string;
         /**
           * Disables all radios within the group via native fieldset disabled.
           * @default false
          */
         "isDisabled"?: boolean;
+        /**
+          * Visual + a11y invalid state. See §2.3.
+          * @default false
+         */
+        "isInvalid"?: boolean;
+        /**
+          * Group is required — at least one radio must be selected. Aggregate-level only.
+          * @default false
+         */
+        "isRequired"?: boolean;
         /**
           * Optional label rendered as a <legend> for accessibility.
          */
@@ -4418,6 +4892,10 @@ declare namespace LocalJSX {
           * Emitted when the selected radio changes. Contains the selected value.
          */
         "onAegovRadioGroupChange"?: (event: AegovRadioGroupCustomEvent<{ value: string | undefined }>) => void;
+        /**
+          * Unified validation event (group-level aggregate). See §2.3.
+         */
+        "onAegovValidate"?: (event: AegovRadioGroupCustomEvent<AegovValidationDetail<string | undefined>>) => void;
         /**
           * Stack direction for radio items.
           * @default 'vertical'
@@ -4441,6 +4919,11 @@ declare namespace LocalJSX {
          */
         "display"?: RangeDisplay;
         /**
+          * Inline error message. Use `error` slot for rich markup.
+          * @default ''
+         */
+        "errorMessage"?: string;
+        /**
           * Additional CSS classes.
          */
         "extraClass"?: string;
@@ -4449,10 +4932,20 @@ declare namespace LocalJSX {
          */
         "fieldId"?: string;
         /**
+          * Helper hint shown below the control. Hidden when an error is shown.
+          * @default ''
+         */
+        "hint"?: string;
+        /**
           * Whether the range is disabled.
           * @default false
          */
         "isDisabled"?: boolean;
+        /**
+          * Visual + a11y invalid state. See §2.3.
+          * @default false
+         */
+        "isInvalid"?: boolean;
         /**
           * Whether the range is required.
           * @default false
@@ -4489,6 +4982,10 @@ declare namespace LocalJSX {
           * Emitted during drag on every value update.
          */
         "onAegovRangeInput"?: (event: AegovRangeCustomEvent<{ value?: number; valueLow?: number; valueHigh?: number }>) => void;
+        /**
+          * Unified validation event. See §2.3.
+         */
+        "onAegovValidate"?: (event: AegovRangeCustomEvent<AegovValidationDetail<AegovRangeValue>>) => void;
         /**
           * Layout orientation.
           * @default 'horizontal'
@@ -4527,6 +5024,11 @@ declare namespace LocalJSX {
          */
         "emptyMessage"?: string;
         /**
+          * Inline error message. Use `error` slot for rich markup.
+          * @default ''
+         */
+        "errorMessage"?: string;
+        /**
           * Additional CSS classes to apply.
          */
         "extraClass"?: string;
@@ -4534,6 +5036,11 @@ declare namespace LocalJSX {
           * Unique ID for the select element. Auto-generated if not provided.
          */
         "fieldId"?: string;
+        /**
+          * Helper hint shown below the control. Hidden when an error is shown.
+          * @default ''
+         */
+        "hint"?: string;
         /**
           * Show a clear button to reset selection.
           * @default false
@@ -4544,6 +5051,11 @@ declare namespace LocalJSX {
           * @default false
          */
         "isDisabled"?: boolean;
+        /**
+          * Visual + a11y invalid state. See §2.3.
+          * @default false
+         */
+        "isInvalid"?: boolean;
         /**
           * Whether multiple selection is enabled. Forces listbox behaviour.
           * @default false
@@ -4575,6 +5087,10 @@ declare namespace LocalJSX {
           * Emitted when the dropdown opens (listbox variant).
          */
         "onAegovSelectOpen"?: (event: AegovSelectCustomEvent<void>) => void;
+        /**
+          * Unified validation event. See §2.3.
+         */
+        "onAegovValidate"?: (event: AegovSelectCustomEvent<AegovValidationDetail<AegovSelectValue>>) => void;
         /**
           * Placeholder text shown when nothing is selected.
          */
@@ -4786,6 +5302,11 @@ declare namespace LocalJSX {
     }
     interface AegovTextarea {
         /**
+          * Inline error message rendered below the control when `isInvalid` is true. Use `error` slot for richer markup.
+          * @default ''
+         */
+        "errorMessage"?: string;
+        /**
           * Additional CSS classes to apply.
          */
         "extraClass"?: string;
@@ -4793,6 +5314,11 @@ declare namespace LocalJSX {
           * Unique ID for the native textarea element. Auto-generated if not provided.
          */
         "fieldId"?: string;
+        /**
+          * Helper hint rendered below the control. Hidden when an error is shown. Use `hint` slot for richer markup.
+          * @default ''
+         */
+        "hint"?: string;
         /**
           * Show a copy button to copy the textarea value to clipboard. Only applies when readonly.
           * @default false
@@ -4803,6 +5329,11 @@ declare namespace LocalJSX {
           * @default false
          */
         "isDisabled"?: boolean;
+        /**
+          * Visual + a11y invalid state. Toggles `aria-invalid` and `.is-invalid` host class. See validation-engine-addon.md §2.3.
+          * @default false
+         */
+        "isInvalid"?: boolean;
         /**
           * Whether the textarea is readonly.
           * @default false
@@ -4837,6 +5368,10 @@ declare namespace LocalJSX {
           * Emitted on every keystroke.
          */
         "onAegovTextareaInput"?: (event: AegovTextareaCustomEvent<{ value: string; event: Event }>) => void;
+        /**
+          * Unified validation event. See validation-engine-addon.md §2.3.
+         */
+        "onAegovValidate"?: (event: AegovTextareaCustomEvent<AegovValidationDetail<string>>) => void;
         /**
           * Placeholder text for the textarea.
          */
@@ -4991,13 +5526,18 @@ declare namespace LocalJSX {
     }
     interface AegovToggle {
         /**
-          * Description text displayed below the label. Only rendered when label is provided.
+          * Inline error message. Use `error` slot for rich markup.
+          * @default ''
          */
-        "description"?: string;
+        "errorMessage"?: string;
         /**
           * Unique ID for the native checkbox element. Auto-generated if not provided.
          */
         "fieldId"?: string;
+        /**
+          * Helper hint text displayed below the label. Renamed from `description` per §6.6. Hidden when an error is shown.
+         */
+        "hint"?: string;
         /**
           * Whether the toggle is checked/on.
           * @default false
@@ -5008,6 +5548,11 @@ declare namespace LocalJSX {
           * @default false
          */
         "isDisabled"?: boolean;
+        /**
+          * Visual + a11y invalid state. See §2.3.
+          * @default false
+         */
+        "isInvalid"?: boolean;
         /**
           * Whether the toggle is required.
           * @default false
@@ -5025,6 +5570,10 @@ declare namespace LocalJSX {
           * Emitted when the toggle checked state changes.
          */
         "onAegovToggleChange"?: (event: AegovToggleCustomEvent<{ checked: boolean; value?: string }>) => void;
+        /**
+          * Unified validation event. See §2.3.
+         */
+        "onAegovValidate"?: (event: AegovToggleCustomEvent<AegovValidationDetail<boolean>>) => void;
         /**
           * The size of the toggle.
           * @default 'base'

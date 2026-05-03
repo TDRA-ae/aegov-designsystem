@@ -164,3 +164,17 @@
 .checkbox-group--pills .checkbox--lg .checkbox__label-text {
   @apply text-base leading-6;
 }
+
+/* Validation surface (Layer 1) — see validation-engine-addon.md §2.6 */
+
+:host(.is-invalid) .checkbox-group__legend {
+  @apply text-aered-700;
+}
+
+.aegov-checkbox-group__error {
+  @apply text-sm text-aered-600 mt-1.5 flex items-start gap-1.5 leading-snug;
+}
+
+.aegov-checkbox-group__hint {
+  @apply text-sm text-aeblack-600 mt-1.5 leading-snug;
+}

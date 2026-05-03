@@ -26,7 +26,7 @@
   @apply text-aered-600;
 }
 
-.fileupload__description {
+.fileupload__hint {
   @apply text-aeblack-500 mb-2;
 }
 
@@ -38,35 +38,35 @@
 .fileupload--xs .fileupload__label {
   @apply text-xs;
 }
-.fileupload--xs .fileupload__description,
+.fileupload--xs .fileupload__hint,
 .fileupload--xs .fileupload__helper {
   @apply text-xs;
 }
 .fileupload--sm .fileupload__label {
   @apply text-sm;
 }
-.fileupload--sm .fileupload__description,
+.fileupload--sm .fileupload__hint,
 .fileupload--sm .fileupload__helper {
   @apply text-xs;
 }
 .fileupload--base .fileupload__label {
   @apply text-base;
 }
-.fileupload--base .fileupload__description,
+.fileupload--base .fileupload__hint,
 .fileupload--base .fileupload__helper {
   @apply text-sm;
 }
 .fileupload--lg .fileupload__label {
   @apply text-lg;
 }
-.fileupload--lg .fileupload__description,
+.fileupload--lg .fileupload__hint,
 .fileupload--lg .fileupload__helper {
   @apply text-base;
 }
 .fileupload--xl .fileupload__label {
   @apply text-lg;
 }
-.fileupload--xl .fileupload__description,
+.fileupload--xl .fileupload__hint,
 .fileupload--xl .fileupload__helper {
   @apply text-base;
 }
@@ -509,4 +509,15 @@
 }
 .fileupload--xl .fileupload__remove-btn svg {
   @apply size-5;
+}
+
+/* Validation surface (Layer 1) — see validation-engine-addon.md §2.6 */
+
+:host(.is-invalid) .fileupload__input-wrapper,
+:host(.is-invalid) .fileupload__dropzone {
+  @apply ring-2 ring-aered-600;
+}
+
+.aegov-fileupload__error {
+  @apply text-sm text-aered-600 mt-1.5 flex items-start gap-1.5 leading-snug;
 }

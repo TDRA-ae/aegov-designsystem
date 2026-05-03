@@ -177,3 +177,18 @@
 .datepicker__clear-btn > svg {
   @apply w-4 h-4;
 }
+
+/* Validation surface (Layer 1) — see validation-engine-addon.md §2.6 */
+
+:host(.is-invalid) .datepicker__trigger,
+:host(.is-invalid) .datepicker__input {
+  @apply ring-2 ring-aered-600;
+}
+
+.aegov-datepicker__error {
+  @apply text-sm text-aered-600 mt-1.5 flex items-start gap-1.5 leading-snug;
+}
+
+.aegov-datepicker__hint {
+  @apply text-sm text-aeblack-600 mt-1.5 leading-snug;
+}

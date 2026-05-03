@@ -109,7 +109,7 @@
   @apply text-aeblack-800;
 }
 
-.toggle__description {
+.toggle__hint {
   @apply text-aeblack-500;
 }
 
@@ -150,7 +150,7 @@
   @apply text-xs leading-4;
 }
 
-.toggle--xs .toggle__description {
+.toggle--xs .toggle__hint {
   @apply text-xs mt-0.5;
 }
 
@@ -191,7 +191,7 @@
   @apply text-sm leading-5;
 }
 
-.toggle--sm .toggle__description {
+.toggle--sm .toggle__hint {
   @apply text-xs mt-0.5;
 }
 
@@ -232,7 +232,7 @@
   @apply text-base leading-6;
 }
 
-.toggle--base .toggle__description {
+.toggle--base .toggle__hint {
   @apply text-sm mt-1;
 }
 
@@ -273,7 +273,7 @@
   @apply text-lg leading-7;
 }
 
-.toggle--lg .toggle__description {
+.toggle--lg .toggle__hint {
   @apply text-base mt-1;
 }
 
@@ -314,7 +314,7 @@
   @apply text-xl leading-8;
 }
 
-.toggle--xl .toggle__description {
+.toggle--xl .toggle__hint {
   @apply text-lg mt-1;
 }
 
@@ -369,4 +369,14 @@
 [dir="rtl"] .toggle--xl .toggle__input:checked + .toggle__track .toggle__thumb,
 :dir(rtl) .toggle--xl .toggle__input:checked + .toggle__track .toggle__thumb {
   transform: translateX(-24px) translateY(-50%);
+}
+
+/* Validation surface (Layer 1) — see validation-engine-addon.md §2.6 */
+
+:host(.is-invalid) .toggle__track {
+  @apply ring-2 ring-aered-600;
+}
+
+.aegov-toggle__error {
+  @apply text-sm text-aered-600 mt-1.5 flex items-start gap-1.5 leading-snug;
 }

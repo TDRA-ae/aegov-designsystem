@@ -116,15 +116,17 @@ describe('aegov-otp', () => {
     expect(cells[3].value).toBe('4');
   });
 
-  it('renders hidden input with name attribute for form submission', async () => {
+  it('keeps name + value on host for FormAssociated submission (replaces hidden input)', async () => {
+    // Per validation-engine-addon.md §2.4: aegov-otp upgraded to formAssociated: true.
+    // ElementInternals.setFormValue() handles submission in browser; jsdom mock has no
+    // ElementInternals so we just assert the props are tracked on the component.
     const page = await newSpecPage({
       components: [AegovOtp],
       html: `<aegov-otp name="otp-code" value="12"></aegov-otp>`,
     });
-    const hidden = page.root.querySelector('input[type="hidden"]') as HTMLInputElement;
-    expect(hidden).not.toBeNull();
-    expect(hidden.name).toBe('otp-code');
-    expect(hidden.value).toBe('12');
+    expect(page.rootInstance.name).toBe('otp-code');
+    expect(page.rootInstance.value).toBe('12');
+    expect(page.root.querySelector('input[type="hidden"]')).toBeNull();
   });
 
   it('forwards aria/data attributes to the otp__wrapper group', async () => {

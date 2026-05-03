@@ -1,9 +1,16 @@
-import { Component, Host, h, Prop, State, Event, EventEmitter, Element, Listen, Watch } from '@stencil/core';
+import { Component, Host, h, Prop, State, Event, EventEmitter, Element, Listen, Watch, Method } from '@stencil/core';
 import { CHECKBOX_GROUP_VARIANTS, CHECKBOX_GROUP_ORIENTATIONS, CHECKBOX_SIZES } from '../../utils/types';
-import type { CheckboxGroupVariant, CheckboxGroupOrientation, CheckboxSize } from '../../utils/types';
+import type {
+  CheckboxGroupVariant, CheckboxGroupOrientation, CheckboxSize,
+  AegovValidationDetail, AegovValidationResult, AegovValidationTrigger,
+} from '../../utils/types';
 import { warnIfInvalidEnumProp } from '../../utils/prop-validator';
 import { watchResponsiveProp } from '../../utils/responsive-prop';
 import type { ResponsivePropWatcher } from '../../utils/responsive-prop';
+import {
+  composeDescribedBy, buildValidationDetail, synthesizeValidity,
+} from '../../utils/validation';
+import { generateId } from '../../utils/id-generator';
 
 const TAG = 'aegov-checkbox-group';
 const ctx = (prop: string) => ({ component: TAG, prop });
@@ -34,11 +41,31 @@ export class AegovCheckboxGroup {
   /** Disables all checkboxes within the group via native fieldset disabled. */
   @Prop() isDisabled: boolean = false;
 
+  /** Group is required — at least one child checkbox must be checked. Aggregate-level only. */
+  @Prop() isRequired: boolean = false;
+
+  /** Visual + a11y invalid state. See §2.3. */
+  @Prop({ mutable: true, reflect: true }) isInvalid: boolean = false;
+
+  /** Inline error message rendered below the legend when `isInvalid`. */
+  @Prop({ mutable: true }) errorMessage: string = '';
+
+  /** Helper hint shown below the legend when not invalid. */
+  @Prop() hint: string = '';
+
   /** Additional CSS classes to apply. */
   @Prop() extraClass?: string;
 
   /** Emitted when any checkbox in the group changes. Contains all currently checked values. */
   @Event() aegovCheckboxGroupChange: EventEmitter<{ values: string[] }>;
+
+  /** Unified validation event (group-level aggregate). See §2.3. */
+  @Event() aegovValidate: EventEmitter<AegovValidationDetail<string[]>>;
+
+  @State() private hasInteractedOnce: boolean = false;
+  private fieldId: string = '';
+  private errorId: string = '';
+  private hintId: string = '';
 
   componentWillLoad() {
     warnIfInvalidEnumProp(this.variant, CHECKBOX_GROUP_VARIANTS, 'default', ctx('variant'));
@@ -48,6 +75,47 @@ export class AegovCheckboxGroup {
       if (this.el.isConnected) { this.syncChildren(); }
     });
     this._resolvedSize = this._sizeWatcher.current as CheckboxSize;
+    this.fieldId = generateId('aegov-checkbox-group');
+    this.errorId = `${this.fieldId}-error`;
+    this.hintId = `${this.fieldId}-hint`;
+  }
+
+  /** Imperatively re-run validation. */
+  @Method()
+  async validate(trigger: AegovValidationTrigger = 'manual'): Promise<AegovValidationResult> {
+    return this.runAndEmitValidation(trigger);
+  }
+
+  /** Set a custom error message; clears with empty string. */
+  @Method()
+  async setCustomValidity(message: string): Promise<void> {
+    this.errorMessage = message;
+    this.isInvalid = !!message;
+  }
+
+  private collectValues(): string[] {
+    const checkboxes = this.getRegularCheckboxes();
+    return checkboxes
+      .filter(cb => cb.isChecked)
+      .map(cb => cb.value)
+      .filter((v): v is string => v != null);
+  }
+
+  private computeValidity() {
+    const values = this.collectValues();
+    if (this.isRequired && values.length === 0) {
+      return { validity: synthesizeValidity({ valueMissing: true }), message: this.errorMessage || 'Required', values };
+    }
+    return { validity: synthesizeValidity({}), message: '', values };
+  }
+
+  private async runAndEmitValidation(trigger: AegovValidationTrigger): Promise<AegovValidationResult> {
+    const { validity, message, values } = this.computeValidity();
+    this.aegovValidate.emit(buildValidationDetail<string[]>(
+      this.el as unknown as HTMLElement & { name?: string },
+      values, validity, message, this.errorMessage || null, trigger,
+    ));
+    return { valid: validity.valid, message, validity };
   }
 
   componentDidLoad() {
@@ -136,12 +204,15 @@ export class AegovCheckboxGroup {
   }
 
   private emitGroupChange() {
-    const checkboxes = this.getRegularCheckboxes();
-    const values = checkboxes
-      .filter(cb => cb.isChecked)
-      .map(cb => cb.value)
-      .filter((v): v is string => v != null);
+    this.hasInteractedOnce = true;
+    const values = this.collectValues();
     this.aegovCheckboxGroupChange.emit({ values });
+    // Aggregate validation event
+    const { validity, message } = this.computeValidity();
+    this.aegovValidate.emit(buildValidationDetail<string[]>(
+      this.el as unknown as HTMLElement & { name?: string },
+      values, validity, message, this.errorMessage || null, 'change',
+    ));
   }
 
   private getGroupClasses(): string {
@@ -161,10 +232,40 @@ export class AegovCheckboxGroup {
   }
 
   render() {
+    const hasErrorSlot = !!this.el.querySelector('[slot="error"]');
+    const hasHintSlot = !!this.el.querySelector('[slot="hint"]');
+    const showError = this.isInvalid && (hasErrorSlot || !!this.errorMessage);
+    const showHint = !showError && (hasHintSlot || !!this.hint);
+    const announceError = showError && this.hasInteractedOnce;
+    const describedBy = composeDescribedBy(
+      showError ? this.errorId : null,
+      showHint ? this.hintId : null,
+    );
+
     return (
-      <Host>
-        <fieldset class={this.getGroupClasses()} disabled={this.isDisabled}>
+      <Host class={{ 'is-invalid': this.isInvalid }}>
+        <fieldset
+          class={this.getGroupClasses()}
+          disabled={this.isDisabled}
+          aria-invalid={this.isInvalid ? 'true' : null}
+          aria-describedby={describedBy}
+        >
           {this.label && <legend class="checkbox-group__legend">{this.label}</legend>}
+          {showHint && (
+            <div id={this.hintId} class="aegov-checkbox-group__hint">
+              {hasHintSlot ? <slot name="hint" /> : this.hint}
+            </div>
+          )}
+          {showError && (
+            <div
+              id={this.errorId}
+              class="aegov-checkbox-group__error"
+              role={announceError ? 'alert' : null}
+              aria-live={announceError ? 'polite' : null}
+            >
+              {hasErrorSlot ? <slot name="error" /> : this.errorMessage}
+            </div>
+          )}
           <div class="checkbox-group__items">
             <slot />
           </div>

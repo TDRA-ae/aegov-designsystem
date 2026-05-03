@@ -44,15 +44,15 @@ describe('aegov-radio', () => {
     expect(label.querySelector('input[type="radio"]')).not.toBeNull();
   });
 
-  it('renders description with aria-describedby linking', async () => {
+  it('renders hint with aria-describedby linking', async () => {
     const page = await newSpecPage({
       components: [AegovRadio],
-      html: `<aegov-radio label="A" description="Helper"></aegov-radio>`,
+      html: `<aegov-radio label="A" hint="Helper"></aegov-radio>`,
     });
-    const desc = page.root.querySelector('.radio__description');
-    expect(desc).not.toBeNull();
+    const hint = page.root.querySelector('.radio__hint');
+    expect(hint).not.toBeNull();
     const input = page.root.querySelector('input') as HTMLInputElement;
-    expect(input.getAttribute('aria-describedby')).toBe(desc.id);
+    expect(input.getAttribute('aria-describedby')).toBe(hint.id);
   });
 
   it('reflects is-checked to native checked', async () => {

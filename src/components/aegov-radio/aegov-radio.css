@@ -43,7 +43,7 @@
   @apply text-base text-aeblack-800;
 }
 
-.radio__description {
+.radio__hint {
   @apply text-aeblack-500;
 }
 
@@ -71,7 +71,7 @@
   @apply text-xs leading-3.5;
 }
 
-.radio--xs .radio__description {
+.radio--xs .radio__hint {
   @apply text-xs mt-0.5;
 }
 
@@ -99,7 +99,7 @@
   @apply text-sm leading-4;
 }
 
-.radio--sm .radio__description {
+.radio--sm .radio__hint {
   @apply text-xs mt-0.5;
 }
 
@@ -127,7 +127,7 @@
   @apply text-base leading-5;
 }
 
-.radio--base .radio__description {
+.radio--base .radio__hint {
   @apply text-sm mt-1;
 }
 
@@ -155,7 +155,7 @@
   @apply text-lg leading-6;
 }
 
-.radio--lg .radio__description {
+.radio--lg .radio__hint {
   @apply text-base mt-1;
 }
 
@@ -183,6 +183,16 @@
   @apply text-xl leading-7;
 }
 
-.radio--xl .radio__description {
+.radio--xl .radio__hint {
   @apply text-base mt-1;
+}
+
+/* Validation surface (Layer 1) — see validation-engine-addon.md §2.6 */
+
+:host(.is-invalid) .radio__wrapper input[type="radio"] {
+  @apply ring-2 ring-aered-600;
+}
+
+.aegov-radio__error {
+  @apply text-sm text-aered-600 mt-1.5 flex items-start gap-1.5 leading-snug;
 }

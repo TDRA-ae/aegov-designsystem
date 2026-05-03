@@ -1,11 +1,18 @@
-import { Component, Host, h, Prop, State, Event, EventEmitter, Element, Watch } from '@stencil/core';
+import { Component, Host, h, Prop, State, Event, EventEmitter, Element, Watch, Method } from '@stencil/core';
 import { INPUT_TYPES, INPUT_SIZES } from '../../utils/types';
-import type { InputType, InputSize } from '../../utils/types';
+import type {
+  InputType, InputSize,
+  AegovValidationDetail, AegovValidationResult, AegovValidationTrigger,
+} from '../../utils/types';
 import { getPassThroughAttributes } from '../../utils/attributes';
 import { generateId } from '../../utils/id-generator';
 import { warnIfInvalidEnumProp } from '../../utils/prop-validator';
 import { watchResponsiveProp } from '../../utils/responsive-prop';
 import type { ResponsivePropWatcher } from '../../utils/responsive-prop';
+import {
+  fromNativeValidity, VALID_STATE,
+  composeDescribedBy, buildValidationDetail,
+} from '../../utils/validation';
 
 const TAG = 'aegov-input';
 const ctx = (prop: string) => ({ component: TAG, prop });
@@ -54,6 +61,26 @@ export class AegovInput {
   /** Show a copy button to copy the input value to clipboard. Only applies when readonly. */
   @Prop() isCopyable: boolean = false;
 
+  /**
+   * Visual + a11y invalid state. Toggles `aria-invalid="true"` on the inner input
+   * and adds the `is-invalid` class on the host. See validation-engine-addon.md §2.3.
+   */
+  @Prop({ mutable: true, reflect: true }) isInvalid: boolean = false;
+
+  /**
+   * Inline error message rendered below the control when `isInvalid` is true.
+   * Auto-wires `aria-describedby` on the inner input. Use the `error` slot for
+   * richer markup.
+   */
+  @Prop({ mutable: true }) errorMessage: string = '';
+
+  /**
+   * Helper hint rendered below the control. Hidden when an error is shown so the
+   * two text regions don't compete for the user's attention. Use the `hint` slot
+   * for richer markup.
+   */
+  @Prop() hint: string = '';
+
   /** Additional CSS classes to apply. */
   @Prop() extraClass?: string;
 
@@ -75,6 +102,23 @@ export class AegovInput {
   /** Emitted when the input loses focus. */
   @Event() aegovInputBlur: EventEmitter<FocusEvent>;
 
+  /**
+   * Unified validation event emitted on input/change/blur/manual triggers.
+   * Carries full validity snapshot for orchestrators (Layer 2) and BYO consumers.
+   * See validation-engine-addon.md §2.3.
+   */
+  @Event() aegovValidate: EventEmitter<AegovValidationDetail<string>>;
+
+  /** Whether user has blurred the field at least once. Gates aria-live announcement to avoid AT spam during typing (gap §7.10). */
+  @State() private hasBlurredOnce: boolean = false;
+
+  /** Reference to the inner native <input> for native validity reads. */
+  private nativeRef?: HTMLInputElement;
+
+  /** Stable IDs for the error and hint regions; built once in componentWillLoad. */
+  private errorId: string = '';
+  private hintId: string = '';
+
   componentWillLoad() {
     warnIfInvalidEnumProp(this.type, INPUT_TYPES, 'text', ctx('type'));
     this._sizeWatcher = watchResponsiveProp(this.size, INPUT_SIZES, 'base', v => {
@@ -84,6 +128,49 @@ export class AegovInput {
     if (!this.fieldId) {
       this.fieldId = generateId('aegov-input');
     }
+    this.errorId = `${this.fieldId}-error`;
+    this.hintId = `${this.fieldId}-hint`;
+  }
+
+  /**
+   * Imperatively re-run validation. Emits `aegovValidate` and returns the result.
+   * @param trigger Reason for the validation run; defaults to `'manual'`.
+   */
+  @Method()
+  async validate(trigger: AegovValidationTrigger = 'manual'): Promise<AegovValidationResult> {
+    const validity = this.readValidity();
+    const message = !validity.valid
+      ? (this.errorMessage || this.nativeRef?.validationMessage || '')
+      : '';
+    this.aegovValidate.emit(buildValidationDetail<string>(
+      this.el as unknown as HTMLElement & { name?: string },
+      this.value,
+      validity,
+      message,
+      this.errorMessage || null,
+      trigger,
+    ));
+    return { valid: validity.valid, message, validity };
+  }
+
+  /**
+   * Mirror of `HTMLInputElement.setCustomValidity()`. Setting a non-empty message
+   * marks the field invalid AND surfaces the message in the error region.
+   * Pass an empty string to clear.
+   */
+  @Method()
+  async setCustomValidity(message: string): Promise<void> {
+    this.errorMessage = message;
+    this.isInvalid = !!message;
+    if (this.nativeRef && typeof this.nativeRef.setCustomValidity === 'function') {
+      this.nativeRef.setCustomValidity(message);
+    }
+  }
+
+  /** Read native validity defensively — returns VALID_STATE in environments without ValidityState (e.g. spec mocks). */
+  private readValidity() {
+    const v = this.nativeRef?.validity;
+    return v ? fromNativeValidity(v) : VALID_STATE;
   }
 
   disconnectedCallback() {
@@ -166,12 +253,14 @@ export class AegovInput {
     const input = event.target as HTMLInputElement;
     this.value = input.value;
     this.aegovInputChange.emit({ value: this.value, event });
+    this.emitValidate('change');
   };
 
   private handleInput = (event: Event) => {
     const input = event.target as HTMLInputElement;
     this.value = input.value;
     this.aegovInputInput.emit({ value: this.value, event });
+    this.emitValidate('input');
   };
 
   private handleFocus = (event: FocusEvent) => {
@@ -179,8 +268,26 @@ export class AegovInput {
   };
 
   private handleBlur = (event: FocusEvent) => {
+    this.hasBlurredOnce = true;
     this.aegovInputBlur.emit(event);
+    this.emitValidate('blur');
   };
+
+  /** Internal: emit a unified validate event without going through the public Method. */
+  private emitValidate(trigger: AegovValidationTrigger) {
+    const validity = this.readValidity();
+    const message = !validity.valid
+      ? (this.errorMessage || this.nativeRef?.validationMessage || '')
+      : '';
+    this.aegovValidate.emit(buildValidationDetail<string>(
+      this.el as unknown as HTMLElement & { name?: string },
+      this.value,
+      validity,
+      message,
+      this.errorMessage || null,
+      trigger,
+    ));
+  }
 
   private handleRevealToggle = () => {
     this.passwordVisible = !this.passwordVisible;
@@ -284,12 +391,30 @@ export class AegovInput {
 
   render() {
     const passThroughAttributes = getPassThroughAttributes(this.el, AegovInput.PASS_THROUGH_ATTRS);
+    // Layer 1 owns aria-invalid and aria-describedby — strip from pass-through to prevent
+    // host-level attributes from clobbering our composed values (gap §7.8).
+    delete passThroughAttributes['aria-invalid'];
+    delete passThroughAttributes['aria-describedby'];
     const hasIconStart = !!this.el.querySelector('[slot="icon-start"]');
     const hasIconEndContent = !!this.el.querySelector('[slot="icon-end"]');
     const hasIconEnd = hasIconEndContent && !this.hasActionButton;
     const needsWrapper = this.hasActionButton || hasIconStart || hasIconEnd || hasIconEndContent;
+    const hasErrorSlot = !!this.el.querySelector('[slot="error"]');
+    const hasHintSlot = !!this.el.querySelector('[slot="hint"]');
+    const showError = this.isInvalid && (hasErrorSlot || !!this.errorMessage);
+    const showHint = !showError && (hasHintSlot || !!this.hint);
+    // Gap §7.10 — only announce errors via live region after first blur; silent during typing
+    const announceError = showError && this.hasBlurredOnce;
+    // Gap §7.8 — preserve any aria-describedby the author put on the host (e.g. linking to external help text)
+    const authorDescribedBy = this.el.getAttribute('aria-describedby');
+    const describedBy = composeDescribedBy(
+      authorDescribedBy,
+      showError ? this.errorId : null,
+      showHint ? this.hintId : null,
+    );
     const input = (
       <input
+        ref={el => (this.nativeRef = el)}
         id={this.fieldId}
         type={this.resolvedType}
         class={this.getInputClasses(hasIconStart, hasIconEnd)}
@@ -299,6 +424,8 @@ export class AegovInput {
         value={this.value}
         name={this.name}
         required={this.isRequired}
+        aria-invalid={this.isInvalid ? 'true' : null}
+        aria-describedby={describedBy}
         onChange={this.handleChange}
         onInput={this.handleInput}
         onFocus={this.handleFocus}
@@ -307,9 +434,28 @@ export class AegovInput {
       />
     );
 
+    const errorRegion = showError ? (
+      <div
+        id={this.errorId}
+        class="aegov-input__error"
+        role={announceError ? 'alert' : null}
+        aria-live={announceError ? 'polite' : null}
+      >
+        {hasErrorSlot ? <slot name="error" /> : this.errorMessage}
+      </div>
+    ) : null;
+
+    const hintRegion = showHint ? (
+      <div id={this.hintId} class="aegov-input__hint">
+        {hasHintSlot ? <slot name="hint" /> : this.hint}
+      </div>
+    ) : null;
+
+    const hostClass = { 'is-invalid': this.isInvalid };
+
     if (needsWrapper) {
       return (
-        <Host>
+        <Host class={hostClass}>
           <div class={`input__wrapper input__wrapper--${this._resolvedSize}`}>
             {hasIconStart && (
               <span class="input__icon input__icon--start">
@@ -325,13 +471,17 @@ export class AegovInput {
             {this.renderRevealButton()}
             {this.renderCopyButton()}
           </div>
+          {errorRegion}
+          {hintRegion}
         </Host>
       );
     }
 
     return (
-      <Host>
+      <Host class={hostClass}>
         {input}
+        {errorRegion}
+        {hintRegion}
       </Host>
     );
   }

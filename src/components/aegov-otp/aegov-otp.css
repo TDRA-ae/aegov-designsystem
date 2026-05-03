@@ -106,3 +106,18 @@
 .otp__cell--2xl {
   @apply w-16 h-16 text-2xl;
 }
+
+/* Validation surface (Layer 1) — see validation-engine-addon.md §2.6 */
+
+:host(.is-invalid) .otp__wrapper--continuous,
+:host(.is-invalid) .otp__cell {
+  @apply border-aered-600;
+}
+
+.aegov-otp__error {
+  @apply text-sm text-aered-600 mt-1.5 flex items-start gap-1.5 leading-snug;
+}
+
+.aegov-otp__hint {
+  @apply text-sm text-aeblack-600 mt-1.5 leading-snug;
+}
