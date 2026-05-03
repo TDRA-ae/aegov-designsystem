@@ -223,6 +223,37 @@ Custom events include component name: `aegovCalloutDismiss`, `aegovBadgeDismiss`
 6. **Portal cloneNode breaks Stencil** — never `cloneNode(true)` on DOM containing Stencil web components. Use DOM move (`appendChild`) instead
 7. **Host display matters** — block-level semantic elements need `:host { display: block; }`
 8. **Button sizes**: sm=`h-10`, base=`h-12`, lg=`h-13` — form inputs must match
+9. **`description` prop renamed to `hint`** on aegov-checkbox / aegov-radio / aegov-toggle / aegov-fileupload (Layer 1 validation surface). Pre-production rename, no compat shim. CSS class renamed `*__description` → `*__hint`.
+10. **`aegovOtpInvalid` and `aegovFileuploadError` events removed** in favor of unified `aegovValidate` (carries `validity` flags: `patternMismatch`, `tooLong`, `typeMismatch`, `customError` etc.).
+11. **`aegov-form-field` cascade** — sets `isInvalid`/`errorMessage`/`hint` on first form-control descendant only if child has no own value. Does NOT clobber author-supplied props.
+
+---
+
+## Validation Surface (Layer 1)
+
+All 13 form components expose a uniform validation surface — see [`validation-engine-addon.md`](validation-engine-addon.md):
+
+**Props:** `isInvalid` (boolean), `errorMessage` (string), `hint` (string)
+**Slots:** `error`, `hint`
+**Event:** `aegovValidate` carrying `AegovValidationDetail<T>` with `{ name, value, validity, validationMessage, customError, trigger }`
+**Methods:** `validate(trigger?)` returns `Promise<AegovValidationResult>`; `setCustomValidity(message)` mirrors native API
+**Host class:** `.is-invalid` toggled by `isInvalid`
+**ARIA:** `aria-invalid` on inner control; `aria-describedby` chain composes existing IDs (e.g. textarea counter) + error/hint IDs without clobbering author values
+
+**FormAssociated components** (use ElementInternals for `<form>` participation): `aegov-otp`, `aegov-fileupload`, `aegov-select` (listbox variant), `aegov-datepicker`. Manual `attachInternals()` per host element (not the `@AttachInternals` decorator) due to Stencil 4.38 / tailwind-plugin compatibility constraint — see plan §6.8.
+
+**Pure aggregator groups** (NOT FormAssociated — children submit individually): `aegov-checkbox-group`, `aegov-radio-group`. Group emits aggregate `aegovValidate` with array/string value.
+
+**Value type per component** (FormData payload):
+| Component | JS type | FormData |
+|---|---|---|
+| input/textarea/select(single)/otp/datepicker(single) | string | string |
+| select(multiple)/checkbox-group/fileupload | array | per-value FormData entries |
+| range(range mode) | `{ low, high }` | `name-low`, `name-high` |
+| datepicker(range) | `{ start, end }` | `name-start`, `name-end` |
+| checkbox/toggle | boolean | `'on'` if checked |
+
+**aria-live gate (gap §7.10)**: error region's `role="alert" aria-live="polite"` activates only after first blur to avoid AT spam during typing.
 
 ---
 

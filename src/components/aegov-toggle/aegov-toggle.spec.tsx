@@ -154,4 +154,80 @@ describe('aegov-toggle', () => {
     expect(input.getAttribute('aria-label')).toBe('notify');
     expect(input.getAttribute('data-test')).toBe('x');
   });
+
+  // Validation surface (Layer 1) — see validation-engine-addon.md §2.8
+  describe('validation surface', () => {
+    it('toggles aria-invalid + host class when isInvalid', async () => {
+      const page = await newSpecPage({
+        components: [AegovToggle],
+        html: `<aegov-toggle is-invalid="true"></aegov-toggle>`,
+      });
+      expect(page.root.querySelector('input').getAttribute('aria-invalid')).toBe('true');
+      expect(page.root.classList.contains('is-invalid')).toBe(true);
+    });
+
+    it('renders errorMessage in error region', async () => {
+      const page = await newSpecPage({
+        components: [AegovToggle],
+        html: `<aegov-toggle is-invalid="true" error-message="Must agree"></aegov-toggle>`,
+      });
+      expect(page.root.querySelector('.aegov-toggle__error').textContent).toBe('Must agree');
+    });
+
+    it('renders hint on label', async () => {
+      const page = await newSpecPage({
+        components: [AegovToggle],
+        html: `<aegov-toggle label="X" hint="helper"></aegov-toggle>`,
+      });
+      expect(page.root.querySelector('.toggle__hint').textContent).toBe('helper');
+    });
+
+    it('hides hint when error shown', async () => {
+      const page = await newSpecPage({
+        components: [AegovToggle],
+        html: `<aegov-toggle label="X" hint="h" is-invalid="true" error-message="err"></aegov-toggle>`,
+      });
+      expect(page.root.querySelector('.aegov-toggle__error')).not.toBeNull();
+      expect(page.root.querySelector('.toggle__hint')).toBeNull();
+    });
+
+    it('aria-describedby includes error id', async () => {
+      const page = await newSpecPage({
+        components: [AegovToggle],
+        html: `<aegov-toggle field-id="t1" is-invalid="true" error-message="msg"></aegov-toggle>`,
+      });
+      expect(page.root.querySelector('input').getAttribute('aria-describedby')).toContain('t1-error');
+    });
+
+    it('validate() resolves valid for unchecked optional', async () => {
+      const page = await newSpecPage({
+        components: [AegovToggle],
+        html: `<aegov-toggle></aegov-toggle>`,
+      });
+      const r = await page.rootInstance.validate('manual');
+      expect(r.valid).toBe(true);
+    });
+
+    it('setCustomValidity("msg") sets invalid + error', async () => {
+      const page = await newSpecPage({
+        components: [AegovToggle],
+        html: `<aegov-toggle></aegov-toggle>`,
+      });
+      await page.rootInstance.setCustomValidity('Required');
+      await page.waitForChanges();
+      expect(page.rootInstance.isInvalid).toBe(true);
+      expect(page.rootInstance.errorMessage).toBe('Required');
+    });
+
+    it('setCustomValidity("") clears state', async () => {
+      const page = await newSpecPage({
+        components: [AegovToggle],
+        html: `<aegov-toggle is-invalid="true" error-message="x"></aegov-toggle>`,
+      });
+      await page.rootInstance.setCustomValidity('');
+      await page.waitForChanges();
+      expect(page.rootInstance.isInvalid).toBe(false);
+      expect(page.rootInstance.errorMessage).toBe('');
+    });
+  });
 });

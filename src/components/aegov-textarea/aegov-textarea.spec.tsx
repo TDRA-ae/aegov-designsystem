@@ -192,4 +192,86 @@ describe('aegov-textarea', () => {
     expect(ta.getAttribute('rows')).toBe('6');
     expect(ta.getAttribute('cols')).toBe('40');
   });
+
+  // Validation surface (Layer 1) — see validation-engine-addon.md §2.8
+  describe('validation surface', () => {
+    it('toggles aria-invalid when isInvalid is true', async () => {
+      const page = await newSpecPage({
+        components: [AegovTextarea],
+        html: `<aegov-textarea is-invalid="true"></aegov-textarea>`,
+      });
+      expect(page.root.querySelector('textarea').getAttribute('aria-invalid')).toBe('true');
+      expect(page.root.classList.contains('is-invalid')).toBe(true);
+    });
+
+    it('renders errorMessage in error region when isInvalid', async () => {
+      const page = await newSpecPage({
+        components: [AegovTextarea],
+        html: `<aegov-textarea is-invalid="true" error-message="Bad value"></aegov-textarea>`,
+      });
+      const error = page.root.querySelector('.aegov-textarea__error');
+      expect(error).not.toBeNull();
+      expect(error.textContent).toBe('Bad value');
+    });
+
+    it('renders hint region when hint set and not invalid', async () => {
+      const page = await newSpecPage({
+        components: [AegovTextarea],
+        html: `<aegov-textarea hint="Helper text"></aegov-textarea>`,
+      });
+      const hint = page.root.querySelector('.aegov-textarea__hint');
+      expect(hint).not.toBeNull();
+      expect(hint.textContent).toBe('Helper text');
+    });
+
+    it('hides hint when error shown (error wins)', async () => {
+      const page = await newSpecPage({
+        components: [AegovTextarea],
+        html: `<aegov-textarea is-invalid="true" error-message="Err" hint="Hint"></aegov-textarea>`,
+      });
+      expect(page.root.querySelector('.aegov-textarea__error')).not.toBeNull();
+      expect(page.root.querySelector('.aegov-textarea__hint')).toBeNull();
+    });
+
+    it('aria-describedby chains counter + error ids', async () => {
+      const page = await newSpecPage({
+        components: [AegovTextarea],
+        html: `<aegov-textarea field-id="x" maxlength="10" is-invalid="true" error-message="msg"></aegov-textarea>`,
+      });
+      const desc = page.root.querySelector('textarea').getAttribute('aria-describedby');
+      expect(desc).toContain('x-counter');
+      expect(desc).toContain('x-error');
+    });
+
+    it('validate() resolves valid for empty optional textarea', async () => {
+      const page = await newSpecPage({
+        components: [AegovTextarea],
+        html: `<aegov-textarea></aegov-textarea>`,
+      });
+      const result = await page.rootInstance.validate('manual');
+      expect(result.valid).toBe(true);
+    });
+
+    it('setCustomValidity("msg") sets invalid + error', async () => {
+      const page = await newSpecPage({
+        components: [AegovTextarea],
+        html: `<aegov-textarea></aegov-textarea>`,
+      });
+      await page.rootInstance.setCustomValidity('Custom err');
+      await page.waitForChanges();
+      expect(page.rootInstance.isInvalid).toBe(true);
+      expect(page.rootInstance.errorMessage).toBe('Custom err');
+    });
+
+    it('setCustomValidity("") clears invalid + error', async () => {
+      const page = await newSpecPage({
+        components: [AegovTextarea],
+        html: `<aegov-textarea is-invalid="true" error-message="x"></aegov-textarea>`,
+      });
+      await page.rootInstance.setCustomValidity('');
+      await page.waitForChanges();
+      expect(page.rootInstance.isInvalid).toBe(false);
+      expect(page.rootInstance.errorMessage).toBe('');
+    });
+  });
 });

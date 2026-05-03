@@ -155,4 +155,80 @@ describe('aegov-checkbox', () => {
     expect(input.name).toBe('agree');
     expect(input.value).toBe('yes');
   });
+
+  // Validation surface (Layer 1) — see validation-engine-addon.md §2.8
+  describe('validation surface', () => {
+    it('toggles aria-invalid + host class when isInvalid', async () => {
+      const page = await newSpecPage({
+        components: [AegovCheckbox],
+        html: `<aegov-checkbox is-invalid="true"></aegov-checkbox>`,
+      });
+      expect(page.root.querySelector('input').getAttribute('aria-invalid')).toBe('true');
+      expect(page.root.classList.contains('is-invalid')).toBe(true);
+    });
+
+    it('renders errorMessage in error region when isInvalid', async () => {
+      const page = await newSpecPage({
+        components: [AegovCheckbox],
+        html: `<aegov-checkbox is-invalid="true" error-message="Required"></aegov-checkbox>`,
+      });
+      expect(page.root.querySelector('.aegov-checkbox__error').textContent).toBe('Required');
+    });
+
+    it('renders hint via prop on label', async () => {
+      const page = await newSpecPage({
+        components: [AegovCheckbox],
+        html: `<aegov-checkbox label="X" hint="helper"></aegov-checkbox>`,
+      });
+      expect(page.root.querySelector('.checkbox__hint').textContent).toBe('helper');
+    });
+
+    it('hides hint when error shown', async () => {
+      const page = await newSpecPage({
+        components: [AegovCheckbox],
+        html: `<aegov-checkbox label="X" hint="h" is-invalid="true" error-message="err"></aegov-checkbox>`,
+      });
+      expect(page.root.querySelector('.aegov-checkbox__error')).not.toBeNull();
+      expect(page.root.querySelector('.checkbox__hint')).toBeNull();
+    });
+
+    it('aria-describedby points at error id', async () => {
+      const page = await newSpecPage({
+        components: [AegovCheckbox],
+        html: `<aegov-checkbox field-id="cb1" is-invalid="true" error-message="msg"></aegov-checkbox>`,
+      });
+      expect(page.root.querySelector('input').getAttribute('aria-describedby')).toContain('cb1-error');
+    });
+
+    it('validate() resolves valid for unchecked optional', async () => {
+      const page = await newSpecPage({
+        components: [AegovCheckbox],
+        html: `<aegov-checkbox></aegov-checkbox>`,
+      });
+      const r = await page.rootInstance.validate('manual');
+      expect(r.valid).toBe(true);
+    });
+
+    it('setCustomValidity("msg") sets invalid + error', async () => {
+      const page = await newSpecPage({
+        components: [AegovCheckbox],
+        html: `<aegov-checkbox></aegov-checkbox>`,
+      });
+      await page.rootInstance.setCustomValidity('You must agree');
+      await page.waitForChanges();
+      expect(page.rootInstance.isInvalid).toBe(true);
+      expect(page.rootInstance.errorMessage).toBe('You must agree');
+    });
+
+    it('setCustomValidity("") clears state', async () => {
+      const page = await newSpecPage({
+        components: [AegovCheckbox],
+        html: `<aegov-checkbox is-invalid="true" error-message="x"></aegov-checkbox>`,
+      });
+      await page.rootInstance.setCustomValidity('');
+      await page.waitForChanges();
+      expect(page.rootInstance.isInvalid).toBe(false);
+      expect(page.rootInstance.errorMessage).toBe('');
+    });
+  });
 });

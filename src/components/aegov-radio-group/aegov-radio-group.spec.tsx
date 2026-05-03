@@ -108,4 +108,98 @@ describe('aegov-radio-group', () => {
     expect(spy).toHaveBeenCalledTimes(1);
     expect(spy.mock.calls[0][0].detail).toEqual({ value: 'a' });
   });
+
+  // Validation surface (Layer 1) — see validation-engine-addon.md §2.8
+  describe('validation surface', () => {
+    it('toggles host is-invalid + aria-invalid on fieldset', async () => {
+      const page = await newSpecPage({
+        components: [AegovRadioGroup, AegovRadio],
+        html: `<aegov-radio-group name="r" is-invalid="true">
+          <aegov-radio value="a"></aegov-radio>
+        </aegov-radio-group>`,
+      });
+      expect(page.root.classList.contains('is-invalid')).toBe(true);
+      expect(page.root.querySelector('fieldset').getAttribute('aria-invalid')).toBe('true');
+    });
+
+    it('renders errorMessage in error region', async () => {
+      const page = await newSpecPage({
+        components: [AegovRadioGroup, AegovRadio],
+        html: `<aegov-radio-group name="r" is-invalid="true" error-message="Pick one">
+          <aegov-radio value="a"></aegov-radio>
+        </aegov-radio-group>`,
+      });
+      expect(page.root.querySelector('.aegov-radio-group__error').textContent).toBe('Pick one');
+    });
+
+    it('renders hint when not invalid', async () => {
+      const page = await newSpecPage({
+        components: [AegovRadioGroup, AegovRadio],
+        html: `<aegov-radio-group name="r" hint="Single choice">
+          <aegov-radio value="a"></aegov-radio>
+        </aegov-radio-group>`,
+      });
+      expect(page.root.querySelector('.aegov-radio-group__hint').textContent).toBe('Single choice');
+    });
+
+    it('hides hint when error shown', async () => {
+      const page = await newSpecPage({
+        components: [AegovRadioGroup, AegovRadio],
+        html: `<aegov-radio-group name="r" hint="h" is-invalid="true" error-message="err">
+          <aegov-radio value="a"></aegov-radio>
+        </aegov-radio-group>`,
+      });
+      expect(page.root.querySelector('.aegov-radio-group__error')).not.toBeNull();
+      expect(page.root.querySelector('.aegov-radio-group__hint')).toBeNull();
+    });
+
+    it('validate() resolves valid for optional empty group', async () => {
+      const page = await newSpecPage({
+        components: [AegovRadioGroup, AegovRadio],
+        html: `<aegov-radio-group name="r">
+          <aegov-radio value="a"></aegov-radio>
+        </aegov-radio-group>`,
+      });
+      const r = await page.rootInstance.validate('manual');
+      expect(r.valid).toBe(true);
+    });
+
+    it('valueMissing fires when isRequired and no radio checked', async () => {
+      const page = await newSpecPage({
+        components: [AegovRadioGroup, AegovRadio],
+        html: `<aegov-radio-group name="r" is-required>
+          <aegov-radio value="a"></aegov-radio>
+        </aegov-radio-group>`,
+      });
+      const r = await page.rootInstance.validate('manual');
+      expect(r.valid).toBe(false);
+      expect(r.validity.valueMissing).toBe(true);
+    });
+
+    it('setCustomValidity("msg") sets invalid + error', async () => {
+      const page = await newSpecPage({
+        components: [AegovRadioGroup, AegovRadio],
+        html: `<aegov-radio-group name="r">
+          <aegov-radio value="a"></aegov-radio>
+        </aegov-radio-group>`,
+      });
+      await page.rootInstance.setCustomValidity('Pick one');
+      await page.waitForChanges();
+      expect(page.rootInstance.isInvalid).toBe(true);
+      expect(page.rootInstance.errorMessage).toBe('Pick one');
+    });
+
+    it('setCustomValidity("") clears state', async () => {
+      const page = await newSpecPage({
+        components: [AegovRadioGroup, AegovRadio],
+        html: `<aegov-radio-group name="r" is-invalid="true" error-message="x">
+          <aegov-radio value="a"></aegov-radio>
+        </aegov-radio-group>`,
+      });
+      await page.rootInstance.setCustomValidity('');
+      await page.waitForChanges();
+      expect(page.rootInstance.isInvalid).toBe(false);
+      expect(page.rootInstance.errorMessage).toBe('');
+    });
+  });
 });

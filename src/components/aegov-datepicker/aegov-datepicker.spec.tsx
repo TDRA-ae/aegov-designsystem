@@ -235,4 +235,89 @@ describe('aegov-datepicker', () => {
     });
     expect(page.rootInstance['datepickerId']).toMatch(/^aegov-datepicker-\d+$/);
   });
+
+  // Validation surface (Layer 1) — see validation-engine-addon.md §2.8
+  describe('validation surface', () => {
+    it('toggles host is-invalid class', async () => {
+      const page = await newSpecPage({
+        components: [AegovDatepicker],
+        html: `<aegov-datepicker is-invalid="true"></aegov-datepicker>`,
+      });
+      expect(page.root.classList.contains('is-invalid')).toBe(true);
+    });
+
+    it('renders errorMessage in error region', async () => {
+      const page = await newSpecPage({
+        components: [AegovDatepicker],
+        html: `<aegov-datepicker is-invalid="true" error-message="Pick date"></aegov-datepicker>`,
+      });
+      expect(page.root.querySelector('.aegov-datepicker__error').textContent).toBe('Pick date');
+    });
+
+    it('renders hint when not invalid', async () => {
+      const page = await newSpecPage({
+        components: [AegovDatepicker],
+        html: `<aegov-datepicker hint="Future dates only"></aegov-datepicker>`,
+      });
+      expect(page.root.querySelector('.aegov-datepicker__hint').textContent).toBe('Future dates only');
+    });
+
+    it('hides hint when error shown', async () => {
+      const page = await newSpecPage({
+        components: [AegovDatepicker],
+        html: `<aegov-datepicker hint="h" is-invalid="true" error-message="err"></aegov-datepicker>`,
+      });
+      expect(page.root.querySelector('.aegov-datepicker__error')).not.toBeNull();
+      expect(page.root.querySelector('.aegov-datepicker__hint')).toBeNull();
+    });
+
+    it('aria-describedby on trigger includes error id', async () => {
+      const page = await newSpecPage({
+        components: [AegovDatepicker],
+        html: `<aegov-datepicker field-id="dp1" is-invalid="true" error-message="msg"></aegov-datepicker>`,
+      });
+      expect(page.root.querySelector('.datepicker__trigger').getAttribute('aria-describedby')).toContain('dp1-error');
+    });
+
+    it('validate() resolves valid for empty optional datepicker', async () => {
+      const page = await newSpecPage({
+        components: [AegovDatepicker],
+        html: `<aegov-datepicker></aegov-datepicker>`,
+      });
+      const r = await page.rootInstance.validate('manual');
+      expect(r.valid).toBe(true);
+    });
+
+    it('setCustomValidity("msg") sets invalid + error', async () => {
+      const page = await newSpecPage({
+        components: [AegovDatepicker],
+        html: `<aegov-datepicker></aegov-datepicker>`,
+      });
+      await page.rootInstance.setCustomValidity('Holiday blocked');
+      await page.waitForChanges();
+      expect(page.rootInstance.isInvalid).toBe(true);
+      expect(page.rootInstance.errorMessage).toBe('Holiday blocked');
+    });
+
+    it('setCustomValidity("") clears state', async () => {
+      const page = await newSpecPage({
+        components: [AegovDatepicker],
+        html: `<aegov-datepicker is-invalid="true" error-message="x"></aegov-datepicker>`,
+      });
+      await page.rootInstance.setCustomValidity('');
+      await page.waitForChanges();
+      expect(page.rootInstance.isInvalid).toBe(false);
+      expect(page.rootInstance.errorMessage).toBe('');
+    });
+
+    it('valueMissing fires when isRequired and empty', async () => {
+      const page = await newSpecPage({
+        components: [AegovDatepicker],
+        html: `<aegov-datepicker is-required></aegov-datepicker>`,
+      });
+      const r = await page.rootInstance.validate('manual');
+      expect(r.valid).toBe(false);
+      expect(r.validity.valueMissing).toBe(true);
+    });
+  });
 });
