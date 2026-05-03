@@ -233,4 +233,81 @@ describe('aegov-fileupload', () => {
     const files = await page.rootInstance.getFiles();
     expect(files.length).toBe(0);
   });
+
+  // Validation surface (Layer 1) — see validation-engine-addon.md §2.8
+  describe('validation surface', () => {
+    it('toggles host is-invalid class', async () => {
+      const page = await newSpecPage({
+        components: [AegovFileupload],
+        html: `<aegov-fileupload is-invalid="true"></aegov-fileupload>`,
+      });
+      expect(page.root.classList.contains('is-invalid')).toBe(true);
+    });
+
+    it('renders errorMessage in error region', async () => {
+      const page = await newSpecPage({
+        components: [AegovFileupload],
+        html: `<aegov-fileupload is-invalid="true" error-message="Pick file"></aegov-fileupload>`,
+      });
+      expect(page.root.querySelector('.aegov-fileupload__error').textContent).toBe('Pick file');
+    });
+
+    it('renders hint when not invalid', async () => {
+      const page = await newSpecPage({
+        components: [AegovFileupload],
+        html: `<aegov-fileupload hint="Up to 10MB"></aegov-fileupload>`,
+      });
+      expect(page.root.querySelector('.fileupload__hint').textContent).toBe('Up to 10MB');
+    });
+
+    it('hides hint when error shown', async () => {
+      const page = await newSpecPage({
+        components: [AegovFileupload],
+        html: `<aegov-fileupload hint="h" is-invalid="true" error-message="err"></aegov-fileupload>`,
+      });
+      expect(page.root.querySelector('.aegov-fileupload__error')).not.toBeNull();
+      expect(page.root.querySelector('.fileupload__hint')).toBeNull();
+    });
+
+    it('validate() resolves valid for empty optional fileupload', async () => {
+      const page = await newSpecPage({
+        components: [AegovFileupload],
+        html: `<aegov-fileupload></aegov-fileupload>`,
+      });
+      const r = await page.rootInstance.validate('manual');
+      expect(r.valid).toBe(true);
+    });
+
+    it('setCustomValidity("msg") sets invalid + error', async () => {
+      const page = await newSpecPage({
+        components: [AegovFileupload],
+        html: `<aegov-fileupload></aegov-fileupload>`,
+      });
+      await page.rootInstance.setCustomValidity('Server rejected file');
+      await page.waitForChanges();
+      expect(page.rootInstance.isInvalid).toBe(true);
+      expect(page.rootInstance.errorMessage).toBe('Server rejected file');
+    });
+
+    it('setCustomValidity("") clears state', async () => {
+      const page = await newSpecPage({
+        components: [AegovFileupload],
+        html: `<aegov-fileupload is-invalid="true" error-message="x"></aegov-fileupload>`,
+      });
+      await page.rootInstance.setCustomValidity('');
+      await page.waitForChanges();
+      expect(page.rootInstance.isInvalid).toBe(false);
+      expect(page.rootInstance.errorMessage).toBe('');
+    });
+
+    it('aegovValidate fires with valueMissing when isRequired and empty', async () => {
+      const page = await newSpecPage({
+        components: [AegovFileupload],
+        html: `<aegov-fileupload is-required></aegov-fileupload>`,
+      });
+      const r = await page.rootInstance.validate('manual');
+      expect(r.valid).toBe(false);
+      expect(r.validity.valueMissing).toBe(true);
+    });
+  });
 });

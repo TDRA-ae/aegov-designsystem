@@ -176,4 +176,80 @@ describe('aegov-range', () => {
     });
     expect(page.root.querySelector('.aegov-range').className).toContain('my-range');
   });
+
+  // Validation surface (Layer 1) — see validation-engine-addon.md §2.8
+  describe('validation surface', () => {
+    it('toggles aria-invalid + host class when isInvalid', async () => {
+      const page = await newSpecPage({
+        components: [AegovRange],
+        html: `<aegov-range is-invalid="true"></aegov-range>`,
+      });
+      expect(page.root.querySelector('input[type="range"]').getAttribute('aria-invalid')).toBe('true');
+      expect(page.root.classList.contains('is-invalid')).toBe(true);
+    });
+
+    it('renders errorMessage in error region', async () => {
+      const page = await newSpecPage({
+        components: [AegovRange],
+        html: `<aegov-range is-invalid="true" error-message="Out of bounds"></aegov-range>`,
+      });
+      expect(page.root.querySelector('.aegov-range__error').textContent).toBe('Out of bounds');
+    });
+
+    it('renders hint when not invalid', async () => {
+      const page = await newSpecPage({
+        components: [AegovRange],
+        html: `<aegov-range hint="0–100"></aegov-range>`,
+      });
+      expect(page.root.querySelector('.aegov-range__hint').textContent).toBe('0–100');
+    });
+
+    it('hides hint when error shown', async () => {
+      const page = await newSpecPage({
+        components: [AegovRange],
+        html: `<aegov-range hint="h" is-invalid="true" error-message="err"></aegov-range>`,
+      });
+      expect(page.root.querySelector('.aegov-range__error')).not.toBeNull();
+      expect(page.root.querySelector('.aegov-range__hint')).toBeNull();
+    });
+
+    it('aria-describedby includes error id', async () => {
+      const page = await newSpecPage({
+        components: [AegovRange],
+        html: `<aegov-range field-id="rg1" is-invalid="true" error-message="msg"></aegov-range>`,
+      });
+      expect(page.root.querySelector('input[type="range"]').getAttribute('aria-describedby')).toContain('rg1-error');
+    });
+
+    it('validate() resolves valid for default value', async () => {
+      const page = await newSpecPage({
+        components: [AegovRange],
+        html: `<aegov-range></aegov-range>`,
+      });
+      const r = await page.rootInstance.validate('manual');
+      expect(r.valid).toBe(true);
+    });
+
+    it('setCustomValidity("msg") sets invalid + error', async () => {
+      const page = await newSpecPage({
+        components: [AegovRange],
+        html: `<aegov-range></aegov-range>`,
+      });
+      await page.rootInstance.setCustomValidity('Bad value');
+      await page.waitForChanges();
+      expect(page.rootInstance.isInvalid).toBe(true);
+      expect(page.rootInstance.errorMessage).toBe('Bad value');
+    });
+
+    it('setCustomValidity("") clears state', async () => {
+      const page = await newSpecPage({
+        components: [AegovRange],
+        html: `<aegov-range is-invalid="true" error-message="x"></aegov-range>`,
+      });
+      await page.rootInstance.setCustomValidity('');
+      await page.waitForChanges();
+      expect(page.rootInstance.isInvalid).toBe(false);
+      expect(page.rootInstance.errorMessage).toBe('');
+    });
+  });
 });

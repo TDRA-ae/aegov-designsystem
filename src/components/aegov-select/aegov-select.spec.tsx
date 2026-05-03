@@ -368,6 +368,99 @@ describe('aegov-select', () => {
       ]);
     });
   });
+
+  // Validation surface (Layer 1) — see validation-engine-addon.md §2.8
+  describe('validation surface', () => {
+    it('toggles aria-invalid on native select when isInvalid', async () => {
+      const page = await newSpecPage({
+        components: [AegovSelect, AegovSelectOption],
+        html: `<aegov-select is-invalid="true">
+          <aegov-select-option value="a">A</aegov-select-option>
+        </aegov-select>`,
+      });
+      expect(page.root.querySelector('select').getAttribute('aria-invalid')).toBe('true');
+      expect(page.root.classList.contains('is-invalid')).toBe(true);
+    });
+
+    it('toggles aria-invalid on listbox button when isInvalid', async () => {
+      const page = await newSpecPage({
+        components: [AegovSelect, AegovSelectOption],
+        html: `<aegov-select variant="listbox" is-invalid="true">
+          <aegov-select-option value="a">A</aegov-select-option>
+        </aegov-select>`,
+      });
+      expect(page.root.querySelector('button').getAttribute('aria-invalid')).toBe('true');
+      expect(page.root.classList.contains('is-invalid')).toBe(true);
+    });
+
+    it('renders errorMessage in error region (native variant)', async () => {
+      const page = await newSpecPage({
+        components: [AegovSelect, AegovSelectOption],
+        html: `<aegov-select is-invalid="true" error-message="Required">
+          <aegov-select-option value="a">A</aegov-select-option>
+        </aegov-select>`,
+      });
+      expect(page.root.querySelector('.aegov-select__error').textContent).toBe('Required');
+    });
+
+    it('renders hint when not invalid', async () => {
+      const page = await newSpecPage({
+        components: [AegovSelect, AegovSelectOption],
+        html: `<aegov-select hint="Pick one">
+          <aegov-select-option value="a">A</aegov-select-option>
+        </aegov-select>`,
+      });
+      expect(page.root.querySelector('.aegov-select__hint').textContent).toBe('Pick one');
+    });
+
+    it('hides hint when error shown', async () => {
+      const page = await newSpecPage({
+        components: [AegovSelect, AegovSelectOption],
+        html: `<aegov-select hint="h" is-invalid="true" error-message="err">
+          <aegov-select-option value="a">A</aegov-select-option>
+        </aegov-select>`,
+      });
+      expect(page.root.querySelector('.aegov-select__error')).not.toBeNull();
+      expect(page.root.querySelector('.aegov-select__hint')).toBeNull();
+    });
+
+    it('validate() resolves valid for empty optional select', async () => {
+      const page = await newSpecPage({
+        components: [AegovSelect, AegovSelectOption],
+        html: `<aegov-select>
+          <aegov-select-option value="a">A</aegov-select-option>
+        </aegov-select>`,
+      });
+      const r = await page.rootInstance.validate('manual');
+      expect(r.valid).toBe(true);
+    });
+
+    it('setCustomValidity("msg") sets invalid + error', async () => {
+      const page = await newSpecPage({
+        components: [AegovSelect, AegovSelectOption],
+        html: `<aegov-select>
+          <aegov-select-option value="a">A</aegov-select-option>
+        </aegov-select>`,
+      });
+      await page.rootInstance.setCustomValidity('Pick one');
+      await page.waitForChanges();
+      expect(page.rootInstance.isInvalid).toBe(true);
+      expect(page.rootInstance.errorMessage).toBe('Pick one');
+    });
+
+    it('setCustomValidity("") clears state', async () => {
+      const page = await newSpecPage({
+        components: [AegovSelect, AegovSelectOption],
+        html: `<aegov-select is-invalid="true" error-message="x">
+          <aegov-select-option value="a">A</aegov-select-option>
+        </aegov-select>`,
+      });
+      await page.rootInstance.setCustomValidity('');
+      await page.waitForChanges();
+      expect(page.rootInstance.isInvalid).toBe(false);
+      expect(page.rootInstance.errorMessage).toBe('');
+    });
+  });
 });
 
 // aegov-select-option and aegov-select-option-group have their own spec files

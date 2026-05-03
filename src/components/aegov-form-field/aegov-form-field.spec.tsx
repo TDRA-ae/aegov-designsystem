@@ -86,4 +86,80 @@ describe('aegov-form-field', () => {
     expect(wrapper.getAttribute('aria-label')).toBe('field');
     expect(wrapper.getAttribute('data-test')).toBe('x');
   });
+
+  // Validation cascade (Layer 1) — see validation-engine-addon.md §2.7
+  describe('validation cascade', () => {
+    it('cascades errorMessage to first form-control descendant', async () => {
+      const page = await newSpecPage({
+        components: [AegovFormField, AegovInput],
+        html: `<aegov-form-field error-message="From wrapper" is-invalid="true">
+          <aegov-input></aegov-input>
+        </aegov-form-field>`,
+      });
+      await page.waitForChanges();
+      const input = page.root.querySelector('aegov-input') as HTMLAegovInputElement;
+      expect(input.errorMessage).toBe('From wrapper');
+      expect(input.isInvalid).toBe(true);
+    });
+
+    it('does NOT overwrite child errorMessage if child has its own', async () => {
+      const page = await newSpecPage({
+        components: [AegovFormField, AegovInput],
+        html: `<aegov-form-field error-message="From wrapper" is-invalid="true">
+          <aegov-input error-message="Child wins"></aegov-input>
+        </aegov-form-field>`,
+      });
+      await page.waitForChanges();
+      const input = page.root.querySelector('aegov-input') as HTMLAegovInputElement;
+      expect(input.errorMessage).toBe('Child wins');
+    });
+
+    it('cascades hint to first form-control descendant', async () => {
+      const page = await newSpecPage({
+        components: [AegovFormField, AegovInput],
+        html: `<aegov-form-field hint="From wrapper">
+          <aegov-input></aegov-input>
+        </aegov-form-field>`,
+      });
+      await page.waitForChanges();
+      const input = page.root.querySelector('aegov-input') as HTMLAegovInputElement;
+      expect(input.hint).toBe('From wrapper');
+    });
+
+    it('does NOT overwrite child hint if child has its own', async () => {
+      const page = await newSpecPage({
+        components: [AegovFormField, AegovInput],
+        html: `<aegov-form-field hint="From wrapper">
+          <aegov-input hint="Child wins"></aegov-input>
+        </aegov-form-field>`,
+      });
+      await page.waitForChanges();
+      const input = page.root.querySelector('aegov-input') as HTMLAegovInputElement;
+      expect(input.hint).toBe('Child wins');
+    });
+
+    it('adds is-invalid class on wrapper when isInvalid', async () => {
+      const page = await newSpecPage({
+        components: [AegovFormField, AegovInput],
+        html: `<aegov-form-field is-invalid="true">
+          <aegov-input></aegov-input>
+        </aegov-form-field>`,
+      });
+      const wrapper = page.root.querySelector('.aegov-form-field');
+      expect(wrapper.className).toContain('is-invalid');
+    });
+
+    it('cascade only fills empty child slots — leaves filled child untouched', async () => {
+      const page = await newSpecPage({
+        components: [AegovFormField, AegovInput],
+        html: `<aegov-form-field error-message="From wrapper">
+          <aegov-input error-message=""></aegov-input>
+        </aegov-form-field>`,
+      });
+      await page.waitForChanges();
+      const input = page.root.querySelector('aegov-input') as HTMLAegovInputElement;
+      // Empty string is treated as "no value" → cascade fills it
+      expect(input.errorMessage).toBe('From wrapper');
+    });
+  });
 });
