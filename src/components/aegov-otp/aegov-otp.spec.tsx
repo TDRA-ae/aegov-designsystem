@@ -164,4 +164,79 @@ describe('aegov-otp', () => {
     expect(spy).toHaveBeenCalled();
     expect(spy.mock.calls[spy.mock.calls.length - 1][0].detail).toEqual({ value: '' });
   });
+
+  // Validation surface (Layer 1) — see validation-engine-addon.md §2.8
+  describe('validation surface', () => {
+    it('toggles host is-invalid class', async () => {
+      const page = await newSpecPage({
+        components: [AegovOtp],
+        html: `<aegov-otp length="4" is-invalid="true"></aegov-otp>`,
+      });
+      expect(page.root.classList.contains('is-invalid')).toBe(true);
+    });
+
+    it('renders errorMessage in error region', async () => {
+      const page = await newSpecPage({
+        components: [AegovOtp],
+        html: `<aegov-otp length="4" is-invalid="true" error-message="Bad code"></aegov-otp>`,
+      });
+      expect(page.root.querySelector('.aegov-otp__error').textContent).toBe('Bad code');
+    });
+
+    it('renders hint when not invalid', async () => {
+      const page = await newSpecPage({
+        components: [AegovOtp],
+        html: `<aegov-otp length="4" hint="6 digits"></aegov-otp>`,
+      });
+      expect(page.root.querySelector('.aegov-otp__hint').textContent).toBe('6 digits');
+    });
+
+    it('hides hint when error shown', async () => {
+      const page = await newSpecPage({
+        components: [AegovOtp],
+        html: `<aegov-otp length="4" hint="h" is-invalid="true" error-message="err"></aegov-otp>`,
+      });
+      expect(page.root.querySelector('.aegov-otp__error')).not.toBeNull();
+      expect(page.root.querySelector('.aegov-otp__hint')).toBeNull();
+    });
+
+    it('aria-describedby on group includes error id', async () => {
+      const page = await newSpecPage({
+        components: [AegovOtp],
+        html: `<aegov-otp field-id="o1" length="4" is-invalid="true" error-message="msg"></aegov-otp>`,
+      });
+      expect(page.root.querySelector('.otp__wrapper').getAttribute('aria-describedby')).toContain('o1-error');
+    });
+
+    it('validate() resolves valid for empty optional otp', async () => {
+      const page = await newSpecPage({
+        components: [AegovOtp],
+        html: `<aegov-otp length="4"></aegov-otp>`,
+      });
+      const r = await page.rootInstance.validate('manual');
+      expect(r.valid).toBe(true);
+    });
+
+    it('setCustomValidity("msg") sets invalid + error', async () => {
+      const page = await newSpecPage({
+        components: [AegovOtp],
+        html: `<aegov-otp length="4"></aegov-otp>`,
+      });
+      await page.rootInstance.setCustomValidity('Expired');
+      await page.waitForChanges();
+      expect(page.rootInstance.isInvalid).toBe(true);
+      expect(page.rootInstance.errorMessage).toBe('Expired');
+    });
+
+    it('setCustomValidity("") clears state', async () => {
+      const page = await newSpecPage({
+        components: [AegovOtp],
+        html: `<aegov-otp length="4" is-invalid="true" error-message="x"></aegov-otp>`,
+      });
+      await page.rootInstance.setCustomValidity('');
+      await page.waitForChanges();
+      expect(page.rootInstance.isInvalid).toBe(false);
+      expect(page.rootInstance.errorMessage).toBe('');
+    });
+  });
 });

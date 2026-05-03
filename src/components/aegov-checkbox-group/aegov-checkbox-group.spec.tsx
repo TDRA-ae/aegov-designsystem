@@ -178,4 +178,98 @@ describe('aegov-checkbox-group', () => {
     expect(a.isChecked).toBe(true);
     expect(b.isChecked).toBe(false);
   });
+
+  // Validation surface (Layer 1) — see validation-engine-addon.md §2.8
+  describe('validation surface', () => {
+    it('toggles host is-invalid + aria-invalid on fieldset', async () => {
+      const page = await newSpecPage({
+        components: [AegovCheckboxGroup, AegovCheckbox],
+        html: `<aegov-checkbox-group is-invalid="true">
+          <aegov-checkbox value="a"></aegov-checkbox>
+        </aegov-checkbox-group>`,
+      });
+      expect(page.root.classList.contains('is-invalid')).toBe(true);
+      expect(page.root.querySelector('fieldset').getAttribute('aria-invalid')).toBe('true');
+    });
+
+    it('renders errorMessage in error region', async () => {
+      const page = await newSpecPage({
+        components: [AegovCheckboxGroup, AegovCheckbox],
+        html: `<aegov-checkbox-group is-invalid="true" error-message="Pick at least 1">
+          <aegov-checkbox value="a"></aegov-checkbox>
+        </aegov-checkbox-group>`,
+      });
+      expect(page.root.querySelector('.aegov-checkbox-group__error').textContent).toBe('Pick at least 1');
+    });
+
+    it('renders hint when not invalid', async () => {
+      const page = await newSpecPage({
+        components: [AegovCheckboxGroup, AegovCheckbox],
+        html: `<aegov-checkbox-group hint="Multiple OK">
+          <aegov-checkbox value="a"></aegov-checkbox>
+        </aegov-checkbox-group>`,
+      });
+      expect(page.root.querySelector('.aegov-checkbox-group__hint').textContent).toBe('Multiple OK');
+    });
+
+    it('hides hint when error shown', async () => {
+      const page = await newSpecPage({
+        components: [AegovCheckboxGroup, AegovCheckbox],
+        html: `<aegov-checkbox-group hint="h" is-invalid="true" error-message="err">
+          <aegov-checkbox value="a"></aegov-checkbox>
+        </aegov-checkbox-group>`,
+      });
+      expect(page.root.querySelector('.aegov-checkbox-group__error')).not.toBeNull();
+      expect(page.root.querySelector('.aegov-checkbox-group__hint')).toBeNull();
+    });
+
+    it('validate() resolves valid for optional empty group', async () => {
+      const page = await newSpecPage({
+        components: [AegovCheckboxGroup, AegovCheckbox],
+        html: `<aegov-checkbox-group>
+          <aegov-checkbox value="a"></aegov-checkbox>
+        </aegov-checkbox-group>`,
+      });
+      const r = await page.rootInstance.validate('manual');
+      expect(r.valid).toBe(true);
+    });
+
+    it('valueMissing fires when isRequired and no children checked', async () => {
+      const page = await newSpecPage({
+        components: [AegovCheckboxGroup, AegovCheckbox],
+        html: `<aegov-checkbox-group is-required>
+          <aegov-checkbox value="a"></aegov-checkbox>
+        </aegov-checkbox-group>`,
+      });
+      const r = await page.rootInstance.validate('manual');
+      expect(r.valid).toBe(false);
+      expect(r.validity.valueMissing).toBe(true);
+    });
+
+    it('setCustomValidity("msg") sets invalid + error', async () => {
+      const page = await newSpecPage({
+        components: [AegovCheckboxGroup, AegovCheckbox],
+        html: `<aegov-checkbox-group>
+          <aegov-checkbox value="a"></aegov-checkbox>
+        </aegov-checkbox-group>`,
+      });
+      await page.rootInstance.setCustomValidity('At least 1');
+      await page.waitForChanges();
+      expect(page.rootInstance.isInvalid).toBe(true);
+      expect(page.rootInstance.errorMessage).toBe('At least 1');
+    });
+
+    it('setCustomValidity("") clears state', async () => {
+      const page = await newSpecPage({
+        components: [AegovCheckboxGroup, AegovCheckbox],
+        html: `<aegov-checkbox-group is-invalid="true" error-message="x">
+          <aegov-checkbox value="a"></aegov-checkbox>
+        </aegov-checkbox-group>`,
+      });
+      await page.rootInstance.setCustomValidity('');
+      await page.waitForChanges();
+      expect(page.rootInstance.isInvalid).toBe(false);
+      expect(page.rootInstance.errorMessage).toBe('');
+    });
+  });
 });

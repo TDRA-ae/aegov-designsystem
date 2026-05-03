@@ -133,4 +133,80 @@ describe('aegov-radio', () => {
     expect(input.getAttribute('aria-label')).toBe('opt');
     expect(input.getAttribute('data-test')).toBe('x');
   });
+
+  // Validation surface (Layer 1) — see validation-engine-addon.md §2.8
+  describe('validation surface', () => {
+    it('toggles aria-invalid + host class when isInvalid', async () => {
+      const page = await newSpecPage({
+        components: [AegovRadio],
+        html: `<aegov-radio is-invalid="true"></aegov-radio>`,
+      });
+      expect(page.root.querySelector('input').getAttribute('aria-invalid')).toBe('true');
+      expect(page.root.classList.contains('is-invalid')).toBe(true);
+    });
+
+    it('renders errorMessage in error region', async () => {
+      const page = await newSpecPage({
+        components: [AegovRadio],
+        html: `<aegov-radio is-invalid="true" error-message="Pick one"></aegov-radio>`,
+      });
+      expect(page.root.querySelector('.aegov-radio__error').textContent).toBe('Pick one');
+    });
+
+    it('renders hint on label', async () => {
+      const page = await newSpecPage({
+        components: [AegovRadio],
+        html: `<aegov-radio label="X" hint="helper"></aegov-radio>`,
+      });
+      expect(page.root.querySelector('.radio__hint').textContent).toBe('helper');
+    });
+
+    it('hides hint when error shown', async () => {
+      const page = await newSpecPage({
+        components: [AegovRadio],
+        html: `<aegov-radio label="X" hint="h" is-invalid="true" error-message="err"></aegov-radio>`,
+      });
+      expect(page.root.querySelector('.aegov-radio__error')).not.toBeNull();
+      expect(page.root.querySelector('.radio__hint')).toBeNull();
+    });
+
+    it('aria-describedby includes error id', async () => {
+      const page = await newSpecPage({
+        components: [AegovRadio],
+        html: `<aegov-radio field-id="r1" is-invalid="true" error-message="msg"></aegov-radio>`,
+      });
+      expect(page.root.querySelector('input').getAttribute('aria-describedby')).toContain('r1-error');
+    });
+
+    it('validate() resolves valid for unchecked optional', async () => {
+      const page = await newSpecPage({
+        components: [AegovRadio],
+        html: `<aegov-radio></aegov-radio>`,
+      });
+      const r = await page.rootInstance.validate('manual');
+      expect(r.valid).toBe(true);
+    });
+
+    it('setCustomValidity("msg") sets invalid + error', async () => {
+      const page = await newSpecPage({
+        components: [AegovRadio],
+        html: `<aegov-radio></aegov-radio>`,
+      });
+      await page.rootInstance.setCustomValidity('Required');
+      await page.waitForChanges();
+      expect(page.rootInstance.isInvalid).toBe(true);
+      expect(page.rootInstance.errorMessage).toBe('Required');
+    });
+
+    it('setCustomValidity("") clears state', async () => {
+      const page = await newSpecPage({
+        components: [AegovRadio],
+        html: `<aegov-radio is-invalid="true" error-message="x"></aegov-radio>`,
+      });
+      await page.rootInstance.setCustomValidity('');
+      await page.waitForChanges();
+      expect(page.rootInstance.isInvalid).toBe(false);
+      expect(page.rootInstance.errorMessage).toBe('');
+    });
+  });
 });
