@@ -52,7 +52,6 @@
     "test:watch": "stencil test --spec --e2e --watchAll",
     "test:coverage": "stencil test --spec --coverage",
     "test:ci": "stencil test --spec --e2e --ci",
-    "verify:build": "node scripts/verify-build.js",
     "test:build": "npm run build && npm run verify:build",
     "size": "size-limit",
     "generate": "stencil generate",
