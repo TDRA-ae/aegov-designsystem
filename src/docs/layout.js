@@ -15,6 +15,12 @@
 
   const NAV_SECTIONS = [
     {
+      heading: 'Getting Started',
+      items: [
+        { label: 'Installation', href: '/docs/pages/installation.html' },
+      ],
+    },
+    {
       heading: 'Components',
       items: [
         { label: 'Accordion', href: '/docs/pages/aegov-accordion.html' },
@@ -70,6 +76,19 @@
       heading: 'Layout',
       items: [
         { label: 'Header', href: '/docs/pages/aegov-header.html' },
+      ],
+    },
+    {
+      heading: 'Validation',
+      items: [
+        { label: 'Validation overview', href: '/docs/pages/validation-overview.html' },
+        { label: 'Build your own', href: '/docs/pages/validation-byo.html' },
+      ],
+    },
+    {
+      heading: 'Frameworks',
+      items: [
+        { label: 'Using React', href: '/docs/pages/using-with-react.html' },
       ],
     },
   ];
