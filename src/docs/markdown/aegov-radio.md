@@ -528,6 +528,47 @@ The radio uses CSS logical properties throughout. When the document or any ances
 
 ---
 
+## Validation
+
+`aegov-radio` exposes the unified [Validation Surface](validation-overview.html). Radio-specific notes:
+
+> **Renamed:** the `description` prop was renamed to `hint`. CSS class `radio__description` → `radio__hint`.
+
+Validation typically happens at the **group level** via `aegov-radio-group`. Standalone radios inherit form participation through the native `name` attribute.
+
+### Common recipes
+
+**Required group selection:**
+
+```html
+<aegov-radio-group name="size" is-required label="Size">
+  <aegov-radio value="s">Small</aegov-radio>
+  <aegov-radio value="m">Medium</aegov-radio>
+  <aegov-radio value="l">Large</aegov-radio>
+</aegov-radio-group>
+```
+
+The group emits `valueMissing` when `is-required` and no radio is checked.
+
+**Default value via `is-checked`:**
+
+```html
+<aegov-radio-group name="plan" label="Plan">
+  <aegov-radio value="basic" is-checked>Basic</aegov-radio>
+  <aegov-radio value="pro">Pro</aegov-radio>
+</aegov-radio-group>
+```
+
+**Per-radio custom error:**
+
+```js
+radio.setCustomValidity('This option is unavailable for your region');
+```
+
+See [BYO Validator](validation-byo.html) for more patterns.
+
+---
+
 ## Accessibility
 
 ### Built-in behaviour

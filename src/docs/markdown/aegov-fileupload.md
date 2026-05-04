@@ -466,6 +466,70 @@ The component forwards `aria-*` and `data-*` attributes to the inner native `<in
 
 ---
 
+## Validation
+
+`aegov-fileupload` exposes the unified [Validation Surface](validation-overview.html). Fileupload-specific notes:
+
+### FormAssociated
+
+Uses `ElementInternals.setFormValue()` with FormData containing one entry per file (key = `name` prop, value = `File`). Multi-file forms submit cleanly without manual flattening.
+
+> **Renamed:** the `description` prop was renamed to `hint`. CSS class `fileupload__description` → `fileupload__hint`.
+>
+> **Removed event:** `aegovFileuploadError` was removed in `0.2.0`. Errors now surface through the unified `aegovValidate` event with mapped validity flags:
+>
+> | Old `error.type` | New `validity` flag |
+> | --- | --- |
+> | `'max-size'` | `tooLong: true` |
+> | `'invalid-type'` | `typeMismatch: true` |
+> | `'max-files'` | `customError: true` |
+
+### Common recipes
+
+**Single PDF, max 5 MB:**
+
+```html
+<aegov-fileupload
+  name="resume"
+  is-required
+  accept="application/pdf"
+  max-file-size="5242880"
+  hint="PDF only, up to 5 MB"
+></aegov-fileupload>
+```
+
+`valueMissing` fires when `is-required` and no file selected. `typeMismatch` fires for non-PDF; `tooLong` fires when over size.
+
+**Multiple images, up to 5:**
+
+```html
+<aegov-fileupload
+  name="photos"
+  variant="dropzone"
+  is-multiple
+  accept="image/*"
+  max-files="5"
+  max-file-size="2097152"
+></aegov-fileupload>
+```
+
+**Server-side rejection:**
+
+```js
+fileupload.addEventListener('aegovFileuploadChange', async (e) => {
+  const res = await api.scanFiles(e.detail.files);
+  if (!res.ok) {
+    await fileupload.setCustomValidity(res.message);
+  } else {
+    await fileupload.setCustomValidity('');
+  }
+});
+```
+
+See [BYO Validator](validation-byo.html) for more patterns.
+
+---
+
 ## Accessibility
 
 ### Built-in behaviour

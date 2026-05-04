@@ -547,6 +547,23 @@
 <p>Reserved HTML attributes (<code>id</code>, <code>class</code>, <code>style</code>) cannot be used as props — <code>id</code> is replaced by <code>field-id</code>, and <code>class</code>/<code>style</code> are applied to the host as usual.</p>
 </blockquote>
 <hr>
+<h2>Validation</h2>
+<p><code>aegov-checkbox</code> exposes the unified <a href="validation-overview.html">Validation Surface</a>. Checkbox-specific notes:</p>
+<blockquote>
+<p><strong>Renamed:</strong> the <code>description</code> prop was renamed to <code>hint</code> for consistency across the validation surface. CSS class <code>checkbox__description</code> → <code>checkbox__hint</code>.</p>
+</blockquote>
+<h3>Common recipes</h3>
+<p><strong>Required terms acceptance:</strong></p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-checkbox</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;terms&quot;</span> <span class="hljs-attr">is-required</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;I accept the terms&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-checkbox</span>&gt;</span></code></pre><p><code>valueMissing</code> fires when <code>is-required</code> and unchecked.</p>
+<p><strong>Check-all controller:</strong></p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-checkbox-group</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-checkbox</span> <span class="hljs-attr">is-check-all</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Select all&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-checkbox</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-checkbox</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;a&quot;</span>&gt;</span>Option A<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-checkbox</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-checkbox</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;b&quot;</span>&gt;</span>Option B<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-checkbox</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-checkbox</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;c&quot;</span>&gt;</span>Option C<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-checkbox</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-checkbox-group</span>&gt;</span></code></pre><p><strong>Custom validation message:</strong></p>
+<pre><code class="hljs language-js">checkbox.<span class="hljs-title function_">setCustomValidity</span>(<span class="hljs-string">&#x27;You must accept to continue&#x27;</span>);</code></pre><p>See <a href="validation-byo.html">BYO Validator</a> for more patterns.</p>
+<hr>
 <h2>Accessibility</h2>
 <h3>Built-in behaviour</h3>
 <ul>

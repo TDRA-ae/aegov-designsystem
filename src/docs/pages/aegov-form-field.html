@@ -423,6 +423,30 @@
 </tr>
 </tbody></table>
 <hr>
+<h2>Validation</h2>
+<p><code>aegov-form-field</code> exposes the unified <a href="validation-overview.html">Validation Surface</a> at the <strong>wrapper level</strong> and cascades to the first form-control descendant. Form-field-specific notes:</p>
+<h3>Cascade rules</h3>
+<p>When <code>is-invalid</code> / <code>error-message</code> / <code>hint</code> are set on the wrapper:</p>
+<ul>
+<li>The wrapper finds the first <code>aegov-input | aegov-textarea | aegov-select | aegov-checkbox | aegov-checkbox-group | aegov-radio-group | aegov-toggle | aegov-range | aegov-otp | aegov-fileupload | aegov-datepicker</code> descendant.</li>
+<li>Each prop only fills the child&#39;s slot when the child has not authored its own value (author intent always wins).</li>
+<li>The wrapper itself gains the <code>is-invalid</code> class when <code>is-invalid</code> is true (style hook for label coloring etc.).</li>
+</ul>
+<h3>Common recipes</h3>
+<p><strong>Wrapper-level error from external state (Redux/Vuex/server):</strong></p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-form-field</span> <span class="hljs-attr">error-message</span>=<span class="hljs-string">&quot;Email already registered&quot;</span> <span class="hljs-attr">is-invalid</span>=<span class="hljs-string">&quot;true&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-label</span>&gt;</span>Email<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-label</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-input</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;email&quot;</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;email&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-input</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-form-field</span>&gt;</span></code></pre><p><strong>Mixed wrapper + child errors (child wins):</strong></p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-form-field</span> <span class="hljs-attr">error-message</span>=<span class="hljs-string">&quot;Wrapper says A&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-input</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;x&quot;</span> <span class="hljs-attr">error-message</span>=<span class="hljs-string">&quot;Child says B&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-input</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-form-field</span>&gt;</span></code></pre><p>Inner control displays &quot;Child says B&quot; — wrapper does not overwrite.</p>
+<p><strong>Wrapper hint, child error:</strong></p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-form-field</span> <span class="hljs-attr">hint</span>=<span class="hljs-string">&quot;At least 8 characters&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-input</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;pw&quot;</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;password&quot;</span> <span class="hljs-attr">is-invalid</span>=<span class="hljs-string">&quot;true&quot;</span> <span class="hljs-attr">error-message</span>=<span class="hljs-string">&quot;Too short&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-input</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-form-field</span>&gt;</span></code></pre><p>The hint cascades to the child; on <code>is-invalid</code>, the child shows its own error and hides the cascaded hint.</p>
+<p>See <a href="validation-byo.html">BYO Validator</a> for more patterns.</p>
+<hr>
 <h2>Accessibility</h2>
 <h3>Built-in behaviour</h3>
 <ul>
