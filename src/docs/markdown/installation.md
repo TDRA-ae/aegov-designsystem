@@ -107,7 +107,7 @@ Drop any `aegov-*` tag directly into the body — no `customElements.define` cal
 
 ```html
 <body>
-  <main class="container">
+  <main class="aegov-container">
     <aegov-button>Submit application</aegov-button>
   </main>
 </body>
@@ -174,7 +174,7 @@ This is the same path the React wrapper uses internally. Use it when bundle size
 The HTML markup is identical to Method A — just drop the tags into your template:
 
 ```html
-<main class="container">
+<main class="aegov-container">
   <aegov-button>Submit application</aegov-button>
 </main>
 ```
