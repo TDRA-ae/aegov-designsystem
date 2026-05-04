@@ -417,6 +417,53 @@ A short application step using three form-fields back-to-back. Each field handle
 
 ---
 
+## Validation
+
+`aegov-form-field` exposes the unified [Validation Surface](validation-overview.html) at the **wrapper level** and cascades to the first form-control descendant. Form-field-specific notes:
+
+### Cascade rules
+
+When `is-invalid` / `error-message` / `hint` are set on the wrapper:
+
+- The wrapper finds the first `aegov-input | aegov-textarea | aegov-select | aegov-checkbox | aegov-checkbox-group | aegov-radio-group | aegov-toggle | aegov-range | aegov-otp | aegov-fileupload | aegov-datepicker` descendant.
+- Each prop only fills the child's slot when the child has not authored its own value (author intent always wins).
+- The wrapper itself gains the `is-invalid` class when `is-invalid` is true (style hook for label coloring etc.).
+
+### Common recipes
+
+**Wrapper-level error from external state (Redux/Vuex/server):**
+
+```html
+<aegov-form-field error-message="Email already registered" is-invalid="true">
+  <aegov-label>Email</aegov-label>
+  <aegov-input name="email" type="email"></aegov-input>
+</aegov-form-field>
+```
+
+**Mixed wrapper + child errors (child wins):**
+
+```html
+<aegov-form-field error-message="Wrapper says A">
+  <aegov-input name="x" error-message="Child says B"></aegov-input>
+</aegov-form-field>
+```
+
+Inner control displays "Child says B" — wrapper does not overwrite.
+
+**Wrapper hint, child error:**
+
+```html
+<aegov-form-field hint="At least 8 characters">
+  <aegov-input name="pw" type="password" is-invalid="true" error-message="Too short"></aegov-input>
+</aegov-form-field>
+```
+
+The hint cascades to the child; on `is-invalid`, the child shows its own error and hides the cascaded hint.
+
+See [BYO Validator](validation-byo.html) for more patterns.
+
+---
+
 ## Accessibility
 
 ### Built-in behaviour

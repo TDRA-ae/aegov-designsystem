@@ -93,4 +93,14 @@ export type {
   TooltipAlign,
   TooltipPosition,
   TooltipTrigger,
+  // Validation surface (Layer 1)
+  AegovValidityState,
+  AegovValidationDetail,
+  AegovValidationTrigger,
+  AegovValidationResult,
 } from './utils/types';
+
+// Validation value types per component (Layer 1)
+export type { AegovRangeValue } from './components/aegov-range/aegov-range';
+export type { AegovSelectValue } from './components/aegov-select/aegov-select';
+export type { AegovDatepickerValue } from './components/aegov-datepicker/aegov-datepicker';

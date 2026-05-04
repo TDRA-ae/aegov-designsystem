@@ -464,6 +464,43 @@ The checkbox uses CSS logical properties throughout. When the document or any an
 
 ---
 
+## Validation
+
+`aegov-checkbox` exposes the unified [Validation Surface](validation-overview.html). Checkbox-specific notes:
+
+> **Renamed:** the `description` prop was renamed to `hint` for consistency across the validation surface. CSS class `checkbox__description` → `checkbox__hint`.
+
+### Common recipes
+
+**Required terms acceptance:**
+
+```html
+<aegov-checkbox name="terms" is-required label="I accept the terms"></aegov-checkbox>
+```
+
+`valueMissing` fires when `is-required` and unchecked.
+
+**Check-all controller:**
+
+```html
+<aegov-checkbox-group>
+  <aegov-checkbox is-check-all label="Select all"></aegov-checkbox>
+  <aegov-checkbox value="a">Option A</aegov-checkbox>
+  <aegov-checkbox value="b">Option B</aegov-checkbox>
+  <aegov-checkbox value="c">Option C</aegov-checkbox>
+</aegov-checkbox-group>
+```
+
+**Custom validation message:**
+
+```js
+checkbox.setCustomValidity('You must accept to continue');
+```
+
+See [BYO Validator](validation-byo.html) for more patterns.
+
+---
+
 ## Accessibility
 
 ### Built-in behaviour

@@ -343,6 +343,51 @@
 </tbody></table>
 <p>To set the field&#39;s accessible label, pair the OTP with <code>&lt;aegov-label field-id=&quot;...&quot;&gt;</code> rather than relying on <code>aria-label</code> on the host.</p>
 <hr>
+<h2>Validation</h2>
+<p><code>aegov-otp</code> exposes the unified <a href="validation-overview.html">Validation Surface</a>. OTP-specific notes:</p>
+<h3>FormAssociated</h3>
+<p>The component participates in <code>&lt;form&gt;</code> via <code>ElementInternals</code> (no inner hidden input). <code>name</code> prop is required for form submission.</p>
+<blockquote>
+<p><strong>Removed event:</strong> <code>aegovOtpInvalid</code> was removed in <code>0.2.0</code> in favor of the unified <code>aegovValidate</code> event with <code>validity.patternMismatch === true</code>.</p>
+</blockquote>
+<h3>Validity flags surfaced</h3>
+<table>
+<thead>
+<tr>
+<th>Validity flag</th>
+<th>When</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>valueMissing</code></td>
+<td><code>is-required</code> and no characters entered</td>
+</tr>
+<tr>
+<td><code>tooShort</code></td>
+<td>partially filled but <code>value.length &lt; length</code></td>
+</tr>
+<tr>
+<td><code>patternMismatch</code></td>
+<td>filled value fails the <code>pattern</code> regex</td>
+</tr>
+<tr>
+<td><code>customError</code></td>
+<td><code>setCustomValidity(&#39;msg&#39;)</code> invoked</td>
+</tr>
+</tbody></table>
+<h3>Common recipes</h3>
+<p><strong>Required 6-digit OTP:</strong></p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-otp</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;code&quot;</span> <span class="hljs-attr">length</span>=<span class="hljs-string">&quot;6&quot;</span> <span class="hljs-attr">is-required</span> <span class="hljs-attr">hint</span>=<span class="hljs-string">&quot;Sent to your phone&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-otp</span>&gt;</span></code></pre><p><strong>Numeric pattern enforcement:</strong></p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-otp</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;pin&quot;</span> <span class="hljs-attr">length</span>=<span class="hljs-string">&quot;4&quot;</span> <span class="hljs-attr">pattern</span>=<span class="hljs-string">&quot;^\d{4}$&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-otp</span>&gt;</span></code></pre><p><strong>Server-rejected code:</strong></p>
+<pre><code class="hljs language-js">otp.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;aegovOtpComplete&#x27;</span>, <span class="hljs-title function_">async</span> (e) =&gt; {
+  <span class="hljs-keyword">const</span> res = <span class="hljs-keyword">await</span> api.<span class="hljs-title function_">verifyOtp</span>(e.<span class="hljs-property">detail</span>.<span class="hljs-property">value</span>);
+  <span class="hljs-keyword">if</span> (!res.<span class="hljs-property">ok</span>) {
+    <span class="hljs-keyword">await</span> otp.<span class="hljs-title function_">setCustomValidity</span>(<span class="hljs-string">&#x27;Code expired or incorrect&#x27;</span>);
+  } <span class="hljs-keyword">else</span> {
+    <span class="hljs-keyword">await</span> otp.<span class="hljs-title function_">setCustomValidity</span>(<span class="hljs-string">&#x27;&#x27;</span>);
+  }
+});</code></pre><p>See <a href="validation-byo.html">BYO Validator</a> for more patterns.</p>
+<hr>
 <h2>Accessibility</h2>
 <h3>Built-in behaviour</h3>
 <ul>

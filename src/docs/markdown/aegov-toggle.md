@@ -295,6 +295,39 @@ The component forwards the attribute groups below onto the inner `<input>`. Appl
 
 ---
 
+## Validation
+
+`aegov-toggle` exposes the unified [Validation Surface](validation-overview.html). Toggle-specific notes:
+
+> **Renamed:** the `description` prop was renamed to `hint`. CSS class `toggle__description` → `toggle__hint`.
+
+### Common recipes
+
+**Required consent toggle:**
+
+```html
+<aegov-toggle name="newsletter" is-required label="I agree to receive emails"></aegov-toggle>
+```
+
+**Conditional dependent fields:**
+
+```js
+toggle.addEventListener('aegovValidate', (e) => {
+  // Show extra fields only when toggle is on
+  document.getElementById('details').hidden = !e.detail.value;
+});
+```
+
+**Server-confirmed toggle (e.g. opt-in pending):**
+
+```js
+toggle.setCustomValidity('Confirmation pending — check your email');
+```
+
+See [BYO Validator](validation-byo.html) for more patterns.
+
+---
+
 ## Accessibility
 
 ### Built-in behaviour

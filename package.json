@@ -15,7 +15,7 @@
   ],
   "exports": {
     ".": {
-      "types": "./dist/types/index.d.ts",
+      "types": "./dist/types/components.d.ts",
       "import": "./loader/index.js",
       "require": "./loader/index.cjs.js"
     },
@@ -31,6 +31,10 @@
     "./components/*": {
       "import": "./dist/components/*.js",
       "types": "./dist/components/*.d.ts"
+    },
+    "./dist/components/*": {
+      "import": "./dist/components/*",
+      "types": "./dist/components/*"
     },
     "./css": "./dist/aegov/aegov.css",
     "./tailwind.css": "./src/styles/tailwind.css",
