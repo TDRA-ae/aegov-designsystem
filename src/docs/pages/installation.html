@@ -101,7 +101,7 @@
 <h3>4. Use a component</h3>
 <p>Drop any <code>aegov-*</code> tag directly into the body — no <code>customElements.define</code> call needed. The ES module bundle handles registration automatically:</p>
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">main</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;container&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">main</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;aegov-container&quot;</span>&gt;</span>
     <span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span>&gt;</span>Submit application<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span>
   <span class="hljs-tag">&lt;/<span class="hljs-name">main</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span></code></pre><p>Open the page in a modern browser — the button renders styled.</p>
@@ -129,7 +129,7 @@
 <span class="hljs-title function_">defineAegovInput</span>();</code></pre><p>This is the same path the React wrapper uses internally. Use it when bundle size matters and you only need a handful of components.</p>
 <h3>4. Use a component</h3>
 <p>The HTML markup is identical to Method A — just drop the tags into your template:</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">main</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;container&quot;</span>&gt;</span>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">main</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;aegov-container&quot;</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span>&gt;</span>Submit application<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">main</span>&gt;</span></code></pre><p>The bundler outputs the CSS and JS to your <code>dist/</code> (or whatever your build outputs); the browser loads them like any other bundled asset.</p>
 <h3>Bundler-specific notes</h3>
