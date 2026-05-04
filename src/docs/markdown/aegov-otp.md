@@ -337,6 +337,56 @@ To set the field's accessible label, pair the OTP with `<aegov-label field-id=".
 
 ---
 
+## Validation
+
+`aegov-otp` exposes the unified [Validation Surface](validation-overview.html). OTP-specific notes:
+
+### FormAssociated
+
+The component participates in `<form>` via `ElementInternals` (no inner hidden input). `name` prop is required for form submission.
+
+> **Removed event:** `aegovOtpInvalid` was removed in `0.2.0` in favor of the unified `aegovValidate` event with `validity.patternMismatch === true`.
+
+### Validity flags surfaced
+
+| Validity flag | When |
+| --- | --- |
+| `valueMissing` | `is-required` and no characters entered |
+| `tooShort` | partially filled but `value.length < length` |
+| `patternMismatch` | filled value fails the `pattern` regex |
+| `customError` | `setCustomValidity('msg')` invoked |
+
+### Common recipes
+
+**Required 6-digit OTP:**
+
+```html
+<aegov-otp name="code" length="6" is-required hint="Sent to your phone"></aegov-otp>
+```
+
+**Numeric pattern enforcement:**
+
+```html
+<aegov-otp name="pin" length="4" pattern="^\d{4}$"></aegov-otp>
+```
+
+**Server-rejected code:**
+
+```js
+otp.addEventListener('aegovOtpComplete', async (e) => {
+  const res = await api.verifyOtp(e.detail.value);
+  if (!res.ok) {
+    await otp.setCustomValidity('Code expired or incorrect');
+  } else {
+    await otp.setCustomValidity('');
+  }
+});
+```
+
+See [BYO Validator](validation-byo.html) for more patterns.
+
+---
+
 ## Accessibility
 
 ### Built-in behaviour

@@ -624,6 +624,26 @@
 <p>Reserved HTML attributes (<code>id</code>, <code>class</code>, <code>style</code>) cannot be used as props — <code>id</code> is replaced by <code>field-id</code>, and <code>class</code>/<code>style</code> are applied to the host as usual.</p>
 </blockquote>
 <hr>
+<h2>Validation</h2>
+<p><code>aegov-radio</code> exposes the unified <a href="validation-overview.html">Validation Surface</a>. Radio-specific notes:</p>
+<blockquote>
+<p><strong>Renamed:</strong> the <code>description</code> prop was renamed to <code>hint</code>. CSS class <code>radio__description</code> → <code>radio__hint</code>.</p>
+</blockquote>
+<p>Validation typically happens at the <strong>group level</strong> via <code>aegov-radio-group</code>. Standalone radios inherit form participation through the native <code>name</code> attribute.</p>
+<h3>Common recipes</h3>
+<p><strong>Required group selection:</strong></p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-radio-group</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;size&quot;</span> <span class="hljs-attr">is-required</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Size&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-radio</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;s&quot;</span>&gt;</span>Small<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-radio</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-radio</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;m&quot;</span>&gt;</span>Medium<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-radio</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-radio</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;l&quot;</span>&gt;</span>Large<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-radio</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-radio-group</span>&gt;</span></code></pre><p>The group emits <code>valueMissing</code> when <code>is-required</code> and no radio is checked.</p>
+<p><strong>Default value via <code>is-checked</code>:</strong></p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-radio-group</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;plan&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Plan&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-radio</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;basic&quot;</span> <span class="hljs-attr">is-checked</span>&gt;</span>Basic<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-radio</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-radio</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;pro&quot;</span>&gt;</span>Pro<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-radio</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-radio-group</span>&gt;</span></code></pre><p><strong>Per-radio custom error:</strong></p>
+<pre><code class="hljs language-js">radio.<span class="hljs-title function_">setCustomValidity</span>(<span class="hljs-string">&#x27;This option is unavailable for your region&#x27;</span>);</code></pre><p>See <a href="validation-byo.html">BYO Validator</a> for more patterns.</p>
+<hr>
 <h2>Accessibility</h2>
 <h3>Built-in behaviour</h3>
 <ul>

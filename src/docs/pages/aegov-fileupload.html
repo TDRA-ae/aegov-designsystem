@@ -536,6 +536,61 @@
 </tr>
 </tbody></table>
 <hr>
+<h2>Validation</h2>
+<p><code>aegov-fileupload</code> exposes the unified <a href="validation-overview.html">Validation Surface</a>. Fileupload-specific notes:</p>
+<h3>FormAssociated</h3>
+<p>Uses <code>ElementInternals.setFormValue()</code> with FormData containing one entry per file (key = <code>name</code> prop, value = <code>File</code>). Multi-file forms submit cleanly without manual flattening.</p>
+<blockquote>
+<p><strong>Renamed:</strong> the <code>description</code> prop was renamed to <code>hint</code>. CSS class <code>fileupload__description</code> → <code>fileupload__hint</code>.</p>
+<p><strong>Removed event:</strong> <code>aegovFileuploadError</code> was removed in <code>0.2.0</code>. Errors now surface through the unified <code>aegovValidate</code> event with mapped validity flags:</p>
+<table>
+<thead>
+<tr>
+<th>Old <code>error.type</code></th>
+<th>New <code>validity</code> flag</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>&#39;max-size&#39;</code></td>
+<td><code>tooLong: true</code></td>
+</tr>
+<tr>
+<td><code>&#39;invalid-type&#39;</code></td>
+<td><code>typeMismatch: true</code></td>
+</tr>
+<tr>
+<td><code>&#39;max-files&#39;</code></td>
+<td><code>customError: true</code></td>
+</tr>
+</tbody></table>
+</blockquote>
+<h3>Common recipes</h3>
+<p><strong>Single PDF, max 5 MB:</strong></p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-fileupload</span>
+  <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;resume&quot;</span>
+  <span class="hljs-attr">is-required</span>
+  <span class="hljs-attr">accept</span>=<span class="hljs-string">&quot;application/pdf&quot;</span>
+  <span class="hljs-attr">max-file-size</span>=<span class="hljs-string">&quot;5242880&quot;</span>
+  <span class="hljs-attr">hint</span>=<span class="hljs-string">&quot;PDF only, up to 5 MB&quot;</span>
+&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-fileupload</span>&gt;</span></code></pre><p><code>valueMissing</code> fires when <code>is-required</code> and no file selected. <code>typeMismatch</code> fires for non-PDF; <code>tooLong</code> fires when over size.</p>
+<p><strong>Multiple images, up to 5:</strong></p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-fileupload</span>
+  <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;photos&quot;</span>
+  <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;dropzone&quot;</span>
+  <span class="hljs-attr">is-multiple</span>
+  <span class="hljs-attr">accept</span>=<span class="hljs-string">&quot;image/*&quot;</span>
+  <span class="hljs-attr">max-files</span>=<span class="hljs-string">&quot;5&quot;</span>
+  <span class="hljs-attr">max-file-size</span>=<span class="hljs-string">&quot;2097152&quot;</span>
+&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-fileupload</span>&gt;</span></code></pre><p><strong>Server-side rejection:</strong></p>
+<pre><code class="hljs language-js">fileupload.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;aegovFileuploadChange&#x27;</span>, <span class="hljs-title function_">async</span> (e) =&gt; {
+  <span class="hljs-keyword">const</span> res = <span class="hljs-keyword">await</span> api.<span class="hljs-title function_">scanFiles</span>(e.<span class="hljs-property">detail</span>.<span class="hljs-property">files</span>);
+  <span class="hljs-keyword">if</span> (!res.<span class="hljs-property">ok</span>) {
+    <span class="hljs-keyword">await</span> fileupload.<span class="hljs-title function_">setCustomValidity</span>(res.<span class="hljs-property">message</span>);
+  } <span class="hljs-keyword">else</span> {
+    <span class="hljs-keyword">await</span> fileupload.<span class="hljs-title function_">setCustomValidity</span>(<span class="hljs-string">&#x27;&#x27;</span>);
+  }
+});</code></pre><p>See <a href="validation-byo.html">BYO Validator</a> for more patterns.</p>
+<hr>
 <h2>Accessibility</h2>
 <h3>Built-in behaviour</h3>
 <ul>

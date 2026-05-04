@@ -396,6 +396,57 @@ The component forwards the attribute groups below onto the inner `<input type="r
 
 ---
 
+## Validation
+
+`aegov-range` exposes the unified [Validation Surface](validation-overview.html). Range-specific notes:
+
+### Value type per mode
+
+| Mode | `value` type | FormData payload |
+| --- | --- | --- |
+| `single` | `number` | numeric string |
+| `range` | `{ low: number; high: number }` | two entries: `name-low` + `name-high` |
+
+### Common recipes
+
+**Bounded numeric range:**
+
+```html
+<aegov-range name="rating" min="0" max="10" step="1" hint="0–10"></aegov-range>
+```
+
+`min` / `max` / `step` enforce native validity; `rangeUnderflow` / `rangeOverflow` / `stepMismatch` flags fire automatically.
+
+**Range mode with min span (3+ days):**
+
+```html
+<aegov-range mode="range" name="period" min="0" max="365"></aegov-range>
+```
+
+```js
+range.addEventListener('aegovValidate', (e) => {
+  const { low, high } = e.detail.value;
+  if (high - low < 3) {
+    range.setCustomValidity('Range must span at least 3 days');
+  } else {
+    range.setCustomValidity('');
+  }
+});
+```
+
+**Bind to another field:**
+
+```js
+priceRange.addEventListener('aegovValidate', (e) => {
+  const { high } = e.detail.value;
+  budget.value = String(high);
+});
+```
+
+See [BYO Validator](validation-byo.html) for more patterns.
+
+---
+
 ## Accessibility
 
 ### Built-in behaviour
