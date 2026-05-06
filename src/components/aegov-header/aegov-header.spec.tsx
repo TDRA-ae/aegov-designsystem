@@ -1,32 +1,15 @@
 import { newSpecPage } from '@stencil/core/testing';
 import { AegovHeader } from './aegov-header';
+import { AegovHeaderBanner } from '../aegov-header-banner/aegov-header-banner';
 
 describe('aegov-header', () => {
   beforeEach(() => {
-    // Clean any leftover skip links between tests
     document.querySelectorAll('.aegov-skip-content').forEach((el) => el.remove());
-  });
-
-  it('renders error block when entity-name is missing', async () => {
-    const page = await newSpecPage({
-      components: [AegovHeader],
-      html: `<aegov-header entity-domain="https://example.gov.ae"></aegov-header>`,
-    });
-    const err = page.root.shadowRoot.querySelector('.aegov-header--error');
-    expect(err).not.toBeNull();
-  });
-
-  it('renders error block when entity-domain is missing', async () => {
-    const page = await newSpecPage({
-      components: [AegovHeader],
-      html: `<aegov-header entity-name="Ministry"></aegov-header>`,
-    });
-    expect(page.root.shadowRoot.querySelector('.aegov-header--error')).not.toBeNull();
   });
 
   it('renders ministry variant by default', async () => {
     const page = await newSpecPage({
-      components: [AegovHeader],
+      components: [AegovHeader, AegovHeaderBanner],
       html: `<aegov-header entity-name="Ministry" entity-domain="https://example.gov.ae"></aegov-header>`,
     });
     const header = page.root.shadowRoot.querySelector('header');
@@ -36,39 +19,36 @@ describe('aegov-header', () => {
 
   it('applies authority variant class', async () => {
     const page = await newSpecPage({
-      components: [AegovHeader],
+      components: [AegovHeader, AegovHeaderBanner],
       html: `<aegov-header variant="authority" entity-name="Authority" entity-domain="https://x.gov.ae"></aegov-header>`,
     });
     const header = page.root.shadowRoot.querySelector('header');
     expect(header.className).toContain('header--authority');
   });
 
-  it('renders entity name and domain in expand panel', async () => {
+  it('renders aegov-header-banner with forwarded entity props', async () => {
     const page = await newSpecPage({
-      components: [AegovHeader],
+      components: [AegovHeader, AegovHeaderBanner],
       html: `<aegov-header entity-name="My Entity" entity-domain="https://my.gov.ae"></aegov-header>`,
     });
-    const html = page.root.shadowRoot.innerHTML;
-    expect(html).toContain('My Entity');
-    expect(html).toContain('https://my.gov.ae');
+    const banner = page.root.shadowRoot.querySelector('aegov-header-banner');
+    expect(banner).not.toBeNull();
+    expect(banner.getAttribute('entity-name')).toBe('My Entity');
+    expect(banner.getAttribute('entity-domain')).toBe('https://my.gov.ae');
   });
 
-  it('toggles headerExpanded state when trigger is clicked', async () => {
+  it('forwards skip-content-container prop to banner', async () => {
     const page = await newSpecPage({
-      components: [AegovHeader],
-      html: `<aegov-header entity-name="N" entity-domain="https://x.gov.ae"></aegov-header>`,
+      components: [AegovHeader, AegovHeaderBanner],
+      html: `<aegov-header entity-name="N" entity-domain="https://x.gov.ae" skip-content-container="#main"></aegov-header>`,
     });
-    const trigger = page.root.shadowRoot.querySelector('a[aria-controls="header-top-expand"]') as HTMLAnchorElement;
-    expect(trigger.getAttribute('aria-expanded')).toBe('false');
-    trigger.click();
-    await page.waitForChanges();
-    const triggerAfter = page.root.shadowRoot.querySelector('a[aria-controls="header-top-expand"]');
-    expect(triggerAfter.getAttribute('aria-expanded')).toBe('true');
+    const banner = page.root.shadowRoot.querySelector('aegov-header-banner');
+    expect(banner.getAttribute('skip-content-container')).toBe('#main');
   });
 
   it('renders logo and search slots', async () => {
     const page = await newSpecPage({
-      components: [AegovHeader],
+      components: [AegovHeader, AegovHeaderBanner],
       html: `<aegov-header entity-name="N" entity-domain="https://x.gov.ae">
         <img slot="logo" src="logo.png" alt="logo" />
         <input slot="search" type="search" />
@@ -80,27 +60,19 @@ describe('aegov-header', () => {
     expect(names).toContain('search');
   });
 
-  it('creates skip link when skip-content-container provided', async () => {
-    await newSpecPage({
-      components: [AegovHeader],
-      html: `<aegov-header entity-name="N" entity-domain="https://x.gov.ae" skip-content-container="#main"></aegov-header>`,
-    });
-    const skip = document.querySelector('.aegov-skip-content');
-    expect(skip).not.toBeNull();
-    expect(skip.getAttribute('href')).toBe('#main');
-  });
-
-  it('does not create skip link when prop is omitted', async () => {
-    await newSpecPage({
-      components: [AegovHeader],
+  it('wraps logo slot in anchor pointing to entity-domain', async () => {
+    const page = await newSpecPage({
+      components: [AegovHeader, AegovHeaderBanner],
       html: `<aegov-header entity-name="N" entity-domain="https://x.gov.ae"></aegov-header>`,
     });
-    expect(document.querySelector('.aegov-skip-content')).toBeNull();
+    const anchor = page.root.shadowRoot.querySelector('.header__logo a');
+    expect(anchor).not.toBeNull();
+    expect(anchor.getAttribute('href')).toBe('https://x.gov.ae');
   });
 
   it('uses shadow DOM encapsulation', async () => {
     const page = await newSpecPage({
-      components: [AegovHeader],
+      components: [AegovHeader, AegovHeaderBanner],
       html: `<aegov-header entity-name="N" entity-domain="https://x.gov.ae"></aegov-header>`,
     });
     expect(page.root.shadowRoot).not.toBeNull();

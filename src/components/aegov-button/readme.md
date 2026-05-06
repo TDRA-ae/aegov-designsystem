@@ -62,12 +62,12 @@ Buttons are the primary interactive elements in user interfaces. This component 
 
 ### Used by
 
- - [aegov-header](../aegov-header)
+ - [aegov-header-banner](../aegov-header-banner)
 
 ### Graph
 ```mermaid
 graph TD;
-  aegov-header --> aegov-button
+  aegov-header-banner --> aegov-button
   style aegov-button fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

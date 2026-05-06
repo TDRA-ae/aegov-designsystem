@@ -9,32 +9,13 @@ describe('aegov-header e2e', () => {
     expect(header.className).toContain('aegov-header');
   });
 
-  it('renders error message when entity-name missing', async () => {
-    const page = await newE2EPage();
-    await page.setContent(`<aegov-header entity-domain="https://x.gov.ae"></aegov-header>`);
-    const err = await page.find('aegov-header >>> .aegov-header--error');
-    expect(err).not.toBeNull();
-  });
-
-  it('toggles expand panel when "Learn more" is clicked', async () => {
-    const page = await newE2EPage();
-    await page.setContent(`<aegov-header entity-name="N" entity-domain="https://x.gov.ae"></aegov-header>`);
-    const trigger = await page.find('aegov-header >>> a[aria-controls="header-top-expand"]');
-    expect(trigger.getAttribute('aria-expanded')).toBe('false');
-    await trigger.click();
-    await page.waitForChanges();
-    expect(trigger.getAttribute('aria-expanded')).toBe('true');
-  });
-
-  it('shows entity name and domain in expanded panel', async () => {
+  it('renders nested aegov-header-banner with forwarded props', async () => {
     const page = await newE2EPage();
     await page.setContent(`<aegov-header entity-name="Ministry of Test" entity-domain="https://test.gov.ae"></aegov-header>`);
-    const headerHtml = await page.evaluate(() => {
-      const host = document.querySelector('aegov-header');
-      return host?.shadowRoot?.innerHTML || '';
-    });
-    expect(headerHtml).toContain('Ministry of Test');
-    expect(headerHtml).toContain('https://test.gov.ae');
+    const banner = await page.find('aegov-header >>> aegov-header-banner');
+    expect(banner).not.toBeNull();
+    expect(banner.getAttribute('entity-name')).toBe('Ministry of Test');
+    expect(banner.getAttribute('entity-domain')).toBe('https://test.gov.ae');
   });
 
   it('renders logo slot content', async () => {
@@ -53,7 +34,7 @@ describe('aegov-header e2e', () => {
     expect(header.className).toContain('header--authority');
   });
 
-  it('creates a skip-link in document body when skip-content-container is set', async () => {
+  it('forwards skip-content-container so banner injects skip-link in body', async () => {
     const page = await newE2EPage();
     await page.setContent(`
       <aegov-header entity-name="N" entity-domain="https://x.gov.ae" skip-content-container="main"></aegov-header>
