@@ -984,6 +984,24 @@ export namespace Components {
     }
     interface AegovHeader {
         /**
+          * The domain/URL of the government entity. Required. Forwarded to the embedded aegov-header-banner.
+         */
+        "entityDomain": string;
+        /**
+          * The name of the government entity. Required. Forwarded to the embedded aegov-header-banner.
+         */
+        "entityName": string;
+        /**
+          * Forwarded to the embedded aegov-header-banner. The CSS selector or ID of the main content container to skip to (e.g. "#main-content"). When provided, the banner injects a "Skip to content" link at the top of the document body.
+         */
+        "skipContentContainer": string;
+        /**
+          * @default 'ministry'
+         */
+        "variant": HeaderVariant;
+    }
+    interface AegovHeaderBanner {
+        /**
           * The domain/URL of the government entity. Required.
          */
         "entityDomain": string;
@@ -995,10 +1013,6 @@ export namespace Components {
           * The CSS selector or ID of the main content container to skip to (e.g. "#main-content"). When provided, renders a "Skip to content" link before the header for keyboard accessibility.
          */
         "skipContentContainer": string;
-        /**
-          * @default 'ministry'
-         */
-        "variant": HeaderVariant;
     }
     interface AegovInput {
         /**
@@ -2741,6 +2755,12 @@ declare global {
         prototype: HTMLAegovHeaderElement;
         new (): HTMLAegovHeaderElement;
     };
+    interface HTMLAegovHeaderBannerElement extends Components.AegovHeaderBanner, HTMLStencilElement {
+    }
+    var HTMLAegovHeaderBannerElement: {
+        prototype: HTMLAegovHeaderBannerElement;
+        new (): HTMLAegovHeaderBannerElement;
+    };
     interface HTMLAegovInputElementEventMap {
         "aegovInputChange": { value: string; event: Event };
         "aegovInputInput": { value: string; event: Event };
@@ -3200,6 +3220,7 @@ declare global {
         "aegov-fileupload": HTMLAegovFileuploadElement;
         "aegov-form-field": HTMLAegovFormFieldElement;
         "aegov-header": HTMLAegovHeaderElement;
+        "aegov-header-banner": HTMLAegovHeaderBannerElement;
         "aegov-input": HTMLAegovInputElement;
         "aegov-input-group": HTMLAegovInputGroupElement;
         "aegov-label": HTMLAegovLabelElement;
@@ -4232,6 +4253,24 @@ declare namespace LocalJSX {
     }
     interface AegovHeader {
         /**
+          * The domain/URL of the government entity. Required. Forwarded to the embedded aegov-header-banner.
+         */
+        "entityDomain"?: string;
+        /**
+          * The name of the government entity. Required. Forwarded to the embedded aegov-header-banner.
+         */
+        "entityName"?: string;
+        /**
+          * Forwarded to the embedded aegov-header-banner. The CSS selector or ID of the main content container to skip to (e.g. "#main-content"). When provided, the banner injects a "Skip to content" link at the top of the document body.
+         */
+        "skipContentContainer"?: string;
+        /**
+          * @default 'ministry'
+         */
+        "variant"?: HeaderVariant;
+    }
+    interface AegovHeaderBanner {
+        /**
           * The domain/URL of the government entity. Required.
          */
         "entityDomain"?: string;
@@ -4243,10 +4282,6 @@ declare namespace LocalJSX {
           * The CSS selector or ID of the main content container to skip to (e.g. "#main-content"). When provided, renders a "Skip to content" link before the header for keyboard accessibility.
          */
         "skipContentContainer"?: string;
-        /**
-          * @default 'ministry'
-         */
-        "variant"?: HeaderVariant;
     }
     interface AegovInput {
         /**
@@ -5656,6 +5691,7 @@ declare namespace LocalJSX {
         "aegov-fileupload": AegovFileupload;
         "aegov-form-field": AegovFormField;
         "aegov-header": AegovHeader;
+        "aegov-header-banner": AegovHeaderBanner;
         "aegov-input": AegovInput;
         "aegov-input-group": AegovInputGroup;
         "aegov-label": AegovLabel;
@@ -5736,6 +5772,7 @@ declare module "@stencil/core" {
             "aegov-fileupload": LocalJSX.AegovFileupload & JSXBase.HTMLAttributes<HTMLAegovFileuploadElement>;
             "aegov-form-field": LocalJSX.AegovFormField & JSXBase.HTMLAttributes<HTMLAegovFormFieldElement>;
             "aegov-header": LocalJSX.AegovHeader & JSXBase.HTMLAttributes<HTMLAegovHeaderElement>;
+            "aegov-header-banner": LocalJSX.AegovHeaderBanner & JSXBase.HTMLAttributes<HTMLAegovHeaderBannerElement>;
             "aegov-input": LocalJSX.AegovInput & JSXBase.HTMLAttributes<HTMLAegovInputElement>;
             "aegov-input-group": LocalJSX.AegovInputGroup & JSXBase.HTMLAttributes<HTMLAegovInputGroupElement>;
             "aegov-label": LocalJSX.AegovLabel & JSXBase.HTMLAttributes<HTMLAegovLabelElement>;

@@ -371,7 +371,7 @@
   }
 }
 @layer component {
-  /* Skip to content — portaled to top of body by aegov-header */
+  /* Skip to content — portaled to top of body by aegov-header-banner. Lives outside the component's shadow root, so styles must be global. */
   .aegov-skip-content {
     @apply sr-only focus:not-sr-only focus:decoration-whitely-50! focus:fixed focus:w-full focus:z-999 focus:px-4 focus:py-2 focus:rounded-none focus:bg-primary-support-600 focus:text-whitely-50 focus:outline-none transition ease-in-out;
   }
