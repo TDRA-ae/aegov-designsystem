@@ -100,24 +100,25 @@ The component uses Shadow DOM. Key styling notes:
 
 ## Properties
 
-| Property               | Attribute                | Description                                                                                                                                                                           | Type                        | Default      |
-| ---------------------- | ------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------- | ------------ |
-| `entityDomain`         | `entity-domain`          | The domain/URL of the government entity. Required.                                                                                                                                    | `string`                    | `undefined`  |
-| `entityName`           | `entity-name`            | The name of the government entity. Required.                                                                                                                                          | `string`                    | `undefined`  |
-| `skipContentContainer` | `skip-content-container` | The CSS selector or ID of the main content container to skip to (e.g. "#main-content"). When provided, renders a "Skip to content" link before the header for keyboard accessibility. | `string`                    | `undefined`  |
-| `variant`              | `variant`                |                                                                                                                                                                                       | `"authority" \| "ministry"` | `'ministry'` |
+| Property               | Attribute                | Description                                                                                                                                                                                                                        | Type                        | Default      |
+| ---------------------- | ------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------- | ------------ |
+| `entityDomain`         | `entity-domain`          | The domain/URL of the government entity. Required. Forwarded to the embedded aegov-header-banner.                                                                                                                                  | `string`                    | `undefined`  |
+| `entityName`           | `entity-name`            | The name of the government entity. Required. Forwarded to the embedded aegov-header-banner.                                                                                                                                        | `string`                    | `undefined`  |
+| `skipContentContainer` | `skip-content-container` | Forwarded to the embedded aegov-header-banner. The CSS selector or ID of the main content container to skip to (e.g. "#main-content"). When provided, the banner injects a "Skip to content" link at the top of the document body. | `string`                    | `undefined`  |
+| `variant`              | `variant`                |                                                                                                                                                                                                                                    | `"authority" \| "ministry"` | `'ministry'` |
 
 
 ## Dependencies
 
 ### Depends on
 
-- [aegov-button](../aegov-button)
+- [aegov-header-banner](../aegov-header-banner)
 
 ### Graph
 ```mermaid
 graph TD;
-  aegov-header --> aegov-button
+  aegov-header --> aegov-header-banner
+  aegov-header-banner --> aegov-button
   style aegov-header fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
