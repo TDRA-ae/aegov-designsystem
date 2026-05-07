@@ -366,6 +366,21 @@ export const CARD_SIZES = ['sm', 'base', 'lg'] as const;
 export type CardSize = typeof CARD_SIZES[number];
 
 /**
+ * Bento grid named gap sizes — map to Tailwind gap utilities.
+ * none=0, xs=0.25rem, sm=0.5rem, md=1rem, lg=1.5rem, xl=2rem
+ */
+export const BENTO_GAPS = ['none', 'xs', 'sm', 'md', 'lg', 'xl'] as const;
+export type BentoGap = typeof BENTO_GAPS[number];
+
+/**
+ * Bento grid auto-flow modes.
+ * - 'dense': browser fills holes left by larger spans (true bento packing)
+ * - 'row':   strict DOM order, no backfilling
+ */
+export const BENTO_FLOWS = ['dense', 'row'] as const;
+export type BentoFlow = typeof BENTO_FLOWS[number];
+
+/**
  * Datepicker component mode types
  */
 export const DATEPICKER_MODES = ['single', 'range'] as const;

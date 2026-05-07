@@ -5,12 +5,12 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
-import { AccordionIcon, AccordionSize, AegovValidationDetail, AegovValidationResult, AegovValidationTrigger, AspectRatioFit, AspectRatioPreset, AvatarAppearance, AvatarGroupVariant, AvatarStatus, BadgeAppearance, BadgeColor, BannerDisplay, BannerMode, BannerPosition, BlockquoteAppearance, BreadcrumbSeparator, ButtonAppearance, ButtonGroupOrientation, ButtonGroupPosition, ButtonType, ButtonVariant, CalloutAppearance, CalloutVariant, CardBg, CardBorderStyle, CardBorderWidth, CardHover, CardSize, CheckboxGroupOrientation, CheckboxGroupVariant, DatepickerChangeDetail, DatepickerMode, DatepickerMonthChangeDetail, DrawerAnimation, DrawerOverlayOpacity, DrawerPosition, DrawerSize, DropdownAlign, DropdownPosition, DropdownTrigger, FileuploadVariant, HeaderVariant, InputType, LinkTarget, ModalOverlayOpacity, ModalPosition, ModalSize, NavblockIcon, NavblockSize, OtpVariant, PaginationVariant, PopoverAlign, PopoverPosition, PopoverTrigger, ProgressCounter, RadioGroupOrientation, RadioGroupVariant, RangeDisplay, RangeMode, RangeOrientation, SelectChangeDetail, SelectVariant, TabOrientation, TabVariant, TextareaResize, TimelineOrientation, TimelineSize, TimelineStepStatus, TimelineVariant, TitleHeadingType, ToastAppearance, ToastMode, ToastPosition, ToastVariant, TooltipAlign, TooltipPosition, TooltipTrigger } from "./utils/types";
+import { AccordionIcon, AccordionSize, AegovValidationDetail, AegovValidationResult, AegovValidationTrigger, AspectRatioFit, AspectRatioPreset, AvatarAppearance, AvatarGroupVariant, AvatarStatus, BadgeAppearance, BadgeColor, BannerDisplay, BannerMode, BannerPosition, BentoFlow, BlockquoteAppearance, BreadcrumbSeparator, ButtonAppearance, ButtonGroupOrientation, ButtonGroupPosition, ButtonType, ButtonVariant, CalloutAppearance, CalloutVariant, CardBg, CardBorderStyle, CardBorderWidth, CardHover, CardSize, CheckboxGroupOrientation, CheckboxGroupVariant, DatepickerChangeDetail, DatepickerMode, DatepickerMonthChangeDetail, DrawerAnimation, DrawerOverlayOpacity, DrawerPosition, DrawerSize, DropdownAlign, DropdownPosition, DropdownTrigger, FileuploadVariant, HeaderVariant, InputType, LinkTarget, ModalOverlayOpacity, ModalPosition, ModalSize, NavblockIcon, NavblockSize, OtpVariant, PaginationVariant, PopoverAlign, PopoverPosition, PopoverTrigger, ProgressCounter, RadioGroupOrientation, RadioGroupVariant, RangeDisplay, RangeMode, RangeOrientation, SelectChangeDetail, SelectVariant, TabOrientation, TabVariant, TextareaResize, TimelineOrientation, TimelineSize, TimelineStepStatus, TimelineVariant, TitleHeadingType, ToastAppearance, ToastMode, ToastPosition, ToastVariant, TooltipAlign, TooltipPosition, TooltipTrigger } from "./utils/types";
 import { AegovDatepickerValue } from "./components/aegov-datepicker/aegov-datepicker";
 import { Event } from "@stencil/core";
 import { AegovRangeValue } from "./components/aegov-range/aegov-range";
 import { AegovSelectValue } from "./components/aegov-select/aegov-select";
-export { AccordionIcon, AccordionSize, AegovValidationDetail, AegovValidationResult, AegovValidationTrigger, AspectRatioFit, AspectRatioPreset, AvatarAppearance, AvatarGroupVariant, AvatarStatus, BadgeAppearance, BadgeColor, BannerDisplay, BannerMode, BannerPosition, BlockquoteAppearance, BreadcrumbSeparator, ButtonAppearance, ButtonGroupOrientation, ButtonGroupPosition, ButtonType, ButtonVariant, CalloutAppearance, CalloutVariant, CardBg, CardBorderStyle, CardBorderWidth, CardHover, CardSize, CheckboxGroupOrientation, CheckboxGroupVariant, DatepickerChangeDetail, DatepickerMode, DatepickerMonthChangeDetail, DrawerAnimation, DrawerOverlayOpacity, DrawerPosition, DrawerSize, DropdownAlign, DropdownPosition, DropdownTrigger, FileuploadVariant, HeaderVariant, InputType, LinkTarget, ModalOverlayOpacity, ModalPosition, ModalSize, NavblockIcon, NavblockSize, OtpVariant, PaginationVariant, PopoverAlign, PopoverPosition, PopoverTrigger, ProgressCounter, RadioGroupOrientation, RadioGroupVariant, RangeDisplay, RangeMode, RangeOrientation, SelectChangeDetail, SelectVariant, TabOrientation, TabVariant, TextareaResize, TimelineOrientation, TimelineSize, TimelineStepStatus, TimelineVariant, TitleHeadingType, ToastAppearance, ToastMode, ToastPosition, ToastVariant, TooltipAlign, TooltipPosition, TooltipTrigger } from "./utils/types";
+export { AccordionIcon, AccordionSize, AegovValidationDetail, AegovValidationResult, AegovValidationTrigger, AspectRatioFit, AspectRatioPreset, AvatarAppearance, AvatarGroupVariant, AvatarStatus, BadgeAppearance, BadgeColor, BannerDisplay, BannerMode, BannerPosition, BentoFlow, BlockquoteAppearance, BreadcrumbSeparator, ButtonAppearance, ButtonGroupOrientation, ButtonGroupPosition, ButtonType, ButtonVariant, CalloutAppearance, CalloutVariant, CardBg, CardBorderStyle, CardBorderWidth, CardHover, CardSize, CheckboxGroupOrientation, CheckboxGroupVariant, DatepickerChangeDetail, DatepickerMode, DatepickerMonthChangeDetail, DrawerAnimation, DrawerOverlayOpacity, DrawerPosition, DrawerSize, DropdownAlign, DropdownPosition, DropdownTrigger, FileuploadVariant, HeaderVariant, InputType, LinkTarget, ModalOverlayOpacity, ModalPosition, ModalSize, NavblockIcon, NavblockSize, OtpVariant, PaginationVariant, PopoverAlign, PopoverPosition, PopoverTrigger, ProgressCounter, RadioGroupOrientation, RadioGroupVariant, RangeDisplay, RangeMode, RangeOrientation, SelectChangeDetail, SelectVariant, TabOrientation, TabVariant, TextareaResize, TimelineOrientation, TimelineSize, TimelineStepStatus, TimelineVariant, TitleHeadingType, ToastAppearance, ToastMode, ToastPosition, ToastVariant, TooltipAlign, TooltipPosition, TooltipTrigger } from "./utils/types";
 export { AegovDatepickerValue } from "./components/aegov-datepicker/aegov-datepicker";
 export { Event } from "@stencil/core";
 export { AegovRangeValue } from "./components/aegov-range/aegov-range";
@@ -238,6 +238,31 @@ export namespace Components {
           * @default 'default'
          */
         "variant": CalloutVariant;
+    }
+    /**
+     * Bento grid layout container for grouping `aegov-card` elements into a
+     * balanced-but-non-uniform arrangement.
+     */
+    interface AegovBentoGrid {
+        /**
+          * Number of columns. Tailwind-style breakpoint syntax supported, e.g. `cols="1 md:2 lg:4"`. Use `cols="1 md:..."` to stack on mobile.
+          * @default '1 md:2 lg:3'
+         */
+        "cols": string;
+        /**
+          * Optional id reflected on the inner wrapper. Auto-generated if not provided.
+         */
+        "fieldId"?: string;
+        /**
+          * Auto-flow mode. 'dense' fills holes left by larger spans (bento packing), 'row' keeps strict DOM order.
+          * @default 'dense'
+         */
+        "flow": BentoFlow;
+        /**
+          * Gap between cards. Named sizes: 'none', 'xs', 'sm', 'md', 'lg', 'xl'. Responsive syntax supported: `gap="sm md:md lg:lg"`.
+          * @default 'md'
+         */
+        "gap": string;
     }
     interface AegovBlockquote {
         /**
@@ -2649,6 +2674,16 @@ declare global {
         prototype: HTMLAegovBannerElement;
         new (): HTMLAegovBannerElement;
     };
+    /**
+     * Bento grid layout container for grouping `aegov-card` elements into a
+     * balanced-but-non-uniform arrangement.
+     */
+    interface HTMLAegovBentoGridElement extends Components.AegovBentoGrid, HTMLStencilElement {
+    }
+    var HTMLAegovBentoGridElement: {
+        prototype: HTMLAegovBentoGridElement;
+        new (): HTMLAegovBentoGridElement;
+    };
     interface HTMLAegovBlockquoteElement extends Components.AegovBlockquote, HTMLStencilElement {
     }
     var HTMLAegovBlockquoteElement: {
@@ -3364,6 +3399,7 @@ declare global {
         "aegov-avatar-group": HTMLAegovAvatarGroupElement;
         "aegov-badge": HTMLAegovBadgeElement;
         "aegov-banner": HTMLAegovBannerElement;
+        "aegov-bento-grid": HTMLAegovBentoGridElement;
         "aegov-blockquote": HTMLAegovBlockquoteElement;
         "aegov-breadcrumbs": HTMLAegovBreadcrumbsElement;
         "aegov-breadcrumbs-item": HTMLAegovBreadcrumbsItemElement;
@@ -3656,6 +3692,31 @@ declare namespace LocalJSX {
           * @default 'default'
          */
         "variant"?: CalloutVariant;
+    }
+    /**
+     * Bento grid layout container for grouping `aegov-card` elements into a
+     * balanced-but-non-uniform arrangement.
+     */
+    interface AegovBentoGrid {
+        /**
+          * Number of columns. Tailwind-style breakpoint syntax supported, e.g. `cols="1 md:2 lg:4"`. Use `cols="1 md:..."` to stack on mobile.
+          * @default '1 md:2 lg:3'
+         */
+        "cols"?: string;
+        /**
+          * Optional id reflected on the inner wrapper. Auto-generated if not provided.
+         */
+        "fieldId"?: string;
+        /**
+          * Auto-flow mode. 'dense' fills holes left by larger spans (bento packing), 'row' keeps strict DOM order.
+          * @default 'dense'
+         */
+        "flow"?: BentoFlow;
+        /**
+          * Gap between cards. Named sizes: 'none', 'xs', 'sm', 'md', 'lg', 'xl'. Responsive syntax supported: `gap="sm md:md lg:lg"`.
+          * @default 'md'
+         */
+        "gap"?: string;
     }
     interface AegovBlockquote {
         /**
@@ -5944,6 +6005,7 @@ declare namespace LocalJSX {
         "aegov-avatar-group": AegovAvatarGroup;
         "aegov-badge": AegovBadge;
         "aegov-banner": AegovBanner;
+        "aegov-bento-grid": AegovBentoGrid;
         "aegov-blockquote": AegovBlockquote;
         "aegov-breadcrumbs": AegovBreadcrumbs;
         "aegov-breadcrumbs-item": AegovBreadcrumbsItem;
@@ -6019,6 +6081,11 @@ declare module "@stencil/core" {
             "aegov-avatar-group": LocalJSX.AegovAvatarGroup & JSXBase.HTMLAttributes<HTMLAegovAvatarGroupElement>;
             "aegov-badge": LocalJSX.AegovBadge & JSXBase.HTMLAttributes<HTMLAegovBadgeElement>;
             "aegov-banner": LocalJSX.AegovBanner & JSXBase.HTMLAttributes<HTMLAegovBannerElement>;
+            /**
+             * Bento grid layout container for grouping `aegov-card` elements into a
+             * balanced-but-non-uniform arrangement.
+             */
+            "aegov-bento-grid": LocalJSX.AegovBentoGrid & JSXBase.HTMLAttributes<HTMLAegovBentoGridElement>;
             "aegov-blockquote": LocalJSX.AegovBlockquote & JSXBase.HTMLAttributes<HTMLAegovBlockquoteElement>;
             "aegov-breadcrumbs": LocalJSX.AegovBreadcrumbs & JSXBase.HTMLAttributes<HTMLAegovBreadcrumbsElement>;
             /**
