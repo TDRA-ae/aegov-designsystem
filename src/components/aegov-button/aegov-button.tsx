@@ -228,10 +228,10 @@ export class AegovButton {
     classes.push(...variantClasses[variant]);
 
     const appearanceClasses: Record<ButtonAppearance, string[]> = {
-      solid: ['btn-solid','shadow-[inset_0px_1px_--theme(--color-whitely-50/.2)]', 'text-whitely-50', 'border-1', 'focus-visible:outline-offset-2', 'disabled:opacity-30'],
+      solid: ['btn-solid','shadow-[inset_0px_1px_--theme(--color-whitely-50/.2)]', 'border-1', 'focus-visible:outline-offset-2', 'disabled:opacity-30'],
       outline: ['btn-outline','bg-transparent', 'border-2', 'focus-visible:outline-offset-0', 'disabled:opacity-50'],
       soft: ['btn-soft', 'border-0', 'focus-visible:outline-offset-2', 'disabled:opacity-50'],
-      link: ['btn-link', 'bg-transparent', 'border-0', 'hover:underline', 'focus-visible:outline-offset-2', 'disabled:opacity-50']
+      link: ['btn-link', 'bg-transparent', 'border-0', 'hover:underline', 'hover:decoration-2', 'hover:underline-offset-2', 'focus-visible:outline-offset-2', 'disabled:opacity-50']
     };
 
     classes.push(...appearanceClasses[appearance]);
