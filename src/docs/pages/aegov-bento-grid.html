@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bento Grid | AEGOV Design System</title>
+  <script type="module" src="/build/aegov.esm.js"></script>
+  <script nomodule src="/build/aegov.js"></script>
+  <link rel="stylesheet" href="/build/aegov.css">
+  <link rel="stylesheet" href="/docs/doc-style.css">
+  <link rel="stylesheet" href="/docs/hljs.css">
+</head>
+<body class="bg-aeblack-50">
+  <header class="aegov-container sm:px-6 lg:px-8 mb-8">
+    <img src="https://designsystem.gov.ae/assets/site-logo/AEGov-DesignSystem-Logo-Color.svg" alt="UAE Design System Logo" class="w-auto h-16 my-2">
+  </header>
+  <main class="aegov-container sm:px-6 lg:px-8 bg-aeblack-50">
+    <section class="flex items-start align-top gap-4">
+      <nav id="primary-nav" class="w-3xs shrink-0">&nbsp;</nav>
+      <article class="col-span-5 grow">
+          <section id="content-area" class="bg-whitely-50 p-6 rounded-md shadow-xl">
+          <!-- DOC:START -->
+<h1>Bento Grid</h1>
+<p class="text-lg text-aeblack-500 mb-8">A layout container that arranges <code>aegov-card</code> children into a balanced-but-non-uniform &ldquo;bento box&rdquo; grid. It owns the column count, the gap between tiles, and the responsive stacking behaviour, while each card declares its own column and row span via simple data attributes.</p>
+
+<h2>Introduction</h2>
+<p>The <code>aegov-bento-grid</code> component wraps a group of <code>aegov-card</code> elements (or any direct children) and lays them out using CSS Grid. Use it for marketing landing pages, feature showcases, dashboards, or anywhere you need several cards composed into a deliberate, irregular pattern.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-bento-grid</span> <span class="hljs-attr">cols</span>=<span class="hljs-string">&quot;1 md:2 lg:4&quot;</span> <span class="hljs-attr">gap</span>=<span class="hljs-string">&quot;md&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-card</span> <span class="hljs-attr">data-col-span</span>=<span class="hljs-string">&quot;2&quot;</span> <span class="hljs-attr">data-row-span</span>=<span class="hljs-string">&quot;2&quot;</span> <span class="hljs-attr">border-style</span>=<span class="hljs-string">&quot;light&quot;</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-title</span> <span class="hljs-attr">level</span>=<span class="hljs-string">&quot;3&quot;</span>&gt;</span>Hero tile<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-title</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-text</span>&gt;</span>Spans 2 columns × 2 rows on large screens.<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-text</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-card</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-card</span> <span class="hljs-attr">border-style</span>=<span class="hljs-string">&quot;light&quot;</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">aegov-text</span>&gt;</span>Tile 2<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-text</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-card</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-card</span> <span class="hljs-attr">border-style</span>=<span class="hljs-string">&quot;light&quot;</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">aegov-text</span>&gt;</span>Tile 3<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-text</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-card</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-card</span> <span class="hljs-attr">data-col-span</span>=<span class="hljs-string">&quot;2&quot;</span> <span class="hljs-attr">border-style</span>=<span class="hljs-string">&quot;light&quot;</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">aegov-text</span>&gt;</span>Wide tile<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-text</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-card</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-card</span> <span class="hljs-attr">border-style</span>=<span class="hljs-string">&quot;light&quot;</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">aegov-text</span>&gt;</span>Tile 5<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-text</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-card</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-bento-grid</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-bento-grid cols="1 md:2 lg:4" gap="md">
+    <aegov-card data-col-span="2" data-row-span="2" border-style="light">
+      <aegov-title level="3">Hero tile</aegov-title>
+      <aegov-text>Spans 2 columns × 2 rows on large screens.</aegov-text>
+    </aegov-card>
+    <aegov-card border-style="light"><aegov-text>Tile 2</aegov-text></aegov-card>
+    <aegov-card border-style="light"><aegov-text>Tile 3</aegov-text></aegov-card>
+    <aegov-card data-col-span="2" border-style="light"><aegov-text>Wide tile</aegov-text></aegov-card>
+    <aegov-card border-style="light"><aegov-text>Tile 5</aegov-text></aegov-card>
+  </aegov-bento-grid>
+</div>
+
+<hr>
+<h2>Responsive Columns</h2>
+<p>The <code>cols</code> prop accepts a single positive integer (<code>cols=&quot;3&quot;</code>) or a Tailwind-style responsive string (<code>cols=&quot;1 md:2 lg:4&quot;</code>). Values are clamped to the range 1–12. The first token is the base value; each <code>bp:n</code> segment overrides it once the viewport meets the named breakpoint.</p>
+<p>To stack cards vertically on small viewports, set the base value to <code>1</code>:</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-bento-grid</span> <span class="hljs-attr">cols</span>=<span class="hljs-string">&quot;1 md:2 lg:3&quot;</span> <span class="hljs-attr">gap</span>=<span class="hljs-string">&quot;md&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-card</span> <span class="hljs-attr">border-style</span>=<span class="hljs-string">&quot;light&quot;</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">aegov-text</span>&gt;</span>One<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-text</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-card</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-card</span> <span class="hljs-attr">border-style</span>=<span class="hljs-string">&quot;light&quot;</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">aegov-text</span>&gt;</span>Two<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-text</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-card</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-card</span> <span class="hljs-attr">border-style</span>=<span class="hljs-string">&quot;light&quot;</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">aegov-text</span>&gt;</span>Three<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-text</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-card</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-card</span> <span class="hljs-attr">border-style</span>=<span class="hljs-string">&quot;light&quot;</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">aegov-text</span>&gt;</span>Four<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-text</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-card</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-card</span> <span class="hljs-attr">border-style</span>=<span class="hljs-string">&quot;light&quot;</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">aegov-text</span>&gt;</span>Five<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-text</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-card</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-card</span> <span class="hljs-attr">border-style</span>=<span class="hljs-string">&quot;light&quot;</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">aegov-text</span>&gt;</span>Six<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-text</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-card</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-bento-grid</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-bento-grid cols="1 md:2 lg:3" gap="md">
+    <aegov-card border-style="light"><aegov-text>One</aegov-text></aegov-card>
+    <aegov-card border-style="light"><aegov-text>Two</aegov-text></aegov-card>
+    <aegov-card border-style="light"><aegov-text>Three</aegov-text></aegov-card>
+    <aegov-card border-style="light"><aegov-text>Four</aegov-text></aegov-card>
+    <aegov-card border-style="light"><aegov-text>Five</aegov-text></aegov-card>
+    <aegov-card border-style="light"><aegov-text>Six</aegov-text></aegov-card>
+  </aegov-bento-grid>
+</div>
+
+<p>When the resolved column count drops below a card&#39;s <code>data-col-span</code>, the parent automatically clamps the span — at <code>cols=&quot;1&quot;</code>, every tile occupies the full row.</p>
+<hr>
+<h2>Per-Card Spans</h2>
+<p>Each direct child can opt into a larger footprint with two data attributes:</p>
+<ul>
+<li><code>data-col-span=&quot;N&quot;</code> — number of columns to occupy (1–12). Capped to the current <code>cols</code> value.</li>
+<li><code>data-row-span=&quot;N&quot;</code> — number of rows to occupy (1–6).</li>
+</ul>
+<p>Both attributes also support responsive syntax, mirroring <code>cols</code>:</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-card</span> <span class="hljs-attr">data-col-span</span>=<span class="hljs-string">&quot;1 md:2 lg:3&quot;</span> <span class="hljs-attr">data-row-span</span>=<span class="hljs-string">&quot;2&quot;</span>&gt;</span>…<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-card</span>&gt;</span></code></pre><p>Unset attributes fall back to span 1.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-bento-grid</span> <span class="hljs-attr">cols</span>=<span class="hljs-string">&quot;1 md:3&quot;</span> <span class="hljs-attr">gap</span>=<span class="hljs-string">&quot;md&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-card</span> <span class="hljs-attr">data-col-span</span>=<span class="hljs-string">&quot;2&quot;</span> <span class="hljs-attr">data-row-span</span>=<span class="hljs-string">&quot;2&quot;</span> <span class="hljs-attr">border-style</span>=<span class="hljs-string">&quot;light&quot;</span> <span class="hljs-attr">hover</span>=<span class="hljs-string">&quot;standard&quot;</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-title</span> <span class="hljs-attr">level</span>=<span class="hljs-string">&quot;3&quot;</span>&gt;</span>Featured<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-title</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-text</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm&quot;</span>&gt;</span>A larger tile draws the eye to the most important content.<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-text</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-card</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-card</span> <span class="hljs-attr">border-style</span>=<span class="hljs-string">&quot;light&quot;</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">aegov-text</span>&gt;</span>Quick stat<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-text</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-card</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-card</span> <span class="hljs-attr">border-style</span>=<span class="hljs-string">&quot;light&quot;</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">aegov-text</span>&gt;</span>Quick stat<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-text</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-card</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-card</span> <span class="hljs-attr">data-col-span</span>=<span class="hljs-string">&quot;3&quot;</span> <span class="hljs-attr">border-style</span>=<span class="hljs-string">&quot;light&quot;</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">aegov-text</span>&gt;</span>Wide footer tile<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-text</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-card</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-bento-grid</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-bento-grid cols="1 md:3" gap="md">
+    <aegov-card data-col-span="2" data-row-span="2" border-style="light" hover="standard">
+      <aegov-title level="3">Featured</aegov-title>
+      <aegov-text size="sm">A larger tile draws the eye to the most important content.</aegov-text>
+    </aegov-card>
+    <aegov-card border-style="light"><aegov-text>Quick stat</aegov-text></aegov-card>
+    <aegov-card border-style="light"><aegov-text>Quick stat</aegov-text></aegov-card>
+    <aegov-card data-col-span="3" border-style="light"><aegov-text>Wide footer tile</aegov-text></aegov-card>
+  </aegov-bento-grid>
+</div>
+
+<hr>
+<h2>Gap</h2>
+<p>The <code>gap</code> prop accepts a named size — <code>none</code>, <code>xs</code>, <code>sm</code>, <code>md</code> (default), <code>lg</code>, <code>xl</code> — and supports responsive syntax. Sizes map to a fixed token: <code>none=0</code>, <code>xs=0.25rem</code>, <code>sm=0.5rem</code>, <code>md=1rem</code>, <code>lg=1.5rem</code>, <code>xl=2rem</code>.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-bento-grid</span> <span class="hljs-attr">cols</span>=<span class="hljs-string">&quot;3&quot;</span> <span class="hljs-attr">gap</span>=<span class="hljs-string">&quot;lg&quot;</span>&gt;</span>…<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-bento-grid</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-bento-grid</span> <span class="hljs-attr">cols</span>=<span class="hljs-string">&quot;3&quot;</span> <span class="hljs-attr">gap</span>=<span class="hljs-string">&quot;sm md:lg&quot;</span>&gt;</span>…<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-bento-grid</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <p class="mb-2 text-sm text-aeblack-500">gap="sm"</p>
+  <aegov-bento-grid cols="3" gap="sm">
+    <aegov-card border-style="light"><aegov-text>One</aegov-text></aegov-card>
+    <aegov-card border-style="light"><aegov-text>Two</aegov-text></aegov-card>
+    <aegov-card border-style="light"><aegov-text>Three</aegov-text></aegov-card>
+  </aegov-bento-grid>
+
+  <p class="mt-6 mb-2 text-sm text-aeblack-500">gap="lg"</p>
+  <aegov-bento-grid cols="3" gap="lg">
+    <aegov-card border-style="light"><aegov-text>One</aegov-text></aegov-card>
+    <aegov-card border-style="light"><aegov-text>Two</aegov-text></aegov-card>
+    <aegov-card border-style="light"><aegov-text>Three</aegov-text></aegov-card>
+  </aegov-bento-grid>
+</div>
+
+<hr>
+<h2>Auto-flow — Dense vs. Row</h2>
+<p>The <code>flow</code> prop controls how the browser places tiles when spans leave gaps in the grid.</p>
+<ul>
+<li><code>dense</code> (default) — the browser back-fills earlier holes with later, smaller tiles. This produces the classic bento packing where the grid is fully tessellated.</li>
+<li><code>row</code> — strict DOM order. A larger tile that would not fit on the current row pushes to the next, leaving the gap behind it.</li>
+</ul>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-bento-grid</span> <span class="hljs-attr">cols</span>=<span class="hljs-string">&quot;3&quot;</span> <span class="hljs-attr">gap</span>=<span class="hljs-string">&quot;md&quot;</span> <span class="hljs-attr">flow</span>=<span class="hljs-string">&quot;dense&quot;</span>&gt;</span>…<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-bento-grid</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-bento-grid</span> <span class="hljs-attr">cols</span>=<span class="hljs-string">&quot;3&quot;</span> <span class="hljs-attr">gap</span>=<span class="hljs-string">&quot;md&quot;</span> <span class="hljs-attr">flow</span>=<span class="hljs-string">&quot;row&quot;</span>&gt;</span>…<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-bento-grid</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <p class="mb-2 text-sm text-aeblack-500">flow="dense" — back-fills holes</p>
+  <aegov-bento-grid cols="3" gap="md" flow="dense">
+    <aegov-card data-col-span="2" border-style="light"><aegov-text>A (span 2)</aegov-text></aegov-card>
+    <aegov-card border-style="light"><aegov-text>B</aegov-text></aegov-card>
+    <aegov-card border-style="light"><aegov-text>C</aegov-text></aegov-card>
+    <aegov-card data-col-span="2" border-style="light"><aegov-text>D (span 2)</aegov-text></aegov-card>
+  </aegov-bento-grid>
+
+  <p class="mt-6 mb-2 text-sm text-aeblack-500">flow="row" — strict order, may leave gaps</p>
+  <aegov-bento-grid cols="3" gap="md" flow="row">
+    <aegov-card data-col-span="2" border-style="light"><aegov-text>A (span 2)</aegov-text></aegov-card>
+    <aegov-card border-style="light"><aegov-text>B</aegov-text></aegov-card>
+    <aegov-card border-style="light"><aegov-text>C</aegov-text></aegov-card>
+    <aegov-card data-col-span="2" border-style="light"><aegov-text>D (span 2)</aegov-text></aegov-card>
+  </aegov-bento-grid>
+</div>
+
+<hr>
+<h2>Stacking on Mobile</h2>
+<p>Bento grids should collapse to a single column on narrow viewports so cards stay readable. The recommended pattern is to start <code>cols</code> at <code>1</code> and step up at the appropriate breakpoint:</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-bento-grid</span> <span class="hljs-attr">cols</span>=<span class="hljs-string">&quot;1 md:2 lg:4&quot;</span> <span class="hljs-attr">gap</span>=<span class="hljs-string">&quot;md&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-card</span> <span class="hljs-attr">data-col-span</span>=<span class="hljs-string">&quot;2&quot;</span> <span class="hljs-attr">border-style</span>=<span class="hljs-string">&quot;light&quot;</span>&gt;</span>…<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-card</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-card</span> <span class="hljs-attr">border-style</span>=<span class="hljs-string">&quot;light&quot;</span>&gt;</span>…<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-card</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-card</span> <span class="hljs-attr">border-style</span>=<span class="hljs-string">&quot;light&quot;</span>&gt;</span>…<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-card</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-bento-grid</span>&gt;</span></code></pre><p>Below <code>md</code>, the grid resolves to <code>cols=&quot;1&quot;</code>, all <code>data-col-span</code> values are clamped to 1, and the cards stack vertically — no extra prop needed.</p>
+<hr>
+<h2>API Reference</h2>
+<h3>Properties</h3>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Attribute</th>
+<th>Description</th>
+<th>Type</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>cols</code></td>
+<td><code>cols</code></td>
+<td>Number of columns. Accepts a single positive integer or a Tailwind-style responsive string. Clamped to 1–12.</td>
+<td><code>string</code></td>
+<td><code>&#39;1 md:2 lg:3&#39;</code></td>
+</tr>
+<tr>
+<td><code>gap</code></td>
+<td><code>gap</code></td>
+<td>Gap between tiles. Named sizes — <code>none</code>, <code>xs</code>, <code>sm</code>, <code>md</code>, <code>lg</code>, <code>xl</code>. Supports responsive syntax.</td>
+<td><code>string</code></td>
+<td><code>&#39;md&#39;</code></td>
+</tr>
+<tr>
+<td><code>flow</code></td>
+<td><code>flow</code></td>
+<td>Auto-flow mode — <code>dense</code> (back-fills holes) or <code>row</code> (strict DOM order).</td>
+<td><code>&#39;dense&#39; | &#39;row&#39;</code></td>
+<td><code>&#39;dense&#39;</code></td>
+</tr>
+<tr>
+<td><code>fieldId</code></td>
+<td><code>field-id</code></td>
+<td>Reflected <code>id</code> on the inner wrapper. Auto-generated if not provided.</td>
+<td><code>string</code></td>
+<td><em>generated</em></td>
+</tr>
+</tbody></table>
+<h3>Per-Child Data Attributes</h3>
+<p>These are read by <code>aegov-bento-grid</code> and applied as inline grid spans on each direct child:</p>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Description</th>
+<th>Range</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>data-col-span</code></td>
+<td>Columns to span. Clamped to the resolved <code>cols</code> value. Supports responsive syntax.</td>
+<td><code>1</code>–<code>12</code></td>
+</tr>
+<tr>
+<td><code>data-row-span</code></td>
+<td>Rows to span. Supports responsive syntax.</td>
+<td><code>1</code>–<code>6</code></td>
+</tr>
+</tbody></table>
+<h3>Slots</h3>
+<table>
+<thead>
+<tr>
+<th>Component</th>
+<th>Slot</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>aegov-bento-grid</code></td>
+<td><em>(default)</em></td>
+<td>Place one or more <code>aegov-card</code> elements (or any direct children) here.</td>
+</tr>
+</tbody></table>
+<h3>Pass-through Attributes</h3>
+<table>
+<thead>
+<tr>
+<th>Attribute group</th>
+<th>Forwarded?</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>aria-*</code></td>
+<td>Yes</td>
+<td>Forwarded to the inner grid wrapper. Use <code>aria-label</code> to describe the cluster.</td>
+</tr>
+<tr>
+<td><code>data-*</code></td>
+<td>Yes</td>
+<td>Forwarded to the inner wrapper (excluding the per-child span attributes).</td>
+</tr>
+<tr>
+<td><code>id</code></td>
+<td>Yes</td>
+<td>Forwarded to the inner wrapper via <code>fieldId</code>.</td>
+</tr>
+</tbody></table>
+<hr>
+<h2>Accessibility</h2>
+<h3>Built-in behaviour</h3>
+<ul>
+<li>The inner wrapper has <code>role=&quot;group&quot;</code> so assistive technologies announce the cluster as a single unit.</li>
+<li>Tab order follows DOM order. Cards remain individually focusable and operate exactly as outside a grid.</li>
+<li>The grid itself is a non-interactive container — there is no keyboard semantics layered on top of the cards.</li>
+</ul>
+<h3>Developer responsibilities</h3>
+<ul>
+<li>Provide an <code>aria-label</code> (or <code>aria-labelledby</code>) on the host when the cluster has a meaningful name (e.g. <code>aria-label=&quot;Service highlights&quot;</code>). The default <code>role=&quot;group&quot;</code> alone is generic.</li>
+<li>If a card is a clickable surface, ensure it is itself a focusable element (link or button) — the bento grid does not wrap children in a button.</li>
+<li>Avoid relying on visual ordering alone to communicate priority. Screen readers follow DOM order regardless of how <code>flow=&quot;dense&quot;</code> re-shuffles the visual layout.</li>
+</ul>
+<h3>Notes</h3>
+<ul>
+<li>Per-card spans are applied as inline styles on each direct child (<code>grid-column</code>, <code>grid-row</code>). They are removed/cleared when the resolved span is <code>1</code>.</li>
+<li>The grid observes <code>data-col-span</code> / <code>data-row-span</code> attribute mutations on direct children, so dynamically updating spans (e.g. from JavaScript) re-applies layout automatically.</li>
+<li>Only direct children receive layout treatment. Nested <code>aegov-card</code> elements inside a tile are unaffected.</li>
+</ul>
+<!-- DOC:END -->
+          </section>
+      </article>
+    </section>
+  </main>
+  <footer class="aegov-container sm:px-6 lg:px-8 mt-8 py-6 text-sm text-aeblack-500">
+    &copy; 2026 Telecommunication and Digital Regulatory Authority. All rights reserved.
+  </footer>
+
+<script src="/docs/layout.js"></script>
+</body>
+</html>
