@@ -76,6 +76,7 @@
     {
       heading: 'Layout',
       items: [
+        { label: 'Bento Grid', href: '/docs/pages/aegov-bento-grid.html' },
         { label: 'Header', href: '/docs/pages/aegov-header.html' },
       ],
     },

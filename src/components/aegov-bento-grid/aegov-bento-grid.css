@@ -1,0 +1,11 @@
+:host {
+  @apply block;
+}
+
+.aegov-bento-grid {
+  display: grid;
+  grid-template-columns: repeat(var(--bento-cols, 1), minmax(0, 1fr));
+  grid-auto-rows: minmax(0, auto);
+  grid-auto-flow: var(--bento-flow, dense);
+  gap: var(--bento-gap, 1rem);
+}
