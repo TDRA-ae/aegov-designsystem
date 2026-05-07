@@ -47,7 +47,9 @@ export class AegovHeader {
           entity-name={this.entityName}
           entity-domain={this.entityDomain}
           skip-content-container={this.skipContentContainer}
-        />
+        >
+          <slot name="actions" slot="actions" />
+        </aegov-header-banner>
         <div class="header__head">
           <div class="aegov-container flex items-center justify-between">
             <div class="header__logo">
