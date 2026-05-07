@@ -70,6 +70,17 @@ describe('aegov-header', () => {
     expect(anchor.getAttribute('href')).toBe('https://x.gov.ae');
   });
 
+  it('forwards actions slot from header through to banner', async () => {
+    const page = await newSpecPage({
+      components: [AegovHeader, AegovHeaderBanner],
+      html: `<aegov-header entity-name="N" entity-domain="https://x.gov.ae"><a slot="actions" href="#" class="custom-action">Custom</a></aegov-header>`,
+    });
+    const headerForwarder = page.root.shadowRoot.querySelector('aegov-header-banner slot[name="actions"][slot="actions"]');
+    expect(headerForwarder).not.toBeNull();
+    const slotted = page.root.querySelector('a[slot="actions"]');
+    expect(slotted).not.toBeNull();
+  });
+
   it('uses shadow DOM encapsulation', async () => {
     const page = await newSpecPage({
       components: [AegovHeader, AegovHeaderBanner],

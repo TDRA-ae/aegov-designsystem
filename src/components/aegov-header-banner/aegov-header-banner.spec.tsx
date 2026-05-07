@@ -72,6 +72,27 @@ describe('aegov-header-banner', () => {
     expect(document.querySelector('.aegov-skip-content')).toBeNull();
   });
 
+  it('exposes actions slot and renders default fallback nav (two links) when nothing assigned', async () => {
+    const page = await newSpecPage({
+      components: [AegovHeaderBanner],
+      html: `<aegov-header-banner entity-name="N" entity-domain="https://x.gov.ae"></aegov-header-banner>`,
+    });
+    const slot = page.root.shadowRoot.querySelector('slot[name="actions"]');
+    expect(slot).not.toBeNull();
+    const fallbackLinks = page.root.shadowRoot.querySelectorAll('nav ul li a');
+    expect(fallbackLinks.length).toBe(2);
+  });
+
+  it('accepts slotted actions content', async () => {
+    const page = await newSpecPage({
+      components: [AegovHeaderBanner],
+      html: `<aegov-header-banner entity-name="N" entity-domain="https://x.gov.ae"><a slot="actions" href="#" class="custom-action">Custom</a></aegov-header-banner>`,
+    });
+    const slotted = page.root.querySelector('a[slot="actions"]');
+    expect(slotted).not.toBeNull();
+    expect(slotted.textContent).toBe('Custom');
+  });
+
   it('uses shadow DOM encapsulation', async () => {
     const page = await newSpecPage({
       components: [AegovHeaderBanner],
