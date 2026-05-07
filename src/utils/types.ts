@@ -609,6 +609,18 @@ export const NAVBAR_SIZES = ['sm', 'base', 'lg'] as const;
 export type NavbarSize = typeof NAVBAR_SIZES[number];
 
 /**
+ * Navblock component size types
+ */
+export const NAVBLOCK_SIZES = ['sm', 'base', 'lg'] as const;
+export type NavblockSize = typeof NAVBLOCK_SIZES[number];
+
+/**
+ * Navblock component icon types (expand/collapse indicator)
+ */
+export const NAVBLOCK_ICONS = ['chevron', 'plus'] as const;
+export type NavblockIcon = typeof NAVBLOCK_ICONS[number];
+
+/**
  * Common component props
  */
 export interface BaseComponentProps {

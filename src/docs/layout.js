@@ -38,6 +38,7 @@
         { label: 'Link', href: '/docs/pages/aegov-link.html' },
         { label: 'Modal', href: '/docs/pages/aegov-modal.html' },
         { label: 'Navbar', href: '/docs/pages/aegov-navbar.html' },
+        { label: 'Navblock', href: '/docs/pages/aegov-navblock.html' },
         { label: 'Pagination', href: '/docs/pages/aegov-pagination.html' },
         { label: 'Popover', href: '/docs/pages/aegov-popover.html' },
         { label: 'Progress', href: '/docs/pages/aegov-progress.html' },
