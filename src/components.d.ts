@@ -5,12 +5,12 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
-import { AccordionIcon, AccordionSize, AegovValidationDetail, AegovValidationResult, AegovValidationTrigger, AspectRatioFit, AspectRatioPreset, AvatarAppearance, AvatarGroupVariant, AvatarStatus, BadgeAppearance, BadgeColor, BannerDisplay, BannerMode, BannerPosition, BlockquoteAppearance, BreadcrumbSeparator, ButtonAppearance, ButtonGroupOrientation, ButtonGroupPosition, ButtonType, ButtonVariant, CalloutAppearance, CalloutVariant, CardBg, CardBorderStyle, CardBorderWidth, CardHover, CardSize, CheckboxGroupOrientation, CheckboxGroupVariant, DatepickerChangeDetail, DatepickerMode, DatepickerMonthChangeDetail, DrawerAnimation, DrawerOverlayOpacity, DrawerPosition, DrawerSize, DropdownAlign, DropdownPosition, DropdownTrigger, FileuploadVariant, HeaderVariant, InputType, LinkTarget, ModalOverlayOpacity, ModalPosition, ModalSize, OtpVariant, PaginationVariant, PopoverAlign, PopoverPosition, PopoverTrigger, ProgressCounter, RadioGroupOrientation, RadioGroupVariant, RangeDisplay, RangeMode, RangeOrientation, SelectChangeDetail, SelectVariant, TabOrientation, TabVariant, TextareaResize, TimelineOrientation, TimelineSize, TimelineStepStatus, TimelineVariant, TitleHeadingType, ToastAppearance, ToastMode, ToastPosition, ToastVariant, TooltipAlign, TooltipPosition, TooltipTrigger } from "./utils/types";
+import { AccordionIcon, AccordionSize, AegovValidationDetail, AegovValidationResult, AegovValidationTrigger, AspectRatioFit, AspectRatioPreset, AvatarAppearance, AvatarGroupVariant, AvatarStatus, BadgeAppearance, BadgeColor, BannerDisplay, BannerMode, BannerPosition, BlockquoteAppearance, BreadcrumbSeparator, ButtonAppearance, ButtonGroupOrientation, ButtonGroupPosition, ButtonType, ButtonVariant, CalloutAppearance, CalloutVariant, CardBg, CardBorderStyle, CardBorderWidth, CardHover, CardSize, CheckboxGroupOrientation, CheckboxGroupVariant, DatepickerChangeDetail, DatepickerMode, DatepickerMonthChangeDetail, DrawerAnimation, DrawerOverlayOpacity, DrawerPosition, DrawerSize, DropdownAlign, DropdownPosition, DropdownTrigger, FileuploadVariant, HeaderVariant, InputType, LinkTarget, ModalOverlayOpacity, ModalPosition, ModalSize, NavblockIcon, NavblockSize, OtpVariant, PaginationVariant, PopoverAlign, PopoverPosition, PopoverTrigger, ProgressCounter, RadioGroupOrientation, RadioGroupVariant, RangeDisplay, RangeMode, RangeOrientation, SelectChangeDetail, SelectVariant, TabOrientation, TabVariant, TextareaResize, TimelineOrientation, TimelineSize, TimelineStepStatus, TimelineVariant, TitleHeadingType, ToastAppearance, ToastMode, ToastPosition, ToastVariant, TooltipAlign, TooltipPosition, TooltipTrigger } from "./utils/types";
 import { AegovDatepickerValue } from "./components/aegov-datepicker/aegov-datepicker";
 import { Event } from "@stencil/core";
 import { AegovRangeValue } from "./components/aegov-range/aegov-range";
 import { AegovSelectValue } from "./components/aegov-select/aegov-select";
-export { AccordionIcon, AccordionSize, AegovValidationDetail, AegovValidationResult, AegovValidationTrigger, AspectRatioFit, AspectRatioPreset, AvatarAppearance, AvatarGroupVariant, AvatarStatus, BadgeAppearance, BadgeColor, BannerDisplay, BannerMode, BannerPosition, BlockquoteAppearance, BreadcrumbSeparator, ButtonAppearance, ButtonGroupOrientation, ButtonGroupPosition, ButtonType, ButtonVariant, CalloutAppearance, CalloutVariant, CardBg, CardBorderStyle, CardBorderWidth, CardHover, CardSize, CheckboxGroupOrientation, CheckboxGroupVariant, DatepickerChangeDetail, DatepickerMode, DatepickerMonthChangeDetail, DrawerAnimation, DrawerOverlayOpacity, DrawerPosition, DrawerSize, DropdownAlign, DropdownPosition, DropdownTrigger, FileuploadVariant, HeaderVariant, InputType, LinkTarget, ModalOverlayOpacity, ModalPosition, ModalSize, OtpVariant, PaginationVariant, PopoverAlign, PopoverPosition, PopoverTrigger, ProgressCounter, RadioGroupOrientation, RadioGroupVariant, RangeDisplay, RangeMode, RangeOrientation, SelectChangeDetail, SelectVariant, TabOrientation, TabVariant, TextareaResize, TimelineOrientation, TimelineSize, TimelineStepStatus, TimelineVariant, TitleHeadingType, ToastAppearance, ToastMode, ToastPosition, ToastVariant, TooltipAlign, TooltipPosition, TooltipTrigger } from "./utils/types";
+export { AccordionIcon, AccordionSize, AegovValidationDetail, AegovValidationResult, AegovValidationTrigger, AspectRatioFit, AspectRatioPreset, AvatarAppearance, AvatarGroupVariant, AvatarStatus, BadgeAppearance, BadgeColor, BannerDisplay, BannerMode, BannerPosition, BlockquoteAppearance, BreadcrumbSeparator, ButtonAppearance, ButtonGroupOrientation, ButtonGroupPosition, ButtonType, ButtonVariant, CalloutAppearance, CalloutVariant, CardBg, CardBorderStyle, CardBorderWidth, CardHover, CardSize, CheckboxGroupOrientation, CheckboxGroupVariant, DatepickerChangeDetail, DatepickerMode, DatepickerMonthChangeDetail, DrawerAnimation, DrawerOverlayOpacity, DrawerPosition, DrawerSize, DropdownAlign, DropdownPosition, DropdownTrigger, FileuploadVariant, HeaderVariant, InputType, LinkTarget, ModalOverlayOpacity, ModalPosition, ModalSize, NavblockIcon, NavblockSize, OtpVariant, PaginationVariant, PopoverAlign, PopoverPosition, PopoverTrigger, ProgressCounter, RadioGroupOrientation, RadioGroupVariant, RangeDisplay, RangeMode, RangeOrientation, SelectChangeDetail, SelectVariant, TabOrientation, TabVariant, TextareaResize, TimelineOrientation, TimelineSize, TimelineStepStatus, TimelineVariant, TitleHeadingType, ToastAppearance, ToastMode, ToastPosition, ToastVariant, TooltipAlign, TooltipPosition, TooltipTrigger } from "./utils/types";
 export { AegovDatepickerValue } from "./components/aegov-datepicker/aegov-datepicker";
 export { Event } from "@stencil/core";
 export { AegovRangeValue } from "./components/aegov-range/aegov-range";
@@ -1285,6 +1285,109 @@ export namespace Components {
          */
         "target"?: LinkTarget;
     }
+    /**
+     * @component aegov-navblock
+     * @description Vertical navigation block, typically used in sidebar layouts.
+     * Holds aegov-navblock-item children that may nest recursively. Each parent
+     * item collapses/expands its sub-region, similar to an accordion. Cascades
+     * `icon` and resolved `size` to all descendant items, and enforces single-vs-
+     * multi open behavior at every level via `isMultiple`.
+     * @example <aegov-navblock block-title="Workspace" label-nav="Project sidebar">
+     *   <aegov-navblock-item href="/" is-active>Dashboard</aegov-navblock-item>
+     *   <aegov-navblock-item>
+     *     Reports
+     *     <aegov-navblock-item href="/r/sales">Sales</aegov-navblock-item>
+     *     <aegov-navblock-item href="/r/users">Users</aegov-navblock-item>
+     *   </aegov-navblock-item>
+     * </aegov-navblock>
+     */
+    interface AegovNavblock {
+        /**
+          * Block title text shown above items. The `title` slot overrides this.
+         */
+        "blockTitle"?: string;
+        /**
+          * Unique ID for the block wrapper. Auto-generated if not provided.
+         */
+        "fieldId"?: string;
+        /**
+          * Expand/collapse icon style for items.
+          * @default 'chevron'
+         */
+        "icon": NavblockIcon;
+        /**
+          * Wrap the block in a bordered container with padding.
+          * @default false
+         */
+        "isBordered": boolean;
+        /**
+          * Allow multiple items to be open at the same level simultaneously.
+          * @default false
+         */
+        "isMultiple": boolean;
+        /**
+          * Accessible label for the navigation landmark.
+          * @default 'Sidebar navigation'
+         */
+        "labelNav": string;
+        /**
+          * Size token. Accepts a Tailwind-style responsive string (e.g. `"sm md:base lg:lg"`). Resolves at runtime and cascades to all items.
+          * @default 'base'
+         */
+        "size": string;
+    }
+    /**
+     * @component aegov-navblock-item
+     * @description Single row inside an aegov-navblock. Renders as a link (when
+     * `href` is set and the item has no sub-items) or a toggle button (when the
+     * item has sub-items via `slot="subnav"` or nested `aegov-navblock-item`
+     * children). Cascades `icon` and `size` to direct sub-items.
+     * @example <aegov-navblock-item>
+     *   <svg slot="icon-start"></svg>
+     *   Reports <aegov-badge>3</aegov-badge>
+     *   <aegov-navblock-item href="/r/sales">Sales</aegov-navblock-item>
+     *   <aegov-navblock-item href="/r/users">Users</aegov-navblock-item>
+     * </aegov-navblock-item>
+     */
+    interface AegovNavblockItem {
+        /**
+          * Destination URL. If set and the item has no sub-items, renders an `<a>`.
+         */
+        "href"?: string;
+        /**
+          * Expand/collapse icon. Cascades from parent navblock.
+          * @default 'chevron'
+         */
+        "icon": NavblockIcon;
+        /**
+          * Mark as the current page. Sets `aria-current="page"` on the link.
+          * @default false
+         */
+        "isActive": boolean;
+        /**
+          * Visually disabled, not focusable, click no-op.
+          * @default false
+         */
+        "isDisabled": boolean;
+        /**
+          * Whether the sub-region is open. Set by parent navblock or parent navblock-item; mutable so the row can self-toggle.
+          * @default false
+         */
+        "isOpen": boolean;
+        /**
+          * Anchor rel.
+         */
+        "rel"?: string;
+        /**
+          * Size token. Cascades from parent navblock.
+          * @default 'base'
+         */
+        "size": NavblockSize;
+        /**
+          * Anchor target.
+         */
+        "target"?: LinkTarget;
+    }
     interface AegovOtp {
         /**
           * Clears all cells and focuses the first cell.
@@ -2391,6 +2494,10 @@ export interface AegovModalCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLAegovModalElement;
 }
+export interface AegovNavblockItemCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLAegovNavblockItemElement;
+}
 export interface AegovOtpCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLAegovOtpElement;
@@ -2878,6 +2985,58 @@ declare global {
         prototype: HTMLAegovNavbarItemElement;
         new (): HTMLAegovNavbarItemElement;
     };
+    /**
+     * @component aegov-navblock
+     * @description Vertical navigation block, typically used in sidebar layouts.
+     * Holds aegov-navblock-item children that may nest recursively. Each parent
+     * item collapses/expands its sub-region, similar to an accordion. Cascades
+     * `icon` and resolved `size` to all descendant items, and enforces single-vs-
+     * multi open behavior at every level via `isMultiple`.
+     * @example <aegov-navblock block-title="Workspace" label-nav="Project sidebar">
+     *   <aegov-navblock-item href="/" is-active>Dashboard</aegov-navblock-item>
+     *   <aegov-navblock-item>
+     *     Reports
+     *     <aegov-navblock-item href="/r/sales">Sales</aegov-navblock-item>
+     *     <aegov-navblock-item href="/r/users">Users</aegov-navblock-item>
+     *   </aegov-navblock-item>
+     * </aegov-navblock>
+     */
+    interface HTMLAegovNavblockElement extends Components.AegovNavblock, HTMLStencilElement {
+    }
+    var HTMLAegovNavblockElement: {
+        prototype: HTMLAegovNavblockElement;
+        new (): HTMLAegovNavblockElement;
+    };
+    interface HTMLAegovNavblockItemElementEventMap {
+        "aegovNavblockItemToggle": { open: boolean };
+    }
+    /**
+     * @component aegov-navblock-item
+     * @description Single row inside an aegov-navblock. Renders as a link (when
+     * `href` is set and the item has no sub-items) or a toggle button (when the
+     * item has sub-items via `slot="subnav"` or nested `aegov-navblock-item`
+     * children). Cascades `icon` and `size` to direct sub-items.
+     * @example <aegov-navblock-item>
+     *   <svg slot="icon-start"></svg>
+     *   Reports <aegov-badge>3</aegov-badge>
+     *   <aegov-navblock-item href="/r/sales">Sales</aegov-navblock-item>
+     *   <aegov-navblock-item href="/r/users">Users</aegov-navblock-item>
+     * </aegov-navblock-item>
+     */
+    interface HTMLAegovNavblockItemElement extends Components.AegovNavblockItem, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLAegovNavblockItemElementEventMap>(type: K, listener: (this: HTMLAegovNavblockItemElement, ev: AegovNavblockItemCustomEvent<HTMLAegovNavblockItemElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLAegovNavblockItemElementEventMap>(type: K, listener: (this: HTMLAegovNavblockItemElement, ev: AegovNavblockItemCustomEvent<HTMLAegovNavblockItemElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLAegovNavblockItemElement: {
+        prototype: HTMLAegovNavblockItemElement;
+        new (): HTMLAegovNavblockItemElement;
+    };
     interface HTMLAegovOtpElementEventMap {
         "aegovOtpChange": { value: string };
         "aegovOtpComplete": { value: string };
@@ -3228,6 +3387,8 @@ declare global {
         "aegov-modal": HTMLAegovModalElement;
         "aegov-navbar": HTMLAegovNavbarElement;
         "aegov-navbar-item": HTMLAegovNavbarItemElement;
+        "aegov-navblock": HTMLAegovNavblockElement;
+        "aegov-navblock-item": HTMLAegovNavblockItemElement;
         "aegov-otp": HTMLAegovOtpElement;
         "aegov-pagination": HTMLAegovPaginationElement;
         "aegov-popover": HTMLAegovPopoverElement;
@@ -4577,6 +4738,113 @@ declare namespace LocalJSX {
          */
         "target"?: LinkTarget;
     }
+    /**
+     * @component aegov-navblock
+     * @description Vertical navigation block, typically used in sidebar layouts.
+     * Holds aegov-navblock-item children that may nest recursively. Each parent
+     * item collapses/expands its sub-region, similar to an accordion. Cascades
+     * `icon` and resolved `size` to all descendant items, and enforces single-vs-
+     * multi open behavior at every level via `isMultiple`.
+     * @example <aegov-navblock block-title="Workspace" label-nav="Project sidebar">
+     *   <aegov-navblock-item href="/" is-active>Dashboard</aegov-navblock-item>
+     *   <aegov-navblock-item>
+     *     Reports
+     *     <aegov-navblock-item href="/r/sales">Sales</aegov-navblock-item>
+     *     <aegov-navblock-item href="/r/users">Users</aegov-navblock-item>
+     *   </aegov-navblock-item>
+     * </aegov-navblock>
+     */
+    interface AegovNavblock {
+        /**
+          * Block title text shown above items. The `title` slot overrides this.
+         */
+        "blockTitle"?: string;
+        /**
+          * Unique ID for the block wrapper. Auto-generated if not provided.
+         */
+        "fieldId"?: string;
+        /**
+          * Expand/collapse icon style for items.
+          * @default 'chevron'
+         */
+        "icon"?: NavblockIcon;
+        /**
+          * Wrap the block in a bordered container with padding.
+          * @default false
+         */
+        "isBordered"?: boolean;
+        /**
+          * Allow multiple items to be open at the same level simultaneously.
+          * @default false
+         */
+        "isMultiple"?: boolean;
+        /**
+          * Accessible label for the navigation landmark.
+          * @default 'Sidebar navigation'
+         */
+        "labelNav"?: string;
+        /**
+          * Size token. Accepts a Tailwind-style responsive string (e.g. `"sm md:base lg:lg"`). Resolves at runtime and cascades to all items.
+          * @default 'base'
+         */
+        "size"?: string;
+    }
+    /**
+     * @component aegov-navblock-item
+     * @description Single row inside an aegov-navblock. Renders as a link (when
+     * `href` is set and the item has no sub-items) or a toggle button (when the
+     * item has sub-items via `slot="subnav"` or nested `aegov-navblock-item`
+     * children). Cascades `icon` and `size` to direct sub-items.
+     * @example <aegov-navblock-item>
+     *   <svg slot="icon-start"></svg>
+     *   Reports <aegov-badge>3</aegov-badge>
+     *   <aegov-navblock-item href="/r/sales">Sales</aegov-navblock-item>
+     *   <aegov-navblock-item href="/r/users">Users</aegov-navblock-item>
+     * </aegov-navblock-item>
+     */
+    interface AegovNavblockItem {
+        /**
+          * Destination URL. If set and the item has no sub-items, renders an `<a>`.
+         */
+        "href"?: string;
+        /**
+          * Expand/collapse icon. Cascades from parent navblock.
+          * @default 'chevron'
+         */
+        "icon"?: NavblockIcon;
+        /**
+          * Mark as the current page. Sets `aria-current="page"` on the link.
+          * @default false
+         */
+        "isActive"?: boolean;
+        /**
+          * Visually disabled, not focusable, click no-op.
+          * @default false
+         */
+        "isDisabled"?: boolean;
+        /**
+          * Whether the sub-region is open. Set by parent navblock or parent navblock-item; mutable so the row can self-toggle.
+          * @default false
+         */
+        "isOpen"?: boolean;
+        /**
+          * Emitted when the row toggles its sub-region.
+         */
+        "onAegovNavblockItemToggle"?: (event: AegovNavblockItemCustomEvent<{ open: boolean }>) => void;
+        /**
+          * Anchor rel.
+         */
+        "rel"?: string;
+        /**
+          * Size token. Cascades from parent navblock.
+          * @default 'base'
+         */
+        "size"?: NavblockSize;
+        /**
+          * Anchor target.
+         */
+        "target"?: LinkTarget;
+    }
     interface AegovOtp {
         /**
           * Inline error message. Use `error` slot for rich markup.
@@ -5699,6 +5967,8 @@ declare namespace LocalJSX {
         "aegov-modal": AegovModal;
         "aegov-navbar": AegovNavbar;
         "aegov-navbar-item": AegovNavbarItem;
+        "aegov-navblock": AegovNavblock;
+        "aegov-navblock-item": AegovNavblockItem;
         "aegov-otp": AegovOtp;
         "aegov-pagination": AegovPagination;
         "aegov-popover": AegovPopover;
@@ -5814,6 +6084,37 @@ declare module "@stencil/core" {
              * </aegov-navbar-item>
              */
             "aegov-navbar-item": LocalJSX.AegovNavbarItem & JSXBase.HTMLAttributes<HTMLAegovNavbarItemElement>;
+            /**
+             * @component aegov-navblock
+             * @description Vertical navigation block, typically used in sidebar layouts.
+             * Holds aegov-navblock-item children that may nest recursively. Each parent
+             * item collapses/expands its sub-region, similar to an accordion. Cascades
+             * `icon` and resolved `size` to all descendant items, and enforces single-vs-
+             * multi open behavior at every level via `isMultiple`.
+             * @example <aegov-navblock block-title="Workspace" label-nav="Project sidebar">
+             *   <aegov-navblock-item href="/" is-active>Dashboard</aegov-navblock-item>
+             *   <aegov-navblock-item>
+             *     Reports
+             *     <aegov-navblock-item href="/r/sales">Sales</aegov-navblock-item>
+             *     <aegov-navblock-item href="/r/users">Users</aegov-navblock-item>
+             *   </aegov-navblock-item>
+             * </aegov-navblock>
+             */
+            "aegov-navblock": LocalJSX.AegovNavblock & JSXBase.HTMLAttributes<HTMLAegovNavblockElement>;
+            /**
+             * @component aegov-navblock-item
+             * @description Single row inside an aegov-navblock. Renders as a link (when
+             * `href` is set and the item has no sub-items) or a toggle button (when the
+             * item has sub-items via `slot="subnav"` or nested `aegov-navblock-item`
+             * children). Cascades `icon` and `size` to direct sub-items.
+             * @example <aegov-navblock-item>
+             *   <svg slot="icon-start"></svg>
+             *   Reports <aegov-badge>3</aegov-badge>
+             *   <aegov-navblock-item href="/r/sales">Sales</aegov-navblock-item>
+             *   <aegov-navblock-item href="/r/users">Users</aegov-navblock-item>
+             * </aegov-navblock-item>
+             */
+            "aegov-navblock-item": LocalJSX.AegovNavblockItem & JSXBase.HTMLAttributes<HTMLAegovNavblockItemElement>;
             "aegov-otp": LocalJSX.AegovOtp & JSXBase.HTMLAttributes<HTMLAegovOtpElement>;
             "aegov-pagination": LocalJSX.AegovPagination & JSXBase.HTMLAttributes<HTMLAegovPaginationElement>;
             /**
