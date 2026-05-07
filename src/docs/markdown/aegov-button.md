@@ -77,24 +77,46 @@ The `appearance` property selects the visual treatment that wraps the variant co
 
 ### Variant + appearance matrix
 
-Combining the two properties produces every visual style the design system needs. The grid below shows every cell.
+Every combination of `variant` (5) × `appearance` (4) produces a distinct visual style. Use this matrix to pick the right button for each context — rows fix the semantic intent (variant), columns fix the visual weight (appearance).
 
-<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <div class="grid grid-cols-4 gap-3 items-center">
-    <aegov-button variant="primary" appearance="solid">Primary solid</aegov-button>
-    <aegov-button variant="primary" appearance="outline">Primary outline</aegov-button>
-    <aegov-button variant="primary" appearance="soft">Primary soft</aegov-button>
-    <aegov-button variant="primary" appearance="link">Primary link</aegov-button>
+```html
+<aegov-button variant="primary" appearance="solid">Save</aegov-button>
+<aegov-button variant="danger"  appearance="outline">Delete</aegov-button>
+<aegov-button variant="neutralMax" appearance="link">Learn more</aegov-button>
+```
 
-    <aegov-button variant="secondary" appearance="solid">Secondary solid</aegov-button>
-    <aegov-button variant="secondary" appearance="outline">Secondary outline</aegov-button>
-    <aegov-button variant="secondary" appearance="soft">Secondary soft</aegov-button>
-    <aegov-button variant="secondary" appearance="link">Secondary link</aegov-button>
-
-    <aegov-button variant="danger" appearance="solid">Danger solid</aegov-button>
-    <aegov-button variant="danger" appearance="outline">Danger outline</aegov-button>
-    <aegov-button variant="danger" appearance="soft">Danger soft</aegov-button>
-    <aegov-button variant="danger" appearance="link">Danger link</aegov-button>
+<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov overflow-x-auto">
+  <div class="grid gap-3 items-center" style="grid-template-columns: 9rem repeat(4, minmax(8rem, 1fr));">
+    <div class="text-xs font-bold uppercase tracking-wide text-aeblack-500"></div>
+    <div class="text-xs font-bold uppercase tracking-wide text-aeblack-500">solid</div>
+    <div class="text-xs font-bold uppercase tracking-wide text-aeblack-500">outline</div>
+    <div class="text-xs font-bold uppercase tracking-wide text-aeblack-500">soft</div>
+    <div class="text-xs font-bold uppercase tracking-wide text-aeblack-500">link</div>
+    <div class="text-xs font-bold uppercase tracking-wide text-aeblack-500">primary</div>
+    <aegov-button variant="primary" appearance="solid">Action</aegov-button>
+    <aegov-button variant="primary" appearance="outline">Action</aegov-button>
+    <aegov-button variant="primary" appearance="soft">Action</aegov-button>
+    <aegov-button variant="primary" appearance="link">Action</aegov-button>
+    <div class="text-xs font-bold uppercase tracking-wide text-aeblack-500">secondary</div>
+    <aegov-button variant="secondary" appearance="solid">Action</aegov-button>
+    <aegov-button variant="secondary" appearance="outline">Action</aegov-button>
+    <aegov-button variant="secondary" appearance="soft">Action</aegov-button>
+    <aegov-button variant="secondary" appearance="link">Action</aegov-button>
+    <div class="text-xs font-bold uppercase tracking-wide text-aeblack-500">danger</div>
+    <aegov-button variant="danger" appearance="solid">Action</aegov-button>
+    <aegov-button variant="danger" appearance="outline">Action</aegov-button>
+    <aegov-button variant="danger" appearance="soft">Action</aegov-button>
+    <aegov-button variant="danger" appearance="link">Action</aegov-button>
+    <div class="text-xs font-bold uppercase tracking-wide text-aeblack-500">neutralMin</div>
+    <aegov-button variant="neutralMin" appearance="solid">Action</aegov-button>
+    <aegov-button variant="neutralMin" appearance="outline">Action</aegov-button>
+    <aegov-button variant="neutralMin" appearance="soft">Action</aegov-button>
+    <aegov-button variant="neutralMin" appearance="link">Action</aegov-button>
+    <div class="text-xs font-bold uppercase tracking-wide text-aeblack-500">neutralMax</div>
+    <aegov-button variant="neutralMax" appearance="solid">Action</aegov-button>
+    <aegov-button variant="neutralMax" appearance="outline">Action</aegov-button>
+    <aegov-button variant="neutralMax" appearance="soft">Action</aegov-button>
+    <aegov-button variant="neutralMax" appearance="link">Action</aegov-button>
   </div>
 </div>
 
