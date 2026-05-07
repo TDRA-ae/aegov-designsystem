@@ -22,6 +22,24 @@ export class AegovHeaderBanner {
 
   @State() headerExpanded: boolean = false;
 
+  private actionsSlotEl: HTMLSlotElement;
+  private actionsDefaultEl: HTMLElement;
+
+  private syncActionsFallbackVisibility = () => {
+    if (!this.actionsSlotEl || !this.actionsDefaultEl) return;
+    const has = this.actionsSlotEl.assignedElements({ flatten: true }).length > 0;
+    this.actionsDefaultEl.style.display = has ? 'none' : '';
+  };
+
+  componentDidLoad() {
+    this.actionsSlotEl = this.el.shadowRoot?.querySelector('slot[name="actions"]') as HTMLSlotElement;
+    this.actionsDefaultEl = this.el.shadowRoot?.querySelector('.header__actions-default') as HTMLElement;
+    if (this.actionsSlotEl) {
+      this.actionsSlotEl.addEventListener('slotchange', this.syncActionsFallbackVisibility);
+      this.syncActionsFallbackVisibility();
+    }
+  }
+
   private triggerEl: HTMLAnchorElement;
   private expandedEl: HTMLDivElement;
   private closeButtonEl: HTMLElement;
@@ -29,10 +47,6 @@ export class AegovHeaderBanner {
 
   private primeTextEn = 'A United Arab Emirates Federal Government website.';
   private primeTextAr = 'هذا هو الموقع الإلكتروني الرسمي لحكومة دولة الإمارات العربية المتحدة.';
-  private accessibilityTextEn = 'Accessibility';
-  private accessibilityTextAr = 'إمكانية الوصول';
-  private languageTextEn = 'Language';
-  private languageTextAr = 'اللغة';
   private learnMoreTextEn = 'Learn more';
   private learnMoreTextAr = 'اعرف المزيد';
   private closeTextEn = 'Close';
@@ -133,18 +147,7 @@ export class AegovHeaderBanner {
                 <svg class="w-3 h-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"><rect width="256" height="256" fill="none"/><polyline points="208 96 128 176 48 96" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="24"/></svg>
               </a>
             </div>
-            <nav class="hidden sm:inline">
-              <ul class="flex justify-end items-center gap-6 list-none m-0 p-0">
-                <li><a href="#" class="text-sm! text-aeblack-100! focus-visible:text-aeblack-800! no-underline">
-                  <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"><rect width="256" height="256" fill="none"/><polyline points="104 72 104 136 192 136 224 200 248 192" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/><circle cx="104" cy="48" r="24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/><path d="M168,96H112a64,64,0,0,0,0,128c29.82,0,56.9-20.4,64-48" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/></svg>
-                  <span class="hidden lg:inline">{this.isRtl() ? this.accessibilityTextAr : this.accessibilityTextEn}</span>
-                </a></li>
-                <li><a href="#" class="text-sm! text-aeblack-100! focus-visible:text-aeblack-800! no-underline">
-                  <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"><rect width="256" height="256" fill="none"/><circle cx="128" cy="128" r="96" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/><path d="M168,128c0,64-40,96-40,96s-40-32-40-96,40-96,40-96S168,64,168,128Z" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/><line x1="37.46" y1="96" x2="218.54" y2="96" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/><line x1="37.46" y1="160" x2="218.54" y2="160" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/></svg>
-                  <span class="hidden lg:inline">{this.isRtl() ? this.languageTextAr : this.languageTextEn}</span>
-                </a></li>
-              </ul>
-            </nav>
+            <slot name="actions" />
           </div>
           <div
             id="header-top-expand"

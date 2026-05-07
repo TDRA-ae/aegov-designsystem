@@ -21,6 +21,22 @@ The `aegov-header` component is composed of two stacked rows: a slim top bar car
       <circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>
     </svg>
   </aegov-input>
+
+
+  <nav slot="actions" class="hidden sm:inline">
+    <ul class="flex justify-end items-center gap-6 list-none m-0 p-0">
+      <li><a href="#" class="text-sm! text-aeblack-100! focus-visible:text-aeblack-800! no-underline">
+        <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"><rect width="256" height="256" fill="none"/><polyline points="104 72 104 136 192 136 224 200 248 192" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/><circle cx="104" cy="48" r="24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/><path d="M168,96H112a64,64,0,0,0,0,128c29.82,0,56.9-20.4,64-48" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/></svg>
+        <span class="hidden lg:inline">Accessibility</span>
+      </a></li>
+      <li><a href="#" class="text-sm! text-aeblack-100! focus-visible:text-aeblack-800! no-underline">
+        <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"><rect width="256" height="256" fill="none"/><circle cx="128" cy="128" r="96" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/><path d="M168,128c0,64-40,96-40,96s-40-32-40-96,40-96,40-96S168,64,168,128Z" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/><line x1="37.46" y1="96" x2="218.54" y2="96" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/><line x1="37.46" y1="160" x2="218.54" y2="160" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/></svg>
+        <span class="hidden lg:inline">Language</span>
+      </a></li>
+    </ul>
+  </nav>
+
+
 </aegov-header>
 ```
 
@@ -29,6 +45,18 @@ The `aegov-header` component is composed of two stacked rows: a slim top bar car
     entity-name="Ministry of Industry and Advanced Technology"
     entity-domain="https://moiat.gov.ae"
   >
+    <nav slot="actions" class="hidden sm:inline">
+      <ul class="flex justify-end items-center gap-6 list-none m-0 p-0">
+        <li><a href="#" class="text-sm! text-aeblack-100! focus-visible:text-aeblack-800! no-underline">
+          <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"><rect width="256" height="256" fill="none"/><polyline points="104 72 104 136 192 136 224 200 248 192" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/><circle cx="104" cy="48" r="24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/><path d="M168,96H112a64,64,0,0,0,0,128c29.82,0,56.9-20.4,64-48" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/></svg>
+          <span class="hidden lg:inline">Accessibility</span>
+        </a></li>
+        <li><a href="#" class="text-sm! text-aeblack-100! focus-visible:text-aeblack-800! no-underline">
+          <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"><rect width="256" height="256" fill="none"/><circle cx="128" cy="128" r="96" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/><path d="M168,128c0,64-40,96-40,96s-40-32-40-96,40-96,40-96S168,64,168,128Z" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/><line x1="37.46" y1="96" x2="218.54" y2="96" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/><line x1="37.46" y1="160" x2="218.54" y2="160" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/></svg>
+          <span class="hidden lg:inline">Language</span>
+        </a></li>
+      </ul>
+    </nav>
     <img
       slot="logo"
       src="https://moiat.gov.ae/-/media/site/moiat/identity/logo/moiat_logo_eng.ashx?iar=0&hash=42716B005DAA289F20DE7B83B575605A"
