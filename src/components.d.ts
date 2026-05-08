@@ -5,12 +5,12 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
-import { AccordionIcon, AccordionSize, AegovValidationDetail, AegovValidationResult, AegovValidationTrigger, AspectRatioFit, AspectRatioPreset, AvatarAppearance, AvatarGroupVariant, AvatarStatus, BadgeAppearance, BadgeColor, BannerDisplay, BannerMode, BannerPosition, BentoFlow, BlockquoteAppearance, BreadcrumbSeparator, ButtonAppearance, ButtonGroupOrientation, ButtonGroupPosition, ButtonType, ButtonVariant, CalloutAppearance, CalloutVariant, CardBg, CardBorderStyle, CardBorderWidth, CardHover, CardSize, CheckboxGroupOrientation, CheckboxGroupVariant, DatepickerChangeDetail, DatepickerMode, DatepickerMonthChangeDetail, DrawerAnimation, DrawerOverlayOpacity, DrawerPosition, DrawerSize, DropdownAlign, DropdownPosition, DropdownTrigger, FileuploadVariant, HeaderVariant, InputType, LinkTarget, ModalOverlayOpacity, ModalPosition, ModalSize, NavblockIcon, NavblockSize, OtpVariant, PaginationVariant, PopoverAlign, PopoverPosition, PopoverTrigger, ProgressCounter, RadioGroupOrientation, RadioGroupVariant, RangeDisplay, RangeMode, RangeOrientation, SelectChangeDetail, SelectVariant, TabOrientation, TabVariant, TextareaResize, TimelineOrientation, TimelineSize, TimelineStepStatus, TimelineVariant, TitleHeadingType, ToastAppearance, ToastMode, ToastPosition, ToastVariant, TooltipAlign, TooltipPosition, TooltipTrigger } from "./utils/types";
+import { AccordionIcon, AccordionSize, AegovValidationDetail, AegovValidationResult, AegovValidationTrigger, AspectRatioFit, AspectRatioPreset, AvatarAppearance, AvatarGroupVariant, AvatarStatus, BadgeAppearance, BadgeColor, BannerDisplay, BannerMode, BannerPosition, BentoFlow, BlockquoteAppearance, BreadcrumbSeparator, ButtonAppearance, ButtonGroupOrientation, ButtonGroupPosition, ButtonType, ButtonVariant, CalloutAppearance, CalloutVariant, CardAppearance, CardBorderWidth, CardHover, CardSize, CardVariant, CheckboxGroupOrientation, CheckboxGroupVariant, DatepickerChangeDetail, DatepickerMode, DatepickerMonthChangeDetail, DrawerAnimation, DrawerOverlayOpacity, DrawerPosition, DrawerSize, DropdownAlign, DropdownPosition, DropdownTrigger, FileuploadVariant, HeaderVariant, InputType, LinkTarget, ModalOverlayOpacity, ModalPosition, ModalSize, NavblockIcon, NavblockSize, OtpVariant, PaginationVariant, PopoverAlign, PopoverPosition, PopoverTrigger, ProgressCounter, RadioGroupOrientation, RadioGroupVariant, RangeDisplay, RangeMode, RangeOrientation, SelectChangeDetail, SelectVariant, SeparatorAppearance, SeparatorOrientation, SeparatorVariant, TabOrientation, TabVariant, TextareaResize, TimelineOrientation, TimelineSize, TimelineStepStatus, TimelineVariant, TitleHeadingType, ToastAppearance, ToastMode, ToastPosition, ToastVariant, TooltipAlign, TooltipPosition, TooltipTrigger } from "./utils/types";
 import { AegovDatepickerValue } from "./components/aegov-datepicker/aegov-datepicker";
 import { Event } from "@stencil/core";
 import { AegovRangeValue } from "./components/aegov-range/aegov-range";
 import { AegovSelectValue } from "./components/aegov-select/aegov-select";
-export { AccordionIcon, AccordionSize, AegovValidationDetail, AegovValidationResult, AegovValidationTrigger, AspectRatioFit, AspectRatioPreset, AvatarAppearance, AvatarGroupVariant, AvatarStatus, BadgeAppearance, BadgeColor, BannerDisplay, BannerMode, BannerPosition, BentoFlow, BlockquoteAppearance, BreadcrumbSeparator, ButtonAppearance, ButtonGroupOrientation, ButtonGroupPosition, ButtonType, ButtonVariant, CalloutAppearance, CalloutVariant, CardBg, CardBorderStyle, CardBorderWidth, CardHover, CardSize, CheckboxGroupOrientation, CheckboxGroupVariant, DatepickerChangeDetail, DatepickerMode, DatepickerMonthChangeDetail, DrawerAnimation, DrawerOverlayOpacity, DrawerPosition, DrawerSize, DropdownAlign, DropdownPosition, DropdownTrigger, FileuploadVariant, HeaderVariant, InputType, LinkTarget, ModalOverlayOpacity, ModalPosition, ModalSize, NavblockIcon, NavblockSize, OtpVariant, PaginationVariant, PopoverAlign, PopoverPosition, PopoverTrigger, ProgressCounter, RadioGroupOrientation, RadioGroupVariant, RangeDisplay, RangeMode, RangeOrientation, SelectChangeDetail, SelectVariant, TabOrientation, TabVariant, TextareaResize, TimelineOrientation, TimelineSize, TimelineStepStatus, TimelineVariant, TitleHeadingType, ToastAppearance, ToastMode, ToastPosition, ToastVariant, TooltipAlign, TooltipPosition, TooltipTrigger } from "./utils/types";
+export { AccordionIcon, AccordionSize, AegovValidationDetail, AegovValidationResult, AegovValidationTrigger, AspectRatioFit, AspectRatioPreset, AvatarAppearance, AvatarGroupVariant, AvatarStatus, BadgeAppearance, BadgeColor, BannerDisplay, BannerMode, BannerPosition, BentoFlow, BlockquoteAppearance, BreadcrumbSeparator, ButtonAppearance, ButtonGroupOrientation, ButtonGroupPosition, ButtonType, ButtonVariant, CalloutAppearance, CalloutVariant, CardAppearance, CardBorderWidth, CardHover, CardSize, CardVariant, CheckboxGroupOrientation, CheckboxGroupVariant, DatepickerChangeDetail, DatepickerMode, DatepickerMonthChangeDetail, DrawerAnimation, DrawerOverlayOpacity, DrawerPosition, DrawerSize, DropdownAlign, DropdownPosition, DropdownTrigger, FileuploadVariant, HeaderVariant, InputType, LinkTarget, ModalOverlayOpacity, ModalPosition, ModalSize, NavblockIcon, NavblockSize, OtpVariant, PaginationVariant, PopoverAlign, PopoverPosition, PopoverTrigger, ProgressCounter, RadioGroupOrientation, RadioGroupVariant, RangeDisplay, RangeMode, RangeOrientation, SelectChangeDetail, SelectVariant, SeparatorAppearance, SeparatorOrientation, SeparatorVariant, TabOrientation, TabVariant, TextareaResize, TimelineOrientation, TimelineSize, TimelineStepStatus, TimelineVariant, TitleHeadingType, ToastAppearance, ToastMode, ToastPosition, ToastVariant, TooltipAlign, TooltipPosition, TooltipTrigger } from "./utils/types";
 export { AegovDatepickerValue } from "./components/aegov-datepicker/aegov-datepicker";
 export { Event } from "@stencil/core";
 export { AegovRangeValue } from "./components/aegov-range/aegov-range";
@@ -441,15 +441,10 @@ export namespace Components {
     }
     interface AegovCard {
         /**
-          * Background style: 'white' (default) or 'subtle' (aeblack-50).
-          * @default 'white'
+          * Appearance: 'solid' (full-strength border), 'light' (subtle low-contrast border), or 'creative' (gradient border via CSS mask). Border colour resolves from `variant`.
+          * @default 'solid'
          */
-        "bg": CardBg;
-        /**
-          * Border style: 'standard' (solid primary-600), 'light' (solid primary-200), 'creative' (gradient from primary-400 to primary-800), or 'highlight' (solid aeblack-200 at rest, transitions to primary-300→700 gradient on hover).
-          * @default 'standard'
-         */
-        "borderStyle": CardBorderStyle;
+        "appearance": CardAppearance;
         /**
           * Border thickness: 1, 2, or 3.
           * @default 2
@@ -474,6 +469,11 @@ export namespace Components {
           * @default 'base'
          */
         "size": CardSize;
+        /**
+          * Variant: colour family applied to border + glow. 'primary' (default), 'secondary', 'neutral-max' (aeblack-800 family), or 'neutral-min' (aeblack-100 family).
+          * @default 'primary'
+         */
+        "variant": CardVariant;
     }
     interface AegovCheckbox {
         /**
@@ -1987,10 +1987,10 @@ export namespace Components {
      */
     interface AegovSeparator {
         /**
-          * Visual appearance of the separator
-          * @default 'default'
+          * Appearance: 'solid' (full-strength line) or 'light' (subtle low-contrast line). Colour resolves from `variant`.
+          * @default 'solid'
          */
-        "appearance": 'default' | 'subtle';
+        "appearance": SeparatorAppearance;
         /**
           * Additional CSS classes merged onto the inner separator element.
          */
@@ -2004,11 +2004,16 @@ export namespace Components {
           * Orientation of the separator
           * @default 'horizontal'
          */
-        "orientation": 'horizontal' | 'vertical';
+        "orientation": SeparatorOrientation;
         /**
           * Optional text label displayed at the center of the separator
          */
         "text"?: string;
+        /**
+          * Variant: colour family applied to line + text label. 'primary' (default), 'secondary', 'neutral-max' (aeblack-800 family), or 'neutral-min' (aeblack-100 family).
+          * @default 'primary'
+         */
+        "variant": SeparatorVariant;
     }
     /**
      * @component aegov-tab
@@ -3915,15 +3920,10 @@ declare namespace LocalJSX {
     }
     interface AegovCard {
         /**
-          * Background style: 'white' (default) or 'subtle' (aeblack-50).
-          * @default 'white'
+          * Appearance: 'solid' (full-strength border), 'light' (subtle low-contrast border), or 'creative' (gradient border via CSS mask). Border colour resolves from `variant`.
+          * @default 'solid'
          */
-        "bg"?: CardBg;
-        /**
-          * Border style: 'standard' (solid primary-600), 'light' (solid primary-200), 'creative' (gradient from primary-400 to primary-800), or 'highlight' (solid aeblack-200 at rest, transitions to primary-300→700 gradient on hover).
-          * @default 'standard'
-         */
-        "borderStyle"?: CardBorderStyle;
+        "appearance"?: CardAppearance;
         /**
           * Border thickness: 1, 2, or 3.
           * @default 2
@@ -3948,6 +3948,11 @@ declare namespace LocalJSX {
           * @default 'base'
          */
         "size"?: CardSize;
+        /**
+          * Variant: colour family applied to border + glow. 'primary' (default), 'secondary', 'neutral-max' (aeblack-800 family), or 'neutral-min' (aeblack-100 family).
+          * @default 'primary'
+         */
+        "variant"?: CardVariant;
     }
     interface AegovCheckbox {
         /**
@@ -5504,10 +5509,10 @@ declare namespace LocalJSX {
      */
     interface AegovSeparator {
         /**
-          * Visual appearance of the separator
-          * @default 'default'
+          * Appearance: 'solid' (full-strength line) or 'light' (subtle low-contrast line). Colour resolves from `variant`.
+          * @default 'solid'
          */
-        "appearance"?: 'default' | 'subtle';
+        "appearance"?: SeparatorAppearance;
         /**
           * Additional CSS classes merged onto the inner separator element.
          */
@@ -5521,11 +5526,16 @@ declare namespace LocalJSX {
           * Orientation of the separator
           * @default 'horizontal'
          */
-        "orientation"?: 'horizontal' | 'vertical';
+        "orientation"?: SeparatorOrientation;
         /**
           * Optional text label displayed at the center of the separator
          */
         "text"?: string;
+        /**
+          * Variant: colour family applied to line + text label. 'primary' (default), 'secondary', 'neutral-max' (aeblack-800 family), or 'neutral-min' (aeblack-100 family).
+          * @default 'primary'
+         */
+        "variant"?: SeparatorVariant;
     }
     /**
      * @component aegov-tab

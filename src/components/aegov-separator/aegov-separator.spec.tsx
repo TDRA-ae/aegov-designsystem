@@ -53,13 +53,33 @@ describe('aegov-separator', () => {
     expect(hr.getAttribute('aria-orientation')).toBe('vertical');
   });
 
-  it('applies subtle appearance class', async () => {
+  it('applies appearance class', async () => {
     const page = await newSpecPage({
       components: [AegovSeparator],
-      html: `<aegov-separator appearance="subtle"></aegov-separator>`,
+      html: `<aegov-separator appearance="light"></aegov-separator>`,
     });
     const hr = page.root.querySelector('hr');
-    expect(hr.classList.contains('separator--subtle')).toBe(true);
+    expect(hr.classList.contains('separator-appearance-light')).toBe(true);
+  });
+
+  it('defaults to solid appearance and primary variant', async () => {
+    const page = await newSpecPage({
+      components: [AegovSeparator],
+      html: `<aegov-separator></aegov-separator>`,
+    });
+    const hr = page.root.querySelector('hr');
+    expect(hr.classList.contains('separator-appearance-solid')).toBe(true);
+    expect(hr.classList.contains('separator-variant-primary')).toBe(true);
+  });
+
+  it('applies variant class for all 4 variants', async () => {
+    for (const v of ['primary', 'secondary', 'neutral-max', 'neutral-min']) {
+      const page = await newSpecPage({
+        components: [AegovSeparator],
+        html: `<aegov-separator variant="${v}"></aegov-separator>`,
+      });
+      expect(page.root.querySelector('hr').classList.contains(`separator-variant-${v}`)).toBe(true);
+    }
   });
 
   it('applies separator--with-text when text exists', async () => {

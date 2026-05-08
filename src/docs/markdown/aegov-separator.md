@@ -1,10 +1,10 @@
 # Separator
 
-<p class="text-lg text-aeblack-500 mb-8">A Separator is a thin visual divider used to break up sections of content, group related items, or signal a contextual boundary in an interface. Use it to separate form sections, divide list groups, mark a transition between two interaction paths, or insert an &ldquo;OR&rdquo;-style break between alternative actions. Separators support horizontal and vertical orientation, an optional inline label, and a subtle appearance for less visual weight.</p>
+<p class="text-lg text-aeblack-500 mb-8">A Separator is a thin visual divider used to break up sections of content, group related items, or signal a contextual boundary in an interface. Use it to separate form sections, divide list groups, mark a transition between two interaction paths, or insert an &ldquo;OR&rdquo;-style break between alternative actions. Separators support horizontal and vertical orientation, an optional inline label, two appearance treatments (`solid` / `light`), and four colour variants (`primary`, `secondary`, `neutral-max`, `neutral-min`).</p>
 
 ## Introduction
 
-The `aegov-separator` component renders as a native `<hr>` when used without a label, or as a flex layout of line / text / line when a `text` value or slotted label is supplied. It exposes a small surface — `orientation`, `appearance`, `text`, and `is-decorative` — and uses logical CSS properties so it works identically in LTR and RTL contexts.
+The `aegov-separator` component renders as a native `<hr>` when used without a label, or as a flex layout of line / text / line when a `text` value or slotted label is supplied. It exposes a small surface — `orientation`, `appearance`, `variant`, `text`, and `is-decorative` — and uses logical CSS properties so it works identically in LTR and RTL contexts.
 
 ```html
 <aegov-separator></aegov-separator>
@@ -62,18 +62,77 @@ Use a vertical separator inside a flex row of links or actions to create a clean
 
 ## Appearance
 
-The `appearance` property tunes the visual weight. Use `default` (a slate-300 line) for clear section breaks, and `subtle` (slate-200) where the separator should recede behind the surrounding content.
+The `appearance` property tunes the line treatment. Use `solid` (full-strength) for clear section breaks, and `light` (subtle) where the separator should recede behind the surrounding content. The actual colour resolves from the `variant` property.
 
 ```html
-<aegov-separator appearance="default"></aegov-separator>
-<aegov-separator appearance="subtle"></aegov-separator>
+<aegov-separator appearance="solid"></aegov-separator>
+<aegov-separator appearance="light"></aegov-separator>
 ```
 
 <div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <p class="text-sm text-aeblack-600 mb-2">Default</p>
-  <aegov-separator appearance="default"></aegov-separator>
-  <p class="text-sm text-aeblack-600 mt-6 mb-2">Subtle</p>
-  <aegov-separator appearance="subtle"></aegov-separator>
+  <p class="text-sm text-aeblack-600 mb-2">Solid</p>
+  <aegov-separator appearance="solid"></aegov-separator>
+  <p class="text-sm text-aeblack-600 mt-6 mb-2">Light</p>
+  <aegov-separator appearance="light"></aegov-separator>
+</div>
+
+---
+
+## Variant
+
+The `variant` property selects the colour family for the line and the optional text label.
+
+- `primary` — primary-* family (default)
+- `secondary` — secondary-* family
+- `neutral-max` — strong neutral (aeblack-800 / aeblack-400 family)
+- `neutral-min` — quiet neutral (aeblack-100 / aeblack-50 family)
+
+### Colour matrix
+
+| Variant       | Solid           | Light            |
+| ------------- | --------------- | ---------------- |
+| `primary`     | `primary-600`   | `primary-200`    |
+| `secondary`   | `secondary-600` | `secondary-200`  |
+| `neutral-max` | `aeblack-800`   | `aeblack-400`    |
+| `neutral-min` | `aeblack-100`   | `aeblack-50`     |
+
+```html
+<aegov-separator variant="primary" appearance="solid"></aegov-separator>
+<aegov-separator variant="secondary" appearance="light"></aegov-separator>
+<aegov-separator variant="neutral-max" appearance="solid"></aegov-separator>
+<aegov-separator variant="neutral-min" appearance="solid"></aegov-separator>
+```
+
+<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <p class="text-sm text-aeblack-600 mb-2">Primary · Solid</p>
+  <aegov-separator variant="primary" appearance="solid"></aegov-separator>
+  <p class="text-sm text-aeblack-600 mt-6 mb-2">Primary · Light</p>
+  <aegov-separator variant="primary" appearance="light"></aegov-separator>
+  <p class="text-sm text-aeblack-600 mt-6 mb-2">Secondary · Solid</p>
+  <aegov-separator variant="secondary" appearance="solid"></aegov-separator>
+  <p class="text-sm text-aeblack-600 mt-6 mb-2">Secondary · Light</p>
+  <aegov-separator variant="secondary" appearance="light"></aegov-separator>
+  <p class="text-sm text-aeblack-600 mt-6 mb-2">Neutral-max · Solid</p>
+  <aegov-separator variant="neutral-max" appearance="solid"></aegov-separator>
+  <p class="text-sm text-aeblack-600 mt-6 mb-2">Neutral-max · Light</p>
+  <aegov-separator variant="neutral-max" appearance="light"></aegov-separator>
+  <p class="text-sm text-aeblack-600 mt-6 mb-2">Neutral-min · Solid</p>
+  <aegov-separator variant="neutral-min" appearance="solid"></aegov-separator>
+  <p class="text-sm text-aeblack-600 mt-6 mb-2">Neutral-min · Light</p>
+  <aegov-separator variant="neutral-min" appearance="light"></aegov-separator>
+</div>
+
+The text label of a text-bearing separator follows the variant family too — `primary-700`, `secondary-700`, `aeblack-800` (neutral-max), `aeblack-600` (neutral-min for legibility).
+
+```html
+<aegov-separator variant="secondary" text="OR"></aegov-separator>
+<aegov-separator variant="neutral-max" text="Section break"></aegov-separator>
+```
+
+<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-separator variant="secondary" text="OR"></aegov-separator>
+  <aegov-separator variant="neutral-max" text="Section break"></aegov-separator>
+  <aegov-separator variant="neutral-min" text="Quiet break"></aegov-separator>
 </div>
 
 ---
@@ -142,7 +201,7 @@ By default the separator is decorative — it renders with `role="presentation"`
 <form>
   <h3>Personal details</h3>
   <!-- inputs -->
-  <aegov-separator appearance="subtle" extra-class="my-6"></aegov-separator>
+  <aegov-separator appearance="light" extra-class="my-6"></aegov-separator>
   <h3>Contact information</h3>
   <!-- inputs -->
 </form>
@@ -151,7 +210,7 @@ By default the separator is decorative — it renders with `role="presentation"`
 <div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <h3 class="text-lg font-semibold mb-2">Personal details</h3>
   <p class="text-sm text-aeblack-600">Emirates ID, full name, date of birth.</p>
-  <aegov-separator appearance="subtle" extra-class="my-6"></aegov-separator>
+  <aegov-separator appearance="light" extra-class="my-6"></aegov-separator>
   <h3 class="text-lg font-semibold mb-2">Contact information</h3>
   <p class="text-sm text-aeblack-600">Mobile number, email address, residential address.</p>
 </div>
@@ -201,14 +260,14 @@ A subtle horizontal divider between two Arabic sections:
 ```html
 <div dir="rtl">
   <p>البيانات الشخصية</p>
-  <aegov-separator appearance="subtle"></aegov-separator>
+  <aegov-separator appearance="light"></aegov-separator>
   <p>بيانات التواصل</p>
 </div>
 ```
 
 <div dir="rtl" class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <p class="mb-4">البيانات الشخصية</p>
-  <aegov-separator appearance="subtle"></aegov-separator>
+  <aegov-separator appearance="light"></aegov-separator>
   <p class="mt-4">بيانات التواصل</p>
 </div>
 
@@ -221,7 +280,8 @@ A subtle horizontal divider between two Arabic sections:
 | Property       | Attribute        | Description                                                                                  | Type                         | Default        |
 | -------------- | ---------------- | -------------------------------------------------------------------------------------------- | ---------------------------- | -------------- |
 | `orientation`  | `orientation`    | Direction of the separator.                                                                  | `'horizontal' \| 'vertical'` | `'horizontal'` |
-| `appearance`   | `appearance`     | Visual weight.                                                                               | `'default' \| 'subtle'`      | `'default'`    |
+| `appearance`   | `appearance`     | Line treatment. Colour resolves from `variant`.                                              | `'solid' \| 'light'`          | `'solid'`      |
+| `variant`      | `variant`        | Colour family for line and text label.                                                       | `'primary' \| 'secondary' \| 'neutral-max' \| 'neutral-min'` | `'primary'` |
 | `text`         | `text`           | Inline label text rendered at the centre of the separator.                                   | `string`                     | `undefined`    |
 | `isDecorative` | `is-decorative`  | When `true`, exposes `role="presentation"`. When `false`, exposes `role="separator"`.        | `boolean`                    | `true`         |
 | `extraClass`   | `extra-class`    | Additional CSS classes merged onto the inner separator element.                              | `string`                     | `undefined`    |

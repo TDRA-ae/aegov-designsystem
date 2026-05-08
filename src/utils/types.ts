@@ -159,6 +159,24 @@ export const BREADCRUMB_SEPARATORS = ['slash', 'chevron'] as const;
 export type BreadcrumbSeparator = typeof BREADCRUMB_SEPARATORS[number];
 
 /**
+ * Separator orientation
+ */
+export const SEPARATOR_ORIENTATIONS = ['horizontal', 'vertical'] as const;
+export type SeparatorOrientation = typeof SEPARATOR_ORIENTATIONS[number];
+
+/**
+ * Separator appearance (line treatment)
+ */
+export const SEPARATOR_APPEARANCES = ['solid', 'light'] as const;
+export type SeparatorAppearance = typeof SEPARATOR_APPEARANCES[number];
+
+/**
+ * Separator variant (colour family)
+ */
+export const SEPARATOR_VARIANTS = ['primary', 'secondary', 'neutral-max', 'neutral-min'] as const;
+export type SeparatorVariant = typeof SEPARATOR_VARIANTS[number];
+
+/**
  * Banner component position types
  */
 export const BANNER_POSITIONS = ['top', 'bottom'] as const;
@@ -342,16 +360,16 @@ export const CARD_BORDER_WIDTHS = [1, 2, 3] as const;
 export type CardBorderWidth = typeof CARD_BORDER_WIDTHS[number];
 
 /**
- * Card component background types
+ * Card component appearance types (border treatment)
  */
-export const CARD_BGS = ['white', 'subtle'] as const;
-export type CardBg = typeof CARD_BGS[number];
+export const CARD_APPEARANCES = ['solid', 'light', 'creative'] as const;
+export type CardAppearance = typeof CARD_APPEARANCES[number];
 
 /**
- * Card component border style types
+ * Card component variant types (color family)
  */
-export const CARD_BORDER_STYLES = ['standard', 'light', 'creative', 'highlight'] as const;
-export type CardBorderStyle = typeof CARD_BORDER_STYLES[number];
+export const CARD_VARIANTS = ['primary', 'secondary', 'neutral-max', 'neutral-min'] as const;
+export type CardVariant = typeof CARD_VARIANTS[number];
 
 /**
  * Card component hover effect types

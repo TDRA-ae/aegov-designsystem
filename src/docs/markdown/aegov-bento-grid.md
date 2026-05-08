@@ -8,27 +8,27 @@ The `aegov-bento-grid` component wraps a group of `aegov-card` elements (or any 
 
 ```html
 <aegov-bento-grid cols="1 md:2 lg:4" gap="md">
-  <aegov-card data-col-span="2" data-row-span="2" border-style="light">
+  <aegov-card data-col-span="2" data-row-span="2" appearance="light">
     <aegov-title level="3">Hero tile</aegov-title>
     <aegov-text>Spans 2 columns × 2 rows on large screens.</aegov-text>
   </aegov-card>
-  <aegov-card border-style="light"><aegov-text>Tile 2</aegov-text></aegov-card>
-  <aegov-card border-style="light"><aegov-text>Tile 3</aegov-text></aegov-card>
-  <aegov-card data-col-span="2" border-style="light"><aegov-text>Wide tile</aegov-text></aegov-card>
-  <aegov-card border-style="light"><aegov-text>Tile 5</aegov-text></aegov-card>
+  <aegov-card appearance="light"><aegov-text>Tile 2</aegov-text></aegov-card>
+  <aegov-card appearance="light"><aegov-text>Tile 3</aegov-text></aegov-card>
+  <aegov-card data-col-span="2" appearance="light"><aegov-text>Wide tile</aegov-text></aegov-card>
+  <aegov-card appearance="light"><aegov-text>Tile 5</aegov-text></aegov-card>
 </aegov-bento-grid>
 ```
 
 <div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-bento-grid cols="1 md:2 lg:4" gap="md">
-    <aegov-card data-col-span="2" data-row-span="2" border-style="light">
+    <aegov-card data-col-span="2" data-row-span="2" appearance="light">
       <aegov-title level="3">Hero tile</aegov-title>
       <aegov-text>Spans 2 columns × 2 rows on large screens.</aegov-text>
     </aegov-card>
-    <aegov-card border-style="light"><aegov-text>Tile 2</aegov-text></aegov-card>
-    <aegov-card border-style="light"><aegov-text>Tile 3</aegov-text></aegov-card>
-    <aegov-card data-col-span="2" border-style="light"><aegov-text>Wide tile</aegov-text></aegov-card>
-    <aegov-card border-style="light"><aegov-text>Tile 5</aegov-text></aegov-card>
+    <aegov-card appearance="light"><aegov-text>Tile 2</aegov-text></aegov-card>
+    <aegov-card appearance="light"><aegov-text>Tile 3</aegov-text></aegov-card>
+    <aegov-card data-col-span="2" appearance="light"><aegov-text>Wide tile</aegov-text></aegov-card>
+    <aegov-card appearance="light"><aegov-text>Tile 5</aegov-text></aegov-card>
   </aegov-bento-grid>
 </div>
 
@@ -42,23 +42,23 @@ To stack cards vertically on small viewports, set the base value to `1`:
 
 ```html
 <aegov-bento-grid cols="1 md:2 lg:3" gap="md">
-  <aegov-card border-style="light"><aegov-text>One</aegov-text></aegov-card>
-  <aegov-card border-style="light"><aegov-text>Two</aegov-text></aegov-card>
-  <aegov-card border-style="light"><aegov-text>Three</aegov-text></aegov-card>
-  <aegov-card border-style="light"><aegov-text>Four</aegov-text></aegov-card>
-  <aegov-card border-style="light"><aegov-text>Five</aegov-text></aegov-card>
-  <aegov-card border-style="light"><aegov-text>Six</aegov-text></aegov-card>
+  <aegov-card appearance="light"><aegov-text>One</aegov-text></aegov-card>
+  <aegov-card appearance="light"><aegov-text>Two</aegov-text></aegov-card>
+  <aegov-card appearance="light"><aegov-text>Three</aegov-text></aegov-card>
+  <aegov-card appearance="light"><aegov-text>Four</aegov-text></aegov-card>
+  <aegov-card appearance="light"><aegov-text>Five</aegov-text></aegov-card>
+  <aegov-card appearance="light"><aegov-text>Six</aegov-text></aegov-card>
 </aegov-bento-grid>
 ```
 
 <div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-bento-grid cols="1 md:2 lg:3" gap="md">
-    <aegov-card border-style="light"><aegov-text>One</aegov-text></aegov-card>
-    <aegov-card border-style="light"><aegov-text>Two</aegov-text></aegov-card>
-    <aegov-card border-style="light"><aegov-text>Three</aegov-text></aegov-card>
-    <aegov-card border-style="light"><aegov-text>Four</aegov-text></aegov-card>
-    <aegov-card border-style="light"><aegov-text>Five</aegov-text></aegov-card>
-    <aegov-card border-style="light"><aegov-text>Six</aegov-text></aegov-card>
+    <aegov-card appearance="light"><aegov-text>One</aegov-text></aegov-card>
+    <aegov-card appearance="light"><aegov-text>Two</aegov-text></aegov-card>
+    <aegov-card appearance="light"><aegov-text>Three</aegov-text></aegov-card>
+    <aegov-card appearance="light"><aegov-text>Four</aegov-text></aegov-card>
+    <aegov-card appearance="light"><aegov-text>Five</aegov-text></aegov-card>
+    <aegov-card appearance="light"><aegov-text>Six</aegov-text></aegov-card>
   </aegov-bento-grid>
 </div>
 
@@ -83,25 +83,25 @@ Unset attributes fall back to span 1.
 
 ```html
 <aegov-bento-grid cols="1 md:3" gap="md">
-  <aegov-card data-col-span="2" data-row-span="2" border-style="light" hover="standard">
+  <aegov-card data-col-span="2" data-row-span="2" appearance="light" hover="standard">
     <aegov-title level="3">Featured</aegov-title>
     <aegov-text size="sm">A larger tile draws the eye to the most important content.</aegov-text>
   </aegov-card>
-  <aegov-card border-style="light"><aegov-text>Quick stat</aegov-text></aegov-card>
-  <aegov-card border-style="light"><aegov-text>Quick stat</aegov-text></aegov-card>
-  <aegov-card data-col-span="3" border-style="light"><aegov-text>Wide footer tile</aegov-text></aegov-card>
+  <aegov-card appearance="light"><aegov-text>Quick stat</aegov-text></aegov-card>
+  <aegov-card appearance="light"><aegov-text>Quick stat</aegov-text></aegov-card>
+  <aegov-card data-col-span="3" appearance="light"><aegov-text>Wide footer tile</aegov-text></aegov-card>
 </aegov-bento-grid>
 ```
 
 <div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-bento-grid cols="1 md:3" gap="md">
-    <aegov-card data-col-span="2" data-row-span="2" border-style="light" hover="standard">
+    <aegov-card data-col-span="2" data-row-span="2" appearance="light" hover="standard">
       <aegov-title level="3">Featured</aegov-title>
       <aegov-text size="sm">A larger tile draws the eye to the most important content.</aegov-text>
     </aegov-card>
-    <aegov-card border-style="light"><aegov-text>Quick stat</aegov-text></aegov-card>
-    <aegov-card border-style="light"><aegov-text>Quick stat</aegov-text></aegov-card>
-    <aegov-card data-col-span="3" border-style="light"><aegov-text>Wide footer tile</aegov-text></aegov-card>
+    <aegov-card appearance="light"><aegov-text>Quick stat</aegov-text></aegov-card>
+    <aegov-card appearance="light"><aegov-text>Quick stat</aegov-text></aegov-card>
+    <aegov-card data-col-span="3" appearance="light"><aegov-text>Wide footer tile</aegov-text></aegov-card>
   </aegov-bento-grid>
 </div>
 
@@ -119,16 +119,16 @@ The `gap` prop accepts a named size — `none`, `xs`, `sm`, `md` (default), `lg`
 <div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <p class="mb-2 text-sm text-aeblack-500">gap="sm"</p>
   <aegov-bento-grid cols="3" gap="sm">
-    <aegov-card border-style="light"><aegov-text>One</aegov-text></aegov-card>
-    <aegov-card border-style="light"><aegov-text>Two</aegov-text></aegov-card>
-    <aegov-card border-style="light"><aegov-text>Three</aegov-text></aegov-card>
+    <aegov-card appearance="light"><aegov-text>One</aegov-text></aegov-card>
+    <aegov-card appearance="light"><aegov-text>Two</aegov-text></aegov-card>
+    <aegov-card appearance="light"><aegov-text>Three</aegov-text></aegov-card>
   </aegov-bento-grid>
 
   <p class="mt-6 mb-2 text-sm text-aeblack-500">gap="lg"</p>
   <aegov-bento-grid cols="3" gap="lg">
-    <aegov-card border-style="light"><aegov-text>One</aegov-text></aegov-card>
-    <aegov-card border-style="light"><aegov-text>Two</aegov-text></aegov-card>
-    <aegov-card border-style="light"><aegov-text>Three</aegov-text></aegov-card>
+    <aegov-card appearance="light"><aegov-text>One</aegov-text></aegov-card>
+    <aegov-card appearance="light"><aegov-text>Two</aegov-text></aegov-card>
+    <aegov-card appearance="light"><aegov-text>Three</aegov-text></aegov-card>
   </aegov-bento-grid>
 </div>
 
@@ -149,18 +149,18 @@ The `flow` prop controls how the browser places tiles when spans leave gaps in t
 <div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <p class="mb-2 text-sm text-aeblack-500">flow="dense" — back-fills holes</p>
   <aegov-bento-grid cols="3" gap="md" flow="dense">
-    <aegov-card data-col-span="2" border-style="light"><aegov-text>A (span 2)</aegov-text></aegov-card>
-    <aegov-card border-style="light"><aegov-text>B</aegov-text></aegov-card>
-    <aegov-card border-style="light"><aegov-text>C</aegov-text></aegov-card>
-    <aegov-card data-col-span="2" border-style="light"><aegov-text>D (span 2)</aegov-text></aegov-card>
+    <aegov-card data-col-span="2" appearance="light"><aegov-text>A (span 2)</aegov-text></aegov-card>
+    <aegov-card appearance="light"><aegov-text>B</aegov-text></aegov-card>
+    <aegov-card appearance="light"><aegov-text>C</aegov-text></aegov-card>
+    <aegov-card data-col-span="2" appearance="light"><aegov-text>D (span 2)</aegov-text></aegov-card>
   </aegov-bento-grid>
 
   <p class="mt-6 mb-2 text-sm text-aeblack-500">flow="row" — strict order, may leave gaps</p>
   <aegov-bento-grid cols="3" gap="md" flow="row">
-    <aegov-card data-col-span="2" border-style="light"><aegov-text>A (span 2)</aegov-text></aegov-card>
-    <aegov-card border-style="light"><aegov-text>B</aegov-text></aegov-card>
-    <aegov-card border-style="light"><aegov-text>C</aegov-text></aegov-card>
-    <aegov-card data-col-span="2" border-style="light"><aegov-text>D (span 2)</aegov-text></aegov-card>
+    <aegov-card data-col-span="2" appearance="light"><aegov-text>A (span 2)</aegov-text></aegov-card>
+    <aegov-card appearance="light"><aegov-text>B</aegov-text></aegov-card>
+    <aegov-card appearance="light"><aegov-text>C</aegov-text></aegov-card>
+    <aegov-card data-col-span="2" appearance="light"><aegov-text>D (span 2)</aegov-text></aegov-card>
   </aegov-bento-grid>
 </div>
 
@@ -172,9 +172,9 @@ Bento grids should collapse to a single column on narrow viewports so cards stay
 
 ```html
 <aegov-bento-grid cols="1 md:2 lg:4" gap="md">
-  <aegov-card data-col-span="2" border-style="light">…</aegov-card>
-  <aegov-card border-style="light">…</aegov-card>
-  <aegov-card border-style="light">…</aegov-card>
+  <aegov-card data-col-span="2" appearance="light">…</aegov-card>
+  <aegov-card appearance="light">…</aegov-card>
+  <aegov-card appearance="light">…</aegov-card>
 </aegov-bento-grid>
 ```
 

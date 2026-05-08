@@ -11,8 +11,8 @@ describe('aegov-card', () => {
     expect(div).not.toBeNull();
     expect(div.className).toContain('aegov-card');
     expect(div.className).toContain('card-border-2');
-    expect(div.className).toContain('card-border-standard');
-    expect(div.className).toContain('card-bg-white');
+    expect(div.className).toContain('card-appearance-solid');
+    expect(div.className).toContain('card-variant-primary');
     expect(div.className).toContain('card__hover-off');
     expect(div.className).toContain('card-size-base');
     expect(div.className).toContain('card--padded');
@@ -50,20 +50,40 @@ describe('aegov-card', () => {
     expect(page.root.querySelector('div').className).toContain('card-border-3');
   });
 
-  it('applies borderStyle class', async () => {
+  it('applies appearance class', async () => {
     const page = await newSpecPage({
       components: [AegovCard],
-      html: `<aegov-card border-style="creative"></aegov-card>`,
+      html: `<aegov-card appearance="creative"></aegov-card>`,
     });
-    expect(page.root.querySelector('div').className).toContain('card-border-creative');
+    expect(page.root.querySelector('div').className).toContain('card-appearance-creative');
   });
 
-  it('applies bg class', async () => {
+  it('applies variant class for all 4 variants', async () => {
+    for (const v of ['primary', 'secondary', 'neutral-max', 'neutral-min']) {
+      const page = await newSpecPage({
+        components: [AegovCard],
+        html: `<aegov-card variant="${v}"></aegov-card>`,
+      });
+      expect(page.root.querySelector('div').className).toContain(`card-variant-${v}`);
+    }
+  });
+
+  it('applies combined variant + appearance classes', async () => {
     const page = await newSpecPage({
       components: [AegovCard],
-      html: `<aegov-card bg="subtle"></aegov-card>`,
+      html: `<aegov-card variant="secondary" appearance="creative"></aegov-card>`,
     });
-    expect(page.root.querySelector('div').className).toContain('card-bg-subtle');
+    const cls = page.root.querySelector('div').className;
+    expect(cls).toContain('card-variant-secondary');
+    expect(cls).toContain('card-appearance-creative');
+  });
+
+  it('respects consumer-supplied background utility class on host', async () => {
+    const page = await newSpecPage({
+      components: [AegovCard],
+      html: `<aegov-card class="bg-aegreen-400"></aegov-card>`,
+    });
+    expect(page.root.className).toContain('bg-aegreen-400');
   });
 
   it('applies hover class', async () => {
@@ -93,11 +113,11 @@ describe('aegov-card', () => {
   it('falls back to defaults for invalid enum props', async () => {
     const page = await newSpecPage({
       components: [AegovCard],
-      html: `<aegov-card border-style="bogus" bg="weird" hover="??" size="xxl"></aegov-card>`,
+      html: `<aegov-card appearance="bogus" variant="bogus" hover="??" size="xxl"></aegov-card>`,
     });
     const cls = page.root.querySelector('div').className;
-    expect(cls).toContain('card-border-standard');
-    expect(cls).toContain('card-bg-white');
+    expect(cls).toContain('card-appearance-solid');
+    expect(cls).toContain('card-variant-primary');
     expect(cls).toContain('card__hover-off');
     expect(cls).toContain('card-size-base');
   });

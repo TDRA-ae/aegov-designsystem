@@ -1,188 +1,174 @@
-:host {
-  @apply block;
+/* ============================================
+   HOST — paints the card surface.
+   Default white. Consumer overrides with any
+   Tailwind bg utility on the host element
+   (e.g. <aegov-card class="bg-aegreen-400">).
+   ============================================ */
+
+@layer components {
+  aegov-card {
+    @apply block bg-white;
+  }
+
+  /* Host radius mirrors size so consumer-painted bg
+     honours rounded corners under the inner div. */
+  aegov-card.card-size-host-sm   { @apply rounded-lg; }
+  aegov-card.card-size-host-base { @apply rounded-xl; }
+  aegov-card.card-size-host-lg   { @apply rounded-2xl; }
 }
 
 /* ============================================
-   BASE CARD
+   OUTER (.aegov-card)
+   - Solid/Light: paints border via border utility + variant border-color.
+   - Creative:    paints gradient via background-image; padding = ring width.
    ============================================ */
 
 .aegov-card {
-  @apply h-full overflow-hidden transition-[border-color,box-shadow,background-image] duration-300 ease-in-out;
+  @apply h-full overflow-hidden transition-[border-color,box-shadow,background-image,padding] duration-300 ease-in-out;
+  background-color: inherit;
+  border-radius: var(--card-radius);
 }
 
 /* ============================================
-   SIZES (drive border-radius, responsive
-   per breakpoint; padding scales via combos
-   with .card--padded below)
+   INNER (.card__inner)
+   - Inherits host bg (so consumer's bg-* class propagates).
+   - Inherits border-radius from outer for crisp inner edge.
    ============================================ */
 
-.card-size-sm {
-  @apply rounded-lg;
-}
-
-.card-size-base {
-  @apply rounded-xl;
-}
-
-.card-size-lg {
-  @apply rounded-2xl;
+.card__inner {
+  @apply h-full w-full bg-inherit;
+  border-radius: max(0px, calc(var(--card-radius) - var(--card-border)));
 }
 
 /* ============================================
-   BORDER STYLE: STANDARD (solid color)
+   APPEARANCE: SOLID + LIGHT (border on outer)
    ============================================ */
 
-.card-border-standard {
-  @apply border-solid border-primary-600;
+.card-appearance-solid,
+.card-appearance-light {
+  @apply border-solid;
+}
+
+/* Border thickness — solid/light only */
+.card-appearance-solid.card-border-1,
+.card-appearance-light.card-border-1   { @apply border; }
+.card-appearance-solid.card-border-2,
+.card-appearance-light.card-border-2   { @apply border-2; }
+.card-appearance-solid.card-border-3,
+.card-appearance-light.card-border-3   { @apply border-[3px]; }
+
+/* SOLID — base border colors per variant */
+.card-variant-primary.card-appearance-solid       { @apply border-primary-600; }
+.card-variant-secondary.card-appearance-solid     { @apply border-secondary-600; }
+.card-variant-neutral-max.card-appearance-solid   { @apply border-aeblack-800; }
+.card-variant-neutral-min.card-appearance-solid   { @apply border-aeblack-100; }
+
+/* LIGHT — base border colors per variant */
+.card-variant-primary.card-appearance-light       { @apply border-primary-200; }
+.card-variant-secondary.card-appearance-light     { @apply border-secondary-200; }
+.card-variant-neutral-max.card-appearance-light   { @apply border-aeblack-400; }
+.card-variant-neutral-min.card-appearance-light   { @apply border-aeblack-50; }
+
+/* ============================================
+   APPEARANCE: CREATIVE (gradient ring via padding)
+   Outer paints linear-gradient as background-image and uses
+   padding = border-width to expose the ring around the inner.
+   Inner inherits host bg, covering centre cleanly.
+   ============================================ */
+
+.card-appearance-creative {
+  border-width: 0;
+}
+
+/* Ring thickness — creative only */
+.card-appearance-creative.card-border-1 { padding: 1px; }
+.card-appearance-creative.card-border-2 { padding: 2px; }
+.card-appearance-creative.card-border-3 { padding: 3px; }
+
+/* CREATIVE base gradients per variant */
+.card-variant-primary.card-appearance-creative {
+  background-image: linear-gradient(135deg, var(--color-primary-400), var(--color-primary-800));
+}
+.card-variant-secondary.card-appearance-creative {
+  background-image: linear-gradient(135deg, var(--color-secondary-400), var(--color-secondary-800));
+}
+.card-variant-neutral-max.card-appearance-creative {
+  background-image: linear-gradient(135deg, var(--color-aeblack-400), var(--color-aeblack-800));
+}
+.card-variant-neutral-min.card-appearance-creative {
+  background-image: linear-gradient(135deg, var(--color-aeblack-50), var(--color-aeblack-300));
 }
 
 /* ============================================
-   BORDER STYLE: LIGHT (solid subtle color)
+   SIZES (drive border-radius on outer via CSS var)
    ============================================ */
 
-.card-border-light {
-  @apply border-solid border-primary-200;
+.card-size-sm   { --card-radius: 0.5rem; }   /* rounded-lg */
+.card-size-base { --card-radius: 0.75rem; }  /* rounded-xl */
+.card-size-lg   { --card-radius: 1rem; }     /* rounded-2xl */
+
+/* Border thickness as CSS var so inner radius can subtract it */
+.card-border-1 { --card-border: 1px; }
+.card-border-2 { --card-border: 2px; }
+.card-border-3 { --card-border: 3px; }
+
+/* ============================================
+   PADDING (size-aware, applied to INNER for slot content)
+   ============================================ */
+
+.card-size-sm.card--padded   > .card__inner { @apply p-4; }
+.card-size-base.card--padded > .card__inner { @apply p-5; }
+.card-size-lg.card--padded   > .card__inner { @apply p-6; }
+
+/* ============================================
+   HOVER border shifts (solid/light) — shared by hover=standard and hover=glow
+   ============================================ */
+
+.card-variant-primary.card-appearance-solid.card__hover-standard:hover,
+.card-variant-primary.card-appearance-solid.card__hover-glow:hover         { @apply border-primary-500; }
+.card-variant-secondary.card-appearance-solid.card__hover-standard:hover,
+.card-variant-secondary.card-appearance-solid.card__hover-glow:hover       { @apply border-secondary-500; }
+.card-variant-neutral-max.card-appearance-solid.card__hover-standard:hover,
+.card-variant-neutral-max.card-appearance-solid.card__hover-glow:hover     { @apply border-aeblack-700; }
+.card-variant-neutral-min.card-appearance-solid.card__hover-standard:hover,
+.card-variant-neutral-min.card-appearance-solid.card__hover-glow:hover     { @apply border-aeblack-200; }
+
+.card-variant-primary.card-appearance-light.card__hover-standard:hover,
+.card-variant-primary.card-appearance-light.card__hover-glow:hover         { @apply border-primary-400; }
+.card-variant-secondary.card-appearance-light.card__hover-standard:hover,
+.card-variant-secondary.card-appearance-light.card__hover-glow:hover       { @apply border-secondary-400; }
+.card-variant-neutral-max.card-appearance-light.card__hover-standard:hover,
+.card-variant-neutral-max.card-appearance-light.card__hover-glow:hover     { @apply border-aeblack-500; }
+.card-variant-neutral-min.card-appearance-light.card__hover-standard:hover,
+.card-variant-neutral-min.card-appearance-light.card__hover-glow:hover     { @apply border-aeblack-100; }
+
+/* ============================================
+   HOVER gradient shifts (creative) — lighter
+   ============================================ */
+
+.card-variant-primary.card-appearance-creative.card__hover-standard:hover,
+.card-variant-primary.card-appearance-creative.card__hover-glow:hover {
+  background-image: linear-gradient(135deg, var(--color-primary-300), var(--color-primary-700));
+}
+.card-variant-secondary.card-appearance-creative.card__hover-standard:hover,
+.card-variant-secondary.card-appearance-creative.card__hover-glow:hover {
+  background-image: linear-gradient(135deg, var(--color-secondary-300), var(--color-secondary-700));
+}
+.card-variant-neutral-max.card-appearance-creative.card__hover-standard:hover,
+.card-variant-neutral-max.card-appearance-creative.card__hover-glow:hover {
+  background-image: linear-gradient(135deg, var(--color-aeblack-300), var(--color-aeblack-700));
+}
+.card-variant-neutral-min.card-appearance-creative.card__hover-standard:hover,
+.card-variant-neutral-min.card-appearance-creative.card__hover-glow:hover {
+  background-image: linear-gradient(135deg, var(--color-aeblack-100), var(--color-aeblack-400));
 }
 
 /* ============================================
-   BORDER STYLE: CREATIVE (gradient border)
-   Uses double background trick:
-   - Inner background covers the padding-box (visible card bg)
-   - Gradient fills the border-box (visible through transparent border)
+   HOVER: GLOW (shadow on outer, per variant)
+   Border / gradient shift handled in shared hover block above.
    ============================================ */
 
-.card-border-creative {
-  @apply border-solid border-transparent bg-origin-border [background-clip:padding-box,border-box];
-}
-
-/* Creative + background combos */
-.card-border-creative.card-bg-white {
-  @apply [background-image:linear-gradient(white,white),linear-gradient(135deg,var(--color-primary-400),var(--color-primary-800))];
-}
-
-.card-border-creative.card-bg-subtle {
-  @apply [background-image:linear-gradient(var(--color-aeblack-50),var(--color-aeblack-50)),linear-gradient(135deg,var(--color-primary-400),var(--color-primary-800))];
-}
-
-/* ============================================
-   BORDER STYLE: HIGHLIGHT (solid aeblack-200 at rest,
-   transitions to creative-hover gradient on hover)
-   Uses creative's double-bg-image trick so the rest
-   solid color and the hover gradient can transition.
-   ============================================ */
-
-.card-border-highlight {
-  @apply border-solid border-transparent bg-origin-border [background-clip:padding-box,border-box];
-}
-
-/* Highlight + background combos (rest state: outer "gradient" is solid aeblack-200) */
-.card-border-highlight.card-bg-white {
-  @apply [background-image:linear-gradient(white,white),linear-gradient(var(--color-aeblack-200),var(--color-aeblack-200))];
-}
-
-.card-border-highlight.card-bg-subtle {
-  @apply [background-image:linear-gradient(var(--color-aeblack-50),var(--color-aeblack-50)),linear-gradient(var(--color-aeblack-200),var(--color-aeblack-200))];
-}
-
-/* Highlight on hover: outer shifts to creative-hover gradient regardless of hover prop */
-.card-border-highlight:hover.card-bg-white {
-  @apply [background-image:linear-gradient(white,white),linear-gradient(135deg,var(--color-primary-300),var(--color-primary-700))];
-}
-
-.card-border-highlight:hover.card-bg-subtle {
-  @apply [background-image:linear-gradient(var(--color-aeblack-50),var(--color-aeblack-50)),linear-gradient(135deg,var(--color-primary-300),var(--color-primary-700))];
-}
-
-/* ============================================
-   BORDER WIDTHS
-   ============================================ */
-
-.card-border-1 {
-  @apply border;
-}
-
-.card-border-2 {
-  @apply border-2;
-}
-
-.card-border-3 {
-  @apply border-[3px];
-}
-
-/* ============================================
-   BACKGROUNDS (standard border only —
-   creative border handles bg via background-image)
-   ============================================ */
-
-.card-border-standard.card-bg-white,
-.card-border-light.card-bg-white {
-  @apply bg-white;
-}
-
-.card-border-standard.card-bg-subtle,
-.card-border-light.card-bg-subtle {
-  @apply bg-aeblack-50;
-}
-
-/* ============================================
-   PADDING (size-aware)
-   ============================================ */
-
-.card-size-sm.card--padded {
-  @apply p-4;
-}
-
-.card-size-base.card--padded {
-  @apply p-5;
-}
-
-.card-size-lg.card--padded {
-  @apply p-6;
-}
-
-/* ============================================
-   HOVER: STANDARD (border color change)
-   ============================================ */
-
-.card-border-standard.card__hover-standard:hover {
-  @apply border-primary-500;
-}
-
-.card-border-light.card__hover-standard:hover {
-  @apply border-primary-400;
-}
-
-/* Creative border + standard hover: shift gradient lighter */
-.card-border-creative.card__hover-standard:hover.card-bg-white {
-  @apply [background-image:linear-gradient(white,white),linear-gradient(135deg,var(--color-primary-300),var(--color-primary-700))];
-}
-
-.card-border-creative.card__hover-standard:hover.card-bg-subtle {
-  @apply [background-image:linear-gradient(var(--color-aeblack-50),var(--color-aeblack-50)),linear-gradient(135deg,var(--color-primary-300),var(--color-primary-700))];
-}
-
-/* ============================================
-   HOVER: GLOW (creative shadow glow)
-   ============================================ */
-
-.card__hover-glow:hover {
-  @apply shadow-lg shadow-primary-200/50;
-}
-
-/* Standard border + glow hover also shifts border color */
-.card-border-standard.card__hover-glow:hover {
-  @apply border-primary-500;
-}
-
-.card-border-light.card__hover-glow:hover {
-  @apply border-primary-400;
-}
-
-/* Creative border + glow hover shifts gradient lighter */
-.card-border-creative.card__hover-glow:hover.card-bg-white {
-  @apply [background-image:linear-gradient(white,white),linear-gradient(135deg,var(--color-primary-300),var(--color-primary-700))];
-}
-
-.card-border-creative.card__hover-glow:hover.card-bg-subtle {
-  @apply [background-image:linear-gradient(var(--color-aeblack-50),var(--color-aeblack-50)),linear-gradient(135deg,var(--color-primary-300),var(--color-primary-700))];
-}
+.card-variant-primary.card__hover-glow:hover     { @apply shadow-lg shadow-primary-200/50; }
+.card-variant-secondary.card__hover-glow:hover   { @apply shadow-lg shadow-secondary-200/50; }
+.card-variant-neutral-max.card__hover-glow:hover { @apply shadow-lg shadow-aeblack-200/50; }
+.card-variant-neutral-min.card__hover-glow:hover { @apply shadow-lg shadow-aeblack-100/50; }

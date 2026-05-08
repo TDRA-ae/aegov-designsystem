@@ -1,6 +1,6 @@
 import { Component, Element, Host, h, Prop, Watch } from '@stencil/core';
-import { CARD_BORDER_STYLES, CARD_BGS, CARD_HOVERS, CARD_SIZES } from '../../utils/types';
-import type { CardBorderWidth, CardBg, CardHover, CardBorderStyle, CardSize } from '../../utils/types';
+import { CARD_APPEARANCES, CARD_VARIANTS, CARD_HOVERS, CARD_SIZES } from '../../utils/types';
+import type { CardBorderWidth, CardHover, CardAppearance, CardVariant, CardSize } from '../../utils/types';
 import { warnIfInvalidEnumProp } from '../../utils/prop-validator';
 import { generateId } from '../../utils/id-generator';
 import { getPassThroughAttributes } from '../../utils/attributes';
@@ -32,14 +32,14 @@ export class AegovCard {
   @Prop() borderWidth: CardBorderWidth = 2;
 
   /**
-   * Border style: 'standard' (solid primary-600), 'light' (solid primary-200), 'creative' (gradient from primary-400 to primary-800), or 'highlight' (solid aeblack-200 at rest, transitions to primary-300→700 gradient on hover).
+   * Appearance: 'solid' (full-strength border), 'light' (subtle low-contrast border), or 'creative' (gradient border via CSS mask). Border colour resolves from `variant`.
    */
-  @Prop() borderStyle: CardBorderStyle = 'standard';
+  @Prop() appearance: CardAppearance = 'solid';
 
   /**
-   * Background style: 'white' (default) or 'subtle' (aeblack-50).
+   * Variant: colour family applied to border + glow. 'primary' (default), 'secondary', 'neutral-max' (aeblack-800 family), or 'neutral-min' (aeblack-100 family).
    */
-  @Prop() bg: CardBg = 'white';
+  @Prop() variant: CardVariant = 'primary';
 
   /**
    * Hover effect: 'off' (none), 'standard' (border color change), or 'glow' (shadow glow).
@@ -55,17 +55,17 @@ export class AegovCard {
     if (!this.fieldId) {
       this.fieldId = generateId('aegov-card');
     }
-    warnIfInvalidEnumProp(this.borderStyle, CARD_BORDER_STYLES, 'standard', ctx('borderStyle'));
-    warnIfInvalidEnumProp(this.bg, CARD_BGS, 'white', ctx('bg'));
+    warnIfInvalidEnumProp(this.appearance, CARD_APPEARANCES, 'solid', ctx('appearance'));
+    warnIfInvalidEnumProp(this.variant, CARD_VARIANTS, 'primary', ctx('variant'));
     warnIfInvalidEnumProp(this.hover, CARD_HOVERS, 'off', ctx('hover'));
     warnIfInvalidEnumProp(this.size, CARD_SIZES, 'base', ctx('size'));
   }
 
-  @Watch('borderStyle')
-  onBorderStyleChange(v: unknown) { warnIfInvalidEnumProp(v, CARD_BORDER_STYLES, 'standard', ctx('borderStyle')); }
+  @Watch('appearance')
+  onAppearanceChange(v: unknown) { warnIfInvalidEnumProp(v, CARD_APPEARANCES, 'solid', ctx('appearance')); }
 
-  @Watch('bg')
-  onBgChange(v: unknown) { warnIfInvalidEnumProp(v, CARD_BGS, 'white', ctx('bg')); }
+  @Watch('variant')
+  onVariantChange(v: unknown) { warnIfInvalidEnumProp(v, CARD_VARIANTS, 'primary', ctx('variant')); }
 
   @Watch('hover')
   onHoverChange(v: unknown) { warnIfInvalidEnumProp(v, CARD_HOVERS, 'off', ctx('hover')); }
@@ -74,16 +74,16 @@ export class AegovCard {
   onSizeChange(v: unknown) { warnIfInvalidEnumProp(v, CARD_SIZES, 'base', ctx('size')); }
 
   render() {
-    const borderStyle: CardBorderStyle = (CARD_BORDER_STYLES as readonly string[]).includes(this.borderStyle) ? this.borderStyle : 'standard';
-    const bg: CardBg = (CARD_BGS as readonly string[]).includes(this.bg) ? this.bg : 'white';
+    const appearance: CardAppearance = (CARD_APPEARANCES as readonly string[]).includes(this.appearance) ? this.appearance : 'solid';
+    const variant: CardVariant = (CARD_VARIANTS as readonly string[]).includes(this.variant) ? this.variant : 'primary';
     const hover: CardHover = (CARD_HOVERS as readonly string[]).includes(this.hover) ? this.hover : 'off';
     const size: CardSize = (CARD_SIZES as readonly string[]).includes(this.size) ? this.size : 'base';
 
-    const classes = [
+    const outerClasses = [
       'aegov-card',
       `card-border-${this.borderWidth}`,
-      `card-border-${borderStyle}`,
-      `card-bg-${bg}`,
+      `card-appearance-${appearance}`,
+      `card-variant-${variant}`,
       `card__hover-${hover}`,
       `card-size-${size}`,
       this.isPadding ? 'card--padded' : '',
@@ -92,9 +92,11 @@ export class AegovCard {
     const passThroughAttributes = getPassThroughAttributes(this.el);
 
     return (
-      <Host>
-        <div {...passThroughAttributes} class={classes} id={this.fieldId}>
-          <slot />
+      <Host class={`card-size-host-${size}`}>
+        <div {...passThroughAttributes} class={outerClasses} id={this.fieldId}>
+          <div class="card__inner">
+            <slot />
+          </div>
         </div>
       </Host>
     );
