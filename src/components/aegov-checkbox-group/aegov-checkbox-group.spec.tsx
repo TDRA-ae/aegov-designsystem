@@ -30,10 +30,10 @@ describe('aegov-checkbox-group', () => {
     expect(page.root.querySelector('fieldset').className).toContain('checkbox-group--horizontal');
   });
 
-  it('applies variant class (cards)', async () => {
+  it('applies appearance class (cards)', async () => {
     const page = await newSpecPage({
       components: [AegovCheckboxGroup],
-      html: `<aegov-checkbox-group variant="cards"></aegov-checkbox-group>`,
+      html: `<aegov-checkbox-group appearance="cards"></aegov-checkbox-group>`,
     });
     expect(page.root.querySelector('fieldset').className).toContain('checkbox-group--cards');
   });

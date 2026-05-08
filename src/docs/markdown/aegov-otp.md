@@ -18,18 +18,18 @@ The `aegov-otp` component renders a configurable number of input cells as a sing
 
 ## Variants
 
-The `variant` property selects between two visual layouts.
+The `appearance` property selects between two visual layouts.
 
 ### Continuous (default)
 
 A single bordered group with thin dividers between cells. Best when the code is read as one logical token (typical SMS or authenticator OTP).
 
 ```html
-<aegov-otp variant="continuous" length="6"></aegov-otp>
+<aegov-otp appearance="continuous" length="6"></aegov-otp>
 ```
 
 <div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <aegov-otp variant="continuous" length="6"></aegov-otp>
+  <aegov-otp appearance="continuous" length="6"></aegov-otp>
 </div>
 
 ### Individual
@@ -37,11 +37,11 @@ A single bordered group with thin dividers between cells. Best when the code is 
 Each cell is rendered as a fully separated, bordered box. Useful when the code is read as discrete digits — for example PIN-style activation codes printed on a physical voucher.
 
 ```html
-<aegov-otp variant="individual" length="6"></aegov-otp>
+<aegov-otp appearance="individual" length="6"></aegov-otp>
 ```
 
 <div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <aegov-otp variant="individual" length="6"></aegov-otp>
+  <aegov-otp appearance="individual" length="6"></aegov-otp>
 </div>
 
 ---
@@ -253,16 +253,16 @@ The component is direction-agnostic. When the document or any ancestor is set to
   <aegov-otp field-id="mfa-ar" length="6"></aegov-otp>
 </div>
 
-The same field with the individual variant in RTL:
+The same field with the individual appearance in RTL:
 
 ```html
 <div dir="rtl">
-  <aegov-otp variant="individual" length="4" size="lg"></aegov-otp>
+  <aegov-otp appearance="individual" length="4" size="lg"></aegov-otp>
 </div>
 ```
 
 <div dir="rtl" class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <aegov-otp variant="individual" length="4" size="lg"></aegov-otp>
+  <aegov-otp appearance="individual" length="4" size="lg"></aegov-otp>
 </div>
 
 ---
@@ -274,7 +274,7 @@ The same field with the individual variant in RTL:
 | Property         | Attribute         | Description                                                                                  | Type                          | Default       |
 | ---------------- | ----------------- | -------------------------------------------------------------------------------------------- | ----------------------------- | ------------- |
 | `fieldId`        | `field-id`        | DOM `id` for the first input cell. Used by `aegov-label` for linking. Auto-generated if omitted.| `string`                      | _generated_   |
-| `variant`        | `variant`         | Visual layout. `continuous` is one bordered group; `individual` is separated cells.           | `'continuous' \| 'individual'`| `'continuous'`|
+| `appearance`        | `appearance`         | Visual layout. `continuous` is one bordered group; `individual` is separated cells.           | `'continuous' \| 'individual'`| `'continuous'`|
 | `length`         | `length`          | Number of input cells.                                                                        | `number`                      | `5`           |
 | `size`           | `size`            | Cell size token (`xs`, `sm`, `base`, `lg`, `xl`, `2xl`) or a responsive string.                | `string`                      | `'base'`      |
 | `isAlphanumeric` | `is-alphanumeric` | Allow letters and numbers when `true`. Numbers only when `false`.                              | `boolean`                     | `false`       |

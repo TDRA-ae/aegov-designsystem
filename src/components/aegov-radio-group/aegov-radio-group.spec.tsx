@@ -31,10 +31,10 @@ describe('aegov-radio-group', () => {
     expect(page.root.querySelector('fieldset').className).toContain('radio-group--horizontal');
   });
 
-  it('applies variant class (cards)', async () => {
+  it('applies appearance class (cards)', async () => {
     const page = await newSpecPage({
       components: [AegovRadioGroup],
-      html: `<aegov-radio-group name="g" variant="cards"></aegov-radio-group>`,
+      html: `<aegov-radio-group name="g" appearance="cards"></aegov-radio-group>`,
     });
     expect(page.root.querySelector('fieldset').className).toContain('radio-group--cards');
   });

@@ -7,22 +7,22 @@
 
 ## Properties
 
-| Property         | Attribute         | Description                                                                                                                       | Type                           | Default        |
-| ---------------- | ----------------- | --------------------------------------------------------------------------------------------------------------------------------- | ------------------------------ | -------------- |
-| `errorMessage`   | `error-message`   | Inline error message. Use `error` slot for rich markup.                                                                           | `string`                       | `''`           |
-| `extraClass`     | `extra-class`     | Additional CSS classes.                                                                                                           | `string`                       | `undefined`    |
-| `fieldId`        | `field-id`        | Unique ID for the first input cell. Auto-generated if not provided. Used by aegov-label for linking.                              | `string`                       | `undefined`    |
-| `hint`           | `hint`            | Helper hint shown below the control. Hidden when an error is shown.                                                               | `string`                       | `''`           |
-| `isAlphanumeric` | `is-alphanumeric` | Allow letters and numbers when true. Numbers only when false.                                                                     | `boolean`                      | `false`        |
-| `isDisabled`     | `is-disabled`     | Disables all input cells.                                                                                                         | `boolean`                      | `false`        |
-| `isInvalid`      | `is-invalid`      | Visual + a11y invalid state. See §2.3.                                                                                            | `boolean`                      | `false`        |
-| `isRequired`     | `is-required`     | Marks the field as required for form submission. Used by FormAssociated for `valueMissing`.                                       | `boolean`                      | `false`        |
-| `length`         | `length`          | Number of input cells (digits/characters expected).                                                                               | `number`                       | `5`            |
-| `name`           | `name`            | Form field name for FormAssociated submission.                                                                                    | `string`                       | `undefined`    |
-| `pattern`        | `pattern`         | Regex pattern string for validation. Checked when all cells are filled.                                                           | `string`                       | `undefined`    |
-| `size`           | `size`            | Size of the input cells.                                                                                                          | `string`                       | `'base'`       |
-| `value`          | `value`           | Current OTP value. Can be set externally to pre-fill cells.                                                                       | `string`                       | `''`           |
-| `variant`        | `variant`         | Visual variant. "continuous" = single bordered box with dividers between cells. "individual" = separate bordered boxes per digit. | `"continuous" \| "individual"` | `'continuous'` |
+| Property         | Attribute         | Description                                                                                                                          | Type                           | Default        |
+| ---------------- | ----------------- | ------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------ | -------------- |
+| `appearance`     | `appearance`      | Visual appearance. "continuous" = single bordered box with dividers between cells. "individual" = separate bordered boxes per digit. | `"continuous" \| "individual"` | `'continuous'` |
+| `errorMessage`   | `error-message`   | Inline error message. Use `error` slot for rich markup.                                                                              | `string`                       | `''`           |
+| `extraClass`     | `extra-class`     | Additional CSS classes.                                                                                                              | `string`                       | `undefined`    |
+| `fieldId`        | `field-id`        | Unique ID for the first input cell. Auto-generated if not provided. Used by aegov-label for linking.                                 | `string`                       | `undefined`    |
+| `hint`           | `hint`            | Helper hint shown below the control. Hidden when an error is shown.                                                                  | `string`                       | `''`           |
+| `isAlphanumeric` | `is-alphanumeric` | Allow letters and numbers when true. Numbers only when false.                                                                        | `boolean`                      | `false`        |
+| `isDisabled`     | `is-disabled`     | Disables all input cells.                                                                                                            | `boolean`                      | `false`        |
+| `isInvalid`      | `is-invalid`      | Visual + a11y invalid state. See §2.3.                                                                                               | `boolean`                      | `false`        |
+| `isRequired`     | `is-required`     | Marks the field as required for form submission. Used by FormAssociated for `valueMissing`.                                          | `boolean`                      | `false`        |
+| `length`         | `length`          | Number of input cells (digits/characters expected).                                                                                  | `number`                       | `5`            |
+| `name`           | `name`            | Form field name for FormAssociated submission.                                                                                       | `string`                       | `undefined`    |
+| `pattern`        | `pattern`         | Regex pattern string for validation. Checked when all cells are filled.                                                              | `string`                       | `undefined`    |
+| `size`           | `size`            | Size of the input cells.                                                                                                             | `string`                       | `'base'`       |
+| `value`          | `value`           | Current OTP value. Can be set externally to pre-fill cells.                                                                          | `string`                       | `''`           |
 
 
 ## Events

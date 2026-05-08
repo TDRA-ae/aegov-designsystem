@@ -551,6 +551,11 @@ export namespace Components {
     }
     interface AegovCheckboxGroup {
         /**
+          * Visual appearance for the group layout.
+          * @default 'default'
+         */
+        "appearance": CheckboxGroupVariant;
+        /**
           * Inline error message rendered below the legend when `isInvalid`.
           * @default ''
          */
@@ -601,13 +606,13 @@ export namespace Components {
           * Imperatively re-run validation.
          */
         "validate": (trigger?: AegovValidationTrigger) => Promise<AegovValidationResult>;
-        /**
-          * Visual variant for the group layout.
-          * @default 'default'
-         */
-        "variant": CheckboxGroupVariant;
     }
     interface AegovDatepicker {
+        /**
+          * Selection appearance: single date or date range
+          * @default 'single'
+         */
+        "appearance": DatepickerMode;
         /**
           * Comma-separated ISO dates that cannot be selected
           * @default ''
@@ -756,11 +761,6 @@ export namespace Components {
          */
         "value": string;
         /**
-          * Selection variant: single date or date range
-          * @default 'single'
-         */
-        "variant": DatepickerMode;
-        /**
           * End year for the year dropdown (default: current year + 100)
           * @default 0
          */
@@ -899,6 +899,11 @@ export namespace Components {
          */
         "accept"?: string;
         /**
+          * Variant style: 'default' (styled input + button), 'button' (hidden input, label-as-button), or 'dropzone' (drag-and-drop area).
+          * @default 'default'
+         */
+        "appearance": FileuploadVariant;
+        /**
           * Clears all selected files.
          */
         "clear": () => Promise<void>;
@@ -976,11 +981,6 @@ export namespace Components {
           * Imperatively re-run validation.
          */
         "validate": (trigger?: AegovValidationTrigger) => Promise<AegovValidationResult>;
-        /**
-          * Variant style: 'default' (styled input + button), 'button' (hidden input, label-as-button), or 'dropzone' (drag-and-drop area).
-          * @default 'default'
-         */
-        "variant": FileuploadVariant;
     }
     interface AegovFormField {
         /**
@@ -1415,6 +1415,11 @@ export namespace Components {
     }
     interface AegovOtp {
         /**
+          * Visual appearance. "continuous" = single bordered box with dividers between cells. "individual" = separate bordered boxes per digit.
+          * @default 'continuous'
+         */
+        "appearance": OtpVariant;
+        /**
           * Clears all cells and focuses the first cell.
          */
         "clear": () => Promise<void>;
@@ -1487,11 +1492,6 @@ export namespace Components {
           * @default ''
          */
         "value": string;
-        /**
-          * Visual variant. "continuous" = single bordered box with dividers between cells. "individual" = separate bordered boxes per digit.
-          * @default 'continuous'
-         */
-        "variant": OtpVariant;
     }
     interface AegovPagination {
         /**
@@ -1711,6 +1711,11 @@ export namespace Components {
     }
     interface AegovRadioGroup {
         /**
+          * Visual appearance for the group layout.
+          * @default 'default'
+         */
+        "appearance": RadioGroupVariant;
+        /**
           * Inline error message.
           * @default ''
          */
@@ -1765,11 +1770,6 @@ export namespace Components {
           * Imperatively re-run validation.
          */
         "validate": (trigger?: AegovValidationTrigger) => Promise<AegovValidationResult>;
-        /**
-          * Visual variant for the group layout.
-          * @default 'default'
-         */
-        "variant": RadioGroupVariant;
     }
     interface AegovRange {
         /**
@@ -1874,6 +1874,11 @@ export namespace Components {
     }
     interface AegovSelect {
         /**
+          * The visual appearance. 'default' renders a native select; 'listbox' renders a custom dropdown.
+          * @default 'default'
+         */
+        "appearance": SelectVariant;
+        /**
           * Message shown when search yields no results.
           * @default 'No results found'
          */
@@ -1922,7 +1927,7 @@ export namespace Components {
          */
         "isRequired": boolean;
         /**
-          * Show a search input in the listbox dropdown to filter options. Only works with listbox variant.
+          * Show a search input in the listbox dropdown to filter options. Only works with listbox appearance.
           * @default false
          */
         "isSearchable": boolean;
@@ -1952,11 +1957,6 @@ export namespace Components {
           * @default ''
          */
         "value": string;
-        /**
-          * The visual variant. 'default' renders a native select; 'listbox' renders a custom dropdown.
-          * @default 'default'
-         */
-        "variant": SelectVariant;
         /**
           * Max visible items in the dropdown before scrolling.
           * @default 6
@@ -4030,6 +4030,11 @@ declare namespace LocalJSX {
     }
     interface AegovCheckboxGroup {
         /**
+          * Visual appearance for the group layout.
+          * @default 'default'
+         */
+        "appearance"?: CheckboxGroupVariant;
+        /**
           * Inline error message rendered below the legend when `isInvalid`.
           * @default ''
          */
@@ -4080,13 +4085,13 @@ declare namespace LocalJSX {
           * @default 'base'
          */
         "size"?: string;
-        /**
-          * Visual variant for the group layout.
-          * @default 'default'
-         */
-        "variant"?: CheckboxGroupVariant;
     }
     interface AegovDatepicker {
+        /**
+          * Selection appearance: single date or date range
+          * @default 'single'
+         */
+        "appearance"?: DatepickerMode;
         /**
           * Comma-separated ISO dates that cannot be selected
           * @default ''
@@ -4219,11 +4224,6 @@ declare namespace LocalJSX {
           * @default ''
          */
         "value"?: string;
-        /**
-          * Selection variant: single date or date range
-          * @default 'single'
-         */
-        "variant"?: DatepickerMode;
         /**
           * End year for the year dropdown (default: current year + 100)
           * @default 0
@@ -4374,6 +4374,11 @@ declare namespace LocalJSX {
          */
         "accept"?: string;
         /**
+          * Variant style: 'default' (styled input + button), 'button' (hidden input, label-as-button), or 'dropzone' (drag-and-drop area).
+          * @default 'default'
+         */
+        "appearance"?: FileuploadVariant;
+        /**
           * Inline error message. Use `error` slot for rich markup.
           * @default ''
          */
@@ -4435,7 +4440,7 @@ declare namespace LocalJSX {
          */
         "onAegovFileuploadChange"?: (event: AegovFileuploadCustomEvent<{ files: File[] }>) => void;
         /**
-          * Emitted when a file is removed from the list (button/dropzone variants).
+          * Emitted when a file is removed from the list (button/dropzone appearances).
          */
         "onAegovFileuploadRemove"?: (event: AegovFileuploadCustomEvent<{ file: File; remaining: File[] }>) => void;
         /**
@@ -4447,11 +4452,6 @@ declare namespace LocalJSX {
           * @default 'base'
          */
         "size"?: string;
-        /**
-          * Variant style: 'default' (styled input + button), 'button' (hidden input, label-as-button), or 'dropzone' (drag-and-drop area).
-          * @default 'default'
-         */
-        "variant"?: FileuploadVariant;
     }
     interface AegovFormField {
         /**
@@ -4913,6 +4913,11 @@ declare namespace LocalJSX {
     }
     interface AegovOtp {
         /**
+          * Visual appearance. "continuous" = single bordered box with dividers between cells. "individual" = separate bordered boxes per digit.
+          * @default 'continuous'
+         */
+        "appearance"?: OtpVariant;
+        /**
           * Inline error message. Use `error` slot for rich markup.
           * @default ''
          */
@@ -4985,11 +4990,6 @@ declare namespace LocalJSX {
           * @default ''
          */
         "value"?: string;
-        /**
-          * Visual variant. "continuous" = single bordered box with dividers between cells. "individual" = separate bordered boxes per digit.
-          * @default 'continuous'
-         */
-        "variant"?: OtpVariant;
     }
     interface AegovPagination {
         /**
@@ -5221,6 +5221,11 @@ declare namespace LocalJSX {
     }
     interface AegovRadioGroup {
         /**
+          * Visual appearance for the group layout.
+          * @default 'default'
+         */
+        "appearance"?: RadioGroupVariant;
+        /**
           * Inline error message.
           * @default ''
          */
@@ -5275,11 +5280,6 @@ declare namespace LocalJSX {
           * @default 'base'
          */
         "size"?: string;
-        /**
-          * Visual variant for the group layout.
-          * @default 'default'
-         */
-        "variant"?: RadioGroupVariant;
     }
     interface AegovRange {
         /**
@@ -5388,6 +5388,11 @@ declare namespace LocalJSX {
     }
     interface AegovSelect {
         /**
+          * The visual appearance. 'default' renders a native select; 'listbox' renders a custom dropdown.
+          * @default 'default'
+         */
+        "appearance"?: SelectVariant;
+        /**
           * Message shown when search yields no results.
           * @default 'No results found'
          */
@@ -5436,7 +5441,7 @@ declare namespace LocalJSX {
          */
         "isRequired"?: boolean;
         /**
-          * Show a search input in the listbox dropdown to filter options. Only works with listbox variant.
+          * Show a search input in the listbox dropdown to filter options. Only works with listbox appearance.
           * @default false
          */
         "isSearchable"?: boolean;
@@ -5449,11 +5454,11 @@ declare namespace LocalJSX {
          */
         "onAegovSelectChange"?: (event: AegovSelectCustomEvent<SelectChangeDetail>) => void;
         /**
-          * Emitted when the dropdown closes (listbox variant).
+          * Emitted when the dropdown closes (listbox appearance).
          */
         "onAegovSelectClose"?: (event: AegovSelectCustomEvent<void>) => void;
         /**
-          * Emitted when the dropdown opens (listbox variant).
+          * Emitted when the dropdown opens (listbox appearance).
          */
         "onAegovSelectOpen"?: (event: AegovSelectCustomEvent<void>) => void;
         /**
@@ -5474,11 +5479,6 @@ declare namespace LocalJSX {
           * @default ''
          */
         "value"?: string;
-        /**
-          * The visual variant. 'default' renders a native select; 'listbox' renders a custom dropdown.
-          * @default 'default'
-         */
-        "variant"?: SelectVariant;
         /**
           * Max visible items in the dropdown before scrolling.
           * @default 6

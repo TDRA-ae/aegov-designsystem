@@ -1,6 +1,6 @@
 # Checkbox
 
-<p class="text-lg text-aeblack-500 mb-8">A Checkbox lets a user select zero, one, or many options from a list — accepting terms, opting in to notifications, choosing service preferences, or filtering results. Each instance is a real native <code>&lt;input type="checkbox"&gt;</code> styled to the design system, and the optional <code>aegov-checkbox-group</code> wrapper handles grouping, sizing, layout variants, and a "select all" controller.</p>
+<p class="text-lg text-aeblack-500 mb-8">A Checkbox lets a user select zero, one, or many options from a list — accepting terms, opting in to notifications, choosing service preferences, or filtering results. Each instance is a real native <code>&lt;input type="checkbox"&gt;</code> styled to the design system, and the optional <code>aegov-checkbox-group</code> wrapper handles grouping, sizing, layout appearances, and a "select all" controller.</p>
 
 ## Introduction
 
@@ -133,7 +133,7 @@ Five sizes are available: `xs`, `sm`, `base` (default), `lg`, and `xl`. The size
 - A `<fieldset>` with optional `<legend>` for accessibility
 - A single `aegovCheckboxGroupChange` event with the array of currently selected values
 - Group-wide `size` and `is-disabled` (via native `<fieldset disabled>`) propagation
-- Layout variants and orientation control
+- Layout appearances and orientation control
 - Automatic management of an optional "select all" checkbox
 
 ```html
@@ -178,23 +178,23 @@ Set `orientation="horizontal"` to lay items out in a row instead of the default 
 
 ### Variants
 
-The `variant` property selects the visual treatment of the group: `default` (plain stack), `list` (dividers between items), `cards` (each item is a bordered card), or `pills` (toggle pill buttons with the native input visually hidden). All variants work with both vertical and horizontal orientation.
+The `appearance` property selects the visual treatment of the group: `default` (plain stack), `list` (dividers between items), `cards` (each item is a bordered card), or `pills` (toggle pill buttons with the native input visually hidden). All appearances work with both vertical and horizontal orientation.
 
 ```html
-<aegov-checkbox-group variant="list" label="Documents to attach">
+<aegov-checkbox-group appearance="list" label="Documents to attach">
   <aegov-checkbox value="eid" label="Emirates ID (front and back)"></aegov-checkbox>
   <aegov-checkbox value="passport" label="Passport copy"></aegov-checkbox>
   <aegov-checkbox value="utility" label="Recent utility bill"></aegov-checkbox>
   <aegov-checkbox value="employment" label="Employment letter"></aegov-checkbox>
 </aegov-checkbox-group>
 
-<aegov-checkbox-group variant="cards" label="Notification preferences">
+<aegov-checkbox-group appearance="cards" label="Notification preferences">
   <aegov-checkbox value="email" label="Email" description="Updates sent to your registered address."></aegov-checkbox>
   <aegov-checkbox value="sms" label="SMS" description="Short text alerts to your mobile number."></aegov-checkbox>
   <aegov-checkbox value="push" label="Push" description="In-app and browser notifications."></aegov-checkbox>
 </aegov-checkbox-group>
 
-<aegov-checkbox-group variant="pills" orientation="horizontal" label="Filter by emirate">
+<aegov-checkbox-group appearance="pills" orientation="horizontal" label="Filter by emirate">
   <aegov-checkbox value="abudhabi" label="Abu Dhabi"></aegov-checkbox>
   <aegov-checkbox value="dubai" label="Dubai"></aegov-checkbox>
   <aegov-checkbox value="sharjah" label="Sharjah"></aegov-checkbox>
@@ -205,18 +205,18 @@ The `variant` property selects the visual treatment of the group: `default` (pla
 
 <div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <div class="grid gap-8">
-    <aegov-checkbox-group variant="list" label="Documents to attach">
+    <aegov-checkbox-group appearance="list" label="Documents to attach">
       <aegov-checkbox value="eid" label="Emirates ID (front and back)"></aegov-checkbox>
       <aegov-checkbox value="passport" label="Passport copy"></aegov-checkbox>
       <aegov-checkbox value="utility" label="Recent utility bill"></aegov-checkbox>
       <aegov-checkbox value="employment" label="Employment letter"></aegov-checkbox>
     </aegov-checkbox-group>
-    <aegov-checkbox-group variant="cards" label="Notification preferences">
+    <aegov-checkbox-group appearance="cards" label="Notification preferences">
       <aegov-checkbox value="email" label="Email" description="Updates sent to your registered address."></aegov-checkbox>
       <aegov-checkbox value="sms" label="SMS" description="Short text alerts to your mobile number."></aegov-checkbox>
       <aegov-checkbox value="push" label="Push" description="In-app and browser notifications."></aegov-checkbox>
     </aegov-checkbox-group>
-    <aegov-checkbox-group variant="pills" orientation="horizontal" label="Filter by emirate">
+    <aegov-checkbox-group appearance="pills" orientation="horizontal" label="Filter by emirate">
       <aegov-checkbox value="abudhabi" label="Abu Dhabi"></aegov-checkbox>
       <aegov-checkbox value="dubai" label="Dubai"></aegov-checkbox>
       <aegov-checkbox value="sharjah" label="Sharjah"></aegov-checkbox>
@@ -281,13 +281,13 @@ Set `is-check-all="true"` on a checkbox inside a group to make it the "select al
 
 ## Composite Example — Service Preferences
 
-A realistic snippet from a profile-settings page combining several groups, variants, and a required terms checkbox.
+A realistic snippet from a profile-settings page combining several groups, appearances, and a required terms checkbox.
 
 ```html
 <form class="grid gap-8 max-w-xl">
   <aegov-form-field>
     <aegov-label>Notification preferences</aegov-label>
-    <aegov-checkbox-group variant="cards" name="notifications">
+    <aegov-checkbox-group appearance="cards" name="notifications">
       <aegov-checkbox value="email" label="Email" description="Updates sent to your registered address." is-checked="true"></aegov-checkbox>
       <aegov-checkbox value="sms" label="SMS" description="Short text alerts to your mobile number."></aegov-checkbox>
       <aegov-checkbox value="push" label="Push" description="In-app and browser notifications."></aegov-checkbox>
@@ -296,7 +296,7 @@ A realistic snippet from a profile-settings page combining several groups, varia
 
   <aegov-form-field>
     <aegov-label>Languages spoken</aegov-label>
-    <aegov-checkbox-group variant="pills" orientation="horizontal" name="languages">
+    <aegov-checkbox-group appearance="pills" orientation="horizontal" name="languages">
       <aegov-checkbox value="ar" label="Arabic" is-checked="true"></aegov-checkbox>
       <aegov-checkbox value="en" label="English" is-checked="true"></aegov-checkbox>
       <aegov-checkbox value="ur" label="Urdu"></aegov-checkbox>
@@ -318,7 +318,7 @@ A realistic snippet from a profile-settings page combining several groups, varia
   <form class="grid gap-8 max-w-xl">
     <aegov-form-field>
       <aegov-label>Notification preferences</aegov-label>
-      <aegov-checkbox-group variant="cards" name="notifications">
+      <aegov-checkbox-group appearance="cards" name="notifications">
         <aegov-checkbox value="email" label="Email" description="Updates sent to your registered address." is-checked="true"></aegov-checkbox>
         <aegov-checkbox value="sms" label="SMS" description="Short text alerts to your mobile number."></aegov-checkbox>
         <aegov-checkbox value="push" label="Push" description="In-app and browser notifications."></aegov-checkbox>
@@ -326,7 +326,7 @@ A realistic snippet from a profile-settings page combining several groups, varia
     </aegov-form-field>
     <aegov-form-field>
       <aegov-label>Languages spoken</aegov-label>
-      <aegov-checkbox-group variant="pills" orientation="horizontal" name="languages">
+      <aegov-checkbox-group appearance="pills" orientation="horizontal" name="languages">
         <aegov-checkbox value="ar" label="Arabic" is-checked="true"></aegov-checkbox>
         <aegov-checkbox value="en" label="English" is-checked="true"></aegov-checkbox>
         <aegov-checkbox value="ur" label="Urdu"></aegov-checkbox>
@@ -373,7 +373,7 @@ The checkbox uses CSS logical properties throughout. When the document or any an
 
 ```html
 <div dir="rtl">
-  <aegov-checkbox-group variant="cards" label="تفضيلات الإشعارات" name="prefs">
+  <aegov-checkbox-group appearance="cards" label="تفضيلات الإشعارات" name="prefs">
     <aegov-checkbox value="email" label="البريد الإلكتروني" description="تصلك التحديثات على عنوانك المسجل." is-checked="true"></aegov-checkbox>
     <aegov-checkbox value="sms" label="الرسائل النصية" description="تنبيهات قصيرة على رقم هاتفك المحمول."></aegov-checkbox>
     <aegov-checkbox value="push" label="الإشعارات الفورية" description="إشعارات داخل التطبيق والمتصفح."></aegov-checkbox>
@@ -388,7 +388,7 @@ The checkbox uses CSS logical properties throughout. When the document or any an
 
 <div dir="rtl" class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <div class="grid gap-8">
-    <aegov-checkbox-group variant="cards" label="تفضيلات الإشعارات" name="prefs">
+    <aegov-checkbox-group appearance="cards" label="تفضيلات الإشعارات" name="prefs">
       <aegov-checkbox value="email" label="البريد الإلكتروني" description="تصلك التحديثات على عنوانك المسجل." is-checked="true"></aegov-checkbox>
       <aegov-checkbox value="sms" label="الرسائل النصية" description="تنبيهات قصيرة على رقم هاتفك المحمول."></aegov-checkbox>
       <aegov-checkbox value="push" label="الإشعارات الفورية" description="إشعارات داخل التطبيق والمتصفح."></aegov-checkbox>
@@ -425,7 +425,7 @@ The checkbox uses CSS logical properties throughout. When the document or any an
 
 | Property      | Attribute     | Description                                                                  | Type                         | Default      |
 | ------------- | ------------- | ---------------------------------------------------------------------------- | ---------------------------- | ------------ |
-| `variant`     | `variant`     | Visual layout variant.                                                        | `CheckboxGroupVariant`       | `'default'`  |
+| `appearance`     | `appearance`     | Visual layout appearance.                                                        | `CheckboxGroupVariant`       | `'default'`  |
 | `orientation` | `orientation` | Stack direction for items.                                                    | `CheckboxGroupOrientation`   | `'vertical'` |
 | `label`       | `label`       | Optional `<legend>` text for the underlying `<fieldset>`.                       | `string`                     | `undefined`  |
 | `size`        | `size`        | Size token or responsive string. Propagated to all child checkboxes.            | `string`                     | `'base'`     |

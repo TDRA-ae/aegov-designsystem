@@ -24,7 +24,7 @@
 <p class="text-lg text-aeblack-500 mb-8">A Radio lets a user pick exactly one option from a small, fixed set — title, gender, payment method, preferred language, application type. Each instance is a real native <code>&lt;input type="radio"&gt;</code> styled to the design system, and the <code>aegov-radio-group</code> wrapper takes care of sharing the <code>name</code> attribute, propagating sizing, and emitting a single event when the selection changes.</p>
 
 <h2>Introduction</h2>
-<p>Radios are almost always used inside an <code>aegov-radio-group</code>. The group sets the shared <code>name</code> (required for native single-select behaviour), propagates <code>size</code> to every child, exposes a single <code>aegovRadioGroupChange</code> event with the currently selected value, and supports the same layout variants as the checkbox group.</p>
+<p>Radios are almost always used inside an <code>aegov-radio-group</code>. The group sets the shared <code>name</code> (required for native single-select behaviour), propagates <code>size</code> to every child, exposes a single <code>aegovRadioGroupChange</code> event with the currently selected value, and supports the same layout appearances as the checkbox group.</p>
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-radio-group</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;title&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Title&quot;</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-radio</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;mr&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Mr&quot;</span> <span class="hljs-attr">is-checked</span>=<span class="hljs-string">&quot;true&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-radio</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-radio</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;ms&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Ms&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-radio</span>&gt;</span>
@@ -169,15 +169,15 @@
 
 <hr>
 <h2>Variants</h2>
-<p>The <code>variant</code> property selects the visual treatment of the group: <code>default</code> (plain stack), <code>list</code> (dividers between items), <code>cards</code> (each item is a bordered card), or <code>pills</code> (toggle pill buttons with the native input visually hidden). All variants work with both vertical and horizontal orientation.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-radio-group</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;application-type&quot;</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;list&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Application type&quot;</span>&gt;</span>
+<p>The <code>appearance</code> property selects the visual treatment of the group: <code>default</code> (plain stack), <code>list</code> (dividers between items), <code>cards</code> (each item is a bordered card), or <code>pills</code> (toggle pill buttons with the native input visually hidden). All appearances work with both vertical and horizontal orientation.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-radio-group</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;application-type&quot;</span> <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;list&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Application type&quot;</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-radio</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;new&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;New application&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-radio</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-radio</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;renewal&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Renewal&quot;</span> <span class="hljs-attr">is-checked</span>=<span class="hljs-string">&quot;true&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-radio</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-radio</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;replacement&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Replacement&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-radio</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-radio</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;amendment&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Amendment&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-radio</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-radio-group</span>&gt;</span>
 
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-radio-group</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;processing&quot;</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;cards&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Processing speed&quot;</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-radio-group</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;processing&quot;</span> <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;cards&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Processing speed&quot;</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-radio</span>
     <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;standard&quot;</span>
     <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Standard — 5 working days&quot;</span>
@@ -196,20 +196,20 @@
   &gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-radio</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-radio-group</span>&gt;</span>
 
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-radio-group</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;frequency&quot;</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;pills&quot;</span> <span class="hljs-attr">orientation</span>=<span class="hljs-string">&quot;horizontal&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Reporting frequency&quot;</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-radio-group</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;frequency&quot;</span> <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;pills&quot;</span> <span class="hljs-attr">orientation</span>=<span class="hljs-string">&quot;horizontal&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Reporting frequency&quot;</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-radio</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;daily&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Daily&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-radio</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-radio</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;weekly&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Weekly&quot;</span> <span class="hljs-attr">is-checked</span>=<span class="hljs-string">&quot;true&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-radio</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-radio</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;monthly&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Monthly&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-radio</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-radio</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;quarterly&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Quarterly&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-radio</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-radio-group</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <div class="grid gap-8">
-    <aegov-radio-group name="application-type" variant="list" label="Application type">
+    <aegov-radio-group name="application-type" appearance="list" label="Application type">
       <aegov-radio value="new" label="New application"></aegov-radio>
       <aegov-radio value="renewal" label="Renewal" is-checked="true"></aegov-radio>
       <aegov-radio value="replacement" label="Replacement"></aegov-radio>
       <aegov-radio value="amendment" label="Amendment"></aegov-radio>
     </aegov-radio-group>
-    <aegov-radio-group name="processing" variant="cards" label="Processing speed">
+    <aegov-radio-group name="processing" appearance="cards" label="Processing speed">
       <aegov-radio
         value="standard"
         label="Standard — 5 working days"
@@ -227,7 +227,7 @@
         description="Additional fee of AED 250 applies. Subject to availability."
       ></aegov-radio>
     </aegov-radio-group>
-    <aegov-radio-group name="frequency" variant="pills" orientation="horizontal" label="Reporting frequency">
+    <aegov-radio-group name="frequency" appearance="pills" orientation="horizontal" label="Reporting frequency">
       <aegov-radio value="daily" label="Daily"></aegov-radio>
       <aegov-radio value="weekly" label="Weekly" is-checked="true"></aegov-radio>
       <aegov-radio value="monthly" label="Monthly"></aegov-radio>
@@ -253,11 +253,11 @@
 
 <hr>
 <h2>Composite Example — Passport Application</h2>
-<p>A realistic snippet from a passport application form combining several groups in different variants.</p>
+<p>A realistic snippet from a passport application form combining several groups in different appearances.</p>
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">form</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;grid gap-8 max-w-xl&quot;</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-form-field</span>&gt;</span>
     <span class="hljs-tag">&lt;<span class="hljs-name">aegov-label</span> <span class="hljs-attr">is-required</span>=<span class="hljs-string">&quot;true&quot;</span>&gt;</span>Application type<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-label</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-radio-group</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;application-type&quot;</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;list&quot;</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-radio-group</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;application-type&quot;</span> <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;list&quot;</span>&gt;</span>
       <span class="hljs-tag">&lt;<span class="hljs-name">aegov-radio</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;new&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;New passport&quot;</span> <span class="hljs-attr">is-required</span>=<span class="hljs-string">&quot;true&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-radio</span>&gt;</span>
       <span class="hljs-tag">&lt;<span class="hljs-name">aegov-radio</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;renewal&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Renewal&quot;</span> <span class="hljs-attr">is-required</span>=<span class="hljs-string">&quot;true&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-radio</span>&gt;</span>
       <span class="hljs-tag">&lt;<span class="hljs-name">aegov-radio</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;replacement&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Replacement (lost or damaged)&quot;</span> <span class="hljs-attr">is-required</span>=<span class="hljs-string">&quot;true&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-radio</span>&gt;</span>
@@ -266,7 +266,7 @@
 
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-form-field</span>&gt;</span>
     <span class="hljs-tag">&lt;<span class="hljs-name">aegov-label</span> <span class="hljs-attr">is-required</span>=<span class="hljs-string">&quot;true&quot;</span>&gt;</span>Processing speed<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-label</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-radio-group</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;processing&quot;</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;cards&quot;</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-radio-group</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;processing&quot;</span> <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;cards&quot;</span>&gt;</span>
       <span class="hljs-tag">&lt;<span class="hljs-name">aegov-radio</span>
         <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;standard&quot;</span>
         <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Standard — 5 working days&quot;</span>
@@ -300,7 +300,7 @@
   <form class="grid gap-8 max-w-xl">
     <aegov-form-field>
       <aegov-label is-required="true">Application type</aegov-label>
-      <aegov-radio-group name="application-type" variant="list">
+      <aegov-radio-group name="application-type" appearance="list">
         <aegov-radio value="new" label="New passport" is-required="true"></aegov-radio>
         <aegov-radio value="renewal" label="Renewal" is-required="true"></aegov-radio>
         <aegov-radio value="replacement" label="Replacement (lost or damaged)" is-required="true"></aegov-radio>
@@ -308,7 +308,7 @@
     </aegov-form-field>
     <aegov-form-field>
       <aegov-label is-required="true">Processing speed</aegov-label>
-      <aegov-radio-group name="processing" variant="cards">
+      <aegov-radio-group name="processing" appearance="cards">
         <aegov-radio
           value="standard"
           label="Standard — 5 working days"
@@ -359,7 +359,7 @@
 <h2>RTL Support</h2>
 <p>The radio uses CSS logical properties throughout. When the document or any ancestor is set to <code>dir=&quot;rtl&quot;</code>, the circle swaps to the right of the label, the description aligns right, group dividers and card borders flip, and pill spacing follows the writing direction. No additional configuration is needed.</p>
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">dir</span>=<span class="hljs-string">&quot;rtl&quot;</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-radio-group</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;processing-rtl&quot;</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;cards&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;سرعة المعالجة&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-radio-group</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;processing-rtl&quot;</span> <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;cards&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;سرعة المعالجة&quot;</span>&gt;</span>
     <span class="hljs-tag">&lt;<span class="hljs-name">aegov-radio</span>
       <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;standard&quot;</span>
       <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;عادية — خلال 5 أيام عمل&quot;</span>
@@ -384,7 +384,7 @@
   <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-radio-group</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre><div dir="rtl" class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <div class="grid gap-8">
-    <aegov-radio-group name="processing-rtl" variant="cards" label="سرعة المعالجة">
+    <aegov-radio-group name="processing-rtl" appearance="cards" label="سرعة المعالجة">
       <aegov-radio
         value="standard"
         label="عادية — خلال 5 أيام عمل"
@@ -512,9 +512,9 @@
 <td><em>required</em></td>
 </tr>
 <tr>
-<td><code>variant</code></td>
-<td><code>variant</code></td>
-<td>Visual layout variant.</td>
+<td><code>appearance</code></td>
+<td><code>appearance</code></td>
+<td>Visual layout appearance.</td>
 <td><code>RadioGroupVariant</code></td>
 <td><code>&#39;default&#39;</code></td>
 </tr>

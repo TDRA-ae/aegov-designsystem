@@ -24,8 +24,8 @@ const ctx = (prop: string) => ({ component: TAG, prop });
 export class AegovRadioGroup {
   @Element() el: HTMLElement;
 
-  /** Visual variant for the group layout. */
-  @Prop() variant: RadioGroupVariant = 'default';
+  /** Visual appearance for the group layout. */
+  @Prop() appearance: RadioGroupVariant = 'default';
 
   /** Stack direction for radio items. */
   @Prop() orientation: RadioGroupOrientation = 'vertical';
@@ -71,7 +71,7 @@ export class AegovRadioGroup {
   private hintId: string = '';
 
   componentWillLoad() {
-    warnIfInvalidEnumProp(this.variant, RADIO_GROUP_VARIANTS, 'default', ctx('variant'));
+    warnIfInvalidEnumProp(this.appearance, RADIO_GROUP_VARIANTS, 'default', ctx('appearance'));
     warnIfInvalidEnumProp(this.orientation, RADIO_GROUP_ORIENTATIONS, 'vertical', ctx('orientation'));
     this._sizeWatcher = watchResponsiveProp(this.size, RADIO_SIZES, 'base', v => {
       this._resolvedSize = v as RadioSize;
@@ -123,8 +123,8 @@ export class AegovRadioGroup {
     this.syncChildren();
   }
 
-  @Watch('variant')
-  onVariantChange(v: unknown) { warnIfInvalidEnumProp(v, RADIO_GROUP_VARIANTS, 'default', ctx('variant')); }
+  @Watch('appearance')
+  onVariantChange(v: unknown) { warnIfInvalidEnumProp(v, RADIO_GROUP_VARIANTS, 'default', ctx('appearance')); }
 
   @Watch('orientation')
   onOrientationChange(v: unknown) { warnIfInvalidEnumProp(v, RADIO_GROUP_ORIENTATIONS, 'vertical', ctx('orientation')); }
@@ -185,10 +185,10 @@ export class AegovRadioGroup {
 
   private getGroupClasses(): string {
     const classes = ['aegov-radio-group'];
-    const variant: RadioGroupVariant = (RADIO_GROUP_VARIANTS as readonly string[]).includes(this.variant) ? this.variant : 'default';
+    const appearance: RadioGroupVariant = (RADIO_GROUP_VARIANTS as readonly string[]).includes(this.appearance) ? this.appearance : 'default';
     const orientation: RadioGroupOrientation = (RADIO_GROUP_ORIENTATIONS as readonly string[]).includes(this.orientation) ? this.orientation : 'vertical';
-    if (variant !== 'default') {
-      classes.push(`radio-group--${variant}`);
+    if (appearance !== 'default') {
+      classes.push(`radio-group--${appearance}`);
     }
     if (orientation === 'horizontal') {
       classes.push('radio-group--horizontal');

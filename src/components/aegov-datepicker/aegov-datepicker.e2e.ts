@@ -10,9 +10,9 @@ describe('aegov-datepicker (e2e)', () => {
     expect(await input.getProperty('readOnly')).toBe(true);
   });
 
-  it('renders two inputs in range variant', async () => {
+  it('renders two inputs in range appearance', async () => {
     const page = await newE2EPage();
-    await page.setContent('<aegov-datepicker variant="range"></aegov-datepicker>');
+    await page.setContent('<aegov-datepicker appearance="range"></aegov-datepicker>');
     const inputs = await page.findAll('aegov-datepicker input.datepicker__input');
     expect(inputs.length).toBe(2);
   });
@@ -75,7 +75,7 @@ describe('aegov-datepicker (e2e)', () => {
 
   it('range mode emits change with start/end after two clicks', async () => {
     const page = await newE2EPage();
-    await page.setContent('<aegov-datepicker variant="range" value="2024-06-01 / 2024-06-05"></aegov-datepicker>');
+    await page.setContent('<aegov-datepicker appearance="range" value="2024-06-01 / 2024-06-05"></aegov-datepicker>');
     const host = await page.find('aegov-datepicker');
     const changeSpy = await host.spyOnEvent('aegovDatepickerChange');
 
@@ -175,7 +175,7 @@ describe('aegov-datepicker (e2e)', () => {
 
   it('range mode with presets renders a presets panel', async () => {
     const page = await newE2EPage();
-    await page.setContent('<aegov-datepicker variant="range" presets="today,last7Days,thisMonth"></aegov-datepicker>');
+    await page.setContent('<aegov-datepicker appearance="range" presets="today,last7Days,thisMonth"></aegov-datepicker>');
     const host = await page.find('aegov-datepicker');
     await host.callMethod('open');
     await page.waitForChanges();

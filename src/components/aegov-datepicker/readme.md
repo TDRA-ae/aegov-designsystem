@@ -9,6 +9,7 @@
 
 | Property             | Attribute              | Description                                                                                      | Type                  | Default         |
 | -------------------- | ---------------------- | ------------------------------------------------------------------------------------------------ | --------------------- | --------------- |
+| `appearance`         | `appearance`           | Selection appearance: single date or date range                                                  | `"range" \| "single"` | `'single'`      |
 | `blackout`           | `blackout`             | Comma-separated ISO dates that cannot be selected                                                | `string`              | `''`            |
 | `errorMessage`       | `error-message`        | Inline error message. Use `error` slot for rich markup.                                          | `string`              | `''`            |
 | `fieldId`            | `field-id`             | Optional unique field ID. Used by aegov-form-field for label linking + error/hint id derivation. | `string`              | `undefined`     |
@@ -34,7 +35,6 @@
 | `size`               | `size`                 | The size of the datepicker input.                                                                | `string`              | `'base'`        |
 | `startDay`           | `start-day`            | Week start day: 0=Sunday, 1=Monday, ...6=Saturday                                                | `number`              | `0`             |
 | `value`              | `value`                | Pre-selected value. Single: "YYYY-MM-DD". Range: "YYYY-MM-DD / YYYY-MM-DD"                       | `string`              | `''`            |
-| `variant`            | `variant`              | Selection variant: single date or date range                                                     | `"range" \| "single"` | `'single'`      |
 | `yearRangeEnd`       | `year-range-end`       | End year for the year dropdown (default: current year + 100)                                     | `number`              | `0`             |
 | `yearRangeStart`     | `year-range-start`     | Start year for the year dropdown (default: current year - 100)                                   | `number`              | `0`             |
 

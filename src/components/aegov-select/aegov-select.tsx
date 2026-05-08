@@ -34,7 +34,7 @@ interface OptionItem {
   styleUrl: 'aegov-select.css',
   scoped: false,
   shadow: false,
-  formAssociated: true, // §2.5: listbox variant uses ElementInternals; native variant keeps inner <select name> behavior
+  formAssociated: true, // §2.5: listbox appearance uses ElementInternals; native appearance keeps inner <select name> behavior
 })
 export class AegovSelect {
   @Element() el: HTMLElement;
@@ -47,8 +47,8 @@ export class AegovSelect {
   /** Unique ID for the select element. Auto-generated if not provided. */
   @Prop({ mutable: true, reflect: true }) fieldId?: string;
 
-  /** The visual variant. 'default' renders a native select; 'listbox' renders a custom dropdown. */
-  @Prop() variant: SelectVariant = 'default';
+  /** The visual appearance. 'default' renders a native select; 'listbox' renders a custom dropdown. */
+  @Prop() appearance: SelectVariant = 'default';
 
   /** The size of the select. Matches aegov-input height. */
   @Prop() size: string = 'base';
@@ -73,7 +73,7 @@ export class AegovSelect {
   /** Whether the select is required. */
   @Prop() isRequired: boolean = false;
 
-  /** Show a search input in the listbox dropdown to filter options. Only works with listbox variant. */
+  /** Show a search input in the listbox dropdown to filter options. Only works with listbox appearance. */
   @Prop() isSearchable: boolean = false;
 
   /** Message shown when search yields no results. */
@@ -112,10 +112,10 @@ export class AegovSelect {
   /** Emitted when the selected value changes. */
   @Event() aegovSelectChange: EventEmitter<SelectChangeDetail>;
 
-  /** Emitted when the dropdown opens (listbox variant). */
+  /** Emitted when the dropdown opens (listbox appearance). */
   @Event() aegovSelectOpen: EventEmitter<void>;
 
-  /** Emitted when the dropdown closes (listbox variant). */
+  /** Emitted when the dropdown closes (listbox appearance). */
   @Event() aegovSelectClose: EventEmitter<void>;
 
   /** Unified validation event. See §2.3. */
@@ -128,7 +128,7 @@ export class AegovSelect {
   private hintId: string = '';
 
   componentWillLoad() {
-    warnIfInvalidEnumProp(this.variant, SELECT_VARIANTS, 'default', ctx('variant'));
+    warnIfInvalidEnumProp(this.appearance, SELECT_VARIANTS, 'default', ctx('appearance'));
     this._sizeWatcher = watchResponsiveProp(this.size, SELECT_SIZES, 'base', v => {
       this._resolvedSize = v as SelectSize;
     });
@@ -157,7 +157,7 @@ export class AegovSelect {
     this._sizeWatcher?.destroy();
   }
 
-  // ── FormAssociated lifecycle (listbox variant uses ElementInternals) ──
+  // ── FormAssociated lifecycle (listbox appearance uses ElementInternals) ──
   formAssociatedCallback(_form: HTMLFormElement | null) { /* no-op */ }
   formDisabledCallback(disabled: boolean) { this.isDisabled = disabled; }
   formResetCallback() {
@@ -213,7 +213,7 @@ export class AegovSelect {
   }
 
   private runValidationSync() {
-    if (!this.useListbox) return; // native variant relies on inner <select> for native form participation
+    if (!this.useListbox) return; // native appearance relies on inner <select> for native form participation
     const { validity, message } = this.computeListboxValidity();
     setInternalsValidity(this.internals, validity, message, this.triggerRef?.querySelector('button') ?? undefined);
     try {
@@ -261,8 +261,8 @@ export class AegovSelect {
     this.emitValidate('blur');
   };
 
-  @Watch('variant')
-  onVariantChange(v: unknown) { warnIfInvalidEnumProp(v, SELECT_VARIANTS, 'default', ctx('variant')); }
+  @Watch('appearance')
+  onVariantChange(v: unknown) { warnIfInvalidEnumProp(v, SELECT_VARIANTS, 'default', ctx('appearance')); }
 
   @Watch('size')
   onSizeChange() {
@@ -290,7 +290,7 @@ export class AegovSelect {
 
   /** Whether to use the custom listbox rendering. */
   private get useListbox(): boolean {
-    return this.variant === 'listbox' || this.isMultiple;
+    return this.appearance === 'listbox' || this.isMultiple;
   }
 
   /** Current selected values as an array (cached). */
@@ -707,7 +707,7 @@ export class AegovSelect {
     );
   }
 
-  /** Build per-render validation decorations shared by both variants. */
+  /** Build per-render validation decorations shared by both appearances. */
   private computeValidationDecor() {
     const hasErrorSlot = !!this.el.querySelector('[slot="error"]');
     const hasHintSlot = !!this.el.querySelector('[slot="hint"]');
