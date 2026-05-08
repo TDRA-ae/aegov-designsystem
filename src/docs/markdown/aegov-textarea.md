@@ -102,6 +102,42 @@ The `size` property scales the font size and padding. Five tokens are available:
 
 ---
 
+## Variant
+
+The `variant` property selects the colour family for the idle ring/border, the value text, and the focus accent. The focus ring stays `primary-support-600` (camel) and the error border stays `aered-600` regardless of variant.
+
+- `primary` — primary-* family (default)
+- `secondary` — secondary-* family
+- `neutral-max` — strong neutral (aeblack-800 family)
+- `neutral-min` — quiet neutral (aeblack-100 family)
+
+### Colour matrix
+
+| Variant       | Idle ring        | Value text      | Hover accent    | Subtle bg       |
+| ------------- | ---------------- | --------------- | --------------- | --------------- |
+| `primary`     | `primary-400`    | `primary-900`   | `primary-700`   | `primary-50`    |
+| `secondary`   | `secondary-400`  | `secondary-900` | `secondary-700` | `secondary-50`  |
+| `neutral-max` | `aeblack-400`    | `aeblack-900`   | `aeblack-800`   | `aeblack-50`    |
+| `neutral-min` | `aeblack-200`    | `aeblack-900`   | `aeblack-700`   | `aeblack-50`    |
+
+```html
+<aegov-textarea variant="primary" rows="3" placeholder="Primary"></aegov-textarea>
+<aegov-textarea variant="secondary" rows="3" placeholder="Secondary"></aegov-textarea>
+<aegov-textarea variant="neutral-max" rows="3" placeholder="Neutral-max"></aegov-textarea>
+<aegov-textarea variant="neutral-min" rows="3" placeholder="Neutral-min"></aegov-textarea>
+```
+
+<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <aegov-textarea variant="primary" rows="3" placeholder="Primary"></aegov-textarea>
+    <aegov-textarea variant="secondary" rows="3" placeholder="Secondary"></aegov-textarea>
+    <aegov-textarea variant="neutral-max" rows="3" placeholder="Neutral-max"></aegov-textarea>
+    <aegov-textarea variant="neutral-min" rows="3" placeholder="Neutral-min"></aegov-textarea>
+  </div>
+</div>
+
+---
+
 ## Character Counter
 
 Set `maxlength` to an integer to enable both the native length limit and a live character counter rendered below the field. The counter is announced to assistive technology via `aria-live="polite"` and switches to an over-limit colour when the count exceeds the limit (relevant when the value is set programmatically).
@@ -323,6 +359,7 @@ The textarea uses CSS logical properties throughout. When the document or any an
 | ------------- | -------------- | -------------------------------------------------------------------------------------------- | ----------------- | ------------- |
 | `fieldId`     | `field-id`     | DOM `id` for the native `<textarea>`. Auto-generated as `aegov-textarea-{n}` if omitted.       | `string`          | _generated_   |
 | `size`        | `size`         | Size token or responsive string (affects font size and padding).                               | `string`          | `'base'`      |
+| `variant`     | `variant`      | Colour family for idle ring, value text, and hover accent. Focus ring stays camel; error stays aered. | `'primary' \| 'secondary' \| 'neutral-max' \| 'neutral-min'` | `'primary'` |
 | `value`       | `value`        | Current value. Mutable — synced internally on `input` and `change`.                            | `string`          | `''`          |
 | `placeholder` | `placeholder`  | Placeholder text shown when the field is empty.                                                | `string`          | `undefined`   |
 | `name`        | `name`         | Native `name` attribute used during form submission.                                            | `string`          | `undefined`   |

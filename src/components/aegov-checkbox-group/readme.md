@@ -7,18 +7,19 @@
 
 ## Properties
 
-| Property       | Attribute       | Description                                                                            | Type                                        | Default      |
-| -------------- | --------------- | -------------------------------------------------------------------------------------- | ------------------------------------------- | ------------ |
-| `appearance`   | `appearance`    | Visual appearance for the group layout.                                                | `"cards" \| "default" \| "list" \| "pills"` | `'default'`  |
-| `errorMessage` | `error-message` | Inline error message rendered below the legend when `isInvalid`.                       | `string`                                    | `''`         |
-| `extraClass`   | `extra-class`   | Additional CSS classes to apply.                                                       | `string`                                    | `undefined`  |
-| `hint`         | `hint`          | Helper hint shown below the legend when not invalid.                                   | `string`                                    | `''`         |
-| `isDisabled`   | `is-disabled`   | Disables all checkboxes within the group via native fieldset disabled.                 | `boolean`                                   | `false`      |
-| `isInvalid`    | `is-invalid`    | Visual + a11y invalid state. See §2.3.                                                 | `boolean`                                   | `false`      |
-| `isRequired`   | `is-required`   | Group is required — at least one child checkbox must be checked. Aggregate-level only. | `boolean`                                   | `false`      |
-| `label`        | `label`         | Optional label rendered as a <legend> for accessibility.                               | `string`                                    | `undefined`  |
-| `orientation`  | `orientation`   | Stack direction for checkbox items.                                                    | `"horizontal" \| "vertical"`                | `'vertical'` |
-| `size`         | `size`          | Size of all checkboxes in the group. Propagated to children.                           | `string`                                    | `'base'`     |
+| Property       | Attribute       | Description                                                                                                                           | Type                                                         | Default      |
+| -------------- | --------------- | ------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------ | ------------ |
+| `appearance`   | `appearance`    | Visual appearance for the group layout.                                                                                               | `"cards" \| "default" \| "list" \| "pills"`                  | `'default'`  |
+| `errorMessage` | `error-message` | Inline error message rendered below the legend when `isInvalid`.                                                                      | `string`                                                     | `''`         |
+| `extraClass`   | `extra-class`   | Additional CSS classes to apply.                                                                                                      | `string`                                                     | `undefined`  |
+| `hint`         | `hint`          | Helper hint shown below the legend when not invalid.                                                                                  | `string`                                                     | `''`         |
+| `isDisabled`   | `is-disabled`   | Disables all checkboxes within the group via native fieldset disabled.                                                                | `boolean`                                                    | `false`      |
+| `isInvalid`    | `is-invalid`    | Visual + a11y invalid state. See §2.3.                                                                                                | `boolean`                                                    | `false`      |
+| `isRequired`   | `is-required`   | Group is required — at least one child checkbox must be checked. Aggregate-level only.                                                | `boolean`                                                    | `false`      |
+| `label`        | `label`         | Optional label rendered as a <legend> for accessibility.                                                                              | `string`                                                     | `undefined`  |
+| `orientation`  | `orientation`   | Stack direction for checkbox items.                                                                                                   | `"horizontal" \| "vertical"`                                 | `'vertical'` |
+| `size`         | `size`          | Size of all checkboxes in the group. Propagated to children.                                                                          | `string`                                                     | `'base'`     |
+| `variant`      | `variant`       | Colour family. Cascades to child checkboxes (only if child has no own variant). Focus ring stays camel; error stays aered regardless. | `"neutral-max" \| "neutral-min" \| "primary" \| "secondary"` | `'primary'`  |
 
 
 ## Events

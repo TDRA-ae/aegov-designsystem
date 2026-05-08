@@ -1,7 +1,7 @@
 import { Component, Host, h, Prop, State, Event, EventEmitter, Element, Watch, Method } from '@stencil/core';
-import { INPUT_TYPES, INPUT_SIZES } from '../../utils/types';
+import { INPUT_TYPES, INPUT_SIZES, FORM_VARIANTS } from '../../utils/types';
 import type {
-  InputType, InputSize,
+  InputType, InputSize, FormVariant,
   AegovValidationDetail, AegovValidationResult, AegovValidationTrigger,
 } from '../../utils/types';
 import { getPassThroughAttributes } from '../../utils/attributes';
@@ -34,6 +34,9 @@ export class AegovInput {
 
   /** The size of the input field. */
   @Prop() size: string = 'base';
+
+  /** Colour family. Drives idle ring, value text, and accent hover. Focus ring stays camel; error stays aered regardless. */
+  @Prop() variant: FormVariant = 'primary';
   @State() private _resolvedSize: InputSize = 'base';
   private _sizeWatcher: ResponsivePropWatcher | null = null;
 
@@ -119,8 +122,12 @@ export class AegovInput {
   private errorId: string = '';
   private hintId: string = '';
 
+  @Watch('variant')
+  onVariantChange(v: unknown) { warnIfInvalidEnumProp(v, FORM_VARIANTS, 'primary', ctx('variant')); }
+
   componentWillLoad() {
     warnIfInvalidEnumProp(this.type, INPUT_TYPES, 'text', ctx('type'));
+    warnIfInvalidEnumProp(this.variant, FORM_VARIANTS, 'primary', ctx('variant'));
     this._sizeWatcher = watchResponsiveProp(this.size, INPUT_SIZES, 'base', v => {
       this._resolvedSize = v as InputSize;
     });
@@ -229,6 +236,9 @@ export class AegovInput {
     };
 
     classes.push(sizeClasses[this._resolvedSize]);
+
+    const variant: FormVariant = (FORM_VARIANTS as readonly string[]).includes(this.variant) ? this.variant : 'primary';
+    classes.push(`input-variant-${variant}`);
 
     if (this.hasActionButton) {
       classes.push('input--has-action');

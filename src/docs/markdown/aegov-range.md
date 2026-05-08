@@ -161,6 +161,40 @@ The `size` property accepts a Tailwind-style responsive string with the breakpoi
 
 ---
 
+## Variant
+
+The `variant` property selects the colour family for the active fill segment of the track. The off-track stays `aeblack-200` and the thumb stays `aeblack-800` regardless of variant — both are constants for a consistent grip across colour families. The focus ring stays `primary-support-600` (camel) and error states stay `aered-600`.
+
+- `primary` — primary-* family (default)
+- `secondary` — secondary-* family
+- `neutral-max` — strong neutral (aeblack-800 family)
+- `neutral-min` — quiet neutral (aeblack-100 family). Active fill stays `aeblack-800` so the filled portion is still legible.
+
+### Colour matrix
+
+| Variant       | Track (constant) | Active fill     | Thumb (constant) | Hover accent    |
+| ------------- | ---------------- | --------------- | ---------------- | --------------- |
+| `primary`     | `aeblack-200`    | `primary-600`   | `aeblack-800`    | `primary-700`   |
+| `secondary`   | `aeblack-200`    | `secondary-600` | `aeblack-800`    | `secondary-700` |
+| `neutral-max` | `aeblack-200`    | `aeblack-800`   | `aeblack-800`    | `aeblack-800`   |
+| `neutral-min` | `aeblack-200`    | `aeblack-800`   | `aeblack-800`    | `aeblack-700`   |
+
+```html
+<aegov-range variant="primary" value="50"></aegov-range>
+<aegov-range variant="secondary" value="50"></aegov-range>
+<aegov-range variant="neutral-max" value="50"></aegov-range>
+<aegov-range variant="neutral-min" value="50"></aegov-range>
+```
+
+<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov flex flex-col gap-6">
+  <aegov-range variant="primary" label="Primary" value="50" display="tooltip"></aegov-range>
+  <aegov-range variant="secondary" label="Secondary" value="50" display="tooltip"></aegov-range>
+  <aegov-range variant="neutral-max" label="Neutral-max" value="50" display="tooltip"></aegov-range>
+  <aegov-range variant="neutral-min" label="Neutral-min" value="50" display="tooltip"></aegov-range>
+</div>
+
+---
+
 ## Orientation
 
 Set `orientation="vertical"` for a vertical slider. Vertical sliders are most appropriate for graphical equalisers, density controls, and tall side panels. Provide a fixed height on the wrapper — the component fills its container.
@@ -347,6 +381,7 @@ A dual-thumb range in RTL:
 | `orientation` | `orientation`  | Slider layout direction.                                                                           | `'horizontal' \| 'vertical'`               | `'horizontal'`|
 | `display`     | `display`      | How the current value is shown. See the Value display section.                                     | `'none' \| 'tooltip' \| 'thumb' \| 'full'` | `'none'`    |
 | `size`        | `size`         | Track size token, or a responsive string.                                                          | `string`                                   | `'base'`    |
+| `variant`     | `variant`      | Colour family for the active fill. Track and thumb stay neutral. Focus ring stays camel; error stays aered. | `'primary' \| 'secondary' \| 'neutral-max' \| 'neutral-min'` | `'primary'` |
 | `isDisabled`  | `is-disabled`  | Disables the input and removes it from the tab order.                                              | `boolean`                                  | `false`     |
 | `isRequired`  | `is-required`  | Marks the underlying input as required for form validation.                                        | `boolean`                                  | `false`     |
 | `label`       | `label`        | Optional label rendered above the slider.                                                          | `string`                                   | `undefined` |

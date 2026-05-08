@@ -58,6 +58,46 @@ The `size` property accepts a Tailwind-style responsive string with the breakpoi
 
 ---
 
+## Variant
+
+The `variant` property selects the colour family of the **ON track**. The OFF track always stays `aeblack-200` for unambiguous visual contrast between states. The focus ring stays `primary-support-600` (camel) and the error border stays `aered-600` regardless of variant. The thumb glyph is always `whitely-50` for legibility.
+
+- `primary` — primary-* family (default)
+- `secondary` — secondary-* family
+- `neutral-max` — strong neutral (aeblack-800 family)
+- `neutral-min` — quiet neutral (aeblack-100 family). ON track stays `aeblack-800` so the toggle remains readable.
+
+### Colour matrix
+
+| Variant       | OFF track       | ON track        | Hover accent    |
+| ------------- | --------------- | --------------- | --------------- |
+| `primary`     | `aeblack-200`   | `primary-600`   | `primary-700`   |
+| `secondary`   | `aeblack-200`   | `secondary-600` | `secondary-700` |
+| `neutral-max` | `aeblack-200`   | `aeblack-800`   | `aeblack-800`   |
+| `neutral-min` | `aeblack-200`   | `aeblack-800`   | `aeblack-700`   |
+
+```html
+<aegov-toggle variant="primary" label="Primary"></aegov-toggle>
+<aegov-toggle variant="secondary" label="Secondary"></aegov-toggle>
+<aegov-toggle variant="neutral-max" label="Neutral-max"></aegov-toggle>
+<aegov-toggle variant="neutral-min" label="Neutral-min"></aegov-toggle>
+```
+
+<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+    <aegov-toggle variant="primary" label="Primary — OFF"></aegov-toggle>
+    <aegov-toggle variant="primary" label="Primary — ON" is-checked="true"></aegov-toggle>
+    <aegov-toggle variant="secondary" label="Secondary — OFF"></aegov-toggle>
+    <aegov-toggle variant="secondary" label="Secondary — ON" is-checked="true"></aegov-toggle>
+    <aegov-toggle variant="neutral-max" label="Neutral-max — OFF"></aegov-toggle>
+    <aegov-toggle variant="neutral-max" label="Neutral-max — ON" is-checked="true"></aegov-toggle>
+    <aegov-toggle variant="neutral-min" label="Neutral-min — OFF"></aegov-toggle>
+    <aegov-toggle variant="neutral-min" label="Neutral-min — ON" is-checked="true"></aegov-toggle>
+  </div>
+</div>
+
+---
+
 ## Label and description
 
 When a `label` is supplied, the toggle renders inside a `<label>` element so the entire row is clickable. Add `description` to provide secondary helper text below the label — for example to explain consent implications or rate-limit consequences.
@@ -250,6 +290,7 @@ A full preferences panel in RTL:
 | `value`       | `value`        | Form value submitted when the toggle is checked.                              | `string`  | `undefined` |
 | `isChecked`   | `is-checked`   | Whether the toggle is on. Reflected to the host attribute.                    | `boolean` | `false`     |
 | `size`        | `size`         | Size token (`xs`, `sm`, `base`, `lg`, `xl`) or a responsive string.            | `string`  | `'base'`    |
+| `variant`     | `variant`      | Colour family for the ON track. OFF track stays `aeblack-200`. Focus ring stays camel; error stays aered. | `'primary' \| 'secondary' \| 'neutral-max' \| 'neutral-min'` | `'primary'` |
 | `isDisabled`  | `is-disabled`  | Disables the input and removes it from the tab order.                         | `boolean` | `false`     |
 | `isRequired`  | `is-required`  | Marks the underlying input as required for form validation.                   | `boolean` | `false`     |
 | `label`       | `label`        | Inline label text rendered after the switch.                                  | `string`  | `undefined` |

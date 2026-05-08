@@ -1,7 +1,7 @@
 import { Component, Host, h, Prop, State, Event, EventEmitter, Element, Method, Watch } from '@stencil/core';
-import { FILEUPLOAD_VARIANTS, FILEUPLOAD_SIZES } from '../../utils/types';
+import { FILEUPLOAD_VARIANTS, FILEUPLOAD_SIZES, FORM_VARIANTS } from '../../utils/types';
 import type {
-  FileuploadVariant, FileuploadSize,
+  FileuploadVariant, FileuploadSize, FormVariant,
   AegovValidationDetail, AegovValidationResult, AegovValidationTrigger,
   AegovValidityState,
 } from '../../utils/types';
@@ -50,6 +50,9 @@ export class AegovFileupload {
   @Prop() size: string = 'base';
   @State() private _resolvedSize: FileuploadSize = 'base';
   private _sizeWatcher: ResponsivePropWatcher | null = null;
+
+  /** Colour family. Drives idle ring/border, selected/checked fill, and value/accent text. Focus ring stays camel; error stays aered regardless. */
+  @Prop() variant: FormVariant = 'primary';
 
   /**
    * Allow multiple file selection.
@@ -141,6 +144,7 @@ export class AegovFileupload {
 
   componentWillLoad() {
     warnIfInvalidEnumProp(this.appearance, FILEUPLOAD_VARIANTS, 'default', ctx('appearance'));
+    warnIfInvalidEnumProp(this.variant, FORM_VARIANTS, 'primary', ctx('variant'));
     this._sizeWatcher = watchResponsiveProp(this.size, FILEUPLOAD_SIZES, 'base', v => {
       this._resolvedSize = v as FileuploadSize;
     });
@@ -177,6 +181,9 @@ export class AegovFileupload {
 
   @Watch('appearance')
   onVariantChange(v: unknown) { warnIfInvalidEnumProp(v, FILEUPLOAD_VARIANTS, 'default', ctx('appearance')); }
+
+  @Watch('variant')
+  onColourVariantChange(v: unknown) { warnIfInvalidEnumProp(v, FORM_VARIANTS, 'primary', ctx('variant')); }
 
   @Watch('size')
   onSizeChange() {
@@ -632,10 +639,12 @@ export class AegovFileupload {
 
   render() {
     const appearance: FileuploadVariant = (FILEUPLOAD_VARIANTS as readonly string[]).includes(this.appearance) ? this.appearance : 'default';
+    const variant: FormVariant = (FORM_VARIANTS as readonly string[]).includes(this.variant) ? this.variant : 'primary';
     const classes = [
       'aegov-fileupload',
       `fileupload--${appearance}`,
       `fileupload--${this._resolvedSize}`,
+      `fileupload-variant-${variant}`,
       this.isDisabled ? 'fileupload--disabled' : '',
     ].filter(Boolean).join(' ');
     const passThroughAttrs = getPassThroughAttributes(this.el, AegovFileupload.PASS_THROUGH_ATTRS);

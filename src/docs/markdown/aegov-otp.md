@@ -102,6 +102,40 @@ The `size` property accepts a Tailwind-style responsive string with the breakpoi
 
 ---
 
+## Variant
+
+The `variant` property selects the colour family for the idle cell border, the focused cell border, and the filled cell text/bg accent. The focus ring stays `primary-support-600` (camel) and the error border stays `aered-600` regardless of variant.
+
+- `primary` — primary-* family (default)
+- `secondary` — secondary-* family
+- `neutral-max` — strong neutral (aeblack-800 family)
+- `neutral-min` — quiet neutral (aeblack-100 family)
+
+### Colour matrix
+
+| Variant       | Idle border      | Focused border  | Filled text     | Filled bg       |
+| ------------- | ---------------- | --------------- | --------------- | --------------- |
+| `primary`     | `primary-200`    | `primary-400`   | `primary-900`   | `primary-50`    |
+| `secondary`   | `secondary-200`  | `secondary-400` | `secondary-900` | `secondary-50`  |
+| `neutral-max` | `aeblack-300`    | `aeblack-400`   | `aeblack-900`   | `aeblack-50`    |
+| `neutral-min` | `aeblack-100`    | `aeblack-200`   | `aeblack-900`   | `aeblack-50`    |
+
+```html
+<aegov-otp variant="primary" length="6"></aegov-otp>
+<aegov-otp variant="secondary" length="6"></aegov-otp>
+<aegov-otp variant="neutral-max" length="6"></aegov-otp>
+<aegov-otp variant="neutral-min" length="6"></aegov-otp>
+```
+
+<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov flex flex-col gap-6">
+  <aegov-otp variant="primary" length="6"></aegov-otp>
+  <aegov-otp variant="secondary" length="6"></aegov-otp>
+  <aegov-otp variant="neutral-max" length="6"></aegov-otp>
+  <aegov-otp variant="neutral-min" length="6"></aegov-otp>
+</div>
+
+---
+
 ## Numeric vs. alphanumeric
 
 By default the component accepts digits only (`0`–`9`) and presents the numeric keyboard on mobile via `inputmode="numeric"`. Set `is-alphanumeric="true"` to accept letters as well — useful for codes that mix digits and letters such as activation tokens.
@@ -277,6 +311,7 @@ The same field with the individual appearance in RTL:
 | `appearance`        | `appearance`         | Visual layout. `continuous` is one bordered group; `individual` is separated cells.           | `'continuous' \| 'individual'`| `'continuous'`|
 | `length`         | `length`          | Number of input cells.                                                                        | `number`                      | `5`           |
 | `size`           | `size`            | Cell size token (`xs`, `sm`, `base`, `lg`, `xl`, `2xl`) or a responsive string.                | `string`                      | `'base'`      |
+| `variant`        | `variant`         | Colour family for idle/focused cell border and filled cell accent. Focus ring stays camel; error stays aered. | `'primary' \| 'secondary' \| 'neutral-max' \| 'neutral-min'` | `'primary'` |
 | `isAlphanumeric` | `is-alphanumeric` | Allow letters and numbers when `true`. Numbers only when `false`.                              | `boolean`                     | `false`       |
 | `pattern`        | `pattern`         | Regex string checked when all cells are filled. Failure emits `aegovOtpInvalid`.               | `string`                      | `undefined`   |
 | `isDisabled`     | `is-disabled`     | Disables all cells.                                                                            | `boolean`                     | `false`       |

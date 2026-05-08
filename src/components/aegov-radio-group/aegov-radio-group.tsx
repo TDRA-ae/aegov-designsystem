@@ -1,7 +1,7 @@
 import { Component, Host, h, Prop, State, Event, EventEmitter, Element, Listen, Watch, Method } from '@stencil/core';
-import { RADIO_GROUP_VARIANTS, RADIO_GROUP_ORIENTATIONS, RADIO_SIZES } from '../../utils/types';
+import { RADIO_GROUP_VARIANTS, RADIO_GROUP_ORIENTATIONS, RADIO_SIZES, FORM_VARIANTS } from '../../utils/types';
 import type {
-  RadioGroupVariant, RadioGroupOrientation, RadioSize,
+  RadioGroupVariant, RadioGroupOrientation, RadioSize, FormVariant,
   AegovValidationDetail, AegovValidationResult, AegovValidationTrigger,
 } from '../../utils/types';
 import { warnIfInvalidEnumProp } from '../../utils/prop-validator';
@@ -38,6 +38,9 @@ export class AegovRadioGroup {
   @State() private _resolvedSize: RadioSize = 'base';
   private _sizeWatcher: ResponsivePropWatcher | null = null;
 
+  /** Colour family. Cascades to child radios (only if child has no own variant). Focus ring stays camel; error stays aered regardless. */
+  @Prop() variant: FormVariant = 'primary';
+
   /** The name shared by all radios in the group. Ensures native single-select behavior. */
   @Prop() name!: string;
 
@@ -73,6 +76,7 @@ export class AegovRadioGroup {
   componentWillLoad() {
     warnIfInvalidEnumProp(this.appearance, RADIO_GROUP_VARIANTS, 'default', ctx('appearance'));
     warnIfInvalidEnumProp(this.orientation, RADIO_GROUP_ORIENTATIONS, 'vertical', ctx('orientation'));
+    warnIfInvalidEnumProp(this.variant, FORM_VARIANTS, 'primary', ctx('variant'));
     this._sizeWatcher = watchResponsiveProp(this.size, RADIO_SIZES, 'base', v => {
       this._resolvedSize = v as RadioSize;
       if (this.el.isConnected) { this.syncChildren(); }
@@ -129,6 +133,12 @@ export class AegovRadioGroup {
   @Watch('orientation')
   onOrientationChange(v: unknown) { warnIfInvalidEnumProp(v, RADIO_GROUP_ORIENTATIONS, 'vertical', ctx('orientation')); }
 
+  @Watch('variant')
+  onColourVariantChange(v: unknown) {
+    warnIfInvalidEnumProp(v, FORM_VARIANTS, 'primary', ctx('variant'));
+    if (this.el.isConnected) { this.syncChildren(); }
+  }
+
   disconnectedCallback() {
     this._sizeWatcher?.destroy();
   }
@@ -153,6 +163,10 @@ export class AegovRadioGroup {
     radios.forEach(radio => {
       radio.size = this._resolvedSize;
       radio.name = this.name;
+      // Cascade variant only if child has no own value (still default 'primary')
+      if (!radio.variant || radio.variant === 'primary') {
+        radio.variant = this.variant;
+      }
     });
   }
 

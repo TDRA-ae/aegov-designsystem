@@ -212,6 +212,42 @@ The `size` property scales the input height for the default appearance and the b
 
 ---
 
+## Variant
+
+The `variant` property selects the colour family for the default-appearance ring, the button-appearance fill, the dropzone-appearance border, and the file-name accent. The focus ring stays `primary-support-600` (camel) and the error border stays `aered-600` regardless of variant.
+
+- `primary` — primary-* family (default)
+- `secondary` — secondary-* family
+- `neutral-max` — strong neutral (aeblack-800 family)
+- `neutral-min` — quiet neutral (aeblack-100 family). Button fill stays `aeblack-800` so the button remains legible.
+
+### Colour matrix
+
+| Variant       | Default ring     | Button bg       | Dropzone border | File-name accent |
+| ------------- | ---------------- | --------------- | --------------- | ---------------- |
+| `primary`     | `primary-400`    | `primary-600`   | `primary-200`   | `primary-900`    |
+| `secondary`   | `secondary-400`  | `secondary-600` | `secondary-200` | `secondary-900`  |
+| `neutral-max` | `aeblack-400`    | `aeblack-800`   | `aeblack-300`   | `aeblack-900`    |
+| `neutral-min` | `aeblack-200`    | `aeblack-800`   | `aeblack-100`   | `aeblack-900`    |
+
+```html
+<aegov-fileupload variant="primary" label="Primary" accept=".pdf"></aegov-fileupload>
+<aegov-fileupload variant="secondary" label="Secondary" accept=".pdf"></aegov-fileupload>
+<aegov-fileupload variant="neutral-max" label="Neutral-max" accept=".pdf"></aegov-fileupload>
+<aegov-fileupload variant="neutral-min" label="Neutral-min" accept=".pdf"></aegov-fileupload>
+```
+
+<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <aegov-fileupload variant="primary" label="Primary" accept=".pdf"></aegov-fileupload>
+    <aegov-fileupload variant="secondary" label="Secondary" accept=".pdf"></aegov-fileupload>
+    <aegov-fileupload variant="neutral-max" label="Neutral-max" accept=".pdf"></aegov-fileupload>
+    <aegov-fileupload variant="neutral-min" label="Neutral-min" accept=".pdf"></aegov-fileupload>
+  </div>
+</div>
+
+---
+
 ## Required and disabled
 
 Set `is-required="true"` to mark the field as required — a red asterisk renders next to the label and the inner native input gains the `required` attribute, so it participates in native form validation. Set `is-disabled="true"` to lock the control and prevent any interaction.
@@ -417,6 +453,7 @@ The same component as a dropzone with multiple files in RTL:
 | `fieldId`       | `field-id`        | DOM `id` for the inner native `<input type="file">`. Auto-generated.          | `string`                                   | _generated_ |
 | `appearance`       | `appearance`         | Layout — `default`, `button`, or `dropzone`.                                  | `'default' \| 'button' \| 'dropzone'`      | `'default'` |
 | `size`          | `size`            | Control size token. Accepts a single token or a responsive string.            | `'xs' \| 'sm' \| 'base' \| 'lg' \| 'xl'`   | `'base'`    |
+| `variant`       | `variant`         | Colour family for default ring, button bg, dropzone border, and file-name accent. Focus ring stays camel; error stays aered. | `'primary' \| 'secondary' \| 'neutral-max' \| 'neutral-min'` | `'primary'` |
 | `isMultiple`    | `is-multiple`     | Allow more than one file to be selected.                                      | `boolean`                                  | `false`     |
 | `accept`        | `accept`          | Comma-separated list of allowed types (extensions, MIME, or wildcards).       | `string`                                   | `undefined` |
 | `maxFileSize`   | `max-file-size`   | Maximum size of a single file in bytes.                                       | `number`                                   | `undefined` |

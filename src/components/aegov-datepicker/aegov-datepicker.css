@@ -14,9 +14,19 @@
 .datepicker__input-wrapper {
   @apply relative flex items-center gap-0 w-full bg-whitely-50
          rounded-lg transition-all duration-200 ease-in-out
-         inset-ring-2 inset-ring-primary-400
+         inset-ring-2
          focus-within:inset-ring-primary-support-600;
 }
+
+/* Variant — idle ring + value text per colour family */
+:host(.datepicker-variant-primary) .datepicker__input-wrapper       { @apply inset-ring-primary-400; }
+:host(.datepicker-variant-primary) .datepicker__input               { @apply text-primary-900; }
+:host(.datepicker-variant-secondary) .datepicker__input-wrapper     { @apply inset-ring-secondary-400; }
+:host(.datepicker-variant-secondary) .datepicker__input             { @apply text-secondary-900; }
+:host(.datepicker-variant-neutral-max) .datepicker__input-wrapper   { @apply inset-ring-aeblack-400; }
+:host(.datepicker-variant-neutral-max) .datepicker__input           { @apply text-aeblack-900; }
+:host(.datepicker-variant-neutral-min) .datepicker__input-wrapper   { @apply inset-ring-aeblack-200; }
+:host(.datepicker-variant-neutral-min) .datepicker__input           { @apply text-aeblack-900; }
 
 .datepicker__input-wrapper--range {
   @apply gap-0;

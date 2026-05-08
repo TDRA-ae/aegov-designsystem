@@ -1,7 +1,7 @@
 import { Component, Host, h, Prop, State, Event, EventEmitter, Element, Listen, Watch, Method } from '@stencil/core';
-import { SELECT_VARIANTS, SELECT_SIZES } from '../../utils/types';
+import { SELECT_VARIANTS, SELECT_SIZES, FORM_VARIANTS } from '../../utils/types';
 import type {
-  SelectVariant, SelectSize, SelectChangeDetail,
+  SelectVariant, SelectSize, SelectChangeDetail, FormVariant,
   AegovValidationDetail, AegovValidationResult, AegovValidationTrigger,
   AegovValidityState,
 } from '../../utils/types';
@@ -52,6 +52,9 @@ export class AegovSelect {
 
   /** The size of the select. Matches aegov-input height. */
   @Prop() size: string = 'base';
+
+  /** Colour family. Drives idle ring/border, selected/checked fill, and value/accent text. Focus ring stays camel; error stays aered regardless. */
+  @Prop() variant: FormVariant = 'primary';
   @State() private _resolvedSize: SelectSize = 'base';
   private _sizeWatcher: ResponsivePropWatcher | null = null;
 
@@ -129,6 +132,7 @@ export class AegovSelect {
 
   componentWillLoad() {
     warnIfInvalidEnumProp(this.appearance, SELECT_VARIANTS, 'default', ctx('appearance'));
+    warnIfInvalidEnumProp(this.variant, FORM_VARIANTS, 'primary', ctx('variant'));
     this._sizeWatcher = watchResponsiveProp(this.size, SELECT_SIZES, 'base', v => {
       this._resolvedSize = v as SelectSize;
     });
@@ -263,6 +267,9 @@ export class AegovSelect {
 
   @Watch('appearance')
   onVariantChange(v: unknown) { warnIfInvalidEnumProp(v, SELECT_VARIANTS, 'default', ctx('appearance')); }
+
+  @Watch('variant')
+  onColourVariantChange(v: unknown) { warnIfInvalidEnumProp(v, FORM_VARIANTS, 'primary', ctx('variant')); }
 
   @Watch('size')
   onSizeChange() {
@@ -625,6 +632,8 @@ export class AegovSelect {
       xl: 'select--xl',
     };
     classes.push(sizeClasses[this._resolvedSize]);
+    const variant: FormVariant = (FORM_VARIANTS as readonly string[]).includes(this.variant) ? this.variant : 'primary';
+    classes.push(`select-variant-${variant}`);
     if (this.isDisabled) classes.push('select--disabled');
     if (this.isOpen) classes.push('select--open');
     if (!this.displayText) classes.push('select--placeholder');
@@ -648,13 +657,14 @@ export class AegovSelect {
     const validationDecor = this.computeValidationDecor();
     const { errorRegion, hintRegion, describedBy, hostClass } = validationDecor;
 
+    const variant: FormVariant = (FORM_VARIANTS as readonly string[]).includes(this.variant) ? this.variant : 'primary';
     return (
       <Host class={hostClass}>
         <div class="select__native-wrapper">
           <select
             ref={(el) => this.nativeSelectEl = el}
             id={this.fieldId}
-            class={`aegov-select ${sizeClasses[this._resolvedSize]}${this.extraClass ? ` ${this.extraClass}` : ''}`}
+            class={`aegov-select select-variant-${variant} ${sizeClasses[this._resolvedSize]}${this.extraClass ? ` ${this.extraClass}` : ''}`}
             disabled={this.isDisabled}
             name={this.name}
             required={this.isRequired}
@@ -735,7 +745,12 @@ export class AegovSelect {
         {hasHintSlot ? <slot name="hint" /> : this.hint}
       </div>
     ) : null;
-    return { errorRegion, hintRegion, describedBy, hostClass: { 'is-invalid': this.isInvalid } };
+    const variant: FormVariant = (FORM_VARIANTS as readonly string[]).includes(this.variant) ? this.variant : 'primary';
+    const hostClass = {
+      'is-invalid': this.isInvalid,
+      [`select-variant-${variant}`]: true,
+    };
+    return { errorRegion, hintRegion, describedBy, hostClass };
   }
 
   private renderListbox() {
