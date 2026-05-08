@@ -31,17 +31,17 @@
 
 <hr>
 <h2>Variants</h2>
-<p>The <code>variant</code> property selects between two visual layouts.</p>
+<p>The <code>appearance</code> property selects between two visual layouts.</p>
 <h3>Continuous (default)</h3>
 <p>A single bordered group with thin dividers between cells. Best when the code is read as one logical token (typical SMS or authenticator OTP).</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-otp</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;continuous&quot;</span> <span class="hljs-attr">length</span>=<span class="hljs-string">&quot;6&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-otp</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <aegov-otp variant="continuous" length="6"></aegov-otp>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-otp</span> <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;continuous&quot;</span> <span class="hljs-attr">length</span>=<span class="hljs-string">&quot;6&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-otp</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-otp appearance="continuous" length="6"></aegov-otp>
 </div>
 
 <h3>Individual</h3>
 <p>Each cell is rendered as a fully separated, bordered box. Useful when the code is read as discrete digits — for example PIN-style activation codes printed on a physical voucher.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-otp</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;individual&quot;</span> <span class="hljs-attr">length</span>=<span class="hljs-string">&quot;6&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-otp</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <aegov-otp variant="individual" length="6"></aegov-otp>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-otp</span> <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;individual&quot;</span> <span class="hljs-attr">length</span>=<span class="hljs-string">&quot;6&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-otp</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-otp appearance="individual" length="6"></aegov-otp>
 </div>
 
 <hr>
@@ -170,11 +170,11 @@
   <aegov-otp field-id="mfa-ar" length="6"></aegov-otp>
 </div>
 
-<p>The same field with the individual variant in RTL:</p>
+<p>The same field with the individual appearance in RTL:</p>
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">dir</span>=<span class="hljs-string">&quot;rtl&quot;</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-otp</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;individual&quot;</span> <span class="hljs-attr">length</span>=<span class="hljs-string">&quot;4&quot;</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;lg&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-otp</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-otp</span> <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;individual&quot;</span> <span class="hljs-attr">length</span>=<span class="hljs-string">&quot;4&quot;</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;lg&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-otp</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre><div dir="rtl" class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <aegov-otp variant="individual" length="4" size="lg"></aegov-otp>
+  <aegov-otp appearance="individual" length="4" size="lg"></aegov-otp>
 </div>
 
 <hr>
@@ -198,8 +198,8 @@
 <td><em>generated</em></td>
 </tr>
 <tr>
-<td><code>variant</code></td>
-<td><code>variant</code></td>
+<td><code>appearance</code></td>
+<td><code>appearance</code></td>
 <td>Visual layout. <code>continuous</code> is one bordered group; <code>individual</code> is separated cells.</td>
 <td><code>&#39;continuous&#39; | &#39;individual&#39;</code></td>
 <td><code>&#39;continuous&#39;</code></td>

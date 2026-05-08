@@ -1,7 +1,7 @@
 import { newE2EPage } from '@stencil/core/testing';
 
 describe('aegov-select (e2e)', () => {
-  describe('native variant', () => {
+  describe('native appearance', () => {
     it('renders a native select with parsed options', async () => {
       const page = await newE2EPage();
       await page.setContent(`
@@ -48,11 +48,11 @@ describe('aegov-select (e2e)', () => {
     });
   });
 
-  describe('listbox variant', () => {
+  describe('listbox appearance', () => {
     it('opens the dropdown on trigger click', async () => {
       const page = await newE2EPage();
       await page.setContent(`
-        <aegov-select variant="listbox">
+        <aegov-select appearance="listbox">
           <aegov-select-option value="a">Apple</aegov-select-option>
           <aegov-select-option value="b">Banana</aegov-select-option>
         </aegov-select>
@@ -69,7 +69,7 @@ describe('aegov-select (e2e)', () => {
     it('selecting an option emits aegovSelectChange and closes', async () => {
       const page = await newE2EPage();
       await page.setContent(`
-        <aegov-select variant="listbox">
+        <aegov-select appearance="listbox">
           <aegov-select-option value="a">Apple</aegov-select-option>
           <aegov-select-option value="b">Banana</aegov-select-option>
         </aegov-select>
@@ -90,7 +90,7 @@ describe('aegov-select (e2e)', () => {
     it('search input filters options', async () => {
       const page = await newE2EPage();
       await page.setContent(`
-        <aegov-select variant="listbox" is-searchable="true">
+        <aegov-select appearance="listbox" is-searchable="true">
           <aegov-select-option value="a">Apple</aegov-select-option>
           <aegov-select-option value="b">Banana</aegov-select-option>
           <aegov-select-option value="c">Cherry</aegov-select-option>
@@ -133,7 +133,7 @@ describe('aegov-select (e2e)', () => {
     it('keyboard navigation: ArrowDown opens, ArrowDown moves, Enter selects', async () => {
       const page = await newE2EPage();
       await page.setContent(`
-        <aegov-select variant="listbox">
+        <aegov-select appearance="listbox">
           <aegov-select-option value="a">Apple</aegov-select-option>
           <aegov-select-option value="b">Banana</aegov-select-option>
         </aegov-select>
@@ -158,7 +158,7 @@ describe('aegov-select (e2e)', () => {
     it('Escape closes the listbox', async () => {
       const page = await newE2EPage();
       await page.setContent(`
-        <aegov-select variant="listbox">
+        <aegov-select appearance="listbox">
           <aegov-select-option value="a">Apple</aegov-select-option>
         </aegov-select>
       `);
@@ -174,7 +174,7 @@ describe('aegov-select (e2e)', () => {
     it('clear button resets the selection', async () => {
       const page = await newE2EPage();
       await page.setContent(`
-        <aegov-select variant="listbox" is-clearable="true" value="a">
+        <aegov-select appearance="listbox" is-clearable="true" value="a">
           <aegov-select-option value="a">Apple</aegov-select-option>
         </aegov-select>
       `);
@@ -191,7 +191,7 @@ describe('aegov-select (e2e)', () => {
     it('renders option groups with role=group and group label', async () => {
       const page = await newE2EPage();
       await page.setContent(`
-        <aegov-select variant="listbox">
+        <aegov-select appearance="listbox">
           <aegov-select-option-group label="Fruit">
             <aegov-select-option value="a">Apple</aegov-select-option>
           </aegov-select-option-group>
@@ -208,7 +208,7 @@ describe('aegov-select (e2e)', () => {
     it('document click outside closes the listbox', async () => {
       const page = await newE2EPage();
       await page.setContent(`
-        <div><aegov-select variant="listbox">
+        <div><aegov-select appearance="listbox">
           <aegov-select-option value="a">Apple</aegov-select-option>
         </aegov-select></div>
         <button id="outside">outside</button>
@@ -226,7 +226,7 @@ describe('aegov-select (e2e)', () => {
     it('disabled select cannot be opened', async () => {
       const page = await newE2EPage();
       await page.setContent(`
-        <aegov-select variant="listbox" is-disabled="true">
+        <aegov-select appearance="listbox" is-disabled="true">
           <aegov-select-option value="a">Apple</aegov-select-option>
         </aegov-select>
       `);

@@ -10,6 +10,7 @@
 | Property       | Attribute       | Description                                                                                                                                             | Type                                  | Default     |
 | -------------- | --------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------- | ----------- |
 | `accept`       | `accept`        | Accepted file types (e.g. ".pdf,.jpg,image/*").                                                                                                         | `string`                              | `undefined` |
+| `appearance`   | `appearance`    | Variant style: 'default' (styled input + button), 'button' (hidden input, label-as-button), or 'dropzone' (drag-and-drop area).                         | `"button" \| "default" \| "dropzone"` | `'default'` |
 | `errorMessage` | `error-message` | Inline error message. Use `error` slot for rich markup.                                                                                                 | `string`                              | `''`        |
 | `fieldId`      | `field-id`      | Unique field ID. Auto-generated if not provided.                                                                                                        | `string`                              | `undefined` |
 | `hint`         | `hint`          | Helper hint text displayed below the label. Renamed from `description` per §6.6 (pre-production rename, no compat shim). Hidden when an error is shown. | `string`                              | `undefined` |
@@ -24,16 +25,15 @@
 | `maxFiles`     | `max-files`     | Maximum number of files (multiple mode only). No limit by default.                                                                                      | `number`                              | `undefined` |
 | `name`         | `name`          | Form field name.                                                                                                                                        | `string`                              | `undefined` |
 | `size`         | `size`          | Component size.                                                                                                                                         | `string`                              | `'base'`    |
-| `variant`      | `variant`       | Variant style: 'default' (styled input + button), 'button' (hidden input, label-as-button), or 'dropzone' (drag-and-drop area).                         | `"button" \| "default" \| "dropzone"` | `'default'` |
 
 
 ## Events
 
-| Event                   | Description                                                              | Type                                              |
-| ----------------------- | ------------------------------------------------------------------------ | ------------------------------------------------- |
-| `aegovFileuploadChange` | Emitted when the file selection changes.                                 | `CustomEvent<{ files: File[]; }>`                 |
-| `aegovFileuploadRemove` | Emitted when a file is removed from the list (button/dropzone variants). | `CustomEvent<{ file: File; remaining: File[]; }>` |
-| `aegovValidate`         | Unified validation event. See §2.3.                                      | `CustomEvent<AegovValidationDetail<File[]>>`      |
+| Event                   | Description                                                                 | Type                                              |
+| ----------------------- | --------------------------------------------------------------------------- | ------------------------------------------------- |
+| `aegovFileuploadChange` | Emitted when the file selection changes.                                    | `CustomEvent<{ files: File[]; }>`                 |
+| `aegovFileuploadRemove` | Emitted when a file is removed from the list (button/dropzone appearances). | `CustomEvent<{ file: File; remaining: File[]; }>` |
+| `aegovValidate`         | Unified validation event. See §2.3.                                         | `CustomEvent<AegovValidationDetail<File[]>>`      |
 
 
 ## Methods

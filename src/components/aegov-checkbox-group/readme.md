@@ -9,6 +9,7 @@
 
 | Property       | Attribute       | Description                                                                            | Type                                        | Default      |
 | -------------- | --------------- | -------------------------------------------------------------------------------------- | ------------------------------------------- | ------------ |
+| `appearance`   | `appearance`    | Visual appearance for the group layout.                                                | `"cards" \| "default" \| "list" \| "pills"` | `'default'`  |
 | `errorMessage` | `error-message` | Inline error message rendered below the legend when `isInvalid`.                       | `string`                                    | `''`         |
 | `extraClass`   | `extra-class`   | Additional CSS classes to apply.                                                       | `string`                                    | `undefined`  |
 | `hint`         | `hint`          | Helper hint shown below the legend when not invalid.                                   | `string`                                    | `''`         |
@@ -18,7 +19,6 @@
 | `label`        | `label`         | Optional label rendered as a <legend> for accessibility.                               | `string`                                    | `undefined`  |
 | `orientation`  | `orientation`   | Stack direction for checkbox items.                                                    | `"horizontal" \| "vertical"`                | `'vertical'` |
 | `size`         | `size`          | Size of all checkboxes in the group. Propagated to children.                           | `string`                                    | `'base'`     |
-| `variant`      | `variant`       | Visual variant for the group layout.                                                   | `"cards" \| "default" \| "list" \| "pills"` | `'default'`  |
 
 
 ## Events

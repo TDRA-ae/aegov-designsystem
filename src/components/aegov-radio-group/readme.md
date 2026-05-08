@@ -9,6 +9,7 @@
 
 | Property            | Attribute       | Description                                                                        | Type                                        | Default      |
 | ------------------- | --------------- | ---------------------------------------------------------------------------------- | ------------------------------------------- | ------------ |
+| `appearance`        | `appearance`    | Visual appearance for the group layout.                                            | `"cards" \| "default" \| "list" \| "pills"` | `'default'`  |
 | `errorMessage`      | `error-message` | Inline error message.                                                              | `string`                                    | `''`         |
 | `extraClass`        | `extra-class`   | Additional CSS classes to apply.                                                   | `string`                                    | `undefined`  |
 | `hint`              | `hint`          | Helper hint shown below the legend when not invalid.                               | `string`                                    | `''`         |
@@ -19,7 +20,6 @@
 | `name` _(required)_ | `name`          | The name shared by all radios in the group. Ensures native single-select behavior. | `string`                                    | `undefined`  |
 | `orientation`       | `orientation`   | Stack direction for radio items.                                                   | `"horizontal" \| "vertical"`                | `'vertical'` |
 | `size`              | `size`          | Size of all radios in the group. Propagated to children.                           | `string`                                    | `'base'`     |
-| `variant`           | `variant`       | Visual variant for the group layout.                                               | `"cards" \| "default" \| "list" \| "pills"` | `'default'`  |
 
 
 ## Events

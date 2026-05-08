@@ -4,7 +4,7 @@
 
 ## Introduction
 
-Radios are almost always used inside an `aegov-radio-group`. The group sets the shared `name` (required for native single-select behaviour), propagates `size` to every child, exposes a single `aegovRadioGroupChange` event with the currently selected value, and supports the same layout variants as the checkbox group.
+Radios are almost always used inside an `aegov-radio-group`. The group sets the shared `name` (required for native single-select behaviour), propagates `size` to every child, exposes a single `aegovRadioGroupChange` event with the currently selected value, and supports the same layout appearances as the checkbox group.
 
 ```html
 <aegov-radio-group name="title" label="Title">
@@ -192,17 +192,17 @@ Set `orientation="horizontal"` on the group to lay items out in a row instead of
 
 ## Variants
 
-The `variant` property selects the visual treatment of the group: `default` (plain stack), `list` (dividers between items), `cards` (each item is a bordered card), or `pills` (toggle pill buttons with the native input visually hidden). All variants work with both vertical and horizontal orientation.
+The `appearance` property selects the visual treatment of the group: `default` (plain stack), `list` (dividers between items), `cards` (each item is a bordered card), or `pills` (toggle pill buttons with the native input visually hidden). All appearances work with both vertical and horizontal orientation.
 
 ```html
-<aegov-radio-group name="application-type" variant="list" label="Application type">
+<aegov-radio-group name="application-type" appearance="list" label="Application type">
   <aegov-radio value="new" label="New application"></aegov-radio>
   <aegov-radio value="renewal" label="Renewal" is-checked="true"></aegov-radio>
   <aegov-radio value="replacement" label="Replacement"></aegov-radio>
   <aegov-radio value="amendment" label="Amendment"></aegov-radio>
 </aegov-radio-group>
 
-<aegov-radio-group name="processing" variant="cards" label="Processing speed">
+<aegov-radio-group name="processing" appearance="cards" label="Processing speed">
   <aegov-radio
     value="standard"
     label="Standard — 5 working days"
@@ -221,7 +221,7 @@ The `variant` property selects the visual treatment of the group: `default` (pla
   ></aegov-radio>
 </aegov-radio-group>
 
-<aegov-radio-group name="frequency" variant="pills" orientation="horizontal" label="Reporting frequency">
+<aegov-radio-group name="frequency" appearance="pills" orientation="horizontal" label="Reporting frequency">
   <aegov-radio value="daily" label="Daily"></aegov-radio>
   <aegov-radio value="weekly" label="Weekly" is-checked="true"></aegov-radio>
   <aegov-radio value="monthly" label="Monthly"></aegov-radio>
@@ -231,13 +231,13 @@ The `variant` property selects the visual treatment of the group: `default` (pla
 
 <div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <div class="grid gap-8">
-    <aegov-radio-group name="application-type" variant="list" label="Application type">
+    <aegov-radio-group name="application-type" appearance="list" label="Application type">
       <aegov-radio value="new" label="New application"></aegov-radio>
       <aegov-radio value="renewal" label="Renewal" is-checked="true"></aegov-radio>
       <aegov-radio value="replacement" label="Replacement"></aegov-radio>
       <aegov-radio value="amendment" label="Amendment"></aegov-radio>
     </aegov-radio-group>
-    <aegov-radio-group name="processing" variant="cards" label="Processing speed">
+    <aegov-radio-group name="processing" appearance="cards" label="Processing speed">
       <aegov-radio
         value="standard"
         label="Standard — 5 working days"
@@ -255,7 +255,7 @@ The `variant` property selects the visual treatment of the group: `default` (pla
         description="Additional fee of AED 250 applies. Subject to availability."
       ></aegov-radio>
     </aegov-radio-group>
-    <aegov-radio-group name="frequency" variant="pills" orientation="horizontal" label="Reporting frequency">
+    <aegov-radio-group name="frequency" appearance="pills" orientation="horizontal" label="Reporting frequency">
       <aegov-radio value="daily" label="Daily"></aegov-radio>
       <aegov-radio value="weekly" label="Weekly" is-checked="true"></aegov-radio>
       <aegov-radio value="monthly" label="Monthly"></aegov-radio>
@@ -290,13 +290,13 @@ Setting `is-disabled="true"` on the group disables all child radios via the nati
 
 ## Composite Example — Passport Application
 
-A realistic snippet from a passport application form combining several groups in different variants.
+A realistic snippet from a passport application form combining several groups in different appearances.
 
 ```html
 <form class="grid gap-8 max-w-xl">
   <aegov-form-field>
     <aegov-label is-required="true">Application type</aegov-label>
-    <aegov-radio-group name="application-type" variant="list">
+    <aegov-radio-group name="application-type" appearance="list">
       <aegov-radio value="new" label="New passport" is-required="true"></aegov-radio>
       <aegov-radio value="renewal" label="Renewal" is-required="true"></aegov-radio>
       <aegov-radio value="replacement" label="Replacement (lost or damaged)" is-required="true"></aegov-radio>
@@ -305,7 +305,7 @@ A realistic snippet from a passport application form combining several groups in
 
   <aegov-form-field>
     <aegov-label is-required="true">Processing speed</aegov-label>
-    <aegov-radio-group name="processing" variant="cards">
+    <aegov-radio-group name="processing" appearance="cards">
       <aegov-radio
         value="standard"
         label="Standard — 5 working days"
@@ -342,7 +342,7 @@ A realistic snippet from a passport application form combining several groups in
   <form class="grid gap-8 max-w-xl">
     <aegov-form-field>
       <aegov-label is-required="true">Application type</aegov-label>
-      <aegov-radio-group name="application-type" variant="list">
+      <aegov-radio-group name="application-type" appearance="list">
         <aegov-radio value="new" label="New passport" is-required="true"></aegov-radio>
         <aegov-radio value="renewal" label="Renewal" is-required="true"></aegov-radio>
         <aegov-radio value="replacement" label="Replacement (lost or damaged)" is-required="true"></aegov-radio>
@@ -350,7 +350,7 @@ A realistic snippet from a passport application form combining several groups in
     </aegov-form-field>
     <aegov-form-field>
       <aegov-label is-required="true">Processing speed</aegov-label>
-      <aegov-radio-group name="processing" variant="cards">
+      <aegov-radio-group name="processing" appearance="cards">
         <aegov-radio
           value="standard"
           label="Standard — 5 working days"
@@ -412,7 +412,7 @@ The radio uses CSS logical properties throughout. When the document or any ances
 
 ```html
 <div dir="rtl">
-  <aegov-radio-group name="processing-rtl" variant="cards" label="سرعة المعالجة">
+  <aegov-radio-group name="processing-rtl" appearance="cards" label="سرعة المعالجة">
     <aegov-radio
       value="standard"
       label="عادية — خلال 5 أيام عمل"
@@ -440,7 +440,7 @@ The radio uses CSS logical properties throughout. When the document or any ances
 
 <div dir="rtl" class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <div class="grid gap-8">
-    <aegov-radio-group name="processing-rtl" variant="cards" label="سرعة المعالجة">
+    <aegov-radio-group name="processing-rtl" appearance="cards" label="سرعة المعالجة">
       <aegov-radio
         value="standard"
         label="عادية — خلال 5 أيام عمل"
@@ -489,7 +489,7 @@ The radio uses CSS logical properties throughout. When the document or any ances
 | Property      | Attribute     | Description                                                                  | Type                       | Default      |
 | ------------- | ------------- | ---------------------------------------------------------------------------- | -------------------------- | ------------ |
 | `name`        | `name`        | Shared `name` for all radios in the group. Required for native single-select.   | `string`                   | _required_   |
-| `variant`     | `variant`     | Visual layout variant.                                                          | `RadioGroupVariant`        | `'default'`  |
+| `appearance`     | `appearance`     | Visual layout appearance.                                                          | `RadioGroupVariant`        | `'default'`  |
 | `orientation` | `orientation` | Stack direction for items.                                                      | `RadioGroupOrientation`    | `'vertical'` |
 | `label`       | `label`       | Optional `<legend>` text for the underlying `<fieldset>`.                         | `string`                   | `undefined`  |
 | `size`        | `size`        | Size token or responsive string. Propagated to all child radios.                  | `string`                   | `'base'`     |

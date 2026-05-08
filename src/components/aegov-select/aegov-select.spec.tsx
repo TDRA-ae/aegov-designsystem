@@ -4,7 +4,7 @@ import { AegovSelectOption } from '../aegov-select-option/aegov-select-option';
 import { AegovSelectOptionGroup } from '../aegov-select-option-group/aegov-select-option-group';
 
 describe('aegov-select', () => {
-  describe('native variant (default)', () => {
+  describe('native appearance (default)', () => {
     it('renders a native <select> element', async () => {
       const page = await newSpecPage({
         components: [AegovSelect, AegovSelectOption],
@@ -111,11 +111,11 @@ describe('aegov-select', () => {
     });
   });
 
-  describe('listbox variant', () => {
+  describe('listbox appearance', () => {
     it('renders a button with role=combobox instead of native select', async () => {
       const page = await newSpecPage({
         components: [AegovSelect, AegovSelectOption],
-        html: `<aegov-select variant="listbox">
+        html: `<aegov-select appearance="listbox">
           <aegov-select-option value="a">Apple</aegov-select-option>
         </aegov-select>`,
       });
@@ -129,7 +129,7 @@ describe('aegov-select', () => {
     it('opens the listbox when trigger is clicked', async () => {
       const page = await newSpecPage({
         components: [AegovSelect, AegovSelectOption],
-        html: `<aegov-select variant="listbox">
+        html: `<aegov-select appearance="listbox">
           <aegov-select-option value="a">Apple</aegov-select-option>
           <aegov-select-option value="b">Banana</aegov-select-option>
         </aegov-select>`,
@@ -147,7 +147,7 @@ describe('aegov-select', () => {
     it('selects an option on click and emits aegovSelectChange', async () => {
       const page = await newSpecPage({
         components: [AegovSelect, AegovSelectOption],
-        html: `<aegov-select variant="listbox">
+        html: `<aegov-select appearance="listbox">
           <aegov-select-option value="a">Apple</aegov-select-option>
           <aegov-select-option value="b">Banana</aegov-select-option>
         </aegov-select>`,
@@ -167,7 +167,7 @@ describe('aegov-select', () => {
     it('does not select disabled options', async () => {
       const page = await newSpecPage({
         components: [AegovSelect, AegovSelectOption],
-        html: `<aegov-select variant="listbox">
+        html: `<aegov-select appearance="listbox">
           <aegov-select-option value="a" is-disabled="true">Apple</aegov-select-option>
         </aegov-select>`,
       });
@@ -184,7 +184,7 @@ describe('aegov-select', () => {
     it('renders search input when isSearchable and filters options', async () => {
       const page = await newSpecPage({
         components: [AegovSelect, AegovSelectOption],
-        html: `<aegov-select variant="listbox" is-searchable="true">
+        html: `<aegov-select appearance="listbox" is-searchable="true">
           <aegov-select-option value="a">Apple</aegov-select-option>
           <aegov-select-option value="b">Banana</aegov-select-option>
           <aegov-select-option value="c">Cherry</aegov-select-option>
@@ -205,7 +205,7 @@ describe('aegov-select', () => {
     it('shows empty message when search has no results', async () => {
       const page = await newSpecPage({
         components: [AegovSelect, AegovSelectOption],
-        html: `<aegov-select variant="listbox" is-searchable="true" empty-message="Nothing here">
+        html: `<aegov-select appearance="listbox" is-searchable="true" empty-message="Nothing here">
           <aegov-select-option value="a">Apple</aegov-select-option>
         </aegov-select>`,
       });
@@ -248,7 +248,7 @@ describe('aegov-select', () => {
     it('renders clear button when isClearable and a value is set; clears on click', async () => {
       const page = await newSpecPage({
         components: [AegovSelect, AegovSelectOption],
-        html: `<aegov-select variant="listbox" is-clearable="true" value="a">
+        html: `<aegov-select appearance="listbox" is-clearable="true" value="a">
           <aegov-select-option value="a">Apple</aegov-select-option>
         </aegov-select>`,
       });
@@ -266,7 +266,7 @@ describe('aegov-select', () => {
     it('does not render clear button when value is empty', async () => {
       const page = await newSpecPage({
         components: [AegovSelect, AegovSelectOption],
-        html: `<aegov-select variant="listbox" is-clearable="true">
+        html: `<aegov-select appearance="listbox" is-clearable="true">
           <aegov-select-option value="a">Apple</aegov-select-option>
         </aegov-select>`,
       });
@@ -276,7 +276,7 @@ describe('aegov-select', () => {
     it('shows placeholder text when nothing selected', async () => {
       const page = await newSpecPage({
         components: [AegovSelect, AegovSelectOption],
-        html: `<aegov-select variant="listbox" placeholder="Pick one">
+        html: `<aegov-select appearance="listbox" placeholder="Pick one">
           <aegov-select-option value="a">Apple</aegov-select-option>
         </aegov-select>`,
       });
@@ -288,7 +288,7 @@ describe('aegov-select', () => {
     it('shows resolved label when value matches a parsed option', async () => {
       const page = await newSpecPage({
         components: [AegovSelect, AegovSelectOption],
-        html: `<aegov-select variant="listbox" value="b">
+        html: `<aegov-select appearance="listbox" value="b">
           <aegov-select-option value="a">Apple</aegov-select-option>
           <aegov-select-option value="b">Banana</aegov-select-option>
         </aegov-select>`,
@@ -299,7 +299,7 @@ describe('aegov-select', () => {
     it('disables trigger when isDisabled', async () => {
       const page = await newSpecPage({
         components: [AegovSelect, AegovSelectOption],
-        html: `<aegov-select variant="listbox" is-disabled="true">
+        html: `<aegov-select appearance="listbox" is-disabled="true">
           <aegov-select-option value="a">Apple</aegov-select-option>
         </aegov-select>`,
       });
@@ -316,7 +316,7 @@ describe('aegov-select', () => {
       // jsdom mock has no ElementInternals — assert hidden input gone and props tracked.
       const page = await newSpecPage({
         components: [AegovSelect, AegovSelectOption],
-        html: `<aegov-select variant="listbox" name="fruit" value="a">
+        html: `<aegov-select appearance="listbox" name="fruit" value="a">
           <aegov-select-option value="a">Apple</aegov-select-option>
         </aegov-select>`,
       });
@@ -354,7 +354,7 @@ describe('aegov-select', () => {
     it('parses options into parsedOptions state', async () => {
       const page = await newSpecPage({
         components: [AegovSelect, AegovSelectOption, AegovSelectOptionGroup],
-        html: `<aegov-select variant="listbox">
+        html: `<aegov-select appearance="listbox">
           <aegov-select-option-group label="Fruit">
             <aegov-select-option value="a">Apple</aegov-select-option>
           </aegov-select-option-group>
@@ -385,7 +385,7 @@ describe('aegov-select', () => {
     it('toggles aria-invalid on listbox button when isInvalid', async () => {
       const page = await newSpecPage({
         components: [AegovSelect, AegovSelectOption],
-        html: `<aegov-select variant="listbox" is-invalid="true">
+        html: `<aegov-select appearance="listbox" is-invalid="true">
           <aegov-select-option value="a">A</aegov-select-option>
         </aegov-select>`,
       });
@@ -393,7 +393,7 @@ describe('aegov-select', () => {
       expect(page.root.classList.contains('is-invalid')).toBe(true);
     });
 
-    it('renders errorMessage in error region (native variant)', async () => {
+    it('renders errorMessage in error region (native appearance)', async () => {
       const page = await newSpecPage({
         components: [AegovSelect, AegovSelectOption],
         html: `<aegov-select is-invalid="true" error-message="Required">

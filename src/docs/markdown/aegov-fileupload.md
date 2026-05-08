@@ -28,15 +28,15 @@ The `aegov-fileupload` component wraps a native file input and adds client-side 
 
 ## Variants
 
-The `variant` property selects the layout. All three variants share the same validation, events, and form behaviour — only their visual presentation differs.
+The `appearance` property selects the layout. All three appearances share the same validation, events, and form behaviour — only their visual presentation differs.
 
 ### Default
 
-The default variant looks like a styled text input with a Browse button on the trailing edge. Use it inside dense forms that already contain other input fields. Each new pick replaces the previous selection.
+The default appearance looks like a styled text input with a Browse button on the trailing edge. Use it inside dense forms that already contain other input fields. Each new pick replaces the previous selection.
 
 ```html
 <aegov-fileupload
-  variant="default"
+  appearance="default"
   label="Passport bio-data page"
   accept="image/*,.pdf"
   max-file-size="5242880"
@@ -45,7 +45,7 @@ The default variant looks like a styled text input with a Browse button on the t
 
 <div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-fileupload
-    variant="default"
+    appearance="default"
     label="Passport bio-data page"
     accept="image/*,.pdf"
     max-file-size="5242880"
@@ -54,11 +54,11 @@ The default variant looks like a styled text input with a Browse button on the t
 
 ### Button
 
-The button variant renders a single trigger button. Picked files appear in a list below the button and accumulate across multiple picks until the user removes them or the maximum count is reached.
+The button appearance renders a single trigger button. Picked files appear in a list below the button and accumulate across multiple picks until the user removes them or the maximum count is reached.
 
 ```html
 <aegov-fileupload
-  variant="button"
+  appearance="button"
   label="Supporting documents"
   description="Add any additional documents that support your application."
   is-multiple="true"
@@ -69,7 +69,7 @@ The button variant renders a single trigger button. Picked files appear in a lis
 
 <div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-fileupload
-    variant="button"
+    appearance="button"
     label="Supporting documents"
     description="Add any additional documents that support your application."
     is-multiple="true"
@@ -80,11 +80,11 @@ The button variant renders a single trigger button. Picked files appear in a lis
 
 ### Dropzone
 
-The dropzone variant renders a large drag-and-drop target with a fallback browse button. Best for high-volume document upload screens — for example, a service portal that asks the applicant to attach several scanned pages in one step. Picked files accumulate, just like the button variant.
+The dropzone appearance renders a large drag-and-drop target with a fallback browse button. Best for high-volume document upload screens — for example, a service portal that asks the applicant to attach several scanned pages in one step. Picked files accumulate, just like the button appearance.
 
 ```html
 <aegov-fileupload
-  variant="dropzone"
+  appearance="dropzone"
   label="Drop your supporting documents here"
   description="Accepted: PDF, JPG, PNG. Maximum 10 MB per file."
   is-multiple="true"
@@ -95,7 +95,7 @@ The dropzone variant renders a large drag-and-drop target with a fallback browse
 
 <div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-fileupload
-    variant="dropzone"
+    appearance="dropzone"
     label="Drop your supporting documents here"
     description="Accepted: PDF, JPG, PNG. Maximum 10 MB per file."
     is-multiple="true"
@@ -136,7 +136,7 @@ Set `is-multiple="true"` to allow the user to select more than one file. Pair it
 
 ```html
 <aegov-fileupload
-  variant="button"
+  appearance="button"
   label="Vehicle registration documents"
   is-multiple="true"
   max-files="3"
@@ -146,7 +146,7 @@ Set `is-multiple="true"` to allow the user to select more than one file. Pair it
 
 <div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-fileupload
-    variant="button"
+    appearance="button"
     label="Vehicle registration documents"
     is-multiple="true"
     max-files="3"
@@ -162,7 +162,7 @@ Set `max-file-size` in bytes. Files larger than the limit emit `aegovFileuploadE
 
 ```html
 <aegov-fileupload
-  variant="dropzone"
+  appearance="dropzone"
   label="Tenancy contract"
   description="PDF only, maximum 5 MB."
   accept=".pdf"
@@ -172,7 +172,7 @@ Set `max-file-size` in bytes. Files larger than the limit emit `aegovFileuploadE
 
 <div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-fileupload
-    variant="dropzone"
+    appearance="dropzone"
     label="Tenancy contract"
     description="PDF only, maximum 5 MB."
     accept=".pdf"
@@ -184,7 +184,7 @@ Set `max-file-size` in bytes. Files larger than the limit emit `aegovFileuploadE
 
 ## Sizes
 
-The `size` property scales the input height for the default variant and the button height for the button and dropzone variants. Tokens: `xs`, `sm`, `base` (default), `lg`, `xl`. A Tailwind-style responsive string is also supported, e.g. `sm md:base lg:lg`.
+The `size` property scales the input height for the default appearance and the button height for the button and dropzone appearances. Tokens: `xs`, `sm`, `base` (default), `lg`, `xl`. A Tailwind-style responsive string is also supported, e.g. `sm md:base lg:lg`.
 
 ```html
 <aegov-fileupload size="sm" label="Small (sm)" accept=".pdf"></aegov-fileupload>
@@ -284,7 +284,7 @@ Four properties shape the visible text:
 The component emits three custom events. `aegovFileuploadChange` fires after every successful add or remove, `aegovFileuploadRemove` fires only on remove, and `aegovFileuploadError` fires on any validation failure (invalid type, oversized file, or count exceeded).
 
 ```html
-<aegov-fileupload id="docs" variant="dropzone" is-multiple="true" accept="image/*,.pdf" max-file-size="5242880"></aegov-fileupload>
+<aegov-fileupload id="docs" appearance="dropzone" is-multiple="true" accept="image/*,.pdf" max-file-size="5242880"></aegov-fileupload>
 
 <script>
   const docs = document.getElementById('docs');
@@ -322,7 +322,7 @@ A complete supporting-documents step from a service application — a dropzone w
 
 ```html
 <aegov-fileupload
-  variant="dropzone"
+  appearance="dropzone"
   label="Application supporting documents"
   description="Attach scans of your Emirates ID, passport bio-data page, and a recent utility bill."
   label-help="PDF or JPG. Maximum 10 MB per file. Up to 5 files."
@@ -336,7 +336,7 @@ A complete supporting-documents step from a service application — a dropzone w
 
 <div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-fileupload
-    variant="dropzone"
+    appearance="dropzone"
     label="Application supporting documents"
     description="Attach scans of your Emirates ID, passport bio-data page, and a recent utility bill."
     label-help="PDF or JPG. Maximum 10 MB per file. Up to 5 files."
@@ -352,7 +352,7 @@ A complete supporting-documents step from a service application — a dropzone w
 
 ## RTL Support
 
-The component is direction-agnostic. When the document or any ancestor is set to `dir="rtl"`, the browse button moves to the start (right) edge in the default variant; the file list, file icon, file name, file size, and remove button all use logical inline properties so the row reads from right to left. The dropzone layout is centered and looks the same in both directions — only its label and helper text flip with the document direction.
+The component is direction-agnostic. When the document or any ancestor is set to `dir="rtl"`, the browse button moves to the start (right) edge in the default appearance; the file list, file icon, file name, file size, and remove button all use logical inline properties so the row reads from right to left. The dropzone layout is centered and looks the same in both directions — only its label and helper text flip with the document direction.
 
 ```html
 <div dir="rtl">
@@ -381,7 +381,7 @@ The same component as a dropzone with multiple files in RTL:
 ```html
 <div dir="rtl">
   <aegov-fileupload
-    variant="dropzone"
+    appearance="dropzone"
     label="المستندات الداعمة للطلب"
     description="أرفق صوراً ضوئية للهوية الإماراتية وجواز السفر وفاتورة حديثة."
     label-button="استعراض الملفات"
@@ -395,7 +395,7 @@ The same component as a dropzone with multiple files in RTL:
 
 <div dir="rtl" class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-fileupload
-    variant="dropzone"
+    appearance="dropzone"
     label="المستندات الداعمة للطلب"
     description="أرفق صوراً ضوئية للهوية الإماراتية وجواز السفر وفاتورة حديثة."
     label-button="استعراض الملفات"
@@ -415,7 +415,7 @@ The same component as a dropzone with multiple files in RTL:
 | Property        | Attribute         | Description                                                                  | Type                                       | Default     |
 | --------------- | ----------------- | ---------------------------------------------------------------------------- | ------------------------------------------ | ----------- |
 | `fieldId`       | `field-id`        | DOM `id` for the inner native `<input type="file">`. Auto-generated.          | `string`                                   | _generated_ |
-| `variant`       | `variant`         | Layout — `default`, `button`, or `dropzone`.                                  | `'default' \| 'button' \| 'dropzone'`      | `'default'` |
+| `appearance`       | `appearance`         | Layout — `default`, `button`, or `dropzone`.                                  | `'default' \| 'button' \| 'dropzone'`      | `'default'` |
 | `size`          | `size`            | Control size token. Accepts a single token or a responsive string.            | `'xs' \| 'sm' \| 'base' \| 'lg' \| 'xl'`   | `'base'`    |
 | `isMultiple`    | `is-multiple`     | Allow more than one file to be selected.                                      | `boolean`                                  | `false`     |
 | `accept`        | `accept`          | Comma-separated list of allowed types (extensions, MIME, or wildcards).       | `string`                                   | `undefined` |
@@ -505,7 +505,7 @@ Uses `ElementInternals.setFormValue()` with FormData containing one entry per fi
 ```html
 <aegov-fileupload
   name="photos"
-  variant="dropzone"
+  appearance="dropzone"
   is-multiple
   accept="image/*"
   max-files="5"
@@ -537,7 +537,7 @@ See [BYO Validator](validation-byo.html) for more patterns.
 - The control is anchored on a real `<input type="file">`, so it is keyboard-focusable, screen-reader-friendly, and submits with native forms.
 - The visible `<label>` is wired via `for` to the inner input's id.
 - Helper text is exposed via `aria-describedby="${fieldId}-helper"` when present.
-- The button and dropzone variants render an `aria-hidden`, `tabindex="-1"` file input behind a real `<button>` so keyboard users still trigger the OS picker through the button (Enter / Space).
+- The button and dropzone appearances render an `aria-hidden`, `tabindex="-1"` file input behind a real `<button>` so keyboard users still trigger the OS picker through the button (Enter / Space).
 - Each file in the list has an explicit `aria-label="Remove {filename}"` on its remove button.
 - The native input is reset to an empty value after each selection so picking the same file again still triggers `aegovFileuploadChange`.
 
@@ -546,7 +546,7 @@ See [BYO Validator](validation-byo.html) for more patterns.
 - Always provide a meaningful `label` (or external `aegov-label`) so screen readers can announce the purpose of the upload.
 - For dropzone use cases, supply a `description` clarifying the supported types and size limits — drag-and-drop is purely a visual enhancement; the button is the accessible fallback.
 - Surface validation errors visibly when `aegovFileuploadError` fires. The component does not render an error state on its own.
-- Default variant replaces the entire selection on each pick; button and dropzone variants accumulate. Use `clear()` to reset programmatically.
+- Default appearance replaces the entire selection on each pick; button and dropzone appearances accumulate. Use `clear()` to reset programmatically.
 
 ### Keyboard support
 

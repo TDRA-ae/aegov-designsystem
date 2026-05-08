@@ -26,7 +26,7 @@ The `aegov-datepicker` component composes a styled trigger input with a portaled
 
 ## Single date
 
-The default `variant="single"` collects one date. Clicking a day commits the selection, fires `aegovDatepickerChange`, and closes the calendar.
+The default `appearance="single"` collects one date. Clicking a day commits the selection, fires `aegovDatepickerChange`, and closes the calendar.
 
 ```html
 <aegov-datepicker
@@ -48,11 +48,11 @@ The default `variant="single"` collects one date. Clicking a day commits the sel
 
 ## Date range
 
-Set `variant="range"` to render two trigger inputs — start and end — and a side-by-side two-month calendar in the popover. The first click marks the start, the second click marks the end. If the user clicks a day before the existing start, the dates are swapped automatically.
+Set `appearance="range"` to render two trigger inputs — start and end — and a side-by-side two-month calendar in the popover. The first click marks the start, the second click marks the end. If the user clicks a day before the existing start, the dates are swapped automatically.
 
 ```html
 <aegov-datepicker
-  variant="range"
+  appearance="range"
   label-range-start="Check-in"
   label-range-end="Check-out"
   format="DD MMM YYYY"
@@ -61,7 +61,7 @@ Set `variant="range"` to render two trigger inputs — start and end — and a s
 
 <div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-datepicker
-    variant="range"
+    appearance="range"
     label-range-start="Check-in"
     label-range-end="Check-out"
     format="DD MMM YYYY"
@@ -167,7 +167,7 @@ In range mode, `min-range` and `max-range` cap the number of days the user is al
 
 ```html
 <aegov-datepicker
-  variant="range"
+  appearance="range"
   label-range-start="Leave start"
   label-range-end="Leave end"
   min-range="2"
@@ -178,7 +178,7 @@ In range mode, `min-range` and `max-range` cap the number of days the user is al
 
 <div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-datepicker
-    variant="range"
+    appearance="range"
     label-range-start="Leave start"
     label-range-end="Leave end"
     min-range="2"
@@ -195,7 +195,7 @@ In range mode, the `presets` property renders a sidebar of one-click range short
 
 ```html
 <aegov-datepicker
-  variant="range"
+  appearance="range"
   presets="today,yesterday,last7Days,thisMonth,lastMonth"
   label-range-start="From"
   label-range-end="To"
@@ -205,7 +205,7 @@ In range mode, the `presets` property renders a sidebar of one-click range short
 
 <div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-datepicker
-    variant="range"
+    appearance="range"
     presets="today,yesterday,last7Days,thisMonth,lastMonth"
     label-range-start="From"
     label-range-end="To"
@@ -221,7 +221,7 @@ Set `is-with-confirmation="true"` to render Apply and Cancel buttons in the cale
 
 ```html
 <aegov-datepicker
-  variant="range"
+  appearance="range"
   is-with-confirmation="true"
   label-range-start="Start"
   label-range-end="End"
@@ -231,7 +231,7 @@ Set `is-with-confirmation="true"` to render Apply and Cancel buttons in the cale
 
 <div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-datepicker
-    variant="range"
+    appearance="range"
     is-with-confirmation="true"
     label-range-start="Start"
     label-range-end="End"
@@ -335,7 +335,7 @@ The `trigger` slot replaces the default input with any focusable element — use
 
 ```html
 <aegov-datepicker>
-  <aegov-button slot="trigger" variant="outline">
+  <aegov-button slot="trigger" appearance="outline">
     Pick a date
   </aegov-button>
 </aegov-datepicker>
@@ -343,7 +343,7 @@ The `trigger` slot replaces the default input with any focusable element — use
 
 <div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-datepicker>
-    <aegov-button slot="trigger" variant="outline">
+    <aegov-button slot="trigger" appearance="outline">
       Pick a date
     </aegov-button>
   </aegov-datepicker>
@@ -357,7 +357,7 @@ A residency-renewal screen — required range with a Saturday week start, three 
 
 ```html
 <aegov-datepicker
-  variant="range"
+  appearance="range"
   is-required="true"
   is-with-confirmation="true"
   start-day="6"
@@ -372,7 +372,7 @@ A residency-renewal screen — required range with a Saturday week start, three 
 
 <div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-datepicker
-    variant="range"
+    appearance="range"
     is-required="true"
     is-with-confirmation="true"
     start-day="6"
@@ -456,7 +456,7 @@ A range picker with Arabic presets in RTL:
 ```html
 <div dir="rtl">
   <aegov-datepicker
-    variant="range"
+    appearance="range"
     locale="ar"
     start-day="6"
     label-range-start="من"
@@ -469,7 +469,7 @@ A range picker with Arabic presets in RTL:
 
 <div dir="rtl" class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-datepicker
-    variant="range"
+    appearance="range"
     locale="ar"
     start-day="6"
     label-range-start="من"
@@ -487,7 +487,7 @@ A range picker with Arabic presets in RTL:
 
 | Property              | Attribute              | Description                                                           | Type                  | Default          |
 | --------------------- | ---------------------- | --------------------------------------------------------------------- | --------------------- | ---------------- |
-| `variant`             | `variant`              | Selection mode — single date or date range.                            | `'single' \| 'range'` | `'single'`       |
+| `appearance`             | `appearance`              | Selection mode — single date or date range.                            | `'single' \| 'range'` | `'single'`       |
 | `value`               | `value`                | Pre-selected value. Range uses `"start / end"` format.                 | `string`              | `''`             |
 | `format`              | `format`               | Output and display format using calendar tokens.                       | `string`              | `'YYYY-MM-DD'`   |
 | `placeholder`         | `placeholder`          | Placeholder for single-mode input.                                     | `string`              | `'Select date'`  |
@@ -575,15 +575,15 @@ A range picker with Arabic presets in RTL:
 
 ### FormAssociated
 
-The component participates in `<form>` via `ElementInternals` (no inner `<input name>`). `name` prop is required for form submission. In `range` variant, two FormData entries submit as `name-start` and `name-end`.
+The component participates in `<form>` via `ElementInternals` (no inner `<input name>`). `name` prop is required for form submission. In `range` appearance, two FormData entries submit as `name-start` and `name-end`.
 
 ### Validity flags surfaced
 
 | Validity flag | When |
 | --- | --- |
 | `valueMissing` | `is-required` and no date selected |
-| `tooShort` | `range` variant, `min-range` set, selected days < min |
-| `tooLong` | `range` variant, `max-range` set, selected days > max |
+| `tooShort` | `range` appearance, `min-range` set, selected days < min |
+| `tooLong` | `range` appearance, `max-range` set, selected days > max |
 | `customError` | `setCustomValidity('msg')` invoked |
 
 ### Common recipes
@@ -604,7 +604,7 @@ The component participates in `<form>` via `ElementInternals` (no inner `<input 
 ```html
 <aegov-datepicker
   name="trip"
-  variant="range"
+  appearance="range"
   min-range="3"
   max-range="30"
 ></aegov-datepicker>

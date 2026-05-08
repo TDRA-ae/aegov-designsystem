@@ -24,8 +24,8 @@ const ctx = (prop: string) => ({ component: TAG, prop });
 export class AegovCheckboxGroup {
   @Element() el: HTMLElement;
 
-  /** Visual variant for the group layout. */
-  @Prop() variant: CheckboxGroupVariant = 'default';
+  /** Visual appearance for the group layout. */
+  @Prop() appearance: CheckboxGroupVariant = 'default';
 
   /** Stack direction for checkbox items. */
   @Prop() orientation: CheckboxGroupOrientation = 'vertical';
@@ -68,7 +68,7 @@ export class AegovCheckboxGroup {
   private hintId: string = '';
 
   componentWillLoad() {
-    warnIfInvalidEnumProp(this.variant, CHECKBOX_GROUP_VARIANTS, 'default', ctx('variant'));
+    warnIfInvalidEnumProp(this.appearance, CHECKBOX_GROUP_VARIANTS, 'default', ctx('appearance'));
     warnIfInvalidEnumProp(this.orientation, CHECKBOX_GROUP_ORIENTATIONS, 'vertical', ctx('orientation'));
     this._sizeWatcher = watchResponsiveProp(this.size, CHECKBOX_SIZES, 'base', v => {
       this._resolvedSize = v as CheckboxSize;
@@ -123,8 +123,8 @@ export class AegovCheckboxGroup {
     this.updateCheckAllState();
   }
 
-  @Watch('variant')
-  onVariantChange(v: unknown) { warnIfInvalidEnumProp(v, CHECKBOX_GROUP_VARIANTS, 'default', ctx('variant')); }
+  @Watch('appearance')
+  onVariantChange(v: unknown) { warnIfInvalidEnumProp(v, CHECKBOX_GROUP_VARIANTS, 'default', ctx('appearance')); }
 
   @Watch('orientation')
   onOrientationChange(v: unknown) { warnIfInvalidEnumProp(v, CHECKBOX_GROUP_ORIENTATIONS, 'vertical', ctx('orientation')); }
@@ -217,10 +217,10 @@ export class AegovCheckboxGroup {
 
   private getGroupClasses(): string {
     const classes = ['aegov-checkbox-group'];
-    const variant: CheckboxGroupVariant = (CHECKBOX_GROUP_VARIANTS as readonly string[]).includes(this.variant) ? this.variant : 'default';
+    const appearance: CheckboxGroupVariant = (CHECKBOX_GROUP_VARIANTS as readonly string[]).includes(this.appearance) ? this.appearance : 'default';
     const orientation: CheckboxGroupOrientation = (CHECKBOX_GROUP_ORIENTATIONS as readonly string[]).includes(this.orientation) ? this.orientation : 'vertical';
-    if (variant !== 'default') {
-      classes.push(`checkbox-group--${variant}`);
+    if (appearance !== 'default') {
+      classes.push(`checkbox-group--${appearance}`);
     }
     if (orientation === 'horizontal') {
       classes.push('checkbox-group--horizontal');

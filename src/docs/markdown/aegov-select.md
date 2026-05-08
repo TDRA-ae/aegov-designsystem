@@ -4,7 +4,7 @@
 
 ## Introduction
 
-The `aegov-select` component composes a parent select with one or more `aegov-select-option` children. The default `variant="default"` renders a true native `<select>` (best for simple lists, mobile, and form submission). The `variant="listbox"` renders a styled custom dropdown panel that supports searching, multi-selection, and grouped options. Setting `is-multiple="true"` automatically forces the listbox variant.
+The `aegov-select` component composes a parent select with one or more `aegov-select-option` children. The default `appearance="default"` renders a true native `<select>` (best for simple lists, mobile, and form submission). The `appearance="listbox"` renders a styled custom dropdown panel that supports searching, multi-selection, and grouped options. Setting `is-multiple="true"` automatically forces the listbox appearance.
 
 ```html
 <aegov-select label="Ministry" placeholder="Select a ministry" name="ministry">
@@ -26,17 +26,17 @@ The `aegov-select` component composes a parent select with one or more `aegov-se
   </aegov-select>
 </div>
 
-> The dropdown panel for the listbox variant is positioned beneath the trigger and dynamically chooses to open above or below depending on the available viewport space. It remains anchored to the trigger and closes automatically when focus leaves the component or the user presses `Escape`.
+> The dropdown panel for the listbox appearance is positioned beneath the trigger and dynamically chooses to open above or below depending on the available viewport space. It remains anchored to the trigger and closes automatically when focus leaves the component or the user presses `Escape`.
 
 ---
 
 ## Variants
 
-The `variant` property switches the underlying rendering.
+The `appearance` property switches the underlying rendering.
 
 ### Default — native `<select>`
 
-The default variant renders a real `<select>` element. It is the right choice for simple lists, optimal mobile UX (the OS native picker is used), and unambiguous form submission. Searching and multi-selection are not available in this mode.
+The default appearance renders a real `<select>` element. It is the right choice for simple lists, optimal mobile UX (the OS native picker is used), and unambiguous form submission. Searching and multi-selection are not available in this mode.
 
 ```html
 <aegov-select placeholder="Select an emirate" name="emirate">
@@ -64,10 +64,10 @@ The default variant renders a real `<select>` element. It is the right choice fo
 
 ### Listbox — custom dropdown
 
-The listbox variant renders a styled trigger button and a positioned dropdown panel. Use it when you need search, multi-selection, grouped options, or a clear button. The panel is anchored to the trigger and chooses its open direction based on viewport space.
+The listbox appearance renders a styled trigger button and a positioned dropdown panel. Use it when you need search, multi-selection, grouped options, or a clear button. The panel is anchored to the trigger and chooses its open direction based on viewport space.
 
 ```html
-<aegov-select variant="listbox" placeholder="Select a service category">
+<aegov-select appearance="listbox" placeholder="Select a service category">
   <aegov-select-option value="passport">Passport &amp; travel documents</aegov-select-option>
   <aegov-select-option value="visa">Visa &amp; residency</aegov-select-option>
   <aegov-select-option value="vehicle">Vehicle registration</aegov-select-option>
@@ -77,7 +77,7 @@ The listbox variant renders a styled trigger button and a positioned dropdown pa
 ```
 
 <div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <aegov-select variant="listbox" placeholder="Select a service category">
+  <aegov-select appearance="listbox" placeholder="Select a service category">
     <aegov-select-option value="passport">Passport &amp; travel documents</aegov-select-option>
     <aegov-select-option value="visa">Visa &amp; residency</aegov-select-option>
     <aegov-select-option value="vehicle">Vehicle registration</aegov-select-option>
@@ -127,11 +127,11 @@ The `size` property scales the trigger height to match aegov-input. Five tokens 
 
 ## Searchable
 
-Set `is-searchable="true"` on a listbox-variant select to add a search input above the option list. The list filters case-insensitively as the user types, and `empty-message` controls the text shown when nothing matches.
+Set `is-searchable="true"` on a listbox-appearance select to add a search input above the option list. The list filters case-insensitively as the user types, and `empty-message` controls the text shown when nothing matches.
 
 ```html
 <aegov-select
-  variant="listbox"
+  appearance="listbox"
   is-searchable="true"
   placeholder="Search and select your nationality"
   empty-message="No matching country"
@@ -155,7 +155,7 @@ Set `is-searchable="true"` on a listbox-variant select to add a search input abo
 
 <div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-select
-    variant="listbox"
+    appearance="listbox"
     is-searchable="true"
     placeholder="Search and select your nationality"
     empty-message="No matching country"
@@ -181,7 +181,7 @@ Set `is-searchable="true"` on a listbox-variant select to add a search input abo
 
 ## Multi-select
 
-Set `is-multiple="true"` to allow more than one option to be selected. The trigger shows a count summary ("3 selected") and each option in the panel renders with a checkbox. Multi-select forces the listbox variant.
+Set `is-multiple="true"` to allow more than one option to be selected. The trigger shows a count summary ("3 selected") and each option in the panel renders with a checkbox. Multi-select forces the listbox appearance.
 
 ```html
 <aegov-select
@@ -219,10 +219,10 @@ Set `is-multiple="true"` to allow more than one option to be selected. The trigg
 
 ## Grouped options
 
-Wrap related options in `aegov-select-option-group` and provide a `label`. The group label is rendered as a non-interactive header above its options, in both the native and listbox variants.
+Wrap related options in `aegov-select-option-group` and provide a `label`. The group label is rendered as a non-interactive header above its options, in both the native and listbox appearances.
 
 ```html
-<aegov-select variant="listbox" is-searchable="true" placeholder="Select an emirate">
+<aegov-select appearance="listbox" is-searchable="true" placeholder="Select an emirate">
   <aegov-select-option-group label="Federal capital">
     <aegov-select-option value="ad">Abu Dhabi</aegov-select-option>
   </aegov-select-option-group>
@@ -240,7 +240,7 @@ Wrap related options in `aegov-select-option-group` and provide a `label`. The g
 ```
 
 <div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <aegov-select variant="listbox" is-searchable="true" placeholder="Select an emirate">
+  <aegov-select appearance="listbox" is-searchable="true" placeholder="Select an emirate">
     <aegov-select-option-group label="Federal capital">
       <aegov-select-option value="ad">Abu Dhabi</aegov-select-option>
     </aegov-select-option-group>
@@ -265,7 +265,7 @@ Set `is-clearable="true"` to display a small "×" inside the trigger that clears
 
 ```html
 <aegov-select
-  variant="listbox"
+  appearance="listbox"
   is-clearable="true"
   placeholder="Filter by service status"
 >
@@ -277,7 +277,7 @@ Set `is-clearable="true"` to display a small "×" inside the trigger that clears
 
 <div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-select
-    variant="listbox"
+    appearance="listbox"
     is-clearable="true"
     placeholder="Filter by service status"
   >
@@ -294,7 +294,7 @@ Set `is-clearable="true"` to display a small "×" inside the trigger that clears
 An individual `aegov-select-option` can be disabled with `is-disabled="true"`; the option remains visible but is greyed out and not selectable. Set `is-disabled` on the parent `aegov-select` to disable the entire control.
 
 ```html
-<aegov-select variant="listbox" placeholder="Select an appointment slot">
+<aegov-select appearance="listbox" placeholder="Select an appointment slot">
   <aegov-select-option value="0900">09:00 — Available</aegov-select-option>
   <aegov-select-option value="1000" is-disabled="true">10:00 — Fully booked</aegov-select-option>
   <aegov-select-option value="1100">11:00 — Available</aegov-select-option>
@@ -304,7 +304,7 @@ An individual `aegov-select-option` can be disabled with `is-disabled="true"`; t
 ```
 
 <div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <aegov-select variant="listbox" placeholder="Select an appointment slot">
+  <aegov-select appearance="listbox" placeholder="Select an appointment slot">
     <aegov-select-option value="0900">09:00 — Available</aegov-select-option>
     <aegov-select-option value="1000" is-disabled="true">10:00 — Fully booked</aegov-select-option>
     <aegov-select-option value="1100">11:00 — Available</aegov-select-option>
@@ -335,7 +335,7 @@ Use `visible-items` to control how many options fit in the panel before the list
 
 ```html
 <aegov-select
-  variant="listbox"
+  appearance="listbox"
   is-searchable="true"
   visible-items="4"
   value="ad"
@@ -353,7 +353,7 @@ Use `visible-items` to control how many options fit in the panel before the list
 
 <div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-select
-    variant="listbox"
+    appearance="listbox"
     is-searchable="true"
     visible-items="4"
     value="ad"
@@ -377,7 +377,7 @@ A typical UAE Government scenario: a citizen contact form on a federal portal as
 
 ```html
 <aegov-select
-  variant="listbox"
+  appearance="listbox"
   is-searchable="true"
   is-clearable="true"
   placeholder="Choose the ministry"
@@ -404,7 +404,7 @@ A typical UAE Government scenario: a citizen contact form on a federal portal as
 
 <div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov flex flex-col gap-4">
   <aegov-select
-    variant="listbox"
+    appearance="listbox"
     is-searchable="true"
     is-clearable="true"
     placeholder="Choose the ministry"
@@ -437,7 +437,7 @@ The select is direction-agnostic. When the document or any ancestor is set to `d
 ```html
 <div dir="rtl">
   <aegov-select
-    variant="listbox"
+    appearance="listbox"
     is-searchable="true"
     placeholder="اختر الوزارة"
     empty-message="لا توجد نتائج مطابقة"
@@ -453,7 +453,7 @@ The select is direction-agnostic. When the document or any ancestor is set to `d
 
 <div dir="rtl" class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-select
-    variant="listbox"
+    appearance="listbox"
     is-searchable="true"
     placeholder="اختر الوزارة"
     empty-message="لا توجد نتائج مطابقة"
@@ -515,7 +515,7 @@ A grouped, multi-select example in RTL:
 | Property        | Attribute        | Description                                                                                          | Type                       | Default              |
 | --------------- | ---------------- | ---------------------------------------------------------------------------------------------------- | -------------------------- | -------------------- |
 | `fieldId`       | `field-id`       | DOM `id` for the trigger or native select. Auto-generated if omitted.                                  | `string`                   | _generated_          |
-| `variant`       | `variant`        | `default` renders a native `<select>`; `listbox` renders a custom dropdown panel.                       | `'default' \| 'listbox'`   | `'default'`          |
+| `appearance`       | `appearance`        | `default` renders a native `<select>`; `listbox` renders a custom dropdown panel.                       | `'default' \| 'listbox'`   | `'default'`          |
 | `size`          | `size`           | Size token (`xs`, `sm`, `base`, `lg`, `xl`) or a responsive string. Matches aegov-input height.        | `string`                   | `'base'`             |
 | `isMultiple`    | `is-multiple`    | Whether multiple selection is enabled. Forces listbox behaviour.                                       | `boolean`                  | `false`              |
 | `isDisabled`    | `is-disabled`    | Disables the entire control.                                                                           | `boolean`                  | `false`              |
@@ -523,7 +523,7 @@ A grouped, multi-select example in RTL:
 | `placeholder`   | `placeholder`    | Text shown when nothing is selected.                                                                   | `string`                   | `undefined`          |
 | `value`         | `value`          | Currently selected value. For multi-select, a comma-separated string.                                  | `string`                   | `''`                 |
 | `name`          | `name`           | Form field name used during submission.                                                                | `string`                   | `undefined`          |
-| `isSearchable`  | `is-searchable`  | Show a search input above the option list. Listbox variant only.                                       | `boolean`                  | `false`              |
+| `isSearchable`  | `is-searchable`  | Show a search input above the option list. Listbox appearance only.                                       | `boolean`                  | `false`              |
 | `emptyMessage`  | `empty-message`  | Text shown when search yields no results.                                                              | `string`                   | `'No results found'` |
 | `visibleItems`  | `visible-items`  | Maximum number of options visible before scrolling.                                                    | `number`                   | `6`                  |
 | `isClearable`   | `is-clearable`   | Show a clear button inside the trigger to reset selection.                                             | `boolean`                  | `false`              |
@@ -557,8 +557,8 @@ A grouped, multi-select example in RTL:
 | Event                | Component       | Detail                                                                      | Description                                              |
 | -------------------- | --------------- | --------------------------------------------------------------------------- | -------------------------------------------------------- |
 | `aegovSelectChange`  | `aegov-select`  | `{ value: string \| string[]; label: string \| string[] }`                  | Fires when the selected value changes.                   |
-| `aegovSelectOpen`    | `aegov-select`  | `void`                                                                      | Fires when the listbox dropdown opens (listbox variant only).|
-| `aegovSelectClose`   | `aegov-select`  | `void`                                                                      | Fires when the listbox dropdown closes (listbox variant only).|
+| `aegovSelectOpen`    | `aegov-select`  | `void`                                                                      | Fires when the listbox dropdown opens (listbox appearance only).|
+| `aegovSelectClose`   | `aegov-select`  | `void`                                                                      | Fires when the listbox dropdown closes (listbox appearance only).|
 
 For multi-select, the event detail's `value` and `label` are arrays. For single select, both are strings.
 
@@ -579,7 +579,7 @@ For multi-select, the event detail's `value` and `label` are arrays. For single 
 
 ### Pass-through Attributes
 
-The component forwards the following attribute groups onto the inner `<select>` element when running in the default (native) variant. In the listbox variant, attributes are applied to the trigger button.
+The component forwards the following attribute groups onto the inner `<select>` element when running in the default (native) appearance. In the listbox appearance, attributes are applied to the trigger button.
 
 | Attribute group | Forwarded? | Notes                                                                        |
 | --------------- | ---------- | ---------------------------------------------------------------------------- |
@@ -641,8 +641,8 @@ See [BYO Validator](validation-byo.html) for more patterns.
 
 ### Built-in behaviour
 
-- The default variant renders a real `<select>`, so it inherits all native accessibility — keyboard support, type-ahead, OS-level mobile pickers, and screen reader announcements.
-- The listbox variant uses the WAI-ARIA combobox pattern: the trigger has `role="combobox"`, `aria-haspopup="listbox"`, `aria-expanded`, and `aria-controls` pointing at the panel; the panel has `role="listbox"`; each option has `role="option"` and `aria-selected`; and `aria-activedescendant` tracks the focused option as the user types.
+- The default appearance renders a real `<select>`, so it inherits all native accessibility — keyboard support, type-ahead, OS-level mobile pickers, and screen reader announcements.
+- The listbox appearance uses the WAI-ARIA combobox pattern: the trigger has `role="combobox"`, `aria-haspopup="listbox"`, `aria-expanded`, and `aria-controls` pointing at the panel; the panel has `role="listbox"`; each option has `role="option"` and `aria-selected`; and `aria-activedescendant` tracks the focused option as the user types.
 - Grouped options use `role="group"` and `aria-labelledby` to associate the group header with its members.
 - The search input declares `role="searchbox"` and links to the listbox with `aria-controls`.
 - Disabled options are skipped during keyboard navigation and announce as disabled.
@@ -650,11 +650,11 @@ See [BYO Validator](validation-byo.html) for more patterns.
 ### Developer responsibilities
 
 - Provide a meaningful `placeholder` and pair the select with an `aegov-label` linked via `field-id` so the control has a programmatic label.
-- Use the default (native) variant whenever search and multi-select are unnecessary — it is faster, lighter, and gives the best mobile experience.
+- Use the default (native) appearance whenever search and multi-select are unnecessary — it is faster, lighter, and gives the best mobile experience.
 - For long lists (countries, services, time slots) prefer `is-searchable="true"` so users can filter with the keyboard.
 - Keep option labels concise. The trigger truncates long single-select labels and shows a count for multi-select; hidden labels become invisible to mouse users.
 
-### Keyboard support (listbox variant)
+### Keyboard support (listbox appearance)
 
 | Key                       | Action                                                          |
 | ------------------------- | --------------------------------------------------------------- |
@@ -666,4 +666,4 @@ See [BYO Validator](validation-byo.html) for more patterns.
 | Type characters           | Filter the list when `is-searchable` is enabled.                |
 | `Tab` / `Shift + Tab`     | Move focus to the next / previous focusable element.            |
 
-Default-variant keyboard support is provided by the browser's native `<select>` implementation.
+Default-appearance keyboard support is provided by the browser's native `<select>` implementation.

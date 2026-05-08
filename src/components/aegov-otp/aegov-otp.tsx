@@ -31,10 +31,10 @@ export class AegovOtp {
   @Prop({ mutable: true, reflect: true }) fieldId?: string;
 
   /**
-   * Visual variant. "continuous" = single bordered box with dividers between cells.
+   * Visual appearance. "continuous" = single bordered box with dividers between cells.
    * "individual" = separate bordered boxes per digit.
    */
-  @Prop() variant: OtpVariant = 'continuous';
+  @Prop() appearance: OtpVariant = 'continuous';
 
   /** Number of input cells (digits/characters expected). */
   @Prop() length: number = 5;
@@ -95,7 +95,7 @@ export class AegovOtp {
   private hintId: string = '';
 
   componentWillLoad() {
-    warnIfInvalidEnumProp(this.variant, OTP_VARIANTS, 'continuous', ctx('variant'));
+    warnIfInvalidEnumProp(this.appearance, OTP_VARIANTS, 'continuous', ctx('appearance'));
     if (!this.fieldId) {
       this.fieldId = generateId('aegov-otp');
     }
@@ -137,8 +137,8 @@ export class AegovOtp {
     }
   }
 
-  @Watch('variant')
-  onVariantChange(v: unknown) { warnIfInvalidEnumProp(v, OTP_VARIANTS, 'continuous', ctx('variant')); }
+  @Watch('appearance')
+  onVariantChange(v: unknown) { warnIfInvalidEnumProp(v, OTP_VARIANTS, 'continuous', ctx('appearance')); }
 
   @Watch('size')
   onSizeChange() {
@@ -387,7 +387,7 @@ export class AegovOtp {
 
     const wrapperClasses = ['aegov-otp', this.extraClass || ''].filter(Boolean).join(' ');
     const cells = Array.from({ length: this.length }, (_, i) => i);
-    const variant: OtpVariant = (OTP_VARIANTS as readonly string[]).includes(this.variant) ? this.variant : 'continuous';
+    const appearance: OtpVariant = (OTP_VARIANTS as readonly string[]).includes(this.appearance) ? this.appearance : 'continuous';
     const size: OtpSize = this._resolvedSize;
 
     const hasErrorSlot = !!this.el.querySelector('[slot="error"]');
@@ -422,7 +422,7 @@ export class AegovOtp {
       <Host class={{ 'is-invalid': this.isInvalid }}>
         <div class={wrapperClasses}>
           <div
-            class={`otp__wrapper otp__wrapper--${variant}`}
+            class={`otp__wrapper otp__wrapper--${appearance}`}
             role="group"
             aria-invalid={this.isInvalid ? 'true' : null}
             aria-describedby={describedBy}
@@ -445,7 +445,7 @@ export class AegovOtp {
                 onFocus={(e) => this.handleFocus(e)}
                 onClick={(e) => this.handleClick(e)}
               />,
-              variant === 'continuous' && index < this.length - 1 && (
+              appearance === 'continuous' && index < this.length - 1 && (
                 <span class="otp__divider" aria-hidden="true"></span>
               ),
             ])}
