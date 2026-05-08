@@ -1,9 +1,9 @@
 import { Component, Host, h, Prop, State, Element, Event, EventEmitter, Watch, Method } from '@stencil/core';
 import { watchResponsiveProp } from '../../utils/responsive-prop';
 import type { ResponsivePropWatcher } from '../../utils/responsive-prop';
-import { OTP_VARIANTS, OTP_SIZES } from '../../utils/types';
+import { OTP_VARIANTS, OTP_SIZES, FORM_VARIANTS } from '../../utils/types';
 import type {
-  OtpVariant, OtpSize,
+  OtpVariant, OtpSize, FormVariant,
   AegovValidationDetail, AegovValidationResult, AegovValidationTrigger,
   AegovValidityState,
 } from '../../utils/types';
@@ -41,6 +41,9 @@ export class AegovOtp {
 
   /** Size of the input cells. */
   @Prop() size: string = 'base';
+
+  /** Colour family. Drives idle ring/border, selected/checked fill, and value/accent text. Focus ring stays camel; error stays aered regardless. */
+  @Prop() variant: FormVariant = 'primary';
 
   @State() private _resolvedSize: OtpSize = 'base';
   private _sizeWatcher: ResponsivePropWatcher | null = null;
@@ -96,6 +99,7 @@ export class AegovOtp {
 
   componentWillLoad() {
     warnIfInvalidEnumProp(this.appearance, OTP_VARIANTS, 'continuous', ctx('appearance'));
+    warnIfInvalidEnumProp(this.variant, FORM_VARIANTS, 'primary', ctx('variant'));
     if (!this.fieldId) {
       this.fieldId = generateId('aegov-otp');
     }
@@ -139,6 +143,9 @@ export class AegovOtp {
 
   @Watch('appearance')
   onVariantChange(v: unknown) { warnIfInvalidEnumProp(v, OTP_VARIANTS, 'continuous', ctx('appearance')); }
+
+  @Watch('variant')
+  onColourVariantChange(v: unknown) { warnIfInvalidEnumProp(v, FORM_VARIANTS, 'primary', ctx('variant')); }
 
   @Watch('size')
   onSizeChange() {
@@ -385,7 +392,8 @@ export class AegovOtp {
     delete passThroughAttrs['aria-invalid'];
     delete passThroughAttrs['aria-describedby'];
 
-    const wrapperClasses = ['aegov-otp', this.extraClass || ''].filter(Boolean).join(' ');
+    const variant: FormVariant = (FORM_VARIANTS as readonly string[]).includes(this.variant) ? this.variant : 'primary';
+    const wrapperClasses = ['aegov-otp', `otp-variant-${variant}`, this.extraClass || ''].filter(Boolean).join(' ');
     const cells = Array.from({ length: this.length }, (_, i) => i);
     const appearance: OtpVariant = (OTP_VARIANTS as readonly string[]).includes(this.appearance) ? this.appearance : 'continuous';
     const size: OtpSize = this._resolvedSize;

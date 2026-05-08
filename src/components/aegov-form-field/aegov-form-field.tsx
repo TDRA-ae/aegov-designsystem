@@ -1,4 +1,7 @@
 import { Component, Host, h, Prop, Element, Watch } from '@stencil/core';
+import { FORM_VARIANTS } from '../../utils/types';
+import type { FormVariant } from '../../utils/types';
+import { warnIfInvalidEnumProp } from '../../utils/prop-validator';
 import { getPassThroughAttributes } from '../../utils/attributes';
 import { generateId } from '../../utils/id-generator';
 
@@ -12,6 +15,7 @@ type AegovFormControl = HTMLElement & {
   isInvalid?: boolean;
   errorMessage?: string;
   hint?: string;
+  variant?: FormVariant;
 };
 
 @Component({
@@ -38,10 +42,20 @@ export class AegovFormField {
   /** Wrapper-level hint — cascaded to first form-control descendant. */
   @Prop() hint: string = '';
 
+  /** Colour family. Drives idle ring/border, selected/checked fill, and value/accent text. Cascades to first form-control descendant. */
+  @Prop() variant: FormVariant = 'primary';
+
   /** Additional CSS classes to apply. */
   @Prop() extraClass?: string;
 
+  @Watch('variant')
+  onVariantChange(v: unknown) {
+    warnIfInvalidEnumProp(v, FORM_VARIANTS, 'primary', { component: 'aegov-form-field', prop: 'variant' });
+    this.cascadeToChild();
+  }
+
   componentWillLoad() {
+    warnIfInvalidEnumProp(this.variant, FORM_VARIANTS, 'primary', { component: 'aegov-form-field', prop: 'variant' });
     if (!this.fieldId) {
       this.fieldId = generateId('aegov-form-field');
     }
@@ -90,6 +104,10 @@ export class AegovFormField {
       } else if (otp && otp.fieldId) {
         label.htmlFor = otp.fieldId;
       }
+      // Cascade variant to label only if it hasn't authored its own value
+      if (this.variant && this.variant !== 'primary' && (!(label as any).variant || (label as any).variant === 'primary')) {
+        (label as any).variant = this.variant;
+      }
     }
   }
 
@@ -123,6 +141,10 @@ export class AegovFormField {
     // isInvalid: wrapper override wins when truthy (since errorMessage demands display)
     if (this.isInvalid) {
       ctrl.isInvalid = true;
+    }
+    // variant cascades only if child has no own value (still default 'primary')
+    if (this.variant && this.variant !== 'primary' && (!ctrl.variant || ctrl.variant === 'primary')) {
+      ctrl.variant = this.variant;
     }
   }
 

@@ -329,6 +329,42 @@ The `size` property scales the trigger input. Tokens: `xs`, `sm`, `base` (defaul
 
 ---
 
+## Variant
+
+The `variant` property selects the colour family for the trigger ring, the selected day fill in the calendar, the today indicator, and the hover bg. The focus ring stays `primary-support-600` (camel) and the error border stays `aered-600` regardless of variant. The selected-day glyph is always `whitely-50` for legibility on the filled cell.
+
+- `primary` — primary-* family (default)
+- `secondary` — secondary-* family
+- `neutral-max` — strong neutral (aeblack-800 family)
+- `neutral-min` — quiet neutral (aeblack-100 family). Selected day fill stays `aeblack-800`.
+
+### Colour matrix
+
+| Variant       | Trigger ring     | Selected day fill | Today indicator | Hover bg        |
+| ------------- | ---------------- | ----------------- | --------------- | --------------- |
+| `primary`     | `primary-400`    | `primary-600`     | `primary-700`   | `primary-50`    |
+| `secondary`   | `secondary-400`  | `secondary-600`   | `secondary-700` | `secondary-50`  |
+| `neutral-max` | `aeblack-400`    | `aeblack-800`     | `aeblack-800`   | `aeblack-50`    |
+| `neutral-min` | `aeblack-200`    | `aeblack-800`     | `aeblack-700`   | `aeblack-50`    |
+
+```html
+<aegov-datepicker variant="primary" placeholder="Primary"></aegov-datepicker>
+<aegov-datepicker variant="secondary" placeholder="Secondary"></aegov-datepicker>
+<aegov-datepicker variant="neutral-max" placeholder="Neutral-max"></aegov-datepicker>
+<aegov-datepicker variant="neutral-min" placeholder="Neutral-min"></aegov-datepicker>
+```
+
+<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <aegov-datepicker variant="primary" placeholder="Primary"></aegov-datepicker>
+    <aegov-datepicker variant="secondary" placeholder="Secondary"></aegov-datepicker>
+    <aegov-datepicker variant="neutral-max" placeholder="Neutral-max"></aegov-datepicker>
+    <aegov-datepicker variant="neutral-min" placeholder="Neutral-min"></aegov-datepicker>
+  </div>
+</div>
+
+---
+
 ## Custom trigger
 
 The `trigger` slot replaces the default input with any focusable element — useful for icon-only buttons or other custom launchers. The component still owns open / close state and positioning; the slotted element only needs to be focusable.
@@ -510,6 +546,7 @@ A range picker with Arabic presets in RTL:
 | `yearRangeEnd`        | `year-range-end`       | Last year in the year dropdown (0 = current year + 100).                | `number`              | `0`              |
 | `isWithConfirmation`  | `is-with-confirmation` | Render Apply / Cancel buttons; commits only on Apply.                   | `boolean`             | `false`          |
 | `size`                | `size`                 | Trigger size token. Accepts a single token or a responsive string.       | `string`              | `'base'`         |
+| `variant`             | `variant`              | Colour family for trigger ring, selected day fill, today indicator, and hover bg. Focus ring stays camel; error stays aered. | `'primary' \| 'secondary' \| 'neutral-max' \| 'neutral-min'` | `'primary'` |
 
 ### Slots
 

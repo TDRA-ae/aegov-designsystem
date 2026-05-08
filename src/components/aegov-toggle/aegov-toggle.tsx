@@ -1,11 +1,12 @@
 import { Component, Host, h, Prop, Watch, State, Event, EventEmitter, Element, Method } from '@stencil/core';
 import { watchResponsiveProp } from '../../utils/responsive-prop';
 import type { ResponsivePropWatcher } from '../../utils/responsive-prop';
-import { TOGGLE_SIZES } from '../../utils/types';
+import { TOGGLE_SIZES, FORM_VARIANTS } from '../../utils/types';
 import type {
-  ToggleSize,
+  ToggleSize, FormVariant,
   AegovValidationDetail, AegovValidationResult, AegovValidationTrigger,
 } from '../../utils/types';
+import { warnIfInvalidEnumProp } from '../../utils/prop-validator';
 import { getPassThroughAttributes } from '../../utils/attributes';
 import { generateId } from '../../utils/id-generator';
 import {
@@ -36,6 +37,9 @@ export class AegovToggle {
 
   /** The size of the toggle. */
   @Prop() size: string = 'base';
+
+  /** Colour family. Drives ON track bg. OFF track stays aeblack-200. Focus ring stays camel; error stays aered. */
+  @Prop() variant: FormVariant = 'primary';
 
   @State() private _resolvedSize: ToggleSize = 'base';
   private _sizeWatcher: ResponsivePropWatcher | null = null;
@@ -74,7 +78,11 @@ export class AegovToggle {
   private errorId: string = '';
   private hintId: string = '';
 
+  @Watch('variant')
+  onVariantChange(v: unknown) { warnIfInvalidEnumProp(v, FORM_VARIANTS, 'primary', { component: 'aegov-toggle', prop: 'variant' }); }
+
   componentWillLoad() {
+    warnIfInvalidEnumProp(this.variant, FORM_VARIANTS, 'primary', { component: 'aegov-toggle', prop: 'variant' });
     if (!this.fieldId) {
       this.fieldId = generateId('aegov-toggle');
     }
@@ -161,7 +169,8 @@ export class AegovToggle {
     delete passThroughAttrs['aria-describedby'];
 
     const size: ToggleSize = this._resolvedSize;
-    const wrapperClasses = ['aegov-toggle', `toggle--${size}`];
+    const variant: FormVariant = (FORM_VARIANTS as readonly string[]).includes(this.variant) ? this.variant : 'primary';
+    const wrapperClasses = ['aegov-toggle', `toggle--${size}`, `toggle-variant-${variant}`];
 
     const hasErrorSlot = !!this.el.querySelector('[slot="error"]');
     const hasHintSlot = !!this.el.querySelector('[slot="hint"]');

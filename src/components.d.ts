@@ -5,12 +5,12 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
-import { AccordionIcon, AccordionSize, AegovValidationDetail, AegovValidationResult, AegovValidationTrigger, AspectRatioFit, AspectRatioPreset, AvatarAppearance, AvatarGroupVariant, AvatarStatus, BadgeAppearance, BadgeColor, BannerDisplay, BannerMode, BannerPosition, BentoFlow, BlockquoteAppearance, BreadcrumbSeparator, ButtonAppearance, ButtonGroupOrientation, ButtonGroupPosition, ButtonType, ButtonVariant, CalloutAppearance, CalloutVariant, CardAppearance, CardBorderWidth, CardHover, CardSize, CardVariant, CheckboxGroupOrientation, CheckboxGroupVariant, DatepickerChangeDetail, DatepickerMode, DatepickerMonthChangeDetail, DrawerAnimation, DrawerOverlayOpacity, DrawerPosition, DrawerSize, DropdownAlign, DropdownPosition, DropdownTrigger, FileuploadVariant, HeaderVariant, InputType, LinkTarget, ModalOverlayOpacity, ModalPosition, ModalSize, NavblockIcon, NavblockSize, OtpVariant, PaginationVariant, PopoverAlign, PopoverPosition, PopoverTrigger, ProgressCounter, RadioGroupOrientation, RadioGroupVariant, RangeDisplay, RangeMode, RangeOrientation, SelectChangeDetail, SelectVariant, SeparatorAppearance, SeparatorOrientation, SeparatorVariant, TabOrientation, TabVariant, TextareaResize, TimelineOrientation, TimelineSize, TimelineStepStatus, TimelineVariant, TitleHeadingType, ToastAppearance, ToastMode, ToastPosition, ToastVariant, TooltipAlign, TooltipPosition, TooltipTrigger } from "./utils/types";
+import { AccordionIcon, AccordionSize, AegovValidationDetail, AegovValidationResult, AegovValidationTrigger, AspectRatioFit, AspectRatioPreset, AvatarAppearance, AvatarGroupVariant, AvatarStatus, BadgeAppearance, BadgeColor, BannerDisplay, BannerMode, BannerPosition, BentoFlow, BlockquoteAppearance, BreadcrumbSeparator, ButtonAppearance, ButtonGroupOrientation, ButtonGroupPosition, ButtonType, ButtonVariant, CalloutAppearance, CalloutVariant, CardAppearance, CardBorderWidth, CardHover, CardSize, CardVariant, CheckboxGroupOrientation, CheckboxGroupVariant, DatepickerChangeDetail, DatepickerMode, DatepickerMonthChangeDetail, DrawerAnimation, DrawerOverlayOpacity, DrawerPosition, DrawerSize, DropdownAlign, DropdownPosition, DropdownTrigger, FileuploadVariant, FormVariant, HeaderVariant, InputType, LinkTarget, ModalOverlayOpacity, ModalPosition, ModalSize, NavblockIcon, NavblockSize, OtpVariant, PaginationVariant, PopoverAlign, PopoverPosition, PopoverTrigger, ProgressCounter, RadioGroupOrientation, RadioGroupVariant, RangeDisplay, RangeMode, RangeOrientation, SelectChangeDetail, SelectVariant, SeparatorAppearance, SeparatorOrientation, SeparatorVariant, TabOrientation, TabVariant, TextareaResize, TimelineOrientation, TimelineSize, TimelineStepStatus, TimelineVariant, TitleHeadingType, ToastAppearance, ToastMode, ToastPosition, ToastVariant, TooltipAlign, TooltipPosition, TooltipTrigger } from "./utils/types";
 import { AegovDatepickerValue } from "./components/aegov-datepicker/aegov-datepicker";
 import { Event } from "@stencil/core";
 import { AegovRangeValue } from "./components/aegov-range/aegov-range";
 import { AegovSelectValue } from "./components/aegov-select/aegov-select";
-export { AccordionIcon, AccordionSize, AegovValidationDetail, AegovValidationResult, AegovValidationTrigger, AspectRatioFit, AspectRatioPreset, AvatarAppearance, AvatarGroupVariant, AvatarStatus, BadgeAppearance, BadgeColor, BannerDisplay, BannerMode, BannerPosition, BentoFlow, BlockquoteAppearance, BreadcrumbSeparator, ButtonAppearance, ButtonGroupOrientation, ButtonGroupPosition, ButtonType, ButtonVariant, CalloutAppearance, CalloutVariant, CardAppearance, CardBorderWidth, CardHover, CardSize, CardVariant, CheckboxGroupOrientation, CheckboxGroupVariant, DatepickerChangeDetail, DatepickerMode, DatepickerMonthChangeDetail, DrawerAnimation, DrawerOverlayOpacity, DrawerPosition, DrawerSize, DropdownAlign, DropdownPosition, DropdownTrigger, FileuploadVariant, HeaderVariant, InputType, LinkTarget, ModalOverlayOpacity, ModalPosition, ModalSize, NavblockIcon, NavblockSize, OtpVariant, PaginationVariant, PopoverAlign, PopoverPosition, PopoverTrigger, ProgressCounter, RadioGroupOrientation, RadioGroupVariant, RangeDisplay, RangeMode, RangeOrientation, SelectChangeDetail, SelectVariant, SeparatorAppearance, SeparatorOrientation, SeparatorVariant, TabOrientation, TabVariant, TextareaResize, TimelineOrientation, TimelineSize, TimelineStepStatus, TimelineVariant, TitleHeadingType, ToastAppearance, ToastMode, ToastPosition, ToastVariant, TooltipAlign, TooltipPosition, TooltipTrigger } from "./utils/types";
+export { AccordionIcon, AccordionSize, AegovValidationDetail, AegovValidationResult, AegovValidationTrigger, AspectRatioFit, AspectRatioPreset, AvatarAppearance, AvatarGroupVariant, AvatarStatus, BadgeAppearance, BadgeColor, BannerDisplay, BannerMode, BannerPosition, BentoFlow, BlockquoteAppearance, BreadcrumbSeparator, ButtonAppearance, ButtonGroupOrientation, ButtonGroupPosition, ButtonType, ButtonVariant, CalloutAppearance, CalloutVariant, CardAppearance, CardBorderWidth, CardHover, CardSize, CardVariant, CheckboxGroupOrientation, CheckboxGroupVariant, DatepickerChangeDetail, DatepickerMode, DatepickerMonthChangeDetail, DrawerAnimation, DrawerOverlayOpacity, DrawerPosition, DrawerSize, DropdownAlign, DropdownPosition, DropdownTrigger, FileuploadVariant, FormVariant, HeaderVariant, InputType, LinkTarget, ModalOverlayOpacity, ModalPosition, ModalSize, NavblockIcon, NavblockSize, OtpVariant, PaginationVariant, PopoverAlign, PopoverPosition, PopoverTrigger, ProgressCounter, RadioGroupOrientation, RadioGroupVariant, RangeDisplay, RangeMode, RangeOrientation, SelectChangeDetail, SelectVariant, SeparatorAppearance, SeparatorOrientation, SeparatorVariant, TabOrientation, TabVariant, TextareaResize, TimelineOrientation, TimelineSize, TimelineStepStatus, TimelineVariant, TitleHeadingType, ToastAppearance, ToastMode, ToastPosition, ToastVariant, TooltipAlign, TooltipPosition, TooltipTrigger } from "./utils/types";
 export { AegovDatepickerValue } from "./components/aegov-datepicker/aegov-datepicker";
 export { Event } from "@stencil/core";
 export { AegovRangeValue } from "./components/aegov-range/aegov-range";
@@ -548,6 +548,11 @@ export namespace Components {
           * The value attribute for the checkbox.
          */
         "value"?: string;
+        /**
+          * Colour family. Drives rest border, checked bg/border. Focus ring stays camel; error stays aered.
+          * @default 'primary'
+         */
+        "variant": FormVariant;
     }
     interface AegovCheckboxGroup {
         /**
@@ -606,6 +611,11 @@ export namespace Components {
           * Imperatively re-run validation.
          */
         "validate": (trigger?: AegovValidationTrigger) => Promise<AegovValidationResult>;
+        /**
+          * Colour family. Cascades to child checkboxes (only if child has no own variant). Focus ring stays camel; error stays aered regardless.
+          * @default 'primary'
+         */
+        "variant": FormVariant;
     }
     interface AegovDatepicker {
         /**
@@ -760,6 +770,11 @@ export namespace Components {
           * @default ''
          */
         "value": string;
+        /**
+          * Colour family. Drives idle ring/border, selected/checked fill, and value/accent text. Focus ring stays camel; error stays aered regardless.
+          * @default 'primary'
+         */
+        "variant": FormVariant;
         /**
           * End year for the year dropdown (default: current year + 100)
           * @default 0
@@ -981,6 +996,11 @@ export namespace Components {
           * Imperatively re-run validation.
          */
         "validate": (trigger?: AegovValidationTrigger) => Promise<AegovValidationResult>;
+        /**
+          * Colour family. Drives idle ring/border, selected/checked fill, and value/accent text. Focus ring stays camel; error stays aered regardless.
+          * @default 'primary'
+         */
+        "variant": FormVariant;
     }
     interface AegovFormField {
         /**
@@ -1006,6 +1026,11 @@ export namespace Components {
           * @default false
          */
         "isInvalid": boolean;
+        /**
+          * Colour family. Drives idle ring/border, selected/checked fill, and value/accent text. Cascades to first form-control descendant.
+          * @default 'primary'
+         */
+        "variant": FormVariant;
     }
     interface AegovHeader {
         /**
@@ -1120,6 +1145,11 @@ export namespace Components {
           * @default ''
          */
         "value": string;
+        /**
+          * Colour family. Drives idle ring, value text, and accent hover. Focus ring stays camel; error stays aered regardless.
+          * @default 'primary'
+         */
+        "variant": FormVariant;
     }
     interface AegovInputGroup {
         /**
@@ -1139,6 +1169,11 @@ export namespace Components {
           * @default 'base'
          */
         "size": string;
+        /**
+          * Colour family. Drives idle ring/border, selected/checked fill, and value/accent text. Focus ring stays camel; error stays aered regardless.
+          * @default 'primary'
+         */
+        "variant": FormVariant;
     }
     interface AegovLabel {
         /**
@@ -1153,6 +1188,11 @@ export namespace Components {
           * The ID of the form element this label is for. Automatically set by parent aegov-form-field.
          */
         "htmlFor"?: string;
+        /**
+          * Colour family. Drives idle ring/border, selected/checked fill, and value/accent text. Focus ring stays camel; error stays aered regardless.
+          * @default 'primary'
+         */
+        "variant": FormVariant;
     }
     interface AegovLink {
         /**
@@ -1492,6 +1532,11 @@ export namespace Components {
           * @default ''
          */
         "value": string;
+        /**
+          * Colour family. Drives idle ring/border, selected/checked fill, and value/accent text. Focus ring stays camel; error stays aered regardless.
+          * @default 'primary'
+         */
+        "variant": FormVariant;
     }
     interface AegovPagination {
         /**
@@ -1708,6 +1753,11 @@ export namespace Components {
           * The value attribute for the radio.
          */
         "value"?: string;
+        /**
+          * Colour family. Drives rest border, checked bg/border. Focus ring stays camel; error stays aered.
+          * @default 'primary'
+         */
+        "variant": FormVariant;
     }
     interface AegovRadioGroup {
         /**
@@ -1770,6 +1820,11 @@ export namespace Components {
           * Imperatively re-run validation.
          */
         "validate": (trigger?: AegovValidationTrigger) => Promise<AegovValidationResult>;
+        /**
+          * Colour family. Cascades to child radios (only if child has no own variant). Focus ring stays camel; error stays aered regardless.
+          * @default 'primary'
+         */
+        "variant": FormVariant;
     }
     interface AegovRange {
         /**
@@ -1871,6 +1926,11 @@ export namespace Components {
           * @default 25
          */
         "valueLow": number;
+        /**
+          * Colour family. Drives idle ring/border, selected/checked fill, and value/accent text. Focus ring stays camel; error stays aered regardless.
+          * @default 'primary'
+         */
+        "variant": FormVariant;
     }
     interface AegovSelect {
         /**
@@ -1957,6 +2017,11 @@ export namespace Components {
           * @default ''
          */
         "value": string;
+        /**
+          * Colour family. Drives idle ring/border, selected/checked fill, and value/accent text. Focus ring stays camel; error stays aered regardless.
+          * @default 'primary'
+         */
+        "variant": FormVariant;
         /**
           * Max visible items in the dropdown before scrolling.
           * @default 6
@@ -2221,6 +2286,11 @@ export namespace Components {
           * @default ''
          */
         "value": string;
+        /**
+          * Colour family. Drives idle ring, value text, and accent hover.
+          * @default 'primary'
+         */
+        "variant": FormVariant;
     }
     interface AegovTimeline {
         /**
@@ -2409,6 +2479,11 @@ export namespace Components {
           * The value attribute for the toggle.
          */
         "value"?: string;
+        /**
+          * Colour family. Drives ON track bg. OFF track stays aeblack-200. Focus ring stays camel; error stays aered.
+          * @default 'primary'
+         */
+        "variant": FormVariant;
     }
     /**
      * Tooltip component that displays additional information on hover or click
@@ -4027,6 +4102,11 @@ declare namespace LocalJSX {
           * The value attribute for the checkbox.
          */
         "value"?: string;
+        /**
+          * Colour family. Drives rest border, checked bg/border. Focus ring stays camel; error stays aered.
+          * @default 'primary'
+         */
+        "variant"?: FormVariant;
     }
     interface AegovCheckboxGroup {
         /**
@@ -4085,6 +4165,11 @@ declare namespace LocalJSX {
           * @default 'base'
          */
         "size"?: string;
+        /**
+          * Colour family. Cascades to child checkboxes (only if child has no own variant). Focus ring stays camel; error stays aered regardless.
+          * @default 'primary'
+         */
+        "variant"?: FormVariant;
     }
     interface AegovDatepicker {
         /**
@@ -4224,6 +4309,11 @@ declare namespace LocalJSX {
           * @default ''
          */
         "value"?: string;
+        /**
+          * Colour family. Drives idle ring/border, selected/checked fill, and value/accent text. Focus ring stays camel; error stays aered regardless.
+          * @default 'primary'
+         */
+        "variant"?: FormVariant;
         /**
           * End year for the year dropdown (default: current year + 100)
           * @default 0
@@ -4452,6 +4542,11 @@ declare namespace LocalJSX {
           * @default 'base'
          */
         "size"?: string;
+        /**
+          * Colour family. Drives idle ring/border, selected/checked fill, and value/accent text. Focus ring stays camel; error stays aered regardless.
+          * @default 'primary'
+         */
+        "variant"?: FormVariant;
     }
     interface AegovFormField {
         /**
@@ -4477,6 +4572,11 @@ declare namespace LocalJSX {
           * @default false
          */
         "isInvalid"?: boolean;
+        /**
+          * Colour family. Drives idle ring/border, selected/checked fill, and value/accent text. Cascades to first form-control descendant.
+          * @default 'primary'
+         */
+        "variant"?: FormVariant;
     }
     interface AegovHeader {
         /**
@@ -4602,6 +4702,11 @@ declare namespace LocalJSX {
           * @default ''
          */
         "value"?: string;
+        /**
+          * Colour family. Drives idle ring, value text, and accent hover. Focus ring stays camel; error stays aered regardless.
+          * @default 'primary'
+         */
+        "variant"?: FormVariant;
     }
     interface AegovInputGroup {
         /**
@@ -4621,6 +4726,11 @@ declare namespace LocalJSX {
           * @default 'base'
          */
         "size"?: string;
+        /**
+          * Colour family. Drives idle ring/border, selected/checked fill, and value/accent text. Focus ring stays camel; error stays aered regardless.
+          * @default 'primary'
+         */
+        "variant"?: FormVariant;
     }
     interface AegovLabel {
         /**
@@ -4635,6 +4745,11 @@ declare namespace LocalJSX {
           * The ID of the form element this label is for. Automatically set by parent aegov-form-field.
          */
         "htmlFor"?: string;
+        /**
+          * Colour family. Drives idle ring/border, selected/checked fill, and value/accent text. Focus ring stays camel; error stays aered regardless.
+          * @default 'primary'
+         */
+        "variant"?: FormVariant;
     }
     interface AegovLink {
         /**
@@ -4990,6 +5105,11 @@ declare namespace LocalJSX {
           * @default ''
          */
         "value"?: string;
+        /**
+          * Colour family. Drives idle ring/border, selected/checked fill, and value/accent text. Focus ring stays camel; error stays aered regardless.
+          * @default 'primary'
+         */
+        "variant"?: FormVariant;
     }
     interface AegovPagination {
         /**
@@ -5218,6 +5338,11 @@ declare namespace LocalJSX {
           * The value attribute for the radio.
          */
         "value"?: string;
+        /**
+          * Colour family. Drives rest border, checked bg/border. Focus ring stays camel; error stays aered.
+          * @default 'primary'
+         */
+        "variant"?: FormVariant;
     }
     interface AegovRadioGroup {
         /**
@@ -5280,6 +5405,11 @@ declare namespace LocalJSX {
           * @default 'base'
          */
         "size"?: string;
+        /**
+          * Colour family. Cascades to child radios (only if child has no own variant). Focus ring stays camel; error stays aered regardless.
+          * @default 'primary'
+         */
+        "variant"?: FormVariant;
     }
     interface AegovRange {
         /**
@@ -5385,6 +5515,11 @@ declare namespace LocalJSX {
           * @default 25
          */
         "valueLow"?: number;
+        /**
+          * Colour family. Drives idle ring/border, selected/checked fill, and value/accent text. Focus ring stays camel; error stays aered regardless.
+          * @default 'primary'
+         */
+        "variant"?: FormVariant;
     }
     interface AegovSelect {
         /**
@@ -5479,6 +5614,11 @@ declare namespace LocalJSX {
           * @default ''
          */
         "value"?: string;
+        /**
+          * Colour family. Drives idle ring/border, selected/checked fill, and value/accent text. Focus ring stays camel; error stays aered regardless.
+          * @default 'primary'
+         */
+        "variant"?: FormVariant;
         /**
           * Max visible items in the dropdown before scrolling.
           * @default 6
@@ -5765,6 +5905,11 @@ declare namespace LocalJSX {
           * @default ''
          */
         "value"?: string;
+        /**
+          * Colour family. Drives idle ring, value text, and accent hover.
+          * @default 'primary'
+         */
+        "variant"?: FormVariant;
     }
     interface AegovTimeline {
         /**
@@ -5957,6 +6102,11 @@ declare namespace LocalJSX {
           * The value attribute for the toggle.
          */
         "value"?: string;
+        /**
+          * Colour family. Drives ON track bg. OFF track stays aeblack-200. Focus ring stays camel; error stays aered.
+          * @default 'primary'
+         */
+        "variant"?: FormVariant;
     }
     /**
      * Tooltip component that displays additional information on hover or click

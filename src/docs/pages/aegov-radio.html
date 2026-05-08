@@ -153,6 +153,85 @@
 
 <p><code>size</code> also accepts a Tailwind-style responsive string (e.g. <code>sm md:base xl:lg</code>).</p>
 <hr>
+<h2>Variant</h2>
+<p>The <code>variant</code> property selects the colour family for the rest border, the checked dot, and the hover halo. The focus ring stays <code>primary-support-600</code> (camel) and the error border stays <code>aered-600</code> regardless of variant. The inner dot glyph is always <code>whitely-50</code> for legibility on the filled control.</p>
+<ul>
+<li><code>primary</code> — primary-* family (default)</li>
+<li><code>secondary</code> — secondary-* family</li>
+<li><code>neutral-max</code> — strong neutral (aeblack-800 family)</li>
+<li><code>neutral-min</code> — quiet neutral (aeblack-100 family). Fill stays <code>aeblack-800</code> so checked controls remain legible.</li>
+</ul>
+<h3>Colour matrix</h3>
+<table>
+<thead>
+<tr>
+<th>Variant</th>
+<th>Rest border</th>
+<th>Checked fill</th>
+<th>Checked border</th>
+<th>Hover halo</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>primary</code></td>
+<td><code>primary-200</code></td>
+<td><code>primary-600</code></td>
+<td><code>primary-600</code></td>
+<td><code>primary-700</code></td>
+</tr>
+<tr>
+<td><code>secondary</code></td>
+<td><code>secondary-200</code></td>
+<td><code>secondary-600</code></td>
+<td><code>secondary-600</code></td>
+<td><code>secondary-700</code></td>
+</tr>
+<tr>
+<td><code>neutral-max</code></td>
+<td><code>aeblack-300</code></td>
+<td><code>aeblack-800</code></td>
+<td><code>aeblack-800</code></td>
+<td><code>aeblack-800</code></td>
+</tr>
+<tr>
+<td><code>neutral-min</code></td>
+<td><code>aeblack-100</code></td>
+<td><code>aeblack-800</code></td>
+<td><code>aeblack-800</code></td>
+<td><code>aeblack-700</code></td>
+</tr>
+</tbody></table>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-radio</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;primary&quot;</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;r1&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Primary&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-radio</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-radio</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;secondary&quot;</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;r2&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Secondary&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-radio</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-radio</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;neutral-max&quot;</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;r3&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Neutral-max&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-radio</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-radio</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;neutral-min&quot;</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;r4&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Neutral-min&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-radio</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+    <aegov-radio variant="primary" name="rv1" value="a" label="Primary — unchecked"></aegov-radio>
+    <aegov-radio variant="primary" name="rv1b" value="a" label="Primary — checked" is-checked="true"></aegov-radio>
+    <aegov-radio variant="secondary" name="rv2" value="a" label="Secondary — unchecked"></aegov-radio>
+    <aegov-radio variant="secondary" name="rv2b" value="a" label="Secondary — checked" is-checked="true"></aegov-radio>
+    <aegov-radio variant="neutral-max" name="rv3" value="a" label="Neutral-max — unchecked"></aegov-radio>
+    <aegov-radio variant="neutral-max" name="rv3b" value="a" label="Neutral-max — checked" is-checked="true"></aegov-radio>
+    <aegov-radio variant="neutral-min" name="rv4" value="a" label="Neutral-min — unchecked"></aegov-radio>
+    <aegov-radio variant="neutral-min" name="rv4b" value="a" label="Neutral-min — checked" is-checked="true"></aegov-radio>
+  </div>
+</div>
+
+<h3>Group cascade</h3>
+<p>Setting <code>variant</code> on <code>aegov-radio-group</code> cascades to every child radio that does not declare its own <code>variant</code>. A child&#39;s explicit <code>variant</code> always wins.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-radio-group</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;secondary&quot;</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;agreement&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Do you agree?&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-radio</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;yes&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Yes&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-radio</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-radio</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;no&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;No&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-radio</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-radio</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;unsure&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Not sure&quot;</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;neutral-max&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-radio</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-radio-group</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-radio-group variant="secondary" name="agreement-variant" label="Do you agree?">
+    <aegov-radio value="yes" label="Yes" is-checked="true"></aegov-radio>
+    <aegov-radio value="no" label="No"></aegov-radio>
+    <aegov-radio value="unsure" label="Not sure (override → neutral-max)" variant="neutral-max"></aegov-radio>
+  </aegov-radio-group>
+</div>
+
+<hr>
 <h2>Orientation</h2>
 <p>Set <code>orientation=&quot;horizontal&quot;</code> on the group to lay items out in a row instead of the default vertical stack. Useful for short option lists like Yes/No or rating scales.</p>
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-radio-group</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;agreement&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Do you agree with the proposed change?&quot;</span> <span class="hljs-attr">orientation</span>=<span class="hljs-string">&quot;horizontal&quot;</span>&gt;</span>
@@ -458,6 +537,13 @@
 <td><code>&#39;base&#39;</code></td>
 </tr>
 <tr>
+<td><code>variant</code></td>
+<td><code>variant</code></td>
+<td>Colour family for rest border, checked fill, and hover halo. Inherits from group if unset. Focus ring stays camel; error stays aered.</td>
+<td><code>&#39;primary&#39; | &#39;secondary&#39; | &#39;neutral-max&#39; | &#39;neutral-min&#39;</code></td>
+<td><code>&#39;primary&#39;</code></td>
+</tr>
+<tr>
 <td><code>isDisabled</code></td>
 <td><code>is-disabled</code></td>
 <td>Disable the individual radio. Reflected to the host.</td>
@@ -538,6 +624,13 @@
 <td>Size token or responsive string. Propagated to all child radios.</td>
 <td><code>string</code></td>
 <td><code>&#39;base&#39;</code></td>
+</tr>
+<tr>
+<td><code>variant</code></td>
+<td><code>variant</code></td>
+<td>Colour family. Cascades to children that have no explicit <code>variant</code>.</td>
+<td><code>&#39;primary&#39; | &#39;secondary&#39; | &#39;neutral-max&#39; | &#39;neutral-min&#39;</code></td>
+<td><code>&#39;primary&#39;</code></td>
 </tr>
 <tr>
 <td><code>isDisabled</code></td>

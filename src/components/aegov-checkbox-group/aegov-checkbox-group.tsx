@@ -1,7 +1,7 @@
 import { Component, Host, h, Prop, State, Event, EventEmitter, Element, Listen, Watch, Method } from '@stencil/core';
-import { CHECKBOX_GROUP_VARIANTS, CHECKBOX_GROUP_ORIENTATIONS, CHECKBOX_SIZES } from '../../utils/types';
+import { CHECKBOX_GROUP_VARIANTS, CHECKBOX_GROUP_ORIENTATIONS, CHECKBOX_SIZES, FORM_VARIANTS } from '../../utils/types';
 import type {
-  CheckboxGroupVariant, CheckboxGroupOrientation, CheckboxSize,
+  CheckboxGroupVariant, CheckboxGroupOrientation, CheckboxSize, FormVariant,
   AegovValidationDetail, AegovValidationResult, AegovValidationTrigger,
 } from '../../utils/types';
 import { warnIfInvalidEnumProp } from '../../utils/prop-validator';
@@ -38,6 +38,9 @@ export class AegovCheckboxGroup {
   @State() private _resolvedSize: CheckboxSize = 'base';
   private _sizeWatcher: ResponsivePropWatcher | null = null;
 
+  /** Colour family. Cascades to child checkboxes (only if child has no own variant). Focus ring stays camel; error stays aered regardless. */
+  @Prop() variant: FormVariant = 'primary';
+
   /** Disables all checkboxes within the group via native fieldset disabled. */
   @Prop() isDisabled: boolean = false;
 
@@ -70,6 +73,7 @@ export class AegovCheckboxGroup {
   componentWillLoad() {
     warnIfInvalidEnumProp(this.appearance, CHECKBOX_GROUP_VARIANTS, 'default', ctx('appearance'));
     warnIfInvalidEnumProp(this.orientation, CHECKBOX_GROUP_ORIENTATIONS, 'vertical', ctx('orientation'));
+    warnIfInvalidEnumProp(this.variant, FORM_VARIANTS, 'primary', ctx('variant'));
     this._sizeWatcher = watchResponsiveProp(this.size, CHECKBOX_SIZES, 'base', v => {
       this._resolvedSize = v as CheckboxSize;
       if (this.el.isConnected) { this.syncChildren(); }
@@ -129,6 +133,12 @@ export class AegovCheckboxGroup {
   @Watch('orientation')
   onOrientationChange(v: unknown) { warnIfInvalidEnumProp(v, CHECKBOX_GROUP_ORIENTATIONS, 'vertical', ctx('orientation')); }
 
+  @Watch('variant')
+  onColourVariantChange(v: unknown) {
+    warnIfInvalidEnumProp(v, FORM_VARIANTS, 'primary', ctx('variant'));
+    if (this.el.isConnected) { this.syncChildren(); }
+  }
+
   disconnectedCallback() {
     this._sizeWatcher?.destroy();
   }
@@ -147,6 +157,10 @@ export class AegovCheckboxGroup {
     const checkboxes = Array.from(this.el.querySelectorAll('aegov-checkbox')) as HTMLAegovCheckboxElement[];
     checkboxes.forEach(cb => {
       cb.size = this._resolvedSize;
+      // Cascade variant only if child has no own value (still default 'primary')
+      if (!cb.variant || cb.variant === 'primary') {
+        cb.variant = this.variant;
+      }
     });
   }
 

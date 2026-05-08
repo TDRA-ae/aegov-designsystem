@@ -126,6 +126,66 @@ Five sizes are available: `xs`, `sm`, `base` (default), `lg`, and `xl`. The size
 
 ---
 
+## Variant
+
+The `variant` property selects the colour family for the rest border, the checked fill, and the hover halo. The focus ring stays `primary-support-600` (camel) and the error border stays `aered-600` regardless of variant. The check glyph is always `whitely-50` for legibility on the filled control.
+
+- `primary` — primary-* family (default)
+- `secondary` — secondary-* family
+- `neutral-max` — strong neutral (aeblack-800 family)
+- `neutral-min` — quiet neutral (aeblack-100 family). Fill stays `aeblack-800` so checked controls remain legible.
+
+### Colour matrix
+
+| Variant       | Rest border      | Checked fill    | Checked border  | Hover halo      |
+| ------------- | ---------------- | --------------- | --------------- | --------------- |
+| `primary`     | `primary-200`    | `primary-600`   | `primary-600`   | `primary-700`   |
+| `secondary`   | `secondary-200`  | `secondary-600` | `secondary-600` | `secondary-700` |
+| `neutral-max` | `aeblack-300`    | `aeblack-800`   | `aeblack-800`   | `aeblack-800`   |
+| `neutral-min` | `aeblack-100`    | `aeblack-800`   | `aeblack-800`   | `aeblack-700`   |
+
+```html
+<aegov-checkbox variant="primary" label="Primary"></aegov-checkbox>
+<aegov-checkbox variant="secondary" label="Secondary"></aegov-checkbox>
+<aegov-checkbox variant="neutral-max" label="Neutral-max"></aegov-checkbox>
+<aegov-checkbox variant="neutral-min" label="Neutral-min"></aegov-checkbox>
+```
+
+<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+    <aegov-checkbox variant="primary" label="Primary — unchecked"></aegov-checkbox>
+    <aegov-checkbox variant="primary" label="Primary — checked" is-checked="true"></aegov-checkbox>
+    <aegov-checkbox variant="secondary" label="Secondary — unchecked"></aegov-checkbox>
+    <aegov-checkbox variant="secondary" label="Secondary — checked" is-checked="true"></aegov-checkbox>
+    <aegov-checkbox variant="neutral-max" label="Neutral-max — unchecked"></aegov-checkbox>
+    <aegov-checkbox variant="neutral-max" label="Neutral-max — checked" is-checked="true"></aegov-checkbox>
+    <aegov-checkbox variant="neutral-min" label="Neutral-min — unchecked"></aegov-checkbox>
+    <aegov-checkbox variant="neutral-min" label="Neutral-min — checked" is-checked="true"></aegov-checkbox>
+  </div>
+</div>
+
+### Group cascade
+
+Setting `variant` on `aegov-checkbox-group` cascades to every child checkbox that does not declare its own `variant`. A child's explicit `variant` always wins.
+
+```html
+<aegov-checkbox-group variant="secondary" label="Languages spoken">
+  <aegov-checkbox value="ar" label="Arabic"></aegov-checkbox>
+  <aegov-checkbox value="en" label="English"></aegov-checkbox>
+  <aegov-checkbox value="ur" label="Urdu" variant="neutral-max"></aegov-checkbox>
+</aegov-checkbox-group>
+```
+
+<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-checkbox-group variant="secondary" label="Languages spoken">
+    <aegov-checkbox value="ar" label="Arabic" is-checked="true"></aegov-checkbox>
+    <aegov-checkbox value="en" label="English" is-checked="true"></aegov-checkbox>
+    <aegov-checkbox value="ur" label="Urdu (override → neutral-max)" variant="neutral-max" is-checked="true"></aegov-checkbox>
+  </aegov-checkbox-group>
+</div>
+
+---
+
 ## Checkbox Group
 
 `aegov-checkbox-group` wraps multiple `aegov-checkbox` children to provide:
@@ -414,6 +474,7 @@ The checkbox uses CSS logical properties throughout. When the document or any an
 | `isChecked`       | `is-checked`       | Whether the checkbox is checked. Mutable and reflected to the host.                    | `boolean`      | `false`     |
 | `isIndeterminate` | `is-indeterminate` | Whether to show the indeterminate (mixed) state.                                        | `boolean`      | `false`     |
 | `size`            | `size`             | Size token or responsive string. Propagated by `aegov-checkbox-group`.                  | `string`       | `'base'`    |
+| `variant`         | `variant`          | Colour family for rest border, checked fill, and hover halo. Inherits from group if unset. Focus ring stays camel; error stays aered. | `'primary' \| 'secondary' \| 'neutral-max' \| 'neutral-min'` | `'primary'` |
 | `isDisabled`      | `is-disabled`      | Disable the checkbox. Reflected to the host.                                             | `boolean`      | `false`     |
 | `isRequired`      | `is-required`      | Mark the field as required (sets native `required` and `aria-required`).                  | `boolean`      | `false`     |
 | `label`           | `label`            | Label text. When set, renders a wrapping `<label>` element.                              | `string`       | `undefined` |
@@ -429,6 +490,7 @@ The checkbox uses CSS logical properties throughout. When the document or any an
 | `orientation` | `orientation` | Stack direction for items.                                                    | `CheckboxGroupOrientation`   | `'vertical'` |
 | `label`       | `label`       | Optional `<legend>` text for the underlying `<fieldset>`.                       | `string`                     | `undefined`  |
 | `size`        | `size`        | Size token or responsive string. Propagated to all child checkboxes.            | `string`                     | `'base'`     |
+| `variant`     | `variant`     | Colour family. Cascades to children that have no explicit `variant`.            | `'primary' \| 'secondary' \| 'neutral-max' \| 'neutral-min'` | `'primary'` |
 | `isDisabled`  | `is-disabled` | Disable the entire group via native `<fieldset disabled>`.                      | `boolean`                    | `false`      |
 | `extraClass`  | `extra-class` | Additional CSS classes applied to the `<fieldset>`.                              | `string`                     | `undefined`  |
 

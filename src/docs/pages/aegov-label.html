@@ -87,6 +87,57 @@
 </div>
 
 <hr>
+<h2>Variant</h2>
+<p>The <code>variant</code> property tones the label text colour to match the linked form control. The effect is intentionally subtle — most labels read as <code>aeblack-900</code> regardless — but pairing the label with an alternate variant keeps the visual family consistent between the caption and its control. The required-asterisk stays <code>aered-600</code> regardless of variant.</p>
+<ul>
+<li><code>primary</code> — primary-* family (default)</li>
+<li><code>secondary</code> — secondary-* family</li>
+<li><code>neutral-max</code> — strong neutral (aeblack-800 family)</li>
+<li><code>neutral-min</code> — quiet neutral (aeblack-100 family)</li>
+</ul>
+<h3>Colour matrix</h3>
+<table>
+<thead>
+<tr>
+<th>Variant</th>
+<th>Label text</th>
+<th>Required asterisk</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>primary</code></td>
+<td><code>aeblack-900</code></td>
+<td><code>aered-600</code></td>
+</tr>
+<tr>
+<td><code>secondary</code></td>
+<td><code>aeblack-900</code></td>
+<td><code>aered-600</code></td>
+</tr>
+<tr>
+<td><code>neutral-max</code></td>
+<td><code>aeblack-900</code></td>
+<td><code>aered-600</code></td>
+</tr>
+<tr>
+<td><code>neutral-min</code></td>
+<td><code>aeblack-700</code></td>
+<td><code>aered-600</code></td>
+</tr>
+</tbody></table>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-label</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;primary&quot;</span>&gt;</span>Primary<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-label</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-label</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;secondary&quot;</span>&gt;</span>Secondary<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-label</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-label</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;neutral-max&quot;</span>&gt;</span>Neutral-max<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-label</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-label</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;neutral-min&quot;</span>&gt;</span>Neutral-min<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-label</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+    <aegov-label variant="primary">Primary label</aegov-label>
+    <aegov-label variant="secondary">Secondary label</aegov-label>
+    <aegov-label variant="neutral-max">Neutral-max label</aegov-label>
+    <aegov-label variant="neutral-min">Neutral-min label</aegov-label>
+  </div>
+</div>
+
+<hr>
 <h2>Custom Styling</h2>
 <p>Use <code>extra-class</code> to apply additional Tailwind utilities — for example to emphasise a required-field label or to mute an optional one. The component does not introduce decorative markers; combine <code>extra-class</code> with the appropriate utility classes when needed.</p>
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-label</span> <span class="hljs-attr">extra-class</span>=<span class="hljs-string">&quot;font-semibold text-aeblack-900&quot;</span> <span class="hljs-attr">for</span>=<span class="hljs-string">&quot;passport-number&quot;</span>&gt;</span>
@@ -145,6 +196,13 @@
 <td>DOM <code>id</code> for the label element. Auto-generated if omitted.</td>
 <td><code>string</code></td>
 <td><em>generated</em></td>
+</tr>
+<tr>
+<td><code>variant</code></td>
+<td><code>variant</code></td>
+<td>Colour family. Subtle effect — the required-asterisk stays <code>aered-600</code> regardless.</td>
+<td><code>&#39;primary&#39; | &#39;secondary&#39; | &#39;neutral-max&#39; | &#39;neutral-min&#39;</code></td>
+<td><code>&#39;primary&#39;</code></td>
 </tr>
 <tr>
 <td><code>extraClass</code></td>

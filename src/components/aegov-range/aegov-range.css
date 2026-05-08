@@ -59,12 +59,17 @@
 }
 
 /* ========================================
-   Fill — colored portion of track
+   Fill — colored portion of track (variant-driven)
    ======================================== */
 .range__fill {
   @apply absolute rounded-full bg-primary-600;
   transition: left 0ms, width 0ms, bottom 0ms, height 0ms;
 }
+
+.aegov-range.range-variant-primary .range__fill     { @apply bg-primary-600; }
+.aegov-range.range-variant-secondary .range__fill   { @apply bg-secondary-600; }
+.aegov-range.range-variant-neutral-max .range__fill { @apply bg-aeblack-800; }
+.aegov-range.range-variant-neutral-min .range__fill { @apply bg-aeblack-800; }
 
 .range--horizontal .range__fill {
   top: 0;
@@ -148,6 +153,11 @@
   @apply font-semibold text-primary-600 leading-none select-none;
   font-size: 10px;
 }
+
+.aegov-range.range-variant-primary .range__thumb-value     { @apply text-primary-900; }
+.aegov-range.range-variant-secondary .range__thumb-value   { @apply text-secondary-900; }
+.aegov-range.range-variant-neutral-max .range__thumb-value { @apply text-aeblack-900; }
+.aegov-range.range-variant-neutral-min .range__thumb-value { @apply text-aeblack-900; }
 
 /* ========================================
    Tooltip — floating value above thumb

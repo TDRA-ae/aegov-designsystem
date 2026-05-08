@@ -243,6 +243,50 @@
 </div>
 
 <hr>
+<h2>Variant</h2>
+<p>The <code>variant</code> property cascades to the first form-control descendant (the <code>aegov-label</code>, and the inner input/select/checkbox/etc.) when that descendant has no explicit <code>variant</code> of its own. A child&#39;s explicit <code>variant</code> always wins. Use this to keep a label, input, and any associated controls all in one colour family without setting <code>variant</code> on each child.</p>
+<ul>
+<li><code>primary</code> — primary-* family (default)</li>
+<li><code>secondary</code> — secondary-* family</li>
+<li><code>neutral-max</code> — strong neutral (aeblack-800 family)</li>
+<li><code>neutral-min</code> — quiet neutral (aeblack-100 family)</li>
+</ul>
+<pre><code class="hljs language-html"><span class="hljs-comment">&lt;!-- Cascade: form-field → label + input both render in secondary --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-form-field</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;secondary&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-label</span>&gt;</span>Email address<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-label</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;email&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;name@domain.ae&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-input</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-form-field</span>&gt;</span>
+
+<span class="hljs-comment">&lt;!-- Override: child variant wins over the cascade --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-form-field</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;secondary&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-label</span>&gt;</span>Override<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-label</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-input</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;primary&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;Stays primary&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-input</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-form-field</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <aegov-form-field variant="primary">
+      <aegov-label>Primary</aegov-label>
+      <aegov-input placeholder="Inherits primary"></aegov-input>
+    </aegov-form-field>
+    <aegov-form-field variant="secondary">
+      <aegov-label>Secondary</aegov-label>
+      <aegov-input placeholder="Inherits secondary"></aegov-input>
+    </aegov-form-field>
+    <aegov-form-field variant="neutral-max">
+      <aegov-label>Neutral-max</aegov-label>
+      <aegov-input placeholder="Inherits neutral-max"></aegov-input>
+    </aegov-form-field>
+    <aegov-form-field variant="neutral-min">
+      <aegov-label>Neutral-min</aegov-label>
+      <aegov-input placeholder="Inherits neutral-min"></aegov-input>
+    </aegov-form-field>
+    <aegov-form-field variant="secondary">
+      <aegov-label>Override (form-field=secondary, child=primary)</aegov-label>
+      <aegov-input variant="primary" placeholder="Child wins → primary"></aegov-input>
+    </aegov-form-field>
+  </div>
+</div>
+
+<hr>
 <h2>Custom IDs and class hooks</h2>
 <p>Set <code>field-id</code> to override the auto-generated id on the wrapper <code>&lt;div&gt;</code>. Use <code>extra-class</code> to add Tailwind utility classes to the wrapper without polluting the host with arbitrary classes.</p>
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-form-field</span> <span class="hljs-attr">field-id</span>=<span class="hljs-string">&quot;dob-field&quot;</span> <span class="hljs-attr">extra-class</span>=<span class="hljs-string">&quot;mb-6&quot;</span>&gt;</span>
@@ -358,6 +402,13 @@
 <td>DOM <code>id</code> for the wrapper <code>&lt;div&gt;</code>. Auto-generated if omitted.</td>
 <td><code>string</code></td>
 <td><em>generated</em></td>
+</tr>
+<tr>
+<td><code>variant</code></td>
+<td><code>variant</code></td>
+<td>Colour family. Cascades to the first <code>aegov-label</code> and form-control descendant if they have no explicit <code>variant</code>.</td>
+<td><code>&#39;primary&#39; | &#39;secondary&#39; | &#39;neutral-max&#39; | &#39;neutral-min&#39;</code></td>
+<td><code>&#39;primary&#39;</code></td>
 </tr>
 <tr>
 <td><code>extraClass</code></td>

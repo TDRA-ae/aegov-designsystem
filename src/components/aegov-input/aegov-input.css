@@ -4,15 +4,21 @@
 
 .aegov-input {
   font-family: inherit;
-  @apply relative text-primary-900 w-full border-0 bg-transparent leading-6
+  @apply relative w-full border-0 bg-transparent leading-6
          focus:ring-0 motion-reduce:transition-none
          disabled:pointer-events-none disabled:cursor-not-allowed
          disabled:select-none disabled:opacity-40
          rounded-lg focus:outline-none;
   @apply placeholder:text-aeblack-500 bg-whitely-50
-         inset-ring-2 inset-ring-primary-400
+         inset-ring-2
          focus:inset-ring-primary-support-600;
 }
+
+/* Variant — idle ring + value text per colour family */
+.aegov-input.input-variant-primary       { @apply inset-ring-primary-400 text-primary-900 hover:text-primary-700; }
+.aegov-input.input-variant-secondary     { @apply inset-ring-secondary-400 text-secondary-900 hover:text-secondary-700; }
+.aegov-input.input-variant-neutral-max   { @apply inset-ring-aeblack-400 text-aeblack-900 hover:text-aeblack-800; }
+.aegov-input.input-variant-neutral-min   { @apply inset-ring-aeblack-200 text-aeblack-900 hover:text-aeblack-700; }
 
 /* Size variants */
 .input--xs {

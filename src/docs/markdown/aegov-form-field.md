@@ -254,6 +254,56 @@ Mark required fields on the inner control via `is-required="true"`. The `aegov-l
 
 ---
 
+## Variant
+
+The `variant` property cascades to the first form-control descendant (the `aegov-label`, and the inner input/select/checkbox/etc.) when that descendant has no explicit `variant` of its own. A child's explicit `variant` always wins. Use this to keep a label, input, and any associated controls all in one colour family without setting `variant` on each child.
+
+- `primary` — primary-* family (default)
+- `secondary` — secondary-* family
+- `neutral-max` — strong neutral (aeblack-800 family)
+- `neutral-min` — quiet neutral (aeblack-100 family)
+
+```html
+<!-- Cascade: form-field → label + input both render in secondary -->
+<aegov-form-field variant="secondary">
+  <aegov-label>Email address</aegov-label>
+  <aegov-input type="email" placeholder="name@domain.ae"></aegov-input>
+</aegov-form-field>
+
+<!-- Override: child variant wins over the cascade -->
+<aegov-form-field variant="secondary">
+  <aegov-label>Override</aegov-label>
+  <aegov-input variant="primary" placeholder="Stays primary"></aegov-input>
+</aegov-form-field>
+```
+
+<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <aegov-form-field variant="primary">
+      <aegov-label>Primary</aegov-label>
+      <aegov-input placeholder="Inherits primary"></aegov-input>
+    </aegov-form-field>
+    <aegov-form-field variant="secondary">
+      <aegov-label>Secondary</aegov-label>
+      <aegov-input placeholder="Inherits secondary"></aegov-input>
+    </aegov-form-field>
+    <aegov-form-field variant="neutral-max">
+      <aegov-label>Neutral-max</aegov-label>
+      <aegov-input placeholder="Inherits neutral-max"></aegov-input>
+    </aegov-form-field>
+    <aegov-form-field variant="neutral-min">
+      <aegov-label>Neutral-min</aegov-label>
+      <aegov-input placeholder="Inherits neutral-min"></aegov-input>
+    </aegov-form-field>
+    <aegov-form-field variant="secondary">
+      <aegov-label>Override (form-field=secondary, child=primary)</aegov-label>
+      <aegov-input variant="primary" placeholder="Child wins → primary"></aegov-input>
+    </aegov-form-field>
+  </div>
+</div>
+
+---
+
 ## Custom IDs and class hooks
 
 Set `field-id` to override the auto-generated id on the wrapper `<div>`. Use `extra-class` to add Tailwind utility classes to the wrapper without polluting the host with arbitrary classes.
@@ -379,6 +429,7 @@ A short application step using three form-fields back-to-back. Each field handle
 | Property      | Attribute     | Description                                                                | Type     | Default     |
 | ------------- | ------------- | -------------------------------------------------------------------------- | -------- | ----------- |
 | `fieldId`     | `field-id`    | DOM `id` for the wrapper `<div>`. Auto-generated if omitted.                | `string` | _generated_ |
+| `variant`     | `variant`     | Colour family. Cascades to the first `aegov-label` and form-control descendant if they have no explicit `variant`. | `'primary' \| 'secondary' \| 'neutral-max' \| 'neutral-min'` | `'primary'` |
 | `extraClass`  | `extra-class` | Additional CSS classes appended to the wrapper.                             | `string` | `undefined` |
 
 ### Slots

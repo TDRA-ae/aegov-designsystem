@@ -3,5 +3,11 @@
 }
 
 .aegov-label {
-  @apply block text-sm font-semibold text-aeblack-600 mb-1.5;
+  @apply block text-sm font-semibold mb-1.5;
 }
+
+/* Variant — label tone per colour family. Required-asterisk colour stays semantic aered-600. */
+.aegov-label.label-variant-primary       { @apply text-aeblack-600; }
+.aegov-label.label-variant-secondary     { @apply text-aeblack-600; }
+.aegov-label.label-variant-neutral-max   { @apply text-aeblack-800; }
+.aegov-label.label-variant-neutral-min   { @apply text-aeblack-500; }

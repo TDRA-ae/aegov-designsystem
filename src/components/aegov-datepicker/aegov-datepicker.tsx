@@ -1,7 +1,7 @@
 import { Component, Host, h, Prop, Element, State, Listen, Event, EventEmitter, Watch, Method } from '@stencil/core';
-import { DATEPICKER_MODES, INPUT_SIZES } from '../../utils/types';
+import { DATEPICKER_MODES, INPUT_SIZES, FORM_VARIANTS } from '../../utils/types';
 import type {
-  DatepickerMode, DatepickerPreset, DatepickerChangeDetail, DatepickerMonthChangeDetail, InputSize,
+  DatepickerMode, DatepickerPreset, DatepickerChangeDetail, DatepickerMonthChangeDetail, InputSize, FormVariant,
   AegovValidationDetail, AegovValidationResult, AegovValidationTrigger,
   AegovValidityState,
 } from '../../utils/types';
@@ -121,6 +121,9 @@ export class AegovDatepicker {
   @State() private _resolvedSize: InputSize = 'base';
   private _sizeWatcher: ResponsivePropWatcher | null = null;
 
+  /** Colour family. Drives idle ring/border, selected/checked fill, and value/accent text. Focus ring stays camel; error stays aered regardless. */
+  @Prop() variant: FormVariant = 'primary';
+
   /** Optional unique field ID. Used by aegov-form-field for label linking + error/hint id derivation. */
   @Prop({ mutable: true, reflect: true }) fieldId?: string;
 
@@ -183,6 +186,7 @@ export class AegovDatepicker {
 
   componentWillLoad() {
     warnIfInvalidEnumProp(this.appearance, DATEPICKER_MODES, 'single', ctx('appearance'));
+    warnIfInvalidEnumProp(this.variant, FORM_VARIANTS, 'primary', ctx('variant'));
     this._sizeWatcher = watchResponsiveProp(this.size, INPUT_SIZES, 'base', v => {
       this._resolvedSize = v as InputSize;
     });
@@ -212,6 +216,9 @@ export class AegovDatepicker {
 
   @Watch('appearance')
   onVariantChange(v: unknown) { warnIfInvalidEnumProp(v, DATEPICKER_MODES, 'single', ctx('appearance')); }
+
+  @Watch('variant')
+  onColourVariantChange(v: unknown) { warnIfInvalidEnumProp(v, FORM_VARIANTS, 'primary', ctx('variant')); }
 
   @Watch('size')
   onSizeChange() {
@@ -670,7 +677,8 @@ export class AegovDatepicker {
 
     // Main container
     const container = document.createElement('div');
-    container.className = 'aegov-datepicker';
+    const variant: FormVariant = (FORM_VARIANTS as readonly string[]).includes(this.variant) ? this.variant : 'primary';
+    container.className = `aegov-datepicker datepicker-variant-${variant}`;
     container.id = this.datepickerId;
     container.setAttribute('role', 'dialog');
     container.setAttribute('aria-modal', 'true');
@@ -1604,8 +1612,9 @@ export class AegovDatepicker {
       </div>
     ) : null;
 
+    const variant: FormVariant = (FORM_VARIANTS as readonly string[]).includes(this.variant) ? this.variant : 'primary';
     return (
-      <Host class={{ 'is-invalid': this.isInvalid }}>
+      <Host class={{ 'is-invalid': this.isInvalid, [`datepicker-variant-${variant}`]: true }}>
         <div
           class="datepicker__trigger"
           ref={(el) => (this.triggerRef = el)}

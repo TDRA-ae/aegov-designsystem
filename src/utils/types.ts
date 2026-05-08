@@ -159,6 +159,14 @@ export const BREADCRUMB_SEPARATORS = ['slash', 'chevron'] as const;
 export type BreadcrumbSeparator = typeof BREADCRUMB_SEPARATORS[number];
 
 /**
+ * Form-wide colour family. Applied uniformly across all form components.
+ * Drives idle border/ring, selected/checked fill, and value/accent text.
+ * Focus ring (`primary-support-600` camel) and error tokens (`aered-*`) stay constant — not variant-affected.
+ */
+export const FORM_VARIANTS = ['primary', 'secondary', 'neutral-max', 'neutral-min'] as const;
+export type FormVariant = typeof FORM_VARIANTS[number];
+
+/**
  * Separator orientation
  */
 export const SEPARATOR_ORIENTATIONS = ['horizontal', 'vertical'] as const;
