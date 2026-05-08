@@ -16,10 +16,10 @@ describe('aegov-datepicker', () => {
     expect(inputs.length).toBe(1);
   });
 
-  it('renders two inputs in range variant', async () => {
+  it('renders two inputs in range appearance', async () => {
     const page = await newSpecPage({
       components: [AegovDatepicker],
-      html: `<aegov-datepicker variant="range"></aegov-datepicker>`,
+      html: `<aegov-datepicker appearance="range"></aegov-datepicker>`,
     });
     const wrapper = page.root.querySelector('.datepicker__input-wrapper');
     expect(wrapper.className).toContain('datepicker__input-wrapper--range');
@@ -40,7 +40,7 @@ describe('aegov-datepicker', () => {
   it('uses labelRangeStart / labelRangeEnd as range placeholders', async () => {
     const page = await newSpecPage({
       components: [AegovDatepicker],
-      html: `<aegov-datepicker variant="range" label-range-start="From" label-range-end="To"></aegov-datepicker>`,
+      html: `<aegov-datepicker appearance="range" label-range-start="From" label-range-end="To"></aegov-datepicker>`,
     });
     const start = page.root.querySelector('.datepicker__input--range-start') as HTMLInputElement;
     const end = page.root.querySelector('.datepicker__input--range-end') as HTMLInputElement;
@@ -79,7 +79,7 @@ describe('aegov-datepicker', () => {
   it('renders pre-selected range value across both inputs', async () => {
     const page = await newSpecPage({
       components: [AegovDatepicker],
-      html: `<aegov-datepicker variant="range" value="2024-01-01 / 2024-01-10" format="YYYY-MM-DD"></aegov-datepicker>`,
+      html: `<aegov-datepicker appearance="range" value="2024-01-01 / 2024-01-10" format="YYYY-MM-DD"></aegov-datepicker>`,
     });
     const start = page.root.querySelector('.datepicker__input--range-start') as HTMLInputElement;
     const end = page.root.querySelector('.datepicker__input--range-end') as HTMLInputElement;
@@ -222,7 +222,7 @@ describe('aegov-datepicker', () => {
   it('getStartDate / getEndDate return formatted strings in range mode', async () => {
     const page = await newSpecPage({
       components: [AegovDatepicker],
-      html: `<aegov-datepicker variant="range" value="2024-01-01 / 2024-01-10"></aegov-datepicker>`,
+      html: `<aegov-datepicker appearance="range" value="2024-01-01 / 2024-01-10"></aegov-datepicker>`,
     });
     expect(await page.rootInstance.getStartDate()).toBe('2024-01-01');
     expect(await page.rootInstance.getEndDate()).toBe('2024-01-10');

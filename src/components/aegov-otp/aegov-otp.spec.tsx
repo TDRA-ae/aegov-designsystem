@@ -23,19 +23,19 @@ describe('aegov-otp', () => {
     expect(page.root.querySelectorAll('.otp__cell').length).toBe(6);
   });
 
-  it('individual variant has no dividers', async () => {
+  it('individual appearance has no dividers', async () => {
     const page = await newSpecPage({
       components: [AegovOtp],
-      html: `<aegov-otp variant="individual" length="4"></aegov-otp>`,
+      html: `<aegov-otp appearance="individual" length="4"></aegov-otp>`,
     });
     expect(page.root.querySelector('.otp__wrapper').className).toContain('otp__wrapper--individual');
     expect(page.root.querySelectorAll('.otp__divider').length).toBe(0);
   });
 
-  it('continuous variant adds dividers between cells', async () => {
+  it('continuous appearance adds dividers between cells', async () => {
     const page = await newSpecPage({
       components: [AegovOtp],
-      html: `<aegov-otp variant="continuous" length="4"></aegov-otp>`,
+      html: `<aegov-otp appearance="continuous" length="4"></aegov-otp>`,
     });
     const dividers = page.root.querySelectorAll('.otp__divider');
     expect(dividers.length).toBe(3); // n-1 dividers

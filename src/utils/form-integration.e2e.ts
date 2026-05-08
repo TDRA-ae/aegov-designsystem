@@ -125,7 +125,7 @@ describe('form integration (Layer 1)', () => {
   it('aegov-select listbox does NOT render hidden input (FormAssociated handles submission per §2.5)', async () => {
     const page = await newE2EPage();
     await page.setContent(`
-      <aegov-select variant="listbox" name="fruit">
+      <aegov-select appearance="listbox" name="fruit">
         <aegov-select-option value="a">Apple</aegov-select-option>
       </aegov-select>
     `);

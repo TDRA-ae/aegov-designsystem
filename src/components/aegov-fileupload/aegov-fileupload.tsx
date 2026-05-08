@@ -22,7 +22,7 @@ const ctx = (prop: string) => ({ component: TAG, prop });
   tag: 'aegov-fileupload',
   styleUrl: 'aegov-fileupload.css',
   scoped: false,
-  formAssociated: true, // §2.5: variant abstraction needs ElementInternals to participate in <form>
+  formAssociated: true, // §2.5: appearance abstraction needs ElementInternals to participate in <form>
 })
 export class AegovFileupload {
   @Element() el!: HTMLElement;
@@ -42,7 +42,7 @@ export class AegovFileupload {
    * Variant style: 'default' (styled input + button), 'button' (hidden input, label-as-button),
    * or 'dropzone' (drag-and-drop area).
    */
-  @Prop() variant: FileuploadVariant = 'default';
+  @Prop() appearance: FileuploadVariant = 'default';
 
   /**
    * Component size.
@@ -123,7 +123,7 @@ export class AegovFileupload {
   @Event() aegovFileuploadChange!: EventEmitter<{ files: File[] }>;
 
   /**
-   * Emitted when a file is removed from the list (button/dropzone variants).
+   * Emitted when a file is removed from the list (button/dropzone appearances).
    */
   @Event() aegovFileuploadRemove!: EventEmitter<{ file: File; remaining: File[] }>;
 
@@ -140,7 +140,7 @@ export class AegovFileupload {
   private hintId: string = '';
 
   componentWillLoad() {
-    warnIfInvalidEnumProp(this.variant, FILEUPLOAD_VARIANTS, 'default', ctx('variant'));
+    warnIfInvalidEnumProp(this.appearance, FILEUPLOAD_VARIANTS, 'default', ctx('appearance'));
     this._sizeWatcher = watchResponsiveProp(this.size, FILEUPLOAD_SIZES, 'base', v => {
       this._resolvedSize = v as FileuploadSize;
     });
@@ -175,8 +175,8 @@ export class AegovFileupload {
     this._sizeWatcher?.destroy();
   }
 
-  @Watch('variant')
-  onVariantChange(v: unknown) { warnIfInvalidEnumProp(v, FILEUPLOAD_VARIANTS, 'default', ctx('variant')); }
+  @Watch('appearance')
+  onVariantChange(v: unknown) { warnIfInvalidEnumProp(v, FILEUPLOAD_VARIANTS, 'default', ctx('appearance')); }
 
   @Watch('size')
   onSizeChange() {
@@ -315,7 +315,7 @@ export class AegovFileupload {
       validFiles.push(file);
     }
 
-    if (this.variant === 'default') {
+    if (this.appearance === 'default') {
       // Default replaces selection each time
       if (this.maxFiles && validFiles.length > this.maxFiles) {
         pendingFlag = { customError: true };
@@ -405,7 +405,7 @@ export class AegovFileupload {
 
   private getDefaultButtonText(): string {
     if (this.labelButton) return this.labelButton;
-    switch (this.variant) {
+    switch (this.appearance) {
       case 'default': return 'Browse';
       case 'button': return this.isMultiple ? 'Choose Files' : 'Choose File';
       case 'dropzone': return 'Browse Files';
@@ -631,10 +631,10 @@ export class AegovFileupload {
   }
 
   render() {
-    const variant: FileuploadVariant = (FILEUPLOAD_VARIANTS as readonly string[]).includes(this.variant) ? this.variant : 'default';
+    const appearance: FileuploadVariant = (FILEUPLOAD_VARIANTS as readonly string[]).includes(this.appearance) ? this.appearance : 'default';
     const classes = [
       'aegov-fileupload',
-      `fileupload--${variant}`,
+      `fileupload--${appearance}`,
       `fileupload--${this._resolvedSize}`,
       this.isDisabled ? 'fileupload--disabled' : '',
     ].filter(Boolean).join(' ');
@@ -664,9 +664,9 @@ export class AegovFileupload {
         <div class={classes}>
           {this.renderLabel()}
           {this.renderHint(showHint, hasHintSlot)}
-          {variant === 'default' && this.renderDefault(passThroughAttrs)}
-          {variant === 'button' && this.renderButton(passThroughAttrs)}
-          {variant === 'dropzone' && this.renderDropzone(passThroughAttrs)}
+          {appearance === 'default' && this.renderDefault(passThroughAttrs)}
+          {appearance === 'button' && this.renderButton(passThroughAttrs)}
+          {appearance === 'dropzone' && this.renderDropzone(passThroughAttrs)}
           {this.renderHelperText()}
           {errorRegion}
         </div>

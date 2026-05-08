@@ -444,7 +444,7 @@ describe('Cross-component accessibility (WCAG 2.1 AA)', () => {
     it('aegov-select aria-describedby includes error ID on listbox button', async () => {
       const page = await newSpecPage({
         components: [AegovSelect, AegovSelectOption],
-        html: `<aegov-select variant="listbox" field-id="s" is-invalid="true" error-message="err">
+        html: `<aegov-select appearance="listbox" field-id="s" is-invalid="true" error-message="err">
           <aegov-select-option value="a">A</aegov-select-option>
         </aegov-select>`,
       });

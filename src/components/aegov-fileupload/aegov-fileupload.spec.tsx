@@ -2,7 +2,7 @@ import { newSpecPage } from '@stencil/core/testing';
 import { AegovFileupload } from './aegov-fileupload';
 
 describe('aegov-fileupload', () => {
-  it('renders default variant with native file input', async () => {
+  it('renders default appearance with native file input', async () => {
     const page = await newSpecPage({
       components: [AegovFileupload],
       html: `<aegov-fileupload></aegov-fileupload>`,
@@ -15,10 +15,10 @@ describe('aegov-fileupload', () => {
     expect(input.className).toContain('fileupload__native-input');
   });
 
-  it('renders button variant with trigger button', async () => {
+  it('renders button appearance with trigger button', async () => {
     const page = await newSpecPage({
       components: [AegovFileupload],
-      html: `<aegov-fileupload variant="button"></aegov-fileupload>`,
+      html: `<aegov-fileupload appearance="button"></aegov-fileupload>`,
     });
     expect(page.root.querySelector('.aegov-fileupload').className).toContain('fileupload--button');
     expect(page.root.querySelector('button.fileupload__trigger-btn')).not.toBeNull();
@@ -26,10 +26,10 @@ describe('aegov-fileupload', () => {
     expect(input.className).toContain('fileupload__hidden-input');
   });
 
-  it('renders dropzone variant with drop area and button', async () => {
+  it('renders dropzone appearance with drop area and button', async () => {
     const page = await newSpecPage({
       components: [AegovFileupload],
-      html: `<aegov-fileupload variant="dropzone"></aegov-fileupload>`,
+      html: `<aegov-fileupload appearance="dropzone"></aegov-fileupload>`,
     });
     expect(page.root.querySelector('.aegov-fileupload').className).toContain('fileupload--dropzone');
     expect(page.root.querySelector('.fileupload__dropzone')).not.toBeNull();
@@ -123,13 +123,13 @@ describe('aegov-fileupload', () => {
   it('label-button overrides the trigger button text', async () => {
     const page = await newSpecPage({
       components: [AegovFileupload],
-      html: `<aegov-fileupload variant="button" label-button="Upload doc"></aegov-fileupload>`,
+      html: `<aegov-fileupload appearance="button" label-button="Upload doc"></aegov-fileupload>`,
     });
     const btn = page.root.querySelector('button.fileupload__trigger-btn');
     expect(btn.textContent).toContain('Upload doc');
   });
 
-  it('default variant shows "No file chosen" placeholder', async () => {
+  it('default appearance shows "No file chosen" placeholder', async () => {
     const page = await newSpecPage({
       components: [AegovFileupload],
       html: `<aegov-fileupload></aegov-fileupload>`,
@@ -151,7 +151,7 @@ describe('aegov-fileupload', () => {
     expect(input.getAttribute('form')).toBe('f1');
   });
 
-  it('emits aegovFileuploadChange when files are selected (default variant)', async () => {
+  it('emits aegovFileuploadChange when files are selected (default appearance)', async () => {
     const page = await newSpecPage({
       components: [AegovFileupload],
       html: `<aegov-fileupload></aegov-fileupload>`,

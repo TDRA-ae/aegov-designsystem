@@ -1,7 +1,7 @@
 import { newE2EPage } from '@stencil/core/testing';
 
 describe('aegov-fileupload (e2e)', () => {
-  it('renders default variant', async () => {
+  it('renders default appearance', async () => {
     const page = await newE2EPage();
     await page.setContent('<aegov-fileupload></aegov-fileupload>');
     const wrapper = await page.find('aegov-fileupload .aegov-fileupload');
@@ -11,16 +11,16 @@ describe('aegov-fileupload (e2e)', () => {
     expect(input).not.toBeNull();
   });
 
-  it('renders button variant with a trigger button', async () => {
+  it('renders button appearance with a trigger button', async () => {
     const page = await newE2EPage();
-    await page.setContent('<aegov-fileupload variant="button"></aegov-fileupload>');
+    await page.setContent('<aegov-fileupload appearance="button"></aegov-fileupload>');
     const btn = await page.find('aegov-fileupload button.fileupload__trigger-btn');
     expect(btn).not.toBeNull();
   });
 
-  it('renders dropzone variant with drop area', async () => {
+  it('renders dropzone appearance with drop area', async () => {
     const page = await newE2EPage();
-    await page.setContent('<aegov-fileupload variant="dropzone"></aegov-fileupload>');
+    await page.setContent('<aegov-fileupload appearance="dropzone"></aegov-fileupload>');
     const dz = await page.find('aegov-fileupload .fileupload__dropzone');
     expect(dz).not.toBeNull();
   });
@@ -82,9 +82,9 @@ describe('aegov-fileupload (e2e)', () => {
     expect(fired.length).toBeGreaterThanOrEqual(1);
   });
 
-  it('button variant renders selected file and a remove button works', async () => {
+  it('button appearance renders selected file and a remove button works', async () => {
     const page = await newE2EPage();
-    await page.setContent('<aegov-fileupload variant="button"></aegov-fileupload>');
+    await page.setContent('<aegov-fileupload appearance="button"></aegov-fileupload>');
     const host = await page.find('aegov-fileupload');
     const removeSpy = await host.spyOnEvent('aegovFileuploadRemove');
 
@@ -110,7 +110,7 @@ describe('aegov-fileupload (e2e)', () => {
 
   it('clear() method empties selected files', async () => {
     const page = await newE2EPage();
-    await page.setContent('<aegov-fileupload variant="button"></aegov-fileupload>');
+    await page.setContent('<aegov-fileupload appearance="button"></aegov-fileupload>');
     const host = await page.find('aegov-fileupload');
 
     await page.evaluate(() => {
