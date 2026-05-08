@@ -155,7 +155,7 @@
 
 .btn-neutral-max {
   &.btn-solid {
-    @apply bg-aeblack-800 hover:bg-aeblack-700 border-aeblack-800 hover:border-aeblack-700 focus-visible:bg-seablue-500 focus-visible:text-seablue-950 focus-visible:border-seablue-500 text-whitely-50;
+    @apply bg-aeblack-800 hover:bg-aeblack-700 border-aeblack-800 hover:border-aeblack-700 focus-visible:bg-seablue-500 focus-visible:text-seablue-950 focus-visible:border-seablue-500 text-aeblack-50;
   }
   &.btn-outline {
     @apply text-aeblack-800 hover:bg-aeblack-50 hover:text-aeblack-900 border-aeblack-800 hover:border-aeblack-900 focus-visible:border-aeblack-50 focus-visible:bg-seablue-500 focus-visible:text-seablue-950;
@@ -170,7 +170,7 @@
 
 .btn-neutral-min {
   &.btn-solid {
-    @apply bg-whitely-50! hover:bg-whitely-200! hover:text-aeblack-600 focus-visible:bg-seablue-500  focus-visible:text-seablue-50 focus-visible:border-seablue-500 text-aeblack-500 border-aeblack-100 hover:border-aeblack-200;
+    @apply bg-whitely-50! hover:bg-whitely-200! focus-visible:bg-seablue-500 focus-visible:text-seablue-50 focus-visible:border-seablue-500 text-aeblack-600 border-aeblack-100 hover:border-aeblack-200;
   }
   &.btn-outline {
     @apply text-aeblack-500 hover:bg-whitely-200 hover:text-aeblack-600 border-aeblack-100 hover:border-aeblack-200 focus-visible:border-whitely-500 focus-visible:bg-seablue-500 focus-visible:text-seablue-50;
@@ -185,7 +185,7 @@
 
 .btn-danger {
   &.btn-solid {
-    @apply bg-aered-600 hover:bg-aered-500 border-aered-700 hover:border-aered-500 focus-visible:bg-camel-500 focus-visible:text-camel-950 focus-visible:border-camel-500 text-aered-50;
+    @apply bg-aered-600 hover:bg-aered-500 border-aered-600 hover:border-aered-500 focus-visible:bg-camel-500 focus-visible:text-camel-950 focus-visible:border-camel-500 text-whitely-50;
   }
   &.btn-outline {
     @apply text-aered-700 hover:bg-aered-50 hover:text-aered-700 border-aered-700 hover:border-aered-700 focus-visible:border-camel-600 focus-visible:bg-camel-500 focus-visible:text-camel-950;

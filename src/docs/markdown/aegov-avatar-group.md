@@ -176,7 +176,7 @@ The `size` property is enforced on every child `aegov-avatar` — individual `si
 ### Project members card
 
 ```html
-<aegov-card border-style="light">
+<aegov-card appearance="light">
   <aegov-title level="4">Smart City roadmap</aegov-title>
   <aegov-text size="sm">Cross-ministry team delivering digital transformation initiatives.</aegov-text>
   <div style="margin-top:1rem;">
@@ -191,7 +191,7 @@ The `size` property is enforced on every child `aegov-avatar` — individual `si
 ```
 
 <div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <aegov-card border-style="light">
+  <aegov-card appearance="light">
     <aegov-title level="4">Smart City roadmap</aegov-title>
     <aegov-text size="sm">Cross-ministry team delivering digital transformation initiatives.</aegov-text>
     <div style="margin-top:1rem;">
