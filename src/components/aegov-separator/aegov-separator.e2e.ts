@@ -34,11 +34,18 @@ describe('aegov-separator e2e', () => {
     expect(hr.getAttribute('role')).toBe('separator');
   });
 
-  it('renders subtle appearance class', async () => {
+  it('renders appearance class', async () => {
     const page = await newE2EPage();
-    await page.setContent(`<aegov-separator appearance="subtle"></aegov-separator>`);
+    await page.setContent(`<aegov-separator appearance="light"></aegov-separator>`);
     const hr = await page.find('aegov-separator hr');
-    expect(hr.className).toContain('separator--subtle');
+    expect(hr.className).toContain('separator-appearance-light');
+  });
+
+  it('renders variant class', async () => {
+    const page = await newE2EPage();
+    await page.setContent(`<aegov-separator variant="secondary"></aegov-separator>`);
+    const hr = await page.find('aegov-separator hr');
+    expect(hr.className).toContain('separator-variant-secondary');
   });
 
   it('renders slot content as the inline label', async () => {

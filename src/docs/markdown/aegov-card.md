@@ -1,10 +1,10 @@
 # Card
 
-<p class="text-lg text-aeblack-500 mb-8">A flexible bordered container for grouping related content — service tiles, summary panels, dashboard sections, profile snippets, and list items. Cards support several border styles, two background tones, three sizes, and optional hover effects. Their content is fully slotted, so any combination of headings, body copy, badges, or actions can be composed inside.</p>
+<p class="text-lg text-aeblack-500 mb-8">A flexible bordered container for grouping related content — service tiles, summary panels, dashboard sections, profile snippets, and list items. Cards support three appearance treatments across four colour variants, three sizes, optional hover effects, and any Tailwind background utility for the surface colour. Their content is fully slotted, so any combination of headings, body copy, badges, or actions can be composed inside.</p>
 
 ## Introduction
 
-The `aegov-card` component renders a single bordered surface with a default content slot. It exposes a small but expressive set of properties — border thickness, border style, background tone, hover effect, size, and inner padding — so the same primitive can adapt to a service tile, a feature highlight, a media card, or a quiet supporting panel.
+The `aegov-card` component renders a single bordered surface with a default content slot. It exposes a small but expressive set of properties — border thickness, appearance, variant, hover effect, size, and inner padding — so the same primitive can adapt to a service tile, a feature highlight, a media card, or a quiet supporting panel. Surface colour is controlled with any Tailwind background utility on the host.
 
 ```html
 <aegov-card>
@@ -28,42 +28,148 @@ The `aegov-card` component renders a single bordered surface with a default cont
 
 ---
 
-## Border Style
+## Appearance
 
-The `border-style` property controls how the card outline is drawn. Four treatments are available, ranging from a quiet light outline to a bold gradient that activates on hover.
+The `appearance` property controls how the card outline is drawn. Three treatments are available, ranging from a quiet light outline to a bold gradient. Border colour resolves from the `variant` property (default `primary`).
 
-- `standard` — solid `primary-600` (default)
-- `light` — solid `primary-200`
-- `creative` — gradient from `primary-400` to `primary-800`
-- `highlight` — solid `aeblack-200` at rest, transitions to a `primary-300 → 700` gradient on hover
+- `solid` — solid full-strength border (default)
+- `light` — solid subtle low-contrast border
+- `creative` — gradient border via the background-clip trick
 
 ```html
-<aegov-card border-style="standard">Standard outline</aegov-card>
-<aegov-card border-style="light">Light outline</aegov-card>
-<aegov-card border-style="creative">Creative gradient</aegov-card>
-<aegov-card border-style="highlight" hover="standard">Highlight on hover</aegov-card>
+<aegov-card appearance="solid">Solid outline</aegov-card>
+<aegov-card appearance="light">Light outline</aegov-card>
+<aegov-card appearance="creative">Creative gradient</aegov-card>
 ```
 
 <div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-    <aegov-card border-style="standard">
-      <aegov-title level="4">Standard</aegov-title>
-      <aegov-text size="sm">Solid primary-600 outline. Use as the default surface.</aegov-text>
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+    <aegov-card appearance="solid">
+      <aegov-title level="4">Solid</aegov-title>
+      <aegov-text size="sm">Full-strength border. Use as the default surface.</aegov-text>
     </aegov-card>
-    <aegov-card border-style="light">
+    <aegov-card appearance="light">
       <aegov-title level="4">Light</aegov-title>
-      <aegov-text size="sm">Quieter primary-200 outline for grouped or supporting content.</aegov-text>
+      <aegov-text size="sm">Quieter outline for grouped or supporting content.</aegov-text>
     </aegov-card>
-    <aegov-card border-style="creative">
+    <aegov-card appearance="creative">
       <aegov-title level="4">Creative</aegov-title>
       <aegov-text size="sm">Gradient outline for featured or promotional cards.</aegov-text>
     </aegov-card>
-    <aegov-card border-style="highlight" hover="standard">
-      <aegov-title level="4">Highlight</aegov-title>
-      <aegov-text size="sm">Hover to activate the gradient outline.</aegov-text>
-    </aegov-card>
   </div>
 </div>
+
+---
+
+## Variant
+
+The `variant` property selects the colour family for the border, hover state, and glow shadow. It composes with `appearance` to resolve the actual token values.
+
+- `primary` — primary-* family (default)
+- `secondary` — secondary-* family
+- `neutral-max` — strong neutral (aeblack-800 family)
+- `neutral-min` — quiet neutral (aeblack-100 family)
+
+### Border colour matrix
+
+| Variant       | Solid               | Light               | Creative gradient                   |
+| ------------- | ------------------- | ------------------- | ----------------------------------- |
+| `primary`     | `primary-600`       | `primary-200`       | `primary-400 → primary-800`         |
+| `secondary`   | `secondary-600`     | `secondary-200`     | `secondary-400 → secondary-800`     |
+| `neutral-max` | `aeblack-800`       | `aeblack-400`       | `aeblack-400 → aeblack-800`         |
+| `neutral-min` | `aeblack-100`       | `aeblack-50`        | `aeblack-50 → aeblack-300`          |
+
+Each cell below renders the matching `variant` + `appearance` combination.
+
+<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+
+  <aegov-text size="sm" class="font-semibold mb-2 block">Primary</aegov-text>
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+    <aegov-card variant="primary" appearance="solid">
+      <aegov-title level="5">Primary · Solid</aegov-title>
+      <aegov-text size="sm">border <code>primary-600</code></aegov-text>
+    </aegov-card>
+    <aegov-card variant="primary" appearance="light">
+      <aegov-title level="5">Primary · Light</aegov-title>
+      <aegov-text size="sm">border <code>primary-200</code></aegov-text>
+    </aegov-card>
+    <aegov-card variant="primary" appearance="creative">
+      <aegov-title level="5">Primary · Creative</aegov-title>
+      <aegov-text size="sm">gradient <code>primary-400 → 800</code></aegov-text>
+    </aegov-card>
+  </div>
+
+  <aegov-text size="sm" class="font-semibold mb-2 block">Secondary</aegov-text>
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+    <aegov-card variant="secondary" appearance="solid">
+      <aegov-title level="5">Secondary · Solid</aegov-title>
+      <aegov-text size="sm">border <code>secondary-600</code></aegov-text>
+    </aegov-card>
+    <aegov-card variant="secondary" appearance="light">
+      <aegov-title level="5">Secondary · Light</aegov-title>
+      <aegov-text size="sm">border <code>secondary-200</code></aegov-text>
+    </aegov-card>
+    <aegov-card variant="secondary" appearance="creative">
+      <aegov-title level="5">Secondary · Creative</aegov-title>
+      <aegov-text size="sm">gradient <code>secondary-400 → 800</code></aegov-text>
+    </aegov-card>
+  </div>
+
+  <aegov-text size="sm" class="font-semibold mb-2 block">Neutral-max</aegov-text>
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+    <aegov-card variant="neutral-max" appearance="solid">
+      <aegov-title level="5">Neutral-max · Solid</aegov-title>
+      <aegov-text size="sm">border <code>aeblack-800</code></aegov-text>
+    </aegov-card>
+    <aegov-card variant="neutral-max" appearance="light">
+      <aegov-title level="5">Neutral-max · Light</aegov-title>
+      <aegov-text size="sm">border <code>aeblack-400</code></aegov-text>
+    </aegov-card>
+    <aegov-card variant="neutral-max" appearance="creative">
+      <aegov-title level="5">Neutral-max · Creative</aegov-title>
+      <aegov-text size="sm">gradient <code>aeblack-400 → 800</code></aegov-text>
+    </aegov-card>
+  </div>
+
+  <aegov-text size="sm" class="font-semibold mb-2 block">Neutral-min</aegov-text>
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+    <aegov-card variant="neutral-min" appearance="solid">
+      <aegov-title level="5">Neutral-min · Solid</aegov-title>
+      <aegov-text size="sm">border <code>aeblack-100</code></aegov-text>
+    </aegov-card>
+    <aegov-card variant="neutral-min" appearance="light">
+      <aegov-title level="5">Neutral-min · Light</aegov-title>
+      <aegov-text size="sm">border <code>aeblack-50</code></aegov-text>
+    </aegov-card>
+    <aegov-card variant="neutral-min" appearance="creative">
+      <aegov-title level="5">Neutral-min · Creative</aegov-title>
+      <aegov-text size="sm">gradient <code>aeblack-50 → 300</code></aegov-text>
+    </aegov-card>
+  </div>
+
+</div>
+
+```html
+<!-- Primary -->
+<aegov-card variant="primary" appearance="solid">Primary solid</aegov-card>
+<aegov-card variant="primary" appearance="light">Primary light</aegov-card>
+<aegov-card variant="primary" appearance="creative">Primary creative</aegov-card>
+
+<!-- Secondary -->
+<aegov-card variant="secondary" appearance="solid">Secondary solid</aegov-card>
+<aegov-card variant="secondary" appearance="light">Secondary light</aegov-card>
+<aegov-card variant="secondary" appearance="creative">Secondary creative</aegov-card>
+
+<!-- Neutral-max -->
+<aegov-card variant="neutral-max" appearance="solid">Neutral-max solid</aegov-card>
+<aegov-card variant="neutral-max" appearance="light">Neutral-max light</aegov-card>
+<aegov-card variant="neutral-max" appearance="creative">Neutral-max creative</aegov-card>
+
+<!-- Neutral-min -->
+<aegov-card variant="neutral-min" appearance="solid">Neutral-min solid</aegov-card>
+<aegov-card variant="neutral-min" appearance="light">Neutral-min light</aegov-card>
+<aegov-card variant="neutral-min" appearance="creative">Neutral-min creative</aegov-card>
+```
 
 ---
 
@@ -95,22 +201,32 @@ The `border-style` property controls how the card outline is drawn. Four treatme
 
 ## Background
 
-Two background tones are available. `white` (default) is the neutral surface for most contexts. `subtle` switches to `aeblack-50` and is useful for nested or supporting panels that should sit visually below their surroundings.
+Cards default to a white surface. Override with any Tailwind background utility on the host element — design-system token (`bg-aeblack-50`, `bg-aegreen-400`), arbitrary value (`bg-[oklch(50%_0.1_120)]`), or your own utility class. The `creative` appearance uses a nested-div geometry so the consumer-painted surface fills the card body while the variant gradient renders on the border ring.
 
 ```html
-<aegov-card bg="white">Default white surface</aegov-card>
-<aegov-card bg="subtle" border-style="light">Subtle aeblack-50 surface</aegov-card>
+<aegov-card>Default white surface</aegov-card>
+<aegov-card class="bg-aeblack-50" appearance="light">Subtle aeblack-50 surface</aegov-card>
+<aegov-card class="bg-aegreen-400">Custom aegreen-400 surface</aegov-card>
+<aegov-card class="bg-aegreen-400" appearance="creative" variant="primary">Creative gradient on aegreen surface</aegov-card>
 ```
 
 <div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-    <aegov-card bg="white">
-      <aegov-title level="4">White</aegov-title>
-      <aegov-text size="sm">The default surface for primary cards.</aegov-text>
+    <aegov-card>
+      <aegov-title level="4">Default</aegov-title>
+      <aegov-text size="sm">White surface — the default for primary cards.</aegov-text>
     </aegov-card>
-    <aegov-card bg="subtle" border-style="light">
+    <aegov-card class="bg-aeblack-50" appearance="light">
       <aegov-title level="4">Subtle</aegov-title>
-      <aegov-text size="sm">A quieter aeblack-50 surface for nested panels.</aegov-text>
+      <aegov-text size="sm">Class override <code>bg-aeblack-50</code> for nested panels.</aegov-text>
+    </aegov-card>
+    <aegov-card class="bg-aegreen-400">
+      <aegov-title level="4">Custom — aegreen-400</aegov-title>
+      <aegov-text size="sm">Any Tailwind <code>bg-*</code> utility paints the host.</aegov-text>
+    </aegov-card>
+    <aegov-card class="bg-aegreen-400" appearance="creative" variant="primary">
+      <aegov-title level="4">Creative on coloured surface</aegov-title>
+      <aegov-text size="sm">Inner div paints host colour, outer paints variant gradient as a ring.</aegov-text>
     </aegov-card>
   </div>
 </div>
@@ -214,7 +330,7 @@ Cards combine well with other components — titles, text, badges, avatars, and 
 ### Ministry service tile
 
 ```html
-<aegov-card hover="glow" border-style="highlight">
+<aegov-card hover="glow" appearance="creative">
   <aegov-badge variant="success" size="sm">Active</aegov-badge>
   <aegov-title level="3">Renew vehicle registration</aegov-title>
   <aegov-text size="sm">
@@ -226,7 +342,7 @@ Cards combine well with other components — titles, text, badges, avatars, and 
 ```
 
 <div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <aegov-card hover="glow" border-style="highlight">
+  <aegov-card hover="glow" appearance="creative">
     <div class="mb-3"><aegov-badge variant="success" size="sm">Active</aegov-badge></div>
     <aegov-title level="3">Renew vehicle registration</aegov-title>
     <aegov-text size="sm">Renew your vehicle registration through the Ministry of Interior portal — most renewals are processed within minutes.</aegov-text>
@@ -237,7 +353,7 @@ Cards combine well with other components — titles, text, badges, avatars, and 
 ### Profile card
 
 ```html
-<aegov-card border-style="light">
+<aegov-card appearance="light">
   <div style="display:flex;gap:1rem;align-items:center;">
     <aegov-avatar
       src="https://i.pravatar.cc/150?img=12"
@@ -255,7 +371,7 @@ Cards combine well with other components — titles, text, badges, avatars, and 
 ```
 
 <div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <aegov-card border-style="light">
+  <aegov-card appearance="light">
     <div style="display:flex;gap:1rem;align-items:center;">
       <aegov-avatar src="https://i.pravatar.cc/150?img=12" alt="Khalid Al Mansoori" size="lg" appearance="rounded" status="online"></aegov-avatar>
       <div>
@@ -270,15 +386,15 @@ Cards combine well with other components — titles, text, badges, avatars, and 
 
 ```html
 <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-  <aegov-card size="sm" bg="subtle" border-style="light">
+  <aegov-card size="sm" class="bg-aeblack-50" appearance="light">
     <aegov-text size="sm">Pending applications</aegov-text>
     <aegov-title level="2">128</aegov-title>
   </aegov-card>
-  <aegov-card size="sm" bg="subtle" border-style="light">
+  <aegov-card size="sm" class="bg-aeblack-50" appearance="light">
     <aegov-text size="sm">Approved this week</aegov-text>
     <aegov-title level="2">412</aegov-title>
   </aegov-card>
-  <aegov-card size="sm" bg="subtle" border-style="light">
+  <aegov-card size="sm" class="bg-aeblack-50" appearance="light">
     <aegov-text size="sm">Average response time</aegov-text>
     <aegov-title level="2">1.4h</aegov-title>
   </aegov-card>
@@ -287,15 +403,15 @@ Cards combine well with other components — titles, text, badges, avatars, and 
 
 <div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-    <aegov-card size="sm" bg="subtle" border-style="light">
+    <aegov-card size="sm" class="bg-aeblack-50" appearance="light">
       <aegov-text size="sm">Pending applications</aegov-text>
       <aegov-title level="2">128</aegov-title>
     </aegov-card>
-    <aegov-card size="sm" bg="subtle" border-style="light">
+    <aegov-card size="sm" class="bg-aeblack-50" appearance="light">
       <aegov-text size="sm">Approved this week</aegov-text>
       <aegov-title level="2">412</aegov-title>
     </aegov-card>
-    <aegov-card size="sm" bg="subtle" border-style="light">
+    <aegov-card size="sm" class="bg-aeblack-50" appearance="light">
       <aegov-text size="sm">Average response time</aegov-text>
       <aegov-title level="2">1.4h</aegov-title>
     </aegov-card>
@@ -310,7 +426,7 @@ The card itself is direction-agnostic — it is a simple bordered surface. Conte
 
 ```html
 <div dir="rtl">
-  <aegov-card border-style="highlight" hover="standard">
+  <aegov-card appearance="creative" hover="standard">
     <aegov-title level="3">تجديد بطاقة الهوية الإماراتية</aegov-title>
     <aegov-text size="sm">
       جدّد بطاقة هويتك الإماراتية إلكترونياً من خلال خدمات الهيئة الاتحادية للهوية والجنسية. تتم معالجة معظم الطلبات خلال دقائق.
@@ -321,7 +437,7 @@ The card itself is direction-agnostic — it is a simple bordered surface. Conte
 ```
 
 <div dir="rtl" class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <aegov-card border-style="highlight" hover="standard">
+  <aegov-card appearance="creative" hover="standard">
     <aegov-title level="3">تجديد بطاقة الهوية الإماراتية</aegov-title>
     <aegov-text size="sm">جدّد بطاقة هويتك الإماراتية إلكترونياً من خلال خدمات الهيئة الاتحادية للهوية والجنسية. تتم معالجة معظم الطلبات خلال دقائق.</aegov-text>
     <div class="mt-4"><aegov-button>ابدأ الطلب</aegov-button></div>
@@ -332,7 +448,7 @@ A profile card in RTL — note that the avatar naturally moves to the right and 
 
 ```html
 <div dir="rtl">
-  <aegov-card border-style="light">
+  <aegov-card appearance="light">
     <div style="display:flex;gap:1rem;align-items:center;">
       <aegov-avatar
         src="https://i.pravatar.cc/150?img=32"
@@ -351,7 +467,7 @@ A profile card in RTL — note that the avatar naturally moves to the right and 
 ```
 
 <div dir="rtl" class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <aegov-card border-style="light">
+  <aegov-card appearance="light">
     <div style="display:flex;gap:1rem;align-items:center;">
       <aegov-avatar src="https://i.pravatar.cc/150?img=32" alt="فاطمة الزعابي" size="lg" appearance="rounded" status="online"></aegov-avatar>
       <div>
@@ -373,8 +489,8 @@ A profile card in RTL — note that the avatar naturally moves to the right and 
 | `fieldId`     | `field-id`      | DOM `id` reflected onto the inner `<div>`. Auto-generated if omitted.        | `string`                                              | _generated_  |
 | `isPadding`   | `is-padding`    | Whether the card applies its standard inner padding (`1.5rem`).              | `boolean`                                             | `true`       |
 | `borderWidth` | `border-width`  | Border thickness in pixels.                                                  | `1 \| 2 \| 3`                                         | `2`          |
-| `borderStyle` | `border-style`  | Border treatment.                                                            | `'standard' \| 'light' \| 'creative' \| 'highlight'` | `'standard'` |
-| `bg`          | `bg`            | Background tone.                                                             | `'white' \| 'subtle'`                                 | `'white'`    |
+| `appearance`  | `appearance`    | Border treatment. Colour resolves from `variant`.                            | `'solid' \| 'light' \| 'creative'`                    | `'solid'`    |
+| `variant`     | `variant`       | Colour family for border, hover, and glow.                                   | `'primary' \| 'secondary' \| 'neutral-max' \| 'neutral-min'` | `'primary'`  |
 | `hover`       | `hover`         | Hover effect.                                                                | `'off' \| 'standard' \| 'glow'`                       | `'off'`      |
 | `size`        | `size`          | Size token controlling padding and corner radius.                            | `'sm' \| 'base' \| 'lg'`                              | `'base'`     |
 
@@ -413,10 +529,9 @@ The card does not emit any custom events.
 
 - If the entire card should be interactive (a clickable tile), wrap its contents in a single focusable element such as `<a>` or `<button>`. Do not attach a click handler directly to the card host without a focusable element inside.
 - When the card represents a labelled region, set `role="region"` and `aria-labelledby` (pointing at the heading inside) via host attributes.
-- Ensure inner content meets colour-contrast requirements against the chosen `bg` and `border-style`.
+- Ensure inner content meets colour-contrast requirements against the chosen background utility, `appearance`, and `variant`.
 - For media cards using `is-padding="false"`, supply alt text on every image and provide your own inner padding so headings and body copy do not touch the border.
 
 ### Notes
 
 - Card sizes scale down automatically at `md` (768px) and `xs` (480px) breakpoints so dense card grids remain legible on small screens.
-- The `highlight` border style is designed to be paired with `hover="standard"` — without a hover variant the gradient never activates.
