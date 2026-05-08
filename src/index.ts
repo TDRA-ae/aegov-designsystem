@@ -54,6 +54,7 @@ export type {
   DropdownTrigger,
   FileuploadSize,
   FileuploadVariant,
+  FormVariant,
   InputSize,
   InputType,
   LinkTarget,

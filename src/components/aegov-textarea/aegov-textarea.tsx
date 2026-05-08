@@ -1,7 +1,7 @@
 import { Component, Host, h, Prop, State, Event, EventEmitter, Element, Watch, Method } from '@stencil/core';
-import { TEXTAREA_SIZES, TEXTAREA_RESIZES } from '../../utils/types';
+import { TEXTAREA_SIZES, TEXTAREA_RESIZES, FORM_VARIANTS } from '../../utils/types';
 import type {
-  TextareaSize, TextareaResize,
+  TextareaSize, TextareaResize, FormVariant,
   AegovValidationDetail, AegovValidationResult, AegovValidationTrigger,
 } from '../../utils/types';
 import { getPassThroughAttributes } from '../../utils/attributes';
@@ -33,6 +33,9 @@ export class AegovTextarea {
   @Prop() size: string = 'base';
   @State() private _resolvedSize: TextareaSize = 'base';
   private _sizeWatcher: ResponsivePropWatcher | null = null;
+
+  /** Colour family. Drives idle ring, value text, and accent hover. */
+  @Prop() variant: FormVariant = 'primary';
 
   /** Whether the textarea is disabled. */
   @Prop() isDisabled: boolean = false;
@@ -108,6 +111,7 @@ export class AegovTextarea {
     });
     this._resolvedSize = this._sizeWatcher.current as TextareaSize;
     warnIfInvalidEnumProp(this.resize, TEXTAREA_RESIZES, 'vertical', ctx('resize'));
+    warnIfInvalidEnumProp(this.variant, FORM_VARIANTS, 'primary', ctx('variant'));
     if (!this.fieldId) {
       this.fieldId = generateId('aegov-textarea');
     }
@@ -172,6 +176,9 @@ export class AegovTextarea {
   @Watch('resize')
   onResizeChange(v: unknown) { warnIfInvalidEnumProp(v, TEXTAREA_RESIZES, 'vertical', ctx('resize')); }
 
+  @Watch('variant')
+  onVariantChange(v: unknown) { warnIfInvalidEnumProp(v, FORM_VARIANTS, 'primary', ctx('variant')); }
+
   @Watch('value')
   watchValue(newVal: string) {
     this.charCount = (newVal || '').length;
@@ -204,6 +211,9 @@ export class AegovTextarea {
     };
 
     classes.push(sizeClasses[this._resolvedSize]);
+
+    const variant: FormVariant = (FORM_VARIANTS as readonly string[]).includes(this.variant) ? this.variant : 'primary';
+    classes.push(`textarea-variant-${variant}`);
 
     const resizeClasses: Record<TextareaResize, string> = {
       none: 'textarea--resize-none',

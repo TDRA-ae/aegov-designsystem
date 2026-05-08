@@ -418,4 +418,87 @@ export const DATEPICKER_PORTAL_STYLES = `
   white-space: nowrap;
   border: 0;
 }
+
+/* ─────────────────────────────────────────────────────────────────────
+   Variant overrides — colour family (primary/secondary/neutral-max/neutral-min)
+   Focus ring stays camel; error stays aered regardless of variant.
+   ───────────────────────────────────────────────────────────────────── */
+
+/* Secondary variant */
+.aegov-datepicker.datepicker-variant-secondary .datepicker__day--selected,
+.aegov-datepicker.datepicker-variant-secondary .datepicker__day--range-start,
+.aegov-datepicker.datepicker-variant-secondary .datepicker__day--range-end,
+.aegov-datepicker.datepicker-variant-secondary .datepicker__day--selected:hover,
+.aegov-datepicker.datepicker-variant-secondary .datepicker__day--range-start:hover,
+.aegov-datepicker.datepicker-variant-secondary .datepicker__day--range-end:hover {
+  background: var(--color-secondary-600, #0284c7);
+  color: #fff;
+}
+.aegov-datepicker.datepicker-variant-secondary .datepicker__day--today:not(.datepicker__day--selected):not(.datepicker__day--range-start):not(.datepicker__day--range-end) {
+  color: var(--color-secondary-600, #0284c7);
+  box-shadow: inset 0 0 0 1px var(--color-secondary-400, #38bdf8);
+}
+.aegov-datepicker.datepicker-variant-secondary .datepicker__day--in-range:not(.datepicker__day--range-start):not(.datepicker__day--range-end) {
+  background: var(--color-secondary-100, #e0f2fe);
+  color: var(--color-secondary-800, #075985);
+}
+.aegov-datepicker.datepicker-variant-secondary .datepicker__day--in-range:not(.datepicker__day--range-start):not(.datepicker__day--range-end):hover {
+  background: var(--color-secondary-200, #bae6fd);
+}
+.aegov-datepicker.datepicker-variant-secondary .datepicker__day:hover:not(.datepicker__day--selected):not(.datepicker__day--range-start):not(.datepicker__day--range-end):not(.datepicker__day--disabled):not(:disabled) {
+  background: var(--color-secondary-100, #e0f2fe);
+  color: var(--color-secondary-700, #0369a1);
+}
+
+/* Neutral-max variant */
+.aegov-datepicker.datepicker-variant-neutral-max .datepicker__day--selected,
+.aegov-datepicker.datepicker-variant-neutral-max .datepicker__day--range-start,
+.aegov-datepicker.datepicker-variant-neutral-max .datepicker__day--range-end,
+.aegov-datepicker.datepicker-variant-neutral-max .datepicker__day--selected:hover,
+.aegov-datepicker.datepicker-variant-neutral-max .datepicker__day--range-start:hover,
+.aegov-datepicker.datepicker-variant-neutral-max .datepicker__day--range-end:hover {
+  background: var(--color-aeblack-800, #1f2937);
+  color: #fff;
+}
+.aegov-datepicker.datepicker-variant-neutral-max .datepicker__day--today:not(.datepicker__day--selected):not(.datepicker__day--range-start):not(.datepicker__day--range-end) {
+  color: var(--color-aeblack-800, #1f2937);
+  box-shadow: inset 0 0 0 1px var(--color-aeblack-400, #9ca3af);
+}
+.aegov-datepicker.datepicker-variant-neutral-max .datepicker__day--in-range:not(.datepicker__day--range-start):not(.datepicker__day--range-end) {
+  background: var(--color-aeblack-100, #f3f4f6);
+  color: var(--color-aeblack-800, #1f2937);
+}
+.aegov-datepicker.datepicker-variant-neutral-max .datepicker__day--in-range:not(.datepicker__day--range-start):not(.datepicker__day--range-end):hover {
+  background: var(--color-aeblack-200, #e5e7eb);
+}
+.aegov-datepicker.datepicker-variant-neutral-max .datepicker__day:hover:not(.datepicker__day--selected):not(.datepicker__day--range-start):not(.datepicker__day--range-end):not(.datepicker__day--disabled):not(:disabled) {
+  background: var(--color-aeblack-100, #f3f4f6);
+  color: var(--color-aeblack-800, #1f2937);
+}
+
+/* Neutral-min variant — fill stays dark for legibility, accents lighter */
+.aegov-datepicker.datepicker-variant-neutral-min .datepicker__day--selected,
+.aegov-datepicker.datepicker-variant-neutral-min .datepicker__day--range-start,
+.aegov-datepicker.datepicker-variant-neutral-min .datepicker__day--range-end,
+.aegov-datepicker.datepicker-variant-neutral-min .datepicker__day--selected:hover,
+.aegov-datepicker.datepicker-variant-neutral-min .datepicker__day--range-start:hover,
+.aegov-datepicker.datepicker-variant-neutral-min .datepicker__day--range-end:hover {
+  background: var(--color-aeblack-800, #1f2937);
+  color: #fff;
+}
+.aegov-datepicker.datepicker-variant-neutral-min .datepicker__day--today:not(.datepicker__day--selected):not(.datepicker__day--range-start):not(.datepicker__day--range-end) {
+  color: var(--color-aeblack-800, #1f2937);
+  box-shadow: inset 0 0 0 1px var(--color-aeblack-200, #e5e7eb);
+}
+.aegov-datepicker.datepicker-variant-neutral-min .datepicker__day--in-range:not(.datepicker__day--range-start):not(.datepicker__day--range-end) {
+  background: var(--color-aeblack-50, #f9fafb);
+  color: var(--color-aeblack-900, #111827);
+}
+.aegov-datepicker.datepicker-variant-neutral-min .datepicker__day--in-range:not(.datepicker__day--range-start):not(.datepicker__day--range-end):hover {
+  background: var(--color-aeblack-100, #f3f4f6);
+}
+.aegov-datepicker.datepicker-variant-neutral-min .datepicker__day:hover:not(.datepicker__day--selected):not(.datepicker__day--range-start):not(.datepicker__day--range-end):not(.datepicker__day--disabled):not(:disabled) {
+  background: var(--color-aeblack-50, #f9fafb);
+  color: var(--color-aeblack-900, #111827);
+}
 `;

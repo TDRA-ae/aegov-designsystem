@@ -1,9 +1,10 @@
 import { Component, Host, h, Prop, State, Event, EventEmitter, Element, Watch, Method } from '@stencil/core';
-import { CHECKBOX_SIZES } from '../../utils/types';
+import { CHECKBOX_SIZES, FORM_VARIANTS } from '../../utils/types';
 import type {
-  CheckboxSize,
+  CheckboxSize, FormVariant,
   AegovValidationDetail, AegovValidationResult, AegovValidationTrigger,
 } from '../../utils/types';
+import { warnIfInvalidEnumProp } from '../../utils/prop-validator';
 import { getPassThroughAttributes } from '../../utils/attributes';
 import { generateId } from '../../utils/id-generator';
 import { watchResponsiveProp } from '../../utils/responsive-prop';
@@ -36,6 +37,9 @@ export class AegovCheckbox {
 
   /** The size of the checkbox. */
   @Prop() size: string = 'base';
+
+  /** Colour family. Drives rest border, checked bg/border. Focus ring stays camel; error stays aered. */
+  @Prop() variant: FormVariant = 'primary';
 
   @State() private _resolvedSize: CheckboxSize = 'base';
   private _sizeWatcher: ResponsivePropWatcher | null = null;
@@ -83,7 +87,11 @@ export class AegovCheckbox {
   private errorId: string = '';
   private hintId: string = '';
 
+  @Watch('variant')
+  onVariantChange(v: unknown) { warnIfInvalidEnumProp(v, FORM_VARIANTS, 'primary', { component: 'aegov-checkbox', prop: 'variant' }); }
+
   componentWillLoad() {
+    warnIfInvalidEnumProp(this.variant, FORM_VARIANTS, 'primary', { component: 'aegov-checkbox', prop: 'variant' });
     if (!this.fieldId) {
       this.fieldId = generateId('aegov-checkbox');
     }
@@ -185,7 +193,8 @@ export class AegovCheckbox {
     delete passThroughAttrs['aria-invalid'];
     delete passThroughAttrs['aria-describedby'];
 
-    const wrapperClasses = ['aegov-checkbox', `checkbox--${this._resolvedSize}`];
+    const variant: FormVariant = (FORM_VARIANTS as readonly string[]).includes(this.variant) ? this.variant : 'primary';
+    const wrapperClasses = ['aegov-checkbox', `checkbox--${this._resolvedSize}`, `checkbox-variant-${variant}`];
     if (this.extraClass) wrapperClasses.push(this.extraClass);
 
     const hasErrorSlot = !!this.el.querySelector('[slot="error"]');

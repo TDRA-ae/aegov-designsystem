@@ -125,6 +125,58 @@ The `size` property scales the trigger height to match aegov-input. Five tokens 
 
 ---
 
+## Variant
+
+The `variant` property selects the colour family for the trigger ring, the value text, and the selected option fill in the open list. The focus ring stays `primary-support-600` (camel) and the error border stays `aered-600` regardless of variant.
+
+- `primary` — primary-* family (default)
+- `secondary` — secondary-* family
+- `neutral-max` — strong neutral (aeblack-800 family)
+- `neutral-min` — quiet neutral (aeblack-100 family). Selected option fill stays `aeblack-800` for legibility.
+
+### Colour matrix
+
+| Variant       | Trigger ring     | Value text      | Selected option fill | Hover bg        |
+| ------------- | ---------------- | --------------- | -------------------- | --------------- |
+| `primary`     | `primary-400`    | `primary-900`   | `primary-600`        | `primary-50`    |
+| `secondary`   | `secondary-400`  | `secondary-900` | `secondary-600`      | `secondary-50`  |
+| `neutral-max` | `aeblack-400`    | `aeblack-900`   | `aeblack-800`        | `aeblack-50`    |
+| `neutral-min` | `aeblack-200`    | `aeblack-900`   | `aeblack-800`        | `aeblack-50`    |
+
+```html
+<aegov-select variant="primary" placeholder="Primary">…</aegov-select>
+<aegov-select variant="secondary" placeholder="Secondary">…</aegov-select>
+<aegov-select variant="neutral-max" placeholder="Neutral-max">…</aegov-select>
+<aegov-select variant="neutral-min" placeholder="Neutral-min">…</aegov-select>
+```
+
+<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <aegov-select variant="primary" placeholder="Primary">
+      <aegov-select-option value="ad">Abu Dhabi</aegov-select-option>
+      <aegov-select-option value="dxb">Dubai</aegov-select-option>
+      <aegov-select-option value="shj">Sharjah</aegov-select-option>
+    </aegov-select>
+    <aegov-select variant="secondary" placeholder="Secondary">
+      <aegov-select-option value="ad">Abu Dhabi</aegov-select-option>
+      <aegov-select-option value="dxb">Dubai</aegov-select-option>
+      <aegov-select-option value="shj">Sharjah</aegov-select-option>
+    </aegov-select>
+    <aegov-select variant="neutral-max" placeholder="Neutral-max">
+      <aegov-select-option value="ad">Abu Dhabi</aegov-select-option>
+      <aegov-select-option value="dxb">Dubai</aegov-select-option>
+      <aegov-select-option value="shj">Sharjah</aegov-select-option>
+    </aegov-select>
+    <aegov-select variant="neutral-min" placeholder="Neutral-min">
+      <aegov-select-option value="ad">Abu Dhabi</aegov-select-option>
+      <aegov-select-option value="dxb">Dubai</aegov-select-option>
+      <aegov-select-option value="shj">Sharjah</aegov-select-option>
+    </aegov-select>
+  </div>
+</div>
+
+---
+
 ## Searchable
 
 Set `is-searchable="true"` on a listbox-appearance select to add a search input above the option list. The list filters case-insensitively as the user types, and `empty-message` controls the text shown when nothing matches.
@@ -517,6 +569,7 @@ A grouped, multi-select example in RTL:
 | `fieldId`       | `field-id`       | DOM `id` for the trigger or native select. Auto-generated if omitted.                                  | `string`                   | _generated_          |
 | `appearance`       | `appearance`        | `default` renders a native `<select>`; `listbox` renders a custom dropdown panel.                       | `'default' \| 'listbox'`   | `'default'`          |
 | `size`          | `size`           | Size token (`xs`, `sm`, `base`, `lg`, `xl`) or a responsive string. Matches aegov-input height.        | `string`                   | `'base'`             |
+| `variant`       | `variant`        | Colour family for trigger ring, value text, and selected option fill. Focus ring stays camel; error stays aered. | `'primary' \| 'secondary' \| 'neutral-max' \| 'neutral-min'` | `'primary'` |
 | `isMultiple`    | `is-multiple`    | Whether multiple selection is enabled. Forces listbox behaviour.                                       | `boolean`                  | `false`              |
 | `isDisabled`    | `is-disabled`    | Disables the entire control.                                                                           | `boolean`                  | `false`              |
 | `isRequired`    | `is-required`    | Marks the underlying input as required for form validation.                                            | `boolean`                  | `false`              |

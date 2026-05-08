@@ -6,15 +6,25 @@
 .aegov-input-group {
   @apply flex items-stretch rounded-lg overflow-hidden
          bg-whitely-50
-         inset-ring-2 inset-ring-primary-400
+         inset-ring-2
          focus-within:inset-ring-primary-support-600
          motion-reduce:transition-none;
 }
 
+/* Variant — wrapper ring + child separator per colour family */
+.aegov-input-group.input-group-variant-primary       { @apply inset-ring-primary-400; }
+.aegov-input-group.input-group-variant-secondary     { @apply inset-ring-secondary-400; }
+.aegov-input-group.input-group-variant-neutral-max   { @apply inset-ring-aeblack-400; }
+.aegov-input-group.input-group-variant-neutral-min   { @apply inset-ring-aeblack-200; }
+
 /* Separator between adjacent children */
 .aegov-input-group > * + * {
-  @apply border-s-2 border-primary-400;
+  @apply border-s-2;
 }
+.aegov-input-group.input-group-variant-primary > * + *       { @apply border-primary-400; }
+.aegov-input-group.input-group-variant-secondary > * + *     { @apply border-secondary-400; }
+.aegov-input-group.input-group-variant-neutral-max > * + *   { @apply border-aeblack-400; }
+.aegov-input-group.input-group-variant-neutral-min > * + *   { @apply border-aeblack-200; }
 
 /* --------------------------------------------------------
    Child overrides: aegov-input inside group
@@ -48,9 +58,12 @@
    -------------------------------------------------------- */
 .aegov-input-group select {
   @apply border-0 bg-transparent outline-none cursor-pointer
-         focus:ring-0 focus:outline-none
-         text-primary-900;
+         focus:ring-0 focus:outline-none;
 }
+.aegov-input-group.input-group-variant-primary select       { @apply text-primary-900; }
+.aegov-input-group.input-group-variant-secondary select     { @apply text-secondary-900; }
+.aegov-input-group.input-group-variant-neutral-max select   { @apply text-aeblack-900; }
+.aegov-input-group.input-group-variant-neutral-min select   { @apply text-aeblack-900; }
 
 .input-group--xs select {
   @apply text-sm h-9 px-2.5;
@@ -77,9 +90,15 @@
    -------------------------------------------------------- */
 .input-group__addon {
   @apply inline-flex items-center whitespace-nowrap select-none
-         text-primary-900 bg-primary-200 border-t-2 border-b-2 border-primary-400
+         border-t-2 border-b-2
          focus-within:border-primary-support-600;
 }
+
+/* Variant — addon stripe colour per colour family */
+.aegov-input-group.input-group-variant-primary .input-group__addon       { @apply text-primary-900 bg-primary-200 border-primary-400; }
+.aegov-input-group.input-group-variant-secondary .input-group__addon     { @apply text-secondary-900 bg-secondary-200 border-secondary-400; }
+.aegov-input-group.input-group-variant-neutral-max .input-group__addon   { @apply text-aeblack-900 bg-aeblack-200 border-aeblack-400; }
+.aegov-input-group.input-group-variant-neutral-min .input-group__addon   { @apply text-aeblack-900 bg-aeblack-100 border-aeblack-200; }
 
 .input-group__addon.input-group__addon--prefix {
   @apply rounded-s-lg border-s-2;

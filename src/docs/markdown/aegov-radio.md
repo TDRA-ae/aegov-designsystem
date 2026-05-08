@@ -168,6 +168,66 @@ Five sizes are available: `xs`, `sm`, `base` (default), `lg`, and `xl`. The size
 
 ---
 
+## Variant
+
+The `variant` property selects the colour family for the rest border, the checked dot, and the hover halo. The focus ring stays `primary-support-600` (camel) and the error border stays `aered-600` regardless of variant. The inner dot glyph is always `whitely-50` for legibility on the filled control.
+
+- `primary` — primary-* family (default)
+- `secondary` — secondary-* family
+- `neutral-max` — strong neutral (aeblack-800 family)
+- `neutral-min` — quiet neutral (aeblack-100 family). Fill stays `aeblack-800` so checked controls remain legible.
+
+### Colour matrix
+
+| Variant       | Rest border      | Checked fill    | Checked border  | Hover halo      |
+| ------------- | ---------------- | --------------- | --------------- | --------------- |
+| `primary`     | `primary-200`    | `primary-600`   | `primary-600`   | `primary-700`   |
+| `secondary`   | `secondary-200`  | `secondary-600` | `secondary-600` | `secondary-700` |
+| `neutral-max` | `aeblack-300`    | `aeblack-800`   | `aeblack-800`   | `aeblack-800`   |
+| `neutral-min` | `aeblack-100`    | `aeblack-800`   | `aeblack-800`   | `aeblack-700`   |
+
+```html
+<aegov-radio variant="primary" name="r1" label="Primary"></aegov-radio>
+<aegov-radio variant="secondary" name="r2" label="Secondary"></aegov-radio>
+<aegov-radio variant="neutral-max" name="r3" label="Neutral-max"></aegov-radio>
+<aegov-radio variant="neutral-min" name="r4" label="Neutral-min"></aegov-radio>
+```
+
+<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+    <aegov-radio variant="primary" name="rv1" value="a" label="Primary — unchecked"></aegov-radio>
+    <aegov-radio variant="primary" name="rv1b" value="a" label="Primary — checked" is-checked="true"></aegov-radio>
+    <aegov-radio variant="secondary" name="rv2" value="a" label="Secondary — unchecked"></aegov-radio>
+    <aegov-radio variant="secondary" name="rv2b" value="a" label="Secondary — checked" is-checked="true"></aegov-radio>
+    <aegov-radio variant="neutral-max" name="rv3" value="a" label="Neutral-max — unchecked"></aegov-radio>
+    <aegov-radio variant="neutral-max" name="rv3b" value="a" label="Neutral-max — checked" is-checked="true"></aegov-radio>
+    <aegov-radio variant="neutral-min" name="rv4" value="a" label="Neutral-min — unchecked"></aegov-radio>
+    <aegov-radio variant="neutral-min" name="rv4b" value="a" label="Neutral-min — checked" is-checked="true"></aegov-radio>
+  </div>
+</div>
+
+### Group cascade
+
+Setting `variant` on `aegov-radio-group` cascades to every child radio that does not declare its own `variant`. A child's explicit `variant` always wins.
+
+```html
+<aegov-radio-group variant="secondary" name="agreement" label="Do you agree?">
+  <aegov-radio value="yes" label="Yes"></aegov-radio>
+  <aegov-radio value="no" label="No"></aegov-radio>
+  <aegov-radio value="unsure" label="Not sure" variant="neutral-max"></aegov-radio>
+</aegov-radio-group>
+```
+
+<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-radio-group variant="secondary" name="agreement-variant" label="Do you agree?">
+    <aegov-radio value="yes" label="Yes" is-checked="true"></aegov-radio>
+    <aegov-radio value="no" label="No"></aegov-radio>
+    <aegov-radio value="unsure" label="Not sure (override → neutral-max)" variant="neutral-max"></aegov-radio>
+  </aegov-radio-group>
+</div>
+
+---
+
 ## Orientation
 
 Set `orientation="horizontal"` on the group to lay items out in a row instead of the default vertical stack. Useful for short option lists like Yes/No or rating scales.
@@ -478,6 +538,7 @@ The radio uses CSS logical properties throughout. When the document or any ances
 | `value`       | `value`       | Native `value` attribute. Identifies the option in form data and group events.       | `string`  | `undefined` |
 | `isChecked`   | `is-checked`  | Whether the radio is selected. Mutable and reflected to the host.                    | `boolean` | `false`     |
 | `size`        | `size`        | Size token or responsive string. Propagated by `aegov-radio-group`.                  | `string`  | `'base'`    |
+| `variant`     | `variant`     | Colour family for rest border, checked fill, and hover halo. Inherits from group if unset. Focus ring stays camel; error stays aered. | `'primary' \| 'secondary' \| 'neutral-max' \| 'neutral-min'` | `'primary'` |
 | `isDisabled`  | `is-disabled` | Disable the individual radio. Reflected to the host.                                  | `boolean` | `false`     |
 | `isRequired`  | `is-required` | Mark the field as required (sets native `required` and `aria-required`).               | `boolean` | `false`     |
 | `label`       | `label`       | Label text. When set, renders a wrapping `<label>` element.                            | `string`  | `undefined` |
@@ -493,6 +554,7 @@ The radio uses CSS logical properties throughout. When the document or any ances
 | `orientation` | `orientation` | Stack direction for items.                                                      | `RadioGroupOrientation`    | `'vertical'` |
 | `label`       | `label`       | Optional `<legend>` text for the underlying `<fieldset>`.                         | `string`                   | `undefined`  |
 | `size`        | `size`        | Size token or responsive string. Propagated to all child radios.                  | `string`                   | `'base'`     |
+| `variant`     | `variant`     | Colour family. Cascades to children that have no explicit `variant`.              | `'primary' \| 'secondary' \| 'neutral-max' \| 'neutral-min'` | `'primary'` |
 | `isDisabled`  | `is-disabled` | Disable the entire group via native `<fieldset disabled>`.                        | `boolean`                  | `false`      |
 | `extraClass`  | `extra-class` | Additional CSS classes applied to the `<fieldset>`.                                | `string`                   | `undefined`  |
 

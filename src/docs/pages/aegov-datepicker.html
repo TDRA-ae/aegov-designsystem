@@ -301,6 +301,67 @@
 </div>
 
 <hr>
+<h2>Variant</h2>
+<p>The <code>variant</code> property selects the colour family for the trigger ring, the selected day fill in the calendar, the today indicator, and the hover bg. The focus ring stays <code>primary-support-600</code> (camel) and the error border stays <code>aered-600</code> regardless of variant. The selected-day glyph is always <code>whitely-50</code> for legibility on the filled cell.</p>
+<ul>
+<li><code>primary</code> — primary-* family (default)</li>
+<li><code>secondary</code> — secondary-* family</li>
+<li><code>neutral-max</code> — strong neutral (aeblack-800 family)</li>
+<li><code>neutral-min</code> — quiet neutral (aeblack-100 family). Selected day fill stays <code>aeblack-800</code>.</li>
+</ul>
+<h3>Colour matrix</h3>
+<table>
+<thead>
+<tr>
+<th>Variant</th>
+<th>Trigger ring</th>
+<th>Selected day fill</th>
+<th>Today indicator</th>
+<th>Hover bg</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>primary</code></td>
+<td><code>primary-400</code></td>
+<td><code>primary-600</code></td>
+<td><code>primary-700</code></td>
+<td><code>primary-50</code></td>
+</tr>
+<tr>
+<td><code>secondary</code></td>
+<td><code>secondary-400</code></td>
+<td><code>secondary-600</code></td>
+<td><code>secondary-700</code></td>
+<td><code>secondary-50</code></td>
+</tr>
+<tr>
+<td><code>neutral-max</code></td>
+<td><code>aeblack-400</code></td>
+<td><code>aeblack-800</code></td>
+<td><code>aeblack-800</code></td>
+<td><code>aeblack-50</code></td>
+</tr>
+<tr>
+<td><code>neutral-min</code></td>
+<td><code>aeblack-200</code></td>
+<td><code>aeblack-800</code></td>
+<td><code>aeblack-700</code></td>
+<td><code>aeblack-50</code></td>
+</tr>
+</tbody></table>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-datepicker</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;primary&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;Primary&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-datepicker</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-datepicker</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;secondary&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;Secondary&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-datepicker</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-datepicker</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;neutral-max&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;Neutral-max&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-datepicker</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-datepicker</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;neutral-min&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;Neutral-min&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-datepicker</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <aegov-datepicker variant="primary" placeholder="Primary"></aegov-datepicker>
+    <aegov-datepicker variant="secondary" placeholder="Secondary"></aegov-datepicker>
+    <aegov-datepicker variant="neutral-max" placeholder="Neutral-max"></aegov-datepicker>
+    <aegov-datepicker variant="neutral-min" placeholder="Neutral-min"></aegov-datepicker>
+  </div>
+</div>
+
+<hr>
 <h2>Custom trigger</h2>
 <p>The <code>trigger</code> slot replaces the default input with any focusable element — useful for icon-only buttons or other custom launchers. The component still owns open / close state and positioning; the slotted element only needs to be focusable.</p>
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-datepicker</span>&gt;</span>
@@ -586,6 +647,13 @@
 <td>Trigger size token. Accepts a single token or a responsive string.</td>
 <td><code>string</code></td>
 <td><code>&#39;base&#39;</code></td>
+</tr>
+<tr>
+<td><code>variant</code></td>
+<td><code>variant</code></td>
+<td>Colour family for trigger ring, selected day fill, today indicator, and hover bg. Focus ring stays camel; error stays aered.</td>
+<td><code>&#39;primary&#39; | &#39;secondary&#39; | &#39;neutral-max&#39; | &#39;neutral-min&#39;</code></td>
+<td><code>&#39;primary&#39;</code></td>
 </tr>
 </tbody></table>
 <h3>Slots</h3>

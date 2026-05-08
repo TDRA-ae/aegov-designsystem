@@ -98,6 +98,42 @@ When wrapped in `aegov-form-field`, the parent finds the first `aegov-label` and
 
 ---
 
+## Variant
+
+The `variant` property tones the label text colour to match the linked form control. The effect is intentionally subtle — most labels read as `aeblack-900` regardless — but pairing the label with an alternate variant keeps the visual family consistent between the caption and its control. The required-asterisk stays `aered-600` regardless of variant.
+
+- `primary` — primary-* family (default)
+- `secondary` — secondary-* family
+- `neutral-max` — strong neutral (aeblack-800 family)
+- `neutral-min` — quiet neutral (aeblack-100 family)
+
+### Colour matrix
+
+| Variant       | Label text      | Required asterisk |
+| ------------- | --------------- | ----------------- |
+| `primary`     | `aeblack-900`   | `aered-600`       |
+| `secondary`   | `aeblack-900`   | `aered-600`       |
+| `neutral-max` | `aeblack-900`   | `aered-600`       |
+| `neutral-min` | `aeblack-700`   | `aered-600`       |
+
+```html
+<aegov-label variant="primary">Primary</aegov-label>
+<aegov-label variant="secondary">Secondary</aegov-label>
+<aegov-label variant="neutral-max">Neutral-max</aegov-label>
+<aegov-label variant="neutral-min">Neutral-min</aegov-label>
+```
+
+<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+    <aegov-label variant="primary">Primary label</aegov-label>
+    <aegov-label variant="secondary">Secondary label</aegov-label>
+    <aegov-label variant="neutral-max">Neutral-max label</aegov-label>
+    <aegov-label variant="neutral-min">Neutral-min label</aegov-label>
+  </div>
+</div>
+
+---
+
 ## Custom Styling
 
 Use `extra-class` to apply additional Tailwind utilities — for example to emphasise a required-field label or to mute an optional one. The component does not introduce decorative markers; combine `extra-class` with the appropriate utility classes when needed.
@@ -153,6 +189,7 @@ The component renders a plain `<label>` element with no directional layout of it
 | ------------ | ------------- | ------------------------------------------------------------------------------------------- | -------- | ----------- |
 | `htmlFor`    | `for`         | ID of the linked form control. Set automatically when used inside `aegov-form-field`.       | `string` | `undefined` |
 | `fieldId`    | `field-id`    | DOM `id` for the label element. Auto-generated if omitted.                                  | `string` | _generated_ |
+| `variant`    | `variant`     | Colour family. Subtle effect — the required-asterisk stays `aered-600` regardless.          | `'primary' \| 'secondary' \| 'neutral-max' \| 'neutral-min'` | `'primary'` |
 | `extraClass` | `extra-class` | Additional CSS classes merged onto the inner `<label>` element.                             | `string` | `undefined` |
 
 ### Slots

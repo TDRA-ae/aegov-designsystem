@@ -1,9 +1,10 @@
 import { Component, Host, h, Prop, State, Watch, Event, EventEmitter, Element, Method } from '@stencil/core';
-import { RADIO_SIZES } from '../../utils/types';
+import { RADIO_SIZES, FORM_VARIANTS } from '../../utils/types';
 import type {
-  RadioSize,
+  RadioSize, FormVariant,
   AegovValidationDetail, AegovValidationResult, AegovValidationTrigger,
 } from '../../utils/types';
+import { warnIfInvalidEnumProp } from '../../utils/prop-validator';
 import { getPassThroughAttributes } from '../../utils/attributes';
 import { generateId } from '../../utils/id-generator';
 import { watchResponsiveProp } from '../../utils/responsive-prop';
@@ -36,6 +37,9 @@ export class AegovRadio {
 
   /** The size of the radio. */
   @Prop() size: string = 'base';
+
+  /** Colour family. Drives rest border, checked bg/border. Focus ring stays camel; error stays aered. */
+  @Prop() variant: FormVariant = 'primary';
 
   @State() private _resolvedSize: RadioSize = 'base';
   private _sizeWatcher: ResponsivePropWatcher | null = null;
@@ -77,7 +81,11 @@ export class AegovRadio {
   private errorId: string = '';
   private hintId: string = '';
 
+  @Watch('variant')
+  onVariantChange(v: unknown) { warnIfInvalidEnumProp(v, FORM_VARIANTS, 'primary', { component: 'aegov-radio', prop: 'variant' }); }
+
   componentWillLoad() {
+    warnIfInvalidEnumProp(this.variant, FORM_VARIANTS, 'primary', { component: 'aegov-radio', prop: 'variant' });
     if (!this.fieldId) {
       this.fieldId = generateId('aegov-radio');
     }
@@ -164,7 +172,8 @@ export class AegovRadio {
     delete passThroughAttrs['aria-invalid'];
     delete passThroughAttrs['aria-describedby'];
 
-    const wrapperClasses = ['aegov-radio', `radio--${this._resolvedSize}`];
+    const variant: FormVariant = (FORM_VARIANTS as readonly string[]).includes(this.variant) ? this.variant : 'primary';
+    const wrapperClasses = ['aegov-radio', `radio--${this._resolvedSize}`, `radio-variant-${variant}`];
     if (this.extraClass) wrapperClasses.push(this.extraClass);
 
     const hasErrorSlot = !!this.el.querySelector('[slot="error"]');

@@ -24,6 +24,7 @@
 | `size`         | `size`          | The size of the input field.                                                                                                                                                 | `string`                                                                                                                                 | `'base'`    |
 | `type`         | `type`          | The type of the input field.                                                                                                                                                 | `"date" \| "datetime-local" \| "email" \| "month" \| "number" \| "password" \| "search" \| "tel" \| "text" \| "time" \| "url" \| "week"` | `'text'`    |
 | `value`        | `value`         | The current value of the input.                                                                                                                                              | `string`                                                                                                                                 | `''`        |
+| `variant`      | `variant`       | Colour family. Drives idle ring, value text, and accent hover. Focus ring stays camel; error stays aered regardless.                                                         | `"neutral-max" \| "neutral-min" \| "primary" \| "secondary"`                                                                             | `'primary'` |
 
 
 ## Events

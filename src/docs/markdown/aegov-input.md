@@ -1,6 +1,6 @@
 # Input
 
-<p class="text-lg text-aeblack-500 mb-8">An Input is the primary single-line control for collecting short text values across UAE Government service forms — names, email addresses, Emirates ID numbers, reference codes, passwords, and more. The component wraps a native HTML input so every browser feature, autofill behaviour, and assistive-technology hook keeps working, while the design system layers consistent sizing, icons, password reveal, and copy-to-clipboard helpers on top.</p>
+<p class="text-lg text-aeblack-500 mb-8">An Input is the primary single-line control for collecting short text values across UAE Government service forms — names, email addresses, Emirates ID numbers, reference codes, passwords, and more. The component wraps a native HTML input so every browser feature, autofill behaviour, and assistive-technology hook keeps working, while the design system layers consistent sizing, four colour variants (`primary`, `secondary`, `neutral-max`, `neutral-min`), icons, password reveal, and copy-to-clipboard helpers on top.</p>
 
 ## Introduction
 
@@ -80,6 +80,42 @@ The `size` property scales the field height, padding, and font size. Five tokens
 
 <div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-input size="sm md:base xl:lg" placeholder="Resizes with the viewport"></aegov-input>
+</div>
+
+---
+
+## Variant
+
+The `variant` property selects the colour family for the idle ring/border, the value text, and the focus accent. The focus ring stays `primary-support-600` (camel) and the error border stays `aered-600` regardless of variant — both are accessibility constants.
+
+- `primary` — primary-* family (default)
+- `secondary` — secondary-* family
+- `neutral-max` — strong neutral (aeblack-800 family)
+- `neutral-min` — quiet neutral (aeblack-100 family)
+
+### Colour matrix
+
+| Variant       | Idle ring        | Value text      | Hover accent    | Subtle bg       |
+| ------------- | ---------------- | --------------- | --------------- | --------------- |
+| `primary`     | `primary-400`    | `primary-900`   | `primary-700`   | `primary-50`    |
+| `secondary`   | `secondary-400`  | `secondary-900` | `secondary-700` | `secondary-50`  |
+| `neutral-max` | `aeblack-400`    | `aeblack-900`   | `aeblack-800`   | `aeblack-50`    |
+| `neutral-min` | `aeblack-200`    | `aeblack-900`   | `aeblack-700`   | `aeblack-50`    |
+
+```html
+<aegov-input variant="primary" placeholder="Primary"></aegov-input>
+<aegov-input variant="secondary" placeholder="Secondary"></aegov-input>
+<aegov-input variant="neutral-max" placeholder="Neutral-max"></aegov-input>
+<aegov-input variant="neutral-min" placeholder="Neutral-min"></aegov-input>
+```
+
+<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <aegov-input variant="primary" placeholder="Primary"></aegov-input>
+    <aegov-input variant="secondary" placeholder="Secondary"></aegov-input>
+    <aegov-input variant="neutral-max" placeholder="Neutral-max"></aegov-input>
+    <aegov-input variant="neutral-min" placeholder="Neutral-min"></aegov-input>
+  </div>
 </div>
 
 ---
@@ -442,6 +478,7 @@ The input uses CSS logical properties throughout, so padding, slot icons, and th
 | `fieldId`      | `field-id`      | DOM `id` for the native `<input>`. Auto-generated as `aegov-input-{n}` if omitted.            | `string`   | _generated_ |
 | `type`         | `type`          | Native input type. See list below.                                                            | `InputType` | `'text'`   |
 | `size`         | `size`          | Field size token or responsive string.                                                        | `string`   | `'base'`    |
+| `variant`      | `variant`       | Colour family for idle ring, value text, and hover accent. Focus ring stays camel; error stays aered. | `'primary' \| 'secondary' \| 'neutral-max' \| 'neutral-min'` | `'primary'` |
 | `value`        | `value`         | Current value. Mutable — synced internally on `input` and `change`.                            | `string`   | `''`        |
 | `placeholder`  | `placeholder`   | Placeholder text shown when the field is empty.                                                | `string`   | `undefined` |
 | `name`         | `name`          | Native `name` attribute used during form submission.                                            | `string`   | `undefined` |
@@ -459,6 +496,7 @@ The input uses CSS logical properties throughout, so padding, slot icons, and th
 | Property      | Attribute       | Description                                                          | Type     | Default     |
 | ------------- | --------------- | -------------------------------------------------------------------- | -------- | ----------- |
 | `size`        | `size`          | Group size, propagated to child `aegov-input` and `aegov-button`.    | `string` | `'base'`    |
+| `variant`     | `variant`       | Colour family, cascades to inner `aegov-input` and shifts the addon stripe colour. | `'primary' \| 'secondary' \| 'neutral-max' \| 'neutral-min'` | `'primary'` |
 | `addonPrefix` | `addon-prefix`  | Static text shown before the input (logical start).                   | `string` | `undefined` |
 | `addonSuffix` | `addon-suffix`  | Static text shown after the input (logical end).                      | `string` | `undefined` |
 | `extraClass`  | `extra-class`   | Additional CSS classes on the wrapper.                                | `string` | `undefined` |

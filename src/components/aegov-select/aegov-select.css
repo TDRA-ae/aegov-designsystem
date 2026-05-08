@@ -18,13 +18,13 @@
 /* Base select styles - matches aegov-input */
 .aegov-select {
   font-family: inherit;
-  @apply relative text-primary-900 w-full border-0 bg-transparent leading-6
+  @apply relative w-full border-0 bg-transparent leading-6
          focus:ring-0 motion-reduce:transition-none
          disabled:pointer-events-none disabled:cursor-not-allowed
          disabled:select-none disabled:opacity-40
          rounded-lg focus:outline-none cursor-pointer;
   @apply placeholder:text-aeblack-500 bg-whitely-50
-         inset-ring-2 inset-ring-primary-400
+         inset-ring-2
          focus:inset-ring-primary-support-600;
   /* Custom arrow for native select */
   appearance: none;
@@ -33,6 +33,12 @@
   background-position: right 0.5rem center;
   background-size: 20px 20px;
 }
+
+/* Variant — idle ring + value text per colour family */
+.aegov-select.select-variant-primary       { @apply inset-ring-primary-400 text-primary-900 hover:text-primary-700; }
+.aegov-select.select-variant-secondary     { @apply inset-ring-secondary-400 text-secondary-900 hover:text-secondary-700; }
+.aegov-select.select-variant-neutral-max   { @apply inset-ring-aeblack-400 text-aeblack-900 hover:text-aeblack-800; }
+.aegov-select.select-variant-neutral-min   { @apply inset-ring-aeblack-200 text-aeblack-900 hover:text-aeblack-700; }
 
 :host-context([dir="rtl"]) .aegov-select,
 [dir="rtl"] .aegov-select {
@@ -232,10 +238,30 @@ button.aegov-select {
 /* Checkbox for multiple select */
 .select__checkbox {
   @apply flex items-center justify-center w-4 h-4 rounded
-         border-2 border-primary-400 flex-shrink-0
+         border-2 flex-shrink-0
          text-white;
 }
 
+/* Variant — checkbox border / fill + check icon per colour family.
+   Note: dropdown listbox is a sibling under document.body in some setups; we
+   address it via descendant rules from the host trigger when in same tree.
+   Selectors here match listbox rendered next to trigger inside the same host. */
+.aegov-select.select-variant-primary ~ .select__listbox .select__checkbox,
+.aegov-select.select-variant-primary .select__checkbox       { @apply border-primary-400; }
+.aegov-select.select-variant-secondary ~ .select__listbox .select__checkbox,
+.aegov-select.select-variant-secondary .select__checkbox     { @apply border-secondary-400; }
+.aegov-select.select-variant-neutral-max ~ .select__listbox .select__checkbox,
+.aegov-select.select-variant-neutral-max .select__checkbox   { @apply border-aeblack-400; }
+.aegov-select.select-variant-neutral-min ~ .select__listbox .select__checkbox,
+.aegov-select.select-variant-neutral-min .select__checkbox   { @apply border-aeblack-200; }
+
+/* Use :host scoping for listbox styling per variant via host class */
+:host(.select-variant-primary) .select__option--selected .select__checkbox       { @apply bg-primary-600 border-primary-600; }
+:host(.select-variant-secondary) .select__option--selected .select__checkbox     { @apply bg-secondary-600 border-secondary-600; }
+:host(.select-variant-neutral-max) .select__option--selected .select__checkbox   { @apply bg-aeblack-800 border-aeblack-800; }
+:host(.select-variant-neutral-min) .select__option--selected .select__checkbox   { @apply bg-aeblack-800 border-aeblack-800; }
+
+/* Default fallback */
 .select__option--selected .select__checkbox {
   @apply bg-primary-600 border-primary-600;
 }
@@ -244,6 +270,16 @@ button.aegov-select {
 .select__check-icon {
   @apply text-primary-600 flex-shrink-0 ms-auto;
 }
+
+:host(.select-variant-primary) .select__check-icon       { @apply text-primary-600; }
+:host(.select-variant-secondary) .select__check-icon     { @apply text-secondary-600; }
+:host(.select-variant-neutral-max) .select__check-icon   { @apply text-aeblack-800; }
+:host(.select-variant-neutral-min) .select__check-icon   { @apply text-aeblack-800; }
+
+:host(.select-variant-primary) .select__option--selected       { @apply text-primary-700; }
+:host(.select-variant-secondary) .select__option--selected     { @apply text-secondary-700; }
+:host(.select-variant-neutral-max) .select__option--selected   { @apply text-aeblack-900; }
+:host(.select-variant-neutral-min) .select__option--selected   { @apply text-aeblack-900; }
 
 .select__option-label {
   @apply truncate flex-1;

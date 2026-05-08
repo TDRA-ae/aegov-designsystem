@@ -1,7 +1,7 @@
 import { Component, Host, h, Prop, State, Event, EventEmitter, Element, Watch, Method } from '@stencil/core';
-import { RANGE_SIZES, RANGE_DISPLAYS, RANGE_ORIENTATIONS, RANGE_MODES } from '../../utils/types';
+import { RANGE_SIZES, RANGE_DISPLAYS, RANGE_ORIENTATIONS, RANGE_MODES, FORM_VARIANTS } from '../../utils/types';
 import type {
-  RangeSize, RangeDisplay, RangeOrientation, RangeMode,
+  RangeSize, RangeDisplay, RangeOrientation, RangeMode, FormVariant,
   AegovValidationDetail, AegovValidationResult, AegovValidationTrigger,
 } from '../../utils/types';
 import { getPassThroughAttributes } from '../../utils/attributes';
@@ -67,6 +67,9 @@ export class AegovRange {
   /** Single thumb or dual thumb (range selection). */
   @Prop() mode: RangeMode = 'single';
 
+  /** Colour family. Drives idle ring/border, selected/checked fill, and value/accent text. Focus ring stays camel; error stays aered regardless. */
+  @Prop() variant: FormVariant = 'primary';
+
   /** Whether the range is disabled. */
   @Prop({ reflect: true }) isDisabled: boolean = false;
 
@@ -115,6 +118,7 @@ export class AegovRange {
     warnIfInvalidEnumProp(this.display, RANGE_DISPLAYS, 'none', ctx('display'));
     warnIfInvalidEnumProp(this.orientation, RANGE_ORIENTATIONS, 'horizontal', ctx('orientation'));
     warnIfInvalidEnumProp(this.mode, RANGE_MODES, 'single', ctx('mode'));
+    warnIfInvalidEnumProp(this.variant, FORM_VARIANTS, 'primary', ctx('variant'));
     if (!this.fieldId) {
       this.fieldId = generateId('aegov-range');
     }
@@ -196,6 +200,9 @@ export class AegovRange {
 
   @Watch('mode')
   onModeChange(v: unknown) { warnIfInvalidEnumProp(v, RANGE_MODES, 'single', ctx('mode')); }
+
+  @Watch('variant')
+  onVariantChange(v: unknown) { warnIfInvalidEnumProp(v, FORM_VARIANTS, 'primary', ctx('variant')); }
 
   private static readonly PASS_THROUGH_ATTRS = new Set([
     'tabindex', 'autofocus', 'title', 'form',
@@ -455,6 +462,7 @@ export class AegovRange {
     const display: RangeDisplay = (RANGE_DISPLAYS as readonly string[]).includes(this.display) ? this.display : 'none';
     const orientation: RangeOrientation = (RANGE_ORIENTATIONS as readonly string[]).includes(this.orientation) ? this.orientation : 'horizontal';
     const mode: RangeMode = (RANGE_MODES as readonly string[]).includes(this.mode) ? this.mode : 'single';
+    const variant: FormVariant = (FORM_VARIANTS as readonly string[]).includes(this.variant) ? this.variant : 'primary';
     const isRange = mode === 'range';
     const percent = this.getPercent(this.value);
     const percentLow = isRange ? this.getPercent(this.valueLow) : 0;
@@ -480,6 +488,7 @@ export class AegovRange {
       'aegov-range',
       `range--${size}`,
       `range--${orientation}`,
+      `range-variant-${variant}`,
       displayClass,
       this.isDisabled ? 'aegov-range--disabled' : '',
       this.extraClass || '',
