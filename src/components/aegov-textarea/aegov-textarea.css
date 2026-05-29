@@ -11,7 +11,7 @@
          rounded-lg focus:outline-none;
   @apply placeholder:text-aeblack-500 bg-whitely-50
          inset-ring-2
-         focus:inset-ring-primary-support-600;
+         focus:inset-ring-primary-support-500;
 }
 
 /* Variant — idle ring + value text per colour family */
@@ -19,6 +19,16 @@
 .aegov-textarea.textarea-variant-secondary     { @apply inset-ring-secondary-400 text-secondary-900 hover:text-secondary-700; }
 .aegov-textarea.textarea-variant-neutral-max   { @apply inset-ring-aeblack-400 text-aeblack-900 hover:text-aeblack-800; }
 .aegov-textarea.textarea-variant-neutral-min   { @apply inset-ring-aeblack-200 text-aeblack-900 hover:text-aeblack-700; }
+
+/* Focus ring — overrides variant idle ring. Per-variant selector beats variant specificity. */
+.aegov-textarea.textarea-variant-primary:focus {
+  @apply inset-ring-primary-support-500 bg-primary-support-50/10 inset-shadow-sm inset-shadow-primary-support-500/80;
+}
+.aegov-textarea.textarea-variant-secondary:focus {
+  @apply inset-ring-secondary-support-500 bg-secondary-support-50/10 inset-shadow-sm inset-shadow-secondary-support-500/80;
+}
+.aegov-textarea.textarea-variant-neutral-max:focus,
+.aegov-textarea.textarea-variant-neutral-min:focus { @apply inset-ring-seablue-500 inset-shadow-sm inset-shadow-seablue-500/80; }
 
 /* Size variants (font size only; height controlled by rows) */
 .textarea--xs {
@@ -101,7 +111,7 @@
 }
 
 :host(.is-invalid) .aegov-textarea:focus {
-  @apply inset-ring-aered-700;
+  @apply inset-ring-aered-500;
 }
 
 .aegov-textarea__error {

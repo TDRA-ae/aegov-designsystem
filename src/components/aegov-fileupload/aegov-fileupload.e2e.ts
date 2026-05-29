@@ -14,7 +14,7 @@ describe('aegov-fileupload (e2e)', () => {
   it('renders button appearance with a trigger button', async () => {
     const page = await newE2EPage();
     await page.setContent('<aegov-fileupload appearance="button"></aegov-fileupload>');
-    const btn = await page.find('aegov-fileupload button.fileupload__trigger-btn');
+    const btn = await page.find('aegov-fileupload aegov-button.fileupload__trigger-btn');
     expect(btn).not.toBeNull();
   });
 

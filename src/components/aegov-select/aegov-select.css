@@ -25,7 +25,7 @@
          rounded-lg focus:outline-none cursor-pointer;
   @apply placeholder:text-aeblack-500 bg-whitely-50
          inset-ring-2
-         focus:inset-ring-primary-support-600;
+         focus:inset-ring-primary-support-500;
   /* Custom arrow for native select */
   appearance: none;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%234b4f58' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
@@ -39,6 +39,16 @@
 .aegov-select.select-variant-secondary     { @apply inset-ring-secondary-400 text-secondary-900 hover:text-secondary-700; }
 .aegov-select.select-variant-neutral-max   { @apply inset-ring-aeblack-400 text-aeblack-900 hover:text-aeblack-800; }
 .aegov-select.select-variant-neutral-min   { @apply inset-ring-aeblack-200 text-aeblack-900 hover:text-aeblack-700; }
+
+/* Focus ring — overrides variant idle ring. Per-variant selector beats variant specificity. */
+.aegov-select.select-variant-primary:focus{
+  @apply inset-ring-primary-support-500 bg-primary-support-50/10 inset-shadow-sm inset-shadow-primary-support-500/80;
+}
+.aegov-select.select-variant-secondary:focus{
+  @apply inset-ring-secondary-support-500 bg-secondary-support-50/10 inset-shadow-sm inset-shadow-secondary-support-500/80;
+}
+.aegov-select.select-variant-neutral-max:focus,
+.aegov-select.select-variant-neutral-min:focus { @apply inset-ring-seablue-500 inset-shadow-sm inset-shadow-seablue-500/80; }
 
 :host-context([dir="rtl"]) .aegov-select,
 [dir="rtl"] .aegov-select {
@@ -82,7 +92,7 @@ button.aegov-select {
 }
 
 .select--open {
-  @apply inset-ring-primary-support-600;
+  @apply inset-ring-primary-support-500;
 }
 
 .select--disabled {

@@ -222,19 +222,36 @@
   pointer-events: none;
 }
 
-.range__input:focus-visible ~ .range__thumb,
-.range__input:focus-visible ~ .range__thumb--single {
-  @apply outline-2 outline-offset-2 outline-primary-support-600;
-}
+/* ========================================
+   Focus-visible state — fill color shift + thumb outline (variant-driven)
+   DOM order is track → thumb → input, so `~` doesn't reach back; use `:has()`.
+   ======================================== */
 
-/* Focus ring for dual mode — uses focus-within on thumb class */
-.range__input--low:focus-visible ~ .range__thumb--low {
-  @apply outline-2 outline-offset-2 outline-primary-support-600;
-}
+/* Fill shifts when any input inside the wrapper receives :focus-visible. */
+.aegov-range.range-variant-primary .range__track-wrapper:has(.range__input:focus-visible) .range__fill     { @apply bg-primary-support-500; }
+.aegov-range.range-variant-secondary .range__track-wrapper:has(.range__input:focus-visible) .range__fill   { @apply bg-secondary-support-500; }
+.aegov-range.range-variant-neutral-max .range__track-wrapper:has(.range__input:focus-visible) .range__fill,
+.aegov-range.range-variant-neutral-min .range__track-wrapper:has(.range__input:focus-visible) .range__fill { @apply bg-seablue-500; }
 
-.range__input--high:focus-visible ~ .range__thumb--high {
-  @apply outline-2 outline-offset-2 outline-primary-support-600;
-}
+/* Single thumb outline — wrapper contains only one input, paired automatically. */
+.aegov-range.range-variant-primary .range__thumb--single:has(~ .range__input:focus-visible),
+.aegov-range.range-variant-primary .range__thumb:has(~ .range__input:focus-visible)         { @apply outline-2 outline-offset-2 outline-primary-support-500; }
+.aegov-range.range-variant-secondary .range__thumb--single:has(~ .range__input:focus-visible),
+.aegov-range.range-variant-secondary .range__thumb:has(~ .range__input:focus-visible)       { @apply outline-2 outline-offset-2 outline-secondary-support-500; }
+.aegov-range.range-variant-neutral-max .range__thumb--single:has(~ .range__input:focus-visible),
+.aegov-range.range-variant-neutral-max .range__thumb:has(~ .range__input:focus-visible),
+.aegov-range.range-variant-neutral-min .range__thumb--single:has(~ .range__input:focus-visible),
+.aegov-range.range-variant-neutral-min .range__thumb:has(~ .range__input:focus-visible)     { @apply outline-2 outline-offset-2 outline-seablue-500; }
+
+/* Dual-mode thumb outline — pair low thumb with low input, high with high. */
+.aegov-range.range-variant-primary .range__thumb--low:has(~ .range__input--low:focus-visible),
+.aegov-range.range-variant-primary .range__thumb--high:has(~ .range__input--high:focus-visible)         { @apply outline-2 outline-offset-2 outline-primary-support-500; }
+.aegov-range.range-variant-secondary .range__thumb--low:has(~ .range__input--low:focus-visible),
+.aegov-range.range-variant-secondary .range__thumb--high:has(~ .range__input--high:focus-visible)       { @apply outline-2 outline-offset-2 outline-secondary-support-500; }
+.aegov-range.range-variant-neutral-max .range__thumb--low:has(~ .range__input--low:focus-visible),
+.aegov-range.range-variant-neutral-max .range__thumb--high:has(~ .range__input--high:focus-visible),
+.aegov-range.range-variant-neutral-min .range__thumb--low:has(~ .range__input--low:focus-visible),
+.aegov-range.range-variant-neutral-min .range__thumb--high:has(~ .range__input--high:focus-visible)     { @apply outline-2 outline-offset-2 outline-seablue-500; }
 
 /* Vertical native input */
 .range--vertical .range__input {

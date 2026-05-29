@@ -29,23 +29,23 @@ The `variant` property selects the colour family. Use `primary` for the main pos
 | `primary`     | The single most important action on the screen (Submit, Pay, Continue).                  |
 | `secondary`   | Supporting actions on the same screen (Save draft, Add another).                         |
 | `danger`      | Irreversible or destructive actions (Delete, Cancel application).                        |
-| `neutralMin`  | Low-emphasis utility action that should fade into the background.                        |
-| `neutralMax`  | Low-emphasis action with slightly stronger visual weight than `neutralMin`.              |
+| `neutral-min`  | Low-emphasis utility action that should fade into the background.                        |
+| `neutral-max`  | Low-emphasis action with slightly stronger visual weight than `neutral-min`.              |
 
 ```html
 <aegov-button variant="primary">Primary</aegov-button>
 <aegov-button variant="secondary">Secondary</aegov-button>
 <aegov-button variant="danger">Danger</aegov-button>
-<aegov-button variant="neutralMin">Neutral min</aegov-button>
-<aegov-button variant="neutralMax">Neutral max</aegov-button>
+<aegov-button variant="neutral-min">Neutral min</aegov-button>
+<aegov-button variant="neutral-max">Neutral max</aegov-button>
 ```
 
 <div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov flex flex-wrap gap-3">
   <aegov-button variant="primary">Primary</aegov-button>
   <aegov-button variant="secondary">Secondary</aegov-button>
   <aegov-button variant="danger">Danger</aegov-button>
-  <aegov-button variant="neutralMin">Neutral min</aegov-button>
-  <aegov-button variant="neutralMax">Neutral max</aegov-button>
+  <aegov-button variant="neutral-min">Neutral min</aegov-button>
+  <aegov-button variant="neutral-max">Neutral max</aegov-button>
 </div>
 
 ---
@@ -82,7 +82,7 @@ Every combination of `variant` (5) × `appearance` (4) produces a distinct visua
 ```html
 <aegov-button variant="primary" appearance="solid">Save</aegov-button>
 <aegov-button variant="danger"  appearance="outline">Delete</aegov-button>
-<aegov-button variant="neutralMax" appearance="link">Learn more</aegov-button>
+<aegov-button variant="neutral-max" appearance="link">Learn more</aegov-button>
 ```
 
 <div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov overflow-x-auto">
@@ -107,16 +107,16 @@ Every combination of `variant` (5) × `appearance` (4) produces a distinct visua
     <aegov-button variant="danger" appearance="outline">Action</aegov-button>
     <aegov-button variant="danger" appearance="soft">Action</aegov-button>
     <aegov-button variant="danger" appearance="link">Action</aegov-button>
-    <div class="text-xs font-bold uppercase tracking-wide text-aeblack-500">neutralMin</div>
-    <aegov-button variant="neutralMin" appearance="solid">Action</aegov-button>
-    <aegov-button variant="neutralMin" appearance="outline">Action</aegov-button>
-    <aegov-button variant="neutralMin" appearance="soft">Action</aegov-button>
-    <aegov-button variant="neutralMin" appearance="link">Action</aegov-button>
-    <div class="text-xs font-bold uppercase tracking-wide text-aeblack-500">neutralMax</div>
-    <aegov-button variant="neutralMax" appearance="solid">Action</aegov-button>
-    <aegov-button variant="neutralMax" appearance="outline">Action</aegov-button>
-    <aegov-button variant="neutralMax" appearance="soft">Action</aegov-button>
-    <aegov-button variant="neutralMax" appearance="link">Action</aegov-button>
+    <div class="text-xs font-bold uppercase tracking-wide text-aeblack-500">neutral-min</div>
+    <aegov-button variant="neutral-min" appearance="solid">Action</aegov-button>
+    <aegov-button variant="neutral-min" appearance="outline">Action</aegov-button>
+    <aegov-button variant="neutral-min" appearance="soft">Action</aegov-button>
+    <aegov-button variant="neutral-min" appearance="link">Action</aegov-button>
+    <div class="text-xs font-bold uppercase tracking-wide text-aeblack-500">neutral-max</div>
+    <aegov-button variant="neutral-max" appearance="solid">Action</aegov-button>
+    <aegov-button variant="neutral-max" appearance="outline">Action</aegov-button>
+    <aegov-button variant="neutral-max" appearance="soft">Action</aegov-button>
+    <aegov-button variant="neutral-max" appearance="link">Action</aegov-button>
   </div>
 </div>
 
@@ -519,7 +519,7 @@ A button group in RTL — the first button retains its start radii on the right,
 | Property            | Attribute            | Description                                                                                              | Type                                                                       | Default     |
 | ------------------- | -------------------- | -------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------- | ----------- |
 | `fieldId`           | `field-id`           | DOM `id` for the inner `<button>` element. Auto-generated as `aegov-button-{n}` if omitted.               | `string`                                                                   | _generated_ |
-| `variant`           | `variant`            | Colour family.                                                                                           | `'primary' \| 'secondary' \| 'danger' \| 'neutralMin' \| 'neutralMax'`     | `'primary'` |
+| `variant`           | `variant`            | Colour family.                                                                                           | `'primary' \| 'secondary' \| 'danger' \| 'neutral-min' \| 'neutral-max'`     | `'primary'` |
 | `appearance`        | `appearance`         | Visual treatment.                                                                                        | `'solid' \| 'outline' \| 'soft' \| 'link'`                                 | `'solid'`   |
 | `size`              | `size`               | Size token. Accepts a single token or a Tailwind-style responsive string.                                | `'xs' \| 'sm' \| 'base' \| 'lg' \| 'xl'`                                   | `'base'`    |
 | `type`              | `type`               | Native `type` attribute on the inner `<button>`.                                                         | `'button' \| 'submit' \| 'reset'`                                          | `'button'`  |

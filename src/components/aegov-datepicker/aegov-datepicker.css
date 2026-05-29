@@ -14,8 +14,7 @@
 .datepicker__input-wrapper {
   @apply relative flex items-center gap-0 w-full bg-whitely-50
          rounded-lg transition-all duration-200 ease-in-out
-         inset-ring-2
-         focus-within:inset-ring-primary-support-600;
+         inset-ring-2;
 }
 
 /* Variant — idle ring + value text per colour family */
@@ -27,6 +26,15 @@
 :host(.datepicker-variant-neutral-max) .datepicker__input           { @apply text-aeblack-900; }
 :host(.datepicker-variant-neutral-min) .datepicker__input-wrapper   { @apply inset-ring-aeblack-200; }
 :host(.datepicker-variant-neutral-min) .datepicker__input           { @apply text-aeblack-900; }
+
+/* Focus ring — fires only when the input element receives focus. Per-variant selector
+   beats variant specificity. */
+:host(.datepicker-variant-primary) .datepicker__input-wrapper:has(.datepicker__input:focus),
+:host(.datepicker-variant-secondary) .datepicker__input-wrapper:has(.datepicker__input:focus),
+:host(.datepicker-variant-neutral-max) .datepicker__input-wrapper:has(.datepicker__input:focus),
+:host(.datepicker-variant-neutral-min) .datepicker__input-wrapper:has(.datepicker__input:focus) {
+  @apply inset-ring-primary-support-600;
+}
 
 .datepicker__input-wrapper--range {
   @apply gap-0;
