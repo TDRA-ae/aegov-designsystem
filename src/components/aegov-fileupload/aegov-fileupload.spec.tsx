@@ -21,7 +21,7 @@ describe('aegov-fileupload', () => {
       html: `<aegov-fileupload appearance="button"></aegov-fileupload>`,
     });
     expect(page.root.querySelector('.aegov-fileupload').className).toContain('fileupload--button');
-    expect(page.root.querySelector('button.fileupload__trigger-btn')).not.toBeNull();
+    expect(page.root.querySelector('aegov-button.fileupload__trigger-btn')).not.toBeNull();
     const input = page.root.querySelector('input[type="file"]') as HTMLInputElement;
     expect(input.className).toContain('fileupload__hidden-input');
   });
@@ -33,7 +33,7 @@ describe('aegov-fileupload', () => {
     });
     expect(page.root.querySelector('.aegov-fileupload').className).toContain('fileupload--dropzone');
     expect(page.root.querySelector('.fileupload__dropzone')).not.toBeNull();
-    expect(page.root.querySelector('button.fileupload__dropzone-btn')).not.toBeNull();
+    expect(page.root.querySelector('aegov-button.fileupload__dropzone-btn')).not.toBeNull();
   });
 
   it('auto-generates fieldId when not provided', async () => {
@@ -125,7 +125,7 @@ describe('aegov-fileupload', () => {
       components: [AegovFileupload],
       html: `<aegov-fileupload appearance="button" label-button="Upload doc"></aegov-fileupload>`,
     });
-    const btn = page.root.querySelector('button.fileupload__trigger-btn');
+    const btn = page.root.querySelector('aegov-button.fileupload__trigger-btn');
     expect(btn.textContent).toContain('Upload doc');
   });
 

@@ -577,15 +577,17 @@ export class AegovFileupload {
         tabIndex={-1}
         aria-hidden="true"
       />,
-      <button
-        type="button"
+      <aegov-button
         class="fileupload__trigger-btn"
+        variant={this.variant}
+        size={this._resolvedSize}
+        appearance="solid"
+        is-disabled={this.isDisabled}
         onClick={() => this.triggerFileDialog()}
-        disabled={this.isDisabled}
       >
         {this.renderBtnUploadIcon()}
         {this.getDefaultButtonText()}
-      </button>,
+      </aegov-button>,
       this.renderFileList(),
     ];
   }
@@ -623,14 +625,16 @@ export class AegovFileupload {
           <p class="fileupload__drop-text">
             Drag and drop {this.isMultiple ? 'files' : 'a file'} here, or
           </p>
-          <button
-            type="button"
+          <aegov-button
             class="fileupload__dropzone-btn"
+            variant={this.variant}
+            size={this._resolvedSize}
+            appearance="outline"
+            is-disabled={this.isDisabled}
             onClick={() => this.triggerFileDialog()}
-            disabled={this.isDisabled}
           >
             {this.getDefaultButtonText()}
-          </button>
+          </aegov-button>
         </div>
         {this.renderFileList()}
       </div>,
