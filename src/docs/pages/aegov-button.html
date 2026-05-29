@@ -56,24 +56,24 @@
 <td>Irreversible or destructive actions (Delete, Cancel application).</td>
 </tr>
 <tr>
-<td><code>neutralMin</code></td>
+<td><code>neutral-min</code></td>
 <td>Low-emphasis utility action that should fade into the background.</td>
 </tr>
 <tr>
-<td><code>neutralMax</code></td>
-<td>Low-emphasis action with slightly stronger visual weight than <code>neutralMin</code>.</td>
+<td><code>neutral-max</code></td>
+<td>Low-emphasis action with slightly stronger visual weight than <code>neutral-min</code>.</td>
 </tr>
 </tbody></table>
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;primary&quot;</span>&gt;</span>Primary<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;secondary&quot;</span>&gt;</span>Secondary<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;danger&quot;</span>&gt;</span>Danger<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;neutralMin&quot;</span>&gt;</span>Neutral min<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;neutralMax&quot;</span>&gt;</span>Neutral max<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov flex flex-wrap gap-3">
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;neutral-min&quot;</span>&gt;</span>Neutral min<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;neutral-max&quot;</span>&gt;</span>Neutral max<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov flex flex-wrap gap-3">
   <aegov-button variant="primary">Primary</aegov-button>
   <aegov-button variant="secondary">Secondary</aegov-button>
   <aegov-button variant="danger">Danger</aegov-button>
-  <aegov-button variant="neutralMin">Neutral min</aegov-button>
-  <aegov-button variant="neutralMax">Neutral max</aegov-button>
+  <aegov-button variant="neutral-min">Neutral min</aegov-button>
+  <aegov-button variant="neutral-max">Neutral max</aegov-button>
 </div>
 
 <hr>
@@ -117,7 +117,7 @@
 <p>Every combination of <code>variant</code> (5) × <code>appearance</code> (4) produces a distinct visual style. Use this matrix to pick the right button for each context — rows fix the semantic intent (variant), columns fix the visual weight (appearance).</p>
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;primary&quot;</span> <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;solid&quot;</span>&gt;</span>Save<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;danger&quot;</span>  <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;outline&quot;</span>&gt;</span>Delete<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;neutralMax&quot;</span> <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;link&quot;</span>&gt;</span>Learn more<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov overflow-x-auto">
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;neutral-max&quot;</span> <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;link&quot;</span>&gt;</span>Learn more<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov overflow-x-auto">
   <div class="grid gap-3 items-center" style="grid-template-columns: 9rem repeat(4, minmax(8rem, 1fr));">
     <div class="text-xs font-bold uppercase tracking-wide text-aeblack-500"></div>
     <div class="text-xs font-bold uppercase tracking-wide text-aeblack-500">solid</div>
@@ -139,16 +139,16 @@
     <aegov-button variant="danger" appearance="outline">Action</aegov-button>
     <aegov-button variant="danger" appearance="soft">Action</aegov-button>
     <aegov-button variant="danger" appearance="link">Action</aegov-button>
-    <div class="text-xs font-bold uppercase tracking-wide text-aeblack-500">neutralMin</div>
-    <aegov-button variant="neutralMin" appearance="solid">Action</aegov-button>
-    <aegov-button variant="neutralMin" appearance="outline">Action</aegov-button>
-    <aegov-button variant="neutralMin" appearance="soft">Action</aegov-button>
-    <aegov-button variant="neutralMin" appearance="link">Action</aegov-button>
-    <div class="text-xs font-bold uppercase tracking-wide text-aeblack-500">neutralMax</div>
-    <aegov-button variant="neutralMax" appearance="solid">Action</aegov-button>
-    <aegov-button variant="neutralMax" appearance="outline">Action</aegov-button>
-    <aegov-button variant="neutralMax" appearance="soft">Action</aegov-button>
-    <aegov-button variant="neutralMax" appearance="link">Action</aegov-button>
+    <div class="text-xs font-bold uppercase tracking-wide text-aeblack-500">neutral-min</div>
+    <aegov-button variant="neutral-min" appearance="solid">Action</aegov-button>
+    <aegov-button variant="neutral-min" appearance="outline">Action</aegov-button>
+    <aegov-button variant="neutral-min" appearance="soft">Action</aegov-button>
+    <aegov-button variant="neutral-min" appearance="link">Action</aegov-button>
+    <div class="text-xs font-bold uppercase tracking-wide text-aeblack-500">neutral-max</div>
+    <aegov-button variant="neutral-max" appearance="solid">Action</aegov-button>
+    <aegov-button variant="neutral-max" appearance="outline">Action</aegov-button>
+    <aegov-button variant="neutral-max" appearance="soft">Action</aegov-button>
+    <aegov-button variant="neutral-max" appearance="link">Action</aegov-button>
   </div>
 </div>
 
@@ -475,7 +475,7 @@
 <td><code>variant</code></td>
 <td><code>variant</code></td>
 <td>Colour family.</td>
-<td><code>&#39;primary&#39; | &#39;secondary&#39; | &#39;danger&#39; | &#39;neutralMin&#39; | &#39;neutralMax&#39;</code></td>
+<td><code>&#39;primary&#39; | &#39;secondary&#39; | &#39;danger&#39; | &#39;neutral-min&#39; | &#39;neutral-max&#39;</code></td>
 <td><code>&#39;primary&#39;</code></td>
 </tr>
 <tr>

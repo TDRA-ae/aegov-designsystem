@@ -4,14 +4,14 @@
 
 .aegov-input {
   font-family: inherit;
-  @apply relative w-full border-0 bg-transparent leading-6
+  @apply relative w-full border-0 bg-transparent leading-6 font-medium
          focus:ring-0 motion-reduce:transition-none
          disabled:pointer-events-none disabled:cursor-not-allowed
          disabled:select-none disabled:opacity-40
          rounded-lg focus:outline-none;
-  @apply placeholder:text-aeblack-500 bg-whitely-50
+  @apply placeholder:text-aeblack-400 bg-whitely-50
          inset-ring-2
-         focus:inset-ring-primary-support-600;
+         focus-visible:inset-ring-primary-support-500;
 }
 
 /* Variant — idle ring + value text per colour family */
@@ -19,6 +19,16 @@
 .aegov-input.input-variant-secondary     { @apply inset-ring-secondary-400 text-secondary-900 hover:text-secondary-700; }
 .aegov-input.input-variant-neutral-max   { @apply inset-ring-aeblack-400 text-aeblack-900 hover:text-aeblack-800; }
 .aegov-input.input-variant-neutral-min   { @apply inset-ring-aeblack-200 text-aeblack-900 hover:text-aeblack-700; }
+
+/* Focus ring — overrides variant idle ring. Specificity (0,2,1) beats variant (0,2,0). */
+.aegov-input.input-variant-primary:focus {
+  @apply inset-ring-primary-support-500 bg-primary-support-50/10 inset-shadow-sm inset-shadow-primary-support-500/80;
+}
+.aegov-input.input-variant-secondary:focus {
+  @apply inset-ring-secondary-support-500 bg-secondary-support-50/10 inset-shadow-sm inset-shadow-secondary-support-500/80;
+}
+.aegov-input.input-variant-neutral-max:focus,
+.aegov-input.input-variant-neutral-min:focus { @apply inset-ring-seablue-500 inset-shadow-sm inset-shadow-seablue-500/80; }
 
 /* Size variants */
 .input--xs {
@@ -199,7 +209,7 @@
 }
 
 :host(.is-invalid) .aegov-input:focus {
-  @apply inset-ring-aered-700;
+  @apply inset-ring-aered-500;
 }
 
 /* Inline error region — rendered below the control */

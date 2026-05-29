@@ -24,7 +24,7 @@ export type AspectRatioFit = typeof ASPECT_RATIO_FITS[number];
 /**
  * Button component variant types (color scheme)
  */
-export const BUTTON_VARIANTS = ['primary', 'secondary', 'danger', 'neutralMin', 'neutralMax'] as const;
+export const BUTTON_VARIANTS = ['primary', 'secondary', 'danger', 'neutral-min', 'neutral-max'] as const;
 export type ButtonVariant = typeof BUTTON_VARIANTS[number];
 
 /**

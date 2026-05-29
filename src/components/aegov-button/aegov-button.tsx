@@ -218,11 +218,11 @@ export class AegovButton {
     classes.push(...sizeClasses[size]);
 
     const variantClasses: Record<ButtonVariant, string[]> = {
-      primary: ['btn-primary', 'outline-primary-support-600'],
-      secondary: ['btn-secondary', 'outline-secondary-support-600'],
-      danger: ['btn-danger', 'outline-camel-600'],
-      neutralMin: ['btn-neutral-min', 'outline-seablue-600'],
-      neutralMax: ['btn-neutral-max', 'outline-seablue-600']
+      'primary': ['btn-primary', 'outline-primary-support-600'],
+      'secondary': ['btn-secondary', 'outline-secondary-support-600'],
+      'danger': ['btn-danger', 'outline-camel-600'],
+      'neutral-min': ['btn-neutral-min', 'outline-seablue-600'],
+      'neutral-max': ['btn-neutral-max', 'outline-seablue-600']
     };
 
     classes.push(...variantClasses[variant]);
