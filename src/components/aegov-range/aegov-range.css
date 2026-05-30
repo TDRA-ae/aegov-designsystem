@@ -50,7 +50,7 @@
    Track — the thin bar
    ======================================== */
 .range__track {
-  @apply relative w-full rounded-full bg-aeblack-200;
+  @apply relative w-full rounded-full bg-aeblack-100;
 }
 
 .range--vertical .range__track {
@@ -69,7 +69,7 @@
 .aegov-range.range-variant-primary .range__fill     { @apply bg-primary-600; }
 .aegov-range.range-variant-secondary .range__fill   { @apply bg-secondary-600; }
 .aegov-range.range-variant-neutral-max .range__fill { @apply bg-aeblack-800; }
-.aegov-range.range-variant-neutral-min .range__fill { @apply bg-aeblack-800; }
+.aegov-range.range-variant-neutral-min .range__fill { @apply bg-aeblack-300; }
 
 .range--horizontal .range__fill {
   top: 0;

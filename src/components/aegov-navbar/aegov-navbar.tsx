@@ -3,6 +3,7 @@ import { NAVBAR_SIZES } from '../../utils/types';
 import type { NavbarSize } from '../../utils/types';
 import { watchResponsiveProp } from '../../utils/responsive-prop';
 import type { ResponsivePropWatcher } from '../../utils/responsive-prop';
+import { isRtl as detectRtl } from '../../utils/rtl';
 
 /**
  * @component aegov-navbar
@@ -117,9 +118,7 @@ export class AegovNavbar {
     const currentIndex = focusables.indexOf(target);
     if (currentIndex === -1) return;
 
-    const isRtl =
-      this.el.closest('[dir="rtl"]') !== null ||
-      document.documentElement.dir === 'rtl';
+    const isRtl = detectRtl(this.el);
 
     let nextIndex = -1;
 

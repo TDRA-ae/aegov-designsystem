@@ -30,20 +30,24 @@
    ======================================== */
 .toggle__track {
   @apply relative inline-flex items-center shrink-0 rounded-full
-         bg-aeblack-200
+         bg-aeblack-100
          transition-colors duration-200 ease-in-out cursor-pointer;
 }
 
 /* Checked track — colour from variant */
-.aegov-toggle.toggle-variant-primary     .toggle__input:checked + .toggle__track { @apply bg-primary-600; }
-.aegov-toggle.toggle-variant-secondary   .toggle__input:checked + .toggle__track { @apply bg-secondary-600; }
+.aegov-toggle.toggle-variant-primary .toggle__input:checked + .toggle__track { @apply bg-primary-600; }
+.aegov-toggle.toggle-variant-secondary .toggle__input:checked + .toggle__track { @apply bg-secondary-600; }
 .aegov-toggle.toggle-variant-neutral-max .toggle__input:checked + .toggle__track { @apply bg-aeblack-800; }
-.aegov-toggle.toggle-variant-neutral-min .toggle__input:checked + .toggle__track { @apply bg-aeblack-800; }
+.aegov-toggle.toggle-variant-neutral-min .toggle__input:checked + .toggle__track { @apply bg-aeblack-300; }
 
 /* Focus ring */
 .toggle__input:focus-visible + .toggle__track {
-  @apply outline-2 outline-offset-2 outline-primary-support-600;
+  @apply outline-2 outline-offset-2;
 }
+.aegov-toggle.toggle-variant-primary .toggle__input:focus-visible + .toggle__track { @apply outline-primary-support-600; }
+.aegov-toggle.toggle-variant-secondary .toggle__input:focus-visible + .toggle__track { @apply outline-secondary-support-600; }
+.aegov-toggle.toggle-variant-neutral-max .toggle__input:focus-visible + .toggle__track { @apply outline-seablue-600; }
+.aegov-toggle.toggle-variant-neutral-min .toggle__input:focus-visible + .toggle__track { @apply outline-seablue-600; }
 
 /* Disabled */
 .toggle__input:disabled + .toggle__track {
@@ -86,10 +90,10 @@
   @apply text-aeblack-500;
 }
 
-.aegov-toggle.toggle-variant-primary     .toggle__input:checked + .toggle__track .toggle__icon-item svg,
-.aegov-toggle.toggle-variant-primary     .toggle__input:checked + .toggle__track .toggle__icon-item img { @apply text-primary-600; }
-.aegov-toggle.toggle-variant-secondary   .toggle__input:checked + .toggle__track .toggle__icon-item svg,
-.aegov-toggle.toggle-variant-secondary   .toggle__input:checked + .toggle__track .toggle__icon-item img { @apply text-secondary-600; }
+.aegov-toggle.toggle-variant-primary .toggle__input:checked + .toggle__track .toggle__icon-item svg,
+.aegov-toggle.toggle-variant-primary .toggle__input:checked + .toggle__track .toggle__icon-item img { @apply text-primary-600; }
+.aegov-toggle.toggle-variant-secondary .toggle__input:checked + .toggle__track .toggle__icon-item svg,
+.aegov-toggle.toggle-variant-secondary .toggle__input:checked + .toggle__track .toggle__icon-item img { @apply text-secondary-600; }
 .aegov-toggle.toggle-variant-neutral-max .toggle__input:checked + .toggle__track .toggle__icon-item svg,
 .aegov-toggle.toggle-variant-neutral-max .toggle__input:checked + .toggle__track .toggle__icon-item img { @apply text-aeblack-800; }
 .aegov-toggle.toggle-variant-neutral-min .toggle__input:checked + .toggle__track .toggle__icon-item svg,

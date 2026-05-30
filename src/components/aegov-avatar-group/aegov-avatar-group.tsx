@@ -4,6 +4,18 @@ import type { AvatarGroupVariant, AvatarSize } from '../../utils/types';
 import { warnIfInvalidEnumProp } from '../../utils/prop-validator';
 import { watchResponsiveProp } from '../../utils/responsive-prop';
 import type { ResponsivePropWatcher } from '../../utils/responsive-prop';
+import { isRtl } from '../../utils/rtl';
+
+const STRINGS = {
+  en: {
+    avatarGroup: 'Avatar group',
+    showMore: (n: number) => `Show ${n} more users`,
+  },
+  ar: {
+    avatarGroup: 'مجموعة الصور الرمزية',
+    showMore: (n: number) => `عرض ${n} مستخدمين إضافيين`,
+  },
+};
 
 const TAG = 'aegov-avatar-group';
 const ctx = (prop: string) => ({ component: TAG, prop });
@@ -132,16 +144,17 @@ export class AegovAvatarGroup {
       'avatar-rounded': true,
     };
 
+    const t = isRtl(this.el) ? STRINGS.ar : STRINGS.en;
     return (
       <Host>
-        <div class={classes} role="group" aria-label="Avatar group">
+        <div class={classes} role="group" aria-label={t.avatarGroup}>
           <slot />
           {this.moreCount > 0 && (
             <button
               type="button"
               class={moreClasses}
               onClick={this.handleMoreClick}
-              aria-label={`Show ${this.moreCount} more users`}
+              aria-label={t.showMore(this.moreCount)}
             >
               {this.getMoreDisplayText()}
             </button>

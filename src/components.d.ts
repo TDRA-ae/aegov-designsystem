@@ -698,13 +698,13 @@ export namespace Components {
          */
         "isWithConfirmation": boolean;
         /**
-          * Placeholder for range end input
-          * @default 'End date'
+          * Placeholder for range end input. Empty defaults to localized text via isRtl.
+          * @default ''
          */
         "labelRangeEnd": string;
         /**
-          * Placeholder for range start input
-          * @default 'Start date'
+          * Placeholder for range start input. Empty defaults to localized text via isRtl.
+          * @default ''
          */
         "labelRangeStart": string;
         /**
@@ -738,8 +738,8 @@ export namespace Components {
         "name"?: string;
         "open": () => Promise<void>;
         /**
-          * Placeholder text for single mode input
-          * @default 'Select date'
+          * Placeholder text for single mode input. Empty defaults to localized text via isRtl.
+          * @default ''
          */
         "placeholder": string;
         /**
@@ -1564,23 +1564,23 @@ export namespace Components {
          */
         "isEnabledFirstLast": boolean;
         /**
-          * Label for the First page button (only shown when isEnabledFirstLast is true).
-          * @default 'First'
+          * Label for the First page button (only shown when isEnabledFirstLast is true). Empty defaults to localized text via isRtl.
+          * @default ''
          */
         "labelFirst": string;
         /**
-          * Label for the Last page button (only shown when isEnabledFirstLast is true).
-          * @default 'Last'
+          * Label for the Last page button (only shown when isEnabledFirstLast is true). Empty defaults to localized text via isRtl.
+          * @default ''
          */
         "labelLast": string;
         /**
-          * Label for the Next page button.
-          * @default 'Next'
+          * Label for the Next page button. Empty defaults to localized text via isRtl.
+          * @default ''
          */
         "labelNext": string;
         /**
-          * Label for the Previous page button.
-          * @default 'Previous'
+          * Label for the Previous page button. Empty defaults to localized text via isRtl.
+          * @default ''
          */
         "labelPrev": string;
         /**
@@ -1939,8 +1939,8 @@ export namespace Components {
          */
         "appearance": SelectVariant;
         /**
-          * Message shown when search yields no results.
-          * @default 'No results found'
+          * Message shown when search yields no results. Empty string defaults to localized text via isRtl.
+          * @default ''
          */
         "emptyMessage": string;
         /**
@@ -4237,13 +4237,13 @@ declare namespace LocalJSX {
          */
         "isWithConfirmation"?: boolean;
         /**
-          * Placeholder for range end input
-          * @default 'End date'
+          * Placeholder for range end input. Empty defaults to localized text via isRtl.
+          * @default ''
          */
         "labelRangeEnd"?: string;
         /**
-          * Placeholder for range start input
-          * @default 'Start date'
+          * Placeholder for range start input. Empty defaults to localized text via isRtl.
+          * @default ''
          */
         "labelRangeStart"?: string;
         /**
@@ -4285,8 +4285,8 @@ declare namespace LocalJSX {
          */
         "onAegovValidate"?: (event: AegovDatepickerCustomEvent<AegovValidationDetail<AegovDatepickerValue>>) => void;
         /**
-          * Placeholder text for single mode input
-          * @default 'Select date'
+          * Placeholder text for single mode input. Empty defaults to localized text via isRtl.
+          * @default ''
          */
         "placeholder"?: string;
         /**
@@ -5137,23 +5137,23 @@ declare namespace LocalJSX {
          */
         "isEnabledFirstLast"?: boolean;
         /**
-          * Label for the First page button (only shown when isEnabledFirstLast is true).
-          * @default 'First'
+          * Label for the First page button (only shown when isEnabledFirstLast is true). Empty defaults to localized text via isRtl.
+          * @default ''
          */
         "labelFirst"?: string;
         /**
-          * Label for the Last page button (only shown when isEnabledFirstLast is true).
-          * @default 'Last'
+          * Label for the Last page button (only shown when isEnabledFirstLast is true). Empty defaults to localized text via isRtl.
+          * @default ''
          */
         "labelLast"?: string;
         /**
-          * Label for the Next page button.
-          * @default 'Next'
+          * Label for the Next page button. Empty defaults to localized text via isRtl.
+          * @default ''
          */
         "labelNext"?: string;
         /**
-          * Label for the Previous page button.
-          * @default 'Previous'
+          * Label for the Previous page button. Empty defaults to localized text via isRtl.
+          * @default ''
          */
         "labelPrev"?: string;
         /**
@@ -5528,8 +5528,8 @@ declare namespace LocalJSX {
          */
         "appearance"?: SelectVariant;
         /**
-          * Message shown when search yields no results.
-          * @default 'No results found'
+          * Message shown when search yields no results. Empty string defaults to localized text via isRtl.
+          * @default ''
          */
         "emptyMessage"?: string;
         /**

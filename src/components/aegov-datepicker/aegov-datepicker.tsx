@@ -21,6 +21,44 @@ import { warnIfInvalidEnumProp } from '../../utils/prop-validator';
 import { watchResponsiveProp } from '../../utils/responsive-prop';
 import type { ResponsivePropWatcher } from '../../utils/responsive-prop';
 import { getPassThroughAttributes } from '../../utils/attributes';
+import { isRtl } from '../../utils/rtl';
+
+const STRINGS = {
+  en: {
+    selectDate: 'Select date',
+    startDate: 'Start date',
+    endDate: 'End date',
+    required: 'Required',
+    rangeMinDays: (n: number) => `Range must be at least ${n} days`,
+    rangeMaxDays: (n: number) => `Range must be at most ${n} days`,
+    chooseDate: 'Choose date',
+    prevMonth: 'Previous month',
+    nextMonth: 'Next month',
+    selectMonth: 'Select month',
+    selectYear: 'Select year',
+    cancel: 'Cancel',
+    apply: 'Apply',
+    clearDate: 'Clear date',
+    clearDates: 'Clear dates',
+  },
+  ar: {
+    selectDate: 'اختر التاريخ',
+    startDate: 'تاريخ البدء',
+    endDate: 'تاريخ الانتهاء',
+    required: 'مطلوب',
+    rangeMinDays: (n: number) => `يجب أن يكون النطاق ${n} أيام على الأقل`,
+    rangeMaxDays: (n: number) => `يجب ألا يتجاوز النطاق ${n} أيام`,
+    chooseDate: 'اختر تاريخاً',
+    prevMonth: 'الشهر السابق',
+    nextMonth: 'الشهر التالي',
+    selectMonth: 'اختر الشهر',
+    selectYear: 'اختر السنة',
+    cancel: 'إلغاء',
+    apply: 'تطبيق',
+    clearDate: 'مسح التاريخ',
+    clearDates: 'مسح التواريخ',
+  },
+};
 
 const TAG = 'aegov-datepicker';
 const ctx = (prop: string) => ({ component: TAG, prop });
@@ -59,14 +97,14 @@ export class AegovDatepicker {
   /** Output format using tokens: YYYY, YY, MM, M, DD, D, MMM, MMMM, dd, ddd */
   @Prop() format: string = 'YYYY-MM-DD';
 
-  /** Placeholder text for single mode input */
-  @Prop() placeholder: string = 'Select date';
+  /** Placeholder text for single mode input. Empty defaults to localized text via isRtl. */
+  @Prop() placeholder: string = '';
 
-  /** Placeholder for range start input */
-  @Prop() labelRangeStart: string = 'Start date';
+  /** Placeholder for range start input. Empty defaults to localized text via isRtl. */
+  @Prop() labelRangeStart: string = '';
 
-  /** Placeholder for range end input */
-  @Prop() labelRangeEnd: string = 'End date';
+  /** Placeholder for range end input. Empty defaults to localized text via isRtl. */
+  @Prop() labelRangeEnd: string = '';
 
   /** Minimum selectable date (ISO string or "today") */
   @Prop() min: string = '';
@@ -169,6 +207,10 @@ export class AegovDatepicker {
   private internals: ElementInternals | null = null;
   private errorId: string = '';
   private hintId: string = '';
+
+  private get t() {
+    return isRtl(this.el) ? STRINGS.ar : STRINGS.en;
+  }
 
   // ── Private ───────────────────────────────────────────
   private portalElement?: HTMLDivElement;
@@ -288,16 +330,17 @@ export class AegovDatepicker {
     const hasValue = this.appearance === 'range'
       ? !!(this.rangeStart && this.rangeEnd)
       : !!this.selectedDate;
+    const t = this.t;
     if (this.isRequired && !hasValue) {
-      return { validity: synthesizeValidity({ valueMissing: true }), message: this.errorMessage || 'Required' };
+      return { validity: synthesizeValidity({ valueMissing: true }), message: this.errorMessage || t.required };
     }
     if (this.appearance === 'range' && this.rangeStart && this.rangeEnd) {
       const days = diffDays(this.rangeStart, this.rangeEnd) + 1;
       if (this.minRange && days < this.minRange) {
-        return { validity: synthesizeValidity({ tooShort: true }), message: this.errorMessage || `Range must be at least ${this.minRange} days` };
+        return { validity: synthesizeValidity({ tooShort: true }), message: this.errorMessage || t.rangeMinDays(this.minRange) };
       }
       if (this.maxRange && days > this.maxRange) {
-        return { validity: synthesizeValidity({ tooLong: true }), message: this.errorMessage || `Range must be at most ${this.maxRange} days` };
+        return { validity: synthesizeValidity({ tooLong: true }), message: this.errorMessage || t.rangeMaxDays(this.maxRange) };
       }
     }
     return { validity: synthesizeValidity({}), message: '' };
@@ -682,7 +725,7 @@ export class AegovDatepicker {
     container.id = this.datepickerId;
     container.setAttribute('role', 'dialog');
     container.setAttribute('aria-modal', 'true');
-    container.setAttribute('aria-label', 'Choose date');
+    container.setAttribute('aria-label', this.t.chooseDate);
     container.setAttribute('tabindex', '-1');
 
     // Live region for announcements
@@ -769,7 +812,7 @@ export class AegovDatepicker {
       prevBtn.className = 'datepicker__nav-btn';
       prevBtn.type = 'button';
       prevBtn.innerHTML = CHEVRON_LEFT;
-      prevBtn.setAttribute('aria-label', 'Previous month');
+      prevBtn.setAttribute('aria-label', this.t.prevMonth);
       prevBtn.addEventListener('click', () => this.navigateMonth(-1));
       header.appendChild(prevBtn);
     }
@@ -782,7 +825,7 @@ export class AegovDatepicker {
       // Month select
       const monthSelect = document.createElement('select');
       monthSelect.className = 'datepicker__select';
-      monthSelect.setAttribute('aria-label', 'Select month');
+      monthSelect.setAttribute('aria-label', this.t.selectMonth);
       const monthNames = getMonthNames(this.locale);
       monthNames.forEach((name, i) => {
         const opt = document.createElement('option');
@@ -800,7 +843,7 @@ export class AegovDatepicker {
       // Year select
       const yearSelect = document.createElement('select');
       yearSelect.className = 'datepicker__select';
-      yearSelect.setAttribute('aria-label', 'Select year');
+      yearSelect.setAttribute('aria-label', this.t.selectYear);
       const years = this.yearRangeStart && this.yearRangeEnd
         ? Array.from({ length: this.yearRangeEnd - this.yearRangeStart + 1 }, (_, i) => this.yearRangeStart + i)
         : getYearRange(year, 100);
@@ -833,7 +876,7 @@ export class AegovDatepicker {
       nextBtn.className = 'datepicker__nav-btn';
       nextBtn.type = 'button';
       nextBtn.innerHTML = CHEVRON_RIGHT;
-      nextBtn.setAttribute('aria-label', 'Next month');
+      nextBtn.setAttribute('aria-label', this.t.nextMonth);
       nextBtn.addEventListener('click', () => this.navigateMonth(1));
       header.appendChild(nextBtn);
     }
@@ -963,13 +1006,13 @@ export class AegovDatepicker {
     const cancelBtn = document.createElement('button');
     cancelBtn.type = 'button';
     cancelBtn.className = 'datepicker__footer-btn datepicker__footer-btn--cancel';
-    cancelBtn.textContent = 'Cancel';
+    cancelBtn.textContent = this.t.cancel;
     cancelBtn.addEventListener('click', () => this.handleCancel());
 
     const applyBtn = document.createElement('button');
     applyBtn.type = 'button';
     applyBtn.className = 'datepicker__footer-btn datepicker__footer-btn--apply';
-    applyBtn.textContent = 'Apply';
+    applyBtn.textContent = this.t.apply;
     applyBtn.addEventListener('click', () => this.handleApply());
 
     footer.appendChild(cancelBtn);
@@ -1506,6 +1549,7 @@ export class AegovDatepicker {
   private renderSingleTrigger(passThroughAttrs: Record<string, string>) {
     const displayValue = this.getDisplayValue();
     const hasValue = !!displayValue;
+    const placeholder = this.placeholder || this.t.selectDate;
 
     return (
       <div class={`datepicker__input-wrapper datepicker__input-wrapper--${this._resolvedSize}`}>
@@ -1514,7 +1558,7 @@ export class AegovDatepicker {
           class="datepicker__input"
           {...passThroughAttrs}
           value={displayValue}
-          placeholder={this.placeholder}
+          placeholder={placeholder}
           readOnly
           disabled={this.isDisabled}
           required={this.isRequired}
@@ -1522,14 +1566,14 @@ export class AegovDatepicker {
           aria-haspopup="dialog"
           aria-expanded={this.isOpen.toString()}
           aria-controls={this.isOpen ? this.datepickerId : undefined}
-          aria-label={this.placeholder}
+          aria-label={placeholder}
         />
         {hasValue && this.isClearable && !this.isDisabled && (
           <button
             type="button"
             class="datepicker__clear-btn"
             onClick={(e: MouseEvent) => { e.stopPropagation(); this.handleClear(); }}
-            aria-label="Clear date"
+            aria-label={this.t.clearDate}
             innerHTML={CLEAR_ICON}
           />
         )}
@@ -1542,6 +1586,8 @@ export class AegovDatepicker {
     const startValue = this.getDisplayRangeStart();
     const endValue = this.getDisplayRangeEnd();
     const hasValue = !!(startValue || endValue);
+    const labelStart = this.labelRangeStart || this.t.startDate;
+    const labelEnd = this.labelRangeEnd || this.t.endDate;
 
     return (
       <div class={`datepicker__input-wrapper datepicker__input-wrapper--${this._resolvedSize} datepicker__input-wrapper--range`}>
@@ -1550,12 +1596,12 @@ export class AegovDatepicker {
           class="datepicker__input datepicker__input--range-start"
           {...passThroughAttrs}
           value={startValue}
-          placeholder={this.labelRangeStart}
+          placeholder={labelStart}
           readOnly
           disabled={this.isDisabled}
           required={this.isRequired}
           aria-required={this.isRequired ? 'true' : undefined}
-          aria-label={this.labelRangeStart}
+          aria-label={labelStart}
         />
         <span class="datepicker__range-separator" aria-hidden="true" innerHTML={ARROW_RIGHT} />
         <input
@@ -1563,19 +1609,19 @@ export class AegovDatepicker {
           class="datepicker__input datepicker__input--range-end"
           {...passThroughAttrs}
           value={endValue}
-          placeholder={this.labelRangeEnd}
+          placeholder={labelEnd}
           readOnly
           disabled={this.isDisabled}
           required={this.isRequired}
           aria-required={this.isRequired ? 'true' : undefined}
-          aria-label={this.labelRangeEnd}
+          aria-label={labelEnd}
         />
         {hasValue && this.isClearable && !this.isDisabled && (
           <button
             type="button"
             class="datepicker__clear-btn"
             onClick={(e: MouseEvent) => { e.stopPropagation(); this.handleClear(); }}
-            aria-label="Clear dates"
+            aria-label={this.t.clearDates}
             innerHTML={CLEAR_ICON}
           />
         )}

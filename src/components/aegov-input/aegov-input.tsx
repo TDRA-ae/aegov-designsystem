@@ -13,6 +13,22 @@ import {
   fromNativeValidity, VALID_STATE,
   composeDescribedBy, buildValidationDetail,
 } from '../../utils/validation';
+import { isRtl } from '../../utils/rtl';
+
+const STRINGS = {
+  en: {
+    hidePassword: 'Hide password',
+    showPassword: 'Show password',
+    copied: 'Copied',
+    copyToClipboard: 'Copy to clipboard',
+  },
+  ar: {
+    hidePassword: 'إخفاء كلمة المرور',
+    showPassword: 'إظهار كلمة المرور',
+    copied: 'تم النسخ',
+    copyToClipboard: 'نسخ إلى الحافظة',
+  },
+};
 
 const TAG = 'aegov-input';
 const ctx = (prop: string) => ({ component: TAG, prop });
@@ -343,7 +359,7 @@ export class AegovInput {
         onClick={this.handleRevealToggle}
         disabled={this.isDisabled}
         tabindex={-1}
-        aria-label={this.passwordVisible ? 'Hide password' : 'Show password'}
+        aria-label={(() => { const t = isRtl(this.el) ? STRINGS.ar : STRINGS.en; return this.passwordVisible ? t.hidePassword : t.showPassword; })()}
       >
         {this.passwordVisible ? (
           // Eye-off icon
@@ -381,7 +397,7 @@ export class AegovInput {
         class={`input__copy-btn ${sizeClasses[this._resolvedSize]}${this.justCopied ? ' input__copy-btn--copied' : ''}`}
         onClick={this.handleCopy}
         tabindex={-1}
-        aria-label={this.justCopied ? 'Copied' : 'Copy to clipboard'}
+        aria-label={(() => { const t = isRtl(this.el) ? STRINGS.ar : STRINGS.en; return this.justCopied ? t.copied : t.copyToClipboard; })()}
       >
         {this.justCopied ? (
           // Checkmark icon

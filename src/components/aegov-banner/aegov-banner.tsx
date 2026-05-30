@@ -13,6 +13,12 @@ import { warnIfInvalidEnumProp } from '../../utils/prop-validator';
 import { watchResponsiveProp } from '../../utils/responsive-prop';
 import type { ResponsivePropWatcher } from '../../utils/responsive-prop';
 import { generateId } from '../../utils/id-generator';
+import { isRtl } from '../../utils/rtl';
+
+const STRINGS = {
+  en: { close: 'Close banner' },
+  ar: { close: 'إغلاق الشريط' },
+};
 
 const TAG = 'aegov-banner';
 const ctx = (prop: string) => ({ component: TAG, prop });
@@ -401,7 +407,7 @@ export class AegovBanner {
               type="button"
               class="banner__dismiss"
               onClick={this.handleDismiss}
-              aria-label="Close banner"
+              aria-label={isRtl(this.el) ? STRINGS.ar.close : STRINGS.en.close}
             >
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"><rect width="256" height="256" fill="none"/><line x1="200" y1="56" x2="56" y2="200" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="24"/><line x1="200" y1="200" x2="56" y2="56" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="24"/></svg>
             </button>

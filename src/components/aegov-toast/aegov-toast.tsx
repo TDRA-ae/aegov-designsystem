@@ -2,6 +2,19 @@ import { Component, Prop, Watch, Method, Event, EventEmitter, State, h, Element 
 import { TOAST_VARIANTS, TOAST_APPEARANCES, TOAST_POSITIONS, TOAST_MODES } from '../../utils/types';
 import type { ToastVariant, ToastAppearance, ToastPosition, ToastMode } from '../../utils/types';
 import { warnIfInvalidEnumProp } from '../../utils/prop-validator';
+import { isRtl } from '../../utils/rtl';
+
+const VARIANT_LABEL_AR: Record<string, string> = {
+  default: 'الإشعار',
+  info: 'إشعار معلومات',
+  success: 'إشعار نجاح',
+  warning: 'إشعار تحذير',
+  error: 'إشعار خطأ',
+};
+const STRINGS = {
+  en: { close: (variant: string) => `Close ${variant} notification` },
+  ar: { close: (variant: string) => `إغلاق ${VARIANT_LABEL_AR[variant] || VARIANT_LABEL_AR.default}` },
+};
 
 const TAG = 'aegov-toast';
 const ctx = (prop: string) => ({ component: TAG, prop });
@@ -637,7 +650,7 @@ export class AegovToast {
             type="button"
             class="toast__dismiss"
             onClick={this.handleDismiss}
-            aria-label={`Close ${this.variant} notification`}
+            aria-label={(isRtl(this.el) ? STRINGS.ar : STRINGS.en).close(this.variant)}
           >
             <svg xmlns="http://www.w3.org/2000/svg" class="size-4" viewBox="0 0 256 256" aria-hidden="true">
               <rect width="256" height="256" fill="none"/>

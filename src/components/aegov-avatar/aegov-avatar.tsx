@@ -6,6 +6,12 @@ import { watchResponsiveProp } from '../../utils/responsive-prop';
 import type { ResponsivePropWatcher } from '../../utils/responsive-prop';
 import { getPassThroughAttributes } from '../../utils/attributes';
 import { generateId } from '../../utils/id-generator';
+import { isRtl } from '../../utils/rtl';
+
+const STRINGS = {
+  en: { userAvatar: 'User avatar' },
+  ar: { userAvatar: 'الصورة الرمزية للمستخدم' },
+};
 
 const TAG = 'aegov-avatar';
 const ctx = (prop: string) => ({ component: TAG, prop });
@@ -167,7 +173,7 @@ export class AegovAvatar {
           part="avatar"
           class={this.getAvatarClasses()}
           role="img"
-          aria-label={this.alt || 'User avatar'}
+          aria-label={this.alt || (isRtl(this.el) ? STRINGS.ar.userAvatar : STRINGS.en.userAvatar)}
         >
           {showImage ? (
             <img

@@ -6,6 +6,12 @@ import type { BadgeSize, BadgeAppearance, BadgeColor } from '../../utils/types';
 import { warnIfInvalidEnumProp } from '../../utils/prop-validator';
 import { generateId } from '../../utils/id-generator';
 import { getPassThroughAttributes } from '../../utils/attributes';
+import { isRtl } from '../../utils/rtl';
+
+const STRINGS = {
+  en: { dismiss: 'Badge dismiss button' },
+  ar: { dismiss: 'زر إغلاق الشارة' },
+};
 
 const TAG = 'aegov-badge';
 const ctx = (prop: string) => ({ component: TAG, prop });
@@ -162,7 +168,7 @@ export class AegovBadge {
                             type="button"
                             class="badge-dismiss"
                             onClick={this.handleBadgeDismissClick}
-                            aria-label="Badge dismiss button"
+                            aria-label={isRtl(this.el) ? STRINGS.ar.dismiss : STRINGS.en.dismiss}
                         >
                             <svg
                                 class="size-3"
