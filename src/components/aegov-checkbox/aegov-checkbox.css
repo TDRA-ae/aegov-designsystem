@@ -6,7 +6,7 @@
   @apply relative;
 }
 .aegov-checkbox input[type="checkbox"] {
-  @apply appearance-none mt-0.5 text-whitely-50 border-2 relative m-0 h-4.5 w-4.5 focus:outline-2 focus:outline-offset-1 focus:outline-primary-support-600 disabled:pointer-events-none disabled:checked:opacity-40 disabled:border-primary-200 rounded;
+  @apply appearance-none mt-0.5 text-whitely-50 border-2 relative m-0 h-4.5 w-4.5 disabled:pointer-events-none disabled:checked:opacity-40 disabled:border-primary-200 rounded focus-visible:outline-2 focus-visible:outline-offset-2;
 
   &:before  {
     content: '';
@@ -32,16 +32,16 @@
   }
 }
 /* Variant — rest border, checked bg+border, hover halo per colour family */
-.aegov-checkbox.checkbox-variant-primary input[type="checkbox"]       { @apply border-primary-600 checked:bg-primary-600 accent-primary-600; }
+.aegov-checkbox.checkbox-variant-primary input[type="checkbox"]       { @apply border-primary-600 checked:bg-primary-600 accent-primary-600 focus-visible:outline-primary-support-600 }
 .aegov-checkbox.checkbox-variant-primary input[type="checkbox"]::before { @apply bg-primary-50; }
 
-.aegov-checkbox.checkbox-variant-secondary input[type="checkbox"]     { @apply border-secondary-600 checked:bg-secondary-600 accent-secondary-600; }
+.aegov-checkbox.checkbox-variant-secondary input[type="checkbox"]     { @apply border-secondary-600 checked:bg-secondary-600 accent-secondary-600 focus-visible:outline-secondary-support-600; }
 .aegov-checkbox.checkbox-variant-secondary input[type="checkbox"]::before { @apply bg-secondary-50; }
 
-.aegov-checkbox.checkbox-variant-neutral-max input[type="checkbox"]   { @apply border-aeblack-800 checked:bg-aeblack-800 accent-aeblack-800; }
+.aegov-checkbox.checkbox-variant-neutral-max input[type="checkbox"]   { @apply border-aeblack-800 checked:bg-aeblack-800 accent-aeblack-800 focus-visible:outline-seablue-600; }
 .aegov-checkbox.checkbox-variant-neutral-max input[type="checkbox"]::before { @apply bg-aeblack-100; }
 
-.aegov-checkbox.checkbox-variant-neutral-min input[type="checkbox"]   { @apply border-aeblack-300 checked:bg-aeblack-800 accent-aeblack-800; }
+.aegov-checkbox.checkbox-variant-neutral-min input[type="checkbox"]   { @apply border-aeblack-300 checked:bg-aeblack-300 accent-aeblack-300 focus-visible:outline-seablue-600; }
 .aegov-checkbox.checkbox-variant-neutral-min input[type="checkbox"]::before { @apply bg-aeblack-50; }
 
 /* Indeterminate fill follows variant */

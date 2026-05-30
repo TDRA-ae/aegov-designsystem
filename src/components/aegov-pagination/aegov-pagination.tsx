@@ -6,6 +6,36 @@ import type { PaginationSize, PaginationVariant } from '../../utils/types';
 import { warnIfInvalidEnumProp } from '../../utils/prop-validator';
 import { generateId } from '../../utils/id-generator';
 import { getPassThroughAttributes } from '../../utils/attributes';
+import { isRtl } from '../../utils/rtl';
+
+const STRINGS = {
+  en: {
+    prev: 'Previous',
+    next: 'Next',
+    first: 'First',
+    last: 'Last',
+    pagination: 'Pagination',
+    goToFirst: 'Go to first page',
+    goToPrev: 'Go to previous page',
+    goToNext: 'Go to next page',
+    goToLast: 'Go to last page',
+    currentPage: (p: number) => `Page ${p}, current page`,
+    goToPage: (p: number) => `Go to page ${p}`,
+  },
+  ar: {
+    prev: 'السابق',
+    next: 'التالي',
+    first: 'الأول',
+    last: 'الأخير',
+    pagination: 'ترقيم الصفحات',
+    goToFirst: 'الانتقال إلى الصفحة الأولى',
+    goToPrev: 'الانتقال إلى الصفحة السابقة',
+    goToNext: 'الانتقال إلى الصفحة التالية',
+    goToLast: 'الانتقال إلى الصفحة الأخيرة',
+    currentPage: (p: number) => `الصفحة ${p}، الصفحة الحالية`,
+    goToPage: (p: number) => `الانتقال إلى الصفحة ${p}`,
+  },
+};
 
 const TAG = 'aegov-pagination';
 const ctx = (prop: string) => ({ component: TAG, prop });
@@ -70,24 +100,24 @@ export class AegovPagination {
   @Prop() isDisabled: boolean = false;
 
   /**
-   * Label for the Previous page button.
+   * Label for the Previous page button. Empty defaults to localized text via isRtl.
    */
-  @Prop() labelPrev: string = 'Previous';
+  @Prop() labelPrev: string = '';
 
   /**
-   * Label for the Next page button.
+   * Label for the Next page button. Empty defaults to localized text via isRtl.
    */
-  @Prop() labelNext: string = 'Next';
+  @Prop() labelNext: string = '';
 
   /**
-   * Label for the First page button (only shown when isEnabledFirstLast is true).
+   * Label for the First page button (only shown when isEnabledFirstLast is true). Empty defaults to localized text via isRtl.
    */
-  @Prop() labelFirst: string = 'First';
+  @Prop() labelFirst: string = '';
 
   /**
-   * Label for the Last page button (only shown when isEnabledFirstLast is true).
+   * Label for the Last page button (only shown when isEnabledFirstLast is true). Empty defaults to localized text via isRtl.
    */
-  @Prop() labelLast: string = 'Last';
+  @Prop() labelLast: string = '';
 
   /**
    * Emitted when a page is selected. The event detail is the new page number (1-indexed).
@@ -235,9 +265,10 @@ export class AegovPagination {
     const isLast = this.pageCurrent >= this.pages;
     const isCompact = variant === 'compact';
     const passThroughAttributes = getPassThroughAttributes(this.el);
+    const t = isRtl(this.el) ? STRINGS.ar : STRINGS.en;
 
     return (
-      <nav {...passThroughAttributes} aria-label="Pagination" id={this.fieldId} class={`aegov-pagination pagination--${size}${isCompact ? ' pagination--compact' : ''}`}>
+      <nav {...passThroughAttributes} aria-label={t.pagination} id={this.fieldId} class={`aegov-pagination pagination--${size}${isCompact ? ' pagination--compact' : ''}`}>
         <ul class="pagination__list">
 
           {/* First button */}
@@ -248,13 +279,13 @@ export class AegovPagination {
                 class={`pagination__btn pagination__btn--nav${(this.isDisabled || isFirst) ? ' pagination__btn--disabled' : ''}`}
                 onClick={() => this.handlePageClick(1)}
                 disabled={this.isDisabled || isFirst}
-                aria-label="Go to first page"
+                aria-label={t.goToFirst}
                 aria-disabled={(this.isDisabled || isFirst) ? 'true' : undefined}
               >
                 <span class="pagination__icon pagination__icon--dir" aria-hidden="true">
                   {this.renderIconFirst()}
                 </span>
-                <span class="pagination__nav-label">{this.labelFirst}</span>
+                <span class="pagination__nav-label">{this.labelFirst || t.first}</span>
               </button>
             </li>
           )}
@@ -266,13 +297,13 @@ export class AegovPagination {
               class={`pagination__btn pagination__btn--nav${(this.isDisabled || isFirst) ? ' pagination__btn--disabled' : ''}`}
               onClick={() => this.handlePageClick(this.pageCurrent - 1)}
               disabled={this.isDisabled || isFirst}
-              aria-label="Go to previous page"
+              aria-label={t.goToPrev}
               aria-disabled={(this.isDisabled || isFirst) ? 'true' : undefined}
             >
               <span class="pagination__icon pagination__icon--dir" aria-hidden="true">
                 {this.renderIconPrev()}
               </span>
-              <span class="pagination__nav-label">{this.labelPrev}</span>
+              <span class="pagination__nav-label">{this.labelPrev || t.prev}</span>
             </button>
           </li>
 
@@ -305,7 +336,7 @@ export class AegovPagination {
                   class={`pagination__btn pagination__btn--page${isActive ? ' pagination__btn--active' : ''}${this.isDisabled ? ' pagination__btn--disabled' : ''}`}
                   onClick={() => this.handlePageClick(page)}
                   disabled={this.isDisabled}
-                  aria-label={isActive ? `Page ${page}, current page` : `Go to page ${page}`}
+                  aria-label={isActive ? t.currentPage(page) : t.goToPage(page)}
                   aria-current={isActive ? 'page' : undefined}
                   aria-disabled={this.isDisabled ? 'true' : undefined}
                 >
@@ -322,10 +353,10 @@ export class AegovPagination {
               class={`pagination__btn pagination__btn--nav${(this.isDisabled || isLast) ? ' pagination__btn--disabled' : ''}`}
               onClick={() => this.handlePageClick(this.pageCurrent + 1)}
               disabled={this.isDisabled || isLast}
-              aria-label="Go to next page"
+              aria-label={t.goToNext}
               aria-disabled={(this.isDisabled || isLast) ? 'true' : undefined}
             >
-              <span class="pagination__nav-label">{this.labelNext}</span>
+              <span class="pagination__nav-label">{this.labelNext || t.next}</span>
               <span class="pagination__icon pagination__icon--dir" aria-hidden="true">
                 {this.renderIconNext()}
               </span>
@@ -340,10 +371,10 @@ export class AegovPagination {
                 class={`pagination__btn pagination__btn--nav${(this.isDisabled || isLast) ? ' pagination__btn--disabled' : ''}`}
                 onClick={() => this.handlePageClick(this.pages)}
                 disabled={this.isDisabled || isLast}
-                aria-label="Go to last page"
+                aria-label={t.goToLast}
                 aria-disabled={(this.isDisabled || isLast) ? 'true' : undefined}
               >
-                <span class="pagination__nav-label">{this.labelLast}</span>
+                <span class="pagination__nav-label">{this.labelLast || t.last}</span>
                 <span class="pagination__icon pagination__icon--dir" aria-hidden="true">
                   {this.renderIconLast()}
                 </span>

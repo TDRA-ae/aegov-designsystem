@@ -6,7 +6,7 @@
   @apply relative;
 }
 .aegov-radio input[type="radio"] {
-  @apply appearance-none mt-0.5 border-2 relative m-0 h-4.5 w-4.5 focus:outline-2 focus:outline-offset-1 focus:outline-primary-support-600 disabled:pointer-events-none disabled:checked:opacity-40 disabled:border-primary-200 rounded-full;
+  @apply appearance-none mt-0.5 border-2 relative m-0 h-4.5 w-4.5 focus-visible:outline-2 focus-visible:outline-offset-2 disabled:pointer-events-none disabled:checked:opacity-40 disabled:border-primary-200 rounded-full;
 
   &:before  {
     content: '';
@@ -27,16 +27,16 @@
   }
 }
 /* Variant — rest border, checked bg+border, hover halo per colour family */
-.aegov-radio.radio-variant-primary input[type="radio"]       { @apply border-primary-600 checked:bg-primary-600; }
+.aegov-radio.radio-variant-primary input[type="radio"]       { @apply border-primary-600 checked:bg-primary-600 focus-visible:outline-primary-support-600; }
 .aegov-radio.radio-variant-primary input[type="radio"]::before { @apply bg-primary-50; }
 
-.aegov-radio.radio-variant-secondary input[type="radio"]     { @apply border-secondary-600 checked:bg-secondary-600; }
+.aegov-radio.radio-variant-secondary input[type="radio"]     { @apply border-secondary-600 checked:bg-secondary-600 focus-visible:outline-secondary-support-600; }
 .aegov-radio.radio-variant-secondary input[type="radio"]::before { @apply bg-secondary-50; }
 
-.aegov-radio.radio-variant-neutral-max input[type="radio"]   { @apply border-aeblack-800 checked:bg-aeblack-800; }
+.aegov-radio.radio-variant-neutral-max input[type="radio"]   { @apply border-aeblack-800 checked:bg-aeblack-800 focus-visible:outline-seablue-600; }
 .aegov-radio.radio-variant-neutral-max input[type="radio"]::before { @apply bg-aeblack-100; }
 
-.aegov-radio.radio-variant-neutral-min input[type="radio"]   { @apply border-aeblack-300 checked:bg-aeblack-800; }
+.aegov-radio.radio-variant-neutral-min input[type="radio"]   { @apply border-aeblack-300 checked:bg-aeblack-300 focus-visible:outline-seablue-600; }
 .aegov-radio.radio-variant-neutral-min input[type="radio"]::before { @apply bg-aeblack-50; }
 
 /* Wrapper label for inline label mode */

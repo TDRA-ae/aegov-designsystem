@@ -14,6 +14,54 @@ import {
   buildValidationDetail, synthesizeValidity, setInternalsValidity,
 } from '../../utils/validation';
 import type { InternalsHost } from '../../utils/validation';
+import { isRtl } from '../../utils/rtl';
+
+const STRINGS = {
+  en: {
+    required: 'Required',
+    invalidFile: 'Invalid file',
+    notAllowedType: (name: string) => `File "${name}" is not an allowed type.`,
+    exceedsMaxSize: (name: string, size: string) => `File "${name}" exceeds the maximum size of ${size}.`,
+    maxFiles: (n: number) => `Maximum ${n} file${n > 1 ? 's' : ''} allowed.`,
+    noFileChosen: 'No file chosen',
+    filesSelected: (n: number) => `${n} files selected`,
+    allowed: (list: string) => `Allowed: ${list}`,
+    images: 'Images',
+    videos: 'Videos',
+    audio: 'Audio',
+    pdf: 'PDF',
+    browse: 'Browse',
+    chooseFile: 'Choose File',
+    chooseFiles: 'Choose Files',
+    browseFiles: 'Browse Files',
+    remove: (name: string) => `Remove ${name}`,
+    dragAndDrop: (multiple: boolean) => `Drag and drop ${multiple ? 'files' : 'a file'} here, or`,
+    sizeUnits: ['B', 'KB', 'MB', 'GB'] as const,
+    zeroBytes: '0 B',
+  },
+  ar: {
+    required: 'مطلوب',
+    invalidFile: 'ملف غير صالح',
+    notAllowedType: (name: string) => `الملف "${name}" ليس من النوع المسموح به.`,
+    exceedsMaxSize: (name: string, size: string) => `الملف "${name}" يتجاوز الحجم الأقصى ${size}.`,
+    maxFiles: (n: number) => `الحد الأقصى ${n} ${n > 1 ? 'ملفات' : 'ملف'} مسموح به.`,
+    noFileChosen: 'لم يتم اختيار ملف',
+    filesSelected: (n: number) => `تم اختيار ${n} ملفات`,
+    allowed: (list: string) => `المسموح به: ${list}`,
+    images: 'صور',
+    videos: 'فيديوهات',
+    audio: 'صوت',
+    pdf: 'PDF',
+    browse: 'تصفح',
+    chooseFile: 'اختر ملفاً',
+    chooseFiles: 'اختر ملفات',
+    browseFiles: 'تصفح الملفات',
+    remove: (name: string) => `إزالة ${name}`,
+    dragAndDrop: (multiple: boolean) => `اسحب وأفلت ${multiple ? 'الملفات' : 'الملف'} هنا، أو`,
+    sizeUnits: ['بايت', 'ك.ب', 'م.ب', 'ج.ب'] as const,
+    zeroBytes: '0 بايت',
+  },
+};
 
 const TAG = 'aegov-fileupload';
 const ctx = (prop: string) => ({ component: TAG, prop });
@@ -142,6 +190,10 @@ export class AegovFileupload {
   private errorId: string = '';
   private hintId: string = '';
 
+  private get t() {
+    return isRtl(this.el) ? STRINGS.ar : STRINGS.en;
+  }
+
   componentWillLoad() {
     warnIfInvalidEnumProp(this.appearance, FILEUPLOAD_VARIANTS, 'default', ctx('appearance'));
     warnIfInvalidEnumProp(this.variant, FORM_VARIANTS, 'primary', ctx('variant'));
@@ -241,10 +293,10 @@ export class AegovFileupload {
 
   private computeValidity(transientFlags: Partial<AegovValidityState> = {}): { validity: AegovValidityState; message: string } {
     if (this.isRequired && this.selectedFiles.length === 0) {
-      return { validity: synthesizeValidity({ valueMissing: true, ...transientFlags }), message: this.errorMessage || 'Required' };
+      return { validity: synthesizeValidity({ valueMissing: true, ...transientFlags }), message: this.errorMessage || this.t.required };
     }
     if (Object.keys(transientFlags).length > 0) {
-      return { validity: synthesizeValidity(transientFlags), message: this.errorMessage || 'Invalid file' };
+      return { validity: synthesizeValidity(transientFlags), message: this.errorMessage || this.t.invalidFile };
     }
     return { validity: synthesizeValidity({}), message: '' };
   }
@@ -309,13 +361,13 @@ export class AegovFileupload {
     for (const file of newFiles) {
       if (this.accept && !this.isValidFileType(file)) {
         pendingFlag = { typeMismatch: true };
-        pendingMessage = `File "${file.name}" is not an allowed type.`;
+        pendingMessage = this.t.notAllowedType(file.name);
         continue;
       }
 
       if (this.maxFileSize && file.size > this.maxFileSize) {
         pendingFlag = { tooLong: true };
-        pendingMessage = `File "${file.name}" exceeds the maximum size of ${this.formatFileSize(this.maxFileSize)}.`;
+        pendingMessage = this.t.exceedsMaxSize(file.name, this.formatFileSize(this.maxFileSize));
         continue;
       }
 
@@ -326,7 +378,7 @@ export class AegovFileupload {
       // Default replaces selection each time
       if (this.maxFiles && validFiles.length > this.maxFiles) {
         pendingFlag = { customError: true };
-        pendingMessage = `Maximum ${this.maxFiles} file${this.maxFiles > 1 ? 's' : ''} allowed.`;
+        pendingMessage = this.t.maxFiles(this.maxFiles);
         this.selectedFiles = validFiles.slice(0, this.maxFiles);
       } else {
         this.selectedFiles = validFiles;
@@ -337,7 +389,7 @@ export class AegovFileupload {
 
       if (this.maxFiles && combined.length > this.maxFiles) {
         pendingFlag = { customError: true };
-        pendingMessage = `Maximum ${this.maxFiles} file${this.maxFiles > 1 ? 's' : ''} allowed.`;
+        pendingMessage = this.t.maxFiles(this.maxFiles);
         const slotsAvailable = this.maxFiles - this.selectedFiles.length;
         if (slotsAvailable > 0) {
           this.selectedFiles = [...this.selectedFiles, ...validFiles.slice(0, slotsAvailable)];
@@ -382,41 +434,43 @@ export class AegovFileupload {
   }
 
   private formatFileSize(bytes: number): string {
-    if (bytes === 0) return '0 B';
+    const t = this.t;
+    if (bytes === 0) return t.zeroBytes;
     const k = 1024;
-    const sizes = ['B', 'KB', 'MB', 'GB'];
     const i = Math.floor(Math.log(bytes) / Math.log(k));
-    return parseFloat((bytes / Math.pow(k, i)).toFixed(1)) + ' ' + sizes[i];
+    return parseFloat((bytes / Math.pow(k, i)).toFixed(1)) + ' ' + t.sizeUnits[i];
   }
 
   private getDisplayText(): string {
-    if (this.selectedFiles.length === 0) return 'No file chosen';
+    if (this.selectedFiles.length === 0) return this.t.noFileChosen;
     if (this.selectedFiles.length === 1) return this.selectedFiles[0].name;
-    return `${this.selectedFiles.length} files selected`;
+    return this.t.filesSelected(this.selectedFiles.length);
   }
 
   private getHelperText(): string {
     if (this.labelHelp) return this.labelHelp;
     if (!this.accept) return '';
-    const types = this.accept.split(',').map(t => t.trim());
-    const labels = types.map(t => {
-      if (t.startsWith('.')) return t.substring(1).toUpperCase();
-      if (t === 'image/*') return 'Images';
-      if (t === 'video/*') return 'Videos';
-      if (t === 'audio/*') return 'Audio';
-      if (t === 'application/pdf') return 'PDF';
-      return t;
+    const t = this.t;
+    const types = this.accept.split(',').map(s => s.trim());
+    const labels = types.map(s => {
+      if (s.startsWith('.')) return s.substring(1).toUpperCase();
+      if (s === 'image/*') return t.images;
+      if (s === 'video/*') return t.videos;
+      if (s === 'audio/*') return t.audio;
+      if (s === 'application/pdf') return t.pdf;
+      return s;
     });
-    return `Allowed: ${labels.join(', ')}`;
+    return t.allowed(labels.join(', '));
   }
 
   private getDefaultButtonText(): string {
     if (this.labelButton) return this.labelButton;
+    const t = this.t;
     switch (this.appearance) {
-      case 'default': return 'Browse';
-      case 'button': return this.isMultiple ? 'Choose Files' : 'Choose File';
-      case 'dropzone': return 'Browse Files';
-      default: return 'Browse';
+      case 'default': return t.browse;
+      case 'button': return this.isMultiple ? t.chooseFiles : t.chooseFile;
+      case 'dropzone': return t.browseFiles;
+      default: return t.browse;
     }
   }
 
@@ -488,7 +542,7 @@ export class AegovFileupload {
         type="button"
         class="fileupload__remove-btn"
         onClick={() => this.removeFile(index)}
-        aria-label={`Remove ${fileName}`}
+        aria-label={this.t.remove(fileName)}
       >
         <svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
           <path d="M6.28 5.22a.75.75 0 0 0-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 1 0 1.06 1.06L10 11.06l3.72 3.72a.75.75 0 1 0 1.06-1.06L11.06 10l3.72-3.72a.75.75 0 0 0-1.06-1.06L10 8.94 6.28 5.22Z" />
@@ -623,7 +677,7 @@ export class AegovFileupload {
         <div class="fileupload__drop-prompt">
           {this.renderUploadIcon()}
           <p class="fileupload__drop-text">
-            Drag and drop {this.isMultiple ? 'files' : 'a file'} here, or
+            {this.t.dragAndDrop(this.isMultiple)}
           </p>
           <aegov-button
             class="fileupload__dropzone-btn"
