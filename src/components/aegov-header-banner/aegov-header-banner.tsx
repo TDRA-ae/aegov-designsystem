@@ -1,5 +1,6 @@
 import { Component, Element, Listen, Prop, State, Watch, getAssetPath, h } from '@stencil/core';
 import { getFocusableElements, handleTabKeyWrap } from '../../utils/focus-management';
+import { isRtl } from '../../utils/rtl';
 
 @Component({
   tag: 'aegov-header-banner',
@@ -114,9 +115,7 @@ export class AegovHeaderBanner {
   };
 
   private isRtl(): boolean {
-    const parentDir = this.el.closest('[dir]')?.getAttribute('dir');
-    if (parentDir) return parentDir === 'rtl';
-    return document.documentElement.getAttribute('dir') === 'rtl';
+    return isRtl(this.el);
   }
 
   render() {

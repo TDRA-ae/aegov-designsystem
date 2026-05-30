@@ -3,6 +3,7 @@ import { TAB_VARIANTS, TAB_SIZES, TAB_ORIENTATIONS } from '../../utils/types';
 import type { TabVariant, TabSize, TabOrientation } from '../../utils/types';
 import { warnIfInvalidEnumProp } from '../../utils/prop-validator';
 import { watchResponsiveProp } from '../../utils/responsive-prop';
+import { isRtl as detectRtl } from '../../utils/rtl';
 import type { ResponsivePropWatcher } from '../../utils/responsive-prop';
 import { generateId } from '../../utils/id-generator';
 import { getPassThroughAttributes } from '../../utils/attributes';
@@ -241,7 +242,7 @@ export class AegovTabs {
     const currentIndex = enabledTabs.findIndex(
       (t: any) => (t.getAttribute('tab-id') || t.tabId) === this.activeTabId,
     );
-    const isRtl = this.el.closest('[dir="rtl"]') !== null || document.documentElement.dir === 'rtl';
+    const isRtl = detectRtl(this.el);
 
     let nextIndex = -1;
 

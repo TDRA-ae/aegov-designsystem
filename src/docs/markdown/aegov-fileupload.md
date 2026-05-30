@@ -19,7 +19,8 @@ The `aegov-fileupload` component wraps a native file input and adds client-side 
   <aegov-fileupload
     label="Upload your Emirates ID"
     description="Upload a clear, full-page scan of both sides as a single PDF."
-    accept=".pdf"
+    accept=".pdf" 
+    label-button="Select Emirates ID" 
     max-file-size="5242880"
   ></aegov-fileupload>
 </div>

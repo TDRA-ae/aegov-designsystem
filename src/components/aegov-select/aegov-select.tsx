@@ -15,6 +15,12 @@ import {
   composeDescribedBy, buildValidationDetail, synthesizeValidity, setInternalsValidity,
 } from '../../utils/validation';
 import type { InternalsHost } from '../../utils/validation';
+import { isRtl } from '../../utils/rtl';
+
+const STRINGS = {
+  en: { noResults: 'No results found' },
+  ar: { noResults: 'لم يتم العثور على نتائج' },
+};
 
 /** Select value type per §2.4.1 — string for single, string[] for multiple. */
 export type AegovSelectValue = string | string[];
@@ -79,8 +85,8 @@ export class AegovSelect {
   /** Show a search input in the listbox dropdown to filter options. Only works with listbox appearance. */
   @Prop() isSearchable: boolean = false;
 
-  /** Message shown when search yields no results. */
-  @Prop() emptyMessage: string = 'No results found';
+  /** Message shown when search yields no results. Empty string defaults to localized text via isRtl. */
+  @Prop() emptyMessage: string = '';
 
   /** Max visible items in the dropdown before scrolling. */
   @Prop() visibleItems: number = 6;
@@ -832,7 +838,7 @@ export class AegovSelect {
               )}
               <div class="select__options">
                 {groups.length === 0 && (
-                  <div class="select__empty" role="status">{this.emptyMessage}</div>
+                  <div class="select__empty" role="status">{this.emptyMessage || (isRtl(this.el) ? STRINGS.ar.noResults : STRINGS.en.noResults)}</div>
                 )}
                 {groups.map(g => {
                   const groupLabelId = g.group ? this.getGroupId(g.group) : undefined;
