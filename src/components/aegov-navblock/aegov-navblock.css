@@ -11,16 +11,14 @@
 }
 
 .aegov-navblock__title {
-  @apply text-aeblack-500 font-semibold uppercase tracking-wide mb-2 px-3;
-  font-size: 0.75rem;
-  letter-spacing: 0.06em;
+  @apply text-aeblack-500 font-semibold uppercase tracking-wide mb-2 pe-3 text-xs tracking-wider;
 }
 
 .navblock--sm .aegov-navblock__title {
-  font-size: 0.625rem;
+  @apply text-xs;
 }
 .navblock--lg .aegov-navblock__title {
-  font-size: 0.875rem;
+  @apply text-sm;
 }
 
 .aegov-navblock__list {
