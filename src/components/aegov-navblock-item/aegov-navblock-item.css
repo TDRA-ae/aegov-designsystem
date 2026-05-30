@@ -6,20 +6,23 @@
   @apply block list-none;
 }
 
+.aegov-navblock-item button {
+  @apply -ms-1.5!;
+  @apply focus-visible:outline-2 focus-visible:outline-primary-support-500 focus-visible:outline-offset-2 focus-visible:bg-primary-support-500 focus-visible:text-primary-support-950!;
+}
+
 .aegov-navblock-item__row {
-  @apply flex items-center gap-2 w-full px-3 py-2 rounded-md text-aeblack-700 bg-transparent border-0 text-start cursor-pointer transition-colors;
+  @apply flex items-center gap-2 w-full p-2 rounded-md text-aeblack-700 bg-transparent border-0 text-start cursor-pointer transition-colors;
   text-decoration: none;
   font: inherit;
+  @apply focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:bg-primary-support-500 focus-visible:text-primary-support-950!;
 }
 .aegov-navblock-item__row:hover:not([aria-disabled="true"]):not(:disabled) {
   @apply bg-whitely-100 text-aeblack-900;
 }
-.aegov-navblock-item__row:focus-visible {
-  @apply outline-2 outline-offset-2 outline-primary-support-700;
-}
 
 .aegov-navblock-item.is-active > .aegov-navblock-item__row {
-  @apply bg-primary-50 text-primary-700 font-semibold;
+  @apply text-primary-600 font-medium;
 }
 
 .aegov-navblock-item__row[aria-disabled="true"],
@@ -34,7 +37,7 @@
   @apply w-full h-full;
 }
 .aegov-navblock-item.is-active > .aegov-navblock-item__row .aegov-navblock-item__icon {
-  @apply text-primary-700;
+  @apply text-primary-600;
 }
 
 .aegov-navblock-item__label {
@@ -53,17 +56,12 @@
 }
 
 .aegov-navblock-item__sub-wrapper {
-  overflow: hidden;
-  transition: height 0.2s ease-in-out;
+  @apply overflow-hidden h-0;
+  transition: height 0.1s ease-in-out;
 }
 
 .aegov-navblock-item__sub {
-  @apply flex flex-col gap-0.5 list-none m-0;
-  padding: 0.25rem 0 0.25rem 1rem;
-}
-
-[dir="rtl"] .aegov-navblock-item__sub {
-  padding: 0.25rem 1rem 0.25rem 0;
+  @apply flex flex-col gap-0.5 list-none m-0 py-1 ps-4;
 }
 
 /* Size variants */
