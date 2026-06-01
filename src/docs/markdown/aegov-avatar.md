@@ -60,13 +60,13 @@ The avatar resolves its content in this order:
 Two shape tokens are available. `square` (default) renders the avatar with rounded corners, while `rounded` renders a full circle. Use `rounded` for personal profiles and chat-style UIs; `square` works well for employee directories and structured layouts.
 
 ```html
-<aegov-avatar src="https://i.pravatar.cc/150?img=14" alt="Ahmed Al Marri" appearance="square"></aegov-avatar>
+<aegov-avatar src="https://picsum.photos/200/300" alt="Ahmed Al Marri" appearance="square"></aegov-avatar>
 <aegov-avatar src="https://i.pravatar.cc/150?img=14" alt="Ahmed Al Marri" appearance="rounded"></aegov-avatar>
 ```
 
 <div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <div style="display:flex;gap:1rem;align-items:center;">
-    <aegov-avatar src="https://i.pravatar.cc/150?img=14" alt="Ahmed Al Marri" appearance="square" size="lg"></aegov-avatar>
+    <aegov-avatar src="https://picsum.photos/200/300" alt="Ahmed Al Marri" appearance="square" size="lg"></aegov-avatar>
     <aegov-avatar src="https://i.pravatar.cc/150?img=14" alt="Ahmed Al Marri" appearance="rounded" size="lg"></aegov-avatar>
   </div>
 </div>
