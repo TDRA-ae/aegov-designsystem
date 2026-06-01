@@ -29,7 +29,7 @@
   ::slotted(img),
   & svg,
   & img {
-    @apply size-6 flex-shrink-0 fill-current;
+    @apply size-6 flex-shrink-0;
   }
 
   &:has(svg),
