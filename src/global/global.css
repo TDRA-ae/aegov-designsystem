@@ -361,7 +361,7 @@
   }
 
   a {
-    @apply -ml-1.5 inline-flex items-center align-middle gap-2 px-1.5 pt-1 pb-1.5 rtl:-mr-1.5 rtl:ml-0 text-primary-600 bg-transparent hover:text-primary-500 hover:underline-offset-2 hover:underline decoration-2 focus-visible:bg-primary-support-400 focus-visible:underline focus-visible:decoration-2 focus-visible:decoration-primary-support-950 focus-visible:text-primary-support-950 focus-visible:outline-primary-support-400 focus-visible:outline focus-visible:outline-offset-0 focus-visible:rounded-md;
+    @apply inline-flex items-center align-middle gap-2 text-primary-600 bg-transparent hover:text-primary-500 hover:underline-offset-2 hover:underline decoration-2 focus-visible:bg-primary-support-500 focus-visible:text-primary-950! focus-visible:decoration-2 focus-visible:decoration-primary-support-950 focus-visible:text-primary-support-950 focus-visible:outline-primary-support-400 focus-visible:outline focus-visible:outline-offset-0 focus-visible:rounded-md;
   }
 }
 

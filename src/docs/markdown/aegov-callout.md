@@ -204,7 +204,7 @@ The `actions` slot holds buttons rendered below the content. Use it when the mes
 ```
 
 <div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <aegov-callout variant="success" appearance="soft">
+  <aegov-callout variant="info" appearance="solid">
     <p slot="content">
       <strong>Application received.</strong> Your Emirates ID renewal request has been logged with reference <code>EID-2026-049381</code>. You will receive an SMS once it has been approved.
     </p>

@@ -66,7 +66,8 @@ The `size` property scales the field height, padding, and font size. Five tokens
     <aegov-input size="sm" placeholder="Small"></aegov-input>
     <aegov-input size="base" placeholder="Base (default)"></aegov-input>
     <aegov-input size="lg" placeholder="Large"></aegov-input>
-    <aegov-input size="xl" placeholder="Extra large"></aegov-input>
+    <aegov-input size="xl" placeholder="Extra large">
+    </aegov-input>
   </div>
 </div>
 
