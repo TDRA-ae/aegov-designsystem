@@ -9,16 +9,16 @@
          disabled:pointer-events-none disabled:cursor-not-allowed
          disabled:select-none disabled:opacity-40
          rounded-lg focus:outline-none;
-  @apply placeholder:text-aeblack-400 bg-whitely-50
+  @apply placeholder:text-aeblack-300 bg-whitely-50
          inset-ring-2
          focus-visible:inset-ring-primary-support-500;
 }
 
 /* Variant — idle ring + value text per colour family */
-.aegov-input.input-variant-primary       { @apply inset-ring-primary-400 text-primary-900 hover:text-primary-700; }
-.aegov-input.input-variant-secondary     { @apply inset-ring-secondary-400 text-secondary-900 hover:text-secondary-700; }
-.aegov-input.input-variant-neutral-max   { @apply inset-ring-aeblack-400 text-aeblack-900 hover:text-aeblack-800; }
-.aegov-input.input-variant-neutral-min   { @apply inset-ring-aeblack-200 text-aeblack-900 hover:text-aeblack-700; }
+.aegov-input.input-variant-primary       { @apply inset-ring-primary-600 text-primary-900 }
+.aegov-input.input-variant-secondary     { @apply inset-ring-secondary-600 text-secondary-900 }
+.aegov-input.input-variant-neutral-max   { @apply inset-ring-aeblack-800 text-aeblack-950 }
+.aegov-input.input-variant-neutral-min   { @apply inset-ring-aeblack-300 text-aeblack-700 }
 
 /* Focus ring — overrides variant idle ring. Specificity (0,2,1) beats variant (0,2,0). */
 .aegov-input.input-variant-primary:focus {

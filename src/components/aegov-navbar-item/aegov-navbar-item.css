@@ -9,6 +9,7 @@ li.aegov-navbar-item {
 .aegov-navbar-item__link {
   @apply inline-flex items-center align-middle gap-1.5 no-underline text-aeblack-800 font-semibold transition-colors;
   @apply hover:text-primary-700;
+  @apply focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-support-500 focus-visible:text-primary-support-950! focus-visible:bg-primary-support-500;;
 }
 
 a.aegov-navbar-item__link,
@@ -31,9 +32,8 @@ li.aegov-navbar-item--has-dropdown .aegov-dropdown-trigger {
   @apply inline-flex items-center;
 }
 
-a.aegov-navbar-item__link:focus-visible,
 button.aegov-navbar-item__chevron:focus-visible {
-  @apply outline-2 outline-offset-1 outline-primary-support-600;
+  @apply outline-2 outline-offset-2 outline-primary-support-600;
 }
 
 .aegov-navbar-item__link[aria-current="page"] {
