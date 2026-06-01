@@ -6,7 +6,7 @@
   @apply relative;
 }
 .aegov-checkbox input[type="checkbox"] {
-  @apply appearance-none mt-0.5 text-whitely-50 border-2 relative m-0 h-4.5 w-4.5 disabled:pointer-events-none disabled:checked:opacity-40 disabled:border-primary-200 rounded focus-visible:outline-2 focus-visible:outline-offset-2;
+  @apply appearance-none shrink-0 mt-0.5 text-whitely-50 border-2 relative m-0 h-4.5 w-4.5 disabled:pointer-events-none disabled:checked:opacity-40 disabled:border-primary-200 rounded focus-visible:outline-2 focus-visible:outline-offset-2;
 
   &:before  {
     content: '';
@@ -104,7 +104,7 @@
    Checkbox: 16px, label: text-sm, desc: text-xs
    ======================================== */
 .checkbox--sm .checkbox__wrapper {
-  @apply gap-2;
+  @apply gap-2.5;
 }
 
 .checkbox--sm input[type="checkbox"] {
