@@ -130,7 +130,7 @@ export type BadgeColor = typeof BADGE_COLORS[number];
 /**
  * Title component size types
  */
-export const TITLE_SIZES = ['sm', 'base', 'lg', 'xl','2xl'] as const;
+export const TITLE_SIZES = ['xs', 'sm', 'base', 'lg', 'xl','2xl', '3xl', 'text-h1', 'text-h2', 'text-h3', 'text-h4', 'text-h5', 'text-h6'] as const;
 export type TitleSize = typeof TITLE_SIZES[number];
 
 /**
