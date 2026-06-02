@@ -21,7 +21,7 @@
 }
 
 .separator--vertical {
-  @apply h-full border-l inline-block;
+  @apply h-full border-l inline-block align-middle;
   min-height: 1rem;
 }
 
