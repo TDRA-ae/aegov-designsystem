@@ -92,6 +92,19 @@ Type: `Promise<AegovValidationResult>`
 
 
 
+## Dependencies
+
+### Depends on
+
+- [aegov-button](../aegov-button)
+
+### Graph
+```mermaid
+graph TD;
+  aegov-fileupload --> aegov-button
+  style aegov-fileupload fill:#f9f,stroke:#333,stroke-width:4px
+```
+
 ----------------------------------------------
 
 *Built with [StencilJS](https://stenciljs.com/)*

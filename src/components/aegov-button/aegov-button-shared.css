@@ -1,0 +1,490 @@
+/**
+ * Shared button-style class rules.
+ *
+ * Defines `.aegov-btn` and all `.btn-*` modifier classes — sizes, color
+ * variants × appearances, and grouped layouts. Imported by both
+ * `aegov-button.css` (real <button>) and `aegov-link.css` (button-styled <a>)
+ * so that `aegov-link` with `variant`/`appearance`/`size` props renders
+ * pixel-identically to `aegov-button` even on pages that never instantiate
+ * an `<aegov-button>` element.
+ *
+ * Host-level rules (e.g. `:host { display: inline-block }`) intentionally
+ * live in the consuming component's own CSS file because `<aegov-button>`
+ * and `<aegov-link>` need different host displays.
+ */
+
+.aegov-btn {
+  /* Base button reset */
+  font-family: inherit;
+  -webkit-tap-highlight-color: transparent;
+
+  ::slotted(svg),
+  ::slotted(img),
+  & svg,
+  & img {
+    @apply size-6 flex-shrink-0;
+  }
+
+  &:has(svg),
+  &:has(img) {
+    @apply px-4;
+  }
+
+  &:has(svg + svg),
+  &:has(img + img) {
+    @apply px-3.5;
+  }
+}
+
+.btn-icon {
+  @apply gap-0 px-0;
+}
+
+.btn-xl {
+  font-family: inherit;
+
+  ::slotted(svg),
+  ::slotted(img),
+  & svg,
+  & img {
+    @apply size-6.5!;
+  }
+  &:has(svg), &:has(img) { @apply px-4; }
+  &:has(svg + svg), &:has(img + img) { @apply px-3.5; }
+  &.btn-icon { @apply size-13! gap-0 px-0; }
+}
+
+.btn-lg {
+  font-family: inherit;
+
+  ::slotted(svg),
+  ::slotted(img),
+  & svg,
+  & img {
+    @apply size-6!;
+  }
+  &:has(svg), &:has(img) { @apply px-4; }
+  &:has(svg + svg), &:has(img + img) { @apply px-3.5; }
+  &.btn-icon { @apply size-12! gap-0 px-0; }
+}
+
+.btn-base {
+  font-family: inherit;
+
+  ::slotted(svg),
+  ::slotted(img),
+  & svg,
+  & img {
+    @apply size-5.5!;
+  }
+  &:has(svg), &:has(img) { @apply px-3.5; }
+  &:has(svg + svg), &:has(img + img) { @apply px-3; }
+  &.btn-icon { @apply size-11! gap-0 px-0; }
+}
+
+.btn-sm {
+  font-family: inherit;
+
+  ::slotted(svg),
+  ::slotted(img),
+  & svg,
+  & img {
+    @apply size-5!;
+  }
+  &:has(svg), &:has(img) { @apply px-3; }
+  &:has(svg + svg), &:has(img + img) { @apply px-2.5; }
+  &.btn-icon { @apply size-10! gap-0 px-0; }
+}
+
+.btn-xs {
+  font-family: inherit;
+
+  ::slotted(svg),
+  ::slotted(img),
+  & svg,
+  & img {
+    @apply size-4.5!;
+  }
+  &:has(svg), &:has(img) { @apply px-2; }
+  &:has(svg + svg), &:has(img + img) { @apply px-1.5; }
+  &.btn-icon { @apply size-9! gap-0 px-0; }
+}
+
+/*
+  ====================================================================
+  Appearance
+  ====================================================================
+*/
+
+.btn-primary {
+  &.btn-solid {
+    @apply bg-primary-600 hover:bg-primary-500 border-primary-600 hover:border-primary-500 focus-visible:bg-primary-support-500 focus-visible:text-primary-support-950 focus-visible:border-primary-support-500 text-whitely-50;
+  }
+  &.btn-outline {
+    @apply text-primary-600 hover:bg-primary-50 hover:text-primary-700 border-primary-600 hover:border-primary-700 focus-visible:border-primary-50 focus-visible:bg-primary-support-500 focus-visible:text-primary-support-950;
+  }
+  &.btn-soft {
+    @apply bg-primary-50 hover:bg-primary-100 text-primary-700 hover:text-primary-800 focus-visible:bg-primary-support-500 focus-visible:text-primary-support-950;
+  }
+  &.btn-link {
+    @apply text-primary-600 hover:text-primary-700 focus-visible:bg-primary-support-500 focus-visible:text-primary-support-950;
+  }
+}
+
+.btn-secondary {
+  &.btn-solid {
+    @apply bg-secondary-600 hover:bg-secondary-500 border-secondary-600 hover:border-secondary-500 focus-visible:bg-secondary-support-500 focus-visible:text-secondary-support-950 focus-visible:border-secondary-support-500 text-whitely-50;
+  }
+  &.btn-outline {
+    @apply text-secondary-600 hover:bg-secondary-50 hover:text-secondary-700 border-secondary-600 hover:border-secondary-700 focus-visible:border-secondary-50 focus-visible:bg-secondary-support-500 focus-visible:text-secondary-support-950;
+  }
+  &.btn-soft {
+    @apply bg-secondary-50 hover:bg-secondary-100 text-secondary-700 hover:text-secondary-800 focus-visible:bg-secondary-support-500 focus-visible:text-secondary-support-950;
+  }
+  &.btn-link {
+    @apply text-secondary-600 hover:text-secondary-700 focus-visible:bg-secondary-support-500 focus-visible:text-secondary-support-950;
+  }
+}
+
+.btn-neutral-max {
+  &.btn-solid {
+    @apply bg-aeblack-800 hover:bg-aeblack-700 border-aeblack-800 hover:border-aeblack-700 focus-visible:bg-seablue-500 focus-visible:text-seablue-950 focus-visible:border-seablue-500 text-aeblack-50;
+  }
+  &.btn-outline {
+    @apply text-aeblack-800 hover:bg-aeblack-50 hover:text-aeblack-900 border-aeblack-800 hover:border-aeblack-900 focus-visible:border-aeblack-50 focus-visible:bg-seablue-500 focus-visible:text-seablue-950;
+  }
+  &.btn-soft {
+    @apply bg-aeblack-50 hover:bg-aeblack-100 text-aeblack-800 hover:text-aeblack-900 focus-visible:bg-seablue-500 focus-visible:text-seablue-950;
+  }
+  &.btn-link {
+    @apply text-aeblack-800 hover:text-aeblack-700 focus-visible:bg-seablue-500 focus-visible:text-seablue-950;
+  }
+}
+
+.btn-neutral-min {
+  &.btn-solid {
+    @apply bg-whitely-50! hover:bg-whitely-200! focus-visible:bg-seablue-500 focus-visible:text-seablue-50 focus-visible:border-seablue-500 text-aeblack-600 border-aeblack-100 hover:border-aeblack-200;
+  }
+  &.btn-outline {
+    @apply text-aeblack-500 hover:bg-whitely-200 hover:text-aeblack-600 border-aeblack-100 hover:border-aeblack-200 focus-visible:border-whitely-500 focus-visible:bg-seablue-500 focus-visible:text-seablue-50;
+  }
+  &.btn-soft {
+    @apply bg-whitely-50 hover:bg-whitely-200! text-aeblack-500 hover:text-aeblack-600 focus-visible:bg-seablue-500 focus-visible:text-seablue-50;
+  }
+  &.btn-link {
+    @apply text-aeblack-500 hover:text-aeblack-600 focus-visible:bg-seablue-500 focus-visible:text-seablue-50;
+  }
+}
+
+.btn-danger {
+  &.btn-solid {
+    @apply bg-aered-600 hover:bg-aered-500 border-aered-600 hover:border-aered-500 focus-visible:bg-camel-500 focus-visible:text-camel-950 focus-visible:border-camel-500 text-whitely-50;
+  }
+  &.btn-outline {
+    @apply text-aered-700 hover:bg-aered-50 hover:text-aered-700 border-aered-700 hover:border-aered-700 focus-visible:border-camel-600 focus-visible:bg-camel-500 focus-visible:text-camel-950;
+  }
+  &.btn-soft {
+    @apply bg-aered-50 hover:bg-aered-100 text-aered-700 hover:text-aered-800 focus-visible:bg-camel-500 focus-visible:text-camel-950;
+  }
+  &.btn-link {
+    @apply text-aered-700 hover:text-aered-600 focus-visible:bg-camel-500 focus-visible:text-camel-950;
+  }
+}
+
+/*
+  ====================================================================
+  GROUPED Button
+  ====================================================================
+*/
+.btn-grouped-horizontal {
+  @apply rounded-none;
+  &.btn-grouped-first-horizontal {
+    &.btn-lg, &.btn-xl {
+      @apply rounded-s-lg;
+    }
+    &.btn-base {
+      @apply rounded-s-lg;
+    }
+    &.btn-sm {
+      @apply rounded-s-md;
+    }
+    &.btn-xs {
+      @apply rounded-s-sm;
+    }
+  }
+  &.btn-grouped-last-horizontal {
+    &.btn-lg, &.btn-xl {
+      @apply rounded-e-lg;
+    }
+    &.btn-base {
+      @apply rounded-e-lg;
+    }
+    &.btn-sm {
+      @apply rounded-e-md;
+    }
+    &.btn-xs {
+      @apply rounded-e-sm;
+    }
+    &.btn-primary {
+      &.btn-solid {
+        @apply border-s-primary-700;
+      }
+      &.btn-outline {
+        @apply border-s-0;
+      }
+      &.btn-soft {
+        @apply border-s-primary-100 border-s;
+      }
+    }
+    &.btn-secondary {
+      &.btn-solid {
+        @apply border-s-secondary-700;
+      }
+      &.btn-outline {
+        @apply border-s-0;
+      }
+      &.btn-soft {
+        @apply border-s-secondary-100 border-s;
+      }
+    }
+    &.btn-danger {
+      &.btn-solid {
+        @apply border-s-aered-700;
+      }
+      &.btn-outline {
+        @apply border-s-0;
+      }
+      &.btn-soft {
+        @apply border-s-aered-100 border-s;
+      }
+    }
+    &.btn-neutral-max {
+      &.btn-solid {
+        @apply border-s-aeblack-900;
+      }
+      &.btn-outline {
+        @apply border-s-0;
+      }
+      &.btn-soft {
+        @apply border-s-aeblack-100 border-s;
+      }
+    }
+    &.btn-neutral-min {
+      &.btn-solid {
+        @apply border-s-whitely-500;
+      }
+      &.btn-outline {
+        @apply border-s-0;
+      }
+      &.btn-soft {
+        @apply border-s-whitely-100 border-s;
+      }
+    }
+  }
+  &.btn-grouped-middle-horizontal {
+    &.btn-primary {
+      &.btn-solid {
+        @apply border-s-primary-700;
+      }
+      &.btn-outline {
+        @apply border-s-0;
+      }
+      &.btn-soft {
+        @apply border-s-primary-100 border-s;
+      }
+    }
+    &.btn-secondary {
+      &.btn-solid {
+        @apply border-s-secondary-700;
+      }
+      &.btn-outline {
+        @apply border-s-0;
+      }
+      &.btn-soft {
+        @apply border-s-secondary-100 border-s;
+      }
+    }
+    &.btn-danger {
+      &.btn-solid {
+        @apply border-s-aered-700;
+      }
+      &.btn-outline {
+        @apply border-s-0;
+      }
+      &.btn-soft {
+        @apply border-s-aered-100 border-s;
+      }
+    }
+    &.btn-neutral-max {
+      &.btn-solid {
+        @apply border-s-aeblack-900;
+      }
+      &.btn-outline {
+        @apply border-s-0;
+      }
+      &.btn-soft {
+        @apply border-s-aeblack-100 border-s;
+      }
+    }
+    &.btn-neutral-min {
+      &.btn-solid {
+        @apply border-s-whitely-500;
+      }
+      &.btn-outline {
+        @apply border-s-0;
+      }
+      &.btn-soft {
+        @apply border-s-whitely-100 border-s;
+      }
+    }
+  }
+}
+
+/*
+  ====================================================================
+  GROUPED Button — Vertical
+  ====================================================================
+*/
+.btn-grouped-vertical {
+  @apply rounded-none w-full;
+  &.btn-grouped-first-vertical {
+    &.btn-lg, &.btn-xl {
+      @apply rounded-t-lg;
+    }
+    &.btn-base {
+      @apply rounded-t-lg;
+    }
+    &.btn-sm {
+      @apply rounded-t-md;
+    }
+    &.btn-xs {
+      @apply rounded-t-sm;
+    }
+  }
+  &.btn-grouped-last-vertical {
+    &.btn-lg, &.btn-xl {
+      @apply rounded-b-lg;
+    }
+    &.btn-base {
+      @apply rounded-b-lg;
+    }
+    &.btn-sm {
+      @apply rounded-b-md;
+    }
+    &.btn-xs {
+      @apply rounded-b-sm;
+    }
+    &.btn-primary {
+      &.btn-solid {
+        @apply border-t-primary-700;
+      }
+      &.btn-outline {
+        @apply border-t-0;
+      }
+      &.btn-soft {
+        @apply border-t-primary-100 border-t;
+      }
+    }
+    &.btn-secondary {
+      &.btn-solid {
+        @apply border-t-secondary-700;
+      }
+      &.btn-outline {
+        @apply border-t-0;
+      }
+      &.btn-soft {
+        @apply border-t-secondary-100 border-t;
+      }
+    }
+    &.btn-danger {
+      &.btn-solid {
+        @apply border-t-aered-700;
+      }
+      &.btn-outline {
+        @apply border-t-0;
+      }
+      &.btn-soft {
+        @apply border-t-aered-100 border-t;
+      }
+    }
+    &.btn-neutral-max {
+      &.btn-solid {
+        @apply border-t-aeblack-900;
+      }
+      &.btn-outline {
+        @apply border-t-0;
+      }
+      &.btn-soft {
+        @apply border-t-aeblack-100 border-t;
+      }
+    }
+    &.btn-neutral-min {
+      &.btn-solid {
+        @apply border-t-whitely-500;
+      }
+      &.btn-outline {
+        @apply border-t-0;
+      }
+      &.btn-soft {
+        @apply border-t-whitely-100 border-t;
+      }
+    }
+  }
+  &.btn-grouped-middle-vertical {
+    &.btn-primary {
+      &.btn-solid {
+        @apply border-t-primary-700;
+      }
+      &.btn-outline {
+        @apply border-t-0;
+      }
+      &.btn-soft {
+        @apply border-t-primary-100 border-t;
+      }
+    }
+    &.btn-secondary {
+      &.btn-solid {
+        @apply border-t-secondary-700;
+      }
+      &.btn-outline {
+        @apply border-t-0;
+      }
+      &.btn-soft {
+        @apply border-t-secondary-100 border-t;
+      }
+    }
+    &.btn-danger {
+      &.btn-solid {
+        @apply border-t-aered-700;
+      }
+      &.btn-outline {
+        @apply border-t-0;
+      }
+      &.btn-soft {
+        @apply border-t-aered-100 border-t;
+      }
+    }
+    &.btn-neutral-max {
+      &.btn-solid {
+        @apply border-t-aeblack-900;
+      }
+      &.btn-outline {
+        @apply border-t-0;
+      }
+      &.btn-soft {
+        @apply border-t-aeblack-100 border-t;
+      }
+    }
+    &.btn-neutral-min {
+      &.btn-solid {
+        @apply border-t-whitely-500;
+      }
+      &.btn-outline {
+        @apply border-t-0;
+      }
+      &.btn-soft {
+        @apply border-t-whitely-100 border-t;
+      }
+    }
+  }
+}

@@ -20,6 +20,7 @@ import type {
 import { getPassThroughAttributes } from '../../utils/attributes';
 import { warnIfInvalidEnumProp } from '../../utils/prop-validator';
 import { generateId } from '../../utils/id-generator';
+import { getActionClasses } from '../../utils/action-classes';
 
 const TAG = 'aegov-button';
 const ctx = (prop: string) => ({ component: TAG, prop });
@@ -195,92 +196,21 @@ export class AegovButton {
 
 
   /**
-   * Get the CSS classes based on component props
+   * Get the CSS classes based on component props (delegates to shared util).
    */
   private getButtonClasses(): string {
-    const classes: string[] = [
-      'aegov-btn relative inline-flex shrink-0 cursor-pointer select-none flex-wrap items-center justify-center whitespace-nowrap no-underline transition-all duration-200 ease-in-out focus-visible:outline-2  disabled:cursor-default disabled:pointer-events-none disabled:cursor-not-allowed'
-    ];
-
-    const size: ButtonSize = this._resolvedSize;
-    const variant: ButtonVariant = (BUTTON_VARIANTS as readonly string[]).includes(this.variant) ? this.variant : 'primary';
-    const appearance: ButtonAppearance = (BUTTON_APPEARANCES as readonly string[]).includes(this.appearance) ? this.appearance : 'solid';
-
-    // Size classes
-    const sizeClasses: Record<ButtonSize, string[]> = {
-      xs: ['btn-xs','h-9','rounded-md', 'gap-1.5', 'px-2.5', 'text-sm'],
-      sm: ['btn-sm', 'h-10', 'rounded-md', 'gap-2', 'px-3', 'text-base'],
-      base: ['btn-base', 'h-11', 'rounded-md', 'gap-2', 'px-3.5', 'text-base'],
-      lg: ['btn-lg','h-12', 'rounded-lg', 'gap-3', 'px-4', 'text-lg'],
-      xl: ['btn-lg','h-13', 'rounded-lg', 'gap-3', 'px-4.5', 'text-lg']
-    };
-
-    classes.push(...sizeClasses[size]);
-
-    const variantClasses: Record<ButtonVariant, string[]> = {
-      'primary': ['btn-primary', 'outline-primary-support-600'],
-      'secondary': ['btn-secondary', 'outline-secondary-support-600'],
-      'danger': ['btn-danger', 'outline-camel-600'],
-      'neutral-min': ['btn-neutral-min', 'outline-seablue-600'],
-      'neutral-max': ['btn-neutral-max', 'outline-seablue-600']
-    };
-
-    classes.push(...variantClasses[variant]);
-
-    const appearanceClasses: Record<ButtonAppearance, string[]> = {
-      solid: ['btn-solid','shadow-[inset_0px_1px_--theme(--color-whitely-50/.2)]', 'border-1', 'focus-visible:outline-offset-2', 'disabled:opacity-30'],
-      outline: ['btn-outline','bg-transparent', 'border-2', 'focus-visible:outline-offset-0', 'disabled:opacity-50'],
-      soft: ['btn-soft', 'border-0', 'focus-visible:outline-offset-2', 'disabled:opacity-50'],
-      link: ['btn-link', 'bg-transparent', 'border-0', 'hover:underline', 'hover:decoration-2', 'hover:underline-offset-2', 'focus-visible:outline-offset-2', 'disabled:opacity-50']
-    };
-
-    classes.push(...appearanceClasses[appearance]);
-
-
-    // Disabled state
-    if (this.isDisabled || this.isLoading) {
-      classes.push(
-        'cursor-not-allowed',
-        'pointer-events-none'
-      );
-    }
-
-    // Icon only button
-    if (this.isIcon) {
-      classes.push(
-        'btn-icon'
-      );
-    }
-
-    // Full width
-    if (this.isFull) {
-      classes.push('w-full');
-    }
-
-    // bold management
-    if (this.isBold) {
-      classes.push('font-semibold');
-    }
-
-    // Button group styling
-    const groupOrientation = (BUTTON_GROUP_ORIENTATIONS as readonly string[]).includes(this.groupOrientation as string)
-      ? (this.groupOrientation as ButtonGroupOrientation)
-      : undefined;
-    const groupPosition = (BUTTON_GROUP_POSITIONS as readonly string[]).includes(this.groupPosition as string)
-      ? (this.groupPosition as ButtonGroupPosition)
-      : undefined;
-
-    if (groupPosition && groupOrientation) {
-      classes.push(`btn-grouped-${groupOrientation}`);
-
-      if (groupPosition === 'single') {
-        classes.push('btn-grouped-single');
-      } else {
-        classes.push(`btn-grouped-${groupPosition}-${groupOrientation}`);
-      }
-    }
-
-    return classes.join(' ');
+    return getActionClasses({
+      variant: this.variant,
+      appearance: this.appearance,
+      size: this._resolvedSize,
+      isIcon: this.isIcon,
+      isFull: this.isFull,
+      isBold: this.isBold,
+      isDisabled: this.isDisabled,
+      isLoading: this.isLoading,
+      groupPosition: this.groupPosition,
+      groupOrientation: this.groupOrientation,
+    });
   }
 
   render() {
