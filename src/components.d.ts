@@ -1196,6 +1196,10 @@ export namespace Components {
     }
     interface AegovLink {
         /**
+          * Button-style appearance. Setting this opts into button styling.
+         */
+        "appearance"?: ButtonAppearance;
+        /**
           * Additional CSS classes to apply to the link.
          */
         "extraClass"?: string;
@@ -1209,13 +1213,41 @@ export namespace Components {
          */
         "href": string;
         /**
+          * Bold text.
+          * @default false
+         */
+        "isBold": boolean;
+        /**
+          * Disable navigation and apply disabled styling. Adds `aria-disabled="true"`, removes the link from tab order, and prevents default click navigation. Native `<a>` does not support `disabled`; this is a polyfill.
+          * @default false
+         */
+        "isDisabled": boolean;
+        /**
+          * Stretch to fill container width.
+          * @default false
+         */
+        "isFull": boolean;
+        /**
+          * Render as icon-only (square). Requires a button-style appearance.
+          * @default false
+         */
+        "isIcon": boolean;
+        /**
           * Rel attribute for the link (e.g., "noopener noreferrer" for external links).
          */
         "rel"?: string;
         /**
+          * Button-style size (xs/sm/base/lg/xl, optionally responsive).
+         */
+        "size"?: string;
+        /**
           * Target attribute for the link (_blank, _self, _parent, _top).
          */
         "target"?: LinkTarget;
+        /**
+          * Button-style color variant. Setting this opts into button styling.
+         */
+        "variant"?: ButtonVariant;
     }
     interface AegovModal {
         /**
@@ -4753,6 +4785,10 @@ declare namespace LocalJSX {
     }
     interface AegovLink {
         /**
+          * Button-style appearance. Setting this opts into button styling.
+         */
+        "appearance"?: ButtonAppearance;
+        /**
           * Additional CSS classes to apply to the link.
          */
         "extraClass"?: string;
@@ -4766,6 +4802,26 @@ declare namespace LocalJSX {
          */
         "href": string;
         /**
+          * Bold text.
+          * @default false
+         */
+        "isBold"?: boolean;
+        /**
+          * Disable navigation and apply disabled styling. Adds `aria-disabled="true"`, removes the link from tab order, and prevents default click navigation. Native `<a>` does not support `disabled`; this is a polyfill.
+          * @default false
+         */
+        "isDisabled"?: boolean;
+        /**
+          * Stretch to fill container width.
+          * @default false
+         */
+        "isFull"?: boolean;
+        /**
+          * Render as icon-only (square). Requires a button-style appearance.
+          * @default false
+         */
+        "isIcon"?: boolean;
+        /**
           * Emitted when the link is clicked. The event detail contains the href and can be used to implement custom navigation.
          */
         "onAegovLinkClick"?: (event: AegovLinkCustomEvent<{ href: string; event: MouseEvent }>) => void;
@@ -4774,9 +4830,17 @@ declare namespace LocalJSX {
          */
         "rel"?: string;
         /**
+          * Button-style size (xs/sm/base/lg/xl, optionally responsive).
+         */
+        "size"?: string;
+        /**
           * Target attribute for the link (_blank, _self, _parent, _top).
          */
         "target"?: LinkTarget;
+        /**
+          * Button-style color variant. Setting this opts into button styling.
+         */
+        "variant"?: ButtonVariant;
     }
     interface AegovModal {
         /**

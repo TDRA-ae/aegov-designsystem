@@ -150,6 +150,91 @@
 </div>
 
 <hr>
+<h2>Button-Styled Links</h2>
+<p>For calls-to-action that must remain semantically anchors (so they participate in browser navigation, are middle-click openable, copy-link friendly, and announced as <strong>links</strong> by assistive technology), opt into button styling by passing any of the button-style props: <code>variant</code>, <code>appearance</code>, <code>size</code>, <code>is-icon</code>, <code>is-full</code>, <code>is-bold</code>, or <code>is-disabled</code>. Setting any of these switches the rendered <code>&lt;a&gt;</code> to use the shared button class util, so its look stays in lock-step with <code>aegov-button</code>.</p>
+<p>Crucially, <code>aegov-link</code> does <strong>not</strong> support <code>is-loading</code> — loading states belong on real <code>&lt;button&gt;</code> elements that perform an action. Use <code>aegov-button</code> for those.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-link</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/start&quot;</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;primary&quot;</span> <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;solid&quot;</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;base&quot;</span>&gt;</span>
+  Get started
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-link</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-link</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/sign-in&quot;</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;secondary&quot;</span> <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;outline&quot;</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;base&quot;</span>&gt;</span>
+  Sign in
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-link</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-link</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/learn-more&quot;</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;primary&quot;</span> <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;soft&quot;</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;base&quot;</span>&gt;</span>
+  Learn more
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-link</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-link</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/docs&quot;</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;neutral-min&quot;</span> <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;link&quot;</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;base&quot;</span>&gt;</span>
+  Read the docs
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-link</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov flex flex-wrap gap-3 items-center">
+  <aegov-link href="/start" variant="primary" appearance="solid" size="base">Get started</aegov-link>
+  <aegov-link href="/sign-in" variant="secondary" appearance="outline" size="base">Sign in</aegov-link>
+  <aegov-link href="/learn-more" variant="primary" appearance="soft" size="base">Learn more</aegov-link>
+  <aegov-link href="/docs" variant="neutral-min" appearance="link" size="base">Read the docs</aegov-link>
+</div>
+
+<h3>Sizes</h3>
+<p>Size scale mirrors <code>aegov-button</code> exactly: <code>xs</code>, <code>sm</code>, <code>base</code>, <code>lg</code>, <code>xl</code>. Sizes also accept responsive tokens (e.g. <code>&quot;sm md:base lg:lg&quot;</code>).</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-link</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/a&quot;</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;primary&quot;</span> <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;solid&quot;</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;xs&quot;</span>&gt;</span>Extra small<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-link</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-link</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/a&quot;</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;primary&quot;</span> <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;solid&quot;</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm&quot;</span>&gt;</span>Small<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-link</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-link</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/a&quot;</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;primary&quot;</span> <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;solid&quot;</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;base&quot;</span>&gt;</span>Base<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-link</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-link</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/a&quot;</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;primary&quot;</span> <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;solid&quot;</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;lg&quot;</span>&gt;</span>Large<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-link</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-link</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/a&quot;</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;primary&quot;</span> <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;solid&quot;</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;xl&quot;</span>&gt;</span>Extra large<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-link</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov flex flex-wrap gap-3 items-center">
+  <aegov-link href="/a" variant="primary" appearance="solid" size="xs">Extra small</aegov-link>
+  <aegov-link href="/a" variant="primary" appearance="solid" size="sm">Small</aegov-link>
+  <aegov-link href="/a" variant="primary" appearance="solid" size="base">Base</aegov-link>
+  <aegov-link href="/a" variant="primary" appearance="solid" size="lg">Large</aegov-link>
+  <aegov-link href="/a" variant="primary" appearance="solid" size="xl">Extra large</aegov-link>
+</div>
+
+<h3>Full-width link</h3>
+<p>Pair <code>is-full</code> with a block-level container to render a stretched call-to-action.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-link</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/apply&quot;</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;primary&quot;</span> <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;solid&quot;</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;lg&quot;</span> <span class="hljs-attr">is-full</span>&gt;</span>
+  Apply now
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-link</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-link href="/apply" variant="primary" appearance="solid" size="lg" is-full>Apply now</aegov-link>
+</div>
+
+<h3>Icon-only link</h3>
+<p>Provide an explicit <code>aria-label</code> so the link&#39;s destination is announced by assistive technology — the visual icon does not convey meaning to screen readers.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-link</span>
+  <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/settings&quot;</span>
+  <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;primary&quot;</span>
+  <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;outline&quot;</span>
+  <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;base&quot;</span>
+  <span class="hljs-attr">is-icon</span>
+  <span class="hljs-attr">aria-label</span>=<span class="hljs-string">&quot;Open settings&quot;</span>
+&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">svg</span> <span class="hljs-attr">xmlns</span>=<span class="hljs-string">&quot;http://www.w3.org/2000/svg&quot;</span> <span class="hljs-attr">width</span>=<span class="hljs-string">&quot;20&quot;</span> <span class="hljs-attr">height</span>=<span class="hljs-string">&quot;20&quot;</span> <span class="hljs-attr">viewBox</span>=<span class="hljs-string">&quot;0 0 24 24&quot;</span> <span class="hljs-attr">fill</span>=<span class="hljs-string">&quot;none&quot;</span> <span class="hljs-attr">stroke</span>=<span class="hljs-string">&quot;currentColor&quot;</span> <span class="hljs-attr">stroke-width</span>=<span class="hljs-string">&quot;2&quot;</span> <span class="hljs-attr">stroke-linecap</span>=<span class="hljs-string">&quot;round&quot;</span> <span class="hljs-attr">stroke-linejoin</span>=<span class="hljs-string">&quot;round&quot;</span> <span class="hljs-attr">aria-hidden</span>=<span class="hljs-string">&quot;true&quot;</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">circle</span> <span class="hljs-attr">cx</span>=<span class="hljs-string">&quot;12&quot;</span> <span class="hljs-attr">cy</span>=<span class="hljs-string">&quot;12&quot;</span> <span class="hljs-attr">r</span>=<span class="hljs-string">&quot;3&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">circle</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">path</span> <span class="hljs-attr">d</span>=<span class="hljs-string">&quot;M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">path</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">svg</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-link</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov flex gap-3 items-center">
+  <aegov-link href="/settings" variant="primary" appearance="outline" size="base" is-icon aria-label="Open settings">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <circle cx="12" cy="12" r="3"></circle>
+      <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+    </svg>
+  </aegov-link>
+</div>
+
+<h3>Disabled link</h3>
+<p>Native <code>&lt;a&gt;</code> elements do not support <code>disabled</code>, so <code>aegov-link</code> polyfills the behaviour when <code>is-disabled</code> is set:</p>
+<ul>
+<li>The link is removed from the tab order (<code>tabindex=&quot;-1&quot;</code>).</li>
+<li><code>aria-disabled=&quot;true&quot;</code> is announced by assistive technology.</li>
+<li><code>href</code> and <code>target</code> are stripped from the rendered element so the browser will not navigate even if the user activates it programmatically.</li>
+<li>Click events are intercepted and <code>preventDefault()</code> is called — <code>aegovLinkClick</code> is not emitted.</li>
+<li>Pointer events are disabled and the cursor switches to <code>not-allowed</code> via the shared button styling.</li>
+</ul>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-link</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/wip&quot;</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;primary&quot;</span> <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;solid&quot;</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;base&quot;</span> <span class="hljs-attr">is-disabled</span>&gt;</span>
+  Coming soon
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-link</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov flex gap-3 items-center">
+  <aegov-link href="/wip" variant="primary" appearance="solid" size="base" is-disabled>Coming soon</aegov-link>
+</div>
+
+<hr>
 <h2>RTL Support</h2>
 <p><code>aegov-link</code> is direction-agnostic. Because it renders inline content, the link simply flows in the direction set by the surrounding <code>dir</code> attribute. No properties need to change between LTR and RTL — wrap any ancestor with <code>dir=&quot;rtl&quot;</code> and the link reads right-to-left automatically.</p>
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">dir</span>=<span class="hljs-string">&quot;rtl&quot;</span>&gt;</span>
@@ -202,14 +287,14 @@
 <tbody><tr>
 <td><code>href</code></td>
 <td><code>href</code></td>
-<td>The URL the link points to. <strong>Required.</strong></td>
+<td>The URL the link points to. <strong>Required.</strong> Stripped from the rendered <code>&lt;a&gt;</code> when <code>isDisabled</code> is true.</td>
 <td><code>string</code></td>
 <td>—</td>
 </tr>
 <tr>
 <td><code>target</code></td>
 <td><code>target</code></td>
-<td>Anchor <code>target</code> attribute.</td>
+<td>Anchor <code>target</code> attribute. Stripped from the rendered <code>&lt;a&gt;</code> when <code>isDisabled</code> is true.</td>
 <td><code>&#39;_blank&#39; | &#39;_self&#39; | &#39;_parent&#39; | &#39;_top&#39;</code></td>
 <td><code>undefined</code></td>
 </tr>
@@ -233,6 +318,55 @@
 <td>Additional Tailwind / CSS classes merged onto the rendered <code>&lt;a&gt;</code>.</td>
 <td><code>string</code></td>
 <td><code>undefined</code></td>
+</tr>
+<tr>
+<td><code>variant</code></td>
+<td><code>variant</code></td>
+<td>Button-style colour variant. Setting this opts into button-style classes.</td>
+<td><code>&#39;primary&#39; | &#39;secondary&#39; | &#39;danger&#39; | &#39;neutral-min&#39; | &#39;neutral-max&#39;</code></td>
+<td><code>undefined</code></td>
+</tr>
+<tr>
+<td><code>appearance</code></td>
+<td><code>appearance</code></td>
+<td>Button-style visual appearance. Setting this opts into button-style classes.</td>
+<td><code>&#39;solid&#39; | &#39;outline&#39; | &#39;soft&#39; | &#39;link&#39;</code></td>
+<td><code>undefined</code></td>
+</tr>
+<tr>
+<td><code>size</code></td>
+<td><code>size</code></td>
+<td>Button-style size token. Accepts responsive expressions (e.g. <code>&quot;sm md:base lg:lg&quot;</code>). Setting this opts into button styling.</td>
+<td><code>&#39;xs&#39; | &#39;sm&#39; | &#39;base&#39; | &#39;lg&#39; | &#39;xl&#39;</code> (or responsive)</td>
+<td><code>undefined</code></td>
+</tr>
+<tr>
+<td><code>isIcon</code></td>
+<td><code>is-icon</code></td>
+<td>Render as a square icon-only link. Provide an <code>aria-label</code> for accessibility.</td>
+<td><code>boolean</code></td>
+<td><code>false</code></td>
+</tr>
+<tr>
+<td><code>isFull</code></td>
+<td><code>is-full</code></td>
+<td>Stretch the link to fill its container width.</td>
+<td><code>boolean</code></td>
+<td><code>false</code></td>
+</tr>
+<tr>
+<td><code>isBold</code></td>
+<td><code>is-bold</code></td>
+<td>Apply bold (semibold) font weight to button-styled links.</td>
+<td><code>boolean</code></td>
+<td><code>false</code></td>
+</tr>
+<tr>
+<td><code>isDisabled</code></td>
+<td><code>is-disabled</code></td>
+<td>Polyfill of native <code>disabled</code> for anchors. Removes the link from the tab order, sets <code>aria-disabled=&quot;true&quot;</code>, strips <code>href</code> / <code>target</code>, and blocks click navigation.</td>
+<td><code>boolean</code></td>
+<td><code>false</code></td>
 </tr>
 </tbody></table>
 <h3>Slots</h3>

@@ -7,3 +7,4 @@ export * from './prop-validator';
 export * from './responsive-prop';
 export * from './validation';
 export * from './rtl';
+export * from './action-classes';
