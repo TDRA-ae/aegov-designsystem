@@ -75,11 +75,19 @@ export class AegovTitle {
 
     // Size classes — `!` forces override of global h1–h6 base styles.
     const sizeClasses: Record<TitleSize, string> = {
-      sm: 'text-base!',
-      base: 'text-lg!',
-      lg: 'text-xl!',
-      xl: 'text-2xl!',
-      '2xl': 'text-3xl!'
+      xs: 'text-xs!',
+      sm: 'text-sm!',
+      base: 'text-base!',
+      lg: 'text-lg!',
+      xl: 'text-xl!',
+      '2xl': 'text-2xl!',
+      '3xl': 'text-3xl!',
+      'text-h1': 'text-h1!',
+      'text-h2': 'text-h2!',
+      'text-h3': 'text-h3!',
+      'text-h4': 'text-h4!',
+      'text-h5': 'text-h5!',
+      'text-h6': 'text-h6!'
     };
 
     const size: TitleSize = this._resolvedSize;
