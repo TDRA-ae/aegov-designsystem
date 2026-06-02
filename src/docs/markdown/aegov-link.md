@@ -179,6 +179,122 @@ A typical service description block uses inline links for navigation and externa
 
 ---
 
+## Button-Styled Links
+
+For calls-to-action that must remain semantically anchors (so they participate in browser navigation, are middle-click openable, copy-link friendly, and announced as **links** by assistive technology), opt into button styling by passing any of the button-style props: `variant`, `appearance`, `size`, `is-icon`, `is-full`, `is-bold`, or `is-disabled`. Setting any of these switches the rendered `<a>` to use the shared button class util, so its look stays in lock-step with `aegov-button`.
+
+Crucially, `aegov-link` does **not** support `is-loading` — loading states belong on real `<button>` elements that perform an action. Use `aegov-button` for those.
+
+```html
+<aegov-link href="/start" variant="primary" appearance="solid" size="base">
+  Get started
+</aegov-link>
+
+<aegov-link href="/sign-in" variant="secondary" appearance="outline" size="base">
+  Sign in
+</aegov-link>
+
+<aegov-link href="/learn-more" variant="primary" appearance="soft" size="base">
+  Learn more
+</aegov-link>
+
+<aegov-link href="/docs" variant="neutral-min" appearance="link" size="base">
+  Read the docs
+</aegov-link>
+```
+
+<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov flex flex-wrap gap-3 items-center">
+  <aegov-link href="/start" variant="primary" appearance="solid" size="base">Get started</aegov-link>
+  <aegov-link href="/sign-in" variant="secondary" appearance="outline" size="base">Sign in</aegov-link>
+  <aegov-link href="/learn-more" variant="primary" appearance="soft" size="base">Learn more</aegov-link>
+  <aegov-link href="/docs" variant="neutral-min" appearance="link" size="base">Read the docs</aegov-link>
+</div>
+
+### Sizes
+
+Size scale mirrors `aegov-button` exactly: `xs`, `sm`, `base`, `lg`, `xl`. Sizes also accept responsive tokens (e.g. `"sm md:base lg:lg"`).
+
+```html
+<aegov-link href="/a" variant="primary" appearance="solid" size="xs">Extra small</aegov-link>
+<aegov-link href="/a" variant="primary" appearance="solid" size="sm">Small</aegov-link>
+<aegov-link href="/a" variant="primary" appearance="solid" size="base">Base</aegov-link>
+<aegov-link href="/a" variant="primary" appearance="solid" size="lg">Large</aegov-link>
+<aegov-link href="/a" variant="primary" appearance="solid" size="xl">Extra large</aegov-link>
+```
+
+<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov flex flex-wrap gap-3 items-center">
+  <aegov-link href="/a" variant="primary" appearance="solid" size="xs">Extra small</aegov-link>
+  <aegov-link href="/a" variant="primary" appearance="solid" size="sm">Small</aegov-link>
+  <aegov-link href="/a" variant="primary" appearance="solid" size="base">Base</aegov-link>
+  <aegov-link href="/a" variant="primary" appearance="solid" size="lg">Large</aegov-link>
+  <aegov-link href="/a" variant="primary" appearance="solid" size="xl">Extra large</aegov-link>
+</div>
+
+### Full-width link
+
+Pair `is-full` with a block-level container to render a stretched call-to-action.
+
+```html
+<aegov-link href="/apply" variant="primary" appearance="solid" size="lg" is-full>
+  Apply now
+</aegov-link>
+```
+
+<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-link href="/apply" variant="primary" appearance="solid" size="lg" is-full>Apply now</aegov-link>
+</div>
+
+### Icon-only link
+
+Provide an explicit `aria-label` so the link's destination is announced by assistive technology — the visual icon does not convey meaning to screen readers.
+
+```html
+<aegov-link
+  href="/settings"
+  variant="primary"
+  appearance="outline"
+  size="base"
+  is-icon
+  aria-label="Open settings"
+>
+  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+    <circle cx="12" cy="12" r="3"></circle>
+    <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+  </svg>
+</aegov-link>
+```
+
+<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov flex gap-3 items-center">
+  <aegov-link href="/settings" variant="primary" appearance="outline" size="base" is-icon aria-label="Open settings">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <circle cx="12" cy="12" r="3"></circle>
+      <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+    </svg>
+  </aegov-link>
+</div>
+
+### Disabled link
+
+Native `<a>` elements do not support `disabled`, so `aegov-link` polyfills the behaviour when `is-disabled` is set:
+
+- The link is removed from the tab order (`tabindex="-1"`).
+- `aria-disabled="true"` is announced by assistive technology.
+- `href` and `target` are stripped from the rendered element so the browser will not navigate even if the user activates it programmatically.
+- Click events are intercepted and `preventDefault()` is called — `aegovLinkClick` is not emitted.
+- Pointer events are disabled and the cursor switches to `not-allowed` via the shared button styling.
+
+```html
+<aegov-link href="/wip" variant="primary" appearance="solid" size="base" is-disabled>
+  Coming soon
+</aegov-link>
+```
+
+<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov flex gap-3 items-center">
+  <aegov-link href="/wip" variant="primary" appearance="solid" size="base" is-disabled>Coming soon</aegov-link>
+</div>
+
+---
+
 ## RTL Support
 
 `aegov-link` is direction-agnostic. Because it renders inline content, the link simply flows in the direction set by the surrounding `dir` attribute. No properties need to change between LTR and RTL — wrap any ancestor with `dir="rtl"` and the link reads right-to-left automatically.
@@ -227,13 +343,20 @@ A typical service description block uses inline links for navigation and externa
 
 ### Properties
 
-| Property     | Attribute     | Description                                                                                                                  | Type                                          | Default     |
-| ------------ | ------------- | ---------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------- | ----------- |
-| `href`       | `href`        | The URL the link points to. **Required.**                                                                                    | `string`                                      | —           |
-| `target`     | `target`      | Anchor `target` attribute.                                                                                                   | `'_blank' \| '_self' \| '_parent' \| '_top'`  | `undefined` |
-| `rel`        | `rel`         | Anchor `rel` attribute. Auto-set to `'noopener noreferrer'` when `target="_blank"` and not explicitly provided.              | `string`                                      | `undefined` |
-| `fieldId`    | `field-id`    | DOM `id` for the inner anchor element. Auto-generated if omitted.                                                            | `string`                                      | _generated_ |
-| `extraClass` | `extra-class` | Additional Tailwind / CSS classes merged onto the rendered `<a>`.                                                            | `string`                                      | `undefined` |
+| Property     | Attribute     | Description                                                                                                                  | Type                                                          | Default     |
+| ------------ | ------------- | ---------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------- | ----------- |
+| `href`       | `href`        | The URL the link points to. **Required.** Stripped from the rendered `<a>` when `isDisabled` is true.                        | `string`                                                      | —           |
+| `target`     | `target`      | Anchor `target` attribute. Stripped from the rendered `<a>` when `isDisabled` is true.                                       | `'_blank' \| '_self' \| '_parent' \| '_top'`                  | `undefined` |
+| `rel`        | `rel`         | Anchor `rel` attribute. Auto-set to `'noopener noreferrer'` when `target="_blank"` and not explicitly provided.              | `string`                                                      | `undefined` |
+| `fieldId`    | `field-id`    | DOM `id` for the inner anchor element. Auto-generated if omitted.                                                            | `string`                                                      | _generated_ |
+| `extraClass` | `extra-class` | Additional Tailwind / CSS classes merged onto the rendered `<a>`.                                                            | `string`                                                      | `undefined` |
+| `variant`    | `variant`     | Button-style colour variant. Setting this opts into button-style classes.                                                    | `'primary' \| 'secondary' \| 'danger' \| 'neutral-min' \| 'neutral-max'` | `undefined` |
+| `appearance` | `appearance`  | Button-style visual appearance. Setting this opts into button-style classes.                                                 | `'solid' \| 'outline' \| 'soft' \| 'link'`                    | `undefined` |
+| `size`       | `size`        | Button-style size token. Accepts responsive expressions (e.g. `"sm md:base lg:lg"`). Setting this opts into button styling.  | `'xs' \| 'sm' \| 'base' \| 'lg' \| 'xl'` (or responsive)      | `undefined` |
+| `isIcon`     | `is-icon`     | Render as a square icon-only link. Provide an `aria-label` for accessibility.                                                | `boolean`                                                     | `false`     |
+| `isFull`     | `is-full`     | Stretch the link to fill its container width.                                                                                | `boolean`                                                     | `false`     |
+| `isBold`     | `is-bold`     | Apply bold (semibold) font weight to button-styled links.                                                                    | `boolean`                                                     | `false`     |
+| `isDisabled` | `is-disabled` | Polyfill of native `disabled` for anchors. Removes the link from the tab order, sets `aria-disabled="true"`, strips `href` / `target`, and blocks click navigation. | `boolean`                                                     | `false`     |
 
 ### Slots
 
