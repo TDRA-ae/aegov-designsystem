@@ -36,8 +36,7 @@
       "import": "./dist/components/*",
       "types": "./dist/components/*"
     },
-    "./css": "./dist/aegov/aegov.css",
-    "./tailwind.css": "./src/styles/tailwind.css",
+    "./base": "./src/global/global.css",
     "./theme": "./src/styles/tailwind.css"
   },
   "scripts": {
