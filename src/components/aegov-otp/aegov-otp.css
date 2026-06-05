@@ -133,8 +133,8 @@
 
 /* Validation surface (Layer 1) — see validation-engine-addon.md §2.6 */
 
-:host(.is-invalid) .otp__wrapper--continuous,
-:host(.is-invalid) .otp__cell {
+aegov-otp.is-invalid .otp__wrapper--continuous,
+aegov-otp.is-invalid .otp__cell {
   @apply border-aered-600;
 }
 

@@ -358,7 +358,7 @@
 
 /* Validation surface (Layer 1) — see validation-engine-addon.md §2.6 */
 
-:host(.is-invalid) .range__track {
+aegov-range.is-invalid .range__track {
   @apply ring-2 ring-aered-600;
 }
 

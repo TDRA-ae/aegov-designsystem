@@ -213,7 +213,7 @@
 
 /* Validation surface (Layer 1) — see validation-engine-addon.md §2.6 */
 
-:host(.is-invalid) .checkbox__wrapper input[type="checkbox"] {
+aegov-checkbox.is-invalid .checkbox__wrapper input[type="checkbox"] {
   @apply ring-2 ring-aered-600;
 }
 
