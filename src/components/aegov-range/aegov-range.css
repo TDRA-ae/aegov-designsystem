@@ -50,7 +50,7 @@
    Track — the thin bar
    ======================================== */
 .range__track {
-  @apply relative w-full rounded-full bg-aeblack-100;
+  @apply relative w-full rounded-full bg-aeblack-100 dark:bg-aeblack-700;
 }
 
 .range--vertical .range__track {
@@ -66,10 +66,10 @@
   transition: left 0ms, width 0ms, bottom 0ms, height 0ms;
 }
 
-.aegov-range.range-variant-primary .range__fill     { @apply bg-primary-600; }
-.aegov-range.range-variant-secondary .range__fill   { @apply bg-secondary-600; }
-.aegov-range.range-variant-neutral-max .range__fill { @apply bg-aeblack-800; }
-.aegov-range.range-variant-neutral-min .range__fill { @apply bg-aeblack-300; }
+.aegov-range.range-variant-primary .range__fill     { @apply bg-primary-600 dark:bg-primary-500; }
+.aegov-range.range-variant-secondary .range__fill   { @apply bg-secondary-600 dark:bg-secondary-500; }
+.aegov-range.range-variant-neutral-max .range__fill { @apply bg-aeblack-800 dark:bg-aeblack-300; }
+.aegov-range.range-variant-neutral-min .range__fill { @apply bg-aeblack-300 dark:bg-aeblack-500; }
 
 .range--horizontal .range__fill {
   top: 0;
@@ -154,17 +154,18 @@
   font-size: 10px;
 }
 
-.aegov-range.range-variant-primary .range__thumb-value     { @apply text-primary-900; }
-.aegov-range.range-variant-secondary .range__thumb-value   { @apply text-secondary-900; }
-.aegov-range.range-variant-neutral-max .range__thumb-value { @apply text-aeblack-900; }
-.aegov-range.range-variant-neutral-min .range__thumb-value { @apply text-aeblack-900; }
+.aegov-range.range-variant-primary .range__thumb-value     { @apply text-primary-900 dark:text-primary-100; }
+.aegov-range.range-variant-secondary .range__thumb-value   { @apply text-secondary-900 dark:text-secondary-100; }
+.aegov-range.range-variant-neutral-max .range__thumb-value { @apply text-aeblack-900 dark:text-aeblack-900; }
+.aegov-range.range-variant-neutral-min .range__thumb-value { @apply text-aeblack-900 dark:text-aeblack-900; }
 
 /* ========================================
    Tooltip — floating value above thumb
    ======================================== */
 .range__tooltip {
   @apply absolute bg-aeblack-800 text-white text-xs rounded
-         px-1.5 py-0.5 whitespace-nowrap pointer-events-none select-none;
+         px-1.5 py-0.5 whitespace-nowrap pointer-events-none select-none
+         dark:bg-whitely-100 dark:text-aeblack-900;
   font-variant-numeric: tabular-nums;
 }
 
@@ -185,6 +186,10 @@
   border-color: theme('colors.aeblack.800') transparent transparent transparent;
 }
 
+.dark .range--horizontal .range__tooltip::after {
+  border-color: theme('colors.whitely.100') transparent transparent transparent;
+}
+
 .range--vertical .range__tooltip {
   inset-inline-end: calc(100% + 8px);
   top: 50%;
@@ -202,12 +207,16 @@
   border-color: transparent transparent transparent theme('colors.aeblack.800');
 }
 
+.dark .range--vertical .range__tooltip::after {
+  border-color: transparent transparent transparent theme('colors.whitely.100');
+}
+
 /* ========================================
    Min/Max labels (display=full)
    ======================================== */
 .range__label-min,
 .range__label-max {
-  @apply text-xs text-aeblack-500 whitespace-nowrap select-none shrink-0;
+  @apply text-xs text-aeblack-500 whitespace-nowrap select-none shrink-0 dark:text-aeblack-400;
   font-variant-numeric: tabular-nums;
 }
 
@@ -229,23 +238,23 @@
 
 /* Single thumb outline — wrapper contains only one input, paired automatically. */
 .aegov-range.range-variant-primary .range__thumb--single:has(~ .range__input:focus-visible),
-.aegov-range.range-variant-primary .range__thumb:has(~ .range__input:focus-visible)         { @apply outline-2 outline-offset-2 outline-primary-support-500; }
+.aegov-range.range-variant-primary .range__thumb:has(~ .range__input:focus-visible)         { @apply outline-2 outline-offset-2 outline-primary-support-500 dark:outline-primary-support-400; }
 .aegov-range.range-variant-secondary .range__thumb--single:has(~ .range__input:focus-visible),
-.aegov-range.range-variant-secondary .range__thumb:has(~ .range__input:focus-visible)       { @apply outline-2 outline-offset-2 outline-secondary-support-500; }
+.aegov-range.range-variant-secondary .range__thumb:has(~ .range__input:focus-visible)       { @apply outline-2 outline-offset-2 outline-secondary-support-500 dark:outline-secondary-support-400; }
 .aegov-range.range-variant-neutral-max .range__thumb--single:has(~ .range__input:focus-visible),
 .aegov-range.range-variant-neutral-max .range__thumb:has(~ .range__input:focus-visible),
 .aegov-range.range-variant-neutral-min .range__thumb--single:has(~ .range__input:focus-visible),
-.aegov-range.range-variant-neutral-min .range__thumb:has(~ .range__input:focus-visible)     { @apply outline-2 outline-offset-2 outline-seablue-500; }
+.aegov-range.range-variant-neutral-min .range__thumb:has(~ .range__input:focus-visible)     { @apply outline-2 outline-offset-2 outline-seablue-500 dark:outline-seablue-400; }
 
 /* Dual-mode thumb outline — pair low thumb with low input, high with high. */
 .aegov-range.range-variant-primary .range__thumb--low:has(~ .range__input--low:focus-visible),
-.aegov-range.range-variant-primary .range__thumb--high:has(~ .range__input--high:focus-visible)         { @apply outline-2 outline-offset-2 outline-primary-support-500; }
+.aegov-range.range-variant-primary .range__thumb--high:has(~ .range__input--high:focus-visible)         { @apply outline-2 outline-offset-2 outline-primary-support-500 dark:outline-primary-support-400; }
 .aegov-range.range-variant-secondary .range__thumb--low:has(~ .range__input--low:focus-visible),
-.aegov-range.range-variant-secondary .range__thumb--high:has(~ .range__input--high:focus-visible)       { @apply outline-2 outline-offset-2 outline-secondary-support-500; }
+.aegov-range.range-variant-secondary .range__thumb--high:has(~ .range__input--high:focus-visible)       { @apply outline-2 outline-offset-2 outline-secondary-support-500 dark:outline-secondary-support-400; }
 .aegov-range.range-variant-neutral-max .range__thumb--low:has(~ .range__input--low:focus-visible),
 .aegov-range.range-variant-neutral-max .range__thumb--high:has(~ .range__input--high:focus-visible),
 .aegov-range.range-variant-neutral-min .range__thumb--low:has(~ .range__input--low:focus-visible),
-.aegov-range.range-variant-neutral-min .range__thumb--high:has(~ .range__input--high:focus-visible)     { @apply outline-2 outline-offset-2 outline-seablue-500; }
+.aegov-range.range-variant-neutral-min .range__thumb--high:has(~ .range__input--high:focus-visible)     { @apply outline-2 outline-offset-2 outline-seablue-500 dark:outline-seablue-400; }
 
 /* Vertical native input */
 .range--vertical .range__input {
@@ -322,7 +331,7 @@
 }
 
 .range__label-text {
-  @apply text-sm text-aeblack-800 font-medium;
+  @apply text-sm text-aeblack-800 font-medium dark:text-whitely-100;
 }
 
 /* ========================================
@@ -356,16 +365,21 @@
   border-color: transparent transparent transparent theme('colors.aeblack.800');
 }
 
+.dark [dir="rtl"] .range--vertical .range__tooltip::after,
+.dark :dir(rtl) .range--vertical .range__tooltip::after {
+  border-color: transparent transparent transparent theme('colors.whitely.100');
+}
+
 /* Validation surface (Layer 1) — see validation-engine-addon.md §2.6 */
 
 aegov-range.is-invalid .range__track {
-  @apply ring-2 ring-aered-600;
+  @apply ring-2 ring-aered-600 dark:ring-aered-500;
 }
 
 .aegov-range__error {
-  @apply text-sm text-aered-600 mt-1.5 flex items-start gap-1.5 leading-snug;
+  @apply text-sm text-aered-600 mt-1.5 flex items-start gap-1.5 leading-snug dark:text-aered-400;
 }
 
 .aegov-range__hint {
-  @apply text-sm text-aeblack-600 mt-1.5 leading-snug;
+  @apply text-sm text-aeblack-600 mt-1.5 leading-snug dark:text-aeblack-300;
 }

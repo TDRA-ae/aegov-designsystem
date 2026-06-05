@@ -7,7 +7,7 @@
 }
 
 .radio-group__legend {
-  @apply text-sm font-semibold text-aeblack-600 mb-3;
+  @apply text-sm font-semibold text-aeblack-600 mb-3 dark:text-aeblack-200;
 }
 
 .radio-group__items {
@@ -27,7 +27,7 @@
 }
 
 .radio-group--list aegov-radio {
-  @apply py-3 border-b border-aeblack-100;
+  @apply py-3 border-b border-aeblack-100 dark:border-aeblack-700;
 }
 
 .radio-group--list aegov-radio:first-child {
@@ -44,7 +44,7 @@
 }
 
 .radio-group--list.radio-group--horizontal aegov-radio {
-  @apply py-0 px-3 border-b-0 border-e border-aeblack-100;
+  @apply py-0 px-3 border-b-0 border-e border-aeblack-100 dark:border-aeblack-700;
 }
 
 .radio-group--list.radio-group--horizontal aegov-radio:first-child {
@@ -59,7 +59,7 @@
    Cards variant - bordered card per item
    ======================================== */
 .radio-group--cards .radio__wrapper {
-  @apply rounded-lg border-2 border-primary-200 bg-white transition-all duration-200;
+  @apply rounded-lg border-2 border-primary-200 bg-white transition-all duration-200 dark:border-primary-800 dark:bg-aeblack-900;
 }
 
 /* Cards size padding */
@@ -76,11 +76,11 @@
 }
 
 .radio-group--cards .radio__wrapper:hover:not(:has(input:disabled)) {
-  @apply border-primary-400;
+  @apply border-primary-400 dark:border-primary-500;
 }
 
 .radio-group--cards .radio__wrapper:has(input:checked) {
-  @apply border-primary-600 bg-primary-50;
+  @apply border-primary-600 bg-primary-50 dark:border-primary-400 dark:bg-primary-900/30;
 }
 
 .radio-group--cards .radio__wrapper:has(input:disabled) {
@@ -104,7 +104,8 @@
 .radio-group--pills .radio__wrapper {
   @apply inline-flex items-center gap-0! rounded-full border-2
          border-primary-600 bg-whitely-50 font-semibold text-primary-600!
-         transition-all duration-200 cursor-pointer select-none;
+         transition-all duration-200 cursor-pointer select-none
+         dark:border-primary-400 dark:bg-aeblack-800 dark:text-primary-300!;
 }
 
 /* Pills size padding */
@@ -121,15 +122,15 @@
 }
 
 .radio-group--pills .radio__wrapper:hover:not(:has(input:disabled)) {
-  @apply border-primary-400 text-primary-50;
+  @apply border-primary-400 text-primary-50 dark:border-primary-300;
 }
 
 .radio-group--pills .radio__wrapper:has(input:checked) {
-  @apply bg-primary-600 border-primary-600 text-whitely-50;
+  @apply bg-primary-600 border-primary-600 text-whitely-50 dark:bg-primary-500 dark:border-primary-500;
 }
 
 .radio-group--pills .radio__wrapper:has(input:checked):hover:not(:has(input:disabled)) {
-  @apply bg-primary-500 border-primary-500;
+  @apply bg-primary-500 border-primary-500 dark:bg-primary-400 dark:border-primary-400;
 }
 
 .radio-group--pills .radio__wrapper:has(input:disabled) {
@@ -141,11 +142,11 @@
 }
 
 .radio-group--pills .radio__label-text {
-  @apply text-primary-600!;
+  @apply text-primary-600! dark:text-primary-300!;
 }
 
 .radio-group--pills .radio__wrapper:has(input:checked) .radio__label-text {
-  @apply text-whitely-50!;
+  @apply text-whitely-50! dark:text-primary-50!;
 }
 
 .radio-group--pills .radio--sm .radio__label-text {
@@ -163,13 +164,13 @@
 /* Validation surface (Layer 1) — see validation-engine-addon.md §2.6 */
 
 aegov-radio-group.is-invalid .radio-group__legend {
-  @apply text-aered-700;
+  @apply text-aered-700 dark:text-aered-300;
 }
 
 .aegov-radio-group__error {
-  @apply text-sm text-aered-600 mt-1.5 flex items-start gap-1.5 leading-snug;
+  @apply text-sm text-aered-600 mt-1.5 flex items-start gap-1.5 leading-snug dark:text-aered-400;
 }
 
 .aegov-radio-group__hint {
-  @apply text-sm text-aeblack-600 mt-1.5 leading-snug;
+  @apply text-sm text-aeblack-600 mt-1.5 leading-snug dark:text-aeblack-300;
 }

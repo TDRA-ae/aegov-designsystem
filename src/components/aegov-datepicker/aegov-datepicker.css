@@ -14,30 +14,32 @@
 .datepicker__input-wrapper {
   @apply relative flex items-center gap-0 w-full bg-whitely-50
          rounded-lg transition-all duration-200 ease-in-out
-         inset-ring-2;
+         inset-ring-2 dark:bg-aeblack-800;
 }
 
 /* Variant — idle ring + value text per colour family (mirrors aegov-input pattern) */
-:host(.datepicker-variant-primary) .datepicker__input-wrapper       { @apply inset-ring-primary-600; }
-:host(.datepicker-variant-primary) .datepicker__input               { @apply text-primary-900; }
-:host(.datepicker-variant-secondary) .datepicker__input-wrapper     { @apply inset-ring-secondary-600; }
-:host(.datepicker-variant-secondary) .datepicker__input             { @apply text-secondary-900; }
-:host(.datepicker-variant-neutral-max) .datepicker__input-wrapper   { @apply inset-ring-aeblack-800; }
-:host(.datepicker-variant-neutral-max) .datepicker__input           { @apply text-aeblack-950; }
-:host(.datepicker-variant-neutral-min) .datepicker__input-wrapper   { @apply inset-ring-aeblack-300; }
-:host(.datepicker-variant-neutral-min) .datepicker__input           { @apply text-aeblack-700; }
+:host(.datepicker-variant-primary) .datepicker__input-wrapper       { @apply inset-ring-primary-600 dark:inset-ring-primary-400; }
+:host(.datepicker-variant-primary) .datepicker__input               { @apply text-primary-900 dark:text-whitely-100; }
+:host(.datepicker-variant-secondary) .datepicker__input-wrapper     { @apply inset-ring-secondary-600 dark:inset-ring-secondary-400; }
+:host(.datepicker-variant-secondary) .datepicker__input             { @apply text-secondary-900 dark:text-whitely-100; }
+:host(.datepicker-variant-neutral-max) .datepicker__input-wrapper   { @apply inset-ring-aeblack-800 dark:inset-ring-aeblack-300; }
+:host(.datepicker-variant-neutral-max) .datepicker__input           { @apply text-aeblack-950 dark:text-whitely-100; }
+:host(.datepicker-variant-neutral-min) .datepicker__input-wrapper   { @apply inset-ring-aeblack-300 dark:inset-ring-aeblack-600; }
+:host(.datepicker-variant-neutral-min) .datepicker__input           { @apply text-aeblack-700 dark:text-aeblack-200; }
 
 /* Focus ring — fires when the input element receives focus. Per-variant focus
    adds bg tint + inset shadow (matches aegov-input pattern). */
 :host(.datepicker-variant-primary) .datepicker__input-wrapper:has(.datepicker__input:focus) {
-  @apply inset-ring-primary-support-500 bg-primary-support-50/10 inset-shadow-sm inset-shadow-primary-support-500/80;
+  @apply inset-ring-primary-support-500 bg-primary-support-50/10 inset-shadow-sm inset-shadow-primary-support-500/80
+         dark:inset-ring-primary-support-400 dark:bg-primary-support-900/20 dark:inset-shadow-primary-support-400/80;
 }
 :host(.datepicker-variant-secondary) .datepicker__input-wrapper:has(.datepicker__input:focus) {
-  @apply inset-ring-secondary-support-500 bg-secondary-support-50/10 inset-shadow-sm inset-shadow-secondary-support-500/80;
+  @apply inset-ring-secondary-support-500 bg-secondary-support-50/10 inset-shadow-sm inset-shadow-secondary-support-500/80
+         dark:inset-ring-secondary-support-400 dark:bg-secondary-support-900/20 dark:inset-shadow-secondary-support-400/80;
 }
 :host(.datepicker-variant-neutral-max) .datepicker__input-wrapper:has(.datepicker__input:focus),
 :host(.datepicker-variant-neutral-min) .datepicker__input-wrapper:has(.datepicker__input:focus) {
-  @apply inset-ring-seablue-500 inset-shadow-sm inset-shadow-seablue-500/80;
+  @apply inset-ring-seablue-500 inset-shadow-sm inset-shadow-seablue-500/80 dark:inset-ring-seablue-400 dark:inset-shadow-seablue-400/80;
 }
 
 .datepicker__input-wrapper--range {
@@ -52,7 +54,7 @@
 .datepicker__input {
   font-family: inherit;
   @apply flex-1 min-w-0 border-0 bg-transparent outline-none leading-6
-         placeholder:text-aeblack-300 focus:ring-0;
+         placeholder:text-aeblack-300 focus:ring-0 dark:placeholder:text-aeblack-500;
 }
 
 .datepicker__input:disabled {
@@ -181,12 +183,12 @@
 
 /* ── Range Separator ────────────────────────────────── */
 .datepicker__range-separator {
-  @apply flex shrink-0 items-center text-aeblack-500;
+  @apply flex shrink-0 items-center text-aeblack-500 dark:text-aeblack-400;
 }
 
 /* ── Calendar Icon ──────────────────────────────────── */
 .datepicker__icon {
-  @apply flex shrink-0 items-center justify-center text-aeblack-500;
+  @apply flex shrink-0 items-center justify-center text-aeblack-500 dark:text-aeblack-400;
 }
 
 /* ── Clear Button ───────────────────────────────────── */
@@ -194,7 +196,9 @@
   @apply flex shrink-0 items-center justify-center rounded
          text-aeblack-500 hover:text-primary-700 hover:bg-primary-50
          cursor-pointer transition-colors duration-200
-         focus-visible:outline-2 focus-visible:outline-primary-500 border-0 bg-transparent;
+         focus-visible:outline-2 focus-visible:outline-primary-500 border-0 bg-transparent
+         dark:text-aeblack-400 dark:hover:text-primary-300 dark:hover:bg-primary-900/30
+         dark:focus-visible:outline-primary-400;
 }
 .datepicker__clear-btn > svg {
   @apply w-4 h-4;
@@ -205,18 +209,18 @@
 /* Invalid idle — red inset-ring on the input wrapper (matches the variant
    idle selector pattern, mirrors aegov-input invalid treatment). */
 :host(.is-invalid) .datepicker__input-wrapper {
-  @apply inset-ring-aered-600;
+  @apply inset-ring-aered-600 dark:inset-ring-aered-500;
 }
 
 /* Invalid + focus — red inset-ring + red inset-shadow on the wrapper. */
 :host(.is-invalid) .datepicker__input-wrapper:has(.datepicker__input:focus) {
-  @apply inset-ring-aered-500 inset-shadow-sm inset-shadow-aered-500/80;
+  @apply inset-ring-aered-500 inset-shadow-sm inset-shadow-aered-500/80 dark:inset-ring-aered-400 dark:inset-shadow-aered-400/80;
 }
 
 .aegov-datepicker__error {
-  @apply text-sm text-aered-600 mt-1.5 flex items-start gap-1.5 leading-snug;
+  @apply text-sm text-aered-600 mt-1.5 flex items-start gap-1.5 leading-snug dark:text-aered-400;
 }
 
 .aegov-datepicker__hint {
-  @apply text-sm text-aeblack-600 mt-1.5 leading-snug;
+  @apply text-sm text-aeblack-600 mt-1.5 leading-snug dark:text-aeblack-300;
 }

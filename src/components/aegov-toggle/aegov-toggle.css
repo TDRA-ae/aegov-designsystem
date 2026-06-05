@@ -31,23 +31,24 @@
 .toggle__track {
   @apply relative inline-flex items-center shrink-0 rounded-full
          bg-aeblack-100
-         transition-colors duration-200 ease-in-out cursor-pointer;
+         transition-colors duration-200 ease-in-out cursor-pointer
+         dark:bg-aeblack-700;
 }
 
 /* Checked track — colour from variant */
-.aegov-toggle.toggle-variant-primary .toggle__input:checked + .toggle__track { @apply bg-primary-600; }
-.aegov-toggle.toggle-variant-secondary .toggle__input:checked + .toggle__track { @apply bg-secondary-600; }
-.aegov-toggle.toggle-variant-neutral-max .toggle__input:checked + .toggle__track { @apply bg-aeblack-800; }
-.aegov-toggle.toggle-variant-neutral-min .toggle__input:checked + .toggle__track { @apply bg-aeblack-300; }
+.aegov-toggle.toggle-variant-primary .toggle__input:checked + .toggle__track { @apply bg-primary-600 dark:bg-primary-500; }
+.aegov-toggle.toggle-variant-secondary .toggle__input:checked + .toggle__track { @apply bg-secondary-600 dark:bg-secondary-500; }
+.aegov-toggle.toggle-variant-neutral-max .toggle__input:checked + .toggle__track { @apply bg-aeblack-800 dark:bg-aeblack-300; }
+.aegov-toggle.toggle-variant-neutral-min .toggle__input:checked + .toggle__track { @apply bg-aeblack-300 dark:bg-aeblack-500; }
 
 /* Focus ring */
 .toggle__input:focus-visible + .toggle__track {
   @apply outline-2 outline-offset-2;
 }
-.aegov-toggle.toggle-variant-primary .toggle__input:focus-visible + .toggle__track { @apply outline-primary-support-600; }
-.aegov-toggle.toggle-variant-secondary .toggle__input:focus-visible + .toggle__track { @apply outline-secondary-support-600; }
-.aegov-toggle.toggle-variant-neutral-max .toggle__input:focus-visible + .toggle__track { @apply outline-seablue-600; }
-.aegov-toggle.toggle-variant-neutral-min .toggle__input:focus-visible + .toggle__track { @apply outline-seablue-600; }
+.aegov-toggle.toggle-variant-primary .toggle__input:focus-visible + .toggle__track { @apply outline-primary-support-600 dark:outline-primary-support-400; }
+.aegov-toggle.toggle-variant-secondary .toggle__input:focus-visible + .toggle__track { @apply outline-secondary-support-600 dark:outline-secondary-support-400; }
+.aegov-toggle.toggle-variant-neutral-max .toggle__input:focus-visible + .toggle__track { @apply outline-seablue-600 dark:outline-seablue-400; }
+.aegov-toggle.toggle-variant-neutral-min .toggle__input:focus-visible + .toggle__track { @apply outline-seablue-600 dark:outline-seablue-400; }
 
 /* Disabled */
 .toggle__input:disabled + .toggle__track {
@@ -115,11 +116,11 @@
 }
 
 .toggle__label-text {
-  @apply text-aeblack-800;
+  @apply text-aeblack-800 dark:text-whitely-100;
 }
 
 .toggle__hint {
-  @apply text-aeblack-500;
+  @apply text-aeblack-500 dark:text-aeblack-400;
 }
 
 /* ========================================
@@ -383,9 +384,9 @@
 /* Validation surface (Layer 1) — see validation-engine-addon.md §2.6 */
 
 aegov-toggle.is-invalid .toggle__track {
-  @apply ring-2 ring-aered-600;
+  @apply ring-2 ring-aered-600 dark:ring-aered-500;
 }
 
 .aegov-toggle__error {
-  @apply text-sm text-aered-600 mt-1.5 flex items-start gap-1.5 leading-snug;
+  @apply text-sm text-aered-600 mt-1.5 flex items-start gap-1.5 leading-snug dark:text-aered-400;
 }

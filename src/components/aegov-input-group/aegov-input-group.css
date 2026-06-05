@@ -8,23 +8,25 @@
          bg-whitely-50
          inset-ring-2
          focus-within:inset-ring-primary-support-600
-         motion-reduce:transition-none;
+         motion-reduce:transition-none
+         dark:bg-aeblack-800
+         dark:focus-within:inset-ring-primary-support-400;
 }
 
 /* Variant — wrapper ring + child separator per colour family */
-.aegov-input-group.input-group-variant-primary       { @apply inset-ring-primary-600; }
-.aegov-input-group.input-group-variant-secondary     { @apply inset-ring-secondary-600; }
-.aegov-input-group.input-group-variant-neutral-max   { @apply inset-ring-aeblack-800; }
-.aegov-input-group.input-group-variant-neutral-min   { @apply inset-ring-aeblack-300; }
+.aegov-input-group.input-group-variant-primary       { @apply inset-ring-primary-600 dark:inset-ring-primary-400; }
+.aegov-input-group.input-group-variant-secondary     { @apply inset-ring-secondary-600 dark:inset-ring-secondary-400; }
+.aegov-input-group.input-group-variant-neutral-max   { @apply inset-ring-aeblack-800 dark:inset-ring-aeblack-300; }
+.aegov-input-group.input-group-variant-neutral-min   { @apply inset-ring-aeblack-300 dark:inset-ring-aeblack-600; }
 
 /* Separator between adjacent children */
 .aegov-input-group > * + * {
   @apply border-s-2;
 }
-.aegov-input-group.input-group-variant-primary > * + *       { @apply border-primary-600; }
-.aegov-input-group.input-group-variant-secondary > * + *     { @apply border-secondary-600; }
-.aegov-input-group.input-group-variant-neutral-max > * + *   { @apply border-aeblack-800; }
-.aegov-input-group.input-group-variant-neutral-min > * + *   { @apply border-aeblack-300; }
+.aegov-input-group.input-group-variant-primary > * + *       { @apply border-primary-600 dark:border-primary-400; }
+.aegov-input-group.input-group-variant-secondary > * + *     { @apply border-secondary-600 dark:border-secondary-400; }
+.aegov-input-group.input-group-variant-neutral-max > * + *   { @apply border-aeblack-800 dark:border-aeblack-300; }
+.aegov-input-group.input-group-variant-neutral-min > * + *   { @apply border-aeblack-300 dark:border-aeblack-600; }
 
 /* --------------------------------------------------------
    Child overrides: aegov-input inside group
@@ -60,10 +62,10 @@
   @apply border-0 bg-transparent outline-none cursor-pointer
          focus:ring-0 focus:outline-none;
 }
-.aegov-input-group.input-group-variant-primary select       { @apply text-primary-900; }
-.aegov-input-group.input-group-variant-secondary select     { @apply text-secondary-900; }
-.aegov-input-group.input-group-variant-neutral-max select   { @apply text-aeblack-950; }
-.aegov-input-group.input-group-variant-neutral-min select   { @apply text-aeblack-700; }
+.aegov-input-group.input-group-variant-primary select       { @apply text-primary-900 dark:text-whitely-100; }
+.aegov-input-group.input-group-variant-secondary select     { @apply text-secondary-900 dark:text-whitely-100; }
+.aegov-input-group.input-group-variant-neutral-max select   { @apply text-aeblack-950 dark:text-whitely-100; }
+.aegov-input-group.input-group-variant-neutral-min select   { @apply text-aeblack-700 dark:text-aeblack-200; }
 
 .input-group--xs select {
   @apply text-sm h-9 px-2.5;
@@ -91,14 +93,15 @@
 .input-group__addon {
   @apply inline-flex items-center whitespace-nowrap select-none
          border-t-2 border-b-2
-         focus-within:border-primary-support-600;
+         focus-within:border-primary-support-600
+         dark:focus-within:border-primary-support-400;
 }
 
 /* Variant — addon stripe colour per colour family */
-.aegov-input-group.input-group-variant-primary .input-group__addon       { @apply text-primary-900 bg-primary-200 border-primary-600; }
-.aegov-input-group.input-group-variant-secondary .input-group__addon     { @apply text-secondary-900 bg-secondary-200 border-secondary-600; }
-.aegov-input-group.input-group-variant-neutral-max .input-group__addon   { @apply text-aeblack-950 bg-aeblack-200 border-aeblack-800; }
-.aegov-input-group.input-group-variant-neutral-min .input-group__addon   { @apply text-aeblack-700 bg-aeblack-100 border-aeblack-300; }
+.aegov-input-group.input-group-variant-primary .input-group__addon       { @apply text-primary-900 bg-primary-200 border-primary-600 dark:text-primary-100 dark:bg-primary-800 dark:border-primary-400; }
+.aegov-input-group.input-group-variant-secondary .input-group__addon     { @apply text-secondary-900 bg-secondary-200 border-secondary-600 dark:text-secondary-100 dark:bg-secondary-800 dark:border-secondary-400; }
+.aegov-input-group.input-group-variant-neutral-max .input-group__addon   { @apply text-aeblack-950 bg-aeblack-200 border-aeblack-800 dark:text-whitely-100 dark:bg-aeblack-700 dark:border-aeblack-300; }
+.aegov-input-group.input-group-variant-neutral-min .input-group__addon   { @apply text-aeblack-700 bg-aeblack-100 border-aeblack-300 dark:text-aeblack-200 dark:bg-aeblack-700 dark:border-aeblack-600; }
 
 .input-group__addon.input-group__addon--prefix {
   @apply rounded-s-lg border-s-2;
