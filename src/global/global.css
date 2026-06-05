@@ -20,11 +20,7 @@
   }
 
   body {
-    /* Color properties are now variables */
-    color: var(--color-aeblack-800);
-
-    /* Non-color styles remain in @apply */
-    @apply font-roboto! rtl:font-notokufi! m-0 p-0 text-base antialiased;
+    @apply font-roboto! rtl:font-notokufi! m-0 p-0 text-base antialiased bg-whitely-100 text-aeblack-800;
     -webkit-print-color-adjust: exact !important;
     print-color-adjust: exact !important;
   }
