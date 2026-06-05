@@ -39,13 +39,35 @@ function isValid<T extends string>(validate: ResponsivePropValidator<T>, value: 
   return (validate as readonly string[]).includes(value);
 }
 
+/**
+ * Tailwind v4 default breakpoint scale — used as a fallback when the
+ * matching `--breakpoint-{name}` CSS custom property is absent on :root.
+ * Tailwind v4 tree-shakes unused breakpoint theme tokens from its emitted
+ * `:root` block, so reading them via getComputedStyle() can yield an empty
+ * string at runtime even though `@theme` lists them.
+ */
+const DEFAULT_BREAKPOINTS: Record<string, number> = {
+  xs: 480,
+  sm: 640,
+  md: 768,
+  lg: 1024,
+  xl: 1280,
+  '2xl': 1536,
+};
+
 function readBreakpointPx(name: string): number | null {
-  if (typeof document === 'undefined') return null;
-  const raw = getComputedStyle(document.documentElement)
-    .getPropertyValue(`--breakpoint-${name}`)
-    .trim();
-  if (!raw) return null;
-  return parseFloat(raw);
+  if (typeof document !== 'undefined') {
+    const raw = getComputedStyle(document.documentElement)
+      .getPropertyValue(`--breakpoint-${name}`)
+      .trim();
+    if (raw) {
+      const px = parseFloat(raw);
+      if (Number.isFinite(px)) return px;
+    }
+  }
+  // Fallback to Tailwind default scale when the CSS var is missing.
+  if (name in DEFAULT_BREAKPOINTS) return DEFAULT_BREAKPOINTS[name];
+  return null;
 }
 
 function parseRaw<T extends string>(
