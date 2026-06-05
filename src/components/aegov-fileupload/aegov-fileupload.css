@@ -451,9 +451,16 @@
 
 /* Validation surface (Layer 1) — see validation-engine-addon.md §2.6 */
 
+/* Invalid idle — red inset-ring on wrapper + dropzone (mirrors aegov-input). */
 aegov-fileupload.is-invalid .fileupload__input-wrapper,
 aegov-fileupload.is-invalid .fileupload__dropzone {
-  @apply ring-2 ring-aered-600;
+  @apply inset-ring-aered-600;
+}
+
+/* Invalid + focus — red inset-ring + red inset-shadow on wrapper/dropzone. */
+aegov-fileupload.is-invalid .fileupload__input-wrapper:has(:focus-visible),
+aegov-fileupload.is-invalid .fileupload__dropzone:has(:focus-visible) {
+  @apply inset-ring-aered-500 inset-shadow-sm inset-shadow-aered-500/80;
 }
 
 .aegov-fileupload__error {
