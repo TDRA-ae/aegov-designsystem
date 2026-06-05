@@ -10,18 +10,18 @@
   <link rel="stylesheet" href="/docs/doc-style.css">
   <link rel="stylesheet" href="/docs/hljs.css">
 </head>
-<body class="bg-aeblack-50">
+<body class="bg-aeblack-50 dark:bg-aeblack-950">
   <header class="aegov-container sm:px-6 lg:px-8 mb-8">
     <img src="https://designsystem.gov.ae/assets/site-logo/AEGov-DesignSystem-Logo-Color.svg" alt="UAE Design System Logo" class="w-auto h-16 my-2">
   </header>
-  <main class="aegov-container sm:px-6 lg:px-8 bg-aeblack-50">
+  <main class="aegov-container sm:px-6 lg:px-8 bg-aeblack-50 dark:bg-aeblack-950">
     <section class="flex items-start align-top gap-4">
       <nav id="primary-nav" class="w-3xs shrink-0">&nbsp;</nav>
       <article class="col-span-5 grow">
-          <section id="content-area" class="bg-whitely-50 p-6 rounded-md shadow-xl">
+          <section id="content-area" class="bg-whitely-50 dark:bg-aeblack-900 p-6 rounded-md shadow-xl">
           <!-- DOC:START -->
 <h1>Popover</h1>
-<p class="text-lg text-aeblack-500 mb-8">A Popover is a small floating panel anchored to a trigger element with a directional arrow. Use it for short, contextual content — definitions, helper text, mini-forms, or quick actions — that benefits from a clear visual connection back to the control that opened it. For short hover-only labels, use a Tooltip; for blocking dialogs, use a Modal.</p>
+<p class="text-lg text-aeblack-500 dark:text-aeblack-300 mb-8">A Popover is a small floating panel anchored to a trigger element with a directional arrow. Use it for short, contextual content — definitions, helper text, mini-forms, or quick actions — that benefits from a clear visual connection back to the control that opened it. For short hover-only labels, use a Tooltip; for blocking dialogs, use a Modal.</p>
 
 <h2>Introduction</h2>
 <p>The <code>aegov-popover</code> component wraps a trigger element and renders its <code>popover-content</code> slot into a portal at <code>document.body</code>, so the panel can escape any clipping or stacking context on the page. By default the popover opens on click, focus is trapped inside while it is open, and <code>Escape</code>, outside-click, or scrolling the trigger out of view all close it. Only one popover can be open at a time.</p>
@@ -35,7 +35,7 @@
       <span class="hljs-tag">&lt;<span class="hljs-name">li</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;#&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;text-primary-600 hover:underline&quot;</span>&gt;</span>Track application<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span>
     <span class="hljs-tag">&lt;/<span class="hljs-name">ul</span>&gt;</span>
   <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-popover</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-popover</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <div class="flex justify-center py-12">
     <aegov-popover position="bottom" align="center">
       <aegov-button variant="secondary">Quick actions</aegov-button>
@@ -72,7 +72,7 @@
 <span class="hljs-tag">&lt;<span class="hljs-name">aegov-popover</span> <span class="hljs-attr">position</span>=<span class="hljs-string">&quot;left&quot;</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;secondary&quot;</span>&gt;</span>Left<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;popover-content&quot;</span>&gt;</span>Popover content to the left.<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-popover</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-popover</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <div class="flex flex-wrap gap-12 items-center justify-center py-16">
     <aegov-popover position="top">
       <aegov-button variant="secondary">Top</aegov-button>
@@ -109,7 +109,7 @@
 <span class="hljs-tag">&lt;<span class="hljs-name">aegov-popover</span> <span class="hljs-attr">position</span>=<span class="hljs-string">&quot;bottom&quot;</span> <span class="hljs-attr">align</span>=<span class="hljs-string">&quot;end&quot;</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;secondary&quot;</span>&gt;</span>End<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;popover-content&quot;</span>&gt;</span>Anchored to the end edge of the trigger.<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-popover</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-popover</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <div class="flex flex-wrap gap-12 items-center justify-center py-12">
     <aegov-popover position="bottom" align="start">
       <aegov-button variant="secondary">Start</aegov-button>
@@ -137,7 +137,7 @@
 <span class="hljs-tag">&lt;<span class="hljs-name">aegov-popover</span> <span class="hljs-attr">trigger</span>=<span class="hljs-string">&quot;hover&quot;</span> <span class="hljs-attr">position</span>=<span class="hljs-string">&quot;bottom&quot;</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;secondary&quot;</span>&gt;</span>Hover to open<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;popover-content&quot;</span>&gt;</span>Hover triggers suit transient information that does not need a click.<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-popover</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-popover</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <div class="flex flex-wrap gap-6 items-center justify-center py-8">
     <aegov-popover trigger="click" position="bottom">
       <aegov-button variant="secondary">Click to open</aegov-button>
@@ -185,7 +185,7 @@
     <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-popover</span>&gt;</span>
   <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-input</span> <span class="hljs-attr">field-id</span>=<span class="hljs-string">&quot;iban&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;AE07 0331 2345 6789 0123 456&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-input</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <div class="max-w-md">
     <div class="flex items-center gap-2 mb-2">
       <label for="demo-iban" class="font-semibold">IBAN</label>
@@ -225,7 +225,7 @@
       <span class="hljs-tag">&lt;/<span class="hljs-name">ul</span>&gt;</span>
     <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
   <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-popover</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <div class="bg-white border border-aeblack-100 rounded-lg p-4 flex items-center justify-between max-w-md">
     <div>
       <h4 class="font-semibold">Application #AE-2026-0419-3128</h4>
@@ -262,7 +262,7 @@
       <span class="hljs-tag">&lt;/<span class="hljs-name">ul</span>&gt;</span>
     <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
   <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-popover</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre><div dir="rtl" class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre><div dir="rtl" class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <div class="flex justify-center py-12">
     <aegov-popover position="bottom" align="start">
       <aegov-button variant="secondary">إجراءات سريعة</aegov-button>
@@ -491,7 +491,7 @@
       </article>
     </section>
   </main>
-  <footer class="aegov-container sm:px-6 lg:px-8 mt-8 py-6 text-sm text-aeblack-500">
+  <footer class="aegov-container sm:px-6 lg:px-8 mt-8 py-6 text-sm text-aeblack-500 dark:text-aeblack-400">
     &copy; 2026 Telecommunication and Digital Regulatory Authority. All rights reserved.
   </footer>
 

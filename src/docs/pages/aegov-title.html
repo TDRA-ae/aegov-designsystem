@@ -10,24 +10,24 @@
   <link rel="stylesheet" href="/docs/doc-style.css">
   <link rel="stylesheet" href="/docs/hljs.css">
 </head>
-<body class="bg-aeblack-50">
+<body class="bg-aeblack-50 dark:bg-aeblack-950">
   <header class="aegov-container sm:px-6 lg:px-8 mb-8">
     <img src="https://designsystem.gov.ae/assets/site-logo/AEGov-DesignSystem-Logo-Color.svg" alt="UAE Design System Logo" class="w-auto h-16 my-2">
   </header>
-  <main class="aegov-container sm:px-6 lg:px-8 bg-aeblack-50">
+  <main class="aegov-container sm:px-6 lg:px-8 bg-aeblack-50 dark:bg-aeblack-950">
     <section class="flex items-start align-top gap-4">
       <nav id="primary-nav" class="w-3xs shrink-0">&nbsp;</nav>
       <article class="col-span-5 grow">
-          <section id="content-area" class="bg-whitely-50 p-6 rounded-md shadow-xl">
+          <section id="content-area" class="bg-whitely-50 dark:bg-aeblack-900 p-6 rounded-md shadow-xl">
           <!-- DOC:START -->
 <h1>Title</h1>
-<p class="text-lg text-aeblack-500 mb-8">A typographic component for rendering visually-prominent titles that follow the design system's heading scale. Use it for section titles, card titles, and hero headings — and choose between a semantic heading tag (<code>h2</code>–<code>h6</code>) or a plain <code>p</code> when the title is purely decorative.</p>
+<p class="text-lg text-aeblack-500 dark:text-aeblack-300 mb-8">A typographic component for rendering visually-prominent titles that follow the design system's heading scale. Use it for section titles, card titles, and hero headings — and choose between a semantic heading tag (<code>h2</code>–<code>h6</code>) or a plain <code>p</code> when the title is purely decorative.</p>
 
 <h2>Introduction</h2>
 <p>The <code>aegov-title</code> component pairs the design system&#39;s title sizing with a flexible semantic wrapper. By default it renders a <code>&lt;p&gt;</code> so visual styling does not pollute the document outline; pass <code>heading-type</code> to render a real <code>h2</code>, <code>h3</code>, <code>h4</code>, <code>h5</code>, or <code>h6</code> when the title represents a true section heading. Sizes accept a single token or a responsive string, and the component automatically swaps to the Alexandria typeface in RTL contexts.</p>
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-title</span> <span class="hljs-attr">heading-type</span>=<span class="hljs-string">&quot;h2&quot;</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;xl&quot;</span>&gt;</span>
   Ministry of Interior services
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-title</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-title</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-title heading-type="h2" size="xl">
     Ministry of Interior services
   </aegov-title>
@@ -74,7 +74,7 @@
 <span class="hljs-tag">&lt;<span class="hljs-name">aegov-title</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;base&quot;</span>&gt;</span>Section subtitle<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-title</span>&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">aegov-title</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;lg&quot;</span>&gt;</span>Sub-section heading<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-title</span>&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">aegov-title</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;xl&quot;</span>&gt;</span>Page section<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-title</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-title</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;2xl&quot;</span>&gt;</span>Hero heading<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-title</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-title</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;2xl&quot;</span>&gt;</span>Hero heading<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-title</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-title size="sm" extra-class="mb-4">Apply for Emirates ID</aegov-title>
   <aegov-title size="base" extra-class="mb-4">Renew your residence visa</aegov-title>
   <aegov-title size="lg" extra-class="mb-4">Federal authority services</aegov-title>
@@ -86,7 +86,7 @@
 <p><code>size</code> also accepts a Tailwind-style responsive string. Each segment overrides smaller breakpoints, so a single title can scale from compact on phones to a hero size on large displays.</p>
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-title</span> <span class="hljs-attr">heading-type</span>=<span class="hljs-string">&quot;h2&quot;</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;lg md:xl xl:2xl&quot;</span>&gt;</span>
   Welcome to the UAE Government Services Portal
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-title</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-title</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-title heading-type="h2" size="lg md:xl xl:2xl">
     Welcome to the UAE Government Services Portal
   </aegov-title>
@@ -102,7 +102,7 @@
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-title</span> <span class="hljs-attr">heading-type</span>=<span class="hljs-string">&quot;h2&quot;</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;xl&quot;</span>&gt;</span>Latest news<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-title</span>&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">aegov-title</span> <span class="hljs-attr">heading-type</span>=<span class="hljs-string">&quot;h3&quot;</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;lg&quot;</span>&gt;</span>Press releases<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-title</span>&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">aegov-title</span> <span class="hljs-attr">heading-type</span>=<span class="hljs-string">&quot;h4&quot;</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;base&quot;</span>&gt;</span>Federal updates<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-title</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-title</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm&quot;</span>&gt;</span>Card label (renders as <span class="hljs-symbol">&amp;lt;</span>p<span class="hljs-symbol">&amp;gt;</span>)<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-title</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-title</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm&quot;</span>&gt;</span>Card label (renders as <span class="hljs-symbol">&amp;lt;</span>p<span class="hljs-symbol">&amp;gt;</span>)<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-title</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-title heading-type="h2" size="xl" extra-class="mb-2">Latest news</aegov-title>
   <aegov-title heading-type="h3" size="lg" extra-class="mb-2">Press releases</aegov-title>
   <aegov-title heading-type="h4" size="base" extra-class="mb-2">Federal updates</aegov-title>
@@ -115,7 +115,7 @@
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-title</span> <span class="hljs-attr">field-id</span>=<span class="hljs-string">&quot;terms&quot;</span> <span class="hljs-attr">heading-type</span>=<span class="hljs-string">&quot;h3&quot;</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;lg&quot;</span>&gt;</span>
   Terms and conditions
 <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-title</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-link</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;#terms&quot;</span>&gt;</span>Jump to terms<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-link</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-link</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;#terms&quot;</span>&gt;</span>Jump to terms<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-link</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-title field-id="terms-demo" heading-type="h3" size="lg" extra-class="mb-2">
     Terms and conditions
   </aegov-title>
@@ -132,7 +132,7 @@
 <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-title</span>&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">aegov-text</span> <span class="hljs-attr">extra-class</span>=<span class="hljs-string">&quot;text-center text-aeblack-600&quot;</span>&gt;</span>
   Celebrating 50 years of progress and unity across the Emirates.
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-text</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-text</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-title size="2xl" extra-class="text-primary-700 text-center mb-4">
     Spirit of the Union
   </aegov-title>
@@ -157,7 +157,7 @@
 <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-text</span>&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">aegov-text</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm&quot;</span> <span class="hljs-attr">extra-class</span>=<span class="hljs-string">&quot;text-aeblack-500&quot;</span>&gt;</span>
   Service fees apply. Payment is taken at the end of the application.
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-text</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-text</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-title heading-type="h2" size="xl md:2xl" extra-class="mb-4">
     Apply for an Emirates ID
   </aegov-title>
@@ -187,7 +187,7 @@
     أحضر جواز سفرك وصورة شخصية حديثة وإثبات عنوان السكن. تتم معالجة معظم الطلبات
     خلال خمسة أيام عمل.
   <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-text</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre><div dir="rtl" class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre><div dir="rtl" class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-title heading-type="h2" size="xl md:2xl" extra-class="mb-4">
     تقديم طلب الهوية الإماراتية
   </aegov-title>
@@ -314,7 +314,7 @@
       </article>
     </section>
   </main>
-  <footer class="aegov-container sm:px-6 lg:px-8 mt-8 py-6 text-sm text-aeblack-500">
+  <footer class="aegov-container sm:px-6 lg:px-8 mt-8 py-6 text-sm text-aeblack-500 dark:text-aeblack-400">
     &copy; 2026 Telecommunication and Digital Regulatory Authority. All rights reserved.
   </footer>
 

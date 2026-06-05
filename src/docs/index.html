@@ -16,33 +16,43 @@
       border: 1px solid var(--color-aeblack-100); background: var(--color-whitely-50);
       text-decoration: none; color: inherit; transition: all 0.15s ease;
     }
+    .dark .doc-card { border-color: var(--color-aeblack-700); background: var(--color-aeblack-900); }
     .doc-card:hover { border-color: var(--color-primary-400); box-shadow: 0 4px 12px rgba(0,0,0,0.08); transform: translateY(-2px); }
+    .dark .doc-card:hover { box-shadow: 0 4px 12px rgba(0,0,0,0.4); }
     .doc-card:hover .card-title { color: var(--color-primary-600); }
+    .dark .doc-card:hover .card-title { color: var(--color-primary-300); }
     .card-title { font-size: 0.9375rem; font-weight: 600; color: var(--color-aeblack-800); margin: 0 0 0.375rem 0; }
+    .dark .card-title { color: var(--color-whitely-100); }
     .card-desc { font-size: 0.8125rem; color: var(--color-aeblack-500); margin: 0; line-height: 1.45; }
+    .dark .card-desc { color: var(--color-aeblack-300); }
     .section-heading {
       font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em;
       color: var(--color-aeblack-400); margin: 2.5rem 0 1rem 0; padding-bottom: 0.5rem;
       border-bottom: 1px solid var(--color-aeblack-100);
     }
+    .dark .section-heading { color: var(--color-aeblack-300); border-bottom-color: var(--color-aeblack-700); }
     .section-heading:first-of-type { margin-top: 0; }
     .hero { margin-bottom: 2rem; }
     .hero h1 { font-size: 1.75rem; font-weight: 800; color: var(--color-aeblack-800); margin: 0 0 0.5rem 0; }
+    .dark .hero h1 { color: var(--color-whitely-100); }
     .hero p { font-size: 1rem; color: var(--color-aeblack-500); margin: 0; max-width: 640px; line-height: 1.6; }
+    .dark .hero p { color: var(--color-aeblack-300); }
     .stat-row { display: flex; gap: 2rem; margin-top: 1rem; }
     .stat { font-size: 0.8125rem; color: var(--color-aeblack-400); }
+    .dark .stat { color: var(--color-aeblack-300); }
     .stat strong { color: var(--color-primary-600); font-size: 1.125rem; }
+    .dark .stat strong { color: var(--color-primary-300); }
   </style>
 </head>
-<body class="bg-aeblack-50">
+<body class="bg-aeblack-50 dark:bg-aeblack-950">
   <header class="aegov-container sm:px-6 lg:px-8 mb-8">
     <img src="https://designsystem.gov.ae/assets/site-logo/AEGov-DesignSystem-Logo-Color.svg" alt="UAE Design System Logo" class="w-auto h-16 my-2">
   </header>
-  <main class="aegov-container sm:px-6 lg:px-8 bg-aeblack-50">
+  <main class="aegov-container sm:px-6 lg:px-8 bg-aeblack-50 dark:bg-aeblack-950">
     <section class="flex items-start align-top gap-4">
       <nav id="primary-nav" class="w-3xs shrink-0">&nbsp;</nav>
       <article class="col-span-5 grow">
-        <section id="content-area" class="bg-whitely-50 p-6 rounded-md shadow-xl">
+        <section id="content-area" class="bg-whitely-50 dark:bg-aeblack-900 p-6 rounded-md shadow-xl">
 
           <div class="hero">
             <h1>AEGOV Design System</h1>
@@ -238,7 +248,7 @@
       </article>
     </section>
   </main>
-  <footer class="mx-auto max-w-7xl sm:px-6 lg:px-8 mt-8 py-6 text-sm text-aeblack-500">
+  <footer class="mx-auto max-w-7xl sm:px-6 lg:px-8 mt-8 py-6 text-sm text-aeblack-500 dark:text-aeblack-400">
     &copy; 2026 Telecommunication and Digital Regulatory Authority. All rights reserved.
   </footer>
 

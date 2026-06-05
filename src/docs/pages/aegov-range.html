@@ -10,18 +10,18 @@
   <link rel="stylesheet" href="/docs/doc-style.css">
   <link rel="stylesheet" href="/docs/hljs.css">
 </head>
-<body class="bg-aeblack-50">
+<body class="bg-aeblack-50 dark:bg-aeblack-950">
   <header class="aegov-container sm:px-6 lg:px-8 mb-8">
     <img src="https://designsystem.gov.ae/assets/site-logo/AEGov-DesignSystem-Logo-Color.svg" alt="UAE Design System Logo" class="w-auto h-16 my-2">
   </header>
-  <main class="aegov-container sm:px-6 lg:px-8 bg-aeblack-50">
+  <main class="aegov-container sm:px-6 lg:px-8 bg-aeblack-50 dark:bg-aeblack-950">
     <section class="flex items-start align-top gap-4">
       <nav id="primary-nav" class="w-3xs shrink-0">&nbsp;</nav>
       <article class="col-span-5 grow">
-          <section id="content-area" class="bg-whitely-50 p-6 rounded-md shadow-xl">
+          <section id="content-area" class="bg-whitely-50 dark:bg-aeblack-900 p-6 rounded-md shadow-xl">
           <!-- DOC:START -->
 <h1>Range</h1>
-<p class="text-lg text-aeblack-500 mb-8">A Range is a slider for choosing a numeric value or a numeric span between a minimum and a maximum. It is well suited to inputs where the magnitude is more meaningful than the exact figure — residency duration, age filters, fee brackets — and works equally well with mouse, touch, and keyboard.</p>
+<p class="text-lg text-aeblack-500 dark:text-aeblack-300 mb-8">A Range is a slider for choosing a numeric value or a numeric span between a minimum and a maximum. It is well suited to inputs where the magnitude is more meaningful than the exact figure — residency duration, age filters, fee brackets — and works equally well with mouse, touch, and keyboard.</p>
 
 <h2>Introduction</h2>
 <p>The <code>aegov-range</code> component is built on a native <code>&lt;input type=&quot;range&quot;&gt;</code> for full keyboard, screen-reader, and form support, with an extra interactive track-and-thumb layer for richer styling and dual-thumb selection. It supports single or dual modes, horizontal and vertical orientation, four value-display styles, and five sizes.</p>
@@ -31,7 +31,7 @@
   <span class="hljs-attr">max</span>=<span class="hljs-string">&quot;50&quot;</span>
   <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;10&quot;</span>
   <span class="hljs-attr">display</span>=<span class="hljs-string">&quot;tooltip&quot;</span>
-&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-range</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-range</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-range
     label="Search radius (km)"
     min="1"
@@ -51,7 +51,7 @@
   <span class="hljs-attr">max</span>=<span class="hljs-string">&quot;100&quot;</span>
   <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;25&quot;</span>
   <span class="hljs-attr">display</span>=<span class="hljs-string">&quot;tooltip&quot;</span>
-&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-range</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-range</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-range
     label="Monthly income (AED, thousands)"
     min="0"
@@ -70,7 +70,7 @@
   <span class="hljs-attr">value-low</span>=<span class="hljs-string">&quot;18&quot;</span>
   <span class="hljs-attr">value-high</span>=<span class="hljs-string">&quot;65&quot;</span>
   <span class="hljs-attr">display</span>=<span class="hljs-string">&quot;full&quot;</span>
-&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-range</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-range</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-range
     label="Age of dependants"
     mode="range"
@@ -87,7 +87,7 @@
 <p><code>min</code> and <code>max</code> define the bounds; <code>step</code> controls the granularity. Use a non-integer step for currency or fractional values, and a larger step (10, 50, 100) when fine precision is unnecessary.</p>
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-range</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Years of UAE residency&quot;</span> <span class="hljs-attr">min</span>=<span class="hljs-string">&quot;0&quot;</span> <span class="hljs-attr">max</span>=<span class="hljs-string">&quot;40&quot;</span> <span class="hljs-attr">step</span>=<span class="hljs-string">&quot;1&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;5&quot;</span> <span class="hljs-attr">display</span>=<span class="hljs-string">&quot;tooltip&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-range</span>&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">aegov-range</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Service fee (AED)&quot;</span> <span class="hljs-attr">min</span>=<span class="hljs-string">&quot;0&quot;</span> <span class="hljs-attr">max</span>=<span class="hljs-string">&quot;500&quot;</span> <span class="hljs-attr">step</span>=<span class="hljs-string">&quot;25&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;200&quot;</span> <span class="hljs-attr">display</span>=<span class="hljs-string">&quot;full&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-range</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-range</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Acceptance threshold&quot;</span> <span class="hljs-attr">min</span>=<span class="hljs-string">&quot;0&quot;</span> <span class="hljs-attr">max</span>=<span class="hljs-string">&quot;1&quot;</span> <span class="hljs-attr">step</span>=<span class="hljs-string">&quot;0.05&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;0.75&quot;</span> <span class="hljs-attr">display</span>=<span class="hljs-string">&quot;thumb&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-range</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov flex flex-col gap-8">
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-range</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Acceptance threshold&quot;</span> <span class="hljs-attr">min</span>=<span class="hljs-string">&quot;0&quot;</span> <span class="hljs-attr">max</span>=<span class="hljs-string">&quot;1&quot;</span> <span class="hljs-attr">step</span>=<span class="hljs-string">&quot;0.05&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;0.75&quot;</span> <span class="hljs-attr">display</span>=<span class="hljs-string">&quot;thumb&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-range</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov flex flex-col gap-8">
   <aegov-range label="Years of UAE residency" min="0" max="40" step="1" value="5" display="tooltip"></aegov-range>
   <aegov-range label="Service fee (AED)" min="0" max="500" step="25" value="200" display="full"></aegov-range>
   <aegov-range label="Acceptance threshold" min="0" max="1" step="0.05" value="0.75" display="thumb"></aegov-range>
@@ -123,7 +123,7 @@
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-range</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;display = none&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;40&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-range</span>&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">aegov-range</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;display = tooltip&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;40&quot;</span> <span class="hljs-attr">display</span>=<span class="hljs-string">&quot;tooltip&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-range</span>&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">aegov-range</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;display = thumb&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;40&quot;</span> <span class="hljs-attr">display</span>=<span class="hljs-string">&quot;thumb&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-range</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-range</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;display = full&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;40&quot;</span> <span class="hljs-attr">display</span>=<span class="hljs-string">&quot;full&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-range</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov flex flex-col gap-8">
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-range</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;display = full&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;40&quot;</span> <span class="hljs-attr">display</span>=<span class="hljs-string">&quot;full&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-range</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov flex flex-col gap-8">
   <aegov-range label="display = none" value="40"></aegov-range>
   <aegov-range label="display = tooltip" value="40" display="tooltip"></aegov-range>
   <aegov-range label="display = thumb" value="40" display="thumb"></aegov-range>
@@ -137,7 +137,7 @@
 <span class="hljs-tag">&lt;<span class="hljs-name">aegov-range</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;50&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-range</span>&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">aegov-range</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;base&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;50&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-range</span>&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">aegov-range</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;lg&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;50&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-range</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-range</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;xl&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;50&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-range</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov flex flex-col gap-6">
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-range</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;xl&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;50&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-range</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov flex flex-col gap-6">
   <aegov-range size="xs" value="50"></aegov-range>
   <aegov-range size="sm" value="50"></aegov-range>
   <aegov-range size="base" value="50"></aegov-range>
@@ -147,7 +147,7 @@
 
 <h3>Responsive sizes</h3>
 <p>The <code>size</code> property accepts a Tailwind-style responsive string with the breakpoint prefixes <code>xs</code>, <code>sm</code>, <code>md</code>, <code>lg</code>, <code>xl</code>, and <code>2xl</code>. Each segment overrides smaller breakpoints.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-range</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm md:base xl:lg&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Resizes with the viewport&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;50&quot;</span> <span class="hljs-attr">display</span>=<span class="hljs-string">&quot;tooltip&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-range</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-range</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm md:base xl:lg&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Resizes with the viewport&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;50&quot;</span> <span class="hljs-attr">display</span>=<span class="hljs-string">&quot;tooltip&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-range</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-range size="sm md:base xl:lg" label="Resizes with the viewport" value="50" display="tooltip"></aegov-range>
 </div>
 
@@ -203,7 +203,7 @@
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-range</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;primary&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;50&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-range</span>&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">aegov-range</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;secondary&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;50&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-range</span>&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">aegov-range</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;neutral-max&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;50&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-range</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-range</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;neutral-min&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;50&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-range</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov flex flex-col gap-6">
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-range</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;neutral-min&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;50&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-range</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov flex flex-col gap-6">
   <aegov-range variant="primary" label="Primary" value="50" display="tooltip"></aegov-range>
   <aegov-range variant="secondary" label="Secondary" value="50" display="tooltip"></aegov-range>
   <aegov-range variant="neutral-max" label="Neutral-max" value="50" display="tooltip"></aegov-range>
@@ -218,7 +218,7 @@
   <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;60&quot;</span>
   <span class="hljs-attr">display</span>=<span class="hljs-string">&quot;tooltip&quot;</span>
   <span class="hljs-attr">style</span>=<span class="hljs-string">&quot;height: 200px&quot;</span>
-&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-range</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov flex gap-8 items-end">
+&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-range</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov flex gap-8 items-end">
   <aegov-range orientation="vertical" value="20" display="tooltip" style="height: 200px"></aegov-range>
   <aegov-range orientation="vertical" value="60" display="tooltip" style="height: 200px"></aegov-range>
   <aegov-range orientation="vertical" value="90" display="tooltip" style="height: 200px"></aegov-range>
@@ -227,7 +227,7 @@
 <hr>
 <h2>Disabled</h2>
 <p>Set <code>is-disabled=&quot;true&quot;</code> to prevent interaction. The track and thumb appear muted and the underlying input receives the native <code>disabled</code> attribute, removing it from the tab order and form submission.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-range</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Disabled&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;40&quot;</span> <span class="hljs-attr">is-disabled</span>=<span class="hljs-string">&quot;true&quot;</span> <span class="hljs-attr">display</span>=<span class="hljs-string">&quot;tooltip&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-range</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-range</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Disabled&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;40&quot;</span> <span class="hljs-attr">is-disabled</span>=<span class="hljs-string">&quot;true&quot;</span> <span class="hljs-attr">display</span>=<span class="hljs-string">&quot;tooltip&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-range</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-range label="Disabled" value="40" is-disabled="true" display="tooltip"></aegov-range>
 </div>
 
@@ -244,7 +244,7 @@
     <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;150&quot;</span>
     <span class="hljs-attr">display</span>=<span class="hljs-string">&quot;full&quot;</span>
   &gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-range</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">form</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;/<span class="hljs-name">form</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-range
     label="Acceptable processing fee (AED)"
     name="processing_fee"
@@ -275,7 +275,7 @@
   <span class="hljs-attr">value-low</span>=<span class="hljs-string">&quot;21&quot;</span>
   <span class="hljs-attr">value-high</span>=<span class="hljs-string">&quot;60&quot;</span>
   <span class="hljs-attr">display</span>=<span class="hljs-string">&quot;full&quot;</span>
-&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-range</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov flex flex-col gap-10">
+&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-range</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov flex flex-col gap-10">
   <aegov-range
     label="Service centres within (km)"
     min="1"
@@ -305,7 +305,7 @@
     <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;10&quot;</span>
     <span class="hljs-attr">display</span>=<span class="hljs-string">&quot;full&quot;</span>
   &gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-range</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre><div dir="rtl" class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre><div dir="rtl" class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-range
     label="نصف قطر البحث (كم)"
     min="1"
@@ -326,7 +326,7 @@
     <span class="hljs-attr">value-high</span>=<span class="hljs-string">&quot;60&quot;</span>
     <span class="hljs-attr">display</span>=<span class="hljs-string">&quot;full&quot;</span>
   &gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-range</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre><div dir="rtl" class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre><div dir="rtl" class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-range
     label="الفئة العمرية المؤهلة"
     mode="range"
@@ -647,7 +647,7 @@
       </article>
     </section>
   </main>
-  <footer class="aegov-container sm:px-6 lg:px-8 mt-8 py-6 text-sm text-aeblack-500">
+  <footer class="aegov-container sm:px-6 lg:px-8 mt-8 py-6 text-sm text-aeblack-500 dark:text-aeblack-400">
     &copy; 2026 Telecommunication and Digital Regulatory Authority. All rights reserved.
   </footer>
 

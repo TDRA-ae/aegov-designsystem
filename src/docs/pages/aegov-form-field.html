@@ -10,25 +10,25 @@
   <link rel="stylesheet" href="/docs/doc-style.css">
   <link rel="stylesheet" href="/docs/hljs.css">
 </head>
-<body class="bg-aeblack-50">
+<body class="bg-aeblack-50 dark:bg-aeblack-950">
   <header class="aegov-container sm:px-6 lg:px-8 mb-8">
     <img src="https://designsystem.gov.ae/assets/site-logo/AEGov-DesignSystem-Logo-Color.svg" alt="UAE Design System Logo" class="w-auto h-16 my-2">
   </header>
-  <main class="aegov-container sm:px-6 lg:px-8 bg-aeblack-50">
+  <main class="aegov-container sm:px-6 lg:px-8 bg-aeblack-50 dark:bg-aeblack-950">
     <section class="flex items-start align-top gap-4">
       <nav id="primary-nav" class="w-3xs shrink-0">&nbsp;</nav>
       <article class="col-span-5 grow">
-          <section id="content-area" class="bg-whitely-50 p-6 rounded-md shadow-xl">
+          <section id="content-area" class="bg-whitely-50 dark:bg-aeblack-900 p-6 rounded-md shadow-xl">
           <!-- DOC:START -->
 <h1>Form Field</h1>
-<p class="text-lg text-aeblack-500 mb-8">A lightweight wrapper that groups a label with a form control — input, textarea, select, checkbox, range, progress, or one-time-password — and links them automatically. Use it on every field of a UAE Government service form to guarantee a correctly associated <code>&lt;label for="…"&gt;</code> without managing IDs by hand. The wrapper itself adds no spacing or visual styling beyond a single <code>aegov-form-field</code> block; surround it with your form's grid or stack rules as you would any other element.</p>
+<p class="text-lg text-aeblack-500 dark:text-aeblack-300 mb-8">A lightweight wrapper that groups a label with a form control — input, textarea, select, checkbox, range, progress, or one-time-password — and links them automatically. Use it on every field of a UAE Government service form to guarantee a correctly associated <code>&lt;label for="…"&gt;</code> without managing IDs by hand. The wrapper itself adds no spacing or visual styling beyond a single <code>aegov-form-field</code> block; surround it with your form's grid or stack rules as you would any other element.</p>
 
 <h2>Introduction</h2>
 <p>The <code>aegov-form-field</code> component watches its slotted children for an <code>aegov-label</code> and a supported control. When both are present it sets the label&#39;s <code>htmlFor</code> to the control&#39;s auto-generated <code>field-id</code>, producing a fully accessible label-input pairing. There is nothing to wire by hand — drop the children in, and the wrapper does the rest on mount and on every update.</p>
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-form-field</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-label</span>&gt;</span>Full name as on Emirates ID<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-label</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-input</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;fullName&quot;</span> <span class="hljs-attr">is-required</span>=<span class="hljs-string">&quot;true&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-input</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-form-field</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-form-field</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-form-field>
     <aegov-label>Full name as on Emirates ID</aegov-label>
     <aegov-input name="fullName" is-required="true"></aegov-input>
@@ -86,7 +86,7 @@
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-form-field</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-label</span>&gt;</span>Mobile number<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-label</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;tel&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;+971 5X XXX XXXX&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-input</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-form-field</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-form-field</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-form-field>
     <aegov-label>Mobile number</aegov-label>
     <aegov-input type="tel" placeholder="+971 5X XXX XXXX"></aegov-input>
@@ -100,7 +100,7 @@
     <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;Briefly describe the purpose of your application.&quot;</span>
     <span class="hljs-attr">maxlength</span>=<span class="hljs-string">&quot;500&quot;</span>
   &gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-textarea</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-form-field</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-form-field</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-form-field>
     <aegov-label>Reason for application</aegov-label>
     <aegov-textarea
@@ -122,7 +122,7 @@
     <span class="hljs-tag">&lt;<span class="hljs-name">aegov-select-option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;ras-al-khaimah&quot;</span>&gt;</span>Ras Al Khaimah<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select-option</span>&gt;</span>
     <span class="hljs-tag">&lt;<span class="hljs-name">aegov-select-option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;fujairah&quot;</span>&gt;</span>Fujairah<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select-option</span>&gt;</span>
   <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-form-field</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-form-field</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-form-field>
     <aegov-label>Emirate of residence</aegov-label>
     <aegov-select placeholder="Select your emirate">
@@ -141,7 +141,7 @@
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-form-field</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-label</span>&gt;</span>I confirm that the information provided is true and accurate<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-label</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-checkbox</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-checkbox</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-form-field</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-form-field</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-form-field>
     <aegov-label>I confirm that the information provided is true and accurate</aegov-label>
     <aegov-checkbox></aegov-checkbox>
@@ -152,7 +152,7 @@
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-form-field</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-label</span>&gt;</span>Number of dependants<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-label</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-range</span> <span class="hljs-attr">min</span>=<span class="hljs-string">&quot;0&quot;</span> <span class="hljs-attr">max</span>=<span class="hljs-string">&quot;10&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;2&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-range</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-form-field</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-form-field</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-form-field>
     <aegov-label>Number of dependants</aegov-label>
     <aegov-range min="0" max="10" value="2"></aegov-range>
@@ -163,7 +163,7 @@
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-form-field</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-label</span>&gt;</span>Application progress<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-label</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-progress</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;65&quot;</span> <span class="hljs-attr">counter</span>=<span class="hljs-string">&quot;trailing&quot;</span> <span class="hljs-attr">counter-suffix</span>=<span class="hljs-string">&quot;%&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-progress</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-form-field</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-form-field</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-form-field>
     <aegov-label>Application progress</aegov-label>
     <aegov-progress value="65" counter="trailing" counter-suffix="%"></aegov-progress>
@@ -174,7 +174,7 @@
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-form-field</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-label</span>&gt;</span>Enter the code we sent to your registered mobile<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-label</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-otp</span> <span class="hljs-attr">length</span>=<span class="hljs-string">&quot;6&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-otp</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-form-field</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-form-field</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-form-field>
     <aegov-label>Enter the code we sent to your registered mobile</aegov-label>
     <aegov-otp length="6"></aegov-otp>
@@ -194,7 +194,7 @@
   <span class="hljs-tag">&lt;<span class="hljs-name">p</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;email-help&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;text-sm text-aeblack-500 mt-2&quot;</span>&gt;</span>
     We will use this address only to send service updates.
   <span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-form-field</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-form-field</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-form-field>
     <aegov-label>Email address</aegov-label>
     <aegov-input
@@ -218,7 +218,7 @@
     <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;784-XXXX-XXXXXXX-X&quot;</span>
     <span class="hljs-attr">is-required</span>=<span class="hljs-string">&quot;true&quot;</span>
   &gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-input</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-form-field</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-form-field</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-form-field>
     <aegov-label>Emirates ID number</aegov-label>
     <aegov-input
@@ -235,7 +235,7 @@
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-form-field</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-label</span>&gt;</span>Search the service catalogue<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-label</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-input</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm md:base lg:lg&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;Type to search&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-input</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-form-field</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-form-field</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-form-field>
     <aegov-label>Search the service catalogue</aegov-label>
     <aegov-input size="sm md:base lg:lg" placeholder="Type to search"></aegov-input>
@@ -261,7 +261,7 @@
 <span class="hljs-tag">&lt;<span class="hljs-name">aegov-form-field</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;secondary&quot;</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-label</span>&gt;</span>Override<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-label</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-input</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;primary&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;Stays primary&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-input</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-form-field</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-form-field</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
     <aegov-form-field variant="primary">
       <aegov-label>Primary</aegov-label>
@@ -292,7 +292,7 @@
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-form-field</span> <span class="hljs-attr">field-id</span>=<span class="hljs-string">&quot;dob-field&quot;</span> <span class="hljs-attr">extra-class</span>=<span class="hljs-string">&quot;mb-6&quot;</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-label</span>&gt;</span>Date of birth<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-label</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;date&quot;</span> <span class="hljs-attr">is-required</span>=<span class="hljs-string">&quot;true&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-input</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-form-field</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-form-field</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-form-field field-id="dob-field" extra-class="mb-6">
     <aegov-label>Date of birth</aegov-label>
     <aegov-input type="date" is-required="true"></aegov-input>
@@ -324,7 +324,7 @@
 <span class="hljs-tag">&lt;<span class="hljs-name">aegov-form-field</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-label</span>&gt;</span>I agree to the terms of the service<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-label</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-checkbox</span> <span class="hljs-attr">is-required</span>=<span class="hljs-string">&quot;true&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-checkbox</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-form-field</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-form-field</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-form-field extra-class="mb-6">
     <aegov-label>Full name (as on Emirates ID)</aegov-label>
     <aegov-input is-required="true" placeholder="Your full legal name"></aegov-input>
@@ -367,7 +367,7 @@
       <span class="hljs-tag">&lt;<span class="hljs-name">aegov-select-option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;sharjah&quot;</span>&gt;</span>الشارقة<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select-option</span>&gt;</span>
     <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select</span>&gt;</span>
   <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-form-field</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre><div dir="rtl" class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre><div dir="rtl" class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-form-field extra-class="mb-6">
     <aegov-label>الاسم الكامل كما في الهوية الإماراتية</aegov-label>
     <aegov-input is-required="true" placeholder="الاسم الكامل"></aegov-input>
@@ -519,7 +519,7 @@
       </article>
     </section>
   </main>
-  <footer class="aegov-container sm:px-6 lg:px-8 mt-8 py-6 text-sm text-aeblack-500">
+  <footer class="aegov-container sm:px-6 lg:px-8 mt-8 py-6 text-sm text-aeblack-500 dark:text-aeblack-400">
     &copy; 2026 Telecommunication and Digital Regulatory Authority. All rights reserved.
   </footer>
 

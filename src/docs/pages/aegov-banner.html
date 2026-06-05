@@ -10,24 +10,24 @@
   <link rel="stylesheet" href="/docs/doc-style.css">
   <link rel="stylesheet" href="/docs/hljs.css">
 </head>
-<body class="bg-aeblack-50">
+<body class="bg-aeblack-50 dark:bg-aeblack-950">
   <header class="aegov-container sm:px-6 lg:px-8 mb-8">
     <img src="https://designsystem.gov.ae/assets/site-logo/AEGov-DesignSystem-Logo-Color.svg" alt="UAE Design System Logo" class="w-auto h-16 my-2">
   </header>
-  <main class="aegov-container sm:px-6 lg:px-8 bg-aeblack-50">
+  <main class="aegov-container sm:px-6 lg:px-8 bg-aeblack-50 dark:bg-aeblack-950">
     <section class="flex items-start align-top gap-4">
       <nav id="primary-nav" class="w-3xs shrink-0">&nbsp;</nav>
       <article class="col-span-5 grow">
-          <section id="content-area" class="bg-whitely-50 p-6 rounded-md shadow-xl">
+          <section id="content-area" class="bg-whitely-50 dark:bg-aeblack-900 p-6 rounded-md shadow-xl">
           <!-- DOC:START -->
 <h1>Banner</h1>
-<p class="text-lg text-aeblack-500 mb-8">A Banner is a page-level notification pinned to the top or bottom of the viewport. Use it for messages that apply to the whole site or service — scheduled maintenance, regional alerts, cookie consent, ministry-wide announcements, or critical system errors that must remain visible while users scroll. Banners are persistent and intentionally interrupt the normal page flow when needed.</p>
+<p class="text-lg text-aeblack-500 dark:text-aeblack-300 mb-8">A Banner is a page-level notification pinned to the top or bottom of the viewport. Use it for messages that apply to the whole site or service — scheduled maintenance, regional alerts, cookie consent, ministry-wide announcements, or critical system errors that must remain visible while users scroll. Banners are persistent and intentionally interrupt the normal page flow when needed.</p>
 
 <h2>Introduction</h2>
 <p>The <code>aegov-banner</code> component renders a full-width container fixed to the top or bottom of the viewport. It supports four severity variants, two visual treatments, fixed and sticky positioning, and two layout modes — <code>push</code> (banner reserves space and the body content is offset) or <code>overlay</code> (banner floats above content and emits its height for downstream layout adjustments). The dismiss button is built in.</p>
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-banner</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;info&quot;</span> <span class="hljs-attr">position</span>=<span class="hljs-string">&quot;top&quot;</span>&gt;</span>
   Scheduled maintenance: Government services will be briefly unavailable on Friday 03:00–05:00 GST.
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-banner</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-banner</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <div class="relative h-32 overflow-hidden rounded">
     <aegov-banner variant="info" display="sticky" mode="overlay">
       Scheduled maintenance: Government services will be briefly unavailable on Friday 03:00&ndash;05:00 GST.
@@ -46,7 +46,7 @@
 <span class="hljs-tag">&lt;<span class="hljs-name">aegov-banner</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;info&quot;</span>&gt;</span>Useful information about the service.<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-banner</span>&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">aegov-banner</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;success&quot;</span>&gt;</span>Your application has been received.<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-banner</span>&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">aegov-banner</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;warning&quot;</span>&gt;</span>Action required before the deadline.<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-banner</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-banner</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;error&quot;</span>&gt;</span>The service is currently unavailable.<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-banner</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov space-y-3">
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-banner</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;error&quot;</span>&gt;</span>The service is currently unavailable.<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-banner</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov space-y-3">
   <aegov-banner variant="default" display="sticky" mode="overlay" is-dismissible="false">A neutral, informational message.</aegov-banner>
   <aegov-banner variant="info"    display="sticky" mode="overlay" is-dismissible="false">Useful information about your service.</aegov-banner>
   <aegov-banner variant="success" display="sticky" mode="overlay" is-dismissible="false">Your Emirates ID renewal application has been received.</aegov-banner>
@@ -63,7 +63,7 @@
 
 <span class="hljs-tag">&lt;<span class="hljs-name">aegov-banner</span> <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;solid&quot;</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;error&quot;</span>&gt;</span>
   Critical: identity verification service outage.
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-banner</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov space-y-3">
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-banner</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov space-y-3">
   <aegov-banner appearance="soft"  variant="warning" display="sticky" mode="overlay" is-dismissible="false">Soft &mdash; scheduled maintenance window starts at 22:00 tonight.</aegov-banner>
   <aegov-banner appearance="solid" variant="error"   display="sticky" mode="overlay" is-dismissible="false">Solid &mdash; critical: identity verification service outage.</aegov-banner>
 </div>
@@ -110,7 +110,7 @@
 <p>The <code>size</code> property scales font size and vertical padding. Three tokens are available: <code>sm</code>, <code>base</code> (default), and <code>lg</code>. Use <code>sm</code> for low-priority notices, <code>lg</code> for prominent announcements that need extra breathing room.</p>
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-banner</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm&quot;</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;info&quot;</span>&gt;</span>Small banner<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-banner</span>&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">aegov-banner</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;base&quot;</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;info&quot;</span>&gt;</span>Base banner<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-banner</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-banner</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;lg&quot;</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;info&quot;</span>&gt;</span>Large banner<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-banner</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov space-y-3">
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-banner</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;lg&quot;</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;info&quot;</span>&gt;</span>Large banner<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-banner</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov space-y-3">
   <aegov-banner variant="info" display="sticky" mode="overlay" size="sm"   is-dismissible="false">Small &mdash; UAE Pass authentication is now available for citizens and residents.</aegov-banner>
   <aegov-banner variant="info" display="sticky" mode="overlay" size="base" is-dismissible="false">Base &mdash; UAE Pass authentication is now available for citizens and residents.</aegov-banner>
   <aegov-banner variant="info" display="sticky" mode="overlay" size="lg"   is-dismissible="false">Large &mdash; UAE Pass authentication is now available for citizens and residents.</aegov-banner>
@@ -129,7 +129,7 @@
     <span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm&quot;</span>&gt;</span>Accept all<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span>
     <span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm&quot;</span> <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;outline&quot;</span>&gt;</span>Manage preferences<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span>
   <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-banner</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-banner</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-banner variant="info" display="sticky" mode="overlay" is-dismissible="false">
     We use cookies to improve your experience on the UAE Government services portal.
     <div slot="actions">
@@ -183,7 +183,7 @@
       <span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm&quot;</span> <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;outline&quot;</span>&gt;</span>تذكيري لاحقاً<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span>
     <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
   <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-banner</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre><div dir="rtl" class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre><div dir="rtl" class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-banner variant="warning" display="sticky" mode="overlay">
     تذكير: تنتهي صلاحية بطاقة الهوية الإماراتية الخاصة بك خلال 14 يوماً. يُرجى تجديدها قبل 15 مايو لتفادي رسوم التأخير.
     <div slot="actions">
@@ -414,7 +414,7 @@
       </article>
     </section>
   </main>
-  <footer class="aegov-container sm:px-6 lg:px-8 mt-8 py-6 text-sm text-aeblack-500">
+  <footer class="aegov-container sm:px-6 lg:px-8 mt-8 py-6 text-sm text-aeblack-500 dark:text-aeblack-400">
     &copy; 2026 Telecommunication and Digital Regulatory Authority. All rights reserved.
   </footer>
 

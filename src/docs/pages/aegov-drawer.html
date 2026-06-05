@@ -10,18 +10,18 @@
   <link rel="stylesheet" href="/docs/doc-style.css">
   <link rel="stylesheet" href="/docs/hljs.css">
 </head>
-<body class="bg-aeblack-50">
+<body class="bg-aeblack-50 dark:bg-aeblack-950">
   <header class="aegov-container sm:px-6 lg:px-8 mb-8">
     <img src="https://designsystem.gov.ae/assets/site-logo/AEGov-DesignSystem-Logo-Color.svg" alt="UAE Design System Logo" class="w-auto h-16 my-2">
   </header>
-  <main class="aegov-container sm:px-6 lg:px-8 bg-aeblack-50">
+  <main class="aegov-container sm:px-6 lg:px-8 bg-aeblack-50 dark:bg-aeblack-950">
     <section class="flex items-start align-top gap-4">
       <nav id="primary-nav" class="w-3xs shrink-0">&nbsp;</nav>
       <article class="col-span-5 grow">
-          <section id="content-area" class="bg-whitely-50 p-6 rounded-md shadow-xl">
+          <section id="content-area" class="bg-whitely-50 dark:bg-aeblack-900 p-6 rounded-md shadow-xl">
           <!-- DOC:START -->
 <h1>Drawer</h1>
-<p class="text-lg text-aeblack-500 mb-8">A Drawer is a panel that slides in from the edge of the viewport — left, right, top, or bottom — to surface secondary content without leaving the current page. Use it for filter panels, navigation menus, settings, shopping baskets, or supplementary detail views where the underlying page should remain visible and easy to return to.</p>
+<p class="text-lg text-aeblack-500 dark:text-aeblack-300 mb-8">A Drawer is a panel that slides in from the edge of the viewport — left, right, top, or bottom — to surface secondary content without leaving the current page. Use it for filter panels, navigation menus, settings, shopping baskets, or supplementary detail views where the underlying page should remain visible and easy to return to.</p>
 
 <h2>Introduction</h2>
 <p>The <code>aegov-drawer</code> component renders a panel anchored to one edge of the viewport, optionally over a backdrop. Like the modal, it uses Shadow DOM, is moved to <code>document.body</code> for correct stacking, traps focus inside, and locks body scroll while open. The drawer offers a richer animation and pinning model than the modal — choose <code>slide</code> or <code>fade</code> motion, attach the panel flush to the edge or float it with rounded corners, and optionally render without an overlay for non-blocking experiences.</p>
@@ -52,7 +52,7 @@
   <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">querySelector</span>(<span class="hljs-string">&#x27;#open-filters&#x27;</span>).<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;click&#x27;</span>, <span class="hljs-function">() =&gt;</span> drawer.<span class="hljs-title function_">show</span>());
   <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">querySelector</span>(<span class="hljs-string">&#x27;#filters-clear&#x27;</span>).<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;click&#x27;</span>, <span class="hljs-function">() =&gt;</span> drawer.<span class="hljs-title function_">close</span>());
   <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">querySelector</span>(<span class="hljs-string">&#x27;#filters-apply&#x27;</span>).<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;click&#x27;</span>, <span class="hljs-function">() =&gt;</span> drawer.<span class="hljs-title function_">close</span>());
-</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-button id="demo-open-filters">
     <span>Filters</span>
   </aegov-button>
@@ -88,7 +88,7 @@
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-drawer</span> <span class="hljs-attr">position</span>=<span class="hljs-string">&quot;right&quot;</span> <span class="hljs-attr">is-open</span>=<span class="hljs-string">&quot;true&quot;</span>&gt;</span>…<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-drawer</span>&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">aegov-drawer</span> <span class="hljs-attr">position</span>=<span class="hljs-string">&quot;left&quot;</span> <span class="hljs-attr">is-open</span>=<span class="hljs-string">&quot;true&quot;</span>&gt;</span>…<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-drawer</span>&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">aegov-drawer</span> <span class="hljs-attr">position</span>=<span class="hljs-string">&quot;top&quot;</span> <span class="hljs-attr">is-open</span>=<span class="hljs-string">&quot;true&quot;</span>&gt;</span>…<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-drawer</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-drawer</span> <span class="hljs-attr">position</span>=<span class="hljs-string">&quot;bottom&quot;</span> <span class="hljs-attr">is-open</span>=<span class="hljs-string">&quot;true&quot;</span>&gt;</span>…<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-drawer</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-drawer</span> <span class="hljs-attr">position</span>=<span class="hljs-string">&quot;bottom&quot;</span> <span class="hljs-attr">is-open</span>=<span class="hljs-string">&quot;true&quot;</span>&gt;</span>…<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-drawer</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <div class="flex flex-wrap gap-3">
     <aegov-button id="demo-pos-right-btn">Right</aegov-button>
     <aegov-button id="demo-pos-left-btn">Left</aegov-button>
@@ -136,7 +136,7 @@
 <p>The <code>size</code> property controls inner padding and, when <code>is-pinned=&quot;false&quot;</code>, the gap between the panel and the viewport edge plus the corner radius.</p>
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-drawer</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm&quot;</span> <span class="hljs-attr">is-open</span>=<span class="hljs-string">&quot;true&quot;</span>&gt;</span>…<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-drawer</span>&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">aegov-drawer</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;base&quot;</span> <span class="hljs-attr">is-open</span>=<span class="hljs-string">&quot;true&quot;</span>&gt;</span>…<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-drawer</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-drawer</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;lg&quot;</span> <span class="hljs-attr">is-open</span>=<span class="hljs-string">&quot;true&quot;</span>&gt;</span>…<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-drawer</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-drawer</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;lg&quot;</span> <span class="hljs-attr">is-open</span>=<span class="hljs-string">&quot;true&quot;</span>&gt;</span>…<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-drawer</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <div class="flex flex-wrap gap-3">
     <aegov-button id="demo-drawer-size-sm-btn">Small</aegov-button>
     <aegov-button id="demo-drawer-size-base-btn">Base</aegov-button>
@@ -176,7 +176,7 @@
 <h2>Pinned vs. Floating</h2>
 <p><code>is-pinned=&quot;true&quot;</code> (the default) attaches the drawer flush against the edge with no border-radius. Set <code>is-pinned=&quot;false&quot;</code> to float the panel with a small gap and rounded corners — a softer, more contained look that pairs well with <code>size=&quot;lg&quot;</code>.</p>
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-drawer</span> <span class="hljs-attr">is-pinned</span>=<span class="hljs-string">&quot;true&quot;</span> <span class="hljs-attr">is-open</span>=<span class="hljs-string">&quot;true&quot;</span>&gt;</span>Pinned (default)<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-drawer</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-drawer</span> <span class="hljs-attr">is-pinned</span>=<span class="hljs-string">&quot;false&quot;</span> <span class="hljs-attr">is-open</span>=<span class="hljs-string">&quot;true&quot;</span>&gt;</span>Floating with gap<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-drawer</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-drawer</span> <span class="hljs-attr">is-pinned</span>=<span class="hljs-string">&quot;false&quot;</span> <span class="hljs-attr">is-open</span>=<span class="hljs-string">&quot;true&quot;</span>&gt;</span>Floating with gap<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-drawer</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <div class="flex flex-wrap gap-3">
     <aegov-button id="demo-pinned-btn">Pinned</aegov-button>
     <aegov-button id="demo-unpinned-btn">Floating</aegov-button>
@@ -251,7 +251,7 @@
     <span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;secondary&quot;</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;detail-close&quot;</span>&gt;</span>Close<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span>
     <span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;detail-start&quot;</span>&gt;</span>Start application<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span>
   <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-drawer</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-drawer</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-button id="demo-open-detail">View service details</aegov-button>
 
   <aegov-drawer id="demo-detail-drawer" position="right" size="lg" is-pinned="false" aria-labelledby="demo-detail-title">
@@ -316,7 +316,7 @@
       <span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;rtl-start&quot;</span>&gt;</span>بدء الطلب<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span>
     <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
   <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-drawer</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre><div dir="rtl" class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre><div dir="rtl" class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-button id="demo-rtl-drawer-open">عرض تفاصيل الخدمة</aegov-button>
   <aegov-drawer id="demo-rtl-drawer" position="right" aria-labelledby="demo-rtl-drawer-title">
     <h3 id="demo-rtl-drawer-title" class="text-xl font-bold mb-4">تجديد الهوية الإماراتية</h3>
@@ -611,7 +611,7 @@
       </article>
     </section>
   </main>
-  <footer class="aegov-container sm:px-6 lg:px-8 mt-8 py-6 text-sm text-aeblack-500">
+  <footer class="aegov-container sm:px-6 lg:px-8 mt-8 py-6 text-sm text-aeblack-500 dark:text-aeblack-400">
     &copy; 2026 Telecommunication and Digital Regulatory Authority. All rights reserved.
   </footer>
 
