@@ -7,7 +7,7 @@
 }
 
 /* Variant — label tone per colour family. Required-asterisk colour stays semantic aered-600. */
-.aegov-label.label-variant-primary       { @apply text-aeblack-600; }
-.aegov-label.label-variant-secondary     { @apply text-aeblack-600; }
-.aegov-label.label-variant-neutral-max   { @apply text-aeblack-800; }
-.aegov-label.label-variant-neutral-min   { @apply text-aeblack-500; }
+.aegov-label.label-variant-primary       { @apply text-aeblack-600 dark:text-aeblack-200; }
+.aegov-label.label-variant-secondary     { @apply text-aeblack-600 dark:text-aeblack-200; }
+.aegov-label.label-variant-neutral-max   { @apply text-aeblack-800 dark:text-whitely-100; }
+.aegov-label.label-variant-neutral-min   { @apply text-aeblack-500 dark:text-aeblack-400; }

@@ -11,24 +11,28 @@
          rounded-lg focus:outline-none;
   @apply placeholder:text-aeblack-300 bg-whitely-50
          inset-ring-2
-         focus-visible:inset-ring-primary-support-500;
+         focus-visible:inset-ring-primary-support-500
+         dark:placeholder:text-aeblack-500 dark:bg-aeblack-800
+         dark:focus-visible:inset-ring-primary-support-400;
 }
 
 /* Variant — idle ring + value text per colour family */
-.aegov-input.input-variant-primary       { @apply inset-ring-primary-600 text-primary-900 }
-.aegov-input.input-variant-secondary     { @apply inset-ring-secondary-600 text-secondary-900 }
-.aegov-input.input-variant-neutral-max   { @apply inset-ring-aeblack-800 text-aeblack-950 }
-.aegov-input.input-variant-neutral-min   { @apply inset-ring-aeblack-300 text-aeblack-700 }
+.aegov-input.input-variant-primary       { @apply inset-ring-primary-600 text-primary-900 dark:inset-ring-primary-400 dark:text-whitely-100 }
+.aegov-input.input-variant-secondary     { @apply inset-ring-secondary-600 text-secondary-900 dark:inset-ring-secondary-400 dark:text-whitely-100 }
+.aegov-input.input-variant-neutral-max   { @apply inset-ring-aeblack-800 text-aeblack-950 dark:inset-ring-aeblack-300 dark:text-whitely-100 }
+.aegov-input.input-variant-neutral-min   { @apply inset-ring-aeblack-300 text-aeblack-700 dark:inset-ring-aeblack-600 dark:text-aeblack-200 }
 
 /* Focus ring — overrides variant idle ring. Specificity (0,2,1) beats variant (0,2,0). */
 .aegov-input.input-variant-primary:focus {
-  @apply inset-ring-primary-support-500 bg-primary-support-50/10 inset-shadow-sm inset-shadow-primary-support-500/80;
+  @apply inset-ring-primary-support-500 bg-primary-support-50/10 inset-shadow-sm inset-shadow-primary-support-500/80
+         dark:inset-ring-primary-support-400 dark:bg-primary-support-900/20 dark:inset-shadow-primary-support-400/80;
 }
 .aegov-input.input-variant-secondary:focus {
-  @apply inset-ring-secondary-support-500 bg-secondary-support-50/10 inset-shadow-sm inset-shadow-secondary-support-500/80;
+  @apply inset-ring-secondary-support-500 bg-secondary-support-50/10 inset-shadow-sm inset-shadow-secondary-support-500/80
+         dark:inset-ring-secondary-support-400 dark:bg-secondary-support-900/20 dark:inset-shadow-secondary-support-400/80;
 }
 .aegov-input.input-variant-neutral-max:focus,
-.aegov-input.input-variant-neutral-min:focus { @apply inset-ring-seablue-500 inset-shadow-sm inset-shadow-seablue-500/80; }
+.aegov-input.input-variant-neutral-min:focus { @apply inset-ring-seablue-500 inset-shadow-sm inset-shadow-seablue-500/80 dark:inset-ring-seablue-400 dark:inset-shadow-seablue-400/80; }
 
 /* Size variants */
 .input--xs {
@@ -63,7 +67,7 @@
 /* Icon slot containers */
 .input__icon {
   @apply absolute top-0 flex items-center justify-center
-         text-aeblack-500 z-10;
+         text-aeblack-500 z-10 dark:text-aeblack-400;
 }
 
 .input__icon--start {
@@ -148,7 +152,8 @@
          border-0 bg-transparent text-aeblack-500
          hover:text-primary-700 focus-visible:text-primary-700
          cursor-pointer transition-colors duration-200
-         disabled:opacity-40 disabled:pointer-events-none;
+         disabled:opacity-40 disabled:pointer-events-none
+         dark:text-aeblack-400 dark:hover:text-primary-300 dark:focus-visible:text-primary-300;
 }
 
 /* Revealable button sizes */
@@ -195,7 +200,7 @@
 
 /* Copy success feedback */
 .input__copy-btn--copied {
-  @apply text-aegreen-600;
+  @apply text-aegreen-600 dark:text-aegreen-400;
 }
 
 /* ─────────────────────────────────────────────────────────────────────
@@ -208,7 +213,7 @@
    `scoped: false, shadow: false`, so the host is a normal light-DOM custom
    element — selector must target it by tag name + class. */
 aegov-input.is-invalid .aegov-input {
-  @apply inset-ring-aered-600;
+  @apply inset-ring-aered-600 dark:inset-ring-aered-500;
 }
 
 aegov-input.is-invalid .aegov-input:focus {
@@ -217,15 +222,15 @@ aegov-input.is-invalid .aegov-input:focus {
      leaks its support-colour inset shadow through the invalid state.
      Same selector specificity (0,2,1) — placed after the variant rules so
      source order wins. */
-  @apply inset-ring-aered-500 inset-shadow-sm inset-shadow-aered-500/80;
+  @apply inset-ring-aered-500 inset-shadow-sm inset-shadow-aered-500/80 dark:inset-ring-aered-400 dark:inset-shadow-aered-400/80;
 }
 
 /* Inline error region — rendered below the control */
 .aegov-input__error {
-  @apply text-sm text-aered-600 mt-1.5 flex items-start gap-1.5 leading-snug;
+  @apply text-sm text-aered-600 mt-1.5 flex items-start gap-1.5 leading-snug dark:text-aered-400;
 }
 
 /* Hint region — same vertical slot as error, neutral color */
 .aegov-input__hint {
-  @apply text-sm text-aeblack-600 mt-1.5 leading-snug;
+  @apply text-sm text-aeblack-600 mt-1.5 leading-snug dark:text-aeblack-300;
 }
