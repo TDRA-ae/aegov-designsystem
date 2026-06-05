@@ -382,7 +382,7 @@
 
 /* Validation surface (Layer 1) — see validation-engine-addon.md §2.6 */
 
-:host(.is-invalid) .toggle__track {
+aegov-toggle.is-invalid .toggle__track {
   @apply ring-2 ring-aered-600;
 }
 

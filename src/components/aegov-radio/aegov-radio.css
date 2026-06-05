@@ -202,7 +202,7 @@
 
 /* Validation surface (Layer 1) — see validation-engine-addon.md §2.6 */
 
-:host(.is-invalid) .radio__wrapper input[type="radio"] {
+aegov-radio.is-invalid .radio__wrapper input[type="radio"] {
   @apply ring-2 ring-aered-600;
 }
 
