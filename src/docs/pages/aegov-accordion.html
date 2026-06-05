@@ -10,18 +10,18 @@
   <link rel="stylesheet" href="/docs/doc-style.css">
   <link rel="stylesheet" href="/docs/hljs.css">
 </head>
-<body class="bg-aeblack-50">
+<body class="bg-aeblack-50 dark:bg-aeblack-950">
   <header class="aegov-container sm:px-6 lg:px-8 mb-8">
     <img src="https://designsystem.gov.ae/assets/site-logo/AEGov-DesignSystem-Logo-Color.svg" alt="UAE Design System Logo" class="w-auto h-16 my-2">
   </header>
-  <main class="aegov-container sm:px-6 lg:px-8 bg-aeblack-50">
+  <main class="aegov-container sm:px-6 lg:px-8 bg-aeblack-50 dark:bg-aeblack-950">
     <section class="flex items-start align-top gap-4">
       <nav id="primary-nav" class="w-3xs shrink-0">&nbsp;</nav>
       <article class="col-span-5 grow">
-          <section id="content-area" class="bg-whitely-50 p-6 rounded-md shadow-xl">
+          <section id="content-area" class="bg-whitely-50 dark:bg-aeblack-900 p-6 rounded-md shadow-xl">
           <!-- DOC:START -->
 <h1>Accordion</h1>
-<p class="text-lg text-aeblack-500 mb-8">An Accordion is a dynamic user interface component that helps effectively manage and organize content in an interactive, user-friendly manner. It enables content to be collapsed into separate sections that can be expanded upon user interaction. This design is especially beneficial in environments with limited screen space, enhancing readability and providing a clean, organized layout for information presentation.</p>
+<p class="text-lg text-aeblack-500 dark:text-aeblack-300 mb-8">An Accordion is a dynamic user interface component that helps effectively manage and organize content in an interactive, user-friendly manner. It enables content to be collapsed into separate sections that can be expanded upon user interaction. This design is especially beneficial in environments with limited screen space, enhancing readability and providing a clean, organized layout for information presentation.</p>
 
 <h2>Introduction</h2>
 <p>The <code>aegov-accordion</code> component composes a parent wrapper with one or more <code>aegov-accordion-item</code> children. The parent owns shared configuration — icon style, heading size, single-open vs. multi-open behaviour, and first/last positioning — and propagates it to each item automatically. You only need to author content inside each item; everything else is wired up for you.</p>
@@ -35,7 +35,7 @@
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-accordion-item</span> <span class="hljs-attr">heading</span>=<span class="hljs-string">&quot;Is the design system free to use?&quot;</span>&gt;</span>
     Yes. The design system is open and available to all UAE federal and local government entities at no cost.
   <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-accordion-item</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-accordion</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-accordion</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-accordion default-open="0">
     <aegov-accordion-item heading="What is the UAE Design System?">
       A shared library of UI components built to a common visual and accessibility standard, used by UAE Government services to deliver consistent digital experiences.
@@ -63,7 +63,7 @@
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-accordion-item</span> <span class="hljs-attr">heading</span>=<span class="hljs-string">&quot;Fees and payment&quot;</span>&gt;</span>
     Service fees are payable online through the secure payment gateway.
   <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-accordion-item</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-accordion</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-accordion</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-accordion>
     <aegov-accordion-item heading="Application requirements">
       Valid Emirates ID, recent utility bill, and proof of residence.
@@ -88,7 +88,7 @@
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-accordion-item</span> <span class="hljs-attr">heading</span>=<span class="hljs-string">&quot;Confirmation&quot;</span>&gt;</span>
     A confirmation message is sent by SMS once your request is received.
   <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-accordion-item</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-accordion</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-accordion</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-accordion is-multiple="true">
     <aegov-accordion-item heading="Eligibility">
       Open to UAE nationals and residents aged 18 and over.
@@ -115,7 +115,7 @@
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-accordion-item</span> <span class="hljs-attr">heading</span>=<span class="hljs-string">&quot;Section C&quot;</span>&gt;</span>
     Third section content.
   <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-accordion-item</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-accordion</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-accordion</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-accordion default-open="1">
     <aegov-accordion-item heading="Section A">
       First section content.
@@ -136,7 +136,7 @@
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-accordion</span> <span class="hljs-attr">icon</span>=<span class="hljs-string">&quot;chevron&quot;</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-accordion-item</span> <span class="hljs-attr">heading</span>=<span class="hljs-string">&quot;Privacy policy&quot;</span>&gt;</span>…<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-accordion-item</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-accordion-item</span> <span class="hljs-attr">heading</span>=<span class="hljs-string">&quot;Terms of service&quot;</span>&gt;</span>…<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-accordion-item</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-accordion</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-accordion</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-accordion icon="chevron">
     <aegov-accordion-item heading="Privacy policy">We collect only the data necessary to provide the service.</aegov-accordion-item>
     <aegov-accordion-item heading="Terms of service">By using this service you agree to the terms set out in the official agreement.</aegov-accordion-item>
@@ -147,7 +147,7 @@
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-accordion</span> <span class="hljs-attr">icon</span>=<span class="hljs-string">&quot;plus&quot;</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-accordion-item</span> <span class="hljs-attr">heading</span>=<span class="hljs-string">&quot;Privacy policy&quot;</span>&gt;</span>…<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-accordion-item</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-accordion-item</span> <span class="hljs-attr">heading</span>=<span class="hljs-string">&quot;Terms of service&quot;</span>&gt;</span>…<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-accordion-item</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-accordion</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-accordion</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-accordion icon="plus">
     <aegov-accordion-item heading="Privacy policy">We collect only the data necessary to provide the service.</aegov-accordion-item>
     <aegov-accordion-item heading="Terms of service">By using this service you agree to the terms set out in the official agreement.</aegov-accordion-item>
@@ -161,7 +161,7 @@
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-accordion-item</span> <span class="hljs-attr">heading</span>=<span class="hljs-string">&quot;Bordered item one&quot;</span>&gt;</span>First item content.<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-accordion-item</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-accordion-item</span> <span class="hljs-attr">heading</span>=<span class="hljs-string">&quot;Bordered item two&quot;</span>&gt;</span>Second item content.<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-accordion-item</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-accordion-item</span> <span class="hljs-attr">heading</span>=<span class="hljs-string">&quot;Bordered item three&quot;</span>&gt;</span>Third item content.<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-accordion-item</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-accordion</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-accordion</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-accordion is-bordered="true">
     <aegov-accordion-item heading="Bordered item one">First item content.</aegov-accordion-item>
     <aegov-accordion-item heading="Bordered item two">Second item content.</aegov-accordion-item>
@@ -194,7 +194,7 @@
 </tbody></table>
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-accordion</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm&quot;</span>&gt;</span>…<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-accordion</span>&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">aegov-accordion</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;base&quot;</span>&gt;</span>…<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-accordion</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-accordion</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;lg&quot;</span>&gt;</span>…<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-accordion</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-accordion</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;lg&quot;</span>&gt;</span>…<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-accordion</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-accordion size="sm">
     <aegov-accordion-item heading="Small heading (14 px)">Compact size suits dense administrative interfaces.</aegov-accordion-item>
     <aegov-accordion-item heading="Another small heading">Compact size suits dense administrative interfaces.</aegov-accordion-item>
@@ -215,7 +215,7 @@
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-accordion-item</span> <span class="hljs-attr">heading</span>=<span class="hljs-string">&quot;Resizes with the viewport&quot;</span>&gt;</span>
     Resize your browser to see the heading scale.
   <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-accordion-item</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-accordion</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-accordion</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-accordion size="sm md:base xl:lg">
     <aegov-accordion-item heading="Resizes with the viewport">
       Resize your browser to see the heading scale across the <code>sm</code>, <code>md</code>, and <code>xl</code> breakpoints.
@@ -243,7 +243,7 @@
     <span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
     Upload the supporting documents listed in the application form.
   <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-accordion-item</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-accordion</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-accordion</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-accordion>
     <aegov-accordion-item>
       <span slot="accordion-item-heading">
@@ -274,7 +274,7 @@
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-accordion-item</span> <span class="hljs-attr">heading</span>=<span class="hljs-string">&quot;Active service&quot;</span>&gt;</span>
     This service is currently accepting applications.
   <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-accordion-item</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-accordion</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-accordion</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-accordion>
     <aegov-accordion-item heading="Active service">
       This service is currently accepting applications.
@@ -304,7 +304,7 @@
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-accordion-item</span> <span class="hljs-attr">heading</span>=<span class="hljs-string">&quot;How do I delete my account?&quot;</span>&gt;</span>
     Contact support — account deletion requires identity verification and cannot be reversed.
   <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-accordion-item</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-accordion</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-accordion</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-accordion is-multiple="true" icon="plus" is-bordered="true" default-open="0">
     <aegov-accordion-item heading="How do I create an account?">
       Visit the registration page and verify your Emirates ID. Account activation is instant.
@@ -334,7 +334,7 @@
     <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-accordion-item</span>&gt;</span>
     <span class="hljs-tag">&lt;<span class="hljs-name">aegov-accordion-item</span> <span class="hljs-attr">heading</span>=<span class="hljs-string">&quot;Documents required&quot;</span>&gt;</span>Second item content.<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-accordion-item</span>&gt;</span>
     <span class="hljs-tag">&lt;<span class="hljs-name">aegov-accordion-item</span> <span class="hljs-attr">heading</span>=<span class="hljs-string">&quot;Appointment booking&quot;</span>&gt;</span>Third item content.<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-accordion-item</span>&gt;</span>
-  <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-accordion</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-accordion</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-accordion is-bordered="true">
     <aegov-accordion-item heading="How can I get a passport">
       <p>To receive a passport, you must follow the steps mentioned here</p>
@@ -392,7 +392,7 @@
       نعم. نظام التصميم متاح مجاناً لجميع الجهات الحكومية الاتحادية والمحلية في دولة الإمارات.
     <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-accordion-item</span>&gt;</span>
   <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-accordion</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre><div dir="rtl" class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre><div dir="rtl" class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-accordion is-bordered="true" default-open="0">
     <aegov-accordion-item heading="ما هو نظام التصميم الإماراتي؟">
       مكتبة مشتركة من مكوّنات واجهة المستخدم مبنية وفق معيار بصري وإمكانية وصول موحّدة، تستخدمها الجهات الحكومية في دولة الإمارات لتقديم تجربة رقمية متّسقة.
@@ -413,7 +413,7 @@
     <span class="hljs-tag">&lt;<span class="hljs-name">aegov-accordion-item</span> <span class="hljs-attr">heading</span>=<span class="hljs-string">&quot;الفقرة الثانية&quot;</span>&gt;</span>المحتوى الثاني.<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-accordion-item</span>&gt;</span>
     <span class="hljs-tag">&lt;<span class="hljs-name">aegov-accordion-item</span> <span class="hljs-attr">heading</span>=<span class="hljs-string">&quot;الفقرة الثالثة&quot;</span>&gt;</span>المحتوى الثالث.<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-accordion-item</span>&gt;</span>
   <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-accordion</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre><div dir="rtl" class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre><div dir="rtl" class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-accordion is-multiple="true" icon="plus">
     <aegov-accordion-item heading="الفقرة الأولى">المحتوى الأول.</aegov-accordion-item>
     <aegov-accordion-item heading="الفقرة الثانية">المحتوى الثاني.</aegov-accordion-item>
@@ -667,7 +667,7 @@
       </article>
     </section>
   </main>
-  <footer class="aegov-container sm:px-6 lg:px-8 mt-8 py-6 text-sm text-aeblack-500">
+  <footer class="aegov-container sm:px-6 lg:px-8 mt-8 py-6 text-sm text-aeblack-500 dark:text-aeblack-400">
     &copy; 2026 Telecommunication and Digital Regulatory Authority. All rights reserved.
   </footer>
 

@@ -10,18 +10,18 @@
   <link rel="stylesheet" href="/docs/doc-style.css">
   <link rel="stylesheet" href="/docs/hljs.css">
 </head>
-<body class="bg-aeblack-50">
+<body class="bg-aeblack-50 dark:bg-aeblack-950">
   <header class="aegov-container sm:px-6 lg:px-8 mb-8">
     <img src="https://designsystem.gov.ae/assets/site-logo/AEGov-DesignSystem-Logo-Color.svg" alt="UAE Design System Logo" class="w-auto h-16 my-2">
   </header>
-  <main class="aegov-container sm:px-6 lg:px-8 bg-aeblack-50">
+  <main class="aegov-container sm:px-6 lg:px-8 bg-aeblack-50 dark:bg-aeblack-950">
     <section class="flex items-start align-top gap-4">
       <nav id="primary-nav" class="w-3xs shrink-0">&nbsp;</nav>
       <article class="col-span-5 grow">
-          <section id="content-area" class="bg-whitely-50 p-6 rounded-md shadow-xl">
+          <section id="content-area" class="bg-whitely-50 dark:bg-aeblack-900 p-6 rounded-md shadow-xl">
           <!-- DOC:START -->
 <h1>Avatar</h1>
-<p class="text-lg text-aeblack-500 mb-8">A user-avatar component that renders an image when one is available and falls back to slotted content (such as initials) or a default user silhouette when it is not. Supports seven sizes, square or rounded shapes, and an optional status indicator. Use it for citizen profiles, ministry staff listings, and any place a single user is represented in the interface.</p>
+<p class="text-lg text-aeblack-500 dark:text-aeblack-300 mb-8">A user-avatar component that renders an image when one is available and falls back to slotted content (such as initials) or a default user silhouette when it is not. Supports seven sizes, square or rounded shapes, and an optional status indicator. Use it for citizen profiles, ministry staff listings, and any place a single user is represented in the interface.</p>
 
 <h2>Introduction</h2>
 <p>The <code>aegov-avatar</code> component is the building block for representing a single person in the UI. Set <code>src</code> to display a photograph, slot in initials as a fallback, and optionally render a coloured status dot in the lower-right corner. When the image fails to load, the component automatically falls back to whatever is in the default slot — or to a generic user silhouette if no slot content is provided.</p>
@@ -31,7 +31,7 @@
   <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;lg&quot;</span>
   <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;rounded&quot;</span>
   <span class="hljs-attr">status</span>=<span class="hljs-string">&quot;online&quot;</span>
-&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-avatar src="https://i.pravatar.cc/150?img=12" alt="Khalid Al Mansoori" size="lg" appearance="rounded" status="online"></aegov-avatar>
 </div>
 
@@ -53,7 +53,7 @@
 <span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar</span> <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;rounded&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar</span>&gt;</span>
 
 <span class="hljs-comment">&lt;!-- 4. Graceful fallback when image fails to load --&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://example.invalid/missing.jpg&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;Sara Al Hashimi&quot;</span> <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;rounded&quot;</span>&gt;</span>SA<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://example.invalid/missing.jpg&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;Sara Al Hashimi&quot;</span> <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;rounded&quot;</span>&gt;</span>SA<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <div style="display:flex;gap:1rem;align-items:center;">
     <aegov-avatar src="https://i.pravatar.cc/150?img=5" alt="Sara Al Hashimi" appearance="rounded"></aegov-avatar>
     <aegov-avatar appearance="rounded">SA</aegov-avatar>
@@ -66,7 +66,7 @@
 <h2>Appearance</h2>
 <p>Two shape tokens are available. <code>square</code> (default) renders the avatar with rounded corners, while <code>rounded</code> renders a full circle. Use <code>rounded</code> for personal profiles and chat-style UIs; <code>square</code> works well for employee directories and structured layouts.</p>
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://picsum.photos/200/300&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;Ahmed Al Marri&quot;</span> <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;square&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://i.pravatar.cc/150?img=14&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;Ahmed Al Marri&quot;</span> <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;rounded&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://i.pravatar.cc/150?img=14&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;Ahmed Al Marri&quot;</span> <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;rounded&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <div style="display:flex;gap:1rem;align-items:center;">
     <aegov-avatar src="https://picsum.photos/200/300" alt="Ahmed Al Marri" appearance="square" size="lg"></aegov-avatar>
     <aegov-avatar src="https://i.pravatar.cc/150?img=14" alt="Ahmed Al Marri" appearance="rounded" size="lg"></aegov-avatar>
@@ -82,7 +82,7 @@
 <span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;lg&quot;</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://i.pravatar.cc/150?img=20&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;Hamda&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar</span>&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;xl&quot;</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://i.pravatar.cc/150?img=20&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;Hamda&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar</span>&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;2xl&quot;</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://i.pravatar.cc/150?img=20&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;Hamda&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;3xl&quot;</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://i.pravatar.cc/150?img=20&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;Hamda&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;3xl&quot;</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://i.pravatar.cc/150?img=20&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;Hamda&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <div style="display:flex;gap:1rem;align-items:center;flex-wrap:wrap;">
     <aegov-avatar size="xs" src="https://i.pravatar.cc/150?img=20" alt="Hamda" appearance="rounded"></aegov-avatar>
     <aegov-avatar size="sm" src="https://i.pravatar.cc/150?img=20" alt="Hamda" appearance="rounded"></aegov-avatar>
@@ -96,7 +96,7 @@
 
 <h3>Responsive sizes</h3>
 <pre><code class="hljs language-html"><span class="hljs-comment">&lt;!-- Small on phones, base from md, large from lg --&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm md:base lg:lg&quot;</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://i.pravatar.cc/150?img=27&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;Latifa&quot;</span> <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;rounded&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm md:base lg:lg&quot;</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://i.pravatar.cc/150?img=27&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;Latifa&quot;</span> <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;rounded&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-avatar size="sm md:base lg:lg" src="https://i.pravatar.cc/150?img=27" alt="Latifa" appearance="rounded"></aegov-avatar>
 </div>
 
@@ -115,7 +115,7 @@
 <span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://i.pravatar.cc/150?img=8&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;Mohammed&quot;</span> <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;rounded&quot;</span> <span class="hljs-attr">status</span>=<span class="hljs-string">&quot;away&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar</span>&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://i.pravatar.cc/150?img=8&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;Mohammed&quot;</span> <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;rounded&quot;</span> <span class="hljs-attr">status</span>=<span class="hljs-string">&quot;busy&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar</span>&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://i.pravatar.cc/150?img=8&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;Mohammed&quot;</span> <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;rounded&quot;</span> <span class="hljs-attr">status</span>=<span class="hljs-string">&quot;unavailable&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://i.pravatar.cc/150?img=8&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;Mohammed&quot;</span> <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;rounded&quot;</span> <span class="hljs-attr">status</span>=<span class="hljs-string">&quot;offline&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://i.pravatar.cc/150?img=8&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;Mohammed&quot;</span> <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;rounded&quot;</span> <span class="hljs-attr">status</span>=<span class="hljs-string">&quot;offline&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <div style="display:flex;gap:1rem;align-items:center;flex-wrap:wrap;">
     <aegov-avatar src="https://i.pravatar.cc/150?img=8" alt="Mohammed (online)" appearance="rounded" size="lg" status="online"></aegov-avatar>
     <aegov-avatar src="https://i.pravatar.cc/150?img=8" alt="Mohammed (away)" appearance="rounded" size="lg" status="away"></aegov-avatar>
@@ -130,7 +130,7 @@
 <p>When no portrait is available — for example, on a freshly created account — slot in the user&#39;s initials. The component uses the slot for the fallback rendering, so any markup is allowed.</p>
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar</span> <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;rounded&quot;</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;lg&quot;</span>&gt;</span>KM<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar</span>&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar</span> <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;rounded&quot;</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;lg&quot;</span> <span class="hljs-attr">status</span>=<span class="hljs-string">&quot;online&quot;</span>&gt;</span>FZ<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar</span> <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;square&quot;</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;lg&quot;</span>&gt;</span>AH<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar</span> <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;square&quot;</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;lg&quot;</span>&gt;</span>AH<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <div style="display:flex;gap:1rem;align-items:center;">
     <aegov-avatar appearance="rounded" size="lg">KM</aegov-avatar>
     <aegov-avatar appearance="rounded" size="lg" status="online">FZ</aegov-avatar>
@@ -155,7 +155,7 @@
       Director, Digital Services — TDRA
     <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
   <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <div style="display:flex;gap:0.75rem;align-items:center;">
     <aegov-avatar src="https://i.pravatar.cc/150?img=12" alt="Khalid Al Mansoori" size="lg" appearance="rounded" status="online"></aegov-avatar>
     <div>
@@ -179,7 +179,7 @@
     <span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar</span> <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;rounded&quot;</span> <span class="hljs-attr">status</span>=<span class="hljs-string">&quot;away&quot;</span>&gt;</span>MA<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar</span>&gt;</span>
     <span class="hljs-tag">&lt;<span class="hljs-name">span</span>&gt;</span>Maryam Al Ali — Out today<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
   <span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">ul</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;/<span class="hljs-name">ul</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:0.75rem;">
     <li style="display:flex;gap:0.75rem;align-items:center;">
       <aegov-avatar src="https://i.pravatar.cc/150?img=32" alt="Fatima Al Zaabi" appearance="rounded" status="online"></aegov-avatar>
@@ -215,7 +215,7 @@
       <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
     <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
   <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre><div dir="rtl" class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre><div dir="rtl" class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <div style="display:flex;gap:0.75rem;align-items:center;">
     <aegov-avatar src="https://i.pravatar.cc/150?img=32" alt="فاطمة الزعابي" size="lg" appearance="rounded" status="online"></aegov-avatar>
     <div>
@@ -237,7 +237,7 @@
       <span class="hljs-tag">&lt;<span class="hljs-name">span</span>&gt;</span>يوسف السويدي — الدعم الفني<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
     <span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span>
   <span class="hljs-tag">&lt;/<span class="hljs-name">ul</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre><div dir="rtl" class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre><div dir="rtl" class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:0.75rem;">
     <li style="display:flex;gap:0.75rem;align-items:center;">
       <aegov-avatar src="https://i.pravatar.cc/150?img=12" alt="خالد المنصوري" appearance="rounded" status="online"></aegov-avatar>
@@ -386,7 +386,7 @@
       </article>
     </section>
   </main>
-  <footer class="aegov-container sm:px-6 lg:px-8 mt-8 py-6 text-sm text-aeblack-500">
+  <footer class="aegov-container sm:px-6 lg:px-8 mt-8 py-6 text-sm text-aeblack-500 dark:text-aeblack-400">
     &copy; 2026 Telecommunication and Digital Regulatory Authority. All rights reserved.
   </footer>
 

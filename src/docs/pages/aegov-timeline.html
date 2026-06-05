@@ -10,18 +10,18 @@
   <link rel="stylesheet" href="/docs/doc-style.css">
   <link rel="stylesheet" href="/docs/hljs.css">
 </head>
-<body class="bg-aeblack-50">
+<body class="bg-aeblack-50 dark:bg-aeblack-950">
   <header class="aegov-container sm:px-6 lg:px-8 mb-8">
     <img src="https://designsystem.gov.ae/assets/site-logo/AEGov-DesignSystem-Logo-Color.svg" alt="UAE Design System Logo" class="w-auto h-16 my-2">
   </header>
-  <main class="aegov-container sm:px-6 lg:px-8 bg-aeblack-50">
+  <main class="aegov-container sm:px-6 lg:px-8 bg-aeblack-50 dark:bg-aeblack-950">
     <section class="flex items-start align-top gap-4">
       <nav id="primary-nav" class="w-3xs shrink-0">&nbsp;</nav>
       <article class="col-span-5 grow">
-          <section id="content-area" class="bg-whitely-50 p-6 rounded-md shadow-xl">
+          <section id="content-area" class="bg-whitely-50 dark:bg-aeblack-900 p-6 rounded-md shadow-xl">
           <!-- DOC:START -->
 <h1>Timeline</h1>
-<p class="text-lg text-aeblack-500 mb-8">A timeline is a visual stepper that shows progress through a sequence of stages — application steps, document review status, multi-step forms — and clarifies what is complete, what is in progress, and what is still ahead. The <code>aegov-timeline</code> parent renders the surrounding navigation landmark and writes shared layout props onto each <code>aegov-timeline-step</code> child, so your markup only needs per-step <code>status</code> and label content.</p>
+<p class="text-lg text-aeblack-500 dark:text-aeblack-300 mb-8">A timeline is a visual stepper that shows progress through a sequence of stages — application steps, document review status, multi-step forms — and clarifies what is complete, what is in progress, and what is still ahead. The <code>aegov-timeline</code> parent renders the surrounding navigation landmark and writes shared layout props onto each <code>aegov-timeline-step</code> child, so your markup only needs per-step <code>status</code> and label content.</p>
 
 <h2>Introduction</h2>
 <p><code>aegov-timeline</code> composes a parent wrapper with one or more <code>aegov-timeline-step</code> children. The parent calculates step indices, first/last position, and connector state for each step, leaving you to author content. Two visual variants are available — the default numbered circles, and a compact dot variant for tighter contexts — and steps lay out either horizontally or vertically depending on the <code>orientation</code> property.</p>
@@ -38,7 +38,7 @@
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-timeline-step</span> <span class="hljs-attr">status</span>=<span class="hljs-string">&quot;pending&quot;</span>&gt;</span>
     Issuance
   <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-timeline-step</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-timeline</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-timeline</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-timeline>
     <aegov-timeline-step status="completed" description="Submitted">
       Application
@@ -64,7 +64,7 @@
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-timeline-step</span> <span class="hljs-attr">status</span>=<span class="hljs-string">&quot;active&quot;</span>&gt;</span>Verification<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-timeline-step</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-timeline-step</span> <span class="hljs-attr">status</span>=<span class="hljs-string">&quot;pending&quot;</span>&gt;</span>Approval<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-timeline-step</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-timeline-step</span> <span class="hljs-attr">status</span>=<span class="hljs-string">&quot;pending&quot;</span>&gt;</span>Issuance<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-timeline-step</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-timeline</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-timeline</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-timeline>
     <aegov-timeline-step status="completed">Identity</aegov-timeline-step>
     <aegov-timeline-step status="completed">Documents</aegov-timeline-step>
@@ -90,7 +90,7 @@
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-timeline-step</span> <span class="hljs-attr">status</span>=<span class="hljs-string">&quot;pending&quot;</span> <span class="hljs-attr">description</span>=<span class="hljs-string">&quot;Estimated 18 Mar&quot;</span>&gt;</span>
     Issuance
   <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-timeline-step</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-timeline</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-timeline</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-timeline>
     <aegov-timeline-step status="completed" description="Submitted on 12 Mar">
       Application received
@@ -116,7 +116,7 @@
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-timeline-step</span> <span class="hljs-attr">status</span>=<span class="hljs-string">&quot;completed&quot;</span>&gt;</span>Verify<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-timeline-step</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-timeline-step</span> <span class="hljs-attr">status</span>=<span class="hljs-string">&quot;active&quot;</span>&gt;</span>Approve<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-timeline-step</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-timeline-step</span> <span class="hljs-attr">status</span>=<span class="hljs-string">&quot;pending&quot;</span>&gt;</span>Issue<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-timeline-step</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-timeline</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-timeline</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-timeline variant="default">
     <aegov-timeline-step status="completed">Apply</aegov-timeline-step>
     <aegov-timeline-step status="completed">Verify</aegov-timeline-step>
@@ -132,7 +132,7 @@
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-timeline-step</span> <span class="hljs-attr">status</span>=<span class="hljs-string">&quot;completed&quot;</span>&gt;</span>Step 2<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-timeline-step</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-timeline-step</span> <span class="hljs-attr">status</span>=<span class="hljs-string">&quot;active&quot;</span>&gt;</span>Step 3<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-timeline-step</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-timeline-step</span> <span class="hljs-attr">status</span>=<span class="hljs-string">&quot;pending&quot;</span>&gt;</span>Step 4<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-timeline-step</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-timeline</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-timeline</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-timeline variant="compact">
     <aegov-timeline-step status="completed">Step 1</aegov-timeline-step>
     <aegov-timeline-step status="completed">Step 2</aegov-timeline-step>
@@ -156,7 +156,7 @@
     Verification
   <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-timeline-step</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-timeline-step</span> <span class="hljs-attr">status</span>=<span class="hljs-string">&quot;pending&quot;</span>&gt;</span>Activation<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-timeline-step</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-timeline</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-timeline</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-timeline orientation="horizontal">
     <aegov-timeline-step status="completed" description="3 Apr">
       Account created
@@ -188,7 +188,7 @@
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-timeline-step</span> <span class="hljs-attr">status</span>=<span class="hljs-string">&quot;pending&quot;</span>&gt;</span>
     Collection
   <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-timeline-step</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-timeline</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-timeline</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-timeline orientation="vertical">
     <aegov-timeline-step status="completed" description="Submitted">
       Service request
@@ -233,7 +233,7 @@
 </tbody></table>
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-timeline</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm&quot;</span>&gt;</span>…<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-timeline</span>&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">aegov-timeline</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;base&quot;</span>&gt;</span>…<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-timeline</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-timeline</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;lg&quot;</span>&gt;</span>…<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-timeline</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-timeline</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;lg&quot;</span>&gt;</span>…<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-timeline</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-timeline size="sm">
     <aegov-timeline-step status="completed">Apply</aegov-timeline-step>
     <aegov-timeline-step status="active">Review</aegov-timeline-step>
@@ -263,7 +263,7 @@
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-timeline-step</span> <span class="hljs-attr">status</span>=<span class="hljs-string">&quot;completed&quot;</span>&gt;</span>Apply<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-timeline-step</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-timeline-step</span> <span class="hljs-attr">status</span>=<span class="hljs-string">&quot;active&quot;</span>&gt;</span>Review<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-timeline-step</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-timeline-step</span> <span class="hljs-attr">status</span>=<span class="hljs-string">&quot;pending&quot;</span>&gt;</span>Approve<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-timeline-step</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-timeline</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-timeline</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-timeline size="sm md:base xl:lg">
     <aegov-timeline-step status="completed">Apply</aegov-timeline-step>
     <aegov-timeline-step status="active">Review</aegov-timeline-step>
@@ -296,7 +296,7 @@
     <span class="hljs-tag">&lt;/<span class="hljs-name">svg</span>&gt;</span>
     Approval in progress
   <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-timeline-step</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-timeline</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-timeline</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-timeline>
     <aegov-timeline-step status="completed">
       <svg slot="icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -344,7 +344,7 @@
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-timeline-step</span> <span class="hljs-attr">status</span>=<span class="hljs-string">&quot;pending&quot;</span> <span class="hljs-attr">description</span>=<span class="hljs-string">&quot;Pick up at the service centre&quot;</span>&gt;</span>
     Collection
   <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-timeline-step</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-timeline</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-timeline</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-timeline orientation="vertical" size="lg">
     <aegov-timeline-step status="completed" description="12 Mar 2026">
       Application submitted
@@ -385,7 +385,7 @@
       الإصدار
     <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-timeline-step</span>&gt;</span>
   <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-timeline</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre><div dir="rtl" class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre><div dir="rtl" class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-timeline>
     <aegov-timeline-step status="completed" description="تم الاستلام">
       تقديم الطلب
@@ -418,7 +418,7 @@
       إصدار التصريح
     <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-timeline-step</span>&gt;</span>
   <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-timeline</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre><div dir="rtl" class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre><div dir="rtl" class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-timeline orientation="vertical">
     <aegov-timeline-step status="completed" description="١٢ مارس ٢٠٢٦">
       تقديم الطلب
@@ -652,7 +652,7 @@
       </article>
     </section>
   </main>
-  <footer class="aegov-container sm:px-6 lg:px-8 mt-8 py-6 text-sm text-aeblack-500">
+  <footer class="aegov-container sm:px-6 lg:px-8 mt-8 py-6 text-sm text-aeblack-500 dark:text-aeblack-400">
     &copy; 2026 Telecommunication and Digital Regulatory Authority. All rights reserved.
   </footer>
 

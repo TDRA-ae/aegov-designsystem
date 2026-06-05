@@ -10,18 +10,18 @@
   <link rel="stylesheet" href="/docs/doc-style.css">
   <link rel="stylesheet" href="/docs/hljs.css">
 </head>
-<body class="bg-aeblack-50">
+<body class="bg-aeblack-50 dark:bg-aeblack-950">
   <header class="aegov-container sm:px-6 lg:px-8 mb-8">
     <img src="https://designsystem.gov.ae/assets/site-logo/AEGov-DesignSystem-Logo-Color.svg" alt="UAE Design System Logo" class="w-auto h-16 my-2">
   </header>
-  <main class="aegov-container sm:px-6 lg:px-8 bg-aeblack-50">
+  <main class="aegov-container sm:px-6 lg:px-8 bg-aeblack-50 dark:bg-aeblack-950">
     <section class="flex items-start align-top gap-4">
       <nav id="primary-nav" class="w-3xs shrink-0">&nbsp;</nav>
       <article class="col-span-5 grow">
-          <section id="content-area" class="bg-whitely-50 p-6 rounded-md shadow-xl">
+          <section id="content-area" class="bg-whitely-50 dark:bg-aeblack-900 p-6 rounded-md shadow-xl">
           <!-- DOC:START -->
 <h1>Link</h1>
-<p class="text-lg text-aeblack-500 mb-8">A styled inline anchor for navigation, in-content references, and external destinations. The component wraps a real <code>&lt;a&gt;</code> element so it remains keyboard-accessible and crawlable, while applying the design system's link colour and transition. It also adds automatic safe-rel handling for external targets and a custom click event for SPA-style routing.</p>
+<p class="text-lg text-aeblack-500 dark:text-aeblack-300 mb-8">A styled inline anchor for navigation, in-content references, and external destinations. The component wraps a real <code>&lt;a&gt;</code> element so it remains keyboard-accessible and crawlable, while applying the design system's link colour and transition. It also adds automatic safe-rel handling for external targets and a custom click event for SPA-style routing.</p>
 
 <h2>Introduction</h2>
 <p>The <code>aegov-link</code> component renders a styled anchor with the system&#39;s link colour (<code>text-primary-600</code>) and a subtle colour transition. It accepts the standard anchor properties (<code>href</code>, <code>target</code>, <code>rel</code>, <code>download</code>, <code>hreflang</code>, etc.) and automatically applies <code>rel=&quot;noopener noreferrer&quot;</code> when <code>target=&quot;_blank&quot;</code> to prevent reverse-tabnabbing. For SPA routing, a custom <code>aegovLinkClick</code> event lets you intercept navigation and hand off to your client-side router.</p>
@@ -29,7 +29,7 @@
   Visit the official UAE Government portal at
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-link</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;https://u.ae&quot;</span> <span class="hljs-attr">target</span>=<span class="hljs-string">&quot;_blank&quot;</span>&gt;</span>u.ae<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-link</span>&gt;</span>
   for the full directory of federal services.
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-text</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-text</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-text>
     Visit the official UAE Government portal at <aegov-link href="https://u.ae" target="_blank">u.ae</aegov-link> for the full directory of federal services.
   </aegov-text>
@@ -48,7 +48,7 @@
   See the
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-link</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;#fees&quot;</span>&gt;</span>fees and charges<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-link</span>&gt;</span>
   section below for details.
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-text</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-text</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-text>
     Already have an account? <aegov-link href="/sign-in">Sign in</aegov-link> to continue your application.
   </aegov-text>
@@ -66,7 +66,7 @@
 
 <span class="hljs-tag">&lt;<span class="hljs-name">aegov-link</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;https://government.ae&quot;</span> <span class="hljs-attr">target</span>=<span class="hljs-string">&quot;_blank&quot;</span> <span class="hljs-attr">rel</span>=<span class="hljs-string">&quot;nofollow&quot;</span>&gt;</span>
   Federal services directory
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-link</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-link</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-text>
     Open the
     <aegov-link href="https://u.ae" target="_blank">UAE Government portal</aegov-link>
@@ -81,7 +81,7 @@
 <p>Pass the standard <code>download</code> attribute to prompt the browser to save the resource instead of navigating to it. The attribute is forwarded through to the underlying <code>&lt;a&gt;</code> element.</p>
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-link</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/files/service-charter.pdf&quot;</span> <span class="hljs-attr">download</span>=<span class="hljs-string">&quot;service-charter.pdf&quot;</span>&gt;</span>
   Download service charter (PDF)
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-link</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-link</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-text>
     <aegov-link href="/files/service-charter.pdf" download="service-charter.pdf">
       Download service charter (PDF)
@@ -98,7 +98,7 @@
 
 <span class="hljs-tag">&lt;<span class="hljs-name">aegov-link</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/help&quot;</span> <span class="hljs-attr">extra-class</span>=<span class="hljs-string">&quot;text-aeblack-700 hover:text-primary-600&quot;</span>&gt;</span>
   Help and support
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-link</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-link</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-text>
     <aegov-link href="/services" extra-class="font-semibold underline">Browse all services</aegov-link>
     &nbsp;·&nbsp;
@@ -134,7 +134,7 @@
   Read the
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-link</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/files/visa-renewal-guide.pdf&quot;</span> <span class="hljs-attr">download</span>&gt;</span>full guide (PDF)<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-link</span>&gt;</span>
   before you start.
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-text</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-text</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-title heading-type="h3" size="lg" extra-class="mb-2">
     Renew your residence visa
   </aegov-title>
@@ -167,7 +167,7 @@
 
 <span class="hljs-tag">&lt;<span class="hljs-name">aegov-link</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/docs&quot;</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;neutral-min&quot;</span> <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;link&quot;</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;base&quot;</span>&gt;</span>
   Read the docs
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-link</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov flex flex-wrap gap-3 items-center">
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-link</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov flex flex-wrap gap-3 items-center">
   <aegov-link href="/start" variant="primary" appearance="solid" size="base">Get started</aegov-link>
   <aegov-link href="/sign-in" variant="secondary" appearance="outline" size="base">Sign in</aegov-link>
   <aegov-link href="/learn-more" variant="primary" appearance="soft" size="base">Learn more</aegov-link>
@@ -180,7 +180,7 @@
 <span class="hljs-tag">&lt;<span class="hljs-name">aegov-link</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/a&quot;</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;primary&quot;</span> <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;solid&quot;</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm&quot;</span>&gt;</span>Small<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-link</span>&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">aegov-link</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/a&quot;</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;primary&quot;</span> <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;solid&quot;</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;base&quot;</span>&gt;</span>Base<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-link</span>&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">aegov-link</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/a&quot;</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;primary&quot;</span> <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;solid&quot;</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;lg&quot;</span>&gt;</span>Large<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-link</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-link</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/a&quot;</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;primary&quot;</span> <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;solid&quot;</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;xl&quot;</span>&gt;</span>Extra large<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-link</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov flex flex-wrap gap-3 items-center">
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-link</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/a&quot;</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;primary&quot;</span> <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;solid&quot;</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;xl&quot;</span>&gt;</span>Extra large<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-link</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov flex flex-wrap gap-3 items-center">
   <aegov-link href="/a" variant="primary" appearance="solid" size="xs">Extra small</aegov-link>
   <aegov-link href="/a" variant="primary" appearance="solid" size="sm">Small</aegov-link>
   <aegov-link href="/a" variant="primary" appearance="solid" size="base">Base</aegov-link>
@@ -192,7 +192,7 @@
 <p>Pair <code>is-full</code> with a block-level container to render a stretched call-to-action.</p>
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-link</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/apply&quot;</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;primary&quot;</span> <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;solid&quot;</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;lg&quot;</span> <span class="hljs-attr">is-full</span>&gt;</span>
   Apply now
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-link</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-link</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-link href="/apply" variant="primary" appearance="solid" size="lg" is-full>Apply now</aegov-link>
 </div>
 
@@ -210,7 +210,7 @@
     <span class="hljs-tag">&lt;<span class="hljs-name">circle</span> <span class="hljs-attr">cx</span>=<span class="hljs-string">&quot;12&quot;</span> <span class="hljs-attr">cy</span>=<span class="hljs-string">&quot;12&quot;</span> <span class="hljs-attr">r</span>=<span class="hljs-string">&quot;3&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">circle</span>&gt;</span>
     <span class="hljs-tag">&lt;<span class="hljs-name">path</span> <span class="hljs-attr">d</span>=<span class="hljs-string">&quot;M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">path</span>&gt;</span>
   <span class="hljs-tag">&lt;/<span class="hljs-name">svg</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-link</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov flex gap-3 items-center">
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-link</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov flex gap-3 items-center">
   <aegov-link href="/settings" variant="primary" appearance="outline" size="base" is-icon aria-label="Open settings">
     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
       <circle cx="12" cy="12" r="3"></circle>
@@ -230,7 +230,7 @@
 </ul>
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-link</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/wip&quot;</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;primary&quot;</span> <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;solid&quot;</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;base&quot;</span> <span class="hljs-attr">is-disabled</span>&gt;</span>
   Coming soon
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-link</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov flex gap-3 items-center">
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-link</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov flex gap-3 items-center">
   <aegov-link href="/wip" variant="primary" appearance="solid" size="base" is-disabled>Coming soon</aegov-link>
 </div>
 
@@ -253,7 +253,7 @@
       تنزيل ميثاق الخدمة (PDF)
     <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-link</span>&gt;</span>
   <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-text</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre><div dir="rtl" class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre><div dir="rtl" class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-text>
     تفضّل بزيارة
     <aegov-link href="https://u.ae" target="_blank">البوابة الرسمية لحكومة الإمارات</aegov-link>
@@ -506,7 +506,7 @@
       </article>
     </section>
   </main>
-  <footer class="aegov-container sm:px-6 lg:px-8 mt-8 py-6 text-sm text-aeblack-500">
+  <footer class="aegov-container sm:px-6 lg:px-8 mt-8 py-6 text-sm text-aeblack-500 dark:text-aeblack-400">
     &copy; 2026 Telecommunication and Digital Regulatory Authority. All rights reserved.
   </footer>
 

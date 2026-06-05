@@ -10,18 +10,18 @@
   <link rel="stylesheet" href="/docs/doc-style.css">
   <link rel="stylesheet" href="/docs/hljs.css">
 </head>
-<body class="bg-aeblack-50">
+<body class="bg-aeblack-50 dark:bg-aeblack-950">
   <header class="aegov-container sm:px-6 lg:px-8 mb-8">
     <img src="https://designsystem.gov.ae/assets/site-logo/AEGov-DesignSystem-Logo-Color.svg" alt="UAE Design System Logo" class="w-auto h-16 my-2">
   </header>
-  <main class="aegov-container sm:px-6 lg:px-8 bg-aeblack-50">
+  <main class="aegov-container sm:px-6 lg:px-8 bg-aeblack-50 dark:bg-aeblack-950">
     <section class="flex items-start align-top gap-4">
       <nav id="primary-nav" class="w-3xs shrink-0">&nbsp;</nav>
       <article class="col-span-5 grow">
-          <section id="content-area" class="bg-whitely-50 p-6 rounded-md shadow-xl">
+          <section id="content-area" class="bg-whitely-50 dark:bg-aeblack-900 p-6 rounded-md shadow-xl">
           <!-- DOC:START -->
 <h1>Blockquote</h1>
-<p class="text-lg text-aeblack-500 mb-8">A Blockquote is a semantic component for displaying pulled quotes, testimonials, or attributed statements. Use it whenever you need to visually emphasise a quoted passage with optional attribution to an author, role, or external source. The component renders a native <code>&lt;blockquote&gt;</code> element so assistive technology can recognise the quoted content.</p>
+<p class="text-lg text-aeblack-500 dark:text-aeblack-300 mb-8">A Blockquote is a semantic component for displaying pulled quotes, testimonials, or attributed statements. Use it whenever you need to visually emphasise a quoted passage with optional attribution to an author, role, or external source. The component renders a native <code>&lt;blockquote&gt;</code> element so assistive technology can recognise the quoted content.</p>
 
 <h2>Introduction</h2>
 <p>The <code>aegov-blockquote</code> component supports two visual styles. The default <code>primary</code> appearance pulls the quote out of the surrounding text with a decorative quote-mark icon and generous start-side padding. The <code>colored</code> appearance fills the block with a primary-tint background and colour-codes the start border, giving testimonial-style emphasis. Both styles render the underlying <code>&lt;blockquote&gt;</code> semantically and can carry an attribution (<code>author</code>, <code>author-title</code>) and a citation URL (<code>cite</code>).</p>
@@ -29,7 +29,7 @@
   <span class="hljs-attr">author</span>=<span class="hljs-string">&quot;Sheikh Mohammed bin Rashid Al Maktoum&quot;</span>
   <span class="hljs-attr">author-title</span>=<span class="hljs-string">&quot;Vice President and Prime Minister of the UAE&quot;</span>&gt;</span>
   We do not wait for change, we make change.
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-blockquote</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-blockquote</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-blockquote
     author="Sheikh Mohammed bin Rashid Al Maktoum"
     author-title="Vice President and Prime Minister of the UAE">
@@ -43,7 +43,7 @@
 <h3>Primary (default)</h3>
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-blockquote</span> <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;primary&quot;</span>&gt;</span>
   The future of government services is intelligent, integrated, and citizen-centred.
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-blockquote</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-blockquote</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-blockquote appearance="primary">
     The future of government services is intelligent, integrated, and citizen-centred.
   </aegov-blockquote>
@@ -55,7 +55,7 @@
   <span class="hljs-attr">author</span>=<span class="hljs-string">&quot;Mariam Al Suwaidi&quot;</span>
   <span class="hljs-attr">author-title</span>=<span class="hljs-string">&quot;Director of Digital Services, MOI&quot;</span>&gt;</span>
   Issuing a new Emirates ID used to take three trips to a service centre. With the new portal, my residents now finish the whole process in under ten minutes.
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-blockquote</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-blockquote</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-blockquote
     appearance="colored"
     author="Mariam Al Suwaidi"
@@ -74,7 +74,7 @@
   <span class="hljs-attr">author</span>=<span class="hljs-string">&quot;Khalid Al Mansoori&quot;</span>
   <span class="hljs-attr">author-title</span>=<span class="hljs-string">&quot;Resident, Abu Dhabi&quot;</span>&gt;</span>
   The new appointment booking flow saved me an entire morning. Everything I needed for my passport renewal was in one place.
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-blockquote</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-blockquote</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-blockquote
     author="Khalid Al Mansoori"
     author-title="Resident, Abu Dhabi">
@@ -87,7 +87,7 @@
 <p>The <code>cite</code> property is reflected onto the underlying <code>&lt;blockquote&gt;</code> as the native <code>cite</code> attribute. It accepts a URL pointing at the canonical source of the quote and is read by some assistive technologies and search engines for provenance.</p>
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-blockquote</span> <span class="hljs-attr">cite</span>=<span class="hljs-string">&quot;https://u.ae/about-the-uae/leaders-of-the-uae&quot;</span>&gt;</span>
   In the race for excellence there is no finish line.
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-blockquote</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-blockquote</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-blockquote
     cite="https://u.ae/about-the-uae/leaders-of-the-uae"
     author="Sheikh Mohammed bin Rashid Al Maktoum">
@@ -103,7 +103,7 @@
   <span class="hljs-attr">author-title</span>=<span class="hljs-string">&quot;Chief Architect, Federal Authority for Identity and Citizenship&quot;</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Identity is the foundation of every digital service we deliver to residents and citizens.<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>The systems we are building today must be <span class="hljs-tag">&lt;<span class="hljs-name">em</span>&gt;</span>resilient<span class="hljs-tag">&lt;/<span class="hljs-name">em</span>&gt;</span>, <span class="hljs-tag">&lt;<span class="hljs-name">em</span>&gt;</span>private<span class="hljs-tag">&lt;/<span class="hljs-name">em</span>&gt;</span>, and <span class="hljs-tag">&lt;<span class="hljs-name">em</span>&gt;</span>accessible<span class="hljs-tag">&lt;/<span class="hljs-name">em</span>&gt;</span> by every person in the UAE.<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-blockquote</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-blockquote</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-blockquote
     author="Dr. Aisha Al Hammadi"
     author-title="Chief Architect, Federal Authority for Identity and Citizenship">
@@ -121,7 +121,7 @@
     <span class="hljs-attr">author-title</span>=<span class="hljs-string">&quot;نائب رئيس الدولة، رئيس مجلس الوزراء، حاكم دبي&quot;</span>&gt;</span>
     إن دولة الإمارات تؤمن بأن خدمة الناس هي جوهر العمل الحكومي.
   <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-blockquote</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre><div dir="rtl" class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre><div dir="rtl" class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-blockquote
     author="الشيخ محمد بن راشد آل مكتوم"
     author-title="نائب رئيس الدولة، رئيس مجلس الوزراء، حاكم دبي">
@@ -137,7 +137,7 @@
     <span class="hljs-attr">author-title</span>=<span class="hljs-string">&quot;مديرة الخدمات الرقمية، وزارة الداخلية&quot;</span>&gt;</span>
     أصبح إصدار الهوية الإماراتية تجربة مبسّطة بالكامل عبر الإنترنت، وهذا ما يبحث عنه المتعاملون.
   <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-blockquote</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre><div dir="rtl" class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre><div dir="rtl" class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-blockquote
     appearance="colored"
     author="مريم السويدي"
@@ -278,7 +278,7 @@
       </article>
     </section>
   </main>
-  <footer class="aegov-container sm:px-6 lg:px-8 mt-8 py-6 text-sm text-aeblack-500">
+  <footer class="aegov-container sm:px-6 lg:px-8 mt-8 py-6 text-sm text-aeblack-500 dark:text-aeblack-400">
     &copy; 2026 Telecommunication and Digital Regulatory Authority. All rights reserved.
   </footer>
 

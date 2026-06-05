@@ -10,18 +10,18 @@
   <link rel="stylesheet" href="/docs/doc-style.css">
   <link rel="stylesheet" href="/docs/hljs.css">
 </head>
-<body class="bg-aeblack-50">
+<body class="bg-aeblack-50 dark:bg-aeblack-950">
   <header class="aegov-container sm:px-6 lg:px-8 mb-8">
     <img src="https://designsystem.gov.ae/assets/site-logo/AEGov-DesignSystem-Logo-Color.svg" alt="UAE Design System Logo" class="w-auto h-16 my-2">
   </header>
-  <main class="aegov-container sm:px-6 lg:px-8 bg-aeblack-50">
+  <main class="aegov-container sm:px-6 lg:px-8 bg-aeblack-50 dark:bg-aeblack-950">
     <section class="flex items-start align-top gap-4">
       <nav id="primary-nav" class="w-3xs shrink-0">&nbsp;</nav>
       <article class="col-span-5 grow">
-          <section id="content-area" class="bg-whitely-50 p-6 rounded-md shadow-xl">
+          <section id="content-area" class="bg-whitely-50 dark:bg-aeblack-900 p-6 rounded-md shadow-xl">
           <!-- DOC:START -->
 <h1>Toggle</h1>
-<p class="text-lg text-aeblack-500 mb-8">A Toggle is a switch input that lets users turn a single setting on or off. It is the right choice for binary preferences that take effect immediately — notification channels, language preference, accessibility options — and provides clear visual and assistive-technology feedback for the current state.</p>
+<p class="text-lg text-aeblack-500 dark:text-aeblack-300 mb-8">A Toggle is a switch input that lets users turn a single setting on or off. It is the right choice for binary preferences that take effect immediately — notification channels, language preference, accessibility options — and provides clear visual and assistive-technology feedback for the current state.</p>
 
 <h2>Introduction</h2>
 <p>The <code>aegov-toggle</code> component renders a fully accessible switch built on a native <code>&lt;input type=&quot;checkbox&quot;&gt;</code> with <code>role=&quot;switch&quot;</code>. It supports an optional inline label and description, five sizes, custom on/off icons via slots, and standard form integration through <code>name</code> and <code>value</code>. Use it for &quot;on now&quot; decisions; for choices that only apply after a Save action, prefer a checkbox.</p>
@@ -29,7 +29,7 @@
   <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Enable SMS notifications&quot;</span>
   <span class="hljs-attr">description</span>=<span class="hljs-string">&quot;Receive transactional updates on your registered UAE mobile number.&quot;</span>
   <span class="hljs-attr">is-checked</span>=<span class="hljs-string">&quot;true&quot;</span>
-&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-toggle</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-toggle</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-toggle
     label="Enable SMS notifications"
     description="Receive transactional updates on your registered UAE mobile number."
@@ -44,7 +44,7 @@
 <span class="hljs-tag">&lt;<span class="hljs-name">aegov-toggle</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Small&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-toggle</span>&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">aegov-toggle</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;base&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Base (default)&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-toggle</span>&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">aegov-toggle</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;lg&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Large&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-toggle</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-toggle</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;xl&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Extra large&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-toggle</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov flex flex-col gap-4">
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-toggle</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;xl&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Extra large&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-toggle</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov flex flex-col gap-4">
   <aegov-toggle size="xs" label="Extra small (xs)"></aegov-toggle>
   <aegov-toggle size="sm" label="Small (sm)"></aegov-toggle>
   <aegov-toggle size="base" label="Base (default)"></aegov-toggle>
@@ -54,7 +54,7 @@
 
 <h3>Responsive sizes</h3>
 <p>The <code>size</code> property accepts a Tailwind-style responsive string with the breakpoint prefixes <code>xs</code>, <code>sm</code>, <code>md</code>, <code>lg</code>, <code>xl</code>, and <code>2xl</code>. Each segment overrides smaller breakpoints.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-toggle</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm md:base xl:lg&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Resizes with the viewport&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-toggle</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-toggle</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm md:base xl:lg&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Resizes with the viewport&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-toggle</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-toggle size="sm md:base xl:lg" label="Resizes with the viewport"></aegov-toggle>
 </div>
 
@@ -105,7 +105,7 @@
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-toggle</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;primary&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Primary&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-toggle</span>&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">aegov-toggle</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;secondary&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Secondary&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-toggle</span>&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">aegov-toggle</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;neutral-max&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Neutral-max&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-toggle</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-toggle</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;neutral-min&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Neutral-min&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-toggle</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-toggle</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;neutral-min&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Neutral-min&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-toggle</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
     <aegov-toggle variant="primary" label="Primary — OFF"></aegov-toggle>
     <aegov-toggle variant="primary" label="Primary — ON" is-checked="true"></aegov-toggle>
@@ -124,7 +124,7 @@
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-toggle</span>
   <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Share my data with partner government entities&quot;</span>
   <span class="hljs-attr">description</span>=<span class="hljs-string">&quot;Allows the Ministry to share verified profile data with other UAE federal services to pre-fill applications.&quot;</span>
-&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-toggle</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-toggle</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-toggle
     label="Share my data with partner government entities"
     description="Allows the Ministry to share verified profile data with other UAE federal services to pre-fill applications."
@@ -132,7 +132,7 @@
 </div>
 
 <p>A toggle without a label renders as a bare switch — useful inside cards or table rows where the label is provided by the surrounding context.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-toggle</span> <span class="hljs-attr">is-checked</span>=<span class="hljs-string">&quot;true&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-toggle</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov flex items-center gap-3">
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-toggle</span> <span class="hljs-attr">is-checked</span>=<span class="hljs-string">&quot;true&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-toggle</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov flex items-center gap-3">
   <span class="text-aeblack-700">Email notifications</span>
   <aegov-toggle is-checked="true"></aegov-toggle>
 </div>
@@ -141,7 +141,7 @@
 <h2>Checked and unchecked states</h2>
 <p>Use <code>is-checked</code> to set the initial state. The property is reflected back to the host attribute as the user interacts, so reading the attribute always reflects the current value.</p>
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-toggle</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Off by default&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-toggle</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-toggle</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;On by default&quot;</span> <span class="hljs-attr">is-checked</span>=<span class="hljs-string">&quot;true&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-toggle</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov flex flex-col gap-4">
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-toggle</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;On by default&quot;</span> <span class="hljs-attr">is-checked</span>=<span class="hljs-string">&quot;true&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-toggle</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov flex flex-col gap-4">
   <aegov-toggle label="Off by default"></aegov-toggle>
   <aegov-toggle label="On by default" is-checked="true"></aegov-toggle>
 </div>
@@ -150,7 +150,7 @@
 <h2>Disabled</h2>
 <p>Set <code>is-disabled=&quot;true&quot;</code> to prevent interaction. The track and thumb are visually muted and the underlying input receives the native <code>disabled</code> attribute, removing it from the tab order and form submission.</p>
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-toggle</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Disabled (off)&quot;</span> <span class="hljs-attr">is-disabled</span>=<span class="hljs-string">&quot;true&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-toggle</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-toggle</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Disabled (on)&quot;</span> <span class="hljs-attr">is-disabled</span>=<span class="hljs-string">&quot;true&quot;</span> <span class="hljs-attr">is-checked</span>=<span class="hljs-string">&quot;true&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-toggle</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov flex flex-col gap-4">
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-toggle</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Disabled (on)&quot;</span> <span class="hljs-attr">is-disabled</span>=<span class="hljs-string">&quot;true&quot;</span> <span class="hljs-attr">is-checked</span>=<span class="hljs-string">&quot;true&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-toggle</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov flex flex-col gap-4">
   <aegov-toggle label="Disabled (off)" is-disabled="true"></aegov-toggle>
   <aegov-toggle label="Disabled (on)" is-disabled="true" is-checked="true"></aegov-toggle>
 </div>
@@ -165,7 +165,7 @@
   <span class="hljs-tag">&lt;<span class="hljs-name">svg</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;icon-unchecked&quot;</span> <span class="hljs-attr">xmlns</span>=<span class="hljs-string">&quot;http://www.w3.org/2000/svg&quot;</span> <span class="hljs-attr">width</span>=<span class="hljs-string">&quot;12&quot;</span> <span class="hljs-attr">height</span>=<span class="hljs-string">&quot;12&quot;</span> <span class="hljs-attr">viewBox</span>=<span class="hljs-string">&quot;0 0 24 24&quot;</span> <span class="hljs-attr">fill</span>=<span class="hljs-string">&quot;none&quot;</span> <span class="hljs-attr">stroke</span>=<span class="hljs-string">&quot;currentColor&quot;</span> <span class="hljs-attr">stroke-width</span>=<span class="hljs-string">&quot;2.5&quot;</span> <span class="hljs-attr">stroke-linecap</span>=<span class="hljs-string">&quot;round&quot;</span> <span class="hljs-attr">stroke-linejoin</span>=<span class="hljs-string">&quot;round&quot;</span>&gt;</span>
     <span class="hljs-tag">&lt;<span class="hljs-name">circle</span> <span class="hljs-attr">cx</span>=<span class="hljs-string">&quot;12&quot;</span> <span class="hljs-attr">cy</span>=<span class="hljs-string">&quot;12&quot;</span> <span class="hljs-attr">r</span>=<span class="hljs-string">&quot;5&quot;</span>/&gt;</span>
   <span class="hljs-tag">&lt;/<span class="hljs-name">svg</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-toggle</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-toggle</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-toggle label="Dark mode" size="lg">
     <svg slot="icon-checked" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
       <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
@@ -186,7 +186,7 @@
     <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;I consent to receive service updates by email&quot;</span>
     <span class="hljs-attr">is-required</span>=<span class="hljs-string">&quot;true&quot;</span>
   &gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-toggle</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">form</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;/<span class="hljs-name">form</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-toggle
     name="marketing_consent"
     value="yes"
@@ -201,7 +201,7 @@
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-toggle</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;SMS&quot;</span> <span class="hljs-attr">description</span>=<span class="hljs-string">&quot;Status updates sent to your registered UAE mobile.&quot;</span> <span class="hljs-attr">is-checked</span>=<span class="hljs-string">&quot;true&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-toggle</span>&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">aegov-toggle</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Email&quot;</span> <span class="hljs-attr">description</span>=<span class="hljs-string">&quot;Receipts and renewal reminders.&quot;</span> <span class="hljs-attr">is-checked</span>=<span class="hljs-string">&quot;true&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-toggle</span>&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">aegov-toggle</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Push notifications&quot;</span> <span class="hljs-attr">description</span>=<span class="hljs-string">&quot;In-app alerts on the official UAE Pass mobile app.&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-toggle</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-toggle</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;WhatsApp&quot;</span> <span class="hljs-attr">description</span>=<span class="hljs-string">&quot;High-priority security alerts only.&quot;</span> <span class="hljs-attr">is-disabled</span>=<span class="hljs-string">&quot;true&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-toggle</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-toggle</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;WhatsApp&quot;</span> <span class="hljs-attr">description</span>=<span class="hljs-string">&quot;High-priority security alerts only.&quot;</span> <span class="hljs-attr">is-disabled</span>=<span class="hljs-string">&quot;true&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-toggle</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <div class="space-y-4">
     <aegov-toggle label="SMS" description="Status updates sent to your registered UAE mobile." is-checked="true"></aegov-toggle>
     <aegov-toggle label="Email" description="Receipts and renewal reminders." is-checked="true"></aegov-toggle>
@@ -219,7 +219,7 @@
     <span class="hljs-attr">description</span>=<span class="hljs-string">&quot;استلام تحديثات الخدمة على رقم هاتفك المتحرك المسجل في دولة الإمارات.&quot;</span>
     <span class="hljs-attr">is-checked</span>=<span class="hljs-string">&quot;true&quot;</span>
   &gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-toggle</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre><div dir="rtl" class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre><div dir="rtl" class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-toggle
     label="تفعيل الإشعارات عبر الرسائل النصية"
     description="استلام تحديثات الخدمة على رقم هاتفك المتحرك المسجل في دولة الإمارات."
@@ -232,7 +232,7 @@
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-toggle</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;رسائل SMS&quot;</span> <span class="hljs-attr">description</span>=<span class="hljs-string">&quot;تحديثات الحالة على رقم هاتفك.&quot;</span> <span class="hljs-attr">is-checked</span>=<span class="hljs-string">&quot;true&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-toggle</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-toggle</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;البريد الإلكتروني&quot;</span> <span class="hljs-attr">description</span>=<span class="hljs-string">&quot;إيصالات وتذكيرات التجديد.&quot;</span> <span class="hljs-attr">is-checked</span>=<span class="hljs-string">&quot;true&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-toggle</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-toggle</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;إشعارات التطبيق&quot;</span> <span class="hljs-attr">description</span>=<span class="hljs-string">&quot;تنبيهات داخل تطبيق الهوية الرقمية UAE Pass.&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-toggle</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre><div dir="rtl" class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre><div dir="rtl" class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <div class="space-y-4">
     <aegov-toggle label="رسائل SMS" description="تحديثات الحالة على رقم هاتفك." is-checked="true"></aegov-toggle>
     <aegov-toggle label="البريد الإلكتروني" description="إيصالات وتذكيرات التجديد." is-checked="true"></aegov-toggle>
@@ -459,7 +459,7 @@
       </article>
     </section>
   </main>
-  <footer class="aegov-container sm:px-6 lg:px-8 mt-8 py-6 text-sm text-aeblack-500">
+  <footer class="aegov-container sm:px-6 lg:px-8 mt-8 py-6 text-sm text-aeblack-500 dark:text-aeblack-400">
     &copy; 2026 Telecommunication and Digital Regulatory Authority. All rights reserved.
   </footer>
 

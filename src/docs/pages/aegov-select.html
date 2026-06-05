@@ -10,18 +10,18 @@
   <link rel="stylesheet" href="/docs/doc-style.css">
   <link rel="stylesheet" href="/docs/hljs.css">
 </head>
-<body class="bg-aeblack-50">
+<body class="bg-aeblack-50 dark:bg-aeblack-950">
   <header class="aegov-container sm:px-6 lg:px-8 mb-8">
     <img src="https://designsystem.gov.ae/assets/site-logo/AEGov-DesignSystem-Logo-Color.svg" alt="UAE Design System Logo" class="w-auto h-16 my-2">
   </header>
-  <main class="aegov-container sm:px-6 lg:px-8 bg-aeblack-50">
+  <main class="aegov-container sm:px-6 lg:px-8 bg-aeblack-50 dark:bg-aeblack-950">
     <section class="flex items-start align-top gap-4">
       <nav id="primary-nav" class="w-3xs shrink-0">&nbsp;</nav>
       <article class="col-span-5 grow">
-          <section id="content-area" class="bg-whitely-50 p-6 rounded-md shadow-xl">
+          <section id="content-area" class="bg-whitely-50 dark:bg-aeblack-900 p-6 rounded-md shadow-xl">
           <!-- DOC:START -->
 <h1>Select</h1>
-<p class="text-lg text-aeblack-500 mb-8">A Select lets users choose one or more options from a list. The AEGOV select supports two render modes — a real native <code>&lt;select&gt;</code> for simple cases and form submission, and a custom listbox for richer experiences with search, multi-select, grouped options, and a clear button. Options are declared as light DOM children using <code>aegov-select-option</code> and optionally wrapped in <code>aegov-select-option-group</code>.</p>
+<p class="text-lg text-aeblack-500 dark:text-aeblack-300 mb-8">A Select lets users choose one or more options from a list. The AEGOV select supports two render modes — a real native <code>&lt;select&gt;</code> for simple cases and form submission, and a custom listbox for richer experiences with search, multi-select, grouped options, and a clear button. Options are declared as light DOM children using <code>aegov-select-option</code> and optionally wrapped in <code>aegov-select-option-group</code>.</p>
 
 <h2>Introduction</h2>
 <p>The <code>aegov-select</code> component composes a parent select with one or more <code>aegov-select-option</code> children. The default <code>appearance=&quot;default&quot;</code> renders a true native <code>&lt;select&gt;</code> (best for simple lists, mobile, and form submission). The <code>appearance=&quot;listbox&quot;</code> renders a styled custom dropdown panel that supports searching, multi-selection, and grouped options. Setting <code>is-multiple=&quot;true&quot;</code> automatically forces the listbox appearance.</p>
@@ -31,7 +31,7 @@
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-select-option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;moh&quot;</span>&gt;</span>Ministry of Health and Prevention<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select-option</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-select-option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;moe&quot;</span>&gt;</span>Ministry of Education<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select-option</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-select-option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;moj&quot;</span>&gt;</span>Ministry of Justice<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select-option</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-select placeholder="Select a ministry" name="ministry">
     <aegov-select-option value="moi">Ministry of Interior</aegov-select-option>
     <aegov-select-option value="mof">Ministry of Finance</aegov-select-option>
@@ -57,7 +57,7 @@
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-select-option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;uaq&quot;</span>&gt;</span>Umm Al Quwain<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select-option</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-select-option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;rak&quot;</span>&gt;</span>Ras Al Khaimah<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select-option</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-select-option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;fuj&quot;</span>&gt;</span>Fujairah<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select-option</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-select placeholder="Select an emirate" name="emirate">
     <aegov-select-option value="ad">Abu Dhabi</aegov-select-option>
     <aegov-select-option value="dxb">Dubai</aegov-select-option>
@@ -77,7 +77,7 @@
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-select-option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;vehicle&quot;</span>&gt;</span>Vehicle registration<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select-option</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-select-option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;health&quot;</span>&gt;</span>Health insurance<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select-option</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-select-option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;education&quot;</span>&gt;</span>Education <span class="hljs-symbol">&amp;amp;</span> training<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select-option</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-select appearance="listbox" placeholder="Select a service category">
     <aegov-select-option value="passport">Passport &amp; travel documents</aegov-select-option>
     <aegov-select-option value="visa">Visa &amp; residency</aegov-select-option>
@@ -94,7 +94,7 @@
 <span class="hljs-tag">&lt;<span class="hljs-name">aegov-select</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;Small&quot;</span>&gt;</span>…<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select</span>&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">aegov-select</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;base&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;Base (default)&quot;</span>&gt;</span>…<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select</span>&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">aegov-select</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;lg&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;Large&quot;</span>&gt;</span>…<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-select</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;xl&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;Extra large&quot;</span>&gt;</span>…<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov flex flex-col gap-4">
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-select</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;xl&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;Extra large&quot;</span>&gt;</span>…<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov flex flex-col gap-4">
   <aegov-select size="xs" placeholder="Extra small (xs)">
     <aegov-select-option value="ad">Abu Dhabi</aegov-select-option>
     <aegov-select-option value="dxb">Dubai</aegov-select-option>
@@ -169,7 +169,7 @@
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-select</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;primary&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;Primary&quot;</span>&gt;</span>…<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select</span>&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">aegov-select</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;secondary&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;Secondary&quot;</span>&gt;</span>…<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select</span>&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">aegov-select</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;neutral-max&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;Neutral-max&quot;</span>&gt;</span>…<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-select</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;neutral-min&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;Neutral-min&quot;</span>&gt;</span>…<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-select</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;neutral-min&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;Neutral-min&quot;</span>&gt;</span>…<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
     <aegov-select variant="primary" placeholder="Primary">
       <aegov-select-option value="ad">Abu Dhabi</aegov-select-option>
@@ -217,7 +217,7 @@
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-select-option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;in&quot;</span>&gt;</span>India<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select-option</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-select-option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;pk&quot;</span>&gt;</span>Pakistan<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select-option</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-select-option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;ph&quot;</span>&gt;</span>Philippines<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select-option</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-select
     appearance="listbox"
     is-searchable="true"
@@ -256,7 +256,7 @@
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-select-option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;fr&quot;</span>&gt;</span>French<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select-option</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-select-option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;ru&quot;</span>&gt;</span>Russian<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select-option</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-select-option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;zh&quot;</span>&gt;</span>Chinese<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select-option</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-select
     is-multiple="true"
     is-searchable="true"
@@ -289,7 +289,7 @@
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-select-option-group</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Eastern Coast&quot;</span>&gt;</span>
     <span class="hljs-tag">&lt;<span class="hljs-name">aegov-select-option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;fuj&quot;</span>&gt;</span>Fujairah<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select-option</span>&gt;</span>
   <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select-option-group</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-select appearance="listbox" is-searchable="true" placeholder="Select an emirate">
     <aegov-select-option-group label="Federal capital">
       <aegov-select-option value="ad">Abu Dhabi</aegov-select-option>
@@ -318,7 +318,7 @@
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-select-option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;active&quot;</span>&gt;</span>Active<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select-option</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-select-option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;pending&quot;</span>&gt;</span>Pending review<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select-option</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-select-option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;rejected&quot;</span>&gt;</span>Rejected<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select-option</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-select
     appearance="listbox"
     is-clearable="true"
@@ -339,7 +339,7 @@
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-select-option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;1100&quot;</span>&gt;</span>11:00 — Available<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select-option</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-select-option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;1200&quot;</span> <span class="hljs-attr">is-disabled</span>=<span class="hljs-string">&quot;true&quot;</span>&gt;</span>12:00 — Closed<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select-option</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-select-option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;1300&quot;</span>&gt;</span>13:00 — Available<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select-option</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-select appearance="listbox" placeholder="Select an appointment slot">
     <aegov-select-option value="0900">09:00 — Available</aegov-select-option>
     <aegov-select-option value="1000" is-disabled="true">10:00 — Fully booked</aegov-select-option>
@@ -352,7 +352,7 @@
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-select</span> <span class="hljs-attr">is-disabled</span>=<span class="hljs-string">&quot;true&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;Select a ministry (disabled)&quot;</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-select-option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;moi&quot;</span>&gt;</span>Ministry of Interior<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select-option</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-select-option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;mof&quot;</span>&gt;</span>Ministry of Finance<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select-option</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-select is-disabled="true" placeholder="Select a ministry (disabled)">
     <aegov-select-option value="moi">Ministry of Interior</aegov-select-option>
     <aegov-select-option value="mof">Ministry of Finance</aegov-select-option>
@@ -376,7 +376,7 @@
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-select-option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;uaq&quot;</span>&gt;</span>Umm Al Quwain<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select-option</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-select-option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;rak&quot;</span>&gt;</span>Ras Al Khaimah<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select-option</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-select-option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;fuj&quot;</span>&gt;</span>Fujairah<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select-option</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-select
     appearance="listbox"
     is-searchable="true"
@@ -420,7 +420,7 @@
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-select-option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;en&quot;</span>&gt;</span>English<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select-option</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-select-option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;ur&quot;</span>&gt;</span>Urdu<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select-option</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-select-option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;hi&quot;</span>&gt;</span>Hindi<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select-option</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov flex flex-col gap-4">
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov flex flex-col gap-4">
   <aegov-select
     appearance="listbox"
     is-searchable="true"
@@ -462,7 +462,7 @@
     <span class="hljs-tag">&lt;<span class="hljs-name">aegov-select-option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;moe&quot;</span>&gt;</span>وزارة التربية والتعليم<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select-option</span>&gt;</span>
     <span class="hljs-tag">&lt;<span class="hljs-name">aegov-select-option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;moj&quot;</span>&gt;</span>وزارة العدل<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select-option</span>&gt;</span>
   <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre><div dir="rtl" class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre><div dir="rtl" class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-select
     appearance="listbox"
     is-searchable="true"
@@ -494,7 +494,7 @@
       <span class="hljs-tag">&lt;<span class="hljs-name">aegov-select-option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;fuj&quot;</span>&gt;</span>الفجيرة<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select-option</span>&gt;</span>
     <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select-option-group</span>&gt;</span>
   <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre><div dir="rtl" class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre><div dir="rtl" class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-select is-multiple="true" is-clearable="true" placeholder="اختر الإمارات">
     <aegov-select-option-group label="العاصمة الاتحادية">
       <aegov-select-option value="ad">أبوظبي</aegov-select-option>
@@ -867,7 +867,7 @@ select.<span class="hljs-property">value</span> = <span class="hljs-string">&#x2
       </article>
     </section>
   </main>
-  <footer class="aegov-container sm:px-6 lg:px-8 mt-8 py-6 text-sm text-aeblack-500">
+  <footer class="aegov-container sm:px-6 lg:px-8 mt-8 py-6 text-sm text-aeblack-500 dark:text-aeblack-400">
     &copy; 2026 Telecommunication and Digital Regulatory Authority. All rights reserved.
   </footer>
 
