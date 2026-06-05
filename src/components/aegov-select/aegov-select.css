@@ -312,9 +312,16 @@ button.aegov-select {
 
 /* Validation surface (Layer 1) — see validation-engine-addon.md §2.6 */
 
+/* Invalid idle — red inset-ring (mirrors aegov-input pattern). */
 aegov-select.is-invalid .aegov-select,
 aegov-select.is-invalid .select__trigger {
-  @apply ring-2 ring-aered-600;
+  @apply inset-ring-aered-600;
+}
+
+/* Invalid + focus — red inset-ring + red inset-shadow (mirrors aegov-input). */
+aegov-select.is-invalid .aegov-select:focus,
+aegov-select.is-invalid .select__trigger:focus {
+  @apply inset-ring-aered-500 inset-shadow-sm inset-shadow-aered-500/80;
 }
 
 .aegov-select__error {

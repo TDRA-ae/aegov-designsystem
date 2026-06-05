@@ -111,7 +111,9 @@ aegov-textarea.is-invalid .aegov-textarea {
 }
 
 aegov-textarea.is-invalid .aegov-textarea:focus {
-  @apply inset-ring-aered-500;
+  /* Override variant focus inset-shadow so it goes red on invalid + focus.
+     Mirrors the aegov-input invalid:focus treatment. */
+  @apply inset-ring-aered-500 inset-shadow-sm inset-shadow-aered-500/80;
 }
 
 .aegov-textarea__error {
