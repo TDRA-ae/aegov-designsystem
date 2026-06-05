@@ -86,10 +86,23 @@
    ============================================ */
 
 .aegov-modal-content {
-  @apply relative bg-whitely-50 shadow-xl max-w-full w-auto max-h-screen overflow-y-auto;
+  @apply relative bg-whitely-50 text-aeblack-800 shadow-xl max-w-full w-auto max-h-screen overflow-y-auto;
   transition: opacity var(--modal-transition-duration) var(--modal-transition-timing),
               transform var(--modal-transition-duration) var(--modal-transition-timing);
 }
+
+/* Shadow DOM dark mode — ancestor .dark on <html> cannot match through shadow
+   boundary, so :host-context(.dark) is required. */
+:host-context(.dark) .aegov-modal-content {
+  @apply bg-aeblack-900 text-whitely-100;
+}
+
+:host-context(.dark) .aegov-modal-backdrop {
+  @apply bg-aeblack-950/60;
+}
+:host-context(.dark) .modal-backdrop--light  { @apply bg-aeblack-950/50; }
+:host-context(.dark) .modal-backdrop--base   { @apply bg-aeblack-950/70; }
+:host-context(.dark) .modal-backdrop--dark   { @apply bg-aeblack-950/85; }
 
 /* ============================================
    SIZES (drive border-radius; padding scales
@@ -167,6 +180,10 @@
 .aegov-modal-content::-webkit-scrollbar-thumb:hover {
   @apply bg-slate-400;
 }
+
+:host-context(.dark) .aegov-modal-content::-webkit-scrollbar-track  { @apply bg-aeblack-800; }
+:host-context(.dark) .aegov-modal-content::-webkit-scrollbar-thumb  { @apply bg-aeblack-600; }
+:host-context(.dark) .aegov-modal-content::-webkit-scrollbar-thumb:hover { @apply bg-aeblack-500; }
 
 /* ============================================
    Keyframe Animations
