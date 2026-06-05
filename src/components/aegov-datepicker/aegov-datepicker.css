@@ -202,9 +202,15 @@
 
 /* Validation surface (Layer 1) — see validation-engine-addon.md §2.6 */
 
-:host(.is-invalid) .datepicker__trigger,
-:host(.is-invalid) .datepicker__input {
-  @apply ring-2 ring-aered-600;
+/* Invalid idle — red inset-ring on the input wrapper (matches the variant
+   idle selector pattern, mirrors aegov-input invalid treatment). */
+:host(.is-invalid) .datepicker__input-wrapper {
+  @apply inset-ring-aered-600;
+}
+
+/* Invalid + focus — red inset-ring + red inset-shadow on the wrapper. */
+:host(.is-invalid) .datepicker__input-wrapper:has(.datepicker__input:focus) {
+  @apply inset-ring-aered-500 inset-shadow-sm inset-shadow-aered-500/80;
 }
 
 .aegov-datepicker__error {
