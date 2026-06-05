@@ -25,6 +25,11 @@ aegov-avatar {
   display: inline-flex;
 }
 
+.dark .aegov-avatar {
+  --avatar-bg: var(--color-aeblack-700);
+  --avatar-ring-color: var(--color-camel-400);
+}
+
 .aegov-avatar {
   /* Variables */
   --avatar-bg: var(--color-aeblack-100);
@@ -47,19 +52,19 @@ aegov-avatar {
     @apply absolute -right-1 -top-1 block h-2.5 w-2.5 rounded-full ring-2;
 
     &.avatar-online {
-      @apply bg-aegreen-500! ring-whitely-50;
+      @apply bg-aegreen-500! ring-whitely-50 dark:ring-aeblack-900;
     }
     &.avatar-offline {
-       @apply bg-aered-500! ring-whitely-50;
+       @apply bg-aered-500! ring-whitely-50 dark:ring-aeblack-900;
     }
     &.avatar-away {
-      @apply bg-camel-400! ring-whitely-50;
+      @apply bg-camel-400! ring-whitely-50 dark:ring-aeblack-900;
     }
     &.avatar-unavailable {
-      @apply bg-aeblack-400! ring-whitely-50;
+      @apply bg-aeblack-400! ring-whitely-50 dark:ring-aeblack-900;
     }
     &.avatar-busy {
-      @apply bg-aered-800! ring-whitely-50;
+      @apply bg-aered-800! ring-whitely-50 dark:ring-aeblack-900;
     }
   }
 

@@ -20,9 +20,10 @@
 }
 
 .aegov-header-banner--error {
-  @apply bg-aered-100 text-aered-800 border border-aered-300 rounded-lg p-4 text-sm;
+  @apply bg-aered-100 text-aered-800 border border-aered-300 rounded-lg p-4 text-sm
+         dark:bg-aered-950 dark:text-aered-200 dark:border-aered-700;
 }
 
 .aegov-header-banner--error code {
-  @apply bg-aered-200 px-1 py-0.5 rounded text-xs font-mono;
+  @apply bg-aered-200 px-1 py-0.5 rounded text-xs font-mono dark:bg-aered-900 dark:text-aered-100;
 }

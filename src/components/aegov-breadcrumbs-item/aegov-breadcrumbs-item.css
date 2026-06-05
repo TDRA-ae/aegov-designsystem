@@ -5,10 +5,11 @@
 li.breadcrumb__item {
   @apply relative inline-flex items-center gap-1 align-middle text-sm last:font-semibold;
   & a {
-    @apply relative decoration-1 hover:decoration-2 underline-offset-2 inline-flex items-center align-middle gap-1 px-1 py-0.5 m-0 text-primary-600 hover:text-primary-500 visited:text-primary-700;
+    @apply relative decoration-1 hover:decoration-2 underline-offset-2 inline-flex items-center align-middle gap-1 px-1 py-0.5 m-0 text-primary-600 hover:text-primary-500 visited:text-primary-700
+           dark:text-primary-400 dark:hover:text-primary-300 dark:visited:text-primary-500;
   }
   & [aria-current="page"] {
-      @apply text-aeblack-800 relative inline-block font-semibold no-underline align-middle  hover:decoration-2 underline-offset-2;
+      @apply text-aeblack-800 relative inline-block font-semibold no-underline align-middle  hover:decoration-2 underline-offset-2 dark:text-whitely-100;
   }
   & svg {
     @apply size-4;
@@ -16,10 +17,10 @@ li.breadcrumb__item {
 }
 
 svg.breadcrumb__separator {
-  @apply size-4 text-aeblack-300 shrink-0;
+  @apply size-4 text-aeblack-300 shrink-0 dark:text-aeblack-500;
 }
 span.breadcrumb__separator {
-  @apply h-4 w-auto text-aeblack-300 shrink-0 inline-block px-0.5;
+  @apply h-4 w-auto text-aeblack-300 shrink-0 inline-block px-0.5 dark:text-aeblack-500;
 }
 
 /* RTL support - flip chevron direction */
