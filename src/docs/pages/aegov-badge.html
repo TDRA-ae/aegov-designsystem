@@ -10,18 +10,18 @@
   <link rel="stylesheet" href="/docs/doc-style.css">
   <link rel="stylesheet" href="/docs/hljs.css">
 </head>
-<body class="bg-aeblack-50">
+<body class="bg-aeblack-50 dark:bg-aeblack-950">
   <header class="aegov-container sm:px-6 lg:px-8 mb-8">
     <img src="https://designsystem.gov.ae/assets/site-logo/AEGov-DesignSystem-Logo-Color.svg" alt="UAE Design System Logo" class="w-auto h-16 my-2">
   </header>
-  <main class="aegov-container sm:px-6 lg:px-8 bg-aeblack-50">
+  <main class="aegov-container sm:px-6 lg:px-8 bg-aeblack-50 dark:bg-aeblack-950">
     <section class="flex items-start align-top gap-4">
       <nav id="primary-nav" class="w-3xs shrink-0">&nbsp;</nav>
       <article class="col-span-5 grow">
-          <section id="content-area" class="bg-whitely-50 p-6 rounded-md shadow-xl">
+          <section id="content-area" class="bg-whitely-50 dark:bg-aeblack-900 p-6 rounded-md shadow-xl">
           <!-- DOC:START -->
 <h1>Badge</h1>
-<p class="text-lg text-aeblack-500 mb-8">A Badge is a small inline element used to label, classify, or count items. Use it to communicate status, mark counts of unread notifications, tag list rows with metadata, or annotate content with short context. Badges are intentionally compact and read alongside the content they describe rather than standing alone.</p>
+<p class="text-lg text-aeblack-500 dark:text-aeblack-300 mb-8">A Badge is a small inline element used to label, classify, or count items. Use it to communicate status, mark counts of unread notifications, tag list rows with metadata, or annotate content with short context. Badges are intentionally compact and read alongside the content they describe rather than standing alone.</p>
 
 <h2>Introduction</h2>
 <p>The <code>aegov-badge</code> component renders a single inline pill containing the slotted text. The full UAE Government colour palette is available through the <code>color</code> property, and two visual treatments — <code>soft</code> and <code>solid</code> — let you tune the badge to its surroundings. An optional dismiss button turns the badge into a removable tag for filter chips and similar patterns.</p>
@@ -29,7 +29,7 @@
 <span class="hljs-tag">&lt;<span class="hljs-name">aegov-badge</span> <span class="hljs-attr">color</span>=<span class="hljs-string">&quot;primary&quot;</span>&gt;</span>Primary<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-badge</span>&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">aegov-badge</span> <span class="hljs-attr">color</span>=<span class="hljs-string">&quot;aegreen&quot;</span>&gt;</span>Active<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-badge</span>&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">aegov-badge</span> <span class="hljs-attr">color</span>=<span class="hljs-string">&quot;aered&quot;</span>&gt;</span>Suspended<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-badge</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-badge</span> <span class="hljs-attr">color</span>=<span class="hljs-string">&quot;techblue&quot;</span>&gt;</span>In review<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-badge</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-badge</span> <span class="hljs-attr">color</span>=<span class="hljs-string">&quot;techblue&quot;</span>&gt;</span>In review<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-badge</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <div class="flex flex-wrap items-center gap-3">
     <aegov-badge>Default</aegov-badge>
     <aegov-badge color="primary">Primary</aegov-badge>
@@ -49,7 +49,7 @@
 <span class="hljs-tag">&lt;<span class="hljs-name">aegov-badge</span> <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;solid&quot;</span> <span class="hljs-attr">color</span>=<span class="hljs-string">&quot;aered&quot;</span>&gt;</span>Rejected<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-badge</span>&gt;</span>
 
 <span class="hljs-tag">&lt;<span class="hljs-name">aegov-badge</span> <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;soft&quot;</span> <span class="hljs-attr">color</span>=<span class="hljs-string">&quot;camel&quot;</span>&gt;</span>Pending<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-badge</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-badge</span> <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;solid&quot;</span> <span class="hljs-attr">color</span>=<span class="hljs-string">&quot;camel&quot;</span>&gt;</span>Pending<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-badge</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-badge</span> <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;solid&quot;</span> <span class="hljs-attr">color</span>=<span class="hljs-string">&quot;camel&quot;</span>&gt;</span>Pending<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-badge</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <div class="flex flex-wrap items-center gap-3 mb-4">
     <aegov-badge appearance="soft" color="aegreen">Approved</aegov-badge>
     <aegov-badge appearance="solid" color="aegreen">Approved</aegov-badge>
@@ -82,7 +82,7 @@
 <span class="hljs-tag">&lt;<span class="hljs-name">aegov-badge</span> <span class="hljs-attr">color</span>=<span class="hljs-string">&quot;purple&quot;</span>&gt;</span>Purple<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-badge</span>&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">aegov-badge</span> <span class="hljs-attr">color</span>=<span class="hljs-string">&quot;pink&quot;</span>&gt;</span>Pink<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-badge</span>&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">aegov-badge</span> <span class="hljs-attr">color</span>=<span class="hljs-string">&quot;indigo&quot;</span>&gt;</span>Indigo<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-badge</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-badge</span> <span class="hljs-attr">color</span>=<span class="hljs-string">&quot;lime&quot;</span>&gt;</span>Lime<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-badge</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-badge</span> <span class="hljs-attr">color</span>=<span class="hljs-string">&quot;lime&quot;</span>&gt;</span>Lime<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-badge</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <p class="font-medium mb-3">Soft appearance</p>
   <div class="flex flex-wrap items-center gap-2 mb-6">
     <aegov-badge color="default">Default</aegov-badge>
@@ -158,7 +158,7 @@
 </tbody></table>
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-badge</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm&quot;</span> <span class="hljs-attr">color</span>=<span class="hljs-string">&quot;primary&quot;</span>&gt;</span>Small<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-badge</span>&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">aegov-badge</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;base&quot;</span> <span class="hljs-attr">color</span>=<span class="hljs-string">&quot;primary&quot;</span>&gt;</span>Base<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-badge</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-badge</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;lg&quot;</span> <span class="hljs-attr">color</span>=<span class="hljs-string">&quot;primary&quot;</span>&gt;</span>Large<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-badge</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-badge</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;lg&quot;</span> <span class="hljs-attr">color</span>=<span class="hljs-string">&quot;primary&quot;</span>&gt;</span>Large<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-badge</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <div class="flex flex-wrap items-center gap-3">
     <aegov-badge size="sm" color="primary">Small</aegov-badge>
     <aegov-badge size="base" color="primary">Base</aegov-badge>
@@ -170,7 +170,7 @@
 <p><code>size</code> also accepts a Tailwind-style responsive string with breakpoint prefixes <code>xs</code>, <code>sm</code>, <code>md</code>, <code>lg</code>, <code>xl</code>, and <code>2xl</code>. Each segment overrides smaller breakpoints.</p>
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-badge</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm md:base xl:lg&quot;</span> <span class="hljs-attr">color</span>=<span class="hljs-string">&quot;techblue&quot;</span>&gt;</span>
   Resizes with the viewport
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-badge</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-badge</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-badge size="sm md:base xl:lg" color="techblue">Resizes with the viewport</aegov-badge>
 </div>
 
@@ -191,7 +191,7 @@
   <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">querySelectorAll</span>(<span class="hljs-string">&#x27;aegov-badge[is-dismissible]&#x27;</span>).<span class="hljs-title function_">forEach</span>(<span class="hljs-function"><span class="hljs-params">b</span> =&gt;</span> {
     b.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;aegovBadgeDismiss&#x27;</span>, <span class="hljs-function">() =&gt;</span> b.<span class="hljs-title function_">remove</span>());
   });
-</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <p class="text-sm text-aeblack-500 mb-3">Active filters</p>
   <div class="flex flex-wrap items-center gap-2">
     <aegov-badge color="techblue" is-dismissible>Abu Dhabi</aegov-badge>
@@ -207,7 +207,7 @@
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-badge</span> <span class="hljs-attr">color</span>=<span class="hljs-string">&quot;aegreen&quot;</span>&gt;</span>Active<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-badge</span>&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">aegov-badge</span> <span class="hljs-attr">color</span>=<span class="hljs-string">&quot;camel&quot;</span>&gt;</span>Pending<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-badge</span>&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">aegov-badge</span> <span class="hljs-attr">color</span>=<span class="hljs-string">&quot;aered&quot;</span>&gt;</span>Suspended<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-badge</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-badge</span> <span class="hljs-attr">color</span>=<span class="hljs-string">&quot;slate&quot;</span>&gt;</span>Archived<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-badge</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-badge</span> <span class="hljs-attr">color</span>=<span class="hljs-string">&quot;slate&quot;</span>&gt;</span>Archived<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-badge</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <ul class="divide-y divide-aeblack-100">
     <li class="flex items-center justify-between py-3">
       <span>Emirates ID renewal</span>
@@ -242,7 +242,7 @@
 <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;relative&quot;</span>&gt;</span>
   Pending tasks
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-badge</span> <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;solid&quot;</span> <span class="hljs-attr">color</span>=<span class="hljs-string">&quot;camel&quot;</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm&quot;</span>&gt;</span>5<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-badge</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <div class="flex flex-wrap items-center gap-6">
     <span class="inline-flex items-center gap-2">Inbox <aegov-badge appearance="solid" color="aered" size="sm">12</aegov-badge></span>
     <span class="inline-flex items-center gap-2">Notifications <aegov-badge appearance="solid" color="primary" size="sm">3</aegov-badge></span>
@@ -259,7 +259,7 @@
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-badge</span> <span class="hljs-attr">color</span>=<span class="hljs-string">&quot;camel&quot;</span>&gt;</span>قيد الانتظار<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-badge</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-badge</span> <span class="hljs-attr">color</span>=<span class="hljs-string">&quot;aered&quot;</span>&gt;</span>موقوف<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-badge</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-badge</span> <span class="hljs-attr">color</span>=<span class="hljs-string">&quot;techblue&quot;</span> <span class="hljs-attr">is-dismissible</span>&gt;</span>تصنيف: أبوظبي<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-badge</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre><div dir="rtl" class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre><div dir="rtl" class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <div class="flex flex-wrap items-center gap-3 mb-6">
     <aegov-badge color="aegreen">نشِط</aegov-badge>
     <aegov-badge color="camel">قيد الانتظار</aegov-badge>
@@ -430,7 +430,7 @@
       </article>
     </section>
   </main>
-  <footer class="aegov-container sm:px-6 lg:px-8 mt-8 py-6 text-sm text-aeblack-500">
+  <footer class="aegov-container sm:px-6 lg:px-8 mt-8 py-6 text-sm text-aeblack-500 dark:text-aeblack-400">
     &copy; 2026 Telecommunication and Digital Regulatory Authority. All rights reserved.
   </footer>
 

@@ -10,25 +10,25 @@
   <link rel="stylesheet" href="/docs/doc-style.css">
   <link rel="stylesheet" href="/docs/hljs.css">
 </head>
-<body class="bg-aeblack-50">
+<body class="bg-aeblack-50 dark:bg-aeblack-950">
   <header class="aegov-container sm:px-6 lg:px-8 mb-8">
     <img src="https://designsystem.gov.ae/assets/site-logo/AEGov-DesignSystem-Logo-Color.svg" alt="UAE Design System Logo" class="w-auto h-16 my-2">
   </header>
-  <main class="aegov-container sm:px-6 lg:px-8 bg-aeblack-50">
+  <main class="aegov-container sm:px-6 lg:px-8 bg-aeblack-50 dark:bg-aeblack-950">
     <section class="flex items-start align-top gap-4">
       <nav id="primary-nav" class="w-3xs shrink-0">&nbsp;</nav>
       <article class="col-span-5 grow">
-          <section id="content-area" class="bg-whitely-50 p-6 rounded-md shadow-xl">
+          <section id="content-area" class="bg-whitely-50 dark:bg-aeblack-900 p-6 rounded-md shadow-xl">
           <!-- DOC:START -->
 <h1>Text</h1>
-<p class="text-lg text-aeblack-500 mb-8">A simple paragraph wrapper for body copy. Use it whenever you need styled body text with a controlled, design-system-aligned size scale instead of raw <code>&lt;p&gt;</code> tags. Suitable for descriptions, supporting copy, programme summaries, and any inline body content across the system.</p>
+<p class="text-lg text-aeblack-500 dark:text-aeblack-300 mb-8">A simple paragraph wrapper for body copy. Use it whenever you need styled body text with a controlled, design-system-aligned size scale instead of raw <code>&lt;p&gt;</code> tags. Suitable for descriptions, supporting copy, programme summaries, and any inline body content across the system.</p>
 
 <h2>Introduction</h2>
 <p>The <code>aegov-text</code> component renders a <code>&lt;p&gt;</code> element with size tokens from the design system&#39;s typography scale. It removes the need to remember bespoke Tailwind utility combinations for body copy and gives you a single, consistent component to reach for whenever you need styled paragraph text. The size token can be a single value or a Tailwind-style responsive string, so the same paragraph can scale across breakpoints without extra markup.</p>
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-text</span>&gt;</span>
   The UAE Government Design System provides a unified set of components and patterns
   used across federal and local digital services to deliver a consistent citizen experience.
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-text</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-text</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-text>
     The UAE Government Design System provides a unified set of components and patterns used across federal and local digital services to deliver a consistent citizen experience.
   </aegov-text>
@@ -63,7 +63,7 @@
 </tbody></table>
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-text</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm&quot;</span>&gt;</span>Helper text shown beneath a form field.<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-text</span>&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">aegov-text</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;base&quot;</span>&gt;</span>Standard body copy used across most pages.<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-text</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-text</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;lg&quot;</span>&gt;</span>Lead-in paragraph for a section introduction.<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-text</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-text</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;lg&quot;</span>&gt;</span>Lead-in paragraph for a section introduction.<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-text</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-text size="sm">Your application is automatically saved as you progress through each step.</aegov-text>
   <aegov-text size="base">Submit your Emirates ID and supporting documents to begin the verification process.</aegov-text>
   <aegov-text size="lg">The Ministry of Interior offers a wide range of digital services for UAE residents and visitors.</aegov-text>
@@ -74,7 +74,7 @@
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-text</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm md:base lg:lg&quot;</span>&gt;</span>
   This paragraph scales with the viewport — small on phones, base from the medium breakpoint,
   and large on desktop.
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-text</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-text</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-text size="sm md:base lg:lg">
     Resize your browser to see this paragraph scale across the <code>sm</code>, <code>md</code>, and <code>lg</code> breakpoints. Useful for hero descriptions and lead-in copy that should remain readable on every device.
   </aegov-text>
@@ -89,7 +89,7 @@
 
 <span class="hljs-tag">&lt;<span class="hljs-name">aegov-text</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm&quot;</span> <span class="hljs-attr">extra-class</span>=<span class="hljs-string">&quot;text-aered-600 font-medium&quot;</span>&gt;</span>
   Please complete the marked fields before submitting.
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-text</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-text</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-text extra-class="text-aeblack-600 italic">
     All information submitted is encrypted in transit and at rest, in line with UAE data protection guidelines.
   </aegov-text>
@@ -110,7 +110,7 @@
 <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-text</span>&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">aegov-text</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm&quot;</span> <span class="hljs-attr">extra-class</span>=<span class="hljs-string">&quot;text-aeblack-500&quot;</span>&gt;</span>
   A service fee applies. Payment is taken after the application is reviewed.
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-text</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-text</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-text size="lg">
     Renew your vehicle registration online in a few simple steps.
   </aegov-text>
@@ -137,7 +137,7 @@
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-text</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm&quot;</span> <span class="hljs-attr">extra-class</span>=<span class="hljs-string">&quot;text-aeblack-500&quot;</span>&gt;</span>
     قد تُطبَّق رسوم خدمة. يتم الدفع بعد مراجعة الطلب.
   <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-text</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre><div dir="rtl" class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre><div dir="rtl" class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-text size="lg">
     يوفر نظام التصميم الحكومي الإماراتي مجموعة موحّدة من المكوّنات والأنماط المستخدمة عبر الخدمات الرقمية الاتحادية والمحلية.
   </aegov-text>
@@ -245,7 +245,7 @@
       </article>
     </section>
   </main>
-  <footer class="aegov-container sm:px-6 lg:px-8 mt-8 py-6 text-sm text-aeblack-500">
+  <footer class="aegov-container sm:px-6 lg:px-8 mt-8 py-6 text-sm text-aeblack-500 dark:text-aeblack-400">
     &copy; 2026 Telecommunication and Digital Regulatory Authority. All rights reserved.
   </footer>
 

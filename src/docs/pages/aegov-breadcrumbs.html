@@ -10,18 +10,18 @@
   <link rel="stylesheet" href="/docs/doc-style.css">
   <link rel="stylesheet" href="/docs/hljs.css">
 </head>
-<body class="bg-aeblack-50">
+<body class="bg-aeblack-50 dark:bg-aeblack-950">
   <header class="aegov-container sm:px-6 lg:px-8 mb-8">
     <img src="https://designsystem.gov.ae/assets/site-logo/AEGov-DesignSystem-Logo-Color.svg" alt="UAE Design System Logo" class="w-auto h-16 my-2">
   </header>
-  <main class="aegov-container sm:px-6 lg:px-8 bg-aeblack-50">
+  <main class="aegov-container sm:px-6 lg:px-8 bg-aeblack-50 dark:bg-aeblack-950">
     <section class="flex items-start align-top gap-4">
       <nav id="primary-nav" class="w-3xs shrink-0">&nbsp;</nav>
       <article class="col-span-5 grow">
-          <section id="content-area" class="bg-whitely-50 p-6 rounded-md shadow-xl">
+          <section id="content-area" class="bg-whitely-50 dark:bg-aeblack-900 p-6 rounded-md shadow-xl">
           <!-- DOC:START -->
 <h1>Breadcrumbs</h1>
-<p class="text-lg text-aeblack-500 mb-8">Breadcrumbs are a hierarchical navigation aid that shows the user's current location within the site and offers a quick way back to any ancestor page. They are particularly useful in deep service journeys — a passport renewal nested under <em>Identity Services</em>, for example — where the user needs to understand context without losing their place.</p>
+<p class="text-lg text-aeblack-500 dark:text-aeblack-300 mb-8">Breadcrumbs are a hierarchical navigation aid that shows the user's current location within the site and offers a quick way back to any ancestor page. They are particularly useful in deep service journeys — a passport renewal nested under <em>Identity Services</em>, for example — where the user needs to understand context without losing their place.</p>
 
 <h2>Introduction</h2>
 <p>The <code>aegov-breadcrumbs</code> component composes a parent <code>&lt;nav&gt;</code> landmark wrapping an ordered list of <code>aegov-breadcrumbs-item</code> children. The parent owns shared configuration — separator style, truncation length, and schema.org microdata — and propagates it to every item automatically. Each item renders as a link except for the last (current) page, which is rendered as plain text and marked with <code>aria-current=&quot;page&quot;</code>.</p>
@@ -30,7 +30,7 @@
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-breadcrumbs-item</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/services&quot;</span>&gt;</span>Services<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-breadcrumbs-item</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-breadcrumbs-item</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/services/identity&quot;</span>&gt;</span>Identity<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-breadcrumbs-item</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-breadcrumbs-item</span>&gt;</span>Passport renewal<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-breadcrumbs-item</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-breadcrumbs</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-breadcrumbs</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-breadcrumbs>
     <aegov-breadcrumbs-item href="/">Home</aegov-breadcrumbs-item>
     <aegov-breadcrumbs-item href="/services">Services</aegov-breadcrumbs-item>
@@ -47,7 +47,7 @@
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-breadcrumbs-item</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/&quot;</span>&gt;</span>Home<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-breadcrumbs-item</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-breadcrumbs-item</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/services&quot;</span>&gt;</span>Services<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-breadcrumbs-item</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-breadcrumbs-item</span>&gt;</span>Visa status<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-breadcrumbs-item</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-breadcrumbs</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-breadcrumbs</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-breadcrumbs separator="slash">
     <aegov-breadcrumbs-item href="/">Home</aegov-breadcrumbs-item>
     <aegov-breadcrumbs-item href="/services">Services</aegov-breadcrumbs-item>
@@ -60,7 +60,7 @@
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-breadcrumbs-item</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/&quot;</span>&gt;</span>Home<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-breadcrumbs-item</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-breadcrumbs-item</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/news&quot;</span>&gt;</span>News<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-breadcrumbs-item</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-breadcrumbs-item</span>&gt;</span>2026 Annual Report<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-breadcrumbs-item</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-breadcrumbs</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-breadcrumbs</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-breadcrumbs separator="chevron">
     <aegov-breadcrumbs-item href="/">Home</aegov-breadcrumbs-item>
     <aegov-breadcrumbs-item href="/news">News</aegov-breadcrumbs-item>
@@ -76,7 +76,7 @@
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-breadcrumbs-item</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/services/business&quot;</span>&gt;</span>Business services<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-breadcrumbs-item</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-breadcrumbs-item</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/services/business/licensing&quot;</span>&gt;</span>Licensing<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-breadcrumbs-item</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-breadcrumbs-item</span>&gt;</span>Renew trade licence<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-breadcrumbs-item</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-breadcrumbs</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-breadcrumbs</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-breadcrumbs>
     <aegov-breadcrumbs-item href="/">Home</aegov-breadcrumbs-item>
     <aegov-breadcrumbs-item href="/services/business">Business services</aegov-breadcrumbs-item>
@@ -93,7 +93,7 @@
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-breadcrumbs-item</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/services&quot;</span>&gt;</span>Government Services Directory<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-breadcrumbs-item</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-breadcrumbs-item</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/services/health&quot;</span>&gt;</span>Public Health Authority<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-breadcrumbs-item</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-breadcrumbs-item</span>&gt;</span>Vaccination Appointment Booking<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-breadcrumbs-item</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-breadcrumbs</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-breadcrumbs</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-breadcrumbs max-length="14">
     <aegov-breadcrumbs-item href="/">Home</aegov-breadcrumbs-item>
     <aegov-breadcrumbs-item href="/services">Government Services Directory</aegov-breadcrumbs-item>
@@ -112,7 +112,7 @@
   <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-breadcrumbs-item</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-breadcrumbs-item</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/services/identity&quot;</span>&gt;</span>Identity Services<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-breadcrumbs-item</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-breadcrumbs-item</span>&gt;</span>Emirates ID renewal<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-breadcrumbs-item</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-breadcrumbs</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-breadcrumbs</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-breadcrumbs separator="chevron">
     <aegov-breadcrumbs-item href="/">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-2px;margin-inline-end:6px"><path d="M3 12l9-9 9 9"/><path d="M5 10v10h14V10"/></svg>
@@ -131,7 +131,7 @@
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-breadcrumbs-item</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/news&quot;</span>&gt;</span>News<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-breadcrumbs-item</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-breadcrumbs-item</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/news/2026&quot;</span>&gt;</span>2026<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-breadcrumbs-item</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-breadcrumbs-item</span>&gt;</span>National AI Strategy update<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-breadcrumbs-item</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-breadcrumbs</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-breadcrumbs</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-breadcrumbs is-microdata="true">
     <aegov-breadcrumbs-item href="/">Home</aegov-breadcrumbs-item>
     <aegov-breadcrumbs-item href="/news">News</aegov-breadcrumbs-item>
@@ -154,7 +154,7 @@
     UAE federal portal
   <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-breadcrumbs-item</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-breadcrumbs-item</span>&gt;</span>Service catalogue<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-breadcrumbs-item</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-breadcrumbs</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-breadcrumbs</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-breadcrumbs separator="chevron">
     <aegov-breadcrumbs-item href="/">Home</aegov-breadcrumbs-item>
     <aegov-breadcrumbs-item href="https://u.ae" target="_blank" rel="noopener" title="Open the UAE federal portal in a new tab">UAE federal portal</aegov-breadcrumbs-item>
@@ -186,7 +186,7 @@
     <span class="hljs-tag">&lt;<span class="hljs-name">aegov-breadcrumbs-item</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/services/identity&quot;</span>&gt;</span>خدمات الهوية<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-breadcrumbs-item</span>&gt;</span>
     <span class="hljs-tag">&lt;<span class="hljs-name">aegov-breadcrumbs-item</span>&gt;</span>تجديد جواز السفر<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-breadcrumbs-item</span>&gt;</span>
   <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-breadcrumbs</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre><div dir="rtl" class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre><div dir="rtl" class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-breadcrumbs separator="chevron">
     <aegov-breadcrumbs-item href="/">الرئيسية</aegov-breadcrumbs-item>
     <aegov-breadcrumbs-item href="/services">الخدمات</aegov-breadcrumbs-item>
@@ -203,7 +203,7 @@
     <span class="hljs-tag">&lt;<span class="hljs-name">aegov-breadcrumbs-item</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/services/business/licensing&quot;</span>&gt;</span>الترخيص<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-breadcrumbs-item</span>&gt;</span>
     <span class="hljs-tag">&lt;<span class="hljs-name">aegov-breadcrumbs-item</span>&gt;</span>تجديد الرخصة التجارية<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-breadcrumbs-item</span>&gt;</span>
   <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-breadcrumbs</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre><div dir="rtl" class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre><div dir="rtl" class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-breadcrumbs>
     <aegov-breadcrumbs-item href="/">الرئيسية</aegov-breadcrumbs-item>
     <aegov-breadcrumbs-item href="/services/business">خدمات الأعمال</aegov-breadcrumbs-item>
@@ -455,7 +455,7 @@
       </article>
     </section>
   </main>
-  <footer class="aegov-container sm:px-6 lg:px-8 mt-8 py-6 text-sm text-aeblack-500">
+  <footer class="aegov-container sm:px-6 lg:px-8 mt-8 py-6 text-sm text-aeblack-500 dark:text-aeblack-400">
     &copy; 2026 Telecommunication and Digital Regulatory Authority. All rights reserved.
   </footer>
 

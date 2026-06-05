@@ -25,6 +25,10 @@
   background-color: var(--color-aeblack-50);
 }
 
+.dark #content-area thead tr {
+  background-color: var(--color-aeblack-800);
+}
+
 #content-area th {
   text-align: left;
   font-weight: 600;
@@ -33,14 +37,28 @@
   color: var(--color-aeblack-800);
 }
 
+.dark #content-area th {
+  border-color: var(--color-aeblack-700);
+  color: var(--color-whitely-100);
+}
+
 #content-area td {
   padding: 0.5rem 0.75rem;
   border: 1px solid var(--color-aeblack-100);
   color: var(--color-aeblack-600);
 }
 
+.dark #content-area td {
+  border-color: var(--color-aeblack-700);
+  color: var(--color-aeblack-200);
+}
+
 #content-area tbody tr:nth-child(even) {
   background-color: var(--color-whitely-200);
+}
+
+.dark #content-area tbody tr:nth-child(even) {
+  background-color: var(--color-aeblack-800);
 }
 
 #content-area td code,
@@ -52,6 +70,13 @@
   border: 1px solid var(--color-aeblack-100);
   border-radius: 0.25rem;
   color: var(--color-aered-700);
+}
+
+.dark #content-area td code,
+.dark #content-area th code {
+  background-color: var(--color-aeblack-800);
+  border-color: var(--color-aeblack-700);
+  color: var(--color-aered-300);
 }
 
 /* Prevent long code blocks from breaking flex layout */

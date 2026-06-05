@@ -10,18 +10,18 @@
   <link rel="stylesheet" href="/docs/doc-style.css">
   <link rel="stylesheet" href="/docs/hljs.css">
 </head>
-<body class="bg-aeblack-50">
+<body class="bg-aeblack-50 dark:bg-aeblack-950">
   <header class="aegov-container sm:px-6 lg:px-8 mb-8">
     <img src="https://designsystem.gov.ae/assets/site-logo/AEGov-DesignSystem-Logo-Color.svg" alt="UAE Design System Logo" class="w-auto h-16 my-2">
   </header>
-  <main class="aegov-container sm:px-6 lg:px-8 bg-aeblack-50">
+  <main class="aegov-container sm:px-6 lg:px-8 bg-aeblack-50 dark:bg-aeblack-950">
     <section class="flex items-start align-top gap-4">
       <nav id="primary-nav" class="w-3xs shrink-0">&nbsp;</nav>
       <article class="col-span-5 grow">
-          <section id="content-area" class="bg-whitely-50 p-6 rounded-md shadow-xl">
+          <section id="content-area" class="bg-whitely-50 dark:bg-aeblack-900 p-6 rounded-md shadow-xl">
           <!-- DOC:START -->
 <h1>Installation</h1>
-<p class="text-lg text-aeblack-500 mb-8">This page is for projects that use <strong>plain HTML</strong> — no React, no Vue, no Angular. The AEGOV Design System ships as <a href="https://developer.mozilla.org/en-US/docs/Web/Web_Components">Web Components</a>, which means every <code>aegov-*</code> tag works in any HTML page once two files are loaded: a JavaScript bundle that registers the custom elements, and a CSS file that styles them. Two methods are documented below — pick whichever fits your project: <strong>Method A — copy build files to public assets</strong> (no bundler required, plain <code>&lt;script&gt;</code> + <code>&lt;link&gt;</code> tags) or <strong>Method B — import from the npm package</strong> (when you already use a bundler like Vite, Parcel, Webpack, PostCSS, or Tailwind v4).</p>
+<p class="text-lg text-aeblack-500 dark:text-aeblack-300 mb-8">This page is for projects that use <strong>plain HTML</strong> — no React, no Vue, no Angular. The AEGOV Design System ships as <a href="https://developer.mozilla.org/en-US/docs/Web/Web_Components">Web Components</a>, which means every <code>aegov-*</code> tag works in any HTML page once two files are loaded: a JavaScript bundle that registers the custom elements, and a CSS file that styles them. Two methods are documented below — pick whichever fits your project: <strong>Method A — copy build files to public assets</strong> (no bundler required, plain <code>&lt;script&gt;</code> + <code>&lt;link&gt;</code> tags) or <strong>Method B — import from the npm package</strong> (when you already use a bundler like Vite, Parcel, Webpack, PostCSS, or Tailwind v4).</p>
 
 <h2>What you need to load</h2>
 <p>Every AEGOV page needs three things in the document <code>&lt;head&gt;</code>:</p>
@@ -264,7 +264,7 @@ checkbox.<span class="hljs-title function_">addEventListener</span>(<span class=
       </article>
     </section>
   </main>
-  <footer class="aegov-container sm:px-6 lg:px-8 mt-8 py-6 text-sm text-aeblack-500">
+  <footer class="aegov-container sm:px-6 lg:px-8 mt-8 py-6 text-sm text-aeblack-500 dark:text-aeblack-400">
     &copy; 2026 Telecommunication and Digital Regulatory Authority. All rights reserved.
   </footer>
 

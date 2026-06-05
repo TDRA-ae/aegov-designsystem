@@ -10,24 +10,24 @@
   <link rel="stylesheet" href="/docs/doc-style.css">
   <link rel="stylesheet" href="/docs/hljs.css">
 </head>
-<body class="bg-aeblack-50">
+<body class="bg-aeblack-50 dark:bg-aeblack-950">
   <header class="aegov-container sm:px-6 lg:px-8 mb-8">
     <img src="https://designsystem.gov.ae/assets/site-logo/AEGov-DesignSystem-Logo-Color.svg" alt="UAE Design System Logo" class="w-auto h-16 my-2">
   </header>
-  <main class="aegov-container sm:px-6 lg:px-8 bg-aeblack-50">
+  <main class="aegov-container sm:px-6 lg:px-8 bg-aeblack-50 dark:bg-aeblack-950">
     <section class="flex items-start align-top gap-4">
       <nav id="primary-nav" class="w-3xs shrink-0">&nbsp;</nav>
       <article class="col-span-5 grow">
-          <section id="content-area" class="bg-whitely-50 p-6 rounded-md shadow-xl">
+          <section id="content-area" class="bg-whitely-50 dark:bg-aeblack-900 p-6 rounded-md shadow-xl">
           <!-- DOC:START -->
 <h1>Aspect Ratio</h1>
-<p class="text-lg text-aeblack-500 mb-8">An Aspect Ratio component enforces a specific width-to-height ratio on its slotted content. Use it to wrap images, videos, iframes (maps, embeds), or arbitrary containers that should hold a consistent shape regardless of viewport size — preventing layout shift and reflow as media loads. It is a layout primitive with no visual styling of its own.</p>
+<p class="text-lg text-aeblack-500 dark:text-aeblack-300 mb-8">An Aspect Ratio component enforces a specific width-to-height ratio on its slotted content. Use it to wrap images, videos, iframes (maps, embeds), or arbitrary containers that should hold a consistent shape regardless of viewport size — preventing layout shift and reflow as media loads. It is a layout primitive with no visual styling of its own.</p>
 
 <h2>Introduction</h2>
 <p>The <code>aegov-aspect-ratio</code> component wraps any media or content and constrains it to a chosen ratio using the native CSS <code>aspect-ratio</code> property. It accepts named presets (<code>auto</code>, <code>square</code>, <code>video</code>) or any custom <code>n/m</code> ratio string, and exposes a <code>fit</code> property that mirrors the CSS <code>object-fit</code> values — making it a drop-in solution for responsive imagery and embedded video.</p>
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-aspect-ratio</span> <span class="hljs-attr">ratio</span>=<span class="hljs-string">&quot;video&quot;</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">img</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://images.unsplash.com/photo-1518684079-3c830dcef090?w=1200&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;Skyline of Abu Dhabi at dusk&quot;</span> /&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-aspect-ratio</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-aspect-ratio</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-aspect-ratio ratio="video">
     <img src="https://images.unsplash.com/photo-1518684079-3c830dcef090?w=1200" alt="Skyline of Abu Dhabi at dusk" />
   </aegov-aspect-ratio>
@@ -58,7 +58,7 @@
 </tbody></table>
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-aspect-ratio</span> <span class="hljs-attr">ratio</span>=<span class="hljs-string">&quot;square&quot;</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">img</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://images.unsplash.com/photo-1546412414-e1885259563a?w=600&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;Sheikh Zayed Grand Mosque dome detail&quot;</span> /&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-aspect-ratio</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-aspect-ratio</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
     <aegov-aspect-ratio ratio="square">
       <img src="https://images.unsplash.com/photo-1546412414-e1885259563a?w=600" alt="Sheikh Zayed Grand Mosque dome" />
@@ -77,7 +77,7 @@
 <p>Any custom ratio of the form <code>n/m</code> is supported — useful for ultrawide hero images, banner crops, or cinematic media. The component validates the format and falls back to <code>auto</code> if the string is malformed.</p>
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-aspect-ratio</span> <span class="hljs-attr">ratio</span>=<span class="hljs-string">&quot;21/9&quot;</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">img</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://images.unsplash.com/photo-1582719508461-905c673771fd?w=1600&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;Panoramic view of the Burj Khalifa at night&quot;</span> /&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-aspect-ratio</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-aspect-ratio</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-aspect-ratio ratio="21/9">
     <img src="https://images.unsplash.com/photo-1582719508461-905c673771fd?w=1600" alt="Panoramic view of the Burj Khalifa at night" />
   </aegov-aspect-ratio>
@@ -92,7 +92,7 @@
 
 <span class="hljs-tag">&lt;<span class="hljs-name">aegov-aspect-ratio</span> <span class="hljs-attr">ratio</span>=<span class="hljs-string">&quot;square&quot;</span> <span class="hljs-attr">fit</span>=<span class="hljs-string">&quot;contain&quot;</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">img</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://images.unsplash.com/photo-1518684079-3c830dcef090?w=600&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;Contain fit&quot;</span> /&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-aspect-ratio</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-aspect-ratio</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
     <div>
       <p class="text-sm text-aeblack-600 mb-2">fit="cover" — fills the box, crops as needed</p>
@@ -117,7 +117,7 @@
     <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://www.youtube.com/embed/dQw4w9WgXcQ&quot;</span>
     <span class="hljs-attr">title</span>=<span class="hljs-string">&quot;Embedded video&quot;</span>
     <span class="hljs-attr">allowfullscreen</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">iframe</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-aspect-ratio</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-aspect-ratio</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-aspect-ratio ratio="video">
     <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d57804.81244422895!2d54.30796434863281!3d24.466667099999998!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3e5e66b51c4b8a91%3A0x9c8b9f5fcb6b5c5a!2sAbu%20Dhabi!5e0!3m2!1sen!2sae" title="Map of Abu Dhabi" allowfullscreen></iframe>
   </aegov-aspect-ratio>
@@ -128,7 +128,7 @@
 <p>The <code>ratio</code> property accepts a Tailwind-style responsive string with the breakpoint prefixes <code>xs</code>, <code>sm</code>, <code>md</code>, <code>lg</code>, <code>xl</code>, and <code>2xl</code>. Each segment overrides smaller breakpoints, so the example below renders as <code>square</code> on phones, <code>video</code> from the <code>md</code> breakpoint up, and <code>21/9</code> from <code>lg</code> up — perfect for a hero banner that adapts from mobile portrait to desktop ultrawide.</p>
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-aspect-ratio</span> <span class="hljs-attr">ratio</span>=<span class="hljs-string">&quot;square md:video lg:21/9&quot;</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">img</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://images.unsplash.com/photo-1582719508461-905c673771fd?w=1600&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;Hero image&quot;</span> /&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-aspect-ratio</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-aspect-ratio</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <p class="text-sm text-aeblack-600 mb-3">Resize the browser to see the ratio adapt.</p>
   <aegov-aspect-ratio ratio="square md:video lg:21/9" extra-class="rounded-lg">
     <img src="https://images.unsplash.com/photo-1582719508461-905c673771fd?w=1600" alt="Burj Khalifa panoramic" />
@@ -140,7 +140,7 @@
 <p>Combine <code>extra-class</code> with rounded corners to produce square avatar tiles for staff directories or service team listings.</p>
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-aspect-ratio</span> <span class="hljs-attr">ratio</span>=<span class="hljs-string">&quot;square&quot;</span> <span class="hljs-attr">extra-class</span>=<span class="hljs-string">&quot;rounded-lg&quot;</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">img</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=400&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;Staff portrait&quot;</span> /&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-aspect-ratio</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-aspect-ratio</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
     <aegov-aspect-ratio ratio="square" extra-class="rounded-lg">
       <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=400" alt="Staff portrait" />
@@ -164,7 +164,7 @@
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-aspect-ratio</span> <span class="hljs-attr">ratio</span>=<span class="hljs-string">&quot;video&quot;</span> <span class="hljs-attr">extra-class</span>=<span class="hljs-string">&quot;rounded-lg&quot;</span>&gt;</span>
     <span class="hljs-tag">&lt;<span class="hljs-name">img</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://images.unsplash.com/photo-1518684079-3c830dcef090?w=1200&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;منظر أبوظبي عند المساء&quot;</span> /&gt;</span>
   <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-aspect-ratio</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre><div dir="rtl" class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre><div dir="rtl" class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <h3 class="text-lg font-semibold mb-3">معرض الخدمات الحكومية</h3>
   <aegov-aspect-ratio ratio="video" extra-class="rounded-lg">
     <img src="https://images.unsplash.com/photo-1518684079-3c830dcef090?w=1200" alt="منظر أبوظبي عند المساء" />
