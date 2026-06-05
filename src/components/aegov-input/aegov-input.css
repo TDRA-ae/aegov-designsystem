@@ -203,12 +203,15 @@
    See: validation-engine-addon.md §2.6
    ───────────────────────────────────────────────────────────────────── */
 
-/* Invalid state — host class toggled via isInvalid prop */
-:host(.is-invalid) .aegov-input {
+/* Invalid state — host class toggled via isInvalid prop.
+   NOTE: `:host` only matches in shadow DOM. This component is
+   `scoped: false, shadow: false`, so the host is a normal light-DOM custom
+   element — selector must target it by tag name + class. */
+aegov-input.is-invalid .aegov-input {
   @apply inset-ring-aered-600;
 }
 
-:host(.is-invalid) .aegov-input:focus {
+aegov-input.is-invalid .aegov-input:focus {
   @apply inset-ring-aered-500;
 }
 

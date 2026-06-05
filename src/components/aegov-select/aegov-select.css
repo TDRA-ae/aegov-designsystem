@@ -23,9 +23,9 @@
          disabled:pointer-events-none disabled:cursor-not-allowed
          disabled:select-none disabled:opacity-40
          rounded-lg focus:outline-none cursor-pointer;
-  @apply placeholder:text-aeblack-500 bg-whitely-50
+  @apply placeholder:text-aeblack-300 bg-whitely-50
          inset-ring-2
-         focus:inset-ring-primary-support-500;
+         focus-visible:inset-ring-primary-support-500;
   /* Custom arrow for native select */
   appearance: none;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%234b4f58' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
@@ -34,11 +34,11 @@
   background-size: 20px 20px;
 }
 
-/* Variant — idle ring + value text per colour family */
-.aegov-select.select-variant-primary       { @apply inset-ring-primary-400 text-primary-900 hover:text-primary-700; }
-.aegov-select.select-variant-secondary     { @apply inset-ring-secondary-400 text-secondary-900 hover:text-secondary-700; }
-.aegov-select.select-variant-neutral-max   { @apply inset-ring-aeblack-400 text-aeblack-900 hover:text-aeblack-800; }
-.aegov-select.select-variant-neutral-min   { @apply inset-ring-aeblack-200 text-aeblack-900 hover:text-aeblack-700; }
+/* Variant — idle ring + value text per colour family (mirrors aegov-input pattern) */
+.aegov-select.select-variant-primary       { @apply inset-ring-primary-600 text-primary-900; }
+.aegov-select.select-variant-secondary     { @apply inset-ring-secondary-600 text-secondary-900; }
+.aegov-select.select-variant-neutral-max   { @apply inset-ring-aeblack-800 text-aeblack-950; }
+.aegov-select.select-variant-neutral-min   { @apply inset-ring-aeblack-300 text-aeblack-700; }
 
 /* Focus ring — overrides variant idle ring. Per-variant selector beats variant specificity. */
 .aegov-select.select-variant-primary:focus{
@@ -312,8 +312,8 @@ button.aegov-select {
 
 /* Validation surface (Layer 1) — see validation-engine-addon.md §2.6 */
 
-:host(.is-invalid) .aegov-select,
-:host(.is-invalid) .select__trigger {
+aegov-select.is-invalid .aegov-select,
+aegov-select.is-invalid .select__trigger {
   @apply ring-2 ring-aered-600;
 }
 

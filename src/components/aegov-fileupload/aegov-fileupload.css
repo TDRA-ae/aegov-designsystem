@@ -118,14 +118,14 @@
 }
 
 /* Variant — wrapper ring, filename text, browse button per colour family */
-.aegov-fileupload.fileupload-variant-primary .fileupload__input-wrapper       { @apply inset-ring-primary-400; }
+.aegov-fileupload.fileupload-variant-primary .fileupload__input-wrapper       { @apply inset-ring-primary-600; }
 .aegov-fileupload.fileupload-variant-primary .fileupload__filename            { @apply text-primary-900; }
 .aegov-fileupload.fileupload-variant-primary .fileupload__browse-btn          { @apply text-primary-950 bg-primary-400 border-s-primary-400 hover:border-s-primary-500 hover:bg-primary-500 hover:text-primary-50; }
 .aegov-fileupload.fileupload-variant-primary .fileupload__dropzone            { @apply border-primary-300; }
 .aegov-fileupload.fileupload-variant-primary .fileupload__dropzone--dragover  { @apply border-primary-500 bg-primary-50; }
 .aegov-fileupload.fileupload-variant-primary .fileupload__drop-icon           { @apply text-primary-600; }
 
-.aegov-fileupload.fileupload-variant-secondary .fileupload__input-wrapper       { @apply inset-ring-secondary-400; }
+.aegov-fileupload.fileupload-variant-secondary .fileupload__input-wrapper       { @apply inset-ring-secondary-600; }
 .aegov-fileupload.fileupload-variant-secondary .fileupload__filename            { @apply text-secondary-900; }
 .aegov-fileupload.fileupload-variant-secondary .fileupload__browse-btn          { @apply text-secondary-950 bg-secondary-400 border-s-secondary-400 hover:border-s-secondary-500 hover:bg-secondary-500 hover:text-secondary-50; }
 
@@ -133,16 +133,16 @@
 .aegov-fileupload.fileupload-variant-secondary .fileupload__dropzone--dragover  { @apply border-secondary-500 bg-secondary-50; }
 .aegov-fileupload.fileupload-variant-secondary .fileupload__drop-icon           { @apply text-secondary-600; }
 
-.aegov-fileupload.fileupload-variant-neutral-max .fileupload__input-wrapper       { @apply inset-ring-aeblack-400; }
-.aegov-fileupload.fileupload-variant-neutral-max .fileupload__filename            { @apply text-aeblack-900; }
+.aegov-fileupload.fileupload-variant-neutral-max .fileupload__input-wrapper       { @apply inset-ring-aeblack-800; }
+.aegov-fileupload.fileupload-variant-neutral-max .fileupload__filename            { @apply text-aeblack-950; }
 .aegov-fileupload.fileupload-variant-neutral-max .fileupload__browse-btn          { @apply text-aeblack-50 bg-aeblack-400 border-s-aeblack-400 hover:border-s-aeblack-500 hover:bg-aeblack-500 hover:text-aeblack-50; }
 
 .aegov-fileupload.fileupload-variant-neutral-max .fileupload__dropzone            { @apply border-aeblack-300; }
 .aegov-fileupload.fileupload-variant-neutral-max .fileupload__dropzone--dragover  { @apply border-aeblack-500 bg-aeblack-50; }
 .aegov-fileupload.fileupload-variant-neutral-max .fileupload__drop-icon           { @apply text-aeblack-800; }
 
-.aegov-fileupload.fileupload-variant-neutral-min .fileupload__input-wrapper       { @apply inset-ring-aeblack-200; }
-.aegov-fileupload.fileupload-variant-neutral-min .fileupload__filename            { @apply text-aeblack-900; }
+.aegov-fileupload.fileupload-variant-neutral-min .fileupload__input-wrapper       { @apply inset-ring-aeblack-300; }
+.aegov-fileupload.fileupload-variant-neutral-min .fileupload__filename            { @apply text-aeblack-700; }
 .aegov-fileupload.fileupload-variant-neutral-min .fileupload__browse-btn          { @apply text-aeblack-950 bg-aeblack-200 border-s-aeblack-200 hover:border-s-aeblack-300 hover:bg-aeblack-300 hover:text-aeblack-900; }
 
 .aegov-fileupload.fileupload-variant-neutral-min .fileupload__dropzone            { @apply border-aeblack-200; }
@@ -451,8 +451,8 @@
 
 /* Validation surface (Layer 1) — see validation-engine-addon.md §2.6 */
 
-:host(.is-invalid) .fileupload__input-wrapper,
-:host(.is-invalid) .fileupload__dropzone {
+aegov-fileupload.is-invalid .fileupload__input-wrapper,
+aegov-fileupload.is-invalid .fileupload__dropzone {
   @apply ring-2 ring-aered-600;
 }
 

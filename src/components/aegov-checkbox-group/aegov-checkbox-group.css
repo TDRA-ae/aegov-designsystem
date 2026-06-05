@@ -167,7 +167,7 @@
 
 /* Validation surface (Layer 1) — see validation-engine-addon.md §2.6 */
 
-:host(.is-invalid) .checkbox-group__legend {
+aegov-checkbox-group.is-invalid .checkbox-group__legend {
   @apply text-aered-700;
 }
 

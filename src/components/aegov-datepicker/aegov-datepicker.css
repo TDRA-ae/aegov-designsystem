@@ -17,23 +17,27 @@
          inset-ring-2;
 }
 
-/* Variant — idle ring + value text per colour family */
-:host(.datepicker-variant-primary) .datepicker__input-wrapper       { @apply inset-ring-primary-400; }
+/* Variant — idle ring + value text per colour family (mirrors aegov-input pattern) */
+:host(.datepicker-variant-primary) .datepicker__input-wrapper       { @apply inset-ring-primary-600; }
 :host(.datepicker-variant-primary) .datepicker__input               { @apply text-primary-900; }
-:host(.datepicker-variant-secondary) .datepicker__input-wrapper     { @apply inset-ring-secondary-400; }
+:host(.datepicker-variant-secondary) .datepicker__input-wrapper     { @apply inset-ring-secondary-600; }
 :host(.datepicker-variant-secondary) .datepicker__input             { @apply text-secondary-900; }
-:host(.datepicker-variant-neutral-max) .datepicker__input-wrapper   { @apply inset-ring-aeblack-400; }
-:host(.datepicker-variant-neutral-max) .datepicker__input           { @apply text-aeblack-900; }
-:host(.datepicker-variant-neutral-min) .datepicker__input-wrapper   { @apply inset-ring-aeblack-200; }
-:host(.datepicker-variant-neutral-min) .datepicker__input           { @apply text-aeblack-900; }
+:host(.datepicker-variant-neutral-max) .datepicker__input-wrapper   { @apply inset-ring-aeblack-800; }
+:host(.datepicker-variant-neutral-max) .datepicker__input           { @apply text-aeblack-950; }
+:host(.datepicker-variant-neutral-min) .datepicker__input-wrapper   { @apply inset-ring-aeblack-300; }
+:host(.datepicker-variant-neutral-min) .datepicker__input           { @apply text-aeblack-700; }
 
-/* Focus ring — fires only when the input element receives focus. Per-variant selector
-   beats variant specificity. */
-:host(.datepicker-variant-primary) .datepicker__input-wrapper:has(.datepicker__input:focus),
-:host(.datepicker-variant-secondary) .datepicker__input-wrapper:has(.datepicker__input:focus),
+/* Focus ring — fires when the input element receives focus. Per-variant focus
+   adds bg tint + inset shadow (matches aegov-input pattern). */
+:host(.datepicker-variant-primary) .datepicker__input-wrapper:has(.datepicker__input:focus) {
+  @apply inset-ring-primary-support-500 bg-primary-support-50/10 inset-shadow-sm inset-shadow-primary-support-500/80;
+}
+:host(.datepicker-variant-secondary) .datepicker__input-wrapper:has(.datepicker__input:focus) {
+  @apply inset-ring-secondary-support-500 bg-secondary-support-50/10 inset-shadow-sm inset-shadow-secondary-support-500/80;
+}
 :host(.datepicker-variant-neutral-max) .datepicker__input-wrapper:has(.datepicker__input:focus),
 :host(.datepicker-variant-neutral-min) .datepicker__input-wrapper:has(.datepicker__input:focus) {
-  @apply inset-ring-primary-support-600;
+  @apply inset-ring-seablue-500 inset-shadow-sm inset-shadow-seablue-500/80;
 }
 
 .datepicker__input-wrapper--range {
@@ -47,8 +51,8 @@
 /* ── Input ──────────────────────────────────────────── */
 .datepicker__input {
   font-family: inherit;
-  @apply flex-1 min-w-0 border-0 bg-transparent text-primary-900 outline-none leading-6
-         placeholder:text-aeblack-500 focus:ring-0;
+  @apply flex-1 min-w-0 border-0 bg-transparent outline-none leading-6
+         placeholder:text-aeblack-300 focus:ring-0;
 }
 
 .datepicker__input:disabled {

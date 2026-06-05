@@ -9,16 +9,16 @@
          disabled:pointer-events-none disabled:cursor-not-allowed
          disabled:select-none disabled:opacity-40
          rounded-lg focus:outline-none;
-  @apply placeholder:text-aeblack-500 bg-whitely-50
+  @apply placeholder:text-aeblack-300 bg-whitely-50
          inset-ring-2
-         focus:inset-ring-primary-support-500;
+         focus-visible:inset-ring-primary-support-500;
 }
 
-/* Variant — idle ring + value text per colour family */
-.aegov-textarea.textarea-variant-primary       { @apply inset-ring-primary-400 text-primary-900 hover:text-primary-700; }
-.aegov-textarea.textarea-variant-secondary     { @apply inset-ring-secondary-400 text-secondary-900 hover:text-secondary-700; }
-.aegov-textarea.textarea-variant-neutral-max   { @apply inset-ring-aeblack-400 text-aeblack-900 hover:text-aeblack-800; }
-.aegov-textarea.textarea-variant-neutral-min   { @apply inset-ring-aeblack-200 text-aeblack-900 hover:text-aeblack-700; }
+/* Variant — idle ring + value text per colour family (mirrors aegov-input pattern) */
+.aegov-textarea.textarea-variant-primary       { @apply inset-ring-primary-600 text-primary-900; }
+.aegov-textarea.textarea-variant-secondary     { @apply inset-ring-secondary-600 text-secondary-900; }
+.aegov-textarea.textarea-variant-neutral-max   { @apply inset-ring-aeblack-800 text-aeblack-950; }
+.aegov-textarea.textarea-variant-neutral-min   { @apply inset-ring-aeblack-300 text-aeblack-700; }
 
 /* Focus ring — overrides variant idle ring. Per-variant selector beats variant specificity. */
 .aegov-textarea.textarea-variant-primary:focus {
@@ -106,11 +106,11 @@
    Validation surface (Layer 1) — see validation-engine-addon.md §2.6
    ───────────────────────────────────────────────────────────────────── */
 
-:host(.is-invalid) .aegov-textarea {
+aegov-textarea.is-invalid .aegov-textarea {
   @apply inset-ring-aered-600;
 }
 
-:host(.is-invalid) .aegov-textarea:focus {
+aegov-textarea.is-invalid .aegov-textarea:focus {
   @apply inset-ring-aered-500;
 }
 

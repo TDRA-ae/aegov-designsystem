@@ -162,7 +162,7 @@
 
 /* Validation surface (Layer 1) — see validation-engine-addon.md §2.6 */
 
-:host(.is-invalid) .radio-group__legend {
+aegov-radio-group.is-invalid .radio-group__legend {
   @apply text-aered-700;
 }
 
