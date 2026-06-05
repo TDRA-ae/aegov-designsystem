@@ -163,13 +163,18 @@
    ============================================ */
 
 .toast--soft {
-  @apply bg-white text-aeblack-900;
+  @apply bg-white text-aeblack-900 dark:bg-aeblack-900 dark:text-whitely-100;
   border-color: theme(--color-aeblack-200);
   border-top-color: theme(--color-aeblack-200);
 
-  & .toast__icon { @apply text-aeblack-700; }
-  & .toast__dismiss { @apply focus-visible:outline-aeblack-400; }
-  & .toast__progress { @apply bg-aeblack-300; }
+  & .toast__icon { @apply text-aeblack-700 dark:text-aeblack-200; }
+  & .toast__dismiss { @apply focus-visible:outline-aeblack-400 dark:focus-visible:outline-aeblack-300; }
+  & .toast__progress { @apply bg-aeblack-300 dark:bg-aeblack-600; }
+}
+
+.dark .toast--soft {
+  border-color: theme(--color-aeblack-700);
+  border-top-color: theme(--color-aeblack-700);
 }
 
 /* ============================================
@@ -177,13 +182,18 @@
    ============================================ */
 
 .toast--solid {
-  @apply bg-aeblack-900 text-whitely-50;
+  @apply bg-aeblack-900 text-whitely-50 dark:bg-whitely-100 dark:text-aeblack-900;
   border-color: theme(--color-aeblack-700);
   border-top-color: theme(--color-aeblack-700);
 
-  & .toast__icon { @apply text-whitely-200; }
-  & .toast__dismiss { @apply hover:bg-white/15 focus-visible:outline-whitely-300; }
-  & .toast__progress { @apply bg-whitely-300; }
+  & .toast__icon { @apply text-whitely-200 dark:text-aeblack-700; }
+  & .toast__dismiss { @apply hover:bg-white/15 focus-visible:outline-whitely-300 dark:hover:bg-aeblack-900/10 dark:focus-visible:outline-aeblack-700; }
+  & .toast__progress { @apply bg-whitely-300 dark:bg-aeblack-600; }
+}
+
+.dark .toast--solid {
+  border-color: theme(--color-aeblack-300);
+  border-top-color: theme(--color-aeblack-300);
 }
 
 /* ============================================

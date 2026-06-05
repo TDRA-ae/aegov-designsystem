@@ -15,10 +15,11 @@
   @apply @container;
   &.callout-soft {
     &.callout-default {
-      @apply bg-aeblack-50 text-aeblack-800 border-s-4 border-aeblack-800;
+      @apply bg-aeblack-50 text-aeblack-800 border-s-4 border-aeblack-800
+             dark:bg-aeblack-900 dark:text-whitely-100 dark:border-aeblack-300;
       & .callout__icon {
         & svg {
-          @apply fill-aeblack-800;
+          @apply fill-aeblack-800 dark:fill-whitely-100;
         }
       }
       & .callout__actions {
@@ -50,10 +51,11 @@
       }
     }
     &.callout-error {
-      @apply bg-aered-50 text-aered-700 border-s-4 border-aered-700;
+      @apply bg-aered-50 text-aered-700 border-s-4 border-aered-700
+             dark:bg-aered-950 dark:text-aered-200 dark:border-aered-400;
       & .callout__icon {
         & svg {
-          @apply fill-aered-700;
+          @apply fill-aered-700 dark:fill-aered-300;
         }
       }
       & .callout__actions {
@@ -85,10 +87,11 @@
       }
     }
     &.callout-success {
-      @apply bg-aegreen-50 text-aegreen-700 border-s-4 border-aegreen-700;
+      @apply bg-aegreen-50 text-aegreen-700 border-s-4 border-aegreen-700
+             dark:bg-aegreen-950 dark:text-aegreen-200 dark:border-aegreen-400;
       & .callout__icon {
         & svg {
-          @apply fill-aegreen-700;
+          @apply fill-aegreen-700 dark:fill-aegreen-300;
         }
       }
       & .callout__actions {
@@ -120,10 +123,11 @@
       }
     }
     &.callout-warning {
-      @apply bg-camel-50 text-camel-700 border-s-4 border-camel-700;
+      @apply bg-camel-50 text-camel-700 border-s-4 border-camel-700
+             dark:bg-camel-950 dark:text-camel-200 dark:border-camel-400;
       & .callout__icon {
         & svg {
-          @apply fill-camel-700;
+          @apply fill-camel-700 dark:fill-camel-300;
         }
       }
       & .callout__actions {
@@ -155,10 +159,11 @@
       }
     }
     &.callout-info {
-      @apply bg-techblue-50 text-techblue-700 border-s-4 border-techblue-700;
+      @apply bg-techblue-50 text-techblue-700 border-s-4 border-techblue-700
+             dark:bg-techblue-950 dark:text-techblue-200 dark:border-techblue-400;
       & .callout__icon {
         & svg {
-          @apply fill-techblue-700;
+          @apply fill-techblue-700 dark:fill-techblue-300;
         }
       }
       & .callout__actions {
@@ -192,10 +197,10 @@
   }
   &.callout-solid {
     &.callout-default {
-      @apply bg-aeblack-800 text-aeblack-50;
+      @apply bg-aeblack-800 text-aeblack-50 dark:bg-aeblack-700 dark:text-whitely-100;
       & .callout__icon {
         & svg {
-          @apply fill-aeblack-400;
+          @apply fill-aeblack-400 dark:fill-aeblack-200;
         }
       }
       & aegov-button button.btn-primary.btn-solid {
@@ -224,10 +229,10 @@
       }
     }
     &.callout-error {
-      @apply bg-aered-700 text-aered-50;
+      @apply bg-aered-700 text-aered-50 dark:bg-aered-600 dark:text-aered-50;
       & .callout__icon {
         & svg {
-          @apply fill-aered-300;
+          @apply fill-aered-300 dark:fill-aered-200;
         }
       }
       & .callout__actions {
@@ -259,10 +264,10 @@
       }
     }
     &.callout-success {
-      @apply bg-aegreen-700 text-aegreen-50;
+      @apply bg-aegreen-700 text-aegreen-50 dark:bg-aegreen-600 dark:text-aegreen-50;
       & .callout__icon {
         & svg {
-          @apply fill-aegreen-300;
+          @apply fill-aegreen-300 dark:fill-aegreen-200;
         }
       }
       & .callout__actions {
@@ -294,10 +299,10 @@
       }
     }
     &.callout-warning {
-      @apply bg-camel-700 text-camel-50;
+      @apply bg-camel-700 text-camel-50 dark:bg-camel-600 dark:text-camel-50;
       & .callout__icon {
         & svg {
-          @apply fill-camel-300;
+          @apply fill-camel-300 dark:fill-camel-200;
         }
       }
       & .callout__actions {
@@ -329,10 +334,10 @@
       }
     }
     &.callout-info {
-      @apply bg-techblue-700 text-techblue-50;
+      @apply bg-techblue-700 text-techblue-50 dark:bg-techblue-600 dark:text-techblue-50;
       & .callout__icon {
         & svg {
-          @apply fill-techblue-300;
+          @apply fill-techblue-300 dark:fill-techblue-200;
         }
       }
       & .callout__actions {
