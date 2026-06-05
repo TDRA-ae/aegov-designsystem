@@ -7,7 +7,7 @@
 
 @layer components {
   aegov-card {
-    @apply block bg-white;
+    @apply block bg-white dark:bg-aeblack-900;
   }
 
   /* Host radius mirrors size so consumer-painted bg
@@ -58,16 +58,16 @@
 .card-appearance-light.card-border-3   { @apply border-[3px]; }
 
 /* SOLID — base border colors per variant */
-.card-variant-primary.card-appearance-solid       { @apply border-primary-600; }
-.card-variant-secondary.card-appearance-solid     { @apply border-secondary-600; }
-.card-variant-neutral-max.card-appearance-solid   { @apply border-aeblack-800; }
-.card-variant-neutral-min.card-appearance-solid   { @apply border-aeblack-100; }
+.card-variant-primary.card-appearance-solid       { @apply border-primary-600 dark:border-primary-400; }
+.card-variant-secondary.card-appearance-solid     { @apply border-secondary-600 dark:border-secondary-400; }
+.card-variant-neutral-max.card-appearance-solid   { @apply border-aeblack-800 dark:border-aeblack-300; }
+.card-variant-neutral-min.card-appearance-solid   { @apply border-aeblack-100 dark:border-aeblack-700; }
 
 /* LIGHT — base border colors per variant */
-.card-variant-primary.card-appearance-light       { @apply border-primary-200; }
-.card-variant-secondary.card-appearance-light     { @apply border-secondary-200; }
-.card-variant-neutral-max.card-appearance-light   { @apply border-aeblack-400; }
-.card-variant-neutral-min.card-appearance-light   { @apply border-aeblack-50; }
+.card-variant-primary.card-appearance-light       { @apply border-primary-200 dark:border-primary-800; }
+.card-variant-secondary.card-appearance-light     { @apply border-secondary-200 dark:border-secondary-800; }
+.card-variant-neutral-max.card-appearance-light   { @apply border-aeblack-400 dark:border-aeblack-500; }
+.card-variant-neutral-min.card-appearance-light   { @apply border-aeblack-50 dark:border-aeblack-800; }
 
 /* ============================================
    APPEARANCE: CREATIVE (gradient ring via padding)
@@ -125,22 +125,22 @@
    ============================================ */
 
 .card-variant-primary.card-appearance-solid.card__hover-standard:hover,
-.card-variant-primary.card-appearance-solid.card__hover-glow:hover         { @apply border-primary-500; }
+.card-variant-primary.card-appearance-solid.card__hover-glow:hover         { @apply border-primary-500 dark:border-primary-300; }
 .card-variant-secondary.card-appearance-solid.card__hover-standard:hover,
-.card-variant-secondary.card-appearance-solid.card__hover-glow:hover       { @apply border-secondary-500; }
+.card-variant-secondary.card-appearance-solid.card__hover-glow:hover       { @apply border-secondary-500 dark:border-secondary-300; }
 .card-variant-neutral-max.card-appearance-solid.card__hover-standard:hover,
-.card-variant-neutral-max.card-appearance-solid.card__hover-glow:hover     { @apply border-aeblack-700; }
+.card-variant-neutral-max.card-appearance-solid.card__hover-glow:hover     { @apply border-aeblack-700 dark:border-aeblack-200; }
 .card-variant-neutral-min.card-appearance-solid.card__hover-standard:hover,
-.card-variant-neutral-min.card-appearance-solid.card__hover-glow:hover     { @apply border-aeblack-200; }
+.card-variant-neutral-min.card-appearance-solid.card__hover-glow:hover     { @apply border-aeblack-200 dark:border-aeblack-600; }
 
 .card-variant-primary.card-appearance-light.card__hover-standard:hover,
-.card-variant-primary.card-appearance-light.card__hover-glow:hover         { @apply border-primary-400; }
+.card-variant-primary.card-appearance-light.card__hover-glow:hover         { @apply border-primary-400 dark:border-primary-500; }
 .card-variant-secondary.card-appearance-light.card__hover-standard:hover,
-.card-variant-secondary.card-appearance-light.card__hover-glow:hover       { @apply border-secondary-400; }
+.card-variant-secondary.card-appearance-light.card__hover-glow:hover       { @apply border-secondary-400 dark:border-secondary-500; }
 .card-variant-neutral-max.card-appearance-light.card__hover-standard:hover,
-.card-variant-neutral-max.card-appearance-light.card__hover-glow:hover     { @apply border-aeblack-500; }
+.card-variant-neutral-max.card-appearance-light.card__hover-glow:hover     { @apply border-aeblack-500 dark:border-aeblack-400; }
 .card-variant-neutral-min.card-appearance-light.card__hover-standard:hover,
-.card-variant-neutral-min.card-appearance-light.card__hover-glow:hover     { @apply border-aeblack-100; }
+.card-variant-neutral-min.card-appearance-light.card__hover-glow:hover     { @apply border-aeblack-100 dark:border-aeblack-700; }
 
 /* ============================================
    HOVER gradient shifts (creative) — lighter
@@ -168,7 +168,7 @@
    Border / gradient shift handled in shared hover block above.
    ============================================ */
 
-.card-variant-primary.card__hover-glow:hover     { @apply shadow-lg shadow-primary-200/50; }
-.card-variant-secondary.card__hover-glow:hover   { @apply shadow-lg shadow-secondary-200/50; }
-.card-variant-neutral-max.card__hover-glow:hover { @apply shadow-lg shadow-aeblack-200/50; }
-.card-variant-neutral-min.card__hover-glow:hover { @apply shadow-lg shadow-aeblack-100/50; }
+.card-variant-primary.card__hover-glow:hover     { @apply shadow-lg shadow-primary-200/50 dark:shadow-primary-800/50; }
+.card-variant-secondary.card__hover-glow:hover   { @apply shadow-lg shadow-secondary-200/50 dark:shadow-secondary-800/50; }
+.card-variant-neutral-max.card__hover-glow:hover { @apply shadow-lg shadow-aeblack-200/50 dark:shadow-aeblack-700/50; }
+.card-variant-neutral-min.card__hover-glow:hover { @apply shadow-lg shadow-aeblack-100/50 dark:shadow-aeblack-800/50; }

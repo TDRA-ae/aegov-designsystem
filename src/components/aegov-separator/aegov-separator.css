@@ -48,23 +48,23 @@ aegov-separator {
 
 /* SOLID — base shade per variant */
 .separator-variant-primary.separator-appearance-solid,
-.separator-variant-primary.separator-appearance-solid .separator__line       { @apply border-primary-600; }
+.separator-variant-primary.separator-appearance-solid .separator__line       { @apply border-primary-600 dark:border-primary-400; }
 .separator-variant-secondary.separator-appearance-solid,
-.separator-variant-secondary.separator-appearance-solid .separator__line     { @apply border-secondary-600; }
+.separator-variant-secondary.separator-appearance-solid .separator__line     { @apply border-secondary-600 dark:border-secondary-400; }
 .separator-variant-neutral-max.separator-appearance-solid,
-.separator-variant-neutral-max.separator-appearance-solid .separator__line   { @apply border-aeblack-800; }
+.separator-variant-neutral-max.separator-appearance-solid .separator__line   { @apply border-aeblack-800 dark:border-aeblack-300; }
 .separator-variant-neutral-min.separator-appearance-solid,
-.separator-variant-neutral-min.separator-appearance-solid .separator__line   { @apply border-aeblack-100; }
+.separator-variant-neutral-min.separator-appearance-solid .separator__line   { @apply border-aeblack-100 dark:border-aeblack-700; }
 
 /* LIGHT — subtle shade per variant */
 .separator-variant-primary.separator-appearance-light,
-.separator-variant-primary.separator-appearance-light .separator__line       { @apply border-primary-200; }
+.separator-variant-primary.separator-appearance-light .separator__line       { @apply border-primary-200 dark:border-primary-800; }
 .separator-variant-secondary.separator-appearance-light,
-.separator-variant-secondary.separator-appearance-light .separator__line     { @apply border-secondary-200; }
+.separator-variant-secondary.separator-appearance-light .separator__line     { @apply border-secondary-200 dark:border-secondary-800; }
 .separator-variant-neutral-max.separator-appearance-light,
-.separator-variant-neutral-max.separator-appearance-light .separator__line   { @apply border-aeblack-400; }
+.separator-variant-neutral-max.separator-appearance-light .separator__line   { @apply border-aeblack-400 dark:border-aeblack-500; }
 .separator-variant-neutral-min.separator-appearance-light,
-.separator-variant-neutral-min.separator-appearance-light .separator__line   { @apply border-aeblack-50; }
+.separator-variant-neutral-min.separator-appearance-light .separator__line   { @apply border-aeblack-50 dark:border-aeblack-800; }
 
 /* ============================================
    TEXT label — colour matches variant family
@@ -75,7 +75,7 @@ aegov-separator {
   @apply text-sm px-2;
 }
 
-.separator-variant-primary .separator__text     { @apply text-primary-700; }
-.separator-variant-secondary .separator__text   { @apply text-secondary-700; }
-.separator-variant-neutral-max .separator__text { @apply text-aeblack-800; }
-.separator-variant-neutral-min .separator__text { @apply text-aeblack-600; }
+.separator-variant-primary .separator__text     { @apply text-primary-700 dark:text-primary-300; }
+.separator-variant-secondary .separator__text   { @apply text-secondary-700 dark:text-secondary-300; }
+.separator-variant-neutral-max .separator__text { @apply text-aeblack-800 dark:text-whitely-100; }
+.separator-variant-neutral-min .separator__text { @apply text-aeblack-600 dark:text-aeblack-300; }

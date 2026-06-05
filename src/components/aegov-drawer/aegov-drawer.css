@@ -55,6 +55,11 @@
   @apply bg-aeblack-900/70;
 }
 
+/* Shadow DOM dark mode — :host-context(.dark) pierces shadow boundary. */
+:host-context(.dark) .drawer-backdrop--light { @apply bg-aeblack-950/50; }
+:host-context(.dark) .drawer-backdrop--base  { @apply bg-aeblack-950/70; }
+:host-context(.dark) .drawer-backdrop--dark  { @apply bg-aeblack-950/85; }
+
 /* Invisible backdrop (overlay=false, closeWithBackdrop=true) */
 .aegov-drawer-backdrop-invisible {
   @apply fixed inset-0;
@@ -67,8 +72,12 @@
    ============================================ */
 
 .aegov-drawer-container {
-  @apply fixed bg-whitely-50 shadow-xl overflow-y-auto;
+  @apply fixed bg-whitely-50 text-aeblack-800 shadow-xl overflow-y-auto;
   z-index: calc(var(--drawer-z-index) + 1);
+}
+
+:host-context(.dark) .aegov-drawer-container {
+  @apply bg-aeblack-900 text-whitely-100;
 }
 
 /* ============================================
@@ -294,6 +303,10 @@
 .aegov-drawer-container::-webkit-scrollbar-thumb:hover {
   @apply bg-aeblack-400;
 }
+
+:host-context(.dark) .aegov-drawer-container::-webkit-scrollbar-track { @apply bg-aeblack-800; }
+:host-context(.dark) .aegov-drawer-container::-webkit-scrollbar-thumb { @apply bg-aeblack-600; }
+:host-context(.dark) .aegov-drawer-container::-webkit-scrollbar-thumb:hover { @apply bg-aeblack-500; }
 
 /* ============================================
    Accessibility — Reduced Motion
