@@ -19,7 +19,7 @@
 .aegov-form-field:has(aegov-textarea[disabled]) .aegov-label,
 .aegov-form-field:has(aegov-select[disabled]) .aegov-label,
 .aegov-form-field:has(aegov-checkbox[disabled]) .aegov-label {
-  @apply text-aeblack-200;
+  @apply text-aeblack-200 dark:text-aeblack-600;
 }
 
 .aegov-form-field:has(aegov-checkbox[disabled]) .aegov-label {

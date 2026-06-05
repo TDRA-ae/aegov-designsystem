@@ -27,17 +27,17 @@
   }
 }
 /* Variant — rest border, checked bg+border, hover halo per colour family */
-.aegov-radio.radio-variant-primary input[type="radio"]       { @apply border-primary-600 checked:bg-primary-600 focus-visible:outline-primary-support-600; }
-.aegov-radio.radio-variant-primary input[type="radio"]::before { @apply bg-primary-50; }
+.aegov-radio.radio-variant-primary input[type="radio"]       { @apply border-primary-600 checked:bg-primary-600 focus-visible:outline-primary-support-600 dark:border-primary-400 dark:checked:bg-primary-500 dark:focus-visible:outline-primary-support-400; }
+.aegov-radio.radio-variant-primary input[type="radio"]::before { @apply bg-primary-50 dark:bg-primary-900/40; }
 
-.aegov-radio.radio-variant-secondary input[type="radio"]     { @apply border-secondary-600 checked:bg-secondary-600 focus-visible:outline-secondary-support-600; }
-.aegov-radio.radio-variant-secondary input[type="radio"]::before { @apply bg-secondary-50; }
+.aegov-radio.radio-variant-secondary input[type="radio"]     { @apply border-secondary-600 checked:bg-secondary-600 focus-visible:outline-secondary-support-600 dark:border-secondary-400 dark:checked:bg-secondary-500 dark:focus-visible:outline-secondary-support-400; }
+.aegov-radio.radio-variant-secondary input[type="radio"]::before { @apply bg-secondary-50 dark:bg-secondary-900/40; }
 
-.aegov-radio.radio-variant-neutral-max input[type="radio"]   { @apply border-aeblack-800 checked:bg-aeblack-800 focus-visible:outline-seablue-600; }
-.aegov-radio.radio-variant-neutral-max input[type="radio"]::before { @apply bg-aeblack-100; }
+.aegov-radio.radio-variant-neutral-max input[type="radio"]   { @apply border-aeblack-800 checked:bg-aeblack-800 focus-visible:outline-seablue-600 dark:border-aeblack-300 dark:checked:bg-aeblack-300 dark:focus-visible:outline-seablue-400; }
+.aegov-radio.radio-variant-neutral-max input[type="radio"]::before { @apply bg-aeblack-100 dark:bg-aeblack-700; }
 
-.aegov-radio.radio-variant-neutral-min input[type="radio"]   { @apply border-aeblack-300 checked:bg-aeblack-300 focus-visible:outline-seablue-600; }
-.aegov-radio.radio-variant-neutral-min input[type="radio"]::before { @apply bg-aeblack-50; }
+.aegov-radio.radio-variant-neutral-min input[type="radio"]   { @apply border-aeblack-300 checked:bg-aeblack-300 focus-visible:outline-seablue-600 dark:border-aeblack-500 dark:checked:bg-aeblack-500 dark:focus-visible:outline-seablue-400; }
+.aegov-radio.radio-variant-neutral-min input[type="radio"]::before { @apply bg-aeblack-50 dark:bg-aeblack-800; }
 
 /* Wrapper label for inline label mode */
 .radio__wrapper {
@@ -53,11 +53,11 @@
 }
 
 .radio__label-text {
-  @apply text-base text-aeblack-800;
+  @apply text-base text-aeblack-800 dark:text-whitely-100;
 }
 
 .radio__hint {
-  @apply text-aeblack-500;
+  @apply text-aeblack-500 dark:text-aeblack-400;
 }
 
 /* ========================================
@@ -203,9 +203,9 @@
 /* Validation surface (Layer 1) — see validation-engine-addon.md §2.6 */
 
 aegov-radio.is-invalid .radio__wrapper input[type="radio"] {
-  @apply ring-2 ring-aered-600;
+  @apply ring-2 ring-aered-600 dark:ring-aered-500;
 }
 
 .aegov-radio__error {
-  @apply text-sm text-aered-600 mt-1.5 flex items-start gap-1.5 leading-snug;
+  @apply text-sm text-aered-600 mt-1.5 flex items-start gap-1.5 leading-snug dark:text-aered-400;
 }

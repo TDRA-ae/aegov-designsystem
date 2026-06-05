@@ -27,12 +27,12 @@
    ============================================ */
 
 .otp__cell {
-  @apply text-center font-extrabold bg-white outline-none w-full box-content px-1;
+  @apply text-center font-extrabold bg-white outline-none w-full box-content px-1 dark:bg-aeblack-800;
   transition: background-color 150ms ease, border-color 150ms ease, box-shadow 150ms ease;
 }
 
 .otp__cell:disabled {
-  @apply bg-aeblack-100 text-aeblack-400 cursor-not-allowed;
+  @apply bg-aeblack-100 text-aeblack-400 cursor-not-allowed dark:bg-aeblack-900 dark:text-aeblack-500;
 }
 
 /* ============================================
@@ -44,28 +44,28 @@
    ============================================ */
 
 /* Cell text colour */
-.aegov-otp.otp-variant-primary       .otp__cell { @apply text-primary-900; }
-.aegov-otp.otp-variant-secondary     .otp__cell { @apply text-secondary-900; }
-.aegov-otp.otp-variant-neutral-max   .otp__cell { @apply text-aeblack-950; }
-.aegov-otp.otp-variant-neutral-min   .otp__cell { @apply text-aeblack-700; }
+.aegov-otp.otp-variant-primary       .otp__cell { @apply text-primary-900 dark:text-whitely-100; }
+.aegov-otp.otp-variant-secondary     .otp__cell { @apply text-secondary-900 dark:text-whitely-100; }
+.aegov-otp.otp-variant-neutral-max   .otp__cell { @apply text-aeblack-950 dark:text-whitely-100; }
+.aegov-otp.otp-variant-neutral-min   .otp__cell { @apply text-aeblack-700 dark:text-aeblack-200; }
 
 /* Continuous wrapper — single border around the row */
-.aegov-otp.otp-variant-primary       .otp__wrapper--continuous { @apply border-primary-600; }
-.aegov-otp.otp-variant-secondary     .otp__wrapper--continuous { @apply border-secondary-600; }
-.aegov-otp.otp-variant-neutral-max   .otp__wrapper--continuous { @apply border-aeblack-800; }
-.aegov-otp.otp-variant-neutral-min   .otp__wrapper--continuous { @apply border-aeblack-300; }
+.aegov-otp.otp-variant-primary       .otp__wrapper--continuous { @apply border-primary-600 dark:border-primary-400; }
+.aegov-otp.otp-variant-secondary     .otp__wrapper--continuous { @apply border-secondary-600 dark:border-secondary-400; }
+.aegov-otp.otp-variant-neutral-max   .otp__wrapper--continuous { @apply border-aeblack-800 dark:border-aeblack-300; }
+.aegov-otp.otp-variant-neutral-min   .otp__wrapper--continuous { @apply border-aeblack-300 dark:border-aeblack-600; }
 
 /* Individual cells — border per cell */
-.aegov-otp.otp-variant-primary       .otp__wrapper--individual .otp__cell { @apply border-primary-600; }
-.aegov-otp.otp-variant-secondary     .otp__wrapper--individual .otp__cell { @apply border-secondary-600; }
-.aegov-otp.otp-variant-neutral-max   .otp__wrapper--individual .otp__cell { @apply border-aeblack-800; }
-.aegov-otp.otp-variant-neutral-min   .otp__wrapper--individual .otp__cell { @apply border-aeblack-300; }
+.aegov-otp.otp-variant-primary       .otp__wrapper--individual .otp__cell { @apply border-primary-600 dark:border-primary-400; }
+.aegov-otp.otp-variant-secondary     .otp__wrapper--individual .otp__cell { @apply border-secondary-600 dark:border-secondary-400; }
+.aegov-otp.otp-variant-neutral-max   .otp__wrapper--individual .otp__cell { @apply border-aeblack-800 dark:border-aeblack-300; }
+.aegov-otp.otp-variant-neutral-min   .otp__wrapper--individual .otp__cell { @apply border-aeblack-300 dark:border-aeblack-600; }
 
 /* Divider (continuous only) — same family shade as the wrapper border */
-.aegov-otp.otp-variant-primary       .otp__divider { @apply bg-primary-600; }
-.aegov-otp.otp-variant-secondary     .otp__divider { @apply bg-secondary-600; }
-.aegov-otp.otp-variant-neutral-max   .otp__divider { @apply bg-aeblack-800; }
-.aegov-otp.otp-variant-neutral-min   .otp__divider { @apply bg-aeblack-300; }
+.aegov-otp.otp-variant-primary       .otp__divider { @apply bg-primary-600 dark:bg-primary-400; }
+.aegov-otp.otp-variant-secondary     .otp__divider { @apply bg-secondary-600 dark:bg-secondary-400; }
+.aegov-otp.otp-variant-neutral-max   .otp__divider { @apply bg-aeblack-800 dark:bg-aeblack-300; }
+.aegov-otp.otp-variant-neutral-min   .otp__divider { @apply bg-aeblack-300 dark:bg-aeblack-600; }
 
 /* ============================================
    Variant focus — support-500 border + tinted bg + inset shadow.
@@ -79,19 +79,21 @@
 
 .aegov-otp.otp-variant-primary .otp__wrapper--continuous:has(.otp__cell:focus),
 .aegov-otp.otp-variant-primary .otp__wrapper--individual .otp__cell:focus {
-  @apply border-primary-support-500 bg-primary-support-50/10 inset-shadow-sm inset-shadow-primary-support-500/80;
+  @apply border-primary-support-500 bg-primary-support-50/10 inset-shadow-sm inset-shadow-primary-support-500/80
+         dark:border-primary-support-400 dark:bg-primary-support-900/20 dark:inset-shadow-primary-support-400/80;
 }
 
 .aegov-otp.otp-variant-secondary .otp__wrapper--continuous:has(.otp__cell:focus),
 .aegov-otp.otp-variant-secondary .otp__wrapper--individual .otp__cell:focus {
-  @apply border-secondary-support-500 bg-secondary-support-50/10 inset-shadow-sm inset-shadow-secondary-support-500/80;
+  @apply border-secondary-support-500 bg-secondary-support-50/10 inset-shadow-sm inset-shadow-secondary-support-500/80
+         dark:border-secondary-support-400 dark:bg-secondary-support-900/20 dark:inset-shadow-secondary-support-400/80;
 }
 
 .aegov-otp.otp-variant-neutral-max .otp__wrapper--continuous:has(.otp__cell:focus),
 .aegov-otp.otp-variant-neutral-max .otp__wrapper--individual .otp__cell:focus,
 .aegov-otp.otp-variant-neutral-min .otp__wrapper--continuous:has(.otp__cell:focus),
 .aegov-otp.otp-variant-neutral-min .otp__wrapper--individual .otp__cell:focus {
-  @apply border-seablue-500 inset-shadow-sm inset-shadow-seablue-500/80;
+  @apply border-seablue-500 inset-shadow-sm inset-shadow-seablue-500/80 dark:border-seablue-400 dark:inset-shadow-seablue-400/80;
 }
 
 /* Continuous focus — apply the inset-shadow + tinted bg on each cell so
@@ -149,7 +151,7 @@
 }
 
 .otp__wrapper--individual .otp__cell:disabled {
-  @apply border-aeblack-100;
+  @apply border-aeblack-100 dark:border-aeblack-700;
 }
 
 /* ============================================
@@ -157,7 +159,7 @@
    ============================================ */
 
 .otp__wrapper--continuous:has(.otp__cell:disabled) {
-  @apply border-aeblack-100;
+  @apply border-aeblack-100 dark:border-aeblack-700;
 }
 
 .otp__divider {
@@ -165,7 +167,7 @@
 }
 
 .otp__wrapper--continuous:has(.otp__cell:disabled) .otp__divider {
-  @apply bg-aeblack-200;
+  @apply bg-aeblack-200 dark:bg-aeblack-700;
 }
 
 /* ============================================
@@ -203,20 +205,20 @@
 
 aegov-otp.is-invalid .otp__wrapper--continuous,
 aegov-otp.is-invalid .otp__cell {
-  @apply border-aered-600;
+  @apply border-aered-600 dark:border-aered-500;
 }
 
 aegov-otp.is-invalid .otp__divider {
-  @apply bg-aered-600;
+  @apply bg-aered-600 dark:bg-aered-500;
 }
 
 aegov-otp.is-invalid .otp__wrapper--continuous:has(.otp__cell:focus),
 aegov-otp.is-invalid .otp__wrapper--individual .otp__cell:focus {
-  @apply border-aered-500 inset-shadow-sm inset-shadow-aered-500/80;
+  @apply border-aered-500 inset-shadow-sm inset-shadow-aered-500/80 dark:border-aered-400 dark:inset-shadow-aered-400/80;
 }
 
 aegov-otp.is-invalid .otp__wrapper--continuous:has(.otp__cell:focus) .otp__divider {
-  @apply bg-aered-500;
+  @apply bg-aered-500 dark:bg-aered-400;
 }
 
 /* Invalid + continuous focus — cells carry red inset-shadow + bg tint
@@ -228,9 +230,9 @@ aegov-otp.is-invalid .otp__wrapper--continuous:has(.otp__cell:focus) .otp__cell 
 }
 
 .aegov-otp__error {
-  @apply text-sm text-aered-600 mt-1.5 flex items-start gap-1.5 leading-snug;
+  @apply text-sm text-aered-600 mt-1.5 flex items-start gap-1.5 leading-snug dark:text-aered-400;
 }
 
 .aegov-otp__hint {
-  @apply text-sm text-aeblack-600 mt-1.5 leading-snug;
+  @apply text-sm text-aeblack-600 mt-1.5 leading-snug dark:text-aeblack-300;
 }
