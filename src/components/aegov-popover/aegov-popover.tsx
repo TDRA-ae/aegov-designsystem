@@ -15,15 +15,15 @@ const ctx = (prop: string) => ({ component: TAG, prop });
  * Portal elements live outside Stencil's scope, so Tailwind utilities aren't available.
  */
 const PORTAL_TOKENS = {
-  borderColor: 'oklch(0.817 0.014 264.536)',   // --color-slate-300
   shadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
   radius: '0.5rem',
   transition: 'opacity 200ms ease-in-out, transform 200ms ease-in-out',
   arrowSize: '10px',
-  arrowBg: '#ffffff',
 } as const;
 
-/** CSS injected into the portal element (scoped CSS can't reach it). */
+/** CSS injected into the portal element (scoped CSS can't reach it).
+ * Theme color vars from tailwind.css @theme cascade into the portal via :root.
+ * `.dark` selector overrides apply via the <html class="dark"> ancestor. */
 const POPOVER_PORTAL_STYLES = `
   .aegov-popover-portal {
     position: fixed;
@@ -34,8 +34,9 @@ const POPOVER_PORTAL_STYLES = `
   }
 
   .aegov-popover-portal .aegov-popover {
-    background: ${PORTAL_TOKENS.arrowBg};
-    border: 1px solid ${PORTAL_TOKENS.borderColor};
+    background: var(--color-whitely-50);
+    color: var(--color-aeblack-800);
+    border: 1px solid var(--color-aeblack-200);
     border-radius: ${PORTAL_TOKENS.radius};
     box-shadow: ${PORTAL_TOKENS.shadow};
     position: fixed;
@@ -50,6 +51,12 @@ const POPOVER_PORTAL_STYLES = `
     transition: ${PORTAL_TOKENS.transition};
   }
 
+  .dark .aegov-popover-portal .aegov-popover {
+    background: var(--color-aeblack-900);
+    color: var(--color-whitely-100);
+    border-color: var(--color-aeblack-700);
+  }
+
   .aegov-popover-portal .aegov-popover[data-state="open"] {
     opacity: 1;
     transform: scale(1);
@@ -58,6 +65,11 @@ const POPOVER_PORTAL_STYLES = `
   .aegov-popover-portal .aegov-popover a {
     display: block;
     margin: 0;
+    color: var(--color-primary-600);
+  }
+
+  .dark .aegov-popover-portal .aegov-popover a {
+    color: var(--color-primary-400);
   }
 
   /* Arrow base */
@@ -65,10 +77,15 @@ const POPOVER_PORTAL_STYLES = `
     position: absolute;
     width: ${PORTAL_TOKENS.arrowSize};
     height: ${PORTAL_TOKENS.arrowSize};
-    background: ${PORTAL_TOKENS.arrowBg};
-    border: 1px solid ${PORTAL_TOKENS.borderColor};
+    background: var(--color-whitely-50);
+    border: 1px solid var(--color-aeblack-200);
     transform: rotate(45deg);
     z-index: -1;
+  }
+
+  .dark .aegov-popover-portal .aegov-popover__arrow {
+    background: var(--color-aeblack-900);
+    border-color: var(--color-aeblack-700);
   }
 
   /* Position-specific arrow: hide borders that face inside the popover */

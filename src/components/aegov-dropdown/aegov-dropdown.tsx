@@ -17,14 +17,15 @@ const ctx = (prop: string) => ({ component: TAG, prop });
  * these CSS values must be injected via JS. Keep in sync with the Tailwind theme.
  */
 const PORTAL_TOKENS = {
-  borderColor: 'oklch(0.817 0.014 264.536)',   // --color-slate-300
-  dividerColor: 'oklch(0.896 0.006 264.531)',   // --color-slate-200
   shadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
   radius: '0.5rem',
   transition: 'opacity 200ms ease-in-out, transform 200ms ease-in-out',
 } as const;
 
-/** CSS injected into the portal element (scoped CSS can't reach it). */
+/** CSS injected into the portal element (scoped CSS can't reach it).
+ * Theme color vars from tailwind.css @theme are declared on :root, so they
+ * inherit into the portal (document.body descendant). `.dark` on <html>
+ * provides dark-mode overrides via the `.dark` selector branch below. */
 const DROPDOWN_PORTAL_STYLES = `
   .aegov-dropdown-portal {
     position: fixed;
@@ -35,8 +36,9 @@ const DROPDOWN_PORTAL_STYLES = `
   }
 
   .aegov-dropdown-portal .aegov-dropdown {
-    background: white;
-    border: 1px solid ${PORTAL_TOKENS.borderColor};
+    background: var(--color-whitely-50);
+    color: var(--color-aeblack-800);
+    border: 1px solid var(--color-aeblack-200);
     border-radius: ${PORTAL_TOKENS.radius};
     box-shadow: ${PORTAL_TOKENS.shadow};
     position: fixed;
@@ -51,6 +53,12 @@ const DROPDOWN_PORTAL_STYLES = `
     transition: ${PORTAL_TOKENS.transition};
   }
 
+  .dark .aegov-dropdown-portal .aegov-dropdown {
+    background: var(--color-aeblack-900);
+    color: var(--color-whitely-100);
+    border-color: var(--color-aeblack-700);
+  }
+
   .aegov-dropdown-portal .aegov-dropdown[data-state="open"] {
     opacity: 1;
     transform: scale(1);
@@ -58,13 +66,22 @@ const DROPDOWN_PORTAL_STYLES = `
 
   .aegov-dropdown-portal .aegov-dropdown hr {
     border: none;
-    border-top: 1px solid ${PORTAL_TOKENS.dividerColor};
+    border-top: 1px solid var(--color-aeblack-100);
     margin: 0.5rem 0;
+  }
+
+  .dark .aegov-dropdown-portal .aegov-dropdown hr {
+    border-top-color: var(--color-aeblack-700);
   }
 
   .aegov-dropdown-portal .aegov-dropdown a {
     display: block;
     margin: 0;
+    color: var(--color-primary-600);
+  }
+
+  .dark .aegov-dropdown-portal .aegov-dropdown a {
+    color: var(--color-primary-400);
   }
 
   .aegov-dropdown-portal .aegov-dropdown a[aria-disabled="true"],
