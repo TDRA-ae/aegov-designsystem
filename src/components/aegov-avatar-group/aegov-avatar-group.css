@@ -18,6 +18,13 @@
     @apply ring-2;
     --tw-ring-color: var(--avatar-group-ring-color, white);
   }
+}
+
+.dark .avatar-group--compact > aegov-avatar:not(:first-child) .aegov-avatar {
+  --tw-ring-color: var(--avatar-group-ring-color, var(--color-aeblack-900));
+}
+
+.avatar-group--compact {
 
   /* Size-specific negative margins for compact overlap */
   &.avatar-group--xs > aegov-avatar:not(:first-child) {
@@ -79,17 +86,21 @@
  * specificity class rule below (rounded / rounded-full), but flex-wrap
  * and padding need an explicit author-level declaration to win reliably.
  */
+.dark .avatar-group__more {
+  --tw-ring-color: var(--avatar-group-ring-color, var(--color-aeblack-900));
+}
+
 .avatar-group__more {
-  @apply inline-flex items-center justify-center leading-none rounded bg-primary-100 text-primary-800 font-semibold cursor-pointer border-0 ring-2 flex-nowrap p-0!;
+  @apply inline-flex items-center justify-center leading-none rounded bg-primary-100 text-primary-800 font-semibold cursor-pointer border-0 ring-2 flex-nowrap p-0! dark:bg-primary-800 dark:text-primary-100;
   --tw-ring-color: var(--avatar-group-ring-color, white);
   transition: background-color 200ms ease-in-out;
 
   &:hover {
-    @apply bg-primary-500 text-primary-50;
+    @apply bg-primary-500 text-primary-50 dark:bg-primary-600 dark:text-primary-50;
   }
 
   &:focus-visible {
-    @apply outline-2 outline-offset-2 outline-primary-500;
+    @apply outline-2 outline-offset-2 outline-primary-500 dark:outline-primary-400;
   }
 
   /* Size classes matching avatar sizes */

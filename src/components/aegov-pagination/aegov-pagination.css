@@ -28,27 +28,27 @@
          transition-colors duration-150 ease-in-out
          select-none whitespace-nowrap;
   /* focus ring */
-  @apply focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-600;
+  @apply focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-600 dark:focus-visible:outline-primary-400;
 }
 
 /* ---- Page number button ---- */
 
 .pagination__btn--page {
-  @apply bg-white text-aeblack-800 border-neutral-200;
-  @apply hover:bg-primary-50 hover:text-primary-700 hover:border-primary-200;
+  @apply bg-white text-aeblack-800 border-neutral-200 dark:bg-aeblack-800 dark:text-whitely-100 dark:border-aeblack-700;
+  @apply hover:bg-primary-50 hover:text-primary-700 hover:border-primary-200 dark:hover:bg-primary-900/30 dark:hover:text-primary-300 dark:hover:border-primary-700;
 }
 
 /* Active page */
 .pagination__btn--page.pagination__btn--active {
-  @apply bg-primary-600 text-white border-primary-600 cursor-default;
-  @apply hover:bg-primary-600 hover:text-white hover:border-primary-600;
+  @apply bg-primary-600 text-white border-primary-600 cursor-default dark:bg-primary-500 dark:text-aeblack-950 dark:border-primary-500;
+  @apply hover:bg-primary-600 hover:text-white hover:border-primary-600 dark:hover:bg-primary-500 dark:hover:text-aeblack-950 dark:hover:border-primary-500;
 }
 
 /* ---- Nav button (Prev / Next / First / Last) ---- */
 
 .pagination__btn--nav {
-  @apply bg-white text-aeblack-700 border-neutral-200;
-  @apply hover:bg-primary-50 hover:text-primary-700 hover:border-primary-200;
+  @apply bg-white text-aeblack-700 border-neutral-200 dark:bg-aeblack-800 dark:text-aeblack-200 dark:border-aeblack-700;
+  @apply hover:bg-primary-50 hover:text-primary-700 hover:border-primary-200 dark:hover:bg-primary-900/30 dark:hover:text-primary-300 dark:hover:border-primary-700;
 }
 
 /* ---- Disabled ---- */
@@ -65,7 +65,7 @@
 }
 
 .pagination__ellipsis {
-  @apply text-aeblack-500 font-medium select-none;
+  @apply text-aeblack-500 font-medium select-none dark:text-aeblack-400;
 }
 
 /* ---- Icon ---- */
@@ -87,7 +87,7 @@
 
 .pagination__compact-indicator {
   @apply inline-flex items-center justify-center
-         font-medium text-aeblack-700 tabular-nums select-none whitespace-nowrap;
+         font-medium text-aeblack-700 tabular-nums select-none whitespace-nowrap dark:text-aeblack-200;
 }
 
 .pagination--sm .pagination__compact-indicator {

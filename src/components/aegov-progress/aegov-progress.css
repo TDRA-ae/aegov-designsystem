@@ -31,7 +31,7 @@
    ============================================ */
 
 .progress__track {
-  @apply relative flex-1 min-w-0 rounded-full bg-aeblack-200 overflow-hidden;
+  @apply relative flex-1 min-w-0 rounded-full bg-aeblack-200 overflow-hidden dark:bg-aeblack-700;
 }
 
 /* ============================================
@@ -39,7 +39,7 @@
    ============================================ */
 
 .progress__fill {
-  @apply absolute inset-y-0 rounded-full bg-primary-600;
+  @apply absolute inset-y-0 rounded-full bg-primary-600 dark:bg-primary-500;
   inset-inline-start: 0;
   transition: width 300ms ease-in-out;
 }
@@ -62,6 +62,16 @@
   animation: progress-stripe 0.8s linear infinite;
 }
 
+.dark .progress__track--indeterminate::after {
+  background-image: repeating-linear-gradient(
+    -45deg,
+    theme('colors.primary.500') 0,
+    theme('colors.primary.500') 8px,
+    theme('colors.primary.400') 8px,
+    theme('colors.primary.400') 16px
+  );
+}
+
 @keyframes progress-stripe {
   0% { background-position: 0 0; }
   100% { background-position: 32px 0; }
@@ -72,7 +82,7 @@
    ============================================ */
 
 .progress__counter {
-  @apply text-sm text-aeblack-600 font-medium whitespace-nowrap select-none;
+  @apply text-sm text-aeblack-600 font-medium whitespace-nowrap select-none dark:text-aeblack-300;
   font-variant-numeric: tabular-nums;
 }
 
@@ -101,5 +111,5 @@
    ============================================ */
 
 .progress__description {
-  @apply text-sm text-aeblack-500 mt-1;
+  @apply text-sm text-aeblack-500 mt-1 dark:text-aeblack-400;
 }

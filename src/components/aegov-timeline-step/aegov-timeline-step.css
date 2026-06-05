@@ -61,15 +61,15 @@
 
 /* Status colors — primary palette */
 .step__indicator--completed {
-  @apply bg-primary-600 text-white;
+  @apply bg-primary-600 text-white dark:bg-primary-500 dark:text-primary-50;
 }
 
 .step__indicator--active {
-  @apply bg-white border-2 border-primary-600 text-primary-600;
+  @apply bg-white border-2 border-primary-600 text-primary-600 dark:bg-aeblack-900 dark:border-primary-400 dark:text-primary-300;
 }
 
 .step__indicator--pending {
-  @apply bg-slate-200 text-slate-400;
+  @apply bg-slate-200 text-slate-400 dark:bg-aeblack-700 dark:text-aeblack-400;
 }
 
 /* Checkmark icon */
@@ -102,16 +102,20 @@
 
 /* Dot status colors — primary palette */
 .step__dot--completed {
-  @apply bg-primary-600;
+  @apply bg-primary-600 dark:bg-primary-400;
 }
 
 .step__dot--active {
-  @apply bg-primary-600;
+  @apply bg-primary-600 dark:bg-primary-400;
   box-shadow: 0 0 0 3px oklch(66% 0.114 80.7 / 0.3);
 }
 
+.dark .step__dot--active {
+  box-shadow: 0 0 0 3px oklch(73.4% 0.121 85.9 / 0.4);
+}
+
 .step__dot--pending {
-  @apply bg-slate-300;
+  @apply bg-slate-300 dark:bg-aeblack-600;
 }
 
 /* ============================================
@@ -146,7 +150,7 @@
    ============================================ */
 
 .step__connector--solid {
-  @apply bg-primary-500;
+  @apply bg-primary-500 dark:bg-primary-400;
 }
 
 .step__connector--dashed {
@@ -159,11 +163,31 @@
   );
 }
 
+.dark .step__connector--dashed {
+  background: repeating-linear-gradient(
+    to right,
+    theme(colors.aeblack.600) 0,
+    theme(colors.aeblack.600) 6px,
+    transparent 6px,
+    transparent 12px
+  );
+}
+
 .step__connector--dashed.step__connector--vertical {
   background: repeating-linear-gradient(
     to bottom,
     theme(colors.slate.300) 0,
     theme(colors.slate.300) 6px,
+    transparent 6px,
+    transparent 12px
+  );
+}
+
+.dark .step__connector--dashed.step__connector--vertical {
+  background: repeating-linear-gradient(
+    to bottom,
+    theme(colors.aeblack.600) 0,
+    theme(colors.aeblack.600) 6px,
     transparent 6px,
     transparent 12px
   );
@@ -201,15 +225,15 @@
 }
 
 .step__label--completed {
-  @apply text-primary-800 font-medium;
+  @apply text-primary-800 font-medium dark:text-primary-200;
 }
 
 .step__label--active {
-  @apply text-aeblack-800 font-semibold;
+  @apply text-aeblack-800 font-semibold dark:text-whitely-100;
 }
 
 .step__label--pending {
-  @apply text-aeblack-400;
+  @apply text-aeblack-400 dark:text-aeblack-500;
 }
 
 .step__description {
@@ -217,15 +241,15 @@
 }
 
 .step__description--completed {
-  @apply text-primary-700;
+  @apply text-primary-700 dark:text-primary-300;
 }
 
 .step__description--active {
-  @apply text-aeblack-600;
+  @apply text-aeblack-600 dark:text-aeblack-300;
 }
 
 .step__description--pending {
-  @apply text-slate-400;
+  @apply text-slate-400 dark:text-aeblack-500;
 }
 
 /* ============================================

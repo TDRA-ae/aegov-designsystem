@@ -7,11 +7,11 @@
 }
 
 .aegov-navblock--bordered {
-  @apply border border-aeblack-100 rounded-lg p-3;
+  @apply border border-aeblack-100 rounded-lg p-3 dark:border-aeblack-700;
 }
 
 .aegov-navblock__title {
-  @apply text-aeblack-500 font-semibold uppercase tracking-wide mb-2 pe-3 text-xs tracking-wider;
+  @apply text-aeblack-500 font-semibold uppercase tracking-wide mb-2 pe-3 text-xs tracking-wider dark:text-aeblack-400;
 }
 
 .navblock--sm .aegov-navblock__title {

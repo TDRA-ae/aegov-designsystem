@@ -5,7 +5,7 @@
 .aegov-accordion {
   @apply rounded-md overflow-hidden bg-transparent;
   &.aegov-accordion__bordered {
-    @apply border border-aeblack-100 rounded-lg;
+    @apply border border-aeblack-100 rounded-lg dark:border-aeblack-700;
     & .accordion-item__first, & .accordion-item__last {
       @apply !border-t-0;
     }
