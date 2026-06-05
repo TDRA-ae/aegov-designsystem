@@ -14,23 +14,14 @@ The `aegov-banner` component renders a full-width container fixed to the top or 
 
 <div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <div class="relative h-32 overflow-hidden rounded">
-    <div class="aegov-banner banner--fixed banner--top banner--push banner--soft banner--info banner--base" style="position:absolute;top:0;left:0;right:0;">
-      <div class="banner__container">
-        <div class="banner__content">
-          <div class="banner__text banner__text-center">
-            Scheduled maintenance: Government services will be briefly unavailable on Friday 03:00&ndash;05:00 GST.
-          </div>
-        </div>
-        <button type="button" class="banner__dismiss" aria-label="Close banner">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"><line x1="200" y1="56" x2="56" y2="200" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="24"/><line x1="200" y1="200" x2="56" y2="56" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="24"/></svg>
-        </button>
-      </div>
-    </div>
+    <aegov-banner variant="info" display="sticky" mode="overlay">
+      Scheduled maintenance: Government services will be briefly unavailable on Friday 03:00&ndash;05:00 GST.
+    </aegov-banner>
   </div>
-  <p class="text-sm text-aeblack-500 mt-3">A static preview is shown above. Live banners are demonstrated on the dedicated banner page so they don't disturb this documentation page.</p>
+  <p class="text-sm text-aeblack-500 mt-3">The banner above is a real <code>&lt;aegov-banner&gt;</code> rendered inside a bounded container so it stays in place for the demo.</p>
 </div>
 
-> Live banners physically pin themselves to the top or bottom of the page and add padding to `<body>`. To avoid disrupting this documentation page the demos below are shown as static previews using the same CSS classes as the real component. Visit the banner example page to see the banner working in a full page context.
+> The demos on this page use `display="sticky" mode="overlay"` and are placed inside bounded containers so the banners don't pin to the page viewport or add padding to `<body>`. In production you typically want `display="fixed" mode="push"` instead.
 
 ---
 
@@ -46,32 +37,12 @@ The `variant` property sets the colour scheme and the implicit ARIA role. `error
 <aegov-banner variant="error">The service is currently unavailable.</aegov-banner>
 ```
 
-<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <div class="aegov-banner banner--sticky banner--top banner--push banner--soft banner--default banner--base mb-3" style="position:relative;">
-    <div class="banner__container">
-      <div class="banner__content"><div class="banner__text banner__text-center">A neutral, informational message.</div></div>
-    </div>
-  </div>
-  <div class="aegov-banner banner--sticky banner--top banner--push banner--soft banner--info banner--base mb-3" style="position:relative;">
-    <div class="banner__container">
-      <div class="banner__content"><div class="banner__text banner__text-center">Useful information about your service.</div></div>
-    </div>
-  </div>
-  <div class="aegov-banner banner--sticky banner--top banner--push banner--soft banner--success banner--base mb-3" style="position:relative;">
-    <div class="banner__container">
-      <div class="banner__content"><div class="banner__text banner__text-center">Your Emirates ID renewal application has been received.</div></div>
-    </div>
-  </div>
-  <div class="aegov-banner banner--sticky banner--top banner--push banner--soft banner--warning banner--base mb-3" style="position:relative;">
-    <div class="banner__container">
-      <div class="banner__content"><div class="banner__text banner__text-center">Your residency permit expires in 14 days &mdash; renew before 15 May.</div></div>
-    </div>
-  </div>
-  <div class="aegov-banner banner--sticky banner--top banner--push banner--soft banner--error banner--base" style="position:relative;">
-    <div class="banner__container">
-      <div class="banner__content"><div class="banner__text banner__text-center">The payment gateway is temporarily unavailable. Please try again shortly.</div></div>
-    </div>
-  </div>
+<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov space-y-3">
+  <aegov-banner variant="default" display="sticky" mode="overlay" is-dismissible="false">A neutral, informational message.</aegov-banner>
+  <aegov-banner variant="info"    display="sticky" mode="overlay" is-dismissible="false">Useful information about your service.</aegov-banner>
+  <aegov-banner variant="success" display="sticky" mode="overlay" is-dismissible="false">Your Emirates ID renewal application has been received.</aegov-banner>
+  <aegov-banner variant="warning" display="sticky" mode="overlay" is-dismissible="false">Your residency permit expires in 14 days &mdash; renew before 15 May.</aegov-banner>
+  <aegov-banner variant="error"   display="sticky" mode="overlay" is-dismissible="false">The payment gateway is temporarily unavailable. Please try again shortly.</aegov-banner>
 </div>
 
 ---
@@ -90,17 +61,9 @@ The `appearance` property switches between two styles. `soft` (default) uses a t
 </aegov-banner>
 ```
 
-<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <div class="aegov-banner banner--sticky banner--top banner--push banner--soft banner--warning banner--base mb-3" style="position:relative;">
-    <div class="banner__container">
-      <div class="banner__content"><div class="banner__text banner__text-center">Soft &mdash; scheduled maintenance window starts at 22:00 tonight.</div></div>
-    </div>
-  </div>
-  <div class="aegov-banner banner--sticky banner--top banner--push banner--solid banner--error banner--base" style="position:relative;">
-    <div class="banner__container">
-      <div class="banner__content"><div class="banner__text banner__text-center">Solid &mdash; critical: identity verification service outage.</div></div>
-    </div>
-  </div>
+<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov space-y-3">
+  <aegov-banner appearance="soft"  variant="warning" display="sticky" mode="overlay" is-dismissible="false">Soft &mdash; scheduled maintenance window starts at 22:00 tonight.</aegov-banner>
+  <aegov-banner appearance="solid" variant="error"   display="sticky" mode="overlay" is-dismissible="false">Solid &mdash; critical: identity verification service outage.</aegov-banner>
 </div>
 
 ---
@@ -171,22 +134,10 @@ The `size` property scales font size and vertical padding. Three tokens are avai
 <aegov-banner size="lg" variant="info">Large banner</aegov-banner>
 ```
 
-<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <div class="aegov-banner banner--sticky banner--top banner--push banner--soft banner--info banner--sm mb-3" style="position:relative;">
-    <div class="banner__container">
-      <div class="banner__content"><div class="banner__text banner__text-center">Small &mdash; UAE Pass authentication is now available for citizens and residents.</div></div>
-    </div>
-  </div>
-  <div class="aegov-banner banner--sticky banner--top banner--push banner--soft banner--info banner--base mb-3" style="position:relative;">
-    <div class="banner__container">
-      <div class="banner__content"><div class="banner__text banner__text-center">Base &mdash; UAE Pass authentication is now available for citizens and residents.</div></div>
-    </div>
-  </div>
-  <div class="aegov-banner banner--sticky banner--top banner--push banner--soft banner--info banner--lg" style="position:relative;">
-    <div class="banner__container">
-      <div class="banner__content"><div class="banner__text banner__text-center">Large &mdash; UAE Pass authentication is now available for citizens and residents.</div></div>
-    </div>
-  </div>
+<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov space-y-3">
+  <aegov-banner variant="info" display="sticky" mode="overlay" size="sm"   is-dismissible="false">Small &mdash; UAE Pass authentication is now available for citizens and residents.</aegov-banner>
+  <aegov-banner variant="info" display="sticky" mode="overlay" size="base" is-dismissible="false">Base &mdash; UAE Pass authentication is now available for citizens and residents.</aegov-banner>
+  <aegov-banner variant="info" display="sticky" mode="overlay" size="lg"   is-dismissible="false">Large &mdash; UAE Pass authentication is now available for citizens and residents.</aegov-banner>
 </div>
 
 ### Responsive sizes
@@ -216,17 +167,13 @@ The `actions` slot holds buttons aligned to the trailing edge of the banner. Whe
 ```
 
 <div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <div class="aegov-banner banner--sticky banner--top banner--push banner--soft banner--info banner--base" style="position:relative;">
-    <div class="banner__container">
-      <div class="banner__content">
-        <div class="banner__text banner__text-left">We use cookies to improve your experience on the UAE Government services portal.</div>
-        <div class="banner__actions">
-          <aegov-button size="sm">Accept all</aegov-button>
-          <aegov-button size="sm" appearance="outline">Manage preferences</aegov-button>
-        </div>
-      </div>
+  <aegov-banner variant="info" display="sticky" mode="overlay" is-dismissible="false">
+    We use cookies to improve your experience on the UAE Government services portal.
+    <div slot="actions">
+      <aegov-button size="sm">Accept all</aegov-button>
+      <aegov-button size="sm" appearance="outline">Manage preferences</aegov-button>
     </div>
-  </div>
+  </aegov-banner>
 </div>
 
 ---
@@ -304,20 +251,13 @@ The banner is direction-agnostic. Internal spacing uses logical properties; the 
 ```
 
 <div dir="rtl" class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <div class="aegov-banner banner--sticky banner--top banner--push banner--soft banner--warning banner--base" style="position:relative;">
-    <div class="banner__container">
-      <div class="banner__content">
-        <div class="banner__text banner__text-left">تذكير: تنتهي صلاحية بطاقة الهوية الإماراتية الخاصة بك خلال 14 يوماً. يُرجى تجديدها قبل 15 مايو لتفادي رسوم التأخير.</div>
-        <div class="banner__actions">
-          <aegov-button size="sm">جدّد الآن</aegov-button>
-          <aegov-button size="sm" appearance="outline">تذكيري لاحقاً</aegov-button>
-        </div>
-      </div>
-      <button type="button" class="banner__dismiss" aria-label="إغلاق الإشعار">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"><line x1="200" y1="56" x2="56" y2="200" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="24"/><line x1="200" y1="200" x2="56" y2="56" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="24"/></svg>
-      </button>
+  <aegov-banner variant="warning" display="sticky" mode="overlay">
+    تذكير: تنتهي صلاحية بطاقة الهوية الإماراتية الخاصة بك خلال 14 يوماً. يُرجى تجديدها قبل 15 مايو لتفادي رسوم التأخير.
+    <div slot="actions">
+      <aegov-button size="sm">جدّد الآن</aegov-button>
+      <aegov-button size="sm" appearance="outline">تذكيري لاحقاً</aegov-button>
     </div>
-  </div>
+  </aegov-banner>
 </div>
 
 ---

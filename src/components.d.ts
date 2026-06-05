@@ -2093,6 +2093,11 @@ export namespace Components {
          */
         "extraClass"?: string;
         /**
+          * Numeric spacing applied on either side of the separator line, in Tailwind spacing units (1 unit = 0.25rem = 4px). Horizontal orientation → padding is applied on the block axis (top + bottom); vertical → inline axis (start + end). Accepts any non-negative number. `0` (default) keeps no padding.  Example: `gap="4"` produces `1rem` (16px) padding-block on a horizontal separator.
+          * @default 0
+         */
+        "gap": number;
+        /**
           * Whether the separator is purely decorative (no semantic meaning)
           * @default true
          */
@@ -5721,6 +5726,11 @@ declare namespace LocalJSX {
           * Additional CSS classes merged onto the inner separator element.
          */
         "extraClass"?: string;
+        /**
+          * Numeric spacing applied on either side of the separator line, in Tailwind spacing units (1 unit = 0.25rem = 4px). Horizontal orientation → padding is applied on the block axis (top + bottom); vertical → inline axis (start + end). Accepts any non-negative number. `0` (default) keeps no padding.  Example: `gap="4"` produces `1rem` (16px) padding-block on a horizontal separator.
+          * @default 0
+         */
+        "gap"?: number;
         /**
           * Whether the separator is purely decorative (no semantic meaning)
           * @default true
