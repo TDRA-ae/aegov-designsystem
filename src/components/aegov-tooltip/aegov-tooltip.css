@@ -22,13 +22,13 @@
 
 /* Tooltip content */
 .tooltip__content {
-  @apply bg-aeblack-900 text-white text-sm rounded-lg shadow-lg py-2 px-3 leading-normal;
+  @apply bg-aeblack-900 text-white text-sm rounded-lg shadow-lg py-2 px-3 leading-normal dark:bg-whitely-100 dark:text-aeblack-900;
   word-wrap: break-word;
 }
 
 /* Arrow base styles */
 .tooltip__arrow {
-  @apply absolute size-2 bg-aeblack-900 rotate-45;
+  @apply absolute size-2 bg-aeblack-900 rotate-45 dark:bg-whitely-100;
   /* transform: rotate(45deg);*/
 }
 
