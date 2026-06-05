@@ -212,7 +212,12 @@ aegov-input.is-invalid .aegov-input {
 }
 
 aegov-input.is-invalid .aegov-input:focus {
-  @apply inset-ring-aered-500;
+  /* Override variant focus treatment: red ring + red inset shadow.
+     Without this, the variant rule (e.g. .input-variant-primary:focus)
+     leaks its support-colour inset shadow through the invalid state.
+     Same selector specificity (0,2,1) — placed after the variant rules so
+     source order wins. */
+  @apply inset-ring-aered-500 inset-shadow-sm inset-shadow-aered-500/80;
 }
 
 /* Inline error region — rendered below the control */

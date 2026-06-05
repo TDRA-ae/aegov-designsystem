@@ -43,6 +43,18 @@ export class AegovSeparator {
   @Prop() text?: string;
 
   /**
+   * Numeric spacing applied on either side of the separator line, in Tailwind
+   * spacing units (1 unit = 0.25rem = 4px). Horizontal orientation → padding
+   * is applied on the block axis (top + bottom); vertical → inline axis
+   * (start + end). Accepts any non-negative number. `0` (default) keeps no
+   * padding.
+   *
+   * Example: `gap="4"` produces `1rem` (16px) padding-block on a horizontal
+   * separator.
+   */
+  @Prop() gap: number = 0;
+
+  /**
    * Whether the separator is purely decorative (no semantic meaning)
    * @default true
    */
@@ -73,6 +85,10 @@ export class AegovSeparator {
     const appearance: SeparatorAppearance = (SEPARATOR_APPEARANCES as readonly string[]).includes(this.appearance) ? this.appearance : 'solid';
     const variant: SeparatorVariant = (SEPARATOR_VARIANTS as readonly string[]).includes(this.variant) ? this.variant : 'primary';
 
+    // Coerce gap to a non-negative number (attribute values arrive as strings).
+    const gapRaw = typeof this.gap === 'number' ? this.gap : Number(this.gap);
+    const gap = Number.isFinite(gapRaw) && gapRaw > 0 ? gapRaw : 0;
+
     const hasText = this.text || this.el.textContent?.trim();
     const classes = {
       'aegov-separator': true,
@@ -83,12 +99,27 @@ export class AegovSeparator {
       ...(this.extraClass ? { [this.extraClass]: true } : {}),
     };
 
+    // Apply padding on the Host element so the wrapper owns the breathing
+    // room — keeps the line itself unaffected and works for both the plain
+    // <hr> and flex with-text variants. Uses Tailwind's `--spacing` CSS
+    // variable (0.25rem) so `gap="4"` resolves to 1rem (16px), matching
+    // `py-4` / `px-4` semantics.
+    const hostStyle: { [k: string]: string } = {};
+    if (gap > 0) {
+      const value = `calc(var(--spacing, 0.25rem) * ${gap})`;
+      if (orientation === 'vertical') {
+        hostStyle.paddingInline = value;
+      } else {
+        hostStyle.paddingBlock = value;
+      }
+    }
+
     const role = this.isDecorative ? 'presentation' : 'separator';
     const ariaOrientation = orientation;
 
     if (hasText) {
       return (
-        <Host>
+        <Host style={hostStyle}>
           <div class={classes} role={role} aria-orientation={ariaOrientation}>
             <div class="separator__line"></div>
             <span class="separator__text">
@@ -101,7 +132,7 @@ export class AegovSeparator {
     }
 
     return (
-      <Host>
+      <Host style={hostStyle}>
         <hr class={classes} role={role} aria-orientation={ariaOrientation} />
       </Host>
     );

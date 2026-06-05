@@ -137,6 +137,79 @@ The text label of a text-bearing separator follows the variant family too — `p
 
 ---
 
+## Gap
+
+The `gap` property accepts any non-negative number and applies that many Tailwind spacing units of padding on either side of the separator line. One unit equals `0.25rem` (4px), so `gap="4"` produces `1rem` (16px) of padding-block on a horizontal separator — same scale as `py-4`.
+
+- Horizontal orientation → padding-block (top + bottom)
+- Vertical orientation → padding-inline (start + end)
+- Default `0` → no padding
+
+```html
+<aegov-separator gap="1"></aegov-separator>
+<aegov-separator gap="2"></aegov-separator>
+<aegov-separator gap="4"></aegov-separator>
+<aegov-separator gap="6"></aegov-separator>
+<aegov-separator gap="8"></aegov-separator>
+<aegov-separator gap="12"></aegov-separator>
+```
+
+<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <p class="text-sm text-aeblack-600 mb-1">Content above</p>
+  <aegov-separator variant="neutral-max" gap="0"></aegov-separator>
+  <p class="text-sm text-aeblack-600 mb-1">gap="0" — no padding</p>
+  <aegov-separator variant="neutral-max" gap="1"></aegov-separator>
+  <p class="text-sm text-aeblack-600 mb-1">gap="1" — 0.25rem (4px)</p>
+  <aegov-separator variant="neutral-max" gap="2"></aegov-separator>
+  <p class="text-sm text-aeblack-600 mb-1">gap="2" — 0.5rem (8px)</p>
+  <aegov-separator variant="neutral-max" gap="4"></aegov-separator>
+  <p class="text-sm text-aeblack-600 mb-1">gap="4" — 1rem (16px)</p>
+  <aegov-separator variant="neutral-max" gap="6"></aegov-separator>
+  <p class="text-sm text-aeblack-600 mb-1">gap="6" — 1.5rem (24px)</p>
+  <aegov-separator variant="neutral-max" gap="8"></aegov-separator>
+  <p class="text-sm text-aeblack-600 mb-1">gap="8" — 2rem (32px)</p>
+  <aegov-separator variant="neutral-max" gap="12"></aegov-separator>
+  <p class="text-sm text-aeblack-600">Content below — gap="12" — 3rem (48px)</p>
+</div>
+
+### Gap with text label
+
+```html
+<aegov-separator gap="6" text="Section break" variant="neutral-max"></aegov-separator>
+```
+
+<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <p class="text-sm text-aeblack-600">Personal details above</p>
+  <aegov-separator gap="6" text="Contact information" variant="neutral-max"></aegov-separator>
+  <p class="text-sm text-aeblack-600">Contact section below</p>
+</div>
+
+### Gap on vertical separator
+
+For vertical orientation `gap` adds inline-start + inline-end padding.
+
+```html
+<div class="flex items-center h-6">
+  <span>A</span>
+  <aegov-separator orientation="vertical" gap="4" variant="neutral-max"></aegov-separator>
+  <span>B</span>
+  <aegov-separator orientation="vertical" gap="4" variant="neutral-max"></aegov-separator>
+  <span>C</span>
+</div>
+```
+
+<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <div class="flex items-center h-6">
+    <span>A</span>
+    <aegov-separator orientation="vertical" gap="4" variant="neutral-max"></aegov-separator>
+    <span>B</span>
+    <aegov-separator orientation="vertical" gap="4" variant="neutral-max"></aegov-separator>
+    <span>C</span>
+  </div>
+</div>
+
+---
+
 ## Separator with Text
 
 Set the `text` property to render an inline label centred between two lines. This pattern is common between two alternative sign-in methods or between a primary action and its alternatives.
@@ -283,6 +356,7 @@ A subtle horizontal divider between two Arabic sections:
 | `appearance`   | `appearance`     | Line treatment. Colour resolves from `variant`.                                              | `'solid' \| 'light'`          | `'solid'`      |
 | `variant`      | `variant`        | Colour family for line and text label.                                                       | `'primary' \| 'secondary' \| 'neutral-max' \| 'neutral-min'` | `'primary'` |
 | `text`         | `text`           | Inline label text rendered at the centre of the separator.                                   | `string`                     | `undefined`    |
+| `gap`          | `gap`            | Padding on either side of the line, in Tailwind spacing units (1 unit = 0.25rem = 4px). Horizontal → top + bottom; Vertical → start + end. | `number`                     | `0`            |
 | `isDecorative` | `is-decorative`  | When `true`, exposes `role="presentation"`. When `false`, exposes `role="separator"`.        | `boolean`                    | `true`         |
 | `extraClass`   | `extra-class`    | Additional CSS classes merged onto the inner separator element.                              | `string`                     | `undefined`    |
 

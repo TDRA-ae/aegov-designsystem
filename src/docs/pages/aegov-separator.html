@@ -140,6 +140,62 @@
 </div>
 
 <hr>
+<h2>Gap</h2>
+<p>The <code>gap</code> property accepts any non-negative number and applies that many Tailwind spacing units of padding on either side of the separator line. One unit equals <code>0.25rem</code> (4px), so <code>gap=&quot;4&quot;</code> produces <code>1rem</code> (16px) of padding-block on a horizontal separator — same scale as <code>py-4</code>.</p>
+<ul>
+<li>Horizontal orientation → padding-block (top + bottom)</li>
+<li>Vertical orientation → padding-inline (start + end)</li>
+<li>Default <code>0</code> → no padding</li>
+</ul>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-separator</span> <span class="hljs-attr">gap</span>=<span class="hljs-string">&quot;1&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-separator</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-separator</span> <span class="hljs-attr">gap</span>=<span class="hljs-string">&quot;2&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-separator</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-separator</span> <span class="hljs-attr">gap</span>=<span class="hljs-string">&quot;4&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-separator</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-separator</span> <span class="hljs-attr">gap</span>=<span class="hljs-string">&quot;6&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-separator</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-separator</span> <span class="hljs-attr">gap</span>=<span class="hljs-string">&quot;8&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-separator</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-separator</span> <span class="hljs-attr">gap</span>=<span class="hljs-string">&quot;12&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-separator</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <p class="text-sm text-aeblack-600 mb-1">Content above</p>
+  <aegov-separator variant="neutral-max" gap="0"></aegov-separator>
+  <p class="text-sm text-aeblack-600 mb-1">gap="0" — no padding</p>
+  <aegov-separator variant="neutral-max" gap="1"></aegov-separator>
+  <p class="text-sm text-aeblack-600 mb-1">gap="1" — 0.25rem (4px)</p>
+  <aegov-separator variant="neutral-max" gap="2"></aegov-separator>
+  <p class="text-sm text-aeblack-600 mb-1">gap="2" — 0.5rem (8px)</p>
+  <aegov-separator variant="neutral-max" gap="4"></aegov-separator>
+  <p class="text-sm text-aeblack-600 mb-1">gap="4" — 1rem (16px)</p>
+  <aegov-separator variant="neutral-max" gap="6"></aegov-separator>
+  <p class="text-sm text-aeblack-600 mb-1">gap="6" — 1.5rem (24px)</p>
+  <aegov-separator variant="neutral-max" gap="8"></aegov-separator>
+  <p class="text-sm text-aeblack-600 mb-1">gap="8" — 2rem (32px)</p>
+  <aegov-separator variant="neutral-max" gap="12"></aegov-separator>
+  <p class="text-sm text-aeblack-600">Content below — gap="12" — 3rem (48px)</p>
+</div>
+
+<h3>Gap with text label</h3>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-separator</span> <span class="hljs-attr">gap</span>=<span class="hljs-string">&quot;6&quot;</span> <span class="hljs-attr">text</span>=<span class="hljs-string">&quot;Section break&quot;</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;neutral-max&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-separator</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <p class="text-sm text-aeblack-600">Personal details above</p>
+  <aegov-separator gap="6" text="Contact information" variant="neutral-max"></aegov-separator>
+  <p class="text-sm text-aeblack-600">Contact section below</p>
+</div>
+
+<h3>Gap on vertical separator</h3>
+<p>For vertical orientation <code>gap</code> adds inline-start + inline-end padding.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;flex items-center h-6&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">span</span>&gt;</span>A<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-separator</span> <span class="hljs-attr">orientation</span>=<span class="hljs-string">&quot;vertical&quot;</span> <span class="hljs-attr">gap</span>=<span class="hljs-string">&quot;4&quot;</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;neutral-max&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-separator</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">span</span>&gt;</span>B<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-separator</span> <span class="hljs-attr">orientation</span>=<span class="hljs-string">&quot;vertical&quot;</span> <span class="hljs-attr">gap</span>=<span class="hljs-string">&quot;4&quot;</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;neutral-max&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-separator</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">span</span>&gt;</span>C<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <div class="flex items-center h-6">
+    <span>A</span>
+    <aegov-separator orientation="vertical" gap="4" variant="neutral-max"></aegov-separator>
+    <span>B</span>
+    <aegov-separator orientation="vertical" gap="4" variant="neutral-max"></aegov-separator>
+    <span>C</span>
+  </div>
+</div>
+
+<hr>
 <h2>Separator with Text</h2>
 <p>Set the <code>text</code> property to render an inline label centred between two lines. This pattern is common between two alternative sign-in methods or between a primary action and its alternatives.</p>
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-separator</span> <span class="hljs-attr">text</span>=<span class="hljs-string">&quot;OR&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-separator</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
@@ -267,6 +323,13 @@
 <td>Inline label text rendered at the centre of the separator.</td>
 <td><code>string</code></td>
 <td><code>undefined</code></td>
+</tr>
+<tr>
+<td><code>gap</code></td>
+<td><code>gap</code></td>
+<td>Padding on either side of the line, in Tailwind spacing units (1 unit = 0.25rem = 4px). Horizontal → top + bottom; Vertical → start + end.</td>
+<td><code>number</code></td>
+<td><code>0</code></td>
 </tr>
 <tr>
 <td><code>isDecorative</code></td>
