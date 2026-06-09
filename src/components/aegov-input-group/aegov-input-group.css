@@ -6,18 +6,32 @@
 .aegov-input-group {
   @apply flex items-stretch rounded-lg overflow-hidden
          bg-whitely-50
-         inset-ring-2
-         focus-within:inset-ring-primary-support-600
+         border-2
          motion-reduce:transition-none
-         dark:bg-aeblack-800
-         dark:focus-within:inset-ring-primary-support-400;
+         dark:bg-aeblack-800;
 }
 
-/* Variant — wrapper ring + child separator per colour family */
-.aegov-input-group.input-group-variant-primary       { @apply inset-ring-primary-600 dark:inset-ring-primary-400; }
-.aegov-input-group.input-group-variant-secondary     { @apply inset-ring-secondary-600 dark:inset-ring-secondary-400; }
-.aegov-input-group.input-group-variant-neutral-max   { @apply inset-ring-aeblack-800 dark:inset-ring-aeblack-300; }
-.aegov-input-group.input-group-variant-neutral-min   { @apply inset-ring-aeblack-300 dark:inset-ring-aeblack-600; }
+/* Variant — wrapper border + child separator per colour family */
+.aegov-input-group.input-group-variant-primary       { @apply border-primary-600 dark:border-primary-400; }
+.aegov-input-group.input-group-variant-secondary     { @apply border-secondary-600 dark:border-secondary-400; }
+.aegov-input-group.input-group-variant-neutral-max   { @apply border-aeblack-800 dark:border-aeblack-300; }
+.aegov-input-group.input-group-variant-neutral-min   { @apply border-aeblack-300 dark:border-aeblack-600; }
+
+/* Focus-within — mirror aegov-input focus treatment per variant.
+   ring-1 + offset-2 + border swap to support colour. Matches input focus look. */
+.aegov-input-group.input-group-variant-primary:focus-within {
+  @apply ring-1 ring-offset-2 ring-primary-support-500 border-primary-support-500
+         dark:ring-primary-support-400 dark:border-primary-support-400;
+}
+.aegov-input-group.input-group-variant-secondary:focus-within {
+  @apply ring-1 ring-offset-2 ring-secondary-support-500 border-secondary-support-500
+         dark:ring-secondary-support-400 dark:border-secondary-support-400;
+}
+.aegov-input-group.input-group-variant-neutral-max:focus-within,
+.aegov-input-group.input-group-variant-neutral-min:focus-within {
+  @apply ring-1 ring-offset-2 ring-seablue-500 border-seablue-500
+         dark:ring-seablue-400 dark:border-seablue-400;
+}
 
 /* Separator between adjacent children */
 .aegov-input-group > * + * {
@@ -37,10 +51,16 @@
   @apply flex-1 min-w-0;
 }
 
-/* Native input loses its own ring/border/rounding */
+/* Native input loses its own border/ring/rounding — group owns focus ring */
 .aegov-input-group .aegov-input {
-  @apply inset-ring-0 rounded-none bg-transparent
-         focus:inset-ring-0;
+  @apply border-0 rounded-none bg-transparent shadow-none
+         focus:ring-0 focus:ring-offset-0 focus:shadow-none
+         focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:shadow-none;
+}
+/* Also kill variant focus border/ring rules that target the input directly */
+.aegov-input-group .aegov-input:focus,
+.aegov-input-group .aegov-input:focus-visible {
+  @apply border-0 ring-0 ring-offset-0 shadow-none;
 }
 
 /* Wrapper (for revealable / copy) stretches */
@@ -91,24 +111,21 @@
    Text addons (prefix / suffix props)
    -------------------------------------------------------- */
 .input-group__addon {
-  @apply inline-flex items-center whitespace-nowrap select-none
-         border-t-2 border-b-2
-         focus-within:border-primary-support-600
-         dark:focus-within:border-primary-support-400;
+  @apply inline-flex items-center whitespace-nowrap select-none;
 }
 
 /* Variant — addon stripe colour per colour family */
-.aegov-input-group.input-group-variant-primary .input-group__addon       { @apply text-primary-900 bg-primary-200 border-primary-600 dark:text-primary-100 dark:bg-primary-800 dark:border-primary-400; }
-.aegov-input-group.input-group-variant-secondary .input-group__addon     { @apply text-secondary-900 bg-secondary-200 border-secondary-600 dark:text-secondary-100 dark:bg-secondary-800 dark:border-secondary-400; }
-.aegov-input-group.input-group-variant-neutral-max .input-group__addon   { @apply text-aeblack-950 bg-aeblack-200 border-aeblack-800 dark:text-whitely-100 dark:bg-aeblack-700 dark:border-aeblack-300; }
-.aegov-input-group.input-group-variant-neutral-min .input-group__addon   { @apply text-aeblack-700 bg-aeblack-100 border-aeblack-300 dark:text-aeblack-200 dark:bg-aeblack-700 dark:border-aeblack-600; }
+.aegov-input-group.input-group-variant-primary .input-group__addon       { @apply text-primary-900 bg-primary-200 dark:text-primary-100 dark:bg-primary-800; }
+.aegov-input-group.input-group-variant-secondary .input-group__addon     { @apply text-secondary-900 bg-secondary-200 dark:text-secondary-100 dark:bg-secondary-800; }
+.aegov-input-group.input-group-variant-neutral-max .input-group__addon   { @apply text-aeblack-950 bg-aeblack-200 dark:text-whitely-100 dark:bg-aeblack-700; }
+.aegov-input-group.input-group-variant-neutral-min .input-group__addon   { @apply text-aeblack-700 bg-aeblack-100 dark:text-aeblack-200 dark:bg-aeblack-700; }
 
 .input-group__addon.input-group__addon--prefix {
-  @apply rounded-s-lg border-s-2;
+  @apply rounded-s-lg;
 }
 
 .input-group__addon.input-group__addon--suffix {
-  @apply rounded-e-lg border-e-2;
+  @apply rounded-e-lg;
 }
 
 /* Size-specific addon dimensions */

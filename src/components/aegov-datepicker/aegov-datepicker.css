@@ -14,32 +14,33 @@
 .datepicker__input-wrapper {
   @apply relative flex items-center gap-0 w-full bg-whitely-50
          rounded-lg transition-all duration-200 ease-in-out
-         inset-ring-2 dark:bg-aeblack-800;
+         border-2 dark:bg-aeblack-800;
 }
 
-/* Variant — idle ring + value text per colour family (mirrors aegov-input pattern) */
-:host(.datepicker-variant-primary) .datepicker__input-wrapper       { @apply inset-ring-primary-600 dark:inset-ring-primary-400; }
+/* Variant — idle border + value text per colour family (mirrors aegov-input pattern) */
+:host(.datepicker-variant-primary) .datepicker__input-wrapper       { @apply border-primary-600 dark:border-primary-400; }
 :host(.datepicker-variant-primary) .datepicker__input               { @apply text-primary-900 dark:text-whitely-100; }
-:host(.datepicker-variant-secondary) .datepicker__input-wrapper     { @apply inset-ring-secondary-600 dark:inset-ring-secondary-400; }
+:host(.datepicker-variant-secondary) .datepicker__input-wrapper     { @apply border-secondary-600 dark:border-secondary-400; }
 :host(.datepicker-variant-secondary) .datepicker__input             { @apply text-secondary-900 dark:text-whitely-100; }
-:host(.datepicker-variant-neutral-max) .datepicker__input-wrapper   { @apply inset-ring-aeblack-800 dark:inset-ring-aeblack-300; }
+:host(.datepicker-variant-neutral-max) .datepicker__input-wrapper   { @apply border-aeblack-800 dark:border-aeblack-300; }
 :host(.datepicker-variant-neutral-max) .datepicker__input           { @apply text-aeblack-950 dark:text-whitely-100; }
-:host(.datepicker-variant-neutral-min) .datepicker__input-wrapper   { @apply inset-ring-aeblack-300 dark:inset-ring-aeblack-600; }
+:host(.datepicker-variant-neutral-min) .datepicker__input-wrapper   { @apply border-aeblack-300 dark:border-aeblack-600; }
 :host(.datepicker-variant-neutral-min) .datepicker__input           { @apply text-aeblack-700 dark:text-aeblack-200; }
 
-/* Focus ring — fires when the input element receives focus. Per-variant focus
-   adds bg tint + inset shadow (matches aegov-input pattern). */
+/* Focus ring — fires when input receives focus. Mirrors aegov-input focus look
+   (ring + offset + border swap to support colour). */
 :host(.datepicker-variant-primary) .datepicker__input-wrapper:has(.datepicker__input:focus) {
-  @apply inset-ring-primary-support-500 bg-primary-support-50/10 inset-shadow-sm inset-shadow-primary-support-500/80
-         dark:inset-ring-primary-support-400 dark:bg-primary-support-900/20 dark:inset-shadow-primary-support-400/80;
+  @apply ring-1 ring-offset-2 ring-primary-support-500 border-2 border-primary-support-500
+         dark:ring-primary-support-400 dark:border-primary-support-400;
 }
 :host(.datepicker-variant-secondary) .datepicker__input-wrapper:has(.datepicker__input:focus) {
-  @apply inset-ring-secondary-support-500 bg-secondary-support-50/10 inset-shadow-sm inset-shadow-secondary-support-500/80
-         dark:inset-ring-secondary-support-400 dark:bg-secondary-support-900/20 dark:inset-shadow-secondary-support-400/80;
+  @apply ring-1 ring-offset-2 ring-secondary-support-500 border-2 border-secondary-support-500
+         dark:ring-secondary-support-400 dark:border-secondary-support-400;
 }
 :host(.datepicker-variant-neutral-max) .datepicker__input-wrapper:has(.datepicker__input:focus),
 :host(.datepicker-variant-neutral-min) .datepicker__input-wrapper:has(.datepicker__input:focus) {
-  @apply inset-ring-seablue-500 inset-shadow-sm inset-shadow-seablue-500/80 dark:inset-ring-seablue-400 dark:inset-shadow-seablue-400/80;
+  @apply ring-1 ring-offset-2 ring-seablue-500 border-2 border-seablue-500
+         dark:ring-seablue-400 dark:border-seablue-400;
 }
 
 .datepicker__input-wrapper--range {
@@ -206,15 +207,14 @@
 
 /* Validation surface (Layer 1) — see validation-engine-addon.md §2.6 */
 
-/* Invalid idle — red inset-ring on the input wrapper (matches the variant
-   idle selector pattern, mirrors aegov-input invalid treatment). */
+/* Invalid idle — red border on input wrapper (mirrors aegov-input). */
 :host(.is-invalid) .datepicker__input-wrapper {
-  @apply inset-ring-aered-600 dark:inset-ring-aered-500;
+  @apply border-aered-600 dark:border-aered-500;
 }
 
-/* Invalid + focus — red inset-ring + red inset-shadow on the wrapper. */
+/* Invalid + focus — red ring with offset (mirrors aegov-input). */
 :host(.is-invalid) .datepicker__input-wrapper:has(.datepicker__input:focus) {
-  @apply inset-ring-aered-500 inset-shadow-sm inset-shadow-aered-500/80 dark:inset-ring-aered-400 dark:inset-shadow-aered-400/80;
+  @apply ring-1 ring-offset-2 ring-aered-500 dark:ring-aered-400 border-2 border-aered-500 dark:border-aered-400;
 }
 
 .aegov-datepicker__error {
