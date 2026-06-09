@@ -25,7 +25,7 @@ const ctx = (prop: string) => ({ component: TAG, prop });
   scoped: false,
 })
 export class AegovBadge {
-    @Element() el: HTMLElement;
+    @Element() el!: HTMLElement;
 
     /**
      * Unique ID for the badge element. Auto-generated if not provided.
@@ -113,9 +113,9 @@ export class AegovBadge {
 
         // Size classes (includes vertical padding)
         const sizeClasses: Record<BadgeSize, string[]> = {
-            sm: ['text-xs', 'py-0.5', 'px-1.5','rounded-sm'],
-            base: ['text-sm', 'py-0.5', 'px-1.5','rounded-md'],
-            lg: ['text-sm', 'py-1', 'px-2','rounded-md','font-medium']
+            sm: ['badge-sm', 'text-xs', 'py-0.5', 'px-1.5','rounded-sm'],
+            base: ['badge-base', 'text-sm', 'py-0.5', 'px-1.5','rounded-md'],
+            lg: ['badge-lg', 'text-sm', 'py-1', 'px-2','rounded-md','font-medium']
         };
 
         const size: BadgeSize = this._resolvedSize;

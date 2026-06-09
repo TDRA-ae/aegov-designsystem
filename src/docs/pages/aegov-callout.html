@@ -21,13 +21,13 @@
           <section id="content-area" class="bg-whitely-50 dark:bg-aeblack-900 p-6 rounded-md shadow-xl">
           <!-- DOC:START -->
 <h1>Callout</h1>
-<p class="text-lg text-aeblack-500 dark:text-aeblack-300 mb-8">A Callout is a highlighted message block used to draw attention to important inline information — system notices, validation summaries, contextual help, success confirmations, and warnings about consequential actions. Each callout pairs a leading icon with a content area and optional actions, so users immediately understand both the severity and the next step.</p>
+<p class="text-lg text-aeblack-500 mb-8">A Callout is a highlighted message block used to draw attention to important inline information — system notices, validation summaries, contextual help, success confirmations, and warnings about consequential actions. Each callout pairs a leading icon with a content area and optional actions, so users immediately understand both the severity and the next step.</p>
 
 <h2>Introduction</h2>
 <p>The <code>aegov-callout</code> component renders a bordered block with four severity variants (<code>info</code>, <code>success</code>, <code>warning</code>, <code>error</code>), two visual treatments (<code>soft</code>, <code>solid</code>), and three sizes. The leading icon is chosen automatically from the variant, but you can replace it with your own SVG via the <code>icon</code> slot. Action buttons go in the <code>actions</code> slot, and an inline link can be placed on the trailing side via the <code>link</code> slot.</p>
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-callout</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;info&quot;</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">p</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;content&quot;</span>&gt;</span>Submit your Emirates ID renewal at least two weeks before the expiry date to allow time for processing.<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-callout</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-callout</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-callout variant="info">
     <p slot="content">Submit your Emirates ID renewal at least two weeks before the expiry date to allow time for processing.</p>
   </aegov-callout>
@@ -61,7 +61,7 @@
 
 <span class="hljs-tag">&lt;<span class="hljs-name">aegov-callout</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;error&quot;</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">p</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;content&quot;</span>&gt;</span>We could not verify your Emirates ID. Please check the number and try again.<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-callout</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-callout</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-callout variant="default" class="mb-4">
     <p slot="content">A neutral notice with no severity attached.</p>
   </aegov-callout>
@@ -88,7 +88,7 @@
 
 <span class="hljs-tag">&lt;<span class="hljs-name">aegov-callout</span> <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;solid&quot;</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;success&quot;</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">p</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;content&quot;</span>&gt;</span>Solid success — your payment was processed successfully.<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-callout</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-callout</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-callout appearance="soft" variant="info" class="mb-3">
     <p slot="content">Soft info — your application is being reviewed by the issuing authority.</p>
   </aegov-callout>
@@ -150,7 +150,7 @@
 
 <span class="hljs-tag">&lt;<span class="hljs-name">aegov-callout</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;lg&quot;</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;info&quot;</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">p</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;content&quot;</span>&gt;</span>Prominent callout for landing pages and hero confirmations.<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-callout</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-callout</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-callout size="sm" variant="info" class="mb-3">
     <p slot="content">Compact callout, suitable for dense forms and side panels.</p>
   </aegov-callout>
@@ -166,7 +166,7 @@
 <p><code>size</code> accepts a Tailwind-style responsive string with breakpoint prefixes (<code>xs</code>, <code>sm</code>, <code>md</code>, <code>lg</code>, <code>xl</code>, <code>2xl</code>).</p>
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-callout</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm md:base xl:lg&quot;</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;info&quot;</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">p</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;content&quot;</span>&gt;</span>Resizes with the viewport across the sm, md, and xl breakpoints.<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-callout</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-callout</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-callout size="sm md:base xl:lg" variant="info">
     <p slot="content">Resize your browser to see the callout scale across the <code>sm</code>, <code>md</code>, and <code>xl</code> breakpoints.</p>
   </aegov-callout>
@@ -183,7 +183,7 @@
   <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;onboardingTip&#x27;</span>).<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;aegovCalloutDismiss&#x27;</span>, <span class="hljs-function">() =&gt;</span> {
     <span class="hljs-variable language_">localStorage</span>.<span class="hljs-title function_">setItem</span>(<span class="hljs-string">&#x27;onboarding-tip-dismissed&#x27;</span>, <span class="hljs-string">&#x27;true&#x27;</span>);
   });
-</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-callout variant="info" is-dismissible>
     <p slot="content">Tip: you can save your progress at any time by clicking the floppy disk icon at the bottom of the page.</p>
   </aegov-callout>
@@ -200,7 +200,7 @@
     <span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm&quot;</span>&gt;</span>View application<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span>
     <span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm&quot;</span> <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;outline&quot;</span>&gt;</span>Download receipt (PDF)<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span>
   <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-callout</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-callout</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-callout variant="info" appearance="solid">
     <p slot="content">
       <strong>Application received.</strong> Your Emirates ID renewal request has been logged with reference <code>EID-2026-049381</code>. You will receive an SMS once it has been approved.
@@ -218,7 +218,7 @@
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-callout</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;info&quot;</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">p</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;content&quot;</span>&gt;</span>A new privacy policy is in effect from 1 May 2026.<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;link&quot;</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/policies/privacy&quot;</span>&gt;</span>Read the policy<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-callout</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-callout</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-callout variant="info">
     <p slot="content">A new privacy policy is in effect from 1 May 2026.</p>
     <a slot="link" href="#">Read the policy</a>
@@ -233,7 +233,7 @@
     <span class="hljs-tag">&lt;<span class="hljs-name">path</span> <span class="hljs-attr">d</span>=<span class="hljs-string">&quot;M232,128a104,104,0,1,1-104-104A104.13,104.13,0,0,1,232,128Zm-40-12a4,4,0,1,1-4-4A4,4,0,0,1,192,116Zm-32-32a4,4,0,1,1-4-4A4,4,0,0,1,160,84Zm-72,8a4,4,0,1,1-4-4A4,4,0,0,1,88,92Zm-8,40a4,4,0,1,1-4-4A4,4,0,0,1,80,132Zm32,40a4,4,0,1,1-4-4A4,4,0,0,1,112,172Z&quot;</span> <span class="hljs-attr">fill</span>=<span class="hljs-string">&quot;currentColor&quot;</span>/&gt;</span>
   <span class="hljs-tag">&lt;/<span class="hljs-name">svg</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">p</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;content&quot;</span>&gt;</span>A custom icon adds branded context without losing the variant colour scheme.<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-callout</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-callout</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-callout variant="info">
     <svg slot="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="24" height="24" aria-hidden="true">
       <path d="M232,128a104,104,0,1,1-104-104A104.13,104.13,0,0,1,232,128Zm-40-12a4,4,0,1,1-4-4A4,4,0,0,1,192,116Zm-32-32a4,4,0,1,1-4-4A4,4,0,0,1,160,84Zm-72,8a4,4,0,1,1-4-4A4,4,0,0,1,88,92Zm-8,40a4,4,0,1,1-4-4A4,4,0,0,1,80,132Zm32,40a4,4,0,1,1-4-4A4,4,0,0,1,112,172Z" fill="currentColor"/>
@@ -254,7 +254,7 @@
     <span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm&quot;</span> <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;outline&quot;</span>&gt;</span>Save for later<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span>
   <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;link&quot;</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/help/required-documents&quot;</span>&gt;</span>Which documents?<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-callout</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-callout</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-callout variant="warning" appearance="soft" is-dismissible>
     <p slot="content">
       <strong>Action required.</strong> Three documents in your residency renewal application are missing. Please upload them by 30 May to keep your application active.
@@ -279,9 +279,8 @@
       <span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm&quot;</span>&gt;</span>استئناف الطلب<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span>
       <span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm&quot;</span> <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;outline&quot;</span>&gt;</span>حفظ للاستكمال لاحقاً<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span>
     <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;link&quot;</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;#&quot;</span>&gt;</span>قائمة الوثائق المطلوبة<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>
   <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-callout</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre><div dir="rtl" class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre><div dir="rtl" class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-callout variant="success" class="mb-4">
     <p slot="content">تم استلام طلبك بنجاح. ستصلك رسالة نصية للتأكيد خلال دقائق.</p>
   </aegov-callout>
@@ -293,7 +292,6 @@
       <aegov-button size="sm">استئناف الطلب</aegov-button>
       <aegov-button size="sm" appearance="outline">حفظ للاستكمال لاحقاً</aegov-button>
     </div>
-    <a slot="link" href="#">قائمة الوثائق المطلوبة</a>
   </aegov-callout>
 </div>
 

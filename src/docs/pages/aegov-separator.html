@@ -21,11 +21,11 @@
           <section id="content-area" class="bg-whitely-50 dark:bg-aeblack-900 p-6 rounded-md shadow-xl">
           <!-- DOC:START -->
 <h1>Separator</h1>
-<p class="text-lg text-aeblack-500 dark:text-aeblack-300 mb-8">A Separator is a thin visual divider used to break up sections of content, group related items, or signal a contextual boundary in an interface. Use it to separate form sections, divide list groups, mark a transition between two interaction paths, or insert an &ldquo;OR&rdquo;-style break between alternative actions. Separators support horizontal and vertical orientation, an optional inline label, two appearance treatments (`solid` / `light`), and four colour variants (`primary`, `secondary`, `neutral-max`, `neutral-min`).</p>
+<p class="text-lg text-aeblack-500 mb-8">A Separator is a thin visual divider used to break up sections of content, group related items, or signal a contextual boundary in an interface. Use it to separate form sections, divide list groups, mark a transition between two interaction paths, or insert an &ldquo;OR&rdquo;-style break between alternative actions. Separators support horizontal and vertical orientation, an optional inline label, two appearance treatments (`solid` / `light`), and four colour variants (`primary`, `secondary`, `neutral-max`, `neutral-min`).</p>
 
 <h2>Introduction</h2>
 <p>The <code>aegov-separator</code> component renders as a native <code>&lt;hr&gt;</code> when used without a label, or as a flex layout of line / text / line when a <code>text</code> value or slotted label is supplied. It exposes a small surface — <code>orientation</code>, <code>appearance</code>, <code>variant</code>, <code>text</code>, and <code>is-decorative</code> — and uses logical CSS properties so it works identically in LTR and RTL contexts.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-separator</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-separator</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-separator</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-separator</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <p class="mb-4">Above the separator.</p>
   <aegov-separator></aegov-separator>
   <p class="mt-4">Below the separator.</p>
@@ -35,7 +35,7 @@
 <h2>Orientation</h2>
 <p>Separators can be rendered horizontally or vertically. Horizontal is the default and fills the full width of its container. Vertical separators require a height context — either a parent with a defined height, or content of a fixed height around the separator.</p>
 <h3>Horizontal (default)</h3>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-separator</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-separator</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-separator</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-separator</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <p class="mb-4">Personal details</p>
   <aegov-separator></aegov-separator>
   <p class="mt-4">Contact information</p>
@@ -49,7 +49,7 @@
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-link</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/share&quot;</span>&gt;</span>Share<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-link</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-separator</span> <span class="hljs-attr">orientation</span>=<span class="hljs-string">&quot;vertical&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-separator</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-link</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/delete&quot;</span>&gt;</span>Delete<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-link</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <div class="flex items-center gap-3 h-6">
     <aegov-link href="javascript:void(0)">Edit</aegov-link>
     <aegov-separator orientation="vertical"></aegov-separator>
@@ -63,7 +63,7 @@
 <h2>Appearance</h2>
 <p>The <code>appearance</code> property tunes the line treatment. Use <code>solid</code> (full-strength) for clear section breaks, and <code>light</code> (subtle) where the separator should recede behind the surrounding content. The actual colour resolves from the <code>variant</code> property.</p>
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-separator</span> <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;solid&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-separator</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-separator</span> <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;light&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-separator</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-separator</span> <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;light&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-separator</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <p class="text-sm text-aeblack-600 mb-2">Solid</p>
   <aegov-separator appearance="solid"></aegov-separator>
   <p class="text-sm text-aeblack-600 mt-6 mb-2">Light</p>
@@ -112,7 +112,7 @@
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-separator</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;primary&quot;</span> <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;solid&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-separator</span>&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">aegov-separator</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;secondary&quot;</span> <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;light&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-separator</span>&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">aegov-separator</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;neutral-max&quot;</span> <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;solid&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-separator</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-separator</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;neutral-min&quot;</span> <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;solid&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-separator</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-separator</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;neutral-min&quot;</span> <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;solid&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-separator</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <p class="text-sm text-aeblack-600 mb-2">Primary · Solid</p>
   <aegov-separator variant="primary" appearance="solid"></aegov-separator>
   <p class="text-sm text-aeblack-600 mt-6 mb-2">Primary · Light</p>
@@ -133,7 +133,7 @@
 
 <p>The text label of a text-bearing separator follows the variant family too — <code>primary-700</code>, <code>secondary-700</code>, <code>aeblack-800</code> (neutral-max), <code>aeblack-600</code> (neutral-min for legibility).</p>
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-separator</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;secondary&quot;</span> <span class="hljs-attr">text</span>=<span class="hljs-string">&quot;OR&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-separator</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-separator</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;neutral-max&quot;</span> <span class="hljs-attr">text</span>=<span class="hljs-string">&quot;Section break&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-separator</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-separator</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;neutral-max&quot;</span> <span class="hljs-attr">text</span>=<span class="hljs-string">&quot;Section break&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-separator</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-separator variant="secondary" text="OR"></aegov-separator>
   <aegov-separator variant="neutral-max" text="Section break"></aegov-separator>
   <aegov-separator variant="neutral-min" text="Quiet break"></aegov-separator>
@@ -152,7 +152,7 @@
 <span class="hljs-tag">&lt;<span class="hljs-name">aegov-separator</span> <span class="hljs-attr">gap</span>=<span class="hljs-string">&quot;4&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-separator</span>&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">aegov-separator</span> <span class="hljs-attr">gap</span>=<span class="hljs-string">&quot;6&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-separator</span>&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">aegov-separator</span> <span class="hljs-attr">gap</span>=<span class="hljs-string">&quot;8&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-separator</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-separator</span> <span class="hljs-attr">gap</span>=<span class="hljs-string">&quot;12&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-separator</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-separator</span> <span class="hljs-attr">gap</span>=<span class="hljs-string">&quot;12&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-separator</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <p class="text-sm text-aeblack-600 mb-1">Content above</p>
   <aegov-separator variant="neutral-max" gap="0"></aegov-separator>
   <p class="text-sm text-aeblack-600 mb-1">gap="0" — no padding</p>
@@ -171,7 +171,7 @@
 </div>
 
 <h3>Gap with text label</h3>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-separator</span> <span class="hljs-attr">gap</span>=<span class="hljs-string">&quot;6&quot;</span> <span class="hljs-attr">text</span>=<span class="hljs-string">&quot;Section break&quot;</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;neutral-max&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-separator</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-separator</span> <span class="hljs-attr">gap</span>=<span class="hljs-string">&quot;6&quot;</span> <span class="hljs-attr">text</span>=<span class="hljs-string">&quot;Section break&quot;</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;neutral-max&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-separator</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <p class="text-sm text-aeblack-600">Personal details above</p>
   <aegov-separator gap="6" text="Contact information" variant="neutral-max"></aegov-separator>
   <p class="text-sm text-aeblack-600">Contact section below</p>
@@ -185,7 +185,7 @@
   <span class="hljs-tag">&lt;<span class="hljs-name">span</span>&gt;</span>B<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-separator</span> <span class="hljs-attr">orientation</span>=<span class="hljs-string">&quot;vertical&quot;</span> <span class="hljs-attr">gap</span>=<span class="hljs-string">&quot;4&quot;</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;neutral-max&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-separator</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">span</span>&gt;</span>C<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <div class="flex items-center h-6">
     <span>A</span>
     <aegov-separator orientation="vertical" gap="4" variant="neutral-max"></aegov-separator>
@@ -198,21 +198,21 @@
 <hr>
 <h2>Separator with Text</h2>
 <p>Set the <code>text</code> property to render an inline label centred between two lines. This pattern is common between two alternative sign-in methods or between a primary action and its alternatives.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-separator</span> <span class="hljs-attr">text</span>=<span class="hljs-string">&quot;OR&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-separator</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-separator</span> <span class="hljs-attr">text</span>=<span class="hljs-string">&quot;OR&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-separator</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-button appearance="solid" extra-class="w-full">Sign in with Emirates ID</aegov-button>
   <aegov-separator text="OR"></aegov-separator>
   <aegov-button appearance="outline" extra-class="w-full">Sign in with UAE Pass</aegov-button>
 </div>
 
 <p>The same pattern with a longer label:</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-separator</span> <span class="hljs-attr">text</span>=<span class="hljs-string">&quot;Continue with another method&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-separator</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-separator</span> <span class="hljs-attr">text</span>=<span class="hljs-string">&quot;Continue with another method&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-separator</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-separator text="Continue with another method"></aegov-separator>
 </div>
 
 <p>You can also pass the label as slotted content instead of using the <code>text</code> property — useful when the label needs richer markup such as an inline icon.</p>
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-separator</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">strong</span>&gt;</span>Section break<span class="hljs-tag">&lt;/<span class="hljs-name">strong</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-separator</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-separator</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-separator>
     <strong>Section break</strong>
   </aegov-separator>
@@ -221,7 +221,7 @@
 <hr>
 <h2>Decorative vs. Semantic</h2>
 <p>By default the separator is decorative — it renders with <code>role=&quot;presentation&quot;</code> so assistive technology ignores it. When the divider carries meaning (for example, separating two unrelated content groups in a list or marking a topic shift), set <code>is-decorative=&quot;false&quot;</code> to expose <code>role=&quot;separator&quot;</code> instead.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-separator</span> <span class="hljs-attr">is-decorative</span>=<span class="hljs-string">&quot;false&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-separator</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-separator</span> <span class="hljs-attr">is-decorative</span>=<span class="hljs-string">&quot;false&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-separator</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <p class="mb-3">Active applications</p>
   <aegov-separator is-decorative="false"></aegov-separator>
   <p class="mt-3">Archived applications</p>
@@ -236,7 +236,7 @@
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-separator</span> <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;light&quot;</span> <span class="hljs-attr">extra-class</span>=<span class="hljs-string">&quot;my-6&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-separator</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">h3</span>&gt;</span>Contact information<span class="hljs-tag">&lt;/<span class="hljs-name">h3</span>&gt;</span>
   <span class="hljs-comment">&lt;!-- inputs --&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">form</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;/<span class="hljs-name">form</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <h3 class="text-lg font-semibold mb-2">Personal details</h3>
   <p class="text-sm text-aeblack-600">Emirates ID, full name, date of birth.</p>
   <aegov-separator appearance="light" extra-class="my-6"></aegov-separator>
@@ -251,7 +251,7 @@
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-link</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/terms&quot;</span>&gt;</span>Terms<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-link</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-separator</span> <span class="hljs-attr">orientation</span>=<span class="hljs-string">&quot;vertical&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-separator</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-link</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/contact&quot;</span>&gt;</span>Contact<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-link</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <div class="flex items-center gap-3 h-5">
     <aegov-link href="javascript:void(0)">Privacy</aegov-link>
     <aegov-separator orientation="vertical"></aegov-separator>
@@ -266,7 +266,7 @@
 <p>The separator is symmetric and direction-agnostic. The horizontal variant fills its container width identically in LTR and RTL. The text-bearing variant centres the label in either direction, with the lines on each side flipping naturally because the component uses flex layout — no manual adjustment is required.</p>
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">dir</span>=<span class="hljs-string">&quot;rtl&quot;</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-separator</span> <span class="hljs-attr">text</span>=<span class="hljs-string">&quot;أو&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-separator</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre><div dir="rtl" class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre><div dir="rtl" class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-button appearance="solid" extra-class="w-full">تسجيل الدخول بالهوية الإماراتية</aegov-button>
   <aegov-separator text="أو"></aegov-separator>
   <aegov-button appearance="outline" extra-class="w-full">تسجيل الدخول عبر الهوية الرقمية</aegov-button>
@@ -277,7 +277,7 @@
   <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>البيانات الشخصية<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-separator</span> <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;light&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-separator</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>بيانات التواصل<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre><div dir="rtl" class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre><div dir="rtl" class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <p class="mb-4">البيانات الشخصية</p>
   <aegov-separator appearance="light"></aegov-separator>
   <p class="mt-4">بيانات التواصل</p>

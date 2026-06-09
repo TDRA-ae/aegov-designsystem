@@ -21,14 +21,14 @@
           <section id="content-area" class="bg-whitely-50 dark:bg-aeblack-900 p-6 rounded-md shadow-xl">
           <!-- DOC:START -->
 <h1>Label</h1>
-<p class="text-lg text-aeblack-500 dark:text-aeblack-300 mb-8">A Label is a semantic <code>&lt;label&gt;</code> wrapper used to caption form controls. Use it to associate visible text with an input, textarea, select, checkbox, radio, toggle, or any other form control. When placed inside <code>aegov-form-field</code>, the parent automatically wires the label's <code>for</code> attribute to the linked input — for standalone usage, set <code>for</code> manually so screen readers and click-to-focus behaviour work correctly.</p>
+<p class="text-lg text-aeblack-500 mb-8">A Label is a semantic <code>&lt;label&gt;</code> wrapper used to caption form controls. Use it to associate visible text with an input, textarea, select, checkbox, radio, toggle, or any other form control. When placed inside <code>aegov-form-field</code>, the parent automatically wires the label's <code>for</code> attribute to the linked input — for standalone usage, set <code>for</code> manually so screen readers and click-to-focus behaviour work correctly.</p>
 
 <h2>Introduction</h2>
 <p>The <code>aegov-label</code> component renders a real native <code>&lt;label&gt;</code> element with an auto-generated <code>id</code>. It is intentionally minimal: it owns no styling beyond an <code>aegov-label</code> base class and forwards <code>aria-*</code> and <code>data-*</code> attributes to the underlying <code>&lt;label&gt;</code>. Inside <code>aegov-form-field</code>, the parent sets <code>htmlFor</code> for you so the label, input, error, and hint message all share the same id graph.</p>
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-form-field</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-label</span>&gt;</span>Email address<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-label</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;email&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;name@domain.ae&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-input</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-form-field</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-form-field</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-form-field>
     <aegov-label>Email address</aegov-label>
     <aegov-input type="email" placeholder="name@domain.ae"></aegov-input>
@@ -40,14 +40,14 @@
 <p>Outside <code>aegov-form-field</code> you must set the <code>for</code> attribute manually so the label points at the linked control&#39;s <code>field-id</code> (or native <code>id</code>). Clicking the label will then focus or toggle the control as expected.</p>
 <h3>Paired with aegov-input</h3>
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-label</span> <span class="hljs-attr">for</span>=<span class="hljs-string">&quot;emirates-id&quot;</span>&gt;</span>Emirates ID number<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-label</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-input</span> <span class="hljs-attr">field-id</span>=<span class="hljs-string">&quot;emirates-id&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;784-XXXX-XXXXXXX-X&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-input</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-input</span> <span class="hljs-attr">field-id</span>=<span class="hljs-string">&quot;emirates-id&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;784-XXXX-XXXXXXX-X&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-input</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-label for="emirates-id">Emirates ID number</aegov-label>
   <aegov-input field-id="emirates-id" placeholder="784-XXXX-XXXXXXX-X"></aegov-input>
 </div>
 
 <h3>Paired with a native input</h3>
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-label</span> <span class="hljs-attr">for</span>=<span class="hljs-string">&quot;full-name&quot;</span>&gt;</span>Full name as on passport<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-label</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;full-name&quot;</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;text&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;aegov-input&quot;</span> /&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;full-name&quot;</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;text&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;aegov-input&quot;</span> /&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-label for="full-name-demo">Full name as on passport</aegov-label>
   <input id="full-name-demo" type="text" class="aegov-input" />
 </div>
@@ -56,7 +56,7 @@
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;flex items-center gap-2&quot;</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-checkbox</span> <span class="hljs-attr">field-id</span>=<span class="hljs-string">&quot;terms&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-checkbox</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-label</span> <span class="hljs-attr">for</span>=<span class="hljs-string">&quot;terms&quot;</span>&gt;</span>I accept the terms and privacy notice<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-label</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <div class="flex items-center gap-2">
     <aegov-checkbox field-id="terms"></aegov-checkbox>
     <aegov-label for="terms">I accept the terms and privacy notice</aegov-label>
@@ -74,7 +74,7 @@
 <span class="hljs-tag">&lt;<span class="hljs-name">aegov-form-field</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-label</span>&gt;</span>Date of birth<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-label</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-datepicker</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-datepicker</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-form-field</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-form-field</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-form-field>
     <aegov-label>Mobile number</aegov-label>
     <aegov-input type="tel" placeholder="+971 50 000 0000"></aegov-input>
@@ -128,7 +128,7 @@
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-label</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;primary&quot;</span>&gt;</span>Primary<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-label</span>&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">aegov-label</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;secondary&quot;</span>&gt;</span>Secondary<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-label</span>&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">aegov-label</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;neutral-max&quot;</span>&gt;</span>Neutral-max<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-label</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-label</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;neutral-min&quot;</span>&gt;</span>Neutral-min<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-label</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-label</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;neutral-min&quot;</span>&gt;</span>Neutral-min<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-label</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
     <aegov-label variant="primary">Primary label</aegov-label>
     <aegov-label variant="secondary">Secondary label</aegov-label>
@@ -143,7 +143,7 @@
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-label</span> <span class="hljs-attr">extra-class</span>=<span class="hljs-string">&quot;font-semibold text-aeblack-900&quot;</span> <span class="hljs-attr">for</span>=<span class="hljs-string">&quot;passport-number&quot;</span>&gt;</span>
   Passport number
 <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-label</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-input</span> <span class="hljs-attr">field-id</span>=<span class="hljs-string">&quot;passport-number&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-input</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-input</span> <span class="hljs-attr">field-id</span>=<span class="hljs-string">&quot;passport-number&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-input</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-label extra-class="font-semibold text-aeblack-900" for="passport-number">
     Passport number
   </aegov-label>
@@ -158,7 +158,7 @@
     <span class="hljs-tag">&lt;<span class="hljs-name">aegov-label</span>&gt;</span>رقم الهوية الإماراتية<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-label</span>&gt;</span>
     <span class="hljs-tag">&lt;<span class="hljs-name">aegov-input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;text&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;784-XXXX-XXXXXXX-X&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-input</span>&gt;</span>
   <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-form-field</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre><div dir="rtl" class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre><div dir="rtl" class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-form-field>
     <aegov-label>رقم الهوية الإماراتية</aegov-label>
     <aegov-input type="text" placeholder="784-XXXX-XXXXXXX-X"></aegov-input>

@@ -21,7 +21,7 @@
           <section id="content-area" class="bg-whitely-50 dark:bg-aeblack-900 p-6 rounded-md shadow-xl">
           <!-- DOC:START -->
 <h1>File Upload</h1>
-<p class="text-lg text-aeblack-500 dark:text-aeblack-300 mb-8">A file selection control for collecting documents and images from users — Emirates ID copies, passport photographs, supporting evidence for a service application, or any other attachment a UAE Government service may require. The component renders three layouts: a styled input with a built-in browse button, a stand-alone trigger button with an inline file list, and a drag-and-drop dropzone. Each layout is anchored on a real <code>&lt;input type="file"&gt;</code> so submissions, validation, and accessibility all behave like a native form control.</p>
+<p class="text-lg text-aeblack-500 mb-8">A file selection control for collecting documents and images from users — Emirates ID copies, passport photographs, supporting evidence for a service application, or any other attachment a UAE Government service may require. The component renders three layouts: a styled input with a built-in browse button, a stand-alone trigger button with an inline file list, and a drag-and-drop dropzone. Each layout is anchored on a real <code>&lt;input type="file"&gt;</code> so submissions, validation, and accessibility all behave like a native form control.</p>
 
 <h2>Introduction</h2>
 <p>The <code>aegov-fileupload</code> component wraps a native file input and adds client-side validation for accepted file types, maximum file size, and the maximum number of files. Picked files appear in a list with a remove button per file, and three custom events (<code>aegovFileuploadChange</code>, <code>aegovFileuploadRemove</code>, <code>aegovFileuploadError</code>) keep your form code informed of every change. The component never overrides the OS file picker — it only filters and formats what the user provides.</p>
@@ -30,7 +30,7 @@
   <span class="hljs-attr">description</span>=<span class="hljs-string">&quot;Upload a clear, full-page scan of both sides as a single PDF.&quot;</span>
   <span class="hljs-attr">accept</span>=<span class="hljs-string">&quot;.pdf&quot;</span>
   <span class="hljs-attr">max-file-size</span>=<span class="hljs-string">&quot;5242880&quot;</span>
-&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-fileupload</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-fileupload</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-fileupload
     label="Upload your Emirates ID"
     description="Upload a clear, full-page scan of both sides as a single PDF."
@@ -50,7 +50,7 @@
   <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Passport bio-data page&quot;</span>
   <span class="hljs-attr">accept</span>=<span class="hljs-string">&quot;image/*,.pdf&quot;</span>
   <span class="hljs-attr">max-file-size</span>=<span class="hljs-string">&quot;5242880&quot;</span>
-&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-fileupload</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-fileupload</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-fileupload
     appearance="default"
     label="Passport bio-data page"
@@ -68,7 +68,7 @@
   <span class="hljs-attr">is-multiple</span>=<span class="hljs-string">&quot;true&quot;</span>
   <span class="hljs-attr">max-files</span>=<span class="hljs-string">&quot;5&quot;</span>
   <span class="hljs-attr">accept</span>=<span class="hljs-string">&quot;.pdf,.docx,image/*&quot;</span>
-&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-fileupload</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-fileupload</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-fileupload
     appearance="button"
     label="Supporting documents"
@@ -88,7 +88,7 @@
   <span class="hljs-attr">is-multiple</span>=<span class="hljs-string">&quot;true&quot;</span>
   <span class="hljs-attr">max-file-size</span>=<span class="hljs-string">&quot;10485760&quot;</span>
   <span class="hljs-attr">accept</span>=<span class="hljs-string">&quot;.pdf,image/*&quot;</span>
-&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-fileupload</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-fileupload</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-fileupload
     appearance="dropzone"
     label="Drop your supporting documents here"
@@ -107,7 +107,7 @@
   <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Passport photograph&quot;</span>
   <span class="hljs-attr">accept</span>=<span class="hljs-string">&quot;image/jpeg,image/png&quot;</span>
   <span class="hljs-attr">max-file-size</span>=<span class="hljs-string">&quot;2097152&quot;</span>
-&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-fileupload</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-fileupload</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-fileupload
     label="Passport photograph"
     accept="image/jpeg,image/png"
@@ -124,7 +124,7 @@
   <span class="hljs-attr">is-multiple</span>=<span class="hljs-string">&quot;true&quot;</span>
   <span class="hljs-attr">max-files</span>=<span class="hljs-string">&quot;3&quot;</span>
   <span class="hljs-attr">accept</span>=<span class="hljs-string">&quot;.pdf,image/*&quot;</span>
-&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-fileupload</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-fileupload</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-fileupload
     appearance="button"
     label="Vehicle registration documents"
@@ -143,7 +143,7 @@
   <span class="hljs-attr">description</span>=<span class="hljs-string">&quot;PDF only, maximum 5 MB.&quot;</span>
   <span class="hljs-attr">accept</span>=<span class="hljs-string">&quot;.pdf&quot;</span>
   <span class="hljs-attr">max-file-size</span>=<span class="hljs-string">&quot;5242880&quot;</span>
-&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-fileupload</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-fileupload</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-fileupload
     appearance="dropzone"
     label="Tenancy contract"
@@ -158,7 +158,7 @@
 <p>The <code>size</code> property scales the input height for the default appearance and the button height for the button and dropzone appearances. Tokens: <code>xs</code>, <code>sm</code>, <code>base</code> (default), <code>lg</code>, <code>xl</code>. A Tailwind-style responsive string is also supported, e.g. <code>sm md:base lg:lg</code>.</p>
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-fileupload</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Small (sm)&quot;</span> <span class="hljs-attr">accept</span>=<span class="hljs-string">&quot;.pdf&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-fileupload</span>&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">aegov-fileupload</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;base&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Base (default)&quot;</span> <span class="hljs-attr">accept</span>=<span class="hljs-string">&quot;.pdf&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-fileupload</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-fileupload</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;lg&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Large (lg)&quot;</span> <span class="hljs-attr">accept</span>=<span class="hljs-string">&quot;.pdf&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-fileupload</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-fileupload</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;lg&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Large (lg)&quot;</span> <span class="hljs-attr">accept</span>=<span class="hljs-string">&quot;.pdf&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-fileupload</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-fileupload size="sm" label="Small (sm)" accept=".pdf"></aegov-fileupload>
   <div class="my-4"></div>
   <aegov-fileupload size="base" label="Base (default)" accept=".pdf"></aegov-fileupload>
@@ -167,7 +167,7 @@
 </div>
 
 <h3>Responsive sizes</h3>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-fileupload</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm md:base xl:lg&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Resizes with the viewport&quot;</span> <span class="hljs-attr">accept</span>=<span class="hljs-string">&quot;.pdf&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-fileupload</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-fileupload</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm md:base xl:lg&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Resizes with the viewport&quot;</span> <span class="hljs-attr">accept</span>=<span class="hljs-string">&quot;.pdf&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-fileupload</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-fileupload size="sm md:base xl:lg" label="Resizes with the viewport" accept=".pdf"></aegov-fileupload>
 </div>
 
@@ -223,7 +223,7 @@
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-fileupload</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;primary&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Primary&quot;</span> <span class="hljs-attr">accept</span>=<span class="hljs-string">&quot;.pdf&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-fileupload</span>&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">aegov-fileupload</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;secondary&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Secondary&quot;</span> <span class="hljs-attr">accept</span>=<span class="hljs-string">&quot;.pdf&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-fileupload</span>&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">aegov-fileupload</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;neutral-max&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Neutral-max&quot;</span> <span class="hljs-attr">accept</span>=<span class="hljs-string">&quot;.pdf&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-fileupload</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-fileupload</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;neutral-min&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Neutral-min&quot;</span> <span class="hljs-attr">accept</span>=<span class="hljs-string">&quot;.pdf&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-fileupload</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-fileupload</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;neutral-min&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Neutral-min&quot;</span> <span class="hljs-attr">accept</span>=<span class="hljs-string">&quot;.pdf&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-fileupload</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
     <aegov-fileupload variant="primary" label="Primary" accept=".pdf"></aegov-fileupload>
     <aegov-fileupload variant="secondary" label="Secondary" accept=".pdf"></aegov-fileupload>
@@ -245,7 +245,7 @@
   <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Pre-filled application (locked)&quot;</span>
   <span class="hljs-attr">is-disabled</span>=<span class="hljs-string">&quot;true&quot;</span>
   <span class="hljs-attr">accept</span>=<span class="hljs-string">&quot;.pdf&quot;</span>
-&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-fileupload</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-fileupload</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-fileupload
     label="Identification"
     is-required="true"
@@ -275,7 +275,7 @@
   <span class="hljs-attr">label-button</span>=<span class="hljs-string">&quot;Choose file&quot;</span>
   <span class="hljs-attr">accept</span>=<span class="hljs-string">&quot;.pdf,.docx&quot;</span>
   <span class="hljs-attr">max-file-size</span>=<span class="hljs-string">&quot;5242880&quot;</span>
-&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-fileupload</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-fileupload</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-fileupload
     label="Salary certificate"
     description="Upload a stamped certificate from your employer issued within the last 30 days."
@@ -322,7 +322,7 @@
   <span class="hljs-attr">max-files</span>=<span class="hljs-string">&quot;5&quot;</span>
   <span class="hljs-attr">max-file-size</span>=<span class="hljs-string">&quot;10485760&quot;</span>
   <span class="hljs-attr">accept</span>=<span class="hljs-string">&quot;.pdf,image/jpeg,image/png&quot;</span>
-&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-fileupload</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-fileupload</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-fileupload
     appearance="dropzone"
     label="Application supporting documents"
@@ -347,7 +347,7 @@
     <span class="hljs-attr">accept</span>=<span class="hljs-string">&quot;.pdf&quot;</span>
     <span class="hljs-attr">max-file-size</span>=<span class="hljs-string">&quot;5242880&quot;</span>
   &gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-fileupload</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre><div dir="rtl" class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre><div dir="rtl" class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-fileupload
     label="رفع الهوية الإماراتية"
     description="يرجى رفع نسخة واضحة من وجهي الهوية بصيغة PDF."
@@ -369,7 +369,7 @@
     <span class="hljs-attr">max-file-size</span>=<span class="hljs-string">&quot;10485760&quot;</span>
     <span class="hljs-attr">accept</span>=<span class="hljs-string">&quot;.pdf,image/*&quot;</span>
   &gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-fileupload</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre><div dir="rtl" class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre><div dir="rtl" class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-fileupload
     appearance="dropzone"
     label="المستندات الداعمة للطلب"
