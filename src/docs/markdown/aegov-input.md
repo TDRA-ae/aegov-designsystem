@@ -189,18 +189,18 @@ Validation styling is owned by the surrounding `aegov-form-field`. Set `is-inval
 
 ## Icons
 
-Use the `icon-start` slot for a leading icon (search, mail, lock) and `icon-end` for a trailing icon (status, hint). Slot icons sit on the start/end edges and flip automatically in RTL.
+Use the `icon-start` slot for a leading icon (search, mail, lock) and `icon-end` for a trailing icon (status, hint). Slot icons sit on the start/end edges and flip automatically in RTL. The SVG is auto-sized to match the input's `size` token (14–22 px) — omit `width`/`height` attributes on the SVG so the component can size it.
 
 ```html
 <aegov-input placeholder="Search services">
-  <svg slot="icon-start" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+  <svg slot="icon-start" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
     <circle cx="11" cy="11" r="8"></circle>
     <path d="M21 21l-4.35-4.35"></path>
   </svg>
 </aegov-input>
 
 <aegov-input type="email" placeholder="you@example.gov.ae">
-  <svg slot="icon-start" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+  <svg slot="icon-start" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
     <rect x="3" y="5" width="18" height="14" rx="2"></rect>
     <path d="m3 7 9 6 9-6"></path>
   </svg>
@@ -210,13 +210,13 @@ Use the `icon-start` slot for a leading icon (search, mail, lock) and `icon-end`
 <div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <div class="grid gap-4 max-w-md">
     <aegov-input placeholder="Search services">
-      <svg slot="icon-start" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <svg slot="icon-start" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
         <circle cx="11" cy="11" r="8"></circle>
         <path d="M21 21l-4.35-4.35"></path>
       </svg>
     </aegov-input>
     <aegov-input type="email" placeholder="you@example.gov.ae">
-      <svg slot="icon-start" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <svg slot="icon-start" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
         <rect x="3" y="5" width="18" height="14" rx="2"></rect>
         <path d="m3 7 9 6 9-6"></path>
       </svg>
