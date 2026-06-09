@@ -200,6 +200,145 @@ Set `is-dismissible` to render a close button at the trailing edge of the badge.
 
 ---
 
+## Badges with Icons
+
+Slot an inline `<svg>` or `<img>` before the label to reinforce meaning visually. The badge sizes leading media automatically based on the `size` prop — `size-3` for `sm`, `size-3.5` for `base`, `size-4` for `lg` — so you do not have to declare width/height on the element. Mark decorative icons with `aria-hidden="true"` so screen readers read only the text label.
+
+```html
+<aegov-badge color="aegreen">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+    <path fill-rule="evenodd" d="M16.704 5.29a1 1 0 010 1.42l-7.5 7.5a1 1 0 01-1.42 0l-3.5-3.5a1 1 0 011.42-1.42L8.5 12.085l6.79-6.795a1 1 0 011.414 0z" clip-rule="evenodd" />
+  </svg>
+  Active
+</aegov-badge>
+
+<aegov-badge color="camel">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm.75-13a.75.75 0 00-1.5 0v5c0 .2.08.39.22.53l3 3a.75.75 0 101.06-1.06L10.75 9.69V5z" clip-rule="evenodd" />
+  </svg>
+  Pending
+</aegov-badge>
+
+<aegov-badge color="aered">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+    <path fill-rule="evenodd" d="M18 10A8 8 0 11.999 9.999 8 8 0 0118 10zm-8-5a.75.75 0 01.75.75v4.5a.75.75 0 01-1.5 0v-4.5A.75.75 0 0110 5zm0 10a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd" />
+  </svg>
+  Rejected
+</aegov-badge>
+
+<aegov-badge color="techblue">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+    <path fill-rule="evenodd" d="M18 10A8 8 0 11.999 9.999 8 8 0 0118 10zM8.94 6.94a.75.75 0 11-1.06-1.06 3 3 0 014.55 3.9c-.27.42-.65.75-.97 1.03-.41.36-.59.55-.63.78-.05.4-.4.69-.78.65-.4-.04-.69-.4-.65-.78.13-1 .81-1.58 1.24-1.94l.18-.16c.62-.61.83-1.5.39-2.16a1.5 1.5 0 00-2.27-.25zM11 13a1 1 0 11-2 0 1 1 0 012 0z" clip-rule="evenodd" />
+  </svg>
+  In review
+</aegov-badge>
+
+<aegov-badge appearance="solid" color="aegreen">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+    <path fill-rule="evenodd" d="M16.704 5.29a1 1 0 010 1.42l-7.5 7.5a1 1 0 01-1.42 0l-3.5-3.5a1 1 0 011.42-1.42L8.5 12.085l6.79-6.795a1 1 0 011.414 0z" clip-rule="evenodd" />
+  </svg>
+  Verified
+</aegov-badge>
+```
+
+<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <p class="font-medium mb-3">Soft</p>
+  <div class="flex flex-wrap items-center gap-3 mb-6">
+    <aegov-badge color="aegreen">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+        <path fill-rule="evenodd" d="M16.704 5.29a1 1 0 010 1.42l-7.5 7.5a1 1 0 01-1.42 0l-3.5-3.5a1 1 0 011.42-1.42L8.5 12.085l6.79-6.795a1 1 0 011.414 0z" clip-rule="evenodd" />
+      </svg>
+      Active
+    </aegov-badge>
+    <aegov-badge color="camel">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm.75-13a.75.75 0 00-1.5 0v5c0 .2.08.39.22.53l3 3a.75.75 0 101.06-1.06L10.75 9.69V5z" clip-rule="evenodd" />
+      </svg>
+      Pending
+    </aegov-badge>
+    <aegov-badge color="aered">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+        <path fill-rule="evenodd" d="M18 10A8 8 0 11.999 9.999 8 8 0 0118 10zm-8-5a.75.75 0 01.75.75v4.5a.75.75 0 01-1.5 0v-4.5A.75.75 0 0110 5zm0 10a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd" />
+      </svg>
+      Rejected
+    </aegov-badge>
+    <aegov-badge color="techblue">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+        <path fill-rule="evenodd" d="M18 10A8 8 0 11.999 9.999 8 8 0 0118 10zM8.94 6.94a.75.75 0 11-1.06-1.06 3 3 0 014.55 3.9c-.27.42-.65.75-.97 1.03-.41.36-.59.55-.63.78-.05.4-.4.69-.78.65-.4-.04-.69-.4-.65-.78.13-1 .81-1.58 1.24-1.94l.18-.16c.62-.61.83-1.5.39-2.16a1.5 1.5 0 00-2.27-.25zM11 13a1 1 0 11-2 0 1 1 0 012 0z" clip-rule="evenodd" />
+      </svg>
+      In review
+    </aegov-badge>
+    <aegov-badge color="aegold">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+        <path fill-rule="evenodd" d="M10.868 2.884c-.321-.772-1.415-.772-1.736 0l-1.83 4.401-4.753.381c-.833.067-1.171 1.107-.536 1.651l3.62 3.102-1.106 4.637c-.194.813.691 1.456 1.405 1.02L10 15.591l4.069 2.485c.713.436 1.598-.207 1.404-1.02l-1.106-4.637 3.62-3.102c.635-.544.297-1.584-.536-1.651l-4.752-.381-1.831-4.401z" />
+      </svg>
+      Featured
+    </aegov-badge>
+  </div>
+  <div class="flex flex-wrap items-center gap-3 mb-6">
+    <aegov-badge color="aegreen" size="sm">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+        <path fill-rule="evenodd" d="M16.704 5.29a1 1 0 010 1.42l-7.5 7.5a1 1 0 01-1.42 0l-3.5-3.5a1 1 0 011.42-1.42L8.5 12.085l6.79-6.795a1 1 0 011.414 0z" clip-rule="evenodd" />
+      </svg>
+      Active
+    </aegov-badge>
+    <aegov-badge color="camel" size="sm">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm.75-13a.75.75 0 00-1.5 0v5c0 .2.08.39.22.53l3 3a.75.75 0 101.06-1.06L10.75 9.69V5z" clip-rule="evenodd" />
+      </svg>
+      Pending
+    </aegov-badge>
+    <aegov-badge color="aered" size="sm">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+        <path fill-rule="evenodd" d="M18 10A8 8 0 11.999 9.999 8 8 0 0118 10zm-8-5a.75.75 0 01.75.75v4.5a.75.75 0 01-1.5 0v-4.5A.75.75 0 0110 5zm0 10a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd" />
+      </svg>
+      Rejected
+    </aegov-badge>
+    <aegov-badge color="techblue" size="sm">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+        <path fill-rule="evenodd" d="M18 10A8 8 0 11.999 9.999 8 8 0 0118 10zM8.94 6.94a.75.75 0 11-1.06-1.06 3 3 0 014.55 3.9c-.27.42-.65.75-.97 1.03-.41.36-.59.55-.63.78-.05.4-.4.69-.78.65-.4-.04-.69-.4-.65-.78.13-1 .81-1.58 1.24-1.94l.18-.16c.62-.61.83-1.5.39-2.16a1.5 1.5 0 00-2.27-.25zM11 13a1 1 0 11-2 0 1 1 0 012 0z" clip-rule="evenodd" />
+      </svg>
+      In review
+    </aegov-badge>
+    <aegov-badge color="aegold" size="sm">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+        <path fill-rule="evenodd" d="M10.868 2.884c-.321-.772-1.415-.772-1.736 0l-1.83 4.401-4.753.381c-.833.067-1.171 1.107-.536 1.651l3.62 3.102-1.106 4.637c-.194.813.691 1.456 1.405 1.02L10 15.591l4.069 2.485c.713.436 1.598-.207 1.404-1.02l-1.106-4.637 3.62-3.102c.635-.544.297-1.584-.536-1.651l-4.752-.381-1.831-4.401z" />
+      </svg>
+      Featured
+    </aegov-badge>
+  </div>
+  <p class="font-medium mb-3">Solid</p>
+  <div class="flex flex-wrap items-center gap-3">
+    <aegov-badge appearance="solid" color="aegreen">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+        <path fill-rule="evenodd" d="M16.704 5.29a1 1 0 010 1.42l-7.5 7.5a1 1 0 01-1.42 0l-3.5-3.5a1 1 0 011.42-1.42L8.5 12.085l6.79-6.795a1 1 0 011.414 0z" clip-rule="evenodd" />
+      </svg>
+      Verified
+    </aegov-badge>
+    <aegov-badge appearance="solid" color="aered">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.28 7.22a.75.75 0 00-1.06 1.06L8.94 10l-1.72 1.72a.75.75 0 101.06 1.06L10 11.06l1.72 1.72a.75.75 0 101.06-1.06L11.06 10l1.72-1.72a.75.75 0 00-1.06-1.06L10 8.94 8.28 7.22z" clip-rule="evenodd" />
+      </svg>
+      Blocked
+    </aegov-badge>
+    <aegov-badge appearance="solid" color="techblue">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+        <path d="M10 12a2 2 0 100-4 2 2 0 000 4z" />
+        <path fill-rule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd" />
+      </svg>
+      Public
+    </aegov-badge>
+    <aegov-badge appearance="solid" color="aegold">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+        <path fill-rule="evenodd" d="M10.868 2.884c-.321-.772-1.415-.772-1.736 0l-1.83 4.401-4.753.381c-.833.067-1.171 1.107-.536 1.651l3.62 3.102-1.106 4.637c-.194.813.691 1.456 1.405 1.02L10 15.591l4.069 2.485c.713.436 1.598-.207 1.404-1.02l-1.106-4.637 3.62-3.102c.635-.544.297-1.584-.536-1.651l-4.752-.381-1.831-4.401z" clip-rule="evenodd" />
+      </svg>
+      Featured
+    </aegov-badge>
+  </div>
+</div>
+
+---
+
 ## Status Indicators
 
 A common badge use is to mark the status of a row in a service list — application progress, account state, document validity, and so on. Pair colours consistently across your application so users learn the meaning at a glance.
