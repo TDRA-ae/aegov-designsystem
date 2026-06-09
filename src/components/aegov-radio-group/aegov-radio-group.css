@@ -137,6 +137,10 @@
   @apply opacity-40 cursor-not-allowed;
 }
 
+.radio-group--pills .radio__wrapper:has(input:focus-visible) {
+  @apply outline-2 outline-offset-2 outline-primary-support-600 dark:outline-primary-support-400;
+}
+
 .radio-group--pills .radio__description {
   @apply hidden;
 }
