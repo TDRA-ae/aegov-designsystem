@@ -80,6 +80,18 @@ export class AegovCallout {
   @State() hasIconSlot: boolean = false;
 
   /**
+   * Internal state to track if the link slot has content.
+   */
+  @State() hasLinkSlot: boolean = false;
+
+  /**
+   * Holds a usage-error description (mutually-exclusive slots, unsupported
+   * children in `actions`). When set, render is replaced by a visible error
+   * block. Computed each render — not @State to avoid an extra re-render.
+   */
+  private validationError: { message: string; offendingTag?: string } | null = null;
+
+  /**
    * Handle the dismiss button click.
    */
   private handleDismiss = () => {
@@ -103,6 +115,14 @@ export class AegovCallout {
   private checkIconSlot = () => {
     const iconElements = this.el.querySelectorAll('[slot="icon"]');
     this.hasIconSlot = iconElements.length > 0;
+  };
+  
+  /**
+   * Check if the link slot has content
+   */
+  private checkLinkSlot = () => {
+    const linkElements = this.el.querySelectorAll('[slot="link"]');
+    this.hasLinkSlot = linkElements.length > 0;
   };
 
   /**
@@ -140,12 +160,45 @@ export class AegovCallout {
     this._resolvedSize = this._sizeWatcher.current as CalloutSize;
   }
 
+  private static readonly ACTIONS_ALLOWED_TAGS = new Set(['AEGOV-BUTTON', 'AEGOV-LINK']);
+
+  /**
+   * Validate slot usage. Returns a structured error or null.
+   * Rules:
+   *  1. `link` and `actions` slots are mutually exclusive.
+   *  2. Children of the slotted `actions` wrapper must be <aegov-button> or <aegov-link>.
+   */
+  private validateSlots(): { message: string; offendingTag?: string } | null {
+    if (this.hasLinkSlot && this.hasActionsSlot) {
+      return {
+        message: 'Callout cannot have both a link slot and an actions slot. Provide one or the other.',
+      };
+    }
+    if (this.hasActionsSlot) {
+      const wrapper = this.el.querySelector('[slot="actions"]');
+      if (wrapper) {
+        const bad = Array.from(wrapper.children).find(
+          c => !AegovCallout.ACTIONS_ALLOWED_TAGS.has(c.tagName)
+        );
+        if (bad) {
+          return {
+            message: 'Children of the actions slot wrapper must be <aegov-button> or <aegov-link>.',
+            offendingTag: bad.tagName.toLowerCase(),
+          };
+        }
+      }
+    }
+    return null;
+  }
+
   /**
    * Lifecycle method called before each render
    */
   componentWillRender() {
     this.checkActionsSlot();
     this.checkIconSlot();
+    this.checkLinkSlot();
+    this.validationError = this.validateSlots();
   }
 
   private static readonly PASS_THROUGH_ATTRS = new Set<string>();
@@ -155,7 +208,7 @@ export class AegovCallout {
    */
   private getCalloutClasses(): string {
     const classes: string[] = [
-      'aegov-callout flex items-start gap-4 rounded-sm border-0'
+      'aegov-callout relative block rounded-sm border-0'
     ];
 
     const appearance: CalloutAppearance = (CALLOUT_APPEARANCES as readonly string[]).includes(this.appearance) ? this.appearance : 'soft';
@@ -201,30 +254,57 @@ export class AegovCallout {
       return null;
     }
 
+    if (this.validationError) {
+      const { message, offendingTag } = this.validationError;
+      return (
+        <div class="aegov-callout aegov-callout--error" role="alert" id={this.fieldId}>
+          <p>
+            <strong>aegov-callout configuration error:</strong> {message}
+            {offendingTag && <span> Found <code>&lt;{offendingTag}&gt;</code>.</span>}
+          </p>
+        </div>
+      );
+    }
+
     const passThroughAttributes = getPassThroughAttributes(this.el, AegovCallout.PASS_THROUGH_ATTRS);
 
     return (
-      <div data-aegov-callout class={this.getCalloutClasses()} role="alert" id={this.fieldId} {...passThroughAttributes}>
-        <div class="callout__icon">
-          {this.hasIconSlot ? (
-            <slot name="icon" />
-          ) : (
-            getVariantIcon(this.variant, this.getIconSizeClass())
-          )}
-        </div>
-        <div class="callout__content">
-          <slot name="content" />
-          {this.hasActionsSlot && (
-            <div class="callout__actions">
-              <slot name="actions" />
+      <div
+        data-aegov-callout
+        data-dismissible={this.isDismissible ? 'true' : null}
+        class={this.getCalloutClasses()}
+        role="alert"
+        id={this.fieldId}
+        {...passThroughAttributes}
+      >
+        <div class="callout__main">
+          <div class="callout__icon">
+            {this.hasIconSlot ? (
+              <slot name="icon" />
+            ) : (
+              getVariantIcon(this.variant, this.getIconSizeClass())
+            )}
+          </div>
+          <div>
+            <div class="callout__content">
+              <slot name="content" />
             </div>
-          )}
+            {this.hasLinkSlot && (
+            <div class="callout__right">
+              <slot name="link" />
+            </div>
+            )}
+            {this.hasActionsSlot && (
+              <div class="callout__actions">
+                <slot name="actions" />
+              </div>
+            )}
+          </div>
         </div>
-        <div class="callout__right">
-          <slot name="link" />
         {this.isDismissible && (
           <button
             type="button"
+            class="callout__dismiss"
             onClick={this.handleDismiss}
             aria-label={isRtl(this.el) ? STRINGS.ar.close : STRINGS.en.close}
           >
@@ -233,7 +313,6 @@ export class AegovCallout {
             </svg>
           </button>
         )}
-        </div>
       </div>
     );
   }

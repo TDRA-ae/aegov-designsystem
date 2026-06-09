@@ -21,7 +21,7 @@
           <section id="content-area" class="bg-whitely-50 dark:bg-aeblack-900 p-6 rounded-md shadow-xl">
           <!-- DOC:START -->
 <h1>Datepicker</h1>
-<p class="text-lg text-aeblack-500 dark:text-aeblack-300 mb-8">A date and date-range picker for UAE Government service forms — date of birth, residency expiry, application window, leave request, appointment booking, and any other field that asks the user for one or two calendar dates. The component renders a read-only input trigger and opens a calendar in a portal attached to `document.body`, so the calendar is never clipped by overflow rules on the surrounding form. Single-date and range modes share one component, with full keyboard navigation and Arabic / English locale support out of the box.</p>
+<p class="text-lg text-aeblack-500 mb-8">A date and date-range picker for UAE Government service forms — date of birth, residency expiry, application window, leave request, appointment booking, and any other field that asks the user for one or two calendar dates. The component renders a read-only input trigger and opens a calendar in a portal attached to `document.body`, so the calendar is never clipped by overflow rules on the surrounding form. Single-date and range modes share one component, with full keyboard navigation and Arabic / English locale support out of the box.</p>
 
 <h2>Introduction</h2>
 <p>The <code>aegov-datepicker</code> component composes a styled trigger input with a portaled calendar popover. The trigger is <code>readOnly</code>, so users cannot type free-form text — every selection happens through the calendar dialog. Single mode commits as soon as the user clicks a day; range mode accumulates two clicks (start, then end) and commits when the second click lands on a valid day. Min/max constraints, blackout dates, range-length limits, presets, and an optional Apply / Cancel confirmation flow are all configurable via attributes.</p>
@@ -31,7 +31,7 @@
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-datepicker</span>
   <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;Select a date&quot;</span>
   <span class="hljs-attr">format</span>=<span class="hljs-string">&quot;DD MMM YYYY&quot;</span>
-&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-datepicker</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-datepicker</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-datepicker
     placeholder="Select a date"
     format="DD MMM YYYY"
@@ -45,7 +45,7 @@
   <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;Date of birth&quot;</span>
   <span class="hljs-attr">format</span>=<span class="hljs-string">&quot;DD MMM YYYY&quot;</span>
   <span class="hljs-attr">is-disable-future</span>=<span class="hljs-string">&quot;true&quot;</span>
-&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-datepicker</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-datepicker</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-datepicker
     placeholder="Date of birth"
     format="DD MMM YYYY"
@@ -61,7 +61,7 @@
   <span class="hljs-attr">label-range-start</span>=<span class="hljs-string">&quot;Check-in&quot;</span>
   <span class="hljs-attr">label-range-end</span>=<span class="hljs-string">&quot;Check-out&quot;</span>
   <span class="hljs-attr">format</span>=<span class="hljs-string">&quot;DD MMM YYYY&quot;</span>
-&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-datepicker</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-datepicker</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-datepicker
     appearance="range"
     label-range-start="Check-in"
@@ -134,7 +134,7 @@
 </tbody></table>
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-datepicker</span> <span class="hljs-attr">format</span>=<span class="hljs-string">&quot;DD MMM YYYY&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;DD MMM YYYY&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-datepicker</span>&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">aegov-datepicker</span> <span class="hljs-attr">format</span>=<span class="hljs-string">&quot;MMMM D, YYYY&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;MMMM D, YYYY&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-datepicker</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-datepicker</span> <span class="hljs-attr">format</span>=<span class="hljs-string">&quot;YYYY-MM-DD&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;YYYY-MM-DD&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-datepicker</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-datepicker</span> <span class="hljs-attr">format</span>=<span class="hljs-string">&quot;YYYY-MM-DD&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;YYYY-MM-DD&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-datepicker</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-datepicker format="DD MMM YYYY" placeholder="DD MMM YYYY"></aegov-datepicker>
   <div class="my-4"></div>
   <aegov-datepicker format="MMMM D, YYYY" placeholder="MMMM D, YYYY"></aegov-datepicker>
@@ -155,7 +155,7 @@
   <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;Appointment date&quot;</span>
   <span class="hljs-attr">min</span>=<span class="hljs-string">&quot;today&quot;</span>
   <span class="hljs-attr">format</span>=<span class="hljs-string">&quot;DD MMM YYYY&quot;</span>
-&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-datepicker</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-datepicker</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-datepicker
     placeholder="Emirates ID issue date"
     is-disable-future="true"
@@ -177,7 +177,7 @@
   <span class="hljs-attr">min</span>=<span class="hljs-string">&quot;today&quot;</span>
   <span class="hljs-attr">blackout</span>=<span class="hljs-string">&quot;2026-12-02,2026-12-03,2026-01-01&quot;</span>
   <span class="hljs-attr">format</span>=<span class="hljs-string">&quot;DD MMM YYYY&quot;</span>
-&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-datepicker</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-datepicker</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-datepicker
     placeholder="Service appointment"
     min="today"
@@ -196,7 +196,7 @@
   <span class="hljs-attr">min-range</span>=<span class="hljs-string">&quot;2&quot;</span>
   <span class="hljs-attr">max-range</span>=<span class="hljs-string">&quot;14&quot;</span>
   <span class="hljs-attr">format</span>=<span class="hljs-string">&quot;DD MMM YYYY&quot;</span>
-&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-datepicker</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-datepicker</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-datepicker
     appearance="range"
     label-range-start="Leave start"
@@ -216,7 +216,7 @@
   <span class="hljs-attr">label-range-start</span>=<span class="hljs-string">&quot;From&quot;</span>
   <span class="hljs-attr">label-range-end</span>=<span class="hljs-string">&quot;To&quot;</span>
   <span class="hljs-attr">format</span>=<span class="hljs-string">&quot;DD MMM YYYY&quot;</span>
-&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-datepicker</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-datepicker</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-datepicker
     appearance="range"
     presets="today,yesterday,last7Days,thisMonth,lastMonth"
@@ -235,7 +235,7 @@
   <span class="hljs-attr">label-range-start</span>=<span class="hljs-string">&quot;Start&quot;</span>
   <span class="hljs-attr">label-range-end</span>=<span class="hljs-string">&quot;End&quot;</span>
   <span class="hljs-attr">format</span>=<span class="hljs-string">&quot;DD MMM YYYY&quot;</span>
-&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-datepicker</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-datepicker</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-datepicker
     appearance="range"
     is-with-confirmation="true"
@@ -249,7 +249,7 @@
 <h2>Week start day</h2>
 <p>The <code>start-day</code> property sets the first column of the calendar grid. <code>0</code> is Sunday (default), <code>1</code> is Monday, <code>6</code> is Saturday. UAE working-week conventions typically use <code>1</code> (Monday) or <code>6</code> (Saturday).</p>
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-datepicker</span> <span class="hljs-attr">start-day</span>=<span class="hljs-string">&quot;1&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;Week starts Monday&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-datepicker</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-datepicker</span> <span class="hljs-attr">start-day</span>=<span class="hljs-string">&quot;6&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;Week starts Saturday&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-datepicker</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-datepicker</span> <span class="hljs-attr">start-day</span>=<span class="hljs-string">&quot;6&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;Week starts Saturday&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-datepicker</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-datepicker start-day="1" placeholder="Week starts Monday"></aegov-datepicker>
   <div class="my-4"></div>
   <aegov-datepicker start-day="6" placeholder="Week starts Saturday"></aegov-datepicker>
@@ -258,7 +258,7 @@
 <hr>
 <h2>Header style</h2>
 <p><code>is-header-selectable</code> (default <code>true</code>) renders month and year <code>&lt;select&gt;</code> dropdowns in the calendar header so the user can jump months or years quickly. Set it to <code>false</code> to fall back to a static month-year label with only the chevron arrows for navigation.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-datepicker</span> <span class="hljs-attr">is-header-selectable</span>=<span class="hljs-string">&quot;false&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;Static header&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-datepicker</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-datepicker</span> <span class="hljs-attr">is-header-selectable</span>=<span class="hljs-string">&quot;false&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;Static header&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-datepicker</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-datepicker is-header-selectable="false" placeholder="Static header"></aegov-datepicker>
 </div>
 
@@ -268,7 +268,7 @@
   <span class="hljs-attr">year-range-start</span>=<span class="hljs-string">&quot;1925&quot;</span>
   <span class="hljs-attr">year-range-end</span>=<span class="hljs-string">&quot;2026&quot;</span>
   <span class="hljs-attr">is-disable-future</span>=<span class="hljs-string">&quot;true&quot;</span>
-&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-datepicker</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-datepicker</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-datepicker
     placeholder="Date of birth"
     year-range-start="1925"
@@ -281,7 +281,7 @@
 <h2>Disabled and required</h2>
 <p>Set <code>is-disabled=&quot;true&quot;</code> to lock the trigger and prevent the calendar from opening. Set <code>is-required=&quot;true&quot;</code> to mark the field as required and forward the <code>required</code> attribute to the inner native input.</p>
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-datepicker</span> <span class="hljs-attr">is-required</span>=<span class="hljs-string">&quot;true&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;Application date&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-datepicker</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-datepicker</span> <span class="hljs-attr">is-disabled</span>=<span class="hljs-string">&quot;true&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;2026-05-01&quot;</span> <span class="hljs-attr">format</span>=<span class="hljs-string">&quot;DD MMM YYYY&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-datepicker</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-datepicker</span> <span class="hljs-attr">is-disabled</span>=<span class="hljs-string">&quot;true&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;2026-05-01&quot;</span> <span class="hljs-attr">format</span>=<span class="hljs-string">&quot;DD MMM YYYY&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-datepicker</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-datepicker is-required="true" placeholder="Application date"></aegov-datepicker>
   <div class="my-4"></div>
   <aegov-datepicker is-disabled="true" value="2026-05-01" format="DD MMM YYYY"></aegov-datepicker>
@@ -292,7 +292,7 @@
 <p>The <code>size</code> property scales the trigger input. Tokens: <code>xs</code>, <code>sm</code>, <code>base</code> (default), <code>lg</code>, <code>xl</code>. Responsive strings (<code>sm md:base lg:lg</code>) work the same way as on <code>aegov-input</code>.</p>
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-datepicker</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;Small&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-datepicker</span>&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">aegov-datepicker</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;base&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;Base (default)&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-datepicker</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-datepicker</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;lg&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;Large&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-datepicker</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-datepicker</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;lg&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;Large&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-datepicker</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-datepicker size="sm" placeholder="Small"></aegov-datepicker>
   <div class="my-4"></div>
   <aegov-datepicker size="base" placeholder="Base (default)"></aegov-datepicker>
@@ -352,7 +352,7 @@
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-datepicker</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;primary&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;Primary&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-datepicker</span>&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">aegov-datepicker</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;secondary&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;Secondary&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-datepicker</span>&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">aegov-datepicker</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;neutral-max&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;Neutral-max&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-datepicker</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-datepicker</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;neutral-min&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;Neutral-min&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-datepicker</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-datepicker</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;neutral-min&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;Neutral-min&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-datepicker</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
     <aegov-datepicker variant="primary" placeholder="Primary"></aegov-datepicker>
     <aegov-datepicker variant="secondary" placeholder="Secondary"></aegov-datepicker>
@@ -368,7 +368,7 @@
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;trigger&quot;</span> <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;outline&quot;</span>&gt;</span>
     Pick a date
   <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-datepicker</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-datepicker</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-datepicker>
     <aegov-button slot="trigger" appearance="outline">
       Pick a date
@@ -390,7 +390,7 @@
   <span class="hljs-attr">blackout</span>=<span class="hljs-string">&quot;2026-12-02,2026-12-03&quot;</span>
   <span class="hljs-attr">min</span>=<span class="hljs-string">&quot;today&quot;</span>
   <span class="hljs-attr">format</span>=<span class="hljs-string">&quot;DD MMM YYYY&quot;</span>
-&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-datepicker</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-datepicker</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-datepicker
     appearance="range"
     is-required="true"
@@ -442,7 +442,7 @@
     <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;اختر تاريخاً&quot;</span>
     <span class="hljs-attr">format</span>=<span class="hljs-string">&quot;D MMMM YYYY&quot;</span>
   &gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-datepicker</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre><div dir="rtl" class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre><div dir="rtl" class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-datepicker
     locale="ar"
     start-day="6"
@@ -462,7 +462,7 @@
     <span class="hljs-attr">presets</span>=<span class="hljs-string">&quot;today,last7Days,thisMonth,lastMonth&quot;</span>
     <span class="hljs-attr">format</span>=<span class="hljs-string">&quot;D MMMM YYYY&quot;</span>
   &gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-datepicker</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre><div dir="rtl" class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre><div dir="rtl" class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-datepicker
     appearance="range"
     locale="ar"

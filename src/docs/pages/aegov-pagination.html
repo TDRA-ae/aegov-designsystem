@@ -21,7 +21,7 @@
           <section id="content-area" class="bg-whitely-50 dark:bg-aeblack-900 p-6 rounded-md shadow-xl">
           <!-- DOC:START -->
 <h1>Pagination</h1>
-<p class="text-lg text-aeblack-500 dark:text-aeblack-300 mb-8">Pagination breaks long lists — search results, service tickets, news archives, document libraries — into navigable pages. It gives users a clear sense of how much content is available, where they are in the set, and a quick way to jump backward or forward. The component is fully controlled, so you decide which page is current and update it on every change event.</p>
+<p class="text-lg text-aeblack-500 mb-8">Pagination breaks long lists — search results, service tickets, news archives, document libraries — into navigable pages. It gives users a clear sense of how much content is available, where they are in the set, and a quick way to jump backward or forward. The component is fully controlled, so you decide which page is current and update it on every change event.</p>
 
 <h2>Introduction</h2>
 <p>The <code>aegov-pagination</code> component renders a semantic <code>&lt;nav&gt;</code> landmark containing the previous/next buttons, the active page, sibling pages around it, boundary pages at each end, and ellipsis tokens in between. It is <strong>controlled</strong> — when the user clicks a page, the component emits <code>aegovPaginationPageChange</code> with the new page number, and your application is responsible for updating <code>pageCurrent</code> (and loading the data for that page).</p>
@@ -33,7 +33,7 @@
     pager.<span class="hljs-property">pageCurrent</span> = e.<span class="hljs-property">detail</span>;
     <span class="hljs-comment">// load data for the new page…</span>
   });
-</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-pagination id="demo-pager-intro" pages="10" page-current="1"></aegov-pagination>
   <script>
     (function() {
@@ -46,7 +46,7 @@
 <hr>
 <h2>Total Pages and Current Page</h2>
 <p><code>pages</code> is the total number of pages and <code>page-current</code> is the active page (1-indexed). Both are required for a useful render. When <code>pages</code> is <code>1</code>, the component renders only a disabled previous/next pair. When <code>pages</code> is <code>0</code> or less, nothing is rendered.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-pagination</span> <span class="hljs-attr">pages</span>=<span class="hljs-string">&quot;6&quot;</span> <span class="hljs-attr">page-current</span>=<span class="hljs-string">&quot;3&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-pagination</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-pagination</span> <span class="hljs-attr">pages</span>=<span class="hljs-string">&quot;6&quot;</span> <span class="hljs-attr">page-current</span>=<span class="hljs-string">&quot;3&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-pagination</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-pagination id="demo-pager-cur" pages="6" page-current="3"></aegov-pagination>
   <script>
     (function() {
@@ -63,7 +63,7 @@
   <span class="hljs-attr">pages</span>=<span class="hljs-string">&quot;50&quot;</span>
   <span class="hljs-attr">page-current</span>=<span class="hljs-string">&quot;12&quot;</span>
   <span class="hljs-attr">is-enabled-first-last</span>=<span class="hljs-string">&quot;true&quot;</span>
-&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-pagination</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-pagination</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-pagination id="demo-pager-fl" pages="50" page-current="12" is-enabled-first-last="true"></aegov-pagination>
   <script>
     (function() {
@@ -83,7 +83,7 @@
 <span class="hljs-tag">&lt;<span class="hljs-name">aegov-pagination</span> <span class="hljs-attr">pages</span>=<span class="hljs-string">&quot;50&quot;</span> <span class="hljs-attr">page-current</span>=<span class="hljs-string">&quot;20&quot;</span> <span class="hljs-attr">count-sibling</span>=<span class="hljs-string">&quot;2&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-pagination</span>&gt;</span>
 
 <span class="hljs-comment">&lt;!-- 2 siblings + 2 boundary pages --&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-pagination</span> <span class="hljs-attr">pages</span>=<span class="hljs-string">&quot;50&quot;</span> <span class="hljs-attr">page-current</span>=<span class="hljs-string">&quot;20&quot;</span> <span class="hljs-attr">count-sibling</span>=<span class="hljs-string">&quot;2&quot;</span> <span class="hljs-attr">count-boundary</span>=<span class="hljs-string">&quot;2&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-pagination</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-pagination</span> <span class="hljs-attr">pages</span>=<span class="hljs-string">&quot;50&quot;</span> <span class="hljs-attr">page-current</span>=<span class="hljs-string">&quot;20&quot;</span> <span class="hljs-attr">count-sibling</span>=<span class="hljs-string">&quot;2&quot;</span> <span class="hljs-attr">count-boundary</span>=<span class="hljs-string">&quot;2&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-pagination</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <p class="text-sm text-aeblack-500 mb-2">Default (1 sibling, 1 boundary):</p>
   <aegov-pagination id="demo-pager-sib1" pages="50" page-current="20"></aegov-pagination>
 
@@ -112,7 +112,7 @@
   <span class="hljs-attr">pages</span>=<span class="hljs-string">&quot;20&quot;</span>
   <span class="hljs-attr">page-current</span>=<span class="hljs-string">&quot;3&quot;</span>
   <span class="hljs-attr">is-enabled-first-last</span>=<span class="hljs-string">&quot;true&quot;</span>
-&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-pagination</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-pagination</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <p class="text-sm text-aeblack-500 mb-2">Compact:</p>
   <aegov-pagination id="demo-pager-cmp1" variant="compact" pages="20" page-current="3"></aegov-pagination>
 
@@ -136,7 +136,7 @@
 <span class="hljs-tag">&lt;<span class="hljs-name">aegov-pagination</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;lg&quot;</span> <span class="hljs-attr">pages</span>=<span class="hljs-string">&quot;10&quot;</span> <span class="hljs-attr">page-current</span>=<span class="hljs-string">&quot;1&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-pagination</span>&gt;</span>
 
 <span class="hljs-comment">&lt;!-- Responsive --&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-pagination</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm md:base lg:lg&quot;</span> <span class="hljs-attr">pages</span>=<span class="hljs-string">&quot;20&quot;</span> <span class="hljs-attr">page-current</span>=<span class="hljs-string">&quot;3&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-pagination</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-pagination</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm md:base lg:lg&quot;</span> <span class="hljs-attr">pages</span>=<span class="hljs-string">&quot;20&quot;</span> <span class="hljs-attr">page-current</span>=<span class="hljs-string">&quot;3&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-pagination</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <p class="text-sm text-aeblack-500 mb-2">Small:</p>
   <aegov-pagination id="demo-pager-sm" size="sm" pages="10" page-current="3"></aegov-pagination>
 
@@ -161,7 +161,7 @@
 <hr>
 <h2>Disabled State</h2>
 <p>Set <code>is-disabled=&quot;true&quot;</code> to disable every interactive button. The current page is still announced for screen readers, but no clicks emit events. Typical use cases include freezing the pager during data loading or after a server error.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-pagination</span> <span class="hljs-attr">pages</span>=<span class="hljs-string">&quot;10&quot;</span> <span class="hljs-attr">page-current</span>=<span class="hljs-string">&quot;3&quot;</span> <span class="hljs-attr">is-disabled</span>=<span class="hljs-string">&quot;true&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-pagination</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-pagination</span> <span class="hljs-attr">pages</span>=<span class="hljs-string">&quot;10&quot;</span> <span class="hljs-attr">page-current</span>=<span class="hljs-string">&quot;3&quot;</span> <span class="hljs-attr">is-disabled</span>=<span class="hljs-string">&quot;true&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-pagination</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-pagination pages="10" page-current="3" is-disabled="true"></aegov-pagination>
 </div>
 
@@ -176,7 +176,7 @@
   <span class="hljs-attr">label-next</span>=<span class="hljs-string">&quot;التالي&quot;</span>
   <span class="hljs-attr">label-first</span>=<span class="hljs-string">&quot;الأول&quot;</span>
   <span class="hljs-attr">label-last</span>=<span class="hljs-string">&quot;الأخير&quot;</span>
-&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-pagination</span>&gt;</span></code></pre><div dir="rtl" class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-pagination</span>&gt;</span></code></pre><div dir="rtl" class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-pagination
     id="demo-pager-loc"
     pages="20"
@@ -229,7 +229,7 @@
     <span class="hljs-keyword">const</span> end = <span class="hljs-title class_">Math</span>.<span class="hljs-title function_">min</span>(e.<span class="hljs-property">detail</span> * perPage, total);
     rangeEl.<span class="hljs-property">textContent</span> = <span class="hljs-string">`<span class="hljs-subst">${start}</span> – <span class="hljs-subst">${end}</span>`</span>;
   });
-</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <div id="demo-tickets" class="p-6 border border-aeblack-200 rounded-lg bg-whitely-50">
     <h3 class="text-lg font-semibold mb-4">My service requests</h3>
     <p class="text-aeblack-500 mb-4">Showing records <span id="demo-tickets-range">1 – 10</span> of 47</p>
@@ -272,7 +272,7 @@
     <span class="hljs-attr">label-first</span>=<span class="hljs-string">&quot;الأول&quot;</span>
     <span class="hljs-attr">label-last</span>=<span class="hljs-string">&quot;الأخير&quot;</span>
   &gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-pagination</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre><div dir="rtl" class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre><div dir="rtl" class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-pagination
     id="demo-pager-rtl"
     pages="12"
@@ -300,7 +300,7 @@
     <span class="hljs-attr">label-prev</span>=<span class="hljs-string">&quot;السابق&quot;</span>
     <span class="hljs-attr">label-next</span>=<span class="hljs-string">&quot;التالي&quot;</span>
   &gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-pagination</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre><div dir="rtl" class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre><div dir="rtl" class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-pagination
     id="demo-pager-rtl-cmp"
     variant="compact"

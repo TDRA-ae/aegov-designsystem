@@ -307,7 +307,6 @@ The callout is direction-agnostic. The icon sits at the inline-start edge, conte
       <aegov-button size="sm">استئناف الطلب</aegov-button>
       <aegov-button size="sm" appearance="outline">حفظ للاستكمال لاحقاً</aegov-button>
     </div>
-    <a slot="link" href="#">قائمة الوثائق المطلوبة</a>
   </aegov-callout>
 </div>
 ```
@@ -324,7 +323,6 @@ The callout is direction-agnostic. The icon sits at the inline-start edge, conte
       <aegov-button size="sm">استئناف الطلب</aegov-button>
       <aegov-button size="sm" appearance="outline">حفظ للاستكمال لاحقاً</aegov-button>
     </div>
-    <a slot="link" href="#">قائمة الوثائق المطلوبة</a>
   </aegov-callout>
 </div>
 

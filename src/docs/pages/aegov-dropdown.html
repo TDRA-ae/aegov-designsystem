@@ -21,7 +21,7 @@
           <section id="content-area" class="bg-whitely-50 dark:bg-aeblack-900 p-6 rounded-md shadow-xl">
           <!-- DOC:START -->
 <h1>Dropdown</h1>
-<p class="text-lg text-aeblack-500 dark:text-aeblack-300 mb-8">A Dropdown reveals a menu of actions, navigation links, or grouped commands anchored to a trigger element. It is ideal for user account menus, bulk-action lists, ministry switchers, and secondary navigation. Content is rendered into a portal at the document body so the menu can escape ancestor clipping and stacking contexts.</p>
+<p class="text-lg text-aeblack-500 mb-8">A Dropdown reveals a menu of actions, navigation links, or grouped commands anchored to a trigger element. It is ideal for user account menus, bulk-action lists, ministry switchers, and secondary navigation. Content is rendered into a portal at the document body so the menu can escape ancestor clipping and stacking contexts.</p>
 
 <h2>Introduction</h2>
 <p>The <code>aegov-dropdown</code> component pairs a trigger (placed in the default slot) with a <code>dropdown-content</code> slot containing the menu items. When the dropdown opens, the content slot is moved into a fixed-position portal at <code>document.body</code>, positioned relative to the trigger, and animated in. Only one dropdown can be open at a time — opening another automatically closes the previous one (nested dropdowns are exempt).</p>
@@ -33,7 +33,7 @@
     <span class="hljs-tag">&lt;<span class="hljs-name">hr</span> /&gt;</span>
     <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;#signout&quot;</span>&gt;</span>Sign out<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>
   <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-dropdown</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-dropdown</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-dropdown>
     <aegov-button variant="primary" appearance="outline">Account actions</aegov-button>
     <div slot="dropdown-content">
@@ -56,7 +56,7 @@
     <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;#duplicate&quot;</span>&gt;</span>Request duplicate<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>
     <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;#cancel&quot;</span>&gt;</span>Cancel application<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>
   <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-dropdown</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-dropdown</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-dropdown trigger="click">
     <aegov-button variant="primary">Service actions</aegov-button>
     <div slot="dropdown-content">
@@ -75,7 +75,7 @@
     <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/passport&quot;</span>&gt;</span>Passport services<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>
     <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/emirates-id&quot;</span>&gt;</span>Emirates ID services<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>
   <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-dropdown</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-dropdown</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-dropdown trigger="hover" position="bottom" align="start">
     <aegov-button variant="secondary" appearance="ghost">Services</aegov-button>
     <div slot="dropdown-content">
@@ -119,7 +119,7 @@
     <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;#a&quot;</span>&gt;</span>First option<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>
     <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;#b&quot;</span>&gt;</span>Second option<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>
   <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-dropdown</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-dropdown</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <div class="flex flex-wrap gap-4">
     <aegov-dropdown position="top">
       <aegov-button>Top</aegov-button>
@@ -183,7 +183,7 @@
     <span class="hljs-tag">&lt;<span class="hljs-name">hr</span> /&gt;</span>
     <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/signout&quot;</span>&gt;</span>Sign out<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>
   <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-dropdown</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-dropdown</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <div class="flex justify-end">
     <aegov-dropdown align="end" position="bottom">
       <aegov-avatar initials="HM" size="sm"></aegov-avatar>
@@ -206,7 +206,7 @@
     <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;#&quot;</span>&gt;</span>Notifications<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>
     <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;#&quot;</span>&gt;</span>Messages<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>
   <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-dropdown</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-dropdown</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-dropdown gap="16" offset="0">
     <aegov-button>Wider gap (16 px)</aegov-button>
     <div slot="dropdown-content">
@@ -224,7 +224,7 @@
   <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;dropdown-content&quot;</span>&gt;</span>
     <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;#&quot;</span>&gt;</span>This menu is disabled<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>
   <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-dropdown</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-dropdown</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-dropdown is-disabled="true">
     <aegov-button is-disabled="true">Unavailable actions</aegov-button>
     <div slot="dropdown-content">
@@ -249,7 +249,7 @@
     <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/help&quot;</span>&gt;</span>Help <span class="hljs-symbol">&amp;amp;</span> support<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>
     <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/signout&quot;</span>&gt;</span>Sign out<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>
   <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-dropdown</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-dropdown</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <div class="flex justify-end">
     <aegov-dropdown align="end" position="bottom">
       <button type="button" class="flex items-center gap-2 rounded-full p-1 hover:bg-aeblack-100">
@@ -286,7 +286,7 @@
     <span class="hljs-tag">&lt;<span class="hljs-name">hr</span> /&gt;</span>
     <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;#cancel&quot;</span>&gt;</span>Cancel application<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>
   <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-dropdown</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-dropdown</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <div class="flex items-center justify-between border border-aeblack-200 rounded p-4">
     <div>
       <div class="font-medium">Passport renewal &mdash; APP-2026-00482</div>
@@ -337,7 +337,7 @@
     <span class="hljs-tag">&lt;<span class="hljs-name">hr</span> /&gt;</span>
     <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;#status&quot;</span>&gt;</span>Check application status<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>
   <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-dropdown</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-dropdown</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-dropdown>
     <aegov-button variant="primary">Apply for service</aegov-button>
     <div slot="dropdown-content">
@@ -401,7 +401,7 @@
       <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/signout&quot;</span>&gt;</span>تسجيل الخروج<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>
     <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
   <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-dropdown</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre><div dir="rtl" class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre><div dir="rtl" class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-dropdown align="end" position="bottom">
     <aegov-button variant="primary">إجراءات الحساب</aegov-button>
     <div slot="dropdown-content">
@@ -430,7 +430,7 @@
       <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/eid&quot;</span>&gt;</span>خدمات الهوية الإماراتية<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>
     <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
   <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-dropdown</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre><div dir="rtl" class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre><div dir="rtl" class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-dropdown trigger="hover">
     <aegov-button>الخدمات</aegov-button>
     <div slot="dropdown-content">

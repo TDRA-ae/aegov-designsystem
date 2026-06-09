@@ -21,7 +21,7 @@
           <section id="content-area" class="bg-whitely-50 dark:bg-aeblack-900 p-6 rounded-md shadow-xl">
           <!-- DOC:START -->
 <h1>Toast</h1>
-<p class="text-lg text-aeblack-500 dark:text-aeblack-300 mb-8">A Toast is a transient, non-blocking notification anchored to a corner of the viewport. Use it for asynchronous status updates such as &ldquo;Application submitted&rdquo;, save confirmations, connection warnings, and undo affordances. For confirmations the user must acknowledge use the modal component instead, and for inline page-level messages use the callout.</p>
+<p class="text-lg text-aeblack-500 mb-8">A Toast is a transient, non-blocking notification anchored to a corner of the viewport. Use it for asynchronous status updates such as &ldquo;Application submitted&rdquo;, save confirmations, connection warnings, and undo affordances. For confirmations the user must acknowledge use the modal component instead, and for inline page-level messages use the callout.</p>
 
 <h2>Introduction</h2>
 <p>The <code>aegov-toast</code> component is most often used imperatively. The design system exposes a global helper at <code>window.aegovToast</code> that creates, mounts, and shows a toast in one call. You can also declare a <code>&lt;aegov-toast&gt;</code> element in markup and call its <code>show()</code> method when needed. Multiple toasts at the same <code>position</code> stack into a single per-position portal container at <code>document.body</code>, and a persistent off-screen live region announces each toast&#39;s text content to screen readers.</p>
@@ -36,7 +36,7 @@
       <span class="hljs-attr">duration</span>: <span class="hljs-number">4000</span>,
     });
   });
-</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-button id="demo-toast-intro" variant="primary">Submit application</aegov-button>
   <script>
     document.getElementById('demo-toast-intro').addEventListener('click', () => {
@@ -56,7 +56,7 @@
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-toast</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;success&quot;</span>&gt;</span>Profile updated.<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-toast</span>&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">aegov-toast</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;info&quot;</span>&gt;</span>A new policy update is available.<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-toast</span>&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">aegov-toast</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;warning&quot;</span>&gt;</span>Your session expires in 5 minutes.<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-toast</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-toast</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;error&quot;</span>&gt;</span>Unable to save changes.<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-toast</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-toast</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;error&quot;</span>&gt;</span>Unable to save changes.<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-toast</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <div class="flex flex-wrap gap-3">
     <aegov-button id="demo-toast-default" appearance="outline">Default</aegov-button>
     <aegov-button id="demo-toast-success" variant="primary">Success</aegov-button>
@@ -85,7 +85,7 @@
 <h2>Appearance</h2>
 <p><code>appearance</code> controls the surface treatment. <code>soft</code> (default) uses a white background with dark text — suitable for most cases. <code>solid</code> uses a dark background with white text and is useful when you want the toast to read as a system-level message regardless of page background.</p>
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-toast</span> <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;soft&quot;</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;success&quot;</span>&gt;</span>Application submitted.<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-toast</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-toast</span> <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;solid&quot;</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;success&quot;</span>&gt;</span>Application submitted.<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-toast</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-toast</span> <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;solid&quot;</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;success&quot;</span>&gt;</span>Application submitted.<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-toast</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <div class="flex flex-wrap gap-3">
     <aegov-button id="demo-toast-soft" appearance="outline">Soft appearance</aegov-button>
     <aegov-button id="demo-toast-solid" variant="primary">Solid appearance</aegov-button>
@@ -142,7 +142,7 @@
     <span class="hljs-attr">position</span>: <span class="hljs-string">&#x27;bottom-center&#x27;</span>,
     <span class="hljs-attr">duration</span>: <span class="hljs-number">4000</span>,
   });
-</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <div class="grid grid-cols-3 gap-3 max-w-md">
     <aegov-button id="pos-tl" appearance="outline" size="sm">Top left</aegov-button>
     <aegov-button id="pos-tc" appearance="outline" size="sm">Top center</aegov-button>
@@ -195,7 +195,7 @@
   <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;show-undo&#x27;</span>).<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;click&#x27;</span>, <span class="hljs-function">() =&gt;</span> {
     <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;undo-toast&#x27;</span>).<span class="hljs-title function_">show</span>();
   });
-</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-button id="show-undo-demo" appearance="outline">Move to trash</aegov-button>
   <script>
     document.getElementById('show-undo-demo').addEventListener('click', () => {
@@ -235,7 +235,7 @@
     <span class="hljs-attr">variant</span>: <span class="hljs-string">&#x27;warning&#x27;</span>,
     <span class="hljs-attr">duration</span>: <span class="hljs-number">0</span>,
   });
-</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <div class="flex flex-wrap gap-3">
     <aegov-button id="demo-dur-fast" appearance="outline">Quick (2 s)</aegov-button>
     <aegov-button id="demo-dur-long" appearance="outline">Long (8 s)</aegov-button>
@@ -264,7 +264,7 @@
     <span class="hljs-attr">duration</span>: <span class="hljs-number">6000</span>,
     <span class="hljs-attr">isProgressEnabled</span>: <span class="hljs-literal">true</span>,
   });
-</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-button id="demo-progress" variant="primary">Submit with progress bar</aegov-button>
   <script>
     document.getElementById('demo-progress').addEventListener('click', () => {
@@ -299,7 +299,7 @@
       });
     }, i * <span class="hljs-number">200</span>);
   }
-</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <div class="flex flex-wrap gap-3">
     <aegov-button id="demo-stack" appearance="outline">Fire 3 stacked toasts</aegov-button>
     <aegov-button id="demo-rack" variant="primary">Fire 4 racked toasts</aegov-button>
@@ -342,7 +342,7 @@
     document.body.appendChild(toast);
     toast.show();
   });
-</span></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+</span></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-button id="demo-composite" variant="primary">Submit form</aegov-button>
   <script>
     document.getElementById('demo-composite').addEventListener('click', () => {
@@ -381,7 +381,7 @@
       });
     });
   </span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre><div dir="rtl" class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre><div dir="rtl" class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-button id="demo-rtl-toast" variant="primary">إرسال الطلب</aegov-button>
   <script>
     document.getElementById('demo-rtl-toast').addEventListener('click', () => {
@@ -409,7 +409,7 @@
       });
     });
   </span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre><div dir="rtl" class="p-6 bg-aeblack-50/60 dark:bg-aeblack-800/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre><div dir="rtl" class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-button id="demo-rtl-warn" appearance="outline">انتهاء الجلسة</aegov-button>
   <script>
     document.getElementById('demo-rtl-warn').addEventListener('click', () => {
