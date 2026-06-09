@@ -26,17 +26,19 @@
     @apply hidden!;
   }
 }
-/* Variant — rest border, checked bg+border, hover halo per colour family */
-.aegov-radio.radio-variant-primary input[type="radio"]       { @apply border-primary-600 checked:bg-primary-600 focus-visible:outline-primary-support-600 dark:border-primary-400 dark:checked:bg-primary-500 dark:focus-visible:outline-primary-support-400; }
+/* Variant — rest border, checked bg+border, hover halo, focus outline per colour family.
+   Focus outline colour matches the design-system convention used by aegov-input et al:
+   support-500 (light) / support-400 (dark); neutrals use seablue. */
+.aegov-radio.radio-variant-primary input[type="radio"]       { @apply border-primary-600 checked:bg-primary-600 focus-visible:outline-primary-support-500 dark:border-primary-400 dark:checked:bg-primary-500 dark:focus-visible:outline-primary-support-400; }
 .aegov-radio.radio-variant-primary input[type="radio"]::before { @apply bg-primary-50 dark:bg-primary-900/40; }
 
-.aegov-radio.radio-variant-secondary input[type="radio"]     { @apply border-secondary-600 checked:bg-secondary-600 focus-visible:outline-secondary-support-600 dark:border-secondary-400 dark:checked:bg-secondary-500 dark:focus-visible:outline-secondary-support-400; }
+.aegov-radio.radio-variant-secondary input[type="radio"]     { @apply border-secondary-600 checked:bg-secondary-600 focus-visible:outline-secondary-support-500 dark:border-secondary-400 dark:checked:bg-secondary-500 dark:focus-visible:outline-secondary-support-400; }
 .aegov-radio.radio-variant-secondary input[type="radio"]::before { @apply bg-secondary-50 dark:bg-secondary-900/40; }
 
-.aegov-radio.radio-variant-neutral-max input[type="radio"]   { @apply border-aeblack-800 checked:bg-aeblack-800 focus-visible:outline-seablue-600 dark:border-aeblack-300 dark:checked:bg-aeblack-300 dark:focus-visible:outline-seablue-400; }
+.aegov-radio.radio-variant-neutral-max input[type="radio"]   { @apply border-aeblack-800 checked:bg-aeblack-800 focus-visible:outline-seablue-500 dark:border-aeblack-300 dark:checked:bg-aeblack-300 dark:focus-visible:outline-seablue-400; }
 .aegov-radio.radio-variant-neutral-max input[type="radio"]::before { @apply bg-aeblack-100 dark:bg-aeblack-700; }
 
-.aegov-radio.radio-variant-neutral-min input[type="radio"]   { @apply border-aeblack-300 checked:bg-aeblack-300 focus-visible:outline-seablue-600 dark:border-aeblack-500 dark:checked:bg-aeblack-500 dark:focus-visible:outline-seablue-400; }
+.aegov-radio.radio-variant-neutral-min input[type="radio"]   { @apply border-aeblack-300 checked:bg-aeblack-300 focus-visible:outline-seablue-500 dark:border-aeblack-500 dark:checked:bg-aeblack-500 dark:focus-visible:outline-seablue-400; }
 .aegov-radio.radio-variant-neutral-min input[type="radio"]::before { @apply bg-aeblack-50 dark:bg-aeblack-800; }
 
 /* Wrapper label for inline label mode */
@@ -203,7 +205,12 @@
 /* Validation surface (Layer 1) — see validation-engine-addon.md §2.6 */
 
 aegov-radio.is-invalid .radio__wrapper input[type="radio"] {
-  @apply ring-2 ring-aered-600 dark:ring-aered-500;
+  @apply ring-2 ring-aered-500 dark:ring-aered-400;
+}
+
+/* Invalid + focus — outline goes red so it doesn't compete with the red ring. */
+aegov-radio.is-invalid .radio__wrapper input[type="radio"]:focus-visible {
+  @apply outline-aered-500 dark:outline-aered-400;
 }
 
 .aegov-radio__error {

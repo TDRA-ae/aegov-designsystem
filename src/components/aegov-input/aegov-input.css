@@ -4,35 +4,37 @@
 
 .aegov-input {
   font-family: inherit;
-  @apply relative w-full border-0 bg-transparent leading-6 font-medium
-         focus:ring-0 motion-reduce:transition-none
+  @apply relative w-full bg-transparent leading-6 font-medium
+         motion-reduce:transition-none
          disabled:pointer-events-none disabled:cursor-not-allowed
          disabled:select-none disabled:opacity-40
          rounded-lg focus:outline-none;
   @apply placeholder:text-aeblack-300 bg-whitely-50
-         inset-ring-2
-         focus-visible:inset-ring-primary-support-500
+         border-2
+         focus-visible:ring-2
+         focus-visible:ring-offset-1
+         focus-visible:ring-primary-support-500
          dark:placeholder:text-aeblack-500 dark:bg-aeblack-800
-         dark:focus-visible:inset-ring-primary-support-400;
+         dark:focus-visible:ring-primary-support-400;
 }
 
-/* Variant — idle ring + value text per colour family */
-.aegov-input.input-variant-primary       { @apply inset-ring-primary-600 text-primary-900 dark:inset-ring-primary-400 dark:text-whitely-100 }
-.aegov-input.input-variant-secondary     { @apply inset-ring-secondary-600 text-secondary-900 dark:inset-ring-secondary-400 dark:text-whitely-100 }
-.aegov-input.input-variant-neutral-max   { @apply inset-ring-aeblack-800 text-aeblack-950 dark:inset-ring-aeblack-300 dark:text-whitely-100 }
-.aegov-input.input-variant-neutral-min   { @apply inset-ring-aeblack-300 text-aeblack-700 dark:inset-ring-aeblack-600 dark:text-aeblack-200 }
+/* Variant — idle border + value text per colour family */
+.aegov-input.input-variant-primary       { @apply border-primary-600 text-primary-900 dark:border-primary-400 dark:text-whitely-100 }
+.aegov-input.input-variant-secondary     { @apply border-secondary-600 text-secondary-900 dark:border-secondary-400 dark:text-whitely-100 }
+.aegov-input.input-variant-neutral-max   { @apply border-aeblack-800 text-aeblack-950 dark:border-aeblack-300 dark:text-whitely-100 }
+.aegov-input.input-variant-neutral-min   { @apply border-aeblack-300 text-aeblack-700 dark:border-aeblack-600 dark:text-aeblack-200 }
 
-/* Focus ring — overrides variant idle ring. Specificity (0,2,1) beats variant (0,2,0). */
+/* Focus ring — overrides variant idle border. Specificity (0,2,1) beats variant (0,2,0). */
 .aegov-input.input-variant-primary:focus {
-  @apply inset-ring-primary-support-500 bg-primary-support-50/10 inset-shadow-sm inset-shadow-primary-support-500/80
-         dark:inset-ring-primary-support-400 dark:bg-primary-support-900/20 dark:inset-shadow-primary-support-400/80;
+  @apply ring-1 ring-offset-2 ring-primary-support-500 border-2 border-primary-support-500
+         dark:ring-primary-support-400 dark:border-primary-support-400;
 }
 .aegov-input.input-variant-secondary:focus {
-  @apply inset-ring-secondary-support-500 bg-secondary-support-50/10 inset-shadow-sm inset-shadow-secondary-support-500/80
-         dark:inset-ring-secondary-support-400 dark:bg-secondary-support-900/20 dark:inset-shadow-secondary-support-400/80;
+  @apply ring-1 ring-offset-2 ring-secondary-support-500 border-2 border-secondary-support-500
+         dark:ring-secondary-support-400 dark:border-secondary-support-400;
 }
 .aegov-input.input-variant-neutral-max:focus,
-.aegov-input.input-variant-neutral-min:focus { @apply inset-ring-seablue-500 inset-shadow-sm inset-shadow-seablue-500/80 dark:inset-ring-seablue-400 dark:inset-shadow-seablue-400/80; }
+.aegov-input.input-variant-neutral-min:focus { @apply ring-1 ring-offset-2 ring-seablue-500 dark:ring-seablue-400 border-2 border-seablue-500 dark:border-seablue-400; }
 
 /* Size variants */
 .input--xs {
@@ -102,14 +104,6 @@
 .input__wrapper--xl .input__icon {
   @apply h-13 w-13;
 }
-
-/* Auto-size SVGs inside icon slots based on input size.
-   Overrides any width/height attributes/inline styles authors set on the SVG. */
-.input__wrapper--xs .input__icon > svg { @apply w-3.5 h-3.5; }
-.input__wrapper--sm .input__icon > svg { @apply w-4 h-4; }
-.input__wrapper--base .input__icon > svg { @apply w-[18px] h-[18px]; }
-.input__wrapper--lg .input__icon > svg { @apply w-5 h-5; }
-.input__wrapper--xl .input__icon > svg { @apply w-[22px] h-[22px]; }
 
 /* Input padding when start icon is present */
 .input--has-icon-start.input--xs {
@@ -221,16 +215,16 @@
    `scoped: false, shadow: false`, so the host is a normal light-DOM custom
    element — selector must target it by tag name + class. */
 aegov-input.is-invalid .aegov-input {
-  @apply inset-ring-aered-600 dark:inset-ring-aered-500;
+  @apply border-aered-600 dark:border-aered-500;
 }
 
 aegov-input.is-invalid .aegov-input:focus {
-  /* Override variant focus treatment: red ring + red inset shadow.
+  /* Override variant focus treatment: red ring with offset.
      Without this, the variant rule (e.g. .input-variant-primary:focus)
-     leaks its support-colour inset shadow through the invalid state.
+     leaks its support-colour ring through the invalid state.
      Same selector specificity (0,2,1) — placed after the variant rules so
      source order wins. */
-  @apply inset-ring-aered-500 inset-shadow-sm inset-shadow-aered-500/80 dark:inset-ring-aered-400 dark:inset-shadow-aered-400/80;
+  @apply ring-1 ring-offset-2 ring-aered-500 dark:ring-aered-400 border-2 border-aered-500 dark:border-aered-400;
 }
 
 /* Inline error region — rendered below the control */
@@ -242,3 +236,9 @@ aegov-input.is-invalid .aegov-input:focus {
 .aegov-input__hint {
   @apply text-sm text-aeblack-600 mt-1.5 leading-snug dark:text-aeblack-300;
 }
+
+.input__wrapper--xs .input__icon > svg { @apply w-3.5 h-3.5; }   /* 14px */
+.input__wrapper--sm .input__icon > svg { @apply w-4 h-4; }        /* 16px */
+.input__wrapper--base .input__icon > svg { @apply w-[18px] h-[18px]; }
+.input__wrapper--lg .input__icon > svg { @apply w-5 h-5; }        /* 20px */
+.input__wrapper--xl .input__icon > svg { @apply w-[22px] h-[22px]; }
