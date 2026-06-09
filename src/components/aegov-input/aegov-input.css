@@ -103,6 +103,14 @@
   @apply h-13 w-13;
 }
 
+/* Auto-size SVGs inside icon slots based on input size.
+   Overrides any width/height attributes/inline styles authors set on the SVG. */
+.input__wrapper--xs .input__icon > svg { @apply w-3.5 h-3.5; }
+.input__wrapper--sm .input__icon > svg { @apply w-4 h-4; }
+.input__wrapper--base .input__icon > svg { @apply w-[18px] h-[18px]; }
+.input__wrapper--lg .input__icon > svg { @apply w-5 h-5; }
+.input__wrapper--xl .input__icon > svg { @apply w-[22px] h-[22px]; }
+
 /* Input padding when start icon is present */
 .input--has-icon-start.input--xs {
   @apply ps-9;
