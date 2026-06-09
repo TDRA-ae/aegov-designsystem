@@ -142,6 +142,10 @@
   @apply opacity-40 cursor-not-allowed;
 }
 
+.checkbox-group--pills .checkbox__wrapper:has(input:focus-visible) {
+  @apply outline-2 outline-offset-2 outline-primary-support-600 dark:outline-primary-support-400;
+}
+
 .checkbox-group--pills .checkbox__description {
   @apply hidden;
 }
