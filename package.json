@@ -44,7 +44,7 @@
     "build:prod": "npm run build:docs-md && NODE_ENV=production stencil build --docs && npm run build:docs-css",
     "build:docs-css": "npx tailwindcss -i src/doc-style/doc-style.css -o src/docs/doc-style.css",
     "build:docs-md": "node scripts/build-docs.js",
-    "start": "node scripts/build-docs.js --watch & npx tailwindcss -i src/doc-style/doc-style.css -o src/docs/doc-style.css --watch & stencil build --dev --watch --serve",
+    "start": "node scripts/build-docs.js --watch & npx tailwindcss -i src/doc-style/doc-style.css -o src/docs/doc-style.css --watch & stencil build --watch --serve",
     "test": "stencil test --spec --e2e",
     "test:unit": "stencil test --spec",
     "test:e2e": "stencil test --e2e",
