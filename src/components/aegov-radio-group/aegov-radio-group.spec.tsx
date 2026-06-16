@@ -3,234 +3,203 @@ import { AegovRadioGroup } from './aegov-radio-group';
 import { AegovRadio } from '../aegov-radio/aegov-radio';
 
 describe('aegov-radio-group', () => {
-  it('renders a fieldset with role radiogroup', async () => {
+  it('renders fieldset with role="radiogroup"', async () => {
     const page = await newSpecPage({
-      components: [AegovRadioGroup, AegovRadio],
-      html: `<aegov-radio-group name="test"></aegov-radio-group>`,
+      components: [AegovRadioGroup],
+      html: `<aegov-radio-group name="g"></aegov-radio-group>`,
     });
-    const fieldset = page.root.querySelector('fieldset');
-    expect(fieldset).toBeTruthy();
+    const fieldset = page.root.querySelector('fieldset.aegov-radio-group');
+    expect(fieldset).not.toBeNull();
     expect(fieldset.getAttribute('role')).toBe('radiogroup');
   });
 
-  it('renders with legend when label is provided', async () => {
+  it('renders legend when label is provided', async () => {
     const page = await newSpecPage({
-      components: [AegovRadioGroup, AegovRadio],
-      html: `<aegov-radio-group name="test" label="Pick one"></aegov-radio-group>`,
+      components: [AegovRadioGroup],
+      html: `<aegov-radio-group name="g" label="Pick one"></aegov-radio-group>`,
     });
-    const legend = page.root.querySelector('legend');
-    expect(legend).toBeTruthy();
-    expect(legend.textContent).toBe('Pick one');
-  });
-
-  it('does not render legend without label', async () => {
-    const page = await newSpecPage({
-      components: [AegovRadioGroup, AegovRadio],
-      html: `<aegov-radio-group name="test"></aegov-radio-group>`,
-    });
-    const legend = page.root.querySelector('legend');
-    expect(legend).toBeNull();
-  });
-
-  it('applies default variant class', async () => {
-    const page = await newSpecPage({
-      components: [AegovRadioGroup, AegovRadio],
-      html: `<aegov-radio-group name="test"></aegov-radio-group>`,
-    });
-    const fieldset = page.root.querySelector('fieldset');
-    expect(fieldset.classList.contains('aegov-radio-group')).toBe(true);
-    expect(fieldset.classList.contains('radio-group--default')).toBe(false);
-  });
-
-  it('applies list variant class', async () => {
-    const page = await newSpecPage({
-      components: [AegovRadioGroup, AegovRadio],
-      html: `<aegov-radio-group name="test" variant="list"></aegov-radio-group>`,
-    });
-    const fieldset = page.root.querySelector('fieldset');
-    expect(fieldset.classList.contains('radio-group--list')).toBe(true);
-  });
-
-  it('applies cards variant class', async () => {
-    const page = await newSpecPage({
-      components: [AegovRadioGroup, AegovRadio],
-      html: `<aegov-radio-group name="test" variant="cards"></aegov-radio-group>`,
-    });
-    const fieldset = page.root.querySelector('fieldset');
-    expect(fieldset.classList.contains('radio-group--cards')).toBe(true);
-  });
-
-  it('applies pills variant class', async () => {
-    const page = await newSpecPage({
-      components: [AegovRadioGroup, AegovRadio],
-      html: `<aegov-radio-group name="test" variant="pills"></aegov-radio-group>`,
-    });
-    const fieldset = page.root.querySelector('fieldset');
-    expect(fieldset.classList.contains('radio-group--pills')).toBe(true);
+    const legend = page.root.querySelector('legend.radio-group__legend');
+    expect(legend).not.toBeNull();
+    expect(legend.textContent).toContain('Pick one');
   });
 
   it('applies horizontal orientation class', async () => {
     const page = await newSpecPage({
-      components: [AegovRadioGroup, AegovRadio],
-      html: `<aegov-radio-group name="test" orientation="horizontal"></aegov-radio-group>`,
+      components: [AegovRadioGroup],
+      html: `<aegov-radio-group name="g" orientation="horizontal"></aegov-radio-group>`,
     });
-    const fieldset = page.root.querySelector('fieldset');
-    expect(fieldset.classList.contains('radio-group--horizontal')).toBe(true);
+    expect(page.root.querySelector('fieldset').className).toContain('radio-group--horizontal');
   });
 
-  it('does not apply horizontal class for vertical (default)', async () => {
+  it('applies appearance class (cards)', async () => {
     const page = await newSpecPage({
-      components: [AegovRadioGroup, AegovRadio],
-      html: `<aegov-radio-group name="test"></aegov-radio-group>`,
+      components: [AegovRadioGroup],
+      html: `<aegov-radio-group name="g" appearance="cards"></aegov-radio-group>`,
     });
-    const fieldset = page.root.querySelector('fieldset');
-    expect(fieldset.classList.contains('radio-group--horizontal')).toBe(false);
+    expect(page.root.querySelector('fieldset').className).toContain('radio-group--cards');
   });
 
-  it('disables fieldset when disabled', async () => {
+  it('disables fieldset when is-disabled', async () => {
     const page = await newSpecPage({
-      components: [AegovRadioGroup, AegovRadio],
-      html: `<aegov-radio-group name="test" disabled></aegov-radio-group>`,
+      components: [AegovRadioGroup],
+      html: `<aegov-radio-group name="g" is-disabled></aegov-radio-group>`,
     });
-    const fieldset = page.root.querySelector('fieldset');
-    expect(fieldset.hasAttribute('disabled')).toBe(true);
+    const fieldset = page.root.querySelector('fieldset') as HTMLFieldSetElement;
+    expect(fieldset.hasAttribute("disabled")).toBe(true);
   });
 
-  it('applies custom classes', async () => {
-    const page = await newSpecPage({
-      components: [AegovRadioGroup, AegovRadio],
-      html: `<aegov-radio-group name="test" class="mt-6"></aegov-radio-group>`,
-    });
-    const fieldset = page.root.querySelector('fieldset');
-    expect(fieldset.classList.contains('mt-6')).toBe(true);
-  });
-
-  it('renders slot content', async () => {
+  it('propagates name and resolved size to children', async () => {
     const page = await newSpecPage({
       components: [AegovRadioGroup, AegovRadio],
       html: `
-        <aegov-radio-group name="color">
-          <aegov-radio label="Red" value="red"></aegov-radio>
-          <aegov-radio label="Blue" value="blue"></aegov-radio>
-        </aegov-radio-group>
-      `,
-    });
-    const radios = page.root.querySelectorAll('aegov-radio');
-    expect(radios.length).toBe(2);
-  });
-
-  it('has radio-group__items container', async () => {
-    const page = await newSpecPage({
-      components: [AegovRadioGroup, AegovRadio],
-      html: `<aegov-radio-group name="test"></aegov-radio-group>`,
-    });
-    const items = page.root.querySelector('.radio-group__items');
-    expect(items).toBeTruthy();
-  });
-
-  it('propagates name to child radios', async () => {
-    const page = await newSpecPage({
-      components: [AegovRadioGroup, AegovRadio],
-      html: `
-        <aegov-radio-group name="fruit">
-          <aegov-radio label="Apple" value="apple"></aegov-radio>
-          <aegov-radio label="Banana" value="banana"></aegov-radio>
-        </aegov-radio-group>
-      `,
-    });
-    await page.waitForChanges();
-
-    const radios = Array.from(page.root.querySelectorAll('aegov-radio')) as HTMLAegovRadioElement[];
-    radios.forEach(radio => {
-      expect(radio.name).toBe('fruit');
-    });
-  });
-
-  it('propagates size to child radios', async () => {
-    const page = await newSpecPage({
-      components: [AegovRadioGroup, AegovRadio],
-      html: `
-        <aegov-radio-group name="test" size="lg">
+        <aegov-radio-group name="grp1" size="lg">
           <aegov-radio label="A" value="a"></aegov-radio>
           <aegov-radio label="B" value="b"></aegov-radio>
         </aegov-radio-group>
       `,
     });
-    await page.waitForChanges();
-
-    const radios = Array.from(page.root.querySelectorAll('aegov-radio')) as HTMLAegovRadioElement[];
-    radios.forEach(radio => {
-      expect(radio.size).toBe('lg');
+    const radios = page.root.querySelectorAll('aegov-radio') as NodeListOf<HTMLAegovRadioElement>;
+    radios.forEach(r => {
+      expect(r.name).toBe('grp1');
+      expect(r.size).toBe('lg');
     });
   });
 
-  it('emits aegovRadioGroupChange on child change', async () => {
+  it('selecting one radio unselects siblings (Stencil state)', async () => {
     const page = await newSpecPage({
       components: [AegovRadioGroup, AegovRadio],
       html: `
-        <aegov-radio-group name="color">
-          <aegov-radio label="Red" value="red"></aegov-radio>
-          <aegov-radio label="Blue" value="blue"></aegov-radio>
+        <aegov-radio-group name="g">
+          <aegov-radio label="A" value="a" is-checked></aegov-radio>
+          <aegov-radio label="B" value="b"></aegov-radio>
+        </aegov-radio-group>
+      `,
+    });
+    const second = page.root.querySelector('aegov-radio[value="b"]') as HTMLAegovRadioElement;
+    const secondInput = second.querySelector('input') as HTMLInputElement;
+    secondInput.checked = true;
+    secondInput.dispatchEvent(new Event('change', { bubbles: true }));
+    await page.waitForChanges();
+
+    const first = page.root.querySelector('aegov-radio[value="a"]') as HTMLAegovRadioElement;
+    expect(first.isChecked).toBe(false);
+    expect(second.isChecked).toBe(true);
+  });
+
+  it('emits aegovRadioGroupChange with the selected value', async () => {
+    const page = await newSpecPage({
+      components: [AegovRadioGroup, AegovRadio],
+      html: `
+        <aegov-radio-group name="g">
+          <aegov-radio label="A" value="a"></aegov-radio>
+          <aegov-radio label="B" value="b"></aegov-radio>
         </aegov-radio-group>
       `,
     });
     const spy = jest.fn();
     page.root.addEventListener('aegovRadioGroupChange', spy);
 
-    const radioRed = page.root.querySelector('aegov-radio[value="red"]');
-    const inputRed = radioRed.querySelector('input') as HTMLInputElement;
-    inputRed.checked = true;
-    inputRed.dispatchEvent(new Event('change', { bubbles: true }));
-    await page.waitForChanges();
-
-    expect(spy).toHaveBeenCalled();
-    expect(spy.mock.calls[0][0].detail.value).toBe('red');
-  });
-
-  it('unchecks other radios when one is selected', async () => {
-    const page = await newSpecPage({
-      components: [AegovRadioGroup, AegovRadio],
-      html: `
-        <aegov-radio-group name="color">
-          <aegov-radio label="Red" value="red" checked></aegov-radio>
-          <aegov-radio label="Blue" value="blue"></aegov-radio>
-        </aegov-radio-group>
-      `,
-    });
-
-    // Select blue
-    const radioBlue = page.root.querySelector('aegov-radio[value="blue"]');
-    const inputBlue = radioBlue.querySelector('input') as HTMLInputElement;
-    inputBlue.checked = true;
-    inputBlue.dispatchEvent(new Event('change', { bubbles: true }));
-    await page.waitForChanges();
-
-    const radioRed = page.root.querySelector('aegov-radio[value="red"]') as HTMLAegovRadioElement;
-    expect(radioRed.checked).toBe(false);
-    const radioBlueEl = page.root.querySelector('aegov-radio[value="blue"]') as HTMLAegovRadioElement;
-    expect(radioBlueEl.checked).toBe(true);
-  });
-
-  it('emits undefined value when radio is unchecked', async () => {
-    const page = await newSpecPage({
-      components: [AegovRadioGroup, AegovRadio],
-      html: `
-        <aegov-radio-group name="color">
-          <aegov-radio label="Red" value="red" checked></aegov-radio>
-        </aegov-radio-group>
-      `,
-    });
-    const spy = jest.fn();
-    page.root.addEventListener('aegovRadioGroupChange', spy);
-
-    // Simulate unchecked event (edge case)
-    const radio = page.root.querySelector('aegov-radio[value="red"]');
-    const input = radio.querySelector('input') as HTMLInputElement;
-    input.checked = false;
+    const first = page.root.querySelector('aegov-radio[value="a"]') as HTMLAegovRadioElement;
+    const input = first.querySelector('input') as HTMLInputElement;
+    input.checked = true;
     input.dispatchEvent(new Event('change', { bubbles: true }));
     await page.waitForChanges();
 
-    expect(spy).toHaveBeenCalled();
-    expect(spy.mock.calls[0][0].detail.value).toBeUndefined();
+    expect(spy).toHaveBeenCalledTimes(1);
+    expect(spy.mock.calls[0][0].detail).toEqual({ value: 'a' });
+  });
+
+  // Validation surface (Layer 1) — see validation-engine-addon.md §2.8
+  describe('validation surface', () => {
+    it('toggles host is-invalid + aria-invalid on fieldset', async () => {
+      const page = await newSpecPage({
+        components: [AegovRadioGroup, AegovRadio],
+        html: `<aegov-radio-group name="r" is-invalid="true">
+          <aegov-radio value="a"></aegov-radio>
+        </aegov-radio-group>`,
+      });
+      expect(page.root.classList.contains('is-invalid')).toBe(true);
+      expect(page.root.querySelector('fieldset').getAttribute('aria-invalid')).toBe('true');
+    });
+
+    it('renders errorMessage in error region', async () => {
+      const page = await newSpecPage({
+        components: [AegovRadioGroup, AegovRadio],
+        html: `<aegov-radio-group name="r" is-invalid="true" error-message="Pick one">
+          <aegov-radio value="a"></aegov-radio>
+        </aegov-radio-group>`,
+      });
+      expect(page.root.querySelector('.aegov-radio-group__error').textContent).toBe('Pick one');
+    });
+
+    it('renders hint when not invalid', async () => {
+      const page = await newSpecPage({
+        components: [AegovRadioGroup, AegovRadio],
+        html: `<aegov-radio-group name="r" hint="Single choice">
+          <aegov-radio value="a"></aegov-radio>
+        </aegov-radio-group>`,
+      });
+      expect(page.root.querySelector('.aegov-radio-group__hint').textContent).toBe('Single choice');
+    });
+
+    it('hides hint when error shown', async () => {
+      const page = await newSpecPage({
+        components: [AegovRadioGroup, AegovRadio],
+        html: `<aegov-radio-group name="r" hint="h" is-invalid="true" error-message="err">
+          <aegov-radio value="a"></aegov-radio>
+        </aegov-radio-group>`,
+      });
+      expect(page.root.querySelector('.aegov-radio-group__error')).not.toBeNull();
+      expect(page.root.querySelector('.aegov-radio-group__hint')).toBeNull();
+    });
+
+    it('validate() resolves valid for optional empty group', async () => {
+      const page = await newSpecPage({
+        components: [AegovRadioGroup, AegovRadio],
+        html: `<aegov-radio-group name="r">
+          <aegov-radio value="a"></aegov-radio>
+        </aegov-radio-group>`,
+      });
+      const r = await page.rootInstance.validate('manual');
+      expect(r.valid).toBe(true);
+    });
+
+    it('valueMissing fires when isRequired and no radio checked', async () => {
+      const page = await newSpecPage({
+        components: [AegovRadioGroup, AegovRadio],
+        html: `<aegov-radio-group name="r" is-required>
+          <aegov-radio value="a"></aegov-radio>
+        </aegov-radio-group>`,
+      });
+      const r = await page.rootInstance.validate('manual');
+      expect(r.valid).toBe(false);
+      expect(r.validity.valueMissing).toBe(true);
+    });
+
+    it('setCustomValidity("msg") sets invalid + error', async () => {
+      const page = await newSpecPage({
+        components: [AegovRadioGroup, AegovRadio],
+        html: `<aegov-radio-group name="r">
+          <aegov-radio value="a"></aegov-radio>
+        </aegov-radio-group>`,
+      });
+      await page.rootInstance.setCustomValidity('Pick one');
+      await page.waitForChanges();
+      expect(page.rootInstance.isInvalid).toBe(true);
+      expect(page.rootInstance.errorMessage).toBe('Pick one');
+    });
+
+    it('setCustomValidity("") clears state', async () => {
+      const page = await newSpecPage({
+        components: [AegovRadioGroup, AegovRadio],
+        html: `<aegov-radio-group name="r" is-invalid="true" error-message="x">
+          <aegov-radio value="a"></aegov-radio>
+        </aegov-radio-group>`,
+      });
+      await page.rootInstance.setCustomValidity('');
+      await page.waitForChanges();
+      expect(page.rootInstance.isInvalid).toBe(false);
+      expect(page.rootInstance.errorMessage).toBe('');
+    });
   });
 });

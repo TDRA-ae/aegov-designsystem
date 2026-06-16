@@ -1,7 +1,32 @@
-import { Component, Host, h, Prop, State, Event, EventEmitter, Element, Listen, Watch } from '@stencil/core';
-import type { SelectVariant, SelectSize, SelectChangeDetail } from '../../utils/types';
+import { Component, Host, h, Prop, State, Event, EventEmitter, Element, Listen, Watch, Method } from '@stencil/core';
+import { SELECT_VARIANTS, SELECT_SIZES, FORM_VARIANTS } from '../../utils/types';
+import type {
+  SelectVariant, SelectSize, SelectChangeDetail, FormVariant,
+  AegovValidationDetail, AegovValidationResult, AegovValidationTrigger,
+  AegovValidityState,
+} from '../../utils/types';
 import { getPassThroughAttributes } from '../../utils/attributes';
 import { generateId } from '../../utils/id-generator';
+import { warnIfInvalidEnumProp } from '../../utils/prop-validator';
+import { watchResponsiveProp } from '../../utils/responsive-prop';
+import type { ResponsivePropWatcher } from '../../utils/responsive-prop';
+import {
+  fromNativeValidity, VALID_STATE,
+  composeDescribedBy, buildValidationDetail, synthesizeValidity, setInternalsValidity,
+} from '../../utils/validation';
+import type { InternalsHost } from '../../utils/validation';
+import { isRtl } from '../../utils/rtl';
+
+const STRINGS = {
+  en: { noResults: 'No results found' },
+  ar: { noResults: 'لم يتم العثور على نتائج' },
+};
+
+/** Select value type per §2.4.1 — string for single, string[] for multiple. */
+export type AegovSelectValue = string | string[];
+
+const TAG = 'aegov-select';
+const ctx = (prop: string) => ({ component: TAG, prop });
 
 interface OptionItem {
   value: string;
@@ -15,24 +40,35 @@ interface OptionItem {
   styleUrl: 'aegov-select.css',
   scoped: false,
   shadow: false,
+  formAssociated: true, // §2.5: listbox appearance uses ElementInternals; native appearance keeps inner <select name> behavior
 })
 export class AegovSelect {
   @Element() el: HTMLElement;
 
+  /** Native select attributes to pass through to the inner select element. */
+  private static readonly PASS_THROUGH_ATTRS = new Set([
+    'autofocus', 'form',
+  ]);
+
   /** Unique ID for the select element. Auto-generated if not provided. */
   @Prop({ mutable: true, reflect: true }) fieldId?: string;
 
-  /** The visual variant. 'default' renders a native select; 'listbox' renders a custom dropdown. */
-  @Prop() variant: SelectVariant = 'default';
+  /** The visual appearance. 'default' renders a native select; 'listbox' renders a custom dropdown. */
+  @Prop() appearance: SelectVariant = 'default';
 
   /** The size of the select. Matches aegov-input height. */
-  @Prop() size: SelectSize = 'base';
+  @Prop() size: string = 'base';
+
+  /** Colour family. Drives idle ring/border, selected/checked fill, and value/accent text. Focus ring stays camel; error stays aered regardless. */
+  @Prop() variant: FormVariant = 'primary';
+  @State() private _resolvedSize: SelectSize = 'base';
+  private _sizeWatcher: ResponsivePropWatcher | null = null;
 
   /** Whether multiple selection is enabled. Forces listbox behaviour. */
-  @Prop() multiple: boolean = false;
+  @Prop() isMultiple: boolean = false;
 
   /** Whether the select is disabled. */
-  @Prop() disabled: boolean = false;
+  @Prop() isDisabled: boolean = false;
 
   /** Placeholder text shown when nothing is selected. */
   @Prop() placeholder?: string;
@@ -44,22 +80,31 @@ export class AegovSelect {
   @Prop() name?: string;
 
   /** Whether the select is required. */
-  @Prop() required: boolean = false;
+  @Prop() isRequired: boolean = false;
 
-  /** Show a search input in the listbox dropdown to filter options. Only works with listbox variant. */
-  @Prop() searchable: boolean = false;
+  /** Show a search input in the listbox dropdown to filter options. Only works with listbox appearance. */
+  @Prop() isSearchable: boolean = false;
 
-  /** Message shown when search yields no results. */
-  @Prop() emptyMessage: string = 'No results found';
+  /** Message shown when search yields no results. Empty string defaults to localized text via isRtl. */
+  @Prop() emptyMessage: string = '';
 
   /** Max visible items in the dropdown before scrolling. */
   @Prop() visibleItems: number = 6;
 
   /** Show a clear button to reset selection. */
-  @Prop() clearable: boolean = false;
+  @Prop() isClearable: boolean = false;
+
+  /** Visual + a11y invalid state. See §2.3. */
+  @Prop({ mutable: true, reflect: true }) isInvalid: boolean = false;
+
+  /** Inline error message. Use `error` slot for rich markup. */
+  @Prop({ mutable: true }) errorMessage: string = '';
+
+  /** Helper hint shown below the control. Hidden when an error is shown. */
+  @Prop() hint: string = '';
 
   /** Additional CSS classes to apply. */
-  @Prop() class?: string;
+  @Prop() extraClass?: string;
 
   @State() isOpen: boolean = false;
   @State() searchQuery: string = '';
@@ -76,19 +121,169 @@ export class AegovSelect {
   /** Emitted when the selected value changes. */
   @Event() aegovSelectChange: EventEmitter<SelectChangeDetail>;
 
-  /** Emitted when the dropdown opens (listbox variant). */
+  /** Emitted when the dropdown opens (listbox appearance). */
   @Event() aegovSelectOpen: EventEmitter<void>;
 
-  /** Emitted when the dropdown closes (listbox variant). */
+  /** Emitted when the dropdown closes (listbox appearance). */
   @Event() aegovSelectClose: EventEmitter<void>;
 
+  /** Unified validation event. See §2.3. */
+  @Event() aegovValidate: EventEmitter<AegovValidationDetail<AegovSelectValue>>;
+
+  @State() private hasBlurredOnce: boolean = false;
+  private nativeSelectEl?: HTMLSelectElement;
+  private internals: ElementInternals | null = null;
+  private errorId: string = '';
+  private hintId: string = '';
+
   componentWillLoad() {
+    warnIfInvalidEnumProp(this.appearance, SELECT_VARIANTS, 'default', ctx('appearance'));
+    warnIfInvalidEnumProp(this.variant, FORM_VARIANTS, 'primary', ctx('variant'));
+    this._sizeWatcher = watchResponsiveProp(this.size, SELECT_SIZES, 'base', v => {
+      this._resolvedSize = v as SelectSize;
+    });
+    this._resolvedSize = this._sizeWatcher.current as SelectSize;
     if (!this.fieldId) {
       this.fieldId = generateId('aegov-select');
     }
     this.selectId = `${this.fieldId}-listbox`;
+    this.errorId = `${this.fieldId}-error`;
+    this.hintId = `${this.fieldId}-hint`;
     this.parseOptions();
     this.updateDerivedState();
+
+    // Manual attachInternals per §6.8 fallback
+    const host = this.el as unknown as InternalsHost;
+    if (typeof host.attachInternals === 'function') {
+      try {
+        this.internals = host.attachInternals();
+      } catch {
+        this.internals = null;
+      }
+    }
+  }
+
+  disconnectedCallback() {
+    this._sizeWatcher?.destroy();
+  }
+
+  // ── FormAssociated lifecycle (listbox appearance uses ElementInternals) ──
+  formAssociatedCallback(_form: HTMLFormElement | null) { /* no-op */ }
+  formDisabledCallback(disabled: boolean) { this.isDisabled = disabled; }
+  formResetCallback() {
+    this.value = '';
+    this.runValidationSync();
+  }
+
+  /** Imperatively re-run validation. */
+  @Method()
+  async validate(trigger: AegovValidationTrigger = 'manual'): Promise<AegovValidationResult> {
+    return this.runAndEmitValidation(trigger);
+  }
+
+  /** Mirror of HTMLSelectElement.setCustomValidity(). */
+  @Method()
+  async setCustomValidity(message: string): Promise<void> {
+    this.errorMessage = message;
+    this.isInvalid = !!message;
+    if (this.useListbox && this.internals) {
+      if (message) {
+        setInternalsValidity(
+          this.internals,
+          synthesizeValidity({ customError: true }),
+          message,
+          this.triggerRef?.querySelector('button') ?? undefined,
+        );
+      } else {
+        setInternalsValidity(this.internals, { valid: true }, '');
+      }
+    } else if (this.nativeSelectEl && typeof this.nativeSelectEl.setCustomValidity === 'function') {
+      this.nativeSelectEl.setCustomValidity(message);
+    }
+  }
+
+  private currentValueForDetail(): AegovSelectValue {
+    return this.isMultiple ? this.selectedValues : this.value;
+  }
+
+  private computeListboxValidity(): { validity: AegovValidityState; message: string } {
+    const filled = this.isMultiple ? this.selectedValues.length > 0 : !!this.value;
+    if (this.isRequired && !filled) {
+      return { validity: synthesizeValidity({ valueMissing: true }), message: this.errorMessage || 'Required' };
+    }
+    return { validity: synthesizeValidity({}), message: '' };
+  }
+
+  private readValidity(): AegovValidityState {
+    if (this.useListbox) {
+      return this.computeListboxValidity().validity;
+    }
+    const v = this.nativeSelectEl?.validity;
+    return v ? fromNativeValidity(v) : VALID_STATE;
+  }
+
+  private runValidationSync() {
+    if (!this.useListbox) return; // native appearance relies on inner <select> for native form participation
+    const { validity, message } = this.computeListboxValidity();
+    setInternalsValidity(this.internals, validity, message, this.triggerRef?.querySelector('button') ?? undefined);
+    try {
+      if (this.internals && typeof this.internals.setFormValue === 'function' && this.name) {
+        if (this.isMultiple) {
+          // Per §7.3: multiple-select uses FormData with one entry per value (not comma-joined)
+          const fd = new FormData();
+          for (const v of this.selectedValues) fd.append(this.name, v);
+          this.internals.setFormValue(fd);
+        } else {
+          this.internals.setFormValue(this.value || '');
+        }
+      }
+    } catch {
+      // jsdom mock — ignore
+    }
+  }
+
+  private async runAndEmitValidation(trigger: AegovValidationTrigger): Promise<AegovValidationResult> {
+    this.runValidationSync();
+    const validity = this.readValidity();
+    const message = !validity.valid
+      ? (this.errorMessage || this.nativeSelectEl?.validationMessage || '')
+      : '';
+    this.aegovValidate.emit(buildValidationDetail<AegovSelectValue>(
+      this.el as unknown as HTMLElement & { name?: string },
+      this.currentValueForDetail(), validity, message, this.errorMessage || null, trigger,
+    ));
+    return { valid: validity.valid, message, validity };
+  }
+
+  private emitValidate(trigger: AegovValidationTrigger) {
+    const validity = this.readValidity();
+    const message = !validity.valid
+      ? (this.errorMessage || this.nativeSelectEl?.validationMessage || '')
+      : '';
+    this.aegovValidate.emit(buildValidationDetail<AegovSelectValue>(
+      this.el as unknown as HTMLElement & { name?: string },
+      this.currentValueForDetail(), validity, message, this.errorMessage || null, trigger,
+    ));
+  }
+
+  private handleBlurNative = () => {
+    this.hasBlurredOnce = true;
+    this.emitValidate('blur');
+  };
+
+  @Watch('appearance')
+  onVariantChange(v: unknown) { warnIfInvalidEnumProp(v, SELECT_VARIANTS, 'default', ctx('appearance')); }
+
+  @Watch('variant')
+  onColourVariantChange(v: unknown) { warnIfInvalidEnumProp(v, FORM_VARIANTS, 'primary', ctx('variant')); }
+
+  @Watch('size')
+  onSizeChange() {
+    this._sizeWatcher?.destroy();
+    this._sizeWatcher = watchResponsiveProp(this.size, SELECT_SIZES, 'base', v => {
+      this._resolvedSize = v as SelectSize;
+    });
+    this._resolvedSize = this._sizeWatcher.current as SelectSize;
   }
 
   componentDidLoad() {
@@ -97,6 +292,7 @@ export class AegovSelect {
       this.parseOptions();
       this.updateDerivedState();
     }
+    this.runValidationSync();
   }
 
   componentDidUpdate() {
@@ -107,7 +303,7 @@ export class AegovSelect {
 
   /** Whether to use the custom listbox rendering. */
   private get useListbox(): boolean {
-    return this.variant === 'listbox' || this.multiple;
+    return this.appearance === 'listbox' || this.isMultiple;
   }
 
   /** Current selected values as an array (cached). */
@@ -134,7 +330,7 @@ export class AegovSelect {
     const selected = this.cachedSelectedValues;
     if (selected.length === 0) {
       this.cachedDisplayText = '';
-    } else if (this.multiple) {
+    } else if (this.isMultiple) {
       this.cachedDisplayText = `${selected.length} selected`;
     } else {
       const option = this.parsedOptions.find(o => o.value === selected[0]);
@@ -158,7 +354,7 @@ export class AegovSelect {
         items.push({
           value: opt.getAttribute('value') || '',
           label: opt.textContent?.trim() || '',
-          disabled: opt.hasAttribute('disabled'),
+          disabled: opt.hasAttribute('is-disabled'),
           group: groupLabel,
         });
       }
@@ -171,7 +367,7 @@ export class AegovSelect {
         items.push({
           value: opt.getAttribute('value') || '',
           label: opt.textContent?.trim() || '',
-          disabled: opt.hasAttribute('disabled'),
+          disabled: opt.hasAttribute('is-disabled'),
         });
       }
     }
@@ -215,12 +411,13 @@ export class AegovSelect {
       value: this.value,
       label: opt ? opt.label : this.value,
     });
+    this.emitValidate('change');
   };
 
   // --- Listbox handlers ---
 
   private toggleDropdown = () => {
-    if (this.disabled) return;
+    if (this.isDisabled) return;
     if (this.isOpen) {
       this.closeDropdown();
     } else {
@@ -261,8 +458,10 @@ export class AegovSelect {
     const spaceAbove = triggerRect.top - 8;
 
     // Calculate item height based on size
-    const itemHeight = this.size === 'sm' ? 36 : this.size === 'lg' ? 48 : 40;
-    const searchHeight = this.searchable ? (this.size === 'sm' ? 40 : this.size === 'lg' ? 52 : 48) : 0;
+    const itemHeightMap: Record<SelectSize, number> = { xs: 32, sm: 36, base: 40, lg: 44, xl: 48 };
+    const searchHeightMap: Record<SelectSize, number> = { xs: 36, sm: 40, base: 44, lg: 48, xl: 52 };
+    const itemHeight = itemHeightMap[this._resolvedSize];
+    const searchHeight = this.isSearchable ? searchHeightMap[this._resolvedSize] : 0;
     const padding = 8; // py-1 top + bottom
     const actualItemCount = Math.min(this.filteredOptions.length, this.visibleItems);
     const desiredHeight = (actualItemCount * itemHeight) + searchHeight + padding;
@@ -284,7 +483,7 @@ export class AegovSelect {
   private selectOption(option: OptionItem) {
     if (option.disabled) return;
 
-    if (this.multiple) {
+    if (this.isMultiple) {
       const selected = new Set(this.selectedValues);
       if (selected.has(option.value)) {
         selected.delete(option.value);
@@ -301,12 +500,16 @@ export class AegovSelect {
         value: Array.from(selected),
         label: selectedLabels,
       });
+      this.runValidationSync();
+      this.emitValidate('change');
     } else {
       this.value = option.value;
       this.aegovSelectChange.emit({
         value: option.value,
         label: option.label,
       });
+      this.runValidationSync();
+      this.emitValidate('change');
       this.closeDropdown();
     }
   }
@@ -315,9 +518,11 @@ export class AegovSelect {
     event.stopPropagation();
     this.value = '';
     this.aegovSelectChange.emit({
-      value: this.multiple ? [] : '',
-      label: this.multiple ? [] : '',
+      value: this.isMultiple ? [] : '',
+      label: this.isMultiple ? [] : '',
     });
+    this.runValidationSync();
+    this.emitValidate('change');
   };
 
   private handleSearchInput = (event: Event) => {
@@ -367,7 +572,7 @@ export class AegovSelect {
         break;
       case 'Enter':
       case ' ':
-        if (this.searchable && event.key === ' ') return; // Allow space in search
+        if (this.isSearchable && event.key === ' ') return; // Allow space in search
         event.preventDefault();
         if (this.focusedIndex >= 0 && this.focusedIndex < options.length) {
           this.selectOption(options[this.focusedIndex]);
@@ -426,38 +631,53 @@ export class AegovSelect {
   private getTriggerClasses(): string {
     const classes: string[] = ['aegov-select'];
     const sizeClasses: Record<SelectSize, string> = {
+      xs: 'select--xs',
       sm: 'select--sm',
       base: 'select--base',
       lg: 'select--lg',
+      xl: 'select--xl',
     };
-    classes.push(sizeClasses[this.size]);
-    if (this.disabled) classes.push('select--disabled');
+    classes.push(sizeClasses[this._resolvedSize]);
+    const variant: FormVariant = (FORM_VARIANTS as readonly string[]).includes(this.variant) ? this.variant : 'primary';
+    classes.push(`select-variant-${variant}`);
+    if (this.isDisabled) classes.push('select--disabled');
     if (this.isOpen) classes.push('select--open');
     if (!this.displayText) classes.push('select--placeholder');
-    if (this.class) classes.push(this.class);
+    if (this.extraClass) classes.push(this.extraClass);
     return classes.join(' ');
   }
 
   private renderNativeSelect() {
-    const passThroughAttrs = getPassThroughAttributes(this.el);
+    const passThroughAttrs = getPassThroughAttributes(this.el, AegovSelect.PASS_THROUGH_ATTRS);
+    delete passThroughAttrs['aria-invalid'];
+    delete passThroughAttrs['aria-describedby'];
+
     const sizeClasses: Record<SelectSize, string> = {
+      xs: 'select--xs',
       sm: 'select--sm',
       base: 'select--base',
       lg: 'select--lg',
+      xl: 'select--xl',
     };
-
     const groups = this.groupedFilteredOptions;
+    const validationDecor = this.computeValidationDecor();
+    const { errorRegion, hintRegion, describedBy, hostClass } = validationDecor;
 
+    const variant: FormVariant = (FORM_VARIANTS as readonly string[]).includes(this.variant) ? this.variant : 'primary';
     return (
-      <Host>
+      <Host class={hostClass}>
         <div class="select__native-wrapper">
           <select
+            ref={(el) => this.nativeSelectEl = el}
             id={this.fieldId}
-            class={`aegov-select ${sizeClasses[this.size]}${this.class ? ` ${this.class}` : ''}`}
-            disabled={this.disabled}
+            class={`aegov-select select-variant-${variant} ${sizeClasses[this._resolvedSize]}${this.extraClass ? ` ${this.extraClass}` : ''}`}
+            disabled={this.isDisabled}
             name={this.name}
-            required={this.required}
+            required={this.isRequired}
+            aria-invalid={this.isInvalid ? 'true' : null}
+            aria-describedby={describedBy}
             onChange={this.handleNativeChange}
+            onBlur={this.handleBlurNative}
             {...passThroughAttrs}
           >
             {this.placeholder && (
@@ -497,16 +717,55 @@ export class AegovSelect {
         <div class="select__slot-container">
           <slot />
         </div>
+        {errorRegion}
+        {hintRegion}
       </Host>
     );
+  }
+
+  /** Build per-render validation decorations shared by both appearances. */
+  private computeValidationDecor() {
+    const hasErrorSlot = !!this.el.querySelector('[slot="error"]');
+    const hasHintSlot = !!this.el.querySelector('[slot="hint"]');
+    const showError = this.isInvalid && (hasErrorSlot || !!this.errorMessage);
+    const showHint = !showError && (hasHintSlot || !!this.hint);
+    const announceError = showError && this.hasBlurredOnce;
+    const authorDescribedBy = this.el.getAttribute('aria-describedby');
+    const describedBy = composeDescribedBy(
+      authorDescribedBy,
+      showError ? this.errorId : null,
+      showHint ? this.hintId : null,
+    );
+    const errorRegion = showError ? (
+      <div
+        id={this.errorId}
+        class="aegov-select__error"
+        role={announceError ? 'alert' : null}
+        aria-live={announceError ? 'polite' : null}
+      >
+        {hasErrorSlot ? <slot name="error" /> : this.errorMessage}
+      </div>
+    ) : null;
+    const hintRegion = showHint ? (
+      <div id={this.hintId} class="aegov-select__hint">
+        {hasHintSlot ? <slot name="hint" /> : this.hint}
+      </div>
+    ) : null;
+    const variant: FormVariant = (FORM_VARIANTS as readonly string[]).includes(this.variant) ? this.variant : 'primary';
+    const hostClass = {
+      'is-invalid': this.isInvalid,
+      [`select-variant-${variant}`]: true,
+    };
+    return { errorRegion, hintRegion, describedBy, hostClass };
   }
 
   private renderListbox() {
     const groups = this.groupedFilteredOptions;
     const enabledOptions = this.filteredOptions.filter(o => !o.disabled);
-
+    const validationDecor = this.computeValidationDecor();
+    const { errorRegion, hintRegion, describedBy, hostClass } = validationDecor;
     return (
-      <Host>
+      <Host class={hostClass}>
         <div
           class="select__trigger-wrapper"
           ref={el => this.triggerRef = el}
@@ -516,18 +775,21 @@ export class AegovSelect {
             id={this.fieldId}
             class={this.getTriggerClasses()}
             onClick={this.toggleDropdown}
-            disabled={this.disabled}
+            onBlur={() => { this.hasBlurredOnce = true; }}
+            disabled={this.isDisabled}
             role="combobox"
             aria-expanded={this.isOpen ? 'true' : 'false'}
             aria-haspopup="listbox"
             aria-controls={this.isOpen ? this.selectId : undefined}
             aria-activedescendant={this.activeDescendantId}
+            aria-invalid={this.isInvalid ? 'true' : null}
+            aria-describedby={describedBy}
           >
             <span class="select__value">
               {this.displayText || this.placeholder || ''}
             </span>
             <span class="select__actions">
-              {this.clearable && this.selectedValues.length > 0 && !this.disabled && (
+              {this.isClearable && this.selectedValues.length > 0 && !this.isDisabled && (
                 <span
                   class="select__clear"
                   onClick={this.handleClear}
@@ -555,13 +817,13 @@ export class AegovSelect {
               ref={el => this.listboxRef = el}
               role="listbox"
               id={this.selectId}
-              aria-multiselectable={this.multiple ? 'true' : undefined}
+              aria-multiselectable={this.isMultiple ? 'true' : undefined}
             >
-              {this.searchable && (
+              {this.isSearchable && (
                 <div class="select__search">
                   <input
                     type="text"
-                    class={`select__search-input select__search-input--${this.size}`}
+                    class={`select__search-input select__search-input--${this._resolvedSize}`}
                     placeholder="Search..."
                     value={this.searchQuery}
                     onInput={this.handleSearchInput}
@@ -576,7 +838,7 @@ export class AegovSelect {
               )}
               <div class="select__options">
                 {groups.length === 0 && (
-                  <div class="select__empty" role="status">{this.emptyMessage}</div>
+                  <div class="select__empty" role="status">{this.emptyMessage || (isRtl(this.el) ? STRINGS.ar.noResults : STRINGS.en.noResults)}</div>
                 )}
                 {groups.map(g => {
                   const groupLabelId = g.group ? this.getGroupId(g.group) : undefined;
@@ -588,7 +850,7 @@ export class AegovSelect {
                       <div
                         id={this.getOptionId(opt.value)}
                         class={
-                          `select__option select__option--${this.size}` +
+                          `select__option select__option--${this._resolvedSize}` +
                           (isSelected ? ' select__option--selected' : '') +
                           (opt.disabled ? ' select__option--disabled' : '') +
                           (isFocused ? ' select__option--focused' : '')
@@ -599,7 +861,7 @@ export class AegovSelect {
                         onClick={() => this.selectOption(opt)}
                         data-value={opt.value}
                       >
-                        {this.multiple && (
+                        {this.isMultiple && (
                           <span class="select__checkbox">
                             {isSelected && (
                               <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -609,7 +871,7 @@ export class AegovSelect {
                           </span>
                         )}
                         <span class="select__option-label">{opt.label}</span>
-                        {!this.multiple && isSelected && (
+                        {!this.isMultiple && isSelected && (
                           <svg class="select__check-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                             <polyline points="20 6 9 17 4 12" />
                           </svg>
@@ -636,10 +898,9 @@ export class AegovSelect {
         <div class="select__slot-container">
           <slot />
         </div>
-        {/* Hidden native input for form submission */}
-        {this.name && (
-          <input type="hidden" name={this.name} value={this.value} />
-        )}
+        {/* §2.5: hidden input replaced by ElementInternals.setFormValue() in runValidationSync(). */}
+        {errorRegion}
+        {hintRegion}
       </Host>
     );
   }

@@ -4,6 +4,13 @@
 
 :host {
   @apply block;
+  --tab-fade-color: theme(--color-whitely-100);
+}
+
+:host-context(.dark),
+.dark :host,
+.dark {
+  --tab-fade-color: theme(--color-aeblack-950);
 }
 
 /* ---- Container ---- */
@@ -47,12 +54,12 @@
 
 .tabs__list-wrapper--scrollable::before {
   left: 0;
-  background: linear-gradient(to right, white 30%, transparent);
+  background: linear-gradient(to right, var(--tab-fade-color) 30%, transparent);
 }
 
 .tabs__list-wrapper--scrollable::after {
   right: 0;
-  background: linear-gradient(to left, white 30%, transparent);
+  background: linear-gradient(to left, var(--tab-fade-color) 30%, transparent);
 }
 
 .tabs__list-wrapper--scrollable.has-start-fade::before {
@@ -84,7 +91,7 @@
    ============================================================ */
 
 .tabs--simple .tabs__list {
-  @apply border-b border-neutral-200 gap-1;
+  @apply border-b border-neutral-200 gap-1 dark:border-aeblack-700;
 }
 
 /* ============================================================
@@ -96,7 +103,7 @@
 }
 
 .tabs--segmented .tabs__list {
-  @apply bg-neutral-100 p-1 rounded-lg inline-flex items-center gap-0.5;
+  @apply bg-neutral-100 p-1 rounded-lg inline-flex items-center gap-0.5 dark:bg-aeblack-800;
 }
 
 /* ============================================================
@@ -155,7 +162,7 @@
 
 /* Simple variant: right border separator instead of bottom */
 .tabs--vertical.tabs--simple .tabs__list {
-  @apply border-b-0 border-e border-neutral-200 gap-1;
+  @apply border-b-0 border-e border-neutral-200 gap-1 dark:border-aeblack-700;
 }
 
 /* Segmented variant: wrap in column */
@@ -188,7 +195,7 @@
   bottom: auto;
   width: auto;
   height: 3rem;
-  background: linear-gradient(to bottom, white 30%, transparent);
+  background: linear-gradient(to bottom, var(--tab-fade-color) 30%, transparent);
 }
 
 .tabs--vertical .tabs__list-wrapper--scrollable::after {
@@ -198,7 +205,7 @@
   top: auto;
   width: auto;
   height: 3rem;
-  background: linear-gradient(to top, white 30%, transparent);
+  background: linear-gradient(to top, var(--tab-fade-color) 30%, transparent);
 }
 
 /* ============================================================
@@ -209,12 +216,12 @@
 [dir='rtl'] .tabs__list-wrapper--scrollable::before {
   left: auto;
   right: 0;
-  background: linear-gradient(to left, white 30%, transparent);
+  background: linear-gradient(to left, var(--tab-fade-color) 30%, transparent);
 }
 
 :host(:dir(rtl)) .tabs__list-wrapper--scrollable::after,
 [dir='rtl'] .tabs__list-wrapper--scrollable::after {
   right: auto;
   left: 0;
-  background: linear-gradient(to right, white 30%, transparent);
+  background: linear-gradient(to right, var(--tab-fade-color) 30%, transparent);
 }

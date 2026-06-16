@@ -1,5 +1,10 @@
-import { Component, Prop, Element, State, Host, h } from '@stencil/core';
+import { Component, Prop, Watch, Element, State, Host, h } from '@stencil/core';
+import { TIMELINE_STEP_STATUSES } from '../../utils/types';
 import type { TimelineVariant, TimelineSize, TimelineOrientation, TimelineStepStatus } from '../../utils/types';
+import { warnIfInvalidEnumProp } from '../../utils/prop-validator';
+
+const TAG = 'aegov-timeline-step';
+const ctx = (prop: string) => ({ component: TAG, prop });
 
 @Component({
   tag: 'aegov-timeline-step',
@@ -57,12 +62,21 @@ export class AegovTimelineStep {
   /**
    * @internal Whether connector before this step is solid (prev completed). Set by parent.
    */
-  @Prop({ mutable: true }) connectorSolid: boolean = false;
+  @Prop({ mutable: true }) isConnectorSolid: boolean = false;
 
   @State() hasIconSlot: boolean = false;
   @State() slotContent: string = '';
 
+  @Watch('status')
+  onStatusChange(v: unknown) { warnIfInvalidEnumProp(v, TIMELINE_STEP_STATUSES, 'pending', ctx('status')); }
+
+  private get safeStatus(): TimelineStepStatus {
+    return (TIMELINE_STEP_STATUSES as readonly string[]).includes(this.status) ? this.status : 'pending';
+  }
+
   componentWillLoad() {
+    warnIfInvalidEnumProp(this.status, TIMELINE_STEP_STATUSES, 'pending', ctx('status'));
+
     const parent = this.el.closest('aegov-timeline');
     if (!parent) {
       throw new Error(
@@ -103,9 +117,11 @@ export class AegovTimelineStep {
     const isCompact = this.variant === 'compact';
     const stepNumber = this.stepIndex + 1;
 
+    const status = this.safeStatus;
+
     if (isCompact) {
       return (
-        <div class={`step__dot step__dot--${this.status} step__dot--${this.size}`}>
+        <div class={`step__dot step__dot--${status} step__dot--${this.size}`}>
           <span class="sr-only">
             Step {stepNumber} of {this.stepCount}: {this.slotContent}
             {this.status === 'completed' ? ' (completed)' : this.status === 'active' ? ' (current)' : ''}
@@ -116,7 +132,7 @@ export class AegovTimelineStep {
 
     // Default variant — numbered circles
     return (
-      <div class={`step__indicator step__indicator--${this.status} step__indicator--${this.size}`}>
+      <div class={`step__indicator step__indicator--${status} step__indicator--${this.size}`}>
         {this.status === 'completed' ? (
           this.hasIconSlot ? <slot name="icon" /> : this.getCheckmarkIcon()
         ) : (
@@ -143,7 +159,7 @@ export class AegovTimelineStep {
       'step__connector',
       'step__connector--horizontal',
       'step__connector--before',
-      this.connectorSolid ? 'step__connector--solid' : 'step__connector--dashed',
+      this.isConnectorSolid ? 'step__connector--solid' : 'step__connector--dashed',
     ].join(' ');
 
     return <div class={connectorClass} aria-hidden="true" />;
@@ -175,13 +191,15 @@ export class AegovTimelineStep {
 
     if (hideLabel) return null;
 
+    const status = this.safeStatus;
+
     return (
       <div class={`step__text step__text--${this.orientation}`}>
-        <span class={`step__label step__label--${this.status}`}>
+        <span class={`step__label step__label--${status}`}>
           {this.slotContent}
         </span>
         {this.description && (
-          <span class={`step__description step__description--${this.status}`}>
+          <span class={`step__description step__description--${status}`}>
             {this.description}
           </span>
         )}
@@ -203,6 +221,7 @@ export class AegovTimelineStep {
 
   render() {
     const isHorizontal = this.orientation === 'horizontal';
+    const status = this.safeStatus;
 
     const hostClasses = {
       'host--horizontal': isHorizontal,
@@ -212,7 +231,7 @@ export class AegovTimelineStep {
     const liClasses = [
       'aegov-step',
       `step--${this.orientation}`,
-      `step--${this.status}`,
+      `step--${status}`,
     ].filter(Boolean).join(' ');
 
     const ariaCurrent = this.status === 'active' ? 'step' : undefined;

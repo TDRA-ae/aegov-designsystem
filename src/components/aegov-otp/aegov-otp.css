@@ -15,7 +15,7 @@
 }
 
 .otp__wrapper--continuous {
-  @apply border-2 border-primary-500 rounded-lg overflow-hidden;
+  @apply border-2 rounded-lg overflow-hidden;
 }
 
 .otp__wrapper--individual {
@@ -27,40 +27,105 @@
    ============================================ */
 
 .otp__cell {
-  @apply text-center font-extrabold text-primary-800 bg-white outline-none w-full box-content px-1;
+  @apply text-center font-extrabold bg-white outline-none w-full box-content px-1 dark:bg-aeblack-800;
   transition: background-color 150ms ease, border-color 150ms ease, box-shadow 150ms ease;
 }
 
 .otp__cell:disabled {
-  @apply bg-aeblack-100 text-aeblack-400 cursor-not-allowed;
+  @apply bg-aeblack-100 text-aeblack-400 cursor-not-allowed dark:bg-aeblack-900 dark:text-aeblack-500;
 }
 
 /* ============================================
-   Cell — continuous variant
+   Variant — idle border, cell text, divider per colour family.
+   Mirrors aegov-input shade scale: 600 / 600 / 800 / 300 for the line,
+   900 / 900 / 950 / 700 for the value text.
+   ============================================ */
+
+/* Cell text colour */
+.aegov-otp.otp-variant-primary       .otp__cell { @apply text-primary-900 dark:text-whitely-100; }
+.aegov-otp.otp-variant-secondary     .otp__cell { @apply text-secondary-900 dark:text-whitely-100; }
+.aegov-otp.otp-variant-neutral-max   .otp__cell { @apply text-aeblack-950 dark:text-whitely-100; }
+.aegov-otp.otp-variant-neutral-min   .otp__cell { @apply text-aeblack-700 dark:text-aeblack-200; }
+
+/* Continuous wrapper — single border around the row */
+.aegov-otp.otp-variant-primary       .otp__wrapper--continuous { @apply border-primary-600 dark:border-primary-400; }
+.aegov-otp.otp-variant-secondary     .otp__wrapper--continuous { @apply border-secondary-600 dark:border-secondary-400; }
+.aegov-otp.otp-variant-neutral-max   .otp__wrapper--continuous { @apply border-aeblack-800 dark:border-aeblack-300; }
+.aegov-otp.otp-variant-neutral-min   .otp__wrapper--continuous { @apply border-aeblack-300 dark:border-aeblack-600; }
+
+/* Individual cells — border per cell */
+.aegov-otp.otp-variant-primary       .otp__wrapper--individual .otp__cell { @apply border-primary-600 dark:border-primary-400; }
+.aegov-otp.otp-variant-secondary     .otp__wrapper--individual .otp__cell { @apply border-secondary-600 dark:border-secondary-400; }
+.aegov-otp.otp-variant-neutral-max   .otp__wrapper--individual .otp__cell { @apply border-aeblack-800 dark:border-aeblack-300; }
+.aegov-otp.otp-variant-neutral-min   .otp__wrapper--individual .otp__cell { @apply border-aeblack-300 dark:border-aeblack-600; }
+
+/* Divider (continuous only) — same family shade as the wrapper border */
+.aegov-otp.otp-variant-primary       .otp__divider { @apply bg-primary-600 dark:bg-primary-400; }
+.aegov-otp.otp-variant-secondary     .otp__divider { @apply bg-secondary-600 dark:bg-secondary-400; }
+.aegov-otp.otp-variant-neutral-max   .otp__divider { @apply bg-aeblack-800 dark:bg-aeblack-300; }
+.aegov-otp.otp-variant-neutral-min   .otp__divider { @apply bg-aeblack-300 dark:bg-aeblack-600; }
+
+/* ============================================
+   Variant focus — ring + offset + border swap to support-500.
+   Mirrors aegov-input focus look:
+     primary    → primary-support family
+     secondary  → secondary-support family
+     neutral-*  → seablue family (system accent)
+   Continuous wrapper picks up focus via :has(:focus); individual cells
+   handle their own :focus.
+   ============================================ */
+
+.aegov-otp.otp-variant-primary .otp__wrapper--continuous:has(.otp__cell:focus),
+.aegov-otp.otp-variant-primary .otp__wrapper--individual .otp__cell:focus {
+  @apply ring-1 ring-offset-2 ring-primary-support-500 border-2 border-primary-support-500
+         dark:ring-primary-support-400 dark:border-primary-support-400;
+}
+
+.aegov-otp.otp-variant-secondary .otp__wrapper--continuous:has(.otp__cell:focus),
+.aegov-otp.otp-variant-secondary .otp__wrapper--individual .otp__cell:focus {
+  @apply ring-1 ring-offset-2 ring-secondary-support-500 border-2 border-secondary-support-500
+         dark:ring-secondary-support-400 dark:border-secondary-support-400;
+}
+
+.aegov-otp.otp-variant-neutral-max .otp__wrapper--continuous:has(.otp__cell:focus),
+.aegov-otp.otp-variant-neutral-max .otp__wrapper--individual .otp__cell:focus,
+.aegov-otp.otp-variant-neutral-min .otp__wrapper--continuous:has(.otp__cell:focus),
+.aegov-otp.otp-variant-neutral-min .otp__wrapper--individual .otp__cell:focus {
+  @apply ring-1 ring-offset-2 ring-seablue-500 border-2 border-seablue-500
+         dark:ring-seablue-400 dark:border-seablue-400;
+}
+
+/* Continuous focus — recolor inner dividers to match focused wrapper border.
+   Keeps divider colour in sync with the support-colour border swap. */
+.aegov-otp.otp-variant-primary .otp__wrapper--continuous:has(.otp__cell:focus) .otp__divider {
+  @apply bg-primary-support-500 dark:bg-primary-support-400;
+}
+.aegov-otp.otp-variant-secondary .otp__wrapper--continuous:has(.otp__cell:focus) .otp__divider {
+  @apply bg-secondary-support-500 dark:bg-secondary-support-400;
+}
+.aegov-otp.otp-variant-neutral-max .otp__wrapper--continuous:has(.otp__cell:focus) .otp__divider,
+.aegov-otp.otp-variant-neutral-min .otp__wrapper--continuous:has(.otp__cell:focus) .otp__divider {
+  @apply bg-seablue-500 dark:bg-seablue-400;
+}
+
+/* ============================================
+   Cell — continuous variant (no individual border)
    ============================================ */
 
 .otp__wrapper--continuous .otp__cell {
   @apply border-0;
 }
 
-.otp__wrapper--continuous .otp__cell:focus {
-  @apply bg-primary-50;
-}
-
 /* ============================================
-   Cell — individual variant
+   Cell — individual variant (border applied per variant above)
    ============================================ */
 
 .otp__wrapper--individual .otp__cell {
-  @apply border-2 border-primary-500 rounded-lg;
-}
-
-.otp__wrapper--individual .otp__cell:focus {
-  @apply border-primary-400 ring-3 ring-primary-500/20;
+  @apply border-2 rounded-lg;
 }
 
 .otp__wrapper--individual .otp__cell:disabled {
-  @apply border-aeblack-100;
+  @apply border-aeblack-100 dark:border-aeblack-700;
 }
 
 /* ============================================
@@ -68,15 +133,15 @@
    ============================================ */
 
 .otp__wrapper--continuous:has(.otp__cell:disabled) {
-  @apply border-aeblack-100;
+  @apply border-aeblack-100 dark:border-aeblack-700;
 }
 
 .otp__divider {
-  @apply w-0.5 self-stretch bg-primary-500 shrink-0;
+  @apply w-0.5 self-stretch shrink-0;
 }
 
 .otp__wrapper--continuous:has(.otp__cell:disabled) .otp__divider {
-  @apply bg-aeblack-200;
+  @apply bg-aeblack-200 dark:bg-aeblack-700;
 }
 
 /* ============================================
@@ -84,7 +149,7 @@
    ============================================ */
 
 .otp__cell--xs {
-  @apply w-8 h-8 text-xs;
+  @apply w-8 h-9 text-xs;
 }
 
 .otp__cell--sm {
@@ -92,17 +157,48 @@
 }
 
 .otp__cell--base {
-  @apply w-10 h-12 text-base;
+  @apply w-10 h-11 text-base;
 }
 
 .otp__cell--lg {
-  @apply w-12 h-14 text-lg;
+  @apply w-11 h-12 text-lg;
 }
 
 .otp__cell--xl {
-  @apply w-14 h-14 text-xl;
+  @apply w-12 h-13 text-xl;
 }
 
 .otp__cell--2xl {
   @apply w-16 h-16 text-2xl;
+}
+
+/* Validation surface (Layer 1) — see validation-engine-addon.md §2.6.
+   Mirrors aegov-input invalid treatment:
+   - idle → aered-600 border (+ red divider on continuous)
+   - focus → aered-500 border + aered inset shadow */
+
+aegov-otp.is-invalid .otp__wrapper--continuous,
+aegov-otp.is-invalid .otp__cell {
+  @apply border-aered-600 dark:border-aered-500;
+}
+
+aegov-otp.is-invalid .otp__divider {
+  @apply bg-aered-600 dark:bg-aered-500;
+}
+
+aegov-otp.is-invalid .otp__wrapper--continuous:has(.otp__cell:focus),
+aegov-otp.is-invalid .otp__wrapper--individual .otp__cell:focus {
+  @apply ring-1 ring-offset-2 ring-aered-500 dark:ring-aered-400 border-2 border-aered-500 dark:border-aered-400;
+}
+
+aegov-otp.is-invalid .otp__wrapper--continuous:has(.otp__cell:focus) .otp__divider {
+  @apply bg-aered-500 dark:bg-aered-400;
+}
+
+.aegov-otp__error {
+  @apply text-sm text-aered-600 mt-1.5 flex items-start gap-1.5 leading-snug dark:text-aered-400;
+}
+
+.aegov-otp__hint {
+  @apply text-sm text-aeblack-600 mt-1.5 leading-snug dark:text-aeblack-300;
 }

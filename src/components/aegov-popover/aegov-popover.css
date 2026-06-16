@@ -1,0 +1,14 @@
+/**
+ * Popover Component Styles
+ *
+ * Minimal host and trigger styles. Portal content styles are injected via JS
+ * since scoped CSS cannot reach portal elements appended to document.body.
+ */
+
+:host {
+  @apply inline-block;
+}
+
+.aegov-popover-trigger {
+  @apply inline-block cursor-pointer;
+}

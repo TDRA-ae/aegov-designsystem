@@ -1,5 +1,15 @@
 import { Component, Prop, State, Event, EventEmitter, Element, Listen, Watch, h } from '@stencil/core';
+import { TAB_VARIANTS, TAB_SIZES, TAB_ORIENTATIONS } from '../../utils/types';
 import type { TabVariant, TabSize, TabOrientation } from '../../utils/types';
+import { warnIfInvalidEnumProp } from '../../utils/prop-validator';
+import { watchResponsiveProp } from '../../utils/responsive-prop';
+import { isRtl as detectRtl } from '../../utils/rtl';
+import type { ResponsivePropWatcher } from '../../utils/responsive-prop';
+import { generateId } from '../../utils/id-generator';
+import { getPassThroughAttributes } from '../../utils/attributes';
+
+const TAG = 'aegov-tabs';
+const ctx = (prop: string) => ({ component: TAG, prop });
 
 /**
  * @component aegov-tabs
@@ -11,7 +21,7 @@ import type { TabVariant, TabSize, TabOrientation } from '../../utils/types';
  * @slot default - Place aegov-tab-panel elements here (no slot attribute needed)
  *
  * @example
- * <aegov-tabs default-active-tab="overview" variant="simple">
+ * <aegov-tabs default-open="overview" variant="simple">
  *   <aegov-tab slot="tabs" tab-id="overview">Overview</aegov-tab>
  *   <aegov-tab slot="tabs" tab-id="details">Details</aegov-tab>
  *   <aegov-tab-panel tab-id="overview">Overview content</aegov-tab-panel>
@@ -28,6 +38,11 @@ export class AegovTabs {
   @Element() el: HTMLElement;
 
   /**
+   * Unique ID for the tabs container. Auto-generated if not provided.
+   */
+  @Prop({ mutable: true, reflect: true }) fieldId?: string;
+
+  /**
    * Visual style variant of the tabs.
    * - `simple`: Underline style (default)
    * - `segmented`: Button-group style, ideal for toggling views
@@ -39,24 +54,26 @@ export class AegovTabs {
    * The tab-id of the tab that should be active on initial render.
    * If not provided, the first non-disabled tab is activated.
    */
-  @Prop() defaultActiveTab: string = '';
+  @Prop() defaultOpen: string = '';
 
   /**
    * Size of the tabs.
    */
-  @Prop() size: TabSize = 'base';
+  @Prop() size: string = 'base';
+  @State() private _resolvedSize: TabSize = 'base';
+  private _sizeWatcher: ResponsivePropWatcher | null = null;
 
   /**
    * Enables horizontal scrolling when tabs overflow the container.
    * A faded gradient edge is shown to indicate scrollable content.
    */
-  @Prop() scrollable: boolean = false;
+  @Prop() isScrollable: boolean = false;
 
   /**
    * Distributes tabs evenly to fill the full width of the container.
    * Each tab grows equally to occupy available space.
    */
-  @Prop() stretch: boolean = false;
+  @Prop() isStretchable: boolean = false;
 
   /**
    * Layout orientation of the tabs.
@@ -69,7 +86,7 @@ export class AegovTabs {
    * Accessible label for the tablist element.
    * Provides context for screen readers about what the tabs control.
    */
-  @Prop() tablistLabel: string = 'Tabs';
+  @Prop() labelTablist: string = 'Tabs';
 
   /** Currently active tab id (internal uncontrolled state) */
   @State() activeTabId: string = '';
@@ -86,11 +103,21 @@ export class AegovTabs {
   private scrollHandler: () => void;
 
   componentWillLoad() {
-    if (this.defaultActiveTab) {
-      this.activeTabId = this.defaultActiveTab;
+    if (!this.fieldId) {
+      this.fieldId = generateId('aegov-tabs');
+    }
+    warnIfInvalidEnumProp(this.variant, TAB_VARIANTS, 'simple', ctx('variant'));
+    warnIfInvalidEnumProp(this.orientation, TAB_ORIENTATIONS, 'horizontal', ctx('orientation'));
+    this._sizeWatcher = watchResponsiveProp(this.size, TAB_SIZES, 'base', v => {
+      this._resolvedSize = v as TabSize;
+      if (this.el.isConnected) { this.syncChildren(); }
+    });
+    this._resolvedSize = this._sizeWatcher.current as TabSize;
+    if (this.defaultOpen) {
+      this.activeTabId = this.defaultOpen;
     } else {
       const tabs = this.getTabElements();
-      const first = tabs.find(t => !t.hasAttribute('disabled'));
+      const first = tabs.find(t => !t.hasAttribute('is-disabled') && !t.hasAttribute('disabled'));
       if (first) {
         this.activeTabId = first.getAttribute('tab-id') || '';
       }
@@ -99,7 +126,7 @@ export class AegovTabs {
 
   componentDidLoad() {
     this.syncChildren();
-    if (this.scrollable && this.listEl) {
+    if (this.isScrollable && this.listEl) {
       this.checkScrollFade();
       this.scrollHandler = () => this.checkScrollFade();
       this.listEl.addEventListener('scroll', this.scrollHandler, { passive: true });
@@ -107,6 +134,7 @@ export class AegovTabs {
   }
 
   disconnectedCallback() {
+    this._sizeWatcher?.destroy();
     if (this.scrollHandler && this.listEl) {
       this.listEl.removeEventListener('scroll', this.scrollHandler);
     }
@@ -115,7 +143,7 @@ export class AegovTabs {
   @Watch('activeTabId')
   onActiveTabChange() {
     this.syncChildren();
-    if (this.scrollable && this.listEl) {
+    if (this.isScrollable && this.listEl) {
       this.checkScrollFade();
       const activeTab = this.el.querySelector(`aegov-tab[tab-id="${this.activeTabId}"]`) as HTMLElement;
       if (activeTab) {
@@ -128,9 +156,24 @@ export class AegovTabs {
   }
 
   @Watch('variant')
+  onVariantChange(v: unknown) {
+    warnIfInvalidEnumProp(v, TAB_VARIANTS, 'simple', ctx('variant'));
+    this.syncChildren();
+  }
+
   @Watch('size')
+  onSizeChange() {
+    this._sizeWatcher?.destroy();
+    this._sizeWatcher = watchResponsiveProp(this.size, TAB_SIZES, 'base', v => {
+      this._resolvedSize = v as TabSize;
+      if (this.el.isConnected) { this.syncChildren(); }
+    });
+    this._resolvedSize = this._sizeWatcher.current as TabSize;
+  }
+
   @Watch('orientation')
-  onChildPropChange() {
+  onOrientationChange(v: unknown) {
+    warnIfInvalidEnumProp(v, TAB_ORIENTATIONS, 'horizontal', ctx('orientation'));
     this.syncChildren();
   }
 
@@ -155,7 +198,7 @@ export class AegovTabs {
     tabs.forEach((tab: any) => {
       tab.activeTabId = this.activeTabId;
       tab.variant = this.variant;
-      tab.size = this.size;
+      tab.size = this._resolvedSize;
       tab.orientation = this.orientation;
     });
 
@@ -193,13 +236,13 @@ export class AegovTabs {
     if (!target.closest('aegov-tab')) return;
 
     const allTabs = this.getTabElements();
-    const enabledTabs = allTabs.filter(t => !t.hasAttribute('disabled'));
+    const enabledTabs = allTabs.filter(t => !t.hasAttribute('is-disabled') && !t.hasAttribute('disabled'));
     if (enabledTabs.length === 0) return;
 
     const currentIndex = enabledTabs.findIndex(
       (t: any) => (t.getAttribute('tab-id') || t.tabId) === this.activeTabId,
     );
-    const isRtl = this.el.closest('[dir="rtl"]') !== null || document.documentElement.dir === 'rtl';
+    const isRtl = detectRtl(this.el);
 
     let nextIndex = -1;
 
@@ -254,16 +297,20 @@ export class AegovTabs {
   }
 
   render() {
+    const variant: TabVariant = (TAB_VARIANTS as readonly string[]).includes(this.variant) ? this.variant : 'simple';
+    const size: TabSize = this._resolvedSize;
+    const orientation: TabOrientation = (TAB_ORIENTATIONS as readonly string[]).includes(this.orientation) ? this.orientation : 'horizontal';
+    const passThroughAttributes = getPassThroughAttributes(this.el);
     return (
-      <div class={`aegov-tabs tabs--${this.variant} tabs--${this.size}${this.stretch ? ' tabs--stretch' : ''}${this.orientation === 'vertical' ? ' tabs--vertical' : ''}`}>
+      <div {...passThroughAttributes} id={this.fieldId} class={`aegov-tabs tabs--${variant} tabs--${size}${this.isStretchable ? ' tabs--stretch' : ''}${orientation === 'vertical' ? ' tabs--vertical' : ''}`}>
         <div
-          class={`tabs__list-wrapper${this.scrollable ? ' tabs__list-wrapper--scrollable' : ''}`}
+          class={`tabs__list-wrapper${this.isScrollable ? ' tabs__list-wrapper--scrollable' : ''}`}
           ref={el => (this.listWrapperEl = el as HTMLElement)}
         >
           <div
             role="tablist"
-            aria-label={this.tablistLabel}
-            aria-orientation={this.orientation}
+            aria-label={this.labelTablist}
+            aria-orientation={orientation}
             class="tabs__list"
             ref={el => (this.listEl = el as HTMLElement)}
           >

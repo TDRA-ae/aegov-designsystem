@@ -1,142 +1,165 @@
 import { newSpecPage } from '@stencil/core/testing';
 import { AegovFormField } from './aegov-form-field';
-import { AegovLabel } from '../aegov-label/aegov-label';
 import { AegovInput } from '../aegov-input/aegov-input';
+import { AegovTextarea } from '../aegov-textarea/aegov-textarea';
+import { AegovLabel } from '../aegov-label/aegov-label';
 
 describe('aegov-form-field', () => {
-  describe('rendering', () => {
-    it('renders a div with aegov-form-field class', async () => {
-      const page = await newSpecPage({
-        components: [AegovFormField],
-        html: `<aegov-form-field></aegov-form-field>`,
-      });
-      const div = page.root.querySelector('div');
-      expect(div).not.toBeNull();
-      expect(div.className).toContain('aegov-form-field');
+  it('renders the wrapper with the form-field class', async () => {
+    const page = await newSpecPage({
+      components: [AegovFormField],
+      html: `<aegov-form-field></aegov-form-field>`,
     });
-
-    it('renders slot content', async () => {
-      const page = await newSpecPage({
-        components: [AegovFormField],
-        html: `<aegov-form-field><p>Content</p></aegov-form-field>`,
-      });
-      const p = page.root.querySelector('p');
-      expect(p.textContent).toBe('Content');
-    });
+    const wrapper = page.root.querySelector('div.aegov-form-field');
+    expect(wrapper).not.toBeNull();
   });
 
-  describe('auto-linking label to input', () => {
-    it('sets label for attribute to match input id', async () => {
-      const page = await newSpecPage({
-        components: [AegovFormField, AegovLabel, AegovInput],
-        html: `
-          <aegov-form-field>
-            <aegov-label>Email</aegov-label>
-            <aegov-input type="email"></aegov-input>
-          </aegov-form-field>
-        `,
-      });
-      const input = page.root.querySelector('input');
-      const label = page.root.querySelector('label');
-      expect(label.getAttribute('for')).toBe(input.id);
+  it('auto-generates fieldId when not provided', async () => {
+    const page = await newSpecPage({
+      components: [AegovFormField],
+      html: `<aegov-form-field></aegov-form-field>`,
     });
+    expect(page.rootInstance.fieldId).toMatch(/^aegov-form-field-\d+$/);
+    expect(page.root.querySelector('div.aegov-form-field').id).toBe(page.rootInstance.fieldId);
+  });
 
-    it('links label to input with custom field-id', async () => {
-      const page = await newSpecPage({
-        components: [AegovFormField, AegovLabel, AegovInput],
-        html: `
-          <aegov-form-field>
-            <aegov-label>Email</aegov-label>
-            <aegov-input field-id="custom-email" type="email"></aegov-input>
-          </aegov-form-field>
-        `,
-      });
-      const label = page.root.querySelector('label');
-      expect(label.getAttribute('for')).toBe('custom-email');
+  it('respects user-provided fieldId', async () => {
+    const page = await newSpecPage({
+      components: [AegovFormField],
+      html: `<aegov-form-field field-id="ff1"></aegov-form-field>`,
     });
+    expect(page.root.querySelector('div.aegov-form-field').id).toBe('ff1');
+  });
 
-    it('works without a label (input only)', async () => {
+  it('applies extra-class', async () => {
+    const page = await newSpecPage({
+      components: [AegovFormField],
+      html: `<aegov-form-field extra-class="custom"></aegov-form-field>`,
+    });
+    expect(page.root.querySelector('div.aegov-form-field').className).toContain('custom');
+  });
+
+  it('renders slot content (children)', async () => {
+    const page = await newSpecPage({
+      components: [AegovFormField],
+      html: `<aegov-form-field><span>child</span></aegov-form-field>`,
+    });
+    expect(page.root.textContent).toContain('child');
+  });
+
+  it('links aegov-label htmlFor to child aegov-input fieldId', async () => {
+    const page = await newSpecPage({
+      components: [AegovFormField, AegovLabel, AegovInput],
+      html: `
+        <aegov-form-field>
+          <aegov-label>Email</aegov-label>
+          <aegov-input field-id="email-input"></aegov-input>
+        </aegov-form-field>
+      `,
+    });
+    await page.waitForChanges();
+    const label = page.root.querySelector('aegov-label') as any;
+    expect(label.htmlFor).toBe('email-input');
+  });
+
+  it('links aegov-label htmlFor to child aegov-textarea fieldId', async () => {
+    const page = await newSpecPage({
+      components: [AegovFormField, AegovLabel, AegovTextarea],
+      html: `
+        <aegov-form-field>
+          <aegov-label>Bio</aegov-label>
+          <aegov-textarea field-id="bio-ta"></aegov-textarea>
+        </aegov-form-field>
+      `,
+    });
+    await page.waitForChanges();
+    const label = page.root.querySelector('aegov-label') as any;
+    expect(label.htmlFor).toBe('bio-ta');
+  });
+
+  it('forwards aria-* and data-* attributes to wrapper', async () => {
+    const page = await newSpecPage({
+      components: [AegovFormField],
+      html: `<aegov-form-field aria-label="field" data-test="x"></aegov-form-field>`,
+    });
+    const wrapper = page.root.querySelector('div.aegov-form-field');
+    expect(wrapper.getAttribute('aria-label')).toBe('field');
+    expect(wrapper.getAttribute('data-test')).toBe('x');
+  });
+
+  // Validation cascade (Layer 1) — see validation-engine-addon.md §2.7
+  describe('validation cascade', () => {
+    it('cascades errorMessage to first form-control descendant', async () => {
       const page = await newSpecPage({
         components: [AegovFormField, AegovInput],
-        html: `
-          <aegov-form-field>
-            <aegov-input></aegov-input>
-          </aegov-form-field>
-        `,
+        html: `<aegov-form-field error-message="From wrapper" is-invalid="true">
+          <aegov-input></aegov-input>
+        </aegov-form-field>`,
       });
-      const input = page.root.querySelector('input');
-      expect(input.id).toMatch(/^aegov-input-\d+$/);
+      await page.waitForChanges();
+      const input = page.root.querySelector('aegov-input') as HTMLAegovInputElement;
+      expect(input.errorMessage).toBe('From wrapper');
+      expect(input.isInvalid).toBe(true);
     });
 
-    it('works without an input (label only)', async () => {
+    it('does NOT overwrite child errorMessage if child has its own', async () => {
       const page = await newSpecPage({
-        components: [AegovFormField, AegovLabel],
-        html: `
-          <aegov-form-field>
-            <aegov-label>Email</aegov-label>
-          </aegov-form-field>
-        `,
+        components: [AegovFormField, AegovInput],
+        html: `<aegov-form-field error-message="From wrapper" is-invalid="true">
+          <aegov-input error-message="Child wins"></aegov-input>
+        </aegov-form-field>`,
       });
-      const label = page.root.querySelector('label');
-      expect(label).not.toBeNull();
-    });
-  });
-
-  describe('custom class', () => {
-    it('merges custom class with defaults', async () => {
-      const page = await newSpecPage({
-        components: [AegovFormField],
-        html: `<aegov-form-field class="mb-4"></aegov-form-field>`,
-      });
-      const div = page.root.querySelector('div');
-      expect(div.className).toContain('aegov-form-field');
-      expect(div.className).toContain('mb-4');
-    });
-  });
-
-  describe('pass-through attributes', () => {
-    it('passes data-* attributes to div', async () => {
-      const page = await newSpecPage({
-        components: [AegovFormField],
-        html: `<aegov-form-field data-testid="field-1"></aegov-form-field>`,
-      });
-      const div = page.root.querySelector('div');
-      expect(div.getAttribute('data-testid')).toBe('field-1');
+      await page.waitForChanges();
+      const input = page.root.querySelector('aegov-input') as HTMLAegovInputElement;
+      expect(input.errorMessage).toBe('Child wins');
     });
 
-    it('passes id attribute to div', async () => {
+    it('cascades hint to first form-control descendant', async () => {
       const page = await newSpecPage({
-        components: [AegovFormField],
-        html: `<aegov-form-field id="email-field"></aegov-form-field>`,
+        components: [AegovFormField, AegovInput],
+        html: `<aegov-form-field hint="From wrapper">
+          <aegov-input></aegov-input>
+        </aegov-form-field>`,
       });
-      const div = page.root.querySelector('div');
-      expect(div.getAttribute('id')).toBe('email-field');
+      await page.waitForChanges();
+      const input = page.root.querySelector('aegov-input') as HTMLAegovInputElement;
+      expect(input.hint).toBe('From wrapper');
     });
-  });
 
-  describe('multiple form fields', () => {
-    it('links each label to its own input', async () => {
+    it('does NOT overwrite child hint if child has its own', async () => {
       const page = await newSpecPage({
-        components: [AegovFormField, AegovLabel, AegovInput],
-        html: `
-          <div>
-            <aegov-form-field>
-              <aegov-label>First Name</aegov-label>
-              <aegov-input type="text"></aegov-input>
-            </aegov-form-field>
-            <aegov-form-field>
-              <aegov-label>Last Name</aegov-label>
-              <aegov-input type="text"></aegov-input>
-            </aegov-form-field>
-          </div>
-        `,
+        components: [AegovFormField, AegovInput],
+        html: `<aegov-form-field hint="From wrapper">
+          <aegov-input hint="Child wins"></aegov-input>
+        </aegov-form-field>`,
       });
-      const fields = page.doc.querySelectorAll('aegov-form-field');
-      fields.forEach(field => {
-        const label = field.querySelector('label');
-        const input = field.querySelector('input');
-        expect(label.getAttribute('for')).toBe(input.id);
+      await page.waitForChanges();
+      const input = page.root.querySelector('aegov-input') as HTMLAegovInputElement;
+      expect(input.hint).toBe('Child wins');
+    });
+
+    it('adds is-invalid class on wrapper when isInvalid', async () => {
+      const page = await newSpecPage({
+        components: [AegovFormField, AegovInput],
+        html: `<aegov-form-field is-invalid="true">
+          <aegov-input></aegov-input>
+        </aegov-form-field>`,
       });
+      const wrapper = page.root.querySelector('.aegov-form-field');
+      expect(wrapper.className).toContain('is-invalid');
+    });
+
+    it('cascade only fills empty child slots — leaves filled child untouched', async () => {
+      const page = await newSpecPage({
+        components: [AegovFormField, AegovInput],
+        html: `<aegov-form-field error-message="From wrapper">
+          <aegov-input error-message=""></aegov-input>
+        </aegov-form-field>`,
+      });
+      await page.waitForChanges();
+      const input = page.root.querySelector('aegov-input') as HTMLAegovInputElement;
+      // Empty string is treated as "no value" → cascade fills it
+      expect(input.errorMessage).toBe('From wrapper');
     });
   });
 });

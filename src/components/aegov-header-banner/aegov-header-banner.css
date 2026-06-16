@@ -1,0 +1,29 @@
+/* aegov-header-banner */
+:host {
+  @apply block w-full;
+}
+
+.aegov-header-banner {
+  @apply w-full relative;
+}
+
+.header__top {
+  @apply bg-aeblack-900 text-aeblack-50 py-1 text-sm w-full relative;
+}
+
+.header__top-expand {
+  @apply bg-aeblack-900 text-aeblack-50 w-full overflow-hidden max-h-0 opacity-0 transition-all duration-300 ease-in-out absolute top-0 left-0 z-50;
+}
+
+.header__top-expand--open {
+  @apply max-h-96 opacity-100 py-4;
+}
+
+.aegov-header-banner--error {
+  @apply bg-aered-100 text-aered-800 border border-aered-300 rounded-lg p-4 text-sm
+         dark:bg-aered-950 dark:text-aered-200 dark:border-aered-700;
+}
+
+.aegov-header-banner--error code {
+  @apply bg-aered-200 px-1 py-0.5 rounded text-xs font-mono dark:bg-aered-900 dark:text-aered-100;
+}

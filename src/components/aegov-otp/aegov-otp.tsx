@@ -1,12 +1,28 @@
-import { Component, Host, h, Prop, Element, Event, EventEmitter, Watch, Method } from '@stencil/core';
-import type { OtpVariant, OtpSize } from '../../utils/types';
+import { Component, Host, h, Prop, State, Element, Event, EventEmitter, Watch, Method } from '@stencil/core';
+import { watchResponsiveProp } from '../../utils/responsive-prop';
+import type { ResponsivePropWatcher } from '../../utils/responsive-prop';
+import { OTP_VARIANTS, OTP_SIZES, FORM_VARIANTS } from '../../utils/types';
+import type {
+  OtpVariant, OtpSize, FormVariant,
+  AegovValidationDetail, AegovValidationResult, AegovValidationTrigger,
+  AegovValidityState,
+} from '../../utils/types';
 import { getPassThroughAttributes } from '../../utils/attributes';
 import { generateId } from '../../utils/id-generator';
+import { warnIfInvalidEnumProp } from '../../utils/prop-validator';
+import {
+  composeDescribedBy, buildValidationDetail, synthesizeValidity, setInternalsValidity,
+} from '../../utils/validation';
+import type { InternalsHost } from '../../utils/validation';
+
+const TAG = 'aegov-otp';
+const ctx = (prop: string) => ({ component: TAG, prop });
 
 @Component({
   tag: 'aegov-otp',
   styleUrl: 'aegov-otp.css',
   scoped: false,
+  formAssociated: true, // §2.5: OTP participates in <form> via ElementInternals (replaces hidden input)
 })
 export class AegovOtp {
   @Element() el: HTMLElement;
@@ -15,35 +31,52 @@ export class AegovOtp {
   @Prop({ mutable: true, reflect: true }) fieldId?: string;
 
   /**
-   * Visual variant. "continuous" = single bordered box with dividers between cells.
+   * Visual appearance. "continuous" = single bordered box with dividers between cells.
    * "individual" = separate bordered boxes per digit.
-   * Note: named "variant" to avoid conflict with native HTML "style" attribute.
    */
-  @Prop() variant: OtpVariant = 'continuous';
+  @Prop() appearance: OtpVariant = 'continuous';
 
   /** Number of input cells (digits/characters expected). */
   @Prop() length: number = 5;
 
-  /** Size of the input cells. Maps to text size: xs, sm, base, lg, xl, 2xl. */
-  @Prop() size: OtpSize = 'base';
+  /** Size of the input cells. */
+  @Prop() size: string = 'base';
+
+  /** Colour family. Drives idle ring/border, selected/checked fill, and value/accent text. Focus ring stays camel; error stays aered regardless. */
+  @Prop() variant: FormVariant = 'primary';
+
+  @State() private _resolvedSize: OtpSize = 'base';
+  private _sizeWatcher: ResponsivePropWatcher | null = null;
 
   /** Allow letters and numbers when true. Numbers only when false. */
-  @Prop() alphanumeric: boolean = false;
+  @Prop() isAlphanumeric: boolean = false;
 
   /** Regex pattern string for validation. Checked when all cells are filled. */
   @Prop() pattern?: string;
 
   /** Disables all input cells. */
-  @Prop() disabled: boolean = false;
+  @Prop({ mutable: true }) isDisabled: boolean = false;
 
-  /** Form field name for the hidden input (used in form submission). */
+  /** Marks the field as required for form submission. Used by FormAssociated for `valueMissing`. */
+  @Prop() isRequired: boolean = false;
+
+  /** Form field name for FormAssociated submission. */
   @Prop() name?: string;
 
   /** Current OTP value. Can be set externally to pre-fill cells. */
   @Prop({ mutable: true }) value: string = '';
 
+  /** Visual + a11y invalid state. See §2.3. */
+  @Prop({ mutable: true, reflect: true }) isInvalid: boolean = false;
+
+  /** Inline error message. Use `error` slot for rich markup. */
+  @Prop({ mutable: true }) errorMessage: string = '';
+
+  /** Helper hint shown below the control. Hidden when an error is shown. */
+  @Prop() hint: string = '';
+
   /** Additional CSS classes. */
-  @Prop() class?: string;
+  @Prop() extraClass?: string;
 
   /** Fires on every character change with the current value. */
   @Event() aegovOtpChange: EventEmitter<{ value: string }>;
@@ -51,23 +84,83 @@ export class AegovOtp {
   /** Fires when all cells are filled (and pattern is valid if set). */
   @Event() aegovOtpComplete: EventEmitter<{ value: string }>;
 
-  /** Fires when all cells are filled but pattern validation fails. */
-  @Event() aegovOtpInvalid: EventEmitter<{ value: string; pattern: string }>;
+  // §6.6: aegovOtpInvalid REMOVED — use aegovValidate with validity.patternMismatch instead.
+
+  /** Unified validation event. See §2.3. */
+  @Event() aegovValidate: EventEmitter<AegovValidationDetail<string>>;
+
+  @State() private hasBlurredOnce: boolean = false;
 
   private cellRefs: HTMLInputElement[] = [];
-  private hiddenRef: HTMLInputElement;
   private internalUpdate = false;
+  private internals: ElementInternals | null = null;
+  private errorId: string = '';
+  private hintId: string = '';
 
   componentWillLoad() {
+    warnIfInvalidEnumProp(this.appearance, OTP_VARIANTS, 'continuous', ctx('appearance'));
+    warnIfInvalidEnumProp(this.variant, FORM_VARIANTS, 'primary', ctx('variant'));
     if (!this.fieldId) {
       this.fieldId = generateId('aegov-otp');
     }
+    this.errorId = `${this.fieldId}-error`;
+    this.hintId = `${this.fieldId}-hint`;
+    this._sizeWatcher = watchResponsiveProp(this.size, OTP_SIZES, 'base', v => {
+      this._resolvedSize = v as OtpSize;
+    });
+    this._resolvedSize = this._sizeWatcher.current as OtpSize;
+
+    // Manual attachInternals per §6.8 fallback. Defensive against test-mock environments
+    // that lack ElementInternals support.
+    const host = this.el as unknown as InternalsHost;
+    if (typeof host.attachInternals === 'function') {
+      try {
+        this.internals = host.attachInternals();
+      } catch {
+        this.internals = null;
+      }
+    }
+  }
+
+  disconnectedCallback() {
+    this._sizeWatcher?.destroy();
+  }
+
+  // ── FormAssociated lifecycle ──
+  formAssociatedCallback(_form: HTMLFormElement | null) { /* no-op */ }
+  formDisabledCallback(disabled: boolean) { this.isDisabled = disabled; }
+  formResetCallback() {
+    this.value = '';
+    this.distributeValue('');
+    this.runValidationSync();
+  }
+  formStateRestoreCallback(state: string | File | FormData | null) {
+    if (typeof state === 'string') {
+      this.value = state;
+      this.distributeValue(state);
+    }
+  }
+
+  @Watch('appearance')
+  onVariantChange(v: unknown) { warnIfInvalidEnumProp(v, OTP_VARIANTS, 'continuous', ctx('appearance')); }
+
+  @Watch('variant')
+  onColourVariantChange(v: unknown) { warnIfInvalidEnumProp(v, FORM_VARIANTS, 'primary', ctx('variant')); }
+
+  @Watch('size')
+  onSizeChange() {
+    this._sizeWatcher?.destroy();
+    this._sizeWatcher = watchResponsiveProp(this.size, OTP_SIZES, 'base', v => {
+      this._resolvedSize = v as OtpSize;
+    });
+    this._resolvedSize = this._sizeWatcher.current as OtpSize;
   }
 
   componentDidLoad() {
     if (this.value) {
       this.distributeValue(this.value);
     }
+    this.runValidationSync();
   }
 
   @Watch('value')
@@ -87,9 +180,78 @@ export class AegovOtp {
     }
     this.internalUpdate = true;
     this.value = '';
-    if (this.hiddenRef) this.hiddenRef.value = '';
     this.aegovOtpChange.emit({ value: '' });
+    this.runValidationSync();
     this.cellRefs[0]?.focus();
+  }
+
+  /** Imperatively re-run validation. */
+  @Method()
+  async validate(trigger: AegovValidationTrigger = 'manual'): Promise<AegovValidationResult> {
+    return this.runAndEmitValidation(trigger);
+  }
+
+  /** Mirror of HTMLInputElement.setCustomValidity(). Marks field invalid + sets error message. */
+  @Method()
+  async setCustomValidity(message: string): Promise<void> {
+    this.errorMessage = message;
+    this.isInvalid = !!message;
+    if (this.internals) {
+      if (message) {
+        setInternalsValidity(
+          this.internals,
+          synthesizeValidity({ customError: true }),
+          message,
+          this.cellRefs[0],
+        );
+      } else {
+        setInternalsValidity(this.internals, { valid: true }, '');
+      }
+    }
+  }
+
+  private computeValidity(): { validity: AegovValidityState; message: string } {
+    const val = this.value || '';
+    const filled = val.length;
+    if (this.isRequired && filled === 0) {
+      return { validity: synthesizeValidity({ valueMissing: true }), message: this.errorMessage || 'Required' };
+    }
+    if (filled > 0 && filled < this.length) {
+      return { validity: synthesizeValidity({ tooShort: true }), message: this.errorMessage || `Enter ${this.length} characters` };
+    }
+    if (filled === this.length && this.pattern) {
+      try {
+        const re = new RegExp(this.pattern);
+        if (!re.test(val)) {
+          return { validity: synthesizeValidity({ patternMismatch: true }), message: this.errorMessage || 'Invalid format' };
+        }
+      } catch {
+        // Bad regex — treat as no constraint
+      }
+    }
+    return { validity: synthesizeValidity({}), message: '' };
+  }
+
+  private runValidationSync() {
+    const { validity, message } = this.computeValidity();
+    setInternalsValidity(this.internals, validity, message, this.cellRefs[0]);
+    try {
+      if (this.internals && typeof this.internals.setFormValue === 'function') {
+        this.internals.setFormValue(this.value || '');
+      }
+    } catch {
+      // jsdom mock environment may throw — safe to ignore
+    }
+  }
+
+  private async runAndEmitValidation(trigger: AegovValidationTrigger): Promise<AegovValidationResult> {
+    this.runValidationSync();
+    const { validity, message } = this.computeValidity();
+    this.aegovValidate.emit(buildValidationDetail<string>(
+      this.el as unknown as HTMLElement & { name?: string },
+      this.value, validity, message, this.errorMessage || null, trigger,
+    ));
+    return { valid: validity.valid, message, validity };
   }
 
   private distributeValue(val: string) {
@@ -106,7 +268,7 @@ export class AegovOtp {
   }
 
   private isValidChar(char: string): boolean {
-    if (this.alphanumeric) {
+    if (this.isAlphanumeric) {
       return /^[a-zA-Z0-9]$/.test(char);
     }
     return /^[0-9]$/.test(char);
@@ -116,20 +278,17 @@ export class AegovOtp {
     const val = this.collectValue();
     this.internalUpdate = true;
     this.value = val;
-    if (this.hiddenRef) {
-      this.hiddenRef.value = val;
-    }
     this.aegovOtpChange.emit({ value: val });
+    this.runValidationSync();
 
-    const filled = this.cellRefs.filter(r => r?.value).length;
-    if (filled === this.length) {
-      if (this.pattern) {
-        const regex = new RegExp(this.pattern);
-        if (!regex.test(val)) {
-          this.aegovOtpInvalid.emit({ value: val, pattern: this.pattern });
-          return;
-        }
-      }
+    // Emit unified validate event
+    const { validity, message } = this.computeValidity();
+    this.aegovValidate.emit(buildValidationDetail<string>(
+      this.el as unknown as HTMLElement & { name?: string },
+      val, validity, message, this.errorMessage || null, 'change',
+    ));
+
+    if (val.length === this.length && validity.valid) {
       this.aegovOtpComplete.emit({ value: val });
     }
   }
@@ -190,7 +349,6 @@ export class AegovOtp {
       e.preventDefault();
       this.cellRefs[index + 1].focus();
     } else if (e.key.length === 1 && !e.ctrlKey && !e.metaKey && !e.altKey) {
-      // Ensure existing content is selected so new char replaces it
       const input = e.target as HTMLInputElement;
       if (input.value) {
         input.select();
@@ -201,8 +359,6 @@ export class AegovOtp {
   private handlePaste = (_index: number, e: ClipboardEvent) => {
     e.preventDefault();
     const pasted = (e.clipboardData?.getData('text') || '').replace(/\s/g, '');
-
-    // Always fill from cell 0 on paste (most common OTP paste behavior)
     let ci = 0;
     for (const ch of pasted) {
       if (ci >= this.length) break;
@@ -211,9 +367,7 @@ export class AegovOtp {
         ci++;
       }
     }
-
     this.emitChange();
-
     const nextEmpty = this.cellRefs.findIndex(r => !r?.value);
     const focusIdx = nextEmpty !== -1 ? nextEmpty : Math.min(ci, this.length - 1);
     this.cellRefs[focusIdx]?.focus();
@@ -227,27 +381,70 @@ export class AegovOtp {
     (e.target as HTMLInputElement).select();
   };
 
+  /** Blur on the entire OTP group (any cell) — gates aria-live. */
+  private handleBlurGroup = () => {
+    this.hasBlurredOnce = true;
+    this.runAndEmitValidation('blur');
+  };
+
   render() {
     const passThroughAttrs = getPassThroughAttributes(this.el, new Set([]));
-    const wrapperClasses = ['aegov-otp', this.class || ''].filter(Boolean).join(' ');
+    delete passThroughAttrs['aria-invalid'];
+    delete passThroughAttrs['aria-describedby'];
+
+    const variant: FormVariant = (FORM_VARIANTS as readonly string[]).includes(this.variant) ? this.variant : 'primary';
+    const wrapperClasses = ['aegov-otp', `otp-variant-${variant}`, this.extraClass || ''].filter(Boolean).join(' ');
     const cells = Array.from({ length: this.length }, (_, i) => i);
+    const appearance: OtpVariant = (OTP_VARIANTS as readonly string[]).includes(this.appearance) ? this.appearance : 'continuous';
+    const size: OtpSize = this._resolvedSize;
+
+    const hasErrorSlot = !!this.el.querySelector('[slot="error"]');
+    const hasHintSlot = !!this.el.querySelector('[slot="hint"]');
+    const showError = this.isInvalid && (hasErrorSlot || !!this.errorMessage);
+    const showHint = !showError && (hasHintSlot || !!this.hint);
+    const announceError = showError && this.hasBlurredOnce;
+    const authorDescribedBy = this.el.getAttribute('aria-describedby');
+    const describedBy = composeDescribedBy(
+      authorDescribedBy,
+      showError ? this.errorId : null,
+      showHint ? this.hintId : null,
+    );
+
+    const errorRegion = showError ? (
+      <div
+        id={this.errorId}
+        class="aegov-otp__error"
+        role={announceError ? 'alert' : null}
+        aria-live={announceError ? 'polite' : null}
+      >
+        {hasErrorSlot ? <slot name="error" /> : this.errorMessage}
+      </div>
+    ) : null;
+    const hintRegion = showHint ? (
+      <div id={this.hintId} class="aegov-otp__hint">
+        {hasHintSlot ? <slot name="hint" /> : this.hint}
+      </div>
+    ) : null;
 
     return (
-      <Host>
+      <Host class={{ 'is-invalid': this.isInvalid }}>
         <div class={wrapperClasses}>
           <div
-            class={`otp__wrapper otp__wrapper--${this.variant}`}
+            class={`otp__wrapper otp__wrapper--${appearance}`}
             role="group"
+            aria-invalid={this.isInvalid ? 'true' : null}
+            aria-describedby={describedBy}
+            onFocusout={this.handleBlurGroup}
             {...passThroughAttrs}
           >
             {cells.map((index) => [
               <input
                 ref={(el) => { this.cellRefs[index] = el; }}
                 id={index === 0 ? this.fieldId : undefined}
-                class={`otp__cell otp__cell--${this.size}`}
+                class={`otp__cell otp__cell--${size}`}
                 type="text"
-                inputMode={this.alphanumeric ? 'text' : 'numeric'}
-                disabled={this.disabled}
+                inputMode={this.isAlphanumeric ? 'text' : 'numeric'}
+                disabled={this.isDisabled}
                 autocomplete={index === 0 ? 'one-time-code' : 'off'}
                 aria-label={`Character ${index + 1} of ${this.length}`}
                 onInput={(e) => this.handleInput(index, e)}
@@ -256,19 +453,13 @@ export class AegovOtp {
                 onFocus={(e) => this.handleFocus(e)}
                 onClick={(e) => this.handleClick(e)}
               />,
-              this.variant === 'continuous' && index < this.length - 1 && (
+              appearance === 'continuous' && index < this.length - 1 && (
                 <span class="otp__divider" aria-hidden="true"></span>
               ),
             ])}
           </div>
-
-          {/* Hidden input for form submission */}
-          <input
-            ref={(el) => { this.hiddenRef = el; }}
-            type="hidden"
-            name={this.name}
-            value={this.value}
-          />
+          {errorRegion}
+          {hintRegion}
         </div>
       </Host>
     );

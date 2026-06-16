@@ -1,0 +1,131 @@
+:host {
+  display: contents;
+}
+
+li.aegov-navbar-item {
+  @apply relative inline-flex items-center;
+}
+
+.aegov-navbar-item__link {
+  @apply inline-flex items-center align-middle gap-1.5 no-underline text-aeblack-800 font-semibold transition-colors dark:text-whitely-100;
+  @apply hover:text-primary-700 dark:hover:text-primary-300;
+  @apply focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-support-500 focus-visible:text-primary-support-950! focus-visible:bg-primary-support-500 dark:focus-visible:outline-primary-support-400 dark:focus-visible:text-primary-support-950! dark:focus-visible:bg-primary-support-400;
+}
+
+a.aegov-navbar-item__link,
+a.aegov-navbar-item__link:hover,
+a.aegov-navbar-item__link:focus,
+a.aegov-navbar-item__link:focus-visible,
+a.aegov-navbar-item__link[aria-current="page"],
+a.aegov-navbar-item__link[aria-current="page"]:hover {
+  @apply no-underline;
+}
+
+/* When a dropdown wraps the item, make the dropdown's trigger div the
+   inline-flex row that holds link + chevron so its bbox covers the whole
+   item — that bbox is what aegov-dropdown uses to position itself. */
+li.aegov-navbar-item--has-dropdown > aegov-dropdown {
+  @apply inline-flex items-center;
+}
+
+li.aegov-navbar-item--has-dropdown .aegov-dropdown-trigger {
+  @apply inline-flex items-center;
+}
+
+button.aegov-navbar-item__chevron:focus-visible {
+  @apply outline-2 outline-offset-2 outline-primary-support-600 dark:outline-primary-support-400;
+}
+
+.aegov-navbar-item__link[aria-current="page"] {
+  @apply text-primary-700 font-semibold relative dark:text-primary-300;
+}
+
+.aegov-navbar-item__link[aria-current="page"]::after {
+  content: '';
+  @apply absolute left-0 right-0 bottom-0 h-[3px] bg-primary-700 rounded-full dark:bg-primary-400;
+}
+
+.aegov-navbar-item__icon {
+  @apply inline-flex items-center justify-center shrink-0;
+}
+
+.aegov-navbar-item__icon:empty {
+  display: none;
+}
+
+.aegov-navbar-item__icon svg,
+.aegov-navbar-item__icon img {
+  @apply w-full h-full;
+}
+
+.aegov-navbar-item__label {
+  @apply inline-flex items-center;
+}
+
+button.aegov-navbar-item__chevron {
+  @apply inline-flex items-center justify-center bg-transparent border-0 cursor-pointer p-1 -ms-1 size-5;
+  @apply rounded-md text-aeblack-700 transition-colors dark:text-aeblack-200;
+  @apply hover:text-primary-600 hover:bg-aeblack-50 dark:hover:text-primary-300 dark:hover:bg-aeblack-800;
+}
+
+button.aegov-navbar-item__chevron svg {
+  @apply w-full h-full;
+}
+
+/* Disabled */
+li.aegov-navbar-item--disabled {
+  @apply opacity-50 pointer-events-none;
+}
+
+li.aegov-navbar-item--disabled .aegov-navbar-item__link {
+  @apply cursor-not-allowed;
+}
+
+/* ---- Sizes ---- */
+/* sm */
+li.aegov-navbar-item--sm .aegov-navbar-item__link {
+  @apply text-sm py-3 px-2;
+}
+li.aegov-navbar-item--sm .aegov-navbar-item__icon {
+  @apply size-4.5;
+}
+li.aegov-navbar-item--sm button.aegov-navbar-item__chevron {
+  @apply size-5;
+}
+li.aegov-navbar-item--sm button.aegov-navbar-item__chevron svg {
+  @apply w-full h-full;
+}
+
+/* base */
+li.aegov-navbar-item--base .aegov-navbar-item__link {
+  @apply text-base py-4 px-2.5;
+}
+li.aegov-navbar-item--base .aegov-navbar-item__icon {
+  @apply size-5;
+}
+li.aegov-navbar-item--base button.aegov-navbar-item__chevron {
+  @apply size-6;
+}
+li.aegov-navbar-item--base button.aegov-navbar-item__chevron svg {
+  @apply w-full h-full;
+}
+
+/* lg */
+li.aegov-navbar-item--lg .aegov-navbar-item__link {
+  @apply text-lg py-5 px-3;
+}
+li.aegov-navbar-item--lg .aegov-navbar-item__icon {
+  @apply size-5.5;
+}
+li.aegov-navbar-item--lg button.aegov-navbar-item__chevron {
+  @apply size-6.5;
+}
+li.aegov-navbar-item--lg button.aegov-navbar-item__chevron svg {
+  @apply w-full h-full;
+}
+
+/* RTL: flip chevron horizontally so it still points "down" but cleanly mirrors any directional intent. */
+:host(:dir(rtl)) button.aegov-navbar-item__chevron svg,
+[dir="rtl"] button.aegov-navbar-item__chevron svg {
+  /* chevron-down is symmetric so no transform needed; keep rule for future asymmetric icons */
+}

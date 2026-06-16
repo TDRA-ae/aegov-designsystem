@@ -1,5 +1,19 @@
-import { Component, Host, h, Prop, Event, EventEmitter, Element, Listen, Watch } from '@stencil/core';
-import type { RadioGroupVariant, RadioGroupOrientation, RadioSize } from '../../utils/types';
+import { Component, Host, h, Prop, State, Event, EventEmitter, Element, Listen, Watch, Method } from '@stencil/core';
+import { RADIO_GROUP_VARIANTS, RADIO_GROUP_ORIENTATIONS, RADIO_SIZES, FORM_VARIANTS } from '../../utils/types';
+import type {
+  RadioGroupVariant, RadioGroupOrientation, RadioSize, FormVariant,
+  AegovValidationDetail, AegovValidationResult, AegovValidationTrigger,
+} from '../../utils/types';
+import { warnIfInvalidEnumProp } from '../../utils/prop-validator';
+import { watchResponsiveProp } from '../../utils/responsive-prop';
+import type { ResponsivePropWatcher } from '../../utils/responsive-prop';
+import {
+  composeDescribedBy, buildValidationDetail, synthesizeValidity,
+} from '../../utils/validation';
+import { generateId } from '../../utils/id-generator';
+
+const TAG = 'aegov-radio-group';
+const ctx = (prop: string) => ({ component: TAG, prop });
 
 @Component({
   tag: 'aegov-radio-group',
@@ -10,8 +24,8 @@ import type { RadioGroupVariant, RadioGroupOrientation, RadioSize } from '../../
 export class AegovRadioGroup {
   @Element() el: HTMLElement;
 
-  /** Visual variant for the group layout. */
-  @Prop() variant: RadioGroupVariant = 'default';
+  /** Visual appearance for the group layout. */
+  @Prop() appearance: RadioGroupVariant = 'default';
 
   /** Stack direction for radio items. */
   @Prop() orientation: RadioGroupOrientation = 'vertical';
@@ -20,35 +34,139 @@ export class AegovRadioGroup {
   @Prop() label?: string;
 
   /** Size of all radios in the group. Propagated to children. */
-  @Prop() size: RadioSize = 'base';
+  @Prop() size: string = 'base';
+  @State() private _resolvedSize: RadioSize = 'base';
+  private _sizeWatcher: ResponsivePropWatcher | null = null;
+
+  /** Colour family. Cascades to child radios (only if child has no own variant). Focus ring stays camel; error stays aered regardless. */
+  @Prop() variant: FormVariant = 'primary';
 
   /** The name shared by all radios in the group. Ensures native single-select behavior. */
   @Prop() name!: string;
 
   /** Disables all radios within the group via native fieldset disabled. */
-  @Prop() disabled: boolean = false;
+  @Prop() isDisabled: boolean = false;
+
+  /** Group is required — at least one radio must be selected. Aggregate-level only. */
+  @Prop() isRequired: boolean = false;
+
+  /** Visual + a11y invalid state. See §2.3. */
+  @Prop({ mutable: true, reflect: true }) isInvalid: boolean = false;
+
+  /** Inline error message. */
+  @Prop({ mutable: true }) errorMessage: string = '';
+
+  /** Helper hint shown below the legend when not invalid. */
+  @Prop() hint: string = '';
 
   /** Additional CSS classes to apply. */
-  @Prop() class?: string;
+  @Prop() extraClass?: string;
 
   /** Emitted when the selected radio changes. Contains the selected value. */
   @Event() aegovRadioGroupChange: EventEmitter<{ value: string | undefined }>;
+
+  /** Unified validation event (group-level aggregate). See §2.3. */
+  @Event() aegovValidate: EventEmitter<AegovValidationDetail<string | undefined>>;
+
+  @State() private hasInteractedOnce: boolean = false;
+  private fieldId: string = '';
+  private errorId: string = '';
+  private hintId: string = '';
+
+  componentWillLoad() {
+    warnIfInvalidEnumProp(this.appearance, RADIO_GROUP_VARIANTS, 'default', ctx('appearance'));
+    warnIfInvalidEnumProp(this.orientation, RADIO_GROUP_ORIENTATIONS, 'vertical', ctx('orientation'));
+    warnIfInvalidEnumProp(this.variant, FORM_VARIANTS, 'primary', ctx('variant'));
+    this._sizeWatcher = watchResponsiveProp(this.size, RADIO_SIZES, 'base', v => {
+      this._resolvedSize = v as RadioSize;
+      if (this.el.isConnected) { this.syncChildren(); }
+    });
+    this._resolvedSize = this._sizeWatcher.current as RadioSize;
+    this.fieldId = generateId('aegov-radio-group');
+    this.errorId = `${this.fieldId}-error`;
+    this.hintId = `${this.fieldId}-hint`;
+  }
+
+  /** Imperatively re-run validation. */
+  @Method()
+  async validate(trigger: AegovValidationTrigger = 'manual'): Promise<AegovValidationResult> {
+    return this.runAndEmitValidation(trigger);
+  }
+
+  /** Set a custom error message. */
+  @Method()
+  async setCustomValidity(message: string): Promise<void> {
+    this.errorMessage = message;
+    this.isInvalid = !!message;
+  }
+
+  private collectSelectedValue(): string | undefined {
+    const radios = this.getRadios();
+    const selected = radios.find(r => r.isChecked);
+    return selected?.value;
+  }
+
+  private computeValidity() {
+    const value = this.collectSelectedValue();
+    if (this.isRequired && !value) {
+      return { validity: synthesizeValidity({ valueMissing: true }), message: this.errorMessage || 'Required', value };
+    }
+    return { validity: synthesizeValidity({}), message: '', value };
+  }
+
+  private async runAndEmitValidation(trigger: AegovValidationTrigger): Promise<AegovValidationResult> {
+    const { validity, message, value } = this.computeValidity();
+    this.aegovValidate.emit(buildValidationDetail<string | undefined>(
+      this.el as unknown as HTMLElement & { name?: string },
+      value, validity, message, this.errorMessage || null, trigger,
+    ));
+    return { valid: validity.valid, message, validity };
+  }
 
   componentDidLoad() {
     this.syncChildren();
   }
 
+  @Watch('appearance')
+  onVariantChange(v: unknown) { warnIfInvalidEnumProp(v, RADIO_GROUP_VARIANTS, 'default', ctx('appearance')); }
+
+  @Watch('orientation')
+  onOrientationChange(v: unknown) { warnIfInvalidEnumProp(v, RADIO_GROUP_ORIENTATIONS, 'vertical', ctx('orientation')); }
+
+  @Watch('variant')
+  onColourVariantChange(v: unknown) {
+    warnIfInvalidEnumProp(v, FORM_VARIANTS, 'primary', ctx('variant'));
+    if (this.el.isConnected) { this.syncChildren(); }
+  }
+
+  disconnectedCallback() {
+    this._sizeWatcher?.destroy();
+  }
+
   @Watch('size')
+  onSizeChange() {
+    this._sizeWatcher?.destroy();
+    this._sizeWatcher = watchResponsiveProp(this.size, RADIO_SIZES, 'base', v => {
+      this._resolvedSize = v as RadioSize;
+      if (this.el.isConnected) { this.syncChildren(); }
+    });
+    this._resolvedSize = this._sizeWatcher.current as RadioSize;
+  }
+
   @Watch('name')
-  onChildPropChange() {
+  onNameChange() {
     this.syncChildren();
   }
 
   private syncChildren() {
     const radios = this.getRadios();
     radios.forEach(radio => {
-      radio.size = this.size;
+      radio.size = this._resolvedSize;
       radio.name = this.name;
+      // Cascade variant only if child has no own value (still default 'primary')
+      if (!radio.variant || radio.variant === 'primary') {
+        radio.variant = this.variant;
+      }
     });
   }
 
@@ -65,33 +183,72 @@ export class AegovRadioGroup {
       const radios = this.getRadios();
       radios.forEach(radio => {
         if (radio !== target) {
-          radio.checked = false;
+          radio.isChecked = false;
         }
       });
     }
 
     this.aegovRadioGroupChange.emit({ value: event.detail.checked ? event.detail.value : undefined });
+    this.hasInteractedOnce = true;
+    const { validity, message, value } = this.computeValidity();
+    this.aegovValidate.emit(buildValidationDetail<string | undefined>(
+      this.el as unknown as HTMLElement & { name?: string },
+      value, validity, message, this.errorMessage || null, 'change',
+    ));
   }
 
   private getGroupClasses(): string {
     const classes = ['aegov-radio-group'];
-    if (this.variant !== 'default') {
-      classes.push(`radio-group--${this.variant}`);
+    const appearance: RadioGroupVariant = (RADIO_GROUP_VARIANTS as readonly string[]).includes(this.appearance) ? this.appearance : 'default';
+    const orientation: RadioGroupOrientation = (RADIO_GROUP_ORIENTATIONS as readonly string[]).includes(this.orientation) ? this.orientation : 'vertical';
+    if (appearance !== 'default') {
+      classes.push(`radio-group--${appearance}`);
     }
-    if (this.orientation === 'horizontal') {
+    if (orientation === 'horizontal') {
       classes.push('radio-group--horizontal');
     }
-    if (this.class) {
-      classes.push(this.class);
+    if (this.extraClass) {
+      classes.push(this.extraClass);
     }
     return classes.join(' ');
   }
 
   render() {
+    const hasErrorSlot = !!this.el.querySelector('[slot="error"]');
+    const hasHintSlot = !!this.el.querySelector('[slot="hint"]');
+    const showError = this.isInvalid && (hasErrorSlot || !!this.errorMessage);
+    const showHint = !showError && (hasHintSlot || !!this.hint);
+    const announceError = showError && this.hasInteractedOnce;
+    const describedBy = composeDescribedBy(
+      showError ? this.errorId : null,
+      showHint ? this.hintId : null,
+    );
+
     return (
-      <Host>
-        <fieldset class={this.getGroupClasses()} role="radiogroup" disabled={this.disabled}>
+      <Host class={{ 'is-invalid': this.isInvalid }}>
+        <fieldset
+          class={this.getGroupClasses()}
+          role="radiogroup"
+          disabled={this.isDisabled}
+          aria-invalid={this.isInvalid ? 'true' : null}
+          aria-describedby={describedBy}
+        >
           {this.label && <legend class="radio-group__legend">{this.label}</legend>}
+          {showHint && (
+            <div id={this.hintId} class="aegov-radio-group__hint">
+              {hasHintSlot ? <slot name="hint" /> : this.hint}
+            </div>
+          )}
+          {showError && (
+            <div
+              id={this.errorId}
+              class="aegov-radio-group__error"
+              role={announceError ? 'alert' : null}
+              aria-live={announceError ? 'polite' : null}
+            >
+              {hasErrorSlot ? <slot name="error" /> : this.errorMessage}
+            </div>
+          )}
           <div class="radio-group__items">
             <slot />
           </div>

@@ -1,5 +1,27 @@
-import { Component, Prop, Event, EventEmitter, State, h, Element } from '@stencil/core';
-import type { CalloutVariant, CalloutAppearance, BannerPosition, BannerDisplay, BannerMode, BannerRole } from '../../utils/types';
+import { Component, Prop, Watch, Event, EventEmitter, State, h, Element } from '@stencil/core';
+import {
+  CALLOUT_VARIANTS,
+  CALLOUT_APPEARANCES,
+  BANNER_POSITIONS,
+  BANNER_DISPLAYS,
+  BANNER_MODES,
+  BANNER_SIZES,
+} from '../../utils/types';
+import type { CalloutVariant, CalloutAppearance, BannerPosition, BannerDisplay, BannerMode, BannerRole, BannerSize } from '../../utils/types';
+import { getPassThroughAttributes } from '../../utils/attributes';
+import { warnIfInvalidEnumProp } from '../../utils/prop-validator';
+import { watchResponsiveProp } from '../../utils/responsive-prop';
+import type { ResponsivePropWatcher } from '../../utils/responsive-prop';
+import { generateId } from '../../utils/id-generator';
+import { isRtl } from '../../utils/rtl';
+
+const STRINGS = {
+  en: { close: 'Close banner' },
+  ar: { close: 'إغلاق الشريط' },
+};
+
+const TAG = 'aegov-banner';
+const ctx = (prop: string) => ({ component: TAG, prop });
 
 /** Maps banner position to the body padding CSS property it controls. */
 const BODY_PADDING_PROP: Record<BannerPosition, string> = {
@@ -19,7 +41,13 @@ const BODY_PADDING_PROP: Record<BannerPosition, string> = {
   shadow: false
 })
 export class AegovBanner {
-  @Element() el: HTMLElement;
+  @Element() el!: HTMLElement;
+
+  /**
+   * Unique ID for the banner element. Auto-generated if not provided.
+   * The heading element receives a derived ID `${fieldId}-heading` for ARIA labelledby.
+   */
+  @Prop({ mutable: true, reflect: true }) fieldId?: string;
 
   /**
    * The variant of the banner. Determines the color scheme.
@@ -49,32 +77,37 @@ export class AegovBanner {
   /**
    * Whether the banner can be dismissed/closed.
    */
-  @Prop() dismissible: boolean = true;
+  @Prop() isDismissible: boolean = true;
 
   /**
-   * ARIA role for accessibility. Auto-computed from variant if not specified.
+   * Banner heading for aria-labelledby attribute.
    */
-  @Prop() ariaRole?: BannerRole;
+  @Prop() heading?: string;
 
   /**
-   * Banner title for aria-labelledby attribute.
+   * Size of the banner. Controls font size and vertical padding.
+   * Accepts a plain value (`"sm"`, `"base"`, `"lg"`) or a responsive string
+   * using Tailwind-style breakpoint prefixes (`"sm xl:lg"`).
    */
-  @Prop() bannerTitle?: string;
+  @Prop() size: string = 'base';
+
+  @State() private _resolvedSize: BannerSize = 'base';
+  private _sizeWatcher: ResponsivePropWatcher | null = null;
 
   /**
    * Auto-focus the banner when mounted (for critical alerts only).
    */
-  @Prop() autoFocus: boolean = false;
+  @Prop() isFocusable: boolean = false;
 
   /**
    * Event emitted when the banner is dismissed.
    */
-  @Event() aegovBannerDismiss: EventEmitter<void>;
+  @Event() aegovBannerDismiss!: EventEmitter<void>;
 
   /**
    * Event emitted when banner height changes (useful for overlay mode to adjust body padding).
    */
-  @Event() aegovBannerHeightChange: EventEmitter<number>;
+  @Event() aegovBannerHeightChange!: EventEmitter<number>;
 
   /**
    * Internal state to track visibility of the banner.
@@ -94,12 +127,14 @@ export class AegovBanner {
   private resizeObserver: ResizeObserver | null = null;
 
   /**
-   * Get the ARIA role based on variant and prop override
+   * Get the ARIA role based on variant and pass-through `role` attribute.
+   * If a `role` attribute is set on the host, it overrides the auto-computed value.
    */
   private getRole(): BannerRole {
-    // If explicit role provided, use it
-    if (this.ariaRole) {
-      return this.ariaRole;
+    // If user provided a role attribute on the host, use it
+    const hostRole = this.el.getAttribute('role') as BannerRole | null;
+    if (hostRole) {
+      return hostRole;
     }
     // Auto-compute based on variant
     if (this.variant === 'success' || this.variant === 'error') {
@@ -167,7 +202,7 @@ export class AegovBanner {
 
       // Only set padding if height is valid (> 0)
       if (height > 0) {
-        document.body.style.setProperty(BODY_PADDING_PROP[this.position], `${height}px`);
+        document.body.style.setProperty(BODY_PADDING_PROP[((BANNER_POSITIONS as readonly string[]).includes(this.position) ? this.position : 'top') as BannerPosition], `${height}px`);
       } else {
         // If height is still 0, try again after a short delay
         setTimeout(() => this.setBodyPadding(), 50);
@@ -179,7 +214,7 @@ export class AegovBanner {
    * Clear body padding CSS variable
    */
   private clearBodyPadding = () => {
-    document.body.style.removeProperty(BODY_PADDING_PROP[this.position]);
+    document.body.style.removeProperty(BODY_PADDING_PROP[((BANNER_POSITIONS as readonly string[]).includes(this.position) ? this.position : 'top') as BannerPosition]);
   };
 
   /**
@@ -196,20 +231,29 @@ export class AegovBanner {
   private getBannerClasses(): string {
     const classes: string[] = ['aegov-banner'];
 
+    const display: BannerDisplay = (BANNER_DISPLAYS as readonly string[]).includes(this.display) ? this.display : 'fixed';
+    const position: BannerPosition = (BANNER_POSITIONS as readonly string[]).includes(this.position) ? this.position : 'top';
+    const mode: BannerMode = (BANNER_MODES as readonly string[]).includes(this.mode) ? this.mode : 'push';
+    const appearance: CalloutAppearance = (CALLOUT_APPEARANCES as readonly string[]).includes(this.appearance) ? this.appearance : 'soft';
+    const variant: CalloutVariant = (CALLOUT_VARIANTS as readonly string[]).includes(this.variant) ? this.variant : 'default';
+
     // Display mode (positioning)
-    classes.push(`banner--${this.display}`);
+    classes.push(`banner--${display}`);
 
     // Position (top/bottom)
-    classes.push(`banner--${this.position}`);
+    classes.push(`banner--${position}`);
 
     // Mode (push/overlay)
-    classes.push(`banner--${this.mode}`);
+    classes.push(`banner--${mode}`);
 
     // Appearance
-    classes.push(`banner--${this.appearance}`);
+    classes.push(`banner--${appearance}`);
 
     // Variant
-    classes.push(`banner--${this.variant}`);
+    classes.push(`banner--${variant}`);
+
+    // Size
+    classes.push(`banner--${this._resolvedSize}`);
 
     // Dismissing state
     if (this.isDismissing) {
@@ -219,12 +263,51 @@ export class AegovBanner {
     return classes.join(' ');
   }
 
+  componentWillLoad() {
+    if (!this.fieldId) {
+      this.fieldId = generateId('aegov-banner');
+    }
+    warnIfInvalidEnumProp(this.variant, CALLOUT_VARIANTS, 'default', ctx('variant'));
+    warnIfInvalidEnumProp(this.appearance, CALLOUT_APPEARANCES, 'soft', ctx('appearance'));
+    warnIfInvalidEnumProp(this.position, BANNER_POSITIONS, 'top', ctx('position'));
+    warnIfInvalidEnumProp(this.display, BANNER_DISPLAYS, 'fixed', ctx('display'));
+    warnIfInvalidEnumProp(this.mode, BANNER_MODES, 'push', ctx('mode'));
+    this._sizeWatcher = watchResponsiveProp(this.size, BANNER_SIZES, 'base', v => {
+      this._resolvedSize = v as BannerSize;
+    });
+    this._resolvedSize = this._sizeWatcher.current as BannerSize;
+  }
+
+  @Watch('size')
+  onSizeChange() {
+    this._sizeWatcher?.destroy();
+    this._sizeWatcher = watchResponsiveProp(this.size, BANNER_SIZES, 'base', v => {
+      this._resolvedSize = v as BannerSize;
+    });
+    this._resolvedSize = this._sizeWatcher.current as BannerSize;
+  }
+
+  @Watch('variant')
+  onVariantChange(v: unknown) { warnIfInvalidEnumProp(v, CALLOUT_VARIANTS, 'default', ctx('variant')); }
+
+  @Watch('appearance')
+  onAppearanceChange(v: unknown) { warnIfInvalidEnumProp(v, CALLOUT_APPEARANCES, 'soft', ctx('appearance')); }
+
+  @Watch('position')
+  onPositionChange(v: unknown) { warnIfInvalidEnumProp(v, BANNER_POSITIONS, 'top', ctx('position')); }
+
+  @Watch('display')
+  onDisplayChange(v: unknown) { warnIfInvalidEnumProp(v, BANNER_DISPLAYS, 'fixed', ctx('display')); }
+
+  @Watch('mode')
+  onModeChange(v: unknown) { warnIfInvalidEnumProp(v, BANNER_MODES, 'push', ctx('mode')); }
+
   /**
    * Lifecycle: Component loaded
    */
   componentDidLoad() {
     // Auto-focus for critical alerts
-    if (this.autoFocus && this.getRole() === 'alert') {
+    if (this.isFocusable && this.getRole() === 'alert') {
       const banner = this.el.querySelector('[role]') as HTMLElement;
       banner?.focus();
     }
@@ -270,6 +353,8 @@ export class AegovBanner {
    * Lifecycle: Component disconnected
    */
   disconnectedCallback() {
+    this._sizeWatcher?.destroy();
+
     // Clean up ResizeObserver
     if (this.resizeObserver) {
       this.resizeObserver.disconnect();
@@ -289,17 +374,22 @@ export class AegovBanner {
 
     const role = this.getRole();
     const ariaLive = this.getAriaLive();
-    const titleId = this.bannerTitle ? 'aegov-banner-title' : undefined;
+    const headingId = this.heading ? `${this.fieldId}-heading` : undefined;
+    // Pass-through aria-* and data-* attributes; `role` is consumed by getRole() so omit from spread
+    const passThroughAttributes = getPassThroughAttributes(this.el);
+    delete passThroughAttributes['role'];
 
     return (
       <div
+        id={this.fieldId}
         class={this.getBannerClasses()}
         role={role}
         aria-live={ariaLive}
-        aria-labelledby={titleId}
-        tabindex={this.autoFocus ? -1 : undefined}
+        aria-labelledby={headingId}
+        tabindex={this.isFocusable ? -1 : undefined}
+        {...passThroughAttributes}
       >
-        <div class="banner__container">          
+        <div class="banner__container">
            <div class="banner__content">
             <div class={`banner__text ${this.hasActionsSlot ? 'banner__text-left' : 'banner__text-center'}`}>
               <slot />
@@ -312,12 +402,12 @@ export class AegovBanner {
           </div>
 
           {/* Dismiss button */}
-          {this.dismissible && (
+          {this.isDismissible && (
             <button
               type="button"
               class="banner__dismiss"
               onClick={this.handleDismiss}
-              aria-label="Close banner"
+              aria-label={isRtl(this.el) ? STRINGS.ar.close : STRINGS.en.close}
             >
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"><rect width="256" height="256" fill="none"/><line x1="200" y1="56" x2="56" y2="200" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="24"/><line x1="200" y1="200" x2="56" y2="56" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="24"/></svg>
             </button>

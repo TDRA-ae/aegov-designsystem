@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Progress | AEGOV Design System</title>
+  <script type="module" src="/build/aegov.esm.js"></script>
+  <script nomodule src="/build/aegov.js"></script>
+  <link rel="stylesheet" href="/build/aegov.css">
+  <link rel="stylesheet" href="/docs/doc-style.css">
+  <link rel="stylesheet" href="/docs/hljs.css">
+</head>
+<body class="bg-aeblack-50 dark:bg-aeblack-950">
+  <header class="aegov-container sm:px-6 lg:px-8 mb-8">
+    <img src="https://designsystem.gov.ae/assets/site-logo/AEGov-DesignSystem-Logo-Color.svg" alt="UAE Design System Logo" class="w-auto h-16 my-2">
+  </header>
+  <main class="aegov-container sm:px-6 lg:px-8 bg-aeblack-50 dark:bg-aeblack-950">
+    <section class="flex items-start align-top gap-4">
+      <nav id="primary-nav" class="w-3xs shrink-0">&nbsp;</nav>
+      <article class="col-span-5 grow">
+          <section id="content-area" class="bg-whitely-50 dark:bg-aeblack-900 p-6 rounded-md shadow-xl">
+          <!-- DOC:START -->
+<h1>Progress</h1>
+<p class="text-lg text-aeblack-500 mb-8">A progress bar communicates the completion state of a task — uploading documents, processing a payment, completing a multi-step form. The <code>aegov-progress</code> component supports a determinate value, an indeterminate (loading) state, an optional numeric counter, and a description line. It always renders a hidden native <code>&lt;progress&gt;</code> element so assistive technology announces progress correctly.</p>
+
+<h2>Introduction</h2>
+<p>Use <code>aegov-progress</code> whenever a task takes long enough that users would otherwise be uncertain whether the system is responding. Set <code>value</code> for determinate progress (a known percentage); omit <code>value</code> for indeterminate progress (e.g. waiting on a server response of unknown duration). Use the <code>counter</code> and <code>counter-suffix</code> properties to show a textual percentage, and the <code>description</code> property to add a status line beneath the bar.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-progress</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;40&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-progress</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-progress value="40"></aegov-progress>
+</div>
+
+<hr>
+<h2>Determinate Value</h2>
+<p>Set <code>value</code> to a number between <code>0</code> and <code>max</code> (defaults to <code>100</code>) for a determinate bar. The fill width is calculated from <code>value / max</code>.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-progress</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;25&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-progress</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-progress</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;60&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-progress</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-progress</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;90&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-progress</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <div class="flex flex-col gap-4">
+    <aegov-progress value="25"></aegov-progress>
+    <aegov-progress value="60"></aegov-progress>
+    <aegov-progress value="90"></aegov-progress>
+  </div>
+</div>
+
+<h3>Custom max</h3>
+<p>Use <code>max</code> when reporting progress over a total other than 100 — for example, &quot;3 of 10 documents uploaded&quot;.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-progress</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;3&quot;</span> <span class="hljs-attr">max</span>=<span class="hljs-string">&quot;10&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-progress</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-progress value="3" max="10"></aegov-progress>
+</div>
+
+<hr>
+<h2>Indeterminate (loading)</h2>
+<p>Omit the <code>value</code> property to render an indeterminate animated state. Use this while waiting for a background operation whose duration is unknown.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-progress</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-progress</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-progress</span> <span class="hljs-attr">description</span>=<span class="hljs-string">&quot;Submitting your application...&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-progress</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <div class="flex flex-col gap-6">
+    <aegov-progress></aegov-progress>
+    <aegov-progress description="Submitting your application..."></aegov-progress>
+  </div>
+</div>
+
+<hr>
+<h2>Counter</h2>
+<p>The <code>counter</code> property places a numeric readout next to the bar. Two positions are available: <code>trailing</code> (after the bar on the same row) and <code>top</code> (above the bar). The counter is always hidden in the indeterminate state.</p>
+<h3>Trailing counter</h3>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-progress</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;75&quot;</span> <span class="hljs-attr">counter</span>=<span class="hljs-string">&quot;trailing&quot;</span> <span class="hljs-attr">counter-suffix</span>=<span class="hljs-string">&quot;%&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-progress</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-progress value="75" counter="trailing" counter-suffix="%"></aegov-progress>
+</div>
+
+<h3>Top counter</h3>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-progress</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;3&quot;</span> <span class="hljs-attr">max</span>=<span class="hljs-string">&quot;10&quot;</span> <span class="hljs-attr">counter</span>=<span class="hljs-string">&quot;top&quot;</span> <span class="hljs-attr">counter-suffix</span>=<span class="hljs-string">&quot;/10&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-progress</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-progress value="3" max="10" counter="top" counter-suffix="/10"></aegov-progress>
+</div>
+
+<h3>Counter suffix</h3>
+<p><code>counter-suffix</code> is appended directly to the value with no spacing. Use it to add a percent sign, a fraction denominator, or a unit. Include any leading space in the suffix yourself.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-progress</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;50&quot;</span> <span class="hljs-attr">counter</span>=<span class="hljs-string">&quot;trailing&quot;</span> <span class="hljs-attr">counter-suffix</span>=<span class="hljs-string">&quot;%&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-progress</span>&gt;</span>
+<span class="hljs-comment">&lt;!-- renders: 50% --&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-progress</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;3&quot;</span> <span class="hljs-attr">max</span>=<span class="hljs-string">&quot;10&quot;</span> <span class="hljs-attr">counter</span>=<span class="hljs-string">&quot;trailing&quot;</span> <span class="hljs-attr">counter-suffix</span>=<span class="hljs-string">&quot;/10&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-progress</span>&gt;</span>
+<span class="hljs-comment">&lt;!-- renders: 3/10 --&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-progress</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;120&quot;</span> <span class="hljs-attr">max</span>=<span class="hljs-string">&quot;500&quot;</span> <span class="hljs-attr">counter</span>=<span class="hljs-string">&quot;trailing&quot;</span> <span class="hljs-attr">counter-suffix</span>=<span class="hljs-string">&quot; MB&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-progress</span>&gt;</span>
+<span class="hljs-comment">&lt;!-- renders: 120 MB --&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <div class="flex flex-col gap-4">
+    <aegov-progress value="50" counter="trailing" counter-suffix="%"></aegov-progress>
+    <aegov-progress value="3" max="10" counter="trailing" counter-suffix="/10"></aegov-progress>
+    <aegov-progress value="120" max="500" counter="trailing" counter-suffix=" MB"></aegov-progress>
+  </div>
+</div>
+
+<hr>
+<h2>Description</h2>
+<p>The <code>description</code> property renders a <code>&lt;p&gt;</code> line beneath the bar. Use it for short status text such as the current step or the file currently being uploaded.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-progress</span>
+  <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;40&quot;</span>
+  <span class="hljs-attr">counter</span>=<span class="hljs-string">&quot;trailing&quot;</span>
+  <span class="hljs-attr">counter-suffix</span>=<span class="hljs-string">&quot;%&quot;</span>
+  <span class="hljs-attr">description</span>=<span class="hljs-string">&quot;Uploading 2 of 5 files&quot;</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-progress</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-progress
+    value="40"
+    counter="trailing"
+    counter-suffix="%"
+    description="Uploading 2 of 5 files">
+  </aegov-progress>
+</div>
+
+<hr>
+<h2>Track Height</h2>
+<p>The <code>height</code> property controls the thickness of the bar using the Tailwind spacing scale (each unit = <code>0.25rem</code>). Default is <code>&quot;2&quot;</code> (<code>0.5rem</code> / 8 px). Reach for a thinner bar (<code>1</code> or <code>1.5</code>) for inline usage and a thicker bar (<code>3</code> or <code>4</code>) when the progress bar is the focal element on the screen.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-progress</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;50&quot;</span> <span class="hljs-attr">height</span>=<span class="hljs-string">&quot;1&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-progress</span>&gt;</span>     <span class="hljs-comment">&lt;!-- 4px --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-progress</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;50&quot;</span> <span class="hljs-attr">height</span>=<span class="hljs-string">&quot;1.5&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-progress</span>&gt;</span>   <span class="hljs-comment">&lt;!-- 6px --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-progress</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;50&quot;</span> <span class="hljs-attr">height</span>=<span class="hljs-string">&quot;2&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-progress</span>&gt;</span>     <span class="hljs-comment">&lt;!-- 8px (default) --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-progress</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;50&quot;</span> <span class="hljs-attr">height</span>=<span class="hljs-string">&quot;3&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-progress</span>&gt;</span>     <span class="hljs-comment">&lt;!-- 12px --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-progress</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;50&quot;</span> <span class="hljs-attr">height</span>=<span class="hljs-string">&quot;4&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-progress</span>&gt;</span>     <span class="hljs-comment">&lt;!-- 16px --&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <div class="flex flex-col gap-4">
+    <aegov-progress value="50" height="1"></aegov-progress>
+    <aegov-progress value="50" height="1.5"></aegov-progress>
+    <aegov-progress value="50" height="2"></aegov-progress>
+    <aegov-progress value="50" height="3"></aegov-progress>
+    <aegov-progress value="50" height="4"></aegov-progress>
+  </div>
+</div>
+
+<hr>
+<h2>Inside an aegov-form-field</h2>
+<p>Wrap the progress bar in <code>aegov-form-field</code> to associate it with an <code>aegov-label</code>. The label is announced to screen readers along with the progress value.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-form-field</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-label</span>&gt;</span>Profile completeness<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-label</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-progress</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;80&quot;</span> <span class="hljs-attr">counter</span>=<span class="hljs-string">&quot;trailing&quot;</span> <span class="hljs-attr">counter-suffix</span>=<span class="hljs-string">&quot;%&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-progress</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-form-field</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-form-field>
+    <aegov-label>Profile completeness</aegov-label>
+    <aegov-progress value="80" counter="trailing" counter-suffix="%"></aegov-progress>
+  </aegov-form-field>
+</div>
+
+<hr>
+<h2>Combined Example</h2>
+<p>A typical document-upload status: a determinate bar with a top counter, a description line, and a thicker track for visibility.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-progress</span>
+  <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;6&quot;</span>
+  <span class="hljs-attr">max</span>=<span class="hljs-string">&quot;8&quot;</span>
+  <span class="hljs-attr">height</span>=<span class="hljs-string">&quot;3&quot;</span>
+  <span class="hljs-attr">counter</span>=<span class="hljs-string">&quot;top&quot;</span>
+  <span class="hljs-attr">counter-suffix</span>=<span class="hljs-string">&quot;/8&quot;</span>
+  <span class="hljs-attr">description</span>=<span class="hljs-string">&quot;Uploading supporting documents — please keep this tab open.&quot;</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-progress</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-progress
+    value="6"
+    max="8"
+    height="3"
+    counter="top"
+    counter-suffix="/8"
+    description="Uploading supporting documents — please keep this tab open.">
+  </aegov-progress>
+</div>
+
+<hr>
+<h2>RTL Support</h2>
+<p>The progress fill animates from the start edge of the track, so it grows right-to-left in RTL contexts automatically. The <code>top</code> counter follows the document&#39;s text direction. The <code>trailing</code> counter sits at the end edge of the row using logical spacing, so it naturally flips in RTL.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">dir</span>=<span class="hljs-string">&quot;rtl&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-progress</span>
+    <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;6&quot;</span>
+    <span class="hljs-attr">max</span>=<span class="hljs-string">&quot;8&quot;</span>
+    <span class="hljs-attr">height</span>=<span class="hljs-string">&quot;3&quot;</span>
+    <span class="hljs-attr">counter</span>=<span class="hljs-string">&quot;top&quot;</span>
+    <span class="hljs-attr">counter-suffix</span>=<span class="hljs-string">&quot;/٨&quot;</span>
+    <span class="hljs-attr">description</span>=<span class="hljs-string">&quot;جارٍ تحميل المستندات الداعمة — يرجى إبقاء هذه الصفحة مفتوحة.&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-progress</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre><div dir="rtl" class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-progress
+    value="6"
+    max="8"
+    height="3"
+    counter="top"
+    counter-suffix="/٨"
+    description="جارٍ تحميل المستندات الداعمة — يرجى إبقاء هذه الصفحة مفتوحة.">
+  </aegov-progress>
+</div>
+
+<p>A trailing counter and a determinate bar in RTL:</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">dir</span>=<span class="hljs-string">&quot;rtl&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-form-field</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-label</span>&gt;</span>اكتمال الملف الشخصي<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-label</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-progress</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;80&quot;</span> <span class="hljs-attr">counter</span>=<span class="hljs-string">&quot;trailing&quot;</span> <span class="hljs-attr">counter-suffix</span>=<span class="hljs-string">&quot;٪&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-progress</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-form-field</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre><div dir="rtl" class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-form-field>
+    <aegov-label>اكتمال الملف الشخصي</aegov-label>
+    <aegov-progress value="80" counter="trailing" counter-suffix="٪"></aegov-progress>
+  </aegov-form-field>
+</div>
+
+<p>An indeterminate bar in RTL:</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">dir</span>=<span class="hljs-string">&quot;rtl&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-progress</span> <span class="hljs-attr">description</span>=<span class="hljs-string">&quot;جارٍ تقديم طلبك، يرجى الانتظار...&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-progress</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre><div dir="rtl" class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-progress description="جارٍ تقديم طلبك، يرجى الانتظار..."></aegov-progress>
+</div>
+
+<hr>
+<h2>API Reference</h2>
+<h3>Properties</h3>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Attribute</th>
+<th>Description</th>
+<th>Type</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>fieldId</code></td>
+<td><code>field-id</code></td>
+<td>DOM <code>id</code> for the hidden native <code>&lt;progress&gt;</code> element. Auto-generated if omitted.</td>
+<td><code>string</code></td>
+<td><em>generated</em></td>
+</tr>
+<tr>
+<td><code>value</code></td>
+<td><code>value</code></td>
+<td>Current progress value. Omit for indeterminate state.</td>
+<td><code>number</code></td>
+<td><code>undefined</code></td>
+</tr>
+<tr>
+<td><code>max</code></td>
+<td><code>max</code></td>
+<td>Maximum value used to compute the fill percentage.</td>
+<td><code>number</code></td>
+<td><code>100</code></td>
+</tr>
+<tr>
+<td><code>height</code></td>
+<td><code>height</code></td>
+<td>Track thickness on the Tailwind spacing scale (each unit = <code>0.25rem</code>).</td>
+<td><code>string</code></td>
+<td><code>&#39;2&#39;</code></td>
+</tr>
+<tr>
+<td><code>counter</code></td>
+<td><code>counter</code></td>
+<td>Counter placement. Hidden when not set, and always hidden in the indeterminate state.</td>
+<td><code>&#39;trailing&#39; | &#39;top&#39;</code></td>
+<td><code>undefined</code></td>
+</tr>
+<tr>
+<td><code>counterSuffix</code></td>
+<td><code>counter-suffix</code></td>
+<td>Suffix appended directly to the counter value (no automatic spacing).</td>
+<td><code>string</code></td>
+<td><code>&#39;&#39;</code></td>
+</tr>
+<tr>
+<td><code>description</code></td>
+<td><code>description</code></td>
+<td>Description text rendered as a paragraph below the bar.</td>
+<td><code>string</code></td>
+<td><code>undefined</code></td>
+</tr>
+<tr>
+<td><code>extraClass</code></td>
+<td><code>extra-class</code></td>
+<td>Additional CSS classes applied to the wrapper element.</td>
+<td><code>string</code></td>
+<td><code>undefined</code></td>
+</tr>
+</tbody></table>
+<h3>Slots</h3>
+<p><code>aegov-progress</code> does not expose any slots — the counter, suffix, and description are configured via properties.</p>
+<h3>Events</h3>
+<p><code>aegov-progress</code> does not emit any custom events. To react to progress changes, observe the underlying source of progress in your application code (e.g. a fetch / upload listener) and update the <code>value</code> prop accordingly.</p>
+<h3>Pass-through Attributes</h3>
+<p><code>aria-*</code> and <code>data-*</code> attributes set on the host are forwarded onto the hidden native <code>&lt;progress&gt;</code> element. The following additional attributes are also forwarded when set on the host:</p>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Forwarded to</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>aria-*</code></td>
+<td>Hidden native <code>&lt;progress&gt;</code></td>
+<td>Use to add <code>aria-label</code>, <code>aria-labelledby</code>, <code>aria-describedby</code>, <code>aria-valuetext</code>, etc.</td>
+</tr>
+<tr>
+<td><code>data-*</code></td>
+<td>Hidden native <code>&lt;progress&gt;</code></td>
+<td>Custom data attributes for analytics or state tracking.</td>
+</tr>
+<tr>
+<td><code>tabindex</code></td>
+<td>Hidden native <code>&lt;progress&gt;</code></td>
+<td>Custom tab order for the progress element.</td>
+</tr>
+<tr>
+<td><code>title</code></td>
+<td>Hidden native <code>&lt;progress&gt;</code></td>
+<td>Native browser tooltip text.</td>
+</tr>
+<tr>
+<td><code>form</code></td>
+<td>Hidden native <code>&lt;progress&gt;</code></td>
+<td>Associate with a form by its <code>id</code>.</td>
+</tr>
+<tr>
+<td><code>class</code>, <code>style</code></td>
+<td>Host element</td>
+<td>Applied to the wrapper, alongside <code>extra-class</code>.</td>
+</tr>
+</tbody></table>
+<hr>
+<h2>Accessibility</h2>
+<h3>Built-in behaviour</h3>
+<ul>
+<li>A hidden native <code>&lt;progress&gt;</code> element with the same <code>value</code> / <code>max</code> is always rendered, providing semantic progress reporting to assistive technologies.</li>
+<li>The visual track is marked <code>aria-hidden=&quot;true&quot;</code> so screen readers don&#39;t announce the duplicate visual.</li>
+<li>When <code>value</code> is omitted, the native <code>&lt;progress&gt;</code> is rendered without a <code>value</code> attribute, putting it into the indeterminate state.</li>
+<li>The hidden <code>&lt;progress&gt;</code> accepts pass-through <code>aria-*</code> attributes, so you can add <code>aria-label</code>, <code>aria-labelledby</code>, or <code>aria-describedby</code> directly on the host.</li>
+</ul>
+<h3>Developer responsibilities</h3>
+<ul>
+<li>Provide a label for the progress bar via <code>aegov-label</code> (inside <code>aegov-form-field</code>), <code>aria-label</code>, or <code>aria-labelledby</code> so screen-reader users know what the progress represents.</li>
+<li>For long-running indeterminate operations, switch to a determinate value as soon as one is known so users can estimate completion.</li>
+<li>Use the <code>description</code> prop or a sibling element with <code>aria-live=&quot;polite&quot;</code> to announce state changes (e.g. &quot;Upload complete&quot;).</li>
+<li>The visible counter is decorative — for assistive-technology-only text, set <code>aria-valuetext</code> via pass-through (e.g. <code>aria-valuetext=&quot;6 of 8 documents uploaded&quot;</code>).</li>
+</ul>
+<h3>Notes</h3>
+<ul>
+<li><code>counter-suffix</code> is appended without spacing; include any leading space or unit yourself (e.g. <code>&quot; MB&quot;</code>).</li>
+<li><code>height</code> accepts a Tailwind spacing-scale string (<code>&quot;1&quot;</code>, <code>&quot;1.5&quot;</code>, <code>&quot;2&quot;</code>, <code>&quot;3&quot;</code>, etc.); non-numeric values fall back to the default <code>0.5rem</code>.</li>
+<li>The component does not provide colour variants (e.g. success / error). Communicate status changes via the <code>description</code> text or a sibling <code>aegov-callout</code> rather than colouring the bar itself.</li>
+</ul>
+<!-- DOC:END -->
+          </section>
+      </article>
+    </section>
+  </main>
+  <footer class="aegov-container sm:px-6 lg:px-8 mt-8 py-6 text-sm text-aeblack-500 dark:text-aeblack-400">
+    &copy; 2026 Telecommunication and Digital Regulatory Authority. All rights reserved.
+  </footer>
+
+<script src="/docs/layout.js"></script>
+</body>
+</html>

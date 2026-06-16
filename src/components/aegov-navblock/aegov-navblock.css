@@ -1,0 +1,26 @@
+:host {
+  display: block;
+}
+
+.aegov-navblock {
+  @apply block w-full;
+}
+
+.aegov-navblock--bordered {
+  @apply border border-aeblack-100 rounded-lg p-3 dark:border-aeblack-700;
+}
+
+.aegov-navblock__title {
+  @apply text-aeblack-500 font-semibold uppercase tracking-wide mb-2 pe-3 text-xs tracking-wider dark:text-aeblack-400;
+}
+
+.navblock--sm .aegov-navblock__title {
+  @apply text-xs;
+}
+.navblock--lg .aegov-navblock__title {
+  @apply text-sm;
+}
+
+.aegov-navblock__list {
+  @apply flex flex-col gap-0.5 list-none m-0 p-0;
+}

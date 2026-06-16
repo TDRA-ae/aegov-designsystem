@@ -15,10 +15,10 @@
 // Re-export shared utility types for TypeScript consumers
 export type {
   AccordionIcon,
-  AvatarGroupMode,
+  AvatarAppearance,
+  AvatarGroupVariant,
   AvatarSize,
   AvatarStatus,
-  AvatarVariant,
   BadgeAppearance,
   BadgeColor,
   BadgeSize,
@@ -26,7 +26,7 @@ export type {
   BannerMode,
   BannerPosition,
   BannerRole,
-  BlockquoteVariant,
+  BlockquoteAppearance,
   BreadcrumbSeparator,
   ButtonAppearance,
   ButtonGroupOrientation,
@@ -36,10 +36,10 @@ export type {
   ButtonVariant,
   CalloutAppearance,
   CalloutVariant,
-  CardBackground,
-  CardBorderStyle,
+  CardAppearance,
   CardBorderWidth,
   CardHover,
+  CardVariant,
   CheckboxGroupOrientation,
   CheckboxGroupVariant,
   CheckboxSize,
@@ -54,10 +54,11 @@ export type {
   DropdownTrigger,
   FileuploadSize,
   FileuploadVariant,
+  FormVariant,
   InputSize,
   InputType,
   LinkTarget,
-  ModalBackdropOpacity,
+  ModalOverlayOpacity,
   ModalPosition,
   OtpSize,
   OtpVariant,
@@ -74,6 +75,9 @@ export type {
   SelectChangeDetail,
   SelectSize,
   SelectVariant,
+  SeparatorAppearance,
+  SeparatorOrientation,
+  SeparatorVariant,
   TabOrientation,
   TabSize,
   TabVariant,
@@ -93,4 +97,14 @@ export type {
   TooltipAlign,
   TooltipPosition,
   TooltipTrigger,
+  // Validation surface (Layer 1)
+  AegovValidityState,
+  AegovValidationDetail,
+  AegovValidationTrigger,
+  AegovValidationResult,
 } from './utils/types';
+
+// Validation value types per component (Layer 1)
+export type { AegovRangeValue } from './components/aegov-range/aegov-range';
+export type { AegovSelectValue } from './components/aegov-select/aegov-select';
+export type { AegovDatepickerValue } from './components/aegov-datepicker/aegov-datepicker';

@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Banner | AEGOV Design System</title>
+  <script type="module" src="/build/aegov.esm.js"></script>
+  <script nomodule src="/build/aegov.js"></script>
+  <link rel="stylesheet" href="/build/aegov.css">
+  <link rel="stylesheet" href="/docs/doc-style.css">
+  <link rel="stylesheet" href="/docs/hljs.css">
+</head>
+<body class="bg-aeblack-50 dark:bg-aeblack-950">
+  <header class="aegov-container sm:px-6 lg:px-8 mb-8">
+    <img src="https://designsystem.gov.ae/assets/site-logo/AEGov-DesignSystem-Logo-Color.svg" alt="UAE Design System Logo" class="w-auto h-16 my-2">
+  </header>
+  <main class="aegov-container sm:px-6 lg:px-8 bg-aeblack-50 dark:bg-aeblack-950">
+    <section class="flex items-start align-top gap-4">
+      <nav id="primary-nav" class="w-3xs shrink-0">&nbsp;</nav>
+      <article class="col-span-5 grow">
+          <section id="content-area" class="bg-whitely-50 dark:bg-aeblack-900 p-6 rounded-md shadow-xl">
+          <!-- DOC:START -->
+<h1>Banner</h1>
+<p class="text-lg text-aeblack-500 mb-8">A Banner is a page-level notification pinned to the top or bottom of the viewport. Use it for messages that apply to the whole site or service — scheduled maintenance, regional alerts, cookie consent, ministry-wide announcements, or critical system errors that must remain visible while users scroll. Banners are persistent and intentionally interrupt the normal page flow when needed.</p>
+
+<h2>Introduction</h2>
+<p>The <code>aegov-banner</code> component renders a full-width container fixed to the top or bottom of the viewport. It supports four severity variants, two visual treatments, fixed and sticky positioning, and two layout modes — <code>push</code> (banner reserves space and the body content is offset) or <code>overlay</code> (banner floats above content and emits its height for downstream layout adjustments). The dismiss button is built in.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-banner</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;info&quot;</span> <span class="hljs-attr">position</span>=<span class="hljs-string">&quot;top&quot;</span>&gt;</span>
+  Scheduled maintenance: Government services will be briefly unavailable on Friday 03:00–05:00 GST.
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-banner</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <div class="relative h-32 overflow-hidden rounded">
+    <aegov-banner variant="info" display="sticky" mode="overlay">
+      Scheduled maintenance: Government services will be briefly unavailable on Friday 03:00&ndash;05:00 GST.
+    </aegov-banner>
+  </div>
+  <p class="text-sm text-aeblack-500 mt-3">The banner above is a real <code>&lt;aegov-banner&gt;</code> rendered inside a bounded container so it stays in place for the demo.</p>
+</div>
+
+<blockquote>
+<p>The demos on this page use <code>display=&quot;sticky&quot; mode=&quot;overlay&quot;</code> and are placed inside bounded containers so the banners don&#39;t pin to the page viewport or add padding to <code>&lt;body&gt;</code>. In production you typically want <code>display=&quot;fixed&quot; mode=&quot;push&quot;</code> instead.</p>
+</blockquote>
+<hr>
+<h2>Variants</h2>
+<p>The <code>variant</code> property sets the colour scheme and the implicit ARIA role. <code>error</code> and <code>success</code> resolve to <code>role=&quot;alert&quot;</code> (assertive announcement); <code>info</code>, <code>warning</code>, and <code>default</code> resolve to <code>role=&quot;region&quot;</code> (polite announcement).</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-banner</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;default&quot;</span>&gt;</span>A neutral, informational message.<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-banner</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-banner</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;info&quot;</span>&gt;</span>Useful information about the service.<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-banner</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-banner</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;success&quot;</span>&gt;</span>Your application has been received.<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-banner</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-banner</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;warning&quot;</span>&gt;</span>Action required before the deadline.<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-banner</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-banner</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;error&quot;</span>&gt;</span>The service is currently unavailable.<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-banner</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov space-y-3">
+  <aegov-banner variant="default" display="sticky" mode="overlay" is-dismissible="false">A neutral, informational message.</aegov-banner>
+  <aegov-banner variant="info"    display="sticky" mode="overlay" is-dismissible="false">Useful information about your service.</aegov-banner>
+  <aegov-banner variant="success" display="sticky" mode="overlay" is-dismissible="false">Your Emirates ID renewal application has been received.</aegov-banner>
+  <aegov-banner variant="warning" display="sticky" mode="overlay" is-dismissible="false">Your residency permit expires in 14 days &mdash; renew before 15 May.</aegov-banner>
+  <aegov-banner variant="error"   display="sticky" mode="overlay" is-dismissible="false">The payment gateway is temporarily unavailable. Please try again shortly.</aegov-banner>
+</div>
+
+<hr>
+<h2>Appearance</h2>
+<p>The <code>appearance</code> property switches between two styles. <code>soft</code> (default) uses a tinted background suitable for ongoing notices. <code>solid</code> uses a fully saturated colour panel, suitable for high-priority alerts that must dominate the viewport.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-banner</span> <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;soft&quot;</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;warning&quot;</span>&gt;</span>
+  Scheduled maintenance window starts at 22:00 tonight.
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-banner</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-banner</span> <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;solid&quot;</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;error&quot;</span>&gt;</span>
+  Critical: identity verification service outage.
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-banner</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov space-y-3">
+  <aegov-banner appearance="soft"  variant="warning" display="sticky" mode="overlay" is-dismissible="false">Soft &mdash; scheduled maintenance window starts at 22:00 tonight.</aegov-banner>
+  <aegov-banner appearance="solid" variant="error"   display="sticky" mode="overlay" is-dismissible="false">Solid &mdash; critical: identity verification service outage.</aegov-banner>
+</div>
+
+<hr>
+<h2>Position</h2>
+<p>The <code>position</code> property pins the banner to the <code>top</code> (default) or <code>bottom</code> of the viewport. Top is the conventional spot for service-wide notices; bottom is typical for cookie consent and lower-priority informational banners.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-banner</span> <span class="hljs-attr">position</span>=<span class="hljs-string">&quot;top&quot;</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;info&quot;</span>&gt;</span>
+  We have updated our privacy policy. Read the changes.
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-banner</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-banner</span> <span class="hljs-attr">position</span>=<span class="hljs-string">&quot;bottom&quot;</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;default&quot;</span> <span class="hljs-attr">is-dismissible</span>=<span class="hljs-string">&quot;false&quot;</span>&gt;</span>
+  We use cookies to improve your experience. By continuing you accept our cookie policy.
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-banner</span>&gt;</span></code></pre><hr>
+<h2>Display strategy</h2>
+<p>The <code>display</code> property selects the CSS positioning mechanism.</p>
+<ul>
+<li><code>fixed</code> (default) — the banner stays glued to the chosen edge regardless of scroll.</li>
+<li><code>sticky</code> — the banner participates in normal page flow until it reaches the chosen edge, then sticks. Useful when you want the banner to scroll away once the user has scrolled past its natural position.</li>
+</ul>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-banner</span> <span class="hljs-attr">display</span>=<span class="hljs-string">&quot;fixed&quot;</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;warning&quot;</span>&gt;</span>Always visible.<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-banner</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-banner</span> <span class="hljs-attr">display</span>=<span class="hljs-string">&quot;sticky&quot;</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;warning&quot;</span>&gt;</span>Sticks once scrolled into place.<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-banner</span>&gt;</span></code></pre><hr>
+<h2>Mode</h2>
+<p>The <code>mode</code> property chooses between two layout strategies:</p>
+<ul>
+<li><code>push</code> (default) — when combined with <code>display=&quot;fixed&quot;</code>, the banner adds matching padding to <code>&lt;body&gt;</code> so the page content is pushed down (or up) and the banner does not cover the page header.</li>
+<li><code>overlay</code> — the banner floats above the page content and emits an <code>aegovBannerHeightChange</code> event whenever its height changes. Use this when your application wants to reserve its own space (for example, with a custom layout grid).</li>
+</ul>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-banner</span> <span class="hljs-attr">mode</span>=<span class="hljs-string">&quot;push&quot;</span> <span class="hljs-attr">position</span>=<span class="hljs-string">&quot;top&quot;</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;info&quot;</span>&gt;</span>
+  This banner pushes the page content down.
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-banner</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-banner</span> <span class="hljs-attr">mode</span>=<span class="hljs-string">&quot;overlay&quot;</span> <span class="hljs-attr">position</span>=<span class="hljs-string">&quot;top&quot;</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;info&quot;</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;floatBanner&quot;</span>&gt;</span>
+  This banner floats over content; subscribe to height changes for layout sync.
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-banner</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript">
+  <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;floatBanner&#x27;</span>)
+    .<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;aegovBannerHeightChange&#x27;</span>, <span class="hljs-function"><span class="hljs-params">e</span> =&gt;</span> {
+      <span class="hljs-variable language_">document</span>.<span class="hljs-property">body</span>.<span class="hljs-property">style</span>.<span class="hljs-title function_">setProperty</span>(<span class="hljs-string">&#x27;--banner-height&#x27;</span>, e.<span class="hljs-property">detail</span> + <span class="hljs-string">&#x27;px&#x27;</span>);
+    });
+</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre><hr>
+<h2>Sizes</h2>
+<p>The <code>size</code> property scales font size and vertical padding. Three tokens are available: <code>sm</code>, <code>base</code> (default), and <code>lg</code>. Use <code>sm</code> for low-priority notices, <code>lg</code> for prominent announcements that need extra breathing room.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-banner</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm&quot;</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;info&quot;</span>&gt;</span>Small banner<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-banner</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-banner</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;base&quot;</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;info&quot;</span>&gt;</span>Base banner<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-banner</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-banner</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;lg&quot;</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;info&quot;</span>&gt;</span>Large banner<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-banner</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov space-y-3">
+  <aegov-banner variant="info" display="sticky" mode="overlay" size="sm"   is-dismissible="false">Small &mdash; UAE Pass authentication is now available for citizens and residents.</aegov-banner>
+  <aegov-banner variant="info" display="sticky" mode="overlay" size="base" is-dismissible="false">Base &mdash; UAE Pass authentication is now available for citizens and residents.</aegov-banner>
+  <aegov-banner variant="info" display="sticky" mode="overlay" size="lg"   is-dismissible="false">Large &mdash; UAE Pass authentication is now available for citizens and residents.</aegov-banner>
+</div>
+
+<h3>Responsive sizes</h3>
+<p><code>size</code> accepts a Tailwind-style responsive string with breakpoint prefixes (<code>xs</code>, <code>sm</code>, <code>md</code>, <code>lg</code>, <code>xl</code>, <code>2xl</code>).</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-banner</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm md:base xl:lg&quot;</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;info&quot;</span>&gt;</span>
+  Adapts size with the viewport.
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-banner</span>&gt;</span></code></pre><hr>
+<h2>Actions</h2>
+<p>The <code>actions</code> slot holds buttons aligned to the trailing edge of the banner. When the actions slot has content, the message text aligns to the leading edge instead of being centred. This is the standard pattern for cookie consent or call-to-action banners.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-banner</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;info&quot;</span> <span class="hljs-attr">position</span>=<span class="hljs-string">&quot;bottom&quot;</span> <span class="hljs-attr">is-dismissible</span>=<span class="hljs-string">&quot;false&quot;</span>&gt;</span>
+  We use cookies to improve your experience on the UAE Government services portal.
+  <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;actions&quot;</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm&quot;</span>&gt;</span>Accept all<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm&quot;</span> <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;outline&quot;</span>&gt;</span>Manage preferences<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-banner</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-banner variant="info" display="sticky" mode="overlay" is-dismissible="false">
+    We use cookies to improve your experience on the UAE Government services portal.
+    <div slot="actions">
+      <aegov-button size="sm">Accept all</aegov-button>
+      <aegov-button size="sm" appearance="outline">Manage preferences</aegov-button>
+    </div>
+  </aegov-banner>
+</div>
+
+<hr>
+<h2>Dismiss control</h2>
+<p>By default banners include a close button. Set <code>is-dismissible=&quot;false&quot;</code> for messages that the user is not allowed to dismiss (legal notices, mandatory cookie consent, ongoing critical alerts).</p>
+<p>The close button triggers a 300 ms exit animation; the <code>aegovBannerDismiss</code> event fires after the animation completes.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-banner</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;cookieBanner&quot;</span> <span class="hljs-attr">position</span>=<span class="hljs-string">&quot;bottom&quot;</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;default&quot;</span> <span class="hljs-attr">is-dismissible</span>=<span class="hljs-string">&quot;false&quot;</span>&gt;</span>
+  Mandatory notice — cannot be dismissed.
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-banner</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-banner</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;alertBanner&quot;</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;warning&quot;</span>&gt;</span>
+  Dismissible reminder — your residency expires in 14 days.
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-banner</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript">
+  <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;alertBanner&#x27;</span>)
+    .<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;aegovBannerDismiss&#x27;</span>, <span class="hljs-function">() =&gt;</span> {
+      <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;User dismissed the renewal reminder&#x27;</span>);
+    });
+</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre><hr>
+<h2>Critical alerts (focusable)</h2>
+<p>For alerts that demand immediate user attention, set <code>is-focusable=&quot;true&quot;</code>. When the variant resolves to <code>role=&quot;alert&quot;</code> (i.e. <code>error</code> or <code>success</code>), the banner is focused on mount so screen reader users hear the announcement and keyboard users can act on it without hunting for it.</p>
+<p>Use this sparingly — it interrupts the user&#39;s keyboard focus, which is disruptive if used for routine notifications.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-banner</span>
+  <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;error&quot;</span>
+  <span class="hljs-attr">is-focusable</span>=<span class="hljs-string">&quot;true&quot;</span>
+  <span class="hljs-attr">heading</span>=<span class="hljs-string">&quot;Service interruption&quot;</span>
+&gt;</span>
+  The Emirates ID renewal service is temporarily offline. Please try again in 30 minutes.
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-banner</span>&gt;</span></code></pre><hr>
+<h2>Heading</h2>
+<p>The <code>heading</code> property sets up <code>aria-labelledby</code> on the banner. The component derives a heading id of <code>${fieldId}-heading</code>. Render the visible heading inside the default slot using the same id so the relationship resolves correctly.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-banner</span> <span class="hljs-attr">field-id</span>=<span class="hljs-string">&quot;maintenance&quot;</span> <span class="hljs-attr">heading</span>=<span class="hljs-string">&quot;Maintenance window&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">strong</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;maintenance-heading&quot;</span>&gt;</span>Maintenance window<span class="hljs-tag">&lt;/<span class="hljs-name">strong</span>&gt;</span>
+  Government services will be briefly unavailable on Friday 03:00<span class="hljs-symbol">&amp;ndash;</span>05:00 GST.
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-banner</span>&gt;</span></code></pre><hr>
+<h2>RTL Support</h2>
+<p>The banner is direction-agnostic. Internal spacing uses logical properties; the dismiss button and actions slot automatically swap sides under <code>dir=&quot;rtl&quot;</code>. Pass real Arabic content into the slots and the layout flips correctly.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">dir</span>=<span class="hljs-string">&quot;rtl&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-banner</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;warning&quot;</span> <span class="hljs-attr">position</span>=<span class="hljs-string">&quot;top&quot;</span>&gt;</span>
+    تذكير: تنتهي صلاحية بطاقة الهوية الإماراتية الخاصة بك خلال 14 يوماً. يُرجى تجديدها قبل 15 مايو لتفادي رسوم التأخير.
+    <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;actions&quot;</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm&quot;</span>&gt;</span>جدّد الآن<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm&quot;</span> <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;outline&quot;</span>&gt;</span>تذكيري لاحقاً<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-banner</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre><div dir="rtl" class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-banner variant="warning" display="sticky" mode="overlay">
+    تذكير: تنتهي صلاحية بطاقة الهوية الإماراتية الخاصة بك خلال 14 يوماً. يُرجى تجديدها قبل 15 مايو لتفادي رسوم التأخير.
+    <div slot="actions">
+      <aegov-button size="sm">جدّد الآن</aegov-button>
+      <aegov-button size="sm" appearance="outline">تذكيري لاحقاً</aegov-button>
+    </div>
+  </aegov-banner>
+</div>
+
+<hr>
+<h2>API Reference</h2>
+<h3>Properties</h3>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Attribute</th>
+<th>Description</th>
+<th>Type</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>fieldId</code></td>
+<td><code>field-id</code></td>
+<td>Unique ID for the banner. Auto-generated if not provided.</td>
+<td><code>string</code></td>
+<td><em>generated</em></td>
+</tr>
+<tr>
+<td><code>variant</code></td>
+<td><code>variant</code></td>
+<td>Colour scheme and implicit ARIA role.</td>
+<td><code>&#39;default&#39; | &#39;error&#39; | &#39;warning&#39; | &#39;success&#39; | &#39;info&#39;</code></td>
+<td><code>&#39;default&#39;</code></td>
+</tr>
+<tr>
+<td><code>appearance</code></td>
+<td><code>appearance</code></td>
+<td>Visual style — <code>soft</code> (tinted) or <code>solid</code> (filled).</td>
+<td><code>&#39;soft&#39; | &#39;solid&#39;</code></td>
+<td><code>&#39;soft&#39;</code></td>
+</tr>
+<tr>
+<td><code>position</code></td>
+<td><code>position</code></td>
+<td>Banner edge of the viewport.</td>
+<td><code>&#39;top&#39; | &#39;bottom&#39;</code></td>
+<td><code>&#39;top&#39;</code></td>
+</tr>
+<tr>
+<td><code>display</code></td>
+<td><code>display</code></td>
+<td>CSS positioning strategy.</td>
+<td><code>&#39;fixed&#39; | &#39;sticky&#39;</code></td>
+<td><code>&#39;fixed&#39;</code></td>
+</tr>
+<tr>
+<td><code>mode</code></td>
+<td><code>mode</code></td>
+<td>Layout strategy — <code>push</code> adds body padding, <code>overlay</code> floats and emits height events.</td>
+<td><code>&#39;push&#39; | &#39;overlay&#39;</code></td>
+<td><code>&#39;push&#39;</code></td>
+</tr>
+<tr>
+<td><code>size</code></td>
+<td><code>size</code></td>
+<td>Size token (<code>sm</code>, <code>base</code>, <code>lg</code>) or responsive string.</td>
+<td><code>string</code></td>
+<td><code>&#39;base&#39;</code></td>
+</tr>
+<tr>
+<td><code>isDismissible</code></td>
+<td><code>is-dismissible</code></td>
+<td>When <code>true</code>, renders a close button.</td>
+<td><code>boolean</code></td>
+<td><code>true</code></td>
+</tr>
+<tr>
+<td><code>isFocusable</code></td>
+<td><code>is-focusable</code></td>
+<td>When <code>true</code> and the resolved role is <code>alert</code>, focuses the banner on mount.</td>
+<td><code>boolean</code></td>
+<td><code>false</code></td>
+</tr>
+<tr>
+<td><code>heading</code></td>
+<td><code>heading</code></td>
+<td>Heading text used by <code>aria-labelledby</code>. Derives id <code>${fieldId}-heading</code>.</td>
+<td><code>string</code></td>
+<td><code>undefined</code></td>
+</tr>
+</tbody></table>
+<h3>Slots</h3>
+<table>
+<thead>
+<tr>
+<th>Slot</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><em>(default)</em></td>
+<td>Banner message content.</td>
+</tr>
+<tr>
+<td><code>actions</code></td>
+<td>Action buttons aligned to the trailing edge.</td>
+</tr>
+<tr>
+<td><code>icon</code></td>
+<td>Optional custom icon shown next to the content.</td>
+</tr>
+</tbody></table>
+<h3>Events</h3>
+<table>
+<thead>
+<tr>
+<th>Event</th>
+<th>Detail</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>aegovBannerDismiss</code></td>
+<td><code>void</code></td>
+<td>Fires after the dismiss animation completes (~300 ms after the user clicks close).</td>
+</tr>
+<tr>
+<td><code>aegovBannerHeightChange</code></td>
+<td><code>number</code> (pixels)</td>
+<td>Fires in <code>mode=&quot;overlay&quot;</code> whenever the banner&#39;s height changes.</td>
+</tr>
+</tbody></table>
+<h4>Listening for events</h4>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-banner</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;maintenanceBanner&quot;</span> <span class="hljs-attr">mode</span>=<span class="hljs-string">&quot;overlay&quot;</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;info&quot;</span>&gt;</span>
+  Brief maintenance starts in 30 minutes.
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-banner</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript">
+  <span class="hljs-keyword">const</span> banner = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;maintenanceBanner&#x27;</span>);
+
+  banner.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;aegovBannerDismiss&#x27;</span>, <span class="hljs-function">() =&gt;</span> {
+    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;User dismissed the maintenance banner&#x27;</span>);
+  });
+
+  banner.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;aegovBannerHeightChange&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">e</span>) =&gt;</span> {
+    <span class="hljs-variable language_">document</span>.<span class="hljs-property">body</span>.<span class="hljs-property">style</span>.<span class="hljs-title function_">setProperty</span>(<span class="hljs-string">&#x27;--banner-height&#x27;</span>, e.<span class="hljs-property">detail</span> + <span class="hljs-string">&#x27;px&#x27;</span>);
+  });
+</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre><h3>Pass-through Attributes</h3>
+<table>
+<thead>
+<tr>
+<th>Attribute group</th>
+<th>Forwarded?</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>aria-*</code></td>
+<td>Yes</td>
+<td>Forwarded to the banner element.</td>
+</tr>
+<tr>
+<td><code>data-*</code></td>
+<td>Yes</td>
+<td>Forwarded to the banner element.</td>
+</tr>
+<tr>
+<td><code>role</code></td>
+<td>Yes</td>
+<td>When set on the host, <strong>overrides</strong> the auto-computed role (e.g. downgrade <code>alert</code> to <code>status</code>).</td>
+</tr>
+<tr>
+<td><code>id</code></td>
+<td>n/a</td>
+<td>Use <code>field-id</code> on the host. The heading id is derived as <code>${fieldId}-heading</code>.</td>
+</tr>
+<tr>
+<td><code>class</code>, <code>style</code></td>
+<td>Allowed</td>
+<td>Applied to the host element only.</td>
+</tr>
+</tbody></table>
+<hr>
+<h2>Accessibility</h2>
+<h3>Built-in behaviour</h3>
+<ul>
+<li>The banner auto-computes a <code>role</code> based on the variant. <code>error</code> and <code>success</code> resolve to <code>role=&quot;alert&quot;</code> (assertive); <code>info</code>, <code>warning</code>, and <code>default</code> resolve to <code>role=&quot;region&quot;</code> (polite).</li>
+<li>A <code>role</code> attribute set on the host <strong>overrides</strong> the auto-computed role, so consumers can downgrade noisy variants to <code>status</code> if needed.</li>
+<li><code>aria-live</code> is set automatically based on the resolved role: <code>alert</code> → <code>assertive</code>; <code>region</code>/<code>status</code> → <code>polite</code>.</li>
+<li>When <code>heading</code> is provided, <code>aria-labelledby</code> references the derived <code>${fieldId}-heading</code> id.</li>
+<li>The dismiss button has <code>aria-label=&quot;Close banner&quot;</code> and is keyboard-accessible.</li>
+<li>In <code>display=&quot;fixed&quot; mode=&quot;push&quot;</code>, the body padding is adjusted automatically so page content is never hidden under the banner. A <code>ResizeObserver</code> keeps the padding in sync as the banner resizes.</li>
+<li>In <code>mode=&quot;overlay&quot;</code>, the <code>aegovBannerHeightChange</code> event is emitted whenever the banner&#39;s height changes so consumers can adjust their own layout.</li>
+</ul>
+<h3>Developer responsibilities</h3>
+<ul>
+<li>Choose the <code>variant</code> thoughtfully — <code>role=&quot;alert&quot;</code> is announced assertively and can interrupt screen reader users. For non-critical content, prefer <code>info</code>, <code>warning</code>, or <code>default</code>.</li>
+<li>The <code>heading</code> prop only sets the <code>aria-labelledby</code> relationship; the heading content itself is <strong>not</strong> rendered automatically. Render it inside the default slot using the derived id so the relationship resolves.</li>
+<li>Use <code>is-focusable=&quot;true&quot;</code> only for genuinely critical alerts that warrant interrupting keyboard focus on mount.</li>
+<li>When the banner requires user response (cookie consent, mandatory notice), provide an <code>actions</code> slot with clear, well-labelled buttons.</li>
+<li>Body padding is cleared on dismiss and on disconnect; if you remove the banner element through a different mechanism, ensure the padding is also cleared manually.</li>
+</ul>
+<h3>Keyboard support</h3>
+<table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Tab</code></td>
+<td>Move focus into the banner (dismiss button and any controls in the actions slot).</td>
+</tr>
+<tr>
+<td><code>Enter</code>, <code>Space</code></td>
+<td>Activate the focused control.</td>
+</tr>
+<tr>
+<td><code>Shift + Tab</code></td>
+<td>Move focus backwards.</td>
+</tr>
+</tbody></table>
+<!-- DOC:END -->
+          </section>
+      </article>
+    </section>
+  </main>
+  <footer class="aegov-container sm:px-6 lg:px-8 mt-8 py-6 text-sm text-aeblack-500 dark:text-aeblack-400">
+    &copy; 2026 Telecommunication and Digital Regulatory Authority. All rights reserved.
+  </footer>
+
+<script src="/docs/layout.js"></script>
+</body>
+</html>

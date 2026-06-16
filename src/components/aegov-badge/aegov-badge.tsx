@@ -1,5 +1,20 @@
-import { Component, Prop, Event, EventEmitter, h, Host } from '@stencil/core';
+import { Component, Element, Prop, Watch, State, Event, EventEmitter, h, Host } from '@stencil/core';
+import { watchResponsiveProp } from '../../utils/responsive-prop';
+import type { ResponsivePropWatcher } from '../../utils/responsive-prop';
+import { BADGE_APPEARANCES, BADGE_COLORS, BADGE_SIZES } from '../../utils/types';
 import type { BadgeSize, BadgeAppearance, BadgeColor } from '../../utils/types';
+import { warnIfInvalidEnumProp } from '../../utils/prop-validator';
+import { generateId } from '../../utils/id-generator';
+import { getPassThroughAttributes } from '../../utils/attributes';
+import { isRtl } from '../../utils/rtl';
+
+const STRINGS = {
+  en: { dismiss: 'Badge dismiss button' },
+  ar: { dismiss: 'زر إغلاق الشارة' },
+};
+
+const TAG = 'aegov-badge';
+const ctx = (prop: string) => ({ component: TAG, prop });
 
 /**
  * @slot default - The main content of the badge
@@ -10,6 +25,13 @@ import type { BadgeSize, BadgeAppearance, BadgeColor } from '../../utils/types';
   scoped: false,
 })
 export class AegovBadge {
+    @Element() el!: HTMLElement;
+
+    /**
+     * Unique ID for the badge element. Auto-generated if not provided.
+     */
+    @Prop({ mutable: true, reflect: true }) fieldId?: string;
+
     /**
      * The appearance style of the badge.
      * @default 'soft'
@@ -26,18 +48,52 @@ export class AegovBadge {
      * Whether the badge can be dismissed/closed.
      * @default false
      */
-    @Prop() dismissible: boolean = false;
+    @Prop() isDismissible: boolean = false;
 
     /**
      * The badge size
      * @default 'base'
      */
-    @Prop() size: BadgeSize = 'base';
+    @Prop() size: string = 'base';
+
+    @State() private _resolvedSize: BadgeSize = 'base';
+    private _sizeWatcher: ResponsivePropWatcher | null = null;
 
     /**
      * Emitted when the dismiss button is clicked.
      */
-    @Event() aegovBadgeDismiss: EventEmitter<void>;
+    @Event() aegovBadgeDismiss!: EventEmitter<void>;
+
+    componentWillLoad() {
+        if (!this.fieldId) {
+            this.fieldId = generateId('aegov-badge');
+        }
+        warnIfInvalidEnumProp(this.appearance, BADGE_APPEARANCES, 'soft', ctx('appearance'));
+        warnIfInvalidEnumProp(this.color, BADGE_COLORS, 'default', ctx('color'));
+        this._sizeWatcher = watchResponsiveProp(this.size, BADGE_SIZES, 'base', v => {
+            this._resolvedSize = v as BadgeSize;
+        });
+        this._resolvedSize = this._sizeWatcher.current as BadgeSize;
+    }
+
+    disconnectedCallback() {
+        this._sizeWatcher?.destroy();
+    }
+
+    @Watch('appearance')
+    onAppearanceChange(v: unknown) { warnIfInvalidEnumProp(v, BADGE_APPEARANCES, 'soft', ctx('appearance')); }
+
+    @Watch('color')
+    onColorChange(v: unknown) { warnIfInvalidEnumProp(v, BADGE_COLORS, 'default', ctx('color')); }
+
+    @Watch('size')
+    onSizeChange() {
+        this._sizeWatcher?.destroy();
+        this._sizeWatcher = watchResponsiveProp(this.size, BADGE_SIZES, 'base', v => {
+            this._resolvedSize = v as BadgeSize;
+        });
+        this._resolvedSize = this._sizeWatcher.current as BadgeSize;
+    }
 
     /**
      * Handle dismiss button click
@@ -57,12 +113,13 @@ export class AegovBadge {
 
         // Size classes (includes vertical padding)
         const sizeClasses: Record<BadgeSize, string[]> = {
-            sm: ['text-xs', 'py-1'],
-            base: ['text-sm', 'py-1'],
-            lg: ['text-sm', 'py-1.5']
+            sm: ['badge-sm', 'text-xs', 'py-0.5', 'px-1.5','rounded-sm'],
+            base: ['badge-base', 'text-sm', 'py-0.5', 'px-1.5','rounded-md'],
+            lg: ['badge-lg', 'text-sm', 'py-1', 'px-2','rounded-md','font-medium']
         };
 
-        classes.push(...sizeClasses[this.size]);
+        const size: BadgeSize = this._resolvedSize;
+        classes.push(...sizeClasses[size]);
 
         // Appearance classes
         const appearanceClasses: Record<BadgeAppearance, string[]> = {
@@ -70,7 +127,8 @@ export class AegovBadge {
             solid: ['badge-solid']
         };
 
-        classes.push(...appearanceClasses[this.appearance]);
+        const appearance: BadgeAppearance = (BADGE_APPEARANCES as readonly string[]).includes(this.appearance) ? this.appearance : 'soft';
+        classes.push(...appearanceClasses[appearance]);
 
         // Color classes
         const colorClasses: Record<BadgeColor, string[]> = {
@@ -93,22 +151,24 @@ export class AegovBadge {
             lime: ['badge-lime']
         };
 
-        classes.push(...colorClasses[this.color]);
+        const color: BadgeColor = (BADGE_COLORS as readonly string[]).includes(this.color) ? this.color : 'default';
+        classes.push(...colorClasses[color]);
         
         return classes.join(' ');
     }
 
     render() {
+        const passThroughAttributes = getPassThroughAttributes(this.el);
         return (
             <Host>
-                <span class={this.getBadgeClasses()}>
+                <span {...passThroughAttributes} class={this.getBadgeClasses()} id={this.fieldId}>
                     <slot />
-                    {this.dismissible && (
+                    {this.isDismissible && (
                         <button
                             type="button"
                             class="badge-dismiss"
                             onClick={this.handleBadgeDismissClick}
-                            aria-label="Badge dismiss button"
+                            aria-label={isRtl(this.el) ? STRINGS.ar.dismiss : STRINGS.en.dismiss}
                         >
                             <svg
                                 class="size-3"

@@ -1,5 +1,20 @@
-import { Component, Prop, h, Host, State } from '@stencil/core';
-import type { AvatarSize, AvatarVariant, AvatarStatus } from '../../utils/types';
+import { Component, Element, Prop, Watch, h, Host, State } from '@stencil/core';
+import { AVATAR_SIZES, AVATAR_APPEARANCES, AVATAR_STATUSES } from '../../utils/types';
+import type { AvatarSize, AvatarAppearance, AvatarStatus } from '../../utils/types';
+import { warnIfInvalidEnumProp } from '../../utils/prop-validator';
+import { watchResponsiveProp } from '../../utils/responsive-prop';
+import type { ResponsivePropWatcher } from '../../utils/responsive-prop';
+import { getPassThroughAttributes } from '../../utils/attributes';
+import { generateId } from '../../utils/id-generator';
+import { isRtl } from '../../utils/rtl';
+
+const STRINGS = {
+  en: { userAvatar: 'User avatar' },
+  ar: { userAvatar: 'الصورة الرمزية للمستخدم' },
+};
+
+const TAG = 'aegov-avatar';
+const ctx = (prop: string) => ({ component: TAG, prop });
 
 /**
  * @slot - Avatar content (used when no src is provided)
@@ -13,17 +28,30 @@ import type { AvatarSize, AvatarVariant, AvatarStatus } from '../../utils/types'
   scoped: false,
 })
 export class AegovAvatar {
+  @Element() el: HTMLElement;
+
+  /** Native img attributes to pass through to the inner img element. */
+  private static readonly PASS_THROUGH_ATTRS = new Set([
+    'loading', 'crossorigin', 'referrerpolicy', 'srcset', 'alt', 'src',
+  ]);
+
+  /** Unique ID for the inner avatar element. Auto-generated if not provided. */
+  @Prop({ mutable: true, reflect: true }) fieldId?: string;
+
   /**
    * The avatar size
    * @default 'base'
    */
-  @Prop() size: AvatarSize = 'base';
+  @Prop() size: string = 'base';
+
+  @State() private _resolvedSize: AvatarSize = 'base';
+  private _sizeWatcher: ResponsivePropWatcher | null = null;
 
   /**
-   * The avatar variant (shape)
+   * The avatar appearance (shape)
    * @default 'square'
    */
-  @Prop() variant: AvatarVariant = 'square';
+  @Prop() appearance: AvatarAppearance = 'square';
 
   /**
    * The image source URL
@@ -36,15 +64,43 @@ export class AegovAvatar {
   @Prop() alt?: string;
 
   /**
-   * Status indicator type. Set to 'online' or 'offline' to show indicator, or 'none'/false to hide.
-   * @default 'none'
+   * Status indicator. Set to a status string to show the indicator, or `false` to hide it.
+   * Accepts: `'online'`, `'offline'`, `'away'`, `'unavailable'`, `'busy'`, or boolean (`true` maps to `'online'`).
+   * @default false
    */
-  @Prop() status: AvatarStatus | boolean = 'none';
+  @Prop() status: AvatarStatus | boolean = false;
 
   /**
    * Internal state to track image load error
    */
   @State() imageError: boolean = false;
+
+  componentWillLoad() {
+    warnIfInvalidEnumProp(this.appearance, AVATAR_APPEARANCES, 'square', ctx('appearance'));
+    this._sizeWatcher = watchResponsiveProp(this.size, AVATAR_SIZES, 'base', v => {
+      this._resolvedSize = v as AvatarSize;
+    });
+    this._resolvedSize = this._sizeWatcher.current as AvatarSize;
+    if (!this.fieldId) {
+      this.fieldId = generateId('aegov-avatar');
+    }
+  }
+
+  disconnectedCallback() {
+    this._sizeWatcher?.destroy();
+  }
+
+  @Watch('size')
+  onSizeChange() {
+    this._sizeWatcher?.destroy();
+    this._sizeWatcher = watchResponsiveProp(this.size, AVATAR_SIZES, 'base', v => {
+      this._resolvedSize = v as AvatarSize;
+    });
+    this._resolvedSize = this._sizeWatcher.current as AvatarSize;
+  }
+
+  @Watch('appearance')
+  onAppearanceChange(v: unknown) { warnIfInvalidEnumProp(v, AVATAR_APPEARANCES, 'square', ctx('appearance')); }
 
   /**
    * Handle image load error
@@ -59,6 +115,9 @@ export class AegovAvatar {
   private getAvatarClasses(): string {
     const classes: string[] = ['aegov-avatar'];
 
+    const size: AvatarSize = this._resolvedSize;
+    const appearance: AvatarAppearance = (AVATAR_APPEARANCES as readonly string[]).includes(this.appearance) ? this.appearance : 'square';
+
     // Size classes
     const sizeClasses: Record<AvatarSize, string> = {
       xs: 'avatar-xs',
@@ -70,10 +129,10 @@ export class AegovAvatar {
       '3xl': 'avatar-3xl',
     };
 
-    classes.push(sizeClasses[this.size]);
+    classes.push(sizeClasses[size]);
 
-    // Variant classes
-    if (this.variant === 'rounded') {
+    // Appearance classes
+    if (appearance === 'rounded') {
       classes.push('avatar-rounded');
     }
 
@@ -86,44 +145,40 @@ export class AegovAvatar {
   }
 
   /**
-   * Get the effective status type from the status prop
+   * Get the effective status type from the status prop, or null when hidden.
    */
-  private getEffectiveStatus(): AvatarStatus {
-    if (this.status === true || this.status === 'online') return 'online';
-    if (this.status === 'offline') return 'offline';
-    return 'none';
+  private getEffectiveStatus(): AvatarStatus | null {
+    if (this.status === true) return 'online';
+    if (this.status === false) return null;
+    return (AVATAR_STATUSES as readonly string[]).includes(this.status as string)
+      ? (this.status as AvatarStatus)
+      : null;
   }
 
   /**
    * Get status indicator classes
    */
-  private getStatusClasses(): string {
-    const classes: string[] = ['avatar-indicator'];
-    const effectiveStatus = this.getEffectiveStatus();
-
-    if (effectiveStatus === 'online') {
-      classes.push('avatar-online');
-    } else if (effectiveStatus === 'offline') {
-      classes.push('avatar-offline');
-    }
-
-    return classes.join(' ');
+  private getStatusClasses(effectiveStatus: AvatarStatus): string {
+    return `avatar-indicator avatar-${effectiveStatus}`;
   }
 
   render() {
     const showImage = this.src && !this.imageError;
+    const passThroughAttributes = getPassThroughAttributes(this.el, AegovAvatar.PASS_THROUGH_ATTRS);
 
     return (
       <Host>
         <div
+          id={this.fieldId}
           part="avatar"
           class={this.getAvatarClasses()}
           role="img"
-          aria-label={this.alt || 'User avatar'}
+          aria-label={this.alt || (isRtl(this.el) ? STRINGS.ar.userAvatar : STRINGS.en.userAvatar)}
         >
           {showImage ? (
             <img
               part="image"
+              {...passThroughAttributes}
               src={this.src}
               alt={this.alt || ''}
               onError={this.handleImageError}
@@ -148,13 +203,16 @@ export class AegovAvatar {
             </div>
           )}
 
-          {this.getEffectiveStatus() !== 'none' && (
-            <span
-              part="status"
-              class={this.getStatusClasses()}
-              aria-label={`Status: ${this.getEffectiveStatus()}`}
-            ></span>
-          )}
+          {(() => {
+            const effectiveStatus = this.getEffectiveStatus();
+            return effectiveStatus && (
+              <span
+                part="status"
+                class={this.getStatusClasses(effectiveStatus)}
+                aria-label={`Status: ${effectiveStatus}`}
+              ></span>
+            );
+          })()}
         </div>
       </Host>
     );

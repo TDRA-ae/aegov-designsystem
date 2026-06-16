@@ -13,12 +13,21 @@ export class AegovSelectOption {
   @Prop() value: string = '';
 
   /** Whether this option is disabled. */
-  @Prop() disabled: boolean = false;
+  @Prop() isDisabled: boolean = false;
 
   /** Internal: label text captured from slot content. */
   @State() slotContent: string = '';
 
   componentWillLoad() {
+    const parentSelect = this.el.closest('aegov-select');
+    if (!parentSelect) {
+      throw new Error(
+        '[aegov-select-option] This component must be used inside <aegov-select> ' +
+        '(optionally nested in <aegov-select-option-group>). ' +
+        'It cannot be used as a standalone component. ' +
+        'Please wrap it with <aegov-select>...</aegov-select>'
+      );
+    }
     this.slotContent = this.el.textContent?.trim() || '';
   }
 
@@ -28,7 +37,7 @@ export class AegovSelectOption {
         role="option"
         data-value={this.value}
         data-label={this.slotContent}
-        aria-disabled={this.disabled ? 'true' : null}
+        aria-disabled={this.isDisabled ? 'true' : null}
       >
         <slot />
       </Host>

@@ -21,17 +21,18 @@ Buttons are the primary interactive elements in user interfaces. This component 
 
 ## Properties
 
-| Property     | Attribute    | Description                                     | Type                                                                   | Default     |
-| ------------ | ------------ | ----------------------------------------------- | ---------------------------------------------------------------------- | ----------- |
-| `appearance` | `appearance` | The button appearance (color scheme)            | `"danger" \| "neutralMax" \| "neutralMin" \| "primary" \| "secondary"` | `'primary'` |
-| `bold`       | `bold`       | Whether the button should have bold text or not | `boolean`                                                              | `true`      |
-| `disabled`   | `disabled`   | Whether the button is disabled                  | `boolean`                                                              | `false`     |
-| `full`       | `full`       | Whether the button should take full width       | `boolean`                                                              | `false`     |
-| `icon`       | `icon`       | Whether the button is only an icon              | `boolean`                                                              | `false`     |
-| `loading`    | `loading`    | Whether the button is in a loading state        | `boolean`                                                              | `false`     |
-| `size`       | `size`       | The button size                                 | `"base" \| "lg" \| "sm" \| "xs"`                                       | `'base'`    |
-| `type`       | `type`       | The button type attribute                       | `"button" \| "reset" \| "submit"`                                      | `'button'`  |
-| `variant`    | `variant`    | The button variant style                        | `"link" \| "outline" \| "soft" \| "solid"`                             | `'solid'`   |
+| Property     | Attribute     | Description                                                       | Type                                                                     | Default     |
+| ------------ | ------------- | ----------------------------------------------------------------- | ------------------------------------------------------------------------ | ----------- |
+| `appearance` | `appearance`  | The button appearance (visual style)                              | `"link" \| "outline" \| "soft" \| "solid"`                               | `'solid'`   |
+| `fieldId`    | `field-id`    | Unique ID for the button element. Auto-generated if not provided. | `string`                                                                 | `undefined` |
+| `isBold`     | `is-bold`     | Whether the button should have bold text or not                   | `boolean`                                                                | `true`      |
+| `isDisabled` | `is-disabled` | Whether the button is disabled                                    | `boolean`                                                                | `false`     |
+| `isFull`     | `is-full`     | Whether the button should take full width                         | `boolean`                                                                | `false`     |
+| `isIcon`     | `is-icon`     | Whether the button is only an icon                                | `boolean`                                                                | `false`     |
+| `isLoading`  | `is-loading`  | Whether the button is in a loading state                          | `boolean`                                                                | `false`     |
+| `size`       | `size`        | The button size                                                   | `string`                                                                 | `'base'`    |
+| `type`       | `type`        | The button type attribute                                         | `"button" \| "reset" \| "submit"`                                        | `'button'`  |
+| `variant`    | `variant`     | The button variant (color scheme)                                 | `"danger" \| "neutral-max" \| "neutral-min" \| "primary" \| "secondary"` | `'primary'` |
 
 
 ## Events
@@ -56,6 +57,21 @@ Buttons are the primary interactive elements in user interfaces. This component 
 | ---------- | ------------------------- |
 | `"button"` | The native button element |
 
+
+## Dependencies
+
+### Used by
+
+ - [aegov-fileupload](../aegov-fileupload)
+ - [aegov-header-banner](../aegov-header-banner)
+
+### Graph
+```mermaid
+graph TD;
+  aegov-fileupload --> aegov-button
+  aegov-header-banner --> aegov-button
+  style aegov-button fill:#f9f,stroke:#333,stroke-width:4px
+```
 
 ----------------------------------------------
 

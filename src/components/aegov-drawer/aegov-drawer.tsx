@@ -1,9 +1,15 @@
 import { Component, Host, h, Prop, Event, EventEmitter, Element, Method, Watch, State } from '@stencil/core';
-import type { DrawerPosition, DrawerAnimation, DrawerOverlayOpacity } from '../../utils/types';
+import { DRAWER_POSITIONS, DRAWER_ANIMATIONS, DRAWER_OVERLAY_OPACITIES, DRAWER_SIZES } from '../../utils/types';
+import type { DrawerPosition, DrawerAnimation, DrawerOverlayOpacity, DrawerSize } from '../../utils/types';
 import { getPassThroughAttributes } from '../../utils/attributes';
 import { getSlottedFocusableElements, handleTabKeyWrap } from '../../utils/focus-management';
 import { lockBodyScroll, unlockBodyScroll } from '../../utils/scroll-lock';
 import { pushZIndex, popZIndex } from '../../utils/z-index-manager';
+import { warnIfInvalidEnumProp } from '../../utils/prop-validator';
+import { generateId } from '../../utils/id-generator';
+
+const TAG = 'aegov-drawer';
+const ctx = (prop: string) => ({ component: TAG, prop });
 
 /**
  * @slot - Drawer content
@@ -19,11 +25,17 @@ export class AegovDrawer {
   private triggerElement: HTMLElement | null = null;
   private focusableElements: HTMLElement[] = [];
   private drawerZIndex: number = 50;
+  private movedToBody: boolean = false;
+
+  /**
+   * Unique ID for the drawer dialog element. Auto-generated if not provided.
+   */
+  @Prop({ mutable: true, reflect: true }) fieldId?: string;
 
   /**
    * Whether the drawer is currently open/visible
    */
-  @Prop({ mutable: true, reflect: true }) open: boolean = false;
+  @Prop({ mutable: true, reflect: true }) isOpen: boolean = false;
 
   /**
    * Which edge the drawer slides from
@@ -41,13 +53,13 @@ export class AegovDrawer {
    * Whether the drawer is pinned flush to edges (true) or has a gap with rounded corners (false)
    * @default true
    */
-  @Prop() pinned: boolean = true;
+  @Prop() isPinned: boolean = true;
 
   /**
    * Whether to show a backdrop overlay behind the drawer
    * @default true
    */
-  @Prop() overlay: boolean = true;
+  @Prop() isOverlay: boolean = true;
 
   /**
    * Backdrop overlay opacity level
@@ -59,13 +71,25 @@ export class AegovDrawer {
    * Whether clicking the backdrop closes the drawer
    * @default true
    */
-  @Prop() closeWithBackdrop: boolean = true;
+  @Prop() isCloseWithOverlay: boolean = true;
 
   /**
    * Whether to prevent body scroll when drawer is open
    * @default true
    */
-  @Prop() preventBodyScroll: boolean = true;
+  @Prop() isPreventScroll: boolean = true;
+
+  /**
+   * Size: 'sm' (compact padding), 'base' (default), or 'lg' (generous padding). Mirrors aegov-card sizing tokens. When `is-pinned="false"`, size also drives the edge gap and border-radius. When pinned, no border-radius is applied regardless of size.
+   * @default 'base'
+   */
+  @Prop() size: DrawerSize = 'base';
+
+  /**
+   * Whether to apply inner content padding. On by default; scales with size.
+   * @default true
+   */
+  @Prop() isPadding: boolean = true;
 
   // Note: ARIA attributes (aria-label, aria-labelledby, aria-describedby)
   // are passed through automatically via getPassThroughAttributes()
@@ -105,7 +129,7 @@ export class AegovDrawer {
    */
   @Method()
   async show(): Promise<void> {
-    this.open = true;
+    this.isOpen = true;
   }
 
   /**
@@ -121,10 +145,10 @@ export class AegovDrawer {
    */
   @Method()
   async toggle(): Promise<void> {
-    this.open = !this.open;
+    this.isOpen = !this.isOpen;
   }
 
-  @Watch('open')
+  @Watch('isOpen')
   handleOpenChange(newValue: boolean, oldValue: boolean) {
     if (newValue && !oldValue) {
       this.handleOpen();
@@ -133,19 +157,46 @@ export class AegovDrawer {
     }
   }
 
+  componentWillLoad() {
+    if (!this.fieldId) {
+      this.fieldId = generateId('aegov-drawer');
+    }
+    warnIfInvalidEnumProp(this.position, DRAWER_POSITIONS, 'right', ctx('position'));
+    warnIfInvalidEnumProp(this.animation, DRAWER_ANIMATIONS, 'slide', ctx('animation'));
+    warnIfInvalidEnumProp(this.overlayOpacity, DRAWER_OVERLAY_OPACITIES, 'base', ctx('overlayOpacity'));
+    warnIfInvalidEnumProp(this.size, DRAWER_SIZES, 'base', ctx('size'));
+  }
+
+  @Watch('position')
+  onPositionChange(v: unknown) { warnIfInvalidEnumProp(v, DRAWER_POSITIONS, 'right', ctx('position')); }
+
+  @Watch('animation')
+  onAnimationChange(v: unknown) { warnIfInvalidEnumProp(v, DRAWER_ANIMATIONS, 'slide', ctx('animation')); }
+
+  @Watch('overlayOpacity')
+  onOverlayOpacityChange(v: unknown) { warnIfInvalidEnumProp(v, DRAWER_OVERLAY_OPACITIES, 'base', ctx('overlayOpacity')); }
+
+  @Watch('size')
+  onSizeChange(v: unknown) { warnIfInvalidEnumProp(v, DRAWER_SIZES, 'base', ctx('size')); }
+
   connectedCallback() {
-    // Move drawer to body for proper stacking
-    if (this.el.parentNode !== document.body) {
+    // Move drawer to body for proper stacking. Guarded by movedToBody to
+    // avoid re-entrant hydration loops: appendChild triggers a synchronous
+    // disconnect/reconnect pair and Stencil's lazy hydration can fire
+    // connectedCallback again before parent state stabilises.
+    if (!this.movedToBody && this.el.parentNode !== document.body) {
+      this.movedToBody = true;
       document.body.appendChild(this.el);
     }
   }
 
   disconnectedCallback() {
-    if (this.preventBodyScroll && this.open) {
+    // Cleanup. Note: we deliberately do NOT call body.removeChild(this.el)
+    // here — the disconnect IS the removal, and re-removing inside the
+    // callback caused a "Maximum call stack size exceeded" loop with
+    // connectedCallback under Stencil's shadow-DOM hydration.
+    if (this.isPreventScroll && this.isOpen) {
       unlockBodyScroll();
-    }
-    if (this.el.parentNode === document.body) {
-      document.body.removeChild(this.el);
     }
     document.removeEventListener('keydown', this.handleKeyDown);
   }
@@ -167,7 +218,7 @@ export class AegovDrawer {
     this.animationState = 'closed';
 
     // Lock body scroll
-    if (this.preventBodyScroll) {
+    if (this.isPreventScroll) {
       lockBodyScroll();
     }
 
@@ -207,7 +258,7 @@ export class AegovDrawer {
       return;
     }
 
-    this.open = false;
+    this.isOpen = false;
   }
 
   /**
@@ -228,7 +279,7 @@ export class AegovDrawer {
     popZIndex();
 
     // Unlock body scroll (ref-counted, only unlocks when last overlay closes)
-    if (this.preventBodyScroll) {
+    if (this.isPreventScroll) {
       unlockBodyScroll();
     }
 
@@ -250,7 +301,7 @@ export class AegovDrawer {
   private handleBackdropClick = (event: MouseEvent) => {
     this.aegovDrawerBackdropClick.emit(event);
 
-    if (event.target === event.currentTarget && this.closeWithBackdrop) {
+    if (event.target === event.currentTarget && this.isCloseWithOverlay) {
       this.handleClose();
     }
   };
@@ -280,31 +331,38 @@ export class AegovDrawer {
   }
 
   private getOverlayOpacityClass(): string {
+    const overlayOpacity: DrawerOverlayOpacity = (DRAWER_OVERLAY_OPACITIES as readonly string[]).includes(this.overlayOpacity) ? this.overlayOpacity : 'base';
     const opacityClasses: Record<DrawerOverlayOpacity, string> = {
       light: 'drawer-backdrop--light',
       base: 'drawer-backdrop--base',
       dark: 'drawer-backdrop--dark',
     };
-    return opacityClasses[this.overlayOpacity];
+    return opacityClasses[overlayOpacity];
   }
 
-  private static readonly PASS_THROUGH_ATTRS = new Set(['id']);
-
   render() {
-    if (!this.open && this.animationState === 'closed') {
+    if (!this.isOpen && this.animationState === 'closed') {
       return null;
     }
 
-    const passThroughAttributes = getPassThroughAttributes(this.el, AegovDrawer.PASS_THROUGH_ATTRS);
+    const passThroughAttributes = getPassThroughAttributes(this.el);
+    const position: DrawerPosition = (DRAWER_POSITIONS as readonly string[]).includes(this.position) ? this.position : 'right';
+    const size: DrawerSize = (DRAWER_SIZES as readonly string[]).includes(this.size) ? this.size : 'base';
     const containerClasses = [
       'aegov-drawer-container',
-      `drawer-container--${this.position}`,
-      !this.pinned ? 'drawer-container--unpinned' : '',
+      `drawer-container--${position}`,
+      `drawer-size-${size}`,
+      !this.isPinned ? 'drawer-container--unpinned' : '',
+    ].filter(Boolean).join(' ');
+    const contentClasses = [
+      'aegov-drawer-content',
+      `drawer-size-${size}`,
+      this.isPadding ? 'drawer--padded' : '',
     ].filter(Boolean).join(' ');
 
     return (
       <Host data-state={this.animationState} style={{ '--drawer-z-index': this.drawerZIndex.toString() }}>
-        {this.overlay && (
+        {this.isOverlay && (
           <div
             class={`aegov-drawer-backdrop ${this.getOverlayOpacityClass()}`}
             data-state={this.animationState}
@@ -312,13 +370,14 @@ export class AegovDrawer {
             onClick={this.handleBackdropClick}
           ></div>
         )}
-        {!this.overlay && this.closeWithBackdrop && (
+        {!this.isOverlay && this.isCloseWithOverlay && (
           <div
             class="aegov-drawer-backdrop-invisible"
             onClick={this.handleBackdropClick}
           ></div>
         )}
         <div
+          id={this.fieldId}
           class={containerClasses}
           data-state={this.animationState}
           data-animation={this.animation}
@@ -326,7 +385,7 @@ export class AegovDrawer {
           aria-modal="true"
           {...passThroughAttributes}
         >
-          <div class="aegov-drawer-content">
+          <div class={contentClasses}>
             <slot></slot>
           </div>
         </div>

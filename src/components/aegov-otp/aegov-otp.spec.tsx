@@ -2,258 +2,66 @@ import { newSpecPage } from '@stencil/core/testing';
 import { AegovOtp } from './aegov-otp';
 
 describe('aegov-otp', () => {
-  // ============================================
-  // RENDERING
-  // ============================================
-
-  it('renders with defaults', async () => {
+  it('renders with default props (5 cells, continuous)', async () => {
     const page = await newSpecPage({
       components: [AegovOtp],
       html: `<aegov-otp></aegov-otp>`,
     });
-    expect(page.root).toBeTruthy();
-    const wrapper = page.root.querySelector('.otp__wrapper');
-    expect(wrapper).toBeTruthy();
-  });
-
-  it('renders 5 cells by default', async () => {
-    const page = await newSpecPage({
-      components: [AegovOtp],
-      html: `<aegov-otp></aegov-otp>`,
-    });
+    const wrapper = page.root.querySelector('.aegov-otp');
+    expect(wrapper).not.toBeNull();
+    const otpWrap = page.root.querySelector('.otp__wrapper');
+    expect(otpWrap.className).toContain('otp__wrapper--continuous');
     const cells = page.root.querySelectorAll('.otp__cell');
     expect(cells.length).toBe(5);
   });
 
-  it('renders custom length', async () => {
-    const page = await newSpecPage({
-      components: [AegovOtp],
-      html: `<aegov-otp length="4"></aegov-otp>`,
-    });
-    const cells = page.root.querySelectorAll('.otp__cell');
-    expect(cells.length).toBe(4);
-  });
-
-  it('renders 6-digit length', async () => {
+  it('renders specified number of cells (length=6)', async () => {
     const page = await newSpecPage({
       components: [AegovOtp],
       html: `<aegov-otp length="6"></aegov-otp>`,
     });
-    const cells = page.root.querySelectorAll('.otp__cell');
-    expect(cells.length).toBe(6);
+    expect(page.root.querySelectorAll('.otp__cell').length).toBe(6);
   });
 
-  it('auto-generates fieldId', async () => {
+  it('individual appearance has no dividers', async () => {
     const page = await newSpecPage({
       components: [AegovOtp],
-      html: `<aegov-otp></aegov-otp>`,
+      html: `<aegov-otp appearance="individual" length="4"></aegov-otp>`,
     });
-    const firstCell = page.root.querySelector('.otp__cell');
-    expect(firstCell.id).toContain('aegov-otp-');
+    expect(page.root.querySelector('.otp__wrapper').className).toContain('otp__wrapper--individual');
+    expect(page.root.querySelectorAll('.otp__divider').length).toBe(0);
   });
 
-  it('uses custom fieldId', async () => {
+  it('continuous appearance adds dividers between cells', async () => {
     const page = await newSpecPage({
       components: [AegovOtp],
-      html: `<aegov-otp field-id="my-otp"></aegov-otp>`,
-    });
-    const firstCell = page.root.querySelector('.otp__cell');
-    expect(firstCell.id).toBe('my-otp');
-  });
-
-  it('only first cell has id', async () => {
-    const page = await newSpecPage({
-      components: [AegovOtp],
-      html: `<aegov-otp field-id="my-otp"></aegov-otp>`,
-    });
-    const cells = page.root.querySelectorAll('.otp__cell');
-    expect(cells[0].id).toBe('my-otp');
-    expect(cells[1].id).toBe('');
-    expect(cells[2].id).toBe('');
-  });
-
-  // ============================================
-  // VARIANTS
-  // ============================================
-
-  it('renders continuous variant with dividers', async () => {
-    const page = await newSpecPage({
-      components: [AegovOtp],
-      html: `<aegov-otp variant="continuous"></aegov-otp>`,
-    });
-    const wrapper = page.root.querySelector('.otp__wrapper--continuous');
-    expect(wrapper).toBeTruthy();
-    const dividers = page.root.querySelectorAll('.otp__divider');
-    expect(dividers.length).toBe(4); // 5 cells = 4 dividers
-  });
-
-  it('renders individual variant without dividers', async () => {
-    const page = await newSpecPage({
-      components: [AegovOtp],
-      html: `<aegov-otp variant="individual"></aegov-otp>`,
-    });
-    const wrapper = page.root.querySelector('.otp__wrapper--individual');
-    expect(wrapper).toBeTruthy();
-    const dividers = page.root.querySelectorAll('.otp__divider');
-    expect(dividers.length).toBe(0);
-  });
-
-  it('defaults to continuous variant', async () => {
-    const page = await newSpecPage({
-      components: [AegovOtp],
-      html: `<aegov-otp></aegov-otp>`,
-    });
-    const wrapper = page.root.querySelector('.otp__wrapper--continuous');
-    expect(wrapper).toBeTruthy();
-  });
-
-  it('continuous has correct divider count for length 3', async () => {
-    const page = await newSpecPage({
-      components: [AegovOtp],
-      html: `<aegov-otp length="3"></aegov-otp>`,
+      html: `<aegov-otp appearance="continuous" length="4"></aegov-otp>`,
     });
     const dividers = page.root.querySelectorAll('.otp__divider');
-    expect(dividers.length).toBe(2);
+    expect(dividers.length).toBe(3); // n-1 dividers
   });
 
-  // ============================================
-  // SIZES
-  // ============================================
-
-  it('applies default size class (base)', async () => {
+  it('auto-generates fieldId on first cell when none provided', async () => {
     const page = await newSpecPage({
       components: [AegovOtp],
       html: `<aegov-otp></aegov-otp>`,
     });
-    const cell = page.root.querySelector('.otp__cell');
-    expect(cell.classList.contains('otp__cell--base')).toBe(true);
+    expect(page.rootInstance.fieldId).toMatch(/^aegov-otp-\d+$/);
+    const firstCell = page.root.querySelector('.otp__cell') as HTMLInputElement;
+    expect(firstCell.id).toBe(page.rootInstance.fieldId);
   });
 
-  it('applies xs size', async () => {
+  it('respects user-provided field-id', async () => {
     const page = await newSpecPage({
       components: [AegovOtp],
-      html: `<aegov-otp size="xs"></aegov-otp>`,
+      html: `<aegov-otp field-id="otp-1"></aegov-otp>`,
     });
-    const cell = page.root.querySelector('.otp__cell');
-    expect(cell.classList.contains('otp__cell--xs')).toBe(true);
+    expect(page.rootInstance.fieldId).toBe('otp-1');
+    const firstCell = page.root.querySelector('.otp__cell') as HTMLInputElement;
+    expect(firstCell.id).toBe('otp-1');
   });
 
-  it('applies 2xl size', async () => {
-    const page = await newSpecPage({
-      components: [AegovOtp],
-      html: `<aegov-otp size="2xl"></aegov-otp>`,
-    });
-    const cell = page.root.querySelector('.otp__cell');
-    expect(cell.classList.contains('otp__cell--2xl')).toBe(true);
-  });
-
-  // ============================================
-  // INPUT MODE
-  // ============================================
-
-  it('sets numeric inputMode by default', async () => {
-    const page = await newSpecPage({
-      components: [AegovOtp],
-      html: `<aegov-otp></aegov-otp>`,
-    });
-    const cell = page.root.querySelector('.otp__cell');
-    expect(cell.getAttribute('inputmode')).toBe('numeric');
-  });
-
-  it('sets text inputMode when alphanumeric', async () => {
-    const page = await newSpecPage({
-      components: [AegovOtp],
-      html: `<aegov-otp alphanumeric></aegov-otp>`,
-    });
-    const cell = page.root.querySelector('.otp__cell');
-    expect(cell.getAttribute('inputmode')).toBe('text');
-  });
-
-  // ============================================
-  // DISABLED
-  // ============================================
-
-  it('applies disabled to all cells', async () => {
-    const page = await newSpecPage({
-      components: [AegovOtp],
-      html: `<aegov-otp disabled></aegov-otp>`,
-    });
-    const cells = page.root.querySelectorAll('.otp__cell');
-    cells.forEach(cell => {
-      expect(cell.hasAttribute('disabled')).toBe(true);
-    });
-  });
-
-  // ============================================
-  // HIDDEN INPUT
-  // ============================================
-
-  it('renders hidden input', async () => {
-    const page = await newSpecPage({
-      components: [AegovOtp],
-      html: `<aegov-otp></aegov-otp>`,
-    });
-    const hidden = page.root.querySelector('input[type="hidden"]');
-    expect(hidden).toBeTruthy();
-  });
-
-  it('hidden input has name attribute', async () => {
-    const page = await newSpecPage({
-      components: [AegovOtp],
-      html: `<aegov-otp name="otp-code"></aegov-otp>`,
-    });
-    const hidden = page.root.querySelector('input[type="hidden"]');
-    expect(hidden.getAttribute('name')).toBe('otp-code');
-  });
-
-  // ============================================
-  // CUSTOM CLASS
-  // ============================================
-
-  it('applies custom class', async () => {
-    const page = await newSpecPage({
-      components: [AegovOtp],
-      html: `<aegov-otp class="my-custom"></aegov-otp>`,
-    });
-    const wrapper = page.root.querySelector('.aegov-otp');
-    expect(wrapper.classList.contains('my-custom')).toBe(true);
-  });
-
-  // ============================================
-  // ACCESSIBILITY
-  // ============================================
-
-  it('cells have aria-label', async () => {
-    const page = await newSpecPage({
-      components: [AegovOtp],
-      html: `<aegov-otp length="4"></aegov-otp>`,
-    });
-    const cells = page.root.querySelectorAll('.otp__cell');
-    expect(cells[0].getAttribute('aria-label')).toBe('Character 1 of 4');
-    expect(cells[3].getAttribute('aria-label')).toBe('Character 4 of 4');
-  });
-
-  it('dividers have aria-hidden', async () => {
-    const page = await newSpecPage({
-      components: [AegovOtp],
-      html: `<aegov-otp></aegov-otp>`,
-    });
-    const dividers = page.root.querySelectorAll('.otp__divider');
-    dividers.forEach(d => {
-      expect(d.getAttribute('aria-hidden')).toBe('true');
-    });
-  });
-
-  it('wrapper has role group', async () => {
-    const page = await newSpecPage({
-      components: [AegovOtp],
-      html: `<aegov-otp></aegov-otp>`,
-    });
-    const wrapper = page.root.querySelector('.otp__wrapper');
-    expect(wrapper.getAttribute('role')).toBe('group');
-  });
-
-  it('first cell has autocomplete one-time-code', async () => {
+  it('first cell has autocomplete=one-time-code', async () => {
     const page = await newSpecPage({
       components: [AegovOtp],
       html: `<aegov-otp></aegov-otp>`,
@@ -263,79 +71,172 @@ describe('aegov-otp', () => {
     expect(cells[1].getAttribute('autocomplete')).toBe('off');
   });
 
-  // ============================================
-  // PASS-THROUGH ATTRIBUTES
-  // ============================================
-
-  it('passes aria-label to wrapper', async () => {
-    const page = await newSpecPage({
+  it('inputMode is numeric by default; text when alphanumeric', async () => {
+    const page1 = await newSpecPage({
       components: [AegovOtp],
-      html: `<aegov-otp aria-label="Verification code"></aegov-otp>`,
+      html: `<aegov-otp></aegov-otp>`,
     });
-    const wrapper = page.root.querySelector('.otp__wrapper');
-    expect(wrapper.getAttribute('aria-label')).toBe('Verification code');
+    expect(page1.root.querySelector('.otp__cell').getAttribute('inputmode')).toBe('numeric');
+
+    const page2 = await newSpecPage({
+      components: [AegovOtp],
+      html: `<aegov-otp is-alphanumeric></aegov-otp>`,
+    });
+    expect(page2.root.querySelector('.otp__cell').getAttribute('inputmode')).toBe('text');
   });
 
-  it('passes data attributes to wrapper', async () => {
+  it('disables all cells when is-disabled', async () => {
     const page = await newSpecPage({
       components: [AegovOtp],
-      html: `<aegov-otp data-testid="otp-field"></aegov-otp>`,
+      html: `<aegov-otp is-disabled></aegov-otp>`,
     });
-    const wrapper = page.root.querySelector('.otp__wrapper');
-    expect(wrapper.getAttribute('data-testid')).toBe('otp-field');
+    const cells = page.root.querySelectorAll('.otp__cell') as NodeListOf<HTMLInputElement>;
+    cells.forEach((c) => expect(c.disabled).toBe(true));
   });
 
-  // ============================================
-  // VALUE
-  // ============================================
-
-  it('distributes initial value to cells', async () => {
+  it('aria-label per cell announces position', async () => {
     const page = await newSpecPage({
       components: [AegovOtp],
-      html: `<aegov-otp value="12345"></aegov-otp>`,
+      html: `<aegov-otp length="4"></aegov-otp>`,
+    });
+    const cells = page.root.querySelectorAll('.otp__cell');
+    expect(cells[0].getAttribute('aria-label')).toBe('Character 1 of 4');
+    expect(cells[3].getAttribute('aria-label')).toBe('Character 4 of 4');
+  });
+
+  it('initial value distributes across cells on load', async () => {
+    const page = await newSpecPage({
+      components: [AegovOtp],
+      html: `<aegov-otp length="4" value="1234"></aegov-otp>`,
     });
     const cells = page.root.querySelectorAll('.otp__cell') as NodeListOf<HTMLInputElement>;
     expect(cells[0].value).toBe('1');
     expect(cells[1].value).toBe('2');
     expect(cells[2].value).toBe('3');
     expect(cells[3].value).toBe('4');
-    expect(cells[4].value).toBe('5');
   });
 
-  it('distributes partial value', async () => {
+  it('keeps name + value on host for FormAssociated submission (replaces hidden input)', async () => {
+    // Per validation-engine-addon.md §2.4: aegov-otp upgraded to formAssociated: true.
+    // ElementInternals.setFormValue() handles submission in browser; jsdom mock has no
+    // ElementInternals so we just assert the props are tracked on the component.
     const page = await newSpecPage({
       components: [AegovOtp],
-      html: `<aegov-otp value="12"></aegov-otp>`,
+      html: `<aegov-otp name="otp-code" value="12"></aegov-otp>`,
     });
-    const cells = page.root.querySelectorAll('.otp__cell') as NodeListOf<HTMLInputElement>;
-    expect(cells[0].value).toBe('1');
-    expect(cells[1].value).toBe('2');
-    expect(cells[2].value).toBe('');
-    expect(cells[3].value).toBe('');
-    expect(cells[4].value).toBe('');
+    expect(page.rootInstance.name).toBe('otp-code');
+    expect(page.rootInstance.value).toBe('12');
+    expect(page.root.querySelector('input[type="hidden"]')).toBeNull();
   });
 
-  it('hidden input reflects initial value', async () => {
+  it('forwards aria/data attributes to the otp__wrapper group', async () => {
     const page = await newSpecPage({
       components: [AegovOtp],
-      html: `<aegov-otp value="12345"></aegov-otp>`,
+      html: `<aegov-otp aria-label="security code" data-test="otp"></aegov-otp>`,
     });
-    const hidden = page.root.querySelector('input[type="hidden"]') as HTMLInputElement;
-    expect(hidden.value).toBe('12345');
+    const grp = page.root.querySelector('.otp__wrapper');
+    expect(grp.getAttribute('aria-label')).toBe('security code');
+    expect(grp.getAttribute('data-test')).toBe('otp');
+    expect(grp.getAttribute('role')).toBe('group');
   });
 
-  // ============================================
-  // ALL CELLS TYPE TEXT
-  // ============================================
-
-  it('all cells are type text', async () => {
+  it('extra-class is appended to wrapper', async () => {
     const page = await newSpecPage({
       components: [AegovOtp],
-      html: `<aegov-otp></aegov-otp>`,
+      html: `<aegov-otp extra-class="my-extra"></aegov-otp>`,
     });
-    const cells = page.root.querySelectorAll('.otp__cell');
-    cells.forEach(cell => {
-      expect(cell.getAttribute('type')).toBe('text');
+    const wrapper = page.root.querySelector('.aegov-otp');
+    expect(wrapper.className).toContain('my-extra');
+  });
+
+  it('clear() method empties cells and emits change with empty value', async () => {
+    const page = await newSpecPage({
+      components: [AegovOtp],
+      html: `<aegov-otp length="4" value="1234"></aegov-otp>`,
+    });
+    const spy = jest.fn();
+    page.root.addEventListener('aegovOtpChange', spy);
+
+    await page.rootInstance.clear();
+    await page.waitForChanges();
+
+    expect(page.rootInstance.value).toBe('');
+    expect(spy).toHaveBeenCalled();
+    expect(spy.mock.calls[spy.mock.calls.length - 1][0].detail).toEqual({ value: '' });
+  });
+
+  // Validation surface (Layer 1) — see validation-engine-addon.md §2.8
+  describe('validation surface', () => {
+    it('toggles host is-invalid class', async () => {
+      const page = await newSpecPage({
+        components: [AegovOtp],
+        html: `<aegov-otp length="4" is-invalid="true"></aegov-otp>`,
+      });
+      expect(page.root.classList.contains('is-invalid')).toBe(true);
+    });
+
+    it('renders errorMessage in error region', async () => {
+      const page = await newSpecPage({
+        components: [AegovOtp],
+        html: `<aegov-otp length="4" is-invalid="true" error-message="Bad code"></aegov-otp>`,
+      });
+      expect(page.root.querySelector('.aegov-otp__error').textContent).toBe('Bad code');
+    });
+
+    it('renders hint when not invalid', async () => {
+      const page = await newSpecPage({
+        components: [AegovOtp],
+        html: `<aegov-otp length="4" hint="6 digits"></aegov-otp>`,
+      });
+      expect(page.root.querySelector('.aegov-otp__hint').textContent).toBe('6 digits');
+    });
+
+    it('hides hint when error shown', async () => {
+      const page = await newSpecPage({
+        components: [AegovOtp],
+        html: `<aegov-otp length="4" hint="h" is-invalid="true" error-message="err"></aegov-otp>`,
+      });
+      expect(page.root.querySelector('.aegov-otp__error')).not.toBeNull();
+      expect(page.root.querySelector('.aegov-otp__hint')).toBeNull();
+    });
+
+    it('aria-describedby on group includes error id', async () => {
+      const page = await newSpecPage({
+        components: [AegovOtp],
+        html: `<aegov-otp field-id="o1" length="4" is-invalid="true" error-message="msg"></aegov-otp>`,
+      });
+      expect(page.root.querySelector('.otp__wrapper').getAttribute('aria-describedby')).toContain('o1-error');
+    });
+
+    it('validate() resolves valid for empty optional otp', async () => {
+      const page = await newSpecPage({
+        components: [AegovOtp],
+        html: `<aegov-otp length="4"></aegov-otp>`,
+      });
+      const r = await page.rootInstance.validate('manual');
+      expect(r.valid).toBe(true);
+    });
+
+    it('setCustomValidity("msg") sets invalid + error', async () => {
+      const page = await newSpecPage({
+        components: [AegovOtp],
+        html: `<aegov-otp length="4"></aegov-otp>`,
+      });
+      await page.rootInstance.setCustomValidity('Expired');
+      await page.waitForChanges();
+      expect(page.rootInstance.isInvalid).toBe(true);
+      expect(page.rootInstance.errorMessage).toBe('Expired');
+    });
+
+    it('setCustomValidity("") clears state', async () => {
+      const page = await newSpecPage({
+        components: [AegovOtp],
+        html: `<aegov-otp length="4" is-invalid="true" error-message="x"></aegov-otp>`,
+      });
+      await page.rootInstance.setCustomValidity('');
+      await page.waitForChanges();
+      expect(page.rootInstance.isInvalid).toBe(false);
+      expect(page.rootInstance.errorMessage).toBe('');
     });
   });
 });

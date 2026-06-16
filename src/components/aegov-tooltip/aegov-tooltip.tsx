@@ -1,5 +1,11 @@
 import { Component, Host, h, Prop, Element, State, Listen, Watch } from '@stencil/core';
+import { TOOLTIP_POSITIONS, TOOLTIP_ALIGNS, TOOLTIP_TRIGGERS } from '../../utils/types';
 import type { TooltipPosition, TooltipAlign, TooltipTrigger } from '../../utils/types';
+import { warnIfInvalidEnumProp } from '../../utils/prop-validator';
+import { getPassThroughAttributes } from '../../utils/attributes';
+
+const TAG = 'aegov-tooltip';
+const ctx = (prop: string) => ({ component: TAG, prop });
 
 /**
  * Tooltip component that displays additional information on hover or click
@@ -65,36 +71,41 @@ export class AegovTooltip {
    * Whether the tooltip is disabled
    * @default false
    */
-  @Prop() disabled: boolean = false;
-
-  /**
-   * Whether the tooltip contains interactive content
-   * This adds ARIA attributes and prevents auto-hide on hover
-   * @default false
-   */
-  @Prop() interactive: boolean = false;
+  @Prop() isDisabled: boolean = false;
 
   /**
    * Delay before showing tooltip (in milliseconds)
    * @default 200
    */
-  @Prop() showDelay: number = 200;
+  @Prop() delayStart: number = 200;
 
   /**
    * Delay before hiding tooltip (in milliseconds)
    * @default 0
    */
-  @Prop() hideDelay: number = 0;
+  @Prop() delayEnd: number = 0;
 
   private showTooltipTimeout?: number;
 
   componentWillLoad() {
+    warnIfInvalidEnumProp(this.position, TOOLTIP_POSITIONS, 'top', ctx('position'));
+    warnIfInvalidEnumProp(this.align, TOOLTIP_ALIGNS, 'center', ctx('align'));
+    warnIfInvalidEnumProp(this.trigger, TOOLTIP_TRIGGERS, 'hover', ctx('trigger'));
     // Generate stable tooltip ID once
     this.tooltipId = `aegov-tooltip-${Math.random().toString(36).substr(2, 9)}`;
 
     // Check if tooltip-content slot has content
     this.checkSlotContent();
   }
+
+  @Watch('position')
+  onPositionChange(v: unknown) { warnIfInvalidEnumProp(v, TOOLTIP_POSITIONS, 'top', ctx('position')); }
+
+  @Watch('align')
+  onAlignChange(v: unknown) { warnIfInvalidEnumProp(v, TOOLTIP_ALIGNS, 'center', ctx('align')); }
+
+  @Watch('trigger')
+  onTriggerChange(v: unknown) { warnIfInvalidEnumProp(v, TOOLTIP_TRIGGERS, 'hover', ctx('trigger')); }
 
   private checkSlotContent() {
     const contentSlot = this.el.querySelector('[slot="tooltip-content"]');
@@ -276,13 +287,13 @@ export class AegovTooltip {
   }
 
   private showTooltip = () => {
-    if (this.disabled) return;
+    if (this.isDisabled) return;
 
     this.clearTimeouts();
 
     this.showTooltipTimeout = window.setTimeout(() => {
       this.isVisible = true;
-    }, this.showDelay);
+    }, this.delayStart);
   };
 
   private hideTooltip = () => {
@@ -290,7 +301,7 @@ export class AegovTooltip {
 
     this.hideTimeout = window.setTimeout(() => {
       this.isVisible = false;
-    }, this.hideDelay);
+    }, this.delayEnd);
   };
 
   private handleTriggerMouseEnter = () => {
@@ -300,7 +311,7 @@ export class AegovTooltip {
   };
 
   private handleTriggerMouseLeave = () => {
-    if (this.trigger === 'hover' && !this.interactive) {
+    if (this.trigger === 'hover') {
       this.hideTooltip();
     }
   };
@@ -309,18 +320,6 @@ export class AegovTooltip {
     if (this.trigger === 'click') {
       event.stopPropagation();
       this.isVisible = !this.isVisible;
-    }
-  };
-
-  private handleTooltipMouseEnter = () => {
-    if (this.interactive && this.trigger === 'hover') {
-      this.clearTimeouts();
-    }
-  };
-
-  private handleTooltipMouseLeave = () => {
-    if (this.interactive && this.trigger === 'hover') {
-      this.hideTooltip();
     }
   };
 
@@ -343,10 +342,13 @@ export class AegovTooltip {
 
   render() {
     const hasContent = this.hasContentSlot || this.content;
+    const position: TooltipPosition = (TOOLTIP_POSITIONS as readonly string[]).includes(this.position) ? this.position : 'top';
+    const passThroughAttributes = getPassThroughAttributes(this.el);
 
     return (
       <Host>
         <div
+          {...passThroughAttributes}
           class="aegov-tooltip-trigger"
           ref={(el) => (this.triggerRef = el)}
           onMouseEnter={this.handleTriggerMouseEnter}
@@ -364,14 +366,11 @@ export class AegovTooltip {
             ref={(el) => (this.tooltipRef = el)}
             class={{
               'aegov-tooltip': true,
-              [`tooltip--${this.position}`]: true,
-              'tooltip--interactive': this.interactive,
+              [`tooltip--${position}`]: true,
+              [`tooltip--align-${this.align}`]: true,
             }}
             style={{ display: this.isVisible ? 'block' : 'none' }}
-            role={this.interactive ? 'dialog' : 'tooltip'}
-            aria-label={this.interactive ? 'Interactive tooltip' : undefined}
-            onMouseEnter={this.handleTooltipMouseEnter}
-            onMouseLeave={this.handleTooltipMouseLeave}
+            role="tooltip"
           >
             <div class="tooltip__content">
               {this.hasContentSlot ? (

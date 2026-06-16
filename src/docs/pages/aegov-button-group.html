@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Button Group | AEGOV Design System</title>
+  <script type="module" src="/build/aegov.esm.js"></script>
+  <script nomodule src="/build/aegov.js"></script>
+  <link rel="stylesheet" href="/build/aegov.css">
+  <link rel="stylesheet" href="/docs/doc-style.css">
+  <link rel="stylesheet" href="/docs/hljs.css">
+</head>
+<body class="bg-aeblack-50 dark:bg-aeblack-950">
+  <header class="aegov-container sm:px-6 lg:px-8 mb-8">
+    <img src="https://designsystem.gov.ae/assets/site-logo/AEGov-DesignSystem-Logo-Color.svg" alt="UAE Design System Logo" class="w-auto h-16 my-2">
+  </header>
+  <main class="aegov-container sm:px-6 lg:px-8 bg-aeblack-50 dark:bg-aeblack-950">
+    <section class="flex items-start align-top gap-4">
+      <nav id="primary-nav" class="w-3xs shrink-0">&nbsp;</nav>
+      <article class="col-span-5 grow">
+          <section id="content-area" class="bg-whitely-50 dark:bg-aeblack-900 p-6 rounded-md shadow-xl">
+          <!-- DOC:START -->
+<h1>Button Group</h1>
+<p class="text-lg text-aeblack-500 dark:text-aeblack-300 mb-8">A button group combines related buttons into a single horizontal or vertical toolbar. Adjacent buttons share borders and have their corner radii removed for a seamless, connected appearance.</p>
+
+<h2>Introduction</h2>
+<p>The <code>aegov-button-group</code> component wraps two or more <code>&lt;aegov-button&gt;</code> elements and visually connects them by collapsing internal borders and adjusting corner radii. It supports <strong>horizontal</strong> and <strong>vertical</strong> orientations and works with all button variants, appearances, and sizes.</p>
+<p>The parent component automatically assigns positional flags (<code>first</code>, <code>middle</code>, <code>last</code>) to each child button so that the correct border and radius styles are applied.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-button-group</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span>&gt;</span>Left<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span>&gt;</span>Centre<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span>&gt;</span>Right<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button-group</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
+  <aegov-button-group>
+    <aegov-button>Left</aegov-button>
+    <aegov-button>Centre</aegov-button>
+    <aegov-button>Right</aegov-button>
+  </aegov-button-group>
+</div>
+
+<hr>
+<h2>Orientation</h2>
+<p>The <code>orientation</code> property controls how the buttons are laid out. There are two options.</p>
+<h3>Horizontal</h3>
+<p>The default orientation. Buttons are placed side by side in a row. Internal corner radii are removed, and only the first and last buttons retain their start and end radii respectively.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-button-group</span> <span class="hljs-attr">orientation</span>=<span class="hljs-string">&quot;horizontal&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span>&gt;</span>First<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span>&gt;</span>Second<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span>&gt;</span>Third<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button-group</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
+  <aegov-button-group orientation="horizontal">
+    <aegov-button>First</aegov-button>
+    <aegov-button>Second</aegov-button>
+    <aegov-button>Third</aegov-button>
+  </aegov-button-group>
+</div>
+
+<h3>Vertical</h3>
+<p>Buttons are stacked in a column. The first button retains its top radii and the last button retains its bottom radii, with middle buttons having no border radius.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-button-group</span> <span class="hljs-attr">orientation</span>=<span class="hljs-string">&quot;vertical&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span>&gt;</span>Top<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span>&gt;</span>Middle<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span>&gt;</span>Bottom<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button-group</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
+  <aegov-button-group orientation="vertical">
+    <aegov-button>Top</aegov-button>
+    <aegov-button>Middle</aegov-button>
+    <aegov-button>Bottom</aegov-button>
+  </aegov-button-group>
+</div>
+
+<hr>
+<h2>Variants</h2>
+<p>Button groups work with all button variants. Each variant has tailored border-collapse behaviour to keep the connected appearance clean.</p>
+<h3>Solid</h3>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-button-group</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span> <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;solid&quot;</span>&gt;</span>One<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span> <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;solid&quot;</span>&gt;</span>Two<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span> <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;solid&quot;</span>&gt;</span>Three<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button-group</span>&gt;</span></code></pre><div class="flex flex-wrap gap-4 p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
+  <aegov-button-group>
+    <aegov-button appearance="solid">One</aegov-button>
+    <aegov-button appearance="solid">Two</aegov-button>
+    <aegov-button appearance="solid">Three</aegov-button>
+  </aegov-button-group>
+  <aegov-button-group>
+    <aegov-button appearance="solid" variant="secondary">One</aegov-button>
+    <aegov-button appearance="solid" variant="secondary">Two</aegov-button>
+    <aegov-button appearance="solid" variant="secondary">Three</aegov-button>
+  </aegov-button-group>
+  <aegov-button-group>
+    <aegov-button appearance="solid" variant="danger">One</aegov-button>
+    <aegov-button appearance="solid" variant="danger">Two</aegov-button>
+    <aegov-button appearance="solid" variant="danger">Three</aegov-button>
+  </aegov-button-group>
+</div>
+
+<h3>Outline</h3>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-button-group</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span> <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;outline&quot;</span>&gt;</span>One<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span> <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;outline&quot;</span>&gt;</span>Two<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span> <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;outline&quot;</span>&gt;</span>Three<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button-group</span>&gt;</span></code></pre><div class="flex flex-wrap gap-4 p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
+  <aegov-button-group>
+    <aegov-button appearance="outline">One</aegov-button>
+    <aegov-button appearance="outline">Two</aegov-button>
+    <aegov-button appearance="outline">Three</aegov-button>
+  </aegov-button-group>
+  <aegov-button-group>
+    <aegov-button appearance="outline" variant="secondary">One</aegov-button>
+    <aegov-button appearance="outline" variant="secondary">Two</aegov-button>
+    <aegov-button appearance="outline" variant="secondary">Three</aegov-button>
+  </aegov-button-group>
+  <aegov-button-group>
+    <aegov-button appearance="outline" variant="danger">One</aegov-button>
+    <aegov-button appearance="outline" variant="danger">Two</aegov-button>
+    <aegov-button appearance="outline" variant="danger">Three</aegov-button>
+  </aegov-button-group>
+</div>
+
+<h3>Soft</h3>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-button-group</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span> <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;soft&quot;</span>&gt;</span>One<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span> <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;soft&quot;</span>&gt;</span>Two<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span> <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;soft&quot;</span>&gt;</span>Three<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button-group</span>&gt;</span></code></pre><div class="flex flex-wrap gap-4 p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
+  <aegov-button-group>
+    <aegov-button appearance="soft">One</aegov-button>
+    <aegov-button appearance="soft">Two</aegov-button>
+    <aegov-button appearance="soft">Three</aegov-button>
+  </aegov-button-group>
+  <aegov-button-group>
+    <aegov-button appearance="soft" variant="secondary">One</aegov-button>
+    <aegov-button appearance="soft" variant="secondary">Two</aegov-button>
+    <aegov-button appearance="soft" variant="secondary">Three</aegov-button>
+  </aegov-button-group>
+  <aegov-button-group>
+    <aegov-button appearance="soft" variant="danger">One</aegov-button>
+    <aegov-button appearance="soft" variant="danger">Two</aegov-button>
+    <aegov-button appearance="soft" variant="danger">Three</aegov-button>
+  </aegov-button-group>
+</div>
+
+<hr>
+<h2>Sizes</h2>
+<p>All child buttons should use the same <code>size</code> for a consistent appearance. The border-radius collapse adapts to each size.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-button-group</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;xs&quot;</span>&gt;</span>XS<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;xs&quot;</span>&gt;</span>XS<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;xs&quot;</span>&gt;</span>XS<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button-group</span>&gt;</span></code></pre><div class="flex flex-wrap items-center gap-4 p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
+  <aegov-button-group>
+    <aegov-button size="xs">XS</aegov-button>
+    <aegov-button size="xs">XS</aegov-button>
+    <aegov-button size="xs">XS</aegov-button>
+  </aegov-button-group>
+  <aegov-button-group>
+    <aegov-button size="sm">SM</aegov-button>
+    <aegov-button size="sm">SM</aegov-button>
+    <aegov-button size="sm">SM</aegov-button>
+  </aegov-button-group>
+  <aegov-button-group>
+    <aegov-button size="base">Base</aegov-button>
+    <aegov-button size="base">Base</aegov-button>
+    <aegov-button size="base">Base</aegov-button>
+  </aegov-button-group>
+  <aegov-button-group>
+    <aegov-button size="lg">LG</aegov-button>
+    <aegov-button size="lg">LG</aegov-button>
+    <aegov-button size="lg">LG</aegov-button>
+  </aegov-button-group>
+</div>
+
+<hr>
+<h2>Icon Button Group</h2>
+<p>Combine the button <code>icon</code> property with a button group to create a compact toolbar of icon-only actions.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-button-group</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span> <span class="hljs-attr">icon</span> <span class="hljs-attr">aria-label</span>=<span class="hljs-string">&quot;Bold&quot;</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">svg</span> <span class="hljs-attr">xmlns</span>=<span class="hljs-string">&quot;http://www.w3.org/2000/svg&quot;</span> <span class="hljs-attr">viewBox</span>=<span class="hljs-string">&quot;0 0 24 24&quot;</span> <span class="hljs-attr">fill</span>=<span class="hljs-string">&quot;none&quot;</span>
+         <span class="hljs-attr">stroke</span>=<span class="hljs-string">&quot;currentColor&quot;</span> <span class="hljs-attr">stroke-width</span>=<span class="hljs-string">&quot;2&quot;</span> <span class="hljs-attr">stroke-linecap</span>=<span class="hljs-string">&quot;round&quot;</span>
+         <span class="hljs-attr">stroke-linejoin</span>=<span class="hljs-string">&quot;round&quot;</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">path</span> <span class="hljs-attr">d</span>=<span class="hljs-string">&quot;M6 4h8a4 4 0 014 4 4 4 0 01-4 4H6z&quot;</span>/&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">path</span> <span class="hljs-attr">d</span>=<span class="hljs-string">&quot;M6 12h9a4 4 0 014 4 4 4 0 01-4 4H6z&quot;</span>/&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">svg</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span> <span class="hljs-attr">icon</span> <span class="hljs-attr">aria-label</span>=<span class="hljs-string">&quot;Italic&quot;</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">svg</span> <span class="hljs-attr">xmlns</span>=<span class="hljs-string">&quot;http://www.w3.org/2000/svg&quot;</span> <span class="hljs-attr">viewBox</span>=<span class="hljs-string">&quot;0 0 24 24&quot;</span> <span class="hljs-attr">fill</span>=<span class="hljs-string">&quot;none&quot;</span>
+         <span class="hljs-attr">stroke</span>=<span class="hljs-string">&quot;currentColor&quot;</span> <span class="hljs-attr">stroke-width</span>=<span class="hljs-string">&quot;2&quot;</span> <span class="hljs-attr">stroke-linecap</span>=<span class="hljs-string">&quot;round&quot;</span>
+         <span class="hljs-attr">stroke-linejoin</span>=<span class="hljs-string">&quot;round&quot;</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">line</span> <span class="hljs-attr">x1</span>=<span class="hljs-string">&quot;19&quot;</span> <span class="hljs-attr">y1</span>=<span class="hljs-string">&quot;4&quot;</span> <span class="hljs-attr">x2</span>=<span class="hljs-string">&quot;10&quot;</span> <span class="hljs-attr">y2</span>=<span class="hljs-string">&quot;4&quot;</span>/&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">line</span> <span class="hljs-attr">x1</span>=<span class="hljs-string">&quot;14&quot;</span> <span class="hljs-attr">y1</span>=<span class="hljs-string">&quot;20&quot;</span> <span class="hljs-attr">x2</span>=<span class="hljs-string">&quot;5&quot;</span> <span class="hljs-attr">y2</span>=<span class="hljs-string">&quot;20&quot;</span>/&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">line</span> <span class="hljs-attr">x1</span>=<span class="hljs-string">&quot;15&quot;</span> <span class="hljs-attr">y1</span>=<span class="hljs-string">&quot;4&quot;</span> <span class="hljs-attr">x2</span>=<span class="hljs-string">&quot;9&quot;</span> <span class="hljs-attr">y2</span>=<span class="hljs-string">&quot;20&quot;</span>/&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">svg</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span> <span class="hljs-attr">icon</span> <span class="hljs-attr">aria-label</span>=<span class="hljs-string">&quot;Underline&quot;</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">svg</span> <span class="hljs-attr">xmlns</span>=<span class="hljs-string">&quot;http://www.w3.org/2000/svg&quot;</span> <span class="hljs-attr">viewBox</span>=<span class="hljs-string">&quot;0 0 24 24&quot;</span> <span class="hljs-attr">fill</span>=<span class="hljs-string">&quot;none&quot;</span>
+         <span class="hljs-attr">stroke</span>=<span class="hljs-string">&quot;currentColor&quot;</span> <span class="hljs-attr">stroke-width</span>=<span class="hljs-string">&quot;2&quot;</span> <span class="hljs-attr">stroke-linecap</span>=<span class="hljs-string">&quot;round&quot;</span>
+         <span class="hljs-attr">stroke-linejoin</span>=<span class="hljs-string">&quot;round&quot;</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">path</span> <span class="hljs-attr">d</span>=<span class="hljs-string">&quot;M6 3v7a6 6 0 006 6 6 6 0 006-6V3&quot;</span>/&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">line</span> <span class="hljs-attr">x1</span>=<span class="hljs-string">&quot;4&quot;</span> <span class="hljs-attr">y1</span>=<span class="hljs-string">&quot;21&quot;</span> <span class="hljs-attr">x2</span>=<span class="hljs-string">&quot;20&quot;</span> <span class="hljs-attr">y2</span>=<span class="hljs-string">&quot;21&quot;</span>/&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">svg</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button-group</span>&gt;</span></code></pre><div class="flex flex-wrap items-center gap-4 p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
+  <aegov-button-group>
+    <aegov-button icon appearance="outline" aria-label="Bold">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 4h8a4 4 0 014 4 4 4 0 01-4 4H6z"/><path d="M6 12h9a4 4 0 014 4 4 4 0 01-4 4H6z"/></svg>
+    </aegov-button>
+    <aegov-button icon appearance="outline" aria-label="Italic">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="4" x2="10" y2="4"/><line x1="14" y1="20" x2="5" y2="20"/><line x1="15" y1="4" x2="9" y2="20"/></svg>
+    </aegov-button>
+    <aegov-button icon appearance="outline" aria-label="Underline">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3v7a6 6 0 006 6 6 6 0 006-6V3"/><line x1="4" y1="21" x2="20" y2="21"/></svg>
+    </aegov-button>
+  </aegov-button-group>
+  <aegov-button-group>
+    <aegov-button icon appearance="soft" aria-label="Align Left">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="17" y1="10" x2="3" y2="10"/><line x1="21" y1="6" x2="3" y2="6"/><line x1="21" y1="14" x2="3" y2="14"/><line x1="17" y1="18" x2="3" y2="18"/></svg>
+    </aegov-button>
+    <aegov-button icon appearance="soft" aria-label="Align Centre">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="10" x2="6" y2="10"/><line x1="21" y1="6" x2="3" y2="6"/><line x1="21" y1="14" x2="3" y2="14"/><line x1="18" y1="18" x2="6" y2="18"/></svg>
+    </aegov-button>
+    <aegov-button icon appearance="soft" aria-label="Align Right">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="21" y1="10" x2="7" y2="10"/><line x1="21" y1="6" x2="3" y2="6"/><line x1="21" y1="14" x2="3" y2="14"/><line x1="21" y1="18" x2="7" y2="18"/></svg>
+    </aegov-button>
+  </aegov-button-group>
+</div>
+
+<blockquote>
+<p><strong>Important:</strong> Always provide an <code>aria-label</code> on each icon-only button so screen readers can announce its purpose.</p>
+</blockquote>
+<hr>
+<h2>Mixed Variants and Appearances</h2>
+<p>You can mix different button variants or appearances within a single group to create visual hierarchy, such as a primary action alongside a secondary cancel action.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-button-group</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span> <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;solid&quot;</span>&gt;</span>Save<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span> <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;outline&quot;</span>&gt;</span>Cancel<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button-group</span>&gt;</span></code></pre><div class="flex flex-wrap gap-4 p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
+  <aegov-button-group>
+    <aegov-button appearance="solid">Save</aegov-button>
+    <aegov-button appearance="outline">Cancel</aegov-button>
+  </aegov-button-group>
+  <aegov-button-group>
+    <aegov-button appearance="solid" variant="danger">Delete</aegov-button>
+    <aegov-button appearance="outline">Cancel</aegov-button>
+  </aegov-button-group>
+  <aegov-button-group>
+    <aegov-button appearance="soft">Draft</aegov-button>
+    <aegov-button appearance="solid">Publish</aegov-button>
+  </aegov-button-group>
+</div>
+
+<hr>
+<h2>RTL Support</h2>
+<p>The component fully supports right-to-left layouts. When the document or a parent element has <code>dir=&quot;rtl&quot;</code>, the horizontal layout direction and border-radius logic automatically mirror. The CSS uses logical properties (<code>rounded-s-*</code>, <code>rounded-e-*</code>, <code>border-s-*</code>) so no additional configuration is needed.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">dir</span>=<span class="hljs-string">&quot;rtl&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-button-group</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span>&gt;</span>الأول<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span>&gt;</span>الثاني<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span>&gt;</span>الثالث<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button-group</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre><div dir="rtl" class="p-6 bg-aeblack-50 rounded-lg my-6 not-aegov">
+  <aegov-button-group>
+    <aegov-button>الأول</aegov-button>
+    <aegov-button>الثاني</aegov-button>
+    <aegov-button>الثالث</aegov-button>
+  </aegov-button-group>
+</div>
+
+<hr>
+<h2>API Reference</h2>
+<h3>Properties</h3>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Attribute</th>
+<th>Description</th>
+<th>Type</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>orientation</code></td>
+<td><code>orientation</code></td>
+<td>The layout direction of the group</td>
+<td><code>&#39;horizontal&#39;</code> | <code>&#39;vertical&#39;</code></td>
+<td><code>&#39;horizontal&#39;</code></td>
+</tr>
+</tbody></table>
+<h3>Slots</h3>
+<table>
+<thead>
+<tr>
+<th>Slot</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>(default)</td>
+<td>Two or more <code>&lt;aegov-button&gt;</code> elements to be grouped together.</td>
+</tr>
+</tbody></table>
+<h3>Internal Child Props</h3>
+<p>The <code>aegov-button-group</code> component automatically sets the following internal properties on each child <code>&lt;aegov-button&gt;</code>. These are not intended to be set manually.</p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Description</th>
+<th>Values</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>groupPosition</code></td>
+<td>The button&#39;s position within the group</td>
+<td><code>&#39;first&#39;</code> | <code>&#39;middle&#39;</code> | <code>&#39;last&#39;</code> | <code>&#39;single&#39;</code></td>
+</tr>
+<tr>
+<td><code>groupOrientation</code></td>
+<td>The orientation inherited from the parent</td>
+<td><code>&#39;horizontal&#39;</code> | <code>&#39;vertical&#39;</code></td>
+</tr>
+</tbody></table>
+<hr>
+<h2>Accessibility</h2>
+<h3>Built-in Features</h3>
+<ul>
+<li><strong><code>role=&quot;group&quot;</code></strong> — the inner container has the <code>group</code> role, telling assistive technologies that the buttons are related.</li>
+<li><strong>Keyboard navigation</strong> — each child button is a native <code>&lt;button&gt;</code> element, so standard Tab key navigation works out of the box.</li>
+<li><strong>Focus indicators</strong> — individual button focus rings are preserved within the group.</li>
+</ul>
+<h3>Developer Responsibilities</h3>
+<ol>
+<li><p><strong>Provide context with <code>aria-label</code>.</strong> When the purpose of the group is not obvious from the button labels alone, add an <code>aria-label</code> to the <code>&lt;aegov-button-group&gt;</code> element to describe the group.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-button-group</span> <span class="hljs-attr">aria-label</span>=<span class="hljs-string">&quot;Text formatting&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span> <span class="hljs-attr">icon</span> <span class="hljs-attr">aria-label</span>=<span class="hljs-string">&quot;Bold&quot;</span>&gt;</span>…<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span> <span class="hljs-attr">icon</span> <span class="hljs-attr">aria-label</span>=<span class="hljs-string">&quot;Italic&quot;</span>&gt;</span>…<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button-group</span>&gt;</span></code></pre></li>
+<li><p><strong>Icon-only buttons need labels.</strong> As with standalone icon buttons, always provide <code>aria-label</code> on each icon-only button inside a group.</p>
+</li>
+<li><p><strong>Do not nest button groups.</strong> Placing a <code>&lt;aegov-button-group&gt;</code> inside another <code>&lt;aegov-button-group&gt;</code> produces invalid structure and confuses assistive technologies.</p>
+</li>
+</ol>
+<hr>
+<h2>Notes</h2>
+<ul>
+<li>All direct children of <code>&lt;aegov-button-group&gt;</code> must be <code>&lt;aegov-button&gt;</code> elements. The component logs a console warning if non-button children are detected.</li>
+<li>The component assigns positional CSS classes (<code>btn-grouped-first-horizontal</code>, <code>btn-grouped-middle-horizontal</code>, <code>btn-grouped-last-horizontal</code>) to each child button. These classes handle border-radius removal and internal border collapse.</li>
+<li>For the outline variant, internal borders between buttons are removed (<code>border-s-0</code>) to avoid doubled borders. For solid and soft variants, a slightly darker or lighter separator border is used instead.</li>
+<li>The <code>orientation</code> property can be changed dynamically. The component recalculates button positions on every update.</li>
+<li>When a group contains only a single button, it receives the <code>single</code> position and retains its normal border radius.</li>
+<li>For consistent sizing, ensure all buttons in the group use the same <code>size</code> property. Mixing sizes is technically possible but produces uneven visual results.</li>
+</ul>
+<!-- DOC:END -->
+          </section>
+      </article>
+    </section>
+  </main>
+  <footer class="aegov-container sm:px-6 lg:px-8 mt-8 py-6 text-sm text-aeblack-500 dark:text-aeblack-400">
+    &copy; 2026 Telecommunication and Digital Regulatory Authority. All rights reserved.
+  </footer>
+
+<script src="/docs/layout.js"></script>
+</body>
+</html>
