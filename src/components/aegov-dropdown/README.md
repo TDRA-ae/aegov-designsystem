@@ -24,16 +24,17 @@ Dropdown component that displays positioned content on trigger interaction
 
 ## Properties
 
-| Property      | Attribute      | Description                                              | Type                                     | Default    |
-| ------------- | -------------- | -------------------------------------------------------- | ---------------------------------------- | ---------- |
-| `align`       | `align`        | Alignment of the dropdown                                | `"center" \| "end" \| "start"`           | `'start'`  |
-| `disabled`    | `disabled`     | Whether the dropdown is disabled                         | `boolean`                                | `false`    |
-| `gap`         | `gap`          | Gap between dropdown and trigger element (in pixels)     | `number`                                 | `8`        |
-| `hideDelay`   | `hide-delay`   | Delay before hiding dropdown (in milliseconds)           | `number`                                 | `0`        |
-| `offset`      | `offset`       | Additional offset for dropdown positioning (in pixels)   | `number`                                 | `0`        |
-| `position`    | `position`     | Position of the dropdown relative to the trigger element | `"bottom" \| "left" \| "right" \| "top"` | `'bottom'` |
-| `showDelay`   | `show-delay`   | Delay before showing dropdown (in milliseconds)          | `number`                                 | `200`      |
-| `triggerType` | `trigger-type` | Trigger type for showing the dropdown                    | `"click" \| "hover"`                     | `'click'`  |
+| Property     | Attribute     | Description                                                                                                                                               | Type                                     | Default     |
+| ------------ | ------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------- | ----------- |
+| `align`      | `align`       | Alignment of the dropdown                                                                                                                                 | `"center" \| "end" \| "start"`           | `'start'`   |
+| `delayEnd`   | `delay-end`   | Delay before hiding dropdown (in milliseconds)                                                                                                            | `number`                                 | `0`         |
+| `delayStart` | `delay-start` | Delay before showing dropdown (in milliseconds)                                                                                                           | `number`                                 | `200`       |
+| `fieldId`    | `field-id`    | Unique ID for the dropdown menu element. Auto-generated if not provided. The trigger element receives a derived ID `${fieldId}-trigger` for ARIA linkage. | `string`                                 | `undefined` |
+| `gap`        | `gap`         | Gap between dropdown and trigger element (in pixels)                                                                                                      | `number`                                 | `8`         |
+| `isDisabled` | `is-disabled` | Whether the dropdown is disabled                                                                                                                          | `boolean`                                | `false`     |
+| `offset`     | `offset`      | Additional offset for dropdown positioning (in pixels)                                                                                                    | `number`                                 | `0`         |
+| `position`   | `position`    | Position of the dropdown relative to the trigger element                                                                                                  | `"bottom" \| "left" \| "right" \| "top"` | `'bottom'`  |
+| `trigger`    | `trigger`     | Trigger type for showing the dropdown                                                                                                                     | `"click" \| "hover"`                     | `'click'`   |
 
 
 ## Events
@@ -42,6 +43,27 @@ Dropdown component that displays positioned content on trigger interaction
 | -------------------- | ---------------------------- | ------------------- |
 | `aegovDropdownClose` | Emitted when dropdown closes | `CustomEvent<void>` |
 | `aegovDropdownOpen`  | Emitted when dropdown opens  | `CustomEvent<void>` |
+
+
+## Methods
+
+### `toggle(viaKeyboard?: boolean) => Promise<void>`
+
+Toggle the dropdown open/closed state regardless of triggerType.
+Allows external triggers (e.g. a navbar-item chevron) to drive the
+dropdown when triggerType is 'hover' or 'click'.
+
+#### Parameters
+
+| Name          | Type      | Description                                                                                                                                                                      |
+| ------------- | --------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `viaKeyboard` | `boolean` | When true and this call opens the dropdown, the first focusable item receives focus (ARIA menu pattern). Pass true from keyboard handlers and false from pointer/mouse handlers. |
+
+#### Returns
+
+Type: `Promise<void>`
+
+
 
 
 ## Slots

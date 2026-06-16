@@ -16,12 +16,12 @@
   ::slotted(li),
   & p,
   & li {
-  @apply text-primary-700; }
+  @apply text-primary-700 dark:text-primary-300; }
 }
 .aegov-blockquote:not(.blockquote--colored) {
   ::slotted(p),
   ::slotted(li),
   & p,
   & li {
-  @apply text-aeblack-800; }
+  @apply text-aeblack-800 dark:text-whitely-100; }
 }

@@ -1,5 +1,23 @@
-import { Component, Prop, Method, Event, EventEmitter, State, h, Element } from '@stencil/core';
+import { Component, Prop, Watch, Method, Event, EventEmitter, State, h, Element } from '@stencil/core';
+import { TOAST_VARIANTS, TOAST_APPEARANCES, TOAST_POSITIONS, TOAST_MODES } from '../../utils/types';
 import type { ToastVariant, ToastAppearance, ToastPosition, ToastMode } from '../../utils/types';
+import { warnIfInvalidEnumProp } from '../../utils/prop-validator';
+import { isRtl } from '../../utils/rtl';
+
+const VARIANT_LABEL_AR: Record<string, string> = {
+  default: 'الإشعار',
+  info: 'إشعار معلومات',
+  success: 'إشعار نجاح',
+  warning: 'إشعار تحذير',
+  error: 'إشعار خطأ',
+};
+const STRINGS = {
+  en: { close: (variant: string) => `Close ${variant} notification` },
+  ar: { close: (variant: string) => `إغلاق ${VARIANT_LABEL_AR[variant] || VARIANT_LABEL_AR.default}` },
+};
+
+const TAG = 'aegov-toast';
+const ctx = (prop: string) => ({ component: TAG, prop });
 
 /* ============================================
    CSS CLASS CONSTANTS
@@ -352,7 +370,7 @@ export class AegovToast {
   /**
    * Whether the toast shows a close button.
    */
-  @Prop() dismissible: boolean = true;
+  @Prop() isDismissible: boolean = true;
 
   /**
    * Display mode for multiple toasts at the same position.
@@ -364,7 +382,7 @@ export class AegovToast {
   /**
    * Whether to show a countdown progress bar.
    */
-  @Prop({ attribute: 'show-progress' }) showProgress: boolean = false;
+  @Prop() isProgressEnabled: boolean = false;
 
   /**
    * Emitted after the toast becomes visible.
@@ -538,11 +556,15 @@ export class AegovToast {
   private getToastClasses(): string {
     const classes = ['aegov-toast'];
 
+    const variant: ToastVariant = (TOAST_VARIANTS as readonly string[]).includes(this.variant) ? this.variant : 'default';
+    const appearance: ToastAppearance = (TOAST_APPEARANCES as readonly string[]).includes(this.appearance) ? this.appearance : 'soft';
+    const position: ToastPosition = (TOAST_POSITIONS as readonly string[]).includes(this.position) ? this.position : 'top-right';
+
     // Variant
-    classes.push(`toast--${this.variant}`);
+    classes.push(`toast--${variant}`);
 
     // Appearance
-    classes.push(`toast--${this.appearance}`);
+    classes.push(`toast--${appearance}`);
 
     // Direction for animations
     const direction = this.getPositionDirection();
@@ -550,7 +572,7 @@ export class AegovToast {
 
     // Position vertical for center animations
     if (direction === 'center') {
-      classes.push(this.position.startsWith('top') ? 'toast--top' : 'toast--bottom');
+      classes.push(position.startsWith('top') ? 'toast--top' : 'toast--bottom');
     }
 
     // Animation states
@@ -564,6 +586,25 @@ export class AegovToast {
 
     return classes.join(' ');
   }
+
+  componentWillLoad() {
+    warnIfInvalidEnumProp(this.variant, TOAST_VARIANTS, 'default', ctx('variant'));
+    warnIfInvalidEnumProp(this.appearance, TOAST_APPEARANCES, 'soft', ctx('appearance'));
+    warnIfInvalidEnumProp(this.position, TOAST_POSITIONS, 'top-right', ctx('position'));
+    warnIfInvalidEnumProp(this.mode, TOAST_MODES, 'stack', ctx('mode'));
+  }
+
+  @Watch('variant')
+  onVariantChange(v: unknown) { warnIfInvalidEnumProp(v, TOAST_VARIANTS, 'default', ctx('variant')); }
+
+  @Watch('appearance')
+  onAppearanceChange(v: unknown) { warnIfInvalidEnumProp(v, TOAST_APPEARANCES, 'soft', ctx('appearance')); }
+
+  @Watch('position')
+  onPositionChange(v: unknown) { warnIfInvalidEnumProp(v, TOAST_POSITIONS, 'top-right', ctx('position')); }
+
+  @Watch('mode')
+  onModeChange(v: unknown) { warnIfInvalidEnumProp(v, TOAST_MODES, 'stack', ctx('mode')); }
 
   componentDidLoad() {
     this.checkSlots();
@@ -604,12 +645,12 @@ export class AegovToast {
             </div>
           )}
         </div>
-        {this.dismissible && (
+        {this.isDismissible && (
           <button
             type="button"
             class="toast__dismiss"
             onClick={this.handleDismiss}
-            aria-label={`Close ${this.variant} notification`}
+            aria-label={(isRtl(this.el) ? STRINGS.ar : STRINGS.en).close(this.variant)}
           >
             <svg xmlns="http://www.w3.org/2000/svg" class="size-4" viewBox="0 0 256 256" aria-hidden="true">
               <rect width="256" height="256" fill="none"/>
@@ -618,7 +659,7 @@ export class AegovToast {
             </svg>
           </button>
         )}
-        {this.showProgress && this.duration > 0 && (
+        {this.isProgressEnabled && this.duration > 0 && (
           <div
             class="toast__progress"
             style={{

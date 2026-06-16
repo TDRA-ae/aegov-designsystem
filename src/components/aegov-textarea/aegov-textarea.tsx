@@ -1,7 +1,21 @@
-import { Component, Host, h, Prop, State, Event, EventEmitter, Element, Watch } from '@stencil/core';
-import type { TextareaSize, TextareaResize } from '../../utils/types';
+import { Component, Host, h, Prop, State, Event, EventEmitter, Element, Watch, Method } from '@stencil/core';
+import { TEXTAREA_SIZES, TEXTAREA_RESIZES, FORM_VARIANTS } from '../../utils/types';
+import type {
+  TextareaSize, TextareaResize, FormVariant,
+  AegovValidationDetail, AegovValidationResult, AegovValidationTrigger,
+} from '../../utils/types';
 import { getPassThroughAttributes } from '../../utils/attributes';
 import { generateId } from '../../utils/id-generator';
+import { warnIfInvalidEnumProp } from '../../utils/prop-validator';
+import { watchResponsiveProp } from '../../utils/responsive-prop';
+import type { ResponsivePropWatcher } from '../../utils/responsive-prop';
+import {
+  fromNativeValidity, VALID_STATE,
+  composeDescribedBy, buildValidationDetail,
+} from '../../utils/validation';
+
+const TAG = 'aegov-textarea';
+const ctx = (prop: string) => ({ component: TAG, prop });
 
 @Component({
   tag: 'aegov-textarea',
@@ -16,13 +30,18 @@ export class AegovTextarea {
   @Prop({ mutable: true, reflect: true }) fieldId?: string;
 
   /** The size of the textarea (affects font size only). */
-  @Prop() size: TextareaSize = 'base';
+  @Prop() size: string = 'base';
+  @State() private _resolvedSize: TextareaSize = 'base';
+  private _sizeWatcher: ResponsivePropWatcher | null = null;
+
+  /** Colour family. Drives idle ring, value text, and accent hover. */
+  @Prop() variant: FormVariant = 'primary';
 
   /** Whether the textarea is disabled. */
-  @Prop() disabled: boolean = false;
+  @Prop() isDisabled: boolean = false;
 
   /** Whether the textarea is readonly. */
-  @Prop() readonly: boolean = false;
+  @Prop() isReadonly: boolean = false;
 
   /** Placeholder text for the textarea. */
   @Prop() placeholder?: string;
@@ -34,7 +53,7 @@ export class AegovTextarea {
   @Prop() name?: string;
 
   /** Whether the textarea is required. */
-  @Prop() required: boolean = false;
+  @Prop() isRequired: boolean = false;
 
   /** Resize behaviour of the textarea. */
   @Prop() resize: TextareaResize = 'vertical';
@@ -43,10 +62,19 @@ export class AegovTextarea {
   @Prop() maxlength?: number;
 
   /** Show a copy button to copy the textarea value to clipboard. Only applies when readonly. */
-  @Prop() copyable: boolean = false;
+  @Prop() isCopyable: boolean = false;
+
+  /** Visual + a11y invalid state. Toggles `aria-invalid` and `.is-invalid` host class. See validation-engine-addon.md §2.3. */
+  @Prop({ mutable: true, reflect: true }) isInvalid: boolean = false;
+
+  /** Inline error message rendered below the control when `isInvalid` is true. Use `error` slot for richer markup. */
+  @Prop({ mutable: true }) errorMessage: string = '';
+
+  /** Helper hint rendered below the control. Hidden when an error is shown. Use `hint` slot for richer markup. */
+  @Prop() hint: string = '';
 
   /** Additional CSS classes to apply. */
-  @Prop() class?: string;
+  @Prop() extraClass?: string;
 
   /** Tracks whether the value was just copied (for visual feedback). */
   @State() justCopied: boolean = false;
@@ -68,12 +96,88 @@ export class AegovTextarea {
   /** Emitted when the textarea loses focus. */
   @Event() aegovTextareaBlur: EventEmitter<FocusEvent>;
 
+  /** Unified validation event. See validation-engine-addon.md §2.3. */
+  @Event() aegovValidate: EventEmitter<AegovValidationDetail<string>>;
+
+  /** Whether user has blurred at least once — gates aria-live (gap §7.10). */
+  @State() private hasBlurredOnce: boolean = false;
+
+  private errorId: string = '';
+  private hintId: string = '';
+
   componentWillLoad() {
+    this._sizeWatcher = watchResponsiveProp(this.size, TEXTAREA_SIZES, 'base', v => {
+      this._resolvedSize = v as TextareaSize;
+    });
+    this._resolvedSize = this._sizeWatcher.current as TextareaSize;
+    warnIfInvalidEnumProp(this.resize, TEXTAREA_RESIZES, 'vertical', ctx('resize'));
+    warnIfInvalidEnumProp(this.variant, FORM_VARIANTS, 'primary', ctx('variant'));
     if (!this.fieldId) {
       this.fieldId = generateId('aegov-textarea');
     }
+    this.errorId = `${this.fieldId}-error`;
+    this.hintId = `${this.fieldId}-hint`;
     this.charCount = (this.value || '').length;
   }
+
+  /** Imperatively re-run validation. */
+  @Method()
+  async validate(trigger: AegovValidationTrigger = 'manual'): Promise<AegovValidationResult> {
+    const validity = this.readValidity();
+    const message = !validity.valid
+      ? (this.errorMessage || this.textareaEl?.validationMessage || '')
+      : '';
+    this.aegovValidate.emit(buildValidationDetail<string>(
+      this.el as unknown as HTMLElement & { name?: string },
+      this.value, validity, message, this.errorMessage || null, trigger,
+    ));
+    return { valid: validity.valid, message, validity };
+  }
+
+  /** Mirror of `HTMLTextAreaElement.setCustomValidity()`. */
+  @Method()
+  async setCustomValidity(message: string): Promise<void> {
+    this.errorMessage = message;
+    this.isInvalid = !!message;
+    if (this.textareaEl && typeof this.textareaEl.setCustomValidity === 'function') {
+      this.textareaEl.setCustomValidity(message);
+    }
+  }
+
+  private readValidity() {
+    const v = this.textareaEl?.validity;
+    return v ? fromNativeValidity(v) : VALID_STATE;
+  }
+
+  private emitValidate(trigger: AegovValidationTrigger) {
+    const validity = this.readValidity();
+    const message = !validity.valid
+      ? (this.errorMessage || this.textareaEl?.validationMessage || '')
+      : '';
+    this.aegovValidate.emit(buildValidationDetail<string>(
+      this.el as unknown as HTMLElement & { name?: string },
+      this.value, validity, message, this.errorMessage || null, trigger,
+    ));
+  }
+
+  disconnectedCallback() {
+    this._sizeWatcher?.destroy();
+  }
+
+  @Watch('size')
+  onSizeChange() {
+    this._sizeWatcher?.destroy();
+    this._sizeWatcher = watchResponsiveProp(this.size, TEXTAREA_SIZES, 'base', v => {
+      this._resolvedSize = v as TextareaSize;
+    });
+    this._resolvedSize = this._sizeWatcher.current as TextareaSize;
+  }
+
+  @Watch('resize')
+  onResizeChange(v: unknown) { warnIfInvalidEnumProp(v, TEXTAREA_RESIZES, 'vertical', ctx('resize')); }
+
+  @Watch('variant')
+  onVariantChange(v: unknown) { warnIfInvalidEnumProp(v, FORM_VARIANTS, 'primary', ctx('variant')); }
 
   @Watch('value')
   watchValue(newVal: string) {
@@ -84,27 +188,32 @@ export class AegovTextarea {
   }
 
   /** Native textarea attributes to pass through. */
-  private static readonly NATIVE_TEXTAREA_ATTRS = new Set([
-    'rows', 'cols', 'minlength', 'maxlength', 'wrap',
+  private static readonly PASS_THROUGH_ATTRS = new Set([
+    'rows', 'cols', 'minlength', 'wrap',
     'autocomplete', 'autofocus', 'spellcheck', 'enterkeyhint',
     'title', 'tabindex', 'form',
   ]);
 
 
-  private get isCopyable(): boolean {
-    return this.readonly && this.copyable;
+  private get showCopy(): boolean {
+    return this.isReadonly && this.isCopyable;
   }
 
   private getTextareaClasses(): string {
     const classes: string[] = ['aegov-textarea'];
 
     const sizeClasses: Record<TextareaSize, string> = {
+      xs: 'textarea--xs',
       sm: 'textarea--sm',
       base: 'textarea--base',
       lg: 'textarea--lg',
+      xl: 'textarea--xl',
     };
 
-    classes.push(sizeClasses[this.size]);
+    classes.push(sizeClasses[this._resolvedSize]);
+
+    const variant: FormVariant = (FORM_VARIANTS as readonly string[]).includes(this.variant) ? this.variant : 'primary';
+    classes.push(`textarea-variant-${variant}`);
 
     const resizeClasses: Record<TextareaResize, string> = {
       none: 'textarea--resize-none',
@@ -114,14 +223,15 @@ export class AegovTextarea {
       auto: 'textarea--resize-none',
     };
 
-    classes.push(resizeClasses[this.resize]);
+    const resize: TextareaResize = (TEXTAREA_RESIZES as readonly string[]).includes(this.resize) ? this.resize : 'vertical';
+    classes.push(resizeClasses[resize]);
 
-    if (this.isCopyable) {
+    if (this.showCopy) {
       classes.push('textarea--has-copy');
     }
 
-    if (this.class) {
-      classes.push(this.class);
+    if (this.extraClass) {
+      classes.push(this.extraClass);
     }
 
     return classes.join(' ');
@@ -131,6 +241,7 @@ export class AegovTextarea {
     const textarea = event.target as HTMLTextAreaElement;
     this.value = textarea.value;
     this.aegovTextareaChange.emit({ value: this.value, event });
+    this.emitValidate('change');
   };
 
   private handleInput = (event: Event) => {
@@ -140,6 +251,7 @@ export class AegovTextarea {
     if (this.resize === 'auto') {
       this.autoResize();
     }
+    this.emitValidate('input');
   };
 
   private handleFocus = (event: FocusEvent) => {
@@ -147,7 +259,9 @@ export class AegovTextarea {
   };
 
   private handleBlur = (event: FocusEvent) => {
+    this.hasBlurredOnce = true;
     this.aegovTextareaBlur.emit(event);
+    this.emitValidate('blur');
   };
 
   private autoResize() {
@@ -179,7 +293,7 @@ export class AegovTextarea {
   };
 
   private renderCopyButton() {
-    if (!this.isCopyable) return null;
+    if (!this.showCopy) return null;
 
     return (
       <button
@@ -225,21 +339,38 @@ export class AegovTextarea {
   }
 
   render() {
-    const passThroughAttributes = getPassThroughAttributes(this.el, AegovTextarea.NATIVE_TEXTAREA_ATTRS);
-    const needsWrapper = this.isCopyable;
+    const passThroughAttributes = getPassThroughAttributes(this.el, AegovTextarea.PASS_THROUGH_ATTRS);
+    // Layer 1 owns aria-invalid + aria-describedby (gap §7.8); strip from pass-through.
+    delete passThroughAttributes['aria-invalid'];
+    delete passThroughAttributes['aria-describedby'];
+
+    const needsWrapper = this.showCopy;
     const hasCounter = this.maxlength !== undefined && this.maxlength !== null;
+    const hasErrorSlot = !!this.el.querySelector('[slot="error"]');
+    const hasHintSlot = !!this.el.querySelector('[slot="hint"]');
+    const showError = this.isInvalid && (hasErrorSlot || !!this.errorMessage);
+    const showHint = !showError && (hasHintSlot || !!this.hint);
+    const announceError = showError && this.hasBlurredOnce;
+    const authorDescribedBy = this.el.getAttribute('aria-describedby');
+    const describedBy = composeDescribedBy(
+      authorDescribedBy,
+      hasCounter ? this.counterId : null,
+      showError ? this.errorId : null,
+      showHint ? this.hintId : null,
+    );
 
     const textarea = (
       <textarea
         id={this.fieldId}
         class={this.getTextareaClasses()}
-        disabled={this.disabled}
-        readOnly={this.readonly}
+        disabled={this.isDisabled}
+        readOnly={this.isReadonly}
         placeholder={this.placeholder}
         value={this.value}
         name={this.name}
-        required={this.required}
-        aria-describedby={hasCounter ? this.counterId : undefined}
+        required={this.isRequired}
+        aria-invalid={this.isInvalid ? 'true' : null}
+        aria-describedby={describedBy}
         onChange={this.handleChange}
         onInput={this.handleInput}
         onFocus={this.handleFocus}
@@ -249,21 +380,44 @@ export class AegovTextarea {
       />
     );
 
+    const errorRegion = showError ? (
+      <div
+        id={this.errorId}
+        class="aegov-textarea__error"
+        role={announceError ? 'alert' : null}
+        aria-live={announceError ? 'polite' : null}
+      >
+        {hasErrorSlot ? <slot name="error" /> : this.errorMessage}
+      </div>
+    ) : null;
+
+    const hintRegion = showHint ? (
+      <div id={this.hintId} class="aegov-textarea__hint">
+        {hasHintSlot ? <slot name="hint" /> : this.hint}
+      </div>
+    ) : null;
+
+    const hostClass = { 'is-invalid': this.isInvalid };
+
     if (needsWrapper || hasCounter) {
       return (
-        <Host>
+        <Host class={hostClass}>
           <div class="textarea__wrapper">
             {textarea}
             {this.renderCopyButton()}
           </div>
           {this.renderCharCounter()}
+          {errorRegion}
+          {hintRegion}
         </Host>
       );
     }
 
     return (
-      <Host>
+      <Host class={hostClass}>
         {textarea}
+        {errorRegion}
+        {hintRegion}
       </Host>
     );
   }

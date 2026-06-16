@@ -5,34 +5,49 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
-import { AccordionIcon, AvatarGroupMode, AvatarSize, AvatarStatus, AvatarVariant, BadgeAppearance, BadgeColor, BadgeSize, BannerDisplay, BannerMode, BannerPosition, BannerRole, BlockquoteVariant, BreadcrumbSeparator, ButtonAppearance, ButtonGroupOrientation, ButtonGroupPosition, ButtonSize, ButtonType, ButtonVariant, CalloutAppearance, CalloutVariant, CardBackground, CardBorderStyle, CardBorderWidth, CardHover, CheckboxGroupOrientation, CheckboxGroupVariant, CheckboxSize, DatepickerChangeDetail, DatepickerMode, DatepickerMonthChangeDetail, DrawerAnimation, DrawerOverlayOpacity, DrawerPosition, DropdownAlign, DropdownPosition, DropdownTrigger, FileuploadSize, FileuploadVariant, InputSize, InputType, LinkTarget, ModalBackdropOpacity, ModalPosition, OtpSize, OtpVariant, PaginationSize, PaginationVariant, ProgressCounter, RadioGroupOrientation, RadioGroupVariant, RadioSize, RangeDisplay, RangeMode, RangeOrientation, RangeSize, SelectChangeDetail, SelectSize, SelectVariant, TabOrientation, TabSize, TabVariant, TextareaResize, TextareaSize, TextSize, TimelineOrientation, TimelineSize, TimelineStepStatus, TimelineVariant, TitleSize, ToastAppearance, ToastMode, ToastPosition, ToastVariant, ToggleSize, TooltipAlign, TooltipPosition, TooltipTrigger } from "./utils/types";
+import { AccordionIcon, AccordionSize, AegovValidationDetail, AegovValidationResult, AegovValidationTrigger, AspectRatioFit, AspectRatioPreset, AvatarAppearance, AvatarGroupVariant, AvatarStatus, BadgeAppearance, BadgeColor, BannerDisplay, BannerMode, BannerPosition, BentoFlow, BlockquoteAppearance, BreadcrumbSeparator, ButtonAppearance, ButtonGroupOrientation, ButtonGroupPosition, ButtonType, ButtonVariant, CalloutAppearance, CalloutVariant, CardAppearance, CardBorderWidth, CardHover, CardSize, CardVariant, CheckboxGroupOrientation, CheckboxGroupVariant, DatepickerChangeDetail, DatepickerMode, DatepickerMonthChangeDetail, DrawerAnimation, DrawerOverlayOpacity, DrawerPosition, DrawerSize, DropdownAlign, DropdownPosition, DropdownTrigger, FileuploadVariant, FormVariant, HeaderVariant, InputType, LinkTarget, ModalOverlayOpacity, ModalPosition, ModalSize, NavblockIcon, NavblockSize, OtpVariant, PaginationVariant, PopoverAlign, PopoverPosition, PopoverTrigger, ProgressCounter, RadioGroupOrientation, RadioGroupVariant, RangeDisplay, RangeMode, RangeOrientation, SelectChangeDetail, SelectVariant, SeparatorAppearance, SeparatorOrientation, SeparatorVariant, TabOrientation, TabVariant, TextareaResize, TimelineOrientation, TimelineSize, TimelineStepStatus, TimelineVariant, TitleHeadingType, ToastAppearance, ToastMode, ToastPosition, ToastVariant, TooltipAlign, TooltipPosition, TooltipTrigger } from "./utils/types";
+import { AegovDatepickerValue } from "./components/aegov-datepicker/aegov-datepicker";
 import { Event } from "@stencil/core";
-export { AccordionIcon, AvatarGroupMode, AvatarSize, AvatarStatus, AvatarVariant, BadgeAppearance, BadgeColor, BadgeSize, BannerDisplay, BannerMode, BannerPosition, BannerRole, BlockquoteVariant, BreadcrumbSeparator, ButtonAppearance, ButtonGroupOrientation, ButtonGroupPosition, ButtonSize, ButtonType, ButtonVariant, CalloutAppearance, CalloutVariant, CardBackground, CardBorderStyle, CardBorderWidth, CardHover, CheckboxGroupOrientation, CheckboxGroupVariant, CheckboxSize, DatepickerChangeDetail, DatepickerMode, DatepickerMonthChangeDetail, DrawerAnimation, DrawerOverlayOpacity, DrawerPosition, DropdownAlign, DropdownPosition, DropdownTrigger, FileuploadSize, FileuploadVariant, InputSize, InputType, LinkTarget, ModalBackdropOpacity, ModalPosition, OtpSize, OtpVariant, PaginationSize, PaginationVariant, ProgressCounter, RadioGroupOrientation, RadioGroupVariant, RadioSize, RangeDisplay, RangeMode, RangeOrientation, RangeSize, SelectChangeDetail, SelectSize, SelectVariant, TabOrientation, TabSize, TabVariant, TextareaResize, TextareaSize, TextSize, TimelineOrientation, TimelineSize, TimelineStepStatus, TimelineVariant, TitleSize, ToastAppearance, ToastMode, ToastPosition, ToastVariant, ToggleSize, TooltipAlign, TooltipPosition, TooltipTrigger } from "./utils/types";
+import { AegovRangeValue } from "./components/aegov-range/aegov-range";
+import { AegovSelectValue } from "./components/aegov-select/aegov-select";
+export { AccordionIcon, AccordionSize, AegovValidationDetail, AegovValidationResult, AegovValidationTrigger, AspectRatioFit, AspectRatioPreset, AvatarAppearance, AvatarGroupVariant, AvatarStatus, BadgeAppearance, BadgeColor, BannerDisplay, BannerMode, BannerPosition, BentoFlow, BlockquoteAppearance, BreadcrumbSeparator, ButtonAppearance, ButtonGroupOrientation, ButtonGroupPosition, ButtonType, ButtonVariant, CalloutAppearance, CalloutVariant, CardAppearance, CardBorderWidth, CardHover, CardSize, CardVariant, CheckboxGroupOrientation, CheckboxGroupVariant, DatepickerChangeDetail, DatepickerMode, DatepickerMonthChangeDetail, DrawerAnimation, DrawerOverlayOpacity, DrawerPosition, DrawerSize, DropdownAlign, DropdownPosition, DropdownTrigger, FileuploadVariant, FormVariant, HeaderVariant, InputType, LinkTarget, ModalOverlayOpacity, ModalPosition, ModalSize, NavblockIcon, NavblockSize, OtpVariant, PaginationVariant, PopoverAlign, PopoverPosition, PopoverTrigger, ProgressCounter, RadioGroupOrientation, RadioGroupVariant, RangeDisplay, RangeMode, RangeOrientation, SelectChangeDetail, SelectVariant, SeparatorAppearance, SeparatorOrientation, SeparatorVariant, TabOrientation, TabVariant, TextareaResize, TimelineOrientation, TimelineSize, TimelineStepStatus, TimelineVariant, TitleHeadingType, ToastAppearance, ToastMode, ToastPosition, ToastVariant, TooltipAlign, TooltipPosition, TooltipTrigger } from "./utils/types";
+export { AegovDatepickerValue } from "./components/aegov-datepicker/aegov-datepicker";
 export { Event } from "@stencil/core";
+export { AegovRangeValue } from "./components/aegov-range/aegov-range";
+export { AegovSelectValue } from "./components/aegov-select/aegov-select";
 export namespace Components {
     /**
      * Accordion component for collapsible content sections
      */
     interface AegovAccordion {
         /**
-          * Whether multiple accordion items can be open at the same time
-          * @default false
-         */
-        "allowMultiple": boolean;
-        /**
-          * Whether to show border around the accordion
-          * @default false
-         */
-        "bordered": boolean;
-        /**
           * Index of the accordion item to open by default (0-based)
          */
         "defaultOpen"?: number;
+        /**
+          * Unique ID for the accordion wrapper element. Auto-generated if not provided.
+         */
+        "fieldId"?: string;
         /**
           * Icon style for accordion items
           * @default 'chevron'
          */
         "icon": AccordionIcon;
+        /**
+          * Whether to show border around the accordion
+          * @default false
+         */
+        "isBordered": boolean;
+        /**
+          * Whether multiple accordion items can be open at the same time
+          * @default false
+         */
+        "isMultiple": boolean;
+        /**
+          * Size of the accordion items — controls heading font size. sm = 14px, base = 16px (default), lg = 18px
+          * @default 'base'
+         */
+        "size": string;
     }
     /**
      * Accordion item component
@@ -40,11 +55,6 @@ export namespace Components {
      * Do not use this component standalone.
      */
     interface AegovAccordionItem {
-        /**
-          * Whether the accordion item is disabled
-          * @default false
-         */
-        "disabled": boolean;
         /**
           * Heading text for the accordion item (alternative to using the slot) Note: If both heading property and slot are provided, the slot takes precedence
          */
@@ -54,6 +64,11 @@ export namespace Components {
           * @default 'chevron'
          */
         "icon": AccordionIcon;
+        /**
+          * Whether the accordion item is disabled
+          * @default false
+         */
+        "isDisabled": boolean;
         /**
           * Whether this is the first accordion item
           * @default false
@@ -68,7 +83,35 @@ export namespace Components {
           * Whether the accordion item is open
           * @default false
          */
-        "open": boolean;
+        "isOpen": boolean;
+        /**
+          * Size of the accordion item — controls heading font size.
+          * @default 'base'
+         */
+        "size": AccordionSize;
+    }
+    /**
+     * @component aegov-aspect-ratio
+     * @description A layout component that enforces a specific aspect ratio on its
+     * content. Supports images, videos, iframes, and arbitrary slotted content.
+     * The `ratio` prop supports Tailwind-style breakpoint prefixes — e.g.
+     * `ratio="square md:video lg:21/9"` switches the ratio at each breakpoint.
+     */
+    interface AegovAspectRatio {
+        /**
+          * Additional CSS classes merged onto the inner aspect-ratio container.
+         */
+        "extraClass"?: string;
+        /**
+          * How slotted media (img, video, iframe) should fit within the aspect ratio container.
+          * @default 'cover'
+         */
+        "fit": AspectRatioFit;
+        /**
+          * The aspect ratio to apply. Accepts named presets (`'auto'`, `'square'`, `'video'`) or any custom ratio string such as `'5/4'`, `'21/9'`, `'2.35/1'`. Supports a Tailwind-style responsive string with breakpoint prefixes, e.g. `"square md:video lg:21/9"`.
+          * @default 'auto'
+         */
+        "ratio": AspectRatioPreset | string;
     }
     interface AegovAvatar {
         /**
@@ -76,31 +119,30 @@ export namespace Components {
          */
         "alt"?: string;
         /**
+          * The avatar appearance (shape)
+          * @default 'square'
+         */
+        "appearance": AvatarAppearance;
+        /**
+          * Unique ID for the inner avatar element. Auto-generated if not provided.
+         */
+        "fieldId"?: string;
+        /**
           * The avatar size
           * @default 'base'
          */
-        "size": AvatarSize;
+        "size": string;
         /**
           * The image source URL
          */
         "src"?: string;
         /**
-          * Status indicator type. Set to 'online' or 'offline' to show indicator, or 'none'/false to hide.
-          * @default 'none'
+          * Status indicator. Set to a status string to show the indicator, or `false` to hide it. Accepts: `'online'`, `'offline'`, `'away'`, `'unavailable'`, `'busy'`, or boolean (`true` maps to `'online'`).
+          * @default false
          */
         "status": AvatarStatus | boolean;
-        /**
-          * The avatar variant (shape)
-          * @default 'square'
-         */
-        "variant": AvatarVariant;
     }
     interface AegovAvatarGroup {
-        /**
-          * The layout mode: 'default' (spaced) or 'compact' (overlapping)
-          * @default 'default'
-         */
-        "mode": AvatarGroupMode;
         /**
           * Number of additional users not shown. When > 0, displays "+N" indicator.
           * @default 0
@@ -114,12 +156,12 @@ export namespace Components {
           * The size enforced on all child avatars
           * @default 'base'
          */
-        "size": AvatarSize;
+        "size": string;
         /**
-          * The variant (shape) applied to the "more" indicator
-          * @default 'rounded'
+          * The layout variant: 'default' (spaced) or 'compact' (overlapping)
+          * @default 'default'
          */
-        "variant": AvatarVariant;
+        "variant": AvatarGroupVariant;
     }
     interface AegovBadge {
         /**
@@ -133,15 +175,19 @@ export namespace Components {
          */
         "color": BadgeColor;
         /**
+          * Unique ID for the badge element. Auto-generated if not provided.
+         */
+        "fieldId"?: string;
+        /**
           * Whether the badge can be dismissed/closed.
           * @default false
          */
-        "dismissible": boolean;
+        "isDismissible": boolean;
         /**
           * The badge size
           * @default 'base'
          */
-        "size": BadgeSize;
+        "size": string;
     }
     interface AegovBanner {
         /**
@@ -150,28 +196,28 @@ export namespace Components {
          */
         "appearance": CalloutAppearance;
         /**
-          * ARIA role for accessibility. Auto-computed from variant if not specified.
-         */
-        "ariaRole"?: BannerRole;
-        /**
-          * Auto-focus the banner when mounted (for critical alerts only).
-          * @default false
-         */
-        "autoFocus": boolean;
-        /**
-          * Banner title for aria-labelledby attribute.
-         */
-        "bannerTitle"?: string;
-        /**
-          * Whether the banner can be dismissed/closed.
-          * @default true
-         */
-        "dismissible": boolean;
-        /**
           * CSS positioning strategy: fixed (stays in viewport), sticky (scrolls then sticks).
           * @default 'fixed'
          */
         "display": BannerDisplay;
+        /**
+          * Unique ID for the banner element. Auto-generated if not provided. The heading element receives a derived ID `${fieldId}-heading` for ARIA labelledby.
+         */
+        "fieldId"?: string;
+        /**
+          * Banner heading for aria-labelledby attribute.
+         */
+        "heading"?: string;
+        /**
+          * Whether the banner can be dismissed/closed.
+          * @default true
+         */
+        "isDismissible": boolean;
+        /**
+          * Auto-focus the banner when mounted (for critical alerts only).
+          * @default false
+         */
+        "isFocusable": boolean;
         /**
           * Layout mode: push (takes up space in page flow), overlay (floats over content).
           * @default 'push'
@@ -183,12 +229,47 @@ export namespace Components {
          */
         "position": BannerPosition;
         /**
+          * Size of the banner. Controls font size and vertical padding. Accepts a plain value (`"sm"`, `"base"`, `"lg"`) or a responsive string using Tailwind-style breakpoint prefixes (`"sm xl:lg"`).
+          * @default 'base'
+         */
+        "size": string;
+        /**
           * The variant of the banner. Determines the color scheme.
           * @default 'default'
          */
         "variant": CalloutVariant;
     }
+    /**
+     * Bento grid layout container for grouping `aegov-card` elements into a
+     * balanced-but-non-uniform arrangement.
+     */
+    interface AegovBentoGrid {
+        /**
+          * Number of columns. Tailwind-style breakpoint syntax supported, e.g. `cols="1 md:2 lg:4"`. Use `cols="1 md:..."` to stack on mobile.
+          * @default '1 md:2 lg:3'
+         */
+        "cols": string;
+        /**
+          * Optional id reflected on the inner wrapper. Auto-generated if not provided.
+         */
+        "fieldId"?: string;
+        /**
+          * Auto-flow mode. 'dense' fills holes left by larger spans (bento packing), 'row' keeps strict DOM order.
+          * @default 'dense'
+         */
+        "flow": BentoFlow;
+        /**
+          * Gap between cards. Named sizes: 'none', 'xs', 'sm', 'md', 'lg', 'xl'. Responsive syntax supported: `gap="sm md:md lg:lg"`.
+          * @default 'md'
+         */
+        "gap": string;
+    }
     interface AegovBlockquote {
+        /**
+          * The blockquote appearance style
+          * @default 'primary'
+         */
+        "appearance": BlockquoteAppearance;
         /**
           * The author source
          */
@@ -202,21 +283,24 @@ export namespace Components {
          */
         "cite"?: string;
         /**
-          * The blockquote variant style
-          * @default 'primary'
+          * Additional CSS classes merged onto the inner blockquote element.
          */
-        "variant": BlockquoteVariant;
+        "extraClass"?: string;
     }
     interface AegovBreadcrumbs {
         /**
-          * Maximum number of characters before truncating breadcrumb item text. If not set, text will not be truncated.
+          * Unique ID for the breadcrumbs nav element. Auto-generated if not provided.
          */
-        "maxLength"?: number;
+        "fieldId"?: string;
         /**
           * Whether to add schema.org microdata for structured data
           * @default false
          */
-        "microdata": boolean;
+        "isMicrodata": boolean;
+        /**
+          * Maximum number of characters before truncating breadcrumb item text. If not set, text will not be truncated.
+         */
+        "maxLength"?: number;
         /**
           * The separator style to use between breadcrumb items
           * @default 'slash'
@@ -239,14 +323,14 @@ export namespace Components {
          */
         "isLast": boolean;
         /**
-          * Maximum length for text before truncation
-         */
-        "maxLength"?: number;
-        /**
           * Whether to add schema.org microdata
           * @default false
          */
-        "microdata": boolean;
+        "isMicrodata": boolean;
+        /**
+          * Maximum length for text before truncation
+         */
+        "maxLength"?: number;
         /**
           * Position in the breadcrumb list (1-indexed) for microdata
           * @default 1
@@ -265,25 +349,14 @@ export namespace Components {
     }
     interface AegovButton {
         /**
-          * The button appearance (color scheme)
-          * @default 'primary'
+          * The button appearance (visual style)
+          * @default 'solid'
          */
         "appearance": ButtonAppearance;
         /**
-          * Whether the button should have bold text or not
-          * @default false
+          * Unique ID for the button element. Auto-generated if not provided.
          */
-        "bold": boolean;
-        /**
-          * Whether the button is disabled
-          * @default false
-         */
-        "disabled": boolean;
-        /**
-          * Whether the button should take full width
-          * @default true
-         */
-        "full": boolean;
+        "fieldId"?: string;
         /**
           * Internal: The orientation of the button group this button belongs to
          */
@@ -293,28 +366,43 @@ export namespace Components {
          */
         "groupPosition"?: ButtonGroupPosition;
         /**
+          * Whether the button should have bold text or not
+          * @default true
+         */
+        "isBold": boolean;
+        /**
+          * Whether the button is disabled
+          * @default false
+         */
+        "isDisabled": boolean;
+        /**
+          * Whether the button should take full width
+          * @default false
+         */
+        "isFull": boolean;
+        /**
           * Whether the button is only an icon
           * @default false
          */
-        "icon": boolean;
+        "isIcon": boolean;
         /**
           * Whether the button is in a loading state
           * @default false
          */
-        "loading": boolean;
+        "isLoading": boolean;
         /**
           * The button size
           * @default 'base'
          */
-        "size": ButtonSize;
+        "size": string;
         /**
           * The button type attribute
           * @default 'button'
          */
         "type": ButtonType;
         /**
-          * The button variant style
-          * @default 'solid'
+          * The button variant (color scheme)
+          * @default 'primary'
          */
         "variant": ButtonVariant;
     }
@@ -332,15 +420,19 @@ export namespace Components {
          */
         "appearance": CalloutAppearance;
         /**
-          * Whether the callout should have a border
-          * @default false
+          * Unique ID for the callout element. Auto-generated if not provided.
          */
-        "bordered": boolean;
+        "fieldId"?: string;
         /**
           * Whether the callout can be dismissed/closed.
           * @default false
          */
-        "dismissible": boolean;
+        "isDismissible": boolean;
+        /**
+          * The size of the callout. Controls font size, icon size, and padding. Accepts a plain value (`"sm"`, `"base"`, `"lg"`) or a responsive string using Tailwind-style breakpoint prefixes (`"sm xl:lg"`).
+          * @default 'base'
+         */
+        "size": string;
         /**
           * The variant of the callout. Determines the color scheme.
           * @default 'default'
@@ -349,64 +441,88 @@ export namespace Components {
     }
     interface AegovCard {
         /**
-          * Background style: 'white', 'transparent', or 'subtle' (slate-50).
-          * @default 'white'
+          * Appearance: 'solid' (full-strength border), 'light' (subtle low-contrast border), or 'creative' (gradient border via CSS mask). Border colour resolves from `variant`.
+          * @default 'solid'
          */
-        "background": CardBackground;
-        /**
-          * Border style: 'standard' (solid primary-600), 'light' (solid primary-200), or 'creative' (gradient from primary-400 to primary-800).
-          * @default 'standard'
-         */
-        "borderStyle": CardBorderStyle;
+        "appearance": CardAppearance;
         /**
           * Border thickness: 1, 2, or 3.
-          * @default 1
+          * @default 2
          */
         "borderWidth": CardBorderWidth;
         /**
-          * Disables inner padding (1.5rem / 24px). Padding is on by default.
-          * @default false
+          * Unique ID for the card element. Auto-generated if not provided.
          */
-        "disallowPadding": boolean;
+        "fieldId"?: string;
         /**
           * Hover effect: 'off' (none), 'standard' (border color change), or 'glow' (shadow glow).
           * @default 'off'
          */
         "hover": CardHover;
+        /**
+          * Whether to apply inner padding (1.5rem / 24px). On by default.
+          * @default true
+         */
+        "isPadding": boolean;
+        /**
+          * Size: 'sm' (compact padding/radius), 'base' (default), or 'lg' (generous padding/radius). All sizes scale down responsively at md (768px) and xs (480px) breakpoints.
+          * @default 'base'
+         */
+        "size": CardSize;
+        /**
+          * Variant: colour family applied to border + glow. 'primary' (default), 'secondary', 'neutral-max' (aeblack-800 family), or 'neutral-min' (aeblack-100 family).
+          * @default 'primary'
+         */
+        "variant": CardVariant;
     }
     interface AegovCheckbox {
         /**
-          * Marks this checkbox as a "check all" controller within a checkbox group.
-          * @default false
+          * Inline error message. Use `error` slot for rich markup.
+          * @default ''
          */
-        "checkAll": boolean;
-        /**
-          * Whether the checkbox is checked.
-          * @default false
-         */
-        "checked": boolean;
+        "errorMessage": string;
         /**
           * Additional CSS classes to apply.
          */
-        "class"?: string;
-        /**
-          * Description text displayed below the label. Only rendered when label is provided.
-         */
-        "description"?: string;
-        /**
-          * Whether the checkbox is disabled.
-          * @default false
-         */
-        "disabled": boolean;
+        "extraClass"?: string;
         /**
           * Unique ID for the native checkbox element. Auto-generated if not provided.
          */
         "fieldId"?: string;
         /**
+          * Helper hint text displayed below the label. Only rendered when label is provided and no error is shown. Renamed from `description` (decision §6.6).
+         */
+        "hint"?: string;
+        /**
+          * Marks this checkbox as a "check all" controller within a checkbox group.
+          * @default false
+         */
+        "isCheckAll": boolean;
+        /**
+          * Whether the checkbox is checked.
+          * @default false
+         */
+        "isChecked": boolean;
+        /**
+          * Whether the checkbox is disabled.
+          * @default false
+         */
+        "isDisabled": boolean;
+        /**
           * Whether the checkbox is in an indeterminate state. Set by parent group for check-all.
           * @default false
          */
-        "indeterminate": boolean;
+        "isIndeterminate": boolean;
+        /**
+          * Visual + a11y invalid state. Toggles `aria-invalid` + `is-invalid` host class. See §2.3.
+          * @default false
+         */
+        "isInvalid": boolean;
+        /**
+          * Whether the checkbox is required.
+          * @default false
+         */
+        "isRequired": boolean;
         /**
           * Label text for the checkbox. When provided, generates an associated <label> element.
          */
@@ -416,30 +532,63 @@ export namespace Components {
          */
         "name"?: string;
         /**
-          * Whether the checkbox is required.
-          * @default false
+          * Mirror of HTMLInputElement.setCustomValidity().
          */
-        "required": boolean;
+        "setCustomValidity": (message: string) => Promise<void>;
         /**
           * The size of the checkbox.
           * @default 'base'
          */
-        "size": CheckboxSize;
+        "size": string;
+        /**
+          * Imperatively re-run validation.
+         */
+        "validate": (trigger?: AegovValidationTrigger) => Promise<AegovValidationResult>;
         /**
           * The value attribute for the checkbox.
          */
         "value"?: string;
+        /**
+          * Colour family. Drives rest border, checked bg/border. Focus ring stays camel; error stays aered.
+          * @default 'primary'
+         */
+        "variant": FormVariant;
     }
     interface AegovCheckboxGroup {
         /**
+          * Visual appearance for the group layout.
+          * @default 'default'
+         */
+        "appearance": CheckboxGroupVariant;
+        /**
+          * Inline error message rendered below the legend when `isInvalid`.
+          * @default ''
+         */
+        "errorMessage": string;
+        /**
           * Additional CSS classes to apply.
          */
-        "class"?: string;
+        "extraClass"?: string;
+        /**
+          * Helper hint shown below the legend when not invalid.
+          * @default ''
+         */
+        "hint": string;
         /**
           * Disables all checkboxes within the group via native fieldset disabled.
           * @default false
          */
-        "disabled": boolean;
+        "isDisabled": boolean;
+        /**
+          * Visual + a11y invalid state. See §2.3.
+          * @default false
+         */
+        "isInvalid": boolean;
+        /**
+          * Group is required — at least one child checkbox must be checked. Aggregate-level only.
+          * @default false
+         */
+        "isRequired": boolean;
         /**
           * Optional label rendered as a <legend> for accessibility.
          */
@@ -450,34 +599,46 @@ export namespace Components {
          */
         "orientation": CheckboxGroupOrientation;
         /**
+          * Set a custom error message; clears with empty string.
+         */
+        "setCustomValidity": (message: string) => Promise<void>;
+        /**
           * Size of all checkboxes in the group. Propagated to children.
           * @default 'base'
          */
-        "size": CheckboxSize;
+        "size": string;
         /**
-          * Visual variant for the group layout.
-          * @default 'default'
+          * Imperatively re-run validation.
          */
-        "variant": CheckboxGroupVariant;
+        "validate": (trigger?: AegovValidationTrigger) => Promise<AegovValidationResult>;
+        /**
+          * Colour family. Cascades to child checkboxes (only if child has no own variant). Focus ring stays camel; error stays aered regardless.
+          * @default 'primary'
+         */
+        "variant": FormVariant;
     }
     interface AegovDatepicker {
-        "clear": () => Promise<void>;
         /**
-          * Show clear button when value is set
-          * @default true
+          * Selection appearance: single date or date range
+          * @default 'single'
          */
-        "clearable": boolean;
+        "appearance": DatepickerMode;
+        /**
+          * Comma-separated ISO dates that cannot be selected
+          * @default ''
+         */
+        "blackout": string;
+        "clear": () => Promise<void>;
         "close": () => Promise<void>;
         /**
-          * Disable all future dates (shorthand for max="today")
-          * @default false
+          * Inline error message. Use `error` slot for rich markup.
+          * @default ''
          */
-        "disableFuture": boolean;
+        "errorMessage": string;
         /**
-          * Whether the datepicker is disabled
-          * @default false
+          * Optional unique field ID. Used by aegov-form-field for label linking + error/hint id derivation.
          */
-        "disabled": boolean;
+        "fieldId"?: string;
         /**
           * Output format using tokens: YYYY, YY, MM, M, DD, D, MMM, MMMM, dd, ddd
           * @default 'YYYY-MM-DD'
@@ -496,6 +657,56 @@ export namespace Components {
          */
         "getStartDate": () => Promise<string | false>;
         "getValue": () => Promise<string>;
+        /**
+          * Helper hint shown below the control. Hidden when an error is shown.
+          * @default ''
+         */
+        "hint": string;
+        /**
+          * Show clear button when value is set
+          * @default true
+         */
+        "isClearable": boolean;
+        /**
+          * Disable all future dates (shorthand for max="today")
+          * @default false
+         */
+        "isDisableFuture": boolean;
+        /**
+          * Whether the datepicker is disabled
+          * @default false
+         */
+        "isDisabled": boolean;
+        /**
+          * Show month/year select dropdowns in header
+          * @default true
+         */
+        "isHeaderSelectable": boolean;
+        /**
+          * Visual + a11y invalid state. See §2.3.
+          * @default false
+         */
+        "isInvalid": boolean;
+        /**
+          * Marks the datepicker as required for form validation. Sets `required` on the inner input.
+          * @default false
+         */
+        "isRequired": boolean;
+        /**
+          * Show Apply/Cancel buttons for confirming selection
+          * @default false
+         */
+        "isWithConfirmation": boolean;
+        /**
+          * Placeholder for range end input. Empty defaults to localized text via isRtl.
+          * @default ''
+         */
+        "labelRangeEnd": string;
+        /**
+          * Placeholder for range start input. Empty defaults to localized text via isRtl.
+          * @default ''
+         */
+        "labelRangeStart": string;
         /**
           * Locale for day/month names (BCP 47, e.g., 'en', 'ar', 'fr')
           * @default 'en'
@@ -522,14 +733,13 @@ export namespace Components {
          */
         "minRange": number;
         /**
-          * Selection mode: single date or date range
-          * @default 'single'
+          * Form field name for FormAssociated submission (§2.5).
          */
-        "mode": DatepickerMode;
+        "name"?: string;
         "open": () => Promise<void>;
         /**
-          * Placeholder text for single mode input
-          * @default 'Select date'
+          * Placeholder text for single mode input. Empty defaults to localized text via isRtl.
+          * @default ''
          */
         "placeholder": string;
         /**
@@ -538,45 +748,33 @@ export namespace Components {
          */
         "presets": string;
         /**
-          * Placeholder for range end input
-          * @default 'End date'
+          * Mirror of HTMLInputElement.setCustomValidity().
          */
-        "rangePlaceholderEnd": string;
-        /**
-          * Placeholder for range start input
-          * @default 'Start date'
-         */
-        "rangePlaceholderStart": string;
-        /**
-          * Show month/year select dropdowns in header
-          * @default true
-         */
-        "selectableHeader": boolean;
+        "setCustomValidity": (message: string) => Promise<void>;
         /**
           * The size of the datepicker input.
           * @default 'base'
          */
-        "size": InputSize;
+        "size": string;
         /**
           * Week start day: 0=Sunday, 1=Monday, ...6=Saturday
           * @default 0
          */
         "startDay": number;
         /**
-          * Comma-separated ISO dates that cannot be selected
-          * @default ''
+          * Imperatively re-run validation.
          */
-        "unavailableDates": string;
+        "validate": (trigger?: AegovValidationTrigger) => Promise<AegovValidationResult>;
         /**
           * Pre-selected value. Single: "YYYY-MM-DD". Range: "YYYY-MM-DD / YYYY-MM-DD"
           * @default ''
          */
         "value": string;
         /**
-          * Show Apply/Cancel buttons for confirming selection
-          * @default false
+          * Colour family. Drives idle ring/border, selected/checked fill, and value/accent text. Focus ring stays camel; error stays aered regardless.
+          * @default 'primary'
          */
-        "withConfirmation": boolean;
+        "variant": FormVariant;
         /**
           * End year for the year dropdown (default: current year + 100)
           * @default 0
@@ -599,44 +797,58 @@ export namespace Components {
          */
         "close": () => Promise<void>;
         /**
+          * Unique ID for the drawer dialog element. Auto-generated if not provided.
+         */
+        "fieldId"?: string;
+        /**
           * Whether clicking the backdrop closes the drawer
           * @default true
          */
-        "closeWithBackdrop": boolean;
+        "isCloseWithOverlay": boolean;
         /**
           * Whether the drawer is currently open/visible
           * @default false
          */
-        "open": boolean;
+        "isOpen": boolean;
         /**
           * Whether to show a backdrop overlay behind the drawer
           * @default true
          */
-        "overlay": boolean;
+        "isOverlay": boolean;
+        /**
+          * Whether to apply inner content padding. On by default; scales with size.
+          * @default true
+         */
+        "isPadding": boolean;
+        /**
+          * Whether the drawer is pinned flush to edges (true) or has a gap with rounded corners (false)
+          * @default true
+         */
+        "isPinned": boolean;
+        /**
+          * Whether to prevent body scroll when drawer is open
+          * @default true
+         */
+        "isPreventScroll": boolean;
         /**
           * Backdrop overlay opacity level
           * @default 'base'
          */
         "overlayOpacity": DrawerOverlayOpacity;
         /**
-          * Whether the drawer is pinned flush to edges (true) or has a gap with rounded corners (false)
-          * @default true
-         */
-        "pinned": boolean;
-        /**
           * Which edge the drawer slides from
           * @default 'right'
          */
         "position": DrawerPosition;
         /**
-          * Whether to prevent body scroll when drawer is open
-          * @default true
-         */
-        "preventBodyScroll": boolean;
-        /**
           * Programmatically open the drawer
          */
         "show": () => Promise<void>;
+        /**
+          * Size: 'sm' (compact padding), 'base' (default), or 'lg' (generous padding). Mirrors aegov-card sizing tokens. When `is-pinned="false"`, size also drives the edge gap and border-radius. When pinned, no border-radius is applied regardless of size.
+          * @default 'base'
+         */
+        "size": DrawerSize;
         /**
           * Toggle drawer open/closed state
          */
@@ -652,20 +864,29 @@ export namespace Components {
          */
         "align": DropdownAlign;
         /**
-          * Whether the dropdown is disabled
-          * @default false
+          * Delay before hiding dropdown (in milliseconds)
+          * @default 0
          */
-        "disabled": boolean;
+        "delayEnd": number;
+        /**
+          * Delay before showing dropdown (in milliseconds)
+          * @default 200
+         */
+        "delayStart": number;
+        /**
+          * Unique ID for the dropdown menu element. Auto-generated if not provided. The trigger element receives a derived ID `${fieldId}-trigger` for ARIA linkage.
+         */
+        "fieldId"?: string;
         /**
           * Gap between dropdown and trigger element (in pixels)
           * @default 8
          */
         "gap": number;
         /**
-          * Delay before hiding dropdown (in milliseconds)
-          * @default 0
+          * Whether the dropdown is disabled
+          * @default false
          */
-        "hideDelay": number;
+        "isDisabled": boolean;
         /**
           * Additional offset for dropdown positioning (in pixels)
           * @default 0
@@ -677,15 +898,15 @@ export namespace Components {
          */
         "position": DropdownPosition;
         /**
-          * Delay before showing dropdown (in milliseconds)
-          * @default 200
+          * Toggle the dropdown open/closed state regardless of triggerType. Allows external triggers (e.g. a navbar-item chevron) to drive the dropdown when triggerType is 'hover' or 'click'.
+          * @param viaKeyboard When true and this call opens the dropdown, the first focusable item receives focus (ARIA menu pattern). Pass true from keyboard handlers and false from pointer/mouse handlers.
          */
-        "showDelay": number;
+        "toggle": (viaKeyboard?: boolean) => Promise<void>;
         /**
           * Trigger type for showing the dropdown
           * @default 'click'
          */
-        "triggerType": DropdownTrigger;
+        "trigger": DropdownTrigger;
     }
     interface AegovFileupload {
         /**
@@ -693,22 +914,19 @@ export namespace Components {
          */
         "accept"?: string;
         /**
-          * Custom text for the browse/trigger button.
+          * Variant style: 'default' (styled input + button), 'button' (hidden input, label-as-button), or 'dropzone' (drag-and-drop area).
+          * @default 'default'
          */
-        "buttonText"?: string;
+        "appearance": FileuploadVariant;
         /**
           * Clears all selected files.
          */
         "clear": () => Promise<void>;
         /**
-          * Description text displayed below the label.
+          * Inline error message. Use `error` slot for rich markup.
+          * @default ''
          */
-        "description"?: string;
-        /**
-          * Disables the file upload.
-          * @default false
-         */
-        "disabled": boolean;
+        "errorMessage": string;
         /**
           * Unique field ID. Auto-generated if not provided.
          */
@@ -718,13 +936,41 @@ export namespace Components {
          */
         "getFiles": () => Promise<File[]>;
         /**
-          * Custom helper text for allowed file types. Overrides auto-generated text from `accept`.
+          * Helper hint text displayed below the label. Renamed from `description` per §6.6 (pre-production rename, no compat shim). Hidden when an error is shown.
          */
-        "helperText"?: string;
+        "hint"?: string;
+        /**
+          * Disables the file upload.
+          * @default false
+         */
+        "isDisabled": boolean;
+        /**
+          * Visual + a11y invalid state. See §2.3.
+          * @default false
+         */
+        "isInvalid": boolean;
+        /**
+          * Allow multiple file selection.
+          * @default false
+         */
+        "isMultiple": boolean;
+        /**
+          * Marks the field as required.
+          * @default false
+         */
+        "isRequired": boolean;
         /**
           * Label text displayed above the control.
          */
         "label"?: string;
+        /**
+          * Custom text for the browse/trigger button.
+         */
+        "labelButton"?: string;
+        /**
+          * Custom helper text for allowed file types. Overrides auto-generated text from `accept`. Shown alongside the hint, distinct from validation error text.
+         */
+        "labelHelp"?: string;
         /**
           * Maximum file size in bytes.
          */
@@ -734,55 +980,139 @@ export namespace Components {
          */
         "maxFiles"?: number;
         /**
-          * Allow multiple file selection.
-          * @default false
-         */
-        "multiple": boolean;
-        /**
           * Form field name.
          */
         "name"?: string;
         /**
-          * Marks the field as required.
-          * @default false
+          * Mirror of HTMLInputElement.setCustomValidity().
          */
-        "required": boolean;
+        "setCustomValidity": (message: string) => Promise<void>;
         /**
           * Component size.
           * @default 'base'
          */
-        "size": FileuploadSize;
+        "size": string;
         /**
-          * Variant style: 'default' (styled input + button), 'button' (hidden input, label-as-button), or 'dropzone' (drag-and-drop area).
-          * @default 'default'
+          * Imperatively re-run validation.
          */
-        "variant": FileuploadVariant;
+        "validate": (trigger?: AegovValidationTrigger) => Promise<AegovValidationResult>;
+        /**
+          * Colour family. Drives idle ring/border, selected/checked fill, and value/accent text. Focus ring stays camel; error stays aered regardless.
+          * @default 'primary'
+         */
+        "variant": FormVariant;
     }
     interface AegovFormField {
         /**
+          * Wrapper-level error message — cascaded to first form-control descendant.
+          * @default ''
+         */
+        "errorMessage": string;
+        /**
           * Additional CSS classes to apply.
          */
-        "class"?: string;
+        "extraClass"?: string;
+        /**
+          * Unique ID for the form-field wrapper. Auto-generated if not provided.
+         */
+        "fieldId"?: string;
+        /**
+          * Wrapper-level hint — cascaded to first form-control descendant.
+          * @default ''
+         */
+        "hint": string;
+        /**
+          * Wrapper-level invalid state. Cascades to the first form-control descendant if the child has not set its own value. See validation-engine-addon.md §2.7.
+          * @default false
+         */
+        "isInvalid": boolean;
+        /**
+          * Colour family. Drives idle ring/border, selected/checked fill, and value/accent text. Cascades to first form-control descendant.
+          * @default 'primary'
+         */
+        "variant": FormVariant;
+    }
+    interface AegovHeader {
+        /**
+          * The domain/URL of the government entity. Required. Forwarded to the embedded aegov-header-banner.
+         */
+        "entityDomain": string;
+        /**
+          * The name of the government entity. Required. Forwarded to the embedded aegov-header-banner.
+         */
+        "entityName": string;
+        /**
+          * Forwarded to the embedded aegov-header-banner. The CSS selector or ID of the main content container to skip to (e.g. "#main-content"). When provided, the banner injects a "Skip to content" link at the top of the document body.
+         */
+        "skipContentContainer": string;
+        /**
+          * @default 'ministry'
+         */
+        "variant": HeaderVariant;
+    }
+    interface AegovHeaderBanner {
+        /**
+          * The domain/URL of the government entity. Required.
+         */
+        "entityDomain": string;
+        /**
+          * The name of the government entity. Required.
+         */
+        "entityName": string;
+        /**
+          * The CSS selector or ID of the main content container to skip to (e.g. "#main-content"). When provided, renders a "Skip to content" link before the header for keyboard accessibility.
+         */
+        "skipContentContainer": string;
     }
     interface AegovInput {
         /**
+          * Inline error message rendered below the control when `isInvalid` is true. Auto-wires `aria-describedby` on the inner input. Use the `error` slot for richer markup.
+          * @default ''
+         */
+        "errorMessage": string;
+        /**
           * Additional CSS classes to apply.
          */
-        "class"?: string;
-        /**
-          * Show a copy button to copy the input value to clipboard. Only applies when readonly.
-          * @default false
-         */
-        "copyable": boolean;
-        /**
-          * Whether the input is disabled.
-          * @default false
-         */
-        "disabled": boolean;
+        "extraClass"?: string;
         /**
           * Unique ID for the native input element. Auto-generated if not provided.
          */
         "fieldId"?: string;
+        /**
+          * Helper hint rendered below the control. Hidden when an error is shown so the two text regions don't compete for the user's attention. Use the `hint` slot for richer markup.
+          * @default ''
+         */
+        "hint": string;
+        /**
+          * Show a copy button to copy the input value to clipboard. Only applies when readonly.
+          * @default false
+         */
+        "isCopyable": boolean;
+        /**
+          * Whether the input is disabled.
+          * @default false
+         */
+        "isDisabled": boolean;
+        /**
+          * Visual + a11y invalid state. Toggles `aria-invalid="true"` on the inner input and adds the `is-invalid` class on the host. See validation-engine-addon.md §2.3.
+          * @default false
+         */
+        "isInvalid": boolean;
+        /**
+          * Whether the input is readonly.
+          * @default false
+         */
+        "isReadonly": boolean;
+        /**
+          * Whether the input is required.
+          * @default false
+         */
+        "isRequired": boolean;
+        /**
+          * Show a toggle button to reveal/hide password. Only applies when type="password".
+          * @default false
+         */
+        "isRevealable": boolean;
         /**
           * The name attribute for the input.
          */
@@ -792,35 +1122,34 @@ export namespace Components {
          */
         "placeholder"?: string;
         /**
-          * Whether the input is readonly.
-          * @default false
+          * Mirror of `HTMLInputElement.setCustomValidity()`. Setting a non-empty message marks the field invalid AND surfaces the message in the error region. Pass an empty string to clear.
          */
-        "readonly": boolean;
-        /**
-          * Whether the input is required.
-          * @default false
-         */
-        "required": boolean;
-        /**
-          * Show a toggle button to reveal/hide password. Only applies when type="password".
-          * @default false
-         */
-        "revealable": boolean;
+        "setCustomValidity": (message: string) => Promise<void>;
         /**
           * The size of the input field.
           * @default 'base'
          */
-        "size": InputSize;
+        "size": string;
         /**
           * The type of the input field.
           * @default 'text'
          */
         "type": InputType;
         /**
+          * Imperatively re-run validation. Emits `aegovValidate` and returns the result.
+          * @param trigger Reason for the validation run; defaults to `'manual'`.
+         */
+        "validate": (trigger?: AegovValidationTrigger) => Promise<AegovValidationResult>;
+        /**
           * The current value of the input.
           * @default ''
          */
         "value": string;
+        /**
+          * Colour family. Drives idle ring, value text, and accent hover. Focus ring stays camel; error stays aered regardless.
+          * @default 'primary'
+         */
+        "variant": FormVariant;
     }
     interface AegovInputGroup {
         /**
@@ -834,111 +1163,383 @@ export namespace Components {
         /**
           * Additional CSS classes to apply.
          */
-        "class"?: string;
+        "extraClass"?: string;
         /**
           * The size of the input group. Propagated to child aegov-input and aegov-button.
           * @default 'base'
          */
-        "size": InputSize;
+        "size": string;
+        /**
+          * Colour family. Drives idle ring/border, selected/checked fill, and value/accent text. Focus ring stays camel; error stays aered regardless.
+          * @default 'primary'
+         */
+        "variant": FormVariant;
     }
     interface AegovLabel {
         /**
           * Additional CSS classes to apply.
          */
-        "class"?: string;
+        "extraClass"?: string;
+        /**
+          * Unique ID for the label element. Auto-generated if not provided.
+         */
+        "fieldId"?: string;
         /**
           * The ID of the form element this label is for. Automatically set by parent aegov-form-field.
          */
         "htmlFor"?: string;
+        /**
+          * Colour family. Drives idle ring/border, selected/checked fill, and value/accent text. Focus ring stays camel; error stays aered regardless.
+          * @default 'primary'
+         */
+        "variant": FormVariant;
     }
     interface AegovLink {
         /**
+          * Button-style appearance. Setting this opts into button styling.
+         */
+        "appearance"?: ButtonAppearance;
+        /**
           * Additional CSS classes to apply to the link.
          */
-        "class"?: string;
+        "extraClass"?: string;
+        /**
+          * Unique ID for the inner anchor element. Auto-generated if not provided.
+         */
+        "fieldId"?: string;
         /**
           * The URL that the link points to.
           * @required
          */
         "href": string;
         /**
+          * Bold text.
+          * @default false
+         */
+        "isBold": boolean;
+        /**
+          * Disable navigation and apply disabled styling. Adds `aria-disabled="true"`, removes the link from tab order, and prevents default click navigation. Native `<a>` does not support `disabled`; this is a polyfill.
+          * @default false
+         */
+        "isDisabled": boolean;
+        /**
+          * Stretch to fill container width.
+          * @default false
+         */
+        "isFull": boolean;
+        /**
+          * Render as icon-only (square). Requires a button-style appearance.
+          * @default false
+         */
+        "isIcon": boolean;
+        /**
           * Rel attribute for the link (e.g., "noopener noreferrer" for external links).
          */
         "rel"?: string;
         /**
+          * Button-style size (xs/sm/base/lg/xl, optionally responsive).
+         */
+        "size"?: string;
+        /**
           * Target attribute for the link (_blank, _self, _parent, _top).
          */
         "target"?: LinkTarget;
+        /**
+          * Button-style color variant. Setting this opts into button styling.
+         */
+        "variant"?: ButtonVariant;
     }
     interface AegovModal {
-        /**
-          * Backdrop opacity level
-          * @default 'base'
-         */
-        "backdropOpacity": ModalBackdropOpacity;
         /**
           * Programmatically close the modal
          */
         "close": () => Promise<void>;
         /**
-          * Whether clicking the backdrop closes the modal
+          * Unique ID for the modal dialog element. Auto-generated if not provided.
+         */
+        "fieldId"?: string;
+        /**
+          * Whether clicking the overlay closes the modal
           * @default true
          */
-        "closeWithBackdrop": boolean;
+        "isCloseWithOverlay": boolean;
         /**
           * Whether the modal is currently open/visible
           * @default false
          */
-        "open": boolean;
+        "isOpen": boolean;
+        /**
+          * Whether to apply inner content padding. On by default; scales with size.
+          * @default true
+         */
+        "isPadding": boolean;
+        /**
+          * Whether to prevent body scroll when modal is open
+          * @default true
+         */
+        "isPreventScroll": boolean;
+        /**
+          * Overlay opacity level
+          * @default 'base'
+         */
+        "overlayOpacity": ModalOverlayOpacity;
         /**
           * Position of the modal on screen
           * @default 'center'
          */
         "position": ModalPosition;
         /**
-          * Whether to prevent body scroll when modal is open
-          * @default true
-         */
-        "preventBodyScroll": boolean;
-        /**
           * Programmatically open the modal
          */
         "show": () => Promise<void>;
+        /**
+          * Size: 'sm' (compact padding/radius), 'base' (default), or 'lg' (generous padding/radius). Mirrors aegov-card sizing tokens.
+          * @default 'base'
+         */
+        "size": ModalSize;
         /**
           * Toggle modal open/closed state
          */
         "toggle": () => Promise<void>;
     }
-    interface AegovOtp {
+    /**
+     * @component aegov-navbar
+     * @description Horizontal primary navigation container. Holds aegov-navbar-item
+     * children which can be plain links, links with prefix icons, or links paired
+     * with an aegov-dropdown submenu (chevron-triggered).
+     * @example <aegov-navbar label-nav="Main navigation" size="base" gap="gap-6">
+     *   <aegov-navbar-item href="/">Home</aegov-navbar-item>
+     *   <aegov-navbar-item href="/services">Services</aegov-navbar-item>
+     *   <aegov-navbar-item href="/products">
+     *     Products
+     *     <aegov-dropdown slot="dropdown">
+     *       <a slot="dropdown-content" href="/a">Item A</a>
+     *       <a slot="dropdown-content" href="/b">Item B</a>
+     *     </aegov-dropdown>
+     *   </aegov-navbar-item>
+     * </aegov-navbar>
+     */
+    interface AegovNavbar {
         /**
-          * Allow letters and numbers when true. Numbers only when false.
+          * Tailwind gap utility class applied between items, e.g. "gap-4", "gap-6", "gap-10".
+          * @default 'gap-3'
+         */
+        "gap": string;
+        /**
+          * Accessible label for the navigation landmark.
+          * @default 'Main navigation'
+         */
+        "labelNav": string;
+        /**
+          * Size of the navbar items. Accepts a Tailwind-style responsive string, e.g. `"sm md:base lg:lg"`, resolved against the active viewport width. The resolved token cascades to all aegov-navbar-item children.
+          * @default 'base'
+         */
+        "size": string;
+    }
+    /**
+     * @component aegov-navbar-item
+     * @description Single navigation item used inside aegov-navbar. Renders as a link
+     * (when `href` is set) or plain text. Optional prefix icon via `slot="icon-start"`.
+     * Optional submenu via `slot="dropdown"` containing an aegov-dropdown — the
+     * navbar-item itself becomes the dropdown trigger so hover/position resolve to
+     * the full item rect, and a chevron button is injected for keyboard/click
+     * toggling. The user controls the dropdown's `trigger` (e.g. set
+     * `trigger="hover"` for hover open).
+     * @example <aegov-navbar-item href="/products">
+     *   <svg slot="icon-start" ...></svg>
+     *   Products
+     *   <aegov-dropdown slot="dropdown" trigger="hover">
+     *     <a slot="dropdown-content" href="/a">Item A</a>
+     *   </aegov-dropdown>
+     * </aegov-navbar-item>
+     */
+    interface AegovNavbarItem {
+        /**
+          * URL the item links to. If unset, item renders as a non-link span.
+         */
+        "href"?: string;
+        /**
+          * Mark this item as the current page. Sets `aria-current="page"`.
           * @default false
          */
-        "alphanumeric": boolean;
+        "isActive": boolean;
         /**
-          * Additional CSS classes.
+          * Visually disabled, not clickable, removed from arrow-key cycle.
+          * @default false
          */
-        "class"?: string;
+        "isDisabled": boolean;
+        /**
+          * Anchor rel attribute.
+         */
+        "rel"?: string;
+        /**
+          * Size token. Accepts a Tailwind-style responsive string (e.g. `"sm md:base lg:lg"`). Parent aegov-navbar sets this to its resolved value; standalone use also supports breakpoint syntax.
+          * @default 'base'
+         */
+        "size": string;
+        /**
+          * Anchor target attribute.
+         */
+        "target"?: LinkTarget;
+    }
+    /**
+     * @component aegov-navblock
+     * @description Vertical navigation block, typically used in sidebar layouts.
+     * Holds aegov-navblock-item children that may nest recursively. Each parent
+     * item collapses/expands its sub-region, similar to an accordion. Cascades
+     * `icon` and resolved `size` to all descendant items, and enforces single-vs-
+     * multi open behavior at every level via `isMultiple`.
+     * @example <aegov-navblock block-title="Workspace" label-nav="Project sidebar">
+     *   <aegov-navblock-item href="/" is-active>Dashboard</aegov-navblock-item>
+     *   <aegov-navblock-item>
+     *     Reports
+     *     <aegov-navblock-item href="/r/sales">Sales</aegov-navblock-item>
+     *     <aegov-navblock-item href="/r/users">Users</aegov-navblock-item>
+     *   </aegov-navblock-item>
+     * </aegov-navblock>
+     */
+    interface AegovNavblock {
+        /**
+          * Block title text shown above items. The `title` slot overrides this.
+         */
+        "blockTitle"?: string;
+        /**
+          * Unique ID for the block wrapper. Auto-generated if not provided.
+         */
+        "fieldId"?: string;
+        /**
+          * Expand/collapse icon style for items.
+          * @default 'chevron'
+         */
+        "icon": NavblockIcon;
+        /**
+          * Wrap the block in a bordered container with padding.
+          * @default false
+         */
+        "isBordered": boolean;
+        /**
+          * Allow multiple items to be open at the same level simultaneously.
+          * @default false
+         */
+        "isMultiple": boolean;
+        /**
+          * Accessible label for the navigation landmark.
+          * @default 'Sidebar navigation'
+         */
+        "labelNav": string;
+        /**
+          * Size token. Accepts a Tailwind-style responsive string (e.g. `"sm md:base lg:lg"`). Resolves at runtime and cascades to all items.
+          * @default 'base'
+         */
+        "size": string;
+    }
+    /**
+     * @component aegov-navblock-item
+     * @description Single row inside an aegov-navblock. Renders as a link (when
+     * `href` is set and the item has no sub-items) or a toggle button (when the
+     * item has sub-items via `slot="subnav"` or nested `aegov-navblock-item`
+     * children). Cascades `icon` and `size` to direct sub-items.
+     * @example <aegov-navblock-item>
+     *   <svg slot="icon-start"></svg>
+     *   Reports <aegov-badge>3</aegov-badge>
+     *   <aegov-navblock-item href="/r/sales">Sales</aegov-navblock-item>
+     *   <aegov-navblock-item href="/r/users">Users</aegov-navblock-item>
+     * </aegov-navblock-item>
+     */
+    interface AegovNavblockItem {
+        /**
+          * Destination URL. If set and the item has no sub-items, renders an `<a>`.
+         */
+        "href"?: string;
+        /**
+          * Expand/collapse icon. Cascades from parent navblock.
+          * @default 'chevron'
+         */
+        "icon": NavblockIcon;
+        /**
+          * Mark as the current page. Sets `aria-current="page"` on the link.
+          * @default false
+         */
+        "isActive": boolean;
+        /**
+          * Visually disabled, not focusable, click no-op.
+          * @default false
+         */
+        "isDisabled": boolean;
+        /**
+          * Whether the sub-region is open. Set by parent navblock or parent navblock-item; mutable so the row can self-toggle.
+          * @default false
+         */
+        "isOpen": boolean;
+        /**
+          * Anchor rel.
+         */
+        "rel"?: string;
+        /**
+          * Size token. Cascades from parent navblock.
+          * @default 'base'
+         */
+        "size": NavblockSize;
+        /**
+          * Anchor target.
+         */
+        "target"?: LinkTarget;
+    }
+    interface AegovOtp {
+        /**
+          * Visual appearance. "continuous" = single bordered box with dividers between cells. "individual" = separate bordered boxes per digit.
+          * @default 'continuous'
+         */
+        "appearance": OtpVariant;
         /**
           * Clears all cells and focuses the first cell.
          */
         "clear": () => Promise<void>;
         /**
-          * Disables all input cells.
-          * @default false
+          * Inline error message. Use `error` slot for rich markup.
+          * @default ''
          */
-        "disabled": boolean;
+        "errorMessage": string;
+        /**
+          * Additional CSS classes.
+         */
+        "extraClass"?: string;
         /**
           * Unique ID for the first input cell. Auto-generated if not provided. Used by aegov-label for linking.
          */
         "fieldId"?: string;
+        /**
+          * Helper hint shown below the control. Hidden when an error is shown.
+          * @default ''
+         */
+        "hint": string;
+        /**
+          * Allow letters and numbers when true. Numbers only when false.
+          * @default false
+         */
+        "isAlphanumeric": boolean;
+        /**
+          * Disables all input cells.
+          * @default false
+         */
+        "isDisabled": boolean;
+        /**
+          * Visual + a11y invalid state. See §2.3.
+          * @default false
+         */
+        "isInvalid": boolean;
+        /**
+          * Marks the field as required for form submission. Used by FormAssociated for `valueMissing`.
+          * @default false
+         */
+        "isRequired": boolean;
         /**
           * Number of input cells (digits/characters expected).
           * @default 5
          */
         "length": number;
         /**
-          * Form field name for the hidden input (used in form submission).
+          * Form field name for FormAssociated submission.
          */
         "name"?: string;
         /**
@@ -946,88 +1547,145 @@ export namespace Components {
          */
         "pattern"?: string;
         /**
-          * Size of the input cells. Maps to text size: xs, sm, base, lg, xl, 2xl.
+          * Mirror of HTMLInputElement.setCustomValidity(). Marks field invalid + sets error message.
+         */
+        "setCustomValidity": (message: string) => Promise<void>;
+        /**
+          * Size of the input cells.
           * @default 'base'
          */
-        "size": OtpSize;
+        "size": string;
+        /**
+          * Imperatively re-run validation.
+         */
+        "validate": (trigger?: AegovValidationTrigger) => Promise<AegovValidationResult>;
         /**
           * Current OTP value. Can be set externally to pre-fill cells.
           * @default ''
          */
         "value": string;
         /**
-          * Visual variant. "continuous" = single bordered box with dividers between cells. "individual" = separate bordered boxes per digit. Note: named "variant" to avoid conflict with native HTML "style" attribute.
-          * @default 'continuous'
+          * Colour family. Drives idle ring/border, selected/checked fill, and value/accent text. Focus ring stays camel; error stays aered regardless.
+          * @default 'primary'
          */
-        "variant": OtpVariant;
+        "variant": FormVariant;
     }
     interface AegovPagination {
         /**
           * Number of pages always visible at each boundary (start and end of the list).
           * @default 1
          */
-        "boundaryCount": number;
-        /**
-          * Currently active page (1-indexed). This is a controlled prop — you must update it on every aegovPaginationPageChange event.
-          * @default 1
-         */
-        "currentPage": number;
-        /**
-          * Disables all pagination interaction.
-          * @default false
-         */
-        "disabled": boolean;
-        /**
-          * Label for the First page button (only shown when showFirstLast is true).
-          * @default 'First'
-         */
-        "firstLabel": string;
-        /**
-          * Label for the Last page button (only shown when showFirstLast is true).
-          * @default 'Last'
-         */
-        "lastLabel": string;
-        /**
-          * Label for the Next page button.
-          * @default 'Next'
-         */
-        "nextLabel": string;
-        /**
-          * Label for the Previous page button.
-          * @default 'Previous'
-         */
-        "prevLabel": string;
-        /**
-          * Show First and Last navigation buttons alongside Previous and Next.
-          * @default false
-         */
-        "showFirstLast": boolean;
+        "countBoundary": number;
         /**
           * Number of sibling pages shown on each side of the current page.
           * @default 1
          */
-        "siblingCount": number;
+        "countSibling": number;
         /**
-          * Size variant of the pagination.
-          * @default 'base'
+          * Unique ID for the pagination nav element. Auto-generated if not provided.
          */
-        "size": PaginationSize;
+        "fieldId"?: string;
+        /**
+          * Disables all pagination interaction.
+          * @default false
+         */
+        "isDisabled": boolean;
+        /**
+          * Show First and Last navigation buttons alongside Previous and Next.
+          * @default false
+         */
+        "isEnabledFirstLast": boolean;
+        /**
+          * Label for the First page button (only shown when isEnabledFirstLast is true). Empty defaults to localized text via isRtl.
+          * @default ''
+         */
+        "labelFirst": string;
+        /**
+          * Label for the Last page button (only shown when isEnabledFirstLast is true). Empty defaults to localized text via isRtl.
+          * @default ''
+         */
+        "labelLast": string;
+        /**
+          * Label for the Next page button. Empty defaults to localized text via isRtl.
+          * @default ''
+         */
+        "labelNext": string;
+        /**
+          * Label for the Previous page button. Empty defaults to localized text via isRtl.
+          * @default ''
+         */
+        "labelPrev": string;
+        /**
+          * Currently active page (1-indexed). This is a controlled prop — you must update it on every aegovPaginationPageChange event.
+          * @default 1
+         */
+        "pageCurrent": number;
         /**
           * Total number of pages.
           * @default 1
          */
-        "totalPages": number;
+        "pages": number;
         /**
-          * Display variant. - 'default': shows page numbers, ellipsis, and prev/next buttons. - 'compact': shows only prev/next buttons (and first/last when showFirstLast is true).
+          * Size variant of the pagination.
+          * @default 'base'
+         */
+        "size": string;
+        /**
+          * Display variant. - 'default': shows page numbers, ellipsis, and prev/next buttons. - 'compact': shows only prev/next buttons (and first/last when isEnabledFirstLast is true).
           * @default 'default'
          */
         "variant": PaginationVariant;
     }
-    interface AegovProgress {
+    /**
+     * Popover component that displays positioned content with an arrow marker
+     */
+    interface AegovPopover {
         /**
-          * Additional CSS classes.
+          * Alignment of the popover
+          * @default 'center'
          */
-        "class"?: string;
+        "align": PopoverAlign;
+        /**
+          * Delay before hiding popover on hover (in milliseconds)
+          * @default 0
+         */
+        "delayEnd": number;
+        /**
+          * Delay before showing popover on hover (in milliseconds)
+          * @default 200
+         */
+        "delayStart": number;
+        /**
+          * Unique ID for the popover element. Auto-generated if not provided. The trigger element receives a derived ID `${fieldId}-trigger` for ARIA linkage.
+         */
+        "fieldId"?: string;
+        /**
+          * Gap between popover and trigger element (in pixels)
+          * @default 10
+         */
+        "gap": number;
+        /**
+          * Whether the popover is disabled
+          * @default false
+         */
+        "isDisabled": boolean;
+        /**
+          * Additional offset for popover positioning (in pixels)
+          * @default 0
+         */
+        "offset": number;
+        /**
+          * Position of the popover relative to the trigger element
+          * @default 'bottom'
+         */
+        "position": PopoverPosition;
+        /**
+          * Trigger type for showing the popover
+          * @default 'click'
+         */
+        "trigger": PopoverTrigger;
+    }
+    interface AegovProgress {
         /**
           * Counter placement. Hidden when not set.
          */
@@ -1041,6 +1699,10 @@ export namespace Components {
           * Description text displayed below the progress bar.
          */
         "description"?: string;
+        /**
+          * Additional CSS classes.
+         */
+        "extraClass"?: string;
         /**
           * Unique ID for the native progress element. Auto-generated if not provided.
          */
@@ -1062,27 +1724,42 @@ export namespace Components {
     }
     interface AegovRadio {
         /**
-          * Whether the radio is checked.
-          * @default false
+          * Inline error message. Use `error` slot for rich markup.
+          * @default ''
          */
-        "checked": boolean;
+        "errorMessage": string;
         /**
           * Additional CSS classes to apply.
          */
-        "class"?: string;
-        /**
-          * Description text displayed below the label. Only rendered when label is provided.
-         */
-        "description"?: string;
-        /**
-          * Whether the radio is disabled.
-          * @default false
-         */
-        "disabled": boolean;
+        "extraClass"?: string;
         /**
           * Unique ID for the native radio element. Auto-generated if not provided.
          */
         "fieldId"?: string;
+        /**
+          * Helper hint text displayed below the label. Renamed from `description` per §6.6. Hidden when an error is shown.
+         */
+        "hint"?: string;
+        /**
+          * Whether the radio is checked.
+          * @default false
+         */
+        "isChecked": boolean;
+        /**
+          * Whether the radio is disabled.
+          * @default false
+         */
+        "isDisabled": boolean;
+        /**
+          * Visual + a11y invalid state. See §2.3.
+          * @default false
+         */
+        "isInvalid": boolean;
+        /**
+          * Whether the radio is required.
+          * @default false
+         */
+        "isRequired": boolean;
         /**
           * Label text for the radio. When provided, generates an associated <label> element.
          */
@@ -1092,30 +1769,63 @@ export namespace Components {
          */
         "name"?: string;
         /**
-          * Whether the radio is required.
-          * @default false
+          * Mirror of HTMLInputElement.setCustomValidity().
          */
-        "required": boolean;
+        "setCustomValidity": (message: string) => Promise<void>;
         /**
           * The size of the radio.
           * @default 'base'
          */
-        "size": RadioSize;
+        "size": string;
+        /**
+          * Imperatively re-run validation.
+         */
+        "validate": (trigger?: AegovValidationTrigger) => Promise<AegovValidationResult>;
         /**
           * The value attribute for the radio.
          */
         "value"?: string;
+        /**
+          * Colour family. Drives rest border, checked bg/border. Focus ring stays camel; error stays aered.
+          * @default 'primary'
+         */
+        "variant": FormVariant;
     }
     interface AegovRadioGroup {
         /**
+          * Visual appearance for the group layout.
+          * @default 'default'
+         */
+        "appearance": RadioGroupVariant;
+        /**
+          * Inline error message.
+          * @default ''
+         */
+        "errorMessage": string;
+        /**
           * Additional CSS classes to apply.
          */
-        "class"?: string;
+        "extraClass"?: string;
+        /**
+          * Helper hint shown below the legend when not invalid.
+          * @default ''
+         */
+        "hint": string;
         /**
           * Disables all radios within the group via native fieldset disabled.
           * @default false
          */
-        "disabled": boolean;
+        "isDisabled": boolean;
+        /**
+          * Visual + a11y invalid state. See §2.3.
+          * @default false
+         */
+        "isInvalid": boolean;
+        /**
+          * Group is required — at least one radio must be selected. Aggregate-level only.
+          * @default false
+         */
+        "isRequired": boolean;
         /**
           * Optional label rendered as a <legend> for accessibility.
          */
@@ -1130,35 +1840,63 @@ export namespace Components {
          */
         "orientation": RadioGroupOrientation;
         /**
+          * Set a custom error message.
+         */
+        "setCustomValidity": (message: string) => Promise<void>;
+        /**
           * Size of all radios in the group. Propagated to children.
           * @default 'base'
          */
-        "size": RadioSize;
+        "size": string;
         /**
-          * Visual variant for the group layout.
-          * @default 'default'
+          * Imperatively re-run validation.
          */
-        "variant": RadioGroupVariant;
+        "validate": (trigger?: AegovValidationTrigger) => Promise<AegovValidationResult>;
+        /**
+          * Colour family. Cascades to child radios (only if child has no own variant). Focus ring stays camel; error stays aered regardless.
+          * @default 'primary'
+         */
+        "variant": FormVariant;
     }
     interface AegovRange {
-        /**
-          * Additional CSS classes.
-         */
-        "class"?: string;
-        /**
-          * Whether the range is disabled.
-          * @default false
-         */
-        "disabled": boolean;
         /**
           * Value display mode.
           * @default 'none'
          */
         "display": RangeDisplay;
         /**
+          * Inline error message. Use `error` slot for rich markup.
+          * @default ''
+         */
+        "errorMessage": string;
+        /**
+          * Additional CSS classes.
+         */
+        "extraClass"?: string;
+        /**
           * Unique ID for the native range input element. Auto-generated if not provided.
          */
         "fieldId"?: string;
+        /**
+          * Helper hint shown below the control. Hidden when an error is shown.
+          * @default ''
+         */
+        "hint": string;
+        /**
+          * Whether the range is disabled.
+          * @default false
+         */
+        "isDisabled": boolean;
+        /**
+          * Visual + a11y invalid state. See §2.3.
+          * @default false
+         */
+        "isInvalid": boolean;
+        /**
+          * Whether the range is required.
+          * @default false
+         */
+        "isRequired": boolean;
         /**
           * Optional label text.
          */
@@ -1188,20 +1926,23 @@ export namespace Components {
          */
         "orientation": RangeOrientation;
         /**
-          * Whether the range is required.
-          * @default false
+          * Mirror of HTMLInputElement.setCustomValidity().
          */
-        "required": boolean;
+        "setCustomValidity": (message: string) => Promise<void>;
         /**
           * Size of the range track. Thumb remains constant.
           * @default 'base'
          */
-        "size": RangeSize;
+        "size": string;
         /**
           * Step increment.
           * @default 1
          */
         "step": number;
+        /**
+          * Imperatively re-run validation.
+         */
+        "validate": (trigger?: AegovValidationTrigger) => Promise<AegovValidationResult>;
         /**
           * Current value (single mode).
           * @default 50
@@ -1217,36 +1958,71 @@ export namespace Components {
           * @default 25
          */
         "valueLow": number;
+        /**
+          * Colour family. Drives idle ring/border, selected/checked fill, and value/accent text. Focus ring stays camel; error stays aered regardless.
+          * @default 'primary'
+         */
+        "variant": FormVariant;
     }
     interface AegovSelect {
         /**
-          * Additional CSS classes to apply.
+          * The visual appearance. 'default' renders a native select; 'listbox' renders a custom dropdown.
+          * @default 'default'
          */
-        "class"?: string;
+        "appearance": SelectVariant;
         /**
-          * Show a clear button to reset selection.
-          * @default false
-         */
-        "clearable": boolean;
-        /**
-          * Whether the select is disabled.
-          * @default false
-         */
-        "disabled": boolean;
-        /**
-          * Message shown when search yields no results.
-          * @default 'No results found'
+          * Message shown when search yields no results. Empty string defaults to localized text via isRtl.
+          * @default ''
          */
         "emptyMessage": string;
+        /**
+          * Inline error message. Use `error` slot for rich markup.
+          * @default ''
+         */
+        "errorMessage": string;
+        /**
+          * Additional CSS classes to apply.
+         */
+        "extraClass"?: string;
         /**
           * Unique ID for the select element. Auto-generated if not provided.
          */
         "fieldId"?: string;
         /**
+          * Helper hint shown below the control. Hidden when an error is shown.
+          * @default ''
+         */
+        "hint": string;
+        /**
+          * Show a clear button to reset selection.
+          * @default false
+         */
+        "isClearable": boolean;
+        /**
+          * Whether the select is disabled.
+          * @default false
+         */
+        "isDisabled": boolean;
+        /**
+          * Visual + a11y invalid state. See §2.3.
+          * @default false
+         */
+        "isInvalid": boolean;
+        /**
           * Whether multiple selection is enabled. Forces listbox behaviour.
           * @default false
          */
-        "multiple": boolean;
+        "isMultiple": boolean;
+        /**
+          * Whether the select is required.
+          * @default false
+         */
+        "isRequired": boolean;
+        /**
+          * Show a search input in the listbox dropdown to filter options. Only works with listbox appearance.
+          * @default false
+         */
+        "isSearchable": boolean;
         /**
           * The name attribute for form submission.
          */
@@ -1256,30 +2032,28 @@ export namespace Components {
          */
         "placeholder"?: string;
         /**
-          * Whether the select is required.
-          * @default false
+          * Mirror of HTMLSelectElement.setCustomValidity().
          */
-        "required": boolean;
-        /**
-          * Show a search input in the listbox dropdown to filter options. Only works with listbox variant.
-          * @default false
-         */
-        "searchable": boolean;
+        "setCustomValidity": (message: string) => Promise<void>;
         /**
           * The size of the select. Matches aegov-input height.
           * @default 'base'
          */
-        "size": SelectSize;
+        "size": string;
+        /**
+          * Imperatively re-run validation.
+         */
+        "validate": (trigger?: AegovValidationTrigger) => Promise<AegovValidationResult>;
         /**
           * The current selected value. For multiple, a comma-separated string.
           * @default ''
          */
         "value": string;
         /**
-          * The visual variant. 'default' renders a native select; 'listbox' renders a custom dropdown.
-          * @default 'default'
+          * Colour family. Drives idle ring/border, selected/checked fill, and value/accent text. Focus ring stays camel; error stays aered regardless.
+          * @default 'primary'
          */
-        "variant": SelectVariant;
+        "variant": FormVariant;
         /**
           * Max visible items in the dropdown before scrolling.
           * @default 6
@@ -1291,7 +2065,7 @@ export namespace Components {
           * Whether this option is disabled.
           * @default false
          */
-        "disabled": boolean;
+        "isDisabled": boolean;
         /**
           * The value of this option.
           * @default ''
@@ -1310,24 +2084,38 @@ export namespace Components {
      */
     interface AegovSeparator {
         /**
+          * Appearance: 'solid' (full-strength line) or 'light' (subtle low-contrast line). Colour resolves from `variant`.
+          * @default 'solid'
+         */
+        "appearance": SeparatorAppearance;
+        /**
+          * Additional CSS classes merged onto the inner separator element.
+         */
+        "extraClass"?: string;
+        /**
+          * Numeric spacing applied on either side of the separator line, in Tailwind spacing units (1 unit = 0.25rem = 4px). Horizontal orientation → padding is applied on the block axis (top + bottom); vertical → inline axis (start + end). Accepts any non-negative number. `0` (default) keeps no padding.  Example: `gap="4"` produces `1rem` (16px) padding-block on a horizontal separator.
+          * @default 0
+         */
+        "gap": number;
+        /**
           * Whether the separator is purely decorative (no semantic meaning)
           * @default true
          */
-        "decorative": boolean;
+        "isDecorative": boolean;
         /**
           * Orientation of the separator
           * @default 'horizontal'
          */
-        "orientation": 'horizontal' | 'vertical';
+        "orientation": SeparatorOrientation;
         /**
           * Optional text label displayed at the center of the separator
          */
         "text"?: string;
         /**
-          * Visual variant of the separator
-          * @default 'default'
+          * Variant: colour family applied to line + text label. 'primary' (default), 'secondary', 'neutral-max' (aeblack-800 family), or 'neutral-min' (aeblack-100 family).
+          * @default 'primary'
          */
-        "variant": 'default' | 'subtle';
+        "variant": SeparatorVariant;
     }
     /**
      * @component aegov-tab
@@ -1348,7 +2136,7 @@ export namespace Components {
           * Disables this tab and its associated panel.
           * @default false
          */
-        "disabled": boolean;
+        "isDisabled": boolean;
         /**
           * Orientation of the tabs. Set automatically by the parent aegov-tabs.
           * @default 'horizontal'
@@ -1358,7 +2146,7 @@ export namespace Components {
           * Size of the tab. Set automatically by the parent aegov-tabs.
           * @default 'base'
          */
-        "size": TabSize;
+        "size": string;
         /**
           * Unique identifier that must match the corresponding aegov-tab-panel's tab-id.
          */
@@ -1384,6 +2172,10 @@ export namespace Components {
          */
         "active": boolean;
         /**
+          * Additional CSS classes merged onto the inner panel element.
+         */
+        "extraClass"?: string;
+        /**
           * Unique identifier that must match the corresponding aegov-tab's tab-id.
          */
         "tabId": string;
@@ -1393,7 +2185,7 @@ export namespace Components {
      * @description Tab container that organizes content into panels.
      * Manages active tab state internally (uncontrolled) and wires up tab triggers
      * with their corresponding panels via matching tab-id attributes.
-     * @example <aegov-tabs default-active-tab="overview" variant="simple">
+     * @example <aegov-tabs default-open="overview" variant="simple">
      *   <aegov-tab slot="tabs" tab-id="overview">Overview</aegov-tab>
      *   <aegov-tab slot="tabs" tab-id="details">Details</aegov-tab>
      *   <aegov-tab-panel tab-id="overview">Overview content</aegov-tab-panel>
@@ -1405,32 +2197,36 @@ export namespace Components {
           * The tab-id of the tab that should be active on initial render. If not provided, the first non-disabled tab is activated.
           * @default ''
          */
-        "defaultActiveTab": string;
+        "defaultOpen": string;
+        /**
+          * Unique ID for the tabs container. Auto-generated if not provided.
+         */
+        "fieldId"?: string;
+        /**
+          * Enables horizontal scrolling when tabs overflow the container. A faded gradient edge is shown to indicate scrollable content.
+          * @default false
+         */
+        "isScrollable": boolean;
+        /**
+          * Distributes tabs evenly to fill the full width of the container. Each tab grows equally to occupy available space.
+          * @default false
+         */
+        "isStretchable": boolean;
+        /**
+          * Accessible label for the tablist element. Provides context for screen readers about what the tabs control.
+          * @default 'Tabs'
+         */
+        "labelTablist": string;
         /**
           * Layout orientation of the tabs. - `horizontal`: Tabs appear above the panels (default) - `vertical`: Tabs appear to the side of the panels
           * @default 'horizontal'
          */
         "orientation": TabOrientation;
         /**
-          * Enables horizontal scrolling when tabs overflow the container. A faded gradient edge is shown to indicate scrollable content.
-          * @default false
-         */
-        "scrollable": boolean;
-        /**
           * Size of the tabs.
           * @default 'base'
          */
-        "size": TabSize;
-        /**
-          * Distributes tabs evenly to fill the full width of the container. Each tab grows equally to occupy available space.
-          * @default false
-         */
-        "stretch": boolean;
-        /**
-          * Accessible label for the tablist element. Provides context for screen readers about what the tabs control.
-          * @default 'Tabs'
-         */
-        "tablistLabel": string;
+        "size": string;
         /**
           * Visual style variant of the tabs. - `simple`: Underline style (default) - `segmented`: Button-group style, ideal for toggling views - `pill`: Pill-shaped individual tabs
           * @default 'simple'
@@ -1441,32 +2237,57 @@ export namespace Components {
         /**
           * Additional CSS classes to apply to the text.
          */
-        "class"?: string;
+        "extraClass"?: string;
         /**
           * The size of the text.
           * @default 'base'
          */
-        "size": TextSize;
+        "size": string;
     }
     interface AegovTextarea {
         /**
+          * Inline error message rendered below the control when `isInvalid` is true. Use `error` slot for richer markup.
+          * @default ''
+         */
+        "errorMessage": string;
+        /**
           * Additional CSS classes to apply.
          */
-        "class"?: string;
-        /**
-          * Show a copy button to copy the textarea value to clipboard. Only applies when readonly.
-          * @default false
-         */
-        "copyable": boolean;
-        /**
-          * Whether the textarea is disabled.
-          * @default false
-         */
-        "disabled": boolean;
+        "extraClass"?: string;
         /**
           * Unique ID for the native textarea element. Auto-generated if not provided.
          */
         "fieldId"?: string;
+        /**
+          * Helper hint rendered below the control. Hidden when an error is shown. Use `hint` slot for richer markup.
+          * @default ''
+         */
+        "hint": string;
+        /**
+          * Show a copy button to copy the textarea value to clipboard. Only applies when readonly.
+          * @default false
+         */
+        "isCopyable": boolean;
+        /**
+          * Whether the textarea is disabled.
+          * @default false
+         */
+        "isDisabled": boolean;
+        /**
+          * Visual + a11y invalid state. Toggles `aria-invalid` and `.is-invalid` host class. See validation-engine-addon.md §2.3.
+          * @default false
+         */
+        "isInvalid": boolean;
+        /**
+          * Whether the textarea is readonly.
+          * @default false
+         */
+        "isReadonly": boolean;
+        /**
+          * Whether the textarea is required.
+          * @default false
+         */
+        "isRequired": boolean;
         /**
           * Maximum number of characters. When set, a character counter is displayed.
          */
@@ -1480,32 +2301,39 @@ export namespace Components {
          */
         "placeholder"?: string;
         /**
-          * Whether the textarea is readonly.
-          * @default false
-         */
-        "readonly": boolean;
-        /**
-          * Whether the textarea is required.
-          * @default false
-         */
-        "required": boolean;
-        /**
           * Resize behaviour of the textarea.
           * @default 'vertical'
          */
         "resize": TextareaResize;
         /**
+          * Mirror of `HTMLTextAreaElement.setCustomValidity()`.
+         */
+        "setCustomValidity": (message: string) => Promise<void>;
+        /**
           * The size of the textarea (affects font size only).
           * @default 'base'
          */
-        "size": TextareaSize;
+        "size": string;
+        /**
+          * Imperatively re-run validation.
+         */
+        "validate": (trigger?: AegovValidationTrigger) => Promise<AegovValidationResult>;
         /**
           * The current value of the textarea.
           * @default ''
          */
         "value": string;
+        /**
+          * Colour family. Drives idle ring, value text, and accent hover.
+          * @default 'primary'
+         */
+        "variant": FormVariant;
     }
     interface AegovTimeline {
+        /**
+          * Unique ID for the timeline nav element. Auto-generated if not provided.
+         */
+        "fieldId"?: string;
         /**
           * Layout orientation.
           * @default 'horizontal'
@@ -1515,7 +2343,7 @@ export namespace Components {
           * Size of step indicators.
           * @default 'base'
          */
-        "size": TimelineSize;
+        "size": string;
         /**
           * Visual variant: default (numbered circles) or compact (dots).
           * @default 'default'
@@ -1524,13 +2352,13 @@ export namespace Components {
     }
     interface AegovTimelineStep {
         /**
-          * @default false
-         */
-        "connectorSolid": boolean;
-        /**
           * Optional description shown below the label.
          */
         "description"?: string;
+        /**
+          * @default false
+         */
+        "isConnectorSolid": boolean;
         /**
           * @default false
          */
@@ -1569,12 +2397,20 @@ export namespace Components {
         /**
           * Additional CSS classes to apply to the title.
          */
-        "class"?: string;
+        "extraClass"?: string;
+        /**
+          * Unique ID for the title element. Auto-generated if not provided.
+         */
+        "fieldId"?: string;
+        /**
+          * The semantic wrapper tag for the title. When set, renders the title inside the specified heading tag (`h2`–`h6`) or a `p`. When omitted, the title renders as a `<p>` (default).
+         */
+        "headingType"?: TitleHeadingType;
         /**
           * The size of the title text.
           * @default 'base'
          */
-        "size": TitleSize;
+        "size": string;
     }
     interface AegovToast {
         /**
@@ -1587,15 +2423,20 @@ export namespace Components {
          */
         "close": () => Promise<void>;
         /**
-          * Whether the toast shows a close button.
-          * @default true
-         */
-        "dismissible": boolean;
-        /**
           * Auto-dismiss duration in milliseconds. 0 = no auto-dismiss.
           * @default 5000
          */
         "duration": number;
+        /**
+          * Whether the toast shows a close button.
+          * @default true
+         */
+        "isDismissible": boolean;
+        /**
+          * Whether to show a countdown progress bar.
+          * @default false
+         */
+        "isProgressEnabled": boolean;
         /**
           * Display mode for multiple toasts at the same position. 'stack' = all toasts visible with gap between them (default). 'rack' = toasts collapse into a deck; hover to expand.
           * @default 'stack'
@@ -1611,11 +2452,6 @@ export namespace Components {
          */
         "show": () => Promise<void>;
         /**
-          * Whether to show a countdown progress bar.
-          * @default false
-         */
-        "showProgress": boolean;
-        /**
           * Semantic color variant of the toast.
           * @default 'default'
          */
@@ -1623,23 +2459,38 @@ export namespace Components {
     }
     interface AegovToggle {
         /**
-          * Whether the toggle is checked/on.
-          * @default false
+          * Inline error message. Use `error` slot for rich markup.
+          * @default ''
          */
-        "checked": boolean;
-        /**
-          * Description text displayed below the label. Only rendered when label is provided.
-         */
-        "description"?: string;
-        /**
-          * Whether the toggle is disabled.
-          * @default false
-         */
-        "disabled": boolean;
+        "errorMessage": string;
         /**
           * Unique ID for the native checkbox element. Auto-generated if not provided.
          */
         "fieldId"?: string;
+        /**
+          * Helper hint text displayed below the label. Renamed from `description` per §6.6. Hidden when an error is shown.
+         */
+        "hint"?: string;
+        /**
+          * Whether the toggle is checked/on.
+          * @default false
+         */
+        "isChecked": boolean;
+        /**
+          * Whether the toggle is disabled.
+          * @default false
+         */
+        "isDisabled": boolean;
+        /**
+          * Visual + a11y invalid state. See §2.3.
+          * @default false
+         */
+        "isInvalid": boolean;
+        /**
+          * Whether the toggle is required.
+          * @default false
+         */
+        "isRequired": boolean;
         /**
           * Label text for the toggle. Rendered at the end (inline-end).
          */
@@ -1649,19 +2500,27 @@ export namespace Components {
          */
         "name"?: string;
         /**
-          * Whether the toggle is required.
-          * @default false
+          * Mirror of HTMLInputElement.setCustomValidity().
          */
-        "required": boolean;
+        "setCustomValidity": (message: string) => Promise<void>;
         /**
           * The size of the toggle.
           * @default 'base'
          */
-        "size": ToggleSize;
+        "size": string;
+        /**
+          * Imperatively re-run validation.
+         */
+        "validate": (trigger?: AegovValidationTrigger) => Promise<AegovValidationResult>;
         /**
           * The value attribute for the toggle.
          */
         "value"?: string;
+        /**
+          * Colour family. Drives ON track bg. OFF track stays aeblack-200. Focus ring stays camel; error stays aered.
+          * @default 'primary'
+         */
+        "variant": FormVariant;
     }
     /**
      * Tooltip component that displays additional information on hover or click
@@ -1677,25 +2536,25 @@ export namespace Components {
          */
         "content"?: string;
         /**
-          * Whether the tooltip is disabled
-          * @default false
+          * Delay before hiding tooltip (in milliseconds)
+          * @default 0
          */
-        "disabled": boolean;
+        "delayEnd": number;
+        /**
+          * Delay before showing tooltip (in milliseconds)
+          * @default 200
+         */
+        "delayStart": number;
         /**
           * Gap between tooltip and trigger element (in pixels)
           * @default 8
          */
         "gap": number;
         /**
-          * Delay before hiding tooltip (in milliseconds)
-          * @default 0
-         */
-        "hideDelay": number;
-        /**
-          * Whether the tooltip contains interactive content This adds ARIA attributes and prevents auto-hide on hover
+          * Whether the tooltip is disabled
           * @default false
          */
-        "interactive": boolean;
+        "isDisabled": boolean;
         /**
           * Additional offset for tooltip positioning (in pixels)
           * @default 0
@@ -1706,11 +2565,6 @@ export namespace Components {
           * @default 'top'
          */
         "position": TooltipPosition;
-        /**
-          * Delay before showing tooltip (in milliseconds)
-          * @default 200
-         */
-        "showDelay": number;
         /**
           * Trigger type for showing the tooltip
           * @default 'hover'
@@ -1782,6 +2636,10 @@ export interface AegovModalCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLAegovModalElement;
 }
+export interface AegovNavblockItemCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLAegovNavblockItemElement;
+}
 export interface AegovOtpCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLAegovOtpElement;
@@ -1789,6 +2647,10 @@ export interface AegovOtpCustomEvent<T> extends CustomEvent<T> {
 export interface AegovPaginationCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLAegovPaginationElement;
+}
+export interface AegovPopoverCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLAegovPopoverElement;
 }
 export interface AegovRadioCustomEvent<T> extends CustomEvent<T> {
     detail: T;
@@ -1858,6 +2720,19 @@ declare global {
         prototype: HTMLAegovAccordionItemElement;
         new (): HTMLAegovAccordionItemElement;
     };
+    /**
+     * @component aegov-aspect-ratio
+     * @description A layout component that enforces a specific aspect ratio on its
+     * content. Supports images, videos, iframes, and arbitrary slotted content.
+     * The `ratio` prop supports Tailwind-style breakpoint prefixes — e.g.
+     * `ratio="square md:video lg:21/9"` switches the ratio at each breakpoint.
+     */
+    interface HTMLAegovAspectRatioElement extends Components.AegovAspectRatio, HTMLStencilElement {
+    }
+    var HTMLAegovAspectRatioElement: {
+        prototype: HTMLAegovAspectRatioElement;
+        new (): HTMLAegovAspectRatioElement;
+    };
     interface HTMLAegovAvatarElement extends Components.AegovAvatar, HTMLStencilElement {
     }
     var HTMLAegovAvatarElement: {
@@ -1915,6 +2790,16 @@ declare global {
     var HTMLAegovBannerElement: {
         prototype: HTMLAegovBannerElement;
         new (): HTMLAegovBannerElement;
+    };
+    /**
+     * Bento grid layout container for grouping `aegov-card` elements into a
+     * balanced-but-non-uniform arrangement.
+     */
+    interface HTMLAegovBentoGridElement extends Components.AegovBentoGrid, HTMLStencilElement {
+    }
+    var HTMLAegovBentoGridElement: {
+        prototype: HTMLAegovBentoGridElement;
+        new (): HTMLAegovBentoGridElement;
     };
     interface HTMLAegovBlockquoteElement extends Components.AegovBlockquote, HTMLStencilElement {
     }
@@ -2000,6 +2885,7 @@ declare global {
     };
     interface HTMLAegovCheckboxElementEventMap {
         "aegovCheckboxChange": { checked: boolean; value?: string };
+        "aegovValidate": AegovValidationDetail<boolean>;
     }
     interface HTMLAegovCheckboxElement extends Components.AegovCheckbox, HTMLStencilElement {
         addEventListener<K extends keyof HTMLAegovCheckboxElementEventMap>(type: K, listener: (this: HTMLAegovCheckboxElement, ev: AegovCheckboxCustomEvent<HTMLAegovCheckboxElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -2017,6 +2903,7 @@ declare global {
     };
     interface HTMLAegovCheckboxGroupElementEventMap {
         "aegovCheckboxGroupChange": { values: string[] };
+        "aegovValidate": AegovValidationDetail<string[]>;
     }
     interface HTMLAegovCheckboxGroupElement extends Components.AegovCheckboxGroup, HTMLStencilElement {
         addEventListener<K extends keyof HTMLAegovCheckboxGroupElementEventMap>(type: K, listener: (this: HTMLAegovCheckboxGroupElement, ev: AegovCheckboxGroupCustomEvent<HTMLAegovCheckboxGroupElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -2038,6 +2925,7 @@ declare global {
         "aegovDatepickerClose": void;
         "aegovDatepickerClear": void;
         "aegovDatepickerMonthChange": DatepickerMonthChangeDetail;
+        "aegovValidate": AegovValidationDetail<AegovDatepickerValue>;
     }
     interface HTMLAegovDatepickerElement extends Components.AegovDatepicker, HTMLStencilElement {
         addEventListener<K extends keyof HTMLAegovDatepickerElementEventMap>(type: K, listener: (this: HTMLAegovDatepickerElement, ev: AegovDatepickerCustomEvent<HTMLAegovDatepickerElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -2098,7 +2986,7 @@ declare global {
     interface HTMLAegovFileuploadElementEventMap {
         "aegovFileuploadChange": { files: File[] };
         "aegovFileuploadRemove": { file: File; remaining: File[] };
-        "aegovFileuploadError": { type: 'max-size' | 'max-files' | 'invalid-type'; file?: File; message: string };
+        "aegovValidate": AegovValidationDetail<File[]>;
     }
     interface HTMLAegovFileuploadElement extends Components.AegovFileupload, HTMLStencilElement {
         addEventListener<K extends keyof HTMLAegovFileuploadElementEventMap>(type: K, listener: (this: HTMLAegovFileuploadElement, ev: AegovFileuploadCustomEvent<HTMLAegovFileuploadElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -2120,11 +3008,24 @@ declare global {
         prototype: HTMLAegovFormFieldElement;
         new (): HTMLAegovFormFieldElement;
     };
+    interface HTMLAegovHeaderElement extends Components.AegovHeader, HTMLStencilElement {
+    }
+    var HTMLAegovHeaderElement: {
+        prototype: HTMLAegovHeaderElement;
+        new (): HTMLAegovHeaderElement;
+    };
+    interface HTMLAegovHeaderBannerElement extends Components.AegovHeaderBanner, HTMLStencilElement {
+    }
+    var HTMLAegovHeaderBannerElement: {
+        prototype: HTMLAegovHeaderBannerElement;
+        new (): HTMLAegovHeaderBannerElement;
+    };
     interface HTMLAegovInputElementEventMap {
         "aegovInputChange": { value: string; event: Event };
         "aegovInputInput": { value: string; event: Event };
         "aegovInputFocus": FocusEvent;
         "aegovInputBlur": FocusEvent;
+        "aegovValidate": AegovValidationDetail<string>;
     }
     interface HTMLAegovInputElement extends Components.AegovInput, HTMLStencilElement {
         addEventListener<K extends keyof HTMLAegovInputElementEventMap>(type: K, listener: (this: HTMLAegovInputElement, ev: AegovInputCustomEvent<HTMLAegovInputElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -2190,10 +3091,108 @@ declare global {
         prototype: HTMLAegovModalElement;
         new (): HTMLAegovModalElement;
     };
+    /**
+     * @component aegov-navbar
+     * @description Horizontal primary navigation container. Holds aegov-navbar-item
+     * children which can be plain links, links with prefix icons, or links paired
+     * with an aegov-dropdown submenu (chevron-triggered).
+     * @example <aegov-navbar label-nav="Main navigation" size="base" gap="gap-6">
+     *   <aegov-navbar-item href="/">Home</aegov-navbar-item>
+     *   <aegov-navbar-item href="/services">Services</aegov-navbar-item>
+     *   <aegov-navbar-item href="/products">
+     *     Products
+     *     <aegov-dropdown slot="dropdown">
+     *       <a slot="dropdown-content" href="/a">Item A</a>
+     *       <a slot="dropdown-content" href="/b">Item B</a>
+     *     </aegov-dropdown>
+     *   </aegov-navbar-item>
+     * </aegov-navbar>
+     */
+    interface HTMLAegovNavbarElement extends Components.AegovNavbar, HTMLStencilElement {
+    }
+    var HTMLAegovNavbarElement: {
+        prototype: HTMLAegovNavbarElement;
+        new (): HTMLAegovNavbarElement;
+    };
+    /**
+     * @component aegov-navbar-item
+     * @description Single navigation item used inside aegov-navbar. Renders as a link
+     * (when `href` is set) or plain text. Optional prefix icon via `slot="icon-start"`.
+     * Optional submenu via `slot="dropdown"` containing an aegov-dropdown — the
+     * navbar-item itself becomes the dropdown trigger so hover/position resolve to
+     * the full item rect, and a chevron button is injected for keyboard/click
+     * toggling. The user controls the dropdown's `trigger` (e.g. set
+     * `trigger="hover"` for hover open).
+     * @example <aegov-navbar-item href="/products">
+     *   <svg slot="icon-start" ...></svg>
+     *   Products
+     *   <aegov-dropdown slot="dropdown" trigger="hover">
+     *     <a slot="dropdown-content" href="/a">Item A</a>
+     *   </aegov-dropdown>
+     * </aegov-navbar-item>
+     */
+    interface HTMLAegovNavbarItemElement extends Components.AegovNavbarItem, HTMLStencilElement {
+    }
+    var HTMLAegovNavbarItemElement: {
+        prototype: HTMLAegovNavbarItemElement;
+        new (): HTMLAegovNavbarItemElement;
+    };
+    /**
+     * @component aegov-navblock
+     * @description Vertical navigation block, typically used in sidebar layouts.
+     * Holds aegov-navblock-item children that may nest recursively. Each parent
+     * item collapses/expands its sub-region, similar to an accordion. Cascades
+     * `icon` and resolved `size` to all descendant items, and enforces single-vs-
+     * multi open behavior at every level via `isMultiple`.
+     * @example <aegov-navblock block-title="Workspace" label-nav="Project sidebar">
+     *   <aegov-navblock-item href="/" is-active>Dashboard</aegov-navblock-item>
+     *   <aegov-navblock-item>
+     *     Reports
+     *     <aegov-navblock-item href="/r/sales">Sales</aegov-navblock-item>
+     *     <aegov-navblock-item href="/r/users">Users</aegov-navblock-item>
+     *   </aegov-navblock-item>
+     * </aegov-navblock>
+     */
+    interface HTMLAegovNavblockElement extends Components.AegovNavblock, HTMLStencilElement {
+    }
+    var HTMLAegovNavblockElement: {
+        prototype: HTMLAegovNavblockElement;
+        new (): HTMLAegovNavblockElement;
+    };
+    interface HTMLAegovNavblockItemElementEventMap {
+        "aegovNavblockItemToggle": { open: boolean };
+    }
+    /**
+     * @component aegov-navblock-item
+     * @description Single row inside an aegov-navblock. Renders as a link (when
+     * `href` is set and the item has no sub-items) or a toggle button (when the
+     * item has sub-items via `slot="subnav"` or nested `aegov-navblock-item`
+     * children). Cascades `icon` and `size` to direct sub-items.
+     * @example <aegov-navblock-item>
+     *   <svg slot="icon-start"></svg>
+     *   Reports <aegov-badge>3</aegov-badge>
+     *   <aegov-navblock-item href="/r/sales">Sales</aegov-navblock-item>
+     *   <aegov-navblock-item href="/r/users">Users</aegov-navblock-item>
+     * </aegov-navblock-item>
+     */
+    interface HTMLAegovNavblockItemElement extends Components.AegovNavblockItem, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLAegovNavblockItemElementEventMap>(type: K, listener: (this: HTMLAegovNavblockItemElement, ev: AegovNavblockItemCustomEvent<HTMLAegovNavblockItemElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLAegovNavblockItemElementEventMap>(type: K, listener: (this: HTMLAegovNavblockItemElement, ev: AegovNavblockItemCustomEvent<HTMLAegovNavblockItemElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLAegovNavblockItemElement: {
+        prototype: HTMLAegovNavblockItemElement;
+        new (): HTMLAegovNavblockItemElement;
+    };
     interface HTMLAegovOtpElementEventMap {
         "aegovOtpChange": { value: string };
         "aegovOtpComplete": { value: string };
-        "aegovOtpInvalid": { value: string; pattern: string };
+        "aegovValidate": AegovValidationDetail<string>;
     }
     interface HTMLAegovOtpElement extends Components.AegovOtp, HTMLStencilElement {
         addEventListener<K extends keyof HTMLAegovOtpElementEventMap>(type: K, listener: (this: HTMLAegovOtpElement, ev: AegovOtpCustomEvent<HTMLAegovOtpElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -2226,6 +3225,27 @@ declare global {
         prototype: HTMLAegovPaginationElement;
         new (): HTMLAegovPaginationElement;
     };
+    interface HTMLAegovPopoverElementEventMap {
+        "aegovPopoverOpen": void;
+        "aegovPopoverClose": void;
+    }
+    /**
+     * Popover component that displays positioned content with an arrow marker
+     */
+    interface HTMLAegovPopoverElement extends Components.AegovPopover, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLAegovPopoverElementEventMap>(type: K, listener: (this: HTMLAegovPopoverElement, ev: AegovPopoverCustomEvent<HTMLAegovPopoverElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLAegovPopoverElementEventMap>(type: K, listener: (this: HTMLAegovPopoverElement, ev: AegovPopoverCustomEvent<HTMLAegovPopoverElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLAegovPopoverElement: {
+        prototype: HTMLAegovPopoverElement;
+        new (): HTMLAegovPopoverElement;
+    };
     interface HTMLAegovProgressElement extends Components.AegovProgress, HTMLStencilElement {
     }
     var HTMLAegovProgressElement: {
@@ -2234,6 +3254,7 @@ declare global {
     };
     interface HTMLAegovRadioElementEventMap {
         "aegovRadioChange": { checked: boolean; value?: string };
+        "aegovValidate": AegovValidationDetail<boolean>;
     }
     interface HTMLAegovRadioElement extends Components.AegovRadio, HTMLStencilElement {
         addEventListener<K extends keyof HTMLAegovRadioElementEventMap>(type: K, listener: (this: HTMLAegovRadioElement, ev: AegovRadioCustomEvent<HTMLAegovRadioElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -2251,6 +3272,7 @@ declare global {
     };
     interface HTMLAegovRadioGroupElementEventMap {
         "aegovRadioGroupChange": { value: string | undefined };
+        "aegovValidate": AegovValidationDetail<string | undefined>;
     }
     interface HTMLAegovRadioGroupElement extends Components.AegovRadioGroup, HTMLStencilElement {
         addEventListener<K extends keyof HTMLAegovRadioGroupElementEventMap>(type: K, listener: (this: HTMLAegovRadioGroupElement, ev: AegovRadioGroupCustomEvent<HTMLAegovRadioGroupElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -2269,6 +3291,7 @@ declare global {
     interface HTMLAegovRangeElementEventMap {
         "aegovRangeInput": { value?: number; valueLow?: number; valueHigh?: number };
         "aegovRangeChange": { value?: number; valueLow?: number; valueHigh?: number };
+        "aegovValidate": AegovValidationDetail<AegovRangeValue>;
     }
     interface HTMLAegovRangeElement extends Components.AegovRange, HTMLStencilElement {
         addEventListener<K extends keyof HTMLAegovRangeElementEventMap>(type: K, listener: (this: HTMLAegovRangeElement, ev: AegovRangeCustomEvent<HTMLAegovRangeElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -2288,6 +3311,7 @@ declare global {
         "aegovSelectChange": SelectChangeDetail;
         "aegovSelectOpen": void;
         "aegovSelectClose": void;
+        "aegovValidate": AegovValidationDetail<AegovSelectValue>;
     }
     interface HTMLAegovSelectElement extends Components.AegovSelect, HTMLStencilElement {
         addEventListener<K extends keyof HTMLAegovSelectElementEventMap>(type: K, listener: (this: HTMLAegovSelectElement, ev: AegovSelectCustomEvent<HTMLAegovSelectElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -2372,7 +3396,7 @@ declare global {
      * @description Tab container that organizes content into panels.
      * Manages active tab state internally (uncontrolled) and wires up tab triggers
      * with their corresponding panels via matching tab-id attributes.
-     * @example <aegov-tabs default-active-tab="overview" variant="simple">
+     * @example <aegov-tabs default-open="overview" variant="simple">
      *   <aegov-tab slot="tabs" tab-id="overview">Overview</aegov-tab>
      *   <aegov-tab slot="tabs" tab-id="details">Details</aegov-tab>
      *   <aegov-tab-panel tab-id="overview">Overview content</aegov-tab-panel>
@@ -2404,6 +3428,7 @@ declare global {
         "aegovTextareaInput": { value: string; event: Event };
         "aegovTextareaFocus": FocusEvent;
         "aegovTextareaBlur": FocusEvent;
+        "aegovValidate": AegovValidationDetail<string>;
     }
     interface HTMLAegovTextareaElement extends Components.AegovTextarea, HTMLStencilElement {
         addEventListener<K extends keyof HTMLAegovTextareaElementEventMap>(type: K, listener: (this: HTMLAegovTextareaElement, ev: AegovTextareaCustomEvent<HTMLAegovTextareaElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -2458,6 +3483,7 @@ declare global {
     };
     interface HTMLAegovToggleElementEventMap {
         "aegovToggleChange": { checked: boolean; value?: string };
+        "aegovValidate": AegovValidationDetail<boolean>;
     }
     interface HTMLAegovToggleElement extends Components.AegovToggle, HTMLStencilElement {
         addEventListener<K extends keyof HTMLAegovToggleElementEventMap>(type: K, listener: (this: HTMLAegovToggleElement, ev: AegovToggleCustomEvent<HTMLAegovToggleElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -2485,10 +3511,12 @@ declare global {
     interface HTMLElementTagNameMap {
         "aegov-accordion": HTMLAegovAccordionElement;
         "aegov-accordion-item": HTMLAegovAccordionItemElement;
+        "aegov-aspect-ratio": HTMLAegovAspectRatioElement;
         "aegov-avatar": HTMLAegovAvatarElement;
         "aegov-avatar-group": HTMLAegovAvatarGroupElement;
         "aegov-badge": HTMLAegovBadgeElement;
         "aegov-banner": HTMLAegovBannerElement;
+        "aegov-bento-grid": HTMLAegovBentoGridElement;
         "aegov-blockquote": HTMLAegovBlockquoteElement;
         "aegov-breadcrumbs": HTMLAegovBreadcrumbsElement;
         "aegov-breadcrumbs-item": HTMLAegovBreadcrumbsItemElement;
@@ -2503,13 +3531,20 @@ declare global {
         "aegov-dropdown": HTMLAegovDropdownElement;
         "aegov-fileupload": HTMLAegovFileuploadElement;
         "aegov-form-field": HTMLAegovFormFieldElement;
+        "aegov-header": HTMLAegovHeaderElement;
+        "aegov-header-banner": HTMLAegovHeaderBannerElement;
         "aegov-input": HTMLAegovInputElement;
         "aegov-input-group": HTMLAegovInputGroupElement;
         "aegov-label": HTMLAegovLabelElement;
         "aegov-link": HTMLAegovLinkElement;
         "aegov-modal": HTMLAegovModalElement;
+        "aegov-navbar": HTMLAegovNavbarElement;
+        "aegov-navbar-item": HTMLAegovNavbarItemElement;
+        "aegov-navblock": HTMLAegovNavblockElement;
+        "aegov-navblock-item": HTMLAegovNavblockItemElement;
         "aegov-otp": HTMLAegovOtpElement;
         "aegov-pagination": HTMLAegovPaginationElement;
+        "aegov-popover": HTMLAegovPopoverElement;
         "aegov-progress": HTMLAegovProgressElement;
         "aegov-radio": HTMLAegovRadioElement;
         "aegov-radio-group": HTMLAegovRadioGroupElement;
@@ -2537,24 +3572,33 @@ declare namespace LocalJSX {
      */
     interface AegovAccordion {
         /**
-          * Whether multiple accordion items can be open at the same time
-          * @default false
-         */
-        "allowMultiple"?: boolean;
-        /**
-          * Whether to show border around the accordion
-          * @default false
-         */
-        "bordered"?: boolean;
-        /**
           * Index of the accordion item to open by default (0-based)
          */
         "defaultOpen"?: number;
+        /**
+          * Unique ID for the accordion wrapper element. Auto-generated if not provided.
+         */
+        "fieldId"?: string;
         /**
           * Icon style for accordion items
           * @default 'chevron'
          */
         "icon"?: AccordionIcon;
+        /**
+          * Whether to show border around the accordion
+          * @default false
+         */
+        "isBordered"?: boolean;
+        /**
+          * Whether multiple accordion items can be open at the same time
+          * @default false
+         */
+        "isMultiple"?: boolean;
+        /**
+          * Size of the accordion items — controls heading font size. sm = 14px, base = 16px (default), lg = 18px
+          * @default 'base'
+         */
+        "size"?: string;
     }
     /**
      * Accordion item component
@@ -2562,11 +3606,6 @@ declare namespace LocalJSX {
      * Do not use this component standalone.
      */
     interface AegovAccordionItem {
-        /**
-          * Whether the accordion item is disabled
-          * @default false
-         */
-        "disabled"?: boolean;
         /**
           * Heading text for the accordion item (alternative to using the slot) Note: If both heading property and slot are provided, the slot takes precedence
          */
@@ -2576,6 +3615,11 @@ declare namespace LocalJSX {
           * @default 'chevron'
          */
         "icon"?: AccordionIcon;
+        /**
+          * Whether the accordion item is disabled
+          * @default false
+         */
+        "isDisabled"?: boolean;
         /**
           * Whether this is the first accordion item
           * @default false
@@ -2587,14 +3631,42 @@ declare namespace LocalJSX {
          */
         "isLast"?: boolean;
         /**
+          * Whether the accordion item is open
+          * @default false
+         */
+        "isOpen"?: boolean;
+        /**
           * Emitted when the accordion item is toggled
          */
         "onAegovAccordionItemToggle"?: (event: AegovAccordionItemCustomEvent<{ open: boolean }>) => void;
         /**
-          * Whether the accordion item is open
-          * @default false
+          * Size of the accordion item — controls heading font size.
+          * @default 'base'
          */
-        "open"?: boolean;
+        "size"?: AccordionSize;
+    }
+    /**
+     * @component aegov-aspect-ratio
+     * @description A layout component that enforces a specific aspect ratio on its
+     * content. Supports images, videos, iframes, and arbitrary slotted content.
+     * The `ratio` prop supports Tailwind-style breakpoint prefixes — e.g.
+     * `ratio="square md:video lg:21/9"` switches the ratio at each breakpoint.
+     */
+    interface AegovAspectRatio {
+        /**
+          * Additional CSS classes merged onto the inner aspect-ratio container.
+         */
+        "extraClass"?: string;
+        /**
+          * How slotted media (img, video, iframe) should fit within the aspect ratio container.
+          * @default 'cover'
+         */
+        "fit"?: AspectRatioFit;
+        /**
+          * The aspect ratio to apply. Accepts named presets (`'auto'`, `'square'`, `'video'`) or any custom ratio string such as `'5/4'`, `'21/9'`, `'2.35/1'`. Supports a Tailwind-style responsive string with breakpoint prefixes, e.g. `"square md:video lg:21/9"`.
+          * @default 'auto'
+         */
+        "ratio"?: AspectRatioPreset | string;
     }
     interface AegovAvatar {
         /**
@@ -2602,31 +3674,30 @@ declare namespace LocalJSX {
          */
         "alt"?: string;
         /**
+          * The avatar appearance (shape)
+          * @default 'square'
+         */
+        "appearance"?: AvatarAppearance;
+        /**
+          * Unique ID for the inner avatar element. Auto-generated if not provided.
+         */
+        "fieldId"?: string;
+        /**
           * The avatar size
           * @default 'base'
          */
-        "size"?: AvatarSize;
+        "size"?: string;
         /**
           * The image source URL
          */
         "src"?: string;
         /**
-          * Status indicator type. Set to 'online' or 'offline' to show indicator, or 'none'/false to hide.
-          * @default 'none'
+          * Status indicator. Set to a status string to show the indicator, or `false` to hide it. Accepts: `'online'`, `'offline'`, `'away'`, `'unavailable'`, `'busy'`, or boolean (`true` maps to `'online'`).
+          * @default false
          */
         "status"?: AvatarStatus | boolean;
-        /**
-          * The avatar variant (shape)
-          * @default 'square'
-         */
-        "variant"?: AvatarVariant;
     }
     interface AegovAvatarGroup {
-        /**
-          * The layout mode: 'default' (spaced) or 'compact' (overlapping)
-          * @default 'default'
-         */
-        "mode"?: AvatarGroupMode;
         /**
           * Number of additional users not shown. When > 0, displays "+N" indicator.
           * @default 0
@@ -2644,12 +3715,12 @@ declare namespace LocalJSX {
           * The size enforced on all child avatars
           * @default 'base'
          */
-        "size"?: AvatarSize;
+        "size"?: string;
         /**
-          * The variant (shape) applied to the "more" indicator
-          * @default 'rounded'
+          * The layout variant: 'default' (spaced) or 'compact' (overlapping)
+          * @default 'default'
          */
-        "variant"?: AvatarVariant;
+        "variant"?: AvatarGroupVariant;
     }
     interface AegovBadge {
         /**
@@ -2663,10 +3734,14 @@ declare namespace LocalJSX {
          */
         "color"?: BadgeColor;
         /**
+          * Unique ID for the badge element. Auto-generated if not provided.
+         */
+        "fieldId"?: string;
+        /**
           * Whether the badge can be dismissed/closed.
           * @default false
          */
-        "dismissible"?: boolean;
+        "isDismissible"?: boolean;
         /**
           * Emitted when the dismiss button is clicked.
          */
@@ -2675,7 +3750,7 @@ declare namespace LocalJSX {
           * The badge size
           * @default 'base'
          */
-        "size"?: BadgeSize;
+        "size"?: string;
     }
     interface AegovBanner {
         /**
@@ -2684,28 +3759,28 @@ declare namespace LocalJSX {
          */
         "appearance"?: CalloutAppearance;
         /**
-          * ARIA role for accessibility. Auto-computed from variant if not specified.
-         */
-        "ariaRole"?: BannerRole;
-        /**
-          * Auto-focus the banner when mounted (for critical alerts only).
-          * @default false
-         */
-        "autoFocus"?: boolean;
-        /**
-          * Banner title for aria-labelledby attribute.
-         */
-        "bannerTitle"?: string;
-        /**
-          * Whether the banner can be dismissed/closed.
-          * @default true
-         */
-        "dismissible"?: boolean;
-        /**
           * CSS positioning strategy: fixed (stays in viewport), sticky (scrolls then sticks).
           * @default 'fixed'
          */
         "display"?: BannerDisplay;
+        /**
+          * Unique ID for the banner element. Auto-generated if not provided. The heading element receives a derived ID `${fieldId}-heading` for ARIA labelledby.
+         */
+        "fieldId"?: string;
+        /**
+          * Banner heading for aria-labelledby attribute.
+         */
+        "heading"?: string;
+        /**
+          * Whether the banner can be dismissed/closed.
+          * @default true
+         */
+        "isDismissible"?: boolean;
+        /**
+          * Auto-focus the banner when mounted (for critical alerts only).
+          * @default false
+         */
+        "isFocusable"?: boolean;
         /**
           * Layout mode: push (takes up space in page flow), overlay (floats over content).
           * @default 'push'
@@ -2725,12 +3800,47 @@ declare namespace LocalJSX {
          */
         "position"?: BannerPosition;
         /**
+          * Size of the banner. Controls font size and vertical padding. Accepts a plain value (`"sm"`, `"base"`, `"lg"`) or a responsive string using Tailwind-style breakpoint prefixes (`"sm xl:lg"`).
+          * @default 'base'
+         */
+        "size"?: string;
+        /**
           * The variant of the banner. Determines the color scheme.
           * @default 'default'
          */
         "variant"?: CalloutVariant;
     }
+    /**
+     * Bento grid layout container for grouping `aegov-card` elements into a
+     * balanced-but-non-uniform arrangement.
+     */
+    interface AegovBentoGrid {
+        /**
+          * Number of columns. Tailwind-style breakpoint syntax supported, e.g. `cols="1 md:2 lg:4"`. Use `cols="1 md:..."` to stack on mobile.
+          * @default '1 md:2 lg:3'
+         */
+        "cols"?: string;
+        /**
+          * Optional id reflected on the inner wrapper. Auto-generated if not provided.
+         */
+        "fieldId"?: string;
+        /**
+          * Auto-flow mode. 'dense' fills holes left by larger spans (bento packing), 'row' keeps strict DOM order.
+          * @default 'dense'
+         */
+        "flow"?: BentoFlow;
+        /**
+          * Gap between cards. Named sizes: 'none', 'xs', 'sm', 'md', 'lg', 'xl'. Responsive syntax supported: `gap="sm md:md lg:lg"`.
+          * @default 'md'
+         */
+        "gap"?: string;
+    }
     interface AegovBlockquote {
+        /**
+          * The blockquote appearance style
+          * @default 'primary'
+         */
+        "appearance"?: BlockquoteAppearance;
         /**
           * The author source
          */
@@ -2744,21 +3854,24 @@ declare namespace LocalJSX {
          */
         "cite"?: string;
         /**
-          * The blockquote variant style
-          * @default 'primary'
+          * Additional CSS classes merged onto the inner blockquote element.
          */
-        "variant"?: BlockquoteVariant;
+        "extraClass"?: string;
     }
     interface AegovBreadcrumbs {
         /**
-          * Maximum number of characters before truncating breadcrumb item text. If not set, text will not be truncated.
+          * Unique ID for the breadcrumbs nav element. Auto-generated if not provided.
          */
-        "maxLength"?: number;
+        "fieldId"?: string;
         /**
           * Whether to add schema.org microdata for structured data
           * @default false
          */
-        "microdata"?: boolean;
+        "isMicrodata"?: boolean;
+        /**
+          * Maximum number of characters before truncating breadcrumb item text. If not set, text will not be truncated.
+         */
+        "maxLength"?: number;
         /**
           * The separator style to use between breadcrumb items
           * @default 'slash'
@@ -2781,14 +3894,14 @@ declare namespace LocalJSX {
          */
         "isLast"?: boolean;
         /**
-          * Maximum length for text before truncation
-         */
-        "maxLength"?: number;
-        /**
           * Whether to add schema.org microdata
           * @default false
          */
-        "microdata"?: boolean;
+        "isMicrodata"?: boolean;
+        /**
+          * Maximum length for text before truncation
+         */
+        "maxLength"?: number;
         /**
           * Emitted when the breadcrumb item is clicked
          */
@@ -2811,25 +3924,14 @@ declare namespace LocalJSX {
     }
     interface AegovButton {
         /**
-          * The button appearance (color scheme)
-          * @default 'primary'
+          * The button appearance (visual style)
+          * @default 'solid'
          */
         "appearance"?: ButtonAppearance;
         /**
-          * Whether the button should have bold text or not
-          * @default false
+          * Unique ID for the button element. Auto-generated if not provided.
          */
-        "bold"?: boolean;
-        /**
-          * Whether the button is disabled
-          * @default false
-         */
-        "disabled"?: boolean;
-        /**
-          * Whether the button should take full width
-          * @default true
-         */
-        "full"?: boolean;
+        "fieldId"?: string;
         /**
           * Internal: The orientation of the button group this button belongs to
          */
@@ -2839,15 +3941,30 @@ declare namespace LocalJSX {
          */
         "groupPosition"?: ButtonGroupPosition;
         /**
+          * Whether the button should have bold text or not
+          * @default true
+         */
+        "isBold"?: boolean;
+        /**
+          * Whether the button is disabled
+          * @default false
+         */
+        "isDisabled"?: boolean;
+        /**
+          * Whether the button should take full width
+          * @default false
+         */
+        "isFull"?: boolean;
+        /**
           * Whether the button is only an icon
           * @default false
          */
-        "icon"?: boolean;
+        "isIcon"?: boolean;
         /**
           * Whether the button is in a loading state
           * @default false
          */
-        "loading"?: boolean;
+        "isLoading"?: boolean;
         /**
           * Emitted when the button loses focus
          */
@@ -2864,15 +3981,15 @@ declare namespace LocalJSX {
           * The button size
           * @default 'base'
          */
-        "size"?: ButtonSize;
+        "size"?: string;
         /**
           * The button type attribute
           * @default 'button'
          */
         "type"?: ButtonType;
         /**
-          * The button variant style
-          * @default 'solid'
+          * The button variant (color scheme)
+          * @default 'primary'
          */
         "variant"?: ButtonVariant;
     }
@@ -2890,19 +4007,23 @@ declare namespace LocalJSX {
          */
         "appearance"?: CalloutAppearance;
         /**
-          * Whether the callout should have a border
-          * @default false
+          * Unique ID for the callout element. Auto-generated if not provided.
          */
-        "bordered"?: boolean;
+        "fieldId"?: string;
         /**
           * Whether the callout can be dismissed/closed.
           * @default false
          */
-        "dismissible"?: boolean;
+        "isDismissible"?: boolean;
         /**
           * Event emitted when the callout is dismissed.
          */
         "onAegovCalloutDismiss"?: (event: AegovCalloutCustomEvent<void>) => void;
+        /**
+          * The size of the callout. Controls font size, icon size, and padding. Accepts a plain value (`"sm"`, `"base"`, `"lg"`) or a responsive string using Tailwind-style breakpoint prefixes (`"sm xl:lg"`).
+          * @default 'base'
+         */
+        "size"?: string;
         /**
           * The variant of the callout. Determines the color scheme.
           * @default 'default'
@@ -2911,64 +4032,88 @@ declare namespace LocalJSX {
     }
     interface AegovCard {
         /**
-          * Background style: 'white', 'transparent', or 'subtle' (slate-50).
-          * @default 'white'
+          * Appearance: 'solid' (full-strength border), 'light' (subtle low-contrast border), or 'creative' (gradient border via CSS mask). Border colour resolves from `variant`.
+          * @default 'solid'
          */
-        "background"?: CardBackground;
-        /**
-          * Border style: 'standard' (solid primary-600), 'light' (solid primary-200), or 'creative' (gradient from primary-400 to primary-800).
-          * @default 'standard'
-         */
-        "borderStyle"?: CardBorderStyle;
+        "appearance"?: CardAppearance;
         /**
           * Border thickness: 1, 2, or 3.
-          * @default 1
+          * @default 2
          */
         "borderWidth"?: CardBorderWidth;
         /**
-          * Disables inner padding (1.5rem / 24px). Padding is on by default.
-          * @default false
+          * Unique ID for the card element. Auto-generated if not provided.
          */
-        "disallowPadding"?: boolean;
+        "fieldId"?: string;
         /**
           * Hover effect: 'off' (none), 'standard' (border color change), or 'glow' (shadow glow).
           * @default 'off'
          */
         "hover"?: CardHover;
+        /**
+          * Whether to apply inner padding (1.5rem / 24px). On by default.
+          * @default true
+         */
+        "isPadding"?: boolean;
+        /**
+          * Size: 'sm' (compact padding/radius), 'base' (default), or 'lg' (generous padding/radius). All sizes scale down responsively at md (768px) and xs (480px) breakpoints.
+          * @default 'base'
+         */
+        "size"?: CardSize;
+        /**
+          * Variant: colour family applied to border + glow. 'primary' (default), 'secondary', 'neutral-max' (aeblack-800 family), or 'neutral-min' (aeblack-100 family).
+          * @default 'primary'
+         */
+        "variant"?: CardVariant;
     }
     interface AegovCheckbox {
         /**
-          * Marks this checkbox as a "check all" controller within a checkbox group.
-          * @default false
+          * Inline error message. Use `error` slot for rich markup.
+          * @default ''
          */
-        "checkAll"?: boolean;
-        /**
-          * Whether the checkbox is checked.
-          * @default false
-         */
-        "checked"?: boolean;
+        "errorMessage"?: string;
         /**
           * Additional CSS classes to apply.
          */
-        "class"?: string;
-        /**
-          * Description text displayed below the label. Only rendered when label is provided.
-         */
-        "description"?: string;
-        /**
-          * Whether the checkbox is disabled.
-          * @default false
-         */
-        "disabled"?: boolean;
+        "extraClass"?: string;
         /**
           * Unique ID for the native checkbox element. Auto-generated if not provided.
          */
         "fieldId"?: string;
         /**
+          * Helper hint text displayed below the label. Only rendered when label is provided and no error is shown. Renamed from `description` (decision §6.6).
+         */
+        "hint"?: string;
+        /**
+          * Marks this checkbox as a "check all" controller within a checkbox group.
+          * @default false
+         */
+        "isCheckAll"?: boolean;
+        /**
+          * Whether the checkbox is checked.
+          * @default false
+         */
+        "isChecked"?: boolean;
+        /**
+          * Whether the checkbox is disabled.
+          * @default false
+         */
+        "isDisabled"?: boolean;
+        /**
           * Whether the checkbox is in an indeterminate state. Set by parent group for check-all.
           * @default false
          */
-        "indeterminate"?: boolean;
+        "isIndeterminate"?: boolean;
+        /**
+          * Visual + a11y invalid state. Toggles `aria-invalid` + `is-invalid` host class. See §2.3.
+          * @default false
+         */
+        "isInvalid"?: boolean;
+        /**
+          * Whether the checkbox is required.
+          * @default false
+         */
+        "isRequired"?: boolean;
         /**
           * Label text for the checkbox. When provided, generates an associated <label> element.
          */
@@ -2982,30 +4127,59 @@ declare namespace LocalJSX {
          */
         "onAegovCheckboxChange"?: (event: AegovCheckboxCustomEvent<{ checked: boolean; value?: string }>) => void;
         /**
-          * Whether the checkbox is required.
-          * @default false
+          * Unified validation event. See §2.3.
          */
-        "required"?: boolean;
+        "onAegovValidate"?: (event: AegovCheckboxCustomEvent<AegovValidationDetail<boolean>>) => void;
         /**
           * The size of the checkbox.
           * @default 'base'
          */
-        "size"?: CheckboxSize;
+        "size"?: string;
         /**
           * The value attribute for the checkbox.
          */
         "value"?: string;
+        /**
+          * Colour family. Drives rest border, checked bg/border. Focus ring stays camel; error stays aered.
+          * @default 'primary'
+         */
+        "variant"?: FormVariant;
     }
     interface AegovCheckboxGroup {
         /**
+          * Visual appearance for the group layout.
+          * @default 'default'
+         */
+        "appearance"?: CheckboxGroupVariant;
+        /**
+          * Inline error message rendered below the legend when `isInvalid`.
+          * @default ''
+         */
+        "errorMessage"?: string;
+        /**
           * Additional CSS classes to apply.
          */
-        "class"?: string;
+        "extraClass"?: string;
+        /**
+          * Helper hint shown below the legend when not invalid.
+          * @default ''
+         */
+        "hint"?: string;
         /**
           * Disables all checkboxes within the group via native fieldset disabled.
           * @default false
          */
-        "disabled"?: boolean;
+        "isDisabled"?: boolean;
+        /**
+          * Visual + a11y invalid state. See §2.3.
+          * @default false
+         */
+        "isInvalid"?: boolean;
+        /**
+          * Group is required — at least one child checkbox must be checked. Aggregate-level only.
+          * @default false
+         */
+        "isRequired"?: boolean;
         /**
           * Optional label rendered as a <legend> for accessibility.
          */
@@ -3015,6 +4189,10 @@ declare namespace LocalJSX {
          */
         "onAegovCheckboxGroupChange"?: (event: AegovCheckboxGroupCustomEvent<{ values: string[] }>) => void;
         /**
+          * Unified validation event (group-level aggregate). See §2.3.
+         */
+        "onAegovValidate"?: (event: AegovCheckboxGroupCustomEvent<AegovValidationDetail<string[]>>) => void;
+        /**
           * Stack direction for checkbox items.
           * @default 'vertical'
          */
@@ -3023,34 +4201,88 @@ declare namespace LocalJSX {
           * Size of all checkboxes in the group. Propagated to children.
           * @default 'base'
          */
-        "size"?: CheckboxSize;
+        "size"?: string;
         /**
-          * Visual variant for the group layout.
-          * @default 'default'
+          * Colour family. Cascades to child checkboxes (only if child has no own variant). Focus ring stays camel; error stays aered regardless.
+          * @default 'primary'
          */
-        "variant"?: CheckboxGroupVariant;
+        "variant"?: FormVariant;
     }
     interface AegovDatepicker {
         /**
-          * Show clear button when value is set
-          * @default true
+          * Selection appearance: single date or date range
+          * @default 'single'
          */
-        "clearable"?: boolean;
+        "appearance"?: DatepickerMode;
         /**
-          * Disable all future dates (shorthand for max="today")
-          * @default false
+          * Comma-separated ISO dates that cannot be selected
+          * @default ''
          */
-        "disableFuture"?: boolean;
+        "blackout"?: string;
         /**
-          * Whether the datepicker is disabled
-          * @default false
+          * Inline error message. Use `error` slot for rich markup.
+          * @default ''
          */
-        "disabled"?: boolean;
+        "errorMessage"?: string;
+        /**
+          * Optional unique field ID. Used by aegov-form-field for label linking + error/hint id derivation.
+         */
+        "fieldId"?: string;
         /**
           * Output format using tokens: YYYY, YY, MM, M, DD, D, MMM, MMMM, dd, ddd
           * @default 'YYYY-MM-DD'
          */
         "format"?: string;
+        /**
+          * Helper hint shown below the control. Hidden when an error is shown.
+          * @default ''
+         */
+        "hint"?: string;
+        /**
+          * Show clear button when value is set
+          * @default true
+         */
+        "isClearable"?: boolean;
+        /**
+          * Disable all future dates (shorthand for max="today")
+          * @default false
+         */
+        "isDisableFuture"?: boolean;
+        /**
+          * Whether the datepicker is disabled
+          * @default false
+         */
+        "isDisabled"?: boolean;
+        /**
+          * Show month/year select dropdowns in header
+          * @default true
+         */
+        "isHeaderSelectable"?: boolean;
+        /**
+          * Visual + a11y invalid state. See §2.3.
+          * @default false
+         */
+        "isInvalid"?: boolean;
+        /**
+          * Marks the datepicker as required for form validation. Sets `required` on the inner input.
+          * @default false
+         */
+        "isRequired"?: boolean;
+        /**
+          * Show Apply/Cancel buttons for confirming selection
+          * @default false
+         */
+        "isWithConfirmation"?: boolean;
+        /**
+          * Placeholder for range end input. Empty defaults to localized text via isRtl.
+          * @default ''
+         */
+        "labelRangeEnd"?: string;
+        /**
+          * Placeholder for range start input. Empty defaults to localized text via isRtl.
+          * @default ''
+         */
+        "labelRangeStart"?: string;
         /**
           * Locale for day/month names (BCP 47, e.g., 'en', 'ar', 'fr')
           * @default 'en'
@@ -3077,18 +4309,21 @@ declare namespace LocalJSX {
          */
         "minRange"?: number;
         /**
-          * Selection mode: single date or date range
-          * @default 'single'
+          * Form field name for FormAssociated submission (§2.5).
          */
-        "mode"?: DatepickerMode;
+        "name"?: string;
         "onAegovDatepickerChange"?: (event: AegovDatepickerCustomEvent<DatepickerChangeDetail>) => void;
         "onAegovDatepickerClear"?: (event: AegovDatepickerCustomEvent<void>) => void;
         "onAegovDatepickerClose"?: (event: AegovDatepickerCustomEvent<void>) => void;
         "onAegovDatepickerMonthChange"?: (event: AegovDatepickerCustomEvent<DatepickerMonthChangeDetail>) => void;
         "onAegovDatepickerOpen"?: (event: AegovDatepickerCustomEvent<void>) => void;
         /**
-          * Placeholder text for single mode input
-          * @default 'Select date'
+          * Unified validation event. See §2.3.
+         */
+        "onAegovValidate"?: (event: AegovDatepickerCustomEvent<AegovValidationDetail<AegovDatepickerValue>>) => void;
+        /**
+          * Placeholder text for single mode input. Empty defaults to localized text via isRtl.
+          * @default ''
          */
         "placeholder"?: string;
         /**
@@ -3097,45 +4332,25 @@ declare namespace LocalJSX {
          */
         "presets"?: string;
         /**
-          * Placeholder for range end input
-          * @default 'End date'
-         */
-        "rangePlaceholderEnd"?: string;
-        /**
-          * Placeholder for range start input
-          * @default 'Start date'
-         */
-        "rangePlaceholderStart"?: string;
-        /**
-          * Show month/year select dropdowns in header
-          * @default true
-         */
-        "selectableHeader"?: boolean;
-        /**
           * The size of the datepicker input.
           * @default 'base'
          */
-        "size"?: InputSize;
+        "size"?: string;
         /**
           * Week start day: 0=Sunday, 1=Monday, ...6=Saturday
           * @default 0
          */
         "startDay"?: number;
         /**
-          * Comma-separated ISO dates that cannot be selected
-          * @default ''
-         */
-        "unavailableDates"?: string;
-        /**
           * Pre-selected value. Single: "YYYY-MM-DD". Range: "YYYY-MM-DD / YYYY-MM-DD"
           * @default ''
          */
         "value"?: string;
         /**
-          * Show Apply/Cancel buttons for confirming selection
-          * @default false
+          * Colour family. Drives idle ring/border, selected/checked fill, and value/accent text. Focus ring stays camel; error stays aered regardless.
+          * @default 'primary'
          */
-        "withConfirmation"?: boolean;
+        "variant"?: FormVariant;
         /**
           * End year for the year dropdown (default: current year + 100)
           * @default 0
@@ -3154,10 +4369,39 @@ declare namespace LocalJSX {
          */
         "animation"?: DrawerAnimation;
         /**
+          * Unique ID for the drawer dialog element. Auto-generated if not provided.
+         */
+        "fieldId"?: string;
+        /**
           * Whether clicking the backdrop closes the drawer
           * @default true
          */
-        "closeWithBackdrop"?: boolean;
+        "isCloseWithOverlay"?: boolean;
+        /**
+          * Whether the drawer is currently open/visible
+          * @default false
+         */
+        "isOpen"?: boolean;
+        /**
+          * Whether to show a backdrop overlay behind the drawer
+          * @default true
+         */
+        "isOverlay"?: boolean;
+        /**
+          * Whether to apply inner content padding. On by default; scales with size.
+          * @default true
+         */
+        "isPadding"?: boolean;
+        /**
+          * Whether the drawer is pinned flush to edges (true) or has a gap with rounded corners (false)
+          * @default true
+         */
+        "isPinned"?: boolean;
+        /**
+          * Whether to prevent body scroll when drawer is open
+          * @default true
+         */
+        "isPreventScroll"?: boolean;
         /**
           * Emitted when backdrop is clicked
          */
@@ -3179,35 +4423,20 @@ declare namespace LocalJSX {
          */
         "onAegovDrawerOpen"?: (event: AegovDrawerCustomEvent<void>) => void;
         /**
-          * Whether the drawer is currently open/visible
-          * @default false
-         */
-        "open"?: boolean;
-        /**
-          * Whether to show a backdrop overlay behind the drawer
-          * @default true
-         */
-        "overlay"?: boolean;
-        /**
           * Backdrop overlay opacity level
           * @default 'base'
          */
         "overlayOpacity"?: DrawerOverlayOpacity;
-        /**
-          * Whether the drawer is pinned flush to edges (true) or has a gap with rounded corners (false)
-          * @default true
-         */
-        "pinned"?: boolean;
         /**
           * Which edge the drawer slides from
           * @default 'right'
          */
         "position"?: DrawerPosition;
         /**
-          * Whether to prevent body scroll when drawer is open
-          * @default true
+          * Size: 'sm' (compact padding), 'base' (default), or 'lg' (generous padding). Mirrors aegov-card sizing tokens. When `is-pinned="false"`, size also drives the edge gap and border-radius. When pinned, no border-radius is applied regardless of size.
+          * @default 'base'
          */
-        "preventBodyScroll"?: boolean;
+        "size"?: DrawerSize;
     }
     /**
      * Dropdown component that displays positioned content on trigger interaction
@@ -3219,20 +4448,29 @@ declare namespace LocalJSX {
          */
         "align"?: DropdownAlign;
         /**
-          * Whether the dropdown is disabled
-          * @default false
+          * Delay before hiding dropdown (in milliseconds)
+          * @default 0
          */
-        "disabled"?: boolean;
+        "delayEnd"?: number;
+        /**
+          * Delay before showing dropdown (in milliseconds)
+          * @default 200
+         */
+        "delayStart"?: number;
+        /**
+          * Unique ID for the dropdown menu element. Auto-generated if not provided. The trigger element receives a derived ID `${fieldId}-trigger` for ARIA linkage.
+         */
+        "fieldId"?: string;
         /**
           * Gap between dropdown and trigger element (in pixels)
           * @default 8
          */
         "gap"?: number;
         /**
-          * Delay before hiding dropdown (in milliseconds)
-          * @default 0
+          * Whether the dropdown is disabled
+          * @default false
          */
-        "hideDelay"?: number;
+        "isDisabled"?: boolean;
         /**
           * Additional offset for dropdown positioning (in pixels)
           * @default 0
@@ -3252,15 +4490,10 @@ declare namespace LocalJSX {
          */
         "position"?: DropdownPosition;
         /**
-          * Delay before showing dropdown (in milliseconds)
-          * @default 200
-         */
-        "showDelay"?: number;
-        /**
           * Trigger type for showing the dropdown
           * @default 'click'
          */
-        "triggerType"?: DropdownTrigger;
+        "trigger"?: DropdownTrigger;
     }
     interface AegovFileupload {
         /**
@@ -3268,30 +4501,55 @@ declare namespace LocalJSX {
          */
         "accept"?: string;
         /**
-          * Custom text for the browse/trigger button.
+          * Variant style: 'default' (styled input + button), 'button' (hidden input, label-as-button), or 'dropzone' (drag-and-drop area).
+          * @default 'default'
          */
-        "buttonText"?: string;
+        "appearance"?: FileuploadVariant;
         /**
-          * Description text displayed below the label.
+          * Inline error message. Use `error` slot for rich markup.
+          * @default ''
          */
-        "description"?: string;
-        /**
-          * Disables the file upload.
-          * @default false
-         */
-        "disabled"?: boolean;
+        "errorMessage"?: string;
         /**
           * Unique field ID. Auto-generated if not provided.
          */
         "fieldId"?: string;
         /**
-          * Custom helper text for allowed file types. Overrides auto-generated text from `accept`.
+          * Helper hint text displayed below the label. Renamed from `description` per §6.6 (pre-production rename, no compat shim). Hidden when an error is shown.
          */
-        "helperText"?: string;
+        "hint"?: string;
+        /**
+          * Disables the file upload.
+          * @default false
+         */
+        "isDisabled"?: boolean;
+        /**
+          * Visual + a11y invalid state. See §2.3.
+          * @default false
+         */
+        "isInvalid"?: boolean;
+        /**
+          * Allow multiple file selection.
+          * @default false
+         */
+        "isMultiple"?: boolean;
+        /**
+          * Marks the field as required.
+          * @default false
+         */
+        "isRequired"?: boolean;
         /**
           * Label text displayed above the control.
          */
         "label"?: string;
+        /**
+          * Custom text for the browse/trigger button.
+         */
+        "labelButton"?: string;
+        /**
+          * Custom helper text for allowed file types. Overrides auto-generated text from `accept`. Shown alongside the hint, distinct from validation error text.
+         */
+        "labelHelp"?: string;
         /**
           * Maximum file size in bytes.
          */
@@ -3301,11 +4559,6 @@ declare namespace LocalJSX {
          */
         "maxFiles"?: number;
         /**
-          * Allow multiple file selection.
-          * @default false
-         */
-        "multiple"?: boolean;
-        /**
           * Form field name.
          */
         "name"?: string;
@@ -3314,54 +4567,135 @@ declare namespace LocalJSX {
          */
         "onAegovFileuploadChange"?: (event: AegovFileuploadCustomEvent<{ files: File[] }>) => void;
         /**
-          * Emitted when a file fails validation (invalid type, size exceeded, or max files exceeded).
-         */
-        "onAegovFileuploadError"?: (event: AegovFileuploadCustomEvent<{ type: 'max-size' | 'max-files' | 'invalid-type'; file?: File; message: string }>) => void;
-        /**
-          * Emitted when a file is removed from the list (button/dropzone variants).
+          * Emitted when a file is removed from the list (button/dropzone appearances).
          */
         "onAegovFileuploadRemove"?: (event: AegovFileuploadCustomEvent<{ file: File; remaining: File[] }>) => void;
         /**
-          * Marks the field as required.
-          * @default false
+          * Unified validation event. See §2.3.
          */
-        "required"?: boolean;
+        "onAegovValidate"?: (event: AegovFileuploadCustomEvent<AegovValidationDetail<File[]>>) => void;
         /**
           * Component size.
           * @default 'base'
          */
-        "size"?: FileuploadSize;
+        "size"?: string;
         /**
-          * Variant style: 'default' (styled input + button), 'button' (hidden input, label-as-button), or 'dropzone' (drag-and-drop area).
-          * @default 'default'
+          * Colour family. Drives idle ring/border, selected/checked fill, and value/accent text. Focus ring stays camel; error stays aered regardless.
+          * @default 'primary'
          */
-        "variant"?: FileuploadVariant;
+        "variant"?: FormVariant;
     }
     interface AegovFormField {
         /**
+          * Wrapper-level error message — cascaded to first form-control descendant.
+          * @default ''
+         */
+        "errorMessage"?: string;
+        /**
           * Additional CSS classes to apply.
          */
-        "class"?: string;
+        "extraClass"?: string;
+        /**
+          * Unique ID for the form-field wrapper. Auto-generated if not provided.
+         */
+        "fieldId"?: string;
+        /**
+          * Wrapper-level hint — cascaded to first form-control descendant.
+          * @default ''
+         */
+        "hint"?: string;
+        /**
+          * Wrapper-level invalid state. Cascades to the first form-control descendant if the child has not set its own value. See validation-engine-addon.md §2.7.
+          * @default false
+         */
+        "isInvalid"?: boolean;
+        /**
+          * Colour family. Drives idle ring/border, selected/checked fill, and value/accent text. Cascades to first form-control descendant.
+          * @default 'primary'
+         */
+        "variant"?: FormVariant;
+    }
+    interface AegovHeader {
+        /**
+          * The domain/URL of the government entity. Required. Forwarded to the embedded aegov-header-banner.
+         */
+        "entityDomain"?: string;
+        /**
+          * The name of the government entity. Required. Forwarded to the embedded aegov-header-banner.
+         */
+        "entityName"?: string;
+        /**
+          * Forwarded to the embedded aegov-header-banner. The CSS selector or ID of the main content container to skip to (e.g. "#main-content"). When provided, the banner injects a "Skip to content" link at the top of the document body.
+         */
+        "skipContentContainer"?: string;
+        /**
+          * @default 'ministry'
+         */
+        "variant"?: HeaderVariant;
+    }
+    interface AegovHeaderBanner {
+        /**
+          * The domain/URL of the government entity. Required.
+         */
+        "entityDomain"?: string;
+        /**
+          * The name of the government entity. Required.
+         */
+        "entityName"?: string;
+        /**
+          * The CSS selector or ID of the main content container to skip to (e.g. "#main-content"). When provided, renders a "Skip to content" link before the header for keyboard accessibility.
+         */
+        "skipContentContainer"?: string;
     }
     interface AegovInput {
         /**
+          * Inline error message rendered below the control when `isInvalid` is true. Auto-wires `aria-describedby` on the inner input. Use the `error` slot for richer markup.
+          * @default ''
+         */
+        "errorMessage"?: string;
+        /**
           * Additional CSS classes to apply.
          */
-        "class"?: string;
-        /**
-          * Show a copy button to copy the input value to clipboard. Only applies when readonly.
-          * @default false
-         */
-        "copyable"?: boolean;
-        /**
-          * Whether the input is disabled.
-          * @default false
-         */
-        "disabled"?: boolean;
+        "extraClass"?: string;
         /**
           * Unique ID for the native input element. Auto-generated if not provided.
          */
         "fieldId"?: string;
+        /**
+          * Helper hint rendered below the control. Hidden when an error is shown so the two text regions don't compete for the user's attention. Use the `hint` slot for richer markup.
+          * @default ''
+         */
+        "hint"?: string;
+        /**
+          * Show a copy button to copy the input value to clipboard. Only applies when readonly.
+          * @default false
+         */
+        "isCopyable"?: boolean;
+        /**
+          * Whether the input is disabled.
+          * @default false
+         */
+        "isDisabled"?: boolean;
+        /**
+          * Visual + a11y invalid state. Toggles `aria-invalid="true"` on the inner input and adds the `is-invalid` class on the host. See validation-engine-addon.md §2.3.
+          * @default false
+         */
+        "isInvalid"?: boolean;
+        /**
+          * Whether the input is readonly.
+          * @default false
+         */
+        "isReadonly"?: boolean;
+        /**
+          * Whether the input is required.
+          * @default false
+         */
+        "isRequired"?: boolean;
+        /**
+          * Show a toggle button to reveal/hide password. Only applies when type="password".
+          * @default false
+         */
+        "isRevealable"?: boolean;
         /**
           * The name attribute for the input.
          */
@@ -3383,29 +4717,18 @@ declare namespace LocalJSX {
          */
         "onAegovInputInput"?: (event: AegovInputCustomEvent<{ value: string; event: Event }>) => void;
         /**
+          * Unified validation event emitted on input/change/blur/manual triggers. Carries full validity snapshot for orchestrators (Layer 2) and BYO consumers. See validation-engine-addon.md §2.3.
+         */
+        "onAegovValidate"?: (event: AegovInputCustomEvent<AegovValidationDetail<string>>) => void;
+        /**
           * Placeholder text for the input.
          */
         "placeholder"?: string;
         /**
-          * Whether the input is readonly.
-          * @default false
-         */
-        "readonly"?: boolean;
-        /**
-          * Whether the input is required.
-          * @default false
-         */
-        "required"?: boolean;
-        /**
-          * Show a toggle button to reveal/hide password. Only applies when type="password".
-          * @default false
-         */
-        "revealable"?: boolean;
-        /**
           * The size of the input field.
           * @default 'base'
          */
-        "size"?: InputSize;
+        "size"?: string;
         /**
           * The type of the input field.
           * @default 'text'
@@ -3416,6 +4739,11 @@ declare namespace LocalJSX {
           * @default ''
          */
         "value"?: string;
+        /**
+          * Colour family. Drives idle ring, value text, and accent hover. Focus ring stays camel; error stays aered regardless.
+          * @default 'primary'
+         */
+        "variant"?: FormVariant;
     }
     interface AegovInputGroup {
         /**
@@ -3429,33 +4757,75 @@ declare namespace LocalJSX {
         /**
           * Additional CSS classes to apply.
          */
-        "class"?: string;
+        "extraClass"?: string;
         /**
           * The size of the input group. Propagated to child aegov-input and aegov-button.
           * @default 'base'
          */
-        "size"?: InputSize;
+        "size"?: string;
+        /**
+          * Colour family. Drives idle ring/border, selected/checked fill, and value/accent text. Focus ring stays camel; error stays aered regardless.
+          * @default 'primary'
+         */
+        "variant"?: FormVariant;
     }
     interface AegovLabel {
         /**
           * Additional CSS classes to apply.
          */
-        "class"?: string;
+        "extraClass"?: string;
+        /**
+          * Unique ID for the label element. Auto-generated if not provided.
+         */
+        "fieldId"?: string;
         /**
           * The ID of the form element this label is for. Automatically set by parent aegov-form-field.
          */
         "htmlFor"?: string;
+        /**
+          * Colour family. Drives idle ring/border, selected/checked fill, and value/accent text. Focus ring stays camel; error stays aered regardless.
+          * @default 'primary'
+         */
+        "variant"?: FormVariant;
     }
     interface AegovLink {
         /**
+          * Button-style appearance. Setting this opts into button styling.
+         */
+        "appearance"?: ButtonAppearance;
+        /**
           * Additional CSS classes to apply to the link.
          */
-        "class"?: string;
+        "extraClass"?: string;
+        /**
+          * Unique ID for the inner anchor element. Auto-generated if not provided.
+         */
+        "fieldId"?: string;
         /**
           * The URL that the link points to.
           * @required
          */
         "href": string;
+        /**
+          * Bold text.
+          * @default false
+         */
+        "isBold"?: boolean;
+        /**
+          * Disable navigation and apply disabled styling. Adds `aria-disabled="true"`, removes the link from tab order, and prevents default click navigation. Native `<a>` does not support `disabled`; this is a polyfill.
+          * @default false
+         */
+        "isDisabled"?: boolean;
+        /**
+          * Stretch to fill container width.
+          * @default false
+         */
+        "isFull"?: boolean;
+        /**
+          * Render as icon-only (square). Requires a button-style appearance.
+          * @default false
+         */
+        "isIcon"?: boolean;
         /**
           * Emitted when the link is clicked. The event detail contains the href and can be used to implement custom navigation.
          */
@@ -3465,21 +4835,43 @@ declare namespace LocalJSX {
          */
         "rel"?: string;
         /**
+          * Button-style size (xs/sm/base/lg/xl, optionally responsive).
+         */
+        "size"?: string;
+        /**
           * Target attribute for the link (_blank, _self, _parent, _top).
          */
         "target"?: LinkTarget;
+        /**
+          * Button-style color variant. Setting this opts into button styling.
+         */
+        "variant"?: ButtonVariant;
     }
     interface AegovModal {
         /**
-          * Backdrop opacity level
-          * @default 'base'
+          * Unique ID for the modal dialog element. Auto-generated if not provided.
          */
-        "backdropOpacity"?: ModalBackdropOpacity;
+        "fieldId"?: string;
         /**
-          * Whether clicking the backdrop closes the modal
+          * Whether clicking the overlay closes the modal
           * @default true
          */
-        "closeWithBackdrop"?: boolean;
+        "isCloseWithOverlay"?: boolean;
+        /**
+          * Whether the modal is currently open/visible
+          * @default false
+         */
+        "isOpen"?: boolean;
+        /**
+          * Whether to apply inner content padding. On by default; scales with size.
+          * @default true
+         */
+        "isPadding"?: boolean;
+        /**
+          * Whether to prevent body scroll when modal is open
+          * @default true
+         */
+        "isPreventScroll"?: boolean;
         /**
           * Emitted when backdrop is clicked
          */
@@ -3501,47 +4893,259 @@ declare namespace LocalJSX {
          */
         "onAegovModalOpen"?: (event: AegovModalCustomEvent<void>) => void;
         /**
-          * Whether the modal is currently open/visible
-          * @default false
+          * Overlay opacity level
+          * @default 'base'
          */
-        "open"?: boolean;
+        "overlayOpacity"?: ModalOverlayOpacity;
         /**
           * Position of the modal on screen
           * @default 'center'
          */
         "position"?: ModalPosition;
         /**
-          * Whether to prevent body scroll when modal is open
-          * @default true
+          * Size: 'sm' (compact padding/radius), 'base' (default), or 'lg' (generous padding/radius). Mirrors aegov-card sizing tokens.
+          * @default 'base'
          */
-        "preventBodyScroll"?: boolean;
+        "size"?: ModalSize;
+    }
+    /**
+     * @component aegov-navbar
+     * @description Horizontal primary navigation container. Holds aegov-navbar-item
+     * children which can be plain links, links with prefix icons, or links paired
+     * with an aegov-dropdown submenu (chevron-triggered).
+     * @example <aegov-navbar label-nav="Main navigation" size="base" gap="gap-6">
+     *   <aegov-navbar-item href="/">Home</aegov-navbar-item>
+     *   <aegov-navbar-item href="/services">Services</aegov-navbar-item>
+     *   <aegov-navbar-item href="/products">
+     *     Products
+     *     <aegov-dropdown slot="dropdown">
+     *       <a slot="dropdown-content" href="/a">Item A</a>
+     *       <a slot="dropdown-content" href="/b">Item B</a>
+     *     </aegov-dropdown>
+     *   </aegov-navbar-item>
+     * </aegov-navbar>
+     */
+    interface AegovNavbar {
+        /**
+          * Tailwind gap utility class applied between items, e.g. "gap-4", "gap-6", "gap-10".
+          * @default 'gap-3'
+         */
+        "gap"?: string;
+        /**
+          * Accessible label for the navigation landmark.
+          * @default 'Main navigation'
+         */
+        "labelNav"?: string;
+        /**
+          * Size of the navbar items. Accepts a Tailwind-style responsive string, e.g. `"sm md:base lg:lg"`, resolved against the active viewport width. The resolved token cascades to all aegov-navbar-item children.
+          * @default 'base'
+         */
+        "size"?: string;
+    }
+    /**
+     * @component aegov-navbar-item
+     * @description Single navigation item used inside aegov-navbar. Renders as a link
+     * (when `href` is set) or plain text. Optional prefix icon via `slot="icon-start"`.
+     * Optional submenu via `slot="dropdown"` containing an aegov-dropdown — the
+     * navbar-item itself becomes the dropdown trigger so hover/position resolve to
+     * the full item rect, and a chevron button is injected for keyboard/click
+     * toggling. The user controls the dropdown's `trigger` (e.g. set
+     * `trigger="hover"` for hover open).
+     * @example <aegov-navbar-item href="/products">
+     *   <svg slot="icon-start" ...></svg>
+     *   Products
+     *   <aegov-dropdown slot="dropdown" trigger="hover">
+     *     <a slot="dropdown-content" href="/a">Item A</a>
+     *   </aegov-dropdown>
+     * </aegov-navbar-item>
+     */
+    interface AegovNavbarItem {
+        /**
+          * URL the item links to. If unset, item renders as a non-link span.
+         */
+        "href"?: string;
+        /**
+          * Mark this item as the current page. Sets `aria-current="page"`.
+          * @default false
+         */
+        "isActive"?: boolean;
+        /**
+          * Visually disabled, not clickable, removed from arrow-key cycle.
+          * @default false
+         */
+        "isDisabled"?: boolean;
+        /**
+          * Anchor rel attribute.
+         */
+        "rel"?: string;
+        /**
+          * Size token. Accepts a Tailwind-style responsive string (e.g. `"sm md:base lg:lg"`). Parent aegov-navbar sets this to its resolved value; standalone use also supports breakpoint syntax.
+          * @default 'base'
+         */
+        "size"?: string;
+        /**
+          * Anchor target attribute.
+         */
+        "target"?: LinkTarget;
+    }
+    /**
+     * @component aegov-navblock
+     * @description Vertical navigation block, typically used in sidebar layouts.
+     * Holds aegov-navblock-item children that may nest recursively. Each parent
+     * item collapses/expands its sub-region, similar to an accordion. Cascades
+     * `icon` and resolved `size` to all descendant items, and enforces single-vs-
+     * multi open behavior at every level via `isMultiple`.
+     * @example <aegov-navblock block-title="Workspace" label-nav="Project sidebar">
+     *   <aegov-navblock-item href="/" is-active>Dashboard</aegov-navblock-item>
+     *   <aegov-navblock-item>
+     *     Reports
+     *     <aegov-navblock-item href="/r/sales">Sales</aegov-navblock-item>
+     *     <aegov-navblock-item href="/r/users">Users</aegov-navblock-item>
+     *   </aegov-navblock-item>
+     * </aegov-navblock>
+     */
+    interface AegovNavblock {
+        /**
+          * Block title text shown above items. The `title` slot overrides this.
+         */
+        "blockTitle"?: string;
+        /**
+          * Unique ID for the block wrapper. Auto-generated if not provided.
+         */
+        "fieldId"?: string;
+        /**
+          * Expand/collapse icon style for items.
+          * @default 'chevron'
+         */
+        "icon"?: NavblockIcon;
+        /**
+          * Wrap the block in a bordered container with padding.
+          * @default false
+         */
+        "isBordered"?: boolean;
+        /**
+          * Allow multiple items to be open at the same level simultaneously.
+          * @default false
+         */
+        "isMultiple"?: boolean;
+        /**
+          * Accessible label for the navigation landmark.
+          * @default 'Sidebar navigation'
+         */
+        "labelNav"?: string;
+        /**
+          * Size token. Accepts a Tailwind-style responsive string (e.g. `"sm md:base lg:lg"`). Resolves at runtime and cascades to all items.
+          * @default 'base'
+         */
+        "size"?: string;
+    }
+    /**
+     * @component aegov-navblock-item
+     * @description Single row inside an aegov-navblock. Renders as a link (when
+     * `href` is set and the item has no sub-items) or a toggle button (when the
+     * item has sub-items via `slot="subnav"` or nested `aegov-navblock-item`
+     * children). Cascades `icon` and `size` to direct sub-items.
+     * @example <aegov-navblock-item>
+     *   <svg slot="icon-start"></svg>
+     *   Reports <aegov-badge>3</aegov-badge>
+     *   <aegov-navblock-item href="/r/sales">Sales</aegov-navblock-item>
+     *   <aegov-navblock-item href="/r/users">Users</aegov-navblock-item>
+     * </aegov-navblock-item>
+     */
+    interface AegovNavblockItem {
+        /**
+          * Destination URL. If set and the item has no sub-items, renders an `<a>`.
+         */
+        "href"?: string;
+        /**
+          * Expand/collapse icon. Cascades from parent navblock.
+          * @default 'chevron'
+         */
+        "icon"?: NavblockIcon;
+        /**
+          * Mark as the current page. Sets `aria-current="page"` on the link.
+          * @default false
+         */
+        "isActive"?: boolean;
+        /**
+          * Visually disabled, not focusable, click no-op.
+          * @default false
+         */
+        "isDisabled"?: boolean;
+        /**
+          * Whether the sub-region is open. Set by parent navblock or parent navblock-item; mutable so the row can self-toggle.
+          * @default false
+         */
+        "isOpen"?: boolean;
+        /**
+          * Emitted when the row toggles its sub-region.
+         */
+        "onAegovNavblockItemToggle"?: (event: AegovNavblockItemCustomEvent<{ open: boolean }>) => void;
+        /**
+          * Anchor rel.
+         */
+        "rel"?: string;
+        /**
+          * Size token. Cascades from parent navblock.
+          * @default 'base'
+         */
+        "size"?: NavblockSize;
+        /**
+          * Anchor target.
+         */
+        "target"?: LinkTarget;
     }
     interface AegovOtp {
         /**
-          * Allow letters and numbers when true. Numbers only when false.
-          * @default false
+          * Visual appearance. "continuous" = single bordered box with dividers between cells. "individual" = separate bordered boxes per digit.
+          * @default 'continuous'
          */
-        "alphanumeric"?: boolean;
+        "appearance"?: OtpVariant;
+        /**
+          * Inline error message. Use `error` slot for rich markup.
+          * @default ''
+         */
+        "errorMessage"?: string;
         /**
           * Additional CSS classes.
          */
-        "class"?: string;
-        /**
-          * Disables all input cells.
-          * @default false
-         */
-        "disabled"?: boolean;
+        "extraClass"?: string;
         /**
           * Unique ID for the first input cell. Auto-generated if not provided. Used by aegov-label for linking.
          */
         "fieldId"?: string;
+        /**
+          * Helper hint shown below the control. Hidden when an error is shown.
+          * @default ''
+         */
+        "hint"?: string;
+        /**
+          * Allow letters and numbers when true. Numbers only when false.
+          * @default false
+         */
+        "isAlphanumeric"?: boolean;
+        /**
+          * Disables all input cells.
+          * @default false
+         */
+        "isDisabled"?: boolean;
+        /**
+          * Visual + a11y invalid state. See §2.3.
+          * @default false
+         */
+        "isInvalid"?: boolean;
+        /**
+          * Marks the field as required for form submission. Used by FormAssociated for `valueMissing`.
+          * @default false
+         */
+        "isRequired"?: boolean;
         /**
           * Number of input cells (digits/characters expected).
           * @default 5
          */
         "length"?: number;
         /**
-          * Form field name for the hidden input (used in form submission).
+          * Form field name for FormAssociated submission.
          */
         "name"?: string;
         /**
@@ -3553,100 +5157,157 @@ declare namespace LocalJSX {
          */
         "onAegovOtpComplete"?: (event: AegovOtpCustomEvent<{ value: string }>) => void;
         /**
-          * Fires when all cells are filled but pattern validation fails.
+          * Unified validation event. See §2.3.
          */
-        "onAegovOtpInvalid"?: (event: AegovOtpCustomEvent<{ value: string; pattern: string }>) => void;
+        "onAegovValidate"?: (event: AegovOtpCustomEvent<AegovValidationDetail<string>>) => void;
         /**
           * Regex pattern string for validation. Checked when all cells are filled.
          */
         "pattern"?: string;
         /**
-          * Size of the input cells. Maps to text size: xs, sm, base, lg, xl, 2xl.
+          * Size of the input cells.
           * @default 'base'
          */
-        "size"?: OtpSize;
+        "size"?: string;
         /**
           * Current OTP value. Can be set externally to pre-fill cells.
           * @default ''
          */
         "value"?: string;
         /**
-          * Visual variant. "continuous" = single bordered box with dividers between cells. "individual" = separate bordered boxes per digit. Note: named "variant" to avoid conflict with native HTML "style" attribute.
-          * @default 'continuous'
+          * Colour family. Drives idle ring/border, selected/checked fill, and value/accent text. Focus ring stays camel; error stays aered regardless.
+          * @default 'primary'
          */
-        "variant"?: OtpVariant;
+        "variant"?: FormVariant;
     }
     interface AegovPagination {
         /**
           * Number of pages always visible at each boundary (start and end of the list).
           * @default 1
          */
-        "boundaryCount"?: number;
-        /**
-          * Currently active page (1-indexed). This is a controlled prop — you must update it on every aegovPaginationPageChange event.
-          * @default 1
-         */
-        "currentPage"?: number;
-        /**
-          * Disables all pagination interaction.
-          * @default false
-         */
-        "disabled"?: boolean;
-        /**
-          * Label for the First page button (only shown when showFirstLast is true).
-          * @default 'First'
-         */
-        "firstLabel"?: string;
-        /**
-          * Label for the Last page button (only shown when showFirstLast is true).
-          * @default 'Last'
-         */
-        "lastLabel"?: string;
-        /**
-          * Label for the Next page button.
-          * @default 'Next'
-         */
-        "nextLabel"?: string;
-        /**
-          * Emitted when a page is selected. The event detail is the new page number (1-indexed). Update currentPage in response to this event.
-         */
-        "onAegovPaginationPageChange"?: (event: AegovPaginationCustomEvent<number>) => void;
-        /**
-          * Label for the Previous page button.
-          * @default 'Previous'
-         */
-        "prevLabel"?: string;
-        /**
-          * Show First and Last navigation buttons alongside Previous and Next.
-          * @default false
-         */
-        "showFirstLast"?: boolean;
+        "countBoundary"?: number;
         /**
           * Number of sibling pages shown on each side of the current page.
           * @default 1
          */
-        "siblingCount"?: number;
+        "countSibling"?: number;
         /**
-          * Size variant of the pagination.
-          * @default 'base'
+          * Unique ID for the pagination nav element. Auto-generated if not provided.
          */
-        "size"?: PaginationSize;
+        "fieldId"?: string;
+        /**
+          * Disables all pagination interaction.
+          * @default false
+         */
+        "isDisabled"?: boolean;
+        /**
+          * Show First and Last navigation buttons alongside Previous and Next.
+          * @default false
+         */
+        "isEnabledFirstLast"?: boolean;
+        /**
+          * Label for the First page button (only shown when isEnabledFirstLast is true). Empty defaults to localized text via isRtl.
+          * @default ''
+         */
+        "labelFirst"?: string;
+        /**
+          * Label for the Last page button (only shown when isEnabledFirstLast is true). Empty defaults to localized text via isRtl.
+          * @default ''
+         */
+        "labelLast"?: string;
+        /**
+          * Label for the Next page button. Empty defaults to localized text via isRtl.
+          * @default ''
+         */
+        "labelNext"?: string;
+        /**
+          * Label for the Previous page button. Empty defaults to localized text via isRtl.
+          * @default ''
+         */
+        "labelPrev"?: string;
+        /**
+          * Emitted when a page is selected. The event detail is the new page number (1-indexed). Update pageCurrent in response to this event.
+         */
+        "onAegovPaginationPageChange"?: (event: AegovPaginationCustomEvent<number>) => void;
+        /**
+          * Currently active page (1-indexed). This is a controlled prop — you must update it on every aegovPaginationPageChange event.
+          * @default 1
+         */
+        "pageCurrent"?: number;
         /**
           * Total number of pages.
           * @default 1
          */
-        "totalPages"?: number;
+        "pages"?: number;
         /**
-          * Display variant. - 'default': shows page numbers, ellipsis, and prev/next buttons. - 'compact': shows only prev/next buttons (and first/last when showFirstLast is true).
+          * Size variant of the pagination.
+          * @default 'base'
+         */
+        "size"?: string;
+        /**
+          * Display variant. - 'default': shows page numbers, ellipsis, and prev/next buttons. - 'compact': shows only prev/next buttons (and first/last when isEnabledFirstLast is true).
           * @default 'default'
          */
         "variant"?: PaginationVariant;
     }
-    interface AegovProgress {
+    /**
+     * Popover component that displays positioned content with an arrow marker
+     */
+    interface AegovPopover {
         /**
-          * Additional CSS classes.
+          * Alignment of the popover
+          * @default 'center'
          */
-        "class"?: string;
+        "align"?: PopoverAlign;
+        /**
+          * Delay before hiding popover on hover (in milliseconds)
+          * @default 0
+         */
+        "delayEnd"?: number;
+        /**
+          * Delay before showing popover on hover (in milliseconds)
+          * @default 200
+         */
+        "delayStart"?: number;
+        /**
+          * Unique ID for the popover element. Auto-generated if not provided. The trigger element receives a derived ID `${fieldId}-trigger` for ARIA linkage.
+         */
+        "fieldId"?: string;
+        /**
+          * Gap between popover and trigger element (in pixels)
+          * @default 10
+         */
+        "gap"?: number;
+        /**
+          * Whether the popover is disabled
+          * @default false
+         */
+        "isDisabled"?: boolean;
+        /**
+          * Additional offset for popover positioning (in pixels)
+          * @default 0
+         */
+        "offset"?: number;
+        /**
+          * Emitted when popover closes
+         */
+        "onAegovPopoverClose"?: (event: AegovPopoverCustomEvent<void>) => void;
+        /**
+          * Emitted when popover opens
+         */
+        "onAegovPopoverOpen"?: (event: AegovPopoverCustomEvent<void>) => void;
+        /**
+          * Position of the popover relative to the trigger element
+          * @default 'bottom'
+         */
+        "position"?: PopoverPosition;
+        /**
+          * Trigger type for showing the popover
+          * @default 'click'
+         */
+        "trigger"?: PopoverTrigger;
+    }
+    interface AegovProgress {
         /**
           * Counter placement. Hidden when not set.
          */
@@ -3660,6 +5321,10 @@ declare namespace LocalJSX {
           * Description text displayed below the progress bar.
          */
         "description"?: string;
+        /**
+          * Additional CSS classes.
+         */
+        "extraClass"?: string;
         /**
           * Unique ID for the native progress element. Auto-generated if not provided.
          */
@@ -3681,27 +5346,42 @@ declare namespace LocalJSX {
     }
     interface AegovRadio {
         /**
-          * Whether the radio is checked.
-          * @default false
+          * Inline error message. Use `error` slot for rich markup.
+          * @default ''
          */
-        "checked"?: boolean;
+        "errorMessage"?: string;
         /**
           * Additional CSS classes to apply.
          */
-        "class"?: string;
-        /**
-          * Description text displayed below the label. Only rendered when label is provided.
-         */
-        "description"?: string;
-        /**
-          * Whether the radio is disabled.
-          * @default false
-         */
-        "disabled"?: boolean;
+        "extraClass"?: string;
         /**
           * Unique ID for the native radio element. Auto-generated if not provided.
          */
         "fieldId"?: string;
+        /**
+          * Helper hint text displayed below the label. Renamed from `description` per §6.6. Hidden when an error is shown.
+         */
+        "hint"?: string;
+        /**
+          * Whether the radio is checked.
+          * @default false
+         */
+        "isChecked"?: boolean;
+        /**
+          * Whether the radio is disabled.
+          * @default false
+         */
+        "isDisabled"?: boolean;
+        /**
+          * Visual + a11y invalid state. See §2.3.
+          * @default false
+         */
+        "isInvalid"?: boolean;
+        /**
+          * Whether the radio is required.
+          * @default false
+         */
+        "isRequired"?: boolean;
         /**
           * Label text for the radio. When provided, generates an associated <label> element.
          */
@@ -3715,30 +5395,59 @@ declare namespace LocalJSX {
          */
         "onAegovRadioChange"?: (event: AegovRadioCustomEvent<{ checked: boolean; value?: string }>) => void;
         /**
-          * Whether the radio is required.
-          * @default false
+          * Unified validation event. See §2.3.
          */
-        "required"?: boolean;
+        "onAegovValidate"?: (event: AegovRadioCustomEvent<AegovValidationDetail<boolean>>) => void;
         /**
           * The size of the radio.
           * @default 'base'
          */
-        "size"?: RadioSize;
+        "size"?: string;
         /**
           * The value attribute for the radio.
          */
         "value"?: string;
+        /**
+          * Colour family. Drives rest border, checked bg/border. Focus ring stays camel; error stays aered.
+          * @default 'primary'
+         */
+        "variant"?: FormVariant;
     }
     interface AegovRadioGroup {
         /**
+          * Visual appearance for the group layout.
+          * @default 'default'
+         */
+        "appearance"?: RadioGroupVariant;
+        /**
+          * Inline error message.
+          * @default ''
+         */
+        "errorMessage"?: string;
+        /**
           * Additional CSS classes to apply.
          */
-        "class"?: string;
+        "extraClass"?: string;
+        /**
+          * Helper hint shown below the legend when not invalid.
+          * @default ''
+         */
+        "hint"?: string;
         /**
           * Disables all radios within the group via native fieldset disabled.
           * @default false
          */
-        "disabled"?: boolean;
+        "isDisabled"?: boolean;
+        /**
+          * Visual + a11y invalid state. See §2.3.
+          * @default false
+         */
+        "isInvalid"?: boolean;
+        /**
+          * Group is required — at least one radio must be selected. Aggregate-level only.
+          * @default false
+         */
+        "isRequired"?: boolean;
         /**
           * Optional label rendered as a <legend> for accessibility.
          */
@@ -3752,6 +5461,10 @@ declare namespace LocalJSX {
          */
         "onAegovRadioGroupChange"?: (event: AegovRadioGroupCustomEvent<{ value: string | undefined }>) => void;
         /**
+          * Unified validation event (group-level aggregate). See §2.3.
+         */
+        "onAegovValidate"?: (event: AegovRadioGroupCustomEvent<AegovValidationDetail<string | undefined>>) => void;
+        /**
           * Stack direction for radio items.
           * @default 'vertical'
          */
@@ -3760,32 +5473,52 @@ declare namespace LocalJSX {
           * Size of all radios in the group. Propagated to children.
           * @default 'base'
          */
-        "size"?: RadioSize;
+        "size"?: string;
         /**
-          * Visual variant for the group layout.
-          * @default 'default'
+          * Colour family. Cascades to child radios (only if child has no own variant). Focus ring stays camel; error stays aered regardless.
+          * @default 'primary'
          */
-        "variant"?: RadioGroupVariant;
+        "variant"?: FormVariant;
     }
     interface AegovRange {
-        /**
-          * Additional CSS classes.
-         */
-        "class"?: string;
-        /**
-          * Whether the range is disabled.
-          * @default false
-         */
-        "disabled"?: boolean;
         /**
           * Value display mode.
           * @default 'none'
          */
         "display"?: RangeDisplay;
         /**
+          * Inline error message. Use `error` slot for rich markup.
+          * @default ''
+         */
+        "errorMessage"?: string;
+        /**
+          * Additional CSS classes.
+         */
+        "extraClass"?: string;
+        /**
           * Unique ID for the native range input element. Auto-generated if not provided.
          */
         "fieldId"?: string;
+        /**
+          * Helper hint shown below the control. Hidden when an error is shown.
+          * @default ''
+         */
+        "hint"?: string;
+        /**
+          * Whether the range is disabled.
+          * @default false
+         */
+        "isDisabled"?: boolean;
+        /**
+          * Visual + a11y invalid state. See §2.3.
+          * @default false
+         */
+        "isInvalid"?: boolean;
+        /**
+          * Whether the range is required.
+          * @default false
+         */
+        "isRequired"?: boolean;
         /**
           * Optional label text.
          */
@@ -3818,20 +5551,19 @@ declare namespace LocalJSX {
          */
         "onAegovRangeInput"?: (event: AegovRangeCustomEvent<{ value?: number; valueLow?: number; valueHigh?: number }>) => void;
         /**
+          * Unified validation event. See §2.3.
+         */
+        "onAegovValidate"?: (event: AegovRangeCustomEvent<AegovValidationDetail<AegovRangeValue>>) => void;
+        /**
           * Layout orientation.
           * @default 'horizontal'
          */
         "orientation"?: RangeOrientation;
         /**
-          * Whether the range is required.
-          * @default false
-         */
-        "required"?: boolean;
-        /**
           * Size of the range track. Thumb remains constant.
           * @default 'base'
          */
-        "size"?: RangeSize;
+        "size"?: string;
         /**
           * Step increment.
           * @default 1
@@ -3852,36 +5584,71 @@ declare namespace LocalJSX {
           * @default 25
          */
         "valueLow"?: number;
+        /**
+          * Colour family. Drives idle ring/border, selected/checked fill, and value/accent text. Focus ring stays camel; error stays aered regardless.
+          * @default 'primary'
+         */
+        "variant"?: FormVariant;
     }
     interface AegovSelect {
         /**
-          * Additional CSS classes to apply.
+          * The visual appearance. 'default' renders a native select; 'listbox' renders a custom dropdown.
+          * @default 'default'
          */
-        "class"?: string;
+        "appearance"?: SelectVariant;
         /**
-          * Show a clear button to reset selection.
-          * @default false
-         */
-        "clearable"?: boolean;
-        /**
-          * Whether the select is disabled.
-          * @default false
-         */
-        "disabled"?: boolean;
-        /**
-          * Message shown when search yields no results.
-          * @default 'No results found'
+          * Message shown when search yields no results. Empty string defaults to localized text via isRtl.
+          * @default ''
          */
         "emptyMessage"?: string;
+        /**
+          * Inline error message. Use `error` slot for rich markup.
+          * @default ''
+         */
+        "errorMessage"?: string;
+        /**
+          * Additional CSS classes to apply.
+         */
+        "extraClass"?: string;
         /**
           * Unique ID for the select element. Auto-generated if not provided.
          */
         "fieldId"?: string;
         /**
+          * Helper hint shown below the control. Hidden when an error is shown.
+          * @default ''
+         */
+        "hint"?: string;
+        /**
+          * Show a clear button to reset selection.
+          * @default false
+         */
+        "isClearable"?: boolean;
+        /**
+          * Whether the select is disabled.
+          * @default false
+         */
+        "isDisabled"?: boolean;
+        /**
+          * Visual + a11y invalid state. See §2.3.
+          * @default false
+         */
+        "isInvalid"?: boolean;
+        /**
           * Whether multiple selection is enabled. Forces listbox behaviour.
           * @default false
          */
-        "multiple"?: boolean;
+        "isMultiple"?: boolean;
+        /**
+          * Whether the select is required.
+          * @default false
+         */
+        "isRequired"?: boolean;
+        /**
+          * Show a search input in the listbox dropdown to filter options. Only works with listbox appearance.
+          * @default false
+         */
+        "isSearchable"?: boolean;
         /**
           * The name attribute for form submission.
          */
@@ -3891,42 +5658,36 @@ declare namespace LocalJSX {
          */
         "onAegovSelectChange"?: (event: AegovSelectCustomEvent<SelectChangeDetail>) => void;
         /**
-          * Emitted when the dropdown closes (listbox variant).
+          * Emitted when the dropdown closes (listbox appearance).
          */
         "onAegovSelectClose"?: (event: AegovSelectCustomEvent<void>) => void;
         /**
-          * Emitted when the dropdown opens (listbox variant).
+          * Emitted when the dropdown opens (listbox appearance).
          */
         "onAegovSelectOpen"?: (event: AegovSelectCustomEvent<void>) => void;
+        /**
+          * Unified validation event. See §2.3.
+         */
+        "onAegovValidate"?: (event: AegovSelectCustomEvent<AegovValidationDetail<AegovSelectValue>>) => void;
         /**
           * Placeholder text shown when nothing is selected.
          */
         "placeholder"?: string;
         /**
-          * Whether the select is required.
-          * @default false
-         */
-        "required"?: boolean;
-        /**
-          * Show a search input in the listbox dropdown to filter options. Only works with listbox variant.
-          * @default false
-         */
-        "searchable"?: boolean;
-        /**
           * The size of the select. Matches aegov-input height.
           * @default 'base'
          */
-        "size"?: SelectSize;
+        "size"?: string;
         /**
           * The current selected value. For multiple, a comma-separated string.
           * @default ''
          */
         "value"?: string;
         /**
-          * The visual variant. 'default' renders a native select; 'listbox' renders a custom dropdown.
-          * @default 'default'
+          * Colour family. Drives idle ring/border, selected/checked fill, and value/accent text. Focus ring stays camel; error stays aered regardless.
+          * @default 'primary'
          */
-        "variant"?: SelectVariant;
+        "variant"?: FormVariant;
         /**
           * Max visible items in the dropdown before scrolling.
           * @default 6
@@ -3938,7 +5699,7 @@ declare namespace LocalJSX {
           * Whether this option is disabled.
           * @default false
          */
-        "disabled"?: boolean;
+        "isDisabled"?: boolean;
         /**
           * The value of this option.
           * @default ''
@@ -3957,24 +5718,38 @@ declare namespace LocalJSX {
      */
     interface AegovSeparator {
         /**
+          * Appearance: 'solid' (full-strength line) or 'light' (subtle low-contrast line). Colour resolves from `variant`.
+          * @default 'solid'
+         */
+        "appearance"?: SeparatorAppearance;
+        /**
+          * Additional CSS classes merged onto the inner separator element.
+         */
+        "extraClass"?: string;
+        /**
+          * Numeric spacing applied on either side of the separator line, in Tailwind spacing units (1 unit = 0.25rem = 4px). Horizontal orientation → padding is applied on the block axis (top + bottom); vertical → inline axis (start + end). Accepts any non-negative number. `0` (default) keeps no padding.  Example: `gap="4"` produces `1rem` (16px) padding-block on a horizontal separator.
+          * @default 0
+         */
+        "gap"?: number;
+        /**
           * Whether the separator is purely decorative (no semantic meaning)
           * @default true
          */
-        "decorative"?: boolean;
+        "isDecorative"?: boolean;
         /**
           * Orientation of the separator
           * @default 'horizontal'
          */
-        "orientation"?: 'horizontal' | 'vertical';
+        "orientation"?: SeparatorOrientation;
         /**
           * Optional text label displayed at the center of the separator
          */
         "text"?: string;
         /**
-          * Visual variant of the separator
-          * @default 'default'
+          * Variant: colour family applied to line + text label. 'primary' (default), 'secondary', 'neutral-max' (aeblack-800 family), or 'neutral-min' (aeblack-100 family).
+          * @default 'primary'
          */
-        "variant"?: 'default' | 'subtle';
+        "variant"?: SeparatorVariant;
     }
     /**
      * @component aegov-tab
@@ -3995,7 +5770,7 @@ declare namespace LocalJSX {
           * Disables this tab and its associated panel.
           * @default false
          */
-        "disabled"?: boolean;
+        "isDisabled"?: boolean;
         /**
           * Emitted when this tab is clicked. Bubbles up to the parent aegov-tabs.
           * @event aegovTabSelect
@@ -4010,7 +5785,7 @@ declare namespace LocalJSX {
           * Size of the tab. Set automatically by the parent aegov-tabs.
           * @default 'base'
          */
-        "size"?: TabSize;
+        "size"?: string;
         /**
           * Unique identifier that must match the corresponding aegov-tab-panel's tab-id.
          */
@@ -4036,6 +5811,10 @@ declare namespace LocalJSX {
          */
         "active"?: boolean;
         /**
+          * Additional CSS classes merged onto the inner panel element.
+         */
+        "extraClass"?: string;
+        /**
           * Unique identifier that must match the corresponding aegov-tab's tab-id.
          */
         "tabId": string;
@@ -4045,7 +5824,7 @@ declare namespace LocalJSX {
      * @description Tab container that organizes content into panels.
      * Manages active tab state internally (uncontrolled) and wires up tab triggers
      * with their corresponding panels via matching tab-id attributes.
-     * @example <aegov-tabs default-active-tab="overview" variant="simple">
+     * @example <aegov-tabs default-open="overview" variant="simple">
      *   <aegov-tab slot="tabs" tab-id="overview">Overview</aegov-tab>
      *   <aegov-tab slot="tabs" tab-id="details">Details</aegov-tab>
      *   <aegov-tab-panel tab-id="overview">Overview content</aegov-tab-panel>
@@ -4057,7 +5836,26 @@ declare namespace LocalJSX {
           * The tab-id of the tab that should be active on initial render. If not provided, the first non-disabled tab is activated.
           * @default ''
          */
-        "defaultActiveTab"?: string;
+        "defaultOpen"?: string;
+        /**
+          * Unique ID for the tabs container. Auto-generated if not provided.
+         */
+        "fieldId"?: string;
+        /**
+          * Enables horizontal scrolling when tabs overflow the container. A faded gradient edge is shown to indicate scrollable content.
+          * @default false
+         */
+        "isScrollable"?: boolean;
+        /**
+          * Distributes tabs evenly to fill the full width of the container. Each tab grows equally to occupy available space.
+          * @default false
+         */
+        "isStretchable"?: boolean;
+        /**
+          * Accessible label for the tablist element. Provides context for screen readers about what the tabs control.
+          * @default 'Tabs'
+         */
+        "labelTablist"?: string;
         /**
           * Emitted when the active tab changes. Event detail contains the new active tab-id string.
           * @event aegovTabChange
@@ -4069,25 +5867,10 @@ declare namespace LocalJSX {
          */
         "orientation"?: TabOrientation;
         /**
-          * Enables horizontal scrolling when tabs overflow the container. A faded gradient edge is shown to indicate scrollable content.
-          * @default false
-         */
-        "scrollable"?: boolean;
-        /**
           * Size of the tabs.
           * @default 'base'
          */
-        "size"?: TabSize;
-        /**
-          * Distributes tabs evenly to fill the full width of the container. Each tab grows equally to occupy available space.
-          * @default false
-         */
-        "stretch"?: boolean;
-        /**
-          * Accessible label for the tablist element. Provides context for screen readers about what the tabs control.
-          * @default 'Tabs'
-         */
-        "tablistLabel"?: string;
+        "size"?: string;
         /**
           * Visual style variant of the tabs. - `simple`: Underline style (default) - `segmented`: Button-group style, ideal for toggling views - `pill`: Pill-shaped individual tabs
           * @default 'simple'
@@ -4098,32 +5881,57 @@ declare namespace LocalJSX {
         /**
           * Additional CSS classes to apply to the text.
          */
-        "class"?: string;
+        "extraClass"?: string;
         /**
           * The size of the text.
           * @default 'base'
          */
-        "size"?: TextSize;
+        "size"?: string;
     }
     interface AegovTextarea {
         /**
+          * Inline error message rendered below the control when `isInvalid` is true. Use `error` slot for richer markup.
+          * @default ''
+         */
+        "errorMessage"?: string;
+        /**
           * Additional CSS classes to apply.
          */
-        "class"?: string;
-        /**
-          * Show a copy button to copy the textarea value to clipboard. Only applies when readonly.
-          * @default false
-         */
-        "copyable"?: boolean;
-        /**
-          * Whether the textarea is disabled.
-          * @default false
-         */
-        "disabled"?: boolean;
+        "extraClass"?: string;
         /**
           * Unique ID for the native textarea element. Auto-generated if not provided.
          */
         "fieldId"?: string;
+        /**
+          * Helper hint rendered below the control. Hidden when an error is shown. Use `hint` slot for richer markup.
+          * @default ''
+         */
+        "hint"?: string;
+        /**
+          * Show a copy button to copy the textarea value to clipboard. Only applies when readonly.
+          * @default false
+         */
+        "isCopyable"?: boolean;
+        /**
+          * Whether the textarea is disabled.
+          * @default false
+         */
+        "isDisabled"?: boolean;
+        /**
+          * Visual + a11y invalid state. Toggles `aria-invalid` and `.is-invalid` host class. See validation-engine-addon.md §2.3.
+          * @default false
+         */
+        "isInvalid"?: boolean;
+        /**
+          * Whether the textarea is readonly.
+          * @default false
+         */
+        "isReadonly"?: boolean;
+        /**
+          * Whether the textarea is required.
+          * @default false
+         */
+        "isRequired"?: boolean;
         /**
           * Maximum number of characters. When set, a character counter is displayed.
          */
@@ -4149,19 +5957,13 @@ declare namespace LocalJSX {
          */
         "onAegovTextareaInput"?: (event: AegovTextareaCustomEvent<{ value: string; event: Event }>) => void;
         /**
+          * Unified validation event. See validation-engine-addon.md §2.3.
+         */
+        "onAegovValidate"?: (event: AegovTextareaCustomEvent<AegovValidationDetail<string>>) => void;
+        /**
           * Placeholder text for the textarea.
          */
         "placeholder"?: string;
-        /**
-          * Whether the textarea is readonly.
-          * @default false
-         */
-        "readonly"?: boolean;
-        /**
-          * Whether the textarea is required.
-          * @default false
-         */
-        "required"?: boolean;
         /**
           * Resize behaviour of the textarea.
           * @default 'vertical'
@@ -4171,14 +5973,23 @@ declare namespace LocalJSX {
           * The size of the textarea (affects font size only).
           * @default 'base'
          */
-        "size"?: TextareaSize;
+        "size"?: string;
         /**
           * The current value of the textarea.
           * @default ''
          */
         "value"?: string;
+        /**
+          * Colour family. Drives idle ring, value text, and accent hover.
+          * @default 'primary'
+         */
+        "variant"?: FormVariant;
     }
     interface AegovTimeline {
+        /**
+          * Unique ID for the timeline nav element. Auto-generated if not provided.
+         */
+        "fieldId"?: string;
         /**
           * Layout orientation.
           * @default 'horizontal'
@@ -4188,7 +5999,7 @@ declare namespace LocalJSX {
           * Size of step indicators.
           * @default 'base'
          */
-        "size"?: TimelineSize;
+        "size"?: string;
         /**
           * Visual variant: default (numbered circles) or compact (dots).
           * @default 'default'
@@ -4197,13 +6008,13 @@ declare namespace LocalJSX {
     }
     interface AegovTimelineStep {
         /**
-          * @default false
-         */
-        "connectorSolid"?: boolean;
-        /**
           * Optional description shown below the label.
          */
         "description"?: string;
+        /**
+          * @default false
+         */
+        "isConnectorSolid"?: boolean;
         /**
           * @default false
          */
@@ -4242,12 +6053,20 @@ declare namespace LocalJSX {
         /**
           * Additional CSS classes to apply to the title.
          */
-        "class"?: string;
+        "extraClass"?: string;
+        /**
+          * Unique ID for the title element. Auto-generated if not provided.
+         */
+        "fieldId"?: string;
+        /**
+          * The semantic wrapper tag for the title. When set, renders the title inside the specified heading tag (`h2`–`h6`) or a `p`. When omitted, the title renders as a `<p>` (default).
+         */
+        "headingType"?: TitleHeadingType;
         /**
           * The size of the title text.
           * @default 'base'
          */
-        "size"?: TitleSize;
+        "size"?: string;
     }
     interface AegovToast {
         /**
@@ -4256,15 +6075,20 @@ declare namespace LocalJSX {
          */
         "appearance"?: ToastAppearance;
         /**
-          * Whether the toast shows a close button.
-          * @default true
-         */
-        "dismissible"?: boolean;
-        /**
           * Auto-dismiss duration in milliseconds. 0 = no auto-dismiss.
           * @default 5000
          */
         "duration"?: number;
+        /**
+          * Whether the toast shows a close button.
+          * @default true
+         */
+        "isDismissible"?: boolean;
+        /**
+          * Whether to show a countdown progress bar.
+          * @default false
+         */
+        "isProgressEnabled"?: boolean;
         /**
           * Display mode for multiple toasts at the same position. 'stack' = all toasts visible with gap between them (default). 'rack' = toasts collapse into a deck; hover to expand.
           * @default 'stack'
@@ -4288,11 +6112,6 @@ declare namespace LocalJSX {
          */
         "position"?: ToastPosition;
         /**
-          * Whether to show a countdown progress bar.
-          * @default false
-         */
-        "showProgress"?: boolean;
-        /**
           * Semantic color variant of the toast.
           * @default 'default'
          */
@@ -4300,23 +6119,38 @@ declare namespace LocalJSX {
     }
     interface AegovToggle {
         /**
-          * Whether the toggle is checked/on.
-          * @default false
+          * Inline error message. Use `error` slot for rich markup.
+          * @default ''
          */
-        "checked"?: boolean;
-        /**
-          * Description text displayed below the label. Only rendered when label is provided.
-         */
-        "description"?: string;
-        /**
-          * Whether the toggle is disabled.
-          * @default false
-         */
-        "disabled"?: boolean;
+        "errorMessage"?: string;
         /**
           * Unique ID for the native checkbox element. Auto-generated if not provided.
          */
         "fieldId"?: string;
+        /**
+          * Helper hint text displayed below the label. Renamed from `description` per §6.6. Hidden when an error is shown.
+         */
+        "hint"?: string;
+        /**
+          * Whether the toggle is checked/on.
+          * @default false
+         */
+        "isChecked"?: boolean;
+        /**
+          * Whether the toggle is disabled.
+          * @default false
+         */
+        "isDisabled"?: boolean;
+        /**
+          * Visual + a11y invalid state. See §2.3.
+          * @default false
+         */
+        "isInvalid"?: boolean;
+        /**
+          * Whether the toggle is required.
+          * @default false
+         */
+        "isRequired"?: boolean;
         /**
           * Label text for the toggle. Rendered at the end (inline-end).
          */
@@ -4330,19 +6164,23 @@ declare namespace LocalJSX {
          */
         "onAegovToggleChange"?: (event: AegovToggleCustomEvent<{ checked: boolean; value?: string }>) => void;
         /**
-          * Whether the toggle is required.
-          * @default false
+          * Unified validation event. See §2.3.
          */
-        "required"?: boolean;
+        "onAegovValidate"?: (event: AegovToggleCustomEvent<AegovValidationDetail<boolean>>) => void;
         /**
           * The size of the toggle.
           * @default 'base'
          */
-        "size"?: ToggleSize;
+        "size"?: string;
         /**
           * The value attribute for the toggle.
          */
         "value"?: string;
+        /**
+          * Colour family. Drives ON track bg. OFF track stays aeblack-200. Focus ring stays camel; error stays aered.
+          * @default 'primary'
+         */
+        "variant"?: FormVariant;
     }
     /**
      * Tooltip component that displays additional information on hover or click
@@ -4358,25 +6196,25 @@ declare namespace LocalJSX {
          */
         "content"?: string;
         /**
-          * Whether the tooltip is disabled
-          * @default false
+          * Delay before hiding tooltip (in milliseconds)
+          * @default 0
          */
-        "disabled"?: boolean;
+        "delayEnd"?: number;
+        /**
+          * Delay before showing tooltip (in milliseconds)
+          * @default 200
+         */
+        "delayStart"?: number;
         /**
           * Gap between tooltip and trigger element (in pixels)
           * @default 8
          */
         "gap"?: number;
         /**
-          * Delay before hiding tooltip (in milliseconds)
-          * @default 0
-         */
-        "hideDelay"?: number;
-        /**
-          * Whether the tooltip contains interactive content This adds ARIA attributes and prevents auto-hide on hover
+          * Whether the tooltip is disabled
           * @default false
          */
-        "interactive"?: boolean;
+        "isDisabled"?: boolean;
         /**
           * Additional offset for tooltip positioning (in pixels)
           * @default 0
@@ -4388,11 +6226,6 @@ declare namespace LocalJSX {
          */
         "position"?: TooltipPosition;
         /**
-          * Delay before showing tooltip (in milliseconds)
-          * @default 200
-         */
-        "showDelay"?: number;
-        /**
           * Trigger type for showing the tooltip
           * @default 'hover'
          */
@@ -4401,10 +6234,12 @@ declare namespace LocalJSX {
     interface IntrinsicElements {
         "aegov-accordion": AegovAccordion;
         "aegov-accordion-item": AegovAccordionItem;
+        "aegov-aspect-ratio": AegovAspectRatio;
         "aegov-avatar": AegovAvatar;
         "aegov-avatar-group": AegovAvatarGroup;
         "aegov-badge": AegovBadge;
         "aegov-banner": AegovBanner;
+        "aegov-bento-grid": AegovBentoGrid;
         "aegov-blockquote": AegovBlockquote;
         "aegov-breadcrumbs": AegovBreadcrumbs;
         "aegov-breadcrumbs-item": AegovBreadcrumbsItem;
@@ -4419,13 +6254,20 @@ declare namespace LocalJSX {
         "aegov-dropdown": AegovDropdown;
         "aegov-fileupload": AegovFileupload;
         "aegov-form-field": AegovFormField;
+        "aegov-header": AegovHeader;
+        "aegov-header-banner": AegovHeaderBanner;
         "aegov-input": AegovInput;
         "aegov-input-group": AegovInputGroup;
         "aegov-label": AegovLabel;
         "aegov-link": AegovLink;
         "aegov-modal": AegovModal;
+        "aegov-navbar": AegovNavbar;
+        "aegov-navbar-item": AegovNavbarItem;
+        "aegov-navblock": AegovNavblock;
+        "aegov-navblock-item": AegovNavblockItem;
         "aegov-otp": AegovOtp;
         "aegov-pagination": AegovPagination;
+        "aegov-popover": AegovPopover;
         "aegov-progress": AegovProgress;
         "aegov-radio": AegovRadio;
         "aegov-radio-group": AegovRadioGroup;
@@ -4461,10 +6303,23 @@ declare module "@stencil/core" {
              * Do not use this component standalone.
              */
             "aegov-accordion-item": LocalJSX.AegovAccordionItem & JSXBase.HTMLAttributes<HTMLAegovAccordionItemElement>;
+            /**
+             * @component aegov-aspect-ratio
+             * @description A layout component that enforces a specific aspect ratio on its
+             * content. Supports images, videos, iframes, and arbitrary slotted content.
+             * The `ratio` prop supports Tailwind-style breakpoint prefixes — e.g.
+             * `ratio="square md:video lg:21/9"` switches the ratio at each breakpoint.
+             */
+            "aegov-aspect-ratio": LocalJSX.AegovAspectRatio & JSXBase.HTMLAttributes<HTMLAegovAspectRatioElement>;
             "aegov-avatar": LocalJSX.AegovAvatar & JSXBase.HTMLAttributes<HTMLAegovAvatarElement>;
             "aegov-avatar-group": LocalJSX.AegovAvatarGroup & JSXBase.HTMLAttributes<HTMLAegovAvatarGroupElement>;
             "aegov-badge": LocalJSX.AegovBadge & JSXBase.HTMLAttributes<HTMLAegovBadgeElement>;
             "aegov-banner": LocalJSX.AegovBanner & JSXBase.HTMLAttributes<HTMLAegovBannerElement>;
+            /**
+             * Bento grid layout container for grouping `aegov-card` elements into a
+             * balanced-but-non-uniform arrangement.
+             */
+            "aegov-bento-grid": LocalJSX.AegovBentoGrid & JSXBase.HTMLAttributes<HTMLAegovBentoGridElement>;
             "aegov-blockquote": LocalJSX.AegovBlockquote & JSXBase.HTMLAttributes<HTMLAegovBlockquoteElement>;
             "aegov-breadcrumbs": LocalJSX.AegovBreadcrumbs & JSXBase.HTMLAttributes<HTMLAegovBreadcrumbsElement>;
             /**
@@ -4487,13 +6342,86 @@ declare module "@stencil/core" {
             "aegov-dropdown": LocalJSX.AegovDropdown & JSXBase.HTMLAttributes<HTMLAegovDropdownElement>;
             "aegov-fileupload": LocalJSX.AegovFileupload & JSXBase.HTMLAttributes<HTMLAegovFileuploadElement>;
             "aegov-form-field": LocalJSX.AegovFormField & JSXBase.HTMLAttributes<HTMLAegovFormFieldElement>;
+            "aegov-header": LocalJSX.AegovHeader & JSXBase.HTMLAttributes<HTMLAegovHeaderElement>;
+            "aegov-header-banner": LocalJSX.AegovHeaderBanner & JSXBase.HTMLAttributes<HTMLAegovHeaderBannerElement>;
             "aegov-input": LocalJSX.AegovInput & JSXBase.HTMLAttributes<HTMLAegovInputElement>;
             "aegov-input-group": LocalJSX.AegovInputGroup & JSXBase.HTMLAttributes<HTMLAegovInputGroupElement>;
             "aegov-label": LocalJSX.AegovLabel & JSXBase.HTMLAttributes<HTMLAegovLabelElement>;
             "aegov-link": LocalJSX.AegovLink & JSXBase.HTMLAttributes<HTMLAegovLinkElement>;
             "aegov-modal": LocalJSX.AegovModal & JSXBase.HTMLAttributes<HTMLAegovModalElement>;
+            /**
+             * @component aegov-navbar
+             * @description Horizontal primary navigation container. Holds aegov-navbar-item
+             * children which can be plain links, links with prefix icons, or links paired
+             * with an aegov-dropdown submenu (chevron-triggered).
+             * @example <aegov-navbar label-nav="Main navigation" size="base" gap="gap-6">
+             *   <aegov-navbar-item href="/">Home</aegov-navbar-item>
+             *   <aegov-navbar-item href="/services">Services</aegov-navbar-item>
+             *   <aegov-navbar-item href="/products">
+             *     Products
+             *     <aegov-dropdown slot="dropdown">
+             *       <a slot="dropdown-content" href="/a">Item A</a>
+             *       <a slot="dropdown-content" href="/b">Item B</a>
+             *     </aegov-dropdown>
+             *   </aegov-navbar-item>
+             * </aegov-navbar>
+             */
+            "aegov-navbar": LocalJSX.AegovNavbar & JSXBase.HTMLAttributes<HTMLAegovNavbarElement>;
+            /**
+             * @component aegov-navbar-item
+             * @description Single navigation item used inside aegov-navbar. Renders as a link
+             * (when `href` is set) or plain text. Optional prefix icon via `slot="icon-start"`.
+             * Optional submenu via `slot="dropdown"` containing an aegov-dropdown — the
+             * navbar-item itself becomes the dropdown trigger so hover/position resolve to
+             * the full item rect, and a chevron button is injected for keyboard/click
+             * toggling. The user controls the dropdown's `trigger` (e.g. set
+             * `trigger="hover"` for hover open).
+             * @example <aegov-navbar-item href="/products">
+             *   <svg slot="icon-start" ...></svg>
+             *   Products
+             *   <aegov-dropdown slot="dropdown" trigger="hover">
+             *     <a slot="dropdown-content" href="/a">Item A</a>
+             *   </aegov-dropdown>
+             * </aegov-navbar-item>
+             */
+            "aegov-navbar-item": LocalJSX.AegovNavbarItem & JSXBase.HTMLAttributes<HTMLAegovNavbarItemElement>;
+            /**
+             * @component aegov-navblock
+             * @description Vertical navigation block, typically used in sidebar layouts.
+             * Holds aegov-navblock-item children that may nest recursively. Each parent
+             * item collapses/expands its sub-region, similar to an accordion. Cascades
+             * `icon` and resolved `size` to all descendant items, and enforces single-vs-
+             * multi open behavior at every level via `isMultiple`.
+             * @example <aegov-navblock block-title="Workspace" label-nav="Project sidebar">
+             *   <aegov-navblock-item href="/" is-active>Dashboard</aegov-navblock-item>
+             *   <aegov-navblock-item>
+             *     Reports
+             *     <aegov-navblock-item href="/r/sales">Sales</aegov-navblock-item>
+             *     <aegov-navblock-item href="/r/users">Users</aegov-navblock-item>
+             *   </aegov-navblock-item>
+             * </aegov-navblock>
+             */
+            "aegov-navblock": LocalJSX.AegovNavblock & JSXBase.HTMLAttributes<HTMLAegovNavblockElement>;
+            /**
+             * @component aegov-navblock-item
+             * @description Single row inside an aegov-navblock. Renders as a link (when
+             * `href` is set and the item has no sub-items) or a toggle button (when the
+             * item has sub-items via `slot="subnav"` or nested `aegov-navblock-item`
+             * children). Cascades `icon` and `size` to direct sub-items.
+             * @example <aegov-navblock-item>
+             *   <svg slot="icon-start"></svg>
+             *   Reports <aegov-badge>3</aegov-badge>
+             *   <aegov-navblock-item href="/r/sales">Sales</aegov-navblock-item>
+             *   <aegov-navblock-item href="/r/users">Users</aegov-navblock-item>
+             * </aegov-navblock-item>
+             */
+            "aegov-navblock-item": LocalJSX.AegovNavblockItem & JSXBase.HTMLAttributes<HTMLAegovNavblockItemElement>;
             "aegov-otp": LocalJSX.AegovOtp & JSXBase.HTMLAttributes<HTMLAegovOtpElement>;
             "aegov-pagination": LocalJSX.AegovPagination & JSXBase.HTMLAttributes<HTMLAegovPaginationElement>;
+            /**
+             * Popover component that displays positioned content with an arrow marker
+             */
+            "aegov-popover": LocalJSX.AegovPopover & JSXBase.HTMLAttributes<HTMLAegovPopoverElement>;
             "aegov-progress": LocalJSX.AegovProgress & JSXBase.HTMLAttributes<HTMLAegovProgressElement>;
             "aegov-radio": LocalJSX.AegovRadio & JSXBase.HTMLAttributes<HTMLAegovRadioElement>;
             "aegov-radio-group": LocalJSX.AegovRadioGroup & JSXBase.HTMLAttributes<HTMLAegovRadioGroupElement>;
@@ -4529,7 +6457,7 @@ declare module "@stencil/core" {
              * @description Tab container that organizes content into panels.
              * Manages active tab state internally (uncontrolled) and wires up tab triggers
              * with their corresponding panels via matching tab-id attributes.
-             * @example <aegov-tabs default-active-tab="overview" variant="simple">
+             * @example <aegov-tabs default-open="overview" variant="simple">
              *   <aegov-tab slot="tabs" tab-id="overview">Overview</aegov-tab>
              *   <aegov-tab slot="tabs" tab-id="details">Details</aegov-tab>
              *   <aegov-tab-panel tab-id="overview">Overview content</aegov-tab-panel>

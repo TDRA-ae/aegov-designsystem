@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Blockquote | AEGOV Design System</title>
+  <script type="module" src="/build/aegov.esm.js"></script>
+  <script nomodule src="/build/aegov.js"></script>
+  <link rel="stylesheet" href="/build/aegov.css">
+  <link rel="stylesheet" href="/docs/doc-style.css">
+  <link rel="stylesheet" href="/docs/hljs.css">
+</head>
+<body class="bg-aeblack-50 dark:bg-aeblack-950">
+  <header class="aegov-container sm:px-6 lg:px-8 mb-8">
+    <img src="https://designsystem.gov.ae/assets/site-logo/AEGov-DesignSystem-Logo-Color.svg" alt="UAE Design System Logo" class="w-auto h-16 my-2">
+  </header>
+  <main class="aegov-container sm:px-6 lg:px-8 bg-aeblack-50 dark:bg-aeblack-950">
+    <section class="flex items-start align-top gap-4">
+      <nav id="primary-nav" class="w-3xs shrink-0">&nbsp;</nav>
+      <article class="col-span-5 grow">
+          <section id="content-area" class="bg-whitely-50 dark:bg-aeblack-900 p-6 rounded-md shadow-xl">
+          <!-- DOC:START -->
+<h1>Blockquote</h1>
+<p class="text-lg text-aeblack-500 mb-8">A Blockquote is a semantic component for displaying pulled quotes, testimonials, or attributed statements. Use it whenever you need to visually emphasise a quoted passage with optional attribution to an author, role, or external source. The component renders a native <code>&lt;blockquote&gt;</code> element so assistive technology can recognise the quoted content.</p>
+
+<h2>Introduction</h2>
+<p>The <code>aegov-blockquote</code> component supports two visual styles. The default <code>primary</code> appearance pulls the quote out of the surrounding text with a decorative quote-mark icon and generous start-side padding. The <code>colored</code> appearance fills the block with a primary-tint background and colour-codes the start border, giving testimonial-style emphasis. Both styles render the underlying <code>&lt;blockquote&gt;</code> semantically and can carry an attribution (<code>author</code>, <code>author-title</code>) and a citation URL (<code>cite</code>).</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-blockquote</span>
+  <span class="hljs-attr">author</span>=<span class="hljs-string">&quot;Sheikh Mohammed bin Rashid Al Maktoum&quot;</span>
+  <span class="hljs-attr">author-title</span>=<span class="hljs-string">&quot;Vice President and Prime Minister of the UAE&quot;</span>&gt;</span>
+  We do not wait for change, we make change.
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-blockquote</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-blockquote
+    author="Sheikh Mohammed bin Rashid Al Maktoum"
+    author-title="Vice President and Prime Minister of the UAE">
+    We do not wait for change, we make change.
+  </aegov-blockquote>
+</div>
+
+<hr>
+<h2>Appearance</h2>
+<p>The <code>appearance</code> property controls visual style. <code>primary</code> (default) renders an inline quote-mark SVG and uses indented padding. <code>colored</code> (or the British spelling <code>coloured</code>) replaces the icon with a tinted panel and a 10 px coloured start border — useful for testimonial cards, customer stories, or pull-quotes inside long-form content.</p>
+<h3>Primary (default)</h3>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-blockquote</span> <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;primary&quot;</span>&gt;</span>
+  The future of government services is intelligent, integrated, and citizen-centred.
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-blockquote</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-blockquote appearance="primary">
+    The future of government services is intelligent, integrated, and citizen-centred.
+  </aegov-blockquote>
+</div>
+
+<h3>Coloured testimonial</h3>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-blockquote</span>
+  <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;colored&quot;</span>
+  <span class="hljs-attr">author</span>=<span class="hljs-string">&quot;Mariam Al Suwaidi&quot;</span>
+  <span class="hljs-attr">author-title</span>=<span class="hljs-string">&quot;Director of Digital Services, MOI&quot;</span>&gt;</span>
+  Issuing a new Emirates ID used to take three trips to a service centre. With the new portal, my residents now finish the whole process in under ten minutes.
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-blockquote</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-blockquote
+    appearance="colored"
+    author="Mariam Al Suwaidi"
+    author-title="Director of Digital Services, MOI">
+    Issuing a new Emirates ID used to take three trips to a service centre. With the new portal, my residents now finish the whole process in under ten minutes.
+  </aegov-blockquote>
+</div>
+
+<blockquote>
+<p>Tip: both <code>colored</code> (US) and <code>coloured</code> (UK) spellings are accepted and behave identically.</p>
+</blockquote>
+<hr>
+<h2>Attribution</h2>
+<p>Use <code>author</code> and <code>author-title</code> to render an attribution footer below the quote. The footer appears only when at least one of the two is supplied; both are optional.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-blockquote</span>
+  <span class="hljs-attr">author</span>=<span class="hljs-string">&quot;Khalid Al Mansoori&quot;</span>
+  <span class="hljs-attr">author-title</span>=<span class="hljs-string">&quot;Resident, Abu Dhabi&quot;</span>&gt;</span>
+  The new appointment booking flow saved me an entire morning. Everything I needed for my passport renewal was in one place.
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-blockquote</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-blockquote
+    author="Khalid Al Mansoori"
+    author-title="Resident, Abu Dhabi">
+    The new appointment booking flow saved me an entire morning. Everything I needed for my passport renewal was in one place.
+  </aegov-blockquote>
+</div>
+
+<hr>
+<h2>Citation Source</h2>
+<p>The <code>cite</code> property is reflected onto the underlying <code>&lt;blockquote&gt;</code> as the native <code>cite</code> attribute. It accepts a URL pointing at the canonical source of the quote and is read by some assistive technologies and search engines for provenance.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-blockquote</span> <span class="hljs-attr">cite</span>=<span class="hljs-string">&quot;https://u.ae/about-the-uae/leaders-of-the-uae&quot;</span>&gt;</span>
+  In the race for excellence there is no finish line.
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-blockquote</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-blockquote
+    cite="https://u.ae/about-the-uae/leaders-of-the-uae"
+    author="Sheikh Mohammed bin Rashid Al Maktoum">
+    In the race for excellence there is no finish line.
+  </aegov-blockquote>
+</div>
+
+<hr>
+<h2>Rich Content</h2>
+<p>The default slot accepts arbitrary HTML — paragraphs, emphasised text, or inline links. Long quotes spanning multiple paragraphs should wrap each paragraph in <code>&lt;p&gt;</code> tags so the underlying blockquote remains semantically correct.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-blockquote</span>
+  <span class="hljs-attr">author</span>=<span class="hljs-string">&quot;Dr. Aisha Al Hammadi&quot;</span>
+  <span class="hljs-attr">author-title</span>=<span class="hljs-string">&quot;Chief Architect, Federal Authority for Identity and Citizenship&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Identity is the foundation of every digital service we deliver to residents and citizens.<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>The systems we are building today must be <span class="hljs-tag">&lt;<span class="hljs-name">em</span>&gt;</span>resilient<span class="hljs-tag">&lt;/<span class="hljs-name">em</span>&gt;</span>, <span class="hljs-tag">&lt;<span class="hljs-name">em</span>&gt;</span>private<span class="hljs-tag">&lt;/<span class="hljs-name">em</span>&gt;</span>, and <span class="hljs-tag">&lt;<span class="hljs-name">em</span>&gt;</span>accessible<span class="hljs-tag">&lt;/<span class="hljs-name">em</span>&gt;</span> by every person in the UAE.<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-blockquote</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-blockquote
+    author="Dr. Aisha Al Hammadi"
+    author-title="Chief Architect, Federal Authority for Identity and Citizenship">
+    <p class="mb-3">Identity is the foundation of every digital service we deliver to residents and citizens.</p>
+    <p>The systems we are building today must be <em>resilient</em>, <em>private</em>, and <em>accessible</em> by every person in the UAE.</p>
+  </aegov-blockquote>
+</div>
+
+<hr>
+<h2>RTL Support</h2>
+<p>The component uses Tailwind logical-property utilities (<code>ps-*</code>, <code>pe-*</code>, <code>border-s-*</code>, <code>start-0</code>) for padding, the coloured start border, and the SVG icon&#39;s positioning, so everything mirrors automatically in RTL contexts. The decorative quote-mark SVG also includes <code>rtl:-scale-x-100</code> so its visual direction flips correctly.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">dir</span>=<span class="hljs-string">&quot;rtl&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-blockquote</span>
+    <span class="hljs-attr">author</span>=<span class="hljs-string">&quot;الشيخ محمد بن راشد آل مكتوم&quot;</span>
+    <span class="hljs-attr">author-title</span>=<span class="hljs-string">&quot;نائب رئيس الدولة، رئيس مجلس الوزراء، حاكم دبي&quot;</span>&gt;</span>
+    إن دولة الإمارات تؤمن بأن خدمة الناس هي جوهر العمل الحكومي.
+  <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-blockquote</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre><div dir="rtl" class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-blockquote
+    author="الشيخ محمد بن راشد آل مكتوم"
+    author-title="نائب رئيس الدولة، رئيس مجلس الوزراء، حاكم دبي">
+    إن دولة الإمارات تؤمن بأن خدمة الناس هي جوهر العمل الحكومي.
+  </aegov-blockquote>
+</div>
+
+<p>The same blockquote in the coloured appearance, in RTL:</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">dir</span>=<span class="hljs-string">&quot;rtl&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-blockquote</span>
+    <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;colored&quot;</span>
+    <span class="hljs-attr">author</span>=<span class="hljs-string">&quot;مريم السويدي&quot;</span>
+    <span class="hljs-attr">author-title</span>=<span class="hljs-string">&quot;مديرة الخدمات الرقمية، وزارة الداخلية&quot;</span>&gt;</span>
+    أصبح إصدار الهوية الإماراتية تجربة مبسّطة بالكامل عبر الإنترنت، وهذا ما يبحث عنه المتعاملون.
+  <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-blockquote</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre><div dir="rtl" class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-blockquote
+    appearance="colored"
+    author="مريم السويدي"
+    author-title="مديرة الخدمات الرقمية، وزارة الداخلية">
+    أصبح إصدار الهوية الإماراتية تجربة مبسّطة بالكامل عبر الإنترنت، وهذا ما يبحث عنه المتعاملون.
+  </aegov-blockquote>
+</div>
+
+<hr>
+<h2>API Reference</h2>
+<h3>Properties</h3>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Attribute</th>
+<th>Description</th>
+<th>Type</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>appearance</code></td>
+<td><code>appearance</code></td>
+<td>Visual style. <code>primary</code> shows a quote icon; <code>colored</code> / <code>coloured</code> uses a tinted panel.</td>
+<td><code>&#39;primary&#39; | &#39;colored&#39; | &#39;coloured&#39;</code></td>
+<td><code>&#39;primary&#39;</code></td>
+</tr>
+<tr>
+<td><code>cite</code></td>
+<td><code>cite</code></td>
+<td>URL of the source. Reflected as the native <code>cite</code> attribute on the inner <code>&lt;blockquote&gt;</code>.</td>
+<td><code>string</code></td>
+<td><code>undefined</code></td>
+</tr>
+<tr>
+<td><code>author</code></td>
+<td><code>author</code></td>
+<td>Author&#39;s name. Rendered in the attribution footer.</td>
+<td><code>string</code></td>
+<td><code>undefined</code></td>
+</tr>
+<tr>
+<td><code>authorTitle</code></td>
+<td><code>author-title</code></td>
+<td>Author&#39;s title or role. Rendered in the footer below the author name.</td>
+<td><code>string</code></td>
+<td><code>undefined</code></td>
+</tr>
+<tr>
+<td><code>extraClass</code></td>
+<td><code>extra-class</code></td>
+<td>Additional CSS classes merged onto the inner <code>&lt;blockquote&gt;</code> element.</td>
+<td><code>string</code></td>
+<td><code>undefined</code></td>
+</tr>
+</tbody></table>
+<h3>Slots</h3>
+<table>
+<thead>
+<tr>
+<th>Slot</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><em>(default)</em></td>
+<td>The quoted content. Accepts plain text or rich HTML (paragraphs, links).</td>
+</tr>
+</tbody></table>
+<h3>Parts</h3>
+<table>
+<thead>
+<tr>
+<th>Part</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>blockquote</code></td>
+<td>The native <code>&lt;blockquote&gt;</code> element.</td>
+</tr>
+</tbody></table>
+<h3>Events</h3>
+<p>The component emits no custom events.</p>
+<h3>Pass-through Attributes</h3>
+<table>
+<thead>
+<tr>
+<th>Attribute group</th>
+<th>Forwarded?</th>
+<th>Where to apply</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>aria-*</code></td>
+<td>Yes — to inner <code>&lt;blockquote&gt;</code></td>
+<td>Set on <code>&lt;aegov-blockquote&gt;</code>; forwarded automatically.</td>
+</tr>
+<tr>
+<td><code>data-*</code></td>
+<td>Yes — to inner <code>&lt;blockquote&gt;</code></td>
+<td>Set on <code>&lt;aegov-blockquote&gt;</code>; forwarded automatically.</td>
+</tr>
+<tr>
+<td><code>title</code></td>
+<td>Yes — to inner <code>&lt;blockquote&gt;</code></td>
+<td>Set on <code>&lt;aegov-blockquote&gt;</code> to provide a tooltip on the inner element.</td>
+</tr>
+<tr>
+<td><code>class</code>, <code>style</code></td>
+<td>Allowed — host element</td>
+<td>Use <code>extra-class</code> to add classes to the inner <code>&lt;blockquote&gt;</code>.</td>
+</tr>
+<tr>
+<td><code>id</code></td>
+<td>Allowed — host element</td>
+<td>Apply to host. The inner <code>&lt;blockquote&gt;</code> does not receive an <code>id</code>.</td>
+</tr>
+</tbody></table>
+<hr>
+<h2>Accessibility</h2>
+<h3>Built-in behaviour</h3>
+<ul>
+<li>Renders the native semantic <code>&lt;blockquote&gt;</code> element so assistive technology recognises the quoted content as a distinct structural region.</li>
+<li>When <code>cite</code> is supplied, the native <code>cite</code> attribute is reflected onto the underlying element, giving AT a programmatic source URL.</li>
+<li>The decorative quote-mark icon is rendered as inline SVG with no role or text alternative, so it produces no extra screen-reader noise.</li>
+<li>Pass-through attributes (including <code>aria-*</code> and <code>data-*</code>) are forwarded to the inner <code>&lt;blockquote&gt;</code> element.</li>
+</ul>
+<h3>Developer responsibilities</h3>
+<ul>
+<li>Provide either <code>cite</code> (URL) or <code>author</code> / <code>author-title</code> so the source of the quote is discoverable by users and by assistive technology.</li>
+<li>Keep the quoted text faithful to the source. If the quote spans multiple paragraphs, wrap each in a <code>&lt;p&gt;</code> tag inside the slot.</li>
+<li>For long quotes, ensure the surrounding context introduces who is being quoted and why — the blockquote itself does not provide a heading.</li>
+</ul>
+<!-- DOC:END -->
+          </section>
+      </article>
+    </section>
+  </main>
+  <footer class="aegov-container sm:px-6 lg:px-8 mt-8 py-6 text-sm text-aeblack-500 dark:text-aeblack-400">
+    &copy; 2026 Telecommunication and Digital Regulatory Authority. All rights reserved.
+  </footer>
+
+<script src="/docs/layout.js"></script>
+</body>
+</html>

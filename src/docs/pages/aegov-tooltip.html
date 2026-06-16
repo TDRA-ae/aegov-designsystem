@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tooltip | AEGOV Design System</title>
+  <script type="module" src="/build/aegov.esm.js"></script>
+  <script nomodule src="/build/aegov.js"></script>
+  <link rel="stylesheet" href="/build/aegov.css">
+  <link rel="stylesheet" href="/docs/doc-style.css">
+  <link rel="stylesheet" href="/docs/hljs.css">
+</head>
+<body class="bg-aeblack-50 dark:bg-aeblack-950">
+  <header class="aegov-container sm:px-6 lg:px-8 mb-8">
+    <img src="https://designsystem.gov.ae/assets/site-logo/AEGov-DesignSystem-Logo-Color.svg" alt="UAE Design System Logo" class="w-auto h-16 my-2">
+  </header>
+  <main class="aegov-container sm:px-6 lg:px-8 bg-aeblack-50 dark:bg-aeblack-950">
+    <section class="flex items-start align-top gap-4">
+      <nav id="primary-nav" class="w-3xs shrink-0">&nbsp;</nav>
+      <article class="col-span-5 grow">
+          <section id="content-area" class="bg-whitely-50 dark:bg-aeblack-900 p-6 rounded-md shadow-xl">
+          <!-- DOC:START -->
+<h1>Tooltip</h1>
+<p class="text-lg text-aeblack-500 mb-8">A Tooltip is a small, non-interactive label that appears next to a control on hover or focus to clarify its purpose. Use a tooltip for icon-button labels, abbreviations, and short hints — anything the user can take or leave. For interactive content, longer descriptions, or controls, use a Popover instead.</p>
+
+<h2>Introduction</h2>
+<p>The <code>aegov-tooltip</code> component wraps any trigger element — typically a button, link, or icon — and shows a short message in one of four positions when the user hovers or clicks the trigger. Position is automatically clamped to the viewport, the tooltip is hidden on <code>Escape</code>, and <code>aria-describedby</code> is wired automatically while the tooltip is visible so screen readers announce the helper text alongside the trigger.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-tooltip</span> <span class="hljs-attr">content</span>=<span class="hljs-string">&quot;Print the current page&quot;</span> <span class="hljs-attr">position</span>=<span class="hljs-string">&quot;top&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;secondary&quot;</span> <span class="hljs-attr">aria-label</span>=<span class="hljs-string">&quot;Print&quot;</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-icon</span> <span class="hljs-attr">icon</span>=<span class="hljs-string">&quot;printer&quot;</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;20&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-icon</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-tooltip</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-tooltip content="Print the current page" position="top">
+    <aegov-button variant="secondary" aria-label="Print">Print</aegov-button>
+  </aegov-tooltip>
+</div>
+
+<hr>
+<h2>Position</h2>
+<p>The <code>position</code> property selects which side of the trigger the tooltip appears on. The component flips the layout automatically in RTL — <code>left</code> and <code>right</code> swap so the visual relationship to the trigger is preserved.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-tooltip</span> <span class="hljs-attr">content</span>=<span class="hljs-string">&quot;Tooltip on top&quot;</span> <span class="hljs-attr">position</span>=<span class="hljs-string">&quot;top&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;secondary&quot;</span>&gt;</span>Top<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-tooltip</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-tooltip</span> <span class="hljs-attr">content</span>=<span class="hljs-string">&quot;Tooltip on right&quot;</span> <span class="hljs-attr">position</span>=<span class="hljs-string">&quot;right&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;secondary&quot;</span>&gt;</span>Right<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-tooltip</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-tooltip</span> <span class="hljs-attr">content</span>=<span class="hljs-string">&quot;Tooltip on bottom&quot;</span> <span class="hljs-attr">position</span>=<span class="hljs-string">&quot;bottom&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;secondary&quot;</span>&gt;</span>Bottom<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-tooltip</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-tooltip</span> <span class="hljs-attr">content</span>=<span class="hljs-string">&quot;Tooltip on left&quot;</span> <span class="hljs-attr">position</span>=<span class="hljs-string">&quot;left&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;secondary&quot;</span>&gt;</span>Left<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-tooltip</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <div class="flex flex-wrap gap-12 items-center justify-center py-12">
+    <aegov-tooltip content="Tooltip on top" position="top">
+      <aegov-button variant="secondary">Top</aegov-button>
+    </aegov-tooltip>
+    <aegov-tooltip content="Tooltip on right" position="right">
+      <aegov-button variant="secondary">Right</aegov-button>
+    </aegov-tooltip>
+    <aegov-tooltip content="Tooltip on bottom" position="bottom">
+      <aegov-button variant="secondary">Bottom</aegov-button>
+    </aegov-tooltip>
+    <aegov-tooltip content="Tooltip on left" position="left">
+      <aegov-button variant="secondary">Left</aegov-button>
+    </aegov-tooltip>
+  </div>
+</div>
+
+<hr>
+<h2>Alignment</h2>
+<p>When the tooltip is positioned <code>top</code> or <code>bottom</code>, the <code>align</code> property shifts it horizontally relative to the trigger. When the tooltip is <code>left</code> or <code>right</code>, alignment shifts it vertically. Use <code>start</code> to anchor to the leading edge, <code>center</code> (default), or <code>end</code> to anchor to the trailing edge.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-tooltip</span> <span class="hljs-attr">content</span>=<span class="hljs-string">&quot;Aligned to start&quot;</span> <span class="hljs-attr">position</span>=<span class="hljs-string">&quot;bottom&quot;</span> <span class="hljs-attr">align</span>=<span class="hljs-string">&quot;start&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;secondary&quot;</span>&gt;</span>Start<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-tooltip</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-tooltip</span> <span class="hljs-attr">content</span>=<span class="hljs-string">&quot;Aligned to centre&quot;</span> <span class="hljs-attr">position</span>=<span class="hljs-string">&quot;bottom&quot;</span> <span class="hljs-attr">align</span>=<span class="hljs-string">&quot;center&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;secondary&quot;</span>&gt;</span>Centre<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-tooltip</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-tooltip</span> <span class="hljs-attr">content</span>=<span class="hljs-string">&quot;Aligned to end&quot;</span> <span class="hljs-attr">position</span>=<span class="hljs-string">&quot;bottom&quot;</span> <span class="hljs-attr">align</span>=<span class="hljs-string">&quot;end&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;secondary&quot;</span>&gt;</span>End<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-tooltip</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <div class="flex flex-wrap gap-12 items-center justify-center py-12">
+    <aegov-tooltip content="Aligned to start" position="bottom" align="start">
+      <aegov-button variant="secondary">Start</aegov-button>
+    </aegov-tooltip>
+    <aegov-tooltip content="Aligned to centre" position="bottom" align="center">
+      <aegov-button variant="secondary">Centre</aegov-button>
+    </aegov-tooltip>
+    <aegov-tooltip content="Aligned to end" position="bottom" align="end">
+      <aegov-button variant="secondary">End</aegov-button>
+    </aegov-tooltip>
+  </div>
+</div>
+
+<hr>
+<h2>Trigger</h2>
+<p>By default, the tooltip shows on hover and on keyboard focus. Set <code>trigger=&quot;click&quot;</code> to instead toggle the tooltip on click and dismiss it when the user clicks outside or presses <code>Escape</code>. Click triggers are useful on touch devices where there is no hover state.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-tooltip</span> <span class="hljs-attr">content</span>=<span class="hljs-string">&quot;Click triggers can be useful on touch devices.&quot;</span> <span class="hljs-attr">trigger</span>=<span class="hljs-string">&quot;click&quot;</span> <span class="hljs-attr">position</span>=<span class="hljs-string">&quot;top&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;secondary&quot;</span>&gt;</span>Click me<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-tooltip</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <div class="flex justify-center py-8">
+    <aegov-tooltip content="Click triggers can be useful on touch devices." trigger="click" position="top">
+      <aegov-button variant="secondary">Click me</aegov-button>
+    </aegov-tooltip>
+  </div>
+</div>
+
+<hr>
+<h2>Delay</h2>
+<p><code>delay-start</code> (default 200 ms) and <code>delay-end</code> (default 0 ms) tune how long the tooltip waits before showing or hiding. Increase the start delay for less prominent hints to avoid distraction; increase the end delay slightly when users may need to move their cursor through the tooltip area.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-tooltip</span> <span class="hljs-attr">content</span>=<span class="hljs-string">&quot;Shows after 600 ms&quot;</span> <span class="hljs-attr">delay-start</span>=<span class="hljs-string">&quot;600&quot;</span> <span class="hljs-attr">position</span>=<span class="hljs-string">&quot;top&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;secondary&quot;</span>&gt;</span>Slow start<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-tooltip</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-tooltip</span> <span class="hljs-attr">content</span>=<span class="hljs-string">&quot;Lingers for 400 ms after you leave&quot;</span> <span class="hljs-attr">delay-end</span>=<span class="hljs-string">&quot;400&quot;</span> <span class="hljs-attr">position</span>=<span class="hljs-string">&quot;top&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;secondary&quot;</span>&gt;</span>Slow end<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-tooltip</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <div class="flex flex-wrap gap-6 items-center justify-center py-8">
+    <aegov-tooltip content="Shows after 600 ms" delay-start="600" position="top">
+      <aegov-button variant="secondary">Slow start</aegov-button>
+    </aegov-tooltip>
+    <aegov-tooltip content="Lingers for 400 ms after you leave" delay-end="400" position="top">
+      <aegov-button variant="secondary">Slow end</aegov-button>
+    </aegov-tooltip>
+  </div>
+</div>
+
+<hr>
+<h2>Gap and Offset</h2>
+<p><code>gap</code> controls the distance between the trigger and the tooltip (in pixels, default 8). <code>offset</code> shifts the tooltip along its alignment axis — useful when the trigger has visual padding that the tooltip should not appear to overlap.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-tooltip</span> <span class="hljs-attr">content</span>=<span class="hljs-string">&quot;Closer to the trigger&quot;</span> <span class="hljs-attr">gap</span>=<span class="hljs-string">&quot;2&quot;</span> <span class="hljs-attr">position</span>=<span class="hljs-string">&quot;top&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;secondary&quot;</span>&gt;</span>Tight<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-tooltip</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-tooltip</span> <span class="hljs-attr">content</span>=<span class="hljs-string">&quot;Far from the trigger&quot;</span> <span class="hljs-attr">gap</span>=<span class="hljs-string">&quot;20&quot;</span> <span class="hljs-attr">position</span>=<span class="hljs-string">&quot;top&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;secondary&quot;</span>&gt;</span>Loose<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-tooltip</span>&gt;</span></code></pre><hr>
+<h2>Rich Content with the Slot</h2>
+<p>For content that needs more than plain text — emphasis, abbreviations, or inline icons — provide a <code>tooltip-content</code> slot instead of the <code>content</code> property. Keep tooltip content short and read-only; if the user needs to interact with anything inside it, use <code>aegov-popover</code>.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-tooltip</span> <span class="hljs-attr">position</span>=<span class="hljs-string">&quot;top&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;secondary&quot;</span>&gt;</span>Status<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;tooltip-content&quot;</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">strong</span>&gt;</span>Last updated:<span class="hljs-tag">&lt;/<span class="hljs-name">strong</span>&gt;</span> 2 minutes ago
+  <span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-tooltip</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <div class="flex justify-center py-8">
+    <aegov-tooltip position="top">
+      <aegov-button variant="secondary">Status</aegov-button>
+      <span slot="tooltip-content">
+        <strong>Last updated:</strong> 2 minutes ago
+      </span>
+    </aegov-tooltip>
+  </div>
+</div>
+
+<hr>
+<h2>Disabled</h2>
+<p>Set <code>is-disabled=&quot;true&quot;</code> to suppress the tooltip without removing the wrapping element. Useful when a feature is enabled or disabled by application state and you want the trigger element to remain interactive while the helper text is suppressed.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-tooltip</span> <span class="hljs-attr">content</span>=<span class="hljs-string">&quot;You will not see this.&quot;</span> <span class="hljs-attr">is-disabled</span>=<span class="hljs-string">&quot;true&quot;</span> <span class="hljs-attr">position</span>=<span class="hljs-string">&quot;top&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;secondary&quot;</span>&gt;</span>Tooltip suppressed<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-tooltip</span>&gt;</span></code></pre><hr>
+<h2>Composite Example — Form Helper Text</h2>
+<p>A common pattern: pair an input label with an info icon that reveals additional guidance on hover or focus. Using a tooltip here keeps the form short while still giving the user the detail they need.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;max-w-md&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;flex items-center gap-2 mb-2&quot;</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">label</span> <span class="hljs-attr">for</span>=<span class="hljs-string">&quot;trade-licence&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;font-semibold&quot;</span>&gt;</span>Trade licence number<span class="hljs-tag">&lt;/<span class="hljs-name">label</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-tooltip</span> <span class="hljs-attr">content</span>=<span class="hljs-string">&quot;Your 6- to 8-digit licence number is printed on the top right of your DED licence document.&quot;</span> <span class="hljs-attr">position</span>=<span class="hljs-string">&quot;top&quot;</span> <span class="hljs-attr">align</span>=<span class="hljs-string">&quot;start&quot;</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;button&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;text-aeblack-500 hover:text-primary-600&quot;</span> <span class="hljs-attr">aria-label</span>=<span class="hljs-string">&quot;What is this?&quot;</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">svg</span> <span class="hljs-attr">width</span>=<span class="hljs-string">&quot;18&quot;</span> <span class="hljs-attr">height</span>=<span class="hljs-string">&quot;18&quot;</span> <span class="hljs-attr">viewBox</span>=<span class="hljs-string">&quot;0 0 24 24&quot;</span> <span class="hljs-attr">fill</span>=<span class="hljs-string">&quot;none&quot;</span> <span class="hljs-attr">stroke</span>=<span class="hljs-string">&quot;currentColor&quot;</span> <span class="hljs-attr">stroke-width</span>=<span class="hljs-string">&quot;2&quot;</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">circle</span> <span class="hljs-attr">cx</span>=<span class="hljs-string">&quot;12&quot;</span> <span class="hljs-attr">cy</span>=<span class="hljs-string">&quot;12&quot;</span> <span class="hljs-attr">r</span>=<span class="hljs-string">&quot;10&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">circle</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">path</span> <span class="hljs-attr">d</span>=<span class="hljs-string">&quot;M12 16v-4M12 8h.01&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">path</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">svg</span>&gt;</span>
+      <span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-tooltip</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-input</span> <span class="hljs-attr">field-id</span>=<span class="hljs-string">&quot;trade-licence&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;e.g. 123456&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-input</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <div class="max-w-md">
+    <div class="flex items-center gap-2 mb-2">
+      <label for="demo-trade-licence" class="font-semibold">Trade licence number</label>
+      <aegov-tooltip content="Your 6- to 8-digit licence number is printed on the top right of your DED licence document." position="top" align="start">
+        <button type="button" class="text-aeblack-500 hover:text-primary-600 inline-flex" aria-label="What is this?">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><path d="M12 16v-4M12 8h.01"></path></svg>
+        </button>
+      </aegov-tooltip>
+    </div>
+    <aegov-input field-id="demo-trade-licence" placeholder="e.g. 123456"></aegov-input>
+  </div>
+</div>
+
+<hr>
+<h2>RTL Support</h2>
+<p>The tooltip is direction-aware. When the document or any ancestor is set to <code>dir=&quot;rtl&quot;</code>, the <code>left</code> and <code>right</code> positions swap so the visual relationship to the trigger is preserved, and <code>align=&quot;start&quot;</code> / <code>align=&quot;end&quot;</code> flip to follow the reading direction.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">dir</span>=<span class="hljs-string">&quot;rtl&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-tooltip</span> <span class="hljs-attr">content</span>=<span class="hljs-string">&quot;طباعة الصفحة الحالية&quot;</span> <span class="hljs-attr">position</span>=<span class="hljs-string">&quot;top&quot;</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;secondary&quot;</span>&gt;</span>طباعة<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-tooltip</span>&gt;</span>
+
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-tooltip</span> <span class="hljs-attr">content</span>=<span class="hljs-string">&quot;مساعدة&quot;</span> <span class="hljs-attr">position</span>=<span class="hljs-string">&quot;left&quot;</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;secondary&quot;</span>&gt;</span>مساعدة<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-tooltip</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre><div dir="rtl" class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <div class="flex flex-wrap gap-12 items-center justify-center py-12">
+    <aegov-tooltip content="طباعة الصفحة الحالية" position="top">
+      <aegov-button variant="secondary">طباعة</aegov-button>
+    </aegov-tooltip>
+    <aegov-tooltip content="عرض المساعدة" position="left">
+      <aegov-button variant="secondary">مساعدة</aegov-button>
+    </aegov-tooltip>
+    <aegov-tooltip content="تنزيل المستند" position="bottom">
+      <aegov-button variant="secondary">تنزيل</aegov-button>
+    </aegov-tooltip>
+  </div>
+</div>
+
+<hr>
+<h2>API Reference</h2>
+<h3>Properties</h3>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Attribute</th>
+<th>Description</th>
+<th>Type</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>content</code></td>
+<td><code>content</code></td>
+<td>Plain-text tooltip body. Ignored when the <code>tooltip-content</code> slot has content.</td>
+<td><code>string</code></td>
+<td><code>undefined</code></td>
+</tr>
+<tr>
+<td><code>position</code></td>
+<td><code>position</code></td>
+<td>Side of the trigger the tooltip appears on. Mirrored automatically in RTL.</td>
+<td><code>&#39;top&#39; | &#39;right&#39; | &#39;bottom&#39; | &#39;left&#39;</code></td>
+<td><code>&#39;top&#39;</code></td>
+</tr>
+<tr>
+<td><code>align</code></td>
+<td><code>align</code></td>
+<td>Alignment of the tooltip along its cross-axis.</td>
+<td><code>&#39;start&#39; | &#39;center&#39; | &#39;end&#39;</code></td>
+<td><code>&#39;center&#39;</code></td>
+</tr>
+<tr>
+<td><code>trigger</code></td>
+<td><code>trigger</code></td>
+<td>How the tooltip is shown — on hover/focus or on click.</td>
+<td><code>&#39;hover&#39; | &#39;click&#39;</code></td>
+<td><code>&#39;hover&#39;</code></td>
+</tr>
+<tr>
+<td><code>gap</code></td>
+<td><code>gap</code></td>
+<td>Distance in pixels between the trigger and the tooltip.</td>
+<td><code>number</code></td>
+<td><code>8</code></td>
+</tr>
+<tr>
+<td><code>offset</code></td>
+<td><code>offset</code></td>
+<td>Additional offset along the alignment axis, in pixels.</td>
+<td><code>number</code></td>
+<td><code>0</code></td>
+</tr>
+<tr>
+<td><code>isDisabled</code></td>
+<td><code>is-disabled</code></td>
+<td>Suppress the tooltip without removing the wrapper from the DOM.</td>
+<td><code>boolean</code></td>
+<td><code>false</code></td>
+</tr>
+<tr>
+<td><code>delayStart</code></td>
+<td><code>delay-start</code></td>
+<td>Delay before showing the tooltip, in milliseconds.</td>
+<td><code>number</code></td>
+<td><code>200</code></td>
+</tr>
+<tr>
+<td><code>delayEnd</code></td>
+<td><code>delay-end</code></td>
+<td>Delay before hiding the tooltip, in milliseconds.</td>
+<td><code>number</code></td>
+<td><code>0</code></td>
+</tr>
+</tbody></table>
+<h3>Slots</h3>
+<table>
+<thead>
+<tr>
+<th>Slot</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><em>(default)</em></td>
+<td>The trigger element — typically a button or link.</td>
+</tr>
+<tr>
+<td><code>tooltip-content</code></td>
+<td>Tooltip body. When present, takes precedence over the <code>content</code> property.</td>
+</tr>
+</tbody></table>
+<h3>Events</h3>
+<p>The tooltip does not emit custom events.</p>
+<h3>Pass-through Attributes</h3>
+<p>ARIA and <code>data-*</code> attributes set on <code>&lt;aegov-tooltip&gt;</code> are forwarded onto the inner trigger wrapper element. The component automatically manages <code>aria-describedby</code> (linking the trigger to the tooltip while it is visible) and <code>aria-expanded</code> (when <code>trigger=&quot;click&quot;</code>) — do not set these yourself.</p>
+<table>
+<thead>
+<tr>
+<th>Attribute group</th>
+<th>Forwarded?</th>
+<th>Where it lands</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>aria-*</code></td>
+<td>Yes</td>
+<td>Applied to the inner trigger wrapper (<code>.aegov-tooltip-trigger</code>).</td>
+</tr>
+<tr>
+<td><code>data-*</code></td>
+<td>Yes</td>
+<td>Applied to the inner trigger wrapper.</td>
+</tr>
+<tr>
+<td><code>aria-describedby</code></td>
+<td>Managed</td>
+<td>Set automatically while the tooltip is visible.</td>
+</tr>
+<tr>
+<td><code>aria-expanded</code></td>
+<td>Managed</td>
+<td>Set automatically when <code>trigger=&quot;click&quot;</code>.</td>
+</tr>
+<tr>
+<td><code>class</code>, <code>style</code></td>
+<td>Allowed</td>
+<td>Applied to the host element.</td>
+</tr>
+</tbody></table>
+<hr>
+<h2>Accessibility</h2>
+<h3>Built-in behaviour</h3>
+<ul>
+<li>The tooltip element renders with <code>role=&quot;tooltip&quot;</code> and a stable <code>id</code>.</li>
+<li><code>aria-describedby</code> is set on the trigger wrapper while the tooltip is visible, so screen readers announce the tooltip text together with the trigger&#39;s accessible name.</li>
+<li>When <code>trigger=&quot;click&quot;</code>, <code>aria-expanded</code> reflects the open state on the trigger wrapper.</li>
+<li><code>Escape</code> hides the tooltip immediately.</li>
+<li>The tooltip closes when the trigger loses focus (with <code>delay-end</code> applied) or when the user clicks outside (in click-trigger mode).</li>
+</ul>
+<h3>Developer responsibilities</h3>
+<ul>
+<li><strong>The trigger must have its own accessible name.</strong> A tooltip describes a control — it does not name it. Buttons and links should already be labelled (visible text or <code>aria-label</code>); the tooltip then supplements that label, not replaces it.</li>
+<li>Keep tooltip content short — one short sentence at most. For richer help text, use <code>aegov-popover</code>.</li>
+<li>Avoid placing interactive controls (links, buttons, form fields) inside tooltip content. Tooltips are not focusable and content inside them cannot be reached with the keyboard. If users need to interact, use <code>aegov-popover</code> or <code>aegov-dropdown</code>.</li>
+<li>On touch devices, hover does not exist. Provide an alternative pattern (a click-triggered tooltip, an info icon next to the field, or persistent helper text) for any tooltip whose content is essential.</li>
+</ul>
+<h3>Keyboard support</h3>
+<table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Tab</code></td>
+<td>Move focus to the trigger; the tooltip appears on focus when <code>trigger=&quot;hover&quot;</code>.</td>
+</tr>
+<tr>
+<td><code>Enter</code>, <code>Space</code></td>
+<td>Toggle the tooltip when <code>trigger=&quot;click&quot;</code> and the trigger is a button.</td>
+</tr>
+<tr>
+<td><code>Escape</code></td>
+<td>Hide the tooltip if it is currently visible.</td>
+</tr>
+</tbody></table>
+<!-- DOC:END -->
+          </section>
+      </article>
+    </section>
+  </main>
+  <footer class="aegov-container sm:px-6 lg:px-8 mt-8 py-6 text-sm text-aeblack-500 dark:text-aeblack-400">
+    &copy; 2026 Telecommunication and Digital Regulatory Authority. All rights reserved.
+  </footer>
+
+<script src="/docs/layout.js"></script>
+</body>
+</html>

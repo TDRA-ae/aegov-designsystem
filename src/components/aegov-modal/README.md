@@ -394,13 +394,16 @@ The following attributes are automatically passed through to the internal dialog
 
 ## Properties
 
-| Property            | Attribute             | Description                                       | Type                            | Default    |
-| ------------------- | --------------------- | ------------------------------------------------- | ------------------------------- | ---------- |
-| `backdropOpacity`   | `backdrop-opacity`    | Backdrop opacity level                            | `"base" \| "dark" \| "light"`   | `'base'`   |
-| `closeWithBackdrop` | `close-with-backdrop` | Whether clicking the backdrop closes the modal    | `boolean`                       | `true`     |
-| `open`              | `open`                | Whether the modal is currently open/visible       | `boolean`                       | `false`    |
-| `position`          | `position`            | Position of the modal on screen                   | `"bottom" \| "center" \| "top"` | `'center'` |
-| `preventBodyScroll` | `prevent-body-scroll` | Whether to prevent body scroll when modal is open | `boolean`                       | `true`     |
+| Property             | Attribute               | Description                                                                                                                 | Type                            | Default     |
+| -------------------- | ----------------------- | --------------------------------------------------------------------------------------------------------------------------- | ------------------------------- | ----------- |
+| `fieldId`            | `field-id`              | Unique ID for the modal dialog element. Auto-generated if not provided.                                                     | `string`                        | `undefined` |
+| `isCloseWithOverlay` | `is-close-with-overlay` | Whether clicking the overlay closes the modal                                                                               | `boolean`                       | `true`      |
+| `isOpen`             | `is-open`               | Whether the modal is currently open/visible                                                                                 | `boolean`                       | `false`     |
+| `isPadding`          | `is-padding`            | Whether to apply inner content padding. On by default; scales with size.                                                    | `boolean`                       | `true`      |
+| `isPreventScroll`    | `is-prevent-scroll`     | Whether to prevent body scroll when modal is open                                                                           | `boolean`                       | `true`      |
+| `overlayOpacity`     | `overlay-opacity`       | Overlay opacity level                                                                                                       | `"base" \| "dark" \| "light"`   | `'base'`    |
+| `position`           | `position`              | Position of the modal on screen                                                                                             | `"bottom" \| "center" \| "top"` | `'center'`  |
+| `size`               | `size`                  | Size: 'sm' (compact padding/radius), 'base' (default), or 'lg' (generous padding/radius). Mirrors aegov-card sizing tokens. | `"base" \| "lg" \| "sm"`        | `'base'`    |
 
 
 ## Events

@@ -1,467 +1,151 @@
 import { newSpecPage } from '@stencil/core/testing';
 import { AegovBanner } from './aegov-banner';
-import { h } from '@stencil/core';
 
 describe('aegov-banner', () => {
-  describe('rendering', () => {
-    it('should render with default props', async () => {
-      const page = await newSpecPage({
-        components: [AegovBanner],
-        template: () => <aegov-banner>Default banner content</aegov-banner>,
-      });
-      expect(page.root).toBeTruthy();
-      const banner = page.root?.querySelector('.aegov-banner');
-      expect(banner).toBeTruthy();
+  it('renders the banner with default classes', async () => {
+    const page = await newSpecPage({
+      components: [AegovBanner],
+      html: `<aegov-banner>Hello</aegov-banner>`,
     });
-
-    it('should render slot content', async () => {
-      const page = await newSpecPage({
-        components: [AegovBanner],
-        template: () => <aegov-banner>Test message</aegov-banner>,
-      });
-      expect(page.root?.textContent).toContain('Test message');
-    });
-
-    it('should render banner container', async () => {
-      const page = await newSpecPage({
-        components: [AegovBanner],
-        template: () => <aegov-banner>Message</aegov-banner>,
-      });
-      expect(page.root?.querySelector('.banner__container')).toBeTruthy();
-    });
-
-    it('should render banner content', async () => {
-      const page = await newSpecPage({
-        components: [AegovBanner],
-        template: () => <aegov-banner>Message</aegov-banner>,
-      });
-      expect(page.root?.querySelector('.banner__content')).toBeTruthy();
-    });
-
-    it('should render banner text area', async () => {
-      const page = await newSpecPage({
-        components: [AegovBanner],
-        template: () => <aegov-banner>Message</aegov-banner>,
-      });
-      expect(page.root?.querySelector('.banner__text')).toBeTruthy();
-    });
-
-    it('should render dismiss button by default', async () => {
-      const page = await newSpecPage({
-        components: [AegovBanner],
-        template: () => <aegov-banner>Message</aegov-banner>,
-      });
-      expect(page.root?.querySelector('.banner__dismiss')).toBeTruthy();
-    });
-
-    it('should not render when isVisible is false', async () => {
-      const page = await newSpecPage({
-        components: [AegovBanner],
-        template: () => <aegov-banner>Content</aegov-banner>,
-      });
-      (page.rootInstance as any).isVisible = false;
-      await page.waitForChanges();
-      expect(page.root?.querySelector('.aegov-banner')).toBeFalsy();
-    });
+    expect(page.root).toBeTruthy();
+    const banner = page.root.querySelector('.aegov-banner');
+    expect(banner).toBeTruthy();
+    expect(banner.classList.contains('banner--top')).toBe(true);
+    expect(banner.classList.contains('banner--fixed')).toBe(true);
+    expect(banner.classList.contains('banner--push')).toBe(true);
+    expect(banner.classList.contains('banner--soft')).toBe(true);
+    expect(banner.classList.contains('banner--default')).toBe(true);
+    expect(banner.classList.contains('banner--base')).toBe(true);
   });
 
-  describe('variants', () => {
-    const variants = ['default', 'error', 'warning', 'success', 'info'];
-    variants.forEach(variant => {
-      it(`should render ${variant} variant`, async () => {
-        const page = await newSpecPage({
-          components: [AegovBanner],
-          template: () => <aegov-banner variant={variant as any}>{variant} message</aegov-banner>,
-        });
-        const banner = page.root?.querySelector(`.banner--${variant}`);
-        expect(banner).toBeTruthy();
-      });
+  it('auto-generates a fieldId', async () => {
+    const page = await newSpecPage({
+      components: [AegovBanner],
+      html: `<aegov-banner>x</aegov-banner>`,
     });
+    expect(page.rootInstance.fieldId).toMatch(/^aegov-banner-\d+$/);
   });
 
-  describe('appearances', () => {
-    it('should render soft appearance by default', async () => {
-      const page = await newSpecPage({
-        components: [AegovBanner],
-        template: () => <aegov-banner>Content</aegov-banner>,
-      });
-      expect(page.root?.querySelector('.banner--soft')).toBeTruthy();
+  it('applies variant class', async () => {
+    const page = await newSpecPage({
+      components: [AegovBanner],
+      html: `<aegov-banner variant="error">x</aegov-banner>`,
     });
-
-    it('should render solid appearance', async () => {
-      const page = await newSpecPage({
-        components: [AegovBanner],
-        template: () => <aegov-banner appearance="solid">Content</aegov-banner>,
-      });
-      expect(page.root?.querySelector('.banner--solid')).toBeTruthy();
-    });
+    expect(page.root.querySelector('.aegov-banner').classList.contains('banner--error')).toBe(true);
   });
 
-  describe('position', () => {
-    it('should render at top by default', async () => {
-      const page = await newSpecPage({
-        components: [AegovBanner],
-        template: () => <aegov-banner>Content</aegov-banner>,
-      });
-      expect(page.root?.querySelector('.banner--top')).toBeTruthy();
+  it('applies appearance="solid" class', async () => {
+    const page = await newSpecPage({
+      components: [AegovBanner],
+      html: `<aegov-banner appearance="solid">x</aegov-banner>`,
     });
-
-    it('should render at bottom', async () => {
-      const page = await newSpecPage({
-        components: [AegovBanner],
-        template: () => <aegov-banner position="bottom">Content</aegov-banner>,
-      });
-      expect(page.root?.querySelector('.banner--bottom')).toBeTruthy();
-    });
+    expect(page.root.querySelector('.aegov-banner').classList.contains('banner--solid')).toBe(true);
   });
 
-  describe('display', () => {
-    it('should render with fixed display by default', async () => {
-      const page = await newSpecPage({
-        components: [AegovBanner],
-        template: () => <aegov-banner>Content</aegov-banner>,
-      });
-      expect(page.root?.querySelector('.banner--fixed')).toBeTruthy();
+  it('applies position="bottom" class', async () => {
+    const page = await newSpecPage({
+      components: [AegovBanner],
+      html: `<aegov-banner position="bottom">x</aegov-banner>`,
     });
-
-    it('should render with sticky display', async () => {
-      const page = await newSpecPage({
-        components: [AegovBanner],
-        template: () => <aegov-banner display="sticky">Content</aegov-banner>,
-      });
-      expect(page.root?.querySelector('.banner--sticky')).toBeTruthy();
-    });
+    expect(page.root.querySelector('.aegov-banner').classList.contains('banner--bottom')).toBe(true);
   });
 
-  describe('mode', () => {
-    it('should render with push mode by default', async () => {
-      const page = await newSpecPage({
-        components: [AegovBanner],
-        template: () => <aegov-banner>Content</aegov-banner>,
-      });
-      expect(page.root?.querySelector('.banner--push')).toBeTruthy();
+  it('applies display="sticky" class', async () => {
+    const page = await newSpecPage({
+      components: [AegovBanner],
+      html: `<aegov-banner display="sticky">x</aegov-banner>`,
     });
-
-    it('should render with overlay mode', async () => {
-      const page = await newSpecPage({
-        components: [AegovBanner],
-        template: () => <aegov-banner mode="overlay">Content</aegov-banner>,
-      });
-      expect(page.root?.querySelector('.banner--overlay')).toBeTruthy();
-    });
+    expect(page.root.querySelector('.aegov-banner').classList.contains('banner--sticky')).toBe(true);
   });
 
-  describe('dismissible', () => {
-    it('should render dismiss button by default (dismissible=true)', async () => {
-      const page = await newSpecPage({
-        components: [AegovBanner],
-        template: () => <aegov-banner>Content</aegov-banner>,
-      });
-      expect(page.root?.querySelector('.banner__dismiss')).toBeTruthy();
+  it('applies mode="overlay" class', async () => {
+    const page = await newSpecPage({
+      components: [AegovBanner],
+      html: `<aegov-banner mode="overlay">x</aegov-banner>`,
     });
-
-    it('should not render dismiss button when dismissible=false', async () => {
-      const page = await newSpecPage({
-        components: [AegovBanner],
-        template: () => <aegov-banner dismissible={false}>Content</aegov-banner>,
-      });
-      expect(page.root?.querySelector('.banner__dismiss')).toBeFalsy();
-    });
-
-    it('should have aria-label on dismiss button', async () => {
-      const page = await newSpecPage({
-        components: [AegovBanner],
-        template: () => <aegov-banner>Content</aegov-banner>,
-      });
-      const dismissButton = page.root?.querySelector('.banner__dismiss');
-      expect(dismissButton?.getAttribute('aria-label')).toBe('Close banner');
-    });
-
-    it('should set isDismissing on dismiss click', async () => {
-      const page = await newSpecPage({
-        components: [AegovBanner],
-        template: () => <aegov-banner>Content</aegov-banner>,
-      });
-      const dismissButton = page.root?.querySelector('.banner__dismiss') as HTMLButtonElement;
-      dismissButton.click();
-      await page.waitForChanges();
-      expect(page.root?.querySelector('.banner--dismissing')).toBeTruthy();
-    });
-
-    it('should emit aegovBannerDismiss event', async () => {
-      const page = await newSpecPage({
-        components: [AegovBanner],
-        template: () => <aegov-banner>Content</aegov-banner>,
-      });
-
-      let dismissEventFired = false;
-      page.root?.addEventListener('aegovBannerDismiss', () => {
-        dismissEventFired = true;
-      });
-
-      const dismissButton = page.root?.querySelector('.banner__dismiss') as HTMLButtonElement;
-      dismissButton.click();
-      await new Promise(resolve => setTimeout(resolve, 350));
-      await page.waitForChanges();
-      expect(dismissEventFired).toBe(true);
-    });
-
-    it('should hide after dismissing', async () => {
-      const page = await newSpecPage({
-        components: [AegovBanner],
-        template: () => <aegov-banner>Content</aegov-banner>,
-      });
-      const dismissButton = page.root?.querySelector('.banner__dismiss') as HTMLButtonElement;
-      dismissButton.click();
-      await new Promise(resolve => setTimeout(resolve, 350));
-      await page.waitForChanges();
-      expect((page.rootInstance as any).isVisible).toBe(false);
-    });
+    expect(page.root.querySelector('.aegov-banner').classList.contains('banner--overlay')).toBe(true);
   });
 
-  describe('accessibility', () => {
-    it('should have region role by default', async () => {
-      const page = await newSpecPage({
-        components: [AegovBanner],
-        template: () => <aegov-banner variant="default">Content</aegov-banner>,
-      });
-      const banner = page.root?.querySelector('[role]');
-      expect(banner?.getAttribute('role')).toBe('region');
+  it('applies size="lg" class', async () => {
+    const page = await newSpecPage({
+      components: [AegovBanner],
+      html: `<aegov-banner size="lg">x</aegov-banner>`,
     });
-
-    it('should have alert role for error variant', async () => {
-      const page = await newSpecPage({
-        components: [AegovBanner],
-        template: () => <aegov-banner variant="error">Error</aegov-banner>,
-      });
-      const banner = page.root?.querySelector('[role]');
-      expect(banner?.getAttribute('role')).toBe('alert');
-    });
-
-    it('should have alert role for success variant', async () => {
-      const page = await newSpecPage({
-        components: [AegovBanner],
-        template: () => <aegov-banner variant="success">Success</aegov-banner>,
-      });
-      const banner = page.root?.querySelector('[role]');
-      expect(banner?.getAttribute('role')).toBe('alert');
-    });
-
-    it('should have region role for warning variant', async () => {
-      const page = await newSpecPage({
-        components: [AegovBanner],
-        template: () => <aegov-banner variant="warning">Warning</aegov-banner>,
-      });
-      const banner = page.root?.querySelector('[role]');
-      expect(banner?.getAttribute('role')).toBe('region');
-    });
-
-    it('should allow custom aria role', async () => {
-      const page = await newSpecPage({
-        components: [AegovBanner],
-        template: () => <aegov-banner ariaRole="status">Content</aegov-banner>,
-      });
-      const banner = page.root?.querySelector('[role]');
-      expect(banner?.getAttribute('role')).toBe('status');
-    });
-
-    it('should have assertive aria-live for alert role', async () => {
-      const page = await newSpecPage({
-        components: [AegovBanner],
-        template: () => <aegov-banner variant="error">Error</aegov-banner>,
-      });
-      const banner = page.root?.querySelector('[aria-live]');
-      expect(banner?.getAttribute('aria-live')).toBe('assertive');
-    });
-
-    it('should have polite aria-live for region role', async () => {
-      const page = await newSpecPage({
-        components: [AegovBanner],
-        template: () => <aegov-banner variant="info">Info</aegov-banner>,
-      });
-      const banner = page.root?.querySelector('[aria-live]');
-      expect(banner?.getAttribute('aria-live')).toBe('polite');
-    });
-
-    it('should have aria-labelledby when bannerTitle is provided', async () => {
-      const page = await newSpecPage({
-        components: [AegovBanner],
-        template: () => <aegov-banner bannerTitle="Important Notice">Content</aegov-banner>,
-      });
-      const banner = page.root?.querySelector('[aria-labelledby]');
-      expect(banner?.getAttribute('aria-labelledby')).toBe('aegov-banner-title');
-    });
-
-    it('should not have aria-labelledby when no bannerTitle', async () => {
-      const page = await newSpecPage({
-        components: [AegovBanner],
-        template: () => <aegov-banner>Content</aegov-banner>,
-      });
-      const banner = page.root?.querySelector('.aegov-banner');
-      expect(banner?.getAttribute('aria-labelledby')).toBeFalsy();
-    });
-
-    it('should have tabindex when autoFocus is true', async () => {
-      const page = await newSpecPage({
-        components: [AegovBanner],
-        template: () => <aegov-banner autoFocus={true} variant="error">Critical</aegov-banner>,
-      });
-      const banner = page.root?.querySelector('[tabindex]');
-      expect(banner?.getAttribute('tabindex')).toBe('-1');
-    });
-
-    it('should not have tabindex when autoFocus is false', async () => {
-      const page = await newSpecPage({
-        components: [AegovBanner],
-        template: () => <aegov-banner autoFocus={false}>Content</aegov-banner>,
-      });
-      const banner = page.root?.querySelector('.aegov-banner');
-      expect(banner?.hasAttribute('tabindex')).toBe(false);
-    });
+    expect(page.root.querySelector('.aegov-banner').classList.contains('banner--lg')).toBe(true);
   });
 
-  describe('events', () => {
-    it('should emit aegovBannerHeightChange in overlay mode', async () => {
-      const page = await newSpecPage({
-        components: [AegovBanner],
-        template: () => <aegov-banner mode="overlay">Content</aegov-banner>,
-      });
-      let heightChangeEventFired = false;
-      page.root?.addEventListener('aegovBannerHeightChange', () => {
-        heightChangeEventFired = true;
-      });
-      (page.rootInstance as any).emitHeight();
-      expect(heightChangeEventFired).toBe(true);
+  it('renders dismiss button when isDismissible is true (default)', async () => {
+    const page = await newSpecPage({
+      components: [AegovBanner],
+      html: `<aegov-banner>x</aegov-banner>`,
     });
-
-    it('should emit height 0 when dismissed in overlay mode', async () => {
-      const page = await newSpecPage({
-        components: [AegovBanner],
-        template: () => <aegov-banner mode="overlay">Content</aegov-banner>,
-      });
-      let lastEmittedHeight = -1;
-      page.root?.addEventListener('aegovBannerHeightChange', (event: any) => {
-        lastEmittedHeight = event.detail;
-      });
-
-      const dismissButton = page.root?.querySelector('.banner__dismiss') as HTMLButtonElement;
-      dismissButton.click();
-      await new Promise(resolve => setTimeout(resolve, 350));
-      await page.waitForChanges();
-      expect(lastEmittedHeight).toBe(0);
-    });
+    const btn = page.root.querySelector('.banner__dismiss');
+    expect(btn).toBeTruthy();
+    expect(btn.getAttribute('aria-label')).toBe('Close banner');
   });
 
-  describe('slot detection', () => {
-    it('should detect actions slot when present', async () => {
-      const page = await newSpecPage({
-        components: [AegovBanner],
-        html: `<aegov-banner>Content<button slot="actions">Action</button></aegov-banner>`,
-      });
-      await page.waitForChanges();
-      expect((page.rootInstance as any).hasActionsSlot).toBe(true);
+  it('hides dismiss button when isDismissible is false', async () => {
+    const page = await newSpecPage({
+      components: [AegovBanner],
+      html: `<aegov-banner is-dismissible="false">x</aegov-banner>`,
     });
-
-    it('should not show actions container when no actions slot', async () => {
-      const page = await newSpecPage({
-        components: [AegovBanner],
-        template: () => <aegov-banner>Content only</aegov-banner>,
-      });
-      await page.waitForChanges();
-      expect(page.root?.querySelector('.banner__actions')).toBeFalsy();
-    });
-
-    it('should apply banner__text-center when no actions slot', async () => {
-      const page = await newSpecPage({
-        components: [AegovBanner],
-        template: () => <aegov-banner>Content only</aegov-banner>,
-      });
-      await page.waitForChanges();
-      const textElement = page.root?.querySelector('.banner__text');
-      expect(textElement?.classList.contains('banner__text-center')).toBe(true);
-    });
-
-    it('should apply banner__text-left when actions slot is present', async () => {
-      const page = await newSpecPage({
-        components: [AegovBanner],
-        html: `<aegov-banner>Content<button slot="actions">Action</button></aegov-banner>`,
-      });
-      await page.waitForChanges();
-      const textElement = page.root?.querySelector('.banner__text');
-      expect(textElement?.classList.contains('banner__text-left')).toBe(true);
-    });
+    expect(page.root.querySelector('.banner__dismiss')).toBeNull();
   });
 
-  describe('CSS classes', () => {
-    it('should generate correct classes for default configuration', async () => {
-      const page = await newSpecPage({
-        components: [AegovBanner],
-        template: () => <aegov-banner>Content</aegov-banner>,
-      });
-      const banner = page.root?.querySelector('.aegov-banner');
-      expect(banner?.classList.contains('banner--fixed')).toBe(true);
-      expect(banner?.classList.contains('banner--top')).toBe(true);
-      expect(banner?.classList.contains('banner--push')).toBe(true);
-      expect(banner?.classList.contains('banner--soft')).toBe(true);
-      expect(banner?.classList.contains('banner--default')).toBe(true);
+  it('uses role="alert" for variant="error"', async () => {
+    const page = await newSpecPage({
+      components: [AegovBanner],
+      html: `<aegov-banner variant="error">x</aegov-banner>`,
     });
-
-    it('should generate correct classes for custom configuration', async () => {
-      const page = await newSpecPage({
-        components: [AegovBanner],
-        template: () => (
-          <aegov-banner variant="error" appearance="solid" position="bottom" display="sticky" mode="overlay">
-            Content
-          </aegov-banner>
-        ),
-      });
-      const banner = page.root?.querySelector('.aegov-banner');
-      expect(banner?.classList.contains('banner--sticky')).toBe(true);
-      expect(banner?.classList.contains('banner--bottom')).toBe(true);
-      expect(banner?.classList.contains('banner--overlay')).toBe(true);
-      expect(banner?.classList.contains('banner--solid')).toBe(true);
-      expect(banner?.classList.contains('banner--error')).toBe(true);
-    });
-
-    it('should add dismissing class when dismissing', async () => {
-      const page = await newSpecPage({
-        components: [AegovBanner],
-        template: () => <aegov-banner>Content</aegov-banner>,
-      });
-      const dismissButton = page.root?.querySelector('.banner__dismiss') as HTMLButtonElement;
-      dismissButton.click();
-      await page.waitForChanges();
-      expect(page.root?.querySelector('.banner--dismissing')).toBeTruthy();
-    });
+    expect(page.root.querySelector('.aegov-banner').getAttribute('role')).toBe('alert');
+    expect(page.root.querySelector('.aegov-banner').getAttribute('aria-live')).toBe('assertive');
   });
 
-  describe('combinations', () => {
-    it('should render error banner with solid appearance at bottom', async () => {
-      const page = await newSpecPage({
-        components: [AegovBanner],
-        template: () => (
-          <aegov-banner variant="error" appearance="solid" position="bottom">
-            Error at bottom
-          </aegov-banner>
-        ),
-      });
-      const banner = page.root?.querySelector('.aegov-banner');
-      expect(banner?.classList.contains('banner--error')).toBe(true);
-      expect(banner?.classList.contains('banner--solid')).toBe(true);
-      expect(banner?.classList.contains('banner--bottom')).toBe(true);
+  it('uses role="region" by default', async () => {
+    const page = await newSpecPage({
+      components: [AegovBanner],
+      html: `<aegov-banner>x</aegov-banner>`,
     });
+    const banner = page.root.querySelector('.aegov-banner');
+    expect(banner.getAttribute('role')).toBe('region');
+    expect(banner.getAttribute('aria-live')).toBe('polite');
+  });
 
-    it('should render non-dismissible warning banner', async () => {
-      const page = await newSpecPage({
-        components: [AegovBanner],
-        template: () => (
-          <aegov-banner variant="warning" dismissible={false}>
-            Permanent warning
-          </aegov-banner>
-        ),
-      });
-      expect(page.root?.querySelector('.banner--warning')).toBeTruthy();
-      expect(page.root?.querySelector('.banner__dismiss')).toBeFalsy();
+  it('host role attribute overrides auto-computed role', async () => {
+    const page = await newSpecPage({
+      components: [AegovBanner],
+      html: `<aegov-banner role="status" variant="error">x</aegov-banner>`,
     });
+    expect(page.root.querySelector('.aegov-banner').getAttribute('role')).toBe('status');
+  });
+
+  it('sets aria-labelledby when heading is provided', async () => {
+    const page = await newSpecPage({
+      components: [AegovBanner],
+      html: `<aegov-banner field-id="b1" heading="Notice">x</aegov-banner>`,
+    });
+    expect(page.root.querySelector('.aegov-banner').getAttribute('aria-labelledby')).toBe('b1-heading');
+  });
+
+  it('emits aegovBannerDismiss when dismiss button is clicked', async () => {
+    const page = await newSpecPage({
+      components: [AegovBanner],
+      html: `<aegov-banner>x</aegov-banner>`,
+    });
+    const spy = jest.fn();
+    page.root.addEventListener('aegovBannerDismiss', spy);
+    const btn = page.root.querySelector('.banner__dismiss') as HTMLButtonElement;
+    btn.click();
+    await new Promise(resolve => setTimeout(resolve, 350));
+    await page.waitForChanges();
+    expect(spy).toHaveBeenCalledTimes(1);
+  });
+
+  it('renders default slot content', async () => {
+    const page = await newSpecPage({
+      components: [AegovBanner],
+      html: `<aegov-banner>Banner content</aegov-banner>`,
+    });
+    expect(page.root.textContent).toContain('Banner content');
   });
 });

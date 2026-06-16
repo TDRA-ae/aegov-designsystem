@@ -2,216 +2,133 @@ import { newSpecPage } from '@stencil/core/testing';
 import { AegovCard } from './aegov-card';
 
 describe('aegov-card', () => {
-  // ============================================
-  // DEFAULT RENDERING
-  // ============================================
-
   it('renders with default props', async () => {
     const page = await newSpecPage({
       components: [AegovCard],
-      html: `<aegov-card>Content</aegov-card>`,
+      html: `<aegov-card>Body</aegov-card>`,
     });
-    const card = page.root.querySelector('.aegov-card');
-    expect(card).toBeTruthy();
-    expect(card.classList.contains('card--border-1')).toBe(true);
-    expect(card.classList.contains('card--border-standard')).toBe(true);
-    expect(card.classList.contains('card--bg-white')).toBe(true);
-    expect(card.classList.contains('card--hover-off')).toBe(true);
-    expect(card.classList.contains('card--padded')).toBe(true);
+    const div = page.root.querySelector('div');
+    expect(div).not.toBeNull();
+    expect(div.className).toContain('aegov-card');
+    expect(div.className).toContain('card-border-2');
+    expect(div.className).toContain('card-appearance-solid');
+    expect(div.className).toContain('card-variant-primary');
+    expect(div.className).toContain('card__hover-off');
+    expect(div.className).toContain('card-size-base');
+    expect(div.className).toContain('card--padded');
   });
 
-  it('renders slot content', async () => {
+  it('auto-generates fieldId', async () => {
     const page = await newSpecPage({
       components: [AegovCard],
-      html: `<aegov-card><p>Hello World</p></aegov-card>`,
+      html: `<aegov-card></aegov-card>`,
     });
-    const card = page.root.querySelector('.aegov-card');
-    expect(card).toBeTruthy();
-    expect(page.root.textContent).toContain('Hello World');
+    expect(page.rootInstance.fieldId).toMatch(/^aegov-card-\d+$/);
   });
 
-  // ============================================
-  // BORDER WIDTH
-  // ============================================
-
-  it('applies border-width 1 by default', async () => {
+  it('respects user-provided fieldId', async () => {
     const page = await newSpecPage({
       components: [AegovCard],
-      html: `<aegov-card>Content</aegov-card>`,
+      html: `<aegov-card field-id="card-1"></aegov-card>`,
     });
-    expect(page.root.querySelector('.card--border-1')).toBeTruthy();
+    expect(page.root.querySelector('div').id).toBe('card-1');
   });
 
-  it('applies border-width 2', async () => {
+  it('removes padded class when is-padding="false"', async () => {
     const page = await newSpecPage({
       components: [AegovCard],
-      html: `<aegov-card border-width="2">Content</aegov-card>`,
+      html: `<aegov-card is-padding="false"></aegov-card>`,
     });
-    expect(page.root.querySelector('.card--border-2')).toBeTruthy();
+    expect(page.root.querySelector('div').className).not.toContain('card--padded');
   });
 
-  it('applies border-width 3', async () => {
+  it('applies borderWidth class', async () => {
     const page = await newSpecPage({
       components: [AegovCard],
-      html: `<aegov-card border-width="3">Content</aegov-card>`,
+      html: `<aegov-card border-width="3"></aegov-card>`,
     });
-    expect(page.root.querySelector('.card--border-3')).toBeTruthy();
+    expect(page.root.querySelector('div').className).toContain('card-border-3');
   });
 
-  // ============================================
-  // BACKGROUND
-  // ============================================
-
-  it('applies white background by default', async () => {
+  it('applies appearance class', async () => {
     const page = await newSpecPage({
       components: [AegovCard],
-      html: `<aegov-card>Content</aegov-card>`,
+      html: `<aegov-card appearance="creative"></aegov-card>`,
     });
-    expect(page.root.querySelector('.card--bg-white')).toBeTruthy();
+    expect(page.root.querySelector('div').className).toContain('card-appearance-creative');
   });
 
-  it('applies transparent background', async () => {
-    const page = await newSpecPage({
-      components: [AegovCard],
-      html: `<aegov-card background="transparent">Content</aegov-card>`,
-    });
-    expect(page.root.querySelector('.card--bg-transparent')).toBeTruthy();
+  it('applies variant class for all 4 variants', async () => {
+    for (const v of ['primary', 'secondary', 'neutral-max', 'neutral-min']) {
+      const page = await newSpecPage({
+        components: [AegovCard],
+        html: `<aegov-card variant="${v}"></aegov-card>`,
+      });
+      expect(page.root.querySelector('div').className).toContain(`card-variant-${v}`);
+    }
   });
 
-  it('applies subtle background', async () => {
+  it('applies combined variant + appearance classes', async () => {
     const page = await newSpecPage({
       components: [AegovCard],
-      html: `<aegov-card background="subtle">Content</aegov-card>`,
+      html: `<aegov-card variant="secondary" appearance="creative"></aegov-card>`,
     });
-    expect(page.root.querySelector('.card--bg-subtle')).toBeTruthy();
+    const cls = page.root.querySelector('div').className;
+    expect(cls).toContain('card-variant-secondary');
+    expect(cls).toContain('card-appearance-creative');
   });
 
-  // ============================================
-  // PADDING
-  // ============================================
-
-  it('applies padding by default', async () => {
+  it('respects consumer-supplied background utility class on host', async () => {
     const page = await newSpecPage({
       components: [AegovCard],
-      html: `<aegov-card>Content</aegov-card>`,
+      html: `<aegov-card class="bg-aegreen-400"></aegov-card>`,
     });
-    expect(page.root.querySelector('.card--padded')).toBeTruthy();
+    expect(page.root.className).toContain('bg-aegreen-400');
   });
 
-  it('removes padding when disallow-padding is set', async () => {
+  it('applies hover class', async () => {
     const page = await newSpecPage({
       components: [AegovCard],
-      html: `<aegov-card disallow-padding>Content</aegov-card>`,
+      html: `<aegov-card hover="glow"></aegov-card>`,
     });
-    expect(page.root.querySelector('.card--padded')).toBeNull();
+    expect(page.root.querySelector('div').className).toContain('card__hover-glow');
   });
 
-  // ============================================
-  // HOVER
-  // ============================================
-
-  it('applies hover-off by default', async () => {
+  it('applies size class', async () => {
     const page = await newSpecPage({
       components: [AegovCard],
-      html: `<aegov-card>Content</aegov-card>`,
+      html: `<aegov-card size="lg"></aegov-card>`,
     });
-    expect(page.root.querySelector('.card--hover-off')).toBeTruthy();
+    expect(page.root.querySelector('div').className).toContain('card-size-lg');
   });
 
-  it('applies hover-standard', async () => {
+  it('renders default slot content', async () => {
     const page = await newSpecPage({
       components: [AegovCard],
-      html: `<aegov-card hover="standard">Content</aegov-card>`,
+      html: `<aegov-card>Card body content</aegov-card>`,
     });
-    expect(page.root.querySelector('.card--hover-standard')).toBeTruthy();
+    expect(page.root.textContent).toContain('Card body content');
   });
 
-  it('applies hover-glow', async () => {
+  it('falls back to defaults for invalid enum props', async () => {
     const page = await newSpecPage({
       components: [AegovCard],
-      html: `<aegov-card hover="glow">Content</aegov-card>`,
+      html: `<aegov-card appearance="bogus" variant="bogus" hover="??" size="xxl"></aegov-card>`,
     });
-    expect(page.root.querySelector('.card--hover-glow')).toBeTruthy();
+    const cls = page.root.querySelector('div').className;
+    expect(cls).toContain('card-appearance-solid');
+    expect(cls).toContain('card-variant-primary');
+    expect(cls).toContain('card__hover-off');
+    expect(cls).toContain('card-size-base');
   });
 
-  // ============================================
-  // BORDER STYLE
-  // ============================================
-
-  it('applies standard border style by default', async () => {
+  it('forwards aria-* and data-* attributes', async () => {
     const page = await newSpecPage({
       components: [AegovCard],
-      html: `<aegov-card>Content</aegov-card>`,
+      html: `<aegov-card aria-label="card" data-id="x"></aegov-card>`,
     });
-    expect(page.root.querySelector('.card--border-standard')).toBeTruthy();
-  });
-
-  it('applies creative border style', async () => {
-    const page = await newSpecPage({
-      components: [AegovCard],
-      html: `<aegov-card border-style="creative">Content</aegov-card>`,
-    });
-    expect(page.root.querySelector('.card--border-creative')).toBeTruthy();
-    expect(page.root.querySelector('.card--border-standard')).toBeNull();
-  });
-
-  it('applies creative border with different backgrounds', async () => {
-    const page = await newSpecPage({
-      components: [AegovCard],
-      html: `<aegov-card border-style="creative" background="subtle">Content</aegov-card>`,
-    });
-    const card = page.root.querySelector('.aegov-card');
-    expect(card.classList.contains('card--border-creative')).toBe(true);
-    expect(card.classList.contains('card--bg-subtle')).toBe(true);
-  });
-
-  it('applies creative border with hover glow', async () => {
-    const page = await newSpecPage({
-      components: [AegovCard],
-      html: `<aegov-card border-style="creative" hover="glow">Content</aegov-card>`,
-    });
-    const card = page.root.querySelector('.aegov-card');
-    expect(card.classList.contains('card--border-creative')).toBe(true);
-    expect(card.classList.contains('card--hover-glow')).toBe(true);
-  });
-
-  // ============================================
-  // COMBINATIONS
-  // ============================================
-
-  it('applies multiple props together', async () => {
-    const page = await newSpecPage({
-      components: [AegovCard],
-      html: `<aegov-card border-width="3" background="subtle" hover="glow">Content</aegov-card>`,
-    });
-    const card = page.root.querySelector('.aegov-card');
-    expect(card.classList.contains('card--border-3')).toBe(true);
-    expect(card.classList.contains('card--bg-subtle')).toBe(true);
-    expect(card.classList.contains('card--hover-glow')).toBe(true);
-    expect(card.classList.contains('card--padded')).toBe(true);
-  });
-
-  it('renders host as block element', async () => {
-    const page = await newSpecPage({
-      components: [AegovCard],
-      html: `<aegov-card>Content</aegov-card>`,
-    });
-    expect(page.root).toBeTruthy();
-    expect(page.root.tagName.toLowerCase()).toBe('aegov-card');
-  });
-
-  it('renders rich HTML content in slot', async () => {
-    const page = await newSpecPage({
-      components: [AegovCard],
-      html: `
-        <aegov-card>
-          <h2>Card Title</h2>
-          <p>Card description text</p>
-          <button>Action</button>
-        </aegov-card>
-      `,
-    });
-    const card = page.root.querySelector('.aegov-card');
-    expect(card).toBeTruthy();
+    const div = page.root.querySelector('div');
+    expect(div.getAttribute('aria-label')).toBe('card');
+    expect(div.getAttribute('data-id')).toBe('x');
   });
 });

@@ -1,9 +1,15 @@
 import { Component, Host, h, Prop, Event, EventEmitter, Element, Method, Watch, State } from '@stencil/core';
-import type { ModalPosition, ModalBackdropOpacity } from '../../utils/types';
+import { MODAL_POSITIONS, MODAL_OVERLAY_OPACITIES, MODAL_SIZES } from '../../utils/types';
+import type { ModalPosition, ModalOverlayOpacity, ModalSize } from '../../utils/types';
 import { getPassThroughAttributes } from '../../utils/attributes';
 import { getSlottedFocusableElements, handleTabKeyWrap } from '../../utils/focus-management';
 import { lockBodyScroll, unlockBodyScroll } from '../../utils/scroll-lock';
 import { pushZIndex, popZIndex } from '../../utils/z-index-manager';
+import { warnIfInvalidEnumProp } from '../../utils/prop-validator';
+import { generateId } from '../../utils/id-generator';
+
+const TAG = 'aegov-modal';
+const ctx = (prop: string) => ({ component: TAG, prop });
 
 /**
  * @slot - Modal content
@@ -19,35 +25,53 @@ export class AegovModal {
   private triggerElement: HTMLElement | null = null;
   private focusableElements: HTMLElement[] = [];
   private modalZIndex: number = 50;
+  private movedToBody: boolean = false;
+
+  /**
+   * Unique ID for the modal dialog element. Auto-generated if not provided.
+   */
+  @Prop({ mutable: true, reflect: true }) fieldId?: string;
 
   /**
    * Whether the modal is currently open/visible
    */
-  @Prop({ mutable: true, reflect: true }) open: boolean = false;
+  @Prop({ mutable: true, reflect: true }) isOpen: boolean = false;
 
   /**
-   * Whether clicking the backdrop closes the modal
+   * Whether clicking the overlay closes the modal
    * @default true
    */
-  @Prop() closeWithBackdrop: boolean = true;
+  @Prop() isCloseWithOverlay: boolean = true;
 
   /**
    * Whether to prevent body scroll when modal is open
    * @default true
    */
-  @Prop() preventBodyScroll: boolean = true;
+  @Prop() isPreventScroll: boolean = true;
 
   /**
-   * Backdrop opacity level
+   * Overlay opacity level
    * @default 'base'
    */
-  @Prop() backdropOpacity: ModalBackdropOpacity = 'base';
+  @Prop() overlayOpacity: ModalOverlayOpacity = 'base';
 
   /**
    * Position of the modal on screen
    * @default 'center'
    */
   @Prop() position: ModalPosition = 'center';
+
+  /**
+   * Size: 'sm' (compact padding/radius), 'base' (default), or 'lg' (generous padding/radius). Mirrors aegov-card sizing tokens.
+   * @default 'base'
+   */
+  @Prop() size: ModalSize = 'base';
+
+  /**
+   * Whether to apply inner content padding. On by default; scales with size.
+   * @default true
+   */
+  @Prop() isPadding: boolean = true;
 
   // Note: ARIA attributes (aria-label, aria-labelledby, aria-describedby)
   // are passed through automatically via getPassThroughAttributes()
@@ -88,7 +112,7 @@ export class AegovModal {
    */
   @Method()
   async show(): Promise<void> {
-    this.open = true;
+    this.isOpen = true;
   }
 
   /**
@@ -104,10 +128,10 @@ export class AegovModal {
    */
   @Method()
   async toggle(): Promise<void> {
-    this.open = !this.open;
+    this.isOpen = !this.isOpen;
   }
 
-  @Watch('open')
+  @Watch('isOpen')
   handleOpenChange(newValue: boolean, oldValue: boolean) {
     if (newValue && !oldValue) {
       this.handleOpen();
@@ -116,20 +140,42 @@ export class AegovModal {
     }
   }
 
+  componentWillLoad() {
+    if (!this.fieldId) {
+      this.fieldId = generateId('aegov-modal');
+    }
+    warnIfInvalidEnumProp(this.overlayOpacity, MODAL_OVERLAY_OPACITIES, 'base', ctx('overlayOpacity'));
+    warnIfInvalidEnumProp(this.position, MODAL_POSITIONS, 'center', ctx('position'));
+    warnIfInvalidEnumProp(this.size, MODAL_SIZES, 'base', ctx('size'));
+  }
+
+  @Watch('overlayOpacity')
+  onOverlayOpacityChange(v: unknown) { warnIfInvalidEnumProp(v, MODAL_OVERLAY_OPACITIES, 'base', ctx('overlayOpacity')); }
+
+  @Watch('position')
+  onPositionChange(v: unknown) { warnIfInvalidEnumProp(v, MODAL_POSITIONS, 'center', ctx('position')); }
+
+  @Watch('size')
+  onSizeChange(v: unknown) { warnIfInvalidEnumProp(v, MODAL_SIZES, 'base', ctx('size')); }
+
   connectedCallback() {
-    // Move modal to body for proper stacking
-    if (this.el.parentNode !== document.body) {
+    // Move modal to body for proper stacking. Guarded by movedToBody to
+    // avoid re-entrant hydration loops: appendChild triggers a synchronous
+    // disconnect/reconnect pair and Stencil's lazy hydration can fire
+    // connectedCallback again before parent state stabilises.
+    if (!this.movedToBody && this.el.parentNode !== document.body) {
+      this.movedToBody = true;
       document.body.appendChild(this.el);
     }
   }
 
   disconnectedCallback() {
-    // Cleanup
-    if (this.preventBodyScroll && this.open) {
+    // Cleanup. Note: we deliberately do NOT call body.removeChild(this.el)
+    // here — the disconnect IS the removal, and re-removing inside the
+    // callback caused a "Maximum call stack size exceeded" loop with
+    // connectedCallback under Stencil's shadow-DOM hydration.
+    if (this.isPreventScroll && this.isOpen) {
       unlockBodyScroll();
-    }
-    if (this.el.parentNode === document.body) {
-      document.body.removeChild(this.el);
     }
     document.removeEventListener('keydown', this.handleKeyDown);
   }
@@ -145,7 +191,7 @@ export class AegovModal {
     this.animationState = 'opening';
 
     // Lock body scroll
-    if (this.preventBodyScroll) {
+    if (this.isPreventScroll) {
       lockBodyScroll();
     }
 
@@ -181,7 +227,7 @@ export class AegovModal {
 
     // Wait for animation to complete
     setTimeout(() => {
-      this.open = false;
+      this.isOpen = false;
     }, 200);
   }
 
@@ -190,7 +236,7 @@ export class AegovModal {
     popZIndex();
 
     // Unlock body scroll (ref-counted, only unlocks when last overlay closes)
-    if (this.preventBodyScroll) {
+    if (this.isPreventScroll) {
       unlockBodyScroll();
     }
 
@@ -213,8 +259,8 @@ export class AegovModal {
     // Emit backdrop click event
     this.aegovModalBackdropClick.emit(event);
 
-    // Only close if clicking directly on backdrop, not modal content
-    if (event.target === event.currentTarget && this.closeWithBackdrop) {
+    // Only close if clicking directly on overlay, not modal content
+    if (event.target === event.currentTarget && this.isCloseWithOverlay) {
       this.handleClose();
     }
   };
@@ -245,42 +291,53 @@ export class AegovModal {
   }
 
   private getPositionClass(): string {
+    const position: ModalPosition = (MODAL_POSITIONS as readonly string[]).includes(this.position) ? this.position : 'center';
     const positionClasses: Record<ModalPosition, string> = {
       center: 'modal-container--center',
       top: 'modal-container--top',
       bottom: 'modal-container--bottom',
     };
-    return positionClasses[this.position];
+    return positionClasses[position];
   }
 
-  private getBackdropOpacityClass(): string {
-    const opacityClasses: Record<ModalBackdropOpacity, string> = {
+  private getSizeClass(): string {
+    const size: ModalSize = (MODAL_SIZES as readonly string[]).includes(this.size) ? this.size : 'base';
+    const sizeClasses: Record<ModalSize, string> = {
+      sm: 'modal-size-sm',
+      base: 'modal-size-base',
+      lg: 'modal-size-lg',
+    };
+    return sizeClasses[size];
+  }
+
+  private getOverlayOpacityClass(): string {
+    const overlayOpacity: ModalOverlayOpacity = (MODAL_OVERLAY_OPACITIES as readonly string[]).includes(this.overlayOpacity) ? this.overlayOpacity : 'base';
+    const opacityClasses: Record<ModalOverlayOpacity, string> = {
       light: 'modal-backdrop--light',
       base: 'modal-backdrop--base',
       dark: 'modal-backdrop--dark',
     };
-    return opacityClasses[this.backdropOpacity];
+    return opacityClasses[overlayOpacity];
   }
 
-  private static readonly PASS_THROUGH_ATTRS = new Set(['id']);
-
   render() {
-    if (!this.open && this.animationState === 'closed') {
+    if (!this.isOpen && this.animationState === 'closed') {
       return null;
     }
 
-    const passThroughAttributes = getPassThroughAttributes(this.el, AegovModal.PASS_THROUGH_ATTRS);
+    const passThroughAttributes = getPassThroughAttributes(this.el);
 
     return (
       <Host data-state={this.animationState} style={{ '--modal-z-index': this.modalZIndex.toString() }}>
         <div
-          class={`aegov-modal-backdrop ${this.getBackdropOpacityClass()}`}
+          class={`aegov-modal-backdrop ${this.getOverlayOpacityClass()}`}
           data-state={this.animationState}
           onClick={this.handleBackdropClick}
         ></div>
         <div class={`aegov-modal-container ${this.getPositionClass()}`} onClick={this.handleBackdropClick}>
           <div
-            class="aegov-modal-content"
+            id={this.fieldId}
+            class={`aegov-modal-content ${this.getSizeClass()} ${this.isPadding ? 'modal--padded' : ''}`}
             data-state={this.animationState}
             role="dialog"
             aria-modal="true"

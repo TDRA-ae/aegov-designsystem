@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Validation - Bring your own | AEGOV Design System</title>
+  <script type="module" src="/build/aegov.esm.js"></script>
+  <script nomodule src="/build/aegov.js"></script>
+  <link rel="stylesheet" href="/build/aegov.css">
+  <link rel="stylesheet" href="/docs/doc-style.css">
+  <link rel="stylesheet" href="/docs/hljs.css">
+</head>
+<body class="bg-aeblack-50 dark:bg-aeblack-950">
+  <header class="aegov-container sm:px-6 lg:px-8 mb-8">
+    <img src="https://designsystem.gov.ae/assets/site-logo/AEGov-DesignSystem-Logo-Color.svg" alt="UAE Design System Logo" class="w-auto h-16 my-2">
+  </header>
+  <main class="aegov-container sm:px-6 lg:px-8 bg-aeblack-50 dark:bg-aeblack-950">
+    <section class="flex items-start align-top gap-4">
+      <nav id="primary-nav" class="w-3xs shrink-0">&nbsp;</nav>
+      <article class="col-span-5 grow">
+          <section id="content-area" class="bg-whitely-50 dark:bg-aeblack-900 p-6 rounded-md shadow-xl">
+          <!-- DOC:START -->
+<h1>Bring Your Own Validator</h1>
+<p>The Layer 1 validation surface in <code>@aegov/design-system</code> is engine-agnostic. You don&#39;t need <code>@aegov/designsystem-validation</code> — you can drive validation manually with any predicate, regex, server response, or existing app-level validator.</p>
+<p>This page shows the most common patterns. The full surface reference is in <a href="validation-overview.html">Validation Surface</a>.</p>
+<hr>
+<h2>Pattern 1: Single field, simple predicate</h2>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-input</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;email&quot;</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;email&quot;</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;email&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-input</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;module&quot;</span>&gt;</span><span class="language-javascript">
+  <span class="hljs-keyword">const</span> input = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">querySelector</span>(<span class="hljs-string">&#x27;#email&#x27;</span>);
+  input.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;aegovValidate&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">e</span>) =&gt;</span> {
+    <span class="hljs-keyword">if</span> (e.<span class="hljs-property">detail</span>.<span class="hljs-property">trigger</span> !== <span class="hljs-string">&#x27;blur&#x27;</span>) <span class="hljs-keyword">return</span>; <span class="hljs-comment">// only validate on blur</span>
+    <span class="hljs-keyword">const</span> ok = <span class="hljs-regexp">/\S+@\S+\.\S+/</span>.<span class="hljs-title function_">test</span>(e.<span class="hljs-property">detail</span>.<span class="hljs-property">value</span>);
+    input.<span class="hljs-property">isInvalid</span> = !ok;
+    input.<span class="hljs-property">errorMessage</span> = ok ? <span class="hljs-string">&#x27;&#x27;</span> : <span class="hljs-string">&#x27;Enter a valid email&#x27;</span>;
+  });
+</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre><p>Notes:</p>
+<ul>
+<li>Filter by <code>trigger</code> so the user isn&#39;t told the input is invalid mid-typing.</li>
+<li>Setting <code>errorMessage = &#39;&#39;</code> clears the inline error region.</li>
+</ul>
+<hr>
+<h2>Pattern 2: Cross-field rule (password confirmation)</h2>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-input</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;pw&quot;</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;password&quot;</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;password&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-input</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-input</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;confirm&quot;</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;confirm&quot;</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;password&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-input</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;module&quot;</span>&gt;</span><span class="language-javascript">
+  <span class="hljs-keyword">const</span> pw = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">querySelector</span>(<span class="hljs-string">&#x27;#pw&#x27;</span>);
+  <span class="hljs-keyword">const</span> confirm = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">querySelector</span>(<span class="hljs-string">&#x27;#confirm&#x27;</span>);
+
+  <span class="hljs-keyword">function</span> <span class="hljs-title function_">recheck</span>(<span class="hljs-params"></span>) {
+    <span class="hljs-keyword">const</span> match = pw.<span class="hljs-property">value</span> === confirm.<span class="hljs-property">value</span>;
+    confirm.<span class="hljs-property">isInvalid</span> = confirm.<span class="hljs-property">value</span>.<span class="hljs-property">length</span> &gt; <span class="hljs-number">0</span> &amp;&amp; !match;
+    confirm.<span class="hljs-property">errorMessage</span> = match ? <span class="hljs-string">&#x27;&#x27;</span> : <span class="hljs-string">&#x27;Passwords do not match&#x27;</span>;
+  }
+
+  pw.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;aegovValidate&#x27;</span>, recheck);
+  confirm.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;aegovValidate&#x27;</span>, recheck);
+</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre><p>Both fields drive a shared check that updates the confirm field&#39;s state.</p>
+<hr>
+<h2>Pattern 3: Server-side validation via <code>setCustomValidity</code></h2>
+<p>When validation must come from the server (uniqueness, business rules, fraud checks):</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-input</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;username&quot;</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;username&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-input</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;module&quot;</span>&gt;</span><span class="language-javascript">
+  <span class="hljs-keyword">const</span> input = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">querySelector</span>(<span class="hljs-string">&#x27;#username&#x27;</span>);
+  <span class="hljs-keyword">let</span> abortCtl;
+
+  input.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;aegovValidate&#x27;</span>, <span class="hljs-title function_">async</span> (e) =&gt; {
+    <span class="hljs-keyword">if</span> (e.<span class="hljs-property">detail</span>.<span class="hljs-property">trigger</span> !== <span class="hljs-string">&#x27;blur&#x27;</span>) <span class="hljs-keyword">return</span>;
+    <span class="hljs-keyword">const</span> value = e.<span class="hljs-property">detail</span>.<span class="hljs-property">value</span>;
+    <span class="hljs-keyword">if</span> (!value) {
+      <span class="hljs-keyword">await</span> input.<span class="hljs-title function_">setCustomValidity</span>(<span class="hljs-string">&#x27;&#x27;</span>);
+      <span class="hljs-keyword">return</span>;
+    }
+
+    <span class="hljs-comment">// Cancel any in-flight check</span>
+    abortCtl?.<span class="hljs-title function_">abort</span>();
+    abortCtl = <span class="hljs-keyword">new</span> <span class="hljs-title class_">AbortController</span>();
+    input.<span class="hljs-property">dataset</span>.<span class="hljs-property">validating</span> = <span class="hljs-string">&#x27;true&#x27;</span>;
+
+    <span class="hljs-keyword">try</span> {
+      <span class="hljs-keyword">const</span> res = <span class="hljs-keyword">await</span> <span class="hljs-title function_">fetch</span>(<span class="hljs-string">`/api/check-user?u=<span class="hljs-subst">${<span class="hljs-built_in">encodeURIComponent</span>(value)}</span>`</span>, { <span class="hljs-attr">signal</span>: abortCtl.<span class="hljs-property">signal</span> });
+      <span class="hljs-keyword">const</span> { available } = <span class="hljs-keyword">await</span> res.<span class="hljs-title function_">json</span>();
+      <span class="hljs-keyword">await</span> input.<span class="hljs-title function_">setCustomValidity</span>(available ? <span class="hljs-string">&#x27;&#x27;</span> : <span class="hljs-string">&#x27;Username taken&#x27;</span>);
+    } <span class="hljs-keyword">catch</span> (err) {
+      <span class="hljs-keyword">if</span> (err.<span class="hljs-property">name</span> !== <span class="hljs-string">&#x27;AbortError&#x27;</span>) {
+        <span class="hljs-keyword">await</span> input.<span class="hljs-title function_">setCustomValidity</span>(<span class="hljs-string">&#x27;Could not verify username&#x27;</span>);
+      }
+    } <span class="hljs-keyword">finally</span> {
+      <span class="hljs-keyword">delete</span> input.<span class="hljs-property">dataset</span>.<span class="hljs-property">validating</span>;
+    }
+  });
+</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre><p><code>setCustomValidity</code> mirrors the native API. Pass an empty string to clear; pass a message to mark invalid.</p>
+<hr>
+<h2>Pattern 4: Validate-on-submit using <code>validate()</code></h2>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">form</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;f&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-input</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;email&quot;</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;email&quot;</span> <span class="hljs-attr">is-required</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-input</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-textarea</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;bio&quot;</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;bio&quot;</span> <span class="hljs-attr">maxlength</span>=<span class="hljs-string">&quot;500&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-textarea</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;submit&quot;</span>&gt;</span>Submit<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">form</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;module&quot;</span>&gt;</span><span class="language-javascript">
+  <span class="hljs-keyword">const</span> form = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">querySelector</span>(<span class="hljs-string">&#x27;#f&#x27;</span>);
+  form.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;submit&#x27;</span>, <span class="hljs-title function_">async</span> (e) =&gt; {
+    e.<span class="hljs-title function_">preventDefault</span>();
+
+    <span class="hljs-comment">// Run validate() on every aegov form component inside the form</span>
+    <span class="hljs-keyword">const</span> fields = form.<span class="hljs-title function_">querySelectorAll</span>(
+      <span class="hljs-string">&#x27;aegov-input, aegov-textarea, aegov-select, aegov-checkbox, &#x27;</span> +
+      <span class="hljs-string">&#x27;aegov-radio-group, aegov-toggle, aegov-range, aegov-otp, &#x27;</span> +
+      <span class="hljs-string">&#x27;aegov-fileupload, aegov-datepicker, aegov-checkbox-group&#x27;</span>
+    );
+    <span class="hljs-keyword">const</span> results = <span class="hljs-keyword">await</span> <span class="hljs-title class_">Promise</span>.<span class="hljs-title function_">all</span>(
+      [...fields].<span class="hljs-title function_">map</span>(<span class="hljs-function">(<span class="hljs-params">el</span>) =&gt;</span> (el).<span class="hljs-title function_">validate</span>(<span class="hljs-string">&#x27;submit&#x27;</span>))
+    );
+    <span class="hljs-keyword">const</span> allValid = results.<span class="hljs-title function_">every</span>(<span class="hljs-function">(<span class="hljs-params">r</span>) =&gt;</span> r.<span class="hljs-property">valid</span>);
+    <span class="hljs-keyword">if</span> (!allValid) {
+      <span class="hljs-comment">// Optional: focus the first invalid field</span>
+      <span class="hljs-keyword">const</span> firstInvalid = [...fields].<span class="hljs-title function_">find</span>(<span class="hljs-function">(<span class="hljs-params">_, i</span>) =&gt;</span> !results[i].<span class="hljs-property">valid</span>);
+      firstInvalid?.<span class="hljs-title function_">querySelector</span>(<span class="hljs-string">&#x27;input, textarea, select&#x27;</span>)?.<span class="hljs-title function_">focus</span>();
+      <span class="hljs-keyword">return</span>;
+    }
+
+    <span class="hljs-comment">// Submit values to the backend</span>
+    <span class="hljs-keyword">const</span> data = <span class="hljs-keyword">new</span> <span class="hljs-title class_">FormData</span>(form);
+    <span class="hljs-keyword">await</span> <span class="hljs-title function_">fetch</span>(<span class="hljs-string">&#x27;/api/save&#x27;</span>, { <span class="hljs-attr">method</span>: <span class="hljs-string">&#x27;POST&#x27;</span>, <span class="hljs-attr">body</span>: data });
+  });
+</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre><p>The native <code>FormData</code> constructor reads from each component&#39;s submitted value automatically — both inner-native-control components and FormAssociated components contribute correctly.</p>
+<hr>
+<h2>Pattern 5: Show a spinner during async validation</h2>
+<p>The component sets <code>data-validating=&quot;true&quot;</code> on its host while <code>setCustomValidity</code> is pending if you set it from your async handler — or you can set the flag yourself:</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-input</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;user&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-input</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">style</span>&gt;</span><span class="language-css">
+  aegov-<span class="hljs-selector-tag">input</span><span class="hljs-selector-attr">[data-validating=<span class="hljs-string">&quot;true&quot;</span>]</span><span class="hljs-selector-pseudo">::after</span> {
+    <span class="hljs-attribute">content</span>: <span class="hljs-string">&#x27;&#x27;</span>;
+    <span class="hljs-comment">/* spinner of your choice */</span>
+  }
+</span><span class="hljs-tag">&lt;/<span class="hljs-name">style</span>&gt;</span></code></pre><hr>
+<h2>Pattern 6: Reset on form reset</h2>
+<p><code>&lt;form&gt;.reset()</code> clears all native form controls automatically. To clear aegov-specific validation state:</p>
+<pre><code class="hljs language-js">form.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;reset&#x27;</span>, <span class="hljs-function">() =&gt;</span> {
+  form.<span class="hljs-title function_">querySelectorAll</span>(<span class="hljs-string">&#x27;aegov-input, aegov-textarea, aegov-select&#x27;</span>).<span class="hljs-title function_">forEach</span>(<span class="hljs-title function_">async</span> (el) =&gt; {
+    el.<span class="hljs-property">isInvalid</span> = <span class="hljs-literal">false</span>;
+    el.<span class="hljs-property">errorMessage</span> = <span class="hljs-string">&#x27;&#x27;</span>;
+    <span class="hljs-keyword">await</span> el.<span class="hljs-title function_">setCustomValidity</span>(<span class="hljs-string">&#x27;&#x27;</span>);
+  });
+});</code></pre><p>FormAssociated components respond to <code>&lt;form&gt;.reset()</code> automatically via their <code>formResetCallback()</code> — no extra wiring needed for <code>aegov-otp</code>, <code>aegov-fileupload</code>, <code>aegov-select</code> (listbox), and <code>aegov-datepicker</code>.</p>
+<hr>
+<h2>When to graduate to <code>@aegov/designsystem-validation</code></h2>
+<p>Stick with manual validation when:</p>
+<ul>
+<li>Your form has 1–3 fields.</li>
+<li>Validation rules are mostly per-field with at most one cross-field check.</li>
+<li>You don&#39;t need schema reuse between client and server.</li>
+<li>You don&#39;t have an existing schema library in the project.</li>
+</ul>
+<p>Reach for the engine package when:</p>
+<ul>
+<li>Your forms have 5+ fields.</li>
+<li>You want type-safe values (<code>useAegovForm&lt;S&gt;</code> infers the values shape from the schema).</li>
+<li>You&#39;re already using Valibot, Zod, or Vest elsewhere — you can share schemas.</li>
+<li>You need declarative async validation, debouncing, race-protection, and cross-field dependency graphs.</li>
+</ul>
+<p>The two paths are not mutually exclusive — you can mix manual + engine in the same form.</p>
+<hr>
+<h2>Cross-references</h2>
+<ul>
+<li><a href="validation-overview.html">Validation Surface</a> — full surface contract</li>
+<li>Per-component docs — value types, slot conventions, event payloads</li>
+</ul>
+<!-- DOC:END -->
+          </section>
+      </article>
+    </section>
+  </main>
+  <footer class="aegov-container sm:px-6 lg:px-8 mt-8 py-6 text-sm text-aeblack-500 dark:text-aeblack-400">
+    &copy; 2026 Telecommunication and Digital Regulatory Authority. All rights reserved.
+  </footer>
+
+<script src="/docs/layout.js"></script>
+</body>
+</html>

@@ -19,10 +19,10 @@ The text component provides a standardized paragraph element with consistent siz
 
 ## Properties
 
-| Property | Attribute | Description                                  | Type                     | Default     |
-| -------- | --------- | -------------------------------------------- | ------------------------ | ----------- |
-| `class`  | `class`   | Additional CSS classes to apply to the text. | `string`                 | `undefined` |
-| `size`   | `size`    | The size of the text.                        | `"base" \| "lg" \| "sm"` | `'base'`    |
+| Property     | Attribute     | Description                                  | Type     | Default     |
+| ------------ | ------------- | -------------------------------------------- | -------- | ----------- |
+| `extraClass` | `extra-class` | Additional CSS classes to apply to the text. | `string` | `undefined` |
+| `size`       | `size`        | The size of the text.                        | `string` | `'base'`    |
 
 
 ## Slots

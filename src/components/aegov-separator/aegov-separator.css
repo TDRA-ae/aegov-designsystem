@@ -2,14 +2,27 @@
   @apply block;
 }
 
+/* Light-DOM display fallback — `:host` does not match in scoped:false mode,
+   so the custom element stays inline by default. Force block here. */
+aegov-separator {
+  @apply block;
+}
+
 .aegov-separator {
   @apply m-0;
   border-style: none;
 }
 
-/* Horizontal separator (default) */
+/* Gap padding is applied inline via the component's render(); see the `gap`
+   prop on aegov-separator. It uses Tailwind's `--spacing` token so any
+   numeric value (e.g. gap="4") maps to the same scale as `py-4`. */
+
+/* ============================================
+   ORIENTATION
+   ============================================ */
+
 .separator--horizontal {
-  @apply w-full border-t border-slate-300;
+  @apply w-full border-t;
 }
 
 .separator--horizontal.separator--with-text {
@@ -17,26 +30,52 @@
   border-top: none;
 }
 
-/* Vertical separator */
 .separator--vertical {
-  @apply h-full border-l border-slate-300 inline-block;
+  @apply h-full border-l inline-block align-middle;
   min-height: 1rem;
 }
 
-/* Subtle variant */
-.separator--subtle {
-  @apply border-slate-200;
-}
-
-/* Separator with text */
+/* Text-bearing variant — line segments on each side of label */
 .separator__line {
-  @apply flex-1 border-t border-slate-300;
+  @apply flex-1 border-t;
 }
 
-.separator--subtle .separator__line {
-  @apply border-slate-200;
-}
+/* ============================================
+   COLOUR — variant × appearance
+   Applies to the line border-color on .aegov-separator
+   AND to .separator__line segments (text-bearing variant).
+   ============================================ */
+
+/* SOLID — base shade per variant */
+.separator-variant-primary.separator-appearance-solid,
+.separator-variant-primary.separator-appearance-solid .separator__line       { @apply border-primary-600 dark:border-primary-400; }
+.separator-variant-secondary.separator-appearance-solid,
+.separator-variant-secondary.separator-appearance-solid .separator__line     { @apply border-secondary-600 dark:border-secondary-400; }
+.separator-variant-neutral-max.separator-appearance-solid,
+.separator-variant-neutral-max.separator-appearance-solid .separator__line   { @apply border-aeblack-800 dark:border-aeblack-300; }
+.separator-variant-neutral-min.separator-appearance-solid,
+.separator-variant-neutral-min.separator-appearance-solid .separator__line   { @apply border-aeblack-100 dark:border-aeblack-700; }
+
+/* LIGHT — subtle shade per variant */
+.separator-variant-primary.separator-appearance-light,
+.separator-variant-primary.separator-appearance-light .separator__line       { @apply border-primary-200 dark:border-primary-800; }
+.separator-variant-secondary.separator-appearance-light,
+.separator-variant-secondary.separator-appearance-light .separator__line     { @apply border-secondary-200 dark:border-secondary-800; }
+.separator-variant-neutral-max.separator-appearance-light,
+.separator-variant-neutral-max.separator-appearance-light .separator__line   { @apply border-aeblack-400 dark:border-aeblack-500; }
+.separator-variant-neutral-min.separator-appearance-light,
+.separator-variant-neutral-min.separator-appearance-light .separator__line   { @apply border-aeblack-50 dark:border-aeblack-800; }
+
+/* ============================================
+   TEXT label — colour matches variant family
+   neutral-min uses aeblack-600 since aeblack-100/50 too light for legible text
+   ============================================ */
 
 .separator__text {
-  @apply text-sm text-slate-500 px-2;
+  @apply text-sm px-2;
 }
+
+.separator-variant-primary .separator__text     { @apply text-primary-700 dark:text-primary-300; }
+.separator-variant-secondary .separator__text   { @apply text-secondary-700 dark:text-secondary-300; }
+.separator-variant-neutral-max .separator__text { @apply text-aeblack-800 dark:text-whitely-100; }
+.separator-variant-neutral-min .separator__text { @apply text-aeblack-600 dark:text-aeblack-300; }

@@ -6,11 +6,11 @@
   @apply relative;
 }
 .aegov-checkbox input[type="checkbox"] {
-  @apply appearance-none mt-0.5 accent-primary-600 text-whitely-50 border-2 border-primary-600 checked:bg-primary-600 relative m-0 h-4.5 w-4.5 focus:outline-2 focus:outline-offset-1 focus:outline-primary-support-600 disabled:pointer-events-none disabled:checked:opacity-40 disabled:checked:border-primary-support-600 disabled:border-primary-200 rounded;
+  @apply appearance-none shrink-0 mt-0.5 text-whitely-50 border-2 relative m-0 h-4.5 w-4.5 disabled:pointer-events-none disabled:checked:opacity-40 disabled:border-primary-200 rounded focus-visible:outline-2 focus-visible:outline-offset-2;
 
   &:before  {
     content: '';
-    @apply absolute bg-primary-50 start-2/4 top-2/4 mix-blend-multiply h-12 w-12 -translate-x-2/4 -translate-y-2/4 scale-0 rounded-full transition-all;
+    @apply absolute start-2/4 top-2/4 mix-blend-multiply h-12 w-12 -translate-x-2/4 -translate-y-2/4 scale-0 rounded-full transition-all;
   }
 
   &:hover:not(:disabled)::before {
@@ -23,7 +23,6 @@
   }
 
   &:indeterminate {
-    @apply bg-primary-600;
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='white'%3E%3Crect x='3' y='7' width='10' height='2' rx='1'/%3E%3C/svg%3E");
     @apply bg-center bg-no-repeat bg-[length:100%_100%];
   }
@@ -32,6 +31,27 @@
     @apply hidden!;
   }
 }
+/* Variant — rest border, checked bg+border, hover halo, focus outline per colour family.
+   Focus outline colour matches the design-system convention used by aegov-input et al:
+   support-500 (light) / support-400 (dark); neutrals use seablue. */
+.aegov-checkbox.checkbox-variant-primary input[type="checkbox"]       { @apply border-primary-600 checked:bg-primary-600 accent-primary-600 focus-visible:outline-primary-support-500 dark:border-primary-400 dark:checked:bg-primary-500 dark:accent-primary-500 dark:focus-visible:outline-primary-support-400 }
+.aegov-checkbox.checkbox-variant-primary input[type="checkbox"]::before { @apply bg-primary-50 dark:bg-primary-900/40; }
+
+.aegov-checkbox.checkbox-variant-secondary input[type="checkbox"]     { @apply border-secondary-600 checked:bg-secondary-600 accent-secondary-600 focus-visible:outline-secondary-support-500 dark:border-secondary-400 dark:checked:bg-secondary-500 dark:accent-secondary-500 dark:focus-visible:outline-secondary-support-400; }
+.aegov-checkbox.checkbox-variant-secondary input[type="checkbox"]::before { @apply bg-secondary-50 dark:bg-secondary-900/40; }
+
+.aegov-checkbox.checkbox-variant-neutral-max input[type="checkbox"]   { @apply border-aeblack-800 checked:bg-aeblack-800 accent-aeblack-800 focus-visible:outline-seablue-500 dark:border-aeblack-300 dark:checked:bg-aeblack-300 dark:accent-aeblack-300 dark:focus-visible:outline-seablue-400; }
+.aegov-checkbox.checkbox-variant-neutral-max input[type="checkbox"]::before { @apply bg-aeblack-100 dark:bg-aeblack-700; }
+
+.aegov-checkbox.checkbox-variant-neutral-min input[type="checkbox"]   { @apply border-aeblack-300 checked:bg-aeblack-300 accent-aeblack-300 focus-visible:outline-seablue-500 dark:border-aeblack-500 dark:checked:bg-aeblack-500 dark:accent-aeblack-500 dark:focus-visible:outline-seablue-400; }
+.aegov-checkbox.checkbox-variant-neutral-min input[type="checkbox"]::before { @apply bg-aeblack-50 dark:bg-aeblack-800; }
+
+/* Indeterminate fill follows variant */
+.aegov-checkbox.checkbox-variant-primary input[type="checkbox"]:indeterminate     { @apply bg-primary-600 dark:bg-primary-500; }
+.aegov-checkbox.checkbox-variant-secondary input[type="checkbox"]:indeterminate   { @apply bg-secondary-600 dark:bg-secondary-500; }
+.aegov-checkbox.checkbox-variant-neutral-max input[type="checkbox"]:indeterminate { @apply bg-aeblack-800 dark:bg-aeblack-300; }
+.aegov-checkbox.checkbox-variant-neutral-min input[type="checkbox"]:indeterminate { @apply bg-aeblack-800 dark:bg-aeblack-500; }
+
 /* Wrapper label for inline label mode */
 .checkbox__wrapper {
   @apply flex items-start cursor-pointer select-none;
@@ -46,11 +66,39 @@
 }
 
 .checkbox__label-text {
-  @apply text-base text-aeblack-800;
+  @apply text-base text-aeblack-800 dark:text-whitely-100;
 }
 
-.checkbox__description {
-  @apply text-aeblack-500;
+.checkbox__hint {
+  @apply text-aeblack-500 dark:text-aeblack-400;
+}
+
+/* ========================================
+   Size: xs
+   Checkbox: 14px, label: text-xs, desc: text-xs
+   ======================================== */
+.checkbox--xs .checkbox__wrapper {
+  @apply gap-1.5;
+}
+
+.checkbox--xs input[type="checkbox"] {
+  @apply h-3.5 w-3.5 mt-0!;
+}
+
+.checkbox--xs input[type="checkbox"]::before {
+  @apply h-7 w-7;
+}
+
+.checkbox--xs .checkbox__text {
+  @apply pt-0;
+}
+
+.checkbox--xs .checkbox__label-text {
+  @apply text-xs leading-3.5;
+}
+
+.checkbox--xs .checkbox__hint {
+  @apply text-xs mt-0.5;
 }
 
 /* ========================================
@@ -58,7 +106,7 @@
    Checkbox: 16px, label: text-sm, desc: text-xs
    ======================================== */
 .checkbox--sm .checkbox__wrapper {
-  @apply gap-2;
+  @apply gap-2.5;
 }
 
 .checkbox--sm input[type="checkbox"] {
@@ -77,7 +125,7 @@
   @apply text-sm leading-4;
 }
 
-.checkbox--sm .checkbox__description {
+.checkbox--sm .checkbox__hint {
   @apply text-xs mt-0.5;
 }
 
@@ -105,7 +153,7 @@
   @apply text-base leading-5;
 }
 
-.checkbox--base .checkbox__description {
+.checkbox--base .checkbox__hint {
   @apply text-sm mt-1;
 }
 
@@ -133,6 +181,49 @@
   @apply text-lg leading-6;
 }
 
-.checkbox--lg .checkbox__description {
+.checkbox--lg .checkbox__hint {
   @apply text-base mt-1;
+}
+
+/* ========================================
+   Size: xl
+   Checkbox: 22px, label: text-xl, desc: text-base
+   ======================================== */
+.checkbox--xl .checkbox__wrapper {
+  @apply gap-4;
+}
+
+.checkbox--xl input[type="checkbox"] {
+  @apply h-5.5 w-5.5 mt-1!;
+}
+
+.checkbox--xl input[type="checkbox"]::before {
+  @apply h-14 w-14;
+}
+
+.checkbox--xl .checkbox__text {
+  @apply pt-0.5;
+}
+
+.checkbox--xl .checkbox__label-text {
+  @apply text-xl leading-7;
+}
+
+.checkbox--xl .checkbox__hint {
+  @apply text-base mt-1;
+}
+
+/* Validation surface (Layer 1) — see validation-engine-addon.md §2.6 */
+
+aegov-checkbox.is-invalid .checkbox__wrapper input[type="checkbox"] {
+  @apply ring-2 ring-aered-500 dark:ring-aered-400;
+}
+
+/* Invalid + focus — outline goes red so it doesn't compete with the red ring. */
+aegov-checkbox.is-invalid .checkbox__wrapper input[type="checkbox"]:focus-visible {
+  @apply outline-aered-500 dark:outline-aered-400;
+}
+
+.aegov-checkbox__error {
+  @apply text-sm text-aered-600 mt-1.5 flex items-start gap-1.5 leading-snug dark:text-aered-400;
 }

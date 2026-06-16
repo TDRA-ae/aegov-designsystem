@@ -1,6 +1,10 @@
-import { Component, Prop, Element, h, Host } from '@stencil/core';
-import type { TitleSize } from '../../utils/types';
+import { Component, Prop, Watch, State, Element, h, Host } from '@stencil/core';
+import { watchResponsiveProp } from '../../utils/responsive-prop';
+import type { ResponsivePropWatcher } from '../../utils/responsive-prop';
+import { TITLE_SIZES } from '../../utils/types';
+import type { TitleSize, TitleHeadingType } from '../../utils/types';
 import { getPassThroughAttributes } from '../../utils/attributes';
+import { generateId } from '../../utils/id-generator';
 
 /**
  * @slot default - The title content
@@ -12,53 +16,100 @@ import { getPassThroughAttributes } from '../../utils/attributes';
   shadow:false
 })
 export class AegovTitle {
-  @Element() el: HTMLElement;
+  @Element() el!: HTMLElement;
+
+  /**
+   * Unique ID for the title element. Auto-generated if not provided.
+   */
+  @Prop({ mutable: true, reflect: true }) fieldId?: string;
 
   /**
    * The size of the title text.
    * @default 'base'
    */
-  @Prop() size: TitleSize = 'lg';
+  @Prop() size: string = 'base';
+
+  @State() private _resolvedSize: TitleSize = 'base';
+  private _sizeWatcher: ResponsivePropWatcher | null = null;
+
+  /**
+   * The semantic wrapper tag for the title. When set, renders the title
+   * inside the specified heading tag (`h2`–`h6`) or a `p`. When omitted,
+   * the title renders as a `<p>` (default).
+   */
+  @Prop() headingType?: TitleHeadingType;
 
   /**
    * Additional CSS classes to apply to the title.
    */
-  @Prop() class?: string;
+  @Prop() extraClass?: string;
 
-  private static readonly PASS_THROUGH_ATTRS = new Set(['id']);
+  componentWillLoad() {
+    if (!this.fieldId) {
+      this.fieldId = generateId('aegov-title');
+    }
+    this._sizeWatcher = watchResponsiveProp(this.size, TITLE_SIZES, 'base', v => {
+      this._resolvedSize = v as TitleSize;
+    });
+    this._resolvedSize = this._sizeWatcher.current as TitleSize;
+  }
+
+  disconnectedCallback() {
+    this._sizeWatcher?.destroy();
+  }
+
+  @Watch('size')
+  onSizeChange() {
+    this._sizeWatcher?.destroy();
+    this._sizeWatcher = watchResponsiveProp(this.size, TITLE_SIZES, 'base', v => {
+      this._resolvedSize = v as TitleSize;
+    });
+    this._resolvedSize = this._sizeWatcher.current as TitleSize;
+  }
 
   /**
    * Get the CSS classes based on component props
    */
   private getTitleClasses(): string {
-    const classes: string[] = ['font-bold','mt-0'];
+    const classes: string[] = ['font-bold!', 'mt-0!', 'mb-0!','font-inter!','rtl:font-alexandria!'];
 
-    // Size classes
+    // Size classes — `!` forces override of global h1–h6 base styles.
     const sizeClasses: Record<TitleSize, string> = {
-      base: 'text-base',
-      lg: 'text-lg',
-      xl: 'text-xl',
-      '2xl': 'text-2xl',
+      xs: 'text-xs!',
+      sm: 'text-sm!',
+      base: 'text-base!',
+      lg: 'text-lg!',
+      xl: 'text-xl!',
+      '2xl': 'text-2xl!',
+      '3xl': 'text-3xl!',
+      'text-h1': 'text-h1!',
+      'text-h2': 'text-h2!',
+      'text-h3': 'text-h3!',
+      'text-h4': 'text-h4!',
+      'text-h5': 'text-h5!',
+      'text-h6': 'text-h6!'
     };
 
-    classes.push(sizeClasses[this.size]);
+    const size: TitleSize = this._resolvedSize;
+    classes.push(sizeClasses[size]);
 
     // Merge with custom classes if provided
-    if (this.class) {
-      classes.push(this.class);
+    if (this.extraClass) {
+      classes.push(this.extraClass);
     }
 
     return classes.join(' ');
   }
 
   render() {
-    const passThroughAttributes = getPassThroughAttributes(this.el, AegovTitle.PASS_THROUGH_ATTRS);
+    const passThroughAttributes = getPassThroughAttributes(this.el);
+    const Tag: any = this.headingType || 'p';
 
     return (
       <Host>
-        <p class={this.getTitleClasses()} {...passThroughAttributes}>
+        <Tag id={this.fieldId} class={this.getTitleClasses()} {...passThroughAttributes}>
           <slot />
-        </p>
+        </Tag>
       </Host>
     );
   }

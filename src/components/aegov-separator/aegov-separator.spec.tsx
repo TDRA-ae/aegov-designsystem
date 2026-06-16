@@ -2,217 +2,108 @@ import { newSpecPage } from '@stencil/core/testing';
 import { AegovSeparator } from './aegov-separator';
 
 describe('aegov-separator', () => {
-  // ------------------------------------------------------------------ rendering
-  describe('rendering', () => {
-    it('renders an hr element by default (no text)', async () => {
-      const page = await newSpecPage({
-        components: [AegovSeparator],
-        html: `<aegov-separator></aegov-separator>`,
-      });
-      const hr = page.root.querySelector('hr');
-      expect(hr).not.toBeNull();
+  it('renders an <hr> by default with role="presentation"', async () => {
+    const page = await newSpecPage({
+      components: [AegovSeparator],
+      html: `<aegov-separator></aegov-separator>`,
     });
-
-    it('renders a div when text prop is provided', async () => {
-      const page = await newSpecPage({
-        components: [AegovSeparator],
-        html: `<aegov-separator text="OR"></aegov-separator>`,
-      });
-      const div = page.root.querySelector('div.aegov-separator');
-      expect(div).not.toBeNull();
-    });
-
-    it('renders separator text content', async () => {
-      const page = await newSpecPage({
-        components: [AegovSeparator],
-        html: `<aegov-separator text="OR"></aegov-separator>`,
-      });
-      const textSpan = page.root.querySelector('.separator__text');
-      expect(textSpan.textContent).toBe('OR');
-    });
-
-    it('renders two separator lines with text', async () => {
-      const page = await newSpecPage({
-        components: [AegovSeparator],
-        html: `<aegov-separator text="divider"></aegov-separator>`,
-      });
-      const lines = page.root.querySelectorAll('.separator__line');
-      expect(lines.length).toBe(2);
-    });
-
-    it('renders slot content when no text prop', async () => {
-      const page = await newSpecPage({
-        components: [AegovSeparator],
-        html: `<aegov-separator>OR</aegov-separator>`,
-      });
-      const textSpan = page.root.querySelector('.separator__text');
-      expect(textSpan).not.toBeNull();
-    });
-
-    it('prefers text prop over slot content', async () => {
-      const page = await newSpecPage({
-        components: [AegovSeparator],
-        html: `<aegov-separator text="PROP">SLOT</aegov-separator>`,
-      });
-      const textSpan = page.root.querySelector('.separator__text');
-      expect(textSpan.textContent).toBe('PROP');
-    });
+    const hr = page.root.querySelector('hr');
+    expect(hr).toBeTruthy();
+    expect(hr.getAttribute('role')).toBe('presentation');
+    expect(hr.getAttribute('aria-orientation')).toBe('horizontal');
   });
 
-  // ------------------------------------------------------------------ default props
-  describe('default props', () => {
-    it('defaults orientation to horizontal', async () => {
-      const page = await newSpecPage({
-        components: [AegovSeparator],
-        html: `<aegov-separator></aegov-separator>`,
-      });
-      expect(page.rootInstance.orientation).toBe('horizontal');
+  it('renders with role="separator" when isDecorative is false', async () => {
+    const page = await newSpecPage({
+      components: [AegovSeparator],
+      html: `<aegov-separator is-decorative="false"></aegov-separator>`,
     });
-
-    it('defaults variant to default', async () => {
-      const page = await newSpecPage({
-        components: [AegovSeparator],
-        html: `<aegov-separator></aegov-separator>`,
-      });
-      expect(page.rootInstance.variant).toBe('default');
-    });
-
-    it('defaults decorative to true', async () => {
-      const page = await newSpecPage({
-        components: [AegovSeparator],
-        html: `<aegov-separator></aegov-separator>`,
-      });
-      expect(page.rootInstance.decorative).toBe(true);
-    });
+    const hr = page.root.querySelector('hr');
+    expect(hr.getAttribute('role')).toBe('separator');
   });
 
-  // ------------------------------------------------------------------ orientation
-  describe('orientation', () => {
-    it('applies separator--horizontal class for horizontal', async () => {
-      const page = await newSpecPage({
-        components: [AegovSeparator],
-        html: `<aegov-separator orientation="horizontal"></aegov-separator>`,
-      });
-      const hr = page.root.querySelector('hr');
-      expect(hr.classList.contains('separator--horizontal')).toBe(true);
+  it('renders text-bearing variant when text prop is provided', async () => {
+    const page = await newSpecPage({
+      components: [AegovSeparator],
+      html: `<aegov-separator text="Or"></aegov-separator>`,
     });
-
-    it('applies separator--vertical class for vertical', async () => {
-      const page = await newSpecPage({
-        components: [AegovSeparator],
-        html: `<aegov-separator orientation="vertical"></aegov-separator>`,
-      });
-      const hr = page.root.querySelector('hr');
-      expect(hr.classList.contains('separator--vertical')).toBe(true);
-    });
-
-    it('sets aria-orientation to horizontal', async () => {
-      const page = await newSpecPage({
-        components: [AegovSeparator],
-        html: `<aegov-separator orientation="horizontal"></aegov-separator>`,
-      });
-      const hr = page.root.querySelector('hr');
-      expect(hr.getAttribute('aria-orientation')).toBe('horizontal');
-    });
-
-    it('sets aria-orientation to vertical', async () => {
-      const page = await newSpecPage({
-        components: [AegovSeparator],
-        html: `<aegov-separator orientation="vertical"></aegov-separator>`,
-      });
-      const hr = page.root.querySelector('hr');
-      expect(hr.getAttribute('aria-orientation')).toBe('vertical');
-    });
+    expect(page.root.querySelector('hr')).toBeNull();
+    const span = page.root.querySelector('.separator__text');
+    expect(span).toBeTruthy();
+    expect(span.textContent).toContain('Or');
+    expect(page.root.querySelectorAll('.separator__line').length).toBe(2);
   });
 
-  // ------------------------------------------------------------------ variant
-  describe('variant', () => {
-    it('applies separator--subtle for subtle variant', async () => {
-      const page = await newSpecPage({
-        components: [AegovSeparator],
-        html: `<aegov-separator variant="subtle"></aegov-separator>`,
-      });
-      const hr = page.root.querySelector('hr');
-      expect(hr.classList.contains('separator--subtle')).toBe(true);
+  it('renders text-bearing variant when slot has content', async () => {
+    const page = await newSpecPage({
+      components: [AegovSeparator],
+      html: `<aegov-separator>OR</aegov-separator>`,
     });
-
-    it('does not apply separator--subtle for default variant', async () => {
-      const page = await newSpecPage({
-        components: [AegovSeparator],
-        html: `<aegov-separator variant="default"></aegov-separator>`,
-      });
-      const hr = page.root.querySelector('hr');
-      expect(hr.classList.contains('separator--subtle')).toBe(false);
-    });
-
-    it('combines orientation and variant classes', async () => {
-      const page = await newSpecPage({
-        components: [AegovSeparator],
-        html: `<aegov-separator orientation="vertical" variant="subtle"></aegov-separator>`,
-      });
-      const hr = page.root.querySelector('hr');
-      expect(hr.classList.contains('separator--vertical')).toBe(true);
-      expect(hr.classList.contains('separator--subtle')).toBe(true);
-    });
+    expect(page.root.querySelector('hr')).toBeNull();
+    expect(page.root.querySelector('.separator__text')).toBeTruthy();
   });
 
-  // ------------------------------------------------------------------ decorative / role
-  describe('decorative / role', () => {
-    it('has role="presentation" when decorative is true', async () => {
-      const page = await newSpecPage({
-        components: [AegovSeparator],
-        html: `<aegov-separator></aegov-separator>`,
-      });
-      const hr = page.root.querySelector('hr');
-      expect(hr.getAttribute('role')).toBe('presentation');
+  it('applies vertical orientation class', async () => {
+    const page = await newSpecPage({
+      components: [AegovSeparator],
+      html: `<aegov-separator orientation="vertical"></aegov-separator>`,
     });
-
-    it('has role="separator" when decorative is false', async () => {
-      const page = await newSpecPage({
-        components: [AegovSeparator],
-        html: `<aegov-separator decorative="false"></aegov-separator>`,
-      });
-      const hr = page.root.querySelector('hr');
-      expect(hr.getAttribute('role')).toBe('separator');
-    });
-
-    it('has role="presentation" on div when decorative with text', async () => {
-      const page = await newSpecPage({
-        components: [AegovSeparator],
-        html: `<aegov-separator text="OR"></aegov-separator>`,
-      });
-      const div = page.root.querySelector('div.aegov-separator');
-      expect(div.getAttribute('role')).toBe('presentation');
-    });
-
-    it('has role="separator" on div when not decorative with text', async () => {
-      const page = await newSpecPage({
-        components: [AegovSeparator],
-        html: `<aegov-separator text="OR" decorative="false"></aegov-separator>`,
-      });
-      const div = page.root.querySelector('div.aegov-separator');
-      expect(div.getAttribute('role')).toBe('separator');
-    });
+    const hr = page.root.querySelector('hr');
+    expect(hr.classList.contains('separator--vertical')).toBe(true);
+    expect(hr.getAttribute('aria-orientation')).toBe('vertical');
   });
 
-  // ------------------------------------------------------------------ with-text class
-  describe('with-text class', () => {
-    it('applies separator--with-text when text prop is set', async () => {
-      const page = await newSpecPage({
-        components: [AegovSeparator],
-        html: `<aegov-separator text="Section"></aegov-separator>`,
-      });
-      const div = page.root.querySelector('div.aegov-separator');
-      expect(div.classList.contains('separator--with-text')).toBe(true);
+  it('applies appearance class', async () => {
+    const page = await newSpecPage({
+      components: [AegovSeparator],
+      html: `<aegov-separator appearance="light"></aegov-separator>`,
     });
+    const hr = page.root.querySelector('hr');
+    expect(hr.classList.contains('separator-appearance-light')).toBe(true);
+  });
 
-    it('does not apply separator--with-text when no text', async () => {
+  it('defaults to solid appearance and primary variant', async () => {
+    const page = await newSpecPage({
+      components: [AegovSeparator],
+      html: `<aegov-separator></aegov-separator>`,
+    });
+    const hr = page.root.querySelector('hr');
+    expect(hr.classList.contains('separator-appearance-solid')).toBe(true);
+    expect(hr.classList.contains('separator-variant-primary')).toBe(true);
+  });
+
+  it('applies variant class for all 4 variants', async () => {
+    for (const v of ['primary', 'secondary', 'neutral-max', 'neutral-min']) {
       const page = await newSpecPage({
         components: [AegovSeparator],
-        html: `<aegov-separator></aegov-separator>`,
+        html: `<aegov-separator variant="${v}"></aegov-separator>`,
       });
-      const hr = page.root.querySelector('hr');
-      expect(hr.classList.contains('separator--with-text')).toBe(false);
+      expect(page.root.querySelector('hr').classList.contains(`separator-variant-${v}`)).toBe(true);
+    }
+  });
+
+  it('applies separator--with-text when text exists', async () => {
+    const page = await newSpecPage({
+      components: [AegovSeparator],
+      html: `<aegov-separator text="Or"></aegov-separator>`,
     });
+    const wrapper = page.root.querySelector('div.aegov-separator');
+    expect(wrapper.classList.contains('separator--with-text')).toBe(true);
+  });
+
+  it('appends extraClass to the rendered element', async () => {
+    const page = await newSpecPage({
+      components: [AegovSeparator],
+      html: `<aegov-separator extra-class="my-extra"></aegov-separator>`,
+    });
+    expect(page.root.querySelector('hr').classList.contains('my-extra')).toBe(true);
+  });
+
+  it('always includes aegov-separator base class', async () => {
+    const page = await newSpecPage({
+      components: [AegovSeparator],
+      html: `<aegov-separator></aegov-separator>`,
+    });
+    expect(page.root.querySelector('hr').classList.contains('aegov-separator')).toBe(true);
   });
 });
