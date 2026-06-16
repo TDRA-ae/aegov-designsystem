@@ -1,9 +1,15 @@
-import { Component, Host, h, Prop, Element, State, Listen, Event, EventEmitter, Watch } from '@stencil/core';
+import { Component, Host, h, Prop, Element, State, Listen, Event, EventEmitter, Watch, Method } from '@stencil/core';
+import { DROPDOWN_POSITIONS, DROPDOWN_ALIGNS, DROPDOWN_TRIGGERS } from '../../utils/types';
 import type { DropdownPosition, DropdownAlign, DropdownTrigger } from '../../utils/types';
 import { generateId } from '../../utils/id-generator';
 import { getFocusableElements, FOCUSABLE_SELECTORS, cycleFocus } from '../../utils/focus-management';
 import { createPortal, removePortal } from '../../utils/portal-manager';
 import { createKeyboardHandler } from '../../utils/keyboard-handler';
+import { warnIfInvalidEnumProp } from '../../utils/prop-validator';
+import { getPassThroughAttributes } from '../../utils/attributes';
+
+const TAG = 'aegov-dropdown';
+const ctx = (prop: string) => ({ component: TAG, prop });
 
 /**
  * Design token values used in portal-injected styles.
@@ -11,14 +17,15 @@ import { createKeyboardHandler } from '../../utils/keyboard-handler';
  * these CSS values must be injected via JS. Keep in sync with the Tailwind theme.
  */
 const PORTAL_TOKENS = {
-  borderColor: 'oklch(0.817 0.014 264.536)',   // --color-slate-300
-  dividerColor: 'oklch(0.896 0.006 264.531)',   // --color-slate-200
   shadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
   radius: '0.5rem',
   transition: 'opacity 200ms ease-in-out, transform 200ms ease-in-out',
 } as const;
 
-/** CSS injected into the portal element (scoped CSS can't reach it). */
+/** CSS injected into the portal element (scoped CSS can't reach it).
+ * Theme color vars from tailwind.css @theme are declared on :root, so they
+ * inherit into the portal (document.body descendant). `.dark` on <html>
+ * provides dark-mode overrides via the `.dark` selector branch below. */
 const DROPDOWN_PORTAL_STYLES = `
   .aegov-dropdown-portal {
     position: fixed;
@@ -29,8 +36,9 @@ const DROPDOWN_PORTAL_STYLES = `
   }
 
   .aegov-dropdown-portal .aegov-dropdown {
-    background: white;
-    border: 1px solid ${PORTAL_TOKENS.borderColor};
+    background: var(--color-whitely-50);
+    color: var(--color-aeblack-800);
+    border: 1px solid var(--color-aeblack-200);
     border-radius: ${PORTAL_TOKENS.radius};
     box-shadow: ${PORTAL_TOKENS.shadow};
     position: fixed;
@@ -45,6 +53,12 @@ const DROPDOWN_PORTAL_STYLES = `
     transition: ${PORTAL_TOKENS.transition};
   }
 
+  .dark .aegov-dropdown-portal .aegov-dropdown {
+    background: var(--color-aeblack-900);
+    color: var(--color-whitely-100);
+    border-color: var(--color-aeblack-700);
+  }
+
   .aegov-dropdown-portal .aegov-dropdown[data-state="open"] {
     opacity: 1;
     transform: scale(1);
@@ -52,8 +66,22 @@ const DROPDOWN_PORTAL_STYLES = `
 
   .aegov-dropdown-portal .aegov-dropdown hr {
     border: none;
-    border-top: 1px solid ${PORTAL_TOKENS.dividerColor};
+    border-top: 1px solid var(--color-aeblack-100);
     margin: 0.5rem 0;
+  }
+
+  .dark .aegov-dropdown-portal .aegov-dropdown hr {
+    border-top-color: var(--color-aeblack-700);
+  }
+
+  .aegov-dropdown-portal .aegov-dropdown a {
+    display: block;
+    margin: 0;
+    color: var(--color-primary-600);
+  }
+
+  .dark .aegov-dropdown-portal .aegov-dropdown a {
+    color: var(--color-primary-400);
   }
 
   .aegov-dropdown-portal .aegov-dropdown a[aria-disabled="true"],
@@ -97,22 +125,35 @@ export class AegovDropdown {
   private dropdownRef?: HTMLDivElement;
   private triggerRef?: HTMLDivElement;
   private portalElement?: HTMLDivElement;
+  private contentSlotRef?: HTMLElement;
+  private slotWrapperRef?: HTMLDivElement;
   private hideTimeout?: number;
   private showTimeout?: number;
   private positionUpdateScheduled: boolean = false;
   private positionRetryCount: number = 0;
   private readonly MAX_POSITION_RETRIES = 10;
-  private dropdownId: string;
-  private triggerId: string;
   private focusableElements: HTMLElement[] = [];
   private currentFocusIndex: number = -1;
   private triggerElement?: HTMLElement;
+  /**
+   * Whether the most recent open was triggered via keyboard. Drives the
+   * decision to auto-focus the first menu item: keyboard opens move focus
+   * into the menu (ARIA menu pattern), pointer opens leave focus where
+   * the user put it.
+   */
+  private openedViaKeyboard: boolean = false;
+
+  /**
+   * Unique ID for the dropdown menu element. Auto-generated if not provided.
+   * The trigger element receives a derived ID `${fieldId}-trigger` for ARIA linkage.
+   */
+  @Prop({ mutable: true, reflect: true }) fieldId?: string;
 
   /**
    * Trigger type for showing the dropdown
    * @default 'click'
    */
-  @Prop() triggerType: DropdownTrigger = 'click';
+  @Prop() trigger: DropdownTrigger = 'click';
 
   /**
    * Position of the dropdown relative to the trigger element
@@ -142,19 +183,19 @@ export class AegovDropdown {
    * Whether the dropdown is disabled
    * @default false
    */
-  @Prop() disabled: boolean = false;
+  @Prop() isDisabled: boolean = false;
 
   /**
    * Delay before showing dropdown (in milliseconds)
    * @default 200
    */
-  @Prop() showDelay: number = 200;
+  @Prop() delayStart: number = 200;
 
   /**
    * Delay before hiding dropdown (in milliseconds)
    * @default 0
    */
-  @Prop() hideDelay: number = 0;
+  @Prop() delayEnd: number = 0;
 
   /**
    * Emitted when dropdown opens
@@ -167,22 +208,50 @@ export class AegovDropdown {
   @Event() aegovDropdownClose: EventEmitter<void>;
 
   componentWillLoad() {
-    // Generate stable dropdown ID once
-    this.dropdownId = generateId('aegov-dropdown');
-    this.triggerId = `${this.dropdownId}-trigger`;
+    warnIfInvalidEnumProp(this.trigger, DROPDOWN_TRIGGERS, 'click', ctx('trigger'));
+    warnIfInvalidEnumProp(this.position, DROPDOWN_POSITIONS, 'bottom', ctx('position'));
+    warnIfInvalidEnumProp(this.align, DROPDOWN_ALIGNS, 'start', ctx('align'));
+    if (!this.fieldId) {
+      this.fieldId = generateId('aegov-dropdown');
+    }
 
     // Check if dropdown-content slot has content
     this.checkSlotContent();
   }
+
+  private get triggerId(): string {
+    return `${this.fieldId}-trigger`;
+  }
+
+  @Watch('trigger')
+  onTriggerChange(v: unknown) { warnIfInvalidEnumProp(v, DROPDOWN_TRIGGERS, 'click', ctx('trigger')); }
+
+  @Watch('position')
+  onPositionChange(v: unknown) { warnIfInvalidEnumProp(v, DROPDOWN_POSITIONS, 'bottom', ctx('position')); }
+
+  @Watch('align')
+  onAlignChange(v: unknown) { warnIfInvalidEnumProp(v, DROPDOWN_ALIGNS, 'start', ctx('align')); }
 
   componentDidLoad() {
     // Create portal element for dropdown content
     this.createPortalElement();
   }
 
+  connectedCallback() {
+    // Re-create the portal when this component is re-inserted into the DOM.
+    // This happens when a parent dropdown moves its content (which contains
+    // this nested dropdown) into a portal via appendChild — the browser fires
+    // disconnectedCallback (destroying the portal) then connectedCallback.
+    // componentDidLoad only runs once, so we must recreate the portal here.
+    if (!this.portalElement && this.el.isConnected) {
+      this.createPortalElement();
+    }
+  }
+
   disconnectedCallback() {
     this.clearTimeouts();
     this.cleanupDropdownListeners();
+    this.returnPortalContent();
     this.removePortalElement();
   }
 
@@ -237,8 +306,12 @@ export class AegovDropdown {
       this.aegovDropdownOpen.emit();
       // Store the trigger element for focus restoration
       this.triggerElement = document.activeElement as HTMLElement;
-      // Set up focus trap after a tick
-      setTimeout(() => this.setupFocusTrap(), 0);
+      // Always populate the focusable list so subsequent keyboard navigation
+      // (Tab / Arrow keys) inside the menu works regardless of how it opened.
+      // Only move focus into the menu when opened via keyboard (ARIA menu
+      // pattern). Pointer opens leave focus where the user placed it.
+      const moveFocus = this.openedViaKeyboard;
+      setTimeout(() => this.setupFocusTrap(moveFocus), 0);
     } else {
       // Clear reference if this was the currently open dropdown
       if (currentOpenDropdown === this) {
@@ -247,6 +320,8 @@ export class AegovDropdown {
 
       // Remove event listeners before destroying DOM
       this.cleanupDropdownListeners();
+      // Move content back into the host before clearing the portal
+      this.returnPortalContent();
       // Clear dropdown ref when hiding
       this.dropdownRef = undefined;
       // Reset scheduled flag
@@ -258,9 +333,11 @@ export class AegovDropdown {
       }
       // Emit close event
       this.aegovDropdownClose.emit();
-      // Restore focus to trigger
+      // Restore focus to trigger without scrolling the page.
+      // When the dropdown closes because the trigger scrolled out of the
+      // viewport, a plain .focus() would snap the page back to the trigger.
       if (this.triggerElement) {
-        this.triggerElement.focus();
+        this.triggerElement.focus({ preventScroll: true });
       }
     }
   }
@@ -271,6 +348,22 @@ export class AegovDropdown {
    */
   public closeDropdown() {
     this.isOpen = false;
+  }
+
+  /**
+   * Toggle the dropdown open/closed state regardless of triggerType.
+   * Allows external triggers (e.g. a navbar-item chevron) to drive the
+   * dropdown when triggerType is 'hover' or 'click'.
+   *
+   * @param viaKeyboard When true and this call opens the dropdown, the first
+   *   focusable item receives focus (ARIA menu pattern). Pass true from
+   *   keyboard handlers and false from pointer/mouse handlers.
+   */
+  @Method()
+  async toggle(viaKeyboard: boolean = false): Promise<void> {
+    if (this.isDisabled) return;
+    this.openedViaKeyboard = viaKeyboard;
+    this.isOpen = !this.isOpen;
   }
 
   private clearTimeouts() {
@@ -333,7 +426,7 @@ export class AegovDropdown {
       return;
     }
 
-    let position = this.position;
+    let position: DropdownPosition = (DROPDOWN_POSITIONS as readonly string[]).includes(this.position) ? this.position : 'bottom';
 
     // Check if there's enough space in the preferred position, flip if needed
     if (position === 'bottom' && triggerRect.bottom + this.gap + dropdownRect.height > viewportHeight) {
@@ -433,13 +526,14 @@ export class AegovDropdown {
   }
 
   private showDropdown = () => {
-    if (this.disabled) return;
+    if (this.isDisabled) return;
 
     this.clearTimeouts();
 
     this.showTimeout = window.setTimeout(() => {
+      this.openedViaKeyboard = false;
       this.isOpen = true;
-    }, this.showDelay);
+    }, this.delayStart);
   };
 
   /**
@@ -453,9 +547,9 @@ export class AegovDropdown {
 
     // For hover-triggered dropdowns, enforce a minimum grace period
     // so the cursor can cross the gap between trigger and dropdown panel.
-    const delay = this.triggerType === 'hover'
-      ? Math.max(this.hideDelay, AegovDropdown.HOVER_HIDE_GRACE)
-      : this.hideDelay;
+    const delay = this.trigger === 'hover'
+      ? Math.max(this.delayEnd, AegovDropdown.HOVER_HIDE_GRACE)
+      : this.delayEnd;
 
     this.hideTimeout = window.setTimeout(() => {
       // Re-check: if the mouse re-entered while we were waiting, don't close
@@ -464,13 +558,13 @@ export class AegovDropdown {
   };
 
   private handleTriggerMouseEnter = () => {
-    if (this.triggerType === 'hover') {
+    if (this.trigger === 'hover') {
       this.showDropdown();
     }
   };
 
   private handleTriggerMouseLeave = (event: MouseEvent) => {
-    if (this.triggerType === 'hover') {
+    if (this.trigger === 'hover') {
       const relatedTarget = event.relatedTarget as HTMLElement;
       if (relatedTarget) {
         // Moving to our own dropdown content — don't hide
@@ -491,20 +585,23 @@ export class AegovDropdown {
   };
 
   private handleTriggerClick = (event: MouseEvent) => {
-    if (this.triggerType === 'click' && !this.disabled) {
+    if (this.trigger === 'click' && !this.isDisabled) {
       event.stopPropagation();
+      // Click events fired by keyboard activation (Enter/Space on a focused
+      // button) have detail === 0; real mouse/touch clicks have detail >= 1.
+      this.openedViaKeyboard = event.detail === 0;
       this.isOpen = !this.isOpen;
     }
   };
 
   private handleDropdownMouseEnter = () => {
-    if (this.triggerType === 'hover') {
+    if (this.trigger === 'hover') {
       this.clearTimeouts();
     }
   };
 
   private handleDropdownMouseLeave = (event: MouseEvent) => {
-    if (this.triggerType === 'hover') {
+    if (this.trigger === 'hover') {
       const relatedTarget = event.relatedTarget as HTMLElement;
 
       if (relatedTarget) {
@@ -581,14 +678,16 @@ export class AegovDropdown {
     this.keyHandler(event);
   }
 
-  private setupFocusTrap() {
+  private setupFocusTrap(moveFocus: boolean = true) {
     if (!this.dropdownRef) return;
 
     this.focusableElements = getFocusableElements(this.dropdownRef, FOCUSABLE_SELECTORS);
 
     if (this.focusableElements.length > 0) {
       this.currentFocusIndex = 0;
-      this.focusableElements[0].focus();
+      if (moveFocus) {
+        this.focusableElements[0].focus();
+      }
     }
   }
 
@@ -600,8 +699,11 @@ export class AegovDropdown {
     if (!this.portalElement || !this.hasContentSlot) return;
 
     // Get content slot element
-    const contentSlot = this.el.querySelector('[slot="dropdown-content"]');
+    const contentSlot = this.el.querySelector('[slot="dropdown-content"]') as HTMLElement;
     if (!contentSlot) return;
+
+    // Store reference so we can move it back on close
+    this.contentSlotRef = contentSlot;
 
     // Clear portal
     this.portalElement.innerHTML = '';
@@ -614,15 +716,16 @@ export class AegovDropdown {
     // Create dropdown container
     const dropdownContainer = document.createElement('div');
     dropdownContainer.className = 'aegov-dropdown';
-    dropdownContainer.id = this.dropdownId;
+    dropdownContainer.id = this.fieldId;
     dropdownContainer.setAttribute('role', 'menu');
     dropdownContainer.setAttribute('aria-labelledby', this.triggerId);
     dropdownContainer.setAttribute('data-state', 'open');
 
-    // Clone and append content
-    const contentClone = contentSlot.cloneNode(true) as HTMLElement;
-    contentClone.removeAttribute('slot');
-    dropdownContainer.appendChild(contentClone);
+    // Move the original element into the portal (not clone).
+    // Cloning causes Stencil web components to double-render because
+    // the clone captures already-hydrated DOM that Stencil re-initialises.
+    contentSlot.removeAttribute('slot');
+    dropdownContainer.appendChild(contentSlot);
 
     // Ensure focusable children have role="menuitem" for screen readers
     const focusable = dropdownContainer.querySelectorAll('button, a, [tabindex]');
@@ -643,12 +746,27 @@ export class AegovDropdown {
     this.dropdownRef = dropdownContainer;
   }
 
+  /**
+   * Moves the content slot element back into the host's hidden wrapper
+   * so it is available for the next open cycle.
+   */
+  private returnPortalContent() {
+    if (!this.contentSlotRef || !this.slotWrapperRef) return;
+
+    // Restore the slot attribute so the element is recognised by the named slot
+    this.contentSlotRef.setAttribute('slot', 'dropdown-content');
+    this.slotWrapperRef.appendChild(this.contentSlotRef);
+    this.contentSlotRef = undefined;
+  }
+
   render() {
     const hasContent = this.hasContentSlot;
+    const passThroughAttributes = getPassThroughAttributes(this.el);
 
     return (
       <Host>
         <div
+          {...passThroughAttributes}
           class="aegov-dropdown-trigger"
           id={this.triggerId}
           ref={(el) => (this.triggerRef = el)}
@@ -657,14 +775,14 @@ export class AegovDropdown {
           onClick={this.handleTriggerClick}
           aria-haspopup="true"
           aria-expanded={this.isOpen.toString()}
-          aria-controls={this.isOpen ? this.dropdownId : undefined}
+          aria-controls={this.isOpen ? this.fieldId : undefined}
         >
           <slot />
         </div>
 
-        {/* Content slot is hidden - it will be cloned to portal */}
+        {/* Content slot is hidden — the element is moved to the portal on open, back here on close */}
         {hasContent && (
-          <div style={{ display: 'none' }}>
+          <div style={{ display: 'none' }} ref={(el) => (this.slotWrapperRef = el)}>
             <slot name="dropdown-content" />
           </div>
         )}

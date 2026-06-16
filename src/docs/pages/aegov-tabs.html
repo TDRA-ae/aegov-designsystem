@@ -1,0 +1,800 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tabs | AEGOV Design System</title>
+  <script type="module" src="/build/aegov.esm.js"></script>
+  <script nomodule src="/build/aegov.js"></script>
+  <link rel="stylesheet" href="/build/aegov.css">
+  <link rel="stylesheet" href="/docs/doc-style.css">
+  <link rel="stylesheet" href="/docs/hljs.css">
+</head>
+<body class="bg-aeblack-50 dark:bg-aeblack-950">
+  <header class="aegov-container sm:px-6 lg:px-8 mb-8">
+    <img src="https://designsystem.gov.ae/assets/site-logo/AEGov-DesignSystem-Logo-Color.svg" alt="UAE Design System Logo" class="w-auto h-16 my-2">
+  </header>
+  <main class="aegov-container sm:px-6 lg:px-8 bg-aeblack-50 dark:bg-aeblack-950">
+    <section class="flex items-start align-top gap-4">
+      <nav id="primary-nav" class="w-3xs shrink-0">&nbsp;</nav>
+      <article class="col-span-5 grow">
+          <section id="content-area" class="bg-whitely-50 dark:bg-aeblack-900 p-6 rounded-md shadow-xl">
+          <!-- DOC:START -->
+<h1>Tabs</h1>
+<p class="text-lg text-aeblack-500 mb-8">Tabs let users switch between related views inside a single surface — service details, account sections, dashboard breakdowns — without leaving the page. The <code>aegov-tabs</code> parent owns the active state and pairs each <code>aegov-tab</code> trigger with its <code>aegov-tab-panel</code> via a matching <code>tab-id</code>. The component supports three visual variants, both horizontal and vertical orientations, scrollable overflow, and the full WAI-ARIA tabs keyboard pattern.</p>
+
+<h2>Introduction</h2>
+<p><code>aegov-tabs</code> is a composite of three elements: the parent container, the trigger (<code>aegov-tab</code>), and the content panel (<code>aegov-tab-panel</code>). The parent writes shared configuration — variant, size, orientation, and the currently active tab — onto its children, so individual tabs and panels rarely need props beyond their <code>tab-id</code>. Place triggers in the <code>slot=&quot;tabs&quot;</code> slot and panels in the default slot.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-tabs</span> <span class="hljs-attr">default-open</span>=<span class="hljs-string">&quot;overview&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-tab</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;tabs&quot;</span> <span class="hljs-attr">tab-id</span>=<span class="hljs-string">&quot;overview&quot;</span>&gt;</span>Overview<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-tab</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-tab</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;tabs&quot;</span> <span class="hljs-attr">tab-id</span>=<span class="hljs-string">&quot;eligibility&quot;</span>&gt;</span>Eligibility<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-tab</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-tab</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;tabs&quot;</span> <span class="hljs-attr">tab-id</span>=<span class="hljs-string">&quot;documents&quot;</span>&gt;</span>Documents<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-tab</span>&gt;</span>
+
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-tab-panel</span> <span class="hljs-attr">tab-id</span>=<span class="hljs-string">&quot;overview&quot;</span>&gt;</span>
+    Apply online for a residency permit. Most applications are processed within three working days.
+  <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-tab-panel</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-tab-panel</span> <span class="hljs-attr">tab-id</span>=<span class="hljs-string">&quot;eligibility&quot;</span>&gt;</span>
+    Open to UAE nationals and residents aged 18 and over with a valid Emirates ID.
+  <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-tab-panel</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-tab-panel</span> <span class="hljs-attr">tab-id</span>=<span class="hljs-string">&quot;documents&quot;</span>&gt;</span>
+    Upload a clear copy of your Emirates ID, recent utility bill, and proof of residence.
+  <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-tab-panel</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-tabs</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-tabs default-open="overview">
+    <aegov-tab slot="tabs" tab-id="overview">Overview</aegov-tab>
+    <aegov-tab slot="tabs" tab-id="eligibility">Eligibility</aegov-tab>
+    <aegov-tab slot="tabs" tab-id="documents">Documents</aegov-tab>
+
+<pre><code class="hljs language-">&lt;aegov-<span class="hljs-literal">tab</span>-panel <span class="hljs-literal">tab</span>-id=<span class="hljs-string">&quot;overview&quot;</span>&gt;
+  Apply online <span class="hljs-keyword">for</span> <span class="hljs-keyword">a</span> residency permit. Most applications are processed <span class="hljs-keyword">within</span> <span class="hljs-literal">three</span> working days.
+&lt;/aegov-<span class="hljs-literal">tab</span>-panel&gt;
+&lt;aegov-<span class="hljs-literal">tab</span>-panel <span class="hljs-literal">tab</span>-id=<span class="hljs-string">&quot;eligibility&quot;</span>&gt;
+  Open <span class="hljs-built_in">to</span> UAE nationals <span class="hljs-keyword">and</span> residents aged <span class="hljs-number">18</span> <span class="hljs-keyword">and</span> over <span class="hljs-keyword">with</span> <span class="hljs-keyword">a</span> valid Emirates ID.
+&lt;/aegov-<span class="hljs-literal">tab</span>-panel&gt;
+&lt;aegov-<span class="hljs-literal">tab</span>-panel <span class="hljs-literal">tab</span>-id=<span class="hljs-string">&quot;documents&quot;</span>&gt;
+  Upload <span class="hljs-keyword">a</span> <span class="hljs-built_in">clear</span> copy <span class="hljs-keyword">of</span> your Emirates ID, recent utility bill, <span class="hljs-keyword">and</span> proof <span class="hljs-keyword">of</span> residence.
+&lt;/aegov-<span class="hljs-literal">tab</span>-panel&gt;</code></pre>  </aegov-tabs>
+</div>
+
+<hr>
+<h2>Variants</h2>
+<p>The <code>variant</code> property selects the visual style of the trigger row. Three variants are available: <code>simple</code> (default underline), <code>segmented</code> (a connected button group), and <code>pill</code> (rounded individual chips).</p>
+<h3>Simple (default)</h3>
+<p>The underline variant is the most discreet style and works best for content sections inside a card or page region.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-tabs</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;simple&quot;</span> <span class="hljs-attr">default-open</span>=<span class="hljs-string">&quot;services&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-tab</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;tabs&quot;</span> <span class="hljs-attr">tab-id</span>=<span class="hljs-string">&quot;services&quot;</span>&gt;</span>Services<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-tab</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-tab</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;tabs&quot;</span> <span class="hljs-attr">tab-id</span>=<span class="hljs-string">&quot;payments&quot;</span>&gt;</span>Payments<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-tab</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-tab</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;tabs&quot;</span> <span class="hljs-attr">tab-id</span>=<span class="hljs-string">&quot;history&quot;</span>&gt;</span>History<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-tab</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-tab-panel</span> <span class="hljs-attr">tab-id</span>=<span class="hljs-string">&quot;services&quot;</span>&gt;</span>A list of services available to UAE residents.<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-tab-panel</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-tab-panel</span> <span class="hljs-attr">tab-id</span>=<span class="hljs-string">&quot;payments&quot;</span>&gt;</span>Outstanding fees and recent payments.<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-tab-panel</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-tab-panel</span> <span class="hljs-attr">tab-id</span>=<span class="hljs-string">&quot;history&quot;</span>&gt;</span>Your application and request history.<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-tab-panel</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-tabs</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-tabs variant="simple" default-open="services">
+    <aegov-tab slot="tabs" tab-id="services">Services</aegov-tab>
+    <aegov-tab slot="tabs" tab-id="payments">Payments</aegov-tab>
+    <aegov-tab slot="tabs" tab-id="history">History</aegov-tab>
+    <aegov-tab-panel tab-id="services">A list of services available to UAE residents.</aegov-tab-panel>
+    <aegov-tab-panel tab-id="payments">Outstanding fees and recent payments.</aegov-tab-panel>
+    <aegov-tab-panel tab-id="history">Your application and request history.</aegov-tab-panel>
+  </aegov-tabs>
+</div>
+
+<h3>Segmented</h3>
+<p>A connected button-group style, ideal for view toggles where the options are mutually exclusive (e.g. day / week / month).</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-tabs</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;segmented&quot;</span> <span class="hljs-attr">default-open</span>=<span class="hljs-string">&quot;day&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-tab</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;tabs&quot;</span> <span class="hljs-attr">tab-id</span>=<span class="hljs-string">&quot;day&quot;</span>&gt;</span>Day<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-tab</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-tab</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;tabs&quot;</span> <span class="hljs-attr">tab-id</span>=<span class="hljs-string">&quot;week&quot;</span>&gt;</span>Week<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-tab</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-tab</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;tabs&quot;</span> <span class="hljs-attr">tab-id</span>=<span class="hljs-string">&quot;month&quot;</span>&gt;</span>Month<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-tab</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-tab-panel</span> <span class="hljs-attr">tab-id</span>=<span class="hljs-string">&quot;day&quot;</span>&gt;</span>Daily appointment schedule.<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-tab-panel</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-tab-panel</span> <span class="hljs-attr">tab-id</span>=<span class="hljs-string">&quot;week&quot;</span>&gt;</span>Weekly appointment schedule.<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-tab-panel</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-tab-panel</span> <span class="hljs-attr">tab-id</span>=<span class="hljs-string">&quot;month&quot;</span>&gt;</span>Monthly appointment schedule.<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-tab-panel</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-tabs</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-tabs variant="segmented" default-open="day">
+    <aegov-tab slot="tabs" tab-id="day">Day</aegov-tab>
+    <aegov-tab slot="tabs" tab-id="week">Week</aegov-tab>
+    <aegov-tab slot="tabs" tab-id="month">Month</aegov-tab>
+    <aegov-tab-panel tab-id="day">Daily appointment schedule.</aegov-tab-panel>
+    <aegov-tab-panel tab-id="week">Weekly appointment schedule.</aegov-tab-panel>
+    <aegov-tab-panel tab-id="month">Monthly appointment schedule.</aegov-tab-panel>
+  </aegov-tabs>
+</div>
+
+<h3>Pill</h3>
+<p>Pill-shaped individual chips. Useful when the tab row needs to look like filter pills rather than a structural section divider.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-tabs</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;pill&quot;</span> <span class="hljs-attr">default-open</span>=<span class="hljs-string">&quot;all&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-tab</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;tabs&quot;</span> <span class="hljs-attr">tab-id</span>=<span class="hljs-string">&quot;all&quot;</span>&gt;</span>All requests<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-tab</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-tab</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;tabs&quot;</span> <span class="hljs-attr">tab-id</span>=<span class="hljs-string">&quot;open&quot;</span>&gt;</span>Open<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-tab</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-tab</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;tabs&quot;</span> <span class="hljs-attr">tab-id</span>=<span class="hljs-string">&quot;closed&quot;</span>&gt;</span>Closed<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-tab</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-tab-panel</span> <span class="hljs-attr">tab-id</span>=<span class="hljs-string">&quot;all&quot;</span>&gt;</span>Every service request raised on your account.<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-tab-panel</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-tab-panel</span> <span class="hljs-attr">tab-id</span>=<span class="hljs-string">&quot;open&quot;</span>&gt;</span>Requests still in progress.<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-tab-panel</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-tab-panel</span> <span class="hljs-attr">tab-id</span>=<span class="hljs-string">&quot;closed&quot;</span>&gt;</span>Requests that have been resolved.<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-tab-panel</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-tabs</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-tabs variant="pill" default-open="all">
+    <aegov-tab slot="tabs" tab-id="all">All requests</aegov-tab>
+    <aegov-tab slot="tabs" tab-id="open">Open</aegov-tab>
+    <aegov-tab slot="tabs" tab-id="closed">Closed</aegov-tab>
+    <aegov-tab-panel tab-id="all">Every service request raised on your account.</aegov-tab-panel>
+    <aegov-tab-panel tab-id="open">Requests still in progress.</aegov-tab-panel>
+    <aegov-tab-panel tab-id="closed">Requests that have been resolved.</aegov-tab-panel>
+  </aegov-tabs>
+</div>
+
+<hr>
+<h2>Default Active Tab</h2>
+<p>Use <code>default-open</code> with the <code>tab-id</code> of the tab you want active on first render. If omitted, the first non-disabled tab is activated automatically.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-tabs</span> <span class="hljs-attr">default-open</span>=<span class="hljs-string">&quot;payments&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-tab</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;tabs&quot;</span> <span class="hljs-attr">tab-id</span>=<span class="hljs-string">&quot;profile&quot;</span>&gt;</span>Profile<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-tab</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-tab</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;tabs&quot;</span> <span class="hljs-attr">tab-id</span>=<span class="hljs-string">&quot;payments&quot;</span>&gt;</span>Payments<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-tab</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-tab</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;tabs&quot;</span> <span class="hljs-attr">tab-id</span>=<span class="hljs-string">&quot;security&quot;</span>&gt;</span>Security<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-tab</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-tab-panel</span> <span class="hljs-attr">tab-id</span>=<span class="hljs-string">&quot;profile&quot;</span>&gt;</span>Personal details and contact information.<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-tab-panel</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-tab-panel</span> <span class="hljs-attr">tab-id</span>=<span class="hljs-string">&quot;payments&quot;</span>&gt;</span>Outstanding fees and saved payment methods.<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-tab-panel</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-tab-panel</span> <span class="hljs-attr">tab-id</span>=<span class="hljs-string">&quot;security&quot;</span>&gt;</span>Password, two-factor authentication, and trusted devices.<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-tab-panel</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-tabs</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-tabs default-open="payments">
+    <aegov-tab slot="tabs" tab-id="profile">Profile</aegov-tab>
+    <aegov-tab slot="tabs" tab-id="payments">Payments</aegov-tab>
+    <aegov-tab slot="tabs" tab-id="security">Security</aegov-tab>
+    <aegov-tab-panel tab-id="profile">Personal details and contact information.</aegov-tab-panel>
+    <aegov-tab-panel tab-id="payments">Outstanding fees and saved payment methods.</aegov-tab-panel>
+    <aegov-tab-panel tab-id="security">Password, two-factor authentication, and trusted devices.</aegov-tab-panel>
+  </aegov-tabs>
+</div>
+
+<hr>
+<h2>Orientation</h2>
+<p>The <code>orientation</code> property switches the tab row between <code>horizontal</code> (default — tabs above the panels) and <code>vertical</code> (tabs to the side). Vertical orientation also swaps the keyboard arrow keys from <code>ArrowLeft</code> / <code>ArrowRight</code> to <code>ArrowUp</code> / <code>ArrowDown</code>.</p>
+<h3>Horizontal (default)</h3>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-tabs</span> <span class="hljs-attr">orientation</span>=<span class="hljs-string">&quot;horizontal&quot;</span> <span class="hljs-attr">default-open</span>=<span class="hljs-string">&quot;overview&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-tab</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;tabs&quot;</span> <span class="hljs-attr">tab-id</span>=<span class="hljs-string">&quot;overview&quot;</span>&gt;</span>Overview<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-tab</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-tab</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;tabs&quot;</span> <span class="hljs-attr">tab-id</span>=<span class="hljs-string">&quot;fees&quot;</span>&gt;</span>Fees<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-tab</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-tab</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;tabs&quot;</span> <span class="hljs-attr">tab-id</span>=<span class="hljs-string">&quot;contact&quot;</span>&gt;</span>Contact<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-tab</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-tab-panel</span> <span class="hljs-attr">tab-id</span>=<span class="hljs-string">&quot;overview&quot;</span>&gt;</span>A summary of the service.<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-tab-panel</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-tab-panel</span> <span class="hljs-attr">tab-id</span>=<span class="hljs-string">&quot;fees&quot;</span>&gt;</span>Service fees and refund policy.<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-tab-panel</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-tab-panel</span> <span class="hljs-attr">tab-id</span>=<span class="hljs-string">&quot;contact&quot;</span>&gt;</span>How to reach the responsible team.<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-tab-panel</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-tabs</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-tabs orientation="horizontal" default-open="overview">
+    <aegov-tab slot="tabs" tab-id="overview">Overview</aegov-tab>
+    <aegov-tab slot="tabs" tab-id="fees">Fees</aegov-tab>
+    <aegov-tab slot="tabs" tab-id="contact">Contact</aegov-tab>
+    <aegov-tab-panel tab-id="overview">A summary of the service.</aegov-tab-panel>
+    <aegov-tab-panel tab-id="fees">Service fees and refund policy.</aegov-tab-panel>
+    <aegov-tab-panel tab-id="contact">How to reach the responsible team.</aegov-tab-panel>
+  </aegov-tabs>
+</div>
+
+<h3>Vertical</h3>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-tabs</span> <span class="hljs-attr">orientation</span>=<span class="hljs-string">&quot;vertical&quot;</span> <span class="hljs-attr">default-open</span>=<span class="hljs-string">&quot;profile&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-tab</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;tabs&quot;</span> <span class="hljs-attr">tab-id</span>=<span class="hljs-string">&quot;profile&quot;</span>&gt;</span>Profile<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-tab</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-tab</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;tabs&quot;</span> <span class="hljs-attr">tab-id</span>=<span class="hljs-string">&quot;emirates-id&quot;</span>&gt;</span>Emirates ID<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-tab</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-tab</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;tabs&quot;</span> <span class="hljs-attr">tab-id</span>=<span class="hljs-string">&quot;addresses&quot;</span>&gt;</span>Addresses<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-tab</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-tab</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;tabs&quot;</span> <span class="hljs-attr">tab-id</span>=<span class="hljs-string">&quot;security&quot;</span>&gt;</span>Security<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-tab</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-tab-panel</span> <span class="hljs-attr">tab-id</span>=<span class="hljs-string">&quot;profile&quot;</span>&gt;</span>Name, date of birth, and primary contact details.<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-tab-panel</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-tab-panel</span> <span class="hljs-attr">tab-id</span>=<span class="hljs-string">&quot;emirates-id&quot;</span>&gt;</span>Emirates ID number, expiry date, and renewal status.<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-tab-panel</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-tab-panel</span> <span class="hljs-attr">tab-id</span>=<span class="hljs-string">&quot;addresses&quot;</span>&gt;</span>Residential and mailing addresses on record.<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-tab-panel</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-tab-panel</span> <span class="hljs-attr">tab-id</span>=<span class="hljs-string">&quot;security&quot;</span>&gt;</span>Password, recovery email, and active sessions.<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-tab-panel</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-tabs</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-tabs orientation="vertical" default-open="profile">
+    <aegov-tab slot="tabs" tab-id="profile">Profile</aegov-tab>
+    <aegov-tab slot="tabs" tab-id="emirates-id">Emirates ID</aegov-tab>
+    <aegov-tab slot="tabs" tab-id="addresses">Addresses</aegov-tab>
+    <aegov-tab slot="tabs" tab-id="security">Security</aegov-tab>
+    <aegov-tab-panel tab-id="profile">Name, date of birth, and primary contact details.</aegov-tab-panel>
+    <aegov-tab-panel tab-id="emirates-id">Emirates ID number, expiry date, and renewal status.</aegov-tab-panel>
+    <aegov-tab-panel tab-id="addresses">Residential and mailing addresses on record.</aegov-tab-panel>
+    <aegov-tab-panel tab-id="security">Password, recovery email, and active sessions.</aegov-tab-panel>
+  </aegov-tabs>
+</div>
+
+<hr>
+<h2>Sizes</h2>
+<p>The <code>size</code> property sets the trigger size. Three tokens are available: <code>sm</code>, <code>base</code> (default), and <code>lg</code>. Panel content is unaffected — only the trigger row scales.</p>
+<table>
+<thead>
+<tr>
+<th>Token</th>
+<th>Trigger size</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>sm</code></td>
+<td>Compact</td>
+</tr>
+<tr>
+<td><code>base</code></td>
+<td>Default</td>
+</tr>
+<tr>
+<td><code>lg</code></td>
+<td>Large</td>
+</tr>
+</tbody></table>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-tabs</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm&quot;</span> <span class="hljs-attr">default-open</span>=<span class="hljs-string">&quot;a&quot;</span>&gt;</span>…<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-tabs</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-tabs</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;base&quot;</span> <span class="hljs-attr">default-open</span>=<span class="hljs-string">&quot;a&quot;</span>&gt;</span>…<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-tabs</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-tabs</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;lg&quot;</span> <span class="hljs-attr">default-open</span>=<span class="hljs-string">&quot;a&quot;</span>&gt;</span>…<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-tabs</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-tabs size="sm" default-open="a">
+    <aegov-tab slot="tabs" tab-id="a">Small</aegov-tab>
+    <aegov-tab slot="tabs" tab-id="b">Compact triggers</aegov-tab>
+    <aegov-tab-panel tab-id="a">Compact size suits dense administrative dashboards.</aegov-tab-panel>
+    <aegov-tab-panel tab-id="b">Use this when vertical space is tight.</aegov-tab-panel>
+  </aegov-tabs>
+
+  <div class="my-4"></div>
+
+  <aegov-tabs size="base" default-open="a">
+    <aegov-tab slot="tabs" tab-id="a">Base</aegov-tab>
+    <aegov-tab slot="tabs" tab-id="b">Default triggers</aegov-tab>
+    <aegov-tab-panel tab-id="a">The default size, suitable for most page contexts.</aegov-tab-panel>
+    <aegov-tab-panel tab-id="b">Reach for this unless you have a specific reason not to.</aegov-tab-panel>
+  </aegov-tabs>
+
+  <div class="my-4"></div>
+
+  <aegov-tabs size="lg" default-open="a">
+    <aegov-tab slot="tabs" tab-id="a">Large</aegov-tab>
+    <aegov-tab slot="tabs" tab-id="b">Prominent triggers</aegov-tab>
+    <aegov-tab-panel tab-id="a">Large size works well as a top-level page navigation.</aegov-tab-panel>
+    <aegov-tab-panel tab-id="b">Pair with a hero or main content area.</aegov-tab-panel>
+  </aegov-tabs>
+</div>
+
+<h3>Responsive sizes</h3>
+<p><code>size</code> also accepts a Tailwind-style responsive string with the breakpoint prefixes <code>xs</code>, <code>sm</code>, <code>md</code>, <code>lg</code>, <code>xl</code>, and <code>2xl</code>. Each segment overrides smaller breakpoints.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-tabs</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm md:base xl:lg&quot;</span> <span class="hljs-attr">default-open</span>=<span class="hljs-string">&quot;a&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-tab</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;tabs&quot;</span> <span class="hljs-attr">tab-id</span>=<span class="hljs-string">&quot;a&quot;</span>&gt;</span>Resizes<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-tab</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-tab</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;tabs&quot;</span> <span class="hljs-attr">tab-id</span>=<span class="hljs-string">&quot;b&quot;</span>&gt;</span>Across breakpoints<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-tab</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-tab-panel</span> <span class="hljs-attr">tab-id</span>=<span class="hljs-string">&quot;a&quot;</span>&gt;</span>Resize the browser to see the trigger size scale.<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-tab-panel</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-tab-panel</span> <span class="hljs-attr">tab-id</span>=<span class="hljs-string">&quot;b&quot;</span>&gt;</span>Panel content stays the same — only the trigger row changes.<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-tab-panel</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-tabs</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-tabs size="sm md:base xl:lg" default-open="a">
+    <aegov-tab slot="tabs" tab-id="a">Resizes</aegov-tab>
+    <aegov-tab slot="tabs" tab-id="b">Across breakpoints</aegov-tab>
+    <aegov-tab-panel tab-id="a">Resize the browser to see the trigger size scale.</aegov-tab-panel>
+    <aegov-tab-panel tab-id="b">Panel content stays the same — only the trigger row changes.</aegov-tab-panel>
+  </aegov-tabs>
+</div>
+
+<hr>
+<h2>Stretchable Tabs</h2>
+<p>Set <code>is-stretchable=&quot;true&quot;</code> to distribute the tabs evenly across the full width of the container. Useful for two- or three-tab toolbars where each option carries equal weight.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-tabs</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;segmented&quot;</span> <span class="hljs-attr">is-stretchable</span>=<span class="hljs-string">&quot;true&quot;</span> <span class="hljs-attr">default-open</span>=<span class="hljs-string">&quot;grid&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-tab</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;tabs&quot;</span> <span class="hljs-attr">tab-id</span>=<span class="hljs-string">&quot;grid&quot;</span>&gt;</span>Grid view<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-tab</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-tab</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;tabs&quot;</span> <span class="hljs-attr">tab-id</span>=<span class="hljs-string">&quot;list&quot;</span>&gt;</span>List view<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-tab</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-tab-panel</span> <span class="hljs-attr">tab-id</span>=<span class="hljs-string">&quot;grid&quot;</span>&gt;</span>Services arranged as cards in a grid.<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-tab-panel</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-tab-panel</span> <span class="hljs-attr">tab-id</span>=<span class="hljs-string">&quot;list&quot;</span>&gt;</span>Services arranged as a vertical list.<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-tab-panel</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-tabs</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-tabs variant="segmented" is-stretchable="true" default-open="grid">
+    <aegov-tab slot="tabs" tab-id="grid">Grid view</aegov-tab>
+    <aegov-tab slot="tabs" tab-id="list">List view</aegov-tab>
+    <aegov-tab-panel tab-id="grid">Services arranged as cards in a grid.</aegov-tab-panel>
+    <aegov-tab-panel tab-id="list">Services arranged as a vertical list.</aegov-tab-panel>
+  </aegov-tabs>
+</div>
+
+<hr>
+<h2>Scrollable Tabs</h2>
+<p>Set <code>is-scrollable=&quot;true&quot;</code> to let the tab row scroll horizontally when triggers exceed the container width. A faded gradient at the start and end edge signals scrollable content; activating a tab smoothly scrolls it into view.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-tabs</span> <span class="hljs-attr">is-scrollable</span>=<span class="hljs-string">&quot;true&quot;</span> <span class="hljs-attr">default-open</span>=<span class="hljs-string">&quot;jan&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-tab</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;tabs&quot;</span> <span class="hljs-attr">tab-id</span>=<span class="hljs-string">&quot;jan&quot;</span>&gt;</span>January<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-tab</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-tab</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;tabs&quot;</span> <span class="hljs-attr">tab-id</span>=<span class="hljs-string">&quot;feb&quot;</span>&gt;</span>February<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-tab</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-tab</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;tabs&quot;</span> <span class="hljs-attr">tab-id</span>=<span class="hljs-string">&quot;mar&quot;</span>&gt;</span>March<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-tab</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-tab</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;tabs&quot;</span> <span class="hljs-attr">tab-id</span>=<span class="hljs-string">&quot;apr&quot;</span>&gt;</span>April<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-tab</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-tab</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;tabs&quot;</span> <span class="hljs-attr">tab-id</span>=<span class="hljs-string">&quot;may&quot;</span>&gt;</span>May<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-tab</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-tab</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;tabs&quot;</span> <span class="hljs-attr">tab-id</span>=<span class="hljs-string">&quot;jun&quot;</span>&gt;</span>June<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-tab</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-tab</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;tabs&quot;</span> <span class="hljs-attr">tab-id</span>=<span class="hljs-string">&quot;jul&quot;</span>&gt;</span>July<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-tab</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-tab</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;tabs&quot;</span> <span class="hljs-attr">tab-id</span>=<span class="hljs-string">&quot;aug&quot;</span>&gt;</span>August<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-tab</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-tab</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;tabs&quot;</span> <span class="hljs-attr">tab-id</span>=<span class="hljs-string">&quot;sep&quot;</span>&gt;</span>September<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-tab</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-tab</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;tabs&quot;</span> <span class="hljs-attr">tab-id</span>=<span class="hljs-string">&quot;oct&quot;</span>&gt;</span>October<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-tab</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-tab</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;tabs&quot;</span> <span class="hljs-attr">tab-id</span>=<span class="hljs-string">&quot;nov&quot;</span>&gt;</span>November<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-tab</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-tab</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;tabs&quot;</span> <span class="hljs-attr">tab-id</span>=<span class="hljs-string">&quot;dec&quot;</span>&gt;</span>December<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-tab</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-tab-panel</span> <span class="hljs-attr">tab-id</span>=<span class="hljs-string">&quot;jan&quot;</span>&gt;</span>Statement for January.<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-tab-panel</span>&gt;</span>
+  <span class="hljs-comment">&lt;!-- additional panels … --&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-tabs</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-tabs is-scrollable="true" default-open="jan">
+    <aegov-tab slot="tabs" tab-id="jan">January</aegov-tab>
+    <aegov-tab slot="tabs" tab-id="feb">February</aegov-tab>
+    <aegov-tab slot="tabs" tab-id="mar">March</aegov-tab>
+    <aegov-tab slot="tabs" tab-id="apr">April</aegov-tab>
+    <aegov-tab slot="tabs" tab-id="may">May</aegov-tab>
+    <aegov-tab slot="tabs" tab-id="jun">June</aegov-tab>
+    <aegov-tab slot="tabs" tab-id="jul">July</aegov-tab>
+    <aegov-tab slot="tabs" tab-id="aug">August</aegov-tab>
+    <aegov-tab slot="tabs" tab-id="sep">September</aegov-tab>
+    <aegov-tab slot="tabs" tab-id="oct">October</aegov-tab>
+    <aegov-tab slot="tabs" tab-id="nov">November</aegov-tab>
+    <aegov-tab slot="tabs" tab-id="dec">December</aegov-tab>
+    <aegov-tab-panel tab-id="jan">Statement for January.</aegov-tab-panel>
+    <aegov-tab-panel tab-id="feb">Statement for February.</aegov-tab-panel>
+    <aegov-tab-panel tab-id="mar">Statement for March.</aegov-tab-panel>
+    <aegov-tab-panel tab-id="apr">Statement for April.</aegov-tab-panel>
+    <aegov-tab-panel tab-id="may">Statement for May.</aegov-tab-panel>
+    <aegov-tab-panel tab-id="jun">Statement for June.</aegov-tab-panel>
+    <aegov-tab-panel tab-id="jul">Statement for July.</aegov-tab-panel>
+    <aegov-tab-panel tab-id="aug">Statement for August.</aegov-tab-panel>
+    <aegov-tab-panel tab-id="sep">Statement for September.</aegov-tab-panel>
+    <aegov-tab-panel tab-id="oct">Statement for October.</aegov-tab-panel>
+    <aegov-tab-panel tab-id="nov">Statement for November.</aegov-tab-panel>
+    <aegov-tab-panel tab-id="dec">Statement for December.</aegov-tab-panel>
+  </aegov-tabs>
+</div>
+
+<hr>
+<h2>Disabled Tabs</h2>
+<p>Set <code>is-disabled=&quot;true&quot;</code> on an individual <code>aegov-tab</code> to render it as muted and remove it from the keyboard tab order. Disabled tabs are skipped by arrow-key navigation and do not emit a select event.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-tabs</span> <span class="hljs-attr">default-open</span>=<span class="hljs-string">&quot;active&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-tab</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;tabs&quot;</span> <span class="hljs-attr">tab-id</span>=<span class="hljs-string">&quot;active&quot;</span>&gt;</span>Active applications<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-tab</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-tab</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;tabs&quot;</span> <span class="hljs-attr">tab-id</span>=<span class="hljs-string">&quot;archive&quot;</span> <span class="hljs-attr">is-disabled</span>=<span class="hljs-string">&quot;true&quot;</span>&gt;</span>Archive<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-tab</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-tab</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;tabs&quot;</span> <span class="hljs-attr">tab-id</span>=<span class="hljs-string">&quot;drafts&quot;</span>&gt;</span>Drafts<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-tab</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-tab-panel</span> <span class="hljs-attr">tab-id</span>=<span class="hljs-string">&quot;active&quot;</span>&gt;</span>Applications currently in review.<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-tab-panel</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-tab-panel</span> <span class="hljs-attr">tab-id</span>=<span class="hljs-string">&quot;archive&quot;</span>&gt;</span>Archive is not yet available.<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-tab-panel</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-tab-panel</span> <span class="hljs-attr">tab-id</span>=<span class="hljs-string">&quot;drafts&quot;</span>&gt;</span>Saved drafts you have not submitted yet.<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-tab-panel</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-tabs</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-tabs default-open="active">
+    <aegov-tab slot="tabs" tab-id="active">Active applications</aegov-tab>
+    <aegov-tab slot="tabs" tab-id="archive" is-disabled="true">Archive</aegov-tab>
+    <aegov-tab slot="tabs" tab-id="drafts">Drafts</aegov-tab>
+    <aegov-tab-panel tab-id="active">Applications currently in review.</aegov-tab-panel>
+    <aegov-tab-panel tab-id="archive">Archive is not yet available.</aegov-tab-panel>
+    <aegov-tab-panel tab-id="drafts">Saved drafts you have not submitted yet.</aegov-tab-panel>
+  </aegov-tabs>
+</div>
+
+<hr>
+<h2>Tabs with Icons</h2>
+<p><code>aegov-tab</code> exposes two extra slots — <code>icon</code> (before the label) and <code>icon-end</code> (after the label) — for adding visual indicators to triggers.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-tabs</span> <span class="hljs-attr">default-open</span>=<span class="hljs-string">&quot;profile&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-tab</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;tabs&quot;</span> <span class="hljs-attr">tab-id</span>=<span class="hljs-string">&quot;profile&quot;</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">svg</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;icon&quot;</span> <span class="hljs-attr">width</span>=<span class="hljs-string">&quot;16&quot;</span> <span class="hljs-attr">height</span>=<span class="hljs-string">&quot;16&quot;</span> <span class="hljs-attr">viewBox</span>=<span class="hljs-string">&quot;0 0 24 24&quot;</span> <span class="hljs-attr">fill</span>=<span class="hljs-string">&quot;none&quot;</span> <span class="hljs-attr">stroke</span>=<span class="hljs-string">&quot;currentColor&quot;</span> <span class="hljs-attr">stroke-width</span>=<span class="hljs-string">&quot;2&quot;</span> <span class="hljs-attr">stroke-linecap</span>=<span class="hljs-string">&quot;round&quot;</span> <span class="hljs-attr">stroke-linejoin</span>=<span class="hljs-string">&quot;round&quot;</span> <span class="hljs-attr">aria-hidden</span>=<span class="hljs-string">&quot;true&quot;</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">path</span> <span class="hljs-attr">d</span>=<span class="hljs-string">&quot;M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2&quot;</span>/&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">circle</span> <span class="hljs-attr">cx</span>=<span class="hljs-string">&quot;12&quot;</span> <span class="hljs-attr">cy</span>=<span class="hljs-string">&quot;7&quot;</span> <span class="hljs-attr">r</span>=<span class="hljs-string">&quot;4&quot;</span>/&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">svg</span>&gt;</span>
+    Profile
+  <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-tab</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-tab</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;tabs&quot;</span> <span class="hljs-attr">tab-id</span>=<span class="hljs-string">&quot;documents&quot;</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">svg</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;icon&quot;</span> <span class="hljs-attr">width</span>=<span class="hljs-string">&quot;16&quot;</span> <span class="hljs-attr">height</span>=<span class="hljs-string">&quot;16&quot;</span> <span class="hljs-attr">viewBox</span>=<span class="hljs-string">&quot;0 0 24 24&quot;</span> <span class="hljs-attr">fill</span>=<span class="hljs-string">&quot;none&quot;</span> <span class="hljs-attr">stroke</span>=<span class="hljs-string">&quot;currentColor&quot;</span> <span class="hljs-attr">stroke-width</span>=<span class="hljs-string">&quot;2&quot;</span> <span class="hljs-attr">stroke-linecap</span>=<span class="hljs-string">&quot;round&quot;</span> <span class="hljs-attr">stroke-linejoin</span>=<span class="hljs-string">&quot;round&quot;</span> <span class="hljs-attr">aria-hidden</span>=<span class="hljs-string">&quot;true&quot;</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">path</span> <span class="hljs-attr">d</span>=<span class="hljs-string">&quot;M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z&quot;</span>/&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">polyline</span> <span class="hljs-attr">points</span>=<span class="hljs-string">&quot;14 2 14 8 20 8&quot;</span>/&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">svg</span>&gt;</span>
+    Documents
+  <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-tab</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-tab</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;tabs&quot;</span> <span class="hljs-attr">tab-id</span>=<span class="hljs-string">&quot;security&quot;</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">svg</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;icon&quot;</span> <span class="hljs-attr">width</span>=<span class="hljs-string">&quot;16&quot;</span> <span class="hljs-attr">height</span>=<span class="hljs-string">&quot;16&quot;</span> <span class="hljs-attr">viewBox</span>=<span class="hljs-string">&quot;0 0 24 24&quot;</span> <span class="hljs-attr">fill</span>=<span class="hljs-string">&quot;none&quot;</span> <span class="hljs-attr">stroke</span>=<span class="hljs-string">&quot;currentColor&quot;</span> <span class="hljs-attr">stroke-width</span>=<span class="hljs-string">&quot;2&quot;</span> <span class="hljs-attr">stroke-linecap</span>=<span class="hljs-string">&quot;round&quot;</span> <span class="hljs-attr">stroke-linejoin</span>=<span class="hljs-string">&quot;round&quot;</span> <span class="hljs-attr">aria-hidden</span>=<span class="hljs-string">&quot;true&quot;</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">path</span> <span class="hljs-attr">d</span>=<span class="hljs-string">&quot;M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z&quot;</span>/&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">svg</span>&gt;</span>
+    Security
+  <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-tab</span>&gt;</span>
+
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-tab-panel</span> <span class="hljs-attr">tab-id</span>=<span class="hljs-string">&quot;profile&quot;</span>&gt;</span>Personal details and contact information.<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-tab-panel</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-tab-panel</span> <span class="hljs-attr">tab-id</span>=<span class="hljs-string">&quot;documents&quot;</span>&gt;</span>Identity and supporting documents.<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-tab-panel</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-tab-panel</span> <span class="hljs-attr">tab-id</span>=<span class="hljs-string">&quot;security&quot;</span>&gt;</span>Password and authentication settings.<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-tab-panel</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-tabs</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-tabs default-open="profile">
+    <aegov-tab slot="tabs" tab-id="profile">
+      <svg slot="icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+        <circle cx="12" cy="7" r="4"/>
+      </svg>
+      Profile
+    </aegov-tab>
+    <aegov-tab slot="tabs" tab-id="documents">
+      <svg slot="icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+        <polyline points="14 2 14 8 20 8"/>
+      </svg>
+      Documents
+    </aegov-tab>
+    <aegov-tab slot="tabs" tab-id="security">
+      <svg slot="icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+      </svg>
+      Security
+    </aegov-tab>
+    <aegov-tab-panel tab-id="profile">Personal details and contact information.</aegov-tab-panel>
+    <aegov-tab-panel tab-id="documents">Identity and supporting documents.</aegov-tab-panel>
+    <aegov-tab-panel tab-id="security">Password and authentication settings.</aegov-tab-panel>
+  </aegov-tabs>
+</div>
+
+<hr>
+<h2>Listening for Tab Changes</h2>
+<p><code>aegov-tabs</code> emits <code>aegovTabChange</code> when the active tab changes. The event detail is the new active <code>tab-id</code> as a string. Use this to lazily load panel content, sync URL state, or send analytics.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-tabs</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;account-tabs&quot;</span> <span class="hljs-attr">default-open</span>=<span class="hljs-string">&quot;profile&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-tab</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;tabs&quot;</span> <span class="hljs-attr">tab-id</span>=<span class="hljs-string">&quot;profile&quot;</span>&gt;</span>Profile<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-tab</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-tab</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;tabs&quot;</span> <span class="hljs-attr">tab-id</span>=<span class="hljs-string">&quot;security&quot;</span>&gt;</span>Security<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-tab</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-tab-panel</span> <span class="hljs-attr">tab-id</span>=<span class="hljs-string">&quot;profile&quot;</span>&gt;</span>Profile content<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-tab-panel</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-tab-panel</span> <span class="hljs-attr">tab-id</span>=<span class="hljs-string">&quot;security&quot;</span>&gt;</span>Security content<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-tab-panel</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-tabs</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript">
+  <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">querySelector</span>(<span class="hljs-string">&#x27;#account-tabs&#x27;</span>).<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;aegovTabChange&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">e</span>) =&gt;</span> {
+    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;Active tab is now:&#x27;</span>, e.<span class="hljs-property">detail</span>);
+  });
+</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre><hr>
+<h2>RTL Support</h2>
+<p><code>aegov-tabs</code> is direction-aware. When the document or any ancestor is set to <code>dir=&quot;rtl&quot;</code>, the horizontal layout flows right-to-left and the keyboard arrow keys flip — <code>ArrowLeft</code> advances and <code>ArrowRight</code> retreats. Vertical orientation, <code>Home</code>, and <code>End</code> always behave the same regardless of direction. Scrollable fade gradients adjust to the document&#39;s edge naturally.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">dir</span>=<span class="hljs-string">&quot;rtl&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-tabs</span> <span class="hljs-attr">default-open</span>=<span class="hljs-string">&quot;overview&quot;</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-tab</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;tabs&quot;</span> <span class="hljs-attr">tab-id</span>=<span class="hljs-string">&quot;overview&quot;</span>&gt;</span>نظرة عامة<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-tab</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-tab</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;tabs&quot;</span> <span class="hljs-attr">tab-id</span>=<span class="hljs-string">&quot;eligibility&quot;</span>&gt;</span>الأهلية<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-tab</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-tab</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;tabs&quot;</span> <span class="hljs-attr">tab-id</span>=<span class="hljs-string">&quot;documents&quot;</span>&gt;</span>المستندات<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-tab</span>&gt;</span>
+
+    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-tab-panel</span> <span class="hljs-attr">tab-id</span>=<span class="hljs-string">&quot;overview&quot;</span>&gt;</span>
+      تقدّم بطلب للحصول على تأشيرة الإقامة عبر الإنترنت. تُعالَج معظم الطلبات خلال ثلاثة أيام عمل.
+    <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-tab-panel</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-tab-panel</span> <span class="hljs-attr">tab-id</span>=<span class="hljs-string">&quot;eligibility&quot;</span>&gt;</span>
+      هذه الخدمة متاحة لمواطني دولة الإمارات والمقيمين فيها ممن أتمّوا الثامنة عشرة من العمر ولديهم هوية إماراتية سارية.
+    <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-tab-panel</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-tab-panel</span> <span class="hljs-attr">tab-id</span>=<span class="hljs-string">&quot;documents&quot;</span>&gt;</span>
+      حمّل نسخة واضحة من الهوية الإماراتية، وفاتورة خدمات حديثة، وما يثبت محل الإقامة.
+    <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-tab-panel</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-tabs</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre><div dir="rtl" class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-tabs default-open="overview">
+    <aegov-tab slot="tabs" tab-id="overview">نظرة عامة</aegov-tab>
+    <aegov-tab slot="tabs" tab-id="eligibility">الأهلية</aegov-tab>
+    <aegov-tab slot="tabs" tab-id="documents">المستندات</aegov-tab>
+    <aegov-tab-panel tab-id="overview">
+      تقدّم بطلب للحصول على تأشيرة الإقامة عبر الإنترنت. تُعالَج معظم الطلبات خلال ثلاثة أيام عمل.
+    </aegov-tab-panel>
+    <aegov-tab-panel tab-id="eligibility">
+      هذه الخدمة متاحة لمواطني دولة الإمارات والمقيمين فيها ممن أتمّوا الثامنة عشرة من العمر ولديهم هوية إماراتية سارية.
+    </aegov-tab-panel>
+    <aegov-tab-panel tab-id="documents">
+      حمّل نسخة واضحة من الهوية الإماراتية، وفاتورة خدمات حديثة، وما يثبت محل الإقامة.
+    </aegov-tab-panel>
+  </aegov-tabs>
+</div>
+
+<p>The same tabs in the segmented variant, in RTL:</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">dir</span>=<span class="hljs-string">&quot;rtl&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-tabs</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;segmented&quot;</span> <span class="hljs-attr">default-open</span>=<span class="hljs-string">&quot;day&quot;</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-tab</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;tabs&quot;</span> <span class="hljs-attr">tab-id</span>=<span class="hljs-string">&quot;day&quot;</span>&gt;</span>اليوم<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-tab</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-tab</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;tabs&quot;</span> <span class="hljs-attr">tab-id</span>=<span class="hljs-string">&quot;week&quot;</span>&gt;</span>الأسبوع<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-tab</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-tab</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;tabs&quot;</span> <span class="hljs-attr">tab-id</span>=<span class="hljs-string">&quot;month&quot;</span>&gt;</span>الشهر<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-tab</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-tab-panel</span> <span class="hljs-attr">tab-id</span>=<span class="hljs-string">&quot;day&quot;</span>&gt;</span>جدول المواعيد اليومي.<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-tab-panel</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-tab-panel</span> <span class="hljs-attr">tab-id</span>=<span class="hljs-string">&quot;week&quot;</span>&gt;</span>جدول المواعيد الأسبوعي.<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-tab-panel</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-tab-panel</span> <span class="hljs-attr">tab-id</span>=<span class="hljs-string">&quot;month&quot;</span>&gt;</span>جدول المواعيد الشهري.<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-tab-panel</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-tabs</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre><div dir="rtl" class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-tabs variant="segmented" default-open="day">
+    <aegov-tab slot="tabs" tab-id="day">اليوم</aegov-tab>
+    <aegov-tab slot="tabs" tab-id="week">الأسبوع</aegov-tab>
+    <aegov-tab slot="tabs" tab-id="month">الشهر</aegov-tab>
+    <aegov-tab-panel tab-id="day">جدول المواعيد اليومي.</aegov-tab-panel>
+    <aegov-tab-panel tab-id="week">جدول المواعيد الأسبوعي.</aegov-tab-panel>
+    <aegov-tab-panel tab-id="month">جدول المواعيد الشهري.</aegov-tab-panel>
+  </aegov-tabs>
+</div>
+
+<hr>
+<h2>API Reference</h2>
+<h3>aegov-tabs Properties</h3>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Attribute</th>
+<th>Description</th>
+<th>Type</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>fieldId</code></td>
+<td><code>field-id</code></td>
+<td>DOM <code>id</code> for the outer container. Auto-generated if omitted.</td>
+<td><code>string</code></td>
+<td><em>generated</em></td>
+</tr>
+<tr>
+<td><code>variant</code></td>
+<td><code>variant</code></td>
+<td>Visual style of the tab triggers.</td>
+<td><code>&#39;simple&#39; | &#39;segmented&#39; | &#39;pill&#39;</code></td>
+<td><code>&#39;simple&#39;</code></td>
+</tr>
+<tr>
+<td><code>defaultOpen</code></td>
+<td><code>default-open</code></td>
+<td><code>tab-id</code> of the tab to activate on initial render.</td>
+<td><code>string</code></td>
+<td><code>&#39;&#39;</code></td>
+</tr>
+<tr>
+<td><code>size</code></td>
+<td><code>size</code></td>
+<td>Trigger size token or responsive string.</td>
+<td><code>string</code></td>
+<td><code>&#39;base&#39;</code></td>
+</tr>
+<tr>
+<td><code>orientation</code></td>
+<td><code>orientation</code></td>
+<td>Layout orientation of the tab row.</td>
+<td><code>&#39;horizontal&#39; | &#39;vertical&#39;</code></td>
+<td><code>&#39;horizontal&#39;</code></td>
+</tr>
+<tr>
+<td><code>isScrollable</code></td>
+<td><code>is-scrollable</code></td>
+<td>Enable horizontal/vertical scrolling with edge fade when triggers overflow.</td>
+<td><code>boolean</code></td>
+<td><code>false</code></td>
+</tr>
+<tr>
+<td><code>isStretchable</code></td>
+<td><code>is-stretchable</code></td>
+<td>Distribute triggers evenly across the container width.</td>
+<td><code>boolean</code></td>
+<td><code>false</code></td>
+</tr>
+<tr>
+<td><code>labelTablist</code></td>
+<td><code>label-tablist</code></td>
+<td><code>aria-label</code> applied to the <code>role=&quot;tablist&quot;</code> element.</td>
+<td><code>string</code></td>
+<td><code>&#39;Tabs&#39;</code></td>
+</tr>
+</tbody></table>
+<h3>aegov-tab Properties</h3>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Attribute</th>
+<th>Description</th>
+<th>Type</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>tabId</code></td>
+<td><code>tab-id</code></td>
+<td><strong>Required.</strong> Identifier matched against the corresponding panel.</td>
+<td><code>string</code></td>
+<td><em>(required)</em></td>
+</tr>
+<tr>
+<td><code>isDisabled</code></td>
+<td><code>is-disabled</code></td>
+<td>Disables this tab and its panel.</td>
+<td><code>boolean</code></td>
+<td><code>false</code></td>
+</tr>
+<tr>
+<td><code>activeTabId</code></td>
+<td><code>active-tab-id</code></td>
+<td><em>Set by the parent.</em> The currently active tab id.</td>
+<td><code>string</code></td>
+<td><code>&#39;&#39;</code></td>
+</tr>
+<tr>
+<td><code>variant</code></td>
+<td><code>variant</code></td>
+<td><em>Set by the parent.</em> Visual style of the trigger.</td>
+<td><code>&#39;simple&#39; | &#39;segmented&#39; | &#39;pill&#39;</code></td>
+<td><code>&#39;simple&#39;</code></td>
+</tr>
+<tr>
+<td><code>size</code></td>
+<td><code>size</code></td>
+<td><em>Set by the parent.</em> Trigger size.</td>
+<td><code>string</code></td>
+<td><code>&#39;base&#39;</code></td>
+</tr>
+<tr>
+<td><code>orientation</code></td>
+<td><code>orientation</code></td>
+<td><em>Set by the parent.</em> Layout orientation.</td>
+<td><code>&#39;horizontal&#39; | &#39;vertical&#39;</code></td>
+<td><code>&#39;horizontal&#39;</code></td>
+</tr>
+</tbody></table>
+<h3>aegov-tab-panel Properties</h3>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Attribute</th>
+<th>Description</th>
+<th>Type</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>tabId</code></td>
+<td><code>tab-id</code></td>
+<td><strong>Required.</strong> Must match the corresponding tab&#39;s <code>tab-id</code>.</td>
+<td><code>string</code></td>
+<td><em>(required)</em></td>
+</tr>
+<tr>
+<td><code>active</code></td>
+<td><code>active</code></td>
+<td><em>Set by the parent.</em> Whether this panel is currently visible.</td>
+<td><code>boolean</code></td>
+<td><code>false</code></td>
+</tr>
+<tr>
+<td><code>extraClass</code></td>
+<td><code>extra-class</code></td>
+<td>Additional CSS classes merged onto the inner panel element.</td>
+<td><code>string</code></td>
+<td><code>undefined</code></td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>Properties marked <em>Set by the parent</em> are written automatically by <code>aegov-tabs</code>. Setting them on a child directly will be overridden on the next sync.</p>
+</blockquote>
+<h3>Slots</h3>
+<table>
+<thead>
+<tr>
+<th>Component</th>
+<th>Slot</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>aegov-tabs</code></td>
+<td><code>tabs</code></td>
+<td>Place <code>aegov-tab</code> triggers here. Each must use <code>slot=&quot;tabs&quot;</code>.</td>
+</tr>
+<tr>
+<td><code>aegov-tabs</code></td>
+<td><em>(default)</em></td>
+<td>Place <code>aegov-tab-panel</code> elements here.</td>
+</tr>
+<tr>
+<td><code>aegov-tab</code></td>
+<td><em>(default)</em></td>
+<td>The tab label text.</td>
+</tr>
+<tr>
+<td><code>aegov-tab</code></td>
+<td><code>icon</code></td>
+<td>Optional icon shown before the label.</td>
+</tr>
+<tr>
+<td><code>aegov-tab</code></td>
+<td><code>icon-end</code></td>
+<td>Optional icon shown after the label.</td>
+</tr>
+<tr>
+<td><code>aegov-tab-panel</code></td>
+<td><em>(default)</em></td>
+<td>The panel content shown when the tab is active.</td>
+</tr>
+</tbody></table>
+<h3>Events</h3>
+<table>
+<thead>
+<tr>
+<th>Event</th>
+<th>Component</th>
+<th>Detail</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>aegovTabChange</code></td>
+<td><code>aegov-tabs</code></td>
+<td><code>string</code></td>
+<td>Fired after the active tab changes. Detail is the new active <code>tab-id</code>.</td>
+</tr>
+<tr>
+<td><code>aegovTabSelect</code></td>
+<td><code>aegov-tab</code></td>
+<td><code>string</code></td>
+<td>Bubbles up from a tab when clicked. The parent listens and updates state — consumers normally listen to <code>aegovTabChange</code>.</td>
+</tr>
+</tbody></table>
+<h3>Pass-through Attributes</h3>
+<table>
+<thead>
+<tr>
+<th>Attribute group</th>
+<th>Forwarded?</th>
+<th>Where to apply</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>aria-*</code></td>
+<td>Yes</td>
+<td>Set on <code>&lt;aegov-tabs&gt;</code> — forwarded onto the rendered container element.</td>
+</tr>
+<tr>
+<td><code>data-*</code></td>
+<td>Yes</td>
+<td>Set on <code>&lt;aegov-tabs&gt;</code> — forwarded onto the rendered container element.</td>
+</tr>
+<tr>
+<td><code>aria-*</code> / <code>data-*</code> on children</td>
+<td>No</td>
+<td>Apply directly to <code>&lt;aegov-tab&gt;</code> or <code>&lt;aegov-tab-panel&gt;</code>; not forwarded automatically.</td>
+</tr>
+<tr>
+<td><code>id</code></td>
+<td>n/a</td>
+<td>Use <code>field-id</code> on <code>&lt;aegov-tabs&gt;</code>. Tabs and panels use generated <code>tab-{id}</code> / <code>panel-{id}</code>.</td>
+</tr>
+<tr>
+<td><code>class</code>, <code>style</code></td>
+<td>Allowed</td>
+<td>Applied to the host element.</td>
+</tr>
+</tbody></table>
+<hr>
+<h2>Accessibility</h2>
+<h3>Built-in behaviour</h3>
+<ul>
+<li>The trigger row uses <code>role=&quot;tablist&quot;</code> with the configured <code>aria-label</code> (defaults to <code>&quot;Tabs&quot;</code>) and <code>aria-orientation</code> reflecting <code>orientation</code>.</li>
+<li>Each trigger is a real <code>&lt;button&gt;</code> with <code>role=&quot;tab&quot;</code>, <code>aria-selected</code>, and <code>aria-controls</code> linking to its panel.</li>
+<li>Each panel has <code>role=&quot;tabpanel&quot;</code>, <code>aria-labelledby</code> pointing at its trigger, and the native <code>hidden</code> attribute when inactive.</li>
+<li>A roving tabindex pattern is used: only the active trigger is tab-focusable (<code>tabindex=&quot;0&quot;</code>); the rest use <code>tabindex=&quot;-1&quot;</code>.</li>
+<li>Disabled tabs set both the native <code>disabled</code> attribute and <code>aria-disabled=&quot;true&quot;</code> and are skipped by arrow-key navigation.</li>
+</ul>
+<h3>Developer responsibilities</h3>
+<ul>
+<li>Provide a unique, matching <code>tab-id</code> for every tab/panel pair.</li>
+<li>Give every trigger a meaningful accessible name in the default slot. If you only render an icon, include visually hidden text.</li>
+<li>Override <code>label-tablist</code> when the tabs control a more specific region (e.g. <code>&quot;Account sections&quot;</code>).</li>
+<li>When a panel contains heavy assets, consider lazy-loading them only when the panel becomes active by listening for <code>aegovTabChange</code>.</li>
+</ul>
+<h3>Keyboard support</h3>
+<table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Horizontal</th>
+<th>Vertical</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>ArrowRight</code></td>
+<td>Move to next tab</td>
+<td><em>(no effect)</em></td>
+</tr>
+<tr>
+<td><code>ArrowLeft</code></td>
+<td>Move to previous tab</td>
+<td><em>(no effect)</em></td>
+</tr>
+<tr>
+<td><code>ArrowDown</code></td>
+<td><em>(no effect)</em></td>
+<td>Move to next tab</td>
+</tr>
+<tr>
+<td><code>ArrowUp</code></td>
+<td><em>(no effect)</em></td>
+<td>Move to previous tab</td>
+</tr>
+<tr>
+<td><code>Home</code></td>
+<td>Move to first tab</td>
+<td>Move to first tab</td>
+</tr>
+<tr>
+<td><code>End</code></td>
+<td>Move to last tab</td>
+<td>Move to last tab</td>
+</tr>
+<tr>
+<td><code>Tab</code></td>
+<td>Move focus into / out of the tablist (focuses the active trigger on entry)</td>
+<td>Same</td>
+</tr>
+</tbody></table>
+<p>Arrow-key navigation wraps at the ends and skips disabled tabs. In RTL contexts the horizontal arrows flip — <code>ArrowLeft</code> advances and <code>ArrowRight</code> retreats. Activation follows focus by design: moving focus also activates the tab and reveals its panel.</p>
+<!-- DOC:END -->
+          </section>
+      </article>
+    </section>
+  </main>
+  <footer class="aegov-container sm:px-6 lg:px-8 mt-8 py-6 text-sm text-aeblack-500 dark:text-aeblack-400">
+    &copy; 2026 Telecommunication and Digital Regulatory Authority. All rights reserved.
+  </footer>
+
+<script src="/docs/layout.js"></script>
+</body>
+</html>

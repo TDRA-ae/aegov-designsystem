@@ -18,7 +18,7 @@
   border: none;
   padding: 0;
   /* Focus ring */
-  @apply focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-600;
+  @apply focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-600 dark:focus-visible:outline-primary-400;
 }
 
 .tab__label {
@@ -30,14 +30,14 @@
    ============================================================ */
 
 .tab__btn--simple {
-  @apply text-aeblack-600 border-b-2 border-transparent;
-  @apply hover:text-primary-700 hover:border-primary-300;
+  @apply text-aeblack-600 border-b-2 border-transparent dark:text-aeblack-300;
+  @apply hover:text-primary-700 hover:border-primary-300 dark:hover:text-primary-300 dark:hover:border-primary-600;
   /* Negative margin so the border sits on the tablist border */
   margin-bottom: -2px;
 }
 
 .tab__btn--simple.tab__btn--active {
-  @apply text-primary-700 border-primary-600;
+  @apply text-primary-700 border-primary-600 dark:text-primary-300 dark:border-primary-400;
 }
 
 /* ============================================================
@@ -45,12 +45,12 @@
    ============================================================ */
 
 .tab__btn--segmented {
-  @apply text-aeblack-600 rounded-md;
-  @apply hover:text-aeblack-900;
+  @apply text-aeblack-600 rounded-md dark:text-aeblack-300;
+  @apply hover:text-aeblack-900 dark:hover:text-whitely-100;
 }
 
 .tab__btn--segmented.tab__btn--active {
-  @apply bg-white text-aeblack-900 shadow-sm;
+  @apply bg-white text-aeblack-900 shadow-sm dark:bg-aeblack-900 dark:text-whitely-100;
 }
 
 /* ============================================================
@@ -58,12 +58,12 @@
    ============================================================ */
 
 .tab__btn--pill {
-  @apply text-aeblack-600 rounded-full border border-transparent;
-  @apply hover:bg-neutral-100 hover:text-aeblack-900;
+  @apply text-aeblack-600 rounded-full border border-transparent dark:text-aeblack-300;
+  @apply hover:bg-neutral-100 hover:text-aeblack-900 dark:hover:bg-aeblack-800 dark:hover:text-whitely-100;
 }
 
 .tab__btn--pill.tab__btn--active {
-  @apply bg-primary-50 text-primary-700 border-primary-200;
+  @apply bg-primary-50 text-primary-700 border-primary-200 dark:bg-primary-900/40 dark:text-primary-200 dark:border-primary-700;
 }
 
 /* ============================================================
@@ -82,6 +82,10 @@
 
 .tab__btn--simple.tab__btn--vertical.tab__btn--active {
   border-inline-end-color: var(--color-primary-600, #2563eb);
+}
+
+.dark .tab__btn--simple.tab__btn--vertical.tab__btn--active {
+  border-inline-end-color: var(--color-primary-400);
 }
 
 /* Segmented and pill are layout-agnostic — they look the same vertical */

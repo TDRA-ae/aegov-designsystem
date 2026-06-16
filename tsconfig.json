@@ -20,7 +20,7 @@
       "node",
       "jest"
     ],
-    "baseUrl": ".",
+    "baseUrl": "./",
     "paths": {
       "@components/*": ["src/components/*"],
       "@utils/*": ["src/utils/*"],

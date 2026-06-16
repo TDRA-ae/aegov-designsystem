@@ -1,6 +1,12 @@
 import { Component, Host, h, Prop, Element, Watch } from '@stencil/core';
+import { BREADCRUMB_SEPARATORS } from '../../utils/types';
 import type { BreadcrumbSeparator } from '../../utils/types';
 import { getPassThroughAttributes } from '../../utils/attributes';
+import { warnIfInvalidEnumProp } from '../../utils/prop-validator';
+import { generateId } from '../../utils/id-generator';
+
+const TAG = 'aegov-breadcrumbs';
+const ctx = (prop: string) => ({ component: TAG, prop });
 
 /**
  * @slot - Breadcrumb items (aegov-breadcrumbs-item elements)
@@ -11,7 +17,12 @@ import { getPassThroughAttributes } from '../../utils/attributes';
   scoped: false,
 })
 export class AegovBreadcrumbs {
-  @Element() el: HTMLElement;
+  @Element() el!: HTMLElement;
+
+  /**
+   * Unique ID for the breadcrumbs nav element. Auto-generated if not provided.
+   */
+  @Prop({ mutable: true, reflect: true }) fieldId?: string;
 
   /**
    * The separator style to use between breadcrumb items
@@ -28,7 +39,17 @@ export class AegovBreadcrumbs {
    * Whether to add schema.org microdata for structured data
    * @default false
    */
-  @Prop() microdata: boolean = false;
+  @Prop() isMicrodata: boolean = false;
+
+  componentWillLoad() {
+    if (!this.fieldId) {
+      this.fieldId = generateId('aegov-breadcrumbs');
+    }
+    warnIfInvalidEnumProp(this.separator, BREADCRUMB_SEPARATORS, 'slash', ctx('separator'));
+  }
+
+  @Watch('separator')
+  onSeparatorChange(v: unknown) { warnIfInvalidEnumProp(v, BREADCRUMB_SEPARATORS, 'slash', ctx('separator')); }
 
   componentDidLoad() {
     this.updateItems();
@@ -40,7 +61,7 @@ export class AegovBreadcrumbs {
 
   @Watch('separator')
   @Watch('maxLength')
-  @Watch('microdata')
+  @Watch('isMicrodata')
   updateItems() {
     // Query all slotted breadcrumb items
     const items = Array.from(
@@ -56,7 +77,7 @@ export class AegovBreadcrumbs {
       }
 
       // Pass microdata property to children
-      item.microdata = this.microdata;
+      item.isMicrodata = this.isMicrodata;
 
       // Set position for microdata (1-indexed)
       item.position = index + 1;
@@ -66,18 +87,16 @@ export class AegovBreadcrumbs {
     });
   }
 
-  private static readonly PASS_THROUGH_ATTRS = new Set(['id']);
-
   render() {
-    const passThroughAttributes = getPassThroughAttributes(this.el, AegovBreadcrumbs.PASS_THROUGH_ATTRS);
+    const passThroughAttributes = getPassThroughAttributes(this.el);
 
     return (
       <Host>
-        <nav aria-label="Breadcrumb" class="aegov-breadcrumbs" {...passThroughAttributes}>
+        <nav aria-label="Breadcrumb" id={this.fieldId} class="aegov-breadcrumbs" {...passThroughAttributes}>
           <ol
             class="breadcrumb__list"
-            itemScope={this.microdata ? true : undefined}
-            itemType={this.microdata ? "https://schema.org/BreadcrumbList" : undefined}
+            itemScope={this.isMicrodata ? true : undefined}
+            itemType={this.isMicrodata ? "https://schema.org/BreadcrumbList" : undefined}
           >
             <slot />
           </ol>

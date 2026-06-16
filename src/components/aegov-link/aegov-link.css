@@ -1,3 +1,32 @@
+/**
+ * AegovLink styles.
+ *
+ * Imports the shared button-style class rules so that <aegov-link> with
+ * `variant`/`appearance`/`size` props renders identically to <aegov-button>
+ * even when no <aegov-button> instance exists on the page.
+ */
+
+@import '../aegov-button/aegov-button-shared.css';
+
 :host {
   display: inline;
+}
+
+/* When button-styled, the host needs block-level layout for the inner <a>
+   to honour `w-full` (is-full prop). The host class is set via <Host>. */
+:host(.is-full) {
+  display: block;
+}
+
+/* Suppress the global <a> hover underline when the link is rendered as a
+   button. The global rule (`a { @apply hover:underline ... }` in global.css)
+   would otherwise bleed through every button-styled aegov-link variant —
+   including non-`link` appearances where an underline is not desired.
+   `!important` is needed because Tailwind's `hover:underline` utility lives
+   in the same specificity tier as our reset. */
+a.aegov-btn,
+a.aegov-btn:hover,
+a.aegov-btn:focus,
+a.aegov-btn:focus-visible {
+  text-decoration: none !important;
 }

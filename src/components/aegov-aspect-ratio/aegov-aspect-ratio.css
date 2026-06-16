@@ -1,0 +1,44 @@
+:host {
+  @apply block;
+}
+
+.aegov-aspect-ratio {
+  @apply relative w-full overflow-hidden;
+}
+
+/* Media elements fill the container and respect the fit prop via data-fit */
+.aegov-aspect-ratio > img,
+.aegov-aspect-ratio > video,
+.aegov-aspect-ratio > iframe {
+  @apply block w-full h-full;
+}
+
+.aegov-aspect-ratio[data-fit='cover'] > img,
+.aegov-aspect-ratio[data-fit='cover'] > video,
+.aegov-aspect-ratio[data-fit='cover'] > iframe {
+  @apply object-cover;
+}
+
+.aegov-aspect-ratio[data-fit='contain'] > img,
+.aegov-aspect-ratio[data-fit='contain'] > video,
+.aegov-aspect-ratio[data-fit='contain'] > iframe {
+  @apply object-contain;
+}
+
+.aegov-aspect-ratio[data-fit='fill'] > img,
+.aegov-aspect-ratio[data-fit='fill'] > video,
+.aegov-aspect-ratio[data-fit='fill'] > iframe {
+  @apply object-fill;
+}
+
+.aegov-aspect-ratio[data-fit='none'] > img,
+.aegov-aspect-ratio[data-fit='none'] > video,
+.aegov-aspect-ratio[data-fit='none'] > iframe {
+  @apply object-none;
+}
+
+.aegov-aspect-ratio[data-fit='scale-down'] > img,
+.aegov-aspect-ratio[data-fit='scale-down'] > video,
+.aegov-aspect-ratio[data-fit='scale-down'] > iframe {
+  @apply object-scale-down;
+}

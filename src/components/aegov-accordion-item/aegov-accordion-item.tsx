@@ -1,5 +1,5 @@
 import { Component, Host, h, Prop, Element, Event, EventEmitter, Watch, State } from '@stencil/core';
-import { AccordionIcon } from '../../utils/types';
+import { AccordionIcon, AccordionSize } from '../../utils/types';
 
 /**
  * Accordion item component
@@ -17,14 +17,14 @@ import { AccordionIcon } from '../../utils/types';
   scoped: false,
 })
 export class AegovAccordionItem {
-  @Element() el: HTMLElement;
+  @Element() el!: HTMLElement;
 
   @State() contentHeight: number = 0;
   @State() hasHeadingSlot: boolean = false;
 
   private contentEl?: HTMLElement;
   private resizeObserver?: ResizeObserver;
-  private itemId: string;
+  private itemId!: string;
 
   /**
    * Heading text for the accordion item (alternative to using the slot)
@@ -36,12 +36,12 @@ export class AegovAccordionItem {
    * Whether the accordion item is open
    * @internal - Set automatically by parent component
    */
-  @Prop({ mutable: true }) open: boolean = false;
+  @Prop({ mutable: true }) isOpen: boolean = false;
 
   /**
    * Whether the accordion item is disabled
    */
-  @Prop() disabled: boolean = false;
+  @Prop() isDisabled: boolean = false;
 
   /**
    * Icon style for the accordion item
@@ -62,9 +62,15 @@ export class AegovAccordionItem {
   @Prop({ mutable: true }) isLast: boolean = false;
 
   /**
+   * Size of the accordion item — controls heading font size.
+   * @internal - Set automatically by parent component
+   */
+  @Prop({ mutable: true }) size: AccordionSize = 'base';
+
+  /**
    * Emitted when the accordion item is toggled
    */
-  @Event() aegovAccordionItemToggle: EventEmitter<{ open: boolean }>;
+  @Event() aegovAccordionItemToggle!: EventEmitter<{ open: boolean }>;
 
   componentWillLoad() {
     // Generate a stable unique ID for ARIA linking
@@ -92,7 +98,7 @@ export class AegovAccordionItem {
     if (this.contentEl && typeof ResizeObserver !== 'undefined') {
       this.resizeObserver = new ResizeObserver(() => {
         // Only update if the accordion is open
-        if (this.open) {
+        if (this.isOpen) {
           this.updateContentHeight();
         }
       });
@@ -107,14 +113,14 @@ export class AegovAccordionItem {
     }
   }
 
-  @Watch('open')
+  @Watch('isOpen')
   handleOpenChange() {
     this.updateContentHeight();
   }
 
   private updateContentHeight() {
     if (this.contentEl) {
-      if (this.open) {
+      if (this.isOpen) {
         this.contentHeight = this.contentEl.scrollHeight;
       } else {
         this.contentHeight = 0;
@@ -123,11 +129,11 @@ export class AegovAccordionItem {
   }
 
   private handleToggle = () => {
-    if (this.disabled) {
+    if (this.isDisabled) {
       return;
     }
 
-    this.aegovAccordionItemToggle.emit({ open: !this.open });
+    this.aegovAccordionItemToggle.emit({ open: !this.isOpen });
   };
 
   private handleKeyDown = (event: KeyboardEvent) => {
@@ -140,8 +146,9 @@ export class AegovAccordionItem {
   render() {
     const classes = [
       'aegov-accordion-item',
-      this.open && 'accordion-item--open',
-      this.disabled && 'accordion-item--disabled',
+      `accordion-item--${this.size}`,
+      this.isOpen && 'accordion-item--open',
+      this.isDisabled && 'accordion-item--disabled',
       this.isFirst && 'accordion-item__first',
       this.isLast && 'accordion-item__last'
     ].filter(Boolean).join(' ');
@@ -153,8 +160,8 @@ export class AegovAccordionItem {
             class="group accordion-item__header"
             onClick={this.handleToggle}
             onKeyDown={this.handleKeyDown}
-            disabled={this.disabled}
-            aria-expanded={this.open.toString()}
+            disabled={this.isDisabled}
+            aria-expanded={this.isOpen.toString()}
             aria-controls={`${this.itemId}-content`}
             id={`${this.itemId}-trigger`}
             type="button"

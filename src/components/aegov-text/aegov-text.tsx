@@ -1,4 +1,7 @@
-import { Component, Prop, Element, h, Host } from '@stencil/core';
+import { Component, Prop, Watch, State, Element, h, Host } from '@stencil/core';
+import { watchResponsiveProp } from '../../utils/responsive-prop';
+import type { ResponsivePropWatcher } from '../../utils/responsive-prop';
+import { TEXT_SIZES } from '../../utils/types';
 import type { TextSize } from '../../utils/types';
 import { getPassThroughAttributes } from '../../utils/attributes';
 
@@ -18,14 +21,35 @@ export class AegovText {
    * The size of the text.
    * @default 'base'
    */
-  @Prop() size: TextSize = 'base';
+  @Prop() size: string = 'base';
+
+  @State() private _resolvedSize: TextSize = 'base';
+  private _sizeWatcher: ResponsivePropWatcher | null = null;
 
   /**
    * Additional CSS classes to apply to the text.
    */
-  @Prop() class?: string;
+  @Prop() extraClass?: string;
 
-  private static readonly PASS_THROUGH_ATTRS = new Set(['id']);
+  componentWillLoad() {
+    this._sizeWatcher = watchResponsiveProp(this.size, TEXT_SIZES, 'base', v => {
+      this._resolvedSize = v as TextSize;
+    });
+    this._resolvedSize = this._sizeWatcher.current as TextSize;
+  }
+
+  disconnectedCallback() {
+    this._sizeWatcher?.destroy();
+  }
+
+  @Watch('size')
+  onSizeChange() {
+    this._sizeWatcher?.destroy();
+    this._sizeWatcher = watchResponsiveProp(this.size, TEXT_SIZES, 'base', v => {
+      this._resolvedSize = v as TextSize;
+    });
+    this._resolvedSize = this._sizeWatcher.current as TextSize;
+  }
 
   /**
    * Get the CSS classes based on component props
@@ -40,18 +64,19 @@ export class AegovText {
       lg: 'text-lg',
     };
 
-    classes.push(sizeClasses[this.size]);
+    const size: TextSize = this._resolvedSize;
+    classes.push(sizeClasses[size]);
 
     // Merge with custom classes if provided
-    if (this.class) {
-      classes.push(this.class);
+    if (this.extraClass) {
+      classes.push(this.extraClass);
     }
 
     return classes.join(' ');
   }
 
   render() {
-    const passThroughAttributes = getPassThroughAttributes(this.el, AegovText.PASS_THROUGH_ATTRS);
+    const passThroughAttributes = getPassThroughAttributes(this.el);
 
     return (
       <Host>

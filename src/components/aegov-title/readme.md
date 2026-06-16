@@ -19,10 +19,12 @@ The title component provides a styled text element for headings and emphasized c
 
 ## Properties
 
-| Property | Attribute | Description                                   | Type                              | Default     |
-| -------- | --------- | --------------------------------------------- | --------------------------------- | ----------- |
-| `class`  | `class`   | Additional CSS classes to apply to the title. | `string`                          | `undefined` |
-| `size`   | `size`    | The size of the title text.                   | `"2xl" \| "base" \| "lg" \| "xl"` | `'lg'`      |
+| Property      | Attribute      | Description                                                                                                                                                                      | Type                                          | Default     |
+| ------------- | -------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------- | ----------- |
+| `extraClass`  | `extra-class`  | Additional CSS classes to apply to the title.                                                                                                                                    | `string`                                      | `undefined` |
+| `fieldId`     | `field-id`     | Unique ID for the title element. Auto-generated if not provided.                                                                                                                 | `string`                                      | `undefined` |
+| `headingType` | `heading-type` | The semantic wrapper tag for the title. When set, renders the title inside the specified heading tag (`h2`–`h6`) or a `p`. When omitted, the title renders as a `<p>` (default). | `"h2" \| "h3" \| "h4" \| "h5" \| "h6" \| "p"` | `undefined` |
+| `size`        | `size`         | The size of the title text.                                                                                                                                                      | `string`                                      | `'base'`    |
 
 
 ## Slots

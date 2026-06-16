@@ -3,131 +3,137 @@ import { AegovCheckboxGroup } from './aegov-checkbox-group';
 import { AegovCheckbox } from '../aegov-checkbox/aegov-checkbox';
 
 describe('aegov-checkbox-group', () => {
-  it('renders a fieldset', async () => {
+  it('renders a fieldset with default classes', async () => {
     const page = await newSpecPage({
-      components: [AegovCheckboxGroup, AegovCheckbox],
+      components: [AegovCheckboxGroup],
       html: `<aegov-checkbox-group></aegov-checkbox-group>`,
     });
-    const fieldset = page.root.querySelector('fieldset');
-    expect(fieldset).toBeTruthy();
+    const fieldset = page.root.querySelector('fieldset.aegov-checkbox-group');
+    expect(fieldset).not.toBeNull();
   });
 
-  it('renders with legend when label is provided', async () => {
+  it('renders legend when label is provided', async () => {
     const page = await newSpecPage({
-      components: [AegovCheckboxGroup, AegovCheckbox],
-      html: `<aegov-checkbox-group label="Options"></aegov-checkbox-group>`,
+      components: [AegovCheckboxGroup],
+      html: `<aegov-checkbox-group label="Choose"></aegov-checkbox-group>`,
     });
-    const legend = page.root.querySelector('legend');
-    expect(legend).toBeTruthy();
-    expect(legend.textContent).toBe('Options');
-  });
-
-  it('does not render legend without label', async () => {
-    const page = await newSpecPage({
-      components: [AegovCheckboxGroup, AegovCheckbox],
-      html: `<aegov-checkbox-group></aegov-checkbox-group>`,
-    });
-    const legend = page.root.querySelector('legend');
-    expect(legend).toBeNull();
-  });
-
-  it('applies default variant class', async () => {
-    const page = await newSpecPage({
-      components: [AegovCheckboxGroup, AegovCheckbox],
-      html: `<aegov-checkbox-group></aegov-checkbox-group>`,
-    });
-    const fieldset = page.root.querySelector('fieldset');
-    expect(fieldset.classList.contains('aegov-checkbox-group')).toBe(true);
-    expect(fieldset.classList.contains('checkbox-group--default')).toBe(false);
-  });
-
-  it('applies list variant class', async () => {
-    const page = await newSpecPage({
-      components: [AegovCheckboxGroup, AegovCheckbox],
-      html: `<aegov-checkbox-group variant="list"></aegov-checkbox-group>`,
-    });
-    const fieldset = page.root.querySelector('fieldset');
-    expect(fieldset.classList.contains('checkbox-group--list')).toBe(true);
-  });
-
-  it('applies cards variant class', async () => {
-    const page = await newSpecPage({
-      components: [AegovCheckboxGroup, AegovCheckbox],
-      html: `<aegov-checkbox-group variant="cards"></aegov-checkbox-group>`,
-    });
-    const fieldset = page.root.querySelector('fieldset');
-    expect(fieldset.classList.contains('checkbox-group--cards')).toBe(true);
-  });
-
-  it('applies pills variant class', async () => {
-    const page = await newSpecPage({
-      components: [AegovCheckboxGroup, AegovCheckbox],
-      html: `<aegov-checkbox-group variant="pills"></aegov-checkbox-group>`,
-    });
-    const fieldset = page.root.querySelector('fieldset');
-    expect(fieldset.classList.contains('checkbox-group--pills')).toBe(true);
+    const legend = page.root.querySelector('legend.checkbox-group__legend');
+    expect(legend).not.toBeNull();
+    expect(legend.textContent).toContain('Choose');
   });
 
   it('applies horizontal orientation class', async () => {
     const page = await newSpecPage({
-      components: [AegovCheckboxGroup, AegovCheckbox],
+      components: [AegovCheckboxGroup],
       html: `<aegov-checkbox-group orientation="horizontal"></aegov-checkbox-group>`,
     });
-    const fieldset = page.root.querySelector('fieldset');
-    expect(fieldset.classList.contains('checkbox-group--horizontal')).toBe(true);
+    expect(page.root.querySelector('fieldset').className).toContain('checkbox-group--horizontal');
   });
 
-  it('does not apply horizontal class for vertical (default)', async () => {
+  it('applies appearance class (cards)', async () => {
     const page = await newSpecPage({
-      components: [AegovCheckboxGroup, AegovCheckbox],
-      html: `<aegov-checkbox-group></aegov-checkbox-group>`,
+      components: [AegovCheckboxGroup],
+      html: `<aegov-checkbox-group appearance="cards"></aegov-checkbox-group>`,
     });
-    const fieldset = page.root.querySelector('fieldset');
-    expect(fieldset.classList.contains('checkbox-group--horizontal')).toBe(false);
+    expect(page.root.querySelector('fieldset').className).toContain('checkbox-group--cards');
   });
 
-  it('disables fieldset when disabled', async () => {
+  it('disables fieldset when is-disabled', async () => {
     const page = await newSpecPage({
-      components: [AegovCheckboxGroup, AegovCheckbox],
-      html: `<aegov-checkbox-group disabled></aegov-checkbox-group>`,
+      components: [AegovCheckboxGroup],
+      html: `<aegov-checkbox-group is-disabled></aegov-checkbox-group>`,
     });
-    const fieldset = page.root.querySelector('fieldset');
-    expect(fieldset.hasAttribute('disabled')).toBe(true);
+    const fieldset = page.root.querySelector('fieldset') as HTMLFieldSetElement;
+    expect(fieldset.hasAttribute("disabled")).toBe(true);
   });
 
-  it('applies custom classes', async () => {
-    const page = await newSpecPage({
-      components: [AegovCheckboxGroup, AegovCheckbox],
-      html: `<aegov-checkbox-group class="mt-6"></aegov-checkbox-group>`,
-    });
-    const fieldset = page.root.querySelector('fieldset');
-    expect(fieldset.classList.contains('mt-6')).toBe(true);
-  });
-
-  it('renders slot content', async () => {
+  it('propagates resolved size to child checkboxes', async () => {
     const page = await newSpecPage({
       components: [AegovCheckboxGroup, AegovCheckbox],
       html: `
-        <aegov-checkbox-group>
+        <aegov-checkbox-group size="lg">
           <aegov-checkbox label="A" value="a"></aegov-checkbox>
           <aegov-checkbox label="B" value="b"></aegov-checkbox>
         </aegov-checkbox-group>
       `,
     });
-    const checkboxes = page.root.querySelectorAll('aegov-checkbox');
-    expect(checkboxes.length).toBe(2);
+    const checkboxes = page.root.querySelectorAll('aegov-checkbox') as NodeListOf<HTMLAegovCheckboxElement>;
+    checkboxes.forEach(cb => expect(cb.size).toBe('lg'));
   });
 
-  it('has checkbox-group__items container', async () => {
+  it('check-all checkbox toggles all regular checkboxes', async () => {
     const page = await newSpecPage({
       components: [AegovCheckboxGroup, AegovCheckbox],
-      html: `<aegov-checkbox-group></aegov-checkbox-group>`,
+      html: `
+        <aegov-checkbox-group>
+          <aegov-checkbox is-check-all label="All"></aegov-checkbox>
+          <aegov-checkbox label="A" value="a"></aegov-checkbox>
+          <aegov-checkbox label="B" value="b"></aegov-checkbox>
+        </aegov-checkbox-group>
+      `,
     });
-    const items = page.root.querySelector('.checkbox-group__items');
-    expect(items).toBeTruthy();
+    const all = page.root.querySelector('aegov-checkbox[is-check-all]') as HTMLAegovCheckboxElement;
+    const allInput = all.querySelector('input') as HTMLInputElement;
+    allInput.checked = true;
+    allInput.dispatchEvent(new Event('change', { bubbles: true }));
+    await page.waitForChanges();
+
+    const regulars = Array.from(page.root.querySelectorAll('aegov-checkbox')).filter(
+      cb => !(cb as HTMLAegovCheckboxElement).isCheckAll,
+    ) as HTMLAegovCheckboxElement[];
+    regulars.forEach(cb => expect(cb.isChecked).toBe(true));
   });
 
-  it('emits aegovCheckboxGroupChange on child change', async () => {
+  it('check-all becomes indeterminate when some children are checked', async () => {
+    const page = await newSpecPage({
+      components: [AegovCheckboxGroup, AegovCheckbox],
+      html: `
+        <aegov-checkbox-group>
+          <aegov-checkbox is-check-all label="All"></aegov-checkbox>
+          <aegov-checkbox label="A" value="a"></aegov-checkbox>
+          <aegov-checkbox label="B" value="b"></aegov-checkbox>
+        </aegov-checkbox-group>
+      `,
+    });
+    const first = page.root.querySelectorAll('aegov-checkbox')[1] as HTMLAegovCheckboxElement;
+    const firstInput = first.querySelector('input') as HTMLInputElement;
+    firstInput.checked = true;
+    firstInput.dispatchEvent(new Event('change', { bubbles: true }));
+    await page.waitForChanges();
+
+    const all = page.root.querySelector('aegov-checkbox[is-check-all]') as HTMLAegovCheckboxElement;
+    expect(all.isIndeterminate).toBe(true);
+    expect(all.isChecked).toBe(false);
+  });
+
+  it('check-all becomes checked when all children are checked', async () => {
+    const page = await newSpecPage({
+      components: [AegovCheckboxGroup, AegovCheckbox],
+      html: `
+        <aegov-checkbox-group>
+          <aegov-checkbox is-check-all label="All"></aegov-checkbox>
+          <aegov-checkbox label="A" value="a"></aegov-checkbox>
+          <aegov-checkbox label="B" value="b"></aegov-checkbox>
+        </aegov-checkbox-group>
+      `,
+    });
+    const regulars = Array.from(page.root.querySelectorAll('aegov-checkbox')).filter(
+      cb => !(cb as HTMLAegovCheckboxElement).isCheckAll,
+    ) as HTMLAegovCheckboxElement[];
+
+    for (const cb of regulars) {
+      const input = cb.querySelector('input') as HTMLInputElement;
+      input.checked = true;
+      input.dispatchEvent(new Event('change', { bubbles: true }));
+      await page.waitForChanges();
+    }
+
+    const all = page.root.querySelector('aegov-checkbox[is-check-all]') as HTMLAegovCheckboxElement;
+    expect(all.isChecked).toBe(true);
+    expect(all.isIndeterminate).toBe(false);
+  });
+
+  it('emits aegovCheckboxGroupChange with current values', async () => {
     const page = await newSpecPage({
       components: [AegovCheckboxGroup, AegovCheckbox],
       html: `
@@ -140,112 +146,130 @@ describe('aegov-checkbox-group', () => {
     const spy = jest.fn();
     page.root.addEventListener('aegovCheckboxGroupChange', spy);
 
-    const cbA = page.root.querySelector('aegov-checkbox[value="a"]');
-    const inputA = cbA.querySelector('input') as HTMLInputElement;
-    inputA.checked = true;
-    inputA.dispatchEvent(new Event('change', { bubbles: true }));
+    const first = page.root.querySelector('aegov-checkbox') as HTMLAegovCheckboxElement;
+    const input = first.querySelector('input') as HTMLInputElement;
+    input.checked = true;
+    input.dispatchEvent(new Event('change', { bubbles: true }));
     await page.waitForChanges();
 
-    expect(spy).toHaveBeenCalled();
-    expect(spy.mock.calls[0][0].detail.values).toContain('a');
+    expect(spy).toHaveBeenCalledTimes(1);
+    expect(spy.mock.calls[0][0].detail).toEqual({ values: ['a'] });
   });
 
-  it('check-all toggles all regular checkboxes', async () => {
+  it('check-all toggle skips disabled children', async () => {
     const page = await newSpecPage({
       components: [AegovCheckboxGroup, AegovCheckbox],
       html: `
         <aegov-checkbox-group>
-          <aegov-checkbox check-all label="Select All"></aegov-checkbox>
+          <aegov-checkbox is-check-all label="All"></aegov-checkbox>
           <aegov-checkbox label="A" value="a"></aegov-checkbox>
-          <aegov-checkbox label="B" value="b"></aegov-checkbox>
+          <aegov-checkbox label="B" value="b" is-disabled></aegov-checkbox>
         </aegov-checkbox-group>
       `,
     });
-
-    const checkAllCb = page.root.querySelector('aegov-checkbox[check-all]');
-    const inputAll = checkAllCb.querySelector('input') as HTMLInputElement;
-    inputAll.checked = true;
-    inputAll.dispatchEvent(new Event('change', { bubbles: true }));
+    const all = page.root.querySelector('aegov-checkbox[is-check-all]') as HTMLAegovCheckboxElement;
+    const allInput = all.querySelector('input') as HTMLInputElement;
+    allInput.checked = true;
+    allInput.dispatchEvent(new Event('change', { bubbles: true }));
     await page.waitForChanges();
 
-    const cbA = page.root.querySelector('aegov-checkbox[value="a"]') as HTMLAegovCheckboxElement;
-    const cbB = page.root.querySelector('aegov-checkbox[value="b"]') as HTMLAegovCheckboxElement;
-    expect(cbA.checked).toBe(true);
-    expect(cbB.checked).toBe(true);
+    const a = page.root.querySelector('aegov-checkbox[value="a"]') as HTMLAegovCheckboxElement;
+    const b = page.root.querySelector('aegov-checkbox[value="b"]') as HTMLAegovCheckboxElement;
+    expect(a.isChecked).toBe(true);
+    expect(b.isChecked).toBe(false);
   });
 
-  it('updates check-all to indeterminate when some items checked', async () => {
-    const page = await newSpecPage({
-      components: [AegovCheckboxGroup, AegovCheckbox],
-      html: `
-        <aegov-checkbox-group>
-          <aegov-checkbox check-all label="Select All"></aegov-checkbox>
-          <aegov-checkbox label="A" value="a"></aegov-checkbox>
-          <aegov-checkbox label="B" value="b"></aegov-checkbox>
-        </aegov-checkbox-group>
-      `,
+  // Validation surface (Layer 1) — see validation-engine-addon.md §2.8
+  describe('validation surface', () => {
+    it('toggles host is-invalid + aria-invalid on fieldset', async () => {
+      const page = await newSpecPage({
+        components: [AegovCheckboxGroup, AegovCheckbox],
+        html: `<aegov-checkbox-group is-invalid="true">
+          <aegov-checkbox value="a"></aegov-checkbox>
+        </aegov-checkbox-group>`,
+      });
+      expect(page.root.classList.contains('is-invalid')).toBe(true);
+      expect(page.root.querySelector('fieldset').getAttribute('aria-invalid')).toBe('true');
     });
 
-    const cbA = page.root.querySelector('aegov-checkbox[value="a"]');
-    const inputA = cbA.querySelector('input') as HTMLInputElement;
-    inputA.checked = true;
-    inputA.dispatchEvent(new Event('change', { bubbles: true }));
-    await page.waitForChanges();
-
-    const checkAllCb = page.root.querySelector('aegov-checkbox[check-all]') as HTMLAegovCheckboxElement;
-    expect(checkAllCb.indeterminate).toBe(true);
-  });
-
-  it('check-all skips disabled checkboxes', async () => {
-    const page = await newSpecPage({
-      components: [AegovCheckboxGroup, AegovCheckbox],
-      html: `
-        <aegov-checkbox-group>
-          <aegov-checkbox check-all label="Select All"></aegov-checkbox>
-          <aegov-checkbox label="A" value="a"></aegov-checkbox>
-          <aegov-checkbox label="B" value="b" disabled></aegov-checkbox>
-        </aegov-checkbox-group>
-      `,
+    it('renders errorMessage in error region', async () => {
+      const page = await newSpecPage({
+        components: [AegovCheckboxGroup, AegovCheckbox],
+        html: `<aegov-checkbox-group is-invalid="true" error-message="Pick at least 1">
+          <aegov-checkbox value="a"></aegov-checkbox>
+        </aegov-checkbox-group>`,
+      });
+      expect(page.root.querySelector('.aegov-checkbox-group__error').textContent).toBe('Pick at least 1');
     });
 
-    const checkAllCb = page.root.querySelector('aegov-checkbox[check-all]');
-    const inputAll = checkAllCb.querySelector('input') as HTMLInputElement;
-    inputAll.checked = true;
-    inputAll.dispatchEvent(new Event('change', { bubbles: true }));
-    await page.waitForChanges();
-
-    const cbA = page.root.querySelector('aegov-checkbox[value="a"]') as HTMLAegovCheckboxElement;
-    const cbB = page.root.querySelector('aegov-checkbox[value="b"]') as HTMLAegovCheckboxElement;
-    expect(cbA.checked).toBe(true);
-    expect(cbB.checked).toBe(false);
-  });
-
-  it('sets check-all to checked when all items are checked', async () => {
-    const page = await newSpecPage({
-      components: [AegovCheckboxGroup, AegovCheckbox],
-      html: `
-        <aegov-checkbox-group>
-          <aegov-checkbox check-all label="Select All"></aegov-checkbox>
-          <aegov-checkbox label="A" value="a"></aegov-checkbox>
-          <aegov-checkbox label="B" value="b"></aegov-checkbox>
-        </aegov-checkbox-group>
-      `,
+    it('renders hint when not invalid', async () => {
+      const page = await newSpecPage({
+        components: [AegovCheckboxGroup, AegovCheckbox],
+        html: `<aegov-checkbox-group hint="Multiple OK">
+          <aegov-checkbox value="a"></aegov-checkbox>
+        </aegov-checkbox-group>`,
+      });
+      expect(page.root.querySelector('.aegov-checkbox-group__hint').textContent).toBe('Multiple OK');
     });
 
-    // Check A
-    const inputA = page.root.querySelector('aegov-checkbox[value="a"] input') as HTMLInputElement;
-    inputA.checked = true;
-    inputA.dispatchEvent(new Event('change', { bubbles: true }));
-    await page.waitForChanges();
+    it('hides hint when error shown', async () => {
+      const page = await newSpecPage({
+        components: [AegovCheckboxGroup, AegovCheckbox],
+        html: `<aegov-checkbox-group hint="h" is-invalid="true" error-message="err">
+          <aegov-checkbox value="a"></aegov-checkbox>
+        </aegov-checkbox-group>`,
+      });
+      expect(page.root.querySelector('.aegov-checkbox-group__error')).not.toBeNull();
+      expect(page.root.querySelector('.aegov-checkbox-group__hint')).toBeNull();
+    });
 
-    // Check B
-    const inputB = page.root.querySelector('aegov-checkbox[value="b"] input') as HTMLInputElement;
-    inputB.checked = true;
-    inputB.dispatchEvent(new Event('change', { bubbles: true }));
-    await page.waitForChanges();
+    it('validate() resolves valid for optional empty group', async () => {
+      const page = await newSpecPage({
+        components: [AegovCheckboxGroup, AegovCheckbox],
+        html: `<aegov-checkbox-group>
+          <aegov-checkbox value="a"></aegov-checkbox>
+        </aegov-checkbox-group>`,
+      });
+      const r = await page.rootInstance.validate('manual');
+      expect(r.valid).toBe(true);
+    });
 
-    const checkAllCb = page.root.querySelector('aegov-checkbox[check-all]') as HTMLAegovCheckboxElement;
-    expect(checkAllCb.checked).toBe(true);
-    expect(checkAllCb.indeterminate).toBe(false);
+    it('valueMissing fires when isRequired and no children checked', async () => {
+      const page = await newSpecPage({
+        components: [AegovCheckboxGroup, AegovCheckbox],
+        html: `<aegov-checkbox-group is-required>
+          <aegov-checkbox value="a"></aegov-checkbox>
+        </aegov-checkbox-group>`,
+      });
+      const r = await page.rootInstance.validate('manual');
+      expect(r.valid).toBe(false);
+      expect(r.validity.valueMissing).toBe(true);
+    });
+
+    it('setCustomValidity("msg") sets invalid + error', async () => {
+      const page = await newSpecPage({
+        components: [AegovCheckboxGroup, AegovCheckbox],
+        html: `<aegov-checkbox-group>
+          <aegov-checkbox value="a"></aegov-checkbox>
+        </aegov-checkbox-group>`,
+      });
+      await page.rootInstance.setCustomValidity('At least 1');
+      await page.waitForChanges();
+      expect(page.rootInstance.isInvalid).toBe(true);
+      expect(page.rootInstance.errorMessage).toBe('At least 1');
+    });
+
+    it('setCustomValidity("") clears state', async () => {
+      const page = await newSpecPage({
+        components: [AegovCheckboxGroup, AegovCheckbox],
+        html: `<aegov-checkbox-group is-invalid="true" error-message="x">
+          <aegov-checkbox value="a"></aegov-checkbox>
+        </aegov-checkbox-group>`,
+      });
+      await page.rootInstance.setCustomValidity('');
+      await page.waitForChanges();
+      expect(page.rootInstance.isInvalid).toBe(false);
+      expect(page.rootInstance.errorMessage).toBe('');
+    });
   });
 });

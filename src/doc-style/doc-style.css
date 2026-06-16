@@ -1,0 +1,105 @@
+@import "../styles/tailwind.css";
+@import "../global/global.css";
+@source "../docs/**/*.html";
+@source "../docs/**/*.md";
+@source "../docs/**/*.js";
+
+#content-area code {
+  font-weight:bold;
+  font-size:14px;
+}
+#content-area pre > code {
+  font-weight:normal;
+}
+
+/* Markdown-generated tables */
+#content-area table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  margin: 1.5rem 0;
+}
+
+#content-area thead tr {
+  background-color: var(--color-aeblack-50);
+}
+
+.dark #content-area thead tr {
+  background-color: var(--color-aeblack-800);
+}
+
+#content-area th {
+  text-align: left;
+  font-weight: 600;
+  padding: 0.625rem 0.75rem;
+  border: 1px solid var(--color-aeblack-100);
+  color: var(--color-aeblack-800);
+}
+
+.dark #content-area th {
+  border-color: var(--color-aeblack-700);
+  color: var(--color-whitely-100);
+}
+
+#content-area td {
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--color-aeblack-100);
+  color: var(--color-aeblack-600);
+}
+
+.dark #content-area td {
+  border-color: var(--color-aeblack-700);
+  color: var(--color-aeblack-200);
+}
+
+#content-area tbody tr:nth-child(even) {
+  background-color: var(--color-whitely-200);
+}
+
+.dark #content-area tbody tr:nth-child(even) {
+  background-color: var(--color-aeblack-800);
+}
+
+#content-area td code,
+#content-area th code {
+  font-size: 0.8125rem;
+  font-weight:normal;
+  padding: 0.125rem 0.375rem;
+  background-color: var(--color-aeblack-50);
+  border: 1px solid var(--color-aeblack-100);
+  border-radius: 0.25rem;
+  color: var(--color-aered-700);
+}
+
+.dark #content-area td code,
+.dark #content-area th code {
+  background-color: var(--color-aeblack-800);
+  border-color: var(--color-aeblack-700);
+  color: var(--color-aered-300);
+}
+
+/* Prevent long code blocks from breaking flex layout */
+#content-area pre {
+  overflow-x: auto;
+  max-width: 100%;
+}
+
+#content-area {
+  min-width: 0;
+  overflow: hidden;
+}
+
+/* The article wrapping #content-area sits in a flex row.
+   Without min-width: 0 it won't shrink below the intrinsic
+   width of long <pre> code blocks, blowing out the layout. */
+article:has(#content-area) {
+  min-width: 0;
+}
+
+/* Vertical spacing between components in demo containers */
+#content-area .not-aegov:not(.flex) {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}

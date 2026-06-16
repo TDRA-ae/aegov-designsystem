@@ -1,15 +1,85 @@
-import { Component, Host, h, Prop, State, Event, EventEmitter, Element, Method } from '@stencil/core';
-import type { FileuploadVariant, FileuploadSize } from '../../utils/types';
+import { Component, Host, h, Prop, State, Event, EventEmitter, Element, Method, Watch } from '@stencil/core';
+import { FILEUPLOAD_VARIANTS, FILEUPLOAD_SIZES, FORM_VARIANTS } from '../../utils/types';
+import type {
+  FileuploadVariant, FileuploadSize, FormVariant,
+  AegovValidationDetail, AegovValidationResult, AegovValidationTrigger,
+  AegovValidityState,
+} from '../../utils/types';
 import { generateId } from '../../utils/id-generator';
+import { warnIfInvalidEnumProp } from '../../utils/prop-validator';
+import { watchResponsiveProp } from '../../utils/responsive-prop';
+import type { ResponsivePropWatcher } from '../../utils/responsive-prop';
+import { getPassThroughAttributes } from '../../utils/attributes';
+import {
+  buildValidationDetail, synthesizeValidity, setInternalsValidity,
+} from '../../utils/validation';
+import type { InternalsHost } from '../../utils/validation';
+import { isRtl } from '../../utils/rtl';
+
+const STRINGS = {
+  en: {
+    required: 'Required',
+    invalidFile: 'Invalid file',
+    notAllowedType: (name: string) => `File "${name}" is not an allowed type.`,
+    exceedsMaxSize: (name: string, size: string) => `File "${name}" exceeds the maximum size of ${size}.`,
+    maxFiles: (n: number) => `Maximum ${n} file${n > 1 ? 's' : ''} allowed.`,
+    noFileChosen: 'No file chosen',
+    filesSelected: (n: number) => `${n} files selected`,
+    allowed: (list: string) => `Allowed: ${list}`,
+    images: 'Images',
+    videos: 'Videos',
+    audio: 'Audio',
+    pdf: 'PDF',
+    browse: 'Browse',
+    chooseFile: 'Choose File',
+    chooseFiles: 'Choose Files',
+    browseFiles: 'Browse Files',
+    remove: (name: string) => `Remove ${name}`,
+    dragAndDrop: (multiple: boolean) => `Drag and drop ${multiple ? 'files' : 'a file'} here, or`,
+    sizeUnits: ['B', 'KB', 'MB', 'GB'] as const,
+    zeroBytes: '0 B',
+  },
+  ar: {
+    required: 'مطلوب',
+    invalidFile: 'ملف غير صالح',
+    notAllowedType: (name: string) => `الملف "${name}" ليس من النوع المسموح به.`,
+    exceedsMaxSize: (name: string, size: string) => `الملف "${name}" يتجاوز الحجم الأقصى ${size}.`,
+    maxFiles: (n: number) => `الحد الأقصى ${n} ${n > 1 ? 'ملفات' : 'ملف'} مسموح به.`,
+    noFileChosen: 'لم يتم اختيار ملف',
+    filesSelected: (n: number) => `تم اختيار ${n} ملفات`,
+    allowed: (list: string) => `المسموح به: ${list}`,
+    images: 'صور',
+    videos: 'فيديوهات',
+    audio: 'صوت',
+    pdf: 'PDF',
+    browse: 'تصفح',
+    chooseFile: 'اختر ملفاً',
+    chooseFiles: 'اختر ملفات',
+    browseFiles: 'تصفح الملفات',
+    remove: (name: string) => `إزالة ${name}`,
+    dragAndDrop: (multiple: boolean) => `اسحب وأفلت ${multiple ? 'الملفات' : 'الملف'} هنا، أو`,
+    sizeUnits: ['بايت', 'ك.ب', 'م.ب', 'ج.ب'] as const,
+    zeroBytes: '0 بايت',
+  },
+};
+
+const TAG = 'aegov-fileupload';
+const ctx = (prop: string) => ({ component: TAG, prop });
 
 @Component({
   tag: 'aegov-fileupload',
   styleUrl: 'aegov-fileupload.css',
   scoped: false,
+  formAssociated: true, // §2.5: appearance abstraction needs ElementInternals to participate in <form>
 })
 export class AegovFileupload {
   @Element() el!: HTMLElement;
   private inputEl?: HTMLInputElement;
+
+  /** Native file-input attributes to pass through to the inner `<input type="file">`. */
+  private static readonly PASS_THROUGH_ATTRS = new Set([
+    'capture', 'autofocus', 'form', 'tabindex', 'title', 'webkitdirectory',
+  ]);
 
   /**
    * Unique field ID. Auto-generated if not provided.
@@ -20,17 +90,22 @@ export class AegovFileupload {
    * Variant style: 'default' (styled input + button), 'button' (hidden input, label-as-button),
    * or 'dropzone' (drag-and-drop area).
    */
-  @Prop() variant: FileuploadVariant = 'default';
+  @Prop() appearance: FileuploadVariant = 'default';
 
   /**
    * Component size.
    */
-  @Prop() size: FileuploadSize = 'base';
+  @Prop() size: string = 'base';
+  @State() private _resolvedSize: FileuploadSize = 'base';
+  private _sizeWatcher: ResponsivePropWatcher | null = null;
+
+  /** Colour family. Drives idle ring/border, selected/checked fill, and value/accent text. Focus ring stays camel; error stays aered regardless. */
+  @Prop() variant: FormVariant = 'primary';
 
   /**
    * Allow multiple file selection.
    */
-  @Prop() multiple: boolean = false;
+  @Prop() isMultiple: boolean = false;
 
   /**
    * Accepted file types (e.g. ".pdf,.jpg,image/*").
@@ -50,12 +125,18 @@ export class AegovFileupload {
   /**
    * Disables the file upload.
    */
-  @Prop({ reflect: true }) disabled: boolean = false;
+  @Prop({ reflect: true }) isDisabled: boolean = false;
 
   /**
    * Marks the field as required.
    */
-  @Prop() required: boolean = false;
+  @Prop() isRequired: boolean = false;
+
+  /** Visual + a11y invalid state. See §2.3. */
+  @Prop({ mutable: true, reflect: true }) isInvalid: boolean = false;
+
+  /** Inline error message. Use `error` slot for rich markup. */
+  @Prop({ mutable: true }) errorMessage: string = '';
 
   /**
    * Form field name.
@@ -68,19 +149,21 @@ export class AegovFileupload {
   @Prop() label?: string;
 
   /**
-   * Description text displayed below the label.
+   * Helper hint text displayed below the label. Renamed from `description` per §6.6
+   * (pre-production rename, no compat shim). Hidden when an error is shown.
    */
-  @Prop() description?: string;
+  @Prop() hint?: string;
 
   /**
    * Custom helper text for allowed file types. Overrides auto-generated text from `accept`.
+   * Shown alongside the hint, distinct from validation error text.
    */
-  @Prop() helperText?: string;
+  @Prop() labelHelp?: string;
 
   /**
    * Custom text for the browse/trigger button.
    */
-  @Prop() buttonText?: string;
+  @Prop() labelButton?: string;
 
   @State() selectedFiles: File[] = [];
   @State() isDragOver: boolean = false;
@@ -91,19 +174,76 @@ export class AegovFileupload {
   @Event() aegovFileuploadChange!: EventEmitter<{ files: File[] }>;
 
   /**
-   * Emitted when a file is removed from the list (button/dropzone variants).
+   * Emitted when a file is removed from the list (button/dropzone appearances).
    */
   @Event() aegovFileuploadRemove!: EventEmitter<{ file: File; remaining: File[] }>;
 
-  /**
-   * Emitted when a file fails validation (invalid type, size exceeded, or max files exceeded).
-   */
-  @Event() aegovFileuploadError!: EventEmitter<{ type: 'max-size' | 'max-files' | 'invalid-type'; file?: File; message: string }>;
+  // §6.6: aegovFileuploadError REMOVED — use aegovValidate with mapped validity flags
+  // (tooLong = max-size, typeMismatch = invalid-type, customError = max-files).
+
+  /** Unified validation event. See §2.3. */
+  @Event() aegovValidate!: EventEmitter<AegovValidationDetail<File[]>>;
+
+  @State() private hasBlurredOnce: boolean = false;
+
+  private internals: ElementInternals | null = null;
+  private errorId: string = '';
+  private hintId: string = '';
+
+  private get t() {
+    return isRtl(this.el) ? STRINGS.ar : STRINGS.en;
+  }
 
   componentWillLoad() {
+    warnIfInvalidEnumProp(this.appearance, FILEUPLOAD_VARIANTS, 'default', ctx('appearance'));
+    warnIfInvalidEnumProp(this.variant, FORM_VARIANTS, 'primary', ctx('variant'));
+    this._sizeWatcher = watchResponsiveProp(this.size, FILEUPLOAD_SIZES, 'base', v => {
+      this._resolvedSize = v as FileuploadSize;
+    });
+    this._resolvedSize = this._sizeWatcher.current as FileuploadSize;
     if (!this.fieldId) {
       this.fieldId = generateId('aegov-fileupload');
     }
+    this.errorId = `${this.fieldId}-error`;
+    this.hintId = `${this.fieldId}-hint`;
+
+    // Manual attachInternals per §6.8 fallback
+    const host = this.el as unknown as InternalsHost;
+    if (typeof host.attachInternals === 'function') {
+      try {
+        this.internals = host.attachInternals();
+      } catch {
+        this.internals = null;
+      }
+    }
+  }
+
+  // ── FormAssociated lifecycle ──
+  formAssociatedCallback(_form: HTMLFormElement | null) { /* no-op */ }
+  formDisabledCallback(disabled: boolean) { this.isDisabled = disabled; }
+  formResetCallback() {
+    this.selectedFiles = [];
+    if (this.inputEl) this.inputEl.value = '';
+    this.runValidationSync();
+  }
+
+  disconnectedCallback() {
+    this._sizeWatcher?.destroy();
+  }
+
+  @Watch('appearance')
+  onVariantChange(v: unknown) { warnIfInvalidEnumProp(v, FILEUPLOAD_VARIANTS, 'default', ctx('appearance')); }
+
+  @Watch('variant')
+  onColourVariantChange(v: unknown) { warnIfInvalidEnumProp(v, FORM_VARIANTS, 'primary', ctx('variant')); }
+
+  @Watch('size')
+  onSizeChange() {
+    this._sizeWatcher?.destroy();
+    this._sizeWatcher = watchResponsiveProp(this.size, FILEUPLOAD_SIZES, 'base', v => {
+      this._resolvedSize = v as FileuploadSize;
+    });
+    this._resolvedSize = this._sizeWatcher.current as FileuploadSize;
   }
 
   /**
@@ -123,10 +263,83 @@ export class AegovFileupload {
     if (this.inputEl) {
       this.inputEl.value = '';
     }
+    this.runValidationSync();
+  }
+
+  /** Imperatively re-run validation. */
+  @Method()
+  async validate(trigger: AegovValidationTrigger = 'manual'): Promise<AegovValidationResult> {
+    return this.runAndEmitValidation(trigger);
+  }
+
+  /** Mirror of HTMLInputElement.setCustomValidity(). */
+  @Method()
+  async setCustomValidity(message: string): Promise<void> {
+    this.errorMessage = message;
+    this.isInvalid = !!message;
+    if (this.internals) {
+      if (message) {
+        setInternalsValidity(
+          this.internals,
+          synthesizeValidity({ customError: true }),
+          message,
+          this.inputEl,
+        );
+      } else {
+        setInternalsValidity(this.internals, { valid: true }, '');
+      }
+    }
+  }
+
+  private computeValidity(transientFlags: Partial<AegovValidityState> = {}): { validity: AegovValidityState; message: string } {
+    if (this.isRequired && this.selectedFiles.length === 0) {
+      return { validity: synthesizeValidity({ valueMissing: true, ...transientFlags }), message: this.errorMessage || this.t.required };
+    }
+    if (Object.keys(transientFlags).length > 0) {
+      return { validity: synthesizeValidity(transientFlags), message: this.errorMessage || this.t.invalidFile };
+    }
+    return { validity: synthesizeValidity({}), message: '' };
+  }
+
+  private runValidationSync(transientFlags: Partial<AegovValidityState> = {}, transientMessage = '') {
+    const { validity, message } = this.computeValidity(transientFlags);
+    const finalMessage = transientMessage || message;
+    setInternalsValidity(this.internals, validity, finalMessage, this.inputEl);
+    try {
+      if (this.internals && typeof this.internals.setFormValue === 'function') {
+        // Build FormData payload — one entry per file (gap §7.3 canonical form)
+        const fd = new FormData();
+        if (this.name) {
+          for (const f of this.selectedFiles) fd.append(this.name, f);
+        }
+        this.internals.setFormValue(fd);
+      }
+    } catch {
+      // jsdom mock — ignore
+    }
+  }
+
+  private async runAndEmitValidation(trigger: AegovValidationTrigger): Promise<AegovValidationResult> {
+    this.runValidationSync();
+    const { validity, message } = this.computeValidity();
+    this.aegovValidate.emit(buildValidationDetail<File[]>(
+      this.el as unknown as HTMLElement & { name?: string },
+      [...this.selectedFiles], validity, message, this.errorMessage || null, trigger,
+    ));
+    return { valid: validity.valid, message, validity };
+  }
+
+  private emitValidateChange(transientFlags: Partial<AegovValidityState> = {}, transientMessage = '') {
+    const { validity, message } = this.computeValidity(transientFlags);
+    const finalMessage = transientMessage || message;
+    this.aegovValidate.emit(buildValidationDetail<File[]>(
+      this.el as unknown as HTMLElement & { name?: string },
+      [...this.selectedFiles], validity, finalMessage, this.errorMessage || null, 'change',
+    ));
   }
 
   private triggerFileDialog() {
-    if (!this.disabled && this.inputEl) {
+    if (!this.isDisabled && this.inputEl) {
       this.inputEl.click();
     }
   }
@@ -142,35 +355,30 @@ export class AegovFileupload {
   private processFiles(newFiles: File[]) {
     const validFiles: File[] = [];
 
+    let pendingFlag: Partial<AegovValidityState> = {};
+    let pendingMessage = '';
+
     for (const file of newFiles) {
       if (this.accept && !this.isValidFileType(file)) {
-        this.aegovFileuploadError.emit({
-          type: 'invalid-type',
-          file,
-          message: `File "${file.name}" is not an allowed type.`,
-        });
+        pendingFlag = { typeMismatch: true };
+        pendingMessage = this.t.notAllowedType(file.name);
         continue;
       }
 
       if (this.maxFileSize && file.size > this.maxFileSize) {
-        this.aegovFileuploadError.emit({
-          type: 'max-size',
-          file,
-          message: `File "${file.name}" exceeds the maximum size of ${this.formatFileSize(this.maxFileSize)}.`,
-        });
+        pendingFlag = { tooLong: true };
+        pendingMessage = this.t.exceedsMaxSize(file.name, this.formatFileSize(this.maxFileSize));
         continue;
       }
 
       validFiles.push(file);
     }
 
-    if (this.variant === 'default') {
+    if (this.appearance === 'default') {
       // Default replaces selection each time
       if (this.maxFiles && validFiles.length > this.maxFiles) {
-        this.aegovFileuploadError.emit({
-          type: 'max-files',
-          message: `Maximum ${this.maxFiles} file${this.maxFiles > 1 ? 's' : ''} allowed.`,
-        });
+        pendingFlag = { customError: true };
+        pendingMessage = this.t.maxFiles(this.maxFiles);
         this.selectedFiles = validFiles.slice(0, this.maxFiles);
       } else {
         this.selectedFiles = validFiles;
@@ -180,10 +388,8 @@ export class AegovFileupload {
       const combined = [...this.selectedFiles, ...validFiles];
 
       if (this.maxFiles && combined.length > this.maxFiles) {
-        this.aegovFileuploadError.emit({
-          type: 'max-files',
-          message: `Maximum ${this.maxFiles} file${this.maxFiles > 1 ? 's' : ''} allowed.`,
-        });
+        pendingFlag = { customError: true };
+        pendingMessage = this.t.maxFiles(this.maxFiles);
         const slotsAvailable = this.maxFiles - this.selectedFiles.length;
         if (slotsAvailable > 0) {
           this.selectedFiles = [...this.selectedFiles, ...validFiles.slice(0, slotsAvailable)];
@@ -194,6 +400,13 @@ export class AegovFileupload {
     }
 
     this.aegovFileuploadChange.emit({ files: [...this.selectedFiles] });
+    // Map all transient validation issues into the unified aegovValidate event (replaces aegovFileuploadError)
+    this.runValidationSync(pendingFlag, pendingMessage);
+    this.emitValidateChange(pendingFlag, pendingMessage);
+    if (Object.keys(pendingFlag).length > 0) {
+      this.isInvalid = true;
+      if (pendingMessage) this.errorMessage = pendingMessage;
+    }
   }
 
   private removeFile(index: number) {
@@ -202,6 +415,8 @@ export class AegovFileupload {
     this.selectedFiles = remaining;
     this.aegovFileuploadRemove.emit({ file: removed, remaining: [...remaining] });
     this.aegovFileuploadChange.emit({ files: [...remaining] });
+    this.runValidationSync();
+    this.emitValidateChange();
   }
 
   private isValidFileType(file: File): boolean {
@@ -219,41 +434,43 @@ export class AegovFileupload {
   }
 
   private formatFileSize(bytes: number): string {
-    if (bytes === 0) return '0 B';
+    const t = this.t;
+    if (bytes === 0) return t.zeroBytes;
     const k = 1024;
-    const sizes = ['B', 'KB', 'MB', 'GB'];
     const i = Math.floor(Math.log(bytes) / Math.log(k));
-    return parseFloat((bytes / Math.pow(k, i)).toFixed(1)) + ' ' + sizes[i];
+    return parseFloat((bytes / Math.pow(k, i)).toFixed(1)) + ' ' + t.sizeUnits[i];
   }
 
   private getDisplayText(): string {
-    if (this.selectedFiles.length === 0) return 'No file chosen';
+    if (this.selectedFiles.length === 0) return this.t.noFileChosen;
     if (this.selectedFiles.length === 1) return this.selectedFiles[0].name;
-    return `${this.selectedFiles.length} files selected`;
+    return this.t.filesSelected(this.selectedFiles.length);
   }
 
   private getHelperText(): string {
-    if (this.helperText) return this.helperText;
+    if (this.labelHelp) return this.labelHelp;
     if (!this.accept) return '';
-    const types = this.accept.split(',').map(t => t.trim());
-    const labels = types.map(t => {
-      if (t.startsWith('.')) return t.substring(1).toUpperCase();
-      if (t === 'image/*') return 'Images';
-      if (t === 'video/*') return 'Videos';
-      if (t === 'audio/*') return 'Audio';
-      if (t === 'application/pdf') return 'PDF';
-      return t;
+    const t = this.t;
+    const types = this.accept.split(',').map(s => s.trim());
+    const labels = types.map(s => {
+      if (s.startsWith('.')) return s.substring(1).toUpperCase();
+      if (s === 'image/*') return t.images;
+      if (s === 'video/*') return t.videos;
+      if (s === 'audio/*') return t.audio;
+      if (s === 'application/pdf') return t.pdf;
+      return s;
     });
-    return `Allowed: ${labels.join(', ')}`;
+    return t.allowed(labels.join(', '));
   }
 
   private getDefaultButtonText(): string {
-    if (this.buttonText) return this.buttonText;
-    switch (this.variant) {
-      case 'default': return 'Browse';
-      case 'button': return this.multiple ? 'Choose Files' : 'Choose File';
-      case 'dropzone': return 'Browse Files';
-      default: return 'Browse';
+    if (this.labelButton) return this.labelButton;
+    const t = this.t;
+    switch (this.appearance) {
+      case 'default': return t.browse;
+      case 'button': return this.isMultiple ? t.chooseFiles : t.chooseFile;
+      case 'dropzone': return t.browseFiles;
+      default: return t.browse;
     }
   }
 
@@ -262,7 +479,7 @@ export class AegovFileupload {
   private handleDragOver = (e: DragEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    if (!this.disabled) {
+    if (!this.isDisabled) {
       this.isDragOver = true;
     }
   };
@@ -277,10 +494,10 @@ export class AegovFileupload {
     e.preventDefault();
     e.stopPropagation();
     this.isDragOver = false;
-    if (this.disabled || !e.dataTransfer?.files) return;
+    if (this.isDisabled || !e.dataTransfer?.files) return;
 
     const files = Array.from(e.dataTransfer.files);
-    const filesToProcess = this.multiple ? files : [files[0]];
+    const filesToProcess = this.isMultiple ? files : [files[0]];
     this.processFiles(filesToProcess);
   };
 
@@ -291,14 +508,18 @@ export class AegovFileupload {
     return (
       <label class="fileupload__label" {...{ for: this.fieldId }}>
         {this.label}
-        {this.required && <span class="fileupload__required" aria-hidden="true"> *</span>}
+        {this.isRequired && <span class="fileupload__required" aria-hidden="true"> *</span>}
       </label>
     );
   }
 
-  private renderDescription() {
-    if (!this.description) return null;
-    return <p class="fileupload__description">{this.description}</p>;
+  private renderHint(showHint: boolean, hasHintSlot: boolean) {
+    if (!showHint) return null;
+    return (
+      <p id={this.hintId} class="fileupload__hint">
+        {hasHintSlot ? <slot name="hint" /> : this.hint}
+      </p>
+    );
   }
 
   private renderHelperText() {
@@ -321,7 +542,7 @@ export class AegovFileupload {
         type="button"
         class="fileupload__remove-btn"
         onClick={() => this.removeFile(index)}
-        aria-label={`Remove ${fileName}`}
+        aria-label={this.t.remove(fileName)}
       >
         <svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
           <path d="M6.28 5.22a.75.75 0 0 0-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 1 0 1.06 1.06L10 11.06l3.72 3.72a.75.75 0 1 0 1.06-1.06L11.06 10l3.72-3.72a.75.75 0 0 0-1.06-1.06L10 8.94 6.28 5.22Z" />
@@ -365,19 +586,20 @@ export class AegovFileupload {
 
   // --- Variant renderers ---
 
-  private renderDefault() {
+  private renderDefault(passThroughAttrs: Record<string, string>) {
     const helperText = this.getHelperText();
     return (
       <div class="fileupload__input-wrapper" onClick={() => this.triggerFileDialog()}>
         <input
           type="file"
           ref={(el) => this.inputEl = el as HTMLInputElement}
+          {...passThroughAttrs}
           id={this.fieldId}
           name={this.name}
           accept={this.accept}
-          multiple={this.multiple}
-          disabled={this.disabled}
-          required={this.required}
+          multiple={this.isMultiple}
+          disabled={this.isDisabled}
+          required={this.isRequired}
           class="fileupload__native-input"
           onChange={this.handleFileChange}
           aria-describedby={helperText ? `${this.fieldId}-helper` : undefined}
@@ -392,36 +614,39 @@ export class AegovFileupload {
     );
   }
 
-  private renderButton() {
+  private renderButton(passThroughAttrs: Record<string, string>) {
     return [
       <input
         type="file"
         ref={(el) => this.inputEl = el as HTMLInputElement}
+        {...passThroughAttrs}
         id={this.fieldId}
         name={this.name}
         accept={this.accept}
-        multiple={this.multiple}
-        disabled={this.disabled}
-        required={this.required}
+        multiple={this.isMultiple}
+        disabled={this.isDisabled}
+        required={this.isRequired}
         class="fileupload__hidden-input"
         onChange={this.handleFileChange}
         tabIndex={-1}
         aria-hidden="true"
       />,
-      <button
-        type="button"
+      <aegov-button
         class="fileupload__trigger-btn"
+        variant={this.variant}
+        size={this._resolvedSize}
+        appearance="solid"
+        is-disabled={this.isDisabled}
         onClick={() => this.triggerFileDialog()}
-        disabled={this.disabled}
       >
         {this.renderBtnUploadIcon()}
         {this.getDefaultButtonText()}
-      </button>,
+      </aegov-button>,
       this.renderFileList(),
     ];
   }
 
-  private renderDropzone() {
+  private renderDropzone(passThroughAttrs: Record<string, string>) {
     const dropzoneClasses = [
       'fileupload__dropzone',
       this.isDragOver ? 'fileupload__dropzone--dragover' : '',
@@ -431,12 +656,13 @@ export class AegovFileupload {
       <input
         type="file"
         ref={(el) => this.inputEl = el as HTMLInputElement}
+        {...passThroughAttrs}
         id={this.fieldId}
         name={this.name}
         accept={this.accept}
-        multiple={this.multiple}
-        disabled={this.disabled}
-        required={this.required}
+        multiple={this.isMultiple}
+        disabled={this.isDisabled}
+        required={this.isRequired}
         class="fileupload__hidden-input"
         onChange={this.handleFileChange}
         tabIndex={-1}
@@ -451,16 +677,18 @@ export class AegovFileupload {
         <div class="fileupload__drop-prompt">
           {this.renderUploadIcon()}
           <p class="fileupload__drop-text">
-            Drag and drop {this.multiple ? 'files' : 'a file'} here, or
+            {this.t.dragAndDrop(this.isMultiple)}
           </p>
-          <button
-            type="button"
+          <aegov-button
             class="fileupload__dropzone-btn"
+            variant={this.variant}
+            size={this._resolvedSize}
+            appearance="outline"
+            is-disabled={this.isDisabled}
             onClick={() => this.triggerFileDialog()}
-            disabled={this.disabled}
           >
             {this.getDefaultButtonText()}
-          </button>
+          </aegov-button>
         </div>
         {this.renderFileList()}
       </div>,
@@ -468,22 +696,46 @@ export class AegovFileupload {
   }
 
   render() {
+    const appearance: FileuploadVariant = (FILEUPLOAD_VARIANTS as readonly string[]).includes(this.appearance) ? this.appearance : 'default';
+    const variant: FormVariant = (FORM_VARIANTS as readonly string[]).includes(this.variant) ? this.variant : 'primary';
     const classes = [
       'aegov-fileupload',
-      `fileupload--${this.variant}`,
-      `fileupload--${this.size}`,
-      this.disabled ? 'fileupload--disabled' : '',
+      `fileupload--${appearance}`,
+      `fileupload--${this._resolvedSize}`,
+      `fileupload-variant-${variant}`,
+      this.isDisabled ? 'fileupload--disabled' : '',
     ].filter(Boolean).join(' ');
+    const passThroughAttrs = getPassThroughAttributes(this.el, AegovFileupload.PASS_THROUGH_ATTRS);
+    delete passThroughAttrs['aria-invalid'];
+    delete passThroughAttrs['aria-describedby'];
+
+    const hasErrorSlot = !!this.el.querySelector('[slot="error"]');
+    const hasHintSlot = !!this.el.querySelector('[slot="hint"]');
+    const showError = this.isInvalid && (hasErrorSlot || !!this.errorMessage);
+    const showHint = !showError && (hasHintSlot || !!this.hint);
+    const announceError = showError && this.hasBlurredOnce;
+
+    const errorRegion = showError ? (
+      <div
+        id={this.errorId}
+        class="aegov-fileupload__error"
+        role={announceError ? 'alert' : null}
+        aria-live={announceError ? 'polite' : null}
+      >
+        {hasErrorSlot ? <slot name="error" /> : this.errorMessage}
+      </div>
+    ) : null;
 
     return (
-      <Host>
+      <Host class={{ 'is-invalid': this.isInvalid }}>
         <div class={classes}>
           {this.renderLabel()}
-          {this.renderDescription()}
-          {this.variant === 'default' && this.renderDefault()}
-          {this.variant === 'button' && this.renderButton()}
-          {this.variant === 'dropzone' && this.renderDropzone()}
+          {this.renderHint(showHint, hasHintSlot)}
+          {appearance === 'default' && this.renderDefault(passThroughAttrs)}
+          {appearance === 'button' && this.renderButton(passThroughAttrs)}
+          {appearance === 'dropzone' && this.renderDropzone(passThroughAttrs)}
           {this.renderHelperText()}
+          {errorRegion}
         </div>
       </Host>
     );

@@ -30,19 +30,25 @@
    ======================================== */
 .toggle__track {
   @apply relative inline-flex items-center shrink-0 rounded-full
-         bg-aeblack-200
-         transition-colors duration-200 ease-in-out cursor-pointer;
+         bg-aeblack-100
+         transition-colors duration-200 ease-in-out cursor-pointer
+         dark:bg-aeblack-700;
 }
 
-/* Checked track */
-.toggle__input:checked + .toggle__track {
-  @apply bg-primary-600;
-}
+/* Checked track — colour from variant */
+.aegov-toggle.toggle-variant-primary .toggle__input:checked + .toggle__track { @apply bg-primary-600 dark:bg-primary-500; }
+.aegov-toggle.toggle-variant-secondary .toggle__input:checked + .toggle__track { @apply bg-secondary-600 dark:bg-secondary-500; }
+.aegov-toggle.toggle-variant-neutral-max .toggle__input:checked + .toggle__track { @apply bg-aeblack-800 dark:bg-aeblack-300; }
+.aegov-toggle.toggle-variant-neutral-min .toggle__input:checked + .toggle__track { @apply bg-aeblack-300 dark:bg-aeblack-500; }
 
 /* Focus ring */
 .toggle__input:focus-visible + .toggle__track {
-  @apply outline-2 outline-offset-2 outline-primary-support-600;
+  @apply outline-2 outline-offset-2;
 }
+.aegov-toggle.toggle-variant-primary .toggle__input:focus-visible + .toggle__track { @apply outline-primary-support-600 dark:outline-primary-support-400; }
+.aegov-toggle.toggle-variant-secondary .toggle__input:focus-visible + .toggle__track { @apply outline-secondary-support-600 dark:outline-secondary-support-400; }
+.aegov-toggle.toggle-variant-neutral-max .toggle__input:focus-visible + .toggle__track { @apply outline-seablue-600 dark:outline-seablue-400; }
+.aegov-toggle.toggle-variant-neutral-min .toggle__input:focus-visible + .toggle__track { @apply outline-seablue-600 dark:outline-seablue-400; }
 
 /* Disabled */
 .toggle__input:disabled + .toggle__track {
@@ -85,10 +91,14 @@
   @apply text-aeblack-500;
 }
 
-.toggle__input:checked + .toggle__track .toggle__icon-item svg,
-.toggle__input:checked + .toggle__track .toggle__icon-item img {
-  @apply text-primary-600;
-}
+.aegov-toggle.toggle-variant-primary .toggle__input:checked + .toggle__track .toggle__icon-item svg,
+.aegov-toggle.toggle-variant-primary .toggle__input:checked + .toggle__track .toggle__icon-item img { @apply text-primary-600; }
+.aegov-toggle.toggle-variant-secondary .toggle__input:checked + .toggle__track .toggle__icon-item svg,
+.aegov-toggle.toggle-variant-secondary .toggle__input:checked + .toggle__track .toggle__icon-item img { @apply text-secondary-600; }
+.aegov-toggle.toggle-variant-neutral-max .toggle__input:checked + .toggle__track .toggle__icon-item svg,
+.aegov-toggle.toggle-variant-neutral-max .toggle__input:checked + .toggle__track .toggle__icon-item img { @apply text-aeblack-800; }
+.aegov-toggle.toggle-variant-neutral-min .toggle__input:checked + .toggle__track .toggle__icon-item svg,
+.aegov-toggle.toggle-variant-neutral-min .toggle__input:checked + .toggle__track .toggle__icon-item img { @apply text-aeblack-800; }
 
 /* ========================================
    Label wrapper
@@ -106,11 +116,52 @@
 }
 
 .toggle__label-text {
-  @apply text-aeblack-800;
+  @apply text-aeblack-800 dark:text-whitely-100;
 }
 
-.toggle__description {
-  @apply text-aeblack-500;
+.toggle__hint {
+  @apply text-aeblack-500 dark:text-aeblack-400;
+}
+
+/* ========================================
+   Size: xs
+   Track: 26×11, Thumb: 16×16
+   Thumb protrudes 2.5px above and below track
+   ======================================== */
+.toggle--xs .toggle__control {
+  min-height: 16px;
+}
+
+.toggle--xs .toggle__track {
+  width: 26px;
+  height: 11px;
+}
+
+.toggle--xs .toggle__thumb {
+  width: 16px;
+  height: 16px;
+  top: 50%;
+  transform: translateX(0px) translateY(-50%);
+}
+
+.toggle--xs .toggle__input:checked + .toggle__track .toggle__thumb {
+  transform: translateX(10px) translateY(-50%);
+}
+
+.toggle--xs .toggle__icon {
+  @apply w-2 h-2;
+}
+
+.toggle--xs .toggle__wrapper {
+  @apply gap-1.5;
+}
+
+.toggle--xs .toggle__label-text {
+  @apply text-xs leading-4;
+}
+
+.toggle--xs .toggle__hint {
+  @apply text-xs mt-0.5;
 }
 
 /* ========================================
@@ -150,7 +201,7 @@
   @apply text-sm leading-5;
 }
 
-.toggle--sm .toggle__description {
+.toggle--sm .toggle__hint {
   @apply text-xs mt-0.5;
 }
 
@@ -191,7 +242,7 @@
   @apply text-base leading-6;
 }
 
-.toggle--base .toggle__description {
+.toggle--base .toggle__hint {
   @apply text-sm mt-1;
 }
 
@@ -232,13 +283,64 @@
   @apply text-lg leading-7;
 }
 
-.toggle--lg .toggle__description {
+.toggle--lg .toggle__hint {
   @apply text-base mt-1;
+}
+
+/* ========================================
+   Size: xl
+   Track: 56×26, Thumb: 32×32
+   Thumb protrudes 3px above and below track
+   ======================================== */
+.toggle--xl .toggle__control {
+  min-height: 32px;
+}
+
+.toggle--xl .toggle__track {
+  width: 56px;
+  height: 26px;
+}
+
+.toggle--xl .toggle__thumb {
+  width: 32px;
+  height: 32px;
+  top: 50%;
+  transform: translateX(0px) translateY(-50%);
+}
+
+.toggle--xl .toggle__input:checked + .toggle__track .toggle__thumb {
+  transform: translateX(24px) translateY(-50%);
+}
+
+.toggle--xl .toggle__icon {
+  @apply w-4 h-4;
+}
+
+.toggle--xl .toggle__wrapper {
+  @apply gap-4;
+}
+
+.toggle--xl .toggle__label-text {
+  @apply text-xl leading-8;
+}
+
+.toggle--xl .toggle__hint {
+  @apply text-lg mt-1;
 }
 
 /* ========================================
    RTL support
    ======================================== */
+[dir="rtl"] .toggle--xs .toggle__thumb,
+:dir(rtl) .toggle--xs .toggle__thumb {
+  transform: translateX(0px) translateY(-50%);
+}
+
+[dir="rtl"] .toggle--xs .toggle__input:checked + .toggle__track .toggle__thumb,
+:dir(rtl) .toggle--xs .toggle__input:checked + .toggle__track .toggle__thumb {
+  transform: translateX(-10px) translateY(-50%);
+}
+
 [dir="rtl"] .toggle--sm .toggle__thumb,
 :dir(rtl) .toggle--sm .toggle__thumb {
   transform: translateX(0px) translateY(-50%);
@@ -267,4 +369,24 @@
 [dir="rtl"] .toggle--lg .toggle__input:checked + .toggle__track .toggle__thumb,
 :dir(rtl) .toggle--lg .toggle__input:checked + .toggle__track .toggle__thumb {
   transform: translateX(-20px) translateY(-50%);
+}
+
+[dir="rtl"] .toggle--xl .toggle__thumb,
+:dir(rtl) .toggle--xl .toggle__thumb {
+  transform: translateX(0px) translateY(-50%);
+}
+
+[dir="rtl"] .toggle--xl .toggle__input:checked + .toggle__track .toggle__thumb,
+:dir(rtl) .toggle--xl .toggle__input:checked + .toggle__track .toggle__thumb {
+  transform: translateX(-24px) translateY(-50%);
+}
+
+/* Validation surface (Layer 1) — see validation-engine-addon.md §2.6 */
+
+aegov-toggle.is-invalid .toggle__track {
+  @apply ring-2 ring-aered-600 dark:ring-aered-500;
+}
+
+.aegov-toggle__error {
+  @apply text-sm text-aered-600 mt-1.5 flex items-start gap-1.5 leading-snug dark:text-aered-400;
 }

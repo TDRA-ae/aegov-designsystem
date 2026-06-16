@@ -18,14 +18,18 @@
 /* Base select styles - matches aegov-input */
 .aegov-select {
   font-family: inherit;
-  @apply relative text-primary-900 w-full border-0 bg-transparent leading-6
-         focus:ring-0 motion-reduce:transition-none
+  @apply relative w-full bg-transparent leading-6
+         motion-reduce:transition-none
          disabled:pointer-events-none disabled:cursor-not-allowed
          disabled:select-none disabled:opacity-40
          rounded-lg focus:outline-none cursor-pointer;
-  @apply placeholder:text-aeblack-500 bg-whitely-50
-         inset-ring-2 inset-ring-primary-400
-         focus:inset-ring-primary-support-600;
+  @apply placeholder:text-aeblack-300 bg-whitely-50
+         border-2
+         focus-visible:ring-2
+         focus-visible:ring-offset-1
+         focus-visible:ring-primary-support-500
+         dark:placeholder:text-aeblack-500 dark:bg-aeblack-800
+         dark:focus-visible:ring-primary-support-400;
   /* Custom arrow for native select */
   appearance: none;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%234b4f58' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
@@ -34,22 +38,56 @@
   background-size: 20px 20px;
 }
 
+/* Dark mode arrow — lighter stroke for legibility on dark bg */
+.dark .aegov-select {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%23b9bbc1' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+}
+
+/* Variant — idle border + value text per colour family (mirrors aegov-input pattern) */
+.aegov-select.select-variant-primary       { @apply border-primary-600 text-primary-900 dark:border-primary-400 dark:text-whitely-100; }
+.aegov-select.select-variant-secondary     { @apply border-secondary-600 text-secondary-900 dark:border-secondary-400 dark:text-whitely-100; }
+.aegov-select.select-variant-neutral-max   { @apply border-aeblack-800 text-aeblack-950 dark:border-aeblack-300 dark:text-whitely-100; }
+.aegov-select.select-variant-neutral-min   { @apply border-aeblack-300 text-aeblack-700 dark:border-aeblack-600 dark:text-aeblack-200; }
+
+/* Focus ring — overrides variant idle border. Per-variant selector beats variant specificity. */
+.aegov-select.select-variant-primary:focus {
+  @apply ring-1 ring-offset-2 ring-primary-support-500 border-2 border-primary-support-500
+         dark:ring-primary-support-400 dark:border-primary-support-400;
+}
+.aegov-select.select-variant-secondary:focus {
+  @apply ring-1 ring-offset-2 ring-secondary-support-500 border-2 border-secondary-support-500
+         dark:ring-secondary-support-400 dark:border-secondary-support-400;
+}
+.aegov-select.select-variant-neutral-max:focus,
+.aegov-select.select-variant-neutral-min:focus {
+  @apply ring-1 ring-offset-2 ring-seablue-500 border-2 border-seablue-500
+         dark:ring-seablue-400 dark:border-seablue-400;
+}
+
 :host-context([dir="rtl"]) .aegov-select,
 [dir="rtl"] .aegov-select {
   background-position: left 0.5rem center;
 }
 
 /* Size variants - matches aegov-input heights */
+.select--xs {
+  @apply text-sm py-1.5 px-2.5 h-9;
+}
+
 .select--sm {
   @apply text-sm py-2 px-3 h-10;
 }
 
 .select--base {
-  @apply text-base py-3 px-4 h-12;
+  @apply text-base py-2.5 px-3.5 h-11;
 }
 
 .select--lg {
-  @apply text-lg py-3.5 px-5 h-13;
+  @apply text-lg py-3 px-4 h-12;
+}
+
+.select--xl {
+  @apply text-lg py-3.5 px-4.5 h-13;
 }
 
 /* ============================================
@@ -64,12 +102,14 @@ button.aegov-select {
 }
 
 .select--placeholder .select__value {
-  @apply text-aeblack-500;
+  @apply text-aeblack-500 dark:text-aeblack-400;
 }
 
-.select--open {
-  @apply inset-ring-primary-support-600;
-}
+/* Open state — variant-aware border swap to support colour (mirrors focus). */
+.aegov-select.select-variant-primary.select--open       { @apply border-primary-support-500 dark:border-primary-support-400; }
+.aegov-select.select-variant-secondary.select--open     { @apply border-secondary-support-500 dark:border-secondary-support-400; }
+.aegov-select.select-variant-neutral-max.select--open,
+.aegov-select.select-variant-neutral-min.select--open   { @apply border-seablue-500 dark:border-seablue-400; }
 
 .select--disabled {
   @apply opacity-40 pointer-events-none cursor-not-allowed;
@@ -86,12 +126,13 @@ button.aegov-select {
 .select__clear {
   @apply flex items-center justify-center w-5 h-5 rounded
          text-aeblack-500 hover:text-primary-700 hover:bg-primary-50
-         cursor-pointer transition-colors duration-200;
+         cursor-pointer transition-colors duration-200
+         dark:text-aeblack-400 dark:hover:text-primary-300 dark:hover:bg-primary-900/30;
 }
 
 .select__arrow {
   @apply flex items-center justify-center text-aeblack-600
-         transition-transform duration-200;
+         transition-transform duration-200 dark:text-aeblack-300;
 }
 
 .select__arrow--open {
@@ -109,7 +150,8 @@ button.aegov-select {
 .select__listbox {
   @apply absolute z-50 w-full bg-white rounded-lg
          shadow-lg flex flex-col
-         inset-ring-1 inset-ring-aeblack-200;
+         inset-ring-1 inset-ring-aeblack-200
+         dark:bg-aeblack-900 dark:inset-ring-aeblack-700;
   animation: selectSlideIn 150ms ease-out;
 }
 
@@ -134,14 +176,20 @@ button.aegov-select {
 
 /* Search input inside dropdown */
 .select__search {
-  @apply p-1 border-b border-aeblack-200;
+  @apply p-1 border-b border-aeblack-200 dark:border-aeblack-700;
 }
 
 .select__search-input {
   @apply w-full border-0 bg-whitely-50
          text-primary-900 placeholder:text-aeblack-400
          focus:outline-none focus:ring-0
-         focus:inset-ring-primary-400;
+         focus:inset-ring-primary-400
+         dark:bg-aeblack-800 dark:text-whitely-100 dark:placeholder:text-aeblack-500
+         dark:focus:inset-ring-primary-400;
+}
+
+.select__search-input--xs {
+  @apply text-xs py-1 px-2;
 }
 
 .select__search-input--sm {
@@ -156,6 +204,10 @@ button.aegov-select {
   @apply text-base py-2.5 px-3;
 }
 
+.select__search-input--xl {
+  @apply text-base py-3 px-3.5;
+}
+
 /* Options container */
 .select__options {
   @apply overflow-y-auto py-1 flex-1 min-h-0;
@@ -165,7 +217,12 @@ button.aegov-select {
 .select__option {
   @apply flex items-center gap-2 cursor-pointer
          text-primary-900 transition-colors duration-100
-         select-none;
+         select-none dark:text-whitely-100;
+}
+
+.select__option--xs {
+  @apply text-sm px-2.5 py-1;
+  min-height: 32px;
 }
 
 .select__option--sm {
@@ -180,23 +237,28 @@ button.aegov-select {
 
 .select__option--lg {
   @apply text-lg px-4 py-2.5;
+  min-height: 44px;
+}
+
+.select__option--xl {
+  @apply text-lg px-4 py-3;
   min-height: 48px;
 }
 
 .select__option:hover:not(.select__option--disabled) {
-  @apply bg-aeblack-50;
+  @apply bg-aeblack-50 dark:bg-aeblack-800;
 }
 
 .select__option--focused:not(.select__option--disabled) {
-  @apply bg-aeblack-50;
+  @apply bg-aeblack-50 dark:bg-aeblack-800;
 }
 
 .select__option--selected {
-  @apply text-primary-700 font-medium;
+  @apply text-primary-700 font-medium dark:text-primary-300;
 }
 
 .select__option--selected:hover:not(.select__option--disabled) {
-  @apply bg-aeblack-50;
+  @apply bg-aeblack-50 dark:bg-aeblack-800;
 }
 
 .select__option--disabled {
@@ -206,18 +268,48 @@ button.aegov-select {
 /* Checkbox for multiple select */
 .select__checkbox {
   @apply flex items-center justify-center w-4 h-4 rounded
-         border-2 border-primary-400 flex-shrink-0
+         border-2 flex-shrink-0
          text-white;
 }
 
+/* Variant — checkbox border / fill + check icon per colour family.
+   Note: dropdown listbox is a sibling under document.body in some setups; we
+   address it via descendant rules from the host trigger when in same tree.
+   Selectors here match listbox rendered next to trigger inside the same host. */
+.aegov-select.select-variant-primary ~ .select__listbox .select__checkbox,
+.aegov-select.select-variant-primary .select__checkbox       { @apply border-primary-400 dark:border-primary-500; }
+.aegov-select.select-variant-secondary ~ .select__listbox .select__checkbox,
+.aegov-select.select-variant-secondary .select__checkbox     { @apply border-secondary-400 dark:border-secondary-500; }
+.aegov-select.select-variant-neutral-max ~ .select__listbox .select__checkbox,
+.aegov-select.select-variant-neutral-max .select__checkbox   { @apply border-aeblack-400 dark:border-aeblack-500; }
+.aegov-select.select-variant-neutral-min ~ .select__listbox .select__checkbox,
+.aegov-select.select-variant-neutral-min .select__checkbox   { @apply border-aeblack-200 dark:border-aeblack-600; }
+
+/* Use :host scoping for listbox styling per variant via host class */
+:host(.select-variant-primary) .select__option--selected .select__checkbox       { @apply bg-primary-600 border-primary-600 dark:bg-primary-500 dark:border-primary-500; }
+:host(.select-variant-secondary) .select__option--selected .select__checkbox     { @apply bg-secondary-600 border-secondary-600 dark:bg-secondary-500 dark:border-secondary-500; }
+:host(.select-variant-neutral-max) .select__option--selected .select__checkbox   { @apply bg-aeblack-800 border-aeblack-800 dark:bg-aeblack-300 dark:border-aeblack-300; }
+:host(.select-variant-neutral-min) .select__option--selected .select__checkbox   { @apply bg-aeblack-800 border-aeblack-800 dark:bg-aeblack-300 dark:border-aeblack-300; }
+
+/* Default fallback */
 .select__option--selected .select__checkbox {
-  @apply bg-primary-600 border-primary-600;
+  @apply bg-primary-600 border-primary-600 dark:bg-primary-500 dark:border-primary-500;
 }
 
 /* Checkmark icon for single select */
 .select__check-icon {
-  @apply text-primary-600 flex-shrink-0 ms-auto;
+  @apply text-primary-600 flex-shrink-0 ms-auto dark:text-primary-300;
 }
+
+:host(.select-variant-primary) .select__check-icon       { @apply text-primary-600 dark:text-primary-300; }
+:host(.select-variant-secondary) .select__check-icon     { @apply text-secondary-600 dark:text-secondary-300; }
+:host(.select-variant-neutral-max) .select__check-icon   { @apply text-aeblack-800 dark:text-whitely-100; }
+:host(.select-variant-neutral-min) .select__check-icon   { @apply text-aeblack-800 dark:text-whitely-100; }
+
+:host(.select-variant-primary) .select__option--selected       { @apply text-primary-700 dark:text-primary-300; }
+:host(.select-variant-secondary) .select__option--selected     { @apply text-secondary-700 dark:text-secondary-300; }
+:host(.select-variant-neutral-max) .select__option--selected   { @apply text-aeblack-900 dark:text-whitely-100; }
+:host(.select-variant-neutral-min) .select__option--selected   { @apply text-aeblack-900 dark:text-whitely-100; }
 
 .select__option-label {
   @apply truncate flex-1;
@@ -226,7 +318,7 @@ button.aegov-select {
 /* Group label */
 .select__group-label {
   @apply text-xs font-semibold uppercase tracking-wider
-         text-aeblack-400 px-3 pt-6 pb-2;
+         text-aeblack-400 px-3 pt-6 pb-2 dark:text-aeblack-300;
 }
 
 .select__group-label:first-child {
@@ -235,5 +327,27 @@ button.aegov-select {
 
 /* Empty state */
 .select__empty {
-  @apply text-sm text-aeblack-500 px-3 py-4 text-center;
+  @apply text-sm text-aeblack-500 px-3 py-4 text-center dark:text-aeblack-400;
+}
+
+/* Validation surface (Layer 1) — see validation-engine-addon.md §2.6 */
+
+/* Invalid idle — red border (mirrors aegov-input pattern). */
+aegov-select.is-invalid .aegov-select,
+aegov-select.is-invalid .select__trigger {
+  @apply border-aered-600 dark:border-aered-500;
+}
+
+/* Invalid + focus — red ring with offset (mirrors aegov-input). */
+aegov-select.is-invalid .aegov-select:focus,
+aegov-select.is-invalid .select__trigger:focus {
+  @apply ring-1 ring-offset-2 ring-aered-500 dark:ring-aered-400 border-2 border-aered-500 dark:border-aered-400;
+}
+
+.aegov-select__error {
+  @apply text-sm text-aered-600 mt-1.5 flex items-start gap-1.5 leading-snug dark:text-aered-400;
+}
+
+.aegov-select__hint {
+  @apply text-sm text-aeblack-600 mt-1.5 leading-snug dark:text-aeblack-300;
 }

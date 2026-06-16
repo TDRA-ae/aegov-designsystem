@@ -18,6 +18,13 @@
     @apply ring-2;
     --tw-ring-color: var(--avatar-group-ring-color, white);
   }
+}
+
+.dark .avatar-group--compact > aegov-avatar:not(:first-child) .aegov-avatar {
+  --tw-ring-color: var(--avatar-group-ring-color, var(--color-aeblack-900));
+}
+
+.avatar-group--compact {
 
   /* Size-specific negative margins for compact overlap */
   &.avatar-group--xs > aegov-avatar:not(:first-child) {
@@ -66,18 +73,34 @@
   }
 }
 
-/* "More" indicator button styled like an avatar */
+/* "More" indicator button styled like an avatar.
+ *
+ * The global `button` rule (global.css @layer base) adds:
+ *   flex-wrap  — can wrap "99+" to two lines at tiny sizes, shifting the
+ *                visual centre of the text; we override to flex-nowrap.
+ *
+ * Browser default <button> padding shrinks the content box inside the
+ * explicit h-/w- dimensions, so we reset it to p-0.
+ *
+ * rounded-lg from the global rule is already overridden by the lower-
+ * specificity class rule below (rounded / rounded-full), but flex-wrap
+ * and padding need an explicit author-level declaration to win reliably.
+ */
+.dark .avatar-group__more {
+  --tw-ring-color: var(--avatar-group-ring-color, var(--color-aeblack-900));
+}
+
 .avatar-group__more {
-  @apply inline-flex items-center justify-center rounded bg-aeblack-100 text-aeblack-600 font-semibold cursor-pointer border-0 ring-2;
+  @apply inline-flex items-center justify-center leading-none rounded bg-primary-100 text-primary-800 font-semibold cursor-pointer border-0 ring-2 flex-nowrap p-0! dark:bg-primary-800 dark:text-primary-100;
   --tw-ring-color: var(--avatar-group-ring-color, white);
   transition: background-color 200ms ease-in-out;
 
   &:hover {
-    @apply bg-aeblack-200;
+    @apply bg-primary-500 text-primary-50 dark:bg-primary-600 dark:text-primary-50;
   }
 
   &:focus-visible {
-    @apply outline-2 outline-offset-2 outline-primary-500;
+    @apply outline-2 outline-offset-2 outline-primary-500 dark:outline-primary-400;
   }
 
   /* Size classes matching avatar sizes */

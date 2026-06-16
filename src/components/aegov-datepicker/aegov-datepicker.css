@@ -1,9 +1,9 @@
 :host {
-  @apply inline-block;
+  @apply block;
 }
 
 .datepicker__trigger {
-  @apply inline-flex items-center cursor-pointer;
+  @apply flex items-center cursor-pointer;
 }
 
 :host([disabled]) .datepicker__trigger {
@@ -12,10 +12,35 @@
 
 /* ── Input Wrapper ──────────────────────────────────── */
 .datepicker__input-wrapper {
-  @apply relative inline-flex items-center gap-0 bg-whitely-50
+  @apply relative flex items-center gap-0 w-full bg-whitely-50
          rounded-lg transition-all duration-200 ease-in-out
-         inset-ring-2 inset-ring-primary-400
-         focus-within:inset-ring-primary-support-600;
+         border-2 dark:bg-aeblack-800;
+}
+
+/* Variant — idle border + value text per colour family (mirrors aegov-input pattern) */
+:host(.datepicker-variant-primary) .datepicker__input-wrapper       { @apply border-primary-600 dark:border-primary-400; }
+:host(.datepicker-variant-primary) .datepicker__input               { @apply text-primary-900 dark:text-whitely-100; }
+:host(.datepicker-variant-secondary) .datepicker__input-wrapper     { @apply border-secondary-600 dark:border-secondary-400; }
+:host(.datepicker-variant-secondary) .datepicker__input             { @apply text-secondary-900 dark:text-whitely-100; }
+:host(.datepicker-variant-neutral-max) .datepicker__input-wrapper   { @apply border-aeblack-800 dark:border-aeblack-300; }
+:host(.datepicker-variant-neutral-max) .datepicker__input           { @apply text-aeblack-950 dark:text-whitely-100; }
+:host(.datepicker-variant-neutral-min) .datepicker__input-wrapper   { @apply border-aeblack-300 dark:border-aeblack-600; }
+:host(.datepicker-variant-neutral-min) .datepicker__input           { @apply text-aeblack-700 dark:text-aeblack-200; }
+
+/* Focus ring — fires when input receives focus. Mirrors aegov-input focus look
+   (ring + offset + border swap to support colour). */
+:host(.datepicker-variant-primary) .datepicker__input-wrapper:has(.datepicker__input:focus) {
+  @apply ring-1 ring-offset-2 ring-primary-support-500 border-2 border-primary-support-500
+         dark:ring-primary-support-400 dark:border-primary-support-400;
+}
+:host(.datepicker-variant-secondary) .datepicker__input-wrapper:has(.datepicker__input:focus) {
+  @apply ring-1 ring-offset-2 ring-secondary-support-500 border-2 border-secondary-support-500
+         dark:ring-secondary-support-400 dark:border-secondary-support-400;
+}
+:host(.datepicker-variant-neutral-max) .datepicker__input-wrapper:has(.datepicker__input:focus),
+:host(.datepicker-variant-neutral-min) .datepicker__input-wrapper:has(.datepicker__input:focus) {
+  @apply ring-1 ring-offset-2 ring-seablue-500 border-2 border-seablue-500
+         dark:ring-seablue-400 dark:border-seablue-400;
 }
 
 .datepicker__input-wrapper--range {
@@ -29,12 +54,36 @@
 /* ── Input ──────────────────────────────────────────── */
 .datepicker__input {
   font-family: inherit;
-  @apply border-0 bg-transparent text-primary-900 outline-none leading-6
-         placeholder:text-aeblack-500 focus:ring-0;
+  @apply flex-1 min-w-0 border-0 bg-transparent outline-none leading-6
+         placeholder:text-aeblack-300 focus:ring-0 dark:placeholder:text-aeblack-500;
 }
 
 .datepicker__input:disabled {
   @apply cursor-not-allowed;
+}
+
+/* ── Size: xs ──────────────────────────────────────── */
+.datepicker__input-wrapper--xs .datepicker__input {
+  @apply text-sm py-1.5 px-2.5 h-9;
+  min-width: 110px;
+}
+
+.datepicker__input-wrapper--xs .datepicker__input--range-start,
+.datepicker__input-wrapper--xs .datepicker__input--range-end {
+  @apply px-1.5;
+  min-width: 90px;
+}
+
+.datepicker__input-wrapper--xs .datepicker__icon {
+  @apply h-9 w-9;
+}
+
+.datepicker__input-wrapper--xs .datepicker__clear-btn {
+  @apply w-4 h-4;
+}
+
+.datepicker__input-wrapper--xs .datepicker__range-separator {
+  @apply px-0;
 }
 
 /* ── Size: sm ──────────────────────────────────────── */
@@ -63,18 +112,18 @@
 
 /* ── Size: base ────────────────────────────────────── */
 .datepicker__input-wrapper--base .datepicker__input {
-  @apply text-base py-3 px-4 h-12;
-  min-width: 140px;
+  @apply text-base py-2.5 px-3.5 h-11;
+  min-width: 135px;
 }
 
 .datepicker__input-wrapper--base .datepicker__input--range-start,
 .datepicker__input-wrapper--base .datepicker__input--range-end {
-  @apply px-3;
-  min-width: 115px;
+  @apply px-2.5;
+  min-width: 110px;
 }
 
 .datepicker__input-wrapper--base .datepicker__icon {
-  @apply h-12 w-12;
+  @apply h-11 w-11;
 }
 
 .datepicker__input-wrapper--base .datepicker__clear-btn {
@@ -87,42 +136,91 @@
 
 /* ── Size: lg ──────────────────────────────────────── */
 .datepicker__input-wrapper--lg .datepicker__input {
-  @apply text-lg py-3.5 px-5 h-13;
-  min-width: 160px;
+  @apply text-lg py-3 px-4 h-12;
+  min-width: 155px;
 }
 
 .datepicker__input-wrapper--lg .datepicker__input--range-start,
 .datepicker__input-wrapper--lg .datepicker__input--range-end {
-  @apply px-4;
-  min-width: 130px;
+  @apply px-3.5;
+  min-width: 125px;
 }
 
 .datepicker__input-wrapper--lg .datepicker__icon {
-  @apply h-13 w-13;
+  @apply h-12 w-12;
 }
 
 .datepicker__input-wrapper--lg .datepicker__clear-btn {
-  @apply w-7 h-7;
+  @apply w-6 h-6;
 }
 
 .datepicker__input-wrapper--lg .datepicker__range-separator {
+  @apply px-1;
+}
+
+/* ── Size: xl ──────────────────────────────────────── */
+.datepicker__input-wrapper--xl .datepicker__input {
+  @apply text-lg py-3.5 px-4.5 h-13;
+  min-width: 170px;
+}
+
+.datepicker__input-wrapper--xl .datepicker__input--range-start,
+.datepicker__input-wrapper--xl .datepicker__input--range-end {
+  @apply px-4;
+  min-width: 135px;
+}
+
+.datepicker__input-wrapper--xl .datepicker__icon {
+  @apply h-13 w-13;
+}
+
+.datepicker__input-wrapper--xl .datepicker__clear-btn {
+  @apply w-7 h-7;
+}
+
+.datepicker__input-wrapper--xl .datepicker__range-separator {
   @apply px-1.5;
 }
 
 /* ── Range Separator ────────────────────────────────── */
 .datepicker__range-separator {
-  @apply flex items-center text-aeblack-500;
+  @apply flex shrink-0 items-center text-aeblack-500 dark:text-aeblack-400;
 }
 
 /* ── Calendar Icon ──────────────────────────────────── */
 .datepicker__icon {
-  @apply flex items-center justify-center text-aeblack-500;
+  @apply flex shrink-0 items-center justify-center text-aeblack-500 dark:text-aeblack-400;
 }
 
 /* ── Clear Button ───────────────────────────────────── */
 .datepicker__clear-btn {
-  @apply flex items-center justify-center rounded
+  @apply flex shrink-0 items-center justify-center rounded
          text-aeblack-500 hover:text-primary-700 hover:bg-primary-50
          cursor-pointer transition-colors duration-200
-         focus-visible:outline-2 focus-visible:outline-primary-500;
+         focus-visible:outline-2 focus-visible:outline-primary-500 border-0 bg-transparent
+         dark:text-aeblack-400 dark:hover:text-primary-300 dark:hover:bg-primary-900/30
+         dark:focus-visible:outline-primary-400;
+}
+.datepicker__clear-btn > svg {
+  @apply w-4 h-4;
+}
+
+/* Validation surface (Layer 1) — see validation-engine-addon.md §2.6 */
+
+/* Invalid idle — red border on input wrapper (mirrors aegov-input). */
+:host(.is-invalid) .datepicker__input-wrapper {
+  @apply border-aered-600 dark:border-aered-500;
+}
+
+/* Invalid + focus — red ring with offset (mirrors aegov-input). */
+:host(.is-invalid) .datepicker__input-wrapper:has(.datepicker__input:focus) {
+  @apply ring-1 ring-offset-2 ring-aered-500 dark:ring-aered-400 border-2 border-aered-500 dark:border-aered-400;
+}
+
+.aegov-datepicker__error {
+  @apply text-sm text-aered-600 mt-1.5 flex items-start gap-1.5 leading-snug dark:text-aered-400;
+}
+
+.aegov-datepicker__hint {
+  @apply text-sm text-aeblack-600 mt-1.5 leading-snug dark:text-aeblack-300;
 }

@@ -3,210 +3,228 @@
 }
 
 .aegov-badge {
-  @apply inline-flex items-center font-medium whitespace-nowrap [print-color-adjust:exact] rounded-md px-2;
+  @apply inline-flex items-center whitespace-nowrap [print-color-adjust:exact];
+
+  /* Inline media (icons / images) sized per badge size. Excludes dismiss-button svg (it's nested in .badge-dismiss, not a direct child). */
+  & > svg,
+  & > img {
+    @apply shrink-0 object-contain;
+  }
+  &.badge-sm > svg,
+  &.badge-sm > img {
+    @apply size-3 -ms-0.5 me-1;
+  }
+  &.badge-base > svg,
+  &.badge-base > img {
+    @apply size-3.5 -ms-0.25 me-1.5;
+  }
+  &.badge-lg > svg,
+  &.badge-lg > img {
+    @apply size-4 -ms-0.25 me-1.5;
+  }
   &.badge-soft {
     &.badge-default {
-      @apply bg-slate-100 text-slate-800;
+      @apply bg-slate-100 text-slate-800 dark:bg-slate-900 dark:text-slate-200;
       & .badge-dismiss {
-        @apply focus-visible:outline-slate-800;
+        @apply focus-visible:outline-slate-800 dark:focus-visible:outline-slate-200;
       }
     }
     &.badge-primary {
-      @apply bg-primary-100 text-primary-800;
+      @apply bg-primary-100 text-primary-800 dark:bg-primary-900 dark:text-primary-200;
       & .badge-dismiss {
-        @apply focus-visible:outline-primary-800;
+        @apply focus-visible:outline-primary-800 dark:focus-visible:outline-primary-200;
       }
     }
     &.badge-secondary {
-      @apply bg-secondary-100 text-secondary-800;
+      @apply bg-secondary-100 text-secondary-800 dark:bg-secondary-900 dark:text-secondary-200;
       & .badge-dismiss {
-        @apply focus-visible:outline-secondary-800;
+        @apply focus-visible:outline-secondary-800 dark:focus-visible:outline-secondary-200;
       }
     }
     &.badge-aegold {
-      @apply bg-aegold-100 text-aegold-800;
+      @apply bg-aegold-100 text-aegold-800 dark:bg-aegold-900 dark:text-aegold-200;
       & .badge-dismiss {
-        @apply focus-visible:outline-aegold-800;
+        @apply focus-visible:outline-aegold-800 dark:focus-visible:outline-aegold-200;
       }
     }
     &.badge-aered {
-      @apply bg-aered-100 text-aered-800;
+      @apply bg-aered-100 text-aered-800 dark:bg-aered-900 dark:text-aered-200;
       & .badge-dismiss {
-        @apply focus-visible:outline-aered-800;
+        @apply focus-visible:outline-aered-800 dark:focus-visible:outline-aered-200;
       }
     }
     &.badge-aegreen {
-      @apply bg-aegreen-100 text-aegreen-800;
+      @apply bg-aegreen-100 text-aegreen-800 dark:bg-aegreen-900 dark:text-aegreen-200;
       & .badge-dismiss {
-        @apply focus-visible:outline-aegreen-800;
+        @apply focus-visible:outline-aegreen-800 dark:focus-visible:outline-aegreen-200;
       }
     }
     &.badge-aeblack {
-      @apply bg-aeblack-100 text-aeblack-800;
+      @apply bg-aeblack-100 text-aeblack-800 dark:bg-aeblack-700 dark:text-aeblack-100;
       & .badge-dismiss {
-        @apply focus-visible:outline-aeblack-800;
+        @apply focus-visible:outline-aeblack-800 dark:focus-visible:outline-aeblack-100;
       }
     }
     &.badge-techblue {
-      @apply bg-techblue-100 text-techblue-800;
+      @apply bg-techblue-100 text-techblue-800 dark:bg-techblue-900 dark:text-techblue-200;
       & .badge-dismiss {
-        @apply focus-visible:outline-techblue-800;
+        @apply focus-visible:outline-techblue-800 dark:focus-visible:outline-techblue-200;
       }
     }
     &.badge-seablue {
-      @apply bg-seablue-100 text-seablue-800;
+      @apply bg-seablue-100 text-seablue-800 dark:bg-seablue-900 dark:text-seablue-200;
       & .badge-dismiss {
-        @apply focus-visible:outline-seablue-800;
+        @apply focus-visible:outline-seablue-800 dark:focus-visible:outline-seablue-200;
       }
     }
     &.badge-camel {
-      @apply bg-camel-100 text-camel-800;
+      @apply bg-camel-100 text-camel-800 dark:bg-camel-900 dark:text-camel-200;
       & .badge-dismiss {
-        @apply focus-visible:outline-camel-800;
+        @apply focus-visible:outline-camel-800 dark:focus-visible:outline-camel-200;
       }
     }
     &.badge-desert {
-      @apply bg-desert-100 text-desert-800;
+      @apply bg-desert-100 text-desert-800 dark:bg-desert-900 dark:text-desert-200;
       & .badge-dismiss {
-        @apply focus-visible:outline-desert-800;
+        @apply focus-visible:outline-desert-800 dark:focus-visible:outline-desert-200;
       }
     }
     &.badge-fuchsia {
-      @apply bg-fuchsia-100 text-fuchsia-800;
+      @apply bg-fuchsia-100 text-fuchsia-800 dark:bg-fuchsia-900 dark:text-fuchsia-200;
       & .badge-dismiss {
-        @apply focus-visible:outline-fuchsia-800;
+        @apply focus-visible:outline-fuchsia-800 dark:focus-visible:outline-fuchsia-200;
       }
     }
     &.badge-slate {
-      @apply bg-slate-100 text-slate-800;
+      @apply bg-slate-100 text-slate-800 dark:bg-slate-900 dark:text-slate-200;
       & .badge-dismiss {
-        @apply focus-visible:outline-slate-800;
+        @apply focus-visible:outline-slate-800 dark:focus-visible:outline-slate-200;
       }
     }
     &.badge-purple {
-      @apply bg-purple-100 text-purple-800;
+      @apply bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200;
       & .badge-dismiss {
-        @apply focus-visible:outline-purple-800;
+        @apply focus-visible:outline-purple-800 dark:focus-visible:outline-purple-200;
       }
     }
     &.badge-pink {
-      @apply bg-pink-100 text-pink-800;
+      @apply bg-pink-100 text-pink-800 dark:bg-pink-900 dark:text-pink-200;
       & .badge-dismiss {
-        @apply focus-visible:outline-pink-800;
+        @apply focus-visible:outline-pink-800 dark:focus-visible:outline-pink-200;
       }
     }
     &.badge-indigo {
-      @apply bg-indigo-100 text-indigo-800;
+      @apply bg-indigo-100 text-indigo-800 dark:bg-indigo-900 dark:text-indigo-200;
       & .badge-dismiss {
-        @apply focus-visible:outline-indigo-800;
+        @apply focus-visible:outline-indigo-800 dark:focus-visible:outline-indigo-200;
       }
     }
     &.badge-lime {
-      @apply bg-lime-100 text-lime-800;
+      @apply bg-lime-100 text-lime-800 dark:bg-lime-900 dark:text-lime-200;
       & .badge-dismiss {
-        @apply focus-visible:outline-lime-800;
+        @apply focus-visible:outline-lime-800 dark:focus-visible:outline-lime-200;
       }
     }
   }
   &.badge-solid {
     &.badge-default {
-      @apply bg-slate-700 text-slate-50;
+      @apply bg-slate-700 text-slate-50 dark:bg-slate-500 dark:text-slate-50;
       & .badge-dismiss {
         @apply focus-visible:outline-slate-50;
       }
     }
     &.badge-primary {
-      @apply bg-primary-700 text-primary-50;
+      @apply bg-primary-700 text-primary-50 dark:bg-primary-500 dark:text-primary-50;
       & .badge-dismiss {
         @apply focus-visible:outline-primary-50;
       }
     }
     &.badge-secondary {
-      @apply bg-secondary-700 text-secondary-50;
+      @apply bg-secondary-700 text-secondary-50 dark:bg-secondary-500 dark:text-secondary-50;
       & .badge-dismiss {
         @apply focus-visible:outline-secondary-50;
       }
     }
     &.badge-aegold {
-      @apply bg-aegold-700 text-aegold-50;
+      @apply bg-aegold-700 text-aegold-50 dark:bg-aegold-500 dark:text-aegold-50;
       & .badge-dismiss {
         @apply focus-visible:outline-aegold-50;
       }
     }
     &.badge-aered {
-      @apply bg-aered-700 text-aered-50;
+      @apply bg-aered-700 text-aered-50 dark:bg-aered-500 dark:text-aered-50;
       & .badge-dismiss {
         @apply focus-visible:outline-aered-50;
       }
     }
     &.badge-aegreen {
-      @apply bg-aegreen-700 text-aegreen-50;
+      @apply bg-aegreen-700 text-aegreen-50 dark:bg-aegreen-500 dark:text-aegreen-50;
       & .badge-dismiss {
         @apply focus-visible:outline-aegreen-50;
       }
     }
     &.badge-aeblack {
-      @apply bg-aeblack-800 text-aeblack-50;
+      @apply bg-aeblack-800 text-aeblack-50 dark:bg-aeblack-200 dark:text-aeblack-900;
       & .badge-dismiss {
-        @apply focus-visible:outline-aeblack-50;
+        @apply focus-visible:outline-aeblack-50 dark:focus-visible:outline-aeblack-900;
       }
     }
     &.badge-techblue {
-      @apply bg-techblue-700 text-techblue-50;
+      @apply bg-techblue-700 text-techblue-50 dark:bg-techblue-500 dark:text-techblue-50;
       & .badge-dismiss {
         @apply focus-visible:outline-techblue-50;
       }
     }
     &.badge-seablue {
-      @apply bg-seablue-600 text-seablue-50;
+      @apply bg-seablue-600 text-seablue-50 dark:bg-seablue-500 dark:text-seablue-50;
       & .badge-dismiss {
         @apply focus-visible:outline-seablue-50;
       }
     }
     &.badge-camel {
-      @apply bg-camel-600 text-camel-50;
+      @apply bg-camel-600 text-camel-50 dark:bg-camel-500 dark:text-camel-50;
       & .badge-dismiss {
         @apply focus-visible:outline-camel-50;
       }
     }
     &.badge-desert {
-      @apply bg-desert-500 text-desert-50;
+      @apply bg-desert-500 text-desert-50 dark:bg-desert-400 dark:text-desert-950;
       & .badge-dismiss {
         @apply focus-visible:outline-desert-50;
       }
     }
     &.badge-fuchsia {
-      @apply bg-fuchsia-600 text-fuchsia-50;
+      @apply bg-fuchsia-600 text-fuchsia-50 dark:bg-fuchsia-500 dark:text-fuchsia-50;
       & .badge-dismiss {
         @apply focus-visible:outline-fuchsia-50;
       }
     }
     &.badge-slate {
-      @apply bg-slate-700 text-slate-50;
+      @apply bg-slate-700 text-slate-50 dark:bg-slate-500 dark:text-slate-50;
       & .badge-dismiss {
         @apply focus-visible:outline-slate-50;
       }
     }
     &.badge-purple {
-      @apply bg-purple-500 text-purple-50;
+      @apply bg-purple-500 text-purple-50 dark:bg-purple-400 dark:text-purple-950;
       & .badge-dismiss {
         @apply focus-visible:outline-purple-50;
       }
     }
     &.badge-pink {
-      @apply bg-pink-500 text-pink-50;
+      @apply bg-pink-500 text-pink-50 dark:bg-pink-400 dark:text-pink-950;
       & .badge-dismiss {
         @apply focus-visible:outline-pink-50;
       }
     }
     &.badge-indigo {
-      @apply bg-indigo-500 text-indigo-50;
+      @apply bg-indigo-500 text-indigo-50 dark:bg-indigo-400 dark:text-indigo-950;
       & .badge-dismiss {
         @apply focus-visible:outline-indigo-50;
       }
     }
     &.badge-lime {
-      @apply bg-lime-600 text-lime-50;
+      @apply bg-lime-600 text-lime-50 dark:bg-lime-500 dark:text-lime-50;
       & .badge-dismiss {
         @apply focus-visible:outline-lime-50;
       }

@@ -1,57 +1,37 @@
 import { newSpecPage } from '@stencil/core/testing';
 import { AegovSelectOptionGroup } from './aegov-select-option-group';
+import { AegovSelectOption } from '../aegov-select-option/aegov-select-option';
+import { AegovSelect } from '../aegov-select/aegov-select';
 
 describe('aegov-select-option-group', () => {
-  it('renders', async () => {
+  it('renders with role=group and aria-label from label prop', async () => {
     const page = await newSpecPage({
       components: [AegovSelectOptionGroup],
-      html: '<aegov-select-option-group label="Fruits"></aegov-select-option-group>',
-    });
-    expect(page.root).toBeTruthy();
-  });
-
-  it('sets role="group" on host', async () => {
-    const page = await newSpecPage({
-      components: [AegovSelectOptionGroup],
-      html: '<aegov-select-option-group label="Fruits"></aegov-select-option-group>',
+      html: `<aegov-select-option-group label="Fruit"></aegov-select-option-group>`,
     });
     expect(page.root.getAttribute('role')).toBe('group');
+    expect(page.root.getAttribute('aria-label')).toBe('Fruit');
+    expect(page.root.getAttribute('data-group-label')).toBe('Fruit');
   });
 
-  it('sets aria-label from label prop', async () => {
+  it('renders slotted children', async () => {
     const page = await newSpecPage({
-      components: [AegovSelectOptionGroup],
-      html: '<aegov-select-option-group label="Fruits"></aegov-select-option-group>',
+      components: [AegovSelect, AegovSelectOptionGroup, AegovSelectOption],
+      html: `<aegov-select>
+        <aegov-select-option-group label="Fruit">
+          <aegov-select-option value="a">Apple</aegov-select-option>
+        </aegov-select-option-group>
+      </aegov-select>`,
     });
-    expect(page.root.getAttribute('aria-label')).toBe('Fruits');
-  });
-
-  it('sets data-group-label from label prop', async () => {
-    const page = await newSpecPage({
-      components: [AegovSelectOptionGroup],
-      html: '<aegov-select-option-group label="Vegetables"></aegov-select-option-group>',
-    });
-    expect(page.root.getAttribute('data-group-label')).toBe('Vegetables');
+    expect(page.root.querySelector('aegov-select-option')).not.toBeNull();
   });
 
   it('defaults label to empty string', async () => {
     const page = await newSpecPage({
       components: [AegovSelectOptionGroup],
-      html: '<aegov-select-option-group></aegov-select-option-group>',
+      html: `<aegov-select-option-group></aegov-select-option-group>`,
     });
+    expect(page.rootInstance.label).toBe('');
     expect(page.root.getAttribute('aria-label')).toBe('');
-    expect(page.root.getAttribute('data-group-label')).toBe('');
-  });
-
-  it('renders slot content', async () => {
-    const page = await newSpecPage({
-      components: [AegovSelectOptionGroup],
-      html: `
-        <aegov-select-option-group label="Group">
-          <span>Child content</span>
-        </aegov-select-option-group>
-      `,
-    });
-    expect(page.root.textContent).toContain('Child content');
   });
 });

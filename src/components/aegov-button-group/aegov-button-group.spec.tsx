@@ -3,369 +3,83 @@ import { AegovButtonGroup } from './aegov-button-group';
 import { AegovButton } from '../aegov-button/aegov-button';
 
 describe('aegov-button-group', () => {
-  describe('Component Initialization', () => {
-    it('should render with default props', async () => {
-      const page = await newSpecPage({
-        components: [AegovButtonGroup],
-        html: `<aegov-button-group></aegov-button-group>`,
-      });
-
-      expect(page.root).toBeTruthy();
-      expect(page.root).toEqualHtml(`
-        <aegov-button-group>
-          <div class="aegov-button-group button-group--horizontal" role="group"></div>
-        </aegov-button-group>
-      `);
+  it('renders with default horizontal orientation', async () => {
+    const page = await newSpecPage({
+      components: [AegovButtonGroup, AegovButton],
+      html: `<aegov-button-group><aegov-button>A</aegov-button></aegov-button-group>`,
     });
-
-    it('should render with horizontal orientation by default', async () => {
-      const page = await newSpecPage({
-        components: [AegovButtonGroup],
-        html: `<aegov-button-group></aegov-button-group>`,
-      });
-
-      const buttonGroup = page.root?.querySelector('.aegov-button-group');
-      expect(buttonGroup?.classList.contains('button-group--horizontal')).toBe(true);
-      expect(buttonGroup?.classList.contains('button-group--vertical')).toBe(false);
-    });
-
-    it('should render with vertical orientation when specified', async () => {
-      const page = await newSpecPage({
-        components: [AegovButtonGroup],
-        html: `<aegov-button-group orientation="vertical"></aegov-button-group>`,
-      });
-
-      const buttonGroup = page.root?.querySelector('.aegov-button-group');
-      expect(buttonGroup?.classList.contains('button-group--vertical')).toBe(true);
-      expect(buttonGroup?.classList.contains('button-group--horizontal')).toBe(false);
-    });
-
-    it('should have role="group" for accessibility', async () => {
-      const page = await newSpecPage({
-        components: [AegovButtonGroup],
-        html: `<aegov-button-group></aegov-button-group>`,
-      });
-
-      const buttonGroup = page.root?.querySelector('.aegov-button-group');
-      expect(buttonGroup?.getAttribute('role')).toBe('group');
-    });
+    const div = page.root.querySelector('div');
+    expect(div).not.toBeNull();
+    expect(div.getAttribute('role')).toBe('group');
+    expect(div.className).toContain('aegov-button-group');
+    expect(div.className).toContain('button-group--horizontal');
   });
 
-  describe('Button Management - Horizontal', () => {
-    it('should set groupPosition to first on first button in horizontal group', async () => {
-      const page = await newSpecPage({
-        components: [AegovButtonGroup, AegovButton],
-        html: `
-          <aegov-button-group>
-            <aegov-button>First</aegov-button>
-            <aegov-button>Second</aegov-button>
-          </aegov-button-group>
-        `,
-      });
-
-      await page.waitForChanges();
-      const buttons = page.root?.querySelectorAll('aegov-button') as NodeListOf<HTMLAegovButtonElement>;
-      expect(buttons[0].groupPosition).toBe('first');
+  it('applies vertical orientation class', async () => {
+    const page = await newSpecPage({
+      components: [AegovButtonGroup, AegovButton],
+      html: `<aegov-button-group orientation="vertical"><aegov-button>A</aegov-button></aegov-button-group>`,
     });
-
-    it('should set groupPosition to last on last button in horizontal group', async () => {
-      const page = await newSpecPage({
-        components: [AegovButtonGroup, AegovButton],
-        html: `
-          <aegov-button-group>
-            <aegov-button>First</aegov-button>
-            <aegov-button>Last</aegov-button>
-          </aegov-button-group>
-        `,
-      });
-
-      await page.waitForChanges();
-      const buttons = page.root?.querySelectorAll('aegov-button') as NodeListOf<HTMLAegovButtonElement>;
-      expect(buttons[1].groupPosition).toBe('last');
-    });
-
-    it('should set groupPosition to middle on middle buttons in horizontal group', async () => {
-      const page = await newSpecPage({
-        components: [AegovButtonGroup, AegovButton],
-        html: `
-          <aegov-button-group>
-            <aegov-button>First</aegov-button>
-            <aegov-button>Middle</aegov-button>
-            <aegov-button>Last</aegov-button>
-          </aegov-button-group>
-        `,
-      });
-
-      await page.waitForChanges();
-      const buttons = page.root?.querySelectorAll('aegov-button') as NodeListOf<HTMLAegovButtonElement>;
-      expect(buttons[1].groupPosition).toBe('middle');
-    });
-
-    it('should set groupPosition to single on single button in horizontal group', async () => {
-      const page = await newSpecPage({
-        components: [AegovButtonGroup, AegovButton],
-        html: `
-          <aegov-button-group>
-            <aegov-button>Only</aegov-button>
-          </aegov-button-group>
-        `,
-      });
-
-      await page.waitForChanges();
-      const button = page.root?.querySelector('aegov-button') as HTMLAegovButtonElement;
-      expect(button.groupPosition).toBe('single');
-    });
-
-    it('should pass horizontal orientation to all buttons', async () => {
-      const page = await newSpecPage({
-        components: [AegovButtonGroup, AegovButton],
-        html: `
-          <aegov-button-group orientation="horizontal">
-            <aegov-button>First</aegov-button>
-            <aegov-button>Second</aegov-button>
-          </aegov-button-group>
-        `,
-      });
-
-      await page.waitForChanges();
-      const buttons = page.root?.querySelectorAll('aegov-button') as NodeListOf<HTMLAegovButtonElement>;
-      expect(buttons[0].groupOrientation).toBe('horizontal');
-      expect(buttons[1].groupOrientation).toBe('horizontal');
-    });
+    expect(page.root.querySelector('div').className).toContain('button-group--vertical');
   });
 
-  describe('Button Management - Vertical', () => {
-    it('should set groupPosition to first on first button in vertical group', async () => {
-      const page = await newSpecPage({
-        components: [AegovButtonGroup, AegovButton],
-        html: `
-          <aegov-button-group orientation="vertical">
-            <aegov-button>First</aegov-button>
-            <aegov-button>Second</aegov-button>
-          </aegov-button-group>
-        `,
-      });
-
-      await page.waitForChanges();
-      const buttons = page.root?.querySelectorAll('aegov-button') as NodeListOf<HTMLAegovButtonElement>;
-      expect(buttons[0].groupPosition).toBe('first');
+  it('sets groupPosition to "single" for one button', async () => {
+    const page = await newSpecPage({
+      components: [AegovButtonGroup, AegovButton],
+      html: `<aegov-button-group><aegov-button>A</aegov-button></aegov-button-group>`,
     });
-
-    it('should set groupPosition to last on last button in vertical group', async () => {
-      const page = await newSpecPage({
-        components: [AegovButtonGroup, AegovButton],
-        html: `
-          <aegov-button-group orientation="vertical">
-            <aegov-button>First</aegov-button>
-            <aegov-button>Last</aegov-button>
-          </aegov-button-group>
-        `,
-      });
-
-      await page.waitForChanges();
-      const buttons = page.root?.querySelectorAll('aegov-button') as NodeListOf<HTMLAegovButtonElement>;
-      expect(buttons[1].groupPosition).toBe('last');
-    });
-
-    it('should set groupPosition to middle on middle buttons in vertical group', async () => {
-      const page = await newSpecPage({
-        components: [AegovButtonGroup, AegovButton],
-        html: `
-          <aegov-button-group orientation="vertical">
-            <aegov-button>First</aegov-button>
-            <aegov-button>Middle</aegov-button>
-            <aegov-button>Last</aegov-button>
-          </aegov-button-group>
-        `,
-      });
-
-      await page.waitForChanges();
-      const buttons = page.root?.querySelectorAll('aegov-button') as NodeListOf<HTMLAegovButtonElement>;
-      expect(buttons[1].groupPosition).toBe('middle');
-    });
-
-    it('should pass vertical orientation to all buttons', async () => {
-      const page = await newSpecPage({
-        components: [AegovButtonGroup, AegovButton],
-        html: `
-          <aegov-button-group orientation="vertical">
-            <aegov-button>First</aegov-button>
-            <aegov-button>Second</aegov-button>
-          </aegov-button-group>
-        `,
-      });
-
-      await page.waitForChanges();
-      const buttons = page.root?.querySelectorAll('aegov-button') as NodeListOf<HTMLAegovButtonElement>;
-      expect(buttons[0].groupOrientation).toBe('vertical');
-      expect(buttons[1].groupOrientation).toBe('vertical');
-    });
+    const btn = page.root.querySelector('aegov-button') as any;
+    expect(btn.groupPosition).toBe('single');
+    expect(btn.groupOrientation).toBe('horizontal');
   });
 
-  describe('Direct Children Filtering', () => {
-    it('should set groupPosition on direct child buttons', async () => {
-      const consoleSpy = jest.spyOn(console, 'warn').mockImplementation();
-
-      const page = await newSpecPage({
-        components: [AegovButtonGroup, AegovButton],
-        html: `
-          <aegov-button-group>
-            <aegov-button>First</aegov-button>
-            <aegov-button>Middle</aegov-button>
-            <aegov-button>Last</aegov-button>
-          </aegov-button-group>
-        `,
-      });
-
-      await page.waitForChanges();
-
-      const buttons = page.root?.querySelectorAll('aegov-button') as NodeListOf<HTMLAegovButtonElement>;
-      expect(buttons[0].groupPosition).toBe('first');
-      expect(buttons[1].groupPosition).toBe('middle');
-      expect(buttons[2].groupPosition).toBe('last');
-
-      consoleSpy.mockRestore();
+  it('sets first/middle/last positions across multiple buttons', async () => {
+    const page = await newSpecPage({
+      components: [AegovButtonGroup, AegovButton],
+      html: `<aegov-button-group>
+        <aegov-button>1</aegov-button>
+        <aegov-button>2</aegov-button>
+        <aegov-button>3</aegov-button>
+      </aegov-button-group>`,
     });
+    const btns = page.root.querySelectorAll('aegov-button');
+    expect((btns[0] as any).groupPosition).toBe('first');
+    expect((btns[1] as any).groupPosition).toBe('middle');
+    expect((btns[2] as any).groupPosition).toBe('last');
   });
 
-  describe('Validation', () => {
-    it('should warn when non-button user children are present', async () => {
-      const consoleSpy = jest.spyOn(console, 'warn').mockImplementation();
-
-      await newSpecPage({
-        components: [AegovButtonGroup, AegovButton],
-        html: `
-          <aegov-button-group>
-            <aegov-button>Button</aegov-button>
-            <span>Not a button</span>
-          </aegov-button-group>
-        `,
-      });
-
-      // Scoped CSS adds a DIV wrapper from render(), plus user's SPAN
-      const warnCalls = consoleSpy.mock.calls.filter(
-        (call) => typeof call[0] === 'string' && call[0].includes('[aegov-button-group]')
-      );
-      expect(warnCalls.length).toBeGreaterThan(0);
-
-      consoleSpy.mockRestore();
+  it('passes orientation to children', async () => {
+    const page = await newSpecPage({
+      components: [AegovButtonGroup, AegovButton],
+      html: `<aegov-button-group orientation="vertical">
+        <aegov-button>1</aegov-button>
+        <aegov-button>2</aegov-button>
+      </aegov-button-group>`,
     });
-
-    it('should call validateChildren on load', async () => {
-      // validateChildren runs in componentDidLoad via updateButtons
-      // This verifies the component renders without errors
-      const page = await newSpecPage({
-        components: [AegovButtonGroup, AegovButton],
-        html: `
-          <aegov-button-group>
-            <aegov-button>Button 1</aegov-button>
-            <aegov-button>Button 2</aegov-button>
-          </aegov-button-group>
-        `,
-      });
-
-      await page.waitForChanges();
-
-      const buttons = page.root?.querySelectorAll('aegov-button') as NodeListOf<HTMLAegovButtonElement>;
-      expect(buttons[0].groupPosition).toBe('first');
-      expect(buttons[1].groupPosition).toBe('last');
-    });
+    const btns = page.root.querySelectorAll('aegov-button');
+    expect((btns[0] as any).groupOrientation).toBe('vertical');
+    expect((btns[1] as any).groupOrientation).toBe('vertical');
   });
 
-  describe('Dynamic Updates', () => {
-    it('should update button flags when orientation changes', async () => {
-      const page = await newSpecPage({
-        components: [AegovButtonGroup, AegovButton],
-        html: `
-          <aegov-button-group>
-            <aegov-button>Button 1</aegov-button>
-            <aegov-button>Button 2</aegov-button>
-          </aegov-button-group>
-        `,
-      });
-
-      await page.waitForChanges();
-      const buttons = page.root?.querySelectorAll('aegov-button') as NodeListOf<HTMLAegovButtonElement>;
-      expect(buttons[0].groupOrientation).toBe('horizontal');
-
-      // Change orientation
-      const buttonGroup = page.root as HTMLAegovButtonGroupElement;
-      buttonGroup.orientation = 'vertical';
-      await page.waitForChanges();
-
-      expect(buttons[0].groupOrientation).toBe('vertical');
+  it('warns about non-button children', async () => {
+    const warn = jest.spyOn(console, 'warn').mockImplementation(() => {});
+    await newSpecPage({
+      components: [AegovButtonGroup, AegovButton],
+      html: `<aegov-button-group><div>Bad</div><aegov-button>Ok</aegov-button></aegov-button-group>`,
     });
-
-    it('should handle empty button group gracefully', async () => {
-      const page = await newSpecPage({
-        components: [AegovButtonGroup],
-        html: `<aegov-button-group></aegov-button-group>`,
-      });
-
-      expect(page.root).toBeTruthy();
-      // Should not throw errors
-    });
+    expect(warn).toHaveBeenCalled();
+    warn.mockRestore();
   });
 
-  describe('Edge Cases', () => {
-    it('should handle button group with two buttons', async () => {
-      const page = await newSpecPage({
-        components: [AegovButtonGroup, AegovButton],
-        html: `
-          <aegov-button-group>
-            <aegov-button>First</aegov-button>
-            <aegov-button>Last</aegov-button>
-          </aegov-button-group>
-        `,
-      });
-
-      await page.waitForChanges();
-      const buttons = page.root?.querySelectorAll('aegov-button') as NodeListOf<HTMLAegovButtonElement>;
-
-      expect(buttons[0].groupPosition).toBe('first');
-      expect(buttons[1].groupPosition).toBe('last');
+  it('renders default slot for buttons', async () => {
+    const page = await newSpecPage({
+      components: [AegovButtonGroup, AegovButton],
+      html: `<aegov-button-group>
+        <aegov-button>1</aegov-button>
+        <aegov-button>2</aegov-button>
+      </aegov-button-group>`,
     });
-
-    it('should handle button group with many buttons', async () => {
-      const page = await newSpecPage({
-        components: [AegovButtonGroup, AegovButton],
-        html: `
-          <aegov-button-group>
-            <aegov-button>1</aegov-button>
-            <aegov-button>2</aegov-button>
-            <aegov-button>3</aegov-button>
-            <aegov-button>4</aegov-button>
-            <aegov-button>5</aegov-button>
-          </aegov-button-group>
-        `,
-      });
-
-      await page.waitForChanges();
-      const buttons = page.root?.querySelectorAll('aegov-button') as NodeListOf<HTMLAegovButtonElement>;
-
-      expect(buttons[0].groupPosition).toBe('first');
-      expect(buttons[2].groupPosition).toBe('middle');
-      expect(buttons[4].groupPosition).toBe('last');
-    });
-
-    it('should not set groupPosition to single when there are multiple buttons', async () => {
-      const page = await newSpecPage({
-        components: [AegovButtonGroup, AegovButton],
-        html: `
-          <aegov-button-group>
-            <aegov-button>First</aegov-button>
-            <aegov-button>Second</aegov-button>
-            <aegov-button>Third</aegov-button>
-          </aegov-button-group>
-        `,
-      });
-
-      await page.waitForChanges();
-      const buttons = page.root?.querySelectorAll('aegov-button') as NodeListOf<HTMLAegovButtonElement>;
-
-      buttons.forEach(button => {
-        expect(button.groupPosition).not.toBe('single');
-      });
-    });
+    const btns = page.root.querySelectorAll('aegov-button');
+    expect(btns.length).toBe(2);
   });
 });

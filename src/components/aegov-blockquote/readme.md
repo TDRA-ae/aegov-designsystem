@@ -20,12 +20,13 @@ Blockquotes are used to emphasize quotations, testimonials, or excerpts from oth
 
 ## Properties
 
-| Property      | Attribute      | Description                  | Type                                   | Default     |
-| ------------- | -------------- | ---------------------------- | -------------------------------------- | ----------- |
-| `author`      | `author`       | The author source            | `string`                               | `undefined` |
-| `authorTitle` | `author-title` | The author's title/position  | `string`                               | `undefined` |
-| `cite`        | `cite`         | The citation source          | `string`                               | `undefined` |
-| `variant`     | `variant`      | The blockquote variant style | `"colored" \| "coloured" \| "primary"` | `'primary'` |
+| Property      | Attribute      | Description                                                      | Type                                   | Default     |
+| ------------- | -------------- | ---------------------------------------------------------------- | -------------------------------------- | ----------- |
+| `appearance`  | `appearance`   | The blockquote appearance style                                  | `"colored" \| "coloured" \| "primary"` | `'primary'` |
+| `author`      | `author`       | The author source                                                | `string`                               | `undefined` |
+| `authorTitle` | `author-title` | The author's title/position                                      | `string`                               | `undefined` |
+| `cite`        | `cite`         | The citation source                                              | `string`                               | `undefined` |
+| `extraClass`  | `extra-class`  | Additional CSS classes merged onto the inner blockquote element. | `string`                               | `undefined` |
 
 
 ## Slots

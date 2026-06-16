@@ -20,19 +20,15 @@
   animation: tooltipFadeIn 150ms ease-out;
 }
 
-.tooltip--interactive {
-  @apply pointer-events-auto;
-}
-
 /* Tooltip content */
 .tooltip__content {
-  @apply bg-aeblack-900 text-white text-sm rounded-lg shadow-lg py-2 px-3 leading-normal;
+  @apply bg-aeblack-900 text-white text-sm rounded-lg shadow-lg py-2 px-3 leading-normal dark:bg-whitely-100 dark:text-aeblack-900;
   word-wrap: break-word;
 }
 
 /* Arrow base styles */
 .tooltip__arrow {
-  @apply absolute size-2 bg-aeblack-900 rotate-45;
+  @apply absolute size-2 bg-aeblack-900 rotate-45 dark:bg-whitely-100;
   /* transform: rotate(45deg);*/
 }
 
@@ -61,6 +57,33 @@
   top: 50%;
 }
 
+/* Arrow alignment — start/end shift arrow toward the matching edge.
+   Default rules above handle align="center" (50%). */
+
+.tooltip--top.tooltip--align-start .tooltip__arrow,
+.tooltip--bottom.tooltip--align-start .tooltip__arrow {
+  inset-inline-start: 1rem;
+  margin-inline-start: 0;
+}
+
+.tooltip--top.tooltip--align-end .tooltip__arrow,
+.tooltip--bottom.tooltip--align-end .tooltip__arrow {
+  inset-inline-start: auto;
+  inset-inline-end: 1rem;
+  margin-inline-start: 0;
+}
+
+.tooltip--left.tooltip--align-start .tooltip__arrow,
+.tooltip--right.tooltip--align-start .tooltip__arrow {
+  top: 1rem;
+}
+
+.tooltip--left.tooltip--align-end .tooltip__arrow,
+.tooltip--right.tooltip--align-end .tooltip__arrow {
+  top: auto;
+  bottom: 1rem;
+}
+
 /* Animations */
 @keyframes tooltipFadeIn {
   from {
@@ -73,7 +96,3 @@
   }
 }
 
-/* Interactive tooltip cursor */
-.tooltip--interactive .tooltip__content {
-  cursor: auto;
-}
