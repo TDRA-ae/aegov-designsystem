@@ -85,10 +85,10 @@ export class AegovTextarea {
   private textareaEl?: HTMLTextAreaElement;
 
   /** Emitted when the textarea value changes (on blur). */
-  @Event() aegovTextareaChange: EventEmitter<{ value: string; event: Event }>;
+  @Event() aegovTextareaChange: EventEmitter<{ value: string; event: globalThis.Event }>;
 
   /** Emitted on every keystroke. */
-  @Event() aegovTextareaInput: EventEmitter<{ value: string; event: Event }>;
+  @Event() aegovTextareaInput: EventEmitter<{ value: string; event: globalThis.Event }>;
 
   /** Emitted when the textarea gains focus. */
   @Event() aegovTextareaFocus: EventEmitter<FocusEvent>;

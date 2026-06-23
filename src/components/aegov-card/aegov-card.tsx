@@ -51,6 +51,22 @@ export class AegovCard {
    */
   @Prop() size: CardSize = 'base';
 
+  /**
+   * Number of grid columns this card should span inside an `aegov-bento-grid`.
+   * Supports responsive syntax, e.g. `"1 md:2 lg:3"`. Reflected as the
+   * `data-col-span` attribute so the parent grid can read it correctly even
+   * when set via JSX camelCase (`dataColSpan`).
+   */
+  @Prop({ reflect: true }) dataColSpan?: string;
+
+  /**
+   * Number of grid rows this card should span inside an `aegov-bento-grid`.
+   * Supports responsive syntax, e.g. `"1 md:2"`. Reflected as the
+   * `data-row-span` attribute so the parent grid can read it correctly even
+   * when set via JSX camelCase (`dataRowSpan`).
+   */
+  @Prop({ reflect: true }) dataRowSpan?: string;
+
   componentWillLoad() {
     if (!this.fieldId) {
       this.fieldId = generateId('aegov-card');

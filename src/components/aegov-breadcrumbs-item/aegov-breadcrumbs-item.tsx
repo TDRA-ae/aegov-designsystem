@@ -8,7 +8,6 @@ import { getPassThroughAttributes } from '../../utils/attributes';
  * **⚠️ IMPORTANT:** This component must be used inside `<aegov-breadcrumbs>` component.
  * Do not use this component standalone.
  *
- * @internal This component is designed to work only as a child of aegov-breadcrumbs
  * @slot - Content of the breadcrumb item
  */
 @Component({
