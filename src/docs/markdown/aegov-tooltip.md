@@ -9,7 +9,7 @@ The `aegov-tooltip` component wraps any trigger element — typically a button, 
 ```html
 <aegov-tooltip content="Print the current page" position="top">
   <aegov-button variant="secondary" aria-label="Print">
-    <aegov-icon icon="printer" size="20"></aegov-icon>
+      Print
   </aegov-button>
 </aegov-tooltip>
 ```

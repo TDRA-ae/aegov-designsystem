@@ -241,7 +241,7 @@ export type ModalOverlayOpacity = typeof MODAL_OVERLAY_OPACITIES[number];
 /**
  * Modal component size types (drive padding + border-radius, mirroring card)
  */
-export const MODAL_SIZES = ['sm', 'base', 'lg'] as const;
+export const MODAL_SIZES = ['sm', 'base', 'lg', 'xl'] as const;
 export type ModalSize = typeof MODAL_SIZES[number];
 
 /**

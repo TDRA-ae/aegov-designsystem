@@ -7,10 +7,7 @@
 The `aegov-drawer` component renders a panel anchored to one edge of the viewport, optionally over a backdrop. Like the modal, it uses Shadow DOM, is moved to `document.body` for correct stacking, traps focus inside, and locks body scroll while open. The drawer offers a richer animation and pinning model than the modal — choose `slide` or `fade` motion, attach the panel flush to the edge or float it with rounded corners, and optionally render without an overlay for non-blocking experiences.
 
 ```html
-<aegov-button id="open-filters">
-  <span>Filters</span>
-  <aegov-icon icon="adjustments-horizontal" slot="icon-end" size="20"></aegov-icon>
-</aegov-button>
+<aegov-button id="open-filters">Filters</aegov-button>
 
 <aegov-drawer id="filters-drawer" position="right" aria-labelledby="filters-title">
   <h3 id="filters-title" class="text-xl font-bold mb-4">Filter services</h3>

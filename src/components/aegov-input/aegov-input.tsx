@@ -110,10 +110,10 @@ export class AegovInput {
   @State() justCopied: boolean = false;
 
   /** Emitted when the input value changes (on blur/enter). */
-  @Event() aegovInputChange: EventEmitter<{ value: string; event: Event }>;
+  @Event() aegovInputChange: EventEmitter<{ value: string; event: globalThis.Event }>;
 
   /** Emitted on every keystroke. */
-  @Event() aegovInputInput: EventEmitter<{ value: string; event: Event }>;
+  @Event() aegovInputInput: EventEmitter<{ value: string; event: globalThis.Event }>;
 
   /** Emitted when the input gains focus. */
   @Event() aegovInputFocus: EventEmitter<FocusEvent>;

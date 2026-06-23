@@ -62,7 +62,7 @@ export class AegovModal {
   @Prop() position: ModalPosition = 'center';
 
   /**
-   * Size: 'sm' (compact padding/radius), 'base' (default), or 'lg' (generous padding/radius). Mirrors aegov-card sizing tokens.
+  * Size: 'sm' (compact padding/radius), 'base' (default), 'lg' (generous padding/radius), or 'xl' (extra-wide). Mirrors aegov-card sizing tokens.
    * @default 'base'
    */
   @Prop() size: ModalSize = 'base';
@@ -306,6 +306,7 @@ export class AegovModal {
       sm: 'modal-size-sm',
       base: 'modal-size-base',
       lg: 'modal-size-lg',
+      xl: 'modal-size-xl',
     };
     return sizeClasses[size];
   }
