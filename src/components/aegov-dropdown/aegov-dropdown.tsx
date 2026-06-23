@@ -35,6 +35,9 @@ const DROPDOWN_PORTAL_STYLES = `
     pointer-events: none;
   }
 
+  [dir="rtl"] .aegov-dropdown-portal {
+    text-align: right;
+  }
   .aegov-dropdown-portal .aegov-dropdown {
     background: var(--color-whitely-50);
     color: var(--color-aeblack-800);

@@ -111,15 +111,19 @@
    ============================================ */
 
 .modal-size-sm {
-  @apply rounded-lg;
+ @apply rounded-lg w-75 max-w-full;
 }
 
 .modal-size-base {
-  @apply rounded-xl;
+  @apply rounded-xl w-150 max-w-full;
 }
 
 .modal-size-lg {
-  @apply rounded-2xl;
+  @apply rounded-2xl w-200 max-w-full ;
+}
+
+.modal-size-xl {
+  @apply rounded-3xl w-285 max-w-full ;
 }
 
 /* ============================================
@@ -136,6 +140,9 @@
 
 .modal-size-lg.modal--padded {
   @apply p-6;
+}
+.modal-size-xl.modal--padded {
+  @apply p-8;
 }
 
 /* Content animation states */
