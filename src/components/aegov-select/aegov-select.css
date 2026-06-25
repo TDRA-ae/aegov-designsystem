@@ -90,6 +90,26 @@
   @apply text-lg py-3.5 px-4.5 h-13;
 }
 
+select.select--xs {
+  @apply pe-6;
+}
+
+select.select--sm {
+  @apply pe-8;
+}
+
+select.select--base {
+  @apply pe-10;
+}
+
+select.select--lg {
+  @apply pe-12;
+}
+
+select.select--xl {
+  @apply pe-14;
+}
+
 /* ============================================
    LISTBOX TRIGGER (variant="listbox" or multiple)
    ============================================ */

@@ -3,7 +3,7 @@
 }
 
 .aegov-badge {
-  @apply inline-flex items-center whitespace-nowrap [print-color-adjust:exact];
+  @apply inline-flex items-center whitespace-nowrap [print-color-adjust:exact] align-middle;
 
   /* Inline media (icons / images) sized per badge size. Excludes dismiss-button svg (it's nested in .badge-dismiss, not a direct child). */
   & > svg,
