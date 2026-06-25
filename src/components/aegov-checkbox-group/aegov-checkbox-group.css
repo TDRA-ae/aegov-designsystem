@@ -59,7 +59,7 @@
    Cards variant - bordered card per item
    ======================================== */
 .checkbox-group--cards aegov-checkbox:not([check-all]) .checkbox__wrapper {
-  @apply rounded-lg border-2 border-primary-200 bg-white transition-all duration-200 dark:border-primary-800 dark:bg-aeblack-900;
+  @apply rounded-lg w-full border-2 border-primary-200 bg-white transition-all duration-200 dark:border-primary-800 dark:bg-aeblack-900;
 }
 
 /* Cards size padding */

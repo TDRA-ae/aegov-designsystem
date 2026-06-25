@@ -54,7 +54,7 @@
 
 /* Wrapper label for inline label mode */
 .checkbox__wrapper {
-  @apply flex items-start cursor-pointer select-none;
+  @apply flex items-start w-fit select-none;
 }
 
 .checkbox__wrapper:has(input:disabled) {

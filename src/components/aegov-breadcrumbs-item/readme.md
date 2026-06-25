@@ -5,6 +5,13 @@
 <!-- Auto Generated Below -->
 
 
+## Overview
+
+Breadcrumb item component
+
+**⚠️ IMPORTANT:** This component must be used inside `<aegov-breadcrumbs>` component.
+Do not use this component standalone.
+
 ## Properties
 
 | Property | Attribute | Description                                                                                                         | Type                                         | Default     |

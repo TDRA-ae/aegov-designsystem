@@ -108,7 +108,7 @@
    ============================================================ */
 
 .tab__btn--sm.tab__btn--simple {
-  @apply pb-2 pt-0.5 px-2 text-sm;
+  @apply py-2 px-2 text-sm ;
 }
 
 .tab__btn--sm.tab__btn--segmented {
@@ -124,7 +124,7 @@
    ============================================================ */
 
 .tab__btn--base.tab__btn--simple {
-  @apply pb-3 pt-1 px-3 text-base;
+  @apply py-3 px-3 text-base;
 }
 
 .tab__btn--base.tab__btn--segmented {
@@ -140,7 +140,7 @@
    ============================================================ */
 
 .tab__btn--lg.tab__btn--simple {
-  @apply pb-4 pt-1.5 px-4 text-lg;
+  @apply py-4 px-4 text-lg;
 }
 
 .tab__btn--lg.tab__btn--segmented {
