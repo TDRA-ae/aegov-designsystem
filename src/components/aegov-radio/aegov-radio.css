@@ -43,7 +43,7 @@
 
 /* Wrapper label for inline label mode */
 .radio__wrapper {
-  @apply flex items-start cursor-pointer select-none;
+  @apply flex items-start w-fit select-none;
 }
 
 .radio__wrapper:has(input:disabled) {
