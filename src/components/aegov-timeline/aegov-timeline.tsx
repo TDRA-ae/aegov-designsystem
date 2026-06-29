@@ -51,6 +51,9 @@ export class AegovTimeline {
     const steps = this.getDirectChildren();
 
     steps.forEach((step, index) => {
+      const previousStep = steps[index - 1] as HTMLAegovTimelineStepElement | undefined;
+      const previousStatus = previousStep?.getAttribute('status') ?? previousStep?.status;
+
       step.variant = this.variant;
       step.size = this._resolvedSize;
       step.orientation = this.orientation;
@@ -58,7 +61,7 @@ export class AegovTimeline {
       step.stepCount = steps.length;
       step.isFirst = index === 0;
       step.isLast = index === steps.length - 1;
-      step.isConnectorSolid = index > 0 && steps[index - 1].getAttribute('status') === 'completed';
+      step.isConnectorSolid = index > 0 && previousStatus === 'completed';
     });
   }
 

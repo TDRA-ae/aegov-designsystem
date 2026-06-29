@@ -90,6 +90,26 @@
   @apply text-lg py-3.5 px-4.5 h-13;
 }
 
+select.select--xs {
+  @apply pe-6;
+}
+
+select.select--sm {
+  @apply pe-8;
+}
+
+select.select--base {
+  @apply pe-10;
+}
+
+select.select--lg {
+  @apply pe-12;
+}
+
+select.select--xl {
+  @apply pe-14;
+}
+
 /* ============================================
    LISTBOX TRIGGER (variant="listbox" or multiple)
    ============================================ */
@@ -277,19 +297,19 @@ button.aegov-select {
    address it via descendant rules from the host trigger when in same tree.
    Selectors here match listbox rendered next to trigger inside the same host. */
 .aegov-select.select-variant-primary ~ .select__listbox .select__checkbox,
-.aegov-select.select-variant-primary .select__checkbox       { @apply border-primary-400 dark:border-primary-500; }
+.aegov-select.select-variant-primary .select__checkbox       { @apply border-primary-600 dark:border-primary-500; }
 .aegov-select.select-variant-secondary ~ .select__listbox .select__checkbox,
-.aegov-select.select-variant-secondary .select__checkbox     { @apply border-secondary-400 dark:border-secondary-500; }
+.aegov-select.select-variant-secondary .select__checkbox     { @apply border-secondary-600 dark:border-secondary-500; }
 .aegov-select.select-variant-neutral-max ~ .select__listbox .select__checkbox,
-.aegov-select.select-variant-neutral-max .select__checkbox   { @apply border-aeblack-400 dark:border-aeblack-500; }
+.aegov-select.select-variant-neutral-max .select__checkbox   { @apply border-aeblack-800 dark:border-aeblack-300; }
 .aegov-select.select-variant-neutral-min ~ .select__listbox .select__checkbox,
-.aegov-select.select-variant-neutral-min .select__checkbox   { @apply border-aeblack-200 dark:border-aeblack-600; }
+.aegov-select.select-variant-neutral-min .select__checkbox   { @apply border-aeblack-800 dark:border-aeblack-500; }
 
 /* Use :host scoping for listbox styling per variant via host class */
 :host(.select-variant-primary) .select__option--selected .select__checkbox       { @apply bg-primary-600 border-primary-600 dark:bg-primary-500 dark:border-primary-500; }
 :host(.select-variant-secondary) .select__option--selected .select__checkbox     { @apply bg-secondary-600 border-secondary-600 dark:bg-secondary-500 dark:border-secondary-500; }
 :host(.select-variant-neutral-max) .select__option--selected .select__checkbox   { @apply bg-aeblack-800 border-aeblack-800 dark:bg-aeblack-300 dark:border-aeblack-300; }
-:host(.select-variant-neutral-min) .select__option--selected .select__checkbox   { @apply bg-aeblack-800 border-aeblack-800 dark:bg-aeblack-300 dark:border-aeblack-300; }
+:host(.select-variant-neutral-min) .select__option--selected .select__checkbox   { @apply bg-aeblack-800 border-aeblack-800 dark:bg-aeblack-500 dark:border-aeblack-500; }
 
 /* Default fallback */
 .select__option--selected .select__checkbox {

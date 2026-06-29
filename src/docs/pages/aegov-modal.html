@@ -110,14 +110,16 @@
   <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Your last sign-in was 3 days ago from a UAE-based device.<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-modal</span>&gt;</span></code></pre><hr>
 <h2>Sizes</h2>
-<p>The <code>size</code> property scales padding and corner radius. <code>sm</code> suits short confirmations; <code>base</code> is the default; <code>lg</code> gives extra breathing room for forms or rich content.</p>
+<p>The <code>size</code> property scales padding and corner radius. <code>sm</code> suits short confirmations; <code>base</code> is the default; <code>lg</code> gives extra breathing room for forms or rich content; <code>xl</code> is extra-wide for complex layouts or data-heavy dialogs.</p>
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-modal</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm&quot;</span> <span class="hljs-attr">is-open</span>=<span class="hljs-string">&quot;true&quot;</span>&gt;</span>…<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-modal</span>&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">aegov-modal</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;base&quot;</span> <span class="hljs-attr">is-open</span>=<span class="hljs-string">&quot;true&quot;</span>&gt;</span>…<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-modal</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-modal</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;lg&quot;</span> <span class="hljs-attr">is-open</span>=<span class="hljs-string">&quot;true&quot;</span>&gt;</span>…<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-modal</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-modal</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;lg&quot;</span> <span class="hljs-attr">is-open</span>=<span class="hljs-string">&quot;true&quot;</span>&gt;</span>…<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-modal</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-modal</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;xl&quot;</span> <span class="hljs-attr">is-open</span>=<span class="hljs-string">&quot;true&quot;</span>&gt;</span>…<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-modal</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <div class="flex flex-wrap gap-3">
     <aegov-button id="demo-size-sm">Open small</aegov-button>
     <aegov-button id="demo-size-base">Open base</aegov-button>
     <aegov-button id="demo-size-lg">Open large</aegov-button>
+    <aegov-button id="demo-size-xl">Open extra large</aegov-button>
   </div>
 
   <aegov-modal id="demo-modal-sm" size="sm" aria-label="Small modal">
@@ -137,10 +139,16 @@
     <p class="mb-6">Large size offers generous padding for long-form content, multi-step flows, or service forms inside a dialog.</p>
     <div class="flex justify-end"><aegov-button id="demo-close-lg">Close</aegov-button></div>
   </aegov-modal>
+ 
+  <aegov-modal id="demo-modal-xl" size="xl" aria-label="Extra large modal">
+    <h3 class="text-2xl font-bold mb-2">Extra large dialog</h3>
+    <p class="mb-6">Extra large size is suited for complex layouts, data tables, or multi-column content that needs maximum width.</p>
+    <div class="flex justify-end"><aegov-button id="demo-close-xl">Close</aegov-button></div>
+  </aegov-modal>
 
   <script>
     (function() {
-      ['sm','base','lg'].forEach(s => {
+      ['sm','base','lg','xl'].forEach(s => {
         const m = document.querySelector('#demo-modal-' + s);
         document.querySelector('#demo-size-' + s).addEventListener('click', () => m.show());
         document.querySelector('#demo-close-' + s).addEventListener('click', () => m.close());

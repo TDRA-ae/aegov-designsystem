@@ -1,6 +1,6 @@
 import { Component, Host, h, Prop, State, Element, Watch } from '@stencil/core';
-import { NAVBLOCK_ICONS, NAVBLOCK_SIZES } from '../../utils/types';
-import type { NavblockIcon, NavblockSize } from '../../utils/types';
+import { NAVBLOCK_ICONS, NAVBLOCK_SIZES, NAVBLOCK_VARIANTS } from '../../utils/types';
+import type { NavblockIcon, NavblockSize, NavblockVariant } from '../../utils/types';
 import { warnIfInvalidEnumProp } from '../../utils/prop-validator';
 import { watchResponsiveProp } from '../../utils/responsive-prop';
 import type { ResponsivePropWatcher } from '../../utils/responsive-prop';
@@ -65,6 +65,19 @@ export class AegovNavblock {
   /** Wrap the block in a bordered container with padding. */
   @Prop() isBordered: boolean = false;
 
+  /**
+   * Visual variant. `collapsible` (default) shows nested items in an
+   * animated accordion; `flat` renders all items at the same indentation
+   * level with group headers styled bold.
+   */
+  @Prop() variant: NavblockVariant = 'collapsible';
+
+  /**
+   * When `true` and `variant="flat"`, the active item shows a coloured
+   * inline-start border as an active indicator (matches the Flux sidebar style).
+   */
+  @Prop() activeBorder: boolean = false;
+
   private _sizeWatcher: ResponsivePropWatcher | null = null;
 
   componentWillLoad() {
@@ -72,6 +85,7 @@ export class AegovNavblock {
       this.fieldId = generateId('aegov-navblock');
     }
     warnIfInvalidEnumProp(this.icon, NAVBLOCK_ICONS, 'chevron', ctx('icon'));
+    warnIfInvalidEnumProp(this.variant, NAVBLOCK_VARIANTS, 'collapsible', ctx('variant'));
 
     this._sizeWatcher = watchResponsiveProp(this.size, NAVBLOCK_SIZES, 'base', v => {
       this._resolvedSize = v as NavblockSize;
@@ -108,6 +122,12 @@ export class AegovNavblock {
     this.syncDescendants();
   }
 
+  @Watch('variant')
+  onVariantChange(v: unknown) {
+    warnIfInvalidEnumProp(v, NAVBLOCK_VARIANTS, 'collapsible', ctx('variant'));
+    this.syncDescendants();
+  }
+
   @Watch('size')
   onSizeChange() {
     this._sizeWatcher?.destroy();
@@ -131,6 +151,7 @@ export class AegovNavblock {
     items.forEach(item => {
       item.icon = this.icon;
       item.size = this._resolvedSize;
+      item.variant = this.variant;
     });
   }
 
@@ -288,6 +309,8 @@ export class AegovNavblock {
     const classes = {
       'aegov-navblock': true,
       [`navblock--${this._resolvedSize}`]: true,
+      [`navblock--${this.variant}`]: true,
+      'navblock--active-border': this.activeBorder,
       'aegov-navblock--bordered': this.isBordered,
     };
 

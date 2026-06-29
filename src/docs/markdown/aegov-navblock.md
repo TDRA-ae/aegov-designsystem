@@ -37,6 +37,128 @@ Authors do not need to add `slot="subnav"` to nested items — the component doe
 
 ---
 
+## Variants
+
+The `variant` prop switches the visual mode of the entire tree — set it once on `aegov-navblock` and all descendant items adapt automatically. Two variants are available:
+
+- **`collapsible`** (default) — parent items expand and collapse with an animated accordion. The active item receives a filled background highlight.
+- **`flat`** — all items sit at the same indentation level. Items with children become non-interactive bold group headers; their children are always visible. The active item gets a colour and font-weight change only — no filled background.
+
+> The markup is **identical** between variants. Switching `variant` from `"collapsible"` to `"flat"` is all that is needed.
+
+### Collapsible (default)
+
+```html
+<aegov-navblock variant="collapsible" block-title="Workspace">
+  <aegov-navblock-item href="#" is-active="true">
+    <svg slot="icon-start" viewBox="0 0 256 256" aria-hidden="true"><rect width="256" height="256" fill="none"/><path d="M208 127.99v72a8 8 0 0 1-8 8h-56v-56h-32v56H56a8 8 0 0 1-8-8V128" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="20"/><path d="m24 136 95.996-96L216 136" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="20"/></svg>
+    Dashboard
+  </aegov-navblock-item>
+  <aegov-navblock-item href="#">
+    <svg slot="icon-start" viewBox="0 0 256 256" aria-hidden="true"><rect width="256" height="256" fill="none"/><line x1="40" y1="128" x2="216" y2="128" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="20"/><line x1="40" y1="64" x2="216" y2="64" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="20"/><line x1="40" y1="192" x2="216" y2="192" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="20"/></svg>
+    Transactions
+  </aegov-navblock-item>
+  <aegov-navblock-item>
+    Account
+    <aegov-navblock-item href="#">Profile</aegov-navblock-item>
+    <aegov-navblock-item href="#">Settings</aegov-navblock-item>
+    <aegov-navblock-item href="#">Billing</aegov-navblock-item>
+  </aegov-navblock-item>
+</aegov-navblock>
+```
+
+<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov" style="max-width: 320px;">
+  <aegov-navblock variant="collapsible" block-title="Workspace">
+    <aegov-navblock-item href="#" is-active="true">
+      <svg slot="icon-start" viewBox="0 0 256 256" aria-hidden="true"><rect width="256" height="256" fill="none"/><path d="M208 127.99v72a8 8 0 0 1-8 8h-56v-56h-32v56H56a8 8 0 0 1-8-8V128" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="20"/><path d="m24 136 95.996-96L216 136" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="20"/></svg>
+      Dashboard
+    </aegov-navblock-item>
+    <aegov-navblock-item href="#">
+      <svg slot="icon-start" viewBox="0 0 256 256" aria-hidden="true"><rect width="256" height="256" fill="none"/><line x1="40" y1="128" x2="216" y2="128" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="20"/><line x1="40" y1="64" x2="216" y2="64" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="20"/><line x1="40" y1="192" x2="216" y2="192" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="20"/></svg>
+      Transactions
+    </aegov-navblock-item>
+    <aegov-navblock-item>
+      Account
+      <aegov-navblock-item href="#">Profile</aegov-navblock-item>
+      <aegov-navblock-item href="#">Settings</aegov-navblock-item>
+      <aegov-navblock-item href="#">Billing</aegov-navblock-item>
+    </aegov-navblock-item>
+  </aegov-navblock>
+</div>
+
+### Flat
+
+All items share the same indentation level. Group headers (items with children) render as bold, non-interactive labels. No connector line is drawn between parent and children.
+
+```html
+<aegov-navblock variant="flat" block-title="Workspace">
+  <aegov-navblock-item href="#" is-active="true">
+    <svg slot="icon-start" viewBox="0 0 256 256" aria-hidden="true">…</svg>
+    Dashboard
+  </aegov-navblock-item>
+  <aegov-navblock-item href="#">
+    <svg slot="icon-start" viewBox="0 0 256 256" aria-hidden="true">…</svg>
+    Transactions
+  </aegov-navblock-item>
+  <aegov-navblock-item>
+    Account
+    <aegov-navblock-item href="#">Profile</aegov-navblock-item>
+    <aegov-navblock-item href="#">Settings</aegov-navblock-item>
+    <aegov-navblock-item href="#">Billing</aegov-navblock-item>
+  </aegov-navblock-item>
+</aegov-navblock>
+```
+
+<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov" style="max-width: 320px;">
+  <aegov-navblock variant="flat" block-title="Workspace">
+    <aegov-navblock-item href="#" is-active="true">
+      <svg slot="icon-start" viewBox="0 0 256 256" aria-hidden="true"><rect width="256" height="256" fill="none"/><path d="M208 127.99v72a8 8 0 0 1-8 8h-56v-56h-32v56H56a8 8 0 0 1-8-8V128" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="20"/><path d="m24 136 95.996-96L216 136" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="20"/></svg>
+      Dashboard
+    </aegov-navblock-item>
+    <aegov-navblock-item href="#">
+      <svg slot="icon-start" viewBox="0 0 256 256" aria-hidden="true"><rect width="256" height="256" fill="none"/><line x1="40" y1="128" x2="216" y2="128" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="20"/><line x1="40" y1="64" x2="216" y2="64" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="20"/><line x1="40" y1="192" x2="216" y2="192" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="20"/></svg>
+      Transactions
+    </aegov-navblock-item>
+    <aegov-navblock-item>
+      Account
+      <aegov-navblock-item href="#">Profile</aegov-navblock-item>
+      <aegov-navblock-item href="#">Settings</aegov-navblock-item>
+      <aegov-navblock-item href="#">Billing</aegov-navblock-item>
+    </aegov-navblock-item>
+  </aegov-navblock>
+</div>
+
+### Flat with active border
+
+Add `active-border="true"` to apply the Flux sidebar pattern: a persistent light-gray border runs the full height of the list; the active top-level item's segment of that border changes to the primary colour, creating a merged active indicator.
+
+```html
+<aegov-navblock variant="flat" active-border="true" block-title="Workspace">
+  …
+</aegov-navblock>
+```
+
+<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov" style="max-width: 320px;">
+  <aegov-navblock variant="flat" active-border="true" block-title="Workspace">
+    <aegov-navblock-item href="#" is-active="true">
+      <svg slot="icon-start" viewBox="0 0 256 256" aria-hidden="true"><rect width="256" height="256" fill="none"/><path d="M208 127.99v72a8 8 0 0 1-8 8h-56v-56h-32v56H56a8 8 0 0 1-8-8V128" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="20"/><path d="m24 136 95.996-96L216 136" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="20"/></svg>
+      Dashboard
+    </aegov-navblock-item>
+    <aegov-navblock-item href="#">
+      <svg slot="icon-start" viewBox="0 0 256 256" aria-hidden="true"><rect width="256" height="256" fill="none"/><line x1="40" y1="128" x2="216" y2="128" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="20"/><line x1="40" y1="64" x2="216" y2="64" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="20"/><line x1="40" y1="192" x2="216" y2="192" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="20"/></svg>
+      Transactions
+    </aegov-navblock-item>
+    <aegov-navblock-item>
+      Account
+      <aegov-navblock-item href="#">Profile</aegov-navblock-item>
+      <aegov-navblock-item href="#" is-active="true">Settings</aegov-navblock-item>
+      <aegov-navblock-item href="#">Billing</aegov-navblock-item>
+    </aegov-navblock-item>
+  </aegov-navblock>
+</div>
+
+---
+
 ## Block title
 
 The `block-title` prop sets a short heading rendered above the items. Pass markup via the `title` slot to override the prop entirely (for example to embed an icon next to the title).
@@ -298,20 +420,23 @@ A disabled item is not focusable, is removed from arrow-key navigation, and rend
 | `icon`        | `icon`         | Expand/collapse indicator — `'chevron'` or `'plus'`.                 | `'chevron' \| 'plus'`      | `'chevron'`              |
 | `size`        | `size`         | Size token. Accepts responsive strings (e.g. `"sm md:base lg:lg"`). | `string`                   | `'base'`                 |
 | `isBordered`  | `is-bordered`  | Wrap the block in a bordered container.                              | `boolean`                  | `false`                  |
+| `variant`     | `variant`      | Visual mode — `'collapsible'` (accordion) or `'flat'` (group headers, no indent).       | `'collapsible' \| 'flat'`  | `'collapsible'`          |
+| `activeBorder`| `active-border`| When `true` and `variant="flat"`, active item gets a coloured inline-start border.      | `boolean`                  | `false`                  |
 | `fieldId`     | `field-id`     | Unique ID for the wrapper. Auto-generated if not provided.           | `string \| undefined`      | (auto-generated)         |
 
 ### `aegov-navblock-item`
 
-| Property      | Attribute      | Description                                                                              | Type                                    | Default       |
-| ------------- | -------------- | ---------------------------------------------------------------------------------------- | --------------------------------------- | ------------- |
-| `href`        | `href`         | Destination URL. Renders an `<a>` when present (and the item has no sub-items).          | `string \| undefined`                   | `undefined`   |
+| Property      | Attribute      | Description                                                                              | Type                                    | Default         |
+| ------------- | -------------- | ---------------------------------------------------------------------------------------- | --------------------------------------- | --------------- |
+| `href`        | `href`         | Destination URL. Renders an `<a>` when present (and the item has no sub-items).          | `string \| undefined`                   | `undefined`     |
 | `target`      | `target`       | Anchor target attribute.                                                                  | `'_blank' \| '_self' \| '_parent' \| '_top'` | `undefined` |
-| `rel`         | `rel`          | Anchor `rel` attribute.                                                                   | `string \| undefined`                   | `undefined`   |
-| `isActive`    | `is-active`    | Mark as the current page. Sets `aria-current="page"` and a highlight style.              | `boolean`                               | `false`       |
-| `isDisabled`  | `is-disabled`  | Visually disabled, not focusable, removed from arrow-key navigation.                     | `boolean`                               | `false`       |
-| `isOpen`      | `is-open`      | Sub-region open state. Set by the parent navblock; can also be authored directly.        | `boolean`                               | `false`       |
-| `icon`        | `icon`         | Expand/collapse indicator. Cascades from the parent navblock.                            | `'chevron' \| 'plus'`                   | `'chevron'`   |
-| `size`        | `size`         | Size token. Cascades from the parent navblock.                                            | `'sm' \| 'base' \| 'lg'`                | `'base'`      |
+| `rel`         | `rel`          | Anchor `rel` attribute.                                                                   | `string \| undefined`                   | `undefined`     |
+| `isActive`    | `is-active`    | Mark as the current page. Sets `aria-current="page"` and a highlight style.              | `boolean`                               | `false`         |
+| `isDisabled`  | `is-disabled`  | Visually disabled, not focusable, removed from arrow-key navigation.                     | `boolean`                               | `false`         |
+| `isOpen`      | `is-open`      | Sub-region open state. Set by the parent navblock; can also be authored directly.        | `boolean`                               | `false`         |
+| `icon`        | `icon`         | Expand/collapse indicator. Cascades from the parent navblock.                            | `'chevron' \| 'plus'`                   | `'chevron'`     |
+| `size`        | `size`         | Size token. Cascades from the parent navblock.                                            | `'sm' \| 'base' \| 'lg'`                | `'base'`        |
+| `variant`     | `variant`      | Visual variant. Cascades automatically from the parent navblock — do not set manually.  | `'collapsible' \| 'flat'`               | `'collapsible'` |
 
 ### Slots
 

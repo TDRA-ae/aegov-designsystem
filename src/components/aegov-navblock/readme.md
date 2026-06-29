@@ -7,15 +7,17 @@
 
 ## Properties
 
-| Property     | Attribute     | Description                                                                                                                        | Type                  | Default                |
-| ------------ | ------------- | ---------------------------------------------------------------------------------------------------------------------------------- | --------------------- | ---------------------- |
-| `blockTitle` | `block-title` | Block title text shown above items. The `title` slot overrides this.                                                               | `string`              | `undefined`            |
-| `fieldId`    | `field-id`    | Unique ID for the block wrapper. Auto-generated if not provided.                                                                   | `string`              | `undefined`            |
-| `icon`       | `icon`        | Expand/collapse icon style for items.                                                                                              | `"chevron" \| "plus"` | `'chevron'`            |
-| `isBordered` | `is-bordered` | Wrap the block in a bordered container with padding.                                                                               | `boolean`             | `false`                |
-| `isMultiple` | `is-multiple` | Allow multiple items to be open at the same level simultaneously.                                                                  | `boolean`             | `false`                |
-| `labelNav`   | `label-nav`   | Accessible label for the navigation landmark.                                                                                      | `string`              | `'Sidebar navigation'` |
-| `size`       | `size`        | Size token. Accepts a Tailwind-style responsive string (e.g. `"sm md:base lg:lg"`). Resolves at runtime and cascades to all items. | `string`              | `'base'`               |
+| Property       | Attribute       | Description                                                                                                                                                                 | Type                      | Default                |
+| -------------- | --------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------- | ---------------------- |
+| `activeBorder` | `active-border` | When `true` and `variant="flat"`, the active item shows a coloured inline-start border as an active indicator (matches the Flux sidebar style).                             | `boolean`                 | `false`                |
+| `blockTitle`   | `block-title`   | Block title text shown above items. The `title` slot overrides this.                                                                                                        | `string`                  | `undefined`            |
+| `fieldId`      | `field-id`      | Unique ID for the block wrapper. Auto-generated if not provided.                                                                                                            | `string`                  | `undefined`            |
+| `icon`         | `icon`          | Expand/collapse icon style for items.                                                                                                                                       | `"chevron" \| "plus"`     | `'chevron'`            |
+| `isBordered`   | `is-bordered`   | Wrap the block in a bordered container with padding.                                                                                                                        | `boolean`                 | `false`                |
+| `isMultiple`   | `is-multiple`   | Allow multiple items to be open at the same level simultaneously.                                                                                                           | `boolean`                 | `false`                |
+| `labelNav`     | `label-nav`     | Accessible label for the navigation landmark.                                                                                                                               | `string`                  | `'Sidebar navigation'` |
+| `size`         | `size`          | Size token. Accepts a Tailwind-style responsive string (e.g. `"sm md:base lg:lg"`). Resolves at runtime and cascades to all items.                                          | `string`                  | `'base'`               |
+| `variant`      | `variant`       | Visual variant. `collapsible` (default) shows nested items in an animated accordion; `flat` renders all items at the same indentation level with group headers styled bold. | `"collapsible" \| "flat"` | `'collapsible'`        |
 
 
 ## Slots

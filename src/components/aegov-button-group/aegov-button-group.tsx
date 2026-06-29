@@ -63,7 +63,7 @@ export class AegovButtonGroup {
     );
 
     const invalidChildren = directChildren.filter(
-      (child) => child.tagName.toLowerCase() !== 'aegov-button'
+      (child) => child.tagName.toLowerCase() !== 'aegov-button' && child.tagName.toLowerCase() !== 'div'
     );
 
     if (invalidChildren.length > 0) {

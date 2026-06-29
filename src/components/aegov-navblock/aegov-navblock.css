@@ -24,3 +24,12 @@
 .aegov-navblock__list {
   @apply flex flex-col gap-0.5 list-none m-0 p-0;
 }
+
+/* Flat + active-border: persistent full-height border on the list container.
+   All items are indented from this border; the active item's ::before
+   paints over this border with the primary color (Flux sidebar pattern). */
+.navblock--flat.navblock--active-border .aegov-navblock__list {
+  border-inline-start: 1.5px solid;
+  @apply border-aeblack-100 dark:border-aeblack-800;
+  padding-inline-start: 0.75rem;
+}
