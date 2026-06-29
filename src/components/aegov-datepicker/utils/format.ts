@@ -67,9 +67,10 @@ export function formatDate(date: Date, format: string, locale: string = 'en'): s
  *
  * @param value - Date string to parse
  * @param format - Format string matching the value's layout
+ * @param locale - BCP 47 locale for month name parsing (MMM / MMMM tokens)
  * @returns Date object or null if parsing fails
  */
-export function parseDate(value: string, format: string): Date | null {
+export function parseDate(value: string, format: string, locale: string = 'en'): Date | null {
   if (!value || !value.trim()) return null;
 
   const trimmed = value.trim();
@@ -82,7 +83,6 @@ export function parseDate(value: string, format: string): Date | null {
   }
 
   // Token-based parsing: build regex from format string
-  // Step 1: Split format into tokens and literal separators
   const groups: string[] = [];
   const numericTokens = ['YYYY', 'YY', 'MM', 'M', 'DD', 'D'];
   let regexStr = '';
@@ -103,8 +103,9 @@ export function parseDate(value: string, format: string): Date | null {
             regexStr += '(\\d{1,2})';
           }
         } else {
-          // Name-based tokens - skip with wildcard
-          regexStr += '.+?';
+          // Name-based tokens — capture group so indices stay in sync with groups[]
+          groups.push(token);
+          regexStr += '(.+?)';
         }
         remaining = remaining.slice(token.length);
         matched = true;
@@ -125,26 +126,54 @@ export function parseDate(value: string, format: string): Date | null {
   let month = 0;
   let day = 1;
 
+  // Build locale-aware month name lookup tables (built lazily only when needed)
+  let shortMonths: string[] | null = null;
+  let longMonths: string[] | null = null;
+  const getShortMonths = () => shortMonths ||= Array.from({ length: 12 }, (_, i) =>
+    new Intl.DateTimeFormat(locale, { month: 'short' }).format(new Date(2000, i, 1)).toLowerCase()
+  );
+  const getLongMonths = () => longMonths ||= Array.from({ length: 12 }, (_, i) =>
+    new Intl.DateTimeFormat(locale, { month: 'long' }).format(new Date(2000, i, 1)).toLowerCase()
+  );
+
   groups.forEach((token, i) => {
     if (i + 1 >= match.length) return;
-    const val = parseInt(match[i + 1], 10);
-    if (isNaN(val)) return;
+    const raw = match[i + 1];
 
     switch (token) {
-      case 'YYYY':
-        year = val;
+      case 'YYYY': {
+        const val = parseInt(raw, 10);
+        if (!isNaN(val)) year = val;
         break;
-      case 'YY':
-        year = 2000 + val;
+      }
+      case 'YY': {
+        const val = parseInt(raw, 10);
+        if (!isNaN(val)) year = 2000 + val;
         break;
+      }
       case 'MM':
-      case 'M':
-        month = val - 1;
+      case 'M': {
+        const val = parseInt(raw, 10);
+        if (!isNaN(val)) month = val - 1;
         break;
+      }
       case 'DD':
-      case 'D':
-        day = val;
+      case 'D': {
+        const val = parseInt(raw, 10);
+        if (!isNaN(val)) day = val;
         break;
+      }
+      case 'MMM': {
+        const idx = getShortMonths().indexOf(raw.trim().toLowerCase());
+        if (idx !== -1) month = idx;
+        break;
+      }
+      case 'MMMM': {
+        const idx = getLongMonths().indexOf(raw.trim().toLowerCase());
+        if (idx !== -1) month = idx;
+        break;
+      }
+      // ddd / dd (weekday names) — not used for date construction, ignore
     }
   });
 
@@ -156,15 +185,15 @@ export function parseDate(value: string, format: string): Date | null {
  * Parse a range value string into start and end dates.
  * Range format: "startDate / endDate" (e.g., "2026-01-01 / 2026-01-31")
  */
-export function parseRangeValue(value: string, format: string): { start: Date | null; end: Date | null } {
+export function parseRangeValue(value: string, format: string, locale: string = 'en'): { start: Date | null; end: Date | null } {
   if (!value || !value.includes('/')) {
     return { start: null, end: null };
   }
 
   const parts = value.split('/').map(s => s.trim());
   return {
-    start: parts[0] ? parseDate(parts[0], format) : null,
-    end: parts[1] ? parseDate(parts[1], format) : null,
+    start: parts[0] ? parseDate(parts[0], format, locale) : null,
+    end: parts[1] ? parseDate(parts[1], format, locale) : null,
   };
 }
 
