@@ -662,6 +662,12 @@ export const NAVBLOCK_ICONS = ['chevron', 'plus'] as const;
 export type NavblockIcon = typeof NAVBLOCK_ICONS[number];
 
 /**
+ * Navblock component variant types
+ */
+export const NAVBLOCK_VARIANTS = ['collapsible', 'flat'] as const;
+export type NavblockVariant = typeof NAVBLOCK_VARIANTS[number];
+
+/**
  * Common component props
  */
 export interface BaseComponentProps {
