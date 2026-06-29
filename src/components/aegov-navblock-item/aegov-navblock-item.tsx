@@ -1,5 +1,5 @@
 import { Component, Host, h, Prop, Element, Event, EventEmitter, State, Watch } from '@stencil/core';
-import type { NavblockIcon, NavblockSize, LinkTarget } from '../../utils/types';
+import type { NavblockIcon, NavblockSize, NavblockVariant, LinkTarget } from '../../utils/types';
 import { getPassThroughAttributes } from '../../utils/attributes';
 import { generateId } from '../../utils/id-generator';
 
@@ -72,6 +72,12 @@ export class AegovNavblockItem {
    */
   @Prop({ mutable: true }) size: NavblockSize = 'base';
 
+  /**
+   * Visual variant. Cascades from parent navblock.
+   * @internal
+   */
+  @Prop({ mutable: true }) variant: NavblockVariant = 'collapsible';
+
   /** Emitted when the row toggles its sub-region. */
   @Event() aegovNavblockItemToggle!: EventEmitter<{ open: boolean }>;
 
@@ -137,6 +143,11 @@ export class AegovNavblockItem {
     this.syncSubItems();
   }
 
+  @Watch('variant')
+  onVariantChange() {
+    this.syncSubItems();
+  }
+
   private getDirectSubItems(): HTMLAegovNavblockItemElement[] {
     return Array.from(this.el.children).filter(
       c =>
@@ -149,6 +160,7 @@ export class AegovNavblockItem {
     this.getDirectSubItems().forEach(child => {
       child.icon = this.icon;
       child.size = this.size;
+      child.variant = this.variant;
     });
   }
 
@@ -216,6 +228,8 @@ export class AegovNavblockItem {
   }
 
   render() {
+    const isFlat = this.variant === 'flat';
+
     const liClasses = {
       'aegov-navblock-item': true,
       [`navblock-item--${this.size}`]: true,
@@ -223,6 +237,7 @@ export class AegovNavblockItem {
       'aegov-navblock-item--open': this.isOpen,
       'aegov-navblock-item--active': this.isActive,
       'aegov-navblock-item--disabled': this.isDisabled,
+      'aegov-navblock-item--flat-header': isFlat && this.hasChildren,
       'is-active': this.isActive,
     };
 
@@ -234,11 +249,30 @@ export class AegovNavblockItem {
       }
     });
 
-    const iconNode = this.hasIconStartSlot ? (
-      <span class="aegov-navblock-item__icon">
-        <slot name="icon-start" />
+    // Icon area: always rendered to preserve horizontal text alignment.
+    // Collapsible: chevron fills the slot when no explicit icon + has children.
+    // Flat: chevron never shown; slot content or empty spacer.
+    // --empty modifier allows CSS to hide the spacer for leaf children in
+    // collapsible mode so their text aligns with the parent label, not icon.
+    const showLeftChevron = !isFlat && this.hasChildren && !this.hasIconStartSlot;
+    const showRightChevron = !isFlat && this.hasChildren && this.hasIconStartSlot;
+    const iconIsEmpty = !this.hasIconStartSlot && !showLeftChevron;
+
+    // In flat mode: skip the icon span entirely when there's nothing to show.
+    // This removes the 20px spacer so all text without icons aligns flush left.
+    // In collapsible mode: always render so text aligns; CSS hides it for sub-items.
+    const iconNode = isFlat && iconIsEmpty ? null : (
+      <span
+        class={`aegov-navblock-item__icon${iconIsEmpty ? ' aegov-navblock-item__icon--empty' : ''}`}
+        aria-hidden="true"
+      >
+        {this.hasIconStartSlot ? (
+          <slot name="icon-start" />
+        ) : showLeftChevron ? (
+          this.renderChevron()
+        ) : null}
       </span>
-    ) : null;
+    );
 
     const labelNode = (
       <span class="aegov-navblock-item__label">
@@ -250,7 +284,19 @@ export class AegovNavblockItem {
     const subId = `${this.itemId}-sub`;
     const triggerId = `${this.itemId}-trigger`;
 
-    if (this.hasChildren) {
+    if (isFlat && this.hasChildren) {
+      // Flat group header: non-interactive, always expanded
+      row = (
+        <span
+          class="aegov-navblock-item__row aegov-navblock-item__group-header"
+          role="presentation"
+        >
+          {iconNode}
+          {labelNode}
+        </span>
+      );
+    } else if (this.hasChildren) {
+      // Collapsible toggle button
       row = (
         <button
           type="button"
@@ -264,7 +310,7 @@ export class AegovNavblockItem {
         >
           {iconNode}
           {labelNode}
-          {this.renderChevron()}
+          {showRightChevron && this.renderChevron()}
         </button>
       );
     } else if (this.isDisabled) {
@@ -306,20 +352,31 @@ export class AegovNavblockItem {
         <li {...passThroughAttributes} class={liClasses}>
           {row}
           {this.hasChildren && (
-            <div
-              class="aegov-navblock-item__sub-wrapper"
-              style={{ height: `${this.contentHeight}px` }}
-            >
+            isFlat ? (
+              // Flat: children always visible, no animation, no indentation
               <ul
-                class="aegov-navblock-item__sub"
-                id={subId}
+                class="aegov-navblock-item__sub aegov-navblock-item__sub--flat"
                 role="list"
-                aria-labelledby={triggerId}
-                ref={el => (this.subInnerEl = el)}
               >
                 <slot name="subnav" />
               </ul>
-            </div>
+            ) : (
+              // Collapsible: animated height wrapper
+              <div
+                class="aegov-navblock-item__sub-wrapper"
+                style={{ height: `${this.contentHeight}px` }}
+              >
+                <ul
+                  class="aegov-navblock-item__sub"
+                  id={subId}
+                  role="list"
+                  aria-labelledby={triggerId}
+                  ref={el => (this.subInnerEl = el)}
+                >
+                  <slot name="subnav" />
+                </ul>
+              </div>
+            )
           )}
         </li>
       </Host>

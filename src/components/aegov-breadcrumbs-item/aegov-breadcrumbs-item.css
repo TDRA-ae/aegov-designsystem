@@ -14,6 +14,9 @@ li.breadcrumb__item {
   & svg {
     @apply size-4;
   }
+  .breadcrumb-current {
+    @apply px-1 py-0.5;
+  }
 }
 
 svg.breadcrumb__separator {

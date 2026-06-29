@@ -241,7 +241,7 @@ export type ModalOverlayOpacity = typeof MODAL_OVERLAY_OPACITIES[number];
 /**
  * Modal component size types (drive padding + border-radius, mirroring card)
  */
-export const MODAL_SIZES = ['sm', 'base', 'lg'] as const;
+export const MODAL_SIZES = ['sm', 'base', 'lg', 'xl'] as const;
 export type ModalSize = typeof MODAL_SIZES[number];
 
 /**
@@ -660,6 +660,12 @@ export type NavblockSize = typeof NAVBLOCK_SIZES[number];
  */
 export const NAVBLOCK_ICONS = ['chevron', 'plus'] as const;
 export type NavblockIcon = typeof NAVBLOCK_ICONS[number];
+
+/**
+ * Navblock component variant types
+ */
+export const NAVBLOCK_VARIANTS = ['collapsible', 'flat'] as const;
+export type NavblockVariant = typeof NAVBLOCK_VARIANTS[number];
 
 /**
  * Common component props

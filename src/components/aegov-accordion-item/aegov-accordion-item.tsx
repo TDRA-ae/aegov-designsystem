@@ -7,7 +7,6 @@ import { AccordionIcon, AccordionSize } from '../../utils/types';
  * **⚠️ IMPORTANT:** This component must be used inside `<aegov-accordion>` component.
  * Do not use this component standalone.
  *
- * @internal This component is designed to work only as a child of aegov-accordion
  * @slot accordion-item-heading - Heading content for the accordion item
  * @slot accordion-item-content - Content that expands/collapses
  */

@@ -209,27 +209,37 @@ export const DATEPICKER_PORTAL_STYLES = `
 }
 
 /* ── Grid ───────────────────────────────────────────── */
-.datepicker__weekdays {
+.datepicker__grid {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
-  margin-bottom: 0.25rem;
+  gap: 1px;
 }
 
+/* Row and cell wrappers are transparent to the grid layout */
+.datepicker__row {
+  display: contents;
+}
+
+.datepicker__cell {
+  display: contents;
+}
+
+/* Weekday column headers — now inside the grid as first row */
 .datepicker__weekday {
   display: flex;
   align-items: center;
   justify-content: center;
   height: 2rem;
+  padding-bottom: 0.25rem;
   font-size: 0.75rem;
   font-weight: 500;
   color: var(--color-aeblack-400, #94a3b8);
   text-transform: uppercase;
 }
 
-.datepicker__grid {
-  display: grid;
-  grid-template-columns: repeat(7, 1fr);
-  gap: 1px;
+.datepicker__weekday abbr {
+  text-decoration: none;
+  cursor: default;
 }
 
 /* ── Day Cell ───────────────────────────────────────── */
@@ -411,6 +421,17 @@ export const DATEPICKER_PORTAL_STYLES = `
 
 /* ── Live Region ────────────────────────────────────── */
 .datepicker__live-region {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Visually hidden dialog title referenced by aria-labelledby */
+.datepicker__dialog-title {
   position: absolute;
   width: 1px;
   height: 1px;

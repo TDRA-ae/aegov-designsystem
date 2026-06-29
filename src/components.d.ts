@@ -5,14 +5,12 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
-import { AccordionIcon, AccordionSize, AegovValidationDetail, AegovValidationResult, AegovValidationTrigger, AspectRatioFit, AspectRatioPreset, AvatarAppearance, AvatarGroupVariant, AvatarStatus, BadgeAppearance, BadgeColor, BannerDisplay, BannerMode, BannerPosition, BentoFlow, BlockquoteAppearance, BreadcrumbSeparator, ButtonAppearance, ButtonGroupOrientation, ButtonGroupPosition, ButtonType, ButtonVariant, CalloutAppearance, CalloutVariant, CardAppearance, CardBorderWidth, CardHover, CardSize, CardVariant, CheckboxGroupOrientation, CheckboxGroupVariant, DatepickerChangeDetail, DatepickerMode, DatepickerMonthChangeDetail, DrawerAnimation, DrawerOverlayOpacity, DrawerPosition, DrawerSize, DropdownAlign, DropdownPosition, DropdownTrigger, FileuploadVariant, FormVariant, HeaderVariant, InputType, LinkTarget, ModalOverlayOpacity, ModalPosition, ModalSize, NavblockIcon, NavblockSize, OtpVariant, PaginationVariant, PopoverAlign, PopoverPosition, PopoverTrigger, ProgressCounter, RadioGroupOrientation, RadioGroupVariant, RangeDisplay, RangeMode, RangeOrientation, SelectChangeDetail, SelectVariant, SeparatorAppearance, SeparatorOrientation, SeparatorVariant, TabOrientation, TabVariant, TextareaResize, TimelineOrientation, TimelineSize, TimelineStepStatus, TimelineVariant, TitleHeadingType, ToastAppearance, ToastMode, ToastPosition, ToastVariant, TooltipAlign, TooltipPosition, TooltipTrigger } from "./utils/types";
+import { AccordionIcon, AccordionSize, AegovValidationDetail, AegovValidationResult, AegovValidationTrigger, AspectRatioFit, AspectRatioPreset, AvatarAppearance, AvatarGroupVariant, AvatarStatus, BadgeAppearance, BadgeColor, BannerDisplay, BannerMode, BannerPosition, BentoFlow, BlockquoteAppearance, BreadcrumbSeparator, ButtonAppearance, ButtonGroupOrientation, ButtonGroupPosition, ButtonType, ButtonVariant, CalloutAppearance, CalloutVariant, CardAppearance, CardBorderWidth, CardHover, CardSize, CardVariant, CheckboxGroupOrientation, CheckboxGroupVariant, DatepickerChangeDetail, DatepickerMode, DatepickerMonthChangeDetail, DrawerAnimation, DrawerOverlayOpacity, DrawerPosition, DrawerSize, DropdownAlign, DropdownPosition, DropdownTrigger, FileuploadVariant, FormVariant, HeaderVariant, InputType, LinkTarget, ModalOverlayOpacity, ModalPosition, ModalSize, NavblockIcon, NavblockSize, NavblockVariant, OtpVariant, PaginationVariant, PopoverAlign, PopoverPosition, PopoverTrigger, ProgressCounter, RadioGroupOrientation, RadioGroupVariant, RangeDisplay, RangeMode, RangeOrientation, SelectChangeDetail, SelectVariant, SeparatorAppearance, SeparatorOrientation, SeparatorVariant, TabOrientation, TabVariant, TextareaResize, TimelineOrientation, TimelineSize, TimelineStepStatus, TimelineVariant, TitleHeadingType, ToastAppearance, ToastMode, ToastPosition, ToastVariant, TooltipAlign, TooltipPosition, TooltipTrigger } from "./utils/types";
 import { AegovDatepickerValue } from "./components/aegov-datepicker/aegov-datepicker";
-import { Event } from "@stencil/core";
 import { AegovRangeValue } from "./components/aegov-range/aegov-range";
 import { AegovSelectValue } from "./components/aegov-select/aegov-select";
-export { AccordionIcon, AccordionSize, AegovValidationDetail, AegovValidationResult, AegovValidationTrigger, AspectRatioFit, AspectRatioPreset, AvatarAppearance, AvatarGroupVariant, AvatarStatus, BadgeAppearance, BadgeColor, BannerDisplay, BannerMode, BannerPosition, BentoFlow, BlockquoteAppearance, BreadcrumbSeparator, ButtonAppearance, ButtonGroupOrientation, ButtonGroupPosition, ButtonType, ButtonVariant, CalloutAppearance, CalloutVariant, CardAppearance, CardBorderWidth, CardHover, CardSize, CardVariant, CheckboxGroupOrientation, CheckboxGroupVariant, DatepickerChangeDetail, DatepickerMode, DatepickerMonthChangeDetail, DrawerAnimation, DrawerOverlayOpacity, DrawerPosition, DrawerSize, DropdownAlign, DropdownPosition, DropdownTrigger, FileuploadVariant, FormVariant, HeaderVariant, InputType, LinkTarget, ModalOverlayOpacity, ModalPosition, ModalSize, NavblockIcon, NavblockSize, OtpVariant, PaginationVariant, PopoverAlign, PopoverPosition, PopoverTrigger, ProgressCounter, RadioGroupOrientation, RadioGroupVariant, RangeDisplay, RangeMode, RangeOrientation, SelectChangeDetail, SelectVariant, SeparatorAppearance, SeparatorOrientation, SeparatorVariant, TabOrientation, TabVariant, TextareaResize, TimelineOrientation, TimelineSize, TimelineStepStatus, TimelineVariant, TitleHeadingType, ToastAppearance, ToastMode, ToastPosition, ToastVariant, TooltipAlign, TooltipPosition, TooltipTrigger } from "./utils/types";
+export { AccordionIcon, AccordionSize, AegovValidationDetail, AegovValidationResult, AegovValidationTrigger, AspectRatioFit, AspectRatioPreset, AvatarAppearance, AvatarGroupVariant, AvatarStatus, BadgeAppearance, BadgeColor, BannerDisplay, BannerMode, BannerPosition, BentoFlow, BlockquoteAppearance, BreadcrumbSeparator, ButtonAppearance, ButtonGroupOrientation, ButtonGroupPosition, ButtonType, ButtonVariant, CalloutAppearance, CalloutVariant, CardAppearance, CardBorderWidth, CardHover, CardSize, CardVariant, CheckboxGroupOrientation, CheckboxGroupVariant, DatepickerChangeDetail, DatepickerMode, DatepickerMonthChangeDetail, DrawerAnimation, DrawerOverlayOpacity, DrawerPosition, DrawerSize, DropdownAlign, DropdownPosition, DropdownTrigger, FileuploadVariant, FormVariant, HeaderVariant, InputType, LinkTarget, ModalOverlayOpacity, ModalPosition, ModalSize, NavblockIcon, NavblockSize, NavblockVariant, OtpVariant, PaginationVariant, PopoverAlign, PopoverPosition, PopoverTrigger, ProgressCounter, RadioGroupOrientation, RadioGroupVariant, RangeDisplay, RangeMode, RangeOrientation, SelectChangeDetail, SelectVariant, SeparatorAppearance, SeparatorOrientation, SeparatorVariant, TabOrientation, TabVariant, TextareaResize, TimelineOrientation, TimelineSize, TimelineStepStatus, TimelineVariant, TitleHeadingType, ToastAppearance, ToastMode, ToastPosition, ToastVariant, TooltipAlign, TooltipPosition, TooltipTrigger } from "./utils/types";
 export { AegovDatepickerValue } from "./components/aegov-datepicker/aegov-datepicker";
-export { Event } from "@stencil/core";
 export { AegovRangeValue } from "./components/aegov-range/aegov-range";
 export { AegovSelectValue } from "./components/aegov-select/aegov-select";
 export namespace Components {
@@ -450,6 +448,14 @@ export namespace Components {
           * @default 2
          */
         "borderWidth": CardBorderWidth;
+        /**
+          * Number of grid columns this card should span inside an `aegov-bento-grid`. Supports responsive syntax, e.g. `"1 md:2 lg:3"`. Reflected as the `data-col-span` attribute so the parent grid can read it correctly even when set via JSX camelCase (`dataColSpan`).
+         */
+        "dataColSpan"?: string;
+        /**
+          * Number of grid rows this card should span inside an `aegov-bento-grid`. Supports responsive syntax, e.g. `"1 md:2"`. Reflected as the `data-row-span` attribute so the parent grid can read it correctly even when set via JSX camelCase (`dataRowSpan`).
+         */
+        "dataRowSpan"?: string;
         /**
           * Unique ID for the card element. Auto-generated if not provided.
          */
@@ -1293,7 +1299,7 @@ export namespace Components {
          */
         "show": () => Promise<void>;
         /**
-          * Size: 'sm' (compact padding/radius), 'base' (default), or 'lg' (generous padding/radius). Mirrors aegov-card sizing tokens.
+          * Size: 'sm' (compact padding/radius), 'base' (default), 'lg' (generous padding/radius), or 'xl' (extra-wide). Mirrors aegov-card sizing tokens.
           * @default 'base'
          */
         "size": ModalSize;
@@ -1400,6 +1406,11 @@ export namespace Components {
      */
     interface AegovNavblock {
         /**
+          * When `true` and `variant="flat"`, the active item shows a coloured inline-start border as an active indicator (matches the Flux sidebar style).
+          * @default false
+         */
+        "activeBorder": boolean;
+        /**
           * Block title text shown above items. The `title` slot overrides this.
          */
         "blockTitle"?: string;
@@ -1432,6 +1443,11 @@ export namespace Components {
           * @default 'base'
          */
         "size": string;
+        /**
+          * Visual variant. `collapsible` (default) shows nested items in an animated accordion; `flat` renders all items at the same indentation level with group headers styled bold.
+          * @default 'collapsible'
+         */
+        "variant": NavblockVariant;
     }
     /**
      * @component aegov-navblock-item
@@ -1484,6 +1500,11 @@ export namespace Components {
           * Anchor target.
          */
         "target"?: LinkTarget;
+        /**
+          * Visual variant. Cascades from parent navblock.
+          * @default 'collapsible'
+         */
+        "variant": NavblockVariant;
     }
     interface AegovOtp {
         /**
@@ -3021,8 +3042,8 @@ declare global {
         new (): HTMLAegovHeaderBannerElement;
     };
     interface HTMLAegovInputElementEventMap {
-        "aegovInputChange": { value: string; event: Event };
-        "aegovInputInput": { value: string; event: Event };
+        "aegovInputChange": { value: string; event: globalThis.Event };
+        "aegovInputInput": { value: string; event: globalThis.Event };
         "aegovInputFocus": FocusEvent;
         "aegovInputBlur": FocusEvent;
         "aegovValidate": AegovValidationDetail<string>;
@@ -3424,8 +3445,8 @@ declare global {
         new (): HTMLAegovTextElement;
     };
     interface HTMLAegovTextareaElementEventMap {
-        "aegovTextareaChange": { value: string; event: Event };
-        "aegovTextareaInput": { value: string; event: Event };
+        "aegovTextareaChange": { value: string; event: globalThis.Event };
+        "aegovTextareaInput": { value: string; event: globalThis.Event };
         "aegovTextareaFocus": FocusEvent;
         "aegovTextareaBlur": FocusEvent;
         "aegovValidate": AegovValidationDetail<string>;
@@ -4041,6 +4062,14 @@ declare namespace LocalJSX {
           * @default 2
          */
         "borderWidth"?: CardBorderWidth;
+        /**
+          * Number of grid columns this card should span inside an `aegov-bento-grid`. Supports responsive syntax, e.g. `"1 md:2 lg:3"`. Reflected as the `data-col-span` attribute so the parent grid can read it correctly even when set via JSX camelCase (`dataColSpan`).
+         */
+        "dataColSpan"?: string;
+        /**
+          * Number of grid rows this card should span inside an `aegov-bento-grid`. Supports responsive syntax, e.g. `"1 md:2"`. Reflected as the `data-row-span` attribute so the parent grid can read it correctly even when set via JSX camelCase (`dataRowSpan`).
+         */
+        "dataRowSpan"?: string;
         /**
           * Unique ID for the card element. Auto-generated if not provided.
          */
@@ -4707,7 +4736,7 @@ declare namespace LocalJSX {
         /**
           * Emitted when the input value changes (on blur/enter).
          */
-        "onAegovInputChange"?: (event: AegovInputCustomEvent<{ value: string; event: Event }>) => void;
+        "onAegovInputChange"?: (event: AegovInputCustomEvent<{ value: string; event: globalThis.Event }>) => void;
         /**
           * Emitted when the input gains focus.
          */
@@ -4715,7 +4744,7 @@ declare namespace LocalJSX {
         /**
           * Emitted on every keystroke.
          */
-        "onAegovInputInput"?: (event: AegovInputCustomEvent<{ value: string; event: Event }>) => void;
+        "onAegovInputInput"?: (event: AegovInputCustomEvent<{ value: string; event: globalThis.Event }>) => void;
         /**
           * Unified validation event emitted on input/change/blur/manual triggers. Carries full validity snapshot for orchestrators (Layer 2) and BYO consumers. See validation-engine-addon.md §2.3.
          */
@@ -4903,7 +4932,7 @@ declare namespace LocalJSX {
          */
         "position"?: ModalPosition;
         /**
-          * Size: 'sm' (compact padding/radius), 'base' (default), or 'lg' (generous padding/radius). Mirrors aegov-card sizing tokens.
+          * Size: 'sm' (compact padding/radius), 'base' (default), 'lg' (generous padding/radius), or 'xl' (extra-wide). Mirrors aegov-card sizing tokens.
           * @default 'base'
          */
         "size"?: ModalSize;
@@ -5006,6 +5035,11 @@ declare namespace LocalJSX {
      */
     interface AegovNavblock {
         /**
+          * When `true` and `variant="flat"`, the active item shows a coloured inline-start border as an active indicator (matches the Flux sidebar style).
+          * @default false
+         */
+        "activeBorder"?: boolean;
+        /**
           * Block title text shown above items. The `title` slot overrides this.
          */
         "blockTitle"?: string;
@@ -5038,6 +5072,11 @@ declare namespace LocalJSX {
           * @default 'base'
          */
         "size"?: string;
+        /**
+          * Visual variant. `collapsible` (default) shows nested items in an animated accordion; `flat` renders all items at the same indentation level with group headers styled bold.
+          * @default 'collapsible'
+         */
+        "variant"?: NavblockVariant;
     }
     /**
      * @component aegov-navblock-item
@@ -5094,6 +5133,11 @@ declare namespace LocalJSX {
           * Anchor target.
          */
         "target"?: LinkTarget;
+        /**
+          * Visual variant. Cascades from parent navblock.
+          * @default 'collapsible'
+         */
+        "variant"?: NavblockVariant;
     }
     interface AegovOtp {
         /**
@@ -5947,7 +5991,7 @@ declare namespace LocalJSX {
         /**
           * Emitted when the textarea value changes (on blur).
          */
-        "onAegovTextareaChange"?: (event: AegovTextareaCustomEvent<{ value: string; event: Event }>) => void;
+        "onAegovTextareaChange"?: (event: AegovTextareaCustomEvent<{ value: string; event: globalThis.Event }>) => void;
         /**
           * Emitted when the textarea gains focus.
          */
@@ -5955,7 +5999,7 @@ declare namespace LocalJSX {
         /**
           * Emitted on every keystroke.
          */
-        "onAegovTextareaInput"?: (event: AegovTextareaCustomEvent<{ value: string; event: Event }>) => void;
+        "onAegovTextareaInput"?: (event: AegovTextareaCustomEvent<{ value: string; event: globalThis.Event }>) => void;
         /**
           * Unified validation event. See validation-engine-addon.md §2.3.
          */
