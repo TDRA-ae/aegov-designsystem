@@ -49,7 +49,7 @@ aegov-avatar {
   }
 
   & > span.avatar-indicator {
-    @apply absolute -right-1 -top-1 block h-2.5 w-2.5 rounded-full ring-2;
+    @apply absolute -end-1 -top-1 block h-2.5 w-2.5 rounded-full ring-2;
 
     &.avatar-online {
       @apply bg-aegreen-500! ring-whitely-50 dark:ring-aeblack-900;
@@ -133,7 +133,7 @@ aegov-avatar {
     @apply rounded-full;
   }
   & > span.avatar-indicator {
-    @apply right-0 top-0;
+    @apply end-0 top-0;
   }
 }
   

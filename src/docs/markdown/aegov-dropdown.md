@@ -253,7 +253,7 @@ A real-world example anchored to an avatar in the header. Use `align="end"` so t
 
 ```html
 <aegov-dropdown align="end" position="bottom">
-  <button type="button" class="flex items-center gap-2 rounded-full p-1 hover:bg-aeblack-100">
+  <button type="button" class="flex items-center gap-2 rounded-full py-2 px-4 hover:bg-aeblack-100">
     <aegov-avatar initials="FA" size="sm"></aegov-avatar>
     <span class="font-medium">Fatima Al Hammadi</span>
   </button>
@@ -271,7 +271,7 @@ A real-world example anchored to an avatar in the header. Use `align="end"` so t
 <div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <div class="flex justify-end">
     <aegov-dropdown align="end" position="bottom">
-      <button type="button" class="flex items-center gap-2 rounded-full p-1 hover:bg-aeblack-100">
+      <button type="button" class="flex items-center gap-2 rounded-full py-2 px-4 hover:bg-aeblack-100">
         <aegov-avatar initials="FA" size="sm"></aegov-avatar>
         <span class="font-medium">Fatima Al Hammadi</span>
       </button>

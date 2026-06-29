@@ -40,6 +40,8 @@ const STRINGS = {
     apply: 'Apply',
     clearDate: 'Clear date',
     clearDates: 'Clear dates',
+    changeDate: 'Change date',
+    unavailable: 'unavailable',
   },
   ar: {
     selectDate: 'اختر التاريخ',
@@ -57,6 +59,8 @@ const STRINGS = {
     apply: 'تطبيق',
     clearDate: 'مسح التاريخ',
     clearDates: 'مسح التواريخ',
+    changeDate: 'تغيير التاريخ',
+    unavailable: 'غير متاح',
   },
 };
 
@@ -187,6 +191,7 @@ export class AegovDatepicker {
   @State() hoverDate: Date | null = null;
   @State() focusedDate: Date | null = null;
   @State() hasTriggerSlot: boolean = false;
+  @State() private liveAnnouncement: string = '';
 
   // Pending state for confirmation mode
   @State() pendingDate: Date | null = null;
@@ -430,6 +435,7 @@ export class AegovDatepicker {
       this.renderPortalContent();
       this.schedulePositionUpdate();
       this.aegovDatepickerOpen.emit();
+      setTimeout(() => this.announceMonthChange(), 150);
       this.triggerElement = document.activeElement as HTMLElement;
 
       // Move focus into the calendar: focus today, selected day, or first day
@@ -515,9 +521,9 @@ export class AegovDatepicker {
     }
 
     if (this.appearance === 'single') {
-      this.selectedDate = parseDate(this.value, this.format);
+      this.selectedDate = parseDate(this.value, this.format, this.locale);
     } else {
-      const { start, end } = parseRangeValue(this.value, this.format);
+      const { start, end } = parseRangeValue(this.value, this.format, this.locale);
       this.rangeStart = start;
       this.rangeEnd = end;
     }
@@ -723,10 +729,26 @@ export class AegovDatepicker {
     const variant: FormVariant = (FORM_VARIANTS as readonly string[]).includes(this.variant) ? this.variant : 'primary';
     container.className = `aegov-datepicker datepicker-variant-${variant}`;
     container.id = this.datepickerId;
+    const dialogTitleId = `${this.datepickerId}-title`;
     container.setAttribute('role', 'dialog');
     container.setAttribute('aria-modal', 'true');
-    container.setAttribute('aria-label', this.t.chooseDate);
+    container.setAttribute('aria-labelledby', dialogTitleId);
     container.setAttribute('tabindex', '-1');
+
+    // Visually hidden dialog title for screen readers (updated on month navigation)
+    const dialogTitle = document.createElement('div');
+    dialogTitle.id = dialogTitleId;
+    dialogTitle.className = 'datepicker__dialog-title';
+    const monthNamesForTitle = getMonthNames(this.locale);
+    let titleText = `${monthNamesForTitle[this.viewMonth]} ${this.viewYear}`;
+    if (this.appearance === 'range') {
+      let sm = this.viewMonth + 1;
+      let sy = this.viewYear;
+      if (sm > 11) { sm = 0; sy++; }
+      titleText += ` – ${monthNamesForTitle[sm]} ${sy}`;
+    }
+    dialogTitle.textContent = titleText;
+    container.appendChild(dialogTitle);
 
     // Live region for announcements
     const liveRegion = document.createElement('div');
@@ -785,13 +807,16 @@ export class AegovDatepicker {
       btn.textContent = preset.label;
 
       // Check if this preset matches current selection
+      let isActivePreset = false;
       if (this.rangeStart && this.rangeEnd) {
         const range = preset.calculate(this.startDay);
         if (isSameDay(range.start, this.rangeStart) && isSameDay(range.end, this.rangeEnd)) {
           btn.classList.add('preset--active');
+          isActivePreset = true;
         }
       }
 
+      btn.setAttribute('aria-pressed', isActivePreset ? 'true' : 'false');
       btn.addEventListener('click', () => this.handlePresetClick(preset.id));
       panel.appendChild(btn);
     });
@@ -803,7 +828,7 @@ export class AegovDatepicker {
     const calendar = document.createElement('div');
     calendar.className = 'datepicker__calendar';
 
-    // Header
+    // ── Header ──────────────────────────────────────────────────────────────
     const header = document.createElement('div');
     header.className = 'datepicker__header';
 
@@ -817,17 +842,15 @@ export class AegovDatepicker {
       header.appendChild(prevBtn);
     }
 
-    // Month/year selects or label
     const selects = document.createElement('div');
     selects.className = 'datepicker__selects';
 
     if (this.isHeaderSelectable) {
-      // Month select
       const monthSelect = document.createElement('select');
       monthSelect.className = 'datepicker__select';
       monthSelect.setAttribute('aria-label', this.t.selectMonth);
-      const monthNames = getMonthNames(this.locale);
-      monthNames.forEach((name, i) => {
+      const monthNamesLocal = getMonthNames(this.locale);
+      monthNamesLocal.forEach((name, i) => {
         const opt = document.createElement('option');
         opt.value = String(i);
         opt.textContent = name;
@@ -840,7 +863,6 @@ export class AegovDatepicker {
       });
       selects.appendChild(monthSelect);
 
-      // Year select
       const yearSelect = document.createElement('select');
       yearSelect.className = 'datepicker__select';
       yearSelect.setAttribute('aria-label', this.t.selectYear);
@@ -862,14 +884,13 @@ export class AegovDatepicker {
     } else {
       const label = document.createElement('span');
       label.className = 'datepicker__month-label';
-      const monthNames = getMonthNames(this.locale);
-      label.textContent = `${monthNames[month]} ${year}`;
+      const monthNamesLocal = getMonthNames(this.locale);
+      label.textContent = `${monthNamesLocal[month]} ${year}`;
       selects.appendChild(label);
     }
 
     header.appendChild(selects);
 
-    // Next button only on last calendar shown
     const isLastCalendar = this.appearance === 'single' ? showNavigation : !showNavigation;
     if (isLastCalendar) {
       const nextBtn = document.createElement('button');
@@ -883,32 +904,46 @@ export class AegovDatepicker {
 
     calendar.appendChild(header);
 
-    // Weekday headers
-    const weekdays = document.createElement('div');
-    weekdays.className = 'datepicker__weekdays';
-    const dayNames = getWeekdayNames(this.locale, this.startDay, 'short');
-    dayNames.forEach(name => {
-      const dayEl = document.createElement('div');
-      dayEl.className = 'datepicker__weekday';
-      dayEl.textContent = name;
-      weekdays.appendChild(dayEl);
-    });
-    calendar.appendChild(weekdays);
-
-    // Day grid
+    // ── Grid (weekday headers + days) ──────────────────────────────────────
+    const monthNames = getMonthNames(this.locale);
     const grid = document.createElement('div');
     grid.className = 'datepicker__grid';
     grid.setAttribute('role', 'grid');
+    grid.setAttribute('aria-label', `${monthNames[month]} ${year}`);
+
+    // Weekday header row (role="row" with role="columnheader" cells)
+    const shortNames = getWeekdayNames(this.locale, this.startDay, 'short');
+    const longNames = getWeekdayNames(this.locale, this.startDay, 'long');
+
+    const weekdayRow = document.createElement('div');
+    weekdayRow.setAttribute('role', 'row');
+    weekdayRow.className = 'datepicker__row';
+
+    shortNames.forEach((shortName, i) => {
+      const th = document.createElement('div');
+      th.setAttribute('role', 'columnheader');
+      th.className = 'datepicker__weekday';
+      th.setAttribute('abbr', longNames[i]);
+      const abbr = document.createElement('abbr');
+      abbr.title = longNames[i];
+      abbr.textContent = shortName;
+      th.appendChild(abbr);
+      weekdayRow.appendChild(th);
+    });
+    grid.appendChild(weekdayRow);
+
+    // Focus target for roving tabindex initialisation
+    const focusTarget = this.focusedDate ||
+      (this.appearance === 'single' ? this.selectedDate : this.rangeStart) ||
+      stripTime(new Date());
 
     const calendarGrid = generateCalendarGrid(year, month, this.startDay);
     const todayDate = stripTime(new Date());
 
-    // Determine active selection state (pending if confirmation mode, actual otherwise)
     const activeSelectedDate = this.isWithConfirmation ? this.pendingDate : this.selectedDate;
     const activeRangeStart = this.isWithConfirmation ? this.pendingRangeStart : this.rangeStart;
     const activeRangeEnd = this.isWithConfirmation ? this.pendingRangeEnd : this.rangeEnd;
 
-    // Determine if the hover preview range is invalid (min/max range violation)
     let isHoverRangeInvalid = false;
     if (this.appearance === 'range' && activeRangeStart && !activeRangeEnd && this.hoverDate && (this.minRange > 0 || this.maxRange > 0)) {
       const previewStart = isBefore(this.hoverDate, activeRangeStart) ? this.hoverDate : activeRangeStart;
@@ -917,19 +952,40 @@ export class AegovDatepicker {
     }
 
     calendarGrid.forEach(week => {
+      const row = document.createElement('div');
+      row.setAttribute('role', 'row');
+      row.className = 'datepicker__row';
+
       week.forEach(date => {
+        const isoDate = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
+        const isOutside = date.getMonth() !== month;
+        const isToday = isSameDay(date, todayDate);
+        const isDisabled = this.isDateDisabled(date);
+
+        // Gridcell wrapper — aria-selected lives here per ARIA grid pattern
+        const cell = document.createElement('div');
+        cell.setAttribute('role', 'gridcell');
+        cell.className = 'datepicker__cell';
+
+        // Hide outside-month cells from assistive technology
+        if (isOutside) {
+          cell.setAttribute('aria-hidden', 'true');
+        }
+
+        // Day button
         const btn = document.createElement('button');
         btn.type = 'button';
         btn.className = 'datepicker__day';
         btn.textContent = String(date.getDate());
-
-        // Store full date as data attribute for precise identification
-        const isoDate = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
         btn.setAttribute('data-date', isoDate);
+        btn.setAttribute('aria-label', this.buildFullDateLabel(date, isDisabled));
 
-        const isOutside = date.getMonth() !== month;
-        const isToday = isSameDay(date, todayDate);
-        const isDisabled = this.isDateDisabled(date);
+        // Roving tabindex: only focused/selected day is in tab order
+        const isFocusTarget = !isOutside &&
+          isSameDay(date, focusTarget) &&
+          date.getMonth() === month &&
+          date.getFullYear() === year;
+        btn.setAttribute('tabindex', isFocusTarget ? '0' : '-1');
 
         // Selection state
         let isSelected = false;
@@ -940,16 +996,11 @@ export class AegovDatepicker {
         if (this.appearance === 'single') {
           isSelected = activeSelectedDate ? isSameDay(date, activeSelectedDate) : false;
         } else {
-          if (activeRangeStart) {
-            isRangeStart = isSameDay(date, activeRangeStart);
-          }
-          if (activeRangeEnd) {
-            isRangeEnd = isSameDay(date, activeRangeEnd);
-          }
+          if (activeRangeStart) isRangeStart = isSameDay(date, activeRangeStart);
+          if (activeRangeEnd) isRangeEnd = isSameDay(date, activeRangeEnd);
           if (activeRangeStart && activeRangeEnd) {
             isInRange = isDateBetween(date, activeRangeStart, activeRangeEnd);
           } else if (activeRangeStart && !activeRangeEnd && this.hoverDate) {
-            // Preview range on hover
             isInRange = isDateBetween(date, activeRangeStart, this.hoverDate);
             if (isSameDay(date, this.hoverDate) && !isSameDay(date, activeRangeStart)) {
               if (isAfter(this.hoverDate, activeRangeStart)) {
@@ -961,11 +1012,8 @@ export class AegovDatepicker {
           }
         }
 
-        const isFocused = this.focusedDate ? isSameDay(date, this.focusedDate) : false;
-
         if (isOutside) btn.classList.add('datepicker__day--outside');
         if (isToday) btn.classList.add('datepicker__day--today');
-        if (isFocused && !isOutside) btn.classList.add('datepicker__day--focused');
         if (isSelected) btn.classList.add('datepicker__day--selected');
         if (isRangeStart) btn.classList.add('datepicker__day--range-start');
         if (isRangeEnd) btn.classList.add('datepicker__day--range-end');
@@ -978,21 +1026,23 @@ export class AegovDatepicker {
           btn.setAttribute('aria-disabled', 'true');
           btn.disabled = true;
         }
+        if (isToday) btn.setAttribute('aria-current', 'date');
 
+        // aria-selected on gridcell (not button) per WAI-ARIA grid pattern
         if (isSelected || isRangeStart || isRangeEnd) {
-          btn.setAttribute('aria-selected', 'true');
-        }
-        if (isToday) {
-          btn.setAttribute('aria-current', 'date');
+          cell.setAttribute('aria-selected', 'true');
         }
 
-        if (!isDisabled) {
+        if (!isDisabled && !isOutside) {
           btn.addEventListener('click', () => this.handleDayClick(date));
           btn.addEventListener('mouseenter', () => this.handleDayHover(date));
         }
 
-        grid.appendChild(btn);
+        cell.appendChild(btn);
+        row.appendChild(cell);
       });
+
+      grid.appendChild(row);
     });
 
     calendar.appendChild(grid);
@@ -1007,12 +1057,14 @@ export class AegovDatepicker {
     cancelBtn.type = 'button';
     cancelBtn.className = 'datepicker__footer-btn datepicker__footer-btn--cancel';
     cancelBtn.textContent = this.t.cancel;
+    cancelBtn.setAttribute('aria-label', this.t.cancel);
     cancelBtn.addEventListener('click', () => this.handleCancel());
 
     const applyBtn = document.createElement('button');
     applyBtn.type = 'button';
     applyBtn.className = 'datepicker__footer-btn datepicker__footer-btn--apply';
     applyBtn.textContent = this.t.apply;
+    applyBtn.setAttribute('aria-label', this.t.apply);
     applyBtn.addEventListener('click', () => this.handleApply());
 
     footer.appendChild(cancelBtn);
@@ -1042,6 +1094,7 @@ export class AegovDatepicker {
           value: this.value,
           date: this.selectedDate,
         });
+        this.announceHostLive(this.buildFullDateLabel(date, false));
         this.isOpen = false;
       }
     } else {
@@ -1147,6 +1200,7 @@ export class AegovDatepicker {
         value: this.value,
         date: this.selectedDate,
       });
+      this.announceHostLive(this.buildFullDateLabel(this.selectedDate, false));
     } else if (this.appearance === 'range' && this.pendingRangeStart && this.pendingRangeEnd) {
       this.rangeStart = this.pendingRangeStart;
       this.rangeEnd = this.pendingRangeEnd;
@@ -1157,6 +1211,9 @@ export class AegovDatepicker {
         startDate: this.rangeStart,
         endDate: this.rangeEnd,
       });
+      const startLabel = this.buildFullDateLabel(this.rangeStart, false);
+      const endLabel = this.buildFullDateLabel(this.rangeEnd, false);
+      this.announceHostLive(`${startLabel} to ${endLabel}`);
     }
     this.isOpen = false;
   }
@@ -1196,9 +1253,10 @@ export class AegovDatepicker {
 
     this.viewMonth = newMonth;
     this.viewYear = newYear;
+    this.focusedDate = this.clampFocusToMonth(newYear, newMonth);
 
     this.aegovDatepickerMonthChange.emit({ month: newMonth, year: newYear });
-    this.renderPortalContent();
+    this.refreshCalendars();
     this.schedulePositionUpdate();
 
     // Announce change
@@ -1216,8 +1274,9 @@ export class AegovDatepicker {
       this.viewMonth = m;
       this.viewYear = y;
     }
+    this.focusedDate = this.clampFocusToMonth(this.viewYear, this.viewMonth);
     this.aegovDatepickerMonthChange.emit({ month: this.viewMonth, year: this.viewYear });
-    this.renderPortalContent();
+    this.refreshCalendars();
     this.schedulePositionUpdate();
     this.announceMonthChange();
   }
@@ -1228,19 +1287,133 @@ export class AegovDatepicker {
     } else {
       this.viewYear = year;
     }
+    this.focusedDate = this.clampFocusToMonth(this.viewYear, this.viewMonth);
     this.aegovDatepickerMonthChange.emit({ month: this.viewMonth, year: this.viewYear });
-    this.renderPortalContent();
+    this.refreshCalendars();
     this.schedulePositionUpdate();
     this.announceMonthChange();
   }
 
+  /** Keep the same day-of-month when navigating to a new month, clamped to the last valid day. */
+  private clampFocusToMonth(year: number, month: number): Date {
+    const current = this.focusedDate || this.selectedDate || stripTime(new Date());
+    const lastDay = new Date(year, month + 1, 0).getDate();
+    return new Date(year, month, Math.min(current.getDate(), lastDay));
+  }
+
   private announceMonthChange() {
+    const monthNames = getMonthNames(this.locale);
+    this.announceLive(`${monthNames[this.viewMonth]} ${this.viewYear}`);
+  }
+
+  /**
+   * Lightweight month refresh — replaces only the .datepicker__calendars element
+   * in the existing portal DOM, leaving the style tag, dialog container, live
+   * region, presets panel, and footer all intact. This prevents the full teardown
+   * + rebuild that renderPortalContent() does, which caused a visible blink when
+   * navigating between months.
+   */
+  private refreshCalendars() {
+    if (!this.portalElement) return;
+    const container = this.portalElement.querySelector('.aegov-datepicker');
+    if (!container) { this.renderPortalContent(); return; }
+
+    // Update dialog title in place
+    const dialogTitle = container.querySelector('.datepicker__dialog-title');
+    if (dialogTitle) {
+      const monthNames = getMonthNames(this.locale);
+      let titleText = `${monthNames[this.viewMonth]} ${this.viewYear}`;
+      if (this.appearance === 'range') {
+        let sm = this.viewMonth + 1;
+        let sy = this.viewYear;
+        if (sm > 11) { sm = 0; sy++; }
+        titleText += ` – ${monthNames[sm]} ${sy}`;
+      }
+      dialogTitle.textContent = titleText;
+    }
+
+    // Swap only the calendars container
+    const oldCalendars = container.querySelector('.datepicker__calendars');
+    if (!oldCalendars) { this.renderPortalContent(); return; }
+
+    const newCalendars = document.createElement('div');
+    newCalendars.className = 'datepicker__calendars';
+    newCalendars.appendChild(this.buildCalendarMonth(this.viewYear, this.viewMonth, true));
+
+    if (this.appearance === 'range') {
+      let secondMonth = this.viewMonth + 1;
+      let secondYear = this.viewYear;
+      if (secondMonth > 11) { secondMonth = 0; secondYear++; }
+      newCalendars.appendChild(this.buildCalendarMonth(secondYear, secondMonth, false));
+    }
+
+    oldCalendars.parentElement!.replaceChild(newCalendars, oldCalendars);
+  }
+
+  private announceLive(message: string) {
+    // Portal live region for month/year announcements
     if (!this.portalElement) return;
     const liveRegion = this.portalElement.querySelector('.datepicker__live-region');
-    if (liveRegion) {
-      const monthNames = getMonthNames(this.locale);
-      liveRegion.textContent = `${monthNames[this.viewMonth]} ${this.viewYear}`;
+    if (!liveRegion) return;
+    liveRegion.textContent = '';
+    requestAnimationFrame(() => {
+      if (liveRegion) liveRegion.textContent = message;
+    });
+  }
+
+  private announceHostLive(message: string) {
+    // Host live region for selection announcements (survives portal close)
+    this.liveAnnouncement = '';
+    setTimeout(() => { this.liveAnnouncement = message; }, 0);
+  }
+
+  private getDialogFocusable(): HTMLElement[] {
+    if (!this.portalElement) return [];
+    const selector = 'button:not([disabled]):not([tabindex="-1"]), select:not([disabled])';
+    return Array.from(this.portalElement.querySelectorAll(selector)) as HTMLElement[];
+  }
+
+  private buildFullDateLabel(date: Date, isDisabled: boolean): string {
+    const label = new Intl.DateTimeFormat(this.locale, {
+      weekday: 'long', year: 'numeric', month: 'long', day: 'numeric',
+    }).format(date);
+    return isDisabled ? `${label}, ${this.t.unavailable}` : label;
+  }
+
+  private focusFirstOfWeek() {
+    const current = this.focusedDate || this.selectedDate || stripTime(new Date());
+    const dayOfWeek = current.getDay();
+    const daysFromStart = (dayOfWeek - this.startDay + 7) % 7;
+    const first = new Date(current);
+    first.setDate(current.getDate() - daysFromStart);
+    this.focusedDate = first;
+    if (first.getMonth() !== this.viewMonth || first.getFullYear() !== this.viewYear) {
+      this.viewMonth = first.getMonth();
+      this.viewYear = first.getFullYear();
+      this.refreshCalendars();
+      this.schedulePositionUpdate();
+    } else {
+      this.updateFocusedDay(first);
     }
+    this.focusDayButton(first);
+  }
+
+  private focusLastOfWeek() {
+    const current = this.focusedDate || this.selectedDate || stripTime(new Date());
+    const dayOfWeek = current.getDay();
+    const daysFromStart = (dayOfWeek - this.startDay + 7) % 7;
+    const last = new Date(current);
+    last.setDate(current.getDate() + (6 - daysFromStart));
+    this.focusedDate = last;
+    if (last.getMonth() !== this.viewMonth || last.getFullYear() !== this.viewYear) {
+      this.viewMonth = last.getMonth();
+      this.viewYear = last.getFullYear();
+      this.refreshCalendars();
+      this.schedulePositionUpdate();
+    } else {
+      this.updateFocusedDay(last);
+    }
+    this.focusDayButton(last);
   }
 
   // ── Keyboard Navigation ───────────────────────────────
@@ -1293,7 +1466,6 @@ export class AegovDatepicker {
   @Listen('keydown', { target: 'document' })
   handleKeyDown(event: KeyboardEvent) {
     if (!this.isOpen) {
-      // Open on Enter/Space when trigger is focused
       if ((event.key === 'Enter' || event.key === ' ') && this.el.contains(event.target as Node)) {
         event.preventDefault();
         this.isOpen = true;
@@ -1301,7 +1473,6 @@ export class AegovDatepicker {
       return;
     }
 
-    // Escape always works when calendar is open, regardless of focus position
     if (event.key === 'Escape') {
       event.preventDefault();
       if (this.isWithConfirmation) {
@@ -1312,22 +1483,41 @@ export class AegovDatepicker {
       return;
     }
 
-    // Only handle navigation keys when focus is inside the host or portal
     const target = event.target as Node;
     const focusInsideComponent = this.el.contains(target) || (!!this.portalElement && this.portalElement.contains(target));
     if (!focusInsideComponent) return;
 
-    // Let Tab key navigate naturally through calendar controls (selects, nav buttons, days)
-    if (event.key === 'Tab') return;
+    // Focus trap: Tab/Shift+Tab cycles only within the dialog
+    if (event.key === 'Tab') {
+      const focusable = this.getDialogFocusable();
+      if (focusable.length === 0) return;
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      const active = document.activeElement as HTMLElement;
+      if (event.shiftKey) {
+        if (active === first || !focusable.includes(active)) {
+          event.preventDefault();
+          last.focus();
+        }
+      } else {
+        if (active === last || !focusable.includes(active)) {
+          event.preventDefault();
+          first.focus();
+        }
+      }
+      return;
+    }
+
+    const rtl = isRtl(this.el);
 
     switch (event.key) {
       case 'ArrowLeft':
         event.preventDefault();
-        this.moveFocus(-1);
+        this.moveFocus(rtl ? 1 : -1);
         break;
       case 'ArrowRight':
         event.preventDefault();
-        this.moveFocus(1);
+        this.moveFocus(rtl ? -1 : 1);
         break;
       case 'ArrowUp':
         event.preventDefault();
@@ -1355,17 +1545,16 @@ export class AegovDatepicker {
         break;
       case 'Home':
         event.preventDefault();
-        this.focusFirstOfMonth();
+        this.focusFirstOfWeek();
         break;
       case 'End':
         event.preventDefault();
-        this.focusLastOfMonth();
+        this.focusLastOfWeek();
         break;
       case 'Enter':
       case ' ': {
         const targetEl = event.target as HTMLElement;
         const tag = targetEl?.tagName;
-        // Let native <select> and non-day <button> elements handle Enter/Space natively
         if (tag === 'SELECT' || (tag === 'BUTTON' && !targetEl.classList.contains('datepicker__day'))) {
           return;
         }
@@ -1388,10 +1577,9 @@ export class AegovDatepicker {
     this.focusedDate = next;
 
     if (needsMonthChange) {
-      // Month changed: full portal rebuild needed
       this.viewMonth = next.getMonth();
       this.viewYear = next.getFullYear();
-      this.renderPortalContent();
+      this.refreshCalendars();
       this.schedulePositionUpdate();
     } else {
       // Same month: lightweight update — just move the focused class
@@ -1410,25 +1598,9 @@ export class AegovDatepicker {
     this.viewMonth = next.getMonth();
     this.viewYear = next.getFullYear();
 
-    this.renderPortalContent();
+    this.refreshCalendars();
     this.schedulePositionUpdate();
     this.focusDayButton(next);
-  }
-
-  private focusFirstOfMonth() {
-    const first = new Date(this.viewYear, this.viewMonth, 1);
-    this.focusedDate = first;
-    this.renderPortalContent();
-    this.schedulePositionUpdate();
-    this.focusDayButton(first);
-  }
-
-  private focusLastOfMonth() {
-    const last = new Date(this.viewYear, this.viewMonth + 1, 0);
-    this.focusedDate = last;
-    this.renderPortalContent();
-    this.schedulePositionUpdate();
-    this.focusDayButton(last);
   }
 
   private dateToIso(date: Date): string {
@@ -1474,12 +1646,13 @@ export class AegovDatepicker {
         'datepicker__day--in-range',
         'datepicker__day--range-invalid',
       );
-      btn.removeAttribute('aria-selected');
+      const cell = btn.parentElement;
+      if (cell) cell.removeAttribute('aria-selected');
 
       if (this.appearance === 'single') {
         if (activeSelectedDate && isSameDay(date, activeSelectedDate)) {
           btn.classList.add('datepicker__day--selected');
-          btn.setAttribute('aria-selected', 'true');
+          if (cell) cell.setAttribute('aria-selected', 'true');
         }
       } else {
         let isRangeStart = false;
@@ -1504,11 +1677,11 @@ export class AegovDatepicker {
 
         if (isRangeStart) {
           btn.classList.add('datepicker__day--range-start');
-          btn.setAttribute('aria-selected', 'true');
+          if (cell) cell.setAttribute('aria-selected', 'true');
         }
         if (isRangeEnd) {
           btn.classList.add('datepicker__day--range-end');
-          btn.setAttribute('aria-selected', 'true');
+          if (cell) cell.setAttribute('aria-selected', 'true');
         }
         if (isInRange) btn.classList.add('datepicker__day--in-range');
 
@@ -1523,22 +1696,31 @@ export class AegovDatepicker {
   private updateFocusedDay(date: Date) {
     if (!this.portalElement) return;
     const prev = this.portalElement.querySelector('.datepicker__day--focused');
-    if (prev) prev.classList.remove('datepicker__day--focused');
-
+    if (prev) {
+      prev.classList.remove('datepicker__day--focused');
+      prev.setAttribute('tabindex', '-1');
+    }
     const btn = this.findDayButton(date);
-    if (btn) btn.classList.add('datepicker__day--focused');
+    if (btn) {
+      btn.classList.add('datepicker__day--focused');
+      btn.setAttribute('tabindex', '0');
+    }
   }
 
   private focusDayButton(date: Date) {
     if (!this.portalElement) return;
     requestAnimationFrame(() => {
       if (!this.portalElement) return;
-      const prev = this.portalElement.querySelector('.datepicker__day--focused');
-      if (prev) prev.classList.remove('datepicker__day--focused');
-
+      // Reset all day buttons to tabindex -1
+      const allDayBtns = this.portalElement.querySelectorAll('.datepicker__day');
+      allDayBtns.forEach(b => {
+        b.classList.remove('datepicker__day--focused');
+        b.setAttribute('tabindex', '-1');
+      });
       const btn = this.findDayButton(date);
       if (btn) {
         btn.classList.add('datepicker__day--focused');
+        btn.setAttribute('tabindex', '0');
         btn.focus();
       }
     });
@@ -1566,8 +1748,12 @@ export class AegovDatepicker {
           aria-haspopup="dialog"
           aria-expanded={this.isOpen.toString()}
           aria-controls={this.isOpen ? this.datepickerId : undefined}
-          aria-label={placeholder}
+          aria-label={this.selectedDate
+            ? `${this.t.changeDate}, ${new Intl.DateTimeFormat(this.locale, { dateStyle: 'long' }).format(this.selectedDate)}`
+            : placeholder}
+          aria-describedby={`${this.fieldId}-format-hint`}
         />
+        <span id={`${this.fieldId}-format-hint`} class="datepicker__sr-only">{this.format}</span>
         {hasValue && this.isClearable && !this.isDisabled && (
           <button
             type="button"
@@ -1602,6 +1788,9 @@ export class AegovDatepicker {
           required={this.isRequired}
           aria-required={this.isRequired ? 'true' : undefined}
           aria-label={labelStart}
+          aria-haspopup="dialog"
+          aria-expanded={this.isOpen.toString()}
+          aria-controls={this.isOpen ? this.datepickerId : undefined}
         />
         <span class="datepicker__range-separator" aria-hidden="true" innerHTML={ARROW_RIGHT} />
         <input
@@ -1615,6 +1804,9 @@ export class AegovDatepicker {
           required={this.isRequired}
           aria-required={this.isRequired ? 'true' : undefined}
           aria-label={labelEnd}
+          aria-haspopup="dialog"
+          aria-expanded={this.isOpen.toString()}
+          aria-controls={this.isOpen ? this.datepickerId : undefined}
         />
         {hasValue && this.isClearable && !this.isDisabled && (
           <button
@@ -1683,6 +1875,13 @@ export class AegovDatepicker {
         </div>
         {errorRegion}
         {hintRegion}
+        <div
+          aria-live="polite"
+          aria-atomic="true"
+          class="datepicker__sr-only"
+        >
+          {this.liveAnnouncement}
+        </div>
       </Host>
     );
   }

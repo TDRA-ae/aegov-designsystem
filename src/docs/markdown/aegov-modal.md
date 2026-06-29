@@ -112,12 +112,13 @@ Toggle the `is-open` attribute (or property) from your framework's reactive stat
 
 ## Sizes
 
-The `size` property scales padding and corner radius. `sm` suits short confirmations; `base` is the default; `lg` gives extra breathing room for forms or rich content.
+The `size` property scales padding and corner radius. `sm` suits short confirmations; `base` is the default; `lg` gives extra breathing room for forms or rich content; `xl` is extra-wide for complex layouts or data-heavy dialogs.
 
 ```html
 <aegov-modal size="sm" is-open="true">…</aegov-modal>
 <aegov-modal size="base" is-open="true">…</aegov-modal>
 <aegov-modal size="lg" is-open="true">…</aegov-modal>
+<aegov-modal size="xl" is-open="true">…</aegov-modal>
 ```
 
 <div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
@@ -125,6 +126,7 @@ The `size` property scales padding and corner radius. `sm` suits short confirmat
     <aegov-button id="demo-size-sm">Open small</aegov-button>
     <aegov-button id="demo-size-base">Open base</aegov-button>
     <aegov-button id="demo-size-lg">Open large</aegov-button>
+    <aegov-button id="demo-size-xl">Open extra large</aegov-button>
   </div>
 
   <aegov-modal id="demo-modal-sm" size="sm" aria-label="Small modal">
@@ -144,10 +146,16 @@ The `size` property scales padding and corner radius. `sm` suits short confirmat
     <p class="mb-6">Large size offers generous padding for long-form content, multi-step flows, or service forms inside a dialog.</p>
     <div class="flex justify-end"><aegov-button id="demo-close-lg">Close</aegov-button></div>
   </aegov-modal>
+ 
+  <aegov-modal id="demo-modal-xl" size="xl" aria-label="Extra large modal">
+    <h3 class="text-2xl font-bold mb-2">Extra large dialog</h3>
+    <p class="mb-6">Extra large size is suited for complex layouts, data tables, or multi-column content that needs maximum width.</p>
+    <div class="flex justify-end"><aegov-button id="demo-close-xl">Close</aegov-button></div>
+  </aegov-modal>
 
   <script>
     (function() {
-      ['sm','base','lg'].forEach(s => {
+      ['sm','base','lg','xl'].forEach(s => {
         const m = document.querySelector('#demo-modal-' + s);
         document.querySelector('#demo-size-' + s).addEventListener('click', () => m.show());
         document.querySelector('#demo-close-' + s).addEventListener('click', () => m.close());

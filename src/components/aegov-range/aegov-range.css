@@ -18,7 +18,7 @@
    Container — holds min/max labels + track
    ======================================== */
 .range__container {
-  @apply flex items-center gap-3;
+  @apply flex items-center gap-5;
 }
 
 .range--vertical .range__container {
@@ -36,14 +36,14 @@
 .range--horizontal .range__track-wrapper {
   @apply w-full;
   /* Pad left/right by half-thumb so thumb doesn't overflow */
-  padding-inline: 12px;
+  /* padding-inline: 12px; */
 }
 
 .range--vertical .range__track-wrapper {
   @apply flex-1 flex justify-center;
   width: 24px;
   /* Pad top/bottom by half-thumb */
-  padding-block: 12px;
+  /* padding-block: 12px; */
 }
 
 /* ========================================
@@ -138,14 +138,14 @@
 }
 
 /* Adjust track-wrapper padding for larger thumb */
-.range--display-thumb .range__track-wrapper,
+/* .range--display-thumb .range__track-wrapper,
 .range--display-full .range__track-wrapper {
   padding-inline: 16px;
-}
+} */
 
 .range--vertical.range--display-thumb .range__track-wrapper,
 .range--vertical.range--display-full .range__track-wrapper {
-  padding-block: 16px;
+  /* padding-block: 16px; */
   width: 32px;
 }
 

@@ -35,6 +35,9 @@ const DROPDOWN_PORTAL_STYLES = `
     pointer-events: none;
   }
 
+  [dir="rtl"] .aegov-dropdown-portal {
+    text-align: right;
+  }
   .aegov-dropdown-portal .aegov-dropdown {
     background: var(--color-whitely-50);
     color: var(--color-aeblack-800);
@@ -76,9 +79,12 @@ const DROPDOWN_PORTAL_STYLES = `
 
   .aegov-dropdown-portal .aegov-dropdown a {
     display: block;
-    margin: 0;
+    margin-bottom: 8px;
     color: var(--color-primary-600);
   }
+   .aegov-dropdown-portal .aegov-dropdown > div > a:last-child{
+      margin-bottom: 0;
+    }
 
   .dark .aegov-dropdown-portal .aegov-dropdown a {
     color: var(--color-primary-400);
@@ -767,7 +773,11 @@ export class AegovDropdown {
       <Host>
         <div
           {...passThroughAttributes}
-          class="aegov-dropdown-trigger"
+          class={{
+            'aegov-dropdown-trigger': true,
+            'cursor-not-allowed': this.isDisabled,
+            'pointer-events-none': this.isDisabled,
+          }}
           id={this.triggerId}
           ref={(el) => (this.triggerRef = el)}
           onMouseEnter={this.handleTriggerMouseEnter}
