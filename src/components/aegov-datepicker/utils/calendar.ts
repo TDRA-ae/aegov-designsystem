@@ -100,7 +100,7 @@ export function generateCalendarGrid(
 export function getWeekdayNames(
   locale: string = 'en',
   startDay: number = 0,
-  format: 'narrow' | 'short' = 'short',
+  format: 'narrow' | 'short' | 'long' = 'short',
 ): string[] {
   const formatter = new Intl.DateTimeFormat(locale, { weekday: format });
   const names: string[] = [];
