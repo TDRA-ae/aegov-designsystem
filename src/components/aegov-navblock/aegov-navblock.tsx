@@ -79,6 +79,27 @@ export class AegovNavblock {
   @Prop() activeBorder: boolean = false;
 
   private _sizeWatcher: ResponsivePropWatcher | null = null;
+  private _hasLoaded = false;
+
+  connectedCallback() {
+    // Re-attach event listeners on every connect so they survive the
+    // disconnect/reconnect that aegov-drawer.connectedCallback causes when it
+    // moves itself to document.body. addEventListener is idempotent for the
+    // same listener reference, so this is safe to call before first hydration.
+    this.el.addEventListener('aegovNavblockItemToggle', this.handleItemToggle as EventListener);
+    this.el.addEventListener('keydown', this.handleKeyDown);
+
+    // After the first render, also re-init the size watcher that
+    // disconnectedCallback destroyed.
+    if (this._hasLoaded && this._sizeWatcher === null) {
+      this._sizeWatcher = watchResponsiveProp(this.size, NAVBLOCK_SIZES, 'base', v => {
+        this._resolvedSize = v as NavblockSize;
+        if (this.el.isConnected) this.syncDescendants();
+      });
+      this._resolvedSize = this._sizeWatcher.current as NavblockSize;
+      this.syncDescendants();
+    }
+  }
 
   componentWillLoad() {
     if (!this.fieldId) {
@@ -99,10 +120,10 @@ export class AegovNavblock {
   }
 
   componentDidLoad() {
+    this._hasLoaded = true;
     this.syncDescendants();
     this.expandAncestorsOfActive();
-    this.el.addEventListener('aegovNavblockItemToggle', this.handleItemToggle as EventListener);
-    this.el.addEventListener('keydown', this.handleKeyDown);
+    // Listeners are managed by connectedCallback/disconnectedCallback.
   }
 
   componentDidUpdate() {
