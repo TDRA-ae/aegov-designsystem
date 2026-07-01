@@ -428,7 +428,7 @@
 <td><code>size</code></td>
 <td><code>size</code></td>
 <td>Padding and corner-radius scale.</td>
-<td><code>&#39;sm&#39; | &#39;base&#39; | &#39;lg&#39;</code></td>
+<td><code>&#39;sm&#39; | &#39;base&#39; | &#39;lg&#39; | &#39;xl&#39;</code></td>
 <td><code>&#39;base&#39;</code></td>
 </tr>
 <tr>
@@ -565,9 +565,9 @@
 <h2>Accessibility</h2>
 <h3>Built-in behaviour</h3>
 <ul>
-<li>The dialog renders with <code>role=&quot;dialog&quot;</code> and <code>aria-modal=&quot;true&quot;</code>.</li>
+<li>The dialog renders with <code>role=&quot;dialog&quot;</code> and <code>aria-modal=&quot;true&quot;</code>. <code>aria-modal=&quot;true&quot;</code> tells modern assistive technology not to expose content behind the dialog in their reading modes.</li>
 <li>Focus is trapped inside the dialog while it is open. <code>Tab</code> and <code>Shift + Tab</code> cycle through focusable elements without escaping to the page behind.</li>
-<li>On open, the first focusable element in the dialog receives focus automatically.</li>
+<li>On open, the first focusable element in the dialog receives focus automatically. If the dialog contains no focusable children, the dialog container itself receives focus (<code>tabindex=&quot;-1&quot;</code> is set) so assistive technology announces the dialog immediately.</li>
 <li>On close, focus is returned to the element that opened the dialog.</li>
 <li>Body scroll is locked while the dialog is open (reference-counted, so nested overlays keep scroll locked correctly).</li>
 <li><code>Escape</code> always closes the dialog — this behaviour is not configurable.</li>
@@ -580,6 +580,12 @@
 <li>For destructive confirmations (delete, cancel application), pair <code>overlay-opacity=&quot;dark&quot;</code> with a <code>variant=&quot;danger&quot;</code> confirmation button so the visual weight matches the action.</li>
 <li>Listen for <code>aegovModalBeforeClose</code> and call <code>preventDefault()</code> if the user has unsaved changes — then prompt them in-place rather than silently losing data.</li>
 <li>Keep modal content focused on a single task. If the workflow requires several steps, consider a dedicated page or a multi-step wizard rather than nesting forms inside a dialog.</li>
+<li><strong>Background isolation for older assistive technology.</strong> <code>aria-modal=&quot;true&quot;</code> is respected by all modern screen readers (NVDA 2021+, JAWS 2021+, VoiceOver macOS 12+). For environments where older AT is expected, add the <code>inert</code> attribute to all page siblings when the modal opens and remove it on close. This prevents virtual-cursor navigation into background content:<pre><code class="hljs language-js">modal.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;aegovModalOpen&#x27;</span>, <span class="hljs-function">() =&gt;</span> {
+  <span class="hljs-variable language_">document</span>.<span class="hljs-property">body</span>.<span class="hljs-title function_">querySelectorAll</span>(<span class="hljs-string">&#x27;:scope &gt; :not(aegov-modal)&#x27;</span>).<span class="hljs-title function_">forEach</span>(<span class="hljs-function"><span class="hljs-params">el</span> =&gt;</span> el.<span class="hljs-title function_">setAttribute</span>(<span class="hljs-string">&#x27;inert&#x27;</span>, <span class="hljs-string">&#x27;&#x27;</span>));
+});
+modal.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;aegovModalClose&#x27;</span>, <span class="hljs-function">() =&gt;</span> {
+  <span class="hljs-variable language_">document</span>.<span class="hljs-property">body</span>.<span class="hljs-title function_">querySelectorAll</span>(<span class="hljs-string">&#x27;[inert]&#x27;</span>).<span class="hljs-title function_">forEach</span>(<span class="hljs-function"><span class="hljs-params">el</span> =&gt;</span> el.<span class="hljs-title function_">removeAttribute</span>(<span class="hljs-string">&#x27;inert&#x27;</span>));
+});</code></pre></li>
 </ul>
 <h3>Keyboard support</h3>
 <table>

@@ -300,7 +300,7 @@ ARIA and `data-*` attributes set on `<aegov-tooltip>` are forwarded onto the inn
 | `aria-*`            | Yes        | Applied to the inner trigger wrapper (`.aegov-tooltip-trigger`). |
 | `data-*`            | Yes        | Applied to the inner trigger wrapper.                         |
 | `aria-describedby`  | Managed    | Set automatically while the tooltip is visible.               |
-| `aria-expanded`     | Managed    | Set automatically when `trigger="click"`.                     |
+| `aria-expanded`     | Managed    | Set directly on the first focusable element inside the trigger slot when `trigger="click"`. |
 | `class`, `style`    | Allowed    | Applied to the host element.                                  |
 
 ---
@@ -311,9 +311,11 @@ ARIA and `data-*` attributes set on `<aegov-tooltip>` are forwarded onto the inn
 
 - The tooltip element renders with `role="tooltip"` and a stable `id`.
 - `aria-describedby` is set on the trigger wrapper while the tooltip is visible, so screen readers announce the tooltip text together with the trigger's accessible name.
-- When `trigger="click"`, `aria-expanded` reflects the open state on the trigger wrapper.
-- `Escape` hides the tooltip immediately.
-- The tooltip closes when the trigger loses focus (with `delay-end` applied) or when the user clicks outside (in click-trigger mode).
+- When `trigger="click"`, `aria-expanded` is set directly on the first focusable element inside the trigger slot (the button, link, or other focusable element), so assistive technology correctly announces the expanded state.
+- The tooltip appears when the trigger gains keyboard focus (via `Tab`) and closes when focus leaves the component.
+- `Escape` hides the tooltip immediately (SC 1.4.13 dismissable).
+- The tooltip remains open when the pointer moves from the trigger onto the tooltip itself, allowing users to read or copy the tooltip text (SC 1.4.13 hoverable).
+- The tooltip closes when the trigger loses focus or when the user clicks outside (in click-trigger mode).
 
 ### Developer responsibilities
 

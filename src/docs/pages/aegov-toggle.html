@@ -27,12 +27,12 @@
 <p>The <code>aegov-toggle</code> component renders a fully accessible switch built on a native <code>&lt;input type=&quot;checkbox&quot;&gt;</code> with <code>role=&quot;switch&quot;</code>. It supports an optional inline label and description, five sizes, custom on/off icons via slots, and standard form integration through <code>name</code> and <code>value</code>. Use it for &quot;on now&quot; decisions; for choices that only apply after a Save action, prefer a checkbox.</p>
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-toggle</span>
   <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Enable SMS notifications&quot;</span>
-  <span class="hljs-attr">description</span>=<span class="hljs-string">&quot;Receive transactional updates on your registered UAE mobile number.&quot;</span>
+  <span class="hljs-attr">hint</span>=<span class="hljs-string">&quot;Receive transactional updates on your registered UAE mobile number.&quot;</span>
   <span class="hljs-attr">is-checked</span>=<span class="hljs-string">&quot;true&quot;</span>
 &gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-toggle</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-toggle
     label="Enable SMS notifications"
-    description="Receive transactional updates on your registered UAE mobile number."
+    hint="Receive transactional updates on your registered UAE mobile number."
     is-checked="true"
   ></aegov-toggle>
 </div>
@@ -119,15 +119,15 @@
 </div>
 
 <hr>
-<h2>Label and description</h2>
-<p>When a <code>label</code> is supplied, the toggle renders inside a <code>&lt;label&gt;</code> element so the entire row is clickable. Add <code>description</code> to provide secondary helper text below the label — for example to explain consent implications or rate-limit consequences.</p>
+<h2>Label and hint</h2>
+<p>When a <code>label</code> is supplied, the toggle renders inside a <code>&lt;label&gt;</code> element so the entire row is clickable. Add <code>hint</code> to provide secondary helper text below the label — for example to explain consent implications or rate-limit consequences.</p>
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-toggle</span>
   <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Share my data with partner government entities&quot;</span>
-  <span class="hljs-attr">description</span>=<span class="hljs-string">&quot;Allows the Ministry to share verified profile data with other UAE federal services to pre-fill applications.&quot;</span>
+  <span class="hljs-attr">hint</span>=<span class="hljs-string">&quot;Allows the Ministry to share verified profile data with other UAE federal services to pre-fill applications.&quot;</span>
 &gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-toggle</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-toggle
     label="Share my data with partner government entities"
-    description="Allows the Ministry to share verified profile data with other UAE federal services to pre-fill applications."
+    hint="Allows the Ministry to share verified profile data with other UAE federal services to pre-fill applications."
   ></aegov-toggle>
 </div>
 
@@ -198,15 +198,15 @@
 <hr>
 <h2>Notification preferences example</h2>
 <p>A typical UAE Government scenario: a citizen managing notification channels for service updates from a federal portal. Each channel is independent and toggling it takes effect immediately.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-toggle</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;SMS&quot;</span> <span class="hljs-attr">description</span>=<span class="hljs-string">&quot;Status updates sent to your registered UAE mobile.&quot;</span> <span class="hljs-attr">is-checked</span>=<span class="hljs-string">&quot;true&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-toggle</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-toggle</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Email&quot;</span> <span class="hljs-attr">description</span>=<span class="hljs-string">&quot;Receipts and renewal reminders.&quot;</span> <span class="hljs-attr">is-checked</span>=<span class="hljs-string">&quot;true&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-toggle</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-toggle</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Push notifications&quot;</span> <span class="hljs-attr">description</span>=<span class="hljs-string">&quot;In-app alerts on the official UAE Pass mobile app.&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-toggle</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-toggle</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;WhatsApp&quot;</span> <span class="hljs-attr">description</span>=<span class="hljs-string">&quot;High-priority security alerts only.&quot;</span> <span class="hljs-attr">is-disabled</span>=<span class="hljs-string">&quot;true&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-toggle</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-toggle</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;SMS&quot;</span> <span class="hljs-attr">hint</span>=<span class="hljs-string">&quot;Status updates sent to your registered UAE mobile.&quot;</span> <span class="hljs-attr">is-checked</span>=<span class="hljs-string">&quot;true&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-toggle</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-toggle</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Email&quot;</span> <span class="hljs-attr">hint</span>=<span class="hljs-string">&quot;Receipts and renewal reminders.&quot;</span> <span class="hljs-attr">is-checked</span>=<span class="hljs-string">&quot;true&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-toggle</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-toggle</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Push notifications&quot;</span> <span class="hljs-attr">hint</span>=<span class="hljs-string">&quot;In-app alerts on the official UAE Pass mobile app.&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-toggle</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-toggle</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;WhatsApp&quot;</span> <span class="hljs-attr">hint</span>=<span class="hljs-string">&quot;High-priority security alerts only.&quot;</span> <span class="hljs-attr">is-disabled</span>=<span class="hljs-string">&quot;true&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-toggle</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <div class="space-y-4">
-    <aegov-toggle label="SMS" description="Status updates sent to your registered UAE mobile." is-checked="true"></aegov-toggle>
-    <aegov-toggle label="Email" description="Receipts and renewal reminders." is-checked="true"></aegov-toggle>
-    <aegov-toggle label="Push notifications" description="In-app alerts on the official UAE Pass mobile app."></aegov-toggle>
-    <aegov-toggle label="WhatsApp" description="High-priority security alerts only." is-disabled="true"></aegov-toggle>
+    <aegov-toggle label="SMS" hint="Status updates sent to your registered UAE mobile." is-checked="true"></aegov-toggle>
+    <aegov-toggle label="Email" hint="Receipts and renewal reminders." is-checked="true"></aegov-toggle>
+    <aegov-toggle label="Push notifications" hint="In-app alerts on the official UAE Pass mobile app."></aegov-toggle>
+    <aegov-toggle label="WhatsApp" hint="High-priority security alerts only." is-disabled="true"></aegov-toggle>
   </div>
 </div>
 
@@ -216,27 +216,27 @@
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">dir</span>=<span class="hljs-string">&quot;rtl&quot;</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-toggle</span>
     <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;تفعيل الإشعارات عبر الرسائل النصية&quot;</span>
-    <span class="hljs-attr">description</span>=<span class="hljs-string">&quot;استلام تحديثات الخدمة على رقم هاتفك المتحرك المسجل في دولة الإمارات.&quot;</span>
+    <span class="hljs-attr">hint</span>=<span class="hljs-string">&quot;استلام تحديثات الخدمة على رقم هاتفك المتحرك المسجل في دولة الإمارات.&quot;</span>
     <span class="hljs-attr">is-checked</span>=<span class="hljs-string">&quot;true&quot;</span>
   &gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-toggle</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre><div dir="rtl" class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-toggle
     label="تفعيل الإشعارات عبر الرسائل النصية"
-    description="استلام تحديثات الخدمة على رقم هاتفك المتحرك المسجل في دولة الإمارات."
+    hint="استلام تحديثات الخدمة على رقم هاتفك المتحرك المسجل في دولة الإمارات."
     is-checked="true"
   ></aegov-toggle>
 </div>
 
 <p>A full preferences panel in RTL:</p>
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">dir</span>=<span class="hljs-string">&quot;rtl&quot;</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-toggle</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;رسائل SMS&quot;</span> <span class="hljs-attr">description</span>=<span class="hljs-string">&quot;تحديثات الحالة على رقم هاتفك.&quot;</span> <span class="hljs-attr">is-checked</span>=<span class="hljs-string">&quot;true&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-toggle</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-toggle</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;البريد الإلكتروني&quot;</span> <span class="hljs-attr">description</span>=<span class="hljs-string">&quot;إيصالات وتذكيرات التجديد.&quot;</span> <span class="hljs-attr">is-checked</span>=<span class="hljs-string">&quot;true&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-toggle</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-toggle</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;إشعارات التطبيق&quot;</span> <span class="hljs-attr">description</span>=<span class="hljs-string">&quot;تنبيهات داخل تطبيق الهوية الرقمية UAE Pass.&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-toggle</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-toggle</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;رسائل SMS&quot;</span> <span class="hljs-attr">hint</span>=<span class="hljs-string">&quot;تحديثات الحالة على رقم هاتفك.&quot;</span> <span class="hljs-attr">is-checked</span>=<span class="hljs-string">&quot;true&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-toggle</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-toggle</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;البريد الإلكتروني&quot;</span> <span class="hljs-attr">hint</span>=<span class="hljs-string">&quot;إيصالات وتذكيرات التجديد.&quot;</span> <span class="hljs-attr">is-checked</span>=<span class="hljs-string">&quot;true&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-toggle</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-toggle</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;إشعارات التطبيق&quot;</span> <span class="hljs-attr">hint</span>=<span class="hljs-string">&quot;تنبيهات داخل تطبيق الهوية الرقمية UAE Pass.&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-toggle</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre><div dir="rtl" class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <div class="space-y-4">
-    <aegov-toggle label="رسائل SMS" description="تحديثات الحالة على رقم هاتفك." is-checked="true"></aegov-toggle>
-    <aegov-toggle label="البريد الإلكتروني" description="إيصالات وتذكيرات التجديد." is-checked="true"></aegov-toggle>
-    <aegov-toggle label="إشعارات التطبيق" description="تنبيهات داخل تطبيق الهوية الرقمية UAE Pass."></aegov-toggle>
+    <aegov-toggle label="رسائل SMS" hint="تحديثات الحالة على رقم هاتفك." is-checked="true"></aegov-toggle>
+    <aegov-toggle label="البريد الإلكتروني" hint="إيصالات وتذكيرات التجديد." is-checked="true"></aegov-toggle>
+    <aegov-toggle label="إشعارات التطبيق" hint="تنبيهات داخل تطبيق الهوية الرقمية UAE Pass."></aegov-toggle>
   </div>
 </div>
 
@@ -317,9 +317,9 @@
 <td><code>undefined</code></td>
 </tr>
 <tr>
-<td><code>description</code></td>
-<td><code>description</code></td>
-<td>Secondary helper text shown below the label. Requires <code>label</code> to render.</td>
+<td><code>hint</code></td>
+<td><code>hint</code></td>
+<td>Helper hint text shown below the label. Requires <code>label</code> to render.</td>
 <td><code>string</code></td>
 <td><code>undefined</code></td>
 </tr>
@@ -407,9 +407,6 @@
 <hr>
 <h2>Validation</h2>
 <p><code>aegov-toggle</code> exposes the unified <a href="validation-overview.html">Validation Surface</a>. Toggle-specific notes:</p>
-<blockquote>
-<p><strong>Renamed:</strong> the <code>description</code> prop was renamed to <code>hint</code>. CSS class <code>toggle__description</code> → <code>toggle__hint</code>.</p>
-</blockquote>
 <h3>Common recipes</h3>
 <p><strong>Required consent toggle:</strong></p>
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-toggle</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;newsletter&quot;</span> <span class="hljs-attr">is-required</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;I agree to receive emails&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-toggle</span>&gt;</span></code></pre><p><strong>Conditional dependent fields:</strong></p>
@@ -423,7 +420,7 @@
 <h3>Built-in behaviour</h3>
 <ul>
 <li>The underlying control is a native <code>&lt;input type=&quot;checkbox&quot;&gt;</code> with <code>role=&quot;switch&quot;</code> and an explicit <code>aria-checked</code> state, so assistive technology announces &quot;switch, on&quot; or &quot;switch, off&quot; rather than &quot;checkbox, checked&quot;.</li>
-<li>When <code>description</code> is provided, the input is linked to it via <code>aria-describedby</code> so screen readers read the helper text after the label.</li>
+<li>When <code>hint</code> is provided, the input is linked to it via <code>aria-describedby</code> so screen readers read the helper text after the label.</li>
 <li><code>is-required</code> sets both the native <code>required</code> attribute and <code>aria-required=&quot;true&quot;</code>.</li>
 <li>The label wraps the switch, so the entire row — label and description included — is clickable and fires the same change event.</li>
 </ul>

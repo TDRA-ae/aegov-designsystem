@@ -278,7 +278,8 @@ Provide an explicit `aria-label` so the link's destination is announced by assis
 Native `<a>` elements do not support `disabled`, so `aegov-link` polyfills the behaviour when `is-disabled` is set:
 
 - The link is removed from the tab order (`tabindex="-1"`).
-- `aria-disabled="true"` is announced by assistive technology.
+- `role="link"` is set explicitly so assistive technology continues to identify the element as a link even though `href` is stripped (a native `<a>` without `href` loses its implicit link role).
+- `aria-disabled="true"` is announced by assistive technology as "dimmed" or "unavailable".
 - `href` and `target` are stripped from the rendered element so the browser will not navigate even if the user activates it programmatically.
 - Click events are intercepted and `preventDefault()` is called — `aegovLinkClick` is not emitted.
 - Pointer events are disabled and the cursor switches to `not-allowed` via the shared button styling.
@@ -406,13 +407,28 @@ In addition to `aria-*` and `data-*`, the following standard anchor attributes a
 
 - Renders a real `<a>` element so it is keyboard-focusable, recognised by assistive technology as a link, and discoverable to search engines.
 - Automatically applies `rel="noopener noreferrer"` when `target="_blank"` (and no explicit `rel` is provided) to prevent reverse-tabnabbing.
+- When `is-disabled` is set, adds `role="link"` explicitly to preserve the link role after `href` is stripped (a native `<a>` without `href` loses its implicit link role, which would break AT navigation-by-links).
 - Pass-through attributes allow `aria-label`, `aria-describedby`, `title`, `hreflang`, and `referrerpolicy` to be forwarded without wrapping markup.
 
 ### Developer responsibilities
 
 - Provide descriptive link text. Avoid generic text like "click here" or "read more" — the slot content should describe the destination.
 - For icon-only links, provide an `aria-label` so screen readers announce the destination.
-- Use `target="_blank"` sparingly — opening new tabs unexpectedly is disorienting for many users. When you do, consider warning the user in the link text (for example, "(opens in a new tab)").
+- Use `target="_blank"` sparingly — opening new tabs unexpectedly is disorienting for many users. When you do, include a visible or visually-hidden text warning so screen readers announce the behaviour. The recommended pattern uses a visually-hidden `<span>` that is invisible to sighted users but read aloud by AT:
+  ```html
+  <style>
+    .sr-only {
+      position: absolute; width: 1px; height: 1px;
+      padding: 0; margin: -1px; overflow: hidden;
+      clip: rect(0,0,0,0); white-space: nowrap; border: 0;
+    }
+  </style>
+
+  <aegov-link href="https://u.ae" target="_blank">
+    UAE Government portal
+    <span class="sr-only">(opens in a new tab)</span>
+  </aegov-link>
+  ```
 - Maintain sufficient colour contrast (at least 4.5 : 1 against the background) when overriding colour via `extra-class`.
 
 ### Keyboard support

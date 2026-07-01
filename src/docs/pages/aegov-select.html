@@ -812,9 +812,11 @@ select.<span class="hljs-property">value</span> = <span class="hljs-string">&#x2
 <h3>Built-in behaviour</h3>
 <ul>
 <li>The default appearance renders a real <code>&lt;select&gt;</code>, so it inherits all native accessibility — keyboard support, type-ahead, OS-level mobile pickers, and screen reader announcements.</li>
-<li>The listbox appearance uses the WAI-ARIA combobox pattern: the trigger has <code>role=&quot;combobox&quot;</code>, <code>aria-haspopup=&quot;listbox&quot;</code>, <code>aria-expanded</code>, and <code>aria-controls</code> pointing at the panel; the panel has <code>role=&quot;listbox&quot;</code>; each option has <code>role=&quot;option&quot;</code> and <code>aria-selected</code>; and <code>aria-activedescendant</code> tracks the focused option as the user types.</li>
+<li>The listbox appearance uses the WAI-ARIA combobox pattern: the trigger has <code>role=&quot;combobox&quot;</code>, <code>aria-haspopup=&quot;listbox&quot;</code>, <code>aria-expanded</code>, <code>aria-controls</code> pointing at the panel, and <code>aria-required</code> when <code>is-required</code> is set; the panel has <code>role=&quot;listbox&quot;</code>; each option has <code>role=&quot;option&quot;</code> and <code>aria-selected</code>; and <code>aria-activedescendant</code> tracks the focused option as the user types.</li>
 <li>Grouped options use <code>role=&quot;group&quot;</code> and <code>aria-labelledby</code> to associate the group header with its members.</li>
-<li>The search input declares <code>role=&quot;searchbox&quot;</code> and links to the listbox with <code>aria-controls</code>.</li>
+<li>The search input declares <code>role=&quot;searchbox&quot;</code> and links to the listbox with <code>aria-controls</code>. Its <code>aria-label</code> and placeholder are bilingual (English and Arabic) — no developer translation needed.</li>
+<li>The clear button&#39;s <code>aria-label</code> is bilingual. No developer translation needed.</li>
+<li>Error messages are announced via <code>aria-live=&quot;polite&quot;</code> only after the first genuine blur (when focus leaves the component entirely, not when it moves to the internal search input or listbox options). This avoids premature error announcements while the user is still selecting.</li>
 <li>Disabled options are skipped during keyboard navigation and announce as disabled.</li>
 </ul>
 <h3>Developer responsibilities</h3>

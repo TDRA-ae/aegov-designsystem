@@ -11,6 +11,11 @@ import { getPassThroughAttributes } from '../../utils/attributes';
 const TAG = 'aegov-tabs';
 const ctx = (prop: string) => ({ component: TAG, prop });
 
+const STRINGS = {
+  en: { tablist: 'Tabs' },
+  ar: { tablist: 'علامات التبويب' },
+};
+
 /**
  * @component aegov-tabs
  * @description Tab container that organizes content into panels.
@@ -85,8 +90,9 @@ export class AegovTabs {
   /**
    * Accessible label for the tablist element.
    * Provides context for screen readers about what the tabs control.
+   * Defaults to a bilingual auto-detected string ("Tabs" / "علامات التبويب").
    */
-  @Prop() labelTablist: string = 'Tabs';
+  @Prop() labelTablist: string = '';
 
   /** Currently active tab id (internal uncontrolled state) */
   @State() activeTabId: string = '';
@@ -301,6 +307,8 @@ export class AegovTabs {
     const size: TabSize = this._resolvedSize;
     const orientation: TabOrientation = (TAB_ORIENTATIONS as readonly string[]).includes(this.orientation) ? this.orientation : 'horizontal';
     const passThroughAttributes = getPassThroughAttributes(this.el);
+    const rtl = detectRtl(this.el);
+    const listLabel = this.labelTablist || (rtl ? STRINGS.ar.tablist : STRINGS.en.tablist);
     return (
       <div {...passThroughAttributes} id={this.fieldId} class={`aegov-tabs tabs--${variant} tabs--${size}${this.isStretchable ? ' tabs--stretch' : ''}${orientation === 'vertical' ? ' tabs--vertical' : ''}`}>
         <div
@@ -309,7 +317,7 @@ export class AegovTabs {
         >
           <div
             role="tablist"
-            aria-label={this.labelTablist}
+            aria-label={listLabel}
             aria-orientation={orientation}
             class="tabs__list"
             ref={el => (this.listEl = el as HTMLElement)}

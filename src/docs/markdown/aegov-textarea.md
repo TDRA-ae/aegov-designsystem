@@ -461,8 +461,8 @@ See [BYO Validator](validation-byo.html) for more patterns.
 - Renders a real `<textarea>` element, preserving native semantics, keyboard handling, autofill, and assistive-technology behaviour.
 - `field-id` is auto-generated and reflected to the host so external `<label for>` (or `aegov-label`) can associate reliably.
 - `is-required` sets the native `required` attribute, exposing the requirement to assistive tech automatically.
-- When `maxlength` is set, the live character counter is announced via `aria-live="polite"` and linked to the textarea with `aria-describedby`.
-- The copy button has a descriptive `aria-label` (`"Copy to clipboard"` / `"Copied"`) and `tabindex="-1"` so it doesn't disrupt the natural tab flow.
+- When `maxlength` is set, the native `maxlength` attribute is applied to the textarea (enforcing the hard limit and allowing AT to announce it in forms mode), and a live character counter is announced via `aria-live="polite"` and linked to the textarea with `aria-describedby`.
+- The copy button (`is-copyable`) is keyboard-accessible; `Tab` moves focus to it after the textarea. Its `aria-label` is bilingual — `"Copy to clipboard"` / `"نسخ إلى الحافظة"` and `"Copied"` / `"تم النسخ"` — no developer translation needed.
 - When wrapped in `aegov-form-field`, helper and error text are wired up via `aria-describedby` automatically.
 
 ### Developer responsibilities
@@ -475,7 +475,8 @@ See [BYO Validator](validation-byo.html) for more patterns.
 
 | Key                   | Action                                                                              |
 | --------------------- | ----------------------------------------------------------------------------------- |
-| `Tab`                 | Move focus to the textarea, or away from it once focused.                            |
+| `Tab`                 | Move focus to the textarea; when the copy button is present, one more `Tab` reaches it. |
 | `Shift + Tab`         | Move focus to the previous focusable element.                                        |
+| `Enter` (on copy btn) | Copy the textarea value to the clipboard.                                            |
 | `Enter`               | Insert a new line within the textarea (does not submit the form).                    |
 | Standard text editing | All native shortcuts apply — selection, cursor movement, cut/copy/paste.             |

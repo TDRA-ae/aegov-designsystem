@@ -624,9 +624,8 @@
 <h2>Accessibility</h2>
 <h3>Built-in behaviour</h3>
 <ul>
-<li>The trigger wrapper exposes <code>aria-haspopup=&quot;true&quot;</code> and <code>aria-expanded</code> reflecting the open state.</li>
-<li>When open, the trigger gets <code>aria-controls</code> pointing at the menu&#39;s <code>id</code>.</li>
-<li>The menu element has <code>role=&quot;menu&quot;</code> and <code>aria-labelledby</code> linking back to the trigger id.</li>
+<li>The first focusable element inside the trigger slot (e.g. <code>&lt;aegov-button&gt;</code>) automatically receives <code>aria-haspopup=&quot;menu&quot;</code>, <code>aria-expanded</code>, and <code>aria-controls</code> (pointing at the menu&#39;s <code>id</code> when open). These attributes are set imperatively so they live on the element AT actually reads, not the wrapper div.</li>
+<li>The menu element has <code>role=&quot;menu&quot;</code> and <code>aria-labelledby</code> linking back to the trigger wrapper&#39;s <code>id</code>.</li>
 <li>Focusable children inside the menu without an explicit <code>role</code> automatically receive <code>role=&quot;menuitem&quot;</code>.</li>
 <li><code>Escape</code> closes the dropdown; <code>Tab</code> and <code>Arrow Up</code> / <code>Arrow Down</code> cycle focus through menu items.</li>
 <li>Keyboard-triggered opens (<code>Enter</code>/<code>Space</code> on the focused trigger) move focus into the menu; pointer opens leave focus on the trigger, matching the WAI-ARIA menu pattern.</li>

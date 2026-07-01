@@ -4,7 +4,7 @@
 
 ## Introduction
 
-The `aegov-otp` component renders a configurable number of input cells as a single logical input. Auto-advance moves focus on each character; backspace returns focus and clears the previous cell; paste distributes the clipboard contents from the first cell. It emits a single combined value through change, complete, and invalid events, and contributes a hidden input to standard form submission.
+The `aegov-otp` component renders a configurable number of input cells as a single logical input. Auto-advance moves focus on each character; backspace returns focus and clears the previous cell; paste distributes the clipboard contents from the first cell. It emits a single combined value through change and complete events, and uses `ElementInternals` to participate in standard form submission as a single field.
 
 ```html
 <aegov-otp length="6" name="otp_code"></aegov-otp>
@@ -164,7 +164,7 @@ By default the component accepts digits only (`0`–`9`) and presents the numeri
 
 ## Pattern validation
 
-Use the `pattern` property to validate the assembled value. When the user fills the last cell, the component checks the regex; if it fails, `aegovOtpInvalid` is emitted instead of `aegovOtpComplete`. Combine with your own UI to surface an inline error.
+Use the `pattern` property to validate the assembled value. When the user fills the last cell, the component checks the regex; if it fails, `aegovValidate` is emitted with `validity.patternMismatch === true`. Combine with your own UI to surface an inline error.
 
 ```html
 <!-- Six digits where the first must be 1, 2, or 3 -->
@@ -223,7 +223,7 @@ Try copying `123456` and pasting into the field below.
 
 ## Form integration
 
-Provide a `name` to participate in standard form submission. The component renders a hidden input with the assembled value, so the form payload contains a single field — not one per cell.
+Provide a `name` to participate in standard form submission. The component uses `ElementInternals` to submit the assembled value as a single field without adding a visible hidden input — `name` is the only requirement.
 
 ```html
 <form>
@@ -255,9 +255,11 @@ A typical UAE Government scenario: confirming a UAE Pass two-factor authenticati
     status.textContent = 'Verifying ' + e.detail.value + '…';
     status.className = 'mt-3 text-sm text-techblue-600';
   });
-  otp.addEventListener('aegovOtpInvalid', () => {
-    status.textContent = 'That code is not valid. Please try again.';
-    status.className = 'mt-3 text-sm text-aered-600';
+  otp.addEventListener('aegovValidate', (e) => {
+    if (e.detail.validity.patternMismatch) {
+      status.textContent = 'That code is not valid. Please try again.';
+      status.className = 'mt-3 text-sm text-aered-600';
+    }
   });
 </script>
 ```
@@ -313,9 +315,9 @@ The same field with the individual appearance in RTL:
 | `size`           | `size`            | Cell size token (`xs`, `sm`, `base`, `lg`, `xl`, `2xl`) or a responsive string.                | `string`                      | `'base'`      |
 | `variant`        | `variant`         | Colour family for idle/focused cell border and filled cell accent. Focus ring stays camel; error stays aered. | `'primary' \| 'secondary' \| 'neutral-max' \| 'neutral-min'` | `'primary'` |
 | `isAlphanumeric` | `is-alphanumeric` | Allow letters and numbers when `true`. Numbers only when `false`.                              | `boolean`                     | `false`       |
-| `pattern`        | `pattern`         | Regex string checked when all cells are filled. Failure emits `aegovOtpInvalid`.               | `string`                      | `undefined`   |
+| `pattern`        | `pattern`         | Regex string checked when all cells are filled. Failure emits `aegovValidate` with `validity.patternMismatch === true`.    | `string`                      | `undefined`   |
 | `isDisabled`     | `is-disabled`     | Disables all cells.                                                                            | `boolean`                     | `false`       |
-| `name`           | `name`            | Form field name for the hidden input used during submission.                                   | `string`                      | `undefined`   |
+| `name`           | `name`            | Form field name used when the component submits via `ElementInternals`.                        | `string`                      | `undefined`   |
 | `value`          | `value`           | Current value. Setting this redistributes characters across cells.                             | `string`                      | `''`          |
 | `extraClass`     | `extra-class`     | Additional CSS classes appended to the wrapper.                                                | `string`                      | `undefined`   |
 
@@ -340,9 +342,9 @@ The component does not expose slots — content is configured via properties.
 | -------------------- | --------------------------------------- | -------------------------------------------------------------------------------------------- |
 | `aegovOtpChange`     | `{ value: string }`                     | Fires after every character change with the current assembled value.                         |
 | `aegovOtpComplete`   | `{ value: string }`                     | Fires when all cells are filled and the optional `pattern` validates.                        |
-| `aegovOtpInvalid`    | `{ value: string; pattern: string }`    | Fires when all cells are filled but the value does not match `pattern`.                      |
+| `aegovValidate`      | `AegovValidationDetail<string>`         | Unified validation event. `validity.patternMismatch` is `true` when `pattern` fails. See the Validation section below. |
 
-#### Listening for completion
+#### Listening for completion and pattern failure
 
 ```html
 <aegov-otp id="mfa" length="6" pattern="^[0-9]{6}$"></aegov-otp>
@@ -352,8 +354,10 @@ The component does not expose slots — content is configured via properties.
   otp.addEventListener('aegovOtpComplete', (e) => {
     console.log('Submitting code:', e.detail.value);
   });
-  otp.addEventListener('aegovOtpInvalid', (e) => {
-    console.warn('Code did not match pattern', e.detail.pattern);
+  otp.addEventListener('aegovValidate', (e) => {
+    if (e.detail.validity.patternMismatch) {
+      console.warn('Code did not match pattern:', e.detail.value);
+    }
   });
 </script>
 ```
@@ -428,16 +432,18 @@ See [BYO Validator](validation-byo.html) for more patterns.
 
 - Each cell is a real `<input type="text">` with `inputmode="numeric"` (or `text` when alphanumeric), so mobile devices show the correct keyboard.
 - The first cell carries `autocomplete="one-time-code"` to enable iOS / Android SMS autofill.
-- The cells are wrapped in a `role="group"` element so screen readers treat them as a single field. Each cell has an `aria-label` of the form "Character {n} of {length}" so users know how many digits remain.
+- The cells are wrapped in a `role="group"` element so screen readers treat them as a single field. Each cell has an `aria-label` of the form "Character N of L" (Arabic: "حرف N من L") so users know their position regardless of reading direction.
+- The first cell carries `aria-invalid="true"` (mirrored to all cells when `is-invalid` is set), `aria-required="true"` (when `is-required` is set), and `aria-describedby` pointing to the error and hint regions — so error and hint text are announced by assistive technology when the first cell is focused.
+- Validation (`aria-live` error region) only activates after focus has left the entire OTP group, preventing premature announcements while the user is typing between cells.
 - Focus auto-advances to the next cell after a valid character and returns to the previous cell on backspace when the current cell is empty.
 - Paste fills from the first cell, ignores whitespace, and rejects characters that fail the alphanumeric rule.
-- A hidden `<input>` carries the assembled value for form submission so the rest of the page sees a single field.
+- Form participation is handled via `ElementInternals` — the assembled value is submitted as a single form field without a visible hidden input.
 
 ### Developer responsibilities
 
 - Pair the OTP with an `<aegov-label>` linked through `field-id` — the per-cell `aria-label` describes position, not purpose.
 - Use the optional `pattern` only as a fast failure signal; always verify the code on the server.
-- When showing an inline error after `aegovOtpInvalid`, also announce it with an `aria-live="polite"` region so non-sighted users hear that the code is invalid.
+- Set `is-invalid` and `error-message` (or use the `error` slot) to surface inline errors — the component's built-in `aria-live` region announces them automatically after the user leaves the OTP group.
 - Provide a way to resend the code (a button or link) and a way to reset the field — call `.clear()` on the host element.
 
 ### Keyboard support

@@ -3,6 +3,7 @@ import { generateId } from '../../utils/id-generator';
 import { INPUT_SIZES, FORM_VARIANTS } from '../../utils/types';
 import type { InputSize, FormVariant } from '../../utils/types';
 import { warnIfInvalidEnumProp } from '../../utils/prop-validator';
+import { getPassThroughAttributes } from '../../utils/attributes';
 import { watchResponsiveProp } from '../../utils/responsive-prop';
 import type { ResponsivePropWatcher } from '../../utils/responsive-prop';
 
@@ -120,12 +121,15 @@ export class AegovInputGroup {
 
   render() {
     const prefixId = this.addonPrefix ? `${this.groupId}-prefix` : undefined;
+    const passThroughAttrs = getPassThroughAttributes(this.el);
+    delete passThroughAttrs['aria-label'];
     return (
       <Host>
         <div
           class={this.getGroupClasses()}
           role="group"
           aria-label={this.groupLabel || undefined}
+          {...passThroughAttrs}
         >
           {this.addonPrefix && (
             <span id={prefixId} class="input-group__addon input-group__addon--prefix">

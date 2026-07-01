@@ -428,18 +428,23 @@
 <h2>Accessibility</h2>
 <h3>Built-in behaviour</h3>
 <ul>
-<li>The callout root has <code>role=&quot;alert&quot;</code>, so assistive technology announces the content as soon as the callout is added to the DOM or made visible.</li>
-<li>The dismiss button is a real <code>&lt;button type=&quot;button&quot;&gt;</code> with <code>aria-label=&quot;Close callout&quot;</code> and is keyboard-accessible.</li>
+<li>The callout root is an ARIA live region whose role is determined by the variant:<ul>
+<li><code>variant=&quot;error&quot;</code> and <code>variant=&quot;warning&quot;</code> → <code>role=&quot;alert&quot;</code> (assertive — AT announces immediately, interrupting the current reading flow).</li>
+<li><code>variant=&quot;info&quot;</code>, <code>variant=&quot;success&quot;</code>, and <code>variant=&quot;default&quot;</code> → <code>role=&quot;status&quot;</code> (polite — AT waits for an idle moment before announcing).</li>
+</ul>
+</li>
+<li>The dismiss button is a real <code>&lt;button type=&quot;button&quot;&gt;</code> with a bilingual <code>aria-label</code> (<code>&quot;Close callout&quot;</code> in English, <code>&quot;إغلاق الإشعار&quot;</code> in Arabic, resolved from the nearest <code>dir=&quot;rtl&quot;</code> ancestor).</li>
 <li>Default variant icons are decorative and marked <code>aria-hidden=&quot;true&quot;</code>.</li>
 <li>The dismiss SVG is also marked <code>aria-hidden=&quot;true&quot;</code>.</li>
+<li>The dismiss button touch target is 24 × 24 CSS px (SC 2.5.8).</li>
 </ul>
 <h3>Developer responsibilities</h3>
 <ul>
-<li>Pair the variant with explicit text — colour alone is not sufficient to convey severity. Users with low vision or colour-blindness rely on the wording to understand the message.</li>
-<li>Use <code>variant=&quot;error&quot;</code> only for genuine, blocking errors. For non-blocking informational content, prefer <code>variant=&quot;info&quot;</code> so screen readers do not over-announce severity.</li>
+<li>Pair the variant with explicit text — colour alone is not sufficient to convey severity (SC 1.4.1). Users with low vision or colour-blindness rely on the wording.</li>
+<li>Use <code>variant=&quot;error&quot;</code> only for genuine, blocking errors. Avoid <code>error</code> or <code>warning</code> for informational notices — the assertive live region interrupts AT users immediately.</li>
 <li>If you slot a custom icon, ensure it is marked <code>aria-hidden=&quot;true&quot;</code> (or has a meaningful <code>aria-label</code> if it conveys unique information not present in the text).</li>
 <li>Action buttons inside the <code>actions</code> slot must have visible labels and meet contrast requirements against the chosen <code>appearance</code>.</li>
-<li><code>role=&quot;alert&quot;</code> triggers screen-reader announcements only when the callout is added or made visible — re-rendering a hidden callout does not re-announce.</li>
+<li>Live region announcements trigger only when the callout is added or made visible — re-rendering an already-visible callout does not re-announce.</li>
 <li>Calling dismiss removes the callout from view via internal state. To control visibility externally, manage the element directly rather than relying on <code>is-dismissible</code>.</li>
 </ul>
 <h3>Keyboard support</h3>

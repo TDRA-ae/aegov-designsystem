@@ -429,17 +429,16 @@ This component does not expose any slots — its layout is fully driven by props
 
 ### Built-in behaviour
 
-- The component renders as a `<nav>` landmark with `aria-label="Pagination"` so screen readers announce it among site landmarks.
-- The active page button has `aria-current="page"` and a descriptive `aria-label` such as `"Page 3, current page"`.
-- Previous, Next, First, and Last buttons each carry explicit `aria-label`s (`"Go to previous page"`, etc.).
-- The compact variant exposes the `current / total` indicator inside a polite `aria-live` region so assistive tech announces the change.
+- The component renders as a `<nav>` landmark with `aria-label="Pagination"` (Arabic: "ترقيم الصفحات") so screen readers announce it among site landmarks.
+- The active page button has `aria-current="page"` and a descriptive `aria-label` such as `"Page 3, current page"` (Arabic: "الصفحة 3، الصفحة الحالية").
+- Previous, Next, First, and Last buttons carry bilingual `aria-label`s automatically — English when the page direction is LTR, Arabic when `dir="rtl"` is detected. No developer translation needed.
+- The compact variant exposes the `current / total` indicator (`3 / 10`) inside a polite `aria-live` region. An `aria-label` provides the full descriptive form ("Page 3 of 10" / "الصفحة 3 من 10") so assistive technology announces meaningful context rather than "3 slash 10".
 - Disabled buttons set both the native `disabled` attribute and `aria-disabled="true"`.
 - Ellipsis tokens are decorative — marked `aria-hidden="true"` so they are not announced.
 
 ### Developer responsibilities
 
 - Always update `pageCurrent` in response to `aegovPaginationPageChange`. The component is fully controlled — without the update, clicking does nothing.
-- Translate `labelPrev`, `labelNext`, `labelFirst`, `labelLast` for non-English contexts.
 - After a page change, move keyboard focus to (or scroll to) the updated content region so keyboard users do not lose their place.
 - Prefer the `compact` variant on narrow viewports rather than allowing page numbers to wrap.
 - For very long lists (>50 pages), enable `is-enabled-first-last` so users can jump to the ends in one click.

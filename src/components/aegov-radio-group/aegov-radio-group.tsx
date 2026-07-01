@@ -10,6 +10,7 @@ import type { ResponsivePropWatcher } from '../../utils/responsive-prop';
 import {
   composeDescribedBy, buildValidationDetail, synthesizeValidity,
 } from '../../utils/validation';
+import { getPassThroughAttributes } from '../../utils/attributes';
 import { generateId } from '../../utils/id-generator';
 
 const TAG = 'aegov-radio-group';
@@ -219,7 +220,15 @@ export class AegovRadioGroup {
     const showError = this.isInvalid && (hasErrorSlot || !!this.errorMessage);
     const showHint = !showError && (hasHintSlot || !!this.hint);
     const announceError = showError && this.hasInteractedOnce;
+
+    const passThroughAttrs = getPassThroughAttributes(this.el);
+    delete passThroughAttrs['aria-invalid'];
+    delete passThroughAttrs['aria-describedby'];
+    delete passThroughAttrs['aria-required'];
+
+    const authorDescribedBy = this.el.getAttribute('aria-describedby');
     const describedBy = composeDescribedBy(
+      authorDescribedBy,
       showError ? this.errorId : null,
       showHint ? this.hintId : null,
     );
@@ -230,8 +239,10 @@ export class AegovRadioGroup {
           class={this.getGroupClasses()}
           role="radiogroup"
           disabled={this.isDisabled}
+          aria-required={this.isRequired ? 'true' : undefined}
           aria-invalid={this.isInvalid ? 'true' : null}
           aria-describedby={describedBy}
+          {...passThroughAttrs}
         >
           {this.label && <legend class="radio-group__legend">{this.label}</legend>}
           {showHint && (

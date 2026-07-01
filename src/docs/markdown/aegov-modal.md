@@ -432,7 +432,7 @@ The modal is direction-agnostic. Set `dir="rtl"` on the document or on a parent 
 | `isPreventScroll`     | `is-prevent-scroll`      | Lock body scroll while the modal is open.                                            | `boolean`                         | `true`      |
 | `overlayOpacity`      | `overlay-opacity`        | Backdrop dim level.                                                                  | `'light' \| 'base' \| 'dark'`     | `'base'`    |
 | `position`            | `position`               | Where the dialog is anchored on the viewport.                                        | `'center' \| 'top' \| 'bottom'`   | `'center'`  |
-| `size`                | `size`                   | Padding and corner-radius scale.                                                     | `'sm' \| 'base' \| 'lg'`          | `'base'`    |
+| `size`                | `size`                   | Padding and corner-radius scale.                                                     | `'sm' \| 'base' \| 'lg' \| 'xl'`  | `'base'`    |
 | `isPadding`           | `is-padding`             | Apply inner content padding. Turn off for full-bleed content.                        | `boolean`                         | `true`      |
 
 ### Slots
@@ -481,9 +481,9 @@ ARIA attributes set on `<aegov-modal>` are forwarded onto the inner dialog eleme
 
 ### Built-in behaviour
 
-- The dialog renders with `role="dialog"` and `aria-modal="true"`.
+- The dialog renders with `role="dialog"` and `aria-modal="true"`. `aria-modal="true"` tells modern assistive technology not to expose content behind the dialog in their reading modes.
 - Focus is trapped inside the dialog while it is open. `Tab` and `Shift + Tab` cycle through focusable elements without escaping to the page behind.
-- On open, the first focusable element in the dialog receives focus automatically.
+- On open, the first focusable element in the dialog receives focus automatically. If the dialog contains no focusable children, the dialog container itself receives focus (`tabindex="-1"` is set) so assistive technology announces the dialog immediately.
 - On close, focus is returned to the element that opened the dialog.
 - Body scroll is locked while the dialog is open (reference-counted, so nested overlays keep scroll locked correctly).
 - `Escape` always closes the dialog — this behaviour is not configurable.
@@ -496,6 +496,15 @@ ARIA attributes set on `<aegov-modal>` are forwarded onto the inner dialog eleme
 - For destructive confirmations (delete, cancel application), pair `overlay-opacity="dark"` with a `variant="danger"` confirmation button so the visual weight matches the action.
 - Listen for `aegovModalBeforeClose` and call `preventDefault()` if the user has unsaved changes — then prompt them in-place rather than silently losing data.
 - Keep modal content focused on a single task. If the workflow requires several steps, consider a dedicated page or a multi-step wizard rather than nesting forms inside a dialog.
+- **Background isolation for older assistive technology.** `aria-modal="true"` is respected by all modern screen readers (NVDA 2021+, JAWS 2021+, VoiceOver macOS 12+). For environments where older AT is expected, add the `inert` attribute to all page siblings when the modal opens and remove it on close. This prevents virtual-cursor navigation into background content:
+  ```js
+  modal.addEventListener('aegovModalOpen', () => {
+    document.body.querySelectorAll(':scope > :not(aegov-modal)').forEach(el => el.setAttribute('inert', ''));
+  });
+  modal.addEventListener('aegovModalClose', () => {
+    document.body.querySelectorAll('[inert]').forEach(el => el.removeAttribute('inert'));
+  });
+  ```
 
 ### Keyboard support
 

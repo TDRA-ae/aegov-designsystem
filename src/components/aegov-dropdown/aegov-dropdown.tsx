@@ -241,6 +241,8 @@ export class AegovDropdown {
   componentDidLoad() {
     // Create portal element for dropdown content
     this.createPortalElement();
+    // Sync ARIA state to the focusable child inside the trigger wrapper
+    this.syncTriggerAria();
   }
 
   connectedCallback() {
@@ -281,6 +283,23 @@ export class AegovDropdown {
     if (this.dropdownRef) {
       this.dropdownRef.removeEventListener('mouseenter', this.handleDropdownMouseEnter);
       this.dropdownRef.removeEventListener('mouseleave', this.handleDropdownMouseLeave);
+    }
+  }
+
+  private syncTriggerAria() {
+    if (!this.triggerRef) return;
+    // ARIA state must live on the focusable element AT reads, not its wrapper div.
+    // Query through light DOM (aegov-button is scoped:false, so its inner button is reachable).
+    const inner = this.triggerRef.querySelector<HTMLElement>(
+      'button, a, [role="button"], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+    );
+    if (!inner) return;
+    inner.setAttribute('aria-haspopup', 'menu');
+    inner.setAttribute('aria-expanded', this.isOpen.toString());
+    if (this.isOpen && this.fieldId) {
+      inner.setAttribute('aria-controls', this.fieldId);
+    } else {
+      inner.removeAttribute('aria-controls');
     }
   }
 
@@ -346,6 +365,8 @@ export class AegovDropdown {
         this.triggerElement.focus({ preventScroll: true });
       }
     }
+    // Keep ARIA state on the inner focusable element in sync
+    this.syncTriggerAria();
   }
 
   /**
@@ -783,7 +804,7 @@ export class AegovDropdown {
           onMouseEnter={this.handleTriggerMouseEnter}
           onMouseLeave={this.handleTriggerMouseLeave}
           onClick={this.handleTriggerClick}
-          aria-haspopup="true"
+          aria-haspopup="menu"
           aria-expanded={this.isOpen.toString()}
           aria-controls={this.isOpen ? this.fieldId : undefined}
         >
