@@ -253,10 +253,10 @@ A real-world example anchored to an avatar in the header. Use `align="end"` so t
 
 ```html
 <aegov-dropdown align="end" position="bottom">
-  <button type="button" class="flex items-center gap-2 rounded-full py-2 px-4 hover:bg-aeblack-100">
-    <aegov-avatar initials="FA" size="sm"></aegov-avatar>
-    <span class="font-medium">Fatima Al Hammadi</span>
-  </button>
+  <aegov-button appearance="soft">
+    <aegov-avatar src="https://i.pravatar.cc/150?img=47" alt="Fatima Al Hammadi" size="sm" appearance="rounded"></aegov-avatar>
+    Fatima Al Hammadi
+  </aegov-button>
   <div slot="dropdown-content">
     <a href="/profile">My profile</a>
     <a href="/applications">My applications</a>
@@ -271,10 +271,10 @@ A real-world example anchored to an avatar in the header. Use `align="end"` so t
 <div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <div class="flex justify-end">
     <aegov-dropdown align="end" position="bottom">
-      <button type="button" class="flex items-center gap-2 rounded-full py-2 px-4 hover:bg-aeblack-100">
-        <aegov-avatar initials="FA" size="sm"></aegov-avatar>
-        <span class="font-medium">Fatima Al Hammadi</span>
-      </button>
+      <aegov-button appearance="soft">
+        <aegov-avatar src="https://i.pravatar.cc/150?img=47" alt="Fatima Al Hammadi" size="sm" appearance="rounded"></aegov-avatar>
+        Fatima Al Hammadi
+      </aegov-button>
       <div slot="dropdown-content">
         <a href="/profile">My profile</a>
         <a href="/applications">My applications</a>
@@ -413,7 +413,7 @@ Call the public `toggle()` method on the host element to open or close the dropd
   </div>
 </aegov-dropdown>
 
-<button type="button" id="open-from-outside">Open ministry switcher</button>
+<aegov-button variant="secondary" id="open-from-outside">Open ministry switcher</aegov-button>
 
 <script>
   document.getElementById('open-from-outside').addEventListener('click', async () => {

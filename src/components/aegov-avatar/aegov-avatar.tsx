@@ -153,6 +153,8 @@ export class AegovAvatar {
     // No user class (when no image is available)
     if (!this.src || this.imageError) {
       classes.push('no-user');
+    } else {
+      classes.push('avatar--has-image');
     }
 
     return classes.join(' ');
