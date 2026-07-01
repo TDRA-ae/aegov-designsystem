@@ -343,18 +343,19 @@ The avatar does not emit any custom events.
 
 ### Built-in behaviour
 
-- The avatar root has `role="img"` and an `aria-label` derived from `alt` (or the literal string `"User avatar"` when `alt` is missing).
-- The `<img>` element receives the same `alt` text.
-- The status indicator carries `aria-label="Status: {status}"` so screen readers announce the user's state.
-- The decorative SVG silhouette is unlabelled and rendered inside the labelled root, so nothing extra is announced.
-- When the image fails to load, `imageError` flips to `true` and the fallback path renders. This prevents broken-image icons from ever showing.
+- The avatar root `<div>` carries `role="img"` and an `aria-label` built from the `alt` prop (or `"User avatar"` when `alt` is not supplied). This is the **only** label assistive technology reads for the avatar — child elements do not add additional announcements.
+- The inner `<img>` element is given `alt=""` and `aria-hidden="true"`. It is intentionally presentation-only: the meaningful label lives on the `role="img"` container, not on the image itself.
+- When a `status` value is present, the component **folds it into the container's `aria-label`** rather than labelling the indicator span separately. For example: `"Fatima Al Rashidi, status: online"` (English) or `"فاطمة الراشدي, الحالة: متصل"` (Arabic / RTL). Arabic status strings are translated built-in: `online → متصل`, `offline → غير متصل`, `away → بعيد`, `unavailable → غير متاح`, `busy → مشغول`.
+- The status indicator `<span>` itself is `aria-hidden="true"` — it is a colour dot for sighted users; all meaning is already in the container label.
+- The fallback SVG silhouette is `aria-hidden="true"`, so nothing extra is announced when no image or slot content is provided.
+- When the image fails to load, `imageError` flips to `true` and the component silently falls back to the slot / silhouette path. Broken-image icons never appear.
 
 ### Developer responsibilities
 
-- Always provide a meaningful `alt` when the avatar represents a real user. Without `alt`, the host falls back to the generic label `"User avatar"`, which is rarely useful in context.
-- Initials inside the default slot are visual only — the `aria-label` on the host is what assistive technology announces. Make sure the `alt` matches the user's name.
-- If a status indicator is informational beyond the visual cue, ensure that the surrounding context reflects the same state in text (e.g. "Fatima (online)").
-- The avatar itself is not focusable. If the avatar is interactive (e.g. opens a profile), wrap it in an `<a>` or `<button>` element.
+- Always provide a meaningful `alt` when the avatar represents a real user — the component falls back to the generic `"User avatar"` string, which is rarely useful in context.
+- Initials or custom slot content are visual only. Assistive technology reads the `aria-label` on the container, not the slot text. Ensure `alt` matches the user's name.
+- The avatar itself is not focusable. If the avatar is interactive (e.g. opens a profile dropdown), wrap it in an `<a>` or `<button>` and provide a label there.
+- Do **not** place a separate `aria-label` on `<aegov-avatar>` to describe status — the component's built-in label already includes it. Adding your own label would replace the computed one and drop the status wording.
 
 ### Notes
 

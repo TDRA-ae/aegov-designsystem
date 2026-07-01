@@ -316,6 +316,29 @@ export class AegovTooltip {
     }
   };
 
+  private handleTriggerFocus = () => {
+    if (this.trigger === 'hover') {
+      this.showTooltip();
+    }
+  };
+
+  private handleTriggerBlur = () => {
+    if (this.trigger === 'hover') {
+      this.hideTooltip();
+    }
+  };
+
+  private handleTooltipMouseEnter = () => {
+    // Keep tooltip visible when mouse moves from trigger onto tooltip
+    this.clearTimeouts();
+  };
+
+  private handleTooltipMouseLeave = () => {
+    if (this.trigger === 'hover') {
+      this.hideTooltip();
+    }
+  };
+
   private handleTriggerClick = (event: MouseEvent) => {
     if (this.trigger === 'click') {
       event.stopPropagation();
@@ -353,6 +376,8 @@ export class AegovTooltip {
           ref={(el) => (this.triggerRef = el)}
           onMouseEnter={this.handleTriggerMouseEnter}
           onMouseLeave={this.handleTriggerMouseLeave}
+          onFocus={this.handleTriggerFocus}
+          onBlur={this.handleTriggerBlur}
           onClick={this.handleTriggerClick}
           aria-describedby={this.isVisible ? this.tooltipId : undefined}
           aria-expanded={this.trigger === 'click' ? this.isVisible.toString() : undefined}
@@ -371,6 +396,8 @@ export class AegovTooltip {
             }}
             style={{ display: this.isVisible ? 'block' : 'none' }}
             role="tooltip"
+            onMouseEnter={this.handleTooltipMouseEnter}
+            onMouseLeave={this.handleTooltipMouseLeave}
           >
             <div class="tooltip__content">
               {this.hasContentSlot ? (

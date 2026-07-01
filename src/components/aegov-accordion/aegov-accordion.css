@@ -10,7 +10,8 @@
       @apply !border-t-0;
     }
     & .aegov-accordion-item {
-      &>button.accordion-item__header {
+      &>button.accordion-item__header,
+      & .accordion-item__heading-wrapper>button.accordion-item__header {
         @apply px-5;
       }
       & .accordion-item__content {
