@@ -24,7 +24,7 @@
 <p class="text-lg text-aeblack-500 mb-8">An OTP (one-time passcode) input is a row of focused cells used to enter a short verification code received by SMS, email, or an authenticator app. It auto-advances focus as the user types, supports paste-to-fill, and can validate against an alphanumeric or pattern rule. Use it for multi-factor authentication, transaction confirmation, and identity verification flows.</p>
 
 <h2>Introduction</h2>
-<p>The <code>aegov-otp</code> component renders a configurable number of input cells as a single logical input. Auto-advance moves focus on each character; backspace returns focus and clears the previous cell; paste distributes the clipboard contents from the first cell. It emits a single combined value through change, complete, and invalid events, and contributes a hidden input to standard form submission.</p>
+<p>The <code>aegov-otp</code> component renders a configurable number of input cells as a single logical input. Auto-advance moves focus on each character; backspace returns focus and clears the previous cell; paste distributes the clipboard contents from the first cell. It emits a single combined value through change and complete events, and uses <code>ElementInternals</code> to participate in standard form submission as a single field.</p>
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-otp</span> <span class="hljs-attr">length</span>=<span class="hljs-string">&quot;6&quot;</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;otp_code&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-otp</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-otp length="6" name="otp_code"></aegov-otp>
 </div>
@@ -154,7 +154,7 @@
 
 <hr>
 <h2>Pattern validation</h2>
-<p>Use the <code>pattern</code> property to validate the assembled value. When the user fills the last cell, the component checks the regex; if it fails, <code>aegovOtpInvalid</code> is emitted instead of <code>aegovOtpComplete</code>. Combine with your own UI to surface an inline error.</p>
+<p>Use the <code>pattern</code> property to validate the assembled value. When the user fills the last cell, the component checks the regex; if it fails, <code>aegovValidate</code> is emitted with <code>validity.patternMismatch === true</code>. Combine with your own UI to surface an inline error.</p>
 <pre><code class="hljs language-html"><span class="hljs-comment">&lt;!-- Six digits where the first must be 1, 2, or 3 --&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">aegov-otp</span> <span class="hljs-attr">length</span>=<span class="hljs-string">&quot;6&quot;</span> <span class="hljs-attr">pattern</span>=<span class="hljs-string">&quot;^[1-3][0-9]{5}$&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-otp</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-otp length="6" pattern="^[1-3][0-9]{5}$"></aegov-otp>
@@ -184,7 +184,7 @@
 
 <hr>
 <h2>Form integration</h2>
-<p>Provide a <code>name</code> to participate in standard form submission. The component renders a hidden input with the assembled value, so the form payload contains a single field — not one per cell.</p>
+<p>Provide a <code>name</code> to participate in standard form submission. The component uses <code>ElementInternals</code> to submit the assembled value as a single field without adding a visible hidden input — <code>name</code> is the only requirement.</p>
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">form</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-otp</span> <span class="hljs-attr">length</span>=<span class="hljs-string">&quot;6&quot;</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;mfa_code&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-otp</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">form</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
@@ -207,9 +207,11 @@
     status.<span class="hljs-property">textContent</span> = <span class="hljs-string">&#x27;Verifying &#x27;</span> + e.<span class="hljs-property">detail</span>.<span class="hljs-property">value</span> + <span class="hljs-string">&#x27;…&#x27;</span>;
     status.<span class="hljs-property">className</span> = <span class="hljs-string">&#x27;mt-3 text-sm text-techblue-600&#x27;</span>;
   });
-  otp.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;aegovOtpInvalid&#x27;</span>, <span class="hljs-function">() =&gt;</span> {
-    status.<span class="hljs-property">textContent</span> = <span class="hljs-string">&#x27;That code is not valid. Please try again.&#x27;</span>;
-    status.<span class="hljs-property">className</span> = <span class="hljs-string">&#x27;mt-3 text-sm text-aered-600&#x27;</span>;
+  otp.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;aegovValidate&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">e</span>) =&gt;</span> {
+    <span class="hljs-keyword">if</span> (e.<span class="hljs-property">detail</span>.<span class="hljs-property">validity</span>.<span class="hljs-property">patternMismatch</span>) {
+      status.<span class="hljs-property">textContent</span> = <span class="hljs-string">&#x27;That code is not valid. Please try again.&#x27;</span>;
+      status.<span class="hljs-property">className</span> = <span class="hljs-string">&#x27;mt-3 text-sm text-aered-600&#x27;</span>;
+    }
   });
 </span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-label field-id="mfa-uae">
@@ -294,7 +296,7 @@
 <tr>
 <td><code>pattern</code></td>
 <td><code>pattern</code></td>
-<td>Regex string checked when all cells are filled. Failure emits <code>aegovOtpInvalid</code>.</td>
+<td>Regex string checked when all cells are filled. Failure emits <code>aegovValidate</code> with <code>validity.patternMismatch === true</code>.</td>
 <td><code>string</code></td>
 <td><code>undefined</code></td>
 </tr>
@@ -308,7 +310,7 @@
 <tr>
 <td><code>name</code></td>
 <td><code>name</code></td>
-<td>Form field name for the hidden input used during submission.</td>
+<td>Form field name used when the component submits via <code>ElementInternals</code>.</td>
 <td><code>string</code></td>
 <td><code>undefined</code></td>
 </tr>
@@ -365,12 +367,12 @@
 <td>Fires when all cells are filled and the optional <code>pattern</code> validates.</td>
 </tr>
 <tr>
-<td><code>aegovOtpInvalid</code></td>
-<td><code>{ value: string; pattern: string }</code></td>
-<td>Fires when all cells are filled but the value does not match <code>pattern</code>.</td>
+<td><code>aegovValidate</code></td>
+<td><code>AegovValidationDetail&lt;string&gt;</code></td>
+<td>Unified validation event. <code>validity.patternMismatch</code> is <code>true</code> when <code>pattern</code> fails. See the Validation section below.</td>
 </tr>
 </tbody></table>
-<h4>Listening for completion</h4>
+<h4>Listening for completion and pattern failure</h4>
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-otp</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;mfa&quot;</span> <span class="hljs-attr">length</span>=<span class="hljs-string">&quot;6&quot;</span> <span class="hljs-attr">pattern</span>=<span class="hljs-string">&quot;^[0-9]{6}$&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-otp</span>&gt;</span>
 
 <span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript">
@@ -378,8 +380,10 @@
   otp.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;aegovOtpComplete&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">e</span>) =&gt;</span> {
     <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;Submitting code:&#x27;</span>, e.<span class="hljs-property">detail</span>.<span class="hljs-property">value</span>);
   });
-  otp.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;aegovOtpInvalid&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">e</span>) =&gt;</span> {
-    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">warn</span>(<span class="hljs-string">&#x27;Code did not match pattern&#x27;</span>, e.<span class="hljs-property">detail</span>.<span class="hljs-property">pattern</span>);
+  otp.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;aegovValidate&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">e</span>) =&gt;</span> {
+    <span class="hljs-keyword">if</span> (e.<span class="hljs-property">detail</span>.<span class="hljs-property">validity</span>.<span class="hljs-property">patternMismatch</span>) {
+      <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">warn</span>(<span class="hljs-string">&#x27;Code did not match pattern:&#x27;</span>, e.<span class="hljs-property">detail</span>.<span class="hljs-property">value</span>);
+    }
   });
 </span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre><h3>Pass-through Attributes</h3>
 <p>The component forwards <code>aria-*</code> and <code>data-*</code> attributes onto the inner cell-group wrapper. Apply them on <code>&lt;aegov-otp&gt;</code> to extend the group&#39;s ARIA semantics or to add test selectors.</p>
@@ -459,16 +463,18 @@
 <ul>
 <li>Each cell is a real <code>&lt;input type=&quot;text&quot;&gt;</code> with <code>inputmode=&quot;numeric&quot;</code> (or <code>text</code> when alphanumeric), so mobile devices show the correct keyboard.</li>
 <li>The first cell carries <code>autocomplete=&quot;one-time-code&quot;</code> to enable iOS / Android SMS autofill.</li>
-<li>The cells are wrapped in a <code>role=&quot;group&quot;</code> element so screen readers treat them as a single field. Each cell has an <code>aria-label</code> of the form &quot;Character {n} of {length}&quot; so users know how many digits remain.</li>
+<li>The cells are wrapped in a <code>role=&quot;group&quot;</code> element so screen readers treat them as a single field. Each cell has an <code>aria-label</code> of the form &quot;Character N of L&quot; (Arabic: &quot;حرف N من L&quot;) so users know their position regardless of reading direction.</li>
+<li>The first cell carries <code>aria-invalid=&quot;true&quot;</code> (mirrored to all cells when <code>is-invalid</code> is set), <code>aria-required=&quot;true&quot;</code> (when <code>is-required</code> is set), and <code>aria-describedby</code> pointing to the error and hint regions — so error and hint text are announced by assistive technology when the first cell is focused.</li>
+<li>Validation (<code>aria-live</code> error region) only activates after focus has left the entire OTP group, preventing premature announcements while the user is typing between cells.</li>
 <li>Focus auto-advances to the next cell after a valid character and returns to the previous cell on backspace when the current cell is empty.</li>
 <li>Paste fills from the first cell, ignores whitespace, and rejects characters that fail the alphanumeric rule.</li>
-<li>A hidden <code>&lt;input&gt;</code> carries the assembled value for form submission so the rest of the page sees a single field.</li>
+<li>Form participation is handled via <code>ElementInternals</code> — the assembled value is submitted as a single form field without a visible hidden input.</li>
 </ul>
 <h3>Developer responsibilities</h3>
 <ul>
 <li>Pair the OTP with an <code>&lt;aegov-label&gt;</code> linked through <code>field-id</code> — the per-cell <code>aria-label</code> describes position, not purpose.</li>
 <li>Use the optional <code>pattern</code> only as a fast failure signal; always verify the code on the server.</li>
-<li>When showing an inline error after <code>aegovOtpInvalid</code>, also announce it with an <code>aria-live=&quot;polite&quot;</code> region so non-sighted users hear that the code is invalid.</li>
+<li>Set <code>is-invalid</code> and <code>error-message</code> (or use the <code>error</code> slot) to surface inline errors — the component&#39;s built-in <code>aria-live</code> region announces them automatically after the user leaves the OTP group.</li>
 <li>Provide a way to resend the code (a button or link) and a way to reset the field — call <code>.clear()</code> on the host element.</li>
 </ul>
 <h3>Keyboard support</h3>

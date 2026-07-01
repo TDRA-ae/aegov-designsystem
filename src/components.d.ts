@@ -1350,8 +1350,8 @@ export namespace Components {
          */
         "gap": string;
         /**
-          * Accessible label for the navigation landmark.
-          * @default 'Main navigation'
+          * Accessible label for the navigation landmark. Defaults to "Main navigation" (LTR) or "التنقل الرئيسي" (RTL).
+          * @default ''
          */
         "labelNav": string;
         /**
@@ -1452,8 +1452,8 @@ export namespace Components {
          */
         "isMultiple": boolean;
         /**
-          * Accessible label for the navigation landmark.
-          * @default 'Sidebar navigation'
+          * Accessible label for the navigation landmark. Defaults to "Sidebar navigation" (LTR) or "التنقل في الشريط الجانبي" (RTL).
+          * @default ''
          */
         "labelNav": string;
         /**
@@ -2252,8 +2252,8 @@ export namespace Components {
          */
         "isStretchable": boolean;
         /**
-          * Accessible label for the tablist element. Provides context for screen readers about what the tabs control.
-          * @default 'Tabs'
+          * Accessible label for the tablist element. Provides context for screen readers about what the tabs control. Defaults to a bilingual auto-detected string ("Tabs" / "علامات التبويب").
+          * @default ''
          */
         "labelTablist": string;
         /**
@@ -4997,8 +4997,8 @@ declare namespace LocalJSX {
          */
         "gap"?: string;
         /**
-          * Accessible label for the navigation landmark.
-          * @default 'Main navigation'
+          * Accessible label for the navigation landmark. Defaults to "Main navigation" (LTR) or "التنقل الرئيسي" (RTL).
+          * @default ''
          */
         "labelNav"?: string;
         /**
@@ -5099,8 +5099,8 @@ declare namespace LocalJSX {
          */
         "isMultiple"?: boolean;
         /**
-          * Accessible label for the navigation landmark.
-          * @default 'Sidebar navigation'
+          * Accessible label for the navigation landmark. Defaults to "Sidebar navigation" (LTR) or "التنقل في الشريط الجانبي" (RTL).
+          * @default ''
          */
         "labelNav"?: string;
         /**
@@ -5932,8 +5932,8 @@ declare namespace LocalJSX {
          */
         "isStretchable"?: boolean;
         /**
-          * Accessible label for the tablist element. Provides context for screen readers about what the tabs control.
-          * @default 'Tabs'
+          * Accessible label for the tablist element. Provides context for screen readers about what the tabs control. Defaults to a bilingual auto-detected string ("Tabs" / "علامات التبويب").
+          * @default ''
          */
         "labelTablist"?: string;
         /**

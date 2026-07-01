@@ -664,11 +664,14 @@ See [BYO Validator](validation-byo.html) for more patterns.
 
 ### Built-in behaviour
 
-- The trigger input has `aria-haspopup="dialog"` and reflects `aria-expanded` so screen readers announce the calendar relationship.
-- The portal calendar renders as `role="dialog"` with `aria-modal="true"` and an `aria-label="Choose date"` description.
-- A polite live region inside the portal announces the current month and year as the user navigates.
-- Day buttons expose `aria-selected` for picked dates, `aria-current="date"` for today, and `aria-disabled` plus a disabled state for blackout / out-of-range dates.
-- Focus is automatically moved into the calendar on open and returned to the original trigger on close.
+- The trigger input has `role="combobox"`, `aria-haspopup="dialog"`, `aria-expanded`, and `aria-controls` (pointing at the dialog when open) so screen readers announce the calendar relationship.
+- The portal calendar renders as `role="dialog"` with `aria-modal="true"`. The dialog is labelled via `aria-labelledby` pointing at a visually-hidden element that shows the current month and year (e.g. "June 2026") — the dialog title updates as the user navigates months.
+- A polite `aria-live` region inside the portal announces month navigation changes and keyboard-focused dates in real time. A second live region in the host (outside the portal) announces the final confirmed selection after the calendar closes.
+- The calendar grid has `role="grid"` with an `aria-label` of the current month/year. Each day is a `role="gridcell"` containing a button with a full-date `aria-label` (e.g. "Monday, 3 June 2026"). Prev/Next month buttons have bilingual `aria-label` ("Previous month" / "Next month") with RTL Arabic equivalents.
+- Day buttons expose `aria-selected` for picked dates, `aria-current="date"` for today, and `aria-disabled` plus native `disabled` for blackout / out-of-range dates. Unavailable dates append `, unavailable` to their `aria-label`.
+- Navigation chevron SVGs are marked `aria-hidden="true"` — the button accessible name comes from its `aria-label`, not the icon.
+- Preset buttons (where configured) use `aria-pressed` to reflect their selected state. The preset group has `role="group"` with `aria-label`.
+- Focus is automatically moved into the calendar on open (first focusable element) and returned to the original trigger on close, using roving tabindex within the grid.
 - The trigger is `readOnly` so users cannot type free-form text and produce invalid dates; navigation always happens through the dialog.
 - The calendar closes if the trigger scrolls off-screen, and re-positions on every scroll and resize.
 

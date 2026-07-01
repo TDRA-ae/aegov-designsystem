@@ -546,10 +546,10 @@ To override the default `aria-label="Timeline"` on the navigation landmark, set 
 
 ### Built-in behaviour
 
-- The container renders as a `<nav>` element with `aria-label="Timeline"` so assistive technology announces it as a navigation landmark.
+- The container renders as a `<nav>` element whose `aria-label` defaults to `"Timeline"` in LTR contexts and `"الجدول الزمني"` in RTL — no developer translation needed. Pass `aria-label` on the host to override with a more specific description.
 - Steps render as `<li>` items inside an `<ol>`, preserving order semantics.
 - The currently active step's `<li>` carries `aria-current="step"` so screen readers announce the user's position.
-- Each step includes a visually hidden description (`Step N of M: <label> (current/completed)`) that gives screen-reader users full context regardless of variant — including the compact dot variant where labels are visually hidden in horizontal mode.
+- Each step includes a visually hidden description (`"Step N of M: <label> (current/completed)"` in English; `"الخطوة N من M: <label> (مكتمل/الحالية)"` in Arabic) that gives screen-reader users full context regardless of variant — including the compact dot variant where labels are visually hidden in horizontal mode. No developer translation needed.
 - Decorative connectors and indicator graphics are marked `aria-hidden="true"`.
 
 ### Developer responsibilities
@@ -557,7 +557,7 @@ To override the default `aria-label="Timeline"` on the navigation landmark, set 
 - Provide a meaningful label as default-slot text on every step. The screen-reader description depends on it.
 - When using a custom `icon` slot, set `aria-hidden="true"` on the icon — the step's `sr-only` label is still rendered.
 - Keep step ordering meaningful — the visual progression is what gives `aria-current="step"` value.
-- Override the default `aria-label="Timeline"` (via host attribute pass-through) when more specific context is needed, e.g. `aria-label="Application progress"`.
+- Override the `aria-label` on `<aegov-timeline>` (via host attribute pass-through) when more specific context is needed, e.g. `aria-label="Application progress"` or `aria-label="مسار الطلب"`.
 
 ### Notes
 

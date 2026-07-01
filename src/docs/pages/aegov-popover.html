@@ -415,22 +415,22 @@
 <tr>
 <td><code>aria-haspopup</code></td>
 <td>Managed</td>
-<td>Set automatically to <code>dialog</code> on the trigger wrapper.</td>
+<td>Set to <code>dialog</code> on the first focusable child inside the trigger slot.</td>
 </tr>
 <tr>
 <td><code>aria-expanded</code></td>
 <td>Managed</td>
-<td>Reflects the open state on the trigger wrapper.</td>
+<td>Reflects the open state on the first focusable child inside the trigger slot.</td>
 </tr>
 <tr>
 <td><code>aria-controls</code></td>
 <td>Managed</td>
-<td>Linked to the popover panel while open.</td>
+<td>Set on the first focusable child; points to the popover panel while open.</td>
 </tr>
 <tr>
 <td><code>aria-labelledby</code></td>
 <td>Managed</td>
-<td>The panel is labelled by the trigger wrapper.</td>
+<td>The panel is labelled by the trigger wrapper element (contains trigger text).</td>
 </tr>
 <tr>
 <td><code>class</code>, <code>style</code></td>
@@ -445,11 +445,12 @@
 <h2>Accessibility</h2>
 <h3>Built-in behaviour</h3>
 <ul>
-<li>The trigger wrapper is given <code>aria-haspopup=&quot;dialog&quot;</code> and <code>aria-expanded</code> reflects the open state.</li>
+<li><code>aria-haspopup=&quot;dialog&quot;</code> and <code>aria-expanded</code> are propagated imperatively to the first focusable element inside the trigger slot (the element AT reads), not just the wrapper div.</li>
 <li>The portalled panel renders with <code>role=&quot;dialog&quot;</code> and is labelled by the trigger via <code>aria-labelledby</code>.</li>
-<li>When the popover opens, focus moves to the first focusable element inside the panel.</li>
+<li>When the popover opens, focus moves to the first focusable element inside the panel. If the panel has no focusable children, the panel container itself receives focus (<code>tabindex=&quot;-1&quot;</code>) so AT announces the dialog immediately.</li>
 <li><code>Tab</code>, <code>Shift + Tab</code>, <code>ArrowUp</code>, and <code>ArrowDown</code> cycle focus through the focusable elements inside the panel.</li>
 <li><code>Escape</code> closes the popover and returns focus to the trigger (with <code>preventScroll</code> so the page does not jump).</li>
+<li>When <code>trigger=&quot;hover&quot;</code>, the popover also opens on keyboard <strong>focus</strong> and closes on <strong>blur</strong> (SC 2.1.1) — hover-only interaction is never the sole access path.</li>
 <li>Clicking outside the trigger and panel closes the popover.</li>
 <li>If the trigger scrolls out of the viewport, the popover closes automatically.</li>
 <li>Only one popover may be open at a time; opening a new popover automatically closes any other.</li>
@@ -472,6 +473,10 @@
 <tbody><tr>
 <td><code>Enter</code>, <code>Space</code></td>
 <td>Open the popover when the trigger is focused (click trigger).</td>
+</tr>
+<tr>
+<td><code>Tab</code> (into trigger)</td>
+<td>Opens the popover when <code>trigger=&quot;hover&quot;</code> (focus = hover equivalent, SC 2.1.1).</td>
 </tr>
 <tr>
 <td><code>Escape</code></td>

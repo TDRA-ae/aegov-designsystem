@@ -665,16 +665,17 @@
 <ul>
 <li>The control is anchored on a real <code>&lt;input type=&quot;file&quot;&gt;</code>, so it is keyboard-focusable, screen-reader-friendly, and submits with native forms.</li>
 <li>The visible <code>&lt;label&gt;</code> is wired via <code>for</code> to the inner input&#39;s id.</li>
-<li>Helper text is exposed via <code>aria-describedby=&quot;${fieldId}-helper&quot;</code> when present.</li>
-<li>The button and dropzone appearances render an <code>aria-hidden</code>, <code>tabindex=&quot;-1&quot;</code> file input behind a real <code>&lt;button&gt;</code> so keyboard users still trigger the OS picker through the button (Enter / Space).</li>
-<li>Each file in the list has an explicit <code>aria-label=&quot;Remove {filename}&quot;</code> on its remove button.</li>
+<li><strong>Default appearance</strong>: the native file input carries <code>aria-invalid</code>, <code>aria-required</code>, and <code>aria-describedby</code> linking helper text, error, and hint regions — giving AT full field state.</li>
+<li><strong>Button and dropzone appearances</strong>: the native file input is hidden (<code>aria-hidden</code>, <code>tabindex=&quot;-1&quot;</code>) behind a real <code>&lt;button&gt;</code>. The trigger button receives <code>aria-invalid</code> and <code>aria-describedby</code> pointing at the error/hint regions so AT announces the field state when the user focuses the button.</li>
+<li>Error and hint regions use <code>aria-live=&quot;polite&quot;</code> + <code>role=&quot;alert&quot;</code> after the first interaction (gap §7.10) to avoid interrupting AT during initial render.</li>
+<li>Each file in the list has a bilingual <code>aria-label=&quot;Remove {filename}&quot;</code> on its remove button. Remove SVGs are <code>aria-hidden=&quot;true&quot;</code>.</li>
 <li>The native input is reset to an empty value after each selection so picking the same file again still triggers <code>aegovFileuploadChange</code>.</li>
 </ul>
 <h3>Developer responsibilities</h3>
 <ul>
 <li>Always provide a meaningful <code>label</code> (or external <code>aegov-label</code>) so screen readers can announce the purpose of the upload.</li>
-<li>For dropzone use cases, supply a <code>description</code> clarifying the supported types and size limits — drag-and-drop is purely a visual enhancement; the button is the accessible fallback.</li>
-<li>Surface validation errors visibly when <code>aegovFileuploadError</code> fires. The component does not render an error state on its own.</li>
+<li>For dropzone use cases, supply a <code>hint</code> clarifying the supported types and size limits — drag-and-drop is a visual enhancement; the button is the accessible fallback.</li>
+<li>Use <code>error-message</code> or the <code>error</code> slot to surface validation messages; the component wires them to <code>aria-describedby</code> automatically.</li>
 <li>Default appearance replaces the entire selection on each pick; button and dropzone appearances accumulate. Use <code>clear()</code> to reset programmatically.</li>
 </ul>
 <h3>Keyboard support</h3>

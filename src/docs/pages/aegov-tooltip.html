@@ -338,7 +338,7 @@
 <tr>
 <td><code>aria-expanded</code></td>
 <td>Managed</td>
-<td>Set automatically when <code>trigger=&quot;click&quot;</code>.</td>
+<td>Set directly on the first focusable element inside the trigger slot when <code>trigger=&quot;click&quot;</code>.</td>
 </tr>
 <tr>
 <td><code>class</code>, <code>style</code></td>
@@ -352,9 +352,11 @@
 <ul>
 <li>The tooltip element renders with <code>role=&quot;tooltip&quot;</code> and a stable <code>id</code>.</li>
 <li><code>aria-describedby</code> is set on the trigger wrapper while the tooltip is visible, so screen readers announce the tooltip text together with the trigger&#39;s accessible name.</li>
-<li>When <code>trigger=&quot;click&quot;</code>, <code>aria-expanded</code> reflects the open state on the trigger wrapper.</li>
-<li><code>Escape</code> hides the tooltip immediately.</li>
-<li>The tooltip closes when the trigger loses focus (with <code>delay-end</code> applied) or when the user clicks outside (in click-trigger mode).</li>
+<li>When <code>trigger=&quot;click&quot;</code>, <code>aria-expanded</code> is set directly on the first focusable element inside the trigger slot (the button, link, or other focusable element), so assistive technology correctly announces the expanded state.</li>
+<li>The tooltip appears when the trigger gains keyboard focus (via <code>Tab</code>) and closes when focus leaves the component.</li>
+<li><code>Escape</code> hides the tooltip immediately (SC 1.4.13 dismissable).</li>
+<li>The tooltip remains open when the pointer moves from the trigger onto the tooltip itself, allowing users to read or copy the tooltip text (SC 1.4.13 hoverable).</li>
+<li>The tooltip closes when the trigger loses focus or when the user clicks outside (in click-trigger mode).</li>
 </ul>
 <h3>Developer responsibilities</h3>
 <ul>

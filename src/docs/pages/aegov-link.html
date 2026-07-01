@@ -223,7 +223,8 @@
 <p>Native <code>&lt;a&gt;</code> elements do not support <code>disabled</code>, so <code>aegov-link</code> polyfills the behaviour when <code>is-disabled</code> is set:</p>
 <ul>
 <li>The link is removed from the tab order (<code>tabindex=&quot;-1&quot;</code>).</li>
-<li><code>aria-disabled=&quot;true&quot;</code> is announced by assistive technology.</li>
+<li><code>role=&quot;link&quot;</code> is set explicitly so assistive technology continues to identify the element as a link even though <code>href</code> is stripped (a native <code>&lt;a&gt;</code> without <code>href</code> loses its implicit link role).</li>
+<li><code>aria-disabled=&quot;true&quot;</code> is announced by assistive technology as &quot;dimmed&quot; or &quot;unavailable&quot;.</li>
 <li><code>href</code> and <code>target</code> are stripped from the rendered element so the browser will not navigate even if the user activates it programmatically.</li>
 <li>Click events are intercepted and <code>preventDefault()</code> is called — <code>aegovLinkClick</code> is not emitted.</li>
 <li>Pointer events are disabled and the cursor switches to <code>not-allowed</code> via the shared button styling.</li>
@@ -466,13 +467,25 @@
 <ul>
 <li>Renders a real <code>&lt;a&gt;</code> element so it is keyboard-focusable, recognised by assistive technology as a link, and discoverable to search engines.</li>
 <li>Automatically applies <code>rel=&quot;noopener noreferrer&quot;</code> when <code>target=&quot;_blank&quot;</code> (and no explicit <code>rel</code> is provided) to prevent reverse-tabnabbing.</li>
+<li>When <code>is-disabled</code> is set, adds <code>role=&quot;link&quot;</code> explicitly to preserve the link role after <code>href</code> is stripped (a native <code>&lt;a&gt;</code> without <code>href</code> loses its implicit link role, which would break AT navigation-by-links).</li>
 <li>Pass-through attributes allow <code>aria-label</code>, <code>aria-describedby</code>, <code>title</code>, <code>hreflang</code>, and <code>referrerpolicy</code> to be forwarded without wrapping markup.</li>
 </ul>
 <h3>Developer responsibilities</h3>
 <ul>
 <li>Provide descriptive link text. Avoid generic text like &quot;click here&quot; or &quot;read more&quot; — the slot content should describe the destination.</li>
 <li>For icon-only links, provide an <code>aria-label</code> so screen readers announce the destination.</li>
-<li>Use <code>target=&quot;_blank&quot;</code> sparingly — opening new tabs unexpectedly is disorienting for many users. When you do, consider warning the user in the link text (for example, &quot;(opens in a new tab)&quot;).</li>
+<li>Use <code>target=&quot;_blank&quot;</code> sparingly — opening new tabs unexpectedly is disorienting for many users. When you do, include a visible or visually-hidden text warning so screen readers announce the behaviour. The recommended pattern uses a visually-hidden <code>&lt;span&gt;</code> that is invisible to sighted users but read aloud by AT:<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">style</span>&gt;</span><span class="language-css">
+  <span class="hljs-selector-class">.sr-only</span> {
+    <span class="hljs-attribute">position</span>: absolute; <span class="hljs-attribute">width</span>: <span class="hljs-number">1px</span>; <span class="hljs-attribute">height</span>: <span class="hljs-number">1px</span>;
+    <span class="hljs-attribute">padding</span>: <span class="hljs-number">0</span>; <span class="hljs-attribute">margin</span>: -<span class="hljs-number">1px</span>; <span class="hljs-attribute">overflow</span>: hidden;
+    <span class="hljs-attribute">clip</span>: <span class="hljs-built_in">rect</span>(<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,<span class="hljs-number">0</span>); <span class="hljs-attribute">white-space</span>: nowrap; <span class="hljs-attribute">border</span>: <span class="hljs-number">0</span>;
+  }
+</span><span class="hljs-tag">&lt;/<span class="hljs-name">style</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-link</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;https://u.ae&quot;</span> <span class="hljs-attr">target</span>=<span class="hljs-string">&quot;_blank&quot;</span>&gt;</span>
+  UAE Government portal
+  <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;sr-only&quot;</span>&gt;</span>(opens in a new tab)<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-link</span>&gt;</span></code></pre></li>
 <li>Maintain sufficient colour contrast (at least 4.5 : 1 against the background) when overriding colour via <code>extra-class</code>.</li>
 </ul>
 <h3>Keyboard support</h3>

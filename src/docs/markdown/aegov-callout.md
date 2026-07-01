@@ -385,18 +385,21 @@ The callout is direction-agnostic. The icon sits at the inline-start edge, conte
 
 ### Built-in behaviour
 
-- The callout root has `role="alert"`, so assistive technology announces the content as soon as the callout is added to the DOM or made visible.
-- The dismiss button is a real `<button type="button">` with `aria-label="Close callout"` and is keyboard-accessible.
+- The callout root is an ARIA live region whose role is determined by the variant:
+  - `variant="error"` and `variant="warning"` → `role="alert"` (assertive — AT announces immediately, interrupting the current reading flow).
+  - `variant="info"`, `variant="success"`, and `variant="default"` → `role="status"` (polite — AT waits for an idle moment before announcing).
+- The dismiss button is a real `<button type="button">` with a bilingual `aria-label` (`"Close callout"` in English, `"إغلاق الإشعار"` in Arabic, resolved from the nearest `dir="rtl"` ancestor).
 - Default variant icons are decorative and marked `aria-hidden="true"`.
 - The dismiss SVG is also marked `aria-hidden="true"`.
+- The dismiss button touch target is 24 × 24 CSS px (SC 2.5.8).
 
 ### Developer responsibilities
 
-- Pair the variant with explicit text — colour alone is not sufficient to convey severity. Users with low vision or colour-blindness rely on the wording to understand the message.
-- Use `variant="error"` only for genuine, blocking errors. For non-blocking informational content, prefer `variant="info"` so screen readers do not over-announce severity.
+- Pair the variant with explicit text — colour alone is not sufficient to convey severity (SC 1.4.1). Users with low vision or colour-blindness rely on the wording.
+- Use `variant="error"` only for genuine, blocking errors. Avoid `error` or `warning` for informational notices — the assertive live region interrupts AT users immediately.
 - If you slot a custom icon, ensure it is marked `aria-hidden="true"` (or has a meaningful `aria-label` if it conveys unique information not present in the text).
 - Action buttons inside the `actions` slot must have visible labels and meet contrast requirements against the chosen `appearance`.
-- `role="alert"` triggers screen-reader announcements only when the callout is added or made visible — re-rendering a hidden callout does not re-announce.
+- Live region announcements trigger only when the callout is added or made visible — re-rendering an already-visible callout does not re-announce.
 - Calling dismiss removes the callout from view via internal state. To control visibility externally, manage the element directly rather than relying on `is-dismissible`.
 
 ### Keyboard support

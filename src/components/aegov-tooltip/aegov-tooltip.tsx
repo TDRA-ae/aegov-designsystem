@@ -3,6 +3,7 @@ import { TOOLTIP_POSITIONS, TOOLTIP_ALIGNS, TOOLTIP_TRIGGERS } from '../../utils
 import type { TooltipPosition, TooltipAlign, TooltipTrigger } from '../../utils/types';
 import { warnIfInvalidEnumProp } from '../../utils/prop-validator';
 import { getPassThroughAttributes } from '../../utils/attributes';
+import { generateId } from '../../utils/id-generator';
 
 const TAG = 'aegov-tooltip';
 const ctx = (prop: string) => ({ component: TAG, prop });
@@ -91,8 +92,7 @@ export class AegovTooltip {
     warnIfInvalidEnumProp(this.position, TOOLTIP_POSITIONS, 'top', ctx('position'));
     warnIfInvalidEnumProp(this.align, TOOLTIP_ALIGNS, 'center', ctx('align'));
     warnIfInvalidEnumProp(this.trigger, TOOLTIP_TRIGGERS, 'hover', ctx('trigger'));
-    // Generate stable tooltip ID once
-    this.tooltipId = `aegov-tooltip-${Math.random().toString(36).substr(2, 9)}`;
+    this.tooltipId = generateId('aegov-tooltip');
 
     // Check if tooltip-content slot has content
     this.checkSlotContent();
@@ -116,17 +116,18 @@ export class AegovTooltip {
   @Watch('isVisible')
   handleVisibilityChange(newValue: boolean) {
     if (newValue) {
-      // Reset retry count when showing tooltip
       this.positionRetryCount = 0;
-      // Schedule position update after tooltip is rendered
       this.schedulePositionUpdate();
     } else {
-      // Clear tooltip ref when hiding to prevent stale references
       this.tooltipRef = undefined;
-      // Reset scheduled flag
       this.positionUpdateScheduled = false;
       this.positionRetryCount = 0;
     }
+    this.updateAriaExpanded();
+  }
+
+  componentDidLoad() {
+    this.updateAriaExpanded();
   }
 
   disconnectedCallback() {
@@ -316,17 +317,28 @@ export class AegovTooltip {
     }
   };
 
-  private handleTriggerFocus = () => {
+  private handleTriggerFocusin = () => {
     if (this.trigger === 'hover') {
       this.showTooltip();
     }
   };
 
-  private handleTriggerBlur = () => {
+  private handleTriggerFocusout = (e: FocusEvent) => {
     if (this.trigger === 'hover') {
+      if (this.el.contains(e.relatedTarget as Node)) return;
       this.hideTooltip();
     }
   };
+
+  private updateAriaExpanded() {
+    if (this.trigger !== 'click' || !this.triggerRef) return;
+    const focusable = this.triggerRef.querySelector<HTMLElement>(
+      'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+    );
+    if (focusable) {
+      focusable.setAttribute('aria-expanded', String(this.isVisible));
+    }
+  }
 
   private handleTooltipMouseEnter = () => {
     // Keep tooltip visible when mouse moves from trigger onto tooltip
@@ -376,11 +388,10 @@ export class AegovTooltip {
           ref={(el) => (this.triggerRef = el)}
           onMouseEnter={this.handleTriggerMouseEnter}
           onMouseLeave={this.handleTriggerMouseLeave}
-          onFocus={this.handleTriggerFocus}
-          onBlur={this.handleTriggerBlur}
+          onFocusin={this.handleTriggerFocusin}
+          onFocusout={this.handleTriggerFocusout}
           onClick={this.handleTriggerClick}
           aria-describedby={this.isVisible ? this.tooltipId : undefined}
-          aria-expanded={this.trigger === 'click' ? this.isVisible.toString() : undefined}
         >
           <slot />
         </div>

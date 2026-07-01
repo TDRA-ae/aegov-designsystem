@@ -7,6 +7,7 @@ import type {
 import { getPassThroughAttributes } from '../../utils/attributes';
 import { generateId } from '../../utils/id-generator';
 import { warnIfInvalidEnumProp } from '../../utils/prop-validator';
+import { isRtl } from '../../utils/rtl';
 import { watchResponsiveProp } from '../../utils/responsive-prop';
 import type { ResponsivePropWatcher } from '../../utils/responsive-prop';
 import {
@@ -16,6 +17,11 @@ import {
 
 const TAG = 'aegov-textarea';
 const ctx = (prop: string) => ({ component: TAG, prop });
+
+const STRINGS = {
+  en: { copy: 'Copy to clipboard', copied: 'Copied' },
+  ar: { copy: 'نسخ إلى الحافظة', copied: 'تم النسخ' },
+};
 
 @Component({
   tag: 'aegov-textarea',
@@ -294,14 +300,13 @@ export class AegovTextarea {
 
   private renderCopyButton() {
     if (!this.showCopy) return null;
-
+    const t = isRtl(this.el) ? STRINGS.ar : STRINGS.en;
     return (
       <button
         type="button"
         class={`textarea__copy-btn${this.justCopied ? ' textarea__copy-btn--copied' : ''}`}
         onClick={this.handleCopy}
-        tabindex={-1}
-        aria-label={this.justCopied ? 'Copied' : 'Copy to clipboard'}
+        aria-label={this.justCopied ? t.copied : t.copy}
       >
         {this.justCopied ? (
           <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -369,6 +374,7 @@ export class AegovTextarea {
         value={this.value}
         name={this.name}
         required={this.isRequired}
+        maxLength={this.maxlength}
         aria-invalid={this.isInvalid ? 'true' : null}
         aria-describedby={describedBy}
         onChange={this.handleChange}
