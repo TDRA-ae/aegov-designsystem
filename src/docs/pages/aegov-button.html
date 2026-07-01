@@ -682,22 +682,23 @@ aegov-<span class="hljs-selector-tag">button</span><span class="hljs-selector-ps
 <h2>Accessibility</h2>
 <h3>Built-in behaviour</h3>
 <ul>
-<li>Renders a real <code>&lt;button&gt;</code> element inside, so it is focusable, keyboard-activatable, and exposed correctly to assistive technologies by default.</li>
-<li>Sets <code>aria-disabled</code> to match the disabled or loading state.</li>
-<li>Sets <code>aria-busy=&quot;true&quot;</code> while loading so screen readers announce the in-progress state.</li>
-<li>Visible <code>focus-visible</code> outline tuned per appearance — solid and soft buttons get an offset outline, outline buttons get an inset outline.</li>
-<li>All <code>aria-*</code> attributes set on the host are forwarded to the inner button.</li>
-<li>The button-group wrapper has <code>role=&quot;group&quot;</code> so assistive tech announces the buttons as a related set.</li>
+<li>Renders a real <code>&lt;button&gt;</code> element, so it is focusable, keyboard-activatable, and exposed correctly to assistive technologies by default.</li>
+<li><code>aria-disabled=&quot;true&quot;</code> is set only when the button is disabled or loading — it is omitted entirely when the button is enabled (no redundant <code>aria-disabled=&quot;false&quot;</code> noise).</li>
+<li><code>aria-busy=&quot;true&quot;</code> is set only while loading — omitted otherwise. Screen readers announce the button as busy until the operation completes.</li>
+<li>The loading spinner SVG is <code>aria-hidden=&quot;true&quot;</code> — the button&#39;s visible label (slot content) is the sole accessible announcement; the spinner is purely visual.</li>
+<li><code>focus-visible</code> outline is tuned per appearance: solid and soft buttons get an offset outline; outline buttons get an inset outline.</li>
+<li>All <code>aria-*</code> and <code>data-*</code> attributes set on the host are forwarded to the inner <code>&lt;button&gt;</code>.</li>
+<li><code>aegov-button-group</code> wraps its buttons in <code>&lt;div role=&quot;group&quot;&gt;</code> and forwards all <code>aria-*</code> and <code>data-*</code> attributes from the host to that div, so <code>aria-label</code> on the host reaches the group landmark correctly.</li>
 </ul>
 <h3>Developer responsibilities</h3>
 <ul>
-<li>Provide an <code>aria-label</code> on every icon-only button (<code>is-icon=&quot;true&quot;</code>).</li>
-<li>For loading buttons whose visible label does not change (&quot;Save&quot; → &quot;Save&quot;), update the label to describe what is happening (<code>Saving…</code>) or supply an <code>aria-label</code>.</li>
+<li>Provide an <code>aria-label</code> on every icon-only button (<code>is-icon=&quot;true&quot;</code>) — the slot content alone is not enough for AT.</li>
+<li>For loading buttons whose visible label does not change (e.g. &quot;Save&quot; stays &quot;Save&quot; while loading), either update the slot content to &quot;Saving…&quot; or pass <code>aria-label=&quot;Saving…&quot;</code> so screen reader users know what is in progress.</li>
 <li>Verify colour contrast if you override colours via <code>::part(button)</code> or custom CSS.</li>
 <li>Do not wrap <code>aegov-button</code> inside another <code>&lt;button&gt;</code> — nesting interactive elements is invalid HTML.</li>
-<li>For <code>aegov-button-group</code>, supply an <code>aria-label</code> describing the group&#39;s purpose when it is not obvious from the labels alone (e.g. <code>aria-label=&quot;View range&quot;</code> for a Day/Week/Month toolbar).</li>
-<li>Use a real anchor (<code>&lt;a&gt;</code>) for navigation. The <code>link</code> appearance still renders a <code>&lt;button&gt;</code> and emits click events — it does not navigate on its own.</li>
-<li>Inside a button group, every direct child must be an <code>aegov-button</code>. Other elements produce a console warning and are not styled as part of the group.</li>
+<li>For <code>aegov-button-group</code>, supply an <code>aria-label</code> on the host whenever the group&#39;s purpose is not obvious from its button labels alone (e.g. <code>&lt;aegov-button-group aria-label=&quot;View range&quot;&gt;</code>). This label is forwarded to the <code>role=&quot;group&quot;</code> div automatically.</li>
+<li>Use a real anchor (<code>&lt;a&gt;</code>) for navigation. The <code>link</code> appearance still renders a <code>&lt;button&gt;</code> — it does not navigate on its own.</li>
+<li>Inside a button group, every direct child must be an <code>aegov-button</code>. Other elements produce a console warning.</li>
 </ul>
 <h3>Keyboard support</h3>
 <table>

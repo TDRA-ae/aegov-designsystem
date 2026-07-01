@@ -18,8 +18,18 @@ import type { InternalsHost } from '../../utils/validation';
 import { isRtl } from '../../utils/rtl';
 
 const STRINGS = {
-  en: { noResults: 'No results found' },
-  ar: { noResults: 'لم يتم العثور على نتائج' },
+  en: {
+    noResults: 'No results found',
+    clearSelection: 'Clear selection',
+    searchLabel: 'Search options',
+    searchPlaceholder: 'Search...',
+  },
+  ar: {
+    noResults: 'لم يتم العثور على نتائج',
+    clearSelection: 'مسح التحديد',
+    searchLabel: 'البحث في الخيارات',
+    searchPlaceholder: 'بحث...',
+  },
 };
 
 /** Select value type per §2.4.1 — string for single, string[] for multiple. */
@@ -764,6 +774,7 @@ export class AegovSelect {
     const enabledOptions = this.filteredOptions.filter(o => !o.disabled);
     const validationDecor = this.computeValidationDecor();
     const { errorRegion, hintRegion, describedBy, hostClass } = validationDecor;
+    const t = isRtl(this.el) ? STRINGS.ar : STRINGS.en;
     return (
       <Host class={hostClass}>
         <div
@@ -775,13 +786,19 @@ export class AegovSelect {
             id={this.fieldId}
             class={this.getTriggerClasses()}
             onClick={this.toggleDropdown}
-            onBlur={() => { this.hasBlurredOnce = true; }}
+            onBlur={(e: FocusEvent) => {
+              if (!this.el.contains(e.relatedTarget as Node)) {
+                this.hasBlurredOnce = true;
+                this.emitValidate('blur');
+              }
+            }}
             disabled={this.isDisabled}
             role="combobox"
             aria-expanded={this.isOpen ? 'true' : 'false'}
             aria-haspopup="listbox"
             aria-controls={this.isOpen ? this.selectId : undefined}
             aria-activedescendant={this.activeDescendantId}
+            aria-required={this.isRequired ? 'true' : undefined}
             aria-invalid={this.isInvalid ? 'true' : null}
             aria-describedby={describedBy}
           >
@@ -795,7 +812,7 @@ export class AegovSelect {
                   onClick={this.handleClear}
                   onKeyDown={(e: KeyboardEvent) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); this.handleClear(e as any); } }}
                   role="button"
-                  aria-label="Clear selection"
+                  aria-label={t.clearSelection}
                   tabindex={0}
                 >
                   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -825,12 +842,12 @@ export class AegovSelect {
                   <input
                     type="text"
                     class={`select__search-input select__search-input--${this._resolvedSize}`}
-                    placeholder="Search..."
+                    placeholder={t.searchPlaceholder}
                     value={this.searchQuery}
                     onInput={this.handleSearchInput}
                     ref={el => this.searchInputRef = el}
                     role="searchbox"
-                    aria-label="Search options"
+                    aria-label={t.searchLabel}
                     aria-controls={this.selectId}
                     aria-activedescendant={this.activeDescendantId}
                     autocomplete="off"

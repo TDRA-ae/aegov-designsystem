@@ -366,7 +366,6 @@ export class AegovInput {
         class={`input__revealable ${sizeClasses[this._resolvedSize]}`}
         onClick={this.handleRevealToggle}
         disabled={this.isDisabled}
-        tabindex={-1}
         aria-label={(() => { const t = isRtl(this.el) ? STRINGS.ar : STRINGS.en; return this.passwordVisible ? t.hidePassword : t.showPassword; })()}
       >
         {this.passwordVisible ? (
@@ -405,7 +404,6 @@ export class AegovInput {
         type="button"
         class={`input__copy-btn ${sizeClasses[this._resolvedSize]}${this.justCopied ? ' input__copy-btn--copied' : ''}`}
         onClick={this.handleCopy}
-        tabindex={-1}
         aria-label={this.justCopied ? strings.copied : strings.copyToClipboard}
       >
         {this.justCopied ? (

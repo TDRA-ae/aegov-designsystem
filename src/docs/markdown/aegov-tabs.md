@@ -610,7 +610,7 @@ The same tabs in the segmented variant, in RTL:
 
 ### Built-in behaviour
 
-- The trigger row uses `role="tablist"` with the configured `aria-label` (defaults to `"Tabs"`) and `aria-orientation` reflecting `orientation`.
+- The trigger row uses `role="tablist"` with `aria-orientation` reflecting `orientation`. The `aria-label` defaults to `"Tabs"` in LTR and `"علامات التبويب"` in RTL — no developer translation needed. Override via `label-tablist` when the tabs control a specific region.
 - Each trigger is a real `<button>` with `role="tab"`, `aria-selected`, and `aria-controls` linking to its panel.
 - Each panel has `role="tabpanel"`, `aria-labelledby` pointing at its trigger, and the native `hidden` attribute when inactive.
 - A roving tabindex pattern is used: only the active trigger is tab-focusable (`tabindex="0"`); the rest use `tabindex="-1"`.
@@ -620,7 +620,7 @@ The same tabs in the segmented variant, in RTL:
 
 - Provide a unique, matching `tab-id` for every tab/panel pair.
 - Give every trigger a meaningful accessible name in the default slot. If you only render an icon, include visually hidden text.
-- Override `label-tablist` when the tabs control a more specific region (e.g. `"Account sections"`).
+- Override `label-tablist` when the tabs control a specific region (e.g. `"Account sections"` or `"أقسام الحساب"`). The default is already bilingual.
 - When a panel contains heavy assets, consider lazy-loading them only when the panel becomes active by listening for `aegovTabChange`.
 
 ### Keyboard support

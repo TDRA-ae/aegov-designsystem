@@ -4,6 +4,12 @@ import type { BreadcrumbSeparator } from '../../utils/types';
 import { getPassThroughAttributes } from '../../utils/attributes';
 import { warnIfInvalidEnumProp } from '../../utils/prop-validator';
 import { generateId } from '../../utils/id-generator';
+import { isRtl } from '../../utils/rtl';
+
+const STRINGS = {
+  en: { breadcrumb: 'Breadcrumb' },
+  ar: { breadcrumb: 'مسار التنقل' },
+};
 
 const TAG = 'aegov-breadcrumbs';
 const ctx = (prop: string) => ({ component: TAG, prop });
@@ -92,7 +98,7 @@ export class AegovBreadcrumbs {
 
     return (
       <Host>
-        <nav aria-label="Breadcrumb" id={this.fieldId} class="aegov-breadcrumbs" {...passThroughAttributes}>
+        <nav aria-label={isRtl(this.el) ? STRINGS.ar.breadcrumb : STRINGS.en.breadcrumb} id={this.fieldId} class="aegov-breadcrumbs" {...passThroughAttributes}>
           <ol
             class="breadcrumb__list"
             itemScope={this.isMicrodata ? true : undefined}

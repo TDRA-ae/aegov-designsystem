@@ -629,10 +629,10 @@
 <h2>Accessibility</h2>
 <h3>Built-in behaviour</h3>
 <ul>
-<li>The container renders as a <code>&lt;nav&gt;</code> element with <code>aria-label=&quot;Timeline&quot;</code> so assistive technology announces it as a navigation landmark.</li>
+<li>The container renders as a <code>&lt;nav&gt;</code> element whose <code>aria-label</code> defaults to <code>&quot;Timeline&quot;</code> in LTR contexts and <code>&quot;الجدول الزمني&quot;</code> in RTL — no developer translation needed. Pass <code>aria-label</code> on the host to override with a more specific description.</li>
 <li>Steps render as <code>&lt;li&gt;</code> items inside an <code>&lt;ol&gt;</code>, preserving order semantics.</li>
 <li>The currently active step&#39;s <code>&lt;li&gt;</code> carries <code>aria-current=&quot;step&quot;</code> so screen readers announce the user&#39;s position.</li>
-<li>Each step includes a visually hidden description (<code>Step N of M: &lt;label&gt; (current/completed)</code>) that gives screen-reader users full context regardless of variant — including the compact dot variant where labels are visually hidden in horizontal mode.</li>
+<li>Each step includes a visually hidden description (<code>&quot;Step N of M: &lt;label&gt; (current/completed)&quot;</code> in English; <code>&quot;الخطوة N من M: &lt;label&gt; (مكتمل/الحالية)&quot;</code> in Arabic) that gives screen-reader users full context regardless of variant — including the compact dot variant where labels are visually hidden in horizontal mode. No developer translation needed.</li>
 <li>Decorative connectors and indicator graphics are marked <code>aria-hidden=&quot;true&quot;</code>.</li>
 </ul>
 <h3>Developer responsibilities</h3>
@@ -640,7 +640,7 @@
 <li>Provide a meaningful label as default-slot text on every step. The screen-reader description depends on it.</li>
 <li>When using a custom <code>icon</code> slot, set <code>aria-hidden=&quot;true&quot;</code> on the icon — the step&#39;s <code>sr-only</code> label is still rendered.</li>
 <li>Keep step ordering meaningful — the visual progression is what gives <code>aria-current=&quot;step&quot;</code> value.</li>
-<li>Override the default <code>aria-label=&quot;Timeline&quot;</code> (via host attribute pass-through) when more specific context is needed, e.g. <code>aria-label=&quot;Application progress&quot;</code>.</li>
+<li>Override the <code>aria-label</code> on <code>&lt;aegov-timeline&gt;</code> (via host attribute pass-through) when more specific context is needed, e.g. <code>aria-label=&quot;Application progress&quot;</code> or <code>aria-label=&quot;مسار الطلب&quot;</code>.</li>
 </ul>
 <h3>Notes</h3>
 <ul>

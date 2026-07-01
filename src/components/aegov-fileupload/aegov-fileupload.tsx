@@ -11,7 +11,7 @@ import { watchResponsiveProp } from '../../utils/responsive-prop';
 import type { ResponsivePropWatcher } from '../../utils/responsive-prop';
 import { getPassThroughAttributes } from '../../utils/attributes';
 import {
-  buildValidationDetail, synthesizeValidity, setInternalsValidity,
+  buildValidationDetail, synthesizeValidity, setInternalsValidity, composeDescribedBy,
 } from '../../utils/validation';
 import type { InternalsHost } from '../../utils/validation';
 import { isRtl } from '../../utils/rtl';
@@ -586,8 +586,13 @@ export class AegovFileupload {
 
   // --- Variant renderers ---
 
-  private renderDefault(passThroughAttrs: Record<string, string>) {
+  private renderDefault(passThroughAttrs: Record<string, string>, showError: boolean, showHint: boolean) {
     const helperText = this.getHelperText();
+    const describedBy = composeDescribedBy(
+      helperText ? `${this.fieldId}-helper` : null,
+      showError ? this.errorId : null,
+      showHint ? this.hintId : null,
+    );
     return (
       <div class="fileupload__input-wrapper" onClick={() => this.triggerFileDialog()}>
         <input
@@ -602,7 +607,9 @@ export class AegovFileupload {
           required={this.isRequired}
           class="fileupload__native-input"
           onChange={this.handleFileChange}
-          aria-describedby={helperText ? `${this.fieldId}-helper` : undefined}
+          aria-invalid={this.isInvalid ? 'true' : undefined}
+          aria-required={this.isRequired ? 'true' : undefined}
+          aria-describedby={describedBy}
         />
         <span class={`fileupload__filename ${this.selectedFiles.length === 0 ? 'fileupload__filename--empty' : ''}`}>
           {this.getDisplayText()}
@@ -614,7 +621,11 @@ export class AegovFileupload {
     );
   }
 
-  private renderButton(passThroughAttrs: Record<string, string>) {
+  private renderButton(passThroughAttrs: Record<string, string>, showError: boolean, showHint: boolean) {
+    const describedBy = composeDescribedBy(
+      showError ? this.errorId : null,
+      showHint ? this.hintId : null,
+    );
     return [
       <input
         type="file"
@@ -637,6 +648,8 @@ export class AegovFileupload {
         size={this._resolvedSize}
         appearance="solid"
         is-disabled={this.isDisabled}
+        aria-invalid={this.isInvalid ? 'true' : undefined}
+        aria-describedby={describedBy || undefined}
         onClick={() => this.triggerFileDialog()}
       >
         {this.renderBtnUploadIcon()}
@@ -646,11 +659,15 @@ export class AegovFileupload {
     ];
   }
 
-  private renderDropzone(passThroughAttrs: Record<string, string>) {
+  private renderDropzone(passThroughAttrs: Record<string, string>, showError: boolean, showHint: boolean) {
     const dropzoneClasses = [
       'fileupload__dropzone',
       this.isDragOver ? 'fileupload__dropzone--dragover' : '',
     ].filter(Boolean).join(' ');
+    const describedBy = composeDescribedBy(
+      showError ? this.errorId : null,
+      showHint ? this.hintId : null,
+    );
 
     return [
       <input
@@ -685,6 +702,8 @@ export class AegovFileupload {
             size={this._resolvedSize}
             appearance="outline"
             is-disabled={this.isDisabled}
+            aria-invalid={this.isInvalid ? 'true' : undefined}
+            aria-describedby={describedBy || undefined}
             onClick={() => this.triggerFileDialog()}
           >
             {this.getDefaultButtonText()}
@@ -731,9 +750,9 @@ export class AegovFileupload {
         <div class={classes}>
           {this.renderLabel()}
           {this.renderHint(showHint, hasHintSlot)}
-          {appearance === 'default' && this.renderDefault(passThroughAttrs)}
-          {appearance === 'button' && this.renderButton(passThroughAttrs)}
-          {appearance === 'dropzone' && this.renderDropzone(passThroughAttrs)}
+          {appearance === 'default' && this.renderDefault(passThroughAttrs, showError, showHint)}
+          {appearance === 'button' && this.renderButton(passThroughAttrs, showError, showHint)}
+          {appearance === 'dropzone' && this.renderDropzone(passThroughAttrs, showError, showHint)}
           {this.renderHelperText()}
           {errorRegion}
         </div>

@@ -2,9 +2,23 @@ import { Component, Prop, Watch, Element, State, Host, h } from '@stencil/core';
 import { TIMELINE_STEP_STATUSES } from '../../utils/types';
 import type { TimelineVariant, TimelineSize, TimelineOrientation, TimelineStepStatus } from '../../utils/types';
 import { warnIfInvalidEnumProp } from '../../utils/prop-validator';
+import { isRtl } from '../../utils/rtl';
 
 const TAG = 'aegov-timeline-step';
 const ctx = (prop: string) => ({ component: TAG, prop });
+
+const STRINGS = {
+  en: {
+    step: (n: number, total: number) => `Step ${n} of ${total}`,
+    completed: '(completed)',
+    current: '(current)',
+  },
+  ar: {
+    step: (n: number, total: number) => `الخطوة ${n} من ${total}`,
+    completed: '(مكتمل)',
+    current: '(الحالية)',
+  },
+};
 
 @Component({
   tag: 'aegov-timeline-step',
@@ -116,15 +130,15 @@ export class AegovTimelineStep {
   private renderIndicator() {
     const isCompact = this.variant === 'compact';
     const stepNumber = this.stepIndex + 1;
-
     const status = this.safeStatus;
+    const t = isRtl(this.el) ? STRINGS.ar : STRINGS.en;
+    const statusLabel = this.status === 'completed' ? ` ${t.completed}` : this.status === 'active' ? ` ${t.current}` : '';
 
     if (isCompact) {
       return (
         <div class={`step__dot step__dot--${status} step__dot--${this.size}`}>
           <span class="sr-only">
-            Step {stepNumber} of {this.stepCount}: {this.slotContent}
-            {this.status === 'completed' ? ' (completed)' : this.status === 'active' ? ' (current)' : ''}
+            {t.step(stepNumber, this.stepCount)}: {this.slotContent}{statusLabel}
           </span>
         </div>
       );
@@ -139,8 +153,7 @@ export class AegovTimelineStep {
           this.hasIconSlot ? <slot name="icon" /> : <span class="step__number">{stepNumber}</span>
         )}
         <span class="sr-only">
-          Step {stepNumber} of {this.stepCount}:
-          {this.status === 'completed' ? ' (completed)' : this.status === 'active' ? ' (current)' : ''}
+          {t.step(stepNumber, this.stepCount)}{statusLabel}
         </span>
       </div>
     );

@@ -572,9 +572,8 @@ The same dropdown with a hover trigger and nested submenu, in RTL:
 
 ### Built-in behaviour
 
-- The trigger wrapper exposes `aria-haspopup="true"` and `aria-expanded` reflecting the open state.
-- When open, the trigger gets `aria-controls` pointing at the menu's `id`.
-- The menu element has `role="menu"` and `aria-labelledby` linking back to the trigger id.
+- The first focusable element inside the trigger slot (e.g. `<aegov-button>`) automatically receives `aria-haspopup="menu"`, `aria-expanded`, and `aria-controls` (pointing at the menu's `id` when open). These attributes are set imperatively so they live on the element AT actually reads, not the wrapper div.
+- The menu element has `role="menu"` and `aria-labelledby` linking back to the trigger wrapper's `id`.
 - Focusable children inside the menu without an explicit `role` automatically receive `role="menuitem"`.
 - `Escape` closes the dropdown; `Tab` and `Arrow Up` / `Arrow Down` cycle focus through menu items.
 - Keyboard-triggered opens (`Enter`/`Space` on the focused trigger) move focus into the menu; pointer opens leave focus on the trigger, matching the WAI-ARIA menu pattern.

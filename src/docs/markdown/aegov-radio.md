@@ -638,8 +638,10 @@ See [BYO Validator](validation-byo.html) for more patterns.
 - Renders a real `<input type="radio">`, preserving native semantics, single-select behaviour, and keyboard handling.
 - `field-id` is auto-generated and reflected to the host so external `<label for>` (or `aegov-label`) can associate reliably.
 - When `label` is set, the entire label area is part of the click target via the wrapping `<label>` element.
-- `description` is associated with the input via `aria-describedby`.
+- The `hint` text is associated with the input via `aria-describedby`; error text is announced via a polite `aria-live` region after the first blur.
 - `aegov-radio-group` renders a real `<fieldset>` with `role="radiogroup"` and an optional `<legend>`, giving screen-reader users a clear group label.
+- When `is-required` is set on `aegov-radio-group`, `aria-required="true"` is added to the `<fieldset>` so assistive technology knows at least one option must be selected.
+- The group forwards `aria-*` and `data-*` host attributes onto the `<fieldset>` — use this to add `aria-labelledby` when an external heading labels the group.
 - The group sets the shared `name` on every child automatically, so native single-select behaviour and arrow-key navigation work without any extra wiring.
 
 ### Developer responsibilities

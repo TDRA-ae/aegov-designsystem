@@ -9,7 +9,7 @@ The `aegov-toggle` component renders a fully accessible switch built on a native
 ```html
 <aegov-toggle
   label="Enable SMS notifications"
-  description="Receive transactional updates on your registered UAE mobile number."
+  hint="Receive transactional updates on your registered UAE mobile number."
   is-checked="true"
 ></aegov-toggle>
 ```
@@ -17,7 +17,7 @@ The `aegov-toggle` component renders a fully accessible switch built on a native
 <div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-toggle
     label="Enable SMS notifications"
-    description="Receive transactional updates on your registered UAE mobile number."
+    hint="Receive transactional updates on your registered UAE mobile number."
     is-checked="true"
   ></aegov-toggle>
 </div>
@@ -98,21 +98,21 @@ The `variant` property selects the colour family of the **ON track**. The OFF tr
 
 ---
 
-## Label and description
+## Label and hint
 
-When a `label` is supplied, the toggle renders inside a `<label>` element so the entire row is clickable. Add `description` to provide secondary helper text below the label — for example to explain consent implications or rate-limit consequences.
+When a `label` is supplied, the toggle renders inside a `<label>` element so the entire row is clickable. Add `hint` to provide secondary helper text below the label — for example to explain consent implications or rate-limit consequences.
 
 ```html
 <aegov-toggle
   label="Share my data with partner government entities"
-  description="Allows the Ministry to share verified profile data with other UAE federal services to pre-fill applications."
+  hint="Allows the Ministry to share verified profile data with other UAE federal services to pre-fill applications."
 ></aegov-toggle>
 ```
 
 <div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-toggle
     label="Share my data with partner government entities"
-    description="Allows the Ministry to share verified profile data with other UAE federal services to pre-fill applications."
+    hint="Allows the Ministry to share verified profile data with other UAE federal services to pre-fill applications."
   ></aegov-toggle>
 </div>
 
@@ -220,18 +220,18 @@ Provide `name` and `value` to participate in standard form submission. When chec
 A typical UAE Government scenario: a citizen managing notification channels for service updates from a federal portal. Each channel is independent and toggling it takes effect immediately.
 
 ```html
-<aegov-toggle label="SMS" description="Status updates sent to your registered UAE mobile." is-checked="true"></aegov-toggle>
-<aegov-toggle label="Email" description="Receipts and renewal reminders." is-checked="true"></aegov-toggle>
-<aegov-toggle label="Push notifications" description="In-app alerts on the official UAE Pass mobile app."></aegov-toggle>
-<aegov-toggle label="WhatsApp" description="High-priority security alerts only." is-disabled="true"></aegov-toggle>
+<aegov-toggle label="SMS" hint="Status updates sent to your registered UAE mobile." is-checked="true"></aegov-toggle>
+<aegov-toggle label="Email" hint="Receipts and renewal reminders." is-checked="true"></aegov-toggle>
+<aegov-toggle label="Push notifications" hint="In-app alerts on the official UAE Pass mobile app."></aegov-toggle>
+<aegov-toggle label="WhatsApp" hint="High-priority security alerts only." is-disabled="true"></aegov-toggle>
 ```
 
 <div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <div class="space-y-4">
-    <aegov-toggle label="SMS" description="Status updates sent to your registered UAE mobile." is-checked="true"></aegov-toggle>
-    <aegov-toggle label="Email" description="Receipts and renewal reminders." is-checked="true"></aegov-toggle>
-    <aegov-toggle label="Push notifications" description="In-app alerts on the official UAE Pass mobile app."></aegov-toggle>
-    <aegov-toggle label="WhatsApp" description="High-priority security alerts only." is-disabled="true"></aegov-toggle>
+    <aegov-toggle label="SMS" hint="Status updates sent to your registered UAE mobile." is-checked="true"></aegov-toggle>
+    <aegov-toggle label="Email" hint="Receipts and renewal reminders." is-checked="true"></aegov-toggle>
+    <aegov-toggle label="Push notifications" hint="In-app alerts on the official UAE Pass mobile app."></aegov-toggle>
+    <aegov-toggle label="WhatsApp" hint="High-priority security alerts only." is-disabled="true"></aegov-toggle>
   </div>
 </div>
 
@@ -245,7 +245,7 @@ The toggle is direction-agnostic. When the document or any ancestor is set to `d
 <div dir="rtl">
   <aegov-toggle
     label="تفعيل الإشعارات عبر الرسائل النصية"
-    description="استلام تحديثات الخدمة على رقم هاتفك المتحرك المسجل في دولة الإمارات."
+    hint="استلام تحديثات الخدمة على رقم هاتفك المتحرك المسجل في دولة الإمارات."
     is-checked="true"
   ></aegov-toggle>
 </div>
@@ -254,7 +254,7 @@ The toggle is direction-agnostic. When the document or any ancestor is set to `d
 <div dir="rtl" class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-toggle
     label="تفعيل الإشعارات عبر الرسائل النصية"
-    description="استلام تحديثات الخدمة على رقم هاتفك المتحرك المسجل في دولة الإمارات."
+    hint="استلام تحديثات الخدمة على رقم هاتفك المتحرك المسجل في دولة الإمارات."
     is-checked="true"
   ></aegov-toggle>
 </div>
@@ -263,17 +263,17 @@ A full preferences panel in RTL:
 
 ```html
 <div dir="rtl">
-  <aegov-toggle label="رسائل SMS" description="تحديثات الحالة على رقم هاتفك." is-checked="true"></aegov-toggle>
-  <aegov-toggle label="البريد الإلكتروني" description="إيصالات وتذكيرات التجديد." is-checked="true"></aegov-toggle>
-  <aegov-toggle label="إشعارات التطبيق" description="تنبيهات داخل تطبيق الهوية الرقمية UAE Pass."></aegov-toggle>
+  <aegov-toggle label="رسائل SMS" hint="تحديثات الحالة على رقم هاتفك." is-checked="true"></aegov-toggle>
+  <aegov-toggle label="البريد الإلكتروني" hint="إيصالات وتذكيرات التجديد." is-checked="true"></aegov-toggle>
+  <aegov-toggle label="إشعارات التطبيق" hint="تنبيهات داخل تطبيق الهوية الرقمية UAE Pass."></aegov-toggle>
 </div>
 ```
 
 <div dir="rtl" class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <div class="space-y-4">
-    <aegov-toggle label="رسائل SMS" description="تحديثات الحالة على رقم هاتفك." is-checked="true"></aegov-toggle>
-    <aegov-toggle label="البريد الإلكتروني" description="إيصالات وتذكيرات التجديد." is-checked="true"></aegov-toggle>
-    <aegov-toggle label="إشعارات التطبيق" description="تنبيهات داخل تطبيق الهوية الرقمية UAE Pass."></aegov-toggle>
+    <aegov-toggle label="رسائل SMS" hint="تحديثات الحالة على رقم هاتفك." is-checked="true"></aegov-toggle>
+    <aegov-toggle label="البريد الإلكتروني" hint="إيصالات وتذكيرات التجديد." is-checked="true"></aegov-toggle>
+    <aegov-toggle label="إشعارات التطبيق" hint="تنبيهات داخل تطبيق الهوية الرقمية UAE Pass."></aegov-toggle>
   </div>
 </div>
 
@@ -294,7 +294,7 @@ A full preferences panel in RTL:
 | `isDisabled`  | `is-disabled`  | Disables the input and removes it from the tab order.                         | `boolean` | `false`     |
 | `isRequired`  | `is-required`  | Marks the underlying input as required for form validation.                   | `boolean` | `false`     |
 | `label`       | `label`        | Inline label text rendered after the switch.                                  | `string`  | `undefined` |
-| `description` | `description`  | Secondary helper text shown below the label. Requires `label` to render.      | `string`  | `undefined` |
+| `hint`        | `hint`         | Helper hint text shown below the label. Requires `label` to render.           | `string`  | `undefined` |
 
 ### Slots
 
@@ -340,8 +340,6 @@ The component forwards the attribute groups below onto the inner `<input>`. Appl
 
 `aegov-toggle` exposes the unified [Validation Surface](validation-overview.html). Toggle-specific notes:
 
-> **Renamed:** the `description` prop was renamed to `hint`. CSS class `toggle__description` → `toggle__hint`.
-
 ### Common recipes
 
 **Required consent toggle:**
@@ -374,7 +372,7 @@ See [BYO Validator](validation-byo.html) for more patterns.
 ### Built-in behaviour
 
 - The underlying control is a native `<input type="checkbox">` with `role="switch"` and an explicit `aria-checked` state, so assistive technology announces "switch, on" or "switch, off" rather than "checkbox, checked".
-- When `description` is provided, the input is linked to it via `aria-describedby` so screen readers read the helper text after the label.
+- When `hint` is provided, the input is linked to it via `aria-describedby` so screen readers read the helper text after the label.
 - `is-required` sets both the native `required` attribute and `aria-required="true"`.
 - The label wraps the switch, so the entire row — label and description included — is clickable and fires the same change event.
 

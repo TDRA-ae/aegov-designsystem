@@ -297,13 +297,17 @@ function setupRackContainer(container: HTMLDivElement, position: ToastPosition):
   badge.textContent = '0';
   container.appendChild(badge);
 
-  // Hover listeners for expand/collapse
-  container.addEventListener('mouseenter', () => {
-    container.classList.add(CSS.containerExpanded);
-  });
-  container.addEventListener('mouseleave', () => {
-    container.classList.remove(CSS.containerExpanded);
-  });
+  // Expand on hover or keyboard focus within the rack
+  const expand = () => container.classList.add(CSS.containerExpanded);
+  const collapse = (e: FocusEvent) => {
+    if (!container.contains(e.relatedTarget as Node)) {
+      container.classList.remove(CSS.containerExpanded);
+    }
+  };
+  container.addEventListener('mouseenter', expand);
+  container.addEventListener('mouseleave', () => container.classList.remove(CSS.containerExpanded));
+  container.addEventListener('focusin', expand);
+  container.addEventListener('focusout', collapse);
 
   rackContainers.add(position);
 }
@@ -541,6 +545,15 @@ export class AegovToast {
     }
   };
 
+  private handleFocusIn = () => {
+    this.handleMouseEnter();
+  };
+
+  private handleFocusOut = (e: FocusEvent) => {
+    if (this.el.contains(e.relatedTarget as Node)) return;
+    this.handleMouseLeave();
+  };
+
   private checkSlots = () => {
     this.hasIconSlot = !!this.el.querySelector('[slot="icon"]');
     this.hasTitleSlot = !!this.el.querySelector('[slot="title"]');
@@ -624,7 +637,7 @@ export class AegovToast {
     }
 
     return (
-      <div class={this.getToastClasses()} onMouseEnter={this.handleMouseEnter} onMouseLeave={this.handleMouseLeave}>
+      <div class={this.getToastClasses()} onMouseEnter={this.handleMouseEnter} onMouseLeave={this.handleMouseLeave} onFocusin={this.handleFocusIn} onFocusout={this.handleFocusOut}>
         {this.hasIconSlot && (
           <div class="toast__icon">
             <slot name="icon" />

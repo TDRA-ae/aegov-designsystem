@@ -322,7 +322,8 @@
 <li>A hidden native <code>&lt;progress&gt;</code> element with the same <code>value</code> / <code>max</code> is always rendered, providing semantic progress reporting to assistive technologies.</li>
 <li>The visual track is marked <code>aria-hidden=&quot;true&quot;</code> so screen readers don&#39;t announce the duplicate visual.</li>
 <li>When <code>value</code> is omitted, the native <code>&lt;progress&gt;</code> is rendered without a <code>value</code> attribute, putting it into the indeterminate state.</li>
-<li>The hidden <code>&lt;progress&gt;</code> accepts pass-through <code>aria-*</code> attributes, so you can add <code>aria-label</code>, <code>aria-labelledby</code>, or <code>aria-describedby</code> directly on the host.</li>
+<li>When the <code>description</code> prop is set, the description <code>&lt;p&gt;</code> receives an auto-generated <code>id</code> and is linked to the native <code>&lt;progress&gt;</code> via <code>aria-describedby</code>. Assistive technology announces the description when the user navigates to the progress bar.</li>
+<li>The hidden <code>&lt;progress&gt;</code> accepts pass-through <code>aria-*</code> attributes, so you can add <code>aria-label</code>, <code>aria-labelledby</code>, or <code>aria-describedby</code> directly on the host. A developer-supplied <code>aria-describedby</code> is composed with the internal description ID — both are announced.</li>
 </ul>
 <h3>Developer responsibilities</h3>
 <ul>

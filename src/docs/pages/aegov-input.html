@@ -769,9 +769,10 @@
 <li>Renders a real <code>&lt;input&gt;</code> element, preserving native semantics, keyboard handling, autofill, and assistive-technology behaviour.</li>
 <li><code>field-id</code> is auto-generated and reflected to the host so external <code>&lt;label for&gt;</code> (or <code>aegov-label</code>) can associate reliably.</li>
 <li><code>is-required</code> sets the native <code>required</code> attribute, which exposes the requirement to assistive tech automatically.</li>
-<li>The reveal toggle and copy button each have descriptive <code>aria-label</code> text and <code>tabindex=&quot;-1&quot;</code> so they don&#39;t interrupt the natural tab flow.</li>
+<li>The reveal toggle and copy button each have descriptive bilingual <code>aria-label</code> text (&quot;Show password&quot; / &quot;إظهار كلمة المرور&quot;, &quot;Copy to clipboard&quot; / &quot;نسخ&quot;) and are in the natural tab order so keyboard-only users can reach them.</li>
 <li>Decorative SVG icons in the helper buttons use <code>aria-hidden=&quot;true&quot;</code>.</li>
 <li>When wrapped in <code>aegov-form-field</code>, helper and error text are wired up via <code>aria-describedby</code> automatically.</li>
+<li><code>aegov-input-group</code> renders <code>role=&quot;group&quot;</code> and forwards consumer <code>aria-*</code> attributes to it. Use <code>group-label</code> for an <code>aria-label</code>, or add <code>aria-labelledby</code> on the host to reference an external heading.</li>
 </ul>
 <h3>Developer responsibilities</h3>
 <ul>
@@ -790,7 +791,7 @@
 </thead>
 <tbody><tr>
 <td><code>Tab</code></td>
-<td>Move focus to the input. Reveal/copy buttons are skipped (<code>tabindex=&quot;-1&quot;</code>).</td>
+<td>Move focus through the input, then to the reveal/copy button (if shown), then to the next field.</td>
 </tr>
 <tr>
 <td><code>Shift + Tab</code></td>
