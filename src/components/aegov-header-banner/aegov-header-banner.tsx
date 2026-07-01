@@ -109,7 +109,18 @@ export class AegovHeaderBanner {
     }
   }
 
-  private toggleHeaderExpanded = (e: MouseEvent) => {
+  @Listen('focusout')
+  handleFocusOut(event: FocusEvent) {
+    if (!this.headerExpanded) return;
+    const rt = event.relatedTarget as Node;
+    const isInsideLight = rt && this.el.contains(rt);
+    const isInsideShadow = rt && this.el.shadowRoot?.contains(rt);
+    if (!isInsideLight && !isInsideShadow) {
+      this.headerExpanded = false;
+    }
+  }
+
+  private toggleHeaderExpanded = (e: Event) => {
     e.preventDefault();
     this.headerExpanded = !this.headerExpanded;
   };
@@ -138,6 +149,7 @@ export class AegovHeaderBanner {
                 href="#"
                 class="text-primary-200! no-underline hover:no-underline focus-visible:text-aeblack-800! text-xs p-0! lg:text-sm"
                 onClick={this.toggleHeaderExpanded}
+                onKeyDown={(e: KeyboardEvent) => { if (e.key === ' ') this.toggleHeaderExpanded(e); }}
                 aria-expanded={this.headerExpanded ? 'true' : 'false'}
                 aria-controls="header-top-expand"
                 ref={(el) => this.triggerEl = el}
