@@ -793,9 +793,10 @@ export class AegovSelect {
                 <span
                   class="select__clear"
                   onClick={this.handleClear}
+                  onKeyDown={(e: KeyboardEvent) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); this.handleClear(e as any); } }}
                   role="button"
                   aria-label="Clear selection"
-                  tabindex={-1}
+                  tabindex={0}
                 >
                   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                     <line x1="18" y1="6" x2="6" y2="18" />

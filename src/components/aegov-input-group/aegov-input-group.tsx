@@ -1,4 +1,5 @@
 import { Component, Host, h, Prop, State, Element, Watch } from '@stencil/core';
+import { generateId } from '../../utils/id-generator';
 import { INPUT_SIZES, FORM_VARIANTS } from '../../utils/types';
 import type { InputSize, FormVariant } from '../../utils/types';
 import { warnIfInvalidEnumProp } from '../../utils/prop-validator';
@@ -25,16 +26,25 @@ export class AegovInputGroup {
   /** Text to display as a suffix addon after the input. */
   @Prop() addonSuffix?: string;
 
+  /**
+   * Accessible label for the group. Sets `aria-label` on the group wrapper.
+   * Use this to describe the purpose of a combined phone/URL/similar input group.
+   */
+  @Prop() groupLabel?: string;
+
   /** Colour family. Drives idle ring/border, selected/checked fill, and value/accent text. Focus ring stays camel; error stays aered regardless. */
   @Prop() variant: FormVariant = 'primary';
 
   /** Additional CSS classes to apply. */
   @Prop() extraClass?: string;
 
+  private groupId!: string;
+
   @Watch('variant')
   onVariantChange(v: unknown) { warnIfInvalidEnumProp(v, FORM_VARIANTS, 'primary', { component: 'aegov-input-group', prop: 'variant' }); }
 
   componentWillLoad() {
+    this.groupId = generateId('aegov-input-group');
     warnIfInvalidEnumProp(this.variant, FORM_VARIANTS, 'primary', { component: 'aegov-input-group', prop: 'variant' });
     this._sizeWatcher = watchResponsiveProp(this.size, INPUT_SIZES, 'base', v => {
       this._resolvedSize = v as InputSize;
@@ -64,12 +74,17 @@ export class AegovInputGroup {
   }
 
   private propagateSize() {
+    const prefixId = this.addonPrefix ? `${this.groupId}-prefix` : undefined;
     const inputs = this.el.querySelectorAll('aegov-input');
     inputs.forEach((input: any) => {
       input.size = this._resolvedSize;
       // Cascade variant only when child has no own value (still default 'primary')
       if (!input.variant || input.variant === 'primary') {
         input.variant = this.variant;
+      }
+      // Link prefix label to input via aria-describedby chain
+      if (prefixId) {
+        input.describedByPrefix = prefixId;
       }
     });
 
@@ -104,10 +119,19 @@ export class AegovInputGroup {
   }
 
   render() {
+    const prefixId = this.addonPrefix ? `${this.groupId}-prefix` : undefined;
     return (
       <Host>
-        <div class={this.getGroupClasses()}>
-          {this.addonPrefix && <span class="input-group__addon input-group__addon--prefix">{this.addonPrefix}</span>}
+        <div
+          class={this.getGroupClasses()}
+          role="group"
+          aria-label={this.groupLabel || undefined}
+        >
+          {this.addonPrefix && (
+            <span id={prefixId} class="input-group__addon input-group__addon--prefix">
+              {this.addonPrefix}
+            </span>
+          )}
           <slot />
           {this.addonSuffix && <span class="input-group__addon input-group__addon--suffix">{this.addonSuffix}</span>}
         </div>

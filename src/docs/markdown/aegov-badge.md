@@ -489,21 +489,23 @@ Pass-through attributes set on `<aegov-badge>` are forwarded to the inner `<span
 
 ### Built-in behaviour
 
-- The dismiss button is a real `<button type="button">` and is reachable with the keyboard.
-- The dismiss button has `aria-label="Badge dismiss button"` so screen reader users know its purpose.
-- The dismiss SVG is marked `aria-hidden="true"`.
+- The dismiss button is a real `<button type="button">` and is fully keyboard accessible.
+- The dismiss button `aria-label` is **context-aware**: it automatically includes the badge text, so screen reader users hear `"Dismiss Error"`, `"Dismiss Approved"`, etc. rather than a generic label. When the badge has no text content it falls back to `"Dismiss badge"` (`"إغلاق الشارة"` in RTL).
+- The dismiss button has a minimum touch target of **24 × 24 CSS px** on all sizes (sm, base, lg), satisfying WCAG SC 2.5.8.
+- The dismiss SVG icon is marked `aria-hidden="true"` — all meaning is carried by the button's `aria-label`.
 - The dismiss-click handler calls `event.stopPropagation()`, so a parent click handler does not also fire when the badge is dismissed.
 
 ### Developer responsibilities
 
 - Provide meaningful text inside the badge — colour alone is not sufficient to convey status. Pair colour with explicit words such as "Active", "Pending", or "Suspended".
 - For badges acting as numerical counters (e.g. unread messages), set a more descriptive `aria-label` on the host so the count is announced in context: `<aegov-badge aria-label="3 unread messages">3</aegov-badge>`.
-- If the badge represents a value that changes over time, consider wrapping it (or its surrounding container) in an `aria-live="polite"` region.
-- Removing the badge from the DOM after dismiss is the consumer's responsibility — the component does not auto-remove itself.
+- If the badge represents a value that changes over time, consider wrapping it (or its surrounding container) in an `aria-live="polite"` region so assistive technology announces the update.
+- Removing the badge from the DOM after dismiss is the consumer's responsibility — the component emits `aegovBadgeDismiss` but does not auto-remove itself.
+- Mark decorative inline icons with `aria-hidden="true"` — the badge text is the sole accessible label.
 
 ### Keyboard support
 
-| Key              | Action                                          |
-| ---------------- | ----------------------------------------------- |
+| Key              | Action                                           |
+| ---------------- | ------------------------------------------------ |
 | `Tab`            | Move focus to the dismiss button (when present). |
-| `Enter`, `Space` | Activate the dismiss button.                    |
+| `Enter`, `Space` | Activate the dismiss button.                     |

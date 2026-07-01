@@ -44,6 +44,10 @@
       @apply flex flex-wrap gap-4;
     }
   }
+  & .banner__icon {
+    @apply shrink-0 flex items-center self-center;
+  }
+
   & .banner__dismiss {
     @apply shrink-0 size-6 bg-transparent border-0 rounded-md focus-visible:outline-2 focus-visible:outline-offset-1 flex justify-center;
     color:inherit;
@@ -258,7 +262,7 @@
   &.banner--sm {
     @apply text-sm;
     & .banner__container { @apply py-1.5; }
-    & .banner__dismiss { @apply size-5; & > svg { @apply size-3.5; } }
+    & .banner__dismiss { @apply size-6; & > svg { @apply size-3.5; } }
   }
   &.banner--base {
     @apply text-base;
