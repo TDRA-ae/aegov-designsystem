@@ -137,9 +137,14 @@ aegov-avatar {
   }
 }
   
-/* Image styling */
-.avatar-image {
-  @apply h-full w-full object-cover;
+/* Image styling — higher specificity (0,2,0) beats button's & img rule (0,1,1) */
+.aegov-avatar .avatar-image {
+  @apply h-full! w-full! object-cover;
+}
+
+/* Remove gray fallback background when a real image is loaded */
+.aegov-avatar.avatar--has-image {
+  background-color: transparent;
 }
 
 /* Fallback content */

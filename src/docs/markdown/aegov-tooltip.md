@@ -207,9 +207,9 @@ A common pattern: pair an input label with an info icon that reveals additional 
   <div class="flex items-center gap-2 mb-2">
     <label for="trade-licence" class="font-semibold">Trade licence number</label>
     <aegov-tooltip content="Your 6- to 8-digit licence number is printed on the top right of your DED licence document." position="top" align="start">
-      <button type="button" class="text-aeblack-500 hover:text-primary-600" aria-label="What is this?">
+      <aegov-button is-icon appearance="soft" size="xs" aria-label="What is this?">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><path d="M12 16v-4M12 8h.01"></path></svg>
-      </button>
+      </aegov-button>
     </aegov-tooltip>
   </div>
   <aegov-input field-id="trade-licence" placeholder="e.g. 123456"></aegov-input>
@@ -221,9 +221,9 @@ A common pattern: pair an input label with an info icon that reveals additional 
     <div class="flex items-center gap-2 mb-2">
       <label for="demo-trade-licence" class="font-semibold">Trade licence number</label>
       <aegov-tooltip content="Your 6- to 8-digit licence number is printed on the top right of your DED licence document." position="top" align="start">
-        <button type="button" class="text-aeblack-500 hover:text-primary-600 inline-flex" aria-label="What is this?">
+        <aegov-button is-icon appearance="soft" size="xs" aria-label="What is this?">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><path d="M12 16v-4M12 8h.01"></path></svg>
-        </button>
+        </aegov-button>
       </aegov-tooltip>
     </div>
     <aegov-input field-id="demo-trade-licence" placeholder="e.g. 123456"></aegov-input>

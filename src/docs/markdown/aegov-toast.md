@@ -199,7 +199,7 @@ A toast renders three optional slots in addition to the default description text
         </svg>
         <span slot="title">Application moved to trash</span>
         You can restore it within 30 days.
-        <button slot="actions" type="button" style="background:transparent;border:0;font:inherit;color:#0066cc;cursor:pointer;padding:0;">Undo</button>
+        <aegov-button slot="actions" appearance="link">Undo</aegov-button>
       `;
       document.body.appendChild(toast);
       toast.show();
@@ -374,7 +374,7 @@ This example combines several features: a soft success toast with a title slot, 
         </svg>
         <span slot="title">Application submitted</span>
         Reference number <strong>APP-2026-00482</strong>. You will receive an SMS within 3 business days.
-        <button slot="actions" type="button" style="background:transparent;border:0;font:inherit;color:#0066cc;cursor:pointer;padding:0;font-weight:600;">View status</button>
+        <aegov-button slot="actions" appearance="link">View status</aegov-button>
       `;
       document.body.appendChild(toast);
       toast.show();
