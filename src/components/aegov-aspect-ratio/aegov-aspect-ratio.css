@@ -3,7 +3,9 @@
 }
 
 .aegov-aspect-ratio {
-  @apply relative w-full overflow-hidden;
+  @apply relative w-full;
+  overflow: clip;
+  overflow-clip-margin: 4px;
 }
 
 /* Media elements fill the container and respect the fit prop via data-fit */

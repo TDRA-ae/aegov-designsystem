@@ -103,6 +103,14 @@ export class AegovInput {
   /** Additional CSS classes to apply. */
   @Prop() extraClass?: string;
 
+  /**
+   * ID of an element (e.g. an addonPrefix span in aegov-input-group) to include
+   * in the native input's aria-describedby chain. Set by aegov-input-group when
+   * addonPrefix is present.
+   * @internal
+   */
+  @Prop({ mutable: true }) describedByPrefix?: string;
+
   /** Tracks whether the password is currently visible. */
   @State() passwordVisible: boolean = false;
 
@@ -390,29 +398,36 @@ export class AegovInput {
       lg: 'copy-btn--lg',
       xl: 'copy-btn--xl',
     };
+    const strings = isRtl(this.el) ? STRINGS.ar : STRINGS.en;
 
-    return (
+    return [
       <button
         type="button"
         class={`input__copy-btn ${sizeClasses[this._resolvedSize]}${this.justCopied ? ' input__copy-btn--copied' : ''}`}
         onClick={this.handleCopy}
         tabindex={-1}
-        aria-label={(() => { const t = isRtl(this.el) ? STRINGS.ar : STRINGS.en; return this.justCopied ? t.copied : t.copyToClipboard; })()}
+        aria-label={this.justCopied ? strings.copied : strings.copyToClipboard}
       >
         {this.justCopied ? (
-          // Checkmark icon
           <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
             <polyline points="20 6 9 17 4 12" />
           </svg>
         ) : (
-          // Copy icon
           <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
             <rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
             <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
           </svg>
         )}
-      </button>
-    );
+      </button>,
+      <span
+        role="status"
+        aria-live="polite"
+        aria-atomic="true"
+        style={{ position: 'absolute', width: '1px', height: '1px', overflow: 'hidden', clip: 'rect(0,0,0,0)', whiteSpace: 'nowrap' }}
+      >
+        {this.justCopied ? strings.copied : ''}
+      </span>,
+    ];
   }
 
   render() {
@@ -435,6 +450,7 @@ export class AegovInput {
     const authorDescribedBy = this.el.getAttribute('aria-describedby');
     const describedBy = composeDescribedBy(
       authorDescribedBy,
+      this.describedByPrefix || null,
       showError ? this.errorId : null,
       showHint ? this.hintId : null,
     );

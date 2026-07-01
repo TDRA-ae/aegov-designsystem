@@ -64,6 +64,14 @@ export class AegovAspectRatio {
     this._resolvedRatio = this._ratioWatcher.current;
   }
 
+  componentDidLoad() {
+    this.el.querySelectorAll('iframe').forEach(iframe => {
+      if (!iframe.getAttribute('title')?.trim()) {
+        console.warn('[aegov-aspect-ratio] Slotted <iframe> is missing a title attribute — add title="…" (WCAG SC 4.1.2).');
+      }
+    });
+  }
+
   disconnectedCallback() {
     this._ratioWatcher?.destroy();
   }

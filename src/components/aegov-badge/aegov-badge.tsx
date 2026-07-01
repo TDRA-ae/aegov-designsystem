@@ -9,8 +9,8 @@ import { getPassThroughAttributes } from '../../utils/attributes';
 import { isRtl } from '../../utils/rtl';
 
 const STRINGS = {
-  en: { dismiss: 'Badge dismiss button' },
-  ar: { dismiss: 'زر إغلاق الشارة' },
+  en: { dismiss: (label: string) => label ? `Dismiss ${label}` : 'Dismiss badge' },
+  ar: { dismiss: (label: string) => label ? `إغلاق ${label}` : 'إغلاق الشارة' },
 };
 
 const TAG = 'aegov-badge';
@@ -58,6 +58,7 @@ export class AegovBadge {
 
     @State() private _resolvedSize: BadgeSize = 'base';
     private _sizeWatcher: ResponsivePropWatcher | null = null;
+    private _badgeText: string = '';
 
     /**
      * Emitted when the dismiss button is clicked.
@@ -68,6 +69,9 @@ export class AegovBadge {
         if (!this.fieldId) {
             this.fieldId = generateId('aegov-badge');
         }
+        // Read slot text before render so dismiss button label names what's being dismissed.
+        // At componentWillLoad the component hasn't rendered yet, so textContent is slot-only.
+        this._badgeText = this.el.textContent?.trim() || '';
         warnIfInvalidEnumProp(this.appearance, BADGE_APPEARANCES, 'soft', ctx('appearance'));
         warnIfInvalidEnumProp(this.color, BADGE_COLORS, 'default', ctx('color'));
         this._sizeWatcher = watchResponsiveProp(this.size, BADGE_SIZES, 'base', v => {
@@ -168,7 +172,7 @@ export class AegovBadge {
                             type="button"
                             class="badge-dismiss"
                             onClick={this.handleBadgeDismissClick}
-                            aria-label={isRtl(this.el) ? STRINGS.ar.dismiss : STRINGS.en.dismiss}
+                            aria-label={isRtl(this.el) ? STRINGS.ar.dismiss(this._badgeText) : STRINGS.en.dismiss(this._badgeText)}
                         >
                             <svg
                                 class="size-3"

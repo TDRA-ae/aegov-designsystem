@@ -1,5 +1,6 @@
 import { Component, Host, h, Prop, Element, Event, EventEmitter, Watch, State } from '@stencil/core';
 import { AccordionIcon, AccordionSize } from '../../utils/types';
+import { generateId } from '../../utils/id-generator';
 
 /**
  * Accordion item component
@@ -67,13 +68,19 @@ export class AegovAccordionItem {
   @Prop({ mutable: true }) size: AccordionSize = 'base';
 
   /**
+   * Heading level for the accordion trigger (1–6). Renders the button inside
+   * the appropriate `<hN>` element for correct document structure.
+   * @internal - Cascaded from parent aegov-accordion; can also be set directly.
+   */
+  @Prop({ mutable: true }) headingLevel: number = 3;
+
+  /**
    * Emitted when the accordion item is toggled
    */
   @Event() aegovAccordionItemToggle!: EventEmitter<{ open: boolean }>;
 
   componentWillLoad() {
-    // Generate a stable unique ID for ARIA linking
-    this.itemId = `accordion-item-${Math.random().toString(36).substr(2, 9)}`;
+    this.itemId = generateId('accordion-item');
 
     // Validate that this component is inside aegov-accordion
     const parentAccordion = this.el.closest('aegov-accordion');
@@ -135,13 +142,6 @@ export class AegovAccordionItem {
     this.aegovAccordionItemToggle.emit({ open: !this.isOpen });
   };
 
-  private handleKeyDown = (event: KeyboardEvent) => {
-    if (event.key === 'Enter' || event.key === ' ') {
-      event.preventDefault();
-      this.handleToggle();
-    }
-  };
-
   render() {
     const classes = [
       'aegov-accordion-item',
@@ -152,44 +152,53 @@ export class AegovAccordionItem {
       this.isLast && 'accordion-item__last'
     ].filter(Boolean).join(' ');
 
+    const level = Math.min(6, Math.max(1, this.headingLevel || 3));
+    const HeadingTag = `h${level}` as any;
+
+    const triggerButton = (
+      <button
+        class="group accordion-item__header"
+        onClick={this.handleToggle}
+        disabled={this.isDisabled}
+        aria-expanded={this.isOpen.toString()}
+        aria-controls={`${this.itemId}-content`}
+        id={`${this.itemId}-trigger`}
+        type="button"
+      >
+        <div class="accordion-item__heading">
+          {this.hasHeadingSlot ? (
+            <slot name="accordion-item-heading" />
+          ) : (
+            this.heading
+          )}
+        </div>
+        {this.icon === 'chevron' ? (
+          <svg class="accordion-item__icon accordion-item__icon-chevron" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" aria-hidden="true">
+            <rect width="256" height="256" fill="none"/>
+            <polyline points="208 96 128 176 48 96" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="24"/>
+          </svg>
+        ) : (
+          <svg class="accordion-item__icon accordion-item__icon-plus" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"><rect width="256" height="256" fill="none"/><line x1="40" y1="128" x2="216" y2="128" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="24"/><line x1="128" y1="40" x2="128" y2="216" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="24"/></svg>
+        )}
+      </button>
+    );
+
     return (
       <Host>
         <div class={classes}>
-          <button
-            class="group accordion-item__header"
-            onClick={this.handleToggle}
-            onKeyDown={this.handleKeyDown}
-            disabled={this.isDisabled}
-            aria-expanded={this.isOpen.toString()}
-            aria-controls={`${this.itemId}-content`}
-            id={`${this.itemId}-trigger`}
-            type="button"
-          >
-            <div class="accordion-item__heading">
-              {this.hasHeadingSlot ? (
-                <slot name="accordion-item-heading" />
-              ) : (
-                this.heading
-              )}
-            </div>
-            {this.icon === 'chevron' ? (
-              <svg class="accordion-item__icon accordion-item__icon-chevron" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" aria-hidden="true">
-                <rect width="256" height="256" fill="none"/>
-                <polyline points="208 96 128 176 48 96" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="24"/>
-              </svg>
-            ) : (
-              <svg class="accordion-item__icon accordion-item__icon-plus" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"><rect width="256" height="256" fill="none"/><line x1="40" y1="128" x2="216" y2="128" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="24"/><line x1="128" y1="40" x2="128" y2="216" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="24"/></svg>
-            )}
-          </button>
+          <HeadingTag class="accordion-item__heading-wrapper">
+            {triggerButton}
+          </HeadingTag>
           <div
             class="accordion-item__content-wrapper"
             style={{ height: `${this.contentHeight}px` }}
+            {...(this.isOpen ? {} : { inert: true })}
           >
             <div
               class="accordion-item__content"
               id={`${this.itemId}-content`}
-              role="region"
               aria-labelledby={`${this.itemId}-trigger`}
+              aria-hidden={this.isOpen ? null : 'true'}
               ref={(el) => this.contentEl = el}
             >
               <slot />

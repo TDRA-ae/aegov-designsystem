@@ -223,12 +223,14 @@ The component emits no custom events.
 ### Built-in behaviour
 
 - Renders the native semantic `<blockquote>` element so assistive technology recognises the quoted content as a distinct structural region.
-- When `cite` is supplied, the native `cite` attribute is reflected onto the underlying element, giving AT a programmatic source URL.
-- The decorative quote-mark icon is rendered as inline SVG with no role or text alternative, so it produces no extra screen-reader noise.
+- When `cite` is supplied, the native `cite` attribute is set on the underlying `<blockquote>` element. This is a machine-readable URL for the source document — it is not announced by most screen readers, but it is available to tools that inspect the DOM.
+- Author attribution is wrapped in a `<footer>` element (the HTML spec's recommended pattern for in-blockquote attribution), and the author name is wrapped in a `<cite>` element, conveying the structural relationship programmatically (WCAG SC 1.3.1).
+- The decorative quote-mark SVG has `aria-hidden="true"` so assistive technology skips it.
 - Pass-through attributes (including `aria-*` and `data-*`) are forwarded to the inner `<blockquote>` element.
 
 ### Developer responsibilities
 
-- Provide either `cite` (URL) or `author` / `author-title` so the source of the quote is discoverable by users and by assistive technology.
+- Provide either `cite` (a URL) or `author` / `author-title` so the source of the quote is discoverable by users and by assistive technology.
+- The `cite` attribute accepts a URL only — do not pass a person's name to `cite`. Use the `author` prop for the person's name.
 - Keep the quoted text faithful to the source. If the quote spans multiple paragraphs, wrap each in a `<p>` tag inside the slot.
 - For long quotes, ensure the surrounding context introduces who is being quoted and why — the blockquote itself does not provide a heading.
