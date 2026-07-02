@@ -93,6 +93,12 @@ The `appearance` property switches between two visual treatments. `soft` (defaul
   <aegov-callout appearance="solid" variant="info" class="mb-6">
     <p slot="content">Solid info — your application is being reviewed by the issuing authority.</p>
   </aegov-callout>
+  <aegov-callout appearance="soft" variant="success" class="mb-3">
+    <p slot="content">Soft success — your service request has been logged.</p>
+  </aegov-callout>
+  <aegov-callout appearance="solid" variant="success" class="mb-6">
+    <p slot="content">Solid success — your payment was processed successfully.</p>
+  </aegov-callout>
   <aegov-callout appearance="soft" variant="warning" class="mb-3">
     <p slot="content">Soft warning — please verify your contact number before submitting.</p>
   </aegov-callout>
