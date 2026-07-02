@@ -4,7 +4,7 @@
 
 
 .aegov-accordion-item {
-  @apply border-b border-aeblack-100;
+  @apply border-b border-aeblack-200;
   @apply dark:border-aeblack-700;
 
   &.accordion-item__last {
@@ -21,9 +21,16 @@
 
   &>button.accordion-item__header,
   & .accordion-item__heading-wrapper>button.accordion-item__header {
-    @apply w-full py-5 px-3 flex justify-between items-start gap-x-4 flex-nowrap text-start text-base font-semibold bg-transparent transition-all border-0 cursor-pointer hover:not-disabled:text-primary-600 focus:text-primary-support-900  focus-visible:bg-primary-support-400 focus-visible:text-primary-support-900 focus-visible:-outline-offset-3 focus-visible:outline-2 focus-visible:outline-primary-support-700 disabled:opacity-50 disabled:cursor-none;
+    @apply w-full py-5 px-3 flex justify-between items-start gap-x-4 flex-nowrap text-start text-base font-semibold bg-transparent transition-all border-0 cursor-pointer hover:not-disabled:text-primary-700 focus:text-primary-support-900  focus-visible:bg-primary-support-400 focus-visible:text-primary-support-900 focus-visible:-outline-offset-3 focus-visible:outline-2 focus-visible:outline-primary-support-700 disabled:opacity-50 disabled:cursor-none;
 
     @apply dark:hover:not-disabled:text-primary-300 dark:focus:text-primary-support-50 dark:focus-visible:bg-primary-support-700 dark:focus-visible:text-primary-support-50 dark:focus-visible:outline-primary-support-300;
+
+    &:not([disabled]):hover {
+      & > .accordion-item__heading {
+        @apply text-primary-700;
+        @apply dark:text-primary-300;
+      }
+    }
   }
   & .accordion-item__heading {
     @apply flex-1 font-semibold text-base leading-normal text-aeblack-800 flex items-center justify-start gap-2; @apply dark:text-whitely-100;
@@ -31,19 +38,19 @@
   &.accordion-item--open {
     &>button.accordion-item__header,
     & .accordion-item__heading-wrapper>button.accordion-item__header {
-      @apply text-primary-600 focus-visible:text-primary-support-900!;
-      @apply dark:text-primary-300 dark:focus-visible:text-primary-support-50!;
+      @apply text-primary-800 focus-visible:text-primary-support-900!;
+      @apply dark:text-primary-200 dark:focus-visible:text-primary-support-50!;
       &>.accordion-item__heading {
-        @apply text-primary-600 group-focus-visible:text-primary-support-900!;
-        @apply dark:text-primary-300 dark:group-focus-visible:text-primary-support-50!;
+        @apply text-primary-800 group-focus-visible:text-primary-support-900!;
+        @apply dark:text-primary-200 dark:group-focus-visible:text-primary-support-50!;
       }
       &>.accordion-item__icon-chevron {
-        @apply text-primary-600 rotate-180;
-        @apply dark:text-primary-300;
+        @apply text-primary-800 rotate-180;
+        @apply dark:text-primary-200;
       }
       &>.accordion-item__icon-plus {
-        @apply text-primary-600 rotate-45;
-        @apply dark:text-primary-300;
+        @apply text-primary-800 rotate-45;
+        @apply dark:text-primary-200;
       }
     }
   }

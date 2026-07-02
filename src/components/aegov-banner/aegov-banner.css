@@ -96,7 +96,7 @@
           @apply bg-transparent border-aered-700 text-aered-700 focus-visible:outline-aered-600
                  dark:border-aered-300 dark:text-aered-200 dark:focus-visible:outline-aered-300;
           &.btn-solid {
-            @apply border-aered-600 bg-aered-600 text-whitely-50 dark:border-aered-500 dark:bg-aered-500 dark:text-whitely-50;
+            @apply border-aered-600 bg-aered-600 text-whitely-50 dark:border-aered-600 dark:bg-aered-600 dark:text-whitely-50;
           }
           &.btn-outline {
             @apply bg-transparent;
@@ -119,7 +119,7 @@
           @apply bg-transparent border-aegreen-700 text-aegreen-700 focus-visible:outline-aegreen-600
                  dark:border-aegreen-300 dark:text-aegreen-200 dark:focus-visible:outline-aegreen-300;
           &.btn-solid {
-            @apply border-aegreen-600 bg-aegreen-600 text-whitely-50 dark:border-aegreen-500 dark:bg-aegreen-500 dark:text-whitely-50;
+            @apply border-aegreen-700 bg-aegreen-700 text-whitely-50 dark:border-aegreen-700 dark:bg-aegreen-700 dark:text-whitely-50;
           }
           &.btn-outline {
             @apply bg-transparent;
@@ -142,7 +142,7 @@
           @apply bg-transparent border-camel-700 text-camel-700 focus-visible:outline-camel-600
                  dark:border-camel-300 dark:text-camel-200 dark:focus-visible:outline-camel-300;
           &.btn-solid {
-            @apply border-camel-600 bg-camel-600 text-whitely-50 dark:border-camel-500 dark:bg-camel-500 dark:text-whitely-50;
+            @apply border-camel-700 bg-camel-700 text-whitely-50 dark:border-camel-700 dark:bg-camel-700 dark:text-whitely-50;
           }
           &.btn-outline {
             @apply bg-transparent;
@@ -165,7 +165,7 @@
           @apply bg-transparent border-techblue-700 text-techblue-700 focus-visible:outline-techblue-600
                  dark:border-techblue-300 dark:text-techblue-200 dark:focus-visible:outline-techblue-300;
           &.btn-solid {
-            @apply border-techblue-600 bg-techblue-600 text-whitely-50 dark:border-techblue-500 dark:bg-techblue-500 dark:text-whitely-50;
+            @apply border-techblue-600 bg-techblue-600 text-whitely-50 dark:border-techblue-600 dark:bg-techblue-600 dark:text-whitely-50;
           }
           &.btn-outline {
             @apply bg-transparent;
@@ -193,7 +193,7 @@
       }
     }
     &.banner--error {
-      @apply bg-aered-600 text-whitely-50 dark:bg-aered-500 dark:text-whitely-50;
+      @apply bg-aered-600 text-whitely-50 dark:bg-aered-600 dark:text-whitely-50;
       & .banner__actions {
         & button,
         & a,
@@ -209,7 +209,7 @@
       }
     }
     &.banner--success {
-      @apply bg-aegreen-600 text-whitely-50 dark:bg-aegreen-500 dark:text-whitely-50;
+      @apply bg-aegreen-700 text-whitely-50 dark:bg-aegreen-700 dark:text-whitely-50;
       & .banner__actions {
         & button,
         & a,
@@ -225,7 +225,7 @@
       }
     }
     &.banner--warning {
-      @apply bg-camel-600 text-whitely-50 dark:bg-camel-500 dark:text-whitely-50;
+      @apply bg-camel-700 text-whitely-50 dark:bg-camel-700 dark:text-whitely-50;
       & .banner__actions {
         & button,
         & a,
@@ -241,7 +241,7 @@
       }
     }
     &.banner--info {
-      @apply bg-techblue-600 text-whitely-50 dark:bg-techblue-500 dark:text-whitely-50;
+      @apply bg-techblue-600 text-whitely-50 dark:bg-techblue-600 dark:text-whitely-50;
       & .banner__actions {
         & button,
         & a,
