@@ -33,7 +33,7 @@ aegov-avatar {
 .aegov-avatar {
   /* Variables */
   --avatar-bg: var(--color-aeblack-100);
-  --avatar-ring-color: var(--color-camel-600);
+  --avatar-ring-color: var(--color-camel-700);
 
   /* Base avatar styles */
   @apply relative inline-flex items-center justify-center bg-cover bg-center bg-no-repeat size-10 rounded;
@@ -58,7 +58,7 @@ aegov-avatar {
        @apply bg-aered-500! ring-whitely-50 dark:ring-aeblack-900;
     }
     &.avatar-away {
-      @apply bg-camel-400! ring-whitely-50 dark:ring-aeblack-900;
+      @apply bg-camel-600! ring-whitely-50 dark:ring-aeblack-900;
     }
     &.avatar-unavailable {
       @apply bg-aeblack-400! ring-whitely-50 dark:ring-aeblack-900;
