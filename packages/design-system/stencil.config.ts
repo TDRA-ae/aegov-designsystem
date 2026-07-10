@@ -78,6 +78,13 @@ export const config: Config = {
   // Testing configuration
   testing: {
     browserHeadless: "shell",
+    testPathIgnorePatterns: [
+      '/node_modules/',
+      '/.stencil/',
+      '/dist/',
+      '/www/',
+      '/tests/',
+    ],
   },
 
   // Plugin configuration - ORDER MATTERS!

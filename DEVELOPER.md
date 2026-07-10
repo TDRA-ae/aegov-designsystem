@@ -29,7 +29,7 @@ npm start
 | `npm run build` | Builds core + React + Vue + Angular wrappers in dependency order |
 | `npm run build:all` | Builds every package in the monorepo (including test apps) |
 | `npm run build:libs` | Builds core + React + Vue only (skips Angular) |
-| `npm run build:affected` | Builds only packages changed since `origin/main` (Nx affected) |
+| `npm run build:affected` | Builds only library packages changed since `origin/master` |
 
 ### Development servers
 
@@ -263,4 +263,5 @@ npx nx graph
 
 # Run a command only for packages affected by your current changes
 npx lerna run build --since=HEAD~1
+npx lerna run build --since=origin/master
 ```
