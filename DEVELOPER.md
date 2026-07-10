@@ -59,7 +59,7 @@ npm start
 | Command | What it does |
 |---|---|
 | `npm run clean` | Removes all `node_modules` across packages (does not remove `dist/`) |
-| `npm run publish` | Publishes all changed packages to npm via Lerna |
+| `npm run release` | Publishes all changed packages to npm via Lerna |
 | `npm run graph` | Opens the Nx dependency graph in the browser |
 
 ---
@@ -239,7 +239,7 @@ npx lerna version patch --no-push --no-git-tag-version
 npm run build
 
 # 3. Publish all changed packages
-npm run publish
+npm run release
 # or manually for a single package:
 cd packages/design-system && npm publish --access public
 ```
