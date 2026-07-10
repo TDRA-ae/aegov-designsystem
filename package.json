@@ -8,7 +8,7 @@
     "build:all": "lerna run build",
     "build:libs": "lerna run build --scope='{@aegov/designsystem-testing,@aegov/designsystem-react-testing,@aegov/designsystem-vue-testing}'",
     "build:affected": "lerna run build --since=origin/master --scope='{@aegov/designsystem-testing,@aegov/designsystem-react-testing,@aegov/designsystem-vue-testing,@aegov/designsystem-angular-testing}'",
-    "publish": "lerna publish from-package --yes",
+    "release": "lerna publish from-package --yes",
     "test": "lerna run test",
     "clean": "lerna clean -y",
     "graph": "nx graph",
