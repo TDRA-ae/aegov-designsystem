@@ -1,51 +1,51 @@
+# Dependencies
+node_modules/
+
+# Nx / Lerna
+.nx/cache
+.nx/workspace-data
+.nx/migrate-runs
+lerna-debug.log*
+
+# Build output (packages without their own .gitignore, e.g. react-library, vue-library)
 dist/
+build/
 www/
 loader/
+hydrate/
 .stencil/
-.vscode/
-.idea/
+.angular/
 
-*~
-*.sw[mnpcod]
-*.log
-*.lock
-*.tmp
-*.tmp.*
-log.txt
-*.sublime-project
-*.sublime-workspace
-
-.DS_Store
-Thumbs.db
-UserInterfaceState.xcuserstate
-.env
-
-node_modules/
+# Logs
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+*.log
 
-# Build files
-*.js.map
-*.d.ts.map
-
-# Testing
+# Testing / coverage
 coverage/
 .nyc_output/
 test-results/
 playwright-report/
 
-# IDE
+# Env
+.env
+.env.local
+.env.*.local
+
+# Editor / IDE
 .idea/
-.vscode/
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+.history/*
 *.swp
 *.swo
 *~
 
-# Generated files
-.stencil/
-dist/
-www/
-loader/
-hydrate/
-src/docs/doc-style.css
+# OS files
+.DS_Store
+Thumbs.db
+.npmrc
