@@ -27,6 +27,7 @@ module.exports = {
     '/.stencil/',
     '/dist/',
     '/www/',
+    '/tests/',
   ],
   moduleNameMapper: {
     '^@components/(.*)$': '<rootDir>/src/components/$1',
