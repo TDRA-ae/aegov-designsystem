@@ -231,9 +231,11 @@ cd /aegov-designsystem3 && npm run build
 ## Publishing to npm
 
 ```bash
-# 1. Bump versions across all packages
-npx lerna version patch --no-push --no-git-tag-version
-# or: minor / major / specific version like 1.0.0
+# 1. Bump versions across all packages (creates git commit + tags automatically)
+npx lerna version patch
+# or: minor / major / specific version
+npx lerna version minor
+npx lerna version 1.0.0
 
 # 2. Build everything
 npm run build
@@ -241,7 +243,7 @@ npm run build
 # 3. Publish all changed packages
 npm run release
 # or manually for a single package:
-cd packages/design-system && npm publish --access public
+cd packages/design-system && npm publish
 ```
 
 ---
