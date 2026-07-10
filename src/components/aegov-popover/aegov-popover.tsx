@@ -238,6 +238,7 @@ export class AegovPopover {
 
   componentDidLoad() {
     this.createPortalElement();
+    this.syncTriggerAria();
   }
 
   connectedCallback() {
@@ -281,6 +282,7 @@ export class AegovPopover {
       this.schedulePositionUpdate();
       this.aegovPopoverOpen.emit();
       this.triggerElement = document.activeElement as HTMLElement;
+      this.syncTriggerAria();
       setTimeout(() => this.setupFocusTrap(), 0);
     } else {
       if (currentOpenPopover === this) {
@@ -303,6 +305,8 @@ export class AegovPopover {
       if (this.triggerElement) {
         this.triggerElement.focus({ preventScroll: true });
       }
+
+      this.syncTriggerAria();
     }
   }
 
@@ -528,6 +532,24 @@ export class AegovPopover {
     }
   };
 
+  // SC 2.1.1: hover trigger must also open on keyboard focus
+  private handleTriggerFocus = () => {
+    if (this.trigger === 'hover') {
+      this.showPopover();
+    }
+  };
+
+  private handleTriggerBlur = (event: FocusEvent) => {
+    if (this.trigger === 'hover') {
+      const relatedTarget = event.relatedTarget as HTMLElement;
+      // Keep open if focus moves into the popover content
+      if (relatedTarget && this.portalElement && this.portalElement.contains(relatedTarget)) {
+        return;
+      }
+      this.hidePopover();
+    }
+  };
+
   private handleTriggerClick = (event: MouseEvent) => {
     if (this.trigger === 'click' && !this.isDisabled) {
       event.stopPropagation();
@@ -574,12 +596,31 @@ export class AegovPopover {
     this.keyHandler(event);
   }
 
+  // SC 4.1.2: propagate ARIA state to the first focusable child inside the trigger wrapper
+  private syncTriggerAria() {
+    if (!this.triggerRef) return;
+    const inner = this.triggerRef.querySelector<HTMLElement>(
+      'button, a, [role="button"], input, select, textarea, [tabindex]:not([tabindex="-1"])',
+    );
+    if (!inner) return;
+    inner.setAttribute('aria-haspopup', 'dialog');
+    inner.setAttribute('aria-expanded', this.isOpen.toString());
+    if (this.isOpen && this.fieldId) {
+      inner.setAttribute('aria-controls', this.fieldId);
+    } else {
+      inner.removeAttribute('aria-controls');
+    }
+  }
+
   private setupFocusTrap() {
     if (!this.popoverRef) return;
     this.focusableElements = getFocusableElements(this.popoverRef, FOCUSABLE_SELECTORS);
     if (this.focusableElements.length > 0) {
       this.currentFocusIndex = 0;
       this.focusableElements[0].focus();
+    } else {
+      // Fallback: focus the popover container itself so AT announces it
+      this.popoverRef.focus();
     }
   }
 
@@ -609,6 +650,7 @@ export class AegovPopover {
     popoverContainer.id = this.fieldId;
     popoverContainer.setAttribute('role', 'dialog');
     popoverContainer.setAttribute('aria-labelledby', this.triggerId);
+    popoverContainer.setAttribute('tabindex', '-1'); // fallback focus when content has no focusable children
     popoverContainer.setAttribute('data-state', 'open');
     popoverContainer.setAttribute('data-position', (POPOVER_POSITIONS as readonly string[]).includes(this.position) ? this.position : 'bottom');
 
@@ -649,9 +691,8 @@ export class AegovPopover {
           onMouseEnter={this.handleTriggerMouseEnter}
           onMouseLeave={this.handleTriggerMouseLeave}
           onClick={this.handleTriggerClick}
-          aria-haspopup="dialog"
-          aria-expanded={this.isOpen.toString()}
-          aria-controls={this.isOpen ? this.fieldId : undefined}
+          onFocus={this.handleTriggerFocus}
+          onBlur={this.handleTriggerBlur}
         >
           <slot />
         </div>

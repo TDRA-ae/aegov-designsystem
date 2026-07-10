@@ -622,9 +622,10 @@ The orchestrator listens for `aegovValidate` events and writes back `is-invalid`
 - Renders a real `<input>` element, preserving native semantics, keyboard handling, autofill, and assistive-technology behaviour.
 - `field-id` is auto-generated and reflected to the host so external `<label for>` (or `aegov-label`) can associate reliably.
 - `is-required` sets the native `required` attribute, which exposes the requirement to assistive tech automatically.
-- The reveal toggle and copy button each have descriptive `aria-label` text and `tabindex="-1"` so they don't interrupt the natural tab flow.
+- The reveal toggle and copy button each have descriptive bilingual `aria-label` text ("Show password" / "إظهار كلمة المرور", "Copy to clipboard" / "نسخ") and are in the natural tab order so keyboard-only users can reach them.
 - Decorative SVG icons in the helper buttons use `aria-hidden="true"`.
 - When wrapped in `aegov-form-field`, helper and error text are wired up via `aria-describedby` automatically.
+- `aegov-input-group` renders `role="group"` and forwards consumer `aria-*` attributes to it. Use `group-label` for an `aria-label`, or add `aria-labelledby` on the host to reference an external heading.
 
 ### Developer responsibilities
 
@@ -637,7 +638,7 @@ The orchestrator listens for `aegovValidate` events and writes back `is-invalid`
 
 | Key             | Action                                                                             |
 | --------------- | ---------------------------------------------------------------------------------- |
-| `Tab`           | Move focus to the input. Reveal/copy buttons are skipped (`tabindex="-1"`).         |
+| `Tab`           | Move focus through the input, then to the reveal/copy button (if shown), then to the next field. |
 | `Shift + Tab`   | Move focus to the previous focusable element.                                        |
 | `Enter`         | Commit the value (fires `aegovInputChange`) and submit the surrounding form.         |
 | Standard text editing | All native shortcuts apply — selection, cursor movement, cut/copy/paste.        |

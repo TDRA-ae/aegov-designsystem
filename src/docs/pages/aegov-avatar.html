@@ -363,18 +363,19 @@
 <h2>Accessibility</h2>
 <h3>Built-in behaviour</h3>
 <ul>
-<li>The avatar root has <code>role=&quot;img&quot;</code> and an <code>aria-label</code> derived from <code>alt</code> (or the literal string <code>&quot;User avatar&quot;</code> when <code>alt</code> is missing).</li>
-<li>The <code>&lt;img&gt;</code> element receives the same <code>alt</code> text.</li>
-<li>The status indicator carries <code>aria-label=&quot;Status: {status}&quot;</code> so screen readers announce the user&#39;s state.</li>
-<li>The decorative SVG silhouette is unlabelled and rendered inside the labelled root, so nothing extra is announced.</li>
-<li>When the image fails to load, <code>imageError</code> flips to <code>true</code> and the fallback path renders. This prevents broken-image icons from ever showing.</li>
+<li>The avatar root <code>&lt;div&gt;</code> carries <code>role=&quot;img&quot;</code> and an <code>aria-label</code> built from the <code>alt</code> prop (or <code>&quot;User avatar&quot;</code> when <code>alt</code> is not supplied). This is the <strong>only</strong> label assistive technology reads for the avatar — child elements do not add additional announcements.</li>
+<li>The inner <code>&lt;img&gt;</code> element is given <code>alt=&quot;&quot;</code> and <code>aria-hidden=&quot;true&quot;</code>. It is intentionally presentation-only: the meaningful label lives on the <code>role=&quot;img&quot;</code> container, not on the image itself.</li>
+<li>When a <code>status</code> value is present, the component <strong>folds it into the container&#39;s <code>aria-label</code></strong> rather than labelling the indicator span separately. For example: <code>&quot;Fatima Al Rashidi, status: online&quot;</code> (English) or <code>&quot;فاطمة الراشدي, الحالة: متصل&quot;</code> (Arabic / RTL). Arabic status strings are translated built-in: <code>online → متصل</code>, <code>offline → غير متصل</code>, <code>away → بعيد</code>, <code>unavailable → غير متاح</code>, <code>busy → مشغول</code>.</li>
+<li>The status indicator <code>&lt;span&gt;</code> itself is <code>aria-hidden=&quot;true&quot;</code> — it is a colour dot for sighted users; all meaning is already in the container label.</li>
+<li>The fallback SVG silhouette is <code>aria-hidden=&quot;true&quot;</code>, so nothing extra is announced when no image or slot content is provided.</li>
+<li>When the image fails to load, <code>imageError</code> flips to <code>true</code> and the component silently falls back to the slot / silhouette path. Broken-image icons never appear.</li>
 </ul>
 <h3>Developer responsibilities</h3>
 <ul>
-<li>Always provide a meaningful <code>alt</code> when the avatar represents a real user. Without <code>alt</code>, the host falls back to the generic label <code>&quot;User avatar&quot;</code>, which is rarely useful in context.</li>
-<li>Initials inside the default slot are visual only — the <code>aria-label</code> on the host is what assistive technology announces. Make sure the <code>alt</code> matches the user&#39;s name.</li>
-<li>If a status indicator is informational beyond the visual cue, ensure that the surrounding context reflects the same state in text (e.g. &quot;Fatima (online)&quot;).</li>
-<li>The avatar itself is not focusable. If the avatar is interactive (e.g. opens a profile), wrap it in an <code>&lt;a&gt;</code> or <code>&lt;button&gt;</code> element.</li>
+<li>Always provide a meaningful <code>alt</code> when the avatar represents a real user — the component falls back to the generic <code>&quot;User avatar&quot;</code> string, which is rarely useful in context.</li>
+<li>Initials or custom slot content are visual only. Assistive technology reads the <code>aria-label</code> on the container, not the slot text. Ensure <code>alt</code> matches the user&#39;s name.</li>
+<li>The avatar itself is not focusable. If the avatar is interactive (e.g. opens a profile dropdown), wrap it in an <code>&lt;a&gt;</code> or <code>&lt;button&gt;</code> and provide a label there.</li>
+<li>Do <strong>not</strong> place a separate <code>aria-label</code> on <code>&lt;aegov-avatar&gt;</code> to describe status — the component&#39;s built-in label already includes it. Adding your own label would replace the computed one and drop the status wording.</li>
 </ul>
 <h3>Notes</h3>
 <ul>

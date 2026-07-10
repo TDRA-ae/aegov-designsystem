@@ -415,19 +415,19 @@
 <h2>Accessibility</h2>
 <h3>Built-in behaviour</h3>
 <ul>
-<li>The wrapper renders as a <code>&lt;nav&gt;</code> landmark with <code>aria-label=&quot;Breadcrumb&quot;</code> so assistive tech can list it among site landmarks.</li>
-<li>Items are wrapped in an ordered list (<code>&lt;ol&gt;</code>) so screen readers announce position information (&quot;3 of 4&quot;).</li>
-<li>The last item is marked with <code>aria-current=&quot;page&quot;</code> when it has no <code>href</code>.</li>
-<li>Separators are decorative — both the slash text and chevron SVG are <code>aria-hidden=&quot;true&quot;</code> so screen readers do not announce them.</li>
+<li>The wrapper renders as a <code>&lt;nav&gt;</code> landmark with <code>aria-label=&quot;Breadcrumb&quot;</code> (English) or <code>aria-label=&quot;مسار التنقل&quot;</code> (Arabic, auto-detected via <code>dir=&quot;rtl&quot;</code> on any ancestor). Consumers can still override with their own <code>aria-label</code> on the <code>&lt;aegov-breadcrumbs&gt;</code> host.</li>
+<li>Items are wrapped in an ordered list (<code>&lt;ol&gt;</code>) so screen readers announce position information (&quot;2 of 3&quot;).</li>
+<li>The last item (no <code>href</code>) is marked with <code>aria-current=&quot;page&quot;</code> so assistive technology announces it as the current location.</li>
+<li>Separators (slash and chevron) are <code>aria-hidden=&quot;true&quot;</code> — screen readers skip them entirely.</li>
 <li>Linked items render as native <code>&lt;a&gt;</code> elements with full keyboard, middle-click, and context-menu support.</li>
 </ul>
 <h3>Developer responsibilities</h3>
 <ul>
-<li>Always omit <code>href</code> on the last item so it is announced as the current page.</li>
-<li>Keep labels concise — long category names can wrap on narrow viewports. Set <code>max-length</code> if you cannot shorten the source text.</li>
-<li>When using <code>target=&quot;_blank&quot;</code>, also set <code>rel=&quot;noopener&quot;</code> for security and consider adding a <code>title</code> so the user knows the link will open a new tab.</li>
+<li>Always omit <code>href</code> on the last item — this is what triggers <code>aria-current=&quot;page&quot;</code> and removes the link affordance on the current page.</li>
+<li>Keep labels concise — long category names can wrap on narrow viewports. Use <code>max-length</code> if you cannot shorten the source text.</li>
+<li>When using <code>target=&quot;_blank&quot;</code>, also set <code>rel=&quot;noopener&quot;</code> for security and provide a visible cue (e.g. an icon or parenthetical text) so users know the link opens a new tab before they activate it.</li>
 <li>Do not nest interactive elements other than the link inside an item.</li>
-<li>Throwing a runtime error: <code>aegov-breadcrumbs-item</code> cannot be used standalone — always wrap it in <code>aegov-breadcrumbs</code>.</li>
+<li><code>aegov-breadcrumbs-item</code> throws a runtime error if used outside <code>aegov-breadcrumbs</code> — always use the pair together.</li>
 </ul>
 <h3>Keyboard support</h3>
 <table>

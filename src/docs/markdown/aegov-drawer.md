@@ -283,7 +283,6 @@ A right-side drawer used to surface the full detail of a government service from
       <h3 id="demo-detail-title" class="text-2xl font-bold">Renew Emirates ID</h3>
       <p class="text-aeblack-500">Federal Authority for Identity, Citizenship, Customs &amp; Port Security</p>
     </header>
-
     <dl class="space-y-4 mb-6">
       <div>
         <dt class="text-sm font-semibold text-aeblack-500">Processing time</dt>
@@ -298,7 +297,6 @@ A right-side drawer used to surface the full detail of a government service from
         <dd>Existing Emirates ID, recent personal photo, proof of residence.</dd>
       </div>
     </dl>
-
     <div class="flex justify-end gap-3">
       <aegov-button variant="secondary" id="demo-detail-close">Close</aegov-button>
       <aegov-button id="demo-detail-start">Start application</aegov-button>

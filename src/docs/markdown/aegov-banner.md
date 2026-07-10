@@ -334,7 +334,10 @@ The banner is direction-agnostic. Internal spacing uses logical properties; the 
 - A `role` attribute set on the host **overrides** the auto-computed role, so consumers can downgrade noisy variants to `status` if needed.
 - `aria-live` is set automatically based on the resolved role: `alert` → `assertive`; `region`/`status` → `polite`.
 - When `heading` is provided, `aria-labelledby` references the derived `${fieldId}-heading` id.
-- The dismiss button has `aria-label="Close banner"` and is keyboard-accessible.
+- A built-in variant icon (error / warning / success / info / default) is rendered automatically alongside the text, satisfying WCAG SC 1.4.1 — severity is conveyed by shape and text, not colour alone. Supply a custom `<… slot="icon">` to override the default.
+- The icon column is marked `aria-hidden="true"` — the text content inside the default slot is the sole accessible announcement.
+- The dismiss button has a minimum touch target of **24 × 24 CSS px** on all sizes (sm, base, lg), satisfying WCAG SC 2.5.8.
+- The dismiss button has `aria-label="Close banner"` (`"إغلاق الشريط"` in RTL). Its SVG icon is `aria-hidden="true"`.
 - In `display="fixed" mode="push"`, the body padding is adjusted automatically so page content is never hidden under the banner. A `ResizeObserver` keeps the padding in sync as the banner resizes.
 - In `mode="overlay"`, the `aegovBannerHeightChange` event is emitted whenever the banner's height changes so consumers can adjust their own layout.
 

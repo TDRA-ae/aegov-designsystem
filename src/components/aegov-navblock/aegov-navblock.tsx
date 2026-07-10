@@ -5,6 +5,12 @@ import { warnIfInvalidEnumProp } from '../../utils/prop-validator';
 import { watchResponsiveProp } from '../../utils/responsive-prop';
 import type { ResponsivePropWatcher } from '../../utils/responsive-prop';
 import { generateId } from '../../utils/id-generator';
+import { isRtl } from '../../utils/rtl';
+
+const STRINGS = {
+  en: { nav: 'Sidebar navigation' },
+  ar: { nav: 'التنقل في الشريط الجانبي' },
+};
 
 const TAG = 'aegov-navblock';
 const ctx = (prop: string) => ({ component: TAG, prop });
@@ -47,8 +53,8 @@ export class AegovNavblock {
   /** Block title text shown above items. The `title` slot overrides this. */
   @Prop() blockTitle?: string;
 
-  /** Accessible label for the navigation landmark. */
-  @Prop() labelNav: string = 'Sidebar navigation';
+  /** Accessible label for the navigation landmark. Defaults to "Sidebar navigation" (LTR) or "التنقل في الشريط الجانبي" (RTL). */
+  @Prop() labelNav: string = '';
 
   /** Allow multiple items to be open at the same level simultaneously. */
   @Prop() isMultiple: boolean = false;
@@ -79,6 +85,27 @@ export class AegovNavblock {
   @Prop() activeBorder: boolean = false;
 
   private _sizeWatcher: ResponsivePropWatcher | null = null;
+  private _hasLoaded = false;
+
+  connectedCallback() {
+    // Re-attach event listeners on every connect so they survive the
+    // disconnect/reconnect that aegov-drawer.connectedCallback causes when it
+    // moves itself to document.body. addEventListener is idempotent for the
+    // same listener reference, so this is safe to call before first hydration.
+    this.el.addEventListener('aegovNavblockItemToggle', this.handleItemToggle as EventListener);
+    this.el.addEventListener('keydown', this.handleKeyDown);
+
+    // After the first render, also re-init the size watcher that
+    // disconnectedCallback destroyed.
+    if (this._hasLoaded && this._sizeWatcher === null) {
+      this._sizeWatcher = watchResponsiveProp(this.size, NAVBLOCK_SIZES, 'base', v => {
+        this._resolvedSize = v as NavblockSize;
+        if (this.el.isConnected) this.syncDescendants();
+      });
+      this._resolvedSize = this._sizeWatcher.current as NavblockSize;
+      this.syncDescendants();
+    }
+  }
 
   componentWillLoad() {
     if (!this.fieldId) {
@@ -99,10 +126,10 @@ export class AegovNavblock {
   }
 
   componentDidLoad() {
+    this._hasLoaded = true;
     this.syncDescendants();
     this.expandAncestorsOfActive();
-    this.el.addEventListener('aegovNavblockItemToggle', this.handleItemToggle as EventListener);
-    this.el.addEventListener('keydown', this.handleKeyDown);
+    // Listeners are managed by connectedCallback/disconnectedCallback.
   }
 
   componentDidUpdate() {
@@ -306,6 +333,8 @@ export class AegovNavblock {
   };
 
   render() {
+    const rtl = isRtl(this.el);
+    const navLabel = this.labelNav || (rtl ? STRINGS.ar.nav : STRINGS.en.nav);
     const classes = {
       'aegov-navblock': true,
       [`navblock--${this._resolvedSize}`]: true,
@@ -316,7 +345,7 @@ export class AegovNavblock {
 
     return (
       <Host>
-        <nav class={classes} aria-label={this.labelNav} id={this.fieldId}>
+        <nav class={classes} aria-label={navLabel} id={this.fieldId}>
           {(this.hasTitleSlot || this.blockTitle) && (
             <h2 class="aegov-navblock__title">
               {this.hasTitleSlot ? <slot name="title" /> : this.blockTitle}

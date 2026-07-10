@@ -283,6 +283,10 @@ export class AegovModal {
 
     if (this.focusableElements.length > 0) {
       this.focusableElements[0].focus();
+    } else {
+      // Fallback: focus the dialog container itself so AT announces it
+      const dialogEl = shadowRoot.querySelector<HTMLElement>('[role="dialog"]');
+      dialogEl?.focus();
     }
   }
 
@@ -342,6 +346,7 @@ export class AegovModal {
             data-state={this.animationState}
             role="dialog"
             aria-modal="true"
+            tabindex={-1}
             {...passThroughAttributes}
           >
             <slot></slot>

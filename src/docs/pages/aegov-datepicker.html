@@ -908,11 +908,14 @@
 <h2>Accessibility</h2>
 <h3>Built-in behaviour</h3>
 <ul>
-<li>The trigger input has <code>aria-haspopup=&quot;dialog&quot;</code> and reflects <code>aria-expanded</code> so screen readers announce the calendar relationship.</li>
-<li>The portal calendar renders as <code>role=&quot;dialog&quot;</code> with <code>aria-modal=&quot;true&quot;</code> and an <code>aria-label=&quot;Choose date&quot;</code> description.</li>
-<li>A polite live region inside the portal announces the current month and year as the user navigates.</li>
-<li>Day buttons expose <code>aria-selected</code> for picked dates, <code>aria-current=&quot;date&quot;</code> for today, and <code>aria-disabled</code> plus a disabled state for blackout / out-of-range dates.</li>
-<li>Focus is automatically moved into the calendar on open and returned to the original trigger on close.</li>
+<li>The trigger input has <code>role=&quot;combobox&quot;</code>, <code>aria-haspopup=&quot;dialog&quot;</code>, <code>aria-expanded</code>, and <code>aria-controls</code> (pointing at the dialog when open) so screen readers announce the calendar relationship.</li>
+<li>The portal calendar renders as <code>role=&quot;dialog&quot;</code> with <code>aria-modal=&quot;true&quot;</code>. The dialog is labelled via <code>aria-labelledby</code> pointing at a visually-hidden element that shows the current month and year (e.g. &quot;June 2026&quot;) — the dialog title updates as the user navigates months.</li>
+<li>A polite <code>aria-live</code> region inside the portal announces month navigation changes and keyboard-focused dates in real time. A second live region in the host (outside the portal) announces the final confirmed selection after the calendar closes.</li>
+<li>The calendar grid has <code>role=&quot;grid&quot;</code> with an <code>aria-label</code> of the current month/year. Each day is a <code>role=&quot;gridcell&quot;</code> containing a button with a full-date <code>aria-label</code> (e.g. &quot;Monday, 3 June 2026&quot;). Prev/Next month buttons have bilingual <code>aria-label</code> (&quot;Previous month&quot; / &quot;Next month&quot;) with RTL Arabic equivalents.</li>
+<li>Day buttons expose <code>aria-selected</code> for picked dates, <code>aria-current=&quot;date&quot;</code> for today, and <code>aria-disabled</code> plus native <code>disabled</code> for blackout / out-of-range dates. Unavailable dates append <code>, unavailable</code> to their <code>aria-label</code>.</li>
+<li>Navigation chevron SVGs are marked <code>aria-hidden=&quot;true&quot;</code> — the button accessible name comes from its <code>aria-label</code>, not the icon.</li>
+<li>Preset buttons (where configured) use <code>aria-pressed</code> to reflect their selected state. The preset group has <code>role=&quot;group&quot;</code> with <code>aria-label</code>.</li>
+<li>Focus is automatically moved into the calendar on open (first focusable element) and returned to the original trigger on close, using roving tabindex within the grid.</li>
 <li>The trigger is <code>readOnly</code> so users cannot type free-form text and produce invalid dates; navigation always happens through the dialog.</li>
 <li>The calendar closes if the trigger scrolls off-screen, and re-positions on every scroll and resize.</li>
 </ul>

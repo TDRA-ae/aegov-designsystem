@@ -253,10 +253,10 @@ A real-world example anchored to an avatar in the header. Use `align="end"` so t
 
 ```html
 <aegov-dropdown align="end" position="bottom">
-  <button type="button" class="flex items-center gap-2 rounded-full py-2 px-4 hover:bg-aeblack-100">
-    <aegov-avatar initials="FA" size="sm"></aegov-avatar>
-    <span class="font-medium">Fatima Al Hammadi</span>
-  </button>
+  <aegov-button appearance="soft">
+    <aegov-avatar src="https://i.pravatar.cc/150?img=47" alt="Fatima Al Hammadi" size="sm" appearance="rounded"></aegov-avatar>
+    Fatima Al Hammadi
+  </aegov-button>
   <div slot="dropdown-content">
     <a href="/profile">My profile</a>
     <a href="/applications">My applications</a>
@@ -271,10 +271,10 @@ A real-world example anchored to an avatar in the header. Use `align="end"` so t
 <div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <div class="flex justify-end">
     <aegov-dropdown align="end" position="bottom">
-      <button type="button" class="flex items-center gap-2 rounded-full py-2 px-4 hover:bg-aeblack-100">
-        <aegov-avatar initials="FA" size="sm"></aegov-avatar>
-        <span class="font-medium">Fatima Al Hammadi</span>
-      </button>
+      <aegov-button appearance="soft">
+        <aegov-avatar src="https://i.pravatar.cc/150?img=47" alt="Fatima Al Hammadi" size="sm" appearance="rounded"></aegov-avatar>
+        Fatima Al Hammadi
+      </aegov-button>
       <div slot="dropdown-content">
         <a href="/profile">My profile</a>
         <a href="/applications">My applications</a>
@@ -413,7 +413,7 @@ Call the public `toggle()` method on the host element to open or close the dropd
   </div>
 </aegov-dropdown>
 
-<button type="button" id="open-from-outside">Open ministry switcher</button>
+<aegov-button variant="secondary" id="open-from-outside">Open ministry switcher</aegov-button>
 
 <script>
   document.getElementById('open-from-outside').addEventListener('click', async () => {
@@ -572,9 +572,8 @@ The same dropdown with a hover trigger and nested submenu, in RTL:
 
 ### Built-in behaviour
 
-- The trigger wrapper exposes `aria-haspopup="true"` and `aria-expanded` reflecting the open state.
-- When open, the trigger gets `aria-controls` pointing at the menu's `id`.
-- The menu element has `role="menu"` and `aria-labelledby` linking back to the trigger id.
+- The first focusable element inside the trigger slot (e.g. `<aegov-button>`) automatically receives `aria-haspopup="menu"`, `aria-expanded`, and `aria-controls` (pointing at the menu's `id` when open). These attributes are set imperatively so they live on the element AT actually reads, not the wrapper div.
+- The menu element has `role="menu"` and `aria-labelledby` linking back to the trigger wrapper's `id`.
 - Focusable children inside the menu without an explicit `role` automatically receive `role="menuitem"`.
 - `Escape` closes the dropdown; `Tab` and `Arrow Up` / `Arrow Down` cycle focus through menu items.
 - Keyboard-triggered opens (`Enter`/`Space` on the focused trigger) move focus into the menu; pointer opens leave focus on the trigger, matching the WAI-ARIA menu pattern.

@@ -397,6 +397,7 @@ The component does not expose slots — content is configured via properties.
 | ------------------ | ------------------------------------------------------------------- | ---------------------------------------------------------------------------- |
 | `aegovRangeInput`  | `{ value?: number; valueLow?: number; valueHigh?: number }`         | Fires continuously while a thumb is being dragged or a key changes the value.|
 | `aegovRangeChange` | `{ value?: number; valueLow?: number; valueHigh?: number }`         | Fires once when the value is committed (mouse-up, touch-end, or keypress).   |
+| `aegovValidate`    | `AegovValidationDetail<number \| { low: number; high: number }>`    | Unified validation event. Fires on blur, input, change, and `validate()`.    |
 
 The detail object contains `value` in single mode, or `valueLow` and `valueHigh` in range mode.
 
@@ -488,7 +489,9 @@ See [BYO Validator](validation-byo.html) for more patterns.
 
 - The component uses one or two real `<input type="range">` elements, so screen readers, the OS rotor, and assistive tech all treat it as a native slider.
 - `aria-valuemin`, `aria-valuemax`, and `aria-valuenow` are kept in sync as the user drags. In dual-thumb mode the low thumb's `aria-valuemax` clamps to the high thumb's value, and vice-versa, so each handle reports its own permitted range.
-- Each thumb in range mode is given an explicit `aria-label` ("Range minimum" / "Range maximum") so they are distinguishable when traversed by keyboard.
+- When the `label` prop is used in single mode, the label is rendered as a `<label>` element with `for` pointing to the underlying `<input>`, so assistive technology announces it on focus. In range mode the label is rendered as a `<span>` with an `id`, and each thumb's `aria-label` incorporates the field label for full context — e.g. "Age of dependants — Range minimum".
+- Each thumb in range mode receives a bilingual `aria-label` that includes the field label and the thumb role ("Range minimum" / "Range maximum" in English; "الحد الأدنى للنطاق" / "الحد الأقصى للنطاق" in Arabic). No developer translation is needed.
+- Both thumbs in range mode have `aria-invalid` and `aria-describedby` kept in sync with the validation state, and both trigger the blur-gated error announcement independently.
 - Pointer events are translated to value updates that respect the configured `step`, so all input methods snap to the same grid.
 
 ### Developer responsibilities

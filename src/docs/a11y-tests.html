@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Datepicker A11y Test Bed</title>
+  <script type="module" src="/build/aegov.esm.js"></script>
+  <script nomodule src="/build/aegov.js"></script>
+  <link rel="stylesheet" href="/build/aegov.css">
+  <style>body { padding: 40px; font-family: sans-serif; } section { margin-bottom: 60px; }</style>
+</head>
+<body>
+<main>
+
+  <!-- single: default -->
+  <section>
+    <aegov-datepicker id="dp-single" placeholder="Pick a date" field-id="dp-single"></aegov-datepicker>
+  </section>
+
+  <!-- single: with value -->
+  <section>
+    <aegov-datepicker id="dp-single-value" value="2026-06-15" format="YYYY-MM-DD" field-id="dp-single-value"></aegov-datepicker>
+  </section>
+
+  <!-- single: invalid -->
+  <section>
+    <aegov-datepicker id="dp-invalid" is-invalid="true" error-message="Date is required" is-required="true" field-id="dp-invalid"></aegov-datepicker>
+  </section>
+
+  <!-- single: disabled -->
+  <section>
+    <aegov-datepicker id="dp-disabled" is-disabled="true" value="2026-05-01" format="DD MMM YYYY" field-id="dp-disabled"></aegov-datepicker>
+  </section>
+
+  <!-- single: custom format -->
+  <section>
+    <aegov-datepicker id="dp-format" format="DD MMM YYYY" placeholder="DD MMM YYYY" field-id="dp-format"></aegov-datepicker>
+  </section>
+
+  <!-- single: with min (blackout past) -->
+  <section>
+    <aegov-datepicker id="dp-min" min="2026-06-20" field-id="dp-min"></aegov-datepicker>
+  </section>
+
+  <!-- single: with blackout dates -->
+  <section>
+    <aegov-datepicker id="dp-blackout" value="2026-06-15" blackout="2026-06-16,2026-06-17" field-id="dp-blackout"></aegov-datepicker>
+  </section>
+
+  <!-- single: confirmation mode -->
+  <section>
+    <aegov-datepicker id="dp-confirm" is-with-confirmation="true" field-id="dp-confirm"></aegov-datepicker>
+  </section>
+
+  <!-- range: default -->
+  <section>
+    <aegov-datepicker id="dp-range" appearance="range" field-id="dp-range"></aegov-datepicker>
+  </section>
+
+  <!-- range: with value -->
+  <section>
+    <aegov-datepicker id="dp-range-value" appearance="range" value="2026-06-10 / 2026-06-20" field-id="dp-range-value"></aegov-datepicker>
+  </section>
+
+  <!-- range: with presets -->
+  <section>
+    <aegov-datepicker id="dp-presets" appearance="range" presets="today,last7Days,thisMonth,last30Days" field-id="dp-presets"></aegov-datepicker>
+  </section>
+
+  <!-- range: with min-range constraint -->
+  <section>
+    <aegov-datepicker id="dp-minrange" appearance="range" min-range="5" field-id="dp-minrange"></aegov-datepicker>
+  </section>
+
+  <!-- range: invalid -->
+  <section>
+    <aegov-datepicker id="dp-range-invalid" appearance="range" is-invalid="true" error-message="Date range required" field-id="dp-range-invalid"></aegov-datepicker>
+  </section>
+
+  <!-- range: confirmation mode -->
+  <section>
+    <aegov-datepicker id="dp-range-confirm" appearance="range" is-with-confirmation="true" field-id="dp-range-confirm"></aegov-datepicker>
+  </section>
+
+  <!-- variant: secondary -->
+  <section>
+    <aegov-datepicker id="dp-secondary" variant="secondary" field-id="dp-secondary"></aegov-datepicker>
+  </section>
+
+  <!-- variant: neutral-max -->
+  <section>
+    <aegov-datepicker id="dp-neutral-max" variant="neutral-max" field-id="dp-neutral-max"></aegov-datepicker>
+  </section>
+
+  <!-- RTL wrapper -->
+  <section dir="rtl">
+    <aegov-datepicker id="dp-rtl" placeholder="اختر التاريخ" field-id="dp-rtl"></aegov-datepicker>
+  </section>
+
+  <!-- adjacent focusable element for blur tests -->
+  <button id="other-btn" style="margin-top:20px">Other element</button>
+
+</main>
+</body>
+</html>

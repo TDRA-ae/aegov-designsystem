@@ -84,6 +84,12 @@ export class AegovNavblockItem {
   private subInnerEl?: HTMLElement;
   private resizeObserver?: ResizeObserver;
   private itemId!: string;
+  private _suppressRO = false;
+  private _suppressROTimer?: ReturnType<typeof setTimeout>;
+
+  connectedCallback() {
+    this.el.addEventListener('aegovNavblockItemToggle', this.handleChildToggle as EventListener);
+  }
 
   componentWillLoad() {
     this.itemId = generateId('aegov-navblock-item');
@@ -114,7 +120,7 @@ export class AegovNavblockItem {
 
     if (this.subInnerEl && typeof ResizeObserver !== 'undefined') {
       this.resizeObserver = new ResizeObserver(() => {
-        if (this.isOpen) this.updateContentHeight();
+        if (this.isOpen && !this._suppressRO) this.updateContentHeight();
       });
       this.resizeObserver.observe(this.subInnerEl);
     }
@@ -122,10 +128,17 @@ export class AegovNavblockItem {
 
   componentDidUpdate() {
     this.syncSubItems();
+    // Self-heal: if isOpen but height is 0 and the element now has real layout
+    // (e.g. the containing drawer just opened), update to the correct height.
+    if (this.isOpen && this.contentHeight === 0 && this.subInnerEl && this.subInnerEl.scrollHeight > 0) {
+      this.contentHeight = this.subInnerEl.scrollHeight;
+    }
   }
 
   disconnectedCallback() {
     this.resizeObserver?.disconnect();
+    clearTimeout(this._suppressROTimer);
+    this.el.removeEventListener('aegovNavblockItemToggle', this.handleChildToggle as EventListener);
   }
 
   @Watch('isOpen')
@@ -166,8 +179,83 @@ export class AegovNavblockItem {
 
   private updateContentHeight() {
     if (!this.subInnerEl) return;
-    this.contentHeight = this.isOpen ? this.subInnerEl.scrollHeight : 0;
+    if (this.isOpen) {
+      const h = this.subInnerEl.scrollHeight;
+      // Guard against scrollHeight=0 when element has no layout (e.g. inside a
+      // closed shadow-DOM drawer that renders null). Keep the last known height
+      // so the state stays consistent with isOpen=true.
+      if (h > 0) this.contentHeight = h;
+    } else {
+      this.contentHeight = 0;
+    }
   }
+
+  // When a descendant item toggles, update our height to the final target so
+  // the parent's wrapper expands concurrently with the child animation rather
+  // than chasing it frame-by-frame via ResizeObserver.
+  //
+  // Approach: one Promise.resolve microtask to let navblock process the event
+  // (it sets isOpen on the affected children synchronously). After that:
+  //  - isOpen is a @Prop and readable from outside the element.
+  //  - sub-wrapper.scrollHeight gives the FULL content height even when the
+  //    wrapper's CSS height is still "0px" (scrollHeight ignores overflow clips).
+  // We can therefore compute the exact final delta without Stencil having rendered.
+  // If delta === 0 (e.g. 3-level nesting where the direct child isn't the one
+  // toggling), we return early and let ResizeObserver handle the parent naturally.
+  private handleChildToggle = (event: CustomEvent<{ open: boolean }>) => {
+    if (event.target === this.el) return; // own toggle — let it bubble
+    if (!this.isOpen || !this.subInnerEl) return;
+
+    const directChildren = Array.from(
+      this.subInnerEl.querySelectorAll<HTMLAegovNavblockItemElement>(':scope > aegov-navblock-item'),
+    );
+    if (directChildren.length === 0) return;
+
+    // Snapshot current wrapper heights from inline styles (always in sync with
+    // contentHeight @State because Stencil sets them via style={{ height: '...' }}).
+    const prevWrapperH = directChildren.map(c => {
+      const w = c.querySelector<HTMLElement>('.aegov-navblock-item__sub-wrapper');
+      return w ? parseFloat(w.style.height) || 0 : 0;
+    });
+    const prevScrollH = this.subInnerEl.scrollHeight;
+
+    // One microtask — navblock has now set isOpen on all affected children.
+    Promise.resolve().then(() => {
+      if (!this.isOpen || !this.subInnerEl) return;
+
+      let delta = 0;
+      directChildren.forEach((c, i) => {
+        const w = c.querySelector<HTMLElement>('.aegov-navblock-item__sub-wrapper');
+        // isOpen is a @Prop so it's readable on the element even from outside.
+        // scrollHeight gives the full content depth regardless of the animated height.
+        const newH = c.isOpen && w ? w.scrollHeight : 0;
+        delta += newH - prevWrapperH[i];
+      });
+
+      // delta === 0 means none of our direct children changed (e.g. a grandchild
+      // toggled in a 3-level layout). Let ResizeObserver handle the expansion
+      // naturally in that case — no suppression needed.
+      if (delta === 0) return;
+
+      const targetH = prevScrollH + delta;
+      if (targetH <= 0) return;
+
+      this.contentHeight = targetH;
+      // Suppress ResizeObserver for the animation window (150 ms + small buffer)
+      // so intermediate scrollHeight values during CSS transitions don't overwrite
+      // the target we just set.
+      this._suppressRO = true;
+      clearTimeout(this._suppressROTimer);
+      this._suppressROTimer = setTimeout(() => {
+        this._suppressRO = false;
+        // Final sync after animation completes to correct any drift.
+        if (this.isOpen && this.subInnerEl) {
+          const h = this.subInnerEl.scrollHeight;
+          if (h > 0) this.contentHeight = h;
+        }
+      }, 160);
+    });
+  };
 
   private handleToggle = () => {
     if (this.isDisabled) return;

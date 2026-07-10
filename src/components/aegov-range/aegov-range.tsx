@@ -6,6 +6,7 @@ import type {
 } from '../../utils/types';
 import { getPassThroughAttributes } from '../../utils/attributes';
 import { generateId } from '../../utils/id-generator';
+import { isRtl } from '../../utils/rtl';
 import { warnIfInvalidEnumProp } from '../../utils/prop-validator';
 import { watchResponsiveProp } from '../../utils/responsive-prop';
 import type { ResponsivePropWatcher } from '../../utils/responsive-prop';
@@ -19,6 +20,17 @@ export type AegovRangeValue = number | { low: number; high: number };
 
 const TAG = 'aegov-range';
 const ctx = (prop: string) => ({ component: TAG, prop });
+
+const STRINGS = {
+  en: {
+    thumbMin: (label?: string) => label ? `${label} — Range minimum` : 'Range minimum',
+    thumbMax: (label?: string) => label ? `${label} — Range maximum` : 'Range maximum',
+  },
+  ar: {
+    thumbMin: (label?: string) => label ? `${label} — الحد الأدنى للنطاق` : 'الحد الأدنى للنطاق',
+    thumbMax: (label?: string) => label ? `${label} — الحد الأقصى للنطاق` : 'الحد الأقصى للنطاق',
+  },
+};
 
 @Component({
   tag: 'aegov-range',
@@ -109,6 +121,7 @@ export class AegovRange {
   private nativeRef?: HTMLInputElement;
   private errorId: string = '';
   private hintId: string = '';
+  private labelId: string = '';
 
   componentWillLoad() {
     this._sizeWatcher = watchResponsiveProp(this.size, RANGE_SIZES, 'base', v => {
@@ -124,6 +137,7 @@ export class AegovRange {
     }
     this.errorId = `${this.fieldId}-error`;
     this.hintId = `${this.fieldId}-hint`;
+    this.labelId = `${this.fieldId}-label`;
   }
 
   /** Imperatively re-run validation. */
@@ -444,6 +458,8 @@ export class AegovRange {
     const passThroughAttrs = getPassThroughAttributes(this.el, AegovRange.PASS_THROUGH_ATTRS);
     delete passThroughAttrs['aria-invalid'];
     delete passThroughAttrs['aria-describedby'];
+    const rtl = isRtl(this.el);
+    const t = rtl ? STRINGS.ar : STRINGS.en;
 
     const hasErrorSlot = !!this.el.querySelector('[slot="error"]');
     const hasHintSlot = !!this.el.querySelector('[slot="hint"]');
@@ -556,7 +572,7 @@ export class AegovRange {
                 aria-valuemin={this.min}
                 aria-valuemax={this.valueHigh}
                 aria-valuenow={this.valueLow}
-                aria-label="Range minimum"
+                aria-label={t.thumbMin(this.label)}
                 aria-orientation={orientation}
                 aria-invalid={ariaInvalidAttr}
                 aria-describedby={describedBy}
@@ -574,11 +590,14 @@ export class AegovRange {
                 disabled={this.isDisabled}
                 onInput={this.handleHighInput}
                 onChange={this.handleHighChange}
+                onBlur={this.handleInputBlur}
                 aria-valuemin={this.valueLow}
                 aria-valuemax={this.max}
                 aria-valuenow={this.valueHigh}
-                aria-label="Range maximum"
+                aria-label={t.thumbMax(this.label)}
                 aria-orientation={orientation}
+                aria-invalid={ariaInvalidAttr}
+                aria-describedby={describedBy}
                 {...(orientation === 'vertical' ? { orient: 'vertical' } : {})}
               />,
             ]}
@@ -610,7 +629,10 @@ export class AegovRange {
       return (
         <Host class={hostClass}>
           <div class="range__wrapper">
-            <span class="range__label-text">{this.label}</span>
+            {isRange
+              ? <span id={this.labelId} class="range__label-text">{this.label}</span>
+              : <label class="range__label-text" {...{ for: this.fieldId }}>{this.label}</label>
+            }
             {rangeContent}
           </div>
           {errorRegion}

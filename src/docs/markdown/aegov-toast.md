@@ -199,7 +199,7 @@ A toast renders three optional slots in addition to the default description text
         </svg>
         <span slot="title">Application moved to trash</span>
         You can restore it within 30 days.
-        <button slot="actions" type="button" style="background:transparent;border:0;font:inherit;color:#0066cc;cursor:pointer;padding:0;">Undo</button>
+        <aegov-button slot="actions" appearance="link">Undo</aegov-button>
       `;
       document.body.appendChild(toast);
       toast.show();
@@ -374,7 +374,7 @@ This example combines several features: a soft success toast with a title slot, 
         </svg>
         <span slot="title">Application submitted</span>
         Reference number <strong>APP-2026-00482</strong>. You will receive an SMS within 3 business days.
-        <button slot="actions" type="button" style="background:transparent;border:0;font:inherit;color:#0066cc;cursor:pointer;padding:0;font-weight:600;">View status</button>
+        <aegov-button slot="actions" appearance="link">View status</aegov-button>
       `;
       document.body.appendChild(toast);
       toast.show();
@@ -564,8 +564,9 @@ The toast does not forward attributes to inner elements — set attributes direc
 ### Built-in behaviour
 
 - A persistent off-screen live region (`role="status"`, `aria-live="polite"`, `aria-atomic="true"`) is created at the document level and reused across all toasts. When `show()` is called, the toast's text content is announced through it without re-mounting the live region (which would skip announcements in some screen readers).
-- The dismiss button has an `aria-label` that includes the variant, e.g. `"Close success notification"`.
-- Hovering the toast pauses both the auto-close timer and the progress bar; the timer resumes from the remaining time on leave.
+- The dismiss button has a bilingual `aria-label` that includes the variant — e.g. `"Close success notification"` in English and `"إغلاق إشعار نجاح"` in Arabic. No developer translation needed.
+- **Both hover and keyboard focus** pause the auto-close timer and progress bar: the timer pauses when the mouse enters or focus moves into the toast, and resumes when both leave. This ensures keyboard users have the same time extension as mouse users (SC 2.2.1).
+- In `rack` mode, the deck expands when hovered **or** when keyboard focus moves into any toast in the rack, ensuring keyboard users can access all stacked toasts. The deck collapses when both hover and focus leave.
 - Multiple toasts at the same position render in source order. In `rack` mode, older toasts are visually demoted via `opacity` and `transform` only — they are never removed from the DOM, so the live region announcement remains intact.
 - A 300 ms exit animation runs before `aegovToastClose` fires and the element is removed.
 

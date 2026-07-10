@@ -1,4 +1,4 @@
-import { Component, Host, h, Prop, State, Element, Watch } from '@stencil/core';
+import { Component, Host, h, Prop, State, Element, Watch, Listen } from '@stencil/core';
 import { AccordionIcon, ACCORDION_ICONS, AccordionSize, ACCORDION_SIZES } from '../../utils/types';
 import { warnIfInvalidEnumProp } from '../../utils/prop-validator';
 import { watchResponsiveProp } from '../../utils/responsive-prop';
@@ -54,6 +54,13 @@ export class AegovAccordion {
    * sm = 14px, base = 16px (default), lg = 18px
    */
   @Prop() size: string = 'base';
+
+  /**
+   * Heading level for accordion item triggers (1–6).
+   * Cascaded to all child aegov-accordion-item elements.
+   * @default 3
+   */
+  @Prop() headingLevel: number = 3;
   @State() private _resolvedSize: AccordionSize = 'base';
   private _sizeWatcher: ResponsivePropWatcher | null = null;
 
@@ -61,6 +68,19 @@ export class AegovAccordion {
     if (!this.fieldId) {
       this.fieldId = generateId('aegov-accordion');
     }
+
+    // Auto-increment heading level when nested inside an aegov-accordion-item,
+    // unless the author explicitly set heading-level on this element.
+    if (!this.el.hasAttribute('heading-level')) {
+      const parentItem = this.el.closest('aegov-accordion-item');
+      if (parentItem) {
+        const parentAccordion = parentItem.closest('aegov-accordion') as any;
+        if (parentAccordion) {
+          this.headingLevel = Math.min(6, (parentAccordion.headingLevel || 3) + 1);
+        }
+      }
+    }
+
     warnIfInvalidEnumProp(this.icon, ACCORDION_ICONS, 'chevron', ctx('icon'));
     this._sizeWatcher = watchResponsiveProp(this.size, ACCORDION_SIZES, 'base', v => {
       this._resolvedSize = v as AccordionSize;
@@ -122,9 +142,49 @@ export class AegovAccordion {
     this.cachedItems.forEach((item, index) => {
       item.icon = this.icon;
       item.size = this._resolvedSize;
+      item.headingLevel = this.headingLevel;
       item.isFirst = index === 0;
       item.isLast = index === this.cachedItems.length - 1;
     });
+  }
+
+  @Listen('keydown')
+  handleKeyDown(event: KeyboardEvent) {
+    const target = event.target as HTMLElement;
+    if (!target.classList.contains('accordion-item__header')) return;
+
+    // Scope check: only handle buttons that belong to THIS accordion, not a nested one.
+    // Without this, a button inside a child aegov-accordion would bubble up and be
+    // processed by BOTH the inner and outer accordion handlers, breaking navigation.
+    if (target.closest('aegov-accordion') !== this.el) return;
+
+    // Only include buttons belonging to this accordion's own items (not nested accordions).
+    const buttons = Array.from(
+      this.el.querySelectorAll<HTMLButtonElement>('button.accordion-item__header:not([disabled])'),
+    ).filter(btn => btn.closest('aegov-accordion') === this.el);
+
+    if (buttons.length === 0) return;
+
+    const currentIndex = buttons.indexOf(target as HTMLButtonElement);
+
+    switch (event.key) {
+      case 'ArrowDown':
+        event.preventDefault();
+        buttons[(currentIndex + 1) % buttons.length].focus();
+        break;
+      case 'ArrowUp':
+        event.preventDefault();
+        buttons[(currentIndex - 1 + buttons.length) % buttons.length].focus();
+        break;
+      case 'Home':
+        event.preventDefault();
+        buttons[0].focus();
+        break;
+      case 'End':
+        event.preventDefault();
+        buttons[buttons.length - 1].focus();
+        break;
+    }
   }
 
   private removeEventListeners() {

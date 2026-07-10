@@ -565,22 +565,24 @@ The accordion does not forward any attributes to inner elements — set attribut
 - Each trigger is a real `<button>` with `aria-expanded` reflecting the open state and `aria-controls` linked to its panel.
 - Each panel uses `role="region"` and `aria-labelledby` pointing at its trigger so screen readers announce the heading–content relationship.
 - `Enter` and `Space` toggle the focused item.
-- Disabled items set the native `disabled` attribute and do not emit toggle events.
+- Arrow-key navigation (`ArrowUp` / `ArrowDown` / `Home` / `End`) moves focus between item triggers, matching the [WAI-ARIA Accordion pattern](https://www.w3.org/WAI/ARIA/apg/patterns/accordion/).
+- Collapsed panels have the HTML `inert` attribute applied to their content wrapper. This removes all child elements — buttons, links, inputs — from both the keyboard tab sequence and the accessibility tree simultaneously, so there is no focus leakage into hidden content.
+- Disabled items set the native `disabled` attribute on the trigger and do not emit toggle events.
 
 ### Developer responsibilities
 
-- Provide a meaningful `heading` (or heading slot) on every item — without it the trigger reads as just &ldquo;button&rdquo;.
-- Avoid placing focusable controls inside collapsed panels that should remain off the tab order. Either disable the item or remove the controls when collapsed.
+- Provide a meaningful `heading` (or heading slot) on every item — without it the trigger announces as just "button".
+- Focusable controls nested inside a collapsed panel are automatically excluded from the tab order via `inert`. You do not need to manually disable or hide them.
 - When using `default-open`, ensure the index points to a real child item.
 
 ### Keyboard support
 
-| Key              | Action                                          |
-| ---------------- | ----------------------------------------------- |
-| `Enter`, `Space` | Toggle the focused accordion item.              |
-| `Tab`            | Move focus to the next focusable element.       |
-| `Shift + Tab`    | Move focus to the previous focusable element.   |
-
-### Known gaps
-
-The component does not currently provide arrow-key navigation between item triggers (`ArrowUp` / `ArrowDown` / `Home` / `End` per the WAI-ARIA accordion pattern). Users move between triggers with `Tab`. If full WAI-ARIA keyboard support is required for your context, treat this as a known gap and plan accordingly.
+| Key              | Action                                                   |
+| ---------------- | -------------------------------------------------------- |
+| `Enter`, `Space` | Toggle the focused accordion item.                       |
+| `ArrowDown`      | Move focus to the next accordion trigger.                |
+| `ArrowUp`        | Move focus to the previous accordion trigger.            |
+| `Home`           | Move focus to the first accordion trigger.               |
+| `End`            | Move focus to the last accordion trigger.                |
+| `Tab`            | Move focus to the next focusable element on the page.    |
+| `Shift + Tab`    | Move focus to the previous focusable element on the page.|

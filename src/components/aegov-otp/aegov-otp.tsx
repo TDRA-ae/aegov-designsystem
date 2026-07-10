@@ -8,6 +8,7 @@ import type {
   AegovValidityState,
 } from '../../utils/types';
 import { getPassThroughAttributes } from '../../utils/attributes';
+import { isRtl } from '../../utils/rtl';
 import { generateId } from '../../utils/id-generator';
 import { warnIfInvalidEnumProp } from '../../utils/prop-validator';
 import {
@@ -381,8 +382,10 @@ export class AegovOtp {
     (e.target as HTMLInputElement).select();
   };
 
-  /** Blur on the entire OTP group (any cell) — gates aria-live. */
-  private handleBlurGroup = () => {
+  /** Blur on the entire OTP group — gates aria-live. Only fires when focus leaves the group entirely. */
+  private handleBlurGroup = (e: FocusEvent) => {
+    // If focus is moving to another cell within this component, skip
+    if (this.el.contains(e.relatedTarget as Node)) return;
     this.hasBlurredOnce = true;
     this.runAndEmitValidation('blur');
   };
@@ -392,6 +395,7 @@ export class AegovOtp {
     delete passThroughAttrs['aria-invalid'];
     delete passThroughAttrs['aria-describedby'];
 
+    const rtl = isRtl(this.el);
     const variant: FormVariant = (FORM_VARIANTS as readonly string[]).includes(this.variant) ? this.variant : 'primary';
     const wrapperClasses = ['aegov-otp', `otp-variant-${variant}`, this.extraClass || ''].filter(Boolean).join(' ');
     const cells = Array.from({ length: this.length }, (_, i) => i);
@@ -433,7 +437,6 @@ export class AegovOtp {
             class={`otp__wrapper otp__wrapper--${appearance}`}
             role="group"
             aria-invalid={this.isInvalid ? 'true' : null}
-            aria-describedby={describedBy}
             onFocusout={this.handleBlurGroup}
             {...passThroughAttrs}
           >
@@ -446,7 +449,12 @@ export class AegovOtp {
                 inputMode={this.isAlphanumeric ? 'text' : 'numeric'}
                 disabled={this.isDisabled}
                 autocomplete={index === 0 ? 'one-time-code' : 'off'}
-                aria-label={`Character ${index + 1} of ${this.length}`}
+                aria-label={rtl
+                  ? `حرف ${index + 1} من ${this.length}`
+                  : `Character ${index + 1} of ${this.length}`}
+                aria-invalid={this.isInvalid ? 'true' : undefined}
+                aria-required={index === 0 && this.isRequired ? 'true' : undefined}
+                aria-describedby={index === 0 ? describedBy : undefined}
                 onInput={(e) => this.handleInput(index, e)}
                 onKeyDown={(e) => this.handleKeyDown(index, e)}
                 onPaste={(e: any) => this.handlePaste(index, e)}
