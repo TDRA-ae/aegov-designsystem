@@ -263,13 +263,15 @@
 <h3>Built-in behaviour</h3>
 <ul>
 <li>Renders the native semantic <code>&lt;blockquote&gt;</code> element so assistive technology recognises the quoted content as a distinct structural region.</li>
-<li>When <code>cite</code> is supplied, the native <code>cite</code> attribute is reflected onto the underlying element, giving AT a programmatic source URL.</li>
-<li>The decorative quote-mark icon is rendered as inline SVG with no role or text alternative, so it produces no extra screen-reader noise.</li>
+<li>When <code>cite</code> is supplied, the native <code>cite</code> attribute is set on the underlying <code>&lt;blockquote&gt;</code> element. This is a machine-readable URL for the source document — it is not announced by most screen readers, but it is available to tools that inspect the DOM.</li>
+<li>Author attribution is wrapped in a <code>&lt;footer&gt;</code> element (the HTML spec&#39;s recommended pattern for in-blockquote attribution), and the author name is wrapped in a <code>&lt;cite&gt;</code> element, conveying the structural relationship programmatically (WCAG SC 1.3.1).</li>
+<li>The decorative quote-mark SVG has <code>aria-hidden=&quot;true&quot;</code> so assistive technology skips it.</li>
 <li>Pass-through attributes (including <code>aria-*</code> and <code>data-*</code>) are forwarded to the inner <code>&lt;blockquote&gt;</code> element.</li>
 </ul>
 <h3>Developer responsibilities</h3>
 <ul>
-<li>Provide either <code>cite</code> (URL) or <code>author</code> / <code>author-title</code> so the source of the quote is discoverable by users and by assistive technology.</li>
+<li>Provide either <code>cite</code> (a URL) or <code>author</code> / <code>author-title</code> so the source of the quote is discoverable by users and by assistive technology.</li>
+<li>The <code>cite</code> attribute accepts a URL only — do not pass a person&#39;s name to <code>cite</code>. Use the <code>author</code> prop for the person&#39;s name.</li>
 <li>Keep the quoted text faithful to the source. If the quote spans multiple paragraphs, wrap each in a <code>&lt;p&gt;</code> tag inside the slot.</li>
 <li>For long quotes, ensure the surrounding context introduces who is being quoted and why — the blockquote itself does not provide a heading.</li>
 </ul>

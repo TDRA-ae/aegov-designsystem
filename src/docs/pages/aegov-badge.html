@@ -528,17 +528,19 @@
 <h2>Accessibility</h2>
 <h3>Built-in behaviour</h3>
 <ul>
-<li>The dismiss button is a real <code>&lt;button type=&quot;button&quot;&gt;</code> and is reachable with the keyboard.</li>
-<li>The dismiss button has <code>aria-label=&quot;Badge dismiss button&quot;</code> so screen reader users know its purpose.</li>
-<li>The dismiss SVG is marked <code>aria-hidden=&quot;true&quot;</code>.</li>
+<li>The dismiss button is a real <code>&lt;button type=&quot;button&quot;&gt;</code> and is fully keyboard accessible.</li>
+<li>The dismiss button <code>aria-label</code> is <strong>context-aware</strong>: it automatically includes the badge text, so screen reader users hear <code>&quot;Dismiss Error&quot;</code>, <code>&quot;Dismiss Approved&quot;</code>, etc. rather than a generic label. When the badge has no text content it falls back to <code>&quot;Dismiss badge&quot;</code> (<code>&quot;إغلاق الشارة&quot;</code> in RTL).</li>
+<li>The dismiss button has a minimum touch target of <strong>24 × 24 CSS px</strong> on all sizes (sm, base, lg), satisfying WCAG SC 2.5.8.</li>
+<li>The dismiss SVG icon is marked <code>aria-hidden=&quot;true&quot;</code> — all meaning is carried by the button&#39;s <code>aria-label</code>.</li>
 <li>The dismiss-click handler calls <code>event.stopPropagation()</code>, so a parent click handler does not also fire when the badge is dismissed.</li>
 </ul>
 <h3>Developer responsibilities</h3>
 <ul>
 <li>Provide meaningful text inside the badge — colour alone is not sufficient to convey status. Pair colour with explicit words such as &quot;Active&quot;, &quot;Pending&quot;, or &quot;Suspended&quot;.</li>
 <li>For badges acting as numerical counters (e.g. unread messages), set a more descriptive <code>aria-label</code> on the host so the count is announced in context: <code>&lt;aegov-badge aria-label=&quot;3 unread messages&quot;&gt;3&lt;/aegov-badge&gt;</code>.</li>
-<li>If the badge represents a value that changes over time, consider wrapping it (or its surrounding container) in an <code>aria-live=&quot;polite&quot;</code> region.</li>
-<li>Removing the badge from the DOM after dismiss is the consumer&#39;s responsibility — the component does not auto-remove itself.</li>
+<li>If the badge represents a value that changes over time, consider wrapping it (or its surrounding container) in an <code>aria-live=&quot;polite&quot;</code> region so assistive technology announces the update.</li>
+<li>Removing the badge from the DOM after dismiss is the consumer&#39;s responsibility — the component emits <code>aegovBadgeDismiss</code> but does not auto-remove itself.</li>
+<li>Mark decorative inline icons with <code>aria-hidden=&quot;true&quot;</code> — the badge text is the sole accessible label.</li>
 </ul>
 <h3>Keyboard support</h3>
 <table>

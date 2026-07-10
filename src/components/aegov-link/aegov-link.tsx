@@ -253,6 +253,7 @@ export class AegovLink {
           rel={this.isDisabled ? undefined : (this.rel || (this.target === '_blank' ? 'noopener noreferrer' : undefined))}
           class={this.getLinkClasses()}
           onClick={this.handleClick}
+          role={this.isDisabled ? 'link' : undefined}
           aria-disabled={this.isDisabled ? 'true' : undefined}
           tabindex={this.isDisabled ? -1 : undefined}
           {...passThroughAttrs}

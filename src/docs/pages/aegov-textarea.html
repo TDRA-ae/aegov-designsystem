@@ -546,8 +546,8 @@
 <li>Renders a real <code>&lt;textarea&gt;</code> element, preserving native semantics, keyboard handling, autofill, and assistive-technology behaviour.</li>
 <li><code>field-id</code> is auto-generated and reflected to the host so external <code>&lt;label for&gt;</code> (or <code>aegov-label</code>) can associate reliably.</li>
 <li><code>is-required</code> sets the native <code>required</code> attribute, exposing the requirement to assistive tech automatically.</li>
-<li>When <code>maxlength</code> is set, the live character counter is announced via <code>aria-live=&quot;polite&quot;</code> and linked to the textarea with <code>aria-describedby</code>.</li>
-<li>The copy button has a descriptive <code>aria-label</code> (<code>&quot;Copy to clipboard&quot;</code> / <code>&quot;Copied&quot;</code>) and <code>tabindex=&quot;-1&quot;</code> so it doesn&#39;t disrupt the natural tab flow.</li>
+<li>When <code>maxlength</code> is set, the native <code>maxlength</code> attribute is applied to the textarea (enforcing the hard limit and allowing AT to announce it in forms mode), and a live character counter is announced via <code>aria-live=&quot;polite&quot;</code> and linked to the textarea with <code>aria-describedby</code>.</li>
+<li>The copy button (<code>is-copyable</code>) is keyboard-accessible; <code>Tab</code> moves focus to it after the textarea. Its <code>aria-label</code> is bilingual — <code>&quot;Copy to clipboard&quot;</code> / <code>&quot;نسخ إلى الحافظة&quot;</code> and <code>&quot;Copied&quot;</code> / <code>&quot;تم النسخ&quot;</code> — no developer translation needed.</li>
 <li>When wrapped in <code>aegov-form-field</code>, helper and error text are wired up via <code>aria-describedby</code> automatically.</li>
 </ul>
 <h3>Developer responsibilities</h3>
@@ -566,11 +566,15 @@
 </thead>
 <tbody><tr>
 <td><code>Tab</code></td>
-<td>Move focus to the textarea, or away from it once focused.</td>
+<td>Move focus to the textarea; when the copy button is present, one more <code>Tab</code> reaches it.</td>
 </tr>
 <tr>
 <td><code>Shift + Tab</code></td>
 <td>Move focus to the previous focusable element.</td>
+</tr>
+<tr>
+<td><code>Enter</code> (on copy btn)</td>
+<td>Copy the textarea value to the clipboard.</td>
 </tr>
 <tr>
 <td><code>Enter</code></td>

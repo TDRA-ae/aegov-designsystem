@@ -21,6 +21,7 @@ const STRINGS = {
     goToLast: 'Go to last page',
     currentPage: (p: number) => `Page ${p}, current page`,
     goToPage: (p: number) => `Go to page ${p}`,
+    compactIndicator: (p: number, total: number) => `Page ${p} of ${total}`,
   },
   ar: {
     prev: 'السابق',
@@ -34,6 +35,7 @@ const STRINGS = {
     goToLast: 'الانتقال إلى الصفحة الأخيرة',
     currentPage: (p: number) => `الصفحة ${p}، الصفحة الحالية`,
     goToPage: (p: number) => `الانتقال إلى الصفحة ${p}`,
+    compactIndicator: (p: number, total: number) => `الصفحة ${p} من ${total}`,
   },
 };
 
@@ -310,7 +312,12 @@ export class AegovPagination {
           {/* Compact: page indicator text */}
           {isCompact && (
             <li class="pagination__item">
-              <span class="pagination__compact-indicator" aria-live="polite" aria-atomic="true">
+              <span
+                class="pagination__compact-indicator"
+                aria-live="polite"
+                aria-atomic="true"
+                aria-label={t.compactIndicator(this.pageCurrent, this.pages)}
+              >
                 {this.pageCurrent} / {this.pages}
               </span>
             </li>

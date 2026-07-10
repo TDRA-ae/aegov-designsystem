@@ -4,6 +4,7 @@ import type { NavbarSize, LinkTarget } from '../../utils/types';
 import { watchResponsiveProp } from '../../utils/responsive-prop';
 import type { ResponsivePropWatcher } from '../../utils/responsive-prop';
 import { getPassThroughAttributes } from '../../utils/attributes';
+import { isRtl } from '../../utils/rtl';
 
 const CHEVRON_SVG = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" aria-hidden="true" focusable="false"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="20" d="m48 96 80 80 80-80"/></svg>`;
 
@@ -184,7 +185,9 @@ export class AegovNavbarItem {
     const chevron = document.createElement('button');
     chevron.type = 'button';
     chevron.className = 'aegov-navbar-item__chevron';
-    chevron.setAttribute('aria-label', `Open ${labelText} submenu`);
+    const rtl = isRtl(this.el);
+    const chevronLabel = rtl ? `فتح القائمة الفرعية ${labelText}` : `Open ${labelText} submenu`;
+    chevron.setAttribute('aria-label', chevronLabel);
     chevron.innerHTML = CHEVRON_SVG;
     chevron.addEventListener('keydown', this.handleChevronKeydown);
     chevron.addEventListener('click', this.handleChevronClick);

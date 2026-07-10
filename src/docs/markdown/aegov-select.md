@@ -695,9 +695,11 @@ See [BYO Validator](validation-byo.html) for more patterns.
 ### Built-in behaviour
 
 - The default appearance renders a real `<select>`, so it inherits all native accessibility — keyboard support, type-ahead, OS-level mobile pickers, and screen reader announcements.
-- The listbox appearance uses the WAI-ARIA combobox pattern: the trigger has `role="combobox"`, `aria-haspopup="listbox"`, `aria-expanded`, and `aria-controls` pointing at the panel; the panel has `role="listbox"`; each option has `role="option"` and `aria-selected`; and `aria-activedescendant` tracks the focused option as the user types.
+- The listbox appearance uses the WAI-ARIA combobox pattern: the trigger has `role="combobox"`, `aria-haspopup="listbox"`, `aria-expanded`, `aria-controls` pointing at the panel, and `aria-required` when `is-required` is set; the panel has `role="listbox"`; each option has `role="option"` and `aria-selected`; and `aria-activedescendant` tracks the focused option as the user types.
 - Grouped options use `role="group"` and `aria-labelledby` to associate the group header with its members.
-- The search input declares `role="searchbox"` and links to the listbox with `aria-controls`.
+- The search input declares `role="searchbox"` and links to the listbox with `aria-controls`. Its `aria-label` and placeholder are bilingual (English and Arabic) — no developer translation needed.
+- The clear button's `aria-label` is bilingual. No developer translation needed.
+- Error messages are announced via `aria-live="polite"` only after the first genuine blur (when focus leaves the component entirely, not when it moves to the internal search input or listbox options). This avoids premature error announcements while the user is still selecting.
 - Disabled options are skipped during keyboard navigation and announce as disabled.
 
 ### Developer responsibilities

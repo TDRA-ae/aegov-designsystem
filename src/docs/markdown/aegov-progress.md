@@ -316,7 +316,8 @@ An indeterminate bar in RTL:
 - A hidden native `<progress>` element with the same `value` / `max` is always rendered, providing semantic progress reporting to assistive technologies.
 - The visual track is marked `aria-hidden="true"` so screen readers don't announce the duplicate visual.
 - When `value` is omitted, the native `<progress>` is rendered without a `value` attribute, putting it into the indeterminate state.
-- The hidden `<progress>` accepts pass-through `aria-*` attributes, so you can add `aria-label`, `aria-labelledby`, or `aria-describedby` directly on the host.
+- When the `description` prop is set, the description `<p>` receives an auto-generated `id` and is linked to the native `<progress>` via `aria-describedby`. Assistive technology announces the description when the user navigates to the progress bar.
+- The hidden `<progress>` accepts pass-through `aria-*` attributes, so you can add `aria-label`, `aria-labelledby`, or `aria-describedby` directly on the host. A developer-supplied `aria-describedby` is composed with the internal description ID — both are announced.
 
 ### Developer responsibilities
 

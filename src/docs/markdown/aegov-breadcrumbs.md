@@ -338,19 +338,19 @@ The same trail with the slash separator and a deeper service hierarchy:
 
 ### Built-in behaviour
 
-- The wrapper renders as a `<nav>` landmark with `aria-label="Breadcrumb"` so assistive tech can list it among site landmarks.
-- Items are wrapped in an ordered list (`<ol>`) so screen readers announce position information ("3 of 4").
-- The last item is marked with `aria-current="page"` when it has no `href`.
-- Separators are decorative — both the slash text and chevron SVG are `aria-hidden="true"` so screen readers do not announce them.
+- The wrapper renders as a `<nav>` landmark with `aria-label="Breadcrumb"` (English) or `aria-label="مسار التنقل"` (Arabic, auto-detected via `dir="rtl"` on any ancestor). Consumers can still override with their own `aria-label` on the `<aegov-breadcrumbs>` host.
+- Items are wrapped in an ordered list (`<ol>`) so screen readers announce position information ("2 of 3").
+- The last item (no `href`) is marked with `aria-current="page"` so assistive technology announces it as the current location.
+- Separators (slash and chevron) are `aria-hidden="true"` — screen readers skip them entirely.
 - Linked items render as native `<a>` elements with full keyboard, middle-click, and context-menu support.
 
 ### Developer responsibilities
 
-- Always omit `href` on the last item so it is announced as the current page.
-- Keep labels concise — long category names can wrap on narrow viewports. Set `max-length` if you cannot shorten the source text.
-- When using `target="_blank"`, also set `rel="noopener"` for security and consider adding a `title` so the user knows the link will open a new tab.
+- Always omit `href` on the last item — this is what triggers `aria-current="page"` and removes the link affordance on the current page.
+- Keep labels concise — long category names can wrap on narrow viewports. Use `max-length` if you cannot shorten the source text.
+- When using `target="_blank"`, also set `rel="noopener"` for security and provide a visible cue (e.g. an icon or parenthetical text) so users know the link opens a new tab before they activate it.
 - Do not nest interactive elements other than the link inside an item.
-- Throwing a runtime error: `aegov-breadcrumbs-item` cannot be used standalone — always wrap it in `aegov-breadcrumbs`.
+- `aegov-breadcrumbs-item` throws a runtime error if used outside `aegov-breadcrumbs` — always use the pair together.
 
 ### Keyboard support
 

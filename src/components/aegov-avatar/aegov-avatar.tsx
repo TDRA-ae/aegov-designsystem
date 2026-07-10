@@ -8,9 +8,23 @@ import { getPassThroughAttributes } from '../../utils/attributes';
 import { generateId } from '../../utils/id-generator';
 import { isRtl } from '../../utils/rtl';
 
+const STATUS_AR: Record<string, string> = {
+  online: 'متصل',
+  offline: 'غير متصل',
+  away: 'بعيد',
+  unavailable: 'غير متاح',
+  busy: 'مشغول',
+};
+
 const STRINGS = {
-  en: { userAvatar: 'User avatar' },
-  ar: { userAvatar: 'الصورة الرمزية للمستخدم' },
+  en: {
+    userAvatar: 'User avatar',
+    status: (s: string) => `status: ${s}`,
+  },
+  ar: {
+    userAvatar: 'الصورة الرمزية للمستخدم',
+    status: (s: string) => `الحالة: ${STATUS_AR[s] || s}`,
+  },
 };
 
 const TAG = 'aegov-avatar';
@@ -32,7 +46,7 @@ export class AegovAvatar {
 
   /** Native img attributes to pass through to the inner img element. */
   private static readonly PASS_THROUGH_ATTRS = new Set([
-    'loading', 'crossorigin', 'referrerpolicy', 'srcset', 'alt', 'src',
+    'loading', 'crossorigin', 'referrerpolicy', 'srcset',
   ]);
 
   /** Unique ID for the inner avatar element. Auto-generated if not provided. */
@@ -139,6 +153,8 @@ export class AegovAvatar {
     // No user class (when no image is available)
     if (!this.src || this.imageError) {
       classes.push('no-user');
+    } else {
+      classes.push('avatar--has-image');
     }
 
     return classes.join(' ');
@@ -165,6 +181,12 @@ export class AegovAvatar {
   render() {
     const showImage = this.src && !this.imageError;
     const passThroughAttributes = getPassThroughAttributes(this.el, AegovAvatar.PASS_THROUGH_ATTRS);
+    const effectiveStatus = this.getEffectiveStatus();
+    const strings = isRtl(this.el) ? STRINGS.ar : STRINGS.en;
+    const baseLabel = this.alt || strings.userAvatar;
+    const ariaLabel = effectiveStatus
+      ? `${baseLabel}, ${strings.status(effectiveStatus)}`
+      : baseLabel;
 
     return (
       <Host>
@@ -173,14 +195,15 @@ export class AegovAvatar {
           part="avatar"
           class={this.getAvatarClasses()}
           role="img"
-          aria-label={this.alt || (isRtl(this.el) ? STRINGS.ar.userAvatar : STRINGS.en.userAvatar)}
+          aria-label={ariaLabel}
         >
           {showImage ? (
             <img
               part="image"
               {...passThroughAttributes}
               src={this.src}
-              alt={this.alt || ''}
+              alt=""
+              aria-hidden="true"
               onError={this.handleImageError}
               class="avatar-image"
             />
@@ -192,6 +215,7 @@ export class AegovAvatar {
                   fill="currentColor"
                   viewBox="0 0 20 20"
                   xmlns="http://www.w3.org/2000/svg"
+                  aria-hidden="true"
                 >
                   <path
                     fill-rule="evenodd"
@@ -203,16 +227,13 @@ export class AegovAvatar {
             </div>
           )}
 
-          {(() => {
-            const effectiveStatus = this.getEffectiveStatus();
-            return effectiveStatus && (
-              <span
-                part="status"
-                class={this.getStatusClasses(effectiveStatus)}
-                aria-label={`Status: ${effectiveStatus}`}
-              ></span>
-            );
-          })()}
+          {effectiveStatus && (
+            <span
+              part="status"
+              class={this.getStatusClasses(effectiveStatus)}
+              aria-hidden="true"
+            ></span>
+          )}
         </div>
       </Host>
     );

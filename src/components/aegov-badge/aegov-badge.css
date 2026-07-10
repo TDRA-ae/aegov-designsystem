@@ -134,31 +134,31 @@
       }
     }
     &.badge-primary {
-      @apply bg-primary-700 text-primary-50 dark:bg-primary-500 dark:text-primary-50;
+      @apply bg-primary-700 text-primary-50 dark:bg-primary-700 dark:text-primary-50;
       & .badge-dismiss {
         @apply focus-visible:outline-primary-50;
       }
     }
     &.badge-secondary {
-      @apply bg-secondary-700 text-secondary-50 dark:bg-secondary-500 dark:text-secondary-50;
+      @apply bg-secondary-700 text-secondary-50 dark:bg-secondary-700 dark:text-secondary-50;
       & .badge-dismiss {
         @apply focus-visible:outline-secondary-50;
       }
     }
     &.badge-aegold {
-      @apply bg-aegold-700 text-aegold-50 dark:bg-aegold-500 dark:text-aegold-50;
+      @apply bg-aegold-700 text-aegold-50 dark:bg-aegold-700 dark:text-aegold-50;
       & .badge-dismiss {
         @apply focus-visible:outline-aegold-50;
       }
     }
     &.badge-aered {
-      @apply bg-aered-700 text-aered-50 dark:bg-aered-500 dark:text-aered-50;
+      @apply bg-aered-700 text-aered-50 dark:bg-aered-700 dark:text-aered-50;
       & .badge-dismiss {
         @apply focus-visible:outline-aered-50;
       }
     }
     &.badge-aegreen {
-      @apply bg-aegreen-700 text-aegreen-50 dark:bg-aegreen-500 dark:text-aegreen-50;
+      @apply bg-aegreen-700 text-aegreen-50 dark:bg-aegreen-700 dark:text-aegreen-50;
       & .badge-dismiss {
         @apply focus-visible:outline-aegreen-50;
       }
@@ -170,31 +170,31 @@
       }
     }
     &.badge-techblue {
-      @apply bg-techblue-700 text-techblue-50 dark:bg-techblue-500 dark:text-techblue-50;
+      @apply bg-techblue-700 text-techblue-50 dark:bg-techblue-600 dark:text-techblue-50;
       & .badge-dismiss {
         @apply focus-visible:outline-techblue-50;
       }
     }
     &.badge-seablue {
-      @apply bg-seablue-600 text-seablue-50 dark:bg-seablue-500 dark:text-seablue-50;
+      @apply bg-seablue-700 text-seablue-50 dark:bg-seablue-700 dark:text-seablue-50;
       & .badge-dismiss {
         @apply focus-visible:outline-seablue-50;
       }
     }
     &.badge-camel {
-      @apply bg-camel-600 text-camel-50 dark:bg-camel-500 dark:text-camel-50;
+      @apply bg-camel-700 text-camel-50 dark:bg-camel-700 dark:text-camel-50;
       & .badge-dismiss {
         @apply focus-visible:outline-camel-50;
       }
     }
     &.badge-desert {
-      @apply bg-desert-500 text-desert-50 dark:bg-desert-400 dark:text-desert-950;
+      @apply bg-desert-700 text-desert-50 dark:bg-desert-400 dark:text-desert-950;
       & .badge-dismiss {
         @apply focus-visible:outline-desert-50;
       }
     }
     &.badge-fuchsia {
-      @apply bg-fuchsia-600 text-fuchsia-50 dark:bg-fuchsia-500 dark:text-fuchsia-50;
+      @apply bg-fuchsia-700 text-fuchsia-50 dark:bg-fuchsia-700 dark:text-fuchsia-50;
       & .badge-dismiss {
         @apply focus-visible:outline-fuchsia-50;
       }
@@ -206,25 +206,25 @@
       }
     }
     &.badge-purple {
-      @apply bg-purple-500 text-purple-50 dark:bg-purple-400 dark:text-purple-950;
+      @apply bg-purple-600 text-purple-50 dark:bg-purple-400 dark:text-purple-950;
       & .badge-dismiss {
         @apply focus-visible:outline-purple-50;
       }
     }
     &.badge-pink {
-      @apply bg-pink-500 text-pink-50 dark:bg-pink-400 dark:text-pink-950;
+      @apply bg-pink-700 text-pink-50 dark:bg-pink-400 dark:text-pink-950;
       & .badge-dismiss {
         @apply focus-visible:outline-pink-50;
       }
     }
     &.badge-indigo {
-      @apply bg-indigo-500 text-indigo-50 dark:bg-indigo-400 dark:text-indigo-950;
+      @apply bg-indigo-600 text-indigo-50 dark:bg-indigo-400 dark:text-indigo-950;
       & .badge-dismiss {
         @apply focus-visible:outline-indigo-50;
       }
     }
     &.badge-lime {
-      @apply bg-lime-600 text-lime-50 dark:bg-lime-500 dark:text-lime-50;
+      @apply bg-lime-700 text-lime-50 dark:bg-lime-700 dark:text-lime-50;
       & .badge-dismiss {
         @apply focus-visible:outline-lime-50;
       }
@@ -234,7 +234,7 @@
 
 /* Dismiss button */
 .badge-dismiss {
-  @apply ml-1.5 rtl:ml-0 rtl:mr-1.5 inline-flex items-center justify-between p-0 bg-transparent border-0 h-auto w-auto shrink-0 cursor-pointer opacity-80 hover:opacity-100 focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:rounded-md focus-visible:opacity-100;
-  color:inherit;
+  @apply ml-1.5 rtl:ml-0 rtl:mr-1.5 inline-flex items-center justify-center p-1.5 bg-transparent border-0 shrink-0 cursor-pointer opacity-80 hover:opacity-100 focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:rounded-md focus-visible:opacity-100 -my-1.5;
+  color: inherit;
   transition: opacity 0.2s ease;
 }

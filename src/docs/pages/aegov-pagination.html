@@ -480,17 +480,16 @@
 <h2>Accessibility</h2>
 <h3>Built-in behaviour</h3>
 <ul>
-<li>The component renders as a <code>&lt;nav&gt;</code> landmark with <code>aria-label=&quot;Pagination&quot;</code> so screen readers announce it among site landmarks.</li>
-<li>The active page button has <code>aria-current=&quot;page&quot;</code> and a descriptive <code>aria-label</code> such as <code>&quot;Page 3, current page&quot;</code>.</li>
-<li>Previous, Next, First, and Last buttons each carry explicit <code>aria-label</code>s (<code>&quot;Go to previous page&quot;</code>, etc.).</li>
-<li>The compact variant exposes the <code>current / total</code> indicator inside a polite <code>aria-live</code> region so assistive tech announces the change.</li>
+<li>The component renders as a <code>&lt;nav&gt;</code> landmark with <code>aria-label=&quot;Pagination&quot;</code> (Arabic: &quot;ترقيم الصفحات&quot;) so screen readers announce it among site landmarks.</li>
+<li>The active page button has <code>aria-current=&quot;page&quot;</code> and a descriptive <code>aria-label</code> such as <code>&quot;Page 3, current page&quot;</code> (Arabic: &quot;الصفحة 3، الصفحة الحالية&quot;).</li>
+<li>Previous, Next, First, and Last buttons carry bilingual <code>aria-label</code>s automatically — English when the page direction is LTR, Arabic when <code>dir=&quot;rtl&quot;</code> is detected. No developer translation needed.</li>
+<li>The compact variant exposes the <code>current / total</code> indicator (<code>3 / 10</code>) inside a polite <code>aria-live</code> region. An <code>aria-label</code> provides the full descriptive form (&quot;Page 3 of 10&quot; / &quot;الصفحة 3 من 10&quot;) so assistive technology announces meaningful context rather than &quot;3 slash 10&quot;.</li>
 <li>Disabled buttons set both the native <code>disabled</code> attribute and <code>aria-disabled=&quot;true&quot;</code>.</li>
 <li>Ellipsis tokens are decorative — marked <code>aria-hidden=&quot;true&quot;</code> so they are not announced.</li>
 </ul>
 <h3>Developer responsibilities</h3>
 <ul>
 <li>Always update <code>pageCurrent</code> in response to <code>aegovPaginationPageChange</code>. The component is fully controlled — without the update, clicking does nothing.</li>
-<li>Translate <code>labelPrev</code>, <code>labelNext</code>, <code>labelFirst</code>, <code>labelLast</code> for non-English contexts.</li>
 <li>After a page change, move keyboard focus to (or scroll to) the updated content region so keyboard users do not lose their place.</li>
 <li>Prefer the <code>compact</code> variant on narrow viewports rather than allowing page numbers to wrap.</li>
 <li>For very long lists (&gt;50 pages), enable <code>is-enabled-first-last</code> so users can jump to the ends in one click.</li>

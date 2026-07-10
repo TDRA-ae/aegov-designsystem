@@ -1,6 +1,7 @@
 import { Component, Host, h, Prop, Element } from '@stencil/core';
 import type { ProgressCounter } from '../../utils/types';
 import { getPassThroughAttributes } from '../../utils/attributes';
+import { composeDescribedBy } from '../../utils/validation';
 import { generateId } from '../../utils/id-generator';
 
 @Component({
@@ -70,6 +71,11 @@ export class AegovProgress {
     const indeterminate = this.isIndeterminate();
     const showCounter = !!this.counter && !indeterminate;
     const counterValue = this.value != null ? `${this.value}${this.counterSuffix}` : '';
+    const descriptionId = this.description ? `${this.fieldId}-desc` : null;
+    // Compose internal description ID with any author-provided aria-describedby
+    const authorDescribedBy = passThroughAttrs['aria-describedby'] as string | undefined;
+    delete passThroughAttrs['aria-describedby'];
+    const describedBy = composeDescribedBy(authorDescribedBy, descriptionId);
 
     const wrapperClasses = [
       'aegov-progress',
@@ -113,6 +119,7 @@ export class AegovProgress {
             id={this.fieldId}
             value={indeterminate ? undefined : this.value}
             max={this.max}
+            aria-describedby={describedBy}
             {...passThroughAttrs}
           >
             {!indeterminate ? `${percent}%` : ''}
@@ -120,7 +127,7 @@ export class AegovProgress {
 
           {/* Description */}
           {this.description && (
-            <p class="progress__description">{this.description}</p>
+            <p id={descriptionId} class="progress__description">{this.description}</p>
           )}
         </div>
       </Host>

@@ -574,16 +574,17 @@ See [BYO Validator](validation-byo.html) for more patterns.
 
 - The control is anchored on a real `<input type="file">`, so it is keyboard-focusable, screen-reader-friendly, and submits with native forms.
 - The visible `<label>` is wired via `for` to the inner input's id.
-- Helper text is exposed via `aria-describedby="${fieldId}-helper"` when present.
-- The button and dropzone appearances render an `aria-hidden`, `tabindex="-1"` file input behind a real `<button>` so keyboard users still trigger the OS picker through the button (Enter / Space).
-- Each file in the list has an explicit `aria-label="Remove {filename}"` on its remove button.
+- **Default appearance**: the native file input carries `aria-invalid`, `aria-required`, and `aria-describedby` linking helper text, error, and hint regions — giving AT full field state.
+- **Button and dropzone appearances**: the native file input is hidden (`aria-hidden`, `tabindex="-1"`) behind a real `<button>`. The trigger button receives `aria-invalid` and `aria-describedby` pointing at the error/hint regions so AT announces the field state when the user focuses the button.
+- Error and hint regions use `aria-live="polite"` + `role="alert"` after the first interaction (gap §7.10) to avoid interrupting AT during initial render.
+- Each file in the list has a bilingual `aria-label="Remove {filename}"` on its remove button. Remove SVGs are `aria-hidden="true"`.
 - The native input is reset to an empty value after each selection so picking the same file again still triggers `aegovFileuploadChange`.
 
 ### Developer responsibilities
 
 - Always provide a meaningful `label` (or external `aegov-label`) so screen readers can announce the purpose of the upload.
-- For dropzone use cases, supply a `description` clarifying the supported types and size limits — drag-and-drop is purely a visual enhancement; the button is the accessible fallback.
-- Surface validation errors visibly when `aegovFileuploadError` fires. The component does not render an error state on its own.
+- For dropzone use cases, supply a `hint` clarifying the supported types and size limits — drag-and-drop is a visual enhancement; the button is the accessible fallback.
+- Use `error-message` or the `error` slot to surface validation messages; the component wires them to `aria-describedby` automatically.
 - Default appearance replaces the entire selection on each pick; button and dropzone appearances accumulate. Use `clear()` to reset programmatically.
 
 ### Keyboard support
