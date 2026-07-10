@@ -1,0 +1,6 @@
+{
+  "$schema": "./node_modules/nx/schemas/nx-schema.json",
+  "defaultBase": "master",
+  "nxCloudId": "6a4511b4d31e0d8c04308168",
+  "analytics": true
+}

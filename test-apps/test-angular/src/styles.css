@@ -1,0 +1,36 @@
+@import "tailwindcss";
+@source "./**/*.{ts,html}";
+@import "@aegov/designsystem-testing/base";
+@import "@aegov/designsystem-testing/theme";
+
+html { scroll-behavior: smooth; }
+
+/* Design system components (shadow:false) inject @layer utilities { .hidden } via <style>
+   tags AFTER this <link> stylesheet loads. Within the same layer, later-in-document-order
+   wins, so injected .hidden overrides md:block. Unlayered rules beat all @layer content. */
+@media (width >= 768px) { .md\:block { display: block; } }
+
+.nav-link {
+  display: flex; align-items: center; gap: 0.375rem;
+  padding: 0.25rem 0.625rem; border-radius: 0.375rem;
+  font-size: 0.8125rem; font-weight: 500;
+  color: var(--color-aeblack-600); text-decoration: none;
+  transition: background-color 0.15s, color 0.15s;
+}
+.dark .nav-link { color: var(--color-aeblack-400); }
+.nav-link:hover { background-color: var(--color-aeblack-100); color: var(--color-aeblack-900); }
+.dark .nav-link:hover { background-color: var(--color-aeblack-800); color: var(--color-whitely-100); }
+.nav-link.active { background-color: var(--color-primary-50); color: var(--color-primary-700); font-weight: 600; }
+.dark .nav-link.active { background-color: var(--color-primary-950); color: var(--color-primary-300); }
+.nav-link::before { content: ''; display: block; width: 5px; height: 5px; border-radius: 50%; background-color: var(--color-aeblack-300); flex-shrink: 0; }
+.dark .nav-link::before { background-color: var(--color-aeblack-600); }
+.nav-link.active::before { background-color: var(--color-primary-500); }
+
+.section-card { border-radius: 1rem; border: 1px solid var(--color-aeblack-200); background-color: white; box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.05); overflow: hidden; }
+.dark .section-card { background-color: var(--color-aeblack-900); border-color: var(--color-aeblack-700); }
+.section-card-header { padding: 1rem 1.5rem; background-color: var(--color-aeblack-50); border-bottom: 1px solid var(--color-aeblack-100); }
+.dark .section-card-header { background-color: color-mix(in oklch, var(--color-aeblack-800) 60%, transparent); border-bottom-color: var(--color-aeblack-700); }
+.section-card-body { padding: 1.5rem; }
+
+.preview-box { border-radius: 0.75rem; background-color: color-mix(in oklch, var(--color-aeblack-50) 60%, transparent); border: 1px solid var(--color-aeblack-100); padding: 1.25rem; }
+.dark .preview-box { background-color: color-mix(in oklch, var(--color-aeblack-800) 40%, transparent); border-color: var(--color-aeblack-700); }

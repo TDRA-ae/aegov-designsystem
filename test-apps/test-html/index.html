@@ -1,0 +1,993 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AEGOV Design System — Test</title>
+  <script type="module" src="/src/main.ts"></script>
+  <style>
+    .nav-link {
+      display: flex;
+      align-items: center;
+      gap: 0.375rem;
+      padding: 0.25rem 0.625rem;
+      border-radius: 0.375rem;
+      font-size: 0.8125rem;
+      font-weight: 500;
+      color: var(--color-aeblack-600);
+      text-decoration: none;
+      transition: background-color 0.15s, color 0.15s;
+    }
+    .dark .nav-link {
+      color: var(--color-aeblack-400);
+    }
+    .nav-link:hover {
+      background-color: var(--color-aeblack-100);
+      color: var(--color-aeblack-900);
+    }
+    .dark .nav-link:hover {
+      background-color: var(--color-aeblack-800);
+      color: var(--color-whitely-100);
+    }
+    .nav-link.active {
+      background-color: var(--color-primary-50);
+      color: var(--color-primary-700);
+      font-weight: 600;
+    }
+    .dark .nav-link.active {
+      background-color: var(--color-primary-950);
+      color: var(--color-primary-300);
+    }
+    .nav-link::before {
+      content: '';
+      display: block;
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background-color: var(--color-aeblack-300);
+      flex-shrink: 0;
+    }
+    .dark .nav-link::before {
+      background-color: var(--color-aeblack-600);
+    }
+    .nav-link.active::before {
+      background-color: var(--color-primary-500);
+    }
+    .preview-box {
+      border-radius: 0.75rem;
+      background-color: color-mix(in oklch, var(--color-aeblack-50) 60%, transparent);
+      border: 1px solid var(--color-aeblack-100);
+      padding: 1.25rem;
+    }
+    .dark .preview-box {
+      background-color: color-mix(in oklch, var(--color-aeblack-800) 40%, transparent);
+      border-color: var(--color-aeblack-700);
+    }
+    .section-card {
+      border-radius: 1rem;
+      border: 1px solid var(--color-aeblack-200);
+      background-color: white;
+      box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.05);
+      overflow: hidden;
+    }
+    .dark .section-card {
+      background-color: var(--color-aeblack-900);
+      border-color: var(--color-aeblack-700);
+    }
+    .section-card-header {
+      padding: 1rem 1.5rem;
+      background-color: var(--color-aeblack-50);
+      border-bottom: 1px solid var(--color-aeblack-100);
+    }
+    .dark .section-card-header {
+      background-color: color-mix(in oklch, var(--color-aeblack-800) 60%, transparent);
+      border-bottom-color: var(--color-aeblack-700);
+    }
+    .section-card-body {
+      padding: 1.5rem;
+    }
+    html {
+      scroll-behavior: smooth;
+    }
+  </style>
+</head>
+<body class="min-h-screen bg-aeblack-100 dark:bg-aeblack-950 text-aeblack-800 dark:text-whitely-100 transition-colors duration-200">
+
+  <!-- ── Topbar ──────────────────────────────────────────── -->
+  <header class="sticky top-0 z-50 flex items-center gap-4 border-b border-aeblack-200 dark:border-aeblack-700 bg-white/95 dark:bg-aeblack-900/95 backdrop-blur px-5 py-2.5">
+    <!-- Brand -->
+    <div class="flex items-center gap-2 me-4">
+      <aegov-badge color="primary" appearance="solid">AEGOV DS</aegov-badge>
+      <span class="text-sm font-medium text-aeblack-600 dark:text-aeblack-400">Test App — HTML</span>
+    </div>
+
+    <aegov-separator orientation="vertical" class="h-5"></aegov-separator>
+
+    <!-- Dark mode toggle -->
+    <div class="flex items-center gap-2">
+      <aegov-toggle id="dark-toggle" field-id="dark-mode" label="Dark Mode"></aegov-toggle>
+    </div>
+
+    <aegov-separator orientation="vertical" class="h-5"></aegov-separator>
+
+    <!-- RTL toggle -->
+    <div class="flex items-center gap-2">
+      <aegov-toggle id="rtl-toggle" field-id="rtl-mode" label="RTL عربي"></aegov-toggle>
+    </div>
+
+    <!-- Mode indicator -->
+    <div class="ms-auto flex items-center gap-2">
+      <aegov-badge id="theme-badge" color="aeblack">Light</aegov-badge>
+      <aegov-badge id="dir-badge" color="techblue">LTR</aegov-badge>
+    </div>
+  </header>
+
+  <!-- ── Page layout ────────────────────────────────────── -->
+  <div class="flex">
+
+    <!-- ── Sidebar ──────────────────────────────────────── -->
+    <aside class="sticky top-[53px] h-[calc(100vh-53px)] w-52 shrink-0 overflow-y-auto border-e border-aeblack-200 dark:border-aeblack-700 bg-white dark:bg-aeblack-900 px-3 py-5 hidden md:block">
+      <p class="px-2 mb-1 text-[10px] font-bold uppercase tracking-widest text-aeblack-400 dark:text-aeblack-600">Foundation</p>
+      <ul class="space-y-0.5 mb-4">
+        <li><a href="#typography" class="nav-link">Typography</a></li>
+        <li><a href="#colors" class="nav-link">Color Palette</a></li>
+      </ul>
+      <p class="px-2 mb-1 text-[10px] font-bold uppercase tracking-widest text-aeblack-400 dark:text-aeblack-600">Components</p>
+      <ul class="space-y-0.5 mb-4">
+        <li><a href="#buttons" class="nav-link">Buttons</a></li>
+        <li><a href="#button-sizes" class="nav-link">Button Sizes</a></li>
+        <li><a href="#badges" class="nav-link">Badges</a></li>
+        <li><a href="#badge-appearances" class="nav-link">Badge Appearances</a></li>
+        <li><a href="#inputs" class="nav-link">Input</a></li>
+        <li><a href="#select" class="nav-link">Select</a></li>
+        <li><a href="#checkbox" class="nav-link">Checkbox</a></li>
+        <li><a href="#tabs" class="nav-link">Tabs</a></li>
+      </ul>
+      <p class="px-2 mb-1 text-[10px] font-bold uppercase tracking-widest text-aeblack-400 dark:text-aeblack-600">Testing</p>
+      <ul class="space-y-0.5 mb-4">
+        <li><a href="#states" class="nav-link">Component States</a></li>
+      </ul>
+      <p class="px-2 mb-1 text-[10px] font-bold uppercase tracking-widest text-aeblack-400 dark:text-aeblack-600">Theming</p>
+      <ul class="space-y-0.5">
+        <li><a href="#dark-mode" class="nav-link">Dark Mode</a></li>
+        <li><a href="#rtl" class="nav-link">RTL / Arabic</a></li>
+      </ul>
+    </aside>
+
+    <!-- ── Main content ─────────────────────────────────── -->
+    <main class="flex-1 min-w-0 px-6 py-6 space-y-6 max-w-4xl">
+
+      <!-- ── Page title ─────────────────────────────────── -->
+      <div class="flex items-center justify-between">
+        <div>
+          <h1 class="text-h4 font-extrabold text-aeblack-900 dark:text-whitely-100">AEGOV Design System</h1>
+          <p class="text-sm text-aeblack-500 dark:text-aeblack-400 mt-1">All components · Plain HTML + Tailwind v4 + Vite</p>
+        </div>
+        <aegov-badge color="aegreen" appearance="soft">v0.0.3</aegov-badge>
+      </div>
+
+      <!-- ══ TYPOGRAPHY ═════════════════════════════════ -->
+      <section id="typography">
+        <div class="section-card">
+          <div class="section-card-header flex items-start justify-between gap-4">
+            <div>
+              <h2 class="text-base font-semibold text-aeblack-900 dark:text-whitely-100">Typography</h2>
+              <p class="text-xs text-aeblack-500 dark:text-aeblack-400 mt-0.5">Semantic heading elements and utility-class equivalents</p>
+            </div>
+            <aegov-badge color="primary" appearance="soft">Foundation</aegov-badge>
+          </div>
+          <div class="section-card-body space-y-4">
+            <div class="grid grid-cols-2 gap-6">
+              <div>
+                <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">Semantic elements</p>
+                <div class="preview-box space-y-1.5">
+                  <h1>Heading 1 — The quick brown fox</h1>
+                  <h2>Heading 2 — The quick brown fox</h2>
+                  <h3>Heading 3 — The quick brown fox</h3>
+                  <h4>Heading 4 — The quick brown fox</h4>
+                  <h5>Heading 5 — The quick brown fox</h5>
+                  <h6>Heading 6 — The quick brown fox</h6>
+                </div>
+              </div>
+              <div>
+                <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">Utility classes <code class="font-mono text-[10px] bg-aeblack-100 dark:bg-aeblack-800 px-1 rounded">text-h1…h6</code></p>
+                <div class="preview-box space-y-1.5">
+                  <div class="text-h1">Heading 1 — The quick brown fox</div>
+                  <div class="text-h2">Heading 2 — The quick brown fox</div>
+                  <div class="text-h3">Heading 3 — The quick brown fox</div>
+                  <div class="text-h4">Heading 4 — The quick brown fox</div>
+                  <div class="text-h5">Heading 5 — The quick brown fox</div>
+                  <div class="text-h6">Heading 6 — The quick brown fox</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ══ COLOR PALETTE ══════════════════════════════ -->
+      <section id="colors">
+        <div class="section-card">
+          <div class="section-card-header flex items-start justify-between gap-4">
+            <div>
+              <h2 class="text-base font-semibold text-aeblack-900 dark:text-whitely-100">Color Palette</h2>
+              <p class="text-xs text-aeblack-500 dark:text-aeblack-400 mt-0.5">All 18 theme color families — 50 to 950 shades</p>
+            </div>
+            <aegov-badge color="primary" appearance="soft">Foundation</aegov-badge>
+          </div>
+          <div class="section-card-body space-y-2.5">
+
+            <!-- Row macro: each family -->
+            <div class="space-y-1">
+              <span class="font-mono text-[11px] font-semibold text-aeblack-500 dark:text-aeblack-400">aeblack</span>
+              <div class="flex rounded-lg overflow-hidden h-9">
+                <div class="flex-1 bg-aeblack-50 grid place-items-center"><span class="text-[9px] font-mono text-aeblack-500">50</span></div>
+                <div class="flex-1 bg-aeblack-100 grid place-items-center"><span class="text-[9px] font-mono text-aeblack-600">100</span></div>
+                <div class="flex-1 bg-aeblack-200 grid place-items-center"><span class="text-[9px] font-mono text-aeblack-700">200</span></div>
+                <div class="flex-1 bg-aeblack-300 grid place-items-center"><span class="text-[9px] font-mono text-aeblack-800">300</span></div>
+                <div class="flex-1 bg-aeblack-400 grid place-items-center"><span class="text-[9px] font-mono text-aeblack-900">400</span></div>
+                <div class="flex-1 bg-aeblack-500 grid place-items-center"><span class="text-[9px] font-mono text-white">500</span></div>
+                <div class="flex-1 bg-aeblack-600 grid place-items-center"><span class="text-[9px] font-mono text-white">600</span></div>
+                <div class="flex-1 bg-aeblack-700 grid place-items-center"><span class="text-[9px] font-mono text-white">700</span></div>
+                <div class="flex-1 bg-aeblack-800 grid place-items-center"><span class="text-[9px] font-mono text-white">800</span></div>
+                <div class="flex-1 bg-aeblack-900 grid place-items-center"><span class="text-[9px] font-mono text-white">900</span></div>
+                <div class="flex-1 bg-aeblack-950 grid place-items-center"><span class="text-[9px] font-mono text-white">950</span></div>
+              </div>
+            </div>
+
+            <div class="space-y-1">
+              <span class="font-mono text-[11px] font-semibold text-aeblack-500 dark:text-aeblack-400">aegold</span>
+              <div class="flex rounded-lg overflow-hidden h-9">
+                <div class="flex-1 bg-aegold-50 grid place-items-center"><span class="text-[9px] font-mono text-aeblack-600">50</span></div>
+                <div class="flex-1 bg-aegold-100 grid place-items-center"><span class="text-[9px] font-mono text-aeblack-700">100</span></div>
+                <div class="flex-1 bg-aegold-200 grid place-items-center"><span class="text-[9px] font-mono text-aeblack-800">200</span></div>
+                <div class="flex-1 bg-aegold-300 grid place-items-center"><span class="text-[9px] font-mono text-aeblack-900">300</span></div>
+                <div class="flex-1 bg-aegold-400 grid place-items-center"><span class="text-[9px] font-mono text-aeblack-900">400</span></div>
+                <div class="flex-1 bg-aegold-500 grid place-items-center"><span class="text-[9px] font-mono text-white">500</span></div>
+                <div class="flex-1 bg-aegold-600 grid place-items-center"><span class="text-[9px] font-mono text-white">600</span></div>
+                <div class="flex-1 bg-aegold-700 grid place-items-center"><span class="text-[9px] font-mono text-white">700</span></div>
+                <div class="flex-1 bg-aegold-800 grid place-items-center"><span class="text-[9px] font-mono text-white">800</span></div>
+                <div class="flex-1 bg-aegold-900 grid place-items-center"><span class="text-[9px] font-mono text-white">900</span></div>
+                <div class="flex-1 bg-aegold-950 grid place-items-center"><span class="text-[9px] font-mono text-white">950</span></div>
+              </div>
+            </div>
+
+            <div class="space-y-1">
+              <span class="font-mono text-[11px] font-semibold text-aeblack-500 dark:text-aeblack-400">aegreen</span>
+              <div class="flex rounded-lg overflow-hidden h-9">
+                <div class="flex-1 bg-aegreen-50 grid place-items-center"><span class="text-[9px] font-mono text-aeblack-600">50</span></div>
+                <div class="flex-1 bg-aegreen-100 grid place-items-center"><span class="text-[9px] font-mono text-aeblack-700">100</span></div>
+                <div class="flex-1 bg-aegreen-200 grid place-items-center"><span class="text-[9px] font-mono text-aeblack-800">200</span></div>
+                <div class="flex-1 bg-aegreen-300 grid place-items-center"><span class="text-[9px] font-mono text-aeblack-900">300</span></div>
+                <div class="flex-1 bg-aegreen-400 grid place-items-center"><span class="text-[9px] font-mono text-aeblack-900">400</span></div>
+                <div class="flex-1 bg-aegreen-500 grid place-items-center"><span class="text-[9px] font-mono text-white">500</span></div>
+                <div class="flex-1 bg-aegreen-600 grid place-items-center"><span class="text-[9px] font-mono text-white">600</span></div>
+                <div class="flex-1 bg-aegreen-700 grid place-items-center"><span class="text-[9px] font-mono text-white">700</span></div>
+                <div class="flex-1 bg-aegreen-800 grid place-items-center"><span class="text-[9px] font-mono text-white">800</span></div>
+                <div class="flex-1 bg-aegreen-900 grid place-items-center"><span class="text-[9px] font-mono text-white">900</span></div>
+                <div class="flex-1 bg-aegreen-950 grid place-items-center"><span class="text-[9px] font-mono text-white">950</span></div>
+              </div>
+            </div>
+
+            <div class="space-y-1">
+              <span class="font-mono text-[11px] font-semibold text-aeblack-500 dark:text-aeblack-400">aered</span>
+              <div class="flex rounded-lg overflow-hidden h-9">
+                <div class="flex-1 bg-aered-50 grid place-items-center"><span class="text-[9px] font-mono text-aeblack-600">50</span></div>
+                <div class="flex-1 bg-aered-100 grid place-items-center"><span class="text-[9px] font-mono text-aeblack-700">100</span></div>
+                <div class="flex-1 bg-aered-200 grid place-items-center"><span class="text-[9px] font-mono text-aeblack-800">200</span></div>
+                <div class="flex-1 bg-aered-300 grid place-items-center"><span class="text-[9px] font-mono text-aeblack-900">300</span></div>
+                <div class="flex-1 bg-aered-400 grid place-items-center"><span class="text-[9px] font-mono text-aeblack-900">400</span></div>
+                <div class="flex-1 bg-aered-500 grid place-items-center"><span class="text-[9px] font-mono text-white">500</span></div>
+                <div class="flex-1 bg-aered-600 grid place-items-center"><span class="text-[9px] font-mono text-white">600</span></div>
+                <div class="flex-1 bg-aered-700 grid place-items-center"><span class="text-[9px] font-mono text-white">700</span></div>
+                <div class="flex-1 bg-aered-800 grid place-items-center"><span class="text-[9px] font-mono text-white">800</span></div>
+                <div class="flex-1 bg-aered-900 grid place-items-center"><span class="text-[9px] font-mono text-white">900</span></div>
+                <div class="flex-1 bg-aered-950 grid place-items-center"><span class="text-[9px] font-mono text-white">950</span></div>
+              </div>
+            </div>
+
+            <div class="space-y-1">
+              <span class="font-mono text-[11px] font-semibold text-aeblack-500 dark:text-aeblack-400">primary</span>
+              <div class="flex rounded-lg overflow-hidden h-9">
+                <div class="flex-1 bg-primary-50 grid place-items-center"><span class="text-[9px] font-mono text-primary-600">50</span></div>
+                <div class="flex-1 bg-primary-100 grid place-items-center"><span class="text-[9px] font-mono text-primary-700">100</span></div>
+                <div class="flex-1 bg-primary-200 grid place-items-center"><span class="text-[9px] font-mono text-primary-800">200</span></div>
+                <div class="flex-1 bg-primary-300 grid place-items-center"><span class="text-[9px] font-mono text-primary-900">300</span></div>
+                <div class="flex-1 bg-primary-400 grid place-items-center"><span class="text-[9px] font-mono text-primary-900">400</span></div>
+                <div class="flex-1 bg-primary-500 grid place-items-center"><span class="text-[9px] font-mono text-white">500</span></div>
+                <div class="flex-1 bg-primary-600 grid place-items-center"><span class="text-[9px] font-mono text-white">600</span></div>
+                <div class="flex-1 bg-primary-700 grid place-items-center"><span class="text-[9px] font-mono text-white">700</span></div>
+                <div class="flex-1 bg-primary-800 grid place-items-center"><span class="text-[9px] font-mono text-white">800</span></div>
+                <div class="flex-1 bg-primary-900 grid place-items-center"><span class="text-[9px] font-mono text-white">900</span></div>
+                <div class="flex-1 bg-primary-950 grid place-items-center"><span class="text-[9px] font-mono text-white">950</span></div>
+              </div>
+            </div>
+
+            <div class="space-y-1">
+              <span class="font-mono text-[11px] font-semibold text-aeblack-500 dark:text-aeblack-400">primary-support</span>
+              <div class="flex rounded-lg overflow-hidden h-9">
+                <div class="flex-1 bg-primary-support-50 grid place-items-center"><span class="text-[9px] font-mono text-aeblack-600">50</span></div>
+                <div class="flex-1 bg-primary-support-100 grid place-items-center"><span class="text-[9px] font-mono text-aeblack-700">100</span></div>
+                <div class="flex-1 bg-primary-support-200 grid place-items-center"><span class="text-[9px] font-mono text-aeblack-800">200</span></div>
+                <div class="flex-1 bg-primary-support-300 grid place-items-center"><span class="text-[9px] font-mono text-aeblack-900">300</span></div>
+                <div class="flex-1 bg-primary-support-400 grid place-items-center"><span class="text-[9px] font-mono text-aeblack-900">400</span></div>
+                <div class="flex-1 bg-primary-support-500 grid place-items-center"><span class="text-[9px] font-mono text-white">500</span></div>
+                <div class="flex-1 bg-primary-support-600 grid place-items-center"><span class="text-[9px] font-mono text-white">600</span></div>
+                <div class="flex-1 bg-primary-support-700 grid place-items-center"><span class="text-[9px] font-mono text-white">700</span></div>
+                <div class="flex-1 bg-primary-support-800 grid place-items-center"><span class="text-[9px] font-mono text-white">800</span></div>
+                <div class="flex-1 bg-primary-support-900 grid place-items-center"><span class="text-[9px] font-mono text-white">900</span></div>
+                <div class="flex-1 bg-primary-support-950 grid place-items-center"><span class="text-[9px] font-mono text-white">950</span></div>
+              </div>
+            </div>
+
+            <div class="space-y-1">
+              <span class="font-mono text-[11px] font-semibold text-aeblack-500 dark:text-aeblack-400">secondary</span>
+              <div class="flex rounded-lg overflow-hidden h-9">
+                <div class="flex-1 bg-secondary-50 grid place-items-center"><span class="text-[9px] font-mono text-aeblack-600">50</span></div>
+                <div class="flex-1 bg-secondary-100 grid place-items-center"><span class="text-[9px] font-mono text-aeblack-700">100</span></div>
+                <div class="flex-1 bg-secondary-200 grid place-items-center"><span class="text-[9px] font-mono text-aeblack-800">200</span></div>
+                <div class="flex-1 bg-secondary-300 grid place-items-center"><span class="text-[9px] font-mono text-aeblack-900">300</span></div>
+                <div class="flex-1 bg-secondary-400 grid place-items-center"><span class="text-[9px] font-mono text-aeblack-900">400</span></div>
+                <div class="flex-1 bg-secondary-500 grid place-items-center"><span class="text-[9px] font-mono text-white">500</span></div>
+                <div class="flex-1 bg-secondary-600 grid place-items-center"><span class="text-[9px] font-mono text-white">600</span></div>
+                <div class="flex-1 bg-secondary-700 grid place-items-center"><span class="text-[9px] font-mono text-white">700</span></div>
+                <div class="flex-1 bg-secondary-800 grid place-items-center"><span class="text-[9px] font-mono text-white">800</span></div>
+                <div class="flex-1 bg-secondary-900 grid place-items-center"><span class="text-[9px] font-mono text-white">900</span></div>
+                <div class="flex-1 bg-secondary-950 grid place-items-center"><span class="text-[9px] font-mono text-white">950</span></div>
+              </div>
+            </div>
+
+            <div class="space-y-1">
+              <span class="font-mono text-[11px] font-semibold text-aeblack-500 dark:text-aeblack-400">secondary-support</span>
+              <div class="flex rounded-lg overflow-hidden h-9">
+                <div class="flex-1 bg-secondary-support-50 grid place-items-center"><span class="text-[9px] font-mono text-aeblack-600">50</span></div>
+                <div class="flex-1 bg-secondary-support-100 grid place-items-center"><span class="text-[9px] font-mono text-aeblack-700">100</span></div>
+                <div class="flex-1 bg-secondary-support-200 grid place-items-center"><span class="text-[9px] font-mono text-aeblack-800">200</span></div>
+                <div class="flex-1 bg-secondary-support-300 grid place-items-center"><span class="text-[9px] font-mono text-aeblack-900">300</span></div>
+                <div class="flex-1 bg-secondary-support-400 grid place-items-center"><span class="text-[9px] font-mono text-aeblack-900">400</span></div>
+                <div class="flex-1 bg-secondary-support-500 grid place-items-center"><span class="text-[9px] font-mono text-white">500</span></div>
+                <div class="flex-1 bg-secondary-support-600 grid place-items-center"><span class="text-[9px] font-mono text-white">600</span></div>
+                <div class="flex-1 bg-secondary-support-700 grid place-items-center"><span class="text-[9px] font-mono text-white">700</span></div>
+                <div class="flex-1 bg-secondary-support-800 grid place-items-center"><span class="text-[9px] font-mono text-white">800</span></div>
+                <div class="flex-1 bg-secondary-support-900 grid place-items-center"><span class="text-[9px] font-mono text-white">900</span></div>
+                <div class="flex-1 bg-secondary-support-950 grid place-items-center"><span class="text-[9px] font-mono text-white">950</span></div>
+              </div>
+            </div>
+
+            <div class="space-y-1">
+              <span class="font-mono text-[11px] font-semibold text-aeblack-500 dark:text-aeblack-400">techblue</span>
+              <div class="flex rounded-lg overflow-hidden h-9">
+                <div class="flex-1 bg-techblue-50 grid place-items-center"><span class="text-[9px] font-mono text-techblue-600">50</span></div>
+                <div class="flex-1 bg-techblue-100 grid place-items-center"><span class="text-[9px] font-mono text-techblue-700">100</span></div>
+                <div class="flex-1 bg-techblue-200 grid place-items-center"><span class="text-[9px] font-mono text-techblue-800">200</span></div>
+                <div class="flex-1 bg-techblue-300 grid place-items-center"><span class="text-[9px] font-mono text-techblue-900">300</span></div>
+                <div class="flex-1 bg-techblue-400 grid place-items-center"><span class="text-[9px] font-mono text-techblue-900">400</span></div>
+                <div class="flex-1 bg-techblue-500 grid place-items-center"><span class="text-[9px] font-mono text-white">500</span></div>
+                <div class="flex-1 bg-techblue-600 grid place-items-center"><span class="text-[9px] font-mono text-white">600</span></div>
+                <div class="flex-1 bg-techblue-700 grid place-items-center"><span class="text-[9px] font-mono text-white">700</span></div>
+                <div class="flex-1 bg-techblue-800 grid place-items-center"><span class="text-[9px] font-mono text-white">800</span></div>
+                <div class="flex-1 bg-techblue-900 grid place-items-center"><span class="text-[9px] font-mono text-white">900</span></div>
+                <div class="flex-1 bg-techblue-950 grid place-items-center"><span class="text-[9px] font-mono text-white">950</span></div>
+              </div>
+            </div>
+
+            <div class="space-y-1">
+              <span class="font-mono text-[11px] font-semibold text-aeblack-500 dark:text-aeblack-400">seablue</span>
+              <div class="flex rounded-lg overflow-hidden h-9">
+                <div class="flex-1 bg-seablue-50 grid place-items-center"><span class="text-[9px] font-mono text-seablue-600">50</span></div>
+                <div class="flex-1 bg-seablue-100 grid place-items-center"><span class="text-[9px] font-mono text-seablue-700">100</span></div>
+                <div class="flex-1 bg-seablue-200 grid place-items-center"><span class="text-[9px] font-mono text-seablue-800">200</span></div>
+                <div class="flex-1 bg-seablue-300 grid place-items-center"><span class="text-[9px] font-mono text-seablue-900">300</span></div>
+                <div class="flex-1 bg-seablue-400 grid place-items-center"><span class="text-[9px] font-mono text-seablue-900">400</span></div>
+                <div class="flex-1 bg-seablue-500 grid place-items-center"><span class="text-[9px] font-mono text-white">500</span></div>
+                <div class="flex-1 bg-seablue-600 grid place-items-center"><span class="text-[9px] font-mono text-white">600</span></div>
+                <div class="flex-1 bg-seablue-700 grid place-items-center"><span class="text-[9px] font-mono text-white">700</span></div>
+                <div class="flex-1 bg-seablue-800 grid place-items-center"><span class="text-[9px] font-mono text-white">800</span></div>
+                <div class="flex-1 bg-seablue-900 grid place-items-center"><span class="text-[9px] font-mono text-white">900</span></div>
+                <div class="flex-1 bg-seablue-950 grid place-items-center"><span class="text-[9px] font-mono text-white">950</span></div>
+              </div>
+            </div>
+
+            <div class="space-y-1">
+              <span class="font-mono text-[11px] font-semibold text-aeblack-500 dark:text-aeblack-400">camel</span>
+              <div class="flex rounded-lg overflow-hidden h-9">
+                <div class="flex-1 bg-camel-50 grid place-items-center"><span class="text-[9px] font-mono text-camel-600">50</span></div>
+                <div class="flex-1 bg-camel-100 grid place-items-center"><span class="text-[9px] font-mono text-camel-700">100</span></div>
+                <div class="flex-1 bg-camel-200 grid place-items-center"><span class="text-[9px] font-mono text-camel-800">200</span></div>
+                <div class="flex-1 bg-camel-300 grid place-items-center"><span class="text-[9px] font-mono text-camel-900">300</span></div>
+                <div class="flex-1 bg-camel-400 grid place-items-center"><span class="text-[9px] font-mono text-camel-900">400</span></div>
+                <div class="flex-1 bg-camel-500 grid place-items-center"><span class="text-[9px] font-mono text-white">500</span></div>
+                <div class="flex-1 bg-camel-600 grid place-items-center"><span class="text-[9px] font-mono text-white">600</span></div>
+                <div class="flex-1 bg-camel-700 grid place-items-center"><span class="text-[9px] font-mono text-white">700</span></div>
+                <div class="flex-1 bg-camel-800 grid place-items-center"><span class="text-[9px] font-mono text-white">800</span></div>
+                <div class="flex-1 bg-camel-900 grid place-items-center"><span class="text-[9px] font-mono text-white">900</span></div>
+                <div class="flex-1 bg-camel-950 grid place-items-center"><span class="text-[9px] font-mono text-white">950</span></div>
+              </div>
+            </div>
+
+            <div class="space-y-1">
+              <span class="font-mono text-[11px] font-semibold text-aeblack-500 dark:text-aeblack-400">desert</span>
+              <div class="flex rounded-lg overflow-hidden h-9">
+                <div class="flex-1 bg-desert-50 grid place-items-center"><span class="text-[9px] font-mono text-desert-600">50</span></div>
+                <div class="flex-1 bg-desert-100 grid place-items-center"><span class="text-[9px] font-mono text-desert-700">100</span></div>
+                <div class="flex-1 bg-desert-200 grid place-items-center"><span class="text-[9px] font-mono text-desert-800">200</span></div>
+                <div class="flex-1 bg-desert-300 grid place-items-center"><span class="text-[9px] font-mono text-desert-900">300</span></div>
+                <div class="flex-1 bg-desert-400 grid place-items-center"><span class="text-[9px] font-mono text-desert-900">400</span></div>
+                <div class="flex-1 bg-desert-500 grid place-items-center"><span class="text-[9px] font-mono text-white">500</span></div>
+                <div class="flex-1 bg-desert-600 grid place-items-center"><span class="text-[9px] font-mono text-white">600</span></div>
+                <div class="flex-1 bg-desert-700 grid place-items-center"><span class="text-[9px] font-mono text-white">700</span></div>
+                <div class="flex-1 bg-desert-800 grid place-items-center"><span class="text-[9px] font-mono text-white">800</span></div>
+                <div class="flex-1 bg-desert-900 grid place-items-center"><span class="text-[9px] font-mono text-white">900</span></div>
+                <div class="flex-1 bg-desert-950 grid place-items-center"><span class="text-[9px] font-mono text-white">950</span></div>
+              </div>
+            </div>
+
+            <div class="space-y-1">
+              <span class="font-mono text-[11px] font-semibold text-aeblack-500 dark:text-aeblack-400">fuchsia</span>
+              <div class="flex rounded-lg overflow-hidden h-9">
+                <div class="flex-1 bg-fuchsia-50 grid place-items-center"><span class="text-[9px] font-mono text-fuchsia-600">50</span></div>
+                <div class="flex-1 bg-fuchsia-100 grid place-items-center"><span class="text-[9px] font-mono text-fuchsia-700">100</span></div>
+                <div class="flex-1 bg-fuchsia-200 grid place-items-center"><span class="text-[9px] font-mono text-fuchsia-800">200</span></div>
+                <div class="flex-1 bg-fuchsia-300 grid place-items-center"><span class="text-[9px] font-mono text-fuchsia-900">300</span></div>
+                <div class="flex-1 bg-fuchsia-400 grid place-items-center"><span class="text-[9px] font-mono text-fuchsia-900">400</span></div>
+                <div class="flex-1 bg-fuchsia-500 grid place-items-center"><span class="text-[9px] font-mono text-white">500</span></div>
+                <div class="flex-1 bg-fuchsia-600 grid place-items-center"><span class="text-[9px] font-mono text-white">600</span></div>
+                <div class="flex-1 bg-fuchsia-700 grid place-items-center"><span class="text-[9px] font-mono text-white">700</span></div>
+                <div class="flex-1 bg-fuchsia-800 grid place-items-center"><span class="text-[9px] font-mono text-white">800</span></div>
+                <div class="flex-1 bg-fuchsia-900 grid place-items-center"><span class="text-[9px] font-mono text-white">900</span></div>
+                <div class="flex-1 bg-fuchsia-950 grid place-items-center"><span class="text-[9px] font-mono text-white">950</span></div>
+              </div>
+            </div>
+
+            <div class="space-y-1">
+              <span class="font-mono text-[11px] font-semibold text-aeblack-500 dark:text-aeblack-400">purple · slate · pink · indigo</span>
+              <div class="grid grid-cols-4 gap-2">
+                <div class="flex rounded-lg overflow-hidden h-9">
+                  <div class="flex-1 bg-purple-100"></div><div class="flex-1 bg-purple-300"></div><div class="flex-1 bg-purple-500"></div><div class="flex-1 bg-purple-700"></div><div class="flex-1 bg-purple-900"></div>
+                </div>
+                <div class="flex rounded-lg overflow-hidden h-9">
+                  <div class="flex-1 bg-slate-100"></div><div class="flex-1 bg-slate-300"></div><div class="flex-1 bg-slate-500"></div><div class="flex-1 bg-slate-700"></div><div class="flex-1 bg-slate-900"></div>
+                </div>
+                <div class="flex rounded-lg overflow-hidden h-9">
+                  <div class="flex-1 bg-pink-100"></div><div class="flex-1 bg-pink-300"></div><div class="flex-1 bg-pink-500"></div><div class="flex-1 bg-pink-700"></div><div class="flex-1 bg-pink-900"></div>
+                </div>
+                <div class="flex rounded-lg overflow-hidden h-9">
+                  <div class="flex-1 bg-indigo-100"></div><div class="flex-1 bg-indigo-300"></div><div class="flex-1 bg-indigo-500"></div><div class="flex-1 bg-indigo-700"></div><div class="flex-1 bg-indigo-900"></div>
+                </div>
+              </div>
+              <div class="grid grid-cols-4 gap-2 mt-1">
+                <span class="font-mono text-[10px] text-aeblack-400 ps-1">purple</span>
+                <span class="font-mono text-[10px] text-aeblack-400 ps-1">slate</span>
+                <span class="font-mono text-[10px] text-aeblack-400 ps-1">pink</span>
+                <span class="font-mono text-[10px] text-aeblack-400 ps-1">indigo</span>
+              </div>
+            </div>
+
+            <div class="space-y-1">
+              <span class="font-mono text-[11px] font-semibold text-aeblack-500 dark:text-aeblack-400">whitely <span class="text-aeblack-300 dark:text-aeblack-600 font-normal">(50–500)</span></span>
+              <div class="flex rounded-lg overflow-hidden h-9 border border-aeblack-100 dark:border-aeblack-700">
+                <div class="flex-1 bg-whitely-50 grid place-items-center"><span class="text-[9px] font-mono text-aeblack-300">50</span></div>
+                <div class="flex-1 bg-whitely-100 grid place-items-center"><span class="text-[9px] font-mono text-aeblack-400">100</span></div>
+                <div class="flex-1 bg-whitely-200 grid place-items-center"><span class="text-[9px] font-mono text-aeblack-500">200</span></div>
+                <div class="flex-1 bg-whitely-300 grid place-items-center"><span class="text-[9px] font-mono text-aeblack-600">300</span></div>
+                <div class="flex-1 bg-whitely-400 grid place-items-center"><span class="text-[9px] font-mono text-aeblack-700">400</span></div>
+                <div class="flex-1 bg-whitely-500 grid place-items-center"><span class="text-[9px] font-mono text-white">500</span></div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      <!-- ══ BUTTONS ════════════════════════════════════ -->
+      <section id="buttons">
+        <div class="section-card">
+          <div class="section-card-header flex items-start justify-between gap-4">
+            <div>
+              <h2 class="text-base font-semibold text-aeblack-900 dark:text-whitely-100">Buttons</h2>
+              <p class="text-xs text-aeblack-500 dark:text-aeblack-400 mt-0.5">All variants — primary, secondary, danger, neutral-min, neutral-max</p>
+            </div>
+            <aegov-badge color="techblue" appearance="soft">Component</aegov-badge>
+          </div>
+          <div class="section-card-body space-y-4">
+            <div class="preview-box flex gap-3 flex-wrap items-center">
+              <aegov-button variant="primary">Primary</aegov-button>
+              <aegov-button variant="secondary">Secondary</aegov-button>
+              <aegov-button variant="danger">Danger</aegov-button>
+              <aegov-button variant="neutral-min">Neutral Min</aegov-button>
+              <aegov-button variant="neutral-max">Neutral Max</aegov-button>
+              <aegov-button variant="primary" is-disabled="true">Disabled</aegov-button>
+              <aegov-button variant="primary" id="loading-btn">Click → Loading</aegov-button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ══ BUTTON SIZES ═══════════════════════════════ -->
+      <section id="button-sizes">
+        <div class="section-card">
+          <div class="section-card-header flex items-start justify-between gap-4">
+            <div>
+              <h2 class="text-base font-semibold text-aeblack-900 dark:text-whitely-100">Button Sizes</h2>
+              <p class="text-xs text-aeblack-500 dark:text-aeblack-400 mt-0.5">All 5 variants × all 5 sizes — xs, sm, base, lg, xl</p>
+            </div>
+            <aegov-badge color="techblue" appearance="soft">Component</aegov-badge>
+          </div>
+          <div class="section-card-body">
+            <div class="overflow-x-auto">
+              <table class="w-full text-sm">
+                <thead>
+                  <tr class="border-b border-aeblack-100 dark:border-aeblack-700">
+                    <th class="py-2 pe-5 text-start text-[11px] font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 w-28">Variant</th>
+                    <th class="py-2 pe-5 text-[11px] font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500">xs</th>
+                    <th class="py-2 pe-5 text-[11px] font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500">sm</th>
+                    <th class="py-2 pe-5 text-[11px] font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500">base</th>
+                    <th class="py-2 pe-5 text-[11px] font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500">lg</th>
+                    <th class="py-2 text-[11px] font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500">xl</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-aeblack-50 dark:divide-aeblack-800">
+                  <tr>
+                    <td class="py-3 pe-5 font-mono text-[11px] text-aeblack-400 dark:text-aeblack-500">primary</td>
+                    <td class="py-3 pe-5"><aegov-button variant="primary" size="xs">Button</aegov-button></td>
+                    <td class="py-3 pe-5"><aegov-button variant="primary" size="sm">Button</aegov-button></td>
+                    <td class="py-3 pe-5"><aegov-button variant="primary" size="base">Button</aegov-button></td>
+                    <td class="py-3 pe-5"><aegov-button variant="primary" size="lg">Button</aegov-button></td>
+                    <td class="py-3"><aegov-button variant="primary" size="xl">Button</aegov-button></td>
+                  </tr>
+                  <tr>
+                    <td class="py-3 pe-5 font-mono text-[11px] text-aeblack-400 dark:text-aeblack-500">secondary</td>
+                    <td class="py-3 pe-5"><aegov-button variant="secondary" size="xs">Button</aegov-button></td>
+                    <td class="py-3 pe-5"><aegov-button variant="secondary" size="sm">Button</aegov-button></td>
+                    <td class="py-3 pe-5"><aegov-button variant="secondary" size="base">Button</aegov-button></td>
+                    <td class="py-3 pe-5"><aegov-button variant="secondary" size="lg">Button</aegov-button></td>
+                    <td class="py-3"><aegov-button variant="secondary" size="xl">Button</aegov-button></td>
+                  </tr>
+                  <tr>
+                    <td class="py-3 pe-5 font-mono text-[11px] text-aeblack-400 dark:text-aeblack-500">danger</td>
+                    <td class="py-3 pe-5"><aegov-button variant="danger" size="xs">Button</aegov-button></td>
+                    <td class="py-3 pe-5"><aegov-button variant="danger" size="sm">Button</aegov-button></td>
+                    <td class="py-3 pe-5"><aegov-button variant="danger" size="base">Button</aegov-button></td>
+                    <td class="py-3 pe-5"><aegov-button variant="danger" size="lg">Button</aegov-button></td>
+                    <td class="py-3"><aegov-button variant="danger" size="xl">Button</aegov-button></td>
+                  </tr>
+                  <tr>
+                    <td class="py-3 pe-5 font-mono text-[11px] text-aeblack-400 dark:text-aeblack-500">neutral-min</td>
+                    <td class="py-3 pe-5"><aegov-button variant="neutral-min" size="xs">Button</aegov-button></td>
+                    <td class="py-3 pe-5"><aegov-button variant="neutral-min" size="sm">Button</aegov-button></td>
+                    <td class="py-3 pe-5"><aegov-button variant="neutral-min" size="base">Button</aegov-button></td>
+                    <td class="py-3 pe-5"><aegov-button variant="neutral-min" size="lg">Button</aegov-button></td>
+                    <td class="py-3"><aegov-button variant="neutral-min" size="xl">Button</aegov-button></td>
+                  </tr>
+                  <tr>
+                    <td class="py-3 pe-5 font-mono text-[11px] text-aeblack-400 dark:text-aeblack-500">neutral-max</td>
+                    <td class="py-3 pe-5"><aegov-button variant="neutral-max" size="xs">Button</aegov-button></td>
+                    <td class="py-3 pe-5"><aegov-button variant="neutral-max" size="sm">Button</aegov-button></td>
+                    <td class="py-3 pe-5"><aegov-button variant="neutral-max" size="base">Button</aegov-button></td>
+                    <td class="py-3 pe-5"><aegov-button variant="neutral-max" size="lg">Button</aegov-button></td>
+                    <td class="py-3"><aegov-button variant="neutral-max" size="xl">Button</aegov-button></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ══ BADGES ═════════════════════════════════════ -->
+      <section id="badges">
+        <div class="section-card">
+          <div class="section-card-header flex items-start justify-between gap-4">
+            <div>
+              <h2 class="text-base font-semibold text-aeblack-900 dark:text-whitely-100">Badges</h2>
+              <p class="text-xs text-aeblack-500 dark:text-aeblack-400 mt-0.5">All 17 color values</p>
+            </div>
+            <aegov-badge color="techblue" appearance="soft">Component</aegov-badge>
+          </div>
+          <div class="section-card-body">
+            <div class="preview-box flex gap-2 flex-wrap">
+              <aegov-badge color="default">Default</aegov-badge>
+              <aegov-badge color="primary">Primary</aegov-badge>
+              <aegov-badge color="secondary">Secondary</aegov-badge>
+              <aegov-badge color="aegreen">Aegreen</aegov-badge>
+              <aegov-badge color="aegold">Aegold</aegov-badge>
+              <aegov-badge color="aered">Aered</aegov-badge>
+              <aegov-badge color="aeblack">Aeblack</aegov-badge>
+              <aegov-badge color="techblue">Techblue</aegov-badge>
+              <aegov-badge color="seablue">Seablue</aegov-badge>
+              <aegov-badge color="camel">Camel</aegov-badge>
+              <aegov-badge color="desert">Desert</aegov-badge>
+              <aegov-badge color="fuchsia">Fuchsia</aegov-badge>
+              <aegov-badge color="slate">Slate</aegov-badge>
+              <aegov-badge color="purple">Purple</aegov-badge>
+              <aegov-badge color="pink">Pink</aegov-badge>
+              <aegov-badge color="indigo">Indigo</aegov-badge>
+              <aegov-badge color="lime">Lime</aegov-badge>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ══ BADGE APPEARANCES ══════════════════════════ -->
+      <section id="badge-appearances">
+        <div class="section-card">
+          <div class="section-card-header flex items-start justify-between gap-4">
+            <div>
+              <h2 class="text-base font-semibold text-aeblack-900 dark:text-whitely-100">Badge Appearances</h2>
+              <p class="text-xs text-aeblack-500 dark:text-aeblack-400 mt-0.5">Soft (default) vs Solid — all colors side by side</p>
+            </div>
+            <aegov-badge color="techblue" appearance="soft">Component</aegov-badge>
+          </div>
+          <div class="section-card-body">
+            <div class="grid grid-cols-2 gap-5">
+              <div class="space-y-2">
+                <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500">Soft</p>
+                <div class="preview-box flex flex-wrap gap-2">
+                  <aegov-badge color="default" appearance="soft">Default</aegov-badge>
+                  <aegov-badge color="primary" appearance="soft">Primary</aegov-badge>
+                  <aegov-badge color="secondary" appearance="soft">Secondary</aegov-badge>
+                  <aegov-badge color="aegreen" appearance="soft">Aegreen</aegov-badge>
+                  <aegov-badge color="aegold" appearance="soft">Aegold</aegov-badge>
+                  <aegov-badge color="aered" appearance="soft">Aered</aegov-badge>
+                  <aegov-badge color="aeblack" appearance="soft">Aeblack</aegov-badge>
+                  <aegov-badge color="techblue" appearance="soft">Techblue</aegov-badge>
+                  <aegov-badge color="seablue" appearance="soft">Seablue</aegov-badge>
+                  <aegov-badge color="camel" appearance="soft">Camel</aegov-badge>
+                  <aegov-badge color="fuchsia" appearance="soft">Fuchsia</aegov-badge>
+                  <aegov-badge color="purple" appearance="soft">Purple</aegov-badge>
+                  <aegov-badge color="pink" appearance="soft">Pink</aegov-badge>
+                  <aegov-badge color="lime" appearance="soft">Lime</aegov-badge>
+                </div>
+              </div>
+              <div class="space-y-2">
+                <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500">Solid</p>
+                <div class="preview-box flex flex-wrap gap-2">
+                  <aegov-badge color="default" appearance="solid">Default</aegov-badge>
+                  <aegov-badge color="primary" appearance="solid">Primary</aegov-badge>
+                  <aegov-badge color="secondary" appearance="solid">Secondary</aegov-badge>
+                  <aegov-badge color="aegreen" appearance="solid">Aegreen</aegov-badge>
+                  <aegov-badge color="aegold" appearance="solid">Aegold</aegov-badge>
+                  <aegov-badge color="aered" appearance="solid">Aered</aegov-badge>
+                  <aegov-badge color="aeblack" appearance="solid">Aeblack</aegov-badge>
+                  <aegov-badge color="techblue" appearance="solid">Techblue</aegov-badge>
+                  <aegov-badge color="seablue" appearance="solid">Seablue</aegov-badge>
+                  <aegov-badge color="camel" appearance="solid">Camel</aegov-badge>
+                  <aegov-badge color="fuchsia" appearance="solid">Fuchsia</aegov-badge>
+                  <aegov-badge color="purple" appearance="solid">Purple</aegov-badge>
+                  <aegov-badge color="pink" appearance="solid">Pink</aegov-badge>
+                  <aegov-badge color="lime" appearance="solid">Lime</aegov-badge>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ══ INPUT ══════════════════════════════════════ -->
+      <section id="inputs">
+        <div class="section-card">
+          <div class="section-card-header flex items-start justify-between gap-4">
+            <div>
+              <h2 class="text-base font-semibold text-aeblack-900 dark:text-whitely-100">Input</h2>
+              <p class="text-xs text-aeblack-500 dark:text-aeblack-400 mt-0.5">Text, email, password with hint and required flag</p>
+            </div>
+            <aegov-badge color="techblue" appearance="soft">Component</aegov-badge>
+          </div>
+          <div class="section-card-body">
+            <div class="preview-box grid grid-cols-2 gap-4 max-w-2xl">
+              <aegov-input field-id="inp-name" placeholder="Full name"></aegov-input>
+              <aegov-input field-id="inp-email" placeholder="Email address" type="email" is-required="true"></aegov-input>
+              <aegov-input field-id="inp-pass" placeholder="Password" type="password" is-revealable="true"></aegov-input>
+              <aegov-input field-id="inp-hint" placeholder="With hint text" hint="This is a helpful hint"></aegov-input>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ══ SELECT ══════════════════════════════════════ -->
+      <section id="select">
+        <div class="section-card">
+          <div class="section-card-header flex items-start justify-between gap-4">
+            <div>
+              <h2 class="text-base font-semibold text-aeblack-900 dark:text-whitely-100">Select</h2>
+              <p class="text-xs text-aeblack-500 dark:text-aeblack-400 mt-0.5">Single select, searchable, clearable</p>
+            </div>
+            <aegov-badge color="techblue" appearance="soft">Component</aegov-badge>
+          </div>
+          <div class="section-card-body">
+            <div class="preview-box grid grid-cols-2 gap-4 max-w-2xl">
+              <aegov-select field-id="sel-status" placeholder="Select a status">
+                <aegov-select-option value="active">Active</aegov-select-option>
+                <aegov-select-option value="pending">Pending</aegov-select-option>
+                <aegov-select-option value="closed">Closed</aegov-select-option>
+              </aegov-select>
+              <aegov-select field-id="sel-search" placeholder="Searchable select" is-searchable="true" is-clearable="true">
+                <aegov-select-option value="ae">United Arab Emirates</aegov-select-option>
+                <aegov-select-option value="sa">Saudi Arabia</aegov-select-option>
+                <aegov-select-option value="eg">Egypt</aegov-select-option>
+                <aegov-select-option value="jo">Jordan</aegov-select-option>
+              </aegov-select>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ══ CHECKBOX ═══════════════════════════════════ -->
+      <section id="checkbox">
+        <div class="section-card">
+          <div class="section-card-header flex items-start justify-between gap-4">
+            <div>
+              <h2 class="text-base font-semibold text-aeblack-900 dark:text-whitely-100">Checkbox</h2>
+              <p class="text-xs text-aeblack-500 dark:text-aeblack-400 mt-0.5">Default, pre-checked, with hint</p>
+            </div>
+            <aegov-badge color="techblue" appearance="soft">Component</aegov-badge>
+          </div>
+          <div class="section-card-body">
+            <div class="preview-box flex flex-wrap gap-6">
+              <aegov-checkbox field-id="chk-agree" label="I agree to the terms and conditions"></aegov-checkbox>
+              <aegov-checkbox field-id="chk-news" label="Subscribe to newsletter" is-checked="true"></aegov-checkbox>
+              <aegov-checkbox field-id="chk-hint" label="With hint text" hint="This is a helpful description"></aegov-checkbox>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ══ TABS ═══════════════════════════════════════ -->
+      <section id="tabs">
+        <div class="section-card">
+          <div class="section-card-header flex items-start justify-between gap-4">
+            <div>
+              <h2 class="text-base font-semibold text-aeblack-900 dark:text-whitely-100">Tabs</h2>
+              <p class="text-xs text-aeblack-500 dark:text-aeblack-400 mt-0.5">Use <code class="font-mono bg-aeblack-100 dark:bg-aeblack-800 px-1 rounded text-[11px]">tab-id</code> (kebab-case) in HTML — required prop</p>
+            </div>
+            <aegov-badge color="techblue" appearance="soft">Component</aegov-badge>
+          </div>
+          <div class="section-card-body">
+            <aegov-tabs default-open="overview">
+              <aegov-tab slot="tabs" tab-id="overview">Overview</aegov-tab>
+              <aegov-tab slot="tabs" tab-id="details">Details</aegov-tab>
+              <aegov-tab slot="tabs" tab-id="history">History</aegov-tab>
+              <aegov-tab-panel tab-id="overview">
+                <div class="p-4">
+                  <p class="text-sm text-aeblack-600 dark:text-aeblack-400">Overview content panel. <code class="font-mono text-[11px] bg-aeblack-100 dark:bg-aeblack-800 px-1 rounded">tab-id</code> is required on both <code class="font-mono text-[11px] bg-aeblack-100 dark:bg-aeblack-800 px-1 rounded">aegov-tab</code> and <code class="font-mono text-[11px] bg-aeblack-100 dark:bg-aeblack-800 px-1 rounded">aegov-tab-panel</code>.</p>
+                </div>
+              </aegov-tab-panel>
+              <aegov-tab-panel tab-id="details">
+                <div class="p-4">
+                  <p class="text-sm text-aeblack-600 dark:text-aeblack-400">Details content panel.</p>
+                </div>
+              </aegov-tab-panel>
+              <aegov-tab-panel tab-id="history">
+                <div class="p-4">
+                  <p class="text-sm text-aeblack-600 dark:text-aeblack-400">History content panel.</p>
+                </div>
+              </aegov-tab-panel>
+            </aegov-tabs>
+          </div>
+        </div>
+      </section>
+
+      <!-- ══ COMPONENT STATES ═══════════════════════════ -->
+      <section id="states">
+        <div class="section-card">
+          <div class="section-card-header flex items-start justify-between gap-4">
+            <div>
+              <h2 class="text-base font-semibold text-aeblack-900 dark:text-whitely-100">Component States</h2>
+              <p class="text-xs text-aeblack-500 dark:text-aeblack-400 mt-0.5">Normal · Disabled · Readonly · Required across form controls</p>
+            </div>
+            <aegov-badge color="aegold" appearance="soft">Testing</aegov-badge>
+          </div>
+          <div class="section-card-body space-y-6">
+
+            <!-- Input states -->
+            <div class="space-y-2">
+              <aegov-separator text="Input"></aegov-separator>
+              <div class="preview-box grid grid-cols-2 gap-4 max-w-2xl">
+                <div class="space-y-1">
+                  <p class="text-[11px] font-semibold text-aeblack-400 dark:text-aeblack-500 uppercase tracking-wide">Normal</p>
+                  <aegov-input field-id="st-inp-n" placeholder="Normal input"></aegov-input>
+                </div>
+                <div class="space-y-1">
+                  <p class="text-[11px] font-semibold text-aeblack-400 dark:text-aeblack-500 uppercase tracking-wide">Disabled</p>
+                  <aegov-input field-id="st-inp-d" placeholder="Disabled input" is-disabled="true"></aegov-input>
+                </div>
+                <div class="space-y-1">
+                  <p class="text-[11px] font-semibold text-aeblack-400 dark:text-aeblack-500 uppercase tracking-wide">Readonly</p>
+                  <aegov-input field-id="st-inp-r" placeholder="Readonly input" is-readonly="true"></aegov-input>
+                </div>
+                <div class="space-y-1">
+                  <p class="text-[11px] font-semibold text-aeblack-400 dark:text-aeblack-500 uppercase tracking-wide">Required</p>
+                  <aegov-input field-id="st-inp-req" placeholder="Required input" is-required="true"></aegov-input>
+                </div>
+              </div>
+            </div>
+
+            <!-- Select states -->
+            <div class="space-y-2">
+              <aegov-separator text="Select"></aegov-separator>
+              <div class="preview-box grid grid-cols-2 gap-4 max-w-2xl">
+                <div class="space-y-1">
+                  <p class="text-[11px] font-semibold text-aeblack-400 dark:text-aeblack-500 uppercase tracking-wide">Normal</p>
+                  <aegov-select field-id="st-sel-n" placeholder="Normal select">
+                    <aegov-select-option value="a">Option A</aegov-select-option>
+                    <aegov-select-option value="b">Option B</aegov-select-option>
+                  </aegov-select>
+                </div>
+                <div class="space-y-1">
+                  <p class="text-[11px] font-semibold text-aeblack-400 dark:text-aeblack-500 uppercase tracking-wide">Disabled</p>
+                  <aegov-select field-id="st-sel-d" placeholder="Disabled select" is-disabled="true">
+                    <aegov-select-option value="a">Option A</aegov-select-option>
+                    <aegov-select-option value="b">Option B</aegov-select-option>
+                  </aegov-select>
+                </div>
+                <div class="space-y-1">
+                  <p class="text-[11px] font-semibold text-aeblack-400 dark:text-aeblack-500 uppercase tracking-wide">Required</p>
+                  <aegov-select field-id="st-sel-req" placeholder="Required select" is-required="true">
+                    <aegov-select-option value="a">Option A</aegov-select-option>
+                    <aegov-select-option value="b">Option B</aegov-select-option>
+                  </aegov-select>
+                </div>
+                <div class="space-y-1">
+                  <p class="text-[11px] font-semibold text-aeblack-400 dark:text-aeblack-500 uppercase tracking-wide">Searchable + Clearable</p>
+                  <aegov-select field-id="st-sel-s" placeholder="Searchable" is-searchable="true" is-clearable="true">
+                    <aegov-select-option value="a">Option A</aegov-select-option>
+                    <aegov-select-option value="b">Option B</aegov-select-option>
+                  </aegov-select>
+                </div>
+              </div>
+            </div>
+
+            <!-- Checkbox states -->
+            <div class="space-y-2">
+              <aegov-separator text="Checkbox"></aegov-separator>
+              <div class="preview-box flex flex-wrap gap-6">
+                <div class="space-y-1">
+                  <p class="text-[11px] font-semibold text-aeblack-400 dark:text-aeblack-500 uppercase tracking-wide">Normal</p>
+                  <aegov-checkbox field-id="st-cb-n" label="Unchecked"></aegov-checkbox>
+                </div>
+                <div class="space-y-1">
+                  <p class="text-[11px] font-semibold text-aeblack-400 dark:text-aeblack-500 uppercase tracking-wide">Checked</p>
+                  <aegov-checkbox field-id="st-cb-c" label="Pre-checked" is-checked="true"></aegov-checkbox>
+                </div>
+                <div class="space-y-1">
+                  <p class="text-[11px] font-semibold text-aeblack-400 dark:text-aeblack-500 uppercase tracking-wide">Disabled</p>
+                  <aegov-checkbox field-id="st-cb-d" label="Disabled" is-disabled="true"></aegov-checkbox>
+                </div>
+                <div class="space-y-1">
+                  <p class="text-[11px] font-semibold text-aeblack-400 dark:text-aeblack-500 uppercase tracking-wide">Disabled + Checked</p>
+                  <aegov-checkbox field-id="st-cb-dc" label="Disabled + Checked" is-disabled="true" is-checked="true"></aegov-checkbox>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      <!-- ══ DARK MODE ══════════════════════════════════ -->
+      <section id="dark-mode">
+        <div class="section-card">
+          <div class="section-card-header flex items-start justify-between gap-4">
+            <div>
+              <h2 class="text-base font-semibold text-aeblack-900 dark:text-whitely-100">Dark Mode</h2>
+              <p class="text-xs text-aeblack-500 dark:text-aeblack-400 mt-0.5">Toggled via the <code class="font-mono text-[11px] bg-aeblack-100 dark:bg-aeblack-800 px-1 rounded">.dark</code> class on <code class="font-mono text-[11px] bg-aeblack-100 dark:bg-aeblack-800 px-1 rounded">&lt;html&gt;</code> — use the toggle in the top bar</p>
+            </div>
+            <aegov-badge color="purple" appearance="soft">Theming</aegov-badge>
+          </div>
+          <div class="section-card-body space-y-4">
+            <div class="grid grid-cols-3 gap-4">
+              <div class="rounded-xl p-4 space-y-2 bg-whitely-50 dark:bg-aeblack-800 border border-aeblack-200 dark:border-aeblack-600 transition-colors duration-200">
+                <p class="text-sm font-semibold text-aeblack-800 dark:text-whitely-100">Surface</p>
+                <p class="text-xs text-aeblack-500 dark:text-aeblack-400">Secondary text</p>
+                <aegov-button variant="primary" size="sm">Action</aegov-button>
+              </div>
+              <div class="rounded-xl p-4 space-y-2 bg-primary-50 dark:bg-primary-950 border border-primary-200 dark:border-primary-800 transition-colors duration-200">
+                <p class="text-sm font-semibold text-primary-800 dark:text-primary-200">Primary tint</p>
+                <p class="text-xs text-primary-600 dark:text-primary-400">Semantic text</p>
+                <div class="flex gap-1.5">
+                  <aegov-badge color="primary" appearance="soft">Active</aegov-badge>
+                  <aegov-badge color="aegreen" appearance="soft">Online</aegov-badge>
+                </div>
+              </div>
+              <div class="rounded-xl p-4 space-y-2 bg-aeblack-800 dark:bg-whitely-100 border border-aeblack-700 dark:border-aeblack-200 transition-colors duration-200">
+                <p class="text-sm font-semibold text-white dark:text-aeblack-900">Inverted</p>
+                <p class="text-xs text-aeblack-300 dark:text-aeblack-600">Intentionally flips</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ══ RTL ════════════════════════════════════════ -->
+      <section id="rtl">
+        <div class="section-card">
+          <div class="section-card-header flex items-start justify-between gap-4">
+            <div>
+              <h2 class="text-base font-semibold text-aeblack-900 dark:text-whitely-100">RTL / Arabic</h2>
+              <p class="text-xs text-aeblack-500 dark:text-aeblack-400 mt-0.5">Toggle RTL in the top bar — flips layout + switches to Noto Kufi Arabic font</p>
+            </div>
+            <aegov-badge color="purple" appearance="soft">Theming</aegov-badge>
+          </div>
+          <div class="section-card-body space-y-4">
+            <div class="preview-box space-y-4">
+              <p class="text-sm text-aeblack-600 dark:text-aeblack-300">هذا النص يظهر باللغة العربية. عند تفعيل وضع RTL، يُعكس تخطيط الصفحة بالكامل وتُستخدم خطوط "نوتو كوفي عربي".</p>
+              <div class="flex gap-3 flex-wrap">
+                <aegov-button variant="primary">زر رئيسي</aegov-button>
+                <aegov-button variant="secondary">زر ثانوي</aegov-button>
+                <aegov-button variant="danger">تحذير</aegov-button>
+              </div>
+              <div class="flex gap-2 flex-wrap">
+                <aegov-badge color="aegreen">نشط</aegov-badge>
+                <aegov-badge color="aegold">قيد الانتظار</aegov-badge>
+                <aegov-badge color="aered">مرفوض</aegov-badge>
+              </div>
+              <div class="grid grid-cols-2 gap-3 max-w-lg">
+                <aegov-input field-id="rtl-name" placeholder="الاسم الكامل"></aegov-input>
+                <aegov-select field-id="rtl-status" placeholder="اختر الحالة">
+                  <aegov-select-option value="active">نشط</aegov-select-option>
+                  <aegov-select-option value="pending">قيد الانتظار</aegov-select-option>
+                </aegov-select>
+              </div>
+              <aegov-checkbox field-id="rtl-agree" label="أوافق على الشروط والأحكام"></aegov-checkbox>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div class="h-16"></div>
+    </main>
+  </div>
+
+  <script type="module">
+    // Loading button demo
+    const loadingBtn = document.getElementById('loading-btn');
+    loadingBtn.addEventListener('aegovButtonClick', async () => {
+      loadingBtn.isLoading = true;
+      await new Promise(r => setTimeout(r, 2000));
+      loadingBtn.isLoading = false;
+    });
+
+    const themeBadge = document.getElementById('theme-badge');
+    const dirBadge = document.getElementById('dir-badge');
+
+    function updateBadges() {
+      const isDark = document.documentElement.classList.contains('dark');
+      const isRtl = document.documentElement.dir === 'rtl';
+      themeBadge.textContent = isDark ? 'Dark' : 'Light';
+      themeBadge.setAttribute('color', isDark ? 'purple' : 'aeblack');
+      dirBadge.textContent = isRtl ? 'RTL' : 'LTR';
+      dirBadge.setAttribute('color', isRtl ? 'aegold' : 'techblue');
+    }
+
+    // Dark mode toggle
+    document.getElementById('dark-toggle').addEventListener('aegovToggleChange', (e) => {
+      document.documentElement.classList.toggle('dark', e.detail.checked);
+      updateBadges();
+    });
+
+    // RTL toggle
+    document.getElementById('rtl-toggle').addEventListener('aegovToggleChange', (e) => {
+      const goRtl = e.detail.checked;
+      document.documentElement.dir = goRtl ? 'rtl' : 'ltr';
+      document.documentElement.lang = goRtl ? 'ar' : 'en';
+      updateBadges();
+    });
+
+    // Scrollspy — highlight active nav link
+    const sections = document.querySelectorAll('section[id]');
+    const navLinks = document.querySelectorAll('.nav-link');
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          navLinks.forEach(link => {
+            link.classList.toggle('active', link.getAttribute('href') === '#' + entry.target.id);
+          });
+        }
+      });
+    }, { rootMargin: '-10% 0px -80% 0px', threshold: 0 });
+
+    sections.forEach(s => observer.observe(s));
+  </script>
+</body>
+</html>

@@ -1,0 +1,105 @@
+:host {
+  display: block;
+}
+
+
+.aegov-accordion-item {
+  @apply border-b border-aeblack-200;
+  @apply dark:border-aeblack-700;
+
+  &.accordion-item__last {
+    @apply border-b-0;
+  }
+
+  & .accordion-item__heading-wrapper {
+    margin: 0;
+    padding: 0;
+    font-size: inherit;
+    font-weight: inherit;
+    line-height: inherit;
+  }
+
+  &>button.accordion-item__header,
+  & .accordion-item__heading-wrapper>button.accordion-item__header {
+    @apply w-full py-5 px-3 flex justify-between items-start gap-x-4 flex-nowrap text-start text-base font-semibold bg-transparent transition-all border-0 cursor-pointer focus:text-primary-support-900 focus-visible:bg-primary-support-400 focus-visible:text-primary-support-900 focus-visible:-outline-offset-3 focus-visible:outline-2 focus-visible:outline-primary-support-700;
+
+    @apply dark:focus:text-primary-support-50 dark:focus-visible:bg-primary-support-700 dark:focus-visible:text-primary-support-50 dark:focus-visible:outline-primary-support-300;
+
+    &[aria-disabled="true"] {
+      cursor: not-allowed;
+    }
+
+    &:not([aria-disabled="true"]):hover {
+      @apply text-primary-700;
+      @apply dark:text-primary-300;
+      & > .accordion-item__heading {
+        @apply text-primary-700;
+        @apply dark:text-primary-300;
+      }
+    }
+  }
+  & .accordion-item__heading {
+    @apply flex-1 font-semibold text-base leading-normal text-aeblack-800 flex items-center justify-start gap-2; @apply dark:text-whitely-100;
+  }
+  &.accordion-item--open {
+    &>button.accordion-item__header,
+    & .accordion-item__heading-wrapper>button.accordion-item__header {
+      @apply text-primary-800 focus-visible:text-primary-support-900!;
+      @apply dark:text-primary-200 dark:focus-visible:text-primary-support-50!;
+      &>.accordion-item__heading {
+        @apply text-primary-800 group-focus-visible:text-primary-support-900!;
+        @apply dark:text-primary-200 dark:group-focus-visible:text-primary-support-50!;
+      }
+      &>.accordion-item__icon-chevron {
+        @apply text-primary-800 rotate-180;
+        @apply dark:text-primary-200;
+      }
+      &>.accordion-item__icon-plus {
+        @apply text-primary-800 rotate-45;
+        @apply dark:text-primary-200;
+      }
+    }
+  }
+  & .accordion-item__icon {
+    @apply size-6 shrink-0 text-aeblack-600 transition-all ease-in-out duration-150;
+    @apply dark:text-aeblack-300;
+  }
+  & .accordion-item__content {
+    @apply px-3 py-4 leading-normal text-aeblack-800;
+    @apply dark:text-whitely-100;
+  }
+
+  &.accordion-item--disabled {
+    @apply opacity-60;
+  }
+
+  & .accordion-item__content-wrapper {
+    overflow: hidden;
+    transition: height 0.2s ease-in-out;
+  }
+}
+
+/* ── Size variants ───────────────────────────────── */
+
+.accordion-item--sm > button.accordion-item__header,
+.accordion-item--sm .accordion-item__heading-wrapper > button.accordion-item__header {
+  @apply text-sm;
+}
+.accordion-item--sm .accordion-item__heading {
+  @apply text-sm;
+}
+
+/* base is the default — no override needed */
+
+.accordion-item--lg > button.accordion-item__header,
+.accordion-item--lg .accordion-item__heading-wrapper > button.accordion-item__header {
+  @apply text-lg;
+}
+.accordion-item--lg .accordion-item__heading {
+  @apply text-lg;
+}
+
+/* RTL Support */
+[dir="rtl"] .accordion-item__header {
+  text-align: right;
+}
