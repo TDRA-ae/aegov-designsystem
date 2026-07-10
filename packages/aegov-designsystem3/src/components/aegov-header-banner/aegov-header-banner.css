@@ -16,7 +16,59 @@
 }
 
 .header__top-expand--open {
-  @apply max-h-96 opacity-100 py-4;
+  @apply max-h-[44rem] opacity-100 py-4;
+}
+
+.header__expand-inner {
+  @apply relative flex flex-col gap-5;
+}
+
+.header__identity {
+  @apply flex items-center gap-4 pe-16 pb-5 border-b border-aeblack-700;
+}
+
+.header__seal {
+  @apply flex-none;
+}
+
+.header__entity {
+  @apply min-w-0;
+}
+
+.header__entity-name {
+  @apply m-0 text-base sm:text-lg font-bold text-white leading-tight;
+}
+
+.header__entity-domain {
+  @apply m-0 mt-0.5 text-sm text-aeblack-300 font-mono;
+}
+
+.header__trust {
+  @apply grid gap-5 sm:grid-cols-2;
+}
+
+.header__trust-card {
+  @apply flex gap-3;
+}
+
+.header__trust-icon {
+  @apply flex-none flex items-center justify-center w-9 h-9 rounded-lg bg-aeblack-800;
+}
+
+.header__trust-icon--gold {
+  @apply text-aegold-400;
+}
+
+.header__trust-icon--green {
+  @apply text-aegreen-400;
+}
+
+.header__trust-title {
+  @apply m-0 text-sm font-bold text-white;
+}
+
+.header__trust-text {
+  @apply m-0 mt-1 text-xs sm:text-sm text-aeblack-300 leading-relaxed;
 }
 
 .aegov-header-banner--error {
