@@ -1,7 +1,7 @@
 {
   "name": "test-angular",
   "private": true,
-  "version": "0.0.0",
+  "version": "0.2.3",
   "scripts": {
     "dev": "ng serve --port 4300",
     "build": "ng build",
@@ -9,7 +9,7 @@
   },
   "dependencies": {
     "@aegov/designsystem-angular-testing": "file:../../packages/angular-workspace/dist/component-library",
-    "@aegov/designsystem-testing": "*",
+    "@aegov/designsystem-testing": "^0.2.3",
     "@angular/common": "^22.0.0",
     "@angular/compiler": "^22.0.0",
     "@angular/core": "^22.0.0",
