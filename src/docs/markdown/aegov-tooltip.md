@@ -207,9 +207,9 @@ A common pattern: pair an input label with an info icon that reveals additional 
   <div class="flex items-center gap-2 mb-2">
     <label for="trade-licence" class="font-semibold">Trade licence number</label>
     <aegov-tooltip content="Your 6- to 8-digit licence number is printed on the top right of your DED licence document." position="top" align="start">
-      <button type="button" class="text-aeblack-500 hover:text-primary-600" aria-label="What is this?">
+      <aegov-button is-icon appearance="soft" size="xs" aria-label="What is this?">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><path d="M12 16v-4M12 8h.01"></path></svg>
-      </button>
+      </aegov-button>
     </aegov-tooltip>
   </div>
   <aegov-input field-id="trade-licence" placeholder="e.g. 123456"></aegov-input>
@@ -221,9 +221,9 @@ A common pattern: pair an input label with an info icon that reveals additional 
     <div class="flex items-center gap-2 mb-2">
       <label for="demo-trade-licence" class="font-semibold">Trade licence number</label>
       <aegov-tooltip content="Your 6- to 8-digit licence number is printed on the top right of your DED licence document." position="top" align="start">
-        <button type="button" class="text-aeblack-500 hover:text-primary-600 inline-flex" aria-label="What is this?">
+        <aegov-button is-icon appearance="soft" size="xs" aria-label="What is this?">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><path d="M12 16v-4M12 8h.01"></path></svg>
-        </button>
+        </aegov-button>
       </aegov-tooltip>
     </div>
     <aegov-input field-id="demo-trade-licence" placeholder="e.g. 123456"></aegov-input>
@@ -300,7 +300,7 @@ ARIA and `data-*` attributes set on `<aegov-tooltip>` are forwarded onto the inn
 | `aria-*`            | Yes        | Applied to the inner trigger wrapper (`.aegov-tooltip-trigger`). |
 | `data-*`            | Yes        | Applied to the inner trigger wrapper.                         |
 | `aria-describedby`  | Managed    | Set automatically while the tooltip is visible.               |
-| `aria-expanded`     | Managed    | Set automatically when `trigger="click"`.                     |
+| `aria-expanded`     | Managed    | Set directly on the first focusable element inside the trigger slot when `trigger="click"`. |
 | `class`, `style`    | Allowed    | Applied to the host element.                                  |
 
 ---
@@ -311,9 +311,11 @@ ARIA and `data-*` attributes set on `<aegov-tooltip>` are forwarded onto the inn
 
 - The tooltip element renders with `role="tooltip"` and a stable `id`.
 - `aria-describedby` is set on the trigger wrapper while the tooltip is visible, so screen readers announce the tooltip text together with the trigger's accessible name.
-- When `trigger="click"`, `aria-expanded` reflects the open state on the trigger wrapper.
-- `Escape` hides the tooltip immediately.
-- The tooltip closes when the trigger loses focus (with `delay-end` applied) or when the user clicks outside (in click-trigger mode).
+- When `trigger="click"`, `aria-expanded` is set directly on the first focusable element inside the trigger slot (the button, link, or other focusable element), so assistive technology correctly announces the expanded state.
+- The tooltip appears when the trigger gains keyboard focus (via `Tab`) and closes when focus leaves the component.
+- `Escape` hides the tooltip immediately (SC 1.4.13 dismissable).
+- The tooltip remains open when the pointer moves from the trigger onto the tooltip itself, allowing users to read or copy the tooltip text (SC 1.4.13 hoverable).
+- The tooltip closes when the trigger loses focus or when the user clicks outside (in click-trigger mode).
 
 ### Developer responsibilities
 

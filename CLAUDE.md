@@ -30,7 +30,7 @@ npm run generate       # Scaffold new component
 
 ```
 src/
-├── components/          # 49 component directories (~36 unique components)
+├── components/          # 56 component directories (~42 unique components)
 ├── utils/               # Shared utilities (see below)
 │   ├── types.ts         # All shared TypeScript types (470+ lines)
 │   ├── attributes.ts    # Pass-through attribute extraction (aria-*, data-*)
@@ -114,10 +114,10 @@ Angular and Vue output targets are configured but commented out.
 
 ## Component Inventory
 
-### 49 Directories, ~36 Unique Components
+### 56 Directories, ~42 Unique Components
 
 **UI Components:**
-aegov-accordion (+ item), aegov-aspect-ratio, aegov-avatar (+ group), aegov-badge, aegov-banner, aegov-blockquote, aegov-breadcrumbs (+ item), aegov-button (+ group), aegov-callout, aegov-card, aegov-drawer, aegov-dropdown, aegov-link, aegov-modal, aegov-pagination, aegov-popover, aegov-progress, aegov-separator, aegov-tabs (+ tab + tab-panel), aegov-timeline (+ step), aegov-toast, aegov-tooltip
+aegov-accordion (+ item), aegov-aspect-ratio, aegov-avatar (+ group), aegov-badge, aegov-banner, aegov-bento-grid, aegov-blockquote, aegov-breadcrumbs (+ item), aegov-button (+ group), aegov-callout, aegov-card, aegov-drawer, aegov-dropdown, aegov-link, aegov-modal, aegov-navbar (+ item), aegov-navblock (+ item), aegov-pagination, aegov-popover, aegov-progress, aegov-separator, aegov-tabs (+ tab + tab-panel), aegov-timeline (+ step), aegov-toast, aegov-tooltip
 
 **Form Components:**
 aegov-checkbox (+ group), aegov-datepicker, aegov-fileupload, aegov-form-field, aegov-input (+ group), aegov-label, aegov-otp, aegov-radio (+ group), aegov-range, aegov-select (+ option + option-group), aegov-textarea, aegov-toggle
@@ -126,7 +126,7 @@ aegov-checkbox (+ group), aegov-datepicker, aegov-fileupload, aegov-form-field, 
 aegov-text, aegov-title
 
 **Layout:**
-aegov-header
+aegov-header, aegov-header-banner, aegov-responsive-nav (placeholder — no component implementation yet)
 
 ---
 
@@ -136,7 +136,7 @@ aegov-header
 |------|-----------|---------------|
 | `scoped: false` (default) | Most components | `'component .inner'` |
 | `scoped: true` | dropdown, toast, popover, datepicker | `'component .inner'` |
-| `shadow: true` | modal, drawer | `'component >>> .inner'` |
+| `shadow: true` | modal, drawer, header-banner | `'component >>> .inner'` |
 
 **Why scoped: true for portals?** Stencil's scoped mode provides event re-targeting needed for custom events to bubble correctly after DOM portal moves. Portal components also inject `<style>` via JS since scoped CSS can't reach portal elements.
 

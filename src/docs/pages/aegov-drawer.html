@@ -257,26 +257,25 @@
       <h3 id="demo-detail-title" class="text-2xl font-bold">Renew Emirates ID</h3>
       <p class="text-aeblack-500">Federal Authority for Identity, Citizenship, Customs &amp; Port Security</p>
     </header>
-
-<pre><code class="hljs language-"><span class="hljs-tag">&lt;<span class="hljs-name">dl</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;space-y-4 mb-6&quot;</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">dt</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;text-sm font-semibold text-aeblack-500&quot;</span>&gt;</span>Processing time<span class="hljs-tag">&lt;/<span class="hljs-name">dt</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">dd</span>&gt;</span>3 to 5 working days<span class="hljs-tag">&lt;/<span class="hljs-name">dd</span>&gt;</span>
-  <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">dt</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;text-sm font-semibold text-aeblack-500&quot;</span>&gt;</span>Fees<span class="hljs-tag">&lt;/<span class="hljs-name">dt</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">dd</span>&gt;</span>AED 270 (5 years) · AED 370 (10 years)<span class="hljs-tag">&lt;/<span class="hljs-name">dd</span>&gt;</span>
-  <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">dt</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;text-sm font-semibold text-aeblack-500&quot;</span>&gt;</span>Required documents<span class="hljs-tag">&lt;/<span class="hljs-name">dt</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">dd</span>&gt;</span>Existing Emirates ID, recent personal photo, proof of residence.<span class="hljs-tag">&lt;/<span class="hljs-name">dd</span>&gt;</span>
-  <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">dl</span>&gt;</span>
-
-<span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;flex justify-end gap-3&quot;</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;secondary&quot;</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;demo-detail-close&quot;</span>&gt;</span>Close<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;demo-detail-start&quot;</span>&gt;</span>Start application<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre>  </aegov-drawer>
+    <dl class="space-y-4 mb-6">
+      <div>
+        <dt class="text-sm font-semibold text-aeblack-500">Processing time</dt>
+        <dd>3 to 5 working days</dd>
+      </div>
+      <div>
+        <dt class="text-sm font-semibold text-aeblack-500">Fees</dt>
+        <dd>AED 270 (5 years) · AED 370 (10 years)</dd>
+      </div>
+      <div>
+        <dt class="text-sm font-semibold text-aeblack-500">Required documents</dt>
+        <dd>Existing Emirates ID, recent personal photo, proof of residence.</dd>
+      </div>
+    </dl>
+    <div class="flex justify-end gap-3">
+      <aegov-button variant="secondary" id="demo-detail-close">Close</aegov-button>
+      <aegov-button id="demo-detail-start">Start application</aegov-button>
+    </div>
+  </aegov-drawer>
 
   <script>
     (function() {

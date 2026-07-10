@@ -233,7 +233,7 @@ export const DATEPICKER_PORTAL_STYLES = `
   padding-bottom: 0.25rem;
   font-size: 0.75rem;
   font-weight: 500;
-  color: var(--color-aeblack-400, #94a3b8);
+  color: var(--color-aeblack-600, #595c66); /* aeblack-400 was 4.08:1 — fails WCAG AA at 12px */
   text-transform: uppercase;
 }
 
@@ -260,8 +260,8 @@ export const DATEPICKER_PORTAL_STYLES = `
   position: relative;
 }
 
-.datepicker__day:hover:not(.datepicker__day--disabled):not(.datepicker__day--outside) {
-  background: var(--color-primary-100, #e0f2fe);
+.datepicker__day:hover:not(.datepicker__day--disabled):not(.datepicker__day--outside):not(.datepicker__day--selected):not(.datepicker__day--range-start):not(.datepicker__day--range-end) {
+  background: var(--color-primary-100);
 }
 
 .datepicker__day:focus-visible {
@@ -289,7 +289,7 @@ export const DATEPICKER_PORTAL_STYLES = `
 .datepicker__day--selected:hover,
 .datepicker__day--range-start:hover,
 .datepicker__day--range-end:hover {
-  background: var(--color-primary-600, #0284c7);
+  background: var(--color-primary-700);
 }
 
 .datepicker__day--in-range:not(.datepicker__day--range-start):not(.datepicker__day--range-end) {
@@ -354,12 +354,19 @@ export const DATEPICKER_PORTAL_STYLES = `
   opacity: 0.5;
 }
 
-.datepicker__day--outside {
-  color: var(--color-aeblack-300, #cbd5e1);
+.datepicker__day--outside:not(.datepicker__day--selected):not(.datepicker__day--range-start):not(.datepicker__day--range-end):not(.datepicker__day--in-range) {
+  color: var(--color-aeblack-500, #636870);
 }
 
-.datepicker__day--outside:hover {
+.datepicker__day--outside:hover:not(.datepicker__day--selected):not(.datepicker__day--range-start):not(.datepicker__day--range-end) {
   background: var(--color-aeblack-50, #f8fafc);
+}
+
+/* Outside days that fall within a selected range render at reduced opacity so the range is clear */
+.datepicker__day--outside.datepicker__day--in-range {
+  background: var(--color-primary-100);
+  color: var(--color-primary-800);
+  opacity: 0.6;
 }
 
 .datepicker__day--focused:not(.datepicker__day--disabled) {
@@ -419,6 +426,12 @@ export const DATEPICKER_PORTAL_STYLES = `
   outline-offset: 2px;
 }
 
+.datepicker__footer-btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
 /* ── Live Region ────────────────────────────────────── */
 .datepicker__live-region {
   position: absolute;
@@ -457,8 +470,9 @@ export const DATEPICKER_PORTAL_STYLES = `
   color: var(--color-secondary-50);
 }
 .aegov-datepicker.datepicker-variant-secondary .datepicker__day--today:not(.datepicker__day--selected):not(.datepicker__day--range-start):not(.datepicker__day--range-end) {
-  color: var(--color-secondary-600, #0284c7);
-  box-shadow: inset 0 0 0 1px var(--color-secondary-400, #38bdf8);
+  /* secondary-700 (camel-700) instead of secondary-600 — 600 is #d67907 (3.18:1 vs white, fails WCAG AA) */
+  color: var(--color-secondary-700, #7c5e24);
+  box-shadow: inset 0 0 0 1px var(--color-secondary-500, #b68a35);
 }
 .aegov-datepicker.datepicker-variant-secondary .datepicker__day--in-range:not(.datepicker__day--range-start):not(.datepicker__day--range-end) {
   background: var(--color-secondary-100, #e0f2fe);

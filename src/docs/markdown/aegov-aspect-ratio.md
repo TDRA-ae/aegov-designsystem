@@ -232,10 +232,12 @@ The component emits no custom events — it is a layout primitive.
 - The component introduces no roles, landmarks, or ARIA attributes — it is purely a layout primitive.
 - Slotted content (`<img>`, `<iframe>`, `<video>`) retains its native semantics.
 - Invalid `ratio` strings silently fall back to `auto`; invalid `fit` values fall back to `cover` and emit a console warning.
+- The inner container uses `overflow: clip` with `overflow-clip-margin: 4px` instead of `overflow: hidden`. This means focus rings on slotted interactive elements remain visible up to 4 px outside the clipping boundary, satisfying WCAG SC 2.4.11 (Focus Not Obscured). Unlike `overflow: hidden`, `overflow: clip` does not create a scroll container or a new stacking context.
+- At `componentDidLoad`, the component checks all slotted `<iframe>` elements for a `title` attribute and emits a `console.warn` if any are missing. This surfaces the WCAG SC 4.1.2 requirement during development without breaking the page.
 
 ### Developer responsibilities
 
 - Provide meaningful `alt` text on slotted `<img>` elements. For purely decorative imagery use `alt=""` so screen readers skip the image.
-- Provide a `title` attribute on every embedded `<iframe>` (maps, video players) so assistive technology can announce the embed.
+- Provide a `title` attribute on every embedded `<iframe>` (maps, video players) so assistive technology can announce the embed. The component will warn in the browser console if this is missing.
 - Provide accessible captions or transcripts for `<video>` content where required.
-- Avoid placing interactive content inside an aspect-ratio container that crops it — clipping can hide focus rings or controls.
+- Focus rings on slotted interactive elements remain visible up to 4 px outside the container boundary thanks to `overflow-clip-margin`. Controls that need focus rings wider than 4 px should increase their own `outline-offset` accordingly.

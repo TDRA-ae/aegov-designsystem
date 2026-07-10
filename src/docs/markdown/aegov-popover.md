@@ -198,9 +198,9 @@ A popover is well-suited to in-context help — clicking an info icon next to a 
   <div class="flex items-center gap-2 mb-2">
     <label for="iban" class="font-semibold">IBAN</label>
     <aegov-popover position="top" align="start">
-      <button type="button" class="text-aeblack-500 hover:text-primary-600 inline-flex" aria-label="What is an IBAN?">
+      <aegov-button is-icon appearance="soft" size="xs" aria-label="What is an IBAN?">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><path d="M12 16v-4M12 8h.01"></path></svg>
-      </button>
+      </aegov-button>
       <div slot="popover-content" class="max-w-xs">
         <h4 class="text-base font-semibold mb-2">International Bank Account Number</h4>
         <p class="text-sm mb-2">A UAE IBAN is 23 characters long and starts with <strong>AE</strong>. You will find it on the front of your bank card or on a recent bank statement.</p>
@@ -217,9 +217,9 @@ A popover is well-suited to in-context help — clicking an info icon next to a 
     <div class="flex items-center gap-2 mb-2">
       <label for="demo-iban" class="font-semibold">IBAN</label>
       <aegov-popover position="top" align="start">
-        <button type="button" class="text-aeblack-500 hover:text-primary-600 inline-flex" aria-label="What is an IBAN?">
+        <aegov-button is-icon appearance="soft" size="xs" aria-label="What is an IBAN?">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><path d="M12 16v-4M12 8h.01"></path></svg>
-        </button>
+        </aegov-button>
         <div slot="popover-content" class="max-w-xs">
           <h4 class="text-base font-semibold mb-2">International Bank Account Number</h4>
           <p class="text-sm mb-2">A UAE IBAN is 23 characters long and starts with <strong>AE</strong>. You will find it on the front of your bank card or on a recent bank statement.</p>
@@ -359,10 +359,10 @@ The popover does not currently forward host-element attributes through to the pa
 | ------------------- | ---------- | ------------------------------------------------------------------------------- |
 | `aria-*`            | No         | Apply directly to the trigger you slot in, or to `<aegov-popover>`.             |
 | `data-*`            | No         | Apply directly to the trigger you slot in, or to `<aegov-popover>`.             |
-| `aria-haspopup`     | Managed    | Set automatically to `dialog` on the trigger wrapper.                           |
-| `aria-expanded`     | Managed    | Reflects the open state on the trigger wrapper.                                 |
-| `aria-controls`     | Managed    | Linked to the popover panel while open.                                         |
-| `aria-labelledby`   | Managed    | The panel is labelled by the trigger wrapper.                                   |
+| `aria-haspopup`     | Managed    | Set to `dialog` on the first focusable child inside the trigger slot.           |
+| `aria-expanded`     | Managed    | Reflects the open state on the first focusable child inside the trigger slot.   |
+| `aria-controls`     | Managed    | Set on the first focusable child; points to the popover panel while open.       |
+| `aria-labelledby`   | Managed    | The panel is labelled by the trigger wrapper element (contains trigger text).   |
 | `class`, `style`    | Allowed    | Applied to the host element.                                                    |
 
 > **Portal note.** Popover content is moved (not cloned) into a portal at `document.body` while open, and returned to its original location when closed. Avoid wrapping `<aegov-popover>` content with CSS that depends on the parent layout — once portalled, the panel only inherits styles from `:root`.
@@ -373,11 +373,12 @@ The popover does not currently forward host-element attributes through to the pa
 
 ### Built-in behaviour
 
-- The trigger wrapper is given `aria-haspopup="dialog"` and `aria-expanded` reflects the open state.
+- `aria-haspopup="dialog"` and `aria-expanded` are propagated imperatively to the first focusable element inside the trigger slot (the element AT reads), not just the wrapper div.
 - The portalled panel renders with `role="dialog"` and is labelled by the trigger via `aria-labelledby`.
-- When the popover opens, focus moves to the first focusable element inside the panel.
+- When the popover opens, focus moves to the first focusable element inside the panel. If the panel has no focusable children, the panel container itself receives focus (`tabindex="-1"`) so AT announces the dialog immediately.
 - `Tab`, `Shift + Tab`, `ArrowUp`, and `ArrowDown` cycle focus through the focusable elements inside the panel.
 - `Escape` closes the popover and returns focus to the trigger (with `preventScroll` so the page does not jump).
+- When `trigger="hover"`, the popover also opens on keyboard **focus** and closes on **blur** (SC 2.1.1) — hover-only interaction is never the sole access path.
 - Clicking outside the trigger and panel closes the popover.
 - If the trigger scrolls out of the viewport, the popover closes automatically.
 - Only one popover may be open at a time; opening a new popover automatically closes any other.
@@ -394,6 +395,7 @@ The popover does not currently forward host-element attributes through to the pa
 | Key                       | Action                                                                            |
 | ------------------------- | --------------------------------------------------------------------------------- |
 | `Enter`, `Space`          | Open the popover when the trigger is focused (click trigger).                     |
+| `Tab` (into trigger)      | Opens the popover when `trigger="hover"` (focus = hover equivalent, SC 2.1.1).   |
 | `Escape`                  | Close the popover and return focus to the trigger.                                |
 | `Tab` / `Shift + Tab`     | Cycle through focusable elements inside the popover panel.                        |
 | `ArrowDown` / `ArrowUp`   | Move to the next/previous focusable element inside the popover panel.             |

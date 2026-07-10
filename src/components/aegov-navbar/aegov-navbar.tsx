@@ -5,6 +5,11 @@ import { watchResponsiveProp } from '../../utils/responsive-prop';
 import type { ResponsivePropWatcher } from '../../utils/responsive-prop';
 import { isRtl as detectRtl } from '../../utils/rtl';
 
+const STRINGS = {
+  en: { nav: 'Main navigation' },
+  ar: { nav: 'التنقل الرئيسي' },
+};
+
 /**
  * @component aegov-navbar
  * @description Horizontal primary navigation container. Holds aegov-navbar-item
@@ -47,9 +52,9 @@ export class AegovNavbar {
   @Prop() gap: string = 'gap-3';
 
   /**
-   * Accessible label for the navigation landmark.
+   * Accessible label for the navigation landmark. Defaults to "Main navigation" (LTR) or "التنقل الرئيسي" (RTL).
    */
-  @Prop() labelNav: string = 'Main navigation';
+  @Prop() labelNav: string = '';
 
   @State() private _resolvedSize: NavbarSize = 'base';
   private _sizeWatcher: ResponsivePropWatcher | null = null;
@@ -150,11 +155,13 @@ export class AegovNavbar {
   }
 
   render() {
+    const rtl = detectRtl(this.el);
+    const navLabel = this.labelNav || (rtl ? STRINGS.ar.nav : STRINGS.en.nav);
     return (
       <Host>
         <nav
           class={`aegov-navbar aegov-navbar-${this._resolvedSize}`}
-          aria-label={this.labelNav}
+          aria-label={navLabel}
         >
           <ul class={`aegov-navbar-list ${this.gap}`}>
             <slot />

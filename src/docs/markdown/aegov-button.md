@@ -599,22 +599,23 @@ aegov-button::part(button) {
 
 ### Built-in behaviour
 
-- Renders a real `<button>` element inside, so it is focusable, keyboard-activatable, and exposed correctly to assistive technologies by default.
-- Sets `aria-disabled` to match the disabled or loading state.
-- Sets `aria-busy="true"` while loading so screen readers announce the in-progress state.
-- Visible `focus-visible` outline tuned per appearance — solid and soft buttons get an offset outline, outline buttons get an inset outline.
-- All `aria-*` attributes set on the host are forwarded to the inner button.
-- The button-group wrapper has `role="group"` so assistive tech announces the buttons as a related set.
+- Renders a real `<button>` element, so it is focusable, keyboard-activatable, and exposed correctly to assistive technologies by default.
+- `aria-disabled="true"` is set only when the button is disabled or loading — it is omitted entirely when the button is enabled (no redundant `aria-disabled="false"` noise).
+- `aria-busy="true"` is set only while loading — omitted otherwise. Screen readers announce the button as busy until the operation completes.
+- The loading spinner SVG is `aria-hidden="true"` — the button's visible label (slot content) is the sole accessible announcement; the spinner is purely visual.
+- `focus-visible` outline is tuned per appearance: solid and soft buttons get an offset outline; outline buttons get an inset outline.
+- All `aria-*` and `data-*` attributes set on the host are forwarded to the inner `<button>`.
+- `aegov-button-group` wraps its buttons in `<div role="group">` and forwards all `aria-*` and `data-*` attributes from the host to that div, so `aria-label` on the host reaches the group landmark correctly.
 
 ### Developer responsibilities
 
-- Provide an `aria-label` on every icon-only button (`is-icon="true"`).
-- For loading buttons whose visible label does not change ("Save" → "Save"), update the label to describe what is happening (`Saving…`) or supply an `aria-label`.
+- Provide an `aria-label` on every icon-only button (`is-icon="true"`) — the slot content alone is not enough for AT.
+- For loading buttons whose visible label does not change (e.g. "Save" stays "Save" while loading), either update the slot content to "Saving…" or pass `aria-label="Saving…"` so screen reader users know what is in progress.
 - Verify colour contrast if you override colours via `::part(button)` or custom CSS.
 - Do not wrap `aegov-button` inside another `<button>` — nesting interactive elements is invalid HTML.
-- For `aegov-button-group`, supply an `aria-label` describing the group's purpose when it is not obvious from the labels alone (e.g. `aria-label="View range"` for a Day/Week/Month toolbar).
-- Use a real anchor (`<a>`) for navigation. The `link` appearance still renders a `<button>` and emits click events — it does not navigate on its own.
-- Inside a button group, every direct child must be an `aegov-button`. Other elements produce a console warning and are not styled as part of the group.
+- For `aegov-button-group`, supply an `aria-label` on the host whenever the group's purpose is not obvious from its button labels alone (e.g. `<aegov-button-group aria-label="View range">`). This label is forwarded to the `role="group"` div automatically.
+- Use a real anchor (`<a>`) for navigation. The `link` appearance still renders a `<button>` — it does not navigate on its own.
+- Inside a button group, every direct child must be an `aegov-button`. Other elements produce a console warning.
 
 ### Keyboard support
 

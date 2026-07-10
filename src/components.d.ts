@@ -27,6 +27,11 @@ export namespace Components {
          */
         "fieldId"?: string;
         /**
+          * Heading level for accordion item triggers (1–6). Cascaded to all child aegov-accordion-item elements.
+          * @default 3
+         */
+        "headingLevel": number;
+        /**
           * Icon style for accordion items
           * @default 'chevron'
          */
@@ -57,6 +62,11 @@ export namespace Components {
           * Heading text for the accordion item (alternative to using the slot) Note: If both heading property and slot are provided, the slot takes precedence
          */
         "heading"?: string;
+        /**
+          * Heading level for the accordion trigger (1–6). Renders the button inside the appropriate `<hN>` element for correct document structure.
+          * @default 3
+         */
+        "headingLevel": number;
         /**
           * Icon style for the accordion item
           * @default 'chevron'
@@ -1072,6 +1082,10 @@ export namespace Components {
     }
     interface AegovInput {
         /**
+          * ID of an element (e.g. an addonPrefix span in aegov-input-group) to include in the native input's aria-describedby chain. Set by aegov-input-group when addonPrefix is present.
+         */
+        "describedByPrefix"?: string;
+        /**
           * Inline error message rendered below the control when `isInvalid` is true. Auto-wires `aria-describedby` on the inner input. Use the `error` slot for richer markup.
           * @default ''
          */
@@ -1170,6 +1184,10 @@ export namespace Components {
           * Additional CSS classes to apply.
          */
         "extraClass"?: string;
+        /**
+          * Accessible label for the group. Sets `aria-label` on the group wrapper. Use this to describe the purpose of a combined phone/URL/similar input group.
+         */
+        "groupLabel"?: string;
         /**
           * The size of the input group. Propagated to child aegov-input and aegov-button.
           * @default 'base'
@@ -1332,8 +1350,8 @@ export namespace Components {
          */
         "gap": string;
         /**
-          * Accessible label for the navigation landmark.
-          * @default 'Main navigation'
+          * Accessible label for the navigation landmark. Defaults to "Main navigation" (LTR) or "التنقل الرئيسي" (RTL).
+          * @default ''
          */
         "labelNav": string;
         /**
@@ -1434,8 +1452,8 @@ export namespace Components {
          */
         "isMultiple": boolean;
         /**
-          * Accessible label for the navigation landmark.
-          * @default 'Sidebar navigation'
+          * Accessible label for the navigation landmark. Defaults to "Sidebar navigation" (LTR) or "التنقل في الشريط الجانبي" (RTL).
+          * @default ''
          */
         "labelNav": string;
         /**
@@ -2234,8 +2252,8 @@ export namespace Components {
          */
         "isStretchable": boolean;
         /**
-          * Accessible label for the tablist element. Provides context for screen readers about what the tabs control.
-          * @default 'Tabs'
+          * Accessible label for the tablist element. Provides context for screen readers about what the tabs control. Defaults to a bilingual auto-detected string ("Tabs" / "علامات التبويب").
+          * @default ''
          */
         "labelTablist": string;
         /**
@@ -3601,6 +3619,11 @@ declare namespace LocalJSX {
          */
         "fieldId"?: string;
         /**
+          * Heading level for accordion item triggers (1–6). Cascaded to all child aegov-accordion-item elements.
+          * @default 3
+         */
+        "headingLevel"?: number;
+        /**
           * Icon style for accordion items
           * @default 'chevron'
          */
@@ -3631,6 +3654,11 @@ declare namespace LocalJSX {
           * Heading text for the accordion item (alternative to using the slot) Note: If both heading property and slot are provided, the slot takes precedence
          */
         "heading"?: string;
+        /**
+          * Heading level for the accordion trigger (1–6). Renders the button inside the appropriate `<hN>` element for correct document structure.
+          * @default 3
+         */
+        "headingLevel"?: number;
         /**
           * Icon style for the accordion item
           * @default 'chevron'
@@ -4678,6 +4706,10 @@ declare namespace LocalJSX {
     }
     interface AegovInput {
         /**
+          * ID of an element (e.g. an addonPrefix span in aegov-input-group) to include in the native input's aria-describedby chain. Set by aegov-input-group when addonPrefix is present.
+         */
+        "describedByPrefix"?: string;
+        /**
           * Inline error message rendered below the control when `isInvalid` is true. Auto-wires `aria-describedby` on the inner input. Use the `error` slot for richer markup.
           * @default ''
          */
@@ -4787,6 +4819,10 @@ declare namespace LocalJSX {
           * Additional CSS classes to apply.
          */
         "extraClass"?: string;
+        /**
+          * Accessible label for the group. Sets `aria-label` on the group wrapper. Use this to describe the purpose of a combined phone/URL/similar input group.
+         */
+        "groupLabel"?: string;
         /**
           * The size of the input group. Propagated to child aegov-input and aegov-button.
           * @default 'base'
@@ -4961,8 +4997,8 @@ declare namespace LocalJSX {
          */
         "gap"?: string;
         /**
-          * Accessible label for the navigation landmark.
-          * @default 'Main navigation'
+          * Accessible label for the navigation landmark. Defaults to "Main navigation" (LTR) or "التنقل الرئيسي" (RTL).
+          * @default ''
          */
         "labelNav"?: string;
         /**
@@ -5063,8 +5099,8 @@ declare namespace LocalJSX {
          */
         "isMultiple"?: boolean;
         /**
-          * Accessible label for the navigation landmark.
-          * @default 'Sidebar navigation'
+          * Accessible label for the navigation landmark. Defaults to "Sidebar navigation" (LTR) or "التنقل في الشريط الجانبي" (RTL).
+          * @default ''
          */
         "labelNav"?: string;
         /**
@@ -5896,8 +5932,8 @@ declare namespace LocalJSX {
          */
         "isStretchable"?: boolean;
         /**
-          * Accessible label for the tablist element. Provides context for screen readers about what the tabs control.
-          * @default 'Tabs'
+          * Accessible label for the tablist element. Provides context for screen readers about what the tabs control. Defaults to a bilingual auto-detected string ("Tabs" / "علامات التبويب").
+          * @default ''
          */
         "labelTablist"?: string;
         /**

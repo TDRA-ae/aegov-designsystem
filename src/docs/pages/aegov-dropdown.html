@@ -237,10 +237,10 @@
 <h2>User Profile Menu</h2>
 <p>A real-world example anchored to an avatar in the header. Use <code>align=&quot;end&quot;</code> so the panel hugs the right edge of the trigger, and <code>position=&quot;bottom&quot;</code> so it drops below.</p>
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-dropdown</span> <span class="hljs-attr">align</span>=<span class="hljs-string">&quot;end&quot;</span> <span class="hljs-attr">position</span>=<span class="hljs-string">&quot;bottom&quot;</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;button&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;flex items-center gap-2 rounded-full py-2 px-4 hover:bg-aeblack-100&quot;</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar</span> <span class="hljs-attr">initials</span>=<span class="hljs-string">&quot;FA&quot;</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;font-medium&quot;</span>&gt;</span>Fatima Al Hammadi<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
-  <span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span> <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;soft&quot;</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://i.pravatar.cc/150?img=47&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;Fatima Al Hammadi&quot;</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm&quot;</span> <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;rounded&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar</span>&gt;</span>
+    Fatima Al Hammadi
+  <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;dropdown-content&quot;</span>&gt;</span>
     <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/profile&quot;</span>&gt;</span>My profile<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>
     <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/applications&quot;</span>&gt;</span>My applications<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>
@@ -252,10 +252,10 @@
 <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-dropdown</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <div class="flex justify-end">
     <aegov-dropdown align="end" position="bottom">
-      <button type="button" class="flex items-center gap-2 rounded-full py-2 px-4 hover:bg-aeblack-100">
-        <aegov-avatar initials="FA" size="sm"></aegov-avatar>
-        <span class="font-medium">Fatima Al Hammadi</span>
-      </button>
+      <aegov-button appearance="soft">
+        <aegov-avatar src="https://i.pravatar.cc/150?img=47" alt="Fatima Al Hammadi" size="sm" appearance="rounded"></aegov-avatar>
+        Fatima Al Hammadi
+      </aegov-button>
       <div slot="dropdown-content">
         <a href="/profile">My profile</a>
         <a href="/applications">My applications</a>
@@ -376,7 +376,7 @@
   <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-dropdown</span>&gt;</span>
 
-<span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;button&quot;</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;open-from-outside&quot;</span>&gt;</span>Open ministry switcher<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;secondary&quot;</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;open-from-outside&quot;</span>&gt;</span>Open ministry switcher<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span>
 
 <span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript">
   <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;open-from-outside&#x27;</span>).<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;click&#x27;</span>, <span class="hljs-title function_">async</span> () =&gt; {
@@ -624,9 +624,8 @@
 <h2>Accessibility</h2>
 <h3>Built-in behaviour</h3>
 <ul>
-<li>The trigger wrapper exposes <code>aria-haspopup=&quot;true&quot;</code> and <code>aria-expanded</code> reflecting the open state.</li>
-<li>When open, the trigger gets <code>aria-controls</code> pointing at the menu&#39;s <code>id</code>.</li>
-<li>The menu element has <code>role=&quot;menu&quot;</code> and <code>aria-labelledby</code> linking back to the trigger id.</li>
+<li>The first focusable element inside the trigger slot (e.g. <code>&lt;aegov-button&gt;</code>) automatically receives <code>aria-haspopup=&quot;menu&quot;</code>, <code>aria-expanded</code>, and <code>aria-controls</code> (pointing at the menu&#39;s <code>id</code> when open). These attributes are set imperatively so they live on the element AT actually reads, not the wrapper div.</li>
+<li>The menu element has <code>role=&quot;menu&quot;</code> and <code>aria-labelledby</code> linking back to the trigger wrapper&#39;s <code>id</code>.</li>
 <li>Focusable children inside the menu without an explicit <code>role</code> automatically receive <code>role=&quot;menuitem&quot;</code>.</li>
 <li><code>Escape</code> closes the dropdown; <code>Tab</code> and <code>Arrow Up</code> / <code>Arrow Down</code> cycle focus through menu items.</li>
 <li>Keyboard-triggered opens (<code>Enter</code>/<code>Space</code> on the focused trigger) move focus into the menu; pointer opens leave focus on the trigger, matching the WAI-ARIA menu pattern.</li>

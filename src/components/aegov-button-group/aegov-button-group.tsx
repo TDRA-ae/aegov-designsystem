@@ -1,6 +1,7 @@
 import { Component, Element, Host, h, Prop, Watch } from '@stencil/core';
 import { ButtonGroupOrientation, BUTTON_GROUP_ORIENTATIONS } from '../../utils/types';
 import { warnIfInvalidEnumProp } from '../../utils/prop-validator';
+import { getPassThroughAttributes } from '../../utils/attributes';
 
 const TAG = 'aegov-button-group';
 const ctx = (prop: string) => ({ component: TAG, prop });
@@ -114,10 +115,11 @@ export class AegovButtonGroup {
       'button-group--horizontal': orientation === 'horizontal',
       'button-group--vertical': orientation === 'vertical',
     };
+    const passThroughAttributes = getPassThroughAttributes(this.el);
 
     return (
       <Host>
-        <div class={classes} role="group">
+        <div class={classes} role="group" {...passThroughAttributes}>
           <slot />
         </div>
       </Host>

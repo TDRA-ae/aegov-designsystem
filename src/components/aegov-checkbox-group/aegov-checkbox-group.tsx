@@ -5,6 +5,7 @@ import type {
   AegovValidationDetail, AegovValidationResult, AegovValidationTrigger,
 } from '../../utils/types';
 import { warnIfInvalidEnumProp } from '../../utils/prop-validator';
+import { getPassThroughAttributes } from '../../utils/attributes';
 import { watchResponsiveProp } from '../../utils/responsive-prop';
 import type { ResponsivePropWatcher } from '../../utils/responsive-prop';
 import {
@@ -255,6 +256,10 @@ export class AegovCheckboxGroup {
       showError ? this.errorId : null,
       showHint ? this.hintId : null,
     );
+    const passThroughAttrs = getPassThroughAttributes(this.el);
+    delete passThroughAttrs['aria-invalid'];
+    delete passThroughAttrs['aria-describedby'];
+    delete passThroughAttrs['aria-required'];
 
     return (
       <Host class={{ 'is-invalid': this.isInvalid }}>
@@ -262,7 +267,9 @@ export class AegovCheckboxGroup {
           class={this.getGroupClasses()}
           disabled={this.isDisabled}
           aria-invalid={this.isInvalid ? 'true' : null}
+          aria-required={this.isRequired ? 'true' : undefined}
           aria-describedby={describedBy}
+          {...passThroughAttrs}
         >
           {this.label && <legend class="checkbox-group__legend">{this.label}</legend>}
           {showHint && (

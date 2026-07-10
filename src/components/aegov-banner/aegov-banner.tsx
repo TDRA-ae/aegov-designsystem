@@ -14,6 +14,7 @@ import { watchResponsiveProp } from '../../utils/responsive-prop';
 import type { ResponsivePropWatcher } from '../../utils/responsive-prop';
 import { generateId } from '../../utils/id-generator';
 import { isRtl } from '../../utils/rtl';
+import { getVariantIcon } from '../../utils/icons';
 
 const STRINGS = {
   en: { close: 'Close banner' },
@@ -124,6 +125,11 @@ export class AegovBanner {
    */
   @State() hasActionsSlot: boolean = false;
 
+  /**
+   * Internal state to track if the icon slot has custom content.
+   */
+  @State() hasIconSlot: boolean = false;
+
   private resizeObserver: ResizeObserver | null = null;
 
   /**
@@ -218,11 +224,11 @@ export class AegovBanner {
   };
 
   /**
-   * Check if the actions slot has content
+   * Check slot content state before each render.
    */
   private checkActionsSlot = () => {
-    const actionsElements = this.el.querySelectorAll('[slot="actions"]');
-    this.hasActionsSlot = actionsElements.length > 0;
+    this.hasActionsSlot = this.el.querySelectorAll('[slot="actions"]').length > 0;
+    this.hasIconSlot = this.el.querySelectorAll('[slot="icon"]').length > 0;
   };
 
   /**
@@ -379,6 +385,10 @@ export class AegovBanner {
     const passThroughAttributes = getPassThroughAttributes(this.el);
     delete passThroughAttributes['role'];
 
+    const iconSizeClasses: Record<BannerSize, string> = { sm: 'size-4', base: 'size-5', lg: 'size-6' };
+    const iconSizeClass = iconSizeClasses[this._resolvedSize];
+    const effectiveVariant = (CALLOUT_VARIANTS as readonly string[]).includes(this.variant) ? this.variant : 'default';
+
     return (
       <div
         id={this.fieldId}
@@ -390,7 +400,14 @@ export class AegovBanner {
         {...passThroughAttributes}
       >
         <div class="banner__container">
-           <div class="banner__content">
+          <div class="banner__icon" aria-hidden="true">
+            {this.hasIconSlot
+              ? <slot name="icon" />
+              : getVariantIcon(effectiveVariant, iconSizeClass)
+            }
+          </div>
+
+          <div class="banner__content">
             <div class={`banner__text ${this.hasActionsSlot ? 'banner__text-left' : 'banner__text-center'}`}>
               <slot />
             </div>
@@ -409,7 +426,7 @@ export class AegovBanner {
               onClick={this.handleDismiss}
               aria-label={isRtl(this.el) ? STRINGS.ar.close : STRINGS.en.close}
             >
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"><rect width="256" height="256" fill="none"/><line x1="200" y1="56" x2="56" y2="200" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="24"/><line x1="200" y1="200" x2="56" y2="56" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="24"/></svg>
+              <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"><rect width="256" height="256" fill="none"/><line x1="200" y1="56" x2="56" y2="200" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="24"/><line x1="200" y1="200" x2="56" y2="56" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="24"/></svg>
             </button>
           )}
         </div>

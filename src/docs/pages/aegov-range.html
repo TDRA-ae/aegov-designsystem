@@ -492,6 +492,11 @@
 <td><code>{ value?: number; valueLow?: number; valueHigh?: number }</code></td>
 <td>Fires once when the value is committed (mouse-up, touch-end, or keypress).</td>
 </tr>
+<tr>
+<td><code>aegovValidate</code></td>
+<td><code>AegovValidationDetail&lt;number | { low: number; high: number }&gt;</code></td>
+<td>Unified validation event. Fires on blur, input, change, and <code>validate()</code>.</td>
+</tr>
 </tbody></table>
 <p>The detail object contains <code>value</code> in single mode, or <code>valueLow</code> and <code>valueHigh</code> in range mode.</p>
 <h4>Listening for changes</h4>
@@ -591,7 +596,9 @@
 <ul>
 <li>The component uses one or two real <code>&lt;input type=&quot;range&quot;&gt;</code> elements, so screen readers, the OS rotor, and assistive tech all treat it as a native slider.</li>
 <li><code>aria-valuemin</code>, <code>aria-valuemax</code>, and <code>aria-valuenow</code> are kept in sync as the user drags. In dual-thumb mode the low thumb&#39;s <code>aria-valuemax</code> clamps to the high thumb&#39;s value, and vice-versa, so each handle reports its own permitted range.</li>
-<li>Each thumb in range mode is given an explicit <code>aria-label</code> (&quot;Range minimum&quot; / &quot;Range maximum&quot;) so they are distinguishable when traversed by keyboard.</li>
+<li>When the <code>label</code> prop is used in single mode, the label is rendered as a <code>&lt;label&gt;</code> element with <code>for</code> pointing to the underlying <code>&lt;input&gt;</code>, so assistive technology announces it on focus. In range mode the label is rendered as a <code>&lt;span&gt;</code> with an <code>id</code>, and each thumb&#39;s <code>aria-label</code> incorporates the field label for full context — e.g. &quot;Age of dependants — Range minimum&quot;.</li>
+<li>Each thumb in range mode receives a bilingual <code>aria-label</code> that includes the field label and the thumb role (&quot;Range minimum&quot; / &quot;Range maximum&quot; in English; &quot;الحد الأدنى للنطاق&quot; / &quot;الحد الأقصى للنطاق&quot; in Arabic). No developer translation is needed.</li>
+<li>Both thumbs in range mode have <code>aria-invalid</code> and <code>aria-describedby</code> kept in sync with the validation state, and both trigger the blur-gated error announcement independently.</li>
 <li>Pointer events are translated to value updates that respect the configured <code>step</code>, so all input methods snap to the same grid.</li>
 </ul>
 <h3>Developer responsibilities</h3>

@@ -743,8 +743,10 @@
 <li>Renders a real <code>&lt;input type=&quot;radio&quot;&gt;</code>, preserving native semantics, single-select behaviour, and keyboard handling.</li>
 <li><code>field-id</code> is auto-generated and reflected to the host so external <code>&lt;label for&gt;</code> (or <code>aegov-label</code>) can associate reliably.</li>
 <li>When <code>label</code> is set, the entire label area is part of the click target via the wrapping <code>&lt;label&gt;</code> element.</li>
-<li><code>description</code> is associated with the input via <code>aria-describedby</code>.</li>
+<li>The <code>hint</code> text is associated with the input via <code>aria-describedby</code>; error text is announced via a polite <code>aria-live</code> region after the first blur.</li>
 <li><code>aegov-radio-group</code> renders a real <code>&lt;fieldset&gt;</code> with <code>role=&quot;radiogroup&quot;</code> and an optional <code>&lt;legend&gt;</code>, giving screen-reader users a clear group label.</li>
+<li>When <code>is-required</code> is set on <code>aegov-radio-group</code>, <code>aria-required=&quot;true&quot;</code> is added to the <code>&lt;fieldset&gt;</code> so assistive technology knows at least one option must be selected.</li>
+<li>The group forwards <code>aria-*</code> and <code>data-*</code> host attributes onto the <code>&lt;fieldset&gt;</code> — use this to add <code>aria-labelledby</code> when an external heading labels the group.</li>
 <li>The group sets the shared <code>name</code> on every child automatically, so native single-select behaviour and arrow-key navigation work without any extra wiring.</li>
 </ul>
 <h3>Developer responsibilities</h3>

@@ -631,12 +631,14 @@
 <li>Each trigger is a real <code>&lt;button&gt;</code> with <code>aria-expanded</code> reflecting the open state and <code>aria-controls</code> linked to its panel.</li>
 <li>Each panel uses <code>role=&quot;region&quot;</code> and <code>aria-labelledby</code> pointing at its trigger so screen readers announce the heading–content relationship.</li>
 <li><code>Enter</code> and <code>Space</code> toggle the focused item.</li>
-<li>Disabled items set the native <code>disabled</code> attribute and do not emit toggle events.</li>
+<li>Arrow-key navigation (<code>ArrowUp</code> / <code>ArrowDown</code> / <code>Home</code> / <code>End</code>) moves focus between item triggers, matching the <a href="https://www.w3.org/WAI/ARIA/apg/patterns/accordion/">WAI-ARIA Accordion pattern</a>.</li>
+<li>Collapsed panels have the HTML <code>inert</code> attribute applied to their content wrapper. This removes all child elements — buttons, links, inputs — from both the keyboard tab sequence and the accessibility tree simultaneously, so there is no focus leakage into hidden content.</li>
+<li>Disabled items set the native <code>disabled</code> attribute on the trigger and do not emit toggle events.</li>
 </ul>
 <h3>Developer responsibilities</h3>
 <ul>
-<li>Provide a meaningful <code>heading</code> (or heading slot) on every item — without it the trigger reads as just &ldquo;button&rdquo;.</li>
-<li>Avoid placing focusable controls inside collapsed panels that should remain off the tab order. Either disable the item or remove the controls when collapsed.</li>
+<li>Provide a meaningful <code>heading</code> (or heading slot) on every item — without it the trigger announces as just &quot;button&quot;.</li>
+<li>Focusable controls nested inside a collapsed panel are automatically excluded from the tab order via <code>inert</code>. You do not need to manually disable or hide them.</li>
 <li>When using <code>default-open</code>, ensure the index points to a real child item.</li>
 </ul>
 <h3>Keyboard support</h3>
@@ -652,16 +654,30 @@
 <td>Toggle the focused accordion item.</td>
 </tr>
 <tr>
+<td><code>ArrowDown</code></td>
+<td>Move focus to the next accordion trigger.</td>
+</tr>
+<tr>
+<td><code>ArrowUp</code></td>
+<td>Move focus to the previous accordion trigger.</td>
+</tr>
+<tr>
+<td><code>Home</code></td>
+<td>Move focus to the first accordion trigger.</td>
+</tr>
+<tr>
+<td><code>End</code></td>
+<td>Move focus to the last accordion trigger.</td>
+</tr>
+<tr>
 <td><code>Tab</code></td>
-<td>Move focus to the next focusable element.</td>
+<td>Move focus to the next focusable element on the page.</td>
 </tr>
 <tr>
 <td><code>Shift + Tab</code></td>
-<td>Move focus to the previous focusable element.</td>
+<td>Move focus to the previous focusable element on the page.</td>
 </tr>
 </tbody></table>
-<h3>Known gaps</h3>
-<p>The component does not currently provide arrow-key navigation between item triggers (<code>ArrowUp</code> / <code>ArrowDown</code> / <code>Home</code> / <code>End</code> per the WAI-ARIA accordion pattern). Users move between triggers with <code>Tab</code>. If full WAI-ARIA keyboard support is required for your context, treat this as a known gap and plan accordingly.</p>
 <!-- DOC:END -->
           </section>
       </article>

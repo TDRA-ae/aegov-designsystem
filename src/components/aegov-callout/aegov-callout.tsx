@@ -267,13 +267,14 @@ export class AegovCallout {
     }
 
     const passThroughAttributes = getPassThroughAttributes(this.el, AegovCallout.PASS_THROUGH_ATTRS);
+    const liveRole = (this.variant === 'error' || this.variant === 'warning') ? 'alert' : 'status';
 
     return (
       <div
         data-aegov-callout
         data-dismissible={this.isDismissible ? 'true' : null}
         class={this.getCalloutClasses()}
-        role="alert"
+        role={liveRole}
         id={this.fieldId}
         {...passThroughAttributes}
       >

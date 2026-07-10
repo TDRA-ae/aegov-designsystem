@@ -259,13 +259,15 @@
 <li>The component introduces no roles, landmarks, or ARIA attributes — it is purely a layout primitive.</li>
 <li>Slotted content (<code>&lt;img&gt;</code>, <code>&lt;iframe&gt;</code>, <code>&lt;video&gt;</code>) retains its native semantics.</li>
 <li>Invalid <code>ratio</code> strings silently fall back to <code>auto</code>; invalid <code>fit</code> values fall back to <code>cover</code> and emit a console warning.</li>
+<li>The inner container uses <code>overflow: clip</code> with <code>overflow-clip-margin: 4px</code> instead of <code>overflow: hidden</code>. This means focus rings on slotted interactive elements remain visible up to 4 px outside the clipping boundary, satisfying WCAG SC 2.4.11 (Focus Not Obscured). Unlike <code>overflow: hidden</code>, <code>overflow: clip</code> does not create a scroll container or a new stacking context.</li>
+<li>At <code>componentDidLoad</code>, the component checks all slotted <code>&lt;iframe&gt;</code> elements for a <code>title</code> attribute and emits a <code>console.warn</code> if any are missing. This surfaces the WCAG SC 4.1.2 requirement during development without breaking the page.</li>
 </ul>
 <h3>Developer responsibilities</h3>
 <ul>
 <li>Provide meaningful <code>alt</code> text on slotted <code>&lt;img&gt;</code> elements. For purely decorative imagery use <code>alt=&quot;&quot;</code> so screen readers skip the image.</li>
-<li>Provide a <code>title</code> attribute on every embedded <code>&lt;iframe&gt;</code> (maps, video players) so assistive technology can announce the embed.</li>
+<li>Provide a <code>title</code> attribute on every embedded <code>&lt;iframe&gt;</code> (maps, video players) so assistive technology can announce the embed. The component will warn in the browser console if this is missing.</li>
 <li>Provide accessible captions or transcripts for <code>&lt;video&gt;</code> content where required.</li>
-<li>Avoid placing interactive content inside an aspect-ratio container that crops it — clipping can hide focus rings or controls.</li>
+<li>Focus rings on slotted interactive elements remain visible up to 4 px outside the container boundary thanks to <code>overflow-clip-margin</code>. Controls that need focus rings wider than 4 px should increase their own <code>outline-offset</code> accordingly.</li>
 </ul>
 <!-- DOC:END -->
           </section>

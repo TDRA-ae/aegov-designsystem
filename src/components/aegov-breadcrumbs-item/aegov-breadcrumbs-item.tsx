@@ -170,9 +170,7 @@ export class AegovBreadcrumbsItem {
             {this.isMicrodata && (
               <meta itemProp="position" content={this.position.toString()} />
             )}
-            <span>
             {this.renderSeparator()}
-            </span>
           </li>
         </Host>
       );

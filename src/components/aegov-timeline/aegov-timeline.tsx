@@ -6,9 +6,15 @@ import { warnIfInvalidEnumProp } from '../../utils/prop-validator';
 import { watchResponsiveProp } from '../../utils/responsive-prop';
 import type { ResponsivePropWatcher } from '../../utils/responsive-prop';
 import { generateId } from '../../utils/id-generator';
+import { isRtl } from '../../utils/rtl';
 
 const TAG = 'aegov-timeline';
 const ctx = (prop: string) => ({ component: TAG, prop });
+
+const STRINGS = {
+  en: { timeline: 'Timeline' },
+  ar: { timeline: 'الجدول الزمني' },
+};
 
 @Component({
   tag: 'aegov-timeline',
@@ -114,6 +120,11 @@ export class AegovTimeline {
 
   render() {
     const passThroughAttrs = getPassThroughAttributes(this.el);
+    const authorLabel = passThroughAttrs['aria-label'] as string | undefined;
+    delete passThroughAttrs['aria-label'];
+    const rtl = isRtl(this.el);
+    const navLabel = authorLabel || (rtl ? STRINGS.ar.timeline : STRINGS.en.timeline);
+
     const orientation: TimelineOrientation = (TIMELINE_ORIENTATIONS as readonly string[]).includes(this.orientation) ? this.orientation : 'horizontal';
     const variant: TimelineVariant = (TIMELINE_VARIANTS as readonly string[]).includes(this.variant) ? this.variant : 'default';
     const listClasses = [
@@ -130,7 +141,7 @@ export class AegovTimeline {
       <nav
         id={this.fieldId}
         class={navClasses}
-        aria-label="Timeline"
+        aria-label={navLabel}
         {...passThroughAttrs}
       >
         <ol class={listClasses}>

@@ -727,7 +727,7 @@
 <h2>Accessibility</h2>
 <h3>Built-in behaviour</h3>
 <ul>
-<li>The trigger row uses <code>role=&quot;tablist&quot;</code> with the configured <code>aria-label</code> (defaults to <code>&quot;Tabs&quot;</code>) and <code>aria-orientation</code> reflecting <code>orientation</code>.</li>
+<li>The trigger row uses <code>role=&quot;tablist&quot;</code> with <code>aria-orientation</code> reflecting <code>orientation</code>. The <code>aria-label</code> defaults to <code>&quot;Tabs&quot;</code> in LTR and <code>&quot;علامات التبويب&quot;</code> in RTL — no developer translation needed. Override via <code>label-tablist</code> when the tabs control a specific region.</li>
 <li>Each trigger is a real <code>&lt;button&gt;</code> with <code>role=&quot;tab&quot;</code>, <code>aria-selected</code>, and <code>aria-controls</code> linking to its panel.</li>
 <li>Each panel has <code>role=&quot;tabpanel&quot;</code>, <code>aria-labelledby</code> pointing at its trigger, and the native <code>hidden</code> attribute when inactive.</li>
 <li>A roving tabindex pattern is used: only the active trigger is tab-focusable (<code>tabindex=&quot;0&quot;</code>); the rest use <code>tabindex=&quot;-1&quot;</code>.</li>
@@ -737,7 +737,7 @@
 <ul>
 <li>Provide a unique, matching <code>tab-id</code> for every tab/panel pair.</li>
 <li>Give every trigger a meaningful accessible name in the default slot. If you only render an icon, include visually hidden text.</li>
-<li>Override <code>label-tablist</code> when the tabs control a more specific region (e.g. <code>&quot;Account sections&quot;</code>).</li>
+<li>Override <code>label-tablist</code> when the tabs control a specific region (e.g. <code>&quot;Account sections&quot;</code> or <code>&quot;أقسام الحساب&quot;</code>). The default is already bilingual.</li>
 <li>When a panel contains heavy assets, consider lazy-loading them only when the panel becomes active by listening for <code>aegovTabChange</code>.</li>
 </ul>
 <h3>Keyboard support</h3>
