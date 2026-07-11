@@ -1,0 +1,33 @@
+{
+  "name": "@aegov/designsystem-vue-testing",
+  "version": "0.2.3",
+  "description": "AEGOV Design System - Framework-agnostic web components with Tailwind CSS",
+  "author": "Anis conceptlz <124657785+anismansuriui@users.noreply.github.com>",
+  "homepage": "",
+  "license": "ISC",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "directories": {
+    "lib": "lib",
+    "test": "__tests__"
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "test": "echo \"Error: run tests from root\" && exit 1",
+    "clean": "node -e \"const fs=require('fs');fs.rmSync('./dist',{recursive:true,force:true})\"",
+    "build": "npm run clean && npm run tsc",
+    "tsc": "tsc -p . --outDir ./dist"
+  },
+  "publishConfig": {
+    "access": "restricted"
+  },
+  "dependencies": {
+    "@aegov/designsystem-testing": "^0.2.3"
+  },
+  "devDependencies": {
+    "vue": "^3.5.39"
+  },
+  "gitHead": "1a70abe08865f870b955575926bf8a7df6f48a0f"
+}

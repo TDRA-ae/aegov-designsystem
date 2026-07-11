@@ -1,0 +1,175 @@
+:host {
+  display: block;
+}
+
+.aegov-navblock-item {
+  @apply block list-none;
+}
+
+.aegov-navblock-item button {
+  @apply focus-visible:outline-2 focus-visible:outline-primary-support-500 focus-visible:outline-offset-2 focus-visible:bg-primary-support-500 focus-visible:text-primary-support-950! dark:focus-visible:outline-primary-support-400 dark:focus-visible:bg-primary-support-400;
+}
+
+/* ─── Row base ─────────────────────────────────────────────────────────── */
+
+.aegov-navblock-item__row {
+  @apply flex items-center gap-2 w-full p-2 rounded-md text-aeblack-700 bg-transparent border-0 text-start cursor-pointer transition-colors dark:text-aeblack-200;
+  text-decoration: none;
+  font: inherit;
+  @apply focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:bg-primary-support-500 focus-visible:text-primary-support-950! dark:focus-visible:bg-primary-support-400;
+}
+
+.aegov-navblock-item__row:hover:not([aria-disabled="true"]):not(:disabled) {
+  @apply bg-whitely-100 text-aeblack-900 dark:bg-aeblack-800 dark:text-whitely-100;
+}
+
+.aegov-navblock-item__row[aria-disabled="true"],
+.aegov-navblock-item__row:disabled {
+  @apply opacity-50 cursor-not-allowed;
+}
+
+/* ─── Icon slot — always reserved for alignment ─────────────────────────── */
+
+.aegov-navblock-item__icon {
+  @apply inline-flex items-center justify-center w-5 h-5 shrink-0 text-aeblack-600 dark:text-aeblack-300;
+  /* flex-shrink:0 + fixed size ensures text always aligns even when slot is empty */
+}
+.aegov-navblock-item__icon > svg,
+.aegov-navblock-item__icon > * {
+  @apply w-full h-full;
+}
+
+/* ─── Label ─────────────────────────────────────────────────────────────── */
+
+.aegov-navblock-item__label {
+  @apply flex-1 inline-flex items-center gap-2 min-w-0;
+}
+
+/* ─── Chevron (right side — only when item has icon + children) ─────────── */
+
+.aegov-navblock-item__chevron {
+  @apply w-4 h-4 shrink-0 text-aeblack-500 transition-transform duration-200 ease-in-out dark:text-aeblack-400;
+}
+
+/* Left chevron (inside icon slot — when no explicit icon + has children) */
+.aegov-navblock-item__icon .aegov-navblock-item__chevron {
+  @apply w-full h-full;
+}
+
+.aegov-navblock-item--open > .aegov-navblock-item__row .aegov-navblock-item__chevron-chevron {
+  transform: rotate(180deg);
+}
+.aegov-navblock-item--open > .aegov-navblock-item__row .aegov-navblock-item__chevron-plus {
+  transform: rotate(45deg);
+}
+
+/* ─── Sub-list (collapsible) ────────────────────────────────────────────── */
+
+.aegov-navblock-item__sub-wrapper {
+  @apply overflow-hidden h-0;
+  transition: height 0.15s ease-in-out;
+  visibility: hidden;
+}
+
+/* Collapsed children must be invisible to Tab; only reveal when parent is open */
+.aegov-navblock-item--open > .aegov-navblock-item__sub-wrapper {
+  visibility: visible;
+}
+
+.aegov-navblock-item__sub {
+  @apply flex flex-col gap-0.5 list-none m-0 py-1 ps-4;
+}
+
+/* Collapsible: left border centred under the icon column.
+   Icon centre = row p-2 (0.5rem) + w-5/2 (0.625rem) = 1.125rem from edge.
+   Children text target = p-2 (0.5rem) + icon (1.25rem) + gap (0.5rem) = 2.25rem.
+   With no icon spacer on children: margin (1.125rem) + padding (0.625rem) + child-p-2 (0.5rem) = 2.25rem ✓ */
+.navblock--collapsible .aegov-navblock-item__sub {
+  margin-inline-start: 1.125rem;
+  padding-inline-start: 0.625rem;
+  border-inline-start: 1.5px solid;
+  @apply border-aeblack-200/60 dark:border-aeblack-700/60;
+}
+
+/* Hide the empty icon spacer for leaf children so their text aligns with
+   the parent label (not the parent icon), matching the screenshot layout. */
+.navblock--collapsible .aegov-navblock-item__sub .aegov-navblock-item__icon--empty {
+  display: none;
+}
+
+/* ─── Size variants ──────────────────────────────────────────────────────── */
+
+.navblock-item--sm > .aegov-navblock-item__row {
+  @apply text-sm py-1.5;
+}
+.navblock-item--sm .aegov-navblock-item__icon {
+  @apply w-4 h-4;
+}
+.navblock-item--lg > .aegov-navblock-item__row {
+  @apply text-lg py-3;
+}
+.navblock-item--lg .aegov-navblock-item__icon {
+  @apply w-6 h-6;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   COLLAPSIBLE VARIANT
+   Active: filled background highlight
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.navblock--collapsible .aegov-navblock-item.is-active > .aegov-navblock-item__row {
+  @apply bg-primary-50 text-primary-700 font-medium dark:bg-primary-950 dark:text-primary-300;
+}
+
+.navblock--collapsible .aegov-navblock-item.is-active > .aegov-navblock-item__row .aegov-navblock-item__icon {
+  @apply text-primary-600 dark:text-primary-300;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   FLAT VARIANT
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* Group header: bold, non-interactive, top spacing to separate sections */
+.aegov-navblock-item__group-header {
+  @apply font-semibold text-aeblack-900 cursor-default mt-4 first:mt-0 dark:text-whitely-100;
+}
+.aegov-navblock-item__group-header:hover {
+  background: none;
+}
+
+/* Children sub-list: no indent, no border — all items flush at same left edge */
+.navblock--flat .aegov-navblock-item__sub--flat {
+  @apply list-none py-0.5;
+  margin: 0;
+  padding-inline-start: 0;
+}
+
+/* Flat active: color + font-weight, no background fill */
+.navblock--flat .aegov-navblock-item.is-active > .aegov-navblock-item__row {
+  @apply text-primary-700 font-semibold dark:text-primary-300;
+}
+.navblock--flat .aegov-navblock-item.is-active > .aegov-navblock-item__row .aegov-navblock-item__icon {
+  @apply text-primary-600 dark:text-primary-300;
+}
+
+/* Flat + active-border: Flux sidebar pattern.
+   A ::before pseudo-element on the active top-level <li> is positioned exactly
+   at the list container's border (inset = list-padding + list-border-width = 0.75rem + 1.5px).
+   It paints primary-color over the gray list border at that row segment, creating
+   the "merged active border" effect without any layout shift. */
+.navblock--flat.navblock--active-border .aegov-navblock__list > aegov-navblock-item > li.aegov-navblock-item.is-active {
+  position: relative;
+}
+.navblock--flat.navblock--active-border .aegov-navblock__list > aegov-navblock-item > li.aegov-navblock-item.is-active::before {
+  content: '';
+  position: absolute;
+  inset-block: 0;
+  inset-inline-start: calc(-0.75rem - 1.5px);
+  width: 1.5px;
+  @apply bg-primary-500 dark:bg-primary-400;
+}
+
+/* Children sub-list: extra indent in active-border mode for visual hierarchy */
+.navblock--flat.navblock--active-border .aegov-navblock-item__sub--flat {
+  padding-inline-start: 0.75rem;
+}
