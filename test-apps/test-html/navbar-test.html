@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Navbar + Dropdown — Trigger Variations</title>
+  <script type="module" src="/src/main.ts"></script>
+</head>
+<body>
+
+  <aegov-header
+    entity-name="Ministry of Industry and Advanced Technology"
+    entity-domain="https://moiat.gov.ae"
+    skip-content-container="#main"
+  >
+    <img
+      slot="logo"
+      src="https://moiat.gov.ae/-/media/site/moiat/identity/logo/moiat_logo_eng.ashx?iar=0&hash=42716B005DAA289F20DE7B83B575605A"
+      alt="MOIAT logo"
+    />
+  </aegov-header>
+
+  <!-- ════════════════════════════════════════════════════════════════
+       VARIATION 1 — trigger="hover" only
+  ════════════════════════════════════════════════════════════════ -->
+  <div id="nav-hover" class="aegov-container py-2">
+    <aegov-navbar label-nav="Hover-only navigation" gap="gap-6" size="sm md:base">
+
+      <aegov-navbar-item href="#home" is-active="true">Home</aegov-navbar-item>
+
+      <aegov-navbar-item href="#services">
+        Services
+        <aegov-dropdown slot="dropdown" trigger="hover">
+          <div slot="dropdown-content">
+            <a href="#visas">Visas and entry permits</a>
+            <a href="#passports">Passports</a>
+            <a href="#emirates-id">Emirates ID</a>
+            <a href="#customs">Customs declarations</a>
+          </div>
+        </aegov-dropdown>
+      </aegov-navbar-item>
+
+      <aegov-navbar-item href="#about">
+        About UAE
+        <aegov-dropdown slot="dropdown" trigger="hover">
+          <div slot="dropdown-content">
+            <a href="#vision">UAE Vision 2031</a>
+            <a href="#leadership">Leadership</a>
+            <a href="#economy">Economy</a>
+          </div>
+        </aegov-dropdown>
+      </aegov-navbar-item>
+
+      <aegov-navbar-item href="#media">
+        Media
+        <aegov-dropdown slot="dropdown" trigger="hover">
+          <div slot="dropdown-content">
+            <a href="#news">Latest News</a>
+            <a href="#press">Press Releases</a>
+            <a href="#gallery">Photo Gallery</a>
+          </div>
+        </aegov-dropdown>
+      </aegov-navbar-item>
+
+      <aegov-navbar-item href="#contact">Contact</aegov-navbar-item>
+      <aegov-navbar-item is-disabled="true">Beta</aegov-navbar-item>
+
+    </aegov-navbar>
+  </div>
+
+  <!-- ════════════════════════════════════════════════════════════════
+       VARIATION 2 — trigger="click" only
+  ════════════════════════════════════════════════════════════════ -->
+  <div id="nav-click" class="aegov-container py-2">
+    <aegov-navbar label-nav="Click-only navigation" gap="gap-6" size="sm md:base">
+
+      <aegov-navbar-item href="#home2" is-active="true">Home</aegov-navbar-item>
+
+      <aegov-navbar-item href="#services2">
+        Services
+        <aegov-dropdown slot="dropdown" trigger="click">
+          <div slot="dropdown-content">
+            <a href="#visas2">Visas and entry permits</a>
+            <a href="#passports2">Passports</a>
+            <a href="#emirates-id2">Emirates ID</a>
+            <a href="#customs2">Customs declarations</a>
+          </div>
+        </aegov-dropdown>
+      </aegov-navbar-item>
+
+      <aegov-navbar-item href="#about2">
+        About UAE
+        <aegov-dropdown slot="dropdown" trigger="click">
+          <div slot="dropdown-content">
+            <a href="#vision2">UAE Vision 2031</a>
+            <a href="#leadership2">Leadership</a>
+            <a href="#economy2">Economy</a>
+          </div>
+        </aegov-dropdown>
+      </aegov-navbar-item>
+
+      <aegov-navbar-item href="#media2">
+        Media
+        <aegov-dropdown slot="dropdown" trigger="click">
+          <div slot="dropdown-content">
+            <a href="#news2">Latest News</a>
+            <a href="#press2">Press Releases</a>
+            <a href="#gallery2">Photo Gallery</a>
+          </div>
+        </aegov-dropdown>
+      </aegov-navbar-item>
+
+      <aegov-navbar-item href="#contact2">Contact</aegov-navbar-item>
+      <aegov-navbar-item is-disabled="true">Beta</aegov-navbar-item>
+
+    </aegov-navbar>
+  </div>
+
+  <!-- ════════════════════════════════════════════════════════════════
+       VARIATION 3 — combined: alternating hover and click
+  ════════════════════════════════════════════════════════════════ -->
+  <div id="nav-combined" class="aegov-container py-2">
+    <aegov-navbar label-nav="Combined navigation" gap="gap-6" size="sm md:base">
+
+      <aegov-navbar-item href="#home3" is-active="true">Home</aegov-navbar-item>
+
+      <aegov-navbar-item href="#services3">
+        Services (hover)
+        <aegov-dropdown slot="dropdown" trigger="hover">
+          <div slot="dropdown-content">
+            <a href="#visas3">Visas and entry permits</a>
+            <a href="#passports3">Passports</a>
+            <a href="#emirates-id3">Emirates ID</a>
+          </div>
+        </aegov-dropdown>
+      </aegov-navbar-item>
+
+      <aegov-navbar-item href="#about3">
+        About UAE (click)
+        <aegov-dropdown slot="dropdown" trigger="click">
+          <div slot="dropdown-content">
+            <a href="#vision3">UAE Vision 2031</a>
+            <a href="#leadership3">Leadership</a>
+            <a href="#economy3">Economy</a>
+          </div>
+        </aegov-dropdown>
+      </aegov-navbar-item>
+
+      <aegov-navbar-item href="#media3">
+        Media (hover)
+        <aegov-dropdown slot="dropdown" trigger="hover">
+          <div slot="dropdown-content">
+            <a href="#news3">Latest News</a>
+            <a href="#press3">Press Releases</a>
+          </div>
+        </aegov-dropdown>
+      </aegov-navbar-item>
+
+      <aegov-navbar-item href="#egov3">
+        e-Government (click)
+        <aegov-dropdown slot="dropdown" trigger="click">
+          <div slot="dropdown-content">
+            <a href="#moi3">Ministry of Interior</a>
+            <a href="#mohre3">Ministry of HR</a>
+            <a href="#uaepass3">UAE PASS</a>
+          </div>
+        </aegov-dropdown>
+      </aegov-navbar-item>
+
+      <aegov-navbar-item href="#contact3">Contact</aegov-navbar-item>
+
+    </aegov-navbar>
+  </div>
+
+  <!-- ════════════════════════════════════════════════════════════════
+       STANDALONE DROPDOWN — keyboard interaction live test
+       ════════════════════════════════════════════════════════════════
+       Keyboard shortcuts to test:
+         ArrowDown / ArrowUp  — open and move between items
+         Enter / Space        — open (on trigger) or activate item
+         Escape               — close, return focus to trigger
+         Tab                  — closes menu (menu-button pattern); focus exits naturally
+  ════════════════════════════════════════════════════════════════ -->
+  <main id="main" class="aegov-container" style="padding-top: 2rem; padding-bottom: 4rem;">
+    <h2 style="font-size: 1.25rem; font-weight: 600; margin-bottom: 0.25rem;">Standalone Dropdown — Live Keyboard Test</h2>
+    <p style="font-size: 0.875rem; color: #6b7280; margin-bottom: 2rem;">
+      Tab to a trigger, then: <kbd>↓</kbd> open + first item &nbsp;|&nbsp; <kbd>↑</kbd> open + last item &nbsp;|&nbsp;
+      <kbd>↓</kbd><kbd>↑</kbd> navigate &nbsp;|&nbsp; <kbd>Esc</kbd> close &nbsp;|&nbsp; <kbd>Tab</kbd> close + exit
+    </p>
+
+    <div style="display: flex; flex-wrap: wrap; gap: 2rem; align-items: flex-start;">
+
+      <!-- 1. Click trigger — link items -->
+      <div>
+        <p style="font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; color: #9ca3af; margin-bottom: 0.5rem;">Click trigger — links</p>
+        <aegov-dropdown field-id="standalone-links" trigger="click">
+          <button type="button" style="padding: 0.5rem 1rem; border: 1px solid #d1d5db; border-radius: 0.375rem; background: #fff; cursor: pointer;">
+            Options ▾
+          </button>
+          <div slot="dropdown-content">
+            <a href="#opt-1">Visas and entry permits</a>
+            <a href="#opt-2">Passports</a>
+            <a href="#opt-3">Emirates ID</a>
+            <a href="#opt-4">Customs declarations</a>
+          </div>
+        </aegov-dropdown>
+      </div>
+
+      <!-- 2. Hover trigger — link items -->
+      <div>
+        <p style="font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; color: #9ca3af; margin-bottom: 0.5rem;">Hover trigger — links</p>
+        <aegov-dropdown field-id="standalone-hover" trigger="hover">
+          <button type="button" style="padding: 0.5rem 1rem; border: 1px solid #d1d5db; border-radius: 0.375rem; background: #fff; cursor: pointer;">
+            Hover me ▾
+          </button>
+          <div slot="dropdown-content">
+            <a href="#h-1">UAE Vision 2031</a>
+            <a href="#h-2">Leadership</a>
+            <a href="#h-3">Economy</a>
+          </div>
+        </aegov-dropdown>
+      </div>
+
+      <!-- 3. Click trigger — button items (action menu) -->
+      <div>
+        <p style="font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; color: #9ca3af; margin-bottom: 0.5rem;">Click trigger — actions</p>
+        <aegov-dropdown field-id="standalone-actions" trigger="click">
+          <button type="button" style="padding: 0.5rem 1rem; border: 1px solid #d1d5db; border-radius: 0.375rem; background: #fff; cursor: pointer;">
+            Actions ▾
+          </button>
+          <div slot="dropdown-content">
+            <button type="button" onclick="alert('Edit')">Edit</button>
+            <button type="button" onclick="alert('Duplicate')">Duplicate</button>
+            <hr />
+            <button type="button" onclick="alert('Delete')" style="color: #dc2626;">Delete</button>
+          </div>
+        </aegov-dropdown>
+      </div>
+
+      <!-- 4. Tab focus target (so Tab-from-dropdown has somewhere to land) -->
+      <div style="display: flex; align-items: flex-end;">
+        <button type="button" id="after-dropdown" style="padding: 0.5rem 1rem; border: 1px solid #d1d5db; border-radius: 0.375rem; background: #f9fafb;">
+          After dropdown (Tab lands here)
+        </button>
+      </div>
+
+    </div>
+  </main>
+
+</body>
+</html>
