@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Using with Vue | AEGOV Design System</title>
+  <script type="module" src="/build/aegov.esm.js"></script>
+  <script nomodule src="/build/aegov.js"></script>
+  <link rel="stylesheet" href="/build/aegov.css">
+  <link rel="stylesheet" href="/docs/doc-style.css">
+  <link rel="stylesheet" href="/docs/hljs.css">
+</head>
+<body class="bg-aeblack-50 dark:bg-aeblack-950">
+  <header class="aegov-container sm:px-6 lg:px-8 mb-8">
+    <img src="https://designsystem.gov.ae/assets/site-logo/AEGov-DesignSystem-Logo-Color.svg" alt="UAE Design System Logo" class="w-auto h-16 my-2">
+  </header>
+  <main class="aegov-container sm:px-6 lg:px-8 bg-aeblack-50 dark:bg-aeblack-950">
+    <section class="flex items-start align-top gap-4">
+      <nav id="primary-nav" class="w-3xs shrink-0">&nbsp;</nav>
+      <article class="col-span-5 grow">
+          <section id="content-area" class="bg-whitely-50 dark:bg-aeblack-900 p-6 rounded-md shadow-xl">
+          <!-- DOC:START -->
+<h1>Using with Vue</h1>
+<p class="text-lg text-aeblack-500 mb-8">The AEGOV Design System ships first-class Vue 3 wrappers for every component. They auto-generate from the Stencil web components and give you typed props, typed event handlers, and standard Vue template ergonomics — no manual <code>customElements.define</code> calls needed. This page walks through installing the Vue package, wiring its global styles, and using components in a Vue 3 app.</p>
+
+<h2>What you install</h2>
+<table>
+<thead>
+<tr>
+<th>Package</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>@aegov/designsystem-testing</code></td>
+<td>The web components — Stencil bundles, CSS, and types. Required at runtime.</td>
+</tr>
+<tr>
+<td><code>@aegov/designsystem-vue-testing</code></td>
+<td>Vue 3 wrappers. Registers all custom elements automatically via a Vue plugin.</td>
+</tr>
+</tbody></table>
+<hr>
+<h2>Step 1 — Install the packages</h2>
+<pre><code class="hljs language-bash">npm install @aegov/designsystem-testing @aegov/designsystem-vue-testing</code></pre><hr>
+<h2>Step 2 — Register the Vue plugin</h2>
+<p>Register the plugin once in your app entry file. This calls <code>defineCustomElements()</code> automatically — no manual registration needed anywhere else.</p>
+<pre><code class="hljs language-ts"><span class="hljs-comment">// src/main.ts</span>
+<span class="hljs-keyword">import</span> { createApp } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;vue&#x27;</span>;
+<span class="hljs-keyword">import</span> <span class="hljs-title class_">App</span> <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./App.vue&#x27;</span>;
+<span class="hljs-keyword">import</span> { <span class="hljs-title class_">ComponentLibrary</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@aegov/designsystem-vue-testing&#x27;</span>;
+
+<span class="hljs-title function_">createApp</span>(<span class="hljs-title class_">App</span>)
+  .<span class="hljs-title function_">use</span>(<span class="hljs-title class_">ComponentLibrary</span>)
+  .<span class="hljs-title function_">mount</span>(<span class="hljs-string">&#x27;#app&#x27;</span>);</code></pre><hr>
+<h2>Step 3 — Import the styles</h2>
+<p>Add all three imports to your main CSS file. Order matters — Tailwind first, then <code>base</code> (component styles and fonts), then <code>theme</code> (design tokens):</p>
+<pre><code class="hljs language-css"><span class="hljs-comment">/* src/styles.css */</span>
+<span class="hljs-keyword">@import</span> <span class="hljs-string">&quot;tailwindcss&quot;</span>;
+<span class="hljs-keyword">@import</span> <span class="hljs-string">&quot;@aegov/designsystem-testing/base&quot;</span>;
+<span class="hljs-keyword">@import</span> <span class="hljs-string">&quot;@aegov/designsystem-testing/theme&quot;</span>;</code></pre><p>Then import the CSS file in your entry file (before the plugin registration):</p>
+<pre><code class="hljs language-ts"><span class="hljs-comment">// src/main.ts</span>
+<span class="hljs-keyword">import</span> { createApp } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;vue&#x27;</span>;
+<span class="hljs-keyword">import</span> <span class="hljs-string">&#x27;./styles.css&#x27;</span>;
+<span class="hljs-keyword">import</span> <span class="hljs-title class_">App</span> <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./App.vue&#x27;</span>;
+<span class="hljs-keyword">import</span> { <span class="hljs-title class_">ComponentLibrary</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@aegov/designsystem-vue-testing&#x27;</span>;
+
+<span class="hljs-title function_">createApp</span>(<span class="hljs-title class_">App</span>)
+  .<span class="hljs-title function_">use</span>(<span class="hljs-title class_">ComponentLibrary</span>)
+  .<span class="hljs-title function_">mount</span>(<span class="hljs-string">&#x27;#app&#x27;</span>);</code></pre><hr>
+<h2>Step 4 — Use a component</h2>
+<p>Drop any <code>aegov-*</code> tag directly into your Vue template — no per-component import needed. The plugin registered everything in Step 2.</p>
+<pre><code class="hljs language-vue"><span class="hljs-tag">&lt;<span class="hljs-name">template</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;primary&quot;</span> @<span class="hljs-attr">aegov-button-click</span>=<span class="hljs-string">&quot;handleClick&quot;</span>&gt;</span>
+    Submit application
+  <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">setup</span> <span class="hljs-attr">lang</span>=<span class="hljs-string">&quot;ts&quot;</span>&gt;</span><span class="language-javascript">
+<span class="hljs-keyword">function</span> <span class="hljs-title function_">handleClick</span>(<span class="hljs-params">e: CustomEvent</span>) {
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;clicked&#x27;</span>, e.<span class="hljs-property">detail</span>);
+}
+</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre><hr>
+<h2>Props and attributes</h2>
+<p>In Vue templates, use <strong>kebab-case attributes</strong> — the same as plain HTML:</p>
+<pre><code class="hljs language-vue">&lt;aegov-<span class="hljs-built_in">input</span>
+  field-<span class="hljs-built_in">id</span>=<span class="hljs-string">&quot;email&quot;</span>
+  placeholder=<span class="hljs-string">&quot;Enter your email&quot;</span>
+  <span class="hljs-keyword">is</span>-required=<span class="hljs-string">&quot;true&quot;</span>
+<span class="hljs-meta">  @aegov-input-change=<span class="hljs-string">&quot;onChange&quot;</span></span>
+/&gt;</code></pre><hr>
+<h2>Events</h2>
+<p>Component events are fired as native CustomEvents. In Vue templates, listen with <code>@aegov-*</code> (kebab-case):</p>
+<pre><code class="hljs language-vue">&lt;aegov-<span class="hljs-keyword">select</span>
+  <span class="hljs-variable">@aegov</span>-<span class="hljs-keyword">select</span>-change=<span class="hljs-string">&quot;onSelectChange&quot;</span>
+  <span class="hljs-variable">@aegov</span>-<span class="hljs-keyword">select</span>-<span class="hljs-keyword">open</span>=<span class="hljs-string">&quot;onOpen&quot;</span>
+/&gt;
+
+&lt;aegov-checkbox
+  <span class="hljs-variable">@aegov</span>-checkbox-change=<span class="hljs-string">&quot;onCheckboxChange&quot;</span>
+/&gt;</code></pre><p>Event detail is available on <code>event.detail</code>:</p>
+<pre><code class="hljs language-ts"><span class="hljs-keyword">function</span> <span class="hljs-title function_">onSelectChange</span>(<span class="hljs-params"><span class="hljs-attr">e</span>: <span class="hljs-title class_">CustomEvent</span></span>) {
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(e.<span class="hljs-property">detail</span>.<span class="hljs-property">value</span>);
+}</code></pre><hr>
+<h2>Tabs — important note</h2>
+<p><code>tab-id</code> and <code>tabId</code> both work in Vue templates since Vue passes unknown attributes to the DOM directly:</p>
+<pre><code class="hljs language-vue">&lt;aegov-tabs default-open=<span class="hljs-string">&quot;overview&quot;</span>&gt;
+  &lt;aegov-<span class="hljs-literal">tab</span> slot=<span class="hljs-string">&quot;tabs&quot;</span> <span class="hljs-literal">tab</span>-<span class="hljs-built_in">id</span>=<span class="hljs-string">&quot;overview&quot;</span>&gt;Overview&lt;/aegov-<span class="hljs-literal">tab</span>&gt;
+  &lt;aegov-<span class="hljs-literal">tab</span> slot=<span class="hljs-string">&quot;tabs&quot;</span> <span class="hljs-literal">tab</span>-<span class="hljs-built_in">id</span>=<span class="hljs-string">&quot;details&quot;</span>&gt;Details&lt;/aegov-<span class="hljs-literal">tab</span>&gt;
+  &lt;aegov-<span class="hljs-literal">tab</span>-panel <span class="hljs-literal">tab</span>-<span class="hljs-built_in">id</span>=<span class="hljs-string">&quot;overview&quot;</span>&gt;Overview content&lt;/aegov-<span class="hljs-literal">tab</span>-panel&gt;
+  &lt;aegov-<span class="hljs-literal">tab</span>-panel <span class="hljs-literal">tab</span>-<span class="hljs-built_in">id</span>=<span class="hljs-string">&quot;details&quot;</span>&gt;Details content&lt;/aegov-<span class="hljs-literal">tab</span>-panel&gt;
+&lt;/aegov-tabs&gt;</code></pre><hr>
+<h2>Full example — a form with input and button</h2>
+<pre><code class="hljs language-vue"><span class="hljs-tag">&lt;<span class="hljs-name">template</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">form</span> @<span class="hljs-attr">submit.prevent</span>=<span class="hljs-string">&quot;handleSubmit&quot;</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-input</span>
+      <span class="hljs-attr">field-id</span>=<span class="hljs-string">&quot;name&quot;</span>
+      <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;Full name&quot;</span>
+      <span class="hljs-attr">:value</span>=<span class="hljs-string">&quot;name&quot;</span>
+      @<span class="hljs-attr">aegov-input-change</span>=<span class="hljs-string">&quot;name = $event.detail.value&quot;</span>
+    /&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;submit&quot;</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;primary&quot;</span> <span class="hljs-attr">:is-loading</span>=<span class="hljs-string">&quot;isLoading&quot;</span>&gt;</span>
+      Submit
+    <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">form</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">setup</span> <span class="hljs-attr">lang</span>=<span class="hljs-string">&quot;ts&quot;</span>&gt;</span><span class="language-javascript">
+<span class="hljs-keyword">import</span> { ref } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;vue&#x27;</span>;
+
+<span class="hljs-keyword">const</span> name = <span class="hljs-title function_">ref</span>(<span class="hljs-string">&#x27;&#x27;</span>);
+<span class="hljs-keyword">const</span> isLoading = <span class="hljs-title function_">ref</span>(<span class="hljs-literal">false</span>);
+
+<span class="hljs-keyword">async</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">handleSubmit</span>(<span class="hljs-params"></span>) {
+  isLoading.<span class="hljs-property">value</span> = <span class="hljs-literal">true</span>;
+  <span class="hljs-keyword">try</span> {
+    <span class="hljs-keyword">await</span> <span class="hljs-title function_">fetch</span>(<span class="hljs-string">&#x27;/api/submit&#x27;</span>, { <span class="hljs-attr">method</span>: <span class="hljs-string">&#x27;POST&#x27;</span>, <span class="hljs-attr">body</span>: <span class="hljs-title class_">JSON</span>.<span class="hljs-title function_">stringify</span>({ <span class="hljs-attr">name</span>: name.<span class="hljs-property">value</span> }) });
+  } <span class="hljs-keyword">finally</span> {
+    isLoading.<span class="hljs-property">value</span> = <span class="hljs-literal">false</span>;
+  }
+}
+</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre><hr>
+<h2>TypeScript</h2>
+<p>Import types from the core package:</p>
+<pre><code class="hljs language-ts"><span class="hljs-keyword">import</span> <span class="hljs-keyword">type</span> { <span class="hljs-title class_">Components</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@aegov/designsystem-testing/components&#x27;</span>;
+
+<span class="hljs-keyword">const</span> <span class="hljs-attr">variant</span>: <span class="hljs-title class_">Components</span>.<span class="hljs-property">AegovButton</span>[<span class="hljs-string">&#x27;variant&#x27;</span>] = <span class="hljs-string">&#x27;primary&#x27;</span>;</code></pre><hr>
+<h2>Where to next</h2>
+<ul>
+<li><a href="validation-overview.html">Validation Surface</a> — unified <code>isInvalid</code> / <code>errorMessage</code> / <code>hint</code> API across all form components.</li>
+<li><a href="validation-byo.html">Bring Your Own Validator</a> — manual validation patterns with no external library.</li>
+<li>Per-component docs in the left navigation — every page lists props, events, methods, and accessibility notes.</li>
+</ul>
+<!-- DOC:END -->
+          </section>
+      </article>
+    </section>
+  </main>
+  <footer class="aegov-container sm:px-6 lg:px-8 mt-8 py-6 text-sm text-aeblack-500 dark:text-aeblack-400">
+    &copy; 2026 Telecommunication and Digital Regulatory Authority. All rights reserved.
+  </footer>
+<script src="/docs/layout.js"></script>
+</body>
+</html>

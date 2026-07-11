@@ -1,0 +1,38 @@
+{
+  "compilerOptions": {
+    "allowSyntheticDefaultImports": true,
+    "allowUnreachableCode": false,
+    "declaration": true,
+    "experimentalDecorators": true,
+    "lib": [
+      "dom",
+      "es2017"
+    ],
+    "moduleResolution": "node",
+    "module": "esnext",
+    "target": "es2017",
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "jsx": "react",
+    "jsxFactory": "h",
+    "jsxFragmentFactory": "Fragment",
+    "types": [
+      "node",
+      "jest"
+    ],
+    "baseUrl": "./",
+    "paths": {
+      "@components/*": ["src/components/*"],
+      "@utils/*": ["src/utils/*"],
+      "@styles/*": ["src/styles/*"]
+    }
+  },
+  "include": [
+    "src"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist",
+    "www"
+  ]
+}
