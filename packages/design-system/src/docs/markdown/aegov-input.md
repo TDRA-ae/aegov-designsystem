@@ -598,11 +598,11 @@ input.setCustomValidity('Username already taken');
 
 See the [Bring Your Own Validator](validation-byo.html) recipes for the full pattern catalog including async server checks and cross-field rules.
 
-### Use with `@aegov/designsystem-validation`
+### Use with `@aegov/design-system-validation`
 
 ```ts
-import { createForm } from '@aegov/designsystem-validation';
-import { valibotAdapter } from '@aegov/designsystem-validation/adapters/valibot';
+import { createForm } from '@aegov/design-system-validation';
+import { valibotAdapter } from '@aegov/design-system-validation/adapters/valibot';
 import * as v from 'valibot';
 
 const schema = v.object({

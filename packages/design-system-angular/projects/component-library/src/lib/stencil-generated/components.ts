@@ -4,63 +4,63 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Even
 
 import { ProxyCmp } from './angular-component-lib/utils';
 
-import type { Components } from '@aegov/designsystem-testing/components';
+import type { Components } from '@aegov/design-system/components';
 
-import { defineCustomElement as defineAegovAccordion } from '@aegov/designsystem-testing/components/aegov-accordion.js';
-import { defineCustomElement as defineAegovAccordionItem } from '@aegov/designsystem-testing/components/aegov-accordion-item.js';
-import { defineCustomElement as defineAegovAspectRatio } from '@aegov/designsystem-testing/components/aegov-aspect-ratio.js';
-import { defineCustomElement as defineAegovAvatar } from '@aegov/designsystem-testing/components/aegov-avatar.js';
-import { defineCustomElement as defineAegovAvatarGroup } from '@aegov/designsystem-testing/components/aegov-avatar-group.js';
-import { defineCustomElement as defineAegovBadge } from '@aegov/designsystem-testing/components/aegov-badge.js';
-import { defineCustomElement as defineAegovBanner } from '@aegov/designsystem-testing/components/aegov-banner.js';
-import { defineCustomElement as defineAegovBentoGrid } from '@aegov/designsystem-testing/components/aegov-bento-grid.js';
-import { defineCustomElement as defineAegovBlockquote } from '@aegov/designsystem-testing/components/aegov-blockquote.js';
-import { defineCustomElement as defineAegovBreadcrumbs } from '@aegov/designsystem-testing/components/aegov-breadcrumbs.js';
-import { defineCustomElement as defineAegovBreadcrumbsItem } from '@aegov/designsystem-testing/components/aegov-breadcrumbs-item.js';
-import { defineCustomElement as defineAegovButton } from '@aegov/designsystem-testing/components/aegov-button.js';
-import { defineCustomElement as defineAegovButtonGroup } from '@aegov/designsystem-testing/components/aegov-button-group.js';
-import { defineCustomElement as defineAegovCallout } from '@aegov/designsystem-testing/components/aegov-callout.js';
-import { defineCustomElement as defineAegovCard } from '@aegov/designsystem-testing/components/aegov-card.js';
-import { defineCustomElement as defineAegovCheckbox } from '@aegov/designsystem-testing/components/aegov-checkbox.js';
-import { defineCustomElement as defineAegovCheckboxGroup } from '@aegov/designsystem-testing/components/aegov-checkbox-group.js';
-import { defineCustomElement as defineAegovDatepicker } from '@aegov/designsystem-testing/components/aegov-datepicker.js';
-import { defineCustomElement as defineAegovDrawer } from '@aegov/designsystem-testing/components/aegov-drawer.js';
-import { defineCustomElement as defineAegovDropdown } from '@aegov/designsystem-testing/components/aegov-dropdown.js';
-import { defineCustomElement as defineAegovFileupload } from '@aegov/designsystem-testing/components/aegov-fileupload.js';
-import { defineCustomElement as defineAegovFormField } from '@aegov/designsystem-testing/components/aegov-form-field.js';
-import { defineCustomElement as defineAegovHeader } from '@aegov/designsystem-testing/components/aegov-header.js';
-import { defineCustomElement as defineAegovHeaderBanner } from '@aegov/designsystem-testing/components/aegov-header-banner.js';
-import { defineCustomElement as defineAegovInput } from '@aegov/designsystem-testing/components/aegov-input.js';
-import { defineCustomElement as defineAegovInputGroup } from '@aegov/designsystem-testing/components/aegov-input-group.js';
-import { defineCustomElement as defineAegovLabel } from '@aegov/designsystem-testing/components/aegov-label.js';
-import { defineCustomElement as defineAegovLink } from '@aegov/designsystem-testing/components/aegov-link.js';
-import { defineCustomElement as defineAegovModal } from '@aegov/designsystem-testing/components/aegov-modal.js';
-import { defineCustomElement as defineAegovNavbar } from '@aegov/designsystem-testing/components/aegov-navbar.js';
-import { defineCustomElement as defineAegovNavbarItem } from '@aegov/designsystem-testing/components/aegov-navbar-item.js';
-import { defineCustomElement as defineAegovNavblock } from '@aegov/designsystem-testing/components/aegov-navblock.js';
-import { defineCustomElement as defineAegovNavblockItem } from '@aegov/designsystem-testing/components/aegov-navblock-item.js';
-import { defineCustomElement as defineAegovOtp } from '@aegov/designsystem-testing/components/aegov-otp.js';
-import { defineCustomElement as defineAegovPagination } from '@aegov/designsystem-testing/components/aegov-pagination.js';
-import { defineCustomElement as defineAegovPopover } from '@aegov/designsystem-testing/components/aegov-popover.js';
-import { defineCustomElement as defineAegovProgress } from '@aegov/designsystem-testing/components/aegov-progress.js';
-import { defineCustomElement as defineAegovRadio } from '@aegov/designsystem-testing/components/aegov-radio.js';
-import { defineCustomElement as defineAegovRadioGroup } from '@aegov/designsystem-testing/components/aegov-radio-group.js';
-import { defineCustomElement as defineAegovRange } from '@aegov/designsystem-testing/components/aegov-range.js';
-import { defineCustomElement as defineAegovSelect } from '@aegov/designsystem-testing/components/aegov-select.js';
-import { defineCustomElement as defineAegovSelectOption } from '@aegov/designsystem-testing/components/aegov-select-option.js';
-import { defineCustomElement as defineAegovSelectOptionGroup } from '@aegov/designsystem-testing/components/aegov-select-option-group.js';
-import { defineCustomElement as defineAegovSeparator } from '@aegov/designsystem-testing/components/aegov-separator.js';
-import { defineCustomElement as defineAegovTab } from '@aegov/designsystem-testing/components/aegov-tab.js';
-import { defineCustomElement as defineAegovTabPanel } from '@aegov/designsystem-testing/components/aegov-tab-panel.js';
-import { defineCustomElement as defineAegovTabs } from '@aegov/designsystem-testing/components/aegov-tabs.js';
-import { defineCustomElement as defineAegovText } from '@aegov/designsystem-testing/components/aegov-text.js';
-import { defineCustomElement as defineAegovTextarea } from '@aegov/designsystem-testing/components/aegov-textarea.js';
-import { defineCustomElement as defineAegovTimeline } from '@aegov/designsystem-testing/components/aegov-timeline.js';
-import { defineCustomElement as defineAegovTimelineStep } from '@aegov/designsystem-testing/components/aegov-timeline-step.js';
-import { defineCustomElement as defineAegovTitle } from '@aegov/designsystem-testing/components/aegov-title.js';
-import { defineCustomElement as defineAegovToast } from '@aegov/designsystem-testing/components/aegov-toast.js';
-import { defineCustomElement as defineAegovToggle } from '@aegov/designsystem-testing/components/aegov-toggle.js';
-import { defineCustomElement as defineAegovTooltip } from '@aegov/designsystem-testing/components/aegov-tooltip.js';
+import { defineCustomElement as defineAegovAccordion } from '@aegov/design-system/components/aegov-accordion.js';
+import { defineCustomElement as defineAegovAccordionItem } from '@aegov/design-system/components/aegov-accordion-item.js';
+import { defineCustomElement as defineAegovAspectRatio } from '@aegov/design-system/components/aegov-aspect-ratio.js';
+import { defineCustomElement as defineAegovAvatar } from '@aegov/design-system/components/aegov-avatar.js';
+import { defineCustomElement as defineAegovAvatarGroup } from '@aegov/design-system/components/aegov-avatar-group.js';
+import { defineCustomElement as defineAegovBadge } from '@aegov/design-system/components/aegov-badge.js';
+import { defineCustomElement as defineAegovBanner } from '@aegov/design-system/components/aegov-banner.js';
+import { defineCustomElement as defineAegovBentoGrid } from '@aegov/design-system/components/aegov-bento-grid.js';
+import { defineCustomElement as defineAegovBlockquote } from '@aegov/design-system/components/aegov-blockquote.js';
+import { defineCustomElement as defineAegovBreadcrumbs } from '@aegov/design-system/components/aegov-breadcrumbs.js';
+import { defineCustomElement as defineAegovBreadcrumbsItem } from '@aegov/design-system/components/aegov-breadcrumbs-item.js';
+import { defineCustomElement as defineAegovButton } from '@aegov/design-system/components/aegov-button.js';
+import { defineCustomElement as defineAegovButtonGroup } from '@aegov/design-system/components/aegov-button-group.js';
+import { defineCustomElement as defineAegovCallout } from '@aegov/design-system/components/aegov-callout.js';
+import { defineCustomElement as defineAegovCard } from '@aegov/design-system/components/aegov-card.js';
+import { defineCustomElement as defineAegovCheckbox } from '@aegov/design-system/components/aegov-checkbox.js';
+import { defineCustomElement as defineAegovCheckboxGroup } from '@aegov/design-system/components/aegov-checkbox-group.js';
+import { defineCustomElement as defineAegovDatepicker } from '@aegov/design-system/components/aegov-datepicker.js';
+import { defineCustomElement as defineAegovDrawer } from '@aegov/design-system/components/aegov-drawer.js';
+import { defineCustomElement as defineAegovDropdown } from '@aegov/design-system/components/aegov-dropdown.js';
+import { defineCustomElement as defineAegovFileupload } from '@aegov/design-system/components/aegov-fileupload.js';
+import { defineCustomElement as defineAegovFormField } from '@aegov/design-system/components/aegov-form-field.js';
+import { defineCustomElement as defineAegovHeader } from '@aegov/design-system/components/aegov-header.js';
+import { defineCustomElement as defineAegovHeaderBanner } from '@aegov/design-system/components/aegov-header-banner.js';
+import { defineCustomElement as defineAegovInput } from '@aegov/design-system/components/aegov-input.js';
+import { defineCustomElement as defineAegovInputGroup } from '@aegov/design-system/components/aegov-input-group.js';
+import { defineCustomElement as defineAegovLabel } from '@aegov/design-system/components/aegov-label.js';
+import { defineCustomElement as defineAegovLink } from '@aegov/design-system/components/aegov-link.js';
+import { defineCustomElement as defineAegovModal } from '@aegov/design-system/components/aegov-modal.js';
+import { defineCustomElement as defineAegovNavbar } from '@aegov/design-system/components/aegov-navbar.js';
+import { defineCustomElement as defineAegovNavbarItem } from '@aegov/design-system/components/aegov-navbar-item.js';
+import { defineCustomElement as defineAegovNavblock } from '@aegov/design-system/components/aegov-navblock.js';
+import { defineCustomElement as defineAegovNavblockItem } from '@aegov/design-system/components/aegov-navblock-item.js';
+import { defineCustomElement as defineAegovOtp } from '@aegov/design-system/components/aegov-otp.js';
+import { defineCustomElement as defineAegovPagination } from '@aegov/design-system/components/aegov-pagination.js';
+import { defineCustomElement as defineAegovPopover } from '@aegov/design-system/components/aegov-popover.js';
+import { defineCustomElement as defineAegovProgress } from '@aegov/design-system/components/aegov-progress.js';
+import { defineCustomElement as defineAegovRadio } from '@aegov/design-system/components/aegov-radio.js';
+import { defineCustomElement as defineAegovRadioGroup } from '@aegov/design-system/components/aegov-radio-group.js';
+import { defineCustomElement as defineAegovRange } from '@aegov/design-system/components/aegov-range.js';
+import { defineCustomElement as defineAegovSelect } from '@aegov/design-system/components/aegov-select.js';
+import { defineCustomElement as defineAegovSelectOption } from '@aegov/design-system/components/aegov-select-option.js';
+import { defineCustomElement as defineAegovSelectOptionGroup } from '@aegov/design-system/components/aegov-select-option-group.js';
+import { defineCustomElement as defineAegovSeparator } from '@aegov/design-system/components/aegov-separator.js';
+import { defineCustomElement as defineAegovTab } from '@aegov/design-system/components/aegov-tab.js';
+import { defineCustomElement as defineAegovTabPanel } from '@aegov/design-system/components/aegov-tab-panel.js';
+import { defineCustomElement as defineAegovTabs } from '@aegov/design-system/components/aegov-tabs.js';
+import { defineCustomElement as defineAegovText } from '@aegov/design-system/components/aegov-text.js';
+import { defineCustomElement as defineAegovTextarea } from '@aegov/design-system/components/aegov-textarea.js';
+import { defineCustomElement as defineAegovTimeline } from '@aegov/design-system/components/aegov-timeline.js';
+import { defineCustomElement as defineAegovTimelineStep } from '@aegov/design-system/components/aegov-timeline-step.js';
+import { defineCustomElement as defineAegovTitle } from '@aegov/design-system/components/aegov-title.js';
+import { defineCustomElement as defineAegovToast } from '@aegov/design-system/components/aegov-toast.js';
+import { defineCustomElement as defineAegovToggle } from '@aegov/design-system/components/aegov-toggle.js';
+import { defineCustomElement as defineAegovTooltip } from '@aegov/design-system/components/aegov-tooltip.js';
 @ProxyCmp({
   defineCustomElementFn: defineAegovAccordion,
   inputs: ['defaultOpen', 'fieldId', 'headingLevel', 'icon', 'isBordered', 'isMultiple', 'size']
@@ -106,7 +106,7 @@ export class AegovAccordionItem {
 }
 
 
-import type { AegovAccordionItemCustomEvent } from '@aegov/designsystem-testing/components';
+import type { AegovAccordionItemCustomEvent } from '@aegov/design-system/components';
 
 export declare interface AegovAccordionItem extends Components.AegovAccordionItem {
   /**
@@ -184,7 +184,7 @@ export class AegovAvatarGroup {
 }
 
 
-import type { AegovAvatarGroupCustomEvent } from '@aegov/designsystem-testing/components';
+import type { AegovAvatarGroupCustomEvent } from '@aegov/design-system/components';
 
 export declare interface AegovAvatarGroup extends Components.AegovAvatarGroup {
   /**
@@ -216,7 +216,7 @@ export class AegovBadge {
 }
 
 
-import type { AegovBadgeCustomEvent } from '@aegov/designsystem-testing/components';
+import type { AegovBadgeCustomEvent } from '@aegov/design-system/components';
 
 export declare interface AegovBadge extends Components.AegovBadge {
   /**
@@ -249,7 +249,7 @@ export class AegovBanner {
 }
 
 
-import type { AegovBannerCustomEvent } from '@aegov/designsystem-testing/components';
+import type { AegovBannerCustomEvent } from '@aegov/design-system/components';
 
 export declare interface AegovBanner extends Components.AegovBanner {
   /**
@@ -354,7 +354,7 @@ export class AegovBreadcrumbsItem {
 }
 
 
-import type { AegovBreadcrumbsItemCustomEvent } from '@aegov/designsystem-testing/components';
+import type { AegovBreadcrumbsItemCustomEvent } from '@aegov/design-system/components';
 
 export declare interface AegovBreadcrumbsItem extends Components.AegovBreadcrumbsItem {
   /**
@@ -388,7 +388,7 @@ export class AegovButton {
 }
 
 
-import type { AegovButtonCustomEvent } from '@aegov/designsystem-testing/components';
+import type { AegovButtonCustomEvent } from '@aegov/design-system/components';
 
 export declare interface AegovButton extends Components.AegovButton {
   /**
@@ -451,7 +451,7 @@ export class AegovCallout {
 }
 
 
-import type { AegovCalloutCustomEvent } from '@aegov/designsystem-testing/components';
+import type { AegovCalloutCustomEvent } from '@aegov/design-system/components';
 
 export declare interface AegovCallout extends Components.AegovCallout {
   /**
@@ -508,8 +508,8 @@ export class AegovCheckbox {
 }
 
 
-import type { AegovCheckboxCustomEvent } from '@aegov/designsystem-testing/components';
-import type { AegovValidationDetail as IAegovCheckboxAegovValidationDetail } from '@aegov/designsystem-testing/components';
+import type { AegovCheckboxCustomEvent } from '@aegov/design-system/components';
+import type { AegovValidationDetail as IAegovCheckboxAegovValidationDetail } from '@aegov/design-system/components';
 
 export declare interface AegovCheckbox extends Components.AegovCheckbox {
   /**
@@ -547,8 +547,8 @@ export class AegovCheckboxGroup {
 }
 
 
-import type { AegovCheckboxGroupCustomEvent } from '@aegov/designsystem-testing/components';
-import type { AegovValidationDetail as IAegovCheckboxGroupAegovValidationDetail } from '@aegov/designsystem-testing/components';
+import type { AegovCheckboxGroupCustomEvent } from '@aegov/design-system/components';
+import type { AegovValidationDetail as IAegovCheckboxGroupAegovValidationDetail } from '@aegov/design-system/components';
 
 export declare interface AegovCheckboxGroup extends Components.AegovCheckboxGroup {
   /**
@@ -590,11 +590,11 @@ export class AegovDatepicker {
 }
 
 
-import type { AegovDatepickerCustomEvent } from '@aegov/designsystem-testing/components';
-import type { DatepickerChangeDetail as IAegovDatepickerDatepickerChangeDetail } from '@aegov/designsystem-testing/components';
-import type { DatepickerMonthChangeDetail as IAegovDatepickerDatepickerMonthChangeDetail } from '@aegov/designsystem-testing/components';
-import type { AegovValidationDetail as IAegovDatepickerAegovValidationDetail } from '@aegov/designsystem-testing/components';
-import type { AegovDatepickerValue as IAegovDatepickerAegovDatepickerValue } from '@aegov/designsystem-testing/components';
+import type { AegovDatepickerCustomEvent } from '@aegov/design-system/components';
+import type { DatepickerChangeDetail as IAegovDatepickerDatepickerChangeDetail } from '@aegov/design-system/components';
+import type { DatepickerMonthChangeDetail as IAegovDatepickerDatepickerMonthChangeDetail } from '@aegov/design-system/components';
+import type { AegovValidationDetail as IAegovDatepickerAegovValidationDetail } from '@aegov/design-system/components';
+import type { AegovDatepickerValue as IAegovDatepickerAegovDatepickerValue } from '@aegov/design-system/components';
 
 export declare interface AegovDatepicker extends Components.AegovDatepicker {
 
@@ -641,7 +641,7 @@ export class AegovDrawer {
 }
 
 
-import type { AegovDrawerCustomEvent } from '@aegov/designsystem-testing/components';
+import type { AegovDrawerCustomEvent } from '@aegov/design-system/components';
 
 export declare interface AegovDrawer extends Components.AegovDrawer {
   /**
@@ -691,7 +691,7 @@ export class AegovDropdown {
 }
 
 
-import type { AegovDropdownCustomEvent } from '@aegov/designsystem-testing/components';
+import type { AegovDropdownCustomEvent } from '@aegov/design-system/components';
 
 export declare interface AegovDropdown extends Components.AegovDropdown {
   /**
@@ -730,8 +730,8 @@ export class AegovFileupload {
 }
 
 
-import type { AegovFileuploadCustomEvent } from '@aegov/designsystem-testing/components';
-import type { AegovValidationDetail as IAegovFileuploadAegovValidationDetail } from '@aegov/designsystem-testing/components';
+import type { AegovFileuploadCustomEvent } from '@aegov/design-system/components';
+import type { AegovValidationDetail as IAegovFileuploadAegovValidationDetail } from '@aegov/design-system/components';
 
 export declare interface AegovFileupload extends Components.AegovFileupload {
   /**
@@ -845,8 +845,8 @@ export class AegovInput {
 }
 
 
-import type { AegovInputCustomEvent } from '@aegov/designsystem-testing/components';
-import type { AegovValidationDetail as IAegovInputAegovValidationDetail } from '@aegov/designsystem-testing/components';
+import type { AegovInputCustomEvent } from '@aegov/design-system/components';
+import type { AegovValidationDetail as IAegovInputAegovValidationDetail } from '@aegov/design-system/components';
 
 export declare interface AegovInput extends Components.AegovInput {
   /**
@@ -942,7 +942,7 @@ export class AegovLink {
 }
 
 
-import type { AegovLinkCustomEvent } from '@aegov/designsystem-testing/components';
+import type { AegovLinkCustomEvent } from '@aegov/design-system/components';
 
 export declare interface AegovLink extends Components.AegovLink {
   /**
@@ -980,7 +980,7 @@ export class AegovModal {
 }
 
 
-import type { AegovModalCustomEvent } from '@aegov/designsystem-testing/components';
+import type { AegovModalCustomEvent } from '@aegov/design-system/components';
 
 export declare interface AegovModal extends Components.AegovModal {
   /**
@@ -1097,7 +1097,7 @@ export class AegovNavblockItem {
 }
 
 
-import type { AegovNavblockItemCustomEvent } from '@aegov/designsystem-testing/components';
+import type { AegovNavblockItemCustomEvent } from '@aegov/design-system/components';
 
 export declare interface AegovNavblockItem extends Components.AegovNavblockItem {
   /**
@@ -1132,8 +1132,8 @@ export class AegovOtp {
 }
 
 
-import type { AegovOtpCustomEvent } from '@aegov/designsystem-testing/components';
-import type { AegovValidationDetail as IAegovOtpAegovValidationDetail } from '@aegov/designsystem-testing/components';
+import type { AegovOtpCustomEvent } from '@aegov/design-system/components';
+import type { AegovValidationDetail as IAegovOtpAegovValidationDetail } from '@aegov/design-system/components';
 
 export declare interface AegovOtp extends Components.AegovOtp {
   /**
@@ -1173,7 +1173,7 @@ export class AegovPagination {
 }
 
 
-import type { AegovPaginationCustomEvent } from '@aegov/designsystem-testing/components';
+import type { AegovPaginationCustomEvent } from '@aegov/design-system/components';
 
 export declare interface AegovPagination extends Components.AegovPagination {
   /**
@@ -1208,7 +1208,7 @@ export class AegovPopover {
 }
 
 
-import type { AegovPopoverCustomEvent } from '@aegov/designsystem-testing/components';
+import type { AegovPopoverCustomEvent } from '@aegov/design-system/components';
 
 export declare interface AegovPopover extends Components.AegovPopover {
   /**
@@ -1269,8 +1269,8 @@ export class AegovRadio {
 }
 
 
-import type { AegovRadioCustomEvent } from '@aegov/designsystem-testing/components';
-import type { AegovValidationDetail as IAegovRadioAegovValidationDetail } from '@aegov/designsystem-testing/components';
+import type { AegovRadioCustomEvent } from '@aegov/design-system/components';
+import type { AegovValidationDetail as IAegovRadioAegovValidationDetail } from '@aegov/design-system/components';
 
 export declare interface AegovRadio extends Components.AegovRadio {
   /**
@@ -1308,8 +1308,8 @@ export class AegovRadioGroup {
 }
 
 
-import type { AegovRadioGroupCustomEvent } from '@aegov/designsystem-testing/components';
-import type { AegovValidationDetail as IAegovRadioGroupAegovValidationDetail } from '@aegov/designsystem-testing/components';
+import type { AegovRadioGroupCustomEvent } from '@aegov/design-system/components';
+import type { AegovValidationDetail as IAegovRadioGroupAegovValidationDetail } from '@aegov/design-system/components';
 
 export declare interface AegovRadioGroup extends Components.AegovRadioGroup {
   /**
@@ -1348,9 +1348,9 @@ export class AegovRange {
 }
 
 
-import type { AegovRangeCustomEvent } from '@aegov/designsystem-testing/components';
-import type { AegovValidationDetail as IAegovRangeAegovValidationDetail } from '@aegov/designsystem-testing/components';
-import type { AegovRangeValue as IAegovRangeAegovRangeValue } from '@aegov/designsystem-testing/components';
+import type { AegovRangeCustomEvent } from '@aegov/design-system/components';
+import type { AegovValidationDetail as IAegovRangeAegovValidationDetail } from '@aegov/design-system/components';
+import type { AegovRangeValue as IAegovRangeAegovRangeValue } from '@aegov/design-system/components';
 
 export declare interface AegovRange extends Components.AegovRange {
   /**
@@ -1394,10 +1394,10 @@ export class AegovSelect {
 }
 
 
-import type { AegovSelectCustomEvent } from '@aegov/designsystem-testing/components';
-import type { SelectChangeDetail as IAegovSelectSelectChangeDetail } from '@aegov/designsystem-testing/components';
-import type { AegovValidationDetail as IAegovSelectAegovValidationDetail } from '@aegov/designsystem-testing/components';
-import type { AegovSelectValue as IAegovSelectAegovSelectValue } from '@aegov/designsystem-testing/components';
+import type { AegovSelectCustomEvent } from '@aegov/design-system/components';
+import type { SelectChangeDetail as IAegovSelectSelectChangeDetail } from '@aegov/design-system/components';
+import type { AegovValidationDetail as IAegovSelectAegovValidationDetail } from '@aegov/design-system/components';
+import type { AegovSelectValue as IAegovSelectAegovSelectValue } from '@aegov/design-system/components';
 
 export declare interface AegovSelect extends Components.AegovSelect {
   /**
@@ -1510,7 +1510,7 @@ export class AegovTab {
 }
 
 
-import type { AegovTabCustomEvent } from '@aegov/designsystem-testing/components';
+import type { AegovTabCustomEvent } from '@aegov/design-system/components';
 
 export declare interface AegovTab extends Components.AegovTab {
   /**
@@ -1565,7 +1565,7 @@ export class AegovTabs {
 }
 
 
-import type { AegovTabsCustomEvent } from '@aegov/designsystem-testing/components';
+import type { AegovTabsCustomEvent } from '@aegov/design-system/components';
 
 export declare interface AegovTabs extends Components.AegovTabs {
   /**
@@ -1626,8 +1626,8 @@ export class AegovTextarea {
 }
 
 
-import type { AegovTextareaCustomEvent } from '@aegov/designsystem-testing/components';
-import type { AegovValidationDetail as IAegovTextareaAegovValidationDetail } from '@aegov/designsystem-testing/components';
+import type { AegovTextareaCustomEvent } from '@aegov/design-system/components';
+import type { AegovValidationDetail as IAegovTextareaAegovValidationDetail } from '@aegov/design-system/components';
 
 export declare interface AegovTextarea extends Components.AegovTextarea {
   /**
@@ -1747,7 +1747,7 @@ export class AegovToast {
 }
 
 
-import type { AegovToastCustomEvent } from '@aegov/designsystem-testing/components';
+import type { AegovToastCustomEvent } from '@aegov/design-system/components';
 
 export declare interface AegovToast extends Components.AegovToast {
   /**
@@ -1789,8 +1789,8 @@ export class AegovToggle {
 }
 
 
-import type { AegovToggleCustomEvent } from '@aegov/designsystem-testing/components';
-import type { AegovValidationDetail as IAegovToggleAegovValidationDetail } from '@aegov/designsystem-testing/components';
+import type { AegovToggleCustomEvent } from '@aegov/design-system/components';
+import type { AegovValidationDetail as IAegovToggleAegovValidationDetail } from '@aegov/design-system/components';
 
 export declare interface AegovToggle extends Components.AegovToggle {
   /**

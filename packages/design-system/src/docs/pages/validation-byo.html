@@ -21,7 +21,7 @@
           <section id="content-area" class="bg-whitely-50 dark:bg-aeblack-900 p-6 rounded-md shadow-xl">
           <!-- DOC:START -->
 <h1>Bring Your Own Validator</h1>
-<p>The Layer 1 validation surface in <code>@aegov/design-system</code> is engine-agnostic. You don&#39;t need <code>@aegov/designsystem-validation</code> — you can drive validation manually with any predicate, regex, server response, or existing app-level validator.</p>
+<p>The Layer 1 validation surface in <code>@aegov/design-system</code> is engine-agnostic. You don&#39;t need <code>@aegov/design-system-validation</code> — you can drive validation manually with any predicate, regex, server response, or existing app-level validator.</p>
 <p>This page shows the most common patterns. The full surface reference is in <a href="validation-overview.html">Validation Surface</a>.</p>
 <hr>
 <h2>Pattern 1: Single field, simple predicate</h2>
@@ -149,7 +149,7 @@
   });
 });</code></pre><p>FormAssociated components respond to <code>&lt;form&gt;.reset()</code> automatically via their <code>formResetCallback()</code> — no extra wiring needed for <code>aegov-otp</code>, <code>aegov-fileupload</code>, <code>aegov-select</code> (listbox), and <code>aegov-datepicker</code>.</p>
 <hr>
-<h2>When to graduate to <code>@aegov/designsystem-validation</code></h2>
+<h2>When to graduate to <code>@aegov/design-system-validation</code></h2>
 <p>Stick with manual validation when:</p>
 <ul>
 <li>Your form has 1–3 fields.</li>

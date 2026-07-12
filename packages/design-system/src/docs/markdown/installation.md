@@ -7,7 +7,7 @@
 ## Step 1 — Install the package
 
 ```bash
-npm install @aegov/designsystem-testing
+npm install @aegov/design-system
 ```
 
 ---
@@ -37,15 +37,15 @@ export default defineConfig({
 
 ```css
 @import "tailwindcss";
-@import "@aegov/designsystem-testing/theme";
-@import "@aegov/designsystem-testing/base";
+@import "@aegov/design-system/theme";
+@import "@aegov/design-system/base";
 ```
 
 **Import both the CSS and the JS loader in your entry file (e.g. `src/main.ts`):**
 
 ```ts
 import './styles.css';
-import { defineCustomElements } from '@aegov/designsystem-testing/loader';
+import { defineCustomElements } from '@aegov/design-system/loader';
 
 defineCustomElements();
 ```
@@ -89,15 +89,15 @@ module.exports = {
 
 ```css
 @import "tailwindcss";
-@import "@aegov/designsystem-testing/theme";
-@import "@aegov/designsystem-testing/base";
+@import "@aegov/design-system/theme";
+@import "@aegov/design-system/base";
 ```
 
 **Import both in your JS entry file (e.g. `src/index.js`):**
 
 ```js
 import './styles.css';
-import { defineCustomElements } from '@aegov/designsystem-testing/loader';
+import { defineCustomElements } from '@aegov/design-system/loader';
 
 defineCustomElements();
 ```
@@ -128,8 +128,8 @@ module.exports = {
 
 ```css
 @import "tailwindcss";
-@import "@aegov/designsystem-testing/theme";
-@import "@aegov/designsystem-testing/base";
+@import "@aegov/design-system/theme";
+@import "@aegov/design-system/base";
 ```
 
 **Reference both in your HTML entry file:**
@@ -137,7 +137,7 @@ module.exports = {
 ```html
 <link rel="stylesheet" href="./src/styles.css" />
 <script type="module">
-  import { defineCustomElements } from '@aegov/designsystem-testing/loader';
+  import { defineCustomElements } from '@aegov/design-system/loader';
   defineCustomElements();
 </script>
 ```
@@ -175,15 +175,15 @@ export default {
 
 ```css
 @import "tailwindcss";
-@import "@aegov/designsystem-testing/theme";
-@import "@aegov/designsystem-testing/base";
+@import "@aegov/design-system/theme";
+@import "@aegov/design-system/base";
 ```
 
 **Import both in your JS entry file (e.g. `src/main.js`):**
 
 ```js
 import './styles.css';
-import { defineCustomElements } from '@aegov/designsystem-testing/loader';
+import { defineCustomElements } from '@aegov/design-system/loader';
 
 defineCustomElements();
 ```
@@ -213,8 +213,8 @@ module.exports = {
 
 ```css
 @import "tailwindcss";
-@import "@aegov/designsystem-testing/theme";
-@import "@aegov/designsystem-testing/base";
+@import "@aegov/design-system/theme";
+@import "@aegov/design-system/base";
 ```
 
 **Build the CSS:**
@@ -228,7 +228,7 @@ npx postcss src/styles.css -o dist/styles.css
 ```html
 <link rel="stylesheet" href="dist/styles.css" />
 <script type="module">
-  import { defineCustomElements } from '@aegov/designsystem-testing/loader';
+  import { defineCustomElements } from '@aegov/design-system/loader';
   defineCustomElements();
 </script>
 ```

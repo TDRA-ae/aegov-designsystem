@@ -2,7 +2,7 @@
 
 All form components in `@aegov/design-system` expose a uniform validation surface — a set of props, slots, events, and methods you can use to display invalid state, render error messages, and respond to user input. This page is the single source of truth for the surface; per-component docs link back here.
 
-The validation surface is intentionally **engine-agnostic**. Drive it manually, plug in your own predicate, or use the optional `@aegov/designsystem-validation` add-on package — see "Use a Validation Engine" at the bottom.
+The validation surface is intentionally **engine-agnostic**. Drive it manually, plug in your own predicate, or use the optional `@aegov/design-system-validation` add-on package — see "Use a Validation Engine" at the bottom.
 
 ---
 
@@ -134,11 +134,11 @@ Wrap any form component in `<aegov-form-field>` and the wrapper-level `is-invali
 
 ## Use a validation engine
 
-If you want schema-driven validation (Valibot, Zod, Vest, native), reach for `@aegov/designsystem-validation`. It listens for `aegovValidate` events at form root, runs your schema, and writes `is-invalid` + `error-message` back to each component.
+If you want schema-driven validation (Valibot, Zod, Vest, native), reach for `@aegov/design-system-validation`. It listens for `aegovValidate` events at form root, runs your schema, and writes `is-invalid` + `error-message` back to each component.
 
 ```ts
-import { createForm } from '@aegov/designsystem-validation';
-import { valibotAdapter } from '@aegov/designsystem-validation/adapters/valibot';
+import { createForm } from '@aegov/design-system-validation';
+import { valibotAdapter } from '@aegov/design-system-validation/adapters/valibot';
 import * as v from 'valibot';
 
 const schema = v.object({

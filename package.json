@@ -4,10 +4,10 @@
   "description": "",
   "main": "index.js",
  "scripts": {
-    "build": "lerna run build --scope='{@aegov/designsystem-testing,@aegov/designsystem-react-testing,@aegov/designsystem-vue-testing,@aegov/designsystem-angular-testing}'",
+    "build": "lerna run build --scope='{@aegov/design-system,@aegov/design-system-react,@aegov/design-system-vue,@aegov/design-system-angular}'",
     "build:all": "lerna run build",
-    "build:libs": "lerna run build --scope='{@aegov/designsystem-testing,@aegov/designsystem-react-testing,@aegov/designsystem-vue-testing}'",
-    "build:affected": "lerna run build --since=origin/master --scope='{@aegov/designsystem-testing,@aegov/designsystem-react-testing,@aegov/designsystem-vue-testing,@aegov/designsystem-angular-testing}'",
+    "build:libs": "lerna run build --scope='{@aegov/design-system,@aegov/design-system-react,@aegov/design-system-vue}'",
+    "build:affected": "lerna run build --since=origin/master --scope='{@aegov/design-system,@aegov/design-system-react,@aegov/design-system-vue,@aegov/design-system-angular}'",
     "release": "lerna publish from-package --yes",
     "test": "lerna run test",
     "clean": "lerna clean -y",

@@ -2,7 +2,7 @@
   "version": "0.0.1",
   "configurations": [
     {
-      "name": "AEGOV Design System (dev)",
+      "name": "AEGOV Design System",
       "runtimeExecutable": "npm",
       "runtimeArgs": ["start"],
       "port": 3333

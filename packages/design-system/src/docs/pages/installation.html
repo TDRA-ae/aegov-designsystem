@@ -25,7 +25,7 @@
 
 <hr>
 <h2>Step 1 — Install the package</h2>
-<pre><code class="hljs language-bash">npm install @aegov/designsystem-testing</code></pre><hr>
+<pre><code class="hljs language-bash">npm install @aegov/design-system</code></pre><hr>
 <h2>Step 2 — Set up your build tool</h2>
 <h3>Vite</h3>
 <p><strong>Install the Tailwind v4 Vite plugin:</strong></p>
@@ -37,10 +37,10 @@
   <span class="hljs-attr">plugins</span>: [<span class="hljs-title function_">tailwindcss</span>()],
 });</code></pre><p><strong>Create a CSS entry file (e.g. <code>src/styles.css</code>):</strong></p>
 <pre><code class="hljs language-css"><span class="hljs-keyword">@import</span> <span class="hljs-string">&quot;tailwindcss&quot;</span>;
-<span class="hljs-keyword">@import</span> <span class="hljs-string">&quot;@aegov/designsystem-testing/theme&quot;</span>;
-<span class="hljs-keyword">@import</span> <span class="hljs-string">&quot;@aegov/designsystem-testing/base&quot;</span>;</code></pre><p><strong>Import both the CSS and the JS loader in your entry file (e.g. <code>src/main.ts</code>):</strong></p>
+<span class="hljs-keyword">@import</span> <span class="hljs-string">&quot;@aegov/design-system/theme&quot;</span>;
+<span class="hljs-keyword">@import</span> <span class="hljs-string">&quot;@aegov/design-system/base&quot;</span>;</code></pre><p><strong>Import both the CSS and the JS loader in your entry file (e.g. <code>src/main.ts</code>):</strong></p>
 <pre><code class="hljs language-ts"><span class="hljs-keyword">import</span> <span class="hljs-string">&#x27;./styles.css&#x27;</span>;
-<span class="hljs-keyword">import</span> { defineCustomElements } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@aegov/designsystem-testing/loader&#x27;</span>;
+<span class="hljs-keyword">import</span> { defineCustomElements } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@aegov/design-system/loader&#x27;</span>;
 
 <span class="hljs-title function_">defineCustomElements</span>();</code></pre><hr>
 <h3>Webpack</h3>
@@ -62,10 +62,10 @@
   },
 };</code></pre><p><strong>Create a CSS entry file (e.g. <code>src/styles.css</code>):</strong></p>
 <pre><code class="hljs language-css"><span class="hljs-keyword">@import</span> <span class="hljs-string">&quot;tailwindcss&quot;</span>;
-<span class="hljs-keyword">@import</span> <span class="hljs-string">&quot;@aegov/designsystem-testing/theme&quot;</span>;
-<span class="hljs-keyword">@import</span> <span class="hljs-string">&quot;@aegov/designsystem-testing/base&quot;</span>;</code></pre><p><strong>Import both in your JS entry file (e.g. <code>src/index.js</code>):</strong></p>
+<span class="hljs-keyword">@import</span> <span class="hljs-string">&quot;@aegov/design-system/theme&quot;</span>;
+<span class="hljs-keyword">@import</span> <span class="hljs-string">&quot;@aegov/design-system/base&quot;</span>;</code></pre><p><strong>Import both in your JS entry file (e.g. <code>src/index.js</code>):</strong></p>
 <pre><code class="hljs language-js"><span class="hljs-keyword">import</span> <span class="hljs-string">&#x27;./styles.css&#x27;</span>;
-<span class="hljs-keyword">import</span> { defineCustomElements } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@aegov/designsystem-testing/loader&#x27;</span>;
+<span class="hljs-keyword">import</span> { defineCustomElements } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@aegov/design-system/loader&#x27;</span>;
 
 <span class="hljs-title function_">defineCustomElements</span>();</code></pre><hr>
 <h3>Parcel</h3>
@@ -78,11 +78,11 @@
   },
 };</code></pre><p><strong>Create a CSS entry file (e.g. <code>src/styles.css</code>):</strong></p>
 <pre><code class="hljs language-css"><span class="hljs-keyword">@import</span> <span class="hljs-string">&quot;tailwindcss&quot;</span>;
-<span class="hljs-keyword">@import</span> <span class="hljs-string">&quot;@aegov/designsystem-testing/theme&quot;</span>;
-<span class="hljs-keyword">@import</span> <span class="hljs-string">&quot;@aegov/designsystem-testing/base&quot;</span>;</code></pre><p><strong>Reference both in your HTML entry file:</strong></p>
+<span class="hljs-keyword">@import</span> <span class="hljs-string">&quot;@aegov/design-system/theme&quot;</span>;
+<span class="hljs-keyword">@import</span> <span class="hljs-string">&quot;@aegov/design-system/base&quot;</span>;</code></pre><p><strong>Reference both in your HTML entry file:</strong></p>
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">link</span> <span class="hljs-attr">rel</span>=<span class="hljs-string">&quot;stylesheet&quot;</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;./src/styles.css&quot;</span> /&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;module&quot;</span>&gt;</span><span class="language-javascript">
-  <span class="hljs-keyword">import</span> { defineCustomElements } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@aegov/designsystem-testing/loader&#x27;</span>;
+  <span class="hljs-keyword">import</span> { defineCustomElements } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@aegov/design-system/loader&#x27;</span>;
   <span class="hljs-title function_">defineCustomElements</span>();
 </span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre><hr>
 <h3>Rollup</h3>
@@ -103,10 +103,10 @@
   ],
 };</code></pre><p><strong>Create a CSS entry file (e.g. <code>src/styles.css</code>):</strong></p>
 <pre><code class="hljs language-css"><span class="hljs-keyword">@import</span> <span class="hljs-string">&quot;tailwindcss&quot;</span>;
-<span class="hljs-keyword">@import</span> <span class="hljs-string">&quot;@aegov/designsystem-testing/theme&quot;</span>;
-<span class="hljs-keyword">@import</span> <span class="hljs-string">&quot;@aegov/designsystem-testing/base&quot;</span>;</code></pre><p><strong>Import both in your JS entry file (e.g. <code>src/main.js</code>):</strong></p>
+<span class="hljs-keyword">@import</span> <span class="hljs-string">&quot;@aegov/design-system/theme&quot;</span>;
+<span class="hljs-keyword">@import</span> <span class="hljs-string">&quot;@aegov/design-system/base&quot;</span>;</code></pre><p><strong>Import both in your JS entry file (e.g. <code>src/main.js</code>):</strong></p>
 <pre><code class="hljs language-js"><span class="hljs-keyword">import</span> <span class="hljs-string">&#x27;./styles.css&#x27;</span>;
-<span class="hljs-keyword">import</span> { defineCustomElements } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@aegov/designsystem-testing/loader&#x27;</span>;
+<span class="hljs-keyword">import</span> { defineCustomElements } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@aegov/design-system/loader&#x27;</span>;
 
 <span class="hljs-title function_">defineCustomElements</span>();</code></pre><hr>
 <h3>PostCSS standalone (CLI)</h3>
@@ -119,12 +119,12 @@
   },
 };</code></pre><p><strong>Create a CSS entry file (e.g. <code>src/styles.css</code>):</strong></p>
 <pre><code class="hljs language-css"><span class="hljs-keyword">@import</span> <span class="hljs-string">&quot;tailwindcss&quot;</span>;
-<span class="hljs-keyword">@import</span> <span class="hljs-string">&quot;@aegov/designsystem-testing/theme&quot;</span>;
-<span class="hljs-keyword">@import</span> <span class="hljs-string">&quot;@aegov/designsystem-testing/base&quot;</span>;</code></pre><p><strong>Build the CSS:</strong></p>
+<span class="hljs-keyword">@import</span> <span class="hljs-string">&quot;@aegov/design-system/theme&quot;</span>;
+<span class="hljs-keyword">@import</span> <span class="hljs-string">&quot;@aegov/design-system/base&quot;</span>;</code></pre><p><strong>Build the CSS:</strong></p>
 <pre><code class="hljs language-bash">npx postcss src/styles.css -o dist/styles.css</code></pre><p><strong>Reference both in your HTML:</strong></p>
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">link</span> <span class="hljs-attr">rel</span>=<span class="hljs-string">&quot;stylesheet&quot;</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;dist/styles.css&quot;</span> /&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;module&quot;</span>&gt;</span><span class="language-javascript">
-  <span class="hljs-keyword">import</span> { defineCustomElements } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@aegov/designsystem-testing/loader&#x27;</span>;
+  <span class="hljs-keyword">import</span> { defineCustomElements } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@aegov/design-system/loader&#x27;</span>;
   <span class="hljs-title function_">defineCustomElements</span>();
 </span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre><hr>
 <h2>Step 3 — Use a component</h2>
