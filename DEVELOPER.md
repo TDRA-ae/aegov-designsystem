@@ -142,7 +142,7 @@ cd packages/design-system && npx stencil generate
 
 ## Framework wrapper packages
 
-### React wrapper (`packages/react-library`)
+### React wrapper (`packages/design-system-react`)
 
 | Command | What it does |
 |---|---|
@@ -153,7 +153,7 @@ cd packages/design-system && npx stencil generate
 
 > Stencil auto-generates the React proxy components into `lib/components/stencil-generated/` during the core build. Run `npm run build` from root to regenerate them.
 
-### Vue wrapper (`packages/vue-library`)
+### Vue wrapper (`packages/design-system-vue`)
 
 | Command | What it does |
 |---|---|
@@ -163,7 +163,7 @@ cd packages/design-system && npx stencil generate
 
 > Vue proxies are auto-generated into `lib/components.ts` during the core Stencil build.
 
-### Angular wrapper (`packages/angular-workspace`)
+### Angular wrapper (`packages/design-system-angular`)
 
 | Command | What it does |
 |---|---|
@@ -197,13 +197,13 @@ Each test app also has `npm run build` and `npm run preview` (HTML/React/Vue) to
 npm run build  (from root)
        │
        ├─ packages/design-system        → dist/ + loader/
-       │    ├─ angularOutputTarget      → packages/angular-workspace/projects/component-library/src/lib/stencil-generated/
-       │    ├─ reactOutputTarget        → packages/react-library/lib/components/stencil-generated/
-       │    └─ vueOutputTarget          → packages/vue-library/lib/components.ts
+       │    ├─ angularOutputTarget      → packages/design-system-angular/projects/component-library/src/lib/stencil-generated/
+       │    ├─ reactOutputTarget        → packages/design-system-react/lib/components/stencil-generated/
+       │    └─ vueOutputTarget          → packages/design-system-vue/lib/components.ts
        │
-       ├─ packages/react-library        → dist/   (tsc compile of auto-generated proxies)
-       ├─ packages/vue-library          → dist/   (tsc compile)
-       └─ packages/angular-workspace    → dist/   (ng-packagr)
+       ├─ packages/design-system-react        → dist/   (tsc compile of auto-generated proxies)
+       ├─ packages/design-system-vue          → dist/   (tsc compile)
+       └─ packages/design-system-angular    → dist/   (ng-packagr)
 ```
 
 Nx enforces this order automatically via `dependsOn: ["^build"]`. You never need to run wrapper builds manually — `npm run build` from root handles everything.

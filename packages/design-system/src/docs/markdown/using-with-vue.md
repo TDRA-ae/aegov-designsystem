@@ -6,15 +6,15 @@
 
 | Package | Purpose |
 | --- | --- |
-| `@aegov/designsystem-testing` | The web components — Stencil bundles, CSS, and types. Required at runtime. |
-| `@aegov/designsystem-vue-testing` | Vue 3 wrappers. Registers all custom elements automatically via a Vue plugin. |
+| `@aegov/design-system` | The web components — Stencil bundles, CSS, and types. Required at runtime. |
+| `@aegov/design-system-vue` | Vue 3 wrappers. Registers all custom elements automatically via a Vue plugin. |
 
 ---
 
 ## Step 1 — Install the packages
 
 ```bash
-npm install @aegov/designsystem-testing @aegov/designsystem-vue-testing
+npm install @aegov/design-system @aegov/design-system-vue
 ```
 
 ---
@@ -27,7 +27,7 @@ Register the plugin once in your app entry file. This calls `defineCustomElement
 // src/main.ts
 import { createApp } from 'vue';
 import App from './App.vue';
-import { ComponentLibrary } from '@aegov/designsystem-vue-testing';
+import { ComponentLibrary } from '@aegov/design-system-vue';
 
 createApp(App)
   .use(ComponentLibrary)
@@ -43,8 +43,8 @@ Add all three imports to your main CSS file. Order matters — Tailwind first, t
 ```css
 /* src/styles.css */
 @import "tailwindcss";
-@import "@aegov/designsystem-testing/base";
-@import "@aegov/designsystem-testing/theme";
+@import "@aegov/design-system/base";
+@import "@aegov/design-system/theme";
 ```
 
 Then import the CSS file in your entry file (before the plugin registration):
@@ -54,7 +54,7 @@ Then import the CSS file in your entry file (before the plugin registration):
 import { createApp } from 'vue';
 import './styles.css';
 import App from './App.vue';
-import { ComponentLibrary } from '@aegov/designsystem-vue-testing';
+import { ComponentLibrary } from '@aegov/design-system-vue';
 
 createApp(App)
   .use(ComponentLibrary)
@@ -179,7 +179,7 @@ async function handleSubmit() {
 Import types from the core package:
 
 ```ts
-import type { Components } from '@aegov/designsystem-testing/components';
+import type { Components } from '@aegov/design-system/components';
 
 const variant: Components.AegovButton['variant'] = 'primary';
 ```

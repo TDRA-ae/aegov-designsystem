@@ -60,18 +60,18 @@ export const config: Config = {
     },
 
     angularOutputTarget({
-      componentCorePackage: '@aegov/designsystem-testing',
+      componentCorePackage: '@aegov/design-system',
       outputType: 'standalone',
-      directivesProxyFile: '../angular-workspace/projects/component-library/src/lib/stencil-generated/components.ts',
-      directivesArrayFile: '../angular-workspace/projects/component-library/src/lib/stencil-generated/index.ts',
+      directivesProxyFile: '../design-system-angular/projects/component-library/src/lib/stencil-generated/components.ts',
+      directivesArrayFile: '../design-system-angular/projects/component-library/src/lib/stencil-generated/index.ts',
     }),
     reactOutputTarget({
-      stencilPackageName: '@aegov/designsystem-testing',
-      outDir: '../react-library/lib/components/stencil-generated/',
+      stencilPackageName: '@aegov/design-system',
+      outDir: '../design-system-react/lib/components/stencil-generated/',
     }),
     vueOutputTarget({
-      componentCorePackage: '@aegov/designsystem-testing',
-      proxiesFile: '../vue-library/lib/components.ts',
+      componentCorePackage: '@aegov/design-system',
+      proxiesFile: '../design-system-vue/lib/components.ts',
     }),
   ],
 

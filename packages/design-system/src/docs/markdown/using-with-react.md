@@ -8,8 +8,8 @@ There are two npm packages:
 
 | Package | Purpose |
 | --- | --- |
-| `@aegov/designsystem-testing` | The web components themselves — Stencil bundles, CSS, and types. Required at runtime. |
-| `@aegov/designsystem-react-testing` | React wrappers + TypeScript types. Imports the web component classes from the core package and registers each one's custom element on first render. |
+| `@aegov/design-system` | The web components themselves — Stencil bundles, CSS, and types. Required at runtime. |
+| `@aegov/design-system-react` | React wrappers + TypeScript types. Imports the web component classes from the core package and registers each one's custom element on first render. |
 
 The React package depends on the core package as a peer — install both.
 
@@ -18,14 +18,14 @@ The React package depends on the core package as a peer — install both.
 ## Step 1 — Install the packages
 
 ```bash
-npm install @aegov/designsystem-testing @aegov/designsystem-react-testing
+npm install @aegov/design-system @aegov/design-system-react
 ```
 
 Or with yarn / pnpm:
 
 ```bash
-yarn add @aegov/designsystem-testing @aegov/designsystem-react-testing
-pnpm add @aegov/designsystem-testing @aegov/designsystem-react-testing
+yarn add @aegov/design-system @aegov/design-system-react
+pnpm add @aegov/design-system @aegov/design-system-react
 ```
 
 If your project already uses React 18+, no extra peer dependencies are needed. For React 16.8–17, the wrappers still work — they target React's stable hooks API.
@@ -39,8 +39,8 @@ Add all three imports to your main CSS file. Order matters — Tailwind first, t
 ```css
 /* src/styles.css */
 @import "tailwindcss";
-@import "@aegov/designsystem-testing/base";
-@import "@aegov/designsystem-testing/theme";
+@import "@aegov/design-system/base";
+@import "@aegov/design-system/theme";
 ```
 
 Then import the CSS file once in your entry file:
@@ -73,7 +73,7 @@ Import the React wrapper and render it like any other component. Props are typed
 
 ```tsx
 // src/App.tsx
-import { AegovButton } from '@aegov/designsystem-react-testing';
+import { AegovButton } from '@aegov/design-system-react';
 
 export default function App() {
   return (
@@ -101,8 +101,8 @@ This component shows the typical patterns: typed props, ref to the underlying el
 
 ```tsx
 import { useRef, useState } from 'react';
-import { AegovButton } from '@aegov/designsystem-react-testing';
-import type { HTMLAegovButtonElement } from '@aegov/designsystem-testing';
+import { AegovButton } from '@aegov/design-system-react';
+import type { HTMLAegovButtonElement } from '@aegov/design-system';
 
 export function SubmitApplicationButton() {
   const ref = useRef<HTMLAegovButtonElement>(null);
@@ -163,7 +163,7 @@ import {
   AegovDatepicker,
   AegovFormField,
   AegovLabel,
-} from '@aegov/designsystem-react-testing';
+} from '@aegov/design-system-react';
 ```
 
 Layout / surface components (cards, modals, drawers, navigation, banners, toasts) are imported the same way — see the per-component docs in the left navigation.
@@ -172,14 +172,14 @@ Layout / surface components (cards, modals, drawers, navigation, banners, toasts
 
 ## TypeScript
 
-All wrappers are fully typed. Import payload types from `@aegov/designsystem-testing`:
+All wrappers are fully typed. Import payload types from `@aegov/design-system`:
 
 ```tsx
 import type {
   AegovValidationDetail,
   ButtonVariant,
   InputType,
-} from '@aegov/designsystem-testing';
+} from '@aegov/design-system';
 
 const variant: ButtonVariant = 'primary';
 
@@ -195,15 +195,15 @@ function onValidate(e: CustomEvent<AegovValidationDetail<string>>) {
 Form components ship a unified validation surface — `isInvalid`, `errorMessage`, `hint` props, `onAegovValidate` event, plus imperative `validate()` and `setCustomValidity()` methods. The full reference is in [Validation Surface](validation-overview.html). For schema-driven validation (Valibot / Zod / Vest) using a typed React hook, install the optional add-on:
 
 ```bash
-npm install @aegov/designsystem-validation valibot
+npm install @aegov/design-system-validation valibot
 ```
 
 Quick example:
 
 ```tsx
-import { useAegovForm } from '@aegov/designsystem-validation/react';
-import { valibotAdapter } from '@aegov/designsystem-validation/adapters/valibot';
-import { AegovInput, AegovButton } from '@aegov/designsystem-react-testing';
+import { useAegovForm } from '@aegov/design-system-validation/react';
+import { valibotAdapter } from '@aegov/design-system-validation/adapters/valibot';
+import { AegovInput, AegovButton } from '@aegov/design-system-react';
 import * as v from 'valibot';
 
 const schema = v.object({
@@ -289,7 +289,7 @@ The web components are client-side only — they rely on Custom Elements API whi
 
 ```tsx
 'use client';
-import { AegovButton } from '@aegov/designsystem-react-testing';
+import { AegovButton } from '@aegov/design-system-react';
 ```
 
 Or wrap in `next/dynamic` with `{ ssr: false }`:
@@ -297,7 +297,7 @@ Or wrap in `next/dynamic` with `{ ssr: false }`:
 ```tsx
 import dynamic from 'next/dynamic';
 const AegovButton = dynamic(
-  () => import('@aegov/designsystem-react-testing').then((m) => m.AegovButton),
+  () => import('@aegov/design-system-react').then((m) => m.AegovButton),
   { ssr: false },
 );
 ```

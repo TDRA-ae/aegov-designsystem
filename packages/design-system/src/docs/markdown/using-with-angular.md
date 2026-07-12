@@ -6,15 +6,15 @@
 
 | Package | Purpose |
 | --- | --- |
-| `@aegov/designsystem-testing` | The web components — Stencil bundles, CSS, and types. Required at runtime. |
-| `@aegov/designsystem-angular-testing` | Angular directive wrappers, `DesignSystemModule`, and `provideDesignSystem()`. |
+| `@aegov/design-system` | The web components — Stencil bundles, CSS, and types. Required at runtime. |
+| `@aegov/design-system-angular` | Angular directive wrappers, `DesignSystemModule`, and `provideDesignSystem()`. |
 
 ---
 
 ## Step 1 — Install the packages
 
 ```bash
-npm install @aegov/designsystem-testing @aegov/designsystem-angular-testing
+npm install @aegov/design-system @aegov/design-system-angular
 ```
 
 ---
@@ -26,16 +26,16 @@ Add all three imports to your `src/styles.css`. Order matters — Tailwind first
 ```css
 /* src/styles.css */
 @import "tailwindcss";
-@import "@aegov/designsystem-testing/base";
-@import "@aegov/designsystem-testing/theme";
+@import "@aegov/design-system/base";
+@import "@aegov/design-system/theme";
 ```
 
 Alternatively, add the compiled files directly in `angular.json`:
 
 ```json
 "styles": [
-  "node_modules/@aegov/designsystem-testing/dist/global/global.css",
-  "node_modules/@aegov/designsystem-testing/dist/styles/tailwind.css",
+  "node_modules/@aegov/design-system/dist/global/global.css",
+  "node_modules/@aegov/design-system/dist/styles/tailwind.css",
   "src/styles.css"
 ]
 ```
@@ -54,7 +54,7 @@ Add `provideDesignSystem()` to your `app.config.ts`. This registers all web comp
 // src/app/app.config.ts
 import { ApplicationConfig } from '@angular/core';
 import { provideRouter } from '@angular/router';
-import { provideDesignSystem } from '@aegov/designsystem-angular-testing';
+import { provideDesignSystem } from '@aegov/design-system-angular';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -72,7 +72,7 @@ Import `DesignSystemModule` in your root `AppModule`. This registers all web com
 // src/app/app.module.ts
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { DesignSystemModule } from '@aegov/designsystem-angular-testing';
+import { DesignSystemModule } from '@aegov/design-system-angular';
 import { AppComponent } from './app.component';
 
 @NgModule({
@@ -93,7 +93,7 @@ Import each component directive where you use it:
 
 ```ts
 import { Component } from '@angular/core';
-import { AegovButton, AegovInput } from '@aegov/designsystem-angular-testing';
+import { AegovButton, AegovInput } from '@aegov/design-system-angular';
 
 @Component({
   selector: 'app-root',
@@ -115,7 +115,7 @@ export class AppComponent {
 Or import `DesignSystemModule` once to get all components without listing them individually:
 
 ```ts
-import { DesignSystemModule } from '@aegov/designsystem-angular-testing';
+import { DesignSystemModule } from '@aegov/design-system-angular';
 
 @Component({
   imports: [DesignSystemModule],
@@ -200,7 +200,7 @@ Bind to component events with Angular's `(eventName)` syntax:
 
 ```ts
 import { Component, signal } from '@angular/core';
-import { AegovButton, AegovInput } from '@aegov/designsystem-angular-testing';
+import { AegovButton, AegovInput } from '@aegov/design-system-angular';
 
 @Component({
   selector: 'app-contact-form',
@@ -245,7 +245,7 @@ export class ContactFormComponent {
 Import types from the core package:
 
 ```ts
-import type { Components } from '@aegov/designsystem-testing/components';
+import type { Components } from '@aegov/design-system/components';
 
 const variant: Components.AegovButton['variant'] = 'primary';
 ```
@@ -266,7 +266,7 @@ You are using `tab-id` (kebab-case) instead of `tabId` (camelCase). Change to:
 
 You are using an older version of the Angular package (`< 0.2.1`). Update to the latest:
 ```bash
-npm install @aegov/designsystem-angular-testing@latest
+npm install @aegov/design-system-angular@latest
 ```
 
 ### Components render unstyled

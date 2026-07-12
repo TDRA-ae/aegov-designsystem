@@ -1,5 +1,5 @@
 {
-    "name": "@aegov/designsystem-testing",
+    "name": "@aegov/design-system",
     "version": "0.2.3",
     "description": "AEGOV Design System - Framework-agnostic web components with Tailwind CSS",
     "main": "dist/index.cjs.js",
