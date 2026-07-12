@@ -1,6 +1,6 @@
 # Bring Your Own Validator
 
-The Layer 1 validation surface in `@aegov/design-system` is engine-agnostic. You don't need `@aegov/designsystem-validation` — you can drive validation manually with any predicate, regex, server response, or existing app-level validator.
+The Layer 1 validation surface in `@aegov/design-system` is engine-agnostic. You don't need `@aegov/design-system-validation` — you can drive validation manually with any predicate, regex, server response, or existing app-level validator.
 
 This page shows the most common patterns. The full surface reference is in [Validation Surface](validation-overview.html).
 
@@ -173,7 +173,7 @@ FormAssociated components respond to `<form>.reset()` automatically via their `f
 
 ---
 
-## When to graduate to `@aegov/designsystem-validation`
+## When to graduate to `@aegov/design-system-validation`
 
 Stick with manual validation when:
 - Your form has 1–3 fields.

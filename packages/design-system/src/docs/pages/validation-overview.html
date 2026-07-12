@@ -22,7 +22,7 @@
           <!-- DOC:START -->
 <h1>Validation Surface (Layer 1)</h1>
 <p>All form components in <code>@aegov/design-system</code> expose a uniform validation surface — a set of props, slots, events, and methods you can use to display invalid state, render error messages, and respond to user input. This page is the single source of truth for the surface; per-component docs link back here.</p>
-<p>The validation surface is intentionally <strong>engine-agnostic</strong>. Drive it manually, plug in your own predicate, or use the optional <code>@aegov/designsystem-validation</code> add-on package — see &quot;Use a Validation Engine&quot; at the bottom.</p>
+<p>The validation surface is intentionally <strong>engine-agnostic</strong>. Drive it manually, plug in your own predicate, or use the optional <code>@aegov/design-system-validation</code> add-on package — see &quot;Use a Validation Engine&quot; at the bottom.</p>
 <hr>
 <h2>What you get on every form component</h2>
 <p>Every form component (<code>aegov-input</code>, <code>aegov-textarea</code>, <code>aegov-select</code>, <code>aegov-checkbox</code>, <code>aegov-checkbox-group</code>, <code>aegov-radio</code>, <code>aegov-radio-group</code>, <code>aegov-toggle</code>, <code>aegov-range</code>, <code>aegov-otp</code>, <code>aegov-fileupload</code>, <code>aegov-datepicker</code>, <code>aegov-form-field</code>) ships with this surface.</p>
@@ -228,9 +228,9 @@
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-input</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;email&quot;</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;email&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-input</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-form-field</span>&gt;</span></code></pre><hr>
 <h2>Use a validation engine</h2>
-<p>If you want schema-driven validation (Valibot, Zod, Vest, native), reach for <code>@aegov/designsystem-validation</code>. It listens for <code>aegovValidate</code> events at form root, runs your schema, and writes <code>is-invalid</code> + <code>error-message</code> back to each component.</p>
-<pre><code class="hljs language-ts"><span class="hljs-keyword">import</span> { createForm } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@aegov/designsystem-validation&#x27;</span>;
-<span class="hljs-keyword">import</span> { valibotAdapter } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@aegov/designsystem-validation/adapters/valibot&#x27;</span>;
+<p>If you want schema-driven validation (Valibot, Zod, Vest, native), reach for <code>@aegov/design-system-validation</code>. It listens for <code>aegovValidate</code> events at form root, runs your schema, and writes <code>is-invalid</code> + <code>error-message</code> back to each component.</p>
+<pre><code class="hljs language-ts"><span class="hljs-keyword">import</span> { createForm } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@aegov/design-system-validation&#x27;</span>;
+<span class="hljs-keyword">import</span> { valibotAdapter } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@aegov/design-system-validation/adapters/valibot&#x27;</span>;
 <span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> v <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;valibot&#x27;</span>;
 
 <span class="hljs-keyword">const</span> schema = v.<span class="hljs-title function_">object</span>({

@@ -1,5 +1,5 @@
 {
-  "name": "@aegov/designsystem-react-testing",
+  "name": "@aegov/design-system-react",
   "version": "0.2.3",
   "description": "AEGOV Design System - Framework-agnostic web components with Tailwind CSS",
   "homepage": "",
@@ -25,7 +25,7 @@
     "access": "restricted"
   },
   "dependencies": {
-    "@aegov/designsystem-testing": "^0.2.3",
+    "@aegov/design-system": "^0.2.3",
     "@stencil/react-output-target": "^1.6.0"
   },
   "gitHead": "1a70abe08865f870b955575926bf8a7df6f48a0f"

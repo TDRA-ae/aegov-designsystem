@@ -47,9 +47,9 @@
 Two cleanly separated layers:
 
 - **Layer 1** — additive validation surface in `@aegov/design-system` core. Mandatory. ~900 LOC across 13 form components plus shared utilities.
-- **Layer 2** — `@aegov/designsystem-validation` add-on package. Optional. Engine-agnostic orchestrator + adapter shims (Valibot/Zod/Vest/Native) + framework helpers (React/Vue/Angular/vanilla).
+- **Layer 2** — `@aegov/design-system-validation` add-on package. Optional. Engine-agnostic orchestrator + adapter shims (Valibot/Zod/Vest/Native) + framework helpers (React/Vue/Angular/vanilla).
 
-Layer 1 ships first in core `0.2.0`. Layer 2 ships next as `@aegov/designsystem-validation@0.1.0`, depending on core `>=0.2.0`.
+Layer 1 ships first in core `0.2.0`. Layer 2 ships next as `@aegov/design-system-validation@0.1.0`, depending on core `>=0.2.0`.
 
 Layer 1 is fully usable standalone — consumers can BYO validator with ~5 lines of glue. Layer 2 is sugar for schema-driven, multi-framework, batteries-included DX.
 
@@ -62,7 +62,7 @@ Layer 1 is fully usable standalone — consumers can BYO validator with ~5 lines
 │  Consumer App (React / Vue / Angular / vanilla)                  │
 │                                                                  │
 │  ┌────────────────────────────────────────────────────────────┐  │
-│  │  Layer 2: @aegov/designsystem-validation (OPTIONAL)       │  │
+│  │  Layer 2: @aegov/design-system-validation (OPTIONAL)       │  │
 │  │  • createForm(rootEl, schema, adapter, options)            │  │
 │  │  • Adapters: valibot | zod | vest | native                 │  │
 │  │  • Framework helpers: react | vue | angular | vanilla      │  │
@@ -641,7 +641,7 @@ Every form component markdown file gets a `## Validation` section with the follo
 ### Accessibility
   • aria-invalid wiring, aria-describedby chain, role="alert" usage
 ### Cross-link
-  • "Use with @aegov/designsystem-validation" → links to Layer 2 page (§3.11)
+  • "Use with @aegov/design-system-validation" → links to Layer 2 page (§3.11)
 ```
 
 **Per-component cookbook scope (common use cases only — NOT exhaustive):**
@@ -688,7 +688,7 @@ Each recipe = one runnable code block (HTML + JS) under 30 lines, plus 1-line "w
 ### 3.1 Package Layout
 
 **Repo:** `/Users/moiz/Projects/TDRA/aegov-designsystem-validation` (separate repo, decided in §6.1)
-**Package name:** `@aegov/designsystem-validation`
+**Package name:** `@aegov/design-system-validation`
 **Peer dependency:** `@aegov/design-system >=0.2.0 <1.0.0`
 
 Tree:
@@ -742,7 +742,7 @@ aegov-designsystem-validation/
 
 ```jsonc
 {
-  "name": "@aegov/designsystem-validation",
+  "name": "@aegov/design-system-validation",
   "version": "0.1.0",
   "repository": "github:tdra/aegov-designsystem-validation",
   "type": "module",
@@ -779,8 +779,8 @@ aegov-designsystem-validation/
 **Vanilla:**
 
 ```ts
-import { createForm } from '@aegov/designsystem-validation';
-import { valibotAdapter } from '@aegov/designsystem-validation/adapters/valibot';
+import { createForm } from '@aegov/design-system-validation';
+import { valibotAdapter } from '@aegov/design-system-validation/adapters/valibot';
 import * as v from 'valibot';
 
 const schema = v.object({
@@ -806,7 +806,7 @@ form.destroy();
 **React:**
 
 ```tsx
-import { useAegovForm } from '@aegov/designsystem-validation/react';
+import { useAegovForm } from '@aegov/design-system-validation/react';
 
 function LoginForm() {
   const { formRef, handleSubmit, errors, isValid } = useAegovForm({
@@ -826,7 +826,7 @@ function LoginForm() {
 
 ```vue
 <script setup>
-import { useAegovForm } from '@aegov/designsystem-validation/vue';
+import { useAegovForm } from '@aegov/design-system-validation/vue';
 const { formRef, handleSubmit, errors, isValid } = useAegovForm({ schema, adapter });
 </script>
 <template>
@@ -973,7 +973,7 @@ export function createForm<S>(
   // Gap §7.9 fix: auto-cleanup if rootEl detached from document — prevents leaks on SPA route change
   const detachObserver = new MutationObserver(() => {
     if (!rootEl.isConnected) {
-      console.debug('[@aegov/designsystem-validation] rootEl detached — auto-destroying form orchestrator');
+      console.debug('[@aegov/design-system-validation] rootEl detached — auto-destroying form orchestrator');
       api.destroy();
     }
   });
@@ -1288,7 +1288,7 @@ export function useAegovForm<S, A extends ValidatorAdapter<S>>(opts: UseAegovFor
 
 1. Schema-supplied messages
 2. `messageResolver` option (global hook)
-3. `@aegov/designsystem-validation/i18n/{en,ar}` default catalogs
+3. `@aegov/design-system-validation/i18n/{en,ar}` default catalogs
 
 **Gap §7.7 fix — native browser message NEVER used in app UI:** `HTMLInputElement.validationMessage` returns a string localized to the **browser's UI language**, not the app's locale. An Arabic AEGOV form running in an English-locale browser would show English fallback messages — leak into RTL layout, broken UX.
 
@@ -1427,9 +1427,9 @@ Each recipe page structure:
 Mandatory bidirectional links so readers never hit a dead end:
 
 **From Layer 1 docs to Layer 2:**
-- Each component "Validation" section ends with: "Use with `@aegov/designsystem-validation`" → links to relevant Layer 2 page (default: `validation.md` overview, plus framework-specific link if applicable)
+- Each component "Validation" section ends with: "Use with `@aegov/design-system-validation`" → links to relevant Layer 2 page (default: `validation.md` overview, plus framework-specific link if applicable)
 - `validation-overview.md` ends with: "Drive validation from a schema" → `validation.md`
-- `validation-byo.md` ends with: "Prefer schema-driven? See `@aegov/designsystem-validation`" → `validation.md`
+- `validation-byo.md` ends with: "Prefer schema-driven? See `@aegov/design-system-validation`" → `validation.md`
 
 **From Layer 2 docs to Layer 1:**
 - Every Layer 2 page top: "Requires `@aegov/design-system >=0.2.0` validation surface" → `validation-overview.md`
@@ -1458,7 +1458,7 @@ New page `validation-i18n.md` covers full localization flow. Required content:
 
 ```ts
 // 1. Default fallback
-import en from '@aegov/designsystem-validation/i18n/en';
+import en from '@aegov/design-system-validation/i18n/en';
 createForm(form, schema, adapter, {
   messageResolver: (issue) => en[issue.code] ?? issue.message,
 });
@@ -1466,7 +1466,7 @@ createForm(form, schema, adapter, {
 
 ```ts
 // 2. Arabic
-import ar from '@aegov/designsystem-validation/i18n/ar';
+import ar from '@aegov/design-system-validation/i18n/ar';
 createForm(form, schema, adapter, {
   messageResolver: (issue) => {
     const tpl = ar[issue.code] ?? issue.message;
@@ -1613,7 +1613,7 @@ Total: ~10 working weeks for a single senior engineer; ~6 weeks with two enginee
 ### 6.1 Workspace topology — **DECIDED: Option B (separate repo)**
 
 **Decision:** Separate repo at `/Users/moiz/Projects/TDRA/aegov-designsystem-validation` (already created).
-**Package name:** `@aegov/designsystem-validation`
+**Package name:** `@aegov/design-system-validation`
 **Implications:**
 - No workspace restructure needed in `aegov-dls-3`
 - Layer 1 contract changes require coordinated PRs across two repos — track via `peerDependencies` semver range and integration smoke job in CI
@@ -1625,8 +1625,8 @@ Total: ~10 working weeks for a single senior engineer; ~6 weeks with two enginee
 
 **Decision:** No pre-bundled adapter. Consumer always imports adapter explicitly:
 ```ts
-import { createForm } from '@aegov/designsystem-validation';
-import { valibotAdapter } from '@aegov/designsystem-validation/adapters/valibot';
+import { createForm } from '@aegov/design-system-validation';
+import { valibotAdapter } from '@aegov/design-system-validation/adapters/valibot';
 ```
 **Implications:**
 - Core barrel `index.ts` exports `createForm` + types only — zero adapter code
@@ -1644,7 +1644,7 @@ import { valibotAdapter } from '@aegov/designsystem-validation/adapters/valibot'
 - `AegovFieldDirective` — `aegovField` selector matched by tag (`aegov-input[formControlName], aegov-select[formControlName], …`); implements `writeValue`, `registerOnChange`, `registerOnTouched`, `setDisabledState`, plus `validate` from `Validator` interface
 - Generic CVA with tag-aware value coercion (string for input, File[] for fileupload, Date for datepicker, string[] for multi-select)
 - Bridges Angular validators back to `aegov-*.errorMessage` via `formControl.errors`
-- Both directives standalone (Angular 17+); barrel export from `@aegov/designsystem-validation/angular`
+- Both directives standalone (Angular 17+); barrel export from `@aegov/design-system-validation/angular`
 
 **Effort:** ~250 LOC total (directive 100 + CVA 120 + tag-coercion helpers 30); one-time, covers all 13 form components.
 
@@ -1895,8 +1895,8 @@ export class AegovOtp {
 </form>
 
 <script type="module">
-  import { createForm } from '@aegov/designsystem-validation';
-  import { valibotAdapter } from '@aegov/designsystem-validation/adapters/valibot';
+  import { createForm } from '@aegov/design-system-validation';
+  import { valibotAdapter } from '@aegov/design-system-validation/adapters/valibot';
   import { loginSchema } from './schemas.js';
 
   createForm(document.getElementById('login-form'), loginSchema, valibotAdapter(), {

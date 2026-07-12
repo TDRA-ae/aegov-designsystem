@@ -8,7 +8,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@aegov/designsystem-testing": "^0.2.3"
+    "@aegov/design-system": "^0.2.3"
   },
   "devDependencies": {
     "@tailwindcss/vite": "^4.0.0",

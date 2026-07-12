@@ -1,4 +1,4 @@
 import './styles.css';
-import { defineCustomElements } from '@aegov/designsystem-testing/loader';
+import { defineCustomElements } from '@aegov/design-system/loader';
 
 defineCustomElements();

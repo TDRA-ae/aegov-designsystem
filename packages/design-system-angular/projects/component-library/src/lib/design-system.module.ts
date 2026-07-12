@@ -1,5 +1,5 @@
 import { APP_INITIALIZER, EnvironmentProviders, makeEnvironmentProviders, NgModule } from '@angular/core';
-import { defineCustomElements } from '@aegov/designsystem-testing/loader';
+import { defineCustomElements } from '@aegov/design-system/loader';
 import { DIRECTIVES } from './stencil-generated';
 
 function initializeDesignSystem() {

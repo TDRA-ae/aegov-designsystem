@@ -753,9 +753,9 @@
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-input</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;zip&quot;</span> <span class="hljs-attr">minlength</span>=<span class="hljs-string">&quot;5&quot;</span> <span class="hljs-attr">maxlength</span>=<span class="hljs-string">&quot;5&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-input</span>&gt;</span></code></pre><p><strong>Pattern (regex):</strong></p>
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-input</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;phone&quot;</span> <span class="hljs-attr">pattern</span>=<span class="hljs-string">&quot;^\+971-?\d{9}$&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-input</span>&gt;</span></code></pre><p><strong>Custom server-side error:</strong></p>
 <pre><code class="hljs language-js">input.<span class="hljs-title function_">setCustomValidity</span>(<span class="hljs-string">&#x27;Username already taken&#x27;</span>);</code></pre><p>See the <a href="validation-byo.html">Bring Your Own Validator</a> recipes for the full pattern catalog including async server checks and cross-field rules.</p>
-<h3>Use with <code>@aegov/designsystem-validation</code></h3>
-<pre><code class="hljs language-ts"><span class="hljs-keyword">import</span> { createForm } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@aegov/designsystem-validation&#x27;</span>;
-<span class="hljs-keyword">import</span> { valibotAdapter } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@aegov/designsystem-validation/adapters/valibot&#x27;</span>;
+<h3>Use with <code>@aegov/design-system-validation</code></h3>
+<pre><code class="hljs language-ts"><span class="hljs-keyword">import</span> { createForm } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@aegov/design-system-validation&#x27;</span>;
+<span class="hljs-keyword">import</span> { valibotAdapter } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@aegov/design-system-validation/adapters/valibot&#x27;</span>;
 <span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> v <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;valibot&#x27;</span>;
 
 <span class="hljs-keyword">const</span> schema = v.<span class="hljs-title function_">object</span>({
