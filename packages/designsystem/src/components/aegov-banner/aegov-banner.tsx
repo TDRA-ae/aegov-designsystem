@@ -81,7 +81,10 @@ export class AegovBanner {
   @Prop() isDismissible: boolean = true;
 
   /**
-   * Banner heading for aria-labelledby attribute.
+   * Optional visible heading label for the banner.
+   * When provided, a `<span id="${fieldId}-heading">` is rendered inside the banner
+   * and the wrapper receives `aria-labelledby="${fieldId}-heading"`.
+   * Required for role="status" banners that need an accessible name.
    */
   @Prop() heading?: string;
 
@@ -135,6 +138,15 @@ export class AegovBanner {
   /**
    * Get the ARIA role based on variant and pass-through `role` attribute.
    * If a `role` attribute is set on the host, it overrides the auto-computed value.
+   *
+   * Role mapping (mirrors aegov-callout for consistency):
+   *   error              → role="alert"  (assertive — blocking error, must interrupt)
+   *   success, info,
+   *   warning, default   → role="status" (polite — non-urgent, announce when AT is idle)
+   *
+   * role="region" is intentionally NOT used here: it is a navigation landmark with no
+   * live-region semantics (WAI-ARIA 1.2 §5.3.4), so dynamically injected banners would
+   * never be announced to AT.
    */
   private getRole(): BannerRole {
     // If user provided a role attribute on the host, use it
@@ -143,11 +155,10 @@ export class AegovBanner {
       return hostRole;
     }
     // Auto-compute based on variant
-    if (this.variant === 'success' || this.variant === 'error') {
-      return 'alert';
+    if (this.variant === 'error') {
+      return 'alert';   // assertive — implicit aria-live="assertive" (WAI-ARIA 1.2)
     }
-    // Default to region for general notifications
-    return 'region';
+    return 'status';    // polite   — implicit aria-live="polite"     (WAI-ARIA 1.2)
   }
 
   /**
@@ -378,7 +389,7 @@ export class AegovBanner {
         id={this.fieldId}
         class={this.getBannerClasses()}
         role={role}
-        aria-label={this.heading || undefined}
+        aria-labelledby={this.heading ? `${this.fieldId}-heading` : undefined}
         tabindex={this.isFocusable ? -1 : undefined}
         {...passThroughAttributes}
       >
@@ -391,6 +402,9 @@ export class AegovBanner {
           </div>
 
           <div class="banner__content">
+            {this.heading && (
+              <span id={`${this.fieldId}-heading`} class="banner__heading">{this.heading}</span>
+            )}
             <div class={`banner__text ${this.hasActionsSlot ? 'banner__text-left' : 'banner__text-center'}`}>
               <slot />
             </div>
