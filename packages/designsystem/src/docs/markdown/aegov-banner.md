@@ -27,7 +27,14 @@ The `aegov-banner` component renders a full-width container fixed to the top or 
 
 ## Variants
 
-The `variant` property sets the colour scheme and the implicit ARIA role. `error` and `success` resolve to `role="alert"` (assertive announcement); `info`, `warning`, and `default` resolve to `role="region"` (polite announcement).
+The `variant` property sets the colour scheme and the implicit ARIA role.
+
+| Variant | ARIA role | Announcement | Why |
+|---|---|---|---|
+| `error` | `role="alert"` | Assertive — interrupts immediately | Blocking error that the user must act on now (WAI-ARIA 1.2 implicit `aria-live="assertive"`) |
+| `success`, `info`, `warning`, `default` | `role="status"` | Polite — announced when AT is idle | Non-urgent notification; does not interrupt the user's current task (WAI-ARIA 1.2 implicit `aria-live="polite"`) |
+
+Both roles carry their `aria-live` value **implicitly** — the component does not set an explicit `aria-live` attribute, which is correct per the [APG Alert pattern](https://www.w3.org/WAI/ARIA/apg/patterns/alert/examples/alert/).
 
 ```html
 <aegov-banner variant="default">A neutral, informational message.</aegov-banner>
