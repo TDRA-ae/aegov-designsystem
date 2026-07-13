@@ -8,8 +8,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@aegov/designsystem-testing": "^0.2.3",
-    "@aegov/designsystem-vue-testing": "^0.2.3",
+    "@aegov/designsystem": "^0.2.3",
+    "@aegov/designsystem-vue": "^0.2.3",
     "vue": "^3.5.0"
   },
   "devDependencies": {

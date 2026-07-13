@@ -6,7 +6,7 @@ import {
   AegovSelect, AegovSelectOption,
   AegovCheckbox,
   AegovTabs, AegovTab, AegovTabPanel,
-} from '@aegov/designsystem-react-testing';
+} from '@aegov/designsystem-react';
 
 export default function App() {
   const [isLoading, setIsLoading] = useState(false);
