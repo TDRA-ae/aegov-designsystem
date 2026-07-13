@@ -1,0 +1,4 @@
+{
+  "name": "test-angular",
+  "implicitDependencies": ["@aegov/designsystem-angular", "@aegov/designsystem"]
+}
