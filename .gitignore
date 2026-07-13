@@ -28,6 +28,9 @@ coverage/
 test-results/
 playwright-report/
 
+# TypeScript incremental build info
+*.tsbuildinfo
+
 # Env
 .env
 .env.local
@@ -49,3 +52,6 @@ playwright-report/
 .DS_Store
 Thumbs.db
 .npmrc
+
+# Claude Code local settings (machine-specific, should not be shared)
+.claude/settings.local.json
