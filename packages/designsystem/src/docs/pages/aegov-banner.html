@@ -41,7 +41,30 @@
 </blockquote>
 <hr>
 <h2>Variants</h2>
-<p>The <code>variant</code> property sets the colour scheme and the implicit ARIA role. <code>error</code> and <code>success</code> resolve to <code>role=&quot;alert&quot;</code> (assertive announcement); <code>info</code>, <code>warning</code>, and <code>default</code> resolve to <code>role=&quot;region&quot;</code> (polite announcement).</p>
+<p>The <code>variant</code> property sets the colour scheme and the implicit ARIA role.</p>
+<table>
+<thead>
+<tr>
+<th>Variant</th>
+<th>ARIA role</th>
+<th>Announcement</th>
+<th>Why</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>error</code></td>
+<td><code>role=&quot;alert&quot;</code></td>
+<td>Assertive — interrupts immediately</td>
+<td>Blocking error that the user must act on now (WAI-ARIA 1.2 implicit <code>aria-live=&quot;assertive&quot;</code>)</td>
+</tr>
+<tr>
+<td><code>success</code>, <code>info</code>, <code>warning</code>, <code>default</code></td>
+<td><code>role=&quot;status&quot;</code></td>
+<td>Polite — announced when AT is idle</td>
+<td>Non-urgent notification; does not interrupt the user&#39;s current task (WAI-ARIA 1.2 implicit <code>aria-live=&quot;polite&quot;</code>)</td>
+</tr>
+</tbody></table>
+<p>Both roles carry their <code>aria-live</code> value <strong>implicitly</strong> — the component does not set an explicit <code>aria-live</code> attribute, which is correct per the <a href="https://www.w3.org/WAI/ARIA/apg/patterns/alert/examples/alert/">APG Alert pattern</a>.</p>
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-banner</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;default&quot;</span>&gt;</span>A neutral, informational message.<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-banner</span>&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">aegov-banner</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;info&quot;</span>&gt;</span>Useful information about the service.<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-banner</span>&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">aegov-banner</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;success&quot;</span>&gt;</span>Your application has been received.<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-banner</span>&gt;</span>
