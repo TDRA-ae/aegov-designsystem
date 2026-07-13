@@ -14,7 +14,7 @@ npm install
 npm run build
 
 # 3. Start the Stencil dev server with hot reload
-cd packages/design-system
+cd packages/designsystem
 npm start
 ```
 
@@ -64,9 +64,9 @@ npm start
 
 ---
 
-## Core design system (`packages/design-system`)
+## Core design system (`packages/designsystem`)
 
-Run these from inside `packages/design-system/`, or prefix with `cd packages/design-system &&`.
+Run these from inside `packages/designsystem/`, or prefix with `cd packages/designsystem &&`.
 
 ### Build
 
@@ -99,7 +99,7 @@ Run these from inside `packages/design-system/`, or prefix with `cd packages/des
 
 ### Accessibility (a11y) tests — Playwright
 
-Run these from inside `packages/design-system/` with the http-server running.
+Run these from inside `packages/designsystem/` with the http-server running.
 
 ```bash
 # Step 1 — start the static file server (required before running Playwright tests)
@@ -129,7 +129,7 @@ npx playwright show-report
 npx stencil generate
 
 # Or run from root
-cd packages/design-system && npx stencil generate
+cd packages/designsystem && npx stencil generate
 ```
 
 ### Bundle size
@@ -142,7 +142,7 @@ cd packages/design-system && npx stencil generate
 
 ## Framework wrapper packages
 
-### React wrapper (`packages/design-system-react`)
+### React wrapper (`packages/designsystem-react`)
 
 | Command | What it does |
 |---|---|
@@ -153,7 +153,7 @@ cd packages/design-system && npx stencil generate
 
 > Stencil auto-generates the React proxy components into `lib/components/stencil-generated/` during the core build. Run `npm run build` from root to regenerate them.
 
-### Vue wrapper (`packages/design-system-vue`)
+### Vue wrapper (`packages/designsystem-vue`)
 
 | Command | What it does |
 |---|---|
@@ -163,7 +163,7 @@ cd packages/design-system && npx stencil generate
 
 > Vue proxies are auto-generated into `lib/components.ts` during the core Stencil build.
 
-### Angular wrapper (`packages/design-system-angular`)
+### Angular wrapper (`packages/designsystem-angular`)
 
 | Command | What it does |
 |---|---|
@@ -196,14 +196,14 @@ Each test app also has `npm run build` and `npm run preview` (HTML/React/Vue) to
 ```
 npm run build  (from root)
        │
-       ├─ packages/design-system        → dist/ + loader/
-       │    ├─ angularOutputTarget      → packages/design-system-angular/projects/component-library/src/lib/stencil-generated/
-       │    ├─ reactOutputTarget        → packages/design-system-react/lib/components/stencil-generated/
-       │    └─ vueOutputTarget          → packages/design-system-vue/lib/components.ts
+       ├─ packages/designsystem        → dist/ + loader/
+       │    ├─ angularOutputTarget      → packages/designsystem-angular/projects/component-library/src/lib/stencil-generated/
+       │    ├─ reactOutputTarget        → packages/designsystem-react/lib/components/stencil-generated/
+       │    └─ vueOutputTarget          → packages/designsystem-vue/lib/components.ts
        │
-       ├─ packages/design-system-react        → dist/   (tsc compile of auto-generated proxies)
-       ├─ packages/design-system-vue          → dist/   (tsc compile)
-       └─ packages/design-system-angular    → dist/   (ng-packagr)
+       ├─ packages/designsystem-react        → dist/   (tsc compile of auto-generated proxies)
+       ├─ packages/designsystem-vue          → dist/   (tsc compile)
+       └─ packages/designsystem-angular    → dist/   (ng-packagr)
 ```
 
 Nx enforces this order automatically via `dependsOn: ["^build"]`. You never need to run wrapper builds manually — `npm run build` from root handles everything.
@@ -214,7 +214,7 @@ Nx enforces this order automatically via `dependsOn: ["^build"]`. You never need
 
 ```bash
 # 1. Scaffold the component (interactive)
-cd packages/design-system && npx stencil generate my-new-component
+cd packages/designsystem && npx stencil generate my-new-component
 
 # 2. Implement in src/components/my-new-component/
 #    - my-new-component.tsx  (template + logic)
@@ -243,7 +243,7 @@ npm run build
 # 3. Publish all changed packages
 npm run release
 # or manually for a single package:
-cd packages/design-system && npm publish
+cd packages/designsystem && npm publish
 ```
 
 ---
@@ -255,7 +255,7 @@ cd packages/design-system && npm publish
 npx lerna changed
 
 # See exactly what files would be included in the npm publish
-cd packages/design-system && npm pack --dry-run
+cd packages/designsystem && npm pack --dry-run
 
 # Clear Nx build cache (fixes stale cache issues)
 npx nx reset
