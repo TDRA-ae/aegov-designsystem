@@ -1,6 +1,6 @@
 @import "tailwindcss";
-@import "@aegov/designsystem-testing/base";
-@import "@aegov/designsystem-testing/theme";
+@import "@aegov/designsystem/base";
+@import "@aegov/designsystem/theme";
 
 html { scroll-behavior: smooth; }
 
