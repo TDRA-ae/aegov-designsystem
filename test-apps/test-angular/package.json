@@ -8,8 +8,8 @@
     "start": "ng serve --port 4300"
   },
   "dependencies": {
-    "@aegov/design-system-angular": "file:../../packages/design-system-angular/dist/component-library",
-    "@aegov/design-system": "^0.2.3",
+    "@aegov/designsystem-angular": "file:../../packages/designsystem-angular/dist/component-library",
+    "@aegov/designsystem": "^0.2.3",
     "@angular/common": "^22.0.0",
     "@angular/compiler": "^22.0.0",
     "@angular/core": "^22.0.0",

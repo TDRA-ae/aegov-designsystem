@@ -1,6 +1,6 @@
 import { Component, signal, inject, AfterViewInit } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
-import { DesignSystemModule } from '@aegov/design-system-angular';
+import { DesignSystemModule } from '@aegov/designsystem-angular';
 
 @Component({
   selector: 'app-root',
