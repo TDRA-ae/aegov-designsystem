@@ -1,4 +1,6 @@
 import { Config } from '@stencil/core';
+import { readFileSync } from 'fs';
+import { resolve } from 'path';
 import { sass } from '@stencil/sass';
 import tailwindPlugin, {
   tailwindGlobal,
@@ -11,10 +13,19 @@ import { vueOutputTarget } from '@stencil/vue-output-target';
 
 const isProd = process.env.NODE_ENV === 'production';
 
-// Global plugin defaults
+// Read the single consumer-facing tailwind.css and redirect component utilities
+// into @layer base so runtime-injected <style> tags never override consumer utilities.
+const componentTailwindCss = readFileSync(
+  resolve(__dirname, './src/styles/tailwind.css'),
+  'utf8'
+).replace(
+  '@import "tailwindcss/utilities.css" layer(utilities)',
+  '@import "tailwindcss/utilities.css" layer(base)'
+);
+
 setPluginConfigurationDefaults({
   enableDebug: !isProd,
-  tailwindCssPath: './src/styles/tailwind.css',
+  injectTailwindConfiguration: () => componentTailwindCss,
   stripComments: isProd,
   minify: isProd,
   optimise: !isProd
