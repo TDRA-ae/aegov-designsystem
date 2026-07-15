@@ -19,57 +19,61 @@
    * COLOR PALETTE
    * ======================================== */
 
-  /* AEGold Color */
-  --color-aegold-50: oklch(0.975 0.013 97.4);
-  --color-aegold-100: oklch(0.940 0.039 97.4);
-  --color-aegold-200: oklch(0.879 0.071 94.2);
-  --color-aegold-300: oklch(0.802 0.104 91.1);
-  --color-aegold-400: oklch(0.734 0.121 85.9);
-  --color-aegold-500: oklch(0.660 0.114 80.7);
+  /* AEGold Color — accessible ramp (uniform OKLCH lightness, bell chroma, gentle hue drift).
+     600 is the locked base; 50-on-600 = 4.5:1 (WCAG AA). */
+  --color-aegold-50: oklch(0.990 0.010 96);
+  --color-aegold-100: oklch(0.9189 0.032 94);
+  --color-aegold-200: oklch(0.8477 0.060 91.5);
+  --color-aegold-300: oklch(0.7766 0.085 89);
+  --color-aegold-400: oklch(0.7055 0.102 86.5);
+  --color-aegold-500: oklch(0.6343 0.101 85);
   --color-aegold-600: oklch(0.5632 0.0956 83.8);
-  --color-aegold-700: oklch(0.501 0.084 81.0);
-  --color-aegold-800: oklch(0.428 0.069 57.1);
-  --color-aegold-900: oklch(0.387 0.058 52.0);
-  --color-aegold-950: oklch(0.264 0.043 46.9);
+  --color-aegold-700: oklch(0.4921 0.085 76);
+  --color-aegold-800: oklch(0.4209 0.072 68);
+  --color-aegold-900: oklch(0.3498 0.058 60);
+  --color-aegold-950: oklch(0.2787 0.044 52);
 
-  /* AERed Color */
-  --color-aered-50: oklch(0.971 0.013 17.4);
-  --color-aered-100: oklch(0.939 0.028 20.4);
-  --color-aered-200: oklch(0.889 0.055 21.0);
-  --color-aered-300: oklch(0.815 0.095 21.7);
-  --color-aered-400: oklch(0.719 0.151 24.0);
-  --color-aered-500: oklch(0.640 0.192 26.3);
+  /* AERed Color — accessible ramp (uniform OKLCH lightness, bell chroma).
+     600 is the locked base; 50-on-600 = 4.5:1 (WCAG AA). */
+  --color-aered-50: oklch(0.992 0.007 18);
+  --color-aered-100: oklch(0.9223 0.045 20);
+  --color-aered-200: oklch(0.8547 0.085 22);
+  --color-aered-300: oklch(0.787 0.140 24);
+  --color-aered-400: oklch(0.7193 0.190 26);
+  --color-aered-500: oklch(0.6517 0.205 27);
   --color-aered-600: oklch(0.584 0.199 27.5);
-  --color-aered-700: oklch(0.504 0.181 28.0);
-  --color-aered-800: oklch(0.443 0.151 27.4);
-  --color-aered-900: oklch(0.397 0.124 26.4);
-  --color-aered-950: oklch(0.258 0.082 26.8);
+  --color-aered-700: oklch(0.5163 0.180 28);
+  --color-aered-800: oklch(0.4487 0.150 28);
+  --color-aered-900: oklch(0.381 0.120 27);
+  --color-aered-950: oklch(0.3133 0.085 27);
 
-  /* AEGreen Color */
-  --color-aegreen-50: oklch(0.978 0.011 149.9);
-  --color-aegreen-100: oklch(0.952 0.024 151.2);
-  --color-aegreen-200: oklch(0.902 0.046 150.1);
-  --color-aegreen-300: oklch(0.825 0.080 150.7);
-  --color-aegreen-400: oklch(0.722 0.112 149.8);
-  --color-aegreen-500: oklch(0.627 0.126 148.7);
-  --color-aegreen-600: oklch(0.581 0.122 148.5);
-  --color-aegreen-700: oklch(0.461 0.090 149.4);
-  --color-aegreen-800: oklch(0.397 0.067 149.9);
-  --color-aegreen-900: oklch(0.351 0.056 150.0);
-  --color-aegreen-950: oklch(0.238 0.040 151.6);
+  /* AEGreen Color — accessible ramp (uniform OKLCH lightness, bell chroma).
+     600 is the locked base; 50-on-600 = 4.5:1 (WCAG AA). */
+  --color-aegreen-50: oklch(0.993 0.005 150);
+  --color-aegreen-100: oklch(0.9163 0.030 150.5);
+  --color-aegreen-200: oklch(0.8427 0.055 150);
+  --color-aegreen-300: oklch(0.769 0.085 150);
+  --color-aegreen-400: oklch(0.6954 0.110 149.5);
+  --color-aegreen-500: oklch(0.6217 0.125 148.8);
+  --color-aegreen-600: oklch(0.548 0.122 148.5);
+  --color-aegreen-700: oklch(0.4744 0.105 149);
+  --color-aegreen-800: oklch(0.4007 0.085 149.5);
+  --color-aegreen-900: oklch(0.3271 0.065 150);
+  --color-aegreen-950: oklch(0.2534 0.048 151);
 
-  /* AEBlack Color */
-  --color-aeblack-50: oklch(0.976 0.000 0.0);
-  --color-aeblack-100: oklch(0.915 0.003 247.9);
-  --color-aeblack-200: oklch(0.826 0.008 260.7);
-  --color-aeblack-300: oklch(0.711 0.011 261.8);
-  --color-aeblack-400: oklch(0.592 0.014 259.8);
-  --color-aeblack-500: oklch(0.502 0.016 262.3);
+  /* AEBlack Color — accessible neutral ramp (uniform light half, softened dark
+     half so 950 is a deep gray, not pure black). 600 locked; 50-on-600 = 8.0:1. */
+  --color-aeblack-50: oklch(0.99 0.002 262);
+  --color-aeblack-100: oklch(0.8962 0.004 262);
+  --color-aeblack-200: oklch(0.8023 0.006 262);
+  --color-aeblack-300: oklch(0.7085 0.008 262);
+  --color-aeblack-400: oklch(0.6147 0.010 262);
+  --color-aeblack-500: oklch(0.5208 0.014 264);
   --color-aeblack-600: oklch(0.427 0.016 266.5);
-  --color-aeblack-700: oklch(0.372 0.011 271.1);
-  --color-aeblack-800: oklch(0.264 0.006 258.4);
-  --color-aeblack-900: oklch(0.230 0.008 264.4);
-  --color-aeblack-950: oklch(0.169 0.006 271.0);
+  --color-aeblack-700: oklch(0.3602 0.014 268);
+  --color-aeblack-800: oklch(0.2934 0.011 266);
+  --color-aeblack-900: oklch(0.2266 0.008 264);
+  --color-aeblack-950: oklch(0.16 0.006 262);
 
   /* Neutral Color - Whitely */
   --color-whitely-50: oklch(1.000 0.000 0.0);
@@ -80,18 +84,19 @@
   --color-whitely-500: oklch(0.931 0.000 0.0);
 
   /* Support Colors */
-  /* Camel Color */
-  --color-camel-50: oklch(0.987 0.021 95.3);
-  --color-camel-100: oklch(0.963 0.058 97.7);
-  --color-camel-200: oklch(0.923 0.113 96.6);
-  --color-camel-300: oklch(0.879 0.152 92.8);
-  --color-camel-400: oklch(0.836 0.163 86.0);
-  --color-camel-500: oklch(0.767 0.162 71.6);
-  --color-camel-600: oklch(0.665 0.154 60.2);
-  --color-camel-700: oklch(0.555 0.142 50.4);
-  --color-camel-800: oklch(0.472 0.121 47.0);
-  --color-camel-900: oklch(0.414 0.103 46.7);
-  --color-camel-950: oklch(0.279 0.072 46.6);
+  /* Camel Color — accessible ramp (uniform OKLCH lightness, bell chroma).
+     50-on-600 = 4.5:1 (WCAG AA). */
+  --color-camel-50: oklch(0.993 0.006 66);
+  --color-camel-100: oklch(0.9202 0.035 64);
+  --color-camel-200: oklch(0.8504 0.070 63);
+  --color-camel-300: oklch(0.7807 0.110 62);
+  --color-camel-400: oklch(0.7109 0.150 61);
+  --color-camel-500: oklch(0.6411 0.160 60.5);
+  --color-camel-600: oklch(0.5713 0.154 60.2);
+  --color-camel-700: oklch(0.5016 0.140 57);
+  --color-camel-800: oklch(0.4318 0.115 53);
+  --color-camel-900: oklch(0.362 0.090 50);
+  --color-camel-950: oklch(0.2922 0.065 47);
 
   /* Slate Color */
   --color-slate-50: oklch(0.984 0.003 247.9);
@@ -106,96 +111,103 @@
   --color-slate-900: oklch(0.208 0.040 265.8);
   --color-slate-950: oklch(0.129 0.041 264.7);
 
-  /* Fuchsia Color */
-  --color-fuchsia-50: oklch(0.977 0.017 320.1);
-  --color-fuchsia-100: oklch(0.952 0.036 318.9);
-  --color-fuchsia-200: oklch(0.903 0.073 319.6);
-  --color-fuchsia-300: oklch(0.833 0.132 321.4);
-  --color-fuchsia-400: oklch(0.748 0.207 322.2);
-  --color-fuchsia-500: oklch(0.667 0.259 322.1);
+  /* Fuchsia Color — accessible ramp (uniform OKLCH lightness, bell chroma).
+     600 is the locked base; 50-on-600 = 4.6:1 (WCAG AA). */
+  --color-fuchsia-50: oklch(0.993 0.010 320);
+  --color-fuchsia-100: oklch(0.9235 0.045 320.5);
+  --color-fuchsia-200: oklch(0.857 0.090 321);
+  --color-fuchsia-300: oklch(0.7905 0.150 321.5);
+  --color-fuchsia-400: oklch(0.724 0.210 322);
+  --color-fuchsia-500: oklch(0.6575 0.250 322.5);
   --color-fuchsia-600: oklch(0.591 0.257 322.9);
-  --color-fuchsia-700: oklch(0.518 0.226 323.9);
-  --color-fuchsia-800: oklch(0.452 0.192 324.6);
-  --color-fuchsia-900: oklch(0.401 0.160 325.6);
-  --color-fuchsia-950: oklch(0.293 0.131 325.7);
+  --color-fuchsia-700: oklch(0.5245 0.230 323.5);
+  --color-fuchsia-800: oklch(0.458 0.190 324);
+  --color-fuchsia-900: oklch(0.3915 0.155 325);
+  --color-fuchsia-950: oklch(0.325 0.115 326);
 
-  /* TechBlue Color */
-  --color-techblue-50: oklch(0.963 0.020 238.7);
-  --color-techblue-100: oklch(0.933 0.037 238.1);
-  --color-techblue-200: oklch(0.873 0.067 243.9);
-  --color-techblue-300: oklch(0.792 0.110 248.6);
-  --color-techblue-400: oklch(0.682 0.169 257.4);
-  --color-techblue-500: oklch(0.581 0.229 262.8);
+  /* TechBlue Color — accessible ramp (uniform OKLCH lightness, bell chroma).
+     50-on-600 = 6.6:1 (WCAG AA, comfortably). */
+  --color-techblue-50: oklch(0.993 0.008 239);
+  --color-techblue-100: oklch(0.908 0.045 243);
+  --color-techblue-200: oklch(0.826 0.090 247);
+  --color-techblue-300: oklch(0.744 0.150 252);
+  --color-techblue-400: oklch(0.662 0.210 258);
+  --color-techblue-500: oklch(0.580 0.260 262);
   --color-techblue-600: oklch(0.498 0.283 264.1);
-  --color-techblue-700: oklch(0.496 0.284 263.9);
-  --color-techblue-800: oklch(0.406 0.229 263.9);
-  --color-techblue-900: oklch(0.383 0.187 264.2);
-  --color-techblue-950: oklch(0.265 0.122 264.9);
+  --color-techblue-700: oklch(0.416 0.250 264);
+  --color-techblue-800: oklch(0.334 0.200 264.5);
+  --color-techblue-900: oklch(0.252 0.155 265);
+  --color-techblue-950: oklch(0.170 0.110 265);
 
-  /* SeaBlue Color */
-  --color-seablue-50: oklch(0.978 0.013 226.6);
-  --color-seablue-100: oklch(0.952 0.027 232.7);
-  --color-seablue-200: oklch(0.908 0.060 224.6);
-  --color-seablue-300: oklch(0.843 0.107 223.4);
-  --color-seablue-400: oklch(0.785 0.143 226.9);
-  --color-seablue-500: oklch(0.699 0.147 234.4);
-  --color-seablue-600: oklch(0.623 0.143 240.2);
-  --color-seablue-700: oklch(0.530 0.122 240.4);
-  --color-seablue-800: oklch(0.465 0.105 238.9);
-  --color-seablue-900: oklch(0.410 0.088 238.0);
-  --color-seablue-950: oklch(0.306 0.066 239.6);
+  /* SeaBlue Color — accessible ramp (uniform OKLCH lightness, bell chroma).
+     50-on-600 = 4.5:1 (WCAG AA). */
+  --color-seablue-50: oklch(0.993 0.005 228);
+  --color-seablue-100: oklch(0.9172 0.030 230);
+  --color-seablue-200: oklch(0.8445 0.060 232);
+  --color-seablue-300: oklch(0.7717 0.095 235);
+  --color-seablue-400: oklch(0.6989 0.130 238);
+  --color-seablue-500: oklch(0.6262 0.150 239.5);
+  --color-seablue-600: oklch(0.5534 0.143 240.2);
+  --color-seablue-700: oklch(0.4806 0.125 240);
+  --color-seablue-800: oklch(0.4079 0.105 239.5);
+  --color-seablue-900: oklch(0.3351 0.085 239);
+  --color-seablue-950: oklch(0.2623 0.065 239);
 
-  /* Desert Color */
-  --color-desert-50: oklch(0.975 0.013 60.6);
-  --color-desert-100: oklch(0.945 0.031 64.3);
-  --color-desert-200: oklch(0.883 0.064 59.1);
-  --color-desert-300: oklch(0.804 0.107 53.9);
-  --color-desert-400: oklch(0.714 0.153 45.8);
-  --color-desert-500: oklch(0.657 0.186 40.5);
-  --color-desert-600: oklch(0.624 0.198 36.0);
-  --color-desert-700: oklch(0.521 0.172 33.7);
-  --color-desert-800: oklch(0.446 0.141 32.0);
-  --color-desert-900: oklch(0.387 0.116 31.7);
-  --color-desert-950: oklch(0.253 0.074 29.3);
+  /* Desert Color — accessible ramp (uniform OKLCH lightness, bell chroma).
+     50-on-600 = 4.5:1 (WCAG AA). */
+  --color-desert-50: oklch(0.993 0.006 58);
+  --color-desert-100: oklch(0.9222 0.040 52);
+  --color-desert-200: oklch(0.8544 0.080 48);
+  --color-desert-300: oklch(0.7867 0.130 44);
+  --color-desert-400: oklch(0.7189 0.180 40);
+  --color-desert-500: oklch(0.6511 0.200 37);
+  --color-desert-600: oklch(0.5833 0.198 36);
+  --color-desert-700: oklch(0.5156 0.175 34.5);
+  --color-desert-800: oklch(0.4478 0.145 33);
+  --color-desert-900: oklch(0.38 0.115 31);
+  --color-desert-950: oklch(0.3122 0.080 29);
 
-  /* Purple Color */
-  --color-purple-50: oklch(0.9768 0.0142 308.3);
-  --color-purple-100: oklch(0.9464 0.0327 307.17);
-  --color-purple-200: oklch(0.9024 0.0604 306.7);
-  --color-purple-300: oklch(0.8268 0.1082 306.38);
-  --color-purple-400: oklch(0.7217 0.1767 305.5);
-  --color-purple-500: oklch(0.6268 0.2325 303.9);
+  /* Purple Color — accessible ramp (uniform OKLCH lightness, bell chroma).
+     600 is the locked base; 50-on-600 = 5.3:1 (WCAG AA). */
+  --color-purple-50: oklch(0.993 0.010 308);
+  --color-purple-100: oklch(0.9179 0.045 307);
+  --color-purple-200: oklch(0.8458 0.090 306.5);
+  --color-purple-300: oklch(0.7737 0.150 305.5);
+  --color-purple-400: oklch(0.7017 0.210 304);
+  --color-purple-500: oklch(0.6296 0.245 303);
   --color-purple-600: oklch(0.5575 0.2525 302.32);
-  --color-purple-700: oklch(0.4955 0.2369 301.92);
-  --color-purple-800: oklch(0.4383 0.1983 303.72);
-  --color-purple-900: oklch(0.3807 0.1661 304.99);
-  --color-purple-950: oklch(0.2905 0.1432 302.72);
+  --color-purple-700: oklch(0.4854 0.230 302);
+  --color-purple-800: oklch(0.4133 0.185 303);
+  --color-purple-900: oklch(0.3412 0.150 304);
+  --color-purple-950: oklch(0.2692 0.110 303);
 
-   /* Indigo Color */
-  --color-indigo-50: oklch(0.9619 0.0179 272.31);
-  --color-indigo-100:oklch(0.9299 0.0334 272.79);
-  --color-indigo-200:oklch(0.8699 0.0622 274.04);
-  --color-indigo-300:oklch(0.7853 0.1041 274.71);
-  --color-indigo-400:oklch(0.6801 0.1583 276.93);
-  --color-indigo-500:oklch(0.5854 0.2041 277.12);
-  --color-indigo-600:oklch(0.5106 0.2301 276.97);
-  --color-indigo-700:oklch(0.4568 0.2146 277.02);
-  --color-indigo-800:oklch(0.3984 0.1773 277.37);
-  --color-indigo-900:oklch(0.3588 0.1354 278.7);
-  --color-indigo-950:oklch(0.2573 0.0861 281.29);
+  /* Indigo Color — accessible ramp (uniform OKLCH lightness, bell chroma).
+     600 is the locked base; 50-on-600 = 6.2:1 (WCAG AA). */
+  --color-indigo-50: oklch(0.993 0.008 272);
+  --color-indigo-100: oklch(0.9101 0.040 273);
+  --color-indigo-200: oklch(0.8302 0.075 274);
+  --color-indigo-300: oklch(0.7503 0.130 275);
+  --color-indigo-400: oklch(0.6704 0.185 276.5);
+  --color-indigo-500: oklch(0.5905 0.220 277);
+  --color-indigo-600: oklch(0.5106 0.2301 276.97);
+  --color-indigo-700: oklch(0.4307 0.215 277);
+  --color-indigo-800: oklch(0.3508 0.175 277.5);
+  --color-indigo-900: oklch(0.2709 0.135 278.5);
+  --color-indigo-950: oklch(0.191 0.090 281);
 
-  /* Pink Color */
-  --color-pink-50: oklch(0.9714 0.0141 343.2);
-  --color-pink-100: oklch(0.9482 0.0276 342.26);
-  --color-pink-200: oklch(0.8994 0.0589 343.23);
-  --color-pink-300: oklch(0.8228 0.1095 346.02);
-  --color-pink-400: oklch(0.7253 0.1752 349.76);
-  --color-pink-500: oklch(0.6559 0.2118 354.31);
+  /* Pink Color — accessible ramp (uniform OKLCH lightness, bell chroma).
+     600 is the locked base; 50-on-600 = 4.5:1 (WCAG AA). */
+  --color-pink-50: oklch(0.993 0.004 343);
+  --color-pink-100: oklch(0.9236 0.035 345);
+  --color-pink-200: oklch(0.8572 0.065 347);
+  --color-pink-300: oklch(0.7908 0.110 350);
+  --color-pink-400: oklch(0.7244 0.160 353);
+  --color-pink-500: oklch(0.658 0.200 356);
   --color-pink-600: oklch(0.5916 0.218 0.58);
-  --color-pink-700: oklch(0.5246 0.199 3.96);
-  --color-pink-800: oklch(0.4587 0.1697 3.82);
-  --color-pink-900: oklch(0.4078 0.1442 2.43);
-  --color-pink-950: oklch(0.2845 0.1048 3.91);
+  --color-pink-700: oklch(0.5252 0.200 4);
+  --color-pink-800: oklch(0.4588 0.170 4);
+  --color-pink-900: oklch(0.3924 0.140 2);
+  --color-pink-950: oklch(0.326 0.105 3);
 
   /* Token colors */
   /* Primary Color */
