@@ -9,7 +9,7 @@
   },
   "dependencies": {
     "@aegov/designsystem-react": "^0.2.3",
-    "@aegov/designsystem": "^0.2.3",
+    "@aegov/designsystem": "^0.2.4",
     "react": "^18.3.0",
     "react-dom": "^18.3.0"
   },

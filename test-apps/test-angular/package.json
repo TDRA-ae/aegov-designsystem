@@ -3,9 +3,9 @@
   "private": true,
   "version": "0.2.3",
   "scripts": {
-    "dev": "ng serve --port 4300",
+    "dev": "ng serve --port 4300 --open",
     "build": "ng build",
-    "start": "ng serve --port 4300"
+    "start": "ng serve --port 4300 --open"
   },
   "dependencies": {
     "@aegov/designsystem-angular": "file:../../packages/designsystem-angular/dist/component-library",
