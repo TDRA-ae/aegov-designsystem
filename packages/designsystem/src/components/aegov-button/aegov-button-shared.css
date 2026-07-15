@@ -194,7 +194,7 @@
 
 .btn-danger {
   &.btn-solid {
-    @apply bg-aered-600 hover:bg-aered-500 border-aered-600 hover:border-aered-500 focus-visible:bg-camel-500 focus-visible:text-camel-950 focus-visible:border-camel-500 text-whitely-50
+    @apply bg-aered-600 hover:bg-aered-700 border-aered-600 hover:border-aered-700 focus-visible:bg-camel-500 focus-visible:text-camel-950 focus-visible:border-camel-500 text-aered-50
            dark:bg-aered-500 dark:hover:bg-aered-400 dark:border-aered-500 dark:hover:border-aered-400 dark:focus-visible:bg-camel-400 dark:focus-visible:text-camel-950 dark:focus-visible:border-camel-400 dark:text-aered-50;
   }
   &.btn-outline {
