@@ -4,4 +4,5 @@ import tailwindcss from '@tailwindcss/vite';
 
 export default defineConfig({
   plugins: [vue(), tailwindcss()],
+  server: { port: 4212, open: true },
 });

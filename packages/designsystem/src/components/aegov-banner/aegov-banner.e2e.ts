@@ -8,12 +8,13 @@ describe('aegov-banner e2e', () => {
     expect(banner).not.toBeNull();
   });
 
-  it('sets role="alert" and aria-live="assertive" for error variant', async () => {
+  it('sets role="alert" for error variant (aria-live is implicit — no explicit attribute needed)', async () => {
     const page = await newE2EPage();
     await page.setContent(`<aegov-banner variant="error">x</aegov-banner>`);
     const inner = await page.find('aegov-banner .aegov-banner');
+    // APG alert example: "aria-live does not have to be declared — it is implicit in the alert role"
     expect(inner.getAttribute('role')).toBe('alert');
-    expect(inner.getAttribute('aria-live')).toBe('assertive');
+    expect(inner.getAttribute('aria-live')).toBeNull();
   });
 
   it('renders dismiss button by default', async () => {
