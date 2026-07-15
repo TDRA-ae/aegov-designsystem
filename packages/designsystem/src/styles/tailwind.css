@@ -23,44 +23,47 @@
    * COLOR PALETTE
    * ======================================== */
 
-  /* AEGold Color */
-  --color-aegold-50: oklch(0.975 0.013 97.4);
-  --color-aegold-100: oklch(0.940 0.039 97.4);
-  --color-aegold-200: oklch(0.879 0.071 94.2);
-  --color-aegold-300: oklch(0.802 0.104 91.1);
-  --color-aegold-400: oklch(0.734 0.121 85.9);
-  --color-aegold-500: oklch(0.660 0.114 80.7);
+  /* AEGold Color — accessible ramp (uniform OKLCH lightness, bell chroma, gentle hue drift).
+     600 is the locked base; 50-on-600 = 4.5:1 (WCAG AA). */
+  --color-aegold-50: oklch(0.990 0.010 96);
+  --color-aegold-100: oklch(0.9189 0.032 94);
+  --color-aegold-200: oklch(0.8477 0.060 91.5);
+  --color-aegold-300: oklch(0.7766 0.085 89);
+  --color-aegold-400: oklch(0.7055 0.102 86.5);
+  --color-aegold-500: oklch(0.6343 0.101 85);
   --color-aegold-600: oklch(0.5632 0.0956 83.8);
-  --color-aegold-700: oklch(0.501 0.084 81.0);
-  --color-aegold-800: oklch(0.428 0.069 57.1);
-  --color-aegold-900: oklch(0.387 0.058 52.0);
-  --color-aegold-950: oklch(0.264 0.043 46.9);
+  --color-aegold-700: oklch(0.4921 0.085 76);
+  --color-aegold-800: oklch(0.4209 0.072 68);
+  --color-aegold-900: oklch(0.3498 0.058 60);
+  --color-aegold-950: oklch(0.2787 0.044 52);
 
-  /* AERed Color */
-  --color-aered-50: oklch(0.971 0.013 17.4);
-  --color-aered-100: oklch(0.939 0.028 20.4);
-  --color-aered-200: oklch(0.889 0.055 21.0);
-  --color-aered-300: oklch(0.815 0.095 21.7);
-  --color-aered-400: oklch(0.719 0.151 24.0);
-  --color-aered-500: oklch(0.640 0.192 26.3);
+  /* AERed Color — accessible ramp (uniform OKLCH lightness, bell chroma).
+     600 is the locked base; 50-on-600 = 4.5:1 (WCAG AA). */
+  --color-aered-50: oklch(0.992 0.007 18);
+  --color-aered-100: oklch(0.9223 0.045 20);
+  --color-aered-200: oklch(0.8547 0.085 22);
+  --color-aered-300: oklch(0.787 0.140 24);
+  --color-aered-400: oklch(0.7193 0.190 26);
+  --color-aered-500: oklch(0.6517 0.205 27);
   --color-aered-600: oklch(0.584 0.199 27.5);
-  --color-aered-700: oklch(0.504 0.181 28.0);
-  --color-aered-800: oklch(0.443 0.151 27.4);
-  --color-aered-900: oklch(0.397 0.124 26.4);
-  --color-aered-950: oklch(0.258 0.082 26.8);
+  --color-aered-700: oklch(0.5163 0.180 28);
+  --color-aered-800: oklch(0.4487 0.150 28);
+  --color-aered-900: oklch(0.381 0.120 27);
+  --color-aered-950: oklch(0.3133 0.085 27);
 
-  /* AEGreen Color */
-  --color-aegreen-50: oklch(0.978 0.011 149.9);
-  --color-aegreen-100: oklch(0.952 0.024 151.2);
-  --color-aegreen-200: oklch(0.902 0.046 150.1);
-  --color-aegreen-300: oklch(0.825 0.080 150.7);
-  --color-aegreen-400: oklch(0.722 0.112 149.8);
-  --color-aegreen-500: oklch(0.627 0.126 148.7);
-  --color-aegreen-600: oklch(0.581 0.122 148.5);
-  --color-aegreen-700: oklch(0.461 0.090 149.4);
-  --color-aegreen-800: oklch(0.397 0.067 149.9);
-  --color-aegreen-900: oklch(0.351 0.056 150.0);
-  --color-aegreen-950: oklch(0.238 0.040 151.6);
+  /* AEGreen Color — accessible ramp (uniform OKLCH lightness, bell chroma).
+     600 is the locked base; 50-on-600 = 4.5:1 (WCAG AA). */
+  --color-aegreen-50: oklch(0.993 0.005 150);
+  --color-aegreen-100: oklch(0.9163 0.030 150.5);
+  --color-aegreen-200: oklch(0.8427 0.055 150);
+  --color-aegreen-300: oklch(0.769 0.085 150);
+  --color-aegreen-400: oklch(0.6954 0.110 149.5);
+  --color-aegreen-500: oklch(0.6217 0.125 148.8);
+  --color-aegreen-600: oklch(0.548 0.122 148.5);
+  --color-aegreen-700: oklch(0.4744 0.105 149);
+  --color-aegreen-800: oklch(0.4007 0.085 149.5);
+  --color-aegreen-900: oklch(0.3271 0.065 150);
+  --color-aegreen-950: oklch(0.2534 0.048 151);
 
   /* AEBlack Color */
   --color-aeblack-50: oklch(0.976 0.000 0.0);
