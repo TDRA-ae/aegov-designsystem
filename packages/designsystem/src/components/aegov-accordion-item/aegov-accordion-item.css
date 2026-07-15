@@ -21,7 +21,7 @@
 
   &>button.accordion-item__header,
   & .accordion-item__heading-wrapper>button.accordion-item__header {
-    @apply w-full py-5 px-3 flex justify-between items-start gap-x-4 flex-nowrap text-start text-base font-semibold bg-transparent transition-all border-0 cursor-pointer focus:text-primary-support-900 focus-visible:bg-primary-support-400 focus-visible:text-primary-support-900 focus-visible:-outline-offset-3 focus-visible:outline-2 focus-visible:outline-primary-support-700;
+    @apply w-full py-5 px-3 flex justify-between items-start gap-x-4 flex-nowrap text-start text-base font-semibold bg-transparent transition-all border-0 cursor-pointer focus:text-primary-support-950 focus-visible:bg-primary-support-400 focus-visible:text-primary-support-950 focus-visible:-outline-offset-3 focus-visible:outline-2 focus-visible:outline-primary-support-700;
 
     @apply dark:focus:text-primary-support-50 dark:focus-visible:bg-primary-support-700 dark:focus-visible:text-primary-support-50 dark:focus-visible:outline-primary-support-300;
 
@@ -44,10 +44,10 @@
   &.accordion-item--open {
     &>button.accordion-item__header,
     &>.accordion-item__heading-wrapper>button.accordion-item__header {
-      @apply text-primary-800 focus-visible:text-primary-support-900!;
+      @apply text-primary-800 focus-visible:text-primary-support-950!;
       @apply dark:text-primary-200 dark:focus-visible:text-primary-support-50!;
       &>.accordion-item__heading {
-        @apply text-primary-800 group-focus-visible:text-primary-support-900!;
+        @apply text-primary-800 group-focus-visible:text-primary-support-950!;
         @apply dark:text-primary-200 dark:group-focus-visible:text-primary-support-50!;
       }
       &>.accordion-item__icon-chevron {
