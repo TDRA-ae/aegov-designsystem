@@ -92,23 +92,34 @@ describe('aegov-banner', () => {
     expect(page.root.querySelector('.banner__dismiss')).toBeNull();
   });
 
-  it('uses role="alert" for variant="error"', async () => {
+  it('uses role="alert" for variant="error" (assertive — implicit per WAI-ARIA 1.2, no explicit aria-live needed)', async () => {
     const page = await newSpecPage({
       components: [AegovBanner],
       html: `<aegov-banner variant="error">x</aegov-banner>`,
     });
+    // APG alert example: "aria-live does not have to be declared — it is implicit in the alert role"
     expect(page.root.querySelector('.aegov-banner').getAttribute('role')).toBe('alert');
-    expect(page.root.querySelector('.aegov-banner').getAttribute('aria-live')).toBe('assertive');
+    expect(page.root.querySelector('.aegov-banner').getAttribute('aria-live')).toBeNull();
   });
 
-  it('uses role="region" by default', async () => {
+  it('uses role="status" for variant="success" (polite — success is not an urgent interruption)', async () => {
+    const page = await newSpecPage({
+      components: [AegovBanner],
+      html: `<aegov-banner variant="success">x</aegov-banner>`,
+    });
+    // WCAG 4.1.3: role="alert" is for errors/warnings; role="status" is for confirmations
+    expect(page.root.querySelector('.aegov-banner').getAttribute('role')).toBe('status');
+  });
+
+  it('uses role="status" by default (polite — implicit per WAI-ARIA 1.2, no explicit aria-live needed)', async () => {
     const page = await newSpecPage({
       components: [AegovBanner],
       html: `<aegov-banner>x</aegov-banner>`,
     });
+    // role="status" has implicit aria-live="polite" and aria-atomic="true" (WAI-ARIA 1.2)
     const banner = page.root.querySelector('.aegov-banner');
-    expect(banner.getAttribute('role')).toBe('region');
-    expect(banner.getAttribute('aria-live')).toBe('polite');
+    expect(banner.getAttribute('role')).toBe('status');
+    expect(banner.getAttribute('aria-live')).toBeNull();
   });
 
   it('host role attribute overrides auto-computed role', async () => {

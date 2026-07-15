@@ -217,7 +217,7 @@ export namespace Components {
          */
         "fieldId"?: string;
         /**
-          * Banner heading for aria-labelledby attribute.
+          * Optional visible heading label for the banner. When provided, a `<span id="${fieldId}-heading">` is rendered inside the banner and the wrapper receives `aria-labelledby="${fieldId}-heading"`. Required for role="status" banners that need an accessible name.
          */
         "heading"?: string;
         /**
@@ -3857,7 +3857,7 @@ declare namespace LocalJSX {
          */
         "fieldId"?: string;
         /**
-          * Banner heading for aria-labelledby attribute.
+          * Optional visible heading label for the banner. When provided, a `<span id="${fieldId}-heading">` is rendered inside the banner and the wrapper receives `aria-labelledby="${fieldId}-heading"`. Required for role="status" banners that need an accessible name.
          */
         "heading"?: string;
         /**
