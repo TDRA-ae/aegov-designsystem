@@ -20,16 +20,16 @@
 /* Focus-within — mirror aegov-input focus treatment per variant.
    ring-1 + offset-2 + border swap to support colour. Matches input focus look. */
 .aegov-input-group.input-group-variant-primary:focus-within {
-  @apply ring-1 ring-offset-2 ring-primary-support-500 border-primary-support-500
+  @apply ring-1 ring-offset-2 ring-primary-support-400 border-primary-support-400
          dark:ring-primary-support-400 dark:border-primary-support-400;
 }
 .aegov-input-group.input-group-variant-secondary:focus-within {
-  @apply ring-1 ring-offset-2 ring-secondary-support-500 border-secondary-support-500
+  @apply ring-1 ring-offset-2 ring-secondary-support-400 border-secondary-support-400
          dark:ring-secondary-support-400 dark:border-secondary-support-400;
 }
 .aegov-input-group.input-group-variant-neutral-max:focus-within,
 .aegov-input-group.input-group-variant-neutral-min:focus-within {
-  @apply ring-1 ring-offset-2 ring-seablue-500 border-seablue-500
+  @apply ring-1 ring-offset-2 ring-seablue-400 border-seablue-400
          dark:ring-seablue-400 dark:border-seablue-400;
 }
 

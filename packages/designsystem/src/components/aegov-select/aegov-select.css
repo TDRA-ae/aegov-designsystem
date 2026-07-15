@@ -27,7 +27,7 @@
          border-2
          focus-visible:ring-2
          focus-visible:ring-offset-1
-         focus-visible:ring-primary-support-500
+         focus-visible:ring-primary-support-400
          dark:placeholder:text-aeblack-500 dark:bg-aeblack-800
          dark:focus-visible:ring-primary-support-400;
   /* Custom arrow for native select */
@@ -51,16 +51,16 @@
 
 /* Focus ring — overrides variant idle border. Per-variant selector beats variant specificity. */
 .aegov-select.select-variant-primary:focus {
-  @apply ring-1 ring-offset-2 ring-primary-support-500 border-2 border-primary-support-500
+  @apply ring-1 ring-offset-2 ring-primary-support-400 border-2 border-primary-support-400
          dark:ring-primary-support-400 dark:border-primary-support-400;
 }
 .aegov-select.select-variant-secondary:focus {
-  @apply ring-1 ring-offset-2 ring-secondary-support-500 border-2 border-secondary-support-500
+  @apply ring-1 ring-offset-2 ring-secondary-support-400 border-2 border-secondary-support-400
          dark:ring-secondary-support-400 dark:border-secondary-support-400;
 }
 .aegov-select.select-variant-neutral-max:focus,
 .aegov-select.select-variant-neutral-min:focus {
-  @apply ring-1 ring-offset-2 ring-seablue-500 border-2 border-seablue-500
+  @apply ring-1 ring-offset-2 ring-seablue-400 border-2 border-seablue-400
          dark:ring-seablue-400 dark:border-seablue-400;
 }
 
@@ -126,10 +126,10 @@ button.aegov-select {
 }
 
 /* Open state — variant-aware border swap to support colour (mirrors focus). */
-.aegov-select.select-variant-primary.select--open       { @apply border-primary-support-500 dark:border-primary-support-400; }
-.aegov-select.select-variant-secondary.select--open     { @apply border-secondary-support-500 dark:border-secondary-support-400; }
+.aegov-select.select-variant-primary.select--open       { @apply border-primary-support-400 dark:border-primary-support-400; }
+.aegov-select.select-variant-secondary.select--open     { @apply border-secondary-support-400 dark:border-secondary-support-400; }
 .aegov-select.select-variant-neutral-max.select--open,
-.aegov-select.select-variant-neutral-min.select--open   { @apply border-seablue-500 dark:border-seablue-400; }
+.aegov-select.select-variant-neutral-min.select--open   { @apply border-seablue-400 dark:border-seablue-400; }
 
 .select--disabled {
   @apply opacity-40 pointer-events-none cursor-not-allowed;
@@ -203,9 +203,9 @@ button.aegov-select {
   @apply w-full border-0 bg-whitely-50
          text-primary-900 placeholder:text-aeblack-400
          focus:outline-none focus:ring-0
-         focus:inset-ring-primary-400
+         focus:inset-ring-primary-support-400
          dark:bg-aeblack-800 dark:text-whitely-100 dark:placeholder:text-aeblack-500
-         dark:focus:inset-ring-primary-400;
+         dark:focus:inset-ring-primary-support-400;
 }
 
 .select__search-input--xs {
