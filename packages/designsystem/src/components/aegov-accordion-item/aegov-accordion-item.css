@@ -43,7 +43,7 @@
   }
   &.accordion-item--open {
     &>button.accordion-item__header,
-    & .accordion-item__heading-wrapper>button.accordion-item__header {
+    &>.accordion-item__heading-wrapper>button.accordion-item__header {
       @apply text-primary-800 focus-visible:text-primary-support-900!;
       @apply dark:text-primary-200 dark:focus-visible:text-primary-support-50!;
       &>.accordion-item__heading {
