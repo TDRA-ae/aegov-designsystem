@@ -118,7 +118,7 @@
 
 .btn-primary {
   &.btn-solid {
-    @apply bg-primary-600 hover:bg-primary-500 border-primary-600 hover:border-primary-500 focus-visible:bg-primary-support-500 focus-visible:text-primary-support-950 focus-visible:border-primary-support-500 text-whitely-50
+    @apply bg-primary-600 hover:bg-primary-700 border-primary-600 hover:border-primary-700 focus-visible:bg-primary-support-500 focus-visible:text-primary-support-950 focus-visible:border-primary-support-500 text-primary-50
            dark:bg-primary-500 dark:hover:bg-primary-400 dark:border-primary-500 dark:hover:border-primary-400 dark:focus-visible:bg-primary-support-400 dark:focus-visible:text-primary-support-950 dark:focus-visible:border-primary-support-400 dark:text-primary-50;
   }
   &.btn-outline {
@@ -137,7 +137,7 @@
 
 .btn-secondary {
   &.btn-solid {
-    @apply bg-secondary-600 hover:bg-secondary-500 border-secondary-600 hover:border-secondary-500 focus-visible:bg-secondary-support-500 focus-visible:text-secondary-support-950 focus-visible:border-secondary-support-500 text-whitely-50
+    @apply bg-secondary-600 hover:bg-secondary-700 border-secondary-600 hover:border-secondary-700 focus-visible:bg-secondary-support-500 focus-visible:text-secondary-support-950 focus-visible:border-secondary-support-500 text-secondary-50
            dark:bg-secondary-500 dark:hover:bg-secondary-400 dark:border-secondary-500 dark:hover:border-secondary-400 dark:focus-visible:bg-secondary-support-400 dark:focus-visible:text-secondary-support-950 dark:focus-visible:border-secondary-support-400 dark:text-secondary-50;
   }
   &.btn-outline {
@@ -209,6 +209,43 @@
     @apply text-aered-700 hover:text-aered-600 focus-visible:bg-camel-500 focus-visible:text-camel-950
            dark:text-aered-300 dark:hover:text-aered-200 dark:focus-visible:bg-camel-400 dark:focus-visible:text-camel-950;
   }
+}
+
+/*
+  ====================================================================
+  Active (pressed) state — one step darker than hover.
+  Base adds active:scale-[0.98]; solid adds active:shadow-none (action-classes.ts).
+  ====================================================================
+*/
+.btn-primary {
+  &.btn-solid   { @apply active:bg-primary-800 active:border-primary-800 dark:active:bg-primary-600 dark:active:border-primary-600; }
+  &.btn-outline { @apply active:bg-primary-100 active:text-primary-800 active:border-primary-800 dark:active:bg-primary-900/50 dark:active:text-primary-200 dark:active:border-primary-200; }
+  &.btn-soft    { @apply active:bg-primary-200 active:text-primary-900 dark:active:bg-primary-900/70 dark:active:text-primary-50; }
+  &.btn-link    { @apply active:text-primary-800 dark:active:text-primary-200; }
+}
+.btn-secondary {
+  &.btn-solid   { @apply active:bg-secondary-800 active:border-secondary-800 dark:active:bg-secondary-600 dark:active:border-secondary-600; }
+  &.btn-outline { @apply active:bg-secondary-100 active:text-secondary-800 active:border-secondary-800 dark:active:bg-secondary-900/50 dark:active:text-secondary-200 dark:active:border-secondary-200; }
+  &.btn-soft    { @apply active:bg-secondary-200 active:text-secondary-900 dark:active:bg-secondary-900/70 dark:active:text-secondary-50; }
+  &.btn-link    { @apply active:text-secondary-800 dark:active:text-secondary-200; }
+}
+.btn-danger {
+  &.btn-solid   { @apply active:bg-aered-800 active:border-aered-800 dark:active:bg-aered-600 dark:active:border-aered-600; }
+  &.btn-outline { @apply active:bg-aered-100 active:text-aered-800 active:border-aered-800 dark:active:bg-aered-900/50 dark:active:text-aered-200 dark:active:border-aered-200; }
+  &.btn-soft    { @apply active:bg-aered-200 active:text-aered-900 dark:active:bg-aered-900/70 dark:active:text-aered-50; }
+  &.btn-link    { @apply active:text-aered-800 dark:active:text-aered-200; }
+}
+.btn-neutral-max {
+  &.btn-solid   { @apply active:bg-aeblack-900 active:border-aeblack-900 dark:active:bg-aeblack-300 dark:active:border-aeblack-300; }
+  &.btn-outline { @apply active:bg-aeblack-100 active:text-aeblack-900 active:border-aeblack-900 dark:active:bg-aeblack-700 dark:active:text-whitely-50 dark:active:border-aeblack-100; }
+  &.btn-soft    { @apply active:bg-aeblack-200 active:text-aeblack-900 dark:active:bg-aeblack-600 dark:active:text-whitely-50; }
+  &.btn-link    { @apply active:text-aeblack-900 dark:active:text-whitely-50; }
+}
+.btn-neutral-min {
+  &.btn-solid   { @apply active:bg-whitely-300 active:text-aeblack-700 active:border-aeblack-300 dark:active:bg-aeblack-600 dark:active:text-aeblack-100 dark:active:border-aeblack-500; }
+  &.btn-outline { @apply active:bg-whitely-300 active:text-aeblack-600 active:border-aeblack-300 dark:active:bg-aeblack-600 dark:active:text-aeblack-100 dark:active:border-aeblack-400; }
+  &.btn-soft    { @apply active:bg-whitely-300 active:text-aeblack-600 dark:active:bg-aeblack-600 dark:active:text-aeblack-100; }
+  &.btn-link    { @apply active:text-aeblack-600 dark:active:text-aeblack-100; }
 }
 
 /*

@@ -34,7 +34,7 @@ export interface ActionClassOptions {
   groupOrientation?: ButtonGroupOrientation;
 }
 
-const BASE_CLASSES = 'aegov-btn relative inline-flex shrink-0 cursor-pointer select-none flex-wrap items-center justify-center whitespace-nowrap no-underline transition-all duration-200 ease-in-out focus-visible:outline-2 disabled:cursor-default disabled:pointer-events-none disabled:cursor-not-allowed';
+const BASE_CLASSES = 'aegov-btn relative inline-flex shrink-0 cursor-pointer select-none flex-wrap items-center justify-center whitespace-nowrap no-underline transition-all duration-200 ease-in-out active:scale-[0.98] focus-visible:outline-2 disabled:cursor-default disabled:pointer-events-none disabled:cursor-not-allowed';
 
 const SIZE_CLASSES: Record<ButtonSize, string[]> = {
   xs: ['btn-xs', 'h-9', 'rounded-md', 'gap-1.5', 'px-2.5', 'text-sm'],
@@ -53,7 +53,7 @@ const VARIANT_CLASSES: Record<ButtonVariant, string[]> = {
 };
 
 const APPEARANCE_CLASSES: Record<ButtonAppearance, string[]> = {
-  solid: ['btn-solid', 'shadow-[inset_0px_1px_--theme(--color-whitely-50/.2)]', 'border-1', 'focus-visible:outline-offset-2', 'disabled:opacity-30'],
+  solid: ['btn-solid', 'shadow-[inset_0px_1px_--theme(--color-whitely-50/.2)]', 'active:shadow-none', 'border-1', 'focus-visible:outline-offset-2', 'disabled:opacity-30'],
   outline: ['btn-outline', 'bg-transparent', 'border-2', 'focus-visible:outline-offset-0', 'disabled:opacity-50'],
   soft: ['btn-soft', 'border-0', 'focus-visible:outline-offset-2', 'disabled:opacity-50'],
   link: ['btn-link', 'bg-transparent', 'border-0', 'hover:underline', 'hover:decoration-2', 'hover:underline-offset-2', 'focus-visible:outline-offset-2', 'disabled:opacity-50'],
