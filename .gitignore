@@ -57,3 +57,9 @@ Thumbs.db
 .claude/settings.local.json
 # Live package verification (uses published npm packages, not workspace)
 test-published/
+
+# Stencil auto-generated component docs (regenerated on every build)
+packages/designsystem/src/components/**/readme.md
+
+# npm pack tarballs
+*.tgz
