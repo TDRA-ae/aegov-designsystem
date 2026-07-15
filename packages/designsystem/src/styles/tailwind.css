@@ -65,18 +65,19 @@
   --color-aegreen-900: oklch(0.3271 0.065 150);
   --color-aegreen-950: oklch(0.2534 0.048 151);
 
-  /* AEBlack Color */
-  --color-aeblack-50: oklch(0.976 0.000 0.0);
-  --color-aeblack-100: oklch(0.915 0.003 247.9);
-  --color-aeblack-200: oklch(0.826 0.008 260.7);
-  --color-aeblack-300: oklch(0.711 0.011 261.8);
-  --color-aeblack-400: oklch(0.592 0.014 259.8);
-  --color-aeblack-500: oklch(0.502 0.016 262.3);
+  /* AEBlack Color — accessible neutral ramp (uniform light half, softened dark
+     half so 950 is a deep gray, not pure black). 600 locked; 50-on-600 = 8.0:1. */
+  --color-aeblack-50: oklch(0.99 0.002 262);
+  --color-aeblack-100: oklch(0.8962 0.004 262);
+  --color-aeblack-200: oklch(0.8023 0.006 262);
+  --color-aeblack-300: oklch(0.7085 0.008 262);
+  --color-aeblack-400: oklch(0.6147 0.010 262);
+  --color-aeblack-500: oklch(0.5208 0.014 264);
   --color-aeblack-600: oklch(0.427 0.016 266.5);
-  --color-aeblack-700: oklch(0.372 0.011 271.1);
-  --color-aeblack-800: oklch(0.264 0.006 258.4);
-  --color-aeblack-900: oklch(0.230 0.008 264.4);
-  --color-aeblack-950: oklch(0.169 0.006 271.0);
+  --color-aeblack-700: oklch(0.3602 0.014 268);
+  --color-aeblack-800: oklch(0.2934 0.011 266);
+  --color-aeblack-900: oklch(0.2266 0.008 264);
+  --color-aeblack-950: oklch(0.16 0.006 262);
 
   /* Neutral Color - Whitely */
   --color-whitely-50: oklch(1.000 0.000 0.0);
@@ -114,18 +115,19 @@
   --color-slate-900: oklch(0.208 0.040 265.8);
   --color-slate-950: oklch(0.129 0.041 264.7);
 
-  /* Fuchsia Color */
-  --color-fuchsia-50: oklch(0.977 0.017 320.1);
-  --color-fuchsia-100: oklch(0.952 0.036 318.9);
-  --color-fuchsia-200: oklch(0.903 0.073 319.6);
-  --color-fuchsia-300: oklch(0.833 0.132 321.4);
-  --color-fuchsia-400: oklch(0.748 0.207 322.2);
-  --color-fuchsia-500: oklch(0.667 0.259 322.1);
+  /* Fuchsia Color — accessible ramp (uniform OKLCH lightness, bell chroma).
+     600 is the locked base; 50-on-600 = 4.6:1 (WCAG AA). */
+  --color-fuchsia-50: oklch(0.993 0.010 320);
+  --color-fuchsia-100: oklch(0.9235 0.045 320.5);
+  --color-fuchsia-200: oklch(0.857 0.090 321);
+  --color-fuchsia-300: oklch(0.7905 0.150 321.5);
+  --color-fuchsia-400: oklch(0.724 0.210 322);
+  --color-fuchsia-500: oklch(0.6575 0.250 322.5);
   --color-fuchsia-600: oklch(0.591 0.257 322.9);
-  --color-fuchsia-700: oklch(0.518 0.226 323.9);
-  --color-fuchsia-800: oklch(0.452 0.192 324.6);
-  --color-fuchsia-900: oklch(0.401 0.160 325.6);
-  --color-fuchsia-950: oklch(0.293 0.131 325.7);
+  --color-fuchsia-700: oklch(0.5245 0.230 323.5);
+  --color-fuchsia-800: oklch(0.458 0.190 324);
+  --color-fuchsia-900: oklch(0.3915 0.155 325);
+  --color-fuchsia-950: oklch(0.325 0.115 326);
 
   /* TechBlue Color — accessible ramp (uniform OKLCH lightness, bell chroma).
      50-on-600 = 6.6:1 (WCAG AA, comfortably). */
