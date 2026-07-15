@@ -24,6 +24,11 @@
     & .banner__content {
       @apply grow;
 
+      &>.banner__heading {
+        @apply block font-semibold mb-1;
+        font-size: inherit;
+      }
+
       &>.banner__text {
         font-size: inherit;
       }

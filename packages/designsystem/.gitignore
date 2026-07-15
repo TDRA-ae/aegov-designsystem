@@ -35,6 +35,10 @@ coverage/
 test-results/
 playwright-report/
 
+# A11y audit files (local testing only — not shared with team)
+tests/a11y/
+src/docs/a11y-tests-*.html
+
 # IDE
 .idea/
 .vscode/
