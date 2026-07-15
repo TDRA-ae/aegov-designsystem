@@ -2,6 +2,10 @@
 
 <p class="text-lg text-aeblack-500 mb-8">The AEGOV Design System ships first-class Angular wrappers for every component. They auto-generate from the Stencil web components and give you typed inputs, typed outputs, Angular change detection integration, and standard Angular template ergonomics. This page covers installation, setup for both standalone and module-based Angular apps, and common gotchas.</p>
 
+> **Requires Angular 19+.** The Angular wrappers are generated with `@stencil/angular-output-target` v1.x which targets Angular 19 and above.
+
+---
+
 ## What you install
 
 | Package | Purpose |
@@ -19,36 +23,60 @@ npm install @aegov/designsystem @aegov/designsystem-angular
 
 ---
 
-## Step 2 — Add global styles
+## Step 2 — Set up Tailwind CSS
 
-Add all three imports to your `src/styles.css`. Order matters — Tailwind first, then `base` (component styles and fonts), then `theme` (design tokens):
+The design system ships source CSS that requires Tailwind v4 to compile.
+
+### If you selected Tailwind during `ng new`
+
+Angular CLI already installed `@tailwindcss/postcss`, created `postcss.config.json`, and added `@import "tailwindcss"` to `src/styles.css`. Just add the two design system imports after it:
 
 ```css
 /* src/styles.css */
+@import "tailwindcss";
+@import "@aegov/designsystem/base";   /* ← add this */
+@import "@aegov/designsystem/theme";  /* ← add this */
+```
+
+### If you did not select Tailwind during `ng new`
+
+**Install Tailwind PostCSS:**
+
+```bash
+npm install -D @tailwindcss/postcss postcss
+```
+
+**Create `postcss.config.json` at the project root** (Angular reads this automatically):
+
+```json
+{
+  "plugins": {
+    "@tailwindcss/postcss": {}
+  }
+}
+```
+
+**Add all three imports to `src/styles.css`:**
+
+```css
 @import "tailwindcss";
 @import "@aegov/designsystem/base";
 @import "@aegov/designsystem/theme";
 ```
 
-Alternatively, add the compiled files directly in `angular.json`:
-
-```json
-"styles": [
-  "node_modules/@aegov/designsystem/dist/global/global.css",
-  "node_modules/@aegov/designsystem/dist/styles/tailwind.css",
-  "src/styles.css"
-]
-```
+Order matters — Tailwind first, then `base` (component styles and fonts), then `theme` (design tokens).
 
 ---
 
 ## Step 3 — Initialize the design system
 
+`provideDesignSystem()` registers all web components via Angular's `APP_INITIALIZER` — the same pattern used by Ionic. This ensures all `aegov-*` elements are defined in the browser before the app renders.
+
 Choose the setup that matches your Angular app type.
 
 ### Standalone Angular (Angular 17+)
 
-Add `provideDesignSystem()` to your `app.config.ts`. This registers all web components automatically before the app renders:
+Add `provideDesignSystem()` to your `app.config.ts`:
 
 ```ts
 // src/app/app.config.ts
@@ -66,7 +94,7 @@ export const appConfig: ApplicationConfig = {
 
 ### Module-based Angular
 
-Import `DesignSystemModule` in your root `AppModule`. This registers all web components via `APP_INITIALIZER` and makes all directives available throughout the app:
+Import `DesignSystemModule` in your root `AppModule`:
 
 ```ts
 // src/app/app.module.ts
@@ -87,55 +115,57 @@ export class AppModule {}
 
 ## Step 4 — Use components
 
-### Standalone Angular
+You have two options for importing components into your Angular components.
 
-Import each component directive where you use it:
+### Option A — `DesignSystemModule` (all components at once)
+
+Good for prototyping or when you use many components. Gives you all 50+ components without listing them individually:
 
 ```ts
 import { Component } from '@angular/core';
-import { AegovButton, AegovInput } from '@aegov/designsystem-angular';
-
-@Component({
-  selector: 'app-root',
-  imports: [AegovButton, AegovInput],
-  template: `
-    <aegov-input fieldId="name" placeholder="Full name" />
-    <aegov-button variant="primary" (aegovButtonClick)="onSubmit($event)">
-      Submit
-    </aegov-button>
-  `
-})
-export class AppComponent {
-  onSubmit(e: CustomEvent) {
-    console.log('submitted', e.detail);
-  }
-}
-```
-
-Or import `DesignSystemModule` once to get all components without listing them individually:
-
-```ts
 import { DesignSystemModule } from '@aegov/designsystem-angular';
 
 @Component({
+  selector: 'app-root',
   imports: [DesignSystemModule],
-  template: `<aegov-button>Click me</aegov-button>`
+  template: `
+    <aegov-button variant="primary">Submit</aegov-button>
+    <aegov-badge color="success">Active</aegov-badge>
+  `
 })
 export class AppComponent {}
 ```
 
-### Module-based Angular
+### Option B — Individual imports (recommended for production)
 
-After adding `DesignSystemModule` to `AppModule`, all components are available everywhere — no per-component imports:
+Import only what you use. Better for tree-shaking and makes component dependencies explicit:
 
 ```ts
+import { Component } from '@angular/core';
+import { AegovButton, AegovBadge } from '@aegov/designsystem-angular';
+
 @Component({
+  selector: 'app-root',
+  imports: [AegovButton, AegovBadge],
   template: `
     <aegov-button variant="primary">Submit</aegov-button>
+    <aegov-badge color="success">Active</aegov-badge>
   `
 })
-export class MyComponent {}
+export class AppComponent {}
 ```
+
+All components follow the same naming convention — `Aegov` + PascalCase:
+
+| Tag | Import name |
+| --- | --- |
+| `<aegov-button>` | `AegovButton` |
+| `<aegov-input>` | `AegovInput` |
+| `<aegov-badge>` | `AegovBadge` |
+| `<aegov-modal>` | `AegovModal` |
+| `<aegov-select>` | `AegovSelect` |
+
+Always use the **HTML tag** (`<aegov-button>`) in templates — never the class name (`<AegovButton>`).
 
 ---
 
@@ -185,7 +215,6 @@ Bind to component events with Angular's `(eventName)` syntax:
 `tabId` is a required input on `<aegov-tab>` and `<aegov-tab-panel>`. Use camelCase in Angular templates:
 
 ```html
-<!-- Angular -->
 <aegov-tabs defaultOpen="overview">
   <aegov-tab slot="tabs" tabId="overview">Overview</aegov-tab>
   <aegov-tab slot="tabs" tabId="details">Details</aegov-tab>
@@ -254,6 +283,21 @@ const variant: Components.AegovButton['variant'] = 'primary';
 
 ## Troubleshooting
 
+### Components render unstyled
+
+The CSS is not being processed. Check the following:
+
+1. `src/styles.css` has the design system imports after `@import "tailwindcss"`:
+```css
+@import "tailwindcss";
+@import "@aegov/designsystem/base";
+@import "@aegov/designsystem/theme";
+```
+2. If you did **not** select Tailwind during `ng new`, make sure `@tailwindcss/postcss` and `postcss` are installed and `postcss.config.json` exists at the project root:
+```json
+{ "plugins": { "@tailwindcss/postcss": {} } }
+```
+
 ### `NG8008: Required input 'tabId' must be specified`
 
 You are using `tab-id` (kebab-case) instead of `tabId` (camelCase). Change to:
@@ -268,10 +312,6 @@ You are using an older version of the Angular package (`< 0.2.1`). Update to the
 ```bash
 npm install @aegov/designsystem-angular@latest
 ```
-
-### Components render unstyled
-
-The CSS is not loaded. Make sure `angular.json` has the styles entries from Step 2, or that `@import` lines are in `src/styles.css`.
 
 ---
 
