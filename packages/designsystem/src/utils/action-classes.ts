@@ -45,11 +45,15 @@ const SIZE_CLASSES: Record<ButtonSize, string[]> = {
 };
 
 const VARIANT_CLASSES: Record<ButtonVariant, string[]> = {
-  'primary': ['btn-primary', 'outline-primary-support-600'],
-  'secondary': ['btn-secondary', 'outline-secondary-support-600'],
-  'danger': ['btn-danger', 'outline-camel-600'],
-  'neutral-min': ['btn-neutral-min', 'outline-seablue-600'],
-  'neutral-max': ['btn-neutral-max', 'outline-seablue-600'],
+  // NOTE: focus-ring color is defined per-variant in aegov-button-shared.css
+  // (via @apply outline-*), NOT here. Runtime class strings from this file are
+  // not scanned by the Stencil Tailwind plugin, so outline-color utilities added
+  // here never get generated into the button's (shadow) stylesheet.
+  'primary': ['btn-primary'],
+  'secondary': ['btn-secondary'],
+  'danger': ['btn-danger'],
+  'neutral-min': ['btn-neutral-min'],
+  'neutral-max': ['btn-neutral-max'],
 };
 
 const APPEARANCE_CLASSES: Record<ButtonAppearance, string[]> = {

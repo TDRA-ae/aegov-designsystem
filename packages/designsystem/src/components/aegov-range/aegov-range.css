@@ -238,23 +238,23 @@
 
 /* Single thumb outline — wrapper contains only one input, paired automatically. */
 .aegov-range.range-variant-primary .range__thumb--single:has(~ .range__input:focus-visible),
-.aegov-range.range-variant-primary .range__thumb:has(~ .range__input:focus-visible)         { @apply outline-2 outline-offset-2 outline-primary-support-500 dark:outline-primary-support-400; }
+.aegov-range.range-variant-primary .range__thumb:has(~ .range__input:focus-visible)         { @apply outline-2 outline-offset-2 outline-primary-support-400 dark:outline-primary-support-400; }
 .aegov-range.range-variant-secondary .range__thumb--single:has(~ .range__input:focus-visible),
-.aegov-range.range-variant-secondary .range__thumb:has(~ .range__input:focus-visible)       { @apply outline-2 outline-offset-2 outline-secondary-support-500 dark:outline-secondary-support-400; }
+.aegov-range.range-variant-secondary .range__thumb:has(~ .range__input:focus-visible)       { @apply outline-2 outline-offset-2 outline-secondary-support-400 dark:outline-secondary-support-400; }
 .aegov-range.range-variant-neutral-max .range__thumb--single:has(~ .range__input:focus-visible),
 .aegov-range.range-variant-neutral-max .range__thumb:has(~ .range__input:focus-visible),
 .aegov-range.range-variant-neutral-min .range__thumb--single:has(~ .range__input:focus-visible),
-.aegov-range.range-variant-neutral-min .range__thumb:has(~ .range__input:focus-visible)     { @apply outline-2 outline-offset-2 outline-seablue-500 dark:outline-seablue-400; }
+.aegov-range.range-variant-neutral-min .range__thumb:has(~ .range__input:focus-visible)     { @apply outline-2 outline-offset-2 outline-seablue-400 dark:outline-seablue-400; }
 
 /* Dual-mode thumb outline — pair low thumb with low input, high with high. */
 .aegov-range.range-variant-primary .range__thumb--low:has(~ .range__input--low:focus-visible),
-.aegov-range.range-variant-primary .range__thumb--high:has(~ .range__input--high:focus-visible)         { @apply outline-2 outline-offset-2 outline-primary-support-500 dark:outline-primary-support-400; }
+.aegov-range.range-variant-primary .range__thumb--high:has(~ .range__input--high:focus-visible)         { @apply outline-2 outline-offset-2 outline-primary-support-400 dark:outline-primary-support-400; }
 .aegov-range.range-variant-secondary .range__thumb--low:has(~ .range__input--low:focus-visible),
-.aegov-range.range-variant-secondary .range__thumb--high:has(~ .range__input--high:focus-visible)       { @apply outline-2 outline-offset-2 outline-secondary-support-500 dark:outline-secondary-support-400; }
+.aegov-range.range-variant-secondary .range__thumb--high:has(~ .range__input--high:focus-visible)       { @apply outline-2 outline-offset-2 outline-secondary-support-400 dark:outline-secondary-support-400; }
 .aegov-range.range-variant-neutral-max .range__thumb--low:has(~ .range__input--low:focus-visible),
 .aegov-range.range-variant-neutral-max .range__thumb--high:has(~ .range__input--high:focus-visible),
 .aegov-range.range-variant-neutral-min .range__thumb--low:has(~ .range__input--low:focus-visible),
-.aegov-range.range-variant-neutral-min .range__thumb--high:has(~ .range__input--high:focus-visible)     { @apply outline-2 outline-offset-2 outline-seablue-500 dark:outline-seablue-400; }
+.aegov-range.range-variant-neutral-min .range__thumb--high:has(~ .range__input--high:focus-visible)     { @apply outline-2 outline-offset-2 outline-seablue-400 dark:outline-seablue-400; }
 
 /* Vertical native input */
 .range--vertical .range__input {

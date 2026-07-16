@@ -66,7 +66,7 @@
 .aegov-otp.otp-variant-neutral-min   .otp__divider { @apply bg-aeblack-300 dark:bg-aeblack-600; }
 
 /* ============================================
-   Variant focus — ring + offset + border swap to support-500.
+   Variant focus — ring + offset + border swap to support-400.
    Mirrors aegov-input focus look:
      primary    → primary-support family
      secondary  → secondary-support family
@@ -77,13 +77,13 @@
 
 .aegov-otp.otp-variant-primary .otp__wrapper--continuous:has(.otp__cell:focus),
 .aegov-otp.otp-variant-primary .otp__wrapper--individual .otp__cell:focus {
-  @apply ring-1 ring-offset-2 ring-primary-support-500 border-2 border-primary-support-500
+  @apply ring-1 ring-offset-2 ring-primary-support-400 border-2 border-primary-support-400
          dark:ring-primary-support-400 dark:border-primary-support-400;
 }
 
 .aegov-otp.otp-variant-secondary .otp__wrapper--continuous:has(.otp__cell:focus),
 .aegov-otp.otp-variant-secondary .otp__wrapper--individual .otp__cell:focus {
-  @apply ring-1 ring-offset-2 ring-secondary-support-500 border-2 border-secondary-support-500
+  @apply ring-1 ring-offset-2 ring-secondary-support-400 border-2 border-secondary-support-400
          dark:ring-secondary-support-400 dark:border-secondary-support-400;
 }
 
@@ -91,21 +91,21 @@
 .aegov-otp.otp-variant-neutral-max .otp__wrapper--individual .otp__cell:focus,
 .aegov-otp.otp-variant-neutral-min .otp__wrapper--continuous:has(.otp__cell:focus),
 .aegov-otp.otp-variant-neutral-min .otp__wrapper--individual .otp__cell:focus {
-  @apply ring-1 ring-offset-2 ring-seablue-500 border-2 border-seablue-500
+  @apply ring-1 ring-offset-2 ring-seablue-400 border-2 border-seablue-400
          dark:ring-seablue-400 dark:border-seablue-400;
 }
 
 /* Continuous focus — recolor inner dividers to match focused wrapper border.
    Keeps divider colour in sync with the support-colour border swap. */
 .aegov-otp.otp-variant-primary .otp__wrapper--continuous:has(.otp__cell:focus) .otp__divider {
-  @apply bg-primary-support-500 dark:bg-primary-support-400;
+  @apply bg-primary-support-400 dark:bg-primary-support-400;
 }
 .aegov-otp.otp-variant-secondary .otp__wrapper--continuous:has(.otp__cell:focus) .otp__divider {
-  @apply bg-secondary-support-500 dark:bg-secondary-support-400;
+  @apply bg-secondary-support-400 dark:bg-secondary-support-400;
 }
 .aegov-otp.otp-variant-neutral-max .otp__wrapper--continuous:has(.otp__cell:focus) .otp__divider,
 .aegov-otp.otp-variant-neutral-min .otp__wrapper--continuous:has(.otp__cell:focus) .otp__divider {
-  @apply bg-seablue-500 dark:bg-seablue-400;
+  @apply bg-seablue-400 dark:bg-seablue-400;
 }
 
 /* ============================================
