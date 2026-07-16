@@ -45,10 +45,10 @@
 .toggle__input:focus-visible + .toggle__track {
   @apply outline-2 outline-offset-2;
 }
-.aegov-toggle.toggle-variant-primary .toggle__input:focus-visible + .toggle__track { @apply outline-primary-support-600 dark:outline-primary-support-400; }
-.aegov-toggle.toggle-variant-secondary .toggle__input:focus-visible + .toggle__track { @apply outline-secondary-support-600 dark:outline-secondary-support-400; }
-.aegov-toggle.toggle-variant-neutral-max .toggle__input:focus-visible + .toggle__track { @apply outline-seablue-600 dark:outline-seablue-400; }
-.aegov-toggle.toggle-variant-neutral-min .toggle__input:focus-visible + .toggle__track { @apply outline-seablue-600 dark:outline-seablue-400; }
+.aegov-toggle.toggle-variant-primary .toggle__input:focus-visible + .toggle__track { @apply outline-primary-support-400 dark:outline-primary-support-400; }
+.aegov-toggle.toggle-variant-secondary .toggle__input:focus-visible + .toggle__track { @apply outline-secondary-support-400 dark:outline-secondary-support-400; }
+.aegov-toggle.toggle-variant-neutral-max .toggle__input:focus-visible + .toggle__track { @apply outline-seablue-400 dark:outline-seablue-400; }
+.aegov-toggle.toggle-variant-neutral-min .toggle__input:focus-visible + .toggle__track { @apply outline-seablue-400 dark:outline-seablue-400; }
 
 /* Disabled */
 .toggle__input:disabled + .toggle__track {
