@@ -186,7 +186,7 @@
   border-color: theme('colors.aeblack.800') transparent transparent transparent;
 }
 
-.dark .range--horizontal .range__tooltip::after {
+:host-context(.dark) .range--horizontal .range__tooltip::after {
   border-color: theme('colors.whitely.100') transparent transparent transparent;
 }
 
@@ -207,7 +207,7 @@
   border-color: transparent transparent transparent theme('colors.aeblack.800');
 }
 
-.dark .range--vertical .range__tooltip::after {
+:host-context(.dark) .range--vertical .range__tooltip::after {
   border-color: transparent transparent transparent theme('colors.whitely.100');
 }
 
@@ -365,14 +365,14 @@
   border-color: transparent transparent transparent theme('colors.aeblack.800');
 }
 
-.dark [dir="rtl"] .range--vertical .range__tooltip::after,
-.dark :dir(rtl) .range--vertical .range__tooltip::after {
+:host-context(.dark) [dir="rtl"] .range--vertical .range__tooltip::after,
+:host-context(.dark) :dir(rtl) .range--vertical .range__tooltip::after {
   border-color: transparent transparent transparent theme('colors.whitely.100');
 }
 
 /* Validation surface (Layer 1) — see validation-engine-addon.md §2.6 */
 
-aegov-range.is-invalid .range__track {
+:host(.is-invalid) .range__track {
   @apply ring-2 ring-aered-600 dark:ring-aered-500;
 }
 

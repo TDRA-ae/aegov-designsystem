@@ -92,26 +92,34 @@ export class AegovFormField {
     const toggle = this.el.querySelector('aegov-toggle') as HTMLAegovToggleElement | null;
 
     if (label) {
-      if (input && input.fieldId) {
-        label.htmlFor = input.fieldId;
-      } else if (textarea && textarea.fieldId) {
-        label.htmlFor = textarea.fieldId;
-      } else if (select && select.fieldId) {
-        label.htmlFor = select.fieldId;
-      } else if (checkbox && checkbox.fieldId) {
-        label.htmlFor = checkbox.fieldId;
-      } else if (range && range.fieldId) {
-        label.htmlFor = range.fieldId;
+      // For shadow:true components the inner fieldId lives inside a shadow root and is
+      // not reachable by <label for="..."> from the document. Use the host element's own
+      // id instead — clicking the label focuses the host, and delegatesFocus:true then
+      // forwards focus into the shadow root. For light/scoped components, shadowRoot is
+      // null so we fall back to the inner fieldId as before.
+      const shadowId = (el: HTMLElement & { fieldId?: string }) =>
+        (el.shadowRoot && el.id) ? el.id : el.fieldId;
+
+      if (input && (input.shadowRoot ? input.id : input.fieldId)) {
+        label.htmlFor = shadowId(input);
+      } else if (textarea && (textarea.shadowRoot ? textarea.id : textarea.fieldId)) {
+        label.htmlFor = shadowId(textarea);
+      } else if (select && (select.shadowRoot ? select.id : select.fieldId)) {
+        label.htmlFor = shadowId(select);
+      } else if (checkbox && (checkbox.shadowRoot ? checkbox.id : checkbox.fieldId)) {
+        label.htmlFor = shadowId(checkbox);
+      } else if (range && (range.shadowRoot ? range.id : range.fieldId)) {
+        label.htmlFor = shadowId(range);
       } else if (progress && progress.fieldId) {
         label.htmlFor = progress.fieldId;
-      } else if (otp && otp.fieldId) {
-        label.htmlFor = otp.fieldId;
-      } else if (fileupload && fileupload.fieldId) {
-        label.htmlFor = fileupload.fieldId;
-      } else if (radio && radio.fieldId) {
-        label.htmlFor = radio.fieldId;
-      } else if (toggle && toggle.fieldId) {
-        label.htmlFor = toggle.fieldId;
+      } else if (otp && (otp.shadowRoot ? otp.id : otp.fieldId)) {
+        label.htmlFor = shadowId(otp);
+      } else if (fileupload && (fileupload.shadowRoot ? fileupload.id : fileupload.fieldId)) {
+        label.htmlFor = shadowId(fileupload);
+      } else if (radio && (radio.shadowRoot ? radio.id : radio.fieldId)) {
+        label.htmlFor = shadowId(radio);
+      } else if (toggle && (toggle.shadowRoot ? toggle.id : toggle.fieldId)) {
+        label.htmlFor = shadowId(toggle);
       }
       // Cascade variant to label only if it hasn't authored its own value
       if (this.variant && this.variant !== 'primary' && (!(label as any).variant || (label as any).variant === 'primary')) {

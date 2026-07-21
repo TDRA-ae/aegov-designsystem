@@ -48,8 +48,7 @@ interface OptionItem {
 @Component({
   tag: 'aegov-select',
   styleUrl: 'aegov-select.css',
-  scoped: false,
-  shadow: false,
+  shadow: { delegatesFocus: true },
   formAssociated: true, // §2.5: listbox appearance uses ElementInternals; native appearance keeps inner <select name> behavior
 })
 export class AegovSelect {
@@ -236,7 +235,22 @@ export class AegovSelect {
   }
 
   private runValidationSync() {
-    if (!this.useListbox) return; // native appearance relies on inner <select> for native form participation
+    if (!this.useListbox) {
+      // In shadow:true the inner <select> is inside the shadow root and invisible to FormData.
+      // Mirror its value via ElementInternals so native-mode select participates in form submission.
+      try {
+        if (this.internals && typeof this.internals.setFormValue === 'function') {
+          if (this.isMultiple) {
+            const fd = new FormData();
+            for (const v of this.selectedValues) if (this.name) fd.append(this.name, v);
+            this.internals.setFormValue(fd);
+          } else {
+            this.internals.setFormValue(this.value || null);
+          }
+        }
+      } catch { /* jsdom mock */ }
+      return;
+    }
     const { validity, message } = this.computeListboxValidity();
     setInternalsValidity(this.internals, validity, message, this.triggerRef?.querySelector('button') ?? undefined);
     try {
@@ -419,6 +433,7 @@ export class AegovSelect {
   private handleNativeChange = (event: Event) => {
     const select = event.target as HTMLSelectElement;
     this.value = select.value;
+    this.runValidationSync();
     const opt = this.parsedOptions.find(o => o.value === select.value);
     this.aegovSelectChange.emit({
       value: this.value,

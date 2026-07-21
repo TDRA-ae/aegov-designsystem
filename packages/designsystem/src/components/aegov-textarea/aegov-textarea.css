@@ -118,11 +118,11 @@
    Validation surface (Layer 1) — see validation-engine-addon.md §2.6
    ───────────────────────────────────────────────────────────────────── */
 
-aegov-textarea.is-invalid .aegov-textarea {
+:host(.is-invalid) .aegov-textarea {
   @apply border-aered-600 dark:border-aered-500;
 }
 
-aegov-textarea.is-invalid .aegov-textarea:focus {
+:host(.is-invalid) .aegov-textarea:focus {
   /* Override variant focus treatment: red ring with offset.
      Mirrors the aegov-input invalid:focus treatment. */
   @apply ring-1 ring-offset-2 ring-aered-500 dark:ring-aered-400 border-2 border-aered-500 dark:border-aered-400;

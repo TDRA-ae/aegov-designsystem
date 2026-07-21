@@ -12,7 +12,7 @@ import { watchResponsiveProp } from '../../utils/responsive-prop';
 import type { ResponsivePropWatcher } from '../../utils/responsive-prop';
 import {
   fromNativeValidity, VALID_STATE,
-  composeDescribedBy, buildValidationDetail,
+  composeDescribedBy, buildValidationDetail, synthesizeValidity, setInternalsValidity,
 } from '../../utils/validation';
 
 const TAG = 'aegov-textarea';
@@ -26,8 +26,8 @@ const STRINGS = {
 @Component({
   tag: 'aegov-textarea',
   styleUrl: 'aegov-textarea.css',
-  scoped: false,
-  shadow: false,
+  formAssociated: true,
+  shadow: { delegatesFocus: true },
 })
 export class AegovTextarea {
   @Element() el: HTMLElement;
@@ -55,8 +55,8 @@ export class AegovTextarea {
   /** The current value of the textarea. */
   @Prop({ mutable: true }) value: string = '';
 
-  /** The name attribute for the textarea. */
-  @Prop() name?: string;
+  /** The name attribute for the textarea. Reflected so ElementInternals can read it for form submission. */
+  @Prop({ reflect: true }) name?: string;
 
   /** Whether the textarea is required. */
   @Prop() isRequired: boolean = false;
@@ -89,6 +89,7 @@ export class AegovTextarea {
   @State() charCount: number = 0;
 
   private textareaEl?: HTMLTextAreaElement;
+  private internals: ElementInternals | null = null;
 
   /** Emitted when the textarea value changes (on blur). */
   @Event() aegovTextareaChange: EventEmitter<{ value: string; event: globalThis.Event }>;
@@ -124,6 +125,22 @@ export class AegovTextarea {
     this.errorId = `${this.fieldId}-error`;
     this.hintId = `${this.fieldId}-hint`;
     this.charCount = (this.value || '').length;
+    const host = this.el as unknown as HTMLElement & { attachInternals?: () => ElementInternals };
+    if (typeof host.attachInternals === 'function') {
+      try {
+        this.internals = host.attachInternals();
+        this.internals.setFormValue(this.value || null);
+      } catch {
+        this.internals = null;
+      }
+    }
+  }
+
+  formAssociatedCallback(_form: HTMLFormElement | null) { /* no-op */ }
+  formDisabledCallback(disabled: boolean) { this.isDisabled = disabled; }
+  formResetCallback() {
+    this.value = '';
+    this.internals?.setFormValue(null);
   }
 
   /** Imperatively re-run validation. */
@@ -147,6 +164,13 @@ export class AegovTextarea {
     this.isInvalid = !!message;
     if (this.textareaEl && typeof this.textareaEl.setCustomValidity === 'function') {
       this.textareaEl.setCustomValidity(message);
+    }
+    if (this.internals) {
+      if (message) {
+        setInternalsValidity(this.internals, synthesizeValidity({ customError: true }), message, this.textareaEl);
+      } else {
+        setInternalsValidity(this.internals, { valid: true }, '');
+      }
     }
   }
 
@@ -246,6 +270,7 @@ export class AegovTextarea {
   private handleChange = (event: Event) => {
     const textarea = event.target as HTMLTextAreaElement;
     this.value = textarea.value;
+    this.internals?.setFormValue(this.value || null);
     this.aegovTextareaChange.emit({ value: this.value, event });
     this.emitValidate('change');
   };
@@ -253,6 +278,7 @@ export class AegovTextarea {
   private handleInput = (event: Event) => {
     const textarea = event.target as HTMLTextAreaElement;
     this.value = textarea.value;
+    this.internals?.setFormValue(this.value || null);
     this.aegovTextareaInput.emit({ value: this.value, event });
     if (this.resize === 'auto') {
       this.autoResize();
@@ -286,9 +312,8 @@ export class AegovTextarea {
         this.justCopied = false;
       }, 2000);
     } catch {
-      const textarea = this.el.querySelector('textarea');
-      if (textarea) {
-        textarea.select();
+      if (this.textareaEl) {
+        this.textareaEl.select();
         document.execCommand('copy');
         this.justCopied = true;
         setTimeout(() => {
@@ -372,7 +397,6 @@ export class AegovTextarea {
         readOnly={this.isReadonly}
         placeholder={this.placeholder}
         value={this.value}
-        name={this.name}
         required={this.isRequired}
         maxLength={this.maxlength}
         aria-invalid={this.isInvalid ? 'true' : null}

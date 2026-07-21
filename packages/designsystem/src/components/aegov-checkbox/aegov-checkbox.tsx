@@ -11,14 +11,14 @@ import { watchResponsiveProp } from '../../utils/responsive-prop';
 import type { ResponsivePropWatcher } from '../../utils/responsive-prop';
 import {
   fromNativeValidity, VALID_STATE,
-  composeDescribedBy, buildValidationDetail,
+  composeDescribedBy, buildValidationDetail, synthesizeValidity, setInternalsValidity,
 } from '../../utils/validation';
 
 @Component({
   tag: 'aegov-checkbox',
   styleUrl: 'aegov-checkbox.css',
-  scoped: false,
-  shadow: false,
+  formAssociated: true,
+  shadow: { delegatesFocus: true },
 })
 export class AegovCheckbox {
   @Element() el: HTMLElement;
@@ -26,8 +26,8 @@ export class AegovCheckbox {
   /** Unique ID for the native checkbox element. Auto-generated if not provided. */
   @Prop({ mutable: true, reflect: true }) fieldId?: string;
 
-  /** The name attribute for the checkbox. */
-  @Prop() name?: string;
+  /** The name attribute for the checkbox. Reflected so ElementInternals can read it for form submission. */
+  @Prop({ reflect: true }) name?: string;
 
   /** The value attribute for the checkbox. */
   @Prop() value?: string;
@@ -84,6 +84,7 @@ export class AegovCheckbox {
   @State() private hasBlurredOnce: boolean = false;
 
   private inputEl?: HTMLInputElement;
+  private internals: ElementInternals | null = null;
   private errorId: string = '';
   private hintId: string = '';
 
@@ -101,6 +102,22 @@ export class AegovCheckbox {
       this._resolvedSize = v as CheckboxSize;
     });
     this._resolvedSize = this._sizeWatcher.current as CheckboxSize;
+    const host = this.el as unknown as HTMLElement & { attachInternals?: () => ElementInternals };
+    if (typeof host.attachInternals === 'function') {
+      try {
+        this.internals = host.attachInternals();
+        this.internals.setFormValue(this.isChecked ? (this.value ?? 'on') : null);
+      } catch {
+        this.internals = null;
+      }
+    }
+  }
+
+  formAssociatedCallback(_form: HTMLFormElement | null) { /* no-op */ }
+  formDisabledCallback(disabled: boolean) { this.isDisabled = disabled; }
+  formResetCallback() {
+    this.isChecked = false;
+    this.internals?.setFormValue(null);
   }
 
   /** Imperatively re-run validation. */
@@ -124,6 +141,13 @@ export class AegovCheckbox {
     this.isInvalid = !!message;
     if (this.inputEl && typeof this.inputEl.setCustomValidity === 'function') {
       this.inputEl.setCustomValidity(message);
+    }
+    if (this.internals) {
+      if (message) {
+        setInternalsValidity(this.internals, synthesizeValidity({ customError: true }), message, this.inputEl);
+      } else {
+        setInternalsValidity(this.internals, { valid: true }, '');
+      }
     }
   }
 
@@ -178,6 +202,7 @@ export class AegovCheckbox {
     const input = event.target as HTMLInputElement;
     this.isChecked = input.checked;
     this.isIndeterminate = false;
+    this.internals?.setFormValue(this.isChecked ? (this.value ?? 'on') : null);
     this.aegovCheckboxChange.emit({ checked: this.isChecked, value: this.value });
     this.emitValidate('change');
   };
@@ -214,7 +239,6 @@ export class AegovCheckbox {
         ref={(el) => this.inputEl = el}
         type="checkbox"
         id={this.fieldId}
-        name={this.name}
         value={this.value}
         checked={this.isChecked}
         disabled={this.isDisabled}
