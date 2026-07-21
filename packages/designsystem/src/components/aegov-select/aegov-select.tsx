@@ -77,7 +77,7 @@ export class AegovSelect {
   @Prop() isMultiple: boolean = false;
 
   /** Whether the select is disabled. */
-  @Prop() isDisabled: boolean = false;
+  @Prop({ mutable: true }) isDisabled: boolean = false;
 
   /** Placeholder text shown when nothing is selected. */
   @Prop() placeholder?: string;
@@ -184,6 +184,8 @@ export class AegovSelect {
   formDisabledCallback(disabled: boolean) { this.isDisabled = disabled; }
   formResetCallback() {
     this.value = '';
+    this.errorMessage = '';
+    this.isInvalid = false;
     this.runValidationSync();
   }
 
@@ -246,6 +248,16 @@ export class AegovSelect {
             this.internals.setFormValue(fd);
           } else {
             this.internals.setFormValue(this.value || null);
+          }
+        }
+        // Sync native <select> validity to ElementInternals so form.checkValidity() sees required etc.
+        if (this.internals && this.nativeSelectEl) {
+          const v = this.nativeSelectEl.validity;
+          if (v.valid) {
+            setInternalsValidity(this.internals, { valid: true }, '');
+          } else {
+            const message = this.errorMessage || this.nativeSelectEl.validationMessage || '';
+            setInternalsValidity(this.internals, fromNativeValidity(v), message, this.nativeSelectEl);
           }
         }
       } catch { /* jsdom mock */ }

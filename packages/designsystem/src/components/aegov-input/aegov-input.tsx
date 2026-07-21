@@ -57,7 +57,7 @@ export class AegovInput {
   private _sizeWatcher: ResponsivePropWatcher | null = null;
 
   /** Whether the input is disabled. */
-  @Prop() isDisabled: boolean = false;
+  @Prop({ mutable: true }) isDisabled: boolean = false;
 
   /** Whether the input is readonly. */
   @Prop() isReadonly: boolean = false;
@@ -186,7 +186,19 @@ export class AegovInput {
   formDisabledCallback(disabled: boolean) { this.isDisabled = disabled; }
   formResetCallback() {
     this.value = '';
+    this.errorMessage = '';
+    this.isInvalid = false;
+    if (this.nativeRef) this.nativeRef.setCustomValidity('');
     this.internals?.setFormValue(null);
+    if (this.isRequired) {
+      setInternalsValidity(this.internals, synthesizeValidity({ valueMissing: true }), 'Please fill in this field');
+    } else {
+      setInternalsValidity(this.internals, { valid: true }, '');
+    }
+  }
+
+  componentDidLoad() {
+    this.syncInternalsValidity();
   }
 
   /**
@@ -235,6 +247,18 @@ export class AegovInput {
   private readValidity() {
     const v = this.nativeRef?.validity;
     return v ? fromNativeValidity(v) : VALID_STATE;
+  }
+
+  /** Sync native input ValidityState to ElementInternals so form.checkValidity() sees required/pattern/etc. */
+  private syncInternalsValidity(): void {
+    if (!this.internals || !this.nativeRef) return;
+    const v = this.nativeRef.validity;
+    if (v.valid) {
+      setInternalsValidity(this.internals, { valid: true }, '');
+    } else {
+      const message = this.errorMessage || this.nativeRef.validationMessage || '';
+      setInternalsValidity(this.internals, fromNativeValidity(v), message, this.nativeRef);
+    }
   }
 
   disconnectedCallback() {
@@ -320,6 +344,7 @@ export class AegovInput {
     const input = event.target as HTMLInputElement;
     this.value = input.value;
     this.internals?.setFormValue(this.value || null);
+    this.syncInternalsValidity();
     this.aegovInputChange.emit({ value: this.value, event });
     this.emitValidate('change');
   };
@@ -328,6 +353,7 @@ export class AegovInput {
     const input = event.target as HTMLInputElement;
     this.value = input.value;
     this.internals?.setFormValue(this.value || null);
+    this.syncInternalsValidity();
     this.aegovInputValue.emit({ value: this.value, event });
     this.emitValidate('input');
   };

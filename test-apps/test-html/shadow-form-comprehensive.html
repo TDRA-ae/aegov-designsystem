@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Shadow Form — Comprehensive Test</title>
+  <script type="module" src="/src/main.ts"></script>
+  <style>
+    body { font-family: sans-serif; padding: 1rem 2rem; background: #f8fafc; color: #1e293b; }
+    section { background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.25rem; margin-bottom: 1.5rem; }
+    h2 { font-size: 0.875rem; font-weight: 700; color: #0f172a; margin: 0 0 0.25rem; }
+    p.desc { font-size: 0.75rem; color: #64748b; margin: 0 0 1rem; }
+    pre.result { font-size: 0.75rem; background: #f1f5f9; border: 1px solid #cbd5e1; border-radius: 4px; padding: 0.75rem; white-space: pre-wrap; min-height: 2.5rem; }
+    button.action { padding: 0.4rem 1rem; border: none; border-radius: 4px; background: #3b82f6; color: #fff; font-size: 0.8125rem; cursor: pointer; margin-top: 0.75rem; margin-right: 0.5rem; }
+    button.action.secondary { background: #64748b; }
+    .row { display: flex; gap: 1rem; flex-wrap: wrap; align-items: flex-start; }
+    .col { flex: 1; min-width: 200px; }
+    label.plain { font-size: 0.8125rem; font-weight: 500; display: block; margin-bottom: 0.25rem; }
+    .status { display: inline-block; padding: 0.2rem 0.5rem; border-radius: 3px; font-size: 0.75rem; margin-left: 0.5rem; }
+    .status.pass { background: #dcfce7; color: #166534; }
+    .status.fail { background: #fee2e2; color: #991b1b; }
+    .status.pending { background: #fef9c3; color: #713f12; }
+  </style>
+</head>
+<body>
+
+<!-- ─── S1: Form Reset ─────────────────────────────────────────────────────── -->
+<section id="s-reset">
+  <h2>S1 — Form Reset: <code>formResetCallback</code> clears all FACE values</h2>
+  <p class="desc">Fill each field, click Reset — all values must clear and FormData must be empty.</p>
+  <form id="form-reset">
+    <div class="row">
+      <div class="col">
+        <aegov-input id="r-input" field-id="ft-r-input" name="r_text" value="initial value" placeholder="Text"></aegov-input>
+      </div>
+      <div class="col">
+        <aegov-textarea id="r-textarea" field-id="ft-r-textarea" name="r_notes" value="initial notes" placeholder="Notes" rows="2"></aegov-textarea>
+      </div>
+    </div>
+    <div class="row" style="margin-top:0.75rem">
+      <aegov-checkbox id="r-checkbox" field-id="ft-r-checkbox" name="r_agree" value="yes" is-checked label="I agree (pre-checked)"></aegov-checkbox>
+      <aegov-toggle id="r-toggle" field-id="ft-r-toggle" name="r_notify" value="yes" is-checked label="Notify (pre-on)"></aegov-toggle>
+    </div>
+    <div class="row" style="margin-top:0.75rem">
+      <aegov-form-field>
+        <aegov-label>Country</aegov-label>
+        <aegov-select id="r-select" field-id="ft-r-select" name="r_country">
+          <aegov-select-option value="ae">UAE</aegov-select-option>
+          <aegov-select-option value="sa">Saudi Arabia</aegov-select-option>
+        </aegov-select>
+      </aegov-form-field>
+    </div>
+    <button type="reset" class="action secondary">Reset</button>
+    <button type="submit" class="action">Submit after reset</button>
+  </form>
+  <pre id="reset-result" class="result">Submit after reset to verify FormData is empty.</pre>
+</section>
+
+<!-- ─── S2: Form Disabled (fieldset) ─────────────────────────────────────── -->
+<section id="s-disabled">
+  <h2>S2 — Form Disabled: <code>formDisabledCallback</code> propagates from <code>&lt;fieldset disabled&gt;</code></h2>
+  <p class="desc">Toggle fieldset disabled state — all components inside must gain/lose disabled state.</p>
+  <form id="form-disabled">
+    <fieldset id="fs-disabled" style="border:1px solid #cbd5e1;border-radius:6px;padding:1rem">
+      <legend style="font-size:0.8rem;padding:0 0.5rem">Disabled fieldset target</legend>
+      <div class="row">
+        <aegov-input id="d-input" field-id="ft-d-input" name="d_text" placeholder="Text input"></aegov-input>
+        <aegov-checkbox id="d-checkbox" name="d_agree" value="yes" label="Checkbox"></aegov-checkbox>
+        <aegov-toggle id="d-toggle" name="d_notify" value="yes" label="Toggle"></aegov-toggle>
+      </div>
+    </fieldset>
+    <button type="button" class="action" id="btn-disable-toggle">Disable fieldset</button>
+    <button type="button" class="action secondary" id="btn-check-disabled">Check disabled state</button>
+  </form>
+  <pre id="disabled-result" class="result">Click "Disable fieldset" then "Check disabled state".</pre>
+</section>
+
+<!-- ─── S3: Range Dual Mode ───────────────────────────────────────────────── -->
+<section id="s-range-dual">
+  <h2>S3 — Range Dual Mode: FormData has <code>price-low</code> + <code>price-high</code></h2>
+  <p class="desc">The range in "range" mode should submit two keys: name-low and name-high.</p>
+  <form id="form-range-dual">
+    <aegov-form-field>
+      <aegov-label>Price range</aegov-label>
+      <aegov-range id="rd-range" field-id="ft-rd" name="price" mode="range" value-low="20" value-high="80" display="tooltip"></aegov-range>
+    </aegov-form-field>
+    <button type="submit" class="action">Submit</button>
+  </form>
+  <pre id="range-dual-result" class="result">Submit to see FormData.</pre>
+</section>
+
+<!-- ─── S4: Select Listbox Mode ──────────────────────────────────────────── -->
+<section id="s-select-listbox">
+  <h2>S4 — Select Listbox Mode: custom dropdown submits via FACE</h2>
+  <p class="desc">Open the dropdown, pick an option, submit — value should appear in FormData.</p>
+  <form id="form-select-listbox">
+    <aegov-form-field>
+      <aegov-label>Category</aegov-label>
+      <aegov-select id="sl-select" field-id="ft-sl" name="category" appearance="listbox" placeholder="Select category">
+        <aegov-select-option value="tech">Technology</aegov-select-option>
+        <aegov-select-option value="health">Healthcare</aegov-select-option>
+        <aegov-select-option value="edu">Education</aegov-select-option>
+        <aegov-select-option value="gov">Government</aegov-select-option>
+      </aegov-select>
+    </aegov-form-field>
+    <button type="submit" class="action">Submit</button>
+  </form>
+  <pre id="select-listbox-result" class="result">Select a category and submit.</pre>
+</section>
+
+<!-- ─── S5: Select Multiple ──────────────────────────────────────────────── -->
+<section id="s-select-multiple">
+  <h2>S5 — Select Multiple: all selected values appear in FormData</h2>
+  <p class="desc">Multi-select listbox — select 2+ options and submit.</p>
+  <form id="form-select-multiple">
+    <aegov-form-field>
+      <aegov-label>Interests</aegov-label>
+      <aegov-select id="sm-select" field-id="ft-sm" name="interests" appearance="listbox" is-multiple placeholder="Select interests">
+        <aegov-select-option value="sports">Sports</aegov-select-option>
+        <aegov-select-option value="music">Music</aegov-select-option>
+        <aegov-select-option value="travel">Travel</aegov-select-option>
+        <aegov-select-option value="food">Food</aegov-select-option>
+      </aegov-select>
+    </aegov-form-field>
+    <button type="submit" class="action">Submit</button>
+  </form>
+  <pre id="select-multiple-result" class="result">Select multiple interests and submit.</pre>
+</section>
+
+<!-- ─── S6: Multiple Checkboxes (same name) ──────────────────────────────── -->
+<section id="s-checkbox-multi">
+  <h2>S6 — Multiple checkboxes (same name): all checked appear in FormData</h2>
+  <p class="desc">Three checkboxes share the name "fruits" — all checked values must appear.</p>
+  <form id="form-checkbox-multi">
+    <div class="row">
+      <aegov-checkbox id="cm-apple" field-id="ft-cm-apple" name="fruits" value="apple" label="Apple"></aegov-checkbox>
+      <aegov-checkbox id="cm-banana" field-id="ft-cm-banana" name="fruits" value="banana" label="Banana"></aegov-checkbox>
+      <aegov-checkbox id="cm-cherry" field-id="ft-cm-cherry" name="fruits" value="cherry" label="Cherry"></aegov-checkbox>
+    </div>
+    <button type="submit" class="action">Submit</button>
+  </form>
+  <pre id="checkbox-multi-result" class="result">Check some fruits and submit.</pre>
+</section>
+
+<!-- ─── S7: Radio Group — only selected value ────────────────────────────── -->
+<section id="s-radio-face">
+  <h2>S7 — Radio Group FACE: only the selected radio appears in FormData</h2>
+  <p class="desc">Select one radio — only that value must be in FormData, not others.</p>
+  <form id="form-radio-face">
+    <aegov-radio-group id="rf-group" name="color" label="Favourite colour">
+      <aegov-radio id="rf-red" value="red" label="Red"></aegov-radio>
+      <aegov-radio id="rf-green" value="green" label="Green"></aegov-radio>
+      <aegov-radio id="rf-blue" value="blue" label="Blue"></aegov-radio>
+    </aegov-radio-group>
+    <button type="submit" class="action">Submit</button>
+  </form>
+  <pre id="radio-face-result" class="result">Select a colour and submit.</pre>
+</section>
+
+<!-- ─── S8: Required Validation ──────────────────────────────────────────── -->
+<section id="s-required">
+  <h2>S8 — Required validation: <code>form.checkValidity()</code> catches empty required FACE fields</h2>
+  <p class="desc">Fields marked required — form.checkValidity() must return false when empty.</p>
+  <form id="form-required" novalidate>
+    <div class="row">
+      <div class="col">
+        <aegov-form-field>
+          <aegov-label>Required text</aegov-label>
+          <aegov-input id="req-input" field-id="ft-req-input" name="req_text" is-required placeholder="Must fill"></aegov-input>
+        </aegov-form-field>
+      </div>
+      <div class="col">
+        <aegov-form-field>
+          <aegov-label>Required select</aegov-label>
+          <aegov-select id="req-select" field-id="ft-req-select" name="req_country" is-required placeholder="Must select">
+            <aegov-select-option value="ae">UAE</aegov-select-option>
+            <aegov-select-option value="sa">Saudi Arabia</aegov-select-option>
+          </aegov-select>
+        </aegov-form-field>
+      </div>
+    </div>
+    <button type="button" class="action" id="btn-check-validity">Check validity (empty)</button>
+    <button type="button" class="action secondary" id="btn-fill-required">Fill fields then check</button>
+  </form>
+  <pre id="required-result" class="result">Click "Check validity" to test empty required fields.</pre>
+</section>
+
+<!-- ─── S9: setCustomValidity ────────────────────────────────────────────── -->
+<section id="s-custom-validity">
+  <h2>S9 — <code>setCustomValidity</code>: custom error propagates to internals + clears on reset</h2>
+  <p class="desc">Set a custom error, check validity (should fail), reset, check again (should pass).</p>
+  <form id="form-custom-validity" novalidate>
+    <aegov-form-field>
+      <aegov-label>Username</aegov-label>
+      <aegov-input id="cv-input" field-id="ft-cv-input" name="username" placeholder="Enter username"></aegov-input>
+    </aegov-form-field>
+    <button type="button" class="action" id="btn-set-error">Set custom error</button>
+    <button type="button" class="action secondary" id="btn-clear-error">Clear error (setCustomValidity '')</button>
+    <button type="reset" class="action secondary">Form reset</button>
+    <button type="button" class="action" id="btn-check-cv">Check form validity</button>
+  </form>
+  <pre id="custom-validity-result" class="result">Use buttons above to test custom validity flow.</pre>
+</section>
+
+<!-- ─── S10: isInvalid CSS (:host(.is-invalid)) ───────────────────────────── -->
+<section id="s-invalid-css">
+  <h2>S10 — isInvalid CSS: <code>:host(.is-invalid)</code> applies error border</h2>
+  <p class="desc">Components with is-invalid must show an error border. Checking computed border color.</p>
+  <div class="row">
+    <div class="col">
+      <p class="desc">aegov-input (is-invalid)</p>
+      <aegov-form-field>
+        <aegov-label>Email</aegov-label>
+        <aegov-input id="inv-input" field-id="ft-inv-input" is-invalid error-message="Email is required" placeholder="Invalid state"></aegov-input>
+      </aegov-form-field>
+    </div>
+    <div class="col">
+      <p class="desc">aegov-textarea (is-invalid)</p>
+      <aegov-form-field>
+        <aegov-label>Notes</aegov-label>
+        <aegov-textarea id="inv-textarea" field-id="ft-inv-textarea" is-invalid error-message="Notes are required" placeholder="Invalid state" rows="2"></aegov-textarea>
+      </aegov-form-field>
+    </div>
+    <div class="col">
+      <p class="desc">aegov-select (is-invalid)</p>
+      <aegov-form-field>
+        <aegov-label>Country</aegov-label>
+        <aegov-select id="inv-select" field-id="ft-inv-select" is-invalid error-message="Country is required" placeholder="Invalid state">
+          <aegov-select-option value="ae">UAE</aegov-select-option>
+        </aegov-select>
+      </aegov-form-field>
+    </div>
+  </div>
+  <div class="row" style="margin-top:0.75rem">
+    <aegov-checkbox id="inv-checkbox" is-invalid error-message="Must agree" label="Checkbox (is-invalid)"></aegov-checkbox>
+    <aegov-toggle id="inv-toggle" is-invalid error-message="Must enable" label="Toggle (is-invalid)"></aegov-toggle>
+  </div>
+  <button type="button" class="action" id="btn-check-invalid-css" style="margin-top:0.75rem">Check border colors</button>
+  <pre id="invalid-css-result" class="result">Click to inspect computed border colors on invalid components.</pre>
+</section>
+
+<!-- ─── S11: Slot Content Projection ─────────────────────────────────────── -->
+<section id="s-slots">
+  <h2>S11 — Slot content projection: slotted error/hint renders inside shadow root</h2>
+  <p class="desc">Slotted elements must render and be visible.</p>
+  <aegov-form-field>
+    <aegov-label>Name</aegov-label>
+    <aegov-input id="slot-input" field-id="ft-slot" is-invalid placeholder="With slotted error">
+      <span slot="error" id="slotted-error-span">Custom <strong>bold</strong> error message</span>
+    </aegov-input>
+  </aegov-form-field>
+  <div style="margin-top:0.75rem">
+    <aegov-input id="slot-hint-input" field-id="ft-slot-hint" placeholder="With slotted hint">
+      <span slot="hint" id="slotted-hint-span">Hint: use letters only</span>
+    </aegov-input>
+  </div>
+</section>
+
+<!-- ─── S12: aria-describedby inside shadow root ─────────────────────────── -->
+<section id="s-aria">
+  <h2>S12 — aria-describedby: inner input references correct IDs inside shadow root</h2>
+  <p class="desc">The inner <code>&lt;input&gt;</code>'s aria-describedby must reference the error/hint element IDs that exist inside the same shadow root.</p>
+  <aegov-form-field>
+    <aegov-label>Field with error</aegov-label>
+    <aegov-input id="aria-input" field-id="ft-aria" is-invalid error-message="This field is required" hint="Helper text here" placeholder="Check aria-describedby"></aegov-input>
+  </aegov-form-field>
+  <div style="margin-top:0.75rem">
+    <aegov-textarea id="aria-textarea" field-id="ft-aria-ta" is-invalid error-message="Required" hint="Enter notes" placeholder="Textarea aria check" rows="2"></aegov-textarea>
+  </div>
+</section>
+
+<!-- ─── S13: No name = absent from FormData ──────────────────────────────── -->
+<section id="s-no-name">
+  <h2>S13 — No name: unnamed components must NOT appear in FormData</h2>
+  <p class="desc">The unnamed input must be absent; the named one must appear.</p>
+  <form id="form-no-name">
+    <div class="row">
+      <aegov-input id="nn-unnamed" field-id="ft-nn-unnamed" placeholder="No name (should be absent)"></aegov-input>
+      <aegov-input id="nn-named" field-id="ft-nn-named" name="present_field" value="hello" placeholder="Has name"></aegov-input>
+    </div>
+    <aegov-checkbox id="nn-unnamed-cb" label="Unnamed checkbox (should be absent)"></aegov-checkbox>
+    <aegov-checkbox id="nn-named-cb" name="named_cb" value="yes" is-checked label="Named checkbox (should appear)"></aegov-checkbox>
+    <button type="submit" class="action">Submit</button>
+  </form>
+  <pre id="no-name-result" class="result">Submit to verify unnamed fields are absent.</pre>
+</section>
+
+<!-- ─── S14: form-field cascades isInvalid to shadow:true child ──────────── -->
+<section id="s-cascade">
+  <h2>S14 — aegov-form-field cascade: wrapper <code>isInvalid</code> reaches shadow:true child</h2>
+  <p class="desc">Setting isInvalid on the wrapper must propagate to the child component's host class.</p>
+  <aegov-form-field id="ff-cascade" is-invalid error-message="Error from wrapper">
+    <aegov-label>Cascaded field</aegov-label>
+    <aegov-input id="cascade-input" field-id="ft-cascade" placeholder="Inherits invalid state"></aegov-input>
+  </aegov-form-field>
+  <div style="margin-top:1rem">
+    <aegov-form-field id="ff-cascade-select" is-invalid error-message="Select error from wrapper">
+      <aegov-label>Cascaded select</aegov-label>
+      <aegov-select id="cascade-select" field-id="ft-cascade-sel" placeholder="Inherits invalid state">
+        <aegov-select-option value="opt1">Option 1</aegov-select-option>
+      </aegov-select>
+    </aegov-form-field>
+  </div>
+</section>
+
+<!-- ─── S15: OTP still works after shadow:true ───────────────────────────── -->
+<section id="s-otp">
+  <h2>S15 — OTP FACE: aegov-otp submits correctly in shadow:true mode</h2>
+  <form id="form-otp">
+    <aegov-otp id="otp-field" name="otp_code" length="4"></aegov-otp>
+    <button type="submit" class="action">Submit</button>
+  </form>
+  <pre id="otp-result" class="result">Type 4 digits and submit.</pre>
+</section>
+
+<!-- ─── S16: FileUpload FACE ─────────────────────────────────────────────── -->
+<section id="s-fileupload">
+  <h2>S16 — FileUpload FACE: aegov-fileupload remains functional after shadow:true</h2>
+  <p class="desc">No file selected → submit should not error; file internals name must appear.</p>
+  <form id="form-fileupload">
+    <aegov-fileupload id="fu-field" name="attachment" label="Upload document" accepted-extensions=".pdf,.png"></aegov-fileupload>
+    <button type="submit" class="action">Submit (no file)</button>
+  </form>
+  <pre id="fileupload-result" class="result">Submit with no file — should not error.</pre>
+</section>
+
+<script>
+// ── Helper: capture FormData as JSON string ──────────────────────────────────
+function formDataToJson(form) {
+  const fd = new FormData(form);
+  const obj = {};
+  for (const [k, v] of fd.entries()) {
+    if (k in obj) {
+      if (!Array.isArray(obj[k])) obj[k] = [obj[k]];
+      obj[k].push(v instanceof File ? `[File: ${v.name || 'unnamed'}]` : v);
+    } else {
+      obj[k] = v instanceof File ? `[File: ${v.name || 'unnamed'}]` : v;
+    }
+  }
+  return JSON.stringify(obj, null, 2);
+}
+
+function bindFormResult(formId, resultId) {
+  const form = document.getElementById(formId);
+  const result = document.getElementById(resultId);
+  if (!form || !result) return;
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    result.textContent = '✅ FormData:\n' + formDataToJson(form);
+  });
+}
+
+// S1: Form reset
+bindFormResult('form-reset', 'reset-result');
+
+// S3: Range dual mode
+bindFormResult('form-range-dual', 'range-dual-result');
+
+// S4: Select listbox
+bindFormResult('form-select-listbox', 'select-listbox-result');
+
+// S5: Select multiple
+bindFormResult('form-select-multiple', 'select-multiple-result');
+
+// S6: Checkbox multi
+bindFormResult('form-checkbox-multi', 'checkbox-multi-result');
+
+// S7: Radio FACE
+bindFormResult('form-radio-face', 'radio-face-result');
+
+// S13: No name
+bindFormResult('form-no-name', 'no-name-result');
+
+// S15: OTP
+bindFormResult('form-otp', 'otp-result');
+
+// S16: FileUpload
+bindFormResult('form-fileupload', 'fileupload-result');
+
+// S2: Disabled toggle
+const fsDisabled = document.getElementById('fs-disabled');
+let fieldsetDisabled = false;
+document.getElementById('btn-disable-toggle')?.addEventListener('click', () => {
+  fieldsetDisabled = !fieldsetDisabled;
+  fsDisabled.disabled = fieldsetDisabled;
+  document.getElementById('btn-disable-toggle').textContent = fieldsetDisabled ? 'Enable fieldset' : 'Disable fieldset';
+});
+document.getElementById('btn-check-disabled')?.addEventListener('click', () => {
+  const input = document.getElementById('d-input');
+  const checkbox = document.getElementById('d-checkbox');
+  const toggle = document.getElementById('d-toggle');
+  const result = {
+    fieldsetDisabled,
+    'aegov-input isDisabled': input?.isDisabled,
+    'aegov-checkbox isDisabled': checkbox?.isDisabled,
+    'aegov-toggle isDisabled': toggle?.isDisabled,
+  };
+  document.getElementById('disabled-result').textContent = JSON.stringify(result, null, 2);
+});
+
+// S8: Required validation
+document.getElementById('btn-check-validity')?.addEventListener('click', () => {
+  const form = document.getElementById('form-required');
+  const valid = form.checkValidity();
+  document.getElementById('required-result').textContent = `form.checkValidity() = ${valid}\n(expected: false when fields are empty)`;
+});
+document.getElementById('btn-fill-required')?.addEventListener('click', async () => {
+  const input = document.getElementById('req-input');
+  // Fill text input via shadow DOM
+  const nativeInput = input?.shadowRoot?.querySelector('input');
+  if (nativeInput) {
+    nativeInput.value = 'filled value';
+    nativeInput.dispatchEvent(new Event('input', { bubbles: true }));
+    nativeInput.dispatchEvent(new Event('change', { bubbles: true }));
+  }
+  // Select a country
+  const select = document.getElementById('req-select');
+  const nativeSelect = select?.shadowRoot?.querySelector('select');
+  if (nativeSelect) {
+    nativeSelect.value = 'ae';
+    nativeSelect.dispatchEvent(new Event('change', { bubbles: true }));
+  }
+  await new Promise(r => setTimeout(r, 100));
+  const form = document.getElementById('form-required');
+  const valid = form.checkValidity();
+  document.getElementById('required-result').textContent = `After filling fields:\nform.checkValidity() = ${valid}\n(expected: true)`;
+});
+
+// S9: Custom validity
+document.getElementById('btn-set-error')?.addEventListener('click', async () => {
+  const input = document.getElementById('cv-input');
+  await input?.setCustomValidity('Username is already taken');
+  document.getElementById('custom-validity-result').textContent = 'Custom error set. Click "Check form validity".';
+});
+document.getElementById('btn-clear-error')?.addEventListener('click', async () => {
+  const input = document.getElementById('cv-input');
+  await input?.setCustomValidity('');
+  document.getElementById('custom-validity-result').textContent = 'Error cleared via setCustomValidity(""). Click "Check form validity".';
+});
+document.getElementById('btn-check-cv')?.addEventListener('click', () => {
+  const form = document.getElementById('form-custom-validity');
+  const valid = form.checkValidity();
+  document.getElementById('custom-validity-result').textContent += `\nform.checkValidity() = ${valid}`;
+});
+
+// S10: Invalid CSS border check
+document.getElementById('btn-check-invalid-css')?.addEventListener('click', () => {
+  const checks = {};
+  const components = [
+    { id: 'inv-input', label: 'aegov-input', selector: 'input' },
+    { id: 'inv-textarea', label: 'aegov-textarea', selector: 'textarea' },
+    { id: 'inv-select', label: 'aegov-select', selector: 'select' },
+    { id: 'inv-checkbox', label: 'aegov-checkbox', selector: 'input[type="checkbox"]' },
+    { id: 'inv-toggle', label: 'aegov-toggle', selector: 'input[type="checkbox"]' },
+  ];
+  for (const { id, label, selector } of components) {
+    const host = document.getElementById(id);
+    const inner = host?.shadowRoot?.querySelector(selector) ?? host?.querySelector(selector);
+    if (inner) {
+      const style = window.getComputedStyle(inner);
+      checks[label] = { borderColor: style.borderColor, borderTopColor: style.borderTopColor };
+    } else {
+      checks[label] = 'inner element not found';
+    }
+  }
+  document.getElementById('invalid-css-result').textContent = JSON.stringify(checks, null, 2);
+});
+</script>
+</body>
+</html>
