@@ -44,7 +44,7 @@ export class AegovTextarea {
   @Prop() variant: FormVariant = 'primary';
 
   /** Whether the textarea is disabled. */
-  @Prop() isDisabled: boolean = false;
+  @Prop({ mutable: true }) isDisabled: boolean = false;
 
   /** Whether the textarea is readonly. */
   @Prop() isReadonly: boolean = false;
@@ -140,7 +140,19 @@ export class AegovTextarea {
   formDisabledCallback(disabled: boolean) { this.isDisabled = disabled; }
   formResetCallback() {
     this.value = '';
+    this.errorMessage = '';
+    this.isInvalid = false;
+    if (this.textareaEl) this.textareaEl.setCustomValidity('');
     this.internals?.setFormValue(null);
+    if (this.isRequired) {
+      setInternalsValidity(this.internals, synthesizeValidity({ valueMissing: true }), 'Please fill in this field');
+    } else {
+      setInternalsValidity(this.internals, { valid: true }, '');
+    }
+  }
+
+  componentDidLoad() {
+    this.syncInternalsValidity();
   }
 
   /** Imperatively re-run validation. */
@@ -177,6 +189,17 @@ export class AegovTextarea {
   private readValidity() {
     const v = this.textareaEl?.validity;
     return v ? fromNativeValidity(v) : VALID_STATE;
+  }
+
+  private syncInternalsValidity(): void {
+    if (!this.internals || !this.textareaEl) return;
+    const v = this.textareaEl.validity;
+    if (v.valid) {
+      setInternalsValidity(this.internals, { valid: true }, '');
+    } else {
+      const message = this.errorMessage || this.textareaEl.validationMessage || '';
+      setInternalsValidity(this.internals, fromNativeValidity(v), message, this.textareaEl);
+    }
   }
 
   private emitValidate(trigger: AegovValidationTrigger) {
@@ -271,6 +294,7 @@ export class AegovTextarea {
     const textarea = event.target as HTMLTextAreaElement;
     this.value = textarea.value;
     this.internals?.setFormValue(this.value || null);
+    this.syncInternalsValidity();
     this.aegovTextareaChange.emit({ value: this.value, event });
     this.emitValidate('change');
   };
@@ -279,6 +303,7 @@ export class AegovTextarea {
     const textarea = event.target as HTMLTextAreaElement;
     this.value = textarea.value;
     this.internals?.setFormValue(this.value || null);
+    this.syncInternalsValidity();
     this.aegovTextareaInput.emit({ value: this.value, event });
     if (this.resize === 'auto') {
       this.autoResize();
