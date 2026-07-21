@@ -383,7 +383,7 @@
 
 /* Validation surface (Layer 1) — see validation-engine-addon.md §2.6 */
 
-aegov-toggle.is-invalid .toggle__track {
+:host(.is-invalid) .toggle__track {
   @apply ring-2 ring-aered-600 dark:ring-aered-500;
 }
 

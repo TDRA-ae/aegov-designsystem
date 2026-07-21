@@ -69,8 +69,8 @@ const ctx = (prop: string) => ({ component: TAG, prop });
 @Component({
   tag: 'aegov-fileupload',
   styleUrl: 'aegov-fileupload.css',
-  scoped: false,
   formAssociated: true, // §2.5: appearance abstraction needs ElementInternals to participate in <form>
+  shadow: { delegatesFocus: true },
 })
 export class AegovFileupload {
   @Element() el!: HTMLElement;

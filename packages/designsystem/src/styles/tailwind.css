@@ -10,8 +10,10 @@
 @import "tailwindcss/utilities.css" layer(utilities);
 
 /* Dark mode strategy — class-based on <html> (.dark).
-   Shadow DOM components must use :host-context(.dark) explicitly since
-   ancestor selectors cannot pierce shadow boundaries. */
+   &:where(.dark, .dark *) works for scoped and shadow:false (element or ancestor has .dark).
+   NOTE: shadow:true components need :host-context(.dark) which Tailwind v4 custom-variant
+   does not yet support alongside &:where(). Tracked as a follow-up: add per-component
+   :host-context(.dark) overrides once Tailwind v4 supports multi-selector @custom-variant. */
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme {

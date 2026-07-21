@@ -216,11 +216,11 @@
    NOTE: `:host` only matches in shadow DOM. This component is
    `scoped: false, shadow: false`, so the host is a normal light-DOM custom
    element — selector must target it by tag name + class. */
-aegov-input.is-invalid .aegov-input {
+:host(.is-invalid) .aegov-input {
   @apply border-aered-600 dark:border-aered-500;
 }
 
-aegov-input.is-invalid .aegov-input:focus {
+:host(.is-invalid) .aegov-input:focus {
   /* Override variant focus treatment: red ring with offset.
      Without this, the variant rule (e.g. .input-variant-primary:focus)
      leaks its support-colour ring through the invalid state.

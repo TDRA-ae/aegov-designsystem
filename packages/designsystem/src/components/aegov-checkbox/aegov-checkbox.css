@@ -215,12 +215,12 @@
 
 /* Validation surface (Layer 1) — see validation-engine-addon.md §2.6 */
 
-aegov-checkbox.is-invalid .checkbox__wrapper input[type="checkbox"] {
+:host(.is-invalid) .checkbox__wrapper input[type="checkbox"] {
   @apply ring-2 ring-aered-500 dark:ring-aered-400;
 }
 
 /* Invalid + focus — outline goes red so it doesn't compete with the red ring. */
-aegov-checkbox.is-invalid .checkbox__wrapper input[type="checkbox"]:focus-visible {
+:host(.is-invalid) .checkbox__wrapper input[type="checkbox"]:focus-visible {
   @apply outline-aered-500 dark:outline-aered-400;
 }
 

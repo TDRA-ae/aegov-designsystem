@@ -11,14 +11,14 @@ import { getPassThroughAttributes } from '../../utils/attributes';
 import { generateId } from '../../utils/id-generator';
 import {
   fromNativeValidity, VALID_STATE,
-  composeDescribedBy, buildValidationDetail,
+  composeDescribedBy, buildValidationDetail, synthesizeValidity, setInternalsValidity,
 } from '../../utils/validation';
 
 @Component({
   tag: 'aegov-toggle',
   styleUrl: 'aegov-toggle.css',
-  scoped: false,
-  shadow: false,
+  formAssociated: true,
+  shadow: { delegatesFocus: true },
 })
 export class AegovToggle {
   @Element() el: HTMLElement;
@@ -26,8 +26,8 @@ export class AegovToggle {
   /** Unique ID for the native checkbox element. Auto-generated if not provided. */
   @Prop({ mutable: true, reflect: true }) fieldId?: string;
 
-  /** The name attribute for the toggle. */
-  @Prop() name?: string;
+  /** The name attribute for the toggle. Reflected so ElementInternals can read it for form submission. */
+  @Prop({ reflect: true }) name?: string;
 
   /** The value attribute for the toggle. */
   @Prop() value?: string;
@@ -75,6 +75,7 @@ export class AegovToggle {
   @State() private hasBlurredOnce: boolean = false;
 
   private inputEl?: HTMLInputElement;
+  private internals: ElementInternals | null = null;
   private errorId: string = '';
   private hintId: string = '';
 
@@ -92,6 +93,22 @@ export class AegovToggle {
       this._resolvedSize = v as ToggleSize;
     });
     this._resolvedSize = this._sizeWatcher.current as ToggleSize;
+    const host = this.el as unknown as HTMLElement & { attachInternals?: () => ElementInternals };
+    if (typeof host.attachInternals === 'function') {
+      try {
+        this.internals = host.attachInternals();
+        this.internals.setFormValue(this.isChecked ? (this.value ?? 'on') : null);
+      } catch {
+        this.internals = null;
+      }
+    }
+  }
+
+  formAssociatedCallback(_form: HTMLFormElement | null) { /* no-op */ }
+  formDisabledCallback(disabled: boolean) { this.isDisabled = disabled; }
+  formResetCallback() {
+    this.isChecked = false;
+    this.internals?.setFormValue(null);
   }
 
   disconnectedCallback() {
@@ -129,6 +146,13 @@ export class AegovToggle {
     if (this.inputEl && typeof this.inputEl.setCustomValidity === 'function') {
       this.inputEl.setCustomValidity(message);
     }
+    if (this.internals) {
+      if (message) {
+        setInternalsValidity(this.internals, synthesizeValidity({ customError: true }), message, this.inputEl);
+      } else {
+        setInternalsValidity(this.internals, { valid: true }, '');
+      }
+    }
   }
 
   private readValidity() {
@@ -150,6 +174,7 @@ export class AegovToggle {
   private handleChange = (event: Event) => {
     const input = event.target as HTMLInputElement;
     this.isChecked = input.checked;
+    this.internals?.setFormValue(this.isChecked ? (this.value ?? 'on') : null);
     this.aegovToggleChange.emit({ checked: this.isChecked, value: this.value });
     this.emitValidate('change');
   };
@@ -195,7 +220,6 @@ export class AegovToggle {
           type="checkbox"
           role="switch"
           id={this.fieldId}
-          name={this.name}
           value={this.value}
           checked={this.isChecked}
           disabled={this.isDisabled}

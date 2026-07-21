@@ -11,7 +11,7 @@ import { watchResponsiveProp } from '../../utils/responsive-prop';
 import type { ResponsivePropWatcher } from '../../utils/responsive-prop';
 import {
   fromNativeValidity, VALID_STATE,
-  composeDescribedBy, buildValidationDetail,
+  composeDescribedBy, buildValidationDetail, synthesizeValidity, setInternalsValidity,
 } from '../../utils/validation';
 import { isRtl } from '../../utils/rtl';
 
@@ -36,8 +36,8 @@ const ctx = (prop: string) => ({ component: TAG, prop });
 @Component({
   tag: 'aegov-input',
   styleUrl: 'aegov-input.css',
-  scoped: false,
-  shadow: false,
+  formAssociated: true,
+  shadow: { delegatesFocus: true },
 })
 export class AegovInput {
   @Element() el: HTMLElement;
@@ -68,8 +68,8 @@ export class AegovInput {
   /** The current value of the input. */
   @Prop({ mutable: true }) value: string = '';
 
-  /** The name attribute for the input. */
-  @Prop() name?: string;
+  /** The name attribute for the input. Reflected so ElementInternals can read it for form submission. */
+  @Prop({ reflect: true }) name?: string;
 
   /** Whether the input is required. */
   @Prop() isRequired: boolean = false;
@@ -150,6 +150,8 @@ export class AegovInput {
   /** Reference to the inner native <input> for native validity reads. */
   private nativeRef?: HTMLInputElement;
 
+  private internals: ElementInternals | null = null;
+
   /** Stable IDs for the error and hint regions; built once in componentWillLoad. */
   private errorId: string = '';
   private hintId: string = '';
@@ -169,6 +171,22 @@ export class AegovInput {
     }
     this.errorId = `${this.fieldId}-error`;
     this.hintId = `${this.fieldId}-hint`;
+    const host = this.el as unknown as HTMLElement & { attachInternals?: () => ElementInternals };
+    if (typeof host.attachInternals === 'function') {
+      try {
+        this.internals = host.attachInternals();
+        this.internals.setFormValue(this.value || null);
+      } catch {
+        this.internals = null;
+      }
+    }
+  }
+
+  formAssociatedCallback(_form: HTMLFormElement | null) { /* no-op */ }
+  formDisabledCallback(disabled: boolean) { this.isDisabled = disabled; }
+  formResetCallback() {
+    this.value = '';
+    this.internals?.setFormValue(null);
   }
 
   /**
@@ -203,6 +221,13 @@ export class AegovInput {
     this.isInvalid = !!message;
     if (this.nativeRef && typeof this.nativeRef.setCustomValidity === 'function') {
       this.nativeRef.setCustomValidity(message);
+    }
+    if (this.internals) {
+      if (message) {
+        setInternalsValidity(this.internals, synthesizeValidity({ customError: true }), message, this.nativeRef);
+      } else {
+        setInternalsValidity(this.internals, { valid: true }, '');
+      }
     }
   }
 
@@ -294,6 +319,7 @@ export class AegovInput {
   private handleChange = (event: Event) => {
     const input = event.target as HTMLInputElement;
     this.value = input.value;
+    this.internals?.setFormValue(this.value || null);
     this.aegovInputChange.emit({ value: this.value, event });
     this.emitValidate('change');
   };
@@ -301,6 +327,7 @@ export class AegovInput {
   private handleInput = (event: Event) => {
     const input = event.target as HTMLInputElement;
     this.value = input.value;
+    this.internals?.setFormValue(this.value || null);
     this.aegovInputValue.emit({ value: this.value, event });
     this.emitValidate('input');
   };
@@ -344,10 +371,9 @@ export class AegovInput {
         this.justCopied = false;
       }, 2000);
     } catch {
-      // Fallback for environments without clipboard API
-      const input = this.el.querySelector('input');
-      if (input) {
-        input.select();
+      // Fallback for environments without clipboard API (uses nativeRef — safe in shadow:true)
+      if (this.nativeRef) {
+        this.nativeRef.select();
         document.execCommand('copy');
         this.justCopied = true;
         setTimeout(() => {
@@ -471,7 +497,6 @@ export class AegovInput {
         readOnly={this.isReadonly}
         placeholder={this.placeholder}
         value={this.value}
-        name={this.name}
         required={this.isRequired}
         aria-invalid={this.isInvalid ? 'true' : null}
         aria-describedby={describedBy}

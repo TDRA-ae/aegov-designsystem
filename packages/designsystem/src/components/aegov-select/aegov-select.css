@@ -39,7 +39,7 @@
 }
 
 /* Dark mode arrow — lighter stroke for legibility on dark bg */
-.dark .aegov-select {
+:host-context(.dark) .aegov-select {
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%23b9bbc1' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
 }
 
@@ -353,14 +353,14 @@ button.aegov-select {
 /* Validation surface (Layer 1) — see validation-engine-addon.md §2.6 */
 
 /* Invalid idle — red border (mirrors aegov-input pattern). */
-aegov-select.is-invalid .aegov-select,
-aegov-select.is-invalid .select__trigger {
+:host(.is-invalid) .aegov-select,
+:host(.is-invalid) .select__trigger {
   @apply border-aered-600 dark:border-aered-500;
 }
 
 /* Invalid + focus — red ring with offset (mirrors aegov-input). */
-aegov-select.is-invalid .aegov-select:focus,
-aegov-select.is-invalid .select__trigger:focus {
+:host(.is-invalid) .aegov-select:focus,
+:host(.is-invalid) .select__trigger:focus {
   @apply ring-1 ring-offset-2 ring-aered-500 dark:ring-aered-400 border-2 border-aered-500 dark:border-aered-400;
 }
 
