@@ -151,6 +151,7 @@
       <ul class="space-y-0.5">
         <li><a href="#dark-mode" class="nav-link">Dark Mode</a></li>
         <li><a href="#rtl" class="nav-link">RTL / Arabic</a></li>
+        <li><a href="#form-shadow-test" class="nav-link">Form Shadow Test</a></li>
       </ul>
     </aside>
 
@@ -934,11 +935,174 @@
         </div>
       </section>
 
+      <!-- ══ FORM SHADOW TEST ══ -->
+      <section id="form-shadow-test">
+        <div class="section-card">
+          <div class="section-card-header flex items-start justify-between gap-4">
+            <div>
+              <h2 class="text-base font-semibold text-aeblack-900 dark:text-whitely-100">Form Controls Test</h2>
+              <p class="text-xs text-aeblack-500 dark:text-aeblack-400 mt-0.5">Label association &amp; form submission using the design system pattern</p>
+            </div>
+            <aegov-badge color="techblue" appearance="soft">Form Test</aegov-badge>
+          </div>
+          <div class="section-card-body">
+            <div class="preview-box space-y-8">
+
+              <!-- Test 1: Label association via aegov-form-field + aegov-label -->
+              <div>
+                <p class="text-sm font-semibold text-aeblack-800 dark:text-whitely-200 mb-1">Test 1 — Label association (design system pattern)</p>
+                <p class="text-xs text-aeblack-500 dark:text-aeblack-400 mb-3">
+                  Uses <code>aegov-form-field</code> + <code>aegov-label</code> + <code>aegov-input</code>.
+                  Click the label → input should get focus.
+                </p>
+                <div class="max-w-sm">
+                  <aegov-form-field id="ff-label-test">
+                    <aegov-label id="label-test">▶ Click this label (aegov-label)</aegov-label>
+                    <aegov-input id="inp-label-test" field-id="ft-label-input" placeholder="Did focus land here?"></aegov-input>
+                  </aegov-form-field>
+                </div>
+              </div>
+
+              <!-- Test 2: aegov-input form submission -->
+              <div>
+                <p class="text-sm font-semibold text-aeblack-800 dark:text-whitely-200 mb-1">Test 2 — aegov-input: FormData submission</p>
+                <p class="text-xs text-aeblack-500 dark:text-aeblack-400 mb-3">
+                  Type values, click Submit → result shows below.
+                  Missing fields = form submission is broken.
+                </p>
+                <form id="shadow-test-form" class="space-y-3 max-w-sm">
+                  <aegov-form-field>
+                    <aegov-label>Email address</aegov-label>
+                    <aegov-input id="inp-form-email" field-id="ft-email" name="email" placeholder="test@example.com"></aegov-input>
+                  </aegov-form-field>
+                  <aegov-form-field>
+                    <aegov-label>Username</aegov-label>
+                    <aegov-input id="inp-form-username" field-id="ft-username" name="username" placeholder="john_doe"></aegov-input>
+                  </aegov-form-field>
+                  <button type="submit" class="px-4 py-2 bg-primary-600 hover:bg-primary-700 text-white rounded-md text-sm font-medium">Submit</button>
+                </form>
+                <pre id="shadow-test-result" class="mt-4 p-3 rounded-md bg-aeblack-50 dark:bg-aeblack-900 border border-aeblack-200 dark:border-aeblack-700 text-xs text-aeblack-700 dark:text-aeblack-300 font-mono whitespace-pre-wrap">Submit the form to see FormData result here</pre>
+              </div>
+
+              <!-- Test 3: Label focus — aegov-textarea -->
+              <div>
+                <p class="text-sm font-semibold text-aeblack-800 dark:text-whitely-200 mb-1">Test 3 — aegov-textarea: label association</p>
+                <p class="text-xs text-aeblack-500 dark:text-aeblack-400 mb-3">Click the label → textarea should get focus.</p>
+                <div class="max-w-sm">
+                  <aegov-form-field id="ff-textarea-test">
+                    <aegov-label id="label-textarea-test">▶ Click this label (aegov-textarea)</aegov-label>
+                    <aegov-textarea id="inp-textarea-label" field-id="ft-textarea-label" placeholder="Did focus land here?" rows="3"></aegov-textarea>
+                  </aegov-form-field>
+                </div>
+              </div>
+
+              <!-- Test 4: Comprehensive form — all form components -->
+              <div>
+                <p class="text-sm font-semibold text-aeblack-800 dark:text-whitely-200 mb-1">Test 4 — All form components: FormData submission</p>
+                <p class="text-xs text-aeblack-500 dark:text-aeblack-400 mb-3">
+                  Interact with each control, click Submit All → every field should appear in FormData.
+                </p>
+                <form id="controls-test-form" class="space-y-4 max-w-lg">
+
+                  <!-- Textarea -->
+                  <aegov-form-field>
+                    <aegov-label>Notes (aegov-textarea)</aegov-label>
+                    <aegov-textarea id="inp-ctrl-notes" field-id="ft-ctrl-notes" name="notes" placeholder="Enter some notes..." rows="2"></aegov-textarea>
+                  </aegov-form-field>
+
+                  <!-- Checkbox -->
+                  <aegov-checkbox id="inp-ctrl-agree" field-id="ft-ctrl-agree" name="agree" value="yes" label="I agree to the terms (aegov-checkbox)"></aegov-checkbox>
+
+                  <!-- Radio group -->
+                  <aegov-radio-group id="inp-ctrl-title" name="title" label="Title (aegov-radio-group)">
+                    <aegov-radio value="mr" label="Mr"></aegov-radio>
+                    <aegov-radio value="ms" label="Ms"></aegov-radio>
+                    <aegov-radio value="mrs" label="Mrs"></aegov-radio>
+                  </aegov-radio-group>
+
+                  <!-- Select — native appearance (default) -->
+                  <aegov-form-field>
+                    <aegov-label>Country (aegov-select)</aegov-label>
+                    <aegov-select id="inp-ctrl-country" field-id="ft-ctrl-country" name="country" placeholder="Select country">
+                      <aegov-select-option value="ae">United Arab Emirates</aegov-select-option>
+                      <aegov-select-option value="sa">Saudi Arabia</aegov-select-option>
+                      <aegov-select-option value="eg">Egypt</aegov-select-option>
+                    </aegov-select>
+                  </aegov-form-field>
+
+                  <!-- Toggle -->
+                  <aegov-toggle id="inp-ctrl-newsletter" field-id="ft-ctrl-newsletter" name="newsletter" value="yes" label="Subscribe to newsletter (aegov-toggle)"></aegov-toggle>
+
+                  <!-- Range -->
+                  <aegov-form-field>
+                    <aegov-label>Rating (aegov-range)</aegov-label>
+                    <aegov-range id="inp-ctrl-rating" field-id="ft-ctrl-rating" name="rating" value="70"></aegov-range>
+                  </aegov-form-field>
+
+                  <!-- OTP (4 digits, formAssociated) -->
+                  <div>
+                    <p class="text-xs text-aeblack-600 dark:text-aeblack-400 mb-1">Verification code (aegov-otp — formAssociated)</p>
+                    <aegov-otp id="inp-ctrl-otp" name="otp_code" length="4"></aegov-otp>
+                  </div>
+
+                  <!-- Datepicker (formAssociated + scoped) -->
+                  <aegov-form-field>
+                    <aegov-label>Booking date (aegov-datepicker — formAssociated)</aegov-label>
+                    <aegov-datepicker id="inp-ctrl-date" field-id="ft-ctrl-date" name="booking_date" placeholder="Select a date"></aegov-datepicker>
+                  </aegov-form-field>
+
+                  <!-- File upload (formAssociated) -->
+                  <div>
+                    <p class="text-xs text-aeblack-600 dark:text-aeblack-400 mb-1">Attachment (aegov-fileupload — formAssociated)</p>
+                    <aegov-fileupload id="inp-ctrl-file" name="attachment" label="Upload a file" accepted-extensions=".pdf,.png,.jpg"></aegov-fileupload>
+                  </div>
+
+                  <button type="submit" class="px-4 py-2 bg-primary-600 hover:bg-primary-700 text-white rounded-md text-sm font-medium">Submit All Controls</button>
+                </form>
+                <pre id="controls-test-result" class="mt-4 p-3 rounded-md bg-aeblack-50 dark:bg-aeblack-900 border border-aeblack-200 dark:border-aeblack-700 text-xs text-aeblack-700 dark:text-aeblack-300 font-mono whitespace-pre-wrap">Submit the form to see FormData result here</pre>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </section>
+
       <div class="h-16"></div>
     </main>
   </div>
 
   <script type="module">
+    // Form shadow test — capture FormData on submit
+    document.getElementById('shadow-test-form').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const data = new FormData(e.target);
+      const result = {};
+      data.forEach((v, k) => { result[k] = v; });
+      const keys = Object.keys(result);
+      document.getElementById('shadow-test-result').textContent = keys.length === 0
+        ? '❌ FormData is EMPTY — form submission broken with shadow:true'
+        : '✅ FormData captured:\n' + JSON.stringify(result, null, 2);
+    });
+
+    // Comprehensive controls test — capture FormData on submit
+    document.getElementById('controls-test-form').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const data = new FormData(e.target);
+      const result = {};
+      data.forEach((v, k) => {
+        // Collect multiple values (e.g. multi-select, multi-checkbox) into arrays
+        if (result[k] !== undefined) {
+          result[k] = [].concat(result[k], v instanceof File ? `[File: ${v.name}]` : v);
+        } else {
+          result[k] = v instanceof File ? `[File: ${v.name}]` : v;
+        }
+      });
+      const keys = Object.keys(result);
+      document.getElementById('controls-test-result').textContent = keys.length === 0
+        ? '❌ FormData is EMPTY'
+        : '✅ FormData captured:\n' + JSON.stringify(result, null, 2);
+    });
+
     // Loading button demo
     const loadingBtn = document.getElementById('loading-btn');
     loadingBtn.addEventListener('aegovButtonClick', async () => {

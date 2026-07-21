@@ -451,6 +451,48 @@
           </div>
         </section>
 
+        <!-- ══ FORM SHADOW TEST ══ -->
+        <section id="form-shadow-test">
+          <div class="section-card">
+            <div class="section-card-header flex items-start justify-between gap-4">
+              <div>
+                <h2 class="text-base font-semibold text-aeblack-900 dark:text-whitely-100">Form Shadow Test</h2>
+                <p class="text-xs text-aeblack-500 dark:text-aeblack-400 mt-0.5">aegov-input with shadow:true — testing label association &amp; form submission</p>
+              </div>
+              <aegov-badge color="aered" appearance="soft">shadow:true</aegov-badge>
+            </div>
+            <div class="section-card-body">
+              <div class="preview-box space-y-8">
+
+                <!-- Test 1: Label association -->
+                <div>
+                  <p class="text-sm font-semibold text-aeblack-800 dark:text-whitely-200 mb-1">Test 1 — Label association</p>
+                  <p class="text-xs text-aeblack-500 dark:text-aeblack-400 mb-3">Click the label text → the input should get focus</p>
+                  <div class="space-y-2 max-w-sm">
+                    <label for="vue-shadow-label-test" class="block text-sm font-medium text-primary-600 dark:text-primary-400 cursor-pointer underline">
+                      ▶ Click this native label (for="vue-shadow-label-test")
+                    </label>
+                    <aegov-input field-id="vue-shadow-label-test" placeholder="Did focus land here?"></aegov-input>
+                  </div>
+                </div>
+
+                <!-- Test 2: Form submission -->
+                <div>
+                  <p class="text-sm font-semibold text-aeblack-800 dark:text-whitely-200 mb-1">Test 2 — Form submission (FormData)</p>
+                  <p class="text-xs text-aeblack-500 dark:text-aeblack-400 mb-3">Type values, click Submit → missing fields mean form submission is broken</p>
+                  <form class="space-y-3 max-w-sm" @submit.prevent="handleFormSubmit">
+                    <aegov-input field-id="vue-shadow-email" name="email" placeholder="Email address"></aegov-input>
+                    <aegov-input field-id="vue-shadow-username" name="username" placeholder="Username"></aegov-input>
+                    <button type="submit" class="px-4 py-2 bg-primary-600 hover:bg-primary-700 text-white rounded-md text-sm font-medium">Submit Form</button>
+                  </form>
+                  <pre class="mt-4 p-3 rounded-md bg-aeblack-50 dark:bg-aeblack-900 border border-aeblack-200 dark:border-aeblack-700 text-xs text-aeblack-700 dark:text-aeblack-300 font-mono whitespace-pre-wrap">{{ vueFormResult }}</pre>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </section>
+
         <div class="h-16"></div>
       </main>
     </div>
@@ -513,6 +555,19 @@ watch(isRtl, (val) => {
   document.documentElement.dir = val ? 'rtl' : 'ltr';
   document.documentElement.lang = val ? 'ar' : 'en';
 });
+
+const vueFormResult = ref('Submit the form to see FormData result here');
+
+function handleFormSubmit(e: Event) {
+  const form = e.target as HTMLFormElement;
+  const data = new FormData(form);
+  const result: Record<string, string> = {};
+  data.forEach((v, k) => { result[k] = v as string; });
+  const keys = Object.keys(result);
+  vueFormResult.value = keys.length === 0
+    ? '❌ FormData is EMPTY — form submission broken with shadow:true'
+    : '✅ FormData captured:\n' + JSON.stringify(result, null, 2);
+}
 
 async function handleButtonClick() {
   isLoading.value = true;

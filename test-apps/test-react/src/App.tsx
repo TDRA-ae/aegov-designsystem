@@ -12,6 +12,7 @@ export default function App() {
   const [isLoading, setIsLoading] = useState(false);
   const [isDark, setIsDark] = useState(false);
   const [isRtl, setIsRtl] = useState(false);
+  const [formResult, setFormResult] = useState('Submit form to see FormData result');
 
   useEffect(() => {
     document.documentElement.classList.toggle('dark', isDark);
@@ -570,6 +571,57 @@ export default function App() {
                     </AegovSelect>
                   </div>
                   <AegovCheckbox fieldId="rtl-agree" label="أوافق على الشروط والأحكام" />
+                </div>
+              </div>
+            </div>
+          </section>
+
+          {/* ══ FORM SHADOW TEST ══ */}
+          <section id="form-shadow-test">
+            <div className="section-card">
+              <div className="section-card-header flex items-start justify-between gap-4">
+                <div>
+                  <h2 className="text-base font-semibold text-aeblack-900 dark:text-whitely-100">Form Shadow Test</h2>
+                  <p className="text-xs text-aeblack-500 dark:text-aeblack-400 mt-0.5">aegov-input with shadow:true — testing label association &amp; form submission</p>
+                </div>
+                <AegovBadge color="aered" appearance="soft">shadow:true</AegovBadge>
+              </div>
+              <div className="section-card-body">
+                <div className="preview-box space-y-8">
+
+                  {/* Test 1: Label association */}
+                  <div>
+                    <p className="text-sm font-semibold text-aeblack-800 dark:text-whitely-200 mb-1">Test 1 — Label association</p>
+                    <p className="text-xs text-aeblack-500 dark:text-aeblack-400 mb-3">Click the label text → the input should get focus</p>
+                    <div className="space-y-2 max-w-sm">
+                      <label htmlFor="react-shadow-label-test" className="block text-sm font-medium text-primary-600 dark:text-primary-400 cursor-pointer underline">
+                        ▶ Click this native label (htmlFor="react-shadow-label-test")
+                      </label>
+                      <AegovInput fieldId="react-shadow-label-test" placeholder="Did focus land here?" />
+                    </div>
+                  </div>
+
+                  {/* Test 2: Form submission */}
+                  <div>
+                    <p className="text-sm font-semibold text-aeblack-800 dark:text-whitely-200 mb-1">Test 2 — Form submission (FormData)</p>
+                    <p className="text-xs text-aeblack-500 dark:text-aeblack-400 mb-3">Type values, click Submit → missing fields mean form submission is broken</p>
+                    <form className="space-y-3 max-w-sm" onSubmit={(e) => {
+                      e.preventDefault();
+                      const data = new FormData(e.currentTarget);
+                      const result: Record<string, string> = {};
+                      data.forEach((v, k) => { result[k] = v as string; });
+                      const keys = Object.keys(result);
+                      setFormResult(keys.length === 0
+                        ? '❌ FormData is EMPTY — form submission broken with shadow:true'
+                        : '✅ FormData captured:\n' + JSON.stringify(result, null, 2));
+                    }}>
+                      <AegovInput fieldId="react-shadow-email" name="email" placeholder="Email address" />
+                      <AegovInput fieldId="react-shadow-username" name="username" placeholder="Username" />
+                      <button type="submit" className="px-4 py-2 bg-primary-600 hover:bg-primary-700 text-white rounded-md text-sm font-medium">Submit Form</button>
+                    </form>
+                    <pre className="mt-4 p-3 rounded-md bg-aeblack-50 dark:bg-aeblack-900 border border-aeblack-200 dark:border-aeblack-700 text-xs text-aeblack-700 dark:text-aeblack-300 font-mono whitespace-pre-wrap">{formResult}</pre>
+                  </div>
+
                 </div>
               </div>
             </div>
