@@ -45,7 +45,7 @@ export class AegovToggle {
   private _sizeWatcher: ResponsivePropWatcher | null = null;
 
   /** Whether the toggle is disabled. */
-  @Prop({ reflect: true }) isDisabled: boolean = false;
+  @Prop({ mutable: true, reflect: true }) isDisabled: boolean = false;
 
   /** Whether the toggle is required. */
   @Prop() isRequired: boolean = false;
@@ -108,7 +108,19 @@ export class AegovToggle {
   formDisabledCallback(disabled: boolean) { this.isDisabled = disabled; }
   formResetCallback() {
     this.isChecked = false;
+    this.errorMessage = '';
+    this.isInvalid = false;
+    if (this.inputEl) this.inputEl.setCustomValidity('');
     this.internals?.setFormValue(null);
+    if (this.isRequired) {
+      setInternalsValidity(this.internals, synthesizeValidity({ valueMissing: true }), 'Please check this field');
+    } else {
+      setInternalsValidity(this.internals, { valid: true }, '');
+    }
+  }
+
+  componentDidLoad() {
+    this.syncInternalsValidity();
   }
 
   disconnectedCallback() {
@@ -160,6 +172,17 @@ export class AegovToggle {
     return v ? fromNativeValidity(v) : VALID_STATE;
   }
 
+  private syncInternalsValidity(): void {
+    if (!this.internals || !this.inputEl) return;
+    const v = this.inputEl.validity;
+    if (v.valid) {
+      setInternalsValidity(this.internals, { valid: true }, '');
+    } else {
+      const message = this.errorMessage || this.inputEl.validationMessage || '';
+      setInternalsValidity(this.internals, fromNativeValidity(v), message, this.inputEl);
+    }
+  }
+
   private emitValidate(trigger: AegovValidationTrigger) {
     const validity = this.readValidity();
     const message = !validity.valid
@@ -175,6 +198,7 @@ export class AegovToggle {
     const input = event.target as HTMLInputElement;
     this.isChecked = input.checked;
     this.internals?.setFormValue(this.isChecked ? (this.value ?? 'on') : null);
+    this.syncInternalsValidity();
     this.aegovToggleChange.emit({ checked: this.isChecked, value: this.value });
     this.emitValidate('change');
   };

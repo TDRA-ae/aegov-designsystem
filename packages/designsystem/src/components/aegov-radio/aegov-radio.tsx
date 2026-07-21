@@ -45,7 +45,7 @@ export class AegovRadio {
   private _sizeWatcher: ResponsivePropWatcher | null = null;
 
   /** Whether the radio is disabled. */
-  @Prop({ reflect: true }) isDisabled: boolean = false;
+  @Prop({ mutable: true, reflect: true }) isDisabled: boolean = false;
 
   /** Whether the radio is required. */
   @Prop() isRequired: boolean = false;
@@ -111,11 +111,30 @@ export class AegovRadio {
   formDisabledCallback(disabled: boolean) { this.isDisabled = disabled; }
   formResetCallback() {
     this.isChecked = false;
+    this.errorMessage = '';
+    this.isInvalid = false;
+    if (this.inputEl) this.inputEl.setCustomValidity('');
     this.internals?.setFormValue(null);
+    if (this.isRequired) {
+      setInternalsValidity(this.internals, synthesizeValidity({ valueMissing: true }), 'Please select an option');
+    } else {
+      setInternalsValidity(this.internals, { valid: true }, '');
+    }
+  }
+
+  componentDidLoad() {
+    this.syncInternalsValidity();
   }
 
   disconnectedCallback() {
     this._sizeWatcher?.destroy();
+  }
+
+  @Watch('isChecked')
+  onIsCheckedChange() {
+    // Fires when radio-group programmatically deselects this radio (no DOM event fires).
+    this.internals?.setFormValue(this.isChecked ? (this.value ?? null) : null);
+    this.syncInternalsValidity();
   }
 
   @Watch('size')
@@ -163,6 +182,17 @@ export class AegovRadio {
     return v ? fromNativeValidity(v) : VALID_STATE;
   }
 
+  private syncInternalsValidity(): void {
+    if (!this.internals || !this.inputEl) return;
+    const v = this.inputEl.validity;
+    if (v.valid) {
+      setInternalsValidity(this.internals, { valid: true }, '');
+    } else {
+      const message = this.errorMessage || this.inputEl.validationMessage || '';
+      setInternalsValidity(this.internals, fromNativeValidity(v), message, this.inputEl);
+    }
+  }
+
   private emitValidate(trigger: AegovValidationTrigger) {
     const validity = this.readValidity();
     const message = !validity.valid
@@ -178,6 +208,7 @@ export class AegovRadio {
     const input = event.target as HTMLInputElement;
     this.isChecked = input.checked;
     this.internals?.setFormValue(this.isChecked ? (this.value ?? null) : null);
+    this.syncInternalsValidity();
     this.aegovRadioChange.emit({ checked: this.isChecked, value: this.value });
     this.emitValidate('change');
   };

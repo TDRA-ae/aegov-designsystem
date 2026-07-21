@@ -45,7 +45,7 @@ export class AegovCheckbox {
   private _sizeWatcher: ResponsivePropWatcher | null = null;
 
   /** Whether the checkbox is disabled. */
-  @Prop({ reflect: true }) isDisabled: boolean = false;
+  @Prop({ mutable: true, reflect: true }) isDisabled: boolean = false;
 
   /** Whether the checkbox is required. */
   @Prop() isRequired: boolean = false;
@@ -117,7 +117,19 @@ export class AegovCheckbox {
   formDisabledCallback(disabled: boolean) { this.isDisabled = disabled; }
   formResetCallback() {
     this.isChecked = false;
+    this.errorMessage = '';
+    this.isInvalid = false;
+    if (this.inputEl) this.inputEl.setCustomValidity('');
     this.internals?.setFormValue(null);
+    if (this.isRequired) {
+      setInternalsValidity(this.internals, synthesizeValidity({ valueMissing: true }), 'Please check this field');
+    } else {
+      setInternalsValidity(this.internals, { valid: true }, '');
+    }
+  }
+
+  componentDidLoad() {
+    this.syncInternalsValidity();
   }
 
   /** Imperatively re-run validation. */
@@ -154,6 +166,17 @@ export class AegovCheckbox {
   private readValidity() {
     const v = this.inputEl?.validity;
     return v ? fromNativeValidity(v) : VALID_STATE;
+  }
+
+  private syncInternalsValidity(): void {
+    if (!this.internals || !this.inputEl) return;
+    const v = this.inputEl.validity;
+    if (v.valid) {
+      setInternalsValidity(this.internals, { valid: true }, '');
+    } else {
+      const message = this.errorMessage || this.inputEl.validationMessage || '';
+      setInternalsValidity(this.internals, fromNativeValidity(v), message, this.inputEl);
+    }
   }
 
   private emitValidate(trigger: AegovValidationTrigger) {
@@ -203,6 +226,7 @@ export class AegovCheckbox {
     this.isChecked = input.checked;
     this.isIndeterminate = false;
     this.internals?.setFormValue(this.isChecked ? (this.value ?? 'on') : null);
+    this.syncInternalsValidity();
     this.aegovCheckboxChange.emit({ checked: this.isChecked, value: this.value });
     this.emitValidate('change');
   };
