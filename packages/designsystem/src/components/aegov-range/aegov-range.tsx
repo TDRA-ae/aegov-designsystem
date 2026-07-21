@@ -12,7 +12,7 @@ import { watchResponsiveProp } from '../../utils/responsive-prop';
 import type { ResponsivePropWatcher } from '../../utils/responsive-prop';
 import {
   fromNativeValidity, VALID_STATE,
-  composeDescribedBy, buildValidationDetail,
+  composeDescribedBy, buildValidationDetail, synthesizeValidity, setInternalsValidity,
 } from '../../utils/validation';
 
 /** Range value type — number for single mode, { low, high } for range mode. See §2.4.1. */
@@ -35,8 +35,8 @@ const STRINGS = {
 @Component({
   tag: 'aegov-range',
   styleUrl: 'aegov-range.css',
-  scoped: false,
-  shadow: false,
+  formAssociated: true,
+  shadow: { delegatesFocus: true },
 })
 export class AegovRange {
   @Element() el: HTMLElement;
@@ -44,8 +44,8 @@ export class AegovRange {
   /** Unique ID for the native range input element. Auto-generated if not provided. */
   @Prop({ mutable: true, reflect: true }) fieldId?: string;
 
-  /** The name attribute for the range. */
-  @Prop() name?: string;
+  /** The name attribute for the range. Reflected so ElementInternals reads it for form submission. */
+  @Prop({ reflect: true }) name?: string;
 
   /** Current value (single mode). */
   @Prop({ mutable: true }) value: number = 50;
@@ -120,6 +120,7 @@ export class AegovRange {
   private trackWrapperEl?: HTMLElement;
   private nativeRef?: HTMLInputElement;
   private highRef?: HTMLInputElement;
+  private internals: ElementInternals | null = null;
   private errorId: string = '';
   private hintId: string = '';
   private labelId: string = '';
@@ -139,6 +140,38 @@ export class AegovRange {
     this.errorId = `${this.fieldId}-error`;
     this.hintId = `${this.fieldId}-hint`;
     this.labelId = `${this.fieldId}-label`;
+    const host = this.el as unknown as HTMLElement & { attachInternals?: () => ElementInternals };
+    if (typeof host.attachInternals === 'function') {
+      try {
+        this.internals = host.attachInternals();
+        this.syncFormValue();
+      } catch {
+        this.internals = null;
+      }
+    }
+  }
+
+  formAssociatedCallback(_form: HTMLFormElement | null) { /* no-op */ }
+  formDisabledCallback(disabled: boolean) { this.isDisabled = disabled; }
+  formResetCallback() {
+    this.value = 50;
+    this.valueLow = 25;
+    this.valueHigh = 75;
+    this.internals?.setFormValue(null);
+  }
+
+  private syncFormValue() {
+    if (!this.internals) return;
+    try {
+      if (this.mode === 'range' && this.name) {
+        const fd = new FormData();
+        fd.append(`${this.name}-low`, String(this.valueLow));
+        fd.append(`${this.name}-high`, String(this.valueHigh));
+        this.internals.setFormValue(fd);
+      } else {
+        this.internals.setFormValue(String(this.value));
+      }
+    } catch { /* jsdom mock */ }
   }
 
   /** Imperatively re-run validation. */
@@ -163,6 +196,13 @@ export class AegovRange {
     this.isInvalid = !!message;
     if (this.nativeRef && typeof this.nativeRef.setCustomValidity === 'function') {
       this.nativeRef.setCustomValidity(message);
+    }
+    if (this.internals) {
+      if (message) {
+        setInternalsValidity(this.internals, synthesizeValidity({ customError: true }), message, this.nativeRef);
+      } else {
+        setInternalsValidity(this.internals, { valid: true }, '');
+      }
     }
   }
 
@@ -263,12 +303,14 @@ export class AegovRange {
   private handleSingleInput = (e: Event) => {
     const input = e.target as HTMLInputElement;
     this.value = this.snapToStep(parseFloat(input.value));
+    this.syncFormValue();
     this.emitInput();
   };
 
   private handleSingleChange = (e: Event) => {
     const input = e.target as HTMLInputElement;
     this.value = this.snapToStep(parseFloat(input.value));
+    this.syncFormValue();
     this.emitChange();
   };
 
@@ -277,6 +319,7 @@ export class AegovRange {
     const newVal = this.snapToStep(Math.min(parseFloat(input.value), this.valueHigh - this.step));
     this.valueLow = newVal;
     input.value = String(newVal);
+    this.syncFormValue();
     this.emitInput();
   };
 
@@ -285,6 +328,7 @@ export class AegovRange {
     const newVal = this.snapToStep(Math.min(parseFloat(input.value), this.valueHigh - this.step));
     this.valueLow = newVal;
     input.value = String(newVal);
+    this.syncFormValue();
     this.emitChange();
   };
 
@@ -293,6 +337,7 @@ export class AegovRange {
     const newVal = this.snapToStep(Math.max(parseFloat(input.value), this.valueLow + this.step));
     this.valueHigh = newVal;
     input.value = String(newVal);
+    this.syncFormValue();
     this.emitInput();
   };
 
@@ -301,6 +346,7 @@ export class AegovRange {
     const newVal = this.snapToStep(Math.max(parseFloat(input.value), this.valueLow + this.step));
     this.valueHigh = newVal;
     input.value = String(newVal);
+    this.syncFormValue();
     this.emitChange();
   };
 
@@ -539,7 +585,6 @@ export class AegovRange {
                 type="range"
                 class="range__input"
                 id={this.fieldId}
-                name={this.name}
                 min={this.min}
                 max={this.max}
                 step={this.step}
@@ -566,7 +611,6 @@ export class AegovRange {
                 type="range"
                 class="range__input range__input--low"
                 id={`${this.fieldId}-low`}
-                name={this.name ? `${this.name}-low` : undefined}
                 min={this.min}
                 max={this.max}
                 step={this.step}
@@ -589,7 +633,6 @@ export class AegovRange {
                 type="range"
                 class="range__input range__input--high"
                 id={`${this.fieldId}-high`}
-                name={this.name ? `${this.name}-high` : undefined}
                 min={this.min}
                 max={this.max}
                 step={this.step}

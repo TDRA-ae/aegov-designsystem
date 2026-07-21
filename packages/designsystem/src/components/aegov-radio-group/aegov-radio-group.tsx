@@ -19,8 +19,7 @@ const ctx = (prop: string) => ({ component: TAG, prop });
 @Component({
   tag: 'aegov-radio-group',
   styleUrl: 'aegov-radio-group.css',
-  scoped: false,
-  shadow: false,
+  shadow: { delegatesFocus: true },
 })
 export class AegovRadioGroup {
   @Element() el: HTMLElement;

@@ -548,7 +548,7 @@ export namespace Components {
          */
         "label"?: string;
         /**
-          * The name attribute for the checkbox.
+          * The name attribute for the checkbox. Reflected so ElementInternals can read it for form submission.
          */
         "name"?: string;
         /**
@@ -1159,7 +1159,7 @@ export namespace Components {
          */
         "isRevealable": boolean;
         /**
-          * The name attribute for the input.
+          * The name attribute for the input. Reflected so ElementInternals can read it for form submission.
          */
         "name"?: string;
         /**
@@ -1838,7 +1838,7 @@ export namespace Components {
          */
         "label"?: string;
         /**
-          * The name attribute for the radio. Required for native radio grouping.
+          * The name attribute for the radio. Reflected so ElementInternals reads it for form submission, and so radio-group can propagate it via JS property assignment.
          */
         "name"?: string;
         /**
@@ -1990,7 +1990,7 @@ export namespace Components {
          */
         "mode": RangeMode;
         /**
-          * The name attribute for the range.
+          * The name attribute for the range. Reflected so ElementInternals reads it for form submission.
          */
         "name"?: string;
         /**
@@ -2366,7 +2366,7 @@ export namespace Components {
          */
         "maxlength"?: number;
         /**
-          * The name attribute for the textarea.
+          * The name attribute for the textarea. Reflected so ElementInternals can read it for form submission.
          */
         "name"?: string;
         /**
@@ -2569,7 +2569,7 @@ export namespace Components {
          */
         "label"?: string;
         /**
-          * The name attribute for the toggle.
+          * The name attribute for the toggle. Reflected so ElementInternals can read it for form submission.
          */
         "name"?: string;
         /**
@@ -4165,6 +4165,10 @@ declare namespace LocalJSX {
     }
     interface AegovCheckbox {
         /**
+          * If `true`, the user cannot interact with the element.
+         */
+        "disabled"?: boolean;
+        /**
           * Inline error message. Use `error` slot for rich markup.
           * @default ''
          */
@@ -4177,6 +4181,10 @@ declare namespace LocalJSX {
           * Unique ID for the native checkbox element. Auto-generated if not provided.
          */
         "fieldId"?: string;
+        /**
+          * The `id` of a `<form>` element to associate this element with.
+         */
+        "form"?: string;
         /**
           * Helper hint text displayed below the label. Only rendered when label is provided and no error is shown. Renamed from `description` (decision §6.6).
          */
@@ -4216,7 +4224,7 @@ declare namespace LocalJSX {
          */
         "label"?: string;
         /**
-          * The name attribute for the checkbox.
+          * The name attribute for the checkbox. Reflected so ElementInternals can read it for form submission.
          */
         "name"?: string;
         /**
@@ -4783,6 +4791,10 @@ declare namespace LocalJSX {
          */
         "describedBySuffix"?: string;
         /**
+          * If `true`, the user cannot interact with the element.
+         */
+        "disabled"?: boolean;
+        /**
           * Inline error message rendered below the control when `isInvalid` is true. Auto-wires `aria-describedby` on the inner input. Use the `error` slot for richer markup.
           * @default ''
          */
@@ -4795,6 +4807,10 @@ declare namespace LocalJSX {
           * Unique ID for the native input element. Auto-generated if not provided.
          */
         "fieldId"?: string;
+        /**
+          * The `id` of a `<form>` element to associate this element with.
+         */
+        "form"?: string;
         /**
           * Helper hint rendered below the control. Hidden when an error is shown so the two text regions don't compete for the user's attention. Use the `hint` slot for richer markup.
           * @default ''
@@ -4831,7 +4847,7 @@ declare namespace LocalJSX {
          */
         "isRevealable"?: boolean;
         /**
-          * The name attribute for the input.
+          * The name attribute for the input. Reflected so ElementInternals can read it for form submission.
          */
         "name"?: string;
         /**
@@ -5515,6 +5531,10 @@ declare namespace LocalJSX {
     }
     interface AegovRadio {
         /**
+          * If `true`, the user cannot interact with the element.
+         */
+        "disabled"?: boolean;
+        /**
           * Inline error message. Use `error` slot for rich markup.
           * @default ''
          */
@@ -5527,6 +5547,10 @@ declare namespace LocalJSX {
           * Unique ID for the native radio element. Auto-generated if not provided.
          */
         "fieldId"?: string;
+        /**
+          * The `id` of a `<form>` element to associate this element with.
+         */
+        "form"?: string;
         /**
           * Helper hint text displayed below the label. Renamed from `description` per §6.6. Hidden when an error is shown.
          */
@@ -5556,7 +5580,7 @@ declare namespace LocalJSX {
          */
         "label"?: string;
         /**
-          * The name attribute for the radio. Required for native radio grouping.
+          * The name attribute for the radio. Reflected so ElementInternals reads it for form submission, and so radio-group can propagate it via JS property assignment.
          */
         "name"?: string;
         /**
@@ -5651,6 +5675,10 @@ declare namespace LocalJSX {
     }
     interface AegovRange {
         /**
+          * If `true`, the user cannot interact with the element.
+         */
+        "disabled"?: boolean;
+        /**
           * Value display mode.
           * @default 'none'
          */
@@ -5668,6 +5696,10 @@ declare namespace LocalJSX {
           * Unique ID for the native range input element. Auto-generated if not provided.
          */
         "fieldId"?: string;
+        /**
+          * The `id` of a `<form>` element to associate this element with.
+         */
+        "form"?: string;
         /**
           * Helper hint shown below the control. Hidden when an error is shown.
           * @default ''
@@ -5708,7 +5740,7 @@ declare namespace LocalJSX {
          */
         "mode"?: RangeMode;
         /**
-          * The name attribute for the range.
+          * The name attribute for the range. Reflected so ElementInternals reads it for form submission.
          */
         "name"?: string;
         /**
@@ -6067,6 +6099,10 @@ declare namespace LocalJSX {
     }
     interface AegovTextarea {
         /**
+          * If `true`, the user cannot interact with the element.
+         */
+        "disabled"?: boolean;
+        /**
           * Inline error message rendered below the control when `isInvalid` is true. Use `error` slot for richer markup.
           * @default ''
          */
@@ -6079,6 +6115,10 @@ declare namespace LocalJSX {
           * Unique ID for the native textarea element. Auto-generated if not provided.
          */
         "fieldId"?: string;
+        /**
+          * The `id` of a `<form>` element to associate this element with.
+         */
+        "form"?: string;
         /**
           * Helper hint rendered below the control. Hidden when an error is shown. Use `hint` slot for richer markup.
           * @default ''
@@ -6114,7 +6154,7 @@ declare namespace LocalJSX {
          */
         "maxlength"?: number;
         /**
-          * The name attribute for the textarea.
+          * The name attribute for the textarea. Reflected so ElementInternals can read it for form submission.
          */
         "name"?: string;
         /**
@@ -6296,6 +6336,10 @@ declare namespace LocalJSX {
     }
     interface AegovToggle {
         /**
+          * If `true`, the user cannot interact with the element.
+         */
+        "disabled"?: boolean;
+        /**
           * Inline error message. Use `error` slot for rich markup.
           * @default ''
          */
@@ -6304,6 +6348,10 @@ declare namespace LocalJSX {
           * Unique ID for the native checkbox element. Auto-generated if not provided.
          */
         "fieldId"?: string;
+        /**
+          * The `id` of a `<form>` element to associate this element with.
+         */
+        "form"?: string;
         /**
           * Helper hint text displayed below the label. Renamed from `description` per §6.6. Hidden when an error is shown.
          */
@@ -6333,7 +6381,7 @@ declare namespace LocalJSX {
          */
         "label"?: string;
         /**
-          * The name attribute for the toggle.
+          * The name attribute for the toggle. Reflected so ElementInternals can read it for form submission.
          */
         "name"?: string;
         /**

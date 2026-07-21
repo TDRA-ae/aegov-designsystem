@@ -22,8 +22,8 @@ const ctx = (prop: string) => ({ component: TAG, prop });
 @Component({
   tag: 'aegov-otp',
   styleUrl: 'aegov-otp.css',
-  scoped: false,
   formAssociated: true, // §2.5: OTP participates in <form> via ElementInternals (replaces hidden input)
+  shadow: { delegatesFocus: true },
 })
 export class AegovOtp {
   @Element() el: HTMLElement;

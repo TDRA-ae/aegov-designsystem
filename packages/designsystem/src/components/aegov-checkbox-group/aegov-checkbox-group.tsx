@@ -19,8 +19,7 @@ const ctx = (prop: string) => ({ component: TAG, prop });
 @Component({
   tag: 'aegov-checkbox-group',
   styleUrl: 'aegov-checkbox-group.css',
-  scoped: false,
-  shadow: false,
+  shadow: { delegatesFocus: true },
 })
 export class AegovCheckboxGroup {
   @Element() el: HTMLElement;

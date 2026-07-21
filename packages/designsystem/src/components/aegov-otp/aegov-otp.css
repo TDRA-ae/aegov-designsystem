@@ -177,21 +177,21 @@
    - idle → aered-600 border (+ red divider on continuous)
    - focus → aered-500 border + aered inset shadow */
 
-aegov-otp.is-invalid .otp__wrapper--continuous,
-aegov-otp.is-invalid .otp__cell {
+:host(.is-invalid) .otp__wrapper--continuous,
+:host(.is-invalid) .otp__cell {
   @apply border-aered-600 dark:border-aered-500;
 }
 
-aegov-otp.is-invalid .otp__divider {
+:host(.is-invalid) .otp__divider {
   @apply bg-aered-600 dark:bg-aered-500;
 }
 
-aegov-otp.is-invalid .otp__wrapper--continuous:has(.otp__cell:focus),
-aegov-otp.is-invalid .otp__wrapper--individual .otp__cell:focus {
+:host(.is-invalid) .otp__wrapper--continuous:has(.otp__cell:focus),
+:host(.is-invalid) .otp__wrapper--individual .otp__cell:focus {
   @apply ring-1 ring-offset-2 ring-aered-500 dark:ring-aered-400 border-2 border-aered-500 dark:border-aered-400;
 }
 
-aegov-otp.is-invalid .otp__wrapper--continuous:has(.otp__cell:focus) .otp__divider {
+:host(.is-invalid) .otp__wrapper--continuous:has(.otp__cell:focus) .otp__divider {
   @apply bg-aered-500 dark:bg-aered-400;
 }
 
