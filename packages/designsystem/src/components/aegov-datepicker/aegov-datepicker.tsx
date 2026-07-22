@@ -404,7 +404,7 @@ export class AegovDatepicker {
     this.emitValidate('change');
   }
 
-  @Watch('unavailableDates')
+  @Watch('blackout')
   onUnavailableDatesChange() {
     this.parseUnavailableDates();
   }
