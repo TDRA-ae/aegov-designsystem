@@ -345,6 +345,14 @@
   @apply flex-1 truncate text-primary-900 font-medium dark:text-whitely-100;
 }
 
+/* Variant-aware file list icon + name colours */
+.aegov-fileupload.fileupload-variant-secondary .fileupload__file-icon   { @apply text-secondary-500 dark:text-secondary-400; }
+.aegov-fileupload.fileupload-variant-secondary .fileupload__file-name   { @apply text-secondary-900 dark:text-whitely-100; }
+.aegov-fileupload.fileupload-variant-neutral-max .fileupload__file-icon { @apply text-aeblack-700 dark:text-aeblack-300; }
+.aegov-fileupload.fileupload-variant-neutral-max .fileupload__file-name { @apply text-aeblack-950 dark:text-whitely-100; }
+.aegov-fileupload.fileupload-variant-neutral-min .fileupload__file-icon { @apply text-aeblack-400 dark:text-aeblack-400; }
+.aegov-fileupload.fileupload-variant-neutral-min .fileupload__file-name { @apply text-aeblack-700 dark:text-aeblack-200; }
+
 .fileupload__file-size {
   @apply shrink-0 text-aeblack-500 dark:text-aeblack-400;
 }

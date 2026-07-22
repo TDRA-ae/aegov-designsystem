@@ -216,3 +216,11 @@
 .aegov-radio__error {
   @apply text-sm text-aered-600 mt-1.5 flex items-start gap-1.5 leading-snug dark:text-aered-400;
 }
+
+/* ============================
+   RTL support
+   ============================ */
+[dir="rtl"] .radio__wrapper,
+:dir(rtl) .radio__wrapper {
+  @apply flex-row-reverse;
+}
