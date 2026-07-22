@@ -352,10 +352,10 @@ export class AegovOtp {
         this.cellRefs[index - 1].focus();
         this.emitChange();
       }
-    } else if (e.key === 'ArrowLeft' && index > 0) {
+    } else if (e.key === (isRtl(this.el) ? 'ArrowRight' : 'ArrowLeft') && index > 0) {
       e.preventDefault();
       this.cellRefs[index - 1].focus();
-    } else if (e.key === 'ArrowRight' && index < this.length - 1) {
+    } else if (e.key === (isRtl(this.el) ? 'ArrowLeft' : 'ArrowRight') && index < this.length - 1) {
       e.preventDefault();
       this.cellRefs[index + 1].focus();
     } else if (e.key.length === 1 && !e.ctrlKey && !e.metaKey && !e.altKey) {
@@ -462,7 +462,7 @@ export class AegovOtp {
                   ? `حرف ${index + 1} من ${this.length}`
                   : `Character ${index + 1} of ${this.length}`}
                 aria-invalid={this.isInvalid ? 'true' : undefined}
-                aria-required={index === 0 && this.isRequired ? 'true' : undefined}
+                aria-required={this.isRequired ? 'true' : undefined}
                 aria-describedby={index === 0 ? describedBy : undefined}
                 onInput={(e) => this.handleInput(index, e)}
                 onKeyDown={(e) => this.handleKeyDown(index, e)}

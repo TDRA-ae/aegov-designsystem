@@ -95,7 +95,7 @@ export class AegovTextarea {
   @Event() aegovTextareaChange: EventEmitter<{ value: string; event: globalThis.Event }>;
 
   /** Emitted on every keystroke. */
-  @Event() aegovTextareaInput: EventEmitter<{ value: string; event: globalThis.Event }>;
+  @Event() aegovTextareaValue: EventEmitter<{ value: string; event: globalThis.Event }>;
 
   /** Emitted when the textarea gains focus. */
   @Event() aegovTextareaFocus: EventEmitter<FocusEvent>;
@@ -304,7 +304,7 @@ export class AegovTextarea {
     this.value = textarea.value;
     this.internals?.setFormValue(this.value || null);
     this.syncInternalsValidity();
-    this.aegovTextareaInput.emit({ value: this.value, event });
+    this.aegovTextareaValue.emit({ value: this.value, event });
     if (this.resize === 'auto') {
       this.autoResize();
     }

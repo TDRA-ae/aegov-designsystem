@@ -25,16 +25,16 @@
 .aegov-textarea.textarea-variant-neutral-min   { @apply border-aeblack-300 text-aeblack-700 dark:border-aeblack-600 dark:text-aeblack-200; }
 
 /* Focus ring — overrides variant idle border. Per-variant selector beats variant specificity. */
-.aegov-textarea.textarea-variant-primary:focus {
+.aegov-textarea.textarea-variant-primary:focus-visible {
   @apply ring-1 ring-offset-2 ring-primary-support-400 border-2 border-primary-support-400
          dark:ring-primary-support-400 dark:border-primary-support-400;
 }
-.aegov-textarea.textarea-variant-secondary:focus {
+.aegov-textarea.textarea-variant-secondary:focus-visible {
   @apply ring-1 ring-offset-2 ring-secondary-support-400 border-2 border-secondary-support-400
          dark:ring-secondary-support-400 dark:border-secondary-support-400;
 }
-.aegov-textarea.textarea-variant-neutral-max:focus,
-.aegov-textarea.textarea-variant-neutral-min:focus {
+.aegov-textarea.textarea-variant-neutral-max:focus-visible,
+.aegov-textarea.textarea-variant-neutral-min:focus-visible {
   @apply ring-1 ring-offset-2 ring-seablue-400 border-2 border-seablue-400
          dark:ring-seablue-400 dark:border-seablue-400;
 }
@@ -122,9 +122,9 @@
   @apply border-aered-600 dark:border-aered-500;
 }
 
-:host(.is-invalid) .aegov-textarea:focus {
-  /* Override variant focus treatment: red ring with offset.
-     Mirrors the aegov-input invalid:focus treatment. */
+:host(.is-invalid) .aegov-textarea:focus-visible {
+  /* Override variant focus treatment: red outline with offset.
+     Mirrors the aegov-input invalid:focus-visible treatment. */
   @apply ring-1 ring-offset-2 ring-aered-500 dark:ring-aered-400 border-2 border-aered-500 dark:border-aered-400;
 }
 

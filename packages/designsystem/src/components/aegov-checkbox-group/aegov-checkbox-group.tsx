@@ -172,6 +172,14 @@ export class AegovCheckboxGroup {
     return this.el.querySelector('aegov-checkbox[is-check-all]') as HTMLAegovCheckboxElement | null;
   }
 
+  @Listen('focusout')
+  handleGroupBlur(event: FocusEvent) {
+    if (!this.el.contains(event.relatedTarget as Node)) {
+      this.hasInteractedOnce = true;
+      this.runAndEmitValidation('blur');
+    }
+  }
+
   @Listen('aegovCheckboxChange')
   handleCheckboxChange(event: CustomEvent<{ checked: boolean; value?: string }>) {
     const target = event.target as HTMLAegovCheckboxElement;

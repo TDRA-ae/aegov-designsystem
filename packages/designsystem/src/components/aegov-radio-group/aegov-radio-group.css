@@ -165,6 +165,12 @@
   @apply text-base leading-6;
 }
 
+/* Disabled group — dim default and list variants at the container level.
+   Pills/cards handle per-item opacity via :has(input:disabled). */
+:host([is-disabled]) .aegov-radio-group:not(.radio-group--pills):not(.radio-group--cards) {
+  @apply opacity-40 pointer-events-none;
+}
+
 /* Validation surface (Layer 1) — see validation-engine-addon.md §2.6 */
 
 :host(.is-invalid) .radio-group__legend {

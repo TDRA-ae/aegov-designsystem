@@ -174,6 +174,14 @@ export class AegovRadioGroup {
     return Array.from(this.el.querySelectorAll('aegov-radio'));
   }
 
+  @Listen('focusout')
+  handleGroupBlur(event: FocusEvent) {
+    if (!this.el.contains(event.relatedTarget as Node)) {
+      this.hasInteractedOnce = true;
+      this.runAndEmitValidation('blur');
+    }
+  }
+
   @Listen('aegovRadioChange')
   handleRadioChange(event: CustomEvent<{ checked: boolean; value?: string }>) {
     const target = event.target as HTMLAegovRadioElement;

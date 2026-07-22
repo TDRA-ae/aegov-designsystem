@@ -301,6 +301,11 @@ export class AegovRadio {
       <Host class={hostClass}>
         <div class={wrapperClasses.join(' ')}>
           {radioInput}
+          {showHint && (
+            <span id={this.hintId} class="radio__hint">
+              {hasHintSlot ? <slot name="hint" /> : this.hint}
+            </span>
+          )}
         </div>
         {errorRegion}
       </Host>

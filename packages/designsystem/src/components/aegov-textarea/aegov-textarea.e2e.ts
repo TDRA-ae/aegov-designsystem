@@ -9,11 +9,11 @@ describe('aegov-textarea (e2e)', () => {
     expect(ta).toHaveClass('aegov-textarea');
   });
 
-  it('typing fires aegovTextareaInput', async () => {
+  it('typing fires aegovTextareaValue', async () => {
     const page = await newE2EPage();
     await page.setContent('<aegov-textarea></aegov-textarea>');
     const host = await page.find('aegov-textarea');
-    const spy = await host.spyOnEvent('aegovTextareaInput');
+    const spy = await host.spyOnEvent('aegovTextareaValue');
     const ta = await page.find('aegov-textarea textarea');
     await ta.press('a');
     await page.waitForChanges();
