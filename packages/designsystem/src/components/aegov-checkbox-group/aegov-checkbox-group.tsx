@@ -42,7 +42,7 @@ export class AegovCheckboxGroup {
   @Prop() variant: FormVariant = 'primary';
 
   /** Disables all checkboxes within the group via native fieldset disabled. */
-  @Prop() isDisabled: boolean = false;
+  @Prop({ mutable: true, reflect: true }) isDisabled: boolean = false;
 
   /** Group is required — at least one child checkbox must be checked. Aggregate-level only. */
   @Prop() isRequired: boolean = false;

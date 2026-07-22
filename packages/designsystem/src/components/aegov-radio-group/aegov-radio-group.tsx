@@ -45,7 +45,7 @@ export class AegovRadioGroup {
   @Prop() name!: string;
 
   /** Disables all radios within the group via native fieldset disabled. */
-  @Prop() isDisabled: boolean = false;
+  @Prop({ mutable: true, reflect: true }) isDisabled: boolean = false;
 
   /** Group is required — at least one radio must be selected. Aggregate-level only. */
   @Prop() isRequired: boolean = false;

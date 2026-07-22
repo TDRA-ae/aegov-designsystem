@@ -56,7 +56,7 @@ export class AegovOtp {
   @Prop() pattern?: string;
 
   /** Disables all input cells. */
-  @Prop({ mutable: true }) isDisabled: boolean = false;
+  @Prop({ mutable: true, reflect: true }) isDisabled: boolean = false;
 
   /** Marks the field as required for form submission. Used by FormAssociated for `valueMissing`. */
   @Prop() isRequired: boolean = false;
