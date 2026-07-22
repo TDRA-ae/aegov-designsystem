@@ -38,9 +38,12 @@
   background-size: 20px 20px;
 }
 
-/* Dark mode arrow — lighter stroke for legibility on dark bg */
-:host-context(.dark) .aegov-select {
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%23b9bbc1' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+/* Dark mode arrow — lighter stroke for legibility on dark bg.
+   Uses @media for spec-compliant shadow DOM dark detection. */
+@media (prefers-color-scheme: dark) {
+  .aegov-select {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%23b9bbc1' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+  }
 }
 
 /* Variant — idle border + value text per colour family (mirrors aegov-input pattern) */
@@ -64,7 +67,7 @@
          dark:ring-seablue-400 dark:border-seablue-400;
 }
 
-:host-context([dir="rtl"]) .aegov-select,
+:host(:dir(rtl)) .aegov-select,
 [dir="rtl"] .aegov-select {
   background-position: left 0.5rem center;
 }
@@ -358,7 +361,7 @@ button.aegov-select {
   @apply border-aered-600 dark:border-aered-500;
 }
 
-/* Invalid + focus — red ring with offset (mirrors aegov-input). */
+/* Invalid + focus — red outline with offset (mirrors aegov-input). */
 :host(.is-invalid) .aegov-select:focus-visible,
 :host(.is-invalid) .select__trigger:focus-visible {
   @apply ring-1 ring-offset-2 ring-aered-500 dark:ring-aered-400 border-2 border-aered-500 dark:border-aered-400;

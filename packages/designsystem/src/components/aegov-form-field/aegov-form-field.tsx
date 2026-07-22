@@ -34,7 +34,7 @@ export class AegovFormField {
    * Wrapper-level invalid state. Cascades to the first form-control descendant if the
    * child has not set its own value. See validation-engine-addon.md §2.7.
    */
-  @Prop({ mutable: true }) isInvalid: boolean = false;
+  @Prop({ mutable: true, reflect: true }) isInvalid: boolean = false;
 
   /** Wrapper-level error message — cascaded to first form-control descendant. */
   @Prop({ mutable: true }) errorMessage: string = '';

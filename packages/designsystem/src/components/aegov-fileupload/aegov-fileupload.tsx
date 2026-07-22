@@ -755,10 +755,10 @@ export class AegovFileupload {
       <Host class={{ 'is-invalid': this.isInvalid }}>
         <div class={classes}>
           {this.renderLabel()}
-          {this.renderHint(showHint, hasHintSlot)}
           {appearance === 'default' && this.renderDefault(passThroughAttrs, showError, showHint)}
           {appearance === 'button' && this.renderButton(passThroughAttrs, showError, showHint)}
           {appearance === 'dropzone' && this.renderDropzone(passThroughAttrs, showError, showHint)}
+          {this.renderHint(showHint, hasHintSlot)}
           {this.renderHelperText()}
           {errorRegion}
         </div>
