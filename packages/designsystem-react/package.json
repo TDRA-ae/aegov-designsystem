@@ -1,6 +1,6 @@
 {
   "name": "@aegov/designsystem-react",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "description": "AEGOV Design System - Framework-agnostic web components with Tailwind CSS",
   "homepage": "",
   "license": "ISC",
