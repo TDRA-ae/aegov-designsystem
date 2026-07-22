@@ -43,6 +43,7 @@ export class AegovCheckbox {
 
   @State() private _resolvedSize: CheckboxSize = 'base';
   private _sizeWatcher: ResponsivePropWatcher | null = null;
+  private _defaultChecked: boolean = false;
 
   /** Whether the checkbox is disabled. */
   @Prop({ mutable: true, reflect: true }) isDisabled: boolean = false;
@@ -92,6 +93,7 @@ export class AegovCheckbox {
   onVariantChange(v: unknown) { warnIfInvalidEnumProp(v, FORM_VARIANTS, 'primary', { component: 'aegov-checkbox', prop: 'variant' }); }
 
   componentWillLoad() {
+    this._defaultChecked = this.isChecked;
     warnIfInvalidEnumProp(this.variant, FORM_VARIANTS, 'primary', { component: 'aegov-checkbox', prop: 'variant' });
     if (!this.fieldId) {
       this.fieldId = generateId('aegov-checkbox');
@@ -116,12 +118,12 @@ export class AegovCheckbox {
   formAssociatedCallback(_form: HTMLFormElement | null) { /* no-op */ }
   formDisabledCallback(disabled: boolean) { this.isDisabled = disabled; }
   formResetCallback() {
-    this.isChecked = false;
+    this.isChecked = this._defaultChecked;
     this.errorMessage = '';
     this.isInvalid = false;
     if (this.inputEl) this.inputEl.setCustomValidity('');
-    this.internals?.setFormValue(null);
-    if (this.isRequired) {
+    this.internals?.setFormValue(this.isChecked ? (this.value ?? 'on') : null);
+    if (this.isRequired && !this.isChecked) {
       setInternalsValidity(this.internals, synthesizeValidity({ valueMissing: true }), 'Please check this field');
     } else {
       setInternalsValidity(this.internals, { valid: true }, '');

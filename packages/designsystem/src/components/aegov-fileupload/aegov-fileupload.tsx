@@ -125,7 +125,7 @@ export class AegovFileupload {
   /**
    * Disables the file upload.
    */
-  @Prop({ reflect: true }) isDisabled: boolean = false;
+  @Prop({ mutable: true, reflect: true }) isDisabled: boolean = false;
 
   /**
    * Marks the field as required.

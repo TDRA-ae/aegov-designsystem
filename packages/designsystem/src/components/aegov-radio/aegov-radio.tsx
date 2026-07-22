@@ -43,6 +43,7 @@ export class AegovRadio {
 
   @State() private _resolvedSize: RadioSize = 'base';
   private _sizeWatcher: ResponsivePropWatcher | null = null;
+  private _defaultChecked: boolean = false;
 
   /** Whether the radio is disabled. */
   @Prop({ mutable: true, reflect: true }) isDisabled: boolean = false;
@@ -86,6 +87,7 @@ export class AegovRadio {
   onVariantChange(v: unknown) { warnIfInvalidEnumProp(v, FORM_VARIANTS, 'primary', { component: 'aegov-radio', prop: 'variant' }); }
 
   componentWillLoad() {
+    this._defaultChecked = this.isChecked;
     warnIfInvalidEnumProp(this.variant, FORM_VARIANTS, 'primary', { component: 'aegov-radio', prop: 'variant' });
     if (!this.fieldId) {
       this.fieldId = generateId('aegov-radio');
@@ -110,12 +112,12 @@ export class AegovRadio {
   formAssociatedCallback(_form: HTMLFormElement | null) { /* no-op */ }
   formDisabledCallback(disabled: boolean) { this.isDisabled = disabled; }
   formResetCallback() {
-    this.isChecked = false;
+    this.isChecked = this._defaultChecked;
     this.errorMessage = '';
     this.isInvalid = false;
     if (this.inputEl) this.inputEl.setCustomValidity('');
-    this.internals?.setFormValue(null);
-    if (this.isRequired) {
+    this.internals?.setFormValue(this.isChecked ? (this.value ?? null) : null);
+    if (this.isRequired && !this.isChecked) {
       setInternalsValidity(this.internals, synthesizeValidity({ valueMissing: true }), 'Please select an option');
     } else {
       setInternalsValidity(this.internals, { valid: true }, '');

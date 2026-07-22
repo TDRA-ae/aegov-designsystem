@@ -59,7 +59,7 @@
 }
 
 .radio__hint {
-  @apply text-aeblack-500 dark:text-aeblack-400;
+  @apply text-aeblack-600 dark:text-aeblack-300 leading-snug;
 }
 
 /* ========================================
@@ -143,7 +143,7 @@
 }
 
 .radio--base .radio__hint {
-  @apply text-sm mt-1;
+  @apply text-sm mt-1.5 leading-snug;
 }
 
 /* ========================================
@@ -171,7 +171,7 @@
 }
 
 .radio--lg .radio__hint {
-  @apply text-base mt-1;
+  @apply text-base mt-1.5 leading-snug;
 }
 
 /* ========================================
@@ -199,7 +199,7 @@
 }
 
 .radio--xl .radio__hint {
-  @apply text-base mt-1;
+  @apply text-base mt-1.5 leading-snug;
 }
 
 /* Validation surface (Layer 1) — see validation-engine-addon.md §2.6 */

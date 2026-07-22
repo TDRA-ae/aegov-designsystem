@@ -83,7 +83,7 @@ export class AegovRange {
   @Prop() variant: FormVariant = 'primary';
 
   /** Whether the range is disabled. */
-  @Prop({ reflect: true }) isDisabled: boolean = false;
+  @Prop({ mutable: true, reflect: true }) isDisabled: boolean = false;
 
   /** Whether the range is required. */
   @Prop() isRequired: boolean = false;
@@ -124,8 +124,14 @@ export class AegovRange {
   private errorId: string = '';
   private hintId: string = '';
   private labelId: string = '';
+  private _defaultValue: number = 50;
+  private _defaultValueLow: number = 25;
+  private _defaultValueHigh: number = 75;
 
   componentWillLoad() {
+    this._defaultValue = this.value;
+    this._defaultValueLow = this.valueLow;
+    this._defaultValueHigh = this.valueHigh;
     this._sizeWatcher = watchResponsiveProp(this.size, RANGE_SIZES, 'base', v => {
       this._resolvedSize = v as RangeSize;
     });
@@ -154,9 +160,9 @@ export class AegovRange {
   formAssociatedCallback(_form: HTMLFormElement | null) { /* no-op */ }
   formDisabledCallback(disabled: boolean) { this.isDisabled = disabled; }
   formResetCallback() {
-    this.value = 50;
-    this.valueLow = 25;
-    this.valueHigh = 75;
+    this.value = this._defaultValue;
+    this.valueLow = this._defaultValueLow;
+    this.valueHigh = this._defaultValueHigh;
     this.internals?.setFormValue(null);
   }
 
