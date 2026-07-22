@@ -83,8 +83,8 @@ const ARROW_RIGHT = `<svg xmlns="http://www.w3.org/2000/svg" width="14" height="
 @Component({
   tag: 'aegov-datepicker',
   styleUrl: 'aegov-datepicker.css',
-  scoped: true,
-  formAssociated: true, // §2.5 + §7.5 spike: scoped:true + formAssociated combo verified
+  shadow: { delegatesFocus: true },
+  formAssociated: true,
 })
 export class AegovDatepicker {
   @Element() el: HTMLElement;
@@ -144,7 +144,7 @@ export class AegovDatepicker {
   @Prop() presets: string = '';
 
   /** Whether the datepicker is disabled */
-  @Prop() isDisabled: boolean = false;
+  @Prop({ mutable: true, reflect: true }) isDisabled: boolean = false;
 
   /** Marks the datepicker as required for form validation. Sets `required` on the inner input. */
   @Prop() isRequired: boolean = false;
@@ -176,7 +176,7 @@ export class AegovDatepicker {
   @Prop({ mutable: true, reflect: true }) fieldId?: string;
 
   /** Form field name for FormAssociated submission (§2.5). */
-  @Prop() name?: string;
+  @Prop({ reflect: true }) name?: string;
 
   /** Visual + a11y invalid state. See §2.3. */
   @Prop({ mutable: true, reflect: true }) isInvalid: boolean = false;
