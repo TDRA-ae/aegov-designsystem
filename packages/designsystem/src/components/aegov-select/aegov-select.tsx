@@ -86,7 +86,7 @@ export class AegovSelect {
   @Prop({ mutable: true }) value: string = '';
 
   /** The name attribute for form submission. */
-  @Prop() name?: string;
+  @Prop({ reflect: true }) name?: string;
 
   /** Whether the select is required. */
   @Prop() isRequired: boolean = false;

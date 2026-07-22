@@ -62,7 +62,7 @@ export class AegovOtp {
   @Prop() isRequired: boolean = false;
 
   /** Form field name for FormAssociated submission. */
-  @Prop() name?: string;
+  @Prop({ reflect: true }) name?: string;
 
   /** Current OTP value. Can be set externally to pre-fill cells. */
   @Prop({ mutable: true }) value: string = '';
