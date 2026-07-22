@@ -3498,7 +3498,7 @@ declare global {
     };
     interface HTMLAegovTextareaElementEventMap {
         "aegovTextareaChange": { value: string; event: globalThis.Event };
-        "aegovTextareaInput": { value: string; event: globalThis.Event };
+        "aegovTextareaValue": { value: string; event: globalThis.Event };
         "aegovTextareaFocus": FocusEvent;
         "aegovTextareaBlur": FocusEvent;
         "aegovValidate": AegovValidationDetail<string>;
@@ -6172,7 +6172,7 @@ declare namespace LocalJSX {
         /**
           * Emitted on every keystroke.
          */
-        "onAegovTextareaInput"?: (event: AegovTextareaCustomEvent<{ value: string; event: globalThis.Event }>) => void;
+        "onAegovTextareaValue"?: (event: AegovTextareaCustomEvent<{ value: string; event: globalThis.Event }>) => void;
         /**
           * Unified validation event. See validation-engine-addon.md §2.3.
          */

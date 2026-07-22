@@ -1610,12 +1610,12 @@ export declare interface AegovText extends Components.AegovText {}
   template: '<ng-content></ng-content>',
   // eslint-disable-next-line @angular-eslint/no-inputs-metadata-property
   inputs: ['errorMessage', 'extraClass', 'fieldId', 'hint', 'isCopyable', 'isDisabled', 'isInvalid', 'isReadonly', 'isRequired', 'maxlength', 'name', 'placeholder', 'resize', 'size', 'value', 'variant'],
-  outputs: ['aegovTextareaChange', 'aegovTextareaInput', 'aegovTextareaFocus', 'aegovTextareaBlur', 'aegovValidate'],
+  outputs: ['aegovTextareaChange', 'aegovTextareaValue', 'aegovTextareaFocus', 'aegovTextareaBlur', 'aegovValidate'],
 })
 export class AegovTextarea {
   protected el: HTMLAegovTextareaElement;
   @Output() aegovTextareaChange = new EventEmitter<AegovTextareaCustomEvent<{ value: string; event: globalThis.Event }>>();
-  @Output() aegovTextareaInput = new EventEmitter<AegovTextareaCustomEvent<{ value: string; event: globalThis.Event }>>();
+  @Output() aegovTextareaValue = new EventEmitter<AegovTextareaCustomEvent<{ value: string; event: globalThis.Event }>>();
   @Output() aegovTextareaFocus = new EventEmitter<AegovTextareaCustomEvent<FocusEvent>>();
   @Output() aegovTextareaBlur = new EventEmitter<AegovTextareaCustomEvent<FocusEvent>>();
   @Output() aegovValidate = new EventEmitter<AegovTextareaCustomEvent<IAegovTextareaAegovValidationDetail<string>>>();
@@ -1637,7 +1637,7 @@ export declare interface AegovTextarea extends Components.AegovTextarea {
   /**
    * Emitted on every keystroke.
    */
-  aegovTextareaInput: EventEmitter<AegovTextareaCustomEvent<{ value: string; event: globalThis.Event }>>;
+  aegovTextareaValue: EventEmitter<AegovTextareaCustomEvent<{ value: string; event: globalThis.Event }>>;
   /**
    * Emitted when the textarea gains focus.
    */

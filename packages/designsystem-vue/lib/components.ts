@@ -692,7 +692,7 @@ export const AegovTextarea = /*@__PURE__*/ defineContainer<JSX.AegovTextarea>('a
   'hint',
   'extraClass',
   'aegovTextareaChange',
-  'aegovTextareaInput',
+  'aegovTextareaValue',
   'aegovTextareaFocus',
   'aegovTextareaBlur',
   'aegovValidate'
