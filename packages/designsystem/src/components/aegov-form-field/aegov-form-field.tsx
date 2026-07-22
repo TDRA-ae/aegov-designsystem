@@ -92,34 +92,38 @@ export class AegovFormField {
     const toggle = this.el.querySelector('aegov-toggle') as HTMLAegovToggleElement | null;
 
     if (label) {
-      // For shadow:true components the inner fieldId lives inside a shadow root and is
-      // not reachable by <label for="..."> from the document. Use the host element's own
-      // id instead — clicking the label focuses the host, and delegatesFocus:true then
-      // forwards focus into the shadow root. For light/scoped components, shadowRoot is
-      // null so we fall back to the inner fieldId as before.
-      const shadowId = (el: HTMLElement & { fieldId?: string }) =>
-        (el.shadowRoot && el.id) ? el.id : el.fieldId;
+      // For shadow:true components the browser cannot follow <label for="..."> into the
+      // shadow root. We must ensure the HOST element has an id attribute that the label
+      // can target from the document. delegatesFocus:true then routes browser focus to
+      // the first focusable element inside the shadow root automatically.
+      const ensureHostId = (el: HTMLElement & { fieldId?: string }): string => {
+        if (el.shadowRoot && el.fieldId) {
+          if (!el.id) el.id = el.fieldId; // stamp id on host so <label for> can reach it
+          return el.id;
+        }
+        return el.fieldId ?? '';
+      };
 
-      if (input && (input.shadowRoot ? input.id : input.fieldId)) {
-        label.htmlFor = shadowId(input);
-      } else if (textarea && (textarea.shadowRoot ? textarea.id : textarea.fieldId)) {
-        label.htmlFor = shadowId(textarea);
-      } else if (select && (select.shadowRoot ? select.id : select.fieldId)) {
-        label.htmlFor = shadowId(select);
-      } else if (checkbox && (checkbox.shadowRoot ? checkbox.id : checkbox.fieldId)) {
-        label.htmlFor = shadowId(checkbox);
-      } else if (range && (range.shadowRoot ? range.id : range.fieldId)) {
-        label.htmlFor = shadowId(range);
+      if (input && input.fieldId) {
+        label.htmlFor = ensureHostId(input);
+      } else if (textarea && textarea.fieldId) {
+        label.htmlFor = ensureHostId(textarea);
+      } else if (select && select.fieldId) {
+        label.htmlFor = ensureHostId(select);
+      } else if (checkbox && checkbox.fieldId) {
+        label.htmlFor = ensureHostId(checkbox);
+      } else if (range && range.fieldId) {
+        label.htmlFor = ensureHostId(range);
       } else if (progress && progress.fieldId) {
         label.htmlFor = progress.fieldId;
-      } else if (otp && (otp.shadowRoot ? otp.id : otp.fieldId)) {
-        label.htmlFor = shadowId(otp);
-      } else if (fileupload && (fileupload.shadowRoot ? fileupload.id : fileupload.fieldId)) {
-        label.htmlFor = shadowId(fileupload);
-      } else if (radio && (radio.shadowRoot ? radio.id : radio.fieldId)) {
-        label.htmlFor = shadowId(radio);
-      } else if (toggle && (toggle.shadowRoot ? toggle.id : toggle.fieldId)) {
-        label.htmlFor = shadowId(toggle);
+      } else if (otp && otp.fieldId) {
+        label.htmlFor = ensureHostId(otp);
+      } else if (fileupload && fileupload.fieldId) {
+        label.htmlFor = ensureHostId(fileupload);
+      } else if (radio && radio.fieldId) {
+        label.htmlFor = ensureHostId(radio);
+      } else if (toggle && toggle.fieldId) {
+        label.htmlFor = ensureHostId(toggle);
       }
       // Cascade variant to label only if it hasn't authored its own value
       if (this.variant && this.variant !== 'primary' && (!(label as any).variant || (label as any).variant === 'primary')) {
@@ -181,7 +185,7 @@ export class AegovFormField {
 
     return (
       <Host>
-        <div id={this.fieldId} class={this.getFieldClasses()} {...passThroughAttributes}>
+        <div class={this.getFieldClasses()} {...passThroughAttributes}>
           <slot />
           <slot name="hint" />
         </div>

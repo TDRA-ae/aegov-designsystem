@@ -25,16 +25,16 @@
 .aegov-input.input-variant-neutral-min   { @apply border-aeblack-300 text-aeblack-700 dark:border-aeblack-600 dark:text-aeblack-200 }
 
 /* Focus ring — overrides variant idle border. Specificity (0,2,1) beats variant (0,2,0). */
-.aegov-input.input-variant-primary:focus {
+.aegov-input.input-variant-primary:focus-visible {
   @apply ring-1 ring-offset-2 ring-primary-support-400 border-2 border-primary-support-400
          dark:ring-primary-support-400 dark:border-primary-support-400;
 }
-.aegov-input.input-variant-secondary:focus {
+.aegov-input.input-variant-secondary:focus-visible {
   @apply ring-1 ring-offset-2 ring-secondary-support-400 border-2 border-secondary-support-400
          dark:ring-secondary-support-400 dark:border-secondary-support-400;
 }
-.aegov-input.input-variant-neutral-max:focus,
-.aegov-input.input-variant-neutral-min:focus { @apply ring-1 ring-offset-2 ring-seablue-400 dark:ring-seablue-400 border-2 border-seablue-400 dark:border-seablue-400; }
+.aegov-input.input-variant-neutral-max:focus-visible,
+.aegov-input.input-variant-neutral-min:focus-visible { @apply ring-1 ring-offset-2 ring-seablue-400 dark:ring-seablue-400 border-2 border-seablue-400 dark:border-seablue-400; }
 
 /* Size variants */
 .input--xs {
@@ -220,9 +220,9 @@
   @apply border-aered-600 dark:border-aered-500;
 }
 
-:host(.is-invalid) .aegov-input:focus {
+:host(.is-invalid) .aegov-input:focus-visible {
   /* Override variant focus treatment: red ring with offset.
-     Without this, the variant rule (e.g. .input-variant-primary:focus)
+     Without this, the variant rule (e.g. .input-variant-primary:focus-visible)
      leaks its support-colour ring through the invalid state.
      Same selector specificity (0,2,1) — placed after the variant rules so
      source order wins. */

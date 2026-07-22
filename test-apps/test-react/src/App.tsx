@@ -3,8 +3,15 @@ import {
   AegovToggle, AegovSeparator, AegovBadge,
   AegovButton,
   AegovInput,
+  AegovTextarea,
   AegovSelect, AegovSelectOption,
-  AegovCheckbox,
+  AegovCheckbox, AegovCheckboxGroup,
+  AegovRadio, AegovRadioGroup,
+  AegovRange,
+  AegovOtp,
+  AegovFileupload,
+  AegovDatepicker,
+  AegovFormField, AegovLabel,
   AegovTabs, AegovTab, AegovTabPanel,
 } from '@aegov/designsystem-react';
 
@@ -93,9 +100,24 @@ export default function App() {
             <li><a href="#button-sizes" className="nav-link">Button Sizes</a></li>
             <li><a href="#badges" className="nav-link">Badges</a></li>
             <li><a href="#badge-appearances" className="nav-link">Badge Appearances</a></li>
+          </ul>
+          <p className="px-2 mb-1 text-[10px] font-bold uppercase tracking-widest text-aeblack-400 dark:text-aeblack-600">Form Components</p>
+          <ul className="space-y-0.5 mb-4">
             <li><a href="#inputs" className="nav-link">Input</a></li>
+            <li><a href="#textarea" className="nav-link">Textarea</a></li>
             <li><a href="#select" className="nav-link">Select</a></li>
             <li><a href="#checkbox" className="nav-link">Checkbox</a></li>
+            <li><a href="#checkbox-group" className="nav-link">Checkbox Group</a></li>
+            <li><a href="#toggle" className="nav-link">Toggle</a></li>
+            <li><a href="#radio-group" className="nav-link">Radio Group</a></li>
+            <li><a href="#range" className="nav-link">Range</a></li>
+            <li><a href="#otp" className="nav-link">OTP</a></li>
+            <li><a href="#fileupload" className="nav-link">File Upload</a></li>
+            <li><a href="#datepicker" className="nav-link">Datepicker</a></li>
+            <li><a href="#form-field" className="nav-link">Form Field</a></li>
+          </ul>
+          <p className="px-2 mb-1 text-[10px] font-bold uppercase tracking-widest text-aeblack-400 dark:text-aeblack-600">Other</p>
+          <ul className="space-y-0.5 mb-4">
             <li><a href="#tabs" className="nav-link">Tabs</a></li>
           </ul>
           <p className="px-2 mb-1 text-[10px] font-bold uppercase tracking-widest text-aeblack-400 dark:text-aeblack-600">Testing</p>
@@ -409,6 +431,283 @@ export default function App() {
             </div>
           </section>
 
+          {/* ══ TEXTAREA ══ */}
+          <section id="textarea">
+            <div className="section-card">
+              <div className="section-card-header flex items-start justify-between gap-4">
+                <div>
+                  <h2 className="text-base font-semibold text-aeblack-900 dark:text-whitely-100">Textarea</h2>
+                  <p className="text-xs text-aeblack-500 dark:text-aeblack-400 mt-0.5">Multi-line text · resize modes · copyable</p>
+                </div>
+                <AegovBadge color="techblue" appearance="soft">Component</AegovBadge>
+              </div>
+              <div className="section-card-body">
+                <div className="grid grid-cols-2 gap-4 max-w-2xl">
+                  <AegovTextarea fieldId="ta-basic" placeholder="Basic textarea" />
+                  <AegovTextarea fieldId="ta-hint" placeholder="With hint text" hint="Max 500 characters" />
+                  <AegovTextarea fieldId="ta-required" placeholder="Required field" isRequired />
+                  <AegovTextarea fieldId="ta-copy" placeholder="Copyable textarea" value="Copy me!" isCopyable />
+                  <AegovTextarea fieldId="ta-disabled" placeholder="Disabled textarea" isDisabled />
+                  <AegovTextarea fieldId="ta-invalid" placeholder="Invalid textarea" isInvalid errorMessage="This field has an error" />
+                </div>
+              </div>
+            </div>
+          </section>
+
+          {/* ══ CHECKBOX GROUP ══ */}
+          <section id="checkbox-group">
+            <div className="section-card">
+              <div className="section-card-header flex items-start justify-between gap-4">
+                <div>
+                  <h2 className="text-base font-semibold text-aeblack-900 dark:text-whitely-100">Checkbox Group</h2>
+                  <p className="text-xs text-aeblack-500 dark:text-aeblack-400 mt-0.5">Grouped checkboxes · vertical / horizontal</p>
+                </div>
+                <AegovBadge color="techblue" appearance="soft">Component</AegovBadge>
+              </div>
+              <div className="section-card-body">
+                <div className="grid grid-cols-2 gap-6 max-w-2xl">
+                  <AegovCheckboxGroup label="Vertical (default)" hint="Select all that apply">
+                    <AegovCheckbox fieldId="cg-a" name="interests" value="design" label="Design" />
+                    <AegovCheckbox fieldId="cg-b" name="interests" value="dev" label="Development" isChecked />
+                    <AegovCheckbox fieldId="cg-c" name="interests" value="qa" label="QA / Testing" />
+                  </AegovCheckboxGroup>
+                  <AegovCheckboxGroup label="Horizontal" orientation="horizontal">
+                    <AegovCheckbox fieldId="cg-h1" name="days" value="mon" label="Mon" isChecked />
+                    <AegovCheckbox fieldId="cg-h2" name="days" value="tue" label="Tue" />
+                    <AegovCheckbox fieldId="cg-h3" name="days" value="wed" label="Wed" isChecked />
+                    <AegovCheckbox fieldId="cg-h4" name="days" value="thu" label="Thu" />
+                  </AegovCheckboxGroup>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          {/* ══ TOGGLE ══ */}
+          <section id="toggle">
+            <div className="section-card">
+              <div className="section-card-header flex items-start justify-between gap-4">
+                <div>
+                  <h2 className="text-base font-semibold text-aeblack-900 dark:text-whitely-100">Toggle</h2>
+                  <p className="text-xs text-aeblack-500 dark:text-aeblack-400 mt-0.5">On/off switch · variants · sizes</p>
+                </div>
+                <AegovBadge color="techblue" appearance="soft">Component</AegovBadge>
+              </div>
+              <div className="section-card-body">
+                <div className="space-y-4 max-w-md">
+                  <div className="flex flex-wrap gap-6">
+                    <AegovToggle fieldId="tg-off" label="Off state" />
+                    <AegovToggle fieldId="tg-on" label="On state" isChecked />
+                    <AegovToggle fieldId="tg-disabled" label="Disabled" isDisabled />
+                    <AegovToggle fieldId="tg-disabled-on" label="Disabled + On" isDisabled isChecked />
+                  </div>
+                  <div className="flex flex-wrap gap-6">
+                    {(['primary', 'secondary', 'neutral-max', 'neutral-min'] as const).map((v) => (
+                      <AegovToggle key={v} fieldId={`tg-v-${v}`} label={v} variant={v} isChecked />
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          {/* ══ RADIO GROUP ══ */}
+          <section id="radio-group">
+            <div className="section-card">
+              <div className="section-card-header flex items-start justify-between gap-4">
+                <div>
+                  <h2 className="text-base font-semibold text-aeblack-900 dark:text-whitely-100">Radio Group</h2>
+                  <p className="text-xs text-aeblack-500 dark:text-aeblack-400 mt-0.5">Single-selection · vertical / horizontal</p>
+                </div>
+                <AegovBadge color="techblue" appearance="soft">Component</AegovBadge>
+              </div>
+              <div className="section-card-body">
+                <div className="grid grid-cols-2 gap-6 max-w-2xl">
+                  <AegovRadioGroup name="plan" label="Subscription plan" hint="Choose one plan">
+                    <AegovRadio fieldId="rg-free" value="free" label="Free" isChecked />
+                    <AegovRadio fieldId="rg-pro" value="pro" label="Pro" />
+                    <AegovRadio fieldId="rg-enterprise" value="enterprise" label="Enterprise" />
+                  </AegovRadioGroup>
+                  <AegovRadioGroup name="size" label="Size (horizontal)" orientation="horizontal">
+                    <AegovRadio fieldId="rg-sm" value="sm" label="S" isChecked />
+                    <AegovRadio fieldId="rg-md" value="md" label="M" />
+                    <AegovRadio fieldId="rg-lg" value="lg" label="L" />
+                    <AegovRadio fieldId="rg-xl" value="xl" label="XL" />
+                  </AegovRadioGroup>
+                  <AegovRadioGroup name="notify" label="Required" isRequired isInvalid errorMessage="Please select an option">
+                    <AegovRadio fieldId="rg-email" value="email" label="Email" />
+                    <AegovRadio fieldId="rg-sms" value="sms" label="SMS" />
+                    <AegovRadio fieldId="rg-none" value="none" label="None" />
+                  </AegovRadioGroup>
+                  <AegovRadioGroup name="tier-dis" label="Disabled group" isDisabled>
+                    <AegovRadio fieldId="rg-d1" value="a" label="Option A" isChecked />
+                    <AegovRadio fieldId="rg-d2" value="b" label="Option B" />
+                  </AegovRadioGroup>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          {/* ══ RANGE ══ */}
+          <section id="range">
+            <div className="section-card">
+              <div className="section-card-header flex items-start justify-between gap-4">
+                <div>
+                  <h2 className="text-base font-semibold text-aeblack-900 dark:text-whitely-100">Range</h2>
+                  <p className="text-xs text-aeblack-500 dark:text-aeblack-400 mt-0.5">Single · dual (min/max) · display modes</p>
+                </div>
+                <AegovBadge color="techblue" appearance="soft">Component</AegovBadge>
+              </div>
+              <div className="section-card-body">
+                <div className="space-y-6 max-w-lg">
+                  <div>
+                    <p className="text-xs font-semibold uppercase tracking-wide text-aeblack-400 mb-2">Single — no label</p>
+                    <AegovRange fieldId="rng-single" value={40} />
+                  </div>
+                  <div>
+                    <p className="text-xs font-semibold uppercase tracking-wide text-aeblack-400 mb-2">Single — with tooltip display</p>
+                    <AegovRange fieldId="rng-tooltip" label="Volume" value={60} display="tooltip" />
+                  </div>
+                  <div>
+                    <p className="text-xs font-semibold uppercase tracking-wide text-aeblack-400 mb-2">Dual/range (price range)</p>
+                    <AegovRange fieldId="rng-dual" label="Price range" mode="range" valueLow={20} valueHigh={80} display="tooltip" />
+                  </div>
+                  <div>
+                    <p className="text-xs font-semibold uppercase tracking-wide text-aeblack-400 mb-2">Disabled</p>
+                    <AegovRange fieldId="rng-disabled" label="Disabled" value={50} isDisabled />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          {/* ══ OTP ══ */}
+          <section id="otp">
+            <div className="section-card">
+              <div className="section-card-header flex items-start justify-between gap-4">
+                <div>
+                  <h2 className="text-base font-semibold text-aeblack-900 dark:text-whitely-100">OTP</h2>
+                  <p className="text-xs text-aeblack-500 dark:text-aeblack-400 mt-0.5">One-time password · continuous / segmented</p>
+                </div>
+                <AegovBadge color="techblue" appearance="soft">Component</AegovBadge>
+              </div>
+              <div className="section-card-body">
+                <div className="space-y-6">
+                  <div>
+                    <p className="text-xs font-semibold uppercase tracking-wide text-aeblack-400 mb-2">Continuous (default, 5 digits)</p>
+                    <AegovOtp fieldId="otp-cont" length={5} />
+                  </div>
+                  <div>
+                    <p className="text-xs font-semibold uppercase tracking-wide text-aeblack-400 mb-2">Individual (6 digits)</p>
+                    <AegovOtp fieldId="otp-seg" appearance="individual" length={6} />
+                  </div>
+                  <div>
+                    <p className="text-xs font-semibold uppercase tracking-wide text-aeblack-400 mb-2">Alphanumeric · invalid state</p>
+                    <AegovOtp fieldId="otp-alpha" length={4} isAlphanumeric isInvalid errorMessage="Invalid code, please try again" />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          {/* ══ FILE UPLOAD ══ */}
+          <section id="fileupload">
+            <div className="section-card">
+              <div className="section-card-header flex items-start justify-between gap-4">
+                <div>
+                  <h2 className="text-base font-semibold text-aeblack-900 dark:text-whitely-100">File Upload</h2>
+                  <p className="text-xs text-aeblack-500 dark:text-aeblack-400 mt-0.5">Default · dropzone · multiple files</p>
+                </div>
+                <AegovBadge color="techblue" appearance="soft">Component</AegovBadge>
+              </div>
+              <div className="section-card-body">
+                <div className="space-y-6 max-w-lg">
+                  <div>
+                    <p className="text-xs font-semibold uppercase tracking-wide text-aeblack-400 mb-2">Default (button)</p>
+                    <AegovFileupload fieldId="fu-default" label="Upload document" hint="PDF, DOC up to 10 MB" accept=".pdf,.doc,.docx" />
+                  </div>
+                  <div>
+                    <p className="text-xs font-semibold uppercase tracking-wide text-aeblack-400 mb-2">Dropzone</p>
+                    <AegovFileupload fieldId="fu-drop" appearance="dropzone" label="Drop files here" hint="Images only · max 5 MB each" accept="image/*" isMultiple />
+                  </div>
+                  <div>
+                    <p className="text-xs font-semibold uppercase tracking-wide text-aeblack-400 mb-2">Required · invalid</p>
+                    <AegovFileupload fieldId="fu-invalid" label="Required upload" isRequired isInvalid errorMessage="Please upload a file to continue" />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          {/* ══ DATEPICKER ══ */}
+          <section id="datepicker">
+            <div className="section-card">
+              <div className="section-card-header flex items-start justify-between gap-4">
+                <div>
+                  <h2 className="text-base font-semibold text-aeblack-900 dark:text-whitely-100">Datepicker</h2>
+                  <p className="text-xs text-aeblack-500 dark:text-aeblack-400 mt-0.5">Single · range · clearable</p>
+                </div>
+                <AegovBadge color="techblue" appearance="soft">Component</AegovBadge>
+              </div>
+              <div className="section-card-body">
+                <div className="grid grid-cols-2 gap-4 max-w-2xl">
+                  <div>
+                    <p className="text-xs font-semibold uppercase tracking-wide text-aeblack-400 mb-2">Single date</p>
+                    <AegovDatepicker placeholder="Select a date" isClearable />
+                  </div>
+                  <div>
+                    <p className="text-xs font-semibold uppercase tracking-wide text-aeblack-400 mb-2">Date range</p>
+                    <AegovDatepicker appearance="range" labelRangeStart="From" labelRangeEnd="To" isClearable />
+                  </div>
+                  <div>
+                    <p className="text-xs font-semibold uppercase tracking-wide text-aeblack-400 mb-2">Disabled</p>
+                    <AegovDatepicker placeholder="Disabled datepicker" isDisabled />
+                  </div>
+                  <div>
+                    <p className="text-xs font-semibold uppercase tracking-wide text-aeblack-400 mb-2">Required</p>
+                    <AegovDatepicker placeholder="Required date" isRequired />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          {/* ══ FORM FIELD ══ */}
+          <section id="form-field">
+            <div className="section-card">
+              <div className="section-card-header flex items-start justify-between gap-4">
+                <div>
+                  <h2 className="text-base font-semibold text-aeblack-900 dark:text-whitely-100">Form Field</h2>
+                  <p className="text-xs text-aeblack-500 dark:text-aeblack-400 mt-0.5">Wrapper that adds label + hint + error to any form component</p>
+                </div>
+                <AegovBadge color="techblue" appearance="soft">Component</AegovBadge>
+              </div>
+              <div className="section-card-body">
+                <div className="space-y-4 max-w-lg">
+                  <AegovFormField fieldId="ff-name" hint="As shown on your ID">
+                    <AegovLabel htmlFor="ff-name">Full name <span aria-hidden="true" style={{color:'var(--color-aered-600)'}}>*</span></AegovLabel>
+                    <AegovInput fieldId="ff-name" name="fullname" placeholder="Enter your full name" isRequired />
+                  </AegovFormField>
+                  <AegovFormField fieldId="ff-country">
+                    <AegovLabel htmlFor="ff-country">Country</AegovLabel>
+                    <AegovSelect fieldId="ff-country" placeholder="Select a country">
+                      <AegovSelectOption value="ae">United Arab Emirates</AegovSelectOption>
+                      <AegovSelectOption value="sa">Saudi Arabia</AegovSelectOption>
+                      <AegovSelectOption value="eg">Egypt</AegovSelectOption>
+                    </AegovSelect>
+                  </AegovFormField>
+                  <AegovFormField fieldId="ff-bio" hint="Tell us about yourself">
+                    <AegovLabel htmlFor="ff-bio">Bio</AegovLabel>
+                    <AegovTextarea fieldId="ff-bio" name="bio" placeholder="Enter a short bio..." />
+                  </AegovFormField>
+                  <AegovFormField fieldId="ff-dob" errorMessage="Date of birth is required" isInvalid>
+                    <AegovLabel htmlFor="ff-dob">Date of birth <span aria-hidden="true" style={{color:'var(--color-aered-600)'}}>*</span></AegovLabel>
+                    <AegovDatepicker placeholder="Select date" isClearable />
+                  </AegovFormField>
+                </div>
+              </div>
+            </div>
+          </section>
+
           {/* ══ TABS ══ */}
           <section id="tabs">
             <div className="section-card">
@@ -593,12 +892,10 @@ export default function App() {
                   <div>
                     <p className="text-sm font-semibold text-aeblack-800 dark:text-whitely-200 mb-1">Test 1 — Label association</p>
                     <p className="text-xs text-aeblack-500 dark:text-aeblack-400 mb-3">Click the label text → the input should get focus</p>
-                    <div className="space-y-2 max-w-sm">
-                      <label htmlFor="react-shadow-label-test" className="block text-sm font-medium text-primary-600 dark:text-primary-400 cursor-pointer underline">
-                        ▶ Click this native label (htmlFor="react-shadow-label-test")
-                      </label>
+                    <AegovFormField fieldId="react-shadow-label-test" className="max-w-sm">
+                      <AegovLabel htmlFor="react-shadow-label-test" style={{cursor:'pointer',textDecoration:'underline',color:'var(--color-primary-600)'}}>▶ Click this label (aegov-label)</AegovLabel>
                       <AegovInput fieldId="react-shadow-label-test" placeholder="Did focus land here?" />
-                    </div>
+                    </AegovFormField>
                   </div>
 
                   {/* Test 2: Form submission */}
@@ -617,7 +914,7 @@ export default function App() {
                     }}>
                       <AegovInput fieldId="react-shadow-email" name="email" placeholder="Email address" />
                       <AegovInput fieldId="react-shadow-username" name="username" placeholder="Username" />
-                      <button type="submit" className="px-4 py-2 bg-primary-600 hover:bg-primary-700 text-white rounded-md text-sm font-medium">Submit Form</button>
+                      <AegovButton type="submit" variant="primary">Submit Form</AegovButton>
                     </form>
                     <pre className="mt-4 p-3 rounded-md bg-aeblack-50 dark:bg-aeblack-900 border border-aeblack-200 dark:border-aeblack-700 text-xs text-aeblack-700 dark:text-aeblack-300 font-mono whitespace-pre-wrap">{formResult}</pre>
                   </div>

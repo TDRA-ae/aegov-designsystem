@@ -75,36 +75,36 @@
    handle their own :focus.
    ============================================ */
 
-.aegov-otp.otp-variant-primary .otp__wrapper--continuous:has(.otp__cell:focus),
-.aegov-otp.otp-variant-primary .otp__wrapper--individual .otp__cell:focus {
+.aegov-otp.otp-variant-primary .otp__wrapper--continuous:has(.otp__cell:focus-visible),
+.aegov-otp.otp-variant-primary .otp__wrapper--individual .otp__cell:focus-visible {
   @apply ring-1 ring-offset-2 ring-primary-support-400 border-2 border-primary-support-400
          dark:ring-primary-support-400 dark:border-primary-support-400;
 }
 
-.aegov-otp.otp-variant-secondary .otp__wrapper--continuous:has(.otp__cell:focus),
-.aegov-otp.otp-variant-secondary .otp__wrapper--individual .otp__cell:focus {
+.aegov-otp.otp-variant-secondary .otp__wrapper--continuous:has(.otp__cell:focus-visible),
+.aegov-otp.otp-variant-secondary .otp__wrapper--individual .otp__cell:focus-visible {
   @apply ring-1 ring-offset-2 ring-secondary-support-400 border-2 border-secondary-support-400
          dark:ring-secondary-support-400 dark:border-secondary-support-400;
 }
 
-.aegov-otp.otp-variant-neutral-max .otp__wrapper--continuous:has(.otp__cell:focus),
-.aegov-otp.otp-variant-neutral-max .otp__wrapper--individual .otp__cell:focus,
-.aegov-otp.otp-variant-neutral-min .otp__wrapper--continuous:has(.otp__cell:focus),
-.aegov-otp.otp-variant-neutral-min .otp__wrapper--individual .otp__cell:focus {
+.aegov-otp.otp-variant-neutral-max .otp__wrapper--continuous:has(.otp__cell:focus-visible),
+.aegov-otp.otp-variant-neutral-max .otp__wrapper--individual .otp__cell:focus-visible,
+.aegov-otp.otp-variant-neutral-min .otp__wrapper--continuous:has(.otp__cell:focus-visible),
+.aegov-otp.otp-variant-neutral-min .otp__wrapper--individual .otp__cell:focus-visible {
   @apply ring-1 ring-offset-2 ring-seablue-400 border-2 border-seablue-400
          dark:ring-seablue-400 dark:border-seablue-400;
 }
 
 /* Continuous focus — recolor inner dividers to match focused wrapper border.
    Keeps divider colour in sync with the support-colour border swap. */
-.aegov-otp.otp-variant-primary .otp__wrapper--continuous:has(.otp__cell:focus) .otp__divider {
+.aegov-otp.otp-variant-primary .otp__wrapper--continuous:has(.otp__cell:focus-visible) .otp__divider {
   @apply bg-primary-support-400 dark:bg-primary-support-400;
 }
-.aegov-otp.otp-variant-secondary .otp__wrapper--continuous:has(.otp__cell:focus) .otp__divider {
+.aegov-otp.otp-variant-secondary .otp__wrapper--continuous:has(.otp__cell:focus-visible) .otp__divider {
   @apply bg-secondary-support-400 dark:bg-secondary-support-400;
 }
-.aegov-otp.otp-variant-neutral-max .otp__wrapper--continuous:has(.otp__cell:focus) .otp__divider,
-.aegov-otp.otp-variant-neutral-min .otp__wrapper--continuous:has(.otp__cell:focus) .otp__divider {
+.aegov-otp.otp-variant-neutral-max .otp__wrapper--continuous:has(.otp__cell:focus-visible) .otp__divider,
+.aegov-otp.otp-variant-neutral-min .otp__wrapper--continuous:has(.otp__cell:focus-visible) .otp__divider {
   @apply bg-seablue-400 dark:bg-seablue-400;
 }
 
@@ -186,12 +186,12 @@
   @apply bg-aered-600 dark:bg-aered-500;
 }
 
-:host(.is-invalid) .otp__wrapper--continuous:has(.otp__cell:focus),
-:host(.is-invalid) .otp__wrapper--individual .otp__cell:focus {
+:host(.is-invalid) .otp__wrapper--continuous:has(.otp__cell:focus-visible),
+:host(.is-invalid) .otp__wrapper--individual .otp__cell:focus-visible {
   @apply ring-1 ring-offset-2 ring-aered-500 dark:ring-aered-400 border-2 border-aered-500 dark:border-aered-400;
 }
 
-:host(.is-invalid) .otp__wrapper--continuous:has(.otp__cell:focus) .otp__divider {
+:host(.is-invalid) .otp__wrapper--continuous:has(.otp__cell:focus-visible) .otp__divider {
   @apply bg-aered-500 dark:bg-aered-400;
 }
 

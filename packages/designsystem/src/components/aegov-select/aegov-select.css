@@ -50,16 +50,16 @@
 .aegov-select.select-variant-neutral-min   { @apply border-aeblack-300 text-aeblack-700 dark:border-aeblack-600 dark:text-aeblack-200; }
 
 /* Focus ring — overrides variant idle border. Per-variant selector beats variant specificity. */
-.aegov-select.select-variant-primary:focus {
+.aegov-select.select-variant-primary:focus-visible {
   @apply ring-1 ring-offset-2 ring-primary-support-400 border-2 border-primary-support-400
          dark:ring-primary-support-400 dark:border-primary-support-400;
 }
-.aegov-select.select-variant-secondary:focus {
+.aegov-select.select-variant-secondary:focus-visible {
   @apply ring-1 ring-offset-2 ring-secondary-support-400 border-2 border-secondary-support-400
          dark:ring-secondary-support-400 dark:border-secondary-support-400;
 }
-.aegov-select.select-variant-neutral-max:focus,
-.aegov-select.select-variant-neutral-min:focus {
+.aegov-select.select-variant-neutral-max:focus-visible,
+.aegov-select.select-variant-neutral-min:focus-visible {
   @apply ring-1 ring-offset-2 ring-seablue-400 border-2 border-seablue-400
          dark:ring-seablue-400 dark:border-seablue-400;
 }
@@ -359,8 +359,8 @@ button.aegov-select {
 }
 
 /* Invalid + focus — red ring with offset (mirrors aegov-input). */
-:host(.is-invalid) .aegov-select:focus,
-:host(.is-invalid) .select__trigger:focus {
+:host(.is-invalid) .aegov-select:focus-visible,
+:host(.is-invalid) .select__trigger:focus-visible {
   @apply ring-1 ring-offset-2 ring-aered-500 dark:ring-aered-400 border-2 border-aered-500 dark:border-aered-400;
 }
 
