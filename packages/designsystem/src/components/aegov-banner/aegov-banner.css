@@ -23,32 +23,32 @@
    */
 
   /* Solid / soft button appearance */
-  --banner-act-solid-bg:       var(--color-slate-800);
-  --banner-act-solid-border:   var(--color-slate-800);
-  --banner-act-solid-text:     var(--color-slate-50);
-  --banner-act-solid-hover-bg: var(--color-slate-900);
-  --banner-act-solid-hover-bd: var(--color-slate-900);
+  --act-solid-bg:       var(--color-slate-800);
+  --act-solid-border:   var(--color-slate-800);
+  --act-solid-text:     var(--color-slate-50);
+  --act-solid-hover-bg: var(--color-slate-900);
+  --act-solid-hover-bd: var(--color-slate-900);
 
   /* Outline / link button appearance */
-  --banner-act-outline-border: var(--color-slate-700);
-  --banner-act-outline-text:   var(--color-slate-700);
-  --banner-act-hover-bg:       var(--color-slate-100);
-  --banner-act-hover-text:     var(--color-slate-800);
+  --act-outline-border: var(--color-slate-700);
+  --act-outline-text:   var(--color-slate-700);
+  --act-hover-bg:       var(--color-slate-100);
+  --act-hover-text:     var(--color-slate-800);
 
   /* Plain text link */
-  --banner-act-link-text:      var(--color-slate-700);
-  --banner-act-link-hover:     var(--color-slate-900);
-  --banner-act-link-ring:      var(--color-slate-600);
+  --act-link-text:      var(--color-slate-700);
+  --act-link-hover:     var(--color-slate-900);
+  --act-link-ring:      var(--color-slate-600);
 
   /*
    * Focus ring — primary button ring, light/dark only.
    * Neutral-max/neutral-min are excluded from all banner overrides;
    * shadow DOM handles their resting + seablue focus naturally.
    */
-  --banner-act-focus-ring: var(--color-primary-600);
+  --act-focus-ring: var(--color-primary-600);
 
   :where(.dark, .dark *) & {
-    --banner-act-focus-ring: var(--color-primary-500);
+    --act-focus-ring: var(--color-primary-500);
   }
 
   & .banner__container {
@@ -71,153 +71,10 @@
     }
   }
 
-  /* ================================================================
-     BANNER ACTIONS SLOT
-     Three child types:
-       1. aegov-button (shadow:true) → ::part(button) — colors only
-       2. aegov-link a.aegov-btn (button appearance) → colors only
-       3. a:not(.aegov-btn) / aegov-link a:not(.aegov-btn) → plain link
-     Focus state is identical to primary button for all, except
-     neutral-max / neutral-min which use their own seablue pattern.
-     ================================================================ */
+  /* Button colors come from --act-* tokens defined per variant below.
+     Override rules live in action-buttons.css (shared with callout). */
   & .banner__actions {
     @apply pt-4 pb-2 self-stretch flex flex-wrap gap-3 items-center;
-
-    /* ── 1. aegov-button (shadow:true) ─────────────────────────────────────
-       Banner resting/hover colors apply to ALL button variants.
-       Focus uses primary-support-400 for all; neutral-max/neutral-min
-       override at the end with seablue-400 (equal specificity, later → wins).
-       ────────────────────────────────────────────────────────────────────── */
-
-    /* Solid / Soft — resting */
-    & aegov-button[appearance="solid"]::part(button),
-    & aegov-button[appearance="soft"]::part(button),
-    & aegov-button:not([appearance])::part(button) {
-      background-color: var(--banner-act-solid-bg);
-      border-color:     var(--banner-act-solid-border);
-      color:            var(--banner-act-solid-text);
-    }
-    /* Solid / Soft — hover */
-    & aegov-button[appearance="solid"]::part(button):hover,
-    & aegov-button[appearance="soft"]::part(button):hover,
-    & aegov-button:not([appearance])::part(button):hover {
-      background-color: var(--banner-act-solid-hover-bg);
-      border-color:     var(--banner-act-solid-hover-bd);
-    }
-    /* Solid / Soft — focus: primary button pattern */
-    & aegov-button[appearance="solid"]::part(button):focus-visible,
-    & aegov-button[appearance="soft"]::part(button):focus-visible,
-    & aegov-button:not([appearance])::part(button):focus-visible {
-      background-color: var(--color-primary-support-400);
-      border-color:     var(--color-primary-support-400);
-      color:            var(--color-primary-support-950);
-      outline-color:    var(--banner-act-focus-ring);
-    }
-
-    /* Outline / Link — resting */
-    & aegov-button[appearance="outline"]::part(button),
-    & aegov-button[appearance="link"]::part(button) {
-      background-color: transparent;
-      border-color:     var(--banner-act-outline-border);
-      color:            var(--banner-act-outline-text);
-    }
-    /* Outline / Link — hover */
-    & aegov-button[appearance="outline"]::part(button):hover,
-    & aegov-button[appearance="link"]::part(button):hover {
-      background-color: var(--banner-act-hover-bg);
-      color:            var(--banner-act-hover-text);
-    }
-    /* Outline / Link — focus: primary button pattern */
-    & aegov-button[appearance="outline"]::part(button):focus-visible,
-    & aegov-button[appearance="link"]::part(button):focus-visible {
-      background-color: var(--color-primary-support-400);
-      border-color:     var(--color-primary-support-400);
-      color:            var(--color-primary-support-950);
-      outline-color:    var(--banner-act-focus-ring);
-    }
-
-    /* neutral-max / neutral-min focus override — equal specificity, later → wins */
-    & aegov-button[variant="neutral-max"]::part(button):focus-visible,
-    & aegov-button[variant="neutral-min"]::part(button):focus-visible {
-      background-color: var(--color-seablue-400);
-      border-color:     var(--color-seablue-400);
-      color:            var(--color-seablue-950);
-      outline-color:    var(--color-aeblack-800);
-    }
-    :where(.dark, .dark *) & aegov-button[variant="neutral-max"]::part(button):focus-visible,
-    :where(.dark, .dark *) & aegov-button[variant="neutral-min"]::part(button):focus-visible {
-      outline-color: var(--color-aeblack-200);
-    }
-
-    /* ── 2. aegov-link with button appearance (scoped:false → light DOM) ── */
-
-    & aegov-link a.aegov-btn {
-      &.btn-solid,
-      &.btn-soft {
-        background-color: var(--banner-act-solid-bg);
-        border-color:     var(--banner-act-solid-border);
-        color:            var(--banner-act-solid-text);
-
-        &:hover {
-          background-color: var(--banner-act-solid-hover-bg);
-          border-color:     var(--banner-act-solid-hover-bd);
-          color:            var(--banner-act-solid-text);
-        }
-        &:focus-visible {
-          background-color: var(--color-primary-support-400);
-          border-color:     var(--color-primary-support-400);
-          color:            var(--color-primary-support-950);
-          outline-color:    var(--banner-act-focus-ring);
-        }
-      }
-
-      &.btn-outline,
-      &.btn-link {
-        background-color: transparent;
-        border-color:     var(--banner-act-outline-border);
-        color:            var(--banner-act-outline-text);
-
-        &:hover {
-          background-color: var(--banner-act-hover-bg);
-          border-color:     var(--banner-act-outline-border);
-          color:            var(--banner-act-hover-text);
-        }
-        &:focus-visible {
-          background-color: var(--color-primary-support-400);
-          border-color:     var(--color-primary-support-400);
-          color:            var(--color-primary-support-950);
-          outline-color:    var(--banner-act-focus-ring);
-        }
-      }
-
-      /* neutral-max / neutral-min focus override */
-      &.btn-neutral-max:focus-visible,
-      &.btn-neutral-min:focus-visible {
-        background-color: var(--color-seablue-400);
-        border-color:     var(--color-seablue-400);
-        color:            var(--color-seablue-950);
-        outline-color:    var(--color-aeblack-800);
-      }
-    }
-
-    /* ── 3. Plain <a> / aegov-link as text link (no button appearance) ─── */
-
-    & a:not(.aegov-btn),
-    & aegov-link a:not(.aegov-btn) {
-      color:           var(--banner-act-link-text);
-      text-decoration: underline;
-      cursor:          pointer;
-
-      &:hover {
-        color: var(--banner-act-link-hover);
-      }
-      &:focus-visible {
-        outline-style:  solid;
-        outline-width:  2px;
-        outline-offset: 2px;
-        outline-color:  var(--banner-act-link-ring);
-      }
-    }
   }
 
   & .banner__icon {
@@ -249,32 +106,32 @@
       &.banner--top    { @apply border-b-2 border-slate-800 dark:border-slate-400; }
       &.banner--bottom { @apply border-t-2 border-slate-800 dark:border-slate-400; }
 
-      --banner-act-solid-bg:       var(--color-slate-800);
-      --banner-act-solid-border:   var(--color-slate-800);
-      --banner-act-solid-text:     var(--color-slate-50);
-      --banner-act-solid-hover-bg: var(--color-slate-900);
-      --banner-act-solid-hover-bd: var(--color-slate-900);
-      --banner-act-outline-border: var(--color-slate-700);
-      --banner-act-outline-text:   var(--color-slate-700);
-      --banner-act-hover-bg:       var(--color-slate-100);
-      --banner-act-hover-text:     var(--color-slate-800);
-      --banner-act-link-text:      var(--color-slate-700);
-      --banner-act-link-hover:     var(--color-slate-900);
-      --banner-act-link-ring:      var(--color-slate-600);
+      --act-solid-bg:       var(--color-slate-800);
+      --act-solid-border:   var(--color-slate-800);
+      --act-solid-text:     var(--color-slate-50);
+      --act-solid-hover-bg: var(--color-slate-900);
+      --act-solid-hover-bd: var(--color-slate-900);
+      --act-outline-border: var(--color-slate-700);
+      --act-outline-text:   var(--color-slate-700);
+      --act-hover-bg:       var(--color-slate-100);
+      --act-hover-text:     var(--color-slate-800);
+      --act-link-text:      var(--color-slate-700);
+      --act-link-hover:     var(--color-slate-900);
+      --act-link-ring:      var(--color-slate-600);
 
       :where(.dark, .dark *) & {
-        --banner-act-solid-bg:       var(--color-slate-200);
-        --banner-act-solid-border:   var(--color-slate-200);
-        --banner-act-solid-text:     var(--color-slate-900);
-        --banner-act-solid-hover-bg: var(--color-slate-100);
-        --banner-act-solid-hover-bd: var(--color-slate-100);
-        --banner-act-outline-border: var(--color-slate-300);
-        --banner-act-outline-text:   var(--color-slate-200);
-        --banner-act-hover-bg:       var(--color-slate-800);
-        --banner-act-hover-text:     var(--color-slate-100);
-        --banner-act-link-text:      var(--color-slate-200);
-        --banner-act-link-hover:     var(--color-slate-100);
-        --banner-act-link-ring:      var(--color-slate-300);
+        --act-solid-bg:       var(--color-slate-200);
+        --act-solid-border:   var(--color-slate-200);
+        --act-solid-text:     var(--color-slate-900);
+        --act-solid-hover-bg: var(--color-slate-100);
+        --act-solid-hover-bd: var(--color-slate-100);
+        --act-outline-border: var(--color-slate-300);
+        --act-outline-text:   var(--color-slate-200);
+        --act-hover-bg:       var(--color-slate-800);
+        --act-hover-text:     var(--color-slate-100);
+        --act-link-text:      var(--color-slate-200);
+        --act-link-hover:     var(--color-slate-100);
+        --act-link-ring:      var(--color-slate-300);
       }
     }
 
@@ -283,32 +140,32 @@
       &.banner--top    { @apply border-b-2 border-aered-700 dark:border-aered-400; }
       &.banner--bottom { @apply border-t-2 border-aered-700 dark:border-aered-400; }
 
-      --banner-act-solid-bg:       var(--color-aered-600);
-      --banner-act-solid-border:   var(--color-aered-600);
-      --banner-act-solid-text:     var(--color-whitely-50);
-      --banner-act-solid-hover-bg: var(--color-aered-700);
-      --banner-act-solid-hover-bd: var(--color-aered-700);
-      --banner-act-outline-border: var(--color-aered-700);
-      --banner-act-outline-text:   var(--color-aered-700);
-      --banner-act-hover-bg:       var(--color-aered-100);
-      --banner-act-hover-text:     var(--color-aered-800);
-      --banner-act-link-text:      var(--color-aered-700);
-      --banner-act-link-hover:     var(--color-aered-800);
-      --banner-act-link-ring:      var(--color-aered-600);
+      --act-solid-bg:       var(--color-aered-600);
+      --act-solid-border:   var(--color-aered-600);
+      --act-solid-text:     var(--color-whitely-50);
+      --act-solid-hover-bg: var(--color-aered-700);
+      --act-solid-hover-bd: var(--color-aered-700);
+      --act-outline-border: var(--color-aered-700);
+      --act-outline-text:   var(--color-aered-700);
+      --act-hover-bg:       var(--color-aered-100);
+      --act-hover-text:     var(--color-aered-800);
+      --act-link-text:      var(--color-aered-700);
+      --act-link-hover:     var(--color-aered-800);
+      --act-link-ring:      var(--color-aered-600);
 
       :where(.dark, .dark *) & {
-        --banner-act-solid-bg:       var(--color-aered-500);
-        --banner-act-solid-border:   var(--color-aered-500);
-        --banner-act-solid-text:     var(--color-whitely-50);
-        --banner-act-solid-hover-bg: var(--color-aered-400);
-        --banner-act-solid-hover-bd: var(--color-aered-400);
-        --banner-act-outline-border: var(--color-aered-300);
-        --banner-act-outline-text:   var(--color-aered-200);
-        --banner-act-hover-bg:       var(--color-aered-900);
-        --banner-act-hover-text:     var(--color-aered-100);
-        --banner-act-link-text:      var(--color-aered-200);
-        --banner-act-link-hover:     var(--color-aered-100);
-        --banner-act-link-ring:      var(--color-aered-300);
+        --act-solid-bg:       var(--color-aered-500);
+        --act-solid-border:   var(--color-aered-500);
+        --act-solid-text:     var(--color-whitely-50);
+        --act-solid-hover-bg: var(--color-aered-400);
+        --act-solid-hover-bd: var(--color-aered-400);
+        --act-outline-border: var(--color-aered-300);
+        --act-outline-text:   var(--color-aered-200);
+        --act-hover-bg:       var(--color-aered-900);
+        --act-hover-text:     var(--color-aered-100);
+        --act-link-text:      var(--color-aered-200);
+        --act-link-hover:     var(--color-aered-100);
+        --act-link-ring:      var(--color-aered-300);
       }
     }
 
@@ -317,32 +174,32 @@
       &.banner--top    { @apply border-b-2 border-aegreen-700 dark:border-aegreen-400; }
       &.banner--bottom { @apply border-t-2 border-aegreen-700 dark:border-aegreen-400; }
 
-      --banner-act-solid-bg:       var(--color-aegreen-700);
-      --banner-act-solid-border:   var(--color-aegreen-700);
-      --banner-act-solid-text:     var(--color-whitely-50);
-      --banner-act-solid-hover-bg: var(--color-aegreen-800);
-      --banner-act-solid-hover-bd: var(--color-aegreen-800);
-      --banner-act-outline-border: var(--color-aegreen-700);
-      --banner-act-outline-text:   var(--color-aegreen-700);
-      --banner-act-hover-bg:       var(--color-aegreen-100);
-      --banner-act-hover-text:     var(--color-aegreen-800);
-      --banner-act-link-text:      var(--color-aegreen-700);
-      --banner-act-link-hover:     var(--color-aegreen-800);
-      --banner-act-link-ring:      var(--color-aegreen-600);
+      --act-solid-bg:       var(--color-aegreen-700);
+      --act-solid-border:   var(--color-aegreen-700);
+      --act-solid-text:     var(--color-whitely-50);
+      --act-solid-hover-bg: var(--color-aegreen-800);
+      --act-solid-hover-bd: var(--color-aegreen-800);
+      --act-outline-border: var(--color-aegreen-700);
+      --act-outline-text:   var(--color-aegreen-700);
+      --act-hover-bg:       var(--color-aegreen-100);
+      --act-hover-text:     var(--color-aegreen-800);
+      --act-link-text:      var(--color-aegreen-700);
+      --act-link-hover:     var(--color-aegreen-800);
+      --act-link-ring:      var(--color-aegreen-600);
 
       :where(.dark, .dark *) & {
-        --banner-act-solid-bg:       var(--color-aegreen-600);
-        --banner-act-solid-border:   var(--color-aegreen-600);
-        --banner-act-solid-text:     var(--color-whitely-50);
-        --banner-act-solid-hover-bg: var(--color-aegreen-500);
-        --banner-act-solid-hover-bd: var(--color-aegreen-500);
-        --banner-act-outline-border: var(--color-aegreen-300);
-        --banner-act-outline-text:   var(--color-aegreen-200);
-        --banner-act-hover-bg:       var(--color-aegreen-900);
-        --banner-act-hover-text:     var(--color-aegreen-100);
-        --banner-act-link-text:      var(--color-aegreen-200);
-        --banner-act-link-hover:     var(--color-aegreen-100);
-        --banner-act-link-ring:      var(--color-aegreen-300);
+        --act-solid-bg:       var(--color-aegreen-600);
+        --act-solid-border:   var(--color-aegreen-600);
+        --act-solid-text:     var(--color-whitely-50);
+        --act-solid-hover-bg: var(--color-aegreen-500);
+        --act-solid-hover-bd: var(--color-aegreen-500);
+        --act-outline-border: var(--color-aegreen-300);
+        --act-outline-text:   var(--color-aegreen-200);
+        --act-hover-bg:       var(--color-aegreen-900);
+        --act-hover-text:     var(--color-aegreen-100);
+        --act-link-text:      var(--color-aegreen-200);
+        --act-link-hover:     var(--color-aegreen-100);
+        --act-link-ring:      var(--color-aegreen-300);
       }
     }
 
@@ -351,32 +208,32 @@
       &.banner--top    { @apply border-b-2 border-camel-700 dark:border-camel-400; }
       &.banner--bottom { @apply border-t-2 border-camel-700 dark:border-camel-400; }
 
-      --banner-act-solid-bg:       var(--color-camel-700);
-      --banner-act-solid-border:   var(--color-camel-700);
-      --banner-act-solid-text:     var(--color-whitely-50);
-      --banner-act-solid-hover-bg: var(--color-camel-800);
-      --banner-act-solid-hover-bd: var(--color-camel-800);
-      --banner-act-outline-border: var(--color-camel-700);
-      --banner-act-outline-text:   var(--color-camel-700);
-      --banner-act-hover-bg:       var(--color-camel-100);
-      --banner-act-hover-text:     var(--color-camel-800);
-      --banner-act-link-text:      var(--color-camel-700);
-      --banner-act-link-hover:     var(--color-camel-800);
-      --banner-act-link-ring:      var(--color-camel-600);
+      --act-solid-bg:       var(--color-camel-700);
+      --act-solid-border:   var(--color-camel-700);
+      --act-solid-text:     var(--color-whitely-50);
+      --act-solid-hover-bg: var(--color-camel-800);
+      --act-solid-hover-bd: var(--color-camel-800);
+      --act-outline-border: var(--color-camel-700);
+      --act-outline-text:   var(--color-camel-700);
+      --act-hover-bg:       var(--color-camel-100);
+      --act-hover-text:     var(--color-camel-800);
+      --act-link-text:      var(--color-camel-700);
+      --act-link-hover:     var(--color-camel-800);
+      --act-link-ring:      var(--color-camel-600);
 
       :where(.dark, .dark *) & {
-        --banner-act-solid-bg:       var(--color-camel-600);
-        --banner-act-solid-border:   var(--color-camel-600);
-        --banner-act-solid-text:     var(--color-whitely-50);
-        --banner-act-solid-hover-bg: var(--color-camel-500);
-        --banner-act-solid-hover-bd: var(--color-camel-500);
-        --banner-act-outline-border: var(--color-camel-300);
-        --banner-act-outline-text:   var(--color-camel-200);
-        --banner-act-hover-bg:       var(--color-camel-900);
-        --banner-act-hover-text:     var(--color-camel-100);
-        --banner-act-link-text:      var(--color-camel-200);
-        --banner-act-link-hover:     var(--color-camel-100);
-        --banner-act-link-ring:      var(--color-camel-300);
+        --act-solid-bg:       var(--color-camel-600);
+        --act-solid-border:   var(--color-camel-600);
+        --act-solid-text:     var(--color-whitely-50);
+        --act-solid-hover-bg: var(--color-camel-500);
+        --act-solid-hover-bd: var(--color-camel-500);
+        --act-outline-border: var(--color-camel-300);
+        --act-outline-text:   var(--color-camel-200);
+        --act-hover-bg:       var(--color-camel-900);
+        --act-hover-text:     var(--color-camel-100);
+        --act-link-text:      var(--color-camel-200);
+        --act-link-hover:     var(--color-camel-100);
+        --act-link-ring:      var(--color-camel-300);
       }
     }
 
@@ -385,32 +242,32 @@
       &.banner--top    { @apply border-b-2 border-techblue-700 dark:border-techblue-400; }
       &.banner--bottom { @apply border-t-2 border-techblue-700 dark:border-techblue-400; }
 
-      --banner-act-solid-bg:       var(--color-techblue-600);
-      --banner-act-solid-border:   var(--color-techblue-600);
-      --banner-act-solid-text:     var(--color-whitely-50);
-      --banner-act-solid-hover-bg: var(--color-techblue-700);
-      --banner-act-solid-hover-bd: var(--color-techblue-700);
-      --banner-act-outline-border: var(--color-techblue-700);
-      --banner-act-outline-text:   var(--color-techblue-700);
-      --banner-act-hover-bg:       var(--color-techblue-100);
-      --banner-act-hover-text:     var(--color-techblue-800);
-      --banner-act-link-text:      var(--color-techblue-700);
-      --banner-act-link-hover:     var(--color-techblue-800);
-      --banner-act-link-ring:      var(--color-techblue-600);
+      --act-solid-bg:       var(--color-techblue-600);
+      --act-solid-border:   var(--color-techblue-600);
+      --act-solid-text:     var(--color-whitely-50);
+      --act-solid-hover-bg: var(--color-techblue-700);
+      --act-solid-hover-bd: var(--color-techblue-700);
+      --act-outline-border: var(--color-techblue-700);
+      --act-outline-text:   var(--color-techblue-700);
+      --act-hover-bg:       var(--color-techblue-100);
+      --act-hover-text:     var(--color-techblue-800);
+      --act-link-text:      var(--color-techblue-700);
+      --act-link-hover:     var(--color-techblue-800);
+      --act-link-ring:      var(--color-techblue-600);
 
       :where(.dark, .dark *) & {
-        --banner-act-solid-bg:       var(--color-techblue-500);
-        --banner-act-solid-border:   var(--color-techblue-500);
-        --banner-act-solid-text:     var(--color-whitely-50);
-        --banner-act-solid-hover-bg: var(--color-techblue-400);
-        --banner-act-solid-hover-bd: var(--color-techblue-400);
-        --banner-act-outline-border: var(--color-techblue-300);
-        --banner-act-outline-text:   var(--color-techblue-200);
-        --banner-act-hover-bg:       var(--color-techblue-900);
-        --banner-act-hover-text:     var(--color-techblue-100);
-        --banner-act-link-text:      var(--color-techblue-200);
-        --banner-act-link-hover:     var(--color-techblue-100);
-        --banner-act-link-ring:      var(--color-techblue-300);
+        --act-solid-bg:       var(--color-techblue-500);
+        --act-solid-border:   var(--color-techblue-500);
+        --act-solid-text:     var(--color-whitely-50);
+        --act-solid-hover-bg: var(--color-techblue-400);
+        --act-solid-hover-bd: var(--color-techblue-400);
+        --act-outline-border: var(--color-techblue-300);
+        --act-outline-text:   var(--color-techblue-200);
+        --act-hover-bg:       var(--color-techblue-900);
+        --act-hover-text:     var(--color-techblue-100);
+        --act-link-text:      var(--color-techblue-200);
+        --act-link-hover:     var(--color-techblue-100);
+        --act-link-ring:      var(--color-techblue-300);
       }
     }
   }
@@ -419,86 +276,86 @@
     &.banner--default {
       @apply bg-slate-600 text-whitely-50 dark:bg-slate-500 dark:text-whitely-50;
 
-      --banner-act-solid-bg:       var(--color-slate-100);
-      --banner-act-solid-border:   var(--color-slate-100);
-      --banner-act-solid-text:     var(--color-slate-900);
-      --banner-act-solid-hover-bg: var(--color-whitely-50);
-      --banner-act-solid-hover-bd: var(--color-whitely-50);
-      --banner-act-outline-border: var(--color-slate-200);
-      --banner-act-outline-text:   var(--color-slate-100);
-      --banner-act-hover-bg:       var(--color-slate-700);
-      --banner-act-hover-text:     var(--color-whitely-50);
-      --banner-act-link-text:      var(--color-whitely-50);
-      --banner-act-link-hover:     var(--color-slate-200);
-      --banner-act-link-ring:      var(--color-slate-100);
+      --act-solid-bg:       var(--color-slate-100);
+      --act-solid-border:   var(--color-slate-100);
+      --act-solid-text:     var(--color-slate-900);
+      --act-solid-hover-bg: var(--color-whitely-50);
+      --act-solid-hover-bd: var(--color-whitely-50);
+      --act-outline-border: var(--color-slate-200);
+      --act-outline-text:   var(--color-slate-100);
+      --act-hover-bg:       var(--color-slate-700);
+      --act-hover-text:     var(--color-whitely-50);
+      --act-link-text:      var(--color-whitely-50);
+      --act-link-hover:     var(--color-slate-200);
+      --act-link-ring:      var(--color-slate-100);
     }
 
     &.banner--error {
       @apply bg-aered-600 text-whitely-50 dark:bg-aered-600 dark:text-whitely-50;
 
-      --banner-act-solid-bg:       var(--color-aered-100);
-      --banner-act-solid-border:   var(--color-aered-100);
-      --banner-act-solid-text:     var(--color-aered-900);
-      --banner-act-solid-hover-bg: var(--color-whitely-50);
-      --banner-act-solid-hover-bd: var(--color-whitely-50);
-      --banner-act-outline-border: var(--color-aered-200);
-      --banner-act-outline-text:   var(--color-aered-100);
-      --banner-act-hover-bg:       var(--color-aered-700);
-      --banner-act-hover-text:     var(--color-whitely-50);
-      --banner-act-link-text:      var(--color-whitely-50);
-      --banner-act-link-hover:     var(--color-aered-100);
-      --banner-act-link-ring:      var(--color-aered-100);
+      --act-solid-bg:       var(--color-aered-100);
+      --act-solid-border:   var(--color-aered-100);
+      --act-solid-text:     var(--color-aered-900);
+      --act-solid-hover-bg: var(--color-whitely-50);
+      --act-solid-hover-bd: var(--color-whitely-50);
+      --act-outline-border: var(--color-aered-200);
+      --act-outline-text:   var(--color-aered-100);
+      --act-hover-bg:       var(--color-aered-700);
+      --act-hover-text:     var(--color-whitely-50);
+      --act-link-text:      var(--color-whitely-50);
+      --act-link-hover:     var(--color-aered-100);
+      --act-link-ring:      var(--color-aered-100);
     }
 
     &.banner--success {
       @apply bg-aegreen-700 text-whitely-50 dark:bg-aegreen-700 dark:text-whitely-50;
 
-      --banner-act-solid-bg:       var(--color-aegreen-100);
-      --banner-act-solid-border:   var(--color-aegreen-100);
-      --banner-act-solid-text:     var(--color-aegreen-900);
-      --banner-act-solid-hover-bg: var(--color-whitely-50);
-      --banner-act-solid-hover-bd: var(--color-whitely-50);
-      --banner-act-outline-border: var(--color-aegreen-200);
-      --banner-act-outline-text:   var(--color-aegreen-100);
-      --banner-act-hover-bg:       var(--color-aegreen-800);
-      --banner-act-hover-text:     var(--color-whitely-50);
-      --banner-act-link-text:      var(--color-whitely-50);
-      --banner-act-link-hover:     var(--color-aegreen-100);
-      --banner-act-link-ring:      var(--color-aegreen-100);
+      --act-solid-bg:       var(--color-aegreen-100);
+      --act-solid-border:   var(--color-aegreen-100);
+      --act-solid-text:     var(--color-aegreen-900);
+      --act-solid-hover-bg: var(--color-whitely-50);
+      --act-solid-hover-bd: var(--color-whitely-50);
+      --act-outline-border: var(--color-aegreen-200);
+      --act-outline-text:   var(--color-aegreen-100);
+      --act-hover-bg:       var(--color-aegreen-800);
+      --act-hover-text:     var(--color-whitely-50);
+      --act-link-text:      var(--color-whitely-50);
+      --act-link-hover:     var(--color-aegreen-100);
+      --act-link-ring:      var(--color-aegreen-100);
     }
 
     &.banner--warning {
       @apply bg-camel-700 text-whitely-50 dark:bg-camel-700 dark:text-whitely-50;
 
-      --banner-act-solid-bg:       var(--color-camel-100);
-      --banner-act-solid-border:   var(--color-camel-100);
-      --banner-act-solid-text:     var(--color-camel-900);
-      --banner-act-solid-hover-bg: var(--color-whitely-50);
-      --banner-act-solid-hover-bd: var(--color-whitely-50);
-      --banner-act-outline-border: var(--color-camel-200);
-      --banner-act-outline-text:   var(--color-camel-100);
-      --banner-act-hover-bg:       var(--color-camel-800);
-      --banner-act-hover-text:     var(--color-whitely-50);
-      --banner-act-link-text:      var(--color-whitely-50);
-      --banner-act-link-hover:     var(--color-camel-100);
-      --banner-act-link-ring:      var(--color-camel-100);
+      --act-solid-bg:       var(--color-camel-100);
+      --act-solid-border:   var(--color-camel-100);
+      --act-solid-text:     var(--color-camel-900);
+      --act-solid-hover-bg: var(--color-whitely-50);
+      --act-solid-hover-bd: var(--color-whitely-50);
+      --act-outline-border: var(--color-camel-200);
+      --act-outline-text:   var(--color-camel-100);
+      --act-hover-bg:       var(--color-camel-800);
+      --act-hover-text:     var(--color-whitely-50);
+      --act-link-text:      var(--color-whitely-50);
+      --act-link-hover:     var(--color-camel-100);
+      --act-link-ring:      var(--color-camel-100);
     }
 
     &.banner--info {
       @apply bg-techblue-600 text-whitely-50 dark:bg-techblue-600 dark:text-whitely-50;
 
-      --banner-act-solid-bg:       var(--color-techblue-100);
-      --banner-act-solid-border:   var(--color-techblue-100);
-      --banner-act-solid-text:     var(--color-techblue-900);
-      --banner-act-solid-hover-bg: var(--color-whitely-50);
-      --banner-act-solid-hover-bd: var(--color-whitely-50);
-      --banner-act-outline-border: var(--color-techblue-200);
-      --banner-act-outline-text:   var(--color-techblue-100);
-      --banner-act-hover-bg:       var(--color-techblue-700);
-      --banner-act-hover-text:     var(--color-whitely-50);
-      --banner-act-link-text:      var(--color-whitely-50);
-      --banner-act-link-hover:     var(--color-techblue-100);
-      --banner-act-link-ring:      var(--color-techblue-100);
+      --act-solid-bg:       var(--color-techblue-100);
+      --act-solid-border:   var(--color-techblue-100);
+      --act-solid-text:     var(--color-techblue-900);
+      --act-solid-hover-bg: var(--color-whitely-50);
+      --act-solid-hover-bd: var(--color-whitely-50);
+      --act-outline-border: var(--color-techblue-200);
+      --act-outline-text:   var(--color-techblue-100);
+      --act-hover-bg:       var(--color-techblue-700);
+      --act-hover-text:     var(--color-whitely-50);
+      --act-link-text:      var(--color-whitely-50);
+      --act-link-hover:     var(--color-techblue-100);
+      --act-link-ring:      var(--color-techblue-100);
     }
   }
 

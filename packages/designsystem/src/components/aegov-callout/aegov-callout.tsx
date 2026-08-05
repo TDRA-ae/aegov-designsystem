@@ -25,7 +25,7 @@ const ctx = (prop: string) => ({ component: TAG, prop });
  */
 @Component({
   tag: 'aegov-callout',
-  styleUrl: 'aegov-callout.css',
+  styleUrls: ['aegov-callout.css', '../../global/action-buttons.css'],
   scoped: false,
   shadow:false
 })
