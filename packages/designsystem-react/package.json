@@ -1,6 +1,6 @@
 {
   "name": "@aegov/designsystem-react",
-  "version": "0.2.9",
+  "version": "0.2.10",
   "description": "AEGOV Design System - Framework-agnostic web components with Tailwind CSS",
   "homepage": "",
   "license": "ISC",
@@ -25,8 +25,8 @@
     "access": "restricted"
   },
   "dependencies": {
-    "@aegov/designsystem": "^0.2.9",
+    "@aegov/designsystem": "^0.2.10",
     "@stencil/react-output-target": "^1.6.0"
   },
-  "gitHead": "94832189909eaa73ec79378596d636c9cf6823b1"
+  "gitHead": "cb9cbea55adbeb993074c9b61ca6b19c49a7abc1"
 }

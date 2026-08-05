@@ -269,3 +269,65 @@
   opacity: 1;
 }
 .input__wrapper--xl .input__icon > svg { @apply w-[22px] h-[22px]; }
+
+/* ── Icon-end: inset buttons with clipping ─────────────────────────────
+   The clip size is set as a CSS custom property on the shadow container.
+   It propagates to slotted elements through the slot flat-tree so
+   ::slotted() can use it to constrain and clip the aegov-button host.
+
+   Per-size clip = input_height − 2×4px inset:
+     xs(36px)→28px  sm(40px)→32px  base(44px)→36px  lg(48px)→40px  xl(52px)→44px
+──────────────────────────────────────────────────────────────────────── */
+.input__wrapper--xs   .input__icon--end { --ae-icon-clip: calc(var(--spacing) * 7);  }
+.input__wrapper--sm   .input__icon--end { --ae-icon-clip: calc(var(--spacing) * 8);  }
+.input__wrapper--base .input__icon--end { --ae-icon-clip: calc(var(--spacing) * 9);  }
+.input__wrapper--lg   .input__icon--end { --ae-icon-clip: calc(var(--spacing) * 10); }
+.input__wrapper--xl   .input__icon--end { --ae-icon-clip: calc(var(--spacing) * 11); }
+
+/* 4px right inset (overrides end-0 from .input__icon--end — same spec, placed after) */
+.input__icon--end {
+  @apply end-1;
+}
+
+/* Remove fixed h/w; use top+bottom inset for vertical centering.
+   !important guarantees these beat the base h-13/w-13 rules regardless of source order. */
+.input__wrapper--xs   .input__icon.input__icon--end,
+.input__wrapper--sm   .input__icon.input__icon--end,
+.input__wrapper--base .input__icon.input__icon--end,
+.input__wrapper--lg   .input__icon.input__icon--end,
+.input__wrapper--xl   .input__icon.input__icon--end {
+  top: calc(var(--spacing) * 1) !important;
+  bottom: calc(var(--spacing) * 1) !important;
+  height: auto !important;
+  width: auto !important;
+  overflow: hidden;
+  @apply gap-1;
+}
+
+/* Clip slotted icon-end buttons: width+height from inherited --ae-icon-clip;
+   overflow:hidden on host clips the button's shadow-DOM content to that size. */
+::slotted([slot="icon-end"]) {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: var(--ae-icon-clip, calc(var(--spacing) * 11));
+  height: var(--ae-icon-clip, calc(var(--spacing) * 11));
+  overflow: hidden;
+  border-radius: 0.5rem;
+}
+
+/* Override single-icon-end input padding (spec 0,2,0, placed after existing rules).
+   Formula: 4px right-inset + button-clip */
+.input--has-icon-end.input--xs   { padding-inline-end: calc(var(--spacing) * 8);  }
+.input--has-icon-end.input--sm   { padding-inline-end: calc(var(--spacing) * 9);  }
+.input--has-icon-end.input--base { padding-inline-end: calc(var(--spacing) * 10); }
+.input--has-icon-end.input--lg   { padding-inline-end: calc(var(--spacing) * 11); }
+.input--has-icon-end.input--xl   { padding-inline-end: calc(var(--spacing) * 12); }
+
+/* Multi icon-end: btn + gap(4px) + btn; spec (0,3,0) beats single-btn rules. */
+.input--has-icon-end.input--has-multi-icon-end.input--xs   { padding-inline-end: calc(var(--spacing) * 16); }
+.input--has-icon-end.input--has-multi-icon-end.input--sm   { padding-inline-end: calc(var(--spacing) * 18); }
+.input--has-icon-end.input--has-multi-icon-end.input--base { padding-inline-end: calc(var(--spacing) * 20); }
+.input--has-icon-end.input--has-multi-icon-end.input--lg   { padding-inline-end: calc(var(--spacing) * 22); }
+.input--has-icon-end.input--has-multi-icon-end.input--xl   { padding-inline-end: calc(var(--spacing) * 24); }
