@@ -1,0 +1,147 @@
+/* ═══════════════════════════════════════════════════════════════════════
+   SHARED ACTION-BUTTON OVERRIDES
+   ─────────────────────────────────────────────────────────────────────
+   Used by aegov-callout (.callout__actions) and aegov-banner (.banner__actions).
+
+   Each component defines --act-* custom properties per variant × appearance.
+   This file applies them uniformly so a single token change propagates to
+   every action-button slot without touching component CSS files.
+
+   Variable contract (components must define all of these):
+     --act-solid-bg        solid/soft button background
+     --act-solid-border    solid/soft button border
+     --act-solid-text      solid/soft button text
+     --act-solid-hover-bg  solid/soft hover background
+     --act-solid-hover-bd  solid/soft hover border
+     --act-outline-border  outline/link button border
+     --act-outline-text    outline/link button text
+     --act-hover-bg        outline/link hover background
+     --act-hover-text      outline/link hover text
+     --act-link-text       plain <a> text color
+     --act-link-hover      plain <a> hover color
+     --act-link-ring       plain <a> focus outline
+     --act-focus-ring      button focus outline (outline-color only;
+                           bg/text always use primary-support-400 tokens)
+   ═══════════════════════════════════════════════════════════════════════ */
+
+.callout__actions,
+.banner__actions {
+
+  /* ── 1. aegov-button (shadow:true) — pierce via ::part(button) ─────── */
+
+  & aegov-button[appearance="solid"]::part(button),
+  & aegov-button[appearance="soft"]::part(button),
+  & aegov-button:not([appearance])::part(button) {
+    background-color: var(--act-solid-bg);
+    border-color:     var(--act-solid-border);
+    color:            var(--act-solid-text);
+  }
+  & aegov-button[appearance="solid"]::part(button):hover,
+  & aegov-button[appearance="soft"]::part(button):hover,
+  & aegov-button:not([appearance])::part(button):hover {
+    background-color: var(--act-solid-hover-bg);
+    border-color:     var(--act-solid-hover-bd);
+  }
+  & aegov-button[appearance="solid"]::part(button):focus-visible,
+  & aegov-button[appearance="soft"]::part(button):focus-visible,
+  & aegov-button:not([appearance])::part(button):focus-visible {
+    background-color: var(--color-primary-support-400);
+    border-color:     var(--color-primary-support-400);
+    color:            var(--color-primary-support-950);
+    outline-color:    var(--act-focus-ring);
+  }
+
+  & aegov-button[appearance="outline"]::part(button),
+  & aegov-button[appearance="link"]::part(button) {
+    background-color: transparent;
+    border-color:     var(--act-outline-border);
+    color:            var(--act-outline-text);
+  }
+  & aegov-button[appearance="outline"]::part(button):hover,
+  & aegov-button[appearance="link"]::part(button):hover {
+    background-color: var(--act-hover-bg);
+    color:            var(--act-hover-text);
+  }
+  & aegov-button[appearance="outline"]::part(button):focus-visible,
+  & aegov-button[appearance="link"]::part(button):focus-visible {
+    background-color: var(--color-primary-support-400);
+    border-color:     var(--color-primary-support-400);
+    color:            var(--color-primary-support-950);
+    outline-color:    var(--act-focus-ring);
+  }
+
+  /* neutral-max / neutral-min focus override — equal specificity, later → wins */
+  & aegov-button[variant="neutral-max"]::part(button):focus-visible,
+  & aegov-button[variant="neutral-min"]::part(button):focus-visible {
+    background-color: var(--color-seablue-400);
+    border-color:     var(--color-seablue-400);
+    color:            var(--color-seablue-950);
+    outline-color:    var(--color-aeblack-800);
+  }
+  :where(.dark, .dark *) & aegov-button[variant="neutral-max"]::part(button):focus-visible,
+  :where(.dark, .dark *) & aegov-button[variant="neutral-min"]::part(button):focus-visible {
+    outline-color: var(--color-aeblack-200);
+  }
+
+  /* ── 2. aegov-link a.aegov-btn (scoped:false → light DOM) ─────────── */
+
+  & aegov-link a.aegov-btn {
+    &.btn-solid,
+    &.btn-soft {
+      background-color: var(--act-solid-bg);
+      border-color:     var(--act-solid-border);
+      color:            var(--act-solid-text);
+      &:hover {
+        background-color: var(--act-solid-hover-bg);
+        border-color:     var(--act-solid-hover-bd);
+        color:            var(--act-solid-text);
+      }
+      &:focus-visible {
+        background-color: var(--color-primary-support-400);
+        border-color:     var(--color-primary-support-400);
+        color:            var(--color-primary-support-950);
+        outline-color:    var(--act-focus-ring);
+      }
+    }
+    &.btn-outline,
+    &.btn-link {
+      background-color: transparent;
+      border-color:     var(--act-outline-border);
+      color:            var(--act-outline-text);
+      &:hover {
+        background-color: var(--act-hover-bg);
+        border-color:     var(--act-outline-border);
+        color:            var(--act-hover-text);
+      }
+      &:focus-visible {
+        background-color: var(--color-primary-support-400);
+        border-color:     var(--color-primary-support-400);
+        color:            var(--color-primary-support-950);
+        outline-color:    var(--act-focus-ring);
+      }
+    }
+    &.btn-neutral-max:focus-visible,
+    &.btn-neutral-min:focus-visible {
+      background-color: var(--color-seablue-400);
+      border-color:     var(--color-seablue-400);
+      color:            var(--color-seablue-950);
+      outline-color:    var(--color-aeblack-800);
+    }
+  }
+
+  /* ── 3. Plain <a> / aegov-link as text link (no button appearance) ─── */
+
+  & a:not(.aegov-btn),
+  & aegov-link a:not(.aegov-btn) {
+    color:           var(--act-link-text);
+    text-decoration: underline;
+    cursor:          pointer;
+    &:hover { color: var(--act-link-hover); }
+    &:focus-visible {
+      outline-style:  solid;
+      outline-width:  2px;
+      outline-offset: 2px;
+      outline-color:  var(--act-link-ring);
+    }
+  }
+}
