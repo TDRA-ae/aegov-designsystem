@@ -1,8 +1,10 @@
 /**
  * AEGOV Callout Component Styles
  *
- * A notification component with multiple variants and appearances.
- * Supports icons, links, and dismissible functionality.
+ * Button/link colors inside .callout__actions come from --act-* custom
+ * properties defined per variant × appearance below. The actual override
+ * rules that read those tokens live in action-buttons.css (shared with
+ * aegov-banner), which Stencil merges in via styleUrls at build time.
  */
 
 :host {
@@ -22,374 +24,222 @@
 .aegov-callout {
   font-family:inherit;
   @apply @container;
+
+  /* ════════════════════════════════════════════════════════════
+     DEFAULT --act-* TOKENS  (soft / default variant)
+     Each variant × appearance block below overrides only what
+     differs. action-buttons.css reads these to style the buttons.
+     ════════════════════════════════════════════════════════════ */
+  --act-solid-bg:        var(--color-aeblack-800);
+  --act-solid-border:    var(--color-aeblack-800);
+  --act-solid-text:      var(--color-whitely-50);
+  --act-solid-hover-bg:  var(--color-aeblack-900);
+  --act-solid-hover-bd:  var(--color-aeblack-900);
+  --act-outline-border:  var(--color-aeblack-700);
+  --act-outline-text:    var(--color-aeblack-700);
+  --act-hover-bg:        var(--color-aeblack-100);
+  --act-hover-text:      var(--color-aeblack-800);
+  --act-link-text:       var(--color-aeblack-700);
+  --act-link-hover:      var(--color-aeblack-900);
+  --act-link-ring:       var(--color-aeblack-600);
+  --act-focus-ring:      var(--color-seablue-600);
+
+  /* ════════════════════════════════════════════════════════════
+     SOFT APPEARANCE
+     ════════════════════════════════════════════════════════════ */
   &.callout-soft {
     &.callout-default {
       @apply bg-aeblack-50 text-aeblack-800 border-s-4 border-aeblack-800
              dark:bg-aeblack-900 dark:text-whitely-100 dark:border-aeblack-300;
-      & .callout__icon {
-        & svg {
-          @apply fill-aeblack-800 dark:fill-whitely-100;
-        }
-      }
-      & .callout__actions {
-        & button.aegov-btn.btn-primary.btn-solid,
-        & aegov-button button.btn-primary.btn-solid {
-          @apply bg-aeblack-800 border-aeblack-800 text-whitely-50 hover:opacity-90 focus-visible:outline-offset-3 focus-visible:outline-2 focus-visible:outline-seablue-600;
-        }
-        & button.aegov-btn.btn-primary.btn-outline,
-        & aegov-button button.btn-primary.btn-outline {
-          @apply border-aeblack-700 text-aeblack-700 hover:bg-aeblack-50 hover:opacity-80 focus-visible:outline-offset-3 focus-visible:outline-2 focus-visible:outline-seablue-600 focus-visible:bg-transparent;
-        }
-        & button.aegov-btn.btn-primary.btn-soft,
-        & aegov-button button.btn-primary.btn-soft {
-          @apply bg-aeblack-200/80 text-aeblack-800 hover:bg-aeblack-300/50 focus-visible:outline-offset-3 focus-visible:outline-2 focus-visible:outline-seablue-600;
-        }
-        & button.aegov-btn.btn-primary.btn-link,
-        & aegov-button button.btn-primary.btn-link {
-          @apply !text-aeblack-700 hover:!text-aeblack-600 focus-visible:outline-offset-0 focus-visible:outline-2 focus-visible:outline-seablue-600 focus-visible:bg-transparent;
-        }
-      }
-      & .callout__right {
-        ::slotted(a),
-        & a {
-          @apply focus-visible:bg-aeblack-800 focus-visible:text-aeblack-50 focus-visible:outline-aeblack-800 focus-visible:decoration-aeblack-50;
-        }
-        & button {
-          @apply focus-visible:outline-aeblack-800;
-        }
-      }
+      & .callout__icon svg { @apply fill-aeblack-800 dark:fill-whitely-100; }
+      /* --act-* defaults match — no override needed */
     }
+
     &.callout-error {
       @apply bg-aered-50 text-aered-700 border-s-4 border-aered-700
              dark:bg-aered-950 dark:text-aered-200 dark:border-aered-400;
-      & .callout__icon {
-        & svg {
-          @apply fill-aered-700 dark:fill-aered-300;
-        }
-      }
-      & .callout__actions {
-        & button.aegov-btn.btn-primary.btn-solid,
-        & aegov-button button.btn-primary.btn-solid {
-          @apply bg-aered-600 border-aered-600 text-whitely-50 hover:opacity-90 focus-visible:outline-offset-3 focus-visible:outline-2 focus-visible:outline-camel-600;
-        }
-        & button.aegov-btn.btn-primary.btn-outline,
-        & aegov-button button.btn-primary.btn-outline {
-          @apply border-aered-700 text-aered-700 hover:bg-aered-50 hover:opacity-80 focus-visible:outline-offset-3 focus-visible:outline-2 focus-visible:outline-camel-600 focus-visible:bg-transparent;
-        }
-        & button.aegov-btn.btn-primary.btn-soft,
-        & aegov-button button.btn-primary.btn-soft {
-          @apply bg-aered-200/80 text-aered-800 hover:bg-aered-300/50 focus-visible:outline-offset-3 focus-visible:outline-2 focus-visible:outline-camel-600;
-        }
-        & button.aegov-btn.btn-primary.btn-link,
-        & aegov-button button.btn-primary.btn-link {
-          @apply !text-aered-700 hover:!text-aered-600 focus-visible:outline-offset-0 focus-visible:outline-2 focus-visible:outline-camel-600 focus-visible:bg-transparent;
-        }
-      }
-      & .callout__right {
-        ::slotted(a),
-        & a {
-          @apply focus-visible:bg-aered-800 focus-visible:text-aered-50 focus-visible:outline-aered-800 focus-visible:decoration-aered-50;
-        }
-        & button {
-          @apply focus-visible:outline-aered-800;
-        }
-      }
+      & .callout__icon svg { @apply fill-aered-700 dark:fill-aered-300; }
+      --act-solid-bg:       var(--color-aered-600);
+      --act-solid-border:   var(--color-aered-600);
+      --act-solid-text:     var(--color-whitely-50);
+      --act-solid-hover-bg: var(--color-aered-700);
+      --act-solid-hover-bd: var(--color-aered-700);
+      --act-outline-border: var(--color-aered-700);
+      --act-outline-text:   var(--color-aered-700);
+      --act-hover-bg:       var(--color-aered-100);
+      --act-hover-text:     var(--color-aered-700);
+      --act-link-text:      var(--color-aered-700);
+      --act-link-hover:     var(--color-aered-800);
+      --act-link-ring:      var(--color-aered-600);
+      --act-focus-ring:     var(--color-camel-600);
     }
+
     &.callout-success {
       @apply bg-aegreen-50 text-aegreen-700 border-s-4 border-aegreen-700
              dark:bg-aegreen-950 dark:text-aegreen-200 dark:border-aegreen-400;
-      & .callout__icon {
-        & svg {
-          @apply fill-aegreen-700 dark:fill-aegreen-300;
-        }
-      }
-      & .callout__actions {
-        & button.aegov-btn.btn-primary.btn-solid,
-        & aegov-button button.btn-primary.btn-solid {
-          @apply bg-aegreen-700 border-aegreen-700 text-whitely-50 hover:opacity-90 focus-visible:outline-offset-3 focus-visible:outline-2 focus-visible:outline-camel-600;
-        }
-        & button.aegov-btn.btn-primary.btn-outline,
-        & aegov-button button.btn-primary.btn-outline {
-          @apply border-aegreen-700 text-aegreen-700 hover:bg-aegreen-50 hover:opacity-80 focus-visible:outline-offset-3 focus-visible:outline-2 focus-visible:outline-camel-600 focus-visible:bg-transparent;
-        }
-        & button.aegov-btn.btn-primary.btn-soft,
-        & aegov-button button.btn-primary.btn-soft {
-          @apply bg-aegreen-200/80 text-aegreen-800 hover:bg-aegreen-300/50 focus-visible:outline-offset-3 focus-visible:outline-2 focus-visible:outline-camel-600;
-        }
-        & button.aegov-btn.btn-primary.btn-link,
-        & aegov-button button.btn-primary.btn-link {
-          @apply !text-aegreen-700 hover:!text-aegreen-600 focus-visible:outline-offset-0 focus-visible:outline-2 focus-visible:outline-camel-600 focus-visible:bg-transparent;
-        }
-      }
-      & .callout__right {
-        ::slotted(a),
-        & a {
-          @apply focus-visible:bg-aegreen-800 focus-visible:text-aegreen-50 focus-visible:outline-aegreen-800 focus-visible:decoration-aegreen-50;
-        }
-        & button {
-          @apply focus-visible:outline-aegreen-800;
-        }
-      }
+      & .callout__icon svg { @apply fill-aegreen-700 dark:fill-aegreen-300; }
+      --act-solid-bg:       var(--color-aegreen-700);
+      --act-solid-border:   var(--color-aegreen-700);
+      --act-solid-text:     var(--color-whitely-50);
+      --act-solid-hover-bg: var(--color-aegreen-800);
+      --act-solid-hover-bd: var(--color-aegreen-800);
+      --act-outline-border: var(--color-aegreen-700);
+      --act-outline-text:   var(--color-aegreen-700);
+      --act-hover-bg:       var(--color-aegreen-100);
+      --act-hover-text:     var(--color-aegreen-700);
+      --act-link-text:      var(--color-aegreen-700);
+      --act-link-hover:     var(--color-aegreen-800);
+      --act-link-ring:      var(--color-aegreen-600);
+      --act-focus-ring:     var(--color-camel-600);
     }
+
     &.callout-warning {
       @apply bg-camel-50 text-camel-700 border-s-4 border-camel-700
              dark:bg-camel-950 dark:text-camel-200 dark:border-camel-400;
-      & .callout__icon {
-        & svg {
-          @apply fill-camel-700 dark:fill-camel-300;
-        }
-      }
-      & .callout__actions {
-        & button.aegov-btn.btn-primary.btn-solid,
-        & aegov-button button.btn-primary.btn-solid {
-          @apply bg-camel-700 border-camel-700 text-whitely-50 hover:opacity-90 focus-visible:outline-offset-3 focus-visible:outline-2 focus-visible:outline-aered-600;
-        }
-        & button.aegov-btn.btn-primary.btn-outline,
-        & aegov-button button.btn-primary.btn-outline {
-          @apply border-camel-700 text-camel-700 hover:bg-camel-50 hover:opacity-80 focus-visible:outline-offset-3 focus-visible:outline-2 focus-visible:outline-aered-600 focus-visible:bg-transparent;
-        }
-        & button.aegov-btn.btn-primary.btn-soft,
-        & aegov-button button.btn-primary.btn-soft {
-          @apply bg-camel-200/80 text-camel-800 hover:bg-camel-300/50 focus-visible:outline-offset-3 focus-visible:outline-2 focus-visible:outline-aered-600;
-        }
-        & button.aegov-btn.btn-primary.btn-link,
-        & aegov-button button.btn-primary.btn-link {
-          @apply !text-camel-700 hover:!text-camel-600 focus-visible:outline-offset-0 focus-visible:outline-2 focus-visible:outline-aered-600 focus-visible:bg-transparent;
-        }
-      }
-      & .callout__right {
-        ::slotted(a),
-        a {
-          @apply focus-visible:bg-camel-800 focus-visible:text-camel-50 focus-visible:outline-camel-800 focus-visible:decoration-camel-50;
-        }
-        & button {
-          @apply focus-visible:outline-camel-800;
-        }
-      }
+      & .callout__icon svg { @apply fill-camel-700 dark:fill-camel-300; }
+      --act-solid-bg:       var(--color-camel-700);
+      --act-solid-border:   var(--color-camel-700);
+      --act-solid-text:     var(--color-whitely-50);
+      --act-solid-hover-bg: var(--color-camel-800);
+      --act-solid-hover-bd: var(--color-camel-800);
+      --act-outline-border: var(--color-camel-700);
+      --act-outline-text:   var(--color-camel-700);
+      --act-hover-bg:       var(--color-camel-100);
+      --act-hover-text:     var(--color-camel-700);
+      --act-link-text:      var(--color-camel-700);
+      --act-link-hover:     var(--color-camel-800);
+      --act-link-ring:      var(--color-camel-600);
+      --act-focus-ring:     var(--color-aered-600);
     }
+
     &.callout-info {
       @apply bg-techblue-50 text-techblue-700 border-s-4 border-techblue-700
              dark:bg-techblue-950 dark:text-techblue-200 dark:border-techblue-400;
-      & .callout__icon {
-        & svg {
-          @apply fill-techblue-700 dark:fill-techblue-300;
-        }
-      }
-      & .callout__actions {
-        & button.aegov-btn.btn-primary.btn-solid,
-        & aegov-button button.btn-primary.btn-solid {
-          @apply bg-techblue-600 border-techblue-600 text-whitely-50 hover:opacity-90 focus-visible:outline-offset-3 focus-visible:outline-2 focus-visible:outline-seablue-400;
-        }
-        & button.aegov-btn.btn-primary.btn-outline,
-        & aegov-button button.btn-primary.btn-outline {
-          @apply border-techblue-700 text-techblue-700 hover:bg-techblue-50 hover:opacity-80 focus-visible:outline-offset-3 focus-visible:outline-2 focus-visible:outline-seablue-400 focus-visible:bg-transparent;
-        }
-        & button.aegov-btn.btn-primary.btn-soft,
-        & aegov-button button.btn-primary.btn-soft {
-          @apply bg-techblue-200/80 text-techblue-800 hover:bg-techblue-300/50 focus-visible:outline-offset-3 focus-visible:outline-2 focus-visible:outline-seablue-400;
-        }
-        & button.aegov-btn.btn-primary.btn-link,
-        & aegov-button button.btn-primary.btn-link {
-          @apply !text-techblue-700 hover:!text-techblue-600 focus-visible:outline-offset-0 focus-visible:outline-2 focus-visible:outline-seablue-400 focus-visible:bg-transparent;
-        }
-      }
-      & .callout__right {
-        ::slotted(a),
-        & a {
-          @apply focus-visible:bg-techblue-800 focus-visible:text-techblue-50 focus-visible:outline-techblue-800 focus-visible:decoration-techblue-50;
-        }
-        & button {
-          @apply focus-visible:outline-techblue-800;
-        }
-      }
+      & .callout__icon svg { @apply fill-techblue-700 dark:fill-techblue-300; }
+      --act-solid-bg:       var(--color-techblue-600);
+      --act-solid-border:   var(--color-techblue-600);
+      --act-solid-text:     var(--color-whitely-50);
+      --act-solid-hover-bg: var(--color-techblue-700);
+      --act-solid-hover-bd: var(--color-techblue-700);
+      --act-outline-border: var(--color-techblue-700);
+      --act-outline-text:   var(--color-techblue-700);
+      --act-hover-bg:       var(--color-techblue-100);
+      --act-hover-text:     var(--color-techblue-700);
+      --act-link-text:      var(--color-techblue-700);
+      --act-link-hover:     var(--color-techblue-800);
+      --act-link-ring:      var(--color-techblue-600);
+      --act-focus-ring:     var(--color-seablue-400);
     }
   }
+
+  /* ════════════════════════════════════════════════════════════
+     SOLID APPEARANCE  (dark bg → light-tint action buttons)
+     ════════════════════════════════════════════════════════════ */
   &.callout-solid {
     &.callout-default {
       @apply bg-aeblack-800 text-aeblack-50 dark:bg-aeblack-700 dark:text-whitely-100;
-      & .callout__icon {
-        & svg {
-          @apply fill-aeblack-400 dark:fill-aeblack-200;
-        }
-      }
-      & aegov-button button.btn-primary.btn-solid {
-          @apply !bg-aeblack-100 !border-aeblack-100 !text-aeblack-700 hover:!opacity-90;
-        }
-        & button.aegov-btn.btn-primary.btn-outline,
-        & aegov-button button.btn-primary.btn-outline {
-          @apply !border-aeblack-100 !text-aeblack-100 hover:!bg-aeblack-700;
-        }
-        & button.aegov-btn.btn-primary.btn-soft,
-        & aegov-button button.btn-primary.btn-soft {
-          @apply !bg-aeblack-50 !text-aeblack-700 hover:!bg-aeblack-100;
-        }
-        & button.aegov-btn.btn-primary.btn-link,
-        & aegov-button button.btn-primary.btn-link {
-          @apply !text-aeblack-100 hover:!text-aeblack-50;
-        }
-      & .callout__right {
-        ::slotted(a),
-        & a {
-          @apply focus-visible:bg-aeblack-50 focus-visible:text-aeblack-900 focus-visible:outline-aeblack-50;
-        }
-        & button {
-          @apply focus-visible:outline-aeblack-50;
-        }
-      }
+      & .callout__icon svg { @apply fill-aeblack-400 dark:fill-aeblack-200; }
+      --act-solid-bg:       var(--color-aeblack-100);
+      --act-solid-border:   var(--color-aeblack-100);
+      --act-solid-text:     var(--color-aeblack-800);
+      --act-solid-hover-bg: var(--color-aeblack-200);
+      --act-solid-hover-bd: var(--color-aeblack-200);
+      --act-outline-border: var(--color-aeblack-100);
+      --act-outline-text:   var(--color-aeblack-100);
+      --act-hover-bg:       var(--color-aeblack-700);
+      --act-hover-text:     var(--color-aeblack-100);
+      --act-link-text:      var(--color-aeblack-100);
+      --act-link-hover:     var(--color-aeblack-50);
+      --act-link-ring:      var(--color-aeblack-200);
+      --act-focus-ring:     var(--color-seablue-300);
     }
+
     &.callout-error {
       @apply bg-aered-700 text-aered-50 dark:bg-aered-600 dark:text-aered-50;
-      & .callout__icon {
-        & svg {
-          @apply fill-aered-300 dark:fill-aered-200;
-        }
-      }
-      & .callout__actions {
-        & button.aegov-btn.btn-primary.btn-solid,
-        & aegov-button button.btn-primary.btn-solid {
-          @apply bg-aered-100 border-aered-100 text-aered-700 hover:opacity-90 focus-visible:outline-offset-3 focus-visible:outline-2 focus-visible:outline-aered-50;
-        }
-        & button.aegov-btn.btn-primary.btn-outline,
-        & aegov-button button.btn-primary.btn-outline {
-          @apply border-aered-100 text-aered-100 hover:bg-aered-700 hover:opacity-80 focus-visible:outline-offset-3 focus-visible:outline-2 focus-visible:outline-aered-50 focus-visible:bg-transparent;
-        }
-        & button.aegov-btn.btn-primary.btn-soft,
-        & aegov-button button.btn-primary.btn-soft {
-          @apply bg-aered-400/40 text-aered-100 hover:bg-aered-500/50 focus-visible:outline-offset-3 focus-visible:outline-2 focus-visible:outline-aered-50;
-        }
-        & button.aegov-btn.btn-primary.btn-link,
-        & aegov-button button.btn-primary.btn-link {
-          @apply !text-aered-100 hover:!text-aered-50 focus-visible:outline-offset-0 focus-visible:outline-2 focus-visible:outline-aered-50 focus-visible:bg-transparent;
-        }
-      }
-      & .callout__right {
-        ::slotted(a),
-        & a {
-          @apply focus-visible:bg-aered-50 focus-visible:text-aered-900 focus-visible:outline-aered-50;
-        }
-        & button {
-          @apply focus-visible:outline-aered-50;
-        }
-      }
+      & .callout__icon svg { @apply fill-aered-300 dark:fill-aered-200; }
+      --act-solid-bg:       var(--color-aered-100);
+      --act-solid-border:   var(--color-aered-100);
+      --act-solid-text:     var(--color-aered-700);
+      --act-solid-hover-bg: var(--color-aered-200);
+      --act-solid-hover-bd: var(--color-aered-200);
+      --act-outline-border: var(--color-aered-100);
+      --act-outline-text:   var(--color-aered-100);
+      --act-hover-bg:       var(--color-aered-600);
+      --act-hover-text:     var(--color-aered-100);
+      --act-link-text:      var(--color-aered-100);
+      --act-link-hover:     var(--color-aered-50);
+      --act-link-ring:      var(--color-aered-200);
+      --act-focus-ring:     var(--color-aered-200);
     }
+
     &.callout-success {
       @apply bg-aegreen-700 text-aegreen-50 dark:bg-aegreen-700 dark:text-aegreen-50;
-      & .callout__icon {
-        & svg {
-          @apply fill-aegreen-300 dark:fill-aegreen-200;
-        }
-      }
-      & .callout__actions {
-        & button.aegov-btn.btn-primary.btn-solid,
-        & aegov-button button.btn-primary.btn-solid {
-          @apply bg-aegreen-100 border-aegreen-100 text-aegreen-700 hover:opacity-90 focus-visible:outline-offset-3 focus-visible:outline-2 focus-visible:outline-aegreen-50;
-        }
-        & button.aegov-btn.btn-primary.btn-outline,
-        & aegov-button button.btn-primary.btn-outline {
-          @apply border-aegreen-100 text-aegreen-100 hover:bg-aegreen-700 hover:opacity-80 focus-visible:outline-offset-3 focus-visible:outline-2 focus-visible:outline-aegreen-50 focus-visible:bg-transparent;
-        }
-        & button.aegov-btn.btn-primary.btn-soft,
-        & aegov-button button.btn-primary.btn-soft {
-          @apply bg-aegreen-400/40 text-aegreen-100 hover:bg-aegreen-500/50 focus-visible:outline-offset-3 focus-visible:outline-2 focus-visible:outline-aegreen-50;
-        }
-        & button.aegov-btn.btn-primary.btn-link,
-        & aegov-button button.btn-primary.btn-link {
-          @apply !text-aegreen-100 hover:!text-aegreen-50 focus-visible:outline-offset-0 focus-visible:outline-2 focus-visible:outline-aegreen-50 focus-visible:bg-transparent;
-        }
-      }
-      & .callout__right {
-        ::slotted(a),
-        & a {
-          @apply focus-visible:bg-aegreen-50 focus-visible:text-aegreen-900 focus-visible:outline-aegreen-50;
-        }
-        & button {
-          @apply focus-visible:outline-aegreen-50;
-        }
-      }
+      & .callout__icon svg { @apply fill-aegreen-300 dark:fill-aegreen-200; }
+      --act-solid-bg:       var(--color-aegreen-100);
+      --act-solid-border:   var(--color-aegreen-100);
+      --act-solid-text:     var(--color-aegreen-700);
+      --act-solid-hover-bg: var(--color-aegreen-200);
+      --act-solid-hover-bd: var(--color-aegreen-200);
+      --act-outline-border: var(--color-aegreen-100);
+      --act-outline-text:   var(--color-aegreen-100);
+      --act-hover-bg:       var(--color-aegreen-600);
+      --act-hover-text:     var(--color-aegreen-100);
+      --act-link-text:      var(--color-aegreen-100);
+      --act-link-hover:     var(--color-aegreen-50);
+      --act-link-ring:      var(--color-aegreen-200);
+      --act-focus-ring:     var(--color-aegreen-200);
     }
+
     &.callout-warning {
       @apply bg-camel-700 text-camel-50 dark:bg-camel-700 dark:text-camel-50;
-      & .callout__icon {
-        & svg {
-          @apply fill-camel-300 dark:fill-camel-200;
-        }
-      }
-      & .callout__actions {
-        & button.aegov-btn.btn-primary.btn-solid,
-        & aegov-button button.btn-primary.btn-solid {
-          @apply bg-camel-100 border-camel-100 text-camel-700 hover:opacity-90 focus-visible:outline-offset-3 focus-visible:outline-2 focus-visible:outline-camel-50;
-        }
-        & button.aegov-btn.btn-primary.btn-outline,
-        & aegov-button button.btn-primary.btn-outline {
-          @apply border-camel-100 text-camel-100 hover:bg-camel-700 hover:opacity-80 focus-visible:outline-offset-3 focus-visible:outline-2 focus-visible:outline-camel-50 focus-visible:bg-transparent;
-        }
-        & button.aegov-btn.btn-primary.btn-soft,
-        & aegov-button button.btn-primary.btn-soft {
-          @apply bg-camel-400/40 text-camel-100 hover:bg-camel-500/50 focus-visible:outline-offset-3 focus-visible:outline-2 focus-visible:outline-camel-50;
-        }
-        & button.aegov-btn.btn-primary.btn-link,
-        & aegov-button button.btn-primary.btn-link {
-          @apply !text-camel-100 hover:!text-camel-50 focus-visible:outline-offset-0 focus-visible:outline-2 focus-visible:outline-camel-50 focus-visible:bg-transparent;
-        }
-      }
-      & .callout__right {
-        ::slotted(a),
-        & a {
-          @apply focus-visible:bg-camel-50 focus-visible:text-camel-900 focus-visible:outline-camel-50;
-        }
-        & button {
-          @apply focus-visible:outline-camel-50;
-        }
-      }
+      & .callout__icon svg { @apply fill-camel-300 dark:fill-camel-200; }
+      --act-solid-bg:       var(--color-camel-100);
+      --act-solid-border:   var(--color-camel-100);
+      --act-solid-text:     var(--color-camel-700);
+      --act-solid-hover-bg: var(--color-camel-200);
+      --act-solid-hover-bd: var(--color-camel-200);
+      --act-outline-border: var(--color-camel-100);
+      --act-outline-text:   var(--color-camel-100);
+      --act-hover-bg:       var(--color-camel-600);
+      --act-hover-text:     var(--color-camel-100);
+      --act-link-text:      var(--color-camel-100);
+      --act-link-hover:     var(--color-camel-50);
+      --act-link-ring:      var(--color-camel-200);
+      --act-focus-ring:     var(--color-camel-200);
     }
+
     &.callout-info {
       @apply bg-techblue-700 text-techblue-50 dark:bg-techblue-600 dark:text-techblue-50;
-      & .callout__icon {
-        & svg {
-          @apply fill-techblue-300 dark:fill-techblue-200;
-        }
-      }
-      & .callout__actions {
-        & button.aegov-btn.btn-primary.btn-solid,
-        & aegov-button button.btn-primary.btn-solid {
-          @apply bg-techblue-100 border-techblue-100 text-techblue-700 hover:opacity-90 focus-visible:outline-offset-3 focus-visible:outline-2 focus-visible:outline-techblue-50;
-        }
-        & button.aegov-btn.btn-primary.btn-outline,
-        & aegov-button button.btn-primary.btn-outline {
-          @apply border-techblue-100 text-techblue-100 hover:bg-techblue-700 hover:opacity-80 focus-visible:outline-offset-3 focus-visible:outline-2 focus-visible:outline-techblue-50 focus-visible:bg-transparent;
-        }
-        & button.aegov-btn.btn-primary.btn-soft,
-        & aegov-button button.btn-primary.btn-soft {
-          @apply bg-techblue-400/40 text-techblue-100 hover:bg-techblue-500/50 focus-visible:outline-offset-3 focus-visible:outline-2 focus-visible:outline-techblue-50;
-        }
-        & button.aegov-btn.btn-primary.btn-link,
-        & aegov-button button.btn-primary.btn-link {
-          @apply !text-techblue-100 hover:!text-techblue-50 focus-visible:outline-offset-0 focus-visible:outline-2 focus-visible:outline-techblue-50 focus-visible:bg-transparent;
-        }
-      }
-      & .callout__right {
-        ::slotted(a),
-        & a {
-          @apply focus-visible:bg-techblue-50 focus-visible:text-techblue-900 focus-visible:outline-techblue-50;
-        }
-        & button {
-          @apply focus-visible:outline-techblue-50;
-        }
-      }
+      & .callout__icon svg { @apply fill-techblue-300 dark:fill-techblue-200; }
+      --act-solid-bg:       var(--color-techblue-100);
+      --act-solid-border:   var(--color-techblue-100);
+      --act-solid-text:     var(--color-techblue-700);
+      --act-solid-hover-bg: var(--color-techblue-200);
+      --act-solid-hover-bd: var(--color-techblue-200);
+      --act-outline-border: var(--color-techblue-100);
+      --act-outline-text:   var(--color-techblue-100);
+      --act-hover-bg:       var(--color-techblue-600);
+      --act-hover-text:     var(--color-techblue-100);
+      --act-link-text:      var(--color-techblue-100);
+      --act-link-hover:     var(--color-techblue-50);
+      --act-link-ring:      var(--color-techblue-200);
+      --act-focus-ring:     var(--color-techblue-200);
     }
   }
-}
 
-.aegov-callout {
-  /* Reserve space for absolutely-positioned dismiss button (logical inline-end) */
-  &[data-dismissible='true'] {
-    @apply pe-12;
-  }
+  /* ════════════════════════════════════════════════════════════
+     LAYOUT
+     ════════════════════════════════════════════════════════════ */
+
+  /* Reserve space for absolutely-positioned dismiss button */
+  &[data-dismissible='true'] { @apply pe-12; }
 
   & .callout__main {
     @apply flex items-start gap-4;
   }
-  /* Unnamed wrapper sibling of icon — grid: content + right side-by-side, actions on its own row */
+
+  /* Content wrapper: grid so content + optional right sit side-by-side,
+     actions span the full width on their own row below */
   & .callout__main > div:not(.callout__icon) {
     @apply flex-1 min-w-0;
     display: grid;
@@ -406,30 +256,12 @@
 
   & .callout__icon {
     @apply shrink-0 flex items-start min-w-fit;
-    & svg,
-    & img,
-    & ::slotted(svg) {
-      @apply size-6 shrink-0 block;
-    }
-    ::slotted(ul),
-    & ul {
-      @apply list-disc;
-    }
+    & svg, & img, ::slotted(svg) { @apply size-6 shrink-0 block; }
   }
-  &.callout-sm .callout__icon {
-    & svg,
-    & img,
-    & ::slotted(svg) {
-      @apply size-5;
-    }
-  }
-  &.callout-lg .callout__icon {
-    & svg,
-    & img,
-    & ::slotted(svg) {
-      @apply size-6.5;
-    }
-  }
+  &.callout-sm .callout__icon svg,
+  &.callout-sm .callout__icon img { @apply size-5; }
+  &.callout-lg .callout__icon svg,
+  &.callout-lg .callout__icon img { @apply size-6.5; }
 
   & .callout__content {
     @apply min-w-0 leading-normal;
@@ -439,45 +271,31 @@
 
   & .callout__right {
     @apply flex items-center justify-end gap-2 pt-1;
-    ::slotted(a),
-    & a {
-      @apply cursor-pointer ml-1.5 max-sm:ml-0 rtl:ml-0 rtl:-mr-1.5 px-1.5 max-sm:px-0 inline-flex items-center text-sm font-medium underline underline-offset-2 gap-1 leading-none focus:outline-offset-2 focus:outline-offset-2 focus:outline-primary-support-600;
+    ::slotted(a), & a {
+      @apply cursor-pointer ml-1.5 max-sm:ml-0 rtl:ml-0 rtl:-mr-1.5 px-1.5 max-sm:px-0
+             inline-flex items-center text-sm font-medium underline underline-offset-2
+             gap-1 leading-none focus:outline-offset-2 focus:outline-primary-support-600;
       color: inherit;
     }
   }
-  &.callout-sm .callout__right {
-    ::slotted(a),
-    & a {
-      @apply text-xs!;
-    }
-  }
-  &.callout-lg .callout__right {
-    ::slotted(a),
-    & a {
-      @apply text-base!;
-    }
+  &.callout-sm .callout__right ::slotted(a),
+  &.callout-sm .callout__right a { @apply text-xs!; }
+  &.callout-lg .callout__right ::slotted(a),
+  &.callout-lg .callout__right a { @apply text-base!; }
+
+  /* Actions slot — flex row; button colors from --act-* via action-buttons.css */
+  & .callout__actions {
+    @apply pt-6 flex flex-wrap items-center gap-3;
   }
 
-  /* Dismiss button — pinned to logical top-inline-end (RTL-safe via inset-inline-end) */
+  /* Dismiss button — pinned to logical top-inline-end */
   & .callout__dismiss {
     @apply absolute top-3 w-auto h-auto border-0 p-1 bg-transparent cursor-pointer;
     inset-inline-end: 0.75rem;
     color: inherit;
   }
 
-  & .callout__actions {
-    @apply pt-6;
-    /* Slotted wrapper becomes the flex container — author passes one element holding the buttons */
-    & > * {
-      @apply flex items-center justify-start gap-4 flex-wrap whitespace-normal;
-    }
-    & button:not(.aegov-btn),
-    & a {
-      @apply h-10 text-base px-4 border-1 border-aeblack-100 bg-whitely-50 font-bold rounded-md hover:opacity-90 focus-visible:outline-offset-2 focus-visible:outline-2 focus-visible:outline-dashed;
-    }
-  }
-
-  /* Narrow container (< ~28rem): stack content -> link -> actions in one column */
+  /* Narrow container (< ~28rem): stack content → right → actions in one column */
   @container (max-width: 28rem) {
     & .callout__main > div:not(.callout__icon) {
       grid-template-columns: 1fr;
@@ -489,10 +307,7 @@
     & .callout__right {
       @apply pt-4 pb-3;
       justify-content: flex-start;
-      ::slotted(a),
-      & a {
-        @apply ms-0 me-0 px-0;
-      }
+      ::slotted(a), & a { @apply ms-0 me-0 px-0; }
     }
   }
 }

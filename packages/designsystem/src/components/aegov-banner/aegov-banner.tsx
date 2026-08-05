@@ -37,7 +37,7 @@ const BODY_PADDING_PROP: Record<BannerPosition, string> = {
  */
 @Component({
   tag: 'aegov-banner',
-  styleUrl: 'aegov-banner.css',
+  styleUrls: ['aegov-banner.css', '../../global/action-buttons.css'],
   scoped: false,
   shadow: false
 })
