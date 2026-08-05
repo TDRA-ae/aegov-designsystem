@@ -95,7 +95,7 @@ export class AegovLink {
   @Prop() isFull: boolean = false;
 
   /** Bold text. */
-  @Prop() isBold: boolean = false;
+  @Prop() isBold: boolean = true;
 
   /**
    * Disable navigation and apply disabled styling. Adds `aria-disabled="true"`,
@@ -172,15 +172,7 @@ export class AegovLink {
    * Tailwind utilities.
    */
   private get isButtonStyled(): boolean {
-    return (
-      this.variant !== undefined ||
-      this.appearance !== undefined ||
-      this.size !== undefined ||
-      this.isIcon ||
-      this.isFull ||
-      this.isBold ||
-      this.isDisabled
-    );
+    return this.variant !== undefined || this.appearance !== undefined;
   }
 
   private handleClick = (event: MouseEvent) => {
