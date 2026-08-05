@@ -60,18 +60,6 @@
     entity-name="Ministry of Industry and Advanced Technology"
     entity-domain="https://moiat.gov.ae"
   >
-    <nav slot="actions" class="hidden sm:inline">
-      <ul class="flex justify-end items-center gap-6 list-none m-0 p-0">
-        <li><a href="#" class="text-sm! text-aeblack-100! focus-visible:text-aeblack-800! no-underline">
-          <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"><rect width="256" height="256" fill="none"/><polyline points="104 72 104 136 192 136 224 200 248 192" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/><circle cx="104" cy="48" r="24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/><path d="M168,96H112a64,64,0,0,0,0,128c29.82,0,56.9-20.4,64-48" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/></svg>
-          <span class="hidden lg:inline">Accessibility</span>
-        </a></li>
-        <li><a href="#" class="text-sm! text-aeblack-100! focus-visible:text-aeblack-800! no-underline">
-          <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"><rect width="256" height="256" fill="none"/><circle cx="128" cy="128" r="96" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/><path d="M168,128c0,64-40,96-40,96s-40-32-40-96,40-96,40-96S168,64,168,128Z" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/><line x1="37.46" y1="96" x2="218.54" y2="96" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/><line x1="37.46" y1="160" x2="218.54" y2="160" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/></svg>
-          <span class="hidden lg:inline">Language</span>
-        </a></li>
-      </ul>
-    </nav>
     <img
       slot="logo"
       src="https://moiat.gov.ae/-/media/site/moiat/identity/logo/moiat_logo_eng.ashx?iar=0&hash=42716B005DAA289F20DE7B83B575605A"
@@ -142,7 +130,7 @@
 
 <hr>
 <h2>Required Branding Properties</h2>
-<p>Both <code>entity-name</code> and <code>entity-domain</code> are required. The header uses them to populate the official-website panel that opens from the top bar, and <code>entity-domain</code> becomes the link target wrapping the logo. If either is omitted the component renders an inline error block in place of the header — making the misconfiguration obvious during development.</p>
+<p>Both <code>entity-name</code> and <code>entity-domain</code> are required. The header uses them to populate the official-website panel that opens from the top bar, and <code>entity-domain</code> becomes the link target wrapping the logo. If either is omitted, the embedded <code>aegov-header-banner</code> sub-component renders an inline error block in place of the banner — making the misconfiguration obvious during development. The outer <code>aegov-header</code> (logo/search row) still renders.</p>
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-header</span>
   <span class="hljs-attr">entity-name</span>=<span class="hljs-string">&quot;Telecommunications and Digital Government Regulatory Authority&quot;</span>
   <span class="hljs-attr">entity-domain</span>=<span class="hljs-string">&quot;https://tdra.gov.ae&quot;</span>
@@ -423,9 +411,16 @@
 <td><code>string</code></td>
 <td><code>undefined</code></td>
 </tr>
+<tr>
+<td><code>logoLabel</code></td>
+<td><code>logo-label</code></td>
+<td>Accessible label (aria-label) for the logo anchor element.</td>
+<td><code>string</code></td>
+<td><code>undefined</code></td>
+</tr>
 </tbody></table>
 <blockquote>
-<p>Omitting <code>entity-name</code> or <code>entity-domain</code> causes the component to render an inline error block in place of the header.</p>
+<p>Omitting <code>entity-name</code> or <code>entity-domain</code> causes the embedded <code>aegov-header-banner</code> sub-component to render an inline error block in place of the banner. The outer <code>aegov-header</code> (logo/search row) still renders.</p>
 </blockquote>
 <h3>Slots</h3>
 <table>
@@ -443,9 +438,62 @@
 <td><code>search</code></td>
 <td>Optional search field shown in the head row from the <code>md</code> breakpoint up. Use <code>aegov-input</code> for consistent styling.</td>
 </tr>
+<tr>
+<td><code>actions</code></td>
+<td>Forwarded to the embedded <code>aegov-header-banner</code>&#39;s actions slot. Use for language switchers, accessibility links, or other utility controls placed in the top-right area of the banner.</td>
+</tr>
 </tbody></table>
 <h3>Events</h3>
 <p>The header does not emit any custom events.</p>
+<hr>
+<h3><code>aegov-header-banner</code> Sub-component</h3>
+<p><code>aegov-header</code> embeds an <code>aegov-header-banner</code> internally. The following properties and slots belong to that sub-component and are passed through from the outer <code>aegov-header</code>.</p>
+<h4>Properties</h4>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Attribute</th>
+<th>Description</th>
+<th>Type</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>entityName</code></td>
+<td><code>entity-name</code></td>
+<td>The Arabic/English entity name shown in the banner.</td>
+<td><code>string</code></td>
+<td><code>undefined</code> (required)</td>
+</tr>
+<tr>
+<td><code>entityDomain</code></td>
+<td><code>entity-domain</code></td>
+<td>The entity&#39;s domain shown below the name.</td>
+<td><code>string</code></td>
+<td><code>undefined</code> (required)</td>
+</tr>
+<tr>
+<td><code>skipContentContainer</code></td>
+<td><code>skip-content-container</code></td>
+<td>When present, renders a <code>Skip to content</code> link at the top of the banner.</td>
+<td><code>string</code></td>
+<td><code>undefined</code></td>
+</tr>
+</tbody></table>
+<h4>Slots</h4>
+<table>
+<thead>
+<tr>
+<th>Slot</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>actions</code></td>
+<td>Content for the top-right area of the banner. Falls back to built-in UAE-flag quick links when empty.</td>
+</tr>
+</tbody></table>
 <h3>Pass-through Attributes</h3>
 <p>The header uses Shadow DOM for full style isolation. It does not forward arbitrary attributes to internal elements — apply attributes directly to the host element where they are needed.</p>
 <table>

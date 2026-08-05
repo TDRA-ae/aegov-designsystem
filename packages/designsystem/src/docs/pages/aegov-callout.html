@@ -250,7 +250,7 @@
 
 <hr>
 <h2>Combined Example</h2>
-<p>This example combines all the available slots — variant icon (default), content, actions, dismiss button, and inline link — to build a rich service-status callout.</p>
+<p>This example combines the main available slots — variant icon (default), content, action buttons, and dismiss button — to build a rich service-status callout. The <code>actions</code> and <code>link</code> slots are mutually exclusive; this example uses <code>actions</code> only.</p>
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-callout</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;warning&quot;</span> <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;soft&quot;</span> <span class="hljs-attr">is-dismissible</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>
     <span class="hljs-tag">&lt;<span class="hljs-name">strong</span>&gt;</span>Action required.<span class="hljs-tag">&lt;/<span class="hljs-name">strong</span>&gt;</span> Three documents in your residency renewal application are missing. Please upload them by 30 May to keep your application active.
@@ -259,7 +259,6 @@
     <span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm&quot;</span>&gt;</span>Resume application<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span>
     <span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm&quot;</span> <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;outline&quot;</span>&gt;</span>Save for later<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span>
   <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;link&quot;</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;/help/required-documents&quot;</span>&gt;</span>Which documents?<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-callout</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <aegov-callout variant="warning" appearance="soft" is-dismissible>
     <p>
@@ -269,7 +268,6 @@
       <aegov-button size="sm">Resume application</aegov-button>
       <aegov-button size="sm" appearance="outline">Save for later</aegov-button>
     </div>
-    <a slot="link" href="#">Which documents?</a>
   </aegov-callout>
 </div>
 
@@ -359,22 +357,25 @@
 </tr>
 </thead>
 <tbody><tr>
+<td><em>(default)</em></td>
+<td>The main message content (paragraphs, headings, inline formatting).</td>
+</tr>
+<tr>
 <td><code>icon</code></td>
 <td>Custom leading icon. When omitted, a variant-specific default icon is rendered automatically.</td>
 </tr>
 <tr>
-<td><code>content</code></td>
-<td>The main message content (paragraphs, headings, inline formatting).</td>
-</tr>
-<tr>
 <td><code>actions</code></td>
-<td>Action buttons rendered below the content.</td>
+<td>A group of buttons or links rendered below the content. <strong>Mutually exclusive with <code>link</code>.</strong></td>
 </tr>
 <tr>
 <td><code>link</code></td>
-<td>Inline link rendered on the trailing side, before the dismiss button.</td>
+<td>A single <code>aegov-link</code> (or <code>&lt;a&gt;</code>) on the trailing side, before the dismiss button. <strong>Mutually exclusive with <code>actions</code>.</strong></td>
 </tr>
 </tbody></table>
+<blockquote>
+<p><strong>Note — <code>actions</code> and <code>link</code> are mutually exclusive.</strong> Use <code>actions</code> when you need one or more buttons or links below the message. Use <code>link</code> when a single inline anchor on the trailing side is sufficient. Providing both in the same callout is not supported.</p>
+</blockquote>
 <h3>Events</h3>
 <table>
 <thead>

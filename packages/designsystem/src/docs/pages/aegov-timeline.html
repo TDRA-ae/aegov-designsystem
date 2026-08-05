@@ -21,7 +21,7 @@
           <section id="content-area" class="bg-whitely-50 dark:bg-aeblack-900 p-6 rounded-md shadow-xl">
           <!-- DOC:START -->
 <h1>Timeline</h1>
-<p class="text-lg text-aeblack-500 mb-8">A timeline is a visual stepper that shows progress through a sequence of stages — application steps, document review status, multi-step forms — and clarifies what is complete, what is in progress, and what is still ahead. The <code>aegov-timeline</code> parent renders the surrounding navigation landmark and writes shared layout props onto each <code>aegov-timeline-step</code> child, so your markup only needs per-step <code>status</code> and label content.</p>
+<p class="text-lg text-aeblack-500 mb-8">A timeline is a visual stepper that shows progress through a sequence of stages — application steps, document review status, multi-step forms — and clarifies what is complete, what is in progress, and what is still ahead. The <code>aegov-timeline</code> parent renders the surrounding region landmark and writes shared layout props onto each <code>aegov-timeline-step</code> child, so your markup only needs per-step <code>status</code> and label content.</p>
 
 <h2>Introduction</h2>
 <p><code>aegov-timeline</code> composes a parent wrapper with one or more <code>aegov-timeline-step</code> children. The parent calculates step indices, first/last position, and connector state for each step, leaving you to author content. Two visual variants are available — the default numbered circles, and a compact dot variant for tighter contexts — and steps lay out either horizontally or vertically depending on the <code>orientation</code> property.</p>
@@ -451,7 +451,7 @@
 <tbody><tr>
 <td><code>fieldId</code></td>
 <td><code>field-id</code></td>
-<td>DOM <code>id</code> for the rendered <code>&lt;nav&gt;</code>. Auto-generated if omitted.</td>
+<td>DOM <code>id</code> for the rendered <code>&lt;section&gt;</code>. Auto-generated if omitted.</td>
 <td><code>string</code></td>
 <td><em>generated</em></td>
 </tr>
@@ -601,12 +601,12 @@
 <tbody><tr>
 <td><code>aria-*</code></td>
 <td>Yes</td>
-<td>Set on <code>&lt;aegov-timeline&gt;</code> — forwarded onto the rendered <code>&lt;nav&gt;</code> element.</td>
+<td>Set on <code>&lt;aegov-timeline&gt;</code> — forwarded onto the rendered <code>&lt;section&gt;</code> element.</td>
 </tr>
 <tr>
 <td><code>data-*</code></td>
 <td>Yes</td>
-<td>Set on <code>&lt;aegov-timeline&gt;</code> — forwarded onto the rendered <code>&lt;nav&gt;</code> element.</td>
+<td>Set on <code>&lt;aegov-timeline&gt;</code> — forwarded onto the rendered <code>&lt;section&gt;</code> element.</td>
 </tr>
 <tr>
 <td><code>aria-*</code> / <code>data-*</code> on steps</td>
@@ -624,12 +624,12 @@
 <td>Applied to the host element.</td>
 </tr>
 </tbody></table>
-<p>To override the default <code>aria-label=&quot;Timeline&quot;</code> on the navigation landmark, set <code>aria-label</code> directly on <code>&lt;aegov-timeline&gt;</code> — it is forwarded to the rendered <code>&lt;nav&gt;</code>.</p>
+<p>To override the default <code>aria-label=&quot;Timeline&quot;</code> on the region landmark, set <code>aria-label</code> directly on <code>&lt;aegov-timeline&gt;</code> — it is forwarded to the rendered <code>&lt;section&gt;</code>.</p>
 <hr>
 <h2>Accessibility</h2>
 <h3>Built-in behaviour</h3>
 <ul>
-<li>The container renders as a <code>&lt;nav&gt;</code> element whose <code>aria-label</code> defaults to <code>&quot;Timeline&quot;</code> in LTR contexts and <code>&quot;الجدول الزمني&quot;</code> in RTL — no developer translation needed. Pass <code>aria-label</code> on the host to override with a more specific description.</li>
+<li>The container renders as a <code>&lt;section&gt;</code> element whose <code>aria-label</code> defaults to <code>&quot;Timeline&quot;</code> in LTR contexts and <code>&quot;الجدول الزمني&quot;</code> in RTL — no developer translation needed. Pass <code>aria-label</code> on the host to override with a more specific description.</li>
 <li>Steps render as <code>&lt;li&gt;</code> items inside an <code>&lt;ol&gt;</code>, preserving order semantics.</li>
 <li>The currently active step&#39;s <code>&lt;li&gt;</code> carries <code>aria-current=&quot;step&quot;</code> so screen readers announce the user&#39;s position.</li>
 <li>Each step includes a visually hidden description (<code>&quot;Step N of M: &lt;label&gt; (current/completed)&quot;</code> in English; <code>&quot;الخطوة N من M: &lt;label&gt; (مكتمل/الحالية)&quot;</code> in Arabic) that gives screen-reader users full context regardless of variant — including the compact dot variant where labels are visually hidden in horizontal mode. No developer translation needed.</li>

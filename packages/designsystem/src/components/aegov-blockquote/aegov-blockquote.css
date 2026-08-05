@@ -6,6 +6,10 @@
 :host {
   display: block;
 }
+
+:host(:dir(rtl)) svg {
+  transform: scaleX(-1);
+}
 .aegov-blockquote { 
   ::slotted(p),
   & p {

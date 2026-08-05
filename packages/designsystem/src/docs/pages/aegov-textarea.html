@@ -272,12 +272,12 @@
 
 <hr>
 <h2>Listening for value events</h2>
-<p>The component emits four events: <code>aegovTextareaInput</code> on every keystroke, <code>aegovTextareaChange</code> when the value commits (typically on blur), <code>aegovTextareaFocus</code>, and <code>aegovTextareaBlur</code>.</p>
+<p>The component emits four events: <code>aegovTextareaValue</code> on every keystroke, <code>aegovTextareaChange</code> when the value commits (typically on blur), <code>aegovTextareaFocus</code>, and <code>aegovTextareaBlur</code>.</p>
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-textarea</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;feedback&quot;</span> <span class="hljs-attr">rows</span>=<span class="hljs-string">&quot;4&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-textarea</span>&gt;</span>
 
 <span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript">
   <span class="hljs-keyword">const</span> el = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;feedback&#x27;</span>);
-  el.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;aegovTextareaInput&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">e</span>) =&gt;</span> {
+  el.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;aegovTextareaValue&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">e</span>) =&gt;</span> {
     <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;Length now:&#x27;</span>, e.<span class="hljs-property">detail</span>.<span class="hljs-property">value</span>.<span class="hljs-property">length</span>);
   });
   el.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;aegovTextareaChange&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">e</span>) =&gt;</span> {
@@ -387,6 +387,27 @@
 <td><code>false</code></td>
 </tr>
 <tr>
+<td><code>isInvalid</code></td>
+<td><code>is-invalid</code></td>
+<td>Puts the field into error state.</td>
+<td><code>boolean</code></td>
+<td><code>false</code></td>
+</tr>
+<tr>
+<td><code>errorMessage</code></td>
+<td><code>error-message</code></td>
+<td>Inline error text shown below the field when <code>isInvalid</code> is true.</td>
+<td><code>string</code></td>
+<td><code>&#39;&#39;</code></td>
+</tr>
+<tr>
+<td><code>hint</code></td>
+<td><code>hint</code></td>
+<td>Inline hint text shown below the field when not in error state.</td>
+<td><code>string</code></td>
+<td><code>&#39;&#39;</code></td>
+</tr>
+<tr>
 <td><code>resize</code></td>
 <td><code>resize</code></td>
 <td>Resize handle behaviour. <code>auto</code> grows the field as the user types.</td>
@@ -417,7 +438,22 @@
 </tbody></table>
 <p><code>TextareaResize</code> accepts: <code>none</code>, <code>vertical</code>, <code>horizontal</code>, <code>both</code>, <code>auto</code>.</p>
 <h3>Slots</h3>
-<p>The textarea has no named slots. The textarea content is set through the <code>value</code> property, not via slot text.</p>
+<table>
+<thead>
+<tr>
+<th>Slot</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>hint</code></td>
+<td>Shown when not in error state. Use for rich HTML hint markup instead of the <code>hint</code> prop.</td>
+</tr>
+<tr>
+<td><code>error</code></td>
+<td>Shown when <code>isInvalid</code> is true. Use for rich HTML error markup instead of the <code>errorMessage</code> prop.</td>
+</tr>
+</tbody></table>
 <h3>Events</h3>
 <table>
 <thead>
@@ -428,7 +464,7 @@
 </tr>
 </thead>
 <tbody><tr>
-<td><code>aegovTextareaInput</code></td>
+<td><code>aegovTextareaValue</code></td>
 <td><code>{ value: string; event: Event }</code></td>
 <td>Fires on every keystroke. Use for live validation and counter updates.</td>
 </tr>
@@ -446,6 +482,31 @@
 <td><code>aegovTextareaBlur</code></td>
 <td><code>FocusEvent</code></td>
 <td>Fires when the textarea loses focus.</td>
+</tr>
+<tr>
+<td><code>aegovValidate</code></td>
+<td><code>AegovValidationDetail&lt;string&gt;</code></td>
+<td>Fires when the component validates. Detail includes <code>name</code>, <code>value</code>, <code>validity</code>, <code>validationMessage</code>, <code>customError</code>, <code>trigger</code>.</td>
+</tr>
+</tbody></table>
+<h3>Methods</h3>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Returns</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>validate(trigger?)</code></td>
+<td><code>Promise&lt;AegovValidationResult&gt;</code></td>
+<td>Re-runs validation and emits <code>aegovValidate</code>.</td>
+</tr>
+<tr>
+<td><code>setCustomValidity(message)</code></td>
+<td><code>Promise&lt;void&gt;</code></td>
+<td>Sets a custom error message. Pass <code>&#39;&#39;</code> to clear.</td>
 </tr>
 </tbody></table>
 <h3>Pass-through Attributes</h3>

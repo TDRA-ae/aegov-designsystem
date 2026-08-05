@@ -444,6 +444,13 @@
 <td><code>boolean</code></td>
 <td><code>true</code></td>
 </tr>
+<tr>
+<td><code>label</code></td>
+<td><code>label</code></td>
+<td>Accessible label for the dialog. Prefer <code>aria-labelledby</code> pointing at a heading inside the modal; use <code>label</code> only when no visible heading is present.</td>
+<td><code>string</code></td>
+<td><code>undefined</code></td>
+</tr>
 </tbody></table>
 <h3>Slots</h3>
 <table>
@@ -479,8 +486,8 @@
 </tr>
 <tr>
 <td><code>aegovModalBeforeClose</code></td>
-<td><code>{ preventDefault: () =&gt; void }</code></td>
-<td>Fired before the modal closes. Call <code>preventDefault()</code> to keep it open (e.g., unsaved data).</td>
+<td><code>void</code></td>
+<td>Fired before the modal closes. The event is cancelable — call <code>event.preventDefault()</code> on the event to keep it open (e.g., unsaved data).</td>
 </tr>
 <tr>
 <td><code>aegovModalBackdropClick</code></td>

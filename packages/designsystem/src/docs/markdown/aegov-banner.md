@@ -124,7 +124,7 @@ The `mode` property chooses between two layout strategies:
 <script>
   document.getElementById('floatBanner')
     .addEventListener('aegovBannerHeightChange', e => {
-      document.body.style.setProperty('--banner-height', e.detail + 'px');
+      document.body.style.setProperty('--banner-height', e.detail.height + 'px');
     });
 </script>
 ```
@@ -212,7 +212,7 @@ The close button triggers a 300 ms exit animation; the `aegovBannerDismiss` even
 
 ## Critical alerts (focusable)
 
-For alerts that demand immediate user attention, set `is-focusable="true"`. When the variant resolves to `role="alert"` (i.e. `error` or `success`), the banner is focused on mount so screen reader users hear the announcement and keyboard users can act on it without hunting for it.
+For alerts that demand immediate user attention, set `is-focusable="true"`. The focus behaviour only takes effect when the variant resolves to `role="alert"` — which only the `error` variant does. The `success` variant resolves to `role="status"`, not `role="alert"`, so `is-focusable` has no effect on `success` banners.
 
 Use this sparingly — it interrupts the user's keyboard focus, which is disruptive if used for routine notifications.
 
@@ -220,7 +220,6 @@ Use this sparingly — it interrupts the user's keyboard focus, which is disrupt
 <aegov-banner
   variant="error"
   is-focusable="true"
-  heading="Service interruption"
 >
   The Emirates ID renewal service is temporarily offline. Please try again in 30 minutes.
 </aegov-banner>
@@ -228,12 +227,12 @@ Use this sparingly — it interrupts the user's keyboard focus, which is disrupt
 
 ---
 
-## Heading
+## Heading (aria-labelledby)
 
-The `heading` property sets up `aria-labelledby` on the banner. The component derives a heading id of `${fieldId}-heading`. Render the visible heading inside the default slot using the same id so the relationship resolves correctly.
+There is no `heading` prop. To label the banner for assistive technology, set `aria-labelledby` on the host element pointing to a heading element's `id`, then render that heading inside the default slot. Use `field-id` to stabilise the derived heading id.
 
 ```html
-<aegov-banner field-id="maintenance" heading="Maintenance window">
+<aegov-banner field-id="maintenance" aria-labelledby="maintenance-heading">
   <strong id="maintenance-heading">Maintenance window</strong>
   Government services will be briefly unavailable on Friday 03:00&ndash;05:00 GST.
 </aegov-banner>
@@ -284,7 +283,6 @@ The banner is direction-agnostic. Internal spacing uses logical properties; the 
 | `size`          | `size`           | Size token (`sm`, `base`, `lg`) or responsive string.                                        | `string`                                                      | `'base'`    |
 | `isDismissible` | `is-dismissible` | When `true`, renders a close button.                                                         | `boolean`                                                     | `true`      |
 | `isFocusable`   | `is-focusable`   | When `true` and the resolved role is `alert`, focuses the banner on mount.                   | `boolean`                                                     | `false`     |
-| `heading`       | `heading`        | Heading text used by `aria-labelledby`. Derives id `${fieldId}-heading`.                     | `string`                                                      | `undefined` |
 
 ### Slots
 
@@ -299,7 +297,7 @@ The banner is direction-agnostic. Internal spacing uses logical properties; the 
 | Event                       | Detail              | Description                                                                       |
 | --------------------------- | ------------------- | --------------------------------------------------------------------------------- |
 | `aegovBannerDismiss`        | `void`              | Fires after the dismiss animation completes (~300 ms after the user clicks close). |
-| `aegovBannerHeightChange`   | `number` (pixels)   | Fires in `mode="overlay"` whenever the banner's height changes.                   |
+| `aegovBannerHeightChange`   | `{ height: number }` (pixels)   | Fires in `mode="overlay"` whenever the banner's height changes.                   |
 
 #### Listening for events
 
@@ -316,7 +314,7 @@ The banner is direction-agnostic. Internal spacing uses logical properties; the 
   });
 
   banner.addEventListener('aegovBannerHeightChange', (e) => {
-    document.body.style.setProperty('--banner-height', e.detail + 'px');
+    document.body.style.setProperty('--banner-height', e.detail.height + 'px');
   });
 </script>
 ```
@@ -337,10 +335,10 @@ The banner is direction-agnostic. Internal spacing uses logical properties; the 
 
 ### Built-in behaviour
 
-- The banner auto-computes a `role` based on the variant. `error` and `success` resolve to `role="alert"` (assertive); `info`, `warning`, and `default` resolve to `role="region"` (polite).
+- The banner auto-computes a `role` based on the variant. Only `error` resolves to `role="alert"` (assertive); `success`, `info`, `warning`, and `default` all resolve to `role="status"` (polite).
 - A `role` attribute set on the host **overrides** the auto-computed role, so consumers can downgrade noisy variants to `status` if needed.
-- `aria-live` is set automatically based on the resolved role: `alert` → `assertive`; `region`/`status` → `polite`.
-- When `heading` is provided, `aria-labelledby` references the derived `${fieldId}-heading` id.
+- The component does **not** set an explicit `aria-live` attribute. Instead it relies on the implicit `aria-live` values carried by WAI-ARIA roles: `role="alert"` implies `aria-live="assertive"`, and `role="status"` implies `aria-live="polite"`. This is correct per the [APG Alert pattern](https://www.w3.org/WAI/ARIA/apg/patterns/alert/examples/alert/).
+- To label the banner for assistive technology, set `aria-labelledby` on the host element pointing to the `id` of a visible heading inside the default slot. There is no `heading` prop — the relationship must be wired manually by the consumer.
 - A built-in variant icon (error / warning / success / info / default) is rendered automatically alongside the text, satisfying WCAG SC 1.4.1 — severity is conveyed by shape and text, not colour alone. Supply a custom `<… slot="icon">` to override the default.
 - The icon column is marked `aria-hidden="true"` — the text content inside the default slot is the sole accessible announcement.
 - The dismiss button has a minimum touch target of **24 × 24 CSS px** on all sizes (sm, base, lg), satisfying WCAG SC 2.5.8.
@@ -363,3 +361,43 @@ The banner is direction-agnostic. Internal spacing uses logical properties; the 
 | `Tab`            | Move focus into the banner (dismiss button and any controls in the actions slot). |
 | `Enter`, `Space` | Activate the focused control.                                                   |
 | `Shift + Tab`    | Move focus backwards.                                                           |
+
+---
+
+## aegov-header-banner
+
+The `aegov-header-banner` component renders the UAE government authenticity strip — the narrow bar placed above the main site header that confirms the site belongs to a verified UAE Federal Government entity. It shows the entity name and domain, includes an expand/collapse panel with official identity and connection-security details, optionally injects a keyboard-accessible skip link as the first child of `<body>`, and exposes an `actions` slot for language selectors or login controls. All internal strings switch to Arabic automatically when `dir="rtl"` is detected on the element or an ancestor.
+
+```html
+<aegov-header-banner
+  entity-name="General Secretariat of the Executive Council"
+  entity-domain="gsec.gov.ae"
+  skip-content-container="#main-content">
+  <div slot="actions">
+    <aegov-button size="sm" variant="ghost">عربي</aegov-button>
+    <aegov-button size="sm" variant="secondary">Login</aegov-button>
+  </div>
+</aegov-header-banner>
+```
+
+### Properties
+
+| Property               | Attribute                | Description                                                                                                                                                                      | Type     | Default |
+| ---------------------- | ------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------- | ------- |
+| `entityName`           | `entity-name`            | Name of the government entity. **Required** — if absent the component renders an error state instead of the banner.                                                              | `string` | —       |
+| `entityDomain`         | `entity-domain`          | URL of the entity's official website. **Required** — displayed in the expanded identity panel.                                                                                   | `string` | —       |
+| `skipContentContainer` | `skip-content-container` | CSS selector or bare ID of the main content container (e.g. `"#main-content"`). When provided, a visually-hidden "Skip to content" link is injected as the first child of `<body>` for keyboard users. | `string` | —       |
+
+### Slots
+
+| Slot      | Description                                                                                                                                                                    |
+| --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `actions` | Custom action elements rendered in the trailing edge of the top bar (e.g. a language toggle or login button). When the slot is empty, a default UAE flag/emblem strip is shown. |
+
+### Keyboard support
+
+| Key      | Action                                                         |
+| -------- | -------------------------------------------------------------- |
+| `Enter`, `Space` | Toggle the expanded identity/security panel.         |
+| `Escape` | Collapse the expanded panel and return focus to the trigger.   |
+| `Tab`    | Move focus through controls inside the expanded panel; wraps.  |

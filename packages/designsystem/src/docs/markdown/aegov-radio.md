@@ -34,25 +34,25 @@ Radios are almost always used inside an `aegov-radio-group`. The group sets the 
 
 ## Label and Description
 
-When you set the `label` property on `aegov-radio`, the component renders a `<label>` element wrapping the input — the entire label area becomes a click target. Add the `description` property for additional helper text below the label, automatically associated via `aria-describedby`.
+When you set the `label` property on `aegov-radio`, the component renders a `<label>` element wrapping the input — the entire label area becomes a click target. Add the `hint` property for additional helper text below the label, automatically associated via `aria-describedby`.
 
 ```html
 <aegov-radio-group name="contact-method" label="Preferred contact method">
   <aegov-radio
     value="email"
     label="Email"
-    description="We'll send updates to your registered email address."
+    hint="We'll send updates to your registered email address."
     is-checked="true"
   ></aegov-radio>
   <aegov-radio
     value="sms"
     label="SMS"
-    description="Short text alerts to your registered mobile number."
+    hint="Short text alerts to your registered mobile number."
   ></aegov-radio>
   <aegov-radio
     value="call"
     label="Phone call"
-    description="A representative will call you during working hours."
+    hint="A representative will call you during working hours."
   ></aegov-radio>
 </aegov-radio-group>
 ```
@@ -62,18 +62,18 @@ When you set the `label` property on `aegov-radio`, the component renders a `<la
     <aegov-radio
       value="email"
       label="Email"
-      description="We'll send updates to your registered email address."
+      hint="We'll send updates to your registered email address."
       is-checked="true"
     ></aegov-radio>
     <aegov-radio
       value="sms"
       label="SMS"
-      description="Short text alerts to your registered mobile number."
+      hint="Short text alerts to your registered mobile number."
     ></aegov-radio>
     <aegov-radio
       value="call"
       label="Phone call"
-      description="A representative will call you during working hours."
+      hint="A representative will call you during working hours."
     ></aegov-radio>
   </aegov-radio-group>
 </div>
@@ -90,7 +90,7 @@ Disable an individual radio with `is-disabled="true"`, or disable the entire gro
 <aegov-radio-group name="payment" label="Payment method">
   <aegov-radio value="card" label="Credit or debit card" is-checked="true"></aegov-radio>
   <aegov-radio value="bank" label="Direct bank transfer"></aegov-radio>
-  <aegov-radio value="cash" label="Cash at service centre" is-disabled="true" description="Currently unavailable due to system maintenance."></aegov-radio>
+  <aegov-radio value="cash" label="Cash at service centre" is-disabled="true" hint="Currently unavailable due to system maintenance."></aegov-radio>
 </aegov-radio-group>
 ```
 
@@ -98,7 +98,7 @@ Disable an individual radio with `is-disabled="true"`, or disable the entire gro
   <aegov-radio-group name="payment" label="Payment method">
     <aegov-radio value="card" label="Credit or debit card" is-checked="true"></aegov-radio>
     <aegov-radio value="bank" label="Direct bank transfer"></aegov-radio>
-    <aegov-radio value="cash" label="Cash at service centre" is-disabled="true" description="Currently unavailable due to system maintenance."></aegov-radio>
+    <aegov-radio value="cash" label="Cash at service centre" is-disabled="true" hint="Currently unavailable due to system maintenance."></aegov-radio>
   </aegov-radio-group>
 </div>
 
@@ -137,6 +137,11 @@ Mark a radio as required to enforce that one option in the group must be selecte
 Five sizes are available: `xs`, `sm`, `base` (default), `lg`, and `xl`. The size scales the radio circle, the label typography, and the click target. Set `size` on the group to propagate to every child.
 
 ```html
+<aegov-radio-group name="size-xs" size="xs" label="Extra Small">
+  <aegov-radio value="a" label="Option A" is-checked="true"></aegov-radio>
+  <aegov-radio value="b" label="Option B"></aegov-radio>
+</aegov-radio-group>
+
 <aegov-radio-group name="size-sm" size="sm" label="Small">
   <aegov-radio value="a" label="Option A" is-checked="true"></aegov-radio>
   <aegov-radio value="b" label="Option B"></aegov-radio>
@@ -151,10 +156,19 @@ Five sizes are available: `xs`, `sm`, `base` (default), `lg`, and `xl`. The size
   <aegov-radio value="a" label="Option A" is-checked="true"></aegov-radio>
   <aegov-radio value="b" label="Option B"></aegov-radio>
 </aegov-radio-group>
+
+<aegov-radio-group name="size-xl" size="xl" label="Extra Large">
+  <aegov-radio value="a" label="Option A" is-checked="true"></aegov-radio>
+  <aegov-radio value="b" label="Option B"></aegov-radio>
+</aegov-radio-group>
 ```
 
 <div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <div class="grid gap-6">
+    <aegov-radio-group name="size-xs" size="xs" label="Extra Small">
+      <aegov-radio value="a" label="Option A" is-checked="true"></aegov-radio>
+      <aegov-radio value="b" label="Option B"></aegov-radio>
+    </aegov-radio-group>
     <aegov-radio-group name="size-sm" size="sm" label="Small">
       <aegov-radio value="a" label="Option A" is-checked="true"></aegov-radio>
       <aegov-radio value="b" label="Option B"></aegov-radio>
@@ -164,6 +178,10 @@ Five sizes are available: `xs`, `sm`, `base` (default), `lg`, and `xl`. The size
       <aegov-radio value="b" label="Option B"></aegov-radio>
     </aegov-radio-group>
     <aegov-radio-group name="size-lg" size="lg" label="Large">
+      <aegov-radio value="a" label="Option A" is-checked="true"></aegov-radio>
+      <aegov-radio value="b" label="Option B"></aegov-radio>
+    </aegov-radio-group>
+    <aegov-radio-group name="size-xl" size="xl" label="Extra Large">
       <aegov-radio value="a" label="Option A" is-checked="true"></aegov-radio>
       <aegov-radio value="b" label="Option B"></aegov-radio>
     </aegov-radio-group>
@@ -272,18 +290,18 @@ The `appearance` property selects the visual treatment of the group: `default` (
   <aegov-radio
     value="standard"
     label="Standard — 5 working days"
-    description="Free of charge for UAE nationals and residents."
+    hint="Free of charge for UAE nationals and residents."
     is-checked="true"
   ></aegov-radio>
   <aegov-radio
     value="express"
     label="Express — 2 working days"
-    description="Additional fee of AED 100 applies."
+    hint="Additional fee of AED 100 applies."
   ></aegov-radio>
   <aegov-radio
     value="urgent"
     label="Urgent — same day"
-    description="Additional fee of AED 250 applies. Subject to availability."
+    hint="Additional fee of AED 250 applies. Subject to availability."
   ></aegov-radio>
 </aegov-radio-group>
 
@@ -307,18 +325,18 @@ The `appearance` property selects the visual treatment of the group: `default` (
       <aegov-radio
         value="standard"
         label="Standard — 5 working days"
-        description="Free of charge for UAE nationals and residents."
+        hint="Free of charge for UAE nationals and residents."
         is-checked="true"
       ></aegov-radio>
       <aegov-radio
         value="express"
         label="Express — 2 working days"
-        description="Additional fee of AED 100 applies."
+        hint="Additional fee of AED 100 applies."
       ></aegov-radio>
       <aegov-radio
         value="urgent"
         label="Urgent — same day"
-        description="Additional fee of AED 250 applies. Subject to availability."
+        hint="Additional fee of AED 250 applies. Subject to availability."
       ></aegov-radio>
     </aegov-radio-group>
     <aegov-radio-group name="frequency" appearance="pills" orientation="horizontal" label="Reporting frequency">
@@ -375,20 +393,20 @@ A realistic snippet from a passport application form combining several groups in
       <aegov-radio
         value="standard"
         label="Standard — 5 working days"
-        description="Free of charge for UAE nationals."
+        hint="Free of charge for UAE nationals."
         is-checked="true"
         is-required="true"
       ></aegov-radio>
       <aegov-radio
         value="express"
         label="Express — 2 working days"
-        description="Additional fee of AED 100 applies."
+        hint="Additional fee of AED 100 applies."
         is-required="true"
       ></aegov-radio>
       <aegov-radio
         value="urgent"
         label="Urgent — same day"
-        description="Additional fee of AED 250 applies. Subject to availability."
+        hint="Additional fee of AED 250 applies. Subject to availability."
         is-required="true"
       ></aegov-radio>
     </aegov-radio-group>
@@ -420,20 +438,20 @@ A realistic snippet from a passport application form combining several groups in
         <aegov-radio
           value="standard"
           label="Standard — 5 working days"
-          description="Free of charge for UAE nationals."
+          hint="Free of charge for UAE nationals."
           is-checked="true"
           is-required="true"
         ></aegov-radio>
         <aegov-radio
           value="express"
           label="Express — 2 working days"
-          description="Additional fee of AED 100 applies."
+          hint="Additional fee of AED 100 applies."
           is-required="true"
         ></aegov-radio>
         <aegov-radio
           value="urgent"
           label="Urgent — same day"
-          description="Additional fee of AED 250 applies. Subject to availability."
+          hint="Additional fee of AED 250 applies. Subject to availability."
           is-required="true"
         ></aegov-radio>
       </aegov-radio-group>
@@ -482,18 +500,18 @@ The radio uses CSS logical properties throughout. When the document or any ances
     <aegov-radio
       value="standard"
       label="عادية — خلال 5 أيام عمل"
-      description="مجاناً لمواطني دولة الإمارات."
+      hint="مجاناً لمواطني دولة الإمارات."
       is-checked="true"
     ></aegov-radio>
     <aegov-radio
       value="express"
       label="سريعة — خلال يومي عمل"
-      description="رسوم إضافية بقيمة 100 درهم."
+      hint="رسوم إضافية بقيمة 100 درهم."
     ></aegov-radio>
     <aegov-radio
       value="urgent"
       label="فورية — في نفس اليوم"
-      description="رسوم إضافية بقيمة 250 درهماً. تخضع للتوفر."
+      hint="رسوم إضافية بقيمة 250 درهماً. تخضع للتوفر."
     ></aegov-radio>
   </aegov-radio-group>
 
@@ -510,18 +528,18 @@ The radio uses CSS logical properties throughout. When the document or any ances
       <aegov-radio
         value="standard"
         label="عادية — خلال 5 أيام عمل"
-        description="مجاناً لمواطني دولة الإمارات."
+        hint="مجاناً لمواطني دولة الإمارات."
         is-checked="true"
       ></aegov-radio>
       <aegov-radio
         value="express"
         label="سريعة — خلال يومي عمل"
-        description="رسوم إضافية بقيمة 100 درهم."
+        hint="رسوم إضافية بقيمة 100 درهم."
       ></aegov-radio>
       <aegov-radio
         value="urgent"
         label="فورية — في نفس اليوم"
-        description="رسوم إضافية بقيمة 250 درهماً. تخضع للتوفر."
+        hint="رسوم إضافية بقيمة 250 درهماً. تخضع للتوفر."
       ></aegov-radio>
     </aegov-radio-group>
     <aegov-radio-group name="delivery-rtl" orientation="horizontal" label="الاستلام أم التوصيل؟">
@@ -547,9 +565,12 @@ The radio uses CSS logical properties throughout. When the document or any ances
 | `variant`     | `variant`     | Colour family for rest border, checked fill, and hover halo. Inherits from group if unset. Focus ring stays camel; error stays aered. | `'primary' \| 'secondary' \| 'neutral-max' \| 'neutral-min'` | `'primary'` |
 | `isDisabled`  | `is-disabled` | Disable the individual radio. Reflected to the host.                                  | `boolean` | `false`     |
 | `isRequired`  | `is-required` | Mark the field as required (sets native `required` and `aria-required`).               | `boolean` | `false`     |
-| `label`       | `label`       | Label text. When set, renders a wrapping `<label>` element.                            | `string`  | `undefined` |
-| `description` | `description` | Helper text shown below the label. Only rendered when `label` is also set.              | `string`  | `undefined` |
-| `extraClass`  | `extra-class` | Additional CSS classes applied to the wrapper.                                            | `string`  | `undefined` |
+| `label`        | `label`        | Label text. When set, renders a wrapping `<label>` element.                            | `string`  | `undefined` |
+| `hint`         | `hint`         | Helper text shown below the label. Hidden when an error is shown.                       | `string`  | `undefined` |
+| `isInvalid`    | `is-invalid`   | Puts the radio into an error state.                                                     | `boolean` | `false`     |
+| `errorMessage` | `error-message`| Error text shown when `is-invalid` is `true`. Use the `error` slot for rich markup.     | `string`  | `''`        |
+| `extraClass`   | `extra-class`  | Additional CSS classes applied to the wrapper.                                           | `string`  | `undefined` |
+| `appearance`   | `appearance`   | Visual style applied by the parent aegov-radio-group. Not meant to be set directly on individual radios. Valid values: 'default', 'cards', 'pills', 'list'. | `string`  | `'default'` |
 
 ### aegov-radio-group Properties
 
@@ -561,18 +582,24 @@ The radio uses CSS logical properties throughout. When the document or any ances
 | `label`       | `label`       | Optional `<legend>` text for the underlying `<fieldset>`.                         | `string`                   | `undefined`  |
 | `size`        | `size`        | Size token or responsive string. Propagated to all child radios.                  | `string`                   | `'base'`     |
 | `variant`     | `variant`     | Colour family. Cascades to children that have no explicit `variant`.              | `'primary' \| 'secondary' \| 'neutral-max' \| 'neutral-min'` | `'primary'` |
-| `isDisabled`  | `is-disabled` | Disable the entire group via native `<fieldset disabled>`.                        | `boolean`                  | `false`      |
-| `extraClass`  | `extra-class` | Additional CSS classes applied to the `<fieldset>`.                                | `string`                   | `undefined`  |
+| `isDisabled`   | `is-disabled`   | Disable the entire group via native `<fieldset disabled>`.                       | `boolean`                  | `false`      |
+| `isRequired`   | `is-required`   | Marks the group as required (cascaded to all child radios).                      | `boolean`                  | `false`      |
+| `isInvalid`    | `is-invalid`    | Puts the group into an error state.                                              | `boolean`                  | `false`      |
+| `errorMessage` | `error-message` | Error text shown when `is-invalid` is `true`. Use the `error` slot for rich markup. | `string`                 | `''`         |
+| `hint`         | `hint`          | Helper text below the group. Hidden when an error is shown.                      | `string`                   | `''`         |
+| `extraClass`   | `extra-class`   | Additional CSS classes applied to the `<fieldset>`.                              | `string`                   | `undefined`  |
 
 `RadioGroupVariant` accepts: `default`, `list`, `cards`, `pills`. `RadioGroupOrientation` accepts: `vertical`, `horizontal`.
 
 ### Slots
 
-| Component             | Slot        | Description                                                          |
-| --------------------- | ----------- | -------------------------------------------------------------------- |
-| `aegov-radio-group`   | _(default)_ | Place one or more `aegov-radio` children here.                        |
-
-`aegov-radio` does not expose named slots — content is set through the `label` and `description` properties.
+| Component             | Slot        | Description                                                                   |
+| --------------------- | ----------- | ----------------------------------------------------------------------------- |
+| `aegov-radio-group`   | _(default)_ | Place one or more `aegov-radio` children here.                                 |
+| `aegov-radio`         | `hint`      | Rich hint markup for the individual radio. Replaces the `hint` prop.           |
+| `aegov-radio`         | `error`     | Rich error markup for the individual radio. Replaces `error-message` prop.     |
+| `aegov-radio-group`   | `hint`      | Rich hint markup for the group. Replaces the `hint` prop.                      |
+| `aegov-radio-group`   | `error`     | Rich error markup for the group. Replaces `error-message` prop.                |
 
 ### Events
 
@@ -580,6 +607,17 @@ The radio uses CSS logical properties throughout. When the document or any ances
 | ------------------------ | --------------------- | -------------------------------------------- | -------------------------------------------------------------------------- |
 | `aegovRadioChange`       | `aegov-radio`         | `{ checked: boolean; value?: string }`       | Fires when the individual radio state changes.                              |
 | `aegovRadioGroupChange`  | `aegov-radio-group`   | `{ value: string \| undefined }`             | Fires when the selected value changes. `undefined` if no radio is selected. |
+| `aegovValidate`          | `aegov-radio`         | `AegovValidationDetail<boolean>`             | Fires when the radio validates. Detail includes `name`, `value`, `validity`, `validationMessage`, `customError`, `trigger`. |
+| `aegovValidate`          | `aegov-radio-group`   | `AegovValidationDetail<string \| undefined>` | Fires when the group validates.                                             |
+
+### Methods
+
+| Method                          | Component             | Returns                   | Description                                                              |
+| ------------------------------- | --------------------- | ------------------------- | ------------------------------------------------------------------------ |
+| `validate(trigger?)`            | `aegov-radio`         | `Promise<AegovValidationResult>` | Re-runs validation; emits `aegovValidate`.                         |
+| `setCustomValidity(message)`    | `aegov-radio`         | `Promise<void>`           | Sets a custom error message; empty string clears.                         |
+| `validate(trigger?)`            | `aegov-radio-group`   | `Promise<AegovValidationResult>` | Re-runs validation; emits `aegovValidate`.                         |
+| `setCustomValidity(message)`    | `aegov-radio-group`   | `Promise<void>`           | Sets a custom error message on the group.                                 |
 
 ### Pass-through Attributes
 
@@ -610,9 +648,9 @@ Validation typically happens at the **group level** via `aegov-radio-group`. Sta
 
 ```html
 <aegov-radio-group name="size" is-required label="Size">
-  <aegov-radio value="s">Small</aegov-radio>
-  <aegov-radio value="m">Medium</aegov-radio>
-  <aegov-radio value="l">Large</aegov-radio>
+  <aegov-radio value="s" label="Small"></aegov-radio>
+  <aegov-radio value="m" label="Medium"></aegov-radio>
+  <aegov-radio value="l" label="Large"></aegov-radio>
 </aegov-radio-group>
 ```
 
@@ -622,8 +660,8 @@ The group emits `valueMissing` when `is-required` and no radio is checked.
 
 ```html
 <aegov-radio-group name="plan" label="Plan">
-  <aegov-radio value="basic" is-checked>Basic</aegov-radio>
-  <aegov-radio value="pro">Pro</aegov-radio>
+  <aegov-radio value="basic" is-checked label="Basic"></aegov-radio>
+  <aegov-radio value="pro" label="Pro"></aegov-radio>
 </aegov-radio-group>
 ```
 

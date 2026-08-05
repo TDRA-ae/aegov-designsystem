@@ -112,7 +112,7 @@ Set `is-enabled-first-last="true"` to show explicit "First" and "Last" buttons a
 
 ## Compact Variant
 
-The `compact` variant hides individual page numbers and shows only Previous, Next, and a `current / total` indicator. This is the recommended layout for narrow viewports, sidebars, and any context where horizontal space is limited.
+The `compact` variant hides individual page numbers and shows only Previous, Next, and a "current page of total" indicator (e.g. "Page 3 of 10"). This is the recommended layout for narrow viewports, sidebars, and any context where horizontal space is limited.
 
 ```html
 <aegov-pagination variant="compact" pages="20" page-current="3"></aegov-pagination>
@@ -384,13 +384,13 @@ The compact variant is especially useful in RTL on mobile sidebars:
 | `isEnabledFirstLast`  | `is-enabled-first-last`  | Show explicit First and Last buttons alongside Previous and Next.                                    | `boolean`                  | `false`     |
 | `countSibling`        | `count-sibling`          | Number of sibling pages shown on each side of the current page.                                      | `number`                   | `1`         |
 | `countBoundary`       | `count-boundary`         | Number of pages always visible at each boundary (start and end of the list).                         | `number`                   | `1`         |
-| `variant`             | `variant`                | Display variant. `default` shows page numbers; `compact` shows prev/next plus `current / total`.     | `'default' \| 'compact'`   | `'default'` |
+| `variant`             | `variant`                | Display variant. `default` shows page numbers; `compact` shows prev/next plus a "current page of total" indicator.     | `'default' \| 'compact'`   | `'default'` |
 | `size`                | `size`                   | Size token. Accepts a single value or a Tailwind-style responsive string.                            | `string`                   | `'base'`    |
 | `isDisabled`          | `is-disabled`            | Disables every button in the pagination.                                                             | `boolean`                  | `false`     |
-| `labelPrev`           | `label-prev`             | Visible label on the Previous button.                                                                | `string`                   | `'Previous'`|
-| `labelNext`           | `label-next`             | Visible label on the Next button.                                                                    | `string`                   | `'Next'`    |
-| `labelFirst`          | `label-first`            | Visible label on the First button.                                                                   | `string`                   | `'First'`   |
-| `labelLast`           | `label-last`             | Visible label on the Last button.                                                                    | `string`                   | `'Last'`    |
+| `labelPrev`           | `label-prev`             | Visible label on the Previous button. Defaults to locale string (`'Previous'` / `'السابق'`) when empty. | `string`              | `''`        |
+| `labelNext`           | `label-next`             | Visible label on the Next button. Defaults to locale string (`'Next'` / `'التالي'`) when empty.         | `string`              | `''`        |
+| `labelFirst`          | `label-first`            | Visible label on the First button. Defaults to locale string (`'First'` / `'الأول'`) when empty.        | `string`              | `''`        |
+| `labelLast`           | `label-last`             | Visible label on the Last button. Defaults to locale string (`'Last'` / `'الأخير'`) when empty.         | `string`              | `''`        |
 
 ### Slots
 
@@ -432,7 +432,7 @@ This component does not expose any slots — its layout is fully driven by props
 - The component renders as a `<nav>` landmark with `aria-label="Pagination"` (Arabic: "ترقيم الصفحات") so screen readers announce it among site landmarks.
 - The active page button has `aria-current="page"` and a descriptive `aria-label` such as `"Page 3, current page"` (Arabic: "الصفحة 3، الصفحة الحالية").
 - Previous, Next, First, and Last buttons carry bilingual `aria-label`s automatically — English when the page direction is LTR, Arabic when `dir="rtl"` is detected. No developer translation needed.
-- The compact variant exposes the `current / total` indicator (`3 / 10`) inside a polite `aria-live` region. An `aria-label` provides the full descriptive form ("Page 3 of 10" / "الصفحة 3 من 10") so assistive technology announces meaningful context rather than "3 slash 10".
+- The compact variant renders the position indicator as plain text — "Page 3 of 10" (English) or "الصفحة 3 من 10" (Arabic) — inside a polite `aria-live` region so assistive technology announces the current position whenever the page changes.
 - Disabled buttons set both the native `disabled` attribute and `aria-disabled="true"`.
 - Ellipsis tokens are decorative — marked `aria-hidden="true"` so they are not announced.
 

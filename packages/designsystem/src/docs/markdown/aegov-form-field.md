@@ -35,6 +35,9 @@ The form-field links the first matching child it finds in the priority below. Pl
 | 5        | `aegov-range`       | `label.htmlFor → range.fieldId`  |
 | 6        | `aegov-progress`    | `label.htmlFor → progress.fieldId` |
 | 7        | `aegov-otp`         | `label.htmlFor → otp.fieldId`    |
+| 8        | `aegov-fileupload`  | `label.htmlFor → fileupload.fieldId` |
+| 9        | `aegov-radio`       | `label.htmlFor → radio.fieldId`  |
+| 10       | `aegov-toggle`      | `label.htmlFor → toggle.fieldId` |
 
 ### Input
 
@@ -426,17 +429,21 @@ A short application step using three form-fields back-to-back. Each field handle
 
 ### aegov-form-field Properties
 
-| Property      | Attribute     | Description                                                                | Type     | Default     |
-| ------------- | ------------- | -------------------------------------------------------------------------- | -------- | ----------- |
-| `fieldId`     | `field-id`    | DOM `id` for the wrapper `<div>`. Auto-generated if omitted.                | `string` | _generated_ |
-| `variant`     | `variant`     | Colour family. Cascades to the first `aegov-label` and form-control descendant if they have no explicit `variant`. | `'primary' \| 'secondary' \| 'neutral-max' \| 'neutral-min'` | `'primary'` |
-| `extraClass`  | `extra-class` | Additional CSS classes appended to the wrapper.                             | `string` | `undefined` |
+| Property       | Attribute       | Description                                                                                                                                | Type                                                          | Default     |
+| -------------- | --------------- | ------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------- | ----------- |
+| `fieldId`      | `field-id`      | DOM `id` for the wrapper `<div>`. Auto-generated if omitted.                                                                                | `string`                                                      | _generated_ |
+| `isInvalid`    | `is-invalid`    | Wrapper-level invalid state. Cascades to the first form-control descendant if the child has not set its own value.                          | `boolean`                                                     | `false`     |
+| `errorMessage` | `error-message` | Wrapper-level error message. Cascaded to the first form-control descendant.                                                                 | `string`                                                      | `''`        |
+| `hint`         | `hint`          | Wrapper-level hint text. Cascaded to the first form-control descendant.                                                                     | `string`                                                      | `''`        |
+| `variant`      | `variant`       | Colour family. Cascades to the first `aegov-label` and form-control descendant if they have no explicit `variant`.                          | `'primary' \| 'secondary' \| 'neutral-max' \| 'neutral-min'` | `'primary'` |
+| `extraClass`   | `extra-class`   | Additional CSS classes appended to the wrapper.                                                                                             | `string`                                                      | `undefined` |
 
 ### Slots
 
-| Slot         | Description                                                                                                                        |
-| ------------ | ---------------------------------------------------------------------------------------------------------------------------------- |
-| _(default)_  | One `aegov-label`, one supported control (`aegov-input`, `aegov-textarea`, `aegov-select`, `aegov-checkbox`, `aegov-range`, `aegov-progress`, or `aegov-otp`), and optional helper / error paragraphs. |
+| Slot        | Description                                                                                                                                                                                                              |
+| ----------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| _(default)_ | One `aegov-label`, one supported control (`aegov-input`, `aegov-textarea`, `aegov-select`, `aegov-checkbox`, `aegov-range`, `aegov-progress`, `aegov-otp`, `aegov-fileupload`, `aegov-radio`, or `aegov-toggle`), and optional helper / error paragraphs. |
+| `hint`      | Named hint slot. Renders below the control. Useful for rich hint markup.                                                                                                                                                  |
 
 ### Events
 

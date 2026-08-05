@@ -311,6 +311,21 @@
 </div>
 
 <hr>
+<h2>Grid Spanning</h2>
+<p><code>dataColSpan</code> and <code>dataRowSpan</code> control how many columns or rows the card spans when placed inside an <code>aegov-bento-grid</code> (or any CSS grid container that reads these attributes). Both accept a plain integer or a responsive syntax using Tailwind-style breakpoint prefixes.</p>
+<ul>
+<li><code>data-col-span</code> — sets the number of CSS grid columns the card spans</li>
+<li><code>data-row-span</code> — sets the number of CSS grid rows the card spans</li>
+</ul>
+<pre><code class="hljs language-html"><span class="hljs-comment">&lt;!-- Span 2 columns at all breakpoints --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-card</span> <span class="hljs-attr">data-col-span</span>=<span class="hljs-string">&quot;2&quot;</span>&gt;</span>Wide card<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-card</span>&gt;</span>
+
+<span class="hljs-comment">&lt;!-- Responsive: 1 column on mobile, 2 from md upward, 3 from lg upward --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-card</span> <span class="hljs-attr">data-col-span</span>=<span class="hljs-string">&quot;1 md:2 lg:3&quot;</span>&gt;</span>Responsive spanning card<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-card</span>&gt;</span>
+
+<span class="hljs-comment">&lt;!-- Span 2 rows — tall card alongside normal single-row siblings --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-card</span> <span class="hljs-attr">data-row-span</span>=<span class="hljs-string">&quot;2&quot;</span>&gt;</span>Tall card<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-card</span>&gt;</span></code></pre><p>Both props default to <code>undefined</code>, meaning the card takes its natural grid-item size. They have no visual effect outside a grid context.</p>
+<hr>
 <h2>Composite Examples</h2>
 <p>Cards combine well with other components — titles, text, badges, avatars, and buttons — to build service tiles, profile cards, and dashboard panels.</p>
 <h3>Ministry service tile</h3>
@@ -498,6 +513,20 @@
 <td>Size token controlling padding and corner radius.</td>
 <td><code>&#39;sm&#39; | &#39;base&#39; | &#39;lg&#39;</code></td>
 <td><code>&#39;base&#39;</code></td>
+</tr>
+<tr>
+<td><code>dataColSpan</code></td>
+<td><code>data-col-span</code></td>
+<td>Grid column span inside <code>aegov-bento-grid</code>. Supports responsive syntax, e.g. <code>&quot;1 md:2 lg:3&quot;</code>.</td>
+<td><code>string</code></td>
+<td><code>undefined</code></td>
+</tr>
+<tr>
+<td><code>dataRowSpan</code></td>
+<td><code>data-row-span</code></td>
+<td>Grid row span inside <code>aegov-bento-grid</code>. Supports responsive syntax, e.g. <code>&quot;1 md:2&quot;</code>.</td>
+<td><code>string</code></td>
+<td><code>undefined</code></td>
 </tr>
 </tbody></table>
 <h3>Slots</h3>

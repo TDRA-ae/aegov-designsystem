@@ -277,12 +277,13 @@ An indeterminate bar in RTL:
 
 | Property        | Attribute        | Description                                                                                | Type                    | Default     |
 | --------------- | ---------------- | ------------------------------------------------------------------------------------------ | ----------------------- | ----------- |
-| `fieldId`       | `field-id`       | DOM `id` for the hidden native `<progress>` element. Auto-generated if omitted.            | `string`                | _generated_ |
+| `fieldId`       | `field-id`       | DOM `id` for the hidden native `<progress>` element. Auto-generated if omitted. The resolved ID (whether provided or auto-generated) is reflected back as an attribute on the host element, so external `<label for="...">` elements can reference it directly.            | `string`                | _generated_ |
 | `value`         | `value`          | Current progress value. Omit for indeterminate state.                                       | `number`                | `undefined` |
 | `max`           | `max`            | Maximum value used to compute the fill percentage.                                          | `number`                | `100`       |
 | `height`        | `height`         | Track thickness on the Tailwind spacing scale (each unit = `0.25rem`).                      | `string`                | `'2'`       |
 | `counter`       | `counter`        | Counter placement. Hidden when not set, and always hidden in the indeterminate state.       | `'trailing' \| 'top'`   | `undefined` |
 | `counterSuffix` | `counter-suffix` | Suffix appended directly to the counter value (no automatic spacing).                       | `string`                | `''`        |
+| `label`         | `label`          | Accessible label applied as `aria-label` on the native `<progress>` element. Provide this or a visible `<label for="fieldId">` — a console warning fires if neither is present. | `string` | `undefined` |
 | `description`   | `description`    | Description text rendered as a paragraph below the bar.                                     | `string`                | `undefined` |
 | `extraClass`    | `extra-class`    | Additional CSS classes applied to the wrapper element.                                      | `string`                | `undefined` |
 
@@ -324,7 +325,7 @@ An indeterminate bar in RTL:
 - Provide a label for the progress bar via `aegov-label` (inside `aegov-form-field`), `aria-label`, or `aria-labelledby` so screen-reader users know what the progress represents.
 - For long-running indeterminate operations, switch to a determinate value as soon as one is known so users can estimate completion.
 - Use the `description` prop or a sibling element with `aria-live="polite"` to announce state changes (e.g. "Upload complete").
-- The visible counter is decorative — for assistive-technology-only text, set `aria-valuetext` via pass-through (e.g. `aria-valuetext="6 of 8 documents uploaded"`).
+- When `counterSuffix` is non-empty and the bar is determinate, the component automatically sets `aria-valuetext` on the native `<progress>` element (e.g. `"75%"`), so no manual pass-through is needed for standard counter suffixes. Set `aria-valuetext` manually via pass-through only when you need a custom human-readable description that goes beyond what `counterSuffix` provides (e.g. `aria-valuetext="6 of 8 documents uploaded"`).
 
 ### Notes
 

@@ -128,7 +128,10 @@ export class AegovRadioGroup {
   }
 
   @Watch('appearance')
-  onVariantChange(v: unknown) { warnIfInvalidEnumProp(v, RADIO_GROUP_VARIANTS, 'default', ctx('appearance')); }
+  onVariantChange(v: unknown) {
+    warnIfInvalidEnumProp(v, RADIO_GROUP_VARIANTS, 'default', ctx('appearance'));
+    if (this.el.isConnected) { this.syncChildren(); }
+  }
 
   @Watch('orientation')
   onOrientationChange(v: unknown) { warnIfInvalidEnumProp(v, RADIO_GROUP_ORIENTATIONS, 'vertical', ctx('orientation')); }
@@ -163,6 +166,10 @@ export class AegovRadioGroup {
     radios.forEach(radio => {
       radio.size = this._resolvedSize;
       radio.name = this.name;
+      (radio as any).appearance = this.appearance;
+      // Also set host class directly — Stencil's async re-render may not fire in time
+      (radio as HTMLElement).classList.toggle('radio-appearance-cards', this.appearance === 'cards');
+      (radio as HTMLElement).classList.toggle('radio-appearance-pills', this.appearance === 'pills');
       // Cascade variant only if child has no own value (still default 'primary')
       if (!radio.variant || radio.variant === 'primary') {
         radio.variant = this.variant;
@@ -252,6 +259,9 @@ export class AegovRadioGroup {
           {...passThroughAttrs}
         >
           {this.label && <legend class="radio-group__legend">{this.label}</legend>}
+          <div class="radio-group__items">
+            <slot />
+          </div>
           {showHint && (
             <div id={this.hintId} class="aegov-radio-group__hint">
               {hasHintSlot ? <slot name="hint" /> : this.hint}
@@ -266,9 +276,6 @@ export class AegovRadioGroup {
               {hasErrorSlot ? <slot name="error" /> : this.errorMessage}
             </div>
           )}
-          <div class="radio-group__items">
-            <slot />
-          </div>
         </fieldset>
       </Host>
     );

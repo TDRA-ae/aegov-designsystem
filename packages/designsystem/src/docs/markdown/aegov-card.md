@@ -323,6 +323,28 @@ By default a card applies `1.5rem` (24px) of inner padding. Set `is-padding="fal
 
 ---
 
+## Grid Spanning
+
+`dataColSpan` and `dataRowSpan` control how many columns or rows the card spans when placed inside an `aegov-bento-grid` (or any CSS grid container that reads these attributes). Both accept a plain integer or a responsive syntax using Tailwind-style breakpoint prefixes.
+
+- `data-col-span` — sets the number of CSS grid columns the card spans
+- `data-row-span` — sets the number of CSS grid rows the card spans
+
+```html
+<!-- Span 2 columns at all breakpoints -->
+<aegov-card data-col-span="2">Wide card</aegov-card>
+
+<!-- Responsive: 1 column on mobile, 2 from md upward, 3 from lg upward -->
+<aegov-card data-col-span="1 md:2 lg:3">Responsive spanning card</aegov-card>
+
+<!-- Span 2 rows — tall card alongside normal single-row siblings -->
+<aegov-card data-row-span="2">Tall card</aegov-card>
+```
+
+Both props default to `undefined`, meaning the card takes its natural grid-item size. They have no visual effect outside a grid context.
+
+---
+
 ## Composite Examples
 
 Cards combine well with other components — titles, text, badges, avatars, and buttons — to build service tiles, profile cards, and dashboard panels.
@@ -493,6 +515,8 @@ A profile card in RTL — note that the avatar naturally moves to the right and 
 | `variant`     | `variant`       | Colour family for border, hover, and glow.                                   | `'primary' \| 'secondary' \| 'neutral-max' \| 'neutral-min'` | `'primary'`  |
 | `hover`       | `hover`         | Hover effect.                                                                | `'off' \| 'standard' \| 'glow'`                       | `'off'`      |
 | `size`        | `size`          | Size token controlling padding and corner radius.                            | `'sm' \| 'base' \| 'lg'`                              | `'base'`     |
+| `dataColSpan` | `data-col-span` | Grid column span inside `aegov-bento-grid`. Supports responsive syntax, e.g. `"1 md:2 lg:3"`. | `string`                               | `undefined`  |
+| `dataRowSpan` | `data-row-span` | Grid row span inside `aegov-bento-grid`. Supports responsive syntax, e.g. `"1 md:2"`.         | `string`                               | `undefined`  |
 
 ### Slots
 

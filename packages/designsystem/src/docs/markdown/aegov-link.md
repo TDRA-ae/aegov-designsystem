@@ -286,7 +286,7 @@ Native `<a>` elements do not support `disabled`, so `aegov-link` polyfills the b
 - The link is removed from the tab order (`tabindex="-1"`).
 - `role="link"` is set explicitly so assistive technology continues to identify the element as a link even though `href` is stripped (a native `<a>` without `href` loses its implicit link role).
 - `aria-disabled="true"` is announced by assistive technology as "dimmed" or "unavailable".
-- `href` and `target` are stripped from the rendered element so the browser will not navigate even if the user activates it programmatically.
+- `href`, `target`, `rel`, and `download` are stripped from the rendered element so the browser will not navigate even if the user activates it programmatically. `rel` and `download` are link-functionality attributes that would be meaningless on a disabled anchor.
 - Click events are intercepted and `preventDefault()` is called — `aegovLinkClick` is not emitted.
 - Pointer events are disabled and the cursor switches to `not-allowed` via the shared button styling.
 
@@ -363,7 +363,7 @@ Native `<a>` elements do not support `disabled`, so `aegov-link` polyfills the b
 | `isIcon`     | `is-icon`     | Render as a square icon-only link. Provide an `aria-label` for accessibility.                                                | `boolean`                                                     | `false`     |
 | `isFull`     | `is-full`     | Stretch the link to fill its container width.                                                                                | `boolean`                                                     | `false`     |
 | `isBold`     | `is-bold`     | Apply bold (semibold) font weight to button-styled links.                                                                    | `boolean`                                                     | `false`     |
-| `isDisabled` | `is-disabled` | Polyfill of native `disabled` for anchors. Removes the link from the tab order, sets `aria-disabled="true"`, strips `href` / `target`, and blocks click navigation. | `boolean`                                                     | `false`     |
+| `isDisabled` | `is-disabled` | Polyfill of native `disabled` for anchors. Removes the link from the tab order, sets `aria-disabled="true"`, strips `href`, `target`, `rel`, and `download` (link-functionality attributes that are meaningless on a disabled anchor), and blocks click navigation. | `boolean`                                                     | `false`     |
 
 ### Slots
 

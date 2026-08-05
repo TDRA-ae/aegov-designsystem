@@ -4,7 +4,7 @@
 
 ## Introduction
 
-The `aegov-badge` component renders a single inline pill containing the slotted text. The full UAE Government colour palette is available through the `color` property, and two visual treatments — `soft` and `solid` — let you tune the badge to its surroundings. An optional dismiss button turns the badge into a removable tag for filter chips and similar patterns.
+The `aegov-badge` component renders a single inline pill containing the slotted text. The full UAE Government colour palette is available through the `variant` property, and two visual treatments — `soft` and `solid` — let you tune the badge to its surroundings. An optional dismiss button turns the badge into a removable tag for filter chips and similar patterns.
 
 ```html
 <aegov-badge>Default</aegov-badge>
@@ -60,7 +60,7 @@ The `appearance` property switches between two styles. `soft` (default) uses a t
 
 ## Color Palette
 
-The `color` property accepts every token in the UAE Design System palette. Use the brand colours (`primary`, `secondary`, `aegold`, `aered`, `aegreen`, `aeblack`) for status that aligns with platform identity, and the accent colours (`techblue`, `seablue`, `camel`, `desert`, `fuchsia`, `slate`, `purple`, `pink`, `indigo`, `lime`) for richer category tagging.
+The `variant` property accepts every token in the UAE Design System palette. Use the brand colours (`primary`, `secondary`, `aegold`, `aered`, `aegreen`, `aeblack`) for status that aligns with platform identity, and the accent colours (`techblue`, `seablue`, `camel`, `desert`, `fuchsia`, `slate`, `purple`, `pink`, `indigo`, `lime`) for richer category tagging.
 
 ```html
 <aegov-badge variant="primary">Primary</aegov-badge>
@@ -440,10 +440,11 @@ The badge is direction-agnostic. The dismiss button uses logical inline padding,
 | Property        | Attribute        | Description                                                          | Type                                                                                                                                                                       | Default     |
 | --------------- | ---------------- | -------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------- |
 | `fieldId`       | `field-id`       | Unique ID for the badge element. Auto-generated if omitted.          | `string`                                                                                                                                                                   | _generated_ |
+| `variant`       | `variant`        | Colour token from the UAE Design System palette.                     | `'default' \| 'primary' \| 'secondary' \| 'aegold' \| 'aered' \| 'aegreen' \| 'aeblack' \| 'techblue' \| 'seablue' \| 'camel' \| 'desert' \| 'fuchsia' \| 'slate' \| 'purple' \| 'pink' \| 'indigo' \| 'lime'` | `'default'` |
 | `appearance`    | `appearance`     | Visual style — `soft` (tinted) or `solid` (filled).                  | `'soft' \| 'solid'`                                                                                                                                                        | `'soft'`    |
-| `color`         | `color`          | Colour token from the UAE Design System palette.                     | `'default' \| 'primary' \| 'secondary' \| 'aegold' \| 'aered' \| 'aegreen' \| 'aeblack' \| 'techblue' \| 'seablue' \| 'camel' \| 'desert' \| 'fuchsia' \| 'slate' \| 'purple' \| 'pink' \| 'indigo' \| 'lime'` | `'default'` |
 | `size`          | `size`           | Size token (`sm`, `base`, `lg`) or responsive string.                | `string`                                                                                                                                                                   | `'base'`    |
 | `isDismissible` | `is-dismissible` | When `true`, renders a close button.                                 | `boolean`                                                                                                                                                                  | `false`     |
+| `color`         | `color`          | **Deprecated** — use `variant` instead. Accepts the same colour tokens. | `'default' \| 'primary' \| 'secondary' \| 'aegold' \| 'aered' \| 'aegreen' \| 'aeblack' \| 'techblue' \| 'seablue' \| 'camel' \| 'desert' \| 'fuchsia' \| 'slate' \| 'purple' \| 'pink' \| 'indigo' \| 'lime'` | `undefined` |
 
 ### Slots
 

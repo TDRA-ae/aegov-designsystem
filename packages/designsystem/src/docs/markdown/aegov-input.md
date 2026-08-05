@@ -410,7 +410,7 @@ A realistic snippet from a residency permit application showing labels, helpers,
 
 ## Listening for value events
 
-The component emits four events: `aegovInputValue` on every keystroke, `aegovInputChange` when the value commits (typically on blur or Enter), `aegovInputFocus`, and `aegovInputBlur`. Use `input` for live validation hints and `change` for committed-value side effects.
+The component emits five events: `aegovInputValue` on every keystroke, `aegovInputChange` when the value commits (typically on blur or Enter), `aegovInputFocus`, `aegovInputBlur`, and `aegovValidate` when validation runs. Use `input` for live validation hints and `change` for committed-value side effects.
 
 ```html
 <aegov-input id="eid" placeholder="Emirates ID number"></aegov-input>
@@ -488,6 +488,9 @@ The input uses CSS logical properties throughout, so padding, slot icons, and th
 | `isRequired`   | `is-required`   | Mark the field as required (sets native `required`).                                            | `boolean`  | `false`     |
 | `isRevealable` | `is-revealable` | Show a password reveal toggle. Only takes effect with `type="password"`.                         | `boolean`  | `false`     |
 | `isCopyable`   | `is-copyable`   | Show a copy-to-clipboard button. Only takes effect with `is-readonly="true"`.                    | `boolean`  | `false`     |
+| `isInvalid`    | `is-invalid`    | Puts the field into error state.                                                                  | `boolean`  | `false`     |
+| `errorMessage` | `error-message` | Inline error text shown below the field when `isInvalid` is true.                                | `string`   | `''`        |
+| `hint`         | `hint`          | Inline hint text shown below the field when not in error state.                                   | `string`   | `''`        |
 | `extraClass`   | `extra-class`   | Additional CSS classes applied to the native `<input>`.                                          | `string`   | `undefined` |
 
 `InputType` accepts: `text`, `email`, `password`, `tel`, `url`, `number`, `search`, `date`, `time`, `datetime-local`, `month`, `week`.
@@ -498,6 +501,7 @@ The input uses CSS logical properties throughout, so padding, slot icons, and th
 | ------------- | --------------- | -------------------------------------------------------------------- | -------- | ----------- |
 | `size`        | `size`          | Group size, propagated to child `aegov-input` and `aegov-button`.    | `string` | `'base'`    |
 | `variant`     | `variant`       | Colour family, cascades to inner `aegov-input` and shifts the addon stripe colour. | `'primary' \| 'secondary' \| 'neutral-max' \| 'neutral-min'` | `'primary'` |
+| `groupLabel`  | `group-label`   | Accessible label for the input group wrapper.                         | `string`  | `undefined` |
 | `addonPrefix` | `addon-prefix`  | Static text shown before the input (logical start).                   | `string` | `undefined` |
 | `addonSuffix` | `addon-suffix`  | Static text shown after the input (logical end).                      | `string` | `undefined` |
 | `extraClass`  | `extra-class`   | Additional CSS classes on the wrapper.                                | `string` | `undefined` |
@@ -508,6 +512,8 @@ The input uses CSS logical properties throughout, so padding, slot icons, and th
 | ------------------- | ------------ | -------------------------------------------------------------------------------------- |
 | `aegov-input`       | `icon-start` | Icon shown before the input value (logical start).                                      |
 | `aegov-input`       | `icon-end`   | Icon shown after the input value (hidden when a reveal/copy button is active).           |
+| `aegov-input`       | `error`      | Rich HTML error markup shown when `isInvalid` is true. Supersedes `error-message` prop. |
+| `aegov-input`       | `hint`       | Rich HTML hint markup shown when not in error state. Supersedes `hint` prop.             |
 | `aegov-input-group` | _(default)_  | Place an `aegov-input` (and optionally an `aegov-button`) here.                          |
 
 ### Events
@@ -518,6 +524,7 @@ The input uses CSS logical properties throughout, so padding, slot icons, and th
 | `aegovInputChange`  | `aegov-input` | `{ value: string; event: Event }`   | Fires when the value commits (native `change`, typically on blur or Enter).   |
 | `aegovInputFocus`   | `aegov-input` | `FocusEvent`                        | Fires when the input gains focus.                                              |
 | `aegovInputBlur`    | `aegov-input` | `FocusEvent`                        | Fires when the input loses focus.                                              |
+| `aegovValidate`     | `aegov-input` | `AegovValidationDetail<string>`     | Fires when the input validates. Detail includes `name`, `value`, `validity`, `validationMessage`, `customError`, `trigger`. |
 
 ### Pass-through Attributes
 

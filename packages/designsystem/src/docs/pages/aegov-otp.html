@@ -308,6 +308,34 @@
 <td><code>false</code></td>
 </tr>
 <tr>
+<td><code>isRequired</code></td>
+<td><code>is-required</code></td>
+<td>Marks the field as required. <code>validity.valueMissing</code> is true when empty.</td>
+<td><code>boolean</code></td>
+<td><code>false</code></td>
+</tr>
+<tr>
+<td><code>isInvalid</code></td>
+<td><code>is-invalid</code></td>
+<td>Puts all cells in an error state and shows the error message.</td>
+<td><code>boolean</code></td>
+<td><code>false</code></td>
+</tr>
+<tr>
+<td><code>errorMessage</code></td>
+<td><code>error-message</code></td>
+<td>Inline error text rendered below the cells when <code>isInvalid</code> is <code>true</code>.</td>
+<td><code>string</code></td>
+<td><code>&#39;&#39;</code></td>
+</tr>
+<tr>
+<td><code>hint</code></td>
+<td><code>hint</code></td>
+<td>Hint text rendered below the cells (hidden when <code>isInvalid</code> is <code>true</code>).</td>
+<td><code>string</code></td>
+<td><code>&#39;&#39;</code></td>
+</tr>
+<tr>
 <td><code>name</code></td>
 <td><code>name</code></td>
 <td>Form field name used when the component submits via <code>ElementInternals</code>.</td>
@@ -343,10 +371,35 @@
 <td><code>Promise&lt;void&gt;</code></td>
 <td>Clears every cell, emits <code>aegovOtpChange</code>, and focuses the first cell.</td>
 </tr>
+<tr>
+<td><code>validate(trigger?)</code></td>
+<td><code>Promise&lt;AegovValidationResult&gt;</code></td>
+<td>Re-runs validation and emits <code>aegovValidate</code>.</td>
+</tr>
+<tr>
+<td><code>setCustomValidity(message)</code></td>
+<td><code>Promise&lt;void&gt;</code></td>
+<td>Sets a custom error message. Pass <code>&#39;&#39;</code> to clear.</td>
+</tr>
 </tbody></table>
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-otp</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;mfa&quot;</span> <span class="hljs-attr">length</span>=<span class="hljs-string">&quot;6&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-otp</span>&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">onclick</span>=<span class="hljs-string">&quot;document.querySelector(&#x27;#mfa&#x27;).clear()&quot;</span>&gt;</span>Reset code<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span></code></pre><h3>Slots</h3>
-<p>The component does not expose slots — content is configured via properties.</p>
+<table>
+<thead>
+<tr>
+<th>Slot</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>error</code></td>
+<td>Shown when <code>isInvalid</code> is true. Use for rich HTML error markup instead of the <code>errorMessage</code> prop.</td>
+</tr>
+<tr>
+<td><code>hint</code></td>
+<td>Shown when not in error state. Use for rich HTML hint markup instead of the <code>hint</code> prop.</td>
+</tr>
+</tbody></table>
 <h3>Events</h3>
 <table>
 <thead>

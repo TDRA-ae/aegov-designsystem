@@ -110,7 +110,7 @@
 <li><code>unavailable</code> — the user is do-not-disturb / unavailable</li>
 <li><code>busy</code> — the user is busy</li>
 </ul>
-<p><code>status=&quot;true&quot;</code> is shorthand for <code>online</code>; <code>status=&quot;false&quot;</code> (default) hides the indicator. The indicator carries <code>aria-label=&quot;Status: {status}&quot;</code> so screen readers announce the user&#39;s state.</p>
+<p><code>status=&quot;true&quot;</code> is shorthand for <code>online</code>; <code>status=&quot;false&quot;</code> (default) hides the indicator. The status indicator is decorative and has <code>aria-hidden=&quot;true&quot;</code> — the color dot conveys status visually, and the parent avatar element carries the full accessible name (including the status) in its <code>aria-label</code>.</p>
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://i.pravatar.cc/150?img=8&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;Mohammed&quot;</span> <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;rounded&quot;</span> <span class="hljs-attr">status</span>=<span class="hljs-string">&quot;online&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar</span>&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://i.pravatar.cc/150?img=8&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;Mohammed&quot;</span> <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;rounded&quot;</span> <span class="hljs-attr">status</span>=<span class="hljs-string">&quot;away&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar</span>&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://i.pravatar.cc/150?img=8&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;Mohammed&quot;</span> <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;rounded&quot;</span> <span class="hljs-attr">status</span>=<span class="hljs-string">&quot;busy&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar</span>&gt;</span>
@@ -321,6 +321,27 @@
 </tbody></table>
 <h3>Events</h3>
 <p>The avatar does not emit any custom events.</p>
+<h3>CSS Parts</h3>
+<table>
+<thead>
+<tr>
+<th>Part</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>avatar</code></td>
+<td>The outer avatar container <code>&lt;div&gt;</code> (carries <code>role=&quot;img&quot;</code>).</td>
+</tr>
+<tr>
+<td><code>image</code></td>
+<td>The inner <code>&lt;img&gt;</code> element, present only when <code>src</code> is set.</td>
+</tr>
+<tr>
+<td><code>status</code></td>
+<td>The status indicator <code>&lt;span&gt;</code>, present only when <code>status</code> is active.</td>
+</tr>
+</tbody></table>
 <h3>Pass-through Attributes</h3>
 <p><code>aria-*</code> and <code>data-*</code> attributes set on the host are forwarded automatically. In addition, the following native <code>&lt;img&gt;</code> attributes are forwarded to the inner image element when one is rendered:</p>
 <table>
@@ -345,14 +366,6 @@
 <tr>
 <td><code>srcset</code></td>
 <td>Responsive image sources.</td>
-</tr>
-<tr>
-<td><code>alt</code></td>
-<td>Image alt text (also applied to the host <code>aria-label</code>).</td>
-</tr>
-<tr>
-<td><code>src</code></td>
-<td>Image source URL.</td>
 </tr>
 <tr>
 <td><code>aria-*</code>, <code>data-*</code></td>

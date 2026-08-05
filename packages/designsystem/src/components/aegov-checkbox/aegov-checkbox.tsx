@@ -41,6 +41,9 @@ export class AegovCheckbox {
   /** Colour family. Drives rest border, checked bg/border. Focus ring stays camel; error stays aered. */
   @Prop() variant: FormVariant = 'primary';
 
+  /** Visual appearance set by a parent aegov-checkbox-group. Not meant to be set directly. */
+  @Prop({ reflect: true }) appearance: string = 'default';
+
   @State() private _resolvedSize: CheckboxSize = 'base';
   private _sizeWatcher: ResponsivePropWatcher | null = null;
   private _defaultChecked: boolean = false;
@@ -92,6 +95,12 @@ export class AegovCheckbox {
   @Watch('variant')
   onVariantChange(v: unknown) { warnIfInvalidEnumProp(v, FORM_VARIANTS, 'primary', { component: 'aegov-checkbox', prop: 'variant' }); }
 
+  @Watch('appearance')
+  onAppearanceChange(newVal: string) {
+    (this.el as HTMLElement).classList.toggle('checkbox-appearance-cards', newVal === 'cards');
+    (this.el as HTMLElement).classList.toggle('checkbox-appearance-pills', newVal === 'pills');
+  }
+
   componentWillLoad() {
     this._defaultChecked = this.isChecked;
     warnIfInvalidEnumProp(this.variant, FORM_VARIANTS, 'primary', { component: 'aegov-checkbox', prop: 'variant' });
@@ -132,6 +141,29 @@ export class AegovCheckbox {
 
   componentDidLoad() {
     this.syncInternalsValidity();
+    // Self-detect parent group appearance — bypasses syncChildren() timing dependency.
+    // Stencil: children mount before parents, so we read the HTML attribute directly.
+    const group = this.el.closest('aegov-checkbox-group');
+    if (group) {
+      const groupAppearance = group.getAttribute('appearance') || 'default';
+      if (groupAppearance !== 'default' && groupAppearance !== this.appearance) {
+        this.appearance = groupAppearance;
+        (this.el as HTMLElement).classList.toggle('checkbox-appearance-cards', groupAppearance === 'cards');
+        (this.el as HTMLElement).classList.toggle('checkbox-appearance-pills', groupAppearance === 'pills');
+      }
+      // List separator: classes drive :host(.class) .aegov-checkbox CSS rules.
+      if (groupAppearance === 'list') {
+        const siblings = Array.from(group.children).filter(
+          el => el.tagName === 'AEGOV-CHECKBOX' && !el.hasAttribute('slot'),
+        );
+        const isHorizontal = (group.getAttribute('orientation') || 'vertical') === 'horizontal';
+        const host = this.el as HTMLElement;
+        host.classList.add('checkbox-in-list');
+        host.classList.toggle('checkbox-list-horizontal', isHorizontal);
+        host.classList.toggle('checkbox-list-first', siblings[0] === host);
+        host.classList.toggle('checkbox-list-last', siblings[siblings.length - 1] === host);
+      }
+    }
   }
 
   /** Imperatively re-run validation. */
@@ -289,7 +321,11 @@ export class AegovCheckbox {
       </div>
     ) : null;
 
-    const hostClass = { 'is-invalid': this.isInvalid };
+    const hostClass = {
+      'is-invalid': this.isInvalid,
+      'checkbox-appearance-cards': this.appearance === 'cards',
+      'checkbox-appearance-pills': this.appearance === 'pills',
+    };
 
     if (this.label) {
       return (

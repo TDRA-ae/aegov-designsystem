@@ -138,14 +138,22 @@ By default, the indicator renders as `{moreCount}+`. Set `more-text` to provide 
 The `size` property is enforced on every child `aegov-avatar` — individual `size` settings on children are overridden. Accepts `xs`, `sm`, `base` (default), `lg`, `xl`, `2xl`, `3xl`, or a Tailwind-style responsive string.
 
 ```html
+<aegov-avatar-group size="xs">…</aegov-avatar-group>
 <aegov-avatar-group size="sm">…</aegov-avatar-group>
 <aegov-avatar-group size="base">…</aegov-avatar-group>
 <aegov-avatar-group size="lg">…</aegov-avatar-group>
 <aegov-avatar-group size="xl">…</aegov-avatar-group>
+<aegov-avatar-group size="2xl">…</aegov-avatar-group>
+<aegov-avatar-group size="3xl">…</aegov-avatar-group>
 ```
 
 <div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <div style="display:flex;flex-direction:column;gap:1rem;">
+    <aegov-avatar-group variant="compact" size="xs" more-count="5">
+      <aegov-avatar src="https://i.pravatar.cc/150?img=12" alt="Khalid"></aegov-avatar>
+      <aegov-avatar src="https://i.pravatar.cc/150?img=32" alt="Fatima"></aegov-avatar>
+      <aegov-avatar src="https://i.pravatar.cc/150?img=58" alt="Yousef"></aegov-avatar>
+    </aegov-avatar-group>
     <aegov-avatar-group variant="compact" size="sm" more-count="5">
       <aegov-avatar src="https://i.pravatar.cc/150?img=12" alt="Khalid"></aegov-avatar>
       <aegov-avatar src="https://i.pravatar.cc/150?img=32" alt="Fatima"></aegov-avatar>
@@ -162,6 +170,16 @@ The `size` property is enforced on every child `aegov-avatar` — individual `si
       <aegov-avatar src="https://i.pravatar.cc/150?img=58" alt="Yousef"></aegov-avatar>
     </aegov-avatar-group>
     <aegov-avatar-group variant="compact" size="xl" more-count="5">
+      <aegov-avatar src="https://i.pravatar.cc/150?img=12" alt="Khalid"></aegov-avatar>
+      <aegov-avatar src="https://i.pravatar.cc/150?img=32" alt="Fatima"></aegov-avatar>
+      <aegov-avatar src="https://i.pravatar.cc/150?img=58" alt="Yousef"></aegov-avatar>
+    </aegov-avatar-group>
+    <aegov-avatar-group variant="compact" size="2xl" more-count="5">
+      <aegov-avatar src="https://i.pravatar.cc/150?img=12" alt="Khalid"></aegov-avatar>
+      <aegov-avatar src="https://i.pravatar.cc/150?img=32" alt="Fatima"></aegov-avatar>
+      <aegov-avatar src="https://i.pravatar.cc/150?img=58" alt="Yousef"></aegov-avatar>
+    </aegov-avatar-group>
+    <aegov-avatar-group variant="compact" size="3xl" more-count="5">
       <aegov-avatar src="https://i.pravatar.cc/150?img=12" alt="Khalid"></aegov-avatar>
       <aegov-avatar src="https://i.pravatar.cc/150?img=32" alt="Fatima"></aegov-avatar>
       <aegov-avatar src="https://i.pravatar.cc/150?img=58" alt="Yousef"></aegov-avatar>
@@ -324,7 +342,7 @@ The parent group writes the following properties on each child `aegov-avatar` au
 
 ### Pass-through Attributes
 
-The avatar group does not forward attributes to inner elements — set attributes directly on the host where they are needed. Use `aria-label` on the host to override the default group label when the cluster represents a named team or project.
+The avatar group does not forward attributes to inner elements — set attributes directly on the host where they are needed. Note that `aria-label` applied to the host element is not guaranteed to be exposed across the Shadow DOM boundary in all browsers and assistive technologies; the component provides its own internal group label via the Shadow DOM container.
 
 | Attribute group  | Forwarded? | Where to apply                                                         |
 | ---------------- | ---------- | ---------------------------------------------------------------------- |
@@ -345,7 +363,7 @@ The avatar group does not forward attributes to inner elements — set attribute
 ### Developer responsibilities
 
 - Provide a meaningful `alt` on every child avatar — the group's container label alone is not enough to identify individual people.
-- When the group represents a specific named team or project, override the default `aria-label` on the host (e.g. `aria-label="Smart City team members"`) so the cluster's purpose is clear.
+- The component provides a built-in accessible label ("Avatar group") via `aria-label` on the internal Shadow DOM container. A host-level `aria-label` is not reliably propagated across the Shadow DOM boundary in all browsers and assistive technologies, so it is not a supported way to customise the group label. The component does not currently expose a prop to override the internal label; if a custom group label is required, note this limitation.
 - If the `+N` button opens a modal or navigates away, follow the relevant accessibility guidance for that destination — focus management, return focus, and labelled headings.
 - Avoid placing too many avatars in a `compact` cluster — the overlapping arrangement makes individual avatars harder to identify visually. Use `more-count` to off-load the long tail to a dedicated list.
 

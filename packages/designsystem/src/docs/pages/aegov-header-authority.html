@@ -6,8 +6,10 @@
   <script type="module" src="/build/aegov.esm.js"></script>
   <script nomodule src="/build/aegov.js"></script>
   <link rel="stylesheet" href="/build/aegov.css">
+  <link rel="stylesheet" href="/docs/doc-style.css">
   <style>
-    body { margin: 0; padding: 0; overflow: hidden; background: transparent; }
+    body { margin: 0; padding: 0; background: transparent; scrollbar-width: none; }
+    body::-webkit-scrollbar { display: none; }
   </style>
   <script>
     const params = new URLSearchParams(location.search);
@@ -18,36 +20,25 @@
   </script>
 </head>
 <body>
-  <aegov-header skip-content-container="#main" entity-name="Emirates Health Services" entity-domain="www.ehs.gov.ae">
-    <img src="https://www.ehs.gov.ae/app_themes/fg21001/images/ehs-logo.svg" alt="Emirates Health Services Logo" slot="logo">
-    <aegov-input slot="search" type="search" placeholder="Search..." size="base">
+  <aegov-header skip-content-container="#main" variant="authority" entity-name="Emirates Health Services" entity-domain="https://www.ehs.gov.ae">
+    <img src="https://www.ehs.gov.ae/app_themes/fg21001/images/ehs-logo.svg" alt="Emirates Health Services logo" slot="logo">
+    <aegov-input slot="search" type="search" placeholder="Search services…" size="base">
       <svg slot="icon-start" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
-      viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-      stroke-linecap="round" stroke-linejoin="round">
+        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round">
         <circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>
       </svg>
     </aegov-input>
   </aegov-header>
-  <div class="aegov-container hidden md:flex md:justify-between md:gap-4 xl:gap-8 md:items-center">
-    <nav class="py-2">
-      <ul class="list-none m-0 p-0 flex justify-start items-center gap-4">
-        <li><aegov-link href="#" class="text-sm lg:text-base font-bold">Home</aegov-link></li>
-        <li><aegov-link href="#" class="text-sm lg:text-base font-bold">Services</aegov-link></li>
-        <li><aegov-link href="#" class="text-sm lg:text-base font-bold">Awareness centre</aegov-link></li>
-        <li><aegov-link href="#" class="text-sm lg:text-base font-bold">Digital participation</aegov-link></li>
-        <li><aegov-link href="#" class="text-sm lg:text-base font-bold">Open data</aegov-link></li>
-        <li><aegov-link href="#" class="text-sm lg:text-base font-bold">Media centre</aegov-link></li>
-        <li><aegov-link href="#" class="text-sm lg:text-base font-bold">About</aegov-link></li>
-      </ul>
-    </nav>
-    <div class="flex items-center justify-end gap-4">
-      <aegov-button size="sm" variant="link">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"><rect width="256" height="256" fill="none"/><path d="M84.27,171.73l-55.09-20.3a7.92,7.92,0,0,1,0-14.86l55.09-20.3,20.3-55.09a7.92,7.92,0,0,1,14.86,0l20.3,55.09,55.09,20.3a7.92,7.92,0,0,1,0,14.86l-55.09,20.3-20.3,55.09a7.92,7.92,0,0,1-14.86,0Z" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="24"/><line x1="176" y1="16" x2="176" y2="64" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="24"/><line x1="224" y1="72" x2="224" y2="104" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="24"/><line x1="152" y1="40" x2="200" y2="40" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="24"/><line x1="208" y1="88" x2="240" y2="88" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="24"/></svg>
-      </aegov-button>
-      <aegov-button size="sm" variant="link">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"><rect width="256" height="256" fill="none"/><circle cx="128" cy="96" r="64" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="24"/><path d="M32,216c19.37-33.47,54.55-56,96-56s76.63,22.53,96,56" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="24"/></svg>
-      </aegov-button>
-    </div>
+  <div class="aegov-container hidden md:block">
+    <aegov-navbar label-nav="Main navigation" gap="gap-6">
+      <aegov-navbar-item href="#" is-active="true">Home</aegov-navbar-item>
+      <aegov-navbar-item href="#">Services</aegov-navbar-item>
+      <aegov-navbar-item href="#">About EHS</aegov-navbar-item>
+      <aegov-navbar-item href="#">Health Facilities</aegov-navbar-item>
+      <aegov-navbar-item href="#">Media Centre</aegov-navbar-item>
+      <aegov-navbar-item href="#">Contact Us</aegov-navbar-item>
+    </aegov-navbar>
   </div>
   <main id="main" class="aegov-container">
     <div style="padding-top:50px;">

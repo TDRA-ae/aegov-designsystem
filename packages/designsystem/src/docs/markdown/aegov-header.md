@@ -45,18 +45,6 @@ The `aegov-header` component is composed of two stacked rows: a slim top bar car
     entity-name="Ministry of Industry and Advanced Technology"
     entity-domain="https://moiat.gov.ae"
   >
-    <nav slot="actions" class="hidden sm:inline">
-      <ul class="flex justify-end items-center gap-6 list-none m-0 p-0">
-        <li><a href="#" class="text-sm! text-aeblack-100! focus-visible:text-aeblack-800! no-underline">
-          <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"><rect width="256" height="256" fill="none"/><polyline points="104 72 104 136 192 136 224 200 248 192" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/><circle cx="104" cy="48" r="24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/><path d="M168,96H112a64,64,0,0,0,0,128c29.82,0,56.9-20.4,64-48" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/></svg>
-          <span class="hidden lg:inline">Accessibility</span>
-        </a></li>
-        <li><a href="#" class="text-sm! text-aeblack-100! focus-visible:text-aeblack-800! no-underline">
-          <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"><rect width="256" height="256" fill="none"/><circle cx="128" cy="128" r="96" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/><path d="M168,128c0,64-40,96-40,96s-40-32-40-96,40-96,40-96S168,64,168,128Z" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/><line x1="37.46" y1="96" x2="218.54" y2="96" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/><line x1="37.46" y1="160" x2="218.54" y2="160" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/></svg>
-          <span class="hidden lg:inline">Language</span>
-        </a></li>
-      </ul>
-    </nav>
     <img
       slot="logo"
       src="https://moiat.gov.ae/-/media/site/moiat/identity/logo/moiat_logo_eng.ashx?iar=0&hash=42716B005DAA289F20DE7B83B575605A"
@@ -144,7 +132,7 @@ Use this variant for authority-level entities such as the Telecommunications and
 
 ## Required Branding Properties
 
-Both `entity-name` and `entity-domain` are required. The header uses them to populate the official-website panel that opens from the top bar, and `entity-domain` becomes the link target wrapping the logo. If either is omitted the component renders an inline error block in place of the header — making the misconfiguration obvious during development.
+Both `entity-name` and `entity-domain` are required. The header uses them to populate the official-website panel that opens from the top bar, and `entity-domain` becomes the link target wrapping the logo. If either is omitted, the embedded `aegov-header-banner` sub-component renders an inline error block in place of the banner — making the misconfiguration obvious during development. The outer `aegov-header` (logo/search row) still renders.
 
 ```html
 <aegov-header
@@ -451,19 +439,41 @@ The same composite header, in Arabic, with the navigation bar below:
 | `entityName`             | `entity-name`              | _Required._ Full name of the government entity. Shown in the `Learn more` panel.                                  | `string`                      | `undefined` |
 | `entityDomain`           | `entity-domain`            | _Required._ Official `gov.ae` URL of the entity. Wraps the logo and is shown in the `Learn more` panel.           | `string`                      | `undefined` |
 | `skipContentContainer`   | `skip-content-container`   | Selector or id (with or without `#`) of the page's main landmark. Adds a `Skip to content` link to `document.body`. | `string`                    | `undefined` |
+| `logoLabel`              | `logo-label`               | Accessible label (aria-label) for the logo anchor element.                                                        | `string`                      | `undefined` |
 
-> Omitting `entity-name` or `entity-domain` causes the component to render an inline error block in place of the header.
+> Omitting `entity-name` or `entity-domain` causes the embedded `aegov-header-banner` sub-component to render an inline error block in place of the banner. The outer `aegov-header` (logo/search row) still renders.
 
 ### Slots
 
 | Slot     | Description                                                                                                       |
 | -------- | ----------------------------------------------------------------------------------------------------------------- |
-| `logo`   | The entity logo (typically an `<img>` or inline SVG). Wrapped in an anchor pointing to `entity-domain`.            |
-| `search` | Optional search field shown in the head row from the `md` breakpoint up. Use `aegov-input` for consistent styling. |
+| `logo`    | The entity logo (typically an `<img>` or inline SVG). Wrapped in an anchor pointing to `entity-domain`.                                                                                                  |
+| `search`  | Optional search field shown in the head row from the `md` breakpoint up. Use `aegov-input` for consistent styling.                                                                                       |
+| `actions` | Forwarded to the embedded `aegov-header-banner`'s actions slot. Use for language switchers, accessibility links, or other utility controls placed in the top-right area of the banner. |
 
 ### Events
 
 The header does not emit any custom events.
+
+---
+
+### `aegov-header-banner` Sub-component
+
+`aegov-header` embeds an `aegov-header-banner` internally. The following properties and slots belong to that sub-component and are passed through from the outer `aegov-header`.
+
+#### Properties
+
+| Property               | Attribute                | Description                                                                      | Type      | Default     |
+| ---------------------- | ------------------------ | -------------------------------------------------------------------------------- | --------- | ----------- |
+| `entityName`           | `entity-name`            | The Arabic/English entity name shown in the banner.                              | `string`  | `undefined` (required) |
+| `entityDomain`         | `entity-domain`          | The entity's domain shown below the name.                                        | `string`  | `undefined` (required) |
+| `skipContentContainer` | `skip-content-container` | When present, renders a `Skip to content` link at the top of the banner.         | `string`  | `undefined` |
+
+#### Slots
+
+| Slot      | Description                                                                                                                                               |
+| --------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `actions` | Content for the top-right area of the banner. Falls back to built-in UAE-flag quick links when empty. |
 
 ### Pass-through Attributes
 

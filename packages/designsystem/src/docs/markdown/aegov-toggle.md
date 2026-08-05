@@ -294,7 +294,9 @@ A full preferences panel in RTL:
 | `isDisabled`  | `is-disabled`  | Disables the input and removes it from the tab order.                         | `boolean` | `false`     |
 | `isRequired`  | `is-required`  | Marks the underlying input as required for form validation.                   | `boolean` | `false`     |
 | `label`       | `label`        | Inline label text rendered after the switch.                                  | `string`  | `undefined` |
-| `hint`        | `hint`         | Helper hint text shown below the label. Requires `label` to render.           | `string`  | `undefined` |
+| `hint`         | `hint`         | Helper hint text shown below the label. Hidden when an error is shown.        | `string`  | `undefined` |
+| `isInvalid`    | `is-invalid`   | Puts the toggle into an error state and shows the error message.              | `boolean` | `false`     |
+| `errorMessage` | `error-message`| Error text shown when `is-invalid` is `true`. Use the `error` slot for rich markup. | `string` | `''`    |
 
 ### Slots
 
@@ -302,12 +304,15 @@ A full preferences panel in RTL:
 | ----------------- | ------------------------------------------------------------------------------------------ |
 | `icon-checked`    | Icon shown inside the thumb when the toggle is on. Keep dimensions ≤ 14×14 px.              |
 | `icon-unchecked`  | Icon shown inside the thumb when the toggle is off. Keep dimensions ≤ 14×14 px.             |
+| `hint`            | Rich hint markup. Replaces the `hint` prop when provided.                                    |
+| `error`           | Rich error markup. Replaces `error-message` prop when provided.                              |
 
 ### Events
 
 | Event                 | Detail                                  | Description                                                |
 | --------------------- | --------------------------------------- | ---------------------------------------------------------- |
 | `aegovToggleChange`   | `{ checked: boolean; value?: string }`  | Fires after every state change with the new checked value. |
+| `aegovValidate`       | `AegovValidationDetail<boolean>`        | Fires when the component validates (on change and programmatically). Detail includes `name`, `value`, `validity`, `validationMessage`, `customError`, `trigger`. |
 
 #### Listening for changes
 
@@ -320,6 +325,13 @@ A full preferences panel in RTL:
   });
 </script>
 ```
+
+### Methods
+
+| Method | Returns | Description |
+| --- | --- | --- |
+| validate(trigger?) | Promise<AegovValidationResult> | Re-runs validation and emits aegovValidate. Optional trigger param is 'blur' | 'change' | 'manual'. |
+| setCustomValidity(message) | Promise<void> | Sets a custom error message. Pass '' to clear. |
 
 ### Pass-through Attributes
 

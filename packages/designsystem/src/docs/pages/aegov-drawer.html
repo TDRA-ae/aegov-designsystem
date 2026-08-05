@@ -208,7 +208,43 @@
 <p>The <code>animation</code> property controls the open/close transition. <code>slide</code> (default) uses a directional translate matching the drawer&#39;s edge; <code>fade</code> cross-fades the panel; <code>none</code> disables transitions entirely — useful for tests or when motion should be suppressed at the OS level.</p>
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-drawer</span> <span class="hljs-attr">animation</span>=<span class="hljs-string">&quot;slide&quot;</span> <span class="hljs-attr">is-open</span>=<span class="hljs-string">&quot;true&quot;</span>&gt;</span>…<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-drawer</span>&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">aegov-drawer</span> <span class="hljs-attr">animation</span>=<span class="hljs-string">&quot;fade&quot;</span> <span class="hljs-attr">is-open</span>=<span class="hljs-string">&quot;true&quot;</span>&gt;</span>…<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-drawer</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-drawer</span> <span class="hljs-attr">animation</span>=<span class="hljs-string">&quot;none&quot;</span> <span class="hljs-attr">is-open</span>=<span class="hljs-string">&quot;true&quot;</span>&gt;</span>…<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-drawer</span>&gt;</span></code></pre><hr>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-drawer</span> <span class="hljs-attr">animation</span>=<span class="hljs-string">&quot;none&quot;</span> <span class="hljs-attr">is-open</span>=<span class="hljs-string">&quot;true&quot;</span>&gt;</span>…<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-drawer</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <div class="flex flex-wrap gap-3">
+    <aegov-button id="demo-anim-slide-btn">Slide</aegov-button>
+    <aegov-button id="demo-anim-fade-btn">Fade</aegov-button>
+    <aegov-button id="demo-anim-none-btn">None</aegov-button>
+  </div>
+
+  <aegov-drawer id="demo-drawer-anim-slide" animation="slide" aria-label="Slide animation drawer">
+    <h3 class="text-xl font-bold mb-2">Slide animation</h3>
+    <p class="mb-6">The panel translates in from the drawer's edge — the default transition.</p>
+    <aegov-button id="demo-anim-slide-close">Close</aegov-button>
+  </aegov-drawer>
+
+  <aegov-drawer id="demo-drawer-anim-fade" animation="fade" aria-label="Fade animation drawer">
+    <h3 class="text-xl font-bold mb-2">Fade animation</h3>
+    <p class="mb-6">The panel cross-fades in without directional motion.</p>
+    <aegov-button id="demo-anim-fade-close">Close</aegov-button>
+  </aegov-drawer>
+
+  <aegov-drawer id="demo-drawer-anim-none" animation="none" aria-label="No animation drawer">
+    <h3 class="text-xl font-bold mb-2">No animation</h3>
+    <p class="mb-6">The panel appears and disappears instantly — no transition.</p>
+    <aegov-button id="demo-anim-none-close">Close</aegov-button>
+  </aegov-drawer>
+
+  <script>
+    (function() {
+      ['slide','fade','none'].forEach(a => {
+        const d = document.querySelector('#demo-drawer-anim-' + a);
+        document.querySelector('#demo-anim-' + a + '-btn').addEventListener('click', () => d.show());
+        document.querySelector('#demo-anim-' + a + '-close').addEventListener('click', () => d.close());
+      });
+    })();
+  </script>
+</div>
+
+<hr>
 <h2>No Overlay</h2>
 <p>Set <code>is-overlay=&quot;false&quot;</code> to render the drawer without a dimming backdrop. The page behind remains fully visible and (with <code>is-prevent-scroll=&quot;false&quot;</code>) scrollable. This is useful for inspector-style panels that should not interrupt the user&#39;s workflow.</p>
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-drawer</span> <span class="hljs-attr">is-overlay</span>=<span class="hljs-string">&quot;false&quot;</span> <span class="hljs-attr">is-prevent-scroll</span>=<span class="hljs-string">&quot;false&quot;</span> <span class="hljs-attr">is-pinned</span>=<span class="hljs-string">&quot;false&quot;</span> <span class="hljs-attr">position</span>=<span class="hljs-string">&quot;right&quot;</span>&gt;</span>
@@ -217,6 +253,65 @@
 <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-drawer</span>&gt;</span></code></pre><blockquote>
 <p>Even without the visible overlay, clicking outside still closes the drawer when <code>is-close-with-overlay=&quot;true&quot;</code> (the default), via an invisible click-catching layer.</p>
 </blockquote>
+<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-button id="demo-no-overlay-open">Open inspector panel</aegov-button>
+
+  <aegov-drawer id="demo-no-overlay-drawer" is-overlay="false" is-prevent-scroll="false" is-pinned="false" position="right" aria-label="No overlay drawer">
+    <h3 class="text-lg font-bold mb-2">Quick info</h3>
+    <p class="mb-6">This panel coexists with the page — no backdrop, no scroll lock.</p>
+    <aegov-button id="demo-no-overlay-close">Close</aegov-button>
+  </aegov-drawer>
+
+  <script>
+    (function() {
+      const d = document.querySelector('#demo-no-overlay-drawer');
+      document.querySelector('#demo-no-overlay-open').addEventListener('click', () => d.show());
+      document.querySelector('#demo-no-overlay-close').addEventListener('click', () => d.close());
+    })();
+  </script>
+</div>
+
+<hr>
+<h2>Overlay Opacity</h2>
+<p>The <code>overlay-opacity</code> attribute controls how dark the backdrop appears when <code>is-overlay=&quot;true&quot;</code>. Use <code>light</code> for a subtle hint, <code>base</code> (the default) for standard dimming, and <code>dark</code> for maximum focus on the drawer panel.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-drawer</span> <span class="hljs-attr">overlay-opacity</span>=<span class="hljs-string">&quot;light&quot;</span> <span class="hljs-attr">is-open</span>=<span class="hljs-string">&quot;true&quot;</span>&gt;</span>…<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-drawer</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-drawer</span> <span class="hljs-attr">overlay-opacity</span>=<span class="hljs-string">&quot;base&quot;</span> <span class="hljs-attr">is-open</span>=<span class="hljs-string">&quot;true&quot;</span>&gt;</span>…<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-drawer</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-drawer</span> <span class="hljs-attr">overlay-opacity</span>=<span class="hljs-string">&quot;dark&quot;</span> <span class="hljs-attr">is-open</span>=<span class="hljs-string">&quot;true&quot;</span>&gt;</span>…<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-drawer</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <div class="flex flex-wrap gap-3">
+    <aegov-button id="demo-opacity-light-btn">Light</aegov-button>
+    <aegov-button id="demo-opacity-base-btn">Base</aegov-button>
+    <aegov-button id="demo-opacity-dark-btn">Dark</aegov-button>
+  </div>
+
+  <aegov-drawer id="demo-drawer-opacity-light" overlay-opacity="light" aria-label="Light overlay drawer">
+    <h3 class="text-xl font-bold mb-2">Light overlay</h3>
+    <p class="mb-6">A subtle dim — the page behind remains quite visible.</p>
+    <aegov-button id="demo-opacity-light-close">Close</aegov-button>
+  </aegov-drawer>
+
+  <aegov-drawer id="demo-drawer-opacity-base" overlay-opacity="base" aria-label="Base overlay drawer">
+    <h3 class="text-xl font-bold mb-2">Base overlay</h3>
+    <p class="mb-6">The default dimming level.</p>
+    <aegov-button id="demo-opacity-base-close">Close</aegov-button>
+  </aegov-drawer>
+
+  <aegov-drawer id="demo-drawer-opacity-dark" overlay-opacity="dark" aria-label="Dark overlay drawer">
+    <h3 class="text-xl font-bold mb-2">Dark overlay</h3>
+    <p class="mb-6">A strong dim — focuses maximum attention on the drawer panel.</p>
+    <aegov-button id="demo-opacity-dark-close">Close</aegov-button>
+  </aegov-drawer>
+
+  <script>
+    (function() {
+      ['light','base','dark'].forEach(o => {
+        const d = document.querySelector('#demo-drawer-opacity-' + o);
+        document.querySelector('#demo-opacity-' + o + '-btn').addEventListener('click', () => d.show());
+        document.querySelector('#demo-opacity-' + o + '-close').addEventListener('click', () => d.close());
+      });
+    })();
+  </script>
+</div>
+
 <hr>
 <h2>Composite Example — Service Detail Panel</h2>
 <p>A right-side drawer used to surface the full detail of a government service from a list view, complete with a heading, structured content, and a primary action.</p>
@@ -433,6 +528,13 @@
 <td>Apply inner content padding. Turn off for full-bleed content.</td>
 <td><code>boolean</code></td>
 <td><code>true</code></td>
+</tr>
+<tr>
+<td><code>label</code></td>
+<td><code>label</code></td>
+<td>Accessible label for the drawer dialog. Prefer <code>aria-labelledby</code> pointing at a heading inside the drawer; use <code>label</code> only when no visible heading is present.</td>
+<td><code>string</code></td>
+<td><code>undefined</code></td>
 </tr>
 </tbody></table>
 <h3>Slots</h3>

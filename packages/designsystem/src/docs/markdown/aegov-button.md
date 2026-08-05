@@ -245,7 +245,7 @@ Set `is-loading="true"` to show a spinner, disable the button, and set `aria-bus
 
 ## Disabled State
 
-Set `is-disabled="true"` to prevent interaction. The native `disabled` attribute is applied, `aria-disabled="true"` is set, and click events are suppressed. Use this when the action is contextually unavailable — for example, a "Pay now" button with no items in the cart.
+Set `is-disabled="true"` to prevent interaction. The native `disabled` attribute is applied to the inner `<button>` element and click events are suppressed. Use this when the action is contextually unavailable — for example, a "Pay now" button with no items in the cart.
 
 ```html
 <aegov-button is-disabled="true">Continue</aegov-button>
@@ -523,7 +523,7 @@ A button group in RTL — the first button retains its start radii on the right,
 | `appearance`        | `appearance`         | Visual treatment.                                                                                        | `'solid' \| 'outline' \| 'soft' \| 'link'`                                 | `'solid'`   |
 | `size`              | `size`               | Size token. Accepts a single token or a Tailwind-style responsive string.                                | `'xs' \| 'sm' \| 'base' \| 'lg' \| 'xl'`                                   | `'base'`    |
 | `type`              | `type`               | Native `type` attribute on the inner `<button>`.                                                         | `'button' \| 'submit' \| 'reset'`                                          | `'button'`  |
-| `isDisabled`        | `is-disabled`        | Disables interaction. Sets `disabled` and `aria-disabled="true"`.                                        | `boolean`                                                                  | `false`     |
+| `isDisabled`        | `is-disabled`        | Disables interaction. Sets the native `disabled` attribute on the inner `<button>` element.              | `boolean`                                                                  | `false`     |
 | `isLoading`         | `is-loading`         | Shows a spinner, disables the button, and sets `aria-busy="true"`.                                       | `boolean`                                                                  | `false`     |
 | `isIcon`            | `is-icon`            | Renders the button as a square icon-only button. Always pair with `aria-label`.                          | `boolean`                                                                  | `false`     |
 | `isFull`            | `is-full`            | Stretches the button to the full width of its container.                                                 | `boolean`                                                                  | `false`     |
@@ -600,7 +600,7 @@ aegov-button::part(button) {
 ### Built-in behaviour
 
 - Renders a real `<button>` element, so it is focusable, keyboard-activatable, and exposed correctly to assistive technologies by default.
-- `aria-disabled="true"` is set only when the button is disabled or loading — it is omitted entirely when the button is enabled (no redundant `aria-disabled="false"` noise).
+- When disabled or loading, the native `disabled` attribute is set on the inner `<button>` element — not `aria-disabled`. The native disabled state is correct here because the button has an accessible name and role already provided by the element itself.
 - `aria-busy="true"` is set only while loading — omitted otherwise. Screen readers announce the button as busy until the operation completes.
 - The loading spinner SVG is `aria-hidden="true"` — the button's visible label (slot content) is the sole accessible announcement; the spinner is purely visual.
 - `focus-visible` outline is tuned per appearance: solid and soft buttons get an offset outline; outline buttons get an inset outline.

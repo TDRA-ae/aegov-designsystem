@@ -189,17 +189,17 @@
 <li>Layout appearances and orientation control</li>
 <li>Automatic management of an optional &quot;select all&quot; checkbox</li>
 </ul>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-checkbox-group</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Notification preferences&quot;</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;prefs&quot;</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-checkbox</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;email&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Email&quot;</span> <span class="hljs-attr">is-checked</span>=<span class="hljs-string">&quot;true&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-checkbox</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-checkbox</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;sms&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;SMS&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-checkbox</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-checkbox</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;push&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Push notifications&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-checkbox</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-checkbox</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;post&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Post (mailed letter)&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-checkbox</span>&gt;</span>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-checkbox-group</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Notification preferences&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-checkbox</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;prefs&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;email&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Email&quot;</span> <span class="hljs-attr">is-checked</span>=<span class="hljs-string">&quot;true&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-checkbox</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-checkbox</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;prefs&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;sms&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;SMS&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-checkbox</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-checkbox</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;prefs&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;push&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Push notifications&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-checkbox</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-checkbox</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;prefs&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;post&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Post (mailed letter)&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-checkbox</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-checkbox-group</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <aegov-checkbox-group label="Notification preferences" name="prefs">
-    <aegov-checkbox value="email" label="Email" is-checked="true"></aegov-checkbox>
-    <aegov-checkbox value="sms" label="SMS"></aegov-checkbox>
-    <aegov-checkbox value="push" label="Push notifications"></aegov-checkbox>
-    <aegov-checkbox value="post" label="Post (mailed letter)"></aegov-checkbox>
+  <aegov-checkbox-group label="Notification preferences">
+    <aegov-checkbox name="prefs" value="email" label="Email" is-checked="true"></aegov-checkbox>
+    <aegov-checkbox name="prefs" value="sms" label="SMS"></aegov-checkbox>
+    <aegov-checkbox name="prefs" value="push" label="Push notifications"></aegov-checkbox>
+    <aegov-checkbox name="prefs" value="post" label="Post (mailed letter)"></aegov-checkbox>
   </aegov-checkbox-group>
 </div>
 
@@ -286,19 +286,19 @@
 <li>Sets the controller to <code>indeterminate</code> when only some are selected</li>
 <li>Sets the controller to <code>unchecked</code> when none are selected</li>
 </ul>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-checkbox-group</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Documents to attach&quot;</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;docs&quot;</span>&gt;</span>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-checkbox-group</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Documents to attach&quot;</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-checkbox</span> <span class="hljs-attr">is-check-all</span>=<span class="hljs-string">&quot;true&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Select all&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-checkbox</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-checkbox</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;eid&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Emirates ID (front and back)&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-checkbox</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-checkbox</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;passport&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Passport copy&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-checkbox</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-checkbox</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;utility&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Recent utility bill&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-checkbox</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-checkbox</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;employment&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Employment letter&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-checkbox</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-checkbox</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;docs&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;eid&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Emirates ID (front and back)&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-checkbox</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-checkbox</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;docs&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;passport&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Passport copy&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-checkbox</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-checkbox</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;docs&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;utility&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Recent utility bill&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-checkbox</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-checkbox</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;docs&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;employment&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Employment letter&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-checkbox</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-checkbox-group</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <aegov-checkbox-group label="Documents to attach" name="docs">
+  <aegov-checkbox-group label="Documents to attach">
     <aegov-checkbox is-check-all="true" label="Select all"></aegov-checkbox>
-    <aegov-checkbox value="eid" label="Emirates ID (front and back)"></aegov-checkbox>
-    <aegov-checkbox value="passport" label="Passport copy"></aegov-checkbox>
-    <aegov-checkbox value="utility" label="Recent utility bill"></aegov-checkbox>
-    <aegov-checkbox value="employment" label="Employment letter"></aegov-checkbox>
+    <aegov-checkbox name="docs" value="eid" label="Emirates ID (front and back)"></aegov-checkbox>
+    <aegov-checkbox name="docs" value="passport" label="Passport copy"></aegov-checkbox>
+    <aegov-checkbox name="docs" value="utility" label="Recent utility bill"></aegov-checkbox>
+    <aegov-checkbox name="docs" value="employment" label="Employment letter"></aegov-checkbox>
   </aegov-checkbox-group>
 </div>
 
@@ -308,21 +308,21 @@
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">form</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;grid gap-8 max-w-xl&quot;</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-form-field</span>&gt;</span>
     <span class="hljs-tag">&lt;<span class="hljs-name">aegov-label</span>&gt;</span>Notification preferences<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-label</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-checkbox-group</span> <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;cards&quot;</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;notifications&quot;</span>&gt;</span>
-      <span class="hljs-tag">&lt;<span class="hljs-name">aegov-checkbox</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;email&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Email&quot;</span> <span class="hljs-attr">hint</span>=<span class="hljs-string">&quot;Updates sent to your registered address.&quot;</span> <span class="hljs-attr">is-checked</span>=<span class="hljs-string">&quot;true&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-checkbox</span>&gt;</span>
-      <span class="hljs-tag">&lt;<span class="hljs-name">aegov-checkbox</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;sms&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;SMS&quot;</span> <span class="hljs-attr">hint</span>=<span class="hljs-string">&quot;Short text alerts to your mobile number.&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-checkbox</span>&gt;</span>
-      <span class="hljs-tag">&lt;<span class="hljs-name">aegov-checkbox</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;push&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Push&quot;</span> <span class="hljs-attr">hint</span>=<span class="hljs-string">&quot;In-app and browser notifications.&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-checkbox</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-checkbox-group</span> <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;cards&quot;</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">aegov-checkbox</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;notifications&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;email&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Email&quot;</span> <span class="hljs-attr">hint</span>=<span class="hljs-string">&quot;Updates sent to your registered address.&quot;</span> <span class="hljs-attr">is-checked</span>=<span class="hljs-string">&quot;true&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-checkbox</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">aegov-checkbox</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;notifications&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;sms&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;SMS&quot;</span> <span class="hljs-attr">hint</span>=<span class="hljs-string">&quot;Short text alerts to your mobile number.&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-checkbox</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">aegov-checkbox</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;notifications&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;push&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Push&quot;</span> <span class="hljs-attr">hint</span>=<span class="hljs-string">&quot;In-app and browser notifications.&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-checkbox</span>&gt;</span>
     <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-checkbox-group</span>&gt;</span>
   <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-form-field</span>&gt;</span>
 
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-form-field</span>&gt;</span>
     <span class="hljs-tag">&lt;<span class="hljs-name">aegov-label</span>&gt;</span>Languages spoken<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-label</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-checkbox-group</span> <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;pills&quot;</span> <span class="hljs-attr">orientation</span>=<span class="hljs-string">&quot;horizontal&quot;</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;languages&quot;</span>&gt;</span>
-      <span class="hljs-tag">&lt;<span class="hljs-name">aegov-checkbox</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;ar&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Arabic&quot;</span> <span class="hljs-attr">is-checked</span>=<span class="hljs-string">&quot;true&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-checkbox</span>&gt;</span>
-      <span class="hljs-tag">&lt;<span class="hljs-name">aegov-checkbox</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;en&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;English&quot;</span> <span class="hljs-attr">is-checked</span>=<span class="hljs-string">&quot;true&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-checkbox</span>&gt;</span>
-      <span class="hljs-tag">&lt;<span class="hljs-name">aegov-checkbox</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;ur&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Urdu&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-checkbox</span>&gt;</span>
-      <span class="hljs-tag">&lt;<span class="hljs-name">aegov-checkbox</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;hi&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Hindi&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-checkbox</span>&gt;</span>
-      <span class="hljs-tag">&lt;<span class="hljs-name">aegov-checkbox</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;fr&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;French&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-checkbox</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-checkbox-group</span> <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;pills&quot;</span> <span class="hljs-attr">orientation</span>=<span class="hljs-string">&quot;horizontal&quot;</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">aegov-checkbox</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;languages&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;ar&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Arabic&quot;</span> <span class="hljs-attr">is-checked</span>=<span class="hljs-string">&quot;true&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-checkbox</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">aegov-checkbox</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;languages&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;en&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;English&quot;</span> <span class="hljs-attr">is-checked</span>=<span class="hljs-string">&quot;true&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-checkbox</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">aegov-checkbox</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;languages&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;ur&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Urdu&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-checkbox</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">aegov-checkbox</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;languages&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;hi&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Hindi&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-checkbox</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">aegov-checkbox</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;languages&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;fr&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;French&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-checkbox</span>&gt;</span>
     <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-checkbox-group</span>&gt;</span>
   <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-form-field</span>&gt;</span>
 
@@ -336,20 +336,20 @@
   <form class="grid gap-8 max-w-xl">
     <aegov-form-field>
       <aegov-label>Notification preferences</aegov-label>
-      <aegov-checkbox-group appearance="cards" name="notifications">
-        <aegov-checkbox value="email" label="Email" hint="Updates sent to your registered address." is-checked="true"></aegov-checkbox>
-        <aegov-checkbox value="sms" label="SMS" hint="Short text alerts to your mobile number."></aegov-checkbox>
-        <aegov-checkbox value="push" label="Push" hint="In-app and browser notifications."></aegov-checkbox>
+      <aegov-checkbox-group appearance="cards">
+        <aegov-checkbox name="notifications" value="email" label="Email" hint="Updates sent to your registered address." is-checked="true"></aegov-checkbox>
+        <aegov-checkbox name="notifications" value="sms" label="SMS" hint="Short text alerts to your mobile number."></aegov-checkbox>
+        <aegov-checkbox name="notifications" value="push" label="Push" hint="In-app and browser notifications."></aegov-checkbox>
       </aegov-checkbox-group>
     </aegov-form-field>
     <aegov-form-field>
       <aegov-label>Languages spoken</aegov-label>
-      <aegov-checkbox-group appearance="pills" orientation="horizontal" name="languages">
-        <aegov-checkbox value="ar" label="Arabic" is-checked="true"></aegov-checkbox>
-        <aegov-checkbox value="en" label="English" is-checked="true"></aegov-checkbox>
-        <aegov-checkbox value="ur" label="Urdu"></aegov-checkbox>
-        <aegov-checkbox value="hi" label="Hindi"></aegov-checkbox>
-        <aegov-checkbox value="fr" label="French"></aegov-checkbox>
+      <aegov-checkbox-group appearance="pills" orientation="horizontal">
+        <aegov-checkbox name="languages" value="ar" label="Arabic" is-checked="true"></aegov-checkbox>
+        <aegov-checkbox name="languages" value="en" label="English" is-checked="true"></aegov-checkbox>
+        <aegov-checkbox name="languages" value="ur" label="Urdu"></aegov-checkbox>
+        <aegov-checkbox name="languages" value="hi" label="Hindi"></aegov-checkbox>
+        <aegov-checkbox name="languages" value="fr" label="French"></aegov-checkbox>
       </aegov-checkbox-group>
     </aegov-form-field>
     <aegov-checkbox
@@ -364,10 +364,10 @@
 <hr>
 <h2>Listening for change events</h2>
 <p>Individual checkboxes emit <code>aegovCheckboxChange</code>. The group emits <code>aegovCheckboxGroupChange</code> with the array of currently selected values.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-checkbox-group</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;docs&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Documents to attach&quot;</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;docs&quot;</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-checkbox</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;eid&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Emirates ID&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-checkbox</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-checkbox</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;passport&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Passport&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-checkbox</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-checkbox</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;utility&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Utility bill&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-checkbox</span>&gt;</span>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-checkbox-group</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;docs&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Documents to attach&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-checkbox</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;docs&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;eid&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Emirates ID&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-checkbox</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-checkbox</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;docs&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;passport&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Passport&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-checkbox</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-checkbox</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;docs&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;utility&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Utility bill&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-checkbox</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-checkbox-group</span>&gt;</span>
 
 <span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript">
@@ -380,10 +380,10 @@
 <h2>RTL Support</h2>
 <p>The checkbox uses CSS logical properties throughout. When the document or any ancestor is set to <code>dir=&quot;rtl&quot;</code>, the box swaps to the right of the label, the hint aligns right, group dividers and card borders flip, and pill spacing follows the writing direction. No additional configuration is needed.</p>
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">dir</span>=<span class="hljs-string">&quot;rtl&quot;</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-checkbox-group</span> <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;cards&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;تفضيلات الإشعارات&quot;</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;prefs&quot;</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-checkbox</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;email&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;البريد الإلكتروني&quot;</span> <span class="hljs-attr">hint</span>=<span class="hljs-string">&quot;تصلك التحديثات على عنوانك المسجل.&quot;</span> <span class="hljs-attr">is-checked</span>=<span class="hljs-string">&quot;true&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-checkbox</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-checkbox</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;sms&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;الرسائل النصية&quot;</span> <span class="hljs-attr">hint</span>=<span class="hljs-string">&quot;تنبيهات قصيرة على رقم هاتفك المحمول.&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-checkbox</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-checkbox</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;push&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;الإشعارات الفورية&quot;</span> <span class="hljs-attr">hint</span>=<span class="hljs-string">&quot;إشعارات داخل التطبيق والمتصفح.&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-checkbox</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-checkbox-group</span> <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;cards&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;تفضيلات الإشعارات&quot;</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-checkbox</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;prefs&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;email&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;البريد الإلكتروني&quot;</span> <span class="hljs-attr">hint</span>=<span class="hljs-string">&quot;تصلك التحديثات على عنوانك المسجل.&quot;</span> <span class="hljs-attr">is-checked</span>=<span class="hljs-string">&quot;true&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-checkbox</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-checkbox</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;prefs&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;sms&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;الرسائل النصية&quot;</span> <span class="hljs-attr">hint</span>=<span class="hljs-string">&quot;تنبيهات قصيرة على رقم هاتفك المحمول.&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-checkbox</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-checkbox</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;prefs&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;push&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;الإشعارات الفورية&quot;</span> <span class="hljs-attr">hint</span>=<span class="hljs-string">&quot;إشعارات داخل التطبيق والمتصفح.&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-checkbox</span>&gt;</span>
   <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-checkbox-group</span>&gt;</span>
 
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-checkbox</span>
@@ -392,10 +392,10 @@
   &gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-checkbox</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre><div dir="rtl" class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <div class="grid gap-8">
-    <aegov-checkbox-group appearance="cards" label="تفضيلات الإشعارات" name="prefs">
-      <aegov-checkbox value="email" label="البريد الإلكتروني" hint="تصلك التحديثات على عنوانك المسجل." is-checked="true"></aegov-checkbox>
-      <aegov-checkbox value="sms" label="الرسائل النصية" hint="تنبيهات قصيرة على رقم هاتفك المحمول."></aegov-checkbox>
-      <aegov-checkbox value="push" label="الإشعارات الفورية" hint="إشعارات داخل التطبيق والمتصفح."></aegov-checkbox>
+    <aegov-checkbox-group appearance="cards" label="تفضيلات الإشعارات">
+      <aegov-checkbox name="prefs" value="email" label="البريد الإلكتروني" hint="تصلك التحديثات على عنوانك المسجل." is-checked="true"></aegov-checkbox>
+      <aegov-checkbox name="prefs" value="sms" label="الرسائل النصية" hint="تنبيهات قصيرة على رقم هاتفك المحمول."></aegov-checkbox>
+      <aegov-checkbox name="prefs" value="push" label="الإشعارات الفورية" hint="إشعارات داخل التطبيق والمتصفح."></aegov-checkbox>
     </aegov-checkbox-group>
     <aegov-checkbox
       label="أؤكد أن المعلومات المقدمة صحيحة وأوافق على شروط الخدمة"
@@ -502,6 +502,27 @@
 <td><code>false</code></td>
 </tr>
 <tr>
+<td><code>isInvalid</code></td>
+<td><code>is-invalid</code></td>
+<td>Puts the checkbox into an error state.</td>
+<td><code>boolean</code></td>
+<td><code>false</code></td>
+</tr>
+<tr>
+<td><code>errorMessage</code></td>
+<td><code>error-message</code></td>
+<td>Error text when <code>is-invalid</code> is <code>true</code>. Use the <code>error</code> slot for rich markup.</td>
+<td><code>string</code></td>
+<td><code>&#39;&#39;</code></td>
+</tr>
+<tr>
+<td><code>appearance</code></td>
+<td><code>appearance</code></td>
+<td>Visual appearance mode. Normally managed by <code>aegov-checkbox-group</code> (valid values: <code>&#39;default&#39;</code>, <code>&#39;cards&#39;</code>, <code>&#39;pills&#39;</code>, <code>&#39;list&#39;</code>). Should not be set directly in most cases.</td>
+<td><code>string</code></td>
+<td><code>&#39;default&#39;</code></td>
+</tr>
+<tr>
 <td><code>extraClass</code></td>
 <td><code>extra-class</code></td>
 <td>Additional CSS classes applied to the wrapper.</td>
@@ -563,6 +584,34 @@
 <td><code>false</code></td>
 </tr>
 <tr>
+<td><code>isRequired</code></td>
+<td><code>is-required</code></td>
+<td>Marks the group as required.</td>
+<td><code>boolean</code></td>
+<td><code>false</code></td>
+</tr>
+<tr>
+<td><code>isInvalid</code></td>
+<td><code>is-invalid</code></td>
+<td>Puts the group into an error state.</td>
+<td><code>boolean</code></td>
+<td><code>false</code></td>
+</tr>
+<tr>
+<td><code>errorMessage</code></td>
+<td><code>error-message</code></td>
+<td>Error text when <code>is-invalid</code> is <code>true</code>. Use the <code>error</code> slot for rich markup.</td>
+<td><code>string</code></td>
+<td><code>&#39;&#39;</code></td>
+</tr>
+<tr>
+<td><code>hint</code></td>
+<td><code>hint</code></td>
+<td>Helper text below the group. Hidden when an error is shown.</td>
+<td><code>string</code></td>
+<td><code>&#39;&#39;</code></td>
+</tr>
+<tr>
 <td><code>extraClass</code></td>
 <td><code>extra-class</code></td>
 <td>Additional CSS classes applied to the <code>&lt;fieldset&gt;</code>.</td>
@@ -585,8 +634,27 @@
 <td><em>(default)</em></td>
 <td>Place one or more <code>aegov-checkbox</code> children here.</td>
 </tr>
+<tr>
+<td><code>aegov-checkbox</code></td>
+<td><code>hint</code></td>
+<td>Rich hint markup. Replaces the <code>hint</code> prop when provided.</td>
+</tr>
+<tr>
+<td><code>aegov-checkbox</code></td>
+<td><code>error</code></td>
+<td>Rich error markup. Replaces <code>error-message</code> prop when provided.</td>
+</tr>
+<tr>
+<td><code>aegov-checkbox-group</code></td>
+<td><code>hint</code></td>
+<td>Rich hint markup for the group.</td>
+</tr>
+<tr>
+<td><code>aegov-checkbox-group</code></td>
+<td><code>error</code></td>
+<td>Rich error markup for the group. Replaces <code>error-message</code> prop.</td>
+</tr>
 </tbody></table>
-<p><code>aegov-checkbox</code> does not expose named slots — content is set through the <code>label</code> and <code>hint</code> properties.</p>
 <h3>Events</h3>
 <table>
 <thead>
@@ -608,6 +676,53 @@
 <td><code>aegov-checkbox-group</code></td>
 <td><code>{ values: string[] }</code></td>
 <td>Fires when any child checkbox changes. Detail contains all currently checked non-controller values.</td>
+</tr>
+<tr>
+<td><code>aegovValidate</code></td>
+<td><code>aegov-checkbox</code></td>
+<td><code>AegovValidationDetail&lt;boolean&gt;</code></td>
+<td>Fires when the checkbox validates.</td>
+</tr>
+<tr>
+<td><code>aegovValidate</code></td>
+<td><code>aegov-checkbox-group</code></td>
+<td><code>AegovValidationDetail&lt;string[]&gt;</code></td>
+<td>Fires when the group validates.</td>
+</tr>
+</tbody></table>
+<h3>Methods</h3>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Component</th>
+<th>Returns</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>validate(trigger?)</code></td>
+<td><code>aegov-checkbox</code></td>
+<td><code>Promise&lt;AegovValidationResult&gt;</code></td>
+<td>Re-runs validation; emits <code>aegovValidate</code>.</td>
+</tr>
+<tr>
+<td><code>setCustomValidity(message)</code></td>
+<td><code>aegov-checkbox</code></td>
+<td><code>Promise&lt;void&gt;</code></td>
+<td>Sets a custom error message; empty string clears.</td>
+</tr>
+<tr>
+<td><code>validate(trigger?)</code></td>
+<td><code>aegov-checkbox-group</code></td>
+<td><code>Promise&lt;AegovValidationResult&gt;</code></td>
+<td>Re-runs validation; emits <code>aegovValidate</code>.</td>
+</tr>
+<tr>
+<td><code>setCustomValidity(message)</code></td>
+<td><code>aegov-checkbox-group</code></td>
+<td><code>Promise&lt;void&gt;</code></td>
+<td>Sets a custom error message on the group.</td>
 </tr>
 </tbody></table>
 <h3>Pass-through Attributes</h3>
