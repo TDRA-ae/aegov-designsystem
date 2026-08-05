@@ -8,6 +8,8 @@
  * This file contains only host-level rules specific to <aegov-button>.
  */
 
+@source "../../utils/action-classes.ts";
+
 @import './aegov-button-shared.css';
 
 :host {

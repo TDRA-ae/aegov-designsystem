@@ -1264,7 +1264,7 @@ export namespace Components {
         "href": string;
         /**
           * Bold text.
-          * @default false
+          * @default true
          */
         "isBold": boolean;
         /**
@@ -4969,7 +4969,7 @@ declare namespace LocalJSX {
         "href": string;
         /**
           * Bold text.
-          * @default false
+          * @default true
          */
         "isBold"?: boolean;
         /**
