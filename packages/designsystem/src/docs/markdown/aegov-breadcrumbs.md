@@ -302,7 +302,7 @@ The same trail with the slash separator and a deeper service hierarchy:
 
 | Event                        | Component                  | Detail                                          | Description                                                                                                  |
 | ---------------------------- | -------------------------- | ----------------------------------------------- | ------------------------------------------------------------------------------------------------------------ |
-| `aegovBreadcrumbItemClick`   | `aegov-breadcrumbs-item`   | `{ href?: string; event: MouseEvent }`          | Fired when a linked item is clicked. Default navigation proceeds unless `event.preventDefault()` is called. |
+| `aegovBreadcrumbItemClick`   | `aegov-breadcrumbs-item`   | `{ href?: string; event: MouseEvent }`          | Fired when a linked item is clicked. Listen for this event to intercept navigation. To prevent the browser from following the href, call `event.preventDefault()` on the original native click event (`e.detail.event.preventDefault()`), not on the custom event itself. The custom event detail contains `{ href, event }`. |
 
 #### Listening for click events
 
@@ -331,6 +331,8 @@ The same trail with the slash separator and a deeper service hierarchy:
 | `rel`             | `<a>` (item only)                            | Always include `rel="noopener"` when using `target="_blank"`.                                        |
 | `referrerpolicy`  | `<a>` (item only)                            | Controls the `Referer` header sent on navigation.                                                    |
 | `id`              | n/a                                          | Use `field-id` on `<aegov-breadcrumbs>`. The host's `id` attribute is reflected by `field-id`.        |
+
+> **Linked vs non-linked items:** Attributes listed as forwarded to `<a>` only apply to items that have an `href` attribute (linked items). Items without `href` — typically the last (current-page) item — render as a `<span>` instead of an `<a>`, and link-specific attributes such as `title`, `hreflang`, `rel`, and `referrerpolicy` are not forwarded to them.
 
 ---
 

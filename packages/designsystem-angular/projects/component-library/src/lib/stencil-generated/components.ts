@@ -228,14 +228,14 @@ export declare interface AegovBadge extends Components.AegovBadge {
 
 @ProxyCmp({
   defineCustomElementFn: defineAegovBanner,
-  inputs: ['appearance', 'display', 'fieldId', 'heading', 'isDismissible', 'isFocusable', 'mode', 'position', 'size', 'variant']
+  inputs: ['appearance', 'display', 'fieldId', 'isDismissible', 'isFocusable', 'mode', 'position', 'size', 'variant']
 })
 @Component({
   selector: 'aegov-banner',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: '<ng-content></ng-content>',
   // eslint-disable-next-line @angular-eslint/no-inputs-metadata-property
-  inputs: ['appearance', 'display', 'fieldId', 'heading', 'isDismissible', 'isFocusable', 'mode', 'position', 'size', 'variant'],
+  inputs: ['appearance', 'display', 'fieldId', 'isDismissible', 'isFocusable', 'mode', 'position', 'size', 'variant'],
   outputs: ['aegovBannerDismiss', 'aegovBannerHeightChange'],
 })
 export class AegovBanner {
@@ -486,7 +486,7 @@ export declare interface AegovCard extends Components.AegovCard {}
 
 @ProxyCmp({
   defineCustomElementFn: defineAegovCheckbox,
-  inputs: ['errorMessage', 'extraClass', 'fieldId', 'hint', 'isCheckAll', 'isChecked', 'isDisabled', 'isIndeterminate', 'isInvalid', 'isRequired', 'label', 'name', 'size', 'value', 'variant'],
+  inputs: ['appearance', 'errorMessage', 'extraClass', 'fieldId', 'hint', 'isCheckAll', 'isChecked', 'isDisabled', 'isIndeterminate', 'isInvalid', 'isRequired', 'label', 'name', 'size', 'value', 'variant'],
   methods: ['validate', 'setCustomValidity']
 })
 @Component({
@@ -494,7 +494,7 @@ export declare interface AegovCard extends Components.AegovCard {}
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: '<ng-content></ng-content>',
   // eslint-disable-next-line @angular-eslint/no-inputs-metadata-property
-  inputs: ['errorMessage', 'extraClass', 'fieldId', 'hint', 'isCheckAll', 'isChecked', 'isDisabled', 'isIndeterminate', 'isInvalid', 'isRequired', 'label', 'name', 'size', 'value', 'variant'],
+  inputs: ['appearance', 'errorMessage', 'extraClass', 'fieldId', 'hint', 'isCheckAll', 'isChecked', 'isDisabled', 'isIndeterminate', 'isInvalid', 'isRequired', 'label', 'name', 'size', 'value', 'variant'],
   outputs: ['aegovCheckboxChange', 'aegovValidate'],
 })
 export class AegovCheckbox {
@@ -1247,7 +1247,7 @@ export declare interface AegovProgress extends Components.AegovProgress {}
 
 @ProxyCmp({
   defineCustomElementFn: defineAegovRadio,
-  inputs: ['errorMessage', 'extraClass', 'fieldId', 'hint', 'isChecked', 'isDisabled', 'isInvalid', 'isRequired', 'label', 'name', 'size', 'value', 'variant'],
+  inputs: ['appearance', 'errorMessage', 'extraClass', 'fieldId', 'hint', 'isChecked', 'isDisabled', 'isInvalid', 'isRequired', 'label', 'name', 'size', 'value', 'variant'],
   methods: ['validate', 'setCustomValidity']
 })
 @Component({
@@ -1255,7 +1255,7 @@ export declare interface AegovProgress extends Components.AegovProgress {}
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: '<ng-content></ng-content>',
   // eslint-disable-next-line @angular-eslint/no-inputs-metadata-property
-  inputs: ['errorMessage', 'extraClass', 'fieldId', 'hint', 'isChecked', 'isDisabled', 'isInvalid', 'isRequired', 'label', 'name', 'size', 'value', 'variant'],
+  inputs: ['appearance', 'errorMessage', 'extraClass', 'fieldId', 'hint', 'isChecked', 'isDisabled', 'isInvalid', 'isRequired', 'label', 'name', 'size', 'value', 'variant'],
   outputs: ['aegovRadioChange', 'aegovValidate'],
 })
 export class AegovRadio {

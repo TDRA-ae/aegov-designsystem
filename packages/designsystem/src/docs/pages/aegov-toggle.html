@@ -319,9 +319,23 @@
 <tr>
 <td><code>hint</code></td>
 <td><code>hint</code></td>
-<td>Helper hint text shown below the label. Requires <code>label</code> to render.</td>
+<td>Helper hint text shown below the label. Hidden when an error is shown.</td>
 <td><code>string</code></td>
 <td><code>undefined</code></td>
+</tr>
+<tr>
+<td><code>isInvalid</code></td>
+<td><code>is-invalid</code></td>
+<td>Puts the toggle into an error state and shows the error message.</td>
+<td><code>boolean</code></td>
+<td><code>false</code></td>
+</tr>
+<tr>
+<td><code>errorMessage</code></td>
+<td><code>error-message</code></td>
+<td>Error text shown when <code>is-invalid</code> is <code>true</code>. Use the <code>error</code> slot for rich markup.</td>
+<td><code>string</code></td>
+<td><code>&#39;&#39;</code></td>
 </tr>
 </tbody></table>
 <h3>Slots</h3>
@@ -340,6 +354,14 @@
 <td><code>icon-unchecked</code></td>
 <td>Icon shown inside the thumb when the toggle is off. Keep dimensions ≤ 14×14 px.</td>
 </tr>
+<tr>
+<td><code>hint</code></td>
+<td>Rich hint markup. Replaces the <code>hint</code> prop when provided.</td>
+</tr>
+<tr>
+<td><code>error</code></td>
+<td>Rich error markup. Replaces <code>error-message</code> prop when provided.</td>
+</tr>
 </tbody></table>
 <h3>Events</h3>
 <table>
@@ -355,6 +377,11 @@
 <td><code>{ checked: boolean; value?: string }</code></td>
 <td>Fires after every state change with the new checked value.</td>
 </tr>
+<tr>
+<td><code>aegovValidate</code></td>
+<td><code>AegovValidationDetail&lt;boolean&gt;</code></td>
+<td>Fires when the component validates (on change and programmatically). Detail includes <code>name</code>, <code>value</code>, <code>validity</code>, <code>validationMessage</code>, <code>customError</code>, <code>trigger</code>.</td>
+</tr>
 </tbody></table>
 <h4>Listening for changes</h4>
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-toggle</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;sms&quot;</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;SMS notifications&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-toggle</span>&gt;</span>
@@ -363,7 +390,27 @@
   <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">querySelector</span>(<span class="hljs-string">&#x27;#sms&#x27;</span>).<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;aegovToggleChange&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">e</span>) =&gt;</span> {
     <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;SMS toggle is now&#x27;</span>, e.<span class="hljs-property">detail</span>.<span class="hljs-property">checked</span> ? <span class="hljs-string">&#x27;on&#x27;</span> : <span class="hljs-string">&#x27;off&#x27;</span>);
   });
-</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre><h3>Pass-through Attributes</h3>
+</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre><h3>Methods</h3>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Returns</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>validate(trigger?)</td>
+<td>Promise<AegovValidationResult></td>
+<td>Re-runs validation and emits aegovValidate. Optional trigger param is &#39;blur&#39;</td>
+</tr>
+<tr>
+<td>setCustomValidity(message)</td>
+<td>Promise<void></td>
+<td>Sets a custom error message. Pass &#39;&#39; to clear.</td>
+</tr>
+</tbody></table>
+<h3>Pass-through Attributes</h3>
 <p>The component forwards the attribute groups below onto the inner <code>&lt;input&gt;</code>. Apply them on <code>&lt;aegov-toggle&gt;</code> and they will appear on the native input that participates in the focus order and form submission.</p>
 <table>
 <thead>

@@ -22,13 +22,16 @@ The `aegov-aspect-ratio` component wraps any media or content and constrains it 
 
 ## Named Presets
 
-Three named presets cover the most common cases. `auto` lets the slotted content size itself naturally; `square` enforces a 1:1 box; `video` enforces the standard 16:9 widescreen ratio.
+Six named presets cover the most common cases. `auto` lets the slotted content size itself naturally; `square` enforces a 1:1 box; `video` enforces the standard 16:9 widescreen ratio; `4/3` targets traditional television and photo formats; `3/2` matches classic 35 mm film and DSLR output; `21/9` enforces an ultrawide cinematic ratio.
 
 | Preset   | Resolved CSS aspect-ratio |
 | -------- | ------------------------- |
 | `auto`   | `auto`                    |
 | `square` | `1 / 1`                   |
 | `video`  | `16 / 9`                  |
+| `4/3`    | `4 / 3`                   |
+| `3/2`    | `3 / 2`                   |
+| `21/9`   | `21 / 9`                  |
 
 ```html
 <aegov-aspect-ratio ratio="square">

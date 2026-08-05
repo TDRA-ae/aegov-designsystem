@@ -440,6 +440,7 @@ The modal is direction-agnostic. Set `dir="rtl"` on the document or on a parent 
 | `position`            | `position`               | Where the dialog is anchored on the viewport.                                        | `'center' \| 'top' \| 'bottom'`   | `'center'`  |
 | `size`                | `size`                   | Padding and corner-radius scale.                                                     | `'sm' \| 'base' \| 'lg' \| 'xl'`  | `'base'`    |
 | `isPadding`           | `is-padding`             | Apply inner content padding. Turn off for full-bleed content.                        | `boolean`                         | `true`      |
+| `label`               | `label`                  | Accessible label for the dialog. Prefer `aria-labelledby` pointing at a heading inside the modal; use `label` only when no visible heading is present. | `string` | `undefined` |
 
 ### Slots
 
@@ -453,7 +454,7 @@ The modal is direction-agnostic. Set `dir="rtl"` on the document or on a parent 
 | -------------------------- | ------------------------------------- | -------------------------------------------------------------------------------------------- |
 | `aegovModalOpen`           | `void`                                | Fired after the modal has finished opening.                                                  |
 | `aegovModalClose`          | `void`                                | Fired after the modal has finished closing and focus has been returned.                      |
-| `aegovModalBeforeClose`    | `{ preventDefault: () => void }`      | Fired before the modal closes. Call `preventDefault()` to keep it open (e.g., unsaved data). |
+| `aegovModalBeforeClose`    | `void`                                | Fired before the modal closes. The event is cancelable — call `event.preventDefault()` on the event to keep it open (e.g., unsaved data). |
 | `aegovModalBackdropClick`  | `MouseEvent`                          | Fired when the backdrop receives a click, regardless of whether dismissal is allowed.        |
 | `aegovModalEscapePress`    | `KeyboardEvent`                       | Fired when the user presses `Escape` while the modal is open.                                |
 

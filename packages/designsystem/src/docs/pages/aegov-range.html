@@ -457,6 +457,27 @@
 <td><code>false</code></td>
 </tr>
 <tr>
+<td><code>isInvalid</code></td>
+<td><code>is-invalid</code></td>
+<td>Puts the component in an error state and shows the error message.</td>
+<td><code>boolean</code></td>
+<td><code>false</code></td>
+</tr>
+<tr>
+<td><code>errorMessage</code></td>
+<td><code>error-message</code></td>
+<td>Inline error text rendered below the slider when <code>isInvalid</code> is <code>true</code>.</td>
+<td><code>string</code></td>
+<td><code>&#39;&#39;</code></td>
+</tr>
+<tr>
+<td><code>hint</code></td>
+<td><code>hint</code></td>
+<td>Hint text rendered below the slider (hidden when <code>isInvalid</code> is <code>true</code>).</td>
+<td><code>string</code></td>
+<td><code>&#39;&#39;</code></td>
+</tr>
+<tr>
 <td><code>label</code></td>
 <td><code>label</code></td>
 <td>Optional label rendered above the slider.</td>
@@ -471,8 +492,43 @@
 <td><code>undefined</code></td>
 </tr>
 </tbody></table>
+<h3>Methods</h3>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Returns</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>validate(trigger?)</code></td>
+<td><code>Promise&lt;AegovValidationResult&gt;</code></td>
+<td>Re-runs validation and emits <code>aegovValidate</code>.</td>
+</tr>
+<tr>
+<td><code>setCustomValidity(message)</code></td>
+<td><code>Promise&lt;void&gt;</code></td>
+<td>Sets a custom error message. Pass <code>&#39;&#39;</code> to clear.</td>
+</tr>
+</tbody></table>
 <h3>Slots</h3>
-<p>The component does not expose slots — content is configured via properties.</p>
+<table>
+<thead>
+<tr>
+<th>Slot</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>hint</code></td>
+<td>Shown when not in error state. Use for rich HTML hint markup (e.g. a link) instead of the hint prop.</td>
+</tr>
+<tr>
+<td><code>error</code></td>
+<td>Shown when <code>isInvalid</code> is true. Use for rich HTML error markup instead of the errorMessage prop.</td>
+</tr>
+</tbody></table>
 <h3>Events</h3>
 <table>
 <thead>

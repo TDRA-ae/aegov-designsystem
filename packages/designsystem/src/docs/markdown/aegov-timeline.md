@@ -1,6 +1,6 @@
 # Timeline
 
-<p class="text-lg text-aeblack-500 mb-8">A timeline is a visual stepper that shows progress through a sequence of stages — application steps, document review status, multi-step forms — and clarifies what is complete, what is in progress, and what is still ahead. The <code>aegov-timeline</code> parent renders the surrounding navigation landmark and writes shared layout props onto each <code>aegov-timeline-step</code> child, so your markup only needs per-step <code>status</code> and label content.</p>
+<p class="text-lg text-aeblack-500 mb-8">A timeline is a visual stepper that shows progress through a sequence of stages — application steps, document review status, multi-step forms — and clarifies what is complete, what is in progress, and what is still ahead. The <code>aegov-timeline</code> parent renders the surrounding region landmark and writes shared layout props onto each <code>aegov-timeline-step</code> child, so your markup only needs per-step <code>status</code> and label content.</p>
 
 ## Introduction
 
@@ -494,7 +494,7 @@ The same flow vertically, in RTL:
 
 | Property      | Attribute     | Description                                                          | Type                          | Default        |
 | ------------- | ------------- | -------------------------------------------------------------------- | ----------------------------- | -------------- |
-| `fieldId`     | `field-id`    | DOM `id` for the rendered `<nav>`. Auto-generated if omitted.        | `string`                      | _generated_    |
+| `fieldId`     | `field-id`    | DOM `id` for the rendered `<section>`. Auto-generated if omitted.    | `string`                      | _generated_    |
 | `variant`     | `variant`     | Visual style of the indicators.                                      | `'default' \| 'compact'`      | `'default'`    |
 | `size`        | `size`        | Indicator size token or responsive string.                           | `string`                      | `'base'`       |
 | `orientation` | `orientation` | Layout direction of the step list.                                   | `'horizontal' \| 'vertical'`  | `'horizontal'` |
@@ -532,13 +532,13 @@ The same flow vertically, in RTL:
 
 | Attribute group | Forwarded? | Where to apply                                                                       |
 | --------------- | ---------- | ------------------------------------------------------------------------------------ |
-| `aria-*`        | Yes        | Set on `<aegov-timeline>` — forwarded onto the rendered `<nav>` element.             |
-| `data-*`        | Yes        | Set on `<aegov-timeline>` — forwarded onto the rendered `<nav>` element.             |
+| `aria-*`        | Yes        | Set on `<aegov-timeline>` — forwarded onto the rendered `<section>` element.         |
+| `data-*`        | Yes        | Set on `<aegov-timeline>` — forwarded onto the rendered `<section>` element.         |
 | `aria-*` / `data-*` on steps | No  | Apply directly to `<aegov-timeline-step>`; not forwarded automatically.              |
 | `id`            | n/a        | Use `field-id` on `<aegov-timeline>`.                                                 |
 | `class`, `style` | Allowed   | Applied to the host element.                                                          |
 
-To override the default `aria-label="Timeline"` on the navigation landmark, set `aria-label` directly on `<aegov-timeline>` — it is forwarded to the rendered `<nav>`.
+To override the default `aria-label="Timeline"` on the region landmark, set `aria-label` directly on `<aegov-timeline>` — it is forwarded to the rendered `<section>`.
 
 ---
 
@@ -546,7 +546,7 @@ To override the default `aria-label="Timeline"` on the navigation landmark, set 
 
 ### Built-in behaviour
 
-- The container renders as a `<nav>` element whose `aria-label` defaults to `"Timeline"` in LTR contexts and `"الجدول الزمني"` in RTL — no developer translation needed. Pass `aria-label` on the host to override with a more specific description.
+- The container renders as a `<section>` element whose `aria-label` defaults to `"Timeline"` in LTR contexts and `"الجدول الزمني"` in RTL — no developer translation needed. Pass `aria-label` on the host to override with a more specific description.
 - Steps render as `<li>` items inside an `<ol>`, preserving order semantics.
 - The currently active step's `<li>` carries `aria-current="step"` so screen readers announce the user's position.
 - Each step includes a visually hidden description (`"Step N of M: <label> (current/completed)"` in English; `"الخطوة N من M: <label> (مكتمل/الحالية)"` in Arabic) that gives screen-reader users full context regardless of variant — including the compact dot variant where labels are visually hidden in horizontal mode. No developer translation needed.

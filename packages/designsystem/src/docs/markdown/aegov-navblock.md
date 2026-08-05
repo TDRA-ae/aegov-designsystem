@@ -415,7 +415,7 @@ A disabled item is not focusable, is removed from arrow-key navigation, and rend
 | Property      | Attribute      | Description                                                          | Type                       | Default                  |
 | ------------- | -------------- | -------------------------------------------------------------------- | -------------------------- | ------------------------ |
 | `blockTitle`  | `block-title`  | Heading rendered above the items. Overridden by the `title` slot.   | `string \| undefined`      | `undefined`              |
-| `labelNav`    | `label-nav`    | Accessible label for the `<nav>` landmark.                           | `string`                   | `'Sidebar navigation'`   |
+| `labelNav`    | `label-nav`    | Accessible label for the `<nav>` landmark.                           | `string`                   | `''`                     |
 | `isMultiple`  | `is-multiple`  | Allow multiple sibling parents to be open at once.                   | `boolean`                  | `false`                  |
 | `icon`        | `icon`         | Expand/collapse indicator — `'chevron'` or `'plus'`.                 | `'chevron' \| 'plus'`      | `'chevron'`              |
 | `size`        | `size`         | Size token. Accepts responsive strings (e.g. `"sm md:base lg:lg"`). | `string`                   | `'base'`                 |
@@ -458,6 +458,7 @@ A disabled item is not focusable, is removed from arrow-key navigation, and rend
 ## Accessibility
 
 - The block renders as a `<nav>` landmark with an `aria-label` from `label-nav`.
+- When `label-nav` is not set (the default empty string), the component automatically supplies a locale-appropriate fallback: `"Sidebar navigation"` in LTR contexts and `"التنقل في الشريط الجانبي"` in RTL contexts. The RTL direction is detected from the element's computed `direction` style, so setting `dir="rtl"` on a parent element is sufficient.
 - Parent rows are real `<button>` elements with `aria-expanded` and `aria-controls` linking the trigger to the sub-region.
 - Leaf rows are `<a>` elements when `href` is set, or `<button>` otherwise. The active leaf carries `aria-current="page"`.
 - Disabled items use native `disabled` (button) or `aria-disabled="true"` (span) and are excluded from keyboard navigation.

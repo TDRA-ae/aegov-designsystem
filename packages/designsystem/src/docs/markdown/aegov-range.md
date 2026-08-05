@@ -383,13 +383,26 @@ A dual-thumb range in RTL:
 | `size`        | `size`         | Track size token, or a responsive string.                                                          | `string`                                   | `'base'`    |
 | `variant`     | `variant`      | Colour family for the active fill. Track and thumb stay neutral. Focus ring stays camel; error stays aered. | `'primary' \| 'secondary' \| 'neutral-max' \| 'neutral-min'` | `'primary'` |
 | `isDisabled`  | `is-disabled`  | Disables the input and removes it from the tab order.                                              | `boolean`                                  | `false`     |
-| `isRequired`  | `is-required`  | Marks the underlying input as required for form validation.                                        | `boolean`                                  | `false`     |
-| `label`       | `label`        | Optional label rendered above the slider.                                                          | `string`                                   | `undefined` |
-| `extraClass`  | `extra-class`  | Additional CSS classes appended to the wrapper.                                                    | `string`                                   | `undefined` |
+| `isRequired`   | `is-required`   | Marks the underlying input as required for form validation.                                        | `boolean`                                  | `false`     |
+| `isInvalid`    | `is-invalid`    | Puts the component in an error state and shows the error message.                                  | `boolean`                                  | `false`     |
+| `errorMessage` | `error-message` | Inline error text rendered below the slider when `isInvalid` is `true`.                            | `string`                                   | `''`        |
+| `hint`         | `hint`          | Hint text rendered below the slider (hidden when `isInvalid` is `true`).                           | `string`                                   | `''`        |
+| `label`        | `label`         | Optional label rendered above the slider.                                                          | `string`                                   | `undefined` |
+| `extraClass`   | `extra-class`   | Additional CSS classes appended to the wrapper.                                                    | `string`                                   | `undefined` |
+
+### Methods
+
+| Method                       | Returns                          | Description                                                      |
+| ---------------------------- | -------------------------------- | ---------------------------------------------------------------- |
+| `validate(trigger?)`         | `Promise<AegovValidationResult>` | Re-runs validation and emits `aegovValidate`.                    |
+| `setCustomValidity(message)` | `Promise<void>`                  | Sets a custom error message. Pass `''` to clear.                 |
 
 ### Slots
 
-The component does not expose slots — content is configured via properties.
+| Slot    | Description                                                                                      |
+| ------- | ------------------------------------------------------------------------------------------------ |
+| `hint`  | Shown when not in error state. Use for rich HTML hint markup (e.g. a link) instead of the hint prop. |
+| `error` | Shown when `isInvalid` is true. Use for rich HTML error markup instead of the errorMessage prop. |
 
 ### Events
 

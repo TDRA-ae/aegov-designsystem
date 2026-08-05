@@ -352,7 +352,7 @@
 <td><code>aegovBreadcrumbItemClick</code></td>
 <td><code>aegov-breadcrumbs-item</code></td>
 <td><code>{ href?: string; event: MouseEvent }</code></td>
-<td>Fired when a linked item is clicked. Default navigation proceeds unless <code>event.preventDefault()</code> is called.</td>
+<td>Fired when a linked item is clicked. Listen for this event to intercept navigation. To prevent the browser from following the href, call <code>event.preventDefault()</code> on the original native click event (<code>e.detail.event.preventDefault()</code>), not on the custom event itself. The custom event detail contains <code>{ href, event }</code>.</td>
 </tr>
 </tbody></table>
 <h4>Listening for click events</h4>
@@ -411,6 +411,9 @@
 <td>Use <code>field-id</code> on <code>&lt;aegov-breadcrumbs&gt;</code>. The host&#39;s <code>id</code> attribute is reflected by <code>field-id</code>.</td>
 </tr>
 </tbody></table>
+<blockquote>
+<p><strong>Linked vs non-linked items:</strong> Attributes listed as forwarded to <code>&lt;a&gt;</code> only apply to items that have an <code>href</code> attribute (linked items). Items without <code>href</code> — typically the last (current-page) item — render as a <code>&lt;span&gt;</code> instead of an <code>&lt;a&gt;</code>, and link-specific attributes such as <code>title</code>, <code>hreflang</code>, <code>rel</code>, and <code>referrerpolicy</code> are not forwarded to them.</p>
+</blockquote>
 <hr>
 <h2>Accessibility</h2>
 <h3>Built-in behaviour</h3>

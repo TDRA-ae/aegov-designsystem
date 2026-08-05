@@ -41,6 +41,9 @@ export class AegovRadio {
   /** Colour family. Drives rest border, checked bg/border. Focus ring stays camel; error stays aered. */
   @Prop() variant: FormVariant = 'primary';
 
+  /** Visual appearance set by a parent aegov-radio-group. Not meant to be set directly. */
+  @Prop({ reflect: true }) appearance: string = 'default';
+
   @State() private _resolvedSize: RadioSize = 'base';
   private _sizeWatcher: ResponsivePropWatcher | null = null;
   private _defaultChecked: boolean = false;
@@ -86,6 +89,12 @@ export class AegovRadio {
   @Watch('variant')
   onVariantChange(v: unknown) { warnIfInvalidEnumProp(v, FORM_VARIANTS, 'primary', { component: 'aegov-radio', prop: 'variant' }); }
 
+  @Watch('appearance')
+  onAppearanceChange(newVal: string) {
+    (this.el as HTMLElement).classList.toggle('radio-appearance-cards', newVal === 'cards');
+    (this.el as HTMLElement).classList.toggle('radio-appearance-pills', newVal === 'pills');
+  }
+
   componentWillLoad() {
     this._defaultChecked = this.isChecked;
     warnIfInvalidEnumProp(this.variant, FORM_VARIANTS, 'primary', { component: 'aegov-radio', prop: 'variant' });
@@ -126,6 +135,28 @@ export class AegovRadio {
 
   componentDidLoad() {
     this.syncInternalsValidity();
+    // Self-detect parent group appearance — bypasses syncChildren() timing dependency.
+    const group = this.el.closest('aegov-radio-group');
+    if (group) {
+      const groupAppearance = group.getAttribute('appearance') || 'default';
+      if (groupAppearance !== 'default' && groupAppearance !== this.appearance) {
+        this.appearance = groupAppearance;
+        (this.el as HTMLElement).classList.toggle('radio-appearance-cards', groupAppearance === 'cards');
+        (this.el as HTMLElement).classList.toggle('radio-appearance-pills', groupAppearance === 'pills');
+      }
+      // List separator: classes drive :host(.class) .aegov-radio CSS rules.
+      if (groupAppearance === 'list') {
+        const siblings = Array.from(group.children).filter(
+          el => el.tagName === 'AEGOV-RADIO' && !el.hasAttribute('slot'),
+        );
+        const isHorizontal = (group.getAttribute('orientation') || 'vertical') === 'horizontal';
+        const host = this.el as HTMLElement;
+        host.classList.add('radio-in-list');
+        host.classList.toggle('radio-list-horizontal', isHorizontal);
+        host.classList.toggle('radio-list-first', siblings[0] === host);
+        host.classList.toggle('radio-list-last', siblings[siblings.length - 1] === host);
+      }
+    }
   }
 
   disconnectedCallback() {
@@ -274,7 +305,11 @@ export class AegovRadio {
       </div>
     ) : null;
 
-    const hostClass = { 'is-invalid': this.isInvalid };
+    const hostClass = {
+      'is-invalid': this.isInvalid,
+      'radio-appearance-cards': this.appearance === 'cards',
+      'radio-appearance-pills': this.appearance === 'pills',
+    };
 
     if (this.label) {
       return (

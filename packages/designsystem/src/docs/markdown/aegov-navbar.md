@@ -433,7 +433,7 @@ The same navigation paired with the Arabic header for a full bilingual top-of-pa
 | ----------- | ------------ | -------------------------------------------------------------------------------------------------------------------- | -------- | ------------------ |
 | `size`      | `size`       | Size token cascaded to every child item. Accepts a single token (`sm`, `base`, `lg`) or a Tailwind-style responsive string. | `string` | `'base'`           |
 | `gap`       | `gap`        | Tailwind gap utility class applied between items, e.g. `gap-3`, `gap-6`, `gap-10`.                                   | `string` | `'gap-3'`          |
-| `labelNav`  | `label-nav`  | Accessible label for the inner `<nav>` landmark.                                                                     | `string` | `'Main navigation'`|
+| `labelNav`  | `label-nav`  | Accessible label for the inner `<nav>` landmark.                                                                     | `string` | `''`               |
 
 ### aegov-navbar-item Properties
 
@@ -444,7 +444,7 @@ The same navigation paired with the Arabic header for a full bilingual top-of-pa
 | `rel`         | `rel`          | Anchor `rel` attribute, forwarded to the inner link.                                                   | `string`                                          | `undefined` |
 | `isActive`    | `is-active`    | Marks the item as the current page. Sets `aria-current="page"` on the inner link.                      | `boolean`                                         | `false`     |
 | `isDisabled`  | `is-disabled`  | Visually disables the item, sets `aria-disabled="true"`, and removes it from the arrow-key cycle.       | `boolean`                                         | `false`     |
-| `size`        | `size`         | _Set by the parent navbar._ Size token applied to the item.                                             | `'sm' \| 'base' \| 'lg'`                          | `'base'`    |
+| `size`        | `size`         | _Set by the parent navbar._ Size token applied to the item.                                             | `string`                                          | `'base'`    |
 
 > The item must be used inside `<aegov-navbar>` — if it is rendered standalone the component throws a runtime error.
 

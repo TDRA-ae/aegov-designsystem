@@ -317,15 +317,21 @@ The same field with the individual appearance in RTL:
 | `isAlphanumeric` | `is-alphanumeric` | Allow letters and numbers when `true`. Numbers only when `false`.                              | `boolean`                     | `false`       |
 | `pattern`        | `pattern`         | Regex string checked when all cells are filled. Failure emits `aegovValidate` with `validity.patternMismatch === true`.    | `string`                      | `undefined`   |
 | `isDisabled`     | `is-disabled`     | Disables all cells.                                                                            | `boolean`                     | `false`       |
+| `isRequired`     | `is-required`     | Marks the field as required. `validity.valueMissing` is true when empty.                       | `boolean`                     | `false`       |
+| `isInvalid`      | `is-invalid`      | Puts all cells in an error state and shows the error message.                                  | `boolean`                     | `false`       |
+| `errorMessage`   | `error-message`   | Inline error text rendered below the cells when `isInvalid` is `true`.                         | `string`                      | `''`          |
+| `hint`           | `hint`            | Hint text rendered below the cells (hidden when `isInvalid` is `true`).                        | `string`                      | `''`          |
 | `name`           | `name`            | Form field name used when the component submits via `ElementInternals`.                        | `string`                      | `undefined`   |
 | `value`          | `value`           | Current value. Setting this redistributes characters across cells.                             | `string`                      | `''`          |
 | `extraClass`     | `extra-class`     | Additional CSS classes appended to the wrapper.                                                | `string`                      | `undefined`   |
 
 ### Methods
 
-| Method     | Returns         | Description                                              |
-| ---------- | --------------- | -------------------------------------------------------- |
-| `clear()`  | `Promise<void>` | Clears every cell, emits `aegovOtpChange`, and focuses the first cell. |
+| Method                          | Returns                       | Description                                              |
+| ------------------------------- | ----------------------------- | -------------------------------------------------------- |
+| `clear()`                       | `Promise<void>`               | Clears every cell, emits `aegovOtpChange`, and focuses the first cell. |
+| `validate(trigger?)`            | `Promise<AegovValidationResult>` | Re-runs validation and emits `aegovValidate`. |
+| `setCustomValidity(message)`    | `Promise<void>`               | Sets a custom error message. Pass `''` to clear. |
 
 ```html
 <aegov-otp id="mfa" length="6"></aegov-otp>
@@ -334,7 +340,10 @@ The same field with the individual appearance in RTL:
 
 ### Slots
 
-The component does not expose slots — content is configured via properties.
+| Slot    | Description                                                                                         |
+| ------- | --------------------------------------------------------------------------------------------------- |
+| `error` | Shown when `isInvalid` is true. Use for rich HTML error markup instead of the `errorMessage` prop.  |
+| `hint`  | Shown when not in error state. Use for rich HTML hint markup instead of the `hint` prop.            |
 
 ### Events
 

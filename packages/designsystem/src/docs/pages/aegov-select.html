@@ -25,7 +25,7 @@
 
 <h2>Introduction</h2>
 <p>The <code>aegov-select</code> component composes a parent select with one or more <code>aegov-select-option</code> children. The default <code>appearance=&quot;default&quot;</code> renders a true native <code>&lt;select&gt;</code> (best for simple lists, mobile, and form submission). The <code>appearance=&quot;listbox&quot;</code> renders a styled custom dropdown panel that supports searching, multi-selection, and grouped options. Setting <code>is-multiple=&quot;true&quot;</code> automatically forces the listbox appearance.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-select</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Ministry&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;Select a ministry&quot;</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;ministry&quot;</span>&gt;</span>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-select</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;Select a ministry&quot;</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;ministry&quot;</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-select-option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;moi&quot;</span>&gt;</span>Ministry of Interior<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select-option</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-select-option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;mof&quot;</span>&gt;</span>Ministry of Finance<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select-option</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-select-option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;moh&quot;</span>&gt;</span>Ministry of Health and Prevention<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-select-option</span>&gt;</span>
@@ -607,7 +607,7 @@
 <td><code>empty-message</code></td>
 <td>Text shown when search yields no results.</td>
 <td><code>string</code></td>
-<td><code>&#39;No results found&#39;</code></td>
+<td><code>&#39;&#39;</code></td>
 </tr>
 <tr>
 <td><code>visibleItems</code></td>
@@ -629,6 +629,27 @@
 <td>Additional CSS classes appended to the wrapper.</td>
 <td><code>string</code></td>
 <td><code>undefined</code></td>
+</tr>
+<tr>
+<td><code>isInvalid</code></td>
+<td><code>is-invalid</code></td>
+<td>Puts the field into error state.</td>
+<td><code>boolean</code></td>
+<td><code>false</code></td>
+</tr>
+<tr>
+<td><code>errorMessage</code></td>
+<td><code>error-message</code></td>
+<td>Inline error text shown below the field when <code>isInvalid</code> is true.</td>
+<td><code>string</code></td>
+<td><code>&#39;&#39;</code></td>
+</tr>
+<tr>
+<td><code>hint</code></td>
+<td><code>hint</code></td>
+<td>Inline hint text shown below the field when not in error state.</td>
+<td><code>string</code></td>
+<td><code>&#39;&#39;</code></td>
 </tr>
 </tbody></table>
 <h3>aegov-select-option Properties</h3>
@@ -694,6 +715,16 @@
 <td>Place <code>aegov-select-option</code> and/or <code>aegov-select-option-group</code> here.</td>
 </tr>
 <tr>
+<td><code>aegov-select</code></td>
+<td><code>hint</code></td>
+<td>Rich HTML hint markup, shown when not in error state.</td>
+</tr>
+<tr>
+<td><code>aegov-select</code></td>
+<td><code>error</code></td>
+<td>Rich HTML error markup, shown when <code>isInvalid</code> is true.</td>
+</tr>
+<tr>
 <td><code>aegov-select-option</code></td>
 <td><em>(default)</em></td>
 <td>The option&#39;s visible label.</td>
@@ -732,6 +763,12 @@
 <td><code>void</code></td>
 <td>Fires when the listbox dropdown closes (listbox appearance only).</td>
 </tr>
+<tr>
+<td><code>aegovValidate</code></td>
+<td><code>aegov-select</code></td>
+<td><code>AegovValidationDetail&lt;string | string[]&gt;</code></td>
+<td>Fires when the select validates.</td>
+</tr>
 </tbody></table>
 <p>For multi-select, the event detail&#39;s <code>value</code> and <code>label</code> are arrays. For single select, both are strings.</p>
 <h4>Listening for changes</h4>
@@ -744,7 +781,27 @@
   <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">querySelector</span>(<span class="hljs-string">&#x27;#ministry&#x27;</span>).<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;aegovSelectChange&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">e</span>) =&gt;</span> {
     <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;Selected:&#x27;</span>, e.<span class="hljs-property">detail</span>.<span class="hljs-property">value</span>, <span class="hljs-string">&#x27;—&#x27;</span>, e.<span class="hljs-property">detail</span>.<span class="hljs-property">label</span>);
   });
-</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre><h3>Pass-through Attributes</h3>
+</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre><h3>Methods</h3>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Returns</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>validate(trigger?)</code></td>
+<td><code>Promise&lt;AegovValidationResult&gt;</code></td>
+<td>Re-runs validation and emits <code>aegovValidate</code>.</td>
+</tr>
+<tr>
+<td><code>setCustomValidity(message)</code></td>
+<td><code>Promise&lt;void&gt;</code></td>
+<td>Sets a custom error message. Pass <code>&#39;&#39;</code> to clear.</td>
+</tr>
+</tbody></table>
+<h3>Pass-through Attributes</h3>
 <p>The component forwards the following attribute groups onto the inner <code>&lt;select&gt;</code> element when running in the default (native) appearance. In the listbox appearance, attributes are applied to the trigger button.</p>
 <table>
 <thead>
@@ -814,9 +871,9 @@ select.<span class="hljs-property">value</span> = <span class="hljs-string">&#x2
 <li>The default appearance renders a real <code>&lt;select&gt;</code>, so it inherits all native accessibility — keyboard support, type-ahead, OS-level mobile pickers, and screen reader announcements.</li>
 <li>The listbox appearance uses the WAI-ARIA combobox pattern: the trigger has <code>role=&quot;combobox&quot;</code>, <code>aria-haspopup=&quot;listbox&quot;</code>, <code>aria-expanded</code>, <code>aria-controls</code> pointing at the panel, and <code>aria-required</code> when <code>is-required</code> is set; the panel has <code>role=&quot;listbox&quot;</code>; each option has <code>role=&quot;option&quot;</code> and <code>aria-selected</code>; and <code>aria-activedescendant</code> tracks the focused option as the user types.</li>
 <li>Grouped options use <code>role=&quot;group&quot;</code> and <code>aria-labelledby</code> to associate the group header with its members.</li>
-<li>The search input declares <code>role=&quot;searchbox&quot;</code> and links to the listbox with <code>aria-controls</code>. Its <code>aria-label</code> and placeholder are bilingual (English and Arabic) — no developer translation needed.</li>
+<li>The search input declares <code>role=&quot;combobox&quot;</code> and links to the listbox with <code>aria-controls</code>. Its <code>aria-label</code> and placeholder are bilingual (English and Arabic) — no developer translation needed.</li>
 <li>The clear button&#39;s <code>aria-label</code> is bilingual. No developer translation needed.</li>
-<li>Error messages are announced via <code>aria-live=&quot;polite&quot;</code> only after the first genuine blur (when focus leaves the component entirely, not when it moves to the internal search input or listbox options). This avoids premature error announcements while the user is still selecting.</li>
+<li>The error region uses <code>role=&quot;alert&quot;</code> (equivalent to <code>aria-live=&quot;assertive&quot;</code>) so errors are announced immediately by screen readers. Errors surface only after the first genuine blur (when focus leaves the component entirely, not when it moves to the internal search input or listbox options), avoiding premature announcements while the user is still selecting.</li>
 <li>Disabled options are skipped during keyboard navigation and announce as disabled.</li>
 </ul>
 <h3>Developer responsibilities</h3>

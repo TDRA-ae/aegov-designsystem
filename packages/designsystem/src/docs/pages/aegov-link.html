@@ -229,7 +229,7 @@
 <li>The link is removed from the tab order (<code>tabindex=&quot;-1&quot;</code>).</li>
 <li><code>role=&quot;link&quot;</code> is set explicitly so assistive technology continues to identify the element as a link even though <code>href</code> is stripped (a native <code>&lt;a&gt;</code> without <code>href</code> loses its implicit link role).</li>
 <li><code>aria-disabled=&quot;true&quot;</code> is announced by assistive technology as &quot;dimmed&quot; or &quot;unavailable&quot;.</li>
-<li><code>href</code> and <code>target</code> are stripped from the rendered element so the browser will not navigate even if the user activates it programmatically.</li>
+<li><code>href</code>, <code>target</code>, <code>rel</code>, and <code>download</code> are stripped from the rendered element so the browser will not navigate even if the user activates it programmatically. <code>rel</code> and <code>download</code> are link-functionality attributes that would be meaningless on a disabled anchor.</li>
 <li>Click events are intercepted and <code>preventDefault()</code> is called — <code>aegovLinkClick</code> is not emitted.</li>
 <li>Pointer events are disabled and the cursor switches to <code>not-allowed</code> via the shared button styling.</li>
 </ul>
@@ -369,7 +369,7 @@
 <tr>
 <td><code>isDisabled</code></td>
 <td><code>is-disabled</code></td>
-<td>Polyfill of native <code>disabled</code> for anchors. Removes the link from the tab order, sets <code>aria-disabled=&quot;true&quot;</code>, strips <code>href</code> / <code>target</code>, and blocks click navigation.</td>
+<td>Polyfill of native <code>disabled</code> for anchors. Removes the link from the tab order, sets <code>aria-disabled=&quot;true&quot;</code>, strips <code>href</code>, <code>target</code>, <code>rel</code>, and <code>download</code> (link-functionality attributes that are meaningless on a disabled anchor), and blocks click navigation.</td>
 <td><code>boolean</code></td>
 <td><code>false</code></td>
 </tr>

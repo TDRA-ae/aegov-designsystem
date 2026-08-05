@@ -513,6 +513,7 @@ The same dropdown with a hover trigger and nested submenu, in RTL:
 | `align`       | `align`        | Cross-axis alignment of the panel against the trigger.                                            | `'start' \| 'center' \| 'end'`             | `'start'`   |
 | `gap`         | `gap`          | Pixel distance between the trigger and the panel along the placement axis.                        | `number`                                   | `8`         |
 | `offset`      | `offset`       | Additional pixel offset along the cross axis.                                                     | `number`                                   | `0`         |
+| `tabBehavior` | `tab-behavior` | ARIA keyboard pattern — `menu-button` (roving tab, arrow keys move focus inside) or `disclosure` (Tab moves focus, no roving). | `'menu-button' \| 'disclosure'` | `'menu-button'` |
 | `isDisabled`  | `is-disabled`  | When `true`, the trigger is inert and the dropdown will not open.                                 | `boolean`                                  | `false`     |
 | `delayStart`  | `delay-start`  | Milliseconds to wait before opening (mainly relevant for `trigger="hover"`).                      | `number`                                   | `200`       |
 | `delayEnd`    | `delay-end`    | Milliseconds to wait before closing on hover-out. A 100 ms grace period applies to hover.         | `number`                                   | `0`         |
@@ -551,9 +552,10 @@ The same dropdown with a hover trigger and nested submenu, in RTL:
 
 ### Methods
 
-| Method                                 | Returns         | Description                                                                                                                |
-| -------------------------------------- | --------------- | -------------------------------------------------------------------------------------------------------------------------- |
-| `toggle(viaKeyboard?: boolean)`        | `Promise<void>` | Toggle the dropdown open/closed regardless of `trigger`. Pass `true` from keyboard handlers so the first item receives focus. |
+| Method                                               | Returns         | Description                                                                                                                |
+| ---------------------------------------------------- | --------------- | -------------------------------------------------------------------------------------------------------------------------- |
+| `toggle(viaKeyboard?: boolean, viaArrow?: boolean)`  | `Promise<void>` | Toggle the dropdown open/closed. Pass `viaKeyboard: true` from keyboard handlers so the first item receives focus; `viaArrow: true` when opened with ArrowDown/ArrowUp. |
+| `closeDropdown()`                                    | `Promise<void>` | Close the dropdown programmatically.                                                                                       |
 
 ### Pass-through Attributes
 
@@ -575,7 +577,7 @@ The same dropdown with a hover trigger and nested submenu, in RTL:
 - The first focusable element inside the trigger slot (e.g. `<aegov-button>`) automatically receives `aria-haspopup="menu"`, `aria-expanded`, and `aria-controls` (pointing at the menu's `id` when open). These attributes are set imperatively so they live on the element AT actually reads, not the wrapper div.
 - The menu element has `role="menu"` and `aria-labelledby` linking back to the trigger wrapper's `id`.
 - Focusable children inside the menu without an explicit `role` automatically receive `role="menuitem"`.
-- `Escape` closes the dropdown; `Tab` and `Arrow Up` / `Arrow Down` cycle focus through menu items.
+- `Escape` closes the dropdown and returns focus to the trigger. `Arrow Up` / `Arrow Down` move focus through menu items.
 - Keyboard-triggered opens (`Enter`/`Space` on the focused trigger) move focus into the menu; pointer opens leave focus on the trigger, matching the WAI-ARIA menu pattern.
 - Focus returns to the trigger on close using `preventScroll`, so the page does not jump if the trigger has scrolled out of view.
 - Only one dropdown is open at a time. Nested dropdowns are exempt — opening a child does not close its parent.
@@ -594,10 +596,13 @@ The same dropdown with a hover trigger and nested submenu, in RTL:
 | ---------------------------- | ------------------------------------------------------------------- |
 | `Enter`, `Space`             | Toggle the dropdown when the trigger has focus.                     |
 | `Escape`                     | Close the open dropdown and return focus to the trigger.            |
-| `Tab`                        | Move focus to the next menu item; cycles within the open menu.      |
-| `Shift + Tab`                | Move focus to the previous menu item.                               |
+| `Tab`                        | Close the menu and move focus to the next focusable element on the page. |
+| `Shift + Tab`                | Close the menu and move focus to the previous focusable element on the page. |
 | `Arrow Down`                 | Move focus to the next menu item.                                   |
 | `Arrow Up`                   | Move focus to the previous menu item.                               |
+| `Home`                       | Move focus to the first menu item.                                  |
+| `End`                        | Move focus to the last menu item.                                   |
+| `A–Z`, `0–9`                 | Typeahead: jump focus to the first menu item whose label starts with the typed character(s). |
 
 ### Implementation notes
 

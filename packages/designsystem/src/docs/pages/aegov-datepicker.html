@@ -122,12 +122,12 @@
 <td><code>1</code></td>
 </tr>
 <tr>
-<td><code>dddd</code></td>
+<td><code>ddd</code></td>
 <td>Full weekday</td>
 <td><code>Friday</code></td>
 </tr>
 <tr>
-<td><code>ddd</code></td>
+<td><code>dd</code></td>
 <td>Short weekday</td>
 <td><code>Fri</code></td>
 </tr>
@@ -513,21 +513,21 @@
 <td><code>placeholder</code></td>
 <td>Placeholder for single-mode input.</td>
 <td><code>string</code></td>
-<td><code>&#39;Select date&#39;</code></td>
+<td><code>&#39;&#39;</code></td>
 </tr>
 <tr>
 <td><code>labelRangeStart</code></td>
 <td><code>label-range-start</code></td>
 <td>Placeholder for the range-mode start input.</td>
 <td><code>string</code></td>
-<td><code>&#39;Start date&#39;</code></td>
+<td><code>&#39;&#39;</code></td>
 </tr>
 <tr>
 <td><code>labelRangeEnd</code></td>
 <td><code>label-range-end</code></td>
 <td>Placeholder for the range-mode end input.</td>
 <td><code>string</code></td>
-<td><code>&#39;End date&#39;</code></td>
+<td><code>&#39;&#39;</code></td>
 </tr>
 <tr>
 <td><code>min</code></td>
@@ -655,6 +655,41 @@
 <td><code>&#39;primary&#39; | &#39;secondary&#39; | &#39;neutral-max&#39; | &#39;neutral-min&#39;</code></td>
 <td><code>&#39;primary&#39;</code></td>
 </tr>
+<tr>
+<td><code>name</code></td>
+<td><code>name</code></td>
+<td>Form submission name for the hidden input.</td>
+<td><code>string</code></td>
+<td><code>undefined</code></td>
+</tr>
+<tr>
+<td><code>isInvalid</code></td>
+<td><code>is-invalid</code></td>
+<td>Puts the field into error state.</td>
+<td><code>boolean</code></td>
+<td><code>false</code></td>
+</tr>
+<tr>
+<td><code>errorMessage</code></td>
+<td><code>error-message</code></td>
+<td>Inline error text shown below the field when <code>isInvalid</code> is true.</td>
+<td><code>string</code></td>
+<td><code>&#39;&#39;</code></td>
+</tr>
+<tr>
+<td><code>fieldId</code></td>
+<td><code>field-id</code></td>
+<td>DOM id for the root element. Auto-generated if omitted.</td>
+<td><code>string</code></td>
+<td><code>generated</code></td>
+</tr>
+<tr>
+<td><code>hint</code></td>
+<td><code>hint</code></td>
+<td>Inline hint text shown below the field when not in error state.</td>
+<td><code>string</code></td>
+<td><code>&#39;&#39;</code></td>
+</tr>
 </tbody></table>
 <h3>Slots</h3>
 <table>
@@ -667,6 +702,14 @@
 <tbody><tr>
 <td><code>trigger</code></td>
 <td>Custom focusable element to replace the default input wrapper. The component owns open / close state.</td>
+</tr>
+<tr>
+<td><code>error</code></td>
+<td>Shown when <code>isInvalid</code> is true; use for rich HTML error markup instead of plain <code>errorMessage</code>.</td>
+</tr>
+<tr>
+<td><code>hint</code></td>
+<td>Shown when no error is active; use for rich HTML hint markup instead of plain <code>hint</code> prop.</td>
 </tr>
 </tbody></table>
 <h3>Events</h3>
@@ -702,6 +745,11 @@
 <td><code>aegovDatepickerMonthChange</code></td>
 <td><code>{ month: number; year: number }</code></td>
 <td>Fires whenever the visible month or year changes.</td>
+</tr>
+<tr>
+<td><code>aegovValidate</code></td>
+<td><code>AegovValidationDetail&lt;AegovDatepickerValue&gt;</code></td>
+<td>Fires when the datepicker validates. Detail includes <code>name</code>, <code>value</code>, <code>validity</code>, <code>validationMessage</code>, <code>customError</code>, <code>trigger</code>.</td>
 </tr>
 </tbody></table>
 <p><code>DatepickerChangeDetail</code> shape: <code>{ value: string; date: Date | null; startDate?: Date | null; endDate?: Date | null }</code>.</p>
@@ -748,6 +796,16 @@
 <td><code>getPreset()</code></td>
 <td><code>Promise&lt;string | false&gt;</code></td>
 <td>Range mode: the matching preset id for the current selection, or <code>false</code>.</td>
+</tr>
+<tr>
+<td><code>validate(trigger?)</code></td>
+<td><code>Promise&lt;AegovValidationResult&gt;</code></td>
+<td>Runs validation and returns the full validity state. Optional <code>trigger</code> context is forwarded on the emitted <code>aegovValidate</code> event.</td>
+</tr>
+<tr>
+<td><code>setCustomValidity(message)</code></td>
+<td><code>Promise&lt;void&gt;</code></td>
+<td>Sets a custom error message (empty string clears it). The field enters <code>customError</code> state until cleared.</td>
 </tr>
 </tbody></table>
 <h3>Pass-through Attributes</h3>
@@ -956,7 +1014,7 @@
 </tr>
 <tr>
 <td><code>Home</code> / <code>End</code></td>
-<td>Jump to the first / last day of the visible month.</td>
+<td>Move to the first / last day of the current week.</td>
 </tr>
 <tr>
 <td><code>Escape</code></td>

@@ -263,7 +263,7 @@
 
 <hr>
 <h2>Disabled State</h2>
-<p>Set <code>is-disabled=&quot;true&quot;</code> to prevent interaction. The native <code>disabled</code> attribute is applied, <code>aria-disabled=&quot;true&quot;</code> is set, and click events are suppressed. Use this when the action is contextually unavailable — for example, a &quot;Pay now&quot; button with no items in the cart.</p>
+<p>Set <code>is-disabled=&quot;true&quot;</code> to prevent interaction. The native <code>disabled</code> attribute is applied to the inner <code>&lt;button&gt;</code> element and click events are suppressed. Use this when the action is contextually unavailable — for example, a &quot;Pay now&quot; button with no items in the cart.</p>
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span> <span class="hljs-attr">is-disabled</span>=<span class="hljs-string">&quot;true&quot;</span>&gt;</span>Continue<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span> <span class="hljs-attr">is-disabled</span>=<span class="hljs-string">&quot;true&quot;</span> <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;outline&quot;</span>&gt;</span>Cancel<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span> <span class="hljs-attr">is-disabled</span>=<span class="hljs-string">&quot;true&quot;</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;danger&quot;</span> <span class="hljs-attr">appearance</span>=<span class="hljs-string">&quot;soft&quot;</span>&gt;</span>Delete<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov flex flex-wrap gap-3">
@@ -502,7 +502,7 @@
 <tr>
 <td><code>isDisabled</code></td>
 <td><code>is-disabled</code></td>
-<td>Disables interaction. Sets <code>disabled</code> and <code>aria-disabled=&quot;true&quot;</code>.</td>
+<td>Disables interaction. Sets the native <code>disabled</code> attribute on the inner <code>&lt;button&gt;</code> element.</td>
 <td><code>boolean</code></td>
 <td><code>false</code></td>
 </tr>
@@ -683,7 +683,7 @@ aegov-<span class="hljs-selector-tag">button</span><span class="hljs-selector-ps
 <h3>Built-in behaviour</h3>
 <ul>
 <li>Renders a real <code>&lt;button&gt;</code> element, so it is focusable, keyboard-activatable, and exposed correctly to assistive technologies by default.</li>
-<li><code>aria-disabled=&quot;true&quot;</code> is set only when the button is disabled or loading — it is omitted entirely when the button is enabled (no redundant <code>aria-disabled=&quot;false&quot;</code> noise).</li>
+<li>When disabled or loading, the native <code>disabled</code> attribute is set on the inner <code>&lt;button&gt;</code> element — not <code>aria-disabled</code>. The native disabled state is correct here because the button has an accessible name and role already provided by the element itself.</li>
 <li><code>aria-busy=&quot;true&quot;</code> is set only while loading — omitted otherwise. Screen readers announce the button as busy until the operation completes.</li>
 <li>The loading spinner SVG is <code>aria-hidden=&quot;true&quot;</code> — the button&#39;s visible label (slot content) is the sole accessible announcement; the spinner is purely visual.</li>
 <li><code>focus-visible</code> outline is tuned per appearance: solid and soft buttons get an offset outline; outline buttons get an inset outline.</li>

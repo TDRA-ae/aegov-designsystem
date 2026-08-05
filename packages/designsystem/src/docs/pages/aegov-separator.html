@@ -24,7 +24,7 @@
 <p class="text-lg text-aeblack-500 mb-8">A Separator is a thin visual divider used to break up sections of content, group related items, or signal a contextual boundary in an interface. Use it to separate form sections, divide list groups, mark a transition between two interaction paths, or insert an &ldquo;OR&rdquo;-style break between alternative actions. Separators support horizontal and vertical orientation, an optional inline label, two appearance treatments (`solid` / `light`), and four colour variants (`primary`, `secondary`, `neutral-max`, `neutral-min`).</p>
 
 <h2>Introduction</h2>
-<p>The <code>aegov-separator</code> component renders as a native <code>&lt;hr&gt;</code> when used without a label, or as a flex layout of line / text / line when a <code>text</code> value or slotted label is supplied. It exposes a small surface — <code>orientation</code>, <code>appearance</code>, <code>variant</code>, <code>text</code>, and <code>is-decorative</code> — and uses logical CSS properties so it works identically in LTR and RTL contexts.</p>
+<p>The <code>aegov-separator</code> component renders as a native <code>&lt;hr&gt;</code> when used without a label, or as a flex layout of line / text / line when a <code>text</code> value or slotted label is supplied. It exposes a small surface — <code>orientation</code>, <code>appearance</code>, <code>variant</code>, <code>text</code>, <code>gap</code>, <code>extra-class</code>, and <code>is-decorative</code> — and uses logical CSS properties so it works identically in LTR and RTL contexts.</p>
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-separator</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-separator</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <p class="mb-4">Above the separator.</p>
   <aegov-separator></aegov-separator>
@@ -334,7 +334,7 @@
 <tr>
 <td><code>isDecorative</code></td>
 <td><code>is-decorative</code></td>
-<td>When <code>true</code>, exposes <code>role=&quot;presentation&quot;</code>. When <code>false</code>, exposes <code>role=&quot;separator&quot;</code>.</td>
+<td>When <code>true</code>, exposes <code>role=&quot;presentation&quot;</code>. When <code>false</code>, exposes <code>role=&quot;separator&quot;</code>. <strong>Note:</strong> when the <code>text</code> prop (or slotted content) is present, the component overrides the presentation role regardless of this value — the presence of text content forces meaningful role semantics.</td>
 <td><code>boolean</code></td>
 <td><code>true</code></td>
 </tr>

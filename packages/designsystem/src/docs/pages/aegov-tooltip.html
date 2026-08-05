@@ -24,7 +24,7 @@
 <p class="text-lg text-aeblack-500 mb-8">A Tooltip is a small, non-interactive label that appears next to a control on hover or focus to clarify its purpose. Use a tooltip for icon-button labels, abbreviations, and short hints — anything the user can take or leave. For interactive content, longer descriptions, or controls, use a Popover instead.</p>
 
 <h2>Introduction</h2>
-<p>The <code>aegov-tooltip</code> component wraps any trigger element — typically a button, link, or icon — and shows a short message in one of four positions when the user hovers or clicks the trigger. Position is automatically clamped to the viewport, the tooltip is hidden on <code>Escape</code>, and <code>aria-describedby</code> is wired automatically while the tooltip is visible so screen readers announce the helper text alongside the trigger.</p>
+<p>The <code>aegov-tooltip</code> component wraps any trigger element — typically a button, link, or icon — and shows a short message in one of four positions when the user hovers or clicks the trigger. Position is automatically clamped to the viewport, the tooltip is hidden on <code>Escape</code>, and <code>aria-describedby</code> is wired automatically on the trigger element at mount so screen readers can always announce the helper text alongside the trigger&#39;s accessible name.</p>
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-tooltip</span> <span class="hljs-attr">content</span>=<span class="hljs-string">&quot;Print the current page&quot;</span> <span class="hljs-attr">position</span>=<span class="hljs-string">&quot;top&quot;</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;secondary&quot;</span> <span class="hljs-attr">aria-label</span>=<span class="hljs-string">&quot;Print&quot;</span>&gt;</span>
       Print
@@ -311,7 +311,7 @@
 <h3>Events</h3>
 <p>The tooltip does not emit custom events.</p>
 <h3>Pass-through Attributes</h3>
-<p>ARIA and <code>data-*</code> attributes set on <code>&lt;aegov-tooltip&gt;</code> are forwarded onto the inner trigger wrapper element. The component automatically manages <code>aria-describedby</code> (linking the trigger to the tooltip while it is visible) and <code>aria-expanded</code> (when <code>trigger=&quot;click&quot;</code>) — do not set these yourself.</p>
+<p>ARIA and <code>data-*</code> attributes set on <code>&lt;aegov-tooltip&gt;</code> are forwarded onto the inner trigger wrapper element. The component automatically manages <code>aria-describedby</code> — do not set it yourself.</p>
 <table>
 <thead>
 <tr>
@@ -333,12 +333,7 @@
 <tr>
 <td><code>aria-describedby</code></td>
 <td>Managed</td>
-<td>Set automatically while the tooltip is visible.</td>
-</tr>
-<tr>
-<td><code>aria-expanded</code></td>
-<td>Managed</td>
-<td>Set directly on the first focusable element inside the trigger slot when <code>trigger=&quot;click&quot;</code>.</td>
+<td>Set permanently on the first focusable trigger element at component mount, linking it to the tooltip for the full component lifetime. Removed only when the component disconnects. Do not set this yourself.</td>
 </tr>
 <tr>
 <td><code>class</code>, <code>style</code></td>
@@ -351,8 +346,7 @@
 <h3>Built-in behaviour</h3>
 <ul>
 <li>The tooltip element renders with <code>role=&quot;tooltip&quot;</code> and a stable <code>id</code>.</li>
-<li><code>aria-describedby</code> is set on the trigger wrapper while the tooltip is visible, so screen readers announce the tooltip text together with the trigger&#39;s accessible name.</li>
-<li>When <code>trigger=&quot;click&quot;</code>, <code>aria-expanded</code> is set directly on the first focusable element inside the trigger slot (the button, link, or other focusable element), so assistive technology correctly announces the expanded state.</li>
+<li><code>aria-describedby</code> is set <strong>permanently</strong> on the trigger element at component mount (per WAI-ARIA 1.2 and the APG Tooltip pattern). The tooltip panel uses <code>visibility: hidden</code> when not shown, so it remains in the DOM and can be resolved by assistive technology through the <code>aria-describedby</code> reference at any time.</li>
 <li>The tooltip appears when the trigger gains keyboard focus (via <code>Tab</code>) and closes when focus leaves the component.</li>
 <li><code>Escape</code> hides the tooltip immediately (SC 1.4.13 dismissable).</li>
 <li>The tooltip remains open when the pointer moves from the trigger onto the tooltip itself, allowing users to read or copy the tooltip text (SC 1.4.13 hoverable).</li>

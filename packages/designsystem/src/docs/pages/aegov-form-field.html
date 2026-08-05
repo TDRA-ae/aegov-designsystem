@@ -81,6 +81,21 @@
 <td><code>aegov-otp</code></td>
 <td><code>label.htmlFor → otp.fieldId</code></td>
 </tr>
+<tr>
+<td>8</td>
+<td><code>aegov-fileupload</code></td>
+<td><code>label.htmlFor → fileupload.fieldId</code></td>
+</tr>
+<tr>
+<td>9</td>
+<td><code>aegov-radio</code></td>
+<td><code>label.htmlFor → radio.fieldId</code></td>
+</tr>
+<tr>
+<td>10</td>
+<td><code>aegov-toggle</code></td>
+<td><code>label.htmlFor → toggle.fieldId</code></td>
+</tr>
 </tbody></table>
 <h3>Input</h3>
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-form-field</span>&gt;</span>
@@ -404,6 +419,27 @@
 <td><em>generated</em></td>
 </tr>
 <tr>
+<td><code>isInvalid</code></td>
+<td><code>is-invalid</code></td>
+<td>Wrapper-level invalid state. Cascades to the first form-control descendant if the child has not set its own value.</td>
+<td><code>boolean</code></td>
+<td><code>false</code></td>
+</tr>
+<tr>
+<td><code>errorMessage</code></td>
+<td><code>error-message</code></td>
+<td>Wrapper-level error message. Cascaded to the first form-control descendant.</td>
+<td><code>string</code></td>
+<td><code>&#39;&#39;</code></td>
+</tr>
+<tr>
+<td><code>hint</code></td>
+<td><code>hint</code></td>
+<td>Wrapper-level hint text. Cascaded to the first form-control descendant.</td>
+<td><code>string</code></td>
+<td><code>&#39;&#39;</code></td>
+</tr>
+<tr>
 <td><code>variant</code></td>
 <td><code>variant</code></td>
 <td>Colour family. Cascades to the first <code>aegov-label</code> and form-control descendant if they have no explicit <code>variant</code>.</td>
@@ -428,7 +464,11 @@
 </thead>
 <tbody><tr>
 <td><em>(default)</em></td>
-<td>One <code>aegov-label</code>, one supported control (<code>aegov-input</code>, <code>aegov-textarea</code>, <code>aegov-select</code>, <code>aegov-checkbox</code>, <code>aegov-range</code>, <code>aegov-progress</code>, or <code>aegov-otp</code>), and optional helper / error paragraphs.</td>
+<td>One <code>aegov-label</code>, one supported control (<code>aegov-input</code>, <code>aegov-textarea</code>, <code>aegov-select</code>, <code>aegov-checkbox</code>, <code>aegov-range</code>, <code>aegov-progress</code>, <code>aegov-otp</code>, <code>aegov-fileupload</code>, <code>aegov-radio</code>, or <code>aegov-toggle</code>), and optional helper / error paragraphs.</td>
+</tr>
+<tr>
+<td><code>hint</code></td>
+<td>Named hint slot. Renders below the control. Useful for rich hint markup.</td>
 </tr>
 </tbody></table>
 <h3>Events</h3>

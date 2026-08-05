@@ -4,7 +4,7 @@
 
 ## Introduction
 
-The `aegov-tooltip` component wraps any trigger element — typically a button, link, or icon — and shows a short message in one of four positions when the user hovers or clicks the trigger. Position is automatically clamped to the viewport, the tooltip is hidden on `Escape`, and `aria-describedby` is wired automatically while the tooltip is visible so screen readers announce the helper text alongside the trigger.
+The `aegov-tooltip` component wraps any trigger element — typically a button, link, or icon — and shows a short message in one of four positions when the user hovers or clicks the trigger. Position is automatically clamped to the viewport, the tooltip is hidden on `Escape`, and `aria-describedby` is wired automatically on the trigger element at mount so screen readers can always announce the helper text alongside the trigger's accessible name.
 
 ```html
 <aegov-tooltip content="Print the current page" position="top">
@@ -293,14 +293,13 @@ The tooltip does not emit custom events.
 
 ### Pass-through Attributes
 
-ARIA and `data-*` attributes set on `<aegov-tooltip>` are forwarded onto the inner trigger wrapper element. The component automatically manages `aria-describedby` (linking the trigger to the tooltip while it is visible) and `aria-expanded` (when `trigger="click"`) — do not set these yourself.
+ARIA and `data-*` attributes set on `<aegov-tooltip>` are forwarded onto the inner trigger wrapper element. The component automatically manages `aria-describedby` — do not set it yourself.
 
 | Attribute group     | Forwarded? | Where it lands                                                |
 | ------------------- | ---------- | ------------------------------------------------------------- |
 | `aria-*`            | Yes        | Applied to the inner trigger wrapper (`.aegov-tooltip-trigger`). |
 | `data-*`            | Yes        | Applied to the inner trigger wrapper.                         |
-| `aria-describedby`  | Managed    | Set automatically while the tooltip is visible.               |
-| `aria-expanded`     | Managed    | Set directly on the first focusable element inside the trigger slot when `trigger="click"`. |
+| `aria-describedby`  | Managed    | Set permanently on the first focusable trigger element at component mount, linking it to the tooltip for the full component lifetime. Removed only when the component disconnects. Do not set this yourself. |
 | `class`, `style`    | Allowed    | Applied to the host element.                                  |
 
 ---
@@ -310,8 +309,7 @@ ARIA and `data-*` attributes set on `<aegov-tooltip>` are forwarded onto the inn
 ### Built-in behaviour
 
 - The tooltip element renders with `role="tooltip"` and a stable `id`.
-- `aria-describedby` is set on the trigger wrapper while the tooltip is visible, so screen readers announce the tooltip text together with the trigger's accessible name.
-- When `trigger="click"`, `aria-expanded` is set directly on the first focusable element inside the trigger slot (the button, link, or other focusable element), so assistive technology correctly announces the expanded state.
+- `aria-describedby` is set **permanently** on the trigger element at component mount (per WAI-ARIA 1.2 and the APG Tooltip pattern). The tooltip panel uses `visibility: hidden` when not shown, so it remains in the DOM and can be resolved by assistive technology through the `aria-describedby` reference at any time.
 - The tooltip appears when the trigger gains keyboard focus (via `Tab`) and closes when focus leaves the component.
 - `Escape` hides the tooltip immediately (SC 1.4.13 dismissable).
 - The tooltip remains open when the pointer moves from the trigger onto the tooltip itself, allowing users to read or copy the tooltip text (SC 1.4.13 hoverable).

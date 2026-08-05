@@ -197,20 +197,20 @@ Setting `variant` on `aegov-checkbox-group` cascades to every child checkbox tha
 - Automatic management of an optional "select all" checkbox
 
 ```html
-<aegov-checkbox-group label="Notification preferences" name="prefs">
-  <aegov-checkbox value="email" label="Email" is-checked="true"></aegov-checkbox>
-  <aegov-checkbox value="sms" label="SMS"></aegov-checkbox>
-  <aegov-checkbox value="push" label="Push notifications"></aegov-checkbox>
-  <aegov-checkbox value="post" label="Post (mailed letter)"></aegov-checkbox>
+<aegov-checkbox-group label="Notification preferences">
+  <aegov-checkbox name="prefs" value="email" label="Email" is-checked="true"></aegov-checkbox>
+  <aegov-checkbox name="prefs" value="sms" label="SMS"></aegov-checkbox>
+  <aegov-checkbox name="prefs" value="push" label="Push notifications"></aegov-checkbox>
+  <aegov-checkbox name="prefs" value="post" label="Post (mailed letter)"></aegov-checkbox>
 </aegov-checkbox-group>
 ```
 
 <div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <aegov-checkbox-group label="Notification preferences" name="prefs">
-    <aegov-checkbox value="email" label="Email" is-checked="true"></aegov-checkbox>
-    <aegov-checkbox value="sms" label="SMS"></aegov-checkbox>
-    <aegov-checkbox value="push" label="Push notifications"></aegov-checkbox>
-    <aegov-checkbox value="post" label="Post (mailed letter)"></aegov-checkbox>
+  <aegov-checkbox-group label="Notification preferences">
+    <aegov-checkbox name="prefs" value="email" label="Email" is-checked="true"></aegov-checkbox>
+    <aegov-checkbox name="prefs" value="sms" label="SMS"></aegov-checkbox>
+    <aegov-checkbox name="prefs" value="push" label="Push notifications"></aegov-checkbox>
+    <aegov-checkbox name="prefs" value="post" label="Post (mailed letter)"></aegov-checkbox>
   </aegov-checkbox-group>
 </div>
 
@@ -318,22 +318,22 @@ Set `is-check-all="true"` on a checkbox inside a group to make it the "select al
 - Sets the controller to `unchecked` when none are selected
 
 ```html
-<aegov-checkbox-group label="Documents to attach" name="docs">
+<aegov-checkbox-group label="Documents to attach">
   <aegov-checkbox is-check-all="true" label="Select all"></aegov-checkbox>
-  <aegov-checkbox value="eid" label="Emirates ID (front and back)"></aegov-checkbox>
-  <aegov-checkbox value="passport" label="Passport copy"></aegov-checkbox>
-  <aegov-checkbox value="utility" label="Recent utility bill"></aegov-checkbox>
-  <aegov-checkbox value="employment" label="Employment letter"></aegov-checkbox>
+  <aegov-checkbox name="docs" value="eid" label="Emirates ID (front and back)"></aegov-checkbox>
+  <aegov-checkbox name="docs" value="passport" label="Passport copy"></aegov-checkbox>
+  <aegov-checkbox name="docs" value="utility" label="Recent utility bill"></aegov-checkbox>
+  <aegov-checkbox name="docs" value="employment" label="Employment letter"></aegov-checkbox>
 </aegov-checkbox-group>
 ```
 
 <div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
-  <aegov-checkbox-group label="Documents to attach" name="docs">
+  <aegov-checkbox-group label="Documents to attach">
     <aegov-checkbox is-check-all="true" label="Select all"></aegov-checkbox>
-    <aegov-checkbox value="eid" label="Emirates ID (front and back)"></aegov-checkbox>
-    <aegov-checkbox value="passport" label="Passport copy"></aegov-checkbox>
-    <aegov-checkbox value="utility" label="Recent utility bill"></aegov-checkbox>
-    <aegov-checkbox value="employment" label="Employment letter"></aegov-checkbox>
+    <aegov-checkbox name="docs" value="eid" label="Emirates ID (front and back)"></aegov-checkbox>
+    <aegov-checkbox name="docs" value="passport" label="Passport copy"></aegov-checkbox>
+    <aegov-checkbox name="docs" value="utility" label="Recent utility bill"></aegov-checkbox>
+    <aegov-checkbox name="docs" value="employment" label="Employment letter"></aegov-checkbox>
   </aegov-checkbox-group>
 </div>
 
@@ -347,21 +347,21 @@ A realistic snippet from a profile-settings page combining several groups, appea
 <form class="grid gap-8 max-w-xl">
   <aegov-form-field>
     <aegov-label>Notification preferences</aegov-label>
-    <aegov-checkbox-group appearance="cards" name="notifications">
-      <aegov-checkbox value="email" label="Email" hint="Updates sent to your registered address." is-checked="true"></aegov-checkbox>
-      <aegov-checkbox value="sms" label="SMS" hint="Short text alerts to your mobile number."></aegov-checkbox>
-      <aegov-checkbox value="push" label="Push" hint="In-app and browser notifications."></aegov-checkbox>
+    <aegov-checkbox-group appearance="cards">
+      <aegov-checkbox name="notifications" value="email" label="Email" hint="Updates sent to your registered address." is-checked="true"></aegov-checkbox>
+      <aegov-checkbox name="notifications" value="sms" label="SMS" hint="Short text alerts to your mobile number."></aegov-checkbox>
+      <aegov-checkbox name="notifications" value="push" label="Push" hint="In-app and browser notifications."></aegov-checkbox>
     </aegov-checkbox-group>
   </aegov-form-field>
 
   <aegov-form-field>
     <aegov-label>Languages spoken</aegov-label>
-    <aegov-checkbox-group appearance="pills" orientation="horizontal" name="languages">
-      <aegov-checkbox value="ar" label="Arabic" is-checked="true"></aegov-checkbox>
-      <aegov-checkbox value="en" label="English" is-checked="true"></aegov-checkbox>
-      <aegov-checkbox value="ur" label="Urdu"></aegov-checkbox>
-      <aegov-checkbox value="hi" label="Hindi"></aegov-checkbox>
-      <aegov-checkbox value="fr" label="French"></aegov-checkbox>
+    <aegov-checkbox-group appearance="pills" orientation="horizontal">
+      <aegov-checkbox name="languages" value="ar" label="Arabic" is-checked="true"></aegov-checkbox>
+      <aegov-checkbox name="languages" value="en" label="English" is-checked="true"></aegov-checkbox>
+      <aegov-checkbox name="languages" value="ur" label="Urdu"></aegov-checkbox>
+      <aegov-checkbox name="languages" value="hi" label="Hindi"></aegov-checkbox>
+      <aegov-checkbox name="languages" value="fr" label="French"></aegov-checkbox>
     </aegov-checkbox-group>
   </aegov-form-field>
 
@@ -378,20 +378,20 @@ A realistic snippet from a profile-settings page combining several groups, appea
   <form class="grid gap-8 max-w-xl">
     <aegov-form-field>
       <aegov-label>Notification preferences</aegov-label>
-      <aegov-checkbox-group appearance="cards" name="notifications">
-        <aegov-checkbox value="email" label="Email" hint="Updates sent to your registered address." is-checked="true"></aegov-checkbox>
-        <aegov-checkbox value="sms" label="SMS" hint="Short text alerts to your mobile number."></aegov-checkbox>
-        <aegov-checkbox value="push" label="Push" hint="In-app and browser notifications."></aegov-checkbox>
+      <aegov-checkbox-group appearance="cards">
+        <aegov-checkbox name="notifications" value="email" label="Email" hint="Updates sent to your registered address." is-checked="true"></aegov-checkbox>
+        <aegov-checkbox name="notifications" value="sms" label="SMS" hint="Short text alerts to your mobile number."></aegov-checkbox>
+        <aegov-checkbox name="notifications" value="push" label="Push" hint="In-app and browser notifications."></aegov-checkbox>
       </aegov-checkbox-group>
     </aegov-form-field>
     <aegov-form-field>
       <aegov-label>Languages spoken</aegov-label>
-      <aegov-checkbox-group appearance="pills" orientation="horizontal" name="languages">
-        <aegov-checkbox value="ar" label="Arabic" is-checked="true"></aegov-checkbox>
-        <aegov-checkbox value="en" label="English" is-checked="true"></aegov-checkbox>
-        <aegov-checkbox value="ur" label="Urdu"></aegov-checkbox>
-        <aegov-checkbox value="hi" label="Hindi"></aegov-checkbox>
-        <aegov-checkbox value="fr" label="French"></aegov-checkbox>
+      <aegov-checkbox-group appearance="pills" orientation="horizontal">
+        <aegov-checkbox name="languages" value="ar" label="Arabic" is-checked="true"></aegov-checkbox>
+        <aegov-checkbox name="languages" value="en" label="English" is-checked="true"></aegov-checkbox>
+        <aegov-checkbox name="languages" value="ur" label="Urdu"></aegov-checkbox>
+        <aegov-checkbox name="languages" value="hi" label="Hindi"></aegov-checkbox>
+        <aegov-checkbox name="languages" value="fr" label="French"></aegov-checkbox>
       </aegov-checkbox-group>
     </aegov-form-field>
     <aegov-checkbox
@@ -410,10 +410,10 @@ A realistic snippet from a profile-settings page combining several groups, appea
 Individual checkboxes emit `aegovCheckboxChange`. The group emits `aegovCheckboxGroupChange` with the array of currently selected values.
 
 ```html
-<aegov-checkbox-group id="docs" label="Documents to attach" name="docs">
-  <aegov-checkbox value="eid" label="Emirates ID"></aegov-checkbox>
-  <aegov-checkbox value="passport" label="Passport"></aegov-checkbox>
-  <aegov-checkbox value="utility" label="Utility bill"></aegov-checkbox>
+<aegov-checkbox-group id="docs" label="Documents to attach">
+  <aegov-checkbox name="docs" value="eid" label="Emirates ID"></aegov-checkbox>
+  <aegov-checkbox name="docs" value="passport" label="Passport"></aegov-checkbox>
+  <aegov-checkbox name="docs" value="utility" label="Utility bill"></aegov-checkbox>
 </aegov-checkbox-group>
 
 <script>
@@ -433,10 +433,10 @@ The checkbox uses CSS logical properties throughout. When the document or any an
 
 ```html
 <div dir="rtl">
-  <aegov-checkbox-group appearance="cards" label="تفضيلات الإشعارات" name="prefs">
-    <aegov-checkbox value="email" label="البريد الإلكتروني" hint="تصلك التحديثات على عنوانك المسجل." is-checked="true"></aegov-checkbox>
-    <aegov-checkbox value="sms" label="الرسائل النصية" hint="تنبيهات قصيرة على رقم هاتفك المحمول."></aegov-checkbox>
-    <aegov-checkbox value="push" label="الإشعارات الفورية" hint="إشعارات داخل التطبيق والمتصفح."></aegov-checkbox>
+  <aegov-checkbox-group appearance="cards" label="تفضيلات الإشعارات">
+    <aegov-checkbox name="prefs" value="email" label="البريد الإلكتروني" hint="تصلك التحديثات على عنوانك المسجل." is-checked="true"></aegov-checkbox>
+    <aegov-checkbox name="prefs" value="sms" label="الرسائل النصية" hint="تنبيهات قصيرة على رقم هاتفك المحمول."></aegov-checkbox>
+    <aegov-checkbox name="prefs" value="push" label="الإشعارات الفورية" hint="إشعارات داخل التطبيق والمتصفح."></aegov-checkbox>
   </aegov-checkbox-group>
 
   <aegov-checkbox
@@ -448,10 +448,10 @@ The checkbox uses CSS logical properties throughout. When the document or any an
 
 <div dir="rtl" class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <div class="grid gap-8">
-    <aegov-checkbox-group appearance="cards" label="تفضيلات الإشعارات" name="prefs">
-      <aegov-checkbox value="email" label="البريد الإلكتروني" hint="تصلك التحديثات على عنوانك المسجل." is-checked="true"></aegov-checkbox>
-      <aegov-checkbox value="sms" label="الرسائل النصية" hint="تنبيهات قصيرة على رقم هاتفك المحمول."></aegov-checkbox>
-      <aegov-checkbox value="push" label="الإشعارات الفورية" hint="إشعارات داخل التطبيق والمتصفح."></aegov-checkbox>
+    <aegov-checkbox-group appearance="cards" label="تفضيلات الإشعارات">
+      <aegov-checkbox name="prefs" value="email" label="البريد الإلكتروني" hint="تصلك التحديثات على عنوانك المسجل." is-checked="true"></aegov-checkbox>
+      <aegov-checkbox name="prefs" value="sms" label="الرسائل النصية" hint="تنبيهات قصيرة على رقم هاتفك المحمول."></aegov-checkbox>
+      <aegov-checkbox name="prefs" value="push" label="الإشعارات الفورية" hint="إشعارات داخل التطبيق والمتصفح."></aegov-checkbox>
     </aegov-checkbox-group>
     <aegov-checkbox
       label="أؤكد أن المعلومات المقدمة صحيحة وأوافق على شروط الخدمة"
@@ -480,6 +480,9 @@ The checkbox uses CSS logical properties throughout. When the document or any an
 | `label`           | `label`            | Label text. When set, renders a wrapping `<label>` element.                              | `string`       | `undefined` |
 | `hint`            | `hint`             | Helper text shown below the label. Only rendered when `label` is also set.                | `string`       | `undefined` |
 | `isCheckAll`      | `is-check-all`     | Mark this checkbox as the "select all" controller within an `aegov-checkbox-group`.        | `boolean`      | `false`     |
+| `isInvalid`       | `is-invalid`       | Puts the checkbox into an error state.                                                      | `boolean`      | `false`     |
+| `errorMessage`    | `error-message`    | Error text when `is-invalid` is `true`. Use the `error` slot for rich markup.               | `string`       | `''`        |
+| `appearance`      | `appearance`       | Visual appearance mode. Normally managed by `aegov-checkbox-group` (valid values: `'default'`, `'cards'`, `'pills'`, `'list'`). Should not be set directly in most cases. | `string`       | `'default'` |
 | `extraClass`      | `extra-class`      | Additional CSS classes applied to the wrapper.                                              | `string`       | `undefined` |
 
 ### aegov-checkbox-group Properties
@@ -491,18 +494,24 @@ The checkbox uses CSS logical properties throughout. When the document or any an
 | `label`       | `label`       | Optional `<legend>` text for the underlying `<fieldset>`.                       | `string`                     | `undefined`  |
 | `size`        | `size`        | Size token or responsive string. Propagated to all child checkboxes.            | `string`                     | `'base'`     |
 | `variant`     | `variant`     | Colour family. Cascades to children that have no explicit `variant`.            | `'primary' \| 'secondary' \| 'neutral-max' \| 'neutral-min'` | `'primary'` |
-| `isDisabled`  | `is-disabled` | Disable the entire group via native `<fieldset disabled>`.                      | `boolean`                    | `false`      |
-| `extraClass`  | `extra-class` | Additional CSS classes applied to the `<fieldset>`.                              | `string`                     | `undefined`  |
+| `isDisabled`   | `is-disabled`   | Disable the entire group via native `<fieldset disabled>`.                     | `boolean`                    | `false`      |
+| `isRequired`   | `is-required`   | Marks the group as required.                                                   | `boolean`                    | `false`      |
+| `isInvalid`    | `is-invalid`    | Puts the group into an error state.                                            | `boolean`                    | `false`      |
+| `errorMessage` | `error-message` | Error text when `is-invalid` is `true`. Use the `error` slot for rich markup.  | `string`                     | `''`         |
+| `hint`         | `hint`          | Helper text below the group. Hidden when an error is shown.                    | `string`                     | `''`         |
+| `extraClass`   | `extra-class`   | Additional CSS classes applied to the `<fieldset>`.                            | `string`                     | `undefined`  |
 
 `CheckboxGroupVariant` accepts: `default`, `list`, `cards`, `pills`. `CheckboxGroupOrientation` accepts: `vertical`, `horizontal`.
 
 ### Slots
 
-| Component               | Slot        | Description                                                          |
-| ----------------------- | ----------- | -------------------------------------------------------------------- |
-| `aegov-checkbox-group`  | _(default)_ | Place one or more `aegov-checkbox` children here.                     |
-
-`aegov-checkbox` does not expose named slots — content is set through the `label` and `hint` properties.
+| Component               | Slot        | Description                                                                 |
+| ----------------------- | ----------- | --------------------------------------------------------------------------- |
+| `aegov-checkbox-group`  | _(default)_ | Place one or more `aegov-checkbox` children here.                            |
+| `aegov-checkbox`        | `hint`      | Rich hint markup. Replaces the `hint` prop when provided.                    |
+| `aegov-checkbox`        | `error`     | Rich error markup. Replaces `error-message` prop when provided.              |
+| `aegov-checkbox-group`  | `hint`      | Rich hint markup for the group.                                              |
+| `aegov-checkbox-group`  | `error`     | Rich error markup for the group. Replaces `error-message` prop.              |
 
 ### Events
 
@@ -510,6 +519,17 @@ The checkbox uses CSS logical properties throughout. When the document or any an
 | --------------------------- | ----------------------- | -------------------------------------------- | -------------------------------------------------------------------------------------------- |
 | `aegovCheckboxChange`       | `aegov-checkbox`        | `{ checked: boolean; value?: string }`       | Fires when the individual checkbox state changes.                                              |
 | `aegovCheckboxGroupChange`  | `aegov-checkbox-group`  | `{ values: string[] }`                       | Fires when any child checkbox changes. Detail contains all currently checked non-controller values. |
+| `aegovValidate`             | `aegov-checkbox`        | `AegovValidationDetail<boolean>`             | Fires when the checkbox validates.                                                             |
+| `aegovValidate`             | `aegov-checkbox-group`  | `AegovValidationDetail<string[]>`            | Fires when the group validates.                                                                |
+
+### Methods
+
+| Method                          | Component               | Returns                          | Description                                  |
+| ------------------------------- | ----------------------- | -------------------------------- | -------------------------------------------- |
+| `validate(trigger?)`            | `aegov-checkbox`        | `Promise<AegovValidationResult>` | Re-runs validation; emits `aegovValidate`.   |
+| `setCustomValidity(message)`    | `aegov-checkbox`        | `Promise<void>`                  | Sets a custom error message; empty string clears. |
+| `validate(trigger?)`            | `aegov-checkbox-group`  | `Promise<AegovValidationResult>` | Re-runs validation; emits `aegovValidate`.   |
+| `setCustomValidity(message)`    | `aegov-checkbox-group`  | `Promise<void>`                  | Sets a custom error message on the group.    |
 
 ### Pass-through Attributes
 

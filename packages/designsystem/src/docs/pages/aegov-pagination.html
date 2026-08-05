@@ -104,7 +104,7 @@
 
 <hr>
 <h2>Compact Variant</h2>
-<p>The <code>compact</code> variant hides individual page numbers and shows only Previous, Next, and a <code>current / total</code> indicator. This is the recommended layout for narrow viewports, sidebars, and any context where horizontal space is limited.</p>
+<p>The <code>compact</code> variant hides individual page numbers and shows only Previous, Next, and a &quot;current page of total&quot; indicator (e.g. &quot;Page 3 of 10&quot;). This is the recommended layout for narrow viewports, sidebars, and any context where horizontal space is limited.</p>
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-pagination</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;compact&quot;</span> <span class="hljs-attr">pages</span>=<span class="hljs-string">&quot;20&quot;</span> <span class="hljs-attr">page-current</span>=<span class="hljs-string">&quot;3&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-pagination</span>&gt;</span>
 
 <span class="hljs-tag">&lt;<span class="hljs-name">aegov-pagination</span>
@@ -375,7 +375,7 @@
 <tr>
 <td><code>variant</code></td>
 <td><code>variant</code></td>
-<td>Display variant. <code>default</code> shows page numbers; <code>compact</code> shows prev/next plus <code>current / total</code>.</td>
+<td>Display variant. <code>default</code> shows page numbers; <code>compact</code> shows prev/next plus a &quot;current page of total&quot; indicator.</td>
 <td><code>&#39;default&#39; | &#39;compact&#39;</code></td>
 <td><code>&#39;default&#39;</code></td>
 </tr>
@@ -396,30 +396,30 @@
 <tr>
 <td><code>labelPrev</code></td>
 <td><code>label-prev</code></td>
-<td>Visible label on the Previous button.</td>
+<td>Visible label on the Previous button. Defaults to locale string (<code>&#39;Previous&#39;</code> / <code>&#39;السابق&#39;</code>) when empty.</td>
 <td><code>string</code></td>
-<td><code>&#39;Previous&#39;</code></td>
+<td><code>&#39;&#39;</code></td>
 </tr>
 <tr>
 <td><code>labelNext</code></td>
 <td><code>label-next</code></td>
-<td>Visible label on the Next button.</td>
+<td>Visible label on the Next button. Defaults to locale string (<code>&#39;Next&#39;</code> / <code>&#39;التالي&#39;</code>) when empty.</td>
 <td><code>string</code></td>
-<td><code>&#39;Next&#39;</code></td>
+<td><code>&#39;&#39;</code></td>
 </tr>
 <tr>
 <td><code>labelFirst</code></td>
 <td><code>label-first</code></td>
-<td>Visible label on the First button.</td>
+<td>Visible label on the First button. Defaults to locale string (<code>&#39;First&#39;</code> / <code>&#39;الأول&#39;</code>) when empty.</td>
 <td><code>string</code></td>
-<td><code>&#39;First&#39;</code></td>
+<td><code>&#39;&#39;</code></td>
 </tr>
 <tr>
 <td><code>labelLast</code></td>
 <td><code>label-last</code></td>
-<td>Visible label on the Last button.</td>
+<td>Visible label on the Last button. Defaults to locale string (<code>&#39;Last&#39;</code> / <code>&#39;الأخير&#39;</code>) when empty.</td>
 <td><code>string</code></td>
-<td><code>&#39;Last&#39;</code></td>
+<td><code>&#39;&#39;</code></td>
 </tr>
 </tbody></table>
 <h3>Slots</h3>
@@ -483,7 +483,7 @@
 <li>The component renders as a <code>&lt;nav&gt;</code> landmark with <code>aria-label=&quot;Pagination&quot;</code> (Arabic: &quot;ترقيم الصفحات&quot;) so screen readers announce it among site landmarks.</li>
 <li>The active page button has <code>aria-current=&quot;page&quot;</code> and a descriptive <code>aria-label</code> such as <code>&quot;Page 3, current page&quot;</code> (Arabic: &quot;الصفحة 3، الصفحة الحالية&quot;).</li>
 <li>Previous, Next, First, and Last buttons carry bilingual <code>aria-label</code>s automatically — English when the page direction is LTR, Arabic when <code>dir=&quot;rtl&quot;</code> is detected. No developer translation needed.</li>
-<li>The compact variant exposes the <code>current / total</code> indicator (<code>3 / 10</code>) inside a polite <code>aria-live</code> region. An <code>aria-label</code> provides the full descriptive form (&quot;Page 3 of 10&quot; / &quot;الصفحة 3 من 10&quot;) so assistive technology announces meaningful context rather than &quot;3 slash 10&quot;.</li>
+<li>The compact variant renders the position indicator as plain text — &quot;Page 3 of 10&quot; (English) or &quot;الصفحة 3 من 10&quot; (Arabic) — inside a polite <code>aria-live</code> region so assistive technology announces the current position whenever the page changes.</li>
 <li>Disabled buttons set both the native <code>disabled</code> attribute and <code>aria-disabled=&quot;true&quot;</code>.</li>
 <li>Ellipsis tokens are decorative — marked <code>aria-hidden=&quot;true&quot;</code> so they are not announced.</li>
 </ul>

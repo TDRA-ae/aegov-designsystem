@@ -1,0 +1,498 @@
+<!-- ═══════════════════════════════════════════════════════════
+     PART 2 — FEEDBACK COMPONENTS
+     callout · banner · toast
+     ═══════════════════════════════════════════════════════════ -->
+
+<!-- ╔══════════════════════════════╗
+     ║  aegov-callout               ║
+     ╚══════════════════════════════╝ -->
+<section id="callout">
+  <div class="section-card">
+    <div class="section-card-header flex items-start justify-between gap-4">
+      <div>
+        <h2 class="text-base font-semibold text-aeblack-900 dark:text-whitely-100">Callout</h2>
+        <p class="text-xs text-aeblack-500 dark:text-aeblack-400 mt-0.5">Inline notice blocks — variant, appearance, size, dismissible, and action slots.</p>
+      </div>
+      <aegov-badge variant="aegreen" appearance="soft">Feedback</aegov-badge>
+    </div>
+    <div class="section-card-body space-y-6">
+
+      <!-- variant × appearance: soft -->
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">appearance="soft" — all variants</p>
+        <div class="flex flex-col gap-3 preview-box">
+          <div class="prop-item">
+            <span class="prop-attr">variant="default"</span>
+            <aegov-callout variant="default" appearance="soft">
+              <strong>Default notice.</strong> This is neutral information for the user.
+            </aegov-callout>
+          </div>
+          <div class="prop-item">
+            <span class="prop-attr">variant="info"</span>
+            <aegov-callout variant="info" appearance="soft">
+              <strong>Info:</strong> Your session will expire in 10 minutes. Save any unsaved work.
+            </aegov-callout>
+          </div>
+          <div class="prop-item">
+            <span class="prop-attr">variant="success"</span>
+            <aegov-callout variant="success" appearance="soft">
+              <strong>Success!</strong> Your application has been submitted and is under review.
+            </aegov-callout>
+          </div>
+          <div class="prop-item">
+            <span class="prop-attr">variant="warning"</span>
+            <aegov-callout variant="warning" appearance="soft">
+              <strong>Warning:</strong> This action cannot be undone. Please review before proceeding.
+            </aegov-callout>
+          </div>
+          <div class="prop-item">
+            <span class="prop-attr">variant="error"</span>
+            <aegov-callout variant="error" appearance="soft">
+              <strong>Error:</strong> The provided Emirates ID number is invalid. Please check and retry.
+            </aegov-callout>
+          </div>
+        </div>
+      </div>
+
+      <!-- variant × appearance: solid -->
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">appearance="solid" — all variants</p>
+        <div class="flex flex-col gap-3 preview-box">
+          <div class="prop-item">
+            <span class="prop-attr">variant="default" solid</span>
+            <aegov-callout variant="default" appearance="solid">
+              <strong>Default solid notice.</strong> Neutral callout with solid background.
+            </aegov-callout>
+          </div>
+          <div class="prop-item">
+            <span class="prop-attr">variant="info" solid</span>
+            <aegov-callout variant="info" appearance="solid">
+              <strong>Info solid:</strong> System maintenance scheduled for Friday 22:00–02:00 GST.
+            </aegov-callout>
+          </div>
+          <div class="prop-item">
+            <span class="prop-attr">variant="success" solid</span>
+            <aegov-callout variant="success" appearance="solid">
+              <strong>Success solid!</strong> Payment of AED 2,500 has been processed successfully.
+            </aegov-callout>
+          </div>
+          <div class="prop-item">
+            <span class="prop-attr">variant="warning" solid</span>
+            <aegov-callout variant="warning" appearance="solid">
+              <strong>Warning solid:</strong> You have 3 failed login attempts. One more will lock your account.
+            </aegov-callout>
+          </div>
+          <div class="prop-item">
+            <span class="prop-attr">variant="error" solid</span>
+            <aegov-callout variant="error" appearance="solid">
+              <strong>Error solid:</strong> Network connectivity lost. Check your internet connection.
+            </aegov-callout>
+          </div>
+        </div>
+      </div>
+
+      <!-- sizes -->
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">size — sm / base / lg</p>
+        <div class="flex flex-col gap-3 preview-box">
+          <div class="prop-item">
+            <span class="prop-attr">size="sm"</span>
+            <aegov-callout variant="info" appearance="soft" size="sm">Small callout — compact notices and inline contextual hints.</aegov-callout>
+          </div>
+          <div class="prop-item">
+            <span class="prop-attr">size="base" (default)</span>
+            <aegov-callout variant="info" appearance="soft" size="base">Base callout — standard emphasis block for important notices.</aegov-callout>
+          </div>
+          <div class="prop-item">
+            <span class="prop-attr">size="lg"</span>
+            <aegov-callout variant="info" appearance="soft" size="lg">Large callout — prominent alerts that command user attention.</aegov-callout>
+          </div>
+        </div>
+      </div>
+
+      <!-- dismissible -->
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">is-dismissible</p>
+        <div class="flex flex-col gap-3 preview-box">
+          <div class="prop-item">
+            <span class="prop-attr">is-dismissible soft</span>
+            <aegov-callout variant="info" appearance="soft" is-dismissible>
+              This callout can be dismissed. Click × to close.
+            </aegov-callout>
+          </div>
+          <div class="prop-item">
+            <span class="prop-attr">is-dismissible solid</span>
+            <aegov-callout variant="warning" appearance="solid" is-dismissible>
+              Solid dismissible warning notice.
+            </aegov-callout>
+          </div>
+        </div>
+      </div>
+
+      <!-- icon slot -->
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">slot="icon" — custom leading icon</p>
+        <div class="preview-box">
+          <aegov-callout variant="info" appearance="soft">
+            <svg slot="icon" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16" width="18" height="18" aria-hidden="true"><path d="M8 1a7 7 0 1 0 0 14A7 7 0 0 0 8 1Zm.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 7.588ZM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"/></svg>
+            Custom icon callout — the icon slot overrides the default variant icon.
+          </aegov-callout>
+        </div>
+      </div>
+
+      <!-- link slot -->
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">slot="link" — inline link (mutually exclusive with actions)</p>
+        <div class="preview-box">
+          <aegov-callout variant="info" appearance="soft">
+            Your password expires in 5 days.
+            <aegov-link slot="link" href="/settings/security">Update password</aegov-link>
+          </aegov-callout>
+        </div>
+      </div>
+
+      <!-- actions slot -->
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">slot="actions" — button actions (mutually exclusive with link)</p>
+        <div class="preview-box">
+          <aegov-callout variant="warning" appearance="soft">
+            Your plan is approaching its storage limit (90% used).
+            <aegov-button slot="actions" variant="primary" appearance="solid" size="sm">Upgrade Plan</aegov-button>
+            <aegov-button slot="actions" variant="neutral-min" appearance="outline" size="sm">Manage Files</aegov-button>
+          </aegov-callout>
+        </div>
+      </div>
+      <!-- @Event: aegovCalloutDismiss fires when the callout is closed via the dismiss button -->
+    </div>
+  </div>
+</section>
+
+<!-- ╔══════════════════════════════╗
+     ║  aegov-banner                ║
+     ╚══════════════════════════════╝ -->
+<section id="banner">
+  <div class="section-card">
+    <div class="section-card-header flex items-start justify-between gap-4">
+      <div>
+        <h2 class="text-base font-semibold text-aeblack-900 dark:text-whitely-100">Banner</h2>
+        <p class="text-xs text-aeblack-500 dark:text-aeblack-400 mt-0.5">
+          Fixed or sticky page-level banners. Each is sandboxed in a <code>position:relative; overflow:hidden</code> wrapper to prevent viewport takeover in this demo.
+        </p>
+      </div>
+      <aegov-badge variant="aegreen" appearance="soft">Feedback</aegov-badge>
+    </div>
+    <div class="section-card-body space-y-6">
+
+      <!-- variant × appearance: soft -->
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">appearance="soft" — all variants</p>
+        <div class="flex flex-col gap-3 preview-box">
+          <div class="prop-item">
+            <span class="prop-attr">variant="default"</span>
+            <div style="position:relative;min-height:60px;overflow:hidden;contain:layout paint size;">
+              <aegov-banner variant="default" appearance="soft" heading="System Update" display="fixed" position="top">
+                Scheduled maintenance on Friday 11 PM. Services will be briefly unavailable.
+              </aegov-banner>
+            </div>
+          </div>
+          <div class="prop-item">
+            <span class="prop-attr">variant="info"</span>
+            <div style="position:relative;min-height:60px;overflow:hidden;contain:layout paint size;">
+              <aegov-banner variant="info" appearance="soft" heading="Information" display="fixed" position="top">
+                A new version of the portal is available. Refresh the page to get the latest features.
+              </aegov-banner>
+            </div>
+          </div>
+          <div class="prop-item">
+            <span class="prop-attr">variant="success"</span>
+            <div style="position:relative;min-height:60px;overflow:hidden;contain:layout paint size;">
+              <aegov-banner variant="success" appearance="soft" heading="Published" display="fixed" position="top">
+                Your application has been published and is now publicly visible.
+              </aegov-banner>
+            </div>
+          </div>
+          <div class="prop-item">
+            <span class="prop-attr">variant="warning"</span>
+            <div style="position:relative;min-height:60px;overflow:hidden;contain:layout paint size;">
+              <aegov-banner variant="warning" appearance="soft" heading="Action Required" display="fixed" position="top">
+                Your account must be verified before you can make transactions. Verify now.
+              </aegov-banner>
+            </div>
+          </div>
+          <div class="prop-item">
+            <span class="prop-attr">variant="error"</span>
+            <div style="position:relative;min-height:60px;overflow:hidden;contain:layout paint size;">
+              <aegov-banner variant="error" appearance="soft" heading="Service Disruption" display="fixed" position="top">
+                Payment processing is currently unavailable. Our team is working to restore it.
+              </aegov-banner>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- appearance: solid -->
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">appearance="solid" — all variants</p>
+        <div class="flex flex-col gap-3 preview-box">
+          <div class="prop-item">
+            <span class="prop-attr">variant="info" solid</span>
+            <div style="position:relative;min-height:60px;overflow:hidden;contain:layout paint size;">
+              <aegov-banner variant="info" appearance="solid" heading="Info Solid" display="fixed" position="top">
+                System is operating normally. No incidents reported.
+              </aegov-banner>
+            </div>
+          </div>
+          <div class="prop-item">
+            <span class="prop-attr">variant="warning" solid</span>
+            <div style="position:relative;min-height:60px;overflow:hidden;contain:layout paint size;">
+              <aegov-banner variant="warning" appearance="solid" heading="Warning Solid" display="fixed" position="top">
+                Data export limits apply. Maximum 10,000 records per export.
+              </aegov-banner>
+            </div>
+          </div>
+          <div class="prop-item">
+            <span class="prop-attr">variant="error" solid</span>
+            <div style="position:relative;min-height:60px;overflow:hidden;contain:layout paint size;">
+              <aegov-banner variant="error" appearance="solid" heading="Error Solid" display="fixed" position="top">
+                Critical: Database connection failed. Contact system administrator.
+              </aegov-banner>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- position: bottom -->
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">position="bottom"</p>
+        <div class="preview-box">
+          <div style="position:relative;min-height:60px;overflow:hidden;contain:layout paint size;">
+            <aegov-banner variant="info" appearance="soft" heading="Cookie Notice" display="fixed" position="bottom">
+              We use cookies to improve your experience. Accept or manage your preferences.
+              <aegov-button slot="actions" variant="primary" appearance="solid" size="sm">Accept All</aegov-button>
+            </aegov-banner>
+          </div>
+        </div>
+      </div>
+
+      <!-- dismissible -->
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">is-dismissible</p>
+        <div class="preview-box">
+          <div style="position:relative;min-height:60px;overflow:hidden;contain:layout paint size;">
+            <aegov-banner variant="info" appearance="soft" heading="New Feature" display="fixed" position="top" is-dismissible>
+              Dashboard analytics v2 is now available. Explore the new charts and filters.
+            </aegov-banner>
+          </div>
+        </div>
+      </div>
+
+      <!-- sizes -->
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">size — sm / base / lg</p>
+        <div class="flex flex-col gap-3 preview-box">
+          <div class="prop-item">
+            <span class="prop-attr">size="sm"</span>
+            <div style="position:relative;min-height:50px;overflow:hidden;contain:layout paint size;">
+              <aegov-banner variant="info" appearance="soft" size="sm" display="fixed" position="top">Small banner — compact header notice.</aegov-banner>
+            </div>
+          </div>
+          <div class="prop-item">
+            <span class="prop-attr">size="base"</span>
+            <div style="position:relative;min-height:60px;overflow:hidden;contain:layout paint size;">
+              <aegov-banner variant="info" appearance="soft" size="base" display="fixed" position="top">Base banner — default sizing.</aegov-banner>
+            </div>
+          </div>
+          <div class="prop-item">
+            <span class="prop-attr">size="lg"</span>
+            <div style="position:relative;min-height:70px;overflow:hidden;contain:layout paint size;">
+              <aegov-banner variant="info" appearance="soft" size="lg" display="fixed" position="top">Large banner — prominent announcements.</aegov-banner>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- actions slot -->
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">slot="actions"</p>
+        <div class="preview-box">
+          <div style="position:relative;min-height:70px;overflow:hidden;contain:layout paint size;">
+            <aegov-banner variant="warning" appearance="soft" heading="Verify Account" display="fixed" position="top" is-dismissible>
+              Complete verification to unlock all features.
+              <aegov-button slot="actions" variant="primary" appearance="solid" size="sm">Verify Now</aegov-button>
+              <aegov-button slot="actions" variant="neutral-min" appearance="outline" size="sm">Remind Later</aegov-button>
+            </aegov-banner>
+          </div>
+        </div>
+      </div>
+      <!-- @Event: aegovBannerDismiss fires when the dismiss button is clicked -->
+      <!-- @Event: aegovBannerHeightChange fires with { detail: number } when banner height changes -->
+    </div>
+  </div>
+</section>
+
+<!-- ╔══════════════════════════════╗
+     ║  aegov-toast                 ║
+     ╚══════════════════════════════╝ -->
+<section id="toast">
+  <div class="section-card">
+    <div class="section-card-header flex items-start justify-between gap-4">
+      <div>
+        <h2 class="text-base font-semibold text-aeblack-900 dark:text-whitely-100">Toast</h2>
+        <p class="text-xs text-aeblack-500 dark:text-aeblack-400 mt-0.5">Transient notifications triggered via <code>.show()</code>. Positions, variants, appearances, duration, and stacking modes.</p>
+      </div>
+      <aegov-badge variant="aegreen" appearance="soft">Feedback</aegov-badge>
+    </div>
+    <div class="section-card-body space-y-6">
+
+      <!-- trigger buttons for all toasts -->
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">Trigger buttons — click to show toasts</p>
+        <div class="flex flex-wrap gap-3 preview-box">
+          <aegov-button variant="neutral-min" appearance="outline" size="sm" id="btn-toast-default">Default toast</aegov-button>
+          <aegov-button variant="primary" appearance="solid" size="sm" id="btn-toast-info">Info toast</aegov-button>
+          <aegov-button variant="secondary" appearance="solid" size="sm" id="btn-toast-success">Success toast</aegov-button>
+          <aegov-button variant="neutral-max" appearance="solid" size="sm" id="btn-toast-warning">Warning toast</aegov-button>
+          <aegov-button variant="danger" appearance="solid" size="sm" id="btn-toast-error">Error toast</aegov-button>
+          <aegov-button variant="primary" appearance="outline" size="sm" id="btn-toast-soft">Soft appearance</aegov-button>
+          <aegov-button variant="primary" appearance="outline" size="sm" id="btn-toast-progress">With progress bar</aegov-button>
+          <aegov-button variant="primary" appearance="outline" size="sm" id="btn-toast-actions">With actions</aegov-button>
+          <aegov-button variant="primary" appearance="outline" size="sm" id="btn-toast-nodismiss">No dismiss (6s)</aegov-button>
+          <aegov-button variant="primary" appearance="outline" size="sm" id="btn-toast-stack">Stack mode x3</aegov-button>
+        </div>
+      </div>
+
+      <!-- position buttons -->
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-aeblack-400 dark:text-aeblack-500 mb-3">All positions</p>
+        <div class="flex flex-wrap gap-3 preview-box">
+          <aegov-button variant="neutral-min" appearance="outline" size="sm" id="btn-toast-tr">top-right</aegov-button>
+          <aegov-button variant="neutral-min" appearance="outline" size="sm" id="btn-toast-tl">top-left</aegov-button>
+          <aegov-button variant="neutral-min" appearance="outline" size="sm" id="btn-toast-tc">top-center</aegov-button>
+          <aegov-button variant="neutral-min" appearance="outline" size="sm" id="btn-toast-br">bottom-right</aegov-button>
+          <aegov-button variant="neutral-min" appearance="outline" size="sm" id="btn-toast-bl">bottom-left</aegov-button>
+          <aegov-button variant="neutral-min" appearance="outline" size="sm" id="btn-toast-bc">bottom-center</aegov-button>
+        </div>
+      </div>
+
+      <!-- hidden toast instances -->
+      <aegov-toast field-id="toast-default" variant="default" appearance="solid" position="top-right" is-dismissible duration="4000">
+        <span slot="title">Notice</span>
+        Default toast notification — neutral information.
+      </aegov-toast>
+
+      <aegov-toast field-id="toast-info" variant="info" appearance="solid" position="top-right" is-dismissible duration="5000">
+        <span slot="title">Session Expiring</span>
+        Your session expires in 10 minutes. Please save your work.
+      </aegov-toast>
+
+      <aegov-toast field-id="toast-success" variant="success" appearance="solid" position="top-right" is-dismissible duration="4000">
+        <span slot="title">Application Submitted</span>
+        Your trade licence application has been received and is under review.
+      </aegov-toast>
+
+      <aegov-toast field-id="toast-warning" variant="warning" appearance="solid" position="top-right" is-dismissible duration="5000">
+        <span slot="title">Storage Limit</span>
+        You have used 90% of your document storage quota.
+      </aegov-toast>
+
+      <aegov-toast field-id="toast-error" variant="error" appearance="solid" position="top-right" is-dismissible duration="6000">
+        <span slot="title">Upload Failed</span>
+        The file could not be uploaded. Check your connection and try again.
+      </aegov-toast>
+
+      <aegov-toast field-id="toast-soft" variant="info" appearance="soft" position="top-right" is-dismissible duration="5000">
+        <span slot="title">Soft Appearance</span>
+        This toast uses the soft appearance style.
+      </aegov-toast>
+
+      <aegov-toast field-id="toast-progress" variant="success" appearance="solid" position="top-right" is-dismissible duration="6000" is-progress-enabled>
+        <span slot="title">Import Complete</span>
+        1,200 records imported successfully. Progress bar shows auto-close timing.
+      </aegov-toast>
+
+      <aegov-toast field-id="toast-actions" variant="warning" appearance="solid" position="top-right" is-dismissible duration="8000">
+        <span slot="title">Unsaved Changes</span>
+        You have unsaved changes that will be lost if you navigate away.
+        <aegov-button slot="actions" variant="primary" appearance="solid" size="sm">Save Now</aegov-button>
+        <aegov-button slot="actions" variant="neutral-min" appearance="outline" size="sm">Discard</aegov-button>
+      </aegov-toast>
+
+      <aegov-toast field-id="toast-nodismiss" variant="info" appearance="soft" position="top-right" duration="6000">
+        <span slot="title">Auto-close Only</span>
+        No dismiss button — closes automatically after 6 seconds.
+      </aegov-toast>
+
+      <!-- position-specific toasts -->
+      <aegov-toast field-id="toast-tr" variant="info" appearance="solid" position="top-right" is-dismissible duration="4000">
+        <span slot="title">top-right</span>Top-right position.
+      </aegov-toast>
+      <aegov-toast field-id="toast-tl" variant="info" appearance="solid" position="top-left" is-dismissible duration="4000">
+        <span slot="title">top-left</span>Top-left position.
+      </aegov-toast>
+      <aegov-toast field-id="toast-tc" variant="info" appearance="solid" position="top-center" is-dismissible duration="4000">
+        <span slot="title">top-center</span>Top-center position.
+      </aegov-toast>
+      <aegov-toast field-id="toast-br" variant="info" appearance="solid" position="bottom-right" is-dismissible duration="4000">
+        <span slot="title">bottom-right</span>Bottom-right position.
+      </aegov-toast>
+      <aegov-toast field-id="toast-bl" variant="info" appearance="solid" position="bottom-left" is-dismissible duration="4000">
+        <span slot="title">bottom-left</span>Bottom-left position.
+      </aegov-toast>
+      <aegov-toast field-id="toast-bc" variant="info" appearance="solid" position="bottom-center" is-dismissible duration="4000">
+        <span slot="title">bottom-center</span>Bottom-center position.
+      </aegov-toast>
+
+      <!-- stack mode toasts -->
+      <aegov-toast field-id="toast-stack-1" variant="info" appearance="solid" position="top-right" is-dismissible mode="stack" duration="5000">
+        <span slot="title">Stack 1</span>First stacked toast.
+      </aegov-toast>
+      <aegov-toast field-id="toast-stack-2" variant="success" appearance="solid" position="top-right" is-dismissible mode="stack" duration="5000">
+        <span slot="title">Stack 2</span>Second stacked toast.
+      </aegov-toast>
+      <aegov-toast field-id="toast-stack-3" variant="warning" appearance="solid" position="top-right" is-dismissible mode="stack" duration="5000">
+        <span slot="title">Stack 3</span>Third stacked toast.
+      </aegov-toast>
+
+    </div>
+  </div>
+</section>
+
+<script>
+(function () {
+  // Helper: show toast by id
+  function showToast(id) {
+    const el = document.getElementById(id);
+    if (el && typeof el.show === 'function') el.show();
+  }
+
+  // Variant toasts
+  document.getElementById('btn-toast-default').addEventListener('aegovButtonClick', () => showToast('toast-default'));
+  document.getElementById('btn-toast-info').addEventListener('aegovButtonClick', () => showToast('toast-info'));
+  document.getElementById('btn-toast-success').addEventListener('aegovButtonClick', () => showToast('toast-success'));
+  document.getElementById('btn-toast-warning').addEventListener('aegovButtonClick', () => showToast('toast-warning'));
+  document.getElementById('btn-toast-error').addEventListener('aegovButtonClick', () => showToast('toast-error'));
+  document.getElementById('btn-toast-soft').addEventListener('aegovButtonClick', () => showToast('toast-soft'));
+  document.getElementById('btn-toast-progress').addEventListener('aegovButtonClick', () => showToast('toast-progress'));
+  document.getElementById('btn-toast-actions').addEventListener('aegovButtonClick', () => showToast('toast-actions'));
+  document.getElementById('btn-toast-nodismiss').addEventListener('aegovButtonClick', () => showToast('toast-nodismiss'));
+
+  // Stack mode: show all 3
+  document.getElementById('btn-toast-stack').addEventListener('aegovButtonClick', () => {
+    showToast('toast-stack-1');
+    setTimeout(() => showToast('toast-stack-2'), 200);
+    setTimeout(() => showToast('toast-stack-3'), 400);
+  });
+
+  // Position toasts
+  document.getElementById('btn-toast-tr').addEventListener('aegovButtonClick', () => showToast('toast-tr'));
+  document.getElementById('btn-toast-tl').addEventListener('aegovButtonClick', () => showToast('toast-tl'));
+  document.getElementById('btn-toast-tc').addEventListener('aegovButtonClick', () => showToast('toast-tc'));
+  document.getElementById('btn-toast-br').addEventListener('aegovButtonClick', () => showToast('toast-br'));
+  document.getElementById('btn-toast-bl').addEventListener('aegovButtonClick', () => showToast('toast-bl'));
+  document.getElementById('btn-toast-bc').addEventListener('aegovButtonClick', () => showToast('toast-bc'));
+
+  // @Event: aegovToastOpen fires when the toast becomes visible
+  // @Event: aegovToastClose fires when the toast finishes closing (auto or programmatic)
+  // @Event: aegovToastDismiss fires when the dismiss (×) button is clicked
+})();
+</script>

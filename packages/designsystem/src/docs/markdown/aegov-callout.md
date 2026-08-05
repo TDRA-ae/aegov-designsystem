@@ -269,7 +269,7 @@ When the variant icon does not fit your message — for example, a ministry-spec
 
 ## Combined Example
 
-This example combines all the available slots — variant icon (default), content, actions, dismiss button, and inline link — to build a rich service-status callout.
+This example combines the main available slots — variant icon (default), content, action buttons, and dismiss button — to build a rich service-status callout. The `actions` and `link` slots are mutually exclusive; this example uses `actions` only.
 
 ```html
 <aegov-callout variant="warning" appearance="soft" is-dismissible>
@@ -280,7 +280,6 @@ This example combines all the available slots — variant icon (default), conten
     <aegov-button size="sm">Resume application</aegov-button>
     <aegov-button size="sm" appearance="outline">Save for later</aegov-button>
   </div>
-  <a slot="link" href="/help/required-documents">Which documents?</a>
 </aegov-callout>
 ```
 
@@ -293,7 +292,6 @@ This example combines all the available slots — variant icon (default), conten
       <aegov-button size="sm">Resume application</aegov-button>
       <aegov-button size="sm" appearance="outline">Save for later</aegov-button>
     </div>
-    <a slot="link" href="#">Which documents?</a>
   </aegov-callout>
 </div>
 
@@ -350,10 +348,12 @@ The callout is direction-agnostic. The icon sits at the inline-start edge, conte
 
 | Slot      | Description                                                                                  |
 | --------- | -------------------------------------------------------------------------------------------- |
-| `icon`    | Custom leading icon. When omitted, a variant-specific default icon is rendered automatically. |
-| `content` | The main message content (paragraphs, headings, inline formatting).                          |
-| `actions` | Action buttons rendered below the content.                                                   |
-| `link`    | Inline link rendered on the trailing side, before the dismiss button.                        |
+| _(default)_ | The main message content (paragraphs, headings, inline formatting).                          |
+| `icon`      | Custom leading icon. When omitted, a variant-specific default icon is rendered automatically. |
+| `actions`   | A group of buttons or links rendered below the content. **Mutually exclusive with `link`.**  |
+| `link`      | A single `aegov-link` (or `<a>`) on the trailing side, before the dismiss button. **Mutually exclusive with `actions`.**  |
+
+> **Note — `actions` and `link` are mutually exclusive.** Use `actions` when you need one or more buttons or links below the message. Use `link` when a single inline anchor on the trailing side is sufficient. Providing both in the same callout is not supported.
 
 ### Events
 

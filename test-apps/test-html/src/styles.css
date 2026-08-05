@@ -2,4 +2,8 @@
 @import "@aegov/designsystem/base";
 @import "@aegov/designsystem/theme";
 
+/* Match the component dark-mode strategy so page-level dark: utilities respond to .dark on <html> */
+@custom-variant dark (&:where(.dark, .dark *));
+
+
 

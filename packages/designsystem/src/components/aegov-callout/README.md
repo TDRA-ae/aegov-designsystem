@@ -38,9 +38,12 @@ Callouts (also known as alerts or notifications) draw attention to important inf
 
 ## Slots
 
-| Slot        | Description                     |
-| ----------- | ------------------------------- |
-| `"default"` | The main content of the callout |
+| Slot        | Description                                                                                                                |
+| ----------- | -------------------------------------------------------------------------------------------------------------------------- |
+| `"actions"` | A group of buttons or links rendered below the content. Mutually exclusive with the link slot.                             |
+| `"default"` | The main content of the callout                                                                                            |
+| `"icon"`    | Custom icon replacing the default variant icon. Use an SVG or aegov-icon element.                                          |
+| `"link"`    | A single aegov-link (or anchor) on the trailing side, before the dismiss button. Mutually exclusive with the actions slot. |
 
 
 ----------------------------------------------

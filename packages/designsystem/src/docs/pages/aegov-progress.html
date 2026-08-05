@@ -216,7 +216,7 @@
 <tbody><tr>
 <td><code>fieldId</code></td>
 <td><code>field-id</code></td>
-<td>DOM <code>id</code> for the hidden native <code>&lt;progress&gt;</code> element. Auto-generated if omitted.</td>
+<td>DOM <code>id</code> for the hidden native <code>&lt;progress&gt;</code> element. Auto-generated if omitted. The resolved ID (whether provided or auto-generated) is reflected back as an attribute on the host element, so external <code>&lt;label for=&quot;...&quot;&gt;</code> elements can reference it directly.</td>
 <td><code>string</code></td>
 <td><em>generated</em></td>
 </tr>
@@ -254,6 +254,13 @@
 <td>Suffix appended directly to the counter value (no automatic spacing).</td>
 <td><code>string</code></td>
 <td><code>&#39;&#39;</code></td>
+</tr>
+<tr>
+<td><code>label</code></td>
+<td><code>label</code></td>
+<td>Accessible label applied as <code>aria-label</code> on the native <code>&lt;progress&gt;</code> element. Provide this or a visible <code>&lt;label for=&quot;fieldId&quot;&gt;</code> — a console warning fires if neither is present.</td>
+<td><code>string</code></td>
+<td><code>undefined</code></td>
 </tr>
 <tr>
 <td><code>description</code></td>
@@ -330,7 +337,7 @@
 <li>Provide a label for the progress bar via <code>aegov-label</code> (inside <code>aegov-form-field</code>), <code>aria-label</code>, or <code>aria-labelledby</code> so screen-reader users know what the progress represents.</li>
 <li>For long-running indeterminate operations, switch to a determinate value as soon as one is known so users can estimate completion.</li>
 <li>Use the <code>description</code> prop or a sibling element with <code>aria-live=&quot;polite&quot;</code> to announce state changes (e.g. &quot;Upload complete&quot;).</li>
-<li>The visible counter is decorative — for assistive-technology-only text, set <code>aria-valuetext</code> via pass-through (e.g. <code>aria-valuetext=&quot;6 of 8 documents uploaded&quot;</code>).</li>
+<li>When <code>counterSuffix</code> is non-empty and the bar is determinate, the component automatically sets <code>aria-valuetext</code> on the native <code>&lt;progress&gt;</code> element (e.g. <code>&quot;75%&quot;</code>), so no manual pass-through is needed for standard counter suffixes. Set <code>aria-valuetext</code> manually via pass-through only when you need a custom human-readable description that goes beyond what <code>counterSuffix</code> provides (e.g. <code>aria-valuetext=&quot;6 of 8 documents uploaded&quot;</code>).</li>
 </ul>
 <h3>Notes</h3>
 <ul>

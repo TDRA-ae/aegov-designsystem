@@ -354,7 +354,7 @@
 
 <hr>
 <h2>Listening for value events</h2>
-<p>The component emits four events: <code>aegovInputValue</code> on every keystroke, <code>aegovInputChange</code> when the value commits (typically on blur or Enter), <code>aegovInputFocus</code>, and <code>aegovInputBlur</code>. Use <code>input</code> for live validation hints and <code>change</code> for committed-value side effects.</p>
+<p>The component emits five events: <code>aegovInputValue</code> on every keystroke, <code>aegovInputChange</code> when the value commits (typically on blur or Enter), <code>aegovInputFocus</code>, <code>aegovInputBlur</code>, and <code>aegovValidate</code> when validation runs. Use <code>input</code> for live validation hints and <code>change</code> for committed-value side effects.</p>
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-input</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;eid&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;Emirates ID number&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aegov-input</span>&gt;</span>
 
 <span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript">
@@ -498,6 +498,27 @@
 <td><code>false</code></td>
 </tr>
 <tr>
+<td><code>isInvalid</code></td>
+<td><code>is-invalid</code></td>
+<td>Puts the field into error state.</td>
+<td><code>boolean</code></td>
+<td><code>false</code></td>
+</tr>
+<tr>
+<td><code>errorMessage</code></td>
+<td><code>error-message</code></td>
+<td>Inline error text shown below the field when <code>isInvalid</code> is true.</td>
+<td><code>string</code></td>
+<td><code>&#39;&#39;</code></td>
+</tr>
+<tr>
+<td><code>hint</code></td>
+<td><code>hint</code></td>
+<td>Inline hint text shown below the field when not in error state.</td>
+<td><code>string</code></td>
+<td><code>&#39;&#39;</code></td>
+</tr>
+<tr>
 <td><code>extraClass</code></td>
 <td><code>extra-class</code></td>
 <td>Additional CSS classes applied to the native <code>&lt;input&gt;</code>.</td>
@@ -530,6 +551,13 @@
 <td>Colour family, cascades to inner <code>aegov-input</code> and shifts the addon stripe colour.</td>
 <td><code>&#39;primary&#39; | &#39;secondary&#39; | &#39;neutral-max&#39; | &#39;neutral-min&#39;</code></td>
 <td><code>&#39;primary&#39;</code></td>
+</tr>
+<tr>
+<td><code>groupLabel</code></td>
+<td><code>group-label</code></td>
+<td>Accessible label for the input group wrapper.</td>
+<td><code>string</code></td>
+<td><code>undefined</code></td>
 </tr>
 <tr>
 <td><code>addonPrefix</code></td>
@@ -573,6 +601,16 @@
 <td>Icon shown after the input value (hidden when a reveal/copy button is active).</td>
 </tr>
 <tr>
+<td><code>aegov-input</code></td>
+<td><code>error</code></td>
+<td>Rich HTML error markup shown when <code>isInvalid</code> is true. Supersedes <code>error-message</code> prop.</td>
+</tr>
+<tr>
+<td><code>aegov-input</code></td>
+<td><code>hint</code></td>
+<td>Rich HTML hint markup shown when not in error state. Supersedes <code>hint</code> prop.</td>
+</tr>
+<tr>
 <td><code>aegov-input-group</code></td>
 <td><em>(default)</em></td>
 <td>Place an <code>aegov-input</code> (and optionally an <code>aegov-button</code>) here.</td>
@@ -611,6 +649,12 @@
 <td><code>aegov-input</code></td>
 <td><code>FocusEvent</code></td>
 <td>Fires when the input loses focus.</td>
+</tr>
+<tr>
+<td><code>aegovValidate</code></td>
+<td><code>aegov-input</code></td>
+<td><code>AegovValidationDetail&lt;string&gt;</code></td>
+<td>Fires when the input validates. Detail includes <code>name</code>, <code>value</code>, <code>validity</code>, <code>validationMessage</code>, <code>customError</code>, <code>trigger</code>.</td>
 </tr>
 </tbody></table>
 <h3>Pass-through Attributes</h3>

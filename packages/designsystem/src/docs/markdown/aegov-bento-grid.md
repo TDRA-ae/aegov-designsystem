@@ -112,6 +112,8 @@ Unset attributes fall back to span 1.
 The `gap` prop accepts a named size — `none`, `xs`, `sm`, `md` (default), `lg`, `xl` — and supports responsive syntax. Sizes map to a fixed token: `none=0`, `xs=0.25rem`, `sm=0.5rem`, `md=1rem`, `lg=1.5rem`, `xl=2rem`.
 
 ```html
+<aegov-bento-grid cols="3" gap="sm">…</aegov-bento-grid>
+<aegov-bento-grid cols="3" gap="md">…</aegov-bento-grid>
 <aegov-bento-grid cols="3" gap="lg">…</aegov-bento-grid>
 <aegov-bento-grid cols="3" gap="sm md:lg">…</aegov-bento-grid>
 ```
@@ -119,6 +121,13 @@ The `gap` prop accepts a named size — `none`, `xs`, `sm`, `md` (default), `lg`
 <div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <p class="mb-2 text-sm text-aeblack-500">gap="sm"</p>
   <aegov-bento-grid cols="3" gap="sm">
+    <aegov-card appearance="light"><aegov-text>One</aegov-text></aegov-card>
+    <aegov-card appearance="light"><aegov-text>Two</aegov-text></aegov-card>
+    <aegov-card appearance="light"><aegov-text>Three</aegov-text></aegov-card>
+  </aegov-bento-grid>
+
+  <p class="mt-6 mb-2 text-sm text-aeblack-500">gap="md"</p>
+  <aegov-bento-grid cols="3" gap="md">
     <aegov-card appearance="light"><aegov-text>One</aegov-text></aegov-card>
     <aegov-card appearance="light"><aegov-text>Two</aegov-text></aegov-card>
     <aegov-card appearance="light"><aegov-text>Three</aegov-text></aegov-card>
@@ -214,7 +223,7 @@ These are read by `aegov-bento-grid` and applied as inline grid spans on each di
 | ---------------- | ---------- | ------------------------------------------------------------------------------ |
 | `aria-*`         | Yes        | Forwarded to the inner grid wrapper. Use `aria-label` to describe the cluster. |
 | `data-*`         | Yes        | Forwarded to the inner wrapper (excluding the per-child span attributes).      |
-| `id`             | Yes        | Forwarded to the inner wrapper via `fieldId`.                                  |
+| `id`             | No         | Use `field-id` instead — the `id` HTML attribute is not forwarded through.     |
 
 ---
 
