@@ -305,7 +305,7 @@ export class AegovInput {
     return (INPUT_TYPES as readonly string[]).includes(this.type) ? this.type : 'text';
   }
 
-  private getInputClasses(hasIconStart: boolean, hasIconEnd: boolean): string {
+  private getInputClasses(hasIconStart: boolean, hasIconEnd: boolean, hasMultiIconEnd: boolean = false): string {
     const classes: string[] = ['aegov-input'];
 
     const sizeClasses: Record<InputSize, string> = {
@@ -331,6 +331,7 @@ export class AegovInput {
 
     if (hasIconEnd) {
       classes.push('input--has-icon-end');
+      if (hasMultiIconEnd) classes.push('input--has-multi-icon-end');
     }
 
     if (this.extraClass) {
@@ -495,8 +496,10 @@ export class AegovInput {
     delete passThroughAttributes['aria-invalid'];
     delete passThroughAttributes['aria-describedby'];
     const hasIconStart = !!this.el.querySelector('[slot="icon-start"]');
-    const hasIconEndContent = !!this.el.querySelector('[slot="icon-end"]');
+    const iconEndSlotted = this.el.querySelectorAll('[slot="icon-end"]');
+    const hasIconEndContent = iconEndSlotted.length > 0;
     const hasIconEnd = hasIconEndContent && !this.hasActionButton;
+    const hasMultiIconEnd = iconEndSlotted.length >= 2 && hasIconEnd;
     const needsWrapper = this.hasActionButton || hasIconStart || hasIconEnd || hasIconEndContent;
     const hasErrorSlot = !!this.el.querySelector('[slot="error"]');
     const hasHintSlot = !!this.el.querySelector('[slot="hint"]');
@@ -518,7 +521,7 @@ export class AegovInput {
         ref={el => (this.nativeRef = el)}
         id={this.fieldId}
         type={this.resolvedType}
-        class={this.getInputClasses(hasIconStart, hasIconEnd)}
+        class={this.getInputClasses(hasIconStart, hasIconEnd, hasMultiIconEnd)}
         disabled={this.isDisabled}
         readOnly={this.isReadonly}
         placeholder={this.placeholder}
