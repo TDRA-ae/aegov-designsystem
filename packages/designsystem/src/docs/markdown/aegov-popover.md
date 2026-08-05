@@ -169,6 +169,23 @@ When the popover is set to `trigger="hover"`, `delay-start` (default 200 ms) con
 </aegov-popover>
 ```
 
+<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <div class="flex flex-wrap gap-6 items-center justify-center py-8">
+    <aegov-popover trigger="hover" delay-start="200" position="bottom">
+      <aegov-button variant="secondary">Default delay (200 ms)</aegov-button>
+      <div slot="popover-content">Opens after the default 200 ms hover delay.</div>
+    </aegov-popover>
+    <aegov-popover trigger="hover" delay-start="500" position="bottom">
+      <aegov-button variant="secondary">Slow appearance (500 ms)</aegov-button>
+      <div slot="popover-content">Appears after 500 ms of sustained hover.</div>
+    </aegov-popover>
+    <aegov-popover trigger="hover" delay-start="0" delay-end="300" position="bottom">
+      <aegov-button variant="secondary">Slow hide (300 ms)</aegov-button>
+      <div slot="popover-content">Stays open for 300 ms after the cursor leaves.</div>
+    </aegov-popover>
+  </div>
+</div>
+
 ---
 
 ## Gap and Offset
@@ -186,6 +203,68 @@ When the popover is set to `trigger="hover"`, `delay-start` (default 200 ms) con
   <div slot="popover-content">A larger gap from the trigger.</div>
 </aegov-popover>
 ```
+
+<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <div class="flex flex-wrap gap-8 items-center justify-center py-8">
+    <aegov-popover position="bottom" gap="2">
+      <aegov-button variant="secondary">Tight (gap 2)</aegov-button>
+      <div slot="popover-content">Snug to the trigger — only 2 px gap.</div>
+    </aegov-popover>
+    <aegov-popover position="bottom" gap="10">
+      <aegov-button variant="secondary">Default (gap 10)</aegov-button>
+      <div slot="popover-content">The default 10 px gap from the trigger.</div>
+    </aegov-popover>
+    <aegov-popover position="bottom" gap="20">
+      <aegov-button variant="secondary">Loose (gap 20)</aegov-button>
+      <div slot="popover-content">A larger 20 px gap from the trigger.</div>
+    </aegov-popover>
+    <aegov-popover position="bottom" gap="10" offset="40">
+      <aegov-button variant="secondary">Offset (40)</aegov-button>
+      <div slot="popover-content">Shifted 40 px along the cross-axis with offset.</div>
+    </aegov-popover>
+  </div>
+</div>
+
+---
+
+## Disabled State
+
+Set `is-disabled` to prevent the popover from opening at all. The trigger is still rendered and remains in the tab order — only the popover behaviour is suppressed. Use this when the action the popover supports is conditionally unavailable, for example while a form section is locked or a permission is missing.
+
+```html
+<!-- Popover is fully functional -->
+<aegov-popover position="bottom">
+  <aegov-button variant="secondary">Enabled</aegov-button>
+  <div slot="popover-content">This popover opens normally.</div>
+</aegov-popover>
+
+<!-- Popover is disabled — clicking or hovering has no effect -->
+<aegov-popover position="bottom" is-disabled>
+  <aegov-button variant="secondary" disabled>Disabled</aegov-button>
+  <div slot="popover-content">This content is never shown.</div>
+</aegov-popover>
+```
+
+You can also toggle the property programmatically:
+
+```js
+const popover = document.querySelector('aegov-popover');
+popover.isDisabled = true;   // suppress
+popover.isDisabled = false;  // re-enable
+```
+
+<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <div class="flex flex-wrap gap-6 items-center justify-center py-8">
+    <aegov-popover position="bottom">
+      <aegov-button variant="secondary">Enabled popover</aegov-button>
+      <div slot="popover-content">This popover opens normally — click or hover.</div>
+    </aegov-popover>
+    <aegov-popover position="bottom" is-disabled>
+      <aegov-button variant="secondary" disabled>Disabled popover</aegov-button>
+      <div slot="popover-content">This content is never shown while is-disabled is set.</div>
+    </aegov-popover>
+  </div>
+</div>
 
 ---
 
@@ -350,6 +429,12 @@ The popover follows the document direction. The internal layout of the panel mir
 | ---------------------- | ------ | ---------------------------------------------------- |
 | `aegovPopoverOpen`     | `void` | Fired when the popover transitions to the open state. |
 | `aegovPopoverClose`    | `void` | Fired when the popover transitions to the closed state. |
+
+### Methods
+
+| Method             | Returns         | Description                                      |
+| ------------------ | --------------- | ------------------------------------------------ |
+| `closePopover()`   | `Promise<void>` | Programmatically close the popover if it is open. |
 
 ### Pass-through Attributes
 

@@ -118,11 +118,19 @@
 </span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre><hr>
 <h2>Sizes</h2>
 <p>The <code>size</code> property is enforced on every child <code>aegov-avatar</code> — individual <code>size</code> settings on children are overridden. Accepts <code>xs</code>, <code>sm</code>, <code>base</code> (default), <code>lg</code>, <code>xl</code>, <code>2xl</code>, <code>3xl</code>, or a Tailwind-style responsive string.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar-group</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm&quot;</span>&gt;</span>…<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar-group</span>&gt;</span>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar-group</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;xs&quot;</span>&gt;</span>…<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar-group</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar-group</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm&quot;</span>&gt;</span>…<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar-group</span>&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar-group</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;base&quot;</span>&gt;</span>…<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar-group</span>&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar-group</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;lg&quot;</span>&gt;</span>…<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar-group</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar-group</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;xl&quot;</span>&gt;</span>…<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar-group</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar-group</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;xl&quot;</span>&gt;</span>…<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar-group</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar-group</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;2xl&quot;</span>&gt;</span>…<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar-group</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-avatar-group</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;3xl&quot;</span>&gt;</span>…<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-avatar-group</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <div style="display:flex;flex-direction:column;gap:1rem;">
+    <aegov-avatar-group variant="compact" size="xs" more-count="5">
+      <aegov-avatar src="https://i.pravatar.cc/150?img=12" alt="Khalid"></aegov-avatar>
+      <aegov-avatar src="https://i.pravatar.cc/150?img=32" alt="Fatima"></aegov-avatar>
+      <aegov-avatar src="https://i.pravatar.cc/150?img=58" alt="Yousef"></aegov-avatar>
+    </aegov-avatar-group>
     <aegov-avatar-group variant="compact" size="sm" more-count="5">
       <aegov-avatar src="https://i.pravatar.cc/150?img=12" alt="Khalid"></aegov-avatar>
       <aegov-avatar src="https://i.pravatar.cc/150?img=32" alt="Fatima"></aegov-avatar>
@@ -139,6 +147,16 @@
       <aegov-avatar src="https://i.pravatar.cc/150?img=58" alt="Yousef"></aegov-avatar>
     </aegov-avatar-group>
     <aegov-avatar-group variant="compact" size="xl" more-count="5">
+      <aegov-avatar src="https://i.pravatar.cc/150?img=12" alt="Khalid"></aegov-avatar>
+      <aegov-avatar src="https://i.pravatar.cc/150?img=32" alt="Fatima"></aegov-avatar>
+      <aegov-avatar src="https://i.pravatar.cc/150?img=58" alt="Yousef"></aegov-avatar>
+    </aegov-avatar-group>
+    <aegov-avatar-group variant="compact" size="2xl" more-count="5">
+      <aegov-avatar src="https://i.pravatar.cc/150?img=12" alt="Khalid"></aegov-avatar>
+      <aegov-avatar src="https://i.pravatar.cc/150?img=32" alt="Fatima"></aegov-avatar>
+      <aegov-avatar src="https://i.pravatar.cc/150?img=58" alt="Yousef"></aegov-avatar>
+    </aegov-avatar-group>
+    <aegov-avatar-group variant="compact" size="3xl" more-count="5">
       <aegov-avatar src="https://i.pravatar.cc/150?img=12" alt="Khalid"></aegov-avatar>
       <aegov-avatar src="https://i.pravatar.cc/150?img=32" alt="Fatima"></aegov-avatar>
       <aegov-avatar src="https://i.pravatar.cc/150?img=58" alt="Yousef"></aegov-avatar>
@@ -339,7 +357,7 @@
     <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;Open the full team list&#x27;</span>);
   });
 </span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre><h3>Pass-through Attributes</h3>
-<p>The avatar group does not forward attributes to inner elements — set attributes directly on the host where they are needed. Use <code>aria-label</code> on the host to override the default group label when the cluster represents a named team or project.</p>
+<p>The avatar group does not forward attributes to inner elements — set attributes directly on the host where they are needed. Note that <code>aria-label</code> applied to the host element is not guaranteed to be exposed across the Shadow DOM boundary in all browsers and assistive technologies; the component provides its own internal group label via the Shadow DOM container.</p>
 <table>
 <thead>
 <tr>
@@ -375,7 +393,7 @@
 <h3>Developer responsibilities</h3>
 <ul>
 <li>Provide a meaningful <code>alt</code> on every child avatar — the group&#39;s container label alone is not enough to identify individual people.</li>
-<li>When the group represents a specific named team or project, override the default <code>aria-label</code> on the host (e.g. <code>aria-label=&quot;Smart City team members&quot;</code>) so the cluster&#39;s purpose is clear.</li>
+<li>The component provides a built-in accessible label (&quot;Avatar group&quot;) via <code>aria-label</code> on the internal Shadow DOM container. A host-level <code>aria-label</code> is not reliably propagated across the Shadow DOM boundary in all browsers and assistive technologies, so it is not a supported way to customise the group label. The component does not currently expose a prop to override the internal label; if a custom group label is required, note this limitation.</li>
 <li>If the <code>+N</code> button opens a modal or navigates away, follow the relevant accessibility guidance for that destination — focus management, return focus, and labelled headings.</li>
 <li>Avoid placing too many avatars in a <code>compact</code> cluster — the overlapping arrangement makes individual avatars harder to identify visually. Use <code>more-count</code> to off-load the long tail to a dedicated list.</li>
 </ul>

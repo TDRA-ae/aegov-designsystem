@@ -252,6 +252,54 @@ The `size` property sets the heading typography. Three tokens are available: `sm
 
 ---
 
+## Heading Level
+
+The `heading-level` property controls which HTML heading element (`<h1>`–`<h6>`) wraps each trigger button. Setting the correct level keeps the page outline meaningful for screen readers. The default is `h3`; use `heading-level="2"` when the accordion is the primary content structure on a page, or a higher number when it sits inside an existing heading hierarchy.
+
+```html
+<!-- Triggers render inside <h2> elements -->
+<aegov-accordion heading-level="2">
+  <aegov-accordion-item heading="Trade licence application">
+    Submit your application through the business licensing portal.
+  </aegov-accordion-item>
+  <aegov-accordion-item heading="Processing details">
+    Standard applications are processed within 5–7 working days.
+  </aegov-accordion-item>
+</aegov-accordion>
+
+<!-- Default heading level (h3) -->
+<aegov-accordion>
+  <aegov-accordion-item heading="Contact information">
+    Reach us on 800-UAE-GOV or visit any service centre.
+  </aegov-accordion-item>
+</aegov-accordion>
+
+<!-- Triggers render inside <h4> elements — inside an h3 section -->
+<aegov-accordion heading-level="4">
+  <aegov-accordion-item heading="Eligibility criteria">
+    All UAE residents and nationals aged 18 and above are eligible.
+  </aegov-accordion-item>
+</aegov-accordion>
+```
+
+<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <p class="text-sm font-semibold text-aeblack-500 mb-3">heading-level="2"</p>
+  <aegov-accordion heading-level="2">
+    <aegov-accordion-item heading="Trade licence application">Submit your application through the business licensing portal.</aegov-accordion-item>
+    <aegov-accordion-item heading="Processing details">Standard applications are processed within 5–7 working days.</aegov-accordion-item>
+  </aegov-accordion>
+  <p class="text-sm font-semibold text-aeblack-500 mt-8 mb-3">heading-level="3" (default)</p>
+  <aegov-accordion>
+    <aegov-accordion-item heading="Contact information">Reach us on 800-UAE-GOV or visit any service centre.</aegov-accordion-item>
+  </aegov-accordion>
+  <p class="text-sm font-semibold text-aeblack-500 mt-8 mb-3">heading-level="4"</p>
+  <aegov-accordion heading-level="4">
+    <aegov-accordion-item heading="Eligibility criteria">All UAE residents and nationals aged 18 and above are eligible.</aegov-accordion-item>
+  </aegov-accordion>
+</div>
+
+---
+
 ## Custom Heading Slot
 
 When the trigger needs richer markup — formatting, an inline icon, a status badge — use the `accordion-item-heading` slot instead of the `heading` property. The slot replaces the plain text heading entirely.
@@ -296,7 +344,7 @@ When the trigger needs richer markup — formatting, an inline icon, a status ba
 
 ## Disabled Items
 
-Set `is-disabled="true"` on an individual item to prevent it from being opened. The trigger renders as visually muted and is removed from the keyboard tab order.
+Set `is-disabled="true"` on an individual item to prevent it from being opened. The trigger renders as visually muted and remains focusable, but is marked with `aria-disabled="true"` to communicate its disabled state to assistive technology.
 
 ```html
 <aegov-accordion>
@@ -401,34 +449,47 @@ A nested accordion is the ablity to place a single accordion element inside the 
 
 ---
 
-## Rich text enabled
+## Rich Text Content
 
-The `aegov-accordion-item` is a slot that will accept HTML directly as well. you may therefore add text that is styled as a list, paragraph or more.
+The default slot of `aegov-accordion-item` accepts any HTML — lists, paragraphs, tables, or nested components. The content panel expands to fit whatever you place inside it.
 
+```html
 <aegov-accordion>
-  <aegov-accordion-item heading="Specifications">
-    <p>To repair the Kirby, you need the following items that mean specefications</p>
+  <aegov-accordion-item heading="Required documents">
+    <p>Submit the following when applying for a trade licence:</p>
     <ul>
-      <li>A 55 mm plugable chain</li>
-      <li>Original cleaning brush</li>
-      <li>60 ml of cleaning liquid</li>
+      <li>Completed application form</li>
+      <li>Emirates ID (both sides)</li>
+      <li>Passport copy</li>
+      <li>Proof of business address</li>
     </ul>
-    <p>It is essentially to have all of the above placed in the correct container before proceeding with the repair.</p>
+    <p>Additional documents may be requested depending on the business activity type.</p>
   </aegov-accordion-item>
-  <aegov-accordion-item heading="Hardware">
-    <p class="mb-6">Obtain the hardware from an authorised dealership only. Since you are located in Dubai, United Arab Emirates, here is the nearest dealship to you.</p>
-    <div class="flex items-start justify-start gap-8 pt-8">
-      <div class="bg-aeblack-500 w-60 h-48">&nbsp;</div>
-      <div>
-        <h6>Headoffice locaton</h6>
-        <p>17A Street, Al Habtoor Building<br>Umm Ramool,<br>Dubai, United Arab Emirates</p>
-      </div>
-    </div>
-  </aegov-accordion-item>
-  <aegov-accordion-item heading="Software">
-    <p>All software must be downloaded form our portal</p>
+  <aegov-accordion-item heading="Processing time">
+    Standard applications are processed within <strong>5–7 working days</strong>.
+    Priority processing reduces this to <strong>2–3 working days</strong> for an additional fee.
   </aegov-accordion-item>
 </aegov-accordion>
+```
+
+<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-accordion>
+    <aegov-accordion-item heading="Required documents">
+      <p>Submit the following when applying for a trade licence:</p>
+      <ul>
+        <li>Completed application form</li>
+        <li>Emirates ID (both sides)</li>
+        <li>Passport copy</li>
+        <li>Proof of business address</li>
+      </ul>
+      <p>Additional documents may be requested depending on the business activity type.</p>
+    </aegov-accordion-item>
+    <aegov-accordion-item heading="Processing time">
+      Standard applications are processed within <strong>5–7 working days</strong>.
+      Priority processing reduces this to <strong>2–3 working days</strong> for an additional fee.
+    </aegov-accordion-item>
+  </aegov-accordion>
+</div>
 
 
 ---
@@ -501,6 +562,7 @@ The same accordion with the plus icon and multi-open behaviour, in RTL:
 | `icon`        | `icon`         | Toggle indicator style — `chevron` rotates, `plus` swaps to a minus.        | `'chevron' \| 'plus'` | `'chevron'` |
 | `isBordered`  | `is-bordered`  | Adds an outer border and rounded corners around the entire accordion.       | `boolean`             | `false`     |
 | `size`        | `size`         | Heading typography size. Accepts a single token or a responsive string.     | `string`              | `'base'`    |
+| `headingLevel` | `heading-level` | HTML heading element (1–6) wrapping each trigger button. Cascaded to all items. | `number`         | `3`         |
 
 ### aegov-accordion-item Properties
 
@@ -513,6 +575,7 @@ The same accordion with the plus icon and multi-open behaviour, in RTL:
 | `isFirst`    | `is-first`    | _Set by the parent._ Whether this is the first item in the group.         | `boolean`                  | `false`     |
 | `isLast`     | `is-last`     | _Set by the parent._ Whether this is the last item in the group.          | `boolean`                  | `false`     |
 | `size`       | `size`        | _Set by the parent._ Heading typography size.                             | `'sm' \| 'base' \| 'lg'`   | `'base'`    |
+| `headingLevel` | `heading-level` | Heading element (1–6) wrapping the trigger button. Cascaded from the parent; can be overridden per-item. | `number` | `3` |
 
 > Properties marked _Set by the parent_ are written automatically by `aegov-accordion`. Setting them on an item directly will be overridden on the next sync.
 
@@ -534,13 +597,16 @@ The same accordion with the plus icon and multi-open behaviour, in RTL:
 
 ```html
 <aegov-accordion id="faq">
-  <aegov-accordion-item heading="A">A</aegov-accordion-item>
-  <aegov-accordion-item heading="B">B</aegov-accordion-item>
+  <aegov-accordion-item id="faq-a" heading="A">A</aegov-accordion-item>
+  <aegov-accordion-item id="faq-b" heading="B">B</aegov-accordion-item>
 </aegov-accordion>
 
 <script>
-  document.querySelector('#faq').addEventListener('aegovAccordionItemToggle', (e) => {
-    console.log('Item toggle requested, open =', e.detail.open);
+  // aegovAccordionItemToggle has bubbles: false, so listen on each item directly.
+  document.querySelectorAll('#faq aegov-accordion-item').forEach((item) => {
+    item.addEventListener('aegovAccordionItemToggle', (e) => {
+      console.log('Item toggle requested, open =', e.detail.open);
+    });
   });
 </script>
 ```
@@ -567,7 +633,7 @@ The accordion does not forward any attributes to inner elements — set attribut
 - `Enter` and `Space` toggle the focused item.
 - Arrow-key navigation (`ArrowUp` / `ArrowDown` / `Home` / `End`) moves focus between item triggers, matching the [WAI-ARIA Accordion pattern](https://www.w3.org/WAI/ARIA/apg/patterns/accordion/).
 - Collapsed panels have the HTML `inert` attribute applied to their content wrapper. This removes all child elements — buttons, links, inputs — from both the keyboard tab sequence and the accessibility tree simultaneously, so there is no focus leakage into hidden content.
-- Disabled items set the native `disabled` attribute on the trigger and do not emit toggle events.
+- Disabled items set `aria-disabled="true"` on the trigger (rather than the native `disabled` attribute) and do not emit toggle events.
 
 ### Developer responsibilities
 

@@ -102,10 +102,19 @@
 <hr>
 <h2>Gap</h2>
 <p>The <code>gap</code> prop accepts a named size — <code>none</code>, <code>xs</code>, <code>sm</code>, <code>md</code> (default), <code>lg</code>, <code>xl</code> — and supports responsive syntax. Sizes map to a fixed token: <code>none=0</code>, <code>xs=0.25rem</code>, <code>sm=0.5rem</code>, <code>md=1rem</code>, <code>lg=1.5rem</code>, <code>xl=2rem</code>.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-bento-grid</span> <span class="hljs-attr">cols</span>=<span class="hljs-string">&quot;3&quot;</span> <span class="hljs-attr">gap</span>=<span class="hljs-string">&quot;lg&quot;</span>&gt;</span>…<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-bento-grid</span>&gt;</span>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-bento-grid</span> <span class="hljs-attr">cols</span>=<span class="hljs-string">&quot;3&quot;</span> <span class="hljs-attr">gap</span>=<span class="hljs-string">&quot;sm&quot;</span>&gt;</span>…<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-bento-grid</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-bento-grid</span> <span class="hljs-attr">cols</span>=<span class="hljs-string">&quot;3&quot;</span> <span class="hljs-attr">gap</span>=<span class="hljs-string">&quot;md&quot;</span>&gt;</span>…<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-bento-grid</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-bento-grid</span> <span class="hljs-attr">cols</span>=<span class="hljs-string">&quot;3&quot;</span> <span class="hljs-attr">gap</span>=<span class="hljs-string">&quot;lg&quot;</span>&gt;</span>…<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-bento-grid</span>&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">aegov-bento-grid</span> <span class="hljs-attr">cols</span>=<span class="hljs-string">&quot;3&quot;</span> <span class="hljs-attr">gap</span>=<span class="hljs-string">&quot;sm md:lg&quot;</span>&gt;</span>…<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-bento-grid</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
   <p class="mb-2 text-sm text-aeblack-500">gap="sm"</p>
   <aegov-bento-grid cols="3" gap="sm">
+    <aegov-card appearance="light"><aegov-text>One</aegov-text></aegov-card>
+    <aegov-card appearance="light"><aegov-text>Two</aegov-text></aegov-card>
+    <aegov-card appearance="light"><aegov-text>Three</aegov-text></aegov-card>
+  </aegov-bento-grid>
+
+  <p class="mt-6 mb-2 text-sm text-aeblack-500">gap="md"</p>
+  <aegov-bento-grid cols="3" gap="md">
     <aegov-card appearance="light"><aegov-text>One</aegov-text></aegov-card>
     <aegov-card appearance="light"><aegov-text>Two</aegov-text></aegov-card>
     <aegov-card appearance="light"><aegov-text>Three</aegov-text></aegov-card>
@@ -252,8 +261,8 @@
 </tr>
 <tr>
 <td><code>id</code></td>
-<td>Yes</td>
-<td>Forwarded to the inner wrapper via <code>fieldId</code>.</td>
+<td>No</td>
+<td>Use <code>field-id</code> instead — the <code>id</code> HTML attribute is not forwarded through.</td>
 </tr>
 </tbody></table>
 <hr>

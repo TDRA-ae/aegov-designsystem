@@ -128,7 +128,10 @@ export class AegovCheckboxGroup {
   }
 
   @Watch('appearance')
-  onVariantChange(v: unknown) { warnIfInvalidEnumProp(v, CHECKBOX_GROUP_VARIANTS, 'default', ctx('appearance')); }
+  onVariantChange(v: unknown) {
+    warnIfInvalidEnumProp(v, CHECKBOX_GROUP_VARIANTS, 'default', ctx('appearance'));
+    if (this.el.isConnected) { this.syncChildren(); }
+  }
 
   @Watch('orientation')
   onOrientationChange(v: unknown) { warnIfInvalidEnumProp(v, CHECKBOX_GROUP_ORIENTATIONS, 'vertical', ctx('orientation')); }
@@ -157,6 +160,10 @@ export class AegovCheckboxGroup {
     const checkboxes = Array.from(this.el.querySelectorAll('aegov-checkbox')) as HTMLAegovCheckboxElement[];
     checkboxes.forEach(cb => {
       cb.size = this._resolvedSize;
+      cb.appearance = this.appearance;
+      // Also set host class directly — Stencil's async re-render may not fire in time
+      (cb as HTMLElement).classList.toggle('checkbox-appearance-cards', this.appearance === 'cards');
+      (cb as HTMLElement).classList.toggle('checkbox-appearance-pills', this.appearance === 'pills');
       // Cascade variant only if child has no own value (still default 'primary')
       if (!cb.variant || cb.variant === 'primary') {
         cb.variant = this.variant;
@@ -269,7 +276,7 @@ export class AegovCheckboxGroup {
     delete passThroughAttrs['aria-required'];
 
     return (
-      <Host class={{ 'is-invalid': this.isInvalid }}>
+      <Host class={{ 'is-invalid': this.isInvalid }} data-appearance={this.appearance}>
         <fieldset
           class={this.getGroupClasses()}
           disabled={this.isDisabled}
@@ -283,6 +290,9 @@ export class AegovCheckboxGroup {
               {this.isRequired && <span class="sr-only"> (required)</span>}
             </legend>
           )}
+          <div class="checkbox-group__items">
+            <slot />
+          </div>
           {showHint && (
             <div id={this.hintId} class="aegov-checkbox-group__hint">
               {hasHintSlot ? <slot name="hint" /> : this.hint}
@@ -297,9 +307,6 @@ export class AegovCheckboxGroup {
               {hasErrorSlot ? <slot name="error" /> : this.errorMessage}
             </div>
           )}
-          <div class="checkbox-group__items">
-            <slot />
-          </div>
         </fieldset>
       </Host>
     );

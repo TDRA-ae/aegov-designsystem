@@ -221,6 +221,42 @@ The `animation` property controls the open/close transition. `slide` (default) u
 <aegov-drawer animation="none" is-open="true">…</aegov-drawer>
 ```
 
+<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <div class="flex flex-wrap gap-3">
+    <aegov-button id="demo-anim-slide-btn">Slide</aegov-button>
+    <aegov-button id="demo-anim-fade-btn">Fade</aegov-button>
+    <aegov-button id="demo-anim-none-btn">None</aegov-button>
+  </div>
+
+  <aegov-drawer id="demo-drawer-anim-slide" animation="slide" aria-label="Slide animation drawer">
+    <h3 class="text-xl font-bold mb-2">Slide animation</h3>
+    <p class="mb-6">The panel translates in from the drawer's edge — the default transition.</p>
+    <aegov-button id="demo-anim-slide-close">Close</aegov-button>
+  </aegov-drawer>
+
+  <aegov-drawer id="demo-drawer-anim-fade" animation="fade" aria-label="Fade animation drawer">
+    <h3 class="text-xl font-bold mb-2">Fade animation</h3>
+    <p class="mb-6">The panel cross-fades in without directional motion.</p>
+    <aegov-button id="demo-anim-fade-close">Close</aegov-button>
+  </aegov-drawer>
+
+  <aegov-drawer id="demo-drawer-anim-none" animation="none" aria-label="No animation drawer">
+    <h3 class="text-xl font-bold mb-2">No animation</h3>
+    <p class="mb-6">The panel appears and disappears instantly — no transition.</p>
+    <aegov-button id="demo-anim-none-close">Close</aegov-button>
+  </aegov-drawer>
+
+  <script>
+    (function() {
+      ['slide','fade','none'].forEach(a => {
+        const d = document.querySelector('#demo-drawer-anim-' + a);
+        document.querySelector('#demo-anim-' + a + '-btn').addEventListener('click', () => d.show());
+        document.querySelector('#demo-anim-' + a + '-close').addEventListener('click', () => d.close());
+      });
+    })();
+  </script>
+</div>
+
 ---
 
 ## No Overlay
@@ -235,6 +271,72 @@ Set `is-overlay="false"` to render the drawer without a dimming backdrop. The pa
 ```
 
 > Even without the visible overlay, clicking outside still closes the drawer when `is-close-with-overlay="true"` (the default), via an invisible click-catching layer.
+
+<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-button id="demo-no-overlay-open">Open inspector panel</aegov-button>
+
+  <aegov-drawer id="demo-no-overlay-drawer" is-overlay="false" is-prevent-scroll="false" is-pinned="false" position="right" aria-label="No overlay drawer">
+    <h3 class="text-lg font-bold mb-2">Quick info</h3>
+    <p class="mb-6">This panel coexists with the page — no backdrop, no scroll lock.</p>
+    <aegov-button id="demo-no-overlay-close">Close</aegov-button>
+  </aegov-drawer>
+
+  <script>
+    (function() {
+      const d = document.querySelector('#demo-no-overlay-drawer');
+      document.querySelector('#demo-no-overlay-open').addEventListener('click', () => d.show());
+      document.querySelector('#demo-no-overlay-close').addEventListener('click', () => d.close());
+    })();
+  </script>
+</div>
+
+---
+
+## Overlay Opacity
+
+The `overlay-opacity` attribute controls how dark the backdrop appears when `is-overlay="true"`. Use `light` for a subtle hint, `base` (the default) for standard dimming, and `dark` for maximum focus on the drawer panel.
+
+```html
+<aegov-drawer overlay-opacity="light" is-open="true">…</aegov-drawer>
+<aegov-drawer overlay-opacity="base" is-open="true">…</aegov-drawer>
+<aegov-drawer overlay-opacity="dark" is-open="true">…</aegov-drawer>
+```
+
+<div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <div class="flex flex-wrap gap-3">
+    <aegov-button id="demo-opacity-light-btn">Light</aegov-button>
+    <aegov-button id="demo-opacity-base-btn">Base</aegov-button>
+    <aegov-button id="demo-opacity-dark-btn">Dark</aegov-button>
+  </div>
+
+  <aegov-drawer id="demo-drawer-opacity-light" overlay-opacity="light" aria-label="Light overlay drawer">
+    <h3 class="text-xl font-bold mb-2">Light overlay</h3>
+    <p class="mb-6">A subtle dim — the page behind remains quite visible.</p>
+    <aegov-button id="demo-opacity-light-close">Close</aegov-button>
+  </aegov-drawer>
+
+  <aegov-drawer id="demo-drawer-opacity-base" overlay-opacity="base" aria-label="Base overlay drawer">
+    <h3 class="text-xl font-bold mb-2">Base overlay</h3>
+    <p class="mb-6">The default dimming level.</p>
+    <aegov-button id="demo-opacity-base-close">Close</aegov-button>
+  </aegov-drawer>
+
+  <aegov-drawer id="demo-drawer-opacity-dark" overlay-opacity="dark" aria-label="Dark overlay drawer">
+    <h3 class="text-xl font-bold mb-2">Dark overlay</h3>
+    <p class="mb-6">A strong dim — focuses maximum attention on the drawer panel.</p>
+    <aegov-button id="demo-opacity-dark-close">Close</aegov-button>
+  </aegov-drawer>
+
+  <script>
+    (function() {
+      ['light','base','dark'].forEach(o => {
+        const d = document.querySelector('#demo-drawer-opacity-' + o);
+        document.querySelector('#demo-opacity-' + o + '-btn').addEventListener('click', () => d.show());
+        document.querySelector('#demo-opacity-' + o + '-close').addEventListener('click', () => d.close());
+      });
+    })();
+  </script>
+</div>
 
 ---
 
@@ -396,6 +498,7 @@ The drawer is direction-agnostic. The `position` values are absolute viewport ed
 | `isPreventScroll`     | `is-prevent-scroll`      | Lock body scroll while the drawer is open.                                                        | `boolean`                                  | `true`      |
 | `size`                | `size`                   | Padding scale; also drives the gap and corner radius when `is-pinned="false"`.                    | `'sm' \| 'base' \| 'lg'`                   | `'base'`    |
 | `isPadding`           | `is-padding`             | Apply inner content padding. Turn off for full-bleed content.                                     | `boolean`                                  | `true`      |
+| `label`               | `label`                  | Accessible label for the drawer dialog. Prefer `aria-labelledby` pointing at a heading inside the drawer; use `label` only when no visible heading is present. | `string` | `undefined` |
 
 ### Slots
 

@@ -81,14 +81,6 @@ export class AegovBanner {
   @Prop() isDismissible: boolean = true;
 
   /**
-   * Optional visible heading label for the banner.
-   * When provided, a `<span id="${fieldId}-heading">` is rendered inside the banner
-   * and the wrapper receives `aria-labelledby="${fieldId}-heading"`.
-   * Required for role="status" banners that need an accessible name.
-   */
-  @Prop() heading?: string;
-
-  /**
    * Size of the banner. Controls font size and vertical padding.
    * Accepts a plain value (`"sm"`, `"base"`, `"lg"`) or a responsive string
    * using Tailwind-style breakpoint prefixes (`"sm xl:lg"`).
@@ -389,7 +381,6 @@ export class AegovBanner {
         id={this.fieldId}
         class={this.getBannerClasses()}
         role={role}
-        aria-labelledby={this.heading ? `${this.fieldId}-heading` : undefined}
         tabindex={this.isFocusable ? -1 : undefined}
         {...passThroughAttributes}
       >
@@ -402,10 +393,7 @@ export class AegovBanner {
           </div>
 
           <div class="banner__content">
-            {this.heading && (
-              <span id={`${this.fieldId}-heading`} class="banner__heading">{this.heading}</span>
-            )}
-            <div class={`banner__text ${this.hasActionsSlot ? 'banner__text-left' : 'banner__text-center'}`}>
+            <div class={`banner__text${this.hasActionsSlot ? ' banner__text--has-actions' : ''}`}>
               <slot />
             </div>
             {this.hasActionsSlot && (

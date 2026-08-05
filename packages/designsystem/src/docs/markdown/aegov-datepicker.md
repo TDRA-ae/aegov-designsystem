@@ -84,8 +84,8 @@ The `format` property controls how the selected date is rendered into the trigge
 | `M`    | Numeric month   | `5`           |
 | `DD`   | 2-digit day     | `01`          |
 | `D`    | Numeric day     | `1`           |
-| `dddd` | Full weekday    | `Friday`      |
-| `ddd`  | Short weekday   | `Fri`         |
+| `ddd`  | Full weekday    | `Friday`      |
+| `dd`   | Short weekday   | `Fri`         |
 
 ```html
 <aegov-datepicker format="DD MMM YYYY" placeholder="DD MMM YYYY"></aegov-datepicker>
@@ -526,9 +526,9 @@ A range picker with Arabic presets in RTL:
 | `appearance`             | `appearance`              | Selection mode — single date or date range.                            | `'single' \| 'range'` | `'single'`       |
 | `value`               | `value`                | Pre-selected value. Range uses `"start / end"` format.                 | `string`              | `''`             |
 | `format`              | `format`               | Output and display format using calendar tokens.                       | `string`              | `'YYYY-MM-DD'`   |
-| `placeholder`         | `placeholder`          | Placeholder for single-mode input.                                     | `string`              | `'Select date'`  |
-| `labelRangeStart`     | `label-range-start`    | Placeholder for the range-mode start input.                            | `string`              | `'Start date'`   |
-| `labelRangeEnd`       | `label-range-end`      | Placeholder for the range-mode end input.                              | `string`              | `'End date'`     |
+| `placeholder`         | `placeholder`          | Placeholder for single-mode input.                                     | `string`              | `''`             |
+| `labelRangeStart`     | `label-range-start`    | Placeholder for the range-mode start input.                            | `string`              | `''`             |
+| `labelRangeEnd`       | `label-range-end`      | Placeholder for the range-mode end input.                              | `string`              | `''`             |
 | `min`                 | `min`                  | Minimum selectable date (`YYYY-MM-DD` or `today`).                     | `string`              | `''`             |
 | `max`                 | `max`                  | Maximum selectable date (`YYYY-MM-DD` or `today`).                     | `string`              | `''`             |
 | `isDisableFuture`     | `is-disable-future`    | Shorthand for `max="today"`.                                           | `boolean`             | `false`          |
@@ -547,12 +547,19 @@ A range picker with Arabic presets in RTL:
 | `isWithConfirmation`  | `is-with-confirmation` | Render Apply / Cancel buttons; commits only on Apply.                   | `boolean`             | `false`          |
 | `size`                | `size`                 | Trigger size token. Accepts a single token or a responsive string.       | `string`              | `'base'`         |
 | `variant`             | `variant`              | Colour family for trigger ring, selected day fill, today indicator, and hover bg. Focus ring stays camel; error stays aered. | `'primary' \| 'secondary' \| 'neutral-max' \| 'neutral-min'` | `'primary'` |
+| `name`                | `name`                 | Form submission name for the hidden input.                                                | `string`              | `undefined`      |
+| `isInvalid`           | `is-invalid`           | Puts the field into error state.                                                           | `boolean`             | `false`          |
+| `errorMessage`        | `error-message`        | Inline error text shown below the field when `isInvalid` is true.                         | `string`              | `''`             |
+| `fieldId`             | `field-id`             | DOM id for the root element. Auto-generated if omitted.                                    | `string`              | `generated`      |
+| `hint`                | `hint`                 | Inline hint text shown below the field when not in error state.                            | `string`              | `''`             |
 
 ### Slots
 
 | Slot      | Description                                                                                |
 | --------- | ------------------------------------------------------------------------------------------ |
 | `trigger` | Custom focusable element to replace the default input wrapper. The component owns open / close state. |
+| `error`   | Shown when `isInvalid` is true; use for rich HTML error markup instead of plain `errorMessage`. |
+| `hint`    | Shown when no error is active; use for rich HTML hint markup instead of plain `hint` prop.  |
 
 ### Events
 
@@ -563,6 +570,7 @@ A range picker with Arabic presets in RTL:
 | `aegovDatepickerClose`         | `void`                                  | Fires when the calendar closes.                                                                       |
 | `aegovDatepickerClear`         | `void`                                  | Fires when the clear button is clicked or the `clear()` method is called.                             |
 | `aegovDatepickerMonthChange`   | `{ month: number; year: number }`       | Fires whenever the visible month or year changes.                                                     |
+| `aegovValidate`                | `AegovValidationDetail<AegovDatepickerValue>` | Fires when the datepicker validates. Detail includes `name`, `value`, `validity`, `validationMessage`, `customError`, `trigger`. |
 
 `DatepickerChangeDetail` shape: `{ value: string; date: Date | null; startDate?: Date | null; endDate?: Date | null }`.
 
@@ -577,6 +585,8 @@ A range picker with Arabic presets in RTL:
 | `getStartDate()`  | `Promise<string \| false>`    | Range mode: formatted start date string. `false` in single mode or when no start is set.   |
 | `getEndDate()`    | `Promise<string \| false>`    | Range mode: formatted end date string. `false` in single mode or when no end is set.       |
 | `getPreset()`     | `Promise<string \| false>`    | Range mode: the matching preset id for the current selection, or `false`.                  |
+| `validate(trigger?)` | `Promise<AegovValidationResult>` | Runs validation and returns the full validity state. Optional `trigger` context is forwarded on the emitted `aegovValidate` event. |
+| `setCustomValidity(message)` | `Promise<void>` | Sets a custom error message (empty string clears it). The field enters `customError` state until cleared.  |
 
 ### Pass-through Attributes
 
@@ -691,6 +701,6 @@ See [BYO Validator](validation-byo.html) for more patterns.
 | `Arrow Up` / `Down`       | Move the focused day by one week.                                                     |
 | `PageUp` / `PageDown`     | Move the focused day by one month.                                                    |
 | `Shift + PageUp` / `PageDown` | Move the focused day by one year.                                                 |
-| `Home` / `End`            | Jump to the first / last day of the visible month.                                    |
+| `Home` / `End`            | Move to the first / last day of the current week.                                     |
 | `Escape`                  | Close the calendar without committing (cancels pending state in confirmation mode).    |
 | `Tab`                     | Cycle through interactive elements inside the calendar (selects, nav buttons, days).   |

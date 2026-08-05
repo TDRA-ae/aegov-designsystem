@@ -126,7 +126,7 @@
 <span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript">
   <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;floatBanner&#x27;</span>)
     .<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;aegovBannerHeightChange&#x27;</span>, <span class="hljs-function"><span class="hljs-params">e</span> =&gt;</span> {
-      <span class="hljs-variable language_">document</span>.<span class="hljs-property">body</span>.<span class="hljs-property">style</span>.<span class="hljs-title function_">setProperty</span>(<span class="hljs-string">&#x27;--banner-height&#x27;</span>, e.<span class="hljs-property">detail</span> + <span class="hljs-string">&#x27;px&#x27;</span>);
+      <span class="hljs-variable language_">document</span>.<span class="hljs-property">body</span>.<span class="hljs-property">style</span>.<span class="hljs-title function_">setProperty</span>(<span class="hljs-string">&#x27;--banner-height&#x27;</span>, e.<span class="hljs-property">detail</span>.<span class="hljs-property">height</span> + <span class="hljs-string">&#x27;px&#x27;</span>);
     });
 </span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre><hr>
 <h2>Sizes</h2>
@@ -181,18 +181,17 @@
     });
 </span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre><hr>
 <h2>Critical alerts (focusable)</h2>
-<p>For alerts that demand immediate user attention, set <code>is-focusable=&quot;true&quot;</code>. When the variant resolves to <code>role=&quot;alert&quot;</code> (i.e. <code>error</code> or <code>success</code>), the banner is focused on mount so screen reader users hear the announcement and keyboard users can act on it without hunting for it.</p>
+<p>For alerts that demand immediate user attention, set <code>is-focusable=&quot;true&quot;</code>. The focus behaviour only takes effect when the variant resolves to <code>role=&quot;alert&quot;</code> — which only the <code>error</code> variant does. The <code>success</code> variant resolves to <code>role=&quot;status&quot;</code>, not <code>role=&quot;alert&quot;</code>, so <code>is-focusable</code> has no effect on <code>success</code> banners.</p>
 <p>Use this sparingly — it interrupts the user&#39;s keyboard focus, which is disruptive if used for routine notifications.</p>
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-banner</span>
   <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;error&quot;</span>
   <span class="hljs-attr">is-focusable</span>=<span class="hljs-string">&quot;true&quot;</span>
-  <span class="hljs-attr">heading</span>=<span class="hljs-string">&quot;Service interruption&quot;</span>
 &gt;</span>
   The Emirates ID renewal service is temporarily offline. Please try again in 30 minutes.
 <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-banner</span>&gt;</span></code></pre><hr>
-<h2>Heading</h2>
-<p>The <code>heading</code> property sets up <code>aria-labelledby</code> on the banner. The component derives a heading id of <code>${fieldId}-heading</code>. Render the visible heading inside the default slot using the same id so the relationship resolves correctly.</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-banner</span> <span class="hljs-attr">field-id</span>=<span class="hljs-string">&quot;maintenance&quot;</span> <span class="hljs-attr">heading</span>=<span class="hljs-string">&quot;Maintenance window&quot;</span>&gt;</span>
+<h2>Heading (aria-labelledby)</h2>
+<p>There is no <code>heading</code> prop. To label the banner for assistive technology, set <code>aria-labelledby</code> on the host element pointing to a heading element&#39;s <code>id</code>, then render that heading inside the default slot. Use <code>field-id</code> to stabilise the derived heading id.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-banner</span> <span class="hljs-attr">field-id</span>=<span class="hljs-string">&quot;maintenance&quot;</span> <span class="hljs-attr">aria-labelledby</span>=<span class="hljs-string">&quot;maintenance-heading&quot;</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">strong</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;maintenance-heading&quot;</span>&gt;</span>Maintenance window<span class="hljs-tag">&lt;/<span class="hljs-name">strong</span>&gt;</span>
   Government services will be briefly unavailable on Friday 03:00<span class="hljs-symbol">&amp;ndash;</span>05:00 GST.
 <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-banner</span>&gt;</span></code></pre><hr>
@@ -292,13 +291,6 @@
 <td><code>boolean</code></td>
 <td><code>false</code></td>
 </tr>
-<tr>
-<td><code>heading</code></td>
-<td><code>heading</code></td>
-<td>Heading text used by <code>aria-labelledby</code>. Derives id <code>${fieldId}-heading</code>.</td>
-<td><code>string</code></td>
-<td><code>undefined</code></td>
-</tr>
 </tbody></table>
 <h3>Slots</h3>
 <table>
@@ -337,7 +329,7 @@
 </tr>
 <tr>
 <td><code>aegovBannerHeightChange</code></td>
-<td><code>number</code> (pixels)</td>
+<td><code>{ height: number }</code> (pixels)</td>
 <td>Fires in <code>mode=&quot;overlay&quot;</code> whenever the banner&#39;s height changes.</td>
 </tr>
 </tbody></table>
@@ -354,7 +346,7 @@
   });
 
   banner.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;aegovBannerHeightChange&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">e</span>) =&gt;</span> {
-    <span class="hljs-variable language_">document</span>.<span class="hljs-property">body</span>.<span class="hljs-property">style</span>.<span class="hljs-title function_">setProperty</span>(<span class="hljs-string">&#x27;--banner-height&#x27;</span>, e.<span class="hljs-property">detail</span> + <span class="hljs-string">&#x27;px&#x27;</span>);
+    <span class="hljs-variable language_">document</span>.<span class="hljs-property">body</span>.<span class="hljs-property">style</span>.<span class="hljs-title function_">setProperty</span>(<span class="hljs-string">&#x27;--banner-height&#x27;</span>, e.<span class="hljs-property">detail</span>.<span class="hljs-property">height</span> + <span class="hljs-string">&#x27;px&#x27;</span>);
   });
 </span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre><h3>Pass-through Attributes</h3>
 <table>
@@ -395,10 +387,10 @@
 <h2>Accessibility</h2>
 <h3>Built-in behaviour</h3>
 <ul>
-<li>The banner auto-computes a <code>role</code> based on the variant. <code>error</code> and <code>success</code> resolve to <code>role=&quot;alert&quot;</code> (assertive); <code>info</code>, <code>warning</code>, and <code>default</code> resolve to <code>role=&quot;region&quot;</code> (polite).</li>
+<li>The banner auto-computes a <code>role</code> based on the variant. Only <code>error</code> resolves to <code>role=&quot;alert&quot;</code> (assertive); <code>success</code>, <code>info</code>, <code>warning</code>, and <code>default</code> all resolve to <code>role=&quot;status&quot;</code> (polite).</li>
 <li>A <code>role</code> attribute set on the host <strong>overrides</strong> the auto-computed role, so consumers can downgrade noisy variants to <code>status</code> if needed.</li>
-<li><code>aria-live</code> is set automatically based on the resolved role: <code>alert</code> → <code>assertive</code>; <code>region</code>/<code>status</code> → <code>polite</code>.</li>
-<li>When <code>heading</code> is provided, <code>aria-labelledby</code> references the derived <code>${fieldId}-heading</code> id.</li>
+<li>The component does <strong>not</strong> set an explicit <code>aria-live</code> attribute. Instead it relies on the implicit <code>aria-live</code> values carried by WAI-ARIA roles: <code>role=&quot;alert&quot;</code> implies <code>aria-live=&quot;assertive&quot;</code>, and <code>role=&quot;status&quot;</code> implies <code>aria-live=&quot;polite&quot;</code>. This is correct per the <a href="https://www.w3.org/WAI/ARIA/apg/patterns/alert/examples/alert/">APG Alert pattern</a>.</li>
+<li>To label the banner for assistive technology, set <code>aria-labelledby</code> on the host element pointing to the <code>id</code> of a visible heading inside the default slot. There is no <code>heading</code> prop — the relationship must be wired manually by the consumer.</li>
 <li>A built-in variant icon (error / warning / success / info / default) is rendered automatically alongside the text, satisfying WCAG SC 1.4.1 — severity is conveyed by shape and text, not colour alone. Supply a custom <code>&lt;… slot=&quot;icon&quot;&gt;</code> to override the default.</li>
 <li>The icon column is marked <code>aria-hidden=&quot;true&quot;</code> — the text content inside the default slot is the sole accessible announcement.</li>
 <li>The dismiss button has a minimum touch target of <strong>24 × 24 CSS px</strong> on all sizes (sm, base, lg), satisfying WCAG SC 2.5.8.</li>
@@ -433,6 +425,84 @@
 <tr>
 <td><code>Shift + Tab</code></td>
 <td>Move focus backwards.</td>
+</tr>
+</tbody></table>
+<hr>
+<h2>aegov-header-banner</h2>
+<p>The <code>aegov-header-banner</code> component renders the UAE government authenticity strip — the narrow bar placed above the main site header that confirms the site belongs to a verified UAE Federal Government entity. It shows the entity name and domain, includes an expand/collapse panel with official identity and connection-security details, optionally injects a keyboard-accessible skip link as the first child of <code>&lt;body&gt;</code>, and exposes an <code>actions</code> slot for language selectors or login controls. All internal strings switch to Arabic automatically when <code>dir=&quot;rtl&quot;</code> is detected on the element or an ancestor.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-header-banner</span>
+  <span class="hljs-attr">entity-name</span>=<span class="hljs-string">&quot;General Secretariat of the Executive Council&quot;</span>
+  <span class="hljs-attr">entity-domain</span>=<span class="hljs-string">&quot;gsec.gov.ae&quot;</span>
+  <span class="hljs-attr">skip-content-container</span>=<span class="hljs-string">&quot;#main-content&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;actions&quot;</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm&quot;</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;ghost&quot;</span>&gt;</span>عربي<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">aegov-button</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;sm&quot;</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;secondary&quot;</span>&gt;</span>Login<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-button</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-header-banner</span>&gt;</span></code></pre><h3>Properties</h3>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Attribute</th>
+<th>Description</th>
+<th>Type</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>entityName</code></td>
+<td><code>entity-name</code></td>
+<td>Name of the government entity. <strong>Required</strong> — if absent the component renders an error state instead of the banner.</td>
+<td><code>string</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>entityDomain</code></td>
+<td><code>entity-domain</code></td>
+<td>URL of the entity&#39;s official website. <strong>Required</strong> — displayed in the expanded identity panel.</td>
+<td><code>string</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>skipContentContainer</code></td>
+<td><code>skip-content-container</code></td>
+<td>CSS selector or bare ID of the main content container (e.g. <code>&quot;#main-content&quot;</code>). When provided, a visually-hidden &quot;Skip to content&quot; link is injected as the first child of <code>&lt;body&gt;</code> for keyboard users.</td>
+<td><code>string</code></td>
+<td>—</td>
+</tr>
+</tbody></table>
+<h3>Slots</h3>
+<table>
+<thead>
+<tr>
+<th>Slot</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>actions</code></td>
+<td>Custom action elements rendered in the trailing edge of the top bar (e.g. a language toggle or login button). When the slot is empty, a default UAE flag/emblem strip is shown.</td>
+</tr>
+</tbody></table>
+<h3>Keyboard support</h3>
+<table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Enter</code>, <code>Space</code></td>
+<td>Toggle the expanded identity/security panel.</td>
+</tr>
+<tr>
+<td><code>Escape</code></td>
+<td>Collapse the expanded panel and return focus to the trigger.</td>
+</tr>
+<tr>
+<td><code>Tab</code></td>
+<td>Move focus through controls inside the expanded panel; wraps.</td>
 </tr>
 </tbody></table>
 <!-- DOC:END -->

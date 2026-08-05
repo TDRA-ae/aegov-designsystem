@@ -122,7 +122,7 @@ Set `status` to render a coloured dot in the lower-right corner. Five status val
 - `unavailable` — the user is do-not-disturb / unavailable
 - `busy` — the user is busy
 
-`status="true"` is shorthand for `online`; `status="false"` (default) hides the indicator. The indicator carries `aria-label="Status: {status}"` so screen readers announce the user's state.
+`status="true"` is shorthand for `online`; `status="false"` (default) hides the indicator. The status indicator is decorative and has `aria-hidden="true"` — the color dot conveys status visually, and the parent avatar element carries the full accessible name (including the status) in its `aria-label`.
 
 ```html
 <aegov-avatar src="https://i.pravatar.cc/150?img=8" alt="Mohammed" appearance="rounded" status="online"></aegov-avatar>
@@ -323,6 +323,14 @@ A list of team members in RTL — the avatars sit on the right and the names ali
 
 The avatar does not emit any custom events.
 
+### CSS Parts
+
+| Part     | Description                                                   |
+| -------- | ------------------------------------------------------------- |
+| `avatar` | The outer avatar container `<div>` (carries `role="img"`).    |
+| `image`  | The inner `<img>` element, present only when `src` is set.    |
+| `status` | The status indicator `<span>`, present only when `status` is active. |
+
 ### Pass-through Attributes
 
 `aria-*` and `data-*` attributes set on the host are forwarded automatically. In addition, the following native `<img>` attributes are forwarded to the inner image element when one is rendered:
@@ -333,8 +341,6 @@ The avatar does not emit any custom events.
 | `crossorigin`      | CORS settings for the image request.                                     |
 | `referrerpolicy`   | Referrer policy for the image request.                                   |
 | `srcset`           | Responsive image sources.                                                |
-| `alt`              | Image alt text (also applied to the host `aria-label`).                   |
-| `src`              | Image source URL.                                                        |
 | `aria-*`, `data-*` | Forwarded to the inner `<img>` element.                                  |
 
 ---

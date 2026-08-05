@@ -4,7 +4,7 @@
 
 ## Introduction
 
-The `aegov-separator` component renders as a native `<hr>` when used without a label, or as a flex layout of line / text / line when a `text` value or slotted label is supplied. It exposes a small surface — `orientation`, `appearance`, `variant`, `text`, and `is-decorative` — and uses logical CSS properties so it works identically in LTR and RTL contexts.
+The `aegov-separator` component renders as a native `<hr>` when used without a label, or as a flex layout of line / text / line when a `text` value or slotted label is supplied. It exposes a small surface — `orientation`, `appearance`, `variant`, `text`, `gap`, `extra-class`, and `is-decorative` — and uses logical CSS properties so it works identically in LTR and RTL contexts.
 
 ```html
 <aegov-separator></aegov-separator>
@@ -357,7 +357,7 @@ A subtle horizontal divider between two Arabic sections:
 | `variant`      | `variant`        | Colour family for line and text label.                                                       | `'primary' \| 'secondary' \| 'neutral-max' \| 'neutral-min'` | `'primary'` |
 | `text`         | `text`           | Inline label text rendered at the centre of the separator.                                   | `string`                     | `undefined`    |
 | `gap`          | `gap`            | Padding on either side of the line, in Tailwind spacing units (1 unit = 0.25rem = 4px). Horizontal → top + bottom; Vertical → start + end. | `number`                     | `0`            |
-| `isDecorative` | `is-decorative`  | When `true`, exposes `role="presentation"`. When `false`, exposes `role="separator"`.        | `boolean`                    | `true`         |
+| `isDecorative` | `is-decorative`  | When `true`, exposes `role="presentation"`. When `false`, exposes `role="separator"`. **Note:** when the `text` prop (or slotted content) is present, the component overrides the presentation role regardless of this value — the presence of text content forces meaningful role semantics. | `boolean`                    | `true`         |
 | `extraClass`   | `extra-class`    | Additional CSS classes merged onto the inner separator element.                              | `string`                     | `undefined`    |
 
 ### Slots

@@ -372,7 +372,7 @@
 <td><code>label-nav</code></td>
 <td>Accessible label for the <code>&lt;nav&gt;</code> landmark.</td>
 <td><code>string</code></td>
-<td><code>&#39;Sidebar navigation&#39;</code></td>
+<td><code>&#39;&#39;</code></td>
 </tr>
 <tr>
 <td><code>isMultiple</code></td>
@@ -543,6 +543,7 @@
 <h2>Accessibility</h2>
 <ul>
 <li>The block renders as a <code>&lt;nav&gt;</code> landmark with an <code>aria-label</code> from <code>label-nav</code>.</li>
+<li>When <code>label-nav</code> is not set (the default empty string), the component automatically supplies a locale-appropriate fallback: <code>&quot;Sidebar navigation&quot;</code> in LTR contexts and <code>&quot;التنقل في الشريط الجانبي&quot;</code> in RTL contexts. The RTL direction is detected from the element&#39;s computed <code>direction</code> style, so setting <code>dir=&quot;rtl&quot;</code> on a parent element is sufficient.</li>
 <li>Parent rows are real <code>&lt;button&gt;</code> elements with <code>aria-expanded</code> and <code>aria-controls</code> linking the trigger to the sub-region.</li>
 <li>Leaf rows are <code>&lt;a&gt;</code> elements when <code>href</code> is set, or <code>&lt;button&gt;</code> otherwise. The active leaf carries <code>aria-current=&quot;page&quot;</code>.</li>
 <li>Disabled items use native <code>disabled</code> (button) or <code>aria-disabled=&quot;true&quot;</code> (span) and are excluded from keyboard navigation.</li>

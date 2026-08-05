@@ -562,7 +562,7 @@ The same tabs in the segmented variant, in RTL:
 | `orientation`   | `orientation`    | Layout orientation of the tab row.                                           | `'horizontal' \| 'vertical'`          | `'horizontal'` |
 | `isScrollable`  | `is-scrollable`  | Enable horizontal/vertical scrolling with edge fade when triggers overflow.  | `boolean`                             | `false`        |
 | `isStretchable` | `is-stretchable` | Distribute triggers evenly across the container width.                       | `boolean`                             | `false`        |
-| `labelTablist`  | `label-tablist`  | `aria-label` applied to the `role="tablist"` element.                        | `string`                              | `'Tabs'`       |
+| `labelTablist`  | `label-tablist`  | `aria-label` applied to the `role="tablist"` element.                        | `string`                              | `''`           |
 
 ### aegov-tab Properties
 

@@ -24,7 +24,7 @@
 <p class="text-lg text-aeblack-500 mb-8">A Badge is a small inline element used to label, classify, or count items. Use it to communicate status, mark counts of unread notifications, tag list rows with metadata, or annotate content with short context. Badges are intentionally compact and read alongside the content they describe rather than standing alone.</p>
 
 <h2>Introduction</h2>
-<p>The <code>aegov-badge</code> component renders a single inline pill containing the slotted text. The full UAE Government colour palette is available through the <code>color</code> property, and two visual treatments — <code>soft</code> and <code>solid</code> — let you tune the badge to its surroundings. An optional dismiss button turns the badge into a removable tag for filter chips and similar patterns.</p>
+<p>The <code>aegov-badge</code> component renders a single inline pill containing the slotted text. The full UAE Government colour palette is available through the <code>variant</code> property, and two visual treatments — <code>soft</code> and <code>solid</code> — let you tune the badge to its surroundings. An optional dismiss button turns the badge into a removable tag for filter chips and similar patterns.</p>
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-badge</span>&gt;</span>Default<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-badge</span>&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">aegov-badge</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;primary&quot;</span>&gt;</span>Primary<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-badge</span>&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">aegov-badge</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;aegreen&quot;</span>&gt;</span>Active<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-badge</span>&gt;</span>
@@ -66,7 +66,7 @@
 
 <hr>
 <h2>Color Palette</h2>
-<p>The <code>color</code> property accepts every token in the UAE Design System palette. Use the brand colours (<code>primary</code>, <code>secondary</code>, <code>aegold</code>, <code>aered</code>, <code>aegreen</code>, <code>aeblack</code>) for status that aligns with platform identity, and the accent colours (<code>techblue</code>, <code>seablue</code>, <code>camel</code>, <code>desert</code>, <code>fuchsia</code>, <code>slate</code>, <code>purple</code>, <code>pink</code>, <code>indigo</code>, <code>lime</code>) for richer category tagging.</p>
+<p>The <code>variant</code> property accepts every token in the UAE Design System palette. Use the brand colours (<code>primary</code>, <code>secondary</code>, <code>aegold</code>, <code>aered</code>, <code>aegreen</code>, <code>aeblack</code>) for status that aligns with platform identity, and the accent colours (<code>techblue</code>, <code>seablue</code>, <code>camel</code>, <code>desert</code>, <code>fuchsia</code>, <code>slate</code>, <code>purple</code>, <code>pink</code>, <code>indigo</code>, <code>lime</code>) for richer category tagging.</p>
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-badge</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;primary&quot;</span>&gt;</span>Primary<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-badge</span>&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">aegov-badge</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;secondary&quot;</span>&gt;</span>Secondary<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-badge</span>&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">aegov-badge</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;aegold&quot;</span>&gt;</span>Aegold<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-badge</span>&gt;</span>
@@ -427,18 +427,18 @@
 <td><em>generated</em></td>
 </tr>
 <tr>
+<td><code>variant</code></td>
+<td><code>variant</code></td>
+<td>Colour token from the UAE Design System palette.</td>
+<td><code>&#39;default&#39; | &#39;primary&#39; | &#39;secondary&#39; | &#39;aegold&#39; | &#39;aered&#39; | &#39;aegreen&#39; | &#39;aeblack&#39; | &#39;techblue&#39; | &#39;seablue&#39; | &#39;camel&#39; | &#39;desert&#39; | &#39;fuchsia&#39; | &#39;slate&#39; | &#39;purple&#39; | &#39;pink&#39; | &#39;indigo&#39; | &#39;lime&#39;</code></td>
+<td><code>&#39;default&#39;</code></td>
+</tr>
+<tr>
 <td><code>appearance</code></td>
 <td><code>appearance</code></td>
 <td>Visual style — <code>soft</code> (tinted) or <code>solid</code> (filled).</td>
 <td><code>&#39;soft&#39; | &#39;solid&#39;</code></td>
 <td><code>&#39;soft&#39;</code></td>
-</tr>
-<tr>
-<td><code>color</code></td>
-<td><code>color</code></td>
-<td>Colour token from the UAE Design System palette.</td>
-<td><code>&#39;default&#39; | &#39;primary&#39; | &#39;secondary&#39; | &#39;aegold&#39; | &#39;aered&#39; | &#39;aegreen&#39; | &#39;aeblack&#39; | &#39;techblue&#39; | &#39;seablue&#39; | &#39;camel&#39; | &#39;desert&#39; | &#39;fuchsia&#39; | &#39;slate&#39; | &#39;purple&#39; | &#39;pink&#39; | &#39;indigo&#39; | &#39;lime&#39;</code></td>
-<td><code>&#39;default&#39;</code></td>
 </tr>
 <tr>
 <td><code>size</code></td>
@@ -453,6 +453,13 @@
 <td>When <code>true</code>, renders a close button.</td>
 <td><code>boolean</code></td>
 <td><code>false</code></td>
+</tr>
+<tr>
+<td><code>color</code></td>
+<td><code>color</code></td>
+<td><strong>Deprecated</strong> — use <code>variant</code> instead. Accepts the same colour tokens.</td>
+<td><code>&#39;default&#39; | &#39;primary&#39; | &#39;secondary&#39; | &#39;aegold&#39; | &#39;aered&#39; | &#39;aegreen&#39; | &#39;aeblack&#39; | &#39;techblue&#39; | &#39;seablue&#39; | &#39;camel&#39; | &#39;desert&#39; | &#39;fuchsia&#39; | &#39;slate&#39; | &#39;purple&#39; | &#39;pink&#39; | &#39;indigo&#39; | &#39;lime&#39;</code></td>
+<td><code>undefined</code></td>
 </tr>
 </tbody></table>
 <h3>Slots</h3>

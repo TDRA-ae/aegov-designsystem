@@ -227,6 +227,47 @@
 </div>
 
 <hr>
+<h2>Heading Level</h2>
+<p>The <code>heading-level</code> property controls which HTML heading element (<code>&lt;h1&gt;</code>–<code>&lt;h6&gt;</code>) wraps each trigger button. Setting the correct level keeps the page outline meaningful for screen readers. The default is <code>h3</code>; use <code>heading-level=&quot;2&quot;</code> when the accordion is the primary content structure on a page, or a higher number when it sits inside an existing heading hierarchy.</p>
+<pre><code class="hljs language-html"><span class="hljs-comment">&lt;!-- Triggers render inside &lt;h2&gt; elements --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-accordion</span> <span class="hljs-attr">heading-level</span>=<span class="hljs-string">&quot;2&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-accordion-item</span> <span class="hljs-attr">heading</span>=<span class="hljs-string">&quot;Trade licence application&quot;</span>&gt;</span>
+    Submit your application through the business licensing portal.
+  <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-accordion-item</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-accordion-item</span> <span class="hljs-attr">heading</span>=<span class="hljs-string">&quot;Processing details&quot;</span>&gt;</span>
+    Standard applications are processed within 5–7 working days.
+  <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-accordion-item</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-accordion</span>&gt;</span>
+
+<span class="hljs-comment">&lt;!-- Default heading level (h3) --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-accordion</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-accordion-item</span> <span class="hljs-attr">heading</span>=<span class="hljs-string">&quot;Contact information&quot;</span>&gt;</span>
+    Reach us on 800-UAE-GOV or visit any service centre.
+  <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-accordion-item</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-accordion</span>&gt;</span>
+
+<span class="hljs-comment">&lt;!-- Triggers render inside &lt;h4&gt; elements — inside an h3 section --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aegov-accordion</span> <span class="hljs-attr">heading-level</span>=<span class="hljs-string">&quot;4&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-accordion-item</span> <span class="hljs-attr">heading</span>=<span class="hljs-string">&quot;Eligibility criteria&quot;</span>&gt;</span>
+    All UAE residents and nationals aged 18 and above are eligible.
+  <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-accordion-item</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-accordion</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <p class="text-sm font-semibold text-aeblack-500 mb-3">heading-level="2"</p>
+  <aegov-accordion heading-level="2">
+    <aegov-accordion-item heading="Trade licence application">Submit your application through the business licensing portal.</aegov-accordion-item>
+    <aegov-accordion-item heading="Processing details">Standard applications are processed within 5–7 working days.</aegov-accordion-item>
+  </aegov-accordion>
+  <p class="text-sm font-semibold text-aeblack-500 mt-8 mb-3">heading-level="3" (default)</p>
+  <aegov-accordion>
+    <aegov-accordion-item heading="Contact information">Reach us on 800-UAE-GOV or visit any service centre.</aegov-accordion-item>
+  </aegov-accordion>
+  <p class="text-sm font-semibold text-aeblack-500 mt-8 mb-3">heading-level="4"</p>
+  <aegov-accordion heading-level="4">
+    <aegov-accordion-item heading="Eligibility criteria">All UAE residents and nationals aged 18 and above are eligible.</aegov-accordion-item>
+  </aegov-accordion>
+</div>
+
+<hr>
 <h2>Custom Heading Slot</h2>
 <p>When the trigger needs richer markup — formatting, an inline icon, a status badge — use the <code>accordion-item-heading</code> slot instead of the <code>heading</code> property. The slot replaces the plain text heading entirely.</p>
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-accordion</span>&gt;</span>
@@ -263,7 +304,7 @@
 
 <hr>
 <h2>Disabled Items</h2>
-<p>Set <code>is-disabled=&quot;true&quot;</code> on an individual item to prevent it from being opened. The trigger renders as visually muted and is removed from the keyboard tab order.</p>
+<p>Set <code>is-disabled=&quot;true&quot;</code> on an individual item to prevent it from being opened. The trigger renders as visually muted and remains focusable, but is marked with <code>aria-disabled=&quot;true&quot;</code> to communicate its disabled state to assistive technology.</p>
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-accordion</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">aegov-accordion-item</span> <span class="hljs-attr">heading</span>=<span class="hljs-string">&quot;Active service&quot;</span>&gt;</span>
     This service is currently accepting applications.
@@ -349,32 +390,41 @@
 </div>
 
 <hr>
-<h2>Rich text enabled</h2>
-<p>The <code>aegov-accordion-item</code> is a slot that will accept HTML directly as well. you may therefore add text that is styled as a list, paragraph or more.</p>
-<aegov-accordion>
-  <aegov-accordion-item heading="Specifications">
-    <p>To repair the Kirby, you need the following items that mean specefications</p>
-    <ul>
-      <li>A 55 mm plugable chain</li>
-      <li>Original cleaning brush</li>
-      <li>60 ml of cleaning liquid</li>
-    </ul>
-    <p>It is essentially to have all of the above placed in the correct container before proceeding with the repair.</p>
-  </aegov-accordion-item>
-  <aegov-accordion-item heading="Hardware">
-    <p class="mb-6">Obtain the hardware from an authorised dealership only. Since you are located in Dubai, United Arab Emirates, here is the nearest dealship to you.</p>
-    <div class="flex items-start justify-start gap-8 pt-8">
-      <div class="bg-aeblack-500 w-60 h-48">&nbsp;</div>
-      <div>
-        <h6>Headoffice locaton</h6>
-        <p>17A Street, Al Habtoor Building<br>Umm Ramool,<br>Dubai, United Arab Emirates</p>
-      </div>
-    </div>
-  </aegov-accordion-item>
-  <aegov-accordion-item heading="Software">
-    <p>All software must be downloaded form our portal</p>
-  </aegov-accordion-item>
-</aegov-accordion>
+<h2>Rich Text Content</h2>
+<p>The default slot of <code>aegov-accordion-item</code> accepts any HTML — lists, paragraphs, tables, or nested components. The content panel expands to fit whatever you place inside it.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-accordion</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-accordion-item</span> <span class="hljs-attr">heading</span>=<span class="hljs-string">&quot;Required documents&quot;</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Submit the following when applying for a trade licence:<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">ul</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">li</span>&gt;</span>Completed application form<span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">li</span>&gt;</span>Emirates ID (both sides)<span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">li</span>&gt;</span>Passport copy<span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">li</span>&gt;</span>Proof of business address<span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">ul</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Additional documents may be requested depending on the business activity type.<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-accordion-item</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-accordion-item</span> <span class="hljs-attr">heading</span>=<span class="hljs-string">&quot;Processing time&quot;</span>&gt;</span>
+    Standard applications are processed within <span class="hljs-tag">&lt;<span class="hljs-name">strong</span>&gt;</span>5–7 working days<span class="hljs-tag">&lt;/<span class="hljs-name">strong</span>&gt;</span>.
+    Priority processing reduces this to <span class="hljs-tag">&lt;<span class="hljs-name">strong</span>&gt;</span>2–3 working days<span class="hljs-tag">&lt;/<span class="hljs-name">strong</span>&gt;</span> for an additional fee.
+  <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-accordion-item</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-accordion</span>&gt;</span></code></pre><div class="p-6 bg-aeblack-50/60 shadow-lg rounded-lg mt-6 my-20 not-aegov">
+  <aegov-accordion>
+    <aegov-accordion-item heading="Required documents">
+      <p>Submit the following when applying for a trade licence:</p>
+      <ul>
+        <li>Completed application form</li>
+        <li>Emirates ID (both sides)</li>
+        <li>Passport copy</li>
+        <li>Proof of business address</li>
+      </ul>
+      <p>Additional documents may be requested depending on the business activity type.</p>
+    </aegov-accordion-item>
+    <aegov-accordion-item heading="Processing time">
+      Standard applications are processed within <strong>5–7 working days</strong>.
+      Priority processing reduces this to <strong>2–3 working days</strong> for an additional fee.
+    </aegov-accordion-item>
+  </aegov-accordion>
+</div>
 
 
 <hr>
@@ -476,6 +526,13 @@
 <td><code>string</code></td>
 <td><code>&#39;base&#39;</code></td>
 </tr>
+<tr>
+<td><code>headingLevel</code></td>
+<td><code>heading-level</code></td>
+<td>HTML heading element (1–6) wrapping each trigger button. Cascaded to all items.</td>
+<td><code>number</code></td>
+<td><code>3</code></td>
+</tr>
 </tbody></table>
 <h3>aegov-accordion-item Properties</h3>
 <table>
@@ -537,6 +594,13 @@
 <td><code>&#39;sm&#39; | &#39;base&#39; | &#39;lg&#39;</code></td>
 <td><code>&#39;base&#39;</code></td>
 </tr>
+<tr>
+<td><code>headingLevel</code></td>
+<td><code>heading-level</code></td>
+<td>Heading element (1–6) wrapping the trigger button. Cascaded from the parent; can be overridden per-item.</td>
+<td><code>number</code></td>
+<td><code>3</code></td>
+</tr>
 </tbody></table>
 <blockquote>
 <p>Properties marked <em>Set by the parent</em> are written automatically by <code>aegov-accordion</code>. Setting them on an item directly will be overridden on the next sync.</p>
@@ -585,13 +649,16 @@
 </tbody></table>
 <h4>Listening for toggle events</h4>
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-accordion</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;faq&quot;</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-accordion-item</span> <span class="hljs-attr">heading</span>=<span class="hljs-string">&quot;A&quot;</span>&gt;</span>A<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-accordion-item</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-accordion-item</span> <span class="hljs-attr">heading</span>=<span class="hljs-string">&quot;B&quot;</span>&gt;</span>B<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-accordion-item</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-accordion-item</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;faq-a&quot;</span> <span class="hljs-attr">heading</span>=<span class="hljs-string">&quot;A&quot;</span>&gt;</span>A<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-accordion-item</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">aegov-accordion-item</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;faq-b&quot;</span> <span class="hljs-attr">heading</span>=<span class="hljs-string">&quot;B&quot;</span>&gt;</span>B<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-accordion-item</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">aegov-accordion</span>&gt;</span>
 
 <span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript">
-  <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">querySelector</span>(<span class="hljs-string">&#x27;#faq&#x27;</span>).<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;aegovAccordionItemToggle&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">e</span>) =&gt;</span> {
-    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;Item toggle requested, open =&#x27;</span>, e.<span class="hljs-property">detail</span>.<span class="hljs-property">open</span>);
+  <span class="hljs-comment">// aegovAccordionItemToggle has bubbles: false, so listen on each item directly.</span>
+  <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">querySelectorAll</span>(<span class="hljs-string">&#x27;#faq aegov-accordion-item&#x27;</span>).<span class="hljs-title function_">forEach</span>(<span class="hljs-function">(<span class="hljs-params">item</span>) =&gt;</span> {
+    item.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;aegovAccordionItemToggle&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">e</span>) =&gt;</span> {
+      <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;Item toggle requested, open =&#x27;</span>, e.<span class="hljs-property">detail</span>.<span class="hljs-property">open</span>);
+    });
   });
 </span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre><h3>Pass-through Attributes</h3>
 <p>The accordion does not forward any attributes to inner elements — set attributes directly on the host element where they are needed.</p>
@@ -633,7 +700,7 @@
 <li><code>Enter</code> and <code>Space</code> toggle the focused item.</li>
 <li>Arrow-key navigation (<code>ArrowUp</code> / <code>ArrowDown</code> / <code>Home</code> / <code>End</code>) moves focus between item triggers, matching the <a href="https://www.w3.org/WAI/ARIA/apg/patterns/accordion/">WAI-ARIA Accordion pattern</a>.</li>
 <li>Collapsed panels have the HTML <code>inert</code> attribute applied to their content wrapper. This removes all child elements — buttons, links, inputs — from both the keyboard tab sequence and the accessibility tree simultaneously, so there is no focus leakage into hidden content.</li>
-<li>Disabled items set the native <code>disabled</code> attribute on the trigger and do not emit toggle events.</li>
+<li>Disabled items set <code>aria-disabled=&quot;true&quot;</code> on the trigger (rather than the native <code>disabled</code> attribute) and do not emit toggle events.</li>
 </ul>
 <h3>Developer responsibilities</h3>
 <ul>

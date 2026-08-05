@@ -299,14 +299,14 @@ A realistic snippet from a service feedback form combining a labelled, required,
 
 ## Listening for value events
 
-The component emits four events: `aegovTextareaInput` on every keystroke, `aegovTextareaChange` when the value commits (typically on blur), `aegovTextareaFocus`, and `aegovTextareaBlur`.
+The component emits four events: `aegovTextareaValue` on every keystroke, `aegovTextareaChange` when the value commits (typically on blur), `aegovTextareaFocus`, and `aegovTextareaBlur`.
 
 ```html
 <aegov-textarea id="feedback" rows="4"></aegov-textarea>
 
 <script>
   const el = document.getElementById('feedback');
-  el.addEventListener('aegovTextareaInput', (e) => {
+  el.addEventListener('aegovTextareaValue', (e) => {
     console.log('Length now:', e.detail.value.length);
   });
   el.addEventListener('aegovTextareaChange', (e) => {
@@ -366,6 +366,9 @@ The textarea uses CSS logical properties throughout. When the document or any an
 | `isDisabled`  | `is-disabled`  | Disable the textarea.                                                                            | `boolean`         | `false`       |
 | `isReadonly`  | `is-readonly`  | Mark the textarea as read-only.                                                                  | `boolean`         | `false`       |
 | `isRequired`  | `is-required`  | Mark the field as required (sets native `required`).                                              | `boolean`         | `false`       |
+| `isInvalid`   | `is-invalid`   | Puts the field into error state.                                                                   | `boolean`         | `false`       |
+| `errorMessage` | `error-message` | Inline error text shown below the field when `isInvalid` is true.                               | `string`          | `''`          |
+| `hint`        | `hint`         | Inline hint text shown below the field when not in error state.                                    | `string`          | `''`          |
 | `resize`      | `resize`       | Resize handle behaviour. `auto` grows the field as the user types.                                | `TextareaResize`  | `'vertical'`  |
 | `maxlength`   | `maxlength`    | Maximum character count. Setting this enables a live character counter below the field.            | `number`          | `undefined`   |
 | `isCopyable`  | `is-copyable`  | Show a copy-to-clipboard button. Only takes effect with `is-readonly="true"`.                       | `boolean`         | `false`       |
@@ -375,16 +378,27 @@ The textarea uses CSS logical properties throughout. When the document or any an
 
 ### Slots
 
-The textarea has no named slots. The textarea content is set through the `value` property, not via slot text.
+| Slot    | Description |
+| ------- | ----------- |
+| `hint`  | Shown when not in error state. Use for rich HTML hint markup instead of the `hint` prop. |
+| `error` | Shown when `isInvalid` is true. Use for rich HTML error markup instead of the `errorMessage` prop. |
 
 ### Events
 
 | Event                  | Detail                              | Description                                                                  |
 | ---------------------- | ----------------------------------- | ---------------------------------------------------------------------------- |
-| `aegovTextareaInput`   | `{ value: string; event: Event }`   | Fires on every keystroke. Use for live validation and counter updates.        |
+| `aegovTextareaValue`   | `{ value: string; event: Event }`   | Fires on every keystroke. Use for live validation and counter updates.        |
 | `aegovTextareaChange`  | `{ value: string; event: Event }`   | Fires when the value commits (native `change`, typically on blur).            |
 | `aegovTextareaFocus`   | `FocusEvent`                        | Fires when the textarea gains focus.                                           |
 | `aegovTextareaBlur`    | `FocusEvent`                        | Fires when the textarea loses focus.                                           |
+| `aegovValidate`        | `AegovValidationDetail<string>`     | Fires when the component validates. Detail includes `name`, `value`, `validity`, `validationMessage`, `customError`, `trigger`. |
+
+### Methods
+
+| Method | Returns | Description |
+| ------ | ------- | ----------- |
+| `validate(trigger?)` | `Promise<AegovValidationResult>` | Re-runs validation and emits `aegovValidate`. |
+| `setCustomValidity(message)` | `Promise<void>` | Sets a custom error message. Pass `''` to clear. |
 
 ### Pass-through Attributes
 

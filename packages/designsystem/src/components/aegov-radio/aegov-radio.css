@@ -218,9 +218,184 @@
 }
 
 /* ============================
-   RTL support
+   List variant separator.
+   JS (componentDidLoad) adds radio-in-list / first / last / horizontal to the host.
+   Targets .aegov-radio (inner div) — Chromium doesn't re-evaluate :host(.class) rules
+   that set properties directly on the host when the class is added post-render via
+   classList.add(). Targeting an internal shadow element via :host(.class) .inner works
+   correctly and follows the established pattern in this codebase.
    ============================ */
-[dir="rtl"] .radio__wrapper,
-:dir(rtl) .radio__wrapper {
-  @apply flex-row-reverse;
+:host(.radio-in-list) .aegov-radio {
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--color-aeblack-100, oklch(0.8962 0.004 262));
+}
+:host(.radio-in-list.radio-list-first) .aegov-radio {
+  padding-top: 0;
+}
+:host(.radio-in-list.radio-list-last) .aegov-radio {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+:host(.radio-in-list.radio-list-horizontal) .aegov-radio {
+  padding-block: 0;
+  padding-inline: 0.75rem;
+  border-bottom: none;
+  border-inline-end: 1px solid var(--color-aeblack-100, oklch(0.8962 0.004 262));
+}
+:host(.radio-in-list.radio-list-first.radio-list-horizontal) .aegov-radio {
+  padding-inline-start: 0;
+}
+:host(.radio-in-list.radio-list-last.radio-list-horizontal) .aegov-radio {
+  border-inline-end: none;
+  padding-inline-end: 0;
+}
+
+/* ============================
+   RTL support
+   flex-direction: row with inherited direction:rtl already places the input on
+   the inline-start (right) and the label on the inline-end (left) — no override needed.
+   ============================ */
+
+/* ============================================================
+   Cards appearance
+   Synced from aegov-radio-group via syncChildren() → reflects as [appearance="cards"].
+   ============================================================ */
+
+:host(.radio-appearance-cards) .radio__wrapper {
+  @apply w-full border-2 border-solid rounded-lg bg-white transition-all duration-200 dark:bg-aeblack-900;
+}
+
+/* Card padding per size */
+:host(.radio-appearance-cards) .radio--xs .radio__wrapper   { @apply p-2; }
+:host(.radio-appearance-cards) .radio--sm .radio__wrapper   { @apply p-3; }
+:host(.radio-appearance-cards) .radio--base .radio__wrapper { @apply p-4; }
+:host(.radio-appearance-cards) .radio--lg .radio__wrapper   { @apply p-5; }
+:host(.radio-appearance-cards) .radio--xl .radio__wrapper   { @apply p-6; }
+
+/* Card rest border — per variant. Raw CSS so we can add guaranteed oklch fallbacks. */
+:host(.radio-appearance-cards) .radio-variant-primary .radio__wrapper {
+  border-color: var(--color-primary-500, var(--color-aegold-500, oklch(0.6343 0.101 85)));
+}
+:host(.radio-appearance-cards) .radio-variant-secondary .radio__wrapper {
+  border-color: var(--color-secondary-500, var(--color-camel-500, oklch(0.6343 0.101 55)));
+}
+:host(.radio-appearance-cards) .radio-variant-neutral-max .radio__wrapper {
+  border-color: var(--color-aeblack-300, oklch(0.7182 0.007 263));
+}
+:host(.radio-appearance-cards) .radio-variant-neutral-min .radio__wrapper {
+  border-color: var(--color-aeblack-200, oklch(0.8023 0.006 262));
+}
+
+/* Card hover border */
+:host(.radio-appearance-cards) .radio-variant-primary .radio__wrapper:hover:not(:has(input:disabled)) {
+  border-color: var(--color-primary-600, var(--color-aegold-600, oklch(0.5632 0.0956 83.8)));
+}
+:host(.radio-appearance-cards) .radio-variant-secondary .radio__wrapper:hover:not(:has(input:disabled)) {
+  border-color: var(--color-secondary-600, var(--color-camel-600, oklch(0.5632 0.0956 55)));
+}
+:host(.radio-appearance-cards) .radio-variant-neutral-max .radio__wrapper:hover:not(:has(input:disabled)) {
+  border-color: var(--color-aeblack-500, oklch(0.5888 0.008 264));
+}
+:host(.radio-appearance-cards) .radio-variant-neutral-min .radio__wrapper:hover:not(:has(input:disabled)) {
+  border-color: var(--color-aeblack-400, oklch(0.6535 0.008 263));
+}
+
+/* Card checked state */
+:host(.radio-appearance-cards) .radio-variant-primary .radio__wrapper:has(input:checked)    { @apply border-primary-600 bg-primary-50 dark:border-primary-400 dark:bg-primary-900/30; }
+:host(.radio-appearance-cards) .radio-variant-secondary .radio__wrapper:has(input:checked)  { @apply border-secondary-600 bg-secondary-50 dark:border-secondary-400 dark:bg-secondary-900/30; }
+:host(.radio-appearance-cards) .radio-variant-neutral-max .radio__wrapper:has(input:checked) { @apply border-aeblack-800 bg-aeblack-50 dark:border-aeblack-300 dark:bg-aeblack-700/30; }
+:host(.radio-appearance-cards) .radio-variant-neutral-min .radio__wrapper:has(input:checked) { @apply border-aeblack-300 bg-aeblack-50 dark:border-aeblack-500 dark:bg-aeblack-600/30; }
+
+/* Card disabled */
+:host(.radio-appearance-cards) .radio__wrapper:has(input:disabled) {
+  @apply cursor-not-allowed;
+}
+
+/* ============================================================
+   Pills appearance
+   Synced from aegov-radio-group via syncChildren() → reflects as [appearance="pills"].
+   ============================================================ */
+
+/* Hide native input visually — keeps it accessible to assistive tech */
+:host(.radio-appearance-pills) input[type="radio"] {
+  @apply absolute! w-px! h-px! overflow-hidden! p-0! -m-px!;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+:host(.radio-appearance-pills) input[type="radio"]::before {
+  @apply hidden!;
+}
+
+/* Pill wrapper base */
+:host(.radio-appearance-pills) .radio__wrapper {
+  @apply inline-flex items-center gap-0! rounded-full border-2 border-solid
+         bg-whitely-50 font-semibold
+         transition-all duration-200 cursor-pointer select-none
+         dark:bg-aeblack-800;
+}
+
+/* Pill rest border — per variant */
+:host(.radio-appearance-pills) .radio-variant-primary .radio__wrapper    { @apply border-primary-600 dark:border-primary-400; }
+:host(.radio-appearance-pills) .radio-variant-secondary .radio__wrapper  { @apply border-secondary-600 dark:border-secondary-400; }
+:host(.radio-appearance-pills) .radio-variant-neutral-max .radio__wrapper { @apply border-aeblack-800 dark:border-aeblack-300; }
+:host(.radio-appearance-pills) .radio-variant-neutral-min .radio__wrapper { @apply border-aeblack-300 dark:border-aeblack-500; }
+
+/* Pill label text color */
+:host(.radio-appearance-pills) .radio-variant-primary .radio__label-text    { @apply text-primary-600! dark:text-primary-300!; }
+:host(.radio-appearance-pills) .radio-variant-secondary .radio__label-text  { @apply text-secondary-600! dark:text-secondary-300!; }
+:host(.radio-appearance-pills) .radio-variant-neutral-max .radio__label-text { @apply text-aeblack-800! dark:text-aeblack-200!; }
+:host(.radio-appearance-pills) .radio-variant-neutral-min .radio__label-text { @apply text-aeblack-500! dark:text-aeblack-400!; }
+
+/* Pill padding + label size — per size */
+:host(.radio-appearance-pills) .radio--xs .radio__wrapper    { @apply px-2.5 py-0.5; }
+:host(.radio-appearance-pills) .radio--xs .radio__label-text  { @apply text-xs leading-3.5; }
+:host(.radio-appearance-pills) .radio--sm .radio__wrapper    { @apply px-3 py-1; }
+:host(.radio-appearance-pills) .radio--sm .radio__label-text  { @apply text-xs leading-4; }
+:host(.radio-appearance-pills) .radio--base .radio__wrapper  { @apply px-3.5 py-1.5; }
+:host(.radio-appearance-pills) .radio--base .radio__label-text { @apply text-sm leading-5; }
+:host(.radio-appearance-pills) .radio--lg .radio__wrapper    { @apply px-4 py-2; }
+:host(.radio-appearance-pills) .radio--lg .radio__label-text  { @apply text-base leading-6; }
+:host(.radio-appearance-pills) .radio--xl .radio__wrapper    { @apply px-5 py-2.5; }
+:host(.radio-appearance-pills) .radio--xl .radio__label-text  { @apply text-lg leading-7; }
+
+/* Pill hover border */
+:host(.radio-appearance-pills) .radio-variant-primary .radio__wrapper:hover:not(:has(input:disabled))    { @apply border-primary-400 dark:border-primary-300; }
+:host(.radio-appearance-pills) .radio-variant-secondary .radio__wrapper:hover:not(:has(input:disabled))  { @apply border-secondary-400 dark:border-secondary-300; }
+:host(.radio-appearance-pills) .radio-variant-neutral-max .radio__wrapper:hover:not(:has(input:disabled)) { @apply border-aeblack-600 dark:border-aeblack-200; }
+:host(.radio-appearance-pills) .radio-variant-neutral-min .radio__wrapper:hover:not(:has(input:disabled)) { @apply border-aeblack-400 dark:border-aeblack-400; }
+
+/* Pill checked — filled background */
+:host(.radio-appearance-pills) .radio-variant-primary .radio__wrapper:has(input:checked)    { @apply bg-primary-600 border-primary-600 dark:bg-primary-500 dark:border-primary-500; }
+:host(.radio-appearance-pills) .radio-variant-secondary .radio__wrapper:has(input:checked)  { @apply bg-secondary-600 border-secondary-600 dark:bg-secondary-500 dark:border-secondary-500; }
+:host(.radio-appearance-pills) .radio-variant-neutral-max .radio__wrapper:has(input:checked) { @apply bg-aeblack-800 border-aeblack-800 dark:bg-aeblack-300 dark:border-aeblack-300; }
+:host(.radio-appearance-pills) .radio-variant-neutral-min .radio__wrapper:has(input:checked) { @apply bg-aeblack-300 border-aeblack-300 dark:bg-aeblack-500 dark:border-aeblack-500; }
+
+/* Pill checked label text — white on filled background */
+:host(.radio-appearance-pills) .radio__wrapper:has(input:checked) .radio__label-text {
+  @apply text-whitely-50! dark:text-whitely-50!;
+}
+
+/* Pill checked hover */
+:host(.radio-appearance-pills) .radio-variant-primary .radio__wrapper:has(input:checked):hover:not(:has(input:disabled))    { @apply bg-primary-500 border-primary-500 dark:bg-primary-400 dark:border-primary-400; }
+:host(.radio-appearance-pills) .radio-variant-secondary .radio__wrapper:has(input:checked):hover:not(:has(input:disabled))  { @apply bg-secondary-500 border-secondary-500 dark:bg-secondary-400 dark:border-secondary-400; }
+:host(.radio-appearance-pills) .radio-variant-neutral-max .radio__wrapper:has(input:checked):hover:not(:has(input:disabled)) { @apply bg-aeblack-700 border-aeblack-700 dark:bg-aeblack-200 dark:border-aeblack-200; }
+:host(.radio-appearance-pills) .radio-variant-neutral-min .radio__wrapper:has(input:checked):hover:not(:has(input:disabled)) { @apply bg-aeblack-200 border-aeblack-200 dark:bg-aeblack-400 dark:border-aeblack-400; }
+
+/* Pill disabled */
+:host(.radio-appearance-pills) .radio__wrapper:has(input:disabled) {
+  @apply opacity-40 cursor-not-allowed;
+}
+
+/* Pill focus-visible outline */
+:host(.radio-appearance-pills) .radio-variant-primary .radio__wrapper:has(input:focus-visible)    { @apply outline-2 outline-offset-2 outline-primary-support-400; }
+:host(.radio-appearance-pills) .radio-variant-secondary .radio__wrapper:has(input:focus-visible)  { @apply outline-2 outline-offset-2 outline-secondary-support-400; }
+:host(.radio-appearance-pills) .radio-variant-neutral-max .radio__wrapper:has(input:focus-visible),
+:host(.radio-appearance-pills) .radio-variant-neutral-min .radio__wrapper:has(input:focus-visible) { @apply outline-2 outline-offset-2 outline-seablue-400; }
+
+/* Pill description — hidden in pill mode */
+:host(.radio-appearance-pills) .radio__hint {
+  @apply hidden;
 }

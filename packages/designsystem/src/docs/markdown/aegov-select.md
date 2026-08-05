@@ -7,7 +7,7 @@
 The `aegov-select` component composes a parent select with one or more `aegov-select-option` children. The default `appearance="default"` renders a true native `<select>` (best for simple lists, mobile, and form submission). The `appearance="listbox"` renders a styled custom dropdown panel that supports searching, multi-selection, and grouped options. Setting `is-multiple="true"` automatically forces the listbox appearance.
 
 ```html
-<aegov-select label="Ministry" placeholder="Select a ministry" name="ministry">
+<aegov-select placeholder="Select a ministry" name="ministry">
   <aegov-select-option value="moi">Ministry of Interior</aegov-select-option>
   <aegov-select-option value="mof">Ministry of Finance</aegov-select-option>
   <aegov-select-option value="moh">Ministry of Health and Prevention</aegov-select-option>
@@ -577,10 +577,13 @@ A grouped, multi-select example in RTL:
 | `value`         | `value`          | Currently selected value. For multi-select, a comma-separated string.                                  | `string`                   | `''`                 |
 | `name`          | `name`           | Form field name used during submission.                                                                | `string`                   | `undefined`          |
 | `isSearchable`  | `is-searchable`  | Show a search input above the option list. Listbox appearance only.                                       | `boolean`                  | `false`              |
-| `emptyMessage`  | `empty-message`  | Text shown when search yields no results.                                                              | `string`                   | `'No results found'` |
+| `emptyMessage`  | `empty-message`  | Text shown when search yields no results.                                                              | `string`                   | `''`                 |
 | `visibleItems`  | `visible-items`  | Maximum number of options visible before scrolling.                                                    | `number`                   | `6`                  |
 | `isClearable`   | `is-clearable`   | Show a clear button inside the trigger to reset selection.                                             | `boolean`                  | `false`              |
 | `extraClass`    | `extra-class`    | Additional CSS classes appended to the wrapper.                                                        | `string`                   | `undefined`          |
+| `isInvalid`     | `is-invalid`     | Puts the field into error state.                                                                       | `boolean`                  | `false`              |
+| `errorMessage`  | `error-message`  | Inline error text shown below the field when `isInvalid` is true.                                      | `string`                   | `''`                 |
+| `hint`          | `hint`           | Inline hint text shown below the field when not in error state.                                        | `string`                   | `''`                 |
 
 ### aegov-select-option Properties
 
@@ -602,6 +605,8 @@ A grouped, multi-select example in RTL:
 | Component                    | Slot         | Description                                                              |
 | ---------------------------- | ------------ | ------------------------------------------------------------------------ |
 | `aegov-select`               | _(default)_  | Place `aegov-select-option` and/or `aegov-select-option-group` here.      |
+| `aegov-select`               | `hint`       | Rich HTML hint markup, shown when not in error state.                     |
+| `aegov-select`               | `error`      | Rich HTML error markup, shown when `isInvalid` is true.                   |
 | `aegov-select-option`        | _(default)_  | The option's visible label.                                               |
 | `aegov-select-option-group`  | _(default)_  | The grouped `aegov-select-option` elements.                               |
 
@@ -612,6 +617,7 @@ A grouped, multi-select example in RTL:
 | `aegovSelectChange`  | `aegov-select`  | `{ value: string \| string[]; label: string \| string[] }`                  | Fires when the selected value changes.                   |
 | `aegovSelectOpen`    | `aegov-select`  | `void`                                                                      | Fires when the listbox dropdown opens (listbox appearance only).|
 | `aegovSelectClose`   | `aegov-select`  | `void`                                                                      | Fires when the listbox dropdown closes (listbox appearance only).|
+| `aegovValidate`      | `aegov-select`  | `AegovValidationDetail<string \| string[]>`                                 | Fires when the select validates.                         |
 
 For multi-select, the event detail's `value` and `label` are arrays. For single select, both are strings.
 
@@ -629,6 +635,13 @@ For multi-select, the event detail's `value` and `label` are arrays. For single 
   });
 </script>
 ```
+
+### Methods
+
+| Method                        | Returns                        | Description                                                              |
+| ----------------------------- | ------------------------------ | ------------------------------------------------------------------------ |
+| `validate(trigger?)`          | `Promise<AegovValidationResult>` | Re-runs validation and emits `aegovValidate`.                          |
+| `setCustomValidity(message)`  | `Promise<void>`                | Sets a custom error message. Pass `''` to clear.                         |
 
 ### Pass-through Attributes
 
@@ -697,9 +710,9 @@ See [BYO Validator](validation-byo.html) for more patterns.
 - The default appearance renders a real `<select>`, so it inherits all native accessibility — keyboard support, type-ahead, OS-level mobile pickers, and screen reader announcements.
 - The listbox appearance uses the WAI-ARIA combobox pattern: the trigger has `role="combobox"`, `aria-haspopup="listbox"`, `aria-expanded`, `aria-controls` pointing at the panel, and `aria-required` when `is-required` is set; the panel has `role="listbox"`; each option has `role="option"` and `aria-selected`; and `aria-activedescendant` tracks the focused option as the user types.
 - Grouped options use `role="group"` and `aria-labelledby` to associate the group header with its members.
-- The search input declares `role="searchbox"` and links to the listbox with `aria-controls`. Its `aria-label` and placeholder are bilingual (English and Arabic) — no developer translation needed.
+- The search input declares `role="combobox"` and links to the listbox with `aria-controls`. Its `aria-label` and placeholder are bilingual (English and Arabic) — no developer translation needed.
 - The clear button's `aria-label` is bilingual. No developer translation needed.
-- Error messages are announced via `aria-live="polite"` only after the first genuine blur (when focus leaves the component entirely, not when it moves to the internal search input or listbox options). This avoids premature error announcements while the user is still selecting.
+- The error region uses `role="alert"` (equivalent to `aria-live="assertive"`) so errors are announced immediately by screen readers. Errors surface only after the first genuine blur (when focus leaves the component entirely, not when it moves to the internal search input or listbox options), avoiding premature announcements while the user is still selecting.
 - Disabled options are skipped during keyboard navigation and announce as disabled.
 
 ### Developer responsibilities

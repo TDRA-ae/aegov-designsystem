@@ -27,11 +27,11 @@
 }
 
 .fileupload__hint {
-  @apply text-aeblack-600 mb-2 dark:text-aeblack-300 leading-snug;
+  @apply text-sm text-aeblack-600 mt-1.5 mb-2 dark:text-aeblack-300 leading-snug;
 }
 
 .fileupload__helper {
-  @apply text-aeblack-600 pt-1.5 dark:text-aeblack-300 leading-snug;
+  @apply text-aeblack-600 mt-1.5 dark:text-aeblack-300 leading-snug;
 }
 
 /* Size-specific label & helper text */

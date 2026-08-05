@@ -243,4 +243,29 @@
 .input__wrapper--sm .input__icon > svg { @apply w-4 h-4; }        /* 16px */
 .input__wrapper--base .input__icon > svg { @apply w-[18px] h-[18px]; }
 .input__wrapper--lg .input__icon > svg { @apply w-5 h-5; }        /* 20px */
+
+/* --------------------------------------------------------
+   aegov-input-group context: strip own border/ring/rounding
+   so the group wrapper is the single visual boundary.
+   `:host-context()` pierces from outside the shadow root.
+   -------------------------------------------------------- */
+:host-context(.aegov-input-group) .aegov-input {
+  @apply border-0 rounded-none bg-transparent shadow-none;
+}
+:host-context(.aegov-input-group) .aegov-input:focus,
+:host-context(.aegov-input-group) .aegov-input:focus-visible {
+  @apply border-0 ring-0 ring-offset-0 shadow-none;
+}
+:host-context(.aegov-input-group) .input__wrapper {
+  @apply rounded-none;
+}
+/* Hint and error belong outside the group's bordered container — hide when inside a group */
+:host-context(.aegov-input-group) .aegov-input__hint,
+:host-context(.aegov-input-group) .aegov-input__error {
+  @apply hidden;
+}
+/* Cancel own disabled opacity when the group wrapper already handles it (avoids 0.4×0.4=0.16 compound) */
+:host-context(.aegov-input-group:has([is-disabled])) .aegov-input:disabled {
+  opacity: 1;
+}
 .input__wrapper--xl .input__icon > svg { @apply w-[22px] h-[22px]; }

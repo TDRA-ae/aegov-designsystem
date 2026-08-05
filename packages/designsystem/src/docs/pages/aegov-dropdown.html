@@ -503,6 +503,13 @@
 <td><code>0</code></td>
 </tr>
 <tr>
+<td><code>tabBehavior</code></td>
+<td><code>tab-behavior</code></td>
+<td>ARIA keyboard pattern — <code>menu-button</code> (roving tab, arrow keys move focus inside) or <code>disclosure</code> (Tab moves focus, no roving).</td>
+<td><code>&#39;menu-button&#39; | &#39;disclosure&#39;</code></td>
+<td><code>&#39;menu-button&#39;</code></td>
+</tr>
+<tr>
 <td><code>isDisabled</code></td>
 <td><code>is-disabled</code></td>
 <td>When <code>true</code>, the trigger is inert and the dropdown will not open.</td>
@@ -584,9 +591,14 @@
 </tr>
 </thead>
 <tbody><tr>
-<td><code>toggle(viaKeyboard?: boolean)</code></td>
+<td><code>toggle(viaKeyboard?: boolean, viaArrow?: boolean)</code></td>
 <td><code>Promise&lt;void&gt;</code></td>
-<td>Toggle the dropdown open/closed regardless of <code>trigger</code>. Pass <code>true</code> from keyboard handlers so the first item receives focus.</td>
+<td>Toggle the dropdown open/closed. Pass <code>viaKeyboard: true</code> from keyboard handlers so the first item receives focus; <code>viaArrow: true</code> when opened with ArrowDown/ArrowUp.</td>
+</tr>
+<tr>
+<td><code>closeDropdown()</code></td>
+<td><code>Promise&lt;void&gt;</code></td>
+<td>Close the dropdown programmatically.</td>
 </tr>
 </tbody></table>
 <h3>Pass-through Attributes</h3>
@@ -627,7 +639,7 @@
 <li>The first focusable element inside the trigger slot (e.g. <code>&lt;aegov-button&gt;</code>) automatically receives <code>aria-haspopup=&quot;menu&quot;</code>, <code>aria-expanded</code>, and <code>aria-controls</code> (pointing at the menu&#39;s <code>id</code> when open). These attributes are set imperatively so they live on the element AT actually reads, not the wrapper div.</li>
 <li>The menu element has <code>role=&quot;menu&quot;</code> and <code>aria-labelledby</code> linking back to the trigger wrapper&#39;s <code>id</code>.</li>
 <li>Focusable children inside the menu without an explicit <code>role</code> automatically receive <code>role=&quot;menuitem&quot;</code>.</li>
-<li><code>Escape</code> closes the dropdown; <code>Tab</code> and <code>Arrow Up</code> / <code>Arrow Down</code> cycle focus through menu items.</li>
+<li><code>Escape</code> closes the dropdown and returns focus to the trigger. <code>Arrow Up</code> / <code>Arrow Down</code> move focus through menu items.</li>
 <li>Keyboard-triggered opens (<code>Enter</code>/<code>Space</code> on the focused trigger) move focus into the menu; pointer opens leave focus on the trigger, matching the WAI-ARIA menu pattern.</li>
 <li>Focus returns to the trigger on close using <code>preventScroll</code>, so the page does not jump if the trigger has scrolled out of view.</li>
 <li>Only one dropdown is open at a time. Nested dropdowns are exempt — opening a child does not close its parent.</li>
@@ -658,11 +670,11 @@
 </tr>
 <tr>
 <td><code>Tab</code></td>
-<td>Move focus to the next menu item; cycles within the open menu.</td>
+<td>Close the menu and move focus to the next focusable element on the page.</td>
 </tr>
 <tr>
 <td><code>Shift + Tab</code></td>
-<td>Move focus to the previous menu item.</td>
+<td>Close the menu and move focus to the previous focusable element on the page.</td>
 </tr>
 <tr>
 <td><code>Arrow Down</code></td>
@@ -671,6 +683,18 @@
 <tr>
 <td><code>Arrow Up</code></td>
 <td>Move focus to the previous menu item.</td>
+</tr>
+<tr>
+<td><code>Home</code></td>
+<td>Move focus to the first menu item.</td>
+</tr>
+<tr>
+<td><code>End</code></td>
+<td>Move focus to the last menu item.</td>
+</tr>
+<tr>
+<td><code>A–Z</code>, <code>0–9</code></td>
+<td>Typeahead: jump focus to the first menu item whose label starts with the typed character(s).</td>
 </tr>
 </tbody></table>
 <h3>Implementation notes</h3>

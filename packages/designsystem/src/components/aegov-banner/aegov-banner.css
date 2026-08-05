@@ -1,181 +1,416 @@
 /**
  * AEGOV Banner Component Styles
- *
- * A full-width banner component for site-wide announcements and notifications.
- * Supports multiple positioning modes (static, fixed, sticky) and layout modes (push, overlay).
  */
 
 :host {
   display: block;
-  position:relative;
+  position: relative;
   width: 100%;
 }
-
-/* ============================================
-   BASE BANNER STYLES
-   ============================================ */
 
 .aegov-banner {
   font-family: inherit;
   @apply w-full transition-all duration-300 ease-in-out ps-4 pe-2;
+
+  /*
+   * Action button color variables — set per banner variant below.
+   * Only resting/hover colors change per variant. Focus state is fixed:
+   *   - All buttons → primary button focus (primary-support-400 / primary-600 ring)
+   *   - neutral-max / neutral-min → their own focus (seablue-400 / aeblack-800 ring)
+   *
+   * Smart CSS: structure (padding, radius, height, transitions) flows from
+   * aegov-button-shared.css — banner overrides only color properties.
+   */
+
+  /* Solid / soft button appearance */
+  --banner-act-solid-bg:       var(--color-slate-800);
+  --banner-act-solid-border:   var(--color-slate-800);
+  --banner-act-solid-text:     var(--color-slate-50);
+  --banner-act-solid-hover-bg: var(--color-slate-900);
+  --banner-act-solid-hover-bd: var(--color-slate-900);
+
+  /* Outline / link button appearance */
+  --banner-act-outline-border: var(--color-slate-700);
+  --banner-act-outline-text:   var(--color-slate-700);
+  --banner-act-hover-bg:       var(--color-slate-100);
+  --banner-act-hover-text:     var(--color-slate-800);
+
+  /* Plain text link */
+  --banner-act-link-text:      var(--color-slate-700);
+  --banner-act-link-hover:     var(--color-slate-900);
+  --banner-act-link-ring:      var(--color-slate-600);
+
+  /*
+   * Focus ring — primary button ring, light/dark only.
+   * Neutral-max/neutral-min are excluded from all banner overrides;
+   * shadow DOM handles their resting + seablue focus naturally.
+   */
+  --banner-act-focus-ring: var(--color-primary-600);
+
+  :where(.dark, .dark *) & {
+    --banner-act-focus-ring: var(--color-primary-500);
+  }
+
   & .banner__container {
     @apply container flex items-start justify-between gap-4 mx-auto;
 
     & .banner__content {
-      @apply grow;
+      @apply grow flex flex-col;
+      align-items: center;
 
-      &>.banner__heading {
-        @apply block font-semibold mb-1;
+      & > .banner__text {
         font-size: inherit;
+        text-align: start;
+        width: fit-content;
+        max-width: 100%;
       }
 
-      &>.banner__text {
-        font-size: inherit;
-      }
-
-      &>.banner__text-center {
-        @apply text-center;
-      }
-
-      &>.banner__text-left {
-        @apply text-left;
+      & > .banner__text.banner__text--has-actions {
+        width: 100%;
       }
     }
   }
+
+  /* ================================================================
+     BANNER ACTIONS SLOT
+     Three child types:
+       1. aegov-button (shadow:true) → ::part(button) — colors only
+       2. aegov-link a.aegov-btn (button appearance) → colors only
+       3. a:not(.aegov-btn) / aegov-link a:not(.aegov-btn) → plain link
+     Focus state is identical to primary button for all, except
+     neutral-max / neutral-min which use their own seablue pattern.
+     ================================================================ */
   & .banner__actions {
-    @apply pt-6 pb-2;
+    @apply pt-4 pb-2 self-stretch flex flex-wrap gap-3 items-center;
 
-    &>div {
-      @apply flex flex-wrap gap-4;
+    /* ── 1. aegov-button (shadow:true) ─────────────────────────────────────
+       Banner resting/hover colors apply to ALL button variants.
+       Focus uses primary-support-400 for all; neutral-max/neutral-min
+       override at the end with seablue-400 (equal specificity, later → wins).
+       ────────────────────────────────────────────────────────────────────── */
+
+    /* Solid / Soft — resting */
+    & aegov-button[appearance="solid"]::part(button),
+    & aegov-button[appearance="soft"]::part(button),
+    & aegov-button:not([appearance])::part(button) {
+      background-color: var(--banner-act-solid-bg);
+      border-color:     var(--banner-act-solid-border);
+      color:            var(--banner-act-solid-text);
+    }
+    /* Solid / Soft — hover */
+    & aegov-button[appearance="solid"]::part(button):hover,
+    & aegov-button[appearance="soft"]::part(button):hover,
+    & aegov-button:not([appearance])::part(button):hover {
+      background-color: var(--banner-act-solid-hover-bg);
+      border-color:     var(--banner-act-solid-hover-bd);
+    }
+    /* Solid / Soft — focus: primary button pattern */
+    & aegov-button[appearance="solid"]::part(button):focus-visible,
+    & aegov-button[appearance="soft"]::part(button):focus-visible,
+    & aegov-button:not([appearance])::part(button):focus-visible {
+      background-color: var(--color-primary-support-400);
+      border-color:     var(--color-primary-support-400);
+      color:            var(--color-primary-support-950);
+      outline-color:    var(--banner-act-focus-ring);
+    }
+
+    /* Outline / Link — resting */
+    & aegov-button[appearance="outline"]::part(button),
+    & aegov-button[appearance="link"]::part(button) {
+      background-color: transparent;
+      border-color:     var(--banner-act-outline-border);
+      color:            var(--banner-act-outline-text);
+    }
+    /* Outline / Link — hover */
+    & aegov-button[appearance="outline"]::part(button):hover,
+    & aegov-button[appearance="link"]::part(button):hover {
+      background-color: var(--banner-act-hover-bg);
+      color:            var(--banner-act-hover-text);
+    }
+    /* Outline / Link — focus: primary button pattern */
+    & aegov-button[appearance="outline"]::part(button):focus-visible,
+    & aegov-button[appearance="link"]::part(button):focus-visible {
+      background-color: var(--color-primary-support-400);
+      border-color:     var(--color-primary-support-400);
+      color:            var(--color-primary-support-950);
+      outline-color:    var(--banner-act-focus-ring);
+    }
+
+    /* neutral-max / neutral-min focus override — equal specificity, later → wins */
+    & aegov-button[variant="neutral-max"]::part(button):focus-visible,
+    & aegov-button[variant="neutral-min"]::part(button):focus-visible {
+      background-color: var(--color-seablue-400);
+      border-color:     var(--color-seablue-400);
+      color:            var(--color-seablue-950);
+      outline-color:    var(--color-aeblack-800);
+    }
+    :where(.dark, .dark *) & aegov-button[variant="neutral-max"]::part(button):focus-visible,
+    :where(.dark, .dark *) & aegov-button[variant="neutral-min"]::part(button):focus-visible {
+      outline-color: var(--color-aeblack-200);
+    }
+
+    /* ── 2. aegov-link with button appearance (scoped:false → light DOM) ── */
+
+    & aegov-link a.aegov-btn {
+      &.btn-solid,
+      &.btn-soft {
+        background-color: var(--banner-act-solid-bg);
+        border-color:     var(--banner-act-solid-border);
+        color:            var(--banner-act-solid-text);
+
+        &:hover {
+          background-color: var(--banner-act-solid-hover-bg);
+          border-color:     var(--banner-act-solid-hover-bd);
+          color:            var(--banner-act-solid-text);
+        }
+        &:focus-visible {
+          background-color: var(--color-primary-support-400);
+          border-color:     var(--color-primary-support-400);
+          color:            var(--color-primary-support-950);
+          outline-color:    var(--banner-act-focus-ring);
+        }
+      }
+
+      &.btn-outline,
+      &.btn-link {
+        background-color: transparent;
+        border-color:     var(--banner-act-outline-border);
+        color:            var(--banner-act-outline-text);
+
+        &:hover {
+          background-color: var(--banner-act-hover-bg);
+          border-color:     var(--banner-act-outline-border);
+          color:            var(--banner-act-hover-text);
+        }
+        &:focus-visible {
+          background-color: var(--color-primary-support-400);
+          border-color:     var(--color-primary-support-400);
+          color:            var(--color-primary-support-950);
+          outline-color:    var(--banner-act-focus-ring);
+        }
+      }
+
+      /* neutral-max / neutral-min focus override */
+      &.btn-neutral-max:focus-visible,
+      &.btn-neutral-min:focus-visible {
+        background-color: var(--color-seablue-400);
+        border-color:     var(--color-seablue-400);
+        color:            var(--color-seablue-950);
+        outline-color:    var(--color-aeblack-800);
+      }
+    }
+
+    /* ── 3. Plain <a> / aegov-link as text link (no button appearance) ─── */
+
+    & a:not(.aegov-btn),
+    & aegov-link a:not(.aegov-btn) {
+      color:           var(--banner-act-link-text);
+      text-decoration: underline;
+      cursor:          pointer;
+
+      &:hover {
+        color: var(--banner-act-link-hover);
+      }
+      &:focus-visible {
+        outline-style:  solid;
+        outline-width:  2px;
+        outline-offset: 2px;
+        outline-color:  var(--banner-act-link-ring);
+      }
     }
   }
+
   & .banner__icon {
-    @apply shrink-0 flex items-center self-center;
+    @apply shrink-0 flex items-center self-start mt-0.5;
+    & svg {
+      fill: currentColor;
+    }
   }
 
   & .banner__dismiss {
-    @apply shrink-0 size-6 bg-transparent border-0 rounded-md focus-visible:outline-2 focus-visible:outline-offset-1 flex justify-center;
-    color:inherit;
-    &>svg {
+    @apply shrink-0 self-start mt-0.5 size-6 bg-transparent border-0 rounded-md focus-visible:outline-2 focus-visible:outline-offset-1 flex justify-center items-center;
+    color: inherit;
+    outline-color: currentColor;
+    & > svg {
       @apply size-4;
-      color:inherit;
+      color: inherit;
     }
   }
+
+  /* ============================================
+     VARIANT × APPEARANCE COLOR BLOCKS
+     Only resting/hover colors are variant-specific.
+     Focus state is universal (set above, not here).
+     ============================================ */
 
   &.banner--soft {
     &.banner--default {
       @apply bg-slate-50 text-slate-800 dark:bg-slate-900 dark:text-slate-100;
-      &.banner--top {
-        @apply border-b-2 border-slate-800 dark:border-slate-400;
-      }
-      &.banner--bottom {
-        @apply border-t-2 border-slate-800 dark:border-slate-400;
-      }
-      & .banner__actions {
-        & button,
-        & a,
-        ::slotted(button) {
-          @apply bg-transparent border-slate-700 text-slate-700 focus-visible:outline-slate-800
-                 dark:border-slate-300 dark:text-slate-200 dark:focus-visible:outline-slate-200;
-          &.btn-solid {
-            @apply border-slate-800 bg-slate-800 text-slate-50 dark:border-slate-200 dark:bg-slate-200 dark:text-slate-900;
-          }
-          &.btn-outline {
-            @apply bg-transparent;
-          }
-        }
+      &.banner--top    { @apply border-b-2 border-slate-800 dark:border-slate-400; }
+      &.banner--bottom { @apply border-t-2 border-slate-800 dark:border-slate-400; }
+
+      --banner-act-solid-bg:       var(--color-slate-800);
+      --banner-act-solid-border:   var(--color-slate-800);
+      --banner-act-solid-text:     var(--color-slate-50);
+      --banner-act-solid-hover-bg: var(--color-slate-900);
+      --banner-act-solid-hover-bd: var(--color-slate-900);
+      --banner-act-outline-border: var(--color-slate-700);
+      --banner-act-outline-text:   var(--color-slate-700);
+      --banner-act-hover-bg:       var(--color-slate-100);
+      --banner-act-hover-text:     var(--color-slate-800);
+      --banner-act-link-text:      var(--color-slate-700);
+      --banner-act-link-hover:     var(--color-slate-900);
+      --banner-act-link-ring:      var(--color-slate-600);
+
+      :where(.dark, .dark *) & {
+        --banner-act-solid-bg:       var(--color-slate-200);
+        --banner-act-solid-border:   var(--color-slate-200);
+        --banner-act-solid-text:     var(--color-slate-900);
+        --banner-act-solid-hover-bg: var(--color-slate-100);
+        --banner-act-solid-hover-bd: var(--color-slate-100);
+        --banner-act-outline-border: var(--color-slate-300);
+        --banner-act-outline-text:   var(--color-slate-200);
+        --banner-act-hover-bg:       var(--color-slate-800);
+        --banner-act-hover-text:     var(--color-slate-100);
+        --banner-act-link-text:      var(--color-slate-200);
+        --banner-act-link-hover:     var(--color-slate-100);
+        --banner-act-link-ring:      var(--color-slate-300);
       }
     }
+
     &.banner--error {
       @apply bg-aered-50 text-aered-700 dark:bg-aered-950 dark:text-aered-200;
-      &.banner--top {
-        @apply border-b-2 border-aered-700 dark:border-aered-400;
-      }
-      &.banner--bottom {
-        @apply border-t-2 border-aered-700 dark:border-aered-400;
-      }
-      & .banner__actions {
-        & button,
-        & a,
-        ::slotted(button) {
-          @apply bg-transparent border-aered-700 text-aered-700 focus-visible:outline-aered-600
-                 dark:border-aered-300 dark:text-aered-200 dark:focus-visible:outline-aered-300;
-          &.btn-solid {
-            @apply border-aered-600 bg-aered-600 text-whitely-50 dark:border-aered-600 dark:bg-aered-600 dark:text-whitely-50;
-          }
-          &.btn-outline {
-            @apply bg-transparent;
-          }
-        }
+      &.banner--top    { @apply border-b-2 border-aered-700 dark:border-aered-400; }
+      &.banner--bottom { @apply border-t-2 border-aered-700 dark:border-aered-400; }
+
+      --banner-act-solid-bg:       var(--color-aered-600);
+      --banner-act-solid-border:   var(--color-aered-600);
+      --banner-act-solid-text:     var(--color-whitely-50);
+      --banner-act-solid-hover-bg: var(--color-aered-700);
+      --banner-act-solid-hover-bd: var(--color-aered-700);
+      --banner-act-outline-border: var(--color-aered-700);
+      --banner-act-outline-text:   var(--color-aered-700);
+      --banner-act-hover-bg:       var(--color-aered-100);
+      --banner-act-hover-text:     var(--color-aered-800);
+      --banner-act-link-text:      var(--color-aered-700);
+      --banner-act-link-hover:     var(--color-aered-800);
+      --banner-act-link-ring:      var(--color-aered-600);
+
+      :where(.dark, .dark *) & {
+        --banner-act-solid-bg:       var(--color-aered-500);
+        --banner-act-solid-border:   var(--color-aered-500);
+        --banner-act-solid-text:     var(--color-whitely-50);
+        --banner-act-solid-hover-bg: var(--color-aered-400);
+        --banner-act-solid-hover-bd: var(--color-aered-400);
+        --banner-act-outline-border: var(--color-aered-300);
+        --banner-act-outline-text:   var(--color-aered-200);
+        --banner-act-hover-bg:       var(--color-aered-900);
+        --banner-act-hover-text:     var(--color-aered-100);
+        --banner-act-link-text:      var(--color-aered-200);
+        --banner-act-link-hover:     var(--color-aered-100);
+        --banner-act-link-ring:      var(--color-aered-300);
       }
     }
+
     &.banner--success {
       @apply bg-aegreen-50 text-aegreen-700 dark:bg-aegreen-950 dark:text-aegreen-200;
-      &.banner--top {
-        @apply border-b-2 border-aegreen-700 dark:border-aegreen-400;
-      }
-      &.banner--bottom {
-        @apply border-t-2 border-aegreen-700 dark:border-aegreen-400;
-      }
-      & .banner__actions {
-        & button,
-        & a,
-        ::slotted(button) {
-          @apply bg-transparent border-aegreen-700 text-aegreen-700 focus-visible:outline-aegreen-600
-                 dark:border-aegreen-300 dark:text-aegreen-200 dark:focus-visible:outline-aegreen-300;
-          &.btn-solid {
-            @apply border-aegreen-700 bg-aegreen-700 text-whitely-50 dark:border-aegreen-700 dark:bg-aegreen-700 dark:text-whitely-50;
-          }
-          &.btn-outline {
-            @apply bg-transparent;
-          }
-        }
+      &.banner--top    { @apply border-b-2 border-aegreen-700 dark:border-aegreen-400; }
+      &.banner--bottom { @apply border-t-2 border-aegreen-700 dark:border-aegreen-400; }
+
+      --banner-act-solid-bg:       var(--color-aegreen-700);
+      --banner-act-solid-border:   var(--color-aegreen-700);
+      --banner-act-solid-text:     var(--color-whitely-50);
+      --banner-act-solid-hover-bg: var(--color-aegreen-800);
+      --banner-act-solid-hover-bd: var(--color-aegreen-800);
+      --banner-act-outline-border: var(--color-aegreen-700);
+      --banner-act-outline-text:   var(--color-aegreen-700);
+      --banner-act-hover-bg:       var(--color-aegreen-100);
+      --banner-act-hover-text:     var(--color-aegreen-800);
+      --banner-act-link-text:      var(--color-aegreen-700);
+      --banner-act-link-hover:     var(--color-aegreen-800);
+      --banner-act-link-ring:      var(--color-aegreen-600);
+
+      :where(.dark, .dark *) & {
+        --banner-act-solid-bg:       var(--color-aegreen-600);
+        --banner-act-solid-border:   var(--color-aegreen-600);
+        --banner-act-solid-text:     var(--color-whitely-50);
+        --banner-act-solid-hover-bg: var(--color-aegreen-500);
+        --banner-act-solid-hover-bd: var(--color-aegreen-500);
+        --banner-act-outline-border: var(--color-aegreen-300);
+        --banner-act-outline-text:   var(--color-aegreen-200);
+        --banner-act-hover-bg:       var(--color-aegreen-900);
+        --banner-act-hover-text:     var(--color-aegreen-100);
+        --banner-act-link-text:      var(--color-aegreen-200);
+        --banner-act-link-hover:     var(--color-aegreen-100);
+        --banner-act-link-ring:      var(--color-aegreen-300);
       }
     }
+
     &.banner--warning {
       @apply bg-camel-50 text-camel-700 dark:bg-camel-950 dark:text-camel-200;
-      &.banner--top {
-        @apply border-b-2 border-camel-700 dark:border-camel-400;
-      }
-      &.banner--bottom {
-        @apply border-t-2 border-camel-700 dark:border-camel-400;
-      }
-      & .banner__actions {
-        & button,
-        & a,
-        ::slotted(button) {
-          @apply bg-transparent border-camel-700 text-camel-700 focus-visible:outline-camel-600
-                 dark:border-camel-300 dark:text-camel-200 dark:focus-visible:outline-camel-300;
-          &.btn-solid {
-            @apply border-camel-700 bg-camel-700 text-whitely-50 dark:border-camel-700 dark:bg-camel-700 dark:text-whitely-50;
-          }
-          &.btn-outline {
-            @apply bg-transparent;
-          }
-        }
+      &.banner--top    { @apply border-b-2 border-camel-700 dark:border-camel-400; }
+      &.banner--bottom { @apply border-t-2 border-camel-700 dark:border-camel-400; }
+
+      --banner-act-solid-bg:       var(--color-camel-700);
+      --banner-act-solid-border:   var(--color-camel-700);
+      --banner-act-solid-text:     var(--color-whitely-50);
+      --banner-act-solid-hover-bg: var(--color-camel-800);
+      --banner-act-solid-hover-bd: var(--color-camel-800);
+      --banner-act-outline-border: var(--color-camel-700);
+      --banner-act-outline-text:   var(--color-camel-700);
+      --banner-act-hover-bg:       var(--color-camel-100);
+      --banner-act-hover-text:     var(--color-camel-800);
+      --banner-act-link-text:      var(--color-camel-700);
+      --banner-act-link-hover:     var(--color-camel-800);
+      --banner-act-link-ring:      var(--color-camel-600);
+
+      :where(.dark, .dark *) & {
+        --banner-act-solid-bg:       var(--color-camel-600);
+        --banner-act-solid-border:   var(--color-camel-600);
+        --banner-act-solid-text:     var(--color-whitely-50);
+        --banner-act-solid-hover-bg: var(--color-camel-500);
+        --banner-act-solid-hover-bd: var(--color-camel-500);
+        --banner-act-outline-border: var(--color-camel-300);
+        --banner-act-outline-text:   var(--color-camel-200);
+        --banner-act-hover-bg:       var(--color-camel-900);
+        --banner-act-hover-text:     var(--color-camel-100);
+        --banner-act-link-text:      var(--color-camel-200);
+        --banner-act-link-hover:     var(--color-camel-100);
+        --banner-act-link-ring:      var(--color-camel-300);
       }
     }
+
     &.banner--info {
       @apply bg-techblue-50 text-techblue-700 dark:bg-techblue-950 dark:text-techblue-200;
-      &.banner--top {
-        @apply border-b-2 border-techblue-700 dark:border-techblue-400;
-      }
-      &.banner--bottom {
-        @apply border-t-2 border-techblue-700 dark:border-techblue-400;
-      }
-      & .banner__actions {
-        & button,
-        & a,
-        ::slotted(button) {
-          @apply bg-transparent border-techblue-700 text-techblue-700 focus-visible:outline-techblue-600
-                 dark:border-techblue-300 dark:text-techblue-200 dark:focus-visible:outline-techblue-300;
-          &.btn-solid {
-            @apply border-techblue-600 bg-techblue-600 text-whitely-50 dark:border-techblue-600 dark:bg-techblue-600 dark:text-whitely-50;
-          }
-          &.btn-outline {
-            @apply bg-transparent;
-          }
-        }
+      &.banner--top    { @apply border-b-2 border-techblue-700 dark:border-techblue-400; }
+      &.banner--bottom { @apply border-t-2 border-techblue-700 dark:border-techblue-400; }
+
+      --banner-act-solid-bg:       var(--color-techblue-600);
+      --banner-act-solid-border:   var(--color-techblue-600);
+      --banner-act-solid-text:     var(--color-whitely-50);
+      --banner-act-solid-hover-bg: var(--color-techblue-700);
+      --banner-act-solid-hover-bd: var(--color-techblue-700);
+      --banner-act-outline-border: var(--color-techblue-700);
+      --banner-act-outline-text:   var(--color-techblue-700);
+      --banner-act-hover-bg:       var(--color-techblue-100);
+      --banner-act-hover-text:     var(--color-techblue-800);
+      --banner-act-link-text:      var(--color-techblue-700);
+      --banner-act-link-hover:     var(--color-techblue-800);
+      --banner-act-link-ring:      var(--color-techblue-600);
+
+      :where(.dark, .dark *) & {
+        --banner-act-solid-bg:       var(--color-techblue-500);
+        --banner-act-solid-border:   var(--color-techblue-500);
+        --banner-act-solid-text:     var(--color-whitely-50);
+        --banner-act-solid-hover-bg: var(--color-techblue-400);
+        --banner-act-solid-hover-bd: var(--color-techblue-400);
+        --banner-act-outline-border: var(--color-techblue-300);
+        --banner-act-outline-text:   var(--color-techblue-200);
+        --banner-act-hover-bg:       var(--color-techblue-900);
+        --banner-act-hover-text:     var(--color-techblue-100);
+        --banner-act-link-text:      var(--color-techblue-200);
+        --banner-act-link-hover:     var(--color-techblue-100);
+        --banner-act-link-ring:      var(--color-techblue-300);
       }
     }
   }
@@ -183,83 +418,87 @@
   &.banner--solid {
     &.banner--default {
       @apply bg-slate-600 text-whitely-50 dark:bg-slate-500 dark:text-whitely-50;
-      & .banner__actions {
-        & button,
-        & a,
-        ::slotted(button) {
-          @apply bg-transparent border-slate-100 text-slate-50 focus-visible:outline-slate-50;
-          &.btn-solid {
-            @apply border-slate-100 bg-slate-100 text-slate-900;
-          }
-          &.btn-outline {
-            @apply bg-transparent;
-          }
-        }
-      }
+
+      --banner-act-solid-bg:       var(--color-slate-100);
+      --banner-act-solid-border:   var(--color-slate-100);
+      --banner-act-solid-text:     var(--color-slate-900);
+      --banner-act-solid-hover-bg: var(--color-whitely-50);
+      --banner-act-solid-hover-bd: var(--color-whitely-50);
+      --banner-act-outline-border: var(--color-slate-200);
+      --banner-act-outline-text:   var(--color-slate-100);
+      --banner-act-hover-bg:       var(--color-slate-700);
+      --banner-act-hover-text:     var(--color-whitely-50);
+      --banner-act-link-text:      var(--color-whitely-50);
+      --banner-act-link-hover:     var(--color-slate-200);
+      --banner-act-link-ring:      var(--color-slate-100);
     }
+
     &.banner--error {
       @apply bg-aered-600 text-whitely-50 dark:bg-aered-600 dark:text-whitely-50;
-      & .banner__actions {
-        & button,
-        & a,
-        ::slotted(button) {
-          @apply bg-transparent border-aered-100 text-aered-50 focus-visible:outline-aered-50;
-          &.btn-solid {
-            @apply border-aered-100 bg-aered-100 text-aered-900;
-          }
-          &.btn-outline {
-            @apply bg-transparent;
-          }
-        }
-      }
+
+      --banner-act-solid-bg:       var(--color-aered-100);
+      --banner-act-solid-border:   var(--color-aered-100);
+      --banner-act-solid-text:     var(--color-aered-900);
+      --banner-act-solid-hover-bg: var(--color-whitely-50);
+      --banner-act-solid-hover-bd: var(--color-whitely-50);
+      --banner-act-outline-border: var(--color-aered-200);
+      --banner-act-outline-text:   var(--color-aered-100);
+      --banner-act-hover-bg:       var(--color-aered-700);
+      --banner-act-hover-text:     var(--color-whitely-50);
+      --banner-act-link-text:      var(--color-whitely-50);
+      --banner-act-link-hover:     var(--color-aered-100);
+      --banner-act-link-ring:      var(--color-aered-100);
     }
+
     &.banner--success {
       @apply bg-aegreen-700 text-whitely-50 dark:bg-aegreen-700 dark:text-whitely-50;
-      & .banner__actions {
-        & button,
-        & a,
-        ::slotted(button) {
-          @apply bg-transparent border-aegreen-100 text-aegreen-50 focus-visible:outline-aegreen-50;
-          &.btn-solid {
-            @apply border-aegreen-100 bg-aegreen-100 text-aegreen-900;
-          }
-          &.btn-outline {
-            @apply bg-transparent;
-          }
-        }
-      }
+
+      --banner-act-solid-bg:       var(--color-aegreen-100);
+      --banner-act-solid-border:   var(--color-aegreen-100);
+      --banner-act-solid-text:     var(--color-aegreen-900);
+      --banner-act-solid-hover-bg: var(--color-whitely-50);
+      --banner-act-solid-hover-bd: var(--color-whitely-50);
+      --banner-act-outline-border: var(--color-aegreen-200);
+      --banner-act-outline-text:   var(--color-aegreen-100);
+      --banner-act-hover-bg:       var(--color-aegreen-800);
+      --banner-act-hover-text:     var(--color-whitely-50);
+      --banner-act-link-text:      var(--color-whitely-50);
+      --banner-act-link-hover:     var(--color-aegreen-100);
+      --banner-act-link-ring:      var(--color-aegreen-100);
     }
+
     &.banner--warning {
       @apply bg-camel-700 text-whitely-50 dark:bg-camel-700 dark:text-whitely-50;
-      & .banner__actions {
-        & button,
-        & a,
-        ::slotted(button) {
-          @apply bg-transparent border-camel-100 text-camel-50 focus-visible:outline-camel-50;
-          &.btn-solid {
-            @apply border-camel-100 bg-camel-100 text-camel-900;
-          }
-          &.btn-outline {
-            @apply bg-transparent;
-          }
-        }
-      }
+
+      --banner-act-solid-bg:       var(--color-camel-100);
+      --banner-act-solid-border:   var(--color-camel-100);
+      --banner-act-solid-text:     var(--color-camel-900);
+      --banner-act-solid-hover-bg: var(--color-whitely-50);
+      --banner-act-solid-hover-bd: var(--color-whitely-50);
+      --banner-act-outline-border: var(--color-camel-200);
+      --banner-act-outline-text:   var(--color-camel-100);
+      --banner-act-hover-bg:       var(--color-camel-800);
+      --banner-act-hover-text:     var(--color-whitely-50);
+      --banner-act-link-text:      var(--color-whitely-50);
+      --banner-act-link-hover:     var(--color-camel-100);
+      --banner-act-link-ring:      var(--color-camel-100);
     }
+
     &.banner--info {
       @apply bg-techblue-600 text-whitely-50 dark:bg-techblue-600 dark:text-whitely-50;
-      & .banner__actions {
-        & button,
-        & a,
-        ::slotted(button) {
-          @apply bg-transparent border-techblue-100 text-techblue-50 focus-visible:outline-techblue-50;
-          &.btn-solid {
-            @apply border-techblue-100 bg-techblue-100 text-techblue-900;
-          }
-          &.btn-outline {
-            @apply bg-transparent;
-          }
-        }
-      }
+
+      --banner-act-solid-bg:       var(--color-techblue-100);
+      --banner-act-solid-border:   var(--color-techblue-100);
+      --banner-act-solid-text:     var(--color-techblue-900);
+      --banner-act-solid-hover-bg: var(--color-whitely-50);
+      --banner-act-solid-hover-bd: var(--color-whitely-50);
+      --banner-act-outline-border: var(--color-techblue-200);
+      --banner-act-outline-text:   var(--color-techblue-100);
+      --banner-act-hover-bg:       var(--color-techblue-700);
+      --banner-act-hover-text:     var(--color-whitely-50);
+      --banner-act-link-text:      var(--color-whitely-50);
+      --banner-act-link-hover:     var(--color-techblue-100);
+      --banner-act-link-ring:      var(--color-techblue-100);
     }
   }
 
@@ -280,23 +519,13 @@
     & .banner__dismiss { @apply size-7; & > svg { @apply size-5; } }
   }
 
-  &.banner--fixed {
-    @apply fixed left-0 right-0 z-1000;
-  }
-  &.banner--sticky {
-    @apply sticky left-0 right-0 z-999;
-  }
+  &.banner--fixed  { @apply fixed left-0 right-0 z-1000; }
+  &.banner--sticky { @apply sticky left-0 right-0 z-999; }
   &.banner--fixed.banner--top,
-  &.banner--sticky.banner--top {
-    @apply top-0;
-  }
+  &.banner--sticky.banner--top   { @apply top-0; }
   &.banner--fixed.banner--bottom,
-  &.banner--sticky.banner--bottom {
-    @apply bottom-0;
-  }
-  &.banner--top {
-    @apply shadow-xl;
-  }
+  &.banner--sticky.banner--bottom { @apply bottom-0; }
+  &.banner--top { @apply shadow-xl; }
 }
 
 

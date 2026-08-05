@@ -217,10 +217,6 @@ export namespace Components {
          */
         "fieldId"?: string;
         /**
-          * Optional visible heading label for the banner. When provided, a `<span id="${fieldId}-heading">` is rendered inside the banner and the wrapper receives `aria-labelledby="${fieldId}-heading"`. Required for role="status" banners that need an accessible name.
-         */
-        "heading"?: string;
-        /**
           * Whether the banner can be dismissed/closed.
           * @default true
          */
@@ -496,6 +492,11 @@ export namespace Components {
         "variant": CardVariant;
     }
     interface AegovCheckbox {
+        /**
+          * Visual appearance set by a parent aegov-checkbox-group. Not meant to be set directly.
+          * @default 'default'
+         */
+        "appearance": string;
         /**
           * Inline error message. Use `error` slot for rich markup.
           * @default ''
@@ -1796,6 +1797,11 @@ export namespace Components {
         "value"?: number;
     }
     interface AegovRadio {
+        /**
+          * Visual appearance set by a parent aegov-radio-group. Not meant to be set directly.
+          * @default 'default'
+         */
+        "appearance": string;
         /**
           * Inline error message. Use `error` slot for rich markup.
           * @default ''
@@ -3857,10 +3863,6 @@ declare namespace LocalJSX {
          */
         "fieldId"?: string;
         /**
-          * Optional visible heading label for the banner. When provided, a `<span id="${fieldId}-heading">` is rendered inside the banner and the wrapper receives `aria-labelledby="${fieldId}-heading"`. Required for role="status" banners that need an accessible name.
-         */
-        "heading"?: string;
-        /**
           * Whether the banner can be dismissed/closed.
           * @default true
          */
@@ -4164,6 +4166,11 @@ declare namespace LocalJSX {
         "variant"?: CardVariant;
     }
     interface AegovCheckbox {
+        /**
+          * Visual appearance set by a parent aegov-checkbox-group. Not meant to be set directly.
+          * @default 'default'
+         */
+        "appearance"?: string;
         /**
           * If `true`, the user cannot interact with the element.
          */
@@ -5531,6 +5538,11 @@ declare namespace LocalJSX {
     }
     interface AegovRadio {
         /**
+          * Visual appearance set by a parent aegov-radio-group. Not meant to be set directly.
+          * @default 'default'
+         */
+        "appearance"?: string;
+        /**
           * If `true`, the user cannot interact with the element.
          */
         "disabled"?: boolean;
@@ -6511,7 +6523,6 @@ declare namespace LocalJSX {
         "display": BannerDisplay;
         "mode": BannerMode;
         "isDismissible": boolean;
-        "heading": string;
         "size": string;
         "isFocusable": boolean;
     }
@@ -6585,6 +6596,7 @@ declare namespace LocalJSX {
         "isChecked": boolean;
         "size": string;
         "variant": FormVariant;
+        "appearance": string;
         "isDisabled": boolean;
         "isRequired": boolean;
         "label": string;
@@ -6859,6 +6871,7 @@ declare namespace LocalJSX {
         "isChecked": boolean;
         "size": string;
         "variant": FormVariant;
+        "appearance": string;
         "isDisabled": boolean;
         "isRequired": boolean;
         "label": string;
