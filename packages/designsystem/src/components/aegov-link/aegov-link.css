@@ -6,6 +6,8 @@
  * even when no <aegov-button> instance exists on the page.
  */
 
+@source "../../utils/action-classes.ts";
+
 @import '../aegov-button/aegov-button-shared.css';
 
 :host {
