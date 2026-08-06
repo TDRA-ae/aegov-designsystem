@@ -22,13 +22,17 @@ describe('aegov-accordion-item', () => {
     expect(region.getAttribute('aria-labelledby')).toMatch(/-trigger$/);
   });
 
-  it('throws when used standalone outside aegov-accordion', async () => {
-    await expect(
-      newSpecPage({
-        components: [AegovAccordionItem],
-        html: `<aegov-accordion-item heading="X">Standalone</aegov-accordion-item>`,
-      })
-    ).rejects.toThrow(/must be used inside <aegov-accordion>/);
+  it('logs an error when used standalone outside aegov-accordion', async () => {
+    const error = jest.spyOn(console, 'error').mockImplementation(() => {});
+    // Renders rather than throwing, so one misplaced item cannot take down the page.
+    await newSpecPage({
+      components: [AegovAccordionItem],
+      html: `<aegov-accordion-item heading="X">Standalone</aegov-accordion-item>`,
+    });
+    expect(error).toHaveBeenCalledWith(
+      expect.stringMatching(/must be used inside <aegov-accordion>/),
+    );
+    error.mockRestore();
   });
 
   it('renders the heading prop when no heading slot provided', async () => {

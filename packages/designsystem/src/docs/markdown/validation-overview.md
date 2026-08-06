@@ -198,7 +198,7 @@ The components handle the ARIA wiring. You do not need to add any of this yourse
 
 - **`aria-invalid`** is set on the inner control whenever `is-invalid` is true, and removed when it is not.
 - **`aria-describedby` is composed, not overwritten.** The component chains its own hint and error region IDs onto whatever IDs you supplied, plus any internal ones such as the textarea character counter. Your value is preserved.
-- **The error region is announced once, at the right time.** `role="alert"` and `aria-live="polite"` on the error region are gated behind the field's first blur. Without that gate, a screen reader would announce a partial error on every keystroke as the user types. The gate lifts on first focus loss, or immediately on submit.
+- **The error region is announced once, at the right time.** The error region gains `role="alert"` only after the field's first blur — which carries live-region semantics, so the message is announced when it appears. Without that gate, a screen reader would announce a partial error on every keystroke as the user types. The gate lifts on first focus loss, or immediately on submit. No explicit `aria-live` is set: `role="alert"` already implies an assertive live region, and overriding it with `aria-live="polite"` produces inconsistent behaviour across screen readers.
 - **The `is-invalid` class** is added to the host element so you can hook your own styling to invalid state without watching the property.
 
 ### Developer responsibilities

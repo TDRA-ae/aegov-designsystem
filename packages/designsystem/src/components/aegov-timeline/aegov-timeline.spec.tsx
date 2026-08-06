@@ -11,12 +11,12 @@ const baseHtml = `
 `;
 
 describe('aegov-timeline', () => {
-  it('renders nav with aria-label and ordered list', async () => {
+  it('renders a labelled section with an ordered list', async () => {
     const page = await newSpecPage({
       components: [AegovTimeline, AegovTimelineStep],
       html: baseHtml,
     });
-    const nav = page.root.querySelector('nav.aegov-timeline');
+    const nav = page.root.querySelector('section.aegov-timeline');
     expect(nav).not.toBeNull();
     expect(nav.getAttribute('aria-label')).toBe('Timeline');
     expect(page.root.querySelector('ol.timeline__list')).not.toBeNull();
@@ -28,7 +28,7 @@ describe('aegov-timeline', () => {
       html: `<aegov-timeline></aegov-timeline>`,
     });
     expect(page.rootInstance.fieldId).toMatch(/^aegov-timeline-\d+$/);
-    expect(page.root.querySelector('nav.aegov-timeline').id).toBe(page.rootInstance.fieldId);
+    expect(page.root.querySelector('section.aegov-timeline').id).toBe(page.rootInstance.fieldId);
   });
 
   it('respects user-provided fieldId', async () => {
@@ -36,7 +36,7 @@ describe('aegov-timeline', () => {
       components: [AegovTimeline],
       html: `<aegov-timeline field-id="t1"></aegov-timeline>`,
     });
-    expect(page.root.querySelector('nav.aegov-timeline').id).toBe('t1');
+    expect(page.root.querySelector('section.aegov-timeline').id).toBe('t1');
   });
 
   it('applies compact variant class', async () => {
@@ -44,7 +44,7 @@ describe('aegov-timeline', () => {
       components: [AegovTimeline],
       html: `<aegov-timeline variant="compact"></aegov-timeline>`,
     });
-    expect(page.root.querySelector('nav.aegov-timeline').className).toContain('aegov-timeline--compact');
+    expect(page.root.querySelector('section.aegov-timeline').className).toContain('aegov-timeline--compact');
   });
 
   it('applies orientation class on the list', async () => {
@@ -116,7 +116,7 @@ describe('aegov-timeline', () => {
       components: [AegovTimeline],
       html: `<aegov-timeline data-test="x" aria-describedby="d"></aegov-timeline>`,
     });
-    const nav = page.root.querySelector('nav.aegov-timeline');
+    const nav = page.root.querySelector('section.aegov-timeline');
     expect(nav.getAttribute('data-test')).toBe('x');
     expect(nav.getAttribute('aria-describedby')).toBe('d');
   });

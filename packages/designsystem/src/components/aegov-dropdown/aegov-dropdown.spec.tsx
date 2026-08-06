@@ -9,8 +9,12 @@ describe('aegov-dropdown', () => {
     });
     const trigger = page.root.querySelector('.aegov-dropdown-trigger');
     expect(trigger).not.toBeNull();
-    expect(trigger.getAttribute('aria-haspopup')).toBe('true');
-    expect(trigger.getAttribute('aria-expanded')).toBe('false');
+    // Per WCAG 4.1.2 the ARIA state goes on the first focusable child inside the trigger
+    // wrapper — the element that actually receives focus — not on the wrapper itself.
+    // Under the menu-button pattern aria-haspopup is "menu", not "true".
+    const inner = trigger.querySelector('button');
+    expect(inner.getAttribute('aria-haspopup')).toBe('menu');
+    expect(inner.getAttribute('aria-expanded')).toBe('false');
   });
 
   it('auto-generates fieldId', async () => {
@@ -94,8 +98,8 @@ describe('aegov-dropdown', () => {
     });
     await page.rootInstance.toggle();
     await page.waitForChanges();
-    const trigger = page.root.querySelector('.aegov-dropdown-trigger');
-    expect(trigger.getAttribute('aria-expanded')).toBe('true');
+    const inner = page.root.querySelector('.aegov-dropdown-trigger button');
+    expect(inner.getAttribute('aria-expanded')).toBe('true');
   });
 
   it('passes through data-* attributes onto the trigger', async () => {
