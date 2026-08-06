@@ -358,17 +358,23 @@ export class AegovRange {
 
   // ── Pointer drag handlers ──
 
-  private updateValueFromPointer(clientX: number, clientY: number, which: 'single' | 'low' | 'high') {
+  private updateValueFromPointer(
+    clientX: number,
+    clientY: number,
+    which: 'single' | 'low' | 'high',
+    cachedRect?: DOMRect,
+    cachedIsRtl?: boolean,
+  ) {
     const wrapper = this.trackWrapperEl;
     if (!wrapper) return;
-    const rect = wrapper.getBoundingClientRect();
+    const rect = cachedRect ?? wrapper.getBoundingClientRect();
 
     let percent: number;
     if (this.orientation === 'vertical') {
       // Bottom = min, top = max
       percent = 1 - (clientY - rect.top) / rect.height;
     } else {
-      const isRtl = getComputedStyle(this.el).direction === 'rtl';
+      const isRtl = cachedIsRtl ?? getComputedStyle(this.el).direction === 'rtl';
       percent = isRtl
         ? 1 - (clientX - rect.left) / rect.width
         : (clientX - rect.left) / rect.width;
@@ -409,8 +415,13 @@ export class AegovRange {
     this.activeThumb = which;
     this.focusNativeInput(which);
 
+    // Cache rect + RTL once at drag start — neither changes during a drag.
+    // Avoids getBoundingClientRect + getComputedStyle on every mousemove.
+    const dragRect = this.trackWrapperEl?.getBoundingClientRect();
+    const dragIsRtl = getComputedStyle(this.el).direction === 'rtl';
+
     const moveHandler = (moveEvent: MouseEvent) => {
-      this.updateValueFromPointer(moveEvent.clientX, moveEvent.clientY, which);
+      this.updateValueFromPointer(moveEvent.clientX, moveEvent.clientY, which, dragRect, dragIsRtl);
     };
     const upHandler = () => {
       this.activeThumb = null;
@@ -428,9 +439,13 @@ export class AegovRange {
     this.activeThumb = which;
     this.focusNativeInput(which);
 
+    // Cache rect + RTL once at touch-start — same rationale as mouse drag.
+    const dragRect = this.trackWrapperEl?.getBoundingClientRect();
+    const dragIsRtl = getComputedStyle(this.el).direction === 'rtl';
+
     const moveHandler = (moveEvent: TouchEvent) => {
       const touch = moveEvent.touches[0];
-      this.updateValueFromPointer(touch.clientX, touch.clientY, which);
+      this.updateValueFromPointer(touch.clientX, touch.clientY, which, dragRect, dragIsRtl);
     };
     const endHandler = () => {
       this.activeThumb = null;

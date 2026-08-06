@@ -68,7 +68,7 @@
 }
 
 :host(:dir(rtl)) .aegov-select,
-[dir="rtl"] .aegov-select {
+:host-context([dir="rtl"]) .aegov-select {
   background-position: left 0.5rem center;
 }
 

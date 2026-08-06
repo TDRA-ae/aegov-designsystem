@@ -256,9 +256,8 @@
 .aegov-range.range-variant-neutral-min .range__thumb--low:has(~ .range__input--low:focus-visible),
 .aegov-range.range-variant-neutral-min .range__thumb--high:has(~ .range__input--high:focus-visible)     { @apply outline-2 outline-offset-2 outline-seablue-400 dark:outline-seablue-400; }
 
-/* Vertical native input */
+/* Vertical native input — use writing-mode (spec-compliant, replaces deprecated -webkit-appearance: slider-vertical) */
 .range--vertical .range__input {
-  -webkit-appearance: slider-vertical;
   writing-mode: vertical-lr;
   direction: ltr;
 }
@@ -338,35 +337,36 @@
    RTL support (horizontal)
    ======================================== */
 
-/* Flip thumb translateX to center correctly when inset-inline-start maps to right */
-[dir="rtl"] .range--horizontal .range__thumb,
-:dir(rtl) .range--horizontal .range__thumb {
+/* Flip thumb translateX to center correctly when inset-inline-start maps to right.
+   [dir="rtl"] cannot pierce shadow DOM — use :host-context() and :host(:dir()) instead. */
+:host-context([dir="rtl"]) .range--horizontal .range__thumb,
+:host(:dir(rtl)) .range--horizontal .range__thumb {
   transform: translateX(50%) translateY(-50%);
 }
 
-[dir="rtl"] .range--horizontal .range__thumb--display-thumb,
-:dir(rtl) .range--horizontal .range__thumb--display-thumb {
+:host-context([dir="rtl"]) .range--horizontal .range__thumb--display-thumb,
+:host(:dir(rtl)) .range--horizontal .range__thumb--display-thumb {
   transform: translateX(50%) translateY(-50%);
 }
 
-[dir="rtl"] .range--horizontal .range__tooltip::after,
-:dir(rtl) .range--horizontal .range__tooltip::after {
+:host-context([dir="rtl"]) .range--horizontal .range__tooltip::after,
+:host(:dir(rtl)) .range--horizontal .range__tooltip::after {
   /* Arrow stays centered, no change needed */
 }
 
-[dir="rtl"] .range--vertical .range__tooltip,
-:dir(rtl) .range--vertical .range__tooltip {
+:host-context([dir="rtl"]) .range--vertical .range__tooltip,
+:host(:dir(rtl)) .range--vertical .range__tooltip {
   inset-inline-end: calc(100% + 8px);
   inset-inline-start: auto;
 }
 
-[dir="rtl"] .range--vertical .range__tooltip::after,
-:dir(rtl) .range--vertical .range__tooltip::after {
+:host-context([dir="rtl"]) .range--vertical .range__tooltip::after,
+:host(:dir(rtl)) .range--vertical .range__tooltip::after {
   border-color: transparent transparent transparent theme('colors.aeblack.800');
 }
 
-:host-context(.dark) [dir="rtl"] .range--vertical .range__tooltip::after,
-:host-context(.dark) :dir(rtl) .range--vertical .range__tooltip::after {
+:host-context(.dark):host-context([dir="rtl"]) .range--vertical .range__tooltip::after,
+:host-context(.dark):host(:dir(rtl)) .range--vertical .range__tooltip::after {
   border-color: transparent transparent transparent theme('colors.whitely.100');
 }
 
