@@ -172,18 +172,20 @@
 <span class="hljs-keyword">await</span> drawer.<span class="hljs-title function_">close</span>();
 <span class="hljs-keyword">await</span> drawer.<span class="hljs-title function_">toggle</span>();</code></pre><p><code>isOpen</code> is reflected and mutable, so declarative control works too:</p>
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">aegov-drawer</span> <span class="hljs-attr">is-open</span> <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Filters&quot;</span>&gt;</span>…<span class="hljs-tag">&lt;/<span class="hljs-name">aegov-drawer</span>&gt;</span></code></pre><h3>Preventing close</h3>
-<p><code>aegovDrawerBeforeClose</code> carries a <code>preventDefault</code> function <strong>in its detail</strong>:</p>
+<p><code>aegovDrawerBeforeClose</code> is a <strong>cancellable event</strong>. Call <code>preventDefault()</code> on the event to keep the drawer open.</p>
 <pre><code class="hljs language-js">drawer.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;aegovDrawerBeforeClose&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">e</span>) =&gt;</span> {
   <span class="hljs-keyword">if</span> (<span class="hljs-title function_">hasUnsavedChanges</span>()) {
-    e.<span class="hljs-property">detail</span>.<span class="hljs-title function_">preventDefault</span>();          <span class="hljs-comment">// note: on the detail, not the event</span>
+    e.<span class="hljs-title function_">preventDefault</span>();
     <span class="hljs-variable language_">window</span>.<span class="hljs-property">aegovToast</span>.<span class="hljs-title function_">show</span>({ <span class="hljs-attr">message</span>: <span class="hljs-string">&#x27;Save or discard your changes first&#x27;</span>, <span class="hljs-attr">variant</span>: <span class="hljs-string">&#x27;warning&#x27;</span> });
   }
-});</code></pre><p><strong>This differs from <a href="aegov-modal.html">Modal</a></strong>, whose equivalent event is cancellable in the normal DOM way:</p>
-<pre><code class="hljs language-js"><span class="hljs-comment">// Drawer — cancel via the detail</span>
-drawer.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;aegovDrawerBeforeClose&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">e</span>) =&gt;</span> e.<span class="hljs-property">detail</span>.<span class="hljs-title function_">preventDefault</span>());
-
-<span class="hljs-comment">// Modal — cancel on the event</span>
-modal.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;aegovModalBeforeClose&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">e</span>) =&gt;</span> e.<span class="hljs-title function_">preventDefault</span>());</code></pre><p>Copying a handler from one to the other fails silently. Check which component you are on.</p>
+});</code></pre><p>This is the same contract as <a href="aegov-modal.html">Modal</a>, so a handler works unchanged on either:</p>
+<pre><code class="hljs language-js">drawer.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;aegovDrawerBeforeClose&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">e</span>) =&gt;</span> e.<span class="hljs-title function_">preventDefault</span>());
+modal.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;aegovModalBeforeClose&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">e</span>) =&gt;</span> e.<span class="hljs-title function_">preventDefault</span>());</code></pre><blockquote>
+<p><strong>Changed:</strong> this event previously carried a <code>preventDefault</code> function in <code>event.detail</code>,
+and cancelling required <code>e.detail.preventDefault()</code>. It is now a standard cancellable
+event. Update any handler using the old form — <code>e.detail</code> is no longer an object.</p>
+</blockquote>
+<p>Use this sparingly. A drawer that refuses to close is a trap unless the user is given a clear, immediate way out.</p>
 <hr>
 <h2>Padding</h2>
 <p><code>isPadding</code> — on by default — applies standard internal padding. Turn it off for content that manages its own, such as a full-bleed list.</p>
@@ -400,8 +402,8 @@ navDrawer.<span class="hljs-property">position</span> = isRtl ? <span class="hlj
 </tr>
 <tr>
 <td><code>aegovDrawerBeforeClose</code></td>
-<td><code>{ preventDefault: () =&gt; void }</code></td>
-<td>Cancel by calling <code>event.detail.preventDefault()</code> — <strong>not</strong> <code>event.preventDefault()</code>.</td>
+<td><code>void</code></td>
+<td><strong>Cancellable.</strong> Call <code>preventDefault()</code> on the event to keep the drawer open.</td>
 </tr>
 <tr>
 <td><code>aegovDrawerBackdropClick</code></td>
@@ -498,7 +500,7 @@ navDrawer.<span class="hljs-property">position</span> = isRtl ? <span class="hlj
 <li><strong>Pair <code>is-overlay=&quot;false&quot;</code> with <code>is-prevent-scroll=&quot;false&quot;</code>.</strong> A visible but unscrollable page reads as broken.</li>
 <li><strong>Do not expect a non-modal drawer.</strong> Even without an overlay the drawer is <code>aria-modal</code> and traps focus; if the user must be able to tab out to the page, build an inline panel instead.</li>
 <li><strong>Respect reduced motion globally.</strong> <code>animation=&quot;none&quot;</code> is a per-instance setting, not a <code>prefers-reduced-motion</code> implementation.</li>
-<li><strong>Cancel closing only with an explanation.</strong> If you call <code>event.detail.preventDefault()</code>, say why immediately.</li>
+<li><strong>Cancel closing only with an explanation.</strong> If you call <code>event.preventDefault()</code>, say why immediately.</li>
 <li><strong>Keep the trigger&#39;s state honest.</strong> If the drawer is a filter panel, reflect the active filter count on the trigger so its effect is visible once closed.</li>
 </ul>
 <h3>Keyboard support</h3>

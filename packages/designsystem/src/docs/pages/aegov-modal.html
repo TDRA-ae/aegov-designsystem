@@ -191,13 +191,9 @@
       <span class="hljs-title function_">showToast</span>(<span class="hljs-string">&#x27;Save or discard your changes first&#x27;</span>, <span class="hljs-string">&#x27;warning&#x27;</span>);
     }
   });
-</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre><p><strong>This differs from <a href="aegov-drawer.html">Drawer</a>.</strong> The drawer&#39;s equivalent event is not cancellable; it passes a <code>preventDefault</code> function in <code>event.detail</code> instead:</p>
-<pre><code class="hljs language-js"><span class="hljs-comment">// Modal</span>
-modal.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;aegovModalBeforeClose&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">e</span>) =&gt;</span> e.<span class="hljs-title function_">preventDefault</span>());
-
-<span class="hljs-comment">// Drawer — note event.detail</span>
-drawer.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;aegovDrawerBeforeClose&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">e</span>) =&gt;</span> e.<span class="hljs-property">detail</span>.<span class="hljs-title function_">preventDefault</span>());</code></pre><p>Copying the handler from one to the other fails silently, so check which component you are on.</p>
-<p>Use this sparingly. A modal that refuses to close is a trap unless the user is given a clear, immediate way out.</p>
+</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre><p><a href="aegov-drawer.html">Drawer</a> uses the same contract, so a handler works unchanged on either:</p>
+<pre><code class="hljs language-js">modal.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;aegovModalBeforeClose&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">e</span>) =&gt;</span> e.<span class="hljs-title function_">preventDefault</span>());
+drawer.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;aegovDrawerBeforeClose&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">e</span>) =&gt;</span> e.<span class="hljs-title function_">preventDefault</span>());</code></pre><p>Use this sparingly. A modal that refuses to close is a trap unless the user is given a clear, immediate way out.</p>
 <hr>
 <h2>Padding</h2>
 <p><code>isPadding</code> — on by default — applies the standard internal padding. Turn it off when the content manages its own, such as a full-bleed image or a table.</p>

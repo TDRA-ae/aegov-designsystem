@@ -43,11 +43,8 @@ export class AegovTextarea {
   /** Colour family. Drives idle ring, value text, and accent hover. */
   @Prop() variant: FormVariant = 'primary';
 
-  /**
-   * Whether the textarea is disabled.
-   * Reflected as `is-disabled` so `aegov-form-field` can dim the associated label via CSS.
-   */
-  @Prop({ reflect: true }) isDisabled: boolean = false;
+  /** Whether the textarea is disabled. */
+  @Prop() isDisabled: boolean = false;
 
   /** Whether the textarea is readonly. */
   @Prop() isReadonly: boolean = false;
